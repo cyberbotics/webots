@@ -34,8 +34,7 @@ from controller.light_sensor import LightSensor
 from controller.motor import Motor
 from controller.pen import Pen
 from controller.position_sensor import PositionSensor
-# from controller.propeller import Propeller
-# from controller.radar import Radar
+from controller.radar import Radar
 # from controller.range_finder import RangeFinder
 from controller.receiver import Receiver
 # from controller.skin import Skin
@@ -79,7 +78,6 @@ class Robot:
         self.NODE_LINEAR_MOTOR = constant('NODE_LINEAR_MOTOR')
         self.NODE_PEN = constant('NODE_PEN')
         self.NODE_POSITION_SENSOR = constant('NODE_POSITION_SENSOR')
-        self.NODE_PROPELLER = constant('NODE_PROPELLER')
         self.NODE_RADAR = constant('NODE_RADAR')
         self.NODE_RANGE_FINDER = constant('NODE_RANGE_FINDER')
         self.NODE_RECEIVER = constant('NODE_RECEIVER')
@@ -129,10 +127,8 @@ class Robot:
                 self.devices[name] = Pen(tag)
             elif type == self.NODE_POSITION_SENSOR:
                 self.devices[name] = PositionSensor(tag)
-            # elif type == self.NODE_PROPELLER:
-            #     self.devices[name] = Propeller(tag)
-            # elif type == self.NODE_RADAR:
-            #     self.devices[name] = Radar(tag)
+            elif type == self.NODE_RADAR:
+                self.devices[name] = Radar(tag)
             # elif type == self.NODE_RANGE_FINDER:
             #     self.devices[name] = RangeFinder(tag)
             elif type == self.NODE_RECEIVER:
@@ -218,6 +214,14 @@ class Robot:
         print('DEPRECATION: Robot.getPen is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
         return self.getDevice(name)
 
+    def getPositionSensor(self, name: str) -> PositionSensor:
+        print('DEPRECATION: Robot.getPositionSensor is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
+        return self.getDevice(name)
+
+    def getRadar(self, name: str) -> Radar:
+        print('DEPRECATION: Robot.getRadar is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
+        return self.getDevice(name)
+
     def getReceiver(self, name: str) -> Receiver:
         print('DEPRECATION: Robot.getReceiver is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
         return self.getDevice(name)
@@ -229,11 +233,19 @@ class Robot:
         else:
             return self.devices[name]
 
+    def getDeviceByIndex(self, index: int) -> Device:
+        tag = wb.wb_robot_get_device_by_index(index)
+        name = wb.wb_device_get_name(tag).decode()
+        return self.devices[name]
+
     def getBasicTimeStep(self) -> float:
         return self.basic_time_step
 
     def getName(self) -> str:
         return self.name
+
+    def getNumberOfDevices(self) -> int:
+        return self.number_of_devices
 
     def getTime(self) -> float:
         return self.time
@@ -266,3 +278,7 @@ class Robot:
     @property
     def time(self) -> float:
         return wb.wb_robot_get_time()
+
+    @property
+    def number_of_devices(self) -> int:
+        return wb.wb_robot_get_number_of_devices()
