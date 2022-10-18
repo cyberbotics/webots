@@ -25,7 +25,7 @@ Robot {
       fieldOfView 6.28
       width 1000
       height 80
-      spherical TRUE
+      projection "cylindrical"
       minRange 4
       maxRange 10
     }
