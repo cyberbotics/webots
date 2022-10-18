@@ -6,9 +6,12 @@ export default class ProtoManager {
   #view;
   constructor(view) {
     this.#view = view;
+    this.exposedParameters = new Map();
   }
 
-  loadProto(url, parentId) {
+  async loadProto(url, parentId) {
+    this.url = url;
+    this.parentId = parentId;
     return new Promise((resolve, reject) => {
       const xmlhttp = new XMLHttpRequest();
       xmlhttp.open('GET', url, true);
@@ -20,13 +23,41 @@ export default class ProtoManager {
       xmlhttp.send();
     }).then(async text => {
       console.log('Load PROTO from URL: ' + url)
-      const proto = new ProtoNode(text, url);
-      await proto.fetch();
-      proto.parseBody();
-      this.#view.prefix = url.substr(0, url.lastIndexOf('/') + 1);
-      const x3d = new XMLSerializer().serializeToString(proto.toX3d())
-      this.#view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
+      this.proto = new ProtoNode(text, url);
+      await this.proto.fetch();
+      this.proto.parseBody();
+      this.loadX3d();
+      this.generateExposedParameterList();
+      setTimeout(() => this.updateParameter(), 2000);
     });
+  }
+
+  generateExposedParameterList() {
+    console.log('Exposed parameters are:');
+    for(const [parameterName, parameterValue] of this.proto.parameters) {
+      console.log(parameterName, parameterValue);
+      this.exposedParameters.set(parameterName, parameterValue); // TODO: change key to parameter id
+    }
+  }
+
+  updateParameter() {
+    const parameterName = 'translation';
+    const newValue = {x: 0, y: 0, z: 0.5};
+
+    const parameter = this.exposedParameters.get(parameterName)
+    parameter.value = newValue;
+
+    console.log(parameter);
+
+    // notify scene of the change
+    this.#view.x3dScene.applyPose({'id': -12, 'translation': '0 0 0.5'});
+    this.#view.x3dScene.render();
+  }
+
+  loadX3d() {
+    const x3d = new XMLSerializer().serializeToString(this.proto.toX3d());
+    this.#view.prefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);
+    this.#view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', this.parentId);
   }
 
   loadMinimalScene() {
