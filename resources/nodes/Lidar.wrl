@@ -21,24 +21,26 @@ Lidar {
   field     MFColor    recognitionColors   []          # colors returned for this Solid by Cameras with a Recognition node
 
   #fields specific to the Lidar node:
-  field     SFFloat                         tiltAngle                0.0     # tilt angle of the lasers with respect to the sensor
-  field     SFInt32                         horizontalResolution     512     # number of point per revolution per laser
-  field     SFFloat                         fieldOfView              1.5708  # horizontal field of view of each laser
-  field     SFFloat                         verticalFieldOfView      0.2     # vertical field of view covered by the lasers
-  field     SFInt32                         numberOfLayers           4       # number of laser-layers
-  field     SFFloat                         near                     0.01    # OpenGL near clipping plane (meters)
-  field     SFFloat                         minRange                 0.01    # minimum range (meters)
-  field     SFFloat                         maxRange                 1.0     # maximum range
-  field     SFBool                          spherical                TRUE    # to switch between a plane/sphere projection
-  field     SFString{"fixed", "rotating"}   type                     "fixed" # defines whether this is a rotating lidar or not
-  field     SFFloat                         noise                    0.0     # add a noise to the distance values
-  field     SFFloat                         resolution              -1.0     # distance resolution
-  field     SFFloat                         defaultFrequency         10      # default rotating frequency of the lidar in Hz
-  field     SFFloat                         minFrequency             1       # minimum rotating frequency of the lidar in Hz
-  field     SFFloat                         maxFrequency             25      # maximum rotating frequency of the lidar in Hz
-  field     SFNode                          rotatingHead             NULL    # Solid rotating head of the lidar
+  field     SFFloat                           tiltAngle            0.0           # tilt angle of the lasers with respect to the sensor
+  field     SFInt32                           horizontalResolution 512           # number of point per revolution per laser
+  field     SFFloat                           fieldOfView          1.5708        # horizontal field of view of each laser
+  field     SFFloat                           verticalFieldOfView  0.2           # vertical field of view covered by the lasers
+  field     SFInt32                           numberOfLayers       4             # number of laser-layers
+  field     SFFloat                           near                 0.01          # OpenGL near clipping plane (meters)
+  field     SFFloat                           minRange             0.01          # minimum range (meters)
+  field     SFFloat                           maxRange             1.0           # maximum range
+  field     SFString{"fixed", "rotating"}     type                 "fixed"       # defines whether this is a rotating lidar or not
+  field     SFString{"planar", "cylindrical"} projection           "cylindrical" # projection type
+  field     SFFloat                           noise                0.0           # add a noise to the distance values
+  field     SFFloat                           resolution          -1.0           # distance resolution
+  field     SFFloat                           defaultFrequency     10            # default rotating frequency of the lidar in Hz
+  field     SFFloat                           minFrequency         1             # minimum rotating frequency of the lidar in Hz
+  field     SFFloat                           maxFrequency         25            # maximum rotating frequency of the lidar in Hz
+  field     SFNode                            rotatingHead         NULL          # Solid rotating head of the lidar
 
   # hidden fields
   hiddenField SFVec3f linearVelocity  0 0 0   # (m/s) Solid's initial linear velocity
   hiddenField SFVec3f angularVelocity 0 0 0   # (rad/s) Solid's initial angular velocity
+
+  deprecatedField SFBool spherical    TRUE    # to switch between a plane/sphere projection
 }

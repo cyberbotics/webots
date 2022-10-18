@@ -177,7 +177,7 @@ PROTO Pr2 [
                         horizontalResolution 640
                         numberOfLayers 1
                         minRange 0.08
-                        spherical TRUE
+                        projection "cylindrical"
                         maxRange 10
                       }
                     ]
@@ -1368,7 +1368,7 @@ PROTO Pr2 [
                                     horizontalResolution 640
                                     numberOfLayers 1
                                     minRange 0.08
-                                    spherical TRUE
+                                    projection "cylindrical"
                                     maxRange 10
                                   }
                                 ]

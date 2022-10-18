@@ -40,18 +40,6 @@ void WbRenderingDevice::init() {
   // Fields initialization
   mWidth = findSFInt("width");
   mHeight = findSFInt("height");
-
-  // backward compatibility of the deprecated fields
-  mWindowPositionField = findSFVector2("windowPosition");
-  if (mWindowPositionField && mWindowPositionField->value() != WbVector2()) {
-    parsingWarn(tr("'windowPosition' is deprecated.") + "\n" +
-                tr("The position of the overlay will be automatically stored after moving it from the 3D view."));
-  }
-  mPixelSizeField = findSFDouble("pixelSize");
-  if (mPixelSizeField && mPixelSizeField->value() != 1.0) {
-    parsingWarn(tr("'pixelSize' is deprecated.") + "\n" +
-                tr("The size of the overlay will be automatically stored after resizing it from the 3D view."));
-  }
 }
 
 WbRenderingDevice::WbRenderingDevice(const QString &modelName, WbTokenizer *tokenizer) : WbSolidDevice(modelName, tokenizer) {
@@ -137,19 +125,6 @@ void WbRenderingDevice::updateHeight() {
     warn(tr("'height' has been modified. This modification will be taken into account after saving and reloading the world."));
 }
 
-// backward compatibility
-void WbRenderingDevice::applyWorldSettings() {
-  if (mPixelSizeField) {
-    mOverlay->resize(mPixelSizeField->value());
-    mPixelSizeField = NULL;
-  }
-  if (mWindowPositionField) {
-    WbVector2 position = mWindowPositionField->value();
-    mOverlay->updatePercentagePosition(position.x(), position.y());
-    mWindowPositionField = NULL;
-  }
-}
-
 void WbRenderingDevice::setPixelSize(double pixelSize) {
   if (mOverlay) {
     bool success = mOverlay->resize(pixelSize);
@@ -166,9 +141,6 @@ void WbRenderingDevice::moveWindow(int dx, int dy) {
 double WbRenderingDevice::pixelSize() const {
   if (mOverlay)
     return mOverlay->pixelSize();
-  else if (mPixelSizeField)
-    // backward compatibility
-    return mPixelSizeField->value();
   return 1.0;
 }
 
