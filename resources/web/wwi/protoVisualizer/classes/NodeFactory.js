@@ -29,8 +29,6 @@ export default class NodeFactory {
       if (!tokenizer.proto.def.has(useName))
         throw new Error('No DEF name ' + useName + ' found in PROTO ' + tokenizer.proto.name);
 
-      //parameter.value = tokenizer.proto.def.get(useName);
-      //parameter.isUse = true;
       return tokenizer.proto.def.get(useName);
     }
 

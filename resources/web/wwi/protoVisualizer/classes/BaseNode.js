@@ -1,14 +1,13 @@
 'use strict';
 
-import {generateProtoId, generateParameterId} from './utility/utility.js';
-//import Parameter from './Parameter.js';
-import { FieldModel } from './FieldModel.js';
-import { typeFactory, SFNode } from './Vrml.js';
-import { NodeFactory } from './NodeFactory.js';
+import {getAnId} from '../../nodes/utils/id_provider.js'
+import {FieldModel} from './FieldModel.js';
+import {typeFactory, SFNode} from './Vrml.js';
+import {NodeFactory} from './NodeFactory.js';
 
 export default class BaseNode {
   constructor(name) {
-    this.id = generateProtoId(); // TODO: rename
+    this.id = getAnId();
     this.name = name;
     if (typeof FieldModel[name] === 'undefined')
       throw new Error(`${name} is not a supported BaseNode.`);
@@ -19,7 +18,6 @@ export default class BaseNode {
     this.parameters = new Map();
     const fields = this.model['supported'];
     for (const parameterName of Object.keys(fields)) {
-      //const parameter = new Parameter(this, generateParameterId(), parameterName, fields[parameterName], false)
       const parameter = typeFactory(fields[parameterName]);
       this.parameters.set(parameterName, parameter);
     }
@@ -53,18 +51,9 @@ export default class BaseNode {
             parameter.value = tokenizer.proto.parameters.get(alias).value;
           } else {
             if (parameter instanceof SFNode) {
-              //let defName;
-              //if (tokenizer.peekWord() === 'DEF') {
-              //  tokenizer.skipToken('DEF');
-              //  defName = tokenizer.nextWord();
-              //}
-
               const nodeFactory = new NodeFactory();
               const node = nodeFactory.createNode(tokenizer);
               parameter.value = node;
-
-              //if (typeof defName !== 'undefined')
-              //  tokenizer.proto.def.set(defName, node);
             } else
               parameter.setValueFromTokenizer(tokenizer);
 
@@ -116,7 +105,7 @@ export default class BaseNode {
 
   clone() {
     let copy = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
-    copy.id = generateProtoId();
+    copy.id = getAnId();
 
     copy.parameters = new Map();
     for (const [parameterName, parameterValue] of this.parameters) {

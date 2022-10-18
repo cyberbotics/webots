@@ -1,9 +1,9 @@
-import * as wbrotation from './utility/templating/modules/webots/wbrotation.js';
-import * as wbutility from './utility/templating/modules/webots/wbutility.js';
-import * as wbgeometry from './utility/templating/modules/webots/wbgeometry.js';
-import * as wbrandom from './utility/templating/modules/webots/wbrandom.js';
-import * as wbvector2 from './utility/templating/modules/webots/wbvector2.js';
-import * as wbvector3 from './utility/templating/modules/webots/wbvector3.js';
+import * as wbrotation from './templating/modules/webots/wbrotation.js';
+import * as wbutility from './templating/modules/webots/wbutility.js';
+import * as wbgeometry from './templating/modules/webots/wbgeometry.js';
+import * as wbrandom from './templating/modules/webots/wbrandom.js';
+import * as wbvector2 from './templating/modules/webots/wbvector2.js';
+import * as wbvector3 from './templating/modules/webots/wbvector3.js';
 
 export default class TemplateEngine {
   constructor() {
@@ -58,7 +58,7 @@ export default class TemplateEngine {
         jsBody += '___vrml += render(`' + body.substr(lastIndexClosingToken, indexOpeningToken - lastIndexClosingToken) + '`);';
       }
 
-      // anything inbetween the tokens is either an expression or plain JavaScript
+      // anything in-between the tokens is either an expression or plain JavaScript
       let statement = body.substr(indexOpeningToken, indexClosingToken - indexOpeningToken);
       // if it starts with '%<=' it's an expression
       if (statement.startsWith(expressionToken)) {

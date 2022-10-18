@@ -68,7 +68,7 @@ void WbTemplateEngine::copyModuleToTemporaryFile(QString modulePath) {
 
 void WbTemplateEngine::initializeJavaScript() {
   // copy JavaScript modules to the temporary directory
-  QDirIterator it(WbStandardPaths::resourcesPath() + "web/wwi/protoDesigner/classes/utility/templating/",
+  QDirIterator it(WbStandardPaths::resourcesPath() + "web/wwi/protoVisualizer/classes/templating/",
                   QDirIterator::Subdirectories);
   while (it.hasNext()) {
     QDir jsModulesPath(it.next());

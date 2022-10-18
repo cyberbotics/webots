@@ -1,18 +1,16 @@
 'use strict';
 
-import {generateParameterId, generateProtoId} from './utility/utility.js';
-
+import {getAnId} from '../../nodes/utils/id_provider.js'
 import TemplateEngine  from './TemplateEngine.js';
 import Tokenizer from './Tokenizer.js';
-import { FieldModel } from './FieldModel.js'; // TODO: merge in BaseNode?
-import { typeFactory, SFNode, MFNode } from './Vrml.js';
+import { typeFactory, SFNode } from './Vrml.js';
 import NodeFactory from './NodeFactory.js';
 import { VRML } from './constants.js';
 
 export default class ProtoNode {
   constructor(protoText, protoUrl) {
     // IMPORTANT! When adding new member variables of type Map, modify the .clone method so that it creates a copy of it
-    this.id = generateProtoId();
+    this.id = getAnId();
     this.url = protoUrl;
     this.name = this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '')
     console.log('CREATING PROTO ' + this.name)
@@ -21,7 +19,7 @@ export default class ProtoNode {
     this.def = new Map();
 
     this.xml = document.implementation.createDocument('', '', null)
-    // to generate: <Shape castShadows="true"><PBRAppearance baseColor="1 0 0"/></Shape>
+    // example: to generate: <Shape castShadows="true"><PBRAppearance baseColor="1 0 0"/></Shape>
     /*
     const xml = document.implementation.createDocument('', '', null)
     const shapeNode = xml.createElement('Shape');
@@ -66,12 +64,11 @@ export default class ProtoNode {
       this.protoBody = this.rawBody; // body already VRML compliant
 
     // head only needs to be parsed once and persists through regenerations
-    // TODO: rename interface/parameters
-    const indexBeginHead = protoText.search(/(^\s*PROTO\s+[a-zA-Z0-9\-\_\+]+\s*\[\s*$)/gm); // /(?<=\n|\n\r)(PROTO)(?=\s\w+\s\[)/g); // proto header
-    this.rawHead = protoText.substring(indexBeginHead, indexBeginBody);
+    const indexBeginInterface = protoText.search(/(^\s*PROTO\s+[a-zA-Z0-9\-\_\+]+\s*\[\s*$)/gm);
+    this.rawInterface= protoText.substring(indexBeginInterface, indexBeginBody);
 
     // defines tags and EXTERNPROTO, persists through regenerations
-    this.rawHeader = protoText.substring(0, indexBeginHead);
+    this.rawHeader = protoText.substring(0, indexBeginInterface);
 
     // get EXTERNPROTO
     this.promises = [];
@@ -122,8 +119,7 @@ export default class ProtoNode {
 
   clone() {
     let copy = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
-    copy.id = generateProtoId();
-
+    copy.id = getAnId();
 
     copy.parameters = new Map();
     for (const [parameterName, parameterValue] of this.parameters) {
@@ -140,7 +136,7 @@ export default class ProtoNode {
 
   async parseHead() {
     console.log('PARSE HEAD OF ' + this.name)
-    const headTokenizer = new Tokenizer(this.rawHead, this);
+    const headTokenizer = new Tokenizer(this.rawInterface, this);
     headTokenizer.tokenize();
 
     const tokens = headTokenizer.tokens();
@@ -184,17 +180,17 @@ export default class ProtoNode {
       this.regenerateBodyVrml(); // overwrites this.protoBody with a purely VRML compliant body
 
     // tokenize body
-    const bodyTokenizer = new Tokenizer(this.protoBody, this);
-    bodyTokenizer.tokenize();
+    const tokenizer = new Tokenizer(this.protoBody, this);
+    tokenizer.tokenize();
 
     // skip bracket opening the PROTO body
-    bodyTokenizer.skipToken('{');
+    tokenizer.skipToken('{');
 
     const nodeFactory = new NodeFactory();
-    this.value = nodeFactory.createNode(bodyTokenizer);
+    this.value = nodeFactory.createNode(tokenizer);
     console.log('STRUCT', this.value)
 
-    bodyTokenizer.skipToken('}');
+    tokenizer.skipToken('}');
   };
 
 
@@ -218,19 +214,13 @@ export default class ProtoNode {
             parameter.value = tokenizer.proto.parameters.get(alias).value;
           } else {
             if (parameter instanceof SFNode) {
-              //let defName;
-              //if (tokenizer.peekWord() === 'DEF') {
-              //  tokenizer.skipToken('DEF');
-              //  defName = tokenizer.nextWord();
-              //}
-
               const nodeFactory = new NodeFactory();
               const node = nodeFactory.createNode(tokenizer);
               parameter.value = node;
             } else
               parameter.setValueFromTokenizer(tokenizer);
 
-            console.log('> value set to ', parameter.value)
+            // console.log('> value set to ', parameter.value)
           }
 
         }
@@ -244,7 +234,6 @@ export default class ProtoNode {
     if (this.value instanceof ProtoNode) // if derived proto
       return this.value.toX3d();
 
-
     const nodeElement = this.xml.createElement(this.value.name);
     nodeElement.setAttribute('id', this.id);
     console.log('ENCODE ' + this.value.name)
@@ -256,7 +245,7 @@ export default class ProtoNode {
       parameter.toX3d(parameterName, nodeElement);
     }
 
-    console.log(nodeElement)
+    // console.log(nodeElement)
     this.xml.appendChild(nodeElement);
     console.log('RESULT:', new XMLSerializer().serializeToString(this.xml));
 
@@ -293,14 +282,11 @@ export default class ProtoNode {
   };
 
   clearReferences() {
-    //for (const parameter of this.parameters.values()) {
-    //  parameter.nodeRefs = [];
-    //  parameter.refNames = [];
-    //}
+    // TODO
   };
 };
 
-
+// TODO: move to utility?
 function combinePaths(url, parentUrl) {
   if (url.startsWith('http://') || url.startsWith('https://'))
     return url;  // url is already resolved

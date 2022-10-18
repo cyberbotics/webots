@@ -1,4 +1,4 @@
-import ProtoNode from './protoDesigner/classes/ProtoNode.js';
+import ProtoNode from './protoVisualizer/classes/ProtoNode.js';
 
 import {getAnId} from './nodes/utils/id_provider.js';
 
@@ -22,11 +22,9 @@ export default class protoConverter {
       console.log('Load PROTO from URL: ' + url)
       const proto = new ProtoNode(text, url);
       await proto.fetch();
-      console.log('PARSEBODY')
       proto.parseBody();
       this.#view.prefix = url.substr(0, url.lastIndexOf('/') + 1);
       const x3d = new XMLSerializer().serializeToString(proto.toX3d())
-      console.log('WILL LOAD:', x3d)
       this.#view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
     });
   }
