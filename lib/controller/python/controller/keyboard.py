@@ -44,6 +44,12 @@ class Keyboard():
     def enable(self, p: int):
         wb.wb_keyboard_enable(p)
 
+    def disable(self):
+        wb.wb_keyboard_disable()
+
+    def getSamplingPeriod(self) -> int:
+        return self.sampling_period
+
     @property
     def sampling_period(self) -> int:
         return wb.wb_keyboard_get_sampling_period()

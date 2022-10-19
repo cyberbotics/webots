@@ -43,7 +43,9 @@ from controller.touch_sensor import TouchSensor
 
 from controller.constants import constant
 
+from controller.joystick import Joystick
 from controller.keyboard import Keyboard
+from controller.mouse import Mouse
 
 
 class Robot:
@@ -142,9 +144,10 @@ class Robot:
             else:
                 print('Unsupported device type: ' + str(type) + ' for device named "' + name + '"', file=sys.stderr)
         self.keyboard = Keyboard(0)
+        self.joystick = Joystick(0)
 
-    def getKeyboard(self):
-        return self.keyboard
+    def __del__(self):
+        wb.wb_robot_cleanup()
 
     def getAccelerometer(self, name: str) -> Accelerometer:
         print('DEPRECATION: Robot.getAccelerometer is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
@@ -249,6 +252,9 @@ class Robot:
         else:
             return self.devices[name]
 
+    def getKeyboard(self):
+        return self.keyboard
+
     def getDeviceByIndex(self, index: int) -> Device:
         tag = wb.wb_robot_get_device_by_index(index)
         name = wb.wb_device_get_name(tag).decode()
@@ -270,6 +276,14 @@ class Robot:
         if time_step is None:
             time_step = int(self.basic_time_step)
         return wb.wb_robot_step(time_step)
+
+    def stepBegin(self, time_step: int = None) -> int:
+        if time_step is None:
+            time_step = int(self.basic_time_step)
+        return wb.wb_robot_step_begin(time_step)
+
+    def stepEnd(self) -> int:
+        return wb.robot_step_end()
 
     def batterySensorEnable(self, sampling_period: int):
         wb.wb_robot_battery_sensor_enable(sampling_period)

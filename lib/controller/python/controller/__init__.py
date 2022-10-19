@@ -26,7 +26,6 @@ from controller.field import Field                     # noqa
 from controller.gps import GPS                         # noqa
 from controller.gyro import Gyro                       # noqa
 from controller.inertial_unit import InertialUnit      # noqa
-from controller.keyboard import Keyboard               # noqa
 from controller.led import LED                         # noqa
 from controller.lidar import Lidar                     # noqa
 from controller.light_sensor import LightSensor        # noqa
@@ -43,3 +42,7 @@ from controller.supervisor import Supervisor           # noqa
 from controller.touch_sensor import TouchSensor        # noqa
 from controller.node import Node                       # noqa
 from controller.field import Field                     # noqa
+from controller.keyboard import Keyboard               # noqa
+from controller.mouse import Mouse                     # noqa
+from controller.mouse import MouseState                # noqa
+from controller.joystick import Joystick               # noqa
