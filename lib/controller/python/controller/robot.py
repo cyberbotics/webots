@@ -37,7 +37,7 @@ from controller.position_sensor import PositionSensor
 from controller.radar import Radar
 from controller.range_finder import RangeFinder
 from controller.receiver import Receiver
-# from controller.skin import Skin
+from controller.skin import Skin
 # from controller.speaker import Speaker
 # from controller.touch_sensor import TouchSensor
 
@@ -133,8 +133,8 @@ class Robot:
                 self.devices[name] = RangeFinder(tag)
             elif type == self.NODE_RECEIVER:
                 self.devices[name] = Receiver(tag)
-            # elif type == self.NODE_SKIN:
-            #     self.devices[name] = Skin(tag)
+            elif type == self.NODE_SKIN:
+                self.devices[name] = Skin(tag)
             # elif type == self.NODE_SPEAKER:
             #     self.devices[name] = Speaker(tag)
             # elif type == self.NODE_TOUCH_SENSOR:
@@ -228,6 +228,10 @@ class Robot:
 
     def getReceiver(self, name: str) -> Receiver:
         print('DEPRECATION: Robot.getReceiver is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
+        return self.getDevice(name)
+
+    def getSkin(self, name: str) -> Skin:
+        print('DEPRECATION: Robot.getSkin is deprecated, please use Robot.getDevice instead.', file=sys.stderr)
         return self.getDevice(name)
 
     def getDevice(self, name: str) -> Device:
