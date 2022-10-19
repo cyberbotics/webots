@@ -44,13 +44,20 @@ WbNewProjectWizard::~WbNewProjectWizard() {
 QString WbNewProjectWizard::proposeNewProjectPath() const {
   QString path;
   // if current project is in Webots installation dir
-  if (WbProject::current()->isReadOnly())  // propose a new project in user's home dir
-    path = WbPreferences::instance()->value("Directories/projects").toString() + "my_project";
-  else {  // otherwisepropose new project dir as sibling of current project
+  if (WbProject::current()->isReadOnly()) {  // propose a new project in user's home dir
+    path = WbPreferences::instance()->value("Directories/projects").toString();
+    if (!path.isEmpty()) {
+      if (WbFileUtil::isDirectoryWritable(path))
+        path += +"/my_project";
+      else
+        path = QString();  // no valid default path found
+    }
+  } else {  // otherwise propose new project dir as sibling of current project
     QDir dir(WbProject::current()->path());
     dir.cdUp();
     path = dir.absolutePath() + "/my_project";
   }
+
   // propose only if this directory does not yet exist or is empty
   if (!QFile::exists(path))
     return path;
@@ -65,7 +72,7 @@ QString WbNewProjectWizard::proposeNewProjectPath() const {
 
 void WbNewProjectWizard::accept() {
   if (!mProject->createNewProjectFolders()) {
-    WbMessageBox::warning(tr("Some directories could not be created."), this, tr("Directories creation failed"));
+    WbMessageBox::warning(tr("Some directories could not be created."), tr("Directories creation failed"));
     mWorldEdit->setText("");
     QDialog::accept();
     return;
