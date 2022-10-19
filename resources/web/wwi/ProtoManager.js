@@ -33,7 +33,7 @@ export default class ProtoManager {
   }
 
   generateExposedParameterList() {
-    console.log('Exposed parameters are:');
+    console.log('EXPOSED PARAMETERS ARE:');
     for(const [parameterName, parameterValue] of this.proto.parameters) {
       console.log(parameterName, parameterValue);
       this.exposedParameters.set(parameterName, parameterValue); // TODO: change key to parameter id

@@ -48,16 +48,16 @@ export default class BaseNode {
             if (!tokenizer.proto.parameters.has(alias))
               throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
 
-            parameter.value = tokenizer.proto.parameters.get(alias).value;
+            parameter.setValue(tokenizer.proto.parameters.get(alias).value());
           } else {
             if (parameter instanceof SFNode) {
               const nodeFactory = new NodeFactory();
               const node = nodeFactory.createNode(tokenizer);
-              parameter.value = node;
+              parameter.setValue(node);
             } else
               parameter.setValueFromTokenizer(tokenizer);
 
-            console.log('> value set to ', parameter.value)
+            console.log('> value of ' + parameterName + ' set to ', parameter.value())
           }
 
         }
@@ -76,8 +76,8 @@ export default class BaseNode {
       nodeElement.setAttribute('id', this.id);
       console.log('ENCODE ' + this.name)
       for (const [parameterName, parameter] of this.parameters) {
-        console.log('  ENCODE ' +  parameterName + ' ? ', typeof parameter.value !== 'undefined');
-        if (typeof parameter.value === 'undefined')
+        console.log('  ENCODE ' +  parameterName + ' ? ', typeof parameter !== 'undefined', parameter.value());
+        if (typeof parameter.value() === 'undefined')
           continue;
 
         parameter.toX3d(parameterName, nodeElement);

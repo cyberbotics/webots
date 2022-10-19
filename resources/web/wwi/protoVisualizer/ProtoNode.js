@@ -3,7 +3,7 @@
 import {getAnId} from '../nodes/utils/id_provider.js'
 import TemplateEngine  from './TemplateEngine.js';
 import Tokenizer from './Tokenizer.js';
-import { typeFactory, SFNode } from './Vrml.js';
+import { typeFactory, SFNode, SFVec3f} from './Vrml.js';
 import NodeFactory from './NodeFactory.js';
 import { VRML } from './constants.js';
 
@@ -195,7 +195,7 @@ export default class ProtoNode {
 
 
   configureNodeFromTokenizer(tokenizer) {
-    console.log('configure proto ' + this.node + ' from tokenizer')
+    console.log('configure proto ' + this.name + ' from tokenizer')
     tokenizer.skipToken('{');
 
     while (tokenizer.peekWord() !== '}') {
@@ -211,12 +211,12 @@ export default class ProtoNode {
             if (!tokenizer.proto.parameters.has(alias))
               throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
 
-            parameter.value = tokenizer.proto.parameters.get(alias).value;
+            parameter.setValue(tokenizer.proto.parameters.get(alias).value());
           } else {
             if (parameter instanceof SFNode) {
               const nodeFactory = new NodeFactory();
               const node = nodeFactory.createNode(tokenizer);
-              parameter.value = node;
+              parameter.setValue(node);
             } else
               parameter.setValueFromTokenizer(tokenizer);
 
@@ -238,8 +238,8 @@ export default class ProtoNode {
     nodeElement.setAttribute('id', this.id);
     console.log('ENCODE ' + this.value.name)
     for(const [parameterName, parameter] of this.value.parameters) {
-      console.log('  ENCODE ' +  parameterName + ' ? ', typeof parameter.value !== 'undefined');
-      if (typeof parameter.value === 'undefined')
+      console.log('  ENCODE ' +  parameterName + ' ? ', typeof parameter !== 'undefined', parameter.value());
+      if (typeof parameter.value() === 'undefined')
         continue;
 
       parameter.toX3d(parameterName, nodeElement);
