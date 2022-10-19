@@ -13,6 +13,7 @@ import WbCadShape from './nodes/WbCadShape.js';
 import WbCamera from './nodes/WbCamera.js';
 import WbCapsule from './nodes/WbCapsule.js';
 import WbCharger from './nodes/WbCharger.js';
+import WbColor from './nodes/WbColor.js';
 import WbCompass from './nodes/WbCompass.js';
 import WbCone from './nodes/WbCone.js';
 import WbConnector from './nodes/WbConnector.js';
@@ -1221,20 +1222,37 @@ export default class Parser {
     for (let i = 0; i < coordArray.length; i += 3)
       coord.push(new WbVector3(coordArray[i], coordArray[i + 1], coordArray[i + 2]));
 
-    const colorNode = node.getElementsByTagName('Color')[0];
-    let color = [];
-    if (typeof colorNode !== 'undefined') {
-      const colorArray = convertStringToFloatArray(getNodeAttribute(colorNode, 'color', ''));
-      if (typeof colorArray !== 'undefined') {
-        for (let i = 0; i < colorArray.length; i += 3)
-          color.push(new WbVector3(colorArray[i], colorArray[i + 1], colorArray[i + 2]));
-      }
-    }
+    let colorNode = node.getElementsByTagName('Color');
+    let color;
+    if (colorNode)
+      color = this.#parseColor(colorNode[0]);
 
     const ps = new WbPointSet(id, coord, color);
+
+    if (typeof color !== 'undefined')
+      color.parent = ps.id;
+
     WbWorld.instance.nodes.set(ps.id, ps);
 
     return ps;
+  }
+
+  #parseColor(node, parentNode) {
+    const use = this.#checkUse(node);
+    if (typeof use !== 'undefined')
+      return use;
+
+    const colorId = this.#parseId(node);
+    let colors = [];
+    const colorArray = convertStringToFloatArray(getNodeAttribute(node, 'color', ''));
+    if (typeof colorArray !== 'undefined') {
+      for (let i = 0; i < colorArray.length; i += 3)
+        colors.push(new WbVector3(colorArray[i], colorArray[i + 1], colorArray[i + 2]));
+    }
+
+    const color = new WbColor(colorId, colors);
+    WbWorld.instance.nodes.set(color.id, color);
+    return color;
   }
 
   #parseMesh(node, id) {

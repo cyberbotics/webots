@@ -43,6 +43,19 @@ function resetIfNotInRangeWithIncludedBounds(value, min, max, defaultValue) {
   return false;
 }
 
+function resetMultipleColorIfInvalid(colors) {
+  let changed = false;
+  for (let i = 0; i < colors.length; i++) {
+    let newValue = resetColorIfInvalid(colors[i]);
+    if (newValue !== false) {
+      colors[i] = newValue;
+      changed = true;
+    }
+  }
+
+  return changed ? colors : false;
+}
+
 function resetColorIfInvalid(value) {
   const clampedColor = clampValuesIfNeeded(value);
   if (value.x !== clampedColor.x || value.y !== clampedColor.y || value.z !== clampedColor.z) {
@@ -65,4 +78,4 @@ function clampValue(value) {
 }
 
 export {resetIfNegative, resetIfNonPositive, resetVector2IfNonPositive, resetVector3IfNonPositive,
-  resetIfNotInRangeWithIncludedBounds, resetColorIfInvalid};
+  resetIfNotInRangeWithIncludedBounds, resetColorIfInvalid, resetMultipleColorIfInvalid};

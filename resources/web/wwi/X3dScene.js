@@ -2,7 +2,6 @@ import Parser, {convertStringToVec3, convertStringToQuaternion, convertStringToF
 import {webots} from './webots.js';
 import WrenRenderer from './WrenRenderer.js';
 
-import {getAncestor} from './nodes/utils/utils.js';
 import WbBox from './nodes/WbBox.js';
 import WbCapsule from './nodes/WbCapsule.js';
 import WbCone from './nodes/WbCone.js';
@@ -14,12 +13,15 @@ import WbMaterial from './nodes/WbMaterial.js';
 import WbMesh from './nodes/WbMesh.js';
 import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbPlane from './nodes/WbPlane.js';
-import WbPointSet from './nodes/WbPointSet.js';
+import WbColor from './nodes/WbColor.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbTrackWheel from './nodes/WbTrackWheel.js';
 import WbTransform from './nodes/WbTransform.js';
 import WbWorld from './nodes/WbWorld.js';
+
+import {getAncestor} from './nodes/utils/utils.js';
+import WbVector3 from './nodes/utils/WbVector3.js';
 
 export default class X3dScene {
   #loader;
@@ -288,8 +290,17 @@ export default class X3dScene {
         if (object instanceof WbLight) {
           object.color = convertStringToVec3(pose[key]);
           object.updateColor();
-        } else if (object instanceof WbPointSet)
-          object.color = pose[key];
+        } else if (object instanceof WbColor) {
+          const color = [];
+          let string = pose[key].trim();
+          string = string.slice(1, -1).trim();
+          const colorArray = convertStringToFloatArray(string);
+          if (typeof colorArray !== 'undefined') {
+            for (let i = 0; i < colorArray.length; i += 3)
+              color.push(new WbVector3(colorArray[i], colorArray[i + 1], colorArray[i + 2]));
+          }
+          object.color = color;
+        }
       } else if (key === 'on') {
         if (object instanceof WbLight) {
           object.on = pose[key].toLowerCase() === 'true';
