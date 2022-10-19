@@ -23,9 +23,9 @@ class SingleValue {
   }
 
 
-  toX3d(name, parentElement) {
+  toX3d(parameterName, parentElement) {
     if (typeof parentElement !== 'undefined') { // this is the case if this instance is a member of an MF*
-      parentElement.setAttribute(name, this.value);
+      parentElement.setAttribute(parameterName, this.value);
       return;
     }
 
@@ -142,9 +142,9 @@ export class SFVec2f extends SingleValue {
     this.value = {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat()};
   }
 
-  toX3d(name, parentElement) {
+  toX3d(parameterName, parentElement) {
     if (typeof parentElement !== 'undefined') { // this is the case if this instance is a member of an MF*
-      parentElement.setAttribute(name, `${this.value.x} ${this.value.y}`);
+      parentElement.setAttribute(parameterName, `${this.value.x} ${this.value.y}`);
       return;
     }
 
@@ -185,9 +185,9 @@ export class SFVec3f extends SingleValue {
     this.value = {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), z: tokenizer.nextToken().toFloat()};
   }
 
-  toX3d(name, parentElement) {
+  toX3d(parameterName, parentElement) {
     if (typeof parentElement !== 'undefined') { // this is the case if this instance is an item of a MF*
-      parentElement.setAttribute(name, `${this.value.x} ${this.value.y} ${this.value.z}`);
+      parentElement.setAttribute(parameterName, `${this.value.x} ${this.value.y} ${this.value.z}`);
       return;
     }
 
@@ -228,9 +228,9 @@ export class SFColor extends SingleValue {
     this.value = {r: tokenizer.nextToken().toFloat(), g: tokenizer.nextToken().toFloat(), b: tokenizer.nextToken().toFloat()};
   }
 
-  toX3d(name, parentElement) {
+  toX3d(parameterName, parentElement) {
     if (typeof parentElement !== 'undefined') { // this is the case if this instance is an item of a MF*
-      parentElement.setAttribute(name, `${this.value.r} ${this.value.g} ${this.value.b}`);
+      parentElement.setAttribute(parameterName, `${this.value.r} ${this.value.g} ${this.value.b}`);
       return;
     }
 
@@ -272,9 +272,9 @@ export class SFRotation extends SingleValue {
                   z: tokenizer.nextToken().toFloat(), a: tokenizer.nextToken().toFloat()};
   }
 
-  toX3d(name, parentElement) {
+  toX3d(parameterName, parentElement) {
     if (typeof parentElement !== 'undefined') { // this is the case if this instance is an item of a MF*
-      parentElement.setAttribute(name, `${this.value.x} ${this.value.y} ${this.value.z} ${this.value.a}`);
+      parentElement.setAttribute(parameterName, `${this.value.x} ${this.value.y} ${this.value.z} ${this.value.a}`);
       return;
     }
 
@@ -313,6 +313,7 @@ export class SFNode extends SingleValue {
   }
 
   setValueFromTokenizer(tokenizer) {
+    console.log('>>>>>>', tokenizer.peekWord())
     if (tokenizer.peekWord() === 'USE')
       this.isUse = true;
 
@@ -320,15 +321,18 @@ export class SFNode extends SingleValue {
     this.value = nodeFactory.createNode(tokenizer);
   }
 
-  toX3d(name, parentElement) {
+  toX3d(parameterName, parentElement) {
     if (typeof this.value === 'undefined')
       return;
 
-    const nodeX3d = this.value.toX3d(this.isUse);
+    const nodeX3d = this.value.toX3d(this.isUse, parameterName);
 
     // handle exceptions
     if (this.value.name === 'ImageTexture') {
-      nodeX3d.setAttribute('role', name.slice(0, -3)); // TODO: rename on the JS side so it matches the field name?
+      nodeX3d.setAttribute('role', parameterName.slice(0, -3)); // TODO: rename on the JS side so it matches the field name?
+    } else if (this.value.name == 'Shape' || this.value.name == 'Transform' || this.value.name == 'Solid') {
+      if (parameterName === 'boundingObject')
+        nodeX3d.setAttribute('role', 'boundingObject');
     }
 
     if (typeof nodeX3d !== 'undefined')
@@ -383,10 +387,10 @@ class MultipleValue {
     this.#value.push(item);
   }
 
-  toX3d(name, parentElement) {
+  toX3d(parameterName, parentElement) {
     let x3d = ''
     this.#value.forEach((item) => x3d += item.toX3d() + ' ');
-    parentElement.setAttribute(name, x3d.slice(0, -1));
+    parentElement.setAttribute(parameterName, x3d.slice(0, -1));
   }
 
   toJS() {
@@ -694,8 +698,8 @@ export class MFNode extends MultipleValue {
       this.insert(new SFNode(tokenizer));
   }
 
-  toX3d(name, parentElement) {
-    this.value.forEach((item) => item.toX3d(name, parentElement));
+  toX3d(parameterName, parentElement) {
+    this.value.forEach((item) => item.toX3d(parameterName, parentElement));
   }
 
   toJS() {

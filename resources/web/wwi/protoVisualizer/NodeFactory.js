@@ -28,6 +28,8 @@ export default class NodeFactory {
       const useName = tokenizer.nextWord();
       if (!tokenizer.proto.def.has(useName))
         throw new Error('No DEF name ' + useName + ' found in PROTO ' + tokenizer.proto.name);
+      else
+        console.log('USE reference of ' + useName + ' exists')
 
       return tokenizer.proto.def.get(useName);
     }

@@ -214,11 +214,11 @@ export default class ProtoNode {
 
             parameter.value = tokenizer.proto.parameters.get(alias).value;
           } else {
-            if (parameter instanceof SFNode) {
-              const nodeFactory = new NodeFactory();
-              const node = nodeFactory.createNode(tokenizer);
-              parameter.value = node;
-            } else
+            //if (parameter instanceof SFNode) {
+            //  const nodeFactory = new NodeFactory();
+            //  const node = nodeFactory.createNode(tokenizer);
+            //  parameter.value = node;
+            //} else
               parameter.setValueFromTokenizer(tokenizer);
 
             // console.log('> value set to ', parameter.value)

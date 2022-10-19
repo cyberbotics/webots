@@ -49,11 +49,11 @@ export default class BaseNode {
 
             parameter.value = tokenizer.proto.parameters.get(alias).value;
           } else {
-            if (parameter instanceof SFNode) {
-              const nodeFactory = new NodeFactory();
-              const node = nodeFactory.createNode(tokenizer);
-              parameter.value = node;
-            } else
+            //if (parameter instanceof SFNode) {
+            //  const nodeFactory = new NodeFactory();
+            //  const node = nodeFactory.createNode(tokenizer);
+            //  parameter.value = node;
+            //} else
               parameter.setValueFromTokenizer(tokenizer);
 
             console.log('> value of ' + parameterName + ' set to ', parameter.value)
@@ -66,11 +66,15 @@ export default class BaseNode {
     tokenizer.skipToken('}');
   }
 
-  toX3d(isUse) {
+  toX3d(isUse, parameterReference) {
     const nodeElement = this.xml.createElement(this.name);
     if (isUse) {
       console.log('is USE! Will reference ' + this.id)
       nodeElement.setAttribute('USE', this.id);
+      if (this.name == 'Shape' || this.name == 'Transform' || this.name == 'Solid') {
+        if (parameterReference === 'boundingObject')
+          nodeElement.setAttribute('role', 'boundingObject');
+      }
     } else {
       nodeElement.setAttribute('id', this.id);
       console.log('ENCODE ' + this.name)
