@@ -57,7 +57,6 @@ QString WbNewProjectWizard::proposeNewProjectPath() const {
     dir.cdUp();
     path = dir.absolutePath() + "/my_project";
   }
-
   // propose only if this directory does not yet exist or is empty
   if (!QFile::exists(path))
     return path;
@@ -72,7 +71,7 @@ QString WbNewProjectWizard::proposeNewProjectPath() const {
 
 void WbNewProjectWizard::accept() {
   if (!mProject->createNewProjectFolders()) {
-    WbMessageBox::warning(tr("Some directories could not be created."), tr("Directories creation failed"));
+    WbMessageBox::warning(tr("Some directories could not be created."), this, tr("Directories creation failed"));
     mWorldEdit->setText("");
     QDialog::accept();
     return;
