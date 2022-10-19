@@ -773,7 +773,6 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     const QList<QString> previousClipboardBuffer(WbProtoManager::instance()->externProtoClipboardBufferUrls());
 
     // declare PROTO nodes that have become visible at the world level
-    QList<WbExternProto *> declaredProtoNodes;
     WbProtoManager::instance()->clearExternProtoClipboardBuffer();
     QPair<QString, QString> item;
     foreach (item, writer.declarations()) {
