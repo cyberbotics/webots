@@ -69,7 +69,7 @@ export default class WbPointSet extends WbGeometry {
     if (typeof this.#color !== 'undefined') {
       this.#color.onChange = () => {
         this.#buildWrenMesh();
-        if (typeof onRecreated === 'function')
+        if (typeof this.onRecreated === 'function')
           this.onRecreated();
       };
     }
@@ -77,7 +77,7 @@ export default class WbPointSet extends WbGeometry {
     if (typeof this.#coord !== 'undefined') {
       this.#coord.onChange = () => {
         this.#buildWrenMesh();
-        if (typeof onRecreated === 'function')
+        if (typeof this.onRecreated === 'function')
           this.onRecreated();
       };
     }
