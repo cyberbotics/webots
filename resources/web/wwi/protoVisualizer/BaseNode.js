@@ -12,13 +12,12 @@ export default class BaseNode {
     if (typeof FieldModel[name] === 'undefined')
       throw new Error(`${name} is not a supported BaseNode.`);
 
-    this.model = FieldModel[name];
     console.log('CREATING BASE NODE ' + this.name)
 
     this.parameters = new Map();
-    const fields = this.model['supported'];
+    const fields = FieldModel[name];
     for (const parameterName of Object.keys(fields)) {
-      const parameter = typeFactory(fields[parameterName]);
+      const parameter = typeFactory(fields[parameterName]['type']);
       this.parameters.set(parameterName, parameter);
     }
 
@@ -31,13 +30,13 @@ export default class BaseNode {
 
     while (tokenizer.peekWord() !== '}') {
       const fieldName = tokenizer.nextWord();
-      if (this.model['unsupported'].hasOwnProperty(fieldName)) {
-        console.log('consuming unsupported: ' + fieldName)
-        tokenizer.consumeTokensByType(this.model['unsupported'][fieldName]);
-        continue;
-      }
+      //if (this.model['unsupported'].hasOwnProperty(fieldName)) {
+      //  console.log('consuming unsupported: ' + fieldName)
+      //  tokenizer.consumeTokensByType(this.model['unsupported'][fieldName]);
+      //  continue;
+      //}
 
-      for (const [parameterName, parameter] of this.parameters) { // TODO: unnecessary to loop through all everytime, do as with unsupported
+      for (const [parameterName, parameter] of this.parameters) { // TODO: unnecessary to loop through all every time, do as with unsupported
         if (fieldName === parameterName) {
           console.log('configuring ' + fieldName + ' of ' + this.name + ', node id: ', this.id);
 
@@ -76,7 +75,7 @@ export default class BaseNode {
       nodeElement.setAttribute('id', this.id);
       console.log('ENCODE ' + this.name)
       for (const [parameterName, parameter] of this.parameters) {
-        console.log('  ENCODE ' +  parameterName + ' ? ', typeof parameter !== 'undefined', parameter.value);
+        console.log('  ENCODE ' +  parameterName + ' ? ', typeof parameter.value !== 'undefined');
         if (typeof parameter.value === 'undefined')
           continue;
 

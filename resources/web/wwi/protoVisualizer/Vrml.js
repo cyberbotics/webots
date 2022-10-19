@@ -671,6 +671,7 @@ export class MFNode extends MultipleValue {
     if (!Array.isArray(v)) {
       if (v instanceof BaseNode || v instanceof ProtoNode) {
         // TODO: can we avoid doing this here and ensure it's sent as SFNode already?
+        // TODO: still needed?
         const sf = new SFNode();
         sf.value = v;
         this.insert(sf);

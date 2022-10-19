@@ -272,6 +272,9 @@ export default class Parser {
       case 'TrackWheel':
         result = this.#parseTransform(node, parentNode, isBoundingObject);
         break;
+      case 'Physics':
+        console.warn('Skipping unsupported node:' + node.tagName)
+        break;
       default:
         // Either it is a node added after the whole scene, or it is an unknown node, or a geometry bounding object
         let id;

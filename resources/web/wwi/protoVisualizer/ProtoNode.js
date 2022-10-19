@@ -6,6 +6,7 @@ import Tokenizer from './Tokenizer.js';
 import { typeFactory, SFNode, SFVec3f} from './Vrml.js';
 import NodeFactory from './NodeFactory.js';
 import { VRML } from './constants.js';
+import { FieldModel } from './FieldModel.js';
 
 export default class ProtoNode {
   constructor(protoText, protoUrl) {
@@ -238,7 +239,7 @@ export default class ProtoNode {
     nodeElement.setAttribute('id', this.id);
     console.log('ENCODE ' + this.value.name)
     for(const [parameterName, parameter] of this.value.parameters) {
-      console.log('  ENCODE ' +  parameterName + ' ? ', typeof parameter !== 'undefined', parameter.value);
+      console.log('  ENCODE ' +  parameterName + ' ? ', typeof parameter.value !== 'undefined', parameter.value);
       if (typeof parameter.value === 'undefined')
         continue;
 

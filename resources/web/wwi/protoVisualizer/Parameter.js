@@ -5,13 +5,31 @@ import {typeFactory, SFNode, SFBool} from './Vrml.js';
 
 
 export default class Parameter {
+  #value;
+  #defaultValue;
   constructor(proto, name, isTemplateRegenerator, defaultValue, value) {
-    this.proto = proto; // proto this parameter belongs to
     this.id = getAParameterId();
+    this.proto = proto; // proto this parameter belongs to
     this.name = name;
     this.isTemplateRegenerator = isTemplateRegenerator;
     this.value = value;
     this.defaultValue = defaultValue;
+  }
+
+  get value() {
+    return this.#value;
+  }
+
+  set value(v) {
+    this.#value = v;
+  }
+
+  get defaultValue() {
+    return this.#value;
+  }
+
+  set defaultValue(v) {
+    this.#value = v;
   }
 
   type() {
@@ -23,6 +41,10 @@ export default class Parameter {
 
   isDefault() {
     throw new Error('TODO: implement isDefault');
+  }
+
+  clone() {
+    throw new Error('Implement clone Parameter')
   }
 }
 
