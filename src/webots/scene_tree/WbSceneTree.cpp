@@ -341,7 +341,7 @@ void WbSceneTree::paste() {
   if (!mSelectedItem)
     return;
 
-  const QList<WbExternProto *> clipboardBuffer = WbProtoManager::instance()->externProtoClipboardBuffer();
+  const QList<WbExternProto *> &clipboardBuffer = WbProtoManager::instance()->externProtoClipboardBuffer();
   foreach (const WbExternProto *item, clipboardBuffer)
     WbProtoManager::instance()->declareExternProto(item->name(), item->url(), item->isImportable());
 
@@ -769,7 +769,12 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     if (skipTemplateRegeneration)
       parentField->blockSignals(false);
 
+    // backup clipboard data
+    const QList<QString> previousClipboardBuffer(WbProtoManager::instance()->externProtoClipboardBufferUrls());
+
     // declare PROTO nodes that have become visible at the world level
+    QList<WbExternProto *> declaredProtoNodes;
+    WbProtoManager::instance()->clearExternProtoClipboardBuffer();
     QPair<QString, QString> item;
     foreach (item, writer.declarations()) {
       const QString previousUrl(WbProtoManager::instance()->declareExternProto(item.first, item.second, false, false));
@@ -779,6 +784,8 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
                          .arg(item.first)
                          .arg(previousUrl)
                          .arg(item.second));
+      else
+        WbProtoManager::instance()->saveToExternProtoClipboardBuffer(item.second);
     }
 
     // import new node
@@ -793,6 +800,7 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
         viewpoint->startFollowUp(dynamic_cast<WbSolid *>(node), true);
     }
     WbWorld::instance()->setModifiedFromSceneTree();
+    WbProtoManager::instance()->resetExternProtoClipboardBuffer(previousClipboardBuffer);
   }
   updateSelection();
   updateValue();

@@ -683,7 +683,7 @@ void WbAddNodeDialog::accept() {
     return;
   }
 
-  const QList<WbExternProto *> clipboardBuffer = WbProtoManager::instance()->externProtoClipboardBuffer();
+  const QList<WbExternProto *> &clipboardBuffer = WbProtoManager::instance()->externProtoClipboardBuffer();
   const QString protoName =
     QUrl(mTree->selectedItems().at(0)->text(FILE_NAME)).fileName().replace(".proto", "", Qt::CaseInsensitive);
 

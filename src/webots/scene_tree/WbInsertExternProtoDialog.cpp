@@ -156,7 +156,7 @@ void WbInsertExternProtoDialog::accept() {
   if (mTree->selectedItems().size() == 0 || !mInsertButton->isEnabled())
     return;
 
-  const QList<WbExternProto *> clipboardBuffer = WbProtoManager::instance()->externProtoClipboardBuffer();
+  const QList<WbExternProto *> &clipboardBuffer = WbProtoManager::instance()->externProtoClipboardBuffer();
   bool conflict = false;
   foreach (const WbExternProto *proto, clipboardBuffer) {
     if (proto && proto->name() == mTree->selectedItems().at(0)->text(0) && !mRetrievalTriggered) {
