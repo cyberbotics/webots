@@ -234,10 +234,3 @@ void WbPointSet::recomputeBoundingSphere() const {
   while (it.hasNext())
     mBoundingSphere->enclose(it.next());
 }
-
-QStringList WbPointSet::fieldsToSynchronizeWithX3D() const {
-  QStringList fields;
-  fields << "color"
-         << "coord";
-  return fields;
-}

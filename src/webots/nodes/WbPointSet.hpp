@@ -54,8 +54,6 @@ public:
   // friction (PointSet never used in a boundingObject)
   WbVector3 computeFrictionDirection(const WbVector3 &normal) const override { return WbVector3(0, 0, 0); }
 
-  QStringList fieldsToSynchronizeWithX3D() const override;
-
 protected:
   // reimplemented protected functions
   bool isShadedGeometryPickable() override { return false; }

@@ -104,7 +104,10 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
     buffers.vertexIndex = buffers.vertexIndex + this.#estimateVertexCount() * 3;
   }
 
-  _buildWrenMesh() {
+  _buildWrenMesh(updateTriangleMesh) {
+    if (updateTriangleMesh)
+      this._updateTriangleMesh();
+
     this._deleteWrenRenderable();
 
     if (typeof this._wrenMesh !== 'undefined') {

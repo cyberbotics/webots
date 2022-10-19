@@ -94,6 +94,9 @@ void WbAnimationCommand::updateValue() {
 const QString WbAnimationCommand::sanitizeField(const WbField *field) {
   const WbSFVector3 *sfVector3 = dynamic_cast<WbSFVector3 *>(field->value());
   const WbSFRotation *sfRotation = dynamic_cast<WbSFRotation *>(field->value());
+  const WbSFString *sfString = dynamic_cast<WbSFString *>(field->value());
+  const WbMFString *mfString = dynamic_cast<WbMFString *>(field->value());
+
   if (sfVector3 && field->name().compare("translation") == 0) {
     // special translation case
     const WbVector3 translationRounded =
@@ -119,6 +122,14 @@ const QString WbAnimationCommand::sanitizeField(const WbField *field) {
         .arg(ROUND(sfRotation->z(), 0.0001))
         .arg(ROUND(sfRotation->angle(), 0.0001));
     }
+  } else if (sfString and field->name().compare("name") == 0)
+    return field->value()->toString();
+  else if (mfString and field->name().compare("url") == 0) {
+    QStringList urls = mfString->value();
+    QString urlArray = urls.join("\",\"");
+    urlArray.prepend("[\"");
+    urlArray.append("\"]");
+    return urlArray;
   } else {
     // generic case
     mChangedFromStart = true;

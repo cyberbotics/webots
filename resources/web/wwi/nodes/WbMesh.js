@@ -2,11 +2,14 @@ import WbMatrix4 from './utils/WbMatrix4.js';
 import WbVector4 from './utils/WbVector4.js';
 import WbTriangleMeshGeometry from './WbTriangleMeshGeometry.js';
 
+import {loadMeshData} from '../mesh_loader.js';
+
 export default class WbMesh extends WbTriangleMeshGeometry {
-  #url;
   #ccw;
+  #isCollada;
   #name;
   #materialIndex;
+  #url;
   constructor(id, url, ccw, name, materialIndex) {
     super(id);
 
@@ -14,12 +17,19 @@ export default class WbMesh extends WbTriangleMeshGeometry {
     this.#ccw = ccw;
     this.#name = name;
     this.#materialIndex = materialIndex;
-    if (this.#url)
-      this.isCollada = this.#url.endsWith('.dae');
+    if (this.#url[0])
+      this.#isCollada = this.#url[0].endsWith('.dae');
   }
 
   get url() {
     return this.#url;
+  }
+
+  set url(newUrl) {
+    this.#url = newUrl;
+
+    if (this.wrenObjectsCreatedCalled)
+      this.#updateUrl();
   }
 
   get ccw() {
@@ -39,7 +49,7 @@ export default class WbMesh extends WbTriangleMeshGeometry {
   set name(newName) {
     this.#name = newName;
     if (this.wrenObjectsCreatedCalled)
-      this.updateNameAndMaterialIndex();
+      this.#updateNameAndMaterialIndex();
   }
 
   get materialIndex() {
@@ -49,7 +59,7 @@ export default class WbMesh extends WbTriangleMeshGeometry {
   set materialIndex(newMaterialIndex) {
     this.#materialIndex = newMaterialIndex;
     if (this.wrenObjectsCreatedCalled)
-      this.updateNameAndMaterialIndex();
+      this.#updateNameAndMaterialIndex();
   }
 
   clone(customID) {
@@ -61,11 +71,11 @@ export default class WbMesh extends WbTriangleMeshGeometry {
   }
 
   _updateTriangleMesh() {
-    if (!this.#url || !this.scene)
+    if (!this.#url[0] || !this.scene)
       return;
 
     // Assimp fix for up_axis, adapted from https://github.com/assimp/assimp/issues/849
-    if (this.isCollada) { // rotate around X by 90° to swap Y and Z axis
+    if (this.#isCollada) { // rotate around X by 90° to swap Y and Z axis
       // if it is already a WbMatrix4 it means that it is a USE node where the fix has already been applied
       if (!(this.scene.rootnode.transformation instanceof WbMatrix4)) {
         let matrix = new WbMatrix4();
@@ -107,10 +117,10 @@ export default class WbMesh extends WbTriangleMeshGeometry {
       // merge all the meshes of this node
       for (let i = 0; i < node.meshes.length; ++i) {
         const mesh = this.scene.meshes[node.meshes[i]];
-        if (this.isCollada && this.#name && this.#name !== mesh.#name)
+        if (this.#isCollada && this.#name && this.#name !== mesh.#name)
           continue;
 
-        if (this.isCollada && this.#materialIndex >= 0 && this.#materialIndex !== mesh.#materialIndex)
+        if (this.#isCollada && this.#materialIndex >= 0 && this.#materialIndex !== mesh.#materialIndex)
           continue;
 
         for (let j = 0; j < mesh.vertices.length / 3; j++) {
@@ -165,20 +175,39 @@ export default class WbMesh extends WbTriangleMeshGeometry {
     this._triangleMesh.initMesh(coordData, normalData, texCoordData, indexData);
   }
 
+  #updateUrl() {
+    if (this.#url[0])
+      this.#isCollada = this.#url[0].endsWith('.dae');
+
+    loadMeshData(this.prefix, this.#url).then(meshContent => {
+      this.scene = meshContent;
+      if (typeof this.scene === 'undefined') {
+        this._deleteWrenRenderable();
+        _wr_static_mesh_delete(this._wrenMesh);
+        this._wrenMesh = undefined;
+      } else {
+        this._buildWrenMesh(true);
+
+        if (typeof this.onRecreated === 'function')
+          this.onRecreated();
+      }
+    });
+  }
+
   #updateCcw() {
-    this._buildWrenMesh();
+    this._buildWrenMesh(true);
 
     if (typeof this.onRecreated === 'function')
       this.onRecreated();
   }
 
   #updateNameAndMaterialIndex() {
-    if (this.isCollada)
+    if (this.#isCollada)
       return;
 
-    this._buildWrenMesh();
+    this._buildWrenMesh(true);
 
     if (typeof this.onRecreated === 'function')
-      this.onRecreated();
+      this.onRecreated(true);
   }
 }

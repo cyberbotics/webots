@@ -295,6 +295,15 @@ export default class X3dScene {
           object.on = pose[key].toLowerCase() === 'true';
           object.updateOn();
         }
+      } else if (key === 'name') {
+        if (object instanceof WbMesh)
+          object.name = pose[key];
+      } else if (key === 'materialIndex') {
+        if (object instanceof WbMesh)
+          object.materialIndex = parseInt(pose[key]);
+      } else if (key === 'url') {
+        if (object instanceof WbMesh)
+          object.url = pose[key];
       } else if (object instanceof WbElevationGrid) {
         if (key === 'xDimension')
           object.xDimension = pose[key];

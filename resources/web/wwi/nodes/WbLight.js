@@ -4,15 +4,40 @@ import WbWorld from './WbWorld.js';
 import {resetColorIfInvalid} from './utils/WbFieldChecker.js';
 
 export default class WbLight extends WbBaseNode {
+  #color;
+  #ambientIntensity;
+  #intensity;
+  #on;
+  #castShadows;
   constructor(id, on, color, intensity, castShadows, ambientIntensity) {
     super(id);
-    this.color = color;
+    this.#color = color;
 
-    this.ambientIntensity = ambientIntensity;
-    this.intensity = intensity;
+    this.#ambientIntensity = ambientIntensity;
+    this.#intensity = intensity;
 
-    this.on = on;
-    this.castShadows = castShadows;
+    this.#on = on;
+    this.#castShadows = castShadows;
+  }
+
+  get color() {
+    return this.#color;
+  }
+
+  get ambientIntensity() {
+    return this.#ambientIntensity;
+  }
+
+  get intensity() {
+    return this.#intensity;
+  }
+
+  get on() {
+    return this.#on;
+  }
+
+  get castShadows() {
+    return this.#castShadows;
   }
 
   createWrenObjects() {
@@ -55,9 +80,9 @@ export default class WbLight extends WbBaseNode {
   }
 
   updateColor() {
-    const newColor = resetColorIfInvalid(this.color);
+    const newColor = resetColorIfInvalid(this.#color);
     if (newColor !== false) {
-      this.color = newColor;
+      this.#color = newColor;
       return;
     }
 
@@ -85,10 +110,10 @@ export default class WbLight extends WbBaseNode {
     const rgb = new WbVector3(0.0, 0.0, 0.0);
 
     WbLight.lights.forEach(light => {
-      if (light.on) {
-        rgb.x += light.ambientIntensity * light.color.x;
-        rgb.y += light.ambientIntensity * light.color.y;
-        rgb.z += light.ambientIntensity * light.color.z;
+      if (light.#on) {
+        rgb.x += light.#ambientIntensity * light.#color.x;
+        rgb.y += light.#ambientIntensity * light.#color.y;
+        rgb.z += light.#ambientIntensity * light.#color.z;
       }
     });
 
