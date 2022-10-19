@@ -17,11 +17,13 @@ import struct
 import sys
 from controller.wb import wb
 from controller.sensor import Sensor
-from typing import Union, Tuple
+from typing import Union, Tuple, List
 
 
 class Receiver(Sensor):
     wb.wb_receiver_get_data.restype = ctypes.POINTER(ctypes.c_ubyte)
+    wb.wb_receiver_get_signal_strength.restype = ctypes.c_double
+    wb.wb_receiver_get_emitter_direction.restype = ctypes.POINTER(ctypes.c_double)
 
     def __init__(self, name: Union[str, int], sampling_period: int = None):
         self._enable = wb.wb_receiver_enable
@@ -48,10 +50,22 @@ class Receiver(Sensor):
         return struct.unpack(f'{self.data_size}?', self.getBytes())
 
     def getQueueLength(self) -> int:
-        return wb.wb_receiver_get_queue_length(self._tag)
+        return self.queue_length
 
     def nextPacket(self):
         wb.wb_receiver_next_packet(self._tag)
+
+    def getSignalStrength(self):
+        return self.signal_strength
+
+    def getEmitterDirection(self) -> List[float]:
+        return self.emitter_direction
+
+    def getChannel(self) -> int:
+        return self.channel
+
+    def setChannel(self, channel: int):
+        self.channel = channel
 
     @property
     def queue_length(self) -> int:
@@ -68,3 +82,19 @@ class Receiver(Sensor):
     @property
     def string(self) -> str:
         return ctypes.string_at(self.data, self.data_size).decode()
+
+    @property
+    def signal_strength(self) -> float:
+        return wb.wb_receiver_get_signal_strength(self._tag)
+
+    @property
+    def emitter_direction(self):
+        return wb.wb_receiver_get_emitter_direction(self._tag)
+
+    @property
+    def channel(self) -> int:
+        return wb.wb_receiver_get_channel(self._tag)
+
+    @channel.setter
+    def channel(self, channel: int):
+        wb.wb_receiver_set_channel(self._tag, channel)
