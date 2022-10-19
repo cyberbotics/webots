@@ -17,6 +17,7 @@ import WbColor from './nodes/WbColor.js';
 import WbCompass from './nodes/WbCompass.js';
 import WbCone from './nodes/WbCone.js';
 import WbConnector from './nodes/WbConnector.js';
+import WbCoordinate from './nodes/WbCoordinate.js';
 import WbCylinder from './nodes/WbCylinder.js';
 import WbDirectionalLight from './nodes/WbDirectionalLight.js';
 import WbDisplay from './nodes/WbDisplay.js';
@@ -1210,17 +1211,10 @@ export default class Parser {
   }
 
   #parsePointSet(node, id) {
-    const coordinate = node.getElementsByTagName('Coordinate')[0];
-
-    let coordArray;
-    if (typeof coordinate !== 'undefined')
-      coordArray = convertStringToFloatArray(getNodeAttribute(coordinate, 'point', ''));
-    else
-      coordArray = [];
-
-    const coord = [];
-    for (let i = 0; i < coordArray.length; i += 3)
-      coord.push(new WbVector3(coordArray[i], coordArray[i + 1], coordArray[i + 2]));
+    const coordinateNode = node.getElementsByTagName('Coordinate');
+    let coord;
+    if (coordinateNode)
+      coord = this.#parseCoordinate(coordinateNode[0]);
 
     let colorNode = node.getElementsByTagName('Color');
     let color;
@@ -1232,6 +1226,9 @@ export default class Parser {
     if (typeof color !== 'undefined')
       color.parent = ps.id;
 
+    if (typeof coord !== 'undefined')
+      coord.parent = ps.id;
+
     WbWorld.instance.nodes.set(ps.id, ps);
 
     return ps;
@@ -1242,7 +1239,7 @@ export default class Parser {
     if (typeof use !== 'undefined')
       return use;
 
-    const colorId = this.#parseId(node);
+    const id = this.#parseId(node);
     let colors = [];
     const colorArray = convertStringToFloatArray(getNodeAttribute(node, 'color', ''));
     if (typeof colorArray !== 'undefined') {
@@ -1250,9 +1247,27 @@ export default class Parser {
         colors.push(new WbVector3(colorArray[i], colorArray[i + 1], colorArray[i + 2]));
     }
 
-    const color = new WbColor(colorId, colors);
+    const color = new WbColor(id, colors);
     WbWorld.instance.nodes.set(color.id, color);
     return color;
+  }
+
+  #parseCoordinate(node, parentNode) {
+    const use = this.#checkUse(node);
+    if (typeof use !== 'undefined')
+      return use;
+
+    const id = this.#parseId(node);
+    let point = [];
+    const pointArray = convertStringToFloatArray(getNodeAttribute(node, 'point', ''));
+    if (typeof pointArray !== 'undefined') {
+      for (let i = 0; i < pointArray.length; i += 3)
+        point.push(new WbVector3(pointArray[i], pointArray[i + 1], pointArray[i + 2]));
+    }
+
+    const coordinate = new WbCoordinate(id, point);
+    WbWorld.instance.nodes.set(coordinate.id, coordinate);
+    return coordinate;
   }
 
   #parseMesh(node, id) {

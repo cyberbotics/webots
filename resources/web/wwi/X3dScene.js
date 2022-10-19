@@ -5,6 +5,7 @@ import WrenRenderer from './WrenRenderer.js';
 import WbBox from './nodes/WbBox.js';
 import WbCapsule from './nodes/WbCapsule.js';
 import WbCone from './nodes/WbCone.js';
+import WbCoordinate from './nodes/WbCoordinate.js';
 import WbCylinder from './nodes/WbCylinder.js';
 import WbElevationGrid from './nodes/WbElevationGrid.js';
 import WbGroup from './nodes/WbGroup.js';
@@ -290,17 +291,8 @@ export default class X3dScene {
         if (object instanceof WbLight) {
           object.color = convertStringToVec3(pose[key]);
           object.updateColor();
-        } else if (object instanceof WbColor) {
-          const color = [];
-          let string = pose[key].trim();
-          string = string.slice(1, -1).trim();
-          const colorArray = convertStringToFloatArray(string);
-          if (typeof colorArray !== 'undefined') {
-            for (let i = 0; i < colorArray.length; i += 3)
-              color.push(new WbVector3(colorArray[i], colorArray[i + 1], colorArray[i + 2]));
-          }
-          object.color = color;
-        }
+        } else if (object instanceof WbColor)
+          object.color = convertStringToVec3Array(pose[key]);
       } else if (key === 'on') {
         if (object instanceof WbLight) {
           object.on = pose[key].toLowerCase() === 'true';
@@ -315,6 +307,9 @@ export default class X3dScene {
       } else if (key === 'url') {
         if (object instanceof WbMesh)
           object.url = pose[key];
+      } else if (key === 'point') {
+        if (object instanceof WbCoordinate)
+          object.point = convertStringToVec3Array(pose[key]);
       } else if (object instanceof WbElevationGrid) {
         if (key === 'xDimension')
           object.xDimension = pose[key];
@@ -435,4 +430,17 @@ export default class X3dScene {
     WbWorld.instance.viewpoint.resetViewpoint();
     this.render();
   }
+}
+
+function convertStringToVec3Array(string) {
+  const vecArray = [];
+  string = string.trim();
+  string = string.slice(1, -1).trim();
+  const colorArray = convertStringToFloatArray(string);
+  if (typeof colorArray !== 'undefined') {
+    for (let i = 0; i < colorArray.length; i += 3)
+      vecArray.push(new WbVector3(colorArray[i], colorArray[i + 1], colorArray[i + 2]));
+  }
+
+  return vecArray;
 }
