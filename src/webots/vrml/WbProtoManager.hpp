@@ -35,25 +35,25 @@ class WbVersion;
 
 class WbExternProto {
 public:
-  WbExternProto(const QString &name, const QString &url, bool isImportable, bool isFromRootNodeConversion = false) :
+  WbExternProto(const QString &name, const QString &url, bool isImportable, bool isFromUserAction) :
     mName(name),
     mUrl(url),
     mImportable(isImportable),
-    mFromRootNodeConversion(isFromRootNodeConversion) {}
+    mIsFromUserAction(isFromUserAction) {}
 
   const QString &name() const { return mName; }
   void setUrl(const QString &url) { mUrl = url; }
   const QString &url() const { return mUrl; }
   bool isImportable() const { return mImportable; }
   void setImportable(bool value) { mImportable = value; }
-  bool isFromRootNodeConversion() const { return mFromRootNodeConversion; }
-  void unflagFromRootNodeConversion() { mFromRootNodeConversion = false; }
+  bool isFromUserAction() const { return mIsFromUserAction; }
+  void unflagFromUserAction() { mIsFromUserAction = false; }
 
 private:
   QString mName;
   QString mUrl;
   bool mImportable;
-  bool mFromRootNodeConversion;
+  bool mIsFromUserAction;  // new node insertion, conversion to base nodes, etc.
 };
 
 class WbProtoInfo {
@@ -180,7 +180,8 @@ public:
 
   // EXTERNPROTO manipulators
   // declares EXTERNPROTO and returns the previous URL if is another PROTO with the same model if already declared
-  QString declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool forceUpdate = true);
+  QString declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool fromUserAction,
+                             bool forceUrlUpdate = true);
   void purgeUnusedExternProtoDeclarations(const QSet<QString> &protoNamesInUse);
   QString externProtoUrl(const WbNode *node, bool formatted = false) const;
   QString removeProtoUrl(const WbNode *node, bool formatted = false) const;

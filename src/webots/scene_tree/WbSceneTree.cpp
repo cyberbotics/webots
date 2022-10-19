@@ -345,7 +345,7 @@ void WbSceneTree::paste() {
 
   const QList<WbExternProto *> cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
   foreach (const WbExternProto *item, cutBuffer)
-    WbProtoManager::instance()->declareExternProto(item->name(), item->url(), item->isImportable());
+    WbProtoManager::instance()->declareExternProto(item->name(), item->url(), item->isImportable(), true);
 
   if (mSelectedItem->isField() && mSelectedItem->field()->isSingle())
     pasteInSFValue();
@@ -774,7 +774,7 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     // declare PROTO nodes that have become visible at the world level
     QPair<QString, QString> item;
     foreach (item, writer.declarations()) {
-      const QString previousUrl(WbProtoManager::instance()->declareExternProto(item.first, item.second, false, false));
+      const QString previousUrl(WbProtoManager::instance()->declareExternProto(item.first, item.second, false, true, false));
       if (!previousUrl.isEmpty())
         WbLog::warning(tr("Conflicting declarations for '%1' are provided: %2 and %3, the first one will be used. "
                           "To use the other instead you will need to change it manually in the world file.")
