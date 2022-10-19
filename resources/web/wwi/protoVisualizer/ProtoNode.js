@@ -211,12 +211,12 @@ export default class ProtoNode {
             if (!tokenizer.proto.parameters.has(alias))
               throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
 
-            parameter.setValue(tokenizer.proto.parameters.get(alias).value());
+            parameter.value = tokenizer.proto.parameters.get(alias).value;
           } else {
             if (parameter instanceof SFNode) {
               const nodeFactory = new NodeFactory();
               const node = nodeFactory.createNode(tokenizer);
-              parameter.setValue(node);
+              parameter.value = node;
             } else
               parameter.setValueFromTokenizer(tokenizer);
 
@@ -238,8 +238,8 @@ export default class ProtoNode {
     nodeElement.setAttribute('id', this.id);
     console.log('ENCODE ' + this.value.name)
     for(const [parameterName, parameter] of this.value.parameters) {
-      console.log('  ENCODE ' +  parameterName + ' ? ', typeof parameter !== 'undefined', parameter.value());
-      if (typeof parameter.value() === 'undefined')
+      console.log('  ENCODE ' +  parameterName + ' ? ', typeof parameter !== 'undefined', parameter.value);
+      if (typeof parameter.value === 'undefined')
         continue;
 
       parameter.toX3d(parameterName, nodeElement);

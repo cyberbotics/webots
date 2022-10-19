@@ -13,40 +13,31 @@ class SingleValue {
       this.setValueFromTokenizer(tokenizer);
   }
 
-  /*
+
   get value() {
     return this.#value;
   }
 
-  set value(value) {
-    this.#value = value;
-  }
-  */
-
-
-  value() {
-    return this.#value;
+  set value(v) {
+    this.#value = v;
   }
 
-  setValue(value) {
-    this.#value = value;
-  }
 
   toX3d(name, parentElement) {
     if (typeof parentElement !== 'undefined') { // this is the case if this instance is a member of an MF*
-      parentElement.setAttribute(name, this.#value);
+      parentElement.setAttribute(name, this.value);
       return;
     }
 
-    return this.#value;
+    return this.value;
   }
 
   toJS() {
-    return this.#value;
+    return this.value;
   }
 
   equals(other) {
-    return this.#value === other.value();
+    return this.value === other.value;
   }
 }
 
@@ -56,7 +47,7 @@ export class SFBool extends SingleValue {
   }
 
   setValueFromTokenizer(tokenizer) {
-    super.setValue(tokenizer.nextToken().toBool());
+    super.value = tokenizer.nextToken().toBool();
   }
 
   type() {
@@ -66,8 +57,8 @@ export class SFBool extends SingleValue {
   clone() {
     const copy = new SFBool();
 
-    if (typeof this.value() !== 'undefined')
-      copy.setValue(this.value())
+    if (typeof this.value !== 'undefined')
+      copy.value = this.value;
 
     return copy;
   }
@@ -79,7 +70,7 @@ export class SFInt32 extends SingleValue {
   }
 
   setValueFromTokenizer(tokenizer) {
-    super.setValue(tokenizer.nextToken().toInt());
+    super.value = tokenizer.nextToken().toInt();
   }
 
   type() {
@@ -89,8 +80,8 @@ export class SFInt32 extends SingleValue {
   clone() {
     const copy = new SFInt32();
 
-    if (typeof this.value() !== 'undefined')
-      copy.setValue(this.value());
+    if (typeof this.value !== 'undefined')
+      copy.value = this.value;
 
     return copy;
   }
@@ -102,7 +93,7 @@ export class SFFloat extends SingleValue {
   }
 
   setValueFromTokenizer(tokenizer) {
-    this.setValue(tokenizer.nextToken().toFloat());
+    this.value = tokenizer.nextToken().toFloat();
   }
 
   type() {
@@ -112,8 +103,8 @@ export class SFFloat extends SingleValue {
   clone() {
     const copy = new SFFloat();
 
-    if (typeof this.value() !== 'undefined')
-      copy.setValue(this.value());
+    if (typeof this.value !== 'undefined')
+      copy.value = this.value;
 
     return copy;
   }
@@ -125,7 +116,7 @@ export class SFString extends SingleValue {
   }
 
   setValueFromTokenizer(tokenizer) {
-    this.setValue(tokenizer.nextWord());
+    this.value = tokenizer.nextWord();
   }
 
   type() {
@@ -135,8 +126,8 @@ export class SFString extends SingleValue {
   clone() {
     const copy = new SFString();
 
-    if (typeof this.value() !== 'undefined')
-      copy.setValue(this.value());
+    if (typeof this.value !== 'undefined')
+      copy.value = this.value;
 
     return copy;
   }
@@ -148,27 +139,27 @@ export class SFVec2f extends SingleValue {
   }
 
   setValueFromTokenizer(tokenizer) {
-    this.setValue({x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat()});
+    this.value = {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat()};
   }
 
   toX3d(name, parentElement) {
     if (typeof parentElement !== 'undefined') { // this is the case if this instance is a member of an MF*
-      parentElement.setAttribute(name, `${this.value().x} ${this.value().y}`);
+      parentElement.setAttribute(name, `${this.value.x} ${this.value.y}`);
       return;
     }
 
-    return `${this.value().x} ${this.value().y}`;
+    return `${this.value.x} ${this.value.y}`;
   }
 
   toJS() {
-    return `{x: ${this.value().x}, y: ${this.value().y}}`;
+    return `{x: ${this.value.x}, y: ${this.value.y}}`;
   }
 
   equals(other) {
-    if (typeof this.value() === 'undefined' || typeof other.value() === 'undefined')
+    if (typeof this.value === 'undefined' || typeof other.value === 'undefined')
       return false;
 
-    return this.value().x === other.value().x && this.value().y === other.value().y;
+    return this.value.x === other.value.x && this.value.y === other.value.y;
   }
 
   type() {
@@ -178,8 +169,8 @@ export class SFVec2f extends SingleValue {
   clone() {
     const copy = new SFVec2f();
 
-    if (typeof this.value() !== 'undefined')
-      copy.setValue(JSON.parse(JSON.stringify(this.value())));
+    if (typeof this.value !== 'undefined')
+      copy.value = JSON.parse(JSON.stringify(this.value));
 
     return copy;
   }
@@ -191,27 +182,27 @@ export class SFVec3f extends SingleValue {
   }
 
   setValueFromTokenizer(tokenizer) {
-    this.setValue({x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), z: tokenizer.nextToken().toFloat()});
+    this.value = {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), z: tokenizer.nextToken().toFloat()};
   }
 
   toX3d(name, parentElement) {
     if (typeof parentElement !== 'undefined') { // this is the case if this instance is an item of a MF*
-      parentElement.setAttribute(name, `${this.value().x} ${this.value().y} ${this.value().z}`);
+      parentElement.setAttribute(name, `${this.value.x} ${this.value.y} ${this.value.z}`);
       return;
     }
 
-    return `${this.value().x} ${this.value().y} ${this.value().z}`;
+    return `${this.value.x} ${this.value.y} ${this.value.z}`;
   }
 
   toJS() {
-    return `{x: ${this.value().x}, y: ${this.value().y}, z: ${this.value().z}}`;
+    return `{x: ${this.value.x}, y: ${this.value.y}, z: ${this.value.z}}`;
   }
 
   equals(other) {
-    if (typeof this.value() === 'undefined' || typeof other.value() === 'undefined')
+    if (typeof this.value === 'undefined' || typeof other.value === 'undefined')
       return false;
 
-    return this.value().x === other.value().x && this.value().y === other.value().y && this.value().z === other.value().z;
+    return this.value.x === other.value.x && this.value.y === other.value.y && this.value.z === other.value.z;
   }
 
   type() {
@@ -221,8 +212,8 @@ export class SFVec3f extends SingleValue {
   clone() {
     const copy = new SFVec3f();
 
-    if (typeof this.value() !== 'undefined')
-      copy.setValue(JSON.parse(JSON.stringify(this.value())));
+    if (typeof this.value !== 'undefined')
+      copy.value = JSON.parse(JSON.stringify(this.value));
 
     return copy;
   }
@@ -234,27 +225,27 @@ export class SFColor extends SingleValue {
   }
 
   setValueFromTokenizer(tokenizer) {
-    this.setValue({r: tokenizer.nextToken().toFloat(), g: tokenizer.nextToken().toFloat(), b: tokenizer.nextToken().toFloat()});
+    this.value = {r: tokenizer.nextToken().toFloat(), g: tokenizer.nextToken().toFloat(), b: tokenizer.nextToken().toFloat()};
   }
 
   toX3d(name, parentElement) {
     if (typeof parentElement !== 'undefined') { // this is the case if this instance is an item of a MF*
-      parentElement.setAttribute(name, `${this.value().r} ${this.value().g} ${this.value().b}`);
+      parentElement.setAttribute(name, `${this.value.r} ${this.value.g} ${this.value.b}`);
       return;
     }
 
-    return `${this.value().r} ${this.value().g} ${this.value().b}`;
+    return `${this.value.r} ${this.value.g} ${this.value.b}`;
   }
 
   toJS() {
-    return `{r: ${this.value().r}, g: ${this.value().g}, b: ${this.value().b}}`;
+    return `{r: ${this.value.r}, g: ${this.value.g}, b: ${this.value.b}}`;
   }
 
   equals(other) {
-    if (typeof this.value() === 'undefined' || typeof other.value() === 'undefined')
+    if (typeof this.value === 'undefined' || typeof other.value === 'undefined')
       return false;
 
-    return this.value().r === other.value().r && this.value().g === other.value().g && this.value().b === other.value().b;
+    return this.value.r === other.value.r && this.value.g === other.value.g && this.value.b === other.value.b;
   }
 
   type() {
@@ -264,8 +255,8 @@ export class SFColor extends SingleValue {
   clone() {
     const copy = new SFColor();
 
-    if (typeof this.value() !== 'undefined')
-      copy.setValue(JSON.parse(JSON.stringify(this.value())));
+    if (typeof this.value !== 'undefined')
+      copy.value = JSON.parse(JSON.stringify(this.value));
 
     return copy;
   }
@@ -277,29 +268,29 @@ export class SFRotation extends SingleValue {
   }
 
   setValueFromTokenizer(tokenizer) {
-    this.setValue({x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(),
-                   z: tokenizer.nextToken().toFloat(), a: tokenizer.nextToken().toFloat()});
+    this.value = {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(),
+                  z: tokenizer.nextToken().toFloat(), a: tokenizer.nextToken().toFloat()};
   }
 
   toX3d(name, parentElement) {
     if (typeof parentElement !== 'undefined') { // this is the case if this instance is an item of a MF*
-      parentElement.setAttribute(name, `${this.value().x} ${this.value().y} ${this.value().z} ${this.value().a}`);
+      parentElement.setAttribute(name, `${this.value.x} ${this.value.y} ${this.value.z} ${this.value.a}`);
       return;
     }
 
-    return `${this.value().x} ${this.value().y} ${this.value().z} ${this.value().a}`;
+    return `${this.value.x} ${this.value.y} ${this.value.z} ${this.value.a}`;
   }
 
   toJS() {
-    return `{x: ${this.value().x}, y: ${this.value().y}, z: ${this.value().z}, a: ${this.value().a}}`;
+    return `{x: ${this.value.x}, y: ${this.value.y}, z: ${this.value.z}, a: ${this.value.a}}`;
   }
 
   equals(other) {
-    if (typeof this.value() === 'undefined' || typeof other.value() === 'undefined')
+    if (typeof this.value === 'undefined' || typeof other.value === 'undefined')
       return false;
 
-    return this.value().x === other.value().x && this.value().y === other.value().y &&
-           this.value().z === other.value().z && this.value().a === other.value().a;
+    return this.value.x === other.value.x && this.value.y === other.value.y &&
+           this.value.z === other.value.z && this.value.a === other.value.a;
   }
 
   type() {
@@ -309,8 +300,8 @@ export class SFRotation extends SingleValue {
   clone() {
     const copy = new SFRotation();
 
-    if (typeof this.value() !== 'undefined')
-      copy.setValue(JSON.parse(JSON.stringify(this.value())));
+    if (typeof this.value !== 'undefined')
+      copy.value = JSON.parse(JSON.stringify(this.value));
 
     return copy;
   }
@@ -326,17 +317,17 @@ export class SFNode extends SingleValue {
       this.isUse = true;
 
     const nodeFactory = new NodeFactory();
-    this.setValue(nodeFactory.createNode(tokenizer));
+    this.value = nodeFactory.createNode(tokenizer);
   }
 
   toX3d(name, parentElement) {
-    if (typeof this.value() === 'undefined')
+    if (typeof this.value === 'undefined')
       return;
 
-    const nodeX3d = this.value().toX3d(this.isUse);
+    const nodeX3d = this.value.toX3d(this.isUse);
 
     // handle exceptions
-    if (this.value().name === 'ImageTexture') {
+    if (this.value.name === 'ImageTexture') {
       nodeX3d.setAttribute('role', name.slice(0, -3)); // TODO: rename on the JS side so it matches the field name?
     }
 
@@ -345,10 +336,10 @@ export class SFNode extends SingleValue {
   }
 
   toJS() {
-    if (typeof this.value() === 'undefined')
+    if (typeof this.value === 'undefined')
       return;
 
-    return this.value().toJS();
+    return this.value.toJS();
   }
 
   equals(other) {
@@ -362,8 +353,8 @@ export class SFNode extends SingleValue {
   clone() {
     const copy = new SFNode();
 
-    if (typeof this.value() !== 'undefined')
-      copy.setValue(this.value().clone());
+    if (typeof this.value !== 'undefined')
+      copy.value = this.value.clone();
 
     return copy
   }
@@ -377,25 +368,15 @@ class MultipleValue {
       this.setValueFromTokenizer(tokenizer);
   }
 
-  /*
   get value() {
     return this.#value;
   }
 
-  set value(value) {
-    this.#value = value;
-  }
-  */
-
-  value() {
-    return this.#value;
-  }
-
-  setValue(value) {
-    if (!Array.isArray(value))
-      this.#value.push(value);
+  set value(v) {
+    if (!Array.isArray(v))
+      this.#value.push(v);
     else
-      this.#value = value;
+      this.#value = v;
   }
 
   insert(item) {
@@ -448,7 +429,7 @@ export class MFBool extends MultipleValue {
 
   clone() {
     const copy = new MFBool();
-    this.value().forEach((item) => copy.insert(item.clone()));
+    this.value.forEach((item) => copy.insert(item.clone()));
     return copy;
   }
 }
@@ -480,7 +461,7 @@ export class MFInt32 extends MultipleValue {
 
   clone() {
     const copy = new MFInt32();
-    this.value().forEach((item) => copy.insert(item.clone()));
+    this.value.forEach((item) => copy.insert(item.clone()));
     return copy;
   }
 }
@@ -512,7 +493,7 @@ export class MFFloat extends MultipleValue {
 
   clone() {
     const copy = new MFFloat();
-    this.value().forEach((item) => copy.insert(item.clone()));
+    this.value.forEach((item) => copy.insert(item.clone()));
     return copy;
   }
 }
@@ -544,7 +525,7 @@ export class MFString extends MultipleValue {
 
   clone() {
     const copy = new MFString();
-    this.value().forEach((item) => copy.insert(item.clone()));
+    this.value.forEach((item) => copy.insert(item.clone()));
     return copy;
   }
 }
@@ -576,7 +557,7 @@ export class MFVec2f extends MultipleValue {
 
   clone() {
     const copy = new MFVec2f();
-    this.value().forEach((item) => copy.insert(item.clone()));
+    this.value.forEach((item) => copy.insert(item.clone()));
     return copy;
   }
 }
@@ -608,7 +589,7 @@ export class MFVec3f extends MultipleValue {
 
   clone() {
     const copy = new MFVec3f();
-    this.value().forEach((item) => copy.insert(item.clone()));
+    this.value.forEach((item) => copy.insert(item.clone()));
     return copy;
   }
 }
@@ -640,7 +621,7 @@ export class MFColor extends MultipleValue {
 
   clone() {
     const copy = new MFColor();
-    this.value().forEach((item) => copy.insert(item.clone()));
+    this.value.forEach((item) => copy.insert(item.clone()));
     return copy;
   }
 }
@@ -672,7 +653,7 @@ export class MFRotation extends MultipleValue {
 
   clone() {
     const copy = new MFRotation();
-    this.value().forEach((item) => copy.insert(item.clone()));
+    this.value.forEach((item) => copy.insert(item.clone()));
     return copy;
   }
 }
@@ -682,18 +663,22 @@ export class MFNode extends MultipleValue {
     super(tokenizer);
   }
 
-  setValue(value) {
-    if (!Array.isArray(value)) {
-      if (value instanceof BaseNode || value instanceof ProtoNode) {
+  get value() {
+    return super.value;
+  }
+
+  set value(v) {
+    if (!Array.isArray(v)) {
+      if (v instanceof BaseNode || v instanceof ProtoNode) {
         // TODO: can we avoid doing this here and ensure it's sent as SFNode already?
         const sf = new SFNode();
-        sf.value = value;
+        sf.value = v;
         this.insert(sf);
       } else
-        this.insert(value);
+        this.insert(v);
     }
     else
-      super.setValue(value);
+      super.value = v;
   }
 
   setValueFromTokenizer(tokenizer) {
@@ -709,13 +694,13 @@ export class MFNode extends MultipleValue {
   }
 
   toX3d(name, parentElement) {
-    this.value().forEach((item) => item.toX3d(name, parentElement));
+    this.value.forEach((item) => item.toX3d(name, parentElement));
   }
 
   toJS() {
     let js = '['
-    this.value().forEach((item) => js += item.value.toJS() + ', ');
-    if (this.value().length > 0)
+    this.value.forEach((item) => js += item.value.toJS() + ', ');
+    if (this.value.length > 0)
       js == js.slice(0, -2)
     return  js + ']';
   }
@@ -730,7 +715,7 @@ export class MFNode extends MultipleValue {
 
   clone() {
     const copy = new MFNode();
-    this.value().forEach((item) => copy.insert(item.clone()));
+    this.value.forEach((item) => copy.insert(item.clone()));
     return copy;
   }
 }
