@@ -1165,27 +1165,23 @@ export default class Parser {
   }
 
   #parseIndexedLineSet(node, id) {
-    const coordinate = node.getElementsByTagName('Coordinate')[0];
+    const coordinateNode = node.getElementsByTagName('Coordinate');
+    let coord;
+    if (coordinateNode)
+      coord = this.#parseCoordinate(coordinateNode[0]);
 
-    const coord = [];
     let coordIndex = [];
-    if (typeof coordinate !== 'undefined') {
-      let points = getNodeAttribute(coordinate, 'point', '');
-      if (typeof points !== 'undefined') {
-        const verticesArray = convertStringToFloatArray(points);
-        for (let i = 0; i < verticesArray.length; i += 3)
-          coord.push(new WbVector3(verticesArray[i], verticesArray[i + 1], verticesArray[i + 2]));
-      }
-
-      const coordinateIndex = getNodeAttribute(node, 'coordIndex', '');
-      if (typeof coordinateIndex !== 'undefined') {
-        const indicesStr = convertStringToFloatArray(coordinateIndex);
-        coordIndex = indicesStr.map(Number);
-      }
+    const coordinateIndex = getNodeAttribute(node, 'coordIndex', '');
+    if (typeof coordinateIndex !== 'undefined') {
+      const indicesStr = convertStringToFloatArray(coordinateIndex);
+      coordIndex = indicesStr.map(Number);
     }
 
     const ils = new WbIndexedLineSet(id, coord, coordIndex);
     WbWorld.instance.nodes.set(ils.id, ils);
+
+    if (typeof coord !== 'undefined')
+      coord.parent = ils.id;
 
     return ils;
   }

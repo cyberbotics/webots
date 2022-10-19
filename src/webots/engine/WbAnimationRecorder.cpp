@@ -16,6 +16,7 @@
 
 #include "WbGroup.hpp"
 #include "WbLog.hpp"
+#include "WbMFInt.hpp"
 #include "WbRobot.hpp"
 #include "WbSFRotation.hpp"
 #include "WbSimulationState.hpp"
@@ -96,6 +97,7 @@ const QString WbAnimationCommand::sanitizeField(const WbField *field) {
   const WbSFRotation *sfRotation = dynamic_cast<WbSFRotation *>(field->value());
   const WbSFString *sfString = dynamic_cast<WbSFString *>(field->value());
   const WbMFString *mfString = dynamic_cast<WbMFString *>(field->value());
+  const WbMFInt *mfInt = dynamic_cast<WbMFInt *>(field->value());
 
   if (sfVector3 && field->name().compare("translation") == 0) {
     // special translation case
@@ -122,9 +124,21 @@ const QString WbAnimationCommand::sanitizeField(const WbField *field) {
         .arg(ROUND(sfRotation->z(), 0.0001))
         .arg(ROUND(sfRotation->angle(), 0.0001));
     }
-  } else if (sfString and field->name().compare("name") == 0)
+  } else if (sfString && field->name().compare("name") == 0)
     return field->value()->toString();
-  else if (mfString and field->name().compare("url") == 0) {
+  else if (mfInt && field->name().compare("coordIndex") == 0) {
+    const int size = mfInt->size();
+    QString intArray = QString("[");
+
+    for (int i = 0; i < size - 1; i++)
+      intArray.append(QString("%1,").arg(mfInt->item(i)));
+
+    if (size > 0)
+      intArray.append(QString("%1").arg(mfInt->item(size - 1)));
+
+    intArray.append("]");
+    return intArray;
+  } else if (mfString and field->name().compare("url") == 0) {
     QStringList urls = mfString->value();
     QString urlArray = urls.join("\",\"");
     urlArray.prepend("[\"");
