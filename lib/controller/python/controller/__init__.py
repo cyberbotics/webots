@@ -40,5 +40,6 @@ from controller.robot import Robot                     # noqa
 from controller.skin import Skin                       # noqa
 from controller.speaker import Speaker                 # noqa
 from controller.supervisor import Supervisor           # noqa
+from controller.touch_sensor import TouchSensor        # noqa
 from controller.node import Node                       # noqa
 from controller.field import Field                     # noqa
