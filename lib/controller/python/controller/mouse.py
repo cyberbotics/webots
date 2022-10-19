@@ -31,7 +31,6 @@ class MouseState():
 
 
 class Mouse():
-    wb.wb_mouse_get_model.restype = ctypes.c_char_p
     wb.wb_mouse_get_state.restype = ctypes.POINTER(ctypes.c_ubyte)
 
     def __init__(self, sampling_period: int = None):

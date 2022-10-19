@@ -144,6 +144,7 @@ class Robot:
             else:
                 print('Unsupported device type: ' + str(type) + ' for device named "' + name + '"', file=sys.stderr)
         self.keyboard = Keyboard(0)
+        self.mouse = Mouse(0)
         self.joystick = Joystick(0)
 
     def __del__(self):
@@ -252,8 +253,14 @@ class Robot:
         else:
             return self.devices[name]
 
-    def getKeyboard(self):
+    def getKeyboard(self) -> Keyboard:
         return self.keyboard
+
+    def getMouse(self) -> Mouse:
+        return self.mouse
+
+    def getJoystick(self) -> Joystick:
+        return self.joystick
 
     def getDeviceByIndex(self, index: int) -> Device:
         tag = wb.wb_robot_get_device_by_index(index)
