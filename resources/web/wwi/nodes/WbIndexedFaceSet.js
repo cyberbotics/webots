@@ -25,6 +25,6 @@ export default class WbIndexedFaceSet extends WbTriangleMeshGeometry {
 
   _updateTriangleMesh() {
     this._triangleMesh.init(this.coord, this.coordIndex, this.normal, this.normalIndex, this.texCoord, this.texCoordIndex,
-      this.creaseAngle, this.ccw, this.normalPerVertex);
+      this.creaseAngle, this.normalPerVertex);
   }
 }

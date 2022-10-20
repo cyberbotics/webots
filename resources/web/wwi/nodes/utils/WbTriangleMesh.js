@@ -61,7 +61,7 @@ export default class WbTriangleMesh {
     return this.#nonRecursiveTextureCoordinates[2 * this.index(triangle, vertex) + component];
   }
 
-  init(coord, coordIndex, normal, normalIndex, texCoord, texCoordIndex, creaseAngle, counterClockwise, normalPerVertex) {
+  init(coord, coordIndex, normal, normalIndex, texCoord, texCoordIndex, creaseAngle, normalPerVertex) {
     this.#normalPerVertex = normalPerVertex;
 
     // initial obvious check
@@ -111,8 +111,6 @@ export default class WbTriangleMesh {
       this.#normalsValid = false;
     }
 
-    if (!counterClockwise)
-      this.#reverseIndexOrder();
     const error = this.#tmpNormalsPass(coord, normal);
 
     if (typeof error !== 'undefined')
@@ -253,30 +251,6 @@ export default class WbTriangleMesh {
       } else // add a coordIndex to the currentFace
         currentFaceIndices.push(new WbVector3(index, this.#normalsValid ? normalIndex[i] : 0,
           this.areTextureCoordinatesValid ? texCoordIndex[i] : 0));
-    }
-  }
-
-  // reverse the order of the second and third element
-  // of each triplet of the this.#coordIndices and this.#tmpTexIndices arrays
-  #reverseIndexOrder() {
-    const coordIndicesSize = this.#coordIndices.length;
-    if (coordIndicesSize % 3 !== 0)
-      return;
-    if (coordIndicesSize !== this.#tmpTexIndices.length && this.#tmpTexIndices.length !== 0)
-      return;
-
-    for (let i = 0; i < coordIndicesSize; i += 3) {
-      const i1 = i + 1;
-      const i2 = i + 2;
-      const third = this.#coordIndices[i2];
-      this.#coordIndices[i2] = this.#coordIndices[i1];
-      this.#coordIndices[i1] = third;
-
-      if (this.areTextureCoordinatesValid) {
-        const thirdIndex = this.#tmpTexIndices[i2];
-        this.#tmpTexIndices[i2] = this.#tmpTexIndices[i1];
-        this.#tmpTexIndices[i1] = thirdIndex;
-      }
     }
   }
 
