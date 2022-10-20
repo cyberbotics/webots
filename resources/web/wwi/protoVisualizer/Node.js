@@ -8,7 +8,7 @@ import NodeFactory from './NodeFactory.js';
 import { VRML } from './constants.js';
 import { FieldModel } from './FieldModel.js';
 
-export default class ProtoNode {
+export default class Node {
   constructor(url, protoText) {
     // IMPORTANT! When adding new member variables of type Map, modify the .clone method so that it creates a copy of it
     this.id = getAnId();
@@ -39,7 +39,7 @@ export default class ProtoNode {
 
     //clone tester
     /*
-    const a = new ProtoNode('Box');
+    const a = new Node('Box');
     const b = a.clone();
     a.test = [3, 2, 1];
     console.log(a, b)
@@ -272,24 +272,6 @@ export default class ProtoNode {
     console.log('RESULT:', new XMLSerializer().serializeToString(this.xml));
 
     return nodeElement;
-
-    /*
-    nodeElement.setAttribute('id', this.id);
-    console.log('PENCODE ' + this.value.name)
-    for(const [parameterName, parameter] of this.value.parameters) {
-      console.log('  PENCODE ' +  parameterName + ' ? ', typeof parameter.value !== 'undefined', parameter.value);
-      if (typeof parameter.value === 'undefined')
-        continue;
-
-      parameter.toX3d(parameterName, nodeElement);
-    }
-
-    // console.log(nodeElement)
-    this.xml.appendChild(nodeElement);
-    console.log('PRESULT:', new XMLSerializer().serializeToString(this.xml));
-
-    return nodeElement;
-    */
   }
 
   toJS(isRoot = false) {
@@ -341,4 +323,4 @@ function combinePaths(url, parentUrl) {
   return newUrl;
 }
 
-export { ProtoNode, combinePaths };
+export { Node };

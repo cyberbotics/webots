@@ -3,7 +3,7 @@
 import NodeFactory from './NodeFactory.js';
 import {VRML} from './constants.js';
 //import BaseNode from './BaseNode.js';
-import ProtoNode from './ProtoNode.js';
+import Node from './Node.js';
 
 
 class SingleValue {
@@ -675,7 +675,7 @@ export class MFNode extends MultipleValue {
 
   set value(v) {
     if (!Array.isArray(v)) {
-      if (v instanceof ProtoNode) {
+      if (v instanceof Node) {
         // TODO: can we avoid doing this here and ensure it's sent as SFNode already?
         // TODO: still needed?
         const sf = new SFNode();

@@ -1,4 +1,4 @@
-import ProtoNode from './protoVisualizer/ProtoNode.js';
+import Node from './protoVisualizer/Node.js';
 
 import {getAnId} from './nodes/utils/id_provider.js';
 
@@ -23,7 +23,7 @@ export default class ProtoManager {
       xmlhttp.send();
     }).then(async text => {
       console.log('Load PROTO from URL: ' + url)
-      this.proto = new ProtoNode(url, text);
+      this.proto = new Node(url, text);
       await this.proto.fetch();
       this.proto.parseBody();
       this.loadX3d();

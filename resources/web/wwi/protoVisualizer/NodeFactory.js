@@ -2,7 +2,7 @@
 
 import {FieldModel} from './FieldModel.js';
 //import {BaseNode}from './BaseNode.js';
-import {ProtoNode}from './ProtoNode.js';
+import {Node}from './Node.js';
 
 
 const gProtoModels = new Map();
@@ -43,7 +43,7 @@ export default class NodeFactory {
     if (typeof FieldModel[nodeName] !== 'undefined') { // it's a base node
       if (!gBaseModels.has(nodeName)) {
         // create prototype if none is available
-        const model = new ProtoNode(nodeName);
+        const model = new Node(nodeName);
         gBaseModels.set(nodeName, model);
       }
 
@@ -77,7 +77,7 @@ export default class NodeFactory {
 
   async createPrototype(protoText, protoUrl) {
     if (!gProtoModels.has(protoUrl)) {
-      const proto = new ProtoNode(protoUrl, protoText);
+      const proto = new Node(protoUrl, protoText);
       await proto.fetch();
       console.log('adding proto model: ', protoUrl)
       gProtoModels.set(protoUrl, proto)
