@@ -1,6 +1,6 @@
 #VRML_SIM R2023a utf8
 
-PROTO ProtoWithNested [
+PROTO TestProto [
 
 ]
 {
@@ -14,12 +14,18 @@ PROTO ProtoWithNested [
           size 0.1 0.1 0.1
         }
       }
-      Transform {
-        translation 0 0 0.2
-        children [
-          USE SHAPE
-        ]
-      }
     ]
+    boundingObject Group {
+      children [
+        Transform {
+          translation 0 0 0.2
+          children [
+            Box {
+              size 0.2 0.2 0.2
+            }
+          ]
+        }
+      ]
+    }
   }
 }

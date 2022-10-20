@@ -330,7 +330,7 @@ export class SFNode extends SingleValue {
     // handle exceptions
     if (this.value.name === 'ImageTexture') {
       nodeX3d.setAttribute('role', parameterName.slice(0, -3)); // TODO: rename on the JS side so it matches the field name?
-    } else if (this.value.name == 'Shape' || this.value.name == 'Transform' || this.value.name == 'Solid') {
+    } else if (['Shape', 'Group', 'Transform', 'Solid', 'Robot'].includes(this.value.name)) {
       if (parameterName === 'boundingObject')
         nodeX3d.setAttribute('role', 'boundingObject');
     }

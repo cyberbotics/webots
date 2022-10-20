@@ -71,7 +71,8 @@ export default class BaseNode {
     if (isUse) {
       console.log('is USE! Will reference ' + this.id)
       nodeElement.setAttribute('USE', this.id);
-      if (this.name == 'Shape' || this.name == 'Transform' || this.name == 'Solid') {
+      // TODO: needed here as well?
+      if (['Shape', 'Group', 'Transform', 'Solid', 'Robot'].includes(this.name)) {
         if (parameterReference === 'boundingObject')
           nodeElement.setAttribute('role', 'boundingObject');
       }
