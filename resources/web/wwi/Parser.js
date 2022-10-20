@@ -1134,17 +1134,17 @@ export default class Parser {
 
     const coordinateNode = node.getElementsByTagName('Coordinate');
     let coord;
-    if (coordinateNode)
+    if (coordinateNode.length > 0)
       coord = this.#parseCoordinate(coordinateNode[0]);
 
     const textureCoordinateNode = node.getElementsByTagName('TextureCoordinate');
     let texCoord;
-    if (textureCoordinateNode)
+    if (textureCoordinateNode.length > 0)
       texCoord = this.#parseTextureCoordinate(textureCoordinateNode[0]);
 
     const normalNode = node.getElementsByTagName('Normal');
     let normal;
-    if (normalNode)
+    if (normalNode.length > 0)
       normal = this.#parseNormal(normalNode[0]);
 
     const ccw = getNodeAttribute(node, 'ccw', 'true').toLowerCase() === 'true';
@@ -1169,7 +1169,7 @@ export default class Parser {
   #parseIndexedLineSet(node, id) {
     const coordinateNode = node.getElementsByTagName('Coordinate');
     let coord;
-    if (coordinateNode)
+    if (coordinateNode.length > 0)
       coord = this.#parseCoordinate(coordinateNode[0]);
 
     let coordIndex = [];
@@ -1211,12 +1211,12 @@ export default class Parser {
   #parsePointSet(node, id) {
     const coordinateNode = node.getElementsByTagName('Coordinate');
     let coord;
-    if (coordinateNode)
+    if (coordinateNode.length > 0)
       coord = this.#parseCoordinate(coordinateNode[0]);
 
     let colorNode = node.getElementsByTagName('Color');
     let color;
-    if (colorNode)
+    if (colorNode.length > 0)
       color = this.#parseColor(colorNode[0]);
 
     const ps = new WbPointSet(id, coord, color);
@@ -1232,7 +1232,7 @@ export default class Parser {
     return ps;
   }
 
-  #parseColor(node, parentNode) {
+  #parseColor(node) {
     const use = this.#checkUse(node);
     if (typeof use !== 'undefined')
       return use;

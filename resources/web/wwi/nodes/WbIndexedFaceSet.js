@@ -36,11 +36,19 @@ export default class WbIndexedFaceSet extends WbTriangleMeshGeometry {
     this.#ccw = newCcw;
 
     if (this.wrenObjectsCreatedCalled)
-      this.#updateCcw();
+      this.#update();
   }
 
   get coordIndex() {
     return this.#coordIndex;
+  }
+
+  set coordIndex(newCoordIndex) {
+    console.log(newCoordIndex)
+    this.#coordIndex = newCoordIndex;
+
+    if (this.wrenObjectsCreatedCalled)
+      this.#update();
   }
 
   get creaseAngle() {
@@ -112,7 +120,7 @@ export default class WbIndexedFaceSet extends WbTriangleMeshGeometry {
       this.#creaseAngle, this.#normalPerVertex);
   }
 
-  #updateCcw() {
+  #update() {
     this._buildWrenMesh(true);
 
     if (typeof this.onRecreated === 'function')

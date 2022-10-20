@@ -69,7 +69,6 @@ signals:
 
 protected:
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
-  void exportNodeContents(WbWriter &writer) const override;
   bool exportNodeHeader(WbWriter &writer) const override;
 
 private:
