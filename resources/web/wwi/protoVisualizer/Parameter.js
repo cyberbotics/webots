@@ -7,8 +7,8 @@ import {typeFactory, SFNode, SFBool} from './Vrml.js';
 export default class Parameter {
   #value;
   #defaultValue;
+  #id = getAParameterId();
   constructor(proto, name, isTemplateRegenerator, defaultValue, value) {
-    this.id = getAParameterId();
     this.proto = proto; // proto this parameter belongs to
     this.name = name;
     this.isTemplateRegenerator = isTemplateRegenerator;
@@ -30,6 +30,14 @@ export default class Parameter {
 
   set defaultValue(v) {
     this.#value = v;
+  }
+
+  get id() {
+    return this.#id;
+  }
+
+  set id(value) {
+    this.#id = value;
   }
 
   type() {
