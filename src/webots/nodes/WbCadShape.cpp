@@ -151,6 +151,11 @@ void WbCadShape::materialDownloadTracker() {
     updateUrl();
 }
 
+void WbCadShape::preFinalize() {
+  WbBaseNode::preFinalize();
+  updateUrl();
+}
+
 void WbCadShape::postFinalize() {
   WbBaseNode::postFinalize();
 
@@ -163,11 +168,6 @@ void WbCadShape::postFinalize() {
           &WbCadShape::createWrenObjects);
 
   mBoundingSphere = new WbBoundingSphere(this);
-
-  updateUrl();
-  updateCcw();
-  updateCastShadows();
-  updateIsPickable();
 
   // apply segmentation color
   const WbSolid *solid = WbNodeUtilities::findUpperSolid(this);
@@ -185,7 +185,8 @@ void WbCadShape::postFinalize() {
 void WbCadShape::updateUrl() {
   const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0, true);
   if (completeUrl.isEmpty() || completeUrl == WbUrl::missingTexture()) {
-    deleteWrenObjects();
+    if (areWrenObjectsInitialized())
+      deleteWrenObjects();
     return;
   }
 
@@ -201,7 +202,8 @@ void WbCadShape::updateUrl() {
   if (WbUrl::isWeb(completeUrl)) {
     if (mDownloader && !mDownloader->error().isEmpty()) {
       warn(mDownloader->error());  // failure downloading or file does not exist (404)
-      deleteWrenObjects();
+      if (areWrenObjectsInitialized())
+        deleteWrenObjects();
       delete mDownloader;
       mDownloader = NULL;
       return;
@@ -237,7 +239,8 @@ void WbCadShape::updateUrl() {
     }
   }
 
-  createWrenObjects();
+  if (areWrenObjectsInitialized())
+    createWrenObjects();
 }
 
 bool WbCadShape::areMaterialAssetsAvailable(const QString &url) {
@@ -466,6 +469,9 @@ void WbCadShape::createWrenObjects() {
       pbrAppearance->preFinalize();
       pbrAppearance->postFinalize();
       connect(pbrAppearance, &WbPbrAppearance::changed, this, &WbCadShape::updateAppearance);
+
+      if (pbrAppearance->transparency() > 0.999)
+        warn(tr("Mesh '%1' created but it is fully transparent.").arg(mesh->mName.C_Str()));
 
       WrMaterial *wrenMaterial = wr_pbr_material_new();
       pbrAppearance->modifyWrenMaterial(wrenMaterial);
