@@ -1,6 +1,7 @@
 import WbTriangleMeshGeometry from './WbTriangleMeshGeometry.js';
 
 import {getAnId} from './utils/id_provider.js';
+import {resetIfNegative} from './utils/WbFieldChecker.js';
 
 export default class WbIndexedFaceSet extends WbTriangleMeshGeometry {
   #ccw;
@@ -44,7 +45,6 @@ export default class WbIndexedFaceSet extends WbTriangleMeshGeometry {
   }
 
   set coordIndex(newCoordIndex) {
-    console.log(newCoordIndex)
     this.#coordIndex = newCoordIndex;
 
     if (this.wrenObjectsCreatedCalled)
@@ -55,16 +55,44 @@ export default class WbIndexedFaceSet extends WbTriangleMeshGeometry {
     return this.#creaseAngle;
   }
 
+  set creaseAngle(newCreaseAngle) {
+   this.#creaseAngle = newCreaseAngle;
+
+   if (this.wrenObjectsCreatedCalled)
+    this.#updateCreaseAngle();
+  }
+
   get normalIndex() {
     return this.#normalIndex;
+  }
+
+  set normalIndex(newNormalIndex) {
+    this.#normalIndex = newNormalIndex;
+
+    if (this.wrenObjectsCreatedCalled)
+      this.#update();
   }
 
   get normalPerVertex() {
     return this.#normalPerVertex();
   }
 
+  set normalPerVertex(newNormalPerVertex) {
+    this.#normalPerVertex = newNormalPerVertex;
+
+    if (this.wrenObjectsCreatedCalled)
+      this.#update();
+  }
+
   get texCoordIndex() {
     return this.#texCoordIndex;
+  }
+
+  set texCoordIndex(newTexCoordIndex) {
+    this.#texCoordIndex = newTexCoordIndex;
+
+    if (this.wrenObjectsCreatedCalled)
+      this.#update();
   }
 
   clone(customID) {
@@ -108,7 +136,23 @@ export default class WbIndexedFaceSet extends WbTriangleMeshGeometry {
 
     if (typeof this.#coord !== 'undefined') {
       this.#coord.onChange = () => {
-        this._buildWrenMesh();
+        this._buildWrenMesh(true);
+        if (typeof this.onRecreated === 'function')
+          this.onRecreated();
+      };
+    }
+
+    if (typeof this.#normal !== 'undefined') {
+      this.#normal.onChange = () => {
+        this._buildWrenMesh(true);
+        if (typeof this.onRecreated === 'function')
+          this.onRecreated();
+      };
+    }
+
+    if (typeof this.#texCoord !== 'undefined') {
+      this.#texCoord.onChange = () => {
+        this._buildWrenMesh(true);
         if (typeof this.onRecreated === 'function')
           this.onRecreated();
       };
@@ -125,5 +169,13 @@ export default class WbIndexedFaceSet extends WbTriangleMeshGeometry {
 
     if (typeof this.onRecreated === 'function')
       this.onRecreated();
+  }
+
+  #updateCreaseAngle() {
+    const newCreaseAngle = resetIfNegative(this.#creaseAngle, 0);
+    if (newCreaseAngle !== false)
+      this.#creaseAngle = newCreaseAngle;
+
+    this.#update();
   }
 }

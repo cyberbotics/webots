@@ -18,13 +18,16 @@ import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbPlane from './nodes/WbPlane.js';
 import WbColor from './nodes/WbColor.js';
 import WbSphere from './nodes/WbSphere.js';
+import WbTextureCoordinate from './nodes/WbTextureCoordinate.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbTrackWheel from './nodes/WbTrackWheel.js';
 import WbTransform from './nodes/WbTransform.js';
 import WbWorld from './nodes/WbWorld.js';
 
 import {getAncestor} from './nodes/utils/utils.js';
+import WbVector2 from './nodes/utils/WbVector2.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
+import WbNormal from './nodes/WbNormal.js';
 
 export default class X3dScene {
   #loader;
@@ -312,19 +315,23 @@ export default class X3dScene {
       } else if (key === 'point') {
         if (object instanceof WbCoordinate)
           object.point = convertStringToVec3Array(pose[key]);
+        if (object instanceof WbTextureCoordinate)
+          object.point = convertStringToVec2Array(pose[key]);
+      } else if (key === 'vector') {
+        if (object instanceof WbNormal)
+          object.vector === convertStringToVec3Array(pose[key]);
       } else if (key === 'coordIndex') {
         if (object instanceof WbIndexedLineSet || object instanceof WbIndexedFaceSet)
           object.coordIndex = pose[key];
       }else if (object instanceof WbIndexedFaceSet) {
-        console.log(pose[key])
         if (key === 'normalPerVertex')
           object.normalPerVertex = pose[key].toLowerCase() === 'true';
         else if (key === 'normalIndex')
-          pose.normalIndex = pose[key];
+          object.normalIndex = pose[key];
         else if (key === 'texCoordIndex')
-          pose.texCoordIndex = pose[key];
+          object.texCoordIndex = pose[key];
         else if (key === 'creaseAngle')
-          pose.creaseAngle = parseFloat(pose[key]);
+          object.creaseAngle = parseFloat(pose[key]);
       } else if (object instanceof WbElevationGrid) {
         if (key === 'xDimension')
           object.xDimension = pose[key];
@@ -455,6 +462,19 @@ function convertStringToVec3Array(string) {
   if (typeof colorArray !== 'undefined') {
     for (let i = 0; i < colorArray.length; i += 3)
       vecArray.push(new WbVector3(colorArray[i], colorArray[i + 1], colorArray[i + 2]));
+  }
+
+  return vecArray;
+}
+
+function convertStringToVec2Array(string) {
+  const vecArray = [];
+  string = string.trim();
+  string = string.slice(1, -1).trim();
+  const colorArray = convertStringToFloatArray(string);
+  if (typeof colorArray !== 'undefined') {
+    for (let i = 0; i < colorArray.length; i += 2)
+      vecArray.push(new WbVector2(colorArray[i], colorArray[i + 1]));
   }
 
   return vecArray;
