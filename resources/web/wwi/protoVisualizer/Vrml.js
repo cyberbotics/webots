@@ -1,9 +1,7 @@
 'use strict';
 
-import NodeFactory from './NodeFactory.js';
 import {VRML} from './constants.js';
-//import BaseNode from './BaseNode.js';
-import Node from './Node.js';
+import {Node} from './Node.js';
 
 
 class SingleValue {
@@ -316,8 +314,7 @@ export class SFNode extends SingleValue {
     if (tokenizer.peekWord() === 'USE')
       this.isUse = true;
 
-    const nodeFactory = new NodeFactory();
-    this.value = nodeFactory.createNode(tokenizer);
+    this.value = Node.createNode(tokenizer);
   }
 
   toX3d(parameterName, parentElement) {

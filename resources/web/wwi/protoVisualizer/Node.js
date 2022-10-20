@@ -4,11 +4,13 @@ import {getAnId} from '../nodes/utils/id_provider.js'
 import TemplateEngine  from './TemplateEngine.js';
 import Tokenizer from './Tokenizer.js';
 import { typeFactory, SFNode, SFVec3f} from './Vrml.js';
-import NodeFactory from './NodeFactory.js';
 import { VRML } from './constants.js';
 import { FieldModel } from './FieldModel.js';
 
 export default class Node {
+  static cProtoModels = new Map();
+  static cBaseModels = new Map();
+
   constructor(url, protoText) {
     // IMPORTANT! When adding new member variables of type Map, modify the .clone method so that it creates a copy of it
     this.id = getAnId();
@@ -105,7 +107,7 @@ export default class Node {
     }
   };
 
-  getExternProto(protoUrl) {
+  async getExternProto(protoUrl) {
     return new Promise((resolve, reject) => {
       const xmlhttp = new XMLHttpRequest();
       xmlhttp.open('GET', protoUrl, true);
@@ -117,9 +119,17 @@ export default class Node {
       xmlhttp.send();
     }).then(text => {
       console.log('downloaded ' + protoUrl + ', generating prototype');
-      const nodeFactory = new NodeFactory();
-      return nodeFactory.createPrototype(text, protoUrl);
+      return this.createPrototype(text, protoUrl);
     });
+  }
+
+  async createPrototype(protoText, protoUrl) {
+    if (!Node.cProtoModels.has(protoUrl)) {
+      const proto = new Node(protoUrl, protoText);
+      await proto.fetch();
+      console.log('adding proto model: ', protoUrl)
+      Node.cProtoModels.set(protoUrl, proto)
+    }
   }
 
   async fetch() {
@@ -129,7 +139,6 @@ export default class Node {
       await this.parseHead();
     });
   }
-
 
   clone() {
     let copy = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
@@ -200,8 +209,7 @@ export default class Node {
     // skip bracket opening the PROTO body
     tokenizer.skipToken('{');
 
-    const nodeFactory = new NodeFactory();
-    this.value = nodeFactory.createNode(tokenizer);
+    this.value = Node.createNode(tokenizer);
     console.log('STRUCT', this.value)
 
     tokenizer.skipToken('}');
@@ -306,6 +314,63 @@ export default class Node {
   clearReferences() {
     // TODO
   };
+
+  static createNode(tokenizer) {
+    let defName;
+    if (tokenizer.peekWord() === 'DEF') {
+      tokenizer.skipToken('DEF');
+      defName = tokenizer.nextWord();
+    } else if (tokenizer.peekWord() === 'USE') {
+      tokenizer.skipToken('USE');
+      const useName = tokenizer.nextWord();
+      if (!tokenizer.proto.def.has(useName))
+        throw new Error('No DEF name ' + useName + ' found in PROTO ' + tokenizer.proto.name);
+      else
+        console.log('USE reference of ' + useName + ' exists')
+
+      return tokenizer.proto.def.get(useName);
+    }
+
+    const nodeName = tokenizer.nextWord();
+    if (nodeName === 'NULL')
+      return;
+
+    //console.log('CREATE NODE ' + nodeName);
+    let node;
+    if (typeof FieldModel[nodeName] !== 'undefined') { // it's a base node
+      if (!Node.cBaseModels.has(nodeName)) {
+        // create prototype if none is available
+        const model = new Node(nodeName);
+        Node.cBaseModels.set(nodeName, model);
+      }
+
+      node = Node.cBaseModels.get(nodeName).clone();
+      //console.log('ORIGINAL', Node.cBaseModels.get(nodeName))
+      //console.log('CLONE', node)
+    } else { // it's a PROTO node
+      // note: protoModels is expected to already contain models for all PROTO we need this session since these have been
+      // downloaded when retrieving the EXTERNPROTO and a prototype for each should have been computed already
+      if (!tokenizer.proto.externProto.has(nodeName))
+        throw new Error('Node name ' + nodeName + ' is not recognized. Was it declared as EXTERNPROTO?');
+
+      const url = tokenizer.proto.externProto.get(nodeName);
+      console.log(this)
+      if (!Node.cProtoModels.has(url))
+        throw new Error('Model of PROTO ' + nodeName + ' not available. Was it declared as EXTERNPROTO?');
+
+      node = Node.cProtoModels.get(url).clone();
+    }
+
+    // console.log(node);
+    if (typeof defName !== 'undefined')
+      tokenizer.proto.def.set(defName, node);
+
+    node.configureNodeFromTokenizer(tokenizer);
+    if (node.isProto)
+      node.parseBody()
+
+    return node;
+  }
 };
 
 // TODO: move to utility?
@@ -322,5 +387,7 @@ function combinePaths(url, parentUrl) {
   // console.log('FROM >' + url + '< AND >' + parentUrl + "< === " + newUrl);
   return newUrl;
 }
+
+
 
 export { Node };
