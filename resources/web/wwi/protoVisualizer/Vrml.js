@@ -3,14 +3,12 @@
 import {VRML} from './constants.js';
 import {Node} from './Node.js';
 
-
 class SingleValue {
   #value;
   constructor(tokenizer) {
     if (typeof tokenizer !== 'undefined')
       this.setValueFromTokenizer(tokenizer);
   }
-
 
   get value() {
     return this.#value;
@@ -19,7 +17,6 @@ class SingleValue {
   set value(v) {
     this.#value = v;
   }
-
 
   toX3d(parameterName, parentElement) {
     if (typeof parentElement !== 'undefined') { // this is the case if this instance is a member of an MF*
@@ -40,10 +37,6 @@ class SingleValue {
 }
 
 export class SFBool extends SingleValue {
-  constructor(tokenizer) {
-    super(tokenizer);
-  }
-
   setValueFromTokenizer(tokenizer) {
     super.value = tokenizer.nextToken().toBool();
   }
@@ -63,10 +56,6 @@ export class SFBool extends SingleValue {
 }
 
 export class SFInt32 extends SingleValue {
-  constructor(tokenizer) {
-    super(tokenizer);
-  }
-
   setValueFromTokenizer(tokenizer) {
     super.value = tokenizer.nextToken().toInt();
   }
@@ -86,10 +75,6 @@ export class SFInt32 extends SingleValue {
 }
 
 export class SFFloat extends SingleValue {
-  constructor(tokenizer) {
-    super(tokenizer);
-  }
-
   setValueFromTokenizer(tokenizer) {
     this.value = tokenizer.nextToken().toFloat();
   }
@@ -109,10 +94,6 @@ export class SFFloat extends SingleValue {
 }
 
 export class SFString extends SingleValue {
-  constructor(tokenizer) {
-    super(tokenizer);
-  }
-
   setValueFromTokenizer(tokenizer) {
     this.value = tokenizer.nextWord();
   }
@@ -132,10 +113,6 @@ export class SFString extends SingleValue {
 }
 
 export class SFVec2f extends SingleValue {
-  constructor(tokenizer) {
-    super(tokenizer);
-  }
-
   setValueFromTokenizer(tokenizer) {
     this.value = {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat()};
   }
@@ -175,10 +152,6 @@ export class SFVec2f extends SingleValue {
 }
 
 export class SFVec3f extends SingleValue {
-  constructor(tokenizer) {
-    super(tokenizer);
-  }
-
   setValueFromTokenizer(tokenizer) {
     this.value = {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), z: tokenizer.nextToken().toFloat()};
   }
@@ -218,10 +191,6 @@ export class SFVec3f extends SingleValue {
 }
 
 export class SFColor extends SingleValue {
-  constructor(tokenizer) {
-    super(tokenizer);
-  }
-
   setValueFromTokenizer(tokenizer) {
     this.value = {r: tokenizer.nextToken().toFloat(), g: tokenizer.nextToken().toFloat(), b: tokenizer.nextToken().toFloat()};
   }
@@ -261,13 +230,13 @@ export class SFColor extends SingleValue {
 }
 
 export class SFRotation extends SingleValue {
-  constructor(tokenizer) {
-    super(tokenizer);
-  }
-
   setValueFromTokenizer(tokenizer) {
-    this.value = {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(),
-                  z: tokenizer.nextToken().toFloat(), a: tokenizer.nextToken().toFloat()};
+    this.value = {
+      x: tokenizer.nextToken().toFloat(),
+      y: tokenizer.nextToken().toFloat(),
+      z: tokenizer.nextToken().toFloat(),
+      a: tokenizer.nextToken().toFloat()
+    };
   }
 
   toX3d(parameterName, parentElement) {
@@ -306,10 +275,6 @@ export class SFRotation extends SingleValue {
 }
 
 export class SFNode extends SingleValue {
-  constructor(tokenizer) {
-    super(tokenizer);
-  }
-
   setValueFromTokenizer(tokenizer) {
     if (tokenizer.peekWord() === 'USE')
       this.isUse = true;
@@ -346,7 +311,7 @@ export class SFNode extends SingleValue {
   }
 
   equals(other) {
-    throw new Error('TODO: equals for SFNode')
+    throw new Error('TODO: equals for SFNode');
   }
 
   type() {
@@ -359,10 +324,9 @@ export class SFNode extends SingleValue {
     if (typeof this.value !== 'undefined')
       copy.value = this.value.clone();
 
-    return copy
+    return copy;
   }
 }
-
 
 class MultipleValue {
   #value = [];
@@ -387,17 +351,17 @@ class MultipleValue {
   }
 
   toX3d(parameterName, parentElement) {
-    let x3d = ''
-    this.#value.forEach((item) => x3d += item.toX3d() + ' ');
+    let x3d = '';
+    this.#value.forEach((item) => { x3d += item.toX3d() + ' '; });
     parentElement.setAttribute(parameterName, x3d.slice(0, -1));
   }
 
   toJS() {
-    let js = '['
-    this.#value.forEach((item) => js += item.toJS() + ', ');
+    let js = '[';
+    this.#value.forEach((item) => { js += item.toJS() + ', '; });
     if (this.#value.length > 0)
-      js == js.slice(0, -2)
-    return  js + ']';
+      js = js.slice(0, -2);
+    return js + ']';
   }
 
   equals(other) {
@@ -406,10 +370,6 @@ class MultipleValue {
 }
 
 export class MFBool extends MultipleValue {
-  constructor(tokenizer) {
-    super(tokenizer);
-  }
-
   setValueFromTokenizer(tokenizer) {
     if (tokenizer.peekWord() === '[') {
       tokenizer.skipToken('[');
@@ -438,10 +398,6 @@ export class MFBool extends MultipleValue {
 }
 
 export class MFInt32 extends MultipleValue {
-  constructor(tokenizer) {
-    super(tokenizer);
-  }
-
   setValueFromTokenizer(tokenizer) {
     if (tokenizer.peekWord() === '[') {
       tokenizer.skipToken('[');
@@ -470,10 +426,6 @@ export class MFInt32 extends MultipleValue {
 }
 
 export class MFFloat extends MultipleValue {
-  constructor(tokenizer) {
-    super(tokenizer);
-  }
-
   setValueFromTokenizer(tokenizer) {
     if (tokenizer.peekWord() === '[') {
       tokenizer.skipToken('[');
@@ -502,10 +454,6 @@ export class MFFloat extends MultipleValue {
 }
 
 export class MFString extends MultipleValue {
-  constructor(tokenizer) {
-    super(tokenizer);
-  }
-
   setValueFromTokenizer(tokenizer) {
     if (tokenizer.peekWord() === '[') {
       tokenizer.skipToken('[');
@@ -534,10 +482,6 @@ export class MFString extends MultipleValue {
 }
 
 export class MFVec2f extends MultipleValue {
-  constructor(tokenizer) {
-    super(tokenizer);
-  }
-
   setValueFromTokenizer(tokenizer) {
     if (tokenizer.peekWord() === '[') {
       tokenizer.skipToken('[');
@@ -566,10 +510,6 @@ export class MFVec2f extends MultipleValue {
 }
 
 export class MFVec3f extends MultipleValue {
-  constructor(tokenizer) {
-    super(tokenizer);
-  }
-
   setValueFromTokenizer(tokenizer) {
     if (tokenizer.peekWord() === '[') {
       tokenizer.skipToken('[');
@@ -598,10 +538,6 @@ export class MFVec3f extends MultipleValue {
 }
 
 export class MFColor extends MultipleValue {
-  constructor(tokenizer) {
-    super(tokenizer);
-  }
-
   setValueFromTokenizer(tokenizer) {
     if (tokenizer.peekWord() === '[') {
       tokenizer.skipToken('[');
@@ -630,10 +566,6 @@ export class MFColor extends MultipleValue {
 }
 
 export class MFRotation extends MultipleValue {
-  constructor(tokenizer) {
-    super(tokenizer);
-  }
-
   setValueFromTokenizer(tokenizer) {
     if (tokenizer.peekWord() === '[') {
       tokenizer.skipToken('[');
@@ -662,10 +594,6 @@ export class MFRotation extends MultipleValue {
 }
 
 export class MFNode extends MultipleValue {
-  constructor(tokenizer) {
-    super(tokenizer);
-  }
-
   get value() {
     return super.value;
   }
@@ -680,8 +608,7 @@ export class MFNode extends MultipleValue {
         this.insert(sf);
       } else
         this.insert(v);
-    }
-    else
+    } else
       super.value = v;
   }
 
@@ -702,11 +629,11 @@ export class MFNode extends MultipleValue {
   }
 
   toJS() {
-    let js = '['
-    this.value.forEach((item) => js += item.value.toJS() + ', ');
+    let js = '[';
+    this.value.forEach((item) => { js += item.value.toJS() + ', '; });
     if (this.value.length > 0)
-      js == js.slice(0, -2)
-    return  js + ']';
+      js = js.slice(0, -2);
+    return js + ']';
   }
 
   equals(other) {
@@ -725,7 +652,7 @@ export class MFNode extends MultipleValue {
 }
 
 export function typeFactory(type, tokenizer) {
-  switch(type) {
+  switch (type) {
     case VRML.SFBool:
       return new SFBool(tokenizer);
     case VRML.SFInt32:

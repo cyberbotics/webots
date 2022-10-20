@@ -1,11 +1,12 @@
 'use strict';
 
-import {getAnId} from '../nodes/utils/id_provider.js'
-import TemplateEngine  from './TemplateEngine.js';
+import {getAnId} from '../nodes/utils/id_provider.js';
+import TemplateEngine from './TemplateEngine.js';
 import Tokenizer from './Tokenizer.js';
-import { typeFactory, SFNode, SFVec3f} from './Vrml.js';
+import { typeFactory } from './Vrml.js';
 import { VRML } from './constants.js';
 import { FieldModel } from './FieldModel.js';
+import { Parameter } from './Parameter.js';
 
 export default class Node {
   static cProtoModels = new Map();
@@ -20,13 +21,13 @@ export default class Node {
     this.isProto = this.url.toLowerCase().endsWith('.proto');
 
     this.name = this.isProto ? this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '') : url;
-    console.log('CREATING ' + (this.isProto ? 'PROTO ' : 'BASENODE ') + this.name)
+    console.log('CREATING ' + (this.isProto ? 'PROTO ' : 'BASENODE ') + this.name);
 
     this.parameters = new Map();
     this.externProto = new Map();
     this.def = new Map();
 
-    this.xml = document.implementation.createDocument('', '', null)
+    this.xml = document.implementation.createDocument('', '', null);
     // example: to generate: <Shape castShadows="true"><PBRAppearance baseColor="1 0 0"/></Shape>
     /*
     const xml = document.implementation.createDocument('', '', null)
@@ -39,7 +40,7 @@ export default class Node {
     console.log(new XMLSerializer().serializeToString(xml))
     */
 
-    //clone tester
+    // clone tester
     /*
     const a = new Node('Box');
     const b = a.clone();
@@ -50,8 +51,13 @@ export default class Node {
 
     if (!this.isProto) {
       // create parameters from the pre-defined FieldModel
-      for (const parameterName of Object.keys(FieldModel[this.name])) {
-        const parameter = typeFactory(FieldModel[this.name][parameterName]['type']);
+      const fields = FieldModel[this.name];
+      for (const parameterName of Object.keys(fields)) {
+        const defaultValue = typeFactory(FieldModel[this.name][parameterName]['type']);
+        defaultValue.value = FieldModel[this.name][parameterName]['defaultValue'];
+        const value = defaultValue.clone();
+        const parameter = new Parameter(this, parameterName, defaultValue, value, false);
+        // const parameter = typeFactory(FieldModel[this.name][parameterName]['type']);
         this.parameters.set(parameterName, parameter);
       }
 
@@ -66,11 +72,11 @@ export default class Node {
     }
 
     // change all relative paths to remote ones
-    const re = /\"(?:[^\"]*)\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3)\"/g;
+    const re = /"(?:[^"]*)\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3)"/g;
     let result;
-    while((result = re.exec(protoText)) !== null) {
+    while ((result = re.exec(protoText)) !== null) {
       // console.log(result)
-      protoText = protoText.replace(result[0], '\"' + combinePaths(result[0].slice(1, -1), this.url) + '\"');
+      protoText = protoText.replace(result[0], '"' + combinePaths(result[0].slice(1, -1), this.url) + '"');
     }
 
     // raw proto body text must be kept in case the template needs to be regenerated
@@ -80,8 +86,8 @@ export default class Node {
       this.protoBody = this.rawBody; // body already VRML compliant
 
     // head only needs to be parsed once and persists through regenerations
-    const indexBeginInterface = protoText.search(/(^\s*PROTO\s+[a-zA-Z0-9\-\_\+]+\s*\[\s*$)/gm);
-    this.rawInterface= protoText.substring(indexBeginInterface, indexBeginBody);
+    const indexBeginInterface = protoText.search(/(^\s*PROTO\s+[a-zA-Z0-9\-_+]+\s*\[\s*$)/gm);
+    this.rawInterface = protoText.substring(indexBeginInterface, indexBeginBody);
 
     // defines tags and EXTERNPROTO, persists through regenerations
     this.rawHeader = protoText.substring(0, indexBeginInterface);
@@ -99,7 +105,7 @@ export default class Node {
         if (address.startsWith('webots://'))
           address = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022b/' + address.substring(9);
         else
-          address = combinePaths(address, this.url)
+          address = combinePaths(address, this.url);
 
         this.externProto.set(protoName, address);
         this.promises.push(this.getExternProto(address));
@@ -127,15 +133,15 @@ export default class Node {
     if (!Node.cProtoModels.has(protoUrl)) {
       const proto = new Node(protoUrl, protoText);
       await proto.fetch();
-      console.log('adding proto model: ', protoUrl)
-      Node.cProtoModels.set(protoUrl, proto)
+      console.log('adding proto model: ', protoUrl);
+      Node.cProtoModels.set(protoUrl, proto);
     }
   }
 
   async fetch() {
-    return Promise.all(this.promises).then(async () => {
+    return Promise.all(this.promises).then(async() => {
       // parse header and map each parameter entry
-      console.log(this.name + ': all EXTERNPROTO promises have been resolved')
+      console.log(this.name + ': all EXTERNPROTO promises have been resolved');
       await this.parseHead();
     });
   }
@@ -145,10 +151,13 @@ export default class Node {
     copy.id = getAnId();
 
     copy.parameters = new Map();
-    for (const [parameterName, parameterValue] of this.parameters) {
-      if (typeof parameterValue !== 'undefined') {
-        // console.log('cloning ' + parameterName)
-        copy.parameters.set(parameterName, parameterValue.clone());
+    for (const [parameterName, parameter] of this.parameters) {
+      if (typeof parameter !== 'undefined') {
+        console.log('cloning parameter ' + parameterName);
+        const parameterCopy = parameter.clone();
+        console.log('ORIG', parameter);
+        console.log('COPY', parameterCopy);
+        copy.parameters.set(parameterName, parameterCopy);
       }
     }
 
@@ -158,12 +167,9 @@ export default class Node {
   }
 
   async parseHead() {
-    console.log('PARSE HEAD OF ' + this.name)
+    console.log('PARSE HEAD OF ' + this.name);
     const headTokenizer = new Tokenizer(this.rawInterface, this);
     headTokenizer.tokenize();
-
-    const tokens = headTokenizer.tokens();
-    //console.log('Header Tokens: \n', tokens);
 
     // build parameter list
     headTokenizer.skipToken('PROTO');
@@ -174,7 +180,7 @@ export default class Node {
       let nextToken = headTokenizer.peekToken();
 
       if (token.isKeyword() && nextToken.isPunctuation()) {
-        if (nextToken.word() === '{'){
+        if (nextToken.word() === '{') {
           // TODO: field restrictions are not supported yet, consume the tokens
           headTokenizer.consumeTokensByType(VRML.SFNode);
           nextToken = headTokenizer.peekToken(); // update upcoming token reference after consumption
@@ -182,21 +188,22 @@ export default class Node {
       }
 
       if (token.isKeyword() && nextToken.isIdentifier()) {
-        const parameterName = nextToken.word(); // actual name used in the header (i.e value after an IS)
+        const parameterName = nextToken.word();
         const parameterType = token.fieldTypeFromVrml();
         const isRegenerator = this.isTemplate ? this.isTemplateRegenerator(parameterName) : false;
         headTokenizer.nextToken(); // consume the parameter name token
 
         console.log('INTERFACE PARAMETER ' + parameterName + ', TYPE: ' + parameterType + ', VALUE:');
-        const parameter = typeFactory(parameterType, headTokenizer);
-        // parameter.setValueFromTokenizer(headTokenizer);
+        const defaultValue = typeFactory(parameterType, headTokenizer);
+        const value = defaultValue.clone();
+        const parameter = new Parameter(this, parameterName, defaultValue, value, isRegenerator);
         this.parameters.set(parameterName, parameter);
       }
     }
   };
 
   parseBody() {
-    console.log('PARSE BODY OF ' + this.name)
+    console.log('PARSE BODY OF ' + this.name);
     this.clearReferences();
     // note: if not a template, the body is already pure VRML
     if (this.isTemplate)
@@ -210,34 +217,34 @@ export default class Node {
     tokenizer.skipToken('{');
 
     this.value = Node.createNode(tokenizer);
-    console.log('STRUCT', this.value)
+    console.log('STRUCT', this.value);
 
     tokenizer.skipToken('}');
   };
 
   configureNodeFromTokenizer(tokenizer) {
-    console.log('configure ' + (this.isProto ? 'proto ' : 'base node ') + this.name + ' from tokenizer')
+    console.log('configure ' + (this.isProto ? 'proto ' : 'base node ') + this.name + ' from tokenizer');
     tokenizer.skipToken('{');
 
     while (tokenizer.peekWord() !== '}') {
       const fieldName = tokenizer.nextWord();
       for (const [parameterName, parameter] of this.parameters) {
+        console.log(parameter);
         if (fieldName === parameterName) {
           console.log('configuring ' + fieldName + ' of ' + this.name + ', node id: ', this.id);
 
           if (tokenizer.peekWord() === 'IS') {
             tokenizer.skipToken('IS');
             const alias = tokenizer.nextWord();
-            console.log('alias:', alias)
+            console.log('alias:', alias);
             if (!tokenizer.proto.parameters.has(alias))
               throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
 
             parameter.value = tokenizer.proto.parameters.get(alias).value;
           } else {
-            parameter.setValueFromTokenizer(tokenizer);
-            console.log('> value of ' + parameterName + ' set to ', parameter.value)
+            parameter.value.setValueFromTokenizer(tokenizer);
+            console.log('> value of ' + parameterName + ' set to ', parameter.value);
           }
-
         }
       }
     }
@@ -246,7 +253,7 @@ export default class Node {
   }
 
   toX3d(isUse, parameterReference) {
-    console.log('ENCODE NODE ' + this.name + ', isUse? ', isUse, ' parameterReference ?', parameterReference)
+    console.log('ENCODE NODE ' + this.name + ', isUse? ', isUse, ' parameterReference ?', parameterReference);
     // if this node has a value (i.e. this.value is defined) then it means we have not yet reached the bottom as only
     // base-nodes should write x3d. If it has a value, then it means the current node is a derived PROTO.
     if (typeof this.value !== 'undefined')
@@ -254,7 +261,7 @@ export default class Node {
 
     const nodeElement = this.xml.createElement(this.name);
     if (isUse) {
-      console.log('is USE! Will reference id: ' + this.id)
+      console.log('is USE! Will reference id: ' + this.id);
       nodeElement.setAttribute('USE', this.id);
       // TODO: needed here as well?
       if (['Shape', 'Group', 'Transform', 'Solid', 'Robot'].includes(this.name)) {
@@ -268,11 +275,14 @@ export default class Node {
       nodeElement.setAttribute('id', this.id);
       // console.log('ENCODE ' + this.name)
       for (const [parameterName, parameter] of this.parameters) {
-        console.log('  ENCODE ' +  parameterName + ' ? ', typeof parameter.value !== 'undefined');
+        console.log('  ENCODE ' + parameterName + ' ? ', typeof parameter.value !== 'undefined');
         if (typeof parameter.value === 'undefined')
+          throw new Error('All parameters should be defined, ' + parameterName + ' is not.');
+
+        if (parameter.isDefault())
           continue;
 
-        parameter.toX3d(parameterName, nodeElement);
+        parameter.value.toX3d(parameterName, nodeElement);
       }
     }
 
@@ -285,14 +295,15 @@ export default class Node {
   toJS(isRoot = false) {
     let jsFields = '';
     for (const [parameterName, parameter] of this.parameters) {
-      console.log('JS-encoding of ' + parameterName)
-      jsFields += `${parameterName}: {value: ${parameter.toJS()}, defaultValue: ${parameter.toJS()}}, `; // TODO: distinguish value/default value
+      console.log('JS-encoding of ' + parameterName);
+      jsFields += `${parameterName}: {value: ${parameter.toJS()},
+        defaultValue: ${parameter.toJS()}}, `; // TODO: distinguish value/default value
     }
 
     if (isRoot)
       return jsFields.slice(0, -2);
 
-    return `{node_name: '${this.name}', fields: {${jsFields.slice(0, -2)}}}`
+    return `{node_name: '${this.name}', fields: {${jsFields.slice(0, -2)}}}`;
   }
 
   // TODO: can be moved to parameter?
@@ -304,7 +315,7 @@ export default class Node {
     const fieldsEncoding = this.toJS(true); // make current proto parameters in a format compliant to template engine
     console.log(fieldsEncoding);
 
-    if(typeof this.templateEngine === 'undefined')
+    if (typeof this.templateEngine === 'undefined')
       throw new Error('Regeneration was called but the template engine is not defined (i.e this.isTemplate is false)');
 
     this.protoBody = this.templateEngine.generateVrml(fieldsEncoding, this.rawBody);
@@ -326,7 +337,7 @@ export default class Node {
       if (!tokenizer.proto.def.has(useName))
         throw new Error('No DEF name ' + useName + ' found in PROTO ' + tokenizer.proto.name);
       else
-        console.log('USE reference of ' + useName + ' exists')
+        console.log('USE reference of ' + useName + ' exists');
 
       return tokenizer.proto.def.get(useName);
     }
@@ -335,7 +346,7 @@ export default class Node {
     if (nodeName === 'NULL')
       return;
 
-    //console.log('CREATE NODE ' + nodeName);
+    // console.log('CREATE NODE ' + nodeName);
     let node;
     if (typeof FieldModel[nodeName] !== 'undefined') { // it's a base node
       if (!Node.cBaseModels.has(nodeName)) {
@@ -345,8 +356,8 @@ export default class Node {
       }
 
       node = Node.cBaseModels.get(nodeName).clone();
-      //console.log('ORIGINAL', Node.cBaseModels.get(nodeName))
-      //console.log('CLONE', node)
+      // console.log('ORIGINAL', Node.cBaseModels.get(nodeName))
+      // console.log('CLONE', node)
     } else { // it's a PROTO node
       // note: protoModels is expected to already contain models for all PROTO we need this session since these have been
       // downloaded when retrieving the EXTERNPROTO and a prototype for each should have been computed already
@@ -354,7 +365,7 @@ export default class Node {
         throw new Error('Node name ' + nodeName + ' is not recognized. Was it declared as EXTERNPROTO?');
 
       const url = tokenizer.proto.externProto.get(nodeName);
-      console.log(this)
+      console.log(this);
       if (!Node.cProtoModels.has(url))
         throw new Error('Model of PROTO ' + nodeName + ' not available. Was it declared as EXTERNPROTO?');
 
@@ -367,7 +378,7 @@ export default class Node {
 
     node.configureNodeFromTokenizer(tokenizer);
     if (node.isProto)
-      node.parseBody()
+      node.parseBody();
 
     return node;
   }
@@ -376,7 +387,7 @@ export default class Node {
 // TODO: move to utility?
 function combinePaths(url, parentUrl) {
   if (url.startsWith('http://') || url.startsWith('https://'))
-    return url;  // url is already resolved
+    return url; // url is already resolved
 
   let newUrl;
   if (parentUrl.startsWith('http://' || url.startsWith('https://')))
@@ -387,7 +398,5 @@ function combinePaths(url, parentUrl) {
   // console.log('FROM >' + url + '< AND >' + parentUrl + "< === " + newUrl);
   return newUrl;
 }
-
-
 
 export { Node };

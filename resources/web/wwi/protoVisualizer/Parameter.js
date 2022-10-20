@@ -1,19 +1,17 @@
 'use strict';
 
-import {getAParameterId} from '../nodes/utils/id_provider.js'
-import {typeFactory, SFNode, SFBool} from './Vrml.js';
-
+import {getAParameterId} from '../nodes/utils/id_provider.js';
 
 export default class Parameter {
   #value;
   #defaultValue;
   #id = getAParameterId();
-  constructor(proto, name, isTemplateRegenerator, defaultValue, value) {
-    this.proto = proto; // proto this parameter belongs to
+  constructor(node, name, defaultValue, value, isTemplateRegenerator) {
+    this.node = node; // node this parameter belongs to
     this.name = name;
-    this.isTemplateRegenerator = isTemplateRegenerator;
-    this.value = value;
     this.defaultValue = defaultValue;
+    this.value = value;
+    this.isTemplateRegenerator = isTemplateRegenerator;
   }
 
   get value() {
@@ -25,11 +23,11 @@ export default class Parameter {
   }
 
   get defaultValue() {
-    return this.#value;
+    return this.#defaultValue;
   }
 
   set defaultValue(v) {
-    this.#value = v;
+    this.#defaultValue = v;
   }
 
   get id() {
@@ -48,11 +46,13 @@ export default class Parameter {
   }
 
   isDefault() {
-    throw new Error('TODO: implement isDefault');
+    return this.value.equals(this.defaultValue);
   }
 
   clone() {
-    throw new Error('Implement clone Parameter')
+    const copy = new Parameter(this.node, this.name, this.defaultValue.clone(), this.defaultValue.clone(),
+      this.isTemplateRegenerator);
+    return copy;
   }
 }
 

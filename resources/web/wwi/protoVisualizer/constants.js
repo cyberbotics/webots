@@ -20,4 +20,3 @@ export const VRML = {
   MFVec3f: 16,
   SFVec3f: 17
 };
-

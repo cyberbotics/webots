@@ -121,7 +121,8 @@ export default class Token {
 
   #isValidIdentifierChar(c, pos) {
     const v = c.charCodeAt();
-    if (v <= 0x20 || v === 0x22 || v === 0x23 || v === 0x27 || v === 0x2c || v === 0x2e || v === 0x5b || v === 0x5c || v === 0x5d || v === 0x7b || v === 0x7d)
+    if (v <= 0x20 || v === 0x22 || v === 0x23 || v === 0x27 || v === 0x2c || v === 0x2e || v === 0x5b || v === 0x5c ||
+        v === 0x5d || v === 0x7b || v === 0x7d)
       return false;
 
     if (pos === 0 && v >= 0x30 && v <= 0x39)

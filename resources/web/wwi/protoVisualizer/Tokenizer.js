@@ -24,14 +24,14 @@ export default class Tokenizer {
     this.#tokenColumn = -1;
     this.#atEndPos = false;
     if (typeof proto === 'undefined')
-      throw new Error('When tokenizing a string, a PROTO reference is required')
+      throw new Error('When tokenizing a string, a PROTO reference is required');
     this.#proto = proto; // proto reference from which we are tokenizing
     // control position in token vector
     this.#index = 0;
   }
 
   get proto() {
-    return this.#proto
+    return this.#proto;
   }
 
   tokenize() {

@@ -1,31 +1,25 @@
 #VRML_SIM R2023a utf8
 
 PROTO TestProto [
-
+  field SFColor cc 0 1 0
 ]
 {
-  DEF ASD Robot {
+  Group {
     children [
       DEF SHAPE Shape {
         appearance PBRAppearance {
-          baseColor 1 0 0
+          baseColor IS cc
         }
         geometry Box {
           size 0.1 0.1 0.1
         }
       }
+      Transform {
+        translation 0 0 0.5
+        children [
+          USE SHAPE
+        ]
+      }
     ]
-    boundingObject Group {
-      children [
-        Transform {
-          translation 0 0 0.2
-          children [
-            Box {
-              size 0.2 0.2 0.2
-            }
-          ]
-        }
-      ]
-    }
   }
 }
