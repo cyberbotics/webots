@@ -24,6 +24,13 @@ export default class WbLight extends WbBaseNode {
     return this.#color;
   }
 
+  set color(newColor) {
+    this.#color = newColor;
+
+    if (this.wrenObjectsCreatedCalled)
+      this.#updateColor();
+  }
+
   get ambientIntensity() {
     return this.#ambientIntensity;
   }
@@ -34,6 +41,13 @@ export default class WbLight extends WbBaseNode {
 
   get on() {
     return this.#on;
+  }
+
+  set on(newOn) {
+    this.#on = newOn;
+
+    if (this.wrenObjectsCreatedCalled)
+      this.#updateOn();
   }
 
   get castShadows() {
@@ -79,20 +93,18 @@ export default class WbLight extends WbBaseNode {
     WbLight.lights.push(this);
   }
 
-  updateColor() {
+  #updateColor() {
     const newColor = resetColorIfInvalid(this.#color);
     if (newColor !== false) {
       this.#color = newColor;
       return;
     }
 
-    if (this.wrenObjectsCreatedCalled)
-      this._applyLightColorToWren();
+    this._applyLightColorToWren();
   }
 
-  updateOn() {
-    if (this.wrenObjectsCreatedCalled)
-      this._applyLightVisibilityToWren();
+  #updateOn() {
+    this._applyLightVisibilityToWren();
   }
 
   // Private functions

@@ -293,16 +293,13 @@ export default class X3dScene {
         if (object instanceof WbMesh || object instanceof WbIndexedFaceSet)
           object.ccw = pose[key].toLowerCase() === 'true';
       } else if (key === 'color') {
-        if (object instanceof WbLight) {
+        if (object instanceof WbLight)
           object.color = convertStringToVec3(pose[key]);
-          object.updateColor();
-        } else if (object instanceof WbColor)
+        else if (object instanceof WbColor)
           object.color = convertStringToVec3Array(pose[key]);
       } else if (key === 'on') {
-        if (object instanceof WbLight) {
+        if (object instanceof WbLight)
           object.on = pose[key].toLowerCase() === 'true';
-          object.updateOn();
-        }
       } else if (key === 'name') {
         if (object instanceof WbMesh)
           object.name = pose[key];
