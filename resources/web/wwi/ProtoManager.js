@@ -23,7 +23,7 @@ export default class ProtoManager {
       xmlhttp.send();
     }).then(async text => {
       console.log('Load PROTO from URL: ' + url)
-      this.proto = new ProtoNode(text, url);
+      this.proto = new ProtoNode(url, text);
       await this.proto.fetch();
       this.proto.parseBody();
       this.loadX3d();

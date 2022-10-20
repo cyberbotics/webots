@@ -1,7 +1,7 @@
 'use strict';
 
 import {FieldModel} from './FieldModel.js';
-import {BaseNode}from './BaseNode.js';
+//import {BaseNode}from './BaseNode.js';
 import {ProtoNode}from './ProtoNode.js';
 
 
@@ -38,12 +38,12 @@ export default class NodeFactory {
     if (nodeName === 'NULL')
       return;
 
-    console.log('CREATE NODE ' + nodeName);
+    //console.log('CREATE NODE ' + nodeName);
     let node;
     if (typeof FieldModel[nodeName] !== 'undefined') { // it's a base node
       if (!gBaseModels.has(nodeName)) {
         // create prototype if none is available
-        const model = new BaseNode(nodeName);
+        const model = new ProtoNode(nodeName);
         gBaseModels.set(nodeName, model);
       }
 
@@ -69,7 +69,7 @@ export default class NodeFactory {
       tokenizer.proto.def.set(defName, node);
 
     node.configureNodeFromTokenizer(tokenizer);
-    if (node instanceof ProtoNode)
+    if (node.isProto)
       node.parseBody()
 
     return node;
@@ -77,7 +77,7 @@ export default class NodeFactory {
 
   async createPrototype(protoText, protoUrl) {
     if (!gProtoModels.has(protoUrl)) {
-      const proto = new ProtoNode(protoText, protoUrl);
+      const proto = new ProtoNode(protoUrl, protoText);
       await proto.fetch();
       console.log('adding proto model: ', protoUrl)
       gProtoModels.set(protoUrl, proto)

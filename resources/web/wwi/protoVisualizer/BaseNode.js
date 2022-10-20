@@ -68,6 +68,7 @@ export default class BaseNode {
 
   toX3d(isUse, parameterReference) {
     const nodeElement = this.xml.createElement(this.name);
+
     if (isUse) {
       console.log('is USE! Will reference ' + this.id)
       nodeElement.setAttribute('USE', this.id);

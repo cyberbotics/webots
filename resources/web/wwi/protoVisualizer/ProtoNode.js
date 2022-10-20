@@ -9,12 +9,17 @@ import { VRML } from './constants.js';
 import { FieldModel } from './FieldModel.js';
 
 export default class ProtoNode {
-  constructor(protoText, protoUrl) {
+  constructor(url, protoText) {
     // IMPORTANT! When adding new member variables of type Map, modify the .clone method so that it creates a copy of it
     this.id = getAnId();
-    this.url = protoUrl;
-    this.name = this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '')
-    console.log('CREATING PROTO ' + this.name)
+    this.value = undefined; // the value of a Node is itself (BaseNode) or its base-type (PROTO)
+
+    this.url = url;
+    this.isProto = this.url.toLowerCase().endsWith('.proto');
+
+    this.name = this.isProto ? this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '') : url;
+    console.log('CREATING ' + (this.isProto ? 'PROTO ' : 'BASENODE ') + this.name)
+
     this.parameters = new Map();
     this.externProto = new Map();
     this.def = new Map();
@@ -34,16 +39,24 @@ export default class ProtoNode {
 
     //clone tester
     /*
-    const a = new BaseNode('Box');
+    const a = new ProtoNode('Box');
     const b = a.clone();
     a.test = [3, 2, 1];
     console.log(a, b)
     throw new Error('stop')
     */
 
-    // the value of a PROTO is its base-type
-    this.value = undefined;
+    if (!this.isProto) {
+      // create parameters from the pre-defined FieldModel
+      for (const parameterName of Object.keys(FieldModel[this.name])) {
+        const parameter = typeFactory(FieldModel[this.name][parameterName]['type']);
+        this.parameters.set(parameterName, parameter);
+      }
 
+      return;
+    }
+
+    // for PROTO only
     this.isTemplate = protoText.search('template language: javascript') !== -1;
     if (this.isTemplate) {
       console.log('PROTO is a template!');
@@ -194,9 +207,8 @@ export default class ProtoNode {
     tokenizer.skipToken('}');
   };
 
-
   configureNodeFromTokenizer(tokenizer) {
-    console.log('configure proto ' + this.name + ' from tokenizer')
+    console.log('configure ' + (this.isProto ? 'proto ' : 'base node ') + this.name + ' from tokenizer')
     tokenizer.skipToken('{');
 
     while (tokenizer.peekWord() !== '}') {
@@ -214,14 +226,8 @@ export default class ProtoNode {
 
             parameter.value = tokenizer.proto.parameters.get(alias).value;
           } else {
-            //if (parameter instanceof SFNode) {
-            //  const nodeFactory = new NodeFactory();
-            //  const node = nodeFactory.createNode(tokenizer);
-            //  parameter.value = node;
-            //} else
-              parameter.setValueFromTokenizer(tokenizer);
-
-            // console.log('> value set to ', parameter.value)
+            parameter.setValueFromTokenizer(tokenizer);
+            console.log('> value of ' + parameterName + ' set to ', parameter.value)
           }
 
         }
@@ -231,15 +237,47 @@ export default class ProtoNode {
     tokenizer.skipToken('}');
   }
 
-  toX3d() {
-    if (this.value instanceof ProtoNode) // if derived proto
+  toX3d(isUse, parameterReference) {
+    console.log('ENCODE NODE ' + this.name + ', isUse? ', isUse, ' parameterReference ?', parameterReference)
+    // if this node has a value (i.e. this.value is defined) then it means we have not yet reached the bottom as only
+    // base-nodes should write x3d. If it has a value, then it means the current node is a derived PROTO.
+    if (typeof this.value !== 'undefined')
       return this.value.toX3d();
 
-    const nodeElement = this.xml.createElement(this.value.name);
+    const nodeElement = this.xml.createElement(this.name);
+    if (isUse) {
+      console.log('is USE! Will reference id: ' + this.id)
+      nodeElement.setAttribute('USE', this.id);
+      // TODO: needed here as well?
+      if (['Shape', 'Group', 'Transform', 'Solid', 'Robot'].includes(this.name)) {
+        if (parameterReference === 'boundingObject')
+          nodeElement.setAttribute('role', 'boundingObject');
+      } else if (['BallJointParameters', 'JointParameters', 'HingeJointParameters'].includes(this.name))
+        nodeElement.setAttribute('role', parameterReference); // identifies which jointParameter slot the node belongs to
+      else if (['Brake', 'PositionSensor', 'Motor'].includes(this.name))
+        nodeElement.setAttribute('role', parameterReference); // identifies which device slot the node belongs to
+    } else {
+      nodeElement.setAttribute('id', this.id);
+      // console.log('ENCODE ' + this.name)
+      for (const [parameterName, parameter] of this.parameters) {
+        console.log('  ENCODE ' +  parameterName + ' ? ', typeof parameter.value !== 'undefined');
+        if (typeof parameter.value === 'undefined')
+          continue;
+
+        parameter.toX3d(parameterName, nodeElement);
+      }
+    }
+
+    this.xml.appendChild(nodeElement);
+    console.log('RESULT:', new XMLSerializer().serializeToString(this.xml));
+
+    return nodeElement;
+
+    /*
     nodeElement.setAttribute('id', this.id);
-    console.log('ENCODE ' + this.value.name)
+    console.log('PENCODE ' + this.value.name)
     for(const [parameterName, parameter] of this.value.parameters) {
-      console.log('  ENCODE ' +  parameterName + ' ? ', typeof parameter.value !== 'undefined', parameter.value);
+      console.log('  PENCODE ' +  parameterName + ' ? ', typeof parameter.value !== 'undefined', parameter.value);
       if (typeof parameter.value === 'undefined')
         continue;
 
@@ -248,9 +286,10 @@ export default class ProtoNode {
 
     // console.log(nodeElement)
     this.xml.appendChild(nodeElement);
-    console.log('RESULT:', new XMLSerializer().serializeToString(this.xml));
+    console.log('PRESULT:', new XMLSerializer().serializeToString(this.xml));
 
     return nodeElement;
+    */
   }
 
   toJS(isRoot = false) {

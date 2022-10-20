@@ -2,7 +2,7 @@
 
 import NodeFactory from './NodeFactory.js';
 import {VRML} from './constants.js';
-import BaseNode from './BaseNode.js';
+//import BaseNode from './BaseNode.js';
 import ProtoNode from './ProtoNode.js';
 
 
@@ -313,7 +313,6 @@ export class SFNode extends SingleValue {
   }
 
   setValueFromTokenizer(tokenizer) {
-    console.log('>>>>>>', tokenizer.peekWord())
     if (tokenizer.peekWord() === 'USE')
       this.isUse = true;
 
@@ -676,7 +675,7 @@ export class MFNode extends MultipleValue {
 
   set value(v) {
     if (!Array.isArray(v)) {
-      if (v instanceof BaseNode || v instanceof ProtoNode) {
+      if (v instanceof ProtoNode) {
         // TODO: can we avoid doing this here and ensure it's sent as SFNode already?
         // TODO: still needed?
         const sf = new SFNode();
