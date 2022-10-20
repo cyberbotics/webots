@@ -328,12 +328,15 @@ export class SFNode extends SingleValue {
     const nodeX3d = this.value.toX3d(this.isUse, parameterName);
 
     // handle exceptions
-    if (this.value.name === 'ImageTexture') {
+    if (this.value.name === 'ImageTexture')
       nodeX3d.setAttribute('role', parameterName.slice(0, -3)); // TODO: rename on the JS side so it matches the field name?
-    } else if (['Shape', 'Group', 'Transform', 'Solid', 'Robot'].includes(this.value.name)) {
+    else if (['Shape', 'Group', 'Transform', 'Solid', 'Robot'].includes(this.value.name)) {
       if (parameterName === 'boundingObject')
         nodeX3d.setAttribute('role', 'boundingObject');
-    }
+    } else if (['BallJointParameters', 'JointParameters', 'HingeJointParameters'].includes(this.value.name))
+      nodeX3d.setAttribute('role', parameterName); // identifies which jointParameter slot the node belongs to
+    else if (['Brake', 'PositionSensor', 'Motor'].includes(this.value.name))
+      nodeX3d.setAttribute('role', parameterName); // identifies which device slot the node belongs to
 
     if (typeof nodeX3d !== 'undefined')
       parentElement.appendChild(nodeX3d);

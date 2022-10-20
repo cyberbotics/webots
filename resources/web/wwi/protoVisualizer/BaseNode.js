@@ -75,7 +75,11 @@ export default class BaseNode {
       if (['Shape', 'Group', 'Transform', 'Solid', 'Robot'].includes(this.name)) {
         if (parameterReference === 'boundingObject')
           nodeElement.setAttribute('role', 'boundingObject');
-      }
+      } else if (['BallJointParameters', 'JointParameters', 'HingeJointParameters'].includes(this.value.name))
+        nodeElement.setAttribute('role', parameterReference); // identifies which jointParameter slot the node belongs to
+      else if (['Brake', 'PositionSensor', 'Motor'].includes(this.value.name))
+        nodeElement.setAttribute('role', parameterReference); // identifies which device slot the node belongs to
+
     } else {
       nodeElement.setAttribute('id', this.id);
       console.log('ENCODE ' + this.name)
