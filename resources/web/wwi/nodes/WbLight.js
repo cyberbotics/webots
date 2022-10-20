@@ -1,7 +1,7 @@
 import WbBaseNode from './WbBaseNode.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbWorld from './WbWorld.js';
-import {resetColorIfInvalid} from './utils/WbFieldChecker.js';
+import {resetIfNegative, resetColorIfInvalid, resetIfNotInRangeWithIncludedBounds} from './utils/WbFieldChecker.js';
 
 export default class WbLight extends WbBaseNode {
   #color;
@@ -27,16 +27,27 @@ export default class WbLight extends WbBaseNode {
   set color(newColor) {
     this.#color = newColor;
 
-    if (this.wrenObjectsCreatedCalled)
-      this.#updateColor();
+    this.#updateColor();
   }
 
   get ambientIntensity() {
     return this.#ambientIntensity;
   }
 
+  set ambientIntensity(newAmbientIntensity) {
+    this.#ambientIntensity = newAmbientIntensity;
+
+    this.#updateAmbientIntensity();
+  }
+
   get intensity() {
     return this.#intensity;
+  }
+
+  set intensity(newIntensity) {
+    this.#intensity = newIntensity;
+
+    this.#updateIntensity();
   }
 
   get on() {
@@ -46,12 +57,17 @@ export default class WbLight extends WbBaseNode {
   set on(newOn) {
     this.#on = newOn;
 
-    if (this.wrenObjectsCreatedCalled)
-      this.#updateOn();
+    this.#updateOn();
   }
 
   get castShadows() {
     return this.#castShadows;
+  }
+
+  set castShadows(newCastShadows) {
+    this.#castShadows = newCastShadows;
+
+    this.#updateCastShadows();
   }
 
   createWrenObjects() {
@@ -93,20 +109,6 @@ export default class WbLight extends WbBaseNode {
     WbLight.lights.push(this);
   }
 
-  #updateColor() {
-    const newColor = resetColorIfInvalid(this.#color);
-    if (newColor !== false) {
-      this.#color = newColor;
-      return;
-    }
-
-    this._applyLightColorToWren();
-  }
-
-  #updateOn() {
-    this._applyLightVisibilityToWren();
-  }
-
   // Private functions
 
   _applyLightColorToWren() {}
@@ -130,6 +132,48 @@ export default class WbLight extends WbBaseNode {
     });
 
     _wr_scene_set_ambient_light(_wrjs_array3(rgb.x, rgb.y, rgb.z));
+  }
+
+  #updateColor() {
+    const newColor = resetColorIfInvalid(this.#color);
+    if (newColor !== false) {
+      this.color = newColor;
+      return;
+    }
+    if (this.wrenObjectsCreatedCalled)
+      this._applyLightColorToWren();
+  }
+
+  #updateOn() {
+    if (this.wrenObjectsCreatedCalled)
+      this._applyLightVisibilityToWren();
+  }
+
+  #updateAmbientIntensity() {
+    const newAmbientIntensity = resetIfNotInRangeWithIncludedBounds(this.#ambientIntensity, 0.0, 1.0,this.#ambientIntensity > 1.0 ? 1.0 : 0.0);
+    if (newAmbientIntensity !== false) {
+      this.ambientIntensity = newAmbientIntensity;
+      return;
+    }
+
+    if (this.wrenObjectsCreatedCalled)
+      this.#applySceneAmbientColorToWren();
+  }
+
+  #updateIntensity() {
+    const newIntensity = resetIfNegative(this.#intensity, 1);
+    if (newIntensity !== false) {
+      this.intensity = newIntensity;
+      return;
+    }
+
+  if (this.wrenObjectsCreatedCalled)
+    this._applyLightIntensityToWren();
+  }
+
+  #updateCastShadows() {
+    if (this.wrenObjectsCreatedCalled)
+      this._applyLightShadowsToWren();
   }
 }
 

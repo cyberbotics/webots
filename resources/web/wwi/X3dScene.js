@@ -297,9 +297,6 @@ export default class X3dScene {
           object.color = convertStringToVec3(pose[key]);
         else if (object instanceof WbColor)
           object.color = convertStringToVec3Array(pose[key]);
-      } else if (key === 'on') {
-        if (object instanceof WbLight)
-          object.on = pose[key].toLowerCase() === 'true';
       } else if (key === 'name') {
         if (object instanceof WbMesh)
           object.name = pose[key];
@@ -320,7 +317,16 @@ export default class X3dScene {
       } else if (key === 'coordIndex') {
         if (object instanceof WbIndexedLineSet || object instanceof WbIndexedFaceSet)
           object.coordIndex = pose[key];
-      }else if (object instanceof WbIndexedFaceSet) {
+      } else if (object instanceof WbLight){
+        if (key === 'on')
+          object.on = pose[key].toLowerCase() === 'true';
+        else if (key === 'ambientIntensity')
+          object.ambientIntensity = parseFloat(pose[key]);
+        else if (key === 'intensity')
+          object.intensity = parseFloat(pose[key]);
+        else if (key === 'castShadows')
+          object.castShadows = pose[key].toLowerCase() === 'true';
+      } else if (object instanceof WbIndexedFaceSet) {
         if (key === 'normalPerVertex')
           object.normalPerVertex = pose[key].toLowerCase() === 'true';
         else if (key === 'normalIndex')
