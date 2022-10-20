@@ -16,8 +16,8 @@ export default class WbPointSet extends WbGeometry {
 
   clone(customID) {
     this.useList.push(customID);
-    const newColor = this.#color.clone(getAnId());
-    const newCoord = this.#coord.clone(getAnId());
+    const newColor = this.#color?.clone(getAnId());
+    const newCoord = this.#coord?.clone(getAnId());
     return new WbPointSet(customID, newCoord, newColor);
   }
 

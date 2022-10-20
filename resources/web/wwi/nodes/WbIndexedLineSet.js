@@ -27,7 +27,7 @@ export default class WbIndexedLineSet extends WbGeometry {
 
   clone(customID) {
     this.useList.push(customID);
-    const newCoord = this.#coord.clone(getAnId());
+    const newCoord = this.#coord?.clone(getAnId());
     return new WbIndexedLineSet(customID, newCoord, this.#coordIndex);
   }
 

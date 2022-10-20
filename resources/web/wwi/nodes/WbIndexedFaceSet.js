@@ -97,9 +97,9 @@ export default class WbIndexedFaceSet extends WbTriangleMeshGeometry {
 
   clone(customID) {
     this.useList.push(customID);
-    const newCoord = this.#coord.clone(getAnId());
-    const newNormal = this.#normal.clone(getAnId());
-    const newTexCoord = this.#texCoord.clone(getAnId());
+    const newCoord = this.#coord?.clone(getAnId());
+    const newNormal = this.#normal?.clone(getAnId());
+    const newTexCoord = this.#texCoord?.clone(getAnId());
     return new WbIndexedFaceSet(customID, this.#coordIndex, this.#normalIndex, this.#texCoordIndex, newCoord, newTexCoord,
       newNormal, this.#ccw, this.#creaseAngle, this.#normalPerVertex);
   }
