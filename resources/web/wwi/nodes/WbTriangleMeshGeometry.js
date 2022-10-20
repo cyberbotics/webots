@@ -106,7 +106,7 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
 
   _buildWrenMesh(updateTriangleMesh) {
     if (updateTriangleMesh)
-      this._updateTriangleMesh();
+      this.#createTriangleMesh();
 
     this._deleteWrenRenderable();
 
