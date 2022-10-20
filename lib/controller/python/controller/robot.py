@@ -49,8 +49,21 @@ from controller.mouse import Mouse
 
 
 class Robot:
+    EVENT_QUIT = -1
+    EVENT_NO_EVENT = 0
+    EVENT_MOUSE_CLICK = 1
+    EVENT_MOUSE_MOVE = 2
+    EVENT_KEYBOARD = 4
+    EVENT_JOYSTICK_BUTTON = 8
+    EVENT_JOYSTICK_AXIS = 16
+    EVENT_JOYSTICK_POV = 32
+    MODE_SIMULATION = 0
+    MODE_CROSS_COMPILATION = 1
+    MODE_REMOTE_CONTROL = 2
     created = None
-    wb.wb_device_get_name.restype = ctypes.c_char_p
+    wb.wb_robot_get_name.restype = ctypes.c_char_p
+    wb.wb_robot_get_model.restype = ctypes.c_char_p
+    wb.wb_robot_get_custom_data.restype = ctypes.c_char_p
     wb.wb_robot_get_basic_time_step.restype = ctypes.c_double
     wb.wb_robot_get_time.restype = ctypes.c_double
     wb.wb_robot_get_name.restype = ctypes.c_char_p
@@ -273,11 +286,41 @@ class Robot:
     def getName(self) -> str:
         return self.name
 
+    def getModel(self) -> str:
+        return self.model
+
+    def getCustomData(self) -> str:
+        return self.custom_data
+
+    def setCustomData(self, data: str):
+        self.custom_data = data
+
+    def getProjectPath(self) -> str:
+        return self.project_path
+
+    def getWorldPath(self) -> str:
+        return self.world_path
+
+    def getSupervisor(self) -> bool:
+        return self.supervisor
+
+    def getSynchronization(self) -> bool:
+        return self.synchronization
+
     def getNumberOfDevices(self) -> int:
         return self.number_of_devices
 
     def getTime(self) -> float:
         return self.time
+
+    def getUrdf(self, prefix: str) -> str:
+        return wb.wb_robot_get_urdf(str.encode(prefix)).decode()
+
+    def wwiSendText(self, text: str):
+        wb.wb_robot_wwi_send_text(str.encode(text))
+
+    def wwiReceiveText(self) -> str:
+        return wb.wb_robot_wwi_receive_text().decode()
 
     def step(self, time_step: int = None) -> int:
         if time_step is None:
@@ -290,7 +333,10 @@ class Robot:
         return wb.wb_robot_step_begin(time_step)
 
     def stepEnd(self) -> int:
-        return wb.robot_step_end()
+        return wb.wb_robot_step_end()
+
+    def waitForUserInputEvent(self, event_type: int, timeout: int) -> int:
+        return wb.wb_robot_wait_for_user_input_event(event_type, timeout)
 
     def batterySensorEnable(self, sampling_period: int):
         wb.wb_robot_battery_sensor_enable(sampling_period)
@@ -299,10 +345,16 @@ class Robot:
         wb.wb_robot_battery_sensor_disable()
 
     def batterySensorGetSamplingPeriod(self) -> int:
-        return wb.wb_robot_battery_sensor_get_sampling_period()
+        return self.battery_sensor_sampling_period
 
     def batterySensorGetValue(self) -> float:
         return wb.wb_robot_battery_sensor_get_value()
+
+    def getMode(self) -> int:
+        return self.mode
+
+    def setMode(self, mode: int, arg: str):
+        wb.wb_robot_set_mode(mode, str.encode(arg))
 
     @property
     def basic_time_step(self) -> float:
@@ -313,9 +365,51 @@ class Robot:
         return wb.wb_robot_get_name().decode()
 
     @property
+    def model(self) -> str:
+        return wb.wb_robot_get_model().decode()
+
+    @property
+    def custom_data(self) -> str:
+        return wb.wb_robot_get_custom_data().decode()
+
+    @custom_data.setter
+    def custom_data(self, data: str):
+        wb.wb_robot_set_custom_data(str.encode(data))
+
+    @property
+    def project_path(self) -> str:
+        return wb.wb_robot_get_project_path().decode()
+
+    @property
+    def world_path(self) -> str:
+        return wb.wb_robot_get_world_path().decode()
+
+    @property
+    def supervisor(self) -> bool:
+        return wb.wb_robot_get_supervisor() != 0
+
+    @property
+    def synchronization(self) -> bool:
+        return wb.wb_robot_get_synchronization() != 0
+
+    @property
     def time(self) -> float:
         return wb.wb_robot_get_time()
 
     @property
     def number_of_devices(self) -> int:
         return wb.wb_robot_get_number_of_devices()
+
+    @property
+    def battery_sensor_sampling_period(self) -> int:
+        return wb.wb_robot_battery_sensor_get_sampling_period()
+
+    @battery_sensor_sampling_period.setter
+    def battery_sensor_sampling_period(self, sampling_period: int):
+        if sampling_period is None:
+            sampling_period = int(self.basic_time_step)
+        wb.wb_robot_battery_sensor_enable(sampling_period)
+
+    @property
+    def mode(self) -> int:
+        return wb.wb_robot_get_mode()
