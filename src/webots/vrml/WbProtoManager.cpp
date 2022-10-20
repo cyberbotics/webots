@@ -788,12 +788,10 @@ QString WbProtoManager::declareExternProto(const QString &protoName, const QStri
   return previousUrl;
 }
 
-#include <QtCore/QtDebug>
 void WbProtoManager::purgeUnusedExternProtoDeclarations(const QSet<QString> &protoNamesInUse) {
   for (int i = mExternProto.size() - 1; i >= 0; --i) {
     if (!protoNamesInUse.contains(mExternProto[i]->name()) && !mExternProto[i]->isImportable()) {
       // delete non-importable nodes that have no remaining visible instances
-      qDebug() << "purgeUnusedExternProtoDeclarations delete " << mExternProto[i];
       delete mExternProto[i];
       mExternProto.remove(i);
     }
