@@ -279,6 +279,18 @@ void WbIndexedFaceSet::updateCreaseAngle() {
   emit changed();
 }
 
+QStringList WbIndexedFaceSet::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "ccw"
+  << "solid"
+  << "normalPerVertex"
+  << "coordIndex"
+  << "normalIndex"
+  << "texCoordIndex"
+  << "creaseAngle";
+  return fields;
+}
+
 /////////////////////////////////////////////////////////////
 //  WREN related methods for resizing by pulling handles   //
 /////////////////////////////////////////////////////////////

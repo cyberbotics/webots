@@ -45,6 +45,7 @@ import WbLightSensor from './nodes/WbLightSensor.js';
 import WbLinearMotor from './nodes/WbLinearMotor.js';
 import WbMaterial from './nodes/WbMaterial.js';
 import WbMesh from './nodes/WbMesh.js';
+import WbNormal from './nodes/WbNormal.js';
 import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbPen from './nodes/WbPen.js';
 import WbPlane from './nodes/WbPlane.js';
@@ -63,6 +64,7 @@ import WbSpeaker from './nodes/WbSpeaker.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbSpotLight from './nodes/WbSpotLight.js';
 import WbSliderJoint from './nodes/WbSliderJoint.js';
+import WbTextureCoordinate from './nodes/WbTextureCoordinate.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbTouchSensor from './nodes/WbTouchSensor.js';
 import WbTrack from './nodes/WbTrack.js';
@@ -1130,37 +1132,37 @@ export default class Parser {
     const normalIndex = convertStringToFloatArray(getNodeAttribute(node, 'normalIndex', ''));
     const texCoordIndex = convertStringToFloatArray(getNodeAttribute(node, 'texCoordIndex', ''));
 
-    const coordArray = [];
-    const coordinate = node.getElementsByTagName('Coordinate')[0];
-    if (typeof coordinate !== 'undefined') {
-      const coords = convertStringToFloatArray(getNodeAttribute(coordinate, 'point', ''));
-      for (let i = 0; i < coords.length; i = i + 3)
-        coordArray.push(new WbVector3(coords[i], coords[i + 1], coords[i + 2]));
-    }
+    const coordinateNode = node.getElementsByTagName('Coordinate');
+    let coord;
+    if (coordinateNode)
+      coord = this.#parseCoordinate(coordinateNode[0]);
 
-    const texCoordArray = [];
-    const textureCoordinate = node.getElementsByTagName('TextureCoordinate')[0];
-    if (typeof textureCoordinate !== 'undefined') {
-      const texCoords = convertStringToFloatArray(getNodeAttribute(textureCoordinate, 'point', ''));
-      for (let i = 0; i < texCoords.length; i = i + 2)
-        texCoordArray.push(new WbVector2(texCoords[i], texCoords[i + 1]));
-    }
+    const textureCoordinateNode = node.getElementsByTagName('TextureCoordinate');
+    let texCoord;
+    if (textureCoordinateNode)
+      texCoord = this.#parseTextureCoordinate(textureCoordinateNode[0]);
 
-    const normalArray = [];
-    const normalNode = node.getElementsByTagName('Normal')[0];
-    if (typeof normalNode !== 'undefined') {
-      const normals = convertStringToFloatArray(getNodeAttribute(normalNode, 'vector', ''));
-      for (let i = 0; i < normals.length; i = i + 3)
-        normalArray.push(new WbVector3(normals[i], normals[i + 1], normals[i + 2]));
-    }
+    const normalNode = node.getElementsByTagName('Normal');
+    let normal;
+    if (normalNode)
+      normal = this.#parseNormal(normalNode[0]);
 
     const ccw = getNodeAttribute(node, 'ccw', 'true').toLowerCase() === 'true';
     const normalPerVertex = getNodeAttribute(node, 'normalPerVertex', 'true').toLowerCase() === 'true';
     const creaseAngle = parseFloat(getNodeAttribute(node, 'creaseAngle', '0'));
-    const ifs = new WbIndexedFaceSet(id, coordIndex, normalIndex, texCoordIndex, coordArray, texCoordArray, normalArray, ccw,
+    const ifs = new WbIndexedFaceSet(id, coordIndex, normalIndex, texCoordIndex, coord, texCoord, normal, ccw,
       creaseAngle, normalPerVertex);
+
     WbWorld.instance.nodes.set(ifs.id, ifs);
 
+    if (typeof coord !== 'undefined')
+      coord.parent = ifs.id;
+    
+     if (typeof texCoord !== 'undefined')
+      texCoord.parent = ifs.id;
+    
+    if (typeof normal !== 'undefined')
+      normal.parent = ifs.id;
     return ifs;
   }
 
@@ -1248,7 +1250,7 @@ export default class Parser {
     return color;
   }
 
-  #parseCoordinate(node, parentNode) {
+  #parseCoordinate(node) {
     const use = this.#checkUse(node);
     if (typeof use !== 'undefined')
       return use;
@@ -1264,6 +1266,42 @@ export default class Parser {
     const coordinate = new WbCoordinate(id, point);
     WbWorld.instance.nodes.set(coordinate.id, coordinate);
     return coordinate;
+  }
+
+  #parseTextureCoordinate(node) {
+    const use = this.#checkUse(node);
+    if (typeof use !== 'undefined')
+      return use;
+
+    const id = this.#parseId(node);
+    let point = [];
+    const pointArray = convertStringToFloatArray(getNodeAttribute(node, 'point', ''));
+    if (typeof pointArray !== 'undefined') {
+      for (let i = 0; i < pointArray.length; i += 2)
+        point.push(new WbVector2(pointArray[i], pointArray[i + 1]));
+    }  
+
+    const textureCoordinate = new WbTextureCoordinate(id, point);
+    WbWorld.instance.nodes.set(textureCoordinate.id, textureCoordinate);
+    return textureCoordinate;
+  }
+
+  #parseNormal(node) {
+    const use = this.#checkUse(node);
+    if (typeof use !== 'undefined')
+      return use;
+
+    const id = this.#parseId(node);
+    let point = [];
+    const pointArray = convertStringToFloatArray(getNodeAttribute(node, 'vector', ''));
+    if (typeof pointArray !== 'undefined') {
+      for (let i = 0; i < pointArray.length; i += 3)
+        point.push(new WbVector3(pointArray[i], pointArray[i + 1], pointArray[i + 2]));
+    }
+
+    const normal = new WbNormal(id, point);
+    WbWorld.instance.nodes.set(normal.id, normal);
+    return normal;
   }
 
   #parseMesh(node, id) {

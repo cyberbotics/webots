@@ -9,6 +9,7 @@ import WbCoordinate from './nodes/WbCoordinate.js';
 import WbCylinder from './nodes/WbCylinder.js';
 import WbElevationGrid from './nodes/WbElevationGrid.js';
 import WbGroup from './nodes/WbGroup.js';
+import WbIndexedFaceSet from './nodes/WbIndexedFaceSet.js';
 import WbIndexedLineSet from './nodes/WbIndexedLineSet.js';
 import WbLight from './nodes/WbLight.js';
 import WbMaterial from './nodes/WbMaterial.js';
@@ -286,7 +287,7 @@ export default class X3dScene {
         if (object instanceof WbCone)
           object.bottomRadius = parseFloat(pose[key]);
       } else if (key === 'ccw') {
-        if (object instanceof WbMesh)
+        if (object instanceof WbMesh || object instanceof WbIndexedFaceSet)
           object.ccw = pose[key].toLowerCase() === 'true';
       } else if (key === 'color') {
         if (object instanceof WbLight) {
@@ -312,8 +313,18 @@ export default class X3dScene {
         if (object instanceof WbCoordinate)
           object.point = convertStringToVec3Array(pose[key]);
       } else if (key === 'coordIndex') {
-        if (object instanceof WbIndexedLineSet)
+        if (object instanceof WbIndexedLineSet || object instanceof WbIndexedFaceSet)
           object.coordIndex = pose[key];
+      }else if (object instanceof WbIndexedFaceSet) {
+        console.log(pose[key])
+        if (key === 'normalPerVertex')
+          object.normalPerVertex = pose[key].toLowerCase() === 'true';
+        else if (key === 'normalIndex')
+          pose.normalIndex = pose[key];
+        else if (key === 'texCoordIndex')
+          pose.texCoordIndex = pose[key];
+        else if (key === 'creaseAngle')
+          pose.creaseAngle = parseFloat(pose[key]);
       } else if (object instanceof WbElevationGrid) {
         if (key === 'xDimension')
           object.xDimension = pose[key];
