@@ -27,7 +27,16 @@ function resetVector2IfNonPositive(value, defaultValue) {
 
 function resetVector3IfNonPositive(value, defaultValue) {
   if (value.x <= 0 || value.y <= 0 || value.z <= 0) {
-    console.warn('Box: Invalid "size" changed to ' + defaultValue.x + ' ' + defaultValue.y + ' ' + defaultValue.z +
+    console.warn('Invalid "size" changed to ' + defaultValue.x + ' ' + defaultValue.y + ' ' + defaultValue.z +
+      '. The value should be positive.');
+    return defaultValue;
+  }
+  return false;
+}
+
+function resetVector3IfNegative(value, defaultValue) {
+  if (value.x < 0 || value.y < 0 || value.z < 0) {
+    console.warn('Invalid value changed to ' + defaultValue.x + ' ' + defaultValue.y + ' ' + defaultValue.z +
       '. The value should be positive.');
     return defaultValue;
   }
@@ -78,4 +87,4 @@ function clampValue(value) {
 }
 
 export {resetIfNegative, resetIfNonPositive, resetVector2IfNonPositive, resetVector3IfNonPositive,
-  resetIfNotInRangeWithIncludedBounds, resetColorIfInvalid, resetMultipleColorIfInvalid};
+  resetIfNotInRangeWithIncludedBounds, resetColorIfInvalid, resetMultipleColorIfInvalid, resetVector3IfNegative};

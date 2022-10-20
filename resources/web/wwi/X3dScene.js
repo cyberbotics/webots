@@ -28,6 +28,7 @@ import {getAncestor} from './nodes/utils/utils.js';
 import WbVector2 from './nodes/utils/WbVector2.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 import WbNormal from './nodes/WbNormal.js';
+import WbSpotLight from './nodes/WbSpotLight.js';
 
 export default class X3dScene {
   #loader;
@@ -221,7 +222,7 @@ export default class X3dScene {
       if (key === 'id')
         continue;
 
-      if (key === 'translation') {
+        if (key === 'translation') {
         const translation = convertStringToVec3(pose[key]);
 
         if (object instanceof WbTransform) {
@@ -262,7 +263,7 @@ export default class X3dScene {
         if (object instanceof WbBox || object instanceof WbPlane)
           object.size = convertStringToVec3(pose[key]);
       } else if (key === 'radius') {
-        if (object instanceof WbCapsule || object instanceof WbSphere || object instanceof WbCylinder)
+        if (object instanceof WbCapsule || object instanceof WbSphere || object instanceof WbCylinder || object instanceof WbSpotLight)
           object.radius = parseFloat(pose[key]);
       } else if (key === 'subdivision') {
         if (object instanceof WbSphere || object instanceof WbCapsule || object instanceof WbCone ||
@@ -317,6 +318,17 @@ export default class X3dScene {
       } else if (key === 'coordIndex') {
         if (object instanceof WbIndexedLineSet || object instanceof WbIndexedFaceSet)
           object.coordIndex = pose[key];
+      } else if (object instanceof WbSpotLight) {
+        if (key === 'attenuation')
+          object.attenuation = convertStringToVec3(pose[key]);
+        else if (key === 'beamWidth')
+          object.beamWidth = parseFloat(pose[key]);
+        else if (key === 'cutOffAngle')
+          object.cutOffAngle = parseFloat(pose[key]);
+        else if (key === 'direction')
+          object.direction = convertStringToVec3(pose[key]);
+        else if (key === 'location')
+          object.location = convertStringToVec3(pose[key]);
       } else if (object instanceof WbLight){
         if (key === 'on')
           object.on = pose[key].toLowerCase() === 'true';
