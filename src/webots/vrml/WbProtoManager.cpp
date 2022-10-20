@@ -108,7 +108,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   // nodes imported from a supervisor should only check the IMPORTABLE list
   if (!mImportedFromSupervisor) {
-    // check the cut buffer
+    // check the clipboard buffer
     if (protoDeclaration.isEmpty() && !mExternProtoClipboardBuffer.isEmpty()) {
       foreach (const WbExternProto *item, mExternProtoClipboardBuffer) {
         if (item->name() == modelName)
