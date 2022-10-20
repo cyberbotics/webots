@@ -307,6 +307,7 @@ QStringList WbSpotLight::fieldsToSynchronizeWithX3D() const {
          << "cutOffAngle"
          << "direction"
          << "location"
-         << "radius";
+         << "radius"
+         << WbLight::fieldsToSynchronizeWithX3D();
   return fields;
 }

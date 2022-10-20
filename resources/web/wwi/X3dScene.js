@@ -29,6 +29,7 @@ import WbVector2 from './nodes/utils/WbVector2.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 import WbNormal from './nodes/WbNormal.js';
 import WbSpotLight from './nodes/WbSpotLight.js';
+import WbDirectionalLight from './nodes/WbDirectionalLight.js';
 
 export default class X3dScene {
   #loader;
@@ -293,6 +294,9 @@ export default class X3dScene {
       } else if (key === 'ccw') {
         if (object instanceof WbMesh || object instanceof WbIndexedFaceSet)
           object.ccw = pose[key].toLowerCase() === 'true';
+      }else if (key === 'direction') {
+        if (object instanceof WbSpotLight || WbDirectionalLight)
+          object.direction = convertStringToVec3(pose[key]);
       } else if (key === 'color') {
         if (object instanceof WbLight)
           object.color = convertStringToVec3(pose[key]);
@@ -325,8 +329,6 @@ export default class X3dScene {
           object.beamWidth = parseFloat(pose[key]);
         else if (key === 'cutOffAngle')
           object.cutOffAngle = parseFloat(pose[key]);
-        else if (key === 'direction')
-          object.direction = convertStringToVec3(pose[key]);
         else if (key === 'location')
           object.location = convertStringToVec3(pose[key]);
       } else if (object instanceof WbLight){

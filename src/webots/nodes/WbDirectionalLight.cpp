@@ -105,3 +105,11 @@ void WbDirectionalLight::applyLightDirectionToWren() {
 const WbVector3 &WbDirectionalLight::direction() const {
   return mDirection->value();
 }
+
+QStringList WbDirectionalLight::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "direction"
+         << WbLight::fieldsToSynchronizeWithX3D();
+
+  return fields;
+}
