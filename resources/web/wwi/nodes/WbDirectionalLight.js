@@ -9,7 +9,7 @@ export default class WbDirectionalLight extends WbLight {
     this.#direction = direction;
   }
 
-  get direction(){
+  get direction() {
     return this.#direction;
   }
 

@@ -56,10 +56,10 @@ export default class WbIndexedFaceSet extends WbTriangleMeshGeometry {
   }
 
   set creaseAngle(newCreaseAngle) {
-   this.#creaseAngle = newCreaseAngle;
+    this.#creaseAngle = newCreaseAngle;
 
-   if (this.wrenObjectsCreatedCalled)
-    this.#updateCreaseAngle();
+    if (this.wrenObjectsCreatedCalled)
+      this.#updateCreaseAngle();
   }
 
   get normalIndex() {
@@ -160,8 +160,8 @@ export default class WbIndexedFaceSet extends WbTriangleMeshGeometry {
   }
 
   _updateTriangleMesh() {
-    this._triangleMesh.init(this.#coord?.point, this.#coordIndex, this.#normal?.vector, this.#normalIndex, this.#texCoord?.point, this.#texCoordIndex,
-      this.#creaseAngle, this.#normalPerVertex);
+    this._triangleMesh.init(this.#coord?.point, this.#coordIndex, this.#normal?.vector, this.#normalIndex,
+      this.#texCoord?.point, this.#texCoordIndex, this.#creaseAngle, this.#normalPerVertex);
   }
 
   #update() {

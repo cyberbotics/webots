@@ -1157,10 +1157,10 @@ export default class Parser {
 
     if (typeof coord !== 'undefined')
       coord.parent = ifs.id;
-    
-     if (typeof texCoord !== 'undefined')
+
+    if (typeof texCoord !== 'undefined')
       texCoord.parent = ifs.id;
-    
+
     if (typeof normal !== 'undefined')
       normal.parent = ifs.id;
     return ifs;
@@ -1279,7 +1279,7 @@ export default class Parser {
     if (typeof pointArray !== 'undefined') {
       for (let i = 0; i < pointArray.length; i += 2)
         point.push(new WbVector2(pointArray[i], pointArray[i + 1]));
-    }  
+    }
 
     const textureCoordinate = new WbTextureCoordinate(id, point);
     WbWorld.instance.nodes.set(textureCoordinate.id, textureCoordinate);
