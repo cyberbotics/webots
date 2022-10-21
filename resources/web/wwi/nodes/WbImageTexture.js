@@ -82,7 +82,7 @@ export default class WbImageTexture extends WbBaseNode {
   }
 
   preFinalize() {
-    if (this.isPreFinalizeCalled)
+    if (this.isPreFinalizedCalled)
       return;
 
     super.preFinalize();

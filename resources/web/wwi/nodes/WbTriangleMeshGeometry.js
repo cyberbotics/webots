@@ -27,7 +27,7 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
   }
 
   preFinalize() {
-    if (this.isPreFinalizeCalled)
+    if (this.isPreFinalizedCalled)
       return;
 
     super.preFinalize();

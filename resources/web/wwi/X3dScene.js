@@ -179,9 +179,9 @@ export default class X3dScene {
     if (typeof parentId !== 'undefined' && parentId > 0) {
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
       const ancestor = getAncestor(parentNode);
-      ancestor.isPreFinalizeCalled = false;
+      ancestor.isPreFinalizedCalled = false;
       ancestor.wrenObjectsCreatedCalled = false;
-      ancestor.isPostFinalizeCalled = false;
+      ancestor.isPostFinalizedCalled = false;
     }
 
     if (typeof this.#loader === 'undefined')
@@ -371,6 +371,20 @@ export default class X3dScene {
           object.diffuseColor = convertStringToVec3(pose[key]);
         else if (key === 'emissiveColor')
           object.emissiveColor = convertStringToVec3(pose[key]);
+        else if (key === 'roughness')
+          object.roughness = parseFloat(pose[key]);
+        else if (key === 'metalness')
+          object.metalness = parseFloat(pose[key]);
+        else if (key === 'IBLStrength')
+          object.IBLStrength = parseFloat(pose[key]);
+        else if (key === 'normalMapFactor')
+          object.normalMapFactor = parseFloat(pose[key]);
+        else if (key === 'occlusionMapStrength')
+          object.occlusionMapStrength = parseFloat(pose[key]);
+        else if (key === 'emissiveIntensity')
+          object.emissiveIntensity = parseFloat(pose[key]);
+        else if (key === 'transparency')
+          object.transparency = parseFloat(pose[key]);
 
         if (object instanceof WbMaterial) {
           if (WbWorld.instance.readyForUpdates) {
@@ -380,12 +394,6 @@ export default class X3dScene {
               if (typeof shape !== 'undefined')
                 shape.updateAppearance();
             }
-          }
-        } else {
-          if (WbWorld.instance.readyForUpdates) {
-            let shape = WbWorld.instance.nodes.get(object.parent);
-            if (typeof shape !== 'undefined')
-              shape.updateAppearance();
           }
         }
       }

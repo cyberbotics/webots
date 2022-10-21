@@ -163,6 +163,9 @@ export default class WbShape extends WbBaseNode {
         this.updateIsPickable();
       };
     }
+
+    if (typeof this.appearance !== 'undefined')
+      this.appearance.onChange = () => this.updateAppearance();
   }
 
   // Private functions

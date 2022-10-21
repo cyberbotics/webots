@@ -655,7 +655,14 @@ void WbPbrAppearance::exportNodeFields(WbWriter &writer) const {
 QStringList WbPbrAppearance::fieldsToSynchronizeWithX3D() const {
   QStringList fields;
   fields << "baseColor"
-         << "emissiveColor";
+         << "emissiveColor"
+         << "roughness"
+         << "metalness"
+         << "IBLStrength"
+         << "normalMapFactor"
+         << "occlusionMapStrength"
+         << "emissiveIntensity"
+         << "transparency";
   return fields;
 }
 
