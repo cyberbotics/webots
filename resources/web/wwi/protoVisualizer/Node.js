@@ -21,14 +21,12 @@ export default class Node {
     this.isProto = this.url.toLowerCase().endsWith('.proto');
 
     this.name = this.isProto ? this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '') : url;
-    console.log('CREATING ' + (this.isProto ? 'PROTO ' : 'BASENODE ') + this.name);
+    console.log('CREATING ' + (this.isProto ? 'PROTO ' : 'BASENODE ') + this.name + ', id: ', this.id);
 
     this.parameters = new Map();
     this.externProto = new Map();
     this.def = new Map();
 
-
-    this.xml = document.implementation.createDocument('', '', null);
     // example: to generate: <Shape castShadows="true"><PBRAppearance baseColor="1 0 0"/></Shape>
     /*
     const xml = document.implementation.createDocument('', '', null)
@@ -266,6 +264,8 @@ export default class Node {
   }
 
   toX3d(isUse, parameterReference) {
+    this.xml = document.implementation.createDocument('', '', null);
+
     console.log('ENCODE NODE ' + this.name + ', isUse? ', isUse, ' parameterReference ?', parameterReference);
     // if this node has a value (i.e. this.value is defined) then it means we have not yet reached the bottom as only
     // base-nodes should write x3d. If it has a value, then it means the current node is a derived PROTO.

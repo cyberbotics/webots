@@ -32,6 +32,12 @@ export default class ProtoManager {
     });
   }
 
+  loadX3d() {
+    const x3d = new XMLSerializer().serializeToString(this.proto.toX3d());
+    this.#view.prefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);
+    this.#view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', this.parentId);
+  }
+
   generateExposedParameterList() {
     console.log('EXPOSED PARAMETERS ARE:');
     for (const [parameterName, parameter] of this.proto.parameters) {
@@ -40,15 +46,31 @@ export default class ProtoManager {
     }
   }
 
-  updateParameter() {
+  async delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+  }
+
+  async updateParameter() {
     const parameterName = 'flag';
     const newValue = true;
-    // const newValue = {x: 0, y: 0, z: 0.5};
 
     const parameter = this.exposedParameters.get(parameterName);
-    const id = parameter.node.id.replace('n', '');
+
+    const node = parameter.node.value;
+
+    // set value and trigger regeneration
+    parameter.setValueFromJavaScript(newValue);
+
+    // await regen
+    await this.delay(2000);
+
+    // delete
     this.#view.x3dScene.processServerMessage(`delete: -16`);
-    this.#view.x3dScene.loadObject('<nodes><Shape id="n-36"><Sphere id="n-40" radius="1"/></Shape></nodes>', -14);
+    await this.delay(2000);
+
+    const x3d = new XMLSerializer().serializeToString(parameter.node.value.toX3d());
+    console.log('load new x3d:', node.x3d);
+    this.#view.x3dScene.loadObject('<nodes' + x3d + '</nodes>', -14);
 
     //console.log('BEFORE:', parameter.value.toJS());
     //parameter.setValueFromJavaScript(newValue);
@@ -59,11 +81,7 @@ export default class ProtoManager {
     this.#view.x3dScene.render();
   }
 
-  loadX3d() {
-    const x3d = new XMLSerializer().serializeToString(this.proto.toX3d());
-    this.#view.prefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);
-    this.#view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', this.parentId);
-  }
+
 
   loadMinimalScene() {
     const xml = document.implementation.createDocument('', '', null);
