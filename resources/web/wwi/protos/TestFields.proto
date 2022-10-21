@@ -1,0 +1,29 @@
+
+#VRML_SIM R2023a utf8
+
+PROTO TestFields [
+  field SFBool sfbool TRUE
+  field SFInt32 sfint32 10
+  field SFFloat sffloat 2.5
+  field SFVec2f sfvec2f 3 6
+  field SFVec3f sfvec3f 2 4 6
+  field SFColor sfcolor 0 0.5 1.0
+  field SFRotation sfrotation 0 0.25 0.5 0.75
+  field SFNode sfnode NULL
+  field SFNode sfnode2 Box { size 1 2 3}
+  field MFBool mfbool [FALSE, TRUE]
+  field MFInt32 mfint32 [1 2 3]
+  field MFFloat mffloat [0.5 0.25 0]
+  field MFVec2f mfvec2f [1 2, 3 4]
+  field MFVec3f mfvec3f [1 2 3, 4 5 6, 7 8 9]
+  field MFColor mfcolor [0 0 0, 0.5 0.5 0.5]
+  field MFRotation mfrotation [0 0 1 0, 0 0 1 3.14]
+  field MFNode mfnode []
+  field MFNode mfnode2 [Box{}, Sphere{}]
+]
+{
+  Shape {
+    geometry Box {
+    }
+  }
+}

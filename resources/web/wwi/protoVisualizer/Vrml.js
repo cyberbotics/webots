@@ -18,6 +18,10 @@ class SingleValue {
     this.#value = v;
   }
 
+  setValueFromJavaScript(value) {
+    this.#value = value;
+  }
+
   toX3d(parameterName, parentElement) {
     if (typeof parentElement !== 'undefined') { // this is the case if this instance is a member of an MF*
       parentElement.setAttribute(parameterName, this.value);
@@ -282,6 +286,13 @@ export class SFNode extends SingleValue {
     this.value = Node.createNode(tokenizer);
   }
 
+  setValueFromJavaScript(value) {
+    if (typeof value === 'undefined')
+      this.value = value;
+    else
+      throw new Error('TODO: implement SFNode initializer from JS (low priority).');
+  }
+
   toX3d(parameterName, parentElement) {
     if (typeof this.value === 'undefined')
       return;
@@ -382,6 +393,15 @@ export class MFBool extends MultipleValue {
       this.insert(new SFBool(tokenizer));
   }
 
+  setValueFromJavaScript(items) {
+    this.value = [];
+    items.forEach((item) => {
+      const sfbool = new SFBool();
+      sfbool.setValueFromJavaScript(item);
+      this.insert(sfbool);
+    });
+  }
+
   equals(other) {
     throw new Error('TODO: implement equals for MFBool');
   }
@@ -408,6 +428,15 @@ export class MFInt32 extends MultipleValue {
       tokenizer.skipToken(']');
     } else
       this.insert(new SFInt32(tokenizer));
+  }
+
+  setValueFromJavaScript(items) {
+    this.value = [];
+    items.forEach((item) => {
+      const sfint32 = new SFInt32();
+      sfint32.setValueFromJavaScript(item);
+      this.insert(sfint32);
+    });
   }
 
   equals(other) {
@@ -438,6 +467,15 @@ export class MFFloat extends MultipleValue {
       this.insert(new SFFloat(tokenizer));
   }
 
+  setValueFromJavaScript(items) {
+    this.value = [];
+    items.forEach((item) => {
+      const sffloat = new SFFloat();
+      sffloat.setValueFromJavaScript(item);
+      this.insert(sffloat);
+    });
+  }
+
   equals(other) {
     throw new Error('TODO: implement equals for MFFloat');
   }
@@ -464,6 +502,15 @@ export class MFString extends MultipleValue {
       tokenizer.skipToken(']');
     } else
       this.insert(new SFString(tokenizer));
+  }
+
+  setValueFromJavaScript(items) {
+    this.value = [];
+    items.forEach((item) => {
+      const sfstring = new SFString();
+      sfstring.setValueFromJavaScript(item);
+      this.insert(sfstring);
+    });
   }
 
   equals(other) {
@@ -494,6 +541,15 @@ export class MFVec2f extends MultipleValue {
       this.insert(new SFVec2f(tokenizer));
   }
 
+  setValueFromJavaScript(items) {
+    this.value = [];
+    items.forEach((item) => {
+      const sfvec2f = new SFVec2f();
+      sfvec2f.setValueFromJavaScript(item);
+      this.insert(sfvec2f);
+    });
+  }
+
   equals(other) {
     throw new Error('TODO: implement equals for MFVec2f');
   }
@@ -520,6 +576,15 @@ export class MFVec3f extends MultipleValue {
       tokenizer.skipToken(']');
     } else
       this.insert(new SFVec3f(tokenizer));
+  }
+
+  setValueFromJavaScript(items) {
+    this.value = [];
+    items.forEach((item) => {
+      const sfvec3f = new SFVec3f();
+      sfvec3f.setValueFromJavaScript(item);
+      this.insert(sfvec3f);
+    });
   }
 
   equals(other) {
@@ -550,6 +615,15 @@ export class MFColor extends MultipleValue {
       this.insert(new SFColor(tokenizer));
   }
 
+  setValueFromJavaScript(items) {
+    this.value = [];
+    items.forEach((item) => {
+      const sfcolor = new SFColor();
+      sfcolor.setValueFromJavaScript(item);
+      this.insert(sfcolor);
+    });
+  }
+
   equals(other) {
     throw new Error('TODO: implement equals for MFColor');
   }
@@ -576,6 +650,15 @@ export class MFRotation extends MultipleValue {
       tokenizer.skipToken(']');
     } else
       this.insert(new SFRotation(tokenizer));
+  }
+
+  setValueFromJavaScript(items) {
+    this.value = [];
+    items.forEach((item) => {
+      const sfrotation = new SFRotation();
+      sfrotation.setValueFromJavaScript(item);
+      this.insert(sfrotation);
+    });
   }
 
   equals(other) {
@@ -622,6 +705,15 @@ export class MFNode extends MultipleValue {
       tokenizer.skipToken(']');
     } else
       this.insert(new SFNode(tokenizer));
+  }
+
+  setValueFromJavaScript(items) {
+    this.value = [];
+    items.forEach((item) => {
+      const sfnode = new SFNode();
+      sfnode.setValueFromJavaScript(item);
+      this.insert(sfnode);
+    });
   }
 
   toX3d(parameterName, parentElement) {

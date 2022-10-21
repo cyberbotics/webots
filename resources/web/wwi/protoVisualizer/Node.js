@@ -49,12 +49,23 @@ export default class Node {
     throw new Error('stop')
     */
 
+    /*
+    const defaultValue = typeFactory(VRML.MFColor);
+    defaultValue.setValueFromJavaScript(FieldModel['LED']['color']['defaultValue']);
+    console.log('DEF', defaultValue);
+    const value = defaultValue.clone();
+    const parameter = new Parameter(this, "asd", defaultValue, value, false);
+    value.value.x = 10;
+    console.log('PARA', parameter, parameter.clone())
+    throw new Error('stop');
+    */
+
     if (!this.isProto) {
       // create parameters from the pre-defined FieldModel
       const fields = FieldModel[this.name];
       for (const parameterName of Object.keys(fields)) {
         const defaultValue = typeFactory(FieldModel[this.name][parameterName]['type']);
-        defaultValue.value = FieldModel[this.name][parameterName]['defaultValue'];
+        defaultValue.setValueFromJavaScript(FieldModel[this.name][parameterName]['defaultValue']);
         const value = defaultValue.clone();
         const parameter = new Parameter(this, parameterName, defaultValue, value, false);
         // const parameter = typeFactory(FieldModel[this.name][parameterName]['type']);
@@ -155,8 +166,8 @@ export default class Node {
       if (typeof parameter !== 'undefined') {
         console.log('cloning parameter ' + parameterName);
         const parameterCopy = parameter.clone();
-        console.log('ORIG', parameter);
-        console.log('COPY', parameterCopy);
+        // console.log('ORIG', parameter);
+        // console.log('COPY', parameterCopy);
         copy.parameters.set(parameterName, parameterCopy);
       }
     }
@@ -197,6 +208,7 @@ export default class Node {
         const defaultValue = typeFactory(parameterType, headTokenizer);
         const value = defaultValue.clone();
         const parameter = new Parameter(this, parameterName, defaultValue, value, isRegenerator);
+        console.log(parameter);
         this.parameters.set(parameterName, parameter);
       }
     }
@@ -229,7 +241,7 @@ export default class Node {
     while (tokenizer.peekWord() !== '}') {
       const fieldName = tokenizer.nextWord();
       for (const [parameterName, parameter] of this.parameters) {
-        console.log(parameter);
+        // console.log(parameter);
         if (fieldName === parameterName) {
           console.log('configuring ' + fieldName + ' of ' + this.name + ', node id: ', this.id);
 
@@ -243,7 +255,7 @@ export default class Node {
             parameter.value = tokenizer.proto.parameters.get(alias).value;
           } else {
             parameter.value.setValueFromTokenizer(tokenizer);
-            console.log('> value of ' + parameterName + ' set to ', parameter.value);
+            // console.log('> value of ' + parameterName + ' set to ', parameter.value);
           }
         }
       }
@@ -277,10 +289,10 @@ export default class Node {
       for (const [parameterName, parameter] of this.parameters) {
         console.log('  ENCODE ' + parameterName + ' ? ', typeof parameter.value !== 'undefined');
         if (typeof parameter.value === 'undefined')
-          throw new Error('All parameters should be defined, ' + parameterName + ' is not.');
+          throw new Error('All parameters should be defined, ' + parameterName + ' is not.'); // TODO: SFNode may be undefined?
 
-        if (parameter.isDefault())
-          continue;
+        //if (parameter.isDefault())
+        //  continue;
 
         parameter.value.toX3d(parameterName, nodeElement);
       }
@@ -296,8 +308,8 @@ export default class Node {
     let jsFields = '';
     for (const [parameterName, parameter] of this.parameters) {
       console.log('JS-encoding of ' + parameterName);
-      jsFields += `${parameterName}: {value: ${parameter.toJS()},
-        defaultValue: ${parameter.toJS()}}, `; // TODO: distinguish value/default value
+      jsFields += `${parameterName}: {value: ${parameter.value.toJS()},
+        defaultValue: ${parameter.defaultValue.toJS()}}, `; // TODO: distinguish value/default value
     }
 
     if (isRoot)
