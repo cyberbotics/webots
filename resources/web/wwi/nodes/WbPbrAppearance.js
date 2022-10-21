@@ -30,19 +30,19 @@ export default class WbPbrAppearance extends WbAbstractAppearance {
     super(id, textureTransform);
 
     this.#baseColor = baseColor;
-    this.#baseColorMap = baseColorMap;
+    this.baseColorMap = baseColorMap;
     this.#transparency = transparency;
     this.#roughness = roughness;
-    this.#roughnessMap = roughnessMap;
+    this.roughnessMap = roughnessMap;
     this.#metalness = metalness;
-    this.#metalnessMap = metalnessMap;
+    this.metalnessMap = metalnessMap;
     this.#IBLStrength = IBLStrength;
-    this.#normalMap = normalMap;
+    this.normalMap = normalMap;
     this.#normalMapFactor = normalMapFactor;
-    this.#occlusionMap = occlusionMap;
+    this.occlusionMap = occlusionMap;
     this.#occlusionMapStrength = occlusionMapStrength;
     this.#emissiveColor = emissiveColor;
-    this.#emissiveColorMap = emissiveColorMap;
+    this.emissiveColorMap = emissiveColorMap;
     this.#emissiveIntensity = emissiveIntensity;
   }
 

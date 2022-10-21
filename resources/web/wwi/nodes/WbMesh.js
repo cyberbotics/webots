@@ -1,6 +1,7 @@
 import WbMatrix4 from './utils/WbMatrix4.js';
 import WbVector4 from './utils/WbVector4.js';
 import WbTriangleMeshGeometry from './WbTriangleMeshGeometry.js';
+import WbWorld from './WbWorld.js';
 
 import {loadMeshData} from '../mesh_loader.js';
 
@@ -179,7 +180,7 @@ export default class WbMesh extends WbTriangleMeshGeometry {
     if (this.#url[0])
       this.#isCollada = this.#url[0].endsWith('.dae');
 
-    loadMeshData(this.prefix, this.#url).then(meshContent => {
+    loadMeshData(WbWorld.instance.prefix, this.#url).then(meshContent => {
       this.scene = meshContent;
       if (typeof this.scene === 'undefined') {
         this._deleteWrenRenderable();

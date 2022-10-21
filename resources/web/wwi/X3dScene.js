@@ -9,6 +9,7 @@ import WbCoordinate from './nodes/WbCoordinate.js';
 import WbCylinder from './nodes/WbCylinder.js';
 import WbElevationGrid from './nodes/WbElevationGrid.js';
 import WbGroup from './nodes/WbGroup.js';
+import WbImageTexture from './nodes/WbImageTexture.js';
 import WbIndexedFaceSet from './nodes/WbIndexedFaceSet.js';
 import WbIndexedLineSet from './nodes/WbIndexedLineSet.js';
 import WbLight from './nodes/WbLight.js';
@@ -313,6 +314,8 @@ export default class X3dScene {
       } else if (key === 'url') {
         if (object instanceof WbMesh)
           object.url = pose[key];
+        else if (object instanceof WbImageTexture)
+          object.url = pose[key][0];
       } else if (key === 'point') {
         if (object instanceof WbCoordinate)
           object.point = convertStringToVec3Array(pose[key]);
@@ -396,6 +399,13 @@ export default class X3dScene {
             }
           }
         }
+      } else if (object instanceof WbImageTexture) {
+        if (key === 'repeatS')
+          object.repeatS = pose[key].toLowerCase() === 'true';
+        else if (key === 'repeatT')
+          object.repeatT = pose[key].toLowerCase() === 'true';
+        else if (key === 'filtering')
+          object.filtering = parseInt(pose[key]);
       }
     }
 

@@ -583,3 +583,12 @@ void WbImageTexture::exportShallowNode(WbWriter &writer) const {
   if (!WbUrl::isWeb(mUrl->item(0)) && !WbUrl::isLocalUrl(mUrl->item(0)) && !WbWorld::isX3DStreaming())
     WbUrl::exportTexture(this, mUrl, 0, writer);
 }
+
+QStringList WbImageTexture::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "url"
+         << "repeatS"
+         << "repeatT"
+         << "filtering";
+  return fields;
+}

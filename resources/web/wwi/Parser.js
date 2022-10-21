@@ -101,6 +101,7 @@ export default class Parser {
     this.#promiseCounter = 0;
     this.#promiseNumber = 0;
     WbWorld.init();
+    WbWorld.instance.prefix = prefix;
   }
 
   parse(text, renderer, parent, callback) {
