@@ -147,11 +147,10 @@ export default class X3dScene {
     this.render();
   }
 
-  async loadRawWorldFile(raw, onLoad, progress) {
+  loadRawWorldFile(raw, onLoad, progress) {
     const prefix = webots.currentView.prefix;
     this.#loader = new Parser(prefix);
-    await this.#loader.parse(raw, this.renderer);
-    onLoad();
+    this.#loader.parse(raw, this.renderer).then(onLoad());
   }
 
   loadWorldFile(url, onLoad, progress) {
