@@ -388,17 +388,12 @@ export default class X3dScene {
           object.emissiveIntensity = parseFloat(pose[key]);
         else if (key === 'transparency')
           object.transparency = parseFloat(pose[key]);
-
-        if (object instanceof WbMaterial) {
-          if (WbWorld.instance.readyForUpdates) {
-            let appearance = WbWorld.instance.nodes.get(object.parent);
-            if (typeof appearance !== 'undefined') {
-              let shape = WbWorld.instance.nodes.get(appearance.parent);
-              if (typeof shape !== 'undefined')
-                shape.updateAppearance();
-            }
-          }
-        }
+        else if (key === 'ambientIntensity')
+          object.ambientIntensity = parseFloat(pose[key]);
+        else if (key === 'shininess')
+          object.shininess = parseFloat(pose[key]);
+        else if (key === 'specularColor')
+          object.specularColor = convertStringToVec3(pose[key]);
       } else if (object instanceof WbImageTexture) {
         if (key === 'repeatS')
           object.repeatS = pose[key].toLowerCase() === 'true';

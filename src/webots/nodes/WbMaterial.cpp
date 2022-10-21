@@ -172,7 +172,11 @@ void WbMaterial::modifyWrenMaterial(WrMaterial *wrenMaterial, bool textured) {
 
 QStringList WbMaterial::fieldsToSynchronizeWithX3D() const {
   QStringList fields;
-  fields << "emissiveColor"
+  fields << "ambientIntensity"
+         << "shininess"
+         << "specularColor"
+         << "transparency"
+         << "emissiveColor"
          << "diffuseColor";
   return fields;
 }
