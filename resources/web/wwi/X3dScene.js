@@ -16,6 +16,7 @@ import WbMaterial from './nodes/WbMaterial.js';
 import WbMesh from './nodes/WbMesh.js';
 import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbPlane from './nodes/WbPlane.js';
+import WbPointLight from './nodes/WbPointLight.js';
 import WbColor from './nodes/WbColor.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbTextureCoordinate from './nodes/WbTextureCoordinate.js';
@@ -223,7 +224,7 @@ export default class X3dScene {
       if (key === 'id')
         continue;
 
-        if (key === 'translation') {
+      if (key === 'translation') {
         const translation = convertStringToVec3(pose[key]);
 
         if (object instanceof WbTransform) {
@@ -264,7 +265,8 @@ export default class X3dScene {
         if (object instanceof WbBox || object instanceof WbPlane)
           object.size = convertStringToVec3(pose[key]);
       } else if (key === 'radius') {
-        if (object instanceof WbCapsule || object instanceof WbSphere || object instanceof WbCylinder || object instanceof WbSpotLight)
+        if (object instanceof WbCapsule || object instanceof WbSphere || object instanceof WbCylinder ||
+          object instanceof WbSpotLight || object instanceof WbPointLight)
           object.radius = parseFloat(pose[key]);
       } else if (key === 'subdivision') {
         if (object instanceof WbSphere || object instanceof WbCapsule || object instanceof WbCone ||
@@ -294,7 +296,7 @@ export default class X3dScene {
       } else if (key === 'ccw') {
         if (object instanceof WbMesh || object instanceof WbIndexedFaceSet)
           object.ccw = pose[key].toLowerCase() === 'true';
-      }else if (key === 'direction') {
+      } else if (key === 'direction') {
         if (object instanceof WbSpotLight || WbDirectionalLight)
           object.direction = convertStringToVec3(pose[key]);
       } else if (key === 'color') {
@@ -318,20 +320,22 @@ export default class X3dScene {
           object.point = convertStringToVec2Array(pose[key]);
       } else if (key === 'vector') {
         if (object instanceof WbNormal)
-          object.vector === convertStringToVec3Array(pose[key]);
+          object.vector = convertStringToVec3Array(pose[key]);
       } else if (key === 'coordIndex') {
         if (object instanceof WbIndexedLineSet || object instanceof WbIndexedFaceSet)
           object.coordIndex = pose[key];
-      } else if (object instanceof WbSpotLight) {
-        if (key === 'attenuation')
+      } else if (key === 'attenuation') {
+        if (object instanceof WbSpotLight || object instanceof WbPointLight)
           object.attenuation = convertStringToVec3(pose[key]);
-        else if (key === 'beamWidth')
+      } else if (key === 'location') {
+        if (object instanceof WbSpotLight || object instanceof WbPointLight)
+          object.location = convertStringToVec3(pose[key]);
+      } else if (object instanceof WbSpotLight) {
+        if (key === 'beamWidth')
           object.beamWidth = parseFloat(pose[key]);
         else if (key === 'cutOffAngle')
           object.cutOffAngle = parseFloat(pose[key]);
-        else if (key === 'location')
-          object.location = convertStringToVec3(pose[key]);
-      } else if (object instanceof WbLight){
+      } else if (object instanceof WbLight) {
         if (key === 'on')
           object.on = pose[key].toLowerCase() === 'true';
         else if (key === 'ambientIntensity')

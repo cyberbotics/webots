@@ -8,7 +8,7 @@ export default class WbSpotLight extends WbLight {
   #beamWidth;
   #cutOffAngle;
   #direction;
-  #location
+  #location;
   #radius;
   #wrenLight;
   constructor(id, on, attenuation, beamWidth, color, cutOffAngle, direction, intensity, location, radius, ambientIntensity,
@@ -31,7 +31,7 @@ export default class WbSpotLight extends WbLight {
 
   set attenuation(newAttenuation) {
     this.#attenuation = newAttenuation;
-    
+
     this.#updateAttenuation();
   }
 
@@ -39,7 +39,7 @@ export default class WbSpotLight extends WbLight {
     return this.#beamWidth;
   }
 
-  set beamWidth(newBeamWidth){
+  set beamWidth(newBeamWidth) {
     this.#beamWidth = newBeamWidth;
 
     this.#updateBeamWidth();
@@ -87,8 +87,8 @@ export default class WbSpotLight extends WbLight {
 
   clone(customID) {
     this.useList.push(customID);
-    return new WbSpotLight(customID, this.on, this.#attenuation, this.#beamWidth, this.color, this.#cutOffAngle, this.#direction,
-      this.intensity, this.#location, this.#radius, this.ambientIntensity, this.castShadows);
+    return new WbSpotLight(customID, this.on, this.#attenuation, this.#beamWidth, this.color, this.#cutOffAngle,
+      this.#direction, this.intensity, this.#location, this.#radius, this.ambientIntensity, this.castShadows);
   }
 
   createWrenObjects() {
@@ -177,19 +177,19 @@ export default class WbSpotLight extends WbLight {
       this.attenuation = newAttenuation;
       return;
     }
-  
+
     if (this.#attenuation.x > 0.0 || this.attenuation.y > 0.0)
       console.warn("A quadratic 'attenuation' should be preferred to have a realistic simulation of light. Only the third component of the 'attenuation' field should be greater than 0.");
-  
+
     this.#checkAmbientAndAttenuationExclusivity();
-  
+
     if (this.wrenObjectsCreatedCalled)
       this.#applyLightAttenuationToWren();
   }
 
   #checkAmbientAndAttenuationExclusivity() {
-    if (!this.#attenuation.equal(new WbVector3(1.0, 0.0, 0.0)) && this.ambientIntensity != 0) {
-      console.war("'ambientIntensity' and 'attenuation' cannot differ from their default values at the same time. 'ambientIntensity' was changed to 0.");
+    if (!this.#attenuation.equal(new WbVector3(1.0, 0.0, 0.0)) && this.ambientIntensity !== 0) {
+      console.warn("'ambientIntensity' and 'attenuation' cannot differ from their default values at the same time. 'ambientIntensity' was changed to 0.");
       this.ambientIntensity = 0;
     }
   }
@@ -197,16 +197,17 @@ export default class WbSpotLight extends WbLight {
   #updateBeamWidth() {
     const newBeamWidth = resetIfNegative(this.#beamWidth, 0);
     if (newBeamWidth !== false) {
-      this.beamWidth = newBeamWidth
+      this.beamWidth = newBeamWidth;
       return;
     }
 
     if (this.#beamWidth > this.#cutOffAngle) {
-      console.warn("Invalid 'beamWidth' changed to " + this.#cutOffAngle + ". The value should be less than or equal to 'cutOffAngle'.")
+      console.warn("Invalid 'beamWidth' changed to " + this.#cutOffAngle +
+      ". The value should be less than or equal to 'cutOffAngle'.");
       this.beamWidth = this.#cutOffAngle;
       return;
     }
-  
+
     if (this.wrenObjectsCreatedCalled)
       this.#applyLightBeamWidthAndCutOffAngleToWren();
   }
@@ -219,8 +220,8 @@ export default class WbSpotLight extends WbLight {
     }
 
     if (this.#cutOffAngle < this.#beamWidth)
-      this.#beamWidth = this.#cutOffAngle
-  
+      this.#beamWidth = this.#cutOffAngle;
+
     if (this.wrenObjectsCreatedCalled)
       this.#applyLightBeamWidthAndCutOffAngleToWren();
   }
@@ -238,10 +239,10 @@ export default class WbSpotLight extends WbLight {
   #updateRadius() {
     const newRadius = resetIfNegative(this.#radius, 0);
     if (newRadius !== false) {
-      this.radius = newRadius
+      this.radius = newRadius;
       return;
     }
-  
+
     if (this.wrenObjectsCreatedCalled)
       this.#applyLightAttenuationToWren();
   }

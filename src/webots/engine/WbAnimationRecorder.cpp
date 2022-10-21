@@ -126,7 +126,8 @@ const QString WbAnimationCommand::sanitizeField(const WbField *field) {
     }
   } else if (sfString && field->name().compare("name") == 0)
     return field->value()->toString();
-  else if (mfInt && (field->name().compare("coordIndex") == 0 || field->name().compare("normalIndex") == 0 || field->name().compare("texCoordIndex") == 0)) {
+  else if (mfInt && (field->name().compare("coordIndex") == 0 || field->name().compare("normalIndex") == 0 ||
+                     field->name().compare("texCoordIndex") == 0)) {
     const int size = mfInt->size();
     QString intArray = QString("[");
 
