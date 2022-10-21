@@ -188,8 +188,6 @@ export default class X3dScene {
     else
       this.#loader.prefix = webots.currentView.prefix;
     this.#loader.parse(x3dObject, this.renderer, parentNode, callback);
-
-    this.render();
   }
 
   applyPose(pose) {
