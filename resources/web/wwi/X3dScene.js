@@ -160,12 +160,11 @@ export default class X3dScene {
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.open('GET', url, true);
     xmlhttp.overrideMimeType('plain/text');
-    xmlhttp.onreadystatechange = async function() {
+    xmlhttp.onreadystatechange = () => {
       // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
       if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) {
         this.#loader = new Parser(prefix);
-        await this.#loader.parse(xmlhttp.responseText, renderer);
-        onLoad();
+        this.#loader.parse(xmlhttp.responseText, renderer).then(onLoad());
       } else if (xmlhttp.status === 404)
         progress.setProgressBar('block', 'Loading world file...', 5, '(error) File not found: ' + url);
     };
