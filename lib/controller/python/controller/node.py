@@ -14,22 +14,289 @@
 
 import ctypes
 from controller.wb import wb
+from controller.constants import constant
 from controller import Field
+import struct
+import typing
+
+
+class ContactPoint:
+    def __init__(self, point):
+        self.x = point[0]
+        self.y = point[1]
+        self.z = point[2]
+        self.node_id = point[3]
 
 
 class Node:
+    pass
+
+
+class Node:
+    wb.wb_supervisor_node_get_root.restype = ctypes.c_void_p
+    wb.wb_supervisor_node_get_selected.restype = ctypes.c_void_p
     wb.wb_supervisor_node_get_from_def.restype = ctypes.c_void_p
-
-    def __init__(self, DEF=None):
-        if DEF:
-            self._ref = wb.wb_supervisor_node_get_from_def(str.encode(DEF))
-
-    def getField(self, name):
-        return Field(self, name)
-
-    wb.wb_supervisor_node_get_type_name.argtypes = [ctypes.c_void_p]
+    wb.wb_supervisor_node_get_self.restype = ctypes.c_void_p
+    wb.wb_supervisor_node_get_from_device.restype = ctypes.c_void_p
+    wb.wb_supervisor_node_get_from_id.restype = ctypes.c_void_p
+    wb.wb_supervisor_node_get_parent_node.restype = ctypes.c_void_p
+    wb.wb_supervisor_node_get_from_proto_def.restype = ctypes.c_void_p
     wb.wb_supervisor_node_get_type_name.restype = ctypes.c_char_p
+    wb.wb_supervisor_node_get_base_type_name.restype = ctypes.c_char_p
+    wb.wb_supervisor_node_export_string.restype = ctypes.c_char_p
+    wb.wb_supervisor_node_get_position.restype = ctypes.POINTER(ctypes.c_double)
+    wb.wb_supervisor_node_get_orientation.restype = ctypes.POINTER(ctypes.c_double)
+    wb.wb_supervisor_node_get_pose.restype = ctypes.POINTER(ctypes.c_double)
+    wb.wb_supervisor_node_get_center_of_mass.restype = ctypes.POINTER(ctypes.c_double)
+    wb.wb_supervisor_node_get_contact_points.restype = ctypes.POINTER(ctypes.c_byte)
+    wb.wb_supervisor_node_get_velocity.restype = ctypes.POINTER(ctypes.c_double)
+
+    def __init__(self, DEF: typing.Optional[str] = None, tag: typing.Optional[int] = None, id: typing.Optional[int] = None,
+                 selected: typing.Optional[bool] = None, ref: typing.Optional[int] = None):
+        if ref is None:
+            if id is None:
+                if tag is None:
+                    if DEF is None:
+                        if selected is None:
+                            self._ref = wb.wb_supervisor_node_get_root()
+                        else:
+                            self._ref = wb.wb_supervisor_node_get_selected()
+                    else:
+                        self._ref = wb.wb_supervisor_node_get_from_def(str.encode(DEF))
+                else:
+                    if tag == 0:
+                        self._ref = wb.wb_supervisor_node_get_self()
+                    else:
+                        self._ref = wb.wb_supervisor_node_get_from_device(tag)
+            else:
+                self._ref = wb.wb_supervisor_node_get_from_id(id)
+        else:
+            self._ref = ref
+
+    def getDef(self) -> str:
+        return self.DEF
+
+    def getId(self) -> int:
+        return self.id
+
+    def getParentNode(self) -> Node:
+        return Node(ref=wb.wb_supervisor_node_get_parent_node(self._ref))
+
+    def isProto(self) -> bool:
+        return wb.wb_supervisor_node_is_proto(self._ref) != 0
+
+    def getFromProtoDef(self, DEF: str) -> Node:
+        return Node(wb.wb_robot_node_get_from_proto_def(self._ref, str.encode(DEF)))
+
+    def getType(self) -> int:
+        return self.type
+
+    def getTypeName(self) -> str:
+        return self.type_name
+
+    def getBaseTypeName(self) -> str:
+        return self.base_type_name
+
+    def remove(self):
+        wb.wb_supervisor_node_remove(self._ref)
+
+    def exportString(self):
+        return wb.wb_supervisor_node_export_string(self._ref).decode()
+
+    def getField(self, name: str) -> Field:
+        return Field(self, name=name)
+
+    def getFieldByIndex(self, index: int) -> Field:
+        return Field(self, index=index)
+
+    def getNumberOfFields(self) -> int:
+        return self.number_of_fields
+
+    def getProtoField(self, name: str) -> Field:
+        return Field(self, name=name, proto=True)
+
+    def getProtoFieldByIndex(self, index: int) -> Field:
+        return Field(self, index=index, proto=True)
+
+    def getPosition(self) -> typing.List[float]:
+        return wb.wb_supervisor_node_get_position(self._ref)
+
+    def getOrientation(self) -> typing.List[float]:
+        return wb.wb_supervisor_node_get_orientation(self._ref)
+
+    def getPose(self, fromNode: Node) -> typing.List[float]:
+        return wb.wb_supervisor_node_get_pose(self._ref, fromNode._ref)
+
+    def enablePoseTracking(self, samplingPeriod: int, fromNode: Node):
+        wb.wb_supervisor_node_enable_pose_tracking(samplingPeriod, self._ref, fromNode._ref)
+
+    def disablePoseTracking(self, fromNode: Node):
+        wb.wb_supervisor_node_enable_pose_tracking(self._ref, fromNode._ref)
+
+    def getCenterOfMass(self) -> typing.List[float]:
+        return wb.wb_supervisor_node_get_center_of_mass(self._ref)
+
+    def getContactPoints(self, includeDescendants: bool = False) -> typing.List[ContactPoint]:
+        size = 0
+        points = wb.wb_supervisor_node_get_contact_points(self._ref, 1 if includeDescendants else 0, ctypes.byref(size))
+        contact_points = []
+        for i in range(size):
+            contact_points.append(ContactPoint(struct.unpack('3di', points, 24 * i)))
+        return contact_points
+
+    def enableContactPointTracking(self, samplingPeriod: int, includeDescendants: bool = False):
+        wb.wb_supervisor_node_enable_contact_point_tracking(samplingPeriod, 1 if includeDescendants else 0)
+
+    def disableContactPointTracking(self, includeDescendants: bool = False):
+        wb.wb_supervisor_node_disable_contact_point_tracking(1 if includeDescendants else 0)
+
+    def getStaticBalance(self) -> bool:
+        return wb.wb_supervisor_node_get_static_balance(self._ref) != 0
+
+    def getVelocity(self) -> typing.List[float]:
+        return wb.wb_supervisor_node_get_velocity(self._ref)
+
+    def setVelocity(self, velocity: typing.List[float]):
+        wb.wb_supervisor_node_set_velocity(self._ref, (ctypes.c_double * 6)(*velocity))
+
+    def saveState(self, stateName: str):
+        wb.wb_supervisor_node_save_state(self._ref, str.encode(stateName))
+
+    def loadState(self, stateName: str):
+        wb.wb_supervisor_node_load_state(self._ref, str.encode(stateName))
+
+    def resetPhysics(self, stateName: str):
+        wb.wb_supervisor_node_reset_physics(self._ref)
+
+    def setJointPosition(self, position: typing.List[float], index: int = 1):
+        wb.wb_supervisor_node_set_joint_position(self._ref, (ctypes.c_double * len(position))(*position), index)
+
+    def restartController(self):
+        wb.wb_supervisor_node_restart_controller(self._ref)
+
+    def moveViewpoint(self):
+        wb.wb_supervisor_node_move_viewpoint(self._ref)
+
+    def setVisibility(self, fromNode: Node, visible: bool):
+        wb.wb_supervisor_node_set_visibility(self._ref, fromNode._ref, 1 if visible else 0)
+
+    def addForce(self, force: typing.List[float], relative: bool):
+        wb.wb_supervisor_node_add_force(self._ref, (ctypes.c_double * 3)(*force), 1 if relative else 0)
+
+    def addForceWithOffset(self, force: typing.List[float], offset: typing.List[float], relative: bool):
+        wb.wb_supervisor_node_add_force(self._ref, (ctypes.c_double * 3)(*force), (ctypes.c_double * 3)(*offset),
+                                        1 if relative else 0)
+
+    def addTorque(self, torque: typing.List[float], relative: bool):
+        wb.wb_supervisor_node_add_force(self._ref, (ctypes.c_double * 4)(*torque), 1 if relative else 0)
+
+    @property
+    def DEF(self) -> str:
+        return wb.wb_supervisor_node_get_def(self._ref).decode()
+
+    @property
+    def id(self) -> int:
+        return wb.wb_supervisor_node_get_id(self._ref)
+
+    @property
+    def type(self) -> int:
+        return wb.wb_supervisor_node_get_type(self._ref)
 
     @property
     def type_name(self) -> str:
         return wb.wb_supervisor_node_get_type_name(self._ref).decode()
+
+    @property
+    def base_type_name(self) -> str:
+        return wb.wb_supervisor_node_get_base_type_name(self._ref).decode()
+
+    @property
+    def number_of_fields(self) -> int:
+        return wb.wb_supervisor_node_get_number_of_fields(self._ref)
+
+
+Node.NO_NODE = constant('NODE_NO_NODE')
+Node.APPEARANCE = constant('NODE_APPEARANCE')
+Node.BACKGROUND = constant('NODE_BACKGROUND')
+Node.BILLBOARD = constant('NODE_BILLBOARD')
+Node.BOX = constant('NODE_BOX')
+Node.CAD_SHAPE = constant('NODE_CAD_SHAPE')
+Node.CAPSULE = constant('NODE_CAPSULE')
+Node.COLOR = constant('NODE_COLOR')
+Node.CONE = constant('NODE_CONE')
+Node.COORDINATE = constant('NODE_COORDINATE')
+Node.CYLINDER = constant('NODE_CYLINDER')
+Node.DIRECTIONAL_LIGHT = constant('NODE_DIRECTIONAL_LIGHT')
+Node.ELEVATION_GRID = constant('NODE_ELEVATION_GRID')
+Node.FOG = constant('NODE_FOG')
+Node.GROUP = constant('NODE_GROUP')
+Node.IMAGE_TEXTURE = constant('NODE_IMAGE_TEXTURE')
+Node.INDEXED_FACE_SET = constant('NODE_INDEXED_FACE_SET')
+Node.INDEXED_LINE_SET = constant('NODE_INDEXED_LINE_SET')
+Node.MATERIAL = constant('NODE_MATERIAL')
+Node.MESH = constant('NODE_MESH')
+Node.MUSCLE = constant('NODE_MUSCLE')
+Node.NORMAL = constant('NODE_NORMAL')
+Node.PBR_APPEARANCE = constant('NODE_PBR_APPEARANCE')
+Node.PLANE = constant('NODE_PLANE')
+Node.POINT_LIGHT = constant('NODE_POINT_LIGHT')
+Node.POINT_SET = constant('NODE_POINT_SET')
+Node.SHAPE = constant('NODE_SHAPE')
+Node.SPHERE = constant('NODE_SPHERE')
+Node.SPOT_LIGHT = constant('NODE_SPOT_LIGHT')
+Node.TEXTURE_COORDINATE = constant('NODE_TEXTURE_COORDINATE')
+Node.TEXTURE_TRANSFORM = constant('NODE_TEXTURE_TRANSFORM')
+Node.TRANSFORM = constant('NODE_TRANSFORM')
+Node.VIEWPOINT = constant('NODE_VIEWPOINT')
+Node.ROBOT = constant('NODE_ROBOT')
+Node.ACCELEROMETER = constant('NODE_ACCELEROMETER')
+Node.ALTIMETER = constant('NODE_ALTIMETER')
+Node.BRAKE = constant('NODE_BRAKE')
+Node.CAMERA = constant('NODE_CAMERA')
+Node.COMPASS = constant('NODE_COMPASS')
+Node.CONNECTOR = constant('NODE_CONNECTOR')
+Node.DISPLAY = constant('NODE_DISPLAY')
+Node.DISTANCE_SENSOR = constant('NODE_DISTANCE_SENSOR')
+Node.EMITTER = constant('NODE_EMITTER')
+Node.GPS = constant('NODE_GPS')
+Node.GYRO = constant('NODE_GYRO')
+Node.INERTIAL_UNIT = constant('NODE_INERTIAL_UNIT')
+Node.LED = constant('NODE_LED')
+Node.LIDAR = constant('NODE_LIDAR')
+Node.LIGHT_SENSOR = constant('NODE_LIGHT_SENSOR')
+Node.LINEAR_MOTOR = constant('NODE_LINEAR_MOTOR')
+Node.PEN = constant('NODE_PEN')
+Node.POSITION_SENSOR = constant('NODE_POSITION_SENSOR')
+Node.RADAR = constant('NODE_RADAR')
+Node.RANGE_FINDER = constant('NODE_RANGE_FINDER')
+Node.RECEIVER = constant('NODE_RECEIVER')
+Node.ROTATIONAL_MOTOR = constant('NODE_ROTATIONAL_MOTOR')
+Node.SKIN = constant('NODE_SKIN')
+Node.SPEAKER = constant('NODE_SPEAKER')
+Node.TOUCH_SENSOR = constant('NODE_TOUCH_SENSOR')
+Node.BALL_JOINT = constant('NODE_BALL_JOINT')
+Node.BALL_JOINT_PARAMETERS = constant('NODE_BALL_JOINT_PARAMETERS')
+Node.CHARGER = constant('NODE_CHARGER')
+Node.CONTACT_PROPERTIES = constant('NODE_CONTACT_PROPERTIES')
+Node.DAMPING = constant('NODE_DAMPING')
+Node.FLUID = constant('NODE_FLUID')
+Node.FOCUS = constant('NODE_FOCUS')
+Node.HINGE_JOINT = constant('NODE_HINGE_JOINT')
+Node.HINGE_JOINT_PARAMETERS = constant('NODE_HINGE_JOINT_PARAMETERS')
+Node.HINGE_2_JOINT = constant('NODE_HINGE_2_JOINT')
+Node.IMMERSION_PROPERTIES = constant('NODE_IMMERSION_PROPERTIES')
+Node.JOINT_PARAMETERS = constant('NODE_JOINT_PARAMETERS')
+Node.LENS = constant('NODE_LENS')
+Node.LENS_FLARE = constant('NODE_LENS_FLARE')
+Node.PHYSICS = constant('NODE_PHYSICS')
+Node.RECOGNITION = constant('NODE_RECOGNITION')
+Node.SLIDER_JOINT = constant('NODE_SLIDER_JOINT')
+Node.SLOT = constant('NODE_SLOT')
+Node.SOLID = constant('NODE_SOLID')
+Node.SOLID_REFERENCE = constant('NODE_SOLID_REFERENCE')
+Node.TRACK = constant('NODE_TRACK')
+Node.TRACK_WHEEL = constant('NODE_TRACK_WHEEL')
+Node.WORLD_INFO = constant('NODE_WORLD_INFO')
+Node.ZOOM = constant('NODE_ZOOM')
+Node.MICROPHONE = constant('NODE_MICROPHONE')
+Node.RADIO = constant('NODE_RADIO')

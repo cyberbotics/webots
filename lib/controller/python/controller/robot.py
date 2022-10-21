@@ -15,6 +15,7 @@
 import ctypes
 import sys
 from controller.wb import wb
+from controller.node import Node
 from controller.device import Device
 from controller.accelerometer import Accelerometer
 from controller.altimeter import Altimeter
@@ -40,8 +41,6 @@ from controller.receiver import Receiver
 from controller.skin import Skin
 from controller.speaker import Speaker
 from controller.touch_sensor import TouchSensor
-
-from controller.constants import constant
 
 from controller.joystick import Joystick
 from controller.keyboard import Keyboard
@@ -75,84 +74,59 @@ class Robot:
             return
         Robot.created = self
         wb.wb_robot_init()
-        self.NODE_ACCELEROMETER = constant('NODE_ACCELEROMETER')
-        self.NODE_ALTIMETER = constant('NODE_ALTIMETER')
-        self.NODE_BRAKE = constant('NODE_BRAKE')
-        self.NODE_CAMERA = constant('NODE_CAMERA')
-        self.NODE_COMPASS = constant('NODE_COMPASS')
-        self.NODE_CONNECTOR = constant('NODE_CONNECTOR')
-        self.NODE_DISPLAY = constant('NODE_DISPLAY')
-        self.NODE_DISTANCE_SENSOR = constant('NODE_DISTANCE_SENSOR')
-        self.NODE_EMITTER = constant('NODE_EMITTER')
-        self.NODE_GPS = constant('NODE_GPS')
-        self.NODE_GYRO = constant('NODE_GYRO')
-        self.NODE_INERTIAL_UNIT = constant('NODE_INERTIAL_UNIT')
-        self.NODE_LED = constant('NODE_LED')
-        self.NODE_LIDAR = constant('NODE_LIDAR')
-        self.NODE_LIGHT_SENSOR = constant('NODE_LIGHT_SENSOR')
-        self.NODE_LINEAR_MOTOR = constant('NODE_LINEAR_MOTOR')
-        self.NODE_PEN = constant('NODE_PEN')
-        self.NODE_POSITION_SENSOR = constant('NODE_POSITION_SENSOR')
-        self.NODE_RADAR = constant('NODE_RADAR')
-        self.NODE_RANGE_FINDER = constant('NODE_RANGE_FINDER')
-        self.NODE_RECEIVER = constant('NODE_RECEIVER')
-        self.NODE_ROTATIONAL_MOTOR = constant('NODE_ROTATIONAL_MOTOR')
-        self.NODE_SKIN = constant('NODE_SKIN')
-        self.NODE_SPEAKER = constant('NODE_SPEAKER')
-        self.NODE_TOUCH_SENSOR = constant('NODE_TOUCH_SENSOR')
         self.devices = {}
         n = wb.wb_robot_get_number_of_devices()
         for i in range(0, n):
             tag = wb.wb_robot_get_device_by_index(i)
             name = wb.wb_device_get_name(tag).decode()
             type = wb.wb_device_get_node_type(tag)
-            if type == self.NODE_ACCELEROMETER:
+            if type == Node.ACCELEROMETER:
                 self.devices[name] = Accelerometer(tag)
-            elif type == self.NODE_ALTIMETER:
+            elif type == Node.ALTIMETER:
                 self.devices[name] = Altimeter(name)
-            elif type == self.NODE_BRAKE:
+            elif type == Node.BRAKE:
                 self.devices[name] = Brake(tag)
-            elif type == self.NODE_CAMERA:
+            elif type == Node.CAMERA:
                 self.devices[name] = Camera(tag)
-            elif type == self.NODE_COMPASS:
+            elif type == Node.COMPASS:
                 self.devices[name] = Compass(tag)
-            elif type == self.NODE_CONNECTOR:
+            elif type == Node.CONNECTOR:
                 self.devices[name] = Connector(tag)
-            elif type == self.NODE_DISPLAY:
+            elif type == Node.DISPLAY:
                 self.devices[name] = Display(tag)
-            elif type == self.NODE_DISTANCE_SENSOR:
+            elif type == Node.DISTANCE_SENSOR:
                 self.devices[name] = DistanceSensor(tag)
-            elif type == self.NODE_EMITTER:
+            elif type == Node.EMITTER:
                 self.devices[name] = Emitter(tag)
-            elif type == self.NODE_GPS:
+            elif type == Node.GPS:
                 self.devices[name] = GPS(tag)
-            elif type == self.NODE_GYRO:
+            elif type == Node.GYRO:
                 self.devices[name] = Gyro(tag)
-            elif type == self.NODE_INERTIAL_UNIT:
+            elif type == Node.INERTIAL_UNIT:
                 self.devices[name] = InertialUnit(tag)
-            elif type == self.NODE_LED:
+            elif type == Node.LED:
                 self.devices[name] = LED(tag)
-            elif type == self.NODE_LIDAR:
+            elif type == Node.LIDAR:
                 self.devices[name] = Lidar(tag)
-            elif type == self.NODE_LIGHT_SENSOR:
+            elif type == Node.LIGHT_SENSOR:
                 self.devices[name] = LightSensor(tag)
-            elif type == self.NODE_LINEAR_MOTOR or type == self.NODE_ROTATIONAL_MOTOR:
+            elif type == Node.LINEAR_MOTOR or type == Node.ROTATIONAL_MOTOR:
                 self.devices[name] = Motor(tag)
-            elif type == self.NODE_PEN:
+            elif type == Node.PEN:
                 self.devices[name] = Pen(tag)
-            elif type == self.NODE_POSITION_SENSOR:
+            elif type == Node.POSITION_SENSOR:
                 self.devices[name] = PositionSensor(tag)
-            elif type == self.NODE_RADAR:
+            elif type == Node.RADAR:
                 self.devices[name] = Radar(tag)
-            elif type == self.NODE_RANGE_FINDER:
+            elif type == Node.RANGE_FINDER:
                 self.devices[name] = RangeFinder(tag)
-            elif type == self.NODE_RECEIVER:
+            elif type == Node.RECEIVER:
                 self.devices[name] = Receiver(tag)
-            elif type == self.NODE_SKIN:
+            elif type == Node.SKIN:
                 self.devices[name] = Skin(tag)
-            elif type == self.NODE_SPEAKER:
+            elif type == Node.SPEAKER:
                 self.devices[name] = Speaker(tag)
-            elif type == self.NODE_TOUCH_SENSOR:
+            elif type == Node.TOUCH_SENSOR:
                 self.devices[name] = TouchSensor(tag)
             else:
                 print('Unsupported device type: ' + str(type) + ' for device named "' + name + '"', file=sys.stderr)

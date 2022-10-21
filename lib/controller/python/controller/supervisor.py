@@ -22,12 +22,27 @@ class Supervisor(Robot):
     def __init__(self):
         super().__init__()
 
-    def getFromDef(self, d: str):
-        return Node(d)
+    def getRoot(self) -> Node:
+        return Node()
+
+    def getSelf(self) -> Node:
+        return Node(tag=0)
+
+    def getFromDef(self, d: str) -> Node:
+        return Node(DEF=d)
+
+    def getFromId(self, id) -> Node:
+        return Node(id=id)
+
+    def getFromDevice(self, tag) -> Node:
+        return Node(tag=tag)
+
+    def getSelected(self) -> Node:
+        return Node(selected=True)
 
     def setLabel(self, id, label, x, y, size, color, transparency=0, font='Arial'):
         wb.wb_supervisor_set_label(id, str.encode(label), ctypes.c_double(x), ctypes.c_double(y), ctypes.c_double(size),
                                    color, ctypes.c_double(transparency), str.encode(font))
 
-    def simulationQuit(self, status: int) -> None:
+    def simulationQuit(self, status: int):
         wb.wb_supervisor_simulation_quit(status)
