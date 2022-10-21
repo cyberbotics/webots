@@ -21,9 +21,10 @@
 
   const webotsView = new WebotsView();
   document.getElementById('webots-container').appendChild(webotsView);
+
+  // ROBOTS
   //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/sony/aibo/protos/AiboErs7.proto")
   //  webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/saeon/protos/Altino.proto"); // undefined object
-  //  webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/franka_emika/panda/protos/Panda.proto"); // gripper wrong location
   //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/boston_dynamics/atlas/protos/Atlas.proto");
   //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/sphero/bb8/protos/BB-8.proto");
   //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/robotis/bioloid/protos/BioloidDog.proto"); // (issue MFNode -> USE) ok
@@ -51,10 +52,81 @@
   //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/k-team/khepera2/protos/Khepera2.proto");
   //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/k-team/khepera3/protos/Khepera3.proto");
   //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/k-team/khepera4/protos/Khepera4.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/k-team/koala/protos/Koala.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/micromagic/mantis/protos/Mantis.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/dji/mavic/protos/Mavic2Pro.proto");
+
+
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/picaxe/microbot/protos/Microbot.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/lego/mindstorms/protos/MindstormsRover.proto");
+  //  webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/mir/mir100/protos/Mir100.proto"); // missing lidars?
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/clearpath/moose/protos/Moose.proto");
+  //  webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/softbank/nao/protos/Nao.proto"); // missing stuff
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/niryo/ned/protos/Ned.proto");
+  //  webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/franka_emika/panda/protos/Panda.proto"); // gripper wrong location
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/fp_robotics/p-rob3/protos/P-Rob3.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/clearpath/pr2/protos/Pr2.proto");
+  // webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/adept/pioneer2/protos/Pioneer2.proto"); // inversed indexed faceset?
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/adept/pioneer3/protos/Pioneer3at.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/adept/pioneer3/protos/Pioneer3dx.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/a4/portal/protos/Portal.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/unimation/puma/protos/Puma560.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/sony/qrio/protos/QRIO.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/festo/robotino3/protos/Robotino3.proto");
+  // webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/robotis/darwin-op/protos/RobotisOp2.proto"); // missing stuff
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/robotis/darwin-op/protos/RobotisOp3.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/epfl/biorob/protos/Salamander.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/epson/scara_t6/protos/ScaraT6.proto");
+  //  webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/bluebotics/shrimp/protos/Shrimp.proto"); // support solid reference
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/nasa/protos/Sojourner.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/boston_dynamics/spot/protos/Spot.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/robotnik/summit_xl_steel/protos/SummitXlSteel.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/surveyor/protos/SurveyorSrv1.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/pal_robotics/tiago_iron/protos/TiagoIron.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/pal_robotics/tiago_steel/protos/TiagoSteel.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/pal_robotics/tiago_titanium/protos/TiagoTitanium.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/pal_robotics/tiago++/protos/Tiago++.proto");
+  //  webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/mobsya/thymio/protos/Thymio2.proto"); // wrong textures?
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/kinematics/tinkerbots/protos/TinkerbotsFinger.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/kinematics/tinkerbots/protos/TinkerbotsDistanceSensor.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/kinematics/tinkerbots/protos/TinkerbotsWheel.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/kinematics/tinkerbots/protos/TinkerbotsPivot.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/kinematics/tinkerbots/protos/TinkerbotsMotor.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieBoxWithRoundSlots.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/kinematics/tinkerbots/protos/TinkerbotsCube.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubiePyramid.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieBoxWithCrossSlots.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/kinematics/tinkerbots/protos/TinkerbotsBrickAdapter.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieMaleCube.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/kinematics/tinkerbots/protos/TinkerbotsGrabber.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/kinematics/tinkerbots/protos/TinkerbotsBase.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/kinematics/tinkerbots/protos/TinkerbotsAxle.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieTriangle.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieFemaleCube.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/kinematics/tinkerbots/protos/TinkerbotsLightSensor.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/kinematics/tinkerbots/protos/TinkerbotsTwister.proto");
+  //  webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/robotis/turtlebot/protos/TurtleBot3Burger.proto"); // alias broken
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/universal_robots/protos/UR3e.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/universal_robots/protos/UR5e.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/universal_robots/protos/UR10e.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/epfl/biorob/protos/Yamor.proto");
+  //  webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/robots/kuka/youbot/protos/Youbot.proto"); // missing base
+
+  // OBJECTS
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/objects/road/protos/Road.proto");
+  //webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/objects/road/protos/HelicoidalRoadSegment.proto");
+  //  webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/objects/buildings/protos/RandomBuilding.proto"); // alias broken
+  //  webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/vehicles/protos/tesla/TeslaModel3.proto");
+  //  webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/vehicles/protos/generic/Truck.proto");
+  //  webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/objects/cabinet/protos/Cabinet.proto"); // wrong defs ?
+  webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/improve-proto-converter/projects/objects/chairs/protos/OfficeChair.proto");
+
+
 
   // webotsView.loadProto("protos/TestFields.proto");
   //webotsView.loadProto("protos/TestProto.proto");
-  webotsView.loadProto("protos/TestRegeneration.proto");
+  //webotsView.loadProto("protos/TestRegeneration.proto");
 
 
 </script>

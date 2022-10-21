@@ -74,7 +74,7 @@ export default class TemplateEngine {
     }
 
     // remove imports from the body, if any is present (all necessary templating modules are imported in this file)
-    const matches = jsBody.match(/(import(?:.*?from.*?'.*?')[;\s])/);
+    const matches = jsBody.match(/(import(?:.*?from.*?'.*?')[;\s])/g);
     if (matches !== null) {
       for (const match of matches)
         jsBody = jsBody.replace(match, '');
