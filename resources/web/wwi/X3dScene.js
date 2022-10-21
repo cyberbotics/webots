@@ -150,7 +150,7 @@ export default class X3dScene {
   loadRawWorldFile(raw, onLoad, progress) {
     const prefix = webots.currentView.prefix;
     this.#loader = new Parser(prefix);
-    this.#loader.parse(raw, this.renderer).then(onLoad());
+    this.#loader.parse(raw, this.renderer).then(() => onLoad());
   }
 
   loadWorldFile(url, onLoad, progress) {
@@ -163,7 +163,7 @@ export default class X3dScene {
       // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
       if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) {
         this.#loader = new Parser(prefix);
-        this.#loader.parse(xmlhttp.responseText, renderer).then(onLoad());
+        this.#loader.parse(xmlhttp.responseText, renderer).then(() => onLoad());
       } else if (xmlhttp.status === 404)
         progress.setProgressBar('block', 'Loading world file...', 5, '(error) File not found: ' + url);
     };
