@@ -13,9 +13,14 @@
 # limitations under the License.
 
 import ctypes
-import typing
 from controller.wb import wb
 from controller.constants import constant
+import struct
+import typing
+
+
+class Node:
+    pass
 
 
 class Field:
@@ -48,55 +53,257 @@ class Field:
     wb.wb_supervisor_field_get_sf_rotation.restype = ctypes.POINTER(ctypes.c_double)
     wb.wb_supervisor_field_get_sf_color.restype = ctypes.POINTER(ctypes.c_double)
     wb.wb_supervisor_field_get_sf_string.restype = ctypes.c_char_p
+    wb.wb_supervisor_field_get_mf_float.restype = ctypes.c_double
+    wb.wb_supervisor_field_get_mf_vec2f.restype = ctypes.POINTER(ctypes.c_double)
+    wb.wb_supervisor_field_get_mf_vec3f.restype = ctypes.POINTER(ctypes.c_double)
+    wb.wb_supervisor_field_get_mf_rotation.restype = ctypes.POINTER(ctypes.c_double)
+    wb.wb_supervisor_field_get_mf_color.restype = ctypes.POINTER(ctypes.c_double)
+    wb.wb_supervisor_field_get_mf_string.restype = ctypes.c_char_p
     wb.wb_supervisor_field_set_sf_vec2f.argtypes = [ctypes.c_void_p, ctypes.c_double * 2]
     wb.wb_supervisor_field_set_sf_vec3f.argtypes = [ctypes.c_void_p, ctypes.c_double * 3]
     wb.wb_supervisor_field_set_sf_rotation.argtypes = [ctypes.c_void_p, ctypes.c_double * 4]
     wb.wb_supervisor_field_set_sf_color.argtypes = [ctypes.c_void_p, ctypes.c_double * 3]
+    wb.wb_supervisor_field_get_mf_float.restype = ctypes.c_double
+    wb.wb_supervisor_virtual_reality_headset_get_position = ctypes.POINTER(ctypes.c_double)
+    wb.wb_supervisor_virtual_reality_headset_get_orientation = ctypes.POINTER(ctypes.c_double)
 
     def __init__(self, node, name: typing.Optional[str] = None, index: typing.Optional[int] = None, proto: bool = False):
         if proto:
             if name is not None:
-                self._ref = wb.wb_supervisor_node_get_proto_field(node._ref, str.encode(name))
+                self._ref = ctypes.c_void_p(wb.wb_supervisor_node_get_proto_field(node._ref, str.encode(name)))
             else:
-                self._ref = wb.wb_supervisor_node_get_proto_field_by_index(node._ref, index)
+                self._ref = ctypes.c_void_p(wb.wb_supervisor_node_get_proto_field_by_index(node._ref, index))
         else:
             if name is not None:
-                self._ref = wb.wb_supervisor_node_get_field(ctypes.c_void_p(node._ref), str.encode(name))
+                self._ref = ctypes.c_void_p(wb.wb_supervisor_node_get_field(ctypes.c_void_p(node._ref), str.encode(name)))
             else:
-                self._ref = wb.wb_supervisor_node_get_field_by_index(node._ref, index)
+                self._ref = ctypes.c_void_p(wb.wb_supervisor_node_get_field_by_index(node._ref, index))
 
-        self.type = wb.wb_supervisor_field_get_type(ctypes.c_void_p(self._ref))
+        self.type = wb.wb_supervisor_field_get_type(self._ref)
 
-    def getSFVec3f(self) -> [float, float, float]:
+    def getName(self) -> str:
+        return self.name
+
+    def getType(self) -> int:
+        return self.type
+
+    def getTypeName(self) -> str:
+        return self.type_name
+
+    def getCount(self) -> int:
+        return self.count
+
+    def enableSFTracking(self, samplingPeriod: int):
+        wb.wb_supervisor_field_enable_sf_tracking(samplingPeriod)
+
+    def disableSFTracking(self):
+        wb.wb_supervisor_field_disable_sf_tracking()
+
+    def getSFBool(self) -> bool:
         return self.value
 
+    def getSFInt32(self) -> int:
+        return self.value
+
+    def getSFFloat(self) -> float:
+        return self.value
+
+    def getSFVec2f(self) -> typing.List[float]:
+        return self.value
+
+    def getSFVec3f(self) -> typing.List[float]:
+        return self.value
+
+    def getSFRotation(self) -> typing.List[float]:
+        return self.value
+
+    def getSFColor(self) -> typing.List[float]:
+        return self.value
+
+    def getSFString(self) -> str:
+        return self.value
+
+    def getSFNode(self) -> Node:
+        return self.value
+
+    def getMFBool(self, index: int) -> bool:
+        return wb.wb_supervisor_field_get_mf_bool(self._ref, index) != 0
+
+    def getMFInt32(self, index: int) -> int:
+        return wb.wb_supervisor_field_get_mf_int32(self._ref, index)
+
+    def getMFFloat(self, index: int) -> float:
+        return wb.wb_supervisor_field_get_mf_float(self._ref, index)
+
+    def getMFString(self, index: int) -> str:
+        return wb.wb_supervisor_field_get_mf_string(self._ref, index).decode()
+
+    def getMFVec2f(self, index: int) -> typing.List[float]:
+        return wb.wb_supervisor_field_get_mf_vec2f(self._ref, index)[:2]
+
+    def getMFVec3f(self, index: int) -> typing.List[float]:
+        return wb.wb_supervisor_field_get_mf_vec3f(self._ref, index)[:3]
+
+    def getMFRotation(self, index: int) -> typing.List[float]:
+        return wb.wb_supervisor_field_get_mf_rotation(self._ref, index)[:4]
+
+    def getMFColor(self, index: int) -> typing.List[float]:
+        return wb.wb_supervisor_field_get_mf_color(self._ref, index)[:3]
+
+    def getMFNode(self, index: int) -> Node:
+        return Node(ref=wb.wb_supervisor_field_get_mf_node(self._ref, index))
+
+    def setSFBool(self, value: bool):
+        self.value = value
+
+    def setSFInt32(self, value: int):
+        self.value = value
+
+    def setSFFloat(self, value: float):
+        self.value = value
+
+    def setSFVec2f(self, value: typing.List[float]):
+        self.value = value
+
+    def setSFVec3f(self, value: typing.List[float]):
+        self.value = value
+
+    def setSFRotation(self, value: typing.List[float]):
+        self.value = value
+
+    def setSFColor(self, value: typing.List[float]):
+        self.value = value
+
+    def setSFString(self, value: str):
+        self.value = value
+
+    def setMFBool(self, index, value: bool):
+        wb.wb_supervisor_field_set_mf_bool(self._ref, index, 1 if value else 0)
+
+    def setMFInt32(self, index, value: int):
+        wb.wb_supervisor_field_set_mf_int32(self._ref, index, value)
+
+    def setMFFloat(self, index, value: float):
+        wb.wb_supervisor_field_set_mf_float(self._ref, index, ctypes.c_double(value))
+
+    def setMFVec2f(self, index, value: typing.List[float]):
+        data = struct.pack('dd', *value)
+        wb.wb_supervisor_field_set_mf_vec2f(self._ref, index, ctypes.POINTER(ctypes.c_ubyte(data)))
+
+    def setMFVec3f(self, index, value: typing.List[float]):
+        data = struct.pack('ddd', *value)
+        wb.wb_supervisor_field_set_mf_vec3f(self._ref, index, ctypes.POINTER(ctypes.c_ubyte(data)))
+
+    def setMFRotation(self, index, value: typing.List[float]):
+        data = struct.pack('dddd', *value)
+        wb.wb_supervisor_field_set_mf_rotation(self._ref, index, ctypes.POINTER(ctypes.c_ubyte(data)))
+
+    def setMFColor(self, index, value: typing.List[float]):
+        data = struct.pack('ddd', *value)
+        wb.wb_supervisor_field_set_mf_color(self._ref, index, ctypes.POINTER(ctypes.c_ubyte(data)))
+
+    def setMFString(self, index, value: str):
+        wb.wb_supervisor_field_set_mf_string(self._ref, index, str.encode(value))
+
+    def insertMFBool(self, index, value: bool):
+        wb.wb_supervisor_field_insert_mf_bool(self._ref, index, 1 if value else 0)
+
+    def insertMFInt32(self, index, value: int):
+        wb.wb_supervisor_field_insert_mf_int32(self._ref, index, value)
+
+    def insertMFFloat(self, index, value: float):
+        wb.wb_supervisor_field_insert_mf_float(self._ref, index, ctypes.c_double(value))
+
+    def insertMFVec2f(self, index, value: typing.List[float]):
+        data = struct.pack('dd', *value)
+        wb.wb_supervisor_field_insert_mf_vec2f(self._ref, index, ctypes.POINTER(ctypes.c_ubyte(data)))
+
+    def insertMFVec3f(self, index, value: typing.List[float]):
+        data = struct.pack('ddd', *value)
+        wb.wb_supervisor_field_insert_mf_vec3f(self._ref, index, ctypes.POINTER(ctypes.c_ubyte(data)))
+
+    def insertMFRotation(self, index, value: typing.List[float]):
+        data = struct.pack('dddd', *value)
+        wb.wb_supervisor_field_insert_mf_rotation(self._ref, index, ctypes.POINTER(ctypes.c_ubyte(data)))
+
+    def insertMFColor(self, index, value: typing.List[float]):
+        data = struct.pack('ddd', *value)
+        wb.wb_supervisor_field_insert_mf_color(self._ref, index, ctypes.POINTER(ctypes.c_ubyte(data)))
+
+    def insertMFString(self, index, value):
+        wb.wb_supervisor_field_insert_mf_string(self._ref, index, str.encode(value))
+
+    def removeMF(self, index):
+        wb.wb_supervisor_field_remove_mf(self._ref, index)
+
+    def removeSF(self):
+        wb.wb_supervisor_field_remove_mf(self._ref)
+
+    def importMFNodeFromString(self, position: int, nodeString: str):
+        wb.wb_supervisor_field_import_mf_node_from_string(self._ref, position, str.encode(nodeString))
+
+    def importSFNodeFromString(self, nodeString: str):
+        wb.wb_supervisor_field_import_sf_node_from_string(self._ref, str.encode(nodeString))
+
+    def virtualRealityHeadsetIsUsed(self):
+        return wb.wb_supervisor_virtual_reality_headset_is_used() != 0
+
+    def virtualRealityHeadsetGetPosition(self) -> typing.List[float]:
+        return wb.wb_supervisor_virtual_reality_headset_get_position()
+
+    def virtualRealityHeadsetGetOrientation(self) -> typing.List[float]:
+        return wb.wb_supervisor_virtual_reality_headset_get_orientation()
+
     @property
-    def value(self) -> typing.Union[bool, int, float, str,
-                                    typing.List[bool], typing.List[int], typing.List[float], typing.List[str]]:
+    def name(self) -> str:
+        return wb.wb_supervisor_field_get_name(self._ref).decode()
+
+    @property
+    def type_name(self) -> str:
+        return wb.wb_supervisor_field_get_type_name(self._ref).decode()
+
+    @property
+    def count(self) -> int:
+        return wb.wb_supervisor_field_get_count(self._ref)
+
+    @property
+    def value(self) -> typing.Union[bool, int, float, str, typing.List[float]]:
         if self.type == Field.SF_BOOL:
-            return wb.wb_supervisor_field_get_sf_bool(ctypes.c_void_p(self._ref))
-        if self.type == Field.SF_INT32:
-            return wb.wb_supervisor_field_get_sf_int32(ctypes.c_void_p(self._ref))
-        if self.type == Field.SF_FLOAT:
-            return wb.wb_supervisor_field_get_sf_float(ctypes.c_void_p(self._ref))
-        if self.type == Field.SF_VEC2F:
-            return wb.wb_supervisor_field_get_sf_vec2f(ctypes.c_void_p(self._ref))[:2]
-        if self.type == Field.SF_VEC3F:
-            return wb.wb_supervisor_field_get_sf_vec3f(ctypes.c_void_p(self._ref))[:3]
-        if self.type == Field.SF_ROTATION:
-            return wb.wb_supervisor_field_get_sf_rotation(ctypes.c_void_p(self._ref))[:4]
-        if self.type == Field.SF_COLOR:
-            return wb.wb_supervisor_field_get_sf_color(ctypes.c_void_p(self._ref))[:3]
-        return None
+            return wb.wb_supervisor_field_get_sf_bool(self._ref)
+        elif self.type == Field.SF_INT32:
+            return wb.wb_supervisor_field_get_sf_int32(self._ref)
+        elif self.type == Field.SF_FLOAT:
+            return wb.wb_supervisor_field_get_sf_float(self._ref)
+        elif self.type == Field.SF_STRING:
+            return wb.wb_supervisor_field_get_sf_string(self._ref).decode()
+        elif self.type == Field.SF_VEC2F:
+            return wb.wb_supervisor_field_get_sf_vec2f(self._ref)[:2]
+        elif self.type == Field.SF_VEC3F:
+            return wb.wb_supervisor_field_get_sf_vec3f(self._ref)[:3]
+        elif self.type == Field.SF_ROTATION:
+            return wb.wb_supervisor_field_get_sf_rotation(self._ref)[:4]
+        elif self.type == Field.SF_COLOR:
+            return wb.wb_supervisor_field_get_sf_color(self._ref)[:3]
+        elif self.type == Field.SF_NODE:
+            return Node(ref=wb.wb_supervisor_field_get_sf_node(self._ref))
+        else:
+            return None
 
     @value.setter
-    def value(self, p: typing.Union[bool, int, float, str,
-                                    typing.List[bool], typing.List[int], typing.List[float], typing.List[str]]):
-        if self.type == Field.SF_VEC2F:
-            wb.wb_supervisor_field_set_sf_vec2f(ctypes.c_void_p(self._ref), (ctypes.c_double * 2)(*p))
-        elif self.type == Field.SF_VEC3F:
-            wb.wb_supervisor_field_set_sf_vec3f(ctypes.c_void_p(self._ref), (ctypes.c_double * 3)(*p))
-        elif self.type == Field.SF_ROTATION:
-            wb.wb_supervisor_field_set_sf_rotation(ctypes.c_void_p(self._ref), (ctypes.c_double * 4)(*p))
-        elif self.type == Field.SF_COLOR:
-            wb.wb_supervisor_field_set_sf_color(ctypes.c_void_p(self._ref), (ctypes.c_double * 3)(*p))
+    def value(self, value: typing.Union[bool, int, float, str, typing.List[float]]):
+        if self.type == Field.SF_BOOL and isinstance(value, bool):
+            wb.wb_supervisor_field_set_sf_bool(self._ref, 1 if value else 0)
+        elif self.type == Field.SF_INT32 and isinstance(value, int):
+            wb.wb_supervisor_field_set_sf_int32(self._ref, value)
+        elif self.type == Field.SF_FLOAT and isinstance(value, float):
+            wb.wb_supervisor_field_set_sf_float(self._ref, ctypes.c_double(value))
+        elif self.type == Field.SF_STRING and isinstance(value, str):
+            wb.wb_supervisor_field_set_sf_string(self._ref, str.encode(value))
+        elif self.type == Field.SF_VEC2F and isinstance(value, list) and len(value) == 2:
+            wb.wb_supervisor_field_set_sf_vec2f(self._ref, (ctypes.c_double * 2)(*value))
+        elif self.type == Field.SF_VEC3F and isinstance(value, list) and len(value) == 3:
+            wb.wb_supervisor_field_set_sf_vec3f(self._ref, (ctypes.c_double * 3)(*value))
+        elif self.type == Field.SF_ROTATION and isinstance(value, list) and len(value) == 4:
+            wb.wb_supervisor_field_set_sf_rotation(self._ref, (ctypes.c_double * 4)(*value))
+        elif self.type == Field.SF_COLOR and isinstance(value, list) and len(value) == 3:
+            wb.wb_supervisor_field_set_sf_color(self._ref, (ctypes.c_double * 3)(*value))

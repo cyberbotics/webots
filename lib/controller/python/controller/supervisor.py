@@ -46,3 +46,60 @@ class Supervisor(Robot):
 
     def simulationQuit(self, status: int):
         wb.wb_supervisor_simulation_quit(status)
+
+    def simulationSetMode(self, mode: int):
+        self.simulation_mode = mode
+
+    def simulationGetMode(self) -> int:
+        return self.simulation_mode
+
+    def simulationReset(self):
+        wb.wb_supervisor_simulation_reset()
+
+    def simulationResetPhysics(self):
+        wb.wb_supervisor_simulation_reset_physics()
+
+    def worldLoad(self, filename: str):
+        wb.wb_supervisor_simulation_world_load(str.encode(filename))
+
+    def worldSave(self, filename: str) -> int:
+        return wb.wb_supervisor_simulation_world_save(str.encode(filename))
+
+    def worldReload(self):
+        wb.wb_supervisor_simulation_world_reload()
+
+    def exportImage(self, filename: str, quality: int):
+        wb.wb_supervisor_export_image(str.encode(filename), quality)
+
+    def movieStartRecording(self, filename: str, width: int, height: int, codec: int, quality: int, acceleration: int,
+                            caption: bool):
+        wb.wb_supervisor_movie_start_recording(str.encode(filename), width, height, codec, quality, acceleration,
+                                               1 if caption else 0)
+
+    def movieStopRecording(self):
+        wb.wb_supervisor_movie_stop_recording()
+
+    def movieIsReady(self):
+        return wb.wb_supervisor_movie_is_ready() != 0
+
+    def movieFailed(self):
+        return wb.wb_supervisor_movie_failed() != 0
+
+    def animationStartRecording(self, filename: str):
+        return wb.wb_supervisor_animation_start_recording(str.encode(filename))
+
+    def animationStopRecording(self):
+        return wb.wb_supervisor_animation_stop_recording()
+
+    @property
+    def simulation_mode(self) -> int:
+        return wb.wb_supervisor_simulation_get_mode()
+
+    @simulation_mode.setter
+    def mode(self, mode: int):
+        return wb.wb_supervisor_simulation_set_mode(mode)
+
+
+Supervisor.SIMULATION_MODE_PAUSE = 0
+Supervisor.SIMULATION_MODE_REAL_TIME = 1
+Supervisor.SIMULATION_MODE_FAST = 2
