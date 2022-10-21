@@ -316,6 +316,9 @@ export class SFNode extends SingleValue {
 
   toJS() {
     if (typeof this.value === 'undefined')
+      throw new Error('When exporting to JavaScript, the field should always be defined (or null).');
+
+    if (this.value === null)
       return;
 
     return this.value.toJS();

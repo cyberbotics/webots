@@ -402,13 +402,21 @@ function combinePaths(url, parentUrl) {
   if (url.startsWith('http://') || url.startsWith('https://'))
     return url; // url is already resolved
 
+  if (url.startsWith('webots://') && (parentUrl.startsWith('http://') || parentUrl.startsWith('https://'))) {
+    const match = parentUrl.match(/(https:\/\/raw.githubusercontent.com\/cyberbotics\/webots\/[a-zA-Z0-9\_\-\+]+\/)/);
+    if (match === null)
+      throw new Error('Expected prefix not found in parent url.');
+
+    return url.replace('webots://', match[0]);
+  }
+
   let newUrl;
   if (parentUrl.startsWith('http://' || url.startsWith('https://')))
     newUrl = new URL(url, parentUrl.slice(0, parentUrl.lastIndexOf('/') + 1)).href;
   else
     newUrl = parentUrl.slice(0, parentUrl.lastIndexOf('/') + 1) + url;
 
-  // console.log('FROM >' + url + '< AND >' + parentUrl + "< === " + newUrl);
+  console.log('FROM >' + url + '< AND >' + parentUrl + "< === " + newUrl);
   return newUrl;
 }
 
