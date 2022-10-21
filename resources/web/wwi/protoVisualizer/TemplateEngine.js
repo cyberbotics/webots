@@ -73,6 +73,13 @@ export default class TemplateEngine {
       lastIndexClosingToken = indexClosingToken;
     }
 
+    // remove imports from the body, if any is present (all necessary templating modules are imported in this file)
+    const matches = jsBody.match(/(import(?:.*?from.*?'.*?')[;\s])/);
+    if (matches !== null) {
+      for (const match of matches)
+        jsBody = jsBody.replace(match, '');
+    }
+
     return jsBody;
   };
 

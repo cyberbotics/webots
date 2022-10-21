@@ -102,6 +102,13 @@ export class SFString extends SingleValue {
     this.value = tokenizer.nextWord();
   }
 
+  setValueFromJavaScript(v) {
+    if (!v.startsWith('"') && !v.endsWith('"'))
+      this.value = '"' + v + '"';
+    else
+      this.value = v;
+  }
+
   type() {
     return VRML.SFString;
   }
