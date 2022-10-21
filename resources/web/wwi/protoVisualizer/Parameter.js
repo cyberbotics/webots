@@ -1,13 +1,18 @@
 'use strict';
 
 import {getAParameterId} from '../nodes/utils/id_provider.js';
+import { stringifyType } from './Vrml.js';
 
 export default class Parameter {
+  #id = getAParameterId();
+  #type;
+  #name;
   #value;
   #defaultValue;
-  #id = getAParameterId();
-  constructor(node, name, defaultValue, value, isTemplateRegenerator) {
+  #isTemplateRegenerator;
+  constructor(node, name, type, defaultValue, value, isTemplateRegenerator) {
     this.node = node; // node this parameter belongs to
+    this.type = type;
     this.name = name;
     this.defaultValue = defaultValue;
     this.value = value;
@@ -19,6 +24,9 @@ export default class Parameter {
   }
 
   set value(v) {
+    if (v.type() !== this.type)
+      throw new Error('Type mismatch, setting ' + stringifyType(v.type()) + ' to ' + stringifyType(this.type) + ' parameter.');
+
     this.#value = v;
   }
 
@@ -27,6 +35,9 @@ export default class Parameter {
   }
 
   set defaultValue(v) {
+    if (v.type() !== this.type)
+      throw new Error('Type mismatch, setting ' + stringifyType(v.type()) + ' to ' + stringifyType(this.type) + ' parameter.');
+
     this.#defaultValue = v;
   }
 
@@ -38,11 +49,34 @@ export default class Parameter {
     this.#id = value;
   }
 
-  type() {
-    if (typeof this.defaultValue === 'undefined')
-      throw new Error('Requesting type of an undefined parameter');
+  get type() {
+    return this.#type;
+  }
 
-    return this.defaultValue.type();
+  set type(type) {
+    this.#type = type;
+  }
+
+  get name() {
+    return this.#name;
+  }
+
+  set name(value) {
+    this.#name = value;
+  }
+
+  get isTemplateRegenerator() {
+    return this.#isTemplateRegenerator;
+  }
+
+  set isTemplateRegenerator(value) {
+    this.#isTemplateRegenerator = value;
+  }
+
+  setValueFromJavaScript(v) {
+    this.value.setValueFromJavaScript(v);
+    if (this.isTemplateRegenerator)
+      this.node.parseBody(true);
   }
 
   isDefault() {
@@ -53,7 +87,7 @@ export default class Parameter {
   }
 
   clone() {
-    const copy = new Parameter(this.node, this.name, this.defaultValue.clone(), this.defaultValue.clone(),
+    const copy = new Parameter(this.node, this.name, this.type, this.defaultValue.clone(), this.value.clone(),
       this.isTemplateRegenerator);
     return copy;
   }

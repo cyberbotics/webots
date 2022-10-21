@@ -22,35 +22,40 @@ export default class ProtoManager {
       };
       xmlhttp.send();
     }).then(async text => {
-      console.log('Load PROTO from URL: ' + url)
+      console.log('Load PROTO from URL: ' + url);
       this.proto = new Node(url, text);
       await this.proto.fetch();
       this.proto.parseBody();
       this.loadX3d();
       this.generateExposedParameterList();
-      // setTimeout(() => this.updateParameter(), 2000);
+      setTimeout(() => this.updateParameter(), 3000);
     });
   }
 
   generateExposedParameterList() {
     console.log('EXPOSED PARAMETERS ARE:');
-    for (const [parameterName, parameterValue] of this.proto.parameters) {
-      console.log(parameterName, parameterValue);
-      this.exposedParameters.set(parameterName, parameterValue); // TODO: change key to parameter id
+    for (const [parameterName, parameter] of this.proto.parameters) {
+      console.log(parameterName, parameter);
+      this.exposedParameters.set(parameterName, parameter); // TODO: change key to parameter id
     }
   }
 
   updateParameter() {
-    const parameterName = 'translation';
-    const newValue = {x: 0, y: 0, z: 0.5};
+    const parameterName = 'flag';
+    const newValue = true;
+    // const newValue = {x: 0, y: 0, z: 0.5};
 
     const parameter = this.exposedParameters.get(parameterName);
-    parameter.value = newValue;
+    const id = parameter.node.id.replace('n', '');
+    this.#view.x3dScene.processServerMessage(`delete: -16`);
+    this.#view.x3dScene.loadObject('<nodes><Shape id="n-36"><Sphere id="n-40" radius="1"/></Shape></nodes>', -14);
 
-    console.log(parameter);
+    //console.log('BEFORE:', parameter.value.toJS());
+    //parameter.setValueFromJavaScript(newValue);
+    //console.log('AFTER:', parameter.value.toJS());
 
     // notify scene of the change
-    this.#view.x3dScene.applyPose({'id': -12, 'translation': '0 0 0.5'});
+    // this.#view.x3dScene.applyPose({'id': -12, 'translation': '0 0 0.5'});
     this.#view.x3dScene.render();
   }
 

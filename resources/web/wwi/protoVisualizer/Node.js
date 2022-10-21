@@ -27,6 +27,7 @@ export default class Node {
     this.externProto = new Map();
     this.def = new Map();
 
+
     this.xml = document.implementation.createDocument('', '', null);
     // example: to generate: <Shape castShadows="true"><PBRAppearance baseColor="1 0 0"/></Shape>
     /*
@@ -64,10 +65,11 @@ export default class Node {
       // create parameters from the pre-defined FieldModel
       const fields = FieldModel[this.name];
       for (const parameterName of Object.keys(fields)) {
-        const defaultValue = vrmlFactory(FieldModel[this.name][parameterName]['type']);
+        const type = FieldModel[this.name][parameterName]['type'];
+        const defaultValue = vrmlFactory(type);
         defaultValue.setValueFromJavaScript(FieldModel[this.name][parameterName]['defaultValue']);
         const value = defaultValue.clone();
-        const parameter = new Parameter(this, parameterName, defaultValue, value, false);
+        const parameter = new Parameter(this, parameterName, type, defaultValue, value, false);
         this.parameters.set(parameterName, parameter);
       }
 
@@ -163,7 +165,7 @@ export default class Node {
     copy.parameters = new Map();
     for (const [parameterName, parameter] of this.parameters) {
       if (typeof parameter !== 'undefined') {
-        console.log('cloning parameter ' + parameterName + ' (type ' + parameter.type() + ')');
+        console.log('cloning parameter ' + parameterName + ' (type ' + parameter.type + ')');
         const parameterCopy = parameter.clone();
         // console.log('ORIG', parameter);
         // console.log('COPY', parameterCopy);
@@ -200,20 +202,20 @@ export default class Node {
       if (token.isKeyword() && nextToken.isIdentifier()) {
         const parameterName = nextToken.word();
         const parameterType = token.fieldTypeFromVrml();
-        const isRegenerator = this.isTemplate ? this.isTemplateRegenerator(parameterName) : false;
+        const isRegenerator = this.isTemplate ? (this.rawBody.search('fields.' + parameterName + '.') !== -1) : false;
         headTokenizer.nextToken(); // consume the parameter name token
 
         console.log('INTERFACE PARAMETER ' + parameterName + ', TYPE: ' + parameterType + ', VALUE:');
         const defaultValue = vrmlFactory(parameterType, headTokenizer);
         const value = defaultValue.clone();
-        const parameter = new Parameter(this, parameterName, defaultValue, value, isRegenerator);
+        const parameter = new Parameter(this, parameterName, parameterType, defaultValue, value, isRegenerator);
         console.log(parameter);
         this.parameters.set(parameterName, parameter);
       }
     }
   };
 
-  parseBody() {
+  parseBody(isRegenerating = false) {
     console.log('PARSE BODY OF ' + this.name);
     this.clearReferences();
     // note: if not a template, the body is already pure VRML
@@ -316,11 +318,6 @@ export default class Node {
 
     return `{node_name: '${this.name}', fields: {${jsFields.slice(0, -2)}}}`;
   }
-
-  // TODO: can be moved to parameter?
-  isTemplateRegenerator(parameterName) {
-    return this.rawBody.search('fields.' + parameterName + '.') !== -1;
-  };
 
   regenerateBodyVrml() {
     const fieldsEncoding = this.toJS(true); // make current proto parameters in a format compliant to template engine

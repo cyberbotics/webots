@@ -807,3 +807,46 @@ export function vrmlFactory(type, tokenizer) {
       throw new Error('Unknown VRML type: ', type);
   }
 }
+
+export function stringifyType(type) {
+  switch (type) {
+    case VRML.SFBool:
+      return 'SFBool';
+    case VRML.SFInt32:
+      return 'SFInt32';
+    case VRML.SFFloat:
+      return 'SFFloat';
+    case VRML.SFString:
+      return 'SFString';
+    case VRML.SFVec2f:
+      return 'SFVec2f';
+    case VRML.SFVec3f:
+      return 'SFVec3f';
+    case VRML.SFColor:
+      return 'SFColor';
+    case VRML.SFRotation:
+      return 'SFRotation';
+    case VRML.SFNode:
+      return 'SFNode';
+    case VRML.MFBool:
+      return 'MFBool';
+    case VRML.MFInt32:
+      return 'MFInt32';
+    case VRML.MFFloat:
+      return 'MFFloat';
+    case VRML.MFString:
+      return 'MFString';
+    case VRML.MFVec2f:
+      return 'MFVec2f';
+    case VRML.MFVec3f:
+      return 'MFVec3f';
+    case VRML.MFColor:
+      return 'MFColor';
+    case VRML.MFRotation:
+      return 'MFRotation';
+    case VRML.MFNode:
+      return 'MFNode';
+    default:
+      throw new Error('Unknown VRML type: ', type);
+  }
+}

@@ -1,0 +1,23 @@
+#VRML_SIM R2023a utf8
+# template language: javascript
+
+PROTO TestRegeneration [
+  field SFBool flag FALSE
+]
+{
+  Group {
+    children [
+      Shape {
+        %< if (fields.flag.value) { >%
+          geometry Sphere {
+            radius 0.5
+          }
+        %< } else { >%
+          geometry Box {
+            size 1 1 1
+          }
+        %< } >%
+      }
+    ]
+  }
+}
