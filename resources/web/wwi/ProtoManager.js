@@ -28,13 +28,13 @@ export default class ProtoManager {
       this.proto.parseBody();
       this.loadX3d();
       this.generateExposedParameterList();
-      //setTimeout(() => this.updateParameter(), 2000);
+      // setTimeout(() => this.updateParameter(), 2000);
     });
   }
 
   generateExposedParameterList() {
     console.log('EXPOSED PARAMETERS ARE:');
-    for(const [parameterName, parameterValue] of this.proto.parameters) {
+    for (const [parameterName, parameterValue] of this.proto.parameters) {
       console.log(parameterName, parameterValue);
       this.exposedParameters.set(parameterName, parameterValue); // TODO: change key to parameter id
     }
@@ -44,7 +44,7 @@ export default class ProtoManager {
     const parameterName = 'translation';
     const newValue = {x: 0, y: 0, z: 0.5};
 
-    const parameter = this.exposedParameters.get(parameterName)
+    const parameter = this.exposedParameters.get(parameterName);
     parameter.value = newValue;
 
     console.log(parameter);

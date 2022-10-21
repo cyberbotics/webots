@@ -53,11 +53,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -186,11 +186,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -262,23 +262,23 @@ export const FieldModel = {
     },
     'lens': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'focus': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'zoom': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'recognition': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'lensFlare': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'linearVelocity': {
       'type': VRML.SFVec3f,
@@ -382,11 +382,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -573,11 +573,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -647,7 +647,7 @@ export const FieldModel = {
     },
     'baseColorMap': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'transparency': {
       'type': VRML.SFFloat,
@@ -659,7 +659,7 @@ export const FieldModel = {
     },
     'roughnessMap': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'metalness': {
       'type': VRML.SFFloat,
@@ -667,7 +667,7 @@ export const FieldModel = {
     },
     'metalnessMap': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'IBLStrength': {
       'type': VRML.SFFloat,
@@ -675,7 +675,7 @@ export const FieldModel = {
     },
     'normalMap': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'normalMapFactor': {
       'type': VRML.SFFloat,
@@ -683,7 +683,7 @@ export const FieldModel = {
     },
     'occlusionMap': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'occlusionMapStrength': {
       'type': VRML.SFFloat,
@@ -699,7 +699,7 @@ export const FieldModel = {
     },
     'emissiveColorMap': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'emissiveIntensity': {
       'type': VRML.SFFloat,
@@ -707,7 +707,7 @@ export const FieldModel = {
     },
     'textureTransform': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'name': {
       'type': VRML.SFString,
@@ -766,11 +766,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -905,11 +905,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -1050,11 +1050,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -1164,11 +1164,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -1244,7 +1244,7 @@ export const FieldModel = {
     },
     'rotatingHead': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'linearVelocity': {
       'type': VRML.SFVec3f,
@@ -1294,7 +1294,7 @@ export const FieldModel = {
     },
     'endPoint': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     }
   },
   'Propeller': {
@@ -1334,15 +1334,15 @@ export const FieldModel = {
     },
     'device': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'fastHelix': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'slowHelix': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     }
   },
   'Physics': {
@@ -1364,7 +1364,7 @@ export const FieldModel = {
     },
     'damping': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     }
   },
   'Plane': {
@@ -1511,11 +1511,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -1648,11 +1648,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -1754,7 +1754,7 @@ export const FieldModel = {
     },
     'defaultDamping': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'inkEvaporation': {
       'type': VRML.SFFloat,
@@ -1854,15 +1854,15 @@ export const FieldModel = {
   'IndexedFaceSet': {
     'coord': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'normal': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'texCoord': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'solid': {
       'type': VRML.SFBool,
@@ -2008,11 +2008,11 @@ export const FieldModel = {
   'PointSet': {
     'color': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'coord': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     }
   },
   'DirectionalLight': {
@@ -2111,11 +2111,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -2269,11 +2269,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -2382,11 +2382,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -2536,7 +2536,7 @@ export const FieldModel = {
   'SliderJoint': {
     'jointParameters': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'device': {
       'type': VRML.MFNode,
@@ -2544,7 +2544,7 @@ export const FieldModel = {
     },
     'endPoint': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'position': {
       'type': VRML.SFFloat,
@@ -2641,11 +2641,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -2771,11 +2771,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -2935,7 +2935,7 @@ export const FieldModel = {
   'IndexedLineSet': {
     'coord': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'coordIndex': {
       'type': VRML.MFInt32,
@@ -3022,11 +3022,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -3136,15 +3136,15 @@ export const FieldModel = {
   'Appearance': {
     'material': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'texture': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'textureTransform': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'name': {
       'type': VRML.SFString,
@@ -3203,11 +3203,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -3317,11 +3317,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -3440,7 +3440,7 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'translationStep': {
       'type': VRML.SFFloat,
@@ -3458,11 +3458,11 @@ export const FieldModel = {
   'Shape': {
     'appearance': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'geometry': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'castShadows': {
       'type': VRML.SFBool,
@@ -3509,15 +3509,15 @@ export const FieldModel = {
   'BallJoint': {
     'jointParameters': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'jointParameters2': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'jointParameters3': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'device': {
       'type': VRML.MFNode,
@@ -3533,7 +3533,7 @@ export const FieldModel = {
     },
     'endPoint': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'position': {
       'type': VRML.SFFloat,
@@ -3551,7 +3551,7 @@ export const FieldModel = {
   'HingeJoint': {
     'jointParameters': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'device': {
       'type': VRML.MFNode,
@@ -3559,7 +3559,7 @@ export const FieldModel = {
     },
     'endPoint': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'position': {
       'type': VRML.SFFloat,
@@ -3632,11 +3632,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -3696,7 +3696,7 @@ export const FieldModel = {
     },
     'lens': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'linearVelocity': {
       'type': VRML.SFVec3f,
@@ -3867,11 +3867,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -4068,11 +4068,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -4207,11 +4207,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -4334,11 +4334,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -4463,7 +4463,7 @@ export const FieldModel = {
     },
     'lensFlare': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'ambientOcclusionRadius': {
       'type': VRML.SFFloat,
@@ -4556,11 +4556,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -4595,7 +4595,7 @@ export const FieldModel = {
     },
     'animatedGeometry': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'geometriesCount': {
       'type': VRML.SFInt32,
@@ -4670,11 +4670,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,
@@ -4736,11 +4736,11 @@ export const FieldModel = {
   'Hinge2Joint': {
     'jointParameters': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'jointParameters2': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'device': {
       'type': VRML.MFNode,
@@ -4752,7 +4752,7 @@ export const FieldModel = {
     },
     'endPoint': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'position': {
       'type': VRML.SFFloat,
@@ -4946,11 +4946,11 @@ export const FieldModel = {
     },
     'boundingObject': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'physics': {
       'type': VRML.SFNode,
-      'defaultValue': undefined
+      'defaultValue': null
     },
     'locked': {
       'type': VRML.SFBool,

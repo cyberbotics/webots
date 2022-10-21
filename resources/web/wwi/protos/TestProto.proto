@@ -4,22 +4,9 @@ PROTO TestProto [
   field SFColor cc 0 1 0
 ]
 {
-  Group {
-    children [
-      DEF SHAPE Shape {
-        appearance PBRAppearance {
-          baseColor IS cc
-        }
-        geometry Box {
-          size 0.1 0.1 0.1
-        }
-      }
-      Transform {
-        translation 0 0 0.5
-        children [
-          USE SHAPE
-        ]
-      }
-    ]
+  DEF SHAPE Shape {
+    geometry Box {
+      size 0.1 0.1 0.1
+    }
   }
 }

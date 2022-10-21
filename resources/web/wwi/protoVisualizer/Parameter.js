@@ -46,6 +46,9 @@ export default class Parameter {
   }
 
   isDefault() {
+    if (typeof this.defaultValue === 'undefined' || typeof this.value === 'undefined')
+      throw new Error('Cannot check default-ness, either "value" or "defaultValue" is undefined.');
+
     return this.value.equals(this.defaultValue);
   }
 

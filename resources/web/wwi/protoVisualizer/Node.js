@@ -3,7 +3,7 @@
 import {getAnId} from '../nodes/utils/id_provider.js';
 import TemplateEngine from './TemplateEngine.js';
 import Tokenizer from './Tokenizer.js';
-import { typeFactory } from './Vrml.js';
+import { vrmlFactory } from './Vrml.js';
 import { VRML } from './constants.js';
 import { FieldModel } from './FieldModel.js';
 import { Parameter } from './Parameter.js';
@@ -50,13 +50,13 @@ export default class Node {
     */
 
     /*
-    const defaultValue = typeFactory(VRML.MFColor);
-    defaultValue.setValueFromJavaScript(FieldModel['LED']['color']['defaultValue']);
-    console.log('DEF', defaultValue);
+    const defaultValue = vrmlFactory(VRML.SFNode);
+    defaultValue.setValueFromJavaScript(FieldModel['Shape']['geometry']['defaultValue']);
+    console.log('DEFAULT VALUE', defaultValue, defaultValue instanceof SFNode);
     const value = defaultValue.clone();
-    const parameter = new Parameter(this, "asd", defaultValue, value, false);
-    value.value.x = 10;
-    console.log('PARA', parameter, parameter.clone())
+    console.log('VALUE', value, value instanceof SFNode);
+    const parameter = new Parameter(this, "whatever", defaultValue, value, false);
+    console.log('PARAMETER', parameter, parameter.value instanceof SFNode, parameter.clone())
     throw new Error('stop');
     */
 
@@ -64,11 +64,10 @@ export default class Node {
       // create parameters from the pre-defined FieldModel
       const fields = FieldModel[this.name];
       for (const parameterName of Object.keys(fields)) {
-        const defaultValue = typeFactory(FieldModel[this.name][parameterName]['type']);
+        const defaultValue = vrmlFactory(FieldModel[this.name][parameterName]['type']);
         defaultValue.setValueFromJavaScript(FieldModel[this.name][parameterName]['defaultValue']);
         const value = defaultValue.clone();
         const parameter = new Parameter(this, parameterName, defaultValue, value, false);
-        // const parameter = typeFactory(FieldModel[this.name][parameterName]['type']);
         this.parameters.set(parameterName, parameter);
       }
 
@@ -164,7 +163,7 @@ export default class Node {
     copy.parameters = new Map();
     for (const [parameterName, parameter] of this.parameters) {
       if (typeof parameter !== 'undefined') {
-        console.log('cloning parameter ' + parameterName);
+        console.log('cloning parameter ' + parameterName + ' (type ' + parameter.type() + ')');
         const parameterCopy = parameter.clone();
         // console.log('ORIG', parameter);
         // console.log('COPY', parameterCopy);
@@ -172,7 +171,7 @@ export default class Node {
       }
     }
 
-    copy.def = new Map(this.def);
+    copy.def = new Map(this.def); // TODO: probably wrong, need to clone nodes?
     copy.externProto = new Map(this.externProto);
     return copy;
   }
@@ -205,7 +204,7 @@ export default class Node {
         headTokenizer.nextToken(); // consume the parameter name token
 
         console.log('INTERFACE PARAMETER ' + parameterName + ', TYPE: ' + parameterType + ', VALUE:');
-        const defaultValue = typeFactory(parameterType, headTokenizer);
+        const defaultValue = vrmlFactory(parameterType, headTokenizer);
         const value = defaultValue.clone();
         const parameter = new Parameter(this, parameterName, defaultValue, value, isRegenerator);
         console.log(parameter);
@@ -287,12 +286,12 @@ export default class Node {
       nodeElement.setAttribute('id', this.id);
       // console.log('ENCODE ' + this.name)
       for (const [parameterName, parameter] of this.parameters) {
-        console.log('  ENCODE ' + parameterName + ' ? ', typeof parameter.value !== 'undefined');
+        console.log('  ENCODE ' + parameterName + ', is default? ', parameter.isDefault());
         if (typeof parameter.value === 'undefined')
           throw new Error('All parameters should be defined, ' + parameterName + ' is not.'); // TODO: SFNode may be undefined?
 
-        //if (parameter.isDefault())
-        //  continue;
+        if (parameter.isDefault())
+          continue;
 
         parameter.value.toX3d(parameterName, nodeElement);
       }
@@ -355,8 +354,10 @@ export default class Node {
     }
 
     const nodeName = tokenizer.nextWord();
-    if (nodeName === 'NULL')
-      return;
+    if (nodeName === 'NULL') {
+      console.log('is null.');
+      return null;
+    }
 
     // console.log('CREATE NODE ' + nodeName);
     let node;

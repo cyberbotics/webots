@@ -214,7 +214,7 @@ export class SFColor extends SingleValue {
 
   equals(other) {
     if (typeof this.value === 'undefined' || typeof other.value === 'undefined')
-      return false;
+      throw new Error('Values should be defined for them to be compared.');
 
     return this.value.r === other.value.r && this.value.g === other.value.g && this.value.b === other.value.b;
   }
@@ -258,7 +258,7 @@ export class SFRotation extends SingleValue {
 
   equals(other) {
     if (typeof this.value === 'undefined' || typeof other.value === 'undefined')
-      return false;
+      throw new Error('Values should be defined for them to be compared.');
 
     return this.value.x === other.value.x && this.value.y === other.value.y &&
            this.value.z === other.value.z && this.value.a === other.value.a;
@@ -287,14 +287,14 @@ export class SFNode extends SingleValue {
   }
 
   setValueFromJavaScript(value) {
-    if (typeof value === 'undefined')
+    if (value === null)
       this.value = value;
-    else
-      throw new Error('TODO: implement SFNode initializer from JS (low priority).');
+    else // note: low priority, all wrl files use initialize SFNodes with NULL
+      throw new Error('SFNode initializer from JS object not implemented.');
   }
 
   toX3d(parameterName, parentElement) {
-    if (typeof this.value === 'undefined')
+    if (this.value === null)
       return;
 
     const nodeX3d = this.value.toX3d(this.isUse, parameterName);
@@ -322,7 +322,31 @@ export class SFNode extends SingleValue {
   }
 
   equals(other) {
-    throw new Error('TODO: equals for SFNode');
+    if (this.value === null && other.value === null)
+      return true;
+
+    if ((this.value === null && other.value !== null) || (this.value !== null && other.value === null))
+      return false;
+
+    if (this.value.url !== other.value.url)
+      return false;
+
+    if (this.value.parameters.size !== other.value.parameters.size)
+      return false;
+
+    for (const [parameterName, parameter] of this.value.parameters) {
+      if (!other.parameters.has(parameterName))
+        return false;
+
+      const otherParameter = other.parameters.get(parameterName);
+      if (!parameter.value.equals(otherParameter.value))
+        return false;
+      if (!parameter.defaultValue.equals(otherParameter.defaultValue))
+        return false;
+    }
+
+    // note: it's overkill to check that the def list and externproto lists match as we assume that two PROTO that have the
+    // same URL will yield the same underlying structure
   }
 
   type() {
@@ -332,8 +356,14 @@ export class SFNode extends SingleValue {
   clone() {
     const copy = new SFNode();
 
-    if (typeof this.value !== 'undefined')
+    if (typeof this.value !== 'undefined') {
+      if (this.value === null) {
+        copy.value = null; // necessary since being null and being undefined have different meanings in this context
+        return copy;
+      }
+
       copy.value = this.value.clone();
+    }
 
     return copy;
   }
@@ -361,6 +391,16 @@ class MultipleValue {
     this.#value.push(item);
   }
 
+  at(index) {
+    if (typeof this.#value === 'undefined')
+      throw new Error('Value is not defined.');
+
+    if (index >= this.#value.length)
+      throw new Error('Attempting to access item out of bounds.');
+
+    return this.#value[index];
+  }
+
   toX3d(parameterName, parentElement) {
     let x3d = '';
     this.#value.forEach((item) => { x3d += item.toX3d() + ' '; });
@@ -376,7 +416,15 @@ class MultipleValue {
   }
 
   equals(other) {
-    throw new Error('TODO: implement equals for MFBool');
+    if (typeof this.#value === 'undefined' || typeof other.value === 'undefined')
+      throw new Error('Values should be defined for them to be compared.');
+
+    if (this.#value.length !== other.value.length)
+      return false;
+
+    let isEqual = true;
+    this.#value.forEach((item, index) => { isEqual = isEqual && item.equals(other.at(index)); });
+    return isEqual;
   }
 }
 
@@ -400,10 +448,6 @@ export class MFBool extends MultipleValue {
       sfbool.setValueFromJavaScript(item);
       this.insert(sfbool);
     });
-  }
-
-  equals(other) {
-    throw new Error('TODO: implement equals for MFBool');
   }
 
   type() {
@@ -439,10 +483,6 @@ export class MFInt32 extends MultipleValue {
     });
   }
 
-  equals(other) {
-    throw new Error('TODO: implement equals for MFInt32');
-  }
-
   type() {
     return VRML.MFInt32;
   }
@@ -474,10 +514,6 @@ export class MFFloat extends MultipleValue {
       sffloat.setValueFromJavaScript(item);
       this.insert(sffloat);
     });
-  }
-
-  equals(other) {
-    throw new Error('TODO: implement equals for MFFloat');
   }
 
   type() {
@@ -513,10 +549,6 @@ export class MFString extends MultipleValue {
     });
   }
 
-  equals(other) {
-    throw new Error('TODO: implement equals for MFString');
-  }
-
   type() {
     return VRML.MFString;
   }
@@ -548,10 +580,6 @@ export class MFVec2f extends MultipleValue {
       sfvec2f.setValueFromJavaScript(item);
       this.insert(sfvec2f);
     });
-  }
-
-  equals(other) {
-    throw new Error('TODO: implement equals for MFVec2f');
   }
 
   type() {
@@ -587,10 +615,6 @@ export class MFVec3f extends MultipleValue {
     });
   }
 
-  equals(other) {
-    throw new Error('TODO: implement equals for MFVec3f');
-  }
-
   type() {
     return VRML.MFVec3f;
   }
@@ -624,10 +648,6 @@ export class MFColor extends MultipleValue {
     });
   }
 
-  equals(other) {
-    throw new Error('TODO: implement equals for MFColor');
-  }
-
   type() {
     return VRML.MFColor;
   }
@@ -659,10 +679,6 @@ export class MFRotation extends MultipleValue {
       sfrotation.setValueFromJavaScript(item);
       this.insert(sfrotation);
     });
-  }
-
-  equals(other) {
-    throw new Error('TODO: implement equals for MFRotation');
   }
 
   type() {
@@ -728,10 +744,6 @@ export class MFNode extends MultipleValue {
     return js + ']';
   }
 
-  equals(other) {
-    throw new Error('TODO: implement equals for MFNode');
-  }
-
   type() {
     return VRML.MFNode;
   }
@@ -743,7 +755,7 @@ export class MFNode extends MultipleValue {
   }
 }
 
-export function typeFactory(type, tokenizer) {
+export function vrmlFactory(type, tokenizer) {
   switch (type) {
     case VRML.SFBool:
       return new SFBool(tokenizer);

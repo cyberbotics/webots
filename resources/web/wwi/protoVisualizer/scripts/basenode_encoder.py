@@ -138,7 +138,6 @@ if __name__ == '__main__':
       '"VRML.MFColor"': 'VRML.MFColor',
       '"VRML.MFRotation"': 'VRML.MFRotation',
       '"VRML.MFNode"': 'VRML.MFNode',
-      'null': 'undefined',
       '\"': '\''
     }
 
