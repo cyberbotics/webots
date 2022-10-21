@@ -6,11 +6,37 @@ import {getAnId} from './utils/id_provider.js';
 export default class WbAppearance extends WbAbstractAppearance {
   #material;
   #texture;
-  #textureTransform;
+
   constructor(id, material, texture, transform) {
     super(id, transform);
-    this.#material = material;
-    this.#texture = texture;
+    this.material = material;
+    this.texture = texture;
+  }
+
+  get material() {
+    return this.#material;
+  }
+
+  set material(newMaterial) {
+    this.#material = newMaterial;
+
+    if (typeof this.#material !== 'undefined')
+      this.#material.onChange = () => this.#update();
+
+    this.#update();
+  }
+
+  get texture() {
+    return this.#texture;
+  }
+
+  set texture(newTexture) {
+    this.#texture = newTexture;
+
+    if (typeof this.#texture !== 'undefined')
+      this.#texture.onChange = () => this.#update();
+
+    this.#update();
   }
 
   clone(customID) {
@@ -27,8 +53,8 @@ export default class WbAppearance extends WbAbstractAppearance {
       WbWorld.instance.nodes.set(texture.id, texture);
     }
 
-    if (typeof this.#textureTransform !== 'undefined') {
-      transform = this.#textureTransform.clone(getAnId());
+    if (typeof this.textureTransform !== 'undefined') {
+      transform = this.textureTransform.clone(getAnId());
       transform.parent = customID;
       WbWorld.instance.nodes.set(transform.id, transform);
     }
@@ -66,8 +92,8 @@ export default class WbAppearance extends WbAbstractAppearance {
     else
       _wr_material_set_texture(wrenMaterial, null, 0);
 
-    if (typeof this.#textureTransform !== 'undefined')
-      this.#textureTransform.modifyWrenMaterial(wrenMaterial);
+    if (typeof this.textureTransform !== 'undefined')
+      this.textureTransform.modifyWrenMaterial(wrenMaterial);
     else
       _wr_material_set_texture_transform(wrenMaterial, null);
 
@@ -86,6 +112,11 @@ export default class WbAppearance extends WbAbstractAppearance {
 
     this.#material?.postFinalize();
     this.#texture?.postFinalize();
+  }
+
+  #update() {
+    if (this.isPostFinalizedCalled && typeof this.onChange === 'function')
+      this.onChange();
   }
 
   // Static functions
