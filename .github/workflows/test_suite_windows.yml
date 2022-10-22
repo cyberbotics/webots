@@ -151,7 +151,7 @@ jobs:
       run: |
         echo 'Running Test Suite'
         cd artifact/
-        cmd.exe //c webots-R2022b_setup.exe //VERYSILENT //SUPPRESSMSGBOXES //DIR="." //SP //LOG="log.txt" //CURRENTUSER
+        cmd.exe //c webots-R2022b-rev1_setup.exe //VERYSILENT //SUPPRESSMSGBOXES //DIR="." //SP //LOG="log.txt" //CURRENTUSER
         #echo '==> log start'
         #cat log.txt
         #echo '==> log end'
