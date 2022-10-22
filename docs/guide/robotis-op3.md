@@ -27,7 +27,7 @@ RobotisOp3 {
   field SFVec3f    translation         0 0 0
   field SFRotation rotation            0 0 1 0
   field SFString   name                "ROBOTIS OP3"
-  field SFString   controller          "void"
+  field SFString   controller          "<generic>"
   field MFString   controllerArgs      []
   field SFString   contactMaterial     "ROBOTIS OP3 default material"
   field SFString   footContactMaterial "ROBOTIS OP3 foot material"

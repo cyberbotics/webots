@@ -30,13 +30,17 @@ sudo apt-get install ros-noetic-desktop-full ros-noetic-moveit # takes time, get
 sudo apt-get install python3-rosdep
 sudo rosdep init
 rosdep update
-sudo apt-get install ros-noetic-webots-ros
 ```
 
 For more information or to install it on another platform please read [http://wiki.ros.org/ROS/Installation](http://wiki.ros.org/ROS/Installation).
 Unless you need older version for some other application, you should choose the most recent distribution (Noetic Ninjemys).
 
-The last line is to install the [webots\_ros](http://wiki.ros.org/webots\_ros) package.
+To install the latest release of the [webots\_ros](http://wiki.ros.org/webots_ros) package use the following command:
+```sh
+sudo apt-get install ros-noetic-webots-ros
+```
+
+To install the package from sources, please read [webots\_ros - from sources](https://wiki.ros.org/webots_ros#From_Sources).
 
 If you never used the ROS framework before, it is strongly recommended to follow some tutorials (_Beginner Level_) from: [http://wiki.ros.org/ROS/Tutorials](http://wiki.ros.org/ROS/Tutorials).
 These tutorials will also help you set up your ROS environment and initialize your catkin workspace.

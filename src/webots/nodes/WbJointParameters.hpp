@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -54,7 +54,7 @@ signals:
 
 protected:
   WbSFVector3 *mAxis;  // axis default value redefined in a derived classes
-  bool exportNodeHeader(WbVrmlWriter &writer) const override;
+  bool exportNodeHeader(WbWriter &writer) const override;
 
 private:
   WbJointParameters &operator=(const WbJointParameters &);  // non copyable

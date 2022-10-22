@@ -22,7 +22,7 @@ RangeFinder {
 
 %figure "RangeFinder Coordinate System"
 
-![rangefinder.png](images/rangefinder.thumbnail.png)
+![rangefinder.png](images/rangefinder.thumbnail.jpg)
 
 %end
 
@@ -50,10 +50,9 @@ Since range-finder pixels are squares, the vertical field of view can be compute
 - `height`: height of the image in pixels
 
 - `spherical`: switch between a planar or a spherical projection.
-A spherical projection can be used for example to simulate a lidar device.
 More information on spherical projections is provided in the [spherical projection](camera.md#spherical-projection) section of the [Camera](camera.md) node.
 
-- The `near` field defines the distance from the depth camera (used internally by the lidar) to the near clipping plane.
+- The `near` field defines the distance from the depth camera to the near clipping plane.
 Objects closer to the range-finder than the near value are not detected by the range-finder.
 This plane is parallel to the camera retina (i.e., projection plane).
 The near field determines the precision of the OpenGL depth buffer.
@@ -541,6 +540,7 @@ The `wb_range_finder_get_range_image` macro allows the user to read the contents
 The range image is computed using the depth buffer produced by the OpenGL rendering.
 Each pixel corresponds to the distance expressed in meter from the object to the plane defined by the equation *z = 0* within the coordinates system of the range-finder.
 The bounds of the range image is determined by the near clipping plane (defined by the `minRange` field) and the far clipping plane (defined by the `maxRange` field).
+Infinity will be returned for any depth lesser than the `minRange` value or greater than the `maxRange` value.
 The range image is coded as an array of single precision floating point values corresponding to the range value of each pixel of the image.
 The precision of the range-finder values decreases when the objects are located farther from the near clipping plane.
 Pixels are stored in scan lines running from left to right and from top to bottom.

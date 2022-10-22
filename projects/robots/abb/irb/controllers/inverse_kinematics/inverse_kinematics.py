@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -42,9 +42,7 @@ filename = None
 with tempfile.NamedTemporaryFile(suffix='.urdf', delete=False) as file:
     filename = file.name
     file.write(supervisor.getUrdf().encode('utf-8'))
-armChain = Chain.from_urdf_file(filename)
-for i in [0, 6]:
-    armChain.active_links_mask[i] = False
+armChain = Chain.from_urdf_file(filename, active_links_mask=[False, True, True, True, True, True, True, False])
 
 # Initialize the arm motors and encoders.
 motors = []

@@ -19,8 +19,8 @@ BiscuitBox {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 0 1 0
   SFString   name        "biscuit box"
-  SFVec3f    size        0.24 0.04 0.08
-  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/kitchen/breakfast/protos/textures/biscuit_box.jpg"
+  SFVec3f    size        0.08 0.24 0.04
+  MFString   textureUrl  "textures/biscuit_box.jpg"
   SFFloat    mass        0.4
 }
 ```
@@ -55,8 +55,8 @@ CerealBox {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 0 1 0
   SFString   name        "cereal box"
-  SFVec3f    size        0.08 0.3 0.2
-  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/kitchen/breakfast/protos/textures/cereal_box_2.jpg"
+  SFVec3f    size        0.08 0.2 0.3
+  MFString   textureUrl  "textures/cereal_box_2.jpg"
   SFFloat    mass        1
 }
 ```
@@ -91,7 +91,7 @@ HoneyJar {
   SFVec3f    translation    0 0 0
   SFRotation rotation       0 0 1 0
   SFString   name           "honey jar"
-  MFString   textureLidUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/kitchen/breakfast/protos/textures/bee_lid.jpg"
+  MFString   textureLidUrl  "textures/bee_lid.jpg"
   SFFloat    mass           0.5
   SFColor    color          0.839216 0.572549 0.105882
 }
@@ -127,7 +127,7 @@ JamJar {
   SFVec3f    translation   0 0 0
   SFRotation rotation      0 0 1 0
   SFString   name          "jam jar"
-  MFString   textureLidUrl "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/kitchen/breakfast/protos/textures/blue_jar_lid.jpg"
+  MFString   textureLidUrl "textures/blue_jar_lid.jpg"
   SFFloat    mass          0.5
 }
 ```
@@ -159,10 +159,10 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 HotPlate {
-  SFVec3f    translation 0 0.71 0
+  SFVec3f    translation 0 0 0.71
   SFRotation rotation    0 0 1 0
   SFString   name        "hot plate"
-  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/kitchen/components/protos/textures/components.jpg"
+  MFString   textureUrl  "textures/components.jpg"
 }
 ```
 
@@ -189,10 +189,10 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Sink {
-  SFVec3f    translation 0 0.72 0
+  SFVec3f    translation 0 0 0.72
   SFRotation rotation    0 0 1 0
   SFString   name        "sink"
-  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/kitchen/components/protos/textures/components.jpg"
+  MFString   textureUrl  "textures/components.jpg"
 }
 ```
 
@@ -219,10 +219,10 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Worktop {
-  SFVec3f    translation  0 0.71 0
+  SFVec3f    translation  0 0 0.71
   SFRotation rotation     0 0 1 0
   SFString   name         "worktop"
-  SFVec3f    size         0.44 0.06 0.7
+  SFVec3f    size         0.7 0.44 0.06
   SFNode     appearance   Marble { }
 }
 ```
@@ -290,7 +290,7 @@ Oven {
   SFRotation rotation       0 0 1 0
   SFString   name           "oven"
   SFColor    mainColor      1 1 1
-  SFString   type           "oven"  # Either "oven" or "microwave"
+  SFString   type           "oven"
 }
 ```
 
@@ -302,6 +302,8 @@ Oven {
 #### Oven Field Summary
 
 - `mainColor`: Defines the color of the oven.
+
+- `type`: Either "oven" or "microwave".
 
 ## Utensils
 
@@ -508,7 +510,7 @@ Plate {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 0 1 0
   SFString   name        "plate"
-  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/kitchen/utensils/protos/textures/floral_plate.jpg"
+  MFString   textureUrl  "textures/floral_plate.jpg"
   SFFloat    height      0.01
   SFFloat    radius      0.11
   SFFloat    mass        0.3
@@ -610,7 +612,7 @@ WoodenSpoon {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 0 1 0
   SFString   name        "wooden spoon"
-  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/kitchen/utensils/protos/textures/wooden_spoon.jpg"
+  MFString   textureUrl  "textures/wooden_spoon.jpg"
 }
 ```
 

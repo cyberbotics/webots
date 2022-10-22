@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,9 +16,8 @@
 
 RosPen::RosPen(Pen *pen, Ros *ros) : RosDevice(pen, ros) {
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
-  mWriteServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/write", &RosPen::writeCallback);
-  mSetInkColorServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_ink_color", &RosPen::setInkColorCallback);
+  mWriteServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/write", &RosPen::writeCallback);
+  mSetInkColorServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_ink_color", &RosPen::setInkColorCallback);
   mPen = pen;
 }
 

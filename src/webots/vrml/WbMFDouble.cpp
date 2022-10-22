@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
 #include "WbMFDouble.hpp"
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
-#include "WbVrmlWriter.hpp"
 
 void WbMFDouble::readAndAddItem(WbTokenizer *tokenizer, const QString &worldPath) {
   mVector.append(tokenizer->nextToken()->toDouble());
@@ -56,9 +55,9 @@ void WbMFDouble::setItem(int index, double value) {
 }
 
 void WbMFDouble::setAllItems(const double *values) {
-  const int size = mVector.size();
+  const int vectorSize = mVector.size();
   bool vectorHasChanged = false;
-  for (int index = 0; index < size; index++) {
+  for (int index = 0; index < vectorSize; index++) {
     if (mVector[index] != values[index]) {
       mVector[index] = values[index];
       emit itemChanged(index);
@@ -74,8 +73,8 @@ void WbMFDouble::multiplyAllItems(double factor) {
   if (factor == 1.0)
     return;
 
-  const int size = mVector.size();
-  for (int index = 0; index < size; index++) {
+  const int vectorSize = mVector.size();
+  for (int index = 0; index < vectorSize; index++) {
     const double previousValue = mVector[index];
     if (previousValue != 0.0) {
       mVector[index] = factor * previousValue;

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -51,13 +51,6 @@ WbSphere::WbSphere(WbTokenizer *tokenizer) : WbGeometry("Sphere", tokenizer) {
   init();
   if (tokenizer == NULL)
     mRadius->setValueNoSignal(0.1);
-  else if (tokenizer->fileType() == WbTokenizer::MODEL) {
-    // ensure compatibility with VRML specifications
-    mIco->setValueNoSignal(false);
-    mSubdivision->blockSignals(true);
-    mSubdivision->setValue(24);
-    mSubdivision->blockSignals(false);
-  }
 }
 
 WbSphere::WbSphere(const WbSphere &other) : WbGeometry(other) {
@@ -96,7 +89,7 @@ void WbSphere::setResizeManipulatorDimensions() {
   WbVector3 scale(radius(), radius(), radius());
   WbTransform *transform = upperTransform();
   if (transform)
-    scale *= transform->matrix().scale();
+    scale *= transform->absoluteScale();
 
   if (isAValidBoundingObject())
     scale *= 1.0f + (wr_config_get_line_scale() / LINE_SCALE_FACTOR);
@@ -111,106 +104,17 @@ void WbSphere::createResizeManipulator() {
 }
 
 bool WbSphere::areSizeFieldsVisibleAndNotRegenerator() const {
-  const WbField *const radius = findField("radius", true);
-  return WbNodeUtilities::isVisible(radius) && !WbNodeUtilities::isTemplateRegeneratorField(radius);
+  const WbField *const radiusField = findField("radius", true);
+  return WbNodeUtilities::isVisible(radiusField) && !WbNodeUtilities::isTemplateRegeneratorField(radiusField);
 }
 
-void WbSphere::write(WbVrmlWriter &writer) const {
-  if (writer.isVrml() && mIco->value())
-    writeExport(writer);
-  else
-    WbGeometry::write(writer);
-}
+void WbSphere::exportNodeFields(WbWriter &writer) const {
+  WbGeometry::exportNodeFields(writer);
 
-void WbSphere::exportNodeFields(WbVrmlWriter &writer) const {
-  if (!writer.isVrml() || !mIco->value()) {
-    WbGeometry::exportNodeFields(writer);
-    if (writer.isX3d()) {
-      writer << " subdivision=\'" << mSubdivision->value() << ',' << mSubdivision->value() << "\'";
-      writer << " ico=\'" << (mIco->value() ? "true" : "false") << "\'";
-    }
-    return;
+  if (writer.isX3d()) {
+    writer << " subdivision=\'" << mSubdivision->value() << ',' << mSubdivision->value() << "\'";
+    writer << " ico=\'" << (mIco->value() ? "true" : "false") << "\'";
   }
-
-  // else export icosphere as IndexedFaceSet (VRML default sphere is a UV sphere)
-  if (!mWrenMesh)
-    return;
-
-  writer.indent();
-  writer << "creaseAngle 1\n";
-
-  const int indexCount = wr_static_mesh_get_index_count(mWrenMesh);
-  unsigned int indices[indexCount];
-  writer.indent();
-  writer << "coordIndex [ ";
-  wr_static_mesh_read_data(mWrenMesh, NULL, NULL, NULL, indices);
-  for (int i = 0; i < indexCount; i += 3)
-    writer << indices[i] << " " << indices[i + 1] << " " << indices[i + 2] << " -1 ";
-  writer << "]\n";
-}
-
-void WbSphere::exportNodeSubNodes(WbVrmlWriter &writer) const {
-  if (!writer.isVrml() || !mIco->value()) {
-    WbGeometry::exportNodeSubNodes(writer);
-    return;
-  }
-  // else export icosphere as IndexedFaceSet (VRML default sphere is a UV sphere)
-  if (!mWrenMesh)
-    return;
-
-  const int vertexCount = wr_static_mesh_get_vertex_count(mWrenMesh);
-  float vertices[3 * vertexCount];
-  float normal_data[3 * vertexCount];
-  float tex_coord_data[2 * vertexCount];
-  wr_static_mesh_read_data(mWrenMesh, vertices, normal_data, tex_coord_data, NULL);
-  // Write with limited precision to reduce the size of the VRML file.
-  const int precision = 4;
-
-  // Coordinate
-  writer.indent();
-  writer << "coord Coordinate {\n";
-  writer.increaseIndent();
-  writer.indent();
-  writer << "point [ ";
-  const double radius = mRadius->value();
-  for (int i = 0; i < vertexCount; i++) {
-    writer << QString::number(vertices[i * 3] * radius, 'f', precision) << " "
-           << QString::number(vertices[i * 3 + 1] * radius, 'f', precision) << " "
-           << QString::number(vertices[i * 3 + 2] * radius, 'f', precision) << " ";
-  }
-  writer << " ]\n";
-  writer.decreaseIndent();
-  writer.indent();
-  writer << "}\n";
-
-  // TextureCoordinate
-  writer.indent();
-  writer << "texCoord TextureCoordinate {\n";
-  writer.increaseIndent();
-  writer.indent();
-  writer << "point [ ";
-  for (int i = 0; i < vertexCount; i++)
-    writer << QString::number(tex_coord_data[i * 2], 'f', precision) << " "
-           << QString::number(-tex_coord_data[i * 2 + 1], 'f', precision) << " ";
-  writer << " ]\n";
-  writer.decreaseIndent();
-  writer.indent();
-  writer << "}\n";
-
-  // Normal
-  writer.indent();
-  writer << "normal Normal {\n";
-  writer.increaseIndent();
-  writer.indent();
-  writer << " vector [ ";
-  for (int i = 0; i < vertexCount; i++)
-    writer << QString::number(normal_data[i * 3], 'f', precision) << " "
-           << QString::number(normal_data[i * 3 + 1], 'f', precision) << " "
-           << QString::number(normal_data[i * 3 + 2], 'f', precision) << " ";
-  writer << " ]\n";
-  writer.decreaseIndent();
-  writer.indent();
-  writer << "}\n";
 }
 
 bool WbSphere::sanitizeFields() {
@@ -285,8 +189,8 @@ void WbSphere::updateLineScale() {
     return;
 
   const float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
-  const float scaledRadius = static_cast<float>(mRadius->value() * (1.0 + offset));
-  const float scale[] = {scaledRadius, scaledRadius, scaledRadius};
+  const float s = static_cast<float>(mRadius->value() * (1.0 + offset));
+  const float scale[] = {s, s, s};
   wr_transform_set_scale(wrenNode(), scale);
 }
 
@@ -294,8 +198,8 @@ void WbSphere::updateScale() {
   if (!sanitizeFields())
     return;
 
-  const float scaledRadius = static_cast<float>(mRadius->value());
-  const float scale[] = {scaledRadius, scaledRadius, scaledRadius};
+  const float s = static_cast<float>(mRadius->value());
+  const float scale[] = {s, s, s};
   wr_transform_set_scale(wrenNode(), scale);
 }
 
@@ -395,10 +299,10 @@ bool WbSphere::computeCollisionPoint(WbVector3 &point, const WbRay &ray) const {
   const WbTransform *const transform = upperTransform();
   if (transform)
     center = transform->matrix().translation();
-  double radius = scaledRadius();
+  const double r = scaledRadius();
 
   // distance from sphere
-  const std::pair<bool, double> result = ray.intersects(center, radius, true);
+  const std::pair<bool, double> result = ray.intersects(center, r, true);
 
   point = ray.origin() + result.second * ray.direction();
   return result.first;

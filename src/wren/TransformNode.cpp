@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -81,17 +81,17 @@ namespace wren {
   }
 
   const glm::mat4 TransformNode::relativeMatrix() const {
-    glm::mat4 matrix;
-    matrix = glm::mat4(mScaleRelative.x, 0.0f, 0.0f, 0.0f, 0.0f, mScaleRelative.y, 0.0f, 0.0f, 0.0f, 0.0f, mScaleRelative.z,
-                       0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+    glm::mat4 m;
+    m = glm::mat4(mScaleRelative.x, 0.0f, 0.0f, 0.0f, 0.0f, mScaleRelative.y, 0.0f, 0.0f, 0.0f, 0.0f, mScaleRelative.z, 0.0f,
+                  0.0f, 0.0f, 0.0f, 1.0f);
 
-    matrix = glm::mat4_cast(mOrientationRelative) * matrix;
+    m = glm::mat4_cast(mOrientationRelative) * m;
 
-    matrix[3][0] = mPositionRelative.x;
-    matrix[3][1] = mPositionRelative.y;
-    matrix[3][2] = mPositionRelative.z;
+    m[3][0] = mPositionRelative.x;
+    m[3][1] = mPositionRelative.y;
+    m[3][2] = mPositionRelative.z;
 
-    return matrix;
+    return m;
   }
 
   TransformNode::TransformNode() :

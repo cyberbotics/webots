@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 
 #include "WbGyro.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbLookupTable.hpp"
 #include "WbMFVector3.hpp"
@@ -106,7 +107,7 @@ void WbGyro::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbGyro::writeAnswer(QDataStream &stream) {
+void WbGyro::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << (short unsigned int)tag();
     stream << (unsigned char)C_GYRO_DATA;
@@ -119,12 +120,12 @@ void WbGyro::writeAnswer(QDataStream &stream) {
     addConfigure(stream);
 }
 
-void WbGyro::writeConfigure(QDataStream &stream) {
+void WbGyro::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
   addConfigure(stream);
 }
 
-void WbGyro::addConfigure(QDataStream &stream) {
+void WbGyro::addConfigure(WbDataStream &stream) {
   stream << (short unsigned int)tag();
   stream << (unsigned char)C_CONFIGURE;
   stream << (int)mLookupTable->size();

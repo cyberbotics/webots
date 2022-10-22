@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -47,14 +47,14 @@ private:
   WbSFDouble *mResolution;
 
   // private functions
-  void addConfigureToStream(QDataStream &stream, bool reconfigure = false) override;
+  void addConfigureToStream(WbDataStream &stream, bool reconfigure = false) override;
 
   float *rangeFinderImage() const;
 
   WbRangeFinder &operator=(const WbRangeFinder &);  // non copyable
   WbNode *clone() const override { return new WbRangeFinder(*this); }
   void init();
-  void initializeImageSharedMemory() override;
+  void initializeImageMemoryMappedFile() override;
 
   int size() const override { return sizeof(float) * width() * height(); }
   double minRange() const override { return mMinRange->value(); }

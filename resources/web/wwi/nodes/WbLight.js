@@ -1,6 +1,7 @@
 import WbBaseNode from './WbBaseNode.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbWorld from './WbWorld.js';
+import {resetColorIfInvalid} from './utils/WbFieldChecker.js';
 
 export default class WbLight extends WbBaseNode {
   constructor(id, on, color, intensity, castShadows, ambientIntensity) {
@@ -47,6 +48,22 @@ export default class WbLight extends WbBaseNode {
   preFinalize() {
     super.preFinalize();
     WbLight.lights.push(this);
+  }
+
+  updateColor() {
+    const newColor = resetColorIfInvalid(this.color);
+    if (newColor !== false) {
+      this.color = newColor;
+      return;
+    }
+
+    if (this.wrenObjectsCreatedCalled)
+      this._applyLightColorToWren();
+  }
+
+  updateOn() {
+    if (this.wrenObjectsCreatedCalled)
+      this._applyLightVisibilityToWren();
   }
 
   // Private functions

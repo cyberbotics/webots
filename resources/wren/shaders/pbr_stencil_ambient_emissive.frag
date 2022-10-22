@@ -14,6 +14,7 @@ layout(location = 1) out vec4 fragNormal;
 uniform sampler2D inputTextures[13];
 uniform samplerCube cubeTextures[1];
 uniform int wireframeRendering;
+uniform bool reverseNormals;
 
 // Material parameters for this renderable
 layout(std140) uniform PbrMaterial {
@@ -102,7 +103,7 @@ vec3 getIBLContribution(IBLInfo iblInputs, vec3 n, vec3 reflection) {
 }
 
 void main() {
-  vec3 viewFragmentNormal = normalize(fragmentNormal);
+  vec3 viewFragmentNormal = normalize(reverseNormals ? -fragmentNormal : fragmentNormal);
   fragNormal = vec4(normalize(viewFragmentNormal), 1.0) * 0.5 + 0.5;
 
   // sample from normal map if one exists

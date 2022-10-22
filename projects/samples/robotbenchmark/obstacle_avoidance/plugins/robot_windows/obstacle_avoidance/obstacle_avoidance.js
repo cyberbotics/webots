@@ -1,10 +1,12 @@
-/* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
+import RobotWindow from 'https://cyberbotics.com/wwi/R2022b/RobotWindow.js';
+/* global sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
 
+window.robotWindow = new RobotWindow();
 const benchmarkName = 'Obstacle Avoidance';
 let timeString;
 let roomCrossingTime;
 
-webots.window('obstacle_avoidance').receive = function(message, robot) {
+window.robotWindow.receive = function(message, robot) {
   if (message.startsWith('time:')) {
     roomCrossingTime = parseFloat(message.substr(5));
     timeString = parseSecondsIntoReadableTime(roomCrossingTime);

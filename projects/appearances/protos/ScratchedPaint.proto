@@ -1,11 +1,11 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A scratched paint material.
 # template language: javascript
 
 PROTO ScratchedPaint [
-  field SFColor colorOverride    1 1 1  # Defines the default color multiplied with the texture color.
+  field SFColor colorOverride    1 1 1  # Defines the color to be multiplied with the texture color.
   field SFNode  textureTransform NULL   # Defines an optional 2d texture transform.
   field SFFloat IBLStrength      1      # Defines the strength of ambient lighting from the Background node.
   field SFBool  metalScratch     TRUE   # Defines if the scratches should uncover metal or not.
@@ -15,19 +15,19 @@ PROTO ScratchedPaint [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/scratched_paint/scratched_paint_base_color.jpg"
+        "textures/scratched_paint/scratched_paint_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/scratched_paint/scratched_paint_roughness.jpg"
+        "textures/scratched_paint/scratched_paint_roughness.jpg"
       ]
     }
     metalness 0
     %< if (fields.metalScratch.value) { >%
     metalnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/scratched_paint/scratched_paint_metalness.jpg"
+        "textures/scratched_paint/scratched_paint_metalness.jpg"
       ]
     }
     %< } >%

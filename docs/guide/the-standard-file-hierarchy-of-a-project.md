@@ -16,16 +16,17 @@ More information about this directory in the following subsections.
 The link between the world files and this directory is done through the *physics* field of the [WordInfo](../reference/worldinfo.md) node.
 - "worlds": this directory contains the world files, the project files (see below) and the textures (typically in a subdirectory called "textures").
 
-> **Note**: Note that the directories can be created by using the wizard [New Project Directory](the-user-interface.md) described in [this chapter](getting-started-with-webots.md).
+> **Note**: Note that the directories can be created by using the [**File / New / New Project Directory...**](the-user-interface.md) menu item, described in [this chapter](getting-started-with-webots.md).
 
-### The Project Files
+### The Project and Thumbnail Files
 
-The project files contain information about the GUI (such as the perspective).
+Each world file has a corresponding project file and thumbnail file.
 These files are hidden.
-Each world file can have one project file.
-If the world file is named "myWorldFile.wbt", its project file is named ".myWorldFile.wbproj".
-This file is written by Webots when a world is correctly closed.
-Removing it allows you to retrieve the default perspective.
+The project files contain information about the GUI (such as the perspective).
+If the world file is named "myWorldFile.wbt", its project file is named ".myWorldFile.wbproj" and its thumbnail ".myWorldFile.jpg".
+These files are written by Webots when a world is correctly saved.
+Removing the ".myWorldFile.wbproj" allows you to retrieve the default perspective.
+The 768px by 432px ".myWorldFile.jpg" thumbnail is used for loading when viewing a simulation, animation or a scene on the web. If it is not captured or deleted, a default thumbnail is used.
 
 ### The "controllers" Directory
 
@@ -46,4 +47,4 @@ controllers/simple_controller/simple_controller[.exe]
 
 <!-- -->
 
-> **Note**: You can create all the files needed by a new controller using the wizard [New Robot Controller](the-user-interface.md) described in [this chapter](getting-started-with-webots.md).
+> **Note**: You can create all the files needed by a new controller using the [**File / New / New Robot Controller...**](the-user-interface.md) menu item, described in [this chapter](getting-started-with-webots.md).

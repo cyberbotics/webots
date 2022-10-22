@@ -4,9 +4,9 @@ Derived from [Motor](motor.md).
 
 ```
 LinearMotor {
-  SFString name     "linear motor"              # any string
-  SFFloat  maxForce 10                          # [0, inf)
-  SFString sound    "sounds/linear_motor.wav"   # any string
+  SFString name     "linear motor"                                                                                                # any string
+  SFFloat  maxForce 10                                                                                                            # [0, inf)
+  SFString sound    "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/sounds/linear_motor.wav" # any string
 }
 ```
 

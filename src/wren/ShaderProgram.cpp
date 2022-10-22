@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -75,17 +75,23 @@ namespace wren {
   void ShaderProgram::release() const { glstate::releaseProgram(mGlName); }
 
   bool ShaderProgram::readFile(const std::string &path, std::string &contents) {
+#ifdef _WIN32                           // mbstowcs doesn't work properly on Windows
+    const int len = path.length() + 1;  // final '\0'
+    wchar_t *filename = new wchar_t[len];
+    MultiByteToWideChar(CP_UTF8, 0, path.c_str(), -1, filename, len);
+    std::ifstream in(filename, std::ios::in | std::ios::binary);
+    delete[] filename;
+#else
     std::ifstream in(path, std::ios::in | std::ios::binary);
+#endif
     if (in) {
       in.seekg(0, std::ios::end);
       contents.resize(in.tellg());
       in.seekg(0, std::ios::beg);
       in.read(&contents[0], contents.size());
       in.close();
-
       return true;
     }
-
     return false;
   }
 
@@ -139,7 +145,7 @@ namespace wren {
   }
 
   ShaderProgram::~ShaderProgram() {
-    for (auto &uniform : mCustomUniforms)
+    for (const auto &uniform : mCustomUniforms)
       delete uniform.second;
   }
 
@@ -261,12 +267,15 @@ void wr_shader_program_create_custom_uniform(WrShaderProgram *program, const cha
   const std::string uniformName(name);
 
   switch (type) {
-    case WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT:
-      shaderProgram->createCustomUniform(uniformName,
-                                         *(reinterpret_cast<const float *>(reinterpret_cast<const void *>(initial_value))));
+    case WR_SHADER_PROGRAM_UNIFORM_TYPE_BOOL:
+      shaderProgram->createCustomUniform(uniformName, *(reinterpret_cast<const bool *>(initial_value)));
       break;
     case WR_SHADER_PROGRAM_UNIFORM_TYPE_INT:
       shaderProgram->createCustomUniform(uniformName, *(reinterpret_cast<const int *>(initial_value)));
+      break;
+    case WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT:
+      shaderProgram->createCustomUniform(uniformName,
+                                         *(reinterpret_cast<const float *>(reinterpret_cast<const void *>(initial_value))));
       break;
     case WR_SHADER_PROGRAM_UNIFORM_TYPE_VEC2F:
       shaderProgram->createCustomUniform(uniformName, *(reinterpret_cast<const glm::vec2 *>(initial_value)));

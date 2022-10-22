@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,20 +19,35 @@
 
 class WbNode;
 class WbMFString;
-class WbVrmlWriter;
+class WbWriter;
 
 namespace WbUrl {
-  // return search path ordered by decreasing priority
-  QStringList orderedSearchPaths(const WbNode *node);
-  QString computePath(const WbNode *node, const QString &field, const QString &url, bool warn = true);
-  QString computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index, bool warn = true);
-  QString exportTexture(const WbNode *node, const QString &url, const QString &sourcePath, const QString &relativeTexturesPath,
-                        const WbVrmlWriter &writer);
-  QString exportTexture(const WbNode *node, const WbMFString *urlField, int index, const WbVrmlWriter &writer);
+  QString resolveUrl(const QString &rawUrl);
+  QString computePath(const WbNode *node, const QString &field, const QString &rawUrl, bool showWarning = false);
+  QString computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index,
+                      bool showWarning = false);
+
+  QString combinePaths(const QString &rawUrl, const QString &rawParentUrl);
+
+  QString exportResource(const WbNode *node, const QString &url, const QString &sourcePath, const QString &relativeResourcePath,
+                         const WbWriter &writer, const bool isTexture = true);
+  QString exportTexture(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer);
+  QString exportMesh(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer);
+
   const QString missing(const QString &url);
-  const QString missingTexture();
+  const QString &missingTexture();
+  const QString &missingProtoIcon();
   bool isWeb(const QString &url);
   bool isLocalUrl(const QString &url);
+  const QString computeLocalAssetUrl(QString url, bool isX3d);
+  const QString computePrefix(const QString &rawUrl);
+
+  const QString remoteWebotsAssetRegex(bool capturing);
+  const QString &remoteWebotsAssetPrefix();
+
+  const QRegularExpression vrmlResourceRegex();
+
+  QString expressRelativeToWorld(const QString &url);
 };  // namespace WbUrl
 
 #endif

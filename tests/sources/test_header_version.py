@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,11 +22,13 @@ import fnmatch
 IGNORED_PROTOS = [
     'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba/clients/studio/plugins/ThymioVPL/UsageProfile.proto',
     'projects/samples/tutorials/protos/FourWheelsRobot.proto',
-    'tests/protos/protos/Bc21bCameraProto.proto'
+    'tests/protos/protos/Bc21bCameraProto.proto',
+    'resources/templates/protos/template.proto'
 ]
 
 IGNORED_WORLDS = [
-    'tests/protos/worlds/backward_compability_enu_flu.wbt'
+    'tests/protos/worlds/backward_compability_enu_flu.wbt',
+    'tests/cache/worlds/backwards_compatibility.wbt'
 ]
 
 SKIPPED_DIRECTORIES = [

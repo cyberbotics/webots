@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #include "WbWrenCamera.hpp"
 
 #include "WbLog.hpp"
+#include "WbNetwork.hpp"
 #include "WbPreferences.hpp"
 #include "WbRandom.hpp"
 #include "WbSimulationState.hpp"
@@ -47,6 +48,7 @@
 #include <wren/transform.h>
 #include <wren/viewport.h>
 
+#include <QtCore/QFile>
 #include <QtCore/QTime>
 #include <QtGui/QImageReader>
 
@@ -327,19 +329,29 @@ void WbWrenCamera::setRangeResolution(float resolution) {
   }
 }
 
-QString WbWrenCamera::setNoiseMask(const char *noiseMaskTexturePath, QIODevice *device) {
+QString WbWrenCamera::setNoiseMask(const QString &noiseMaskUrl) {
+  const QString extension = noiseMaskUrl.mid(noiseMaskUrl.lastIndexOf('.') + 1).toLower();
+  if (extension != "jpg" && extension != "png" && extension != "jpeg")
+    return tr("Invalid URL '%1'. The noise mask must be in '.jpeg', '.jpg' or '.png' format.").arg(noiseMaskUrl);
+
   if (!mIsColor || mIsSpherical)
     return tr("Noise mask can only be applied to RGB non-spherical cameras");
 
   cleanup();
 
-  mNoiseMaskTexture = wr_texture_2d_copy_from_cache(noiseMaskTexturePath);
+  const QString noiseMaskPath = noiseMaskUrl.startsWith("http") ? WbNetwork::instance()->get(noiseMaskUrl) : noiseMaskUrl;
+  mNoiseMaskTexture = wr_texture_2d_copy_from_cache(noiseMaskPath.toUtf8().constData());
   if (!mNoiseMaskTexture) {
+    // if not in wren cache, load from disk (either locally available or cache)
+    QFile noiseMask(noiseMaskPath);
+    if (!noiseMask.open(QIODevice::ReadOnly))
+      return tr("Cannot open noise mask file: '%1'").arg(noiseMaskPath);
+
     QImage *image = new QImage();
-    QImageReader *imageReader = device ? new QImageReader(device) : new QImageReader(noiseMaskTexturePath);
+    QImageReader *imageReader = new QImageReader(noiseMaskPath);
     if (!imageReader->read(image)) {
       delete image;
-      return tr("Cannot load %1: %2").arg(noiseMaskTexturePath).arg(imageReader->errorString());
+      return tr("Cannot load '%1': %2").arg(noiseMaskPath).arg(imageReader->errorString());
     }
     delete imageReader;
     const bool isTranslucent = image->pixelFormat().alphaUsage() == QPixelFormat::UsesAlpha;
@@ -353,7 +365,7 @@ QString WbWrenCamera::setNoiseMask(const char *noiseMaskTexturePath, QIODevice *
     mNoiseMaskTexture = wr_texture_2d_new();
     wr_texture_set_size(WR_TEXTURE(mNoiseMaskTexture), image->width(), image->height());
     wr_texture_2d_set_data(mNoiseMaskTexture, reinterpret_cast<const char *>(image->bits()));
-    wr_texture_2d_set_file_path(mNoiseMaskTexture, noiseMaskTexturePath);
+    wr_texture_2d_set_file_path(mNoiseMaskTexture, noiseMaskPath.toUtf8().constData());
     wr_texture_set_translucent(WR_TEXTURE(mNoiseMaskTexture), isTranslucent);
     wr_texture_setup(WR_TEXTURE(mNoiseMaskTexture));
 
@@ -387,7 +399,7 @@ void WbWrenCamera::setBackgroundColor(const WbRgb &color) {
   if (mIsColor)
     mBackgroundColor = color;
   else
-    mBackgroundColor = WbRgb(mMaxRange, mMaxRange, mMaxRange);
+    mBackgroundColor = WbRgb(INFINITY, INFINITY, INFINITY);
 
   const float backgroundColor[] = {static_cast<float>(mBackgroundColor.red()), static_cast<float>(mBackgroundColor.green()),
                                    static_cast<float>(mBackgroundColor.blue())};
@@ -851,15 +863,15 @@ void WbWrenCamera::setupSphericalPostProcessingEffect() {
 
 void WbWrenCamera::setCamerasOrientations() {
   if (mIsCameraActive[CAMERA_ORIENTATION_RIGHT])
-    wr_camera_apply_yaw(mCamera[CAMERA_ORIENTATION_RIGHT], -M_PI_2);
+    wr_camera_apply_pitch(mCamera[CAMERA_ORIENTATION_RIGHT], -M_PI_2);
   if (mIsCameraActive[CAMERA_ORIENTATION_BACK])
-    wr_camera_apply_yaw(mCamera[CAMERA_ORIENTATION_BACK], M_PI);
+    wr_camera_apply_pitch(mCamera[CAMERA_ORIENTATION_BACK], M_PI);
   if (mIsCameraActive[CAMERA_ORIENTATION_LEFT])
-    wr_camera_apply_yaw(mCamera[CAMERA_ORIENTATION_LEFT], M_PI_2);
+    wr_camera_apply_pitch(mCamera[CAMERA_ORIENTATION_LEFT], M_PI_2);
   if (mIsCameraActive[CAMERA_ORIENTATION_UP])
-    wr_camera_apply_pitch(mCamera[CAMERA_ORIENTATION_UP], M_PI_2);
+    wr_camera_apply_roll(mCamera[CAMERA_ORIENTATION_UP], M_PI_2);
   if (mIsCameraActive[CAMERA_ORIENTATION_DOWN])
-    wr_camera_apply_pitch(mCamera[CAMERA_ORIENTATION_DOWN], -M_PI_2);
+    wr_camera_apply_roll(mCamera[CAMERA_ORIENTATION_DOWN], -M_PI_2);
 }
 
 void WbWrenCamera::setFovy(float fov) {

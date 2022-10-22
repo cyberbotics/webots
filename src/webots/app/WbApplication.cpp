@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,13 +23,14 @@
 #include "WbParser.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbSimulationState.hpp"
 #include "WbSolid.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbSysInfo.hpp"
 #include "WbTelemetry.hpp"
 #include "WbTokenizer.hpp"
+#include "WbVersion.hpp"
 #include "WbWorld.hpp"
 
 #include <QtCore/QDateTime>
@@ -49,11 +50,6 @@ WbApplication::WbApplication() {
   mWorld = NULL;
   mWorldLoadingCanceled = false;
   mWorldLoadingProgressDialogCreated = false;
-
-  // create the Webots temporary path early in the process
-  // in order to be sure that the Qt internal files will be stored
-  // at the right place
-  WbStandardPaths::webotsTmpPath();
 
   WbPreferences::createInstance("Cyberbotics", "Webots", WbApplicationInfo::version());
 
@@ -96,8 +92,6 @@ WbApplication::WbApplication() {
     qputenv("Path", QByteArray(newPath.toUtf8()));
   }
 #endif
-
-  qputenv("WEBOTS_DISABLE_BINARY_COPY", "True");
 }
 
 WbApplication::~WbApplication() {
@@ -105,9 +99,6 @@ WbApplication::~WbApplication() {
   WbPreferences::cleanup();
   WbNodeOperations::cleanup();
   cInstance = NULL;
-
-  // remove links to project dynamic libraries
-  removeOldLibraries();
 
   // remove temporary folder
   QDir tmpDir(WbStandardPaths::webotsTmpPath());
@@ -128,78 +119,11 @@ void WbApplication::setup() {
           &WbApplication::setWorldLoadingProgressDialogCreatedtoFalse);
 }
 
-void WbApplication::removeOldLibraries() {
-#ifdef _WIN32
-  // remove previous project lib folders from PATH
-  QString PATH(qgetenv("PATH"));
-  PATH.remove(gProjectLibsInPath);
-  qputenv("PATH", PATH.toUtf8());
-#else  // __linux__ || __APPLE__
-  QDir tmpLibDir(WbStandardPaths::webotsTmpPath() + "lib/");
-
-  // remove links to libraries of previous project
-  if (tmpLibDir.exists()) {
-    const QStringList &files = tmpLibDir.entryList(QDir::Files | QDir::NoDotAndDotDot);
-    foreach (const QString fileName, files)
-      tmpLibDir.remove(fileName);
-  }
-#endif
-}
-
-void WbApplication::linkLibraries(QString projectLibrariesPath) {
-  // remove previous links
-  removeOldLibraries();
-
-  if (projectLibrariesPath.startsWith(WbStandardPaths::resourcesProjectsPath()))
-    // do not link resources libraries
-    return;
-
-  QString projectLibPath(QDir::toNativeSeparators(projectLibrariesPath));
-
-#ifdef _WIN32
-  // add project lib folder and subfolders to the PATH
-  QDir projectLibDir(projectLibPath);
-  QStringList libDirs = projectLibDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
-  if (projectLibDir.exists() && !libDirs.isEmpty()) {
-    QString PATH(projectLibPath);
-    foreach (QString libDirName, libDirs)
-      PATH += ";" + projectLibPath + libDirName;
-
-    gProjectLibsInPath = PATH;
-    QString PATH_BEFORE(qgetenv("PATH"));
-    if (!PATH_BEFORE.isEmpty()) {
-      PATH += ";" + PATH_BEFORE;
-      gProjectLibsInPath += ";";
-    }
-    qputenv("PATH", PATH.toUtf8());
-  }
-#else  // __linux__ || __APPLE__
-  const QString tmpLibPath(WbStandardPaths::webotsTmpPath() + "lib/");
-  const QString dynamicLibraryExtension(WbStandardPaths::dynamicLibraryExtension());
-
-  QDirIterator iterator(projectLibPath, QDirIterator::Subdirectories);
-  bool success = false;
-  QString suffix, fileName, filePath;
-  while (iterator.hasNext()) {
-    iterator.next();
-
-    if (dynamicLibraryExtension == ("." + iterator.fileInfo().suffix())) {
-      filePath = iterator.fileInfo().absoluteFilePath();
-      fileName = iterator.fileName();
-
-      if (QFile::exists(tmpLibPath + fileName))
-        continue;
-
-      // create soft link of dynamic library in the project lib folder
-      success = QFile::link(filePath, tmpLibPath + fileName);
-      if (!success)
-        WbLog::error(tr("Could not create a symbolic link of dynamic library: '%1'.").arg(fileName));
-    }
-  }
-#endif
-}
-
 void WbApplication::setWorldLoadingProgress(const int progress) {
+  static int previousProgress = 0;
+  if (progress == previousProgress)
+    return;
+  previousProgress = progress;
   if (!mWorldLoadingProgressDialogCreated) {
     // more than 2 seconds that world is loading
     emit createWorldLoadingProgressDialog();
@@ -230,16 +154,19 @@ bool WbApplication::wasWorldLoadingCanceled() const {
   return mWorldLoadingCanceled;
 }
 
-bool WbApplication::cancelWorldLoading(bool loadEmptyWorld, bool deleteWorld) {
+void WbApplication::cancelWorldLoading(bool loadEmpty, bool deleteWorld) {
   emit deleteWorldLoadingProgressDialog();
 
   if (deleteWorld) {
     delete mWorld;
     mWorld = NULL;
   }
-  if (loadEmptyWorld)
-    return loadWorld(WbStandardPaths::emptyProjectPath() + "worlds/" + WbProject::newWorldFileName(), false);
-  return false;
+
+  WbLog::setConsoleLogsPostponed(false);
+  WbLog::showPendingConsoleMessages();
+
+  if (loadEmpty)
+    loadWorld(WbProject::newWorldPath(), false);
 }
 
 bool WbApplication::isValidWorldFileName(const QString &worldName) {
@@ -255,7 +182,17 @@ bool WbApplication::isValidWorldFileName(const QString &worldName) {
   return true;
 }
 
-bool WbApplication::loadWorld(QString worldName, bool reloading) {
+void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingAfterDownload) {
+  bool isValidProject = true;
+  const QString newProjectPath = WbProject::projectPathFromWorldFile(worldName, isValidProject);
+  WbProject::setCurrent(new WbProject(newProjectPath));
+
+  // decisive load signal should come from WbProtoManager (to ensure all assets are available)
+  if (!isLoadingAfterDownload) {
+    WbProtoManager::instance()->retrieveExternProto(worldName, reloading);
+    return;
+  }
+
   mWorldLoadingCanceled = false;
   mWorldLoadingProgressDialogCreated = false;
 
@@ -277,43 +214,39 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   }
   const bool useTelemetry = WbPreferences::instance()->value("General/telemetry").toBool() && !fileName.isEmpty();
 
-  bool isValidProject = true;
-  QString newProjectPath = WbProject::projectPathFromWorldFile(worldName, isValidProject);
-  WbProtoList *protoList = new WbProtoList(isValidProject ? newProjectPath + "protos" : "");
-
   setWorldLoadingStatus(tr("Reading world file "));
   if (wasWorldLoadingCanceled()) {
-    delete protoList;
     if (useTelemetry)
       WbTelemetry::send("cancel");
-    return cancelWorldLoading(true);
+    cancelWorldLoading(true);
+    return;
   }
 
   WbTokenizer tokenizer;
-  int errors = tokenizer.tokenize(worldName);
-  if (errors) {
+  const int errors = tokenizer.tokenize(worldName);
+  if (errors > 0) {
     WbLog::error(tr("'%1': Failed to load due to invalid token(s).").arg(worldName));
-    delete protoList;
     if (useTelemetry)
       WbTelemetry::send("cancel");
-    return cancelWorldLoading(false);
+    cancelWorldLoading(false);
+    return;
   }
 
   setWorldLoadingStatus(tr("Parsing world"));
   if (wasWorldLoadingCanceled()) {
-    delete protoList;
     if (useTelemetry)
       WbTelemetry::send("cancel");
-    return cancelWorldLoading(true);
+    cancelWorldLoading(true);
+    return;
   }
 
   WbParser parser(&tokenizer);
   if (!parser.parseWorld(worldName)) {
     WbLog::error(tr("'%1': Failed to load due to syntax error(s).").arg(worldName));
-    delete protoList;
     if (useTelemetry)
       WbTelemetry::send("cancel");
-    return cancelWorldLoading(true);
+    cancelWorldLoading(true);
+    return;
   }
 
   emit preWorldLoaded(reloading);
@@ -322,23 +255,22 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   delete mWorld;
 
   if (wasWorldLoadingCanceled()) {
-    delete protoList;
     if (useTelemetry)
       WbTelemetry::send("cancel");
-    return cancelWorldLoading(true, true);
+    cancelWorldLoading(true, true);
+    return;
   }
 
   WbBoundingSphere::enableUpdates(false);
 
-  // the world takes ownership of the proto list
-  WbProject::setCurrent(new WbProject(newProjectPath));
-  linkLibraries(WbProject::current()->librariesPath());
-  mWorld = new WbControlledWorld(protoList, &tokenizer);
+  mWorld = new WbControlledWorld(&tokenizer);
   if (mWorld->wasWorldLoadingCanceled()) {
     if (useTelemetry)
       WbTelemetry::send("cancel");
-    return cancelWorldLoading(true, true);
+    cancelWorldLoading(true, true);
+    return;
   }
+
   WbSimulationState::instance()->setEnabled(true);
 
   WbNodeOperations::instance()->updateDictionary(true, mWorld->root());
@@ -353,7 +285,7 @@ bool WbApplication::loadWorld(QString worldName, bool reloading) {
   if (useTelemetry)
     WbTelemetry::send("success");  // confirm the file previously sent was opened successfully
 
-  return true;
+  emit worldLoadCompleted();
 }
 
 void WbApplication::takeScreenshot(const QString &fileName, int quality) {

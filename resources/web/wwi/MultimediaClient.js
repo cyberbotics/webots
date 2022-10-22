@@ -32,7 +32,6 @@ export default class MultimediaClient {
     this._domElement.addEventListener('wheel', (e) => { this._onWheel(e); }, false);
     this._domElement.addEventListener('touchstart', (event) => { this._onTouchStart(event); }, true);
     this._domElement.addEventListener('contextmenu', (event) => { event.preventDefault(); }, false);
-    this._view.toolBar.enableToolBarButtons(!this._viewMode);
     if (typeof onready === 'function')
       onready();
   }
@@ -65,14 +64,12 @@ export default class MultimediaClient {
       const list = data.split(' ');
       const httpUrl = 'http' + this._view.stream.wsServer.slice(2); // replace 'ws' with 'http'
       const url = httpUrl + list[1];
-      this._view.toolBar.setMode(list[2]);
       this._domElement.src = url;
       this._viewMode = list.length > 4; // client in view mode
       if (this._viewMode) {
         this._domElement.style.width = list[3] + 'px';
         this._domElement.style.height = list[4] + 'px';
       }
-      this._view.toolBar.enableToolBarButtons(!this._viewMode);
       console.log('Multimedia streamed on ' + url);
     } else if (data.startsWith('resize: ')) {
       if (this._viewMode) {
@@ -167,7 +164,8 @@ export default class MultimediaClient {
       const distanceX = this._touchEvent.x - this._touchEvent.x1;
       const distanceY = this._touchEvent.y - this._touchEvent.y1;
       this._touchEvent.distance = distanceX * distanceX + distanceY * distanceY;
-      this._touchEvent.orientation = Math.atan2(this._touchEvent.y1 - this._touchEvent.y, this._touchEvent.x1 - this._touchEvent.x);
+      this._touchEvent.orientation = Math.atan2(this._touchEvent.y1 - this._touchEvent.y,
+        this._touchEvent.x1 - this._touchEvent.x);
       this._mouseDown = 3; // two fingers: rotation, tilt, zoom
     } else
       this._mouseDown = 2; // 1 finger: translation or single click

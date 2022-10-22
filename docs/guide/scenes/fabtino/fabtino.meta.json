@@ -46,12 +46,18 @@
       "type": "Accelerometer"
     },
     {
+      "anchor": "-0.285061 0.235818 0.035257",
+      "axis": "0 1 0",
       "name": "back_left_wheel_joint_sensor",
+      "position": 0,
       "transformID": "n67",
       "type": "PositionSensor"
     },
     {
+      "anchor": "-0.284897 -0.238057 0.03513",
+      "axis": "0 1 0",
       "name": "back_right_wheel_joint_sensor",
+      "position": 0,
       "transformID": "n37",
       "type": "PositionSensor"
     },
@@ -61,12 +67,18 @@
       "type": "Compass"
     },
     {
+      "anchor": "0.284897 0.238057 0.03513",
+      "axis": "0 1 0",
       "name": "front_left_wheel_joint_sensor",
+      "position": 0,
       "transformID": "n52",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.285061 -0.235818 0.035257",
+      "axis": "0 1 0",
       "name": "front_right_wheel_joint_sensor",
+      "position": 0,
       "transformID": "n22",
       "type": "PositionSensor"
     },

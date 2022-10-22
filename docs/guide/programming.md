@@ -56,7 +56,7 @@ Please find a description of ODE functions here: [here](http://ode.org/wiki/inde
 
 Please see [this section](using-numerical-optimization-methods.md#resetting-the-robot).
 
-### What Does This Mean: "Could not find controller {...} Loading void controller instead." ?
+### What Does This Mean: "Could not find controller {...} Loading <generic> controller instead." ?
 
 This message means that Webots could neither find an executable file (e.g. `.exe`), nor an interpreted language file (e.g. `.class`, `.py`, `.m`) to run as controller program for a robot.
 In fact, Webots needs each controller file to be stored at specific location in order to be able to executed it.
@@ -143,7 +143,7 @@ Here is such an example:
 
 Yes.
 You need to use a *physics plugin* to apply user specified forces (or torques).
-Then you can add the physics plugin with the menu item: `Wizards` > `New Physics Plugin`.
+Then you can add the physics plugin with the **File / New / New Physics Plugin...** menu item.
 After having added the plugin you must compile it using Webots editor.
 Then you must associate the plugin with your simulation world.
 This can be done by editing the `WorldInfo.physics` field in the Scene Tree.

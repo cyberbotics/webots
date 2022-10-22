@@ -16,12 +16,13 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 CardboardBox {
-  SFVec3f    translation 0 0.3 0
+  SFVec3f    translation 0 0 0.3
   SFRotation rotation    0 0 1 0
   SFString   name        "cardboard box"
   SFVec3f    size        0.6 0.6 0.6
   SFFloat    mass        0
   SFBool     locked      FALSE
+  SFFloat    lidAngle    0
 }
 ```
 
@@ -35,6 +36,8 @@ CardboardBox {
 - `size`: Defines the size of the cardboard box.
 
 - `mass`: Defines the mass of the cardboard box in kg. A value smaller or equal to 0 remove the physics of the cardboard box.
+
+- `lidAngle`: Defines the opening of the cardboard box in radians. A value equal to 0 closes the box and uses a simple box for the bounding object, preventing it from containing objects.
 
 ### MetalStorageBox
 
@@ -131,7 +134,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 WoodenBox {
-  SFVec3f    translation         0 0.3 0
+  SFVec3f    translation         0 0 0.3
   SFRotation rotation            0 0 1 0
   SFString   name                "wooden box"
   SFVec3f    size                0.6 0.6 0.6
@@ -171,6 +174,7 @@ ConveyorBelt {
   SFVec3f    translation      0 0 0
   SFRotation rotation         0 0 1 0
   SFString   name             "conveyor belt"
+  SFString   window           "<none>"
   SFVec3f    size             1.5 0.5 0.6
   SFNode     appearance       CorrugatedMetal { textureTransform TextureTransform { scale 2 2 } }
   SFFloat    borderThickness  0.03
@@ -205,7 +209,6 @@ ConveyorBelt {
 A controllable conveyor platform.
 The default controller makes it move at a constant speed for a configurable amount of time.
 The conveyor contains 3 controllable LEDs.
-Another controller gives the possibility to set the speed of the belt using the keyboard.
 
 %figure
 
@@ -217,11 +220,12 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 ConveyorPlatform {
-   SFVec3f     translation      0 0 0
+   SFVec3f     translation      0 0 0.065
    SFRotation  rotation         0 0 1 0
    SFString    name             "Conveyor platform"
    SFString    model            "Conveyor platform"
    SFString    controller       "conveyor_belt"
+   SFString    window           "<none>"
    SFFloat     speed            0.3
    SFFloat     acceleration     -1
    SFFloat     timer            0.0
@@ -273,6 +277,70 @@ FireExtinguisher {
 [More information.](https://creativecommons.org/licenses/by-nc/4.0)
 
 #### FireExtinguisher Field Summary
+
+- `enablePhysics`: Defines whether the fire extinguisher should have physics.
+
+## Forklift
+
+### Forklift PROTO
+
+A simple forklift with optional physics.
+
+%figure
+
+![Forklift](images/objects/forklift/Forklift/model.thumbnail.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+Forklift {
+  SFVec3f    translation     0 0 0.81
+  SFRotation rotation        0 0 1 0
+  SFString   name            "forklift"
+  SFBool     enablePhysics   TRUE
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/factory/forklift/protos/Forklift.proto]({{ url.github_tree }}/projects/objects/factory/forklift/protos/Forklift.proto)"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+#### Forklift Field Summary
+
+- `enablePhysics`: Defines whether the forklift should have physics.
+
+## Gas Canister
+
+### GasCanister
+
+A simple gas canister with optional physics.
+
+%figure
+
+![GasCanister](images/objects/gas_canister/GasCanister/model.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+GasCanister {
+  SFVec3f    translation     0 0 0
+  SFRotation rotation        0 0 1 0
+  SFString   name            "gas canister"
+  SFBool     enablePhysics   TRUE
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/factory/gas\_canister/protos/GasCanister.proto]({{ url.github_tree }}/projects/objects/factory/gas_canister/protos/GasCanister.proto)"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+#### GasCanister Field Summary
 
 - `enablePhysics`: Defines whether the fire extinguisher should have physics.
 
@@ -456,7 +524,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 PipeSection {
   SFVec3f    translation   0 0 0.25
-  SFRotation rotation      1 0 0 1.5708
+  SFRotation rotation      0 0 1 0
   SFString   name          "pipe section"
   SFFloat    height        0.5
   SFFloat    radius        0.03
@@ -527,13 +595,14 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Bolt {
-  SFVec3f    translation      0 0 0.027
+  SFVec3f    translation      0 0 0.013
   SFRotation rotation         0 0 1 0
   SFString   name             "bolt"
   SFNode     appearance       OldSteel {}
   SFFloat    screwRadius      0.0055
   SFFloat    screwLength      0.035
   SFString   contactMaterial  "default"
+  SFBool     enablePhysics    TRUE
 }
 ```
 
@@ -550,6 +619,8 @@ Bolt {
 
 - `screwLength`: Defines the length of the screw.
 
+- `enablePhysics`: Defines whether the bolt should have physics.
+
 ### CapScrew
 
 A cap screw with variable radius and length.
@@ -564,7 +635,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 CapScrew {
-  SFVec3f    translation           0 0 0.012
+  SFVec3f    translation           0 0 0.01
   SFRotation rotation              0 0 1 0
   SFString   name                  "cap screw"
   SFNode     appearance            OldSteel {}
@@ -612,7 +683,7 @@ ElectricalPlug {
   SFRotation rotation              0 0 1 0
   SFString   name                  "electrical plug"
   SFColor    color                 1 1 1
-  MFVec3f    cablePath             [0 0 0, 0 0 -0.03, 0.1 0 -0.03]
+  MFVec3f    cablePath             [0 0 0, -0.03 0 0, -0.03 0 -0.1]
   SFBool     enablePhysics         TRUE
   SFBool     enableBoundingObject  TRUE
 }
@@ -677,13 +748,14 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 EyeScrew {
-  SFVec3f    translation      0 0 0.036
+  SFVec3f    translation      0 0 0.01
   SFRotation rotation         0 0 1 0
   SFString   name             "eye screw"
   SFNode     appearance       OldSteel { colorOverride 0.73 0.74 0.71 }
   SFFloat    screwRadius      0.006
   SFFloat    screwLength      0.05
   SFString   contactMaterial  "default"
+  SFBool     enablePhysics    TRUE
 }
 ```
 
@@ -699,6 +771,8 @@ EyeScrew {
 - `screwRadius`: Defines the radius of the screw.
 
 - `screwLength`: Defines the length of the screw.
+
+- `enablePhysics`: Defines whether the eye screw should have physics.
 
 ### Hammer
 
@@ -740,13 +814,14 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Nut {
-  SFVec3f    translation     0 0 0.004
+  SFVec3f    translation     0 0 0.012
   SFRotation rotation        0 0 1 0
   SFString   name            "nut"
   SFNode     appearance      OldSteel {}
   SFFloat    innerRadius     0.006
   SFFloat    thickness       0.007
   SFString   contactMaterial "default"
+  SFBool     enablePhysics    TRUE
 }
 ```
 
@@ -762,6 +837,8 @@ Nut {
 - `innerRadius`: Defines the inner radius of the nut.
 
 - `thickness`: Defines the thickness of the nut.
+
+- `enablePhysics`: Defines whether the nut should have physics.
 
 ### PaintBucket
 
@@ -834,7 +911,7 @@ Derived from [Transform](../reference/transform.md).
 
 ```
 ScrewHole {
-  SFVec3f    translation     0 0 0
+  SFVec3f    translation     0 0 0.2
   SFRotation rotation        0 0 1 0
   SFFloat    radius          0.06
   SFFloat    depth           0.1
@@ -846,6 +923,14 @@ ScrewHole {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+
+#### ScrewHole Field Summary
+
+- `radius`: Defines the radius of the screw hole.
+
+- `depth`: Defines the depth of the screw hole.
+
+- `appearance`: Defines the appearance of the screw hole.
 
 ### Screwdriver
 
@@ -887,13 +972,14 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Washer {
-  SFVec3f    translation     0 0 0.001
+  SFVec3f    translation     0 0 0.016
   SFRotation rotation        0 0 1 0
   SFString   name            "washer"
   SFNode     appearance       OldSteel {}
   SFFloat    innerRadius      0.006
   SFFloat    thickness        0.0017
   SFString   contactMaterial "default"
+  SFBool     enablePhysics   TRUE
 }
 ```
 
@@ -909,6 +995,8 @@ Washer {
 - `innerRadius`: Defines the inner radius of the washer.
 
 - `thickness`: Defines the thickness of the washer.
+
+- `enablePhysics`: Defines whether the washer should have physics.
 
 ### Wrench
 
@@ -962,6 +1050,7 @@ LargeValve {
   SFString   name            "large valve"
   SFFloat    jointFriction   0.5
   SFString   controller      "valve_turner"
+  SFString   window          "<none>"
   SFBool     supervisor      FALSE
   MFString   absoluteStop    "15.7079632679"
   SFString   contactMaterial "default"
@@ -1031,6 +1120,7 @@ SmallValve {
   SFString   name          "small valve"
   SFFloat    jointFriction 0.1
   SFString   controller    "valve_turner"
+  SFString   window        "<none>"
   SFBool     supervisor    FALSE
   MFString   absoluteStop  "15.7079632679"
 }
@@ -1048,3 +1138,4 @@ SmallValve {
 - `controller`: Defines the controller of the valve which is used to limit its rotation.
 
 - `absoluteStop`: Defines the maximum rotational angle in radians. This value is sent to the controller using the controllerArgs field.
+

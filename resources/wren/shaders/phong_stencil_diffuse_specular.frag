@@ -19,6 +19,7 @@ in vec2 penTexUv;
 out vec4 fragColor;
 
 uniform sampler2D inputTextures[3];
+uniform bool reverseNormals;
 
 struct DirectionalLight {
   vec4 colorAndIntensity;
@@ -81,7 +82,7 @@ void main() {
   vec3 diffuseTotal = vec3(0.0);
   vec3 specularTotal = vec3(0.0);
 
-  vec3 fragmentNormal = normalize(normalTransformed);
+  vec3 fragmentNormal = normalize(reverseNormals ? -normalTransformed : normalTransformed);
   vec3 viewDirection = normalize(-fragmentPosition);
 
   // Apply directional light if active

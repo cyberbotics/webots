@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -46,13 +46,13 @@ namespace wren {
   }
 
   glm::mat4 Skeleton::vertexMatrix(DynamicMesh *mesh, unsigned int vertexIndex) {
-    glm::mat4 matrix(0.0f);
+    glm::mat4 m(0.0f);
     for (unsigned int boneIndex : mVertexBones[mesh][vertexIndex]) {
       SkeletonBone *bone = mBones[boneIndex];
       const float weight = bone->vertexWeight(mesh, vertexIndex);
-      matrix += weight * bone->finalTransform();
+      m += weight * bone->finalTransform();
     }
-    return matrix;
+    return m;
   }
 
   glm::mat4 Skeleton::matrix() const {

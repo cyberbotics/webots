@@ -19,8 +19,8 @@ FireBird6 {
   SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE
-  SFString   window          "fire_bird_6_window"
-  SFString   remoteControl   ""
+  SFString   window          "<generic>"
+  SFString   remoteControl   "<none>"
   MFNode     bodySlot        []
 }
 ```

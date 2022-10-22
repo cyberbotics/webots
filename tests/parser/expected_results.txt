@@ -20,7 +20,7 @@ parser/worlds/node_without_brackets.wbt "Expected '{', found 'RectangleArena'."
 parser/worlds/proto_concatenated_comment.wbt VOID
 parser/worlds/proto_default_def_parameter.wbt "Wrong order of fields in the instance of PROTO DefaultDef: USE nodes might refer to the wrong DEF nodes."
 parser/worlds/proto_mismatch_field_type.wbt "Type mismatch between 'fieldTexture' PROTO parameter and field 'url'."
-parser/worlds/proto_mismatch_file_name.wbt "ProtoMismatchFileName.proto': error: 'ProtoMismatchFileName2' PROTO identifier does not match filename."
+parser/worlds/proto_mismatch_file_name.wbt "error: 'ProtoMismatchFileName2' PROTO identifier does not match filename."
 parser/worlds/proto_missing_ending_curly_bracket.wbt "Expected field name or '}', found end of file."
 parser/worlds/proto_missing_item_value_in_field.wbt "Expected floating point value, found 'field'."
 parser/worlds/proto_nested_parameter.wbt VOID

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -79,7 +79,7 @@ public:
   // utility forward functions if the group/transform node has no solid ancestor
   // forward jerk notification to children
   virtual void forwardJerk();
-  void writeParameters(WbVrmlWriter &writer) const override;
+  void writeParameters(WbWriter &writer) const override;
   virtual void collectHiddenKinematicParameters(WbHiddenKinematicParameters::HiddenKinematicParametersMap &map,
                                                 int &counter) const;
   virtual bool resetHiddenKinematicParameters();
@@ -90,9 +90,12 @@ public:
   // selection
   void propagateSelection(bool selected) override;
 
+  // propagate change in segmentation color
+  void updateSegmentationColor(const WbRgb &color) override;
+
   // bounding sphere
   WbBoundingSphere *boundingSphere() const override { return mBoundingSphere; }
-  void recomputeBoundingSphere() const;
+  void recomputeBoundingSphere();
   // For a group in a boundingObject
   dSpaceID odeSpace() const { return mOdeSpace; }
   void setOdeData(dSpaceID s) { mOdeSpace = s; }
@@ -101,7 +104,7 @@ public:
   void setMatrixNeedUpdate() override;
 
   // export
-  void exportBoundingObjectToX3D(WbVrmlWriter &writer) const override;
+  void exportBoundingObjectToX3D(WbWriter &writer) const override;
 
 signals:
   // called after the list of children has changed
@@ -112,6 +115,7 @@ signals:
   void notifyParentSlot(WbBaseNode *child);
   void notifyParentJoint(WbBaseNode *child);
   void childFinalizationHasProgressed(const int progress);  // 0: beginning, 100: end
+  void worldLoadingStatusHasChanged(QString status);
 
 protected:
   // this constructor is reserved for derived classes only
@@ -137,6 +141,7 @@ private:
 
   // user accessible fields
   WbMFNode *mChildren;
+  int mLoadProgress;
 
 public slots:
   void cancelFinalization();

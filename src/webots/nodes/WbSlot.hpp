@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ public:
   void createOdeObjects() override;
   void createWrenObjects() override;
   void validateProtoNode() override;
-  void write(WbVrmlWriter &writer) const override;
+  void write(WbWriter &writer) const override;
   void updateCollisionMaterial(bool triggerChange = false, bool onSelection = false) override;
   void setSleepMaterial() override;
   void setScaleNeedUpdate() override;
@@ -49,9 +49,10 @@ public:
   void reset(const QString &id) override;
   void save(const QString &id) override;
   QList<const WbBaseNode *> findClosestDescendantNodesWithDedicatedWrenNode() const override;
+  void updateSegmentationColor(const WbRgb &color) override;
 
   // field accessors
-  bool hasEndpoint() const { return mEndPoint->value() != NULL; }
+  bool hasEndPoint() const { return mEndPoint->value() != NULL; }
   WbSFNode *endPointField() const { return mEndPoint; }
   WbNode *endPoint() const { return mEndPoint->value(); }
   WbSolid *solidEndPoint() const;

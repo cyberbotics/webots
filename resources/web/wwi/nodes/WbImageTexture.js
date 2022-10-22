@@ -32,7 +32,7 @@ export default class WbImageTexture extends WbBaseNode {
         if (parent instanceof WbAppearance)
           parent.texture = undefined;
         else {
-          switch (this.type) {
+          switch (this.role) {
             case 'baseColorMap':
               parent.baseColorMap = undefined;
               break;
@@ -63,12 +63,15 @@ export default class WbImageTexture extends WbBaseNode {
   modifyWrenMaterial(wrenMaterial, mainTextureIndex, backgroundTextureIndex) {
     if (!wrenMaterial)
       return;
+
     this._wrenTextureIndex = mainTextureIndex;
     _wr_material_set_texture(wrenMaterial, this._wrenTexture, this._wrenTextureIndex);
     if (this._wrenTexture) {
       _wr_texture_set_translucent(this._wrenTexture, this.isTransparent);
-      _wr_material_set_texture_wrap_s(wrenMaterial, this.repeatS ? Enum.WR_TEXTURE_WRAP_MODE_REPEAT : Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, this._wrenTextureIndex);
-      _wr_material_set_texture_wrap_t(wrenMaterial, this.repeatT ? Enum.WR_TEXTURE_WRAP_MODE_REPEAT : Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, this._wrenTextureIndex);
+      _wr_material_set_texture_wrap_s(wrenMaterial, this.repeatS ? Enum.WR_TEXTURE_WRAP_MODE_REPEAT
+        : Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, this._wrenTextureIndex);
+      _wr_material_set_texture_wrap_t(wrenMaterial, this.repeatT ? Enum.WR_TEXTURE_WRAP_MODE_REPEAT
+        : Enum.WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE, this._wrenTextureIndex);
       _wr_material_set_texture_anisotropy(wrenMaterial, 1 << (this.usedFiltering - 1), this._wrenTextureIndex);
       _wr_material_set_texture_enable_interpolation(wrenMaterial, this.usedFiltering, this._wrenTextureIndex);
       _wr_material_set_texture_enable_mip_maps(wrenMaterial, this.usedFiltering, this._wrenTextureIndex);
@@ -78,6 +81,9 @@ export default class WbImageTexture extends WbBaseNode {
   }
 
   preFinalize() {
+    if (this.isPreFinalizeCalled)
+      return;
+
     super.preFinalize();
     this.updateUrl();
     this._updateFiltering();
@@ -113,7 +119,7 @@ export default class WbImageTexture extends WbBaseNode {
     // Only load the image from disk if the texture isn't already in the cache
     let texture = Module.ccall('wr_texture_2d_copy_from_cache', 'number', ['string'], [this.url]);
     if (texture === 0)
-      console.error('Image not found in wren');
+      console.warn('Image not found in wren');
     else
       this.isTransparent = _wr_texture_is_translucent(texture);
 

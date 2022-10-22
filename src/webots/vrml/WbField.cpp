@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@
 #include "WbSFVector3.hpp"
 #include "WbTokenizer.hpp"
 #include "WbValue.hpp"
-#include "WbVrmlWriter.hpp"
+#include "WbWriter.hpp"
 
 #include <cassert>
 #include <iostream>
@@ -62,7 +62,8 @@ WbField::WbField(const WbField &other, WbNode *parentNode) :
   mParameter(NULL),
   mAlias(other.mAlias),
   mIsTemplateRegenerator(other.mIsTemplateRegenerator),
-  mParentNode(parentNode) {
+  mParentNode(parentNode),
+  mScope(other.mScope) {
   mModel->ref();
   if (hasRestrictedValues())
     connect(mValue, &WbValue::changed, this, &WbField::checkValueIsAccepted, Qt::UniqueConnection);
@@ -100,7 +101,7 @@ bool WbField::isDeprecated() const {
 
 void WbField::readValue(WbTokenizer *tokenizer, const QString &worldPath) {
   if (mWasRead)
-    tokenizer->reportError(tr("Duplicate field value."));
+    tokenizer->reportError(tr("Duplicate field value: '%1'").arg(name()));
 
   mValue->read(tokenizer, worldPath);
   mWasRead = true;
@@ -108,7 +109,7 @@ void WbField::readValue(WbTokenizer *tokenizer, const QString &worldPath) {
     checkValueIsAccepted();
 }
 
-void WbField::write(WbVrmlWriter &writer) const {
+void WbField::write(WbWriter &writer) const {
   if (isDefault())
     return;
   if (writer.isX3d())
@@ -161,7 +162,7 @@ void WbField::checkValueIsAccepted() {
   if (!mModel->isValueAccepted(mValue, &refusedIndex)) {
     QString acceptedValuesList = "";
     foreach (const WbVariant acceptedValue, mModel->acceptedValues())
-      acceptedValuesList += acceptedValue.toStringRepresentation() + ", ";
+      acceptedValuesList += acceptedValue.toSimplifiedStringRepresentation() + ", ";
     acceptedValuesList.chop(2);
     QString error;
     if (isSingle()) {

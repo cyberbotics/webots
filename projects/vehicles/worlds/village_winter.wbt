@@ -1,4 +1,27 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/Crossroad.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/Road.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/RoadLine.proto"
+EXTERNPROTO "webots://projects/objects/buildings/protos/RandomBuilding.proto"
+EXTERNPROTO "webots://projects/objects/trees/protos/SimpleTree.proto"
+EXTERNPROTO "webots://projects/objects/geometries/protos/Extrusion.proto"
+EXTERNPROTO "webots://projects/objects/trees/protos/Forest.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/RoadPillars.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/GenericTrafficLight.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/StreetLight.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/PedestrianCrossing.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/YieldSign.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/OrderSign.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/OrderPanel.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/CautionSign.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/CautionPanel.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/SpeedLimitSign.proto"
+EXTERNPROTO "webots://projects/objects/traffic/protos/SpeedLimitPanel.proto"
+
 WorldInfo {
   info [
     "World generated using the Open Street Map to Webots importer"
@@ -213,14 +236,31 @@ Crossroad {
     "-2044_2"
     "-2044_1"
   ]
-  appearance PBRAppearance {
+  appearance DEF ROAD_WITH_SNOW PBRAppearance {
     baseColorMap ImageTexture {
       url [
-        "webots://projects/default/worlds/textures/snow.jpg"
+        "webots://projects/vehicles/worlds/textures/snowy_road/snowy_road_base_color.jpg"
       ]
     }
-    roughness 1
+    roughnessMap ImageTexture {
+      url [
+        "webots://projects/vehicles/worlds/textures/snowy_road/snowy_road_roughness.jpg"
+      ]
+    }
     metalness 0
+    normalMap ImageTexture {
+      url [
+        "webots://projects/vehicles/worlds/textures/snowy_road/snowy_road_normal.jpg"
+      ]
+    }
+    occlusionMap ImageTexture {
+      url [
+        "webots://projects/vehicles/worlds/textures/snowy_road/snowy_road_occlusion.jpg"
+      ]
+    }
+    textureTransform TextureTransform {
+      scale 0.287 0.287
+    }
   }
 }
 Crossroad {
@@ -251,15 +291,7 @@ Crossroad {
     "-2046"
     "-2048_3"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Crossroad {
   translation 28.973327 -8.189265 0.01
@@ -287,15 +319,7 @@ Crossroad {
     "-2050"
     "-2044_2"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Crossroad {
   translation 336.58867 -291.94191 0.01
@@ -325,15 +349,7 @@ Crossroad {
     "-2042_2"
     "-2042_3"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Crossroad {
   translation 337.46489 -102.25131 0.01
@@ -365,15 +381,7 @@ Crossroad {
     "-2090"
     "-1984"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Crossroad {
   translation 79.882497 -463.34524 0.01
@@ -401,15 +409,7 @@ Crossroad {
     "-2208"
     "-2092"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
   contactMaterial "low_snow"
 }
 Crossroad {
@@ -438,15 +438,7 @@ Crossroad {
     "-2208"
     "-1966"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
   contactMaterial "low_snow"
 }
 Crossroad {
@@ -458,15 +450,7 @@ Crossroad {
     "-2088_1"
     "-2088_3"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Crossroad {
   translation 246.29628 -304.56045 0.01
@@ -494,15 +478,7 @@ Crossroad {
     "-2046"
     "-2088_4"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Crossroad {
   translation 263.3352 -465.18993 0.01
@@ -530,15 +506,7 @@ Crossroad {
     "-2058"
     "-2086_1"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Crossroad {
   translation 245.50162 -324.5749 0.01
@@ -566,15 +534,7 @@ Crossroad {
     "-2088_3"
     "-2086_1"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Crossroad {
   translation 248.92204 -121.84006 0.01
@@ -585,15 +545,7 @@ Crossroad {
     "-1984"
     "-1976"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Crossroad {
   translation 241.66582 -132.81822 0.01
@@ -604,15 +556,7 @@ Crossroad {
     "-1978"
     "-1976"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Crossroad {
   translation 166.67353 -471.36587 0.01
@@ -644,15 +588,7 @@ Crossroad {
     "-2058"
     "-2054"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Crossroad {
   translation 193.83412 -541.65796 0.01
@@ -683,15 +619,7 @@ Crossroad {
     "-1970_1"
     "-2052"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Crossroad {
   translation 516.88407 -696.6426 0.01
@@ -702,15 +630,7 @@ Crossroad {
     "-1966"
     "-1980_1"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Crossroad {
   translation 15.427825 6.52284 0.01
@@ -740,15 +660,7 @@ Crossroad {
     "-2044_1"
     "-2044_3"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Crossroad {
   translation 225.37325 -194.69567 0.01
@@ -778,15 +690,7 @@ Crossroad {
     "-2050"
     "-2048_1"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Crossroad {
   translation 233.10476 -177.89268 0.01
@@ -816,15 +720,7 @@ Crossroad {
     "-2048_1"
     "-2048_2"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Crossroad {
   translation 255.87428 -314.96437 0.01
@@ -854,15 +750,7 @@ Crossroad {
     "-2042_2"
     "-2088_4"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Crossroad {
   translation 235.92366 -314.17099 0.01
@@ -890,15 +778,7 @@ Crossroad {
     "-2088_2"
     "-2088_1"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Crossroad {
   translation 503.43291 -582.99924 0.01
@@ -927,15 +807,7 @@ Crossroad {
     "-1980_2"
     "-1980_1"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
   contactMaterial "high_snow"
 }
 Crossroad {
@@ -964,15 +836,7 @@ Crossroad {
     "-2094"
     "-1970_2"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Crossroad {
   translation 93.35396 -572.65472 0.01
@@ -983,15 +847,7 @@ Crossroad {
     "-1974"
     "-1972"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Crossroad {
   translation 109.86871 -566.70996 0.01
@@ -1002,15 +858,7 @@ Crossroad {
     "-2052"
     "-1974"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Crossroad {
   translation 316.50379 -465.40535 0.01
@@ -1042,15 +890,7 @@ Crossroad {
     "-1980_2"
     "-2018"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Crossroad {
   translation 29.534512 5.962571 0.01
@@ -1078,15 +918,7 @@ Crossroad {
     "-2042_1"
     "-2044_4"
   ]
-  appearance PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/default/worlds/textures/snow.jpg"
-      ]
-    }
-    roughness 1
-    metalness 0
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Road {
   translation 316.84913 -461.4012 0.01
@@ -1117,32 +949,7 @@ Road {
     0.878056
   ]
   splineSubdivision 2
-  appearance DEF ROAD_WITH_SNOW PBRAppearance {
-    baseColorMap ImageTexture {
-      url [
-        "webots://projects/vehicles/worlds/textures/snowy_road/snowy_road_base_color.jpg"
-      ]
-    }
-    roughnessMap ImageTexture {
-      url [
-        "webots://projects/vehicles/worlds/textures/snowy_road/snowy_road_roughness.jpg"
-      ]
-    }
-    metalness 0
-    normalMap ImageTexture {
-      url [
-        "webots://projects/vehicles/worlds/textures/snowy_road/snowy_road_normal.jpg"
-      ]
-    }
-    occlusionMap ImageTexture {
-      url [
-        "webots://projects/vehicles/worlds/textures/snowy_road/snowy_road_occlusion.jpg"
-      ]
-    }
-    textureTransform TextureTransform {
-      scale 0.287 0.287
-    }
-  }
+  appearance USE ROAD_WITH_SNOW
 }
 Road {
   translation 228.76675 -602.27033 0.01

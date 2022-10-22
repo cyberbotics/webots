@@ -46,8 +46,8 @@ Note however that the length of the 3D vector *rx ry rz* must be normalized (i.e
         rotation 0 -1 0 1.5708
 
 - The `scale` field specifies a possibly non-uniform scale.
-Only positive values are permitted; non-positive values scale are automatically reset to 1.
-Graphical objects support any positive non-uniform scale whereas physical objects are subjected to restrictions.
+Only non-zero values are permitted; zero values are automatically reset to 1.
+Graphical objects support any non-zero, non-uniform scale whereas physical objects are subject to more restrictions.
 This is so because scaled geometries must remain admissible for the physics engine collision detection.
 Restrictions for `Geometries` placed inside `boundingObjects` are as follows: [Sphere](sphere.md)s and [Capsule](capsule.md)s only support uniform scale; the scale coordinates x and z of a `Transform` with a [Cylinder](cylinder.md) descendant must be the same.
 For the remaining `Geometries`, the scale is not restricted.

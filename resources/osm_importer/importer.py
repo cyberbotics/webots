@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -147,10 +147,10 @@ with codecs.open(options.outFile, 'w', 'utf-8') as outputFile:
     if options.enable3D:
         elevation = Elevation(Projection.getProjection(), minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon,
                               googleAPIKey=options.googleAPIKey)
-        print_header(outputFile, minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon, elevation=elevation)
+        print_header(options, outputFile, minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon, elevation=elevation)
         print(" * Elevation data acquired")
     else:
-        print_header(outputFile, minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon)
+        print_header(options, outputFile, minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon)
     WebotsObject.elevation = elevation
 
     # parse OSM file

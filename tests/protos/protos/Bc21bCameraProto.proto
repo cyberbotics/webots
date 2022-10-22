@@ -1,5 +1,7 @@
 #VRML_SIM R2021b utf8
 
+EXTERNPROTO "webots://projects/appearances/protos/GalvanizedMetal.proto"
+
 PROTO Bc21bCameraProto [
 ]
 {

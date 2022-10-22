@@ -1,10 +1,10 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # tags: nonDeterministic
 # This PROTO generates a file called 'test.txt' in the temporary files.
 # The content of the file is the number of times the PROTO was regenerated.
 
 PROTO NonDeterministicSupervisorLua [
-  field SFString controller     ""
+  field SFString controller     "<none>"
   field MFString controllerArgs []
   field SFString description    ""
   field MFNode   children       []

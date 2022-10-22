@@ -41,7 +41,10 @@
       "type": "Gyro"
     },
     {
+      "anchor": "0.07 0 -0.08",
+      "axis": "0 1 0",
       "name": "left wheel sensor",
+      "position": 0,
       "transformID": "n138",
       "type": "PositionSensor"
     },
@@ -86,7 +89,10 @@
       "type": "DistanceSensor"
     },
     {
+      "anchor": "0.07 0 -0.08",
+      "axis": "0 1 0",
       "name": "right wheel sensor",
+      "position": 0,
       "transformID": "n120",
       "type": "PositionSensor"
     },

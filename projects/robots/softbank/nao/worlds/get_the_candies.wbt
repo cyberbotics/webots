@@ -1,4 +1,12 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Shelves.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Cart.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/BallCandy.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/LollipopCandy.proto"
+EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Nao.proto"
+
 WorldInfo {
   info [
     "NAO Challenge 2014-2015"
@@ -142,7 +150,7 @@ LollipopCandy {
 DEF NAO Nao {
   translation -0.2 2.05 0.34
   rotation 0 0 1 3.141527137608161
-  controller "void"
+  controller "<generic>"
   cameraWidth 320
   cameraHeight 240
 }

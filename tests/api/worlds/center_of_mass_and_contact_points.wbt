@@ -1,4 +1,10 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://projects/robots/gctronic/e-puck/protos/E-puck.proto"
+EXTERNPROTO "webots://projects/objects/factory/containers/protos/WoodenBox.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -138,11 +144,12 @@ Robot {
       0 -0.00619306 9.49912e-20
     ]
   }
+  name "robot 1"
 }
 DEF E_PUCK E-puck {
   translation 5.30718e-08 0 0.09
   rotation -0.577349935856137 -0.5773509358560258 -0.577349935856137 2.09439
-  controller "void"
+  controller "<generic>"
   turretSlot [
     DEF SLOT_SOLID WoodenBox {
       translation -0.03 0 -0.01

@@ -8,7 +8,6 @@
 
 int main(int argc, char **argv) {
   ts_setup(argv[0]);
-  int i;
   const double *r;
   const double e[3] = {0.0, -5.0, 0.0};
   WbDeviceTag gps = wb_robot_get_device("gps");

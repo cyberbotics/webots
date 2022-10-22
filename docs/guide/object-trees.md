@@ -96,7 +96,7 @@ Forest {
   SFFloat    density              0.2
   SFString   type                 "random"
   SFInt32    randomSeed           0
-  MFString   groundTexture        ["https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/trees/protos/textures/dry_leaf.jpg"]
+  MFString   groundTexture        "textures/dry_leaf.jpg"
   SFBool     withSnow             FALSE
   SFFloat    maxHeight            6
   SFFloat    minHeight            2
@@ -254,6 +254,7 @@ Sassafras {
 ### Sassafras Field Summary
 
 - `burnt`: Defines whether the tree is burnt (after a wildfire).
+
 - `enableBoundingObject`: Defines whether the tree should have a bounding object.
 
 ## SimpleTree
@@ -335,8 +336,8 @@ Tree {
   SFVec3f    translation          0 0 0
   SFRotation rotation             0 0 1 0
   SFString   name                 "tree"
-  SFVec3f    scale                1 4 1
-  MFString   texture              "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/trees/protos/textures/cherry_tree.png"
+  SFVec3f    scale                1 1 4
+  MFString   texture              "textures/cherry_tree.png"
   SFNode     boundingObject       NULL
   SFBool     locked               TRUE
   SFBool     isPickable           TRUE
@@ -352,6 +353,7 @@ Tree {
 
 - `name`: Defines the name of the tree.
 
-- `scale`: The first and last components of the scale define the radius of the tree and the middle one defines it's height.
+- `scale`: The first and middle components of the scale define the radius of the tree and the last one defines it's height.
 
 - `texture`: Defines the texture used for the tree.
+

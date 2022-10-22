@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,7 +17,7 @@ WEBOTS_HOME_PATH = ../../..
 else
 null :=
 space := $(null) $(null)
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+WEBOTS_HOME_PATH?=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 endif
 
 default:
@@ -29,23 +29,30 @@ default:
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
+ifeq ($(OSTYPE),windows)
 PYTHON_COMMAND ?= python
-PYTHON_VERSION := $(shell $(PYTHON_COMMAND) --version 2>&1 | sed 's/.* \([0-9]\).\([0-9]\).*/\1.\2/')
+else
+PYTHON_COMMAND ?= python3
+endif
+PYTHON_VERSION := $(shell $(PYTHON_COMMAND) --version 2>&1 | sed 's/.* \([0-9]\).\([0-9]*\).*/\1.\2/')
 PYTHON_SHORT_VERSION = $(subst .,,$(PYTHON_VERSION))
 PYTHON_FULL_VERSION := $(subst Python ,,$(shell $(PYTHON_COMMAND) --version 2>&1))
 INTERFACE       = controller.i
 SWIG            = swig
 SWIG_OPTS       = -c++ -python -outdir $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)$(SUFFIX)/
 WEBOTS_INCLUDES = -I$(WEBOTS_HOME_PATH)/include/controller/cpp -I$(WEBOTS_HOME_PATH)/include/controller/c
-WRAPPER         = $(INTERFACE:.i=$(PYTHON_SHORT_VERSION).cpp)
-WRAPPER_OBJECT  = $(WRAPPER:.cpp=.o)
+WRAPPER         = $(INTERFACE:.i=$(PYTHON_SHORT_VERSION)$(SUFFIX).cpp)
 PYOUT           = $(addprefix $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)$(SUFFIX)/,$(INTERFACE:.i=.py))
 PYTHON_PATH_SETUP := $(shell mkdir -p $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)$(SUFFIX))
 
 ifeq ($(OSTYPE),windows)
+WRAPPER_OBJECT  = $(WRAPPER:.cpp=.o)
 PYTHON_HOME    := $(subst \ ,$(space),$(dir $(subst $(space),\ ,$(shell which python 2> /dev/null))))
 C_FLAGS         = -c -O -Wall -Wno-maybe-uninitialized
 ifeq ($(PYTHON_SHORT_VERSION),39)
+C_FLAGS          += -Wno-deprecated-declarations
+endif
+ifeq ($(PYTHON_SHORT_VERSION),310)
 C_FLAGS          += -Wno-deprecated-declarations
 endif
 LD_FLAGS        = -shared
@@ -60,25 +67,31 @@ LIBCPPCONTROLLER= $(WEBOTS_CONTROLLER_LIB_PATH)/CppController.dll
 endif
 
 ifeq ($(OSTYPE),darwin)
+PYTHON_COMMAND ?= /Library/Frameworks/Python.framework/Versions/3.10/bin/python3.10
+WRAPPER_OBJECT_X86_64 = $(addprefix x86_64/,$(WRAPPER:.cpp=.o))
+WRAPPER_OBJECT_ARM64 = $(addprefix arm64/,$(WRAPPER:.cpp=.o))
+LIBOUT_X86_64 = x86_64/_controller.so
+LIBOUT_ARM64 = arm64/_controller.so
 PYTHON_PATH = $(shell $(PYTHON_COMMAND) -u -c "import sys; print(sys.exec_prefix)")
-SKIP_PYTHON_PYMALLOC := 38 39
+SKIP_PYTHON_PYMALLOC := 38 39 310
 ifeq ($(filter $(PYTHON_SHORT_VERSION),$(SKIP_PYTHON_PYMALLOC)),)
 PYTHON_PYMALLOC = m
 endif
 PYTHON_BIN       = $(PYTHON_PATH)/bin/
 C_FLAGS          = -c -Wall -fPIC -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -Wno-uninitialized
-ifeq ($(SUFFIX),)
 ifeq ($(PYTHON_SHORT_VERSION),38)
 C_FLAGS          += -Wno-deprecated-declarations
 endif
-endif
 ifeq ($(PYTHON_SHORT_VERSION),39)
+C_FLAGS          += -Wno-deprecated-declarations
+endif
+ifeq ($(PYTHON_SHORT_VERSION),310)
 C_FLAGS          += -Wno-deprecated-declarations
 endif
 ifeq ($(findstring llvm-g++,$(shell ls -lF $(shell which c++ 2> /dev/null))),)
 C_FLAGS        += -Wno-self-assign
 endif
-LD_FLAGS        = -dynamiclib -install_name @rpath/lib/controller/python$(PYTHON_SHORT_VERSION)/_$(INTERFACE:.i=.dylib) -Wl,-rpath,@loader_path/../../.. -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
+LD_FLAGS        = -dynamiclib -install_name @rpath/Contents/lib/controller/python$(PYTHON_SHORT_VERSION)/_$(INTERFACE:.i=.dylib) -Wl,-rpath,@loader_path/../../.. -compatibility_version 1.0 -current_version 1.0.0 -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 LIBS            = -L"$(PYTHON_PATH)/lib" -L$(WEBOTS_CONTROLLER_LIB_PATH) -lController -lCppController -lpython$(PYTHON_VERSION)
 LIBOUT          = $(addprefix $(WEBOTS_CONTROLLER_LIB_PATH)/python$(PYTHON_SHORT_VERSION)$(SUFFIX)/_,$(INTERFACE:.i=.so))
 PYTHON_INCLUDES = -isystem "$(PYTHON_PATH)/include/python$(PYTHON_VERSION)$(PYTHON_PYMALLOC)"
@@ -87,8 +100,11 @@ LIBCPPCONTROLLER= $(WEBOTS_CONTROLLER_LIB_PATH)/libCppController.dylib
 endif
 
 ifeq ($(OSTYPE),linux)
+WRAPPER_OBJECT  = $(WRAPPER:.cpp=.o)
 C_FLAGS         = -c -Wall -fPIC -Wno-unused-but-set-variable -Wno-maybe-uninitialized
 ifeq ($(PYTHON_SHORT_VERSION),39)
+C_FLAGS          += -Wno-deprecated-declarations
+else ifeq ($(PYTHON_SHORT_VERSION),310)
 C_FLAGS          += -Wno-deprecated-declarations
 endif
 LD_FLAGS        = -shared -Wl,-rpath,'$$ORIGIN'/../
@@ -103,25 +119,55 @@ SWIG_EXISTS     = $(shell which $(SWIG) 2> /dev/null)
 
 TARGET          = $(PYOUT) $(LIBOUT)
 
-ifeq (, $(shell which $(PYTHON_COMMAND) 2> /dev/null))
+ifeq (, $(shell which $(PYTHON_COMMAND)-config 2> /dev/null))
 release debug profile:
-	@echo -e "# \033[0;33m$(PYTHON_COMMAND) not installed, skipping Python API\033[0m"
-else ifeq (, $(shell which $(PYTHON_COMMAND)-config 2> /dev/null))
+	@echo "# \033[0;33m$(PYTHON_COMMAND)-dev not installed, skipping Python API\033[0m"
+else
+ifeq ($(SWIG_EXISTS),)
 release debug profile:
-	@echo -e "# \033[0;33m$(PYTHON_COMMAND)-dev not installed, skipping Python API\033[0m"
-else ifeq ($(SWIG_EXISTS),)
-release debug profile:
-	@echo -e "# \033[0;33mSWIG not installed, skipping Python API\033[0m"
+	@echo "# \033[0;33mSWIG not installed, skipping Python API\033[0m"
 else
 release debug profile: $(TARGET)
 
 $(PYOUT) $(WRAPPER):$(INTERFACE) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
-	@echo "# generating "$@
+	@echo "# generating" $@
 	$(SWIG) $(SWIG_OPTS) $(WEBOTS_INCLUDES) -o $(WRAPPER) $<
 
+ifeq ($(OSTYPE),darwin)
+
+ifeq ($(PYTHON_SHORT_VERSION),37)
+  X86_64_ONLY = 1
+endif
+
+ifeq ($(SUFFIX),_brew)
+  X86_64_ONLY = 1
+endif
+
+ifeq ($(X86_64_ONLY),1)
+$(LIBOUT):$(LIBOUT_X86_64) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
+	@echo "# creating" $@
+	lipo -create -output $@ x86_64/_controller.so
+	codesign -s - $@
+else
+$(LIBOUT):$(LIBOUT_X86_64) $(LIBOUT_ARM64) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
+	@echo "# creating fat" $@
+	lipo -create -output $@ x86_64/_controller.so arm64/_controller.so
+	codesign -s - $@
+endif
+
+else
 $(LIBOUT):$(WRAPPER_OBJECT) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
-	@echo "# linking    "$@
+	@echo "# linking" $@
 	$(CXX) $(LD_FLAGS) $< $(LIBS) -o "$@"
+endif
+
+$(LIBOUT_X86_64):$(WRAPPER_OBJECT_X86_64) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
+	@echo "# linking" $@ "(x86_64)"
+	$(CXX) -target x86_64-apple-macos11 $(LD_FLAGS) $< $(LIBS) -o "$@"
+
+$(LIBOUT_ARM64):$(WRAPPER_OBJECT_ARM64) $(LIBCONTROLLER) $(LIBCPPCONTROLLER)
+	@echo "# linking" $@ "(arm64)"
+	$(CXX) -target arm64-apple-macos11 $(LD_FLAGS) $< $(LIBS) -o "$@"
 
 $(LIBCONTROLLER):
 	@echo "$(LIBCONTROLLER) doesn't exist"
@@ -130,9 +176,21 @@ $(LIBCPPCONTROLLER):
 	@echo "$(LIBCPPCONTROLLER) doesn't exist"
 
 $(WRAPPER_OBJECT):$(WRAPPER)
-	echo "# compiling  "$<
+	echo "# compiling" $<
 	$(CXX) $(C_FLAGS) $(WEBOTS_INCLUDES) $(PYTHON_INCLUDES) $< -o $@
+
+$(WRAPPER_OBJECT_X86_64):$(WRAPPER)
+	mkdir -p x86_64
+	echo "# compiling" $< "(x86_64)"
+	$(CXX) -target x86_64-apple-macos11 $(C_FLAGS) $(WEBOTS_INCLUDES) $(PYTHON_INCLUDES) $< -o $@
+
+$(WRAPPER_OBJECT_ARM64):$(WRAPPER)
+	mkdir -p arm64
+	echo "# compiling" $< "(arm64)"
+	$(CXX) -target arm64-apple-macos11 $(C_FLAGS) $(WEBOTS_INCLUDES) $(PYTHON_INCLUDES) $< -o $@
+
+endif
 endif
 
 clean:
-	rm -rf *.o *.cpp $(WEBOTS_CONTROLLER_LIB_PATH)/python*
+	rm -rf *.o *.cpp $(WEBOTS_CONTROLLER_LIB_PATH)/python* arm64 x86_64

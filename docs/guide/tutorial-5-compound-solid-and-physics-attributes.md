@@ -24,7 +24,7 @@ We want to implement a dumbbell made of a handle ([Cylinder](../reference/cylind
 This [figure](#representation-of-the-subnodes-of-a-compound-solid-made-of-several-transformed-geometries) depicts the [Solid](../reference/solid.md) nodes and its sub-nodes required to implement the dumbbell.
 
 > **Hands on #2**: Create the dumbbell by following the [figure](#representation-of-the-subnodes-of-a-compound-solid-made-of-several-transformed-geometries).
-Create the handle first without placing it in a [Transform](../reference/transform.md) node (so the handle axis will have the same direction as the y-axis of the solid).
+Create the handle first without placing it in a [Transform](../reference/transform.md) node (so the handle axis will have the same direction as the z-axis of the solid).
 The handle should have a length of 0.1 m and a radius of 0.01 m.
 The weights should have a radius of 0.03 m and a subdivision of 2.
 The weights can be moved at the handle extremities thanks to the `translation` field of their [Transform](../reference/transform.md) nodes.

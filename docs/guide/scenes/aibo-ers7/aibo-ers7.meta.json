@@ -225,12 +225,18 @@
       "type": "DistanceSensor"
     },
     {
+      "anchor": "0 0.0625 0",
+      "axis": "1 0 0",
       "name": "PRM:/r2/c1/c2-JointSensor2:22",
+      "position": 0,
       "transformID": "n265",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.009 0.0047 -0.0695",
+      "axis": "0 -1 0",
       "name": "PRM:/r2/c1/c2/c3-JointSensor2:23",
+      "position": 0.523653,
       "transformID": "n274",
       "type": "PositionSensor"
     },
@@ -241,17 +247,26 @@
       "type": "TouchSensor"
     },
     {
+      "anchor": "-0.065 0 0",
+      "axis": "0 1 0",
       "name": "PRM:/r3/c1-JointSensor2:31",
+      "position": 0,
       "transformID": "n306",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0.0625 0",
+      "axis": "1 0 0",
       "name": "PRM:/r3/c1/c2-JointSensor2:32",
+      "position": 0,
       "transformID": "n315",
       "type": "PositionSensor"
     },
     {
+      "anchor": "-0.009 0.0047 -0.0695",
+      "axis": "0 1 0",
       "name": "PRM:/r3/c1/c2/c3-JointSensor2:33",
+      "position": 0.523598,
       "transformID": "n324",
       "type": "PositionSensor"
     },
@@ -262,17 +277,26 @@
       "type": "TouchSensor"
     },
     {
+      "anchor": "0.065 0 0",
+      "axis": "0 -1 0",
       "name": "PRM:/r4/c1-JointSensor2:41",
+      "position": 0,
       "transformID": "n160",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 -0.0625 0",
+      "axis": "-1 0 0",
       "name": "PRM:/r4/c1/c2-JointSensor2:42",
+      "position": 0,
       "transformID": "n169",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.009 -0.0047 -0.0695",
+      "axis": "0 -1 0",
       "name": "PRM:/r4/c1/c2/c3-JointSensor2:43",
+      "position": 0.523619,
       "transformID": "n178",
       "type": "PositionSensor"
     },
@@ -283,17 +307,26 @@
       "type": "TouchSensor"
     },
     {
+      "anchor": "-0.065 0 0",
+      "axis": "0 1 0",
       "name": "PRM:/r5/c1-JointSensor2:51",
+      "position": 0,
       "transformID": "n210",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 -0.0625 0",
+      "axis": "-1 0 0",
       "name": "PRM:/r5/c1/c2-JointSensor2:52",
+      "position": 0,
       "transformID": "n219",
       "type": "PositionSensor"
     },
     {
+      "anchor": "-0.009 -0.0047 -0.0695",
+      "axis": "0 1 0",
       "name": "PRM:/r5/c1/c2/c3-JointSensor2:53",
+      "position": 0.523598,
       "transformID": "n228",
       "type": "PositionSensor"
     },
@@ -304,7 +337,10 @@
       "type": "TouchSensor"
     },
     {
+      "anchor": "0.065 0 0",
+      "axis": "0 -1 0",
       "name": "RM:/r2/c1-JointSensor2:21",
+      "position": 0,
       "transformID": "n256",
       "type": "PositionSensor"
     }

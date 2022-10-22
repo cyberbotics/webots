@@ -1,15 +1,17 @@
-/* global webots: false */
 /* global DeviceWidget: false */
 /* global menuTabCallback, openMenu, closeMenu, addSettingsTab, refreshSelectedTab */
 /* global configureDevices, setupWindow, windowIsHidden, parseJSONMessage */
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "Callback", "argsIgnorePattern": "^_"}] */
 
+import RobotWindow from 'https://cyberbotics.com/wwi/R2022b/RobotWindow.js';
+
 var robotName = '';
 var commands = [];
+var configured = false;
 window.widgets = {}; // Dictionary {deviceName -> DeviceWidget }
 window.selectedDeviceType = null;
 
-function setDeviceModeCallback(switchButton, deviceType) {
+window.setDeviceModeCallback = function(switchButton, deviceType) {
   const messageHeader = 'device-control-mode:' + deviceType;
   const message = messageHeader + ':' + (switchButton.checked ? '1' : '0');
   for (let i = 0; i < commands.length; ++i) {
@@ -28,11 +30,11 @@ function setDeviceModeCallback(switchButton, deviceType) {
       DeviceWidget.checkboxCallback(checkbox);
     }
   });
-}
+};
 
 function configure(data) {
   robotName = data.name;
-  window.robotWindow.setTitle('Generic robot window [' + robotName + ']');
+  window.robotWindow.setTitle(robotName + ' robot window');
 
   if (data.devices == null) {
     document.getElementById('no-controller-label').innerHTML = 'No devices.';
@@ -59,9 +61,17 @@ function configure(data) {
 function receive(message, _robot) {
   let data = '';
   if (message.indexOf('configure ') === 0) {
+    // The robot window should be configured only once.
+    // However, it may happen that it receives several configure messages in the following cases:
+    // - if several tabs open the same robot windows, or
+    // - if a robot window is opened and refreshed before is has received the config message.
+    if (configured)
+      return;
     data = parseJSONMessage(message.substring(10));
-    if (data)
+    if (data) {
       configure(data);
+      configured = true;
+    }
   } else if (windowIsHidden)
     return;
   else if (message.indexOf('update ') === 0) {
@@ -84,7 +94,7 @@ function receive(message, _robot) {
 }
 
 window.onload = function() {
-  window.robotWindow = webots.window();
+  window.robotWindow = new RobotWindow();
   window.robotWindow.setTitle('Generic robot window');
   window.robotWindow.receive = receive;
   setupWindow();

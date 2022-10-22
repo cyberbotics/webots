@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,6 +38,7 @@ class WbWorld;
 
 class QModelIndex;
 class QSplitter;
+class QPushButton;
 
 struct TreeItemState;
 
@@ -75,7 +76,7 @@ public slots:
 signals:
   void valueChangedFromGui();
   void nodeSelected(WbBaseNode *n);
-  void editRequested(const QString &fileName);
+  void editRequested(const QString &filePath, bool modify = false, bool isRobot = false);
   void documentationRequest(const QString &book, const QString &page, bool visible);
 
 private slots:
@@ -91,6 +92,7 @@ private slots:
   void handleRowRemoval(const QModelIndex &parentIndex, int start, int end);
   void refreshItems();
   void handleDoubleClickOrEnterPress();
+  void editFileFromFieldEditor(const QString &fileName);
 
   void prepareNodeRegeneration(WbNode *node, bool nested);
   void abortNodeRegeneration();
@@ -98,9 +100,11 @@ private slots:
   void refreshTreeView();
 
   void help();
-  void exportObject();
+  void exportUrdf();
   void openProtoInTextEditor();
+  void editProtoInTextEditor();
   void openTemplateInstanceInTextEditor();
+  void showFieldEditor(bool force = false);
 
   void del(WbNode *nodeToDel = NULL);
 
@@ -109,6 +113,7 @@ private:
   QString mWorldFileName;
   WbSceneTreeModel *mModel;
   WbTreeItem *mSelectedItem;
+  QPushButton *mExternProtoButton;
   WbTreeView *mTreeView;
   WbFieldEditor *mFieldEditor;
   bool mRowsAreAboutToBeRemoved;
@@ -127,6 +132,8 @@ private:
   void cleanTreeItemState(TreeItemState *item);
   // void printTreeItemState(TreeItemState *item, int indentation = 0); // Debug function to print the stored tree state.
 
+  void showExternProtoPanel();
+
   void restoreState(WbTreeView *t1, WbTreeView *t2, const QModelIndex &i1, const QModelIndex &i2);
   void updateToolbar();
   bool isPasteAllowed();
@@ -139,6 +146,7 @@ private:
   void cut();
   void copy();
   void paste();
+  void enableObjectViewActions(bool enabled);
 };
 
 #endif

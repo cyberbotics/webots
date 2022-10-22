@@ -17,7 +17,7 @@ CautionPanel {
   SFVec3f    translation        0 0 0
   SFRotation rotation           0 0 1 0
   SFString   name               "caution panel"
-  MFString   signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/signs/us/traffic_signals_ahead.jpg"
+  MFString   signImage          "textures/signs/us/traffic_signals_ahead.jpg"
   SFColor    color              0.8 0.8 0.8
   MFColor    recognitionColors  [ 1 0.82 0.2, 0.8 0.8 0.8 ]
 }
@@ -54,7 +54,7 @@ CautionSign {
   SFFloat    height       2
   SFFloat    radius       0.03
   SFColor    color        0.576471 0.576471 0.576471
-  MFNode     signBoards   [ CautionPanel { translation 0 -0.17 0 } ]
+  MFNode     signBoards   [ CautionPanel { translation 0 0 -0.17 } ]
 }
 ```
 
@@ -91,11 +91,12 @@ ControlledStreetLight {
   SFRotation rotation     0 0 1 0
   SFString   name         "street light"
   SFString   controller   "defective_street_light"
+  SFString   window       "<none>"
   SFBool     supervisor   FALSE
   SFFloat    beamWidth    1.1
   MFColor    color        [ 1 0.9 0.8 ]
   SFFloat    cutOffAngle  1.4
-  SFVec3f    direction    0 -1 -0.1
+  SFVec3f    direction    0.1 0 -1
   SFFloat    radius       1000
   SFBool     castShadows  FALSE
 }
@@ -140,6 +141,7 @@ CrossRoadsTrafficLight {
   SFRotation rotation    0 0 1 0
   SFString   name        "cross road traffic light"
   SFString   controller  "crossroads_traffic_lights"
+  SFString   window      "<none>"
   SFBool     supervisor  FALSE
   SFVec2f    size        20.8 20.8
 }
@@ -174,8 +176,8 @@ DirectionPanel {
   SFFloat     width                1.3
   SFFloat     height               0.4
   SFFloat     thickness            0.04
-  MFString    frontTextTexture     "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/no_text_front.png"
-  MFString    backTextTexture      "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/no_text_back.png"
+  MFString    frontTextTexture     "textures/no_text_front.png"
+  MFString    backTextTexture      "textures/no_text_back.png"
 }
 ```
 
@@ -213,7 +215,7 @@ DivergentIndicator {
   SFVec3f    translation     0 0 0
   SFRotation rotation        0 0 1 0
   SFString   name            "divergent indicator"
-  MFString   texture         "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/divergent_indicator.jpg"
+  MFString   texture         "textures/divergent_indicator.jpg"
   SFFloat    height          1
   SFFloat    radius          0.5
   SFInt32    subdivision     24
@@ -252,7 +254,7 @@ ExitPanel {
   SFVec3f    translation        0 0 0
   SFRotation rotation           0 0 1 0
   SFString   name               "exit panel"
-  MFString   signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/signs/exit.jpg"
+  MFString   signImage          "textures/signs/exit.jpg"
   SFColor    color              0.8 0.8 0.8
   MFColor    recognitionColors  [ 0 0.4 0.3, 0.8 0.8 0.8 ]
 }
@@ -289,7 +291,7 @@ ExitSign {
   SFFloat    height       2
   SFFloat    radius       0.03
   SFColor    color        0.576471 0.576471 0.576471
-  MFNode     signBoards   [ ExitPanel { translation 0 -0.051 0 } ]
+  MFNode     signBoards   [ ExitPanel { translation 0 0 -0.051 } ]
 }
 ```
 
@@ -325,6 +327,7 @@ GenericTrafficLight {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 0 1 0
   SFString   name        "generic traffic light"
+  SFString   window      "<none>"
   SFBool     startGreen  TRUE
   SFFloat    greenTime   60
   SFFloat    redTime     15
@@ -373,7 +376,7 @@ HighwayPole {
   SFColor     color                 0.258824 0.258824 0.258824
   SFFloat     curveRadius           0.4
   MFNode      rightHorizontalSigns  [ HighwaySign { name "vertical sign" } ]
-  MFNode      rightVerticalSigns    [ HighwaySign { name "horizontal sign" height 2.1 length 3.2 texture "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/highway_sign_la_ciotat.jpg" } ]
+  MFNode      rightVerticalSigns    [ HighwaySign { name "horizontal sign" height 2.1 length 3.2 texture "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/traffic/protos/textures/highway_sign_la_ciotat.jpg" } ]
   MFNode      leftHorizontalSigns   [ ]
   MFNode      leftVerticalSigns     [ ]
 }
@@ -429,7 +432,7 @@ HighwaySign {
   SFFloat     length             4.5
   SFFloat     thickness          0.2
   SFColor     color              0.258824 0.258824 0.258824
-  MFString    texture            "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/highway_sign_bordeaux.jpg"
+  MFString    texture            "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/traffic/protos/textures/highway_sign_bordeaux.jpg"
   MFColor     recognitionColors  [ 0.08 0.22 0.75, 0.26 0.26 0.26 ]
 }
 ```
@@ -468,7 +471,7 @@ OrderPanel {
   SFVec3f    translation        0 0 0
   SFRotation rotation           0 0 1 0
   SFString   name               "order panel"
-  MFString   signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/signs/do_not_enter.jpg"
+  MFString   signImage          "textures/signs/do_not_enter.jpg"
   SFColor    color              0.8 0.8 0.8
   MFColor    recognitionColors  [ 0.75 0.17 0.22, 0.8 0.8 0.8 ]
 }
@@ -505,7 +508,7 @@ OrderSign {
   SFFloat    height       2
   SFFloat    radius       0.03
   SFColor    color        0.576471 0.576471 0.576471
-  MFNode     signBoards   [ OrderPanel { translation 0 -0.175 -0.026 } ]
+  MFNode     signBoards   [ OrderPanel { translation 0.026 0 -0.175  } ]
 }
 ```
 
@@ -543,7 +546,7 @@ ParkingLines {
   SFInt32    numberOfCarParks 5
   SFFloat    carParkLength    4.8
   SFFloat    carParkWidth     2.4
-  MFString   texture          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/parking_lines.png"
+  MFString   texture          "textures/parking_lines.png"
 }
 ```
 
@@ -604,6 +607,7 @@ PedestrianCrossing {
   SFVec3f    translation          0 0 0
   SFRotation rotation             0 0 1 0
   SFString   name                 "pedestrian crossing"
+  SFVec3f    scale                1 1 1
   SFVec2f    size                 20 8
   SFInt32    textureFiltering     4
   SFBool     enableBoundingObject TRUE
@@ -670,7 +674,7 @@ RectangularPanel {
   SFVec3f     translation        0 0 0
   SFRotation  rotation           0 0 1 0
   SFString    name               "rectangular panel"
-  MFString    signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/signs/eu/dead_end.jpg"
+  MFString    signImage          "textures/signs/eu/dead_end.jpg"
   SFColor     color              0.8 0.8 0.8
   SFVec2f     size               0.5 0.5
   MFColor     recognitionColors  [ 0 0.5 0.76, 0.8 0.8 0.8 ]
@@ -746,7 +750,7 @@ SpeedLimitPanel {
   SFVec3f     translation        0 0 0
   SFRotation  rotation           0 0 1 0
   SFString    name               "speed limit panel"
-  MFString    signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/signs/us/speed_limit_45.jpg"
+  MFString    signImage          "textures/signs/us/speed_limit_45.jpg"
   SFColor     color              0.8 0.8 0.8
   MFColor     recognitionColors  [ 1 1 1, 0.8 0.8 0.8 ]
 }
@@ -783,7 +787,7 @@ SpeedLimitSign {
   SFFloat    height       2
   SFFloat    radius       0.03
   SFColor    color        0.576471 0.576471 0.576471
-  MFNode     signBoards   [ SpeedLimitPanel { translation 0 0 -0.023 } ]
+  MFNode     signBoards   [ SpeedLimitPanel { translation 0.023 0 0 } ]
 }
 ```
 
@@ -819,7 +823,7 @@ StopPanel {
   SFVec3f    translation        0 0 0
   SFRotation rotation           0 0 1 0
   SFString   name               "stop panel"
-  MFString   signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/signs/stop.jpg"
+  MFString   signImage          "textures/signs/stop.jpg"
   SFColor    color              0.576471 0.576471 0.576471
   MFColor    recognitionColors  [ 0.75 0.25 0.12, 0.58 0.58 0.58 ]
 }
@@ -856,7 +860,7 @@ StopSign {
   SFFloat    height       2
   SFFloat    radius       0.03
   SFColor    color        0.576471 0.576471 0.576471
-  MFNode     signBoards   [ StopPanel { translation 0 -0.097 0 } ]
+  MFNode     signBoards   [ StopPanel { translation 0 0 -0.097 } ]
 }
 ```
 
@@ -896,7 +900,7 @@ StreetLight {
   SFFloat    beamWidth     1.1
   SFColor    color         1 1 1
   SFFloat    cutOffAngle   1.4
-  SFVec3f    direction     0 -1 -0.1
+  SFVec3f    direction     0.1 0 -1
   SFBool     on            TRUE
   SFFloat    radius        1000
   SFFloat    intensity     30
@@ -1166,7 +1170,7 @@ YieldPanel {
   SFVec3f     translation        0 0 0
   SFRotation  rotation           0 0 1 0
   SFString    name               "yield panel"
-  MFString    signImage          "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/traffic/protos/textures/signs/us/yield.jpg"
+  MFString    signImage          "textures/signs/us/yield.jpg"
   SFColor     color              0.8 0.8 0.8
   SFFloat     textureRotation    0
   MFColor     recognitionColors  [ 0.7 0.12 0.18, 0.8 0.8 0.8 ]

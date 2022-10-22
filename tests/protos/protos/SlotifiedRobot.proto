@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 
 PROTO SlotifiedRobot [
   field SFVec3f    translation 0 0 0
@@ -8,6 +8,7 @@ PROTO SlotifiedRobot [
 ]
 {
 Robot {
+  name "slotified robot"
   translation IS translation
   rotation IS rotation
   children [

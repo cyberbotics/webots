@@ -1,4 +1,9 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/robots/epfl/biorob/protos/Salamander.proto"
+
 WorldInfo {
   info [
     "Model of the Salamandra Robotica amphibious robot developped at the BIOROB (http://biorob.epfl.ch). This demo exemplifies how Webots automotically generates hydrostatic and hydrodynamic forces."
@@ -186,7 +191,6 @@ DEF AQUARIUM Solid {
 }
 DEF WATER Fluid {
   translation 0 0 -0.125
-  rotation 1 0 0 1.5708
   children [
     DEF WATER_BOX Shape {
       appearance PBRAppearance {
@@ -196,7 +200,7 @@ DEF WATER Fluid {
         metalness 0
       }
       geometry Box {
-        size 8 0.25 12
+        size 8 12 0.25
       }
     }
   ]

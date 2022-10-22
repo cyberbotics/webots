@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,8 +49,8 @@ public:
   void preFinalize() override;
   void postFinalize() override;
   void handleMessage(QDataStream &) override;
-  void writeAnswer(QDataStream &) override;
-  void writeConfigure(QDataStream &) override;
+  void writeAnswer(WbDataStream &) override;
+  void writeConfigure(WbDataStream &) override;
   void createOdeObjects() override;
   void createWrenObjects() override;
   void prePhysicsStep(double ms) override;
@@ -84,7 +84,7 @@ private:
   void computeValue();
   void applyLaserBeamToWren();
   void applyOptionalRenderingToWren();
-  void addConfigure(QDataStream &stream);
+  void addConfigure(WbDataStream &stream);
   void updateRaysSetupIfNeeded() override;
 
   // user accessible fields

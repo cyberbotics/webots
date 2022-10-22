@@ -90,19 +90,19 @@
     "fields": "   translation 0 0 0.113 rotation 0.0 0.0 1.0 0.3",
     "nodeString": "     SoccerBall{ translation 0 0 0.113 rotation 0.0 0.0 1.0 0.3 }"
   },
-  "projects/objects/bathroom/protos/BathroomSink.png": {
+  "projects/objects/bathroom/protos/BathroomSink": {
     "fields": "    translation 0 0 0.05 rotation -8.189669972535657e-05 -1.245809995822133e-08 0.9999999966464652 -1.0471853071795865",
     "nodeString": "    BathroomSink{ translation 0 0 0.05 rotation -8.189669972535657e-05 -1.245809995822133e-08 0.9999999966464652 -1.0471853071795865 }"
   },
-  "projects/objects/bathroom/protos/Bathtube.png": {
+  "projects/objects/bathroom/protos/Bathtube": {
     "fields": "    rotation -6.685599999850587e-06 -2.9874899999332337e-09 0.9999999999776514 -2.356175307179586",
     "nodeString": "    Bathtube{ rotation -6.685599999850587e-06 -2.9874899999332337e-09 0.9999999999776514 -2.356175307179586 }"
   },
-  "projects/objects/bathroom/protos/Toilet.png": {
+  "projects/objects/bathroom/protos/Toilet": {
     "fields": "    rotation 0.0 0.0 -1.0 0.785399",
     "nodeString": "    Toilet{ rotation 0.0 0.0 -1.0 0.785399 }"
   },
-  "projects/objects/bathroom/protos/WashingMachine.png": {
+  "projects/objects/bathroom/protos/WashingMachine": {
     "fields": "    translation 0 0 0.51 rotation 8.588249968319951e-05 -1.3149299951495305e-06 -0.9999999963112336 1.0472",
     "nodeString": "    WashingMachine{ translation 0 0 0.51 rotation 8.588249968319951e-05 -1.3149299951495305e-06 -0.9999999963112336 1.0472 }"
   },
@@ -411,7 +411,7 @@
     "fields": "  rotation 0.0 0.0 1.0 1.0854",
     "nodeString": "  WaterBottle{ rotation 0.0 0.0 1.0 1.0854 }"
   },
-  "projects/objects/factors/containers/protos/MetalStorageBox": {
+  "projects/objects/factory/containers/protos/MetalStorageBox": {
     "fields": "  rotation 0.0 0.0 1.0 -0.48539530717958623",
     "nodeString": "  MetalStorageBox{ rotation 0.0 0.0 1.0 -0.48539530717958623 }"
   },
@@ -633,19 +633,19 @@
   },
   "projects/objects/geometries/protos/Extrusion": {
     "fields": " rotation 0 0 1 0.3",
-    "nodeString": " Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"textures/tagged_wall.jpg\" ] } } geometry Extrusion { crossSection [ -1 -1, 0 1, 1 -1, -1 -1 ] spine [ 0 0.5 0, 0 2 6, 6 4 6, 6 6 0, 6 8 -6, 0 10 -6, -6 19 -6, -6 14 3 ] scale [ 0.4 0.4 ] splineSubdivision 12 } }"
+    "nodeString": " Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"webots://projects/default/worlds/textures/tagged_wall.jpg\" ] } } geometry Extrusion { crossSection [ -1 -1, 0 1, 1 -1, -1 -1 ] spine [ 0 0.5 0, 0 2 6, 6 4 6, 6 6 0, 6 8 -6, 0 10 -6, -6 19 -6, -6 14 3 ] scale [ 0.4 0.4 ] splineSubdivision 12 } }"
   },
   "projects/objects/geometries/protos/Rectangle": {
     "fields": "  rotation 0.0 0.0 1.0 -1.31",
-    "nodeString": "  Transform { translation 0 0 0.05 rotation 0.0 0.0 1.0 -1.31 children [ Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"textures/tagged_wall.jpg\" ] } } geometry Rectangle { } } ] }"
+    "nodeString": "  Transform { translation 0 0 0.05 rotation 0.0 0.0 1.0 -1.31 children [ Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"webots://projects/default/worlds/textures/tagged_wall.jpg\" ] } } geometry Rectangle { } } ] }"
   },
   "projects/objects/geometries/protos/TexturedBox": {
     "fields": "  rotation 0.0 0.0 -1.0 0.52",
-    "nodeString": "  Transform { translation 0 0 0.07 rotation 0.0 0.0 -1.0 0.52 scale 1.3 1.3 1.3 children [ Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"textures/tagged_wall.jpg\" ] } } geometry TexturedBox { } } ] }"
+    "nodeString": "  Transform { translation 0 0 0.07 rotation 0.0 0.0 -1.0 0.52 scale 1.3 1.3 1.3 children [ Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"webots://projects/default/worlds/textures/tagged_wall.jpg\" ] } } geometry TexturedBox { } } ] }"
   },
   "projects/objects/geometries/protos/TexturedParallelepiped": {
     "fields": "   rotation 0.0 0.364549 0.931184 -0.561795",
-    "nodeString": "   Transform { translation 0 0 0.06 rotation 0.0 0.364549 0.931184 -0.561795  children [ Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"textures/tagged_wall.jpg\" ] } } geometry TexturedParallelepiped { } } ] }"
+    "nodeString": "   Transform { translation 0 0 0.06 rotation 0.0 0.364549 0.931184 -0.561795  children [ Shape { appearance Appearance { material Material { } texture ImageTexture { url [ \"webots://projects/default/worlds/textures/tagged_wall.jpg\" ] } } geometry TexturedParallelepiped { } } ] }"
   },
   "projects/objects/kitchen/breakfast/protos/BiscuitBox": {
     "background": [
@@ -792,11 +792,11 @@
     "fields": "  rotation 0.0 0.0 1.0 0.3",
     "nodeString": "  CeilingLight { translation 0 0 0.7 rotation 0.0 0.0 1.0 0.3 pointLightIntensity 0 }"
   },
-  "projects/objects/lights/protos/CeilingSpotLight.png": {
+  "projects/objects/lights/protos/CeilingSpotLight": {
     "fields": "  translation 0 0 0.04 rotation 0.7071067811862364 0.7071067811862364 9.381857096790023e-07 3.14159",
     "nodeString": "  CeilingSpotLight{ translation 0 0 0.04 rotation 0.7071067811862364 0.7071067811862364 9.381857096790023e-07 3.14159 }"
   },
-  "projects/objects/lights/protos/ConstructionLamp.png": {
+  "projects/objects/lights/protos/ConstructionLamp": {
     "fields": "  rotation 0.0 0.0 1.0 -1.5415953071795858 spotLightIntensity 0",
     "nodeString": "  ConstructionLamp{ rotation 0.0 0.0 1.0 -1.5415953071795858 spotLightIntensity 0 }"
   },
@@ -887,7 +887,7 @@
   },
   "projects/objects/road/protos/Crossroad": {
     "fields": " rotation 0 0 1 0.3",
-    "nodeString": " Group { children [ Crossroad { translation 7.0 4.0 0.01 shape [ 0 0 0 0 0 7 7 0 7 7 0 0 ] } Road { translation 0 0.5 0.01 wayPoints [ 0 0 0 0 0 10 ] startLine [ \"textures/road_line_dashed.png\" \"textures/road_line_triangle.png\" ] } Road { translation 7.0 0.5 0.01 rotation 0 0 1 3.1415 name \"road(1)\" wayPoints [ 0 0 0 0 0 10 ] startLine [ \"textures/road_line_dashed.png\" \"textures/road_line_triangle.png\" ] } Road { translation 3.5 -3.0 0.01 rotation 0 0 1 1.5707996938995747 name \"road(2)\" rightBorder FALSE leftBorder FALSE wayPoints [ 0 0 0 0 0 10 ] startLine [ \"textures/road_line_dashed.png\" \"textures/road_line_triangle.png\" ] } ] }"
+    "nodeString": " Group { children [ Crossroad { translation 7.0 4.0 0.01 shape [ 0 0 0 0 7 0 7 7 0 7 0 0 ] } Road { translation 7 0.5 0.01 wayPoints [ 0 0 0 10 0 0 ] startLine [ \"textures/road_line_dashed.png\" \"textures/road_line_triangle.png\" ] } Road { translation 0 0.5 0.01 rotation 0 0 1 3.1415 name \"road(1)\" wayPoints [ 0 0 0 10 0 0 ] startLine [ \"textures/road_line_dashed.png\" \"textures/road_line_triangle.png\" ] } Road { translation 3.5 4 0.01 rotation 0 0 1 1.5707996938995747 name \"road(2)\" rightBorder FALSE leftBorder FALSE wayPoints [ 0 0 0 10 0 0 ] startLine [ \"textures/road_line_dashed.png\" \"textures/road_line_triangle.png\" ] } ] }"
   },
   "projects/objects/road/protos/CurvedRoadSegment": {
     "fields": "  translation 0 0 0.01 subdivision 16",
@@ -1492,7 +1492,7 @@
   },
   "projects/robots/festo/robotino3/protos/Robotino3.proto": {
     "fields": " rotation 0.006654476782697476 -0.005165617502530299 0.999964516537745 1.3049553071795863",
-    "nodeString": " Robotino3{ rotation 0.006654476782697476 -0.005165617502530299 0.999964516537745 1.3049553071795863 }"
+    "nodeString": " Robotino3{ rotation 0.006654476782697476 -0.005165617502530299 0.999964516537745 1.3049553071795863 controller \"<generic>\"}"
   },
   "projects/robots/festo/robotino3/protos/Robotino3HokuyoMountingSupport.proto": {
     "fields": "  rotation -9.988609999001447e-06 1.000829999899948e-05 -0.9999999999000309 0.5236053071795866",
@@ -1508,7 +1508,7 @@
   },
   "projects/robots/festo/robotino3/protos/Robotino3Webcam.proto": {
     "fields": "  translation 0 0 -0.208 rotation -5.94733999978894e-06 5.966989999788244e-06 0.999999999964512 1.0471953071795863",
-    "nodeString": "  Robotino3Webcam{ translation 0 0 -0.208 rotation -5.94733999978894e-06 5.966989999788244e-06 0.999999999964512 1.0471953071795863 }"
+    "nodeString": "  Robot { children [ Robotino3Webcam { translation 0 0 -0.208 rotation -5.94733999978894e-06 5.966989999788244e-06 0.999999999964512 1.0471953071795863 } ] }"
   },
   "projects/robots/festo/robotino3/protos/Robotino3WebcamMountingSupport.proto": {
     "fields": "   translation 0 0 0.211 rotation 0.6785976608971788 -0.28108903109576794 -0.678597208381025 -2.59356",
@@ -1533,7 +1533,7 @@
       1.0
     ],
     "fields": "  translation 0 0 0.02 rotation 1.261569999995986e-06 2.1844699999930497e-06 -0.9999999999968182 1.8325953071795862",
-    "nodeString": "  TinkerbotsBase{ translation 0 0 0.02 rotation 1.261569999995986e-06 2.1844699999930497e-06 -0.9999999999968182 1.8325953071795862 }"
+    "nodeString": "  TinkerbotsBase{ translation 0 0 0.02 rotation 1.261569999995986e-06 2.1844699999930497e-06 -0.9999999999968182 1.8325953071795862 controller \"<generic>\"}"
   },
   "projects/robots/kinematics/tinkerbots/protos/TinkerbotsBrickAdapter": {
     "fields": "  rotation 1.261569999995986e-06 2.1844699999930497e-06 -0.9999999999968183 1.8326",
@@ -1648,26 +1648,26 @@
   },
   "projects/robots/pal_robotics/tiago++/protos/Tiago++.proto": {
     "fields": "  rotation -0.230732 -0.109357 0.966852 -1.27752",
-    "nodeString": "  Tiago++{ rotation -0.230732 -0.109357 0.966852 -1.27752 }"
+    "nodeString": "  Tiago++{ rotation -0.230732 -0.109357 0.966852 -1.27752 controller \"<generic>\" }"
   },
   "projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto": {
-    "nodeString": "  TiagoBase{ rotation 0 0 -1 1.57 }"
+    "nodeString": "  TiagoBase{ rotation 0 0 -1 1.57 controller \"<generic>\" }"
   },
   "projects/robots/pal_robotics/tiago_iron/protos/TiagoIron.proto": {
     "fields": "  rotation 0.001775990237163933 -0.01802608248670652 -0.9998359396465302 1.5711223019163478",
-    "nodeString": "  TiagoIron{ rotation 0.001775990237163933 -0.01802608248670652 -0.9998359396465302 1.5711223019163478 }"
+    "nodeString": "  TiagoIron{ rotation 0.001775990237163933 -0.01802608248670652 -0.9998359396465302 1.5711223019163478 controller \"<generic>\" }"
   },
   "projects/robots/pal_robotics/tiago_steel/protos/TiagoSteel.proto": {
     "fields": "  rotation -0.18789294537622336 0.005159654343665657 -0.9821759613454716 1.4838269323889604",
-    "nodeString": "  TiagoSteel{ rotation -0.18789294537622336 0.005159654343665657 -0.9821759613454716 1.4838269323889604 }"
+    "nodeString": "  TiagoSteel{ rotation -0.18789294537622336 0.005159654343665657 -0.9821759613454716 1.4838269323889604 controller \"<generic>\"}"
   },
   "projects/robots/pal_robotics/tiago_titanium/protos/TiagoTitanium.proto": {
     "fields": "  rotation -0.16662402446293992 -0.030301078109835983 -0.985554807779433 1.6472289044010433",
-    "nodeString": "  TiagoTitanium{ rotation -0.16662402446293992 -0.030301078109835983 -0.985554807779433 1.6472289044010433 }"
+    "nodeString": "  TiagoTitanium{ rotation -0.16662402446293992 -0.030301078109835983 -0.985554807779433 1.6472289044010433 controller \"<generic>\" }"
   },
   "projects/robots/robotis/turtlebot/protos/TurtleBot3Burger.proto": {
     "fields": "  rotation -9.589789993248847e-09 -2.315170000239143e-08 -0.9999999999999997 0.7853953071795863",
-    "nodeString": "  TurtleBot3Burger{ rotation -9.589789993248847e-09 -2.315170000239143e-08 -0.9999999999999997 0.7853953071795863 }"
+    "nodeString": "  TurtleBot3Burger{ rotation -9.589789993248847e-09 -2.315170000239143e-08 -0.9999999999999997 0.7853953071795863 controller \"<generic>\"}"
   },
   "projects/vehicles/protos/mercedes_benz/MercedesBenzSprinter.proto": {
     "nodeString": "  MercedesBenzSprinter{ rotation 0 0 1 3.14159 }"
@@ -1676,7 +1676,17 @@
     "nodeString": "  MercedesBenzSprinterSimple{ rotation 0 0 1 3.14159 }"
   },
   "projects/robots/boston_dynamics/spot/protos/Spot.proto": {
-    "fields": "  translation 1.028 -0.0370218 0.573555 rotation 0 0 -1 1.96308 controller \"void\"",
-    "nodeString": "  Spot{ translation 1.028 -0.0370218 0.573555 rotation 0 0 -1 1.96308 controller \"void\" }"
+    "fields": "  translation 1.028 -0.0370218 0.573555 rotation 0 0 -1 1.96308",
+    "nodeString": "  Spot{ translation 1.028 -0.0370218 0.573555 rotation 0 0 -1 1.96308 controller \"<generic>\" }"
+  },
+  "projects/robots/franka_emika/panda/protos/Panda.proto": {
+    "background": [0.0, 0.0, 0.0],
+    "fields": "  translation 0 0 0 rotation 0 0 1",
+    "nodeString": "  Panda { translation 1.028 -0.0370218 0.573555 rotation 0 0 -1 1.96308 controller \"<generic>\" }"
+  },
+  "projects/robots/franka_emika/panda/protos/PandaHand.proto": {
+    "background": [0.0, 0.0, 0.0],
+    "fields": "  translation 0 0 0 rotation 0 0 1",
+    "nodeString": " Robot { children [ PandaHand {} ] }"
   }
 }

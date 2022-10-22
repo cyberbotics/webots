@@ -1,4 +1,4 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2022 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -79,7 +79,7 @@ geometry IndexedFaceSet {
 
 **Conversion process**
     Here is a list of the conversion process that the script performs automatically:
-        - replace `R2021b` by `R2022a`
+        - replace `R2021b` by `R2022b`
         - remove the `coordinateSystem ENU` line
         - convert the position of the viewpoint: [Px, Py, Pz] --> [-Pz, -Px, Py]
         - convert the vector of the keyword 'translation', 'axis', 'anchor',
@@ -187,6 +187,43 @@ def convert_nue_to_enu_world(filename, mode='all', objects_pi=[], objects_pi_2=[
     rotation_next_object = []
     miss_rotation = False
     last_type = ''
+
+    for line in fileinput.input(filename, inplace=True):
+
+        type = [x for x in re.compile('\n|,| ').split(line) if (any(x_char.isalpha() for x_char in x))]
+        vector = [float(x) for x in re.compile('\n|,| ').split(line) if is_number(x)]
+
+        if type:
+            if type[0] in ['DEF']:
+                type = type[2]
+            elif type[0] in ['geometry']:
+                type = type[1]
+            else:
+                type = type[0]
+        if ('ElevationGrid' in line and '{' in line):
+            type = 'ElevationGrid'
+
+        if type in ['corners', 'path', 'wayPoints', 'spine', 'startingAngle', 'endingAngle'] or (
+                        type in ['height'] and 'ElevationGrid' in last_type) or (
+                        type in ['shape'] and 'Crossroad' in last_type):
+            if '[]' not in line:  # if type not empty
+                next_line_is_corners = 1
+            print(line, end='')
+        elif next_line_is_corners == 1:
+            if ']' in line:  # we stop when we reach the end of the node 'point' of 'coord'
+                next_line_is_corners = -1
+                print(line, end='')
+            else:  # else we convert the line
+                # split coordinates separated by commas on new lines
+                if "," in line:
+                    vectors = [x for x in re.compile('[,]').split(line)]
+                    for vector in vectors:
+                        print(add_space(line) + vector.strip())
+                else:
+                    print(line, end='')
+        else:
+            print(line, end='')
+
     for line in fileinput.input(filename, inplace=True):
 
         if "# template language: javascript" in line:
@@ -221,10 +258,10 @@ def convert_nue_to_enu_world(filename, mode='all', objects_pi=[], objects_pi_2=[
             else:
                 miss_rotation = False
 
-            if 'R2021b' in line:
-                line = '#VRML_SIM R2022a utf8 \r\n'
-            elif 'R2022a' in line:
-                warning_verbose += 'The version of the file was already 2022a. '
+            if 'R2022b' in line:
+                warning_verbose += 'The version of the file was already 2022b. '
+            elif '#VRML_SIM' in line:
+                line = '#VRML_SIM R2022b utf8 \r\n'
             if type in ['coordinateSystem']:  # remove the 'coordinateSystem ENU'
                 vector = None
             elif type in ['position'] and len(vector) == 3:

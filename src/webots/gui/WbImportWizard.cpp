@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -86,7 +86,7 @@ bool WbImportWizard::validateCurrentPage() {
 QWizardPage *WbImportWizard::createIntroPage() {
   QWizardPage *page = new QWizardPage(this);
 
-  page->setTitle(tr("3D model importation"));
+  page->setTitle(tr("3D Model Import"));
 
   QLabel *label =
     new QLabel(tr("This wizard will help you importing a 3D model in Webots.\n\nThe following file formats are supported:"
@@ -102,15 +102,15 @@ QWizardPage *WbImportWizard::createIntroPage() {
 }
 
 void WbImportWizard::chooseFile() {
-  const QString fileName = QFileDialog::getOpenFileName(this, tr("Choose a File"), mFileEdit->text(),
-                                                        tr("3D Files (*.dae *.DAE *.stl *.STL *.obj *.OBJ);;"
-                                                           "Collada (*.dae *.DAE);;"
-                                                           "STL (*.stl *.STL);;"
-                                                           "Wavefront (*.obj *.OBJ)"));
-  if (fileName.isEmpty())
+  const QString fileNameString = QFileDialog::getOpenFileName(this, tr("Choose a File"), mFileEdit->text(),
+                                                              tr("3D Files (*.dae *.DAE *.stl *.STL *.obj *.OBJ);;"
+                                                                 "Collada (*.dae *.DAE);;"
+                                                                 "STL (*.stl *.STL);;"
+                                                                 "Wavefront (*.obj *.OBJ)"));
+  if (fileNameString.isEmpty())
     return;
-  mFileEdit->setText(fileName);
-  mConclusionLabel->setText(tr("The '%1' file will now be imported at the end of the scene tree.").arg(fileName));
+  mFileEdit->setText(fileNameString);
+  mConclusionLabel->setText(tr("The '%1' file will now be imported at the end of the scene tree.").arg(fileNameString));
 }
 
 QWizardPage *WbImportWizard::createFileSelectionPage() {
@@ -134,7 +134,7 @@ QWizardPage *WbImportWizard::createFileSelectionPage() {
 QWizardPage *WbImportWizard::createOptionPage() {
   QWizardPage *page = new QWizardPage(this);
 
-  page->setTitle(tr("Importation Settings"));
+  page->setTitle(tr("Import Settings"));
   page->setSubTitle(tr("Please choose how do you want to import the model:"));
 
   mTextureCoordinateCheckBox = new QCheckBox(tr("Import texture coordinates (if available)."), page);

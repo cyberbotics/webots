@@ -1,9 +1,12 @@
-/* global webots, sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
+import RobotWindow from 'https://cyberbotics.com/wwi/R2022b/RobotWindow.js';
 
+/* global sendBenchmarkRecord, showBenchmarkRecord, showBenchmarkError */
+
+window.robotWindow = new RobotWindow();
 const benchmarkName = 'Humanoid Marathon';
 let distance = 0.0;
 
-webots.window('humanoid_marathon').receive = function(message, robot) {
+window.robotWindow.receive = function(message, robot) {
   if (message.startsWith('run:')) {
     const values = message.split(':');
     distance = parseFloat(values[1]);

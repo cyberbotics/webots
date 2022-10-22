@@ -37,7 +37,7 @@ Road {
          SFBool               rightBarrier              FALSE
          SFBool               leftBarrier               FALSE
          SFBool               bottom                    FALSE
-         MFVec3f              wayPoints                 [ 0 0 0, 0 0 1 ]
+         MFVec3f              wayPoints                 [ 0 0 0, 1 0 0 ]
          MFFloat              roadTilt                  [ 0, 0]
          MFFloat              startingAngle             []
          MFFloat              endingAngle               []
@@ -426,7 +426,7 @@ Crossroad {
   SFString   name             "crossroad"
   SFString   id               ""
   SFFloat    speedLimit       -1.0
-  MFVec3f    shape            [ 0 0 0, 0 0 1, 1 0 0]
+  MFVec3f    shape            [ 0 0 0, 0 1 0, 1 0 0 ]
   MFString   connectedRoadIDs []
   SFBool     boundingObject   FALSE
   SFBool     bottom           FALSE
@@ -839,8 +839,8 @@ RoadIntersection {
          SFBool               startRoads                     TRUE
          MFFloat              startRoadsLength               [5]
          SFInt32              startRoadsNumberOfLanes        2
-         MFString             startRoadsStartLine            [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/road/protos/textures/road_line_dashed.png",
-                                                               "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/road/protos/textures/road_line_triangle.png" ]
+         MFString             startRoadsStartLine            [ "textures/road_line_dashed.png",
+                                                               "textures/road_line_triangle.png" ]
          MFString             startRoadsEndLine              []
          MFNode               startRoadsLine                 [ RoadLine { } ]
          SFBool               startRoadBorder                TRUE
@@ -1021,14 +1021,14 @@ Roundabout {
          SFFloat              innerRadius              4
          SFFloat              outerRadius              8
          SFBool               center                   TRUE
-         MFString             centerTexture            "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/default/worlds/textures/grass.jpg"
+         MFString             centerTexture            "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/grass.jpg"
          SFVec2f              centerTextureScale       4 4
          SFInt32              roadNumber               4
          MFFloat              startRoadsLength         [5]
          SFFloat              startRoadsWidth          7
          SFInt32              startRoadsNumberOfLanes  2
-         MFString             startRoadsStartLine      [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/road/protos/textures/road_line_dashed.png",
-                                                         "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/road/protos/textures/road_line_triangle.png" ]
+         MFString             startRoadsStartLine      [ "textures/road_line_dashed.png",
+                                                         "textures/road_line_triangle.png" ]
          MFString             startRoadsEndLine        []
          MFNode               startRoadsLine           [ RoadLine { } ]
          SFBool               roadBoundingObject       FALSE

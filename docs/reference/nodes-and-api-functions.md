@@ -3,6 +3,7 @@
 ## Sections
 
 - [Accelerometer](accelerometer.md)
+- [Altimeter](altimeter.md)
 - [Appearance](appearance.md)
 - [Background](background.md)
 - [BallJoint](balljoint.md)
@@ -10,6 +11,7 @@
 - [Billboard](billboard.md)
 - [Box](box.md)
 - [Brake](brake.md)
+- [CadShape](cadshape.md)
 - [Camera](camera.md)
 - [Capsule](capsule.md)
 - [Charger](charger.md)

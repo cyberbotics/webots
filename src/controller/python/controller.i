@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -84,6 +84,8 @@ using namespace std;
 //----------------------------------------------------------------------------------------------
 
 %thread webots::Robot::step(int duration);
+%thread webots::Robot::stepBegin(int duration);
+%thread webots::Robot::stepEnd();
 %nothreadblock;
 
 //handling std::string
@@ -198,6 +200,9 @@ class AnsiCodes(object):
 
 %include <webots/Brake.hpp>
 
+%ignore webots::Brake::getMotor();
+%ignore webots::Brake::getPositionSensor();
+
 %extend webots::Brake {
   %pythoncode %{
   def getMotor(self):
@@ -208,7 +213,7 @@ class AnsiCodes(object):
           return self.__motor
   def getPositionSensor(self):
       try:
-          return self.instance
+          return self.__positionSensor
       except AttributeError:
           self.__positionSensor = Robot.internalGetDeviceFromTag(self.getPositionSensorTag())
           return self.__positionSensor
@@ -221,12 +226,10 @@ class AnsiCodes(object):
 
 %rename WbCameraRecognitionObject CameraRecognitionObject;
 
-
-
 %include <webots/camera_recognition_object.h>
 
 %extend WbCameraRecognitionObject {
-  PyObject *get_position() {
+  PyObject *getPosition() {
     const double *position = $self->position;
     SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyList_New(3);
@@ -236,7 +239,7 @@ class AnsiCodes(object):
     SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
-  PyObject *get_orientation() {
+  PyObject *getOrientation() {
     const double *orientation = $self->orientation;
     SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyList_New(4);
@@ -247,7 +250,7 @@ class AnsiCodes(object):
     SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
-  PyObject *get_size() {
+  PyObject *getSize() {
     const double *size = $self->size;
     SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyList_New(2);
@@ -256,7 +259,7 @@ class AnsiCodes(object):
     SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
-  PyObject *get_position_on_image() {
+  PyObject *getPositionOnImage() {
     const int *position_on_image = $self->position_on_image;
     SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyList_New(2);
@@ -265,7 +268,7 @@ class AnsiCodes(object):
     SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
-  PyObject *get_size_on_image() {
+  PyObject *getSizeOnImage() {
     const int *size_on_image = $self->size_on_image;
     SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyList_New(2);
@@ -274,7 +277,7 @@ class AnsiCodes(object):
     SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
-  PyObject *get_colors() {
+  PyObject *getColors() {
     const double *colors = $self->colors;
     const int number_of_color = $self->number_of_colors;
     SWIG_PYTHON_THREAD_BEGIN_BLOCK;
@@ -284,23 +287,22 @@ class AnsiCodes(object):
     SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
-  PyObject *get_id() {
+  PyObject *getId() {
     SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyInt_FromLong($self->id);
     SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
-  PyObject *get_number_of_colors() {
+  PyObject *getNumberOfColors() {
     SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyInt_FromLong($self->number_of_colors);
     SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
-  PyObject *get_model() {
+  PyObject *getModel() {
     return PyBytes_FromStringAndSize($self->model, strlen($self->model));
   }
 };
-
 
 %typemap(out) unsigned char * {
   const int width = arg1->getWidth();
@@ -698,6 +700,9 @@ class AnsiCodes(object):
 
 %include <webots/Motor.hpp>
 
+%ignore webots::Motor::getBrake();
+%ignore webots::Motor::getPositionSensor();
+
 %extend webots::Motor {
   %pythoncode %{
   def getBrake(self):
@@ -734,7 +739,7 @@ class AnsiCodes(object):
 %include <webots/contact_point.h>
 
 %extend WbContactPoint {
-  PyObject *get_point() {
+  PyObject *getPoint() {
     const double *point = $self->point;
     SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyList_New(3);
@@ -744,7 +749,7 @@ class AnsiCodes(object):
     SWIG_PYTHON_THREAD_END_BLOCK;
     return ret;
   }
-  PyObject *get_node_id() {
+  PyObject *getNodeId() {
     const double orientation = $self->node_id;
     SWIG_PYTHON_THREAD_BEGIN_BLOCK;
     PyObject *ret = PyInt_FromLong(orientation);
@@ -755,7 +760,7 @@ class AnsiCodes(object):
   %pythoncode %{
   @property
   def point(self):
-      return self.get_point()
+      return self.getPoint()
   %}
 };
 
@@ -807,6 +812,9 @@ class AnsiCodes(object):
 //----------------------------------------------------------------------------------------------
 
 %include <webots/PositionSensor.hpp>
+
+%ignore webots::PositionSensor::getBrake();
+%ignore webots::PositionSensor::getMotor();
 
 %extend webots::PositionSensor {
   %pythoncode %{

@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,8 +41,8 @@ public:
   void preFinalize() override;
   void postFinalize() override;
   void handleMessage(QDataStream &stream) override;
-  void writeAnswer(QDataStream &stream) override;
-  void writeConfigure(QDataStream &) override;
+  void writeAnswer(WbDataStream &stream) override;
+  void writeConfigure(WbDataStream &) override;
   void createWrenObjects() override;
   void prePhysicsStep(double ms) override;
   bool refreshSensorIfNeeded() override;
@@ -97,7 +97,7 @@ private:
 
   WbConnector &operator=(const WbConnector &);  // non copyable
   WbNode *clone() const override { return new WbConnector(*this); }
-  void addConfigure(QDataStream &);
+  void addConfigure(WbDataStream &);
 
   bool isReadyToAttachTo(const WbConnector *other) const;
   void attachTo(WbConnector *other);

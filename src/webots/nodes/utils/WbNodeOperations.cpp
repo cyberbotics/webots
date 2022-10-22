@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,7 +25,8 @@
 #include "WbNodeUtilities.hpp"
 #include "WbParser.hpp"
 #include "WbProject.hpp"
-#include "WbQjsCollada.hpp"
+#include "WbProtoManager.hpp"
+#include "WbProtoModel.hpp"
 #include "WbRobot.hpp"
 #include "WbSFNode.hpp"
 #include "WbSelection.hpp"
@@ -83,20 +84,6 @@ void WbNodeOperations::cleanup() {
 }
 
 WbNodeOperations::WbNodeOperations() : mNodesAreAboutToBeInserted(false), mSkipUpdates(false), mFromSupervisor(false) {
-  connect(WbQjsCollada::instance(), &WbQjsCollada::vrmlFromFileRequested, this, &WbNodeOperations::onVrmlExportRequested);
-}
-
-void WbNodeOperations::onVrmlExportRequested(const QString &filePath) {
-  QString stream;
-  WbNodeOperations::OperationResult result =
-    WbNodeOperations::instance()->getVrmlFromExternalModel(stream, filePath, true, true, true, false, false, true);
-  if (result == WbNodeOperations::OperationResult::FAILURE) {
-    WbLog::instance()->error(QString("JavaScript error: cannot parse the Collada file: %1.").arg(filePath), false,
-                             WbLog::PARSING);
-    WbQjsCollada::instance()->setVrmlResponse("");
-    return;
-  }
-  WbQjsCollada::instance()->setVrmlResponse(stream);
 }
 
 void WbNodeOperations::enableSolidNameClashCheckOnNodeRegeneration(bool enabled) const {
@@ -110,26 +97,27 @@ void WbNodeOperations::enableSolidNameClashCheckOnNodeRegeneration(bool enabled)
 
 QString WbNodeOperations::exportNodeToString(WbNode *node) {
   QString nodeString;
-  WbVrmlWriter writer(&nodeString, WbWorld::instance()->fileName());
+  WbWriter writer(&nodeString, WbWorld::instance()->fileName());
   node->write(writer);
   return nodeString;
 }
 
-WbNodeOperations::OperationResult WbNodeOperations::importNode(int nodeId, int fieldId, int itemIndex, const QString &filename,
-                                                               const QString &nodeString, bool fromSupervisor) {
+WbNodeOperations::OperationResult WbNodeOperations::importNode(int nodeId, int fieldId, int itemIndex, ImportType origin,
+                                                               const QString &nodeString) {
   WbBaseNode *parentNode = static_cast<WbBaseNode *>(WbNode::findNode(nodeId));
   assert(parentNode);
 
   WbField *field = parentNode->field(fieldId);
   assert(field);
 
-  return importNode(parentNode, field, itemIndex, filename, nodeString, false, fromSupervisor);
+  return importNode(parentNode, field, itemIndex, origin, nodeString, false);
 }
 
 WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNode, WbField *field, int itemIndex,
-                                                               const QString &filename, const QString &nodeString,
-                                                               bool avoidIntersections, bool fromSupervisor) {
-  mFromSupervisor = fromSupervisor;
+                                                               ImportType origin, const QString &nodeString,
+                                                               bool avoidIntersections) {
+  setFromSupervisor(origin == FROM_SUPERVISOR);
+
   WbSFNode *sfnode = dynamic_cast<WbSFNode *>(field->value());
 #ifndef NDEBUG
   WbMFNode *mfnode = dynamic_cast<WbMFNode *>(field->value());
@@ -141,24 +129,36 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
 
   WbTokenizer tokenizer;
   int errors = 0;
-  if (!filename.isEmpty())
-    errors = tokenizer.tokenize(filename);
-  else if (!nodeString.isEmpty())
+  if (!nodeString.isEmpty()) {
+    tokenizer.setReferralFile(WbWorld::instance() ? WbWorld::instance()->fileName() : "");
     errors = tokenizer.tokenizeString(nodeString);
-  else {
-    mFromSupervisor = false;
+  } else {
+    setFromSupervisor(false);
     return FAILURE;
   }
 
   if (errors) {
-    mFromSupervisor = false;
+    setFromSupervisor(false);
     return FAILURE;
   }
 
-  // check syntax
+  // note: the presence of the declaration for importable PROTO must be checked prior to checking the syntax since
+  // in order to evaluate the latter the PROTO themselves must be locally available and readable
   WbParser parser(&tokenizer);
+  const QStringList protoList = parser.protoNodeList();
+  foreach (const QString &protoName, protoList) {
+    // ensure the node was declared as EXTERNPROTO prior to import it using a supervisor
+    if (mFromSupervisor && !WbProtoManager::instance()->isImportableExternProtoDeclared(protoName)) {
+      WbLog::error(
+        tr("In order to import the PROTO '%1', first it must be declared in the IMPORTABLE EXTERNPROTO list.").arg(protoName));
+      setFromSupervisor(false);
+      return FAILURE;
+    }
+  }
+
+  // check syntax
   if (!parser.parseObject(WbWorld::instance()->fileName())) {
-    mFromSupervisor = false;
+    setFromSupervisor(false);
     return FAILURE;
   }
 
@@ -173,6 +173,7 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
   QList<WbNode *> defNodes = WbDictionary::instance()->computeDefForInsertion(parentNode, field, itemIndex, false);
   foreach (WbNode *node, defNodes)
     nodeReader.addDefNode(node);
+
   QList<WbNode *> nodes = nodeReader.readNodes(&tokenizer, WbWorld::instance()->fileName());
   if (sfnode && nodes.size() > 1)
     WbLog::warning(tr("Trying to import multiple nodes in the '%1' SFNode field. "
@@ -216,272 +217,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
       break;
   }
 
-  mFromSupervisor = false;
+  setFromSupervisor(false);
   return isNodeRegenerated ? REGENERATION_REQUIRED : SUCCESS;
-}
-
-WbNodeOperations::OperationResult WbNodeOperations::importVrml(const QString &filename, bool fromSupervisor) {
-  WbTokenizer tokenizer;
-  int errors = tokenizer.tokenize(filename);
-  if (errors)
-    return FAILURE;
-
-  QFileInfo vrmlFile(filename);
-  // check that the file we're importing VRML to is not "unnamed.wbt"
-  if (WbWorld::instance()->isUnnamed())
-    WbLog::error(QString("Textures could not be imported as this world has not been saved for the first time. Please save and "
-                         "reload the world, then try importing again."),
-                 false, WbLog::PARSING);
-  else
-    // copy textures folder (if any)
-    WbFileUtil::copyDir(vrmlFile.absolutePath() + "/textures", WbProject::current()->worldsPath() + "/textures", true, true,
-                        true);
-
-  // check syntax
-  WbParser parser(&tokenizer);
-  if (!parser.parseVrml(WbWorld::instance()->fileName()))
-    return FAILURE;
-
-  // if even one node is successfully imported, this function should return
-  // true, as this implies consequently that the world was modified
-  OperationResult result = FAILURE;
-
-  // read node
-  QString errorMessage;
-  WbGroup *root = WbWorld::instance()->root();
-  WbNode::setGlobalParentNode(root);
-  WbNodeReader nodeReader;
-  QList<WbNode *> nodes = nodeReader.readVrml(&tokenizer, WbWorld::instance()->fileName());
-  WbBaseNode *lastBaseNodeCreated = NULL;
-  foreach (WbNode *node, nodes) {
-    WbBaseNode *baseNode = static_cast<WbBaseNode *>(node);
-    if (WbNodeUtilities::isSingletonTypeName(baseNode->nodeModelName())) {
-      WbLog::warning(QString("Skipped %1 node (to avoid duplicate) while importing VRML97.").arg(baseNode->nodeModelName()),
-                     false, WbLog::PARSING);
-      delete baseNode;
-    } else {
-      if (WbNodeUtilities::isAllowedToInsert(root->findField("children"), baseNode->nodeModelName(), root, errorMessage,
-                                             WbNode::STRUCTURE_USE, WbNodeUtilities::slotType(baseNode),
-                                             QStringList(baseNode->nodeModelName()))) {
-        baseNode->validate();
-        root->addChild(baseNode);
-        baseNode->finalize();
-        lastBaseNodeCreated = baseNode;
-        result = SUCCESS;
-      } else {
-        WbLog::error(errorMessage, false, WbLog::PARSING);
-        delete baseNode;
-      }
-    }
-  }
-  if (lastBaseNodeCreated && !fromSupervisor)
-    WbSelection::instance()->selectNodeFromSceneTree(lastBaseNodeCreated);
-  return result;
-}
-
-static bool addTextureMap(QString &stream, const aiMaterial *material, const QString &mapName, aiTextureType textureType,
-                          const QString &referenceFolder) {
-  if (material->GetTextureCount(textureType) > 0) {
-    aiString path;
-    material->GetTexture(textureType, 0, &path);
-    QString texturePath(path.C_Str());
-    texturePath.replace("\\", "\\\\");
-    if (!QFile::exists(texturePath) && QFile::exists(referenceFolder + texturePath))
-      texturePath = referenceFolder + texturePath;  // if absolute path doesn't exist, try with relative
-    stream += QString(" %1 ImageTexture { ").arg(mapName);
-    stream += " url [ ";
-    stream += " \"" + texturePath + "\" ";
-    stream += " ] ";
-    stream += " } ";
-    return true;
-  }
-  return false;
-}
-
-static void addModelNode(QString &stream, const aiNode *node, const aiScene *scene, const QString &fileName,
-                         const QString &referenceFolder, bool importTextureCoordinates, bool importNormals,
-                         bool importAppearances, bool importAsSolid, bool importBoundingObjects, bool referenceMeshes = false) {
-  // extract position, orientation and scale of the node
-  aiVector3t<float> scaling, position;
-  aiQuaternion rotation;
-  node->mTransformation.Decompose(scaling, rotation, position);
-  WbQuaternion quaternion(rotation.w, rotation.x, rotation.y, rotation.z);
-  quaternion.normalize();
-  const WbRotation webotsRotation(quaternion);
-
-  // export the node
-  if (importAsSolid)
-    stream += " Solid { ";
-  else
-    stream += " Transform { ";
-  stream += QString(" translation %1 %2 %3 ").arg(position[0]).arg(position[1]).arg(position[2]);
-  stream += " rotation " + webotsRotation.toString(WbPrecision::FLOAT_MAX);
-  stream += QString(" scale %1 %2 %3 ").arg(scaling[0]).arg(scaling[1]).arg(scaling[2]);
-  stream += " children [";
-
-  const bool defNeedGroup = importAsSolid && importBoundingObjects && node->mNumMeshes > 1;
-
-  if (defNeedGroup) {
-    stream += " DEF SHAPE Group { ";
-    stream += " children [ ";
-  }
-
-  for (unsigned int i = 0; i < node->mNumMeshes; ++i) {
-    const aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
-    const aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
-    if (mesh->mNumVertices > 100000)
-      WbLog::warning(QString("mesh '%1' has more than 100'000 vertices, it is recommended to reduce the number of vertices.")
-                       .arg(mesh->mName.C_Str()));
-    QCoreApplication::processEvents();
-    if (defNeedGroup || !importBoundingObjects || !importAsSolid)
-      stream += " Shape { ";
-    else
-      stream += " DEF SHAPE Shape { ";
-    // extract the appearance
-    if (importAppearances) {
-      stream += " appearance PBRAppearance { ";
-      WbVector3 baseColor(1.0, 1.0, 1.0), emissiveColor(0.0, 0.0, 0.0);
-      QString name("PBRAppearance");
-      float roughness = 1.0, transparency = 0.0;
-      for (unsigned int j = 0; j < material->mNumProperties; ++j) {
-        float value[3];
-        unsigned int count = 3;
-        if (aiGetMaterialFloatArray(material, AI_MATKEY_COLOR_DIFFUSE, value, &count) == AI_SUCCESS && count == 3)
-          baseColor = WbVector3(value[0], value[1], value[2]);
-        count = 3;
-        if (aiGetMaterialFloatArray(material, AI_MATKEY_COLOR_EMISSIVE, value, &count) == AI_SUCCESS && count == 3)
-          emissiveColor = WbVector3(value[0], value[1], value[2]);
-        count = 1;
-        if (aiGetMaterialFloatArray(material, AI_MATKEY_SHININESS_STRENGTH, value, &count) == AI_SUCCESS && count == 3)
-          roughness = 0.01 * (100.0 - value[0]);
-        count = 1;
-        if (aiGetMaterialFloatArray(material, AI_MATKEY_REFLECTIVITY, value, &count) == AI_SUCCESS && count == 3)
-          roughness = 1.0 - value[0];
-        count = 1;
-        if (aiGetMaterialFloatArray(material, AI_MATKEY_OPACITY, value, &count) == AI_SUCCESS && count == 3)
-          transparency = 1.0 - value[0];
-        aiString nameProperty;
-        if (aiGetMaterialString(material, AI_MATKEY_NAME, &nameProperty) == AI_SUCCESS)
-          name = nameProperty.C_Str();
-        // Uncomment this part to print all the properties of this material
-        // qDebug() << propertyName << property->mData << property->mSemantic << property->mIndex << property->mDataLength
-        //          << property->mType;
-      }
-      stream += " baseColor " + baseColor.toString(WbPrecision::FLOAT_MAX);
-      stream += " emissiveColor " + emissiveColor.toString(WbPrecision::FLOAT_MAX);
-      stream += " name \"" + name + "\"";
-      stream += " metalness 0";
-      stream += QString(" transparency %1").arg(transparency);
-      stream += QString(" roughness %1").arg(roughness);
-      if (!addTextureMap(stream, material, "baseColorMap", aiTextureType_BASE_COLOR, referenceFolder))
-        addTextureMap(stream, material, "baseColorMap", aiTextureType_DIFFUSE, referenceFolder);
-      addTextureMap(stream, material, "roughnessMap", aiTextureType_DIFFUSE_ROUGHNESS, referenceFolder);
-      addTextureMap(stream, material, "metalnessMap", aiTextureType_METALNESS, referenceFolder);
-      if (!addTextureMap(stream, material, "normalMap", aiTextureType_NORMAL_CAMERA, referenceFolder))
-        addTextureMap(stream, material, "normalMap", aiTextureType_NORMALS, referenceFolder);
-      if (!addTextureMap(stream, material, "occlusionMap", aiTextureType_AMBIENT_OCCLUSION, referenceFolder))
-        addTextureMap(stream, material, "occlusionMap", aiTextureType_LIGHTMAP, referenceFolder);
-      if (!addTextureMap(stream, material, "emissiveColorMap", aiTextureType_EMISSION_COLOR, referenceFolder))
-        addTextureMap(stream, material, "emissiveColorMap", aiTextureType_EMISSIVE, referenceFolder);
-      stream += " } ";
-    }
-    // extract the geometry
-    if (referenceMeshes) {
-      stream += " geometry Mesh { ";
-      stream += QString(" url \"%1\"").arg(fileName);
-      stream += QString(" name \"%1\"").arg(mesh->mName.data);
-      stream += " }";
-    } else {
-      stream += " geometry IndexedFaceSet { ";
-      stream += " coord Coordinate { ";
-      stream += " point [ ";
-      for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
-        const aiVector3D vertice = mesh->mVertices[j];
-        stream += QString(" %1 %2 %3,").arg(vertice[0]).arg(vertice[1]).arg(vertice[2]);
-      }
-      stream += " ]";
-      stream += " } ";
-      if (importNormals && mesh->HasNormals()) {
-        stream += " normal Normal { ";
-        stream += " vector [ ";
-        for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
-          const aiVector3D normal = mesh->mNormals[j];
-          stream += QString(" %1 %2 %3,").arg(normal[0]).arg(normal[1]).arg(normal[2]);
-        }
-        stream += " ]";
-        stream += " } ";
-      }
-      if (importTextureCoordinates && mesh->HasTextureCoords(0)) {
-        stream += " texCoord TextureCoordinate { ";
-        stream += " point [ ";
-        for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
-          const aiVector3D texCoord = mesh->mTextureCoords[0][j];
-          stream += QString(" %1 %2,").arg(texCoord[0]).arg(texCoord[1]);
-        }
-        stream += " ]";
-        stream += " } ";
-      }
-      stream += " coordIndex [ ";
-      for (unsigned int j = 0; j < mesh->mNumFaces; ++j) {
-        const aiFace face = mesh->mFaces[j];
-        stream += QString(" %1 %2 %3 -1").arg(face.mIndices[0]).arg(face.mIndices[1]).arg(face.mIndices[2]);
-      }
-      stream += " ]";
-      stream += " } ";
-    }
-    stream += " } ";
-  }
-
-  if (defNeedGroup) {
-    stream += " ] ";
-    stream += " } ";
-  }
-
-  for (unsigned int i = 0; i < node->mNumChildren; ++i)
-    addModelNode(stream, node->mChildren[i], scene, fileName, referenceFolder, importTextureCoordinates, importNormals,
-                 importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
-
-  stream += " ] ";
-  if (importAsSolid) {
-    stream += QString(" name \"%1\" ").arg(node->mName.C_Str());
-    if (importBoundingObjects && node->mNumMeshes > 0)
-      stream += " boundingObject USE SHAPE ";
-  }
-  stream += " } ";
-}
-
-WbNodeOperations::OperationResult WbNodeOperations::importExternalModel(const QString &filename, bool importTextureCoordinates,
-                                                                        bool importNormals, bool importAppearances,
-                                                                        bool importAsSolid, bool importBoundingObjects) {
-  QString stream = "";
-  WbNodeOperations::OperationResult result = getVrmlFromExternalModel(stream, filename, importTextureCoordinates, importNormals,
-                                                                      importAppearances, importAsSolid, importBoundingObjects);
-  if (result == FAILURE)
-    return FAILURE;
-
-  WbGroup *root = WbWorld::instance()->root();
-  result = importNode(root, root->findField("children"), root->childCount(), QString(), stream);
-
-  return result;
-}
-
-WbNodeOperations::OperationResult WbNodeOperations::getVrmlFromExternalModel(QString &stream, const QString &filename,
-                                                                             bool importTextureCoordinates, bool importNormals,
-                                                                             bool importAppearances, bool importAsSolid,
-                                                                             bool importBoundingObjects, bool referenceMeshes) {
-  Assimp::Importer importer;
-  importer.SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS,
-                              aiComponent_CAMERAS | aiComponent_LIGHTS | aiComponent_BONEWEIGHTS | aiComponent_ANIMATIONS);
-  const aiScene *scene =
-    importer.ReadFile(filename.toStdString().c_str(), aiProcess_ValidateDataStructure | aiProcess_Triangulate |
-                                                        aiProcess_JoinIdenticalVertices | aiProcess_RemoveComponent);
-  if (!scene) {
-    WbLog::warning(tr("Invalid data, please verify mesh file (bone weights, normals, ...): %1").arg(importer.GetErrorString()));
-    return FAILURE;
-  }
-  addModelNode(stream, scene->mRootNode, scene, filename, QFileInfo(filename).dir().absolutePath(), importTextureCoordinates,
-               importNormals, importAppearances, importAsSolid, importBoundingObjects, referenceMeshes);
-  return SUCCESS;
 }
 
 WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode, WbNode *parentNode, WbField *field,
@@ -560,10 +297,12 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
   if (node == NULL)
     return false;
 
-  mFromSupervisor = fromSupervisor;
+  setFromSupervisor(fromSupervisor);
 
   if (dynamic_cast<WbSolid *>(node))
     WbWorld::instance()->awake();
+
+  const QString nodeModelName = node->modelName();  // save the node model name prior to it being deleted
 
   bool dictionaryNeedsUpdate = node->hasAreferredDefNodeDescendant();
   WbField *parentField = node->parentField();
@@ -585,7 +324,10 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
   if (success && dictionaryNeedsUpdate)
     updateDictionary(false, NULL);
 
-  mFromSupervisor = false;
+  setFromSupervisor(false);
+
+  purgeUnusedExternProtoDeclarations();
+
   return success;
 }
 
@@ -614,4 +356,53 @@ void WbNodeOperations::notifyNodeAdded(WbNode *node) {
 
 void WbNodeOperations::notifyNodeDeleted(WbNode *node) {
   emit nodeDeleted(node);
+}
+
+void WbNodeOperations::setFromSupervisor(bool value) {
+  mFromSupervisor = value;
+  WbProtoManager::instance()->setImportedFromSupervisor(value);
+}
+
+void WbNodeOperations::purgeUnusedExternProtoDeclarations() {
+  assert(WbWorld::instance());
+  // list all the PROTO model names used in the world file
+  QList<const WbNode *> protoList(WbNodeUtilities::protoNodesInWorldFile(WbWorld::instance()->root()));
+  QSet<QString> modelNames;
+  foreach (const WbNode *proto, protoList)
+    modelNames.insert(proto->modelName());
+
+  // delete PROTO declaration if not found in list
+  WbProtoManager::instance()->purgeUnusedExternProtoDeclarations(modelNames);
+}
+
+void WbNodeOperations::updateExternProtoDeclarations(WbField *field) {
+  if (field->isDefault())
+    return;  // WbNodeOperations::purgeUnusedExternProtoDeclarations() will be called
+
+  WbNode *modifiedNode = static_cast<WbNode *>(sender());
+  if (modifiedNode == NULL || modifiedNode->isWorldRoot())
+    return;
+
+  const WbNode *topProto = modifiedNode->isProtoInstance() ? modifiedNode : NULL;
+  WbNode *n = modifiedNode->parentNode();
+  while (n) {
+    if (n->isProtoInstance())
+      topProto = n;
+    n = n->parentNode();
+  }
+  if (!topProto)
+    return;
+
+  QList<const WbNode *> protoList(WbNodeUtilities::protoNodesInWorldFile(topProto));
+  foreach (const WbNode *proto, protoList) {
+    const QString previousUrl(
+      WbProtoManager::instance()->declareExternProto(proto->modelName(), proto->proto()->url(), false, false));
+    if (!previousUrl.isEmpty())
+      WbLog::warning(tr("Conflicting declarations for '%1' are provided: \"%2\" and \"%3\", the first one will be used after "
+                        "saving and reverting the world. "
+                        "To use the other instead you will need to change it manually in the world file.")
+                       .arg(proto->modelName())
+                       .arg(previousUrl)
+                       .arg(proto->proto()->url()));
+  }
 }

@@ -10,8 +10,7 @@ function exitFullscreen() {
 }
 
 function onFullscreenChange(fullscreenButton, exitFullscreenButton) {
-  const element = document.fullScreenElement || document.mozFullScreenElement || document.webkitCurrentFullScreenElement;
-  if (element != null) {
+  if (isFullscreen() != null) {
     fullscreenButton.style.display = 'none';
     exitFullscreenButton.style.display = 'inline';
   } else {
@@ -20,4 +19,8 @@ function onFullscreenChange(fullscreenButton, exitFullscreenButton) {
   }
 }
 
-export {requestFullscreen, exitFullscreen, onFullscreenChange};
+function isFullscreen() {
+  return (document.fullscreenElement || document.mozFullScreenElement || document.webkitCurrentFullScreenElement);
+}
+
+export {requestFullscreen, exitFullscreen, onFullscreenChange, isFullscreen};

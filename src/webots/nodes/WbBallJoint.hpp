@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -74,7 +74,7 @@ protected:
   void updateOdePositionOffset() override;
   void updatePosition(double position) override;
   void updatePositions(double position, double position2, double position3);
-  void writeExport(WbVrmlWriter &writer) const override;
+  void writeExport(WbWriter &writer) const override;
 
 protected slots:
   void addDevice2(int index) override;

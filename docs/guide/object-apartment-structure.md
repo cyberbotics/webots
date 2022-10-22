@@ -239,7 +239,7 @@ GenericDoorAppearance {
 
 ### GenericDoorAppearance Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 ## Radiator
 

@@ -1,10 +1,10 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # An asphalt material. The color can be overridden using the `colorOverride` field. Useful with the `Road` PROTO.
 
 PROTO Asphalt [
-  field SFColor colorOverride    1 1 1  # Defines the default color multiplied with the texture color.
+  field SFColor colorOverride    1 1 1  # Defines the color to be multiplied with the texture color.
   field SFNode  textureTransform NULL   # Defines an optional 2d texture transform.
   field SFFloat IBLStrength      1      # Defines the strength of ambient lighting from the Background node.
 ]
@@ -13,20 +13,20 @@ PROTO Asphalt [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/asphalt/asphalt_base_color.jpg"
+        "textures/asphalt/asphalt_base_color.jpg"
       ]
       filtering 5
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/asphalt/asphalt_roughness.jpg"
+        "textures/asphalt/asphalt_roughness.jpg"
       ]
       filtering 5
     }
     metalness 0
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/asphalt/asphalt_normal.png"
+        "textures/asphalt/asphalt_normal.jpg"
       ]
       filtering 5
     }
@@ -34,7 +34,7 @@ PROTO Asphalt [
     IBLStrength IS IBLStrength
     occlusionMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/asphalt/asphalt_occlusion.jpg"
+        "textures/asphalt/asphalt_occlusion.jpg"
       ]
       filtering 5
     }

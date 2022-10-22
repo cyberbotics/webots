@@ -86,7 +86,7 @@ Toilet {
 
 ### Toilet Field Summary
 
-- `lidColor`: Defines the color fo the lid.
+- `lidColor`: Defines the color of the lid.
 
 ## WashingMachine
 
@@ -112,3 +112,4 @@ WashingMachine {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+

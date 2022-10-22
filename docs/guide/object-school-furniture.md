@@ -32,7 +32,7 @@ Blackboard {
 
 ## Book
 
-A book (0.2 x 0.02 x 0.15 m).
+A book (0.02 x 0.15 x 0.2 m).
 
 %figure
 
@@ -48,7 +48,7 @@ Book {
   SFRotation rotation    0 0 1 0
   SFString   name        "book"
   SFColor    color       1 1 1
-  MFString   textureUrl  "https://raw.githubusercontent.com/cyberbotics/webots/R2022a/projects/objects/school_furniture/protos/textures/book.jpg"
+  MFString   textureUrl  "textures/book.jpg"
   SFFloat    mass        0.3
 }
 ```
@@ -90,3 +90,4 @@ Clock {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+

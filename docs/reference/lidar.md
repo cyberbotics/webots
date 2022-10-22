@@ -27,7 +27,7 @@ Lidar {
 
 %figure "Lidar Image"
 
-![lidar.png](images/lidar.thumbnail.png)
+![lidar.png](images/lidar.thumbnail.jpg)
 
 %end
 

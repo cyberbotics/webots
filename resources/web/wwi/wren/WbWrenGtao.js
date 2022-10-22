@@ -38,7 +38,8 @@ export default class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
       this._previousAllocation = false;
     }
 
-    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this._temporalPass, 'previousInverseViewMatrix', this._previousInverseViewMatrixPointer]);
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'],
+      [this._temporalPass, 'previousInverseViewMatrix', this._previousInverseViewMatrixPointer]);
   }
 
   copyNewInverseViewMatrix(inverseViewMatrix) {
@@ -88,10 +89,13 @@ export default class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
     const depthTexture = _wr_frame_buffer_get_depth_texture(viewportFramebuffer);
     const normalTexture = _wr_frame_buffer_get_output_texture(viewportFramebuffer, 1);
 
-    this._wrenPostProcessingEffect = WbWrenPostProcessingEffects.gtao(width, height, Enum.WR_TEXTURE_INTERNAL_FORMAT_RGBA16F, depthTexture, normalTexture, this._halfResolution);
+    this._wrenPostProcessingEffect = WbWrenPostProcessingEffects.gtao(width, height, Enum.WR_TEXTURE_INTERNAL_FORMAT_RGBA16F,
+      depthTexture, normalTexture, this._halfResolution);
 
-    this._gtaoPass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'], [this._wrenPostProcessingEffect, 'gtaoForwardPass']);
-    this._temporalPass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'], [this._wrenPostProcessingEffect, 'temporalDenoise']);
+    this._gtaoPass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'],
+      [this._wrenPostProcessingEffect, 'gtaoForwardPass']);
+    this._temporalPass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'],
+      [this._wrenPostProcessingEffect, 'temporalDenoise']);
     this._applyParametersToWren();
 
     _wr_viewport_set_ambient_occlusion_effect(this._wrenViewport, this._wrenPostProcessingEffect);
@@ -114,7 +118,8 @@ export default class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
       _free(this._clipInfoPointer);
     this._clipInfoPointer = arrayXPointerFloat(this._clipInfo);
 
-    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this._gtaoPass, 'clipInfo', this._clipInfoPointer]);
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'],
+      [this._gtaoPass, 'clipInfo', this._clipInfoPointer]);
 
     this._params[0] = this._rotations[this._frameCounter % 6] / 360.0;
     this._params[1] = this._offsets[Math.floor(this._frameCounter / 6) % 4];
@@ -122,17 +127,20 @@ export default class WbWrenGtao extends WbWrenAbstractPostProcessingEffect {
     if (typeof this._paramsPointer !== 'undefined')
       _free(this._paramsPointer);
     this._paramsPointer = arrayXPointerFloat(this._params);
-    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this._gtaoPass, 'params', this._paramsPointer]);
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'],
+      [this._gtaoPass, 'params', this._paramsPointer]);
 
     if (typeof this._radiusPointer !== 'undefined')
       _free(this._radiusPointer);
     this._radiusPointer = pointerOnFloat(this._radius);
-    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this._gtaoPass, 'radius', this._radiusPointer]);
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'],
+      [this._gtaoPass, 'radius', this._radiusPointer]);
 
     if (typeof this._flipNormalYPointer !== 'undefined')
       _free(this._flipNormalYPointer);
     this._flipNormalYPointer = pointerOnFloat(this._flipNormalY);
-    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [this._gtaoPass, 'flipNormalY', this._flipNormalYPointer]);
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'],
+      [this._gtaoPass, 'flipNormalY', this._flipNormalYPointer]);
     ++this._frameCounter;
   }
 }

@@ -29,7 +29,7 @@ Camera {
 
 %figure "Camera Coordinate System"
 
-![camera.png](images/camera.thumbnail.png)
+![camera.png](images/camera.thumbnail.jpg)
 
 %end
 
@@ -178,11 +178,18 @@ Moreover an algorithm computing the spherical projection is applied on the resul
 
 So this mode is costly in terms of performance! Reducing the resolution of the cameras and using a `fieldOfView` which minimizes the number of activated cameras helps a lot to improve the performance if needed.
 
-When the camera is spherical, the image returned by the `wb_camera_get_image` function is a 2-dimensional array (s,t) in spherical coordinates.
+When the camera is spherical, the image returned by the `wb_camera_get_image` function is a 2-dimensional array (s,t) in cylindrical coordinates.
 
-Let `hFov` be the horizontal field of view, and let `theta` be the angle in radian between the `(0, 0, -z)` relative coordinate and the relative coordinate of the target position along the `xz` plane relative to the camera, then `s=0` corresponds to a `theta` angle of `-hFov/2`, `s=(width-1)/2` corresponds to a `theta` angle of 0, and `s=width-1` corresponds to a `theta` angle of `hFov/2`.
+Let assume a 3D target point is located at coordinates `(X, Y, Z)` relative to the camera origin.
 
-Similarly, let `vFov` be the vertical field of view (defined just above), and `phi` the angle in radian between the `(0, 0, -z)` relative coordinate and the relative coordinate of the target position along the `xy` plane relative to the camera, `t=0` corresponds to a `phi` angle of `-vFov/2`, `t=(height-1)/2` corresponds to a `phi` angle of 0, and `t=height-1` corresponds to a `phi` angle of `vFov/2`).
+Let `hFov` be the horizontal field of view, and let `theta` be the angle in radian between vector `(X, 0, 0)` and vector `(X, Y, 0)`.
+Then `s=0` corresponds to a `theta` angle of `hFov/2`, `s=(width-1)/2` corresponds to a `theta` angle of 0, and `s=width-1` corresponds to a `theta` angle of `-hFov/2`.
+
+Similarly, let `vFov` be the vertical field of view (defined just above), and `phi` the angle in radian between vector `(X, 0, 0)` and vector `(X, 0, Z)`.
+Then `t=0` corresponds to a `phi` angle of `vFov/2`, `t=(height-1)/2` corresponds to a `phi` angle of 0, and `t=height-1` corresponds to a `phi` angle of `-vFov/2`.
+
+> **Note**: although it is referred to as spherical projection, the projection used internally to generate the spherical camera image is the cylindrical projection.
+A correct spherical projection will be available in the next version of Webots.
 
 ### Overlay Image
 
@@ -885,7 +892,7 @@ image = wb_camera_get_image(tag)
 *get the image data from a camera*
 
 The `wb_camera_get_image` function reads the last image grabbed by the camera.
-The image is coded as a sequence of three bytes representing the red, green and blue levels of a pixel.
+The image is coded as a sequence of four bytes representing the blue, green, red and alpha levels of a pixel.
 Pixels are stored in horizontal lines ranging from the top left hand side of the image down to bottom right hand side.
 The memory chunk returned by this function must not be freed, as it is handled by the camera itself.
 The size in bytes of this memory chunk can be computed as follows:
@@ -1249,6 +1256,9 @@ The `wb_camera_recognition_disable` function turns off the recognition, saving c
 The `wb_camera_recognition_get_sampling_period` function returns the period given to the `wb_camera_recognition_enable` function, or 0 if the recognition is disabled.
 
 The `wb_camera_recognition_get_number_of_objects` and `wb_camera_recognition_get_objects` functions allow the user to get the current number of recognized objects and the objects array.
+The objects array is allocated and automatically released by the controller library at each call to the `step` function.
+Therefore it should not be released by the controller program.
+Moreover, object data should be copied to avoid dangling pointer problems if it needs to be used after the next call to the `step` function.
 
 *camera recognition segmentation functions*
 
@@ -1329,15 +1339,15 @@ namespace webots {
 from controller import CameraRecognitionObject
 
 class CameraRecognitionObject:
-    def get_id(self):
-    def get_position(self):
-    def get_orientation(self):
-    def get_size(self):
-    def get_position_on_image(self):
-    def get_size_on_image(self):
-    def get_number_of_colors(self):
-    def get_colors(self):
-    def get_model(self):
+    def getId(self):
+    def getPosition(self):
+    def getOrientation(self):
+    def getSize(self):
+    def getPositionOnImage(self):
+    def getSizeOnImage(self):
+    def getNumberOfColors(self):
+    def getColors(self):
+    def getModel(self):
 ```
 
 %tab-end

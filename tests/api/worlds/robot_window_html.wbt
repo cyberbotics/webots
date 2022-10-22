@@ -1,6 +1,9 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
-  coordinateSystem "NUE"
 }
 Viewpoint {
   orientation 0.995574436537216 0.017410407939443522 -0.09234943967879232 5.7496
@@ -21,7 +24,6 @@ Robot {
     }
   ]
   controller "robot_window_html"
-  showWindow TRUE
   window "info"
 }
 TestSuiteSupervisor {

@@ -144,7 +144,6 @@ The `size` and `angles` fields specify the edges and angles of the parallelepipe
 - `angles.x`: angle in y direction between front and back faces of the prism
 - `angles.y`: angle between base and side edges of the parallelogram face
 - `angles.z`: angle in z direction between front and back faces of the prism
-
 Available texture mappings:
 - `cube` mapping: see texture at projects/samples/geometries/worlds/textures/cube\_mapping.jpg
 - `compact` cube mapping: see texture at projects/samples/geometries/worlds/textures/compact\_mapping.jpg
@@ -166,7 +165,7 @@ Derived from [IndexedFaceSet](../reference/indexedfaceset.md).
 ```
 TexturedParallelepiped {
   SFVec3f  size    0.1 0.1 0.1
-  SFVec3f  angles  0.7854 0.0 0.0
+  SFVec3f  angles  0.0 0.7854 0.0
   SFString mapping "flat"
   SFBool   front   TRUE
   SFBool   back    TRUE
@@ -201,3 +200,4 @@ TexturedParallelepiped {
 - `top`: Defines whether the top face should be included.
 
 - `bottom`: Defines whether the bottom face should be included.
+

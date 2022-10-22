@@ -1,8 +1,11 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://tests/protos/protos/SlotNode.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
 
 PROTO ProtoWithSlotExtension [
   field SFNode slotExtension SlotNode { }
-  field SFString controller ""
+  field SFString controller "<none>"
 ]
 {
   Robot {

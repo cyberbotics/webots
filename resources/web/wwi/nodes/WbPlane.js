@@ -1,4 +1,6 @@
 import WbGeometry from './WbGeometry.js';
+import {resetVector2IfNonPositive} from './utils/WbFieldChecker.js';
+import WbVector2 from './utils/WbVector2.js';
 
 export default class WbPlane extends WbGeometry {
   constructor(id, size) {
@@ -12,11 +14,16 @@ export default class WbPlane extends WbGeometry {
   }
 
   createWrenObjects() {
+    if (this.wrenObjectsCreatedCalled)
+      return;
+
     super.createWrenObjects();
 
     this._computeWrenRenderable();
 
-    const createOutlineMesh = super.isInBoundingObject();
+    this._sanitizeFields();
+
+    const createOutlineMesh = this.isInBoundingObject();
     const wrenMesh = _wr_static_mesh_unit_rectangle_new(createOutlineMesh);
 
     _wr_renderable_set_mesh(this._wrenRenderable, wrenMesh);
@@ -38,7 +45,7 @@ export default class WbPlane extends WbGeometry {
 
     // allow the bounding sphere to scale down
     const scaleZ = 0.1 * Math.min(this.size.x, this.size.y);
-    wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.size.x * (1.0 + offset), this.size.y * (1.0 + offset), scaleZ));
+    _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.size.x * (1.0 + offset), this.size.y * (1.0 + offset), scaleZ));
   }
 
   updateScale() {
@@ -50,7 +57,10 @@ export default class WbPlane extends WbGeometry {
   }
 
   updateSize() {
-    if (super.isInBoundingObject())
+    if (!this._sanitizeFields())
+      return;
+
+    if (this.isInBoundingObject())
       this.updateLineScale();
     else
       this.updateScale();
@@ -59,6 +69,18 @@ export default class WbPlane extends WbGeometry {
   // Private functions
 
   _isSuitableForInsertionInBoundingObject() {
-    return super._isSuitableForInsertionInBoundingObject() && !(this.size.x <= 0.0 || this.size.y <= 0.0);
+    return !(this.size.x <= 0.0 || this.size.y <= 0.0);
+  }
+
+  _isAValidBoundingObject() {
+    return super._isAValidBoundingObject() && this._isSuitableForInsertionInBoundingObject();
+  }
+
+  _sanitizeFields() {
+    const newSize = resetVector2IfNonPositive(this.size, new WbVector2(1.0, 1.0));
+    if (newSize !== false)
+      this.size = newSize;
+
+    return newSize === false;
   }
 }

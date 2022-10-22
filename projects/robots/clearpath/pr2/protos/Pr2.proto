@@ -1,4 +1,4 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/pr2
@@ -13,6 +13,7 @@ PROTO Pr2 [
    field SFString   name            "PR2"       # Is `Solid.name`.
    field SFString   controller      "pr2_demo"  # Is `Robot.controller`.
    field MFString   controllerArgs  []          # Is `Robot.controllerArgs`.
+   field SFString   window          "<generic>" # Is `Robot.window`.
    field SFString   customData      ""          # Is `Robot.customData`.
    field SFBool     supervisor      FALSE       # Is `Robot.supervisor`.
    field SFBool     synchronization TRUE        # Is `Robot.synchronization`.
@@ -25,6 +26,7 @@ PROTO Pr2 [
     rotation IS rotation
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     customData IS customData
     supervisor IS supervisor
     synchronization IS synchronization
@@ -121,11 +123,11 @@ PROTO Pr2 [
                   metalness 0
                   roughness 0.5
                   baseColorMap ImageTexture {
-                    url ["webots://projects/robots/clearpath/pr2/protos/textures/base_color.jpg"]
+                    url ["textures/base_color.jpg"]
                   }
                 }
                 geometry Mesh {
-                  url "webots://projects/robots/clearpath/pr2/protos/meshes/Mesh0.obj"
+                  url "meshes/Mesh0.obj"
                 }
               }
               DEF base_bellow_link Solid {
@@ -239,7 +241,7 @@ PROTO Pr2 [
                         roughness 0.5
                       }
                       geometry Mesh {
-                        url "webots://projects/robots/clearpath/pr2/protos/meshes/fr_caster_rotation_link_0.obj"
+                        url "meshes/fr_caster_rotation_link_0.obj"
                       }
                     }
                     DEF fl_caster_l_wheel_joint HingeJoint {
@@ -287,7 +289,7 @@ PROTO Pr2 [
                               roughness 0.5
                             }
                             geometry Mesh {
-                              url "webots://projects/robots/clearpath/pr2/protos/meshes/fl_caster_r_wheel_0.obj"
+                              url "meshes/fl_caster_r_wheel_0.obj"
                             }
                           }
                         ]
@@ -337,7 +339,7 @@ PROTO Pr2 [
                               roughness 0.5
                             }
                             geometry Mesh {
-                              url "webots://projects/robots/clearpath/pr2/protos/meshes/fr_caster_rotation_joint_0.obj"
+                              url "meshes/fr_caster_rotation_joint_0.obj"
                             }
                           }
                         ]
@@ -402,7 +404,7 @@ PROTO Pr2 [
                         roughness 0.5
                       }
                       geometry Mesh {
-                        url "webots://projects/robots/clearpath/pr2/protos/meshes/bl_caster_rotation_link_0.obj"
+                        url "meshes/bl_caster_rotation_link_0.obj"
                       }
                     }
                     DEF fr_caster_l_wheel_joint HingeJoint {
@@ -450,7 +452,7 @@ PROTO Pr2 [
                               roughness 0.5
                             }
                             geometry Mesh {
-                              url "webots://projects/robots/clearpath/pr2/protos/meshes/fr_caster_r_wheel_link_0.obj"
+                              url "meshes/fr_caster_r_wheel_link_0.obj"
                             }
                           }
                         ]
@@ -501,7 +503,7 @@ PROTO Pr2 [
                               roughness 0.5
                             }
                             geometry Mesh {
-                              url "webots://projects/robots/clearpath/pr2/protos/meshes/bl_caster_rotation_joint_0.obj"
+                              url "meshes/bl_caster_rotation_joint_0.obj"
                             }
                           }
                         ]
@@ -566,7 +568,7 @@ PROTO Pr2 [
                         roughness 0.5
                       }
                       geometry Mesh {
-                        url "webots://projects/robots/clearpath/pr2/protos/meshes/br_caster_rotation_link_0.obj"
+                        url "meshes/br_caster_rotation_link_0.obj"
                       }
                     }
                     DEF bl_caster_l_wheel_joint HingeJoint {
@@ -613,7 +615,7 @@ PROTO Pr2 [
                               roughness 0.5
                             }
                             geometry Mesh {
-                              url "webots://projects/robots/clearpath/pr2/protos/meshes/bl_caster_r_wheel_link_0.obj"
+                              url "meshes/bl_caster_r_wheel_link_0.obj"
                             }
                           }
                         ]
@@ -663,7 +665,7 @@ PROTO Pr2 [
                               roughness 0.5
                             }
                             geometry Mesh {
-                              url "webots://projects/robots/clearpath/pr2/protos/meshes/br_caster_rotation_joint_0.obj"
+                              url "meshes/br_caster_rotation_joint_0.obj"
                             }
                           }
                         ]
@@ -728,7 +730,7 @@ PROTO Pr2 [
                         roughness 0.5
                       }
                       geometry Mesh {
-                        url "webots://projects/robots/clearpath/pr2/protos/meshes/torso_lift_link_0.obj"
+                        url "meshes/torso_lift_link_0.obj"
                       }
                     }
                     DEF br_caster_l_wheel_joint HingeJoint {
@@ -775,7 +777,7 @@ PROTO Pr2 [
                               roughness 0.5
                             }
                             geometry Mesh {
-                              url "webots://projects/robots/clearpath/pr2/protos/meshes/br_caster_r_wheel_link_0.obj"
+                              url "meshes/br_caster_r_wheel_link_0.obj"
                             }
                           }
                         ]
@@ -825,7 +827,7 @@ PROTO Pr2 [
                               roughness 0.5
                             }
                             geometry Mesh {
-                              url "webots://projects/robots/clearpath/pr2/protos/meshes/torso_lift_joint_0.obj"
+                              url "meshes/torso_lift_joint_0.obj"
                             }
                           }
                         ]
@@ -903,11 +905,11 @@ PROTO Pr2 [
                         metalness 0
                         roughness 0.5
                         baseColorMap ImageTexture {
-                          url ["webots://projects/robots/clearpath/pr2/protos/textures/torso_lift_color.jpg"]
+                          url ["textures/torso_lift_color.jpg"]
                         }
                       }
                       geometry Mesh {
-                        url "webots://projects/robots/clearpath/pr2/protos/meshes/Mesh1.obj"
+                        url "meshes/Mesh1.obj"
                       }
                     }
                     DEF l_torso_lift_side_plate_link Solid {
@@ -1031,7 +1033,7 @@ PROTO Pr2 [
                               roughness 0.5
                             }
                             geometry Mesh {
-                              url "webots://projects/robots/clearpath/pr2/protos/meshes/r_shoulder_pan_link_0.obj"
+                              url "meshes/r_shoulder_pan_link_0.obj"
                             }
                           }
                           DEF head_tilt_joint HingeJoint {
@@ -1077,11 +1079,11 @@ PROTO Pr2 [
                                     metalness 0
                                     roughness 0.5
                                     baseColorMap ImageTexture {
-                                      url ["webots://projects/robots/clearpath/pr2/protos/textures/head_tilt_color.jpg"]
+                                      url ["textures/head_tilt_color.jpg"]
                                     }
                                   }
                                   geometry Mesh {
-                                    url "webots://projects/robots/clearpath/pr2/protos/meshes/laser_tilt_mount_joint_0.obj"
+                                    url "meshes/laser_tilt_mount_joint_0.obj"
                                   }
                                 }
                                 DEF head_plate_frame Solid {
@@ -1338,11 +1340,11 @@ PROTO Pr2 [
                               metalness 0
                               roughness 0.5
                               baseColorMap ImageTexture {
-                                url ["webots://projects/robots/clearpath/pr2/protos/textures/tilting_hokuyo_color.jpg"]
+                                url ["textures/tilting_hokuyo_color.jpg"]
                               }
                             }
                             geometry Mesh {
-                              url "webots://projects/robots/clearpath/pr2/protos/meshes/r_shoulder_pan_link_1.obj"
+                              url "meshes/r_shoulder_pan_link_1.obj"
                             }
                           }
                           DEF laser_tilt_link Solid {
@@ -1453,11 +1455,11 @@ PROTO Pr2 [
                               metalness 0
                               roughness 0.5
                               baseColorMap ImageTexture {
-                                url ["webots://projects/robots/clearpath/pr2/protos/textures/shoulder_pan_color.jpg"]
+                                url ["textures/shoulder_pan_color.jpg"]
                               }
                             }
                             geometry Mesh {
-                              url "webots://projects/robots/clearpath/pr2/protos/meshes/l_shoulder_pan_link_0.obj"
+                              url "meshes/l_shoulder_pan_link_0.obj"
                             }
                           }
                           DEF r_shoulder_lift_joint HingeJoint {
@@ -1505,7 +1507,7 @@ PROTO Pr2 [
                                     roughness 0.5
                                   }
                                   geometry Mesh {
-                                    url "webots://projects/robots/clearpath/pr2/protos/meshes/l_shoulder_pan_joint_0.obj"
+                                    url "meshes/l_shoulder_pan_joint_0.obj"
                                   }
                                 }
                                 DEF r_upper_arm_roll_joint HingeJoint {
@@ -1538,7 +1540,7 @@ PROTO Pr2 [
                                     }
                                     contactMaterial "pr2_material"
                                     boundingObject Mesh {
-                                      url "webots://projects/robots/clearpath/pr2/protos/meshes/l_shoulder_lift_joint_0.obj"
+                                      url "meshes/l_shoulder_lift_joint_0.obj"
                                     }
                                     children [
                                       Shape {
@@ -1547,7 +1549,7 @@ PROTO Pr2 [
                                           roughness 0.5
                                         }
                                         geometry Mesh {
-                                          url "webots://projects/robots/clearpath/pr2/protos/meshes/l_shoulder_lift_joint_1.obj"
+                                          url "meshes/l_shoulder_lift_joint_1.obj"
                                         }
                                       }
                                       DEF r_upper_arm_link Solid {
@@ -1609,7 +1611,7 @@ PROTO Pr2 [
                                               roughness 0.5
                                             }
                                             geometry Mesh {
-                                              url "webots://projects/robots/clearpath/pr2/protos/meshes/Mesh2.obj"
+                                              url "meshes/Mesh2.obj"
                                             }
                                           }
                                           DEF r_elbow_flex_joint HingeJoint {
@@ -1671,7 +1673,7 @@ PROTO Pr2 [
                                                     roughness 0.5
                                                   }
                                                   geometry Mesh {
-                                                    url "webots://projects/robots/clearpath/pr2/protos/meshes/Mesh3.obj"
+                                                    url "meshes/Mesh3.obj"
                                                   }
                                                 }
                                                 DEF r_forearm_roll_joint HingeJoint {
@@ -1718,7 +1720,7 @@ PROTO Pr2 [
                                                           roughness 0.5
                                                         }
                                                         geometry Mesh {
-                                                          url "webots://projects/robots/clearpath/pr2/protos/meshes/l_elbow_flex_joint_0.obj"
+                                                          url "meshes/l_elbow_flex_joint_0.obj"
                                                         }
                                                       }
                                                       DEF r_forearm_link Solid {
@@ -1745,11 +1747,11 @@ PROTO Pr2 [
                                                               metalness 0
                                                               roughness 0.5
                                                               baseColorMap ImageTexture {
-                                                                url ["webots://projects/robots/clearpath/pr2/protos/textures/forearm_color.jpg"]
+                                                                url ["textures/forearm_color.jpg"]
                                                               }
                                                             }
                                                             geometry Mesh {
-                                                              url "webots://projects/robots/clearpath/pr2/protos/meshes/r_forearm_cam_frame_0.obj"
+                                                              url "meshes/r_forearm_cam_frame_0.obj"
                                                             }
                                                           }
                                                           DEF r_wrist_flex_joint HingeJoint {
@@ -1797,7 +1799,7 @@ PROTO Pr2 [
                                                                     roughness 0.5
                                                                   }
                                                                   geometry Mesh {
-                                                                    url "webots://projects/robots/clearpath/pr2/protos/meshes/l_wrist_flex_link_0.obj"
+                                                                    url "meshes/l_wrist_flex_link_0.obj"
                                                                   }
                                                                 }
                                                                 DEF r_wrist_roll_joint HingeJoint {
@@ -1834,7 +1836,7 @@ PROTO Pr2 [
                                                                           roughness 0.5
                                                                         }
                                                                         geometry Mesh {
-                                                                          url "webots://projects/robots/clearpath/pr2/protos/meshes/r_forearm_cam_sensor_0.obj"
+                                                                          url "meshes/r_forearm_cam_sensor_0.obj"
                                                                         }
                                                                       }
                                                                       DEF r_gripper_palm_link Solid {
@@ -1863,7 +1865,7 @@ PROTO Pr2 [
                                                                               roughness 0.5
                                                                             }
                                                                             geometry Mesh {
-                                                                              url "webots://projects/robots/clearpath/pr2/protos/meshes/l_forearm_cam_sensor_0.obj"
+                                                                              url "meshes/l_forearm_cam_sensor_0.obj"
                                                                             }
                                                                           }
                                                                           DEF r_gripper_led_frame Solid {
@@ -1964,7 +1966,7 @@ PROTO Pr2 [
                                                                               }
                                                                               contactMaterial "pr2_material"
                                                                               boundingObject Mesh {
-                                                                                url "webots://projects/robots/clearpath/pr2/protos/meshes/l_wrist_roll_joint_0.obj"
+                                                                                url "meshes/l_wrist_roll_joint_0.obj"
                                                                               }
                                                                               children [
                                                                                 Shape {
@@ -1973,7 +1975,7 @@ PROTO Pr2 [
                                                                                     roughness 0.5
                                                                                   }
                                                                                   geometry Mesh {
-                                                                                    url "webots://projects/robots/clearpath/pr2/protos/meshes/r_gripper_r_finger_link_0.obj"
+                                                                                    url "meshes/r_gripper_r_finger_link_0.obj"
                                                                                   }
                                                                                 }
                                                                                 DEF r_gripper_l_finger_tip_joint HingeJoint {
@@ -2021,7 +2023,7 @@ PROTO Pr2 [
                                                                                           roughness 0.5
                                                                                         }
                                                                                         geometry Mesh {
-                                                                                          url "webots://projects/robots/clearpath/pr2/protos/meshes/r_gripper_r_finger_joint_0.obj"
+                                                                                          url "meshes/r_gripper_r_finger_joint_0.obj"
                                                                                         }
                                                                                       }
                                                                                     ]
@@ -2065,7 +2067,7 @@ PROTO Pr2 [
                                                                                 children [
                                                                                   Shape {
                                                                                     geometry Mesh {
-                                                                                      url "webots://projects/robots/clearpath/pr2/protos/meshes/l_gripper_motor_slider_joint_0.obj"
+                                                                                      url "meshes/l_gripper_motor_slider_joint_0.obj"
                                                                                     }
                                                                                   }
                                                                                 ]
@@ -2081,7 +2083,7 @@ PROTO Pr2 [
                                                                                         roughness 0.5
                                                                                       }
                                                                                       geometry Mesh {
-                                                                                        url "webots://projects/robots/clearpath/pr2/protos/meshes/l_gripper_motor_slider_joint_1.obj"
+                                                                                        url "meshes/l_gripper_motor_slider_joint_1.obj"
                                                                                       }
                                                                                     }
                                                                                   ]
@@ -2135,7 +2137,7 @@ PROTO Pr2 [
                                                                                               roughness 0.5
                                                                                             }
                                                                                             geometry Mesh {
-                                                                                              url "webots://projects/robots/clearpath/pr2/protos/meshes/l_gripper_l_finger_tip_contact_sensor_0.obj"
+                                                                                              url "meshes/l_gripper_l_finger_tip_contact_sensor_0.obj"
                                                                                             }
                                                                                           }
                                                                                         ]
@@ -2307,11 +2309,11 @@ PROTO Pr2 [
                               metalness 0
                               roughness 0.5
                               baseColorMap ImageTexture {
-                                url ["webots://projects/robots/clearpath/pr2/protos/textures/shoulder_pan_color.jpg"]
+                                url ["textures/shoulder_pan_color.jpg"]
                               }
                             }
                             geometry Mesh {
-                              url "webots://projects/robots/clearpath/pr2/protos/meshes/torso_lift_motor_screw_joint_0.obj"
+                              url "meshes/torso_lift_motor_screw_joint_0.obj"
                             }
                           }
                           DEF l_shoulder_lift_joint HingeJoint {
@@ -2359,7 +2361,7 @@ PROTO Pr2 [
                                     roughness 0.5
                                   }
                                   geometry Mesh {
-                                    url "webots://projects/robots/clearpath/pr2/protos/meshes/Mesh4.obj"
+                                    url "meshes/Mesh4.obj"
                                   }
                                 }
                                 DEF l_upper_arm_roll_joint HingeJoint {
@@ -2392,7 +2394,7 @@ PROTO Pr2 [
                                     }
                                     contactMaterial "pr2_material"
                                     boundingObject Mesh {
-                                      url "webots://projects/robots/clearpath/pr2/protos/meshes/Mesh5.obj"
+                                      url "meshes/Mesh5.obj"
                                     }
                                     children [
                                       Shape {
@@ -2401,7 +2403,7 @@ PROTO Pr2 [
                                           roughness 0.5
                                         }
                                         geometry Mesh {
-                                          url "webots://projects/robots/clearpath/pr2/protos/meshes/Mesh6.obj"
+                                          url "meshes/Mesh6.obj"
                                         }
                                       }
                                       DEF l_upper_arm_link Solid {
@@ -2463,7 +2465,7 @@ PROTO Pr2 [
                                               roughness 0.5
                                             }
                                             geometry Mesh {
-                                              url "webots://projects/robots/clearpath/pr2/protos/meshes/Mesh7.obj"
+                                              url "meshes/Mesh7.obj"
                                             }
                                           }
                                           DEF l_elbow_flex_joint HingeJoint {
@@ -2525,7 +2527,7 @@ PROTO Pr2 [
                                                     roughness 0.5
                                                   }
                                                   geometry Mesh {
-                                                    url "webots://projects/robots/clearpath/pr2/protos/meshes/Mesh8.obj"
+                                                    url "meshes/Mesh8.obj"
                                                   }
                                                 }
                                                 DEF l_forearm_roll_joint HingeJoint {
@@ -2572,7 +2574,7 @@ PROTO Pr2 [
                                                           roughness 0.5
                                                         }
                                                         geometry Mesh {
-                                                          url "webots://projects/robots/clearpath/pr2/protos/meshes/Mesh9.obj"
+                                                          url "meshes/Mesh9.obj"
                                                         }
                                                       }
                                                       DEF l_forearm_link Solid {
@@ -2599,11 +2601,11 @@ PROTO Pr2 [
                                                               metalness 0
                                                               roughness 0.5
                                                               baseColorMap ImageTexture {
-                                                                url ["webots://projects/robots/clearpath/pr2/protos/textures/forearm_color.jpg"]
+                                                                url ["textures/forearm_color.jpg"]
                                                               }
                                                             }
                                                             geometry Mesh {
-                                                              url "webots://projects/robots/clearpath/pr2/protos/meshes/l_forearm_cam_frame_0.obj"
+                                                              url "meshes/l_forearm_cam_frame_0.obj"
                                                             }
                                                           }
                                                           DEF l_wrist_flex_joint HingeJoint {
@@ -2652,7 +2654,7 @@ PROTO Pr2 [
                                                                     roughness 0.5
                                                                   }
                                                                   geometry Mesh {
-                                                                    url "webots://projects/robots/clearpath/pr2/protos/meshes/Mesh10.obj"
+                                                                    url "meshes/Mesh10.obj"
                                                                   }
                                                                 }
                                                                 DEF l_wrist_roll_joint HingeJoint {
@@ -2689,7 +2691,7 @@ PROTO Pr2 [
                                                                           roughness 0.5
                                                                         }
                                                                         geometry Mesh {
-                                                                          url "webots://projects/robots/clearpath/pr2/protos/meshes/l_forearm_cam_sensor_1.obj"
+                                                                          url "meshes/l_forearm_cam_sensor_1.obj"
                                                                         }
                                                                       }
                                                                       DEF l_gripper_palm_link Solid {
@@ -2718,7 +2720,7 @@ PROTO Pr2 [
                                                                               roughness 0.5
                                                                             }
                                                                             geometry Mesh {
-                                                                              url "webots://projects/robots/clearpath/pr2/protos/meshes/l_forearm_cam_sensor_2.obj"
+                                                                              url "meshes/l_forearm_cam_sensor_2.obj"
                                                                             }
                                                                           }
                                                                           DEF l_gripper_led_frame Solid {
@@ -2847,7 +2849,7 @@ PROTO Pr2 [
                                                                               }
                                                                               contactMaterial "pr2_material"
                                                                               boundingObject Mesh {
-                                                                                url "webots://projects/robots/clearpath/pr2/protos/meshes/Mesh11.obj"
+                                                                                url "meshes/Mesh11.obj"
                                                                               }
                                                                               children [
                                                                                 Shape {
@@ -2856,7 +2858,7 @@ PROTO Pr2 [
                                                                                     roughness 0.5
                                                                                   }
                                                                                   geometry Mesh {
-                                                                                    url "webots://projects/robots/clearpath/pr2/protos/meshes/l_gripper_r_finger_link_0.obj"
+                                                                                    url "meshes/l_gripper_r_finger_link_0.obj"
                                                                                   }
                                                                                 }
                                                                                 DEF l_gripper_l_finger_tip_joint HingeJoint {
@@ -2904,7 +2906,7 @@ PROTO Pr2 [
                                                                                           roughness 0.5
                                                                                         }
                                                                                         geometry Mesh {
-                                                                                          url "webots://projects/robots/clearpath/pr2/protos/meshes/l_gripper_r_finger_joint_0.obj"
+                                                                                          url "meshes/l_gripper_r_finger_joint_0.obj"
                                                                                         }
                                                                                       }
                                                                                     ]
@@ -2948,7 +2950,7 @@ PROTO Pr2 [
                                                                                 children [
                                                                                   Shape {
                                                                                     geometry Mesh {
-                                                                                      url "webots://projects/robots/clearpath/pr2/protos/meshes/Mesh12.obj"
+                                                                                      url "meshes/Mesh12.obj"
                                                                                     }
                                                                                   }
                                                                                 ]
@@ -2964,7 +2966,7 @@ PROTO Pr2 [
                                                                                         roughness 0.5
                                                                                       }
                                                                                       geometry Mesh {
-                                                                                        url "webots://projects/robots/clearpath/pr2/protos/meshes/Mesh13.obj"
+                                                                                        url "meshes/Mesh13.obj"
                                                                                       }
                                                                                     }
                                                                                   ]
@@ -3018,7 +3020,7 @@ PROTO Pr2 [
                                                                                               roughness 0.5
                                                                                             }
                                                                                             geometry Mesh {
-                                                                                              url "webots://projects/robots/clearpath/pr2/protos/meshes/Mesh14.obj"
+                                                                                              url "meshes/Mesh14.obj"
                                                                                             }
                                                                                           }
                                                                                         ]

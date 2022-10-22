@@ -1,29 +1,30 @@
-/* global webots: false */
 /* exported dropDownMenu */
 /* exported onEnableAll */
 /* exported wifiConnect */
 /* exported wifiDisconnect */
 
-window.onload = function() {
-  var progressBar = document.getElementById('uploadProgressBar');
-  progressBar.style.visibility = 'hidden';
+import RobotWindow from 'https://cyberbotics.com/wwi/R2022b/RobotWindow.js';
 
-  window.robotWindow = webots.window('e-puck');
-  window.robotWindow.receive = function(value, robot) {
-    if (value.indexOf('configure ') === 0) {
+window.onload = function() {
+  let progressBar = document.getElementById('uploadProgressBar');
+  progressBar.style.visibility = 'hidden';
+  window.robotWindow = new RobotWindow();
+  window.robotWindow.receive = function(message, robot) {
+    if (message.indexOf('configure ') === 0) {
+      let configure;
       try {
-        var configure = JSON.parse(value.substring(10));
+        configure = JSON.parse(message.substring(10));
       } catch (e) {
         console.log(e);
-        console.log('In: ' + value);
+        console.log('In: ' + message);
       }
       robotLayout(configure);
-    } else if (value.indexOf('ports') === 0) {
-      updateDropDownMenu(document.getElementById('mode'), value);
-      updateDropDownMenu(document.getElementById('upload'), value);
-    } else if (value.startsWith('upload ')) {
-      var uploadCommand = value.substring(7);
-      var progressBar = document.getElementById('uploadProgressBar');
+    } else if (message.indexOf('ports') === 0) {
+      updateDropDownMenu(document.getElementById('mode'), message);
+      updateDropDownMenu(document.getElementById('upload'), message);
+    } else if (message.startsWith('upload ')) {
+      let uploadCommand = message.substring(7);
+      let progressBar = document.getElementById('uploadProgressBar');
       if (uploadCommand === 'complete') {
         progressBar.className = 'uploadProgressBarCompleted';
         progressBar.value = 100;
@@ -42,8 +43,12 @@ window.onload = function() {
         progressBar.value = uploadCommand;
         progressBar.style.visibility = 'visible';
       }
+    } else if (message.indexOf('update ') === 0) {
+      let data = JSON.parse(message.substring(7));
+      if (data && data.devices.hasOwnProperty('camera') && data.devices['camera'].hasOwnProperty('image'))
+        document.getElementById('camera').src = data.devices['camera']['image'] + '#' + new Date().getTime();
     } else { // sensor values
-      var values = value.split(' ');
+      let values = message.split(' ');
       document.getElementById('ps0').innerHTML = values[0];
       document.getElementById('ps1').innerHTML = values[1];
       document.getElementById('ps2').innerHTML = values[2];
@@ -71,23 +76,22 @@ window.onload = function() {
       document.getElementById('gyro x').innerHTML = values[24];
       document.getElementById('gyro y').innerHTML = values[25];
       document.getElementById('gyro z').innerHTML = values[26];
-      document.getElementById('camera').src = values[27] + '#' + new Date().getTime();
-      if (values.length > 28) {
+      if (values.length > 27) {
         // optional ground sensors available
-        setGroundSensorValue('gs0', values[28]);
-        setGroundSensorValue('gs1', values[29]);
-        setGroundSensorValue('gs2', values[30]);
+        setGroundSensorValue('gs0', values[27]);
+        setGroundSensorValue('gs1', values[28]);
+        setGroundSensorValue('gs2', values[29]);
       }
     }
-  };
+};
   window.robotWindow.send('configure');
   document.getElementById('file-selector').onchange = function(e) {
-    var filename = e.target.files[0].name;
+    let filename = e.target.files[0].name;
     if (filename.lastIndexOf('.hex') !== filename.length - 4) {
       console.log(filename + ': Unsupported file type, should end with a .hex prefix');
       return;
     }
-    var reader = new FileReader();
+    let reader = new FileReader();
     reader.readAsText(e.target.files[0]);
     reader.onloadend = function(event) {
       window.robotWindow.send('upload ' + selectedPort + ' ' + event.target.result);
@@ -96,10 +100,10 @@ window.onload = function() {
   onchange = 'onFileUpload();';
 };
 
-function setGroundSensorValue(id, valueString) {
-  var value = parseInt(valueString);
-  var elem = document.getElementById(id);
-  var elemLabel = document.getElementById(id + ' label');
+window.setGroundSensorValue = function(id, valueString) {
+  let value = parseInt(valueString);
+  let elem = document.getElementById(id);
+  let elemLabel = document.getElementById(id + ' label');
   if (value < 0) {
     // show label
     elem.style.backgroundColor = 'inherit';
@@ -107,20 +111,19 @@ function setGroundSensorValue(id, valueString) {
     elemLabel.innerHTML = id;
   } else {
     // show value
-    var hexString = value.toString(16);
+    let hexString = value.toString(16);
     elem.style.backgroundColor = '#' + hexString + hexString + hexString;
     elem.style.borderWidth = '1px';
     elemLabel.innerHTML = '';
   }
 }
-
-function updateDropDownMenu(menu, value) {
-  var values = value.split(' ');
+window.updateDropDownMenu = function(menu, value) {
+  let values = value.split(' ');
   while (menu.childNodes.length)
     menu.removeChild(menu.firstChild);
-  var a;
-  for (var i = 1; i < values.length; i++) {
-    var v = values[i];
+  let a;
+  for (let i = 1; i < values.length; i++) {
+    let v = values[i];
     if (v.indexOf('\\\\.\\') === 0)
       v = v.substring(4);
     a = document.createElement('A');
@@ -137,24 +140,24 @@ function updateDropDownMenu(menu, value) {
 }
 
 // Close the dropdown if the user clicks outside of it
-var selectedPort = 'simulation';
+let selectedPort = 'simulation';
 
 window.onclick = function(event) {
   if (!event.target.classList.contains('dropdown-button'))
     hideAllDropDownMenus();
   if (event.target.nodeName === 'A') {
-    var menu = event.target.parentNode.id;
-    var action = event.target.getAttribute('name');
+    let menu = event.target.parentNode.id;
+    let action = event.target.getAttribute('name');
     if (action !== 'refresh') {
       if (menu === 'mode') {
-        var button = document.getElementById('mode-button');
-        var previousValue = button.innerHTML;
-        var previousName = button.getAttribute('name');
+        let button = document.getElementById('mode-button');
+        let previousValue = button.innerHTML;
+        let previousName = button.getAttribute('name');
         button.innerHTML = event.target.innerHTML + ' &#x2BC6;';
         button.setAttribute('name', event.target.getAttribute('name'));
-        var mode = event.target.parentNode;
+        let mode = event.target.parentNode;
         mode.removeChild(event.target);
-        var a = document.createElement('A');
+        let a = document.createElement('A');
         a.innerHTML = previousValue.substring(0, previousValue.length - 2);
         a.href = '#';
         a.setAttribute('name', previousName);
@@ -181,18 +184,16 @@ window.onclick = function(event) {
       window.robotWindow.send(action);
   }
 };
-
-function hideAllDropDownMenus() {
-  var dropdowns = document.getElementsByClassName('dropdown-content');
-  var i;
+window.hideAllDropDownMenus = function(){
+  let dropdowns = document.getElementsByClassName('dropdown-content');
+  let i;
   for (i = 0; i < dropdowns.length; i++) {
-    var openDropdown = dropdowns[i];
+    let openDropdown = dropdowns[i];
     if (openDropdown.classList.contains('show'))
       openDropdown.classList.remove('show');
   }
 }
-
-function dropDownMenu(id) {
+window.dropDownMenu = function(id){
   hideAllDropDownMenus();
   if (selectedPort === 'remote control' && id === 'upload') {
     console.log('Please revert to simulation before uploading HEX to the e-puck robot.');
@@ -200,45 +201,42 @@ function dropDownMenu(id) {
   }
   document.getElementById(id).classList.toggle('show');
 }
-
-function wifiConnect() {
-  var button = document.getElementById('connect');
+window.wifiConnect = function(){
+  let button = document.getElementById('connect');
   button.innerHTML = 'disconnect';
   button.onclick = wifiDisconnect;
   window.robotWindow.send('connect ' + document.getElementById('ip address').value);
 }
-
-function wifiDisconnect() {
-  var button = document.getElementById('connect');
+window.wifiDisconnect = function(){
+  let button = document.getElementById('connect');
   button.innerHTML = 'connect';
   button.onclick = wifiConnect;
   window.robotWindow.send('disconnect');
 }
 
-function robotLayout(configure) {
-  window.robotWindow.setTitle('Robot: ' + configure.name, configure.name);
+window.robotLayout = function(configure){
+  window.robotWindow.setTitle(configure.name);
   if (configure.model === 'GCtronic e-puck2') { // e-puck2: Wifi remote control only
-    var ipAddress = document.getElementById('ip address');
+    let ipAddress = document.getElementById('ip address');
     ipAddress.style.visibility = 'visible';
-    var connect = document.getElementById('connect');
+    let connect = document.getElementById('connect');
     connect.style.visibility = 'visible';
 
-    var image = document.getElementById('robot image');
+    let image = document.getElementById('robot image');
     image.src = 'images/e-puck2.png';
 
-    var tof = document.getElementById('tof');
+    let tof = document.getElementById('tof');
     tof.style.visibility = 'visible';
   } else { // first e-puck: use Bluetooth communication only
-    var uploadButton = document.getElementById('upload hex');
+    let uploadButton = document.getElementById('upload hex');
     uploadButton.style.visibility = 'visible';
-    var simulationButton = document.getElementById('simulation');
+    let simulationButton = document.getElementById('simulation');
     simulationButton.style.visibility = 'visible';
 
-    var image = document.getElementById('robot image');
+    let image = document.getElementById('robot image');
     image.src = 'images/e-puck.png';
   }
 }
-
-function onEnableAll() {
+window.onEnableAll = function(){
   window.robotWindow.send('enable');
 }

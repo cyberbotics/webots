@@ -91,7 +91,6 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 1 0",
       "maxPosition": 0.025,
       "minPosition": 0,
@@ -101,7 +100,6 @@
       "type": "LinearMotor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 -1 0",
       "maxPosition": 0.025,
       "minPosition": 0,
@@ -111,57 +109,88 @@
       "type": "LinearMotor"
     },
     {
+      "anchor": "0 0 0.077",
+      "axis": "0 0 1",
       "name": "arm1sensor",
+      "position": 0,
       "transformID": "n41",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.033 0 0.07",
+      "axis": "0 -1 0",
       "name": "arm2sensor",
+      "position": 0,
       "transformID": "n61",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0.155",
+      "axis": "0 -1 0",
       "name": "arm3sensor",
+      "position": 0,
       "transformID": "n79",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0.135",
+      "axis": "0 -1 0",
       "name": "arm4sensor",
+      "position": 0,
       "transformID": "n103",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0.081",
+      "axis": "0 0 1",
       "name": "arm5sensor",
+      "position": 0,
       "transformID": "n119",
       "type": "PositionSensor"
     },
     {
+      "axis": "0 1 0",
       "name": "finger1sensor",
+      "position": 0,
       "transformID": "n128",
       "type": "PositionSensor"
     },
     {
+      "axis": "0 -1 0",
       "name": "finger2sensor",
+      "position": 0,
       "transformID": "n143",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.228 -0.158 -0.055",
+      "axis": "0 1 0",
       "name": "wheel1sensor",
+      "position": 0,
       "transformID": "n179",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.228 0.158 -0.055",
+      "axis": "0 1 0",
       "name": "wheel2sensor",
+      "position": 0,
       "transformID": "n221",
       "type": "PositionSensor"
     },
     {
+      "anchor": "-0.228 -0.158 -0.055",
+      "axis": "0 1 0",
       "name": "wheel3sensor",
+      "position": 0,
       "transformID": "n263",
       "type": "PositionSensor"
     },
     {
+      "anchor": "-0.228 0.158 -0.055",
+      "axis": "0 1 0",
       "name": "wheel4sensor",
+      "position": 0,
       "transformID": "n305",
       "type": "PositionSensor"
     }

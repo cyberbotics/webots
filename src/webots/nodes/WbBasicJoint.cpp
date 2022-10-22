@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -204,6 +204,12 @@ void WbBasicJoint::save(const QString &id) {
     e->save(id);
 }
 
+void WbBasicJoint::updateSegmentationColor(const WbRgb &color) {
+  WbBaseNode *const e = dynamic_cast<WbBaseNode *>(mEndPoint->value());
+  if (e)
+    e->updateSegmentationColor(color);
+}
+
 // Update methods: they check validity and correct if necessary
 
 void WbBasicJoint::updateAfterParentPhysicsChanged() {
@@ -294,18 +300,18 @@ WbSolid *WbBasicJoint::solidEndPoint() const {
       if (solid)
         return solid;
 
-      WbSolidReference *solidReference = childrenSlot->solidReferenceEndPoint();
-      if (solidReference)
-        return solidReference->solid();
+      WbSolidReference *s = childrenSlot->solidReferenceEndPoint();
+      if (s)
+        return s->solid();
     }
   } else {
     WbSolid *solid = dynamic_cast<WbSolid *>(mEndPoint->value());
     if (solid)
       return solid;
 
-    const WbSolidReference *const solidReference = dynamic_cast<WbSolidReference *>(mEndPoint->value());
-    if (solidReference)
-      return solidReference->solid();
+    const WbSolidReference *const s = dynamic_cast<WbSolidReference *>(mEndPoint->value());
+    if (s)
+      return s->solid();
   }
 
   return NULL;
@@ -433,7 +439,7 @@ void WbBasicJoint::retrieveEndPointSolidTranslationAndRotation(WbVector3 &it, Wb
   }
 }
 
-void WbBasicJoint::write(WbVrmlWriter &writer) const {
+void WbBasicJoint::write(WbWriter &writer) const {
   WbSolid *const s = solidEndPoint();
   WbVector3 translation;
   WbRotation rotation;

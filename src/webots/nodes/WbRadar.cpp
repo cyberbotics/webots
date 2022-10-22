@@ -1,4 +1,4 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2022 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #include "WbRadar.hpp"
 
 #include "WbAffinePlane.hpp"
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbObjectDetection.hpp"
 #include "WbRandom.hpp"
@@ -103,7 +104,11 @@ WbRadar::WbRadar(WbTokenizer *tokenizer) : WbSolidDevice("Radar", tokenizer) {
   init();
 }
 
-WbRadar::WbRadar(const WbRadar &other) : WbSolidDevice(other) {
+WbRadar::WbRadar(const WbRadar &other) :
+  WbSolidDevice(other),
+  mRadarTargets(),
+  mInvalidRadarTargets(),
+  mRadarTargetsPreviousTranslations() {
   init();
 }
 
@@ -387,7 +392,7 @@ void WbRadar::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbRadar::writeConfigure(QDataStream &stream) {
+void WbRadar::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
 
   stream << tag();
@@ -398,7 +403,7 @@ void WbRadar::writeConfigure(QDataStream &stream) {
   stream << (double)verticalFieldOfView();
 }
 
-void WbRadar::writeAnswer(QDataStream &stream) {
+void WbRadar::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << tag();
     stream << (unsigned char)C_RADAR_DATA;

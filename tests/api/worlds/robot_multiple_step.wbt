@@ -1,4 +1,9 @@
-#VRML_SIM R2022a utf8
+#VRML_SIM R2022b utf8
+
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -21,6 +26,7 @@ Floor {
   size 1 1
 }
 Robot {
+  name "supervisor"
   controller "robot_multiple_step_supervisor"
   supervisor TRUE
 }

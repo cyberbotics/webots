@@ -27,7 +27,8 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
 
-  wb_supervisor_field_import_mf_node(slotField, 0, "Box.wbo");
+  wb_supervisor_field_import_mf_node_from_string(
+    slotField, 0, "DEF SHAPE Shape { appearance Appearance { material Material {} } geometry DEF BOX Box { size 1 1 1 } }");
 
   wb_robot_step(TIME_STEP);
 

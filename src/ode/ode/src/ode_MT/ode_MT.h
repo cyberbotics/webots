@@ -51,5 +51,6 @@ void dGeomTriMeshSetData_MT (dxGeom *g, dTriMeshDataID data, dGeomTriMeshSetData
 void dGeomSphereSetRadius_MT (dxGeom *g, dReal radius, dGeomSphereSetRadiusFunction *_geomSphereSetRadiusFunc);
 
 void dGeomPlaneSetParams_MT (dGeomID g, dReal a, dReal b, dReal c, dReal d, dGeomPlaneSetParamsFunction *_geomPlaneSetParamsFunc);
+void dGeomOffset_MT(dxGeom *g);
 //*/
 #endif
