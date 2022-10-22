@@ -137,14 +137,23 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
+    #- name: Configure
+    #  run: cmake -Bbuild -T host=x64 -A x64
+    #- name: Build
+    #  run: cmake --build build --config Debug -j4
     - name: Install 7zip
       shell: powershell
       run: choco install 7zip
+    - name: Download Mesa
+      shell: cmd
+      run: |
+        curl.exe -L --output mesa.7z --url https://github.com/pal1000/mesa-dist-win/releases/download/22.2.2/mesa3d-22.2.2-release-msvc.7z
+        "C:\Program Files\7-Zip\7z.exe" x mesa.7z
     - name: Install Mesa
       shell: cmd
       run: |
-        curl.exe -L --output mesa.7z --url https://github.com/pal1000/mesa-dist-win/releases/download/22.1.4/mesa3d-22.1.4-release-msvc.7z
-        "C:\Program Files\7-Zip\7z.exe" x mesa.7z
+        del "opengl32.dll" >nul 2>&1
+        del "libglapi.dll" >nul 2>&1
         mklink opengl32.dll "x64\opengl32.dll"
         mklink libglapi.dll "x64\libglapi.dll"
     - name: Test Suite
