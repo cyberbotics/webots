@@ -137,15 +137,26 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
+    - name: Install 7zip
+      shell: powershell
+      run: choco install 7zip
+    - name: Install Mesa
+      shell: cmd
+      run: |
+        curl.exe -L --output mesa.7z --url https://github.com/pal1000/mesa-dist-win/releases/download/22.1.4/mesa3d-22.1.4-release-msvc.7z
+        "C:\Program Files\7-Zip\7z.exe" x mesa.7z
+        mklink opengl32.dll "x64\opengl32.dll"
+        mklink libglapi.dll "x64\libglapi.dll"
     - name: Test Suite
       run: |
         echo 'Running Test Suite'
         cd artifact/
-        cmd.exe //c webots-R2022a_setup.exe //VERYSILENT //SUPPRESSMSGBOXES //DIR="." //SP //LOG="log.txt" //CURRENTUSER
+        cmd.exe //c webots-R2022b_setup.exe //VERYSILENT //SUPPRESSMSGBOXES //DIR="." //SP //LOG="log.txt" //CURRENTUSER
         #echo '==> log start'
         #cat log.txt
         #echo '==> log end'
-        #./msys64/mingw64/bin/webotsw.exe --version
+        ./msys64/mingw64/bin/webotsw.exe --version
+        ./msys64/mingw64/bin/webotsw.exe --sysinfo
         export WEBOTS_HOME=$PWD
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
@@ -159,7 +170,7 @@ jobs:
         ./scripts/install/msys64_installer.sh --all
         python tests/test_suite.py
   delete-artifacts:
-    needs: [build]
+    needs: [build, test-suite]
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution') && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
     strategy:
       matrix:
