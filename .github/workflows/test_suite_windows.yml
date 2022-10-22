@@ -141,21 +141,26 @@ jobs:
     #  run: cmake -Bbuild -T host=x64 -A x64
     #- name: Build
     #  run: cmake --build build --config Debug -j4
-    - name: Install 7zip
-      shell: powershell
-      run: choco install 7zip
-    - name: Download Mesa
-      shell: cmd
-      run: |
-        curl.exe -L --output mesa.7z --url https://github.com/pal1000/mesa-dist-win/releases/download/22.2.2/mesa3d-22.2.2-release-msvc.7z
-        "C:\Program Files\7-Zip\7z.exe" x mesa.7z
-    - name: Install Mesa
-      shell: cmd
-      run: |
-        del "opengl32.dll" >nul 2>&1
-        del "libglapi.dll" >nul 2>&1
-        mklink opengl32.dll "x64\opengl32.dll"
-        mklink libglapi.dll "x64\libglapi.dll"
+    #- name: Install 7zip
+    #  shell: powershell
+    #  run: choco install 7zip
+    #- name: Download Mesa
+    #  shell: cmd
+    #  run: |
+    #    curl.exe -L --output mesa.7z --url https://github.com/pal1000/mesa-dist-win/releases/download/22.2.2/mesa3d-22.2.2-release-msvc.7z
+    #    "C:\Program Files\7-Zip\7z.exe" x mesa.7z
+    #- name: Install Mesa
+    #  shell: cmd
+    #  run: |
+    #    del "opengl32.dll" >nul 2>&1
+    #    del "libglapi.dll" >nul 2>&1
+    #    mklink opengl32.dll "x64\opengl32.dll"
+    #    mklink libglapi.dll "x64\libglapi.dll"
+    - uses: ssciwr/setup-mesa-dist-win@v1
+      with:
+        version: '22.2.2'
+        build-type: 'release-msvc'
+        # deployment-choice: '1'
     - name: Test Suite
       run: |
         echo 'Running Test Suite'
