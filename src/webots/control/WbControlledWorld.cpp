@@ -407,7 +407,7 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
 void WbControlledWorld::externConnection(WbController *controller, bool connect) {
   if (connect) {
     assert(showControllersLists("extern connect " + controller->name() + " " + controller->robot()->name()));
-    controller->robot()->externControllerChanged();
+    controller->robot()->notifyExternControllerChanged();
     restartStepTimer();
   } else {
     assert(showControllersLists("extern disconnect " + controller->name() + " " + controller->robot()->name()));

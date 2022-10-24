@@ -1523,12 +1523,14 @@ int WbRobot::computeSimulationMode() {
   }
 }
 
-void WbRobot::externControllerChanged() {
+void WbRobot::notifyExternControllerChanged() {
   foreach (WbRenderingDevice *device, mRenderingDevices) {
     WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
     if (ac)
       ac->externControllerChanged();  // memory mapped file should be sent to new extern controller
   }
+
+  emit externControllerChanged();
 }
 
 void WbRobot::newRemoteExternController() {
