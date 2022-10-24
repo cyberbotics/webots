@@ -113,7 +113,7 @@ void WbCadShape::retrieveMaterials() {
   qDeleteAll(mMaterialDownloaders);
   mMaterialDownloaders.clear();
 
-  QStringList rawMaterials = objMaterialList(completeUrl);
+  const QStringList rawMaterials = objMaterialList(completeUrl);
   foreach (QString material, rawMaterials) {
     const QString newUrl = WbUrl::combinePaths(material, completeUrl);
     if (!newUrl.isEmpty()) {
@@ -183,13 +183,6 @@ void WbCadShape::postFinalize() {
 }
 
 void WbCadShape::updateUrl() {
-  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0, true);
-  if (completeUrl.isEmpty() || completeUrl == WbUrl::missingTexture()) {
-    if (areWrenObjectsInitialized())
-      deleteWrenObjects();
-    return;
-  }
-
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
   const int n = mUrl->size();
   for (int i = 0; i < n; i++) {
@@ -197,6 +190,13 @@ void WbCadShape::updateUrl() {
     mUrl->blockSignals(true);
     mUrl->setItem(i, item.replace("\\", "/"));
     mUrl->blockSignals(false);
+  }
+
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0, true);
+  if (completeUrl.isEmpty() || completeUrl == WbUrl::missingTexture()) {
+    if (areWrenObjectsInitialized())
+      deleteWrenObjects();
+    return;
   }
 
   if (WbUrl::isWeb(completeUrl)) {
@@ -226,9 +226,9 @@ void WbCadShape::updateUrl() {
     if (areMaterialAssetsAvailable(completeUrl)) {
       mObjMaterials.clear();
       // generate mapping between referenced files and cached files
-      QStringList rawMaterials = objMaterialList(completeUrl);
+      const QStringList rawMaterials = objMaterialList(completeUrl);
       foreach (QString material, rawMaterials) {
-        QString adjustedUrl = WbUrl::combinePaths(material, completeUrl);
+        const QString adjustedUrl = WbUrl::combinePaths(material, completeUrl);
         assert(WbNetwork::instance()->isCachedNoMapUpdate(adjustedUrl));
         if (!mObjMaterials.contains(material))
           mObjMaterials.insert(material, adjustedUrl);
