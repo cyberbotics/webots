@@ -869,15 +869,15 @@ export default class Parser {
 
     const id = this.#parseId(node);
 
-    let urls = getNodeAttribute(node, 'url', '');
-    if (typeof urls !== 'undefined')
-      urls = urls.split('"').filter(element => { if (element !== ' ') return element; }); // filter removes empty elements
+    let url = getNodeAttribute(node, 'url', '');
+    if (typeof url !== 'undefined')
+      url = url.split('"').filter(element => { if (element !== ' ') return element; })[0]; // filter removes empty elements
 
     const ccw = getNodeAttribute(node, 'ccw', 'true').toLowerCase() === 'true';
     const castShadows = getNodeAttribute(node, 'castShadows', 'true').toLowerCase() === 'true';
     const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
 
-    const cadShape = new WbCadShape(id, urls, ccw, castShadows, isPickable, this.prefix);
+    const cadShape = new WbCadShape(id, url, ccw, castShadows, isPickable, this.prefix);
 
     WbWorld.instance.nodes.set(cadShape.id, cadShape);
 
@@ -889,8 +889,10 @@ export default class Parser {
         parentNode.children.push(cadShape);
     }
 
-    this.#promises.push(loadMeshData(this.prefix, urls).then(meshContent => {
-      cadShape.scene = meshContent;
+    this.#promises.push(loadMeshData(this.prefix, url).then(meshContent => {
+      cadShape.scene = meshContent[0];
+      cadShape.materialPath = meshContent[1];
+      console.log(meshContent)
       for (let i = 0; i < cadShape.useList.length; i++) {
         const node = WbWorld.instance.nodes.get(cadShape.useList[i]);
         node.scene = meshContent;
@@ -1306,26 +1308,27 @@ export default class Parser {
   }
 
   #parseMesh(node, id) {
-    let urls = getNodeAttribute(node, 'url', '');
-    if (typeof urls !== 'undefined')
-      urls = urls.split('"').filter(element => { if (element !== ' ') return element; }); // filter removes empty elements
+    let url = getNodeAttribute(node, 'url', '');
+    if (typeof url !== 'undefined')
+      url = url.split('"').filter(element => { if (element !== ' ') return element; })[0]; // filter removes empty elements
 
     const ccw = getNodeAttribute(node, 'ccw', 'true').toLowerCase() === 'true';
     const name = getNodeAttribute(node, 'name', '');
     const materialIndex = parseInt(getNodeAttribute(node, 'materialIndex', -1));
 
-    const mesh = new WbMesh(id, urls, ccw, name, materialIndex);
+    const mesh = new WbMesh(id, url, ccw, name, materialIndex);
     WbWorld.instance.nodes.set(mesh.id, mesh);
-
-    this.#promises.push(loadMeshData(this.prefix, urls).then(meshContent => {
-      mesh.scene = meshContent;
-      for (let i = 0; i < mesh.useList.length; i++) {
-        const node = WbWorld.instance.nodes.get(mesh.useList[i]);
-        node.scene = meshContent;
-      }
-      this.#updatePromiseCounter('Downloading assets: Mesh \'mesh ' + name + '\'...');
-    }));
-    this.#promiseNumber += 1;
+    if (url) {
+      this.#promises.push(loadMeshData(this.prefix, url).then(meshContent => {
+        mesh.scene = meshContent[0];
+        for (let i = 0; i < mesh.useList.length; i++) {
+          const node = WbWorld.instance.nodes.get(mesh.useList[i]);
+          node.scene = meshContent;
+        }
+        this.#updatePromiseCounter('Downloading assets: Mesh \'mesh ' + name + '\'...');
+      }));
+      this.#promiseNumber += 1;
+    }
 
     return mesh;
   }

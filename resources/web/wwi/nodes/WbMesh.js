@@ -18,8 +18,8 @@ export default class WbMesh extends WbTriangleMeshGeometry {
     this.#ccw = ccw;
     this.#name = name;
     this.#materialIndex = materialIndex;
-    if (this.#url[0])
-      this.#isCollada = this.#url[0].endsWith('.dae');
+    if (this.#url)
+      this.#isCollada = this.#url.endsWith('.dae');
   }
 
   get url() {
@@ -72,7 +72,7 @@ export default class WbMesh extends WbTriangleMeshGeometry {
   }
 
   _updateTriangleMesh() {
-    if (!this.#url[0] || !this.scene)
+    if (!this.#url || !this.scene)
       return;
 
     // Assimp fix for up_axis, adapted from https://github.com/assimp/assimp/issues/849
@@ -177,22 +177,27 @@ export default class WbMesh extends WbTriangleMeshGeometry {
   }
 
   #updateUrl() {
-    if (this.#url[0])
-      this.#isCollada = this.#url[0].endsWith('.dae');
+    if (this.#url) {
+      this.#isCollada = this.#url.endsWith('.dae');
 
-    loadMeshData(WbWorld.instance.prefix, this.#url).then(meshContent => {
-      this.scene = meshContent;
-      if (typeof this.scene === 'undefined') {
-        this._deleteWrenRenderable();
-        _wr_static_mesh_delete(this._wrenMesh);
-        this._wrenMesh = undefined;
-      } else {
-        this._buildWrenMesh(true);
+      loadMeshData(WbWorld.instance.prefix, this.#url).then(meshContent => {
+        this.scene = meshContent[0];
+        if (typeof this.scene === 'undefined') {
+          this._deleteWrenRenderable();
+          _wr_static_mesh_delete(this._wrenMesh);
+          this._wrenMesh = undefined;
+        } else {
+          this._buildWrenMesh(true);
 
-        if (typeof this.onRecreated === 'function')
-          this.onRecreated();
-      }
-    });
+          if (typeof this.onRecreated === 'function')
+            this.onRecreated();
+        }
+      });
+    } else {
+      this._deleteWrenRenderable();
+      _wr_static_mesh_delete(this._wrenMesh);
+      this._wrenMesh = undefined;
+    }
   }
 
   #updateCcw() {

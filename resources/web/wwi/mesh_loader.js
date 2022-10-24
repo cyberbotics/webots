@@ -1,7 +1,7 @@
 import {webots} from './webots.js';
 
-export function loadMeshData(prefix, urls) {
-  if (typeof urls === 'undefined')
+export function loadMeshData(prefix, url) {
+  if (typeof url === 'undefined')
     return;
 
   let worldsPath;
@@ -12,20 +12,41 @@ export function loadMeshData(prefix, urls) {
     worldsPath = worldsPath.substring(0, worldsPath.lastIndexOf('/')) + '/';
   }
 
-  for (let i = 0; i < urls.length; i++) {
-    if (urls[i].startsWith('webots://')) {
-      if (typeof webots.currentView.repository === 'undefined')
-        webots.currentView.repository = 'cyberbotics';
-      if (typeof webots.currentView.branch === 'undefined' || webots.currentView.branch === '')
-        webots.currentView.branch = 'released';
-      urls[i] = urls[i].replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
-    }
-    if (typeof prefix !== 'undefined' && !urls[i].startsWith('http'))
-      urls[i] = prefix + worldsPath + urls[i];
+  if (url.startsWith('webots://')) {
+    if (typeof webots.currentView.repository === 'undefined')
+      webots.currentView.repository = 'cyberbotics';
+    if (typeof webots.currentView.branch === 'undefined' || webots.currentView.branch === '')
+      webots.currentView.branch = 'released';
+    url = url.replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
   }
+
+  if (typeof prefix !== 'undefined' && !url.startsWith('http'))
+    url = prefix + worldsPath + url;
+
+  const urls = [url];
+
   if (typeof loadMeshData.assimpjs === 'undefined')
     loadMeshData.assimpjs = assimpjs();
 
+  if (url.endsWith('.obj')) {
+    return fetch(url)
+      .then(response => response.text())
+      .then(text => {
+        let regex = new RegExp('[A-Za-z0-9_-]+\\.mtl');
+        let mtl = text.match(regex);
+        if (mtl) {
+          if (typeof prefix !== 'undefined' && !mtl[0].startsWith('http'))
+            mtl[0] = url.substring(0, url.lastIndexOf('/') + 1) + mtl[0];
+          urls.push(mtl[0]);
+        }
+        let mtlPath = mtl[0].substring(0, mtl[0].lastIndexOf('/') + 1);
+        return loadInAssimp(urls, mtlPath);
+      });
+  } else
+    return loadInAssimp(urls);
+}
+
+function loadInAssimp(urls, mtlPath) {
   return loadMeshData.assimpjs.then(function(ajs) {
     // fetch the files to import
     return Promise.all(urls.map((file) => fetch(file))).then((responses) => {
@@ -49,7 +70,7 @@ export function loadMeshData(prefix, urls) {
       let resultFile = result.GetFile(0);
       let jsonContent = new TextDecoder().decode(resultFile.GetContent());
 
-      return JSON.parse(jsonContent);
+      return [JSON.parse(jsonContent), mtlPath];
     });
   });
 }

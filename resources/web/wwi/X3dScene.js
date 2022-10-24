@@ -4,6 +4,7 @@ import {webots} from './webots.js';
 import WrenRenderer from './WrenRenderer.js';
 
 import WbBox from './nodes/WbBox.js';
+import WbCadShape from './nodes/WbCadShape.js';
 import WbCapsule from './nodes/WbCapsule.js';
 import WbCone from './nodes/WbCone.js';
 import WbCoordinate from './nodes/WbCoordinate.js';
@@ -257,6 +258,12 @@ export default class X3dScene {
       } else if (key === 'center') {
         if (object instanceof WbTextureTransform)
           object.center = convertStringToVec2(pose[key]);
+      } else if (key === 'castShadows') {
+        if (object instanceof WbLight || object instanceof WbCadShape)
+          object.castShadows = pose[key].toLowerCase() === 'true';
+      } else if (key === 'isPickable') {
+        if (object instanceof WbCadShape)
+          object.isPickable = pose[key].toLowerCase() === 'true';
       } else if (key === 'size') {
         if (object instanceof WbBox || object instanceof WbPlane)
           object.size = convertStringToVec3(pose[key]);
@@ -290,7 +297,7 @@ export default class X3dScene {
         if (object instanceof WbCone)
           object.bottomRadius = parseFloat(pose[key]);
       } else if (key === 'ccw') {
-        if (object instanceof WbMesh || object instanceof WbIndexedFaceSet)
+        if (object instanceof WbMesh || object instanceof WbIndexedFaceSet || object instanceof WbCadShape)
           object.ccw = pose[key].toLowerCase() === 'true';
       } else if (key === 'direction') {
         if (object instanceof WbSpotLight || WbDirectionalLight)
@@ -307,9 +314,7 @@ export default class X3dScene {
         if (object instanceof WbMesh)
           object.materialIndex = parseInt(pose[key]);
       } else if (key === 'url') {
-        if (object instanceof WbMesh)
-          object.url = pose[key];
-        else if (object instanceof WbImageTexture)
+        if (object instanceof WbMesh || object instanceof WbCadShape)
           object.url = pose[key][0];
       } else if (key === 'point') {
         if (object instanceof WbCoordinate)
@@ -340,8 +345,6 @@ export default class X3dScene {
           object.ambientIntensity = parseFloat(pose[key]);
         else if (key === 'intensity')
           object.intensity = parseFloat(pose[key]);
-        else if (key === 'castShadows')
-          object.castShadows = pose[key].toLowerCase() === 'true';
       } else if (object instanceof WbIndexedFaceSet) {
         if (key === 'normalPerVertex')
           object.normalPerVertex = pose[key].toLowerCase() === 'true';
