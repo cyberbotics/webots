@@ -12,6 +12,9 @@
     - Fixed close and resize buttons rendered in black in the [RangeFinder](rangefinder.md) overlay if underlying pixel value is `inf` ([#5337](https://github.com/cyberbotics/webots/pull/5337)).
     - Fixed error message about missing PROTO declaration when copying and pasting a PROTO node that was just added using the Add Node dialog ([#5341](https://github.com/cyberbotics/webots/pull/5341)).
     - Fixed the description of base nodes in the "Add node" dialog ([#5346](https://github.com/cyberbotics/webots/pull/5346)).
+  - Enhancements
+    - Added warnings if external mesh used in [CadShape](cadshape.md) node is fully transparent ([#5313](https://github.com/cyberbotics/webots/pull/5313)).
+    - Added warning if external mesh used in [Mesh](mesh.md) node has more than 100'000 vertices ([#5313](https://github.com/cyberbotics/webots/pull/5313)).
   - Dependency Updates
     - Upgraded to Qt6.4 on Windows ([#5301](https://github.com/cyberbotics/webots/pull/5301)).
 
