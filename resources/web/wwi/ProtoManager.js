@@ -25,10 +25,10 @@ export default class ProtoManager {
       console.log('Load PROTO from URL: ' + url);
       this.proto = new Node(url, text);
       await this.proto.fetch();
-      this.proto.parseBody();
+      await this.proto.parseBody();
       this.loadX3d();
       this.generateExposedParameterList();
-      setTimeout(() => this.updateParameter(), 3000);
+      setTimeout(() => this.regenerateEntireProto(), 2000);
     });
   }
 
@@ -50,43 +50,37 @@ export default class ProtoManager {
     return new Promise(resolve => setTimeout(resolve, time));
   }
 
-  async updateParameter() {
-    const parameterName = 'flag';
-    const newValue = true;
+  async regenerateEntireProto() {
+    const parameterName = 'flag'; // parameter to change
+    const newValue = true; // new value to set
 
+    // get reference to the parameter being changed
     const parameter = this.exposedParameters.get(parameterName);
 
-    let node = parameter.node;
-    while (node.isProto)
-    node = node.value;
+    let proto = parameter.node; // reference to the proto being affected
+    let baseNode = proto;
+    // note: only base-nodes write to x3d, so to know the ID of the node we need to delete, we need to navigate through the
+    // value of the proto (or multiple times if it's a derived PROTO)
+    while (baseNode.isProto)
+      baseNode = baseNode.value;
 
-    const id = node.id;
+    // id to delete
+    const id = baseNode.id;
 
     // set value and trigger regeneration
-    parameter.setValueFromJavaScript(newValue);
+    await parameter.setValueFromJavaScript(newValue);
 
-    // await regen
-    await this.delay(2000);
-
-    // delete
+    // delete js side
     this.#view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
-    await this.delay(2000);
 
-    const rawX3d = node.toX3d();
+    const rawX3d = proto.toX3d();
     const x3d = new XMLSerializer().serializeToString(rawX3d);
     console.log('load new x3d:', x3d);
-    this.#view.x3dScene.loadObject('<nodes' + x3d + '</nodes>');
-
-    //console.log('BEFORE:', parameter.value.toJS());
-    //parameter.setValueFromJavaScript(newValue);
-    //console.log('AFTER:', parameter.value.toJS());
+    this.#view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>');
 
     // notify scene of the change
-    // this.#view.x3dScene.applyPose({'id': -12, 'translation': '0 0 0.5'});
     this.#view.x3dScene.render();
   }
-
-
 
   loadMinimalScene() {
     const xml = document.implementation.createDocument('', '', null);

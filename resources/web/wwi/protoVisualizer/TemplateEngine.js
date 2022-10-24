@@ -83,9 +83,9 @@ export default class TemplateEngine {
     return jsBody;
   };
 
-  generateVrml(fields, body) {
+  async generateVrml(fields, body) {
     let template = this.minimalTemplate;
-    const jsBody = this.parseBody(body);
+    const jsBody = await this.parseBody(body);
 
     // fill template
     template = template.replace('%context%', '');

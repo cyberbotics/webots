@@ -133,9 +133,10 @@ export default class Node {
           resolve(xmlhttp.responseText);
       };
       xmlhttp.send();
-    }).then(text => {
+    }).then(async text => {
       console.log('downloaded ' + protoUrl + ', generating prototype');
-      return this.createPrototype(text, protoUrl);
+      const prototype = await this.createPrototype(text, protoUrl);
+      return prototype;
     });
   }
 
@@ -213,12 +214,12 @@ export default class Node {
     }
   };
 
-  parseBody(isRegenerating = false) {
+  async parseBody(isRegenerating = false) {
     console.log('PARSE BODY OF ' + this.name);
     this.clearReferences();
     // note: if not a template, the body is already pure VRML
     if (this.isTemplate)
-      this.regenerateBodyVrml(); // overwrites this.protoBody with a purely VRML compliant body
+      await this.regenerateBodyVrml(); // overwrites this.protoBody with a purely VRML compliant body
 
     // tokenize body
     const tokenizer = new Tokenizer(this.protoBody, this);
@@ -227,7 +228,7 @@ export default class Node {
     // skip bracket opening the PROTO body
     tokenizer.skipToken('{');
 
-    this.value = Node.createNode(tokenizer);
+    this.value = await Node.createNode(tokenizer);
     console.log('STRUCT', this.value);
 
     tokenizer.skipToken('}');
@@ -252,10 +253,8 @@ export default class Node {
               throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
 
             parameter.value = tokenizer.proto.parameters.get(alias).value;
-          } else {
+          } else
             parameter.value.setValueFromTokenizer(tokenizer);
-            // console.log('> value of ' + parameterName + ' set to ', parameter.value);
-          }
         }
       }
     }
@@ -319,14 +318,14 @@ export default class Node {
     return `{node_name: '${this.name}', fields: {${jsFields.slice(0, -2)}}}`;
   }
 
-  regenerateBodyVrml() {
+  async regenerateBodyVrml() {
     const fieldsEncoding = this.toJS(true); // make current proto parameters in a format compliant to template engine
     console.log(fieldsEncoding);
 
     if (typeof this.templateEngine === 'undefined')
       throw new Error('Regeneration was called but the template engine is not defined (i.e this.isTemplate is false)');
 
-    this.protoBody = this.templateEngine.generateVrml(fieldsEncoding, this.rawBody);
+    this.protoBody = await this.templateEngine.generateVrml(fieldsEncoding, this.rawBody);
     console.log('Regenerated Proto Body:\n' + this.protoBody);
   };
 
@@ -334,7 +333,7 @@ export default class Node {
     // TODO
   };
 
-  static createNode(tokenizer) {
+  static async createNode(tokenizer) {
     let defName;
     if (tokenizer.peekWord() === 'DEF') {
       tokenizer.skipToken('DEF');
@@ -382,13 +381,12 @@ export default class Node {
       node = Node.cProtoModels.get(url).clone();
     }
 
-    // console.log(node);
     if (typeof defName !== 'undefined')
       tokenizer.proto.def.set(defName, node);
 
     node.configureNodeFromTokenizer(tokenizer);
     if (node.isProto)
-      node.parseBody();
+      await node.parseBody();
 
     return node;
   }
