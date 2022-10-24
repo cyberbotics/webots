@@ -144,7 +144,7 @@ if __name__ == '__main__':
     for old, new in replacements.items():
         json_str = json_str.replace(old, new)
 
-    contents = f'import {{VRML}} from \'./constants.js\';\n\nexport const FieldModel = {json_str};\n'
+    contents = f'import {{VRML}} from \'./Vrml.js\';\n\nexport const FieldModel = {json_str};\n'
 
     with open(OUTPUT_FILE, 'w') as f:
         f.seek(0)
