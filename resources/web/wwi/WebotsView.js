@@ -395,13 +395,13 @@ export default class WebotsView extends HTMLElement {
       if (typeof this.#view === 'undefined')
         this.#view = new webots.View(this, isMobileDevice);
       const protoManager = new ProtoManager(this.#view);
-      protoManager.loadProto(proto);
+      protoManager.loadMinimalScene()
       this.#view.onready = () => {
+        protoManager.loadProto(proto)
         this.toolbar = new Toolbar(this.#view, 'scene', this);
         if (typeof this.onready === 'function')
           this.onready();
       }
-      protoManager.loadMinimalScene();
       this.#hasProto = true;
       this.#closeWhenDOMElementRemoved();
     }
