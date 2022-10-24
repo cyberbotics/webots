@@ -68,9 +68,6 @@ class OutputMonitor:
     def __init__(self):
         self.command = None
 
-    def command(self):
-        return self.command
-
     def monitorOutputFile(self, finalMessage):
         """Display the output file on the console."""
         self.command = Command('tail -f ' + outputFilename, args.ansi_escape)
@@ -361,8 +358,8 @@ if len(systemFailures) > 0:
         appendToOutputFile(message)
 
 time.sleep(1)
-if outputMonitor.command().isRunning():
-    outputMonitor.command().terminate(force=True)
+if outputMonitor.command.isRunning():
+    outputMonitor.command.terminate(force=True)
 
 with open(outputFilename, 'r') as file:
     content = file.read()
