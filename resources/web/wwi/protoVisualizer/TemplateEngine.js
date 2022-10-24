@@ -15,11 +15,26 @@ export default class TemplateEngine {
     let ___vrml = '';
     let ___tmp;
 
-    const context = { %context% };
+    const context = %context%;
 
     const fields = { %fields% };
 
     %body%
+    `;
+
+    // fake context
+    this.context = `
+    {
+      world: '',
+      proto: '',
+      project_path: '',
+      webots_version: {major: 2022, revision: 0},
+      webots_home: '',
+      temporary_files_path: '',
+      os: 'linux',
+      id: 0,
+      coordinate_system: 'ENU'
+    }
     `;
 
     this.gOpeningToken = '%<';
@@ -85,7 +100,7 @@ export default class TemplateEngine {
     const jsBody = this.encodeProtoBodyForEval(body);
 
     // fill template
-    template = template.replace('%context%', '');
+    template = template.replace('%context%', this.context);
     template = template.replace('%fields%', fields);
     template = template.replace('%body%', jsBody);
 
