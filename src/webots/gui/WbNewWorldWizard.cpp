@@ -116,6 +116,11 @@ bool WbNewWorldWizard::validateWorldPage() {
     WbMessageBox::warning(tr("Please specify a world name."), this, tr("Invalid new world name"));
     return false;
   }
+  if (QFileInfo(mWorldEdit->text()).dir() != QDir()) {
+    // mWorldEdit->text() should not contain any directory
+    WbMessageBox::warning(tr("Please specify a world name and not a path."), this, tr("Invalid new world name"));
+    return false;
+  }
   return true;
 }
 
@@ -128,7 +133,7 @@ bool WbNewWorldWizard::validateCurrentPage() {
       path += ".wbt";
     if (QFile::exists(path)) {
       WbMessageBox::warning(tr("A world file with this name already exists, please choose a different name."), this,
-                            tr("Invalid world name"));
+                            tr("Invalid new world name"));
       return false;
     }
   }
