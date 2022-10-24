@@ -18,7 +18,7 @@ PROTO Panda [
   field  SFBool      supervisor         FALSE         # Is `Robot.supervisor`.
   field  SFBool      synchronization    TRUE          # Is `Robot.synchronization`.
   field  SFBool      selfCollision      FALSE         # Is `Robot.selfCollision`.
-  field  MFNode      endEffectorSlot    PandaHand { translation 0 1 0 }  # Defines the end effector.
+  field  MFNode      endEffectorSlot    PandaHand {}  # Defines the end effector.
 ]
 {
   Robot {

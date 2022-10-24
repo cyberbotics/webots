@@ -27,7 +27,13 @@ export default class ProtoManager {
       await this.proto.fetch();
       await this.proto.parseBody();
       this.loadX3d();
-      this.generateExposedParameterList();
+      // generate list of exposed parameters (that will be tied to interface elements)
+      console.log('EXPOSED PARAMETERS ARE:');
+      for (const [parameterName, parameter] of this.proto.parameters) {
+        console.log('> ', parameterName, parameter);
+        this.exposedParameters.set(parameterName, parameter); // TODO: change key to parameter id ?
+      }
+
       // test this using the world: DemoRegeneration.proto in the html
       // setTimeout(() => this.demoRegeneration(), 2000);
       // test this using the world: DemoFieldChange.proto in the html
@@ -39,14 +45,6 @@ export default class ProtoManager {
     const x3d = new XMLSerializer().serializeToString(this.proto.toX3d());
     this.#view.prefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);
     this.#view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', this.parentId);
-  }
-
-  generateExposedParameterList() {
-    console.log('EXPOSED PARAMETERS ARE:');
-    for (const [parameterName, parameter] of this.proto.parameters) {
-      console.log('> ', parameterName, parameter);
-      this.exposedParameters.set(parameterName, parameter); // TODO: change key to parameter id
-    }
   }
 
   async delay(time) {

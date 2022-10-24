@@ -1,4 +1,4 @@
-import {VRML} from './constants.js';
+import {VRML} from './Vrml.js';
 
 export default class Token {
   #column;

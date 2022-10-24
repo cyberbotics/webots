@@ -18,7 +18,6 @@ import os
 import re
 import json
 from pathlib import Path
-from functools import reduce
 
 # ensure WEBOTS_HOME is set
 if 'WEBOTS_HOME' in os.environ:
@@ -101,7 +100,8 @@ def encode_value(type, value):
 if __name__ == '__main__':
     files = list_files()
 
-    pattern = re.compile(r"^\s+(field|vrmlField|hiddenField|deprecatedField)\s+([a-zA-Z0-9]+)\s+([a-zA-Z0-9]+)\s+([^\n\#]+)", re.MULTILINE)
+    pattern = re.compile(r"^\s+(field|vrmlField|hiddenField|deprecatedField)"
+                         r"\s+([a-zA-Z0-9]+)\s+([a-zA-Z0-9]+)\s+([^\n\#]+)", re.MULTILINE)
 
     data = {}
     for file in files:
@@ -110,35 +110,35 @@ if __name__ == '__main__':
 
         data[nodeName] = {}
         with open(file, 'r') as f:
-          contents = f.read()
-          for (vrml_type, type, field_name, default_value) in re.findall(pattern, contents):
-              data[nodeName][field_name] = {}
-              data[nodeName][field_name]['type'] = 'VRML.' + type
-              data[nodeName][field_name]['defaultValue'] = encode_value(type, default_value)
+            contents = f.read()
+            for (vrml_type, type, field_name, default_value) in re.findall(pattern, contents):
+                data[nodeName][field_name] = {}
+                data[nodeName][field_name]['type'] = 'VRML.' + type
+                data[nodeName][field_name]['defaultValue'] = encode_value(type, default_value)
         # print(data)
 
     json_str = json.dumps(data, indent=2)
 
     replacements = {
-      '"VRML.SFBool"': "VRML.SFBool",
-      '"VRML.SFInt32"': 'VRML.SFInt32',
-      '"VRML.SFFloat"': 'VRML.SFFloat',
-      '"VRML.SFString"': 'VRML.SFString',
-      '"VRML.SFVec2f"': 'VRML.SFVec2f',
-      '"VRML.SFVec3f"': 'VRML.SFVec3f',
-      '"VRML.SFColor"': 'VRML.SFColor',
-      '"VRML.SFRotation"': 'VRML.SFRotation',
-      '"VRML.SFNode"': 'VRML.SFNode',
-      '"VRML.MFBool"': "VRML.MFBool",
-      '"VRML.MFInt32"': 'VRML.MFInt32',
-      '"VRML.MFFloat"': 'VRML.MFFloat',
-      '"VRML.MFString"': 'VRML.MFString',
-      '"VRML.MFVec2f"': 'VRML.MFVec2f',
-      '"VRML.MFVec3f"': 'VRML.MFVec3f',
-      '"VRML.MFColor"': 'VRML.MFColor',
-      '"VRML.MFRotation"': 'VRML.MFRotation',
-      '"VRML.MFNode"': 'VRML.MFNode',
-      '\"': '\''
+        '"VRML.SFBool"': "VRML.SFBool",
+        '"VRML.SFInt32"': 'VRML.SFInt32',
+        '"VRML.SFFloat"': 'VRML.SFFloat',
+        '"VRML.SFString"': 'VRML.SFString',
+        '"VRML.SFVec2f"': 'VRML.SFVec2f',
+        '"VRML.SFVec3f"': 'VRML.SFVec3f',
+        '"VRML.SFColor"': 'VRML.SFColor',
+        '"VRML.SFRotation"': 'VRML.SFRotation',
+        '"VRML.SFNode"': 'VRML.SFNode',
+        '"VRML.MFBool"': "VRML.MFBool",
+        '"VRML.MFInt32"': 'VRML.MFInt32',
+        '"VRML.MFFloat"': 'VRML.MFFloat',
+        '"VRML.MFString"': 'VRML.MFString',
+        '"VRML.MFVec2f"': 'VRML.MFVec2f',
+        '"VRML.MFVec3f"': 'VRML.MFVec3f',
+        '"VRML.MFColor"': 'VRML.MFColor',
+        '"VRML.MFRotation"': 'VRML.MFRotation',
+        '"VRML.MFNode"': 'VRML.MFNode',
+        '\"': '\''
     }
 
     for old, new in replacements.items():

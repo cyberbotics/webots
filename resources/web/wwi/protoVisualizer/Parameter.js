@@ -1,7 +1,7 @@
 'use strict';
 
 import {getAParameterId} from '../nodes/utils/id_provider.js';
-import { stringifyType } from './Vrml.js';
+import {stringifyType} from './Vrml.js';
 
 export default class Parameter {
   #id = getAParameterId();
@@ -10,8 +10,8 @@ export default class Parameter {
   #value;
   #defaultValue;
   #isTemplateRegenerator;
-  constructor(protoNode, name, type, defaultValue, value, isTemplateRegenerator) {
-    this.protoNode = protoNode; // node this parameter belongs to
+  constructor(node, name, type, defaultValue, value, isTemplateRegenerator) {
+    this.node = node; // node this parameter belongs to
     this.type = type;
     this.name = name;
     this.defaultValue = defaultValue;
@@ -95,4 +95,4 @@ export default class Parameter {
   }
 }
 
-export { Parameter };
+export {Parameter};
