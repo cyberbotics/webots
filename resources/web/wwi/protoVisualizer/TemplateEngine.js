@@ -32,7 +32,7 @@ export default class TemplateEngine {
     const expressionToken = this.gOpeningToken + '=';
 
     let jsBody = '';
-    while (1) {
+    while (true) {
       let indexOpeningToken = body.indexOf(this.gOpeningToken, indexClosingToken);
       if (indexOpeningToken === -1) { // no more matches
         if (indexClosingToken < body.length) {
@@ -53,10 +53,9 @@ export default class TemplateEngine {
         // what comes before the first opening token should be treated as plain vrml
         jsBody += '___vrml += render(`' + body.substr(0, indexOpeningToken) + '`);';
 
-      if (lastIndexClosingToken !== -1 && indexOpeningToken - lastIndexClosingToken > 0) {
+      if (lastIndexClosingToken !== -1 && indexOpeningToken - lastIndexClosingToken > 0)
         // what is between the previous closing token and the current opening token should be treated as plain vrml
         jsBody += '___vrml += render(`' + body.substr(lastIndexClosingToken, indexOpeningToken - lastIndexClosingToken) + '`);';
-      }
 
       // anything in-between the tokens is either an expression or plain JavaScript
       let statement = body.substr(indexOpeningToken, indexClosingToken - indexOpeningToken);
@@ -65,10 +64,8 @@ export default class TemplateEngine {
         statement = statement.replace(expressionToken, '').replace(this.gClosingToken, '');
         // note: ___tmp is a local variable to the generateVrml javascript function
         jsBody += '___tmp = ' + statement + '; ___vrml += eval(\'___tmp\');';
-      } else {
-        // raw javascript snippet, remove the tokens
+      } else // raw javascript snippet, remove the tokens
         jsBody += statement.replace(this.gOpeningToken, '').replace(this.gClosingToken, '');
-      }
 
       lastIndexClosingToken = indexClosingToken;
     }
