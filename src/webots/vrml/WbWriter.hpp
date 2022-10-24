@@ -71,9 +71,9 @@ public:
   void setRootNode(WbNode *node) { mRootNode = node; }
   WbNode *rootNode() const { return mRootNode; }
   void trackDeclaration(const QString &protoName, const QString &protoUrl) {
-    mTrackedDeclarations.append(QPair<QString, QString>(protoName, protoUrl));
+    mTrackedDeclarations.append(std::pair<QString, QString>(protoName, protoUrl));
   };
-  QList<QPair<QString, QString>> declarations() const { return mTrackedDeclarations; };
+  QList<std::pair<QString, QString>> declarations() const { return mTrackedDeclarations; };
 
   QMap<uint64_t, QString> &indexedFaceSetDefMap() { return mIndexedFaceSetDefMap; }
   WbWriter &operator<<(const QString &s);
@@ -106,7 +106,7 @@ private:
   WbVector3 mJointOffset;
   // variables used by 'convert root to basenode' writer
   WbNode *mRootNode;
-  QList<QPair<QString, QString>> mTrackedDeclarations;  // keep track of declarations that need to change level
+  QList<std::pair<QString, QString>> mTrackedDeclarations;  // keep track of declarations that need to change level
 };
 
 #endif

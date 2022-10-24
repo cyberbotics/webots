@@ -772,7 +772,7 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
       parentField->blockSignals(false);
 
     // declare PROTO nodes that have become visible at the world level
-    QPair<QString, QString> item;
+    std::pair<QString, QString> item;
     foreach (item, writer.declarations()) {
       const QString previousUrl(WbProtoManager::instance()->declareExternProto(item.first, item.second, false, false));
       if (!previousUrl.isEmpty())
