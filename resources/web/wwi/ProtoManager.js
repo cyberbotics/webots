@@ -37,7 +37,7 @@ export default class ProtoManager {
       // test this using the world: DemoRegeneration.proto in the html
       // setTimeout(() => this.demoRegeneration(), 2000);
       // test this using the world: DemoFieldChange.proto in the html
-      setTimeout(() => this.demoFieldChange(), 2000);
+      // setTimeout(() => this.demoFieldChange(), 2000);
     });
   }
 
@@ -74,12 +74,9 @@ export default class ProtoManager {
       this.#view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
 
       // set new value and await regeneration to be completed
-      await parameter.setValueFromJavaScript(newValue);
+      parameter.setValueFromJavaScript(newValue);
       const x3d = new XMLSerializer().serializeToString(proto.toX3d());
       this.#view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>');
-
-      // notify scene of the change
-      this.#view.x3dScene.render();
     }
   }
 
@@ -92,7 +89,7 @@ export default class ProtoManager {
 
     if (!parameter.isTemplateRegenerator) {
       // update the node structure (proto manager side)
-      await parameter.setValueFromJavaScript(newValue);
+      parameter.setValueFromJavaScript(newValue);
       // update the node structure (js side)
       for (const linkedParameter of parameter.parentNode.aliasLinks) {
         const id = linkedParameter.parentNode.id;
