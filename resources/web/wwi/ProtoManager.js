@@ -28,7 +28,10 @@ export default class ProtoManager {
       await this.proto.parseBody();
       this.loadX3d();
       this.generateExposedParameterList();
-      setTimeout(() => this.regenerateEntireProto(), 2000);
+      // test this using the world: DemoRegeneration.proto in the html
+      // setTimeout(() => this.demoRegeneration(), 2000);
+      // test this using the world: DemoFieldChange.proto in the html
+      setTimeout(() => this.demoFieldChange(), 2000);
     });
   }
 
@@ -41,7 +44,7 @@ export default class ProtoManager {
   generateExposedParameterList() {
     console.log('EXPOSED PARAMETERS ARE:');
     for (const [parameterName, parameter] of this.proto.parameters) {
-      console.log(parameterName, parameter);
+      console.log('> ', parameterName, parameter);
       this.exposedParameters.set(parameterName, parameter); // TODO: change key to parameter id
     }
   }
@@ -50,36 +53,56 @@ export default class ProtoManager {
     return new Promise(resolve => setTimeout(resolve, time));
   }
 
-  async regenerateEntireProto() {
+  async demoRegeneration() {
     const parameterName = 'flag'; // parameter to change
     const newValue = true; // new value to set
 
     // get reference to the parameter being changed
     const parameter = this.exposedParameters.get(parameterName);
 
-    let proto = parameter.node; // reference to the proto being affected
-    let baseNode = proto;
-    // note: only base-nodes write to x3d, so to know the ID of the node we need to delete, we need to navigate through the
-    // value of the proto (or multiple times if it's a derived PROTO)
-    while (baseNode.isProto)
-      baseNode = baseNode.value;
-
-    // id to delete
-    const id = baseNode.id;
-
+    const proto = parameter.node; // reference to the proto being affected
     // set value and trigger regeneration
-    await parameter.setValueFromJavaScript(newValue);
+    if (parameter.isTemplateRegenerator) {
+      let baseNode = proto;
+      // note: only base-nodes write to x3d, so to know the ID of the node we need to delete, we need to navigate through the
+      // value of the proto (or multiple times if it's a derived PROTO)
+      while (baseNode.isProto)
+        baseNode = baseNode.value;
 
-    // delete js side
-    this.#view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
+      // id to delete
+      const id = baseNode.id;
 
-    const rawX3d = proto.toX3d();
-    const x3d = new XMLSerializer().serializeToString(rawX3d);
-    console.log('load new x3d:', x3d);
-    this.#view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>');
+      // delete js side
+      this.#view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
 
-    // notify scene of the change
-    this.#view.x3dScene.render();
+      // set new value and await regeneration to be completed
+      await parameter.setValueFromJavaScript(newValue);
+      const x3d = new XMLSerializer().serializeToString(proto.toX3d());
+      this.#view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>');
+
+      // notify scene of the change
+      this.#view.x3dScene.render();
+    }
+  }
+
+  async demoFieldChange() {
+    const parameterName = 'color'; // parameter to change
+    const newValue = {r: 0, g: 0, b: 1}; // new value to set
+
+    // get reference to the parameter being changed
+    const parameter = this.exposedParameters.get(parameterName);
+
+    if (!parameter.isTemplateRegenerator) {
+      // update the node structure (proto manager side)
+      await parameter.setValueFromJavaScript(newValue);
+      // update the node structure (js side)
+      for (const linkedParameter of parameter.parentNode.aliasLinks) {
+        const id = linkedParameter.parentNode.id;
+        const action = {'id': id.replace('n', ''), baseColor: newValue.r + ' ' + newValue.g + ' ' + newValue.b};
+        this.#view.x3dScene.applyPose(action);
+        this.#view.x3dScene.render();
+      }
+    }
   }
 
   loadMinimalScene() {

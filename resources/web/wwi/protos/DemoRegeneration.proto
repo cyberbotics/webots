@@ -1,7 +1,7 @@
 #VRML_SIM R2023a utf8
 # template language: javascript
 
-PROTO TestRegeneration [
+PROTO DemoRegeneration [
   field SFBool flag FALSE
 ]
 {

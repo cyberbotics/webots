@@ -1,0 +1,19 @@
+#VRML_SIM R2023a utf8
+
+PROTO DemoRegeneration [
+  field SFColor color 1 0 0
+]
+{
+  Group {
+    children [
+      Shape {
+        appearance PBRAppearance {
+          baseColor IS color
+        }
+        geometry Sphere {
+          radius 0.5
+        }
+      }
+    ]
+  }
+}

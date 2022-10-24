@@ -12,7 +12,7 @@ export default class Node {
   static cProtoModels = new Map();
   static cBaseModels = new Map();
 
-  constructor(url, protoText) {
+  constructor(url, protoText, parent) {
     // IMPORTANT! When adding new member variables of type Map, modify the .clone method so that it creates a copy of it
     this.id = getAnId();
     this.value = undefined; // the value of a Node is itself (BaseNode) or its base-type (PROTO)
@@ -21,43 +21,12 @@ export default class Node {
     this.isProto = this.url.toLowerCase().endsWith('.proto');
 
     this.name = this.isProto ? this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '') : url;
-    console.log('CREATING ' + (this.isProto ? 'PROTO ' : 'BASENODE ') + this.name + ', id: ', this.id);
+    console.log('CREATING ' + (this.isProto ? 'PROTO ' : 'BASENODE ') + this.name + ', id: ', this.id, parent);
 
     this.parameters = new Map();
     this.externProto = new Map();
     this.def = new Map();
-
-    // example: to generate: <Shape castShadows="true"><PBRAppearance baseColor="1 0 0"/></Shape>
-    /*
-    const xml = document.implementation.createDocument('', '', null)
-    const shapeNode = xml.createElement('Shape');
-    shapeNode.setAttribute('castShadows', 'true')
-    const pbrNode = xml.createElement('PBRAppearance')
-    pbrNode.setAttribute('baseColor', '1 0 0');
-    shapeNode.appendChild(pbrNode)
-    xml.appendChild(shapeNode);
-    console.log(new XMLSerializer().serializeToString(xml))
-    */
-
-    // clone tester
-    /*
-    const a = new Node('Box');
-    const b = a.clone();
-    a.test = [3, 2, 1];
-    console.log(a, b)
-    throw new Error('stop')
-    */
-
-    /*
-    const defaultValue = vrmlFactory(VRML.SFNode);
-    defaultValue.setValueFromJavaScript(FieldModel['Shape']['geometry']['defaultValue']);
-    console.log('DEFAULT VALUE', defaultValue, defaultValue instanceof SFNode);
-    const value = defaultValue.clone();
-    console.log('VALUE', value, value instanceof SFNode);
-    const parameter = new Parameter(this, "whatever", defaultValue, value, false);
-    console.log('PARAMETER', parameter, parameter.value instanceof SFNode, parameter.clone())
-    throw new Error('stop');
-    */
+    this.aliasLinks = [];
 
     if (!this.isProto) {
       // create parameters from the pre-defined FieldModel
@@ -68,6 +37,7 @@ export default class Node {
         defaultValue.setValueFromJavaScript(FieldModel[this.name][parameterName]['defaultValue']);
         const value = defaultValue.clone();
         const parameter = new Parameter(this, parameterName, type, defaultValue, value, false);
+        parameter.parentNode = this;
         this.parameters.set(parameterName, parameter);
       }
 
@@ -166,6 +136,7 @@ export default class Node {
       if (typeof parameter !== 'undefined') {
         console.log('cloning parameter ' + parameterName + ' (type ' + parameter.type + ')');
         const parameterCopy = parameter.clone();
+        parameterCopy.parentNode = copy;
         // console.log('ORIG', parameter);
         // console.log('COPY', parameterCopy);
         copy.parameters.set(parameterName, parameterCopy);
@@ -208,6 +179,7 @@ export default class Node {
         const defaultValue = vrmlFactory(parameterType, headTokenizer);
         const value = defaultValue.clone();
         const parameter = new Parameter(this, parameterName, parameterType, defaultValue, value, isRegenerator);
+        parameter.parentNode = this;
         console.log(parameter);
         this.parameters.set(parameterName, parameter);
       }
@@ -252,9 +224,10 @@ export default class Node {
             if (!tokenizer.proto.parameters.has(alias))
               throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
 
+            tokenizer.proto.aliasLinks.push(parameter);
             parameter.value = tokenizer.proto.parameters.get(alias).value;
           } else
-            parameter.value.setValueFromTokenizer(tokenizer);
+            parameter.value.setValueFromTokenizer(tokenizer, this);
         }
       }
     }
@@ -287,7 +260,8 @@ export default class Node {
       nodeElement.setAttribute('id', this.id);
       // console.log('ENCODE ' + this.name)
       for (const [parameterName, parameter] of this.parameters) {
-        console.log('  ENCODE ' + parameterName + ', is default? ', parameter.isDefault());
+        console.log('  ENCODE PARAMETER ' + parameterName + ', is default? ', parameter.isDefault(),
+          ' parentNode: ', parameter.parentNode.id);
         if (typeof parameter.value === 'undefined')
           throw new Error('All parameters should be defined, ' + parameterName + ' is not.'); // TODO: SFNode may be undefined?
 
@@ -355,7 +329,7 @@ export default class Node {
       return null;
     }
 
-    // console.log('CREATE NODE ' + nodeName);
+    console.log('CREATE NODE ' + nodeName);
     let node;
     if (typeof FieldModel[nodeName] !== 'undefined') { // it's a base node
       if (!Node.cBaseModels.has(nodeName)) {

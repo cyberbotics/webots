@@ -10,13 +10,14 @@ export default class Parameter {
   #value;
   #defaultValue;
   #isTemplateRegenerator;
-  constructor(node, name, type, defaultValue, value, isTemplateRegenerator) {
-    this.node = node; // node this parameter belongs to
+  constructor(protoNode, name, type, defaultValue, value, isTemplateRegenerator) {
+    this.protoNode = protoNode; // node this parameter belongs to
     this.type = type;
     this.name = name;
     this.defaultValue = defaultValue;
     this.value = value;
     this.isTemplateRegenerator = isTemplateRegenerator;
+    this.parentNode = undefined;
   }
 
   get value() {
@@ -89,6 +90,7 @@ export default class Parameter {
   clone() {
     const copy = new Parameter(this.node, this.name, this.type, this.defaultValue.clone(), this.value.clone(),
       this.isTemplateRegenerator);
+    copy.parentNode = this.parentNode;
     return copy;
   }
 }
