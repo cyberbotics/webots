@@ -83,7 +83,7 @@ def encode_value(type, value):
         return None
     elif type.startswith('MF'):
         if clean_value == '[]' or clean_value == '[ ]':
-          return []
+            return []
         # if not empty
         if clean_value.startswith('['):
             clean_value = clean_value[1:-1]
