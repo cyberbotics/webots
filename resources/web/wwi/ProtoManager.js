@@ -28,7 +28,7 @@ export default class ProtoManager {
       this.proto.parseBody();
       this.loadX3d();
       this.generateExposedParameterList();
-      //setTimeout(() => this.updateParameter(), 3000);
+      setTimeout(() => this.updateParameter(), 3000);
     });
   }
 
@@ -56,7 +56,11 @@ export default class ProtoManager {
 
     const parameter = this.exposedParameters.get(parameterName);
 
-    const node = parameter.node.value;
+    let node = parameter.node;
+    while (node.isProto)
+    node = node.value;
+
+    const id = node.id;
 
     // set value and trigger regeneration
     parameter.setValueFromJavaScript(newValue);
@@ -65,12 +69,13 @@ export default class ProtoManager {
     await this.delay(2000);
 
     // delete
-    this.#view.x3dScene.processServerMessage(`delete: -16`);
+    this.#view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
     await this.delay(2000);
 
-    const x3d = new XMLSerializer().serializeToString(parameter.node.value.toX3d());
-    console.log('load new x3d:', node.x3d);
-    this.#view.x3dScene.loadObject('<nodes' + x3d + '</nodes>', -14);
+    const rawX3d = node.toX3d();
+    const x3d = new XMLSerializer().serializeToString(rawX3d);
+    console.log('load new x3d:', x3d);
+    this.#view.x3dScene.loadObject('<nodes' + x3d + '</nodes>');
 
     //console.log('BEFORE:', parameter.value.toJS());
     //parameter.setValueFromJavaScript(newValue);
