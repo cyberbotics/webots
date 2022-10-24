@@ -10,6 +10,7 @@ import WbCone from './nodes/WbCone.js';
 import WbCoordinate from './nodes/WbCoordinate.js';
 import WbCylinder from './nodes/WbCylinder.js';
 import WbElevationGrid from './nodes/WbElevationGrid.js';
+import WbFog from './nodes/WbFog.js';
 import WbGroup from './nodes/WbGroup.js';
 import WbImageTexture from './nodes/WbImageTexture.js';
 import WbIndexedFaceSet from './nodes/WbIndexedFaceSet.js';
@@ -291,7 +292,7 @@ export default class X3dScene {
         if (object instanceof WbSpotLight || WbDirectionalLight)
           object.direction = convertStringToVec3(pose[key]);
       } else if (key === 'color') {
-        if (object instanceof WbLight)
+        if (object instanceof WbLight || object instanceof WbFog)
           object.color = convertStringToVec3(pose[key]);
         else if (object instanceof WbColor)
           object.color = convertStringToVec3Array(pose[key]);
@@ -321,6 +322,11 @@ export default class X3dScene {
       } else if (key === 'location') {
         if (object instanceof WbSpotLight || object instanceof WbPointLight)
           object.location = convertStringToVec3(pose[key]);
+      } else if (object instanceof WbFog) {
+        if (key === 'visibilityRange')
+          object.visibilityRange = parseFloat(pose[key]);
+        else if (key === 'fogType')
+          object.fogType = pose[key];
       } else if (object instanceof WbSpotLight) {
         if (key === 'beamWidth')
           object.beamWidth = parseFloat(pose[key]);
