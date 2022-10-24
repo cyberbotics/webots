@@ -34,12 +34,13 @@ export function loadMeshData(prefix, url) {
       .then(text => {
         let regex = new RegExp('[A-Za-z0-9_-]+\\.mtl');
         let mtl = text.match(regex);
+        let mtlPath;
         if (mtl) {
           if (typeof prefix !== 'undefined' && !mtl[0].startsWith('http'))
             mtl[0] = url.substring(0, url.lastIndexOf('/') + 1) + mtl[0];
           urls.push(mtl[0]);
+          mtlPath = mtl[0].substring(0, mtl[0].lastIndexOf('/') + 1);
         }
-        let mtlPath = mtl[0].substring(0, mtl[0].lastIndexOf('/') + 1);
         return loadInAssimp(urls, mtlPath);
       });
   } else
