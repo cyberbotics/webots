@@ -50,7 +50,7 @@ QString WbNewProjectWizard::proposeNewProjectPath() const {
       if (WbFileUtil::isDirectoryWritable(path))
         path += +"/my_project";
       else
-        path = QString();  // no valid default path found
+        path = "";  // no valid default path found
     }
   } else {  // otherwise propose new project dir as sibling of current project
     QDir dir(WbProject::current()->path());
