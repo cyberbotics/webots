@@ -1469,8 +1469,8 @@ void WbMainWindow::saveWorldAs(bool skipSimulationHasRunWarning) {
   const QDir dir(fileName);
   if (dir.dirName() != "worlds")
     WbMessageBox::warning(
-      tr("The selected save directory for the world file is not named \"worlds\" and it is thus not located in a valid Webots "
-         "project.\nPlease note that some project-related functionalities may not work."),
+      tr("The selected directory for saving the world file is not named \"worlds\".\nThus it is not located in a valid Webots "
+         "project.\nAs a consequence, some project-related functionalities may not work."),
       this, tr("Save World File"));
 
   if (!fileName.endsWith(".wbt", Qt::CaseInsensitive))
