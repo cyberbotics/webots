@@ -324,7 +324,6 @@ void WbTrack::updateTextureTransform() {
     mTextureTransform = mShape->abstractAppearance()->textureTransform();
     if (mTextureTransform) {
       mSavedTextureTransformTranslations[stateId()] = mTextureTransform->translation();
-      mTextureTransform->enableX3DTranslationUpdate(true);
       QList<WbNode *> useNodesList = WbNodeUtilities::findUseNodeAncestors(mTextureTransform);
       if (!useNodesList.isEmpty()) {
         mTextureTransform->parsingWarn(tr("Non-admissible TextureTransform USE node inside Track node."

@@ -1,4 +1,5 @@
-import Parser, {convertStringToVec3, convertStringToQuaternion, convertStringToFloatArray} from './Parser.js';
+import Parser, {convertStringToVec3, convertStringToQuaternion, convertStringToFloatArray,
+  convertStringToVec2} from './Parser.js';
 import {webots} from './webots.js';
 import WrenRenderer from './WrenRenderer.js';
 
@@ -222,9 +223,8 @@ export default class X3dScene {
         continue;
 
       if (key === 'translation') {
-        const translation = convertStringToVec3(pose[key]);
-
         if (object instanceof WbTransform) {
+          const translation = convertStringToVec3(pose[key]);
           if (typeof WbWorld.instance.viewpoint.followedId !== 'undefined' &&
             WbWorld.instance.viewpoint.followedId === object.id)
             WbWorld.instance.viewpoint.setFollowedObjectDeltaPosition(translation, object.translation);
@@ -232,32 +232,31 @@ export default class X3dScene {
           object.translation = translation;
           if (WbWorld.instance.readyForUpdates)
             object.applyTranslationToWren();
-        } else if (object instanceof WbTextureTransform) {
-          object.translation = translation;
-          if (WbWorld.instance.readyForUpdates) {
-            let appearance = WbWorld.instance.nodes.get(object.parent);
-            if (typeof appearance !== 'undefined') {
-              let shape = WbWorld.instance.nodes.get(appearance.parent);
-              if (typeof shape !== 'undefined')
-                shape.updateAppearance();
-            }
-          }
-        }
+        } else if (object instanceof WbTextureTransform)
+          object.translation = convertStringToVec2(pose[key]);
       } else if (key === 'rotation') {
-        const quaternion = convertStringToQuaternion(pose[key]);
-        if (object instanceof WbTrackWheel)
-          object.updateRotation(quaternion);
+        if (object instanceof WbTextureTransform)
+          object.rotation = parseFloat(pose[key]);
         else {
-          object.rotation = quaternion;
-          if (WbWorld.instance.readyForUpdates)
-            object.applyRotationToWren();
+          const quaternion = convertStringToQuaternion(pose[key]);
+          if (object instanceof WbTrackWheel)
+            object.updateRotation(quaternion);
+          else {
+            object.rotation = quaternion;
+            if (WbWorld.instance.readyForUpdates)
+              object.applyRotationToWren();
+          }
         }
       } else if (key === 'scale') {
         if (object instanceof WbTransform) {
           object.scale = convertStringToVec3(pose[key]);
           if (WbWorld.instance.readyForUpdates)
             object.applyScaleToWren();
-        }
+        } else if (object instanceof WbTextureTransform)
+          object.scale = convertStringToVec2(pose[key]);
+      } else if (key === 'center') {
+        if (object instanceof WbTextureTransform)
+          object.center = convertStringToVec2(pose[key]);
       } else if (key === 'size') {
         if (object instanceof WbBox || object instanceof WbPlane)
           object.size = convertStringToVec3(pose[key]);
