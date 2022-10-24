@@ -285,11 +285,11 @@ export class SFRotation extends SingleValue {
 }
 
 export class SFNode extends SingleValue {
-  async setValueFromTokenizer(tokenizer) {
+  setValueFromTokenizer(tokenizer) {
     if (tokenizer.peekWord() === 'USE')
       this.isUse = true;
 
-    this.value = await Node.createNode(tokenizer);
+    this.value = Node.createNode(tokenizer);
   }
 
   setValueFromJavaScript(value) {

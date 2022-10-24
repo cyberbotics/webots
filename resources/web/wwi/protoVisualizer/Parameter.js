@@ -74,10 +74,10 @@ export default class Parameter {
     this.#isTemplateRegenerator = value;
   }
 
-  async setValueFromJavaScript(v) {
+  setValueFromJavaScript(v) {
     this.value.setValueFromJavaScript(v);
     if (this.isTemplateRegenerator)
-      await this.node.parseBody(true);
+      this.node.parseBody(true);
   }
 
   isDefault() {

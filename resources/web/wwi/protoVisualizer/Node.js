@@ -46,7 +46,7 @@ export default class Node {
     // for PROTO only
     this.isTemplate = protoText.search('template language: javascript') !== -1;
     if (this.isTemplate) {
-      console.log('PROTO is a template!');
+      // console.log('PROTO is a template!');
       this.templateEngine = new TemplateEngine();
     }
 
@@ -183,12 +183,12 @@ export default class Node {
     }
   };
 
-  async parseBody(isRegenerating = false) {
+  parseBody(isRegenerating = false) {
     // console.log('PARSE BODY OF ' + this.name);
     this.clearReferences();
     // note: if not a template, the body is already pure VRML
     if (this.isTemplate)
-      await this.regenerateBodyVrml(); // overwrites this.protoBody with a purely VRML compliant body
+      this.regenerateBodyVrml(); // overwrites this.protoBody with a purely VRML compliant body
 
     // tokenize body
     const tokenizer = new Tokenizer(this.protoBody, this);
@@ -197,7 +197,7 @@ export default class Node {
     // skip bracket opening the PROTO body
     tokenizer.skipToken('{');
 
-    this.value = await Node.createNode(tokenizer);
+    this.value = Node.createNode(tokenizer);
     // console.log('STRUCT', this.value);
 
     tokenizer.skipToken('}');
@@ -288,14 +288,14 @@ export default class Node {
     return `{node_name: '${this.name}', fields: {${jsFields.slice(0, -2)}}}`;
   }
 
-  async regenerateBodyVrml() {
+  regenerateBodyVrml() {
     const fieldsEncoding = this.toJS(true); // make current proto parameters in a format compliant to template engine
     // console.log(fieldsEncoding);
 
     if (typeof this.templateEngine === 'undefined')
       throw new Error('Regeneration was called but the template engine is not defined (i.e this.isTemplate is false)');
 
-    this.protoBody = await this.templateEngine.generateVrml(fieldsEncoding, this.rawBody);
+    this.protoBody = this.templateEngine.generateVrml(fieldsEncoding, this.rawBody);
     // console.log('Regenerated Proto Body:\n' + this.protoBody);
   };
 
@@ -303,7 +303,7 @@ export default class Node {
     // TODO
   };
 
-  static async createNode(tokenizer) {
+  static createNode(tokenizer) {
     let defName;
     if (tokenizer.peekWord() === 'DEF') {
       tokenizer.skipToken('DEF');
@@ -354,7 +354,7 @@ export default class Node {
 
     node.configureNodeFromTokenizer(tokenizer);
     if (node.isProto)
-      await node.parseBody();
+      node.parseBody();
 
     return node;
   }

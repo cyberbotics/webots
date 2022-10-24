@@ -26,7 +26,7 @@ export default class TemplateEngine {
     this.gClosingToken = '>%';
   };
 
-  parseBody(body) {
+  encodeProtoBodyForEval(body) {
     let indexClosingToken = 0;
     let lastIndexClosingToken = -1;
     const expressionToken = this.gOpeningToken + '=';
@@ -83,16 +83,16 @@ export default class TemplateEngine {
     return jsBody;
   };
 
-  async generateVrml(fields, body) {
+  generateVrml(fields, body) {
     let template = this.minimalTemplate;
-    const jsBody = await this.parseBody(body);
+    const jsBody = this.encodeProtoBodyForEval(body);
 
     // fill template
     template = template.replace('%context%', '');
     template = template.replace('%fields%', fields);
     template = template.replace('%body%', jsBody);
 
-    console.log('Filled template:\n' + template);
+    // console.log('Filled template:\n' + template);
     return eval(template);
   };
 }
