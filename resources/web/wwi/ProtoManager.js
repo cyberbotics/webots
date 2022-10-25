@@ -24,7 +24,7 @@ export default class ProtoManager {
     }).then(async text => {
       console.log('Load PROTO from URL: ' + url);
       this.proto = new Node(url, text);
-      await this.proto.fetch();
+      await this.proto.generateInterface();
       this.proto.parseBody();
       this.loadX3d();
       // generate list of exposed parameters (that will be tied to interface elements)

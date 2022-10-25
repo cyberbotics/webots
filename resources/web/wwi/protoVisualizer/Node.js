@@ -110,13 +110,13 @@ export default class Node {
   async createPrototype(protoText, protoUrl) {
     if (!Node.cProtoModels.has(protoUrl)) {
       const proto = new Node(protoUrl, protoText);
-      await proto.generatePrototype();
+      await proto.generateInterface();
       // console.log('adding proto model: ', protoUrl);
       Node.cProtoModels.set(protoUrl, proto);
     }
   }
 
-  async generatePrototype() {
+  async generateInterface() {
     return Promise.all(this.promises).then(async() => {
       // parse header and map each parameter entry
       // console.log(this.name + ': all EXTERNPROTO promises have been resolved');
