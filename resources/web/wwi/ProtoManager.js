@@ -103,30 +103,35 @@ export default class ProtoManager {
       return ' '.repeat(depth);
     }
 
-    function listExternProto(node, list) {
+    function listExternProto(node) {
+      const list = [node.url]; // the base-type must always be declared
       for (const parameter of node.parameters.values()) {
-        if (parameter.value instanceof SFNode && parameter.value.value !== null) {
-          if (parameter.value.value.isProto && !list.includes(parameter.value.value.url))
+        const currentValue = parameter.value;
+        if (currentValue instanceof SFNode && currentValue.value !== null) {
+          if (currentValue.value.isProto && !list.includes(currentValue.value.url))
             list.push(parameter.value.value.url);
         }
 
-        if (parameter.value instanceof MFNode && parameter.value.value.length > 0) {
-          for (const item of parameter.value.value) {
+        if (parameter.value instanceof MFNode && currentValue.value.length > 0) {
+          for (const item of currentValue.value) {
             if (item.value.isProto && !list.includes(item.value.url))
               list.push(item.value.url);
           }
         }
       }
+
+      return list;
     }
 
-    let externProto = [this.proto.url];
-    listExternProto(this.proto, externProto);
-
+    // write PROTO contents
     let s = '';
     s += '#VRML_SIM R2023a utf8\n';
     s += '\n';
+
+    const externProto = listExternProto(this.proto);
     for (const item in externProto)
       s += `EXTERNPROTO "${item}"\n`;
+
     s += '\n';
     s += 'PROTO CustomProto [\n';
 
