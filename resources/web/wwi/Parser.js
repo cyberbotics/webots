@@ -274,7 +274,7 @@ export default class Parser {
         break;
       case 'Physics':
       case 'ImmersionProperties':
-        console.warn('Skipping unsupported node: ' + node.tagName)
+        // skip those nodes as they are not needed for web representation.
         break;
       default:
         // Either it is a node added after the whole scene, or it is an unknown node, or a geometry bounding object
