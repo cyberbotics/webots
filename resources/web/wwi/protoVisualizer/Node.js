@@ -288,6 +288,18 @@ export default class Node {
     return `{node_name: '${this.name}', fields: {${jsFields.slice(0, -2)}}}`;
   }
 
+  toVrml() {
+    let vrml = '';
+    vrml += `${this.name}{`;
+    for (const [parameterName, parameter] of this.parameters) {
+      if (!parameter.isDefault())
+        vrml += `${parameterName} ${parameter.toVrml()}`;
+    }
+    vrml += '}\n';
+
+    return vrml.slice(0, -1);
+  }
+
   regenerateBodyVrml() {
     const fieldsEncoding = this.toJS(true); // make current proto parameters in a format compliant to template engine
     // console.log(fieldsEncoding);

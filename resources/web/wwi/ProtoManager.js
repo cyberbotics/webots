@@ -1,4 +1,5 @@
 import Node from './protoVisualizer/Node.js';
+import {MFNode, SFNode, stringifyType} from './protoVisualizer/Vrml.js';
 
 import {getAnId} from './nodes/utils/id_provider.js';
 
@@ -38,6 +39,7 @@ export default class ProtoManager {
       // setTimeout(() => this.demoRegeneration(), 2000);
       // test this using the world: DemoFieldChange.proto in the html
       // setTimeout(() => this.demoFieldChange(), 2000);
+      setTimeout(() => this.exportProto(), 5000);
     });
   }
 
@@ -94,6 +96,54 @@ export default class ProtoManager {
         this.#view.x3dScene.render();
       }
     }
+  }
+
+  exportProto() {
+    function indent(depth) {
+      return ' '.repeat(depth);
+    }
+
+    function listExternProto(node, list) {
+      for (const parameter of node.parameters.values()) {
+        if (parameter.value instanceof SFNode && parameter.value.value !== null) {
+          if (parameter.value.value.isProto && !list.includes(parameter.value.value.url))
+            list.push(parameter.value.value.url);
+        }
+
+        if (parameter.value instanceof MFNode && parameter.value.value.length > 0) {
+          for (const item of parameter.value.value) {
+            if (item.value.isProto && !list.includes(item.value.url))
+              list.push(item.value.url);
+          }
+        }
+      }
+    }
+
+    let externProto = [this.proto.url];
+    listExternProto(this.proto, externProto);
+
+    let s = '';
+    s += '#VRML_SIM R2023a utf8\n';
+    s += '\n';
+    for (const item in externProto)
+      s += `EXTERNPROTO "${item}"\n`;
+    s += '\n';
+    s += 'PROTO CustomProto [\n';
+
+    for (const parameter of this.proto.parameters.values())
+      s += `${indent(2)}field ${stringifyType(parameter.type)} ${parameter.name} ${parameter.value.toVrml()}\n`;
+
+    s += ']\n';
+    s += '{\n';
+
+    s += `${indent(2)}${this.proto.name} {\n`;
+    for (const parameter of this.proto.parameters.values())
+      s += `${indent(4)}${parameter.name} IS ${parameter.name}\n`;
+    s += `${indent(2)}}\n`;
+    s += '}\n';
+
+    console.log(s);
+    return s;
   }
 
   loadMinimalScene() {
