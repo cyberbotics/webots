@@ -1,10 +1,8 @@
 'use strict';
 
-import {getAParameterId} from '../nodes/utils/id_provider.js';
 import {stringifyType} from './Vrml.js';
 
 export default class Parameter {
-  #id = getAParameterId();
   #type;
   #name;
   #value;
@@ -42,14 +40,6 @@ export default class Parameter {
     this.#defaultValue = v;
   }
 
-  get id() {
-    return this.#id;
-  }
-
-  set id(value) {
-    this.#id = value;
-  }
-
   get type() {
     return this.#type;
   }
@@ -75,7 +65,7 @@ export default class Parameter {
   }
 
   setValueFromJavaScript(v) {
-    this.value.setValueFromJavaScript(v);
+    this.#value.setValueFromJavaScript(v);
     if (this.isTemplateRegenerator)
       this.node.parseBody(true);
   }

@@ -14,7 +14,7 @@ export default class Node {
   constructor(url, protoText, parent) {
     // IMPORTANT! When adding new member variables of type Map, modify the .clone method so that it creates a copy of it
     this.id = getAnId();
-    this.value = undefined; // the value of a Node is itself (if it's a BaseNode) or its base-type (if it's a derived PROTO)
+    this.baseType = undefined; // may correspond to a base-node or another PROTO if it's a derived PROTO
 
     this.url = url;
     this.isProto = this.url.toLowerCase().endsWith('.proto');
@@ -110,13 +110,13 @@ export default class Node {
   async createPrototype(protoText, protoUrl) {
     if (!Node.cProtoModels.has(protoUrl)) {
       const proto = new Node(protoUrl, protoText);
-      await proto.fetch();
+      await proto.generatePrototype();
       // console.log('adding proto model: ', protoUrl);
       Node.cProtoModels.set(protoUrl, proto);
     }
   }
 
-  async fetch() {
+  async generatePrototype() {
     return Promise.all(this.promises).then(async() => {
       // parse header and map each parameter entry
       // console.log(this.name + ': all EXTERNPROTO promises have been resolved');
@@ -197,8 +197,8 @@ export default class Node {
     // skip bracket opening the PROTO body
     tokenizer.skipToken('{');
 
-    this.value = Node.createNode(tokenizer);
-    // console.log('STRUCT', this.value);
+    this.baseType = Node.createNode(tokenizer);
+    // console.log('STRUCT', this.baseType);
 
     tokenizer.skipToken('}');
   };
@@ -236,10 +236,10 @@ export default class Node {
     this.xml = document.implementation.createDocument('', '', null);
 
     // console.log('ENCODE NODE ' + this.name + ', isUse? ', isUse, ' parameterReference ?', parameterReference);
-    // if this node has a value (i.e. this.value is defined) then it means we have not yet reached the bottom as only
+    // if this node has a value (i.e. this.baseType is defined) then it means we have not yet reached the bottom as only
     // base-nodes should write x3d. If it has a value, then it means the current node is a derived PROTO.
-    if (typeof this.value !== 'undefined')
-      return this.value.toX3d();
+    if (typeof this.baseType !== 'undefined')
+      return this.baseType.toX3d();
 
     const nodeElement = this.xml.createElement(this.name);
     if (isUse) {
