@@ -220,10 +220,15 @@ export default class Tokenizer {
   }
 
   consumeTokensByType(type) {
-    if (['IS', 'USE', 'DEF'].includes(this.peekWord())) {
+    if (['IS', 'USE'].includes(this.peekWord())) {
       this.nextToken(); // consume keyword
       this.nextToken(); // consume value
       return;
+    }
+
+    if (this.peekWord() === 'DEF') {
+      this.skipToken('DEF');
+      this.nextToken();
     }
 
     switch (type) {
