@@ -100,7 +100,6 @@ export default class WbMesh extends WbTriangleMeshGeometry {
     let indexOffset = 0;
     while (queue.length !== 0) {
       node = queue.shift();
-
       // compute absolute transform of this node from all the parents
       let transform = new WbMatrix4();
       let current = node;

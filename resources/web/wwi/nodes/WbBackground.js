@@ -220,8 +220,7 @@ export default class WbBackground extends WbBaseNode {
     WbWorld.instance.nodes.forEach((value, key, map) => {
       if (value instanceof WbPbrAppearance && typeof value.parent !== 'undefined') {
         const parent = WbWorld.instance.nodes.get(value.parent);
-        if (typeof parent !== 'undefined')
-          parent.applyMaterialToGeometry();
+        parent?.applyMaterialToGeometry();
       }
     });
   }

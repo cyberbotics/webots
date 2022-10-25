@@ -288,13 +288,11 @@ export default class Parser {
         if (typeof result !== 'undefined' && result instanceof WbGeometry) {
           if (typeof parentNode !== 'undefined') {
             if (parentNode instanceof WbShape) {
-              if (typeof parentNode.geometry !== 'undefined')
-                parentNode.geometry.delete();
+              parentNode.geometry?.delete();
               parentNode.geometry = result;
             } else if (parentNode instanceof WbSolid || parentNode instanceof WbTransform || parentNode instanceof WbGroup) {
               // Bounding object
-              if (typeof parentNode.boundingObject !== 'undefined')
-                parentNode.boundingObject.delete();
+              parentNode.boundingObject?.delete();
               const shape = new WbShape(getAnId(), false, false, result);
               shape.parent = parentNode.id;
               WbWorld.instance.nodes.set(shape.id, shape);
@@ -307,15 +305,13 @@ export default class Parser {
           }
         } else if (node.tagName === 'PBRAppearance') {
           if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
-            if (typeof parentNode.appearance !== 'undefined')
-              parentNode.appearance.delete();
+            parentNode.appearance?.delete();
             result = this.#parsePbrAppearance(node, id);
             parentNode.appearance = result;
           }
         } else if (node.tagName === 'Appearance') {
           if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
-            if (typeof parentNode.appearance !== 'undefined')
-              parentNode.appearance.delete();
+            parentNode.appearance?.delete();
             result = this.#parseAppearance(node, id);
             parentNode.appearance = result;
           }
@@ -323,8 +319,7 @@ export default class Parser {
           result = this.#parseMaterial(node, id);
           if (typeof result !== 'undefined') {
             if (typeof parentNode !== 'undefined' && parentNode instanceof WbAppearance) {
-              if (typeof parentNode.material !== 'undefined')
-                parentNode.material.delete();
+              parentNode.material?.delete();
               parentNode.material = result;
             }
           }
@@ -332,8 +327,7 @@ export default class Parser {
           result = this.#parseImageTexture(node, id);
           if (typeof result !== 'undefined') {
             if (typeof parentNode !== 'undefined' && parentNode instanceof WbAppearance) {
-              if (typeof parentNode.material !== 'undefined')
-                parentNode.texture.delete();
+              parentNode.texture?.delete();
               parentNode.texture = result;
             }
           }
@@ -341,8 +335,7 @@ export default class Parser {
           result = this.#parseTextureTransform(node, id);
           if (typeof result !== 'undefined') {
             if (typeof parentNode !== 'undefined' && parentNode instanceof WbAbstractAppearance) {
-              if (typeof parentNode.textureTransform !== 'undefined')
-                parentNode.textureTransform.delete();
+              parentNode.textureTransform?.delete();
               parentNode.textureTransform = result;
             }
           }

@@ -96,11 +96,9 @@ export default class X3dScene {
     if (typeof WbWorld.instance === 'undefined')
       return;
 
-    if (typeof WbWorld.instance.scene !== 'undefined')
-      WbWorld.instance.scene.updateFrameBuffer();
+    WbWorld.instance?.scene.updateFrameBuffer();
 
-    if (typeof WbWorld.instance.viewpoint !== 'undefined')
-      WbWorld.instance.viewpoint.updatePostProcessingEffects();
+    WbWorld.instance?.viewpoint.updatePostProcessingEffects();
 
     this.render();
   }
@@ -110,8 +108,7 @@ export default class X3dScene {
       typeof document.getElementsByTagName('webots-view')[0].toolbar !== 'undefined') {
       const toolbar = document.getElementsByTagName('webots-view')[0].toolbar;
       toolbar.removeRobotWindows();
-      if (typeof toolbar.terminal !== 'undefined')
-        toolbar.terminal.clear();
+      toolbar?.terminal.clear();
     }
 
     if (typeof WbWorld.instance !== 'undefined') {
@@ -121,11 +118,9 @@ export default class X3dScene {
         --index;
       }
 
-      if (typeof WbWorld.instance.viewpoint !== 'undefined')
-        WbWorld.instance.viewpoint.delete();
+      WbWorld.instance?.viewpoint.delete();
 
-      if (typeof WbWorld.instance.scene !== 'undefined')
-        WbWorld.instance.scene.destroy();
+      WbWorld.instance?.scene.destroy();
 
       WbWorld.instance = undefined;
     }
@@ -440,8 +435,8 @@ export default class X3dScene {
           for (let i = 0; i < frame.labels.length; i++)
             this.applyLabel(frame.labels[i], view);
         }
-        if (typeof WbWorld.instance !== 'undefined' && typeof WbWorld.instance.viewpoint !== 'undefined')
-          WbWorld.instance.viewpoint.updateFollowUp(view.time);
+
+        WbWorld?.instance.viewpoint.updateFollowUp(view.time);
         this.render();
       } else { // parse the labels even so the scene loading is not completed
         data = data.substring(data.indexOf(':') + 1);

@@ -129,8 +129,7 @@ export default class WebotsView extends HTMLElement {
   }
 
   resize() {
-    if (typeof this.#view !== 'undefined')
-      this.#view.onresize();
+    this.#view?.onresize();
   }
 
   setWebotsMessageCallback(callback) {
@@ -221,18 +220,15 @@ export default class WebotsView extends HTMLElement {
   }
 
   setCustomWindowTitle(title) {
-    if (typeof this.toolbar !== 'undefined' && typeof this.toolbar.customWindow !== 'undefined')
-      this.toolbar.customWindow.setTitle(title);
+    this?.toolbar.customWindow.setTitle(title);
   }
 
   setCustomWindowTooltip(tooltip) {
-    if (typeof this.toolbar !== 'undefined' && typeof this.toolbar.customWindow !== 'undefined')
-      this.toolbar.customWindow.setTooltip(tooltip);
+    this?.toolbar.customWindow.setTooltip(tooltip);
   }
 
   setCustomWindowContent(content) {
-    if (typeof this.toolbar !== 'undefined' && typeof this.toolbar.customWindow !== 'undefined')
-      this.toolbar.customWindow.setContent(content);
+    this?.toolbar.customWindow.setContent(content);
   }
 
   #closeAnimation() {
@@ -322,13 +318,11 @@ export default class WebotsView extends HTMLElement {
   }
 
   hideToolbar() {
-    if (typeof this.toolbar !== 'undefined')
-      this.toolbar.hideToolbar(true);
+    this?.toolbar.hideToolbar(true);
   }
 
   showToolbar() {
-    if (typeof this.toolbar !== 'undefined')
-      this.toolbar.showToolbar(true);
+    this?.toolbar.showToolbar(true);
   }
 
   sendMessage(message) {

@@ -22,8 +22,7 @@ export default class WbAbstractAppearance extends WbBaseNode {
 
   createWrenObjects() {
     super.createWrenObjects();
-    if (typeof this.#textureTransform !== 'undefined')
-      this.#textureTransform.createWrenObjects();
+    this.#textureTransform?.createWrenObjects();
   }
 
   delete() {
@@ -36,23 +35,20 @@ export default class WbAbstractAppearance extends WbBaseNode {
       }
     }
 
-    if (typeof this.#textureTransform !== 'undefined')
-      this.#textureTransform.delete();
+    this.#textureTransform?.delete();
 
     super.delete();
   }
 
   preFinalize() {
     super.preFinalize();
-    if (typeof this.#textureTransform !== 'undefined')
-      this.#textureTransform.preFinalize();
+    this.#textureTransform?.preFinalize();
   }
 
   postFinalize() {
     super.postFinalize();
 
-    if (typeof this.#textureTransform !== 'undefined')
-      this.#textureTransform.postFinalize();
+    this.#textureTransform?.postFinalize();
   }
 
   #update() {

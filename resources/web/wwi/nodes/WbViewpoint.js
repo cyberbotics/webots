@@ -78,17 +78,10 @@ export default class WbViewpoint extends WbBaseNode {
   }
 
   delete() {
-    if (typeof this.#wrenSmaa !== 'undefined')
-      this.#wrenSmaa.delete();
-
-    if (typeof this.#wrenHdr !== 'undefined')
-      this.#wrenHdr.delete();
-
-    if (typeof this.#wrenGtao !== 'undefined')
-      this.#wrenGtao.delete();
-
-    if (typeof this.#wrenBloom !== 'undefined')
-      this.#wrenBloom.delete();
+    this.#wrenSmaa?.delete();
+    this.#wrenHdr?.delete();
+    this.#wrenGtao?.delete();
+    this.#wrenBloom?.delete();
   }
 
   preFinalize() {
@@ -253,8 +246,7 @@ export default class WbViewpoint extends WbBaseNode {
 
     WbWorld.instance.billboards.forEach(id => {
       let billboard = WbWorld.instance.nodes.get(id);
-      if (typeof billboard !== 'undefined')
-        billboard.updatePosition();
+      billboard?.updatePosition();
     });
   }
 

@@ -58,8 +58,8 @@ export default class WbShape extends WbBaseNode {
 
   createWrenObjects() {
     super.createWrenObjects();
-    if (typeof this.appearance !== 'undefined')
-      this.appearance.createWrenObjects();
+
+    this.appearance?.createWrenObjects();
 
     if (typeof this.geometry !== 'undefined') {
       this.geometry.createWrenObjects();
@@ -91,11 +91,8 @@ export default class WbShape extends WbBaseNode {
       this.wrenMaterial = undefined;
     }
 
-    if (typeof this.appearance !== 'undefined')
-      this.appearance.delete();
-
-    if (typeof this.geometry !== 'undefined')
-      this.geometry.delete();
+    this.appearance?.delete();
+    this.geometry?.delete();
 
     super.delete();
   }
@@ -106,24 +103,21 @@ export default class WbShape extends WbBaseNode {
   }
 
   updateBoundingObjectVisibility() {
-    if (typeof this.geometry !== 'undefined')
-      this.geometry.updateBoundingObjectVisibility();
+    this.geometry?.updateBoundingObjectVisibility();
   }
 
   updateCastShadows() {
     if (this.isInBoundingObject())
       return;
 
-    if (typeof this.geometry !== 'undefined')
-      this.geometry.computeCastShadows(this.castShadow);
+    this.geometry?.computeCastShadows(this.castShadow);
   }
 
   updateIsPickable() {
     if (this.isInBoundingObject())
       return;
 
-    if (typeof this.geometry !== 'undefined')
-      this.geometry.setPickable(this.isPickable);
+    this.geometry?.setPickable(this.isPickable);
   }
 
   updateGeometryMaterial() {
@@ -134,11 +128,8 @@ export default class WbShape extends WbBaseNode {
   preFinalize() {
     super.preFinalize();
 
-    if (typeof this.appearance !== 'undefined')
-      this.appearance.preFinalize();
-
-    if (typeof this.geometry !== 'undefined')
-      this.geometry.preFinalize();
+    this.appearance?.preFinalize();
+    this.geometry?.preFinalize();
 
     this.updateAppearance();
   }
@@ -146,11 +137,9 @@ export default class WbShape extends WbBaseNode {
   postFinalize() {
     super.postFinalize();
 
-    if (typeof this.appearance !== 'undefined')
-      this.appearance.postFinalize();
+    this.appearance?.postFinalize();
+    this.geometry?.postFinalize();
 
-    if (typeof this.geometry !== 'undefined')
-      this.geometry.postFinalize();
     if (!this.isInBoundingObject()) {
       this.updateCastShadows();
       this.updateIsPickable();
