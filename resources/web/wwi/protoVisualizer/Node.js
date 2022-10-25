@@ -51,7 +51,7 @@ export default class Node {
     }
 
     // change all relative paths to remote ones
-    const re = /"(?:[^"]*)\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3)"/g;
+    const re = /"(?:[^"]*)\.(jpe?g|png|hdr|obj|stl|dae)"/g;
     let result;
     while ((result = re.exec(protoText)) !== null)
       protoText = protoText.replace(result[0], '"' + combinePaths(result[0].slice(1, -1), this.url) + '"');
