@@ -47,10 +47,6 @@ export default class ProtoManager {
     this.#view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', this.parentId);
   }
 
-  async delay(time) {
-    return new Promise(resolve => setTimeout(resolve, time));
-  }
-
   async demoRegeneration() {
     const parameterName = 'flag'; // parameter to change
     const newValue = true; // new value to set
