@@ -159,10 +159,7 @@ export default class WbCapsule extends WbGeometry {
   }
 
   #isSuitableForInsertionInBoundingObject() {
-    const invalidRadius = this.#radius <= 0.0;
-    const invalidHeight = this.#height <= 0.0;
-
-    return (!invalidRadius && !invalidHeight);
+    return (!this.#radius <= 0.0 && !this.#height <= 0.0);
   }
 
   _isAValidBoundingObject() {
