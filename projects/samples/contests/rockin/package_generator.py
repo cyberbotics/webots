@@ -20,11 +20,11 @@ import zipfile
 
 # simple files to zip
 files_to_zip = ['version.txt', 'change_log.txt'] + \
-    glob.glob('worlds' + os.sep + '*.wbt') + \
-    glob.glob('worlds' + os.sep + '.*.wbproj') + \
-    glob.glob('worlds' + os.sep + 'textures' + os.sep + '*.png') + \
-    glob.glob('protos' + os.sep + '*.proto') + \
-    glob.glob('protos' + os.sep + 'textures' + os.sep + '*.png')
+    glob.glob(os.path.join('worlds', '*.wbt')) + \
+    glob.glob(os.path.join('worlds', '.*.wbproj')) + \
+    glob.glob(os.path.join('worlds', 'textures', '*.png')) + \
+    glob.glob(os.path.join('protos', '*.proto')) + \
+    glob.glob(os.path.join('protos', 'textures', '*.png'))
 
 # get version
 version = ''

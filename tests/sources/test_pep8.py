@@ -27,6 +27,8 @@ from io import open  # needed for compatibility with Python 2.7 for open(file, e
 from pyflakes import checker
 from pyflakes.reporter import Reporter
 
+WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
+
 skippedDirectories = [
     '.git',
     'dependencies',
@@ -35,6 +37,7 @@ skippedDirectories = [
     'projects/robots/robotis/darwin-op/libraries/python',
     'projects/default/resources/sumo'
 ]
+skippedDirectoriesFull = [os.path.join(WEBOTS_HOME, os.path.normpath(path)) for path in skippedDirectories]
 
 
 class FlakesReporter(Reporter):
@@ -144,12 +147,11 @@ class TestCodeFormat(unittest.TestCase):
     def setUp(self):
         """Get all the world file."""
         self.files = []
-        for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME']):
+        for rootPath, dirNames, fileNames in os.walk(WEBOTS_HOME):
             for fileName in fnmatch.filter(fileNames, '*.py'):
                 shouldContinue = False
-                for directory in skippedDirectories:
-                    currentDirectories = rootPath.replace(os.environ['WEBOTS_HOME'], '').replace(os.sep, '/')
-                    if directory in currentDirectories:
+                for skippedDirectory in skippedDirectoriesFull:
+                    if rootPath.startswith(skippedDirectory):
                         shouldContinue = True
                         break
                 if shouldContinue:
