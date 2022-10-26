@@ -1677,6 +1677,7 @@ export default class Toolbar {
     const input = document.createElement('input');
     input.type = 'number';
     input.value = initialValue;
+    input.step = 0.1;
     input.style.width = '50px';
     input.onchange = () => callback(parent);
 
