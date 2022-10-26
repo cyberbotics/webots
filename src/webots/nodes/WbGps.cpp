@@ -22,6 +22,8 @@
 #include "WbSensor.hpp"
 #include "WbWorld.hpp"
 
+#include <ode/ode.h>
+
 #include "../../controller/c/messages.h"
 
 #include <QtCore/QDataStream>
@@ -311,10 +313,20 @@ bool WbGps::refreshSensorIfNeeded() {
     mMeasuredPosition[2] = altitude;
   }
 
-  if (!mPreviousPosition.isNan())
-    mSpeedVector = (t - mPreviousPosition) * 1000.0 / mSensor->elapsedTime();
-  else
-    mSpeedVector = WbVector3();
+  dBodyID upperSolidBodyId = upperSolid()->bodyMerger();
+  if (upperSolidBodyId) {
+    dVector3 newVelocity;
+    const WbVector3 &t = position();
+    dBodyGetPointVel(upperSolidBodyId, t.x(), t.y(), t.z(), newVelocity);
+    mSpeedVector = WbVector3(newVelocity);
+  } else {
+    // No physic node, compute it manually
+    if (!mPreviousPosition.isNan())
+      mSpeedVector = (t - mPreviousPosition) * 1000.0 / mSensor->elapsedTime();
+    else
+      mSpeedVector = WbVector3();
+  }
+
   // compute current speed [m/s]
   mMeasuredSpeed = mSpeedVector.length();
   mPreviousPosition = t;
