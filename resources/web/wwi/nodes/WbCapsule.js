@@ -173,7 +173,7 @@ export default class WbCapsule extends WbGeometry {
     if (!this.#sanitizeFields())
       return;
 
-    this.#buildWrenMesh(true);
+    this.#buildWrenMesh();
 
     if (typeof this.onRecreated === 'function')
       this.onRecreated();
