@@ -113,7 +113,7 @@ export default class WbCapsule extends WbGeometry {
 
   // Private functions
 
-  #buildWrenMesh(test) {
+  #buildWrenMesh() {
     super._deleteWrenRenderable();
 
     if (typeof this._wrenMesh !== 'undefined') {
