@@ -63,13 +63,13 @@ export default class ProtoManager {
 
     // get reference to the parameter being changed
     const parameter = this.exposedParameters.get(parameterName);
-    parameter.setValueFromJavaScript(this.view, newValue);
+    parameter.setValueFromJavaScript(this.#view, newValue);
   }
 
   async demoFieldChange(parameterName, newValue) {
     // get reference to the parameter being changed
     const parameter = this.exposedParameters.get(parameterName);
-    parameter.setValueFromJavaScript(this.view, newValue);
+    parameter.setValueFromJavaScript(this.#view, newValue);
   }
 
   exportProto() {
@@ -83,7 +83,7 @@ export default class ProtoManager {
         const currentValue = parameter.value;
         if (currentValue instanceof SFNode && currentValue.value !== null) {
           if (currentValue.value.isProto && !list.includes(currentValue.value.url))
-            list.push(parameter.value.value.url);
+            list.push(currentValue.value.url);
         }
 
         if (parameter.value instanceof MFNode && currentValue.value.length > 0) {
@@ -103,7 +103,7 @@ export default class ProtoManager {
     s += '\n';
 
     const externProto = listExternProto(this.proto);
-    for (const item in externProto)
+    for (const item of externProto)
       s += `EXTERNPROTO "${item}"\n`;
 
     s += '\n';
@@ -124,7 +124,6 @@ export default class ProtoManager {
     console.log(s);
     return s;
   }
-
 
   loadMinimalScene() {
     const xml = document.implementation.createDocument('', '', null);
