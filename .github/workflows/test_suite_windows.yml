@@ -163,12 +163,8 @@ jobs:
         # deployment-choice: '1'
     - name: Test Suite
       run: |
-        echo 'Running Test Suite'
         cd artifact/
-        cmd.exe //c webots-R2022b-rev1_setup.exe //VERYSILENT //SUPPRESSMSGBOXES //DIR="." //SP //LOG="log.txt" //CURRENTUSER
-        #echo '==> log start'
-        #cat log.txt
-        #echo '==> log end'
+        cmd.exe //c webots-R2022b-rev1_setup.exe //VERYSILENT //SUPPRESSMSGBOXES //DIR="." //SP //CURRENTUSER
         ./msys64/mingw64/bin/webotsw.exe --version
         ./msys64/mingw64/bin/webotsw.exe --sysinfo
         export WEBOTS_HOME=$PWD
@@ -178,10 +174,12 @@ jobs:
         export PYTHON38_REVISION=`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.8\.[0-9]\+$' | cut -c5- | sort -n | tail -n1`
         export PYTHON38_HOME=$PYTHON_INSTALLATION_FOLDER'3.8.'$PYTHON38_REVISION'/x64'
         export PATH=$PYTHON38_HOME:$PYTHON38_HOME/Scripts:$GITHUB_WORKSPACE/msys64/mingw64/bin:$GITHUB_WORKSPACE/bin/node:/mingw64/bin:/usr/bin:$PATH
-        #/WHERE /R . webots*.exe
-        echo 'test suite:'
         cd ..
         ./scripts/install/msys64_installer.sh --all
+        echo 'Running Test Suite'
+        python scripts/packaging/update_urls.py $(git log -1 --format='%H')
+        export TESTS_HOME=$PWD # required by cache group in the test suite
+        export BRANCH_HASH=$(git log -1 --format='%H')
         python tests/test_suite.py
   delete-artifacts:
     needs: [build, test-suite]
