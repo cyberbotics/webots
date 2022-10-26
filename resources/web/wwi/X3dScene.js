@@ -479,10 +479,10 @@ function convertStringToVec3Array(string) {
   const vecArray = [];
   string = string.trim();
   string = string.slice(1, -1).trim();
-  const colorArray = convertStringToFloatArray(string);
-  if (typeof colorArray !== 'undefined') {
-    for (let i = 0; i < colorArray.length; i += 3)
-      vecArray.push(new WbVector3(colorArray[i], colorArray[i + 1], colorArray[i + 2]));
+  const floatArray = convertStringToFloatArray(string);
+  if (typeof floatArray !== 'undefined') {
+    for (let i = 0; i < floatArray.length; i += 3)
+      vecArray.push(new WbVector3(floatArray[i], floatArray[i + 1], floatArray[i + 2]));
   }
 
   return vecArray;
@@ -492,10 +492,10 @@ function convertStringToVec2Array(string) {
   const vecArray = [];
   string = string.trim();
   string = string.slice(1, -1).trim();
-  const colorArray = convertStringToFloatArray(string);
-  if (typeof colorArray !== 'undefined') {
-    for (let i = 0; i < colorArray.length; i += 2)
-      vecArray.push(new WbVector2(colorArray[i], colorArray[i + 1]));
+  const floatArray = convertStringToFloatArray(string);
+  if (typeof floatArray !== 'undefined') {
+    for (let i = 0; i < floatArray.length; i += 2)
+      vecArray.push(new WbVector2(floatArray[i], floatArray[i + 1]));
   }
 
   return vecArray;

@@ -32,8 +32,8 @@ export function loadMeshData(prefix, url) {
     return fetch(url)
       .then(response => response.text())
       .then(text => {
-        let regex = new RegExp('[A-Za-z0-9_-]+\\.mtl');
-        let mtl = text.match(regex);
+        const regex = new RegExp('[A-Za-z0-9_-]+\\.mtl');
+        const mtl = text.match(regex);
         let mtlPath;
         if (mtl) {
           if (typeof prefix !== 'undefined' && !mtl[0].startsWith('http'))
