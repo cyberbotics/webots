@@ -9,6 +9,14 @@ export default class ProtoManager {
     this.exposedParameters = new Map();
   }
 
+  get view() {
+    return this.#view;
+  }
+
+  set view(v) {
+    this.#view = v;
+  }
+
   async loadProto(url, parentId) {
     this.url = url;
     this.parentId = parentId;
@@ -35,12 +43,12 @@ export default class ProtoManager {
       }
 
       // test this using the world: DemoRegeneration.proto in the html
-      setTimeout(() => this.demoRegeneration(), 2000);
+      // setTimeout(() => this.demoRegeneration(), 2000);
 
       // test this using the world: DemoFieldChange.proto in the html
-      // setTimeout(() => this.demoFieldChange('color', {r: 0, g: 0, b: 1}), 2000);
-      // setTimeout(() => this.demoFieldChange('translation', {x: 0, y: 0, z: 0.5}), 2000);
-      // setTimeout(() => this.demoFieldChange('rotation', {x: 0, y: 0, z: 1, a: 0.785}), 2000);
+      setTimeout(() => this.demoFieldChange('color', {r: 0, g: 0, b: 1}), 2000);
+      setTimeout(() => this.demoFieldChange('translation', {x: 0, y: 0, z: 0.5}), 2000);
+      setTimeout(() => this.demoFieldChange('rotation', {x: 0, y: 0, z: 1, a: 0.785}), 2000);
 
       // not implemented yet JS side
       // setTimeout(() => this.demoFieldChange('radius', 0.2), 2000);
@@ -56,53 +64,18 @@ export default class ProtoManager {
   }
 
   async demoRegeneration() {
-    const parameterName = 'flag'; // parameter to change
+    const parameterName = 'flag2'; // parameter to change
     const newValue = true; // new value to set
 
     // get reference to the parameter being changed
     const parameter = this.exposedParameters.get(parameterName);
-
-    const proto = parameter.node; // reference to the proto being affected
-    // set value and trigger regeneration
-    if (parameter.isTemplateRegenerator) {
-      let baseNode = proto;
-      // note: only base-nodes write to x3d, so to know the ID of the node we need to delete, we need to navigate through the
-      // value of the proto (or multiple times if it's a derived PROTO)
-      while (baseNode.isProto)
-        baseNode = baseNode.baseType;
-
-      // id to delete
-      const id = baseNode.id;
-
-      // delete js side
-      this.#view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
-
-      // set new value and await regeneration to be completed
-      parameter.setValueFromJavaScript(newValue);
-      const x3d = new XMLSerializer().serializeToString(proto.toX3d());
-      this.#view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>');
-    }
+    parameter.setValueFromJavaScript(this.view, newValue);
   }
 
   async demoFieldChange(parameterName, newValue) {
     // get reference to the parameter being changed
     const parameter = this.exposedParameters.get(parameterName);
-
-    if (!parameter.isTemplateRegenerator) {
-      // update the node structure (proto manager side)
-      parameter.setValueFromJavaScript(newValue);
-      // update the node structure (js side)
-      const links = parameter.node.aliasLinks.get(parameterName);
-      for (const link of links) {
-        link.setValueFromJavaScript(newValue); // notify aliases of the change
-        const action = {};
-        action['id'] = link.node.id;
-        action[link.name] = link.value.toWebotsJS();
-        console.log(action);
-        this.#view.x3dScene.applyPose(action);
-        this.#view.x3dScene.render();
-      }
-    }
+    parameter.setValueFromJavaScript(this.view, newValue);
   }
 
   loadMinimalScene() {

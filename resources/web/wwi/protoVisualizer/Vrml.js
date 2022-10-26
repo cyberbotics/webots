@@ -36,7 +36,7 @@ class SingleValue {
   }
 
   // used to encode commands that need to be sent to WebotsJS
-  toWebotsJS() {
+  toJson() {
     return `${this.value}`;
   }
 
@@ -118,7 +118,7 @@ export class SFString extends SingleValue {
       this.value = v;
   }
 
-  toWebotsJS(parameterName) {
+  toJson(parameterName) {
     return this.value; // note: value is already inside quotes
   }
 
@@ -154,7 +154,7 @@ export class SFVec2f extends SingleValue {
     return `{x: ${this.value.x}, y: ${this.value.y}}`;
   }
 
-  toWebotsJS() {
+  toJson() {
     return `${this.value.x} ${this.value.y}`;
   }
 
@@ -201,7 +201,7 @@ export class SFVec3f extends SingleValue {
     return `{x: ${this.value.x}, y: ${this.value.y}, z: ${this.value.z}}`;
   }
 
-  toWebotsJS() {
+  toJson() {
     return `${this.value.x} ${this.value.y} ${this.value.z}`;
   }
 
@@ -248,7 +248,7 @@ export class SFColor extends SingleValue {
     return `{r: ${this.value.r}, g: ${this.value.g}, b: ${this.value.b}}`;
   }
 
-  toWebotsJS() {
+  toJson() {
     return `${this.value.r} ${this.value.g} ${this.value.b}`;
   }
 
@@ -300,7 +300,7 @@ export class SFRotation extends SingleValue {
     return `{x: ${this.value.x}, y: ${this.value.y}, z: ${this.value.z}, a: ${this.value.a}}`;
   }
 
-  toWebotsJS() {
+  toJson() {
     return `${this.value.x} ${this.value.y} ${this.value.z} ${this.value.a}`;
   }
 
@@ -381,7 +381,7 @@ export class SFNode extends SingleValue {
     return this.value.toJS();
   }
 
-  toWebotsJS() {
+  toJson() {
     throw new Error('SFNodes should not be encoded as strings, the x3d needs to be sent instead.');
   }
 
@@ -489,9 +489,9 @@ class MultipleValue {
     return js + ']';
   }
 
-  toWebotsJS() {
+  toJson() {
     let wjs = '[';
-    this.#value.forEach((item) => { wjs += item.toWebotsJS() + ', '; });
+    this.#value.forEach((item) => { wjs += item.toJson() + ', '; });
     if (this.#value.length > 0)
       wjs = wjs.slice(0, -2);
     return wjs + ']';
@@ -834,7 +834,7 @@ export class MFNode extends MultipleValue {
     return js + ']';
   }
 
-  toWebotsJS() {
+  toJson() {
     throw new Error('MFNodes should not be encoded as strings, the x3d needs to be sent instead.');
   }
 

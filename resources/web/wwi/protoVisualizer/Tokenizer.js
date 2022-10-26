@@ -94,7 +94,6 @@ export default class Tokenizer {
 
   readWord() {
     this.skipWhiteSpace();
-
     let word = this.#char;
     this.#markTokenStart();
 
@@ -121,8 +120,6 @@ export default class Tokenizer {
       this.#char = this.readChar();
       return word;
     }
-
-    // TODO: tokenize template
 
     // handle "[]{}"
     if (isPunctuation(this.#char)) {

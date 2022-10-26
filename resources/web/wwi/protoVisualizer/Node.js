@@ -25,7 +25,6 @@ export default class Node {
     this.parameters = new Map();
     this.externProto = new Map();
     this.def = new Map();
-    this.aliasLinks = new Map(); // maps a parameter name to a list of parameter instances
 
     if (!this.isProto) {
       // create parameters from the pre-defined FieldModel
@@ -127,7 +126,6 @@ export default class Node {
   clone() {
     let copy = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
     copy.id = getAnId();
-
     copy.parameters = new Map();
     for (const [parameterName, parameter] of this.parameters) {
       if (typeof parameter !== 'undefined') {
@@ -178,9 +176,6 @@ export default class Node {
         const parameter = new Parameter(this, parameterName, parameterType, defaultValue, value, isRegenerator);
         // console.log(parameterName + ' has parent ' + this.name);
         this.parameters.set(parameterName, parameter);
-
-        // for each parameter, create an empty list of aliases (which will be populated later on)
-        this.aliasLinks.set(parameterName, []);
       }
     }
   };
@@ -223,9 +218,9 @@ export default class Node {
             if (!tokenizer.proto.parameters.has(alias))
               throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
 
-            const links = tokenizer.proto.aliasLinks.get(alias);
-            links.push(parameter); // add this parameter to the list of aliases of this proto
-            parameter.value = tokenizer.proto.parameters.get(alias).value;
+            const exposedParameter = tokenizer.proto.parameters.get(alias);
+            parameter.value = exposedParameter.value; // TODO: if it's set to the same value, why we need to notify change?
+            exposedParameter.insertLink(parameter);
           } else
             parameter.value.setValueFromTokenizer(tokenizer, this);
         }
