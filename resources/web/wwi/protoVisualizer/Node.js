@@ -36,7 +36,7 @@ export default class Node {
         defaultValue.setValueFromJavaScript(FieldModel[this.name][parameterName]['defaultValue']);
         const value = defaultValue.clone();
         const parameter = new Parameter(this, parameterName, type, defaultValue, value, false);
-        parameter.parentNode = this;
+        // console.log(parameterName + ' has parent ' + this.name);
         this.parameters.set(parameterName, parameter);
       }
 
@@ -133,7 +133,7 @@ export default class Node {
       if (typeof parameter !== 'undefined') {
         // console.log('cloning parameter ' + parameterName + ' (type ' + parameter.type + ')');
         const parameterCopy = parameter.clone();
-        parameterCopy.parentNode = copy;
+        parameterCopy.node = copy;
         // console.log('ORIGINAL', parameter);
         // console.log('COPY', parameterCopy);
         copy.parameters.set(parameterName, parameterCopy);
@@ -176,8 +176,7 @@ export default class Node {
         const defaultValue = vrmlFactory(parameterType, headTokenizer);
         const value = defaultValue.clone();
         const parameter = new Parameter(this, parameterName, parameterType, defaultValue, value, isRegenerator);
-        parameter.parentNode = this;
-        // console.log(parameter);
+        // console.log(parameterName + ' has parent ' + this.name);
         this.parameters.set(parameterName, parameter);
       }
     }

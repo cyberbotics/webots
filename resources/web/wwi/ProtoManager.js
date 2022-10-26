@@ -87,11 +87,12 @@ export default class ProtoManager {
       // update the node structure (proto manager side)
       parameter.setValueFromJavaScript(newValue);
       // update the node structure (js side)
-      for (const linkedParameter of parameter.parentNode.aliasLinks) {
+      for (const linkedParameter of parameter.node.aliasLinks) {
         linkedParameter.setValueFromJavaScript(newValue);
         const action = {};
-        action['id'] = linkedParameter.parentNode.id;
+        action['id'] = linkedParameter.node.id;
         action[linkedParameter.name] = linkedParameter.value.toWebotsJS();
+        console.log(action)
         this.#view.x3dScene.applyPose(action);
         this.#view.x3dScene.render();
       }
