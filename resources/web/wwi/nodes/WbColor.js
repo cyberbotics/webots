@@ -44,14 +44,12 @@ export default class WbColor extends WbBaseNode {
   #sanitizeFields() {
     const newColor = resetMultipleColorIfInvalid(this.#color);
     if (newColor !== false)
-      this.color = newColor;
-
-    return newColor === false;
+      this.#color = newColor;
   }
 
   #updateColor() {
-    if (!this.#sanitizeFields())
-      return;
+    this.#sanitizeFields();
+
     if (typeof this.onChange === 'function')
       this.onChange();
   }

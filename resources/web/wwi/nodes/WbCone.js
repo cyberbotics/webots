@@ -115,17 +115,15 @@ export default class WbCone extends WbGeometry {
 
     const newSubdivision = resetIfNotInRangeWithIncludedBounds(this.#subdivision, 3, 1000, 3);
     if (newSubdivision !== false)
-      this.subdivision = newSubdivision;
+      this.#subdivision = newSubdivision;
 
     const newRadius = resetIfNonPositive(this.#bottomRadius, 1.0);
     if (newRadius !== false)
-      this.radius = newRadius;
+      this.#bottomRadius = newRadius;
 
     const newHeight = resetIfNonPositive(this.#height, 1.0);
     if (newHeight !== false)
-      this.height = newHeight;
-
-    return newSubdivision === false && newRadius === false && newHeight === false;
+      this.#height = newHeight;
   }
 
   #updateScale() {
@@ -134,8 +132,7 @@ export default class WbCone extends WbGeometry {
   }
 
   #updateMesh() {
-    if (!this.#sanitizeFields())
-      return;
+    this.#sanitizeFields();
 
     this.#buildWrenMesh();
 
@@ -144,8 +141,7 @@ export default class WbCone extends WbGeometry {
   }
 
   #updateSize() {
-    if (!this.#sanitizeFields())
-      return;
+    this.#sanitizeFields();
 
     this.#updateScale();
 

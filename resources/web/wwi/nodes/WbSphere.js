@@ -75,8 +75,7 @@ export default class WbSphere extends WbGeometry {
   }
 
   #updateScale() {
-    if (!this.#sanitizeFields())
-      return;
+    this.#sanitizeFields();
 
     const scaledRadius = this.#radius;
 
@@ -84,8 +83,7 @@ export default class WbSphere extends WbGeometry {
   }
 
   #updateRadius() {
-    if (!this.#sanitizeFields())
-      return;
+    this.#sanitizeFields();
 
     if (this.isInBoundingObject())
       this.#updateLineScale();
@@ -97,8 +95,7 @@ export default class WbSphere extends WbGeometry {
   }
 
   #updateMesh() {
-    if (!this.#sanitizeFields())
-      return;
+    this.#sanitizeFields();
 
     this.#buildWrenMesh();
 
@@ -142,12 +139,10 @@ export default class WbSphere extends WbGeometry {
       newSubdivision = resetIfNotInRangeWithIncludedBounds(this.#subdivision, 3, 32, 24);
 
     if (newSubdivision !== false)
-      this.subdivision = newSubdivision;
+      this.#subdivision = newSubdivision;
 
     const newRadius = resetIfNonPositive(this.#radius, 1.0);
     if (newRadius !== false)
-      this.radius = newRadius;
-
-    return newSubdivision === false && newRadius === false;
+      this.#radius = newRadius;
   }
 }

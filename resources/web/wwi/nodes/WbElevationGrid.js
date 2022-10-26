@@ -179,28 +179,25 @@ export default class WbElevationGrid extends WbGeometry {
   #sanitizeFields() {
     const newTickness = resetIfNegative(this.#thickness, 0.0);
     if (newTickness !== false)
-      this.thickness = newTickness;
+      this.#thickness = newTickness;
 
     const newXDimension = resetIfNegative(this.#xDimension, 0);
     if (newXDimension !== false)
-      this.xDimension = newXDimension;
+      this.#xDimension = newXDimension;
 
     const newXSpacing = resetIfNonPositive(this.#xSpacing, 1.0);
     if (newXSpacing !== false)
-      this.xSpacing = newXSpacing;
+      this.#xSpacing = newXSpacing;
 
     const newYDimension = resetIfNegative(this.#yDimension, 0);
     if (newYDimension !== false)
-      this.yDimension = newYDimension;
+      this.#yDimension = newYDimension;
 
     const newYSpacing = resetIfNonPositive(this.#ySpacing, 1.0);
     if (newYSpacing !== false)
-      this.ySpacing = newYSpacing;
+      this.#ySpacing = newYSpacing;
 
     this.#checkHeight();
-
-    return newTickness === false && newXDimension === false && newXSpacing === false && newYDimension === false &&
-     newYSpacing === false;
   }
 
   #checkHeight() {
@@ -212,8 +209,7 @@ export default class WbElevationGrid extends WbGeometry {
   }
 
   #updateMesh() {
-    if (!this.#sanitizeFields())
-      return;
+    this.#sanitizeFields();
 
     this.#buildWrenMesh();
 
@@ -222,8 +218,7 @@ export default class WbElevationGrid extends WbGeometry {
   }
 
   #updateSpacing() {
-    if (!this.#sanitizeFields())
-      return;
+    this.#sanitizeFields();
 
     if (this.isInBoundingObject())
       this.#updateLineScale();

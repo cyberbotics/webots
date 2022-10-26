@@ -71,8 +71,7 @@ export default class WbPlane extends WbGeometry {
   }
 
   #updateSize() {
-    if (!this.#sanitizeFields())
-      return;
+    this.#sanitizeFields();
 
     if (this.isInBoundingObject())
       this.updateLineScale();
@@ -93,8 +92,6 @@ export default class WbPlane extends WbGeometry {
   #sanitizeFields() {
     const newSize = resetVector2IfNonPositive(this.#size, new WbVector2(1.0, 1.0));
     if (newSize !== false)
-      this.size = newSize;
-
-    return newSize === false;
+      this.#size = newSize;
   }
 }

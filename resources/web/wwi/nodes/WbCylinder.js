@@ -131,8 +131,6 @@ export default class WbCylinder extends WbGeometry {
     const newHeight = resetIfNonPositive(this.#height, 1.0);
     if (newHeight !== false)
       this.#height = newHeight;
-
-    return newSubdivision === false && newRadius === false && newHeight === false;
   }
 
   #buildWrenMesh() {
@@ -174,8 +172,7 @@ export default class WbCylinder extends WbGeometry {
   }
 
   #updateMesh() {
-    if (!this.#sanitizeFields())
-      return;
+    this.#sanitizeFields();
 
     this.#buildWrenMesh();
 
@@ -184,8 +181,7 @@ export default class WbCylinder extends WbGeometry {
   }
 
   #updateSize() {
-    if (!this.#sanitizeFields())
-      return;
+    this.#sanitizeFields();
 
     if (this.isInBoundingObject())
       this.#updateLineScale();
