@@ -22,7 +22,9 @@ import fnmatch
 
 from io import open
 
-with open(os.environ['WEBOTS_HOME'] + os.sep + 'resources' + os.sep + 'version.txt', 'r') as file:
+WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
+
+with open(os.path.join(WEBOTS_HOME, 'resources', 'version.txt'), 'r') as file:
     version = file.readlines()[0].strip()
 
 year = int(version[1:5])
@@ -118,6 +120,8 @@ class TestLicense(unittest.TestCase):
             'projects/samples/robotbenchmark',
             'projects/vehicles/controllers/ros_automobile/include'
         ]
+        skippedDirectoryPathsFull = [os.path.join(WEBOTS_HOME, os.path.normpath(path))
+                                     for path in skippedDirectoryPaths]
 
         skippedFilePaths = [
             'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h',
@@ -134,14 +138,14 @@ class TestLicense(unittest.TestCase):
 
         self.sources = []
         for directory in directories:
-            for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + directory.replace('/', os.sep)):
+            for rootPath, dirNames, fileNames in os.walk(os.path.join(WEBOTS_HOME, os.path.normpath(directory))):
                 shouldContinue = False
-                relativeRootPath = rootPath.replace(os.environ['WEBOTS_HOME'] + os.sep, '')
-                for path in skippedDirectoryPaths:
-                    if rootPath.startswith(os.environ['WEBOTS_HOME'] + os.sep + path.replace('/', os.sep)):
+                relativeRootPath = rootPath.replace(WEBOTS_HOME + os.sep, '')
+                for skippedPath in skippedDirectoryPathsFull:
+                    if rootPath.startswith(skippedPath):
                         shouldContinue = True
                         break
-                currentDirectories = rootPath.replace(os.environ['WEBOTS_HOME'], '').split(os.sep)
+                currentDirectories = rootPath.replace(WEBOTS_HOME + os.sep, '').split(os.sep)
                 for directory in skippedDirectories:
                     if directory in currentDirectories:
                         shouldContinue = True

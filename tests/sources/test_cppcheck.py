@@ -18,8 +18,7 @@
 import unittest
 import os
 import multiprocessing
-
-from distutils.spawn import find_executable
+import shutil
 
 
 class TestCppCheck(unittest.TestCase):
@@ -27,14 +26,14 @@ class TestCppCheck(unittest.TestCase):
 
     def setUp(self):
         """Set up called before each test."""
-        self.WEBOTS_HOME = os.environ['WEBOTS_HOME']
+        self.WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
         self.reportFilename = os.path.join(self.WEBOTS_HOME, 'tests', 'cppcheck_report.txt')
         self.extensions = ['c', 'h', 'cpp', 'hpp', 'cc', 'hh', 'c++', 'h++']
 
     def test_cppcheck_is_correctly_installed(self):
         """Test Cppcheck is correctly installed."""
         self.assertTrue(
-            find_executable('cppcheck') is not None,
+            shutil.which('cppcheck') is not None,
             msg='Cppcheck is not installed on this computer.'
         )
 
