@@ -171,7 +171,7 @@ export default class WbImageTexture extends WbBaseNode {
   #updateWrenTexture() {
     this.#destroyWrenTexture();
     // Only load the image from disk if the texture isn't already in the cache
-    let texture = Module.ccall('wr_texture_2d_copy_from_cache', 'number', ['string'], [this.#url]);
+    const texture = Module.ccall('wr_texture_2d_copy_from_cache', 'number', ['string'], [this.#url]);
     if (texture === 0)
       console.warn('Image not found in wren');
     else
