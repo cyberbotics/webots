@@ -1,5 +1,4 @@
 import Node from './protoVisualizer/Node.js';
-import {MFNode, SFNode, stringifyType} from './protoVisualizer/Vrml.js';
 
 import {getAnId} from './nodes/utils/id_provider.js';
 
@@ -39,7 +38,6 @@ export default class ProtoManager {
       // setTimeout(() => this.demoRegeneration(), 2000);
       // test this using the world: DemoFieldChange.proto in the html
       // setTimeout(() => this.demoFieldChange(), 2000);
-      setTimeout(() => this.exportProto(), 5000);
     });
   }
 
@@ -96,59 +94,6 @@ export default class ProtoManager {
         this.#view.x3dScene.render();
       }
     }
-  }
-
-  exportProto() {
-    function indent(depth) {
-      return ' '.repeat(depth);
-    }
-
-    function listExternProto(node) {
-      const list = [node.url]; // the base-type must always be declared
-      for (const parameter of node.parameters.values()) {
-        const currentValue = parameter.value;
-        if (currentValue instanceof SFNode && currentValue.value !== null) {
-          if (currentValue.value.isProto && !list.includes(currentValue.value.url))
-            list.push(parameter.value.value.url);
-        }
-
-        if (parameter.value instanceof MFNode && currentValue.value.length > 0) {
-          for (const item of currentValue.value) {
-            if (item.value.isProto && !list.includes(item.value.url))
-              list.push(item.value.url);
-          }
-        }
-      }
-
-      return list;
-    }
-
-    // write PROTO contents
-    let s = '';
-    s += '#VRML_SIM R2023a utf8\n';
-    s += '\n';
-
-    const externProto = listExternProto(this.proto);
-    for (const item in externProto)
-      s += `EXTERNPROTO "${item}"\n`;
-
-    s += '\n';
-    s += 'PROTO CustomProto [\n';
-
-    for (const parameter of this.proto.parameters.values())
-      s += `${indent(2)}field ${stringifyType(parameter.type)} ${parameter.name} ${parameter.value.toVrml()}\n`;
-
-    s += ']\n';
-    s += '{\n';
-
-    s += `${indent(2)}${this.proto.name} {\n`;
-    for (const parameter of this.proto.parameters.values())
-      s += `${indent(4)}${parameter.name} IS ${parameter.name}\n`;
-    s += `${indent(2)}}\n`;
-    s += '}\n';
-
-    console.log(s);
-    return s;
   }
 
   loadMinimalScene() {
