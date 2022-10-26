@@ -98,6 +98,7 @@ export default class WbMesh extends WbTriangleMeshGeometry {
     queue.push(this.scene.rootnode);
     let node;
     let indexOffset = 0;
+    console.log(this.scene)
     while (queue.length !== 0) {
       node = queue.shift();
       // compute absolute transform of this node from all the parents

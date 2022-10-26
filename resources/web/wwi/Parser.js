@@ -885,10 +885,9 @@ export default class Parser {
     this.#promises.push(loadMeshData(this.prefix, url).then(meshContent => {
       cadShape.scene = meshContent[0];
       cadShape.materialPath = meshContent[1];
-      console.log(meshContent)
       for (let i = 0; i < cadShape.useList.length; i++) {
         const node = WbWorld.instance.nodes.get(cadShape.useList[i]);
-        node.scene = meshContent;
+        node.scene = meshContent[0];
       }
       this.#updatePromiseCounter('Downloading assets: Mesh \'CadShape\'...');
     }));
@@ -1316,7 +1315,7 @@ export default class Parser {
         mesh.scene = meshContent[0];
         for (let i = 0; i < mesh.useList.length; i++) {
           const node = WbWorld.instance.nodes.get(mesh.useList[i]);
-          node.scene = meshContent;
+          node.scene = meshContent[0];
         }
         this.#updatePromiseCounter('Downloading assets: Mesh \'mesh ' + name + '\'...');
       }));
