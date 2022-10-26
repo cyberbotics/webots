@@ -1664,20 +1664,22 @@ export default class Toolbar {
     span.innerHTML = key + ': ';
     span.inputs = [];
     span.parameter = parameter;
-    span.inputs.push(this.#createNumberField('r', parameter.value.value.r, span, this.#colorOnChange));
-    span.inputs.push(this.#createNumberField(' g', parameter.value.value.g, span, this.#colorOnChange));
-    span.inputs.push(this.#createNumberField(' b', parameter.value.value.b, span, this.#colorOnChange));
+    span.inputs.push(this.#createColorField('r', parameter.value.value.r, span, this.#colorOnChange));
+    span.inputs.push(this.#createColorField(' g', parameter.value.value.g, span, this.#colorOnChange));
+    span.inputs.push(this.#createColorField(' b', parameter.value.value.b, span, this.#colorOnChange));
 
     parent.appendChild(span);
   }
 
-  #createNumberField(name, initialValue, parent, callback) {
+  #createColorField(name, initialValue, parent, callback) {
     const span = document.createElement('span');
     span.innerHTML = name + ': ';
     const input = document.createElement('input');
     input.type = 'number';
     input.value = initialValue;
     input.step = 0.1;
+    input.min = 0;
+    input.max = 1;
     input.style.width = '50px';
     input.onchange = () => callback(parent);
 
