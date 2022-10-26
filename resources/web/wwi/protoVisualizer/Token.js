@@ -1,9 +1,7 @@
-import {VRML} from './utility/utility.js';
-import {FieldModel} from './FieldModel.js';
+import {VRML} from './Vrml.js';
 
 export default class Token {
   #column;
-  #isNode;
   #line;
   #word;
   constructor(word, line, column) {
@@ -30,8 +28,6 @@ export default class Token {
       this.type = Token.TYPES.PUNCTUATION;
     else
       this.type = Token.TYPES.INVALID;
-
-    this.#isNode = Object.keys(FieldModel).includes(word);
   };
 
   word() { return this.#word; };
@@ -47,8 +43,6 @@ export default class Token {
   isBoolean() { return this.type === Token.TYPES.KEYWORD && (this.#word === 'TRUE' || this.#word === 'FALSE'); };
   isTemplateStatement() { return this.type === Token.TYPES.TEMPLATE_STATEMENT; };
   isEof() { return this.type === Token.TYPES.END; };
-
-  isNode() { return this.#isNode; };
 
   toString() {
     if (!this.isString())
@@ -127,7 +121,8 @@ export default class Token {
 
   #isValidIdentifierChar(c, pos) {
     const v = c.charCodeAt();
-    if (v <= 0x20 || v === 0x22 || v === 0x23 || v === 0x27 || v === 0x2c || v === 0x2e || v === 0x5b || v === 0x5c || v === 0x5d || v === 0x7b || v === 0x7d)
+    if (v <= 0x20 || v === 0x22 || v === 0x23 || v === 0x27 || v === 0x2c || v === 0x2e || v === 0x5b || v === 0x5c ||
+        v === 0x5d || v === 0x7b || v === 0x7d)
       return false;
 
     if (pos === 0 && v >= 0x30 && v <= 0x39)
