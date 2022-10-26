@@ -79,8 +79,8 @@ WbAnimationCommand::WbAnimationCommand(const WbNode *n, const QStringList &field
           const int size = mfInt->size();
           QString intArray = QString("[");
 
-          for (int i = 0; i < size - 1; i++)
-            intArray.append(QString("%1,").arg(mfInt->item(i)));
+          for (int j = 0; j < size - 1; j++)
+            intArray.append(QString("%1,").arg(mfInt->item(j)));
 
           if (size > 0)
             intArray.append(QString("%1").arg(mfInt->item(size - 1)));
