@@ -4,7 +4,7 @@
 import sys
 import os
 if os.name == 'nt' and sys.version_info >= (3, 8):  # we need to explicitly list the folders containing the DLLs
-    webots_home = os.environ['WEBOTS_HOME']
+    webots_home = os.path.normpath(os.environ['WEBOTS_HOME'])
     os.add_dll_directory(os.path.join(webots_home, 'lib', 'controller'))
     # MSYS2_HOME should be set by Webots or ~/.bash_profile
     # if not set, we are in the case of an extern controller and a regularly installed version of Webots
