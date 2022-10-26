@@ -150,7 +150,8 @@ export default class WbLight extends WbBaseNode {
   }
 
   #updateAmbientIntensity() {
-    const newAmbientIntensity = resetIfNotInRangeWithIncludedBounds(this.#ambientIntensity, 0.0, 1.0,this.#ambientIntensity > 1.0 ? 1.0 : 0.0);
+    const newAmbientIntensity = resetIfNotInRangeWithIncludedBounds(this.#ambientIntensity, 0.0, 1.0,
+      this.#ambientIntensity > 1.0 ? 1.0 : 0.0);
     if (newAmbientIntensity !== false) {
       this.ambientIntensity = newAmbientIntensity;
       return;
@@ -167,8 +168,8 @@ export default class WbLight extends WbBaseNode {
       return;
     }
 
-  if (this.wrenObjectsCreatedCalled)
-    this._applyLightIntensityToWren();
+    if (this.wrenObjectsCreatedCalled)
+      this._applyLightIntensityToWren();
   }
 
   #updateCastShadows() {
