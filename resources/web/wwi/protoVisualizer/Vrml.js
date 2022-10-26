@@ -37,7 +37,7 @@ class SingleValue {
 
   // used to encode commands that need to be sent to WebotsJS
   toWebotsJS() {
-    return `"${this.value}"`;
+    return `${this.value}`;
   }
 
   toVrml() {
@@ -155,7 +155,7 @@ export class SFVec2f extends SingleValue {
   }
 
   toWebotsJS() {
-    return `"${this.value.x} ${this.value.y}"`;
+    return `${this.value.x} ${this.value.y}`;
   }
 
   toVrml() {
@@ -202,7 +202,7 @@ export class SFVec3f extends SingleValue {
   }
 
   toWebotsJS() {
-    return `"${this.value.x} ${this.value.y} ${this.value.z}"`;
+    return `${this.value.x} ${this.value.y} ${this.value.z}`;
   }
 
   toVrml() {
@@ -249,7 +249,7 @@ export class SFColor extends SingleValue {
   }
 
   toWebotsJS() {
-    return `"${this.value.r} ${this.value.g} ${this.value.b}"`;
+    return `${this.value.r} ${this.value.g} ${this.value.b}`;
   }
 
   toVrml() {
@@ -301,7 +301,7 @@ export class SFRotation extends SingleValue {
   }
 
   toWebotsJS() {
-    return `"${this.value.x} ${this.value.y} ${this.value.z} ${this.value.a}"`;
+    return `${this.value.x} ${this.value.y} ${this.value.z} ${this.value.a}`;
   }
 
   toVrml() {

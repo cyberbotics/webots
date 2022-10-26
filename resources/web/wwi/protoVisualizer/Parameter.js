@@ -66,6 +66,7 @@ export default class Parameter {
 
   setValueFromJavaScript(v) {
     this.#value.setValueFromJavaScript(v);
+
     if (this.isTemplateRegenerator)
       this.node.parseBody(true);
   }

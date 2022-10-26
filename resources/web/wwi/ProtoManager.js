@@ -37,12 +37,19 @@ export default class ProtoManager {
       // test this using the world: DemoRegeneration.proto in the html
       // setTimeout(() => this.demoRegeneration(), 2000);
       // test this using the world: DemoFieldChange.proto in the html
-      setTimeout(() => this.demoFieldChange(), 2000);
+      setTimeout(() => this.demoFieldChange('color', {r: 0, g: 0, b: 1}), 2000);
+      setTimeout(() => this.demoFieldChange('translation', {x: 0, y: 0, z: 0.5}), 2000);
+      setTimeout(() => this.demoFieldChange('rotation', {x: 0, y: 0, z: 1, a: 0.785}), 2000);
+
+      // not implemented yet JS side
+      //setTimeout(() => this.demoFieldChange('radius', 0.2), 2000);
+      //setTimeout(() => this.demoFieldChange('subdivision', 5), 2000);
     });
   }
 
   loadX3d() {
     const x3d = new XMLSerializer().serializeToString(this.proto.toX3d());
+    console.log(x3d);
     this.#view.prefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);
     this.#view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', this.parentId);
   }
@@ -61,7 +68,7 @@ export default class ProtoManager {
       // note: only base-nodes write to x3d, so to know the ID of the node we need to delete, we need to navigate through the
       // value of the proto (or multiple times if it's a derived PROTO)
       while (baseNode.isProto)
-        baseNode = baseNode.value;
+        baseNode = baseNode.baseType;
 
       // id to delete
       const id = baseNode.id;
@@ -76,10 +83,7 @@ export default class ProtoManager {
     }
   }
 
-  async demoFieldChange() {
-    const parameterName = 'color'; // parameter to change
-    const newValue = {r: 0, g: 0, b: 1}; // new value to set
-
+  async demoFieldChange(parameterName, newValue) {
     // get reference to the parameter being changed
     const parameter = this.exposedParameters.get(parameterName);
 
@@ -87,12 +91,13 @@ export default class ProtoManager {
       // update the node structure (proto manager side)
       parameter.setValueFromJavaScript(newValue);
       // update the node structure (js side)
-      for (const linkedParameter of parameter.node.aliasLinks) {
-        linkedParameter.setValueFromJavaScript(newValue);
+      const links = parameter.node.aliasLinks.get(parameterName);
+      for (const link of links) {
+        link.setValueFromJavaScript(newValue); // notify aliases of the change
         const action = {};
-        action['id'] = linkedParameter.node.id;
-        action[linkedParameter.name] = linkedParameter.value.toWebotsJS();
-        console.log(action)
+        action['id'] = link.node.id;
+        action[link.name] = link.value.toWebotsJS();
+        console.log(action);
         this.#view.x3dScene.applyPose(action);
         this.#view.x3dScene.render();
       }

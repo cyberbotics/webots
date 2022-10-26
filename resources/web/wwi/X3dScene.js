@@ -206,7 +206,6 @@ export default class X3dScene {
 
       if (key === 'translation') {
         const translation = convertStringToVec3(pose[key]);
-
         if (object instanceof WbTransform) {
           if (typeof WbWorld.instance.viewpoint.followedId !== 'undefined' &&
             WbWorld.instance.viewpoint.followedId === object.id)

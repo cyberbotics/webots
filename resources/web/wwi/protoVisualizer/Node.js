@@ -25,7 +25,7 @@ export default class Node {
     this.parameters = new Map();
     this.externProto = new Map();
     this.def = new Map();
-    this.aliasLinks = [];
+    this.aliasLinks = new Map(); // maps a parameter name to a list of parameter instances
 
     if (!this.isProto) {
       // create parameters from the pre-defined FieldModel
@@ -178,6 +178,9 @@ export default class Node {
         const parameter = new Parameter(this, parameterName, parameterType, defaultValue, value, isRegenerator);
         // console.log(parameterName + ' has parent ' + this.name);
         this.parameters.set(parameterName, parameter);
+
+        // for each parameter, create an empty list of aliases (which will be populated later on)
+        this.aliasLinks.set(parameterName, []);
       }
     }
   };
@@ -220,7 +223,8 @@ export default class Node {
             if (!tokenizer.proto.parameters.has(alias))
               throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
 
-            tokenizer.proto.aliasLinks.push(parameter);
+            const links = tokenizer.proto.aliasLinks.get(alias);
+            links.push(parameter); // add this parameter to the list of aliases of this proto
             parameter.value = tokenizer.proto.parameters.get(alias).value;
           } else
             parameter.value.setValueFromTokenizer(tokenizer, this);
