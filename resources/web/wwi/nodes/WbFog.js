@@ -112,7 +112,7 @@ export default class WbFog extends WbBaseNode {
       this.#wrenFogType = Enum.WR_SCENE_FOG_TYPE_LINEAR;
 
     if (this.#wrenFogType === Enum.WR_SCENE_FOG_TYPE_LINEAR && this.#fogType !== 'LINEAR')
-      console.warn("Unknown 'fogType': " + this.#fogType + ' Set to "LINEAR"');
+      console.warn("Unknown 'fogType': " + this.#fogType + ', set to "LINEAR" instead.');
 
     if (this.wrenObjectsCreatedCalled)
       this.#applyChangesToWren();
