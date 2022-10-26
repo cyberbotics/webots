@@ -138,6 +138,7 @@ webots-view .icon-robot-window, webots-view .icon-custom-window    { background-
 webots-view .icon-ide             { background-image: url(../images/icons/ide.svg); }
 webots-view .icon-world-selection { background-image: url(../images/icons/world-selection.svg); }
 webots-view .icon-terminal        { background-image: url(../images/icons/terminal.svg); }
+webots-view .icon-proto-parameter { background-image: url(../images/icons/ide.svg); }
 
 webots-view .icon {
   transition: all 0.1s ease-in-out;
@@ -152,6 +153,7 @@ webots-view .toolbar-btn:focus .icon-ide,
   .toolbar-btn:focus .icon-info,
   .toolbar-btn:focus .icon-quit,
   .toolbar-btn:focus .icon-step,
+  .toolbar-btn:focus .icon-proto-parameter,
   .toolbar-btn:focus .icon-world-selection {
   animation: animation-scale-down 0.3s;
 }
@@ -161,6 +163,7 @@ webots-view .toolbar-btn:active .icon-ide,
   .toolbar-btn:active .icon-info,
   .toolbar-btn:active .icon-quit,
   .toolbar-btn:active .icon-step,
+  .toolbar-btn:active .icon-proto-parameter,
   .toolbar-btn:active .icon-world-selection {
   animation: none;
 }
@@ -245,8 +248,13 @@ webots-view .settings-tooltip,
   .run-tooltip,
   .play-tooltip,
   .step-tooltip,
-  .quit-tooltip  {
+  .quit-tooltip,
+  .proto-parameter-tooltip  {
   transform: translateX(-55%);
+}
+
+.proto-parameter-tooltip {
+  zoom: 1.005;
 }
 
 webots-view .toolbar-btn:hover .tooltip {
@@ -868,4 +876,9 @@ webots-view .visibility-dot {
 
 webots-view input:checked + .visibility-dot {
   background-color: rgb(0, 122, 204);
+}
+
+webots-view #proto-parameter-content {
+  margin: 20px;
+  color: white;
 }

@@ -68,6 +68,15 @@ export default class Parameter {
     this.#value.setValueFromJavaScript(v);
     if (this.isTemplateRegenerator)
       this.node.parseBody(true);
+
+    if (this.parentNode?.aliasLinks) {
+      for (const linkedParameter of this.parentNode?.aliasLinks) {
+        const id = linkedParameter.parentNode.id;
+        const action = {'id': id.replace('n', ''), baseColor: v.r + ' ' + v.g + ' ' + v.b};
+        this._view.x3dScene.applyPose(action);
+        this._view.x3dScene.render();
+      }
+    }
   }
 
   isDefault() {

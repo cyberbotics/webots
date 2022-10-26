@@ -5,6 +5,7 @@ import InformationPanel from './InformationPanel.js';
 import FloatingIde from './FloatingIde.js';
 import FloatingRobotWindow from './FloatingRobotWindow.js';
 import FloatingCustomWindow from './FloatingCustomWindow.js';
+import FloatingProtoParameterWindow from './FloatingProtoParameterWindow.js';
 import {changeShadows, changeGtaoLevel, GtaoLevel} from './nodes/wb_preferences.js';
 import SystemInfo from './system_info.js';
 import Terminal from './Terminal.js';
@@ -31,11 +32,14 @@ export default class Toolbar {
 
     this.#createToolbar(parentNode);
     if (type === 'animation')
-      this.createAnimationToolbar();
+      this.#createAnimationToolbar();
     else if (type === 'scene')
-      this.createSceneToolbar();
+      this.#createSceneToolbar();
     else if (type === 'streaming')
-      this.createStreamingToolbar();
+      this.#createStreamingToolbar();
+    else if (type === 'proto')
+      this.#createProtoToolbar();
+
     this.#resizeToolbar();
     this.toolbar.style.minWidth = this.minWidth + 'px';
 
@@ -54,7 +58,7 @@ export default class Toolbar {
     }
   }
 
-  createAnimationToolbar() {
+  #createAnimationToolbar() {
     if (this.type !== 'animation' || typeof this.#view === 'undefined' || typeof this.#view.animation === 'undefined')
       return;
 
@@ -73,8 +77,8 @@ export default class Toolbar {
       this.#createFullscreenButtons();
   }
 
-  createSceneToolbar() {
-    if (this.type !== 'scene' || typeof this.#view === 'undefined')
+  #createSceneToolbar() {
+    if ((this.type !== 'scene' && this.type !== 'proto') || typeof this.#view === 'undefined')
       return;
 
     this.#createInfoButton();
@@ -83,7 +87,12 @@ export default class Toolbar {
       this.#createFullscreenButtons();
   }
 
-  createStreamingToolbar() {
+  #createProtoToolbar() {
+    this.#createProtoParameterButton();
+    this.#createSceneToolbar();
+  }
+
+  #createStreamingToolbar() {
     // Left part
     this.#createQuitButton();
     this.#createReloadButton();
@@ -631,7 +640,7 @@ export default class Toolbar {
 
   #changeFloatingWindowVisibility(name) {
     const floatingWindow = document.getElementById(name);
-    const floatingWindowButton = document.getElementById(name);
+    const floatingWindowButton = document.getElementById(name + '-button');
     if (floatingWindow && floatingWindowButton) {
       if (document.getElementById(name).style.visibility === 'hidden') {
         document.getElementById(name + '-button').checked = true;
@@ -1109,6 +1118,7 @@ export default class Toolbar {
 
     this.minWidth += 133;
   }
+
   #createCustomWindowButton() {
     this.customWindowButton = this.#createToolbarButton('custom-window', 'Custom window', undefined);
     this.toolbarRight.appendChild(this.customWindowButton);
@@ -1603,5 +1613,81 @@ export default class Toolbar {
     }
 
     this.removeToolbar();
+  }
+
+  // Proto function
+
+  #createProtoParameterButton() {
+    this.protoParameterButton = this.#createToolbarButton('proto-parameter', 'Proto parameter window', undefined);
+    this.toolbarRight.appendChild(this.protoParameterButton);
+    this.#createProtoParameterWindow();
+    this.minWidth += 44;
+  }
+
+  #createProtoParameterWindow() {
+    this.protoParameterWindow = new FloatingProtoParameterWindow(this.parentNode);
+
+    const protoParameterWindowWidth = 0.6 * this.parentNode.offsetWidth;
+    const protoParameterWindowHeight = 0.75 * this.parentNode.offsetHeight;
+    const protoParameterWindowPositionX = (this.parentNode.offsetWidth - protoParameterWindowWidth) / 2;
+    const protoParameterWindowPositionY = (this.parentNode.offsetHeight - protoParameterWindowHeight) / 2;
+
+    this.protoParameterWindow.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
+    this.protoParameterWindow.headerQuit.addEventListener('mouseup',
+      _ => this.#changeFloatingWindowVisibility(this.protoParameterWindow.getId()));
+
+    this.protoParameterWindow.setSize(protoParameterWindowWidth, protoParameterWindowHeight);
+    this.protoParameterWindow.setPosition(protoParameterWindowPositionX, protoParameterWindowPositionY);
+    this.protoParameterButton.onclick = () => this.#changeFloatingWindowVisibility(this.protoParameterWindow.getId());
+
+    this.#populateProtoParameterWindow();
+
+    if (typeof this.parentNode.protoManager !== 'undefined')
+      this.parentNode.protoManager.onChange = () => this.#populateProtoParameterWindow();
+
+    this.#checkWindowBoundaries();
+  }
+
+  #populateProtoParameterWindow() {
+    const contentDiv = document.getElementById('proto-parameter-content');
+    if (contentDiv) {
+      contentDiv.innerHTML = '';
+      const keys = this.parentNode?.protoManager.exposedParameters.keys();
+      for (let key of keys)
+        this.#createVec3Field(key, contentDiv);
+    }
+  }
+
+  #createVec3Field(key, parent) {
+    const parameter = this.parentNode.protoManager.exposedParameters.get(key);
+    const span = document.createElement('span');
+    span.innerHTML = key + ': ';
+    span.inputs = [];
+    span.parameter = parameter;
+    span.inputs.push(this.#createNumberField('r', parameter.value.value.r, span, this.#colorOnChange));
+    span.inputs.push(this.#createNumberField(' g', parameter.value.value.g, span, this.#colorOnChange));
+    span.inputs.push(this.#createNumberField(' b', parameter.value.value.b, span, this.#colorOnChange));
+
+    parent.appendChild(span);
+  }
+
+  #createNumberField(name, initialValue, parent, callback) {
+    const span = document.createElement('span');
+    span.innerHTML = name + ': ';
+    const input = document.createElement('input');
+    input.type = 'number';
+    input.value = initialValue;
+    input.style.width = '50px';
+    input.onchange = () => callback(parent);
+
+    span.appendChild(input);
+    parent.appendChild(span);
+
+    return input;
+  }
+
+  #colorOnChange(node) {
+    let object = {'r': node.inputs[0].value, 'g': node.inputs[1].value, 'b': node.inputs[2].value};
+    node.parameter.setValueFromJavaScript(object);
   }
 }

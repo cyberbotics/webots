@@ -31,8 +31,12 @@ export default class ProtoManager {
       console.log('EXPOSED PARAMETERS ARE:');
       for (const [parameterName, parameter] of this.proto.parameters) {
         console.log('> ', parameterName);
+        parameter._view = this.#view;
         this.exposedParameters.set(parameterName, parameter); // TODO: change key to parameter id ?
       }
+
+      if (typeof this.onChange === 'function')
+        this.onChange();
 
       // test this using the world: DemoRegeneration.proto in the html
       // setTimeout(() => this.demoRegeneration(), 2000);
