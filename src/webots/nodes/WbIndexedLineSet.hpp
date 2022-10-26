@@ -53,6 +53,8 @@ public:
   // friction
   WbVector3 computeFrictionDirection(const WbVector3 &normal) const override;
 
+  QStringList fieldsToSynchronizeWithX3D() const override;
+
 protected:
   // reimplemented protected functions
   bool isShadedGeometryPickable() override { return false; }

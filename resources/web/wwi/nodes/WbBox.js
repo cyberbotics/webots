@@ -4,14 +4,28 @@ import WbVector3 from './utils/WbVector3.js';
 import WbVector2 from './utils/WbVector2.js';
 
 export default class WbBox extends WbGeometry {
+  #size;
   constructor(id, size) {
     super(id);
-    this.size = size;
+    this.#size = size;
+  }
+
+  get size() {
+    return this.#size;
+  }
+
+  set size(newSize) {
+    this.#size = newSize;
+    if (this.wrenObjectsCreatedCalled) {
+      this.#updateSize();
+      if (typeof this.onChange === 'function')
+        this.onChange();
+    }
   }
 
   clone(customID) {
     this.useList.push(customID);
-    return new WbBox(customID, this.size);
+    return new WbBox(customID, this.#size);
   }
 
   createWrenObjects() {
@@ -28,7 +42,7 @@ export default class WbBox extends WbGeometry {
 
     _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
 
-    this.updateSize();
+    this.#updateSize();
   }
 
   delete() {
@@ -41,19 +55,19 @@ export default class WbBox extends WbGeometry {
     if (!this._isAValidBoundingObject())
       return;
 
-    const offset = Math.min(this.size.x, Math.min(this.size.y, this.size.z)) * _wr_config_get_line_scale() /
+    const offset = Math.min(this.#size.x, Math.min(this.#size.y, this.#size.z)) * _wr_config_get_line_scale() /
       WbGeometry.LINE_SCALE_FACTOR;
-    _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.size.x + offset, this.size.y + offset, this.size.z + offset));
+    _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.#size.x + offset, this.#size.y + offset, this.#size.z + offset));
   }
 
-  updateSize() {
+  #updateSize() {
     if (!this.#sanitizeFields())
       return;
 
     if (this.isInBoundingObject())
       this.updateLineScale();
     else
-      _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.size.x, this.size.y, this.size.z));
+      _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.#size.x, this.#size.y, this.#size.z));
   }
 
   static findIntersectedFace(minBound, maxBound, intersectionPoint) {
@@ -142,7 +156,7 @@ export default class WbBox extends WbGeometry {
   }
 
   #sanitizeFields() {
-    const newSize = resetVector3IfNonPositive(this.size, new WbVector3(1.0, 1.0, 1.0));
+    const newSize = resetVector3IfNonPositive(this.#size, new WbVector3(1.0, 1.0, 1.0));
     if (newSize !== false) {
       this.size = newSize;
       return false;

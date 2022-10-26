@@ -1,16 +1,40 @@
-import Parser, {convertStringToVec3, convertStringToQuaternion} from './Parser.js';
+import Parser, {convertStringToVec3, convertStringToQuaternion, convertStringToFloatArray,
+  convertStringToVec2} from './Parser.js';
 import {webots} from './webots.js';
 import WrenRenderer from './WrenRenderer.js';
 
-import {getAncestor} from './nodes/utils/utils.js';
+import WbBox from './nodes/WbBox.js';
+import WbCadShape from './nodes/WbCadShape.js';
+import WbCapsule from './nodes/WbCapsule.js';
+import WbCone from './nodes/WbCone.js';
+import WbCoordinate from './nodes/WbCoordinate.js';
+import WbCylinder from './nodes/WbCylinder.js';
+import WbElevationGrid from './nodes/WbElevationGrid.js';
+import WbFog from './nodes/WbFog.js';
 import WbGroup from './nodes/WbGroup.js';
+import WbImageTexture from './nodes/WbImageTexture.js';
+import WbIndexedFaceSet from './nodes/WbIndexedFaceSet.js';
+import WbIndexedLineSet from './nodes/WbIndexedLineSet.js';
 import WbLight from './nodes/WbLight.js';
 import WbMaterial from './nodes/WbMaterial.js';
+import WbMesh from './nodes/WbMesh.js';
 import WbPbrAppearance from './nodes/WbPbrAppearance.js';
+import WbPlane from './nodes/WbPlane.js';
+import WbPointLight from './nodes/WbPointLight.js';
+import WbColor from './nodes/WbColor.js';
+import WbSphere from './nodes/WbSphere.js';
+import WbTextureCoordinate from './nodes/WbTextureCoordinate.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbTrackWheel from './nodes/WbTrackWheel.js';
 import WbTransform from './nodes/WbTransform.js';
 import WbWorld from './nodes/WbWorld.js';
+
+import {getAncestor} from './nodes/utils/utils.js';
+import WbVector2 from './nodes/utils/WbVector2.js';
+import WbVector3 from './nodes/utils/WbVector3.js';
+import WbNormal from './nodes/WbNormal.js';
+import WbSpotLight from './nodes/WbSpotLight.js';
+import WbDirectionalLight from './nodes/WbDirectionalLight.js';
 
 export default class X3dScene {
   #loader;
@@ -72,11 +96,9 @@ export default class X3dScene {
     if (typeof WbWorld.instance === 'undefined')
       return;
 
-    if (typeof WbWorld.instance.scene !== 'undefined')
-      WbWorld.instance.scene.updateFrameBuffer();
+    WbWorld.instance?.scene.updateFrameBuffer();
 
-    if (typeof WbWorld.instance.viewpoint !== 'undefined')
-      WbWorld.instance.viewpoint.updatePostProcessingEffects();
+    WbWorld.instance?.viewpoint.updatePostProcessingEffects();
 
     this.render();
   }
@@ -86,8 +108,7 @@ export default class X3dScene {
       typeof document.getElementsByTagName('webots-view')[0].toolbar !== 'undefined') {
       const toolbar = document.getElementsByTagName('webots-view')[0].toolbar;
       toolbar.removeRobotWindows();
-      if (typeof toolbar.terminal !== 'undefined')
-        toolbar.terminal.clear();
+      toolbar.terminal?.clear();
     }
 
     if (typeof WbWorld.instance !== 'undefined') {
@@ -97,11 +118,9 @@ export default class X3dScene {
         --index;
       }
 
-      if (typeof WbWorld.instance.viewpoint !== 'undefined')
-        WbWorld.instance.viewpoint.delete();
+      WbWorld.instance?.viewpoint.delete();
 
-      if (typeof WbWorld.instance.scene !== 'undefined')
-        WbWorld.instance.scene.destroy();
+      WbWorld.instance?.scene.destroy();
 
       WbWorld.instance = undefined;
     }
@@ -126,11 +145,10 @@ export default class X3dScene {
     this.render();
   }
 
-  async loadRawWorldFile(raw, onLoad, progress) {
+  loadRawWorldFile(raw, onLoad, progress) {
     const prefix = webots.currentView.prefix;
     this.#loader = new Parser(prefix);
-    await this.#loader.parse(raw, this.renderer);
-    onLoad();
+    this.#loader.parse(raw, this.renderer).then(() => onLoad());
   }
 
   loadWorldFile(url, onLoad, progress) {
@@ -139,12 +157,11 @@ export default class X3dScene {
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.open('GET', url, true);
     xmlhttp.overrideMimeType('plain/text');
-    xmlhttp.onreadystatechange = async function() {
+    xmlhttp.onreadystatechange = () => {
       // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
       if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) {
         this.#loader = new Parser(prefix);
-        await this.#loader.parse(xmlhttp.responseText, renderer);
-        onLoad();
+        this.#loader.parse(xmlhttp.responseText, renderer).then(() => onLoad());
       } else if (xmlhttp.status === 404)
         progress.setProgressBar('block', 'Loading world file...', 5, '(error) File not found: ' + url);
     };
@@ -159,9 +176,9 @@ export default class X3dScene {
     if (typeof parentId !== 'undefined' && parentId > 0) {
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
       const ancestor = getAncestor(parentNode);
-      ancestor.isPreFinalizeCalled = false;
+      ancestor.isPreFinalizedCalled = false;
       ancestor.wrenObjectsCreatedCalled = false;
-      ancestor.isPostFinalizeCalled = false;
+      ancestor.isPostFinalizedCalled = false;
     }
 
     if (typeof this.#loader === 'undefined')
@@ -169,8 +186,6 @@ export default class X3dScene {
     else
       this.#loader.prefix = webots.currentView.prefix;
     this.#loader.parse(x3dObject, this.renderer, parentNode, callback);
-
-    this.render();
   }
 
   applyPose(pose) {
@@ -205,42 +220,140 @@ export default class X3dScene {
         continue;
 
       if (key === 'translation') {
-        const translation = convertStringToVec3(pose[key]);
-
-        if (object instanceof WbTransform) {
-          if (typeof WbWorld.instance.viewpoint.followedId !== 'undefined' &&
-            WbWorld.instance.viewpoint.followedId === object.id)
-            WbWorld.instance.viewpoint.setFollowedObjectDeltaPosition(translation, object.translation);
-
-          object.translation = translation;
-          if (WbWorld.instance.readyForUpdates)
-            object.applyTranslationToWren();
-        } else if (object instanceof WbTextureTransform) {
-          object.translation = translation;
-          if (WbWorld.instance.readyForUpdates) {
-            let appearance = WbWorld.instance.nodes.get(object.parent);
-            if (typeof appearance !== 'undefined') {
-              let shape = WbWorld.instance.nodes.get(appearance.parent);
-              if (typeof shape !== 'undefined')
-                shape.updateAppearance();
-            }
-          }
-        }
+        if (object instanceof WbTransform)
+          object.translation = convertStringToVec3(pose[key]);
+        else if (object instanceof WbTextureTransform)
+          object.translation = convertStringToVec2(pose[key]);
       } else if (key === 'rotation') {
-        const quaternion = convertStringToQuaternion(pose[key]);
-        if (object instanceof WbTrackWheel)
-          object.updateRotation(quaternion);
+        if (object instanceof WbTextureTransform)
+          object.rotation = parseFloat(pose[key]);
         else {
-          object.rotation = quaternion;
-          if (WbWorld.instance.readyForUpdates)
-            object.applyRotationToWren();
+          const quaternion = convertStringToQuaternion(pose[key]);
+          if (object instanceof WbTrackWheel)
+            object.updateRotation(quaternion);
+          else
+            object.rotation = quaternion;
         }
       } else if (key === 'scale') {
-        if (object instanceof WbTransform) {
+        if (object instanceof WbTransform)
           object.scale = convertStringToVec3(pose[key]);
-          if (WbWorld.instance.readyForUpdates)
-            object.applyScaleToWren();
-        }
+        else if (object instanceof WbTextureTransform)
+          object.scale = convertStringToVec2(pose[key]);
+      } else if (key === 'center') {
+        if (object instanceof WbTextureTransform)
+          object.center = convertStringToVec2(pose[key]);
+      } else if (key === 'castShadows') {
+        if (object instanceof WbLight || object instanceof WbCadShape)
+          object.castShadows = pose[key].toLowerCase() === 'true';
+      } else if (key === 'isPickable') {
+        if (object instanceof WbCadShape)
+          object.isPickable = pose[key].toLowerCase() === 'true';
+      } else if (key === 'size') {
+        if (object instanceof WbBox || object instanceof WbPlane)
+          object.size = convertStringToVec3(pose[key]);
+      } else if (key === 'radius') {
+        if (object instanceof WbCapsule || object instanceof WbSphere || object instanceof WbCylinder ||
+          object instanceof WbSpotLight || object instanceof WbPointLight)
+          object.radius = parseFloat(pose[key]);
+      } else if (key === 'subdivision') {
+        if (object instanceof WbSphere || object instanceof WbCapsule || object instanceof WbCone ||
+           object instanceof WbCylinder)
+          object.subdivision = parseInt(pose[key]);
+      } else if (key === 'ico') {
+        if (object instanceof WbSphere)
+          object.ico = pose[key].toLowerCase() === 'true';
+      } else if (key === 'height') {
+        if (object instanceof WbCapsule || object instanceof WbCone || object instanceof WbCylinder)
+          object.height = parseFloat(pose[key]);
+        else if (object instanceof WbElevationGrid)
+          // Filter is used to remove Nan elements
+          object.height = convertStringToFloatArray(pose[key]).filter(e => e);
+      } else if (key === 'bottom') {
+        if (object instanceof WbCapsule || object instanceof WbCone || object instanceof WbCylinder)
+          object.bottom = pose[key].toLowerCase() === 'true';
+      } else if (key === 'top') {
+        if (object instanceof WbCapsule || object instanceof WbCylinder)
+          object.top = pose[key].toLowerCase() === 'true';
+      } else if (key === 'side') {
+        if (object instanceof WbCapsule || object instanceof WbCone || object instanceof WbCylinder)
+          object.side = pose[key].toLowerCase() === 'true';
+      } else if (key === 'bottomRadius') {
+        if (object instanceof WbCone)
+          object.bottomRadius = parseFloat(pose[key]);
+      } else if (key === 'ccw') {
+        if (object instanceof WbMesh || object instanceof WbIndexedFaceSet || object instanceof WbCadShape)
+          object.ccw = pose[key].toLowerCase() === 'true';
+      } else if (key === 'direction') {
+        if (object instanceof WbSpotLight || WbDirectionalLight)
+          object.direction = convertStringToVec3(pose[key]);
+      } else if (key === 'color') {
+        if (object instanceof WbLight || object instanceof WbFog)
+          object.color = convertStringToVec3(pose[key]);
+        else if (object instanceof WbColor)
+          object.color = convertStringToVec3Array(pose[key]);
+      } else if (key === 'name') {
+        if (object instanceof WbMesh)
+          object.name = pose[key];
+      } else if (key === 'materialIndex') {
+        if (object instanceof WbMesh)
+          object.materialIndex = parseInt(pose[key]);
+      } else if (key === 'url') {
+        if (object instanceof WbMesh || object instanceof WbCadShape)
+          object.url = pose[key][0];
+      } else if (key === 'point') {
+        if (object instanceof WbCoordinate)
+          object.point = convertStringToVec3Array(pose[key]);
+        if (object instanceof WbTextureCoordinate)
+          object.point = convertStringToVec2Array(pose[key]);
+      } else if (key === 'vector') {
+        if (object instanceof WbNormal)
+          object.vector = convertStringToVec3Array(pose[key]);
+      } else if (key === 'coordIndex') {
+        if (object instanceof WbIndexedLineSet || object instanceof WbIndexedFaceSet)
+          object.coordIndex = pose[key];
+      } else if (key === 'attenuation') {
+        if (object instanceof WbSpotLight || object instanceof WbPointLight)
+          object.attenuation = convertStringToVec3(pose[key]);
+      } else if (key === 'location') {
+        if (object instanceof WbSpotLight || object instanceof WbPointLight)
+          object.location = convertStringToVec3(pose[key]);
+      } else if (object instanceof WbFog) {
+        if (key === 'visibilityRange')
+          object.visibilityRange = parseFloat(pose[key]);
+        else if (key === 'fogType')
+          object.fogType = pose[key];
+      } else if (object instanceof WbSpotLight) {
+        if (key === 'beamWidth')
+          object.beamWidth = parseFloat(pose[key]);
+        else if (key === 'cutOffAngle')
+          object.cutOffAngle = parseFloat(pose[key]);
+      } else if (object instanceof WbLight) {
+        if (key === 'on')
+          object.on = pose[key].toLowerCase() === 'true';
+        else if (key === 'ambientIntensity')
+          object.ambientIntensity = parseFloat(pose[key]);
+        else if (key === 'intensity')
+          object.intensity = parseFloat(pose[key]);
+      } else if (object instanceof WbIndexedFaceSet) {
+        if (key === 'normalPerVertex')
+          object.normalPerVertex = pose[key].toLowerCase() === 'true';
+        else if (key === 'normalIndex')
+          object.normalIndex = pose[key];
+        else if (key === 'texCoordIndex')
+          object.texCoordIndex = pose[key];
+        else if (key === 'creaseAngle')
+          object.creaseAngle = parseFloat(pose[key]);
+      } else if (object instanceof WbElevationGrid) {
+        if (key === 'xDimension')
+          object.xDimension = pose[key];
+        else if (key === 'xSpacing')
+          object.xSpacing = pose[key];
+        else if (key === 'yDimension')
+          object.yDimension = pose[key];
+        else if (key === 'ySpacing')
+          object.ySpacing = pose[key];
+        else if (key === 'thickness')
+          object.thickness = pose[key];
       } else if (object instanceof WbPbrAppearance || object instanceof WbMaterial) {
         if (key === 'baseColor')
           object.baseColor = convertStringToVec3(pose[key]);
@@ -248,31 +361,33 @@ export default class X3dScene {
           object.diffuseColor = convertStringToVec3(pose[key]);
         else if (key === 'emissiveColor')
           object.emissiveColor = convertStringToVec3(pose[key]);
-
-        if (object instanceof WbMaterial) {
-          if (WbWorld.instance.readyForUpdates) {
-            let appearance = WbWorld.instance.nodes.get(object.parent);
-            if (typeof appearance !== 'undefined') {
-              let shape = WbWorld.instance.nodes.get(appearance.parent);
-              if (typeof shape !== 'undefined')
-                shape.updateAppearance();
-            }
-          }
-        } else {
-          if (WbWorld.instance.readyForUpdates) {
-            let shape = WbWorld.instance.nodes.get(object.parent);
-            if (typeof shape !== 'undefined')
-              shape.updateAppearance();
-          }
-        }
-      } else if (object instanceof WbLight) {
-        if (key === 'color') {
-          object.color = convertStringToVec3(pose[key]);
-          object.updateColor();
-        } else if (key === 'on') {
-          object.on = pose[key].toLowerCase() === 'true';
-          object.updateOn();
-        }
+        else if (key === 'roughness')
+          object.roughness = parseFloat(pose[key]);
+        else if (key === 'metalness')
+          object.metalness = parseFloat(pose[key]);
+        else if (key === 'IBLStrength')
+          object.IBLStrength = parseFloat(pose[key]);
+        else if (key === 'normalMapFactor')
+          object.normalMapFactor = parseFloat(pose[key]);
+        else if (key === 'occlusionMapStrength')
+          object.occlusionMapStrength = parseFloat(pose[key]);
+        else if (key === 'emissiveIntensity')
+          object.emissiveIntensity = parseFloat(pose[key]);
+        else if (key === 'transparency')
+          object.transparency = parseFloat(pose[key]);
+        else if (key === 'ambientIntensity')
+          object.ambientIntensity = parseFloat(pose[key]);
+        else if (key === 'shininess')
+          object.shininess = parseFloat(pose[key]);
+        else if (key === 'specularColor')
+          object.specularColor = convertStringToVec3(pose[key]);
+      } else if (object instanceof WbImageTexture) {
+        if (key === 'repeatS')
+          object.repeatS = pose[key].toLowerCase() === 'true';
+        else if (key === 'repeatT')
+          object.repeatT = pose[key].toLowerCase() === 'true';
+        else if (key === 'filtering')
+          object.filtering = parseInt(pose[key]);
       }
     }
 
@@ -320,8 +435,8 @@ export default class X3dScene {
           for (let i = 0; i < frame.labels.length; i++)
             this.applyLabel(frame.labels[i], view);
         }
-        if (typeof WbWorld.instance !== 'undefined' && typeof WbWorld.instance.viewpoint !== 'undefined')
-          WbWorld.instance.viewpoint.updateFollowUp(view.time);
+
+        WbWorld.instance?.viewpoint.updateFollowUp(view.time);
         this.render();
       } else { // parse the labels even so the scene loading is not completed
         data = data.substring(data.indexOf(':') + 1);
@@ -358,4 +473,30 @@ export default class X3dScene {
     WbWorld.instance.viewpoint.resetViewpoint();
     this.render();
   }
+}
+
+function convertStringToVec3Array(string) {
+  const vecArray = [];
+  string = string.trim();
+  string = string.slice(1, -1).trim();
+  const floatArray = convertStringToFloatArray(string);
+  if (typeof floatArray !== 'undefined') {
+    for (let i = 0; i < floatArray.length; i += 3)
+      vecArray.push(new WbVector3(floatArray[i], floatArray[i + 1], floatArray[i + 2]));
+  }
+
+  return vecArray;
+}
+
+function convertStringToVec2Array(string) {
+  const vecArray = [];
+  string = string.trim();
+  string = string.slice(1, -1).trim();
+  const floatArray = convertStringToFloatArray(string);
+  if (typeof floatArray !== 'undefined') {
+    for (let i = 0; i < floatArray.length; i += 2)
+      vecArray.push(new WbVector2(floatArray[i], floatArray[i + 1]));
+  }
+
+  return vecArray;
 }

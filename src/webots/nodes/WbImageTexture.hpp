@@ -72,6 +72,8 @@ public:
 
   void exportShallowNode(WbWriter &writer) const;
 
+  QStringList fieldsToSynchronizeWithX3D() const override;
+
 signals:
   void changed();
 

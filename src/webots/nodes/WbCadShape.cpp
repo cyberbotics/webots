@@ -630,3 +630,12 @@ void WbCadShape::exportNodeFields(WbWriter &writer) const {
 QString WbCadShape::cadPath() const {
   return WbUrl::computePath(this, "url", mUrl, 0);
 }
+
+QStringList WbCadShape::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "ccw"
+         << "castShadows"
+         << "isPickable"
+         << "url";
+  return fields;
+}
