@@ -1,5 +1,5 @@
 import Node from './protoVisualizer/Node.js';
-
+import { MFNode, SFNode, stringifyType } from './protoVisualizer/Vrml.js';
 import {getAnId} from './nodes/utils/id_provider.js';
 
 export default class ProtoManager {
@@ -53,12 +53,14 @@ export default class ProtoManager {
       // not implemented yet JS side
       // setTimeout(() => this.demoFieldChange('radius', 0.2), 2000);
       // setTimeout(() => this.demoFieldChange('subdivision', 5), 2000);
+
+      // print output proto
+      setTimeout(() => this.exportProto(), 4000);
     });
   }
 
   loadX3d() {
     const x3d = new XMLSerializer().serializeToString(this.proto.toX3d());
-    console.log(x3d);
     this.#view.prefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);
     this.#view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', this.parentId);
   }
@@ -77,6 +79,60 @@ export default class ProtoManager {
     const parameter = this.exposedParameters.get(parameterName);
     parameter.setValueFromJavaScript(this.view, newValue);
   }
+
+  exportProto() {
+    function indent(depth) {
+      return ' '.repeat(depth);
+    }
+
+    function listExternProto(node) {
+      const list = [node.url]; // the base-type must always be declared
+      for (const parameter of node.parameters.values()) {
+        const currentValue = parameter.value;
+        if (currentValue instanceof SFNode && currentValue.value !== null) {
+          if (currentValue.value.isProto && !list.includes(currentValue.value.url))
+            list.push(parameter.value.value.url);
+        }
+
+        if (parameter.value instanceof MFNode && currentValue.value.length > 0) {
+          for (const item of currentValue.value) {
+            if (item.value.isProto && !list.includes(item.value.url))
+              list.push(item.value.url);
+          }
+        }
+      }
+
+      return list;
+    }
+
+    // write PROTO contents
+    let s = '';
+    s += '#VRML_SIM R2023a utf8\n';
+    s += '\n';
+
+    const externProto = listExternProto(this.proto);
+    for (const item in externProto)
+      s += `EXTERNPROTO "${item}"\n`;
+
+    s += '\n';
+    s += 'PROTO CustomProto [\n';
+
+    for (const parameter of this.proto.parameters.values())
+      s += `${indent(2)}field ${stringifyType(parameter.type)} ${parameter.name} ${parameter.value.toVrml()}\n`;
+
+    s += ']\n';
+    s += '{\n';
+
+    s += `${indent(2)}${this.proto.name} {\n`;
+    for (const parameter of this.proto.parameters.values())
+      s += `${indent(4)}${parameter.name} IS ${parameter.name}\n`;
+    s += `${indent(2)}}\n`;
+    s += '}\n';
+
+    console.log(s);
+    return s;
+  }
+
 
   loadMinimalScene() {
     const xml = document.implementation.createDocument('', '', null);
