@@ -9,8 +9,8 @@ export default class WbBaseNode {
     this.id = id;
 
     this.wrenObjectsCreatedCalled = false;
-    this.isPreFinalizeCalled = false;
-    this.isPostFinalizeCalled = false;
+    this.isPreFinalizedCalled = false;
+    this.isPostFinalizedCalled = false;
 
     this.#upperTransformFirstTimeSearch = true;
     this.upperTransform = false;
@@ -51,13 +51,13 @@ export default class WbBaseNode {
   }
 
   finalize() {
-    if (!this.isPreFinalizeCalled)
+    if (!this.isPreFinalizedCalled)
       this.preFinalize();
 
     if (!this.wrenObjectsCreatedCalled)
       this.createWrenObjects();
 
-    if (!this.isPostFinalizeCalled)
+    if (!this.isPostFinalizedCalled)
       this.postFinalize();
   }
 
@@ -82,10 +82,10 @@ export default class WbBaseNode {
   }
 
   preFinalize() {
-    this.isPreFinalizeCalled = true;
+    this.isPreFinalizedCalled = true;
   }
 
   postFinalize() {
-    this.isPostFinalizeCalled = true;
+    this.isPostFinalizedCalled = true;
   }
 }

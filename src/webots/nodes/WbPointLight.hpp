@@ -46,6 +46,8 @@ public:
   double computeAttenuation(double distance) const;
   WbVector3 computeAbsoluteLocation() const;
 
+  QStringList fieldsToSynchronizeWithX3D() const override;
+
 protected slots:
   void updateAmbientIntensity() override;
   void updateIntensity() override;

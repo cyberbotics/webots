@@ -257,6 +257,16 @@ double WbCone::scaledBottomRadius() const {
   return fabs(mBottomRadius->value() * std::max(scale.x(), scale.z()));
 }
 
+QStringList WbCone::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "bottomRadius"
+         << "height"
+         << "subdivision"
+         << "bottom"
+         << "side";
+  return fields;
+}
+
 /////////////////
 // Ray Tracing //
 /////////////////

@@ -482,9 +482,10 @@ export default class WbTriangleMesh {
 
       for (let v = 0; v < 3; ++v) { // foreach vertex
         // compute default texture mapping
-        this.#textureCoordinates.push((vertices[v][longestDimension] - this.#min[longestDimension]) / size[longestDimension]);
-        this.#textureCoordinates.push(1.0 - (vertices[v][secondLongestDimension] - this.#min[secondLongestDimension]) /
-          size[longestDimension]);
+        this.#textureCoordinates.push((vertices[v].get(longestDimension) - this.#min[longestDimension]) /
+          size.get(longestDimension));
+        this.#textureCoordinates.push(1.0 - (vertices[v].get(secondLongestDimension) - this.#min[secondLongestDimension]) /
+          size.get(longestDimension));
 
         // compute non-recursive mapping
         const uv = WbBox.computeTextureCoordinate(minBound, maxBound, vertices[v], true, faceIndex);

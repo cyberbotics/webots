@@ -49,7 +49,6 @@ public:
 
   // export
   QStringList fieldsToSynchronizeWithX3D() const override;
-  void enableX3DTranslationUpdate(bool enable) { mEnableX3DTranslationUpdate = enable; }
 
 signals:
   void changed();
@@ -62,7 +61,6 @@ private:
   WbSFVector2 *mTranslation;
 
   WrTextureTransform *mWrenTextureTransform;
-  bool mEnableX3DTranslationUpdate;
 
   WbTextureTransform &operator=(const WbTextureTransform &);  // non copyable
   WbNode *clone() const override { return new WbTextureTransform(*this); }

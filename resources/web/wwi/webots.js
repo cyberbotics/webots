@@ -173,9 +173,8 @@ webots.View = class View {
     };
 
     let loadFinalize = () => {
-      if (typeof this.multimediaClient !== 'undefined')
-        // finalize multimedia client
-        this.multimediaClient.finalize();
+      // finalize multimedia client
+      this.multimediaClient?.finalize();
 
       if (typeof this.onready === 'function')
         this.onready();
@@ -321,8 +320,7 @@ webots.View = class View {
   }
 
   destroyWorld() {
-    if (typeof this.x3dScene !== 'undefined')
-      this.x3dScene.destroyWorld();
+    this.x3dScene?.destroyWorld();
     this.removeLabels();
     this.robots = [];
 

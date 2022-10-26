@@ -4,6 +4,10 @@ import WbImage from './nodes/WbImage.js';
 import {arrayXPointer} from './nodes/utils/utils.js';
 
 export function loadImageTextureInWren(prefix, url, isTransparent, checkTransparency) {
+  let needToDownloadTexture = Module.ccall('wr_texture_2d_copy_from_cache', 'number', ['string'], [url]);
+  if (needToDownloadTexture !== 0)
+    return Promise.resolve();
+
   return loadTextureData(prefix, url).then((image) => {
     if (checkTransparency) {
       for (let i = 3, n = image.bits.length; i < n; i += 4) {

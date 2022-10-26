@@ -40,6 +40,8 @@ public:
   // specific functions
   const WbVector3 &direction() const;
 
+  QStringList fieldsToSynchronizeWithX3D() const override;
+
 private slots:
   void updateDirection();
 

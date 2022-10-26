@@ -2,19 +2,85 @@ import WbGeometry from './WbGeometry.js';
 import {resetIfNonPositive, resetIfNotInRangeWithIncludedBounds} from './utils/WbFieldChecker.js';
 
 export default class WbCapsule extends WbGeometry {
+  #bottom;
+  #height;
+  #radius;
+  #subdivision;
+  #side;
+  #top;
   constructor(id, radius, height, subdivision, bottom, side, top) {
     super(id);
-    this.radius = radius;
-    this.height = height;
-    this.subdivision = subdivision;
-    this.bottom = bottom;
-    this.side = side;
-    this.top = top;
+    this.#radius = radius;
+    this.#height = height;
+    this.#subdivision = subdivision;
+    this.#bottom = bottom;
+    this.#side = side;
+    this.#top = top;
+  }
+
+  get bottom() {
+    return this.#bottom;
+  }
+
+  set bottom(newBottom) {
+    this.#bottom = newBottom;
+    if (this.wrenObjectsCreatedCalled)
+      this.#updateMesh();
+  }
+
+  get height() {
+    return this.#height;
+  }
+
+  set height(newHeight) {
+    this.#height = newHeight;
+    if (this.wrenObjectsCreatedCalled)
+      this.#updateMesh();
+  }
+
+  get radius() {
+    return this.#radius;
+  }
+
+  set radius(newRadius) {
+    this.#radius = newRadius;
+    if (this.wrenObjectsCreatedCalled)
+      this.#updateMesh();
+  }
+
+  get side() {
+    return this.#side;
+  }
+
+  set side(newSide) {
+    this.#side = newSide;
+    if (this.wrenObjectsCreatedCalled)
+      this.#updateMesh();
+  }
+
+  get subdivision() {
+    return this.#subdivision;
+  }
+
+  set subdivision(newSubdivision) {
+    this.#subdivision = newSubdivision;
+    if (this.wrenObjectsCreatedCalled)
+      this.#updateMesh();
+  }
+
+  get top() {
+    return this.#top;
+  }
+
+  set top(newTop) {
+    this.#top = newTop;
+    if (this.wrenObjectsCreatedCalled)
+      this.#updateMesh();
   }
 
   clone(customID) {
     this.useList.push(customID);
-    return new WbCapsule(customID, this.radius, this.height, this.subdivision, this.bottom, this.side, this.top);
+    return new WbCapsule(customID, this.#radius, this.#height, this.#subdivision, this.#bottom, this.#side, this.#top);
   }
 
   createWrenObjects() {
@@ -23,8 +89,8 @@ export default class WbCapsule extends WbGeometry {
 
     super.createWrenObjects();
 
-    if (this.isInBoundingObject() && this.subdivision < WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION)
-      this.subdivision = WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION;
+    if (this.isInBoundingObject() && this.#subdivision < WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION)
+      this.#subdivision = WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION;
 
     this.#sanitizeFields();
     this.#buildWrenMesh();
@@ -55,7 +121,7 @@ export default class WbCapsule extends WbGeometry {
       this._wrenMesh = undefined;
     }
 
-    if (!this.bottom && !this.side && !this.top)
+    if (!this.#bottom && !this.#side && !this.#top)
       return;
 
     super._computeWrenRenderable();
@@ -69,7 +135,7 @@ export default class WbCapsule extends WbGeometry {
     super.setPickable(this.isPickable);
 
     const createOutlineMesh = this.isInBoundingObject();
-    this._wrenMesh = _wr_static_mesh_capsule_new(this.subdivision, this.radius, this.height, this.side, this.top, this.bottom,
+    this._wrenMesh = _wr_static_mesh_capsule_new(this.#subdivision, this.#radius, this.#height, this.#side, this.#top, this.#bottom,
       createOutlineMesh);
 
     _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
@@ -77,29 +143,33 @@ export default class WbCapsule extends WbGeometry {
 
   #sanitizeFields() {
     const minSubdivision = this.isInBoundingObject() ? WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION : 4;
-    const newSubdivision = resetIfNotInRangeWithIncludedBounds(this.subdivision, minSubdivision, 1000, minSubdivision);
+    const newSubdivision = resetIfNotInRangeWithIncludedBounds(this.#subdivision, minSubdivision, 1000, minSubdivision);
     if (newSubdivision !== false)
-      this.subdivision = newSubdivision;
+      this.#subdivision = newSubdivision;
 
-    const newRadius = resetIfNonPositive(this.radius, 1.0);
+    const newRadius = resetIfNonPositive(this.#radius, 1.0);
     if (newRadius !== false)
-      this.radius = newRadius;
+      this.#radius = newRadius;
 
-    const newHeight = resetIfNonPositive(this.height, 1.0);
+    const newHeight = resetIfNonPositive(this.#height, 1.0);
     if (newHeight !== false)
-      this.height = newHeight;
-
-    return newSubdivision === false && newRadius === false && newHeight === false;
+      this.#height = newHeight;
   }
 
   #isSuitableForInsertionInBoundingObject() {
-    const invalidRadius = this.radius <= 0.0;
-    const invalidHeight = this.height <= 0.0;
-
-    return (!invalidRadius && !invalidHeight);
+    return (!this.#radius <= 0.0 && !this.#height <= 0.0);
   }
 
   _isAValidBoundingObject() {
     return super._isAValidBoundingObject() && this.#isSuitableForInsertionInBoundingObject();
+  }
+
+  #updateMesh() {
+    this.#sanitizeFields();
+
+    this.#buildWrenMesh();
+
+    if (typeof this.onRecreated === 'function')
+      this.onRecreated();
   }
 }
