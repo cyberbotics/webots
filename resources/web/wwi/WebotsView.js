@@ -220,15 +220,15 @@ export default class WebotsView extends HTMLElement {
   }
 
   setCustomWindowTitle(title) {
-    this?.toolbar.customWindow.setTitle(title);
+    this.toolbar?.customWindow?.setTitle(title);
   }
 
   setCustomWindowTooltip(tooltip) {
-    this?.toolbar.customWindow.setTooltip(tooltip);
+    this.toolbar?.customWindow?.setTooltip(tooltip);
   }
 
   setCustomWindowContent(content) {
-    this?.toolbar.customWindow.setContent(content);
+    this.toolbar?.customWindow?.setContent(content);
   }
 
   #closeAnimation() {
@@ -318,11 +318,11 @@ export default class WebotsView extends HTMLElement {
   }
 
   hideToolbar() {
-    this?.toolbar.hideToolbar(true);
+    this.toolbar?.hideToolbar(true);
   }
 
   showToolbar() {
-    this?.toolbar.showToolbar(true);
+    this.toolbar?.showToolbar(true);
   }
 
   sendMessage(message) {

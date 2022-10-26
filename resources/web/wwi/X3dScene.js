@@ -108,7 +108,7 @@ export default class X3dScene {
       typeof document.getElementsByTagName('webots-view')[0].toolbar !== 'undefined') {
       const toolbar = document.getElementsByTagName('webots-view')[0].toolbar;
       toolbar.removeRobotWindows();
-      toolbar?.terminal.clear();
+      toolbar.terminal?.clear();
     }
 
     if (typeof WbWorld.instance !== 'undefined') {
@@ -436,7 +436,7 @@ export default class X3dScene {
             this.applyLabel(frame.labels[i], view);
         }
 
-        WbWorld?.instance.viewpoint.updateFollowUp(view.time);
+        WbWorld.instance?.viewpoint.updateFollowUp(view.time);
         this.render();
       } else { // parse the labels even so the scene loading is not completed
         data = data.substring(data.indexOf(':') + 1);
