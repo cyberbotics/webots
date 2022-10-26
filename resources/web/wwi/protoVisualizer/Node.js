@@ -219,7 +219,7 @@ export default class Node {
               throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
 
             const exposedParameter = tokenizer.proto.parameters.get(alias);
-            parameter.value = exposedParameter.value; // TODO: if it's set to the same value, why we need to notify change?
+            parameter.value = exposedParameter.value;
             exposedParameter.insertLink(parameter);
           } else
             parameter.value.setValueFromTokenizer(tokenizer, this);

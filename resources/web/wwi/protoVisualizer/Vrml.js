@@ -119,7 +119,7 @@ export class SFString extends SingleValue {
   }
 
   toJson(parameterName) {
-    return this.value; // note: value is already inside quotes
+    return this.value;
   }
 
   type() {
@@ -386,11 +386,11 @@ export class SFNode extends SingleValue {
   }
 
   toVrml() {
-    if (typeof this.value === 'undefined')
-      throw new Error('When exporting to VRML, the field should always be defined (or null).');
-
     if (this.value === null)
       return 'NULL';
+
+    if (typeof this.value === 'undefined')
+      throw new Error('When exporting to VRML, the field should always be defined (or null).');
 
     return this.value.toVrml();
   }

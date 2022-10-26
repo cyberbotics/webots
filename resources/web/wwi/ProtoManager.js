@@ -9,14 +9,6 @@ export default class ProtoManager {
     this.exposedParameters = new Map();
   }
 
-  get view() {
-    return this.#view;
-  }
-
-  set view(v) {
-    this.#view = v;
-  }
-
   async loadProto(url, parentId) {
     this.url = url;
     this.parentId = parentId;

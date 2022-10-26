@@ -94,6 +94,7 @@ export default class Tokenizer {
 
   readWord() {
     this.skipWhiteSpace();
+
     let word = this.#char;
     this.#markTokenStart();
 

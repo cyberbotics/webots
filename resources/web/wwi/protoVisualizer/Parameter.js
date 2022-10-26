@@ -78,7 +78,7 @@ export default class Parameter {
   setValueFromJavaScript(view, v) {
     // update value on the structure side
     this.#value.setValueFromJavaScript(v);
-    // notify aliased fields of the change
+    // notify linked parameters of the change
     for (const link of this.parameterLinks) {
       console.log(this.name + ' change notifies ' + link.name);
       link.setValueFromJavaScript(view, v);
