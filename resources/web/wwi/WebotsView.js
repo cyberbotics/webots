@@ -1,6 +1,6 @@
 import {exitFullscreen} from './fullscreen_handler.js';
 import Toolbar from './Toolbar.js';
-import ProtoConverter from './ProtoConverter.js';
+import ProtoManager from './ProtoManager.js';
 import {webots} from './webots.js';
 import {changeGtaoLevel} from './nodes/wb_preferences.js';
 import WbWorld from './nodes/WbWorld.js';
@@ -394,14 +394,14 @@ export default class WebotsView extends HTMLElement {
       console.time('Loaded in: ');
       if (typeof this.#view === 'undefined')
         this.#view = new webots.View(this, isMobileDevice);
-      const protoConverter = new ProtoConverter(this.#view);
+      const protoManager = new ProtoManager(this.#view);
+      protoManager.loadMinimalScene();
       this.#view.onready = () => {
-        protoConverter.loadProto(proto);
+        protoManager.loadProto(proto);
         this.toolbar = new Toolbar(this.#view, 'scene', this);
         if (typeof this.onready === 'function')
           this.onready();
-      }
-      protoConverter.loadMinimalScene();
+      };
       this.#hasProto = true;
       this.#closeWhenDOMElementRemoved();
     }

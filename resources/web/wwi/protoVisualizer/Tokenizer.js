@@ -1,6 +1,5 @@
 import Token, {isSpace, isPunctuation} from './Token.js';
-
-import {VRML} from './utility/utility.js';
+import {VRML} from './Vrml.js';
 
 export default class Tokenizer {
   #atEndPos;
@@ -12,7 +11,8 @@ export default class Tokenizer {
   #streamPos;
   #tokenColumn;
   #tokenLine;
-  constructor(stream) {
+  #proto;
+  constructor(stream, proto) {
     this.#char = '';
     this.vector = [];
     this.#stream = stream;
@@ -22,8 +22,15 @@ export default class Tokenizer {
     this.#tokenLine = 1;
     this.#tokenColumn = -1;
     this.#atEndPos = false;
+    if (typeof proto === 'undefined')
+      throw new Error('When tokenizing a string, a PROTO reference is required');
+    this.#proto = proto; // proto reference from which we are tokenizing
     // control position in token vector
     this.#index = 0;
+  }
+
+  get proto() {
+    return this.#proto;
   }
 
   tokenize() {
@@ -213,7 +220,17 @@ export default class Tokenizer {
   }
 
   consumeTokensByType(type) {
-    console.warn('CONSUMING TOKENS OF TYPE: ', type);
+    if (['IS', 'USE'].includes(this.peekWord())) {
+      this.nextToken(); // consume keyword
+      this.nextToken(); // consume value
+      return;
+    }
+
+    if (this.peekWord() === 'DEF') {
+      this.skipToken('DEF');
+      this.nextToken();
+    }
+
     switch (type) {
       case VRML.MFBool:
       case VRML.MFColor:
