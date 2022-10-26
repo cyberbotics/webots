@@ -1530,7 +1530,9 @@ void WbRobot::notifyExternControllerChanged() {
       ac->externControllerChanged();  // memory mapped file should be sent to new extern controller
   }
 
-  emit externControllerChanged();
+  if (WbSimulationState::instance()->hasStarted())
+    // close old robot window if already configured
+    emit externControllerChanged();
 }
 
 void WbRobot::newRemoteExternController() {
