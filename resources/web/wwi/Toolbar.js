@@ -1653,25 +1653,31 @@ export default class Toolbar {
     if (contentDiv) {
       contentDiv.innerHTML = '';
       const keys = this.parentNode?.protoManager.exposedParameters.keys();
-      for (let key of keys)
-        this.#createVec3Field(key, contentDiv);
+      for (let key of keys) {
+        const parameter = this.parentNode.protoManager.exposedParameters.get(key);
+
+        if (parameter.type === 1)
+          this.#createBoolField(key, contentDiv);
+        else
+          this.#createColorField(key, contentDiv);
+      }
     }
   }
 
-  #createVec3Field(key, parent) {
+  #createColorField(key, parent) {
     const parameter = this.parentNode.protoManager.exposedParameters.get(key);
     const span = document.createElement('span');
     span.innerHTML = key + ': ';
     span.inputs = [];
     span.parameter = parameter;
-    span.inputs.push(this.#createColorField('r', parameter.value.value.r, span, this.#colorOnChange));
-    span.inputs.push(this.#createColorField(' g', parameter.value.value.g, span, this.#colorOnChange));
-    span.inputs.push(this.#createColorField(' b', parameter.value.value.b, span, this.#colorOnChange));
+    span.inputs.push(this.#createColorInput('r', parameter.value.value.r, span, this.#colorOnChange));
+    span.inputs.push(this.#createColorInput(' g', parameter.value.value.g, span, this.#colorOnChange));
+    span.inputs.push(this.#createColorInput(' b', parameter.value.value.b, span, this.#colorOnChange));
 
     parent.appendChild(span);
   }
 
-  #createColorField(name, initialValue, parent, callback) {
+  #createColorInput(name, initialValue, parent, callback) {
     const span = document.createElement('span');
     span.innerHTML = name + ': ';
     const input = document.createElement('input');
@@ -1692,5 +1698,26 @@ export default class Toolbar {
   #colorOnChange(node) {
     let object = {'r': node.inputs[0].value, 'g': node.inputs[1].value, 'b': node.inputs[2].value};
     node.parameter.setValueFromJavaScript(object);
+  }
+
+  #createBoolField(key, parent) {
+    const parameter = this.parentNode.protoManager.exposedParameters.get(key);
+    const span = document.createElement('span');
+    span.innerHTML = key + ': ';
+    span.parameter = parameter;
+    const input = document.createElement('input');
+
+    input.type = 'checkbox';
+    if (parameter.value.value)
+      input.checked = true;
+
+    input.onchange = () => this.#boolOnChange(span);
+    span.input = input;
+    span.appendChild(input);
+    parent.appendChild(span);
+  }
+
+  #boolOnChange(node) {
+    node.parameter.setValueFromJavaScript(node.input.checked);
   }
 }

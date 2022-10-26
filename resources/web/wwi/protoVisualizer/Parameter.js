@@ -66,10 +66,26 @@ export default class Parameter {
 
   setValueFromJavaScript(v) {
     this.#value.setValueFromJavaScript(v);
-    if (this.isTemplateRegenerator)
-      this.node.parseBody(true);
+    if (this.isTemplateRegenerator) {
+      const proto = this.node;
 
-    if (this.parentNode?.aliasLinks) {
+      // note: only base-nodes write to x3d, so to know the ID of the node we need to delete, we need to navigate through the
+      // value of the proto (or multiple times if it's a derived PROTO)
+      let baseNode = proto;
+      console.log(proto)
+      while (baseNode.isProto)
+        baseNode = baseNode.baseType;
+
+      // id to delete
+      const id = baseNode.id;
+
+      // delete js side
+      this._view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
+
+      proto.parseBody(true);
+      const x3d = new XMLSerializer().serializeToString(proto.toX3d());
+      this._view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>');
+    } else if (this.parentNode?.aliasLinks) {
       for (const linkedParameter of this.parentNode?.aliasLinks) {
         const id = linkedParameter.parentNode.id;
         const action = {'id': id.replace('n', ''), baseColor: v.r + ' ' + v.g + ' ' + v.b};

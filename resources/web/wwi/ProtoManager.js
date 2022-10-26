@@ -65,7 +65,7 @@ export default class ProtoManager {
       // note: only base-nodes write to x3d, so to know the ID of the node we need to delete, we need to navigate through the
       // value of the proto (or multiple times if it's a derived PROTO)
       while (baseNode.isProto)
-        baseNode = baseNode.value;
+        baseNode = baseNode.baseType;
 
       // id to delete
       const id = baseNode.id;
