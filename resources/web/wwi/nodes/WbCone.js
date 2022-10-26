@@ -119,11 +119,11 @@ export default class WbCone extends WbGeometry {
 
     const newRadius = resetIfNonPositive(this.#bottomRadius, 1.0);
     if (newRadius !== false)
-      this.newRadius = newRadius;
+      this.radius = newRadius;
 
     const newHeight = resetIfNonPositive(this.#height, 1.0);
     if (newHeight !== false)
-      this.newHeight = newHeight;
+      this.height = newHeight;
 
     return newSubdivision === false && newRadius === false && newHeight === false;
   }
