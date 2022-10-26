@@ -30,8 +30,14 @@ class SingleValue {
     return this.value;
   }
 
+  // used to encode the fields in a format understandable by the template engine
   toJS() {
     return this.value;
+  }
+
+  // used to encode commands that need to be sent to WebotsJS
+  toWebotsJS() {
+    return `"${this.value}"`;
   }
 
   toVrml() {
@@ -112,6 +118,10 @@ export class SFString extends SingleValue {
       this.value = v;
   }
 
+  toWebotsJS(parameterName) {
+    return this.value; // note: value is already inside quotes
+  }
+
   type() {
     return VRML.SFString;
   }
@@ -142,6 +152,10 @@ export class SFVec2f extends SingleValue {
 
   toJS() {
     return `{x: ${this.value.x}, y: ${this.value.y}}`;
+  }
+
+  toWebotsJS() {
+    return `"${this.value.x} ${this.value.y}"`;
   }
 
   toVrml() {
@@ -187,6 +201,10 @@ export class SFVec3f extends SingleValue {
     return `{x: ${this.value.x}, y: ${this.value.y}, z: ${this.value.z}}`;
   }
 
+  toWebotsJS() {
+    return `"${this.value.x} ${this.value.y} ${this.value.z}"`;
+  }
+
   toVrml() {
     return `${this.value.x} ${this.value.y} ${this.value.z}`;
   }
@@ -228,6 +246,10 @@ export class SFColor extends SingleValue {
 
   toJS() {
     return `{r: ${this.value.r}, g: ${this.value.g}, b: ${this.value.b}}`;
+  }
+
+  toWebotsJS() {
+    return `"${this.value.r} ${this.value.g} ${this.value.b}"`;
   }
 
   toVrml() {
@@ -276,6 +298,10 @@ export class SFRotation extends SingleValue {
 
   toJS() {
     return `{x: ${this.value.x}, y: ${this.value.y}, z: ${this.value.z}, a: ${this.value.a}}`;
+  }
+
+  toWebotsJS() {
+    return `"${this.value.x} ${this.value.y} ${this.value.z} ${this.value.a}"`;
   }
 
   toVrml() {
@@ -353,6 +379,10 @@ export class SFNode extends SingleValue {
       return;
 
     return this.value.toJS();
+  }
+
+  toWebotsJS() {
+    throw new Error('SFNodes should not be encoded as strings, the x3d needs to be sent instead.');
   }
 
   toVrml() {
@@ -457,6 +487,14 @@ class MultipleValue {
     if (this.#value.length > 0)
       js = js.slice(0, -2);
     return js + ']';
+  }
+
+  toWebotsJS() {
+    let wjs = '[';
+    this.#value.forEach((item) => { wjs += item.toWebotsJS() + ', '; });
+    if (this.#value.length > 0)
+      wjs = wjs.slice(0, -2);
+    return wjs + ']';
   }
 
   toVrml() {
@@ -794,6 +832,10 @@ export class MFNode extends MultipleValue {
     if (this.value.length > 0)
       js = js.slice(0, -2);
     return js + ']';
+  }
+
+  toWebotsJS() {
+    throw new Error('MFNodes should not be encoded as strings, the x3d needs to be sent instead.');
   }
 
   type() {

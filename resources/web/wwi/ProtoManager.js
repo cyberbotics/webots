@@ -37,7 +37,7 @@ export default class ProtoManager {
       // test this using the world: DemoRegeneration.proto in the html
       // setTimeout(() => this.demoRegeneration(), 2000);
       // test this using the world: DemoFieldChange.proto in the html
-      // setTimeout(() => this.demoFieldChange(), 2000);
+      setTimeout(() => this.demoFieldChange(), 2000);
     });
   }
 
@@ -88,8 +88,10 @@ export default class ProtoManager {
       parameter.setValueFromJavaScript(newValue);
       // update the node structure (js side)
       for (const linkedParameter of parameter.parentNode.aliasLinks) {
-        const id = linkedParameter.parentNode.id;
-        const action = {'id': id.replace('n', ''), baseColor: newValue.r + ' ' + newValue.g + ' ' + newValue.b};
+        linkedParameter.setValueFromJavaScript(newValue);
+        const action = {};
+        action['id'] = linkedParameter.parentNode.id;
+        action[linkedParameter.name] = linkedParameter.value.toWebotsJS();
         this.#view.x3dScene.applyPose(action);
         this.#view.x3dScene.render();
       }

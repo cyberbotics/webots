@@ -174,7 +174,7 @@ export default class X3dScene {
   }
 
   applyPose(pose) {
-    const id = pose.id;
+    const id = pose.id.replace('n', '');
     if (typeof WbWorld.instance === 'undefined')
       return;
 
