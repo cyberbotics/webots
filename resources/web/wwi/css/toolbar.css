@@ -993,6 +993,10 @@ webots-view #proto-parameter {
   min-width: 400px;
 }
 
+webots-view #proto-parameter-content p {
+  margin: 20px;
+}
+
 webots-view .reset-field-button {
   background-image: url(../images/icons/reload.svg);
   height: 20px;

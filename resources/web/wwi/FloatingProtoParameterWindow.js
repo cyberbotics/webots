@@ -36,6 +36,19 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         else if (parameter.type === VRML.SFFloat)
           this.#createSFFloatField(key, contentDiv);
       }
+
+      const downloadButton = document.createElement('button');
+      downloadButton.onclick = () => {
+        const data = this.#protoManager.exportProto();
+        const c = document.createElement('a');
+        c.download = 'CustomProto.proto';
+        const t = new Blob([data], {
+          type: 'text/plain'
+        });
+        c.href = window.URL.createObjectURL(t);
+        c.click();
+      };
+      contentDiv.appendChild(downloadButton);
     }
   }
 
