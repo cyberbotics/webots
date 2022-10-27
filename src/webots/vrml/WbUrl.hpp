@@ -17,7 +17,6 @@
 
 #include <QtCore/QString>
 
-class WbField;
 class WbNode;
 class WbMFString;
 class WbWriter;
