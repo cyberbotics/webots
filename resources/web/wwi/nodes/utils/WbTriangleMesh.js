@@ -572,9 +572,9 @@ export default class WbTriangleMesh {
       // skip vertices we've already checked
       else if (checkedIndices.has(tesselatedPolygon[i].x))
         continue;
-
-      // case 1: vertex is on the first edge of the triangle
       else if (coord[tesselatedPolygon[i].x].isOnEdgeBetweenVertices(firstEdgeStart, firstEdgeEnd)) {
+        // case 1: vertex is on the first edge of the triangle
+
         // first triangle
         results.push(new WbVector3(firstVertexIndex, firstNormalIndex, firstTexCoordIndex));
         results.push(new WbVector3(tesselatedPolygon[i].x, tesselatedPolygon[i].y, tesselatedPolygon[i].z));
@@ -583,9 +583,9 @@ export default class WbTriangleMesh {
         results.push(new WbVector3(tesselatedPolygon[i].x, tesselatedPolygon[i].y, tesselatedPolygon[i].z));
         results.push(new WbVector3(secondVertexIndex, secondNormalIndex, secondTexCoordIndex));
         results.push(new WbVector3(thirdVertexIndex, thirdNormalIndex, thirdTexCoordIndex));
-      }
-      // case 2: vertex is on the second edge of the triangle
-      else if (coord[tesselatedPolygon[i].x].isOnEdgeBetweenVertices(secondEdgeStart, secondEdgeEnd)) {
+      } else if (coord[tesselatedPolygon[i].x].isOnEdgeBetweenVertices(secondEdgeStart, secondEdgeEnd)) {
+        // case 2: vertex is on the second edge of the triangle
+
         // first triangle
         results.push(new WbVector3(secondVertexIndex, secondNormalIndex, secondTexCoordIndex));
         results.push(new WbVector3(tesselatedPolygon[i].x, tesselatedPolygon[i].y, tesselatedPolygon[i].z));
@@ -594,9 +594,9 @@ export default class WbTriangleMesh {
         results.push(new WbVector3(tesselatedPolygon[i].x, tesselatedPolygon[i].y, tesselatedPolygon[i].z));
         results.push(new WbVector3(thirdVertexIndex, thirdNormalIndex, thirdTexCoordIndex));
         results.push(new WbVector3(firstVertexIndex, firstNormalIndex, firstTexCoordIndex));
-      }
-      // case 3: vertex is on the third edge of the triangle
-      else if (coord[tesselatedPolygon[i].x].isOnEdgeBetweenVertices(thirdEdgeStart, thirdEdgeEnd)) {
+      } else if (coord[tesselatedPolygon[i].x].isOnEdgeBetweenVertices(thirdEdgeStart, thirdEdgeEnd)) {
+        // case 3: vertex is on the third edge of the triangle
+
         // first triangle
         results.push(new WbVector3(thirdVertexIndex, thirdNormalIndex, thirdTexCoordIndex));
         results.push(new WbVector3(tesselatedPolygon[i].x, tesselatedPolygon[i].y, tesselatedPolygon[i].z));
@@ -604,9 +604,9 @@ export default class WbTriangleMesh {
         // second triangle
         results.push(new WbVector3(tesselatedPolygon[i].x, tesselatedPolygon[i].y, tesselatedPolygon[i].z));
         results.push(new WbVector3(firstVertexIndex, firstNormalIndex, firstTexCoordIndex));
-        results.push(new WbVector3 (secondVertexIndex, secondNormalIndex, secondTexCoordIndex));
+        results.push(new WbVector3(secondVertexIndex, secondNormalIndex, secondTexCoordIndex));
       }
-    
+
       // add this vertex to the list of those already checked
       checkedIndices.add(tesselatedPolygon[i].x);
     }
