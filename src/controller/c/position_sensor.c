@@ -162,7 +162,8 @@ double wb_position_sensor_get_velocity(WbDeviceTag tag) {
   if (p) {
     if (p->sampling_period <= 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_position_sensor_enable().\n", __FUNCTION__);
-    result = p->velocity;
+    else
+      result = p->velocity;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock();
