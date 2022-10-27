@@ -2,6 +2,8 @@
 import {Node} from './Node.js';
 import {VRML} from './vrml_type.js';
 
+import {DOUBLE_EQUALITY_TOLERANCE} from '../nodes/utils/constants.js';
+
 class SingleValue {
   #value;
   constructor(tokenizer) {
@@ -279,12 +281,39 @@ export class SFColor extends SingleValue {
 
 export class SFRotation extends SingleValue {
   setValueFromTokenizer(tokenizer) {
-    this.value = {
-      x: tokenizer.nextToken().toFloat(),
-      y: tokenizer.nextToken().toFloat(),
-      z: tokenizer.nextToken().toFloat(),
-      a: tokenizer.nextToken().toFloat()
-    };
+    let xValue = tokenizer.nextToken().toFloat();
+    let yValue = tokenizer.nextToken().toFloat();
+    let zValue = tokenizer.nextToken().toFloat();
+    let aValue = tokenizer.nextToken().toFloat();
+
+    const invl = 1.0 / Math.sqrt(xValue * xValue + yValue * yValue + zValue * zValue);
+    if (Math.abs(invl - 1.0) > DOUBLE_EQUALITY_TOLERANCE) {
+      xValue *= invl;
+      yValue *= invl;
+      zValue *= invl;
+    }
+
+    this.value = {x: xValue, y: yValue, z: zValue, a: aValue};
+  }
+
+  setValueFromJavaScript(v) {
+    if (v.x === '')
+      v.x = 0;
+    if (v.y === '')
+      v.y = 0;
+    if (v.z === '')
+      v.z = 0;
+    if (v.a === '')
+      v.a = 0;
+
+    const invl = 1.0 / Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+    if (Math.abs(invl - 1.0) > DOUBLE_EQUALITY_TOLERANCE) {
+      v.x *= invl;
+      v.y *= invl;
+      v.z *= invl;
+    }
+
+    this.value = {x: v.x, y: v.y, z: v.z, a: v.a};
   }
 
   toX3d(parameterName, parentElement) {
