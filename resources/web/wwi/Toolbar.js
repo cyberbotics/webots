@@ -1624,7 +1624,7 @@ export default class Toolbar {
   }
 
   #createProtoParameterWindow() {
-    this.protoParameterWindow = new FloatingProtoParameterWindow(this.parentNode, this.parentNode.protoManager);
+    this.protoParameterWindow = new FloatingProtoParameterWindow(this.parentNode, this.parentNode.protoManager, this.#view);
 
     const protoParameterWindowWidth = 0.6 * this.parentNode.offsetWidth;
     const protoParameterWindowHeight = 0.75 * this.parentNode.offsetHeight;

@@ -42,9 +42,9 @@ export default class ProtoManager {
       // setTimeout(() => this.demoRegeneration(), 2000);
 
       // test this using the world: DemoFieldChange.proto in the html
-      setTimeout(() => this.demoFieldChange('color', {r: 0, g: 0, b: 1}), 2000);
-      setTimeout(() => this.demoFieldChange('translation', {x: 0, y: 0, z: 0.5}), 2000);
-      setTimeout(() => this.demoFieldChange('rotation', {x: 0, y: 0, z: 1, a: 0.785}), 2000);
+      // setTimeout(() => this.demoFieldChange('color', {r: 0, g: 0, b: 1}), 2000);
+      // setTimeout(() => this.demoFieldChange('translation', {x: 0, y: 0, z: 0.5}), 2000);
+      // setTimeout(() => this.demoFieldChange('rotation', {x: 0, y: 0, z: 1, a: 0.785}), 2000);
 
       // not implemented yet JS side
       // setTimeout(() => this.demoFieldChange('radius', 0.2), 2000);

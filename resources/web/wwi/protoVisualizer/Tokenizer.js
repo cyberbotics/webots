@@ -1,5 +1,5 @@
 import Token, {isSpace, isPunctuation} from './Token.js';
-import {VRML} from './Vrml.js';
+import {VRML} from './vrml_type.js';
 
 export default class Tokenizer {
   #atEndPos;

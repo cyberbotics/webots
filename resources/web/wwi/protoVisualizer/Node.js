@@ -3,7 +3,8 @@
 import {getAnId} from '../nodes/utils/id_provider.js';
 import TemplateEngine from './TemplateEngine.js';
 import Tokenizer from './Tokenizer.js';
-import {VRML, vrmlFactory} from './Vrml.js';
+import {VRML} from './vrml_type.js';
+import {vrmlFactory} from './Vrml.js';
 import {FieldModel} from './FieldModel.js';
 import {Parameter} from './Parameter.js';
 
