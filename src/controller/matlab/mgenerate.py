@@ -346,6 +346,7 @@ def main(args=None):
     generator.gen(FUNC, "wb_position_sensor_get_sampling_period(tag)", "positionsensor")
     generator.gen(FUNC, "wb_position_sensor_get_type(tag)", "positionsensor")
     generator.gen(FUNC, "wb_position_sensor_get_value(tag)", "positionsensor")
+    generator.gen(FUNC, "wb_position_sensor_get_velocity(tag)", "positionsensor")
 
     # radar.h
     generator.gen(PROC, "wb_radar_disable(tag)", "radar")
