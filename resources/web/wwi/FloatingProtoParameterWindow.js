@@ -73,7 +73,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     input.type = 'number';
     input.value = initialValue;
     input.step = 0.1;
-    input.style.width = '40px';
+    input.style.width = '50px';
     input.onchange = () => callback(parent);
 
     span.appendChild(input);
@@ -179,7 +179,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     input.type = 'number';
     input.step = 0.1;
     input.value = parameter.value.value;
-    input.style.width = '40px';
+    input.style.width = '50px';
 
     input.onchange = () => this.#floatOnChange(p);
     p.input = input;

@@ -1626,17 +1626,10 @@ export default class Toolbar {
   #createProtoParameterWindow() {
     this.protoParameterWindow = new FloatingProtoParameterWindow(this.parentNode, this.parentNode.protoManager, this.#view);
 
-    const protoParameterWindowWidth = 0.6 * this.parentNode.offsetWidth;
-    const protoParameterWindowHeight = 0.75 * this.parentNode.offsetHeight;
-    const protoParameterWindowPositionX = (this.parentNode.offsetWidth - protoParameterWindowWidth) / 2;
-    const protoParameterWindowPositionY = (this.parentNode.offsetHeight - protoParameterWindowHeight) / 2;
-
     this.protoParameterWindow.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
     this.protoParameterWindow.headerQuit.addEventListener('mouseup',
       _ => this.#changeFloatingWindowVisibility(this.protoParameterWindow.getId()));
 
-    this.protoParameterWindow.setSize(protoParameterWindowWidth, protoParameterWindowHeight);
-    this.protoParameterWindow.setPosition(protoParameterWindowPositionX, protoParameterWindowPositionY);
     this.protoParameterButton.onclick = () => this.#changeFloatingWindowVisibility(this.protoParameterWindow.getId());
 
     this.protoParameterWindow.populateProtoParameterWindow();
@@ -1644,6 +1637,18 @@ export default class Toolbar {
     if (typeof this.parentNode.protoManager !== 'undefined')
       this.parentNode.protoManager.onChange = () => this.protoParameterWindow.populateProtoParameterWindow();
 
+    this.protoParameterWindowInitializeSizeAndPosition();
     this.#checkWindowBoundaries();
+    this.protoParameterWindow.setVisibility('visible');
+  }
+
+  protoParameterWindowInitializeSizeAndPosition() {
+    const protoParameterWindowWidth = 400;
+    const protoParameterWindowHeight = this.parentNode.offsetHeight;
+    const protoParameterWindowPositionX = (this.parentNode.offsetWidth - protoParameterWindowWidth);
+    const protoParameterWindowPositionY = (this.parentNode.offsetHeight - protoParameterWindowHeight) / 2;
+    this.protoParameterWindow.setPosition(protoParameterWindowPositionX, protoParameterWindowPositionY);
+
+    this.protoParameterWindow.setSize(protoParameterWindowWidth, protoParameterWindowHeight);
   }
 }

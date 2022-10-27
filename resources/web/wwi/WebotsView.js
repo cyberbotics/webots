@@ -395,6 +395,7 @@ export default class WebotsView extends HTMLElement {
         this.toolbar = new Toolbar(this.#view, 'proto', this);
         if (typeof this.onready === 'function')
           this.onready();
+        this.toolbar.protoParameterWindowInitializeSizeAndPosition();
       };
       this.#hasProto = true;
       this.#closeWhenDOMElementRemoved();

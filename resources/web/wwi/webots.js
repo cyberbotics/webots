@@ -56,6 +56,7 @@ webots.View = class View {
       window.history.back(); // go back to the previous page in the navigation history
     };
     this.onresize = () => {
+      console.log("resize")
       if (typeof this.x3dScene !== 'undefined')
         this.x3dScene.resize();
       else if (typeof this.multimediaClient !== 'undefined')
