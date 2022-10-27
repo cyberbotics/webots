@@ -118,11 +118,11 @@ double WbPositionSensor::velocity() const {
   double velocity = WbJointDevice::velocity();
   // apply noise if needed
   if (mNoise->value() > 0.0)
-    vel += mNoise->value() * WbRandom::nextGaussian();
+    velocity += mNoise->value() * WbRandom::nextGaussian();
   // apply resolution if needed
   if (mResolution->value() != -1.0)
-    vel = WbMathsUtilities::discretize(vel, mResolution->value());
-  return vel;
+    velocity = WbMathsUtilities::discretize(velocity, mResolution->value());
+  return velocity;
 }
 
 void WbPositionSensor::writeAnswer(WbDataStream &stream) {
@@ -130,7 +130,7 @@ void WbPositionSensor::writeAnswer(WbDataStream &stream) {
     stream << tag();
     stream << (unsigned char)C_POSITION_SENSOR_DATA;
     stream << mValue;
-    stream << mValueVel;
+    stream << mVelocityValue;
     mSensor->resetPendingValue();
   }
   if (mRequestedDeviceTag != NULL) {
@@ -145,7 +145,7 @@ void WbPositionSensor::writeAnswer(WbDataStream &stream) {
 bool WbPositionSensor::refreshSensorIfNeeded() {
   if (isPowerOn() && mSensor->needToRefresh()) {
     mValue = position();
-    mValueVel = velocity();
+    mVelocityValue = velocity();
     mSensor->updateTimer();
     return true;
   }

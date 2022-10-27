@@ -79,7 +79,7 @@ int main(int argc, char **argv) {
     wb_motor_set_velocity(right_motor, -speed);
     printf("Position: %+f, actual speed %+f, position-derived speed %+f, control speed: %+f\n", position, velocity,
            (position - previous_position) / (time_step / 1000.0), speed);
-
+    ANSI_CLEAR_CONSOLE();
     previous_position = position;
   };
 
