@@ -14,6 +14,7 @@
 
 import ctypes
 import sys
+import typing
 from controller.wb import wb
 from controller.node import Node
 from controller.device import Device
@@ -67,6 +68,10 @@ class Robot:
     wb.wb_robot_get_time.restype = ctypes.c_double
     wb.wb_robot_get_name.restype = ctypes.c_char_p
     wb.wb_robot_battery_sensor_get_value.restype = ctypes.c_double
+    wb.wb_robot_wwi_receive_text.restype = ctypes.c_char_p
+    wb.wb_robot_get_urdf.restype = ctypes.c_char_p
+    wb.wb_robot_get_project_path.restype = ctypes.c_char_p
+    wb.wb_robot_get_world_path.restype = ctypes.c_char_p
 
     def __init__(self):
         if Robot.created:
@@ -291,10 +296,11 @@ class Robot:
         return wb.wb_robot_get_urdf(str.encode(prefix)).decode()
 
     def wwiSendText(self, text: str):
-        wb.wb_robot_wwi_send_text(str.encode(text))
+        wb.wb_robot_wwi_send(str.encode(text), len(text) + 1)
 
-    def wwiReceiveText(self) -> str:
-        return wb.wb_robot_wwi_receive_text().decode()
+    def wwiReceiveText(self) -> typing.Union[str, None]:
+        text = wb.wb_robot_wwi_receive_text()
+        return None if text is None else text.decode()
 
     def step(self, time_step: int = None) -> int:
         if time_step is None:

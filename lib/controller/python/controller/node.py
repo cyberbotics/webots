@@ -44,6 +44,7 @@ class Node:
     wb.wb_supervisor_node_get_type_name.restype = ctypes.c_char_p
     wb.wb_supervisor_node_get_base_type_name.restype = ctypes.c_char_p
     wb.wb_supervisor_node_export_string.restype = ctypes.c_char_p
+    wb.wb_supervisor_node_get_def.restype = ctypes.c_char_p
     wb.wb_supervisor_node_get_position.restype = ctypes.POINTER(ctypes.c_double)
     wb.wb_supervisor_node_get_orientation.restype = ctypes.POINTER(ctypes.c_double)
     wb.wb_supervisor_node_get_pose.restype = ctypes.POINTER(ctypes.c_double)

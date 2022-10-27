@@ -43,6 +43,8 @@ class Field:
     MF_STRING = constant('MF_STRING')
     MF_NODE = constant('MF_NODE')
 
+    wb.wb_supervisor_field_get_name.restype = ctypes.c_char_p
+    wb.wb_supervisor_field_get_type_name.restype = ctypes.c_char_p
     wb.wb_supervisor_node_get_proto_field.restype = ctypes.c_void_p
     wb.wb_supervisor_node_get_proto_field_by_index.restype = ctypes.c_void_p
     wb.wb_supervisor_node_get_field.restype = ctypes.c_void_p
