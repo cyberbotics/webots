@@ -122,8 +122,6 @@ export default class Tokenizer {
       return word;
     }
 
-    // TODO: tokenize template
-
     // handle "[]{}"
     if (isPunctuation(this.#char)) {
       this.#char = this.readChar();

@@ -30,7 +30,17 @@ class SingleValue {
     return this.value;
   }
 
+  // used to encode the fields in a format understandable by the template engine
   toJS() {
+    return this.value;
+  }
+
+  // used to encode commands that need to be sent to WebotsJS
+  toJson() {
+    return `${this.value}`;
+  }
+
+  toVrml() {
     return this.value;
   }
 
@@ -108,6 +118,10 @@ export class SFString extends SingleValue {
       this.value = v;
   }
 
+  toJson(parameterName) {
+    return this.value;
+  }
+
   type() {
     return VRML.SFString;
   }
@@ -138,6 +152,14 @@ export class SFVec2f extends SingleValue {
 
   toJS() {
     return `{x: ${this.value.x}, y: ${this.value.y}}`;
+  }
+
+  toJson() {
+    return `${this.value.x} ${this.value.y}`;
+  }
+
+  toVrml() {
+    return `${this.value.x} ${this.value.y}`;
   }
 
   equals(other) {
@@ -179,6 +201,14 @@ export class SFVec3f extends SingleValue {
     return `{x: ${this.value.x}, y: ${this.value.y}, z: ${this.value.z}}`;
   }
 
+  toJson() {
+    return `${this.value.x} ${this.value.y} ${this.value.z}`;
+  }
+
+  toVrml() {
+    return `${this.value.x} ${this.value.y} ${this.value.z}`;
+  }
+
   equals(other) {
     if (typeof this.value === 'undefined' || typeof other.value === 'undefined')
       return false;
@@ -216,6 +246,14 @@ export class SFColor extends SingleValue {
 
   toJS() {
     return `{r: ${this.value.r}, g: ${this.value.g}, b: ${this.value.b}}`;
+  }
+
+  toJson() {
+    return `${this.value.r} ${this.value.g} ${this.value.b}`;
+  }
+
+  toVrml() {
+    return `${this.value.r} ${this.value.g} ${this.value.b}`;
   }
 
   equals(other) {
@@ -262,6 +300,14 @@ export class SFRotation extends SingleValue {
     return `{x: ${this.value.x}, y: ${this.value.y}, z: ${this.value.z}, a: ${this.value.a}}`;
   }
 
+  toJson() {
+    return `${this.value.x} ${this.value.y} ${this.value.z} ${this.value.a}`;
+  }
+
+  toVrml() {
+    return `${this.value.x} ${this.value.y} ${this.value.z} ${this.value.a}`;
+  }
+
   equals(other) {
     if (typeof this.value === 'undefined' || typeof other.value === 'undefined')
       throw new Error('Values should be defined for them to be compared.');
@@ -294,9 +340,14 @@ export class SFNode extends SingleValue {
 
   setValueFromJavaScript(value) {
     if (value === null)
-      this.value = value;
-    else // note: low priority, all wrl files use initialize SFNodes with NULL
+      this.value = null;
+    else {
+      // (possible) working principle: value = URL of a PROTO
+      // 1. download PROTO and all dependencies
+      // 2. load PROTO (as we do in ProtoManager)
+      // 3. set it as value
       throw new Error('SFNode initializer from JS object not implemented.');
+    }
   }
 
   toX3d(parameterName, parentElement) {
@@ -328,6 +379,20 @@ export class SFNode extends SingleValue {
       return;
 
     return this.value.toJS();
+  }
+
+  toJson() {
+    throw new Error('SFNodes should not be encoded as strings, the x3d needs to be sent instead.');
+  }
+
+  toVrml() {
+    if (this.value === null)
+      return 'NULL';
+
+    if (typeof this.value === 'undefined')
+      throw new Error('When exporting to VRML, the field should always be defined (or null).');
+
+    return this.value.toVrml();
   }
 
   equals(other) {
@@ -422,6 +487,22 @@ class MultipleValue {
     if (this.#value.length > 0)
       js = js.slice(0, -2);
     return js + ']';
+  }
+
+  toJson() {
+    let wjs = '[';
+    this.#value.forEach((item) => { wjs += item.toJson() + ', '; });
+    if (this.#value.length > 0)
+      wjs = wjs.slice(0, -2);
+    return wjs + ']';
+  }
+
+  toVrml() {
+    let vrml = '[';
+    this.#value.forEach((item) => { vrml += item.toVrml() + ', '; });
+    if (this.#value.length > 0)
+      vrml = vrml.slice(0, -2);
+    return vrml + ']';
   }
 
   equals(other) {
@@ -751,6 +832,10 @@ export class MFNode extends MultipleValue {
     if (this.value.length > 0)
       js = js.slice(0, -2);
     return js + ']';
+  }
+
+  toJson() {
+    throw new Error('MFNodes should not be encoded as strings, the x3d needs to be sent instead.');
   }
 
   type() {
