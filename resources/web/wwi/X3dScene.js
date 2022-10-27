@@ -190,7 +190,7 @@ export default class X3dScene {
 
   applyPose(pose) {
     let id = pose.id;
-    console.log(pose)
+
     if (typeof id === 'string')
       id = id.replace('n', '');
 

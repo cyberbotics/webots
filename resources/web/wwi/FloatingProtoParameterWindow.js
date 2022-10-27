@@ -31,6 +31,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           this.#createColorField(key, contentDiv);
         else if (parameter.type === VRML.SFRotation)
           this.#createSFRotation(key, contentDiv);
+        else if (parameter.type === VRML.SFString)
+          this.#createSFStringField(key, contentDiv);
+        else if (parameter.type === VRML.SFFloat)
+          this.#createSFFloatField(key, contentDiv);
       }
     }
   }
@@ -69,7 +73,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     input.type = 'number';
     input.value = initialValue;
     input.step = 0.1;
-    input.style.width = '50px';
+    input.style.width = '40px';
     input.onchange = () => callback(parent);
 
     span.appendChild(input);
@@ -125,7 +129,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #createBoolField(key, parent) {
-    const parameter = this.parentNode.protoManager.exposedParameters.get(key);
+    const parameter = this.#protoManager.exposedParameters.get(key);
     const p = document.createElement('p');
     p.innerHTML = key + ': ';
     p.parameter = parameter;
@@ -143,5 +147,47 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   #boolOnChange(node) {
     node.parameter.setValueFromJavaScript(node.input.checked);
+  }
+
+  #createSFStringField(key, parent) {
+    const parameter = this.#protoManager.exposedParameters.get(key);
+    const p = document.createElement('p');
+    p.innerHTML = key + ': ';
+    p.parameter = parameter;
+    const input = document.createElement('input');
+
+    input.type = 'text';
+    input.value = parameter.value.value;
+
+    input.onchange = () => this.#stringOnChange(p);
+    p.input = input;
+    p.appendChild(input);
+    parent.appendChild(p);
+  }
+
+  #stringOnChange(node) {
+    node.parameter.setValueFromJavaScript(this.#view, node.input.value);
+  }
+
+  #createSFFloatField(key, parent) {
+    const parameter = this.#protoManager.exposedParameters.get(key);
+    const p = document.createElement('p');
+    p.innerHTML = key + ': ';
+    p.parameter = parameter;
+    const input = document.createElement('input');
+
+    input.type = 'number';
+    input.step = 0.1;
+    input.value = parameter.value.value;
+    input.style.width = '40px';
+
+    input.onchange = () => this.#floatOnChange(p);
+    p.input = input;
+    p.appendChild(input);
+    parent.appendChild(p);
+  }
+
+  #floatOnChange(node) {
+    node.parameter.setValueFromJavaScript(this.#view, node.input.value);
   }
 }
