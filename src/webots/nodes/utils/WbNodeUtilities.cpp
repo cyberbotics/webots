@@ -562,9 +562,7 @@ namespace {
     return false;
   }
 
-  bool isSolidNode(WbBaseNode *node) {
-    return dynamic_cast<WbSolid *>(node);
-  }
+  bool isSolidNode(WbBaseNode *node) { return dynamic_cast<WbSolid *>(node); }
 
   bool doesFieldRestrictionAcceptNode(const WbField *const field, const QStringList &nodeNames) {
     assert(field->hasRestrictedValues());
