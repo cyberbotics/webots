@@ -8,6 +8,7 @@ export default class Parameter {
   #value;
   #defaultValue;
   #isTemplateRegenerator;
+  #parameterLinks;
   constructor(node, name, type, defaultValue, value, isTemplateRegenerator) {
     this.node = node; // node this parameter belongs to
     this.type = type;
@@ -16,6 +17,7 @@ export default class Parameter {
     this.value = value;
     this.isTemplateRegenerator = isTemplateRegenerator;
     this.parentNode = undefined;
+    this.#parameterLinks = []; // list of other parameters to notify whenever this instance changes
   }
 
   get value() {
@@ -64,34 +66,54 @@ export default class Parameter {
     this.#isTemplateRegenerator = value;
   }
 
-  setValueFromJavaScript(v) {
+  get parameterLinks() {
+    return this.#parameterLinks;
+  }
+
+  insertLink(parameter) {
+    this.#parameterLinks.push(parameter);
+  }
+
+  // TODO: find better approach rather than propagating the view to subsequent parameters
+  setValueFromJavaScript(view, v) {
+    // update value on the structure side
     this.#value.setValueFromJavaScript(v);
+    // notify linked parameters of the change
+    for (const link of this.parameterLinks) {
+      console.log(this.name + ' change notifies ' + link.name);
+      link.setValueFromJavaScript(view, v);
+    }
+
     if (this.isTemplateRegenerator) {
-      const proto = this.node;
+      console.log('  > ' + this.name + ' is a template regenerator!');
+
+      if (!this.node.isProto)
+        throw new Error('Attempting to regenerate a base node.'); // TODO: can we reach this point anyway? if so, just return
 
       // note: only base-nodes write to x3d, so to know the ID of the node we need to delete, we need to navigate through the
       // value of the proto (or multiple times if it's a derived PROTO)
-      let baseNode = proto;
-      console.log(proto)
+      let baseNode = this.node;
       while (baseNode.isProto)
         baseNode = baseNode.baseType;
 
-      // id to delete
+      // delete existing node (must be done prior to regeneration or the information is lost)
       const id = baseNode.id;
+      view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
 
-      // delete js side
-      this._view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
+      // regenerate and parse the body of the associated node
+      this.node.parseBody(true);
 
-      proto.parseBody(true);
-      const x3d = new XMLSerializer().serializeToString(proto.toX3d());
-      this._view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>');
-    } else if (this.parentNode?.aliasLinks) {
-      for (const linkedParameter of this.parentNode?.aliasLinks) {
-        const id = linkedParameter.parentNode.id;
-        const action = {'id': id.replace('n', ''), baseColor: v.r + ' ' + v.g + ' ' + v.b};
-        this._view.x3dScene.applyPose(action);
-        this._view.x3dScene.render();
-      }
+      const x3d = new XMLSerializer().serializeToString(this.node.toX3d());
+      view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>');
+    } else {
+      if (this.node.isProto)
+        return; // webotsJS needs to be notified of parameter changes only if the parameter belongs to a base-node, not PROTO
+
+      const action = {};
+      action['id'] = this.node.id;
+      action[this.name] = this.value.toJson();
+      view.x3dScene.applyPose(action);
+      view.x3dScene.render();
     }
   }
 

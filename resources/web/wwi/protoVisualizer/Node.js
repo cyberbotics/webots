@@ -25,7 +25,6 @@ export default class Node {
     this.parameters = new Map();
     this.externProto = new Map();
     this.def = new Map();
-    this.aliasLinks = [];
 
     if (!this.isProto) {
       // create parameters from the pre-defined FieldModel
@@ -36,7 +35,7 @@ export default class Node {
         defaultValue.setValueFromJavaScript(FieldModel[this.name][parameterName]['defaultValue']);
         const value = defaultValue.clone();
         const parameter = new Parameter(this, parameterName, type, defaultValue, value, false);
-        parameter.parentNode = this;
+        // console.log(parameterName + ' has parent ' + this.name);
         this.parameters.set(parameterName, parameter);
       }
 
@@ -127,13 +126,12 @@ export default class Node {
   clone() {
     let copy = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
     copy.id = getAnId();
-
     copy.parameters = new Map();
     for (const [parameterName, parameter] of this.parameters) {
       if (typeof parameter !== 'undefined') {
         // console.log('cloning parameter ' + parameterName + ' (type ' + parameter.type + ')');
         const parameterCopy = parameter.clone();
-        parameterCopy.parentNode = copy;
+        parameterCopy.node = copy;
         // console.log('ORIGINAL', parameter);
         // console.log('COPY', parameterCopy);
         copy.parameters.set(parameterName, parameterCopy);
@@ -176,8 +174,7 @@ export default class Node {
         const defaultValue = vrmlFactory(parameterType, headTokenizer);
         const value = defaultValue.clone();
         const parameter = new Parameter(this, parameterName, parameterType, defaultValue, value, isRegenerator);
-        parameter.parentNode = this;
-        // console.log(parameter);
+        // console.log(parameterName + ' has parent ' + this.name);
         this.parameters.set(parameterName, parameter);
       }
     }
@@ -221,8 +218,9 @@ export default class Node {
             if (!tokenizer.proto.parameters.has(alias))
               throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
 
-            tokenizer.proto.aliasLinks.push(parameter);
-            parameter.value = tokenizer.proto.parameters.get(alias).value;
+            const exposedParameter = tokenizer.proto.parameters.get(alias);
+            parameter.value = exposedParameter.value;
+            exposedParameter.insertLink(parameter);
           } else
             parameter.value.setValueFromTokenizer(tokenizer, this);
         }
@@ -286,6 +284,18 @@ export default class Node {
       return jsFields.slice(0, -2);
 
     return `{node_name: '${this.name}', fields: {${jsFields.slice(0, -2)}}}`;
+  }
+
+  toVrml() {
+    let vrml = '';
+    vrml += `${this.name}{`;
+    for (const [parameterName, parameter] of this.parameters) {
+      if (!parameter.isDefault())
+        vrml += `${parameterName} ${parameter.toVrml()}`;
+    }
+    vrml += '}\n';
+
+    return vrml.slice(0, -1);
   }
 
   regenerateBodyVrml() {
