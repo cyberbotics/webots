@@ -265,22 +265,22 @@ export default class WbTriangleMesh {
 
               // see if this triangle has any overlapping vertices and snip triangle to improve tesselation and fill holes
               const snippedIndices = this.#cutTriangleIfNeeded(coord, tesselatorOutput, j);
-              // assert(snippedIndices.size() % 3 == 0);
-              // for (int k = 0; k < snippedIndices.size(); k += 3) {
-              //   mCoordIndices.append(snippedIndices[k][0]);
-              //   mCoordIndices.append(snippedIndices[k + 1][0]);
-              //   mCoordIndices.append(snippedIndices[k + 2][0]);
-              //   if (mNormalsValid) {
-              //     mTmpNormalIndices.append(snippedIndices[k][1]);
-              //     mTmpNormalIndices.append(snippedIndices[k + 1][1]);
-              //     mTmpNormalIndices.append(snippedIndices[k + 2][1]);
-              //   }
-              //   if (mTextureCoordinatesValid) {
-              //     mTmpTexIndices.append(snippedIndices[k][2]);
-              //     mTmpTexIndices.append(snippedIndices[k + 1][2]);
-              //     mTmpTexIndices.append(snippedIndices[k + 2][2]);
-              //   }
-              // }
+              console.assert(snippedIndices.length % 3 === 0);
+              for (let k = 0; k < snippedIndices.length; k += 3) {
+                this.#coordIndices.push(snippedIndices[k].x);
+                this.#coordIndices.push(snippedIndices[k + 1].x);
+                this.#coordIndices.push(snippedIndices[k + 2].x);
+                if (this.#normalsValid) {
+                  this.#tmpNormalIndices.push(snippedIndices[k].y);
+                  this.#tmpNormalIndices.push(snippedIndices[k + 1].y);
+                  this.#tmpNormalIndices.push(snippedIndices[k + 2].y);
+                }
+                if (this.areTextureCoordinatesValid) {
+                  this.#tmpTexIndices.push(snippedIndices[k].z);
+                  this.#tmpTexIndices.push(snippedIndices[k + 1].z);
+                  this.#tmpTexIndices.push(snippedIndices[k + 2].z);
+                }
+              }
             }
           }
         } else
@@ -564,7 +564,7 @@ export default class WbTriangleMesh {
 
     const checkedIndices = new Set();
     // for all vertices not in this triangle
-    for (let i = 0; i < tesselatedPolygon.size(); ++i) {
+    for (let i = 0; i < tesselatedPolygon.length; i++) {
       // skip vertices from this triangle
       if (tesselatedPolygon[i].x === firstVertexIndex || tesselatedPolygon[i].x === secondVertexIndex ||
           tesselatedPolygon[i].x === thirdVertexIndex)
@@ -574,47 +574,48 @@ export default class WbTriangleMesh {
         continue;
 
       // case 1: vertex is on the first edge of the triangle
-      // else if (coord[tesselatedPolygon[i].x].isOnEdgeBetweenVertices(firstEdgeStart, firstEdgeEnd)) {
-      //   // first triangle
-      //   results.append(QVector<int>() << firstVertexIndex << firstNormalIndex << firstTexCoordIndex);
-      //   results.append(QVector<int>() << tesselatedPolygon[i][0] << tesselatedPolygon[i][1] << tesselatedPolygon[i][2]);
-      //   results.append(QVector<int>() << thirdVertexIndex << thirdNormalIndex << thirdTexCoordIndex);
-      //   // second triangle
-      //   results.append(QVector<int>() << tesselatedPolygon[i][0] << tesselatedPolygon[i][1] << tesselatedPolygon[i][2]);
-      //   results.append(QVector<int>() << secondVertexIndex << secondNormalIndex << secondTexCoordIndex);
-      //   results.append(QVector<int>() << thirdVertexIndex << thirdNormalIndex << thirdTexCoordIndex);
-      // }
+      else if (coord[tesselatedPolygon[i].x].isOnEdgeBetweenVertices(firstEdgeStart, firstEdgeEnd)) {
+        // first triangle
+        results.push(new WbVector3(firstVertexIndex, firstNormalIndex, firstTexCoordIndex));
+        results.push(new WbVector3(tesselatedPolygon[i].x, tesselatedPolygon[i].y, tesselatedPolygon[i].z));
+        results.push(new WbVector3(thirdVertexIndex, thirdNormalIndex, thirdTexCoordIndex));
+        // second triangle
+        results.push(new WbVector3(tesselatedPolygon[i].x, tesselatedPolygon[i].y, tesselatedPolygon[i].z));
+        results.push(new WbVector3(secondVertexIndex, secondNormalIndex, secondTexCoordIndex));
+        results.push(new WbVector3(thirdVertexIndex, thirdNormalIndex, thirdTexCoordIndex));
+      }
       // case 2: vertex is on the second edge of the triangle
-      // else if (coord->item(tesselatedPolygon[i][0]).isOnEdgeBetweenVertices(secondEdgeStart, secondEdgeEnd)) {
-    //     // first triangle
-    //     results.append(QVector<int>() << secondVertexIndex << secondNormalIndex << secondTexCoordIndex);
-    //     results.append(QVector<int>() << tesselatedPolygon[i][0] << tesselatedPolygon[i][1] << tesselatedPolygon[i][2]);
-    //     results.append(QVector<int>() << firstVertexIndex << firstNormalIndex << firstTexCoordIndex);
-    //     // second triangle
-    //     results.append(QVector<int>() << tesselatedPolygon[i][0] << tesselatedPolygon[i][1] << tesselatedPolygon[i][2]);
-    //     results.append(QVector<int>() << thirdVertexIndex << thirdNormalIndex << thirdTexCoordIndex);
-    //     results.append(QVector<int>() << firstVertexIndex << firstNormalIndex << firstTexCoordIndex);
-    //   }
-    //   // case 3: vertex is on the third edge of the triangle
-    //   else if (coord->item(tesselatedPolygon[i][0]).isOnEdgeBetweenVertices(thirdEdgeStart, thirdEdgeEnd)) {
-    //     // first triangle
-    //     results.append(QVector<int>() << thirdVertexIndex << thirdNormalIndex << thirdTexCoordIndex);
-    //     results.append(QVector<int>() << tesselatedPolygon[i][0] << tesselatedPolygon[i][1] << tesselatedPolygon[i][2]);
-    //     results.append(QVector<int>() << secondVertexIndex << secondNormalIndex << secondTexCoordIndex);
-    //     // second triangle
-    //     results.append(QVector<int>() << tesselatedPolygon[i][0] << tesselatedPolygon[i][1] << tesselatedPolygon[i][2]);
-    //     results.append(QVector<int>() << firstVertexIndex << firstNormalIndex << firstTexCoordIndex);
-    //     results.append(QVector<int>() << secondVertexIndex << secondNormalIndex << secondTexCoordIndex);
-    //   }
-    //
-    //   // add this vertex to the list of those already checked
-    //   checkedIndices.insert(tesselatedPolygon[i][0], true);
-    // }
-    // //  default - no need to cut the triangle, return it as-was
-    // if (results.isEmpty()) {
-    //   results.append(QVector<int>() << firstVertexIndex << firstNormalIndex << firstTexCoordIndex);
-    //   results.append(QVector<int>() << secondVertexIndex << secondNormalIndex << secondTexCoordIndex);
-    //   results.append(QVector<int>() << thirdVertexIndex << thirdNormalIndex << thirdTexCoordIndex);
+      else if (coord[tesselatedPolygon[i].x].isOnEdgeBetweenVertices(secondEdgeStart, secondEdgeEnd)) {
+        // first triangle
+        results.push(new WbVector3(secondVertexIndex, secondNormalIndex, secondTexCoordIndex));
+        results.push(new WbVector3(tesselatedPolygon[i].x, tesselatedPolygon[i].y, tesselatedPolygon[i].z));
+        results.push(new WbVector3(firstVertexIndex, firstNormalIndex, firstTexCoordIndex));
+        // second triangle
+        results.push(new WbVector3(tesselatedPolygon[i].x, tesselatedPolygon[i].y, tesselatedPolygon[i].z));
+        results.push(new WbVector3(thirdVertexIndex, thirdNormalIndex, thirdTexCoordIndex));
+        results.push(new WbVector3(firstVertexIndex, firstNormalIndex, firstTexCoordIndex));
+      }
+      // case 3: vertex is on the third edge of the triangle
+      else if (coord[tesselatedPolygon[i].x].isOnEdgeBetweenVertices(thirdEdgeStart, thirdEdgeEnd)) {
+        // first triangle
+        results.push(new WbVector3(thirdVertexIndex, thirdNormalIndex, thirdTexCoordIndex));
+        results.push(new WbVector3(tesselatedPolygon[i].x, tesselatedPolygon[i].y, tesselatedPolygon[i].z));
+        results.push(new WbVector3(secondVertexIndex, secondNormalIndex, secondTexCoordIndex));
+        // second triangle
+        results.push(new WbVector3(tesselatedPolygon[i].x, tesselatedPolygon[i].y, tesselatedPolygon[i].z));
+        results.push(new WbVector3(firstVertexIndex, firstNormalIndex, firstTexCoordIndex));
+        results.push(new WbVector3 (secondVertexIndex, secondNormalIndex, secondTexCoordIndex));
+      }
+    
+      // add this vertex to the list of those already checked
+      checkedIndices.add(tesselatedPolygon[i].x);
+    }
+
+    //  default - no need to cut the triangle, return it as-was
+    if (results.length === 0) {
+      results.push(new WbVector3(firstVertexIndex, firstNormalIndex, firstTexCoordIndex));
+      results.push(new WbVector3(secondVertexIndex, secondNormalIndex, secondTexCoordIndex));
+      results.push(new WbVector3(thirdVertexIndex, thirdNormalIndex, thirdTexCoordIndex));
     }
 
     return results;
