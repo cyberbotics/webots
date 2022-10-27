@@ -46,3 +46,4 @@ from controller.keyboard import Keyboard               # noqa
 from controller.mouse import Mouse                     # noqa
 from controller.mouse import MouseState                # noqa
 from controller.joystick import Joystick               # noqa
+from controller.motion import Motion                   # noqa
