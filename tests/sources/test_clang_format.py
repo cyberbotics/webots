@@ -19,11 +19,10 @@ import unittest
 
 import difflib
 import os
+import shutil
 import subprocess
 
 from io import open
-
-from distutils.spawn import find_executable
 
 
 class TestClangFormat(unittest.TestCase):
@@ -31,7 +30,7 @@ class TestClangFormat(unittest.TestCase):
 
     def setUp(self):
         """Set up called before each test."""
-        self.WEBOTS_HOME = os.environ['WEBOTS_HOME']
+        self.WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
 
     def _runClangFormat(self, f):
         """Run clang format on 'f' file."""
@@ -40,10 +39,10 @@ class TestClangFormat(unittest.TestCase):
     def test_clang_format_is_correctly_installed(self):
         """Test ClangFormat is correctly installed."""
         self.assertTrue(
-            find_executable('clang-format') is not None,
+            shutil.which('clang-format') is not None,
             msg='ClangFormat is not installed on this computer.'
         )
-        clangFormatConfigFile = self.WEBOTS_HOME + os.sep + '.clang-format'
+        clangFormatConfigFile = os.path.join(self.WEBOTS_HOME, '.clang-format')
         self.assertTrue(
             os.path.exists(clangFormatConfigFile),
             msg=clangFormatConfigFile + ' not found.'
@@ -85,6 +84,9 @@ class TestClangFormat(unittest.TestCase):
             'python',
             'java'
         ]
+        skippedPathsFull = [os.path.join(self.WEBOTS_HOME, os.path.normpath(path)) for path in skippedPaths]
+        skippedFilesFull = [os.path.join(self.WEBOTS_HOME, os.path.normpath(file)) for file in skippedFiles]
+
         extensions = ['c', 'h', 'cpp', 'hpp', 'cc', 'hh', 'c++', 'h++', 'vert', 'frag']
         modified_files = os.path.join(self.WEBOTS_HOME, 'tests', 'sources', 'modified_files.txt')
         sources = []
@@ -115,18 +117,18 @@ class TestClangFormat(unittest.TestCase):
                             found = True
                     if found:
                         continue
-                    sources.append(line.replace('/', os.sep))
+                    sources.append(os.path.normpath(line))
         else:
             for directory in directories:
-                path = self.WEBOTS_HOME + os.sep + directory.replace('/', os.sep)
+                path = os.path.join(self.WEBOTS_HOME, os.path.normpath(directory))
                 for rootPath, dirNames, fileNames in os.walk(path):
                     shouldContinue = False
-                    for path in skippedPaths:
-                        if rootPath.startswith(self.WEBOTS_HOME + os.sep + path.replace('/', os.sep)):
+                    for skippedPath in skippedPathsFull:
+                        if rootPath.startswith(skippedPath):
                             shouldContinue = True
                             break
                     for directory in skippedDirectories:
-                        currentDirectories = rootPath.replace(self.WEBOTS_HOME, '').split(os.sep)
+                        currentDirectories = rootPath.replace(self.WEBOTS_HOME + os.sep, '').split(os.sep)
                         if directory in currentDirectories:
                             shouldContinue = True
                             break
@@ -137,12 +139,7 @@ class TestClangFormat(unittest.TestCase):
                         if extension not in extensions:
                             continue
                         path = os.path.normpath(os.path.join(rootPath, fileName))
-                        skipFile = False
-                        for file in skippedFiles:
-                            if os.path.normpath((self.WEBOTS_HOME + os.sep + file.replace('/', os.sep))) == path:
-                                skipFile = True
-                                break
-                        if not skipFile:
+                        if path not in skippedFilesFull:
                             sources.append(path)
         curdir = os.getcwd()
         os.chdir(self.WEBOTS_HOME)
