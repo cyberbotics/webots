@@ -17,7 +17,7 @@
 /*
  * Description:   An example of a controller using the position sensor.
  *                The system represents and inverted pendulum consisting of a pole
- *                conected to a robot by an hinge joint. The speed of the robot is
+ *                connected to a robot by an hinge joint. The speed of the robot is
  *                adjusted based on the position of the pole in order to balance it.
  */
 
@@ -58,6 +58,7 @@ int main(int argc, char **argv) {
 
   while (wb_robot_step(time_step) != -1) {
     const double position = wb_position_sensor_get_value(position_sensor);
+    const double velocity = wb_position_sensor_get_velocity(position_sensor);
 
     if (fabs(position) > 0.78)
       // pole is fallen
@@ -76,8 +77,8 @@ int main(int argc, char **argv) {
 
     wb_motor_set_velocity(left_motor, -speed);
     wb_motor_set_velocity(right_motor, -speed);
-    ANSI_CLEAR_CONSOLE();
-    printf("Position: %+f -> control force: %+f\n", position, speed);
+    printf("Position: %+f, current speed %+f, derivated position speed %+f-> control speed: %+f\n", position, velocity,
+           (position - previous_position) / (time_step / 1000.0), speed);
 
     previous_position = position;
   };

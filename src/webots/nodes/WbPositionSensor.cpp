@@ -52,6 +52,7 @@ WbPositionSensor::WbPositionSensor(const WbNode &other) : WbJointDevice(other) {
 void WbPositionSensor::init() {
   mSensor = new WbSensor();
   mValue = 0.0;
+  mValueVel = 0.0;
   mRequestedDeviceTag = NULL;
   mNoise = findSFDouble("noise");
   mResolution = findSFDouble("resolution");
@@ -112,11 +113,24 @@ double WbPositionSensor::position() const {
   return pos;
 }
 
+double WbPositionSensor::velocity() const {
+  // get exact position
+  double vel = WbJointDevice::velocity();
+  // apply noise if needed
+  if (mNoise->value() > 0.0)
+    vel += mNoise->value() * WbRandom::nextGaussian();
+  // apply resolution if needed
+  if (mResolution->value() != -1.0)
+    vel = WbMathsUtilities::discretize(vel, mResolution->value());
+  return vel;
+}
+
 void WbPositionSensor::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << tag();
     stream << (unsigned char)C_POSITION_SENSOR_DATA;
     stream << mValue;
+    stream << mValueVel;
     mSensor->resetPendingValue();
   }
   if (mRequestedDeviceTag != NULL) {
@@ -131,6 +145,7 @@ void WbPositionSensor::writeAnswer(WbDataStream &stream) {
 bool WbPositionSensor::refreshSensorIfNeeded() {
   if (isPowerOn() && mSensor->needToRefresh()) {
     mValue = position();
+    mValueVel = velocity();
     mSensor->updateTimer();
     return true;
   }

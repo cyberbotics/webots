@@ -66,6 +66,7 @@ public:
   WbSolid *helix() const { return mHelix; }  // current helix
   WbLogicalDevice *device() const;
   double position() const { return mPosition; }
+  double velocity() const { return mVelocity; }
 
   double currentThrust() const { return mCurrentThrust; }
   double currentTorque() const { return mCurrentTorque; }
@@ -81,6 +82,7 @@ private:
   WbSFNode *mFastHelix;
   WbSFNode *mSlowHelix;
   double mPosition;
+  double mVelocity;
   WbSolid *mHelix;
   HelixType mHelixType;
 

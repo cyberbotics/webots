@@ -153,3 +153,17 @@ double WbJointDevice::position() const {
   assert(propeller());
   return propeller()->position();
 }
+
+double WbJointDevice::velocity() const {
+  // return exact velocity
+  const WbJoint *const j = joint();
+  if (j)
+    return j->velocity(mPositionIndex);
+
+  const WbTrack *const t = track();
+  if (t)
+    return t->velocity();
+
+  assert(propeller());
+  return propeller()->velocity();
+}

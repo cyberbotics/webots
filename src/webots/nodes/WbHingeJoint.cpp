@@ -372,6 +372,10 @@ void WbHingeJoint::prePhysicsStep(double ms) {
 void WbHingeJoint::postPhysicsStep() {
   assert(mJoint);
   WbRotationalMotor *const rm = rotationalMotor();
+  double angleRate = dJointGetHingeAngleRate(mJoint);
+  if (mIsReverseJoint)
+    angleRate = -angleRate;
+  mVelocity = angleRate;
   if (rm && rm->isPIDPositionControl()) {  // if controlling in position we update position using directly the angle feedback
     double angle = dJointGetHingeAngle(mJoint);
     if (!mIsReverseJoint)
@@ -380,9 +384,6 @@ void WbHingeJoint::postPhysicsStep() {
   } else {
     // if not controlling in position we use the angle rate feedback to update position (because at high speed angle feedback is
     // under-estimated)
-    double angleRate = dJointGetHingeAngleRate(mJoint);
-    if (mIsReverseJoint)
-      angleRate = -angleRate;
     mPosition -= angleRate * mTimeStep / 1000.0;
   }
   WbJointParameters *const p = parameters();

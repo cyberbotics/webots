@@ -148,8 +148,8 @@ void WbJoint::addDevice(int index) {
   if (s) {
     WbRobot *const r = s->robot();
     assert(r);
-    WbBaseNode *decendant = dynamic_cast<WbBaseNode *>(mDevice->item(index));
-    r->descendantNodeInserted(decendant);
+    WbBaseNode *descendant = dynamic_cast<WbBaseNode *>(mDevice->item(index));
+    r->descendantNodeInserted(descendant);
   }
   WbBrake *b = dynamic_cast<WbBrake *>(mDevice->item(index));
   if (b)

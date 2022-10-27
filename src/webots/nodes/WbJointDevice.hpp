@@ -38,6 +38,7 @@ public:
   WbTrack *track() const;          // track attached to the device
   WbRobot *robot() const;          // robot that owns the joint
   double position() const;
+  double velocity() const;
   virtual int type() const;
   int positionIndex() const { return mPositionIndex; }
 

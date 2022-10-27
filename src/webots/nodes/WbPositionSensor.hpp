@@ -46,6 +46,7 @@ public:
 
   // inherited from WbJointDevice
   double position() const;
+  double velocity() const;
 
 private:
   // user accessible field
@@ -54,6 +55,7 @@ private:
 
   WbSensor *mSensor;
   double mValue;
+  double mValueVel;
   WbPositionSensor &operator=(const WbPositionSensor &);  // non copyable
   WbNode *clone() const override { return new WbPositionSensor(*this); }
   void init();

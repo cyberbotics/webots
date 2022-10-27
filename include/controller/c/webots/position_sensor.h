@@ -35,7 +35,8 @@ extern "C" {
 void wb_position_sensor_enable(WbDeviceTag tag, int sampling_period);  // milliseconds
 void wb_position_sensor_disable(WbDeviceTag tag);
 int wb_position_sensor_get_sampling_period(WbDeviceTag tag);
-double wb_position_sensor_get_value(WbDeviceTag tag);  // rad or meters
+double wb_position_sensor_get_value(WbDeviceTag tag);     // rad or meters
+double wb_position_sensor_get_velocity(WbDeviceTag tag);  // rad/s or meters/s
 WbJointType wb_position_sensor_get_type(WbDeviceTag tag);
 WbDeviceTag wb_position_sensor_get_motor(WbDeviceTag tag);
 WbDeviceTag wb_position_sensor_get_brake(WbDeviceTag tag);

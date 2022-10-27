@@ -43,6 +43,7 @@ void WbPropeller::init() {
   mSlowHelix = findSFNode("slowHelix");
 
   mPosition = 0.0;
+  mVelocity = 0.0;
   mHelixType = SLOW_HELIX;
   mHelix = NULL;
 

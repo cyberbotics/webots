@@ -30,6 +30,7 @@ typedef struct {
   bool enable;  // need to enable device ?
   int sampling_period;
   double position;
+  double velocity;
   WbJointType type;
   int requested_device_type;
   int requested_device_tag;
@@ -71,6 +72,7 @@ static void position_sensor_read_answer(WbDevice *d, WbRequest *r) {
   switch (request_read_uchar(r)) {
     case C_POSITION_SENSOR_DATA:  // read position feedback
       p->position = request_read_double(r);
+      p->velocity = request_read_double(r);
       break;
     case C_POSITION_SENSOR_GET_ASSOCIATED_DEVICE:
       p->requested_device_tag = request_read_uint16(r);
@@ -147,6 +149,20 @@ double wb_position_sensor_get_value(WbDeviceTag tag) {
     if (p->sampling_period <= 0)
       fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_position_sensor_enable().\n", __FUNCTION__);
     result = p->position;
+  } else
+    fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
+  robot_mutex_unlock();
+  return result;
+}
+
+double wb_position_sensor_get_velocity(WbDeviceTag tag) {
+  double result = NAN;
+  robot_mutex_lock();
+  PositionSensor *p = position_sensor_get_struct(tag);
+  if (p) {
+    if (p->sampling_period <= 0)
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_position_sensor_enable().\n", __FUNCTION__);
+    result = p->velocity;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   robot_mutex_unlock();

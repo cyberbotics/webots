@@ -47,6 +47,7 @@ public:
 
   WbJointParameters *parameters() const;
   virtual double position(int index = 1) const { return (index == 1) ? mPosition : NAN; }
+  virtual double velocity(int index = 1) const { return (index == 1) ? mVelocity : NAN; }
   virtual double initialPosition(int index = 1) const { return (index == 1) ? mSavedPositions[stateId()] : NAN; }
   virtual void setPosition(double position, int index = 1);
   bool resetJointPositions() override;
@@ -82,6 +83,7 @@ protected:
 
   WbMFNode *mDevice;  // JointDevices: logical position sensor device, a motor and brake, only one per type is allowed
   double mPosition;   // Keeps track of the joint position if JointParameters doesn't exist.
+  double mVelocity;
   QMap<QString, double> mSavedPositions;  // position loaded from a .wbt file
   double mTimeStep;  // keep track of the argument of the last call of 'prePhysicsStep' (wich is then used in 'postPhysicsStep'
                      // to update the mPosition
