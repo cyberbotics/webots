@@ -571,7 +571,7 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
   }
 }
 
-void WbImageTexture::exportShallowNode(WbWriter &writer) const {
+void WbImageTexture::exportShallowNode(const WbWriter &writer) const {
   if (!writer.isX3d() || mUrl->size() == 0)
     return;
 
