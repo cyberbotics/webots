@@ -90,4 +90,20 @@ export default class WbVector3 {
   toString() {
     return this.x + ' ' + this.y + ' ' + this.z;
   }
+
+  // test if this point is on a given line segment
+  isOnEdgeBetweenVertices(lineStart, lineEnd, tolerance = 0.000001) {
+    const lineSegment = lineEnd.sub(lineStart);
+    const toPoint = this.sub(lineStart);
+
+    // the points aren't aligned
+    if (!lineSegment.cross(toPoint).almostEquals(new WbVector3(), tolerance))
+      return false;
+
+    // the point isn't on the segment
+    if (lineSegment.dot(toPoint) < 0 || lineSegment.dot(toPoint) > lineSegment.length2())
+      return false;
+
+    return true;
+  }
 }
