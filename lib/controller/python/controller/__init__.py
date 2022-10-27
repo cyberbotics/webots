@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from controller.field import Field                     # noqa
+from controller.node import Node                       # noqa
 from controller.ansi_codes import AnsiCodes            # noqa
 from controller.accelerometer import Accelerometer     # noqa
 from controller.altimeter import Altimeter             # noqa
@@ -22,7 +24,6 @@ from controller.connector import Connector             # noqa
 from controller.display import Display                 # noqa
 from controller.distance_sensor import DistanceSensor  # noqa
 from controller.emitter import Emitter                 # noqa
-from controller.field import Field                     # noqa
 from controller.gps import GPS                         # noqa
 from controller.gyro import Gyro                       # noqa
 from controller.inertial_unit import InertialUnit      # noqa
@@ -30,7 +31,6 @@ from controller.led import LED                         # noqa
 from controller.lidar import Lidar                     # noqa
 from controller.light_sensor import LightSensor        # noqa
 from controller.motor import Motor                     # noqa
-from controller.node import Node                       # noqa
 from controller.position_sensor import PositionSensor  # noqa
 from controller.radar import Radar                     # noqa
 from controller.range_finder import RangeFinder        # noqa
@@ -40,8 +40,6 @@ from controller.skin import Skin                       # noqa
 from controller.speaker import Speaker                 # noqa
 from controller.supervisor import Supervisor           # noqa
 from controller.touch_sensor import TouchSensor        # noqa
-from controller.node import Node                       # noqa
-from controller.field import Field                     # noqa
 from controller.keyboard import Keyboard               # noqa
 from controller.mouse import Mouse                     # noqa
 from controller.mouse import MouseState                # noqa
