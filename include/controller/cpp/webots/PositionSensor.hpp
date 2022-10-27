@@ -33,7 +33,8 @@ namespace webots {
     virtual void enable(int samplingPeriod);  // milliseconds
     virtual void disable();
     int getSamplingPeriod() const;
-    double getValue() const;  // rad or meters
+    double getValue() const;    // rad or meters
+    double getVelocity() const; // rad/s or meters/s
     Type getType() const;
 
     Brake *getBrake();

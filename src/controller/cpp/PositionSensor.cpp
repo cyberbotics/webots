@@ -38,6 +38,10 @@ double PositionSensor::getValue() const {
   return wb_position_sensor_get_value(getTag());
 }
 
+double PositionSensor::getVelocity() const {
+  return wb_position_sensor_get_velocity(getTag());
+}
+
 PositionSensor::Type PositionSensor::getType() const {
   return Type(wb_position_sensor_get_type(getTag()));
 }
