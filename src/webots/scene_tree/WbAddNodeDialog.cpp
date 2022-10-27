@@ -18,6 +18,7 @@
 #include "WbClipboard.hpp"
 #include "WbDesktopServices.hpp"
 #include "WbDictionary.hpp"
+#include "WbDownloadManager.hpp"
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFileUtil.hpp"
@@ -37,6 +38,7 @@
 #include "WbSimulationState.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbUrl.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWorld.hpp"
 
 #include <QtCore/QRegularExpression>
@@ -71,7 +73,7 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
 
   // check if top node is a robot node
   const WbNode *const topNode =
-    field ? WbNodeUtilities::findTopNode(mCurrentNode) : WbNodeUtilities::findTopNode(mCurrentNode->parentNode());
+    field ? WbVrmlNodeUtilities::findTopNode(mCurrentNode) : WbVrmlNodeUtilities::findTopNode(mCurrentNode->parentNode());
   mHasRobotTopNode = topNode ? WbNodeUtilities::isRobotTypeName(topNode->nodeModelName()) : false;
 
   setWindowTitle(tr("Add a node"));
@@ -184,11 +186,10 @@ WbAddNodeDialog::~WbAddNodeDialog() {
 }
 
 void WbAddNodeDialog::downloadIcon(const QString &url) {
-  WbDownloader *const downloader = new WbDownloader(this);
+  WbDownloader *downloader = WbDownloadManager::instance()->createDownloader(QUrl(url), this);
   mIconDownloaders.push_back(downloader);
   connect(downloader, &WbDownloader::complete, this, &WbAddNodeDialog::iconUpdate);
-
-  downloader->download(QUrl(url));
+  downloader->download();
 }
 
 void WbAddNodeDialog::iconUpdate() {

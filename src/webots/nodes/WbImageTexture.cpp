@@ -17,6 +17,7 @@
 #include "WbAbstractAppearance.hpp"
 #include "WbApplication.hpp"
 #include "WbApplicationInfo.hpp"
+#include "WbDownloadManager.hpp"
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
@@ -121,14 +122,11 @@ void WbImageTexture::downloadAssets() {
   if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCachedWithMapUpdate(completeUrl))
     return;
 
-  if (mDownloader && mDownloader->hasFinished())
-    delete mDownloader;
-
-  mDownloader = new WbDownloader(this);
+  delete mDownloader;
+  mDownloader = WbDownloadManager::instance()->createDownloader(QUrl(completeUrl), this);
   if (!WbWorld::instance()->isLoading() || mIsShallowNode)  // URL changed from the scene tree or supervisor
     connect(mDownloader, &WbDownloader::complete, this, &WbImageTexture::downloadUpdate);
-
-  mDownloader->download(QUrl(completeUrl));
+  mDownloader->download();
 }
 
 void WbImageTexture::downloadUpdate() {
@@ -282,8 +280,7 @@ void WbImageTexture::updateWrenTexture() {
   }
 
   mWrenTexture = WR_TEXTURE(texture);
-  if (mDownloader != NULL)
-    delete mDownloader;
+  delete mDownloader;
   mDownloader = NULL;
 }
 

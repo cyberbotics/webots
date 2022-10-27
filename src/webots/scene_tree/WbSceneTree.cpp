@@ -55,6 +55,7 @@
 #include "WbValueEditor.hpp"
 #include "WbVariant.hpp"
 #include "WbViewpoint.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWorld.hpp"
 
 #include <cassert>
@@ -322,7 +323,7 @@ void WbSceneTree::copy() {
   WbSingleValue *singleValue = dynamic_cast<WbSingleValue *>(value);
   WbMultipleValue *multipleValue = dynamic_cast<WbMultipleValue *>(value);
   if (mSelectedItem->isNode() || mSelectedItem->isSFNode()) {
-    const QList<const WbNode *> clipboardNodes = WbNodeUtilities::protoNodesInWorldFile(mSelectedItem->node());
+    const QList<const WbNode *> clipboardNodes = WbVrmlNodeUtilities::protoNodesInWorldFile(mSelectedItem->node());
     if (!WbProtoManager::instance()->externProtoClipboardBuffer().isEmpty())
       WbProtoManager::instance()->clearExternProtoClipboardBuffer();
     WbProtoManager::instance()->saveToExternProtoClipboardBuffer(clipboardNodes);
@@ -848,7 +849,7 @@ bool WbSceneTree::insertInertiaMatrix(const WbField *selectedField) {
       assert(nodeParent);
       p = nodeParent->parentField();
     } else
-      p = WbNodeUtilities::findFieldParent(internalFields.at(0), true);
+      p = WbVrmlNodeUtilities::findFieldParent(internalFields.at(0), true);
 
     assert(p);
     const int m = p->internalFields().size();

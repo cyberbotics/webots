@@ -17,6 +17,7 @@
 
 #include <QtCore/QString>
 
+class WbField;
 class WbNode;
 class WbMFString;
 class WbWriter;
@@ -26,6 +27,7 @@ namespace WbUrl {
   QString computePath(const WbNode *node, const QString &field, const QString &rawUrl, bool showWarning = false);
   QString computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index,
                       bool showWarning = false);
+  const WbNode *findFieldProtoScope(const WbField *field, const WbNode *proto);
 
   QString combinePaths(const QString &rawUrl, const QString &rawParentUrl);
 
@@ -34,20 +36,23 @@ namespace WbUrl {
   QString exportTexture(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer);
   QString exportMesh(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer);
 
-  const QString missing(const QString &url);
+  QString missing(const QString &url);
   const QString &missingTexture();
   const QString &missingProtoIcon();
   bool isWeb(const QString &url);
   bool isLocalUrl(const QString &url);
-  const QString computeLocalAssetUrl(QString url, bool isX3d);
-  const QString computePrefix(const QString &rawUrl);
+  QString computeLocalAssetUrl(QString url, bool isX3d);
+  QString computePrefix(const QString &rawUrl);
 
-  const QString remoteWebotsAssetRegex(bool capturing);
+  QString remoteWebotsAssetRegex(bool capturing);
   const QString &remoteWebotsAssetPrefix();
 
-  const QRegularExpression vrmlResourceRegex();
+  const QRegularExpression &vrmlResourceRegex();
 
   QString expressRelativeToWorld(const QString &url);
+
+  void setWorldFileName(const QString &fileName);
+
 };  // namespace WbUrl
 
 #endif

@@ -26,6 +26,7 @@
 #include "WbSFInt.hpp"
 #include "WbSimulationState.hpp"
 #include "WbTransform.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWrenRenderingContext.hpp"
 
 #include <wren/config.h>
@@ -84,7 +85,7 @@ void WbCapsule::createWrenObjects() {
   if (isInBoundingObject()) {
     connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this, &WbCapsule::updateLineScale);
 
-    if (mSubdivision->value() < MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION && !WbNodeUtilities::hasAUseNodeAncestor(this))
+    if (mSubdivision->value() < MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION && !WbVrmlNodeUtilities::hasAUseNodeAncestor(this))
       // silently reset the subdivision on node initialization
       mSubdivision->setValue(MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION);
   }
@@ -117,7 +118,7 @@ void WbCapsule::createResizeManipulator() {
 bool WbCapsule::areSizeFieldsVisibleAndNotRegenerator() const {
   const WbField *const heightField = findField("height", true);
   const WbField *const radiusField = findField("radius", true);
-  return WbNodeUtilities::isVisible(heightField) && WbNodeUtilities::isVisible(radiusField) &&
+  return WbVrmlNodeUtilities::isVisible(heightField) && WbVrmlNodeUtilities::isVisible(radiusField) &&
          !WbNodeUtilities::isTemplateRegeneratorField(heightField) && !WbNodeUtilities::isTemplateRegeneratorField(radiusField);
 }
 
@@ -125,7 +126,7 @@ bool WbCapsule::sanitizeFields() {
   if (WbFieldChecker::resetIntIfNotInRangeWithIncludedBounds(this, mSubdivision, 4, 1000, 4))
     return false;
   if (mSubdivision->value() < MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION && isInBoundingObject() &&
-      !WbNodeUtilities::hasAUseNodeAncestor(this)) {
+      !WbVrmlNodeUtilities::hasAUseNodeAncestor(this)) {
     parsingWarn(tr("'subdivision' value has no effect to physical 'boundingObject' geometry. "
                    "A minimum value of %2 is used for the representation.")
                   .arg(MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION));

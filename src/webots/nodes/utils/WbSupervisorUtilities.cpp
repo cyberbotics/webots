@@ -44,6 +44,7 @@
 #include "WbStandardPaths.hpp"
 #include "WbTemplateManager.hpp"
 #include "WbViewpoint.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenLabelOverlay.hpp"
 #include "WbWrenOpenGlContext.hpp"
@@ -721,7 +722,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         mFoundNodeParentUniqueId = (node->parentNode() ? node->parentNode()->uniqueId() : -1);
         mFoundNodeIsProto = node->isProtoInstance();
         mFoundNodeIsProtoInternal =
-          node->parentNode() != WbWorld::instance()->root() && !WbNodeUtilities::isVisible(node->parentField());
+          node->parentNode() != WbWorld::instance()->root() && !WbVrmlNodeUtilities::isVisible(node->parentField());
         connect(node, &WbNode::defUseNameChanged, this, &WbSupervisorUtilities::notifyNodeUpdate, Qt::UniqueConnection);
       }
 
@@ -767,7 +768,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       const WbBaseNode *baseNode = dynamic_cast<const WbBaseNode *>(device);
       assert(baseNode);
       mFoundNodeIsProtoInternal =
-        baseNode->parentNode() != WbWorld::instance()->root() && !WbNodeUtilities::isVisible(baseNode->parentField());
+        baseNode->parentNode() != WbWorld::instance()->root() && !WbVrmlNodeUtilities::isVisible(baseNode->parentField());
       mGetNodeRequest = C_SUPERVISOR_NODE_GET_FROM_TAG;
       mCurrentDefName = baseNode->defName();
       mFoundNodeUniqueId = baseNode->uniqueId();
@@ -1089,7 +1090,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> nodeId;
       WbNode *node = WbNode::findNode(nodeId);
 
-      mNodeExportString = WbNodeOperations::exportNodeToString(node);
+      mNodeExportString = WbVrmlNodeUtilities::exportNodeToString(node);
       mNodeExportStringRequest = true;
       return;
     }
@@ -1501,7 +1502,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       while (node && node->protoParameterNode())
         node = node->protoParameterNode();
 
-      if (!WbNodeUtilities::isVisible(node)) {
+      if (!WbVrmlNodeUtilities::isVisible(node)) {
         mRobot->warn(
           tr("Node '%1' is internal to a PROTO and therefore cannot be deleted from a Supervisor.").arg(node->modelName()));
         return;
@@ -2093,7 +2094,7 @@ void WbSupervisorUtilities::writeConfigure(WbDataStream &stream) {
   stream << (int)selfNode->parentNode()->uniqueId();
   stream << (unsigned char)selfNode->isProtoInstance();
   stream << (unsigned char)(selfNode->parentNode() != WbWorld::instance()->root() &&
-                            !WbNodeUtilities::isVisible(selfNode->parentField()));
+                            !WbVrmlNodeUtilities::isVisible(selfNode->parentField()));
   const QByteArray &s = selfNode->modelName().toUtf8();
   stream.writeRawData(s.constData(), s.size() + 1);
   const QByteArray &ba = selfNode->defName().toUtf8();

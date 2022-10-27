@@ -44,10 +44,6 @@ public:
   // check if the loading of the world was canceled by the user
   bool wasWorldLoadingCanceled() const;
 
-  // load a world .wbt file
-  // worldName must be absolute or specified with respect to WEBOTS_HOME
-  // return true on success, false otherwise
-  void loadWorld(QString worldName, bool reloading, bool isLoadingAfterDownload = false);
   // delete the progress dialog and eventually load empty world
   void cancelWorldLoading(bool loadEmpty, bool deleteWorld = false);
   bool isValidWorldFileName(const QString &worldName);
@@ -81,7 +77,7 @@ signals:
   void preWorldLoaded(bool reloading);
   void postWorldLoaded(bool reloading, bool firstLoad);
 
-  void worldLoadRequested(QString filename);
+  void worldLoadRequested(const QString &filename);
 
   void requestScreenshot(const QString &fileName, int quality);
   void simulationQuitRequested(int exitStatus);
@@ -105,6 +101,11 @@ signals:
   void worldLoadCompleted();
 
 public slots:
+  // load a world .wbt file
+  // worldName must be absolute or specified with respect to WEBOTS_HOME
+  // return true on success, false otherwise
+  void loadWorld(QString worldName, bool reloading, bool isLoadingAfterDownload = false);
+
   void setWorldLoadingCanceled();
   void setWorldLoadingProgress(const int progress);
   void setWorldLoadingStatus(const QString &status);

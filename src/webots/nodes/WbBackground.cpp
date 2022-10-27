@@ -16,6 +16,7 @@
 
 #include "WbApplication.hpp"
 #include "WbApplicationInfo.hpp"
+#include "WbDownloadManager.hpp"
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
@@ -194,14 +195,11 @@ void WbBackground::downloadAsset(const QString &url, int index, bool postpone) {
     mIrradianceTexture[index - 6] = NULL;
   }
 
-  if (mDownloader[index] && mDownloader[index]->hasFinished())
-    delete mDownloader[index];
-
-  mDownloader[index] = new WbDownloader(this);
+  delete mDownloader[index];
+  mDownloader[index] = WbDownloadManager::instance()->createDownloader(QUrl(completeUrl), this);
   if (postpone)
     connect(mDownloader[index], &WbDownloader::complete, this, &WbBackground::downloadUpdate);
-
-  mDownloader[index]->download(QUrl(completeUrl));
+  mDownloader[index]->download();
 }
 
 void WbBackground::downloadAssets() {

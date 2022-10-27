@@ -30,7 +30,6 @@
 #include "WbNodeFactory.hpp"
 #include "WbNodeModel.hpp"
 #include "WbNodeReader.hpp"
-#include "WbNodeUtilities.hpp"
 #include "WbParser.hpp"
 #include "WbProject.hpp"
 #include "WbProtoManager.hpp"
@@ -48,6 +47,7 @@
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 #include "WbUrl.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWriter.hpp"
 
 #include <QtCore/QFile>
@@ -1041,8 +1041,8 @@ void WbNode::write(WbWriter &writer) const {
     return;
   }
   if (writer.isX3d() || (writer.isProto() && (!writer.rootNode() || this == writer.rootNode() ||
-                                              WbNodeUtilities::findContainingProto(this) ==
-                                                WbNodeUtilities::findContainingProto(writer.rootNode())))) {
+                                              WbVrmlNodeUtilities::findContainingProto(this) ==
+                                                WbVrmlNodeUtilities::findContainingProto(writer.rootNode())))) {
     writeExport(writer);
     return;
   }
@@ -1247,7 +1247,7 @@ void WbNode::exportExternalSubProto(WbWriter &writer) const {
     return;
 
   // find all proto that were already exposed prior to converting the root (typically, slots with world visibility)
-  const QList<const WbNode *> protos = WbNodeUtilities::protoNodesInWorldFile(this);
+  const QList<const WbNode *> protos = WbVrmlNodeUtilities::protoNodesInWorldFile(this);
   foreach (const WbNode *p, protos) {
     // the node itself doesn't need to be re-declared since it won't exist after conversion
     if (p != this) {
