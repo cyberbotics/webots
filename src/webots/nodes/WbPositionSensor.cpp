@@ -115,7 +115,7 @@ double WbPositionSensor::position() const {
 
 double WbPositionSensor::velocity() const {
   // get exact position
-  double vel = WbJointDevice::velocity();
+  double velocity = WbJointDevice::velocity();
   // apply noise if needed
   if (mNoise->value() > 0.0)
     vel += mNoise->value() * WbRandom::nextGaussian();
