@@ -49,6 +49,16 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.inputs.push(this.#createVectorInput(' y', parameter.value.value.y, p, () => this.#vector3OnChange(p)));
     p.inputs.push(this.#createVectorInput(' z', parameter.value.value.z, p, () => this.#vector3OnChange(p)));
 
+    const resetButton = document.createElement('button');
+    resetButton.className = 'reset-field-button';
+    resetButton.onclick = () => {
+      p.inputs[0].value = parameter.defaultValue.value.x;
+      p.inputs[1].value = parameter.defaultValue.value.y;
+      p.inputs[2].value = parameter.defaultValue.value.z;
+      this.#vector3OnChange(p);
+    };
+    p.appendChild(resetButton);
+
     parent.appendChild(p);
   }
 
@@ -63,6 +73,16 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.inputs.push(this.#createVectorInput(' z', parameter.value.value.z, p, () => this.#rotationOnChange(p)));
     p.inputs.push(this.#createVectorInput(' a', parameter.value.value.a, p, () => this.#rotationOnChange(p)));
 
+    const resetButton = document.createElement('button');
+    resetButton.className = 'reset-field-button';
+    resetButton.onclick = () => {
+      p.inputs[0].value = parameter.defaultValue.value.x;
+      p.inputs[1].value = parameter.defaultValue.value.y;
+      p.inputs[2].value = parameter.defaultValue.value.z;
+      p.inputs[3].value = parameter.defaultValue.value.a;
+      this.#rotationOnChange(p);
+    };
+    p.appendChild(resetButton);
     parent.appendChild(p);
   }
 
@@ -162,6 +182,15 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     input.onchange = () => this.#stringOnChange(p);
     p.input = input;
     p.appendChild(input);
+
+    const resetButton = document.createElement('button');
+    resetButton.className = 'reset-field-button';
+    resetButton.onclick = () => {
+      input.value = parameter.defaultValue.value;
+      this.#stringOnChange(p);
+    };
+
+    p.appendChild(resetButton);
     parent.appendChild(p);
   }
 
@@ -171,6 +200,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   #createSFFloatField(key, parent) {
     const parameter = this.#protoManager.exposedParameters.get(key);
+    console.log(parameter)
     const p = document.createElement('p');
     p.innerHTML = key + ': ';
     p.parameter = parameter;
@@ -184,6 +214,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     input.onchange = () => this.#floatOnChange(p);
     p.input = input;
     p.appendChild(input);
+
+    const resetButton = document.createElement('button');
+    resetButton.className = 'reset-field-button';
+    resetButton.onclick = () => {
+      input.value = parameter.defaultValue.value;
+      this.#floatOnChange(p);
+    };
+    p.appendChild(resetButton);
     parent.appendChild(p);
   }
 
