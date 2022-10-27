@@ -33,6 +33,7 @@ It is expressed in *radian* [rad] if the parent node is a [HingeJoint](hingejoin
 #### `wb_position_sensor_disable`
 #### `wb_position_sensor_get_sampling_period`
 #### `wb_position_sensor_get_value`
+#### `wb_position_sensor_get_velocity`
 #### `wb_position_sensor_get_type`
 
 %tab-component "language"
@@ -46,6 +47,7 @@ void wb_position_sensor_enable(WbDeviceTag tag, int sampling_period);
 void wb_position_sensor_disable(WbDeviceTag tag);
 int wb_position_sensor_get_sampling_period(WbDeviceTag tag);
 double wb_position_sensor_get_value(WbDeviceTag tag);
+double wb_position_sensor_get_velocity(WbDeviceTag tag);
 int wb_position_sensor_get_type(WbDeviceTag tag);
 ```
 
@@ -64,6 +66,7 @@ namespace webots {
     virtual void disable();
     int getSamplingPeriod() const;
     double getValue() const;
+    double getVelocity() const;
     int getType() const;
     // ...
   }
@@ -84,6 +87,7 @@ class PositionSensor (Device):
     def disable(self):
     def getSamplingPeriod(self):
     def getValue(self):
+    def getVelocity(self):
     def getType(self):
     # ...
 ```
@@ -102,6 +106,7 @@ public class PositionSensor extends Device {
   public void disable();
   public int getSamplingPeriod();
   public double getValue();
+  public double getVelocity();
   public int getType();
   // ...
 }
@@ -118,6 +123,7 @@ wb_position_sensor_enable(tag, sampling_period)
 wb_position_sensor_disable(tag)
 period = wb_position_sensor_get_sampling_period(tag)
 value = wb_position_sensor_get_value(tag)
+velocity = wb_position_sensor_get_velocity(tag)
 type = wb_position_sensor_get_type(tag)
 ```
 
@@ -128,6 +134,7 @@ type = wb_position_sensor_get_type(tag)
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
 | `/<device_name>/value` | `topic` | webots_ros::Float64Stamped | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
+| `/<device_name>/velocity` | `topic` | webots_ros::Float64Stamped | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
 | `/<device_name>/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
 | `/<device_name>/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
 | `/<device_name>/get_type` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
@@ -149,7 +156,10 @@ The `wb_position_sensor_disable` function turns off the position sensor to save 
 The `wb_position_sensor_get_sampling_period` function returns the period given into the `wb_position_sensor_enable` function, or 0 if the device is disabled.
 
 The `wb_position_sensor_get_value` function returns the most recent value measured by the specified position sensor.
-Depending on the type, it will return a value in *radian* [rad] (angular position sensor) or in *meter* [m] (linear position sensor).
+Depending on the type, it will return a value in *radian* [rad] (angular position sensor) or in *meter* [m] (linear position sensor).ce is disabled.
+
+The `wb_position_sensor_get_velocity` function returns the most recent velocity measured by the specified position sensor.
+Depending on the type, it will return a value in *radian per second* [rad/s] (angular position sensor) or in *meter per second* [m/s] (linear position sensor).
 
 The `wb_position_sensor_get_type` function returns the type of the position sensor.
 It will return `WB_ROTATIONAL` if the sensor is associated with a [HingeJoint](hingejoint.md) or a [Hinge2Joint](hinge2joint.md) node, and `WB_LINEAR` if it is associated with a [SliderJoint](sliderjoint.md) or a [Track](track.md) node.
