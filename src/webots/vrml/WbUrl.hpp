@@ -27,7 +27,6 @@ namespace WbUrl {
   QString computePath(const WbNode *node, const QString &field, const QString &rawUrl, bool showWarning = false);
   QString computePath(const WbNode *node, const QString &field, const WbMFString *urlField, int index,
                       bool showWarning = false);
-  const WbNode *findFieldProtoScope(const WbField *field, const WbNode *proto);
 
   QString combinePaths(const QString &rawUrl, const QString &rawParentUrl);
 

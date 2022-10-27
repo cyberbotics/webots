@@ -112,7 +112,7 @@ private:
   WrTextureCubeMap *mCubeMapTexture;
   WrTextureCubeMap *mIrradianceCubeTexture;
 
-  WbDownloader * mDownloader[12];
+  WbDownloader *mDownloader[12];
 
 private slots:
   void updateColor();
