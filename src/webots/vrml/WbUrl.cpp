@@ -113,7 +113,6 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     node->warn(QObject::tr("Unable to find resource at '%1'.").arg(url));
 
   return missing(rawUrl);
-  return QString();
 }
 
 QString WbUrl::resolveUrl(const QString &rawUrl) {
