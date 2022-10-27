@@ -52,7 +52,7 @@ WbPositionSensor::WbPositionSensor(const WbNode &other) : WbJointDevice(other) {
 void WbPositionSensor::init() {
   mSensor = new WbSensor();
   mValue = 0.0;
-  mValueVel = 0.0;
+  mVelocityValue = 0.0;
   mRequestedDeviceTag = NULL;
   mNoise = findSFDouble("noise");
   mResolution = findSFDouble("resolution");
