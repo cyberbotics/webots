@@ -68,6 +68,8 @@ public:
   // resize manipulator
   void setResizeManipulatorDimensions() override;
 
+  QStringList fieldsToSynchronizeWithX3D() const override;
+
 protected:
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
 

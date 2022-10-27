@@ -22,8 +22,6 @@
 #include <wren/texture_transform.h>
 
 void WbTextureTransform::init() {
-  mEnableX3DTranslationUpdate = false;
-
   mCenter = findSFVector2("center");
   mRotation = findSFDouble("rotation");
   mScale = findSFVector2("scale");
@@ -125,7 +123,9 @@ void WbTextureTransform::translate(const WbVector2 &offset) {
 
 QStringList WbTextureTransform::fieldsToSynchronizeWithX3D() const {
   QStringList fields;
-  if (mEnableX3DTranslationUpdate)
-    fields << "translation";
+  fields << "center"
+         << "rotation"
+         << "scale"
+         << "translation";
   return fields;
 }

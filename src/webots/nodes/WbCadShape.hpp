@@ -51,6 +51,8 @@ public:
 
   const WbVector3 absoluteScale() const;
 
+  QStringList fieldsToSynchronizeWithX3D() const override;
+
 protected:
   void exportNodeFields(WbWriter &writer) const override;
   WbBoundingSphere *boundingSphere() const override { return mBoundingSphere; }

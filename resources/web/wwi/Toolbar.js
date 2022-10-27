@@ -608,8 +608,8 @@ export default class Toolbar {
   }
 
   removeRobotWindows() {
-    if (typeof this.robotWindowPane !== 'undefined')
-      this.robotWindowPane.remove();
+    this.robotWindowPane?.remove();
+
     if (typeof this.robotWindows !== 'undefined')
       document.querySelectorAll('.floating-robot-window').forEach(fw => fw.remove());
   }
@@ -1113,8 +1113,7 @@ export default class Toolbar {
         offset = 0;
     }
 
-    if (typeof this.#timeSlider !== 'undefined')
-      this.#timeSlider.setOffset(offset);
+    this.#timeSlider?.setOffset(offset);
 
     this.minWidth += 133;
   }

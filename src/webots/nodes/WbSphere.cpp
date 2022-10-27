@@ -212,6 +212,14 @@ void WbSphere::rescale(const WbVector3 &scale) {
     setRadius(radius() * scale.z());
 }
 
+QStringList WbSphere::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "radius"
+         << "ico"
+         << "subdivision";
+  return fields;
+}
+
 /////////////////
 // ODE objects //
 /////////////////
