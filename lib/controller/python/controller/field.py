@@ -19,10 +19,6 @@ import struct
 import typing
 
 
-class Node:
-    pass
-
-
 class Field:
     SF_BOOL = constant('SF_BOOL')
     SF_INT32 = constant('SF_INT32')
@@ -77,7 +73,7 @@ class Field:
                 self._ref = ctypes.c_void_p(wb.wb_supervisor_node_get_proto_field_by_index(node._ref, index))
         else:
             if name is not None:
-                self._ref = ctypes.c_void_p(wb.wb_supervisor_node_get_field(ctypes.c_void_p(node._ref), str.encode(name)))
+                self._ref = ctypes.c_void_p(wb.wb_supervisor_node_get_field(node._ref, str.encode(name)))
             else:
                 self._ref = ctypes.c_void_p(wb.wb_supervisor_node_get_field_by_index(node._ref, index))
 
@@ -125,9 +121,6 @@ class Field:
     def getSFString(self) -> str:
         return self.value
 
-    def getSFNode(self) -> Node:
-        return self.value
-
     def getMFBool(self, index: int) -> bool:
         return wb.wb_supervisor_field_get_mf_bool(self._ref, index) != 0
 
@@ -151,9 +144,6 @@ class Field:
 
     def getMFColor(self, index: int) -> typing.List[float]:
         return wb.wb_supervisor_field_get_mf_color(self._ref, index)[:3]
-
-    def getMFNode(self, index: int) -> Node:
-        return Node(ref=wb.wb_supervisor_field_get_mf_node(self._ref, index))
 
     def setSFBool(self, value: bool):
         self.value = value
@@ -287,7 +277,7 @@ class Field:
         elif self.type == Field.SF_COLOR:
             return wb.wb_supervisor_field_get_sf_color(self._ref)[:3]
         elif self.type == Field.SF_NODE:
-            return Node(ref=wb.wb_supervisor_field_get_sf_node(self._ref))
+            return self.getSFNode()
         else:
             return None
 

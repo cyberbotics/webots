@@ -59,20 +59,19 @@ class Node:
                 if tag is None:
                     if DEF is None:
                         if selected is None:
-                            self._ref = wb.wb_supervisor_node_get_root()
+                            ref = wb.wb_supervisor_node_get_root()
                         else:
-                            self._ref = wb.wb_supervisor_node_get_selected()
+                            ref = wb.wb_supervisor_node_get_selected()
                     else:
-                        self._ref = wb.wb_supervisor_node_get_from_def(str.encode(DEF))
+                        ref = wb.wb_supervisor_node_get_from_def(str.encode(DEF))
                 else:
                     if tag == 0:
-                        self._ref = wb.wb_supervisor_node_get_self()
+                        ref = wb.wb_supervisor_node_get_self()
                     else:
-                        self._ref = wb.wb_supervisor_node_get_from_device(tag)
+                        ref = wb.wb_supervisor_node_get_from_device(tag)
             else:
-                self._ref = wb.wb_supervisor_node_get_from_id(id)
-        else:
-            self._ref = ref
+                ref = wb.wb_supervisor_node_get_from_id(id)
+        self._ref = ctypes.c_void_p(ref)
 
     def getDef(self) -> str:
         return self.DEF
@@ -120,13 +119,16 @@ class Node:
         return Field(self, index=index, proto=True)
 
     def getPosition(self) -> typing.List[float]:
-        return wb.wb_supervisor_node_get_position(self._ref)
+        p = wb.wb_supervisor_node_get_position(self._ref)
+        return [p[0], p[1], p[2]]
 
     def getOrientation(self) -> typing.List[float]:
-        return wb.wb_supervisor_node_get_orientation(self._ref)
+        o = wb.wb_supervisor_node_get_orientation(self._ref)
+        return [o[0], o[1], o[2], o[3], o[4], o[5], o[6], o[7], o[8]]
 
     def getPose(self, fromNode: Node) -> typing.List[float]:
-        return wb.wb_supervisor_node_get_pose(self._ref, fromNode._ref)
+        p = wb.wb_supervisor_node_get_pose(self._ref, fromNode._ref)
+        return [p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10], p[11], p[12], p[13], p[14], p[15]]
 
     def enablePoseTracking(self, samplingPeriod: int, fromNode: Node):
         wb.wb_supervisor_node_enable_pose_tracking(samplingPeriod, self._ref, fromNode._ref)
@@ -135,7 +137,8 @@ class Node:
         wb.wb_supervisor_node_enable_pose_tracking(self._ref, fromNode._ref)
 
     def getCenterOfMass(self) -> typing.List[float]:
-        return wb.wb_supervisor_node_get_center_of_mass(self._ref)
+        c = wb.wb_supervisor_node_get_center_of_mass(self._ref)
+        return [c[0], c[1], c[2]]
 
     def getContactPoints(self, includeDescendants: bool = False) -> typing.List[ContactPoint]:
         size = 0
@@ -155,7 +158,8 @@ class Node:
         return wb.wb_supervisor_node_get_static_balance(self._ref) != 0
 
     def getVelocity(self) -> typing.List[float]:
-        return wb.wb_supervisor_node_get_velocity(self._ref)
+        v = wb.wb_supervisor_node_get_velocity(self._ref)
+        return [v[0], v[1], v[2], v[3], v[4], v[5]]
 
     def setVelocity(self, velocity: typing.List[float]):
         wb.wb_supervisor_node_set_velocity(self._ref, (ctypes.c_double * 6)(*velocity))
@@ -169,8 +173,8 @@ class Node:
     def resetPhysics(self, stateName: str):
         wb.wb_supervisor_node_reset_physics(self._ref)
 
-    def setJointPosition(self, position: typing.List[float], index: int = 1):
-        wb.wb_supervisor_node_set_joint_position(self._ref, (ctypes.c_double * len(position))(*position), index)
+    def setJointPosition(self, position: float, index: int = 1):
+        wb.wb_supervisor_node_set_joint_position(self._ref, ctypes.c_double(position), index)
 
     def restartController(self):
         wb.wb_supervisor_node_restart_controller(self._ref)
@@ -301,3 +305,18 @@ Node.WORLD_INFO = constant('NODE_WORLD_INFO')
 Node.ZOOM = constant('NODE_ZOOM')
 Node.MICROPHONE = constant('NODE_MICROPHONE')
 Node.RADIO = constant('NODE_RADIO')
+
+wb.wb_supervisor_field_get_mf_node.restype = ctypes.c_void_p
+wb.wb_supervisor_field_get_sf_node.restype = ctypes.c_void_p
+
+
+def getSFNode(self) -> Node:
+    return Node(ref=wb.wb_supervisor_field_get_sf_node(self._ref))
+
+
+def getMFNode(self, index: int) -> Node:
+    return Node(ref=wb.wb_supervisor_field_get_mf_node(self._ref, index))
+
+
+Field.getSFNode = getSFNode
+Field.getMFNode = getMFNode
