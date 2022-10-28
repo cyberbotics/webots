@@ -148,7 +148,6 @@ class Node:
         size = ctypes.c_int(0)
         p = wb.wb_supervisor_node_get_contact_points(self._ref, 1 if includeDescendants else 0, ctypes.byref(size))
         points = bytes(p[0:size.value * 28])
-        print(f'size = {size.value} len={len(points)}')
         contact_points = []
         for i in range(size.value):
             contact_points.append(ContactPoint(struct.unpack_from('3di', points, 28 * i)))
