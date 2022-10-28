@@ -210,7 +210,7 @@ void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
   QByteArray reply;
 
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
-  const QList<WbController *> &availableControllers = WbControlledWorld::instance()->externControllers();
+  const QList<WbController *> &availableControllers = WbControlledWorld::instance()->disconnectedExternControllers();
   if (robotNameIndex) {  // robot name is given
     const QString robotName = tokens[robotNameIndex];
     foreach (WbRobot *const robot, robots) {
