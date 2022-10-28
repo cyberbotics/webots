@@ -360,7 +360,7 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
       mNewControllers.removeOne(controller);
       mWaitingControllers.removeOne(controller);
       mControllers.removeOne(controller);
-      if (newControllerName == "<extern>")
+      if (controller == "<extern>")
         WbLog::info(tr("Terminating extern controller for robot \"%2\".").arg(controller->robot()->name()));
       delete controller;
       assert(controllerInNoList(controller));
@@ -407,7 +407,7 @@ void WbControlledWorld::updateRobotController(WbRobot *robot) {
 void WbControlledWorld::externConnection(WbController *controller, bool connect) {
   if (connect) {
     assert(showControllersLists("extern connect " + controller->name() + " " + controller->robot()->name()));
-    controller->robot()->externControllerChanged();
+    controller->robot()->notifyExternControllerChanged();
     restartStepTimer();
   } else {
     assert(showControllersLists("extern disconnect " + controller->name() + " " + controller->robot()->name()));
