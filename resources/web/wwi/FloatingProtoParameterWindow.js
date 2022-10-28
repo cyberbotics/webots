@@ -37,7 +37,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           this.#createSFFloatField(key, contentDiv);
       }
 
+      const buttonContainer = document.createElement('p');
+      buttonContainer.style.textAlign = 'right';
+      buttonContainer.className = 'proto-parameter-content';
       const downloadButton = document.createElement('button');
+      downloadButton.innerHTML = 'Download Proto';
       downloadButton.onclick = () => {
         const data = this.#protoManager.exportProto();
         const c = document.createElement('a');
@@ -48,7 +52,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         c.href = window.URL.createObjectURL(t);
         c.click();
       };
-      contentDiv.appendChild(downloadButton);
+      buttonContainer.appendChild(downloadButton);
+      contentDiv.appendChild(buttonContainer);
     }
   }
 
@@ -213,7 +218,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   #createSFFloatField(key, parent) {
     const parameter = this.#protoManager.exposedParameters.get(key);
-    console.log(parameter)
     const p = document.createElement('p');
     p.innerHTML = key + ': ';
     p.parameter = parameter;

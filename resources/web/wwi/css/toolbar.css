@@ -180,7 +180,7 @@ webots-view .icon-terminal {
 }
 
 webots-view .icon-proto-parameter {
-  background-image: url(../images/icons/ide.svg);
+  background-image: url(../images/icons/proto_parameter.svg);
 }
 
 webots-view .icon {
@@ -983,18 +983,17 @@ webots-view input:checked+.visibility-dot {
 }
 
 webots-view #proto-parameter-content {
-  margin: 20px;
   color: white;
   font-size: 14px;
   font-family: Arial, Helvetica, sans-serif;
 }
 
 webots-view #proto-parameter {
-  min-width: 400px;
+  min-width: 405;
 }
 
 webots-view #proto-parameter-content p {
-  margin: 20px;
+  margin: 20px 10px 20px 15px;
 }
 
 webots-view .reset-field-button {

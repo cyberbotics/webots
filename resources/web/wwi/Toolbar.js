@@ -1643,7 +1643,7 @@ export default class Toolbar {
   }
 
   protoParameterWindowInitializeSizeAndPosition() {
-    const protoParameterWindowWidth = 420;
+    const protoParameterWindowWidth = 405;
     const protoParameterWindowHeight = this.parentNode.offsetHeight;
     const protoParameterWindowPositionX = (this.parentNode.offsetWidth - protoParameterWindowWidth);
     const protoParameterWindowPositionY = (this.parentNode.offsetHeight - protoParameterWindowHeight) / 2;
