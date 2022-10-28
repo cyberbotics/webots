@@ -299,12 +299,6 @@ void WbSceneTree::handleUserCommand(WbAction::WbActionKind actionKind) {
 }
 
 void WbSceneTree::cut() {
-  if (mSelectedItem->isNode()) {
-    const QList<const WbNode *> cutNodes = WbNodeUtilities::protoNodesInWorldFile(mSelectedItem->node());
-    if (!WbProtoManager::instance()->externProtoCutBuffer().isEmpty())
-      WbProtoManager::instance()->clearExternProtoCutBuffer();
-    WbProtoManager::instance()->saveToExternProtoCutBuffer(cutNodes);
-  }
   copy();
   del();
   updateToolbar();
@@ -327,9 +321,13 @@ void WbSceneTree::copy() {
 
   WbSingleValue *singleValue = dynamic_cast<WbSingleValue *>(value);
   WbMultipleValue *multipleValue = dynamic_cast<WbMultipleValue *>(value);
-  if (mSelectedItem->isNode() || mSelectedItem->isSFNode())
+  if (mSelectedItem->isNode() || mSelectedItem->isSFNode()) {
+    const QList<const WbNode *> clipboardNodes = WbNodeUtilities::protoNodesInWorldFile(mSelectedItem->node());
+    if (!WbProtoManager::instance()->externProtoClipboardBuffer().isEmpty())
+      WbProtoManager::instance()->clearExternProtoClipboardBuffer();
+    WbProtoManager::instance()->saveToExternProtoClipboardBuffer(clipboardNodes);
     mClipboard->setNode(mSelectedItem->node());
-  else if (singleValue)
+  } else if (singleValue)
     *mClipboard = singleValue->variantValue();
   else if (multipleValue)
     *mClipboard = multipleValue->variantValue(row);
@@ -343,8 +341,8 @@ void WbSceneTree::paste() {
   if (!mSelectedItem)
     return;
 
-  const QList<WbExternProto *> cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
-  foreach (const WbExternProto *item, cutBuffer)
+  const QList<WbExternProto *> &clipboardBuffer = WbProtoManager::instance()->externProtoClipboardBuffer();
+  foreach (const WbExternProto *item, clipboardBuffer)
     WbProtoManager::instance()->declareExternProto(item->name(), item->url(), item->isImportable());
 
   if (mSelectedItem->isField() && mSelectedItem->field()->isSingle())
@@ -771,16 +769,23 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     if (skipTemplateRegeneration)
       parentField->blockSignals(false);
 
+    // backup clipboard data
+    const QList<QString> previousClipboardBuffer(WbProtoManager::instance()->externProtoClipboardBufferUrls());
+
     // declare PROTO nodes that have become visible at the world level
+    WbProtoManager::instance()->clearExternProtoClipboardBuffer();
     QPair<QString, QString> item;
     foreach (item, writer.declarations()) {
       const QString previousUrl(WbProtoManager::instance()->declareExternProto(item.first, item.second, false, false));
-      if (!previousUrl.isEmpty())
+      if (!previousUrl.isEmpty()) {
         WbLog::warning(tr("Conflicting declarations for '%1' are provided: %2 and %3, the first one will be used. "
                           "To use the other instead you will need to change it manually in the world file.")
                          .arg(item.first)
                          .arg(previousUrl)
                          .arg(item.second));
+        WbProtoManager::instance()->saveToExternProtoClipboardBuffer(previousUrl);
+      } else
+        WbProtoManager::instance()->saveToExternProtoClipboardBuffer(item.second);
     }
 
     // import new node
@@ -795,6 +800,7 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
         viewpoint->startFollowUp(dynamic_cast<WbSolid *>(node), true);
     }
     WbWorld::instance()->setModifiedFromSceneTree();
+    WbProtoManager::instance()->resetExternProtoClipboardBuffer(previousClipboardBuffer);
   }
   updateSelection();
   updateValue();

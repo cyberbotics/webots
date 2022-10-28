@@ -3,7 +3,7 @@
 layout(location = 0) in vec3 vCoord;
 layout(location = 2) in vec2 vTexCoord;
 
-const float closeButtonSize = 10.0;
+const float closeButtonSize = 14.0;
 const float resizeButtonSize = 16.0;
 
 out float aspectRatio;
