@@ -76,8 +76,8 @@ class Field:
                 self._ref = ctypes.c_void_p(wb.wb_supervisor_node_get_field(node._ref, str.encode(name)))
             else:
                 self._ref = ctypes.c_void_p(wb.wb_supervisor_node_get_field_by_index(node._ref, index))
-
-        self.type = wb.wb_supervisor_field_get_type(self._ref)
+        if self._ref:
+            self.type = wb.wb_supervisor_field_get_type(self._ref)
 
     def getName(self) -> str:
         return self.name

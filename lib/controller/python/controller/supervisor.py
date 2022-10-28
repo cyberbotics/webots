@@ -29,16 +29,20 @@ class Supervisor(Robot):
         return Node(tag=0)
 
     def getFromDef(self, d: str) -> Node:
-        return Node(DEF=d)
+        node = Node(DEF=d)
+        return node if node._ref else None
 
     def getFromId(self, id) -> Node:
-        return Node(id=id)
+        node = Node(id=id)
+        return node if node._ref else None
 
     def getFromDevice(self, tag) -> Node:
-        return Node(tag=tag)
+        node = Node(tag=tag)
+        return node if node._ref else None
 
     def getSelected(self) -> Node:
-        return Node(selected=True)
+        node = Node(selected=True)
+        return node if node._ref else None
 
     def setLabel(self, id, label, x, y, size, color, transparency=0, font='Arial'):
         wb.wb_supervisor_set_label(id, str.encode(label), ctypes.c_double(x), ctypes.c_double(y), ctypes.c_double(size),
