@@ -27,6 +27,7 @@ class Driver(Supervisor):
         ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], 'lib', 'controller', 'car.dll'))
         self.api = ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], 'lib', 'controller', 'driver.dll'))
         self.api.wbu_driver_get_brake_intensity.restype = ctypes.c_double
+        self.api.wbu_driver_get_rpm.restype = ctypes.c_double
         self.api.wbu_driver_get_steering_angle.restype = ctypes.c_double
         self.api.wbu_driver_get_target_cruising_speed.restype = ctypes.c_double
         self.api.wbu_driver_get_throttle.restype = ctypes.c_double
@@ -35,17 +36,26 @@ class Driver(Supervisor):
     def __del__(self):
         self.api.wbu_driver_cleanup()
 
+    def getAntifogLights(self) -> bool:
+        return self.antifog_light
+
     def getBrakeIntensity(self) -> float:
         return self.brake_intensity
 
     def getCurrentSpeed(self) -> float:
         return self.current_speed
 
+    def getDippedBeams(self) -> bool:
+        return self.dipped_beams
+
     def getHazardFlashers(self) -> bool:
         return self.hazard_flashers
 
     def getIndicator(self) -> int:
         return self.indicator
+
+    def getRpm(self) -> float:
+        return self.rpm
 
     def getSteeringAngle(self) -> float:
         return self.steering_angle
@@ -56,11 +66,17 @@ class Driver(Supervisor):
     def getThrottle(self) -> float:
         return self.throttle
 
+    def setAntifogLights(self, state: bool):
+        return self.antifog_light
+
     def setBrakeIntensity(self, brakeIntensity: float):
         self.brake_intensity = brakeIntensity
 
     def setCruisingSpeed(self, cruisingSpeed: float):
         self.target_cruising_speed = cruisingSpeed
+
+    def setDippedBeams(self, state: bool):
+        self.dipped_beams = state
 
     def setHazardFlashers(self, hazardFlasher: bool):
         self.hazard_flashers = hazardFlasher
@@ -78,12 +94,28 @@ class Driver(Supervisor):
         return self.api.wbu_driver_step()
 
     @property
+    def antifog_light(self) -> bool:
+        return self.api.wbu_driver_get_antifog_light() != 0
+
+    @antifog_light.setter
+    def antifog_light(self, antifog_light: bool):
+        self.api.wbu_driver_set_antifog_light(1 if antifog_light else 0)
+
+    @property
     def brake_intensity(self) -> float:
         return self.api.wbu_driver_get_brake_intensity()
 
     @brake_intensity.setter
     def brake_intensity(self, brake_intensity: float):
         self.api.wbu_driver_set_brake_intensity(ctypes.c_double(brake_intensity))
+
+    @property
+    def dipped_beams(self) -> bool:
+        return self.api.wbu_driver_get_dipped_beams() != 0
+
+    @dipped_beams.setter
+    def dipped_beams(self, dipped_beams: bool):
+        self.api.wbu_driver_set_dipped_beams(1 if dipped_beams else 0)
 
     @property
     def hazard_flashers(self) -> bool:
@@ -100,6 +132,10 @@ class Driver(Supervisor):
     @indicator.setter
     def indicator(self, indicator: int):
         self.api.wb_driver_set_indicator(indicator)
+
+    @property
+    def rpm(self) -> float:
+        return self.api.wbu_driver_get_rpm()
 
     @property
     def steering_angle(self) -> float:
