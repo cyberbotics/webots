@@ -40,7 +40,7 @@ export default class WebotsView extends HTMLElement {
     this.#initialCallbackDone = true;
 
     this.toolbarCss = document.createElement('link');
-    this.toolbarCss.href = '../wwi/css/toolbar.css';
+    this.toolbarCss.href = 'https://cyberbotics.com/wwi/proto/css/toolbar.css';
     this.toolbarCss.type = 'text/css';
     this.toolbarCss.rel = 'stylesheet';
     document.head.appendChild(this.toolbarCss);
@@ -395,7 +395,6 @@ export default class WebotsView extends HTMLElement {
           this.toolbar = new Toolbar(this.#view, 'proto', this);
           if (typeof this.onready === 'function')
             this.onready();
-          this.toolbar.protoParameterWindowInitializeSizeAndPosition();
         });
       };
 

@@ -295,53 +295,6 @@ webots-view .toolbar-btn:hover .icon-windowed {
   }
 }
 
-/* Tooltips */
-
-webots-view .tooltip {
-  visibility: hidden;
-  background-color: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(10px);
-  color: rgb(240, 240, 240);
-  text-align: center;
-  font-size: 14px;
-  font-weight: 500;
-  font-family: 'Arial';
-  text-shadow: 0 0 2px black;
-  border-radius: 2px;
-  padding: 5px 10px;
-  white-space: nowrap;
-  position: absolute;
-  bottom: 55px;
-}
-
-webots-view .fullscreen-tooltip,
-.windowed-tooltip {
-  right: 0px;
-}
-
-webots-view .settings-tooltip,
-.info-tooltip,
-.robot-window-tooltip,
-.ide-tooltip,
-.reset-scene-tooltip,
-.world-selection-tooltip,
-.reset-tooltip,
-.run-tooltip,
-.play-tooltip,
-.step-tooltip,
-.quit-tooltip,
-.proto-parameter-tooltip {
-  transform: translateX(-55%);
-}
-
-.proto-parameter-tooltip {
-  zoom: 1.005;
-}
-
-webots-view .toolbar-btn:hover .tooltip {
-  visibility: visible;
-}
-
 /* Time Indicator */
 
 webots-view .current-time,

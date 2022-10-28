@@ -12,7 +12,7 @@ export default class FloatingCustomWindow extends FloatingWindow {
   }
 
   setTooltip(tooltip) {
-    const element = document.getElementById('custom-window-tooltip');
+    const element = document.getElementById('custom-window-button');
     if (element)
       element.textContent = tooltip;
   }
