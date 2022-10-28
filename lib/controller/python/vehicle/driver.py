@@ -22,12 +22,17 @@ class Driver(Supervisor):
         super().__init__()
         ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], 'lib', 'controller', 'car.dll'))
         self.api = ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], 'lib', 'controller', 'driver.dll'))
-        self.api.wbu_driver_get_cruising_speed.restype = ctypes.c_double
         self.api.wbu_driver_get_steering_angle.restype = ctypes.c_double
         self.api.wbu_driver_init()
 
+    def getCurrentSpeed(self) -> float:
+        return self.current_speed
+
     def getSteeringAngle(self) -> float:
         return self.steering_angle
+
+    def setBrakeIntensity(self, brakeIntensity: float):
+        self.api.wbu_driver_set_brake_intensity(ctypes.c_double(brakeIntensity))
 
     def setCruisingSpeed(self, cruisingSpeed: float):
         self.api.wbu_driver_set_cruising_speed(ctypes.c_double(cruisingSpeed))
@@ -37,6 +42,8 @@ class Driver(Supervisor):
 
     cruising_speed = property(fset=setCruisingSpeed)
 
+    brake_intensity = property(fset=setBrakeIntensity)
+
     @property
     def steering_angle(self) -> float:
         return self.api.wbu_driver_get_steering_angle()
@@ -44,3 +51,7 @@ class Driver(Supervisor):
     @steering_angle.setter
     def steering_angle(self, value: float):
         self.api.wbu_driver_set_steering_angle(ctypes.c_double(value))
+
+    @property
+    def current_speed(self) -> float:
+        return self.api.wbu_driver_get_current_speed()
