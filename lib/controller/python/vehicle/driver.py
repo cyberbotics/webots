@@ -18,31 +18,88 @@ import os
 
 
 class Driver(Supervisor):
+    INDICATOR_OFF = 0
+    INDICATOR_RIGHT = 1
+    INDICATOR_LEFT = 2
+
     def __init__(self):
         super().__init__()
         ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], 'lib', 'controller', 'car.dll'))
         self.api = ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], 'lib', 'controller', 'driver.dll'))
+        self.api.wbu_driver_get_brake_intensity.restype = ctypes.c_double
         self.api.wbu_driver_get_steering_angle.restype = ctypes.c_double
+        self.api.wbu_driver_get_target_cruising_speed.restype = ctypes.c_double
+        self.api.wbu_driver_get_throttle.restype = ctypes.c_double
         self.api.wbu_driver_init()
+
+    def __del__(self):
+        self.api.wbu_driver_cleanup()
+
+    def getBrakeIntensity(self) -> float:
+        return self.brake_intensity
 
     def getCurrentSpeed(self) -> float:
         return self.current_speed
 
+    def getHazardFlashers(self) -> bool:
+        return self.hazard_flashers
+
+    def getIndicator(self) -> int:
+        return self.indicator
+
     def getSteeringAngle(self) -> float:
         return self.steering_angle
 
+    def getTargetCruisingSpeed(self) -> float:
+        return self.target_cruising_speed
+
+    def getThrottle(self) -> float:
+        return self.throttle
+
     def setBrakeIntensity(self, brakeIntensity: float):
-        self.api.wbu_driver_set_brake_intensity(ctypes.c_double(brakeIntensity))
+        self.brake_intensity = brakeIntensity
 
     def setCruisingSpeed(self, cruisingSpeed: float):
-        self.api.wbu_driver_set_cruising_speed(ctypes.c_double(cruisingSpeed))
+        self.target_cruising_speed = cruisingSpeed
+
+    def setHazardFlashers(self, hazardFlasher: bool):
+        self.hazard_flashers = hazardFlasher
+
+    def setIndicator(self, indicator: int):
+        self.indicator = indicator
 
     def setSteeringAngle(self, steeringAngle: float):
         self.steering_angle = steeringAngle
 
-    cruising_speed = property(fset=setCruisingSpeed)
+    def setThrottle(self, throttle: float):
+        self.throttle = throttle
 
-    brake_intensity = property(fset=setBrakeIntensity)
+    def step(self):
+        return self.api.wbu_driver_step()
+
+    @property
+    def brake_intensity(self) -> float:
+        return self.api.wbu_driver_get_brake_intensity()
+
+    @brake_intensity.setter
+    def brake_intensity(self, brake_intensity: float):
+        self.api.wbu_driver_set_brake_intensity(ctypes.c_double(brake_intensity))
+
+    @property
+    def hazard_flashers(self) -> bool:
+        return self.api.wbu_driver_get_hazard_flashers() != 0
+
+    @hazard_flashers.setter
+    def hazard_flashers(self, hazard_flashers: bool):
+        self.api.wbu_driver_set_hazard_flashers(1 if hazard_flashers else 0)
+
+    @property
+    def indicator(self) -> int:
+        return self.api.wbu_driver_get_indicator()
+
+    @indicator.setter
+    def indicator(self, indicator: int):
+        self.api.wb_driver_set_indicator(indicator)
 
     @property
     def steering_angle(self) -> float:
@@ -55,3 +112,19 @@ class Driver(Supervisor):
     @property
     def current_speed(self) -> float:
         return self.api.wbu_driver_get_current_speed()
+
+    @property
+    def target_cruising_speed(self) -> float:
+        return self.api.wbu_driver_get_target_cruising_speed()
+
+    @target_cruising_speed.setter
+    def target_cruising_speed(self, target_cruising_speed: float):
+        self.api.wbu_driver_set_cruising_speed(ctypes.c_double(target_cruising_speed))
+
+    @property
+    def throttle(self) -> float:
+        return self.api.wbu_driver_get_throttle()
+
+    @throttle.setter
+    def throttle(self, throttle: float):
+        self.api.wbu_driver_set_throttle(ctypes.c_double(throttle))
