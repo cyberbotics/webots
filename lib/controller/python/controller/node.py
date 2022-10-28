@@ -22,10 +22,14 @@ import typing
 
 class ContactPoint:
     def __init__(self, point):
-        self.x = point[0]
-        self.y = point[1]
-        self.z = point[2]
+        self.point = point[0:3]
         self.node_id = point[3]
+
+    def getPoint(self):
+        return self.point
+
+    def getNodeId(self):
+        return self.node_id
 
 
 class Node:
@@ -49,7 +53,7 @@ class Node:
     wb.wb_supervisor_node_get_orientation.restype = ctypes.POINTER(ctypes.c_double)
     wb.wb_supervisor_node_get_pose.restype = ctypes.POINTER(ctypes.c_double)
     wb.wb_supervisor_node_get_center_of_mass.restype = ctypes.POINTER(ctypes.c_double)
-    wb.wb_supervisor_node_get_contact_points.restype = ctypes.POINTER(ctypes.c_byte)
+    wb.wb_supervisor_node_get_contact_points.restype = ctypes.POINTER(ctypes.c_ubyte)
     wb.wb_supervisor_node_get_velocity.restype = ctypes.POINTER(ctypes.c_double)
 
     def __init__(self, DEF: typing.Optional[str] = None, tag: typing.Optional[int] = None, id: typing.Optional[int] = None,
@@ -141,11 +145,13 @@ class Node:
         return [c[0], c[1], c[2]]
 
     def getContactPoints(self, includeDescendants: bool = False) -> typing.List[ContactPoint]:
-        size = 0
-        points = wb.wb_supervisor_node_get_contact_points(self._ref, 1 if includeDescendants else 0, ctypes.byref(size))
+        size = ctypes.c_int(0)
+        p = wb.wb_supervisor_node_get_contact_points(self._ref, 1 if includeDescendants else 0, ctypes.byref(size))
+        points = bytes(p[0:size.value * 28])
+        print(f'size = {size.value} len={len(points)}')
         contact_points = []
-        for i in range(size):
-            contact_points.append(ContactPoint(struct.unpack('3di', points, 24 * i)))
+        for i in range(size.value):
+            contact_points.append(ContactPoint(struct.unpack_from('3di', points, 28 * i)))
         return contact_points
 
     def enableContactPointTracking(self, samplingPeriod: int, includeDescendants: bool = False):
