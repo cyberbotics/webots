@@ -76,7 +76,7 @@ export default class ProtoManager {
     parameter.setValueFromJavaScript(this.#view, newValue);
   }
 
-  exportProto(name) {
+  exportProto(name, fieldsToExport) {
     function indent(depth) {
       return ' '.repeat(depth);
     }
@@ -113,15 +113,19 @@ export default class ProtoManager {
     s += '\n';
     s += `PROTO ${name} [\n`;
 
-    for (const parameter of this.proto.parameters.values())
-      s += `${indent(2)}field ${stringifyType(parameter.type)} ${parameter.name} ${parameter.value.toVrml()}\n`;
+    for (const parameter of this.proto.parameters.values()) {
+      if (fieldsToExport.has(parameter.name))
+        s += `${indent(2)}field ${stringifyType(parameter.type)} ${parameter.name} ${parameter.value.toVrml()}\n`;
+    }
 
     s += ']\n';
     s += '{\n';
 
     s += `${indent(2)}${this.proto.name} {\n`;
-    for (const parameter of this.proto.parameters.values())
-      s += `${indent(4)}${parameter.name} IS ${parameter.name}\n`;
+    for (const parameter of this.proto.parameters.values()) {
+      if (fieldsToExport.has(parameter.name))
+        s += `${indent(4)}${parameter.name} IS ${parameter.name}\n`;
+    }
     s += `${indent(2)}}\n`;
     s += '}\n';
 

@@ -940,13 +940,13 @@ webots-view #proto-parameter-content {
   font-size: 14px;
   font-family: Arial, Helvetica, sans-serif;
   display: grid;
-  grid-template-columns: max-content max-content;
+  grid-template-columns: max-content max-content max-content;
   overflow-x: auto;
   align-items: center;
 }
 
 webots-view #proto-parameter {
-  min-width: 435px;
+  min-width: 440px;
 }
 
 webots-view #proto-parameter-content p {
@@ -954,7 +954,7 @@ webots-view #proto-parameter-content p {
 }
 
 webots-view .key-parameter {
-  margin: 10px 0px 10px 15px;
+  margin: 10px 0px 10px 3px;
 }
 
 webots-view .value-parameter {
@@ -968,4 +968,8 @@ webots-view .reset-field-button {
   vertical-align: bottom;
   background-color: transparent;
   border: none;
+}
+
+webots-view .export-checkbox {
+  margin: 10px 0px 10px 10px;
 }

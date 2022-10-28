@@ -40,29 +40,33 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #createDownloadButton(parent, row) {
-    const p = document.createElement('p');
-    p.innerHTML = 'proto name: ';
-    p.style.gridRow = '' + row + ' / ' + row;
-    p.style.gridColumn = '1 / 1';
-    p.className = 'key-parameter';
-    parent.appendChild(p);
-
     const downloadlButton = document.createElement('button');
     downloadlButton.innerHTML = 'Download';
     const buttonContainer = document.createElement('span');
     buttonContainer.className = 'value-parameter';
     buttonContainer.style.gridRow = '' + row + ' / ' + row;
-    buttonContainer.style.gridColumn = '2 / 2';
+    buttonContainer.style.gridColumn = '3 / 3';
 
     const input = document.createElement('input');
     input.type = 'text';
+    input.title = 'New proto name';
     input.value = 'My' + this.#protoManager.proto.name;
     buttonContainer.appendChild(input);
 
     const downloadButton = document.createElement('button');
-    downloadButton.innerHTML = 'Download';
+    downloadButton.innerHTML = 'Export';
+    downloadButton.title = 'Export the new proto';
     downloadButton.onclick = () => {
-      const data = this.#protoManager.exportProto(input.value);
+      const fields = document.getElementsByClassName('key-parameter');
+      let fieldsToExport = new Set();
+      if (fields) {
+        for (let i = 0; i < fields.length; i++) {
+          if (fields[i].checkbox.checked)
+            fieldsToExport.add(fields[i].key);
+        }
+      }
+
+      const data = this.#protoManager.exportProto(input.value, fieldsToExport);
       const c = document.createElement('a');
       c.download = input.value + '.proto';
       const t = new Blob([data], {
@@ -74,18 +78,25 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     buttonContainer.appendChild(downloadButton);
     parent.appendChild(buttonContainer);
   }
+
   #createSFVec3Field(key, parent, row) {
     const parameter = this.#protoManager.exposedParameters.get(key);
+
     const p = document.createElement('p');
     p.innerHTML = key + ': ';
+    p.key = key;
     p.inputs = [];
     p.style.gridRow = '' + row + ' / ' + row;
-    p.style.gridColumn = '1 / 1';
+    p.style.gridColumn = '2 / 2';
     p.parameter = parameter;
     p.className = 'key-parameter';
+
+    const exportCheckbox = this.#createCheckbox(parent, row);
+    p.checkbox = exportCheckbox;
+
     const values = document.createElement('p');
     values.style.gridRow = '' + row + ' / ' + row;
-    values.style.gridColumn = '2 / 2';
+    values.style.gridColumn = '3 / 3';
     values.className = 'value-parameter';
     p.inputs.push(this.#createVectorInput('x', parameter.value.value.x, values, () => this.#vector3OnChange(p)));
     p.inputs.push(this.#createVectorInput(' y', parameter.value.value.y, values, () => this.#vector3OnChange(p)));
@@ -105,22 +116,27 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   #createSFRotation(key, parent, row) {
     const parameter = this.#protoManager.exposedParameters.get(key);
+
     const p = document.createElement('p');
     p.innerHTML = key + ': ';
     p.inputs = [];
+    p.key = key;
     p.style.gridRow = '' + row + ' / ' + row;
-    p.style.gridColumn = '1 / 1';
+    p.style.gridColumn = '2 / 2';
     p.parameter = parameter;
     p.className = 'key-parameter';
+
+    const exportCheckbox = this.#createCheckbox(parent, row);
+
     const values = document.createElement('p');
     values.style.gridRow = '' + row + ' / ' + row;
-    values.style.gridColumn = '2 / 2';
+    values.style.gridColumn = '3 / 3';
     values.className = 'value-parameter';
     p.inputs.push(this.#createVectorInput('x', parameter.value.value.x, values, () => this.#rotationOnChange(p)));
     p.inputs.push(this.#createVectorInput(' y', parameter.value.value.y, values, () => this.#rotationOnChange(p)));
     p.inputs.push(this.#createVectorInput(' z', parameter.value.value.z, values, () => this.#rotationOnChange(p)));
     p.inputs.push(this.#createVectorInput(' a', parameter.value.value.a, values, () => this.#rotationOnChange(p)));
-
+    p.checkbox = exportCheckbox;
     const resetButton = this.#createResetButton(values);
     resetButton.onclick = () => {
       p.inputs[0].value = parameter.defaultValue.value.x;
@@ -161,16 +177,20 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   #createSFStringField(key, parent, row) {
     const parameter = this.#protoManager.exposedParameters.get(key);
+
     const p = document.createElement('p');
     p.innerHTML = key + ': ';
     p.parameter = parameter;
+    p.key = key;
     p.style.gridRow = '' + row + ' / ' + row;
-    p.style.gridColumn = '1 / 1';
+    p.style.gridColumn = '2 / 2';
     p.className = 'key-parameter';
+
+    const exportCheckbox = this.#createCheckbox(parent, row);
 
     const value = document.createElement('p');
     value.style.gridRow = '' + row + ' / ' + row;
-    value.style.gridColumn = '2 / 2';
+    value.style.gridColumn = '3 / 3';
     value.className = 'value-parameter';
 
     const input = document.createElement('input');
@@ -183,6 +203,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     input.onchange = () => this.#stringOnChange(p);
     p.input = input;
+    p.checkbox = exportCheckbox;
     value.appendChild(input);
 
     const resetButton = this.#createResetButton(value);
@@ -212,26 +233,32 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   #createSFFloatField(key, parent, row) {
     const parameter = this.#protoManager.exposedParameters.get(key);
+
     const p = document.createElement('p');
     p.className = 'key-parameter';
     p.innerHTML = key + ': ';
+    p.key = key;
     p.parameter = parameter;
     p.style.gridRow = '' + row + ' / ' + row;
-    p.style.gridColumn = '1 / 1';
+    p.style.gridColumn = '2 / 2';
+
+    const exportCheckbox = this.#createCheckbox(parent, row);
+
     const value = document.createElement('p');
     value.className = 'value-parameter';
     value.style.gridRow = '' + row + ' / ' + row;
-    value.style.gridColumn = '2 / 2';
+    value.style.gridColumn = '3 / 3';
+
     const input = document.createElement('input');
     input.type = 'number';
     input.step = 0.1;
     input.value = parameter.value.value;
     input.style.width = '50px';
 
-
     input.onchange = () => this.#floatOnChange(p);
     p.input = input;
-    value.appendChild(input)
+    p.checkbox = exportCheckbox;
+    value.appendChild(input);
 
     const resetButton = this.#createResetButton(value);
     resetButton.onclick = () => {
@@ -253,5 +280,17 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     parentNode.appendChild(resetButton);
     return resetButton;
+  }
+
+  #createCheckbox(parent, row) {
+    const exportCheckbox = document.createElement('input');
+    exportCheckbox.type = 'checkbox';
+    exportCheckbox.className = 'export-checkbox';
+    exportCheckbox.title = 'Field to be exported';
+    exportCheckbox.style.gridRow = '' + row + ' / ' + row;
+    exportCheckbox.style.gridColumn = '1 / 1';
+    parent.appendChild(exportCheckbox);
+
+    return exportCheckbox;
   }
 }
