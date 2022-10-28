@@ -125,6 +125,8 @@ export default class ProtoManager {
     for (const parameter of this.proto.parameters.values()) {
       if (fieldsToExport.has(parameter.name))
         s += `${indent(4)}${parameter.name} IS ${parameter.name}\n`;
+      else if (!parameter.isDefault())
+        s += `${indent(4)}${parameter.name} ${parameter.value.toVrml()}\n`;
     }
     s += `${indent(2)}}\n`;
     s += '}\n';

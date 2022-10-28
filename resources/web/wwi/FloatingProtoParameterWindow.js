@@ -54,8 +54,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     buttonContainer.appendChild(input);
 
     const downloadButton = document.createElement('button');
-    downloadButton.innerHTML = 'Export';
-    downloadButton.title = 'Export the new proto';
+    downloadButton.innerHTML = 'Download';
+    downloadButton.title = 'Download the new proto';
     downloadButton.onclick = () => {
       const fields = document.getElementsByClassName('key-parameter');
       let fieldsToExport = new Set();
@@ -286,7 +286,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const exportCheckbox = document.createElement('input');
     exportCheckbox.type = 'checkbox';
     exportCheckbox.className = 'export-checkbox';
-    exportCheckbox.title = 'Field to be exported';
+    exportCheckbox.title = 'Field to be exposed';
     exportCheckbox.style.gridRow = '' + row + ' / ' + row;
     exportCheckbox.style.gridColumn = '1 / 1';
     parent.appendChild(exportCheckbox);
