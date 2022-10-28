@@ -192,12 +192,14 @@ export default class Toolbar {
       buttonElement.id = name + '-button-id';
       button.appendChild(buttonElement);
     }
+    const emptyDiv = document.createElement('div')
 
     const tooltip = document.createElement('span');
     tooltip.id = name + '-tooltip';
     tooltip.className = 'tooltip ' + name + '-tooltip';
     tooltip.innerHTML = tooltipText;
-    button.appendChild(tooltip);
+    emptyDiv.appendChild(tooltip);
+    button.appendChild(emptyDiv);
 
     return button;
   }
@@ -1643,7 +1645,7 @@ export default class Toolbar {
   }
 
   protoParameterWindowInitializeSizeAndPosition() {
-    const protoParameterWindowWidth = 405;
+    const protoParameterWindowWidth = 435;
     const protoParameterWindowHeight = this.parentNode.offsetHeight;
     const protoParameterWindowPositionX = (this.parentNode.offsetWidth - protoParameterWindowWidth);
     const protoParameterWindowPositionY = (this.parentNode.offsetHeight - protoParameterWindowHeight) / 2;

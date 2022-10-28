@@ -311,7 +311,6 @@ webots-view .tooltip {
   padding: 5px 10px;
   white-space: nowrap;
   position: absolute;
-  white-space: nowrap;
   bottom: 55px;
 }
 
@@ -512,6 +511,7 @@ webots-view .settings-pane {
   border-radius: 4px;
   line-height: 1.5;
   text-size-adjust: 100%;
+  z-index: 2
 }
 
 webots-view ul {
@@ -986,14 +986,26 @@ webots-view #proto-parameter-content {
   color: white;
   font-size: 14px;
   font-family: Arial, Helvetica, sans-serif;
+  display: grid;
+  grid-template-columns: max-content max-content;
+  overflow-x: auto;
+  align-items: center;
 }
 
 webots-view #proto-parameter {
-  min-width: 405;
+  min-width: 435px;
 }
 
 webots-view #proto-parameter-content p {
-  margin: 20px 10px 20px 15px;
+  white-space: nowrap;
+}
+
+webots-view .key-parameter {
+  margin: 10px 0px 10px 15px;
+}
+
+webots-view .value-parameter {
+  margin: 10px 10px 10px 10px;
 }
 
 webots-view .reset-field-button {
