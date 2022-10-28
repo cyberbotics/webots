@@ -47,7 +47,7 @@ class Mouse():
         return self.sampling_period
 
     def getState(self) -> MouseState:
-        data = bytes(wb.wb_mouse_get_state())[0:43]
+        data = bytes(wb.wb_mouse_get_state()[0:43])
         values = struct.unpack('5d3?', data)
         return Mouse(values[0], values[1], values[2], values[3], values[4], values[5], values[6])
 
