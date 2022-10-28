@@ -1008,7 +1008,7 @@ export default class Toolbar {
   };
 
   #fullscrenKeyboardHandler(e) {
-    if (e.code === 'KeyF')
+    if (e.code === 'KeyF' && e.target.tagName !== 'INPUT')
       this.#fullscreenButton.style.display === 'none' ? exitFullscreen() : requestFullscreen(this.#view);
   }
 
