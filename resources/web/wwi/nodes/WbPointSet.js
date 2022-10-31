@@ -36,12 +36,12 @@ export default class WbPointSet extends WbGeometry {
   }
 
   delete() {
-    _wr_static_mesh_delete(this._wrenMesh);
-
     this.#color?.delete();
     this.#coord?.delete();
 
     super.delete();
+
+    _wr_static_mesh_delete(this._wrenMesh);
   }
 
   setWrenMaterial(material, castShadows) {
