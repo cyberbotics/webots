@@ -42,7 +42,7 @@ public:
   void step() override;
 
   QList<WbController *> controllers() const { return mControllers; }
-  QList<WbController *> externControllers() const { return mExternControllers; }
+  QList<WbController *> disconnectedExternControllers() const { return mDisconnectedExternControllers; }
 
 public slots:
   void deleteController(WbController *controller);
@@ -66,8 +66,8 @@ private:
   QList<WbController *> mControllers;         // currently running controllers (both intern and extern)
   QList<WbController *> mWaitingControllers;  // controllers inserted in previous step and waiting to be started in current step
   QList<WbController *> mNewControllers;      // controllers inserted in current step and waiting next step to start
-  QList<WbController *> mTerminatingControllers;  // controllers waiting to be deleted
-  QList<WbController *> mExternControllers;       // extern controllers not yet started
+  QList<WbController *> mTerminatingControllers;         // controllers waiting to be deleted
+  QList<WbController *> mDisconnectedExternControllers;  // extern controllers started but unconnected
   QList<double> mRequests;
   bool mNeedToYield;
   bool mFirstStep;
