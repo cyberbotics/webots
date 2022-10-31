@@ -97,9 +97,9 @@ export default class WbCylinder extends WbGeometry {
   }
 
   delete() {
-    _wr_static_mesh_delete(this._wrenMesh);
-
     super.delete();
+
+    _wr_static_mesh_delete(this._wrenMesh);
   }
 
   #updateScale() {

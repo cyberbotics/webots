@@ -19,11 +19,11 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
   }
 
   delete() {
+    super.delete();
+
     _wr_static_mesh_delete(this._wrenMesh);
 
     this._deleteWrenRenderable();
-
-    super.delete();
   }
 
   preFinalize() {
