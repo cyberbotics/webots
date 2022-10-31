@@ -48,7 +48,6 @@ export default class ProtoManager {
       // setTimeout(() => this.demoFieldChange('subdivision', 5), 2000);
 
       // print output proto
-      // setTimeout(() => this.exportProto(), 4000);
     });
   }
 
