@@ -50,9 +50,9 @@ bool updateParsingProgress(int progress) {
 }
 
 void updateDownloadingProgress(int progress) {
-  if (WbDownloadManager::instance()->isCompleted()) {
+  if (WbDownloadManager::instance()->isCompleted())
     emit WbApplication::instance()->deleteWorldLoadingProgressDialog();
-  } else {
+  else {
     WbApplication::instance()->setWorldLoadingStatus(WbApplication::instance()->tr("Downloading assets"));
     WbApplication::instance()->setWorldLoadingProgress(progress);
   }

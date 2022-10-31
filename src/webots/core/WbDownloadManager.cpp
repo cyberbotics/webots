@@ -23,13 +23,12 @@
 WbDownloadManager *WbDownloadManager::cInstance = NULL;
 
 WbDownloadManager *WbDownloadManager::instance() {
-  if (!cInstance) {
+  if (!cInstance)
     cInstance = new WbDownloadManager();
-  }
   return cInstance;
 }
 
-WbDownloadManager::WbDownloadManager() : mCount(0), mComplete(0), mDownloading(0), mTimer(NULL), mDisplayPopUp(false) {
+WbDownloadManager::WbDownloadManager() : mCount(0), mComplete(0), mDownloading(false), mTimer(NULL), mDisplayPopUp(false) {
 }
 
 int WbDownloadManager::progress() const {
@@ -39,6 +38,8 @@ int WbDownloadManager::progress() const {
 void WbDownloadManager::reset() {
   mCount = 0;
   mComplete = 0;
+  mDownloading = false;
+  mDisplayPopUp = false;
 }
 
 void WbDownloadManager::abort() {
@@ -53,35 +54,43 @@ WbDownloader *WbDownloadManager::createDownloader(const QUrl &url, QObject *pare
   WbSimulationState::instance()->pauseSimulation();
   WbDownloader *existingDownload = mUrlCache.value(url, NULL);
   WbDownloader *downloader = new WbDownloader(url, existingDownload, parent);
-  connect(downloader, &WbDownloader::destroyed, this, &WbDownloadManager::removeDownload);
+  connect(downloader, &WbDownloader::destroyed, this, &WbDownloadManager::removeDownloader);
   connect(downloader, &WbDownloader::complete, this, &WbDownloadManager::downloadCompleted);
   mCount++;
 
-  if (!mDownloading && !existingDownload) {
-    mDownloading = true;
-    mTimer = new QTimer(0);
-    connect(mTimer, &QTimer::timeout, this, &WbDownloadManager::displayPopUp);
-    mTimer->setInterval(1000);
-    mTimer->setSingleShot(true);
-    mTimer->start();
+  if (!existingDownload) {
+    if (!mDownloading) {
+      mDownloading = true;
+      mTimer = new QTimer(0);
+      connect(mTimer, &QTimer::timeout, this, &WbDownloadManager::displayPopUp);
+      mTimer->setInterval(1000);
+      mTimer->setSingleShot(true);
+      mTimer->start();
+    }
+
+    mUrlCache.insert(url, downloader);
   }
 
-  mUrlCache.insert(url, downloader);
   return downloader;
 }
 
-void WbDownloadManager::removeDownload(QObject *obj) {
+void WbDownloadManager::removeDownloader(QObject *obj) {
   const QVariant urlProperty = obj->property("url");
   if (urlProperty.isValid() && mUrlCache.contains(urlProperty.toString()))
     mUrlCache.remove(urlProperty.toString());
 
   if (!obj->property("finished").toBool())
     mCount--;
+
+  updateProgress();
 }
 
 void WbDownloadManager::downloadCompleted() {
   mComplete++;
+  updateProgress();
+}
 
+void WbDownloadManager::updateProgress() {
   if (mComplete == mCount) {
     mDownloading = false;
     mDisplayPopUp = false;

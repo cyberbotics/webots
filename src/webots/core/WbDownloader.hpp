@@ -35,10 +35,12 @@ public:
   const QString &error() const { return mError; }
   bool isCopy() const { return mCopy; }
   bool hasFinished() const { return mFinished; }
-  bool hasNetworkReply() const { return mNetworkReply != NULL; }
 
 signals:
   void complete();
+
+protected:
+  QNetworkReply *networkReply() const { return mNetworkReply; }
 
 private:
   QUrl mUrl;

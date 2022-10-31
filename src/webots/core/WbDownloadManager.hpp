@@ -52,11 +52,12 @@ private:
   bool mDisplayPopUp;
   QMap<QUrl, WbDownloader *> mUrlCache;
 
+  void updateProgress();
   std::function<void(int)> mProgressUpdateCallback;
 
 private slots:
   void downloadCompleted();
-  void removeDownload(QObject *obj);
+  void removeDownloader(QObject *obj);
 };
 
 #endif

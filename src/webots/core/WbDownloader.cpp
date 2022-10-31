@@ -30,21 +30,19 @@ WbDownloader::WbDownloader(const QUrl &url, const WbDownloader *existingDownload
 
 WbDownloader::~WbDownloader() {
   if (mNetworkReply) {
-    if (!mNetworkReply->isFinished())
-      mNetworkReply->abort();
     mNetworkReply->deleteLater();
 
     // properties used by WbDownloadManager
     setProperty("url", mUrl);
   }
-  setProperty("finished", hasFinished());
+  setProperty("finished", mFinished);
 }
 
 void WbDownloader::download() {
   if (mExistingDownload && !mCopy) {
     mCopy = true;  // TODO
     if (!mExistingDownload->hasFinished())
-      connect(mExistingDownload, &WbDownloader::complete, this, &WbDownloader::finished, Qt::UniqueConnection);
+      connect(mExistingDownload->networkReply(), &QNetworkReply::finished, this, &WbDownloader::finished, Qt::UniqueConnection);
     else
       finished();
 
