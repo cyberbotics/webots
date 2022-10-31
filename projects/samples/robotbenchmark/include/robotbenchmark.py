@@ -29,9 +29,9 @@ def robotbenchmarkRecord(answer, benchmark, record):
     n = fqdn.find(':')
     if n > 0:
         fqdn = fqdn[:n]
-    WEBOTS_HOME = os.environ["WEBOTS_HOME"]
+    WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
     try:
-        keyFile = open(WEBOTS_HOME + "/resources/web/server/key/" + fqdn, "r")
+        keyFile = open(os.path.join(WEBOTS_HOME, 'resources', 'web', 'server', 'key', fqdn), 'r')
     except IOError:
         sys.stderr.write("Error: cannot open key file.\n")
         return

@@ -231,12 +231,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #rotationOnChange(node) {
-    let object = {'x': node.inputs[0].value, 'y': node.inputs[1].value, 'z': node.inputs[2].value, 'a': node.inputs[3].value};
+    const object = {'x': node.inputs[0].value, 'y': node.inputs[1].value, 'z': node.inputs[2].value, 'a': node.inputs[3].value};
     node.parameter.setValueFromJavaScript(this.#view, object);
   }
 
   #vector3OnChange(node) {
-    let object = {'x': node.inputs[0].value, 'y': node.inputs[1].value, 'z': node.inputs[2].value};
+    const object = {'x': node.inputs[0].value, 'y': node.inputs[1].value, 'z': node.inputs[2].value};
     node.parameter.setValueFromJavaScript(this.#view, object);
   }
 
@@ -261,7 +261,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const input = document.createElement('input');
     input.type = 'text';
 
-    let string = parameter.value.value;
+    const string = parameter.value.value;
 
     input.value = this.#stringRemoveQuote(string);
     input.style.height = '20px';

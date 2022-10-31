@@ -109,6 +109,8 @@ export default class WbCadShape extends WbBaseNode {
   }
 
   delete() {
+    super.delete();
+
     if (this.wrenObjectsCreatedCalled)
       this.deleteWrenObjects();
 
@@ -126,8 +128,6 @@ export default class WbCadShape extends WbBaseNode {
         }
       }
     }
-
-    super.delete();
   }
 
   createWrenObjects() {

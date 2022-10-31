@@ -30,6 +30,10 @@ class TestWorldsWarnings(unittest.TestCase):
 
     def setUp(self):
         """Get all the worlds."""
+        if 'WEBOTS_HOME' in os.environ:
+            WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
+        else:
+            WEBOTS_HOME = ''
         self.crashError = '(core dumped) "$webotsHome/bin/webots-bin" "$@"'
         self.skippedMessages = [
             'AL lib: (WW) alc_initconfig: Failed to initialize backend "pulse"',
@@ -39,23 +43,22 @@ class TestWorldsWarnings(unittest.TestCase):
             self.crashError  # To remove once #6125 is fixed
         ]
         # Set empty.wbt as the first world (to trigger the 'System below the minimal requirements' message)
-        self.worlds = [os.path.join(os.environ['WEBOTS_HOME'], 'resources/projects/worlds/empty.wbt')]
+        self.worlds = [os.path.join(WEBOTS_HOME, 'resources', 'projects', 'worlds', 'empty.wbt')]
         # Get all the worlds from projects
         for directory in ['projects']:
-            for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + directory):
+            for rootPath, dirNames, fileNames in os.walk(os.path.join(WEBOTS_HOME, directory)):
                 for fileName in fnmatch.filter(fileNames, '*.wbt'):
                     world = os.path.join(rootPath, fileName)
                     self.worlds.append(world)
         self.webotsFullPath = None
         if sys.platform == 'win32':
-            self.webotsFullPath = os.environ['WEBOTS_HOME'] + os.sep + 'msys64' + \
-                os.sep + 'mingw64' + os.sep + 'bin' + os.sep + 'webots.exe'
+            self.webotsFullPath = os.path.join(WEBOTS_HOME, 'msys64', 'mingw64', 'bin', 'webots.exe')
         else:
             webotsBinary = 'webots'
             if 'WEBOTS_HOME' in os.environ:
-                self.webotsFullPath = os.environ['WEBOTS_HOME'] + os.sep + webotsBinary
+                self.webotsFullPath = os.path.join(WEBOTS_HOME, webotsBinary)
             else:
-                self.webotsFullPath = '..' + os.sep + webotsBinary
+                self.webotsFullPath = os.path.join('..', webotsBinary)
             if not os.path.isfile(self.webotsFullPath):
                 print('Error: ' + webotsBinary + ' binary not found')
                 sys.exit(1)

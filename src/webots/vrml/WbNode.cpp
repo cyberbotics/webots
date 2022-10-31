@@ -78,7 +78,7 @@ static bool gDerivedProtoParentFlag = false;  // true during the creation of a P
 static bool gTopParameterFlag = false;
 static bool gDerivedProtoAncestorFlag = false;
 static QStringList *gInternalDefNamesInWrite = NULL;
-static QList<QPair<WbNode *, int>> *gExternalUseNodesInWrite = NULL;
+static QList<std::pair<WbNode *, int>> *gExternalUseNodesInWrite = NULL;
 static bool gRestoreUniqueIdOnClone;
 
 bool WbNode::cUpdatingDictionary = false;
@@ -983,7 +983,7 @@ void WbNode::enableDefNodeTrackInWrite(bool substituteInStream) {
   assert(gInternalDefNamesInWrite == NULL && gExternalUseNodesInWrite == NULL);
   gInternalDefNamesInWrite = new QStringList();
   if (!substituteInStream)
-    gExternalUseNodesInWrite = new QList<QPair<WbNode *, int>>();
+    gExternalUseNodesInWrite = new QList<std::pair<WbNode *, int>>();
 }
 
 void WbNode::disableDefNodeTrackInWrite() {
@@ -993,7 +993,7 @@ void WbNode::disableDefNodeTrackInWrite() {
   gExternalUseNodesInWrite = NULL;
 }
 
-QList<QPair<WbNode *, int>> *WbNode::externalUseNodesPositionsInWrite() {
+QList<std::pair<WbNode *, int>> *WbNode::externalUseNodesPositionsInWrite() {
   return gExternalUseNodesInWrite;
 }
 
@@ -1052,7 +1052,7 @@ void WbNode::write(WbWriter &writer) const {
     if (isUseNode() && !gInternalDefNamesInWrite->contains(mUseName)) {
       if (gExternalUseNodesInWrite)
         // keep track of DEF node
-        gExternalUseNodesInWrite->append(QPair<WbNode *, int>(mDefNode, writer.string()->size()));
+        gExternalUseNodesInWrite->append(std::pair<WbNode *, int>(mDefNode, writer.string()->size()));
       else {
         // write definition directly on the stream
         mDefNode->write(writer);
@@ -1087,8 +1087,8 @@ void WbNode::write(WbWriter &writer) const {
 // This function lists only the texture files which are explicitly referred to in
 // this world file and not the one implicitly referred to by included PROTO files.
 // This list may contain duplicate texture files.
-QList<QPair<QString, WbMFString *>> WbNode::listTextureFiles() const {
-  QList<QPair<QString, WbMFString *>> list;
+QList<std::pair<QString, WbMFString *>> WbNode::listTextureFiles() const {
+  QList<std::pair<QString, WbMFString *>> list;
   bool imageTexture = model()->name() == "ImageTexture";
   const QString currentTexturePath = WbProject::current()->worldsPath();
   foreach (WbField *field, fields())
@@ -1114,7 +1114,7 @@ QList<QPair<QString, WbMFString *>> WbNode::listTextureFiles() const {
         if (proto && QFile::exists(protoPath + textureFile))  // PROTO texture
           continue;                                           // skip it
         if (QFile::exists(currentTexturePath + textureFile))
-          list << QPair<QString, WbMFString *>(textureFile, mfstring);
+          list << std::pair<QString, WbMFString *>(textureFile, mfstring);
       }
     }
   return list;

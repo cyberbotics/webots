@@ -68,6 +68,8 @@ export default class WbBackground extends WbBaseNode {
   }
 
   delete() {
+    super.delete();
+
     if (typeof this.parent === 'undefined') {
       const index = WbWorld.instance.sceneTree.indexOf(this);
       WbWorld.instance.sceneTree.splice(index, 1);
@@ -102,8 +104,6 @@ export default class WbBackground extends WbBaseNode {
     WbBackground.instance = undefined;
 
     this.#updatePBRs();
-
-    super.delete();
   }
 
   postFinalize() {
