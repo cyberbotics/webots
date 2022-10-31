@@ -42,6 +42,7 @@ class Driver(Supervisor):
 
     def __del__(self):
         self.api.wbu_driver_cleanup()
+        super().__del__()
 
     def getAntifogLights(self) -> bool:
         return self.antifog_light
