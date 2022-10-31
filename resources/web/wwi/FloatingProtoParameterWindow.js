@@ -196,7 +196,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const input = document.createElement('input');
     input.type = 'text';
 
-    let string = parameter.value.value;
+    const string = parameter.value.value;
 
     input.value = this.#stringRemoveQuote(string);
     input.style.height = '20px';
