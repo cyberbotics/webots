@@ -21,6 +21,13 @@ class Driver(Supervisor):
     INDICATOR_OFF = 0
     INDICATOR_RIGHT = 1
     INDICATOR_LEFT = 2
+    SPEED = 0
+    TORQUE = 1
+    # wiper modes
+    DOWN = 0
+    SLOW = 1
+    NORMAL = 2
+    FAST = 3
 
     def __init__(self):
         super().__init__()
@@ -42,11 +49,20 @@ class Driver(Supervisor):
     def getBrakeIntensity(self) -> float:
         return self.brake_intensity
 
+    def getControlMode(self) -> int:
+        return self.control_mode
+
     def getCurrentSpeed(self) -> float:
         return self.current_speed
 
     def getDippedBeams(self) -> bool:
         return self.dipped_beams
+
+    def getGear(self):
+        return self.gear
+
+    def getGearNumber(self):
+        return self.gear_number
 
     def getHazardFlashers(self) -> bool:
         return self.hazard_flashers
@@ -66,6 +82,9 @@ class Driver(Supervisor):
     def getThrottle(self) -> float:
         return self.throttle
 
+    def getWiperMode(self) -> int:
+        return self.api.wbu_driver_get_wiper_mode()
+
     def setAntifogLights(self, state: bool):
         return self.antifog_light
 
@@ -78,6 +97,9 @@ class Driver(Supervisor):
     def setDippedBeams(self, state: bool):
         self.dipped_beams = state
 
+    def setGear(self, gear):
+        self.gear = gear
+
     def setHazardFlashers(self, hazardFlasher: bool):
         self.hazard_flashers = hazardFlasher
 
@@ -89,6 +111,9 @@ class Driver(Supervisor):
 
     def setThrottle(self, throttle: float):
         self.throttle = throttle
+
+    def setWiperMode(self, mode: int):
+        self.wiper_mode = mode
 
     def step(self):
         return self.api.wbu_driver_step()
@@ -110,12 +135,29 @@ class Driver(Supervisor):
         self.api.wbu_driver_set_brake_intensity(ctypes.c_double(brake_intensity))
 
     @property
+    def control_mode(self) -> int:
+        m = self.api.wbu_driver_get_control_mode()
+        return None if m == -1 else m
+
+    @property
     def dipped_beams(self) -> bool:
         return self.api.wbu_driver_get_dipped_beams() != 0
 
     @dipped_beams.setter
     def dipped_beams(self, dipped_beams: bool):
         self.api.wbu_driver_set_dipped_beams(1 if dipped_beams else 0)
+
+    @property
+    def gear(self) -> int:
+        return self.api.wbu_driver_get_gear()
+
+    @gear.setter
+    def gear(self, gear: int):
+        self.api.wbu_driver_set_gear(gear)
+
+    @property
+    def gear_number(self) -> int:
+        return self.api.wbu_driver_get_gear_number()
 
     @property
     def hazard_flashers(self) -> bool:
@@ -164,3 +206,11 @@ class Driver(Supervisor):
     @throttle.setter
     def throttle(self, throttle: float):
         self.api.wbu_driver_set_throttle(ctypes.c_double(throttle))
+
+    @property
+    def wiper_mode(self) -> int:
+        return self.api.wbu_driver_get_wiper_mode()
+
+    @wiper_mode.setter
+    def wiper_mode(self, mode):
+        self.api.wbu_driver_set_wiper_mode(mode)
