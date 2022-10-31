@@ -40,7 +40,7 @@ export default class WebotsView extends HTMLElement {
     this.#initialCallbackDone = true;
 
     this.toolbarCss = document.createElement('link');
-    this.toolbarCss.href = 'https://cyberbotics.com/wwi/R2023a/css/toolbar.css';
+    this.toolbarCss.href = 'https://cyberbotics.com/wwi/proto/css/toolbar.css';
     this.toolbarCss.type = 'text/css';
     this.toolbarCss.rel = 'stylesheet';
     document.head.appendChild(this.toolbarCss);
@@ -388,14 +388,19 @@ export default class WebotsView extends HTMLElement {
       console.time('Loaded in: ');
       if (typeof this.#view === 'undefined')
         this.#view = new webots.View(this, isMobileDevice);
-      const protoManager = new ProtoManager(this.#view);
-      protoManager.loadMinimalScene();
+      this.protoManager = new ProtoManager(this.#view);
+      this.protoManager.loadMinimalScene();
       this.#view.onready = () => {
-        protoManager.loadProto(proto);
-        this.toolbar = new Toolbar(this.#view, 'scene', this);
-        if (typeof this.onready === 'function')
-          this.onready();
+        this.protoManager.loadProto(proto).then(() => {
+          this.toolbar = new Toolbar(this.#view, 'proto', this);
+          if (typeof this.onready === 'function')
+            this.onready();
+
+          this.resize();
+          this.toolbar.protoParameterWindowInitializeSizeAndPosition();
+        });
       };
+
       this.#hasProto = true;
       this.#closeWhenDOMElementRemoved();
     }

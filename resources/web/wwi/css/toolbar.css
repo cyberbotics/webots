@@ -74,7 +74,7 @@ webots-view .toolbar-btn {
   width: 44px;
   box-sizing: border-box;
   padding: 4px 8px;
-  border:none;
+  border: none;
   box-shadow: none;
   appearance: none;
   -moz-appearance: none;
@@ -125,19 +125,63 @@ webots-view .icon {
   pointer-events: none;
 }
 
-webots-view .icon-step            { background-image: url(../images/icons/step.svg); background-position: -6px; }
-webots-view .icon-reset           { background-image: url(../images/icons/reset.svg); }
-webots-view .icon-reset-scene     { background-image: url(../images/icons/reload.svg); }
-webots-view .icon-reload          { background-image: url(../images/icons/reload.svg); }
-webots-view .icon-quit            { background-image: url(../images/icons/quit.svg); }
-webots-view .icon-info            { background-image: url(../images/icons/info.svg); }
-webots-view .icon-settings        { background-image: url(../images/icons/settings.svg); }
-webots-view .icon-fullscreen      { background-image: url(../images/icons/fullscreen.svg); }
-webots-view .icon-windowed        { background-image: url(../images/icons/windowed.svg); }
-webots-view .icon-robot-window, webots-view .icon-custom-window    { background-image: url(../images/icons/robot-window.svg); }
-webots-view .icon-ide             { background-image: url(../images/icons/ide.svg); }
-webots-view .icon-world-selection { background-image: url(../images/icons/world-selection.svg); }
-webots-view .icon-terminal        { background-image: url(../images/icons/terminal.svg); }
+webots-view .icon-step {
+  background-image: url(../images/icons/step.svg);
+  background-position: -6px;
+}
+
+webots-view .icon-reset {
+  background-image: url(../images/icons/reset.svg);
+}
+
+webots-view .icon-reset-scene {
+  background-image: url(../images/icons/reload.svg);
+}
+
+webots-view .icon-reload {
+  background-image: url(../images/icons/reload.svg);
+}
+
+webots-view .icon-quit {
+  background-image: url(../images/icons/quit.svg);
+}
+
+webots-view .icon-info {
+  background-image: url(../images/icons/info.svg);
+}
+
+webots-view .icon-settings {
+  background-image: url(../images/icons/settings.svg);
+}
+
+webots-view .icon-fullscreen {
+  background-image: url(../images/icons/fullscreen.svg);
+}
+
+webots-view .icon-windowed {
+  background-image: url(../images/icons/windowed.svg);
+}
+
+webots-view .icon-robot-window,
+webots-view .icon-custom-window {
+  background-image: url(../images/icons/robot-window.svg);
+}
+
+webots-view .icon-ide {
+  background-image: url(../images/icons/ide.svg);
+}
+
+webots-view .icon-world-selection {
+  background-image: url(../images/icons/world-selection.svg);
+}
+
+webots-view .icon-terminal {
+  background-image: url(../images/icons/terminal.svg);
+}
+
+webots-view .icon-proto-parameter {
+  background-image: url(../images/icons/proto_parameter.svg);
+}
 
 webots-view .icon {
   transition: all 0.1s ease-in-out;
@@ -148,32 +192,34 @@ webots-view #step-button {
 }
 
 webots-view .toolbar-btn:focus .icon-ide,
-  .toolbar-btn:focus .icon-robot-window,
-  .toolbar-btn:focus .icon-info,
-  .toolbar-btn:focus .icon-quit,
-  .toolbar-btn:focus .icon-step,
-  .toolbar-btn:focus .icon-world-selection {
+.toolbar-btn:focus .icon-robot-window,
+.toolbar-btn:focus .icon-info,
+.toolbar-btn:focus .icon-quit,
+.toolbar-btn:focus .icon-step,
+.toolbar-btn:focus .icon-proto-parameter,
+.toolbar-btn:focus .icon-world-selection {
   animation: animation-scale-down 0.3s;
 }
 
 webots-view .toolbar-btn:active .icon-ide,
-  .toolbar-btn:active .icon-robot-window,
-  .toolbar-btn:active .icon-info,
-  .toolbar-btn:active .icon-quit,
-  .toolbar-btn:active .icon-step,
-  .toolbar-btn:active .icon-world-selection {
+.toolbar-btn:active .icon-robot-window,
+.toolbar-btn:active .icon-info,
+.toolbar-btn:active .icon-quit,
+.toolbar-btn:active .icon-step,
+.toolbar-btn:active .icon-proto-parameter,
+.toolbar-btn:active .icon-world-selection {
   animation: none;
 }
 
 webots-view .toolbar-btn:focus .icon-settings,
-  .toolbar-btn:focus .icon-reset-scene,
-  .toolbar-btn:focus .icon-reload {
+.toolbar-btn:focus .icon-reset-scene,
+.toolbar-btn:focus .icon-reload {
   animation: animation-rotate 0.3s;
 }
 
 webots-view .toolbar-btn:active .icon-settings,
-  .toolbar-btn:active .icon-reset-scene,
-  .toolbar-btn:active .icon-reload {
+.toolbar-btn:active .icon-reset-scene,
+.toolbar-btn:active .icon-reload {
   animation: none;
 }
 
@@ -186,76 +232,74 @@ webots-view .toolbar-btn:hover .icon-windowed {
 }
 
 @keyframes animation-scale-down {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(0.9); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.9);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes animation-scale-up {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.1); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes animation-scale-up-lg {
-  0%   { transform: scale(1); }
-  35%  { transform: scale(1); }
-  50%  { transform: scale(1.2); }
-  65%  { transform: scale(1); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  35% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  65% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes animation-rotate {
-  0%   { transform: rotate(0deg); }
-  50%  { transform: rotate(20deg); }
-  100% { transform: rotate(0deg); }
-}
+  0% {
+    transform: rotate(0deg);
+  }
 
-/* Tooltips */
+  50% {
+    transform: rotate(20deg);
+  }
 
-webots-view .tooltip {
-  visibility: hidden;
-  background-color: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(10px);
-  color: rgb(240, 240, 240);
-  text-align: center;
-  font-size: 14px;
-  font-weight: 500;
-  font-family: 'Arial';
-  text-shadow: 0 0 2px black;
-  border-radius: 2px;
-  padding: 5px 10px;
-  white-space: nowrap;
-  position: absolute;
-  white-space: nowrap;
-  bottom: 55px;
-}
-
-webots-view .fullscreen-tooltip, .windowed-tooltip {
-  right: 0px;
-}
-
-webots-view .settings-tooltip,
-  .info-tooltip,
-  .robot-window-tooltip,
-  .ide-tooltip,
-  .reset-scene-tooltip,
-  .world-selection-tooltip,
-  .reset-tooltip,
-  .run-tooltip,
-  .play-tooltip,
-  .step-tooltip,
-  .quit-tooltip  {
-  transform: translateX(-55%);
-}
-
-webots-view .toolbar-btn:hover .tooltip {
-  visibility: visible;
+  100% {
+    transform: rotate(0deg);
+  }
 }
 
 /* Time Indicator */
 
-webots-view .current-time, .total-time, .time-divider {
+webots-view .current-time,
+.total-time,
+.time-divider {
   display: inline-block;
   padding: 11px 3px;
   color: rgba(240, 240, 240, 1);
@@ -266,22 +310,28 @@ webots-view .current-time, .total-time, .time-divider {
   -webkit-user-select: none;
 }
 
-webots-view .current-time { margin-left: 8px; }
+webots-view .current-time {
+  margin-left: 8px;
+}
 
-webots-view .total-time { margin-right: 8px; }
+webots-view .total-time {
+  margin-right: 8px;
+}
 
 /* Hide arrow icon in IE browsers */
 webots-view .select-css::-ms-expand {
   display: none;
 }
+
 /* Hide dashed box when on focus in Firefox browsers */
 webots-view .select-css:-moz-focusring {
   color: transparent;
   text-shadow: 0 0 0 #000;
 }
+
 /* Set options to normal weight */
 webots-view .select-css option {
-  font-weight:normal;
+  font-weight: normal;
 }
 
 /* Information panel */
@@ -370,7 +420,7 @@ webots-view .information-panel .info-tabs-bar .tab1 {
   background-color: #333;
 }
 
-webots-view .information-panel .simulation-text{
+webots-view .information-panel .simulation-text {
   margin-top: 5px;
   overflow-y: auto;
   overflow-x: none;
@@ -404,7 +454,7 @@ webots-view .settings-pane {
   max-height: 90%;
   max-width: 50%;
   min-width: 265px;
-  background: rgba(0,0,0, 0.7);
+  background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(10px);
   font-family: 'Arial';
   font-size: 14px;
@@ -414,6 +464,7 @@ webots-view .settings-pane {
   border-radius: 4px;
   line-height: 1.5;
   text-size-adjust: 100%;
+  z-index: 2
 }
 
 webots-view ul {
@@ -455,7 +506,7 @@ webots-view .setting-text {
   color: white;
 }
 
-webots-view .arrow-right{
+webots-view .arrow-right {
   border: solid white;
   border-width: 0 2px 2px 0;
   display: inline-block;
@@ -475,7 +526,8 @@ webots-view .first-li {
   padding-left: 19px !important;
 }
 
-webots-view .check-speed, .check-gtao{
+webots-view .check-speed,
+.check-gtao {
   display: inline-block;
   min-width: 12px;
   pointer-events: none;
@@ -489,7 +541,7 @@ webots-view .setting-span {
   color: white;
 }
 
-webots-view .arrow-left{
+webots-view .arrow-left {
   border: solid white;
   border-width: 0 2px 2px 0;
   display: inline-block;
@@ -545,17 +597,17 @@ webots-view .slider:before {
   transition: transform 0.1s ease-in-out;
 }
 
-webots-view input:checked + .slider {
+webots-view input:checked+.slider {
   background-color: rgb(0, 122, 204);
   pointer-events: none;
 }
 
-webots-view input:focus + .slider {
+webots-view input:focus+.slider {
   box-shadow: 0 0 1px rgb(0, 122, 204);
   pointer-events: none;
 }
 
-webots-view input:checked + .slider:before {
+webots-view input:checked+.slider:before {
   -webkit-transform: translateX(16px);
   -ms-transform: translateX(16px);
   transform: translateX(16px);
@@ -620,7 +672,8 @@ webots-view .floating-window-header {
 webots-view .floating-window-header p {
   color: white;
 }
-webots-view .floating-window-text{
+
+webots-view .floating-window-text {
   margin-left: 10px;
   font-size: 14px;
   margin-top: 12px;
@@ -745,6 +798,7 @@ webots-view .terminal-button {
   background-color: transparent;
   border: 0px;
 }
+
 webots-view .icon-clear {
   height: 24px;
   width: 24px;
@@ -769,7 +823,9 @@ webots-view .terminal-separator {
   border-left: 1px solid #777;
 }
 
-webots-view #separator-1 { left: 170px }
+webots-view #separator-1 {
+  left: 170px
+}
 
 webots-view .terminal-std {
   position: absolute;
@@ -783,20 +839,29 @@ webots-view .terminal-std {
   background-color: rgba(119, 119, 119, 0.5);
 }
 
-webots-view .terminal-stdout { left: 54px; }
-webots-view .terminal-stderr { left: 112px; }
+webots-view .terminal-stdout {
+  left: 54px;
+}
+
+webots-view .terminal-stderr {
+  left: 112px;
+}
+
 webots-view .terminal-info {
   left: 183px;
   width: 43px;
 }
+
 webots-view .terminal-warning {
-  width:72px;
+  width: 72px;
   left: 238px;
 }
+
 webots-view .terminal-error {
   width: 55px;
   left: 322px;
 }
+
 webots-view .terminal-other {
   width: 42px;
   left: 389px;
@@ -811,7 +876,7 @@ webots-view .vertical-list-pane {
   overflow: auto;
   max-height: 90%;
   max-width: 50%;
-  background: rgba(0,0,0, 0.7);
+  background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(10px);
   font-family: 'Arial';
   font-size: 14px;
@@ -866,6 +931,45 @@ webots-view .visibility-dot {
   pointer-events: none;
 }
 
-webots-view input:checked + .visibility-dot {
+webots-view input:checked+.visibility-dot {
   background-color: rgb(0, 122, 204);
+}
+
+webots-view #proto-parameter-content {
+  color: white;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  display: grid;
+  grid-template-columns: max-content max-content max-content;
+  overflow-x: auto;
+  align-items: center;
+}
+
+webots-view #proto-parameter {
+  min-width: 440px;
+}
+
+webots-view #proto-parameter-content p {
+  white-space: nowrap;
+}
+
+webots-view .key-parameter {
+  margin: 10px 0px 10px 3px;
+}
+
+webots-view .value-parameter {
+  margin: 10px 10px 10px 10px;
+}
+
+webots-view .reset-field-button {
+  background-image: url(../images/icons/reload.svg);
+  height: 20px;
+  width: 20px;
+  vertical-align: bottom;
+  background-color: transparent;
+  border: none;
+}
+
+webots-view .export-checkbox {
+  margin: 10px 0px 10px 10px;
 }

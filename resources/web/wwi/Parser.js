@@ -1062,7 +1062,7 @@ export default class Parser {
 
   #parseSphere(node, id) {
     const radius = parseFloat(getNodeAttribute(node, 'radius', '1'));
-    const ico = getNodeAttribute(node, 'ico', 'false').toLowerCase() === 'true';
+    const ico = getNodeAttribute(node, 'ico', 'true').toLowerCase() === 'true';
     const subdivision = parseInt(getNodeAttribute(node, 'subdivision', '1,1'));
 
     const sphere = new WbSphere(id, radius, ico, subdivision);

@@ -1,4 +1,4 @@
-import {VRML} from './Vrml.js';
+import {VRML} from './vrml_type.js';
 
 export const FieldModel = {
   'Gyro': {

@@ -31,23 +31,15 @@ export default class ProtoManager {
       console.log('EXPOSED PARAMETERS ARE:');
       for (const [parameterName, parameter] of this.proto.parameters) {
         console.log('> ', parameterName);
+        parameter._view = this.#view;
         this.exposedParameters.set(parameterName, parameter); // TODO: change key to parameter id ?
       }
 
+      if (typeof this.onChange === 'function')
+        this.onChange();
+
       // test this using the world: DemoRegeneration.proto in the html
       // setTimeout(() => this.demoRegeneration(), 2000);
-
-      // test this using the world: DemoFieldChange.proto in the html
-      setTimeout(() => this.demoFieldChange('color', {r: 0, g: 0, b: 1}), 2000);
-      setTimeout(() => this.demoFieldChange('translation', {x: 0, y: 0, z: 0.5}), 2000);
-      setTimeout(() => this.demoFieldChange('rotation', {x: 0, y: 0, z: 1, a: 0.785}), 2000);
-
-      // not implemented yet JS side
-      // setTimeout(() => this.demoFieldChange('radius', 0.2), 2000);
-      // setTimeout(() => this.demoFieldChange('subdivision', 5), 2000);
-
-      // print output proto
-      setTimeout(() => this.exportProto(), 4000);
     });
   }
 
@@ -66,13 +58,7 @@ export default class ProtoManager {
     parameter.setValueFromJavaScript(this.#view, newValue);
   }
 
-  async demoFieldChange(parameterName, newValue) {
-    // get reference to the parameter being changed
-    const parameter = this.exposedParameters.get(parameterName);
-    parameter.setValueFromJavaScript(this.#view, newValue);
-  }
-
-  exportProto() {
+  exportProto(name, fieldsToExport) {
     function indent(depth) {
       return ' '.repeat(depth);
     }
@@ -107,17 +93,23 @@ export default class ProtoManager {
       s += `EXTERNPROTO "${item}"\n`;
 
     s += '\n';
-    s += 'PROTO CustomProto [\n';
+    s += `PROTO ${name} [\n`;
 
-    for (const parameter of this.proto.parameters.values())
-      s += `${indent(2)}field ${stringifyType(parameter.type)} ${parameter.name} ${parameter.value.toVrml()}\n`;
+    for (const parameter of this.proto.parameters.values()) {
+      if (fieldsToExport.has(parameter.name))
+        s += `${indent(2)}field ${stringifyType(parameter.type)} ${parameter.name} ${parameter.value.toVrml()}\n`;
+    }
 
     s += ']\n';
     s += '{\n';
 
     s += `${indent(2)}${this.proto.name} {\n`;
-    for (const parameter of this.proto.parameters.values())
-      s += `${indent(4)}${parameter.name} IS ${parameter.name}\n`;
+    for (const parameter of this.proto.parameters.values()) {
+      if (fieldsToExport.has(parameter.name))
+        s += `${indent(4)}${parameter.name} IS ${parameter.name}\n`;
+      else if (!parameter.isDefault())
+        s += `${indent(4)}${parameter.name} ${parameter.value.toVrml()}\n`;
+    }
     s += `${indent(2)}}\n`;
     s += '}\n';
 

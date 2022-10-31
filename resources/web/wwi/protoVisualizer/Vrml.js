@@ -1,6 +1,9 @@
 'use strict';
 
 import {Node} from './Node.js';
+import {VRML} from './vrml_type.js';
+
+import {DOUBLE_EQUALITY_TOLERANCE} from '../nodes/utils/constants.js';
 
 class SingleValue {
   #value;
@@ -279,12 +282,25 @@ export class SFColor extends SingleValue {
 
 export class SFRotation extends SingleValue {
   setValueFromTokenizer(tokenizer) {
-    this.value = {
-      x: tokenizer.nextToken().toFloat(),
-      y: tokenizer.nextToken().toFloat(),
-      z: tokenizer.nextToken().toFloat(),
-      a: tokenizer.nextToken().toFloat()
-    };
+    let xValue = tokenizer.nextToken().toFloat();
+    let yValue = tokenizer.nextToken().toFloat();
+    let zValue = tokenizer.nextToken().toFloat();
+    let aValue = tokenizer.nextToken().toFloat();
+
+    this.normalize(xValue, yValue, zValue, aValue);
+  }
+
+  setValueFromJavaScript(v) {
+    if (v.x === '')
+      v.x = 0;
+    if (v.y === '')
+      v.y = 0;
+    if (v.z === '')
+      v.z = 0;
+    if (v.a === '')
+      v.a = 0;
+
+    this.normalize(v.x, v.y, v.z, v.a);
   }
 
   toX3d(parameterName, parentElement) {
@@ -294,6 +310,17 @@ export class SFRotation extends SingleValue {
     }
 
     return `${this.value.x} ${this.value.y} ${this.value.z} ${this.value.a}`;
+  }
+
+  normalize(xValue, yValue, zValue, aValue) {
+    const invl = 1.0 / Math.sqrt(xValue * xValue + yValue * yValue + zValue * zValue);
+    if (Math.abs(invl - 1.0) > DOUBLE_EQUALITY_TOLERANCE) {
+      xValue *= invl;
+      yValue *= invl;
+      zValue *= invl;
+    }
+
+    this.value = {x: xValue, y: yValue, z: zValue, a: aValue};
   }
 
   toJS() {
@@ -934,24 +961,3 @@ export function stringifyType(type) {
       throw new Error('Unknown VRML type: ', type);
   }
 }
-
-export const VRML = {
-  MFBool: 0,
-  SFBool: 1,
-  MFColor: 2,
-  SFColor: 3,
-  MFFloat: 4,
-  SFFloat: 5,
-  MFInt32: 6,
-  SFInt32: 7,
-  MFNode: 8,
-  SFNode: 9,
-  MFRotation: 10,
-  SFRotation: 11,
-  MFString: 12,
-  SFString: 13,
-  MFVec2f: 14,
-  SFVec2f: 15,
-  MFVec3f: 16,
-  SFVec3f: 17
-};
