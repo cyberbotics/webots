@@ -186,7 +186,7 @@ WbAddNodeDialog::~WbAddNodeDialog() {
 }
 
 void WbAddNodeDialog::downloadIcon(const QString &url) {
-  WbDownloader *downloader = WbDownloadManager::instance()->createDownloader(QUrl(url), this);
+  WbDownloader *const downloader = WbDownloadManager::instance()->createDownloader(QUrl(url), this);
   mIconDownloaders.push_back(downloader);
   connect(downloader, &WbDownloader::complete, this, &WbAddNodeDialog::iconUpdate);
   downloader->download();

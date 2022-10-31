@@ -20,7 +20,6 @@
 #include <QtCore/QUrl>
 
 class WbDownloader;
-class QIODevice;
 class QTimer;
 class QUrl;
 
