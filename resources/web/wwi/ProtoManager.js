@@ -40,14 +40,6 @@ export default class ProtoManager {
 
       // test this using the world: DemoRegeneration.proto in the html
       // setTimeout(() => this.demoRegeneration(), 2000);
-
-      // test this using the world: DemoFieldChange.proto in the html
-
-      // not implemented yet JS side
-      // setTimeout(() => this.demoFieldChange('radius', 0.2), 2000);
-      // setTimeout(() => this.demoFieldChange('subdivision', 5), 2000);
-
-      // print output proto
     });
   }
 
@@ -61,12 +53,6 @@ export default class ProtoManager {
     const parameterName = 'flag2'; // parameter to change
     const newValue = true; // new value to set
 
-    // get reference to the parameter being changed
-    const parameter = this.exposedParameters.get(parameterName);
-    parameter.setValueFromJavaScript(this.#view, newValue);
-  }
-
-  async demoFieldChange(parameterName, newValue) {
     // get reference to the parameter being changed
     const parameter = this.exposedParameters.get(parameterName);
     parameter.setValueFromJavaScript(this.#view, newValue);
