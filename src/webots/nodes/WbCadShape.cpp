@@ -113,7 +113,7 @@ void WbCadShape::retrieveMaterials() {
   qDeleteAll(mMaterialDownloaders);
   mMaterialDownloaders.clear();
 
-  QStringList rawMaterials = objMaterialList(completeUrl);
+  const QStringList rawMaterials = objMaterialList(completeUrl);
   foreach (QString material, rawMaterials) {
     const QString newUrl = WbUrl::combinePaths(material, completeUrl);
     if (!newUrl.isEmpty()) {
@@ -151,6 +151,11 @@ void WbCadShape::materialDownloadTracker() {
     updateUrl();
 }
 
+void WbCadShape::preFinalize() {
+  WbBaseNode::preFinalize();
+  updateUrl();
+}
+
 void WbCadShape::postFinalize() {
   WbBaseNode::postFinalize();
 
@@ -163,11 +168,6 @@ void WbCadShape::postFinalize() {
           &WbCadShape::createWrenObjects);
 
   mBoundingSphere = new WbBoundingSphere(this);
-
-  updateUrl();
-  updateCcw();
-  updateCastShadows();
-  updateIsPickable();
 
   // apply segmentation color
   const WbSolid *solid = WbNodeUtilities::findUpperSolid(this);
@@ -183,12 +183,6 @@ void WbCadShape::postFinalize() {
 }
 
 void WbCadShape::updateUrl() {
-  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0, true);
-  if (completeUrl.isEmpty() || completeUrl == WbUrl::missingTexture()) {
-    deleteWrenObjects();
-    return;
-  }
-
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
   const int n = mUrl->size();
   for (int i = 0; i < n; i++) {
@@ -198,10 +192,18 @@ void WbCadShape::updateUrl() {
     mUrl->blockSignals(false);
   }
 
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0, true);
+  if (completeUrl.isEmpty() || completeUrl == WbUrl::missingTexture()) {
+    if (areWrenObjectsInitialized())
+      deleteWrenObjects();
+    return;
+  }
+
   if (WbUrl::isWeb(completeUrl)) {
     if (mDownloader && !mDownloader->error().isEmpty()) {
       warn(mDownloader->error());  // failure downloading or file does not exist (404)
-      deleteWrenObjects();
+      if (areWrenObjectsInitialized())
+        deleteWrenObjects();
       delete mDownloader;
       mDownloader = NULL;
       return;
@@ -224,9 +226,9 @@ void WbCadShape::updateUrl() {
     if (areMaterialAssetsAvailable(completeUrl)) {
       mObjMaterials.clear();
       // generate mapping between referenced files and cached files
-      QStringList rawMaterials = objMaterialList(completeUrl);
+      const QStringList rawMaterials = objMaterialList(completeUrl);
       foreach (QString material, rawMaterials) {
-        QString adjustedUrl = WbUrl::combinePaths(material, completeUrl);
+        const QString adjustedUrl = WbUrl::combinePaths(material, completeUrl);
         assert(WbNetwork::instance()->isCachedNoMapUpdate(adjustedUrl));
         if (!mObjMaterials.contains(material))
           mObjMaterials.insert(material, adjustedUrl);
@@ -237,7 +239,8 @@ void WbCadShape::updateUrl() {
     }
   }
 
-  createWrenObjects();
+  if (areWrenObjectsInitialized())
+    createWrenObjects();
 }
 
 bool WbCadShape::areMaterialAssetsAvailable(const QString &url) {
@@ -466,6 +469,9 @@ void WbCadShape::createWrenObjects() {
       pbrAppearance->preFinalize();
       pbrAppearance->postFinalize();
       connect(pbrAppearance, &WbPbrAppearance::changed, this, &WbCadShape::updateAppearance);
+
+      if (pbrAppearance->transparency() > 0.999)
+        warn(tr("Mesh '%1' created but it is fully transparent.").arg(mesh->mName.C_Str()));
 
       WrMaterial *wrenMaterial = wr_pbr_material_new();
       pbrAppearance->modifyWrenMaterial(wrenMaterial);
