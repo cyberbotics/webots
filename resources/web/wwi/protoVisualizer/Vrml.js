@@ -286,14 +286,7 @@ export class SFRotation extends SingleValue {
     let zValue = tokenizer.nextToken().toFloat();
     let aValue = tokenizer.nextToken().toFloat();
 
-    const invl = 1.0 / Math.sqrt(xValue * xValue + yValue * yValue + zValue * zValue);
-    if (Math.abs(invl - 1.0) > DOUBLE_EQUALITY_TOLERANCE) {
-      xValue *= invl;
-      yValue *= invl;
-      zValue *= invl;
-    }
-
-    this.value = {x: xValue, y: yValue, z: zValue, a: aValue};
+    this.normalize(xValue, yValue, zValue, aValue);
   }
 
   setValueFromJavaScript(v) {
@@ -306,14 +299,7 @@ export class SFRotation extends SingleValue {
     if (v.a === '')
       v.a = 0;
 
-    const invl = 1.0 / Math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
-    if (Math.abs(invl - 1.0) > DOUBLE_EQUALITY_TOLERANCE) {
-      v.x *= invl;
-      v.y *= invl;
-      v.z *= invl;
-    }
-
-    this.value = {x: v.x, y: v.y, z: v.z, a: v.a};
+    this.normalize(v.x, v.y, v.z, v.a);
   }
 
   toX3d(parameterName, parentElement) {
@@ -323,6 +309,17 @@ export class SFRotation extends SingleValue {
     }
 
     return `${this.value.x} ${this.value.y} ${this.value.z} ${this.value.a}`;
+  }
+
+  normalize(xValue, yValue, zValue, aValue) {
+    const invl = 1.0 / Math.sqrt(xValue * xValue + yValue * yValue + zValue * zValue);
+    if (Math.abs(invl - 1.0) > DOUBLE_EQUALITY_TOLERANCE) {
+      xValue *= invl;
+      yValue *= invl;
+      zValue *= invl;
+    }
+
+    this.value = {x: xValue, y: yValue, z: zValue, a: aValue};
   }
 
   toJS() {
