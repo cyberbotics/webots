@@ -1,6 +1,6 @@
 import {textureFiltering} from './wb_preferences.js';
 import {resetIfNotInRangeWithIncludedBounds} from './utils/WbFieldChecker.js';
-import {loadImageTextureInWren} from '../image_loader.js';
+import ImageLoader from '../ImageLoader.js';
 import WbAppearance from './WbAppearance.js';
 import WbBaseNode from './WbBaseNode.js';
 import WbWorld from './WbWorld.js';
@@ -186,7 +186,7 @@ export default class WbImageTexture extends WbBaseNode {
   }
 
   #updateUrl() {
-    loadImageTextureInWren(WbWorld.instance.prefix, this.#url, undefined)
+    ImageLoader.loadImageTextureInWren(WbWorld.instance.prefix, this.#url, undefined)
       .then(() => {
         this.#updateWrenTexture();
         this.#update();

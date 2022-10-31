@@ -1,5 +1,6 @@
 import FloatingWindow from './FloatingWindow.js';
 import {VRML} from './protoVisualizer/vrml_type.js';
+import WbWorld from './nodes/WbWorld.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #protoManager;
@@ -7,19 +8,80 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   constructor(parentNode, protoManager, view) {
     super(parentNode, 'proto-parameter');
     this.floatingWindow.style.zIndex = '2';
-    this.headerText.innerHTML = 'Proto parameter window';
+    this.headerText.innerHTML = 'Proto window';
     this.floatingWindowContent.removeChild(this.frame);
     this.frame = document.createElement('div');
     this.frame.id = this.name + '-content';
     this.floatingWindowContent.appendChild(this.frame);
+
+    this.joints = document.createElement('div');
+    this.joints.id = 'joints-tab';
+    this.joints.style.display = 'none';
+    this.floatingWindowContent.appendChild(this.joints);
+
+    this.devices = document.createElement('div');
+    this.devices.id = 'devices-tab';
+    this.devices.style.display = 'none';
+    this.floatingWindowContent.appendChild(this.devices);
+
     this.#protoManager = protoManager;
     this.#view = view;
+
+    // create tabs
+    const infoTabsBar = document.createElement('div');
+    infoTabsBar.className = 'proto-tabs-bar';
+    this.floatingWindowContent.prepend(infoTabsBar);
+
+    this.tab0 = document.createElement('button');
+    this.tab0.className = 'proto-tab tab0';
+    this.tab0.innerHTML = 'Parameters';
+    this.tab0.onclick = () => this.switchTab(0);
+    infoTabsBar.appendChild(this.tab0);
+
+    this.tab1 = document.createElement('button');
+    this.tab1.className = 'proto-tab tab1';
+    this.tab1.innerHTML = 'Joints';
+    this.tab1.onclick = () => this.switchTab(1);
+    infoTabsBar.appendChild(this.tab1);
+
+    this.tab2 = document.createElement('button');
+    this.tab2.className = 'proto-tab tab2';
+    this.tab2.innerHTML = 'Devices';
+    this.tab2.onclick = () => this.switchTab(2);
+    infoTabsBar.appendChild(this.tab2);
+  }
+
+  switchTab(number) {
+    if (number === 0) {
+      this.tab0.style.backgroundColor = '#222';
+      this.tab1.style.backgroundColor = '#333';
+      this.tab2.style.backgroundColor = '#333';
+      this.frame.style.display = 'grid';
+      this.joints.style.display = 'none';
+      this.devices.style.display = 'none';
+    } else if (number === 1) {
+      this.tab0.style.backgroundColor = '#333';
+      this.tab1.style.backgroundColor = '#222';
+      this.tab2.style.backgroundColor = '#333';
+      this.frame.style.display = 'none';
+      this.joints.style.display = 'block';
+      this.devices.style.display = 'none';
+    } else if (number === 2) {
+      this.tab0.style.backgroundColor = '#333';
+      this.tab1.style.backgroundColor = '#333';
+      this.tab2.style.backgroundColor = '#222';
+      this.frame.style.display = 'none';
+      this.joints.style.display = 'none';
+      this.devices.style.display = 'grid';
+    }
   }
 
   populateProtoParameterWindow() {
     const contentDiv = document.getElementById('proto-parameter-content');
     if (contentDiv) {
       contentDiv.innerHTML = '';
+
+      // populate the parameters
       const keys = this.#protoManager.exposedParameters.keys();
       let row = 1;
       for (let key of keys) {
@@ -32,6 +94,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           this.#createSFStringField(key, contentDiv, row);
         else if (parameter.type === VRML.SFFloat)
           this.#createSFFloatField(key, contentDiv, row);
+        else if (parameter.type === VRML.SFBool)
+          this.#createSFBoolField(key, contentDiv, row);
+
         row++;
       }
 
@@ -273,6 +338,47 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     node.parameter.setValueFromJavaScript(this.#view, node.input.value);
   }
 
+  #createSFBoolField(key, parent, row) {
+    const parameter = this.#protoManager.exposedParameters.get(key);
+
+    const p = document.createElement('p');
+    p.className = 'key-parameter';
+    p.innerHTML = key + ': ';
+    p.key = key;
+    p.parameter = parameter;
+    p.style.gridRow = '' + row + ' / ' + row;
+    p.style.gridColumn = '2 / 2';
+
+    const exportCheckbox = this.#createCheckbox(parent, row);
+
+    const value = document.createElement('p');
+    value.className = 'value-parameter';
+    value.style.gridRow = '' + row + ' / ' + row;
+    value.style.gridColumn = '3 / 3';
+
+    const input = document.createElement('input');
+    input.type = 'checkbox';
+    input.checked = parameter.value.value;
+    input.style.width = '50px';
+
+    input.onchange = () => this.#boolOnChange(p);
+    p.input = input;
+    p.checkbox = exportCheckbox;
+    value.appendChild(input);
+
+    const resetButton = this.#createResetButton(value);
+    resetButton.onclick = () => {
+      input.value = parameter.defaultValue.value;
+      this.#boolOnChange(p);
+    };
+    parent.appendChild(p);
+    parent.appendChild(value);
+  }
+
+  #boolOnChange(node) {
+    node.parameter.setValueFromJavaScript(this.#view, node.input.checked);
+  }
+
   #createResetButton(parentNode) {
     const resetButton = document.createElement('button');
     resetButton.className = 'reset-field-button';
@@ -292,5 +398,21 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(exportCheckbox);
 
     return exportCheckbox;
+  }
+
+  populateDeviceTab() {
+    const noDevice = document.createElement('h1');
+    noDevice.innerHTML = 'No device';
+    this.devices.appendChild(noDevice);
+  }
+
+  populateJointTab() {
+    this.joints.innerHTML = 'Joints';
+    const nodes = WbWorld.instance.nodes;
+    for (let i = 0; i < nodes.length; i++) {
+      if (nodes[i] instanceof WbJoint) {
+        console.log(nodes[i])
+      }
+    }
   }
 }

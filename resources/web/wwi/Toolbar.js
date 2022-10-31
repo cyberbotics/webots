@@ -1586,14 +1586,20 @@ export default class Toolbar {
 
     this.protoParameterButton.onclick = () => this.#changeFloatingWindowVisibility(this.protoParameterWindow.getId());
 
-    this.protoParameterWindow.populateProtoParameterWindow();
+    this.updateProtoWindow();
 
     if (typeof this.parentNode.protoManager !== 'undefined')
-      this.parentNode.protoManager.onChange = () => this.protoParameterWindow.populateProtoParameterWindow();
+      this.parentNode.protoManager.onChange = () => this.updateProtoWindow();
 
     this.protoParameterWindowInitializeSizeAndPosition();
     this.#checkWindowBoundaries();
     this.protoParameterWindow.setVisibility('visible');
+  }
+
+  updateProtoWindow() {
+    this.protoParameterWindow.populateProtoParameterWindow();
+    this.protoParameterWindow.populateJointTab();
+    this.protoParameterWindow.populateDeviceTab();
   }
 
   protoParameterWindowInitializeSizeAndPosition() {

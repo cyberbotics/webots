@@ -387,15 +387,15 @@ webots-view .information-panel .cloud {
   font-size: 12px;
 }
 
-webots-view .information-panel .info-tabs-bar {
+webots-view .information-panel .info-tabs-bar, .floating-window-content .proto-tabs-bar {
   height: 28px;
+  width: 100%;
   background-color: #333;
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
 }
 
-webots-view .information-panel .info-tabs-bar .info-tab {
-  width: 220px;
+webots-view .information-panel .info-tabs-bar .info-tab, .floating-window-content .proto-tabs-bar .proto-tab {
   height: 28px;
   position: absolute;
   color: white;
@@ -406,7 +406,15 @@ webots-view .information-panel .info-tabs-bar .info-tab {
   border-bottom: 1px #222 solid;
 }
 
-webots-view .information-panel .info-tabs-bar .info-tab:hover {
+webots-view .information-panel .info-tabs-bar .info-tab {
+  width: 220px;
+}
+
+webots-view .floating-window-content .proto-tabs-bar .proto-tab {
+  width: 33%;
+}
+
+webots-view .information-panel .info-tabs-bar .info-tab:hover, .floating-window-content .proto-tabs-bar .proto-tab:hover {
   border-bottom: 2px solid rgb(0, 122, 204);
   cursor: pointer;
 }
@@ -417,6 +425,20 @@ webots-view .information-panel .info-tabs-bar .tab0 {
 
 webots-view .information-panel .info-tabs-bar .tab1 {
   right: 0px;
+  background-color: #333;
+}
+
+webots-view .floating-window-content .proto-tabs-bar .tab0 {
+  left: 0px;
+}
+
+webots-view .floating-window-content .proto-tabs-bar .tab1 {
+  left: 33%;
+  background-color: #333;
+}
+
+webots-view .floating-window-content .proto-tabs-bar .tab2 {
+  left: 66%;
   background-color: #333;
 }
 
@@ -972,4 +994,9 @@ webots-view .reset-field-button {
 
 webots-view .export-checkbox {
   margin: 10px 0px 10px 10px;
+}
+
+webots-view #devices-tab h1 {
+  color: white;
+  text-align: center;
 }

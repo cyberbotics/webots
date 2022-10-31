@@ -11,7 +11,7 @@ import WbWrenPicker from '../wren/WbWrenPicker.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 
 import {loadMeshData} from '../mesh_loader.js';
-import {loadImageTextureInWren} from '../image_loader.js';
+import ImageLoader from '../ImageLoader.js';
 import {webots} from '../webots.js';
 
 export default class WbCadShape extends WbBaseNode {
@@ -420,7 +420,7 @@ export default class WbCadShape extends WbBaseNode {
       url = assetPrefix + imageUrl;
 
     const imageTexture = new WbImageTexture(getAnId(), url, false, true, true, 4);
-    const promise = loadImageTextureInWren(this.prefix, url, false, true);
+    const promise = ImageLoader.loadImageTextureInWren(this.prefix, url, false, true);
     promise.then(() => imageTexture.updateUrl());
     this.#promises.push(promise);
     return imageTexture;

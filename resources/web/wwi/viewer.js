@@ -19,7 +19,7 @@ import WbWorld from './nodes/WbWorld.js';
 import {quaternionToVec4, vec4ToQuaternion} from './nodes/utils/utils.js';
 import {getAnId} from './nodes/utils/id_provider.js';
 import WebotsView from './WebotsView.js';
-import {loadImageTextureInWren} from './image_loader.js';
+import ImageLoader from './ImageLoader.js';
 
 let handle;
 let webotsView;
@@ -893,7 +893,7 @@ function highlightX3DElement(deviceElement) {
 
   if (typeof imageTexture === 'undefined') {
     imageTexture = new WbImageTexture(getAnId(), computeTargetPath() + '../css/images/marker.png', false, true, true, 4);
-    loadImageTextureInWren('', computeTargetPath() + '../css/images/marker.png', false).then(() => {
+    ImageLoader.loadImageTextureInWren('', computeTargetPath() + '../css/images/marker.png', false).then(() => {
       imageTexture.updateUrl();
       highlightX3DElement(deviceElement);
     });

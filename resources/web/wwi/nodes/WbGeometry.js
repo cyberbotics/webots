@@ -1,6 +1,6 @@
 import WbBaseNode from './WbBaseNode.js';
+import WbBillboard from './WbBillboard.js';
 import WbWorld from './WbWorld.js';
-import {isDescendantOfBillboard} from './utils/utils.js';
 import WbWrenMeshBuffers from './utils/WbWrenMeshBuffers.js';
 import WbWrenPicker from './../wren/WbWrenPicker.js';
 import WbWrenShaders from './../wren/WbWrenShaders.js';
@@ -20,7 +20,7 @@ export default class WbGeometry extends WbBaseNode {
     if (typeof this._wrenRenderable === 'undefined')
       return;
 
-    if (this.isInBoundingObject() || isDescendantOfBillboard(this)) {
+    if (this.isInBoundingObject() || WbBillboard.isDescendantOfBillboard(this)) {
       _wr_renderable_set_cast_shadows(this._wrenRenderable, false);
       _wr_renderable_set_receive_shadows(this._wrenRenderable, false);
     } else
@@ -72,7 +72,7 @@ export default class WbGeometry extends WbBaseNode {
         _wr_node_set_visible(this.#wrenScaleTransform, true);
       } else if (_wr_node_get_parent(this.#wrenScaleTransform))
         _wr_node_set_visible(this.#wrenScaleTransform, false);
-    } else if (isDescendantOfBillboard(this)) {
+    } else if (WbBillboard.isDescendantOfBillboard(this)) {
       _wr_renderable_set_visibility_flags(this._wrenRenderable, WbWrenRenderingContext.VF_INVISIBLE_FROM_CAMERA);
       _wr_node_set_visible(this.#wrenScaleTransform, true);
     } else {

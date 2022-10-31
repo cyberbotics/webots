@@ -81,7 +81,7 @@ import {getAnId} from './nodes/utils/id_provider.js';
 
 import DefaultUrl from './DefaultUrl.js';
 import {webots} from './webots.js';
-import {loadImageTextureInWren, loadTextureData} from './image_loader.js';
+import ImageLoader from './ImageLoader.js';
 import {loadMeshData} from './mesh_loader.js';
 
 /*
@@ -362,17 +362,17 @@ export default class Parser {
 
   #parseScene(node) {
     const prefix = DefaultUrl.wrenImagesUrl();
-    this.#promises.push(loadTextureData(prefix, 'smaa_area_texture.png').then(image => {
+    this.#promises.push(ImageLoader.loadTextureData(prefix, 'smaa_area_texture.png').then(image => {
       this.smaaAreaTexture = image;
       this.smaaAreaTexture.isTranslucent = false;
       this.#updatePromiseCounter('Downloading assets: Texture \'smaa_area_texture.png\'...');
     }));
-    this.#promises.push(loadTextureData(prefix, 'smaa_search_texture.png').then(image => {
+    this.#promises.push(ImageLoader.loadTextureData(prefix, 'smaa_search_texture.png').then(image => {
       this.smaaSearchTexture = image;
       this.smaaSearchTexture.isTranslucent = false;
       this.#updatePromiseCounter('Downloading assets: Texture \'smaa_search_texture.png\'...');
     }));
-    this.#promises.push(loadTextureData(prefix, 'gtao_noise_texture.png').then(image => {
+    this.#promises.push(ImageLoader.loadTextureData(prefix, 'gtao_noise_texture.png').then(image => {
       this.gtaoNoiseTexture = image;
       this.gtaoNoiseTexture.isTranslucent = true;
       this.#updatePromiseCounter('Downloading assets: Texture \'gtao_noise_texture.png\'...');
@@ -458,7 +458,7 @@ export default class Parser {
     this.cubeImages = [];
     if (areUrlsPresent) {
       for (let i = 0; i < 6; i++) {
-        this.#promises.push(loadTextureData(this.prefix, backgroundUrl[backgroundIdx[i]], false, rotationValues[i])
+        this.#promises.push(ImageLoader.loadTextureData(this.prefix, backgroundUrl[backgroundIdx[i]], false, rotationValues[i])
           .then(image => {
             this.cubeImages[cubeImageIdx[i]] = image;
             this.#updatePromiseCounter('Downloading assets: Texture \'background ' + i + '\'...');
@@ -488,7 +488,8 @@ export default class Parser {
     this.irradianceCubeURL = [];
     if (areIrradianceUrlsPresent) {
       for (let i = 0; i < 6; i++) {
-        this.#promises.push(loadTextureData(this.prefix, backgroundIrradianceUrl[backgroundIdx[i]], true, rotationValues[i])
+        this.#promises.push(ImageLoader.loadTextureData(this.prefix, backgroundIrradianceUrl[backgroundIdx[i]], true,
+          rotationValues[i])
           .then(image => {
             this.irradianceCubeURL[cubeImageIdx[i]] = image;
             this.#updatePromiseCounter('Downloading assets: Texture \'background irradiance ' + i + '\'...');
@@ -1418,7 +1419,7 @@ export default class Parser {
       if (!this.#downloadingImage.has(url)) {
         this.#downloadingImage.add(url);
         // Load the texture in WREN
-        this.#promises.push(loadImageTextureInWren(this.prefix, url, isTransparent));
+        this.#promises.push(ImageLoader.loadImageTextureInWren(this.prefix, url, isTransparent));
       }
     }
 
