@@ -44,9 +44,15 @@ WbNewProjectWizard::~WbNewProjectWizard() {
 QString WbNewProjectWizard::proposeNewProjectPath() const {
   QString path;
   // if current project is in Webots installation dir
-  if (WbProject::current()->isReadOnly())  // propose a new project in user's home dir
-    path = WbPreferences::instance()->value("Directories/projects").toString() + "my_project";
-  else {  // otherwisepropose new project dir as sibling of current project
+  if (WbProject::current()->isReadOnly()) {  // propose a new project in user's home dir
+    path = WbPreferences::instance()->value("Directories/projects").toString();
+    if (!path.isEmpty()) {
+      if (WbFileUtil::isDirectoryWritable(path))
+        path += +"/my_project";
+      else
+        path = "";  // no valid default path found
+    }
+  } else {  // otherwise propose new project dir as sibling of current project
     QDir dir(WbProject::current()->path());
     dir.cdUp();
     path = dir.absolutePath() + "/my_project";

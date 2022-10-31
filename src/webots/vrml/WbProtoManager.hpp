@@ -35,25 +35,21 @@ class WbVersion;
 
 class WbExternProto {
 public:
-  WbExternProto(const QString &name, const QString &url, bool isImportable, bool isFromRootNodeConversion = false) :
+  WbExternProto(const QString &name, const QString &url, bool isImportable) :
     mName(name),
     mUrl(url),
-    mImportable(isImportable),
-    mFromRootNodeConversion(isFromRootNodeConversion) {}
+    mImportable(isImportable) {}
 
   const QString &name() const { return mName; }
   void setUrl(const QString &url) { mUrl = url; }
   const QString &url() const { return mUrl; }
   bool isImportable() const { return mImportable; }
   void setImportable(bool value) { mImportable = value; }
-  bool isFromRootNodeConversion() const { return mFromRootNodeConversion; }
-  void unflagFromRootNodeConversion() { mFromRootNodeConversion = false; }
 
 private:
   QString mName;
   QString mUrl;
   bool mImportable;
-  bool mFromRootNodeConversion;
 };
 
 class WbProtoInfo {
@@ -175,22 +171,26 @@ public:
   // list of all EXTERNPROTO (both importable and not), stored in a QVector as order matters when saving to file
   const QVector<WbExternProto *> &externProto() const { return mExternProto; };
 
-  // EXTERNPROTO stored after cutting an inserted node
-  const QList<WbExternProto *> externProtoCutBuffer() const { return mExternProtoCutBuffer; };
-
   // EXTERNPROTO manipulators
   // declares EXTERNPROTO and returns the previous URL if is another PROTO with the same model if already declared
   QString declareExternProto(const QString &protoName, const QString &protoPath, bool importable, bool forceUpdate = true);
   void purgeUnusedExternProtoDeclarations(const QSet<QString> &protoNamesInUse);
   QString externProtoUrl(const WbNode *node, bool formatted = false) const;
   QString removeProtoUrl(const WbNode *node, bool formatted = false) const;
-  void saveToExternProtoCutBuffer(const QList<const WbNode *> &nodes);
 
   QString findExternProtoDeclarationInFile(const QString &url, const QString &modelName);
   void removeImportableExternProto(const QString &protoName);
 
-  void clearExternProtoCutBuffer();
   bool isImportableExternProtoDeclared(const QString &protoName);
+
+  // EXTERNPROTO stored after copying or cutting an inserted node
+  const QList<WbExternProto *> &externProtoClipboardBuffer() const { return mExternProtoClipboardBuffer; };
+  void saveToExternProtoClipboardBuffer(const QList<const WbNode *> &nodes);
+  void saveToExternProtoClipboardBuffer(const QString &url);
+  void clearExternProtoClipboardBuffer();
+  // save currnent clipboard buffer for restoring it later
+  QList<QString> externProtoClipboardBufferUrls() const;
+  void resetExternProtoClipboardBuffer(const QList<QString> &bufferUrls);
 
   void updateExternProto(const QString &protoName, const QString &url);
   QString formatExternProtoPath(const QString &url) const;
@@ -233,8 +233,8 @@ private:
   // note: this list is reset before every world load and each time a node is deleted
   QVector<WbExternProto *> mExternProto;
 
-  // mExternProtoCutBuffer: contains the externProto reference of the last cut instance
-  QList<WbExternProto *> mExternProtoCutBuffer;
+  // mExternProtoClipboardBuffer: contains the externProto reference of the last copies or cut instance
+  QList<WbExternProto *> mExternProtoClipboardBuffer;
 
   // stores PROTO metadata
   QMap<QString, WbProtoInfo *> mWebotsProtoList;     // loaded from proto-list.xml

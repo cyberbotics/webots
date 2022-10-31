@@ -52,7 +52,7 @@ Since range-finder pixels are squares, the vertical field of view can be compute
 - `projection`: switch between a planar, a cylindrical or a spherical projection.
 More information on cylindrical projections is provided in the [projections](camera.md#spherical-and-cylindrical-projections) section of the [Camera](camera.md) node.
 
-- The `near` field defines the distance from the depth camera (used internally by the lidar) to the near clipping plane.
+- The `near` field defines the distance from the depth camera to the near clipping plane.
 Objects closer to the range-finder than the near value are not detected by the range-finder.
 This plane is parallel to the camera retina (i.e., projection plane).
 The near field determines the precision of the OpenGL depth buffer.

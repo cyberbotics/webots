@@ -33,8 +33,8 @@ public:
   WbTokenizer();
   ~WbTokenizer();
 
-  // files types: .wbt, or .proto
-  enum FileType { UNKNOWN, WORLD, PROTO };
+  // files types: .wbt, .proto or .wrl
+  enum FileType { UNKNOWN, WORLD, PROTO, MODEL };
   FileType fileType() const { return mFileType; }
 
   // build list of tokens

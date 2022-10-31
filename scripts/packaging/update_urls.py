@@ -48,7 +48,7 @@ def replace_url(file, tag, github, only_extern_proto=False, revert=False):
 
 def replace_projects_urls(tag, revert=False):
     if 'WEBOTS_HOME' in os.environ:
-        WEBOTS_HOME = os.environ['WEBOTS_HOME']
+        WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
     else:
         WEBOTS_HOME = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
