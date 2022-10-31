@@ -1,4 +1,5 @@
 'use strict';
+
 import {Node} from './Node.js';
 import {VRML} from './vrml_type.js';
 

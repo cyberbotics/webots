@@ -67,13 +67,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       }
 
       const data = this.#protoManager.exportProto(input.value, fieldsToExport);
-      const c = document.createElement('a');
-      c.download = input.value + '.proto';
-      const t = new Blob([data], {
+      const downloadLink = document.createElement('a');
+      downloadLink.download = input.value + '.proto';
+      const file = new Blob([data], {
         type: 'text/plain'
       });
-      c.href = window.URL.createObjectURL(t);
-      c.click();
+      downloadLink.href = window.URL.createObjectURL(file);
+      downloadLink.click();
     };
     buttonContainer.appendChild(downloadButton);
     parent.appendChild(buttonContainer);
