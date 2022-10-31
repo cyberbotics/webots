@@ -24,8 +24,7 @@ WbDownloader::WbDownloader(const QUrl &url, const WbDownloader *existingDownload
   mUrl(url),
   mNetworkReply(NULL),
   mExistingDownload(existingDownload),
-  mFinished(false),
-  mCopy(false) {
+  mFinished(false) {
 }
 
 WbDownloader::~WbDownloader() {
@@ -39,8 +38,7 @@ WbDownloader::~WbDownloader() {
 }
 
 void WbDownloader::download() {
-  if (mExistingDownload && !mCopy) {
-    mCopy = true;  // TODO
+  if (mExistingDownload) {
     if (!mExistingDownload->hasFinished())
       connect(mExistingDownload->networkReply(), &QNetworkReply::finished, this, &WbDownloader::finished, Qt::UniqueConnection);
     else
@@ -60,14 +58,16 @@ void WbDownloader::download() {
 
 void WbDownloader::finished() {
   // cache result
-  if (mNetworkReply && mNetworkReply->error()) {
-    mError = tr("Cannot download '%1', error code: %2: %3")
-               .arg(mUrl.toString())
-               .arg(mNetworkReply->error())
-               .arg(mNetworkReply->errorString());
-  } else if (!mCopy) {  // only save to disk the primary download, copies don't need to
-    assert(mNetworkReply != NULL);
-    WbNetwork::instance()->save(mUrl.toString(), mNetworkReply->readAll());
+  if (mNetworkReply) {
+    if (mNetworkReply->error()) {
+      mError = tr("Cannot download '%1', error code: %2: %3")
+                 .arg(mUrl.toString())
+                 .arg(mNetworkReply->error())
+                 .arg(mNetworkReply->errorString());
+    } else {  // only save to disk the primary download, copies don't need to
+      assert(mNetworkReply != NULL);
+      WbNetwork::instance()->save(mUrl.toString(), mNetworkReply->readAll());
+    }
   }
 
   mFinished = true;

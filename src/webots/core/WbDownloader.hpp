@@ -33,7 +33,6 @@ public:
   const QUrl &url() const { return mUrl; }
   QIODevice *device() const;
   const QString &error() const { return mError; }
-  bool isCopy() const { return mCopy; }
   bool hasFinished() const { return mFinished; }
 
 signals:
@@ -49,7 +48,6 @@ private:
   bool mFinished;
   QString mError;
   bool mOffline;
-  bool mCopy;
 
 private slots:
   void finished();
