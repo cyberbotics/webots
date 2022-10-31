@@ -17,8 +17,8 @@
 
 //
 // Description: utility class allowing to query nodes in their tree context through static functions.
-//              Only generic node properties are used in this class for advanced functionalities based on the node type please
-//              refer to WbNodeUtilities namespace.
+//              Only generic node properties are used in this class.
+//              For advanced functionalities based on the node type please refer to WbNodeUtilities namespace.
 //
 
 #include <QtCore/QList>
