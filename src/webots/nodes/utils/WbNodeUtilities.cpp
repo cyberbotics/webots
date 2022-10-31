@@ -24,7 +24,6 @@
 #include "WbBrake.hpp"
 #include "WbCamera.hpp"
 #include "WbCapsule.hpp"
-#include "WbConcreteNodeFactory.hpp"
 #include "WbCone.hpp"
 #include "WbConnector.hpp"
 #include "WbCylinder.hpp"
@@ -32,7 +31,6 @@
 #include "WbElevationGrid.hpp"
 #include "WbEmitter.hpp"
 #include "WbField.hpp"
-#include "WbFieldModel.hpp"
 #include "WbFluid.hpp"
 #include "WbFog.hpp"
 #include "WbHinge2Joint.hpp"
@@ -51,14 +49,11 @@
 #include "WbRadar.hpp"
 #include "WbReceiver.hpp"
 #include "WbRobot.hpp"
-#include "WbSFNode.hpp"
 #include "WbSelection.hpp"
 #include "WbSimulationState.hpp"
-#include "WbSkin.hpp"
 #include "WbSlot.hpp"
 #include "WbSolid.hpp"
 #include "WbStandardPaths.hpp"
-#include "WbTemplateManager.hpp"
 #include "WbTokenizer.hpp"
 #include "WbTouchSensor.hpp"
 #include "WbTrack.hpp"
@@ -67,7 +62,6 @@
 #include "WbViewpoint.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 #include "WbWorld.hpp"
-#include "WbWrenOpenGlContext.hpp"
 
 #include <QtCore/QQueue>
 #include <QtCore/QStack>

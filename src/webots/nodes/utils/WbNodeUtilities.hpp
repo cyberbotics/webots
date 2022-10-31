@@ -22,16 +22,12 @@
 //
 
 #include <QtCore/QList>
-#include <cstddef>
 #include "WbNode.hpp"
 
-class WbAbstractTransform;
 class WbBaseNode;
 class WbBoundingSphere;
 class WbField;
 class WbMatter;
-class WbNode;
-class WbProtoModel;
 class WbRay;
 class WbRobot;
 class WbShape;
