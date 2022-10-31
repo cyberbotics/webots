@@ -171,7 +171,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #vector3OnChange(node) {
-    let object = {'x': node.inputs[0].value, 'y': node.inputs[1].value, 'z': node.inputs[2].value};
+    const object = {'x': node.inputs[0].value, 'y': node.inputs[1].value, 'z': node.inputs[2].value};
     node.parameter.setValueFromJavaScript(this.#view, object);
   }
 
