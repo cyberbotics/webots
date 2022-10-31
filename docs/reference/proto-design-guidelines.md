@@ -144,13 +144,13 @@ Here is a simple example of a good PROTO declaration (the implementation is not 
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A color pencil
 
-ColorPencil {
-  SFFloat    translation          0 0 0
-  SFRotation rotation             0 0 1 0
-  SFBool     enablePhysics        TRUE
-  SFBool     enableBoundingObject TRUE
-  SFColor    color                1 0 0     # defaults to red.
-  SFFloat    size                 0.2       # range in [0.02, 0.2].
-}
+PROTO ColorPencil [
+  field SFFloat    translation          0 0 0
+  field SFRotation rotation             0 0 1 0
+  field SFBool     enablePhysics        TRUE
+  field SFBool     enableBoundingObject TRUE
+  field SFColor    color                1 0 0     # defaults to red.
+  field SFFloat    size                 0.2       # range in [0.02, 0.2].
+]
 ...
 ```
