@@ -52,7 +52,7 @@ export default class WbVector4 {
     const halfAngle = 0.5 * this.w;
     const sinusHalfAngle = Math.sin(halfAngle);
     const cosinusHalfAngle = Math.cos(halfAngle);
-    return new WbQuaternion(cosinusHalfAngle, this.x * sinusHalfAngle, this.y * sinusHalfAngle, this.z * sinusHalfAngle);
+    return new WbQuaternion(this.x * sinusHalfAngle, this.y * sinusHalfAngle, this.z * sinusHalfAngle, cosinusHalfAngle);
   }
 
   fromQuaternion(q) {
