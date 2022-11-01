@@ -18,38 +18,39 @@
 #include <QtCore/QObject>
 #include <QtCore/QUrl>
 
-class QNetworkReply;
 class QIODevice;
+class QNetworkReply;
 
 class WbDownloader : public QObject {
   Q_OBJECT
 public:
-  explicit WbDownloader(QObject *parent = NULL);
+  explicit WbDownloader(const QUrl &url, const WbDownloader *existingDownload, QObject *parent = NULL);
   ~WbDownloader();
-  void download(const QUrl &url);
+
+  void download();
+  void abort();
+
   const QUrl &url() const { return mUrl; }
   QIODevice *device() const;
-  bool isCopy() const { return mCopy; }
-  bool hasFinished() const { return mFinished; }
   const QString &error() const { return mError; }
-  static int progress();
-  static void reset();
+  bool hasFinished() const { return mFinished; }
 
 signals:
   void complete();
-  void progress(float progress);
+
+protected:
+  QNetworkReply *networkReply() const { return mNetworkReply; }
 
 private:
   QUrl mUrl;
   QNetworkReply *mNetworkReply;
+  const WbDownloader *mExistingDownload;
   bool mFinished;
   QString mError;
   bool mOffline;
-  bool mCopy;
 
 private slots:
   void finished();
-  static void displayPopUp();
 };
 
 #endif

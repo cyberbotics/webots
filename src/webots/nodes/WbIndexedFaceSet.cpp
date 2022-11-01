@@ -27,6 +27,7 @@
 #include "WbSFNode.hpp"
 #include "WbTextureCoordinate.hpp"
 #include "WbTriangleMesh.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 
 void WbIndexedFaceSet::init() {
   mCoord = findSFNode("coord");
@@ -178,7 +179,7 @@ void WbIndexedFaceSet::createResizeManipulator() {
 
 bool WbIndexedFaceSet::areSizeFieldsVisibleAndNotRegenerator() const {
   const WbField *const coordinates = findField("coord", true);
-  return WbNodeUtilities::isVisible(coordinates) && !WbNodeUtilities::isTemplateRegeneratorField(coordinates);
+  return WbVrmlNodeUtilities::isVisible(coordinates) && !WbNodeUtilities::isTemplateRegeneratorField(coordinates);
 }
 
 void WbIndexedFaceSet::attachResizeManipulator() {

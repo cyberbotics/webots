@@ -15,16 +15,17 @@
 #include "WbMesh.hpp"
 
 #include "WbApplication.hpp"
+#include "WbDownloadManager.hpp"
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbGroup.hpp"
 #include "WbMFString.hpp"
 #include "WbNetwork.hpp"
-#include "WbNodeUtilities.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbTriangleMesh.hpp"
 #include "WbUrl.hpp"
 #include "WbViewpoint.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWorld.hpp"
 
 #include <assimp/postprocess.h>
@@ -69,20 +70,17 @@ void WbMesh::downloadAssets() {
   if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCachedWithMapUpdate(completeUrl))
     return;
 
-  if (mDownloader != NULL && mDownloader->hasFinished())
-    delete mDownloader;
-
-  mDownloader = new WbDownloader(this);
+  delete mDownloader;
+  mDownloader = WbDownloadManager::instance()->createDownloader(QUrl(completeUrl), this);
   if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
     connect(mDownloader, &WbDownloader::complete, this, &WbMesh::downloadUpdate);
-
-  mDownloader->download(QUrl(completeUrl));
+  mDownloader->download();
 }
 
 void WbMesh::downloadUpdate() {
   updateUrl();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
-  const WbNode *ancestor = WbNodeUtilities::findTopNode(this);
+  const WbNode *ancestor = WbVrmlNodeUtilities::findTopNode(this);
   WbGroup *group = dynamic_cast<WbGroup *>(const_cast<WbNode *>(ancestor));
   if (group)
     group->recomputeBoundingSphere();

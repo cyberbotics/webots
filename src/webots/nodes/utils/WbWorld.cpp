@@ -52,6 +52,7 @@
 #include "WbStandardPaths.hpp"
 #include "WbTemplateManager.hpp"
 #include "WbTokenizer.hpp"
+#include "WbUrl.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorldInfo.hpp"
 #include "WbWrenOpenGlContext.hpp"
@@ -158,6 +159,8 @@ WbWorld::WbWorld(WbTokenizer *tokenizer) :
     mRoot->addChild(mViewpoint);
   }
 
+  WbUrl::setWorldFileName(mFileName);
+
   WbNode::setGlobalParentNode(NULL);
   updateTopLevelLists();
 
@@ -168,6 +171,9 @@ WbWorld::WbWorld(WbTokenizer *tokenizer) :
   connect(this, &WbWorld::worldLoadingStatusHasChanged, WbApplication::instance(), &WbApplication::setWorldLoadingStatus);
   connect(this, &WbWorld::worldLoadingHasProgressed, WbApplication::instance(), &WbApplication::setWorldLoadingProgress);
   connect(WbApplication::instance(), &WbApplication::worldLoadingWasCanceled, root(), &WbGroup::cancelFinalization);
+
+  WbProtoManager::instance()->setNeedsRobotAncestorCallback(
+    [](const QString &nodeType) { return WbNodeUtilities::isDeviceTypeName(nodeType) && nodeType != "Connector"; });
 }
 
 void WbWorld::finalize() {
@@ -259,6 +265,7 @@ bool WbWorld::saveAs(const QString &fileName) {
   writer.writeFooter();
 
   mFileName = fileName;
+  WbUrl::setWorldFileName(mFileName);
   bool isValidProject = true;
   const QString newProjectPath = WbProject::projectPathFromWorldFile(mFileName, isValidProject);
 
@@ -605,8 +612,10 @@ void WbWorld::updateProjectPath(const QString &oldPath, const QString &newPath) 
   const QFileInfo infoPath(mFileName);
   const QFileInfo infoNewPath(newPath);
   const QString newFilename = infoNewPath.absolutePath() + "/worlds/" + infoPath.fileName();
-  if (QFile::exists(newFilename))
+  if (QFile::exists(newFilename)) {
     mFileName = newFilename;
+    WbUrl::setWorldFileName(mFileName);
+  }
 }
 
 void WbWorld::setViewpoint(WbViewpoint *viewpoint) {
