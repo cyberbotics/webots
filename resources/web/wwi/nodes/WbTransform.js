@@ -119,18 +119,4 @@ export default class WbTransform extends WbGroup {
     if (this.wrenObjectsCreatedCalled)
       this.#applyScaleToWren();
   }
-
-  static findUpperTransform(node) {
-    if (typeof node === 'undefined')
-      return undefined;
-
-    let n = WbWorld.instance.nodes.get(node.parent);
-    while (typeof n !== 'undefined') {
-      if (n instanceof WbTransform)
-        return n;
-      else
-        n = n.parent;
-    }
-    return undefined;
-  }
 }

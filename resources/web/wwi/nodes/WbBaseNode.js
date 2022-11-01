@@ -1,5 +1,4 @@
-import WbSolid from './WbSolid.js';
-import WbTransform from './WbTransform.js';
+import {findUpperTransform, nodeIsInBoundingObject} from './utils/node_utilities.js';
 import WbWorld from './WbWorld.js';
 
 export default class WbBaseNode {
@@ -64,7 +63,7 @@ export default class WbBaseNode {
 
   isInBoundingObject() {
     if (this.#boundingObjectFirstTimeSearch) {
-      this.#isInBoundingObject = WbSolid.nodeIsInBoundingObject(this);
+      this.#isInBoundingObject = nodeIsInBoundingObject(this);
       if (this.wrenObjectsCreatedCalled)
         this.#boundingObjectFirstTimeSearch = false;
     }
@@ -74,7 +73,7 @@ export default class WbBaseNode {
 
   upperTransform() {
     if (this.#upperTransformFirstTimeSearch) {
-      this.upperTransform = WbTransform.findUpperTransform(this);
+      this.upperTransform = findUpperTransform(this);
       if (this.wrenObjectsCreatedCalled)
         this.#upperTransformFirstTimeSearch = false;
     }
