@@ -845,8 +845,6 @@ function sliderMotorCallback(transform, slider) {
     transform.translation = applyQuaternion(transform.translation, quat);
     transform.translation = transform.translation.add(anchor); // re-add the offset
     transform.rotation = quaternionToVec4(q);
-    transform.applyTranslationToWren();
-    transform.applyRotationToWren();
   }
 }
 

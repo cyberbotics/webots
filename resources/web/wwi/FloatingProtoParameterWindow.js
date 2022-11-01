@@ -1,5 +1,7 @@
 import FloatingWindow from './FloatingWindow.js';
 import {VRML} from './protoVisualizer/vrml_type.js';
+import WbSolid from './nodes/WbSolid.js';
+import WbHingeJoint from './nodes/WbHingeJoint.js';
 import WbWorld from './nodes/WbWorld.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
@@ -408,10 +410,66 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   populateJointTab() {
     this.joints.innerHTML = 'Joints';
+    this.listJoints();
+  }
+
+  listJoints() {
     const nodes = WbWorld.instance.nodes;
-    for (let i = 0; i < nodes.length; i++) {
-      if (nodes[i] instanceof WbJoint) {
-        console.log(nodes[i])
+    const keys = nodes.keys();
+    let numberOfJoint = 0;
+    for (let key of keys) {
+      const joint = nodes.get(key);
+      if (joint instanceof WbHingeJoint) {
+        numberOfJoint++;
+
+        let div = document.createElement('div');
+        div.className = 'proto-joint';
+
+        const nameDiv = document.createElement('div');
+        nameDiv.innerHTML = 'Joint ' + numberOfJoint;
+        nameDiv.className = 'proto-joint-name';
+        div.appendChild(nameDiv);
+
+        const slider = document.createElement('input');
+        slider.type = 'range';
+        slider.step = 'any';
+
+        const minLabel = document.createElement('div');
+        minLabel.className = 'proto-joint-value-label';
+
+        const maxLabel = document.createElement('div');
+        maxLabel.className = 'proto-joint-value-label';
+
+        const parameters = joint.jointParameters;
+        if (typeof parameters !== 'undefined' && parameters.minStop !== parameters.maxStop) {
+          minLabel.innerHTML = parameters.minStop;
+          slider.min = parameters.minStop;
+          maxLabel.innerHTML = parameters.maxStop;
+          slider.max = parameters.maxStop;
+        } else {
+          minLabel.innerHTML = -3.14;
+          slider.min = -3.14;
+          maxLabel.innerHTML = 3.14;
+          slider.max = 3.14;
+        }
+
+        if (typeof parameters === 'undefined')
+          slider.value = 0;
+        else
+          slider.value = parameters.position;
+
+        slider.addEventListener('input', _ => {
+          if (parameters) {
+            parameters.position = _.target.value;
+            this.#view.x3dScene.render();
+          }
+        });
+
+        div.appendChild(minLabel);
+        div.appendChild(maxLabel);
+        div.appendChild(slider);
+
+        this.joints.appendChild(div);
       }
     }
   }
