@@ -316,8 +316,8 @@ bool WbGps::refreshSensorIfNeeded() {
   dBodyID upperSolidBodyId = upperSolid()->bodyMerger();
   if (upperSolidBodyId) {
     dVector3 newVelocity;
-    const WbVector3 &t = position();
-    dBodyGetPointVel(upperSolidBodyId, t.x(), t.y(), t.z(), newVelocity);
+    const WbVector3 &p = position();
+    dBodyGetPointVel(upperSolidBodyId, p.x(), p.y(), p.z(), newVelocity);
     mSpeedVector = WbVector3(newVelocity);
   } else {
     // No physic node, compute it manually
