@@ -1,5 +1,4 @@
 import WbTransform from './WbTransform.js';
-import WbWorld from './WbWorld.js';
 
 export default class WbSolid extends WbTransform {
   #name;
