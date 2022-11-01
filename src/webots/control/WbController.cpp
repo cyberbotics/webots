@@ -249,6 +249,7 @@ void WbController::start() {
     const QString remoteUrl = "tcp://<ip_address>:" + QString::number(WbStandardPaths::webotsTmpPathId()) + '/' +
                               QUrl::toPercentEncoding(mRobot->name());
     info(tr("waiting for connection on %1 or on %2").arg(localUrl).arg(remoteUrl));
+    WbControlledWorld::instance()->externConnection(this, false);
     if (WbWorld::printExternUrls()) {
       std::cout << localUrl.toUtf8().constData() << std::endl;
       std::cout << remoteUrl.toUtf8().constData() << std::endl;

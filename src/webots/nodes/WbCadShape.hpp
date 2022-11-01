@@ -46,6 +46,7 @@ public:
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_CAD_SHAPE; }
   void downloadAssets() override;
+  void preFinalize() override;
   void postFinalize() override;
   void updateSegmentationColor(const WbRgb &color) override { setSegmentationColor(color); }
 
