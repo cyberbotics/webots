@@ -20,6 +20,7 @@ import {quaternionToVec4, vec4ToQuaternion} from './nodes/utils/utils.js';
 import {getAnId} from './nodes/utils/id_provider.js';
 import WebotsView from './WebotsView.js';
 import ImageLoader from './ImageLoader.js';
+import MeshLoader from './MeshLoader.js';
 
 let handle;
 let webotsView;
@@ -979,8 +980,10 @@ function getRobotComponentByRobotName(robotName) {
 function initializeWebotsView(robotName) {
   if (webotsView.initializationComplete) {
     webotsView._view = new webots.View(webotsView);
-    webotsView._view.branch = localSetup.branch;
-    webotsView._view.repository = localSetup.repository;
+    ImageLoader.branch = localSetup.branch;
+    MeshLoader.branch = localSetup.branch;
+    ImageLoader.repository = localSetup.repository;
+    MeshLoader.repository = localSetup.repository;
     webotsView.loadScene(computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.x3d');
     webotsView._view.x3dScene.resize();
   } else

@@ -1,5 +1,4 @@
 import loadHdr from './hdr_loader.js';
-import {webots} from './webots.js';
 import WbImage from './nodes/WbImage.js';
 import {arrayXPointer} from './nodes/utils/utils.js';
 
@@ -35,19 +34,18 @@ export default class ImageLoader {
     const context = canvas2.getContext('2d');
 
     if (url.startsWith('webots://')) {
-      if (typeof webots.currentView.repository === 'undefined')
-        webots.currentView.repository = 'cyberbotics';
-      if (typeof webots.currentView.branch === 'undefined' || webots.currentView.branch === '')
-        webots.currentView.branch = 'released';
-      url = url.replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
+      if (typeof ImageLoader.repository === 'undefined')
+        ImageLoader.repository = 'cyberbotics';
+      if (typeof ImageLoader.branch === 'undefined' || ImageLoader.branch === '')
+        ImageLoader.branch = 'released';
+      url = url.replace('webots://', 'https://raw.githubusercontent.com/' + ImageLoader.repository + '/webots/' + ImageLoader.branch + '/');
     }
     if (typeof prefix !== 'undefined' && !url.startsWith('http')) {
-      if (['smaa_area_texture.png', 'smaa_search_texture.png', 'gtao_noise_texture.png'].includes(url) ||
-        typeof webots.currentView.stream === 'undefined')
+      if (['smaa_area_texture.png', 'smaa_search_texture.png', 'gtao_noise_texture.png'].includes(url) || ImageLoader.stream)
         url = prefix + url;
       else {
         // in simulations the asset is provided relative to the world, therefore the URL has to be resolved before requesting it
-        let worldsPath = webots.currentView.stream.view.currentWorld;
+        let worldsPath = ImageLoader.currentWorld;
         worldsPath = worldsPath.substring(0, worldsPath.lastIndexOf('/')) + '/';
         url = prefix + worldsPath + url;
       }

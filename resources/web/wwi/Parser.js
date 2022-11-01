@@ -82,7 +82,7 @@ import {getAnId} from './nodes/utils/id_provider.js';
 import DefaultUrl from './DefaultUrl.js';
 import {webots} from './webots.js';
 import ImageLoader from './ImageLoader.js';
-import {loadMeshData} from './mesh_loader.js';
+import MeshLoader from './MeshLoader.js';
 
 /*
   This module takes an x3d world, parse it and populate the scene.
@@ -887,7 +887,7 @@ export default class Parser {
         parentNode.children.push(cadShape);
     }
 
-    this.#promises.push(loadMeshData(this.prefix, url).then(meshContent => {
+    this.#promises.push(MeshLoader.loadMeshData(this.prefix, url).then(meshContent => {
       cadShape.scene = meshContent[0];
       cadShape.materialPath = meshContent[1];
       for (let i = 0; i < cadShape.useList.length; i++) {
@@ -1316,7 +1316,7 @@ export default class Parser {
     const mesh = new WbMesh(id, url, ccw, name, materialIndex);
     WbWorld.instance.nodes.set(mesh.id, mesh);
     if (url) {
-      this.#promises.push(loadMeshData(this.prefix, url).then(meshContent => {
+      this.#promises.push(MeshLoader.loadMeshData(this.prefix, url).then(meshContent => {
         mesh.scene = meshContent[0];
         for (let i = 0; i < mesh.useList.length; i++) {
           const node = WbWorld.instance.nodes.get(mesh.useList[i]);
