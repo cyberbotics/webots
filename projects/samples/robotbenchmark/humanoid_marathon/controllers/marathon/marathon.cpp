@@ -17,10 +17,10 @@
 
 #include <RobotisOp2GaitManager.hpp>
 #include <RobotisOp2MotionManager.hpp>
-#include <webots/Robot.hpp>
 #include <webots/Gyro.hpp>
 #include <webots/LED.hpp>
 #include <webots/PositionSensor.hpp>
+#include <webots/Robot.hpp>
 
 using namespace webots;
 using namespace managers;
@@ -28,9 +28,9 @@ using namespace managers;
 // Names of position sensors needed to get the corresponding device and read the measurements.
 static const char *positionSensorNames[] = {
   "ShoulderR", "ShoulderL", "ArmUpperR", "ArmUpperL", "ArmLowerR", "ArmLowerL", "PelvYR", "PelvYL", "PelvR", "PelvL",
-  "LegUpperR", "LegUpperL", "LegLowerR", "LegLowerL", "AnkleR", "AnkleL", "FootR", "FootL", "Neck", "Head"};
+  "LegUpperR", "LegUpperL", "LegLowerR", "LegLowerL", "AnkleR",    "AnkleL",    "FootR",  "FootL",  "Neck",  "Head"};
 
- int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]) {
   webots::Robot robot;
   int timeStep = robot.getBasicTimeStep();
   RobotisOp2MotionManager motion(&robot);
@@ -40,7 +40,7 @@ static const char *positionSensorNames[] = {
   Gyro *gyro = robot.getGyro("Gyro");
   int n = sizeof(positionSensorNames) / sizeof(char *);
   // Enable all the position sensors
-  for(int i = 0; i < n; i++) {
+  for (int i = 0; i < n; i++) {
     char name[32];
     snprintf(name, 32, "%sS", positionSensorNames[i]);
     PositionSensor *sensor = robot.getPositionSensor(name);
@@ -77,4 +77,4 @@ static const char *positionSensorNames[] = {
   }
 
   return 1;
- }
+}
