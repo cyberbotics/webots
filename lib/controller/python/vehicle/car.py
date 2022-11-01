@@ -15,6 +15,7 @@
 from controller import Supervisor
 import ctypes
 import os
+import sys
 
 
 class Car(Supervisor):
@@ -35,7 +36,13 @@ class Car(Supervisor):
 
     def __init__(self):
         super().__init__()
-        self.api = ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], 'lib', 'controller', 'car.dll'))
+        if sys.platform == 'linux' or sys.platform == 'linux2':
+            path = os.path.join('lib', 'controller', 'libcar.so')
+        elif sys.platform == 'win32':
+            path = os.path.join('lib', 'controller', 'car.dll')
+        elif sys.platform == 'darwin':
+            path = os.path.join('Contents', 'MacOS', 'lib', 'controller', 'libcar.dylib')
+        self.api = ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], path))
         self.api.wbu_car_get_front_wheel_radius.restype = ctypes.c_double
         self.api.wbu_car_get_indicator_period.restype = ctypes.c_double
         self.api.wbu_car_get_left_steering_angle.restype = ctypes.c_double
