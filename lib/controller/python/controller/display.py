@@ -44,37 +44,37 @@ class Display(Device):
         wb.wb_display_detach_camera(self._tag)
 
     def drawLine(self, x1: int, y1: int, x2: int, y2: int):
-        wb.wb_display_draw_line(self._tag, x1, y1, x2, y2)
+        wb.wb_display_draw_line(self._tag, int(x1), int(y1), int(x2), int(y2))
 
     def drawOval(self, cx: int, cy: int, a: int, b: int):
-        wb.wb_display_draw_oval(self._tag, cx, cy, a, b)
+        wb.wb_display_draw_oval(self._tag, int(cx), int(cy), int(a), int(b))
 
     def drawPixel(self, x: int, y: int):
-        wb.wb_display_draw_pixel(self._tag, x, y)
+        wb.wb_display_draw_pixel(self._tag, int(x), int(y))
 
-    def drawPolygon(self, x: List[float], y: List[float]):
+    def drawPolygon(self, x: List[int], y: List[int]):
         wb.wb_display_draw_polygon(self._tag,
-                                   ctypes.POINTER(ctypes.c_double(x)),
-                                   ctypes.POINTER(ctypes.c_double(y)),
+                                   ctypes.POINTER(ctypes.c_int(x)),
+                                   ctypes.POINTER(ctypes.c_int(y)),
                                    min(len(x), len(y)))
 
     def drawRectangle(self, x: int, y: int, width: int, height: int):
-        wb.wb_display_draw_rectangle(self._tag, x, y, width, height)
+        wb.wb_display_draw_rectangle(self._tag, int(x), int(y), int(width), int(height))
 
     def drawText(self, text: str, x: int, y: int):
-        wb.wb_display_draw_text(self._tag, str.encode(text), x, y)
+        wb.wb_display_draw_text(self._tag, str.encode(text), int(x), int(y))
 
     def fillOval(self, cx: int, cy: int, a: int, b: int):
-        wb.wb_display_fill_oval(self._tag, cx, cy, a, b)
+        wb.wb_display_fill_oval(self._tag, int(cx), int(cy), int(a), int(b))
 
-    def fillPolygon(self, x: List[float], y: List[float]):
+    def fillPolygon(self, x: List[int], y: List[int]):
         wb.wb_display_fill_polygon(self._tag,
-                                   ctypes.POINTER(ctypes.c_double(x)),
-                                   ctypes.POINTER(ctypes.c_double(y)),
+                                   ctypes.POINTER(ctypes.c_int(x)),
+                                   ctypes.POINTER(ctypes.c_int(y)),
                                    min(len(x), len(y)))
 
     def fillRectangle(self, x: int, y: int, width: int, height: int):
-        wb.wb_display_fill_rectangle(self._tag, x, y, width, height)
+        wb.wb_display_fill_rectangle(self._tag, int(x), int(y), int(width), int(height))
 
     def getHeight(self) -> int:
         return self.height
@@ -83,19 +83,19 @@ class Display(Device):
         return self.width
 
     def imageCopy(self, x: int, y: int, width: int, height: int) -> int:
-        return wb.wb_display_image_copy(self._tag, x, y, width, height)
+        return wb.wb_display_image_copy(self._tag, int(x), int(y), int(width), int(height))
 
     def imageDelete(self, image):
         wb.wb_display_image_delete(self._tag, ctypes.c_void_p(image))
 
     def imageNew(self, data: bytes, format: int, width: int, height: int) -> int:
-        return wb.wb_display_image_new(self._tag, width, height, data, format)
+        return wb.wb_display_image_new(self._tag, int(width), int(height), data, format)
 
     def imageLoad(self, filename: str) -> int:
         return wb.wb_display_image_load(self._tag, str.encode(filename))
 
     def imagePaste(self, image, x: int, y: int, blend: bool):
-        wb.wb_display_image_paste(self._tag, ctypes.c_void_p(image), x, y, ctypes.c_int(blend))
+        wb.wb_display_image_paste(self._tag, ctypes.c_void_p(image), int(x), int(y), ctypes.c_int(blend))
 
     def imageSave(self, image, filename: str):
         wb.wb_display_image_save(self._tag, ctypes.c_void_p(image), str.encode(filename))
