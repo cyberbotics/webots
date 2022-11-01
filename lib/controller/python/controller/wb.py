@@ -14,5 +14,13 @@
 
 import ctypes
 import os
+import sys
 
-wb = ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], 'lib', 'controller', 'Controller.dll'))
+if sys.platform == 'linux' or sys.platform == 'linux2':
+    path = os.path.join('lib', 'controller', 'libController.so')
+elif sys.platform == 'win32':
+    path = os.path.join('lib', 'controller', 'Controller.dll')
+elif sys.platform == 'darwin':
+    path = os.path.join('Contents', 'MacOS', 'lib', 'controller', 'libController.dylib')
+
+wb = ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], path))
