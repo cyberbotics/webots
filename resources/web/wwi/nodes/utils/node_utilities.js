@@ -1,4 +1,3 @@
-import WbBillboard from '../WbBillboard.js';
 import WbSolid from '../WbSolid.js';
 import WbTransform from '../WbTransform.js';
 import WbWorld from '../WbWorld.js';
@@ -27,17 +26,6 @@ export function nodeIsInBoundingObject(node) {
       return parent.boundingObject === node;
     else if (typeof parent.parent !== 'undefined')
       return nodeIsInBoundingObject(parent);
-  }
-
-  return false;
-}
-
-export function isDescendantOfBillboard(node) {
-  while (typeof node !== 'undefined') {
-    if (node instanceof WbBillboard)
-      return true;
-
-    node = WbWorld.instance.nodes.get(node.parent);
   }
 
   return false;
