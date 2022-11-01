@@ -4,14 +4,15 @@
 # A generic traffic light with configurable timming.
 # template language: javascript
 
-EXTERNPROTO "webots://projects/objects/traffic/protos/Pole.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficLight.proto"
-EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficLightStandardLampGeometry.proto"
+EXTERNPROTO "Pole.proto"
+EXTERNPROTO "TrafficLight.proto"
+EXTERNPROTO "TrafficLightStandardLampGeometry.proto"
 
 PROTO GenericTrafficLight [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0
   field SFString   name        "generic traffic light"
+  field SFString   window      "<none>"                 # Is `Robot.window`.
   field SFBool     startGreen  TRUE                     # Defines whether the traffic light should start in a 'green' state or 'red' state.
   field SFFloat    greenTime   60                       # Defines how long should be the green state in seconds.
   field SFFloat    redTime     15                       # Defines how long should be the red state in seconds.
@@ -42,6 +43,7 @@ PROTO GenericTrafficLight [
   Robot {
     translation IS translation
     rotation IS rotation
+    window IS window
     children [
       Pole {
         slot [

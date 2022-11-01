@@ -40,7 +40,7 @@ void WbCone::init() {
   mBottom = findSFBool("bottom");
   mSubdivision = findSFInt("subdivision");
 
-  mResizeConstraint = WbWrenAbstractResizeManipulator::X_EQUAL_Z;
+  mResizeConstraint = WbWrenAbstractResizeManipulator::X_EQUAL_Y;
 }
 
 WbCone::WbCone(WbTokenizer *tokenizer) : WbGeometry("Cone", tokenizer) {
@@ -83,18 +83,18 @@ void WbCone::createWrenObjects() {
 }
 
 void WbCone::setResizeManipulatorDimensions() {
-  WbVector3 scale(mBottomRadius->value(), mHeight->value(), mBottomRadius->value());
+  WbVector3 scale(mBottomRadius->value(), mBottomRadius->value(), mHeight->value());
 
   WbTransform *transform = upperTransform();
   if (transform)
-    scale *= transform->matrix().scale();
+    scale *= transform->absoluteScale();
 
   resizeManipulator()->updateHandleScale(scale.ptr());
   updateResizeHandlesSize();
 }
 
 void WbCone::createResizeManipulator() {
-  mResizeManipulator = new WbRegularResizeManipulator(uniqueId(), WbWrenAbstractResizeManipulator::ResizeConstraint::X_EQUAL_Z);
+  mResizeManipulator = new WbRegularResizeManipulator(uniqueId(), WbWrenAbstractResizeManipulator::ResizeConstraint::X_EQUAL_Y);
 }
 
 bool WbCone::areSizeFieldsVisibleAndNotRegenerator() const {

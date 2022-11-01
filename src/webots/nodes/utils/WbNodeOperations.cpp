@@ -26,6 +26,7 @@
 #include "WbParser.hpp"
 #include "WbProject.hpp"
 #include "WbProtoManager.hpp"
+#include "WbProtoModel.hpp"
 #include "WbRobot.hpp"
 #include "WbSFNode.hpp"
 #include "WbSelection.hpp"
@@ -101,21 +102,22 @@ QString WbNodeOperations::exportNodeToString(WbNode *node) {
   return nodeString;
 }
 
-WbNodeOperations::OperationResult WbNodeOperations::importNode(int nodeId, int fieldId, int itemIndex, const QString &filename,
-                                                               const QString &nodeString, bool fromSupervisor) {
+WbNodeOperations::OperationResult WbNodeOperations::importNode(int nodeId, int fieldId, int itemIndex, ImportType origin,
+                                                               const QString &nodeString) {
   WbBaseNode *parentNode = static_cast<WbBaseNode *>(WbNode::findNode(nodeId));
   assert(parentNode);
 
   WbField *field = parentNode->field(fieldId);
   assert(field);
 
-  return importNode(parentNode, field, itemIndex, filename, nodeString, false, fromSupervisor);
+  return importNode(parentNode, field, itemIndex, origin, nodeString, false);
 }
 
 WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNode, WbField *field, int itemIndex,
-                                                               const QString &filename, const QString &nodeString,
-                                                               bool avoidIntersections, bool fromSupervisor) {
-  mFromSupervisor = fromSupervisor;
+                                                               ImportType origin, const QString &nodeString,
+                                                               bool avoidIntersections) {
+  setFromSupervisor(origin == FROM_SUPERVISOR);
+
   WbSFNode *sfnode = dynamic_cast<WbSFNode *>(field->value());
 #ifndef NDEBUG
   WbMFNode *mfnode = dynamic_cast<WbMFNode *>(field->value());
@@ -127,36 +129,36 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
 
   WbTokenizer tokenizer;
   int errors = 0;
-  if (!filename.isEmpty())
-    errors = tokenizer.tokenize(filename);
-  else if (!nodeString.isEmpty())
+  if (!nodeString.isEmpty()) {
+    tokenizer.setReferralFile(WbWorld::instance() ? WbWorld::instance()->fileName() : "");
     errors = tokenizer.tokenizeString(nodeString);
-  else {
-    mFromSupervisor = false;
+  } else {
+    setFromSupervisor(false);
     return FAILURE;
   }
 
   if (errors) {
-    mFromSupervisor = false;
+    setFromSupervisor(false);
     return FAILURE;
   }
 
-  // note: ephemeral PROTO declaration must be checked prior to checking the syntax since in order to check the latter the PROTO
-  // themselves must be locally available and readable
+  // note: the presence of the declaration for importable PROTO must be checked prior to checking the syntax since
+  // in order to evaluate the latter the PROTO themselves must be locally available and readable
   WbParser parser(&tokenizer);
   const QStringList protoList = parser.protoNodeList();
   foreach (const QString &protoName, protoList) {
-    // ensure the node was declared as EXTERNPROTO prior to import it
-    if (!WbProtoManager::instance()->isDeclaredExternProto(protoName)) {
+    // ensure the node was declared as EXTERNPROTO prior to import it using a supervisor
+    if (mFromSupervisor && !WbProtoManager::instance()->isImportableExternProtoDeclared(protoName)) {
       WbLog::error(
-        tr("In order to import the PROTO '%1', first it must be declared in the Ephemeral EXTERNPROTO list.").arg(protoName));
+        tr("In order to import the PROTO '%1', first it must be declared in the IMPORTABLE EXTERNPROTO list.").arg(protoName));
+      setFromSupervisor(false);
       return FAILURE;
     }
   }
 
   // check syntax
   if (!parser.parseObject(WbWorld::instance()->fileName())) {
-    mFromSupervisor = false;
+    setFromSupervisor(false);
     return FAILURE;
   }
 
@@ -215,67 +217,8 @@ WbNodeOperations::OperationResult WbNodeOperations::importNode(WbNode *parentNod
       break;
   }
 
-  mFromSupervisor = false;
+  setFromSupervisor(false);
   return isNodeRegenerated ? REGENERATION_REQUIRED : SUCCESS;
-}
-
-WbNodeOperations::OperationResult WbNodeOperations::importVrml(const QString &filename, bool fromSupervisor) {
-  WbTokenizer tokenizer;
-  int errors = tokenizer.tokenize(filename);
-  if (errors)
-    return FAILURE;
-
-  QFileInfo vrmlFile(filename);
-  // check that the file we're importing VRML to is not "unnamed.wbt"
-  if (WbWorld::instance()->isUnnamed())
-    WbLog::error(QString("Textures could not be imported as this world has not been saved for the first time. Please save and "
-                         "reload the world, then try importing again."),
-                 false, WbLog::PARSING);
-  else
-    // copy textures folder (if any)
-    WbFileUtil::copyDir(vrmlFile.absolutePath() + "/textures", WbProject::current()->worldsPath() + "/textures", true, true,
-                        true);
-
-  // check syntax
-  WbParser parser(&tokenizer);
-  if (!parser.parseVrml(WbWorld::instance()->fileName()))
-    return FAILURE;
-
-  // if even one node is successfully imported, this function should return
-  // true, as this implies consequently that the world was modified
-  OperationResult result = FAILURE;
-
-  // read node
-  QString errorMessage;
-  WbGroup *root = WbWorld::instance()->root();
-  WbNode::setGlobalParentNode(root);
-  WbNodeReader nodeReader;
-  QList<WbNode *> nodes = nodeReader.readVrml(&tokenizer, WbWorld::instance()->fileName());
-  WbBaseNode *lastBaseNodeCreated = NULL;
-  foreach (WbNode *node, nodes) {
-    WbBaseNode *baseNode = static_cast<WbBaseNode *>(node);
-    if (WbNodeUtilities::isSingletonTypeName(baseNode->nodeModelName())) {
-      WbLog::warning(QString("Skipped %1 node (to avoid duplicate) while importing VRML97.").arg(baseNode->nodeModelName()),
-                     false, WbLog::PARSING);
-      delete baseNode;
-    } else {
-      if (WbNodeUtilities::isAllowedToInsert(root->findField("children"), baseNode->nodeModelName(), root, errorMessage,
-                                             WbNode::STRUCTURE_USE, WbNodeUtilities::slotType(baseNode),
-                                             QStringList(baseNode->nodeModelName()))) {
-        baseNode->validate();
-        root->addChild(baseNode);
-        baseNode->finalize();
-        lastBaseNodeCreated = baseNode;
-        result = SUCCESS;
-      } else {
-        WbLog::error(errorMessage, false, WbLog::PARSING);
-        delete baseNode;
-      }
-    }
-  }
-  if (lastBaseNodeCreated && !fromSupervisor)
-    WbSelection::instance()->selectNodeFromSceneTree(lastBaseNodeCreated);
-  return result;
 }
 
 WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode, WbNode *parentNode, WbField *field,
@@ -354,12 +297,12 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
   if (node == NULL)
     return false;
 
-  mFromSupervisor = fromSupervisor;
+  setFromSupervisor(fromSupervisor);
 
   if (dynamic_cast<WbSolid *>(node))
     WbWorld::instance()->awake();
 
-  const QString &nodeModelName = node->modelName();
+  const QString nodeModelName = node->modelName();  // save the node model name prior to it being deleted
 
   bool dictionaryNeedsUpdate = node->hasAreferredDefNodeDescendant();
   WbField *parentField = node->parentField();
@@ -381,11 +324,10 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
   if (success && dictionaryNeedsUpdate)
     updateDictionary(false, NULL);
 
-  // if the node being deleted is the last of its kind, notify the proto manager to remove it from the EXTERNPROTO list
-  if (!WbNodeUtilities::existsVisibleNodeNamed(nodeModelName))
-    WbProtoManager::instance()->removeExternProto(nodeModelName, false);
+  setFromSupervisor(false);
 
-  mFromSupervisor = false;
+  purgeUnusedExternProtoDeclarations();
+
   return success;
 }
 
@@ -414,4 +356,53 @@ void WbNodeOperations::notifyNodeAdded(WbNode *node) {
 
 void WbNodeOperations::notifyNodeDeleted(WbNode *node) {
   emit nodeDeleted(node);
+}
+
+void WbNodeOperations::setFromSupervisor(bool value) {
+  mFromSupervisor = value;
+  WbProtoManager::instance()->setImportedFromSupervisor(value);
+}
+
+void WbNodeOperations::purgeUnusedExternProtoDeclarations() {
+  assert(WbWorld::instance());
+  // list all the PROTO model names used in the world file
+  QList<const WbNode *> protoList(WbNodeUtilities::protoNodesInWorldFile(WbWorld::instance()->root()));
+  QSet<QString> modelNames;
+  foreach (const WbNode *proto, protoList)
+    modelNames.insert(proto->modelName());
+
+  // delete PROTO declaration if not found in list
+  WbProtoManager::instance()->purgeUnusedExternProtoDeclarations(modelNames);
+}
+
+void WbNodeOperations::updateExternProtoDeclarations(WbField *field) {
+  if (field->isDefault())
+    return;  // WbNodeOperations::purgeUnusedExternProtoDeclarations() will be called
+
+  WbNode *modifiedNode = static_cast<WbNode *>(sender());
+  if (modifiedNode == NULL || modifiedNode->isWorldRoot())
+    return;
+
+  const WbNode *topProto = modifiedNode->isProtoInstance() ? modifiedNode : NULL;
+  WbNode *n = modifiedNode->parentNode();
+  while (n) {
+    if (n->isProtoInstance())
+      topProto = n;
+    n = n->parentNode();
+  }
+  if (!topProto)
+    return;
+
+  QList<const WbNode *> protoList(WbNodeUtilities::protoNodesInWorldFile(topProto));
+  foreach (const WbNode *proto, protoList) {
+    const QString previousUrl(
+      WbProtoManager::instance()->declareExternProto(proto->modelName(), proto->proto()->url(), false, false));
+    if (!previousUrl.isEmpty())
+      WbLog::warning(tr("Conflicting declarations for '%1' are provided: \"%2\" and \"%3\", the first one will be used after "
+                        "saving and reverting the world. "
+                        "To use the other instead you will need to change it manually in the world file.")
+                       .arg(proto->modelName())
+                       .arg(previousUrl)
+                       .arg(proto->proto()->url()));
+  }
 }

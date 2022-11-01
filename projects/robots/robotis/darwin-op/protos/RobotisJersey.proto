@@ -8,7 +8,7 @@
 # A default set of red and blue textures with player number from 1 to 5 is provided.
 
 PROTO RobotisJersey [
-  field MFString jerseyTexture "webots://projects/robots/robotis/darwin-op/protos/textures/robotis-op2_1_red.png"
+  field MFString jerseyTexture "textures/robotis-op2_1_red.png"
   field SFColor  jerseyColor   1 1 1
 ]
 {

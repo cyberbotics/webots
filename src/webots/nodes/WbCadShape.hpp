@@ -46,6 +46,7 @@ public:
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_CAD_SHAPE; }
   void downloadAssets() override;
+  void preFinalize() override;
   void postFinalize() override;
   void updateSegmentationColor(const WbRgb &color) override { setSegmentationColor(color); }
 
@@ -96,7 +97,6 @@ private:
   QVector<WbDownloader *> mMaterialDownloaders;
   QStringList objMaterialList(const QString &url) const;
   bool areMaterialAssetsAvailable(const QString &url);
-  QString generateMaterialUrl(const QString &material, const QString &completeUrl);
   void retrieveMaterials();
 
   const QString vrmlPbrAppearance(const aiMaterial *material);

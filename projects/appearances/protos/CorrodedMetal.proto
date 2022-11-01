@@ -13,22 +13,22 @@ PROTO CorrodedMetal [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/corroded_metal/corroded_metal_base_color.jpg"
+        "textures/corroded_metal/corroded_metal_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/corroded_metal/corroded_metal_roughness.jpg"
+        "textures/corroded_metal/corroded_metal_roughness.jpg"
       ]
     }
     metalnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/corroded_metal/corroded_metal_metalness.jpg"
+        "textures/corroded_metal/corroded_metal_metalness.jpg"
       ]
     }
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/corroded_metal/corroded_metal_normal.jpg"
+        "textures/corroded_metal/corroded_metal_normal.jpg"
       ]
     }
     normalMapFactor 1

@@ -7,17 +7,33 @@ import WbVector3 from './utils/WbVector3.js';
 import WbVector4 from './utils/WbVector4.js';
 import WbWrenPicker from '../wren/WbWrenPicker.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
+import {webots} from '../webots.js';
 
 import {loadImageTextureInWren} from '../image_loader.js';
 
 export default class WbCadShape extends WbBaseNode {
+  #promises;
   constructor(id, urls, ccw, castShadows, isPickable, prefix) {
     super(id);
 
-    this.urls = [...urls];
-    this.prefix = this.urls[0].substr(0, this.urls[0].lastIndexOf('/') + 1);
-    if (!this.prefix.startsWith('http'))
-      this.prefix = prefix;
+    this.materials = [];
+    for (let i = 0; i < urls.length; ++i) {
+      if (urls[i].endsWith('.obj') || urls[i].endsWith('.dae'))
+        this.url = urls[i];
+      else if (urls[i].endsWith('.mtl'))
+        this.materials.push(urls[i]);
+      else
+        console.error('Unknown file provided to CadShape node: ' + urls[i]);
+    }
+
+    if (typeof this.url === 'undefined') { // no '.dae' or '.obj' was provided
+      console.error('Invalid URL. CadShape node expects file in Collada (".dae") or Wavefront (".obj") format.');
+      return;
+    }
+
+    this.isCollada = this.url.endsWith('.dae');
+
+    this.prefix = prefix;
 
     this.ccw = ccw;
     this.castShadows = castShadows;
@@ -29,11 +45,13 @@ export default class WbCadShape extends WbBaseNode {
     this.wrenTransforms = [];
     this.pbrAppearances = [];
 
-    this._promises = [];
+    this.#promises = [];
   }
 
   clone(customID) {
-    const cadShape = new WbCadShape(customID, this.urls, this.ccw, this.castShadows, this.isPickable, this.prefix);
+    let urls = [this.url];
+    urls = urls.concat(this.materials);
+    const cadShape = new WbCadShape(customID, urls, this.ccw, this.castShadows, this.isPickable, this.prefix);
     this.useList.push(customID);
     return cadShape;
   }
@@ -50,18 +68,11 @@ export default class WbCadShape extends WbBaseNode {
 
     super.createWrenObjects();
 
-    if (this.urls.length === 0 || this.scene === 'undefined')
+    if (typeof this.url === 'undefined' || this.scene === 'undefined')
       return;
-
-    const extension = this.urls[0].substr(this.urls[0].lastIndexOf('.') + 1, this.urls[0].length).toLowerCase();
-    if (extension !== 'dae' && extension !== 'obj') {
-      console.error('Invalid url "' + this.urls[0] +
-        '". CadShape node expects file in Collada (".dae") or Wavefront (".obj") format.');
-      return;
-    }
 
     // Assimp fix for up_axis, adapted from https://github.com/assimp/assimp/issues/849
-    if (extension === 'dae') { // rotate around X by 90° to swap Y and Z axis
+    if (this.isCollada) { // rotate around X by 90° to swap Y and Z axis
       // if it is already a WbMatrix4 it means that it is a USE node where the fix has already been applied
       if (!(this.scene.rootnode.transformation instanceof WbMatrix4)) {
         let matrix = new WbMatrix4();
@@ -89,7 +100,7 @@ export default class WbCadShape extends WbBaseNode {
 
         if (vertices > 100000)
           console.warn('Mesh ' + mesh.name +
-             ' has more than 100\'000 vertices, it is recommended to reduce the number of vertices.');
+            ' has more than 100\'000 vertices, it is recommended to reduce the number of vertices.');
 
         let transform = new WbMatrix4();
         let current = node;
@@ -164,7 +175,7 @@ export default class WbCadShape extends WbBaseNode {
         const material = this.scene.materials[mesh.materialindex];
 
         // init from assimp material
-        let pbrAppearance = this._createPbrAppearance(material);
+        let pbrAppearance = this.#createPbrAppearance(material, mesh.materialindex);
         pbrAppearance.preFinalize();
         pbrAppearance.postFinalize();
 
@@ -196,7 +207,7 @@ export default class WbCadShape extends WbBaseNode {
       this.wrenTransforms.push(transform);
     }
 
-    Promise.all(this._promises).then(() => {
+    Promise.all(this.#promises).then(() => {
       this.actualizeAppearance();
     });
   }
@@ -209,14 +220,14 @@ export default class WbCadShape extends WbBaseNode {
   }
 
   deleteWrenObjects() {
-    this.wrenRenderables.forEach(renderable => {
+    this.wrenRenderables?.forEach(renderable => {
       _wr_material_delete(Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'], [renderable, 'picking']));
       _wr_node_delete(renderable);
     });
-    this.wrenMeshes.forEach(mesh => { _wr_static_mesh_delete(mesh); });
-    this.wrenMaterials.forEach(material => { _wr_material_delete(material); });
-    this.pbrAppearances.forEach(appearance => { appearance.delete(); });
-    for (let i = this.wrenTransforms.length - 1; i >= 0; --i) {
+    this.wrenMeshes?.forEach(mesh => { _wr_static_mesh_delete(mesh); });
+    this.wrenMaterials?.forEach(material => { _wr_material_delete(material); });
+    this.pbrAppearances?.forEach(appearance => { appearance.delete(); });
+    for (let i = (this.wrenTransforms || []).length - 1; i >= 0; --i) {
       this.wrenNode = _wr_node_get_parent(this.wrenTransforms[i]);
       _wr_node_delete(this.wrenTransforms[i]);
     }
@@ -228,7 +239,7 @@ export default class WbCadShape extends WbBaseNode {
     this.pbrAppearances = [];
   }
 
-  _createPbrAppearance(material) {
+  #createPbrAppearance(material, materialIndex) {
     const properties = new Map(
       material.properties.map(object => {
         if (object.key === '$tex.file')
@@ -287,49 +298,64 @@ export default class WbCadShape extends WbBaseNode {
       17: ambient occlusion
     */
 
+    let assetPrefix;
+    if (typeof webots.currentView.stream !== 'undefined' || this.url.startsWith('http')) {
+      if (this.isCollada) // for collada files, the prefix is extracted from the URL of the '.dae' file
+        assetPrefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);
+      else // for wavefront files, the prefix is extracted from the URL of the MTL file
+        assetPrefix = this.materials[0].substr(0, this.materials[0].lastIndexOf('/') + 1);
+    }
+
     // initialize maps
     let baseColorMap;
     if (properties.get(12))
-      baseColorMap = this._createImageTexture(properties.get(12));
+      baseColorMap = this.#createImageTexture(assetPrefix, properties.get(12));
     else if (properties.get(1))
-      baseColorMap = this._createImageTexture(properties.get(1));
+      baseColorMap = this.#createImageTexture(assetPrefix, properties.get(1));
 
     let roughnessMap;
     if (properties.get(16))
-      roughnessMap = this._createImageTexture(properties.get(16));
+      roughnessMap = this.#createImageTexture(assetPrefix, properties.get(16));
 
     let metalnessMap;
     if (properties.get(15))
-      metalnessMap = this._createImageTexture(properties.get(15));
+      metalnessMap = this.#createImageTexture(assetPrefix, properties.get(15));
 
     let normalMap;
     if (properties.get(6))
-      normalMap = this._createImageTexture(properties.get(6));
+      normalMap = this.#createImageTexture(assetPrefix, properties.get(6));
     else if (properties.get(13))
-      normalMap = this._createImageTexture(properties.get(13));
+      normalMap = this.#createImageTexture(assetPrefix, properties.get(13));
 
     let occlusionMap;
     if (properties.get(17))
-      occlusionMap = this._createImageTexture(properties.get(17));
+      occlusionMap = this.#createImageTexture(assetPrefix, properties.get(17));
     else if (properties.get(10))
-      occlusionMap = this._createImageTexture(properties.get(10));
+      occlusionMap = this.#createImageTexture(assetPrefix, properties.get(10));
 
     let emissiveColorMap;
     if (properties.get(14))
-      emissiveColorMap = this._createImageTexture(properties.get(14));
+      emissiveColorMap = this.#createImageTexture(assetPrefix, properties.get(14));
     else if (properties.get(4))
-      emissiveColorMap = this._createImageTexture(properties.get(4));
+      emissiveColorMap = this.#createImageTexture(assetPrefix, properties.get(4));
 
     return new WbPbrAppearance(getAnId(), baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness,
       metalnessMap, iblStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor,
       emissiveColorMap, emissiveIntensity, undefined);
   }
 
-  _createImageTexture(imageUrl) {
-    const imageTexture = new WbImageTexture(getAnId(), imageUrl, false, true, true, 4);
-    const promise = loadImageTextureInWren(this.prefix, imageUrl, false, true);
+  #createImageTexture(assetPrefix, imageUrl) {
+    // for animations the texture isn't relative to the material but included in the 'textures' folder
+    let url;
+    if (typeof assetPrefix === 'undefined')
+      url = 'textures/' + imageUrl.substring(imageUrl.lastIndexOf('/') + 1);
+    else
+      url = assetPrefix + imageUrl;
+
+    const imageTexture = new WbImageTexture(getAnId(), url, false, true, true, 4);
+    const promise = loadImageTextureInWren(this.prefix, url, false, true);
     promise.then(() => imageTexture.updateUrl());
-    this._promises.push(promise);
+    this.#promises.push(promise);
     return imageTexture;
   }
 }

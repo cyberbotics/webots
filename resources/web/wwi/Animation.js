@@ -2,24 +2,27 @@
 import WbWorld from './nodes/WbWorld.js';
 
 export default class Animation {
+  #jsonPromise;
+  #keyFrames;
+  #labelsIds;
+  #loop;
+  #onReady;
+  #previousStep;
+  #scene;
+  #unusedPrefix;
+  #view;
   constructor(jsonPromise, scene, view, gui, loop) {
-    this._jsonPromise = jsonPromise;
-    this._scene = scene;
-    this._view = view;
+    this.#jsonPromise = jsonPromise;
+    this.#scene = scene;
+    this.#view = view;
     this.gui = typeof gui === 'undefined' || gui === 'play' ? 'real-time' : 'pause';
-    this._loop = typeof loop === 'undefined' ? true : loop;
+    this.#loop = typeof loop === 'undefined' ? true : loop;
     this.speed = 1;
-    this._view3d = scene.domElement;
-    for (let i = 0; i < this._view3d.childNodes.length; i++) {
-      const child = this._view3d.childNodes[i];
-      if (child.id === 'canvas')
-        this._canvas = child;
-    }
   };
 
   init(onReady) {
-    this._onReady = onReady;
-    this._jsonPromise.then(json => this._setup(json))
+    this.#onReady = onReady;
+    this.#jsonPromise.then(json => this.#setup(json))
       .catch(error => console.error(error));
   }
 
@@ -35,13 +38,34 @@ export default class Animation {
   }
 
   // private methods
-  _setup(data) {
+  #setup(data) {
     this.data = data;
-    this._labelsIds = typeof this.data.labelsIds === 'undefined' ? [] : this.data.labelsIds.split(';')
+    this.#labelsIds = typeof this.data.labelsIds === 'undefined' ? [] : this.data.labelsIds.split(';')
       .filter(Boolean).map(s => parseInt(s));
 
+    const firstFrame = this.data.frames[0];
+    if (firstFrame && this.#labelsIds.length > 0) {
+      const labelsIdsAtStart = new Set();
+      if (firstFrame.labels) {
+        firstFrame.labels.forEach((label) => {
+          labelsIdsAtStart.add(label.id);
+        });
+      } else
+        firstFrame.labels = [];
+
+      this.#labelsIds.forEach((labelId) => {
+        if (!labelsIdsAtStart.has(labelId)) {
+          const newlabel = {
+            id: labelId,
+            rgba: '0, 0, 0, 0'
+          };
+          firstFrame.labels.push(newlabel);
+        }
+      });
+    }
+
     // generate keyFrames to speed up the navigation.
-    this._keyFrames = new Map();
+    this.#keyFrames = new Map();
     this.keyFrameStepSize = 1000; // Generate a keyFrame each 1000 timesteps. It is an empirical value.
     if (this.data.frames.length > 1000) {
       this.numberOfKeyFrames = Math.floor(this.data.frames.length / 1000);
@@ -63,7 +87,7 @@ export default class Animation {
             }
           }
 
-          if (allLabels.size === this._labelsIds.length) // We already have all the update we need for the labels
+          if (allLabels.size === this.#labelsIds.length) // We already have all the update we need for the labels
             continue;
 
           const labels = this.data.frames[j].labels;
@@ -91,7 +115,7 @@ export default class Animation {
             }
           }
         } else { // Check the previous keyFrame to get missing updates
-          const poses = this._keyFrames.get(i - 1).poses;
+          const poses = this.#keyFrames.get(i - 1).poses;
           for (let element of poses) {
             const id = element[0];
             const currentIdFields = allPoses.has(id) ? allPoses.get(id) : new Map();
@@ -105,7 +129,7 @@ export default class Animation {
             allPoses.set(id, currentIdFields);
           }
 
-          const labels = this._keyFrames.get(i - 1).labels;
+          const labels = this.#keyFrames.get(i - 1).labels;
           for (let label of labels) {
             const id = label[0];
             if (!allLabels.has(id))
@@ -113,25 +137,25 @@ export default class Animation {
           }
         }
 
-        this._keyFrames.set(i, {poses: new Map(allPoses), labels: new Map(allLabels)});
+        this.#keyFrames.set(i, {poses: new Map(allPoses), labels: new Map(allLabels)});
       }
       this.numberOfFields = new Map();
-      for (let [key, value] of this._keyFrames.get(this.numberOfKeyFrames - 1).poses)
+      for (let [key, value] of this.#keyFrames.get(this.numberOfKeyFrames - 1).poses)
         this.numberOfFields.set(key, value.size);
     }
 
     // Initialize animation data.
     this.start = new Date().getTime();
     this.step = 0;
-    this._previousStep = 0;
+    this.#previousStep = 0;
     this.updateAnimation();
 
     // Notify creation completed.
-    if (typeof this._onReady === 'function')
-      this._onReady();
+    if (typeof this.#onReady === 'function')
+      this.#onReady();
   }
 
-  _elapsedTime() {
+  #elapsedTime() {
     const end = new Date().getTime();
     return end - this.start;
   }
@@ -139,18 +163,15 @@ export default class Animation {
   updateAnimationState(requestedStep = undefined) {
     const automaticMove = typeof requestedStep === 'undefined';
     if (automaticMove) {
-      requestedStep = Math.floor(this._elapsedTime() * this.speed / this.data.basicTimeStep);
+      requestedStep = Math.floor(this.#elapsedTime() * this.speed / this.data.basicTimeStep);
       if (requestedStep < 0 || requestedStep >= this.data.frames.length) {
-        if (this._loop) {
+        if (this.#loop) {
           if (requestedStep > this.data.frames.length) {
             requestedStep = 0;
-            this._previousStep = 0;
+            this.#previousStep = 0;
             this.start = new Date().getTime();
           } else
             return;
-        } else if (this.gui === 'real-time') {
-          this._triggerPlayPauseButton();
-          return;
         } else
           return;
       }
@@ -159,16 +180,16 @@ export default class Animation {
       this.step = requestedStep;
 
       // lookback mechanism: search in history
-      if (this.step !== this._previousStep + 1) {
+      if (this.step !== this.#previousStep + 1) {
         let previousPoseStep;
         const closestKeyFrame = Math.floor(this.step / this.keyFrameStepSize) - 1;
 
         let previousStepIsAKeyFrame = false;
-        if (this.step > this._previousStep && this._previousStep > (closestKeyFrame + 1) * this.keyFrameStepSize)
-          previousPoseStep = this._previousStep;
+        if (this.step > this.#previousStep && this.#previousStep > (closestKeyFrame + 1) * this.keyFrameStepSize)
+          previousPoseStep = this.#previousStep;
         else {
           previousPoseStep = (closestKeyFrame + 1) * this.keyFrameStepSize;
-          if (this._keyFrames.size > 0)
+          if (this.#keyFrames.size > 0)
             previousStepIsAKeyFrame = true;
         }
 
@@ -178,7 +199,7 @@ export default class Animation {
 
         // We do not want to include the previousPoseStep in the loop as its updates are in the keyFrame.
         // However, we need to include it if there is no keyFrames or if it is the step 0 as there is no keyFrame for it
-        if (previousStepIsAKeyFrame || previousPoseStep !== 0)
+        if (previousStepIsAKeyFrame && previousPoseStep !== 0)
           previousPoseStep++;
 
         // Iterate through each step until the nearest keyFrame is reached or all necessary updates have been applied.
@@ -197,7 +218,7 @@ export default class Animation {
                   if (appliedFieldsByIds.get(id).has(field)) // we want to update each field only once
                     continue;
                   else {
-                    this._scene.applyPose({'id': id, [field]: this.data.frames[i].poses[j][field]});
+                    this.#scene.applyPose({'id': id, [field]: this.data.frames[i].poses[j][field]});
                     appliedFieldsByIds.get(id).add(field);
 
                     if (typeof this.numberOfFields !== 'undefined' && appliedFieldsByIds.size === this.numberOfFields.get(id))
@@ -212,7 +233,7 @@ export default class Animation {
           if (labels) {
             for (let label of labels) {
               if (!appliedLabelsIds.has(label.id)) {
-                this._scene.applyLabel(label, this._view);
+                this.#scene.applyLabel(label, this.#view);
                 appliedLabelsIds.add(label.id);
               }
             }
@@ -220,7 +241,7 @@ export default class Animation {
         }
 
         if (previousStepIsAKeyFrame && closestKeyFrame >= 0) { // Get the missing updates from the closest keyFrame
-          const poses = this._keyFrames.get(closestKeyFrame).poses;
+          const poses = this.#keyFrames.get(closestKeyFrame).poses;
           for (let element of poses) {
             const id = element[0];
             if (!completeIds.has(id)) { // Try to apply some updates to a node only if it is missing some
@@ -232,7 +253,7 @@ export default class Animation {
                 if (appliedFieldsByIds.get(id).has(field[0])) // we want to update each field only once
                   continue;
                 else {
-                  this._scene.applyPose(field[1]);
+                  this.#scene.applyPose(field[1]);
                   appliedFieldsByIds.get(id).add(field[0]);
                   if (typeof this.numberOfFields !== 'undefined' && appliedFieldsByIds.size === this.numberOfFields.get(id))
                     completeIds.add(id);
@@ -241,11 +262,11 @@ export default class Animation {
             }
           }
 
-          if (this._labelsIds.length !== appliedLabelsIds.size) {
-            const labels = this._keyFrames.get(closestKeyFrame).labels;
+          if (this.#labelsIds.length !== appliedLabelsIds.size) {
+            const labels = this.#keyFrames.get(closestKeyFrame).labels;
             for (let label of labels) {
               if (!appliedLabelsIds.has(label[0]))
-                this._scene.applyLabel(label[1], this._view);
+                this.#scene.applyLabel(label[1], this.#view);
             }
           }
         }
@@ -253,7 +274,7 @@ export default class Animation {
         if (this.data.frames[this.step].hasOwnProperty('poses')) {
           const poses = this.data.frames[this.step].poses;
           for (let p = 0; p < poses.length; p++)
-            this._scene.applyPose(poses[p], undefined);
+            this.#scene.applyPose(poses[p], undefined);
           WbWorld.instance.tracks.forEach(track => {
             if (track.linearSpeed !== 0) {
               track.animateMesh();
@@ -265,7 +286,7 @@ export default class Animation {
         if (this.data.frames[this.step].hasOwnProperty('labels')) {
           const labels = this.data.frames[this.step].labels;
           for (let i = 0; i < labels.length; i++)
-            this._scene.applyLabel(labels[i], this._view);
+            this.#scene.applyLabel(labels[i], this.#view);
         }
       }
 
@@ -275,24 +296,27 @@ export default class Animation {
           timeSlider.setValue(100 * this.step / this.data.frames.length);
       }
 
-      this._previousStep = this.step;
-      this._view.time = this.data.frames[this.step].time;
+      this.#previousStep = this.step;
+      this.#view.time = this.data.frames[this.step].time;
       const currentTime = document.getElementById('currentTime');
       if (currentTime)
-        currentTime.innerHTML = this._formatTime(this._view.time);
-      WbWorld.instance.viewpoint.updateFollowUp(this._view.time, !automaticMove || this.step === 0);
-      this._scene.render();
+        currentTime.innerHTML = this.#formatTime(this.#view.time);
+      WbWorld.instance.viewpoint.updateFollowUp(this.#view.time, !automaticMove || this.step === 0);
+      this.#scene.render();
     }
+
+    if (typeof this.stepCallback === 'function')
+      this.stepCallback(this.#view.time);
   }
 
   updateAnimation() {
-    if (this.gui === 'real-time')
+    if (this.gui === 'real-time') {
       this.updateAnimationState();
-
-    window.requestAnimationFrame(() => this.updateAnimation());
+      window.requestAnimationFrame(() => this.updateAnimation());
+    }
   }
 
-  _parseMillisecondsIntoReadableTime(milliseconds) {
+  #parseMillisecondsIntoReadableTime(milliseconds) {
     const hours = (milliseconds + 0.9) / (1000 * 60 * 60);
     const absoluteHours = Math.floor(hours);
     const h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
@@ -310,20 +334,20 @@ export default class Animation {
     return h + ':' + m + ':' + s + ':<small>' + ms + '<small>';
   };
 
-  _formatTime(time) {
-    if (typeof this._unusedPrefix === 'undefined') {
+  #formatTime(time) {
+    if (typeof this.#unusedPrefix === 'undefined') {
       const maxTime = this.data.frames[this.data.frames.length - 1].time;
       if (maxTime < 60000)
-        this._unusedPrefix = 6;
+        this.#unusedPrefix = 6;
       else if (maxTime < 600000)
-        this._unusedPrefix = 4;
+        this.#unusedPrefix = 4;
       else if (maxTime < 3600000)
-        this._unusedPrefix = 3;
+        this.#unusedPrefix = 3;
       else if (maxTime < 36000000)
-        this._unusedPrefix = 1;
+        this.#unusedPrefix = 1;
     }
 
-    return this._parseMillisecondsIntoReadableTime(time).substring(this._unusedPrefix);
+    return this.#parseMillisecondsIntoReadableTime(time).substring(this.#unusedPrefix);
   }
 }
 

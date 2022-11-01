@@ -97,9 +97,6 @@ void WbTriangleMeshGeometry::clearTrimeshResources() {
 }
 
 void WbTriangleMeshGeometry::createWrenObjects() {
-  if (WbNodeUtilities::findContainingProto(this))
-    updateTriangleMesh(false);
-
   foreach (QString warning, mTriangleMesh->warnings())
     parsingWarn(warning);
 
@@ -131,7 +128,7 @@ void WbTriangleMeshGeometry::setResizeManipulatorDimensions() {
 
   WbTransform *transform = upperTransform();
   if (transform)
-    scale *= transform->matrix().scale();
+    scale *= transform->absoluteScale();
 
   resizeManipulator()->updateHandleScale(scale.ptr());
   updateResizeHandlesSize();

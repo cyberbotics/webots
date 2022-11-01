@@ -29,7 +29,7 @@
 #include "robot_private.h"
 #include "supervisor_private.h"
 
-enum FIELD_REQUEST_TYPE { GET = 1, SET, IMPORT, IMPORT_FROM_STRING, REMOVE };
+enum FIELD_REQUEST_TYPE { GET = 1, SET, IMPORT, REMOVE };
 
 static struct Label {
   int id;
@@ -693,17 +693,12 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
             request_write_string(r, request->data.sf_string);
             break;
           case WB_MF_NODE:
+          case WB_SF_NODE:
             request_write_string(r, request->data.sf_string);
             break;
           default:
             assert(false);
         }
-      } else if (request->type == IMPORT_FROM_STRING) {
-        request_write_uchar(r, C_SUPERVISOR_FIELD_IMPORT_NODE_FROM_STRING);
-        request_write_uint32(r, f->node_unique_id);
-        request_write_uint32(r, f->id);
-        request_write_uint32(r, request->index);
-        request_write_string(r, request->data.sf_string);
       } else if (request->type == REMOVE) {
         request_write_uchar(r, C_SUPERVISOR_FIELD_REMOVE_VALUE);
         request_write_uint32(r, f->node_unique_id);
@@ -1210,9 +1205,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
 
 static void create_and_append_field_request(WbFieldStruct *f, int action, int index, union WbFieldData data, bool clamp_index) {
   if (clamp_index) {
-    int offset = 0;
-    if (action == IMPORT || action == IMPORT_FROM_STRING)
-      offset = 1;
+    const int offset = (action == IMPORT) ? 1 : 0;
     if (f->count != -1 && (index >= (f->count + offset) || index < 0)) {
       index = 0;
       fprintf(stderr, "Warning wb_supervisor_field_get/set_mf_*() called with index out of range.\n");
@@ -1222,8 +1215,7 @@ static void create_and_append_field_request(WbFieldStruct *f, int action, int in
   request->type = action;
   request->index = index;
   request->data = data;
-  request->is_string = f->type == WB_SF_STRING || f->type == WB_MF_STRING || action == IMPORT_FROM_STRING ||
-                       (action == IMPORT && f->type == WB_MF_NODE);
+  request->is_string = f->type == WB_SF_STRING || f->type == WB_MF_STRING || (action == IMPORT && f->type == WB_MF_NODE);
   request->field = f;
   request->next = NULL;
   if (request->type == GET)
@@ -3515,66 +3507,6 @@ void wb_supervisor_field_remove_mf(WbFieldRef field, int index) {
   field_operation(field, REMOVE, index, __FUNCTION__);
 }
 
-void wb_supervisor_field_import_mf_node(WbFieldRef field, int position, const char *filename) {
-  if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, true))
-    return;
-
-  if (!filename || !filename[0]) {
-    fprintf(stderr, "Error: %s() called with a NULL or empty 'filename' argument.\n", __FUNCTION__);
-    return;
-  }
-
-  // check extension
-  const char *dot = strrchr(filename, '.');
-  if (!dot || dot == filename) {
-    fprintf(stderr, "Error: %s() called with a 'filename' argument without extension.\n", __FUNCTION__);
-    return;
-  }
-
-  const bool isWbo = strcmp(dot, ".wbo") == 0;
-  const bool isWrl = strcmp(dot, ".wrl") == 0;
-  if (!isWbo && !isWrl) {
-    fprintf(stderr, "Error: %s() supports only '*.wbo' and '*.wrl' files.\n", __FUNCTION__);
-    return;
-  }
-
-  if (isWrl && field != wb_supervisor_node_get_field(root_ref, "children")) {
-    fprintf(stderr, "Error: %s() '*.wrl' import is supported only at the root children field level.\n", __FUNCTION__);
-    return;
-  }
-
-  WbFieldStruct *f = (WbFieldStruct *)field;
-  if (f->type != WB_MF_NODE) {
-    if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with wrong field type: %s.\n", __FUNCTION__,
-              wb_supervisor_field_get_type_name(field));
-    return;
-  }
-
-  int count = f->count;
-  if (position < -(count + 1) || position > count) {
-    fprintf(stderr, "Error: %s() called with an out-of-bound index: %d (should be between %d and %d).\n", __FUNCTION__,
-            position, -(count + 1), count);
-    return;
-  }
-
-  // resolve negative position value
-  if (position < 0)
-    position = count + position + 1;
-
-  if (isWrl && position != f->count) {
-    fprintf(stderr, "Error: %s() '*.wrl' import is supported only at the end of the root node children field.\n", __FUNCTION__);
-    return;
-  }
-
-  robot_mutex_lock();
-  union WbFieldData data;
-  data.sf_string = supervisor_strdup(filename);
-  create_and_append_field_request(f, IMPORT, position, data, false);
-  wb_robot_flush_unlocked(__FUNCTION__);
-  robot_mutex_unlock();
-}
-
 void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int position, const char *node_string) {
   if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, true))
     return;
@@ -3606,7 +3538,7 @@ void wb_supervisor_field_import_mf_node_from_string(WbFieldRef field, int positi
   robot_mutex_lock();
   union WbFieldData data;
   data.sf_string = supervisor_strdup(node_string);
-  create_and_append_field_request(f, IMPORT_FROM_STRING, position, data, false);
+  create_and_append_field_request(f, IMPORT, position, data, false);
   wb_robot_flush_unlocked(__FUNCTION__);
   robot_mutex_unlock();
 }
@@ -3626,51 +3558,6 @@ void wb_supervisor_field_remove_sf(WbFieldRef field) {
 
   field_operation(field, REMOVE, -1, __FUNCTION__);
   field->count = 0;
-}
-
-void wb_supervisor_field_import_sf_node(WbFieldRef field, const char *filename) {
-  if (!check_field(field, __FUNCTION__, WB_NO_FIELD, false, NULL, false, true))
-    return;
-
-  if (!filename || !filename[0]) {
-    fprintf(stderr, "Error: %s() called with a NULL or empty 'filename' argument.\n", __FUNCTION__);
-    return;
-  }
-
-  // check extension
-  const char *dot = strrchr(filename, '.');
-  if (!dot || dot == filename) {
-    fprintf(stderr, "Error: %s() called with a 'filename' argument without extension.\n", __FUNCTION__);
-    return;
-  }
-
-  if (strcmp(dot, ".wbo") == 0) {
-    fprintf(stderr, "Error: %s() supports only '*.wbo' files.\n", __FUNCTION__);
-    return;
-  }
-
-  WbFieldStruct *f = (WbFieldStruct *)field;
-  if (f->type != WB_SF_NODE) {
-    if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with wrong field type: %s.\n", __FUNCTION__,
-              wb_supervisor_field_get_type_name(field));
-    return;
-  }
-
-  if (field->data.sf_node_uid != 0) {
-    fprintf(stderr, "Error: %s() called with a non-empty field.\n", __FUNCTION__);
-    return;
-  }
-
-  robot_mutex_lock();
-  union WbFieldData data;
-  data.sf_string = supervisor_strdup(filename);
-  create_and_append_field_request(f, IMPORT, -1, data, false);
-  imported_node_id = -1;
-  wb_robot_flush_unlocked(__FUNCTION__);
-  if (imported_node_id >= 0)
-    field->data.sf_node_uid = imported_node_id;
-  robot_mutex_unlock();
 }
 
 void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char *node_string) {
@@ -3698,7 +3585,7 @@ void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char
   robot_mutex_lock();
   union WbFieldData data;
   data.sf_string = supervisor_strdup(node_string);
-  create_and_append_field_request(f, IMPORT_FROM_STRING, -1, data, false);
+  create_and_append_field_request(f, IMPORT, -1, data, false);
   imported_node_id = -1;
   wb_robot_flush_unlocked(__FUNCTION__);
   if (imported_node_id >= 0)

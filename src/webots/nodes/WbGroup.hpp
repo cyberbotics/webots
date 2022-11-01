@@ -95,7 +95,7 @@ public:
 
   // bounding sphere
   WbBoundingSphere *boundingSphere() const override { return mBoundingSphere; }
-  void recomputeBoundingSphere() const;
+  void recomputeBoundingSphere();
   // For a group in a boundingObject
   dSpaceID odeSpace() const { return mOdeSpace; }
   void setOdeData(dSpaceID s) { mOdeSpace = s; }
@@ -115,6 +115,7 @@ signals:
   void notifyParentSlot(WbBaseNode *child);
   void notifyParentJoint(WbBaseNode *child);
   void childFinalizationHasProgressed(const int progress);  // 0: beginning, 100: end
+  void worldLoadingStatusHasChanged(QString status);
 
 protected:
   // this constructor is reserved for derived classes only
@@ -140,6 +141,7 @@ private:
 
   // user accessible fields
   WbMFNode *mChildren;
+  int mLoadProgress;
 
 public slots:
   void cancelFinalization();

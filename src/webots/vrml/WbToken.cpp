@@ -107,7 +107,8 @@ bool WbToken::isKeyword(const QString &word) {
     *gKeywords << "DEF"
                << "USE"
                << "PROTO"
-               << "EXTERNPROTO";
+               << "EXTERNPROTO"
+               << "IMPORTABLE";
     *gKeywords << "IS"
                << "TRUE"
                << "FALSE"

@@ -76,7 +76,7 @@ if status != 0:
 
 # generating asset cache
 print('# generating asset cache')
-generate_asset_cache(current_tag)
+generate_asset_cache(current_tag, webots_version)
 
 # create distribution
 application_name = 'Webots'
@@ -90,4 +90,4 @@ else:
     from linux_distro import LinuxWebotsPackage
     webots_package = LinuxWebotsPackage(application_name)
 print('# generating webots bundle')
-webots_package.create_webots_bundle()
+webots_package.create_webots_bundle(current_tag != webots_version)

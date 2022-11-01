@@ -10,7 +10,7 @@ PROTO ParkingLines [
   field SFInt32    numberOfCarParks 5                             # Defines the number of parks.
   field SFFloat    carParkLength    4.8                           # Defines the length of one park.
   field SFFloat    carParkWidth     2.4                           # Defines the width of one park.
-  field MFString   texture          "webots://projects/objects/traffic/protos/textures/parking_lines.png"  # Defines the texture used for the lines.
+  field MFString   texture          "textures/parking_lines.png"  # Defines the texture used for the lines.
 ]
 {
   %<

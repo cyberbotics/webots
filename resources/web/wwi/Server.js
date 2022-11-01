@@ -1,28 +1,35 @@
 import Stream from './Stream.js';
 
 export default class Server {
+  #httpServerUrl;
+  #project;
+  #onready;
+  #repository;
+  #url;
+  #view;
+  #worldFile;
   constructor(url, view, onready) {
-    this._url = url;
-    this._view = view;
-    this._onready = onready;
+    this.#url = url;
+    this.#view = view;
+    this.#onready = onready;
     // url has one of the following form:
     // "ws(s)://cyberbotics1.epfl.ch:80/simple/worlds/simple.wbt", or
     // "http://cyberbotics1.epfl.ch/session?url=https://github.com/cyberbotics/webots/blob/master/projects/languages/python/worlds/example.wbt"
     // "https://webots.cloud/ajax/server/session.php?url=https://github.com/cyberbotics/webots/blob/master/projects/languages/python/worlds/example.wbt"
-    const n = this._url.indexOf('?url=https://github.com/', 8);
+    const n = this.#url.indexOf('?url=https://github.com/', 8);
     // 8 is for skipping the "http(s)://domain" part of the URL which smallest form is 8 characters long: "https://a"
     if (n === -1) {
       const m = url.lastIndexOf('/');
-      this._project = url.substring(this._url.indexOf('/', 6) + 1, m - 7); // e.g., "simple"
-      this._worldFile = url.substring(m + 1); // e.g., "simple.wbt"
+      this.#project = url.substring(this.#url.indexOf('/', 6) + 1, m - 7); // e.g., "simple"
+      this.#worldFile = url.substring(m + 1); // e.g., "simple.wbt"
     } else
-      this._repository = this._url.substring(n + 5);
+      this.#repository = this.#url.substring(n + 5);
   }
 
   connect() {
-    this._view.progress.setProgressBar('block', 'Connecting to session server...', 0);
+    this.#view.progress.setProgressBar('block', 'Connecting to session server...', 0);
     let self = this;
-    fetch(self._url)
+    fetch(self.#url)
       .then(response => response.text())
       .then(function(data) {
         if (data.startsWith('Error:')) {
@@ -55,28 +62,28 @@ export default class Server {
   }
 
   onError() {
-    this._view.progress.setProgressBar('none');
-    this._view.onquit();
+    this.#view.progress.setProgressBar('none');
+    this.#view.onquit();
   }
 
   onOpen(event) {
-    let message = `{"start":{"url":"` + this._repository + `"`;
-    if (this._view.mode === 'mjpeg')
+    let message = `{"start":{"url":"` + this.#repository + `"`;
+    if (this.#view.mode === 'mjpeg')
       message += ',"mode":"mjpeg"';
     message += '}}';
     this.socket.send(message);
-    this._view.progress.setProgressBar('block', 'Starting simulation...', 5, 'Communication socket open...');
+    this.#view.progress.setProgressBar('block', 'Starting simulation...', 5, 'Communication socket open...');
   }
 
   onMessage(event) {
     const message = event.data;
     if (message.indexOf('webots:ws://') === 0 || message.indexOf('webots:wss://') === 0) {
       const url = message.substring(7);
-      this._httpServerUrl = url.replace(/ws/, 'http');
-      if (typeof this._view.x3dScene !== 'undefined')
-        this._view.x3dScene.prefix = this._httpServerUrl + '/';
-      this._view.stream = new Stream(url, this._view, this._onready);
-      this._view.stream.connect();
+      this.#httpServerUrl = url.replace(/ws/, 'http');
+      if (typeof this.#view.x3dScene !== 'undefined')
+        this.#view.prefix = this.#httpServerUrl + '/';
+      this.#view.stream = new Stream(url, this.#view, this.#onready);
+      this.#view.stream.connect();
     } else if (message.indexOf('controller:') === 0 || message.indexOf('reset controller:') === 0) {
       // Need to keep it to avoid having an error message.
     } else if (message.indexOf('queue:') === 0)
@@ -86,21 +93,22 @@ export default class Server {
     } else if (message.indexOf('error:') === 0) {
       this.onError();
       alert('Session server ' + message);
-    } else if (message.indexOf('docker:') === 0) {
+    } else if (message.indexOf('loading:') === 0) {
+      let body = message.substring(9);
       let percent;
       if (document.getElementById('webots-progress-bar-percent'))
         percent = document.getElementById('webots-progress-bar-percent').value;
-      else if (message.startsWith('docker: Creating network'))
+      else if (body.startsWith('Creating network'))
         percent = 20;
-      else if (message.startsWith('docker: Step '))
-        percent = 20 + 65 * parseInt(message.charAt(13)) / (parseInt(message.charAt(15)) + 1);
-      else if (message.endsWith('done'))
+      else if (body.startsWith('Step '))
+        percent = 20 + 65 * parseInt(body.charAt(5)) / (parseInt(body.charAt(7)) + 1);
+      else if (body.endsWith('done'))
         percent = 85;
-      else if (message.startsWith('webots'))
+      else if (body.startsWith('webots'))
         percent = 90;
-      this._view.progress.setProgressBar('block', 'same', 5 + 0.6 * percent, message)
+      this.#view.progress.setProgressBar('block', 'same', 5 + 0.6 * percent, body);
     } else if (message.indexOf('ide: ') === 0)
-      this._view.ide = true;
+      this.#view.ide = true;
     else if (message.indexOf('shutdownTimeout: ') === 0) {
       const shutdownTimeout = parseFloat(message.substring(17)) - 300; // Warning is issued five minutes before closing
       if (shutdownTimeout > 0)

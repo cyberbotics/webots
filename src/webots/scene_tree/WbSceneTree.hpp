@@ -76,7 +76,7 @@ public slots:
 signals:
   void valueChangedFromGui();
   void nodeSelected(WbBaseNode *n);
-  void editRequested(const QString &filePath, bool modify = false);
+  void editRequested(const QString &filePath, bool modify = false, bool isRobot = false);
   void documentationRequest(const QString &book, const QString &page, bool visible);
 
 private slots:
@@ -100,11 +100,11 @@ private slots:
   void refreshTreeView();
 
   void help();
-  void exportObject();
+  void exportUrdf();
   void openProtoInTextEditor();
   void editProtoInTextEditor();
   void openTemplateInstanceInTextEditor();
-  void handleFieldEditorVisibility(bool isVisible);
+  void showFieldEditor(bool force = false);
 
   void del(WbNode *nodeToDel = NULL);
 
@@ -113,7 +113,7 @@ private:
   QString mWorldFileName;
   WbSceneTreeModel *mModel;
   WbTreeItem *mSelectedItem;
-  QPushButton *mExternProto;
+  QPushButton *mExternProtoButton;
   WbTreeView *mTreeView;
   WbFieldEditor *mFieldEditor;
   bool mRowsAreAboutToBeRemoved;
@@ -146,6 +146,7 @@ private:
   void cut();
   void copy();
   void paste();
+  void enableObjectViewActions(bool enabled);
 };
 
 #endif

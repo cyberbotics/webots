@@ -158,22 +158,22 @@ WbController::~WbController() {
     mRobot->removeRemoteExternController();
     if (!mHasBeenTerminatedByItself)
       sendTerminationPacket(mTcpSocket, buffer, size);
-  } else if (mProcess && mProcess->state() != QProcess::NotRunning)
+  } else if (mProcess && mProcess->state() != QProcess::NotRunning) {
     mProcess->terminate();
+    mProcess->deleteLater();
+    mProcess = NULL;
+  }
 
   if (mExtern) {
     info(tr("disconnected."));
     WbControlledWorld::instance()->externConnection(this, false);
   }
 
-  if (mHasBeenTerminatedByItself)
-    mHasBeenTerminatedByItself = false;
-  else {
-    delete mSocket;
-    delete mServer;
-    delete mProcess;
+  delete mProcess;
+  delete mSocket;
+  if (!mHasBeenTerminatedByItself)
     delete mTcpSocket;
-  }
+  delete mServer;
   if (!mIpcPath.isEmpty())
     QDir(mIpcPath).removeRecursively();
 }
@@ -249,6 +249,7 @@ void WbController::start() {
     const QString remoteUrl = "tcp://<ip_address>:" + QString::number(WbStandardPaths::webotsTmpPathId()) + '/' +
                               QUrl::toPercentEncoding(mRobot->name());
     info(tr("waiting for connection on %1 or on %2").arg(localUrl).arg(remoteUrl));
+    WbControlledWorld::instance()->externConnection(this, false);
     if (WbWorld::printExternUrls()) {
       std::cout << localUrl.toUtf8().constData() << std::endl;
       std::cout << remoteUrl.toUtf8().constData() << std::endl;
@@ -548,7 +549,7 @@ void WbController::setProcessEnvironment() {
           if (QDir(protoLibrariesPath).exists())
             librariesSearchPaths << protoLibrariesPath;
         }
-        protoModel = WbProtoManager::instance()->findModel(protoModel->ancestorProtoName(), "");
+        protoModel = WbProtoManager::instance()->findModel(protoModel->ancestorProtoName(), "", protoModel->diskPath());
       } while (protoModel);
     }
   }
@@ -966,7 +967,7 @@ void WbController::copyBinaryAndDependencies(const QString &filename) {
 
 #ifdef __APPLE__
   // silently change RPATH before launching controller, if the controller is not in the installation path.
-  if (filename.startsWith(WbStandardPaths::webotsHomePath()) || !QFileInfo(filename).isWritable())
+  if (WbFileUtil::isLocatedInInstallationDirectory(filename, true) || !QFileInfo(filename).isWritable())
     return;
 
   QProcess process;

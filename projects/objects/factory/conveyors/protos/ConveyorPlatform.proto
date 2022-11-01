@@ -18,6 +18,7 @@ PROTO ConveyorPlatform [
   field  SFString    name             "Conveyor platform"  # Is `Solid.name`.
   field  SFString    model            "Conveyor platform"  # Is `Solid.model`.
   field  SFString    controller       "conveyor_belt"      # Is `Robot.controller`.
+  field  SFString    window           "<none>"             # Is `Robot.window`.
   field  SFFloat     speed            0.3                  # Defines the rubber band speed in meters per second.
   field  SFFloat     acceleration     -1                   # Defines the acceleration of the conveyor belt.
   field  SFFloat     timer            0.0                  # Defines for how long the conveyor belt should move (it will move forever if set to 0).
@@ -34,6 +35,7 @@ PROTO ConveyorPlatform [
       "%<= fields.speed.value >%"
       "%<= fields.timer.value >%"
     ]
+    window IS window
     children [
       Track {
         children [

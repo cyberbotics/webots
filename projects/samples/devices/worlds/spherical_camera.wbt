@@ -266,7 +266,7 @@ Robot {
       fieldOfView 3.1415
       width 128
       height 128
-      spherical TRUE
+      projection "spherical"
       antiAliasing TRUE
     }
     DEF SMILE Transform {

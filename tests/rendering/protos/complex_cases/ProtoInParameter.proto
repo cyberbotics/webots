@@ -1,0 +1,25 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "ProtoInParameter/CustomAppearanceWithoutParameter.proto"
+
+PROTO ProtoInParameter [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 0 1 0
+  field SFNode     appearance  CustomAppearanceWithoutParameter {}
+  field SFString   name        ""
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    children [
+      Shape {
+        appearance IS appearance
+        geometry Mesh {
+          url "../../meshes/mesh_width_2m.obj"
+        }
+      }
+    ]
+  }
+}

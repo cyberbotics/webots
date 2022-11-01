@@ -15,7 +15,9 @@
 #include "WbInsertExternProtoDialog.hpp"
 
 #include <WbDownloader.hpp>
+#include "WbClipboard.hpp"
 #include "WbLog.hpp"
+#include "WbMessageBox.hpp"
 #include "WbNetwork.hpp"
 #include "WbPreferences.hpp"
 #include "WbProtoManager.hpp"
@@ -24,6 +26,7 @@
 #include <QtCore/QRegularExpression>
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QMessageBox>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTreeWidget>
 #include <QtWidgets/QTreeWidgetItem>
@@ -36,12 +39,15 @@ WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : mRetriev
   mSearchBar->setClearButtonEnabled(true);
 
   mTree = new QTreeWidget();
+  mTree->setHeaderHidden(true);
+  connect(mTree, &QTreeWidget::doubleClicked, this, &WbInsertExternProtoDialog::accept);
 
   // define buttons
   mCancelButton = new QPushButton(tr("Cancel"), this);
   mCancelButton->setFocusPolicy(Qt::ClickFocus);
   mInsertButton = new QPushButton(tr("Insert"), this);
   mInsertButton->setFocusPolicy(Qt::ClickFocus);
+  mInsertButton->setEnabled(false);
   connect(mCancelButton, &QPushButton::pressed, this, &WbInsertExternProtoDialog::reject);
   connect(mInsertButton, &QPushButton::pressed, this, &WbInsertExternProtoDialog::accept);
 
@@ -53,19 +59,28 @@ WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : mRetriev
   layout->addWidget(mTree);
   layout->addWidget(buttonBox);
 
-  connect(mSearchBar, &QLineEdit::textChanged, this, &WbInsertExternProtoDialog::updateProtoTree);
   connect(mTree, &QTreeWidget::itemSelectionChanged, this, &WbInsertExternProtoDialog::updateSelection);
 
-  updateProtoTree();
+  // retrieve PROTO dependencies of all locally available PROTO prior to generating the dialog
+  connect(WbProtoManager::instance(), &WbProtoManager::dependenciesAvailable, this,
+          &WbInsertExternProtoDialog::updateProtoTree);
+  WbProtoManager::instance()->retrieveLocalProtoDependencies();
 }
 
 WbInsertExternProtoDialog::~WbInsertExternProtoDialog() {
 }
 
 void WbInsertExternProtoDialog::updateProtoTree() {
-  mTree->clear();
-  mTree->setHeaderHidden(true);
+  if (qobject_cast<WbProtoManager *>(sender())) {
+    disconnect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this,
+               &WbInsertExternProtoDialog::updateProtoTree);
+    connect(mSearchBar, &QLineEdit::textChanged, this, &WbInsertExternProtoDialog::updateProtoTree);
+  }
 
+  mTree->clear();
+
+  QTreeWidgetItem *const worldFileProtosItem =
+    new QTreeWidgetItem(QStringList("PROTO nodes (Current World File)"), WbProtoManager::PROTO_WORLD);
   QTreeWidgetItem *const projectProtosItem =
     new QTreeWidgetItem(QStringList("PROTO nodes (Current Project)"), WbProtoManager::PROTO_PROJECT);
   QTreeWidgetItem *const extraProtosItem =
@@ -77,18 +92,55 @@ void WbInsertExternProtoDialog::updateProtoTree() {
     QRegularExpression::wildcardToRegularExpression(mSearchBar->text(), QRegularExpression::UnanchoredWildcardConversion),
     QRegularExpression::CaseInsensitiveOption);
 
-  const int categories[3] = {WbProtoManager::PROTO_PROJECT, WbProtoManager::PROTO_EXTRA, WbProtoManager::PROTO_WEBOTS};
-  QTreeWidgetItem *const items[3] = {projectProtosItem, extraProtosItem, webotsProtosItem};
-  for (int i = 0; i < 3; ++i) {
+  const int categories[4] = {WbProtoManager::PROTO_WORLD, WbProtoManager::PROTO_PROJECT, WbProtoManager::PROTO_EXTRA,
+                             WbProtoManager::PROTO_WEBOTS};
+  QTreeWidgetItem *const items[4] = {worldFileProtosItem, projectProtosItem, extraProtosItem, webotsProtosItem};
+
+  QStringList existingImportableExternProto;  // existing importable EXTERNPROTO entries
+  QVector<const WbExternProto *> existingInstantiatedExternProto;
+  foreach (const WbExternProto *item, WbProtoManager::instance()->externProto()) {
+    if (item->isImportable())
+      existingImportableExternProto << item->name();
+    else
+      existingInstantiatedExternProto.append(item);
+  }
+
+  for (int i = 0; i < 4; ++i) {
     WbProtoManager::instance()->generateProtoInfoMap(categories[i]);
     QMapIterator<QString, WbProtoInfo *> it(WbProtoManager::instance()->protoInfoMap(categories[i]));
     while (it.hasNext()) {
       const QString &protoName = it.next().key();
+      const QString &protoUrl = it.value()->url();
+
+      // list only items that aren't in the panel already
+      if (existingImportableExternProto.contains(protoName))
+        continue;
+
+      // don't display items that have the same name and a different URL as an instantiated PROTO
+      bool conflictingInstantiated = false;
+      foreach (const WbExternProto *instantiated, existingInstantiatedExternProto) {
+        // the URL might differ, but they might point to the same object (ex: one is webots://, the other absolute)
+        if (instantiated->name() != protoName || WbUrl::resolveUrl(instantiated->url()) == WbUrl::resolveUrl(protoUrl))
+          continue;
+
+        conflictingInstantiated = true;
+        break;
+      }
+      if (conflictingInstantiated)
+        continue;
+
+      // don't display PROTOs which contain a "hidden" or a "deprecated" tag
+      const QStringList tags = it.value()->tags();
+      if (tags.contains("deprecated", Qt::CaseInsensitive) || tags.contains("hidden", Qt::CaseInsensitive))
+        continue;
+
       if (protoName.contains(regexp))
         items[i]->addChild(new QTreeWidgetItem(items[i], QStringList(protoName)));
     }
   }
 
+  if (worldFileProtosItem->childCount() > 0)
+    mTree->addTopLevelItem(worldFileProtosItem);
   if (projectProtosItem->childCount() > 0)
     mTree->addTopLevelItem(projectProtosItem);
   if (extraProtosItem->childCount() > 0)
@@ -101,8 +153,30 @@ void WbInsertExternProtoDialog::updateProtoTree() {
 }
 
 void WbInsertExternProtoDialog::accept() {
-  if (mTree->selectedItems().size() == 0)
+  if (mTree->selectedItems().size() == 0 || !mInsertButton->isEnabled())
     return;
+
+  const QList<WbExternProto *> &clipboardBuffer = WbProtoManager::instance()->externProtoClipboardBuffer();
+  bool conflict = false;
+  foreach (const WbExternProto *proto, clipboardBuffer) {
+    if (proto && proto->name() == mTree->selectedItems().at(0)->text(0) && !mRetrievalTriggered) {
+      conflict = true;
+      break;
+    }
+  }
+
+  if (conflict) {
+    const QMessageBox::StandardButton clipboardBufferWarningDialog = WbMessageBox::warning(
+      "One or more PROTO nodes with the same name as the one you are about to insert is contained in the clipboard. Do "
+      "you want to continue? This operation will clear the clipboard.",
+      this, "Warning", QMessageBox::Cancel, QMessageBox::Ok | QMessageBox::Cancel);
+
+    if (clipboardBufferWarningDialog == QMessageBox::Ok) {
+      WbProtoManager::instance()->clearExternProtoClipboardBuffer();
+      WbClipboard::instance()->clear();
+    } else
+      return;
+  }
 
   // When declaring an EXTERNPROTO, the associated node and all the sub-proto it depends on are downloaded. Since a-priori is
   // unknown which among them is already available, it must be assumed that none is and therefore this function is called twice,
@@ -127,7 +201,7 @@ void WbInsertExternProtoDialog::accept() {
   }
 
   // this point should only be reached after the retrieval and therefore from this point the PROTO must be available locally
-  if (WbUrl::isWeb(mPath) && !WbNetwork::instance()->isCached(mPath)) {
+  if (WbUrl::isWeb(mPath) && !WbNetwork::instance()->isCachedWithMapUpdate(mPath)) {
     WbLog::error(tr("Retrieval of PROTO '%1' was unsuccessful, the asset should be cached but it is not.").arg(mProto));
     QDialog::reject();
   }

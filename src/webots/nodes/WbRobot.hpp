@@ -59,7 +59,7 @@ public:
   void save(const QString &id) override;
 
   // controller
-  void externControllerChanged();
+  void notifyExternControllerChanged();
   void newRemoteExternController();
   void removeRemoteExternController();
   bool isControllerExtern() const { return controllerName() == "<extern>"; }
@@ -74,6 +74,7 @@ public:
   bool isWaitingForWindow() const { return mWaitingForWindow; }
   void setWaitingForWindow(bool waiting);
   void addNewlyInsertedDevice(WbNode *node);
+  void fixMissingResources() const override;
 
   // path to the project folder containing the proto model
   // returns an empty string if the robot is not a proto node
@@ -129,7 +130,7 @@ public:
   // map qt special key to webots special key, return 0 if not found
   static int mapSpecialKey(int qtKey);
   // return the absolute file name of the robot window file, if it exists
-  QString windowFile(const QString &extension = "html");
+  QString windowFile(const QString &extension = "html") const;
   void showWindow();  // show the Qt-based controller robot window (to be deprecated)
   void updateControllerWindow();
 
@@ -146,6 +147,7 @@ public slots:
 signals:
   void startControllerRequest(WbRobot *robot);
   void immediateMessageAdded();
+  void externControllerChanged();
   void controllerChanged();
   void controllerExited();
   void windowChanged();

@@ -134,9 +134,10 @@ webots-view .icon-info            { background-image: url(../images/icons/info.s
 webots-view .icon-settings        { background-image: url(../images/icons/settings.svg); }
 webots-view .icon-fullscreen      { background-image: url(../images/icons/fullscreen.svg); }
 webots-view .icon-windowed        { background-image: url(../images/icons/windowed.svg); }
-webots-view .icon-robot-window    { background-image: url(../images/icons/robot-window.svg); }
+webots-view .icon-robot-window, webots-view .icon-custom-window    { background-image: url(../images/icons/robot-window.svg); }
 webots-view .icon-ide             { background-image: url(../images/icons/ide.svg); }
 webots-view .icon-world-selection { background-image: url(../images/icons/world-selection.svg); }
+webots-view .icon-terminal        { background-image: url(../images/icons/terminal.svg); }
 
 webots-view .icon {
   transition: all 0.1s ease-in-out;
@@ -215,6 +216,7 @@ webots-view .toolbar-btn:hover .icon-windowed {
 webots-view .tooltip {
   visibility: hidden;
   background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
   color: rgb(240, 240, 240);
   text-align: center;
   font-size: 14px;
@@ -398,18 +400,18 @@ webots-view .settings-pane {
   position: absolute;
   bottom: 55px;
   right: 1%;
-  border: 1px solid #222;
   overflow: auto;
   max-height: 90%;
   max-width: 50%;
   min-width: 265px;
   background: rgba(0,0,0, 0.7);
+  backdrop-filter: blur(10px);
   font-family: 'Arial';
   font-size: 14px;
   font-weight: 500;
   text-shadow: 0 0 2px black;
   color: rgba(240, 240, 240, 1);
-  border-radius: 2px;
+  border-radius: 4px;
   line-height: 1.5;
   text-size-adjust: 100%;
 }
@@ -433,6 +435,7 @@ webots-view .settings-pane li {
 
 webots-view .settings-pane li:hover {
   background: #222;
+  backdrop-filter: blur(10px);
   cursor: pointer;
 }
 
@@ -591,9 +594,10 @@ webots-view #remoteScene {
 
 webots-view .floating-window {
   background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
   position: absolute;
   display: block;
-  border-radius: 5px;
+  border-radius: 4px;
   overflow: hidden;
   min-height: 65px;
   min-width: 200px;
@@ -604,7 +608,7 @@ webots-view .floating-window {
 
 webots-view .floating-window-header {
   background-color: rgba(0, 0, 0, 0.4);
-  color: white;
+  backdrop-filter: blur(10px);
   display: flex;
   justify-content: space-between;
   border-top-left-radius: 5px;
@@ -613,6 +617,9 @@ webots-view .floating-window-header {
   height: 45px;
 }
 
+webots-view .floating-window-header p {
+  color: white;
+}
 webots-view .floating-window-text{
   margin-left: 10px;
   font-size: 14px;
@@ -712,22 +719,106 @@ webots-view #resize-nw {
   width: 11px;
 }
 
+/* Terminal */
+
+webots-view #terminal-terminal {
+  overflow-y: auto;
+  height: calc(100% - 40px);
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+webots-view .terminal-message {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-family: "Raleway-light";
+}
+
+webots-view .terminal-options {
+  height: 28px;
+  margin-bottom: 10px;
+  background-color: rgb(44, 44, 44);
+}
+
+webots-view .terminal-button {
+  background-color: transparent;
+  border: 0px;
+}
+webots-view .icon-clear {
+  height: 24px;
+  width: 24px;
+  background-image: url(../images/icons/clear.svg);
+  background-size: 24px;
+  margin-left: 8px;
+  margin-right: 0px;
+  position: absolute;
+  top: 46px;
+}
+
+webots-view .terminal-button:active {
+  animation: animation-scale-down 0.3s;
+}
+
+webots-view .terminal-separator {
+  position: absolute;
+  height: 14px;
+  width: 1px;
+  top: 52px;
+  left: 41px;
+  border-left: 1px solid #777;
+}
+
+webots-view #separator-1 { left: 170px }
+
+webots-view .terminal-std {
+  position: absolute;
+  width: 46px;
+  height: 20px;
+  top: 49px;
+  padding: 0px;
+  color: white;
+  border-radius: 4px;
+  border: 1px solid rgba(119, 119, 119, 0.5);
+  background-color: rgba(119, 119, 119, 0.5);
+}
+
+webots-view .terminal-stdout { left: 54px; }
+webots-view .terminal-stderr { left: 112px; }
+webots-view .terminal-info {
+  left: 183px;
+  width: 43px;
+}
+webots-view .terminal-warning {
+  width:72px;
+  left: 238px;
+}
+webots-view .terminal-error {
+  width: 55px;
+  left: 322px;
+}
+webots-view .terminal-other {
+  width: 42px;
+  left: 389px;
+}
+
+
 /* Vertical panes */
 
 webots-view .vertical-list-pane {
   position: absolute;
   bottom: 55px;
-  border: 1px solid #222;
   overflow: auto;
   max-height: 90%;
   max-width: 50%;
   background: rgba(0,0,0, 0.7);
+  backdrop-filter: blur(10px);
   font-family: 'Arial';
   font-size: 14px;
   font-weight: 500;
   text-shadow: 0 0 2px black;
   color: rgba(240, 240, 240, 1);
-  border-radius: 2px;
+  border-radius: 4px;
   z-index: 4;
 }
 
@@ -739,12 +830,14 @@ webots-view .vertical-list-pane-li {
 
 webots-view .vertical-list-pane-li:hover {
   background: #222;
+  backdrop-filter: blur(10px);
   cursor: pointer;
 }
 
 webots-view .vertical-list-pane-title {
+  background-color: rgba(0, 0, 0, 0.4);
   padding: 8px;
-  border-bottom: 1px solid grey;
+  border-bottom: 1px solid #333;
   color: #aaa;
   font-size: 14px;
   font-weight: 700;

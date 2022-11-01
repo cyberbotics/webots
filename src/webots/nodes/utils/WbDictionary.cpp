@@ -75,7 +75,7 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
   // Charger and LED USE nodes in the first child have to link to DEF nodes in the first child
 
   if (!defName.isEmpty() && mNestedDictionaries.size() == 1)
-    mSceneDictionary.append(QPair<WbNode *, QString>(node, defName));
+    mSceneDictionary.append(std::pair<WbNode *, QString>(node, defName));
 
   QString warning;
   const bool isAValidUseableNode =
@@ -407,12 +407,11 @@ void WbDictionary::updateProtosDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode
 void WbDictionary::makeDefNodeAndUpdateDictionary(WbBaseNode *node, bool updateSceneDictionary) {
   const QString &useName = node->useName();
   node->makeDefNode();
-  node->updateContextDependentObjects();
   assert(mNestedDictionaries.size() >= 2);
   mNestedDictionaries.removeLast();  // remove USE node local dictionary
   mNestedDictionaries.last().insert(useName, node);
   if (updateSceneDictionary && mNestedDictionaries.size() == 1)
-    mSceneDictionary.append(QPair<WbNode *, QString>(node, node->defName()));
+    mSceneDictionary.append(std::pair<WbNode *, QString>(node, node->defName()));
 }
 
 bool WbDictionary::checkBoundingObjectConstraints(const WbBaseNode *defNode, QString &errorMessage) {
@@ -594,7 +593,7 @@ void WbDictionary::updateForInsertion(const WbNode *const node, bool suitableOnl
 WbNode *WbDictionary::getNodeFromDEF(const QString &defName) const {
   const int size = mSceneDictionary.size();
   for (int i = 0; i < size; ++i) {
-    const QPair<WbNode *, QString> entry = mSceneDictionary.at(i);
+    const std::pair<WbNode *, QString> entry = mSceneDictionary.at(i);
     if (entry.second == defName)
       return entry.first;
   }
@@ -608,7 +607,7 @@ void WbDictionary::updateNodeDefName(WbNode *node, bool fromUseToDef) {
 
   const int size = mSceneDictionary.size();
   for (int i = 0; i < size; ++i) {
-    QPair<WbNode *, QString> &entry = mSceneDictionary[i];
+    std::pair<WbNode *, QString> &entry = mSceneDictionary[i];
     if (entry.first == node) {
       if (node->defName().isEmpty())
         mSceneDictionary.removeAt(i);
@@ -627,7 +626,7 @@ void WbDictionary::removeNodeFromDictionary(WbNode *node) {
     // dictionary will be completely recomputed
     return;
 
-  QMutableListIterator<QPair<WbNode *, QString>> it(mSceneDictionary);
+  QMutableListIterator<std::pair<WbNode *, QString>> it(mSceneDictionary);
   while (it.hasNext()) {
     if (it.next().first == node) {
       it.remove();

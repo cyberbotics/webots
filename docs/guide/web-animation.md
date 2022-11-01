@@ -44,6 +44,7 @@ The following attributes are available:
 * `data-animation`: the name of the .json file containing the animation sequence.
 * `data-autoplay`: boolean to determine if the animation should be played automatically, `true` by default.
 * `data-isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
+* `showCustomWindow`: specify if the custom window button must be displayed on the toolbar. Must be set before loading the animation. That button is hidden by default.
 
 The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-scene` and the `data-animation` attributes are set, the `webots-view` web-component will automatically try to load an animation .
 
@@ -53,20 +54,37 @@ For more complex interaction with the web component, the following functions are
   * `id`: the id of the node to get.
 * `hasAnimation()`: return `true` if there is already a animation loaded by the web component, `false` otherwise.
 * `hasView()`: return `true` if a view exist, `false` otherwise.
-* `loadAnimation(scene, animation, play, mobileDevice)`: load and play the animation.
+* `loadAnimation(scene, animation, play, mobileDevice, thumbnail)`: load and play the animation.
   * `scene`: name of the .x3d file.
   * `animation`: name of the .json file.
   * `play`: if false, the animation will be paused, otherwise it will be played.
   * `mobileDevice`: boolean variable specifying if the application is running on a mobile device.
+  * `thumbnail`: the URL of the scene thumbnail.
 * `onready()`: a function that can be overridden. It will be called once the animation is loaded.
 * `resize()`: automatically resize the web-component.
 * `setAmbientOcclusion(level)`: change the intensity of the ambient occlusion to the given level.
     * `level`: the new level of ambient occlusion. Integer between 1 and 4.
+* `stepCallback(time)`: a function that can be overridden. It will be called at every animation's step.
+  * `time`: the current timeStep of the animation.
 * `updateNode(nodeId, field, value, render)`: Update the value of a webotsjs node. The value is updated only on the web side, do not use with the simulation.
   * `nodeId`: the id of the node (for example: 113).
-  * `field`: the field to update. Supported field are: `translation`, `rotation` and the various `colors`.
+  * `field`: the field to update. Supported field are: `translation`, `rotation`, `scale` and the various `colors`.
   * `value`: the new value to be set, in `WbVector3.js` or `WbVector4.js` format.
   * `render`: a boolean that indicates whether the function should render once or not once the modifications are applied.
+
+A empty window can be personalized to display additional information about the animation (display graphs, describe the animation,...).
+To enable it, you must set the `showCustomWindow` attribute of the `webots-view` element to `true` before loading the animation.
+An icon to open the window will then appear in the right side of the toolbar.
+
+The following function are available for you to personalized the window:
+* `setCustomWindowTitle(title)`: set the title of the window.
+  * `title`: the new title of the window.
+* `setCustomWindowTooltip(tooltip)`: set the tooltip of the window's button.
+  * `tooltip`: the new tooltip of the window's button.
+* `setCustomWindowContent(content)`: set the content of the window. Replace existing content.
+  * `content`: the new content of the window.
+
+**NOTE**: Be sure to call these functions only once the `onReady()` function has been called. This is to ensure that the window has already been created.
 
 ### Limitations
 

@@ -1,0 +1,14 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "IntermediaryAncestor/IntermediaryAncestorWithInternalTexture.proto"
+
+PROTO TextureInternalIntermediaryAncestor [
+  field SFVec3f  translation 0 0 0
+  field SFString name        ""
+]
+{
+  IntermediaryAncestorWithInternalTexture {
+    translation IS translation
+    name IS name
+  }
+}

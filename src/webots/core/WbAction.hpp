@@ -19,13 +19,11 @@
 // Description: List of actions available from any Webots module
 //
 
-#include <QtCore/QPair>
 #include <QtCore/QString>
 
 namespace WbAction {
   enum WbActionKind {
     // world and simulation actions
-    NEW_WORLD,
     OPEN_WORLD,
     OPEN_SAMPLE_WORLD,
     SAVE_WORLD,
@@ -106,12 +104,18 @@ namespace WbAction {
     FOLLOW_MOUNTED,
     FOLLOW_PAN_AND_TILT,
     MOVE_VIEWPOINT_TO_OBJECT,
+    OBJECT_FRONT_VIEW,
+    OBJECT_BACK_VIEW,
+    OBJECT_LEFT_VIEW,
+    OBJECT_RIGHT_VIEW,
+    OBJECT_TOP_VIEW,
+    OBJECT_BOTTOM_VIEW,
     RESTORE_VIEWPOINT,
     VIEW_MENU,
-    FRONT_VIEW,
-    BACK_VIEW,
-    LEFT_VIEW,
-    RIGHT_VIEW,
+    SOUTH_VIEW,
+    NORTH_VIEW,
+    WEST_VIEW,
+    EAST_VIEW,
     TOP_VIEW,
     BOTTOM_VIEW,
     // overlays
@@ -132,7 +136,8 @@ namespace WbAction {
     // node/field actions
     OPEN_HELP,
     RESET_VALUE,
-    EXPORT_NODE,
+    EDIT_FIELD,
+    EXPORT_URDF,
     // PROTO actions
     EDIT_PROTO_SOURCE,
     SHOW_PROTO_SOURCE,

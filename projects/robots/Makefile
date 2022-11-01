@@ -36,6 +36,7 @@ CONTROLLERS=\
   fujitsu/hoap2/controllers.Makefile \
   gctronic/e-puck/controllers.Makefile \
   gctronic/elisa/controllers.Makefile \
+  husarion/rosbot/controllers.Makefile \
   irobot/create/controllers.Makefile \
   kinematics/tinkerbots/controllers.Makefile \
   k-team/hemisson/controllers.Makefile \
@@ -74,12 +75,10 @@ CONTROLLERS=\
   universal_robots/controllers.Makefile
 
 ROBOT_WINDOWS=gctronic/e-puck/plugins/robot_windows.Makefile \
-	robotis/darwin-op/plugins/robot_windows.Makefile \
-	nex/plugins/robot_windows.Makefile
+	robotis/darwin-op/plugins/robot_windows.Makefile
 
 REMOTE_CONTROLS=gctronic/e-puck/plugins/remote_controls.Makefile \
-	robotis/darwin-op/plugins/remote_controls.Makefile \
-	nex/plugins/remote_controls.Makefile
+	robotis/darwin-op/plugins/remote_controls.Makefile
 
 PHYSICS_PLUGINS=epfl/lis/plugins/physics.Makefile
 

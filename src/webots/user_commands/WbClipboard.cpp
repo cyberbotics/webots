@@ -152,10 +152,11 @@ void WbClipboard::setNode(WbNode *n, bool persistent) {
   mNodeInfo->modelName = n->modelName();
   mNodeInfo->nodeModelName = n->nodeModelName();
   mNodeInfo->slotType = WbNodeUtilities::slotType(n);
-  mNodeInfo->hasADeviceDescendant = WbNodeUtilities::hasADeviceDescendant(n);
+  mNodeInfo->hasADeviceDescendant = WbNodeUtilities::hasADeviceDescendant(n, true);
+  mNodeInfo->hasAConnectorDescendant = mNodeInfo->hasADeviceDescendant || WbNodeUtilities::hasADeviceDescendant(n, false);
   WbNode::enableDefNodeTrackInWrite(false);
   mNodeExportString = WbNodeOperations::exportNodeToString(n);
-  QList<QPair<WbNode *, int>> externalDefNodes(*WbNode::externalUseNodesPositionsInWrite());
+  QList<std::pair<WbNode *, int>> externalDefNodes(*WbNode::externalUseNodesPositionsInWrite());
   WbNode::disableDefNodeTrackInWrite();
   // store all the required external DEF nodes data in order to work correctly
   // independently if other nodes are deleted

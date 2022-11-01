@@ -13,8 +13,10 @@
 // limitations under the License.
 
 #include "WbNetwork.hpp"
+
 #include "WbLog.hpp"
 #include "WbPreferences.hpp"
+#include "WbStandardPaths.hpp"
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QCryptographicHash>
@@ -25,10 +27,6 @@
 #include <QtNetwork/QNetworkProxy>
 
 static WbNetwork *gInstance = NULL;
-
-// gCacheMap is an ephemeral (internal) representation of what is known about the cache at every session, as such it isn't
-// persistent nor is it ever complete. Its purpose is to speed up checking and retrieving previously referenced assets.
-static QMap<QString, QString> gCacheMap;
 
 void WbNetwork::cleanup() {
   delete gInstance;
@@ -42,10 +40,13 @@ WbNetwork *WbNetwork::instance() {
 
 WbNetwork::WbNetwork() {
   mNetworkAccessManager = NULL;
-  gCacheMap.clear();
 
-  mCacheDirectory = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/assets/";
-  QDir dir(mCacheDirectory);
+  // delete previous caching system folder (< R2022b)
+  QDir oldCache(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/network/");
+  if (oldCache.exists())
+    oldCache.removeRecursively();
+
+  QDir dir(WbStandardPaths::cachedAssetsPath());
   if (!dir.exists())
     dir.mkpath(".");
 
@@ -103,43 +104,51 @@ void WbNetwork::setProxy() {
 }
 
 void WbNetwork::save(const QString &url, const QByteArray &content) {
-  if (!isCached(url)) {
+  if (!isCachedWithMapUpdate(url)) {
     // save to file
-    const QString path = mCacheDirectory + urlToHash(url);
+    const QString path(WbStandardPaths::cachedAssetsPath() + urlToHash(url));
     QFile file(path);
     if (file.open(QIODevice::WriteOnly)) {
       file.write(content);
       mCacheSizeInBytes += file.size();
       file.close();
       // save reference in internal representation
-      gCacheMap.insert(url, path);
+      mCacheMap.insert(url, path);
     }
   }
 }
 
-const QString WbNetwork::get(const QString &url) const {
-  // cppcheck-suppress assertWithSideEffect
-  assert(isCached(url));  // the 'get' function should not be called unless we know that the file is cached
-
-  if (gCacheMap.contains(url))
-    return gCacheMap[url];
-
-  const QString location = mCacheDirectory + urlToHash(url);
-  gCacheMap.insert(url, location);
-
-  return location;
+const QString &WbNetwork::get(const QString &url) {
+  if (!mCacheMap.contains(url)) {
+    const QString filePath = WbStandardPaths::cachedAssetsPath() + urlToHash(url);
+    mCacheMap.insert(url, filePath);
+    assert(QFileInfo(filePath).exists());  // the 'get' function should not be called unless we know that the file is cached
+  }
+  return mCacheMap[url];
 }
 
-bool WbNetwork::isCached(const QString &url) const {
-  if (gCacheMap.contains(url))  // avoid checking for file existence (and computing hash again) if asset is known to be cached
+bool WbNetwork::isCachedWithMapUpdate(const QString &url) {
+  if (mCacheMap.contains(url))  // avoid checking for file existence (and computing hash again) if asset is known to be cached
     return true;
 
-  // if url is not in the internal representation, check for file existence on disk
-  const QString filePath = mCacheDirectory + urlToHash(url);
+  // if URL is not in the internal representation, check for file existence on disk
+  const QString filePath = WbStandardPaths::cachedAssetsPath() + urlToHash(url);
   if (QFileInfo(filePath).exists()) {
-    gCacheMap.insert(url, filePath);  // knowing it exists, keep track of it in case it gets asked again
+    mCacheMap.insert(url, filePath);  // knowing it exists, keep track of it in case it gets asked again
     return true;
   }
+
+  return false;
+}
+
+bool WbNetwork::isCachedNoMapUpdate(const QString &url) const {
+  if (mCacheMap.contains(url))  // avoid checking for file existence (and computing hash again) if asset is known to be cached
+    return true;
+
+  // if URL is not in the internal representation, check for file existence on disk
+  const QString filePath = WbStandardPaths::cachedAssetsPath() + urlToHash(url);
+  if (QFileInfo(filePath).exists())
+    return true;
 
   return false;
 }
@@ -155,7 +164,7 @@ void WbNetwork::reduceCacheUsage() {
 
   QFileInfoList assets;
 
-  QDirIterator it(mCacheDirectory, QDir::Files, QDirIterator::Subdirectories);
+  QDirIterator it(WbStandardPaths::cachedAssetsPath(), QDir::Files, QDirIterator::Subdirectories);
   while (it.hasNext()) {
     it.next();
     assets << it.fileInfo();
@@ -171,8 +180,8 @@ void WbNetwork::reduceCacheUsage() {
     QDir().remove(fi.absoluteFilePath());  // remove the file from disk
 
     // find key (url) corresponding to path, and remove it from the internal representation
-    const QString key = gCacheMap.key(fi.absoluteFilePath());
-    gCacheMap.remove(key);
+    const QString key = mCacheMap.key(fi.absoluteFilePath());
+    mCacheMap.remove(key);
 
     mCacheSizeInBytes -= fi.size();
   }
@@ -183,7 +192,7 @@ bool WbNetwork::lastReadLessThan(QFileInfo &f1, QFileInfo &f2) {
 }
 
 void WbNetwork::clearCache() {
-  QDir dir(mCacheDirectory);
+  QDir dir(WbStandardPaths::cachedAssetsPath());
   if (dir.exists()) {
     dir.removeRecursively();
     // recreate cache directory since it gets removed as well by removeRecursively
@@ -191,20 +200,20 @@ void WbNetwork::clearCache() {
   }
 
   mCacheSizeInBytes = 0;
-  gCacheMap.clear();
+  mCacheMap.clear();
 }
 
 void WbNetwork::recomputeCacheSize() {
   mCacheSizeInBytes = 0;
 
-  QDirIterator it(mCacheDirectory, QDir::Files, QDirIterator::Subdirectories);
+  QDirIterator it(WbStandardPaths::cachedAssetsPath(), QDir::Files, QDirIterator::Subdirectories);
   while (it.hasNext()) {
     it.next();
     mCacheSizeInBytes += it.fileInfo().size();
   }
 }
 
-const QString WbNetwork::getUrlFromEphemeralCache(const QString &cachePath) {
-  assert(gCacheMap.values().contains(cachePath));  // should not attempt to get the url from the hash unless it's available
-  return gCacheMap.key(cachePath);
+const QString WbNetwork::getUrlFromEphemeralCache(const QString &cachePath) const {
+  assert(mCacheMap.values().contains(cachePath));  // should not attempt to get the URL from the hash unless it's available
+  return mCacheMap.key(cachePath);
 }

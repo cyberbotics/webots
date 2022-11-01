@@ -81,6 +81,15 @@ void WbLidar::init() {
 
   mTcpImage = NULL;
   mTcpCloudPoints = NULL;
+
+  // backward compatibility
+  WbSFBool *sphericalField = findSFBool("spherical");
+  if (!sphericalField->value()) {  // Deprecated in Webots R2023
+    parsingWarn("Deprecated 'spherical' field, please use the 'projection' field instead.");
+    if (mProjection->value() == "cylindrical")
+      mProjection->setValue("planar");
+    sphericalField->setValue(true);
+  }
 }
 
 WbLidar::WbLidar(WbTokenizer *tokenizer) : WbAbstractCamera("Lidar", tokenizer) {
@@ -206,7 +215,7 @@ void WbLidar::prePhysicsStep(double ms) {
     if (s)
       s->rotate(WbVector3(0.0, 0.0, angle));
     if (hasBeenSetup()) {
-      mWrenCamera->rotateRoll(angle);
+      mWrenCamera->rotateYaw(angle);
       mPreviousRotatingAngle = mCurrentRotatingAngle;
       mCurrentRotatingAngle += angle;
     }
@@ -222,14 +231,20 @@ void WbLidar::postPhysicsStep() {
 }
 
 void WbLidar::write(WbWriter &writer) const {
+  if (writer.isWebots() || writer.isUrdf())
+    WbBaseNode::write(writer);
+  else
+    writeExport(writer);
+}
+
+void WbLidar::exportNodeSubNodes(WbWriter &writer) const {
+  WbAbstractCamera::exportNodeSubNodes(writer);
   if (writer.isWebots())
-    WbBaseNode::write(writer);
-  else {
-    WbBaseNode::write(writer);
-    WbSolid *s = solidEndPoint();
-    if (s)
-      s->write(writer);
-  }
+    return;
+
+  WbSolid *s = solidEndPoint();
+  if (s)
+    s->write(writer);
 }
 
 void WbLidar::addConfigureToStream(WbDataStream &stream, bool reconfigure) {
@@ -290,6 +305,9 @@ void WbLidar::handleMessage(QDataStream &stream) {
     if (!hasBeenSetup()) {
       setup();
       mSendMemoryMappedFile = true;
+    } else if (mHasExternControllerChanged) {
+      mSendMemoryMappedFile = true;
+      mHasExternControllerChanged = false;
     }
 
     return;
@@ -467,8 +485,8 @@ void WbLidar::createWrenCamera() {
 void WbLidar::updateOrientation() {
   if (hasBeenSetup()) {
     // FLU axis orientation
-    mWrenCamera->rotatePitch(M_PI_2);
-    mWrenCamera->rotateRoll(-M_PI_2);
+    mWrenCamera->rotateRoll(M_PI_2);
+    mWrenCamera->rotateYaw(-M_PI_2);
   }
 }
 

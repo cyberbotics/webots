@@ -51,13 +51,6 @@ WbSphere::WbSphere(WbTokenizer *tokenizer) : WbGeometry("Sphere", tokenizer) {
   init();
   if (tokenizer == NULL)
     mRadius->setValueNoSignal(0.1);
-  else if (tokenizer->fileType() == WbTokenizer::MODEL) {
-    // ensure compatibility with VRML specifications
-    mIco->setValueNoSignal(false);
-    mSubdivision->blockSignals(true);
-    mSubdivision->setValue(24);
-    mSubdivision->blockSignals(false);
-  }
 }
 
 WbSphere::WbSphere(const WbSphere &other) : WbGeometry(other) {
@@ -96,7 +89,7 @@ void WbSphere::setResizeManipulatorDimensions() {
   WbVector3 scale(radius(), radius(), radius());
   WbTransform *transform = upperTransform();
   if (transform)
-    scale *= transform->matrix().scale();
+    scale *= transform->absoluteScale();
 
   if (isAValidBoundingObject())
     scale *= 1.0f + (wr_config_get_line_scale() / LINE_SCALE_FACTOR);

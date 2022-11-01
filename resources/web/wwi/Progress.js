@@ -1,166 +1,181 @@
 export default class Progress {
+  #progress;
+  #progressImage;
+  #progressBar;
+  #progressBarInfo;
+  #progressBarMessage;
+  #progressBarPercent;
+  #progressBarPercentValue;
+  #progressPanel;
+  #progressPanelCopyright;
+  #progressPanelSubtitle;
+  #progressPanelTitle;
+  #progressPanelVersion;
   constructor(parentNode, message, image) {
-    this._progress = document.createElement('div');
-    this._progress.id = 'progress';
+    this.#progress = document.createElement('div');
+    this.#progress.id = 'progress';
     this.parentNode = parentNode;
-    this.parentNode.appendChild(this._progress);
+    this.parentNode.appendChild(this.#progress);
 
     // Progress image
-    this._progressImage = document.createElement('img');
-    this._progressImage.id = 'progress-image';
-    this._progressImage.src = (image || image !== 'undefined') ? image : this._setDefaultImage;
-    this._progress.appendChild(this._progressImage);
-    this._progressImage.addEventListener('error', this._setDefaultImage.bind(this));
+    this.#progressImage = document.createElement('img');
+    this.#progressImage.id = 'progress-image';
+    this.#progressImage.src = (image || image !== 'undefined') ? image : this.#setDefaultImage;
+    this.#progress.appendChild(this.#progressImage);
+    this.#progressImage.addEventListener('error', this.#setDefaultImage.bind(this));
 
     // Webots version panel
-    this._progressPanel = document.createElement('div');
-    this._progressPanel.className = 'progress-panel';
-    this._progress.appendChild(this._progressPanel);
+    this.#progressPanel = document.createElement('div');
+    this.#progressPanel.className = 'progress-panel';
+    this.#progress.appendChild(this.#progressPanel);
 
-    this._progressPanelTitle = document.createElement('div');
-    this._progressPanelTitle.className = 'progress-panel-title';
-    this._progressPanelTitle.innerHTML = '<img src="https://cyberbotics.com/assets/images/webots.png"></img><p>Webots</p>';
-    this._progressPanelTitle.style.display = 'flex';
-    this._progressPanelTitle.style.justifyContent = 'center';
-    this._progressPanel.appendChild(this._progressPanelTitle);
+    this.#progressPanelTitle = document.createElement('div');
+    this.#progressPanelTitle.className = 'progress-panel-title';
+    this.#progressPanelTitle.innerHTML = '<img src="https://cyberbotics.com/assets/images/webots.png"></img><p>Webots</p>';
+    this.#progressPanelTitle.style.display = 'flex';
+    this.#progressPanelTitle.style.justifyContent = 'center';
+    this.#progressPanel.appendChild(this.#progressPanelTitle);
 
-    this._progressPanelSubtitle = document.createElement('div');
-    this._progressPanelSubtitle.className = 'progress-panel-subtitle';
-    this._progressPanelSubtitle.innerHTML = 'Model. Program. Simulate. Transfer.';
-    this._progressPanel.appendChild(this._progressPanelSubtitle);
+    this.#progressPanelSubtitle = document.createElement('div');
+    this.#progressPanelSubtitle.className = 'progress-panel-subtitle';
+    this.#progressPanelSubtitle.innerHTML = 'Model. Program. Simulate. Transfer.';
+    this.#progressPanel.appendChild(this.#progressPanelSubtitle);
 
-    this._progressPanelVersion = document.createElement('div');
-    this._progressPanelVersion.className = 'progress-panel-version';
-    this._progressPanelVersion.innerHTML = 'R2023a';
-    this._progressPanel.appendChild(this._progressPanelVersion);
+    this.#progressPanelVersion = document.createElement('div');
+    this.#progressPanelVersion.className = 'progress-panel-version';
+    this.#progressPanelVersion.innerHTML = 'R2023a';
+    this.#progressPanel.appendChild(this.#progressPanelVersion);
 
-    this._progressPanelCopyright = document.createElement('div');
-    this._progressPanelCopyright.className = 'progress-panel-copyright';
-    this._progressPanelCopyright.innerHTML = 'Copyright &copy 1998 - 2022 Cyberbotcs Ltd.';
-    this._progressPanel.appendChild(this._progressPanelCopyright);
+    this.#progressPanelCopyright = document.createElement('div');
+    this.#progressPanelCopyright.className = 'progress-panel-copyright';
+    this.#progressPanelCopyright.innerHTML = 'Copyright &copy 1998 - 2022 Cyberbotcs Ltd.';
+    this.#progressPanel.appendChild(this.#progressPanelCopyright);
 
     // Progress Bar
-    this._progressBar = document.createElement('div');
-    this._progressBar.id = 'progress-bar';
-    this._progressPanel.appendChild(this._progressBar);
+    this.#progressBar = document.createElement('div');
+    this.#progressBar.id = 'progress-bar';
+    this.#progressPanel.appendChild(this.#progressBar);
 
-    this._progressBarMessage = document.createElement('div');
-    this._progressBarMessage.id = 'progress-bar-message';
-    this._progressBarMessage.innerHTML = message;
-    this._progressBar.appendChild(this._progressBarMessage);
+    this.#progressBarMessage = document.createElement('div');
+    this.#progressBarMessage.id = 'progress-bar-message';
+    this.#progressBarMessage.innerHTML = message;
+    this.#progressBar.appendChild(this.#progressBarMessage);
 
-    this._progressBarPercent = document.createElement('div');
-    this._progressBarPercent.id = 'progress-bar-percent';
-    this._progressBarPercent.style.visibility = 'hidden';
-    this._progressBar.appendChild(this._progressBarPercent);
+    this.#progressBarPercent = document.createElement('div');
+    this.#progressBarPercent.id = 'progress-bar-percent';
+    this.#progressBarPercent.style.visibility = 'hidden';
+    this.#progressBar.appendChild(this.#progressBarPercent);
 
     let progressBarPercentBackground = document.createElement('div');
     progressBarPercentBackground.id = 'progress-bar-percent-background';
-    this._progressBarPercent.appendChild(progressBarPercentBackground);
+    this.#progressBarPercent.appendChild(progressBarPercentBackground);
 
-    this._progressBarPercentValue = document.createElement('div');
-    this._progressBarPercentValue.id = 'progress-bar-percent-value';
-    this._progressBarPercentValue.style.width = 0;
-    this._progressBarPercent.appendChild(this._progressBarPercentValue);
+    this.#progressBarPercentValue = document.createElement('div');
+    this.#progressBarPercentValue.id = 'progress-bar-percent-value';
+    this.#progressBarPercentValue.style.width = 0;
+    this.#progressBarPercent.appendChild(this.#progressBarPercentValue);
 
-    this._progressBarInfo = document.createElement('div');
-    this._progressBarInfo.id = 'progress-bar-info';
-    this._progressBar.appendChild(this._progressBarInfo);
+    this.#progressBarInfo = document.createElement('div');
+    this.#progressBarInfo.id = 'progress-bar-info';
+    this.#progressBar.appendChild(this.#progressBarInfo);
 
-    this._checkAndUpdateSize();
+    this.#checkAndUpdateSize();
   }
 
   setProgressBar(display, message, percent, info) {
     if (display !== 'none') {
       // Message style and text
       if (typeof message !== 'undefined' && message !== 'same') {
-        this._progressBarMessage.style.visibility = 'visible';
-        this._progressBarMessage.innerHTML = message;
+        this.#progressBarMessage.style.visibility = 'visible';
+        this.#progressBarMessage.innerHTML = message;
       } else if (message !== 'same')
-        this._progressBarMessage.style.visibility = 'hidden';
+        this.#progressBarMessage.style.visibility = 'hidden';
 
       // Percentage bar value
       if (typeof percent !== 'undefined' && percent !== 'same' && percent !== 'hidden') {
-        this._progressBarMessage.style.left = 0;
-        this._progressBarMessage.style.right = 'auto';
-        this._progressBarPercent.style.visibility = 'visible';
-        this._progressBarPercentValue.style.transition = '0.2s all ease-in-out';
-        if (parseInt(this._progressBarPercentValue.style.width.slice(0, -1)) < percent) {
+        this.#progressBarMessage.style.left = 0;
+        this.#progressBarMessage.style.right = 'auto';
+        this.#progressBarPercent.style.visibility = 'visible';
+        this.#progressBarPercentValue.style.transition = '0.2s all ease-in-out';
+        if (parseInt(this.#progressBarPercentValue.style.width.slice(0, -1)) < percent) {
           if (percent >= 100) {
-            this._progressBarPercentValue.style.width = '100%';
-            this._progressBarPercentValue.style.borderTopRightRadius = '4px';
-            this._progressBarPercentValue.style.borderBottomRightRadius = '4px';
+            this.#progressBarPercentValue.style.width = '100%';
+            this.#progressBarPercentValue.style.borderTopRightRadius = '4px';
+            this.#progressBarPercentValue.style.borderBottomRightRadius = '4px';
           } else {
-            this._progressBarPercentValue.style.width = percent.toString() + '%';
-            this._progressBarPercentValue.style.borderTopRightRadius = '0';
-            this._progressBarPercentValue.style.borderBottomRightRadius = '0';
+            this.#progressBarPercentValue.style.width = percent.toString() + '%';
+            this.#progressBarPercentValue.style.borderTopRightRadius = '0';
+            this.#progressBarPercentValue.style.borderBottomRightRadius = '0';
           }
         }
       } else if (message !== 'same') {
-        this._progressBarMessage.style.left = 'auto';
-        this._progressBarMessage.style.right = 0;
-        this._progressBarPercentValue.style.transition = 'none';
-        this._progressBarPercentValue.style.width = '0';
-        this._progressBarPercent.style.visibility = 'hidden';
+        this.#progressBarMessage.style.left = 'auto';
+        this.#progressBarMessage.style.right = 0;
+        this.#progressBarPercentValue.style.transition = 'none';
+        this.#progressBarPercentValue.style.width = '0';
+        this.#progressBarPercent.style.visibility = 'hidden';
       }
 
       // Information style and text
       if (typeof info !== 'undefined' && info !== 'same') {
-        this._progressBarInfo.style.color = info.toLowerCase().includes('warning') ? 'orange' :
-          info.toLowerCase().includes('error') ? 'red' : 'gray';
-        this._progressBarInfo.style.visibility = 'visible';
-        this._progressBarInfo.innerHTML = info;
+        this.#progressBarInfo.style.color = info.toLowerCase().includes('warning') ? 'orange'
+          : info.toLowerCase().includes('error') ? 'red' : 'gray';
+        this.#progressBarInfo.style.visibility = 'visible';
+        this.#progressBarInfo.innerHTML = info;
       } else if (message !== 'same')
-        this._progressBarInfo.style.visibility = 'hidden';
+        this.#progressBarInfo.style.visibility = 'hidden';
     } else {
       // Display none
-      this._progressBarMessage.style.left = 'auto';
-      this._progressBarMessage.style.right = 0;
-      this._progressBarPercentValue.style.transition = 'none';
-      this._progressBarPercentValue.style.width = '0';
-      this._progressBarPercent.style.visibility = 'hidden';
+      this.#progressBarMessage.style.left = 'auto';
+      this.#progressBarMessage.style.right = 0;
+      this.#progressBarPercentValue.style.transition = 'none';
+      this.#progressBarPercentValue.style.width = '0';
+      this.#progressBarPercent.style.visibility = 'hidden';
     }
 
     // Display style
-    this._progress.style.display = display;
+    this.#progress.style.display = display;
   }
 
-  _checkAndUpdateSize() {
+  #checkAndUpdateSize() {
+    const view3d = document.getElementById('view3d');
+    if (!view3d)
+      return;
     const resizeObserver = new ResizeObserver(() => {
-      if (parseInt(this._progressPanel.offsetHeight) < 180) {
-        this._progressPanel.style.height = '50%';
-        this._progressPanelTitle.style.display = 'none';
-        this._progressPanelSubtitle.style.display = 'none';
-        this._progressPanelVersion.style.display = 'none';
-        this._progressPanelCopyright.style.display = 'none';
-        this._progressBar.style.top = 'calc(50% - 35px)';
-      } else if (parseInt(this._progressPanel.offsetHeight) < 210) {
-        this._progressPanel.style.height = '80%';
-        this._progressPanelTitle.style.display = 'flex';
-        this._progressPanelSubtitle.style.display = 'block';
-        this._progressPanelVersion.style.display = 'none';
-        this._progressPanelCopyright.style.display = 'none';
-        this._progressBar.style.top = 'calc(85% - 70px)';
-      } else if (parseInt(this._progressPanel.offsetHeight) < 300) {
-        this._progressPanel.style.height = '80%';
-        this._progressPanelTitle.style.display = 'flex';
-        this._progressPanelSubtitle.style.display = 'block';
-        this._progressPanelVersion.style.display = 'none';
-        this._progressPanelCopyright.style.display = 'block';
-        this._progressBar.style.top = '40%';
+      if (parseInt(this.#progressPanel.offsetHeight) < 180) {
+        this.#progressPanel.style.height = '50%';
+        this.#progressPanelTitle.style.display = 'none';
+        this.#progressPanelSubtitle.style.display = 'none';
+        this.#progressPanelVersion.style.display = 'none';
+        this.#progressPanelCopyright.style.display = 'none';
+        this.#progressBar.style.top = 'calc(50% - 35px)';
+      } else if (parseInt(this.#progressPanel.offsetHeight) < 210) {
+        this.#progressPanel.style.height = '80%';
+        this.#progressPanelTitle.style.display = 'flex';
+        this.#progressPanelSubtitle.style.display = 'block';
+        this.#progressPanelVersion.style.display = 'none';
+        this.#progressPanelCopyright.style.display = 'none';
+        this.#progressBar.style.top = 'calc(85% - 70px)';
+      } else if (parseInt(this.#progressPanel.offsetHeight) < 300) {
+        this.#progressPanel.style.height = '80%';
+        this.#progressPanelTitle.style.display = 'flex';
+        this.#progressPanelSubtitle.style.display = 'block';
+        this.#progressPanelVersion.style.display = 'none';
+        this.#progressPanelCopyright.style.display = 'block';
+        this.#progressBar.style.top = '40%';
       } else {
-        this._progressPanel.style.height = '80%';
-        this._progressPanelTitle.style.display = 'flex';
-        this._progressPanelSubtitle.style.display = 'block';
-        this._progressPanelVersion.style.display = 'block';
-        this._progressPanelCopyright.style.display = 'block';
-        this._progressBar.style.top = '115px';
+        this.#progressPanel.style.height = '80%';
+        this.#progressPanelTitle.style.display = 'flex';
+        this.#progressPanelSubtitle.style.display = 'block';
+        this.#progressPanelVersion.style.display = 'block';
+        this.#progressPanelCopyright.style.display = 'block';
+        this.#progressBar.style.top = '115px';
       }
     });
-    resizeObserver.observe(document.getElementById('view3d'));
+    resizeObserver.observe(view3d);
   }
 
-  _setDefaultImage() {
-    this._progressImage.src = 'https://cyberbotics.com/wwi/R2023a/images/loading/default_thumbnail.png';
+  #setDefaultImage() {
+    this.#progressImage.src = 'https://cyberbotics.com/wwi/R2023a/images/loading/default_thumbnail.png';
   }
 }

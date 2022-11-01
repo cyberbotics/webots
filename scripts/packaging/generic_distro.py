@@ -16,7 +16,7 @@
 
 """Generic functions to generate Webots package."""
 
-from generate_projects_files import list_projects, is_ignored_file, is_ignored_folder
+from generate_projects_files import generate_projects_files, is_ignored_file, is_ignored_folder
 import glob
 import os
 import re
@@ -54,12 +54,11 @@ def get_webots_version():
     # get package version
     try:
         with open(os.path.join(os.getenv('WEBOTS_HOME'), 'scripts', 'packaging', 'webots_version.txt'), 'r') as version_file:
-            version = version_file.readline()
-            match = re.search(r'^(.{6,15})( .* (\d+))?', version)
-            global package_version
-            if match.group(2):
-                return match.group(0) + '-rev' + match.group(2)
-            return match.group(0)
+            version = version_file.readline().strip()
+            parts = version.split(' ')
+            if len(parts) > 2:
+                return parts[0] + '-rev' + parts[2]
+            return parts[0]
     except IOError:
         print_error_message_and_exit("Could not open file: webots_version.txt.")
 
@@ -98,14 +97,17 @@ class WebotsPackage(ABC):
 
         os.chdir(self.packaging_path)
 
-    def create_webots_bundle(self):
+    def create_webots_bundle(self, include_commit_file):
+        # in an official distribution, the commit file should not be included and urls should reference the tag whereas on a
+        # local distribution, the commit files must be included otherwise manufactured URLs would reference a tag which is not
+        # guaranteed to exist
+        if include_commit_file:
+            self.add_files_from_string('resources/commit.txt')
         # populate self.package_folders and self.package_files
         print('listing core files')
         self.add_files(os.path.join(self.packaging_path, 'files_core.txt'))
         print('listing project files')
-        self.add_files(list_projects(os.path.join(self.webots_home, 'projects')))
-        print('listing textures')
-        self.add_files(os.path.join(self.packaging_path, 'textures_whitelist.txt'))
+        self.add_files(generate_projects_files(os.path.join(self.webots_home, 'projects')))
 
     def test_file(self, filename):
         if os.path.isabs(filename) or filename.startswith('$'):
@@ -158,7 +160,6 @@ class WebotsPackage(ABC):
     def add_file(self, file_path):
         # add this file and self.package_files
         # if WBT file, then also add associated WBPROJ
-        # if PROTO file, then check md5sum and also add associated cache file
 
         absolute_path = os.path.abspath(file_path)
         if not os.path.exists(absolute_path):
@@ -176,10 +177,6 @@ class WebotsPackage(ABC):
             world_project_file = os.path.join(dirname, '.' + re.sub(r'.wbt$', '.wbproj', basename))
             self.set_file_attribute(world_project_file, 'hidden')
             self.package_files.append(os.path.relpath(world_project_file, self.webots_home))
-
-        if file_path.endswith('.proto') and str(os.path.sep + 'protos' + os.path.sep) in file_path:
-            if not os.path.exists(absolute_path):
-                print_error_message_and_exit(f"Missing file: {absolute_path}")
 
     def add_files_from_string(self, line):
         # add this file or folder to self.package_files and self.package_folders

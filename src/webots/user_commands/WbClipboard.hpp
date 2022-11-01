@@ -58,6 +58,7 @@ public:
     QString nodeModelName;
     QString slotType;
     bool hasADeviceDescendant;
+    bool hasAConnectorDescendant;
   };
   const struct WbClipboardNodeInfo *nodeInfo() { return mNodeInfo; }
 

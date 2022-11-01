@@ -34,6 +34,9 @@ import WbVector3 from './nodes/utils/WbVector3.js';
 let webots = window.webots || {};
 
 webots.View = class View {
+  #isWebSocketProtocol;
+  #server;
+  #x3dDiv;
   constructor(view3D, mobile) {
     webots.currentView = this;
     this.onerror = (text) => {
@@ -62,9 +65,9 @@ webots.View = class View {
       for (let i = labels.length - 1; i >= 0; i--) {
         const element = labels.item(i);
         // 2.25 is an empirical value to match with Webots appearance
-        element.style.fontSize = this._getHeight(this._x3dDiv) * element.size / 2.25 + 'px';
-        element.style.left = this._getWidth(this._x3dDiv) * element.x + 'px';
-        element.style.top = this._getHeight(this._x3dDiv) * element.y + 'px';
+        element.style.fontSize = this.#getHeight(this.#x3dDiv) * element.size / 2.25 + 'px';
+        element.style.left = this.#getWidth(this.#x3dDiv) * element.x + 'px';
+        element.style.top = this.#getHeight(this.#x3dDiv) * element.y + 'px';
       }
     };
 
@@ -90,6 +93,7 @@ webots.View = class View {
     this.timeout = 60 * 1000; // default to one minute
     this.currentState = false;
     this.quitting = false;
+    this.robots = [];
   }
 
   setTimeout(timeout) { // expressed in seconds
@@ -134,17 +138,16 @@ webots.View = class View {
       if (document.getElementById('webots-progress'))
         document.getElementById('webots-progress').style.display = 'block';
 
-      if (this._isWebSocketProtocol) {
+      if (this.#isWebSocketProtocol) {
         if (this.url.endsWith('.wbt')) { // url expected form: "wss://localhost:1999/simple/worlds/simple.wbt" or
           // "http://localhost/1999/session?url=https://github.com/cyberbotics/webots/blob/master/projects/languages/python/worlds/example.wbt"
           // "https://webots.cloud/ajax/server/session.php?url=https://github.com/cyberbotics/webots/blob/master/projects/languages/python/worlds/example.wbt"
-          this._server = new Server(this.url, this, finalizeWorld);
-          this._server.connect();
+          this.#server = new Server(this.url, this, finalizeWorld);
+          this.#server.connect();
         } else { // url expected form: "ws://cyberbotics1.epfl.ch:80"
           const httpServerUrl = 'http' + this.url.slice(2); // replace 'ws'/'wss' with 'http'/'https'
           this.stream = new Stream(this.url, this, finalizeWorld);
-          if (typeof this.x3dScene !== 'undefined')
-            this.x3dScene.prefix = httpServerUrl + '/';
+          this.prefix = httpServerUrl + '/';
           this.stream.connect();
         }
       } else // assuming it's an URL to a .x3d file
@@ -153,7 +156,7 @@ webots.View = class View {
 
     const finalizeWorld = () => {
       if (typeof this.x3dScene !== 'undefined') {
-        if (!this._isWebSocketProtocol) { // skip robot windows initialization
+        if (!this.#isWebSocketProtocol) { // skip robot windows initialization
           if (typeof this.animation !== 'undefined')
             this.animation.init(loadFinalize);
           else
@@ -177,7 +180,7 @@ webots.View = class View {
 
     if (this.broadcast)
       this.setTimeout(-1);
-    this._isWebSocketProtocol = this.url.startsWith('ws://') || this.url.startsWith('wss://') || this.url.endsWith('.wbt');
+    this.#isWebSocketProtocol = this.url.startsWith('ws://') || this.url.startsWith('wss://') || this.url.endsWith('.wbt');
 
     const texturePathPrefix = url.includes('/') ? url.substring(0, url.lastIndexOf('/') + 1) : '';
 
@@ -185,24 +188,24 @@ webots.View = class View {
       this.url = url;
       this.multimediaClient = new MultimediaClient(this, this.view3D);
     } else if (typeof this.x3dScene === 'undefined') {
-      this._x3dDiv = document.getElementById('view3d');
-      if (this._x3dDiv === null || typeof this._x3dDiv === 'undefined') {
-        this._x3dDiv = document.createElement('div');
-        this._x3dDiv.id = 'view3d';
-        this.view3D.appendChild(this._x3dDiv);
+      this.#x3dDiv = document.getElementById('view3d');
+      if (this.#x3dDiv === null || typeof this.#x3dDiv === 'undefined') {
+        this.#x3dDiv = document.createElement('div');
+        this.#x3dDiv.id = 'view3d';
+        this.view3D.appendChild(this.#x3dDiv);
       }
 
-      this._x3dDiv.className = 'webots-3d-view';
-      this.x3dScene = new X3dScene(this._x3dDiv);
+      this.#x3dDiv.className = 'webots-3d-view';
+      this.x3dScene = new X3dScene(this.#x3dDiv);
       this.x3dScene.init(texturePathPrefix);
       let param = document.createElement('param');
       param.name = 'show-progress';
       param.value = false;
       this.x3dScene.domElement.appendChild(param);
     } else {
-      if (typeof this._x3dDiv !== 'undefined') {
-        this.view3D.appendChild(this._x3dDiv);
-        this.x3dScene.prefix = texturePathPrefix;
+      if (typeof this.#x3dDiv !== 'undefined') {
+        this.view3D.appendChild(this.#x3dDiv);
+        this.prefix = texturePathPrefix;
       }
       if (typeof this.progress !== 'undefined') {
         if (document.getElementById('progress'))
@@ -222,8 +225,8 @@ webots.View = class View {
   close() {
     if (this.multimediaClient)
       this.multimediaClient.disconnect();
-    if (this._server && this._server.socket)
-      this._server.socket.close();
+    if (this.#server && this.#server.socket)
+      this.#server.socket.close();
     if (this.stream)
       this.stream.close();
 
@@ -258,23 +261,26 @@ webots.View = class View {
       labelElement = document.createElement('div');
       labelElement.id = 'label' + properties.id;
       labelElement.className = 'webots-label';
-      this._x3dDiv.appendChild(labelElement);
+      this.#x3dDiv.appendChild(labelElement);
     }
 
-    let font = properties.font.split('/');
-    font = font[font.length - 1].replace('.ttf', '');
+    if (properties.font) {
+      let font = properties.font.split('/');
+      font = font[font.length - 1].replace('.ttf', '');
 
-    labelElement.style.fontFamily = font;
+      labelElement.style.fontFamily = font;
+    }
+
     labelElement.style.color = 'rgba(' + properties.color + ')';
     // 2.25 is an empirical value to match with Webots appearance
-    labelElement.style.fontSize = this._getHeight(this._x3dDiv) * properties.size / 2.25 + 'px';
-    labelElement.style.left = this._getWidth(this._x3dDiv) * properties.x + 'px';
-    labelElement.style.top = this._getHeight(this._x3dDiv) * properties.y + 'px';
+    labelElement.style.fontSize = this.#getHeight(this.#x3dDiv) * properties.size / 2.25 + 'px';
+    labelElement.style.left = this.#getWidth(this.#x3dDiv) * properties.x + 'px';
+    labelElement.style.top = this.#getHeight(this.#x3dDiv) * properties.y + 'px';
     labelElement.x = properties.x;
     labelElement.y = properties.y;
     labelElement.size = properties.size;
 
-    if (properties.text.includes('█')) {
+    if (properties.text && properties.text.includes('█')) {
       properties.text = properties.text.replaceAll('█', '<span style="background:' + labelElement.style.color + '"> </span>');
       labelElement.style.zIndex = '1';
     }
@@ -313,6 +319,7 @@ webots.View = class View {
     if (typeof this.x3dScene !== 'undefined')
       this.x3dScene.destroyWorld();
     this.removeLabels();
+    this.robots = [];
 
     if (typeof this.mouseEvents !== 'undefined' && typeof this.mouseEvents.picker !== 'undefined') {
       this.mouseEvents.picker.selectedId = -1;
@@ -321,12 +328,12 @@ webots.View = class View {
     }
   }
 
-  _getHeight(el) {
+  #getHeight(el) {
     const s = window.getComputedStyle(el, null);
     return el.clientHeight - parseInt(s.getPropertyValue('padding-top')) - parseInt(s.getPropertyValue('padding-bottom'));
   }
 
-  _getWidth(el) {
+  #getWidth(el) {
     const s = window.getComputedStyle(el, null);
     return el.clientWidth - parseInt(s.getPropertyValue('padding-right')) - parseInt(s.getPropertyValue('padding-left'));
   }

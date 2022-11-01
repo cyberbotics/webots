@@ -75,6 +75,7 @@ That means the origin of an object should not be at its 3D geometrical center, b
 However, there are some exceptions to this rule:
 - Legged robots should have their origin in their main body as it is difficult to know the extension of the legs of the robot towards the floor.
 - Balls should have their origin at their geometrical center, as they can roll and don't have an upright position.
+- Devices that are directly derived from base nodes (e.g., Lidar, Camera, etc.) can have a default translation different from `0 0 0` so that the device shape rests on the ground when created even if the sensor itself is not located at the contact surface.
 - Any other object which doesn't have a clear or stable upright position.
 
 The rotation axis should be already well positioned, e.g., usually along the Z-axis with a 0 value for the angle, e.g., `0 0 1 0`, so that when you rotate a building for example, you should simply change the angle value to have it rotate along its vertical axis.
@@ -143,13 +144,13 @@ Here is a simple example of a good PROTO declaration (the implementation is not 
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # A color pencil
 
-ColorPencil {
-  SFFloat    translation          0 0 0
-  SFRotation rotation             0 0 1 0
-  SFBool     enablePhysics        TRUE
-  SFBool     enableBoundingObject TRUE
-  SFColor    color                1 0 0     # defaults to red.
-  SFFloat    size                 0.2       # range in [0.02, 0.2].
-}
+PROTO ColorPencil [
+  field SFFloat    translation          0 0 0
+  field SFRotation rotation             0 0 1 0
+  field SFBool     enablePhysics        TRUE
+  field SFBool     enableBoundingObject TRUE
+  field SFColor    color                1 0 0     # defaults to red.
+  field SFFloat    size                 0.2       # range in [0.02, 0.2].
+]
 ...
 ```

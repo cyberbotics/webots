@@ -107,16 +107,12 @@ void WbCamera::init() {
   mExposure = findSFDouble("exposure");
 
   // backward compatibility
-  const WbSFString *type = findSFString("type");
-  if (type->value().startsWith('r', Qt::CaseInsensitive))
-    parsingWarn("Range finder type is not available for camera since Webots 8.4, please use a RangeFinder node instead.");
-
-  WbSFDouble *colorNoise = findSFDouble("colorNoise");
-  if (colorNoise->value() != 0.0) {  // Introduced in Webots 8.4.0
-    parsingWarn("Deprecated 'colorNoise' field, please use the 'noise' field instead.");
-    if (mNoise->value() == 0.0)
-      mNoise->setValue(colorNoise->value());
-    colorNoise->setValue(0.0);
+  WbSFBool *sphericalField = findSFBool("spherical");
+  if (sphericalField->value()) {  // Deprecated in Webots R2023
+    parsingWarn("Deprecated 'spherical' field, please use the 'projection' field instead.");
+    if (isPlanarProjection())
+      mProjection->setValue("cylindrical");
+    sphericalField->setValue(false);
   }
 
   mLabelOverlay = NULL;
@@ -160,9 +156,9 @@ void WbCamera::downloadAssets() {
   WbAbstractCamera::downloadAssets();
 
   const QString &noiseMaskUrl = mNoiseMaskUrl->value();
-  if (!noiseMaskUrl.isEmpty()) {  // noise mask not mandatory, url can be empty
-    const QString completeUrl = WbUrl::computePath(this, "url", noiseMaskUrl, false);
-    if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCached(completeUrl))
+  if (!noiseMaskUrl.isEmpty()) {  // noise mask not mandatory, URL can be empty
+    const QString completeUrl = WbUrl::computePath(this, "noiseMaskUrl", noiseMaskUrl);
+    if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCachedWithMapUpdate(completeUrl))
       return;
 
     if (mDownloader != NULL)
@@ -870,7 +866,7 @@ void WbCamera::createWrenCamera() {
     delete mSegmentationCamera;
   if (recognition() && recognition()->segmentation()) {
     mSegmentationCamera = new WbWrenCamera(wrenNode(), width(), height(), nearValue(), minRange(), recognition()->maxRange(),
-                                           fieldOfView(), 's', false, mSpherical->value());
+                                           fieldOfView(), 's', false, mProjection->value());
     connect(mSensor, &WbSensor::stateChanged, this, &WbCamera::updateOverlayMaskTexture);
   } else {
     mSegmentationCamera = NULL;
@@ -934,7 +930,7 @@ void WbCamera::setup() {
   if (mSegmentationMemoryMappedFile || (recognition() && recognition()->segmentation()))
     initializeSegmentationMemoryMappedFile();
 
-  if (spherical())
+  if (!isPlanarProjection())
     return;
 
   updateNoiseMaskUrl();
@@ -1023,7 +1019,7 @@ void WbCamera::createSegmentationCamera() {
 
   if (recognitionNode && recognitionNode->segmentation()) {
     mSegmentationCamera = new WbWrenCamera(wrenNode(), width(), height(), nearValue(), minRange(), recognition()->maxRange(),
-                                           fieldOfView(), 's', false, mSpherical->value());
+                                           fieldOfView(), 's', false, mProjection->value());
     connect(mSensor, &WbSensor::stateChanged, this, &WbCamera::updateOverlayMaskTexture);
     if (!mSegmentationMemoryMappedFile)
       initializeSegmentationMemoryMappedFile();
@@ -1043,8 +1039,8 @@ void WbCamera::createSegmentationCamera() {
 
 void WbCamera::updateLensFlare() {
   if (hasBeenSetup() && lensFlare()) {
-    if (spherical()) {
-      parsingWarn(tr("Lens flare cannot be applied to spherical cameras."));
+    if (!isPlanarProjection()) {
+      parsingWarn(tr("Lens flare can only be applied to planar cameras."));
       return;
     }
     WrViewport *viewport = mWrenCamera->getSubViewport(WbWrenCamera::CAMERA_ORIENTATION_FRONT);
@@ -1055,15 +1051,15 @@ void WbCamera::updateLensFlare() {
 void WbCamera::updateCameraOrientation() {
   if (hasBeenSetup()) {
     // FLU axis orientation
-    mWrenCamera->rotatePitch(M_PI_2);
-    mWrenCamera->rotateRoll(-M_PI_2);
+    mWrenCamera->rotateRoll(M_PI_2);
+    mWrenCamera->rotateYaw(-M_PI_2);
   }
 }
 
 void WbCamera::updateSegmentationCameraOrientation() {
   // FLU axis orientation
-  mSegmentationCamera->rotatePitch(M_PI_2);
-  mSegmentationCamera->rotateRoll(-M_PI_2);
+  mSegmentationCamera->rotateRoll(M_PI_2);
+  mSegmentationCamera->rotateYaw(-M_PI_2);
 }
 
 void WbCamera::updateNear() {
@@ -1082,7 +1078,7 @@ void WbCamera::updateNear() {
 
   if (areWrenObjectsInitialized()) {
     applyFrustumToWren();
-    if (!spherical() && hasBeenSetup())
+    if (isPlanarProjection() && hasBeenSetup())
       updateFrustumDisplay();
   }
 }
@@ -1136,8 +1132,7 @@ void WbCamera::updateNoiseMaskUrl() {
   mNoiseMaskUrl->setValue(url.replace("\\", "/"));
   mNoiseMaskUrl->blockSignals(false);
 
-  QString noiseMaskPath;
-  const QString completeUrl = WbUrl::computePath(this, "url", mNoiseMaskUrl->value(), false);
+  const QString &completeUrl = WbUrl::computePath(this, "noiseMaskUrl", mNoiseMaskUrl->value(), true);
   if (WbUrl::isWeb(completeUrl)) {
     if (mDownloader && !mDownloader->error().isEmpty()) {
       warn(mDownloader->error());  // failure downloading or file does not exist (404)
@@ -1146,18 +1141,17 @@ void WbCamera::updateNoiseMaskUrl() {
       return;
     }
 
-    if (!WbNetwork::instance()->isCached(completeUrl)) {
-      downloadAssets();  // url was changed from the scene tree or supervisor
+    if (!WbNetwork::instance()->isCachedWithMapUpdate(completeUrl)) {
+      downloadAssets();  // URL was changed from the scene tree or supervisor
       return;
     }
+  }
 
-    noiseMaskPath = WbNetwork::instance()->get(completeUrl);
-  } else
-    noiseMaskPath = completeUrl;
-
-  const QString error = mWrenCamera->setNoiseMask(noiseMaskPath);
-  if (!error.isEmpty())
-    parsingWarn(error);
+  if (!(completeUrl == WbUrl::missingTexture() || completeUrl.isEmpty())) {
+    const QString error = mWrenCamera->setNoiseMask(completeUrl);
+    if (!error.isEmpty())
+      parsingWarn(error);
+  }
 }
 
 bool WbCamera::isFrustumEnabled() const {

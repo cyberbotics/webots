@@ -89,16 +89,30 @@ sequenceDiagram
 
 ### Quick Start
 This section gives a simple step-by-step guide on how to start a streaming server with one session and one simulation server.
-We assume you use Ubuntu 20.04 or newer.
+We assume you use Ubuntu 20.04 or newer and have the latest version of Webots installed.
 
-First, you need to install the [web service dependencies](https://github.com/cyberbotics/webots/wiki/Linux-Optional-Dependencies#webots-web-service).
-
-Then, start a session server and a simulation server:
+First, you need to install the web service dependencies:
 ```bash
-cd $WEBOTS_HOME/resources/web/server
+sudo apt-get install python3-pip python-is-python3
+pip install pynvml requests psutil tornado distro
+```
+
+Then, clone the [webots-server](https://github.com/cyberbotics/webots-server) repository and enter it:
+```bash
+git clone git@github.com:cyberbotics/webots-server.git
+cd webots-server
+```
+
+After that open "[config/simulation/local.json](https://github.com/cyberbotics/webots-server/blob/main/config/simulation/local.json)" and if needed, modify the following line with the path to your Webots installation:
+```
+"webotsHome": "/usr/local/webots"
+```
+
+Finally start a session server and a simulation server:
+```bash
 ./server.sh start local
 ```
-This will start the session server with the [config/session/local.json]({{ url.github_tree }}/resources/web/server/config/session/local.json) configuration file and the simulation server with the [config/simulation/local.json]({{ url.github_tree }}/resources/web/server/config/simulation/local.json) configuration file.
+This will start the session server with the [config/session/local.json](https://github.com/cyberbotics/webots-server/blob/main/config/session/local.json) configuration file and the simulation server with the [config/simulation/local.json](https://github.com/cyberbotics/webots-server/blob/main/config/simulation/local.json) configuration file.
 
 You should now be able to check the status of your session server at [http://localhost:1999/monitor](http://localhost:1999/monitor).
 
@@ -114,14 +128,14 @@ Then, the selected simulation server starts a Webots instance that communicates 
 To test the session and simulation servers, simply open the `$WEBOTS_HOME/resources/web/streaming_viewer/index.html` file in your browser.
 In the user interface, under the `Connect to:` field, type for example:
 ```
-http://localhost:1999/session?url=https://github.com/cyberbotics/webots/tree/R2022b/projects/languages/python/worlds/example.wbt
+http://localhost:1999/session?url=https://github.com/cyberbotics/webots-cloud-simulation-examples/blob/main/6_binary/worlds/ned.wbt
 ```
 Click the `Connect` button to initiate the streaming.
-Webots will clone the `example.wbt` simulation from GitHub and start it.
+Webots will clone the `ned.wbt` simulation from GitHub and start it.
 
 If you want to stop both the session and simulation servers, run the following:
 ```
-cd $WEBOTS_HOME/resources/web/server
+cd ~/webots-server
 ./server.sh stop
 ```
 

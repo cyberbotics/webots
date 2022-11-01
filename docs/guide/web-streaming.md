@@ -34,6 +34,8 @@ The web interface displays a toolbar with the following items:
 - ![](images/web_interface_step.png =26x26) **Step**: execute one step of the simulation.
 - ![](images/web_interface_real_time.png =26x26) **Play**: play the Webots simulation.
 - ![](images/web_interface_pause.png =26x26) **Pause**: pause the Webots simulation.
+- ![](images/web_interface_terminal.png =26x26) **Terminal**: display the non-interactive terminal.
+- ![](images/web_interface_ide.png =26x26) **Source code editor**: display the web code editor.
 - ![](images/web_interface_robot_window.png =26x26) **Robot window**: display the different robot windows.
 - ![](images/web_interface_info.png =26x26) **Info**: display information about the simulation.
 - ![](images/web_interface_settings.png =26x26) **Settings**: open the settings panel.
@@ -109,13 +111,14 @@ Moreover, the following attributes are available:
 * `data-broadcast`: boolean variable enabling or not the broadcast.
 * `data-isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
 * `data-thumbnail`: the name of the .jpg file containing the thumbnail. If the `data-thumbnail` attribute is not set, a default thumbnail will be displayed during load.
-* `showIde`: specify if the IDE button must be displayed on the toolbar. Must be called before connect. The IDE button is displayed by default.
+* `showIde`: specify if the IDE button must be displayed on the toolbar. Must be called before connect. The IDE button is displayed by default if an IDE is available.
 * `showPlay`: specify if the play button must be displayed on the toolbar. Must be called before connect. The play button is displayed by default.
 * `showQuit`: specify if the quit button must be displayed on the toolbar. Must be called before connect. The quit button is displayed by default.
 * `showReload `: specify if the reload button must be displayed on the toolbar. Must be called before connect. The reload button is hidden by default.
 * `showReset`: specify if the reset button must be displayed on the toolbar. Must be called before connect. The reset button is displayed by default.
 * `showRobotWindow`: specify if the robot window button must be displayed on the toolbar. Must be called before connect. The robot window button is displayed by default.
 * `showStep`: specify if the step button must be displayed on the toolbar. Must be called before connect. The step button is displayed by default.
+* `showTerminal`: specify if the terminal button must be displayed on the toolbar. Must be called before connect. The step button is displayed by default.
 * `showWorldSelection`: specify if the world selection button must be displayed on the toolbar. Must be called before connect. The world selection is displayed by default.
 
 The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-server` attribute is set, the `webots-view` web-component will automatically connect to the `server`.
@@ -134,4 +137,3 @@ The same fields as in the [web animation](web-animation.md#limitations) are upda
 The streaming server has the same limitations as the [Web Scene](web-scene.md#remarks-on-the-used-technologies-and-their-limitations).
 The data is sent to the clients using [WebSockets](https://www.websocket.org/).
 The WebSockets should therefore be enabled in your Web browser (this is the default setting).
-

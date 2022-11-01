@@ -16,27 +16,27 @@ PROTO ThreadMetalPlate [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_base_color.jpg"' >%
+        %<= '"textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_base_color.jpg"' >%
       ]
     }
     roughnessMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_roughness.jpg"' >%
+        %<= '"textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_roughness.jpg"' >%
       ]
     }
     metalnessMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_metalness.jpg"' >%
+        %<= '"textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_metalness.jpg"' >%
       ]
     }
     normalMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_normal.jpg"' >%
+        %<= '"textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_normal.jpg"' >%
       ]
     }
     occlusionMap ImageTexture {
       url [
-        %<= '"webots://projects/appearances/protos/textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_occlusion.jpg"' >%
+        %<= '"textures/thread_metal_plate/' + fields.type.value + '_thread_metal_plate_occlusion.jpg"' >%
       ]
     }
     IBLStrength IS IBLStrength

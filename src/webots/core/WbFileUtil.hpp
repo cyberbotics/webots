@@ -19,13 +19,13 @@
 // Description: useful file operations for Webots
 //
 
-#include <QtCore/QPair>
 #include <QtCore/QString>
 
 namespace WbFileUtil {
 
   // copy file from 'sourcePath' to 'destPath' while replacing a string pattern
-  bool copyAndReplaceString(const QString &sourcePath, const QString &destinationPath, QList<QPair<QString, QString>> values);
+  bool copyAndReplaceString(const QString &sourcePath, const QString &destinationPath,
+                            QList<std::pair<QString, QString>> values);
   bool copyAndReplaceString(const QString &sourcePath, const QString &destinationPath, const QString &before,
                             const QString &after);
 
@@ -41,7 +41,7 @@ namespace WbFileUtil {
 
   // check if a file is located in the specified directory tree; both paths are absolute
   bool isLocatedInDirectory(const QString &file, const QString &directory);
-  bool isLocatedInInstallationDirectory(const QString &file);
+  bool isLocatedInInstallationDirectory(const QString &file, bool ignoreAllowModify = false);
 
   // search all the directories named directoryName in the root directory
   void searchDirectoryNameRecursively(QStringList &results, const QString &directoryName, const QString &root);

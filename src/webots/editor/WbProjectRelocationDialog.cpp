@@ -17,14 +17,17 @@
 #include "WbFileUtil.hpp"
 #include "WbLanguage.hpp"
 #include "WbLineEdit.hpp"
+#include "WbLog.hpp"
 #include "WbMessageBox.hpp"
 #include "WbNetwork.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRobot.hpp"
 #include "WbSimulationState.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbUrl.hpp"
 #include "WbWorld.hpp"
 
 #include <QtCore/QDir>
@@ -80,14 +83,16 @@ void WbProjectRelocationDialog::initCompleteRelocation() {
   QLabel *title = new QLabel(tr("<b>Copy necessary files from source to target directory?</b>"), this);
 
   const QString &sourcePath = QDir::toNativeSeparators(mProject->path());
-  mTargetPath =
-    QDir::toNativeSeparators(WbPreferences::instance()->value("Directories/projects").toString() + mProject->dirName());
+  mTargetPath = WbPreferences::instance()->value("Directories/projects").toString() + mProject->dirName();
 
   mSourceEdit = new WbLineEdit(sourcePath, this);
   mSourceEdit->setReadOnly(true);
   mSourceEdit->setMinimumWidth(sourcePath.length() * 8);
 
-  mTargetEdit = new WbLineEdit(mTargetPath, this);
+  mTargetEdit = new WbLineEdit(QDir::toNativeSeparators(mTargetPath), this);
+#ifdef __APPLE__
+  mTargetEdit->setMinimumWidth(mTargetPath.length() * 8);
+#endif
   connect(mTargetEdit, &WbLineEdit::textEdited, this, &WbProjectRelocationDialog::targetEdited);
 
   mSelectButton = new QPushButton(tr("Select"), this);
@@ -164,7 +169,7 @@ void WbProjectRelocationDialog::targetEdited(const QString &text) {
 void WbProjectRelocationDialog::copy() {
   const QString &home = WbStandardPaths::webotsHomePath();
   if (WbFileUtil::isLocatedInDirectory(mTargetPath, home)) {
-    setStatus(tr("Target directory is located in the Webots installation directory.") + "\n" +
+    setStatus(tr("Target directory is located in the Webots installation directory.") + '\n' +
                 tr("Please select another target directory."),
               false);
     return;
@@ -174,13 +179,13 @@ void WbProjectRelocationDialog::copy() {
   if (mIsCompleteRelocation) {
     if (dir.exists()) {
       if (dir.count() > 2) {  // 2 because special cases: "." and ".." are counted
-        setStatus(tr("Target directory is not empty.") + "\n" + tr("Please select another directory."), false);
+        setStatus(tr("Target directory is not empty.") + '\n' + tr("Please select another directory."), false);
         return;
       }
     } else {
       if (!QDir::root().mkpath(mTargetPath)) {
         setStatus(
-          tr("Could not create target directory.") + "\n" + tr("Make sure that you have write access at this location."),
+          tr("Could not create target directory.") + '\n' + tr("Make sure that you have write access at this location."),
           false);
         return;
       }
@@ -190,14 +195,14 @@ void WbProjectRelocationDialog::copy() {
   int copiedFilesCount = 0;
   if (mIsCompleteRelocation) {
     copiedFilesCount += copyWorldFiles();
-    const QString currentProjectPath(QDir(mProject->path()).absolutePath() + "/");
+    const QString currentProjectPath(QDir(mProject->path()).absolutePath() + '/');
     copiedFilesCount += copyProject(currentProjectPath);
   }
   if (!mExternalProtoProjectPath.isEmpty())
     copiedFilesCount += copyProject(mExternalProtoProjectPath);
 
   if (copiedFilesCount == 0) {
-    setStatus(tr("Project relocation failed.") + "\n" + tr("Some files or directories could not be copied."));
+    setStatus(tr("Project relocation failed.") + '\n' + tr("Some files or directories could not be copied."));
     return;
   }
 
@@ -216,14 +221,14 @@ void WbProjectRelocationDialog::copy() {
 
   // store the accepted project directory in the preferences
   dir.cdUp();  // store the upper level, probably the path where the directories are stored
-  WbPreferences::instance()->setValue("Directories/projects", dir.absolutePath() + "/");
+  WbPreferences::instance()->setValue("Directories/projects", dir.absolutePath() + '/');
 
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
   foreach (WbRobot *robot, robots)
     robot->updateControllerDir();
 
   // good news
-  setStatus(tr("Project successfully relocated.") + "\n" + tr("%1 file(s) copied.").arg(copiedFilesCount));
+  setStatus(tr("Project successfully relocated.") + '\n' + tr("%1 file(s) copied.").arg(copiedFilesCount));
 }
 
 int WbProjectRelocationDialog::copyProject(const QString &projectPath) {
@@ -257,8 +262,8 @@ int WbProjectRelocationDialog::copyProject(const QString &projectPath) {
   if (QFileInfo(projectPath + relativeDirPath).isFile())
     // if it's not a directory, but a file, get the containing controller directory from after the "controllers/", "libraries/",
     // "protos/", etc. part of the string
-    relativeDirPath = mRelativeFilename.left(mRelativeFilename.indexOf("/", mRelativeFilename.indexOf("/") + 1));
-  const QString destinationPath = mTargetPath + "/" + relativeDirPath;
+    relativeDirPath = mRelativeFilename.left(mRelativeFilename.indexOf('/', mRelativeFilename.indexOf('/') + 1));
+  const QString destinationPath = mTargetPath + '/' + relativeDirPath;
   if (!QDir(destinationPath).exists())
     result += WbFileUtil::copyDir(projectPath + relativeDirPath, destinationPath, true, true, true);
 
@@ -279,25 +284,53 @@ int WbProjectRelocationDialog::copyWorldFiles() {
   // copy the .wbt file, the .wbproj file
   QDir targetPathDir(mTargetPath + "/worlds");
   targetPathDir.mkpath(".");
-  const QString &targetWorld(mTargetPath + "/worlds/" + worldFileBaseName);
-  if (QFile::copy(mProject->path() + "worlds/" + worldFileBaseName + ".wbt", targetWorld + ".wbt")) {
-    QFile::setPermissions(targetWorld + ".wbt",
-                          QFile::permissions(targetWorld + ".wbt") | QFile::WriteOwner | QFile::WriteUser);
+  mTargetWorld = mTargetPath + "/worlds/" + worldFileBaseName + ".wbt";
+  if (QFile::copy(mProject->worldsPath() + worldFileBaseName + ".wbt", mTargetWorld)) {
+    QFile::setPermissions(mTargetWorld, QFile::permissions(mTargetWorld) | QFile::WriteOwner | QFile::WriteUser);
     result++;
   }
   const QString &targetProjectFile(mTargetPath + "/worlds/." + worldFileBaseName + ".wbproj");
-  if (QFile::copy(mProject->path() + "worlds/." + worldFileBaseName + ".wbproj", targetProjectFile)) {
+  if (QFile::copy(mProject->worldsPath() + '.' + worldFileBaseName + ".wbproj", targetProjectFile)) {
     QFile::setPermissions(targetProjectFile, QFile::permissions(targetProjectFile) | QFile::WriteOwner | QFile::WriteUser);
     result++;
   }
 
   // copy only the needed texture files
-  const QStringList &textureList = world->listTextureFiles();
-  foreach (const QString &textureFile, textureList) {
-    const QFileInfo fi(textureFile);
-    targetPathDir.mkpath(fi.path());
-    if (QFile::copy(mProject->path() + "worlds/" + textureFile, mTargetPath + "/worlds/" + textureFile))
-      result++;
+  const QList<std::pair<QString, WbMFString *>> textureList = world->listTextureFiles();
+  for (int i = 0; i < textureList.size(); ++i) {
+    const QString &textureFile = textureList[i].first;
+    if (!QDir::isRelativePath(textureFile) || WbUrl::isWeb(textureFile))
+      continue;
+
+    const QString sourceTexturePath = QDir::cleanPath(mProject->worldsPath() + textureFile);
+    if (!sourceTexturePath.startsWith(mTargetPath)) {  // it will be outside the project, so we need to copy it
+      // create folder if it doesn't exist already
+      const QDir texturesDirectory(mTargetPath + "/worlds/textures/");
+      if (!texturesDirectory.exists())
+        texturesDirectory.mkpath(".");
+
+      // ensure there are no ambiguities
+      const QString baseName = QFileInfo(sourceTexturePath).baseName();
+      const QString extension = QFileInfo(sourceTexturePath).suffix();
+
+      QFileInfo fi(texturesDirectory.absolutePath() + '/' + baseName + '.' + extension);
+      int attempt = 0;
+      while (attempt < 100 && (fi.exists() && !WbFileUtil::areIdenticalFiles(sourceTexturePath, fi.absoluteFilePath())))
+        fi = QFileInfo(texturesDirectory.absolutePath() + '/' + baseName + QString::number(attempt++) + '.' + extension);
+
+      if (attempt >= 100) {
+        WbLog::error(QObject::tr("Impossible to create a non-ambiguous path for asset '%1'in the local directory.")
+                       .arg(sourceTexturePath));
+        return result;
+      }
+
+      // copy textures to the new location
+      const QString relativePath = QDir(QFileInfo(mTargetWorld).absolutePath()).relativeFilePath(fi.absoluteFilePath());
+      if (!fi.exists() && QFile::copy(sourceTexturePath, fi.absoluteFilePath()))
+        result++;
+
+      mFieldsToUpdate.insert(textureList[i].second, relativePath);
+    }
   }
 
   // copy forests if the world files references any
@@ -308,7 +341,7 @@ int WbProjectRelocationDialog::copyWorldFiles() {
 
     QStringList forests;
     while (it.hasNext()) {
-      QRegularExpressionMatch match = it.next();
+      const QRegularExpressionMatch match = it.next();
       if (match.hasMatch())
         forests << match.captured(1);
     }
@@ -329,7 +362,7 @@ int WbProjectRelocationDialog::copyWorldFiles() {
 
   // copy SUMO net directory if any
   QString fileName = world->fileName();
-  const QString netDir = fileName.replace(".wbt", "_net");
+  const QString netDir = fileName.replace(".wbt", "_net", Qt::CaseInsensitive);
   if (QDir().exists(netDir))
     result += WbFileUtil::copyDir(netDir, mTargetPath + "/worlds/" + QFileInfo(netDir).baseName(), true, false, true);
 
@@ -342,48 +375,47 @@ void WbProjectRelocationDialog::selectDirectory() {
   if (path.isEmpty())
     return;
 
-  mTargetPath = path;
-  mTargetEdit->setText(QDir::toNativeSeparators(mTargetPath));
+  mTargetEdit->setText(path);
+  mTargetPath = QDir::fromNativeSeparators(path);
   setStatus(tr("Push the [Copy] button to copy the necessary project files."));
 }
 
-bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filename) {
+bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &fileName) {
   mExternalProtoProjectPath.clear();
 
-  if (WbFileUtil::isLocatedInDirectory(filename, WbNetwork::instance()->cacheDirectory())) {
+  if (WbFileUtil::isLocatedInDirectory(fileName, WbStandardPaths::cachedAssetsPath())) {
     WbMessageBox::warning(tr("You are trying to modify a remote file.") + "\n\n'" + tr("This operation is not permitted."),
                           parent);
     return false;
   }
 
   // if file is not in installation directory: it's ok
-  if (!WbFileUtil::isLocatedInInstallationDirectory(filename))
+  if (!WbFileUtil::isLocatedInInstallationDirectory(fileName))
     return true;
 
   WbSimulationState *simulationState = WbSimulationState::instance();
   simulationState->pauseSimulation();
 
   // use native separators in user dialog
-  const QString &nativeFilename = QDir::toNativeSeparators(filename);
+  const QString &nativeFilename = QDir::toNativeSeparators(fileName);
 
   WbProject *current = WbProject::current();
-  if (!WbFileUtil::isLocatedInDirectory(filename, current->path()) ||
-      WbFileUtil::isLocatedInDirectory(filename, WbStandardPaths::resourcesPath())) {
+  if (!WbFileUtil::isLocatedInDirectory(fileName, current->path()) ||
+      WbFileUtil::isLocatedInDirectory(fileName, WbStandardPaths::resourcesPath())) {
     const QList<WbRobot *> &robots = WbWorld::instance()->robots();
     foreach (WbRobot *robot, robots) {
       const WbProtoModel *proto = robot->proto();
       if (!proto)
         continue;
 
-      QDir protoProjectDir(QFileInfo(proto->fileName()).path());
-      protoProjectDir.cdUp();
-      if (WbFileUtil::isLocatedInDirectory(filename, protoProjectDir.absolutePath())) {
-        mExternalProtoProjectPath = protoProjectDir.absolutePath() + "/";
+      QDir protoProjectDir(proto->projectPath());
+      if (WbFileUtil::isLocatedInDirectory(fileName, protoProjectDir.absolutePath())) {
+        mExternalProtoProjectPath = protoProjectDir.absolutePath() + '/';
         break;
       }
     }
 
-    if (mExternalProtoProjectPath.isEmpty()) {
+    if (mExternalProtoProjectPath.isEmpty() && fileName != WbProject::newWorldPath()) {
       // file is not in current project
       WbMessageBox::warning(tr("You are trying to modify a file located in Webots installation directory:") + "\n\n'" +
                               nativeFilename + "'\n\n" + tr("This operation is not permitted."),
@@ -402,25 +434,43 @@ bool WbProjectRelocationDialog::validateLocation(QWidget *parent, QString &filen
     return false;
   }
 
-  // change filename parameter: get relative filename with respect to previous project path
+  // change fileName parameter: get relative fileName with respect to previous project path
   QString absolutePath;
   if (mExternalProtoProjectPath.isEmpty())
     absolutePath = current->path();
   else
     absolutePath = mExternalProtoProjectPath;
-  filename = QDir(absolutePath).relativeFilePath(filename) + (filename.endsWith("/") ? "/" : "");
+  fileName = QDir(absolutePath).relativeFilePath(fileName) + (fileName.endsWith('/') ? "/" : "");
 
   // relocate dialog
-  WbProjectRelocationDialog dialog(current, filename, absolutePath, parent);
+  WbProjectRelocationDialog dialog(current, fileName, absolutePath, parent);
   dialog.exec();
   if (dialog.result() == QDialog::Rejected) {
     simulationState->resumeSimulation();
     return false;
   }
 
-  // change filename parameter: set absolute filename with respect to the new project path
-  filename = QDir(dialog.targetPath()).absoluteFilePath(filename);
+  // change fileName parameter: set absolute fileName with respect to the new project path
+  fileName = QDir(dialog.targetPath()).absoluteFilePath(fileName);
 
   simulationState->resumeSimulation();
   return true;
+}
+
+void WbProjectRelocationDialog::accept() {
+  QMapIterator<WbMFString *, QString> it(mFieldsToUpdate);
+  while (it.hasNext()) {
+    it.next();
+    WbMFString *field = it.key();
+    for (int i = 0; i < field->size(); ++i) {
+      if (!field->item(i).isEmpty())
+        field->setItem(i, it.value());
+    }
+  }
+  mFieldsToUpdate.clear();
+
+  WbProtoManager::instance()->updateCurrentWorld(mTargetWorld);
+  WbProject::current()->setPath(mTargetPath);
+
+  QDialog::accept();
 }

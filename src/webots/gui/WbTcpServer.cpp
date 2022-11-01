@@ -57,6 +57,8 @@ WbTcpServer::WbTcpServer(bool stream) :
   connect(WbApplication::instance(), &WbApplication::worldLoadingStatusHasChanged, this, &WbTcpServer::setWorldLoadingStatus);
   connect(WbNodeOperations::instance(), &WbNodeOperations::nodeAdded, this, &WbTcpServer::propagateNodeAddition);
   connect(WbTemplateManager::instance(), &WbTemplateManager::postNodeRegeneration, this, &WbTcpServer::propagateNodeAddition);
+  connect(WbNodeOperations::instance(), &WbNodeOperations::nodeDeleted, this, &WbTcpServer::propagateNodeDeletion);
+  connect(WbTemplateManager::instance(), &WbTemplateManager::preNodeRegeneration, this, &WbTcpServer::propagateNodeDeletion);
 }
 
 WbTcpServer::~WbTcpServer() {
@@ -130,8 +132,6 @@ void WbTcpServer::create(int port) {
   // - https://bugreports.qt.io/browse/QTBUG-54276
   mWebSocketServer = new QWebSocketServer("Webots Streaming Server", QWebSocketServer::NonSecureMode, this);
   mTcpServer = new QTcpServer();
-  if (!mTcpServer->listen(QHostAddress::Any, port))
-    throw tr("Cannot set the server in listen mode: %1").arg(mTcpServer->errorString());
   connect(mWebSocketServer, &QWebSocketServer::newConnection, this, &WbTcpServer::onNewWebSocketConnection);
   connect(mTcpServer, &QTcpServer::newConnection, this, &WbTcpServer::onNewTcpConnection);
   connect(WbSimulationState::instance(), &WbSimulationState::controllerReadRequestsCompleted, this,
@@ -201,7 +201,7 @@ void WbTcpServer::onNewTcpData() {
     const QString etag = etagIndex ? tokens[etagIndex] : "";
     if (host.isEmpty())
       WbLog::warning(tr("No host specified in HTTP header."));
-    sendTcpRequestReply(tokens[1].sliced(1), etag, host, socket);
+    sendTcpRequestReply(tokens[1].startsWith("/") ? tokens[1].sliced(1) : tokens[1], etag, host, socket);
   }
 }
 
@@ -212,8 +212,7 @@ void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
   QByteArray reply;
 
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
-  const QList<WbController *> &availableControllers =
-    WbControlledWorld::instance()->externControllers() + WbControlledWorld::instance()->controllers();
+  const QList<WbController *> &availableControllers = WbControlledWorld::instance()->disconnectedExternControllers();
   if (robotNameIndex) {  // robot name is given
     const QString robotName = tokens[robotNameIndex];
     foreach (WbRobot *const robot, robots) {
@@ -415,7 +414,7 @@ void WbTcpServer::processTextMessage(QString message) {
       WbApplication::instance()->worldReload();
     else if (message.startsWith("load:")) {
       const QString &worldsPath = WbProject::current()->worldsPath();
-      const QString &fullPath = worldsPath + '/' + message.mid(5);
+      const QString &fullPath = worldsPath + '/' + message.mid(5).split('/').takeLast();
       if (!QFile::exists(fullPath))
         WbLog::error(tr("Streaming server: world %1 doesn't exist.").arg(fullPath));
       else if (QDir(worldsPath) != QFileInfo(fullPath).absoluteDir())
@@ -530,9 +529,15 @@ void WbTcpServer::newWorld() {
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
   foreach (WbRobot *const robot, robots)
     connectNewRobot(robot);
+
+  if (!mTcpServer->isListening() && !mTcpServer->listen(QHostAddress::Any, mPort))
+    WbLog::error(tr("Cannot set the server in listen mode: %1").arg(mTcpServer->errorString()));
 }
 
 void WbTcpServer::deleteWorld() {
+  if (mTcpServer->isListening())
+    mTcpServer->close();
+
   if (mWebSocketServer == NULL)
     return;
   foreach (QWebSocket *client, mWebSocketClients)
@@ -566,8 +571,13 @@ void WbTcpServer::propagateNodeAddition(WbNode *node) {
   }
 
   const WbRobot *robot = dynamic_cast<WbRobot *>(node);
-  if (robot)
+  if (robot) {
     connectNewRobot(robot);
+    if (mWebSocketClients.isEmpty())
+      return;
+    foreach (QWebSocket *client, mWebSocketClients)
+      sendRobotWindowInformation(client, robot);
+  }
 }
 
 QString WbTcpServer::simulationStateString(bool pauseTime) {
@@ -608,23 +618,42 @@ void WbTcpServer::pauseClientIfNeeded(QWebSocket *client) {
 }
 
 void WbTcpServer::sendWorldToClient(QWebSocket *client) {
-  const WbWorld *world = WbWorld::instance();
-  const QDir dir = QFileInfo(world->fileName()).dir();
-  const QStringList worldList = dir.entryList(QStringList() << "*.wbt", QDir::Files);
+  const QFileInfoList worldFiles =
+    QDir(WbProject::current()->worldsPath()).entryInfoList(QStringList() << "*.wbt", QDir::Files);
+
   QString worlds;
-  for (int i = 0; i < worldList.size(); ++i)
-    worlds += (i == 0 ? "" : ";") + QFileInfo(worldList.at(i)).fileName();
-  client->sendTextMessage("world:" + QFileInfo(world->fileName()).fileName() + ':' + worlds);
+  foreach (const QFileInfo item, worldFiles)
+    worlds += QDir(WbProject::current()->dir()).relativeFilePath(item.absoluteFilePath()) + ";";
+  worlds.chop(1);  // remove last separator
+
+  const QString &currentWorld = QDir(WbProject::current()->dir()).relativeFilePath(WbWorld::instance()->fileName());
+  client->sendTextMessage("world:" + currentWorld + ':' + worlds);
 
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
-  foreach (const WbRobot *robot, robots) {
-    if (!robot->window().isEmpty()) {
-      QJsonObject windowObject;
-      windowObject.insert("robot", robot->name());
-      windowObject.insert("window", robot->window());
-      const QJsonDocument windowDocument(windowObject);
-      client->sendTextMessage("robot window: " + windowDocument.toJson(QJsonDocument::Compact));
-    }
-  }
+  foreach (const WbRobot *robot, robots)
+    sendRobotWindowInformation(client, robot);
   client->sendTextMessage("scene load completed");
+}
+
+void WbTcpServer::sendRobotWindowInformation(QWebSocket *client, const WbRobot *robot, bool remove) {
+  if (!robot->window().isEmpty()) {
+    QJsonObject windowObject;
+    windowObject.insert("robot", robot->name());
+    windowObject.insert("window", robot->window());
+    if (remove)
+      windowObject.insert("remove", true);
+    if (WbWorld::instance()->worldInfo()->window() == robot->window())
+      windowObject.insert("main", true);
+    const QJsonDocument windowDocument(windowObject);
+    client->sendTextMessage("robot window: " + windowDocument.toJson(QJsonDocument::Compact));
+  }
+}
+
+void WbTcpServer::propagateNodeDeletion(WbNode *node) {
+  const WbNode *def = static_cast<const WbBaseNode *>(node)->getFirstFinalizedProtoInstance();
+  foreach (QWebSocket *client, mWebSocketClients) {
+    const WbRobot *robot = dynamic_cast<const WbRobot *>(def);
+    if (robot)
+      sendRobotWindowInformation(client, robot, true);
+  }
 }

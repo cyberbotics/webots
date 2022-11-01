@@ -22,6 +22,7 @@ Car {
   MFFloat    gearRatio                      [-12 10 7 5 2.5 1]
   SFFloat    hybridPowerSplitRatio          0.25
   SFFloat    hybridPowerSplitRPM            3000
+  SFString     window                       "automobile"
 }
 ```
 

@@ -13,22 +13,22 @@ PROTO OldSteel [
     baseColor IS colorOverride
     baseColorMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/old_steel/old_steel_base_color.jpg"
+        "textures/old_steel/old_steel_base_color.jpg"
       ]
     }
     roughnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/old_steel/old_steel_roughness.jpg"
+        "textures/old_steel/old_steel_roughness.jpg"
       ]
     }
     metalnessMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/old_steel/old_steel_metalness.jpg"
+        "textures/old_steel/old_steel_metalness.jpg"
       ]
     }
     normalMap ImageTexture {
       url [
-        "webots://projects/appearances/protos/textures/old_steel/old_steel_normal.jpg"
+        "textures/old_steel/old_steel_normal.jpg"
       ]
     }
     normalMapFactor 1

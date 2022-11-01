@@ -42,14 +42,10 @@ public:
   bool isX3d() const { return mType == X3D; }
   bool isProto() const { return mType == PROTO; }
   bool isUrdf() const { return mType == URDF; }
-  bool isWebots() const { return mType == VRML_SIM || mType == VRML_OBJ || mType == PROTO; }
+  bool isWebots() const { return mType == VRML_SIM || mType == PROTO; }
   bool isWritingToFile() const { return mIsWritingToFile; }
   QString *string() const { return mString; };
   QString path() const;
-  QHash<QString, QString> resourcesList() const { return mResourcesList; }
-  void addResourceToList(const QString &url, const QString &fileName) {
-    mResourcesList[QString(url).replace(" ", "%20")] = fileName;
-  }
 
   void writeLiteralString(const QString &string);
   void writeMFStart();
@@ -68,12 +64,16 @@ public:
   // write current indentation
   void indent();
 
-  // write .wrl, .wbt, .wbo, .x3d or .urdf header and footer based on VrmlType
+  // write .wbt, .x3d or .urdf header and footer based on VrmlType
   void writeHeader(const QString &title);
   void writeFooter(const QStringList *info = NULL);
 
   void setRootNode(WbNode *node) { mRootNode = node; }
   WbNode *rootNode() const { return mRootNode; }
+  void trackDeclaration(const QString &protoName, const QString &protoUrl) {
+    mTrackedDeclarations.append(std::pair<QString, QString>(protoName, protoUrl));
+  };
+  QList<std::pair<QString, QString>> declarations() const { return mTrackedDeclarations; };
 
   QMap<uint64_t, QString> &indexedFaceSetDefMap() { return mIndexedFaceSetDefMap; }
   WbWriter &operator<<(const QString &s);
@@ -95,17 +95,18 @@ public:
 private:
   void setType();
 
-  enum Type { VRML_SIM, VRML_OBJ, X3D, PROTO, URDF };
+  enum Type { VRML_SIM, X3D, PROTO, URDF };
   QString *mString;
   QIODevice *mDevice;
   QString mFileName;
   Type mType;
   int mIndent;
   QMap<uint64_t, QString> mIndexedFaceSetDefMap;
-  QHash<QString, QString> mResourcesList;  // this hash represents the list of textures used and their associated filepath
-  WbNode *mRootNode;
   bool mIsWritingToFile;
   WbVector3 mJointOffset;
+  // variables used by 'convert root to basenode' writer
+  WbNode *mRootNode;
+  QList<std::pair<QString, QString>> mTrackedDeclarations;  // keep track of declarations that need to change level
 };
 
 #endif

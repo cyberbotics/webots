@@ -48,7 +48,7 @@ PROTO VelodynePuck [
               roughness 0.6
               baseColorMap ImageTexture {
                 url [
-                  "webots://projects/devices/velodyne/protos/textures/velodyne.png"
+                  "textures/velodyne.png"
                 ]
                 repeatS FALSE
                 repeatT FALSE
@@ -130,7 +130,7 @@ PROTO VelodynePuck [
     numberOfLayers 16
     minRange 1
     maxRange 100
-    spherical TRUE
+    projection "cylindrical"
     type "fixed"
     noise 0.003 # 0.03 / 100
     defaultFrequency 5

@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A ceiling spot light.
+# template language: javascript
 
 EXTERNPROTO "webots://projects/appearances/protos/DamascusSteel.proto"
 EXTERNPROTO "webots://projects/objects/solids/protos/SolidPipe.proto"
@@ -43,7 +44,7 @@ PROTO CeilingSpotLight [
       }
       Shape {
         appearance LedStrip {
-          emissiveIntensity %{= 20 * fields.spotLightIntensity.value }%
+          emissiveIntensity %<= 20 * fields.spotLightIntensity.value >%
           textureTransform TextureTransform {
             scale 1.2 8
             translation -0.06 0

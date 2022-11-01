@@ -250,24 +250,10 @@ void Field::removeSF() {
   wb_supervisor_field_remove_sf(fieldRef);
 }
 
-void Field::importMFNode(int position, const std::string &filename) {
-  wb_supervisor_field_import_mf_node(fieldRef, position, filename.c_str());
-}
-
 void Field::importMFNodeFromString(int position, const std::string &nodeString) {
   wb_supervisor_field_import_mf_node_from_string(fieldRef, position, nodeString.c_str());
 }
 
-void Field::importSFNode(const std::string &filename) {
-  wb_supervisor_field_import_sf_node(fieldRef, filename.c_str());
-}
-
 void Field::importSFNodeFromString(const std::string &nodeString) {
   wb_supervisor_field_import_sf_node_from_string(fieldRef, nodeString.c_str());
-}
-
-void Field::removeMFNode(int position) {
-  fprintf(stderr, "Field::removeMFNode is deprecated, please use "
-                  "Field::removeMF instead\n");
-  wb_supervisor_field_remove_mf(fieldRef, position);
 }
