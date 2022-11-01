@@ -48,12 +48,19 @@ import {loadImageTextureInWren, loadTextureData} from './image_loader.js';
   This module takes an x3d world, parse it and populate the scene.
 */
 export default class Parser {
+  #downloadingImage;
+  #nodeCounter;
+  #nodeNumber;
+  #prefix;
+  #promises;
+  #promiseCounter;
+  #promiseNumber;
   constructor(prefix = '') {
-    this._prefix = prefix;
-    this._downloadingImage = new Set();
-    this._promises = [];
-    this._promiseCounter = 0;
-    this._promiseNumber = 0;
+    this.#prefix = prefix;
+    this.#downloadingImage = new Set();
+    this.#promises = [];
+    this.#promiseCounter = 0;
+    this.#promiseNumber = 0;
     WbWorld.init();
   }
 
@@ -74,24 +81,24 @@ export default class Parser {
         if (typeof node === 'undefined')
           console.error('Unknown content, nor Scene, nor Node');
         else {
-          this._nodeNumber = 0;
-          this._nodeCounter = 0;
-          this._countChildElements(node);
-          this._parseChildren(node, parent);
+          this.#nodeNumber = 0;
+          this.#nodeCounter = 0;
+          this.#countChildElements(node);
+          this.#parseChildren(node, parent);
         }
       } else {
-        this._nodeNumber = 0;
-        this._nodeCounter = 0;
-        this._countChildElements(scene);
-        this._parseNode(scene);
+        this.#nodeNumber = 0;
+        this.#nodeCounter = 0;
+        this.#countChildElements(scene);
+        this.#parseNode(scene);
       }
     }
 
     webots.currentView.progress.setProgressBar('block', 'Finalizing...', 75, 'Finalizing webotsJS nodes...');
 
-    return Promise.all(this._promises).then(() => {
-      this._promises = [];
-      this._downloadingImage.clear();
+    return Promise.all(this.#promises).then(() => {
+      this.#promises = [];
+      this.#downloadingImage.clear();
       if (typeof this.smaaAreaTexture !== 'undefined' && typeof this.smaaSearchTexture !== 'undefined' &&
         typeof this.gtaoNoiseTexture !== 'undefined') {
         WbWrenPostProcessingEffects.loadResources(this.smaaAreaTexture, this.smaaSearchTexture, this.gtaoNoiseTexture);
@@ -112,7 +119,7 @@ export default class Parser {
       }
       WbWorld.instance.sceneTree.forEach((node, i) => {
         const percentage = 70 + 30 * (i + 1) / WbWorld.instance.sceneTree.length;
-        const info = 'Finalizing node ' + node.id + ': ' + (100 * (i + 1) / WbWorld.instance.sceneTree.length) + '%';
+        const info = 'Finalizing node ' + node.id + ': ' + Math.round(100 * (i + 1) / WbWorld.instance.sceneTree.length) + '%';
         webots.currentView.progress.setProgressBar('block', 'same', 75 + 0.25 * percentage, info);
         node.finalize();
       });
@@ -130,10 +137,10 @@ export default class Parser {
     });
   }
 
-  _parseNode(node, parentNode, isBoundingObject) {
-    this._nodeCounter += 1;
-    const percentage = 30 + 70 * this._nodeCounter / this._nodeNumber;
-    const infoPercentage = 100 * this._nodeCounter / this._nodeNumber;
+  #parseNode(node, parentNode, isBoundingObject) {
+    this.#nodeCounter += 1;
+    const percentage = 30 + 70 * this.#nodeCounter / this.#nodeNumber;
+    const infoPercentage = 100 * this.#nodeCounter / this.#nodeNumber;
     const info = 'Parsing node: ' + node.id + ' (' + node.tagName + ') ' + infoPercentage + '%';
     webots.currentView.progress.setProgressBar('block', 'same', 60 + 0.1 * percentage, info);
 
@@ -142,33 +149,33 @@ export default class Parser {
 
     let result;
     if (node.tagName === 'Scene') {
-      this._parseScene(node);
-      this._parseChildren(node, parentNode);
+      this.#parseScene(node);
+      this.#parseChildren(node, parentNode);
     } else if (node.tagName === 'WorldInfo')
-      this._parseWorldInfo(node);
+      this.#parseWorldInfo(node);
     else if (node.tagName === 'Viewpoint')
-      WbWorld.instance.viewpoint = this._parseViewpoint(node);
+      WbWorld.instance.viewpoint = this.#parseViewpoint(node);
     else if (node.tagName === 'Background')
-      result = this._parseBackground(node);
+      result = this.#parseBackground(node);
     else if (node.tagName === 'Transform')
-      result = this._parseTransform(node, parentNode, isBoundingObject);
+      result = this.#parseTransform(node, parentNode, isBoundingObject);
     else if (node.tagName === 'Billboard')
-      result = this._parseBillboard(node, parentNode);
+      result = this.#parseBillboard(node, parentNode);
     else if (node.tagName === 'Group')
-      result = this._parseGroup(node, parentNode);
+      result = this.#parseGroup(node, parentNode);
     else if (node.tagName === 'Shape')
-      result = this._parseShape(node, parentNode, isBoundingObject);
+      result = this.#parseShape(node, parentNode, isBoundingObject);
     else if (node.tagName === 'CadShape')
-      result = this._parseCadShape(node, parentNode);
+      result = this.#parseCadShape(node, parentNode);
     else if (node.tagName === 'DirectionalLight')
-      result = this._parseDirectionalLight(node, parentNode);
+      result = this.#parseDirectionalLight(node, parentNode);
     else if (node.tagName === 'PointLight')
-      result = this._parsePointLight(node, parentNode);
+      result = this.#parsePointLight(node, parentNode);
     else if (node.tagName === 'SpotLight')
-      result = this._parseSpotLight(node, parentNode);
+      result = this.#parseSpotLight(node, parentNode);
     else if (node.tagName === 'Fog') {
       if (!WbWorld.instance.hasFog)
-        result = this._parseFog(node);
+        result = this.#parseFog(node);
       else
         console.error('This world already has a fog.');
     } else {
@@ -176,7 +183,7 @@ export default class Parser {
       let id;
       if (typeof parentNode !== 'undefined')
         id = parentNode.id;
-      result = this._parseGeometry(node, id);
+      result = this.#parseGeometry(node, id);
       // We are forced to check if the result correspond to the class we expect because of the case of a USE
       if (typeof result !== 'undefined' && result instanceof WbGeometry) {
         if (typeof parentNode !== 'undefined') {
@@ -202,18 +209,18 @@ export default class Parser {
         if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
           if (typeof parentNode.appearance !== 'undefined')
             parentNode.appearance.delete();
-          result = this._parsePbrAppearance(node, id);
+          result = this.#parsePbrAppearance(node, id);
           parentNode.appearance = result;
         }
       } else if (node.tagName === 'Appearance') {
         if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
           if (typeof parentNode.appearance !== 'undefined')
             parentNode.appearance.delete();
-          result = this._parseAppearance(node, id);
+          result = this.#parseAppearance(node, id);
           parentNode.appearance = result;
         }
       } else if (node.tagName === 'Material') {
-        result = this._parseMaterial(node, id);
+        result = this.#parseMaterial(node, id);
         if (typeof result !== 'undefined') {
           if (typeof parentNode !== 'undefined' && parentNode instanceof WbAppearance) {
             if (typeof parentNode.material !== 'undefined')
@@ -222,7 +229,7 @@ export default class Parser {
           }
         }
       } else if (node.tagName === 'ImageTexture') {
-        result = this._parseImageTexture(node, id);
+        result = this.#parseImageTexture(node, id);
         if (typeof result !== 'undefined') {
           if (typeof parentNode !== 'undefined' && parentNode instanceof WbAppearance) {
             if (typeof parentNode.material !== 'undefined')
@@ -231,7 +238,7 @@ export default class Parser {
           }
         }
       } else if (node.tagName === 'TextureTransform') {
-        result = this._parseTextureTransform(node, id);
+        result = this.#parseTextureTransform(node, id);
         if (typeof result !== 'undefined') {
           if (typeof parentNode !== 'undefined' && parentNode instanceof WbAbstractAppearance) {
             if (typeof parentNode.textureTransform !== 'undefined')
@@ -248,37 +255,37 @@ export default class Parser {
       WbWorld.instance.sceneTree.push(result);
   }
 
-  _parseChildren(node, parentNode, isBoundingObject) {
+  #parseChildren(node, parentNode, isBoundingObject) {
     for (let i = 0; i < node.childNodes.length; i++) {
       const child = node.childNodes[i];
       if (typeof child.tagName !== 'undefined')
-        this._parseNode(child, parentNode, isBoundingObject);
+        this.#parseNode(child, parentNode, isBoundingObject);
     }
   }
 
-  _parseScene(node) {
+  #parseScene(node) {
     const prefix = DefaultUrl.wrenImagesUrl();
-    this._promises.push(loadTextureData(prefix, 'smaa_area_texture.png').then(image => {
+    this.#promises.push(loadTextureData(prefix, 'smaa_area_texture.png').then(image => {
       this.smaaAreaTexture = image;
       this.smaaAreaTexture.isTranslucent = false;
-      this._updatePromiseCounter('Downloading assets: Texture \'smaa_area_texture.png\'...');
+      this.#updatePromiseCounter('Downloading assets: Texture \'smaa_area_texture.png\'...');
     }));
-    this._promises.push(loadTextureData(prefix, 'smaa_search_texture.png').then(image => {
+    this.#promises.push(loadTextureData(prefix, 'smaa_search_texture.png').then(image => {
       this.smaaSearchTexture = image;
       this.smaaSearchTexture.isTranslucent = false;
-      this._updatePromiseCounter('Downloading assets: Texture \'smaa_search_texture.png\'...');
+      this.#updatePromiseCounter('Downloading assets: Texture \'smaa_search_texture.png\'...');
     }));
-    this._promises.push(loadTextureData(prefix, 'gtao_noise_texture.png').then(image => {
+    this.#promises.push(loadTextureData(prefix, 'gtao_noise_texture.png').then(image => {
       this.gtaoNoiseTexture = image;
       this.gtaoNoiseTexture.isTranslucent = true;
-      this._updatePromiseCounter('Downloading assets: Texture \'gtao_noise_texture.png\'...');
+      this.#updatePromiseCounter('Downloading assets: Texture \'gtao_noise_texture.png\'...');
     }));
-    this._promiseNumber += 3;
+    this.#promiseNumber += 3;
 
     WbWorld.instance.scene = new WbScene();
   }
 
-  _parseWorldInfo(node) {
+  #parseWorldInfo(node) {
     WbWorld.instance.coordinateSystem = getNodeAttribute(node, 'coordinateSystem', 'ENU');
     WbWorld.instance.basicTimeStep = parseInt(getNodeAttribute(node, 'basicTimeStep', 32));
     WbWorld.instance.title = getNodeAttribute(node, 'title', 'No title');
@@ -296,7 +303,7 @@ export default class Parser {
     WbWorld.computeUpVector();
   }
 
-  _parseId(node) {
+  #parseId(node) {
     if (typeof node === 'undefined')
       return;
 
@@ -307,8 +314,8 @@ export default class Parser {
     return id;
   }
 
-  _parseViewpoint(node) {
-    const id = this._parseId(node);
+  #parseViewpoint(node) {
+    const id = this.#parseId(node);
     const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', M_PI_4));
     const orientation = convertStringToQuaternion(getNodeAttribute(node, 'orientation', '0 0 1 0'));
     const position = convertStringToVec3(getNodeAttribute(node, 'position', '0 0 10'));
@@ -324,8 +331,8 @@ export default class Parser {
       followedId, ambientOcclusionRadius);
   }
 
-  _parseBackground(node) {
-    const id = this._parseId(node);
+  #parseBackground(node) {
+    const id = this.#parseId(node);
     const skyColor = convertStringToVec3(getNodeAttribute(node, 'skyColor', '0 0 0'));
     const luminosity = parseFloat(getNodeAttribute(node, 'luminosity', '1'));
 
@@ -354,13 +361,13 @@ export default class Parser {
     this.cubeImages = [];
     if (areUrlsPresent) {
       for (let i = 0; i < 6; i++) {
-        this._promises.push(loadTextureData(this._prefix, backgroundUrl[backgroundIdx[i]], false, rotationValues[i])
+        this.#promises.push(loadTextureData(this.#prefix, backgroundUrl[backgroundIdx[i]], false, rotationValues[i])
           .then(image => {
             this.cubeImages[cubeImageIdx[i]] = image;
-            this._updatePromiseCounter('Downloading assets: Texture \'background ' + i + '\'...');
+            this.#updatePromiseCounter('Downloading assets: Texture \'background ' + i + '\'...');
           }));
       }
-      this._promiseNumber += 6;
+      this.#promiseNumber += 6;
     }
 
     let backgroundIrradianceUrl = [];
@@ -384,13 +391,13 @@ export default class Parser {
     this.irradianceCubeURL = [];
     if (areIrradianceUrlsPresent) {
       for (let i = 0; i < 6; i++) {
-        this._promises.push(loadTextureData(this._prefix, backgroundIrradianceUrl[backgroundIdx[i]], true, rotationValues[i])
+        this.#promises.push(loadTextureData(this.#prefix, backgroundIrradianceUrl[backgroundIdx[i]], true, rotationValues[i])
           .then(image => {
             this.irradianceCubeURL[cubeImageIdx[i]] = image;
-            this._updatePromiseCounter('Downloading assets: Texture \'background irradiance ' + i + '\'...');
+            this.#updatePromiseCounter('Downloading assets: Texture \'background irradiance ' + i + '\'...');
           }));
       }
-      this._promiseNumber += 6;
+      this.#promiseNumber += 6;
     }
 
     const background = new WbBackground(id, skyColor, luminosity);
@@ -401,24 +408,24 @@ export default class Parser {
     return background;
   }
 
-  _countChildElements(tree) {
+  #countChildElements(tree) {
     if (tree !== 'undefined') {
       tree.childNodes.forEach(child => {
         if (child.tagName) {
-          this._nodeNumber += 1;
-          this._countChildElements(child);
+          this.#nodeNumber += 1;
+          this.#countChildElements(child);
         }
       });
     }
   }
 
-  _updatePromiseCounter(info) {
-    this._promiseCounter += 1;
-    const percentage = 70 * this._promiseCounter / this._promiseNumber;
+  #updatePromiseCounter(info) {
+    this.#promiseCounter += 1;
+    const percentage = 70 * this.#promiseCounter / this.#promiseNumber;
     webots.currentView.progress.setProgressBar('block', 'same', 75 + 0.25 * percentage, info);
   }
 
-  _checkUse(node, parentNode) {
+  #checkUse(node, parentNode) {
     let use = getNodeAttribute(node, 'USE');
     if (typeof use === 'undefined')
       return;
@@ -432,7 +439,7 @@ export default class Parser {
 
     if (typeof result === 'undefined')
       return;
-    const id = this._parseId(node);
+    const id = this.#parseId(node);
 
     const useNode = result.clone(id);
     if (typeof parentNode !== 'undefined') {
@@ -449,12 +456,12 @@ export default class Parser {
     return useNode;
   }
 
-  _parseTransform(node, parentNode, isBoundingObject) {
-    const use = this._checkUse(node, parentNode);
+  #parseTransform(node, parentNode, isBoundingObject) {
+    const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
 
-    const id = this._parseId(node);
+    const id = this.#parseId(node);
 
     const type = getNodeAttribute(node, 'type', '').toLowerCase();
     const translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
@@ -483,7 +490,7 @@ export default class Parser {
 
     WbWorld.instance.nodes.set(newNode.id, newNode);
 
-    this._parseChildren(node, newNode, isBoundingObject);
+    this.#parseChildren(node, newNode, isBoundingObject);
 
     if (typeof parentNode !== 'undefined') {
       newNode.parent = parentNode.id;
@@ -498,19 +505,19 @@ export default class Parser {
     return newNode;
   }
 
-  _parseGroup(node, parentNode) {
-    const use = this._checkUse(node, parentNode);
+  #parseGroup(node, parentNode) {
+    const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
 
-    const id = this._parseId(node);
+    const id = this.#parseId(node);
 
     const isPropeller = getNodeAttribute(node, 'type', '').toLowerCase() === 'propeller';
     const isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
 
     const group = new WbGroup(id, isPropeller);
     WbWorld.instance.nodes.set(group.id, group);
-    this._parseChildren(node, group, isBoundingObject);
+    this.#parseChildren(node, group, isBoundingObject);
 
     if (typeof parentNode !== 'undefined') {
       group.parent = parentNode.id;
@@ -523,12 +530,12 @@ export default class Parser {
     return group;
   }
 
-  _parseShape(node, parentNode, isBoundingObject) {
-    const use = this._checkUse(node, parentNode);
+  #parseShape(node, parentNode, isBoundingObject) {
+    const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
 
-    const id = this._parseId(node);
+    const id = this.#parseId(node);
 
     const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
     const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
@@ -545,16 +552,16 @@ export default class Parser {
 
       if (typeof appearance === 'undefined' && !isBoundingObject) {
         if (child.tagName === 'Appearance')
-          appearance = this._parseAppearance(child);
+          appearance = this.#parseAppearance(child);
         else if (child.tagName === 'PBRAppearance')
-          appearance = this._parsePbrAppearance(child);
+          appearance = this.#parsePbrAppearance(child);
 
         if (typeof appearance !== 'undefined')
           continue;
       }
 
       if (typeof geometry === 'undefined') {
-        geometry = this._parseGeometry(child, id);
+        geometry = this.#parseGeometry(child, id);
         if (typeof geometry !== 'undefined')
           continue;
       }
@@ -582,12 +589,12 @@ export default class Parser {
     return shape;
   }
 
-  _parseCadShape(node, parentNode) {
-    const use = this._checkUse(node, parentNode);
+  #parseCadShape(node, parentNode) {
+    const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
 
-    const id = this._parseId(node);
+    const id = this.#parseId(node);
 
     let urls = getNodeAttribute(node, 'url', '');
     if (typeof urls !== 'undefined')
@@ -597,7 +604,7 @@ export default class Parser {
     const castShadows = getNodeAttribute(node, 'castShadows', 'true').toLowerCase() === 'true';
     const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
 
-    const cadShape = new WbCadShape(id, urls, ccw, castShadows, isPickable, this._prefix);
+    const cadShape = new WbCadShape(id, urls, ccw, castShadows, isPickable, this.#prefix);
 
     WbWorld.instance.nodes.set(cadShape.id, cadShape);
 
@@ -606,36 +613,36 @@ export default class Parser {
       parentNode.children.push(cadShape);
     }
 
-    this._promises.push(loadMeshData(this._prefix, urls).then(meshContent => {
+    this.#promises.push(loadMeshData(this.#prefix, urls).then(meshContent => {
       cadShape.scene = meshContent;
       for (let i = 0; i < cadShape.useList.length; i++) {
         const node = WbWorld.instance.nodes.get(cadShape.useList[i]);
         node.scene = meshContent;
       }
-      this._updatePromiseCounter('Downloading assets: Mesh \'CadShape\'...');
+      this.#updatePromiseCounter('Downloading assets: Mesh \'CadShape\'...');
     }));
-    this._promiseNumber += 1;
+    this.#promiseNumber += 1;
 
     return cadShape;
   }
 
-  _parseBillboard(node, parentNode) {
-    const id = this._parseId(node);
+  #parseBillboard(node, parentNode) {
+    const id = this.#parseId(node);
 
     const billboard = new WbBillboard(id);
 
     WbWorld.instance.nodes.set(billboard.id, billboard);
-    this._parseChildren(node, billboard);
+    this.#parseChildren(node, billboard);
 
     return billboard;
   }
 
-  _parseDirectionalLight(node, parentNode) {
-    const use = this._checkUse(node, parentNode);
+  #parseDirectionalLight(node, parentNode) {
+    const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
 
-    const id = this._parseId(node);
+    const id = this.#parseId(node);
     const on = getNodeAttribute(node, 'on', 'true').toLowerCase() === 'true';
     const color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
     const direction = convertStringToVec3(getNodeAttribute(node, 'direction', '0 0 -1'));
@@ -655,12 +662,12 @@ export default class Parser {
     return dirLight;
   }
 
-  _parsePointLight(node, parentNode) {
-    const use = this._checkUse(node, parentNode);
+  #parsePointLight(node, parentNode) {
+    const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
 
-    const id = this._parseId(node);
+    const id = this.#parseId(node);
     const on = getNodeAttribute(node, 'on', 'true').toLowerCase() === 'true';
     const attenuation = convertStringToVec3(getNodeAttribute(node, 'attenuation', '1 0 0'));
     const color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
@@ -681,12 +688,12 @@ export default class Parser {
     return pointLight;
   }
 
-  _parseSpotLight(node, parentNode) {
-    const use = this._checkUse(node, parentNode);
+  #parseSpotLight(node, parentNode) {
+    const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
 
-    const id = this._parseId(node);
+    const id = this.#parseId(node);
     const on = getNodeAttribute(node, 'on', 'true').toLowerCase() === 'true';
     const attenuation = convertStringToVec3(getNodeAttribute(node, 'attenuation', '1 0 0'));
     const beamWidth = parseFloat(getNodeAttribute(node, 'beamWidth', '0.785'));
@@ -710,8 +717,8 @@ export default class Parser {
     return spotLight;
   }
 
-  _parseFog(node) {
-    const id = this._parseId(node);
+  #parseFog(node) {
+    const id = this.#parseId(node);
     const color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
     const visibilityRange = parseFloat(getNodeAttribute(node, 'visibilityRange', '0'));
     const fogType = getNodeAttribute(node, 'fogType', 'LINEAR');
@@ -726,38 +733,38 @@ export default class Parser {
     return fog;
   }
 
-  _parseGeometry(node, parentId) {
-    const use = this._checkUse(node);
+  #parseGeometry(node, parentId) {
+    const use = this.#checkUse(node);
     if (typeof use !== 'undefined') {
       use.parent = parentId;
       return use;
     }
 
-    const id = this._parseId(node);
+    const id = this.#parseId(node);
 
     let geometry;
     if (node.tagName === 'Box')
-      geometry = this._parseBox(node, id);
+      geometry = this.#parseBox(node, id);
     else if (node.tagName === 'Sphere')
-      geometry = this._parseSphere(node, id);
+      geometry = this.#parseSphere(node, id);
     else if (node.tagName === 'Cone')
-      geometry = this._parseCone(node, id);
+      geometry = this.#parseCone(node, id);
     else if (node.tagName === 'Plane')
-      geometry = this._parsePlane(node, id);
+      geometry = this.#parsePlane(node, id);
     else if (node.tagName === 'Cylinder')
-      geometry = this._parseCylinder(node, id);
+      geometry = this.#parseCylinder(node, id);
     else if (node.tagName === 'Capsule')
-      geometry = this._parseCapsule(node, id);
+      geometry = this.#parseCapsule(node, id);
     else if (node.tagName === 'IndexedFaceSet')
-      geometry = this._parseIndexedFaceSet(node, id);
+      geometry = this.#parseIndexedFaceSet(node, id);
     else if (node.tagName === 'IndexedLineSet')
-      geometry = this._parseIndexedLineSet(node, id);
+      geometry = this.#parseIndexedLineSet(node, id);
     else if (node.tagName === 'ElevationGrid')
-      geometry = this._parseElevationGrid(node, id);
+      geometry = this.#parseElevationGrid(node, id);
     else if (node.tagName === 'PointSet')
-      geometry = this._parsePointSet(node, id);
+      geometry = this.#parsePointSet(node, id);
     else if (node.tagName === 'Mesh')
-      geometry = this._parseMesh(node, id);
+      geometry = this.#parseMesh(node, id);
 
     if (typeof parentId !== 'undefined' && typeof geometry !== 'undefined')
       geometry.parent = parentId;
@@ -765,7 +772,7 @@ export default class Parser {
     return geometry;
   }
 
-  _parseBox(node, id) {
+  #parseBox(node, id) {
     const size = convertStringToVec3(getNodeAttribute(node, 'size', '2 2 2'));
 
     const box = new WbBox(id, size);
@@ -773,7 +780,7 @@ export default class Parser {
     return box;
   }
 
-  _parseSphere(node, id) {
+  #parseSphere(node, id) {
     const radius = parseFloat(getNodeAttribute(node, 'radius', '1'));
     const ico = getNodeAttribute(node, 'ico', 'false').toLowerCase() === 'true';
     const subdivision = parseInt(getNodeAttribute(node, 'subdivision', '1,1'));
@@ -785,7 +792,7 @@ export default class Parser {
     return sphere;
   }
 
-  _parseCone(node, id) {
+  #parseCone(node, id) {
     const bottomRadius = getNodeAttribute(node, 'bottomRadius', '1');
     const height = getNodeAttribute(node, 'height', '2');
     const subdivision = getNodeAttribute(node, 'subdivision', '32');
@@ -799,7 +806,7 @@ export default class Parser {
     return cone;
   }
 
-  _parseCylinder(node, id) {
+  #parseCylinder(node, id) {
     const radius = getNodeAttribute(node, 'radius', '1');
     const height = getNodeAttribute(node, 'height', '2');
     const subdivision = getNodeAttribute(node, 'subdivision', '32');
@@ -814,7 +821,7 @@ export default class Parser {
     return cylinder;
   }
 
-  _parsePlane(node, id) {
+  #parsePlane(node, id) {
     const size = convertStringToVec2(getNodeAttribute(node, 'size', '1,1'));
 
     const plane = new WbPlane(id, size);
@@ -824,7 +831,7 @@ export default class Parser {
     return plane;
   }
 
-  _parseCapsule(node, id) {
+  #parseCapsule(node, id) {
     const radius = getNodeAttribute(node, 'radius', '1');
     const height = getNodeAttribute(node, 'height', '2');
     const subdivision = getNodeAttribute(node, 'subdivision', '32');
@@ -839,7 +846,7 @@ export default class Parser {
     return capsule;
   }
 
-  _parseIndexedFaceSet(node, id) {
+  #parseIndexedFaceSet(node, id) {
     let coordIndex = convertStringToFloatArray(getNodeAttribute(node, 'coordIndex', ''));
     if (coordIndex)
       coordIndex = coordIndex.filter(element => { return element !== -1; });
@@ -883,7 +890,7 @@ export default class Parser {
     return ifs;
   }
 
-  _parseIndexedLineSet(node, id) {
+  #parseIndexedLineSet(node, id) {
     const coordinate = node.getElementsByTagName('Coordinate')[0];
 
     if (typeof coordinate === 'undefined')
@@ -905,7 +912,7 @@ export default class Parser {
     return ils;
   }
 
-  _parseElevationGrid(node, id) {
+  #parseElevationGrid(node, id) {
     const heightStr = getNodeAttribute(node, 'height');
     if (typeof heightStr === 'undefined')
       return;
@@ -924,7 +931,7 @@ export default class Parser {
     return eg;
   }
 
-  _parsePointSet(node, id) {
+  #parsePointSet(node, id) {
     const coordinate = node.getElementsByTagName('Coordinate')[0];
 
     if (typeof coordinate === 'undefined')
@@ -956,7 +963,7 @@ export default class Parser {
     return ps;
   }
 
-  _parseMesh(node, id) {
+  #parseMesh(node, id) {
     let urls = getNodeAttribute(node, 'url', '');
     if (typeof urls !== 'undefined')
       urls = urls.split('"').filter(element => { if (element !== ' ') return element; }); // filter removes empty elements
@@ -968,43 +975,43 @@ export default class Parser {
     const mesh = new WbMesh(id, urls[0], ccw, name, materialIndex);
     WbWorld.instance.nodes.set(mesh.id, mesh);
 
-    this._promises.push(loadMeshData(this._prefix, urls).then(meshContent => {
+    this.#promises.push(loadMeshData(this.#prefix, urls).then(meshContent => {
       mesh.scene = meshContent;
       for (let i = 0; i < mesh.useList.length; i++) {
         const node = WbWorld.instance.nodes.get(mesh.useList[i]);
         node.scene = meshContent;
       }
-      this._updatePromiseCounter('Downloading assets: Mesh \'mesh ' + name + '\'...');
+      this.#updatePromiseCounter('Downloading assets: Mesh \'mesh ' + name + '\'...');
     }));
-    this._promiseNumber += 1;
+    this.#promiseNumber += 1;
 
     return mesh;
   }
 
-  _parseAppearance(node, parentId) {
-    const use = this._checkUse(node);
+  #parseAppearance(node, parentId) {
+    const use = this.#checkUse(node);
     if (typeof use !== 'undefined')
       return use;
 
-    const id = this._parseId(node);
+    const id = this.#parseId(node);
 
     // Get the Material tag.
     const materialNode = node.getElementsByTagName('Material')[0];
     let material;
     if (typeof materialNode !== 'undefined')
-      material = this._parseMaterial(materialNode);
+      material = this.#parseMaterial(materialNode);
 
     // Check to see if there is a texture.
     const imageTexture = node.getElementsByTagName('ImageTexture')[0];
     let texture;
     if (typeof imageTexture !== 'undefined')
-      texture = this._parseImageTexture(imageTexture);
+      texture = this.#parseImageTexture(imageTexture);
 
     // Check to see if there is a textureTransform.
     const textureTransform = node.getElementsByTagName('TextureTransform')[0];
     let transform;
     if (typeof textureTransform !== 'undefined')
-      transform = this._parseTextureTransform(textureTransform);
+      transform = this.#parseTextureTransform(textureTransform);
 
     const appearance = new WbAppearance(id, material, texture, transform);
     if (typeof appearance !== 'undefined') {
@@ -1026,12 +1033,12 @@ export default class Parser {
     return appearance;
   }
 
-  _parseMaterial(node, parentId) {
-    const use = this._checkUse(node);
+  #parseMaterial(node, parentId) {
+    const use = this.#checkUse(node);
     if (typeof use !== 'undefined')
       return use;
 
-    const id = this._parseId(node);
+    const id = this.#parseId(node);
 
     const ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0.2'));
     const diffuseColor = convertStringToVec3(getNodeAttribute(node, 'diffuseColor', '0.8 0.8 0.8'));
@@ -1050,12 +1057,12 @@ export default class Parser {
     return material;
   }
 
-  _parseImageTexture(node, parentId) {
-    const use = this._checkUse(node);
+  #parseImageTexture(node, parentId) {
+    const use = this.#checkUse(node);
     if (typeof use !== 'undefined')
       return use;
 
-    const id = this._parseId(node);
+    const id = this.#parseId(node);
     let url = getNodeAttribute(node, 'url', '');
     if (typeof url !== 'undefined')
       url = url.split('"').filter(element => { if (element !== ' ') return element; })[0]; // filter removes empty elements.
@@ -1067,10 +1074,10 @@ export default class Parser {
     let imageTexture;
     if (typeof url !== 'undefined' && url !== '') {
       imageTexture = new WbImageTexture(id, url, isTransparent, s, t, filtering);
-      if (!this._downloadingImage.has(url)) {
-        this._downloadingImage.add(url);
+      if (!this.#downloadingImage.has(url)) {
+        this.#downloadingImage.add(url);
         // Load the texture in WREN
-        this._promises.push(loadImageTextureInWren(this._prefix, url, isTransparent));
+        this.#promises.push(loadImageTextureInWren(this.#prefix, url, isTransparent));
       }
     }
 
@@ -1084,12 +1091,12 @@ export default class Parser {
     return imageTexture;
   }
 
-  _parsePbrAppearance(node, parentId) {
-    const use = this._checkUse(node);
+  #parsePbrAppearance(node, parentId) {
+    const use = this.#checkUse(node);
     if (typeof use !== 'undefined')
       return use;
 
-    const id = this._parseId(node);
+    const id = this.#parseId(node);
 
     const baseColor = convertStringToVec3(getNodeAttribute(node, 'baseColor', '1 1 1'));
     const transparency = parseFloat(getNodeAttribute(node, 'transparency', '0'));
@@ -1105,7 +1112,7 @@ export default class Parser {
     const textureTransform = node.getElementsByTagName('TextureTransform')[0];
     let transform;
     if (typeof textureTransform !== 'undefined')
-      transform = this._parseTextureTransform(textureTransform);
+      transform = this.#parseTextureTransform(textureTransform);
 
     const imageTextures = node.getElementsByTagName('ImageTexture');
     let baseColorMap, roughnessMap, metalnessMap, normalMap, occlusionMap, emissiveColorMap;
@@ -1113,27 +1120,27 @@ export default class Parser {
       const imageTexture = imageTextures[i];
       const role = getNodeAttribute(imageTexture, 'role', undefined);
       if (role === 'baseColor') {
-        baseColorMap = this._parseImageTexture(imageTexture);
+        baseColorMap = this.#parseImageTexture(imageTexture);
         if (typeof baseColorMap !== 'undefined')
           baseColorMap.role = 'baseColorMap';
       } else if (role === 'roughness') {
-        roughnessMap = this._parseImageTexture(imageTexture);
+        roughnessMap = this.#parseImageTexture(imageTexture);
         if (typeof roughnessMap !== 'undefined')
           roughnessMap.role = 'roughnessMap';
       } else if (role === 'metalness') {
-        metalnessMap = this._parseImageTexture(imageTexture);
+        metalnessMap = this.#parseImageTexture(imageTexture);
         if (typeof metalnessMap !== 'undefined')
           metalnessMap.role = 'metalnessMap';
       } else if (role === 'normal') {
-        normalMap = this._parseImageTexture(imageTexture);
+        normalMap = this.#parseImageTexture(imageTexture);
         if (typeof normalMap !== 'undefined')
           normalMap.role = 'normalMap';
       } else if (role === 'occlusion') {
-        occlusionMap = this._parseImageTexture(imageTexture);
+        occlusionMap = this.#parseImageTexture(imageTexture);
         if (typeof occlusionMap !== 'undefined')
           occlusionMap.role = 'occlusionMap';
       } else if (role === 'emissiveColor') {
-        emissiveColorMap = this._parseImageTexture(imageTexture);
+        emissiveColorMap = this.#parseImageTexture(imageTexture);
         if (typeof emissiveColorMap !== 'undefined')
           emissiveColorMap.role = 'emissiveColorMap';
       }
@@ -1174,12 +1181,12 @@ export default class Parser {
     return pbrAppearance;
   }
 
-  _parseTextureTransform(node, parentId) {
-    const use = this._checkUse(node);
+  #parseTextureTransform(node, parentId) {
+    const use = this.#checkUse(node);
     if (typeof use !== 'undefined')
       return use;
 
-    const id = this._parseId(node);
+    const id = this.#parseId(node);
     const center = convertStringToVec2(getNodeAttribute(node, 'center', '0 0'));
     const rotation = parseFloat(getNodeAttribute(node, 'rotation', '0'));
     const scale = convertStringToVec2(getNodeAttribute(node, 'scale', '1 1'));
@@ -1204,7 +1211,7 @@ function loadMeshData(prefix, urls) {
   if (typeof webots.currentView.stream === 'undefined')
     worldsPath = '';
   else {
-    worldsPath = webots.currentView.stream._view.currentWorld;
+    worldsPath = webots.currentView.stream.view.currentWorld;
     worldsPath = worldsPath.substring(0, worldsPath.lastIndexOf('/')) + '/';
   }
 

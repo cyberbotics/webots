@@ -191,6 +191,10 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
     if (mIsCollada && mMaterialIndex->value() >= 0 && mMaterialIndex->value() != (int)mesh->mMaterialIndex)
       continue;
 
+    if (mesh->mNumVertices > 100000)
+      warn(tr("Mesh '%1' has more than 100'000 vertices, it is recommended to reduce the number of vertices.")
+             .arg(mesh->mName.C_Str()));
+
     totalVertices += mesh->mNumVertices;
     totalFaces += mesh->mNumFaces;
   }

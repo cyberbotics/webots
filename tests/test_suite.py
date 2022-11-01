@@ -63,9 +63,15 @@ tempWorldCounterFilename = os.path.join(testsFolderPath, 'world_counter.txt')
 webotsStdOutFilename = os.path.join(testsFolderPath, 'webots_stdout.txt')
 webotsStdErrFilename = os.path.join(testsFolderPath, 'webots_stderr.txt')
 
-# Webots setup (cf. setupWebots() below)
-webotsFullPath = ''
-webotsVersion = ''
+
+class OutputMonitor:
+    def __init__(self):
+        self.command = None
+
+    def monitorOutputFile(self, finalMessage):
+        """Display the output file on the console."""
+        self.command = Command('tail -f ' + outputFilename, args.ansi_escape)
+        self.command.run(expectedString=finalMessage, silent=False)
 
 
 def setupWebots():
@@ -73,16 +79,12 @@ def setupWebots():
     os.putenv('WEBOTS_TEST_SUITE', 'TRUE')
     os.putenv('WEBOTS_EMPTY_PROJECT_PATH', defaultProjectPath)
 
-    global webotsFullPath
-    global webotsVersion
-    global webotsSysInfo
-
     if sys.platform == 'win32':
-        webotsFullPath = os.path.join(os.environ['WEBOTS_HOME'], 'msys64', 'mingw64', 'bin', 'webots.exe')
+        webotsFullPath = os.path.join(os.path.normpath(os.environ['WEBOTS_HOME']), 'msys64', 'mingw64', 'bin', 'webots.exe')
     else:
         webotsBinary = 'webots'
         if 'WEBOTS_HOME' in os.environ:
-            webotsFullPath = os.path.join(os.environ['WEBOTS_HOME'], webotsBinary)
+            webotsFullPath = os.path.join(os.path.normpath(os.environ['WEBOTS_HOME']), webotsBinary)
         else:
             webotsFullPath = os.path.join('..', '..', webotsBinary)
         if not os.path.isfile(webotsFullPath):
@@ -103,6 +105,8 @@ def setupWebots():
     if command.returncode != 0:
         raise RuntimeError('Error when getting the Webots information of the system')
     webotsSysInfo = command.output.split('\n')
+
+    return webotsFullPath, webotsVersion, webotsSysInfo
 
 
 def resetIndexFile(indexFilename):
@@ -193,13 +197,6 @@ def generateWorldsList(groupName):
                 worldsList.append(filename)
 
     return worldsList
-
-
-def monitorOutputFile(finalMessage):
-    """Display the output file on the console."""
-    global monitorOutputCommand
-    monitorOutputCommand = Command('tail -f ' + outputFilename, args.ansi_escape)
-    monitorOutputCommand.run(expectedString=finalMessage, silent=False)
 
 
 def runGroupTest(groupName, firstSimulation, worldsCount, failures):
@@ -308,11 +305,12 @@ if sys.platform == 'win32':
 
 if not args.nomake:
     executeMake()
-setupWebots()
+webotsFullPath, webotsVersion, webotsSysInfo = setupWebots()
 resetOutputFile()
 
 finalMessage = 'Test suite complete'
-thread = threading.Thread(target=monitorOutputFile, args=[finalMessage])
+outputMonitor = OutputMonitor()
+thread = threading.Thread(target=outputMonitor.monitorOutputFile, args=[finalMessage])
 thread.start()
 
 for groupName in testGroups:
@@ -360,8 +358,8 @@ if len(systemFailures) > 0:
         appendToOutputFile(message)
 
 time.sleep(1)
-if monitorOutputCommand.isRunning():
-    monitorOutputCommand.terminate(force=True)
+if outputMonitor.command.isRunning():
+    outputMonitor.command.terminate(force=True)
 
 with open(outputFilename, 'r') as file:
     content = file.read()

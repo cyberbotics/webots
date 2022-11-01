@@ -39,7 +39,7 @@ void wb_abstract_camera_cleanup(WbDevice *d) {
   free(c);
 }
 
-void wb_abstract_camera_new(WbDevice *d, unsigned int id, int w, int h, double fov, double camnear, bool spherical) {
+void wb_abstract_camera_new(WbDevice *d, unsigned int id, int w, int h, double fov, double camnear, bool planar) {
   wb_abstract_camera_cleanup(d);
   AbstractCamera *c = malloc(sizeof(AbstractCamera));
   c->enable = false;
@@ -48,7 +48,7 @@ void wb_abstract_camera_new(WbDevice *d, unsigned int id, int w, int h, double f
   c->height = h;
   c->fov = fov;
   c->camnear = camnear;
-  c->spherical = spherical;
+  c->planar = planar;
   c->sampling_period = 0;
   c->image = image_new();
 

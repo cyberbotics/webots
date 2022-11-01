@@ -177,7 +177,7 @@ PROTO Pr2 [
                         horizontalResolution 640
                         numberOfLayers 1
                         minRange 0.08
-                        spherical TRUE
+                        projection "cylindrical"
                         maxRange 10
                       }
                     ]
@@ -1159,7 +1159,6 @@ PROTO Pr2 [
                                                       width 1224
                                                       height 1025
                                                       near 0.1
-                                                      type "color"
                                                     }
                                                   ]
                                                 }
@@ -1233,7 +1232,6 @@ PROTO Pr2 [
                                                               width 640
                                                               height 480
                                                               near 0.1
-                                                              type "color"
                                                             }
                                                           ]
                                                         }
@@ -1270,7 +1268,6 @@ PROTO Pr2 [
                                                                   width 640
                                                                   height 480
                                                                   near 0.1
-                                                                  type "color"
                                                                 }
                                                               ]
                                                             }
@@ -1368,7 +1365,7 @@ PROTO Pr2 [
                                     horizontalResolution 640
                                     numberOfLayers 1
                                     minRange 0.08
-                                    spherical TRUE
+                                    projection "cylindrical"
                                     maxRange 10
                                   }
                                 ]
@@ -2205,7 +2202,6 @@ PROTO Pr2 [
                                                               Camera {
                                                                 rotation -0.357557 0.357557 0.862732 1.717914
                                                                 name "r_forearm_cam_sensor"
-                                                                type "color"
                                                                 fieldOfView 1.57079632679
                                                                 width 640
                                                                 height 480
@@ -3091,7 +3087,6 @@ PROTO Pr2 [
                                                                   Camera {
                                                                     rotation 0.678689 -0.678689 0.280647 2.594375
                                                                     name "l_forearm_cam_sensor"
-                                                                    type "color"
                                                                     fieldOfView 1.57079632679
                                                                     width 640
                                                                     height 480
