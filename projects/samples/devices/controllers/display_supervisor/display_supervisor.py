@@ -18,7 +18,6 @@ device.
 """
 
 from controller import Supervisor
-import random
 import os
 if os.name == 'nt':
     from ctypes import create_unicode_buffer, windll
