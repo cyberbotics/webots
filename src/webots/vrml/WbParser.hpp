@@ -42,9 +42,9 @@ public:
 
   // check syntax, report errors to WbLog
   // return true if there were no errors
-  bool parseWorld(const QString &worldPath);   // parse a .wbt file
-  bool parseObject(const QString &worldPath);  // parse an imported object from string
-  bool parseNodeModel();                       // parse a .wrl node model in resources/nodes
+  bool parseWorld(const QString &worldPath, bool (*updateProgress)(int));  // parse a .wbt file
+  bool parseObject(const QString &worldPath);                              // parse an imported object from string
+  bool parseNodeModel();                                                   // parse a .wrl node model in resources/nodes
 
   bool parseProtoInterface(const QString &worldPath);  // parse PROTO interface in original file
   bool parseProtoBody(const QString &worldPath);       // parse resulting PROTO after template generation

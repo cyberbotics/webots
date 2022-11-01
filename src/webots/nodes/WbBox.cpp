@@ -25,6 +25,7 @@
 #include "WbResizeManipulator.hpp"
 #include "WbSimulationState.hpp"
 #include "WbTransform.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenAbstractResizeManipulator.hpp"
 #include "WbWrenRenderingContext.hpp"
@@ -106,7 +107,7 @@ void WbBox::createResizeManipulator() {
 
 bool WbBox::areSizeFieldsVisibleAndNotRegenerator() const {
   const WbField *const sizeField = findField("size", true);
-  return WbNodeUtilities::isVisible(sizeField) && !WbNodeUtilities::isTemplateRegeneratorField(sizeField);
+  return WbVrmlNodeUtilities::isVisible(sizeField) && !WbNodeUtilities::isTemplateRegeneratorField(sizeField);
 }
 
 void WbBox::setSize(const WbVector3 &size) {

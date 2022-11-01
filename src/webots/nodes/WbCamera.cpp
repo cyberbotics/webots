@@ -18,6 +18,7 @@
 #include "WbBasicJoint.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbDataStream.hpp"
+#include "WbDownloadManager.hpp"
 #include "WbDownloader.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbFocus.hpp"
@@ -165,14 +166,11 @@ void WbCamera::downloadAssets() {
     if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCachedWithMapUpdate(completeUrl))
       return;
 
-    if (mDownloader != NULL)
-      delete mDownloader;
-
-    mDownloader = new WbDownloader(this);
+    delete mDownloader;
+    mDownloader = WbDownloadManager::instance()->createDownloader(QUrl(completeUrl), this);
     if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
       connect(mDownloader, &WbDownloader::complete, this, &WbCamera::updateNoiseMaskUrl);
-
-    mDownloader->download(QUrl(completeUrl));
+    mDownloader->download();
   }
 }
 

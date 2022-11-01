@@ -34,20 +34,23 @@ namespace WbUrl {
   QString exportTexture(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer);
   QString exportMesh(const WbNode *node, const WbMFString *urlField, int index, const WbWriter &writer);
 
-  const QString missing(const QString &url);
+  QString missing(const QString &url);
   const QString &missingTexture();
   const QString &missingProtoIcon();
   bool isWeb(const QString &url);
   bool isLocalUrl(const QString &url);
-  const QString computeLocalAssetUrl(QString url, bool isX3d);
-  const QString computePrefix(const QString &rawUrl);
+  QString computeLocalAssetUrl(QString url, bool isX3d);
+  QString computePrefix(const QString &rawUrl);
 
-  const QString remoteWebotsAssetRegex(bool capturing);
+  QString remoteWebotsAssetRegex(bool capturing);
   const QString &remoteWebotsAssetPrefix();
 
-  const QRegularExpression vrmlResourceRegex();
+  const QRegularExpression &vrmlResourceRegex();
 
   QString expressRelativeToWorld(const QString &url);
+
+  void setWorldFileName(const QString &fileName);
+
 };  // namespace WbUrl
 
 #endif
