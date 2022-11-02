@@ -32,7 +32,7 @@ static const char *positionSensorNames[] = {
 
 int main(int argc, char *argv[]) {
   webots::Robot robot;
-  int timeStep = robot.getBasicTimeStep();
+  const int timeStep = robot.getBasicTimeStep();
   RobotisOp2MotionManager motion(&robot);
   // retrieve devices
   LED *headLed = robot.getLED("HeadLed");
