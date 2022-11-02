@@ -39,6 +39,9 @@ class PositionSensor(Sensor):
     def getMotor(self):
         return self.motor
 
+    def getType(self) -> int:
+        return self.type
+
     @property
     def brake(self):
         from controller.brake import Brake
@@ -56,5 +59,5 @@ class PositionSensor(Sensor):
         return wb.wb_position_sensor_get_value(self._tag)
 
     @property
-    def type(self) -> type:
+    def type(self) -> int:
         return wb.wb_position_sensor_get_type(self._tag)
