@@ -35,11 +35,11 @@ class Device:
 
     @property
     def name(self) -> str:
-        return wb.wb_device_get_name(self._tag)
+        return wb.wb_device_get_name(self._tag).decode()
 
     @property
     def model(self) -> str:
-        return wb.wb_device_get_model(self._tag)
+        return wb.wb_device_get_model(self._tag).decode()
 
     @property
     def node_type(self) -> int:
