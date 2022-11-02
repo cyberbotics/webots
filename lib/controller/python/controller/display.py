@@ -54,8 +54,8 @@ class Display(Device):
 
     def drawPolygon(self, x: List[int], y: List[int]):
         wb.wb_display_draw_polygon(self._tag,
-                                   ctypes.POINTER(ctypes.c_int(x)),
-                                   ctypes.POINTER(ctypes.c_int(y)),
+                                   (ctypes.c_int * len(x))(*x),
+                                   (ctypes.c_int * len(y))(*y),
                                    min(len(x), len(y)))
 
     def drawRectangle(self, x: int, y: int, width: int, height: int):
@@ -69,8 +69,8 @@ class Display(Device):
 
     def fillPolygon(self, x: List[int], y: List[int]):
         wb.wb_display_fill_polygon(self._tag,
-                                   ctypes.POINTER(ctypes.c_int(x)),
-                                   ctypes.POINTER(ctypes.c_int(y)),
+                                   (ctypes.c_int * len(x))(*x),
+                                   (ctypes.c_int * len(y))(*y),
                                    min(len(x), len(y)))
 
     def fillRectangle(self, x: int, y: int, width: int, height: int):
