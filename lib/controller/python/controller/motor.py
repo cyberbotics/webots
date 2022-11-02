@@ -196,7 +196,7 @@ class Motor(Device):
 
     @property
     def max_force(self) -> float:
-        wb.wb_motor_get_max_force(self._tag)
+        return wb.wb_motor_get_max_force(self._tag)
 
     @property
     def available_torque(self) -> float:
@@ -208,11 +208,11 @@ class Motor(Device):
 
     @property
     def max_torque(self) -> float:
-        wb.wb_motor_get_max_torque(self._tag)
+        return wb.wb_motor_get_max_torque(self._tag)
 
     @property
     def target_acceleration(self) -> float:
-        wb.wb_motor_get_acceleration(self._tag)
+        return wb.wb_motor_get_acceleration(self._tag)
 
     @target_acceleration.setter
     def target_acceleration(self, acceleration: float):
@@ -223,7 +223,7 @@ class Motor(Device):
 
     @property
     def multiplier(self) -> float:
-        wb.wb_motor_get_multiplier(self._tag)
+        return wb.wb_motor_get_multiplier(self._tag)
 
     @property
     def force_feedback(self) -> float:
