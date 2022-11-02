@@ -48,12 +48,6 @@ class Camera(Sensor):
     def getFov(self) -> float:
         return self.fov
 
-    def setFocalDistance(self, d: float):
-        self.focal_distance = d
-
-    def setFov(self, f: float):
-        self.fov = f
-
     def getHeight(self) -> int:
         return self.height
 
@@ -104,6 +98,15 @@ class Camera(Sensor):
 
     def saveImage(self, filename: str, quality: int) -> int:
         return wb.wb_camera_save_image(self._tag, str.encode(filename), quality)
+
+    def setExposure(self, exposure: float):
+        self.exposure = exposure
+
+    def setFocalDistance(self, d: float):
+        self.focal_distance = d
+
+    def setFov(self, f: float):
+        self.fov = f
 
     @property
     def image(self):
