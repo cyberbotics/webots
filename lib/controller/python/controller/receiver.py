@@ -30,15 +30,15 @@ class Receiver(Sensor):
         self._get_sampling_period = wb.wb_receiver_get_sampling_period
         super().__init__(name, sampling_period)
 
-    def getString(self) -> str:
-        return self.string
+    def getBytes(self) -> bytes:
+        return bytes(self.data[0:self.data_size])
 
     def getData(self) -> str:
         print('DEPRECATION: Receiver.getData is deprecated, please use Receiver.getString instead.', file=sys.stderr)
         return self.string
 
-    def getBytes(self) -> bytes:
-        return bytes(self.data[0:self.data_size])
+    def getDataSize(self) -> int:
+        return self.data_size
 
     def getFloats(self) -> Tuple[float, ...]:
         return struct.unpack(f'{int(self.data_size / 8)}d', self.getBytes())
@@ -51,6 +51,9 @@ class Receiver(Sensor):
 
     def getQueueLength(self) -> int:
         return self.queue_length
+
+    def getString(self) -> str:
+        return self.string
 
     def nextPacket(self):
         wb.wb_receiver_next_packet(self._tag)
