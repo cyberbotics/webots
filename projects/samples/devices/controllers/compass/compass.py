@@ -36,8 +36,6 @@ class Controller(Robot):
         self.right_motor = self.getDevice('right wheel motor')
         self.left_motor.setPosition(float('inf'))
         self.right_motor.setPosition(float('inf'))
-        self.left_motor.setVelocity(0.0)
-        self.right_motor.setVelocity(0.0)
 
     def run(self):
         while self.step(self.timeStep) != -1:
