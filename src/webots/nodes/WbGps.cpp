@@ -324,7 +324,7 @@ bool WbGps::refreshSensorIfNeeded() {
     if (!mPreviousPosition.isNan())
       mSpeedVector = (t - mPreviousPosition) * 1000.0 / mSensor->elapsedTime();
     else
-      mSpeedVector = WbVector3();
+      mSpeedVector = WbVector3(NAN, NAN, NAN);
   }
 
   // compute current speed [m/s]
