@@ -245,8 +245,17 @@ class Camera(Sensor):
     def getRecognitionSegmentationImage(self) -> bytes:
         return wb.wb_camera_recognition_get_segmentation_image(self._tag)
 
-    def getRecognitionSegmentationImageArray(self) -> List[int]:
-        return [x for x in self.getRecognitionSegmentationImage()]
+    def getRecognitionSegmentationImageArray(self) -> List[List[List[int]]]:
+        array = []
+        image = self.getRecognitionSegmentationImage()
+        i = 0
+        for x in range(self.width):
+            line = []
+            for y in range(self.height):
+                line.append([image[i + 2], image[i + 1], image[i]])  # RGB pixel
+                i += 4
+            array.append(line)
+        return array
 
     def saveRecognitionSegmentationImage(self, filename: str, quality: int) -> int:
         return wb.wb_camera_recognition_save_segmentation_image(self._tag, str.encode(filename), quality)
