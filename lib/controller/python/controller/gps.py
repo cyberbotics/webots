@@ -40,7 +40,7 @@ class GPS(Sensor):
         return wb.wb_gps_get_coordinate_system(self._tag)
 
     @staticmethod
-    def convertToDegreesMinutesSeconds(decimalDegrees):
+    def convertToDegreesMinutesSeconds(decimalDegrees) -> str:
         degrees = int(decimalDegrees)
         minutes = int(decimalDegrees - degrees) * 60
         seconds = int(((decimalDegrees - degrees) * 60) - minutes) * 60
