@@ -14,7 +14,6 @@
 
 #include "WbParser.hpp"
 
-#include "WbApplication.hpp"
 #include "WbApplicationInfo.hpp"
 #include "WbFieldModel.hpp"
 #include "WbLog.hpp"
@@ -196,7 +195,7 @@ void WbParser::reportUnexpected(const QString &expected) const {
   throw 0;
 }
 
-bool WbParser::parseWorld(const QString &worldPath) {
+bool WbParser::parseWorld(const QString &worldPath, bool (*updateProgress)(int)) {
   mTokenizer->rewind();
   try {
     while (!peekToken()->isEof()) {
@@ -204,8 +203,7 @@ bool WbParser::parseWorld(const QString &worldPath) {
         skipExternProto();
 
       parseNode(worldPath);
-      WbApplication::instance()->setWorldLoadingProgress(mTokenizer->pos() * 100 / mTokenizer->totalTokensNumber());
-      if (WbApplication::instance()->wasWorldLoadingCanceled())
+      if (!updateProgress(mTokenizer->pos() * 100 / mTokenizer->totalTokensNumber()))
         return false;
     }
   } catch (...) {

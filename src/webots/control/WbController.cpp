@@ -155,7 +155,8 @@ WbController::~WbController() {
     stream << (unsigned short)0;    // tag of the root device
     stream << (unsigned char)C_ROBOT_QUIT;
     assert(size == buffer.size());
-    mRobot->removeRemoteExternController();
+    if (mRobot)
+      mRobot->removeRemoteExternController();
     if (!mHasBeenTerminatedByItself)
       sendTerminationPacket(mTcpSocket, buffer, size);
   } else if (mProcess && mProcess->state() != QProcess::NotRunning) {
@@ -164,7 +165,7 @@ WbController::~WbController() {
     mProcess = NULL;
   }
 
-  if (mExtern) {
+  if (mExtern && mRobot) {
     info(tr("disconnected."));
     WbControlledWorld::instance()->externConnection(this, false);
   }

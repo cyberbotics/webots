@@ -33,7 +33,7 @@ WB_MATHS_INCLUDE         = $(QT_CORE_INCLUDE)
 WB_CORE_INCLUDE          = $(QT_CORE_INCLUDE) $(QT_NETWORK_INCLUDE) $(QT_GUI_INCLUDE) $(QT_QML_INCLUDE) $(LUA_INCLUDE) -Iqml -Iexternal/compilation_timestamp
 WB_UTIL_INCLUDE          = $(QT_CORE_INCLUDE) $(ODE_INCLUDE) -Isound -Icore
 WB_WREN_INCLUDE          = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_OPENGL_INCLUDE) $(WREN_INCLUDE) -Icore -Imaths -Ivrml -Iutil
-WB_VRML_INCLUDE          = $(QT_CORE_INCLUDE) -Iapp -Icore -Imaths -Inodes/utils -Ivrml
+WB_VRML_INCLUDE          = $(QT_CORE_INCLUDE) -Icore -Imaths -Ivrml
 WB_USER_COMMANDS_INCLUDE = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) -Icore -isystem external/siphash -Imaths -Inodes -Inodes/utils -Iode -Iuser_commands -Ivrml
 WB_WIDGETS_INCLUDE       = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) -Icore -Imaths -Iuser_commands -Ivrml
 WB_EDITOR_INCLUDE        = $(QT_CORE_INCLUDE) $(QT_GUI_INCLUDE) $(QT_WIDGETS_INCLUDE) $(QT_PRINT_SUPPORT_INCLUDE) -Icore -Iwidgets -Imaths -Inodes -Inodes/utils -Iode -Iuser_commands -Ivrml
@@ -273,6 +273,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbDockWidget.cpp \
   WbDoubleEditor.cpp \
   WbDoubleSpinBox.cpp \
+  WbDownloadManager.cpp \
   WbDownloader.cpp \
   WbDragResizeEvent.cpp \
   WbDragScaleEvent.cpp \
@@ -557,6 +558,7 @@ OTHER_SOURCES = \
   WbUrl.cpp \
   WbVector4.cpp \
   WbVersion.cpp \
+  WbVrmlNodeUtilities.cpp \
   WbWaveFile.cpp \
   WbWheelEvent.cpp \
   WbWrenAbstractPostProcessingEffect.cpp \

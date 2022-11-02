@@ -21,12 +21,12 @@
 #include "WbMFDouble.hpp"
 #include "WbMFNode.hpp"
 #include "WbMaterial.hpp"
-#include "WbNodeUtilities.hpp"
 #include "WbPbrAppearance.hpp"
 #include "WbRobot.hpp"
 #include "WbSFColor.hpp"
 #include "WbSFDouble.hpp"
 #include "WbShape.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWorld.hpp"
 
 struct VisualElement {
@@ -73,7 +73,7 @@ WbCharger::~WbCharger() {
 void WbCharger::postFinalize() {
   WbSolid::postFinalize();
 
-  const WbNode *topNode = WbNodeUtilities::findTopNode(this);
+  const WbNode *topNode = WbVrmlNodeUtilities::findTopNode(this);
   mParentRobot = dynamic_cast<const WbRobot *>(topNode);
 }
 
