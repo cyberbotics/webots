@@ -481,6 +481,13 @@ QStringList WbProtoModel::parameterNames() const {
   return names;
 }
 
+void WbProtoModel::setIsTemplate(bool value) {
+  mTemplate = value;
+  if (mTemplate && mIsDeterministic)
+    // if ancestor is nonDeterministic this proto can't be either
+    mIsDeterministic = mAncestorProtoModel->isDeterministic();
+}
+
 void WbProtoModel::verifyNodeAliasing(WbNode *node, WbFieldModel *param, WbTokenizer *tokenizer, bool searchInParameters,
                                       bool &ok) const {
   QVector<WbField *> fields;

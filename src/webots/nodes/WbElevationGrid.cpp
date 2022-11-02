@@ -31,6 +31,7 @@
 #include "WbSFInt.hpp"
 #include "WbSimulationState.hpp"
 #include "WbTransform.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWrenMeshBuffers.hpp"
 #include "WbWrenRenderingContext.hpp"
 
@@ -382,7 +383,7 @@ void WbElevationGrid::setResizeManipulatorDimensions() {
 bool WbElevationGrid::areSizeFieldsVisibleAndNotRegenerator() const {
   const WbField *const xSpacingField = findField("xSpacing", true);
   const WbField *const ySpacingField = findField("ySpacing", true);
-  return WbNodeUtilities::isVisible(xSpacingField) && WbNodeUtilities::isVisible(ySpacingField) &&
+  return WbVrmlNodeUtilities::isVisible(xSpacingField) && WbVrmlNodeUtilities::isVisible(ySpacingField) &&
          !WbNodeUtilities::isTemplateRegeneratorField(xSpacingField) &&
          !WbNodeUtilities::isTemplateRegeneratorField(ySpacingField);
 }
