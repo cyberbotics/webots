@@ -19,6 +19,7 @@
 #include "WbBasicJoint.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbDataStream.hpp"
+#include "WbDownloadManager.hpp"
 #include "WbDownloader.hpp"
 #include "WbMFNode.hpp"
 #include "WbNetwork.hpp"
@@ -113,11 +114,10 @@ void WbSkin::downloadAssets() {
     const QString &completeUrl = WbUrl::computePath(this, "modelUrl", url);
     if (WbUrl::isWeb(completeUrl)) {
       delete mDownloader;
-      mDownloader = new WbDownloader(this);
+      mDownloader = WbDownloadManager::instance()->createDownloader(QUrl(completeUrl), this);
       if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
         connect(mDownloader, &WbDownloader::complete, this, &WbSkin::downloadUpdate);
-
-      mDownloader->download(QUrl(completeUrl));
+      mDownloader->download();
     }
   }
 }
@@ -518,8 +518,7 @@ void WbSkin::createWrenSkeleton() {
     return;
   }
 
-  if (mDownloader != NULL)
-    delete mDownloader;
+  delete mDownloader;
   mDownloader = NULL;
 
   mRenderablesTransform = wr_transform_new();

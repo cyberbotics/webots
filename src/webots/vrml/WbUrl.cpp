@@ -21,17 +21,23 @@
 #include "WbMFString.hpp"
 #include "WbNetwork.hpp"
 #include "WbNode.hpp"
-#include "WbNodeUtilities.hpp"
 #include "WbProject.hpp"
-#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbStandardPaths.hpp"
-#include "WbWorld.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QFileInfo>
 #include <QtCore/QRegularExpression>
 #include <QtCore/QUrl>
+
+namespace {
+  static QString gWorldFileName;
+};
+
+void WbUrl::setWorldFileName(const QString &fileName) {
+  ::gWorldFileName = fileName;
+}
 
 const QString &WbUrl::missingTexture() {
   const static QString missingTexture = WbStandardPaths::resourcesPath() + "images/missing_texture.png";
@@ -43,7 +49,7 @@ const QString &WbUrl::missingProtoIcon() {
   return missingProtoIcon;
 }
 
-const QString WbUrl::missing(const QString &url) {
+QString WbUrl::missing(const QString &url) {
   const QString suffix = url.mid(url.lastIndexOf('.') + 1).toLower();
   const QStringList textureSuffixes = {"png", "jpg", "jpeg"};
   if (textureSuffixes.contains(suffix, Qt::CaseInsensitive))
@@ -81,7 +87,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
     const WbField *f = node->findField(field, true);
     const WbNode *protoNode = node->containingProto(false);
 
-    protoNode = WbNodeUtilities::findFieldProtoScope(f, protoNode);
+    protoNode = WbVrmlNodeUtilities::findFieldProtoScope(f, protoNode);
 
     QString parentUrl;
     if (protoNode) {
@@ -95,7 +101,7 @@ QString WbUrl::computePath(const WbNode *node, const QString &field, const QStri
       } else
         parentUrl = protoNode->proto()->url();
     } else
-      parentUrl = WbWorld::instance()->fileName();
+      parentUrl = gWorldFileName;
 
     url = combinePaths(url, parentUrl);
   }
@@ -201,7 +207,7 @@ bool WbUrl::isLocalUrl(const QString &url) {
   return url.startsWith("webots://") || WbFileUtil::isLocatedInInstallationDirectory(url, true);
 }
 
-const QString WbUrl::computeLocalAssetUrl(QString url, bool isX3d) {
+QString WbUrl::computeLocalAssetUrl(QString url, bool isX3d) {
   if (!isX3d)
     return url.replace(WbStandardPaths::webotsHomePath(), "webots://");
 
@@ -216,7 +222,7 @@ const QString WbUrl::computeLocalAssetUrl(QString url, bool isX3d) {
   return url;
 }
 
-const QString WbUrl::computePrefix(const QString &rawUrl) {
+QString WbUrl::computePrefix(const QString &rawUrl) {
   const QString url = WbFileUtil::isLocatedInDirectory(rawUrl, WbStandardPaths::cachedAssetsPath()) ?
                         WbNetwork::instance()->getUrlFromEphemeralCache(rawUrl) :
                         rawUrl;
@@ -231,7 +237,7 @@ const QString WbUrl::computePrefix(const QString &rawUrl) {
   return QString();
 }
 
-const QString WbUrl::remoteWebotsAssetRegex(bool capturing) {
+QString WbUrl::remoteWebotsAssetRegex(bool capturing) {
   static QString regex = "https://raw.githubusercontent.com/cyberbotics/webots/[a-zA-Z0-9\\_\\-\\+]+/";
   return capturing ? "(" + regex + ")" : regex;
 }
@@ -246,7 +252,7 @@ const QString &WbUrl::remoteWebotsAssetPrefix() {
   return url;
 }
 
-const QRegularExpression WbUrl::vrmlResourceRegex() {
+const QRegularExpression &WbUrl::vrmlResourceRegex() {
   static QRegularExpression resources("\"([^\"]*)\\.(jpe?g|png|hdr|obj|stl|dae|wav|mp3|proto)\"",
                                       QRegularExpression::CaseInsensitiveOption);
   return resources;
@@ -307,5 +313,5 @@ QString WbUrl::combinePaths(const QString &rawUrl, const QString &rawParentUrl) 
 }
 
 QString WbUrl::expressRelativeToWorld(const QString &url) {
-  return QDir(QFileInfo(WbWorld::instance()->fileName()).absolutePath()).relativeFilePath(url);
+  return QDir(QFileInfo(gWorldFileName).absolutePath()).relativeFilePath(url);
 }

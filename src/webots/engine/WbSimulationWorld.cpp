@@ -15,7 +15,7 @@
 #include "WbSimulationWorld.hpp"
 
 #include "WbBoundingSphere.hpp"
-#include "WbDownloader.hpp"
+#include "WbDownloadManager.hpp"
 #include "WbLog.hpp"
 #include "WbMassChecker.hpp"
 #include "WbNodeOperations.hpp"
@@ -61,12 +61,12 @@ WbSimulationWorld::WbSimulationWorld(WbTokenizer *tokenizer) :
 
   emit worldLoadingStatusHasChanged(tr("Downloading assets"));
   emit worldLoadingHasProgressed(0);
-  WbDownloader::reset();
+  WbDownloadManager::instance()->reset();
   root()->downloadAssets();
-  int progress = WbDownloader::progress();
+  int progress = WbDownloadManager::instance()->progress();
   while (progress < 100) {
     QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents);
-    int newProgress = WbDownloader::progress();
+    int newProgress = WbDownloadManager::instance()->progress();
     if (newProgress != progress) {
       progress = newProgress;
       emit worldLoadingHasProgressed(progress);
@@ -406,7 +406,7 @@ void WbSimulationWorld::reset(bool restartControllers) {
     }
   }
   updateRandomSeed();
-  if (WbDownloader::progress() == 100)
+  if (WbDownloadManager::instance()->progress() == 100)
     WbSimulationState::instance()->resumeSimulation();
   if (mPhysicsPlugin)
     mPhysicsPlugin->init();

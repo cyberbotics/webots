@@ -61,8 +61,6 @@ public:
   // EXTERNPROTO declarations
   void purgeUnusedExternProtoDeclarations();
 
-  static QString exportNodeToString(WbNode *node);
-
   void enableSolidNameClashCheckOnNodeRegeneration(bool enabled) const;
 
 public slots:
