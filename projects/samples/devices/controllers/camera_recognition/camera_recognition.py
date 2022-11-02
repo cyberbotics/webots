@@ -42,16 +42,22 @@ class Controller(Robot):
             objects = self.camera.getRecognitionObjects()
             counter = 1
             for object in objects:
-                print(f' Object {counter}/{number_of_objects}: {object.model} (id = {object.id})')
-                print(f' Position: {object.position[0]} {object.position[1]} {object.position[2]}')
-                print(f' Orientation: '
-                      f'{object.orientation[0]} {object.orientation[1]} {object.orientation[2]} {object.orientation[3]}')
-                print(f' Size: {object.size[0]} x {object.size[1]}')
-                print(f' Position on camera image: {object.position_on_image[0]} {object.position_on_image[1]}')
-                print(f' Size on camera image: {object.size_on_image[0]} x {object.size_on_image[1]}')
-                for j in range(object.number_of_colors):
-                    print(f'  Color {j + 1}/{object.number_of_colors}: '
-                          f'{object.colors[3 * j]} {object.colors[3 * j + 1]} {object.colors[3 * j + 2]}')
+                position = object.getPosition()
+                orientation = object.getOrientation()
+                size = object.getSize()
+                position_on_image = object.getPositionOnImage()
+                size_on_image = object.getSizeOnImage()
+                number_of_colors = object.getNumberOfColors()
+                colors = object.getColors()
+                print(f' Object {counter}/{number_of_objects}: {object.getModel()} (id = {object.getId()})')
+                print(f' Position: {position[0]} {position[1]} {position[2]}')
+                print(f' Orientation: {object.orientation[0]} {orientation[1]} {orientation[2]} {orientation[3]}')
+                print(f' Size: {size[0]} x {size[1]}')
+                print(f' Position on camera image: {position_on_image[0]} {position_on_image[1]}')
+                print(f' Size on camera image: {size_on_image[0]} x {size_on_image[1]}')
+                for j in range(number_of_colors):
+                    print(f'  Color {j + 1}/{number_of_colors}: '
+                          f'{colors[3 * j]} {colors[3 * j + 1]} {colors[3 * j + 2]}')
                 print(' ')
                 counter += 1
 
