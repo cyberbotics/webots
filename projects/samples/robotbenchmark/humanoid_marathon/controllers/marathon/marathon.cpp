@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
   LED *headLed = robot.getLED("HeadLed");
   LED *eyeLed = robot.getLED("EyeLed");
   Gyro *gyro = robot.getGyro("Gyro");
-  int n = sizeof(positionSensorNames) / sizeof(char *);
+  const int n = sizeof(positionSensorNames) / sizeof(char *);
   // Enable all the position sensors
   for (int i = 0; i < n; i++) {
     char name[32];
