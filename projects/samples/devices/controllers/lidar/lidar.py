@@ -46,12 +46,6 @@ class Controller(Robot):
         us_value = [0, 0]
         n = self.lidar.getNumberOfPoints()
         while self.step(self.timeStep) != -1:
-            value = self.lidar.getRangeImage()
-            i = random.randrange(n)
-            print(f'range[{i}] = {value[i]}')
-            points = self.lidar.getPointCloud()
-            if points:
-                print(f'point[{i}] = {points[i].x} {points[i].y} {points[i].z} {points[i].layer} {points[i].time}')
             us_value[0] = self.us0.getValue()
             us_value[1] = self.us1.getValue()
             for i in range(2):
