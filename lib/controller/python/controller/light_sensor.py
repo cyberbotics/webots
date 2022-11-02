@@ -20,7 +20,7 @@ from typing import Union, List
 
 class LightSensor(Sensor):
     wb.wb_light_sensor_get_value.restype = ctypes.c_double
-    wb.wb_distance_sensor_get_lookup_table.restype = ctypes.POINTER(ctypes.c_double)
+    wb.wb_light_sensor_get_lookup_table_size.restype = ctypes.POINTER(ctypes.c_double)
 
     def __init__(self, name: Union[str, int], sampling_period: int = None):
         self._enable = wb.wb_light_sensor_enable
@@ -28,7 +28,7 @@ class LightSensor(Sensor):
         super().__init__(name, sampling_period)
 
     def getLookupTable(self) -> List[float]:
-        return self.lookup_table[:wb.wb_light_sensor_get_lookup_table_size(self._tag) * 3]
+        return self.lookup_table[:3 * wb.wb_light_sensor_get_lookup_table_size(self._tag)]
 
     def getValue(self) -> float:
         return self.value

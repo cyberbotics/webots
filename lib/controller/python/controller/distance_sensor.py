@@ -38,7 +38,7 @@ class DistanceSensor(Sensor):
         return self.aperture
 
     def getLookupTable(self) -> List[float]:
-        return self.lookup_table[: 3 * wb.wb_distance_sensor_get_lookup_table_size(self._tag)]
+        return self.lookup_table[:3 * wb.wb_distance_sensor_get_lookup_table_size(self._tag)]
 
     def getMaxValue(self) -> float:
         return self.max_value
