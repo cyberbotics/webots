@@ -155,7 +155,8 @@ WbController::~WbController() {
     stream << (unsigned short)0;    // tag of the root device
     stream << (unsigned char)C_ROBOT_QUIT;
     assert(size == buffer.size());
-    mRobot->removeRemoteExternController();
+    if (mRobot)
+      mRobot->removeRemoteExternController();
     if (!mHasBeenTerminatedByItself)
       sendTerminationPacket(mTcpSocket, buffer, size);
   } else if (mProcess && mProcess->state() != QProcess::NotRunning) {
@@ -164,7 +165,7 @@ WbController::~WbController() {
     mProcess = NULL;
   }
 
-  if (mExtern) {
+  if (mExtern && mRobot) {
     info(tr("disconnected."));
     WbControlledWorld::instance()->externConnection(this, false);
   }
@@ -249,6 +250,7 @@ void WbController::start() {
     const QString remoteUrl = "tcp://<ip_address>:" + QString::number(WbStandardPaths::webotsTmpPathId()) + '/' +
                               QUrl::toPercentEncoding(mRobot->name());
     info(tr("waiting for connection on %1 or on %2").arg(localUrl).arg(remoteUrl));
+    WbControlledWorld::instance()->externConnection(this, false);
     if (WbWorld::printExternUrls()) {
       std::cout << localUrl.toUtf8().constData() << std::endl;
       std::cout << remoteUrl.toUtf8().constData() << std::endl;
