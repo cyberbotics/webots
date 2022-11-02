@@ -16,10 +16,13 @@ import struct
 import sys
 from controller.wb import wb
 from controller.device import Device
+import ctypes
 from typing import Union, List
 
 
 class Emitter(Device):
+    wb.wb_emitter_get_range.restype = ctypes.c_double
+
     CHANNEL_BROADCAST = -1
 
     def __init__(self, name: Union[str, int]):
@@ -83,5 +86,5 @@ class Emitter(Device):
         self.range = range
 
     @range.setter
-    def range(self, r: float):
-        wb.wb_emitter_set_range(self._tag, r)
+    def range(self, range: float):
+        wb.wb_emitter_set_range(self._tag, ctypes.c_double(range))
