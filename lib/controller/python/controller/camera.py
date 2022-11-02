@@ -63,7 +63,7 @@ class Camera(Sensor):
             for y in range(self.height):
                 line.append([image[i + 2], image[i + 1], image[i]])  # RGB pixel
                 i += 4
-            image.append(line)
+            array.append(line)
         return array
 
     @staticmethod
