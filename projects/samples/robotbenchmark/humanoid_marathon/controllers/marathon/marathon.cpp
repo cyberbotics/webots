@@ -32,13 +32,13 @@ static const char *positionSensorNames[] = {
 
 int main(int argc, char *argv[]) {
   webots::Robot robot;
-  int timeStep = robot.getBasicTimeStep();
+  const int timeStep = robot.getBasicTimeStep();
   RobotisOp2MotionManager motion(&robot);
   // retrieve devices
   LED *headLed = robot.getLED("HeadLed");
   LED *eyeLed = robot.getLED("EyeLed");
   Gyro *gyro = robot.getGyro("Gyro");
-  int n = sizeof(positionSensorNames) / sizeof(char *);
+  const int n = sizeof(positionSensorNames) / sizeof(char *);
   // Enable all the position sensors
   for (int i = 0; i < n; i++) {
     char name[32];
