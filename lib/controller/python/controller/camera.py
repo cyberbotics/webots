@@ -54,7 +54,7 @@ class Camera(Sensor):
     def setFov(self, f: float):
         self.fov = f
 
-    def getHeight(self):
+    def getHeight(self) -> int:
         return self.height
 
     def getImage(self) -> bytes:
