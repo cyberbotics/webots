@@ -78,6 +78,10 @@ class Camera(Sensor):
     def imageGetBlue(image: bytes, width: int, x: int, y: int) -> int:
         return image[4 * (y * width + x)]
 
+    @staticmethod
+    def imageGetGray(image: bytes, width: int, x: int, y: int) -> int:
+        return (image[4 * (y * width + x) + 2] + image[4 * (y * width + x) + 1] + image[4 * (y * width + x)]) / 3
+
     def getMaxFocalDistance(self) -> float:
         return self.max_focal_distance
 
