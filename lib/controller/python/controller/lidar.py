@@ -79,7 +79,7 @@ class Lidar(Sensor):
         return array
 
     def getLayerRangeImage(self, layer) -> List[float]:
-        return self.range_image(self._tag, layer)[:self.horizontal_resolution]
+        return wb.wb_lidar_get_range_image(self._tag, layer)[:self.horizontal_resolution]
 
     @property
     def range_image(self):
