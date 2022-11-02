@@ -32,8 +32,6 @@ class Controller(Robot):
         self.right_motor = self.getDevice('right wheel motor')
         self.left_motor.setPosition(float('inf'))
         self.right_motor.setPosition(float('inf'))
-        self.left_motor.setVelocity(0.0)
-        self.right_motor.setVelocity(0.0)
 
         # As we are using the same controller for the emitter and the receiver,
         # we need to differentiate them
