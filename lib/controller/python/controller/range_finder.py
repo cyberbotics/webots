@@ -50,7 +50,7 @@ class RangeFinder(Sensor):
         else:
             return self.range_image
 
-    def defRangeImageArray(self) -> List[List[float]]:
+    def getRangeImageArray(self) -> List[List[float]]:
         range_image = self.range_image
         width = self.width
         array = []
