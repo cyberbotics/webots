@@ -24,6 +24,15 @@ class Device:
     def __init__(self, name: Union[str, int]):
         self._tag = name if isinstance(name, int) else wb.wb_robot_get_device(str.encode(name))
 
+    def getName(self) -> str:
+        return self.name
+
+    def getModel(self) -> str:
+        return self.model
+
+    def getNodeType(self) -> int:
+        return self.node_type
+
     @property
     def name(self) -> str:
         return wb.wb_device_get_name(self._tag)

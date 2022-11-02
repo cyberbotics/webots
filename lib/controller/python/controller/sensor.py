@@ -26,6 +26,9 @@ class Sensor(Device):
     def enable(self, p: int):
         self._enable(self._tag, p)
 
+    def getSamplingPeriod(self) -> int:
+        return self.sampling_period
+
     def disable(self):
         self._enable(self._tag, 0)
 
