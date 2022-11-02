@@ -182,19 +182,19 @@ class Camera(Sensor):
         def getId(self) -> int:
             return self.id
 
-        def getPosition(self) -> [float, float, float]:
+        def getPosition(self) -> List[float]:
             return self.position
 
-        def getOrientation(self) -> [float, float, float, float]:
+        def getOrientation(self) -> List[float]:
             return self.orientation
 
-        def getSize(self) -> [float, float]:
+        def getSize(self) -> List[float]:
             return self.size
 
-        def getPositionOnImage(self) -> [int, int]:
+        def getPositionOnImage(self) -> List[int]:
             return self.position_on_image
 
-        def getSizeOnImage(self) -> [int, int]:
+        def getSizeOnImage(self) -> List[int]:
             return self.size_on_image
 
         def getNumberOfColors(self) -> int:

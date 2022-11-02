@@ -53,16 +53,16 @@ class GPS(Sensor):
     def speed(self) -> float:
         return wb.wb_gps_get_speed(self._tag)
 
-    def getSpeedVector(self) -> [float, float, float]:
+    def getSpeedVector(self) -> typing.List[float]:
         return self.speed_vector
 
     @property
-    def speed_vector(self) -> [float, float, float]:
+    def speed_vector(self) -> typing.List[float]:
         return wb.wb_gps_get_speed_vector(self._tag)[:3]
 
-    def getValues(self) -> [float, float, float]:
+    def getValues(self) -> typing.List[float]:
         return self.value
 
     @property
-    def value(self) -> [float, float, float]:
+    def value(self) -> typing.List[float]:
         return wb.wb_gps_get_values(self._tag)[:3]

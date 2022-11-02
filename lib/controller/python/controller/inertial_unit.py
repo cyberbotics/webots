@@ -28,21 +28,21 @@ class InertialUnit(Sensor):
         self._get_sampling_period = wb.wb_inertial_unit_get_sampling_period
         super().__init__(name, sampling_period)
 
-    def getRollPitchYaw(self) -> [float, float, float]:
+    def getRollPitchYaw(self) -> typing.List[float]:
         return self.roll_pitch_yaw
 
-    def getQuaternion(self) -> [float, float, float, float]:
+    def getQuaternion(self) -> typing.List[float]:
         return self.quaternion
 
     def getNoise(self) -> float:
         return self.noise
 
     @property
-    def roll_pitch_yaw(self) -> [float, float, float]:
+    def roll_pitch_yaw(self) -> typing.List[float]:
         return wb.wb_inertial_unit_get_roll_pitch_yaw(self._tag)[:3]
 
     @property
-    def quaternion(self) -> [float, float, float, float]:
+    def quaternion(self) -> typing.List[float]:
         return wb.wb_inertial_unit_get_quaternion(self._tag)[:4]
 
     @property

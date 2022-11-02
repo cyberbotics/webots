@@ -27,14 +27,14 @@ class Compass(Sensor):
         self._get_sampling_period = wb.wb_compass_get_sampling_period
         super().__init__(name, sampling_period)
 
-    def getValues(self) -> [float, float, float]:
+    def getValues(self) -> typing.List[float]:
         return self.value
 
     def getLookupTable(self) -> typing.List[float]:
         return self.lookup_table
 
     @property
-    def value(self) -> [float, float, float]:
+    def value(self) -> typing.List[float]:
         return wb.wb_compass_get_values(self._tag)[:3]
 
     @property
