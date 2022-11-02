@@ -68,7 +68,7 @@ class Controller(Robot):
                 # is there at least one packet in the receiver's queue?
                 if self.communication.getQueueLength() > 0:
                     # read current packet's data
-                    buffer = self.communication.getData().decode()
+                    buffer = self.communication.getString()
                     if message_printed != 1:
                         print(f'Communicating: received "{buffer}"')
                         message_printed = 1

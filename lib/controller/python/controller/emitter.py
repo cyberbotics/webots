@@ -38,7 +38,7 @@ class Emitter(Device):
                 length = len(message)
             wb.wb_emitter_send(self._tag, message, length)
         elif isinstance(message, str):
-            wb.wb_emitter_send(self._tag, str.encode(message), len(message) + 1)
+            wb.wb_emitter_send(self._tag, str.encode(message), len(message))
         elif isinstance(message, list) or isinstance(message, tuple):
             length = len(message)
             if length == 0:
