@@ -30,9 +30,6 @@ class Controller(Robot):
         self.left_motor.setPosition(float('inf'))
         self.right_motor.setPosition(float('inf'))
 
-        self.left_motor.setVelocity(0.5)
-        self.right_motor.setVelocity(-0.5)
-
     def run(self):
         direction_switch = False
         while self.step(self.timeStep) != -1:
