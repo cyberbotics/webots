@@ -70,7 +70,7 @@ public:
 
   void setRole(const QString &role) { mRole = role; }
 
-  void exportShallowNode(WbWriter &writer) const;
+  void exportShallowNode(const WbWriter &writer) const;
 
 signals:
   void changed();

@@ -14,17 +14,13 @@
 
 #include "WbProtoManager.hpp"
 
-#include "WbApplication.hpp"
 #include "WbApplicationInfo.hpp"
-#include "WbDownloader.hpp"
 #include "WbFieldModel.hpp"
 #include "WbFileUtil.hpp"
 #include "WbLog.hpp"
 #include "WbMultipleValue.hpp"
 #include "WbNetwork.hpp"
 #include "WbNode.hpp"
-#include "WbNodeOperations.hpp"
-#include "WbNodeUtilities.hpp"
 #include "WbParser.hpp"
 #include "WbProject.hpp"
 #include "WbProtoModel.hpp"
@@ -34,10 +30,12 @@
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 #include "WbUrl.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QDirIterator>
 #include <QtCore/QRegularExpression>
+#include <QtCore/QUrl>
 #include <QtCore/QXmlStreamReader>
 
 static WbProtoManager *gInstance = NULL;
@@ -419,7 +417,7 @@ void WbProtoManager::loadWorld() {
 
   // cleanup and load world at last
   mTreeRoot->deleteLater();
-  WbApplication::instance()->loadWorld(mCurrentWorld, mReloading, true);
+  emit worldLoadCompleted(mCurrentWorld, mReloading, true);
 }
 
 void WbProtoManager::loadWebotsProtoMap() {
@@ -723,7 +721,7 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
   // establish if it requires a Robot ancestor by checking if it contains devices
   while (tokenizer.hasMoreTokens()) {
     WbToken *token = tokenizer.nextToken();
-    if (token->isIdentifier() && WbNodeUtilities::isDeviceTypeName(token->word()) && token->word() != "Connector") {
+    if (token->isIdentifier() && mNeedsRobotAncestorCallback(token->word())) {
       needsRobotAncestor = true;
       break;
     }
@@ -738,7 +736,7 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
     if (defaultValue->type() == WB_SF_NODE) {
       const WbSFNode *sfn = dynamic_cast<const WbSFNode *>(defaultValue);
       if (sfn->value()) {
-        QString nodeContent = WbNodeOperations::exportNodeToString(sfn->value());
+        QString nodeContent = WbVrmlNodeUtilities::exportNodeToString(sfn->value());
         vrmlDefaultValue = nodeContent.replace(QRegularExpression("[\\s\\n]+"), " ");
       }
     } else
@@ -855,13 +853,13 @@ void WbProtoManager::resetExternProtoClipboardBuffer(const QList<QString> &buffe
     saveToExternProtoClipboardBuffer(url);
 }
 
-void WbProtoManager::removeImportableExternProto(const QString &protoName) {
+void WbProtoManager::removeImportableExternProto(const QString &protoName, WbNode *root) {
   for (int i = mExternProto.size() - 1; i >= 0; --i) {
     if (mExternProto[i]->name() == protoName) {
       assert(mExternProto[i]->isImportable());
       // only IMPORTABLE nodes should be removed using this function, instantiated nodes are removed when deleting the node
       mExternProto[i]->setImportable(false);
-      if (!WbNodeUtilities::existsVisibleProtoNodeNamed(protoName)) {
+      if (!WbVrmlNodeUtilities::existsVisibleProtoNodeNamed(protoName, root)) {
         delete mExternProto[i];
         mExternProto.remove(i);
       }

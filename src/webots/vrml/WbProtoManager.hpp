@@ -118,9 +118,6 @@ class WbProtoManager : public QObject {
 public:
   static WbProtoManager *instance();
 
-  WbProtoManager();
-  ~WbProtoManager();
-
   // used to reference the different PROTO lists and by the dialog windows (WbAddNodeDialog, WbNewProtoWizard,
   // WbInsertExternProtoDialog) to categorize their respective PROTO
   enum { BASE_NODE = 10001, PROTO_WORLD = 10002, PROTO_PROJECT = 10003, PROTO_EXTRA = 10004, PROTO_WEBOTS = 10005 };
@@ -179,7 +176,7 @@ public:
   QString removeProtoUrl(const WbNode *node, bool formatted = false) const;
 
   QString findExternProtoDeclarationInFile(const QString &url, const QString &modelName);
-  void removeImportableExternProto(const QString &protoName);
+  void removeImportableExternProto(const QString &protoName, WbNode *root);
 
   bool isImportableExternProtoDeclared(const QString &protoName);
 
@@ -197,7 +194,10 @@ public:
 
   void updateCurrentWorld(const QString &world) { mCurrentWorld = world; }
 
+  void setNeedsRobotAncestorCallback(std::function<bool(const QString &)> f) { mNeedsRobotAncestorCallback = f; }
+
 signals:
+  void worldLoadCompleted(const QString &worldName, bool reloading, bool isLoadingAfterDownload);
   void retrievalCompleted();
   void dependenciesAvailable();
 
@@ -206,6 +206,9 @@ private slots:
   void protoRetrievalCompleted();
 
 private:
+  WbProtoManager();
+  ~WbProtoManager();
+
   // cppcheck-suppress unknownMacro
   Q_DISABLE_COPY(WbProtoManager)
 
@@ -245,6 +248,8 @@ private:
   QMap<int, QDateTime> mProtoInfoGenerationTime;
 
   QStringList mUniqueErrorMessages;
+
+  std::function<bool(const QString &)> mNeedsRobotAncestorCallback;
 
   void loadWebotsProtoMap();
 
