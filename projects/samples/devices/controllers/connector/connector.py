@@ -44,9 +44,9 @@ class Controller(Robot):
         hop_counts = 0
         direction = 1
         state = 'CONNECTOR_IN_PLACE'
-        left_speed = 0
-        right_speed = 0
         while self.step(self.timeStep) != -1:
+            left_speed = 0
+            right_speed = 0
             if state == 'CONNECTOR_IN_PLACE':  # wait for the motor to be in place
                 if math.fabs(self.upper_position_sensor.getValue() + (direction * 1.56)) < 0.01:
                     state = 'CONNECTING'
