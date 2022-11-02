@@ -21,6 +21,7 @@ from typing import List, Union
 
 class Lidar(Sensor):
     wb.wb_lidar_get_fov.restype = ctypes.c_double
+    wb.wb_lidar_get_frequency.restype = ctypes.c_double
     wb.wb_lidar_get_vertical_fov.restype = ctypes.c_double
     wb.wb_lidar_get_max_frequency.restype = ctypes.c_double
     wb.wb_lidar_get_min_frequency.restype = ctypes.c_double
