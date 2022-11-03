@@ -149,7 +149,7 @@ class Lidar(Sensor):
 
     def getLayerPointCloud(self, layer: int) -> List[LidarPoint]:
         number_of_points = int(self.number_of_points / self.number_of_layers)
-        data = bytes(wb.wb_lidar_get_layer_point_cloud(self._tag)[:number_of_points * 20])
+        data = bytes(wb.wb_lidar_get_layer_point_cloud(self._tag, layer)[:number_of_points * 20])
         list = []
         for i in range(number_of_points):
             list.append(LidarPoint(data, i))
