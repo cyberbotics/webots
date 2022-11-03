@@ -57,6 +57,8 @@ class Camera(Sensor):
     def getImageArray(self) -> List[List[List[int]]]:
         array = []
         image = self.image
+        if not image:
+            return None
         i = 0
         for x in range(self.width):
             line = []
@@ -252,6 +254,8 @@ class Camera(Sensor):
     def getRecognitionSegmentationImageArray(self) -> List[List[List[int]]]:
         array = []
         image = self.getRecognitionSegmentationImage()
+        if not image:
+            return None
         i = 0
         for x in range(self.width):
             line = []
