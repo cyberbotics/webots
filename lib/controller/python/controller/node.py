@@ -90,7 +90,7 @@ class Node:
         return wb.wb_supervisor_node_is_proto(self._ref) != 0
 
     def getFromProtoDef(self, DEF: str) -> Node:
-        return Node(wb.wb_robot_node_get_from_proto_def(self._ref, str.encode(DEF)))
+        return Node(wb.wb_supervisor_node_get_from_proto_def(self._ref, str.encode(DEF)))
 
     def getType(self) -> int:
         return self.type
