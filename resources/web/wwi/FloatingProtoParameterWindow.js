@@ -404,12 +404,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   populateDeviceTab() {
     const noDevice = document.createElement('h1');
-    noDevice.innerHTML = 'No device';
+    noDevice.innerHTML = 'No devices';
     this.devices.appendChild(noDevice);
   }
 
   populateJointTab() {
-    this.joints.innerHTML = 'Joints';
     this.listJoints();
   }
 
@@ -434,6 +433,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         sliderElement.className = 'proto-slider-element';
 
         const slider = document.createElement('input');
+        slider.className = 'proto-slider';
         slider.type = 'range';
         slider.step = 'any';
 
@@ -469,11 +469,17 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         });
 
         sliderElement.appendChild(minLabel);
-        sliderElement.appendChild(maxLabel);
         sliderElement.appendChild(slider);
+        sliderElement.appendChild(maxLabel);
         div.appendChild(sliderElement);
         this.joints.appendChild(div);
       }
+    }
+
+    if (numberOfJoint === 0) {
+      const title = document.createElement('h1');
+      title.innerHTML = 'No joints';
+      this.joints.appendChild(title);
     }
   }
 }

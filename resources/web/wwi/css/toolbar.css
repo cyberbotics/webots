@@ -999,7 +999,8 @@ webots-view .export-checkbox {
   margin: 10px 0px 10px 10px;
 }
 
-webots-view #devices-tab h1 {
+webots-view #devices-tab h1,
+#joints-tab h1 {
   color: white;
   text-align: center;
 }
@@ -1016,9 +1017,13 @@ webots-view .proto-joint .proto-slider-element {
   align-items: center;
 }
 
+webots-view .proto-joint .proto-joint-value-label {
+  color: white;
+}
+
 webots-view .proto-joint .proto-slider {
   -webkit-appearance: none;
-  width: 100%;
+  width: 80%;
   background-color: transparent;
   padding: 0;
   margin: 0px 10px;
