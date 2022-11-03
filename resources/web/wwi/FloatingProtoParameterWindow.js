@@ -370,7 +370,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     const resetButton = this.#createResetButton(value);
     resetButton.onclick = () => {
-      input.value = parameter.defaultValue.value;
+      input.checked = parameter.defaultValue.value;
       this.#boolOnChange(p);
     };
     parent.appendChild(p);
