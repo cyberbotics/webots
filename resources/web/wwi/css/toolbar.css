@@ -387,7 +387,8 @@ webots-view .information-panel .cloud {
   font-size: 12px;
 }
 
-webots-view .information-panel .info-tabs-bar, .floating-window-content .proto-tabs-bar {
+webots-view .information-panel .info-tabs-bar,
+.floating-window-content .proto-tabs-bar {
   height: 28px;
   width: 100%;
   background-color: #333;
@@ -395,7 +396,8 @@ webots-view .information-panel .info-tabs-bar, .floating-window-content .proto-t
   border-top-left-radius: 10px;
 }
 
-webots-view .information-panel .info-tabs-bar .info-tab, .floating-window-content .proto-tabs-bar .proto-tab {
+webots-view .information-panel .info-tabs-bar .info-tab,
+.floating-window-content .proto-tabs-bar .proto-tab {
   height: 28px;
   position: absolute;
   color: white;
@@ -414,7 +416,8 @@ webots-view .floating-window-content .proto-tabs-bar .proto-tab {
   width: 33%;
 }
 
-webots-view .information-panel .info-tabs-bar .info-tab:hover, .floating-window-content .proto-tabs-bar .proto-tab:hover {
+webots-view .information-panel .info-tabs-bar .info-tab:hover,
+.floating-window-content .proto-tabs-bar .proto-tab:hover {
   border-bottom: 2px solid rgb(0, 122, 204);
   cursor: pointer;
 }
@@ -1004,4 +1007,19 @@ webots-view #devices-tab h1 {
 webots-view .proto-joint .proto-joint-name {
   color: white;
   text-align: center;
+  word-wrap: break-word;
+}
+
+webots-view .proto-joint .proto-slider-element {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+webots-view .proto-joint .proto-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  background-color: transparent;
+  padding: 0;
+  margin: 0px 10px;
 }

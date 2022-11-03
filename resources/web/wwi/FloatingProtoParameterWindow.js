@@ -430,6 +430,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         nameDiv.className = 'proto-joint-name';
         div.appendChild(nameDiv);
 
+        const sliderElement = document.createElement('div');
+        sliderElement.className = 'proto-slider-element';
+
         const slider = document.createElement('input');
         slider.type = 'range';
         slider.step = 'any';
@@ -465,10 +468,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           }
         });
 
-        div.appendChild(minLabel);
-        div.appendChild(maxLabel);
-        div.appendChild(slider);
-
+        sliderElement.appendChild(minLabel);
+        sliderElement.appendChild(maxLabel);
+        sliderElement.appendChild(slider);
+        div.appendChild(sliderElement);
         this.joints.appendChild(div);
       }
     }
