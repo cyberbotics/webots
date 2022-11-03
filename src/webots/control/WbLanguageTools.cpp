@@ -111,7 +111,7 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
         break;
       }
     }
-  } else if (pythonCommand.startsWith("python3.") {
+  } else if (pythonCommand.startsWith("python3.")) {
     pythonCommand = findWorkingPythonPath(pythonCommand.mid(6), env, true);
     shortVersion = "3" + pythonCommand[8];
     if (pythonCommand.length() > 9 && pythonCommand[9] != '.')
