@@ -292,7 +292,7 @@ class Robot:
     def getTime(self) -> float:
         return self.time
 
-    def getUrdf(self, prefix: str) -> str:
+    def getUrdf(self, prefix: str = '') -> str:
         return wb.wb_robot_get_urdf(str.encode(prefix)).decode()
 
     def wwiSendText(self, text: str):
