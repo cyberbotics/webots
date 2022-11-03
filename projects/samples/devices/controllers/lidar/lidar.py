@@ -17,7 +17,6 @@ Simulation of a lidar.
 """
 
 from controller import Robot
-import random
 
 
 class Controller(Robot):
@@ -44,7 +43,6 @@ class Controller(Robot):
         base_speed = 6.0
         speed = [0, 0]
         us_value = [0, 0]
-        n = self.lidar.getNumberOfPoints()
         while self.step(self.timeStep) != -1:
             us_value[0] = self.us0.getValue()
             us_value[1] = self.us1.getValue()
