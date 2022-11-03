@@ -96,6 +96,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           this.#createSFStringField(key, contentDiv, row);
         else if (parameter.type === VRML.SFFloat)
           this.#createSFFloatField(key, contentDiv, row);
+        else if (parameter.type === (VRML.SFInt32))
+          this.#createSFInt32Field(key, contentDiv, row);
         else if (parameter.type === VRML.SFBool)
           this.#createSFBoolField(key, contentDiv, row);
 
@@ -340,6 +342,49 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     node.parameter.setValueFromJavaScript(this.#view, node.input.value);
   }
 
+  #createSFInt32Field(key, parent, row) {
+    const parameter = this.#protoManager.exposedParameters.get(key);
+
+    const p = document.createElement('p');
+    p.className = 'key-parameter';
+    p.innerHTML = key + ': ';
+    p.key = key;
+    p.parameter = parameter;
+    p.style.gridRow = '' + row + ' / ' + row;
+    p.style.gridColumn = '2 / 2';
+
+    const exportCheckbox = this.#createCheckbox(parent, row);
+
+    const value = document.createElement('p');
+    value.className = 'value-parameter';
+    value.style.gridRow = '' + row + ' / ' + row;
+    value.style.gridColumn = '3 / 3';
+
+    const input = document.createElement('input');
+    input.type = 'number';
+    input.step = 0.1;
+    input.value = parameter.value.value;
+    input.style.width = '50px';
+
+    input.oninput = () => this.#intOnChange(p);
+    input.onchange = () => this.#floatOnChange(p);
+    p.input = input;
+    p.checkbox = exportCheckbox;
+    value.appendChild(input);
+
+    const resetButton = this.#createResetButton(value);
+    resetButton.onclick = () => {
+      input.value = parameter.defaultValue.value;
+      this.#floatOnChange(p);
+    };
+    parent.appendChild(p);
+    parent.appendChild(value);
+  }
+
+  #intOnChange(node) {
+    node.input.value = node.input.value.replace(/[^0-9-]/g, '');
+    node.input.value = node.input.value.replace(/(\..*)\-/g, '$1');
+  }
   #createSFBoolField(key, parent, row) {
     const parameter = this.#protoManager.exposedParameters.get(key);
 
