@@ -107,13 +107,13 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
       const QString fullVersionString = "3." + versionString;
       pythonCommand = findWorkingPythonPath(fullVersionString, env, false);
       if (pythonCommand != "!") {
-        shortVersion = "3" + versionString;
+        shortVersion = QString("3") + versionString;
         break;
       }
     }
   } else if (pythonCommand.startsWith("python3.")) {
     pythonCommand = findWorkingPythonPath(pythonCommand.mid(6), env, true);
-    shortVersion = "3" + pythonCommand[8];
+    shortVersion = QString("3") + pythonCommand[8];
     if (pythonCommand.length() > 9 && pythonCommand[9] != '.')
       shortVersion += pythonCommand[9];
   } else
