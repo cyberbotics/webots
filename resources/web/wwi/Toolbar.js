@@ -1588,8 +1588,11 @@ export default class Toolbar {
 
     this.updateProtoWindow();
 
-    if (typeof this.parentNode.protoManager !== 'undefined')
-      this.parentNode.protoManager.onChange = () => this.updateProtoWindow();
+    if (typeof this.parentNode.protoManager !== 'undefined') {
+      const keys = this.parentNode.protoManager.exposedParameters.keys();
+      for (let key of keys)
+        this.parentNode.protoManager.exposedParameters.get(key).onChange = () => this.updateProtoWindow();
+    }
 
     this.protoParameterWindowInitializeSizeAndPosition();
     this.#checkWindowBoundaries();

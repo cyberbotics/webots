@@ -78,7 +78,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   populateProtoParameterWindow() {
-    console.log("repopulate")
     const contentDiv = document.getElementById('proto-parameter-content');
     if (contentDiv) {
       contentDiv.innerHTML = '';
@@ -448,6 +447,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   populateDeviceTab() {
+    this.devices.innerHTML = '';
     const noDevice = document.createElement('h1');
     noDevice.innerHTML = 'No devices';
     this.devices.appendChild(noDevice);
@@ -458,6 +458,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   listJoints() {
+    this.joints.innerHTML = '';
     const nodes = WbWorld.instance.nodes;
     const keys = nodes.keys();
     let numberOfJoint = 0;
