@@ -305,8 +305,6 @@ export default class WbCadShape extends WbBaseNode {
     this.#pbrAppearances = [];
   }
 
-  updateBoundingObjectVisibility() {}
-
   #createPbrAppearance(material, materialIndex) {
     const properties = new Map(
       material.properties.map(object => {

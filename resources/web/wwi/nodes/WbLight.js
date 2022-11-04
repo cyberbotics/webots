@@ -109,8 +109,6 @@ export default class WbLight extends WbBaseNode {
     WbLight.lights.push(this);
   }
 
-  updateBoundingObjectVisibility() {}
-
   // Private functions
 
   _applyLightColorToWren() {}
