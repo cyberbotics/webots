@@ -1,6 +1,5 @@
 import FloatingWindow from './FloatingWindow.js';
 import {VRML} from './protoVisualizer/vrml_type.js';
-import WbSolid from './nodes/WbSolid.js';
 import WbHingeJoint from './nodes/WbHingeJoint.js';
 import WbWorld from './nodes/WbWorld.js';
 
@@ -79,6 +78,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   populateProtoParameterWindow() {
+    console.log("repopulate")
     const contentDiv = document.getElementById('proto-parameter-content');
     if (contentDiv) {
       contentDiv.innerHTML = '';
