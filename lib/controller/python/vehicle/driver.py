@@ -133,12 +133,12 @@ class Driver(Supervisor):
         return self.api.wbu_driver_step()
 
     @property
-    def antifog_light(self) -> bool:
-        return self.api.wbu_driver_get_antifog_light() != 0
+    def antifog_lights(self) -> bool:
+        return self.api.wbu_driver_get_antifog_lights() != 0
 
-    @antifog_light.setter
-    def antifog_light(self, antifog_light: bool):
-        self.api.wbu_driver_set_antifog_light(1 if antifog_light else 0)
+    @antifog_lights.setter
+    def antifog_lights(self, antifog_lights: bool):
+        self.api.wbu_driver_set_antifog_lights(1 if antifog_lights else 0)
 
     @property
     def brake_intensity(self) -> float:
