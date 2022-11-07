@@ -1782,8 +1782,12 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
         WbField *aliasParam = aliasIt.next();
         if (aliasParam->name() == param->alias() && aliasParam->type() == param->type()) {
           aliasNotFound = false;
-          if (!aliasParam->isTemplateRegenerator())
-            aliasParam->setTemplateRegenerator(param->isTemplateRegenerator());
+          if (!aliasParam->isTemplateRegenerator()) {
+            const bool paramTemplate = param->isTemplateRegenerator();
+            aliasParam->setTemplateRegenerator(paramTemplate);
+            if (paramTemplate)
+              instance->mProto->setIsTemplate(true);
+          }
 
           WbNode *tmpParent = gParent;
           foreach (WbField *internalField, param->internalFields()) {
@@ -2322,10 +2326,12 @@ void WbNode::printDebugNodeStructure(int level) {
   for (int i = 0; i < level; ++i)
     indent += "  ";
 
-  QString line;
-  line.sprintf("%sNode %s %p id %d parameterNode %p", indent.toStdString().c_str(), usefulName().toStdString().c_str(), this,
-               uniqueId(), protoParameterNode());
-  qDebug() << line;
+  qDebug() << QString("%1Node %2 0x%3 id %4 parameterNode 0x%5")
+                .arg(indent.toStdString().c_str())
+                .arg(usefulName().toStdString().c_str())
+                .arg((quintptr)this, QT_POINTER_SIZE * 2, 16)
+                .arg(uniqueId())
+                .arg((quintptr)protoParameterNode(), 0, 16);
   printDebugNodeFields(level, true);
   printDebugNodeFields(level, false);
 }
@@ -2339,9 +2345,12 @@ void WbNode::printDebugNodeFields(int level, bool printParameters) {
   QString type = printParameters ? "Parameter" : "Field";
   QVector<WbField *> fieldList = printParameters ? parameters() : fields();
   foreach (WbField *p, fieldList) {
-    line.sprintf("%s%s %s %p (alias %p):", indent.toStdString().c_str(), type.toStdString().c_str(),
-                 p->name().toStdString().c_str(), p, p->parameter());
-    qDebug() << line;
+    qDebug() << QString("%1%2 %3 0x%4 (alias 0x%5):")
+                  .arg(indent.toStdString().c_str())
+                  .arg(type.toStdString().c_str())
+                  .arg(p->name().toStdString().c_str())
+                  .arg((quintptr)p, 0, 16)
+                  .arg((quintptr)p->parameter(), 0, 16);
     if (p->type() == WB_SF_NODE) {
       WbNode *n = dynamic_cast<WbSFNode *>(p->value())->value();
       if (n)
@@ -2353,10 +2362,9 @@ void WbNode::printDebugNodeFields(int level, bool printParameters) {
         if (n)
           n->printDebugNodeStructure(level + 1);
       }
-    } else {
-      line.sprintf("%s  %s", indent.toStdString().c_str(), p->toString(WbPrecision::GUI_LOW).toStdString().c_str());
-      qDebug() << line;
-    }
+    } else
+      qDebug()
+        << QString("%1 %2").arg(indent.toStdString().c_str()).arg(p->toString(WbPrecision::GUI_LOW).toStdString().c_str());
   }
 }
 */
