@@ -1,9 +1,0 @@
-# The TextureTransform node defines a 2D transformation that is applied to texture coordinates.
-# This node affects the way textures coordinates are applied to the geometric surface. 
-
-TextureTransform { 
-  vrmlField SFVec2f center      0 0
-  vrmlField SFFloat rotation    0
-  vrmlField SFVec2f scale       1 1
-  vrmlField SFVec2f translation 0 0
-}

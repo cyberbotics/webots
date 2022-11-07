@@ -1,3 +1,0 @@
-#include "winuser.h"
-CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "gui/manifest.xml"
-IDI_ICON1 ICON "gui/webots.ico"

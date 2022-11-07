@@ -1,5 +1,0 @@
-When changing the version number, file following files need to be updated:
-
-projects/robots/gctronic/e-puck/transfer/firmware/firmware.c                               (1x)
-projects/robots/gctronic/e-puck/transfer/firmware/Makefile                                 (1x)
-projects/robots/gctronic/e-puck/plugins/remote_controls/e-puck_bluetooth/Communication.cpp (1x)

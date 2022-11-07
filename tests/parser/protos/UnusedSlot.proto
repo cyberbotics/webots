@@ -1,9 +1,0 @@
-#VRML_SIM R2023a utf8
-
-PROTO UnusedSlot [
-  field MFNode slot []
-]
-{
-  Robot {
-  }
-}

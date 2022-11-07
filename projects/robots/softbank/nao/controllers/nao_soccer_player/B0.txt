@@ -1,3 +1,0 @@
-0: motion:HandWave
-2500: eyes:0000ff:0000ff
-12000: motion:SideStepLeft

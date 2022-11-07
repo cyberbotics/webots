@@ -1,3 +1,0 @@
-0: motion:HandWave
-2000: eyes:0000ff:0000ff
-2000: motion:Forwards50

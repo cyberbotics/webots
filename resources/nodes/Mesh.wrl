@@ -1,8 +1,0 @@
-# The Mesh node represents a 3D geometry defined in an external file.
-
-Mesh {
-  field MFString url           []   # URL of a 3D file such as DAE, STL, OBJ or FBX format (similar to ImageTexture node)
-  field SFBool   ccw           TRUE # Indicate the order of the vertices. Changing this value will flip the faces of the mesh.
-  field SFString name          ""   # Filter geometries based on the given name (for example, Collada files can contain multiple geometries in a single file).
-  field SFInt32  materialIndex -1   # Filter geometries in Collada files based on the material index (Collada files can contain multiple geometries with different materials).
-}

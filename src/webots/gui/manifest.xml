@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3">
-<assemblyIdentity type="win32" name="webots-bin.exe" version="1.0.0.0" processorArchitecture="amd64" />
-<dependency>
- <dependentAssembly>
-  <assemblyIdentity name="Cyberbotics.Webots.Mingw64.Libraries" version="1.0.0.0" type="win32" processorArchitecture="amd64" />
- </dependentAssembly>
-</dependency>
-</assembly>

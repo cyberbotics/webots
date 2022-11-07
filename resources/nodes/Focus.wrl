@@ -1,9 +1,0 @@
-# A Focus node allows to specify a controllable focus device for a Camera node.
-# It should be added in the focus field of a Camera node.
-
-Focus {
-  field SFFloat  focalDistance     0  # Distance to the object we are focusing on (m)
-  field SFFloat  focalLength       0  # Focal length of the lens (m)
-  field SFFloat  maxFocalDistance  0  # (m)
-  field SFFloat  minFocalDistance  0  # (m)
-}

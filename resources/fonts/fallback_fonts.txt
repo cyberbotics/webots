@@ -1,7 +1,0 @@
-# When a character is not found in the font chosen by the user
-# (c.f. wb_display_set_font()), then the following TTF font list is used as a
-# fallback until a valid character is found.
-
-Code2000
-Code2001
-Code2002

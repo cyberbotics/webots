@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-  <arg name="prefix" default="" doc="Prefix to robot's joints' and links' names" />
-
-  <include file="$(find ur_e_webots)/launch/ur5e.launch">
-    <arg name="limited" value="true"/>
-    <arg name="prefix" value="$(arg prefix)"/>
-  </include>
-</launch>

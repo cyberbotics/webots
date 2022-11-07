@@ -1,6 +1,0 @@
-# The PointSet node represents a 3D geometry formed a set of points
-
-PointSet {
-  vrmlField SFNode  color  NULL
-  vrmlField SFNode  coord  NULL
-}

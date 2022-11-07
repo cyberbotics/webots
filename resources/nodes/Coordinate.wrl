@@ -1,6 +1,0 @@
-# The Coordinate node defines a set of 3D coordinates to be used in the 'coord' field
-# of vertex-based geometry nodes including IndexedFaceSet and IndexedLineSet nodes.
-
-Coordinate {
-  vrmlField MFVec3f point []
-}

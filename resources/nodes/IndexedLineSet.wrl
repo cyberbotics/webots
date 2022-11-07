@@ -1,6 +1,0 @@
-# The IndexedLineSet node represents a 3D geometry formed by constructing polylines from 3D vertices.
-
-IndexedLineSet { 
-  vrmlField SFNode  coord      NULL
-  vrmlField MFInt32 coordIndex []     # [-1,)
-}

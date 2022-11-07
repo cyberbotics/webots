@@ -1,8 +1,0 @@
-#
-# Standard Makefile for a Webots controller
-#
-
-null :=
-space := $(null) $(null)
-WEBOTS_HOME_PATH?=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
-include $(WEBOTS_HOME_PATH)/projects/robots/e-puck/transfer/libepuck/Makefile.include

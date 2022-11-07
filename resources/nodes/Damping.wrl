@@ -1,7 +1,0 @@
-# A Damping node can be used to add linear and rotational damping to a Solid node.
-# The damping will slow down the motion of Solid nodes and allow them to come to rest.
-
-Damping {
-  field SFFloat linear           0.2   # linear damping coefficient
-  field SFFloat angular          0.2   # angular damping coefficient
-}

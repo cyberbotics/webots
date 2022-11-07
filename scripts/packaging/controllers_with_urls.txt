@@ -1,3 +1,0 @@
-/projects/samples/howto/texture_change/controllers/texture_change/texture_change.c
-/projects/default/controllers/sumo_supervisor/Objects.py
-/tests/protos/controllers/modify_proto_template_field/modify_proto_template_field.c

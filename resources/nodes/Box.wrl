@@ -1,7 +1,0 @@
-# The Box node specifies a rectangular parallelepiped box centred at (0,0,0) in
-# the local coordinate system and aligned with the local coordinate axes.
-# By default, the box measures 2 meters in each dimension, from -1 to +1.
-
-Box {
-  vrmlField SFVec3f size 2 2 2
-}

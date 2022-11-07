@@ -1,4 +1,0 @@
-projects/default/resources/sumo
-projects/robots/gctronic/e-puck/transfer/xc16
-projects/robots/robotis/darwin-op/libraries/python
-projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba

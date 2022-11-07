@@ -1,6 +1,0 @@
-# The TextureCoordinate node specifies a set of 2D texture coordinates used by vertex-based geometry
-# nodes to map textures to vertices.
-
-TextureCoordinate {
-  vrmlField MFVec2f point []
-}

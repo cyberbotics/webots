@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=Webots
-Comment=Webots mobile robot simulator
-Exec=webots
-Icon=/usr/local/webots/resources/icons/core/webots.png
-Terminal=false
-Type=Application
-X-AppInstall-Package=webots

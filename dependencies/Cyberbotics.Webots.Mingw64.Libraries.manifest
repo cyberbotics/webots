@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1">
-  <assemblyIdentity type="win32" name="Cyberbotics.Webots.Mingw64.Libraries" version="1.0.0.0" processorArchitecture="amd64" />
-  <file name="zlib1.dll" />
-  <file name="libjpeg-8.dll" />
-</assembly>

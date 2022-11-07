@@ -1,9 +1,0 @@
-#WEBOTS_MOTION,V1.0,ArmLowerL,ArmUpperL,ShoulderL
-00:00:000,Rest,-0.5,0.2,1
-00:01:000,Lift arm,0.5,*,-2
-00:02:000,Inner,*,0.77,*
-00:03:000,Outer,*,0.2,*
-00:04:000,Inner,*,0.77,*
-00:05:000,Outer,*,0.2,*
-00:05:500,Lift arm,0.5,*,-2
-00:06:000,Rest,-0.5,0.2,1
