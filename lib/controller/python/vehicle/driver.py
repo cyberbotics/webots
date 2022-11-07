@@ -58,7 +58,7 @@ class Driver(Supervisor):
         super().__del__()
 
     def getAntifogLights(self) -> bool:
-        return self.antifog_light
+        return self.antifog_lights
 
     def getBrakeIntensity(self) -> float:
         return self.brake_intensity
