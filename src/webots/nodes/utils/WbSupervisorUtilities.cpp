@@ -1204,7 +1204,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           mFoundFieldType = field->type();
           mFoundFieldIsInternal = allowSearchInProto == 1;
           mFoundFieldName = field->name();
-          if (mv | sfNode) {
+          if (mv || sfNode) {
             mWatchedFields.append(WbUpdatedFieldInfo(node->uniqueId(), field->name(), mFoundFieldCount));
             field->listenToValueSizeChanges();
             connect(field, &WbField::valueSizeChanged, this, &WbSupervisorUtilities::notifyFieldUpdate, Qt::UniqueConnection);
