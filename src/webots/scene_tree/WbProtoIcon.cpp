@@ -26,10 +26,10 @@
 
 WbProtoIcon::WbProtoIcon(const QString &modelName, const QString &protoPath, QObject *parent) :
   QObject(parent),
+  mPath(QString("%1icons/%2.png").arg(QUrl(protoPath).adjusted(QUrl::RemoveFilename).toString()).arg(modelName)),
   mModelName(modelName),
   mDownloader(NULL),
   mReady(true) {
-  mPath = QString("%1icons/%2.png").arg(QUrl(protoPath).adjusted(QUrl::RemoveFilename).toString()).arg(modelName);
   if (WbUrl::isWeb(mPath)) {
     if (WbNetwork::instance()->isCachedWithMapUpdate(mPath))
       mPath = WbNetwork::instance()->get(mPath);
