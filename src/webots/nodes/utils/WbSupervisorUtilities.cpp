@@ -1199,7 +1199,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           if (mv)
             mFoundFieldCount = mv->size();
           else if (sfNode)
-              mFoundFieldCount = sfNode->value() ? 1 : 0;
+            mFoundFieldCount = sfNode->value() ? 1 : 0;
           mFoundFieldIndex = fieldIndex;
           mFoundFieldType = field->type();
           mFoundFieldIsInternal = allowSearchInProto == 1;
