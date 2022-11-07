@@ -47,6 +47,7 @@ class Driver(Supervisor):
         ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], path, car))
         self.api = ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], path, driver))
         self.api.wbu_driver_get_brake_intensity.restype = ctypes.c_double
+        self.api.wbu_driver_get_current_speed.restype = ctypes.c_double
         self.api.wbu_driver_get_rpm.restype = ctypes.c_double
         self.api.wbu_driver_get_steering_angle.restype = ctypes.c_double
         self.api.wbu_driver_get_target_cruising_speed.restype = ctypes.c_double
