@@ -189,11 +189,6 @@ resources/images/splash_images/
 resources/images/splash_images/*.jpg
 resources/images/themes/
 resources/images/themes/*.png
-resources/javascript/
-resources/javascript/jsTemplate.js
-resources/javascript/modules/
-resources/javascript/modules/webots/
-resources/javascript/modules/webots/*.js
 resources/lua/
 resources/lua/liluat/
 resources/lua/modules/
@@ -284,6 +279,13 @@ resources/web/streaming_viewer/style.css
 resources/web/templates/
 resources/web/templates/x3d_playback.html
 resources/web/templates/x3d_playback.css
+resources/web/wwi/
+resources/web/wwi/protoVisualizer/
+resources/web/wwi/protoVisualizer/templating/
+resources/web/wwi/protoVisualizer/templating/jsTemplate.js
+resources/web/wwi/protoVisualizer/templating/modules/
+resources/web/wwi/protoVisualizer/templating/modules/webots/
+resources/web/wwi/protoVisualizer/templating/modules/webots/*.js
 resources/wren/
 resources/wren/meshes/
 resources/wren/meshes/*.obj
