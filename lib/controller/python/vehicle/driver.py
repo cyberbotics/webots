@@ -100,7 +100,7 @@ class Driver(Supervisor):
         return self.api.wbu_driver_get_wiper_mode()
 
     def setAntifogLights(self, state: bool):
-        return self.antifog_light
+        return self.antifog_lights
 
     def setBrakeIntensity(self, brakeIntensity: float):
         self.brake_intensity = brakeIntensity
