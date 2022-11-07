@@ -15,8 +15,8 @@
  */
 
 /*
-   Description: Example world demonstrating the difference between InertialUnit measurements and the fusion of multiple
-   sensors: accelerometer, compass and gyro.
+   Description: Example demonstrating the difference between InertialUnit measurements
+   and the fusion of multiple sensors: Accelerometer, Compass and Gyro.
 */
 
 #include <stdio.h>

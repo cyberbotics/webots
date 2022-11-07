@@ -24,10 +24,6 @@
 #include "types.h"
 
 typedef struct {
-  // mouse buttons state
-  bool left;
-  bool middle;
-  bool right;
   // mouse 2D position in the 3D window
   double u;
   double v;
@@ -35,6 +31,10 @@ typedef struct {
   double x;
   double y;
   double z;
+  // mouse buttons state
+  bool left;
+  bool middle;
+  bool right;
 } WbMouseState;
 
 #endif /* WB_MOUSE_STATE_H */
