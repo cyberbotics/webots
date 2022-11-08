@@ -121,10 +121,10 @@ namespace wren {
 
     if (mShowDefaultSize) {
       DEBUG("Rendering default size indicator, width=" << mParams.mDefaultSize.x << ", height=" << mParams.mDefaultSize.y);
-      mParams.mDefaultSize.z = true;
+      mParams.mDefaultSize.z = 1.0f;
       glstate::uniformBuffer(WR_GLSL_LAYOUT_UNIFORM_BUFFER_OVERLAY)->writeValue(&mParams);
       mMesh->render(GL_TRIANGLES);
-      mParams.mDefaultSize.z = false;
+      mParams.mDefaultSize.z = 0.0f;
     }
   }
 
