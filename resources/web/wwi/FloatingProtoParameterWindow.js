@@ -1,5 +1,6 @@
 import FloatingWindow from './FloatingWindow.js';
 import {VRML} from './protoVisualizer/vrml_type.js';
+import ProtoManager from './ProtoManager.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #protoManager;
@@ -305,7 +306,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       console.log('clicked.');
       return new Promise((resolve, reject) => {
         const xmlhttp = new XMLHttpRequest();
-        xmlhttp.open('GET', './protoVisualizer/proto-list.xml', true);
+        xmlhttp.open('GET', '../../proto-list.xml', true);
         xmlhttp.onreadystatechange = async() => {
           if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
             resolve(xmlhttp.responseText);
@@ -325,24 +326,21 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(value);
   }
 
-  #populateNodeLibrary(protoList) {
+  async #populateNodeLibrary(protoList) {
     let panel = document.getElementById('node-library');
     panel.innerHTML = '';
     panel.style.display = 'block';
 
-
-    //const items = ['ProtoA', 'ProtoB', 'ProtoC'];
     let protoNodes = [];
 
     const parser = new DOMParser();
     const xml = parser.parseFromString(protoList, 'text/xml').firstChild;
-    const protos = xml.getElementsByTagName('proto');
-    for (const proto of protos) {
-      // console.log(proto.getElementsByTagName('name')[0].innerHTML);
-      protoNodes.push(proto.getElementsByTagName('name')[0].innerHTML);
+    for (const proto of xml.getElementsByTagName('proto')) {
+      const info = {};
+      info['name'] = proto.getElementsByTagName('name')[0].innerHTML;
+      info['url'] = proto.getElementsByTagName('url')[0].innerHTML;
+      protoNodes.push(info);
     }
-
-    // console.log(protoNodes);
 
     let ol = document.createElement('ol');
     ol.className = 'node-list';
@@ -350,12 +348,19 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     for (const node of protoNodes) {
       const item = document.createElement('li');
       const button = document.createElement('button');
-      button.innerText = node;
-      button.value = node; // TODO: set url here?
+      button.innerText = node['name'];
+      button.value = node['url'];
       item.appendChild(button);
 
-      button.onclick = (element) => {
-        console.log('selected:', element.target.value);
+      button.onclick = async(element) => {
+        const url = element.target.value;
+        console.log('inserting:', url);
+
+        const protoManager = new ProtoManager(this.#view);
+        await protoManager.loadProto(url);
+        const x3d = new XMLSerializer().serializeToString(protoManager.proto.toX3d());
+        console.log(x3d);
+
         panel.style.display = 'none';
       };
 
