@@ -121,10 +121,10 @@ namespace wren {
 
     if (mShowDefaultSize) {
       DEBUG("Rendering default size indicator, width=" << mParams.mDefaultSize.x << ", height=" << mParams.mDefaultSize.y);
-      mParams.mUseDefaultSize = true;
+      mParams.mDefaultSize.z = true;
       glstate::uniformBuffer(WR_GLSL_LAYOUT_UNIFORM_BUFFER_OVERLAY)->writeValue(&mParams);
       mMesh->render(GL_TRIANGLES);
-      mParams.mUseDefaultSize = false;
+      mParams.mDefaultSize.z = false;
     }
   }
 
@@ -140,14 +140,13 @@ namespace wren {
     mTextureParams.mIsInterpolationEnabled = false;
 
     mParams.mPositionAndSize = glm::vec4(0.0f);
+    mParams.mDefaultSize = glm::vec4(0.0f);
     mParams.mBorderColor = glm::vec4(0.0f);
     mParams.mBackgroundColor = glm::vec4(0.0f);
     mParams.mTextureFlags = glm::vec4(0.0f);
     mParams.mActiveFlags = glm::uvec2(0u);
     mParams.mSizeInPixels = glm::vec2(0.0f, 0.0f);
     mParams.mBorderSize = glm::vec2(0.0f);
-    mParams.mDefaultSize = glm::vec2(0.0f);
-    mParams.mUseDefaultSize = false;
 
     cOverlays.push_back(this);
   }

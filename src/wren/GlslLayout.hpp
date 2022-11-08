@@ -108,6 +108,7 @@ namespace wren {
 
     struct Overlay {
       glm::vec4 mPositionAndSize;  // in percentage of the OpenGL viewport size
+      glm::vec4 mDefaultSize;      // x,y: size, z: render default size instead of actual overlay
       glm::vec4 mBorderColor;
       glm::vec4 mBackgroundColor;
       glm::vec4 mTextureFlags;  // x: flip vertically, y: additional texture count, z:  maxRange (depth textures only),
@@ -115,8 +116,6 @@ namespace wren {
       glm::uvec2 mActiveFlags;  // x: active textures, y: border
       glm::vec2 mSizeInPixels;  // x,y: size in screen pixels
       glm::vec2 mBorderSize;    // x: vertical size, y: horizontal size
-      glm::vec2 mDefaultSize;   // x,y: default size
-      bool mUseDefaultSize;     // render default size instead of actual overlay
     };
 
     struct CameraTransforms {
