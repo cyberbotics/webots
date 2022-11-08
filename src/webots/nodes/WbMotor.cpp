@@ -19,6 +19,7 @@
 #include "WbMotor.hpp"
 
 #include "WbDataStream.hpp"
+#include "WbDownloadManager.hpp"
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
@@ -107,13 +108,11 @@ void WbMotor::downloadAssets() {
   if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCachedWithMapUpdate(completeUrl))
     return;
 
-  if (mDownloader != NULL)
-    delete mDownloader;
-  mDownloader = new WbDownloader(this);
+  delete mDownloader;
+  mDownloader = WbDownloadManager::instance()->createDownloader(QUrl(completeUrl), this);
   if (isPostFinalizedCalled())
     connect(mDownloader, &WbDownloader::complete, this, &WbMotor::updateSound);
-
-  mDownloader->download(QUrl(completeUrl));
+  mDownloader->download();
 }
 
 void WbMotor::preFinalize() {

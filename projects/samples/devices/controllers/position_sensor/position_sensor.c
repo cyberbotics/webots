@@ -59,8 +59,7 @@ int main(int argc, char **argv) {
   while (wb_robot_step(time_step) != -1) {
     const double position = wb_position_sensor_get_value(position_sensor);
 
-    if (fabs(position) > 0.78)
-      // pole is fallen
+    if (fabs(position) > 0.7)  // pole has fallen
       break;
 
     // PID control
@@ -82,8 +81,10 @@ int main(int argc, char **argv) {
     previous_position = position;
   };
 
+  printf("Pole has fallen\n");
   wb_motor_set_velocity(left_motor, 0.0);
   wb_motor_set_velocity(right_motor, 0.0);
+  wb_robot_step(time_step);
 
   wb_robot_cleanup();
 

@@ -29,6 +29,7 @@
 #include "WbTokenizer.hpp"
 #include "WbTransform.hpp"
 #include "WbVersion.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWrenRenderingContext.hpp"
 
 #include <wren/config.h>
@@ -105,7 +106,7 @@ void WbSphere::createResizeManipulator() {
 
 bool WbSphere::areSizeFieldsVisibleAndNotRegenerator() const {
   const WbField *const radiusField = findField("radius", true);
-  return WbNodeUtilities::isVisible(radiusField) && !WbNodeUtilities::isTemplateRegeneratorField(radiusField);
+  return WbVrmlNodeUtilities::isVisible(radiusField) && !WbNodeUtilities::isTemplateRegeneratorField(radiusField);
 }
 
 void WbSphere::exportNodeFields(WbWriter &writer) const {

@@ -18,6 +18,7 @@
 #include "WbApplicationInfo.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbControlledWorld.hpp"
+#include "WbDownloadManager.hpp"
 #include "WbLog.hpp"
 #include "WbNodeOperations.hpp"
 #include "WbParser.hpp"
@@ -43,6 +44,20 @@
 WbApplication *WbApplication::cInstance = NULL;
 static QString gProjectLibsInPath;
 
+bool updateParsingProgress(int progress) {
+  WbApplication::instance()->setWorldLoadingProgress(progress);
+  return !WbApplication::instance()->wasWorldLoadingCanceled();
+}
+
+void updateDownloadingProgress(int progress) {
+  if (WbDownloadManager::instance()->isCompleted())
+    emit WbApplication::instance()->deleteWorldLoadingProgressDialog();
+  else {
+    WbApplication::instance()->setWorldLoadingStatus(WbApplication::instance()->tr("Downloading assets"));
+    WbApplication::instance()->setWorldLoadingProgress(progress);
+  }
+}
+
 WbApplication::WbApplication() {
   assert(cInstance == NULL);
   cInstance = this;
@@ -50,6 +65,7 @@ WbApplication::WbApplication() {
   mWorld = NULL;
   mWorldLoadingCanceled = false;
   mWorldLoadingProgressDialogCreated = false;
+  WbDownloadManager::instance()->setProgressUpdateCallback(&updateDownloadingProgress);
 
   WbPreferences::createInstance("Cyberbotics", "Webots", WbApplicationInfo::version());
 
@@ -143,6 +159,7 @@ void WbApplication::setWorldLoadingStatus(const QString &status) {
 
 void WbApplication::setWorldLoadingCanceled() {
   mWorldLoadingCanceled = true;
+  WbDownloadManager::instance()->abort();
   emit worldLoadingWasCanceled();
 }
 
@@ -183,12 +200,14 @@ bool WbApplication::isValidWorldFileName(const QString &worldName) {
 }
 
 void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingAfterDownload) {
+  disconnect(WbProtoManager::instance(), &WbProtoManager::worldLoadCompleted, this, &WbApplication::loadWorld);
   bool isValidProject = true;
   const QString newProjectPath = WbProject::projectPathFromWorldFile(worldName, isValidProject);
   WbProject::setCurrent(new WbProject(newProjectPath));
 
   // decisive load signal should come from WbProtoManager (to ensure all assets are available)
   if (!isLoadingAfterDownload) {
+    connect(WbProtoManager::instance(), &WbProtoManager::worldLoadCompleted, this, &WbApplication::loadWorld);
     WbProtoManager::instance()->retrieveExternProto(worldName, reloading);
     return;
   }
@@ -241,7 +260,7 @@ void WbApplication::loadWorld(QString worldName, bool reloading, bool isLoadingA
   }
 
   WbParser parser(&tokenizer);
-  if (!parser.parseWorld(worldName)) {
+  if (!parser.parseWorld(worldName, &updateParsingProgress)) {
     WbLog::error(tr("'%1': Failed to load due to syntax error(s).").arg(worldName));
     if (useTelemetry)
       WbTelemetry::send("cancel");

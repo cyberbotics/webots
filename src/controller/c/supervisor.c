@@ -1364,7 +1364,13 @@ static bool check_vector(const char *function, const double values[], int n) {
   return true;  // ok
 }
 
-// Protected functions
+// Protected constants and functions
+
+const int wb_SF_BOOL = WB_SF_BOOL, wb_SF_INT32 = WB_SF_INT32, wb_SF_FLOAT = WB_SF_FLOAT, wb_SF_VEC2F = WB_SF_VEC2F,
+          wb_SF_VEC3F = WB_SF_VEC3F, wb_SF_ROTATION = WB_SF_ROTATION, wb_SF_COLOR = WB_SF_COLOR, wb_SF_STRING = WB_SF_STRING,
+          wb_SF_NODE = WB_SF_NODE, wb_MF = WB_MF, wb_MF_BOOL = WB_MF_BOOL, wb_MF_INT32 = WB_MF_INT32, wb_MF_FLOAT = WB_MF_FLOAT,
+          wb_MF_VEC2F = WB_MF_VEC2F, wb_MF_VEC3F = WB_MF_VEC3F, wb_MF_ROTATION = WB_MF_ROTATION, wb_MF_COLOR = WB_MF_COLOR,
+          wb_MF_STRING = WB_MF_STRING, wb_MF_NODE = WB_MF_NODE;
 
 void wb_supervisor_init(WbDevice *d) {
   d->write_request = supervisor_write_request;

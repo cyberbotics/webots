@@ -32,6 +32,7 @@
 #include "WbSlot.hpp"
 #include "WbTextureTransform.hpp"
 #include "WbTrackWheel.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWrenVertexArrayFrameListener.hpp"
 
 #include <ode/ode.h>
@@ -324,7 +325,7 @@ void WbTrack::updateTextureTransform() {
     mTextureTransform = mShape->abstractAppearance()->textureTransform();
     if (mTextureTransform) {
       mSavedTextureTransformTranslations[stateId()] = mTextureTransform->translation();
-      QList<WbNode *> useNodesList = WbNodeUtilities::findUseNodeAncestors(mTextureTransform);
+      QList<WbNode *> useNodesList = WbVrmlNodeUtilities::findUseNodeAncestors(mTextureTransform);
       if (!useNodesList.isEmpty()) {
         mTextureTransform->parsingWarn(tr("Non-admissible TextureTransform USE node inside Track node."
                                           "This and ancestor USE nodes turned into DEF nodes: if texture animation enabled, "
