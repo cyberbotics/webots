@@ -16,10 +16,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.#protoManager = protoManager;
     this.#view = view;
 
-    let div = document.createElement('div');
-    div.className = 'node-library';
-    div.setAttribute('id', 'node-library');
-    parentNode.appendChild(div);
+    this.setupNodeSelector(parentNode);
   }
 
   populateProtoParameterWindow() {
@@ -45,6 +42,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
       this.#createDownloadButton(contentDiv, row);
     }
+  }
+
+  setupNodeSelector(parentNode) {
+    let div = document.createElement('div');
+    div.className = 'node-library';
+    div.setAttribute('id', 'node-library');
+    parentNode.appendChild(div);
   }
 
   #createDownloadButton(parent, row) {
@@ -300,20 +304,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     nodeButton.onclick = () => {
       console.log('clicked.');
 
-      let modal = document.getElementById('node-library');
-      modal.style.display = 'block';
-
-      let imageDiv = document.createElement('div');
-      let img = document.createElement('img');
-      img.classList.add('proto-icon');
-      img.setAttribute('draggable', false);
-      img.setAttribute('src', './protoVisualizer/red_texture.jpg');
-      //img.addEventListener('click', callback, false);
-      //img.setAttribute('title', asset.name);
-      imageDiv.appendChild(img);
-
-      //modal.appendChild(imageDiv.firstChild);
-
+      this.#populateNodeLibrary();
     };
     value.appendChild(nodeButton);
 
@@ -323,6 +314,34 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     };
     parent.appendChild(p);
     parent.appendChild(value);
+  }
+
+  #populateNodeLibrary() {
+    let panel = document.getElementById('node-library');
+    panel.innerHTML = '';
+    panel.style.display = 'block';
+
+    const items = ['ProtoA', 'ProtoB', 'ProtoC'];
+
+    let ol = document.createElement('ol');
+    ol.className = 'node-list';
+
+    for (let i = 0; i < items.length; ++i) {
+      const item = document.createElement('li');
+      const button = document.createElement('button');
+      button.innerText = items[i];
+      button.value = items[i]; // TODO: set url here?
+      item.appendChild(button);
+
+      button.onclick = (element) => {
+        console.log('selected:', element.target.value);
+        panel.style.display = 'none';
+      };
+
+      ol.appendChild(item);
+    }
+
+    panel.appendChild(ol);
   }
 
   #floatOnChange(node) {

@@ -973,25 +973,11 @@ webots-view .node-library {
   border-radius: 10px;
   opacity: 0.95;
   font-family: Arial;
-  display: block;
+  display: none;
   pointer-events: auto;
   z-index: 3;
 }
 
-webots-view .proto-icon {
-  height: 100%;
-  margin: 10px;
-}
-
-webots-view .reset-field-button {
-  background-image: url(../images/icons/reload.svg);
-  height: 20px;
-  width: 20px;
-  vertical-align: bottom;
-  background-color: transparent;
-  border: none;
-}
-
-webots-view .export-checkbox {
-  margin: 10px 0px 10px 10px;
+webots-view .node-list {
+  list-style-type: none;
 }
