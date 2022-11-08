@@ -6,6 +6,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   #view;
   constructor(parentNode, protoManager, view) {
     super(parentNode, 'proto-parameter');
+    this.parentNode = parentNode;
     this.floatingWindow.style.zIndex = '2';
     this.headerText.innerHTML = 'Proto parameter window';
     this.floatingWindowContent.removeChild(this.frame);
@@ -14,6 +15,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.floatingWindowContent.appendChild(this.frame);
     this.#protoManager = protoManager;
     this.#view = view;
+
+    let div = document.createElement('div');
+    div.className = 'node-library';
+    div.setAttribute('id', 'node-library');
+    parentNode.appendChild(div);
   }
 
   populateProtoParameterWindow() {
@@ -32,6 +38,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           this.#createSFStringField(key, contentDiv, row);
         else if (parameter.type === VRML.SFFloat)
           this.#createSFFloatField(key, contentDiv, row);
+        else if (parameter.type === VRML.SFNode)
+          this.#createSFNodeField(key, contentDiv, row);
         row++;
       }
 
@@ -40,8 +48,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #createDownloadButton(parent, row) {
-    const downloadlButton = document.createElement('button');
-    downloadlButton.innerHTML = 'Download';
     const buttonContainer = document.createElement('span');
     buttonContainer.className = 'value-parameter';
     buttonContainer.style.gridRow = '' + row + ' / ' + row;
@@ -264,6 +270,56 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     resetButton.onclick = () => {
       input.value = parameter.defaultValue.value;
       this.#floatOnChange(p);
+    };
+    parent.appendChild(p);
+    parent.appendChild(value);
+  }
+
+  #createSFNodeField(key, parent, row) {
+    const parameter = this.#protoManager.exposedParameters.get(key);
+
+    const p = document.createElement('p');
+    p.className = 'key-parameter';
+    p.innerHTML = key + ': ';
+    p.key = key;
+    p.parameter = parameter;
+    p.style.gridRow = '' + row + ' / ' + row;
+    p.style.gridColumn = '2 / 2';
+
+    const exportCheckbox = this.#createCheckbox(parent, row);
+    p.checkbox = exportCheckbox;
+
+    const value = document.createElement('p');
+    value.className = 'value-parameter';
+    value.style.gridRow = '' + row + ' / ' + row;
+    value.style.gridColumn = '3 / 3';
+
+    const nodeButton = document.createElement('button');
+    nodeButton.innerHTML = 'NULL';
+    nodeButton.title = 'Select a node to insert';
+    nodeButton.onclick = () => {
+      console.log('clicked.');
+
+      let modal = document.getElementById('node-library');
+      modal.style.display = 'block';
+
+      let imageDiv = document.createElement('div');
+      let img = document.createElement('img');
+      img.classList.add('proto-icon');
+      img.setAttribute('draggable', false);
+      img.setAttribute('src', './protoVisualizer/red_texture.jpg');
+      //img.addEventListener('click', callback, false);
+      //img.setAttribute('title', asset.name);
+      imageDiv.appendChild(img);
+
+      //modal.appendChild(imageDiv.firstChild);
+
+    };
+    value.appendChild(nodeButton);
+
+    const resetButton = this.#createResetButton(value);
+    resetButton.onclick = () => {
+      throw new Error('TODO: implement reset.');
     };
     parent.appendChild(p);
     parent.appendChild(value);

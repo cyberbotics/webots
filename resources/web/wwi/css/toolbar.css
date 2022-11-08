@@ -961,6 +961,28 @@ webots-view .value-parameter {
   margin: 10px 10px 10px 10px;
 }
 
+webots-view .node-library {
+  position: absolute;
+  top: calc(50% - 150px);
+  left: calc(50% - 220px);
+  background-color: #222;
+  color: white;
+  text-align: center;
+  width: 440px;
+  height: 300px;
+  border-radius: 10px;
+  opacity: 0.95;
+  font-family: Arial;
+  display: block;
+  pointer-events: auto;
+  z-index: 3;
+}
+
+webots-view .proto-icon {
+  height: 100%;
+  margin: 10px;
+}
+
 webots-view .reset-field-button {
   background-image: url(../images/icons/reload.svg);
   height: 20px;
