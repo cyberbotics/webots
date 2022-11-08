@@ -1,8 +1,5 @@
 import WbVector3 from './WbVector3.js';
 import WbVector4 from './WbVector4.js';
-import WbBillboard from '../WbBillboard.js';
-import WbTransform from '../WbTransform.js';
-import WbSolid from '../WbSolid.js';
 import WbWorld from '../WbWorld.js';
 
 function array3Pointer(x, y, z) {
@@ -53,20 +50,6 @@ function up(vec4) {
   return new WbVector3(tTimesZ * vec4.x + s * vec4.y, tTimesZ * vec4.y - s * vec4.x, tTimesZ * vec4.z + c);
 }
 
-function findUpperTransform(node) {
-  if (typeof node === 'undefined')
-    return undefined;
-
-  let n = WbWorld.instance.nodes.get(node.parent);
-  while (typeof n !== 'undefined') {
-    if (n instanceof WbTransform)
-      return n;
-    else
-      n = n.parent;
-  }
-  return undefined;
-}
-
 function fromAxisAngle(x, y, z, angle) {
   const result = new WbVector4();
   let l = x * x + y * y + z * z;
@@ -99,32 +82,6 @@ function getAncestor(node) {
 
 function length(vec3) {
   return Math.sqrt(vec3.x * vec3.x + vec3.y * vec3.y + vec3.z * vec3.z);
-}
-
-function nodeIsInBoundingObject(node) {
-  if (typeof node === 'undefined' || typeof node.parent === 'undefined')
-    return false;
-
-  const parent = WbWorld.instance.nodes.get(node.parent);
-  if (typeof parent !== 'undefined') {
-    if (parent instanceof WbSolid && typeof parent.boundingObject !== 'undefined')
-      return parent.boundingObject === node;
-    else if (typeof parent.parent !== 'undefined')
-      return nodeIsInBoundingObject(parent);
-  }
-
-  return false;
-}
-
-function isDescendantOfBillboard(node) {
-  while (typeof node !== 'undefined') {
-    if (node instanceof WbBillboard)
-      return true;
-
-    node = WbWorld.instance.nodes.get(node.parent);
-  }
-
-  return false;
 }
 
 function pointerOnFloat(float) {
@@ -183,5 +140,4 @@ function vec4ToQuaternion(vec4) {
 }
 
 export {array3Pointer, arrayXPointer, arrayXPointerInt, arrayXPointerFloat, pointerOnFloat, direction, up, right, length,
-  vec4ToQuaternion, quaternionToVec4, fromAxisAngle, findUpperTransform, nodeIsInBoundingObject, isDescendantOfBillboard,
-  getAncestor};
+  vec4ToQuaternion, quaternionToVec4, fromAxisAngle, getAncestor};

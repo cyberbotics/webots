@@ -19,6 +19,9 @@ export default class WbJoint extends WbBaseNode {
 
   set jointParameters(jointParameters) {
     this.#jointParameters = jointParameters;
+
+    if (typeof this.#jointParameters !== 'undefined')
+      this.#jointParameters.onChange = () => this._updatePosition();
   }
 
   updateBoundingObjectVisibility() {
@@ -60,4 +63,6 @@ export default class WbJoint extends WbBaseNode {
     this.#jointParameters?.postFinalize();
     this.#endPoint?.postFinalize();
   }
+
+  _updatePosition() {}
 }

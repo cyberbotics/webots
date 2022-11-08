@@ -3,7 +3,7 @@ import WbVector4 from './utils/WbVector4.js';
 import WbTriangleMeshGeometry from './WbTriangleMeshGeometry.js';
 import WbWorld from './WbWorld.js';
 
-import {loadMeshData} from '../mesh_loader.js';
+import MeshLoader from '../MeshLoader.js';
 
 export default class WbMesh extends WbTriangleMeshGeometry {
   #ccw;
@@ -179,7 +179,7 @@ export default class WbMesh extends WbTriangleMeshGeometry {
     if (this.#url) {
       this.#isCollada = this.#url.endsWith('.dae');
 
-      loadMeshData(WbWorld.instance.prefix, this.#url).then(meshContent => {
+      MeshLoader.loadMeshData(WbWorld.instance.prefix, this.#url).then(meshContent => {
         this.scene = meshContent[0];
         if (typeof this.scene === 'undefined') {
           this._deleteWrenRenderable();

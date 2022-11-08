@@ -1,22 +1,12 @@
-import {findUpperTransform, nodeIsInBoundingObject} from './utils/utils.js';
 import WbWorld from './WbWorld.js';
 
 export default class WbBaseNode {
-  #boundingObjectFirstTimeSearch;
-  #isInBoundingObject;
-  #upperTransformFirstTimeSearch;
   constructor(id) {
     this.id = id;
 
     this.wrenObjectsCreatedCalled = false;
     this.isPreFinalizedCalled = false;
     this.isPostFinalizedCalled = false;
-
-    this.#upperTransformFirstTimeSearch = true;
-    this.upperTransform = false;
-
-    this.#boundingObjectFirstTimeSearch = true;
-    this.#isInBoundingObject = false;
 
     this.useList = [];
   }
@@ -59,26 +49,6 @@ export default class WbBaseNode {
 
     if (!this.isPostFinalizedCalled)
       this.postFinalize();
-  }
-
-  isInBoundingObject() {
-    if (this.#boundingObjectFirstTimeSearch) {
-      this.#isInBoundingObject = nodeIsInBoundingObject(this);
-      if (this.wrenObjectsCreatedCalled)
-        this.#boundingObjectFirstTimeSearch = false;
-    }
-
-    return this.#isInBoundingObject;
-  }
-
-  upperTransform() {
-    if (this.#upperTransformFirstTimeSearch) {
-      this.upperTransform = findUpperTransform(this);
-      if (this.wrenObjectsCreatedCalled)
-        this.#upperTransformFirstTimeSearch = false;
-    }
-
-    return this.upperTransform;
   }
 
   preFinalize() {

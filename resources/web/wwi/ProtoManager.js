@@ -35,9 +35,6 @@ export default class ProtoManager {
         this.exposedParameters.set(parameterName, parameter); // TODO: change key to parameter id ?
       }
 
-      if (typeof this.onChange === 'function')
-        this.onChange();
-
       // test this using the world: DemoRegeneration.proto in the html
       // setTimeout(() => this.demoRegeneration(), 2000);
     });

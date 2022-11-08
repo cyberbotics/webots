@@ -5,12 +5,18 @@ import WbPointSet from './WbPointSet.js';
 import WbWorld from './WbWorld.js';
 import WbWrenShaders from './../wren/WbWrenShaders.js';
 import {getAnId} from './utils/id_provider.js';
+import {nodeIsInBoundingObject} from './utils/node_utilities.js';
 
 export default class WbShape extends WbBaseNode {
+  #boundingObjectFirstTimeSearch;
+  #isInBoundingObject;
   constructor(id, castShadow, isPickable, geometry, appearance) {
     super(id);
     this.castShadow = castShadow;
     this.isPickable = isPickable;
+
+    this.#boundingObjectFirstTimeSearch = true;
+    this.#isInBoundingObject = false;
 
     this.appearance = appearance;
     this.geometry = geometry;
@@ -95,6 +101,16 @@ export default class WbShape extends WbBaseNode {
     this.geometry?.delete();
 
     super.delete();
+  }
+
+  isInBoundingObject() {
+    if (this.#boundingObjectFirstTimeSearch) {
+      this.#isInBoundingObject = nodeIsInBoundingObject(this);
+      if (this.wrenObjectsCreatedCalled)
+        this.#boundingObjectFirstTimeSearch = false;
+    }
+
+    return this.#isInBoundingObject;
   }
 
   updateAppearance() {

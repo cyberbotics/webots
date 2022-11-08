@@ -1,4 +1,6 @@
 import Animation from './Animation.js';
+import ImageLoader from './ImageLoader.js';
+import MeshLoader from './MeshLoader.js';
 import MouseEvents from './MouseEvents.js';
 import MultimediaClient from './MultimediaClient.js';
 import Progress from './Progress.js';
@@ -7,7 +9,7 @@ import Server from './Server.js';
 import Stream from './Stream.js';
 import SystemInfo from './system_info.js';
 import X3dScene from './X3dScene.js';
-
+import WbCadShape from './nodes/WbCadShape.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 
 /*
@@ -146,6 +148,9 @@ webots.View = class View {
         } else { // url expected form: "ws://cyberbotics1.epfl.ch:80"
           const httpServerUrl = 'http' + this.url.slice(2); // replace 'ws'/'wss' with 'http'/'https'
           this.stream = new Stream(this.url, this, finalizeWorld);
+          ImageLoader.stream = true;
+          MeshLoader.stream = true;
+          WbCadShape.stream = true;
           this.prefix = httpServerUrl + '/';
           this.stream.connect();
         }
@@ -247,6 +252,8 @@ webots.View = class View {
 
     const existingCurrentWorld = typeof this.currentWorld !== 'undefined';
     this.currentWorld = currentWorld;
+    ImageLoader.currentWorld = currentWorld;
+    MeshLoader.currentWorld = currentWorld;
     this.worlds = worlds;
 
     if (existingCurrentWorld) {
