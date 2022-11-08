@@ -373,7 +373,8 @@ export class SFNode extends SingleValue {
       // 1. download PROTO and all dependencies
       // 2. load PROTO (as we do in ProtoManager)
       // 3. set it as value
-      throw new Error('SFNode initializer from JS object not implemented.');
+      // throw new Error('SFNode initializer from JS object not implemented.');
+      this.value = value;
     }
   }
 

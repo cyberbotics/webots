@@ -43,6 +43,25 @@ export default class ProtoManager {
     });
   }
 
+  async generateNodeFromUrl(url) {
+    return new Promise((resolve, reject) => {
+      const xmlhttp = new XMLHttpRequest();
+      xmlhttp.open('GET', url, true);
+      xmlhttp.overrideMimeType('plain/text');
+      xmlhttp.onreadystatechange = async() => {
+        if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
+          resolve(xmlhttp.responseText);
+      };
+      xmlhttp.send();
+    }).then(async text => {
+      console.log('Load PROTO from URL: ' + url);
+      const node = new Node(url, text);
+      await node.generateInterface();
+      node.parseBody();
+      return node;
+    });
+  }
+
   loadX3d() {
     const x3d = new XMLSerializer().serializeToString(this.proto.toX3d());
     this.#view.prefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);

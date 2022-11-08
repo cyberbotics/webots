@@ -1,6 +1,7 @@
 import FloatingWindow from './FloatingWindow.js';
 import {VRML} from './protoVisualizer/vrml_type.js';
 import ProtoManager from './ProtoManager.js';
+import { SFNode } from './protoVisualizer/Vrml.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #protoManager;
@@ -313,7 +314,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         };
         xmlhttp.send();
       }).then(text => {
-        this.#populateNodeLibrary(text);
+        this.#populateNodeLibrary(text, parameter);
       });
     };
     value.appendChild(nodeButton);
@@ -326,7 +327,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(value);
   }
 
-  async #populateNodeLibrary(protoList) {
+  async #populateNodeLibrary(protoList, parameter) {
     let panel = document.getElementById('node-library');
     panel.innerHTML = '';
     panel.style.display = 'block';
@@ -356,11 +357,22 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         const url = element.target.value;
         console.log('inserting:', url);
 
-        const protoManager = new ProtoManager(this.#view);
-        await protoManager.loadProto(url);
-        const x3d = new XMLSerializer().serializeToString(protoManager.proto.toX3d());
-        console.log(x3d);
+        //const protoManager = new ProtoManager(this.#view);
+        //await protoManager.loadProto(url);
+        //const x3d = new XMLSerializer().serializeToString(protoManager.proto.toX3d());
+        //console.log(x3d);
 
+        const node = await this.#protoManager.generateNodeFromUrl(url);
+        const x3d = new XMLSerializer().serializeToString(node.toX3d());
+        console.log('Grafted x3d:', x3d);
+        console.log(parameter);
+
+        //const sfnode = new SFNode();
+        //sfnode.setValue(node);
+
+        parameter.setValueFromJavaScript(this.#view, node);
+
+        // close library panel
         panel.style.display = 'none';
       };
 
