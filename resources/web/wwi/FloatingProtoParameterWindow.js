@@ -384,6 +384,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     node.input.value = node.input.value.replace(/[^0-9-]/g, '');
     node.input.value = node.input.value.replace(/(\..*)\-/g, '$1');
   }
+  
   #createSFBoolField(key, parent, row) {
     const parameter = this.#protoManager.exposedParameters.get(key);
 
