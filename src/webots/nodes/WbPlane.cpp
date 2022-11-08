@@ -24,6 +24,7 @@
 #include "WbSFVector2.hpp"
 #include "WbSimulationState.hpp"
 #include "WbTransform.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWrenAbstractResizeManipulator.hpp"
 #include "WbWrenRenderingContext.hpp"
 #include "WbWriter.hpp"
@@ -147,7 +148,7 @@ void WbPlane::setResizeManipulatorDimensions() {
 
 bool WbPlane::areSizeFieldsVisibleAndNotRegenerator() const {
   const WbField *const sizeField = findField("size", true);
-  return WbNodeUtilities::isVisible(sizeField) && !WbNodeUtilities::isTemplateRegeneratorField(sizeField);
+  return WbVrmlNodeUtilities::isVisible(sizeField) && !WbNodeUtilities::isTemplateRegeneratorField(sizeField);
 }
 
 bool WbPlane::sanitizeFields() {

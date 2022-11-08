@@ -26,6 +26,7 @@
 #include "WbSimulationState.hpp"
 #include "WbTransform.hpp"
 #include "WbVector2.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 
 #include <wren/renderable.h>
 #include <wren/static_mesh.h>
@@ -100,7 +101,7 @@ void WbCone::createResizeManipulator() {
 bool WbCone::areSizeFieldsVisibleAndNotRegenerator() const {
   const WbField *const heightField = findField("height", true);
   const WbField *const radiusField = findField("bottomRadius", true);
-  return WbNodeUtilities::isVisible(heightField) && WbNodeUtilities::isVisible(radiusField) &&
+  return WbVrmlNodeUtilities::isVisible(heightField) && WbVrmlNodeUtilities::isVisible(radiusField) &&
          !WbNodeUtilities::isTemplateRegeneratorField(heightField) && !WbNodeUtilities::isTemplateRegeneratorField(radiusField);
 }
 

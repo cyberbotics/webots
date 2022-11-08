@@ -51,7 +51,7 @@ if [ "${OSTYPE}" != "msys" ]; then
     mkdir -p include
     cp -r ${WEBOTS_HOME}/include/controller/* include
     cp ${WEBOTS_HOME}/include/controller/c/webots/plugins/robot_window/{robot_window.h,robot_wwi.h} include
-    
+
     rm -rf source/cpp
     mkdir -p source/cpp/vehicle
     cp ${WEBOTS_HOME}/src/controller/cpp/*.cpp source/cpp
@@ -68,12 +68,7 @@ for filename in $DYNAMIC_LIBS; do
 done
 
 # Copy Python libs
-PYTHON_DIRECTORIES=$(find ${WEBOTS_HOME}/lib/controller/python3* -maxdepth 0 -type d)
-for dirname in ${PYTHON_DIRECTORIES}; do
-    echo $dirname
-    touch ${dirname}/__init__.py
-    cp -r ${dirname} lib/${OSTYPE}
-done
+cp -r ${WEBOTS_HOME}/lib/controller/python lib/${OSTYPE}/
 
 # Push
 git add -A

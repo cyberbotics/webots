@@ -13,7 +13,7 @@ It is also possible to connect `<extern>` controllers from remote computers usin
 
 Running an extern robot controller requires that the controller is launched manually.
 This may seem inconvenient, but in several cases, it turns out to be very useful, because the user has full control over the controller process.
-For example, it may run it within a debugging environment, like *gdb*, a command line tool like *Python shell*, or within some Integrated Development Environment (IDE), such as *Visual C++*, *Eclipse* or *PyCharm*.
+For example, it may run it within a debugging environment, like *gdb*, a command line tool like *$ shell*, or within some Integrated Development Environment (IDE), such as *Visual C++*, *Eclipse* or *PyCharm*.
 Also, the standard output and error streams (`stdout` and `stderr`) remain under the user control and are not sent to the Webots console.
 It is even possible to read the standard input stream (`stdin`) like with any standard program.
 Moreover, starting external controllers remotely allows to run Webots on a different machine than the controller, which can be useful if the specifications required by the two processes are very different.
@@ -36,18 +36,11 @@ Webots environment variables needed by extern controllers:
 | Path (all controllers)                             | add `%WEBOTS_HOME%\lib\controller`                                        |
 | Path (all controllers except Python >= 3.8)        | add `%WEBOTS_HOME%\msys64\mingw64\bin`                                    |
 | Path (for C++, Python < 3.8, and Java controllers) | add `%WEBOTS_HOME%\msys64\mingw64\bin\cpp`                                |
-| PYTHONPATH (for Python)                            | add `${WEBOTS_HOME}\lib\controller\python3X`                              |
+| PYTHONPATH (for Python)                            | add `${WEBOTS_HOME}\lib\controller\python`                                |
 | PYTHONIOENCODING (for Python)                      | `UTF-8`                                                                   |
 | WEBOTS\_PROJECT (for MATLAB)                       | `C:\Users\MyUsername\my_folder\my_webots_project`                         |
 | WEBOTS\_CONTROLLER\_NAME (for MATLAB)              | `my_robot_controller`                                                     |
 | WEBOTS\_VERSION (for MATLAB)                       | `{{ webots.version.full }}`                                               |
-
-&nbsp;
-
-**Python**: Setting the correct python version:
-When setting or extending the `PYTHONPATH` environment variable, make sure to replace the `X` in `python3X` with your python version.
-This can be found by typing `python --version` in the command line.
-If for example the answer is `Python 3.8.10`, `python3X` should be `python38`.
 
 &nbsp;
 
@@ -81,18 +74,11 @@ java -classpath $WEBOTS_HOME\lib\controller\java\Controller.jar:$WEBOTS_HOME\pro
 |-------------------------------------------------------|--------------------------------------------------|
 | WEBOTS\_HOME                                          | `/usr/local/webots`                              |
 | LD\_LIBRARY\_PATH (not needed for Python controllers) | add `${WEBOTS_HOME}/lib/controller`              |
-| PYTHONPATH (for Python)                               | add `${WEBOTS_HOME}/lib/controller/python3X`     |
+| PYTHONPATH (for Python)                               | add `${WEBOTS_HOME}/lib/controller/python`       |
 | PYTHONIOENCODING (for Python)                         | `UTF-8`                                          |
 | WEBOTS\_PROJECT (for MATLAB)                          | `/home/my_username/my_folder/my_webots_project`  |
 | WEBOTS\_CONTROLLER\_NAME (for MATLAB)                 | `my_robot_controller`                            |
 | WEBOTS\_VERSION (for MATLAB)                          | `{{ webots.version.full }}`                      |
-
-&nbsp;
-
-**Python**: Setting the correct python version:
-When setting or extending the `PYTHONPATH` environment variable, make sure to replace the `X` in `python3X` with your python version.
-This can be found by typing `python3 --version` in the terminal.
-If for example the answer is `Python 3.8.10`, `python3X` should be `python38`.
 
 &nbsp;
 
@@ -126,19 +112,11 @@ java -classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/pro
 |-------------------------------------------------------|------------------------------------------------------------|
 | WEBOTS\_HOME                                          | `/Applications/Webots.app`                                 |
 | DYLD\_LIBRARY\_PATH                                   | add `${WEBOTS_HOME}/Contents/lib/controller`               |
-| PYTHONPATH (for the official python.org Python)       | add `${WEBOTS_HOME}/Contents/lib/controller/python3X`      |
-| PYTHONPATH (for the Homebrew Python)                  | add `${WEBOTS_HOME}/Contents/lib/controller/python3X_brew` |
+| PYTHONPATH                                            | add `${WEBOTS_HOME}/Contents/lib/controller/python`      |
 | PYTHONIOENCODING (for Python)                         | `UTF-8`                                                    |
 | WEBOTS\_PROJECT (for MATLAB)                          | `/Users/my_username/my_folder/my_webots_project`           |
 | WEBOTS\_CONTROLLER\_NAME (for MATLAB)                 | `my_robot_controller`                                      |
 | WEBOTS\_VERSION (for MATLAB)                          | `{{ webots.version.full }}`                                |
-
-&nbsp;
-
-**Python**: Setting the correct python version:
-When setting or extending the `PYTHONPATH` environment variable, make sure to replace the `X` in `python3X` with your python version.
-This can be found by typing `python3 --version` in the terminal.
-If for example the answer is `Python 3.8.10`, `python3X` should be `python38`.
 
 &nbsp;
 
