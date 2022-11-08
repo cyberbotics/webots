@@ -17,6 +17,7 @@
 #include "WbApplicationInfo.hpp"
 #include "WbBackground.hpp"
 #include "WbBoundingSphere.hpp"
+#include "WbDownloadManager.hpp"
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbMFString.hpp"
@@ -92,14 +93,11 @@ void WbCadShape::downloadAssets() {
       (WbNetwork::instance()->isCachedWithMapUpdate(completeUrl) && areMaterialAssetsAvailable(completeUrl)))
     return;
 
-  if (mDownloader != NULL && mDownloader->hasFinished())
-    delete mDownloader;
-
-  mDownloader = new WbDownloader(this);
+  delete mDownloader;
+  mDownloader = WbDownloadManager::instance()->createDownloader(QUrl(completeUrl), this);
   if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
     connect(mDownloader, &WbDownloader::complete, this, &WbCadShape::downloadUpdate);
-
-  mDownloader->download(QUrl(completeUrl));
+  mDownloader->download();
 }
 
 void WbCadShape::downloadUpdate() {
@@ -119,7 +117,7 @@ void WbCadShape::retrieveMaterials() {
     if (!newUrl.isEmpty()) {
       mObjMaterials.insert(material, newUrl);
       // prepare a downloader
-      WbDownloader *downloader = new WbDownloader();
+      WbDownloader *downloader = WbDownloadManager::instance()->createDownloader(QUrl(newUrl), this);
       connect(downloader, &WbDownloader::complete, this, &WbCadShape::materialDownloadTracker);
       mMaterialDownloaders.push_back(downloader);
     }
@@ -127,12 +125,8 @@ void WbCadShape::retrieveMaterials() {
 
   // start all downloads only when the vector is entirely populated (to avoid racing conditions)
   assert(mMaterialDownloaders.size() == mObjMaterials.size());
-  QMapIterator<QString, QString> it(mObjMaterials);
-  int i = 0;
-  while (it.hasNext()) {
-    it.next();
-    mMaterialDownloaders[i++]->download(QUrl(it.value()));
-  }
+  foreach (WbDownloader *downloader, mMaterialDownloaders)
+    downloader->download();
 }
 
 void WbCadShape::materialDownloadTracker() {

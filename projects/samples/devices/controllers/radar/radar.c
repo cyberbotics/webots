@@ -15,7 +15,7 @@
  */
 
 /*
- * Description:  An example of controller using a radar device.
+ * Description: An example of controller using a radar device.
  */
 
 #include <stdio.h>
@@ -39,6 +39,8 @@ int main() {
   /* get a handler to the distance sensors. */
   ds0 = wb_robot_get_device("ds0");
   ds1 = wb_robot_get_device("ds1");
+  wb_distance_sensor_enable(ds0, TIME_STEP);
+  wb_distance_sensor_enable(ds1, TIME_STEP);
 
   /* get the radar if this robot has one. */
   for (i = 0; i < wb_robot_get_number_of_devices(); ++i) {
@@ -49,9 +51,6 @@ int main() {
       break;
     }
   }
-
-  wb_distance_sensor_enable(ds0, TIME_STEP);
-  wb_distance_sensor_enable(ds1, TIME_STEP);
 
   /* get a handler to the motors and set target position to infinity (speed control). */
   left_motor = wb_robot_get_device("left wheel motor");

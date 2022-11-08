@@ -15,13 +15,10 @@
  */
 
 /*
- * Description:
- *   Use altimeter to control robot's
- *   ascent and descent of ramp.
+ * Description: Use altimeter to control robot's ascent and descent of ramp.
  */
 
 #include <webots/altimeter.h>
-#include <webots/led.h>
 #include <webots/motor.h>
 #include <webots/robot.h>
 

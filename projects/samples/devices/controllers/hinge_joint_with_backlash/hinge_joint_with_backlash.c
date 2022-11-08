@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
 
     if (position > 1.0471)
       wb_motor_set_velocity(rotor_motor, -SPEED);
-    if (position < -1.0471)
+    else if (position < -1.0471)
       wb_motor_set_velocity(rotor_motor, SPEED);
   }
 

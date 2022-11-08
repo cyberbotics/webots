@@ -621,10 +621,7 @@ namespace webots {
 %tab "Python"
 
 ```python
-from controller import Display, ImageRef
-
-class ImageRef:
-    # ...
+from controller import Display
 
 class Display (Device):
     RGB, RGBA, ARGB, BGRA, ABGR

@@ -53,6 +53,7 @@
 #include "WbTokenizer.hpp"
 #include "WbVector4.hpp"
 #include "WbViewpoint.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWorld.hpp"
 #include "WbWorldInfo.hpp"
 #include "WbWrenRenderingContext.hpp"
@@ -551,7 +552,7 @@ void WbSolid::resolveNameClashIfNeeded(bool automaticallyChange, bool recursive,
         if (isTemplateRegenerator)
           parsingWarn(warningText +
                       tr(" A unique name cannot be automatically generated because 'name' is a template regenerator field."));
-        else if (!WbNodeUtilities::isVisible(findField("name")))
+        else if (!WbVrmlNodeUtilities::isVisible(findField("name")))
           parsingWarn(warningText);
         else {
           // find first available index
@@ -2859,18 +2860,20 @@ void WbSolid::collectHiddenKinematicParameters(HiddenKinematicParametersMap &map
 
       // TODO: implement an mIsVisible flag in WbNode for sake of efficiency
       const WbJointParameters *const p = j->parameters();
-      if ((p == NULL || !WbNodeUtilities::isVisible(p->findField("position"))) && j->position() != j->initialPosition())
+      if ((p == NULL || !WbVrmlNodeUtilities::isVisible(p->findField("position"))) && j->position() != j->initialPosition())
         v[0] = j->position();
 
       if (j->nodeType() == WB_NODE_HINGE_2_JOINT || j->nodeType() == WB_NODE_BALL_JOINT) {
         const WbJointParameters *const p2 = j->parameters2();
-        if ((p2 == NULL || !WbNodeUtilities::isVisible(p2->findField("position"))) && j->position(2) != j->initialPosition(2))
+        if ((p2 == NULL || !WbVrmlNodeUtilities::isVisible(p2->findField("position"))) &&
+            j->position(2) != j->initialPosition(2))
           v[1] = j->position(2);
       }
 
       if (j->nodeType() == WB_NODE_BALL_JOINT) {
         const WbJointParameters *const p3 = j->parameters3();
-        if ((p3 == NULL || !WbNodeUtilities::isVisible(p3->findField("position"))) && j->position(3) != j->initialPosition(3))
+        if ((p3 == NULL || !WbVrmlNodeUtilities::isVisible(p3->findField("position"))) &&
+            j->position(3) != j->initialPosition(3))
           v[2] = j->position(3);
       }
 
