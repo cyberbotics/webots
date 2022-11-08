@@ -52,7 +52,7 @@ namespace wren {
       glm::vec4 mDiffuse;
       glm::vec4 mSpecularAndExponent;
       glm::vec4 mEmissiveAndOpacity;
-      glm::vec4 mTextureFlags;  // x, y, z, w: materialTexture[0]..[3]
+      glm::bvec4 mTextureFlags;  // x, y, z, w: materialTexture[0]..[3]
     };
 
     struct PbrMaterial {
@@ -60,10 +60,10 @@ namespace wren {
       glm::vec4 mRoughnessMetalnessNormalMapFactorOcclusion;
       glm::vec4 mBackgroundColorAndIblStrength;
       glm::vec4 mEmissiveColorAndIntensity;
-      glm::vec4 mBaseColorRoughnessMetalnessOcclusionMapFlags;  // x, y, z, w: materialTexture[0]..[3]
-      glm::vec4 mNormalBrdfEmissiveBackgroundFlags;
-      glm::vec4 mPenFlags;
-      glm::vec4 mCubeTextureFlags;
+      glm::bvec4 mBaseColorRoughnessMetalnessOcclusionMapFlags;  // x, y, z, w: materialTexture[0]..[3]
+      glm::bvec4 mNormalBrdfEmissiveBackgroundFlags;
+      glm::bvec4 mPenFlags;
+      glm::bvec4 mCubeTextureFlags;
     };
 
     struct DirectionalLight {
@@ -108,7 +108,6 @@ namespace wren {
 
     struct Overlay {
       glm::vec4 mPositionAndSize;  // in percentage of the OpenGL viewport size
-      glm::vec4 mDefaultSize;      // x,y: size, z: render default size instead of actual overlay
       glm::vec4 mBorderColor;
       glm::vec4 mBackgroundColor;
       glm::vec4 mTextureFlags;  // x: flip vertically, y: additional texture count, z:  maxRange (depth textures only),
@@ -116,6 +115,8 @@ namespace wren {
       glm::uvec2 mActiveFlags;  // x: active textures, y: border
       glm::vec2 mSizeInPixels;  // x,y: size in screen pixels
       glm::vec2 mBorderSize;    // x: vertical size, y: horizontal size
+      glm::vec2 mDefaultSize;   // x,y: default size
+      bool mUseDefaultSize;     // render default size instead of actual overlay
     };
 
     struct CameraTransforms {

@@ -18,7 +18,7 @@ layout(std140) uniform PhongMaterial {
   vec4 diffuse;
   vec4 specularAndExponent;
   vec4 emissiveAndOpacity;
-  vec4 textureFlags;  // x, y, z, w: materialTexture[0]..[3]
+  bvec4 textureFlags;  // x, y, z, w: materialTexture[0]..[3]
 }
 material;
 

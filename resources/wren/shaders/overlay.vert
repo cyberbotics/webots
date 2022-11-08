@@ -18,14 +18,15 @@ out vec2 texUvFrame;
 
 layout(std140) uniform Overlay {
   vec4 positionAndSize;  // in percentage of OpenGL viewport size
-  vec4 defaultSize;      // x,y: size, z: render default size instead of actual overlay
   vec4 borderColor;
   vec4 backgroundColor;
-  vec4 textureFlags;  // x: flip vertically, y: additional texture count, z: maxRange (depth textures only),
-                      // w: overlay transparency
-  uvec2 activeFlags;  // x: textures, y: border
-  vec2 sizeInPixels;  // x,y: size in screen pixels
-  vec2 borderSize;    // x: vertical size, y: horizontal size in percentage of OpenGL viewport size
+  vec4 textureFlags;    // x: flip vertically, y: additional texture count, z: maxRange (depth textures only),
+                        // w: overlay transparency
+  uvec2 activeFlags;    // x: textures, y: border
+  vec2 sizeInPixels;    // x,y: size in screen pixels
+  vec2 borderSize;      // x: vertical size, y: horizontal size in percentage of OpenGL viewport size
+  vec2 defaultSize;     // x,y: default size
+  bool useDefaultSize;  // render default size instead of actual overlay
 }
 overlay;
 
@@ -40,7 +41,7 @@ void main() {
 
   // render default size if requested
   vec2 actualSize = overlay.positionAndSize.zw;
-  if (overlay.defaultSize.z > 0.0)
+  if (useDefaultSize)
     actualSize = overlay.defaultSize.xy;
 
   // if texcoords are not in [0.0, 1.0], the border color will be used in the fragment shader

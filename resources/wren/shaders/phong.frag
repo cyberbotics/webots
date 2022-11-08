@@ -57,7 +57,7 @@ layout(std140) uniform PhongMaterial {
   vec4 diffuse;
   vec4 specularAndExponent;
   vec4 emissiveAndOpacity;
-  vec4 textureFlags;  // x, y, z, w: materialTexture[0]..[3]
+  bvec4 textureFlags;  // x, y, z, w: materialTexture[0]..[3]
 }
 material;
 
@@ -182,28 +182,28 @@ void main() {
 
   vec4 texColor = vec4(1.0);
   ambientTotal *= material.ambient.xyz;
-  if (material.textureFlags.x > 0.0 || material.textureFlags.z > 0.0) {
+  if (material.textureFlags.x || material.textureFlags.z) {
     texColor.w = 0.0;
     diffuseTotal *= material.diffuse.xyz;
     specularTotal = vec3(0.0);
 
     // Apply background texture
-    if (material.textureFlags.z > 0.0) {
+    if (material.textureFlags.z) {
       texColor.rgb = SRGBtoLINEAR(texture(inputTextures[backgroundTextureIndex], texUv)).rgb;
       texColor.w = 1.0;
     }
 
     // Apply main texture
-    if (material.textureFlags.x > 0.0) {
+    if (material.textureFlags.x) {
       vec4 mainColor = SRGBtoLINEAR(texture(inputTextures[mainTextureIndex], texUv));
-      if (material.textureFlags.z == 0.0)
+      if (!material.textureFlags.z)
         texColor = mainColor;
       else
         texColor = vec4(mix(texColor.xyz, mainColor.xyz, mainColor.w), clamp(texColor.w + mainColor.w, 0.0, 1.0));
     }
 
     // Mix with pen texture
-    if (material.textureFlags.y > 0.0) {
+    if (material.textureFlags.y) {
       vec4 penColor = texture(inputTextures[penTextureIndex], penTexUv);
       texColor = vec4(mix(texColor.xyz, penColor.xyz, penColor.w), texColor.w);
     }
@@ -211,7 +211,7 @@ void main() {
     specularTotal *= material.specularAndExponent.xyz;
 
     // Mix pen texture with mesh diffuse color
-    if (material.textureFlags.y > 0.0) {
+    if (material.textureFlags.y) {
       vec4 penColor = texture(inputTextures[penTextureIndex], penTexUv);
       diffuseTotal *= mix(material.diffuse.xyz, penColor.xyz, penColor.w);
     } else

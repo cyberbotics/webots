@@ -40,7 +40,7 @@ namespace wren {
     Material::setTexture(texture, index);
 
     GlslLayout::PhongMaterial material(mCacheData->mMaterial);
-    material.mTextureFlags[index] = texture ? 1.0f : 0.0f;
+    material.mTextureFlags[index] = texture != NULL;
     updateMaterial(material);
   }
 
@@ -73,7 +73,7 @@ namespace wren {
     material.mDiffuse = glm::vec4(gVec3Ones, 1.0f);
     material.mSpecularAndExponent = glm::vec4(gVec3Ones, 25.0f);
     material.mEmissiveAndOpacity = glm::vec4(gVec3Zeros, 1.0f);
-    material.mTextureFlags = glm::vec4(0.0f);
+    material.mTextureFlags = glm::bvec4(false);
 
     for (auto &texture : mTextures)
       texture = std::make_pair(nullptr, Texture::DEFAULT_USAGE_PARAMS);
@@ -181,7 +181,7 @@ namespace wren {
     material.mDiffuse = glm::vec4(gVec3Ones, 1.0f);
     material.mSpecularAndExponent = glm::vec4(gVec3Ones, 25.0f);
     material.mEmissiveAndOpacity = glm::vec4(gVec3Zeros, 1.0f);
-    material.mTextureFlags = glm::vec4(0.0f);
+    material.mTextureFlags = glm::bvec4(false);
     updateMaterial(material);
   }
 

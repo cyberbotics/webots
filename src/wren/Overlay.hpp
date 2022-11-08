@@ -40,9 +40,7 @@ namespace wren {
     void putOnTop();
     void setVisible(bool isVisible) { mIsVisible = isVisible; }
     void showDefaultSize(bool show) { mShowDefaultSize = show; }
-    void setDefaultSize(float width, float height) {
-      mParams.mDefaultSize = glm::vec4(width, height, mParams.mDefaultSize.z, mParams.mDefaultSize.w);
-    }
+    void setDefaultSize(float width, float height) { mParams.mDefaultSize = glm::vec2(width, height); }
     void setUsePremultipliedAlpha(bool enabled) { mPremultipliedAlpha = enabled; }
     void setAnisotropy(float anisotropy) { mTextureParams.mAnisotropy = anisotropy; }
     void setTranslucency(bool enabled) { mParams.mTextureFlags.w = enabled ? 1.0f : 0.0f; }

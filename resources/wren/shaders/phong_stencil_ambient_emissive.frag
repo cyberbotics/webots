@@ -56,7 +56,7 @@ layout(std140) uniform PhongMaterial {
   vec4 diffuse;
   vec4 specularAndExponent;
   vec4 emissiveAndOpacity;
-  vec4 textureFlags;  // x, y, z, w: materialTexture[0]..[3]
+  bvec4 textureFlags;  // x, y, z, w: materialTexture[0]..[3]
 }
 material;
 
@@ -72,23 +72,23 @@ void main() {
   vec3 ambientColor = vec3(lights.ambientLight) * material.ambient.xyz;
 
   vec4 texColor = vec4(1.0);
-  if (material.textureFlags.x > 0.0 || material.textureFlags.z > 0.0)
+  if (material.textureFlags.x || material.textureFlags.z)
     texColor.w = 0.0;
 
   // Background texture
-  if (material.textureFlags.z > 0.0) {
+  if (material.textureFlags.z) {
     texColor.rgb = texture(inputTextures[backgroundTextureIndex], texUv).rgb;
     texColor.w = 1.0;
   }
 
   // Main texture
-  if (material.textureFlags.x > 0.0) {
+  if (material.textureFlags.x) {
     vec4 mainColor = SRGBtoLINEAR(texture(inputTextures[mainTextureIndex], texUv));
     texColor = vec4(mix(texColor.xyz, mainColor.xyz, mainColor.w), clamp(texColor.w + mainColor.w, 0.0, 1.0));
   }
 
   // Pen texture
-  if (material.textureFlags.y > 0.0) {
+  if (material.textureFlags.y) {
     vec4 penColor = texture(inputTextures[penTextureIndex], penTexUv);
     texColor = vec4(mix(texColor.xyz, penColor.xyz, penColor.w), texColor.w);
   }

@@ -26,14 +26,15 @@ uniform sampler2D inputTextures[6];
 
 layout(std140) uniform Overlay {
   vec4 positionAndSize;
-  vec4 defaultSize;  // x,y: size, z: render default size instead of actual overlay
   vec4 borderColor;
   vec4 backgroundColor;
-  vec4 textureFlags;  // x: flip vertically, y: additional texture count, z: maxRange (depth textures only),
-                      // w: overlay transparency
-  uvec2 activeFlags;  // x: textures, y: border
-  vec2 sizeInPixels;  // x,y: size in screen pixels
-  vec2 borderSize;    // x: vertical size, y: horizontal size
+  vec4 textureFlags;    // x: flip vertically, y: additional texture count, z: maxRange (depth textures only),
+                        // w: overlay transparency
+  uvec2 activeFlags;    // x: textures, y: border
+  vec2 sizeInPixels;    // x,y: size in screen pixels
+  vec2 borderSize;      // x: vertical size, y: horizontal size
+  vec2 defaultSize;     // x,y: default size
+  bool useDefaultSize;  // render default size instead of actual overlay
 }
 overlay;
 
@@ -45,7 +46,7 @@ void main() {
   fragColor = vec4(0.0);
 
   // render default size indicator if requested
-  if (overlay.defaultSize.z > 0.0) {
+  if (overlay.useDefaultSize) {
     if (overlay.positionAndSize.z > overlay.defaultSize.x || overlay.positionAndSize.w > overlay.defaultSize.y)
       fragColor = vec4(1.0, 1.0, 1.0, 0.3);
     else

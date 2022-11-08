@@ -41,11 +41,11 @@ namespace wren {
 
     GlslLayout::PbrMaterial material(mCacheData->mMaterial);
     if (index < 4)
-      material.mBaseColorRoughnessMetalnessOcclusionMapFlags[index] = texture ? 1.0f : 0.0f;
+      material.mBaseColorRoughnessMetalnessOcclusionMapFlags[index] = texture != NULL;
     else if (index < 8)
-      material.mNormalBrdfEmissiveBackgroundFlags[index - 4] = texture ? 1.0f : 0.0f;
+      material.mNormalBrdfEmissiveBackgroundFlags[index - 4] = texture != NULL;
     else if (index < 12)
-      material.mPenFlags[index - 8] = texture ? 1.0f : 0.0f;
+      material.mPenFlags[index - 8] = texture != NULL; 
 
     updateMaterial(material);
   }
@@ -54,7 +54,7 @@ namespace wren {
     Material::setTextureCubeMap(texture, index);
 
     GlslLayout::PbrMaterial material(mCacheData->mMaterial);
-    material.mCubeTextureFlags[index] = texture ? 1.0f : 0.0f;
+    material.mCubeTextureFlags[index] = texture != NULL;
 
     updateMaterial(material);
   }
@@ -88,10 +88,10 @@ namespace wren {
     material.mRoughnessMetalnessNormalMapFactorOcclusion = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
     material.mBackgroundColorAndIblStrength = glm::vec4(0.0f);
     material.mEmissiveColorAndIntensity = glm::vec4(0.0f);
-    material.mBaseColorRoughnessMetalnessOcclusionMapFlags = glm::vec4(0.0f);
-    material.mNormalBrdfEmissiveBackgroundFlags = glm::vec4(0.0f);
-    material.mPenFlags = glm::vec4(0.0f);
-    material.mCubeTextureFlags = glm::vec4(0.0f);
+    material.mBaseColorRoughnessMetalnessOcclusionMapFlags = glm::bvec4(false);
+    material.mNormalBrdfEmissiveBackgroundFlags = glm::bvec4(false);
+    material.mPenFlags = glm::bvec4(false);
+    material.mCubeTextureFlags = glm::bvec4(false);
 
     for (auto &texture : mTextures)
       texture = std::make_pair(nullptr, Texture::DEFAULT_USAGE_PARAMS);
@@ -219,10 +219,10 @@ namespace wren {
     material.mRoughnessMetalnessNormalMapFactorOcclusion = glm::vec4(1.0f, 0.0f, 1.0f, 1.0f);
     material.mBackgroundColorAndIblStrength = glm::vec4(0.0f);
     material.mEmissiveColorAndIntensity = glm::vec4(0.0f);
-    material.mBaseColorRoughnessMetalnessOcclusionMapFlags = glm::vec4(0.0f);
-    material.mNormalBrdfEmissiveBackgroundFlags = glm::vec4(0.0f);
-    material.mPenFlags = glm::vec4(0.0f);
-    material.mCubeTextureFlags = glm::vec4(0.0f);
+    material.mBaseColorRoughnessMetalnessOcclusionMapFlags = glm::bvec4(false);
+    material.mNormalBrdfEmissiveBackgroundFlags = glm::bvec4(false);
+    material.mPenFlags = glm::bvec4(false);
+    material.mCubeTextureFlags = glm::bvec4(false);
     updateMaterial(material);
   }
 
