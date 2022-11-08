@@ -301,10 +301,19 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const nodeButton = document.createElement('button');
     nodeButton.innerHTML = 'NULL';
     nodeButton.title = 'Select a node to insert';
-    nodeButton.onclick = () => {
+    nodeButton.onclick = async() => {
       console.log('clicked.');
-
-      this.#populateNodeLibrary();
+      return new Promise((resolve, reject) => {
+        const xmlhttp = new XMLHttpRequest();
+        xmlhttp.open('GET', './protoVisualizer/proto-list.xml', true);
+        xmlhttp.onreadystatechange = async() => {
+          if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
+            resolve(xmlhttp.responseText);
+        };
+        xmlhttp.send();
+      }).then(text => {
+        this.#populateNodeLibrary(text);
+      });
     };
     value.appendChild(nodeButton);
 
@@ -316,21 +325,33 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(value);
   }
 
-  #populateNodeLibrary() {
+  #populateNodeLibrary(protoList) {
     let panel = document.getElementById('node-library');
     panel.innerHTML = '';
     panel.style.display = 'block';
 
-    const items = ['ProtoA', 'ProtoB', 'ProtoC'];
+
+    //const items = ['ProtoA', 'ProtoB', 'ProtoC'];
+    let protoNodes = [];
+
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(protoList, 'text/xml').firstChild;
+    const protos = xml.getElementsByTagName('proto');
+    for (const proto of protos) {
+      // console.log(proto.getElementsByTagName('name')[0].innerHTML);
+      protoNodes.push(proto.getElementsByTagName('name')[0].innerHTML);
+    }
+
+    // console.log(protoNodes);
 
     let ol = document.createElement('ol');
     ol.className = 'node-list';
 
-    for (let i = 0; i < items.length; ++i) {
+    for (const node of protoNodes) {
       const item = document.createElement('li');
       const button = document.createElement('button');
-      button.innerText = items[i];
-      button.value = items[i]; // TODO: set url here?
+      button.innerText = node;
+      button.value = node; // TODO: set url here?
       item.appendChild(button);
 
       button.onclick = (element) => {

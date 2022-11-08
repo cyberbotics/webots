@@ -967,7 +967,7 @@ webots-view .node-library {
   left: calc(50% - 220px);
   background-color: #222;
   color: white;
-  text-align: center;
+  text-align: left;
   width: 440px;
   height: 300px;
   border-radius: 10px;
@@ -976,6 +976,7 @@ webots-view .node-library {
   display: none;
   pointer-events: auto;
   z-index: 3;
+  overflow: auto;
 }
 
 webots-view .node-list {
