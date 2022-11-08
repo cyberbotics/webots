@@ -14,6 +14,7 @@
 
 #include "WbProtoTreeItem.hpp"
 
+#include "WbDownloadManager.hpp"
 #include "WbDownloader.hpp"
 #include "WbNetwork.hpp"
 #include "WbStandardPaths.hpp"
@@ -136,9 +137,10 @@ void WbProtoTreeItem::download() {
 
   if (WbUrl::isWeb(mUrl)) {
     if (!WbNetwork::instance()->isCachedWithMapUpdate(mUrl)) {
-      mDownloader = new WbDownloader(this);
+      delete mDownloader;
+      mDownloader = WbDownloadManager::instance()->createDownloader(QUrl(mUrl), this);
       connect(mDownloader, &WbDownloader::complete, this, &WbProtoTreeItem::downloadUpdate);
-      mDownloader->download(QUrl(mUrl));
+      mDownloader->download();
       return;
     }
   }

@@ -155,7 +155,8 @@ WbController::~WbController() {
     stream << (unsigned short)0;    // tag of the root device
     stream << (unsigned char)C_ROBOT_QUIT;
     assert(size == buffer.size());
-    mRobot->removeRemoteExternController();
+    if (mRobot)
+      mRobot->removeRemoteExternController();
     if (!mHasBeenTerminatedByItself)
       sendTerminationPacket(mTcpSocket, buffer, size);
   } else if (mProcess && mProcess->state() != QProcess::NotRunning) {
@@ -164,7 +165,7 @@ WbController::~WbController() {
     mProcess = NULL;
   }
 
-  if (mExtern) {
+  if (mExtern && mRobot) {
     info(tr("disconnected."));
     WbControlledWorld::instance()->externConnection(this, false);
   }
@@ -590,22 +591,7 @@ void WbController::setProcessEnvironment() {
       }
       pythonSourceFile.close();
     }
-#ifdef __APPLE__
-    QProcess process;
-    process.setProcessEnvironment(env);
-    process.start("which", QStringList() << mPythonCommand);
-    process.waitForFinished();
-    const QString output = process.readAll();
-    if (output.startsWith("/usr/local/Cellar/python@") || output.startsWith("/usr/local/opt/python@"))
-      addToPathEnvironmentVariable(
-        env, "PYTHONPATH", WbStandardPaths::controllerLibPath() + "python" + mPythonShortVersion + "_brew", false, true);
-    else
-      addToPathEnvironmentVariable(env, "PYTHONPATH", WbStandardPaths::controllerLibPath() + "python" + mPythonShortVersion,
-                                   false, true);
-#else
-    addToPathEnvironmentVariable(env, "PYTHONPATH", WbStandardPaths::controllerLibPath() + "python" + mPythonShortVersion,
-                                 false, true);
-#endif
+    addToPathEnvironmentVariable(env, "PYTHONPATH", WbStandardPaths::controllerLibPath() + "python", false, true);
     env.insert("PYTHONIOENCODING", "UTF-8");
   } else if (mType == WbFileUtil::MATLAB) {
     if (mMatlabCommand.isEmpty())

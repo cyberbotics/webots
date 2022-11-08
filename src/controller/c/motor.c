@@ -223,7 +223,10 @@ static void motor_toggle_remote(WbDevice *d, WbRequest *r) {
     m->requests[C_MOTOR_SET_CONTROL_PID] = 1;
 }
 
-// Exported functions
+// Exported functions and variables
+
+const int wb_ROTATIONAL = WB_ROTATIONAL;
+const int wb_LINEAR = WB_LINEAR;
 
 void wb_motor_init(WbDevice *d) {
   d->read_answer = motor_read_answer;

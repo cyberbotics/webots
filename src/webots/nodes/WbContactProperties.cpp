@@ -14,6 +14,7 @@
 
 #include "WbContactProperties.hpp"
 
+#include "WbDownloadManager.hpp"
 #include "WbDownloader.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbNetwork.hpp"
@@ -68,17 +69,15 @@ void WbContactProperties::downloadAsset(const QString &url, int index) {
   if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCachedWithMapUpdate(completeUrl))
     return;
 
-  if (mDownloader[index] != NULL)
-    delete mDownloader[index];
-  mDownloader[index] = new WbDownloader(this);
+  delete mDownloader[index];
+  mDownloader[index] = WbDownloadManager::instance()->createDownloader(QUrl(completeUrl), this);
   if (isPostFinalizedCalled()) {
     void (WbContactProperties::*callback)(void);
     callback = index == 0 ? &WbContactProperties::updateBumpSound :
                             (index == 1 ? &WbContactProperties::updateRollSound : &WbContactProperties::updateSlideSound);
     connect(mDownloader[index], &WbDownloader::complete, this, callback);
   }
-
-  mDownloader[index]->download(QUrl(completeUrl));
+  mDownloader[index]->download();
 }
 
 void WbContactProperties::downloadAssets() {
