@@ -258,7 +258,7 @@ file(GLOB C_SOURCES *.c)
 file(GLOB CPP_SOURCES *.cpp)
 set(SOURCES ${C_SOURCES} ${CPP_SOURCES})
 
-# Set the  Webots home path (Changed it based on your installation method)
+# Set the  Webots home path (change it according to your installation method)
 set(WEBOTS_HOME "/snap/webots/current/usr/share/webots")
 #set(WEBOTS_HOME "/usr/share/webots")
 
