@@ -259,8 +259,8 @@ file(GLOB CPP_SOURCES *.cpp)
 set(SOURCES ${C_SOURCES} ${CPP_SOURCES})
 
 # Set the  Webots home path (change it according to your installation method)
-set(WEBOTS_HOME "/snap/webots/current/usr/share/webots")
-#set(WEBOTS_HOME "/usr/share/webots")
+set(WEBOTS_HOME "/usr/local/webots")
+#set(WEBOTS_HOME "/snap/webots/current/usr/share/webots")
 
 # Link with the Webots controller library.
 link_directories($ENV{WEBOTS_HOME}/lib/controller)
