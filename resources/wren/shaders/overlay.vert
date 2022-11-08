@@ -41,8 +41,8 @@ void main() {
 
   // render default size if requested
   vec2 actualSize = overlay.positionAndSize.zw;
-  if (useDefaultSize)
-    actualSize = overlay.defaultSize.xy;
+  if (overlay.useDefaultSize)
+    actualSize = overlay.defaultSize;
 
   // if texcoords are not in [0.0, 1.0], the border color will be used in the fragment shader
   vec2 sizeWithBorder = actualSize;

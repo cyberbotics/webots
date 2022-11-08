@@ -22,10 +22,10 @@ layout(std140) uniform PbrMaterial {
   vec4 roughnessMetalnessNormalMapFactorOcclusion;
   vec4 backgroundColorAndIblStrength;
   vec4 emissiveColorAndIntensity;
-  bvec4 baseColorRoughnessMetalnessOcclusionMapFlags;
-  bvec4 normalBrdfEmissiveBackgroundFlags;
-  bvec4 penFlags;
-  bvec4 cubeTextureFlags;
+  vec4 baseColorRoughnessMetalnessOcclusionMapFlags;
+  vec4 normalBrdfEmissiveBackgroundFlags;
+  vec4 penFlags;
+  vec4 cubeTextureFlags;
 }
 material;
 
@@ -79,7 +79,7 @@ vec3 getIBLContribution(IBLInfo iblInputs, vec3 n, vec3 reflection) {
   vec3 diffuseLight = vec3(0.0);
   vec3 specularLight = vec3(0.0);
   vec2 brdf = texture(inputTextures[5], vec2(iblInputs.NdotV, iblInputs.perceptualRoughness)).rg;
-  if (material.cubeTextureFlags.x) {
+  if (material.cubeTextureFlags.x > 0.0) {
     float mipCount = 7.0;
     float lod = (iblInputs.perceptualRoughness * mipCount);
     // A single irradiance map is used for the diffuse and specular reflections:
@@ -107,7 +107,7 @@ void main() {
   fragNormal = vec4(normalize(viewFragmentNormal), 1.0) * 0.5 + 0.5;
 
   // sample from normal map if one exists
-  if (material.normalBrdfEmissiveBackgroundFlags.x)
+  if (material.normalBrdfEmissiveBackgroundFlags.x > 0.0)
     viewFragmentNormal = perturbNormal(viewFragmentNormal, normalize(-fragmentPosition));
 
   vec3 worldFragmentNormal = inverseViewMatrix * viewFragmentNormal;
@@ -117,13 +117,13 @@ void main() {
   float metalness = material.roughnessMetalnessNormalMapFactorOcclusion.y;
 
   // sample roughness map if one exists
-  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.y) {
+  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.y > 0.0) {
     vec4 roughnessSample = texture(inputTextures[1], texUv);
     perceptualRoughness = roughnessSample.r;
   }
 
   // sample metalness map if one exists
-  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.z) {
+  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.z > 0.0) {
     vec4 metalnessSample = texture(inputTextures[2], texUv);
     metalness = metalnessSample.r;
   }
@@ -136,10 +136,10 @@ void main() {
   baseColor.w = 1.0 - baseColor.w;
 
   // apply base color map if it exists, composite background texture if necessary
-  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.x) {
+  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.x > 0.0) {
     vec4 baseColorMapColor = SRGBtoLINEAR(texture(inputTextures[0], texUv));
 
-    if (material.normalBrdfEmissiveBackgroundFlags.w) {
+    if (material.normalBrdfEmissiveBackgroundFlags.w > 0.0) {
       vec3 backgroundTextureColor = SRGBtoLINEAR(texture(inputTextures[7], texUv)).rgb;
       baseColor.rgb = mix(backgroundTextureColor, baseColorMapColor.xyz, baseColorMapColor.w);
     } else {
@@ -153,7 +153,7 @@ void main() {
   }
 
   // Mix with pen texture
-  if (material.penFlags.x) {
+  if (material.penFlags.x > 0.0) {
     vec4 penColor = texture(inputTextures[8], penTexUv);
     baseColor = vec4(mix(baseColor.xyz, penColor.xyz, penColor.w), baseColor.w);
   }
@@ -171,14 +171,14 @@ void main() {
 
   vec3 color = getIBLContribution(iblInputs, worldFragmentNormal, reflection);
 
-  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.w) {
+  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.w > 0.0) {
     float ao = texture(inputTextures[3], texUv).r;
     color = mix(color, color * ao, material.roughnessMetalnessNormalMapFactorOcclusion.w);
   }
 
   vec3 emissive = wireframeRendering ? material.baseColorAndTransparency.rgb : material.emissiveColorAndIntensity.rgb;
 
-  if (material.normalBrdfEmissiveBackgroundFlags.z)
+  if (material.normalBrdfEmissiveBackgroundFlags.z > 0.0)
     emissive = texture(inputTextures[6], texUv).rgb;
 
   if (wireframeRendering)

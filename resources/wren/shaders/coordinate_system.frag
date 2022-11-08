@@ -17,13 +17,13 @@ layout(std140) uniform PhongMaterial {
   vec4 diffuse;
   vec4 specularAndExponent;
   vec4 emissiveAndOpacity;
-  bvec4 textureFlags;  // x, y, z, w: materialTexture[0]..[3]
+  vec4 textureFlags;  // x, y, z, w: materialTexture[0]..[3]
 }
 material;
 
 void main() {
   vec4 texColor = vec4(1.0f);
-  if (material.textureFlags.x)
+  if (material.textureFlags.x > 0.0f)
     texColor = texture(inputTextures[mainTextureIndex], texUv);
 
   fragColor = texColor * material.ambient;

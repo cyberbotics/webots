@@ -886,7 +886,7 @@ WrShaderProgram *WbWrenShaders::pbrStencilAmbientEmissiveShader() {
                                             WR_SHADER_PROGRAM_UNIFORM_TYPE_BOOL,
                                             reinterpret_cast<const char *>(&defaultBoolValue));
     wr_shader_program_create_custom_uniform(gShaders[SHADER_PBR_STENCIL_AMBIENT_EMISSIVE], "wireframeRendering",
-                                            WR_SHADER_PROGRAM_UNIFORM_TYPE_INT,
+                                            WR_SHADER_PROGRAM_UNIFORM_TYPE_BOOL,
                                             reinterpret_cast<const char *>(&defaultBoolValue));
 
     wr_shader_program_use_uniform_buffer(gShaders[SHADER_PBR_STENCIL_AMBIENT_EMISSIVE],

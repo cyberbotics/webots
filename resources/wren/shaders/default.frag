@@ -21,7 +21,7 @@ layout(std140) uniform PhongMaterial {
   vec4 diffuse;
   vec4 specularAndExponent;
   vec4 emissiveAndOpacity;
-  bvec4 textureFlags;  // x, y, z, w: materialTexture[0]..[3]
+  vec4 textureFlags;  // x, y, z, w: materialTexture[0]..[3]
 }
 material;
 
@@ -31,21 +31,21 @@ void main() {
   vec3 fragmentNormal = normalize(normalTransformed);
   fragNormal = vec4(fragmentNormal, 1.0) * 0.5 + 0.5;
 
-  if (material.textureFlags.x || material.textureFlags.z)
+  if (material.textureFlags.x > 0.0 || material.textureFlags.z > 0.0)
     fragColor.w = 0.0;
 
   // Background texture
-  if (material.textureFlags.z)
+  if (material.textureFlags.z > 0.0)
     fragColor = texture(inputTextures[backgroundTextureIndex], texUv);
 
   // Main texture
-  if (material.textureFlags.x) {
+  if (material.textureFlags.x > 0.0) {
     vec4 mainColor = texture(inputTextures[mainTextureIndex], texUv);
     fragColor = vec4(mix(fragColor.xyz, mainColor.xyz, mainColor.w), fragColor.w + mainColor.w);
   }
 
   // Pen texture
-  if (material.textureFlags.y) {
+  if (material.textureFlags.y > 0.0) {
     vec4 penColor = texture(inputTextures[penTextureIndex], penTexUv);
     fragColor = vec4(mix(fragColor.xyz, penColor.xyz, penColor.w), fragColor.w);
   }

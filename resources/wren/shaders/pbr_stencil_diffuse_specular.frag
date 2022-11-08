@@ -72,10 +72,10 @@ layout(std140) uniform PbrMaterial {
   vec4 roughnessMetalnessNormalMapFactorOcclusion;
   vec4 backgroundColorAndIblStrength;
   vec4 emissiveColorAndIntensity;
-  bvec4 baseColorRoughnessMetalnessOcclusionMapFlags;
-  bvec4 normalBrdfEmissiveBackgroundFlags;
-  bvec4 penFlags;
-  bvec4 cubeTextureFlags;
+  vec4 baseColorRoughnessMetalnessOcclusionMapFlags;
+  vec4 normalBrdfEmissiveBackgroundFlags;
+  vec4 penFlags;
+  vec4 cubeTextureFlags;
 }
 material;
 
@@ -180,7 +180,7 @@ vec3 PBRpass(vec3 l, vec3 n, vec3 v, vec3 h, vec4 lightColorAndIntensity, float 
 void main() {
   // sample from normal map if one exists
   vec3 viewFragmentNormal = normalize(reverseNormals ? -fragmentNormal : fragmentNormal);
-  if (material.normalBrdfEmissiveBackgroundFlags.x)
+  if (material.normalBrdfEmissiveBackgroundFlags.x > 0.0)
     viewFragmentNormal = perturbNormal(viewFragmentNormal, normalize(-fragmentPosition));
 
   // read roughness and metalness values
@@ -188,13 +188,13 @@ void main() {
   float metalness = material.roughnessMetalnessNormalMapFactorOcclusion.y;
 
   // sample roughness map if one exists
-  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.y) {
+  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.y > 0.0) {
     vec4 roughnessSample = texture(inputTextures[1], texUv);
     perceptualRoughness = roughnessSample.r;
   }
 
   // sample metalness map if one exists
-  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.z) {
+  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.z > 0.0) {
     vec4 metalnessSample = texture(inputTextures[2], texUv);
     metalness = metalnessSample.r;
   }
@@ -207,10 +207,10 @@ void main() {
   baseColor.w = 1.0 - baseColor.w;
 
   // apply base color map if it exists, composite background texture if necessary
-  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.x) {
+  if (material.baseColorRoughnessMetalnessOcclusionMapFlags.x > 0.0) {
     vec4 baseColorMapColor = SRGBtoLINEAR(texture(inputTextures[0], texUv));
 
-    if (material.normalBrdfEmissiveBackgroundFlags.w) {
+    if (material.normalBrdfEmissiveBackgroundFlags.w > 0.0) {
       vec3 backgroundTextureColor = SRGBtoLINEAR(texture(inputTextures[7], texUv)).rgb;
       baseColor.rgb = mix(backgroundTextureColor, baseColorMapColor.xyz, baseColorMapColor.w);
     } else {
@@ -224,7 +224,7 @@ void main() {
   }
 
   // Mix with pen texture
-  if (material.penFlags.x) {
+  if (material.penFlags.x > 0.0) {
     vec4 penColor = texture(inputTextures[8], penTexUv);
     baseColor = vec4(mix(baseColor.xyz, penColor.xyz, penColor.w), baseColor.w);
   }

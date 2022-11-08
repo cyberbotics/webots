@@ -52,7 +52,7 @@ namespace wren {
       glm::vec4 mDiffuse;
       glm::vec4 mSpecularAndExponent;
       glm::vec4 mEmissiveAndOpacity;
-      glm::bvec4 mTextureFlags;  // x, y, z, w: materialTexture[0]..[3]
+      glm::vec4 mTextureFlags;  // x, y, z, w: materialTexture[0]..[3]
     };
 
     struct PbrMaterial {
@@ -60,10 +60,10 @@ namespace wren {
       glm::vec4 mRoughnessMetalnessNormalMapFactorOcclusion;
       glm::vec4 mBackgroundColorAndIblStrength;
       glm::vec4 mEmissiveColorAndIntensity;
-      glm::bvec4 mBaseColorRoughnessMetalnessOcclusionMapFlags;  // x, y, z, w: materialTexture[0]..[3]
-      glm::bvec4 mNormalBrdfEmissiveBackgroundFlags;
-      glm::bvec4 mPenFlags;
-      glm::bvec4 mCubeTextureFlags;
+      glm::vec4 mBaseColorRoughnessMetalnessOcclusionMapFlags;  // x, y, z, w: materialTexture[0]..[3]
+      glm::vec4 mNormalBrdfEmissiveBackgroundFlags;
+      glm::vec4 mPenFlags;
+      glm::vec4 mCubeTextureFlags;
     };
 
     struct DirectionalLight {
