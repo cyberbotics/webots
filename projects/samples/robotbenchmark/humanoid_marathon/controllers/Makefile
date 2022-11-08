@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-TARGETS=marathon_supervisor.Makefile
+TARGETS=marathon_supervisor.Makefile marathon.Makefile
 
 .PHONY: release debug profile clean
 

@@ -16,8 +16,10 @@
 
 #include "WbActionManager.hpp"
 #include "WbApplication.hpp"
+#include "WbGroup.hpp"
 #include "WbInsertExternProtoDialog.hpp"
 #include "WbProtoManager.hpp"
+#include "WbWorld.hpp"
 
 #include <QtCore/QEvent>
 #include <QtGui/QAction>
@@ -114,7 +116,8 @@ void WbExternProtoEditor::removeImportableExternProto() {
     const QLabel *label = qobject_cast<QLabel *>(mLayout->itemAt(index - 1)->widget());
     if (label) {
       const QString proto = label->text();
-      WbProtoManager::instance()->removeImportableExternProto(proto);
+      assert(WbWorld::instance());
+      WbProtoManager::instance()->removeImportableExternProto(proto, WbWorld::instance()->root());
       updateContents();  // regenerate panel
       emit changed(true);
     }

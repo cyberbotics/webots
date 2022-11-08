@@ -15,9 +15,8 @@
  */
 
 /*
- * Description:  This supervisor track the absolute position
- *               of the robot and display the result on a
- *               Display.
+ * Description: This supervisor tracks the absolute position of the robot
+ *              and displays the result on a Display device.
  */
 
 #include <stdio.h>

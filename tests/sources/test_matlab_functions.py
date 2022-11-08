@@ -50,7 +50,7 @@ class TestMatlabFunctions(unittest.TestCase):
             )
             with open(filename) as file:
                 for line in file:
-                    if not any(skippedLine in line for skippedLine in skippedLines):
+                    if not any(skippedLine in line for skippedLine in skippedLines) and not line[3:].isupper():
                         self.functions.append(line.replace('\n', ''))
 
     @unittest.skipIf(sys.version_info[0] < 3, "not supported by Python 2.7")
