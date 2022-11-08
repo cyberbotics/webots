@@ -463,7 +463,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const nodes = WbWorld.instance.nodes;
     const keys = nodes.keys();
     let numberOfJoint = 0;
-    for (let key of keys) {
+    for (const key of keys) {
       const joint = nodes.get(key);
       if (joint instanceof WbHingeJoint) {
         numberOfJoint++;
