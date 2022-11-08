@@ -2,7 +2,7 @@ import WbJoint from './WbJoint.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbVector4 from './utils/WbVector4.js';
 import WbQuaternion from './utils/WbQuaternion.js';
-import {isZeroAngle} from './utils/math_utils.js';
+import {isZeroAngle} from './utils/math_utilities.js';
 
 export default class WbHingeJoint extends WbJoint {
   #device;

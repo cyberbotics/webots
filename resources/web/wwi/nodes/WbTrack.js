@@ -7,7 +7,7 @@ import WbWorld from './WbWorld.js';
 import WbBeltPosition from './utils/WbBeltPosition.js';
 import WbPathSegment from './utils/WbPathSegment.js';
 import {getAnId} from './utils/id_provider.js';
-import {clampedAcos} from './utils/math_utils.js';
+import {clampedAcos} from './utils/math_utilities.js';
 
 export default class WbTrack extends WbSolid {
   #device;
