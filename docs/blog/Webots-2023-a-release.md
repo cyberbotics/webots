@@ -84,7 +84,7 @@ And many bug fixes.
 ## Extra Goodies
 
 - A new non-interactive terminal for web streaming.
-- The possibility to choose between spherical and cylindrical projections in [Camera](../reference/camera.md), [RangeFinder](../reference/rangefinder.md), and [Lidar](../reference/lidar.md) nodes.
+- The possibility to choose between spherical and cylindrical projections in [Camera](../reference/camera.md) and [RangeFinder](../reference/rangefinder.md) nodes.
 
 **Go and [download Webots R2023a](https://cyberbotics.com/#download) today, so you do not miss out on all these great new features!**
 
