@@ -80,6 +80,11 @@ WbField::~WbField() {
 }
 
 void WbField::listenToValueSizeChanges() const {
+  if (singleType() == WB_SF_NODE) {
+    WbSFNode *sfnode = static_cast<WbSFNode *>(mValue);
+    connect(sfnode, &WbSFNode::changed, this, &WbField::valueSizeChanged, Qt::UniqueConnection);
+    return;
+  }
   if (isSingle())
     return;
   const WbMultipleValue *mf = static_cast<WbMultipleValue *>(mValue);

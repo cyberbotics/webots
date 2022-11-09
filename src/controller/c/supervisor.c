@@ -953,7 +953,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       const int field_ref = request_read_int32(r);
       const WbFieldType field_type = request_read_int32(r);
       const bool is_proto_internal = request_read_uchar(r) == 1;
-      const int field_count = ((field_type & WB_MF) == WB_MF) ? request_read_int32(r) : -1;
+      const int field_count = request_read_int32(r);
       const char *name = request_read_string(r);
       if (field_ref == -1) {
         requested_field_name = NULL;
@@ -1206,7 +1206,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
 static void create_and_append_field_request(WbFieldStruct *f, int action, int index, union WbFieldData data, bool clamp_index) {
   if (clamp_index) {
     const int offset = (action == IMPORT) ? 1 : 0;
-    if (f->count != -1 && (index >= (f->count + offset) || index < 0)) {
+    if (f->count != -1 && f->type != WB_SF_NODE && (index >= (f->count + offset) || index < 0)) {
       index = 0;
       fprintf(stderr, "Warning wb_supervisor_field_get/set_mf_*() called with index out of range.\n");
     }
@@ -3554,7 +3554,7 @@ void wb_supervisor_field_remove_mf_node(WbFieldRef field, int position) {
 }
 
 void wb_supervisor_field_remove_sf(WbFieldRef field) {
-  if (field->data.sf_node_uid == 0) {
+  if (field->count == 0 || field->data.sf_node_uid == 0) {
     fprintf(stderr, "Error: %s() called for an empty field.\n", __FUNCTION__);
     return;
   }
@@ -3583,7 +3583,7 @@ void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char
     return;
   }
 
-  if (field->data.sf_node_uid != 0) {
+  if (field->count == 1 || field->data.sf_node_uid != 0) {
     fprintf(stderr, "Error: %s() called with a non-empty field.\n", __FUNCTION__);
     return;
   }
@@ -3594,8 +3594,10 @@ void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char
   create_and_append_field_request(f, IMPORT, -1, data, false);
   imported_node_id = -1;
   wb_robot_flush_unlocked(__FUNCTION__);
-  if (imported_node_id >= 0)
+  if (imported_node_id >= 0) {
     field->data.sf_node_uid = imported_node_id;
+    field->count = 1;
+  }
   robot_mutex_unlock();
 }
 
