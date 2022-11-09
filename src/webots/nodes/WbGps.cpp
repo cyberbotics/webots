@@ -318,13 +318,11 @@ bool WbGps::refreshSensorIfNeeded() {
     const WbVector3 &p = position();
     dBodyGetPointVel(upperSolidBodyId, p.x(), p.y(), p.z(), newVelocity);
     mSpeedVector = WbVector3(newVelocity);
-  } else {
-    // No physic node, compute it manually
-    if (!mPreviousPosition.isNan())
-      mSpeedVector = (t - mPreviousPosition) * 1000.0 / mSensor->elapsedTime();
-    else
-      mSpeedVector = WbVector3(NAN, NAN, NAN);
-  }
+  } else if (!mPreviousPosition.isNan())
+    // no physics node, compute it manually
+    mSpeedVector = (t - mPreviousPosition) * 1000.0 / mSensor->elapsedTime();
+  else
+    mSpeedVector = WbVector3(NAN, NAN, NAN);
 
   // compute current speed [m/s]
   mMeasuredSpeed = mSpeedVector.length();
