@@ -2,6 +2,7 @@
 
 ## Webots R2022b Revision 1
   - Bug Fixes
+    - Fixed the initial return value of the [GPS](gps.md) by returning either *NaN* or the correct value taken from ODE, if available ([#5372](https://github.com/cyberbotics/webots/pull/5372)). 
     - Fixed controller restart after crash ([#5284](https://github.com/cyberbotics/webots/pull/5284)).
     - Fixed the export of [Lidar](lidar.md)'s rotating head to X3D ([#5224](https://github.com/cyberbotics/webots/pull/5224)).
     - Fixed behavior of `WbLightSensor::computeLightMeasurement` when spotlight is rotated ([#5231](https://github.com/cyberbotics/webots/pull/5231)).
