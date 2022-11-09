@@ -186,7 +186,6 @@ void WbGps::init() {
   mNeedToUpdateCoordinateSystem = false;
   mPreviousPosition = WbVector3(NAN, NAN, NAN);
   mMeasuredSpeed = 0.0;
-  mSpeedVector = WbVector3();
 }
 
 WbGps::WbGps(WbTokenizer *tokenizer) : WbSolidDevice("GPS", tokenizer) {
