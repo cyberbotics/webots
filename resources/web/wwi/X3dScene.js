@@ -131,7 +131,7 @@ export default class X3dScene {
   }
 
   #deleteObject(id) {
-    console.log('JSNODES', WbWorld.instance.nodes)
+    // console.log('JS NODES', WbWorld.instance.nodes)
     const object = WbWorld.instance.nodes.get('n' + id);
     if (typeof object === 'undefined')
       return;

@@ -1,14 +1,11 @@
 import FloatingWindow from './FloatingWindow.js';
 import {VRML} from './protoVisualizer/vrml_type.js';
-import ProtoManager from './ProtoManager.js';
-import { SFNode } from './protoVisualizer/Vrml.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #protoManager;
   #view;
   constructor(parentNode, protoManager, view) {
     super(parentNode, 'proto-parameter');
-    this.parentNode = parentNode;
     this.floatingWindow.style.zIndex = '2';
     this.headerText.innerHTML = 'Proto parameter window';
     this.floatingWindowContent.removeChild(this.frame);
