@@ -313,7 +313,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   #createSFNodeField(key, parent, row) {
     const parameter = this.proto.parameters.get(key);
 
-
     const p = document.createElement('p');
     p.className = 'key-parameter';
     p.innerHTML = key + ': ';
@@ -382,6 +381,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     panel.innerHTML = '';
     panel.style.display = 'block';
 
+    // TODO: filter clicks inside the panel
+    // window.addEventListener('click', _ => {
+    //   console.log('close')
+    //   panel.style.display = 'none';
+    // });
+
+    const container = document.createElement('div');
+
     let protoNodes = [{name: 'NULL', url: null}];
 
     const parser = new DOMParser();
@@ -393,9 +400,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       protoNodes.push(info);
     }
 
+    const nodeList = document.createElement('div');
+    nodeList.className = 'node-list';
     let ol = document.createElement('ol');
-    ol.className = 'node-list';
-
     for (const node of protoNodes) {
       const item = document.createElement('li');
       const button = document.createElement('button');
@@ -403,7 +410,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       button.value = node['url'];
       item.appendChild(button);
 
-      button.onclick = async(element) => {
+      // button.onclick = (element) => {
+      //   const url = element.target.value;
+      //   console.log('selected:', url);
+      // }
+      button.ondblclick = async(element) => {
         const url = element.target.value;
         console.log('inserting:', url);
 
@@ -441,8 +452,21 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
       ol.appendChild(item);
     }
+    nodeList.appendChild(ol);
 
-    panel.appendChild(ol);
+
+    const nodeInfo = document.createElement('div');
+    nodeInfo.className = 'node-info';
+
+    const img = document.createElement('img');
+    img.setAttribute('draggable', false);
+    img.className = 'node-image';
+    img.setAttribute('src', './protoVisualizer/red_texture.jpg');
+    nodeInfo.appendChild(img);
+
+    container.appendChild(nodeList);
+    container.appendChild(nodeInfo);
+    panel.appendChild(container);
   }
 
   #floatOnChange(node) {
