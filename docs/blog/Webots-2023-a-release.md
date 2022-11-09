@@ -23,7 +23,7 @@ You can discover this new robot in its demo world under `File > Open Sample Worl
 
 ---
 
-## New Devices
+## New Device Objects
 
 Devices embedded on the [ROSbot](../guide/rosbot.md) have also been added to the Webots library, namely the [Mpu-9250](../guide/imu-sensors.md#mpu-9250) IMU, the [RPLidarA2](../guide/lidar-sensors.md#slamtec-rplidar-a2) lidar and the [Astra](../guide/range-finder-sensors.md#orbbec-astra) RGB-D camera.
 
@@ -55,7 +55,7 @@ Moreover, in order to enrich the collection of sample controllers, all sample wo
 
 ---
 
-## New IMU sample world
+## New IMU Sample World
 
 So far, the [InertialUnit](../reference/inertialunit.md) was considered as an IMU, because it provides the ground truth data of the attitude (roll, pitch, yaw) of the object on which it is grafted. 
 This assumption is fundamentally wrong.
@@ -75,7 +75,7 @@ With this release we are continuing to develop and improve the support for ROS 2
 New features include:
 
 - Added support for Windows Subsystem for Linux (WSL) and macOS.
-- Added reset handler to all examples of [webots_ros2](https://github.com/cyberbotics/webots_ros2) to support simulation reset from Webots.
+- Added reset handler to all examples of [webots_ros2](https://github.com/cyberbotics/webots\_ros2) to support simulation reset from Webots.
 
 And many bug fixes.
 
