@@ -28,3 +28,7 @@ managers.Makefile: robotis-op2.Makefile
 managers.Makefile robotis-op2.Makefile:
 	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)
 	+@make -s -C $(@:.Makefile=) $(MAKECMDGOALS)
+
+ifeq ($(OSTYPE),darwin)
+	+make -f Makefile.mac $(MAKECMDGOALS)
+endif

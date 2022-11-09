@@ -34,7 +34,7 @@ WbWrenGtao::WbWrenGtao() :
   mFov(0.78f),
   mRadius(2.0),
   mHalfResolution(false),
-  mFlipNormalY(0.0f),
+  mFlipNormalY(false),
   mFrameCounter(0) {
   mClipInfo[0] = mClipInfo[1] = mClipInfo[2] = mClipInfo[3] = 0.0f;
   mParams[0] = mParams[1] = mParams[2] = mParams[3] = 0.0f;
@@ -146,7 +146,7 @@ void WbWrenGtao::setQualityLevel(int qualityLevel) {
   applyParametersToWren();
 }
 
-void WbWrenGtao::setFlipNormalY(float flip) {
+void WbWrenGtao::setFlipNormalY(bool flip) {
   mFlipNormalY = flip;
 
   applyParametersToWren();

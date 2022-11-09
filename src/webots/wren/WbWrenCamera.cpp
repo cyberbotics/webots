@@ -800,7 +800,7 @@ void WbWrenCamera::setupCameraPostProcessing(int index) {
     const int qualityLevel = WbPreferences::instance()->value("OpenGL/GTAO", 2).toInt();
     if (qualityLevel > 0) {
       mWrenGtao[index]->setHalfResolution(qualityLevel <= 2);
-      mWrenGtao[index]->setFlipNormalY(1.0f);
+      mWrenGtao[index]->setFlipNormalY(true);
       mWrenGtao[index]->setup(mCameraViewport[index]);
     }
   }
@@ -928,7 +928,7 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
   }
 
   if (mMotionBlurIntensity > 0.0f) {
-    mWrenMotionBlur[index]->setFirstRender(mFirstRenderingCall ? 1.0f : 0.0f);
+    mWrenMotionBlur[index]->setFirstRender(mFirstRenderingCall);
     mWrenMotionBlur[index]->setIntensity(mMotionBlurIntensity);
   }
 
@@ -962,14 +962,14 @@ void WbWrenCamera::updatePostProcessingParameters(int index) {
 void WbWrenCamera::applySphericalPostProcessingEffect() {
   assert(!isPlanarProjection());
 
-  const int isRangeFinderOrLidar = !mIsColor;
+  const bool isRangeFinderOrLidar = !mIsColor;
   wr_shader_program_set_custom_uniform_value(WbWrenShaders::mergeSphericalShader(), "rangeCamera",
-                                             WR_SHADER_PROGRAM_UNIFORM_TYPE_INT,
+                                             WR_SHADER_PROGRAM_UNIFORM_TYPE_BOOL,
                                              reinterpret_cast<const char *>(&isRangeFinderOrLidar));
 
-  const int isCylindrical = mProjection == CYLINDRICAL_PROJECTION;
+  const bool isCylindrical = mProjection == CYLINDRICAL_PROJECTION;
   wr_shader_program_set_custom_uniform_value(WbWrenShaders::mergeSphericalShader(), "cylindrical",
-                                             WR_SHADER_PROGRAM_UNIFORM_TYPE_INT,
+                                             WR_SHADER_PROGRAM_UNIFORM_TYPE_BOOL,
                                              reinterpret_cast<const char *>(&isCylindrical));
 
   wr_shader_program_set_custom_uniform_value(WbWrenShaders::mergeSphericalShader(), "subCamerasResolutionX",
