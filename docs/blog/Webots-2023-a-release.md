@@ -75,7 +75,7 @@ With this release we are continuing to develop and improve the support for ROS 2
 New features include:
 
 - Added support for Windows Subsystem for Linux (WSL) and macOS.
-- Added reset handler to all examples of [webots_ros2](https://github.com/cyberbotics/webots\_ros2) to support simulation reset from Webots.
+- Added reset handler to all examples of [webots_ros2](https://github.com/cyberbotics/webots\\_ros2) to support simulation reset from Webots.
 
 And many bug fixes.
 
