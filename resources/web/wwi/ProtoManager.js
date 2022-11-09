@@ -23,7 +23,7 @@ export default class ProtoManager {
       xmlhttp.send();
     }).then(async text => {
       console.log('Load PROTO from URL: ' + url);
-      this.proto = new Node(url, text);
+      this.proto = new Node(url, text, true);
       await this.proto.generateInterface();
       this.proto.parseBody();
       this.loadX3d();
@@ -35,8 +35,8 @@ export default class ProtoManager {
         this.exposedParameters.set(parameterName, parameter); // TODO: change key to parameter id ?
       }
 
-      if (typeof this.onChange === 'function')
-        this.onChange();
+      //if (typeof this.onChange === 'function')
+      //  this.onChange();
 
       // test this using the world: DemoRegeneration.proto in the html
       // setTimeout(() => this.demoRegeneration(), 2000);

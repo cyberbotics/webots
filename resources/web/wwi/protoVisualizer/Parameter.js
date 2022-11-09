@@ -16,7 +16,6 @@ export default class Parameter {
     this.defaultValue = defaultValue;
     this.value = value;
     this.isTemplateRegenerator = isTemplateRegenerator;
-    this.parentNode = undefined;
     this.#parameterLinks = []; // list of other parameters to notify whenever this instance changes
   }
 
@@ -115,23 +114,27 @@ export default class Parameter {
         while (baseNode.isProto)
           baseNode = baseNode.baseType;
 
-        const p = baseNode.getParameterByName(this.name);
-        const id = p.value.value.getBaseNodeId();
-
         // get parent node
         const parentId = baseNode.getBaseNodeId().replace('n', '');
         console.log('parent node:' + parentId);
 
-        // delete existing node
-        view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
-        console.log('delete: ', id);
+        if (this.#value.value !== null) {
+          // delete existing node
+          const p = baseNode.getParameterByName(this.name);
+          const id = p.value.value.getBaseNodeId();
+
+          view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
+          console.log('delete: ', id);
+        }
 
         // update value on the structure side
         this.#value.setValueFromJavaScript(v);
 
-        const x3d = new XMLSerializer().serializeToString(v.toX3d());
-        console.log('insert:' + x3d);
-        view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
+        if (v !== null) {
+          const x3d = new XMLSerializer().serializeToString(v.toX3d());
+          console.log('insert:' + x3d);
+          view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
+        }
       } else {
         // update value on the structure side
         this.#value.setValueFromJavaScript(v);
@@ -155,7 +158,6 @@ export default class Parameter {
   clone() {
     const copy = new Parameter(this.node, this.name, this.type, this.defaultValue.clone(), this.value.clone(),
       this.isTemplateRegenerator);
-    copy.parentNode = this.parentNode;
     return copy;
   }
 }

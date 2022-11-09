@@ -131,7 +131,6 @@ export default class X3dScene {
   }
 
   #deleteObject(id) {
-    // console.log('JS NODES', WbWorld.instance.nodes)
     const object = WbWorld.instance.nodes.get('n' + id);
     if (typeof object === 'undefined')
       return;
@@ -176,7 +175,6 @@ export default class X3dScene {
     let parentNode;
     if (typeof parentId !== 'undefined') {
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
-      console.log('parentNode:'. parentNode)
       const ancestor = getAncestor(parentNode);
       ancestor.isPreFinalizedCalled = false;
       ancestor.wrenObjectsCreatedCalled = false;

@@ -4,15 +4,16 @@ import {VRML} from './protoVisualizer/vrml_type.js';
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #protoManager;
   #view;
-  constructor(parentNode, protoManager, view) {
+  constructor(parentNode, protoManager, view, proto) {
     super(parentNode, 'proto-parameter');
     this.floatingWindow.style.zIndex = '2';
-    this.headerText.innerHTML = 'Proto parameter window';
     this.floatingWindowContent.removeChild(this.frame);
     this.frame = document.createElement('div');
     this.frame.id = this.name + '-content';
     this.floatingWindowContent.appendChild(this.frame);
     this.#protoManager = protoManager;
+    this.proto = proto;
+    this.headerText.innerHTML = this.proto.name;
     this.#view = view;
 
     this.setupNodeSelector(parentNode);
@@ -21,25 +22,30 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   populateProtoParameterWindow() {
     const contentDiv = document.getElementById('proto-parameter-content');
     if (contentDiv) {
+      this.headerText.innerHTML = this.proto.name;
+
       contentDiv.innerHTML = '';
-      const keys = this.#protoManager.exposedParameters.keys();
       let row = 1;
+      if (!this.proto.isRoot)
+        this.#createBackButton(contentDiv, row++);
+
+      const keys = this.proto.parameters.keys();
       for (let key of keys) {
-        const parameter = this.#protoManager.exposedParameters.get(key);
+        const parameter = this.proto.parameters.get(key);
         if (parameter.type === VRML.SFVec3f)
-          this.#createSFVec3Field(key, contentDiv, row);
+          this.#createSFVec3Field(key, contentDiv, row++);
         else if (parameter.type === VRML.SFRotation)
-          this.#createSFRotation(key, contentDiv, row);
+          this.#createSFRotation(key, contentDiv, row++);
         else if (parameter.type === VRML.SFString)
-          this.#createSFStringField(key, contentDiv, row);
+          this.#createSFStringField(key, contentDiv, row++);
         else if (parameter.type === VRML.SFFloat)
-          this.#createSFFloatField(key, contentDiv, row);
+          this.#createSFFloatField(key, contentDiv, row++);
         else if (parameter.type === VRML.SFNode)
-          this.#createSFNodeField(key, contentDiv, row);
-        row++;
+          this.#createSFNodeField(key, contentDiv, row++);
       }
 
-      this.#createDownloadButton(contentDiv, row);
+      if (this.proto.isRoot)
+        this.#createDownloadButton(contentDiv, row);
     }
   }
 
@@ -48,6 +54,24 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     div.className = 'node-library';
     div.setAttribute('id', 'node-library');
     parentNode.appendChild(div);
+  }
+
+  #createBackButton(parent, row) {
+    const buttonContainer = document.createElement('span');
+    buttonContainer.style.gridRow = '' + row + ' / ' + row;
+    buttonContainer.style.gridColumn = '1 / 1';
+
+    const backButton = document.createElement('button');
+    backButton.innerHTML = 'Back';
+    backButton.title = 'Return to the previous PROTO';
+    backButton.onclick = () => {
+      console.log('back.');
+      this.proto = this.#protoManager.proto; // TODO: go one layer up, not back to root
+      this.populateProtoParameterWindow();
+    };
+    buttonContainer.appendChild(backButton);
+
+    parent.appendChild(buttonContainer);
   }
 
   #createDownloadButton(parent, row) {
@@ -59,7 +83,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const input = document.createElement('input');
     input.type = 'text';
     input.title = 'New proto name';
-    input.value = 'My' + this.#protoManager.proto.name;
+    input.value = 'My' + this.proto.name;
     buttonContainer.appendChild(input);
 
     const downloadButton = document.createElement('button');
@@ -89,7 +113,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #createSFVec3Field(key, parent, row) {
-    const parameter = this.#protoManager.exposedParameters.get(key);
+    const parameter = this.proto.parameters.get(key);
 
     const p = document.createElement('p');
     p.innerHTML = key + ': ';
@@ -100,8 +124,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.parameter = parameter;
     p.className = 'key-parameter';
 
-    const exportCheckbox = this.#createCheckbox(parent, row);
-    p.checkbox = exportCheckbox;
+    if (this.proto.isRoot) {
+      const exportCheckbox = this.#createCheckbox(parent, row);
+      p.checkbox = exportCheckbox;
+    }
 
     const values = document.createElement('p');
     values.style.gridRow = '' + row + ' / ' + row;
@@ -124,7 +150,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #createSFRotation(key, parent, row) {
-    const parameter = this.#protoManager.exposedParameters.get(key);
+    const parameter = this.proto.parameters.get(key);
 
     const p = document.createElement('p');
     p.innerHTML = key + ': ';
@@ -135,7 +161,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.parameter = parameter;
     p.className = 'key-parameter';
 
-    const exportCheckbox = this.#createCheckbox(parent, row);
+    if (this.proto.isRoot) {
+      const exportCheckbox = this.#createCheckbox(parent, row);
+      p.checkbox = exportCheckbox;
+    }
 
     const values = document.createElement('p');
     values.style.gridRow = '' + row + ' / ' + row;
@@ -145,7 +174,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.inputs.push(this.#createVectorInput(' y', parameter.value.value.y, values, () => this.#rotationOnChange(p)));
     p.inputs.push(this.#createVectorInput(' z', parameter.value.value.z, values, () => this.#rotationOnChange(p)));
     p.inputs.push(this.#createVectorInput(' a', parameter.value.value.a, values, () => this.#rotationOnChange(p)));
-    p.checkbox = exportCheckbox;
     const resetButton = this.#createResetButton(values);
     resetButton.onclick = () => {
       p.inputs[0].value = parameter.defaultValue.value.x;
@@ -185,7 +213,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #createSFStringField(key, parent, row) {
-    const parameter = this.#protoManager.exposedParameters.get(key);
+    const parameter = this.proto.parameters.get(key);
 
     const p = document.createElement('p');
     p.innerHTML = key + ': ';
@@ -195,7 +223,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.style.gridColumn = '2 / 2';
     p.className = 'key-parameter';
 
-    const exportCheckbox = this.#createCheckbox(parent, row);
+    if (this.proto.isRoot) {
+      const exportCheckbox = this.#createCheckbox(parent, row);
+      p.checkbox = exportCheckbox;
+    }
 
     const value = document.createElement('p');
     value.style.gridRow = '' + row + ' / ' + row;
@@ -212,7 +243,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     input.onchange = () => this.#stringOnChange(p);
     p.input = input;
-    p.checkbox = exportCheckbox;
     value.appendChild(input);
 
     const resetButton = this.#createResetButton(value);
@@ -241,7 +271,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #createSFFloatField(key, parent, row) {
-    const parameter = this.#protoManager.exposedParameters.get(key);
+    const parameter = this.proto.parameters.get(key);
 
     const p = document.createElement('p');
     p.className = 'key-parameter';
@@ -251,7 +281,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.style.gridRow = '' + row + ' / ' + row;
     p.style.gridColumn = '2 / 2';
 
-    const exportCheckbox = this.#createCheckbox(parent, row);
+    if (this.proto.isRoot) {
+      const exportCheckbox = this.#createCheckbox(parent, row);
+      p.checkbox = exportCheckbox;
+    }
 
     const value = document.createElement('p');
     value.className = 'value-parameter';
@@ -266,7 +299,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     input.onchange = () => this.#floatOnChange(p);
     p.input = input;
-    p.checkbox = exportCheckbox;
     value.appendChild(input);
 
     const resetButton = this.#createResetButton(value);
@@ -279,7 +311,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #createSFNodeField(key, parent, row) {
-    const parameter = this.#protoManager.exposedParameters.get(key);
+    const parameter = this.proto.parameters.get(key);
+
 
     const p = document.createElement('p');
     p.className = 'key-parameter';
@@ -289,16 +322,25 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.style.gridRow = '' + row + ' / ' + row;
     p.style.gridColumn = '2 / 2';
 
-    const exportCheckbox = this.#createCheckbox(parent, row);
-    p.checkbox = exportCheckbox;
+    if (this.proto.isRoot) {
+      const exportCheckbox = this.#createCheckbox(parent, row);
+      p.checkbox = exportCheckbox;
+    }
 
     const value = document.createElement('p');
     value.className = 'value-parameter';
     value.style.gridRow = '' + row + ' / ' + row;
     value.style.gridColumn = '3 / 3';
 
+    const configureButton = document.createElement('button');
+    configureButton.innerHTML = 'configure';
+    configureButton.onclick = async() => {
+      console.log('configure.');
+      this.proto = parameter.value.value;
+      this.populateProtoParameterWindow();
+    };
+
     const nodeButton = document.createElement('button');
-    nodeButton.innerHTML = 'NULL';
     nodeButton.title = 'Select a node to insert';
     nodeButton.onclick = async() => {
       console.log('clicked.');
@@ -311,10 +353,21 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         };
         xmlhttp.send();
       }).then(text => {
-        this.#populateNodeLibrary(text, parameter);
+        this.#populateNodeLibrary(text, parameter, nodeButton, configureButton);
       });
     };
+
+    if (parameter.value.value === null) {
+      configureButton.style.display = 'none';
+      nodeButton.innerHTML = 'NULL';
+    } else {
+      configureButton.style.display = 'block';
+      configureButton.title = 'Configure ' + parameter.value.value.name + ' node';
+      nodeButton.innerHTML = parameter.value.value.name;
+    }
+
     value.appendChild(nodeButton);
+    value.appendChild(configureButton);
 
     const resetButton = this.#createResetButton(value);
     resetButton.onclick = () => {
@@ -324,12 +377,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(value);
   }
 
-  async #populateNodeLibrary(protoList, parameter) {
+  async #populateNodeLibrary(protoList, parameter, nodeButton, configureButton) {
     let panel = document.getElementById('node-library');
     panel.innerHTML = '';
     panel.style.display = 'block';
 
-    let protoNodes = [];
+    let protoNodes = [{name: 'NULL', url: null}];
 
     const parser = new DOMParser();
     const xml = parser.parseFromString(protoList, 'text/xml').firstChild;
@@ -354,23 +407,36 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         const url = element.target.value;
         console.log('inserting:', url);
 
-        //const protoManager = new ProtoManager(this.#view);
-        //await protoManager.loadProto(url);
-        //const x3d = new XMLSerializer().serializeToString(protoManager.proto.toX3d());
-        //console.log(x3d);
+        // const protoManager = new ProtoManager(this.#view);
+        // await protoManager.loadProto(url);
+        // const x3d = new XMLSerializer().serializeToString(protoManager.proto.toX3d());
+        // console.log(x3d);
 
-        const node = await this.#protoManager.generateNodeFromUrl(url);
-        const x3d = new XMLSerializer().serializeToString(node.toX3d());
-        //console.log('Grafted x3d:', x3d);
-        //console.log(parameter);
+        if (url === 'null')
+          parameter.setValueFromJavaScript(this.#view, null);
+        else {
+          const node = await this.#protoManager.generateNodeFromUrl(url);
+          const x3d = new XMLSerializer().serializeToString(node.toX3d());
+          //console.log('Grafted x3d:', x3d);
+          //console.log(parameter);
 
-        //const sfnode = new SFNode();
-        //sfnode.setValue(node);
+          //const sfnode = new SFNode();
+          //sfnode.setValue(node);
 
-        parameter.setValueFromJavaScript(this.#view, node);
+          parameter.setValueFromJavaScript(this.#view, node);
+        }
 
         // close library panel
         panel.style.display = 'none';
+
+        // update button name
+        if (parameter.value.value === null) {
+          nodeButton.innerHTML = 'NULL';
+          configureButton.style.display = 'none';
+        } else {
+          nodeButton.innerHTML = parameter.value.value.name;
+          configureButton.style.display = 'block';
+        }
       };
 
       ol.appendChild(item);

@@ -12,16 +12,17 @@ export default class Node {
   static cProtoModels = new Map();
   static cBaseModels = new Map();
 
-  constructor(url, protoText, parent) {
+  constructor(url, protoText, isRoot = false) {
     // IMPORTANT! When adding new member variables of type Map, modify the .clone method so that it creates a copy of it
     this.id = getAnId();
     this.baseType = undefined; // may correspond to a base-node or another PROTO if it's a derived PROTO
+    this.isRoot = isRoot;
 
     this.url = url;
     this.isProto = this.url.toLowerCase().endsWith('.proto');
 
     this.name = this.isProto ? this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '') : url;
-    // console.log('CREATING ' + (this.isProto ? 'PROTO ' : 'BASENODE ') + this.name + ', id: ', this.id, parent);
+    // console.log('CREATING ' + (this.isProto ? 'PROTO ' : 'BASENODE ') + this.name + ', id: ', this.id);
 
     this.parameters = new Map();
     this.externProto = new Map();
@@ -274,14 +275,14 @@ export default class Node {
     return nodeElement;
   }
 
-  toJS(isRoot = false) {
+  toJS(isFirstNode = false) {
     let jsFields = '';
     for (const [parameterName, parameter] of this.parameters) {
       // console.log('JS-encoding of ' + parameterName);
       jsFields += `${parameterName}: {value: ${parameter.value.toJS()}, defaultValue: ${parameter.defaultValue.toJS()}}, `;
     }
 
-    if (isRoot)
+    if (isFirstNode)
       return jsFields.slice(0, -2);
 
     return `{node_name: '${this.name}', fields: {${jsFields.slice(0, -2)}}}`;
