@@ -32,7 +32,7 @@ public:
   void setRadius(float radius);
   void setQualityLevel(int qualityLevel);
   void setHalfResolution(bool halfResolution) { mHalfResolution = halfResolution; }
-  void setFlipNormalY(float flip);
+  void setFlipNormalY(bool flip);
   void copyNewInverseViewMatrix(const float *inverseViewMatrix);
   void applyOldInverseViewMatrixToWren();
 
@@ -48,7 +48,7 @@ private:
   float mOffsets[4];
   float mParams[4];
   bool mHalfResolution;
-  float mFlipNormalY;
+  bool mFlipNormalY;
   float mPreviousInverseViewMatrix[16];
   int mFrameCounter;
 };
