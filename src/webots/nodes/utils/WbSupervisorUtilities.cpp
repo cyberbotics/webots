@@ -44,6 +44,7 @@
 #include "WbStandardPaths.hpp"
 #include "WbTemplateManager.hpp"
 #include "WbViewpoint.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenLabelOverlay.hpp"
 #include "WbWrenOpenGlContext.hpp"
@@ -475,8 +476,16 @@ void WbSupervisorUtilities::notifyFieldUpdate() {
   const WbField *field = static_cast<WbField *>(sender());
   if (!field->parentNode())
     return;
-  const int fieldCount = static_cast<WbMultipleValue *>(field->value())->size();
   const int listSize = mUpdatedFields.size();
+  const WbMultipleValue *mv = dynamic_cast<WbMultipleValue *>(field->value());
+  int fieldCount;
+  if (mv)
+    fieldCount = mv->size();
+  else {
+    const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
+    assert(sfNode);  // field should be a WbMultipleValue or a WbSFNode
+    fieldCount = sfNode->value() ? 1 : 0;
+  }
   const WbUpdatedFieldInfo info(field->parentNode()->uniqueId(), field->name(), fieldCount);
   for (int i = 0; i < listSize; ++i) {
     WbUpdatedFieldInfo &existingInfo = mUpdatedFields[i];
@@ -511,7 +520,7 @@ void WbSupervisorUtilities::updateProtoRegeneratedFlag(WbNode *node) {
   foreach (const WbUpdatedFieldInfo info, mWatchedFields) {
     if (info.nodeId == nodeId) {
       const WbField *field = node->findField(info.fieldName, false);
-      assert(field->isMultiple());
+      assert(field->isMultiple() || field->type() == WB_SF_NODE);
       field->listenToValueSizeChanges();
       connect(field, &WbField::valueSizeChanged, this, &WbSupervisorUtilities::notifyFieldUpdate, Qt::UniqueConnection);
     }
@@ -721,7 +730,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         mFoundNodeParentUniqueId = (node->parentNode() ? node->parentNode()->uniqueId() : -1);
         mFoundNodeIsProto = node->isProtoInstance();
         mFoundNodeIsProtoInternal =
-          node->parentNode() != WbWorld::instance()->root() && !WbNodeUtilities::isVisible(node->parentField());
+          node->parentNode() != WbWorld::instance()->root() && !WbVrmlNodeUtilities::isVisible(node->parentField());
         connect(node, &WbNode::defUseNameChanged, this, &WbSupervisorUtilities::notifyNodeUpdate, Qt::UniqueConnection);
       }
 
@@ -767,7 +776,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       const WbBaseNode *baseNode = dynamic_cast<const WbBaseNode *>(device);
       assert(baseNode);
       mFoundNodeIsProtoInternal =
-        baseNode->parentNode() != WbWorld::instance()->root() && !WbNodeUtilities::isVisible(baseNode->parentField());
+        baseNode->parentNode() != WbWorld::instance()->root() && !WbVrmlNodeUtilities::isVisible(baseNode->parentField());
       mGetNodeRequest = C_SUPERVISOR_NODE_GET_FROM_TAG;
       mCurrentDefName = baseNode->defName();
       mFoundNodeUniqueId = baseNode->uniqueId();
@@ -1089,7 +1098,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       stream >> nodeId;
       WbNode *node = WbNode::findNode(nodeId);
 
-      mNodeExportString = WbNodeOperations::exportNodeToString(node);
+      mNodeExportString = WbVrmlNodeUtilities::exportNodeToString(node);
       mNodeExportStringRequest = true;
       return;
     }
@@ -1142,19 +1151,24 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       mFoundFieldCount = -1;
       mFoundFieldIsInternal = false;
 
-      WbNode *const node = WbNode::findNode(id);
+      const WbNode *const node = WbNode::findNode(id);
       if (node) {
         id = node->findFieldId(name, allowSearchInProto == 1);
         if (id != -1) {
-          WbField *field = node->field(id, allowSearchInProto == 1);
+          const WbField *field = node->field(id, allowSearchInProto == 1);
           if (field) {
-            WbMultipleValue *mv = dynamic_cast<WbMultipleValue *>(field->value());
-            mFoundFieldCount = mv ? mv->size() : -1;
+            const WbMultipleValue *mv = dynamic_cast<WbMultipleValue *>(field->value());
+            const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
+            if (mv)
+              mFoundFieldCount = mv->size();
+            else if (sfNode)
+              mFoundFieldCount = sfNode->value() ? 1 : 0;
+
             mFoundFieldIndex = id;
             mFoundFieldType = field->type();
             mFoundFieldIsInternal = allowSearchInProto == 1;
             mFoundFieldName = field->name();
-            if (mv) {
+            if (mv || sfNode) {
               mWatchedFields.append(WbUpdatedFieldInfo(node->uniqueId(), field->name(), mFoundFieldCount));
               field->listenToValueSizeChanges();
               connect(field, &WbField::valueSizeChanged, this, &WbSupervisorUtilities::notifyFieldUpdate, Qt::UniqueConnection);
@@ -1176,17 +1190,21 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       mFoundFieldCount = -1;
       mFoundFieldIsInternal = false;
 
-      WbNode *const node = WbNode::findNode(nodeId);
+      const WbNode *const node = WbNode::findNode(nodeId);
       if (node) {
-        WbField *field = node->field(fieldIndex, allowSearchInProto == 1);
+        const WbField *field = node->field(fieldIndex, allowSearchInProto == 1);
         if (field) {
-          WbMultipleValue *mv = dynamic_cast<WbMultipleValue *>(field->value());
-          mFoundFieldCount = mv ? mv->size() : -1;
+          const WbMultipleValue *mv = dynamic_cast<WbMultipleValue *>(field->value());
+          const WbSFNode *sfNode = dynamic_cast<WbSFNode *>(field->value());
+          if (mv)
+            mFoundFieldCount = mv->size();
+          else if (sfNode)
+            mFoundFieldCount = sfNode->value() ? 1 : 0;
           mFoundFieldIndex = fieldIndex;
           mFoundFieldType = field->type();
           mFoundFieldIsInternal = allowSearchInProto == 1;
           mFoundFieldName = field->name();
-          if (mv) {
+          if (mv || sfNode) {
             mWatchedFields.append(WbUpdatedFieldInfo(node->uniqueId(), field->name(), mFoundFieldCount));
             field->listenToValueSizeChanges();
             connect(field, &WbField::valueSizeChanged, this, &WbSupervisorUtilities::notifyFieldUpdate, Qt::UniqueConnection);
@@ -1501,7 +1519,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       while (node && node->protoParameterNode())
         node = node->protoParameterNode();
 
-      if (!WbNodeUtilities::isVisible(node)) {
+      if (!WbVrmlNodeUtilities::isVisible(node)) {
         mRobot->warn(
           tr("Node '%1' is internal to a PROTO and therefore cannot be deleted from a Supervisor.").arg(node->modelName()));
         return;
@@ -1801,8 +1819,7 @@ void WbSupervisorUtilities::writeAnswer(WbDataStream &stream) {
     stream << (int)mFoundFieldIndex;
     stream << (int)mFoundFieldType;
     stream << (unsigned char)mFoundFieldIsInternal;
-    if (mFoundFieldCount != -1)
-      stream << (int)mFoundFieldCount;
+    stream << (int)mFoundFieldCount;
     const QByteArray ba = mFoundFieldName.toUtf8();
     stream.writeRawData(ba.constData(), ba.size() + 1);
     mFoundFieldIndex = -2;
@@ -2093,7 +2110,7 @@ void WbSupervisorUtilities::writeConfigure(WbDataStream &stream) {
   stream << (int)selfNode->parentNode()->uniqueId();
   stream << (unsigned char)selfNode->isProtoInstance();
   stream << (unsigned char)(selfNode->parentNode() != WbWorld::instance()->root() &&
-                            !WbNodeUtilities::isVisible(selfNode->parentField()));
+                            !WbVrmlNodeUtilities::isVisible(selfNode->parentField()));
   const QByteArray &s = selfNode->modelName().toUtf8();
   stream.writeRawData(s.constData(), s.size() + 1);
   const QByteArray &ba = selfNode->defName().toUtf8();

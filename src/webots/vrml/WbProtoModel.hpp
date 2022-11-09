@@ -99,6 +99,8 @@ public:
 
   QStringList parameterNames() const;
 
+  void setIsTemplate(bool value);
+
   // add/remove a reference to this proto model from a proto instance
   // when the reference count reaches zero (in unref()) the proto model gets deleted
   // the optional argument defines if it is called from the creation of a proto instance

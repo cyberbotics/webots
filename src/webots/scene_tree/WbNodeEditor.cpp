@@ -31,6 +31,7 @@
 #include "WbSelection.hpp"
 #include "WbToken.hpp"
 #include "WbViewpoint.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWorldInfo.hpp"
 
 #include <QtCore/QDir>
@@ -220,7 +221,8 @@ void WbNodeEditor::apply() {
     // check if the new DEF name is not already used by subsequent USE nodes
     bool defOverlap = false;
     bool useOverlap = false;
-    dictionaryUpdateRequest = WbNodeUtilities::hasASubsequentUseOrDefNode(mNode, newDef, previousDef, useOverlap, defOverlap);
+    dictionaryUpdateRequest =
+      WbVrmlNodeUtilities::hasASubsequentUseOrDefNode(mNode, newDef, previousDef, useOverlap, defOverlap);
     if (dictionaryUpdateRequest) {
       mMessageBox = true;
       QString message;

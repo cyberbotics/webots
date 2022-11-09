@@ -257,10 +257,10 @@ class TestSuite (Supervisor):
             else:
                 # wait for controllers start or termination messages
                 while receiver.getQueueLength() > 0:
-                    data = receiver.getData()
-                    dataList = data.split(b" ")
-                    if dataList[0] == b"ts":
-                        if dataList[1] == b'1':
+                    data = receiver.getString()
+                    dataList = data.split(' ')
+                    if dataList[0] == 'ts':
+                        if dataList[1] == '1':
                             if dataList[2] not in running_controllers_pid:
                                 running_controllers_pid.append(dataList[2])
                                 test_started = True
