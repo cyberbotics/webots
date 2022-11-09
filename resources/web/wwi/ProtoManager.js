@@ -65,6 +65,8 @@ export default class ProtoManager {
   loadX3d() {
     const x3d = new XMLSerializer().serializeToString(this.proto.toX3d());
     this.#view.prefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);
+    console.log('proto:', this.proto);
+    console.log('load:', x3d);
     this.#view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', this.parentId);
   }
 

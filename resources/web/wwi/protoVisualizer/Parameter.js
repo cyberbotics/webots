@@ -1,6 +1,6 @@
 'use strict';
 
-import {stringifyType} from './Vrml.js';
+import {SFNode, stringifyType} from './Vrml.js';
 
 export default class Parameter {
   #type;
@@ -76,8 +76,6 @@ export default class Parameter {
 
   // TODO: find better approach rather than propagating the view to subsequent parameters
   setValueFromJavaScript(view, v) {
-    // update value on the structure side
-    this.#value.setValueFromJavaScript(v);
     // notify linked parameters of the change
     for (const link of this.parameterLinks) {
       console.log(this.name + ' change notifies ' + link.name);
@@ -85,6 +83,9 @@ export default class Parameter {
     }
 
     if (this.isTemplateRegenerator) {
+      // update value on the structure side
+      this.#value.setValueFromJavaScript(v); // TODO: should be move after delete?
+
       console.log('  > ' + this.name + ' is a template regenerator!');
 
       if (!this.node.isProto)
@@ -109,10 +110,37 @@ export default class Parameter {
       if (this.node.isProto)
         return; // webotsJS needs to be notified of parameter changes only if the parameter belongs to a base-node, not PROTO
 
-      const action = {};
-      action['id'] = this.node.id;
-      action[this.name] = this.value.toJson();
-      view.x3dScene.applyPose(action);
+      if (this.#value instanceof SFNode) {
+        let baseNode = this.node;
+        while (baseNode.isProto)
+          baseNode = baseNode.baseType;
+
+        const p = baseNode.getParameterByName(this.name);
+        const id = p.value.value.getBaseNodeId();
+
+        // get parent node
+        const parentId = baseNode.getBaseNodeId().replace('n', '');
+        console.log('parent node:' + parentId);
+
+        // delete existing node
+        view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
+        console.log('delete: ', id);
+
+        // update value on the structure side
+        this.#value.setValueFromJavaScript(v);
+
+        const x3d = new XMLSerializer().serializeToString(v.toX3d());
+        console.log('insert:' + x3d);
+        view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
+      } else {
+        // update value on the structure side
+        this.#value.setValueFromJavaScript(v);
+
+        const action = {};
+        action['id'] = this.node.id;
+        action[this.name] = this.value.toJson();
+        view.x3dScene.applyPose(action);
+      }
       view.x3dScene.render();
     }
   }

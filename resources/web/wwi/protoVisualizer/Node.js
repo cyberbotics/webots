@@ -127,6 +127,7 @@ export default class Node {
   clone() {
     let copy = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
     copy.id = getAnId();
+    // console.log('cloned ' + this.name + ' id : ' + this.id + ' -> ' + copy.id);
     copy.parameters = new Map();
     for (const [parameterName, parameter] of this.parameters) {
       if (typeof parameter !== 'undefined') {
@@ -196,7 +197,7 @@ export default class Node {
     tokenizer.skipToken('{');
 
     this.baseType = Node.createNode(tokenizer);
-    // console.log('STRUCT', this.baseType);
+    // console.log('STRUCT', this);
 
     tokenizer.skipToken('}');
   };
@@ -254,10 +255,9 @@ export default class Node {
         nodeElement.setAttribute('role', parameterReference); // identifies which device slot the node belongs to
     } else {
       nodeElement.setAttribute('id', this.id);
-      // console.log('ENCODE ' + this.name)
+      // console.log('ENCODE ' + this.name, ', id: ', this.id)
       for (const [parameterName, parameter] of this.parameters) {
-        // console.log('  ENCODE PARAMETER ' + parameterName + ', is default? ', parameter.isDefault(),
-        //   ' parentNode: ', parameter.parentNode.id);
+        // console.log('  ENCODE PARAMETER ' + parameterName + ', is default? ', parameter.isDefault());
         if (typeof parameter.value === 'undefined') // note: SFNode can be null, not undefined
           throw new Error('All parameters should be defined, ' + parameterName + ' is not.');
 
@@ -313,6 +313,20 @@ export default class Node {
   clearReferences() {
     // TODO
   };
+
+  getParameterByName(name) {
+    if (!this.parameters.has(name))
+      throw new Error('Node ' + this.name + ' does not have a parameter named: ' + name);
+
+    return this.parameters.get(name);
+  }
+
+  getBaseNodeId() {
+    if (this.isProto)
+      return this.baseType.getBaseNodeId();
+
+    return this.id;
+  }
 
   static createNode(tokenizer) {
     let defName;
@@ -388,8 +402,13 @@ function combinePaths(url, parentUrl) {
   let newUrl;
   if (parentUrl.startsWith('http://' || url.startsWith('https://')))
     newUrl = new URL(url, parentUrl.slice(0, parentUrl.lastIndexOf('/') + 1)).href;
-  else
-    newUrl = parentUrl.slice(0, parentUrl.lastIndexOf('/') + 1) + url;
+  else {
+    // TODO: likely wrong, temp fix to load local stuff
+    //if (url.endsWith('.proto') && parentUrl.endsWith('.proto'))
+      newUrl = parentUrl.slice(0, parentUrl.lastIndexOf('/') + 1) + url;
+    //else
+    //  newUrl = url;
+  }
 
   // console.log('FROM >' + url + '< AND >' + parentUrl + "< === " + newUrl);
   return newUrl;

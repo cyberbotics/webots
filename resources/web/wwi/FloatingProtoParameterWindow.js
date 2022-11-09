@@ -364,8 +364,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
         const node = await this.#protoManager.generateNodeFromUrl(url);
         const x3d = new XMLSerializer().serializeToString(node.toX3d());
-        console.log('Grafted x3d:', x3d);
-        console.log(parameter);
+        //console.log('Grafted x3d:', x3d);
+        //console.log(parameter);
 
         //const sfnode = new SFNode();
         //sfnode.setValue(node);
