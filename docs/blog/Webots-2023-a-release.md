@@ -59,7 +59,7 @@ Moreover, in order to enrich the collection of sample controllers, all sample wo
 
 So far, the [InertialUnit](../reference/inertialunit.md) was considered as an IMU, because it provides the ground truth data of the attitude (roll, pitch, yaw) of the object on which it is grafted. 
 This assumption is fundamentally wrong.
-An IMU gives the raw values of its sensors ([Accelerometer](../reference/accelerometer.md), [Gyroscope](../reference/gyroscope.md), [Compass](../reference/compass.md)) and can optionally provide the attitude output computed from the fusion of its sensors. 
+An IMU gives the raw values of its sensors ([Accelerometer](../reference/accelerometer.md), [Gyroscope](../reference/gyro.md), [Compass](../reference/compass.md)) and can optionally provide the attitude output computed from the fusion of its sensors. 
 The [InertialUnit](../reference/inertialunit.md) just makes life easier for the user who does not want to use a sensor fusion library or algorithm to combine the data from an IMU and compute the attitude.
 
 In addition to the implementation of the [Mpu-9250](../guide/imu-sensors.md#mpu-9250) IMU, Webots R2023a contains a new sample world that demonstrates a simple algorithm for calculating the attitude of a robot from the sensors of an IMU.
