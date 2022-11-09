@@ -4,7 +4,7 @@
 
 ---
 
-It is that time of year again!
+It is that time of the year again!
 Today we are happy to announce the release of Webots R2023a!
 This new version is packed with some new features, improvements and, of course, bug fixes.
 
