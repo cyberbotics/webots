@@ -51,7 +51,7 @@ The API will always be compatible with current and upcoming Python versions.
 This change of API does not induce any change to the methods. 
 Python controllers developed before Webots R2023a are fully compatible with this new version.
 
-Moreover, in order to enrich the collection of sample controllers, all sample worlds of the device nodes provide an additional Python controller equivalent to the C controller already included to demonstrate the API functions.
+Moreover, in order to enrich the collection of sample controllers, all sample worlds of the device nodes provide an additional Python controller equivalent to the C controller already included to demonstrate the usage of the API functions.
 
 ---
 
