@@ -64,13 +64,13 @@ class Supervisor(Robot):
         wb.wb_supervisor_simulation_reset_physics()
 
     def worldLoad(self, filename: str):
-        wb.wb_supervisor_simulation_world_load(str.encode(filename))
+        wb.wb_supervisor_world_load(str.encode(filename))
 
     def worldSave(self, filename: str) -> int:
-        return wb.wb_supervisor_simulation_world_save(str.encode(filename))
+        return wb.wb_supervisor_world_save(str.encode(filename))
 
     def worldReload(self):
-        wb.wb_supervisor_simulation_world_reload()
+        wb.wb_supervisor_world_reload()
 
     def exportImage(self, filename: str, quality: int):
         wb.wb_supervisor_export_image(str.encode(filename), quality)
