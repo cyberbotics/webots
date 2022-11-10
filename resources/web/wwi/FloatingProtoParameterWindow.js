@@ -317,6 +317,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.className = 'key-parameter';
     p.innerHTML = key + ': ';
     p.key = key;
+    p.inputs = [];
     p.parameter = parameter;
     p.style.gridRow = '' + row + ' / ' + row;
     p.style.gridColumn = '2 / 2';
@@ -330,6 +331,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     value.className = 'value-parameter';
     value.style.gridRow = '' + row + ' / ' + row;
     value.style.gridColumn = '3 / 3';
+
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.display = 'flex';
 
     const configureButton = document.createElement('button');
     configureButton.innerHTML = 'configure';
@@ -365,10 +369,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       nodeButton.innerHTML = parameter.value.value.name;
     }
 
-    value.appendChild(nodeButton);
-    value.appendChild(configureButton);
+    buttonContainer.appendChild(nodeButton);
+    buttonContainer.appendChild(configureButton);
+    value.append(buttonContainer);
 
-    const resetButton = this.#createResetButton(value);
+    const resetButton = this.#createResetButton(buttonContainer);
     resetButton.onclick = () => {
       throw new Error('TODO: implement reset.');
     };
