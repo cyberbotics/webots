@@ -517,10 +517,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       button.onclick = (element) => {
         const url = element.target.value;
 
-        const protoName = url.split('/').pop().replace('.proto', '');
-        const iconUrl = url.slice(0, url.lastIndexOf('/') + 1) + 'icons/' + protoName + '.png';
-        const nodeImage = document.getElementById('node-image');
-        nodeImage.setAttribute('src', iconUrl);
+        if (url === 'null')
+          img.setAttribute('src', '../../images/missing_proto_icon.png');
+        else {
+          const protoName = url.split('/').pop().replace('.proto', '');
+          const iconUrl = url.slice(0, url.lastIndexOf('/') + 1) + 'icons/' + protoName + '.png';
+          const nodeImage = document.getElementById('node-image');
+          nodeImage.setAttribute('src', iconUrl);
+        }
       };
 
       button.ondblclick = async(element) => {
@@ -581,10 +585,30 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     nodeInfo.appendChild(img);
 
+    const nodeFilter = document.createElement('div');
+    nodeFilter.id = 'node-filter';
+    nodeFilter.className = 'node-filter';
+    const p = document.createElement('p');
+    p.innerHTML = 'Find: ';
+
+    const input = document.createElement('input');
+    input.id = 'filter';
+    input.type = 'text';
+    input.style.marginRight = '10px';
+    input.oninput = (element) => this.filterNodeLibrary(element);
+
+    p.appendChild(input);
+    nodeFilter.appendChild(p);
+
     const container = document.createElement('div');
+    container.appendChild(nodeFilter);
     container.appendChild(nodeList);
     container.appendChild(nodeInfo);
     panel.appendChild(container);
+  }
+
+  filterNodeLibrary(element) {
+    console.log(element.target.value);
   }
 
   isAllowedToInsert(parameter, baseType, slotType) {
