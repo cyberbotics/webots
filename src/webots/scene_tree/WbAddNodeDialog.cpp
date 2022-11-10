@@ -18,8 +18,6 @@
 #include "WbClipboard.hpp"
 #include "WbDesktopServices.hpp"
 #include "WbDictionary.hpp"
-#include "WbDownloadManager.hpp"
-#include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFileUtil.hpp"
 #include "WbLog.hpp"
@@ -32,6 +30,7 @@
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbProjectRelocationDialog.hpp"
+#include "WbProtoIcon.hpp"
 #include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbSFNode.hpp"
@@ -68,8 +67,6 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   mDefNodeIndex(-1),
   mRetrievalTriggered(false) {
   assert(mCurrentNode && mField);
-
-  mIconDownloaders.clear();
 
   // check if top node is a robot node
   const WbNode *const topNode =
@@ -182,26 +179,7 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   WbProtoManager::instance()->retrieveLocalProtoDependencies();
 }
 
-WbAddNodeDialog::~WbAddNodeDialog() {
-}
-
-void WbAddNodeDialog::downloadIcon(const QString &url) {
-  WbDownloader *const downloader = WbDownloadManager::instance()->createDownloader(QUrl(url), this);
-  mIconDownloaders.push_back(downloader);
-  connect(downloader, &WbDownloader::complete, this, &WbAddNodeDialog::iconUpdate);
-  downloader->download();
-}
-
-void WbAddNodeDialog::iconUpdate() {
-  const WbDownloader *const source = dynamic_cast<WbDownloader *>(sender());
-  QString pixmapPath;
-  if (source && !source->error().isEmpty()) {
-    // failure downloading or file does not exist (404)
-    pixmapPath = WbUrl::missingProtoIcon();
-  } else {
-    pixmapPath = WbNetwork::instance()->get(source->url().toString());
-  }
-
+void WbAddNodeDialog::setPixmap(const QString &pixmapPath) {
   QPixmap pixmap(pixmapPath);
   if (!pixmap.isNull()) {
     if (pixmap.size() != QSize(128, 128)) {
@@ -211,12 +189,14 @@ void WbAddNodeDialog::iconUpdate() {
     mPixmapLabel->show();
     mPixmapLabel->setPixmap(pixmap);
   }
+}
 
-  // purge completed downloaders
-  for (int i = mIconDownloaders.size() - 1; i >= 0; --i) {
-    if (mIconDownloaders[i] && mIconDownloaders[i]->hasFinished())
-      mIconDownloaders.remove(i);
-  }
+void WbAddNodeDialog::updateIcon(const QString &path) {
+  setPixmap(path.isEmpty() ? WbUrl::missingProtoIcon() : path);
+
+  WbProtoIcon *protoIcon = dynamic_cast<WbProtoIcon *>(sender());
+  assert(protoIcon);
+  protoIcon->deleteLater();
 }
 
 QString WbAddNodeDialog::modelName() const {
@@ -373,7 +353,6 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
     }
 
     description = info->description();
-    pixmapPath = QString("%1icons/%2.png").arg(QUrl(path).adjusted(QUrl::RemoveFilename).toString()).arg(modelName);
   }
 
   mInfoText->clear();
@@ -405,27 +384,15 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
   mInfoText->moveCursor(QTextCursor::Start);
 
   mPixmapLabel->hide();
-  if (!pixmapPath.isEmpty()) {
-    if (WbUrl::isWeb(pixmapPath)) {
-      if (WbNetwork::instance()->isCachedWithMapUpdate(pixmapPath))
-        pixmapPath = WbNetwork::instance()->get(pixmapPath);
-      else {
-        downloadIcon(pixmapPath);
-        return;
-      }
-    } else if (WbUrl::isLocalUrl(pixmapPath))
-      pixmapPath = QDir::cleanPath(pixmapPath.replace("webots://", WbStandardPaths::webotsHomePath()));
-
-    QPixmap pixmap(pixmapPath);
-    if (!pixmap.isNull()) {
-      if (pixmap.size() != QSize(128, 128)) {
-        WbLog::warning(tr("The \"%1\" icon should have a dimension of 128x128 pixels.").arg(pixmapPath));
-        pixmap = pixmap.scaled(128, 128);
-      }
-      mPixmapLabel->show();
-      mPixmapLabel->setPixmap(pixmap);
-    }
-  }
+  if (pixmapPath.isEmpty()) {
+    WbProtoIcon *icon = new WbProtoIcon(modelName, path, this);
+    if (icon->isReady()) {
+      setPixmap(icon->path());
+      delete icon;
+    } else
+      connect(icon, &WbProtoIcon::iconReady, this, &WbAddNodeDialog::updateIcon);
+  } else
+    setPixmap(pixmapPath);
 }
 
 bool WbAddNodeDialog::doFieldRestrictionsAllowNode(const QString &nodeName) const {
