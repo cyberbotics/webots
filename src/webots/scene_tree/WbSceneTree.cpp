@@ -766,6 +766,7 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
       // PROTO will be regenerated after importing the converted node
       parentField->blockSignals(true);
     // remove previous node
+    mRowsAreAboutToBeRemoved = true;
     WbNodeOperations::instance()->deleteNode(currentNode);
     if (skipTemplateRegeneration)
       parentField->blockSignals(false);
@@ -808,6 +809,7 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
   updateToolbar();
 
   WbUndoStack::instance()->clear();
+  mRowsAreAboutToBeRemoved = false;
 }
 
 void WbSceneTree::moveViewpointToObject() {
