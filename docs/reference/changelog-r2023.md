@@ -22,6 +22,7 @@ Released on December, 12th, 2022.
     - Fixed wrong warnings due to SFNode empty flag in the controller ([#5430](https://github.com/cyberbotics/webots/pull/5430)).
     - Fixed processing concatenated messages in default robot window JS code ([#5442](https://github.com/cyberbotics/webots/pull/5442)).
     - Fixed missing check on required PROTO header ([#5453](https://github.com/cyberbotics/webots/pull/5453)).
+    - Fixed a crash when streaming and deleting a subnode ([#5457](https://github.com/cyberbotics/webots/pull/5457)).
   - Cleanup
     - Removed deprecated `windowPosition`, `pixelSize`, `type`, `colorNoise` fields of [Camera](camera.md) node ([#5266](https://github.com/cyberbotics/webots/pull/5266)).
   - Dependency Updates
