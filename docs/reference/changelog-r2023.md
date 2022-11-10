@@ -32,7 +32,7 @@ Released on December, 12th, 2022.
     - Fixed a crash when trying to connect a remote extern controllers while a world is loading ([#5310](https://github.com/cyberbotics/webots/pull/5310)).
     - Fixed close and resize buttons rendered in black in the [RangeFinder](rangefinder.md) overlay if underlying pixel value is `inf` ([#5337](https://github.com/cyberbotics/webots/pull/5337)).
     - Fixed error message about missing PROTO declaration when copying and pasting a PROTO node that was just added using the Add Node dialog ([#5341](https://github.com/cyberbotics/webots/pull/5341)).
-    - Fixed the description of base nodes in the "Add node" dialog ([#5346](https://github.com/cyberbotics/webots/pull/5346)).
+    - Fixed the description of base nodes in the Add Node dialog ([#5346](https://github.com/cyberbotics/webots/pull/5346)).
     - Fixed robot window updates when an extern controller reconnects ([#5367](https://github.com/cyberbotics/webots/pull/5367)).
     - Fixed regeneration of PROTO nodes derived from a procedural PROTO ([#5413](https://github.com/cyberbotics/webots/pull/5413)).
     - Fixed processing concatenated messages in default robot window JS code ([#5442](https://github.com/cyberbotics/webots/pull/5442)).
