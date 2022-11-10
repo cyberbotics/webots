@@ -35,6 +35,7 @@ Released on December, 12th, 2022.
     - Fixed the description of base nodes in the "Add node" dialog ([#5346](https://github.com/cyberbotics/webots/pull/5346)).
     - Fixed robot window updates when an extern controller reconnects ([#5367](https://github.com/cyberbotics/webots/pull/5367)).
     - Fixed regeneration of PROTO nodes derived from a procedural PROTO ([#5413](https://github.com/cyberbotics/webots/pull/5413)).
+    - Fixed processing concatenated messages in default robot window JS code ([#5442](https://github.com/cyberbotics/webots/pull/5442)).
   - Cleanup
     - Removed deprecated `windowPosition`, `pixelSize`, `type`, `colorNoise` fields of [Camera](camera.md) node ([#5266](https://github.com/cyberbotics/webots/pull/5266)).
   - Dependency Updates
