@@ -2,16 +2,6 @@
 
 Derived from [Device](device.md) and [Solid](solid.md).
 
-```
-Accelerometer {
-  MFVec3f lookupTable [ ]    # lookup table
-  SFBool  xAxis       TRUE   # {TRUE, FALSE}
-  SFBool  yAxis       TRUE   # {TRUE, FALSE}
-  SFBool  zAxis       TRUE   # {TRUE, FALSE}
-  SFFloat resolution  -1     # [0, inf)
-}
-```
-
 ### Description
 
 The [Accelerometer](#accelerometer) node can be used to model accelerometer devices such as those commonly found in mobile electronics, robots and game input devices.
@@ -20,6 +10,20 @@ It can be used for example to detect fall, the up/down direction, etc.
 The parent node of an [Accelerometer](#accelerometer) node should have a [Physics](physics.md) node defined in its `physics` field, so that correct measurements can be performed.
 
 ### Field Summary
+
+```
+Accelerometer {
+  SFString name      "accelerometer"  # used by wb_robot_get_device()
+  MFVec3f lookupTable [ ]    # lookup table
+  SFBool  xAxis       TRUE   # {TRUE, FALSE}
+  SFBool  yAxis       TRUE   # {TRUE, FALSE}
+  SFBool  zAxis       TRUE   # {TRUE, FALSE}
+  SFFloat resolution  -1     # [0, inf)  
+}
+```
+**Note**: The description above is a just a partial list of the fields in Accelerometer. The complete list can be found at: [Accelerometer.wrl](https://github.com/cyberbotics/webots/blob/master/resources/nodes/Accelerometer.wrl).
+
+- `name`: This optional field defines the string name used by `wb_robot_get_device()` to get the `WbDeviceTag` to reference this sensor. If not defined in the `.proto` file, the default value described in the `.wrl` file from above is used.
 
 - `lookupTable`: This field optionally specifies a lookup table that can be used for mapping the raw acceleration values [m/s²] to device specific output values.
 By default the lookup table is empty and therefore the raw acceleration values are returned (no mapping).
