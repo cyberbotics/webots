@@ -48,7 +48,7 @@ export default class RobotWindow {
       const ignoreData = ['application/json:', 'stdout:', 'stderr:'].some(sw => data.startsWith(sw));
       if (data.startsWith('robot:')) {
         let message = data.match('"message":"(.*)","name"')[1];
-        let robot = data.match(',"name":"(.*)"}')[1];
+        const robot = data.match(',"name":"(.*)"}')[1];
         message = message.replace(/\\/g, '');
         if (this.name === robot) // receive only the messages of our robot.
           this.receive(message, robot);
