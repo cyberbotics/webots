@@ -329,6 +329,13 @@ export default class Node {
     return this.id;
   }
 
+  getBaseNode() {
+    if (this.isProto)
+      return this.baseType.getBaseNode();
+
+    return this;
+  }
+
   static createNode(tokenizer) {
     let defName;
     if (tokenizer.peekWord() === 'DEF') {

@@ -394,6 +394,39 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const parser = new DOMParser();
     const xml = parser.parseFromString(protoList, 'text/xml').firstChild;
     for (const proto of xml.getElementsByTagName('proto')) {
+      // don't display PROTOs which contain a "hidden" or a "deprecated" tag
+      const tags = proto.getElementsByTagName('tags')[0]?.innerHTML.split(',');
+      if (typeof tags !== 'undefined' && (tags.includes('hidden') || tags.includes('deprecated')))
+        continue;
+
+      // don't display PROTO nodes which have been filtered-out by the user's "filter" widget.
+      // TODO
+
+      // don't display non-Robot PROTO nodes containing devices (e.g. Kinect) about to be inserted outside a robot.
+      const needsRobotAncestor = proto.getElementsByTagName('needs-robot-ancestor')[0]?.innerHTML;
+      const baseType = proto.getElementsByTagName('base-type')[0]?.innerHTML;
+      const isRobotDescendant = false; // TODO
+      if (typeof baseType === 'undefined')
+        throw new Error('base-type property is undefined, is the xml complete?');
+
+      if (!isRobotDescendant && !(baseType === 'Robot') && needsRobotAncestor)
+        continue;
+
+      const slotType = proto.getElementsByTagName('slot-type')[0]?.innerHTML;
+      if (!this.isAllowedToInsert(parameter, baseType, slotType))
+        continue;
+
+    /*
+
+    QString errorMessage;
+    const QString nodeName = it.key();
+    if (!WbNodeUtilities::isAllowedToInsert(mField, baseType, mCurrentNode, errorMessage, nodeUse, info->slotType(),
+                                            QStringList() << baseType << nodeName))
+      continue;
+
+    */
+
+
       const info = {};
       info['name'] = proto.getElementsByTagName('name')[0].innerHTML;
       info['url'] = proto.getElementsByTagName('url')[0].innerHTML;
@@ -465,6 +498,38 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     container.appendChild(nodeList);
     container.appendChild(nodeInfo);
     panel.appendChild(container);
+  }
+
+  isAllowedToInsert(parameter, baseType, slotType) {
+    const node = parameter.node.getBaseNode();
+
+    if (node.name === 'Slot' && typeof slotType !== 'undefined') {
+      const otherSlotType = node.getParameterByName('type').value.value.replaceAll('"', '');
+      return this.isSlotTypeMatch(otherSlotType, slotType);
+    }
+
+    return true;
+  }
+
+  isSlotTypeMatch(firstType, secondType) {
+    // console.log('compare slot type: ', firstType, ' with ', secondType);
+    if (typeof firstType === 'undefined' || typeof secondType === 'undefined')
+      throw new Error('Cannot determine slot match because inputs are undefined.');
+
+    if (firstType.length === 0 || secondType.length === 0)
+      return true; // empty type matches any type
+    else if (firstType.endsWith('+') || firstType.endsWith('-')) {
+      // gendered slot types
+      if (firstType.slice(0, -1) === secondType.slice(0, -1)) {
+        if (firstType === secondType)
+          return false; // same gender
+        else
+          return true; // different gender
+      }
+    } else if (firstType === secondType)
+      return true;
+
+    return false;
   }
 
   #floatOnChange(node) {

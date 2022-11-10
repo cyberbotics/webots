@@ -1,0 +1,11 @@
+#VRML_SIM R2023a utf8
+
+PROTO ProtoSlot [
+  field SFNode end NULL
+]
+{
+  Slot {
+    type "abc"
+    endPoint IS end
+  }
+}
