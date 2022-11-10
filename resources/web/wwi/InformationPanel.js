@@ -3,7 +3,7 @@ export default class InformationPanel {
     this.informationPanel = document.createElement('div');
     this.informationPanel.className = 'information-panel';
 
-    let infoTabsBar = document.createElement('div');
+    const infoTabsBar = document.createElement('div');
     infoTabsBar.className = 'info-tabs-bar';
     this.informationPanel.appendChild(infoTabsBar);
 

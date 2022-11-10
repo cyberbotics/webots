@@ -83,6 +83,10 @@ export default class Progress {
   }
 
   setProgressBar(display, message, percent, info) {
+    const webotsView = document.getElementsByClassName('webots-view')[0];
+    if (typeof webotsView !== 'undefined' && webotsView.hasProto() && display !== 'none')
+      return;
+
     if (display !== 'none') {
       // Message style and text
       if (typeof message !== 'undefined' && message !== 'same') {

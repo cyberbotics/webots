@@ -10,9 +10,8 @@ import WbVector4 from './utils/WbVector4.js';
 import WbWrenPicker from '../wren/WbWrenPicker.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 
-import {loadMeshData} from '../mesh_loader.js';
-import {loadImageTextureInWren} from '../image_loader.js';
-import {webots} from '../webots.js';
+import MeshLoader from '../MeshLoader.js';
+import ImageLoader from '../ImageLoader.js';
 
 export default class WbCadShape extends WbBaseNode {
   #promises;
@@ -366,7 +365,7 @@ export default class WbCadShape extends WbBaseNode {
     */
 
     let assetPrefix;
-    if (typeof webots.currentView.stream !== 'undefined' || this.#url.startsWith('http')) {
+    if (WbCadShape.stream || this.#url.startsWith('http')) {
       if (this.#isCollada) // for collada files, the prefix is extracted from the URL of the '.dae' file
         assetPrefix = this.#url.substr(0, this.#url.lastIndexOf('/') + 1);
       else // for wavefront files, the prefix is extracted from the URL of the MTL file
@@ -420,7 +419,7 @@ export default class WbCadShape extends WbBaseNode {
       url = assetPrefix + imageUrl;
 
     const imageTexture = new WbImageTexture(getAnId(), url, false, true, true, 4);
-    const promise = loadImageTextureInWren(this.prefix, url, false, true);
+    const promise = ImageLoader.loadImageTextureInWren(this.prefix, url, false, true);
     promise.then(() => imageTexture.updateUrl());
     this.#promises.push(promise);
     return imageTexture;
@@ -442,7 +441,7 @@ export default class WbCadShape extends WbBaseNode {
     if (this.#url)
       this.#isCollada = this.#url.endsWith('.dae');
 
-    loadMeshData(WbWorld.instance.prefix, this.#url).then(meshContent => {
+    MeshLoader.loadMeshData(WbWorld.instance.prefix, this.#url).then(meshContent => {
       this.scene = meshContent[0];
       this.materialPath = meshContent[1];
       if (this.wrenObjectsCreatedCalled) {

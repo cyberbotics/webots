@@ -405,6 +405,10 @@ export default class WebotsView extends HTMLElement {
       this.#closeWhenDOMElementRemoved();
     }
   }
+
+  hasProto() {
+    return this.#hasProto;
+  }
 }
 
 window.customElements.define('webots-view', WebotsView);

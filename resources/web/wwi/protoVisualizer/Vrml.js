@@ -437,10 +437,10 @@ export class SFNode extends SingleValue {
       return false;
 
     for (const [parameterName, parameter] of this.value.parameters) {
-      if (!other.parameters.has(parameterName))
+      if (!other.value.parameters.has(parameterName))
         return false;
 
-      const otherParameter = other.parameters.get(parameterName);
+      const otherParameter = other.value.parameters.get(parameterName);
       if (!parameter.value.equals(otherParameter.value))
         return false;
       if (!parameter.defaultValue.equals(otherParameter.defaultValue))

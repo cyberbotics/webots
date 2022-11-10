@@ -45,4 +45,15 @@ export default class WbBillboard extends WbGroup {
     let positionPointer = _wrjs_array3(position.x, position.y, position.z);
     _wr_transform_set_position(this.wrenNode, positionPointer);
   }
+
+  static isDescendantOfBillboard(node) {
+    while (typeof node !== 'undefined') {
+      if (node instanceof WbBillboard)
+        return true;
+
+      node = WbWorld.instance.nodes.get(node.parent);
+    }
+
+    return false;
+  }
 }

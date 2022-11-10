@@ -1,4 +1,4 @@
-import {findUpperTransform} from './utils/utils.js';
+import {findUpperTransform} from './utils/node_utilities.js';
 import {resetVector3IfNegative, resetIfNegative, resetIfNotInRangeWithIncludedBounds} from './utils/WbFieldChecker.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbLight from './WbLight.js';

@@ -18,6 +18,13 @@ export default class WbJointParameters extends WbBaseNode {
     return this.#position;
   }
 
+  set position(newPosition) {
+    this.#position = newPosition;
+
+    if (typeof this.onChange === 'function')
+      this.onChange();
+  }
+
   get axis() {
     return this.#axis;
   }

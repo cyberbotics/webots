@@ -21,8 +21,8 @@ in vec2 texUv;
 
 out vec4 fragColor;
 
-uniform int rangeCamera;
-uniform int cylindrical;
+uniform bool rangeCamera;
+uniform bool cylindrical;
 uniform int subCamerasResolutionX;
 uniform int subCamerasResolutionY;
 
@@ -37,7 +37,7 @@ uniform sampler2D inputTextures[6];
 void main() {
   vec3 coord3d;
 
-  if (cylindrical > 0) {
+  if (cylindrical) {
     // update the z 3D-coordinate
     float yCurrentAngle = (texUv.y - 0.5) * fovY / fovYCorrectionCoefficient + pi_2;
     coord3d = vec3(0.0, 0.0, cos(yCurrentAngle));
@@ -144,7 +144,7 @@ void main() {
     fragColor = texelFetch(inputTextures[5], imageIndex, 0);
 
   // rectify the spherical transform
-  if (rangeCamera > 0) {
+  if (rangeCamera) {
     float depth = fragColor.x;
     if (depth < maxRange) {
       float cosine = 0.0f;

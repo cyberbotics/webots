@@ -105,6 +105,9 @@ export default class Parameter {
 
       const x3d = new XMLSerializer().serializeToString(this.node.toX3d());
       view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>');
+
+      if (typeof this.onChange === 'function')
+        this.onChange();
     } else {
       if (this.node.isProto)
         return; // webotsJS needs to be notified of parameter changes only if the parameter belongs to a base-node, not PROTO

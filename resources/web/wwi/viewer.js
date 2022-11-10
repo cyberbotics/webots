@@ -19,7 +19,8 @@ import WbWorld from './nodes/WbWorld.js';
 import {quaternionToVec4, vec4ToQuaternion} from './nodes/utils/utils.js';
 import {getAnId} from './nodes/utils/id_provider.js';
 import WebotsView from './WebotsView.js';
-import {loadImageTextureInWren} from './image_loader.js';
+import ImageLoader from './ImageLoader.js';
+import MeshLoader from './MeshLoader.js';
 
 let handle;
 let webotsView;
@@ -844,8 +845,6 @@ function sliderMotorCallback(transform, slider) {
     transform.translation = applyQuaternion(transform.translation, quat);
     transform.translation = transform.translation.add(anchor); // re-add the offset
     transform.rotation = quaternionToVec4(q);
-    transform.applyTranslationToWren();
-    transform.applyRotationToWren();
   }
 }
 
@@ -893,7 +892,7 @@ function highlightX3DElement(deviceElement) {
 
   if (typeof imageTexture === 'undefined') {
     imageTexture = new WbImageTexture(getAnId(), computeTargetPath() + '../css/images/marker.png', false, true, true, 4);
-    loadImageTextureInWren('', computeTargetPath() + '../css/images/marker.png', false).then(() => {
+    ImageLoader.loadImageTextureInWren('', computeTargetPath() + '../css/images/marker.png', false).then(() => {
       imageTexture.updateUrl();
       highlightX3DElement(deviceElement);
     });
@@ -979,8 +978,10 @@ function getRobotComponentByRobotName(robotName) {
 function initializeWebotsView(robotName) {
   if (webotsView.initializationComplete) {
     webotsView._view = new webots.View(webotsView);
-    webotsView._view.branch = localSetup.branch;
-    webotsView._view.repository = localSetup.repository;
+    ImageLoader.branch = localSetup.branch;
+    MeshLoader.branch = localSetup.branch;
+    ImageLoader.repository = localSetup.repository;
+    MeshLoader.repository = localSetup.repository;
     webotsView.loadScene(computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.x3d');
     webotsView._view.x3dScene.resize();
   } else
