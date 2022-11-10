@@ -427,12 +427,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           parameter.setValueFromJavaScript(this.#view, null);
         else {
           const node = await this.#protoManager.generateNodeFromUrl(url);
-          const x3d = new XMLSerializer().serializeToString(node.toX3d());
-          //console.log('Grafted x3d:', x3d);
-          //console.log(parameter);
+          // const x3d = new XMLSerializer().serializeToString(node.toX3d());
+          // console.log('Grafted x3d:', x3d);
+          // console.log(parameter);
 
-          //const sfnode = new SFNode();
-          //sfnode.setValue(node);
+          // const sfnode = new SFNode();
+          // sfnode.setValue(node);
 
           parameter.setValueFromJavaScript(this.#view, node);
         }
@@ -454,13 +454,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     }
     nodeList.appendChild(ol);
 
-
     const nodeInfo = document.createElement('div');
     nodeInfo.className = 'node-info';
 
     const img = document.createElement('img');
     img.setAttribute('draggable', false);
-    img.className = 'node-image';
     img.setAttribute('src', './protoVisualizer/red_texture.jpg');
     nodeInfo.appendChild(img);
 
