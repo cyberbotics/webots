@@ -2,26 +2,26 @@
 
 ## Webots R2023a
 Released on December, 12th, 2022.
-  - New Features:
+  - New Features
     - Added support for any current and upcoming version of Python for robot controllers ([#5297](https://github.com/cyberbotics/webots/pull/5297)).
     - **Added new `projection` field to [Camera](camera.md), [RangeFinder](rangefinder.md), and [Lidar](lidar.md) nodes. This field replaces the deprecated `spherical` field ([#5266](https://github.com/cyberbotics/webots/pull/5266)).**
     - Added a non-interactive terminal for web streaming ([#5119](https://github.com/cyberbotics/webots/pull/5119)).
     - Added a customizable window for animations to display graphs or other user defined content ([5265](https://github.com/cyberbotics/webots/pull/5265)).
-  - Enhancements:
+  - Enhancements
     - Added the support of robot windows for mjpeg streaming ([#5272](https://github.com/cyberbotics/webots/pull/5272)).
     - Added additional checks for path validity in wizards and save world dialogs ([#5350](https://github.com/cyberbotics/webots/pull/5350)).
     - Added warning if external mesh used in [CadShape](cadshape.md) node is fully transparent ([#5359](https://github.com/cyberbotics/webots/pull/5359)).
     - Added warning if external mesh used in [Mesh](mesh.md) node has more than 100'000 vertices ([#5359](https://github.com/cyberbotics/webots/pull/5359)).
-  - New Robots:
+  - New Robots
     - Added a model of the [ROSbot](../guide/rosbot.md) robot from [Husarion](https://husarion.com/) and an obstacle avoidance demo ([#5168](https://github.com/cyberbotics/webots/pull/5168)).
-  - New Devices and Objects:
+  - New Devices and Objects
     - Added some static animals (cow, horse, deer, sheep, dog, fox, cat and rabbit) and a barn ([#4539](https://github.com/cyberbotics/webots/pull/4539)).
     - Added a model of the [Mpu-9250](../guide/imu-sensors.md#mpu-9250) IMU ([#5168](https://github.com/cyberbotics/webots/pull/5168)).
     - Added a model of the [RPLidarA2](../guide/lidar-sensors.md#slamtec-rplidar-a2) lidar ([#5168](https://github.com/cyberbotics/webots/pull/5168)).
     - Added a model of the [Astra](../guide/range-finder-sensors.md#orbbec-astra) RGB-D camera ([#5168](https://github.com/cyberbotics/webots/pull/5168)).
-  - New Examples:
+  - New Examples
     - Added a sample world showing how to compute the attitude of a robot from IMU sensors ([#5256](https://github.com/cyberbotics/webots/pull/5256)).
-  - Bug Fixes:
+  - Bug Fixes
     - Fixed wrong warnings due to SFNode empty flag in the controller ([#5430](https://github.com/cyberbotics/webots/pull/5430)).
     - Fixed controller restart after crash ([#5284](https://github.com/cyberbotics/webots/pull/5284)).
     - Fixed the export of [Lidar](lidar.md)'s rotating head to X3D ([#5224](https://github.com/cyberbotics/webots/pull/5224)).
@@ -36,7 +36,7 @@ Released on December, 12th, 2022.
     - Fixed robot window updates when an extern controller reconnects ([#5367](https://github.com/cyberbotics/webots/pull/5367)).
     - Fixed regeneration of PROTO nodes derived from a procedural PROTO ([#5413](https://github.com/cyberbotics/webots/pull/5413)).
     - Fixed processing concatenated messages in default robot window JS code ([#5442](https://github.com/cyberbotics/webots/pull/5442)).
-  - Cleanup:
+  - Cleanup
     - Removed deprecated `windowPosition`, `pixelSize`, `type`, `colorNoise` fields of [Camera](camera.md) node ([#5266](https://github.com/cyberbotics/webots/pull/5266)).
-  - Dependency Updates:
+  - Dependency Updates
     - Upgraded to Qt6.4 on Windows ([#5301](https://github.com/cyberbotics/webots/pull/5301)).
