@@ -44,7 +44,7 @@ export default class RobotWindow {
   #onSocketMessage(event) {
     const socketData = event.data.split(/\r?\n/);
     for (let i = 0, len = socketData.length; i < len; i++) {
-      let data = socketData[i];
+      const data = socketData[i];
       const ignoreData = ['application/json:', 'stdout:', 'stderr:'].some(sw => data.startsWith(sw));
       if (data.startsWith('robot:')) {
         let message = data.match('"message":"(.*)","name"')[1];
