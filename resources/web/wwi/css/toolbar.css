@@ -972,27 +972,32 @@ webots-view .node-library {
   opacity: 0.95;
   display: none;
   z-index: 3;
-  overflow: auto;
+  overflow: hidden;
 }
 
 webots-view .node-library .node-list {
-  width: 50%;
-  height: 100%;
+  width: 250px;
+  height: 400px;
   float: left;
-  pointer-events: auto;
   font-family: Arial;
   overflow-y: scroll;
 }
 
 webots-view .node-library .node-info {
-  margin-left: 10px;
-  height: 100%;
-  width: 50%;
+  width: 250px;
+  height: 400px;
+  float: left;
+  color: rgba(240, 240, 240, 1);
+  font-family: Arial;
+  justify-content: center;
+  display: flex;
+  align-items: center;
 }
 
 webots-view .node-library ol {
   display: block;
   padding: 0px 0px 0px 0px;
+  margin: 0;
   list-style-type: none;
   text-align: left;
 }

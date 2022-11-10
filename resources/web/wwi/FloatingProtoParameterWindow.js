@@ -392,8 +392,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     //   panel.style.display = 'none';
     // });
 
-    const container = document.createElement('div');
-
     let protoNodes = [{name: 'NULL', url: null}];
 
     const parser = new DOMParser();
@@ -439,6 +437,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     }
 
     const nodeList = document.createElement('div');
+    nodeList.id = 'node-list';
     nodeList.className = 'node-list';
     let ol = document.createElement('ol');
     for (const node of protoNodes) {
@@ -448,10 +447,15 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       button.value = node['url'];
       item.appendChild(button);
 
-      // button.onclick = (element) => {
-      //   const url = element.target.value;
-      //   console.log('selected:', url);
-      // }
+      button.onclick = (element) => {
+        const url = element.target.value;
+
+        const protoName = url.split('/').pop().replace('.proto', '');
+        const iconUrl = url.slice(0, url.lastIndexOf('/') + 1) + 'icons/' + protoName + '.png';
+        const nodeImage = document.getElementById('node-image');
+        nodeImage.setAttribute('src', iconUrl);
+      };
+
       button.ondblclick = async(element) => {
         const url = element.target.value;
         console.log('inserting:', url);
@@ -464,6 +468,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         if (url === 'null')
           parameter.setValueFromJavaScript(this.#view, null);
         else {
+          console.log('generating node');
           const node = await this.#protoManager.generateNodeFromUrl(url);
           // const x3d = new XMLSerializer().serializeToString(node.toX3d());
           // console.log('Grafted x3d:', x3d);
@@ -493,13 +498,23 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     nodeList.appendChild(ol);
 
     const nodeInfo = document.createElement('div');
+    nodeInfo.id = 'node-info';
     nodeInfo.className = 'node-info';
 
+    // const p = document.createElement('p');
+    // p.innerText = 'Select a node';
+    // nodeInfo.append(p);
+
     const img = document.createElement('img');
+    img.id = 'node-image';
     img.setAttribute('draggable', false);
     img.setAttribute('src', './protoVisualizer/red_texture.jpg');
+    img.style.maxWidth = '100%';
+    img.style.maxHeight = '100%';
+
     nodeInfo.appendChild(img);
 
+    const container = document.createElement('div');
     container.appendChild(nodeList);
     container.appendChild(nodeInfo);
     panel.appendChild(container);
@@ -514,7 +529,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     }
 
     for (const link of parameter.parameterLinks) {
-      console.log('found ' + link.node.name, link.name);
+      // console.log('found ' + link.node.name, link.name);
       const fieldName = link.name; // TODO: does it work for derived proto? or need to get the basenode equivalent first?
 
       if (fieldName === 'appearance') {
