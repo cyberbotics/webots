@@ -8,7 +8,7 @@ Released on December, 12th, 2022.
     - Added a non-interactive terminal for web streaming ([#5119](https://github.com/cyberbotics/webots/pull/5119)).
     - Added a customizable window for animations to display graphs or other user defined content ([#5265](https://github.com/cyberbotics/webots/pull/5265)).
   - Enhancements
-    - Added the support of robot windows for mjpeg streaming ([#5272](https://github.com/cyberbotics/webots/pull/5272)).
+    - Added the support of robot windows for MJPEG streaming ([#5272](https://github.com/cyberbotics/webots/pull/5272)).
     - Added additional checks for path validity in wizards and save world dialogs ([#5350](https://github.com/cyberbotics/webots/pull/5350)).
     - Added warning if external mesh used in [CadShape](cadshape.md) node is fully transparent ([#5359](https://github.com/cyberbotics/webots/pull/5359)).
     - Added warning if external mesh used in [Mesh](mesh.md) node has more than 100'000 vertices ([#5359](https://github.com/cyberbotics/webots/pull/5359)).
