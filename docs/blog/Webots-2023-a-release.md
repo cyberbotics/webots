@@ -58,7 +58,7 @@ Moreover, in order to enrich the collection of sample controllers, all sample wo
 
 ## New IMU Sample World
 
-So far, the [InertialUnit](../reference/inertialunit.md) was considered as an IMU, because it provides the ground truth data of the attitude (roll, pitch, yaw) of the object on which it is grafted. 
+So far, the [InertialUnit](../reference/inertialunit.md) was considered as an IMU, because it provides the ground truth data of the attitude (roll, pitch, yaw) of the object on which it is inserted. 
 This assumption is fundamentally wrong.
 An IMU gives the raw values of its sensors ([Accelerometer](../reference/accelerometer.md), [Gyroscope](../reference/gyro.md), [Compass](../reference/compass.md)) and can optionally provide the attitude output computed from the fusion of its sensors. 
 The [InertialUnit](../reference/inertialunit.md) just makes life easier for the user who does not want to use a sensor fusion library or algorithm to combine the data from an IMU and compute the attitude.
