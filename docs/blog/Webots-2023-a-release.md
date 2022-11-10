@@ -45,7 +45,8 @@ Additional models have been added to the Webots library, namely static animals (
 
 ## New Python API
 
-Webots R2023a comes with a brand new Python API! This API has the advantage of being compatible with all Python distributions (including conda, anaconda, etc.). 
+Webots R2023a comes with a brand new Python API!
+This API has the advantage of being compatible with all Python distributions (including conda, anaconda, etc.). 
 The API will always be compatible with current and upcoming Python versions.
 
 This change of API does not induce any change to the methods. 
