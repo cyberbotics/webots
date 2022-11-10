@@ -6,7 +6,7 @@ Released on December, 12th, 2022.
     - Added support for any current and upcoming version of Python for robot controllers ([#5297](https://github.com/cyberbotics/webots/pull/5297)).
     - **Added new `projection` field to [Camera](camera.md), [RangeFinder](rangefinder.md), and [Lidar](lidar.md) nodes. This field replaces the deprecated `spherical` field ([#5266](https://github.com/cyberbotics/webots/pull/5266)).**
     - Added a non-interactive terminal for web streaming ([#5119](https://github.com/cyberbotics/webots/pull/5119)).
-    - Added a customizable window for animations to display graphs or other user defined content ([5265](https://github.com/cyberbotics/webots/pull/5265)).
+    - Added a customizable window for animations to display graphs or other user defined content ([#5265](https://github.com/cyberbotics/webots/pull/5265)).
   - Enhancements
     - Added the support of robot windows for mjpeg streaming ([#5272](https://github.com/cyberbotics/webots/pull/5272)).
     - Added additional checks for path validity in wizards and save world dialogs ([#5350](https://github.com/cyberbotics/webots/pull/5350)).
