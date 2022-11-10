@@ -1049,6 +1049,29 @@ webots-view .node-library button:hover {
   cursor: pointer;
 }
 
+webots-view .configure-button {
+  background-image: url(../images/icons/settings.svg);
+  height: 20px;
+  width: 20px;
+  vertical-align: bottom;
+  background-color: transparent;
+  border: none;
+  margin-right: 5px;
+}
+
+webots-view .reset-field-button {
+  background-image: url(../images/icons/reload.svg);
+  height: 20px;
+  width: 20px;
+  vertical-align: bottom;
+  background-color: transparent;
+  border: none;
+}
+
+webots-view .export-checkbox {
+  margin: 10px 0px 10px 10px;
+}
+
 webots-view #devices-tab h1,
 #joints-tab h1 {
   color: white;

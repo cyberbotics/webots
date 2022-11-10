@@ -402,7 +402,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     buttonContainer.style.display = 'flex';
 
     const configureButton = document.createElement('button');
-    configureButton.innerHTML = 'configure';
+    configureButton.className = 'configure-button';
+    configureButton.title = 'Edit this node.';
     configureButton.onclick = async() => {
       console.log('configure.');
       this.proto = parameter.value.value;
@@ -574,7 +575,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const img = document.createElement('img');
     img.id = 'node-image';
     img.setAttribute('draggable', false);
-    img.setAttribute('src', './protoVisualizer/red_texture.jpg');
+    img.setAttribute('src', '../../images/missing_proto_icon.png');
     img.style.maxWidth = '100%';
     img.style.maxHeight = '100%';
 
