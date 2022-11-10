@@ -435,7 +435,8 @@ void WbAnimationRecorder::stopRecording() {
   // write initial state
   out << "{\"time\":0,\"poses\":[";
   if (commandsChangedFromStart.isEmpty()) {
-    WbLog::info(tr("Error: No animation content is available because the simulation did not start."));
+    WbLog::info(tr("Error: No animation content is available because no changes occurred in the simulation. "
+                   "If you just want a 3D environment file, consider exporting a scene instead."));
     return;
   }
   foreach (WbAnimationCommand *command, commandsChangedFromStart) {

@@ -24,7 +24,7 @@
 
 class WbField;
 class WbNode;
-class WbDownloader;
+class WbProtoIcon;
 
 class QGroupBox;
 class QLabel;
@@ -40,7 +40,6 @@ class WbAddNodeDialog : public QDialog {
 
 public:
   explicit WbAddNodeDialog(WbNode *currentNode, WbField *field, int index, QWidget *parent = NULL);
-  virtual ~WbAddNodeDialog();
 
   QString modelName() const;
   QString protoUrl() const;
@@ -78,13 +77,9 @@ private:
   bool mHasRobotTopNode;
 
   QString mSelectionPath;
-
-  QVector<WbDownloader *> mIconDownloaders;
   bool mRetrievalTriggered;
 
   QMap<QString, QString> mUniqueLocalProto;
-
-  void downloadIcon(const QString &url);
 
   int addProtosFromProtoList(QTreeWidgetItem *parentItem, int type, const QRegularExpression &regexp, bool regenerate);
   int addProtosFromDirectory(QTreeWidgetItem *parentItem, const QString &dirPath, const QRegularExpression &regexp,
@@ -96,8 +91,10 @@ private:
 
   bool isDeclarationConflicting(const QString &protoName, const QString &url);
 
+  void setPixmap(const QString &pixmapPath);
+
 private slots:
-  void iconUpdate();
+  void updateIcon(const QString &path);
 };
 
 #endif

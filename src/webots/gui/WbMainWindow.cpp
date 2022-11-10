@@ -50,6 +50,7 @@
 #include "WbPreferencesDialog.hpp"
 #include "WbProject.hpp"
 #include "WbProjectRelocationDialog.hpp"
+#include "WbProtoIcon.hpp"
 #include "WbProtoManager.hpp"
 #include "WbRecentFilesList.hpp"
 #include "WbRenderingDevice.hpp"
@@ -1034,6 +1035,13 @@ void WbMainWindow::closeEvent(QCloseEvent *event) {
   // the perspective of the node editor is not correctly saved
   if (WbApplication::instance())
     savePerspective(false, true);
+
+  // if there is a pending recording, stop it correctly
+  if (WbAnimationRecorder::instance()) {
+    // setting the gui flag to false to prevent the dialog box "exporting success" to pop-up
+    WbAnimationRecorder::instance()->setStartFromGuiFlag(false);
+    WbAnimationRecorder::instance()->stop();
+  }
 
   // the scene tree qt model should be cleaned first
   // otherwise some signals can be fired after the
@@ -2357,6 +2365,17 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify, bo
         WbLog::error(tr("Error during copy of extern PROTO file '%1' to '%2'.").arg(protoModelName).arg(fileToOpen));
         return;
       }
+
+      // copy icon
+      WbProtoIcon *protoIcon = new WbProtoIcon(protoModelName, fileName, this);
+      auto copyIcon = [protoIcon, destDir]() {
+        protoIcon->duplicate(destDir);
+        protoIcon->deleteLater();
+      };
+      if (protoIcon->isReady())
+        copyIcon();
+      else
+        connect(protoIcon, &WbProtoIcon::iconReady, copyIcon);
 
       // adjust all the urls referenced by the PROTO
       // note: this won't work well if a URL is forged with Javascript code
