@@ -2,6 +2,7 @@ import FloatingWindow from './FloatingWindow.js';
 import {VRML} from './protoVisualizer/vrml_type.js';
 import WbHingeJoint from './nodes/WbHingeJoint.js';
 import WbWorld from './nodes/WbWorld.js';
+import FloatingNodeSelectorWindow from './FloatingNodeSelectorWindow.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #protoManager;
@@ -30,7 +31,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.headerText.innerHTML = this.proto.name;
     this.#view = view;
 
-    this.setupNodeSelector(parentNode);
+    // this.setupNodeSelector(parentNode);
+    this.nodeSelector = new FloatingNodeSelectorWindow(parentNode, parentNode.protoManager, this.#view, parentNode.protoManager.proto);
 
     // create tabs
     const infoTabsBar = document.createElement('div');
