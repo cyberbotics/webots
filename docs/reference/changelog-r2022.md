@@ -2,16 +2,16 @@
 
 ## Webots R2022b
 Released on September, 13th, 2022.
-  - New Robots
+  - New Robots:
     - Added a model of the [Crazyflie quadrotor](../guide/crazyflie.md) robot from [Bitcraze](https://www.bitcraze.io/) and a flying demo with keyboard control ([#4703](https://github.com/cyberbotics/webots/pull/4703)).
     - Added a model of the [Panda](../guide/panda.md) robot from [Franka Emika](https://www.franka.de/) and a pick-and-place demo ([#4194](https://github.com/cyberbotics/webots/pull/4194)).
     - Added a model of the [SCARA T6](../guide/scara-epson-t6.md) robot from [Epson](https://epson.com/For-Work/Robots/SCARA/Synthis-T6-All-in-One-SCARA-Robots/p/RT6-602SS) and a demo showing it sorting fruit in a food industry setting ([#4192](https://github.com/cyberbotics/webots/pull/4192)).
-  - New Objects
+  - New Objects:
     - Added some hospital themed objects: hospital bed, drip stand, medicine bottle, hand sanitizer, curtain, photo frame, flower pot, emergency exit sign and a fabric appearance ([#4166](https://github.com/cyberbotics/webots/pull/4166)).
     - Extended the CardboardBox to become a container and added a cardboard appearance ([#4359](https://github.com/cyberbotics/webots/pull/4359)).
     - Added a proto of a gas canister ([#4536](https://github.com/cyberbotics/webots/pull/4536)).
     - Added a proto of a static forklift ([#4561](https://github.com/cyberbotics/webots/pull/4561)).
-  - New Features
+  - New Features:
     - Native support for Apple M1 processors on macOS ([#4543](https://github.com/cyberbotics/webots/pull/4543)).
     - Moved the robot windows to the web browser ([#4085](https://github.com/cyberbotics/webots/pull/4085)).
     - Changed the pipes between Webots and robot controllers to allow to run them in separate docker containers ([#4344](https://github.com/cyberbotics/webots/pull/4344)).
@@ -26,7 +26,7 @@ Released on September, 13th, 2022.
     - Added support for updates of the fields `on` and `color` of [Light](light.md) in WebotsJS ([#4537](https://github.com/cyberbotics/webots/pull/4537)).
     - Added `EXTERNPROTO` support and converted all worlds accordingly ([#4551](https://github.com/cyberbotics/webots/pull/4551)). **Instructions to adjust your world and PROTO nodes are available [here](https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b)**.
     - Added functionality to align the [Viewpoint](viewpoint.md) with the selected object from its Context Menu ([#5149](https://github.com/cyberbotics/webots/pull/5149)).
-  - Enhancements
+  - Enhancements:
     - Added support for Python 3.10 ([#4474](https://github.com/cyberbotics/webots/pull/4474)).
     - Added two new PBR appearances: ScuffedPlastic and WornBurlap ([#4174](https://github.com/cyberbotics/webots/pull/4174)).
     - Added a new HDR background: `music_hall` ([#4177](https://github.com/cyberbotics/webots/pull/4177)).
@@ -44,7 +44,7 @@ Released on September, 13th, 2022.
     - Improved display of generated PROTO sources in Text Editor that are now opened in read-only mode ([#5023](https://github.com/cyberbotics/webots/pull/5023)).
     - Improved terminology and keyboard shortcuts of [Viewpoint](viewpoint.md) standard views related to the world ([#5149](https://github.com/cyberbotics/webots/pull/5149)).
     - Added shortcuts to open the Field Editor from the Context Menu and double clicking on the Scene Tree node or field item ([#5211](https://github.com/cyberbotics/webots/pull/5211)).
-  - Bug Fixes
+  - Bug Fixes:
     - Fixed execution of Webots on Windows in a UTF-8 path with non-ASCII characters ([#5103](https://github.com/cyberbotics/webots/pull/5103)).
     - Fixed bug in `wb_supervisor_node_get_field_by_index` and `wb_supervisor_node_get_proto_field_by_index` API functions ([#4366](https://github.com/cyberbotics/webots/pull/4366)).
     - Fixed redirection of stdout/stderr to the terminal when no Webots console is open ([#4372](https://github.com/cyberbotics/webots/pull/4372)).
@@ -86,7 +86,7 @@ Released on September, 13th, 2022.
     - Fixed multiple crashes when using invalid URLs in the fields of [Skin](skin.md), [Motor](motor.md), [Camera](camera.md) and [ContactProperties](contactproperties.md) ([#5132](https://github.com/cyberbotics/webots/pull/5132)).
     - Fixed the sanitization of `WbPbrAppearance` to also trigger at the creation of the node ([#5139](https://github.com/cyberbotics/webots/pull/5139)).
     - Fixed field change not propagating in nested derived PROTO ([#5157](https://github.com/cyberbotics/webots/pull/5157)).
-  - Cleanup
+  - Cleanup:
     - Moved the Wizard menu inside the File / New menu ([#5075](https://github.com/cyberbotics/webots/pull/5075)).
     - Removed WBO file import from Webots and from the Controller API ([#5061](https://github.com/cyberbotics/webots/pull/5061)).
     - Removed `wb_robot_get_type` API function as it no longer serves a purpose ([#4125](https://github.com/cyberbotics/webots/pull/4125)).
@@ -95,7 +95,7 @@ Released on September, 13th, 2022.
     - Removed the 3D model import menu option with the introduction of the [CadShape](cadshape.md) node ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
     - Renamed `CameraRecognitionObject` and `ContactPoint` related API methods to use camel case ([#4477](https://github.com/cyberbotics/webots/pull/4477)).
     - Renamed new controller and plugin specifications ([#4501](https://github.com/cyberbotics/webots/pull/4501)).
-  - Dependency Updates
+  - Dependency Updates:
     - Upgraded to Qt6.2 on Windows, macOS and Linux ([#4189](https://github.com/cyberbotics/webots/pull/4189)).
     - Removed Qt WebKit, WebChannel and WebEngine dependencies ([#4137](https://github.com/cyberbotics/webots/pull/4137)).
     - Upgraded assimp from 5.0.1 to 5.2.3 on macOS and Linux ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
@@ -112,14 +112,14 @@ Released on December 21th, 2021.
     - Added support for rolling friction in [ContactProperties](contactproperties.md) ([#3771](https://github.com/cyberbotics/webots/pull/3771)).
     - Added the ColladaShapes PROTO that allows importing a Collada file on the fly ([#3956](https://github.com/cyberbotics/webots/pull/3956)).
     - **The entire library of robots, objects and worlds has been converted to the FLU/ENU coordinate system, and might require manual changes of your local files. Additional details are available [here](https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022a).**
-  - Enhancements
+  - Enhancements:
     - Improved performance on [Lidar](lidar.md) point cloud generation ([#3499](https://github.com/cyberbotics/webots/pull/3499)).
     - Added speed vector output to GPS ([#3742](https://github.com/cyberbotics/webots/pull/3742)).
     - Added `wbu_car_set_[right/left]_steering_angle` that allows to directly control the steering of the wheels ([#3933](https://github.com/cyberbotics/webots/pull/3933)).
     - Improved the user experience when using the object rotation around axis feature ([#3540](https://github.com/cyberbotics/webots/pull/3540)).
     - Increased the mouse wheel speed when zooming the 3D window ([#3565](https://github.com/cyberbotics/webots/pull/3565)).
     - Added warning when attempting to add a node to an already started simulation ([#3926](https://github.com/cyberbotics/webots/pull/3926)).
-  - Bug fixes
+  - Bug fixes:
     - Fixed memory leak due to incorrect cleaning of [ImageTexture](imagetexture.md) nodes ([#3830](https://github.com/cyberbotics/webots/pull/3830)).
     - Fixed various Python API functions crashing with Python 3.9 ([#3502](https://github.com/cyberbotics/webots/pull/3502)).
     - Fixed a crash caused when getting contact points of a PROTO ([#3522](https://github.com/cyberbotics/webots/pull/3522)).
@@ -148,5 +148,5 @@ Released on December 21th, 2021.
     - Fixed incorrect boundingSphere computation for ElevationGrid ([#3828](https://github.com/cyberbotics/webots/pull/3828)).
     - Fixed bug where deleting a node from [Supervisor](supervisor.md) did not refresh the scene tree ([#3867](https://github.com/cyberbotics/webots/pull/3867)).
     - Display a warning in case a file cannot be saved or a build process would fail because of insufficient write permissions ([#4046](https://github.com/cyberbotics/webots/pull/4046)).
-  - Dependency Updates
+  - Dependency Updates:
     - **Stopped support for Ubuntu 16.04 ([#3480](https://github.com/cyberbotics/webots/pull/3480)).**
