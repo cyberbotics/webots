@@ -1,0 +1,12 @@
+#VRML_SIM R2023a utf8
+
+PROTO ProtoShape [
+  field SFNode appearance NULL
+  field SFNode geometry NULL
+]
+{
+  Shape {
+    appearance IS appearance
+    geometry IS geometry
+  }
+}

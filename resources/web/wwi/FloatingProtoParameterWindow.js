@@ -501,14 +501,29 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   isAllowedToInsert(parameter, baseType, slotType) {
-    const node = parameter.node.getBaseNode();
+    const baseNode = parameter.node.getBaseNode();
 
-    if (node.name === 'Slot' && typeof slotType !== 'undefined') {
-      const otherSlotType = node.getParameterByName('type').value.value.replaceAll('"', '');
+    if (baseNode.name === 'Slot' && typeof slotType !== 'undefined') {
+      const otherSlotType = baseNode.getParameterByName('type').value.value.replaceAll('"', '');
       return this.isSlotTypeMatch(otherSlotType, slotType);
     }
 
-    return true;
+    for (const link of parameter.parameterLinks) {
+      console.log('found ' + link.node.name, link.name);
+      const fieldName = link.name; // TODO: does it work for derived proto? or need to get the basenode equivalent first?
+
+      if (fieldName === 'appearance') {
+        if (baseType === 'Appearance')
+          return true;
+        else if (baseType === 'PBRAppearance')
+          return true;
+      }
+
+      if (fieldName === 'geometry')
+        return this.isGeometryTypeMatch(baseType);
+    }
+
+    return false;
   }
 
   isSlotTypeMatch(firstType, secondType) {
@@ -530,6 +545,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       return true;
 
     return false;
+  }
+
+  isGeometryTypeMatch(type) {
+    return ['Box', 'Capsule', 'Cylinder', 'Cone', 'Plane', 'Sphere', 'Mesh', 'ElevationGrid',
+      'IndexedFaceSet', 'IndexedLineSet'].includes(type);
   }
 
   #floatOnChange(node) {
