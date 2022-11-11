@@ -110,7 +110,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       }
 
       if (this.proto.isRoot)
-        this.#createDownloadButton(contentDiv, row);
+        this.#createDownloadButton(contentDiv, row++);
     }
   }
 

@@ -1002,7 +1002,7 @@ webots-view .node-library {
 
 webots-view .node-library .node-filter {
   width: 600px;
-  height: fit-content;
+  height: 50px;
   font-family: Arial;
   color: rgba(240, 240, 240, 1);
   display: flex;
@@ -1016,6 +1016,15 @@ webots-view .node-library .node-list {
   font-family: Arial;
   overflow-y: scroll;
   overflow-x: hidden;
+}
+
+webots-view .node-library .node-buttons {
+  width: 600px;
+  height: 50px;
+  font-family: Arial;
+  color: rgba(240, 240, 240, 1);
+  display: flex;
+  justify-content: flex-end;
 }
 
 webots-view .node-library .node-info {

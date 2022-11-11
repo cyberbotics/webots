@@ -1,4 +1,5 @@
 import FloatingWindow from './FloatingWindow.js';
+import Parameter from './protoVisualizer/Parameter.js';
 
 class ProtoInfo {
   #url;
@@ -103,7 +104,7 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
   }
 
   #setupWindow(parentNode) {
-    const panel = document.createElement('div');
+    const panel = document.createElement('div'); // TODO: add elements to floatingWindow, not this div
     panel.className = 'node-library';
     panel.id = 'node-library';
     parentNode.appendChild(panel);
@@ -141,9 +142,30 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
     img.style.maxHeight = '100%';
     nodeInfo.appendChild(img);
 
+    const buttonContainer = document.createElement('div');
+    buttonContainer.className = 'node-buttons';
+
+    const acceptButton = document.createElement('button');
+    acceptButton.innerHTML = 'Accept';
+    acceptButton.onclick = () => {
+      // TODO: show selection in gui
+      if (typeof this.selectedNode === 'undefined')
+        throw new Error('No node selected.');
+
+      this.insertNode(this.selectedNode);
+    };
+
+    const cancelButton = document.createElement('button');
+    cancelButton.innerHTML = 'Cancel';
+    cancelButton.onclick = () => this.hide();
+
+    buttonContainer.appendChild(cancelButton);
+    buttonContainer.appendChild(acceptButton);
+
     panel.appendChild(nodeFilter);
     panel.appendChild(nodeList);
     panel.appendChild(nodeInfo);
+    panel.appendChild(buttonContainer);
   }
 
   populateWindow(parameter) {
@@ -181,55 +203,61 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
       item.appendChild(button);
 
       button.onclick = (item) => {
-        const url = item.target.value;
-
-        if (url === 'null')
-          img.setAttribute('src', '../../images/missing_proto_icon.png');
-        else {
-          const protoName = url.split('/').pop().replace('.proto', '');
-          const iconUrl = url.slice(0, url.lastIndexOf('/') + 1) + 'icons/' + protoName + '.png';
-          const nodeImage = document.getElementById('node-image');
-          nodeImage.src = iconUrl;
-        }
+        this.selectedNode = item.target.value;
+        this.populateNodeInfo(this.selectedNode);
       };
 
-      button.ondblclick = async(item) => {
-        const url = item.target.value;
-        console.log('inserting:', url);
-
-        if (url === 'null')
-          parameter.setValueFromJavaScript(this.#view, null);
-        else {
-          console.log('generating node');
-          const node = await this.#protoManager.generateNodeFromUrl(url);
-
-          parameter.setValueFromJavaScript(this.#view, node);
-        }
-
-        // close library panel
-        this.hide();
-
-        // update button name
-        // TODO:can we use the onchange of protomanager?
-        /*
-        if (parameter.value.value === null) {
-          nodeButton.innerHTML = 'NULL';
-          configureButton.style.display = 'none';
-        } else {
-          nodeButton.innerHTML = parameter.value.value.name;
-          configureButton.style.display = 'block';
-        }
-        */
-      };
+      button.ondblclick = async(item) => await this.insertNode(item.target.value);
 
       ol.appendChild(item);
     }
 
     nodeList.appendChild(ol);
 
+    // remove selection
+    this.selectedNode = undefined;
+
     // populate node info
+    this.populateNodeInfo('null');
+  }
+
+  populateNodeInfo(url) {
     const nodeImage = document.getElementById('node-image');
-    nodeImage.src = '../../images/missing_proto_icon.png';
+
+    if (url === 'null')
+      nodeImage.src = '../../images/missing_proto_icon.png';
+    else {
+      const protoName = url.split('/').pop().replace('.proto', '');
+      nodeImage.src = url.slice(0, url.lastIndexOf('/') + 1) + 'icons/' + protoName + '.png';
+    }
+  }
+
+  async insertNode(url) {
+    console.log('inserting:', url);
+
+    if (url === 'null')
+      this.parameter.setValueFromJavaScript(this.#view, null);
+    else {
+      console.log('generating node');
+      const node = await this.#protoManager.generateNodeFromUrl(url);
+
+      this.parameter.setValueFromJavaScript(this.#view, node);
+    }
+
+    // close library panel
+    this.hide();
+
+    // update button name
+    // TODO:can we use the onchange of protomanager?
+    /*
+    if (parameter.value.value === null) {
+      nodeButton.innerHTML = 'NULL';
+      configureButton.style.display = 'none';
+    } else {
+      nodeButton.innerHTML = parameter.value.value.name;
+      configureButton.style.display = 'block';
+    }
+    */
   }
 
   isAllowedToInsert(parameter, baseType, slotType) {
@@ -285,12 +313,17 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
   }
 
   show(parameter) {
-    this.populateWindow(parameter);
+    if (!(parameter instanceof Parameter))
+      throw new Error('Cannot display node selector unless a parameter is provided.')
+
+    this.parameter = parameter;
+    this.populateWindow(this.parameter);
     const panel = document.getElementById('node-library');
     panel.style.display = 'block';
   }
 
   hide() {
+    this.parameter = undefined;
     const panel = document.getElementById('node-library');
     panel.style.display = 'none';
   }
