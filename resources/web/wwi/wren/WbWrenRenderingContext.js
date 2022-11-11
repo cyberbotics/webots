@@ -6,8 +6,11 @@ WbWrenRenderingContext.VF_RANGE_FINDER_FRUSTUMS = 0x00004000; // flag for range-
 WbWrenRenderingContext.VF_NORMALS = 0x00040000; // Display mesh normals
 // no special renderings, i.e. no outlines and no optional renderings from menu selection
 WbWrenRenderingContext.VM_REGULAR = 0xFFF00000;
+WbWrenRenderingContext.VM_MAIN = 0xFFFFFFFE;
 
 WbWrenRenderingContext.PP_GTAO = 0;
 WbWrenRenderingContext.PP_BLOOM = 1;
 WbWrenRenderingContext.PP_HDR = 2;
 WbWrenRenderingContext.PP_SMAA = 3;
+
+WbWrenRenderingContext.visibilityMask = mOptionalWbWrenRenderingContext.VM_MAIN |= WbWrenRenderingContext.VF_RANGE_FINDER_FRUSTUMS;

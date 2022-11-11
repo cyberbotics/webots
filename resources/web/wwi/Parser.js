@@ -592,9 +592,15 @@ export default class Parser {
       newNode = new WbAccelerometer(id, translation, scale, rotation, name === '' ? 'accelerometer' : name);
     else if (node.tagName === 'Altimeter')
       newNode = new WbAltimeter(id, translation, scale, rotation, name === '' ? 'altimeter' : name);
-    else if (node.tagName === 'Camera')
-      newNode = new WbCamera(id, translation, scale, rotation, name === '' ? 'camera' : name);
-    else if (node.tagName === 'Charger')
+    else if (node.tagName === 'Camera') {
+      const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', M_PI_4));
+      const far = parseFloat(getNodeAttribute(node, 'zFar', '0'));
+      const near = parseFloat(getNodeAttribute(node, 'zNear', '0.01'));
+      const height = parseInt(getNodeAttribute(node, 'height', '64'));
+      const width = parseInt(getNodeAttribute(node, 'width', '64'));
+      newNode = new WbCamera(id, translation, scale, rotation, name === '' ? 'camera' : name, height, width, fieldOfView, near,
+        far);
+    } else if (node.tagName === 'Charger')
       newNode = new WbCharger(id, translation, scale, rotation, name === '' ? 'charger' : name);
     else if (node.tagName === 'Compass')
       newNode = new WbCompass(id, translation, scale, rotation, name === '' ? 'compass' : name);
