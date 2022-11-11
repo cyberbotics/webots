@@ -76,6 +76,7 @@ export default class Parameter {
   // TODO: find better approach rather than propagating the view to subsequent parameters
   setValueFromJavaScript(view, v) {
     // notify linked parameters of the change
+    console.log('links: ', this.parameterLinks);
     for (const link of this.parameterLinks) {
       console.log(this.name + ' change notifies ' + link.name);
       link.setValueFromJavaScript(view, v);
@@ -118,13 +119,16 @@ export default class Parameter {
           baseNode = baseNode.baseType;
 
         // get parent node
-        const parentId = baseNode.getBaseNode().id.replace('n', '');
-        console.log('parent node:' + parentId);
+        //const parentId = baseNode.getBaseNode().id.replace('n', '');
 
+        let parentId;
         if (this.#value.value !== null) {
           // delete existing node
           const p = baseNode.getParameterByName(this.name);
           const id = p.value.value.getBaseNode().id;
+
+          parentId = view.x3dScene.parentId(id)
+          console.log('parent node: ' + parentId);
 
           view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
           console.log('delete: ', id);

@@ -1,12 +1,25 @@
 #VRML_SIM R2023a utf8
 
+EXTERNPROTO "Copper.proto"
+
 PROTO TestProto [
-  field SFColor cc 0 1 0
+  field SFNode app Copper{}
 ]
 {
-  DEF SHAPE Shape {
-    geometry Box {
-      size 0.1 0.1 0.1
-    }
+  Group {
+    children [
+      DEF SHAPE Shape {
+        appearance IS app
+        geometry Box {
+          size 0.2 0.05 0.05
+        }
+      }
+      Transform {
+        rotation 0 0 -1 1.259
+          children [
+          USE SHAPE
+        ]
+      }
+    ]
   }
 }

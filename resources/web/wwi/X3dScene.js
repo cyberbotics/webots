@@ -130,10 +130,22 @@ export default class X3dScene {
     this.#loader = undefined;
   }
 
+  parentId(id) {
+    if (!id.startsWith('n'))
+      id = 'n' + id;
+
+    const object = WbWorld.instance.nodes.get(id);
+    if (typeof object === 'undefined') {
+      throw new Error('Requested parentage of node that does not exist.');
+    }
+
+    return object.parent.replace('n', '');
+  }
+
   #deleteObject(id) {
     const object = WbWorld.instance.nodes.get('n' + id);
     if (typeof object === 'undefined')
-      return;
+      throw new Error('Requested deletion of node that does not exist.');
 
     object.delete();
 
