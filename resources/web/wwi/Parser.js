@@ -172,7 +172,7 @@ export default class Parser {
 
       if (typeof callback === 'function')
         callback();
-      console.log(WbWorld.instance)
+      console.log(WbWorld.instance);
       console.timeEnd('Loaded in: ');
     });
   }
@@ -481,8 +481,10 @@ export default class Parser {
         areIrradianceUrlsPresent = false;
         break;
       } else // filter removes empty elements.
+      {
         backgroundIrradianceUrl[i] = backgroundIrradianceUrl[i].split('"')
           .filter(element => { if (element !== ' ') return element; })[0];
+      }
     }
 
     this.irradianceCubeURL = [];
