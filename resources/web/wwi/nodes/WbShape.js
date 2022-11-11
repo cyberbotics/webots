@@ -10,6 +10,7 @@ import {nodeIsInBoundingObject} from './utils/node_utilities.js';
 export default class WbShape extends WbBaseNode {
   #boundingObjectFirstTimeSearch;
   #isInBoundingObject;
+  #appearance;
   constructor(id, castShadow, isPickable, geometry, appearance) {
     super(id);
     this.castShadow = castShadow;
@@ -18,9 +19,32 @@ export default class WbShape extends WbBaseNode {
     this.#boundingObjectFirstTimeSearch = true;
     this.#isInBoundingObject = false;
 
+    this.#appearance = appearance;
     this.appearance = appearance;
     this.geometry = geometry;
   }
+
+  get appearance() {
+    return this.#appearance;
+  }
+
+  set appearance(value) {
+    /*
+    console.log('setting appearance value of', this.id, ' to ', value);
+    this.#appearance = value;
+    console.log('useList:', this.useList);
+
+    for (const useId of this.useList) {
+      const useNode = WbWorld.instance.nodes.get(useId);
+      console.log('notifying ', useId, useNode)
+      if (typeof value === 'undefined')
+        useNode.appearance.delete();
+      else
+        useNode.appearance = value;
+    }
+    */
+  }
+
 
   applyMaterialToGeometry() {
     if (!this.wrenMaterial)
@@ -75,6 +99,8 @@ export default class WbShape extends WbBaseNode {
   }
 
   delete(isBoundingObject) {
+    console.log('deleting', this)
+
     if (typeof this.parent === 'undefined') {
       const index = WbWorld.instance.sceneTree.indexOf(this);
       WbWorld.instance.sceneTree.splice(index, 1);
@@ -170,7 +196,16 @@ export default class WbShape extends WbBaseNode {
     }
 
     if (typeof this.appearance !== 'undefined')
-      this.appearance.onChange = () => this.updateAppearance();
+      this.appearance.onChange = () => {
+        console.log(this.id, 'appearance changed', this.appearance)
+        //this.updateAppearance();
+        // notify USE nodes of the change
+        for (const useId of this.useList) {
+          const useNode = WbWorld.instance.nodes.get(useId);
+          //console.log('notifying ', useId)
+          //useNode.appearance = undefined;
+        }
+      }
   }
 
   // Private functions

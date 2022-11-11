@@ -24,6 +24,8 @@ export default class WbBaseNode {
   }
 
   delete() {
+    console.log('delete basenode', this.id, this.useList)
+    /*
     if (this.useList.length !== 0) {
       let newDef;
       let index = 0;
@@ -38,6 +40,7 @@ export default class WbBaseNode {
     }
 
     WbWorld.instance.nodes.delete(this.id);
+    */
   }
 
   finalize() {

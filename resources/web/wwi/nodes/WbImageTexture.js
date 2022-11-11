@@ -102,7 +102,7 @@ export default class WbImageTexture extends WbBaseNode {
               parent.emissiveColorMap = undefined;
               break;
             default:
-              console.error('unknow imageTexture: ' + this.id);
+              console.error('Unknown imageTexture: ' + this.id);
           }
         }
       }

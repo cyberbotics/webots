@@ -281,6 +281,8 @@ export default class WbPbrAppearance extends WbAbstractAppearance {
   }
 
   delete() {
+    console.log('deleting', this)
+
     if (this.isPostFinalizedCalled)
       WbPbrAppearance.cInstanceCounter--;
 
@@ -297,6 +299,12 @@ export default class WbPbrAppearance extends WbAbstractAppearance {
     this.#emissiveColorMap?.delete();
 
     super.delete();
+    console.log('done deleting')
+    //const parent = WbWorld.instance.nodes.get(this.parent);
+    //if (typeof parent !== 'undefined') {
+    //  //console.log('set appearance of parent ', parent.id, ' to undefined')
+    //  //parent.appearance = undefined;
+    //}
   }
 
   modifyWrenMaterial(wrenMaterial) {
@@ -402,6 +410,7 @@ export default class WbPbrAppearance extends WbAbstractAppearance {
   }
 
   #update() {
+    console.log('update ', this.id)
     if (this.isPostFinalizedCalled && typeof this.onChange === 'function')
       this.onChange();
   }
