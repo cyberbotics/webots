@@ -1,5 +1,5 @@
-import WbSolid from './WbSolid.js';
+import WbAbstractCamera from './WbAbstractCamera.js';
 
 // This class is used to retrieve the type of device
-export default class WbCamera extends WbSolid {
+export default class WbCamera extends WbAbstractCamera {
 }
