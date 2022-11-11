@@ -168,9 +168,9 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
     panel.appendChild(buttonContainer);
   }
 
-  populateWindow(parameter) {
-    const filter = document.getElementById('filter');
-    console.log('populate with filter : ' + filter.value + ' for nodes compatible with: ' + parameter.name);
+  populateWindow() {
+    const filterInput = document.getElementById('filter');
+    console.log('populate with filter : ' + filterInput.value + ' for nodes compatible with: ' + this.parameter.name);
 
     // populate node list
     const nodeList = document.getElementById('node-list');
@@ -183,7 +183,8 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
         continue;
 
       // don't display PROTO nodes which have been filtered-out by the user's "filter" widget.
-      // TODO
+      if (!info.url.toLowerCase().includes(filterInput.value) && !info.baseType.toLowerCase().includes(filterInput.value))
+        continue;
 
       // don't display non-Robot PROTO nodes containing devices (e.g. Kinect) about to be inserted outside a robot.
       const isRobotDescendant = false; // TODO
@@ -193,7 +194,7 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
       if (!isRobotDescendant && !(info.baseType === 'Robot') && info.needsRobotAncestor)
         continue;
 
-      if (!this.isAllowedToInsert(parameter, info.baseType, info.slotType))
+      if (!this.isAllowedToInsert(info.baseType, info.slotType))
         continue;
 
       const item = document.createElement('li');
@@ -260,15 +261,18 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
     */
   }
 
-  isAllowedToInsert(parameter, baseType, slotType) {
-    const baseNode = parameter.node.getBaseNode();
+  isAllowedToInsert(baseType, slotType) {
+    if (typeof this.parameter === 'undefined')
+      throw new Error('The parameter is expected to be defined prior to checking node compatibility.')
+
+    const baseNode = this.parameter.node.getBaseNode();
 
     if (baseNode.name === 'Slot' && typeof slotType !== 'undefined') {
       const otherSlotType = baseNode.getParameterByName('type').value.value.replaceAll('"', '');
       return this.isSlotTypeMatch(otherSlotType, slotType);
     }
 
-    for (const link of parameter.parameterLinks) {
+    for (const link of this.parameter.parameterLinks) {
       // console.log('found ' + link.node.name, link.name);
       const fieldName = link.name; // TODO: does it work for derived proto? or need to get the basenode equivalent first?
 
@@ -313,11 +317,15 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
   }
 
   show(parameter) {
+    // cleanup input field
+    const filterInput = document.getElementById('filter');
+    filterInput.value = '';
+
     if (!(parameter instanceof Parameter))
       throw new Error('Cannot display node selector unless a parameter is provided.')
 
     this.parameter = parameter;
-    this.populateWindow(this.parameter);
+    this.populateWindow();
     const panel = document.getElementById('node-library');
     panel.style.display = 'block';
   }
