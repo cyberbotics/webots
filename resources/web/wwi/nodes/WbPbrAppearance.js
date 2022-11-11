@@ -265,6 +265,7 @@ export default class WbPbrAppearance extends WbAbstractAppearance {
     }
 
     this.useList.push(customID);
+    console.log('added' + customID + ' to uselist of ', this.id)
     return new WbPbrAppearance(customID, this.#baseColor, baseColorMap, this.#transparency, this.#roughness, roughnessMap,
       this.#metalness, metalnessMap, this.#IBLStrength, normalMap, this.#normalMapFactor, occlusionMap,
       this.#occlusionMapStrength, this.#emissiveColor, emissiveColorMap, this.#emissiveIntensity, textureTransform);
