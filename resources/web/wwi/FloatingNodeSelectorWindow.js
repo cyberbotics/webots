@@ -1,5 +1,4 @@
 import FloatingWindow from './FloatingWindow.js';
-import { VRML } from './protoVisualizer/vrml_type.js';
 
 class ProtoInfo {
   #url;
@@ -68,11 +67,10 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
     this.proto = proto;
     this.#view = view;
 
-    const div = document.createElement('div');
-    div.className = 'node-library';
-    div.id = 'node-library';
-    parentNode.appendChild(div);
+    this.#setupWindow(parentNode);
+  }
 
+  async initialize() {
     return new Promise((resolve, reject) => {
       const xmlhttp = new XMLHttpRequest();
       xmlhttp.open('GET', '../../proto-list.xml', true);
@@ -82,7 +80,7 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
       };
       xmlhttp.send();
     }).then(text => {
-      this.protoList = new Map();
+      this.nodes = new Map();
 
       const parser = new DOMParser();
       const xml = parser.parseFromString(text, 'text/xml').firstChild;
@@ -99,16 +97,121 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
         const protoInfo = new ProtoInfo(url, baseType, license, licenseUrl, description, slotType, tags, needsRobotAncestor);
 
         const protoName = url.split('/').pop().replace('.proto', '');
-        this.protoList.set(protoName, protoInfo);
+        this.nodes.set(protoName, protoInfo);
       }
     });
   }
 
-  populateWindow() {
+  #setupWindow(parentNode) {
+    const panel = document.createElement('div');
+    panel.className = 'node-library';
+    panel.id = 'node-library';
+    parentNode.appendChild(panel);
+
+    // setup search input
+    const nodeFilter = document.createElement('div');
+    nodeFilter.id = 'node-filter';
+    nodeFilter.className = 'node-filter';
+    const p = document.createElement('p');
+    p.innerHTML = 'Find: ';
+
+    const input = document.createElement('input');
+    input.id = 'filter';
+    input.type = 'text';
+    input.style.marginRight = '10px';
+    input.oninput = () => this.populateWindow();
+    p.appendChild(input);
+    nodeFilter.appendChild(p);
+
+    // setup container of compatible PROTO
+    const nodeList = document.createElement('div');
+    nodeList.id = 'node-list';
+    nodeList.className = 'node-list';
+
+    // setup node info container
+    const nodeInfo = document.createElement('div');
+    nodeInfo.id = 'node-info';
+    nodeInfo.className = 'node-info';
+
+    const img = document.createElement('img');
+    img.id = 'node-image';
+    img.setAttribute('draggable', false);
+    img.setAttribute('src', '../../images/missing_proto_icon.png');
+    img.style.maxWidth = '100%';
+    img.style.maxHeight = '100%';
+    nodeInfo.appendChild(img);
+
+    panel.appendChild(nodeFilter);
+    panel.appendChild(nodeList);
+    panel.appendChild(nodeInfo);
   }
 
-  filterNodeLibrary(element) {
-    console.log(element.target.value);
+  populateWindow(parameter) {
+    const filter = document.getElementById('filter');
+    console.log('populate with filter : ' + filter.value)
+
+    // populate node list
+    const nodeList = document.getElementById('node-list');
+    nodeList.innerHTML = '';
+
+    const ol = document.createElement('ol');
+    for (const [name, info] of this.nodes) {
+      const item = document.createElement('li');
+      const button = document.createElement('button');
+      button.innerText = name;
+      button.value = info.url;
+      item.appendChild(button);
+
+      button.onclick = (item) => {
+        const url = item.target.value;
+
+        if (url === 'null')
+          img.setAttribute('src', '../../images/missing_proto_icon.png');
+        else {
+          const protoName = url.split('/').pop().replace('.proto', '');
+          const iconUrl = url.slice(0, url.lastIndexOf('/') + 1) + 'icons/' + protoName + '.png';
+          const nodeImage = document.getElementById('node-image');
+          nodeImage.src = iconUrl;
+        }
+      };
+
+      button.ondblclick = async(item) => {
+        const url = item.target.value;
+        console.log('inserting:', url);
+
+        if (url === 'null')
+          parameter.setValueFromJavaScript(this.#view, null);
+        else {
+          console.log('generating node');
+          const node = await this.#protoManager.generateNodeFromUrl(url);
+
+          parameter.setValueFromJavaScript(this.#view, node);
+        }
+
+        // close library panel
+        this.hide();
+
+        // update button name
+        // TODO:can we use the onchange of protomanager?
+        /*
+        if (parameter.value.value === null) {
+          nodeButton.innerHTML = 'NULL';
+          configureButton.style.display = 'none';
+        } else {
+          nodeButton.innerHTML = parameter.value.value.name;
+          configureButton.style.display = 'block';
+        }
+        */
+      };
+
+      ol.appendChild(item);
+    }
+
+    nodeList.appendChild(ol);
+
+    // populate node info
+    const nodeImage = document.getElementById('node-image');
+    nodeImage.src = '../../images/missing_proto_icon.png';
   }
 
   isAllowedToInsert(parameter, baseType, slotType) {
@@ -161,5 +264,16 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
   isGeometryTypeMatch(type) {
     return ['Box', 'Capsule', 'Cylinder', 'Cone', 'Plane', 'Sphere', 'Mesh', 'ElevationGrid',
       'IndexedFaceSet', 'IndexedLineSet'].includes(type);
+  }
+
+  show(parameter) {
+    this.populateWindow(parameter);
+    const panel = document.getElementById('node-library');
+    panel.style.display = 'block';
+  }
+
+  hide() {
+    const panel = document.getElementById('node-library');
+    panel.style.display = 'none';
   }
 }

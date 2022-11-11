@@ -31,9 +31,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.headerText.innerHTML = this.proto.name;
     this.#view = view;
 
-    // this.setupNodeSelector(parentNode);
-    this.nodeSelector = new FloatingNodeSelectorWindow(parentNode, parentNode.protoManager, this.#view, parentNode.protoManager.proto);
-
     // create tabs
     const infoTabsBar = document.createElement('div');
     infoTabsBar.className = 'proto-tabs-bar';
@@ -115,13 +112,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       if (this.proto.isRoot)
         this.#createDownloadButton(contentDiv, row);
     }
-  }
-
-  setupNodeSelector(parentNode) {
-    let div = document.createElement('div');
-    div.className = 'node-library';
-    div.setAttribute('id', 'node-library');
-    parentNode.appendChild(div);
   }
 
   #createBackButton(parent, row) {
@@ -415,18 +405,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const nodeButton = document.createElement('button');
     nodeButton.title = 'Select a node to insert';
     nodeButton.onclick = async() => {
-      console.log('clicked.');
-      return new Promise((resolve, reject) => {
-        const xmlhttp = new XMLHttpRequest();
-        xmlhttp.open('GET', '../../proto-list.xml', true);
-        xmlhttp.onreadystatechange = async() => {
-          if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
-            resolve(xmlhttp.responseText);
-        };
-        xmlhttp.send();
-      }).then(text => {
-        this.#populateNodeLibrary(text, parameter, nodeButton, configureButton);
-      });
+      console.log('editing: ' + parameter.name);
+      if (typeof this.nodeSelector === 'undefined') {
+        this.nodeSelector = new FloatingNodeSelectorWindow(this.parentNode, this.parentNode.protoManager, this.#view, this.parentNode.protoManager.proto);
+        await this.nodeSelector.initialize();
+      }
+
+      this.nodeSelector.show(parameter);
     };
 
     if (parameter.value.value === null) {
@@ -448,165 +433,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     };
     parent.appendChild(p);
     parent.appendChild(value);
-  }
-
-  async #populateNodeLibrary(protoList, parameter, nodeButton, configureButton) {
-    let panel = document.getElementById('node-library');
-    panel.innerHTML = '';
-    panel.style.display = 'block';
-
-    // TODO: filter clicks inside the panel
-    // window.addEventListener('click', _ => {
-    //   console.log('close')
-    //   panel.style.display = 'none';
-    // });
-
-    let protoNodes = [{name: 'NULL', url: null}];
-
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(protoList, 'text/xml').firstChild;
-    for (const proto of xml.getElementsByTagName('proto')) {
-      // don't display PROTOs which contain a "hidden" or a "deprecated" tag
-      const tags = proto.getElementsByTagName('tags')[0]?.innerHTML.split(',');
-      if (typeof tags !== 'undefined' && (tags.includes('hidden') || tags.includes('deprecated')))
-        continue;
-
-      // don't display PROTO nodes which have been filtered-out by the user's "filter" widget.
-      // TODO
-
-      // don't display non-Robot PROTO nodes containing devices (e.g. Kinect) about to be inserted outside a robot.
-      const needsRobotAncestor = proto.getElementsByTagName('needs-robot-ancestor')[0]?.innerHTML;
-      const baseType = proto.getElementsByTagName('base-type')[0]?.innerHTML;
-      const isRobotDescendant = false; // TODO
-      if (typeof baseType === 'undefined')
-        throw new Error('base-type property is undefined, is the xml complete?');
-
-      if (!isRobotDescendant && !(baseType === 'Robot') && needsRobotAncestor)
-        continue;
-
-      const slotType = proto.getElementsByTagName('slot-type')[0]?.innerHTML;
-      if (!this.isAllowedToInsert(parameter, baseType, slotType))
-        continue;
-
-    /*
-
-    QString errorMessage;
-    const QString nodeName = it.key();
-    if (!WbNodeUtilities::isAllowedToInsert(mField, baseType, mCurrentNode, errorMessage, nodeUse, info->slotType(),
-                                            QStringList() << baseType << nodeName))
-      continue;
-
-    */
-
-
-      const info = {};
-      info['name'] = proto.getElementsByTagName('name')[0].innerHTML;
-      info['url'] = proto.getElementsByTagName('url')[0].innerHTML;
-      protoNodes.push(info);
-    }
-
-    const nodeList = document.createElement('div');
-    nodeList.id = 'node-list';
-    nodeList.className = 'node-list';
-    let ol = document.createElement('ol');
-    for (const node of protoNodes) {
-      const item = document.createElement('li');
-      const button = document.createElement('button');
-      button.innerText = node['name'];
-      button.value = node['url'];
-      item.appendChild(button);
-
-      button.onclick = (element) => {
-        const url = element.target.value;
-
-        if (url === 'null')
-          img.setAttribute('src', '../../images/missing_proto_icon.png');
-        else {
-          const protoName = url.split('/').pop().replace('.proto', '');
-          const iconUrl = url.slice(0, url.lastIndexOf('/') + 1) + 'icons/' + protoName + '.png';
-          const nodeImage = document.getElementById('node-image');
-          nodeImage.setAttribute('src', iconUrl);
-        }
-      };
-
-      button.ondblclick = async(element) => {
-        const url = element.target.value;
-        console.log('inserting:', url);
-
-        // const protoManager = new ProtoManager(this.#view);
-        // await protoManager.loadProto(url);
-        // const x3d = new XMLSerializer().serializeToString(protoManager.proto.toX3d());
-        // console.log(x3d);
-
-        if (url === 'null')
-          parameter.setValueFromJavaScript(this.#view, null);
-        else {
-          console.log('generating node');
-          const node = await this.#protoManager.generateNodeFromUrl(url);
-          // const x3d = new XMLSerializer().serializeToString(node.toX3d());
-          // console.log('Grafted x3d:', x3d);
-          // console.log(parameter);
-
-          // const sfnode = new SFNode();
-          // sfnode.setValue(node);
-
-          parameter.setValueFromJavaScript(this.#view, node);
-        }
-
-        // close library panel
-        panel.style.display = 'none';
-
-        // update button name
-        if (parameter.value.value === null) {
-          nodeButton.innerHTML = 'NULL';
-          configureButton.style.display = 'none';
-        } else {
-          nodeButton.innerHTML = parameter.value.value.name;
-          configureButton.style.display = 'block';
-        }
-      };
-
-      ol.appendChild(item);
-    }
-    nodeList.appendChild(ol);
-
-    const nodeInfo = document.createElement('div');
-    nodeInfo.id = 'node-info';
-    nodeInfo.className = 'node-info';
-
-    // const p = document.createElement('p');
-    // p.innerText = 'Select a node';
-    // nodeInfo.append(p);
-
-    const img = document.createElement('img');
-    img.id = 'node-image';
-    img.setAttribute('draggable', false);
-    img.setAttribute('src', '../../images/missing_proto_icon.png');
-    img.style.maxWidth = '100%';
-    img.style.maxHeight = '100%';
-
-    nodeInfo.appendChild(img);
-
-    const nodeFilter = document.createElement('div');
-    nodeFilter.id = 'node-filter';
-    nodeFilter.className = 'node-filter';
-    const p = document.createElement('p');
-    p.innerHTML = 'Find: ';
-
-    const input = document.createElement('input');
-    input.id = 'filter';
-    input.type = 'text';
-    input.style.marginRight = '10px';
-    input.oninput = (element) => this.filterNodeLibrary(element);
-
-    p.appendChild(input);
-    nodeFilter.appendChild(p);
-
-    const container = document.createElement('div');
-    container.appendChild(nodeFilter);
-    container.appendChild(nodeList);
-    container.appendChild(nodeInfo);
-    panel.appendChild(container);
   }
 
   filterNodeLibrary(element) {
