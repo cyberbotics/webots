@@ -33,10 +33,6 @@ class ContactPoint:
 
 
 class Node:
-    pass
-
-
-class Node:
     wb.wb_supervisor_node_get_root.restype = ctypes.c_void_p
     wb.wb_supervisor_node_get_selected.restype = ctypes.c_void_p
     wb.wb_supervisor_node_get_from_def.restype = ctypes.c_void_p
