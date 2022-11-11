@@ -13,15 +13,15 @@ The parent node of an [Accelerometer](#accelerometer) node should have a [Physic
 
 ```
 Accelerometer {
-  SFString name      "accelerometer"  # used by wb_robot_get_device()
-  MFVec3f lookupTable [ ]    # lookup table
-  SFBool  xAxis       TRUE   # {TRUE, FALSE}
-  SFBool  yAxis       TRUE   # {TRUE, FALSE}
-  SFBool  zAxis       TRUE   # {TRUE, FALSE}
-  SFFloat resolution  -1     # [0, inf)  
+  SFString name       "accelerometer"  # used by wb_robot_get_device()
+  MFVec3f lookupTable [ ]             # lookup table
+  SFBool  xAxis       TRUE            # {TRUE, FALSE}
+  SFBool  yAxis       TRUE            # {TRUE, FALSE}
+  SFBool  zAxis       TRUE            # {TRUE, FALSE}
+  SFFloat resolution  -1              # [0, inf)
 }
 ```
-**Note**: The description above is a just a partial list of the fields in Accelerometer. The complete list can be found at: [Accelerometer.wrl](https://github.com/cyberbotics/webots/blob/master/resources/nodes/Accelerometer.wrl).
+**Note**: The above description lists only the fields specific to the Accelerometer node. The complete field list can be found in the [Accelerometer.wrl](https://github.com/cyberbotics/webots/blob/master/resources/nodes/Accelerometer.wrl) definition file.
 
 - `name`: This optional field defines the string name used by `wb_robot_get_device()` to get the `WbDeviceTag` to reference this sensor. If not defined in the `.proto` file, the default value described in the `.wrl` file from above is used.
 
