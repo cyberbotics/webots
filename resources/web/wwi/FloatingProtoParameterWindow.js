@@ -435,36 +435,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(value);
   }
 
-  filterNodeLibrary(element) {
-    console.log(element.target.value);
-  }
-
-  isAllowedToInsert(parameter, baseType, slotType) {
-    const baseNode = parameter.node.getBaseNode();
-
-    if (baseNode.name === 'Slot' && typeof slotType !== 'undefined') {
-      const otherSlotType = baseNode.getParameterByName('type').value.value.replaceAll('"', '');
-      return this.isSlotTypeMatch(otherSlotType, slotType);
-    }
-
-    for (const link of parameter.parameterLinks) {
-      // console.log('found ' + link.node.name, link.name);
-      const fieldName = link.name; // TODO: does it work for derived proto? or need to get the basenode equivalent first?
-
-      if (fieldName === 'appearance') {
-        if (baseType === 'Appearance')
-          return true;
-        else if (baseType === 'PBRAppearance')
-          return true;
-      }
-
-      if (fieldName === 'geometry')
-        return this.isGeometryTypeMatch(baseType);
-    }
-
-    return false;
-  }
-
   isSlotTypeMatch(firstType, secondType) {
     // console.log('compare slot type: ', firstType, ' with ', secondType);
     if (typeof firstType === 'undefined' || typeof secondType === 'undefined')

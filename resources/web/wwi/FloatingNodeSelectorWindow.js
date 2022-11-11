@@ -148,7 +148,7 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
 
   populateWindow(parameter) {
     const filter = document.getElementById('filter');
-    console.log('populate with filter : ' + filter.value)
+    console.log('populate with filter : ' + filter.value + ' for nodes compatible with: ' + parameter.name);
 
     // populate node list
     const nodeList = document.getElementById('node-list');
@@ -156,6 +156,24 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
 
     const ol = document.createElement('ol');
     for (const [name, info] of this.nodes) {
+      // filter incompatible nodes
+      if (typeof info.tags !== 'undefined' && (info.tags.includes('hidden') || info.tags.includes('deprecated')))
+        continue;
+
+      // don't display PROTO nodes which have been filtered-out by the user's "filter" widget.
+      // TODO
+
+      // don't display non-Robot PROTO nodes containing devices (e.g. Kinect) about to be inserted outside a robot.
+      const isRobotDescendant = false; // TODO
+      if (typeof info.baseType === 'undefined')
+        throw new Error('base-type property is undefined, is the xml complete?');
+
+      if (!isRobotDescendant && !(info.baseType === 'Robot') && info.needsRobotAncestor)
+        continue;
+
+      if (!this.isAllowedToInsert(parameter, info.baseType, info.slotType))
+        continue;
+
       const item = document.createElement('li');
       const button = document.createElement('button');
       button.innerText = name;

@@ -988,11 +988,11 @@ webots-view .value-parameter {
 
 webots-view .node-library {
   position: absolute;
-  top: calc(50% - 150px);
+  top: calc(50% - 250px);
   left: calc(50% - 220px);
   background-color: #222;
-  width: 500px;
-  height: 400px;
+  width: 600px;
+  height: 500px;
   border-radius: 5px;
   opacity: 0.95;
   display: none;
@@ -1001,7 +1001,7 @@ webots-view .node-library {
 }
 
 webots-view .node-library .node-filter {
-  width: 500px;
+  width: 600px;
   height: fit-content;
   font-family: Arial;
   color: rgba(240, 240, 240, 1);
@@ -1010,15 +1010,16 @@ webots-view .node-library .node-filter {
 }
 
 webots-view .node-library .node-list {
-  width: 250px;
+  width: 300px;
   height: 400px;
   float: left;
   font-family: Arial;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 webots-view .node-library .node-info {
-  width: 250px;
+  width: 300px;
   height: 400px;
   float: left;
   color: rgba(240, 240, 240, 1);
