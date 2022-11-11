@@ -118,13 +118,13 @@ export default class Parameter {
           baseNode = baseNode.baseType;
 
         // get parent node
-        const parentId = baseNode.getBaseNodeId().replace('n', '');
+        const parentId = baseNode.getBaseNode().id.replace('n', '');
         console.log('parent node:' + parentId);
 
         if (this.#value.value !== null) {
           // delete existing node
           const p = baseNode.getParameterByName(this.name);
-          const id = p.value.value.getBaseNodeId();
+          const id = p.value.value.getBaseNode().id;
 
           view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
           console.log('delete: ', id);

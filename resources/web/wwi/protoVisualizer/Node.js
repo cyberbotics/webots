@@ -322,13 +322,6 @@ export default class Node {
     return this.parameters.get(name);
   }
 
-  getBaseNodeId() {
-    if (this.isProto)
-      return this.baseType.getBaseNodeId();
-
-    return this.id;
-  }
-
   getBaseNode() {
     if (this.isProto)
       return this.baseType.getBaseNode();
