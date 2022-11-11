@@ -13,7 +13,7 @@ The parent node of an [Accelerometer](#accelerometer) node should have a [Physic
 
 ```
 Accelerometer {
-  SFString name       "accelerometer"  # used by wb_robot_get_device()
+  SFString name       "accelerometer" # used by wb_robot_get_device()
   MFVec3f lookupTable [ ]             # lookup table
   SFBool  xAxis       TRUE            # {TRUE, FALSE}
   SFBool  yAxis       TRUE            # {TRUE, FALSE}
