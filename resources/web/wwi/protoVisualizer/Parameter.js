@@ -140,7 +140,7 @@ export default class Parameter {
         if (v !== null) {
           const x3d = new XMLSerializer().serializeToString(v.toX3d());
           console.log('insert:' + x3d);
-          view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
+          //view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
         }
       } else {
         // update value on the structure side

@@ -177,6 +177,11 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
     nodeList.innerHTML = '';
 
     const ol = document.createElement('ol');
+
+    // the NULL element is always available
+    ol.appendChild(this.#createNodeButton('NULL', 'null'));
+
+    // add compatible nodes
     for (const [name, info] of this.nodes) {
       // filter incompatible nodes
       if (typeof info.tags !== 'undefined' && (info.tags.includes('hidden') || info.tags.includes('deprecated')))
@@ -197,19 +202,7 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
       if (!this.isAllowedToInsert(info.baseType, info.slotType))
         continue;
 
-      const item = document.createElement('li');
-      const button = document.createElement('button');
-      button.innerText = name;
-      button.value = info.url;
-      item.appendChild(button);
-
-      button.onclick = (item) => {
-        this.selectedNode = item.target.value;
-        this.populateNodeInfo(this.selectedNode);
-      };
-
-      button.ondblclick = async(item) => await this.insertNode(item.target.value);
-
+      const item = this.#createNodeButton(name, info.url);
       ol.appendChild(item);
     }
 
@@ -220,6 +213,22 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
 
     // populate node info
     this.populateNodeInfo('null');
+  }
+
+  #createNodeButton(name, url) {
+    const item = document.createElement('li');
+    const button = document.createElement('button');
+    button.innerText = name;
+    button.value = url;
+    item.appendChild(button);
+
+    button.onclick = (item) => {
+      this.selectedNode = item.target.value;
+      this.populateNodeInfo(this.selectedNode);
+    };
+
+    button.ondblclick = async(item) => await this.insertNode(item.target.value);
+    return item;
   }
 
   populateNodeInfo(url) {
