@@ -23,7 +23,7 @@ Accelerometer {
 ```
 **Note**: The above description lists only the fields specific to the Accelerometer node. The complete field list can be found in the [Accelerometer.wrl](https://github.com/cyberbotics/webots/blob/master/resources/nodes/Accelerometer.wrl) definition file.
 
-- `name`: This optional field defines the string name used by `wb_robot_get_device()` to get the `WbDeviceTag` to reference this sensor. If not defined in the `.proto` file, the default value described in the `.wrl` file from above is used.
+- `name`: This field defines the string name used by `wb_robot_get_device()` to get the `WbDeviceTag` handle of this sensor. Its default value is "accelerometer".
 
 - `lookupTable`: This field optionally specifies a lookup table that can be used for mapping the raw acceleration values [m/s²] to device specific output values.
 By default the lookup table is empty and therefore the raw acceleration values are returned (no mapping).
