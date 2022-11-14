@@ -50,6 +50,7 @@
 #include "WbPreferencesDialog.hpp"
 #include "WbProject.hpp"
 #include "WbProjectRelocationDialog.hpp"
+#include "WbProtoIcon.hpp"
 #include "WbProtoManager.hpp"
 #include "WbRecentFilesList.hpp"
 #include "WbRenderingDevice.hpp"
@@ -2364,6 +2365,17 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify, bo
         WbLog::error(tr("Error during copy of extern PROTO file '%1' to '%2'.").arg(protoModelName).arg(fileToOpen));
         return;
       }
+
+      // copy icon
+      WbProtoIcon *protoIcon = new WbProtoIcon(protoModelName, fileName, this);
+      auto copyIcon = [protoIcon, destDir]() {
+        protoIcon->duplicate(destDir);
+        protoIcon->deleteLater();
+      };
+      if (protoIcon->isReady())
+        copyIcon();
+      else
+        connect(protoIcon, &WbProtoIcon::iconReady, copyIcon);
 
       // adjust all the urls referenced by the PROTO
       // note: this won't work well if a URL is forged with Javascript code

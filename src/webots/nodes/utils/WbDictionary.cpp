@@ -46,7 +46,13 @@ void WbDictionary::cleanup() {
   cInstance = NULL;
 }
 
-WbDictionary::WbDictionary() : mTargetNode(NULL), mTargetField(NULL), mTargetIndex(-1), mStopUpdate(false), mLoad(false) {
+WbDictionary::WbDictionary() :
+  mTargetNode(NULL),
+  mTargetField(NULL),
+  mTargetIndex(-1),
+  mStopUpdate(false),
+  mLoad(false),
+  mCurrentProtoRegenerationNode(NULL) {
 }
 
 WbDictionary::~WbDictionary() {
