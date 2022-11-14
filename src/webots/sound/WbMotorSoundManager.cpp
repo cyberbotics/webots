@@ -50,12 +50,6 @@ void WbMotorSoundManager::update() {
     double velocityCoefficient = qBound(0.0, fabs(motor->currentVelocity() / motor->maxVelocity()), 1.0);
 
     if (velocityCoefficient > 0.1) {
-      static const double GAIN_INFLUENCY = 0.1;                                   // 10%
-      double gain = 1.0 - GAIN_INFLUENCY + GAIN_INFLUENCY * velocityCoefficient;  // empirical
-
-      static const double PITCH_INFLUENCY = 0.8;                                           // 80%
-      double pitch = 1.0 - 0.5 * PITCH_INFLUENCY + PITCH_INFLUENCY * velocityCoefficient;  // empirical
-
       if (!source->isPlaying()) {
         source->setSoundClip(sound);
         source->play();
@@ -70,6 +64,12 @@ void WbMotorSoundManager::update() {
           source->setVelocity(solid->linearVelocity());
         }
       }
+
+      static const double GAIN_INFLUENCY = 0.1;                                   // 10%
+      double gain = 1.0 - GAIN_INFLUENCY + GAIN_INFLUENCY * velocityCoefficient;  // empirical
+
+      static const double PITCH_INFLUENCY = 0.8;                                           // 80%
+      double pitch = 1.0 - 0.5 * PITCH_INFLUENCY + PITCH_INFLUENCY * velocityCoefficient;  // empirical
 
       source->setPitch(pitch);
       source->setGain(gain);
