@@ -1824,9 +1824,11 @@ void WbMainWindow::show3DMovingInfo() {
 void WbMainWindow::show3DForceInfo() {
   static const QString infoLinux(
     tr("<strong>Force:</strong><br/> Place the mouse pointer where the force will apply and hold down the Alt key"
-       " and the left mouse button together while dragging the mouse.<br/><br/> <strong>Torque:</strong><br/>"
+       " and the left mouse button together while dragging the mouse. In some window managers it might be necessary"
+       " to also hold the Control (ctrl) key together with the Alt key.<br/><br/> <strong>Torque:</strong><br/>"
        "Place the mouse pointer on the object and hold down the Alt key"
-       " and the right mouse button together while dragging the mouse."));
+       " and the right mouse button together while dragging the mouse. In some window managers it might be necessary"
+       " to also hold the Control (ctrl) key together with the Alt key."));
 
   static const QString infoWindows(
     tr("<strong>Force:</strong><br/> Place the mouse pointer where the force will apply and hold down the Alt key"
