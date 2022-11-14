@@ -188,10 +188,6 @@ void WbExtendedStringEditor::editInTextEditor() {
     return;
   }
 
-  WbField *effectiveField = field();
-
-  qDebug() << "EDIT" << stringValue() << effectiveField->type();
-
   enum { projectFile, extraProjectFile, protoFile, externalProtoFile, resourcesFile, webotsProjectsFile, noFile };
   int dirLocation = noFile;
   const QString &fileType = ITEM_LIST_INFO[mStringType].at(0);
