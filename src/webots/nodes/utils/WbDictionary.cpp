@@ -52,6 +52,7 @@ WbDictionary::WbDictionary() :
   mTargetIndex(-1),
   mStopUpdate(false),
   mLoad(false),
+  mCurrentProtoRegeneration(false),
   mCurrentProtoRegenerationNode(NULL) {
 }
 
