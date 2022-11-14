@@ -712,16 +712,6 @@ This can be caused by duplicate vertices in your mesh. Try to open your model in
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Webots requires Python version 3.10, 3.9, 3.8 or 3.7 from python.org in your current PATH.
-To fix the problem, you should:
-1. Check the Python command set in the Webots preferences.
-2. Check the COMMAND set in the [python] section of the runtime.ini file of your controller program if any.
-3. Fix your PATH environment variable to use the required Python 64 bit version (if available).
-4. Install the required Python 64 bit version and ensure your PATH environment variable points to it.
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Python was not found.
 </source>
         <translation type="unfinished"></translation>
@@ -818,6 +808,15 @@ To fix the problem, you should:
         <source>&apos;%1&apos;: This file was created with Webots %2 while you are using Webots %3. You may need to adjust urls for textures and meshes, see details in the change log of Webots R2021b.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Webots requires Python version 3.7 or newer in your current PATH.
+To fix the problem, you should:
+1. Check the Python command set in the Webots preferences.
+2. Check the COMMAND set in the [python] section of the runtime.ini file of your controller program if any.
+3. Install a recent Python 64 bit version and ensure your PATH environment variable points to it.
+</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>T</name>
@@ -836,11 +835,15 @@ To fix the problem, you should:
 <context>
     <name>WbAbstractCamera</name>
     <message>
-        <source>Invalid &apos;fieldOfView&apos; changed to 0.7854. The field of view is limited to pi if the &apos;spherical&apos; field is FALSE.</source>
+        <source>Cannot allocate memory mapped file for camera image.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cannot allocate memory mapped file for camera image.</source>
+        <source>Invalid &apos;fieldOfView&apos; changed to 0.7854. The field of view is limited to pi if the &apos;projection&apos; field is &quot;planar&quot;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown &apos;projection&apos; value &quot;%1&quot;: field value reset to &quot;planar&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1925,7 +1928,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Error: No animation content is available because the simulation did not start.</source>
+        <source>Error: No animation content is available because no changes occurred in the simulation. If you just want a 3D environment file, consider exporting a scene instead.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2160,6 +2163,10 @@ You don&apos;t have write access to the &apos;Program Files&apos; folder. Webots
         <source>Mesh &apos;%1&apos; has more than 100&apos;000 vertices, it is recommended to reduce the number of vertices.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Mesh &apos;%1&apos; created but it is fully transparent.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbCamera</name>
@@ -2223,7 +2230,7 @@ Color %1: %2 %3 %4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Lens flare cannot be applied to spherical cameras.</source>
+        <source>Lens flare can only be applied to planar cameras.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2614,10 +2621,6 @@ Please close any running instances of the controller and reload the world.</sour
 </context>
 <context>
     <name>WbDownloader</name>
-    <message>
-        <source>Downloading assets</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Cannot download &apos;%1&apos;, error code: %2: %3</source>
         <translation type="unfinished"></translation>
@@ -4235,6 +4238,16 @@ The following file formats are supported:
         <source>Share your simulation...</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The selected directory for saving the world file is not named &quot;worlds&quot;.
+Thus it is not located in a valid Webots project.
+As a consequence, some project-related functionalities may not work.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save Anyway</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbMatter</name>
@@ -4287,6 +4300,10 @@ The following file formats are supported:
     </message>
     <message>
         <source>Geometry with color index &quot;%1&quot; doesn&apos;t exist in the mesh.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mesh &apos;%1&apos; has more than 100&apos;000 vertices, it is recommended to reduce the number of vertices.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4821,10 +4838,6 @@ a larger node.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Invalid world name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>World settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4866,6 +4879,10 @@ a larger node.</source>
     </message>
     <message>
         <source>The following file will be created:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please specify a world name and not a path.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5867,22 +5884,6 @@ screenshot of the world in .jpg format when the it is saved, shared or exported.
     <message>
         <source>Invalid &apos;height&apos;: changed to 1.</source>
         <translation>Ungültige &apos;Höhe&apos;: abgeändert auf 1.</translation>
-    </message>
-    <message>
-        <source>&apos;windowPosition&apos; is deprecated.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The position of the overlay will be automatically stored after moving it from the 3D view.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&apos;pixelSize&apos; is deprecated.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The size of the overlay will be automatically stored after resizing it from the 3D view.</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>&apos;width&apos; has been modified. This modification will be taken into account after saving and reloading the world.</source>
@@ -6985,14 +6986,6 @@ Möchten Sie vor dem Schliessen speichern?</translation>
 <context>
     <name>WbUpdatedDialog</name>
     <message>
-        <source>Welcome to Webots R2022b</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Thank you for using Webots R2022b.&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Important Note for Users of Versions Lower than R2022a</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7001,12 +6994,20 @@ Möchten Sie vor dem Schliessen speichern?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Find out the new features, enhancements and bug fixes of Webots R2022b in the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/reference/changelog-r2022&apos;&gt;changelog&lt;/a&gt;.</source>
+        <source>Close</source>
+        <translation type="unfinished">Schliessen</translation>
+    </message>
+    <message>
+        <source>Welcome to Webots R2023a</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Close</source>
-        <translation type="unfinished">Schliessen</translation>
+        <source>&lt;b&gt;Thank you for using Webots R2023a.&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find out the new features, enhancements and bug fixes of Webots R2023a in the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/reference/changelog-r2023&apos;&gt;changelog&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7367,10 +7368,6 @@ Do you want to play it back?
 <context>
     <name>WbWrenCamera</name>
     <message>
-        <source>Noise mask can only be applied to RGB non-spherical cameras</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Invalid URL &apos;%1&apos;. The noise mask must be in &apos;.jpeg&apos;, &apos;.jpg&apos; or &apos;.png&apos; format.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7380,6 +7377,10 @@ Do you want to play it back?
     </message>
     <message>
         <source>Cannot load &apos;%1&apos;: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Noise mask can only be applied to RGB planar cameras</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
