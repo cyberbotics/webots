@@ -3804,10 +3804,6 @@ The following file formats are supported:
         <translation>Apri il sito web di Cyberbotics.</translation>
     </message>
     <message>
-        <source>&lt;strong&gt;Force:&lt;/strong&gt;&lt;br/&gt; Place the mouse pointer where the force will apply and hold down the Alt key, the Control key (Ctrl) and the left mouse button together while dragging the mouse.&lt;br/&gt;&lt;br/&gt; &lt;strong&gt;Torque:&lt;/strong&gt;&lt;br/&gt;Place the mouse pointer on the object and hold down the Alt key, the Control key (Ctrl) and the right mouse button together while dragging the mouse.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&lt;strong&gt;Force:&lt;/strong&gt;&lt;br/&gt; Place the mouse pointer where the force will apply and hold down the Alt key and the left mouse button together while dragging the mouse.&lt;br/&gt;&lt;br/&gt; &lt;strong&gt;Torque:&lt;/strong&gt;&lt;br/&gt;Place the mouse pointer on the object and hold down the Alt key and the right mouse button together while dragging the mouse.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6844,15 +6840,15 @@ Please save the current world to get rid of this message.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Couldn&apos;t write jsTemplateFilled to disk.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>failed to import JavaScript template: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>failed to execute JavaScript template: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Couldn&apos;t write jsTemplateFilled in %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
