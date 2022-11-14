@@ -69,6 +69,7 @@ private:
 
   bool mBlockRegeneration;
   bool mTemplatesNeedRegeneration;
+  WbNode *mRegeneratingUpperTemplateNode;
 };
 
 #endif

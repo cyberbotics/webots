@@ -52,7 +52,7 @@ public:
   void notifyNodeDeleted(WbNode *node);
   void notifyNodeRegenerated();
 
-  void updateDictionary(bool load, WbBaseNode *protoRoot);  // called after every modification of the Scene Tree
+  bool updateDictionary(bool load, WbBaseNode *protoRoot);  // called after every modification of the Scene Tree
 
   bool areNodesAboutToBeInserted() { return mNodesAreAboutToBeInserted; }
   bool isSkipUpdates() { return mSkipUpdates; }
