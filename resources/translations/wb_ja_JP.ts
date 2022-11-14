@@ -4241,6 +4241,10 @@ As a consequence, some project-related functionalities may not work.</source>
         <source>Save Anyway</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&lt;strong&gt;Force:&lt;/strong&gt;&lt;br/&gt; Place the mouse pointer where the force will apply and hold down the Alt key and the left mouse button together while dragging the mouse. In some window managers it might be necessary to also hold the Control (ctrl) key together with the Alt key.&lt;br/&gt;&lt;br/&gt; &lt;strong&gt;Torque:&lt;/strong&gt;&lt;br/&gt;Place the mouse pointer on the object and hold down the Alt key and the right mouse button together while dragging the mouse. In some window managers it might be necessary to also hold the Control (ctrl) key together with the Alt key.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbMatter</name>
