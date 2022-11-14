@@ -134,7 +134,7 @@ else:
             useDisplay = True
 
 # check if the target directory is in the WEBOTS_HOME path or not set, and adjust path if it is the case
-directory = options.directory
+directory = options.directory if options.directory == '' else os.path.normpath(options.directory)
 if directory.startswith('WEBOTS_HOME'):
     directory = directory.replace('WEBOTS_HOME', WEBOTS_HOME)
 elif directory == "":  # no directory set, use standard directory (same name of the world ending with '_net')
