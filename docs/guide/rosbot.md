@@ -50,7 +50,7 @@ The infra-red [DistanceSensor](../reference/distancesensor.md) nodes are named a
 
 %figure "Distance sensors positions and names (top view)"
 
-![distance_sensors.png](images/robots/rosbot/distance_sensors.png)
+![distance_sensors.png](images/robots/rosbot/distance_sensors.thumbnail.jpg)
 
 %end
 
@@ -112,7 +112,7 @@ You will find the following sample in the folder: "[$WEBOTS\_HOME/projects/robot
 
 #### [rosbot.wbt]({{ url.github_tree }}/projects/robots/husarion/rosbot/worlds/rosbot.wbt)
 
-![rosbot.png](images/robots/rosbot/rosbot.wbt.thumbnail.png) 
+![rosbot.png](images/robots/rosbot/rosbot.wbt.thumbnail.jpg) 
 
 The "[rosbot.wbt]({{ url.github_tree }}/projects/robots/husarion/rosbot/worlds/rosbot.wbt)" world file is a simulation example of a simple obstacle avoidance behavior based on the use of the two front [DistanceSensors](../reference/distancesensor.md) (see "[rosbot.c]({{ url.github_tree }}/projects/robots/husarion/rosbot/controllers/rosbot/rosbot.c)" in the "[$WEBOTS\_HOME/projects/robots/husarion/rosbot/controllers/rosbot]({{ url.github_tree }}/projects/robots/husarion/rosbot/controllers/rosbot)" directory).
 The [DistanceSensors](../reference/distancesensor.md) outputs are used guide the robot with a simple Braitenberg algorithm.

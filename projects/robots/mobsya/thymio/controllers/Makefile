@@ -13,18 +13,6 @@
 # limitations under the License.
 TARGETS = thymio2_demo.Makefile
 
-ifneq (,$(wildcard ../libraries/dashel/dashel/dashel.h))
-ADD_THYMIO2_ASEBA = 1
-endif
-
-ifeq ($(MAKECMDGOALS),clean)
-ADD_THYMIO2_ASEBA = 1
-endif
-
-ifdef ADD_THYMIO2_ASEBA
-TARGETS += thymio2_aseba.Makefile
-endif
-
 .PHONY: release debug profile clean
 
 release debug profile clean: $(TARGETS)
