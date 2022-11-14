@@ -102,14 +102,12 @@ In order for the all three dimensions to scale by the same amount, or in other w
 ### Applying a Force to a Solid Object with Physics
 
 To apply a force to an object, place the mouse pointer where the force will apply, hold down the <kbd>alt</kbd> key (<kbd>⌥ option</kbd> on some Apple keyboards) and left mouse button together while dragging the mouse.
-Linux users should also hold down the <kbd>ctrl</kbd> key together with the <kbd>alt</kbd> key (<kbd>⌥ option</kbd> on some Apple keyboards).
 This way your are drawing a 3D-vector whose end is located on the plane parallel to the view which passes through the point of application.
 The force is computed as follows: *F* [N] = `WorldInfo.dragForceScale` * `Solid.mass` * *d*<sup>3</sup>, where *d* corresponds to the vector created by dragging the mouse (in meters).
 
 ### Applying a Torque to a Solid Object with Physics
 
 To apply a torque to an object, place the mouse pointer on it, hold down the <kbd>alt</kbd> key (<kbd>⌥ option</kbd> on some Apple keyboards) and right mouse button together while dragging the mouse.
-Linux users should also hold down the <kbd>ctrl</kbd> key together with the <kbd>alt</kbd> key (<kbd>⌥ option</kbd> on some Apple keyboards).
 Also, macOS users with a one-button mouse should hold down the <kbd>ctrl</kbd> key to emulate the right mouse button.
 This way your are drawing a 3D-vector with origin the center of mass and whose end is located on the plane parallel to the view which passes through this center.
 The object is prompted to turn around the vector direction, the torque is computed as follows: *T* [Nm] = `WorldInfo.dragTorqueScale` * `Solid.mass` * *d*<sup>3</sup>, where *d* corresponds to the vector created by dragging the mouse (in meters).
