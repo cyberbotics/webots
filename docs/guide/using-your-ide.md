@@ -258,9 +258,13 @@ file(GLOB C_SOURCES *.c)
 file(GLOB CPP_SOURCES *.cpp)
 set(SOURCES ${C_SOURCES} ${CPP_SOURCES})
 
+# Set the  Webots home path (change it according to your installation method)
+set(WEBOTS_HOME "/usr/local/webots")
+#set(WEBOTS_HOME "/snap/webots/current/usr/share/webots")
+
 # Link with the Webots controller library.
 link_directories($ENV{WEBOTS_HOME}/lib/controller)
-set (LIBRARIES ${CMAKE_SHARED_LIBRARY_PREFIX}Controller${CMAKE_SHARED_LIBRARY_SUFFIX} ${CMAKE_SHARED_LIBRARY_PREFIX}CppController${CMAKE_SHARED_LIBRARY_SUFFIX})
+set (LIBRARIES m ${CMAKE_SHARED_LIBRARY_PREFIX}Controller${CMAKE_SHARED_LIBRARY_SUFFIX} ${CMAKE_SHARED_LIBRARY_PREFIX}CppController${CMAKE_SHARED_LIBRARY_SUFFIX})
 include_directories($ENV{WEBOTS_HOME}/include/controller/c $ENV{WEBOTS_HOME}/include/controller/cpp)
 
 # Setup the target executable.
