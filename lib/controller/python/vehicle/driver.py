@@ -229,3 +229,7 @@ class Driver(Supervisor):
     @wiper_mode.setter
     def wiper_mode(self, mode):
         self.api.wbu_driver_set_wiper_mode(mode)
+
+    # private function for webots_ros2 to identify robots that can use libdriver
+    def isInitialisationPossible(self) -> bool:
+        return self.api.wbu_driver_initialization_is_possible()
