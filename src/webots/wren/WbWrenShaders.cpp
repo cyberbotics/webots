@@ -425,7 +425,7 @@ WrShaderProgram *WbWrenShaders::gtaoShader() {
 
     wr_shader_program_use_uniform(gShaders[SHADER_GTAO], WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);
     wr_shader_program_use_uniform(gShaders[SHADER_GTAO], WR_GLSL_LAYOUT_UNIFORM_TEXTURE1);
-    wr_shader_program_use_uniform(gShaders[SHADER_GTAO], WR_GLSL_LAYOUT_UNIFORM_TEXTURE2);
+    wr_shader_program_use_uniform(gShaders[SHADER_GTAO], WR_GLSL_LAYOUT_UNIFORM_GTAO);
     wr_shader_program_use_uniform(gShaders[SHADER_GTAO], WR_GLSL_LAYOUT_UNIFORM_VIEWPORT_SIZE);
 
     wr_shader_program_use_uniform_buffer(gShaders[SHADER_GTAO], WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS);
