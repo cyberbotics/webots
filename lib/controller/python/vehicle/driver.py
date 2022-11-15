@@ -232,4 +232,4 @@ class Driver(Supervisor):
 
     # private function for webots_ros2 to identify robots that can use libdriver
     def isInitialisationPossible(self) -> bool:
-        return self.api.initialization_is_possible()
+        return self.api.wbu_driver_initialization_is_possible()

@@ -42,7 +42,7 @@ Driver::~Driver() {
 }
 
 bool Driver::isInitialisationPossible() {
-  return initialization_is_possible();
+  return wbu_driver_initialization_is_possible();
 }
 
 Driver *Driver::getDriverInstance() {
