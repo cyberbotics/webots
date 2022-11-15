@@ -1796,7 +1796,7 @@ void WbMainWindow::show3DViewingInfo() {
        "To translate the camera in the x and y directions, you have to set the mouse pointer in the 3D scene, press the right "
        "mouse button and drag the mouse.<br/><br/>"
        "<strong>Zoom / Tilt:</strong><br/>"
-       "Set the mouse pointer in the 3D scene, then:\n"
+       "Set the mouse pointer in the 3D scene, then:<br/>"
        "- if you press both left and right mouse buttons (or the middle button) and drag the mouse vertically, the camera will "
        "zoom in or out.<br/>"
        "- if you press both left and right mouse buttons (or the middle button) and drag the mouse horizontally, the camera "
