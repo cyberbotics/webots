@@ -30,7 +30,7 @@ DEF ROBOT Robot {
             }
           }
           GPS {
-            name "gps_without_physic"
+            name "gps_without_physics"
           }
         ]
         name "solid_without_physic"
@@ -46,7 +46,7 @@ DEF ROBOT Robot {
             }
           }
           GPS {
-            name "gps_with_physic"
+            name "gps_with_physics"
           }
         ]
         name "solid_with_physic"
