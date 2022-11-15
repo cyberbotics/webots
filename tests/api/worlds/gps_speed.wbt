@@ -5,43 +5,54 @@ EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
 
 WorldInfo {
   coordinateSystem "NUE"
+  lineScale 1
 }
 Viewpoint {
-  orientation 0.7312252241231249 -0.6592722020692683 -0.17512805367736964 5.67849
-  position 0.688572 0.886986 1.28351
+  orientation -0.7678425458096223 0.5709692557933016 0.2905373190890311 2.0832334239078962
+  position -0.4509517197753034 0.6273448022859422 1.093468539797758
 }
 Background {
   skyColor [
     0.4 0.7 1
   ]
 }
-PointLight {
-  attenuation 0 0 1
-  intensity 0
-}
 DEF ROBOT Robot {
   children [
-    Solid {
-      Shape {
-        geometry Box {
-          size 0.1 0.1 0.1
-        }
+    SliderJoint {
+      jointParameters JointParameters {
+        axis 1 0 0
       }
-      GPS {
+      endPoint Solid {
+        children [
+          Shape {
+            geometry Box {
+              size 0.1 0.1 0.1
+            }
+          }
+          GPS {
+            name "gps_without_physic"
+          }
+        ]
+        name "solid_without_physic"
+        linearVelocity 0 -5 0
       }
-      linearVelocity 0 -5 0
     }
-    Solid {
-      Shape {
-        geometry Box {
-          size 0.1 0.1 0.1
+    SliderJoint {
+      endPoint Solid {
+        children [
+          Shape {
+            geometry Box {
+              size 0.1 0.1 0.1
+            }
+          }
+          GPS {
+            name "gps_with_physic"
+          }
+        ]
+        name "solid_with_physic"
+        physics Physics {
         }
-      }
-      GPS {
-      }
-      linearVelocity -5 0 0
-      physic Physics {
-        
+        linearVelocity 0 0 -5
       }
     }
     TestSuiteEmitter {
