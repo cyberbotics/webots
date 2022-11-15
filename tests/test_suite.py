@@ -363,6 +363,6 @@ if outputMonitor.command.isRunning():
 
 with open(outputFilename, 'r') as file:
     content = file.read()
-    failures += content.count('FAILURE:')
+    failures += content.count('FAILURE')
 
 sys.exit(failures)
