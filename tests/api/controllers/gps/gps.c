@@ -9,7 +9,7 @@ static void check_position(WbDeviceTag gps, double *expected_position, char *end
   const char *axisNames = "XYZ";
   for (int i = 0; i < 3; i++)
     ts_assert_double_in_delta(position[i], expected_position[i], 0.000001,
-                              "The %c value measured by the GPS should be %g and not %f %s.", axisNames[i],
+                              "The %c value measured by the GPS should be %f and not %f %s.", axisNames[i],
                               expected_position[i], position[i], end_msg);
 }
 
