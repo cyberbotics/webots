@@ -21,18 +21,33 @@ PointLight {
 }
 DEF ROBOT Robot {
   children [
-    Shape {
-      geometry Box {
-        size 0.1 0.1 0.1
+    Solid {
+      Shape {
+        geometry Box {
+          size 0.1 0.1 0.1
+        }
       }
+      GPS {
+      }
+      linearVelocity 0 -5 0
     }
-    GPS {
+    Solid {
+      Shape {
+        geometry Box {
+          size 0.1 0.1 0.1
+        }
+      }
+      GPS {
+      }
+      linearVelocity -5 0 0
+      physic Physics {
+        
+      }
     }
     TestSuiteEmitter {
     }
   ]
   controller "gps_speed"
-  linearVelocity 0 -5 0
 }
 TestSuiteSupervisor {
 }
