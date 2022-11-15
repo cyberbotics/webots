@@ -34,7 +34,7 @@ DEF ROBOT Robot {
           }
         ]
         name "solid_without_physic"
-        linearVelocity 0 -5 0
+        linearVelocity -5 0 0
       }
     }
     SliderJoint {
