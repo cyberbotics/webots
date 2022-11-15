@@ -5,7 +5,7 @@
 #include "../../../lib/ts_assertion.h"
 #include "../../../lib/ts_utils.h"
 
-void check_speed(WbDeviceTag gps, double v, double vx, double vy, double vz, char *end_msg) {
+static void check_speed(WbDeviceTag gps, double v, double vx, double vy, double vz, char *end_msg) {
   const double speed = wb_gps_get_speed(gps);
   ts_assert_double_in_delta(speed, v, 0.0001, "The speed value measured by the GPS \"%s\" should be %f and not %lf %s.",
                             wb_device_get_name(gps), v, speed, end_msg);
