@@ -32,12 +32,12 @@ int main(int argc, char **argv) {
   check_speed(gps_without_physics, NAN, NAN, NAN, NAN, "before a wb_robot_step is performed");
   wb_robot_step(time_step);
 
-  check_speed(gps_with_physics, 5.0, -5.0, 0.0, 0.0, "after one step (because got a Physics node)");
+  check_speed(gps_with_physics, 5.0, 0.0, 0.0, -5.0, "after one step (because got a Physics node)");
   check_speed(gps_without_physics, NAN, NAN, NAN, NAN, "after one step (because no Physics node)");
   wb_robot_step(time_step);
 
-  check_speed(gps_with_physics, 5.0, -5.0, 0.0, 0.0, "after two steps");
-  check_speed(gps_without_physics, 5.0, 0.0, -5.0, 0.0, "after two steps");
+  check_speed(gps_with_physics, 5.0, 0.0, 0.0, -5.0, "after two steps");
+  check_speed(gps_without_physics, 5.0, -5.0, 0.0, 0.0, "after two steps");
 
   ts_send_success();
   return EXIT_SUCCESS;
