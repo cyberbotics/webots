@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
   check_speed(gps, NAN, NAN, NAN, NAN, "before a wb_robot_step is performed");
   wb_robot_step(TIME_STEP);
 
-  check_speed(gps, NAN, NAN, NAN, NAN, "after one step (because no physic node)");
+  check_speed(gps, NAN, NAN, NAN, NAN, "after one step (because no Physics node)");
   wb_robot_step(TIME_STEP);
 
   check_speed(gps, 5.0, 0.0, -5.0, 0.0, "after two step");
