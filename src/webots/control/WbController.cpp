@@ -267,15 +267,6 @@ void WbController::start() {
     }
     mType = findType(mControllerPath);
     setProcessEnvironment();
-// on Windows, java is unable to find class in a path including UTF-8 characters (e.g., Chinese)
-#ifdef _WIN32
-    if ((mType == WbFileUtil::CLASS || mType == WbFileUtil::JAR) &&
-        QString(mControllerPath.toUtf8()) != QString::fromLocal8Bit(mControllerPath.toLocal8Bit()))
-      WbLog::warning(tr("'%1'\nThe path to this Webots project contains non 8-bit characters. "
-                        "Webots won't be able to execute any Java controller in this path. "
-                        "Please move this Webots project into a folder with only 8-bit characters.")
-                       .arg(mControllerPath));
-#endif
     switch (mType) {
       case WbFileUtil::EXECUTABLE:
         (name() == "<generic>") ? startGenericExecutable() : startExecutable();
