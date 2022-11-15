@@ -9,8 +9,6 @@ More information about the Thymio II is available from its official [website](ht
 
 Webots contains an accurate model of the Thymio II robot.
 Almost all the Thymio II devices have been modeled and calibrated.
-Moreover Aseba studio and VPL for Thymio II can be connected on the simulated model allowing you to program the simulated robot using Aseba.
-Many Aseba examples are working directly with the simulated robot.
 Finally several objects related to the Thymio II are available, including a pen which can draw on any 3D object.
 
 ### Thymio II Model
@@ -67,8 +65,8 @@ Thymio2 {
   SFVec3f    translation     0 0 0
   SFRotation rotation        0 0 1 0
   SFString   name            "Thymio II"
-  SFString   controller      "thymio2_aseba"
-  MFString   controllerArgs  "port=33333"
+  SFString   controller      "thymio2_demo"
+  MFString   controllerArgs  []
   SFString   customData      ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE
@@ -89,31 +87,8 @@ Thymio2 {
 
 - `bodySlot`: Extends the robot with new nodes in the body slot.
 
-### Connect Aseba to the Thymio II Model
+### Robot Window
 
-The default controller of the Thymio II PROTO is the `thymio2_demo` controller.
-It should be changed to `thymio2_aseba` to allow the connection to Aseba programming environment.
-However, most world files including the Thymio II robot are already configured to use `thymio2_aseba` as a controller for the Thymio II robot.
-Technically, `thymio2_aseba` creates a TCP/IP server on which Aseba can be connected, and it wraps the Aseba API with the Webots API.
-
-Here is how to proceed to connect Aseba to the Thymio II model in Webots.
-Make sure that the simulation is running (the controller has started) and that the controller of the Thymio II robot is `thymio2_aseba`.
-You can check this from the Webots scene tree, by opening the Thymio2 node.
-Aseba Studio or VPL for Thymio II can then be started.
-From the Aseba target selection dialog (see the [figure](#aseba-studio-and-vpl-target-selection-dialog).), select the `Network TCP/IP` option with the following parameters: `Host = localhost` and `Port = 33333`.
-Then just click on the `Connect` button.
-
-In case of a simulation containing several Thymio II, the TCP/IP port of the `thymio2_aseba` controller should be unique for each robot instance.
-This value can be modified by editing the `Thymio2::controllerArgs` field.
-
-%figure "Aseba Studio and VPL target selection dialog"
-
-![aseba_target_selection.png](images/robots/thymio2/aseba_target_selection.png)
-
-%end
-
-The Thymio II window (see the [figure](#thymio-ii-robot-window)) can help you to raise some events easily.
-These events are mainly useful when using the VPL for Thymio II software.
 To open the Thymio II window, select the "Show Robot Window" option in the robot [context menu](the-3d-window.md#context-menu).
 
 %figure "Thymio II robot window"

@@ -57,6 +57,8 @@ WbTcpServer::WbTcpServer(bool stream) :
   connect(WbApplication::instance(), &WbApplication::worldLoadingStatusHasChanged, this, &WbTcpServer::setWorldLoadingStatus);
   connect(WbNodeOperations::instance(), &WbNodeOperations::nodeAdded, this, &WbTcpServer::propagateNodeAddition);
   connect(WbTemplateManager::instance(), &WbTemplateManager::postNodeRegeneration, this, &WbTcpServer::propagateNodeAddition);
+  connect(WbNodeOperations::instance(), &WbNodeOperations::nodeDeleted, this, &WbTcpServer::propagateNodeDeletion);
+  connect(WbTemplateManager::instance(), &WbTemplateManager::preNodeRegeneration, this, &WbTcpServer::propagateNodeDeletion);
 }
 
 WbTcpServer::~WbTcpServer() {
@@ -569,8 +571,13 @@ void WbTcpServer::propagateNodeAddition(WbNode *node) {
   }
 
   const WbRobot *robot = dynamic_cast<WbRobot *>(node);
-  if (robot)
+  if (robot) {
     connectNewRobot(robot);
+    if (mWebSocketClients.isEmpty())
+      return;
+    foreach (QWebSocket *client, mWebSocketClients)
+      sendRobotWindowInformation(client, robot);
+  }
 }
 
 QString WbTcpServer::simulationStateString(bool pauseTime) {
@@ -623,14 +630,30 @@ void WbTcpServer::sendWorldToClient(QWebSocket *client) {
   client->sendTextMessage("world:" + currentWorld + ':' + worlds);
 
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
-  foreach (const WbRobot *robot, robots) {
-    if (!robot->window().isEmpty()) {
-      QJsonObject windowObject;
-      windowObject.insert("robot", robot->name());
-      windowObject.insert("window", robot->window());
-      const QJsonDocument windowDocument(windowObject);
-      client->sendTextMessage("robot window: " + windowDocument.toJson(QJsonDocument::Compact));
-    }
-  }
+  foreach (const WbRobot *robot, robots)
+    sendRobotWindowInformation(client, robot);
   client->sendTextMessage("scene load completed");
+}
+
+void WbTcpServer::sendRobotWindowInformation(QWebSocket *client, const WbRobot *robot, bool remove) {
+  if (!robot->window().isEmpty()) {
+    QJsonObject windowObject;
+    windowObject.insert("robot", robot->name());
+    windowObject.insert("window", robot->window());
+    if (remove)
+      windowObject.insert("remove", true);
+    if (WbWorld::instance()->worldInfo()->window() == robot->window())
+      windowObject.insert("main", true);
+    const QJsonDocument windowDocument(windowObject);
+    client->sendTextMessage("robot window: " + windowDocument.toJson(QJsonDocument::Compact));
+  }
+}
+
+void WbTcpServer::propagateNodeDeletion(WbNode *node) {
+  const WbNode *def = static_cast<const WbBaseNode *>(node)->getFirstFinalizedProtoInstance();
+  foreach (QWebSocket *client, mWebSocketClients) {
+    const WbRobot *robot = dynamic_cast<const WbRobot *>(def);
+    if (robot)
+      sendRobotWindowInformation(client, robot, true);
+  }
 }

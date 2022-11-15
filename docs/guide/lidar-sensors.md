@@ -272,6 +272,26 @@ The `resolution` field specifies the number of points returned per layer per sca
 
 The `enablePhysics` field specifies if the sensor should be affected by physics or not.
 
+### Slamtec
+
+#### Slamtec RPlidar A2
+
+The `Slamtec RPlidar A2` is a 1-layer rotational lidar with a range of up to 12 meters. Full specifications can be found [on this page](https://www.slamtec.com/en/Lidar/A2).
+
+%figure "Slamtec RPlidar A2 lidar"
+
+![rplidara2.png](images/sensors/rplidara2.thumbnail.png)
+
+%end
+
+```
+RpLidarA2 {
+  SFVec3f    translation    0 0 0
+  SFRotation rotation       0 0 1 0
+  SFString   name           "RPlidar A2"
+}
+```
+
 ### Velodyne
 
 All the models of velodyne sensors are available.

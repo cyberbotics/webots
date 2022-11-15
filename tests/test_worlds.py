@@ -89,7 +89,6 @@ class TestWorldsWarnings(unittest.TestCase):
             # First world is empty.wbt, used to trigger the warning about system requirements not being met
             if i == 0:
                 continue
-
             if errors and not all((any(message in error for message in self.skippedMessages) for error in errors.splitlines())):
                 problematicWorlds.append(self.worlds[i])
             if errors and self.crashError in str(errors):

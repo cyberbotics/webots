@@ -22,7 +22,7 @@
 #include <wren/texture.h>
 #include <wren/viewport.h>
 
-WbWrenMotionBlur::WbWrenMotionBlur() : WbWrenAbstractPostProcessingEffect(), mFirstRender(1.0f), mIntensity(0.0f) {
+WbWrenMotionBlur::WbWrenMotionBlur() : WbWrenAbstractPostProcessingEffect(), mFirstRender(true), mIntensity(0.0f) {
 }
 
 void WbWrenMotionBlur::setup(WrViewport *viewport) {
@@ -52,7 +52,7 @@ void WbWrenMotionBlur::setup(WrViewport *viewport) {
   mHasBeenSetup = true;
 }
 
-void WbWrenMotionBlur::setFirstRender(float firstRender) {
+void WbWrenMotionBlur::setFirstRender(bool firstRender) {
   mFirstRender = firstRender;
 
   applyParametersToWren();

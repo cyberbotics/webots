@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#velodyne-puck
@@ -130,7 +130,7 @@ PROTO VelodynePuck [
     numberOfLayers 16
     minRange 1
     maxRange 100
-    spherical TRUE
+    projection "cylindrical"
     type "fixed"
     noise 0.003 # 0.03 / 100
     defaultFrequency 5

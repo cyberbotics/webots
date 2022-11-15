@@ -46,7 +46,7 @@ export default class FloatingWindow {
     this.frame.id = this.name + '-window';
     this.floatingWindowContent.appendChild(this.frame);
 
-    this._interactElement(this.floatingWindow);
+    this.#interactElement(this.floatingWindow);
 
     this.floatingWindow.addEventListener('mousedown', this.bringToFront.bind(this));
   }
@@ -87,7 +87,7 @@ export default class FloatingWindow {
     return this.floatingWindow.style.visibility;
   }
 
-  _interactElement(fw) {
+  #interactElement(fw) {
     let posX, dX, top, height, maxTop, maxHeight, containerHeight, topOffset, bottomOffset;
     let posY, dY, left, width, maxLeft, maxWidth, containerWidth, leftOffset, rightOffset;
     let interactionType, direction;
