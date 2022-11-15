@@ -35,9 +35,11 @@ typedef enum { UNDEFINED_CONTROL_MODE = -1, SPEED = 0, TORQUE } WbuDriverControl
 
 typedef enum { DOWN, SLOW, NORMAL, FAST } WbuDriverWiperMode;
 
+// private function for webots_ros2 to identify robots that can use libdriver
+bool wbu_driver_initialization_is_possible();
+
 void wbu_driver_init();
 void wbu_driver_cleanup();
-bool wbu_driver_initialization_is_possible();
 int wbu_driver_step();
 
 // positive: turn right, negative: turn left
