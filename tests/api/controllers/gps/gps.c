@@ -28,7 +28,7 @@ int main(int argc, char **argv) {
   for (int j = 1; j <= 10; j++) {
     wb_robot_step(time_step);
     char s[64];
-    snprint(s, sizeof(s), "after %d wb_robot_step(s)", i);
+    snprintf(s, sizeof(s), "after %d wb_robot_step(s)", i);
     check_position(gps, (double *){0.19996, 0.05, -0.35}, s);
   }
 
