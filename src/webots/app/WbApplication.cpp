@@ -46,6 +46,7 @@ static QString gProjectLibsInPath;
 
 bool updateParsingProgress(int progress) {
   WbApplication::instance()->setWorldLoadingProgress(progress);
+  qDebug() << "updateParsingProgress: SETTING " << progress << " RETURN " << !WbApplication::instance()->wasWorldLoadingCanceled();
   return !WbApplication::instance()->wasWorldLoadingCanceled();
 }
 
@@ -137,6 +138,7 @@ void WbApplication::setup() {
 
 void WbApplication::setWorldLoadingProgress(const int progress) {
   static int previousProgress = 0;
+  qDebug() << "setWorldLoadingProgress: WILL SET:" << progress << previousProgress;
   if (progress == previousProgress)
     return;
   previousProgress = progress;
@@ -144,11 +146,13 @@ void WbApplication::setWorldLoadingProgress(const int progress) {
     // more than 2 seconds that world is loading
     emit createWorldLoadingProgressDialog();
     mWorldLoadingProgressDialogCreated = true;
+    qDebug() << "CREATE";
   }
   emit worldLoadingHasProgressed(progress);
 }
 
 void WbApplication::setWorldLoadingStatus(const QString &status) {
+  qDebug() << "STATUS:" << status;
   if (!mWorldLoadingProgressDialogCreated) {
     // more than 2 seconds that world is loading
     emit createWorldLoadingProgressDialog();
@@ -158,6 +162,7 @@ void WbApplication::setWorldLoadingStatus(const QString &status) {
 }
 
 void WbApplication::setWorldLoadingCanceled() {
+  qDebug() << "WORLD CANCELED";
   mWorldLoadingCanceled = true;
   WbDownloadManager::instance()->abort();
   emit worldLoadingWasCanceled();

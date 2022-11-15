@@ -69,7 +69,7 @@ WbSimulationWorld::WbSimulationWorld(WbTokenizer *tokenizer) :
     int newProgress = WbDownloadManager::instance()->progress();
     if (newProgress != progress) {
       progress = newProgress;
-      emit worldLoadingHasProgressed(progress);
+      //emit worldLoadingHasProgressed(progress);
     }
   }
 

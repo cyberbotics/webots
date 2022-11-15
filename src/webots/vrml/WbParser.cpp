@@ -203,8 +203,8 @@ bool WbParser::parseWorld(const QString &worldPath, bool (*updateProgress)(int))
         skipExternProto();
 
       parseNode(worldPath);
-      if (!updateProgress(mTokenizer->pos() * 100 / mTokenizer->totalTokensNumber()))
-        return false;
+      //if (!updateProgress(mTokenizer->pos() * 100 / mTokenizer->totalTokensNumber()))
+      //  return false;
     }
   } catch (...) {
     return false;
