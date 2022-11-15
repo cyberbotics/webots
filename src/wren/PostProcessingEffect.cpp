@@ -121,7 +121,7 @@ namespace wren {
           int locationTexture =
             mProgram->uniformLocation(static_cast<WrGlslLayoutUniform>(WR_GLSL_LAYOUT_UNIFORM_TEXTURE0 + i));
 
-          // Special gtao case to bypass a chrome driver bug where texelFetch does not work with textures comming from array:
+          // Special gtao case to bypass a chrome driver bug where texelFetch does not work with textures coming from array:
           // https://community.amd.com/t5/archives-discussions/bug-report-texelfetch-shader-crash-on-msaa-fbo/td-p/87124
           if (locationTexture == -1 && i == 2)
             locationTexture = mProgram->uniformLocation(static_cast<WrGlslLayoutUniform>(WR_GLSL_LAYOUT_UNIFORM_GTAO));
