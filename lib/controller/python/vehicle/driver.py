@@ -30,8 +30,8 @@ class Driver(Supervisor):
     NORMAL = 2
     FAST = 3
 
-    def __init__(self):
-        super().__init__()
+    @staticmethod
+    def loadApi() -> ctypes.cdll:
         if sys.platform == 'linux' or sys.platform == 'linux2':
             path = os.path.join('lib', 'controller')
             car = 'libcar.so'
@@ -45,7 +45,11 @@ class Driver(Supervisor):
             car = 'libcar.dylib'
             driver = 'libdriver.dylib'
         ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], path, car))
-        self.api = ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], path, driver))
+        return ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], path, driver))
+
+    def __init__(self):
+        super().__init__()
+        self.api = Driver.loadApi()
         self.api.wbu_driver_get_brake_intensity.restype = ctypes.c_double
         self.api.wbu_driver_get_current_speed.restype = ctypes.c_double
         self.api.wbu_driver_get_rpm.restype = ctypes.c_double
@@ -57,6 +61,10 @@ class Driver(Supervisor):
     def __del__(self):
         self.api.wbu_driver_cleanup()
         super().__del__()
+
+    @staticmethod
+    def getDriverInstance():
+        return Driver()
 
     def getAntifogLights(self) -> bool:
         return self.antifog_lights
@@ -231,5 +239,8 @@ class Driver(Supervisor):
         self.api.wbu_driver_set_wiper_mode(mode)
 
     # private function for webots_ros2 to identify robots that can use libdriver
-    def isInitialisationPossible(self) -> bool:
-        return self.api.wbu_driver_initialization_is_possible()
+    @staticmethod
+    def isInitialisationPossible() -> bool:
+        api = Driver.loadApi()
+        api.wbu_driver_initialization_is_possible.restype = ctypes.c_bool
+        return api.wbu_driver_initialization_is_possible()

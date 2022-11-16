@@ -22,6 +22,10 @@ class Supervisor(Robot):
     def __init__(self):
         super().__init__()
 
+    @staticmethod
+    def getSupervisorInstance():
+        return Supervisor()
+
     def getRoot(self) -> Node:
         return Node()
 
