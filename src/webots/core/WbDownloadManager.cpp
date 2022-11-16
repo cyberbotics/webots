@@ -81,8 +81,6 @@ void WbDownloadManager::removeDownloader(QObject *obj) {
 
   if (!obj->property("finished").toBool())
     mCount--;
-
-  // updateProgress();
 }
 
 void WbDownloadManager::downloadCompleted() {
