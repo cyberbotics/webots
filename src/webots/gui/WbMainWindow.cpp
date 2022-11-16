@@ -2453,7 +2453,6 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify, bo
 }
 
 void WbMainWindow::createWorldLoadingProgressDialog() {
-  qDebug() << "CREATE DIALOG";
   if (mWorldLoadingProgressDialog)
     return;
 
@@ -2481,7 +2480,6 @@ void WbMainWindow::createWorldLoadingProgressDialog() {
 }
 
 void WbMainWindow::deleteWorldLoadingProgressDialog() {
-  //qDebug() << "DELETE DIALOG" << sender();
   if (mWorldLoadingProgressDialog) {
     disconnect(mWorldLoadingProgressDialog, &QProgressDialog::canceled, WbApplication::instance(),
                &WbApplication::setWorldLoadingCanceled);
