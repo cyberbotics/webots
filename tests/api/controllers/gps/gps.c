@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
 
   ts_assert_int_equal(wb_gps_get_coordinate_system(gps), WB_GPS_LOCAL_COORDINATE, "Wrong coordinate system returned");
 
-  for (int j = 1; j <= 10; j++) {
+  for (int i = 1; i <= 10; i++) {
     wb_robot_step(time_step);
     char s[64];
     snprintf(s, sizeof(s), "after %d wb_robot_step(s)", i);
