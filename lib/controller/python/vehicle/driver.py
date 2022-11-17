@@ -30,8 +30,10 @@ class Driver(Supervisor):
     NORMAL = 2
     FAST = 3
 
-    def __init__(self):
-        super().__init__()
+    api = None
+
+    @staticmethod
+    def loadApi() -> ctypes.cdll:
         if sys.platform == 'linux' or sys.platform == 'linux2':
             path = os.path.join('lib', 'controller')
             car = 'libcar.so'
@@ -45,17 +47,22 @@ class Driver(Supervisor):
             car = 'libcar.dylib'
             driver = 'libdriver.dylib'
         ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], path, car))
-        self.api = ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], path, driver))
-        self.api.wbu_driver_get_brake_intensity.restype = ctypes.c_double
-        self.api.wbu_driver_get_current_speed.restype = ctypes.c_double
-        self.api.wbu_driver_get_rpm.restype = ctypes.c_double
-        self.api.wbu_driver_get_steering_angle.restype = ctypes.c_double
-        self.api.wbu_driver_get_target_cruising_speed.restype = ctypes.c_double
-        self.api.wbu_driver_get_throttle.restype = ctypes.c_double
-        self.api.wbu_driver_init()
+        Driver.api = ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], path, driver))
+
+    def __init__(self):
+        super().__init__()
+        if not Driver.api:
+            Driver.loadApi()
+        Driver.api.wbu_driver_get_brake_intensity.restype = ctypes.c_double
+        Driver.api.wbu_driver_get_current_speed.restype = ctypes.c_double
+        Driver.api.wbu_driver_get_rpm.restype = ctypes.c_double
+        Driver.api.wbu_driver_get_steering_angle.restype = ctypes.c_double
+        Driver.api.wbu_driver_get_target_cruising_speed.restype = ctypes.c_double
+        Driver.api.wbu_driver_get_throttle.restype = ctypes.c_double
+        Driver.api.wbu_driver_init()
 
     def __del__(self):
-        self.api.wbu_driver_cleanup()
+        Driver.api.wbu_driver_cleanup()
         super().__del__()
 
     def getAntifogLights(self) -> bool:
@@ -98,7 +105,7 @@ class Driver(Supervisor):
         return self.throttle
 
     def getWiperMode(self) -> int:
-        return self.api.wbu_driver_get_wiper_mode()
+        return Driver.api.wbu_driver_get_wiper_mode()
 
     def setAntifogLights(self, state: bool):
         return self.antifog_lights
@@ -131,105 +138,109 @@ class Driver(Supervisor):
         self.wiper_mode = mode
 
     def step(self):
-        return self.api.wbu_driver_step()
+        return Driver.api.wbu_driver_step()
 
     @property
     def antifog_lights(self) -> bool:
-        return self.api.wbu_driver_get_antifog_lights() != 0
+        return Driver.api.wbu_driver_get_antifog_lights() != 0
 
     @antifog_lights.setter
     def antifog_lights(self, antifog_lights: bool):
-        self.api.wbu_driver_set_antifog_lights(1 if antifog_lights else 0)
+        Driver.api.wbu_driver_set_antifog_lights(1 if antifog_lights else 0)
 
     @property
     def brake_intensity(self) -> float:
-        return self.api.wbu_driver_get_brake_intensity()
+        return Driver.api.wbu_driver_get_brake_intensity()
 
     @brake_intensity.setter
     def brake_intensity(self, brake_intensity: float):
-        self.api.wbu_driver_set_brake_intensity(ctypes.c_double(brake_intensity))
+        Driver.api.wbu_driver_set_brake_intensity(ctypes.c_double(brake_intensity))
 
     @property
     def control_mode(self) -> int:
-        m = self.api.wbu_driver_get_control_mode()
+        m = Driver.api.wbu_driver_get_control_mode()
         return None if m == -1 else m
 
     @property
     def dipped_beams(self) -> bool:
-        return self.api.wbu_driver_get_dipped_beams() != 0
+        return Driver.api.wbu_driver_get_dipped_beams() != 0
 
     @dipped_beams.setter
     def dipped_beams(self, dipped_beams: bool):
-        self.api.wbu_driver_set_dipped_beams(1 if dipped_beams else 0)
+        Driver.api.wbu_driver_set_dipped_beams(1 if dipped_beams else 0)
 
     @property
     def gear(self) -> int:
-        return self.api.wbu_driver_get_gear()
+        return Driver.api.wbu_driver_get_gear()
 
     @gear.setter
     def gear(self, gear: int):
-        self.api.wbu_driver_set_gear(gear)
+        Driver.api.wbu_driver_set_gear(gear)
 
     @property
     def gear_number(self) -> int:
-        return self.api.wbu_driver_get_gear_number()
+        return Driver.api.wbu_driver_get_gear_number()
 
     @property
     def hazard_flashers(self) -> bool:
-        return self.api.wbu_driver_get_hazard_flashers() != 0
+        return Driver.api.wbu_driver_get_hazard_flashers() != 0
 
     @hazard_flashers.setter
     def hazard_flashers(self, hazard_flashers: bool):
-        self.api.wbu_driver_set_hazard_flashers(1 if hazard_flashers else 0)
+        Driver.api.wbu_driver_set_hazard_flashers(1 if hazard_flashers else 0)
 
     @property
     def indicator(self) -> int:
-        return self.api.wbu_driver_get_indicator()
+        return Driver.api.wbu_driver_get_indicator()
 
     @indicator.setter
     def indicator(self, indicator: int):
-        self.api.wb_driver_set_indicator(indicator)
+        Driver.api.wb_driver_set_indicator(indicator)
 
     @property
     def rpm(self) -> float:
-        return self.api.wbu_driver_get_rpm()
+        return Driver.api.wbu_driver_get_rpm()
 
     @property
     def steering_angle(self) -> float:
-        return self.api.wbu_driver_get_steering_angle()
+        return Driver.api.wbu_driver_get_steering_angle()
 
     @steering_angle.setter
     def steering_angle(self, value: float):
-        self.api.wbu_driver_set_steering_angle(ctypes.c_double(value))
+        Driver.api.wbu_driver_set_steering_angle(ctypes.c_double(value))
 
     @property
     def current_speed(self) -> float:
-        return self.api.wbu_driver_get_current_speed()
+        return Driver.api.wbu_driver_get_current_speed()
 
     @property
     def target_cruising_speed(self) -> float:
-        return self.api.wbu_driver_get_target_cruising_speed()
+        return Driver.api.wbu_driver_get_target_cruising_speed()
 
     @target_cruising_speed.setter
     def target_cruising_speed(self, target_cruising_speed: float):
-        self.api.wbu_driver_set_cruising_speed(ctypes.c_double(target_cruising_speed))
+        Driver.api.wbu_driver_set_cruising_speed(ctypes.c_double(target_cruising_speed))
 
     @property
     def throttle(self) -> float:
-        return self.api.wbu_driver_get_throttle()
+        return Driver.api.wbu_driver_get_throttle()
 
     @throttle.setter
     def throttle(self, throttle: float):
-        self.api.wbu_driver_set_throttle(ctypes.c_double(throttle))
+        Driver.api.wbu_driver_set_throttle(ctypes.c_double(throttle))
 
     @property
     def wiper_mode(self) -> int:
-        return self.api.wbu_driver_get_wiper_mode()
+        return Driver.api.wbu_driver_get_wiper_mode()
 
     @wiper_mode.setter
     def wiper_mode(self, mode):
-        self.api.wbu_driver_set_wiper_mode(mode)
+        Driver.api.wbu_driver_set_wiper_mode(mode)
 
     # private function for webots_ros2 to identify robots that can use libdriver
-    def isInitialisationPossible(self) -> bool:
-        return self.api.wbu_driver_initialization_is_possible()
+    @staticmethod
+    def isInitialisationPossible() -> bool:
+        if not Driver.api:
+            Driver.loadApi()
+        Driver.api.wbu_driver_initialization_is_possible.restype = ctypes.c_bool
+        return Driver.api.wbu_driver_initialization_is_possible()
