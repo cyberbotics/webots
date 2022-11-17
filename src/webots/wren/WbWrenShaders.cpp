@@ -773,12 +773,12 @@ WrShaderProgram *WbWrenShaders::motionBlurShader() {
     wr_shader_program_use_uniform(gShaders[SHADER_MOTION_BLUR], WR_GLSL_LAYOUT_UNIFORM_TEXTURE0);
     wr_shader_program_use_uniform(gShaders[SHADER_MOTION_BLUR], WR_GLSL_LAYOUT_UNIFORM_TEXTURE1);
 
-    float intensity = 0.0f;
+    const float intensity = 0.0f;
     wr_shader_program_create_custom_uniform(gShaders[SHADER_MOTION_BLUR], "intensity", WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
                                             reinterpret_cast<const char *>(&intensity));
 
-    float firstRender = 1.0f;
-    wr_shader_program_create_custom_uniform(gShaders[SHADER_MOTION_BLUR], "firstRender", WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT,
+    const bool firstRender = true;
+    wr_shader_program_create_custom_uniform(gShaders[SHADER_MOTION_BLUR], "firstRender", WR_SHADER_PROGRAM_UNIFORM_TYPE_BOOL,
                                             reinterpret_cast<const char *>(&firstRender));
 
     ::buildShader(gShaders[SHADER_MOTION_BLUR], QFileInfo("gl:shaders/pass_through.vert"),
