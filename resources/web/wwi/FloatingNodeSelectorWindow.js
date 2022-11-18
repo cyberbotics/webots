@@ -149,10 +149,10 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
     acceptButton.innerHTML = 'Accept';
     acceptButton.onclick = () => {
       // TODO: show selection in gui
-      if (typeof this.selectedNode === 'undefined')
+      if (typeof this.selection === 'undefined')
         throw new Error('No node selected.');
 
-      this.insertNode(this.selectedNode);
+      this.insertNode(this.selection.value);
     };
 
     const cancelButton = document.createElement('button');
@@ -209,7 +209,11 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
     nodeList.appendChild(ol);
 
     // remove selection
-    this.selectedNode = undefined;
+    if (typeof this.selection !== 'undefined') {
+      this.selection.style.border = 'none';
+      this.selection = undefined;
+    }
+
 
     // populate node info
     this.populateNodeInfo('null');
@@ -223,8 +227,13 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
     item.appendChild(button);
 
     button.onclick = (item) => {
-      this.selectedNode = item.target.value;
-      this.populateNodeInfo(this.selectedNode);
+      if (typeof this.selection !== 'undefined')
+        this.selection.style.border = 'none';
+
+      this.selection = item.target;
+      this.selection.style.border = 'inset';
+
+      this.populateNodeInfo(this.selection.value);
     };
 
     button.ondblclick = async(item) => await this.insertNode(item.target.value);
