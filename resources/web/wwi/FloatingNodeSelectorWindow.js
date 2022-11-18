@@ -74,7 +74,7 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
   async initialize() {
     return new Promise((resolve, reject) => {
       const xmlhttp = new XMLHttpRequest();
-      xmlhttp.open('GET', '../../proto-list.xml', true);
+      xmlhttp.open('GET', './protoVisualizer/proto-list.xml', true);
       xmlhttp.onreadystatechange = async() => {
         if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
           resolve(xmlhttp.responseText);

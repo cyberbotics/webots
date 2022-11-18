@@ -114,20 +114,15 @@ export default class Parameter {
         return; // webotsJS needs to be notified of parameter changes only if the parameter belongs to a base-node, not PROTO
 
       if (this.#value instanceof SFNode) {
-        let baseNode = this.node;
-        while (baseNode.isProto)
-          baseNode = baseNode.baseType;
-
-        // get parent node
-        //const parentId = baseNode.getBaseNode().id.replace('n', '');
-
         let parentId;
         if (this.#value.value !== null) {
           // delete existing node
+          const baseNode = this.node.getBaseNode();
           const p = baseNode.getParameterByName(this.name);
           const id = p.value.value.getBaseNode().id;
 
-          parentId = view.x3dScene.parentId(id)
+          // get the parent id to insert the new node, if any
+          parentId = view.x3dScene.parentId(id);
           console.log('parent node: ' + parentId);
 
           view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
@@ -140,7 +135,7 @@ export default class Parameter {
         if (v !== null) {
           const x3d = new XMLSerializer().serializeToString(v.toX3d());
           console.log('insert:' + x3d);
-          //view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
+          view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
         }
       } else {
         // update value on the structure side

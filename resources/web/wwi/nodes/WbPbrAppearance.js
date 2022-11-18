@@ -282,7 +282,7 @@ export default class WbPbrAppearance extends WbAbstractAppearance {
   }
 
   delete() {
-    console.log('deleting', this)
+    console.log('deleting ', this.id)
 
     if (this.isPostFinalizedCalled)
       WbPbrAppearance.cInstanceCounter--;
@@ -411,7 +411,6 @@ export default class WbPbrAppearance extends WbAbstractAppearance {
   }
 
   #update() {
-    console.log('update ', this.id)
     if (this.isPostFinalizedCalled && typeof this.onChange === 'function')
       this.onChange();
   }

@@ -1,6 +1,7 @@
 import Node from './protoVisualizer/Node.js';
 import { MFNode, SFNode, stringifyType } from './protoVisualizer/Vrml.js';
 import {getAnId} from './nodes/utils/id_provider.js';
+import WbWorld from './nodes/WbWorld.js';
 
 export default class ProtoManager {
   #view;
@@ -39,8 +40,18 @@ export default class ProtoManager {
       //  this.onChange();
 
       // test this using the world: DemoRegeneration.proto in the html
-      // setTimeout(() => this.demoRegeneration(), 2000);
+      // setTimeout(() => this.debug(), 2000);
     });
+  }
+
+  debug() {
+    console.log('debug ----------------------------------------');
+
+    this.#view.x3dScene.processServerMessage(`delete: -16`);
+    console.log(WbWorld.instance)
+
+    const x3d = `<PBRAppearance id="n-37" metalness="0"><ImageTexture id="n-38" url="&quot;https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/textures/rough_pine/rough_pine_base_color.jpg&quot;" filtering="5" role="baseColor"/><ImageTexture id="n-39" url="&quot;https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/textures/rough_pine/rough_pine_roughness.jpg&quot;" filtering="5" role="roughness"/><ImageTexture id="n-40" url="&quot;https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/textures/rough_pine/rough_pine_normal.jpg&quot;" filtering="5" role="normal"/><ImageTexture id="n-41" url="&quot;https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/textures/rough_pine/rough_pine_occlusion.jpg&quot;" filtering="5" role="occlusion"/></PBRAppearance>`
+    this.#view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', -25);
   }
 
   async generateNodeFromUrl(url) {

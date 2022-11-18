@@ -29,20 +29,19 @@ export default class WbShape extends WbBaseNode {
   }
 
   set appearance(value) {
-    /*
-    console.log('setting appearance value of', this.id, ' to ', value);
+    console.log('setting appearance value of Shape', this.id, ' to ', typeof value === 'undefined' ? 'undefined' : 'something');
     this.#appearance = value;
-    console.log('useList:', this.useList);
+
 
     for (const useId of this.useList) {
       const useNode = WbWorld.instance.nodes.get(useId);
-      console.log('notifying ', useId, useNode)
+      console.log('notifying USE Shape: ', useId)
       if (typeof value === 'undefined')
         useNode.appearance.delete();
       else
         useNode.appearance = value;
     }
-    */
+
   }
 
 
@@ -196,16 +195,7 @@ export default class WbShape extends WbBaseNode {
     }
 
     if (typeof this.appearance !== 'undefined')
-      this.appearance.onChange = () => {
-        console.log(this.id, 'appearance changed', this.appearance)
-        //this.updateAppearance();
-        // notify USE nodes of the change
-        for (const useId of this.useList) {
-          const useNode = WbWorld.instance.nodes.get(useId);
-          //console.log('notifying ', useId)
-          //useNode.appearance = undefined;
-        }
-      }
+      this.appearance.onChange = () => this.updateAppearance();
   }
 
   // Private functions
