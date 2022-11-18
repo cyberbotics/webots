@@ -139,8 +139,12 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
     img.setAttribute('draggable', false);
     img.setAttribute('src', '../../images/missing_proto_icon.png');
     img.style.maxWidth = '100%';
-    img.style.maxHeight = '100%';
     nodeInfo.appendChild(img);
+
+    const description = document.createElement('span');
+    description.id = 'node-description';
+    description.innerText = 'No description available.';
+    nodeInfo.appendChild(description);
 
     const buttonContainer = document.createElement('div');
     buttonContainer.className = 'node-buttons';
@@ -243,12 +247,15 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
 
   populateNodeInfo(url) {
     const nodeImage = document.getElementById('node-image');
+    const description = document.getElementById('node-description');
 
-    if (url === 'null')
+    if (url === 'null') {
       nodeImage.src = '../../images/missing_proto_icon.png';
-    else {
+      description.innerText = 'No description available.'
+    } else {
       const protoName = url.split('/').pop().replace('.proto', '');
       nodeImage.src = url.slice(0, url.lastIndexOf('/') + 1) + 'icons/' + protoName + '.png';
+      description.innerText = protoName;
     }
   }
 

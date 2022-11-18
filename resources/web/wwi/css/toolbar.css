@@ -1036,6 +1036,7 @@ webots-view .node-library .node-info {
   justify-content: center;
   align-items: center;
   display: flex;
+  flex-direction: column;
 }
 
 webots-view .node-library ol {
