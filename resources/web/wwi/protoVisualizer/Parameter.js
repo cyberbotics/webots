@@ -1,6 +1,7 @@
 'use strict';
 
 import {SFNode, stringifyType} from './Vrml.js';
+import WbWorld from '../nodes/WbWorld.js';
 
 export default class Parameter {
   #type;
@@ -114,16 +115,11 @@ export default class Parameter {
         return; // webotsJS needs to be notified of parameter changes only if the parameter belongs to a base-node, not PROTO
 
       if (this.#value instanceof SFNode) {
-        let parentId;
+        const baseNode = this.node.getBaseNode();
         if (this.#value.value !== null) {
           // delete existing node
-          const baseNode = this.node.getBaseNode();
           const p = baseNode.getParameterByName(this.name);
           const id = p.value.value.getBaseNode().id;
-
-          // get the parent id to insert the new node, if any
-          parentId = view.x3dScene.parentId(id);
-          console.log('parent node: ' + parentId);
 
           view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
           console.log('delete: ', id);
@@ -133,14 +129,19 @@ export default class Parameter {
         this.#value.setValueFromJavaScript(v);
 
         if (v !== null) {
+          // get the parent id to insert the new node
+          const parentId = baseNode.id.replace('n', ''); // view.x3dScene.parentId(id);
+          console.log('parent node: ' + parentId);
+
           const x3d = new XMLSerializer().serializeToString(v.toX3d());
-          console.log('insert:' + x3d);
+          console.log('in parent ', parentId, ' insert:' + x3d);
           view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
+          console.log('world instance', WbWorld.instance)
         }
       } else {
         // update value on the structure side
         this.#value.setValueFromJavaScript(v);
-
+        // update value on the webotsJS side
         const action = {};
         action['id'] = this.node.id;
         action[this.name] = this.value.toJson();
