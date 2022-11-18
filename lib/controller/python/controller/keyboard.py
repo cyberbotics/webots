@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from controller.wb import wb
-from controller.constants import constant
+from .wb import wb
+from .constants import constant
 from typing import Union
 
 

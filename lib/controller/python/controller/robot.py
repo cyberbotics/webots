@@ -15,37 +15,37 @@
 import ctypes
 import sys
 import typing
-from controller.wb import wb
-from controller.node import Node
-from controller.device import Device
-from controller.accelerometer import Accelerometer
-from controller.altimeter import Altimeter
-from controller.brake import Brake
-from controller.camera import Camera
-from controller.compass import Compass
-from controller.connector import Connector
-from controller.display import Display
-from controller.distance_sensor import DistanceSensor
-from controller.emitter import Emitter
-from controller.gps import GPS
-from controller.gyro import Gyro
-from controller.inertial_unit import InertialUnit
-from controller.led import LED
-from controller.lidar import Lidar
-from controller.light_sensor import LightSensor
-from controller.motor import Motor
-from controller.pen import Pen
-from controller.position_sensor import PositionSensor
-from controller.radar import Radar
-from controller.range_finder import RangeFinder
-from controller.receiver import Receiver
-from controller.skin import Skin
-from controller.speaker import Speaker
-from controller.touch_sensor import TouchSensor
+from .wb import wb
+from .node import Node
+from .device import Device
+from .accelerometer import Accelerometer
+from .altimeter import Altimeter
+from .brake import Brake
+from .camera import Camera
+from .compass import Compass
+from .connector import Connector
+from .display import Display
+from .distance_sensor import DistanceSensor
+from .emitter import Emitter
+from .gps import GPS
+from .gyro import Gyro
+from .inertial_unit import InertialUnit
+from .led import LED
+from .lidar import Lidar
+from .light_sensor import LightSensor
+from .motor import Motor
+from .pen import Pen
+from .position_sensor import PositionSensor
+from .radar import Radar
+from .range_finder import RangeFinder
+from .receiver import Receiver
+from .skin import Skin
+from .speaker import Speaker
+from .touch_sensor import TouchSensor
 
-from controller.joystick import Joystick
-from controller.keyboard import Keyboard
-from controller.mouse import Mouse
+from .joystick import Joystick
+from .keyboard import Keyboard
+from .mouse import Mouse
 
 
 class Robot:

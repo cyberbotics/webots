@@ -13,9 +13,9 @@
 # limitations under the License.
 
 import ctypes
-from controller.wb import wb
-from controller.constants import constant
-from controller import Field
+from .wb import wb
+from .constants import constant
+from .field import Field
 import struct
 import typing
 

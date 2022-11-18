@@ -13,9 +13,9 @@
 # limitations under the License.
 
 import ctypes
-from controller.sensor import Sensor
-from controller.lidar_point import LidarPoint
-from controller.wb import wb
+from .sensor import Sensor
+from .lidar_point import LidarPoint
+from .wb import wb
 from typing import List, Union
 
 

@@ -13,8 +13,8 @@
 # limitations under the License.
 
 import ctypes
-from controller.wb import wb
-from controller.constants import constant
+from .wb import wb
+from .constants import constant
 import struct
 import typing
 

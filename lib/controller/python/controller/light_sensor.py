@@ -13,8 +13,8 @@
 # limitations under the License.
 
 import ctypes
-from controller.wb import wb
-from controller.sensor import Sensor
+from .wb import wb
+from .sensor import Sensor
 from typing import Union, List
 
 
