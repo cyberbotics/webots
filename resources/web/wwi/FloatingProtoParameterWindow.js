@@ -411,7 +411,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         await this.nodeSelector.initialize();
       }
 
-      this.nodeSelector.show(parameter);
+      this.nodeSelector.show(parameter, nodeButton, configureButton);
     };
 
     if (parameter.value.value === null) {

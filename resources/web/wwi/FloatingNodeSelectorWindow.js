@@ -228,6 +228,7 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
     };
 
     button.ondblclick = async(item) => await this.insertNode(item.target.value);
+
     return item;
   }
 
@@ -254,20 +255,18 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
       this.parameter.setValueFromJavaScript(this.#view, node);
     }
 
+    // update button name
+    if (this.parameter.value.value === null) {
+      this.configureButton.style.display = 'none';
+      this.nodeButton.innerHTML = 'NULL';
+    } else {
+      this.configureButton.style.display = 'block';
+      this.configureButton.title = 'Configure ' + this.parameter.value.value.name + ' node';
+      this.nodeButton.innerHTML = this.parameter.value.value.name;
+    }
+
     // close library panel
     this.hide();
-
-    // update button name
-    // TODO:can we use the onchange of protomanager?
-    /*
-    if (parameter.value.value === null) {
-      nodeButton.innerHTML = 'NULL';
-      configureButton.style.display = 'none';
-    } else {
-      nodeButton.innerHTML = parameter.value.value.name;
-      configureButton.style.display = 'block';
-    }
-    */
   }
 
   isAllowedToInsert(baseType, slotType) {
@@ -325,7 +324,7 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
       'IndexedFaceSet', 'IndexedLineSet'].includes(type);
   }
 
-  show(parameter) {
+  show(parameter, nodeButton, configureButton) { // TODO: find better solution rather than passing these buttons
     // cleanup input field
     const filterInput = document.getElementById('filter');
     filterInput.value = '';
@@ -334,6 +333,8 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
       throw new Error('Cannot display node selector unless a parameter is provided.')
 
     this.parameter = parameter;
+    this.nodeButton = nodeButton;
+    this.configureButton = configureButton;
     this.populateWindow();
     const panel = document.getElementById('node-library');
     panel.style.display = 'block';
@@ -341,6 +342,8 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
 
   hide() {
     this.parameter = undefined;
+    this.nodeButton = undefined;
+    this.configureButton = undefined;
     const panel = document.getElementById('node-library');
     panel.style.display = 'none';
   }
