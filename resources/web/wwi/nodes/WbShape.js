@@ -99,7 +99,7 @@ export default class WbShape extends WbBaseNode {
   }
 
   delete(isBoundingObject) {
-    console.log('deleting', this)
+    console.log('deleting Shape', this.id)
 
     if (typeof this.parent === 'undefined') {
       const index = WbWorld.instance.sceneTree.indexOf(this);

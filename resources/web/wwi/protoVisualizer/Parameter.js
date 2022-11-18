@@ -141,7 +141,6 @@ export default class Parameter {
           const x3d = new XMLSerializer().serializeToString(v.toX3d());
           console.log('in parent ', parentId, ' insert:' + x3d);
           view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
-          console.log('world instance', WbWorld.instance)
         }
       } else {
         // update value on the structure side
@@ -151,6 +150,7 @@ export default class Parameter {
         const action = {};
         action['id'] = this.node.id;
         action[this.name] = this.value.toJson();
+        console.log('setPose', action)
         view.x3dScene.applyPose(action);
       }
       view.x3dScene.render();
