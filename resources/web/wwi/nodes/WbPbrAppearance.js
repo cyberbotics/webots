@@ -215,6 +215,9 @@ export default class WbPbrAppearance extends WbAbstractAppearance {
   }
 
   clone(customID) {
+    if (typeof customID === 'undefined')
+      customID = getAnId()
+
     let baseColorMap, roughnessMap, metalnessMap, normalMap, occlusionMap, emissiveColorMap, textureTransform;
     if (typeof this.#baseColorMap !== 'undefined') {
       baseColorMap = this.#baseColorMap.clone(getAnId());
@@ -265,7 +268,7 @@ export default class WbPbrAppearance extends WbAbstractAppearance {
     }
 
     this.useList.push(customID);
-    console.log('added' + customID + ' to uselist of ', this.id)
+    //console.log('added ' + customID + ' to uselist of ', this.id)
     return new WbPbrAppearance(customID, this.#baseColor, baseColorMap, this.#transparency, this.#roughness, roughnessMap,
       this.#metalness, metalnessMap, this.#IBLStrength, normalMap, this.#normalMapFactor, occlusionMap,
       this.#occlusionMapStrength, this.#emissiveColor, emissiveColorMap, this.#emissiveIntensity, textureTransform);

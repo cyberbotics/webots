@@ -29,19 +29,20 @@ export default class WbShape extends WbBaseNode {
   }
 
   set appearance(value) {
-    console.log('setting appearance value of Shape', this.id, ' to ', typeof value === 'undefined' ? 'undefined' : 'something');
+    console.log('setting appearance value of Shape', this.id, ' to ', typeof value === 'undefined' ? undefined : 'node (id = ' + value.id + ')');
     this.#appearance = value;
-
 
     for (const useId of this.useList) {
       const useNode = WbWorld.instance.nodes.get(useId);
       console.log('notifying USE Shape: ', useId)
       if (typeof value === 'undefined')
         useNode.appearance.delete();
-      else
-        useNode.appearance = value;
+      else {
+        const newAppearance = value.clone();
+        WbWorld.instance.nodes.set(newAppearance.id, newAppearance);
+        useNode.appearance = newAppearance;
+      }
     }
-
   }
 
 
