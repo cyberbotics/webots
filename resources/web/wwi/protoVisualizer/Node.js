@@ -127,6 +127,10 @@ export default class Node {
 
   clone() {
     let copy = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
+
+    if (typeof this.baseType !== 'undefined')
+      copy.baseType = this.baseType.clone();
+
     copy.id = getAnId();
     // console.log('cloned ' + this.name + ' id : ' + this.id + ' -> ' + copy.id);
     copy.parameters = new Map();
@@ -135,8 +139,8 @@ export default class Node {
         // console.log('cloning parameter ' + parameterName + ' (type ' + parameter.type + ')');
         const parameterCopy = parameter.clone();
         parameterCopy.node = copy;
-        // console.log('ORIGINAL', parameter);
-        // console.log('COPY', parameterCopy);
+        //console.log('NODE ORIGINAL', parameter);
+        //console.log('NODE COPY', parameterCopy);
         copy.parameters.set(parameterName, parameterCopy);
       }
     }
@@ -222,7 +226,9 @@ export default class Node {
               throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
 
             const exposedParameter = tokenizer.proto.parameters.get(alias);
-            parameter.value = exposedParameter.value;
+            parameter.value = exposedParameter.value.clone();
+            //console.log('ORIGINAL:', exposedParameter.value);
+            //console.log('CLONE:', parameter.value);
             exposedParameter.insertLink(parameter);
           } else
             parameter.value.setValueFromTokenizer(tokenizer, this);

@@ -87,8 +87,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
       contentDiv.innerHTML = '';
       let row = 1;
-      if (!this.proto.isRoot)
-        this.#createBackButton(contentDiv, row++);
 
       const keys = this.proto.parameters.keys();
       for (let key of keys) {
@@ -111,20 +109,21 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
       if (this.proto.isRoot)
         this.#createDownloadButton(contentDiv, row++);
+      else
+        this.#createBackButton(contentDiv, row++);
     }
   }
 
   #createBackButton(parent, row) {
     const buttonContainer = document.createElement('span');
     buttonContainer.style.gridRow = '' + row + ' / ' + row;
-    buttonContainer.style.gridColumn = '1 / 1';
+    buttonContainer.style.gridColumn = '2 / 2';
 
     const backButton = document.createElement('button');
     backButton.innerHTML = 'Back';
     backButton.title = 'Return to the previous PROTO';
     backButton.onclick = () => {
-      console.log('back.');
-      this.proto = this.#protoManager.proto; // TODO: go one layer up, not back to root
+      this.proto = this.#protoManager.proto; // TODO: go one layer up, not back to root ?
       this.populateProtoParameterWindow();
     };
     buttonContainer.appendChild(backButton);

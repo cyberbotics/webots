@@ -2,6 +2,7 @@
 
 import {SFNode, stringifyType} from './Vrml.js';
 import WbWorld from '../nodes/WbWorld.js';
+import Node from './Node.js';
 
 export default class Parameter {
   #type;
@@ -77,10 +78,11 @@ export default class Parameter {
   // TODO: find better approach rather than propagating the view to subsequent parameters
   setValueFromJavaScript(view, v) {
     // notify linked parameters of the change
-    console.log('links: ', this.parameterLinks);
+    console.log(this.name, ' has links: ', this.parameterLinks);
     for (const link of this.parameterLinks) {
+      const newValue = (v !== null && v instanceof Node) ? v.clone() : v;
       console.log(this.name + ' change notifies ' + link.name);
-      link.setValueFromJavaScript(view, v);
+      link.setValueFromJavaScript(view, newValue);
     }
 
     if (this.isTemplateRegenerator) {
@@ -111,8 +113,11 @@ export default class Parameter {
       if (typeof this.onChange === 'function')
         this.onChange();
     } else {
-      if (this.node.isProto)
+      if (this.node.isProto) {
+        // update value on the structure side
+        this.#value.setValueFromJavaScript(v);
         return; // webotsJS needs to be notified of parameter changes only if the parameter belongs to a base-node, not PROTO
+      }
 
       if (this.#value instanceof SFNode) {
         const baseNode = this.node.getBaseNode();
@@ -141,6 +146,7 @@ export default class Parameter {
       } else {
         // update value on the structure side
         this.#value.setValueFromJavaScript(v);
+
         // update value on the webotsJS side
         const action = {};
         action['id'] = this.node.id;

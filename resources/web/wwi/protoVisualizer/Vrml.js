@@ -366,16 +366,7 @@ export class SFNode extends SingleValue {
   }
 
   setValueFromJavaScript(value) {
-    if (value === null)
-      this.value = null;
-    else {
-      // (possible) working principle: value = URL of a PROTO
-      // 1. download PROTO and all dependencies
-      // 2. load PROTO (as we do in ProtoManager)
-      // 3. set it as value
-      // throw new Error('SFNode initializer from JS object not implemented.');
-      this.value = value;
-    }
+    this.value = value;
   }
 
   toX3d(parameterName, parentElement) {
@@ -456,6 +447,7 @@ export class SFNode extends SingleValue {
   }
 
   clone() {
+    console.log('cloning sfnode')
     const copy = new SFNode();
 
     if (typeof this.value !== 'undefined') {
