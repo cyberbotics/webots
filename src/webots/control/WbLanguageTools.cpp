@@ -64,6 +64,12 @@ const QStringList WbLanguageTools::javaArguments() {
 
 QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &command, QProcessEnvironment &env) {
   QString pythonCommand = command;
+  if (pythonCommand.isEmpty())
+#ifdef _WIN32
+    pythonCommand = "python";
+#else
+    pythonCommand = "python3";
+#endif
   const QString advice =
 #ifdef __APPLE__
     "To fix the problem, you should set the full path of your python command in "
