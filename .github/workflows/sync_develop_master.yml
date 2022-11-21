@@ -26,6 +26,7 @@ jobs:
           else
             echo "Develop is already up to date.";
             echo "create_pull_request=0" >> $GITHUB_OUTPUT
+          fi
       - name: Create Pull Request if necessary
         if: ${{ steps.check-diff.outputs.create_pull_request == 1 }}
         uses: repo-sync/pull-request@v2.6.2
