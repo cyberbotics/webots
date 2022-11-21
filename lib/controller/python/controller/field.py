@@ -312,3 +312,5 @@ class Field:
             wb.wb_supervisor_field_set_sf_rotation(self._ref, (ctypes.c_double * 4)(*value))
         elif self.type == Field.SF_COLOR and isinstance(value, list) and len(value) == 3:
             wb.wb_supervisor_field_set_sf_color(self._ref, (ctypes.c_double * 3)(*value))
+        else:
+            print("Error: new field value has wrong type or length.", file=sys.stderr)
