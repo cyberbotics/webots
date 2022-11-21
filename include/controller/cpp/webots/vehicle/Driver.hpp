@@ -32,11 +32,12 @@ namespace webots {
 
     typedef enum { DOWN, SLOW, NORMAL, FAST } WiperMode;
 
+    // private function for webots_ros2 to identify robots that can use libdriver
+    static bool isInitialisationPossible();
+
     Driver();
     static Driver *getDriverInstance();
     virtual ~Driver();
-
-    static bool isInitialisationPossible();
 
     virtual int step();
 

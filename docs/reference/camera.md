@@ -180,7 +180,7 @@ So this mode is costly in terms of performance! Reducing the resolution of the c
 
 %figure "Spherical and cylindrical camera images"
 
-![spherical_and_cylindrical_camera_images.png](images/spherical_and_cylindrical_camera_images.png)
+![spherical_and_cylindrical_camera_images.png](images/spherical_and_cylindrical_camera_images.thumbnail.jpg)
 
 %end
 
@@ -189,7 +189,7 @@ Respectively, when the camera projection is cylindrical, the image returned by t
 
 %figure "Spherical (left) and cylindrical (right) projections"
 
-![camera_projection_model.png](images/camera_projection_model.png)
+![camera_projection_model.png](images/camera_projection_model.thumbnail.png)
 
 %end
 

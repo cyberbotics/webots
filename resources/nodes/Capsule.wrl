@@ -1,7 +1,7 @@
 # A Capsule is like a normal cylinder except it has half-sphere caps at its ends.
 # This primitive features particularly fast and accurate collision detection.
 # The cylinder's height, not counting the caps, is given by the height field.
-# The Capsule is aligned along the local y-axis.
+# The Capsule is aligned along the local z-axis.
 # The radius of the caps and of the cylinder itself is given by the radius field.
 
 Capsule {
