@@ -36,8 +36,12 @@ jobs:
           pr_title: Merge released into master
           pr_body: Synchronizes changes of released branch into master branch.
           pr_reviewer: Maintainers
+          pr_label: "synchronization"
+      outputs:
+        pr_opened: ${{ steps.check-diff.outputs.create_pull_request == 1 }}
   sync-develop-with-master:
     runs-on: ubuntu-latest
+    needs: sync-master-with-released
     steps:
       - name: Checkout master
         uses: actions/checkout@v3
@@ -58,7 +62,7 @@ jobs:
             echo "create_pull_request=0" >> $GITHUB_OUTPUT
           fi
       - name: Create Pull Request if necessary
-        if: ${{ steps.check-diff.outputs.create_pull_request == 1 }}
+        if: ${{ steps.check-diff.outputs.create_pull_request == 1 }} || ${{ needs.sync-master-with-released.outputs.pr_opened == 1 }}
         uses: repo-sync/pull-request@v2.6.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -67,3 +71,5 @@ jobs:
           pr_title: Merge master into develop
           pr_body: Synchronizes changes of master branch into develop branch.
           pr_reviewer: Maintainers
+          pr_label: "synchronization"
+          pr_allow_empty: true
