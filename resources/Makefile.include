@@ -320,6 +320,10 @@ ifeq ($(OSTYPE),linux)
 endif
 
 ifeq ($(OSTYPE),darwin)
+ifdef NO_FAT_BINARY
+ WBCFLAGS += -target $(PROCESSOR)-apple-macos11
+ DYNAMIC_LINK_FLAGS += -target $(PROCESSOR)-apple-macos11
+endif
  WBCFLAGS += -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
  DYNAMIC_LINK_FLAGS += -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 endif
@@ -407,7 +411,11 @@ ifeq ($(OSTYPE),darwin)
   CALLING_MAKEFILE_DIR := $(shell dirname "$(realpath $(firstword $(MAKEFILE_LIST)))")
   WEBOTS_RELATIVE_PATH = $(call computeRelativePath,"$(WEBOTS_HOME_PATH)","$(CALLING_MAKEFILE_DIR)")
   ifneq (,$(findstring ..,$(WEBOTS_RELATIVE_PATH)))
-   DYNAMIC_LINK_FLAGS += -Xlinker -rpath -Xlinker @loader_path/$(WEBOTS_RELATIVE_PATH)
+   ifeq ($(TREAT_WARNINGS_AS_ERRORS),1) # this variable is set only if we do a "make distrib"
+    DYNAMIC_LINK_FLAGS += -Xlinker -rpath -Xlinker @loader_path/$(WEBOTS_RELATIVE_PATH)../ # add an additional ../ for the Contents folder
+   else
+    DYNAMIC_LINK_FLAGS += -Xlinker -rpath -Xlinker @loader_path/$(WEBOTS_RELATIVE_PATH)
+   endif
    ifdef BUILD_SHARED_LIBRARY
     INSTALL_NAME ?= @rpath$(subst $(WEBOTS_HOME_PATH),,$(CALLING_MAKEFILE_DIR))/$(MAIN_TARGET)
     DYNAMIC_LINK_FLAGS += -install_name $(INSTALL_NAME)
@@ -507,7 +515,7 @@ ifdef VS_DEF_NAME
 			mv out.lib $(MAIN_TARGET_WINDOWS64_LIB); \
 			rm -f *.exp; \
 		else \
-			echo "'VISUAL_STUDIO_PATH' environmental variable not set or Microsoft Visual Studio not installed, skipping $(NAME).lib"; \
+			$(ECHO) "\033[0;33m'VISUAL_STUDIO_PATH' environmental variable not set or Microsoft Visual Studio not installed, skipping $(NAME).lib\033[0m"; \
 		fi \
 	fi
 endif
@@ -529,7 +537,7 @@ ifdef VS_DEF_NAME
 			mv out.lib $(MAIN_TARGET_WINDOWS64_LIB); \
 			rm -f *.exp; \
 		else \
-			echo "'VISUAL_STUDIO_PATH' environmental variable not set or Microsoft Visual Studio not installed, skipping $(NAME).lib"; \
+			$(ECHO) "\033[0;33m'VISUAL_STUDIO_PATH' environmental variable not set or Microsoft Visual Studio not installed, skipping $(NAME).lib\033[0m"; \
 		fi \
 	fi
 endif
@@ -547,12 +555,10 @@ ARM64_OBJECTS = $(addprefix $(BUILD_GOAL_DIR)/arm64/, $(OBJECTS_LIST))
 $(BUILD_GOAL_DIR)/$(MAIN_TARGET): $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET) $(BUILD_GOAL_DIR)/arm64/$(MAIN_TARGET)
 	@echo "# creating fat" $(notdir $@)
 	$(SILENT)lipo -create -output $@ $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET) $(BUILD_GOAL_DIR)/arm64/$(MAIN_TARGET)
-	$(SILENT)codesign -s - $@
 
 $(TARGET_LIB_DIR)/$(MAIN_TARGET): $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET) $(BUILD_GOAL_DIR)/arm64/$(MAIN_TARGET)
 	@echo "# creating fat" $(notdir $@)
 	$(SILENT)lipo -create -output $@ $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET) $(BUILD_GOAL_DIR)/arm64/$(MAIN_TARGET)
-	$(SILENT)codesign -s - $@
 
 $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET): $(X86_64_OBJECTS) $(LINK_DEPENDENCIES)
 	@echo "# linking" $(notdir $@) "(x86_64)"

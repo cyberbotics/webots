@@ -25,6 +25,37 @@ Auditorium {
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
 
+## Barn
+
+A barn.
+Based on the model of linus1178 ([https://sketchfab.com/linus1178](https://sketchfab.com/linus1178)).
+
+%figure
+
+![Barn](images/objects/buildings/Barn/model.thumbnail.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+Barn {
+  SFVec3f    translation  0 0 0
+  SFRotation rotation     0 0 1 0
+  SFFloat    scale        1
+  SFString   name         "barn"
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/buildings/protos/Barn.proto]({{ url.github_tree }}/projects/objects/buildings/protos/Barn.proto)"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
+### Barn Field Summary
+
+- `scale`: Defines the global scaling factor.
+
 ## BigGlassTower
 
 A big glass tower.

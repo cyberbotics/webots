@@ -2,7 +2,7 @@
 
 Adding a generic [Camera](../reference/camera.md) node is sufficient for most of the applications.
 Generic cameras are customizable (resolution, field of view, noise, etc.) and include a zoom and a focusing mechanism by default.
-Special effects like motion blur, various models of noise, lens distortion and the use of a spherical projection are available.
+Special effects like motion blur, various models of noise, lens distortion and the use of a spherical or cylindrical projection are available.
 
 In addition to adding generic [Camera](../reference/camera.md) nodes, some predefined camera models are also present in Webots.
 

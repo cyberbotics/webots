@@ -59,7 +59,7 @@ export default class WbAppearance extends WbAbstractAppearance {
       _wr_material_set_stencil_ambient_emissive_program(wrenMaterial, WbWrenShaders.phongStencilAmbientEmissiveShader());
       _wr_material_set_stencil_diffuse_specular_program(wrenMaterial, WbWrenShaders.phongStencilDiffuseSpecularShader());
 
-      this.material.modifyWrenMaterial(wrenMaterial, this.texture && this.texture._wrenTexture);
+      this.material.modifyWrenMaterial(wrenMaterial, this.texture && this.texture.wrenTexture);
     } else
       wrenMaterial = WbAppearance.fillWrenDefaultMaterial(wrenMaterial);
 

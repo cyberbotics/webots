@@ -42,7 +42,7 @@ Please [contact us](https://cyberbotics.com/#contact) if you would like to see y
 | ![icon.png](images/robots/mir100/icon.png)           | [MiR100](mir100.md)                       | MiR                  | *Six-wheeled robot*               |
 | ![icon.png](images/robots/moose/icon.png)            | [Moose](moose.md)                         | Clearpath Robotics   | *Eight-wheeled outdoor robot*     |
 | ![icon.png](images/robots/nao/icon.png)              | [Nao](nao.md)                             | SoftBankics          | *Small size humanoid*             |
-| ![icon.png](images/robots/ned/icon.png)              | [Ned](ned.md)                             | Niryo                | *Robotics arm*             |
+| ![icon.png](images/robots/ned/icon.png)              | [Ned](ned.md)                             | Niryo                | *Robotics arm*                    |
 | ![icon.png](images/robots/pioneer2/icon.png)         | [Pioneer 2](pioneer2.md)                  | Adept                | *Two-wheeled robot*               |
 | ![icon.png](images/robots/p-rob3/icon.png)           | [P-Rob 3](p-rob3.md)                      | F&P Robotics         | *Robotics arm*                    |
 | ![icon.png](images/robots/pioneer-3at/icon.png)      | [Pioneer 3-AT](pioneer-3at.md)            | Adept                | *Four-wheeled robot*              |
@@ -55,8 +55,9 @@ Please [contact us](https://cyberbotics.com/#contact) if you would like to see y
 | ![icon.png](images/robots/robotino3/icon.png)        | [Robotino 3](robotino3.md)                | Festo                | *Three-wheeled (mecanum) robot*   |
 | ![icon.png](images/robots/robotis-op2/icon.png)      | [Robotis OP2](robotis-op2.md)             | Robotis              | *Small size humanoid*             |
 | ![icon.png](images/robots/robotis-op3/icon.png)      | [Robotis OP3](robotis-op3.md)             | Robotis              | *Small size humanoid*             |
+| ![icon.png](images/robots/rosbot/icon.png)           | [ROSbot](rosbot.md)                       | Husarion             | *Four-wheeled robot*              |
 | ![icon.png](images/robots/salamander/icon.png)       | [Salamander](salamander.md)               | EPFL / BioRob        | *Bio-inspired robot*              |
-| ![icon.png](images/robots/scara_t6/icon.png)          | [Scara T6](scara-epson-t6.md)              | Epson                | *SCARA robot*                     |
+| ![icon.png](images/robots/scara_t6/icon.png)         | [Scara T6](scara-epson-t6.md)             | Epson                | *SCARA robot*                     |
 | ![icon.png](images/robots/shrimp/icon.png)           | [Shrimp](shrimp.md)                       | BlueBotics           | *Six-wheeled robot*               |
 | ![icon.png](images/robots/sojourner/icon.png)        | [Sojourner](sojourner.md)                 | Nasa                 | *Six-wheeled robot*               |
 | ![icon.png](images/robots/spot/icon.png)             | [Spot](spot.md)                           | Boston Dynamics      | *Dog-like robot*                  |

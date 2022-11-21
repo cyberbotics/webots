@@ -64,10 +64,10 @@ LIB += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lCppController -lCppCar -lCppDriver
 # rules
 ifeq ($(SWIG_EXISTS),)
 all release debug profile:
-	@echo -e "# \033[0;33mSWIG not installed, skipping Java API\033[0m"
+	@$(ECHO) "# \033[0;33mSWIG not installed, skipping Java API\033[0m"
 else ifeq ($(JAVA_HOME),)
 all release debug profile:
-	@echo -e "# \033[0;33mJava not installed or 'JAVA_HOME' not set, skipping Java API\033[0m"
+	@$(ECHO) "# \033[0;33mJava not installed or 'JAVA_HOME' not set, skipping Java API\033[0m"
 else
 all release debug profile: $(JAR) $(LIBRARY)
 

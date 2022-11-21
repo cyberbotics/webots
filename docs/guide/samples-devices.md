@@ -250,6 +250,15 @@ In a real scenario, this is analogous to having a large clearance in between the
 Two `Hokuyo` [Lidars](../reference/lidar.md) are mounted on the `MyBot`.
 At each step, the lidars are updated, and their depth output are displayed in distinct [Displays](../reference/display.md).
 
+### [imu.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/imu.wbt)
+
+**Keywords**: [Accelerometer](../reference/accelerometer.md), [Gyro](../reference/gyro.md), [Compass](../reference/compass.md), [InertialUnit](../reference/inertialunit.md), IMU, roll/pitch/yaw angles
+
+![imu.png](images/samples/imu.thumbnail.jpg) This example demonstrates the difference between [InertialUnit](../reference/inertialunit.md) measurements and the fusion of multiple sensors of an IMU ([Accelerometer](../reference/accelerometer.md), [Gyro](../reference/gyro.md) and [Compass](../reference/compass.md)) to estimate the attitude (roll, pitch and yaw angles).
+The sensors are mounted on a 3 DOF (Degrees Of Freedom) arm which moves from one random target to another.
+After the 100th target is reached, the attitude is compared between the ground truth ([InertialUnit](../reference/inertialunit.md)), absolute estimation ([Accelerometer](../reference/accelerometer.md) and [Compass](../reference/compass.md)) and relative estimation ([Gyro](../reference/gyro.md)).
+The drift on relative estimation is clearly visible.
+
 ### [inertial\_unit.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/inertial_unit.wbt)
 
 **Keywords**: [InertialUnit](../reference/inertialunit.md), roll/pitch/yaw angles

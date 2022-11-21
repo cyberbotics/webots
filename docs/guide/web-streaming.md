@@ -34,6 +34,7 @@ The web interface displays a toolbar with the following items:
 - ![](images/web_interface_step.png =26x26) **Step**: execute one step of the simulation.
 - ![](images/web_interface_real_time.png =26x26) **Play**: play the Webots simulation.
 - ![](images/web_interface_pause.png =26x26) **Pause**: pause the Webots simulation.
+- ![](images/web_interface_terminal.png =26x26) **Terminal**: display the non-interactive terminal.
 - ![](images/web_interface_ide.png =26x26) **Source code editor**: display the web code editor.
 - ![](images/web_interface_robot_window.png =26x26) **Robot window**: display the different robot windows.
 - ![](images/web_interface_info.png =26x26) **Info**: display information about the simulation.
@@ -117,6 +118,7 @@ Moreover, the following attributes are available:
 * `showReset`: specify if the reset button must be displayed on the toolbar. Must be called before connect. The reset button is displayed by default.
 * `showRobotWindow`: specify if the robot window button must be displayed on the toolbar. Must be called before connect. The robot window button is displayed by default.
 * `showStep`: specify if the step button must be displayed on the toolbar. Must be called before connect. The step button is displayed by default.
+* `showTerminal`: specify if the terminal button must be displayed on the toolbar. Must be called before connect. The step button is displayed by default.
 * `showWorldSelection`: specify if the world selection button must be displayed on the toolbar. Must be called before connect. The world selection is displayed by default.
 
 The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-server` attribute is set, the `webots-view` web-component will automatically connect to the `server`.
