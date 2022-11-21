@@ -19,8 +19,7 @@ jobs:
       - name: Check for diff
         id: check-diff
         run: |
-          echo ${{ env.develop }}
-          if [ -n "$(git diff ${{ env.develop }}...${{ env.master }})" ]; then
+          if [ -n "$(git diff develop...master)" ]; then
             echo "Develop needs sync with master!";
             echo "create_pull_request=1" >> $GITHUB_OUTPUT
           else
@@ -32,8 +31,8 @@ jobs:
         uses: repo-sync/pull-request@v2.6.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          source_branch: ${{ env.master }}
-          destination_branch: ${{ env.develop }}
+          source_branch: master
+          destination_branch: develop
           pr_title: Merge master into develop
           pr_body: Synchronizes changes of master branch into develop branch.
           pr_reviewer: Maintainers
