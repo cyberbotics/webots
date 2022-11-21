@@ -139,7 +139,7 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
     const license = document.createElement('span');
     license.id = 'node-license';
     license.className = 'node-license';
-    license.innerHTML = 'License: <i>not specified.</i>';
+    license.innerHTML = 'License:&nbsp;<i>not specified.</i>';
     nodeInfo.appendChild(license);
 
     const img = document.createElement('img');
