@@ -12,7 +12,7 @@ uniform sampler2D inputTextures[2];
 uniform sampler2D gtaoTexture;
 
 uniform float radius;
-uniform float flipNormalY;
+uniform bool flipNormalY;
 uniform vec4 clipInfo;
 uniform vec2 viewportSize;
 uniform vec4 params;
@@ -119,7 +119,7 @@ void main() {
   viewSpaceNormal *= 2.0;
   viewSpaceNormal = normalize(vec3(viewSpaceNormal.xy, -viewSpaceNormal.z));
 
-  if (flipNormalY > 0.0)
+  if (flipNormalY)
     viewSpaceNormal.y *= -1.0;
 
   // calculate screen-space radius

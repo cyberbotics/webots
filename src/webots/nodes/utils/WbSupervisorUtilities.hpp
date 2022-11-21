@@ -91,7 +91,7 @@ private:
   QList<int> mUpdatedNodeIds;
   WbTransform *mNodeGetPosition;
   WbTransform *mNodeGetOrientation;
-  QPair<WbTransform *, WbTransform *> mNodeGetPose;
+  std::pair<WbTransform *, WbTransform *> mNodeGetPose;
   WbSolid *mNodeGetCenterOfMass;
   WbSolid *mNodeGetContactPoints;
   int mNodeIdGetContactPoints;

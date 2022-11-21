@@ -88,10 +88,6 @@ protected:
 
   virtual void createWrenOverlay() = 0;  // not very useful: this function is not called in a polymorphical way
 
-  // backward compatibily function
-  // apply window position and pixel size stored in world file
-  void applyWorldSettings();
-
   bool areOverlaysEnabled() const;  // global preferences value
 
 protected slots:
@@ -105,9 +101,6 @@ private:
   // user accessible fields
   WbSFInt *mWidth;
   WbSFInt *mHeight;
-  // deprecated fields
-  WbSFDouble *mPixelSizeField;
-  WbSFVector2 *mWindowPositionField;  // desired position on the screen
 
   // values just after the setup
   int mSetupWidth;

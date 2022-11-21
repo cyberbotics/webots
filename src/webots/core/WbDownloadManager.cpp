@@ -79,10 +79,10 @@ void WbDownloadManager::removeDownloader(QObject *obj) {
   if (urlProperty.isValid() && mUrlCache.contains(urlProperty.toString()))
     mUrlCache.remove(urlProperty.toString());
 
-  if (!obj->property("finished").toBool())
+  if (!obj->property("finished").toBool()) {
     mCount--;
-
-  updateProgress();
+    updateProgress();
+  }
 }
 
 void WbDownloadManager::downloadCompleted() {

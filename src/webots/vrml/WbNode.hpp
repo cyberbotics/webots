@@ -196,13 +196,13 @@ public:
   WbNode *protoParameterNode() const { return mProtoParameterNode; }
 
   // list all the texture files used and the corresponding field
-  QList<QPair<QString, WbMFString *>> listTextureFiles() const;
+  QList<std::pair<QString, WbMFString *>> listTextureFiles() const;
 
   // write node and fields as text
   virtual void write(WbWriter &writer) const;
   static void enableDefNodeTrackInWrite(bool substituteInStream);
   static void disableDefNodeTrackInWrite();
-  static QList<QPair<WbNode *, int>> *externalUseNodesPositionsInWrite();
+  static QList<std::pair<WbNode *, int>> *externalUseNodesPositionsInWrite();
 
   // fields or proto parameters
   bool isDefault() const;  // true if all fields have default values

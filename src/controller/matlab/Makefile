@@ -26,7 +26,7 @@ PYTHON_OK := $(shell which python3)
 release debug profile:
 	@echo "# generating matlab"
 ifeq ('$(PYTHON_OK)','')
-	@echo "# \033[0;33mUnable to find python3, skipping matlab API\033[0m"
+	@$(ECHO) "# \033[0;33mUnable to find python3, skipping matlab API\033[0m"
 else
 	$(shell python3 mgenerate.py;)
 endif

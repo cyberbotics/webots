@@ -33,6 +33,15 @@ void WbRangeFinder::init() {
   mMinRange = findSFDouble("minRange");
   mMaxRange = findSFDouble("maxRange");
   mResolution = findSFDouble("resolution");
+
+  // backward compatibility
+  WbSFBool *sphericalField = findSFBool("spherical");
+  if (sphericalField->value()) {  // Deprecated in Webots R2023
+    parsingWarn("Deprecated 'spherical' field, please use the 'projection' field instead.");
+    if (isPlanarProjection())
+      mProjection->setValue("cylindrical");
+    sphericalField->setValue(false);
+  }
 }
 
 WbRangeFinder::WbRangeFinder(WbTokenizer *tokenizer) : WbAbstractCamera("RangeFinder", tokenizer) {
@@ -169,7 +178,7 @@ void WbRangeFinder::updateMinRange() {
 
   if (areWrenObjectsInitialized()) {
     applyFrustumToWren();
-    if (!spherical() && hasBeenSetup())
+    if (isPlanarProjection() && hasBeenSetup())
       updateFrustumDisplay();
   }
 }

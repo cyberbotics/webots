@@ -81,6 +81,15 @@ void WbLidar::init() {
 
   mTcpImage = NULL;
   mTcpCloudPoints = NULL;
+
+  // backward compatibility
+  WbSFBool *sphericalField = findSFBool("spherical");
+  if (!sphericalField->value()) {  // Deprecated in Webots R2023
+    parsingWarn("Deprecated 'spherical' field, please use the 'projection' field instead.");
+    if (mProjection->value() == "cylindrical")
+      mProjection->setValue("planar");
+    sphericalField->setValue(true);
+  }
 }
 
 WbLidar::WbLidar(WbTokenizer *tokenizer) : WbAbstractCamera("Lidar", tokenizer) {
