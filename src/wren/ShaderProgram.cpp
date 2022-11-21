@@ -300,6 +300,9 @@ void wr_shader_program_set_custom_uniform_value(WrShaderProgram *program, const 
   std::string uniformName(name);
 
   switch (type) {
+    case WR_SHADER_PROGRAM_UNIFORM_TYPE_BOOL:
+      shaderProgram->setCustomUniformValue(uniformName, *(reinterpret_cast<const bool *>(value)));
+      break;
     case WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT:
       shaderProgram->setCustomUniformValue(uniformName,
                                            *(reinterpret_cast<const float *>(reinterpret_cast<const void *>(value))));

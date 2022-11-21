@@ -24,7 +24,7 @@ export default class WbElevationGrid extends WbGeometry {
       return;
 
     super.createWrenObjects();
-    this._buildWrenMesh();
+    this.#buildWrenMesh();
   }
 
   delete() {
@@ -51,11 +51,11 @@ export default class WbElevationGrid extends WbGeometry {
 
   preFinalize() {
     super.preFinalize();
-    this._sanitizeFields();
+    this.#sanitizeFields();
   }
   // Private functions
 
-  _buildWrenMesh() {
+  #buildWrenMesh() {
     super._deleteWrenRenderable();
 
     if (typeof this._wrenMesh !== 'undefined') {
@@ -99,10 +99,10 @@ export default class WbElevationGrid extends WbGeometry {
   }
 
   _isAValidBoundingObject() {
-    return this._isSuitableForInsertionInBoundingObject() && super._isAValidBoundingObject();
+    return this.#isSuitableForInsertionInBoundingObject() && super._isAValidBoundingObject();
   }
 
-  _isSuitableForInsertionInBoundingObject() {
+  #isSuitableForInsertionInBoundingObject() {
     const invalidDimensions = this.xDimension < 2 || this.yDimension < 2;
     const invalidSpacings = this.xSpacing <= 0.0 || this.ySpacing < 0.0;
     const invalid = invalidDimensions || invalidSpacings;
@@ -110,7 +110,7 @@ export default class WbElevationGrid extends WbGeometry {
     return !invalid;
   }
 
-  _sanitizeFields() {
+  #sanitizeFields() {
     const newTickness = resetIfNegative(this.thickness, 0.0);
     if (newTickness !== false)
       this.thickness = newTickness;
@@ -131,13 +131,13 @@ export default class WbElevationGrid extends WbGeometry {
     if (newYSpacing !== false)
       this.ySpacing = newYSpacing;
 
-    this._checkHeight();
+    this.#checkHeight();
 
     return newTickness === false && newXDimension === false && newXSpacing === false && newYDimension === false &&
      newYSpacing === false;
   }
 
-  _checkHeight() {
+  #checkHeight() {
     const xdyd = this.xDimension * this.yDimension;
 
     const extra = this.height.length - xdyd;

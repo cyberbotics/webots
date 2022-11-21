@@ -16,7 +16,6 @@
 #define WB_WREN_VERTEX_ARRAY_FRAME_LISTENER
 
 #include <QtCore/QList>
-#include <QtCore/QPair>
 
 class WbMuscle;
 class WbTrack;

@@ -1,0 +1,284 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
+
+WorldInfo {
+  info [
+    "Example world demonstrating the difference between InertialUnit measurements and the fusion of multiple sensors: accelerometer, compass and gyro."
+  ]
+  title "Attitude computation using an IMU"
+  basicTimeStep 8
+}
+Viewpoint {
+  orientation -0.19699236451201757 0.08188494513634152 0.9769794593971681 2.3730066515795296
+  position 1.2039372900166398 -1.2214816841682696 0.8535127580185964
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+DEF ROBOT Robot {
+  children [
+    DEF YAW_HINGE_JOINT HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 0 1
+      }
+      device [
+        RotationalMotor {
+          name "yaw motor"
+          controlPID 1.5 0 0
+        }
+      ]
+      endPoint Solid {
+        children [
+          DEF PITCH_HINGE_JOINT HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 1 0
+              anchor 0 0 0.33
+            }
+            device [
+              RotationalMotor {
+                name "pitch motor"
+                controlPID 1.5 0 0
+                minPosition -2.3
+                maxPosition 1.5
+              }
+            ]
+            endPoint Solid {
+              translation 0 0 0.33
+              rotation 0 0 1 1.570785
+              children [
+                DEF ROLL_HINGE_JOINT HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis 0 -1 0
+                    anchor 0 -0.3 0
+                  }
+                  device [
+                    RotationalMotor {
+                      name "roll motor"
+                      controlPID 1.5 0 0
+                    }
+                  ]
+                  endPoint Solid {
+                    translation 0 -0.3 0
+                    rotation -1.7815773079037097e-08 0.7071067798174734 0.7071067825556214 3.1415900356315514
+                    children [
+                      DEF IMU Solid {
+                        translation 0 0 -0.08
+                        rotation 0.577349935856137 -0.5773509358560258 -0.577349935856137 -2.094395
+                        children [
+                          Accelerometer {
+                            lookupTable [
+                              -200 -200 0.004
+                              200 200 0.004
+                            ]
+                          }
+                          Gyro {
+                            lookupTable [
+                              -20 -20 0.05
+                              20 20 0.05
+                            ]
+                          }
+                          Compass {
+                            lookupTable [
+                              -1 -1 0.05
+                              1 1 0.05
+                            ]
+                          }
+                        ]
+                        boundingObject Box {
+                          size 0.001 0.001 0.001
+                        }
+                        physics Physics {
+                          density -1
+                          mass 0.01
+                        }
+                      }
+                      InertialUnit {
+                        translation 0 0 -0.08
+                        rotation 0.577349935856137 -0.5773509358560258 -0.577349935856137 -2.094395
+                        children [
+                          Shape {
+                            appearance PBRAppearance {
+                              baseColor 1 1 0
+                              baseColorMap ImageTexture {
+                                url [
+                                  "webots://projects/samples/devices/worlds/textures/imu.png"
+                                ]
+                              }
+                              roughness 0.5
+                              metalness 0
+                            }
+                            geometry Box {
+                              size 0.04 0.04 0.04
+                            }
+                          }
+                        ]
+                      }
+                      DEF ROLL_GROUP Group {
+                        children [
+                          Transform {
+                            translation 0 0 -0.02
+                            rotation 0 0 1 1.5708
+                            children [
+                              Shape {
+                                appearance DEF PLASTIC_APPEARANCE PBRAppearance {
+                                  baseColor 1 0.666667 0
+                                  roughness 1
+                                  metalness 0
+                                }
+                                geometry Cylinder {
+                                  height 0.02
+                                  radius 0.04
+                                  subdivision 16
+                                }
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation 0 0 -0.06
+                            rotation 0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.094395
+                            children [
+                              Shape {
+                                appearance DEF METAL_APPEARANCE PBRAppearance {
+                                  baseColor 0.5 0.5 0.5
+                                  roughness 1.1102230246251565e-16
+                                  metalness 0
+                                }
+                                geometry Box {
+                                  size 0.02 0.06 0.02
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                    boundingObject USE ROLL_GROUP
+                    physics Physics {
+                    }
+                  }
+                }
+                DEF PITCH_GROUP Group {
+                  children [
+                    Transform {
+                      rotation 0 1 0 1.5708
+                      children [
+                        Shape {
+                          appearance USE PLASTIC_APPEARANCE
+                          geometry Cylinder {
+                            height 0.04
+                            radius 0.06
+                            subdivision 16
+                          }
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation 0 -0.15 0
+                      children [
+                        Shape {
+                          appearance USE METAL_APPEARANCE
+                          geometry Box {
+                            size 0.03 0.3 0.04
+                          }
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation 0 -0.3 0
+                      rotation -0.5773509358554485 0.5773489358556708 -0.5773509358554485 -2.094395
+                      children [
+                        Shape {
+                          appearance USE METAL_APPEARANCE
+                          geometry Cylinder {
+                            height 0.02
+                            radius 0.04
+                            subdivision 16
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+              boundingObject USE PITCH_GROUP
+              physics Physics {
+              }
+            }
+          }
+          DEF YAW_GROUP Group {
+            children [
+              Transform {
+                translation 0 0 0.18
+                children [
+                  Shape {
+                    appearance USE METAL_APPEARANCE
+                    geometry Cylinder {
+                      height 0.3
+                      radius 0.04
+                      subdivision 16
+                    }
+                  }
+                ]
+              }
+              Transform {
+                translation 0 0 0.33
+                rotation 1 0 0 -1.570795
+                children [
+                  Shape {
+                    appearance USE METAL_APPEARANCE
+                    geometry Cylinder {
+                      height 0.09
+                      radius 0.05
+                      subdivision 16
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+        boundingObject USE YAW_GROUP
+        physics Physics {
+        }
+      }
+    }
+    DEF BASIS_GROUP Group {
+      children [
+        Transform {
+          translation 0 0 0.02
+          children [
+            Shape {
+              appearance USE METAL_APPEARANCE
+              geometry Cylinder {
+                height 0.04
+                radius 0.1
+                subdivision 16
+              }
+            }
+          ]
+        }
+        Transform {
+          translation 0 0 0.04
+          children [
+            Shape {
+              appearance USE PLASTIC_APPEARANCE
+              geometry Cylinder {
+                height 0.04
+                radius 0.07
+                subdivision 16
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+  boundingObject USE BASIS_GROUP
+  controller "imu"
+}

@@ -48,7 +48,7 @@ protected:
   virtual void updateRaysSetupIfNeeded() {}
 
 private:
-  static QList<QPair<WbSolidDevice *, dGeomID>> cDirtySensors;
+  static QList<std::pair<WbSolidDevice *, dGeomID>> cDirtySensors;
 };
 
 #endif

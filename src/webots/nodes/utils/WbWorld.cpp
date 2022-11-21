@@ -310,9 +310,9 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
     QString titleString(WbWorld::instance()->worldInfo()->title());
     titleString = titleString.toHtmlEscaped();
 
-    QList<QPair<QString, QString>> cssTemplateValues;
-    cssTemplateValues << QPair<QString, QString>("%title%", titleString);
-    cssTemplateValues << QPair<QString, QString>("%type%", typeString);
+    QList<std::pair<QString, QString>> cssTemplateValues;
+    cssTemplateValues << std::pair<QString, QString>("%title%", titleString);
+    cssTemplateValues << std::pair<QString, QString>("%type%", typeString);
 
     if (!cX3DMetaFileExport) {  // when exporting the meta file (for web component), css is not needed
       success = WbFileUtil::copyAndReplaceString(WbStandardPaths::resourcesWebPath() + "templates/x3d_playback.css",
@@ -334,27 +334,27 @@ bool WbWorld::exportAsHtml(const QString &fileName, bool animation) const {
     infoString = infoString.toHtmlEscaped();
     infoString.replace("\n", "<br/>");
 
-    QList<QPair<QString, QString>> templateValues;
-    templateValues << QPair<QString, QString>("%x3dFilename%", QFileInfo(x3dFilename).fileName());
-    templateValues << QPair<QString, QString>("%type%", typeString);
-    templateValues << QPair<QString, QString>("%title%", titleString);
-    templateValues << QPair<QString, QString>("%description%", infoString);
-    templateValues << QPair<QString, QString>(
+    QList<std::pair<QString, QString>> templateValues;
+    templateValues << std::pair<QString, QString>("%x3dFilename%", QFileInfo(x3dFilename).fileName());
+    templateValues << std::pair<QString, QString>("%type%", typeString);
+    templateValues << std::pair<QString, QString>("%title%", titleString);
+    templateValues << std::pair<QString, QString>("%description%", infoString);
+    templateValues << std::pair<QString, QString>(
       "%x3dName%",
       fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".x3d"));
-    templateValues << QPair<QString, QString>(
+    templateValues << std::pair<QString, QString>(
       "%jpgName%",
       fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".jpg"));
     if (!cX3DMetaFileExport)
-      templateValues << QPair<QString, QString>(
+      templateValues << std::pair<QString, QString>(
         "%cssName%",
         fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".css"));
     if (animation)
-      templateValues << QPair<QString, QString>(
+      templateValues << std::pair<QString, QString>(
         "%jsonName%",
         fileName.split('/').last().replace(QRegularExpression(".html$", QRegularExpression::CaseInsensitiveOption), ".json"));
     else
-      templateValues << QPair<QString, QString>("%jsonName%", "");
+      templateValues << std::pair<QString, QString>("%jsonName%", "");
 
     if (cX3DMetaFileExport) {
       QString metaFilename = fileName;
@@ -578,8 +578,8 @@ QList<WbSolid *> WbWorld::findSolids(bool visibleNodes) const {
   return allSolids;
 }
 
-QList<QPair<QString, WbMFString *>> WbWorld::listTextureFiles() const {
-  QList<QPair<QString, WbMFString *>> list = mRoot->listTextureFiles();
+QList<std::pair<QString, WbMFString *>> WbWorld::listTextureFiles() const {
+  QList<std::pair<QString, WbMFString *>> list = mRoot->listTextureFiles();
   return list;
 }
 

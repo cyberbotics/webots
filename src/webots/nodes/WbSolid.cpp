@@ -2987,18 +2987,18 @@ bool WbSolid::exportNodeHeader(WbWriter &writer) const {
           const WbCapsule *capsule = dynamic_cast<const WbCapsule *>(node);
           if (box || cylinder || sphere || capsule) {
             const WbTransform *transform = WbNodeUtilities::findUpperTransform(node);
-            QList<QPair<QString, WbVector3>> geometries;  // string of the geometry and its offset
+            QList<std::pair<QString, WbVector3>> geometries;  // string of the geometry and its offset
 
             if (box) {
-              QPair<QString, WbVector3> pair;
+              std::pair<QString, WbVector3> pair;
               pair.first = QString("<box size=\"%1 %2 %3\"/>\n").arg(box->size().x()).arg(box->size().y()).arg(box->size().z());
               geometries << pair;
             } else if (cylinder) {
-              QPair<QString, WbVector3> pair;
+              std::pair<QString, WbVector3> pair;
               pair.first = QString("<cylinder radius=\"%1\" length=\"%2\"/>\n").arg(cylinder->radius()).arg(cylinder->height());
               geometries << pair;
             } else if (capsule) {
-              QPair<QString, WbVector3> pair;
+              std::pair<QString, WbVector3> pair;
               pair.first = QString("<cylinder radius=\"%1\" length=\"%2\"/>\n").arg(capsule->radius()).arg(capsule->height());
               geometries << pair;
               pair.first = QString("<sphere radius=\"%1\"/>\n").arg(capsule->radius());
@@ -3012,7 +3012,7 @@ bool WbSolid::exportNodeHeader(WbWriter &writer) const {
                 pair.second = transform->rotation().toMatrix3() * pair.second;
               geometries << pair;
             } else if (sphere) {
-              QPair<QString, WbVector3> pair;
+              std::pair<QString, WbVector3> pair;
               pair.first = QString("<sphere radius=\"%1\"/>\n").arg(sphere->radius());
               geometries << pair;
             } else

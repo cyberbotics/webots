@@ -33,7 +33,7 @@ typedef struct {
   int width;
   int height;
   double camnear;
-  bool spherical;
+  bool planar;
   double fov;  // in degrees
   int mode;
   void *pdata;
@@ -42,7 +42,7 @@ typedef struct {
 
 void wb_abstract_camera_cleanup(WbDevice *d);
 
-void wb_abstract_camera_new(WbDevice *d, unsigned int id, int w, int h, double fov, double camnear, bool spherical);
+void wb_abstract_camera_new(WbDevice *d, unsigned int id, int w, int h, double fov, double camnear, bool planar);
 
 void wb_abstract_camera_write_request(WbDevice *d, WbRequest *r);
 bool wb_abstract_camera_handle_command(WbDevice *d, WbRequest *r, unsigned char command);

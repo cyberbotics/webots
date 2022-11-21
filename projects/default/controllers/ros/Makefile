@@ -38,11 +38,11 @@ endif
 PYTHON_COMMAND ?= python3
 ifeq (, $(ROS_DISTRO))
 release debug profile clean:
-	@echo "# \033[0;33mROS not installed or 'ROS_DISTRO' not defined\033[0m"
+	@$(ECHO) "# \033[0;33mROS not installed or 'ROS_DISTRO' not defined\033[0m"
 else
 ifeq (2, $(ROS_VERSION))
 release debug profile clean:
-	@echo "# \033[0;33mROS_DISTRO should not be a ROS2 distribution\033[0m"
+	@$(ECHO) "# \033[0;33mROS_DISTRO should not be a ROS2 distribution\033[0m"
 else
 CXX_SOURCES = $(wildcard *.cpp)
 CXX_SOURCES += $(wildcard highlevel/*.cpp)

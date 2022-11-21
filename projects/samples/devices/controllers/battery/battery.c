@@ -15,7 +15,7 @@
  */
 
 /*
- * Description:  An example of the use of the batter of a robot.
+ * Description: An example of the use of the battery of a robot
  */
 
 #include <assert.h>

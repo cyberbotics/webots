@@ -79,7 +79,7 @@ private:
   static bool checkBoundingObjectConstraints(const WbBaseNode *defNode, QString &errorMessage);
 
   // List of DEF nodes visible in the scene tree
-  QList<QPair<WbNode *, QString>> mSceneDictionary;
+  QList<std::pair<WbNode *, QString>> mSceneDictionary;
 };
 
 #endif

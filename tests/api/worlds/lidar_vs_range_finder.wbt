@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 
 EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
@@ -71,7 +71,7 @@ Robot {
       fieldOfView 3.14159
       width 128
       height 1
-      spherical TRUE
+      projection "cylindrical"
       maxRange 5
     }
     Lidar {

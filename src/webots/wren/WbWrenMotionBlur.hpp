@@ -22,13 +22,13 @@ public:
   WbWrenMotionBlur();
 
   void setup(WrViewport *viewport) override;
-  void setFirstRender(float firstRender);
+  void setFirstRender(bool firstRender);
   void setIntensity(float intensity);
 
 private:
   void applyParametersToWren() override;
 
-  float mFirstRender;
+  bool mFirstRender;
   float mIntensity;
 };
 
