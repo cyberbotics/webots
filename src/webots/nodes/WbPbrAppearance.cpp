@@ -34,6 +34,7 @@
 #include <wren/texture.h>
 #include <wren/texture_cubemap_baker.h>
 #include <wren/texture_rtt.h>
+#include <QtCore/QDebug>
 
 #include <assimp/material.h>
 
@@ -309,6 +310,8 @@ void WbPbrAppearance::setEmissiveColor(const WbRgb &color) {
 }
 
 void WbPbrAppearance::createWrenObjects() {
+        qDebug() << "WbPbrAppearance::createWrenObjects";
+
   WbAbstractAppearance::createWrenObjects();
 
   sanitizeFields();

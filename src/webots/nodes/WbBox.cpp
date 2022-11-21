@@ -30,6 +30,7 @@
 #include "WbWrenAbstractResizeManipulator.hpp"
 #include "WbWrenRenderingContext.hpp"
 
+#include <QtCore/QDebug>
 #include <wren/config.h>
 #include <wren/renderable.h>
 #include <wren/static_mesh.h>
@@ -70,6 +71,8 @@ const WbVector3 &WbBox::size() const {
 }
 
 void WbBox::createWrenObjects() {
+      qDebug() << "WbBox::createWrenObjects";
+
   WbGeometry::createWrenObjects();
   WbGeometry::computeWrenRenderable();
 

@@ -32,6 +32,7 @@
 #include "WbWrenPicker.hpp"
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
+#include <QtCore/QDebug>
 
 #include <wren/material.h>
 #include <wren/node.h>
@@ -299,6 +300,8 @@ bool WbGeometry::isSelected() {
 //////////////
 
 void WbGeometry::computeWrenRenderable() {
+    qDebug() << "WbGeometry::computeWrenRenderable";
+
   // for USE nodes, it can happen that WbBaseNode::createWrenObjects hasn't been called when constructing their mesh
   if (!areWrenObjectsInitialized())
     WbBaseNode::createWrenObjects();

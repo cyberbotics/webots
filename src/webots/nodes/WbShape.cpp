@@ -29,6 +29,7 @@
 #include "WbSFNode.hpp"
 #include "WbWrenRenderingContext.hpp"
 #include "WbWrenShaders.hpp"
+#include <QtCore/QDebug>
 
 #include <wren/material.h>
 
@@ -248,6 +249,8 @@ WbBoundingSphere *WbShape::boundingSphere() const {
 }
 
 void WbShape::createWrenObjects() {
+  qDebug() << "WbShape::createWrenObjects";
+
   WbBaseNode::createWrenObjects();
 
   // handle both kinds of appearance nodes

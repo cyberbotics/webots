@@ -77,13 +77,13 @@ export default class WbTransform extends WbGroup {
   }
 
   createWrenObjects() {
-    if (!this.wrenObjectsCreatedCalled) {
+    //if (!this.wrenObjectsCreatedCalled) {
       super.createWrenObjects(true);
       const transform = _wr_transform_new();
 
       _wr_transform_attach_child(this.wrenNode, transform);
       this.wrenNode = transform;
-    }
+    //}
 
     this.children.forEach(child => {
       child.createWrenObjects();

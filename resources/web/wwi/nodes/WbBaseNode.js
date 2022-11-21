@@ -12,8 +12,8 @@ export default class WbBaseNode {
   }
 
   createWrenObjects() {
-    if (this.wrenObjectsCreatedCalled)
-      return;
+    //if (this.wrenObjectsCreatedCalled)
+    //  return;
 
     this.wrenObjectsCreatedCalled = true;
 

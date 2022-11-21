@@ -17,6 +17,7 @@
 #include "WbSFNode.hpp"
 #include "WbTextureTransform.hpp"
 #include "WbVector2.hpp"
+#include <QtCore/QDebug>
 
 #include <assimp/material.h>
 
@@ -80,6 +81,7 @@ void WbAbstractAppearance::reset(const QString &id) {
 }
 
 void WbAbstractAppearance::createWrenObjects() {
+        qDebug() << "WbAbstractAppearance::createWrenObjects";
   WbBaseNode::createWrenObjects();
   updateName();
 
