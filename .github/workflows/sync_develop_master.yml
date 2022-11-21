@@ -11,12 +11,6 @@ jobs:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test sync') }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout branch
-        uses: actions/checkout@v3
-        with:
-          submodules: "true"
-          fetch-depth: 0
-          ref: master
       - name: Check for diff
         id: check-diff
         run: |
