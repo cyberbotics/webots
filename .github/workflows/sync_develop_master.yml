@@ -1,4 +1,4 @@
-name: master->develop Synchronizer
+name: Synchronize Develop with Master
 
 on:
   pull_request:
