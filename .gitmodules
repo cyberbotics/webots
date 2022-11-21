@@ -1,12 +1,6 @@
 [submodule "src/glm"]
 	path = src/glm
 	url = https://github.com/g-truc/glm.git
-[submodule "projects/robots/mobsya/thymio/libraries/dashel-src"]
-	path = projects/robots/mobsya/thymio/libraries/dashel-src
-	url = https://github.com/aseba-community/dashel.git
-[submodule "projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba"]
-	path = projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba
-	url = https://github.com/aseba-community/aseba.git
 [submodule "src/stb"]
 	path = src/stb
 	url = https://github.com/nothings/stb.git

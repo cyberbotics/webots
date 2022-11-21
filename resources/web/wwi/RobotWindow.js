@@ -42,18 +42,19 @@ export default class RobotWindow {
   }
 
   #onSocketMessage(event) {
-    let data = event.data;
-    const ignoreData = ['application/json:', 'stdout:', 'stderr:'].some(sw => data.startsWith(sw));
-    if (data.startsWith('robot:')) {
-      let message = data.match('"message":"(.*)","name"')[1];
-      let robot = data.match(',"name":"(.*)"}')[1];
-      message = message.replace(/\\/g, '');
-      if (this.name === robot) // receive only the messages of our robot.
-        this.receive(message, robot);
-    } else if (ignoreData)
-      return 0;
-    else
-      console.log('WebSocket error: Unknown message received: "' + data + '"');
+    const socketData = event.data.split(/\r?\n/);
+    for (let i = 0, len = socketData.length; i < len; i++) {
+      const data = socketData[i];
+      const ignoreData = ['application/json:', 'stdout:', 'stderr:'].some(sw => data.startsWith(sw));
+      if (data.startsWith('robot:')) {
+        let message = data.match('"message":"(.*)","name"')[1];
+        const robot = data.match(',"name":"(.*)"}')[1];
+        message = message.replace(/\\/g, '');
+        if (this.name === robot) // receive only the messages of our robot.
+          this.receive(message, robot);
+      } else if (!ignoreData)
+        console.log('WebSocket error: Unknown message received: "' + data + '"');
+    }
   }
 
   #onSocketClose(event) {

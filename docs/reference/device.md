@@ -93,6 +93,8 @@ The `wb_device_get_model` function returns the model string of the device corres
 
 This function returns NULL if the WbDeviceTag does not match a valid device, or returns an empty string if the device is not a solid device (i.e. does not have a `model` field).
 
+> **Note** [C, C++]: The returned string is a pointer to the internal values managed by the [Device](#device) node, therefore it is illegal to free this pointer.
+
 ---
 
 #### `wb_device_get_name`
@@ -174,6 +176,8 @@ name = wb_device_get_name(tag)
 The `wb_device_get_name` function converts the WbDeviceTag given as parameter (`tag`) to its corresponding name.
 
 This function returns NULL if the WbDeviceTag does not match a valid device.
+
+> **Note** [C, C++]: The returned string is a pointer to the internal values managed by the [Device](#device) node, therefore it is illegal to free this pointer.
 
 ---
 

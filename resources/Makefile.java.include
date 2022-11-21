@@ -101,10 +101,10 @@ endif
 
 ifeq ($(JAVA_HOME),)
 release debug profile:
-	@echo -e "# \033[0;33mJava not installed or 'JAVA_HOME' not set, skipping Java API\033[0m"
+	@$(ECHO) "# \033[0;33mJava not installed or 'JAVA_HOME' not set, skipping Java API\033[0m"
 else ifeq (,$(wildcard $(WEBOTS_JAVA_LIB)))
 release debug profile:
-	@echo -e "# \033[0;33mJava library not compiled, skipping Java API\033[0m"
+	@$(ECHO) "# \033[0;33mJava library not compiled, skipping Java API\033[0m"
 else
 release debug profile:
 	@javac $(JAVAC_OPTS) *.java
