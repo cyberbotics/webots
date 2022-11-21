@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from controller.device import Device
-from controller.wb import wb
+from .device import Device
+from .wb import wb
 import ctypes
 from typing import List, Union
 

@@ -13,7 +13,7 @@
 # limitations under the License.
 
 import ctypes
-from controller.wb import wb
+from .wb import wb
 
 
 class Motion:

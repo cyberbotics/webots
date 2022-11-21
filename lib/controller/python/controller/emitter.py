@@ -14,8 +14,8 @@
 
 import struct
 import sys
-from controller.wb import wb
-from controller.device import Device
+from .wb import wb
+from .device import Device
 import ctypes
 from typing import Union, List
 

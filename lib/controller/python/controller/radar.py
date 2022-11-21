@@ -13,9 +13,9 @@
 # limitations under the License.
 
 import ctypes
-from controller.sensor import Sensor
-from controller.radar_target import RadarTarget
-from controller.wb import wb
+from .sensor import Sensor
+from .radar_target import RadarTarget
+from .wb import wb
 from typing import List, Union
 
 
