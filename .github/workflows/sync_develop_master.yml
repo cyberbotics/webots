@@ -11,16 +11,22 @@ jobs:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test sync') }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout branch
+      - name: Checkout master
         uses: actions/checkout@v3
         with:
           submodules: true
           fetch-depth: 1
+          ref: master
+      - name: Checkout develop
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 1
+          ref: develop
       - name: Check for diff
         id: check-diff
         run: |
-          git branch
-          if [ -n "$(git diff origin/develop...origin/master)" ]; then
+          if [ -n "$(git diff develop...master)" ]; then
             echo "Develop needs sync with master!";
             echo "create_pull_request=1" >> $GITHUB_OUTPUT
           else
