@@ -15,8 +15,8 @@
 import ctypes
 import struct
 import sys
-from controller.wb import wb
-from controller.sensor import Sensor
+from .wb import wb
+from .sensor import Sensor
 from typing import Union, Tuple, List
 
 

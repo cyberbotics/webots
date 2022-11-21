@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from controller.wb import wb
+from .wb import wb
 import ctypes
 import struct
 from typing import Union

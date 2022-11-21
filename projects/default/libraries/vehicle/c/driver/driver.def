@@ -1,5 +1,6 @@
 EXPORTS
 wbu_driver_init
+wbu_driver_initialization_is_possible
 wbu_driver_cleanup
 wbu_driver_step
 wbu_driver_set_steering_angle
@@ -26,5 +27,4 @@ wbu_driver_get_gear_number
 wbu_driver_get_control_mode
 wbu_driver_set_wiper_mode
 wbu_driver_get_wiper_mode
-wbu_driver_initialization_is_possible
 

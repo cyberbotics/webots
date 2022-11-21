@@ -13,9 +13,9 @@
 # limitations under the License.
 
 import ctypes
-from controller.constants import constant
-from controller.wb import wb
-from controller.sensor import Sensor
+from .constants import constant
+from .wb import wb
+from .sensor import Sensor
 from typing import Union
 
 
@@ -44,13 +44,13 @@ class PositionSensor(Sensor):
 
     @property
     def brake(self):
-        from controller.brake import Brake
+        from .brake import Brake
         tag = wb.wb_position_sensor_get_brake(self._tag)
         return None if tag == 0 else Brake(tag)
 
     @property
     def motor(self):
-        from controller.motor import Motor
+        from .motor import Motor
         tag = wb.wb_brake_get_motor(self._tag)
         return None if tag == 0 else Motor(tag)
 
