@@ -20,7 +20,7 @@ jobs:
       - name: Check for diff
         id: check-diff
         run: |
-          git fetch origin develop --depth 1
+          git pull origin develop --depth 1
           git branch
           if [ -n "$(git diff develop...master)" ]; then
             echo "Develop needs sync with master!";
