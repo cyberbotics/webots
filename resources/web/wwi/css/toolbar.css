@@ -1031,12 +1031,37 @@ webots-view .node-library .node-info {
   width: 300px;
   height: 400px;
   float: left;
-  color: rgba(240, 240, 240, 1);
   font-family: Arial;
-  justify-content: center;
-  align-items: center;
+  align-items: top;
   display: flex;
   flex-direction: column;
+}
+
+webots-view .node-library .node-image {
+  width: 150px;
+  height: 150px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+webots-view .node-library .node-description {
+  font-family: Arial;
+  color: rgba(240, 240, 240, 1);
+  padding-top: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+}
+
+webots-view .node-library .node-license {
+  font-family: Arial;
+  color: rgba(240, 240, 240, 1);
+  padding: 5px;
+  height: 50px;
+  justify-content: start;
+  align-content: flex-start;
+  display: flex;
 }
 
 webots-view .node-library ol {

@@ -90,7 +90,9 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
         const baseType = proto.getElementsByTagName('base-type')[0]?.innerHTML;
         const license = proto.getElementsByTagName('license')[0]?.innerHTML;
         const licenseUrl = proto.getElementsByTagName('license-url')[0]?.innerHTML;
-        const description = proto.getElementsByTagName('description')[0]?.innerHTML;
+        let description = proto.getElementsByTagName('description')[0]?.innerHTML;
+        if (typeof description !== 'undefined')
+          description = description.replace('\\n', '<br>');
         const slotType = proto.getElementsByTagName('slot-type')[0]?.innerHTML;
         const items = proto.getElementsByTagName('tags')[0]?.innerHTML.split(',');
         const tags = typeof items !== 'undefined' ? items : [];
@@ -134,16 +136,23 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
     nodeInfo.id = 'node-info';
     nodeInfo.className = 'node-info';
 
+    const license = document.createElement('span');
+    license.id = 'node-license';
+    license.className = 'node-license';
+    license.innerHTML = 'License: <i>not specified.</i>';
+    nodeInfo.appendChild(license);
+
     const img = document.createElement('img');
     img.id = 'node-image';
-    img.setAttribute('draggable', false);
-    img.setAttribute('src', '../../images/missing_proto_icon.png');
-    img.style.maxWidth = '100%';
+    img.className = 'node-image'
+    img.draggable = false;
+    img.src = '../../images/missing_proto_icon.png';
     nodeInfo.appendChild(img);
 
     const description = document.createElement('span');
     description.id = 'node-description';
-    description.innerText = 'No description available.';
+    description.className = 'node-description';
+    description.innerHTML = 'No description available.';
     nodeInfo.appendChild(description);
 
     const buttonContainer = document.createElement('div');
@@ -218,16 +227,15 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
       this.selection = undefined;
     }
 
-
     // populate node info
-    this.populateNodeInfo('null');
+    this.populateNodeInfo('NULL');
   }
 
   #createNodeButton(name, url) {
     const item = document.createElement('li');
     const button = document.createElement('button');
     button.innerText = name;
-    button.value = url;
+    button.value = name;
     item.appendChild(button);
 
     button.onclick = (item) => {
@@ -245,26 +253,31 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
     return item;
   }
 
-  populateNodeInfo(url) {
+  populateNodeInfo(protoName) {
     const nodeImage = document.getElementById('node-image');
     const description = document.getElementById('node-description');
+    const license = document.getElementById('node-license');
 
-    if (url === 'null') {
+    if (protoName === 'NULL') {
       nodeImage.src = '../../images/missing_proto_icon.png';
-      description.innerText = 'No description available.'
+      description.innerHTML = 'No description available.';
+      license.innerHTML = 'License:&nbsp;<i>not specified.</i>';
     } else {
-      const protoName = url.split('/').pop().replace('.proto', '');
+      const info = this.nodes.get(protoName);
+      const url = info.url;
       nodeImage.src = url.slice(0, url.lastIndexOf('/') + 1) + 'icons/' + protoName + '.png';
-      description.innerText = protoName;
+      description.innerHTML = info.description;
+      license.innerHTML = 'License:&nbsp;<i>' + info.license + '</i>'
     }
   }
 
-  async insertNode(url) {
-    console.log('inserting:', url);
-
-    if (url === 'null')
+  async insertNode(protoName) {
+    if (protoName === 'NULL')
       this.parameter.setValueFromJavaScript(this.#view, null);
     else {
+      const info = this.nodes.get(protoName);
+      const url = info.url;
+      console.log('inserting:', protoName, ', url: ', info.url);
       console.log('generating node');
       const node = await this.#protoManager.generateNodeFromUrl(url);
 
