@@ -314,11 +314,14 @@ export default class Node {
       throw new Error('Regeneration was called but the template engine is not defined (i.e this.isTemplate is false)');
 
     this.protoBody = this.templateEngine.generateVrml(fieldsEncoding, this.rawBody);
-    // console.log('Regenerated Proto Body:\n' + this.protoBody);
+    console.log('Regenerated Proto Body:\n' + this.protoBody);
   };
 
   clearReferences() {
-    // TODO
+    this.def = new Map();
+
+    for (const [parameterName, parameter] of this.parameters)
+      parameter.resetParameterLinks();
   };
 
   getParameterByName(name) {

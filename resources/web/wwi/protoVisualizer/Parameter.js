@@ -71,6 +71,10 @@ export default class Parameter {
     return this.#parameterLinks;
   }
 
+  resetParameterLinks() {
+    this.#parameterLinks = [];
+  }
+
   insertLink(parameter) {
     this.#parameterLinks.push(parameter);
   }
@@ -87,7 +91,7 @@ export default class Parameter {
 
     if (this.isTemplateRegenerator) {
       // update value on the structure side
-      this.#value.setValueFromJavaScript(v); // TODO: should be move after delete?
+      this.#value.setValueFromJavaScript(v);
 
       console.log('  > ' + this.name + ' is a template regenerator!');
 
@@ -96,12 +100,7 @@ export default class Parameter {
 
       // note: only base-nodes write to x3d, so to know the ID of the node we need to delete, we need to navigate through the
       // value of the proto (or multiple times if it's a derived PROTO)
-      let baseNode = this.node;
-      while (baseNode.isProto)
-        baseNode = baseNode.baseType;
-
-      // delete existing node (must be done prior to regeneration or the information is lost)
-      const id = baseNode.id;
+      const id = this.node.getBaseNode().id; // delete existing node (must be done prior to regeneration or the information is lost)
       view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
 
       // regenerate and parse the body of the associated node

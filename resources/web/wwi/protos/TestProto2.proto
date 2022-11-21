@@ -1,10 +1,12 @@
 #VRML_SIM R2023a utf8
+# template language: javascript
 
 EXTERNPROTO "PBR.proto"
 
 PROTO TestProto [
   field SFVec3f translation 0 0 0
   field SFNode appearance PBR {}
+  field SFBool condition FALSE
 ]
 {
   Transform {
@@ -12,9 +14,15 @@ PROTO TestProto [
     children [
       Shape {
         appearance IS appearance
-        geometry Box {
-          size 0.2 0.05 0.05
-        }
+        %< if (fields.condition.value) { >%
+          geometry Box {
+            size 0.2 0.05 0.05
+          }
+        %< } else { >%
+          geometry Box {
+            size 0.2 0.1 0.05
+          }
+        %< } >%
       }
     ]
   }

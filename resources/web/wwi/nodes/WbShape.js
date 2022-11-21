@@ -35,8 +35,10 @@ export default class WbShape extends WbBaseNode {
     for (const useId of this.useList) {
       const useNode = WbWorld.instance.nodes.get(useId);
       console.log('notifying USE Shape: ', useId)
-      if (typeof value === 'undefined')
-        useNode.appearance.delete();
+      if (typeof value === 'undefined') {
+        if (typeof useNode !== 'undefined')
+          useNode.appearance.delete();
+      }
       else {
         const newAppearance = value.clone();
         WbWorld.instance.nodes.set(newAppearance.id, newAppearance);
