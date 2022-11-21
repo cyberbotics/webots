@@ -19,6 +19,7 @@ jobs:
       - name: Check for diff
         id: check-diff
         run: |
+          git branch
           if [ -n "$(git diff origin/develop...origin/master)" ]; then
             echo "Develop needs sync with master!";
             echo "create_pull_request=1" >> $GITHUB_OUTPUT
