@@ -48,7 +48,7 @@ QString WbNewProjectWizard::proposeNewProjectPath() const {
     path = WbPreferences::instance()->value("Directories/projects").toString();
     if (!path.isEmpty()) {
       if (WbFileUtil::isDirectoryWritable(path))
-        path += +"/my_project";
+        path += "my_project";
       else
         path = "";  // no valid default path found
     }

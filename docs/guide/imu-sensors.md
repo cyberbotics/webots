@@ -10,7 +10,7 @@ Predefined IMU models present in Webots to simplify the user experience are list
 
 %figure "MPU-9250 model"
 
-![mpu-9250.png](images/sensors/mpu-9250.thumbnail.png)
+![mpu-9250.png](images/sensors/mpu-9250.png)
 
 %end
 
