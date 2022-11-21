@@ -81,24 +81,19 @@ int main() {
       centering_weight = ((i < (range_finder_width / 4)) || (i > (3 * range_finder_width / 4))) ? 1 : 3;
       for (j = 0; j < range_finder_height; j++) {
         distance = wb_range_finder_image_get_depth(image, range_finder_width, i, j);
-        if (state == SEARCHING) {
+        if (state == SEARCHING)
           average_distance += distance * centering_weight;
-        } else {
-          if (distance < minimal_distance) {
-            minimal_distance = distance;
-          }
-        }
+        else if (distance < minimal_distance)
+          minimal_distance = distance;
       }
     }
 
     average_distance /= range_finder_width * range_finder_height;
 
-    /* A big value means that our range-finder is looking at the sky. */
-    if (average_distance >= 1 && average_distance < 9 && state == SEARCHING) {
+    if (average_distance >= 1 && state == SEARCHING)
       state = MOVING;
-    } else if (minimal_distance < 0.1 && state == MOVING) {
+    else if (minimal_distance < 0.1 && state == MOVING)
       state = SEARCHING;
-    }
 
     if (state == MOVING) {
       left_speed = SPEED;

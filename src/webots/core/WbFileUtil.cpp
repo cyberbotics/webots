@@ -31,14 +31,14 @@
 
 bool WbFileUtil::copyAndReplaceString(const QString &sourcePath, const QString &destinationPath, const QString &before,
                                       const QString &after) {
-  QList<QPair<QString, QString>> values;
-  values << QPair<QString, QString>(before, after);
+  QList<std::pair<QString, QString>> values;
+  values << std::pair<QString, QString>(before, after);
 
   return copyAndReplaceString(sourcePath, destinationPath, values);
 }
 
 bool WbFileUtil::copyAndReplaceString(const QString &sourcePath, const QString &destinationPath,
-                                      QList<QPair<QString, QString>> values) {
+                                      QList<std::pair<QString, QString>> values) {
   QFile sourceFile(sourcePath);
   if (!sourceFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
     return false;

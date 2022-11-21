@@ -24,7 +24,6 @@
 #include <webots/robot.h>
 
 #define MAX_SPEED 10
-#define SPEED 6
 #define TIME_STEP 64
 
 int main() {

@@ -216,7 +216,7 @@ bool WbTokenizer::checkFileHeader() {
     case WORLD:
       return readFileInfo(true, true, "VRML_SIM");
     case PROTO:
-      return readFileInfo(false, true, "VRML_SIM", true);
+      return readFileInfo(true, true, "VRML_SIM", true);
     case MODEL:
       return readFileInfo(false, false, "VRML");
     default:

@@ -15,7 +15,7 @@
  */
 
 /*
- * Description:   A controller which sends datas from the emitter to the
+ * Description:   A controller which sends data from the emitter to the
  *                receiver while the robots avoid the obstacles.
  */
 

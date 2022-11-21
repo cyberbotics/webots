@@ -296,7 +296,7 @@ int WbProjectRelocationDialog::copyWorldFiles() {
   }
 
   // copy only the needed texture files
-  const QList<QPair<QString, WbMFString *>> textureList = world->listTextureFiles();
+  const QList<std::pair<QString, WbMFString *>> textureList = world->listTextureFiles();
   for (int i = 0; i < textureList.size(); ++i) {
     const QString &textureFile = textureList[i].first;
     if (!QDir::isRelativePath(textureFile) || WbUrl::isWeb(textureFile))
