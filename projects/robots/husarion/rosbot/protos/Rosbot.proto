@@ -23,7 +23,7 @@ PROTO Rosbot [
   field  SFBool      synchronization TRUE      # Is `Robot.synchronization`.
   field  SFBool      selfCollision   FALSE     # Is `Robot.selfCollision`.
   field  MFNode      cameraSlot      [ Astra { name "camera" } ] # Extends the robot with an Astra RGBD camera.
-  field  MFNode      lidarSlot       [ RpLidarA2 { name "lidar" } ] # Extends the robot with a RpLidar A2 lidar.
+  field  MFNode      lidarSlot       [ RpLidarA2 { name "lidar_link" } ] # Extends the robot with a RpLidar A2 lidar.
 ]
 {
   Robot {
@@ -45,7 +45,7 @@ PROTO Rosbot [
               baseColor 1.000000 1.000000 1.000000
             }
             geometry Mesh {
-              url "meshes/box.obj"
+              url "meshes/body.obj"
             }
           }
         ]
@@ -121,7 +121,7 @@ PROTO Rosbot [
             }
             geometry Capsule {
               height 0.01
-              radius 0.003              
+              radius 0.003
             }
           }
         ]
@@ -362,13 +362,13 @@ PROTO Rosbot [
                   baseColor 0.800000 0.000000 0.000000
                 }
                 geometry Mesh {
-                  url "meshes/upper.obj"
+                  url "meshes/cover.obj"
                 }
               }
             ]
           }
         ]
-        name "top body"
+        name "cover"
       }
       DEF FL_WHEEL_AXIS Transform {
         translation 0.053 0.092 0.041
@@ -439,7 +439,7 @@ PROTO Rosbot [
         }
         device [
           RotationalMotor {
-            name "front left wheel motor"
+            name "front_left_wheel_joint"
             maxVelocity 26.0
             maxTorque 100.0
           }
@@ -477,7 +477,6 @@ PROTO Rosbot [
                     }
                   ]
                 }
-                
               ]
             }
           ]
@@ -507,7 +506,7 @@ PROTO Rosbot [
         }
         device [
           RotationalMotor {
-            name "front right wheel motor"
+            name "front_right_wheel_joint"
             maxVelocity 26.0
             maxTorque 100.0
           }
@@ -547,7 +546,7 @@ PROTO Rosbot [
         }
         device [
           RotationalMotor {
-            name "rear left wheel motor"
+            name "rear_left_wheel_joint"
             maxVelocity 26.0
             maxTorque 100.0
           }
@@ -581,7 +580,7 @@ PROTO Rosbot [
         }
         device [
           RotationalMotor {
-            name "rear right wheel motor"
+            name "rear_right_wheel_joint"
             maxVelocity 26.0
             maxTorque 100.0
           }
@@ -628,7 +627,7 @@ PROTO Rosbot [
       DistanceSensor {
         translation 0.100000 0.050000 0.053000
         rotation 0.000000 0.000000 1.000000 0.130000
-        name "front left distance sensor"
+        name "range_left_front"
         redColorSensitivity 0
         lookupTable [ 0     0   0,
                       1     1   0,
@@ -638,7 +637,7 @@ PROTO Rosbot [
       DistanceSensor {
         translation 0.100000 -0.050000 0.053000
         rotation 0.000000 0.000000 1.000000 -0.130000
-        name "front right distance sensor"
+        name "range_right_front"
         redColorSensitivity 0
         lookupTable [ 0     0   0,
                       2     2   0 ]
@@ -647,7 +646,7 @@ PROTO Rosbot [
       DistanceSensor {
         translation -0.100000 0.050000 0.0530000
         rotation 0.000000 0.000000 1.000000 3.010000
-        name "rear left distance sensor"
+        name "range_left_rear"
         redColorSensitivity 0
         lookupTable [ 0     0   0,
                       2     2   0 ]
@@ -656,18 +655,19 @@ PROTO Rosbot [
       DistanceSensor {
         translation -0.100000 -0.050000 0.053000
         rotation 0.000000 0.000000 1.000000 3.270000
-        name "rear right distance sensor"
+        name "range_right_rear"
         redColorSensitivity 0
         lookupTable [ 0     0   0,
                       2     2   0 ]
         type "infra-red"
       }
       DEF CAMERA_SLOT Transform {
-        translation -0.027 0 0.165 
+        translation -0.027 0 0.165
         children IS cameraSlot
       }
       DEF LIDAR_SLOT Transform {
         translation 0.02 0 0.1
+        rotation 0.000000 0.000000 1.000000 3.14000000
         children IS lidarSlot
       }
     ]

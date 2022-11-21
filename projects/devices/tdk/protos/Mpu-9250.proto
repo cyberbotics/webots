@@ -34,6 +34,9 @@ PROTO Mpu-9250 [
       Compass {
         name %<= '"' + fields.name.value + ' compass"' >%
       }
+      InertialUnit {
+        name %<= '"' + fields.name.value + ' inertial_unit"' >%
+      }
     ]
     name IS name
     physics Physics {
@@ -43,4 +46,3 @@ PROTO Mpu-9250 [
     boundingObject USE IMU_BOX
   }
 }
-
