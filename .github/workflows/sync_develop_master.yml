@@ -16,7 +16,6 @@ jobs:
         with:
           submodules: true
           fetch-depth: 1
-          ref: master
       - name: Check for diff
         id: check-diff
         run: |
