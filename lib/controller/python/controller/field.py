@@ -16,6 +16,7 @@ import ctypes
 from .wb import wb
 from .constants import constant
 import struct
+import sys
 import typing
 
 
@@ -155,16 +156,28 @@ class Field:
         self.value = value
 
     def setSFVec2f(self, value: typing.List[float]):
-        self.value = value
+        if len(value) == 2:
+            self.value = value
+        else:
+            print("Error: setSFVec2f(): 'value' argument should have length 2.", file=sys.stderr)
 
     def setSFVec3f(self, value: typing.List[float]):
-        self.value = value
+        if len(value) == 3:
+            self.value = value
+        else:
+            print("Error: setSFVec3f(): 'value' argument should have length 3.", file=sys.stderr)
 
     def setSFRotation(self, value: typing.List[float]):
-        self.value = value
+        if len(value) == 4:
+            self.value = value
+        else:
+            print("Error: setSFRotation(): 'value' argument should have length 4.", file=sys.stderr)
 
     def setSFColor(self, value: typing.List[float]):
-        self.value = value
+        if len(value) == 3:
+            self.value = value
+        else:
+            print("Error: setSFColor(): 'value' argument should have length 3.", file=sys.stderr)
 
     def setSFString(self, value: str):
         self.value = value
