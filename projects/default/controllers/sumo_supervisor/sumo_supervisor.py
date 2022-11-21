@@ -16,7 +16,7 @@
 
 from SumoSupervisor import SumoSupervisor
 
-import optparse
+import argparse
 import os
 import re
 import shutil
@@ -70,47 +70,47 @@ except ImportError:
 
 def get_options():
     """Parse the controler arguments."""
-    optParser = optparse.OptionParser()
-    optParser.add_option("--no-gui", dest="noGUI", action="store_true", default=False,
-                         help="runs the command line version of sumo")
-    optParser.add_option("--verbose", dest="verbose", action="store_true", default=False,
-                         help="prints sumo output in Webots console")
-    optParser.add_option("--no-netconvert", dest="noNetconvert", action="store_true", default=False,
-                         help="does not run netconvert before launching sumo")
-    optParser.add_option("--disable-traffic-lights", dest="disableTrafficLights", action="store_true", default=False,
-                         help="disables the update of the traffic lights state in Webots")
-    optParser.add_option("--step", type="int", dest="step", default=200, help="specifies the time step of sumo [ms]")
-    optParser.add_option("--max-vehicles", type="int", dest="maxVehicles", default=100,
-                         help="specifies the maximum vehicles to add on Webots side")
-    optParser.add_option("--rotate-wheels", dest="rotateWheels", action="store_true", default=False,
-                         help="enables the wheels rotation.")
-    optParser.add_option("--radius", type="int", dest="radius", default=-1,
-                         help="specifies the visibility radius of the vehicles in meters (-1 means no limit)")
-    optParser.add_option("--enable-height", dest="enableHeight", action="store_true", default=False,
-                         help="specifies if height information should be extracted from the edge name")
-    optParser.add_option("--directory", dest="directory", default="",
-                         help="specifies the directory where are located the files defining the network")
-    optParser.add_option("--port", type="int", dest="port", default=8873, help="specifies which port to use")
-    optParser.add_option("--seed", type="int", dest="seed", default=1,
-                         help="specifies the seed of the SUMO random number generator (0 for the '--random' option of SUMO)")
-    optParser.add_option("--use-display", dest="useDisplay", action="store_true", default=False,
-                         help="displays the gui view of SUMO in a Webots display (only working in gui mode)")
-    optParser.add_option("--display-refresh-rate", type="int", dest="displayRefreshRate", default=1000,
-                         help="specifies the refresh rate of the SUMO display in Webots")
-    optParser.add_option("--display-zoom", type="float", dest="displayZoom", default=1.0,
-                         help="specifies the initial zoom of the SUMO display in Webots (100 means no scaling)")
-    optParser.add_option("--display-fit-size", dest="displayFitSize", action="store_true", default=False,
-                         help="specifies if the image should be resized to fit the SUMO display size or not")
-    optParser.add_option("--maximum-lateral-speed", type="float", dest="maximumLateralSpeed", default=2.5,
-                         help="specifies the maximal lateral speed of any vehicle in meter per second.")
-    optParser.add_option("--maximum-angular-speed", type="float", dest="maximumAngularSpeed", default=3,
-                         help="specifies the maximal angular speed of any vehicle in radian per second.")
-    optParser.add_option("--lane-change-delay", type="float", dest="laneChangeDelay", default=3,
-                         help='specifies the time required to change lane (during this period position in Webots and SUMO may '
-                              'not be perfectly synchronized anymore).')
-    optParser.add_option("--sumo-arguments", dest="sumoArguments", default="", help="specifies additional SUMO arguments.")
-    options, args = optParser.parse_args()
-    return options
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--no-gui", dest="noGUI", action="store_true", default=False,
+                        help="runs the command line version of sumo")
+    parser.add_argument("--verbose", dest="verbose", action="store_true", default=False,
+                        help="prints sumo output in Webots console")
+    parser.add_argument("--no-netconvert", dest="noNetconvert", action="store_true", default=False,
+                        help="does not run netconvert before launching sumo")
+    parser.add_argument("--disable-traffic-lights", dest="disableTrafficLights", action="store_true", default=False,
+                        help="disables the update of the traffic lights state in Webots")
+    parser.add_argument("--step", type=int, dest="step", default=200, help="specifies the time step of sumo [ms]")
+    parser.add_argument("--max-vehicles", type=int, dest="maxVehicles", default=100,
+                        help="specifies the maximum vehicles to add on Webots side")
+    parser.add_argument("--rotate-wheels", dest="rotateWheels", action="store_true", default=False,
+                        help="enables the wheels rotation.")
+    parser.add_argument("--radius", type=int, dest="radius", default=-1,
+                        help="specifies the visibility radius of the vehicles in meters (-1 means no limit)")
+    parser.add_argument("--enable-height", dest="enableHeight", action="store_true", default=False,
+                        help="specifies if height information should be extracted from the edge name")
+    parser.add_argument("--directory", dest="directory", default="",
+                        help="specifies the directory where are located the files defining the network")
+    parser.add_argument("--port", type=int, dest="port", default=8873, help="specifies which port to use")
+    parser.add_argument("--seed", type=int, dest="seed", default=1,
+                        help="specifies the seed of the SUMO random number generator (0 for the '--random' option of SUMO)")
+    parser.add_argument("--use-display", dest="useDisplay", action="store_true", default=False,
+                        help="displays the gui view of SUMO in a Webots display (only working in gui mode)")
+    parser.add_argument("--display-refresh-rate", type=int, dest="displayRefreshRate", default=1000,
+                        help="specifies the refresh rate of the SUMO display in Webots")
+    parser.add_argument("--display-zoom", type=float, dest="displayZoom", default=1.0,
+                        help="specifies the initial zoom of the SUMO display in Webots (100 means no scaling)")
+    parser.add_argument("--display-fit-size", dest="displayFitSize", action="store_true", default=False,
+                        help="specifies if the image should be resized to fit the SUMO display size or not")
+    parser.add_argument("--maximum-lateral-speed", type=float, dest="maximumLateralSpeed", default=2.5,
+                        help="specifies the maximal lateral speed of any vehicle in meter per second.")
+    parser.add_argument("--maximum-angular-speed", type=float, dest="maximumAngularSpeed", default=3,
+                        help="specifies the maximal angular speed of any vehicle in radian per second.")
+    parser.add_argument("--lane-change-delay", type=float, dest="laneChangeDelay", default=3,
+                        help='specifies the time required to change lane (during this period position in Webots and SUMO may '
+                        'not be perfectly synchronized anymore).')
+    parser.add_argument("--sumo-arguments", dest="sumoArguments", default="", help="specifies additional SUMO arguments.")
+    args = parser.parse_args()
+    return args
 
 
 # The main program starts from here
@@ -134,7 +134,7 @@ else:
             useDisplay = True
 
 # check if the target directory is in the WEBOTS_HOME path or not set, and adjust path if it is the case
-directory = os.path.normpath(options.directory)
+directory = options.directory if options.directory == '' else os.path.normpath(options.directory)
 if directory.startswith('WEBOTS_HOME'):
     directory = directory.replace('WEBOTS_HOME', WEBOTS_HOME)
 elif directory == "":  # no directory set, use standard directory (same name of the world ending with '_net')
