@@ -817,6 +817,14 @@ To fix the problem, you should:
 </source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>TMPDIR is not set: cannot run Webots.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TMPDIR &apos;%1&apos; doesn&apos;t exist: cannot run Webots.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>T</name>
@@ -2446,11 +2454,6 @@ Colore %1: %2 %3 %4</translation>
     <message>
         <source>Unknown key: %1 in matlab section</source>
         <translation>Chiave: %1 sconosciuta nella sezione matlab</translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos;
-The path to this Webots project contains non 8-bit characters. Webots won&apos;t be able to execute any Java controller in this path. Please move this Webots project into a folder with only 8-bit characters.</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unable to find the &apos;%1&apos; executable in the current PATH. Please check your %1 installation. It should be possible to launch %1 from a terminal by typing &apos;%1&apos;. It may be necessary to add the %1 bin directory to your PATH environment variable. More information about the %1 installation is available in Webots&apos; User guide.</source>
@@ -4165,11 +4168,6 @@ The following file formats are supported:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;strong&gt;Rotate:&lt;/strong&gt;&lt;br/&gt;To rotate the camera around the x and y axis, you have to set the mouse pointer in the 3D scene, press the left mouse button and drag the mouse:&lt;br/&gt;- if you clicked on an object, the rotation will be centered around the picked point on this object.&lt;br/&gt;- if you clicked outside of any object, the rotation will be centered around the position of the camera.&lt;br/&gt;Dragging the mouse horizontally will rotate the camera around the world up axis. Dragging the mouse vertically will rotate the camera around its horizontal axis.&lt;br/&gt;&lt;br/&gt;&lt;strong&gt;Translate:&lt;/strong&gt;&lt;br/&gt;To translate the camera in the x and y directions, you have to set the mouse pointer in the 3D scene, press the right mouse button and drag the mouse.&lt;br/&gt;&lt;br/&gt;&lt;strong&gt;Zoom / Tilt:&lt;/strong&gt;&lt;br/&gt;Set the mouse pointer in the 3D scene, then:
-- if you press both left and right mouse buttons (or the middle button) and drag the mouse vertically, the camera will zoom in or out.&lt;br/&gt;- if you press both left and right mouse buttons (or the middle button) and drag the mouse horizontally, the camera will rotate around the viewing axis (tilt movement).&lt;br/&gt;- if you use the wheel of the mouse, the camera will zoom in or out.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Controller &lt;none&gt; cannot be modified.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4257,6 +4255,10 @@ As a consequence, some project-related functionalities may not work.</source>
     </message>
     <message>
         <source>&lt;strong&gt;Force:&lt;/strong&gt;&lt;br/&gt; Place the mouse pointer where the force will apply and hold down the Alt key and the left mouse button together while dragging the mouse. In some window managers it might be necessary to also hold the Control (ctrl) key together with the Alt key.&lt;br/&gt;&lt;br/&gt; &lt;strong&gt;Torque:&lt;/strong&gt;&lt;br/&gt;Place the mouse pointer on the object and hold down the Alt key and the right mouse button together while dragging the mouse. In some window managers it might be necessary to also hold the Control (ctrl) key together with the Alt key.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;strong&gt;Rotate:&lt;/strong&gt;&lt;br/&gt;To rotate the camera around the x and y axis, you have to set the mouse pointer in the 3D scene, press the left mouse button and drag the mouse:&lt;br/&gt;- if you clicked on an object, the rotation will be centered around the picked point on this object.&lt;br/&gt;- if you clicked outside of any object, the rotation will be centered around the position of the camera.&lt;br/&gt;Dragging the mouse horizontally will rotate the camera around the world up axis. Dragging the mouse vertically will rotate the camera around its horizontal axis.&lt;br/&gt;&lt;br/&gt;&lt;strong&gt;Translate:&lt;/strong&gt;&lt;br/&gt;To translate the camera in the x and y directions, you have to set the mouse pointer in the 3D scene, press the right mouse button and drag the mouse.&lt;br/&gt;&lt;br/&gt;&lt;strong&gt;Zoom / Tilt:&lt;/strong&gt;&lt;br/&gt;Set the mouse pointer in the 3D scene, then:&lt;br/&gt;- if you press both left and right mouse buttons (or the middle button) and drag the mouse vertically, the camera will zoom in or out.&lt;br/&gt;- if you press both left and right mouse buttons (or the middle button) and drag the mouse horizontally, the camera will rotate around the viewing axis (tilt movement).&lt;br/&gt;- if you use the wheel of the mouse, the camera will zoom in or out.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4517,10 +4519,6 @@ As a consequence, some project-related functionalities may not work.</source>
         <translation>Per favore scegli un nome per il tuo controllore.</translation>
     </message>
     <message>
-        <source>Open &apos;%1.sln&apos; in Microsoft Visual Studio (the controller need to be set to &lt;&lt;extern&gt;&gt; to be able to launch the controller from Microsoft Visual Studio.</source>
-        <translation>Apri &apos;%1.sln&apos; in Microsoft Visual Studio (il controllore deve essere impostato come &lt;&lt;extern&gt;&gt; per poter essere lanciato da Microsoft Visual Studio).</translation>
-    </message>
-    <message>
         <source>Please specify a controller name.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4530,6 +4528,10 @@ As a consequence, some project-related functionalities may not work.</source>
     </message>
     <message>
         <source>A controller with this name already exists, please choose a different name.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open &apos;%1.sln&apos; in Microsoft Visual Studio (the controller need to be set to &lt;extern&gt; to be able to launch the controller from Microsoft Visual Studio.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
