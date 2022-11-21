@@ -17,15 +17,10 @@ jobs:
           submodules: true
           fetch-depth: 1
           ref: master
-      - name: Checkout develop
-        uses: actions/checkout@v3
-        with:
-          submodules: true
-          fetch-depth: 1
-          ref: develop
       - name: Check for diff
         id: check-diff
         run: |
+          git checkout origin/develop
           if [ -n "$(git diff develop...master)" ]; then
             echo "Develop needs sync with master!";
             echo "create_pull_request=1" >> $GITHUB_OUTPUT
