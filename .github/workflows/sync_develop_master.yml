@@ -1,8 +1,6 @@
 name: Branch synchronizer
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, labeled, unlabeled]
   schedule:
     - cron:  '0 04 * * *'
 
@@ -10,7 +8,7 @@ jobs:
   sync-master-with-released:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout master
+      - name: Checkout released
         uses: actions/checkout@v3
         with:
           submodules: true
