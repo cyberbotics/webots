@@ -1,14 +1,42 @@
-name: Synchronize Develop with Master
+name: Branch synchronizer
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, labeled, unlabeled]
   schedule:
     - cron:  '0 04 * * *'
 
 jobs:
-  automatic-branches-sync:
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'test sync') }}
+  sync-master-with-released:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 0
+          ref: released
+      - name: Check for diff
+        id: check-diff
+        run: |
+          git fetch origin master
+          git checkout master
+          if [ -n "$(git diff master...released)" ]; then
+            echo "Master needs sync with released!";
+            echo "create_pull_request=1" >> $GITHUB_OUTPUT
+          else
+            echo "Master is already up to date.";
+            echo "create_pull_request=0" >> $GITHUB_OUTPUT
+          fi
+      - name: Create Pull Request if necessary
+        if: ${{ steps.check-diff.outputs.create_pull_request == 1 }}
+        uses: repo-sync/pull-request@v2.6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          source_branch: released
+          destination_branch: master
+          pr_title: Merge released into master
+          pr_body: Synchronizes changes of released branch into master branch.
+          pr_reviewer: Maintainers
+  sync-develop-with-master:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout master
