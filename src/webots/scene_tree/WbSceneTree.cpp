@@ -766,7 +766,9 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
       // PROTO will be regenerated after importing the converted node
       parentField->blockSignals(true);
     // remove previous node
+    mRowsAreAboutToBeRemoved = true;
     WbNodeOperations::instance()->deleteNode(currentNode);
+    mRowsAreAboutToBeRemoved = false;
     if (skipTemplateRegeneration)
       parentField->blockSignals(false);
 
@@ -793,10 +795,13 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     if (WbNodeOperations::instance()->importNode(parentNode, parentField, index, WbNodeOperations::DEFAULT, nodeString) ==
         WbNodeOperations::SUCCESS) {
       WbNode *node = NULL;
-      if (parentField->type() == WB_SF_NODE)
+      if (parentField->type() == WB_SF_NODE) {
         node = static_cast<WbSFNode *>(parentField->value())->value();
-      else if (parentField->type() == WB_MF_NODE)
+        mTreeView->setCurrentIndex(mModel->findModelIndexFromNode(node));
+      } else if (parentField->type() == WB_MF_NODE) {
         node = static_cast<WbMFNode *>(parentField->value())->item(index);
+        mTreeView->setCurrentIndex(mModel->findModelIndexFromNode(node));
+      }
       if (isFollowedNode)
         viewpoint->startFollowUp(dynamic_cast<WbSolid *>(node), true);
     }

@@ -175,7 +175,7 @@ class Node:
     def loadState(self, stateName: str):
         wb.wb_supervisor_node_load_state(self._ref, str.encode(stateName))
 
-    def resetPhysics(self, stateName: str):
+    def resetPhysics(self):
         wb.wb_supervisor_node_reset_physics(self._ref)
 
     def setJointPosition(self, position: float, index: int = 1):

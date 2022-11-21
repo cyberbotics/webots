@@ -219,7 +219,13 @@ bool WbStandardPaths::webotsTmpPathCreate(const int id) {
   cWebotsTmpPath =
     QDir::fromNativeSeparators(WbSysInfo::environmentVariable("LOCALAPPDATA")) + QString("/Temp/webots-%1/").arg(id);
 #elif defined(__APPLE__)
-  cWebotsTmpPath = QString("/var/tmp/webots-%1/").arg(id);
+  const QString TMPDIR = WbSysInfo::environmentVariable("TMPDIR");
+  if (TMPDIR.isEmpty())
+    WbLog::error(QObject::tr("TMPDIR is not set: cannot run Webots."));
+  else if (!QDir(TMPDIR).exists())
+    WbLog::error(QObject::tr("TMPDIR '%1' doesn't exist: cannot run Webots.").arg(TMPDIR));
+  else
+    cWebotsTmpPath = QString("%1/webots-%2/").arg(TMPDIR).arg(id);
 #else  // __linux__
   const QString WEBOTS_TMPDIR = WbSysInfo::environmentVariable("WEBOTS_TMPDIR");
   if (!WEBOTS_TMPDIR.isEmpty() && QDir(WEBOTS_TMPDIR).exists())

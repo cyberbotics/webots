@@ -265,7 +265,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   // write to file (note: can't evaluate directly because the evaluator doesn't support importing of modules)
   QFile outputFile("jsTemplateFilled.js");
   if (!outputFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
-    mError = tr("Couldn't write jsTemplateFilled to disk.");
+    mError = tr("Couldn't write jsTemplateFilled in %1").arg(QDir::currentPath());
     return false;
   }
 

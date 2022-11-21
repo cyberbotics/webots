@@ -525,7 +525,7 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
   }
 }
 
-// Protected funtions available from other files of the client library
+// Protected functions available from other files of the client library
 
 const char *robot_get_device_name(WbDeviceTag tag) {
   if (tag < robot.n_device)

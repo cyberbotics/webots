@@ -27,7 +27,7 @@ namespace wren {
       "inputTextures[0]",  "inputTextures[1]", "inputTextures[2]", "inputTextures[3]", "inputTextures[4]",  "inputTextures[5]",
       "inputTextures[6]",  "inputTextures[7]", "inputTextures[8]", "inputTextures[9]", "inputTextures[10]", "inputTextures[11]",
       "inputTextures[12]", "cubeTextures[0]",  "cubeTextures[1]",  "iterationNumber",  "modelTransform",    "textureTransform",
-      "viewportSize",      "colorPerVertex",   "pointSize",        "channelCount"};
+      "viewportSize",      "colorPerVertex",   "pointSize",        "channelCount",     "gtaoTexture"};
 
     const std::vector<const char *> gUniformBufferNames = {"PhongMaterial",    "PbrMaterial", "Lights", "LightRenderable",
                                                            "CameraTransforms", "Fog",         "Overlay"};
