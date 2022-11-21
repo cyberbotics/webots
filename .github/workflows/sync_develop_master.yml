@@ -1,0 +1,38 @@
+name: master->develop Synchronizer
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+  schedule:
+    - cron:  '0 04 * * *'
+
+jobs:
+  automatic-branches-sync:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test sync') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v3
+        with:
+          submodules: "true"
+          fetch-depth: 0
+          ref: master
+      - name: Check for diff
+        id: check-diff
+        run: |
+          if [ -n "$(git diff develop...master)" ]; then
+            echo "Develop needs sync with master!";
+            echo "create_pull_request=1" >> $GITHUB_OUTPUT
+          else
+            echo "Develop is already up to date.";
+            echo "create_pull_request=0" >> $GITHUB_OUTPUT
+      - name: Create Pull Request if necessary
+        if: ${{ steps.check-diff.outputs.create_pull_request == 1 }}
+        uses: repo-sync/pull-request@v2.6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          source_branch: ${{ env.master }}
+          destination_branch: ${{ env.develop }}
+          pr_title: Merge master into develop
+          pr_body: Synchronizes changes of master branch into develop branch.
+          pr_reviewer: Maintainers
