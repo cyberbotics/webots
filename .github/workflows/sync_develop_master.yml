@@ -36,7 +36,6 @@ jobs:
           pr_title: Merge released into master
           pr_body: Synchronizes changes of released branch into master branch.
           pr_reviewer: Maintainers
-          pr_label: "synchronization"
     outputs:
       pr_opened: ${{ steps.check-diff.outputs.create_pull_request == 1 }}
   sync-develop-with-master:
@@ -71,5 +70,4 @@ jobs:
           pr_title: Merge master into develop
           pr_body: Synchronizes changes of master branch into develop branch.
           pr_reviewer: Maintainers
-          pr_label: "synchronization"
           pr_allow_empty: true
