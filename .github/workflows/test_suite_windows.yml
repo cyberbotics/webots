@@ -61,6 +61,9 @@ jobs:
       with:
          submodules: true
          fetch-depth: 15
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
     - name: Install Visual Studio 10 and OpenJDK 18
       shell: powershell
       run: |
