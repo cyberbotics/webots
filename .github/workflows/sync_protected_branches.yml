@@ -24,10 +24,11 @@ jobs:
           if [ -n "$(git diff master...released)" ]; then
             echo "Master needs sync with released!";
             git checkout released
-            echo "BRANCH_NAME=sync-released-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-            echo ${{ env.BRANCH_NAME }}
-            git checkout -b ${{ env.BRANCH_NAME }}
-            git push origin ${{ env.BRANCH_NAME }}
+            export BRANCH_NAME=sync-released-$(git rev-parse --short HEAD)
+            echo "${BRANCH_NAME}" >> $GITHUB_ENV
+            echo ${BRANCH_NAME}
+            git checkout -b ${BRANCH_NAME}
+            git push origin ${BRANCH_NAME}
             echo "create_pull_request=1" >> $GITHUB_OUTPUT
           else
             echo "Master is already up to date.";
@@ -60,11 +61,11 @@ jobs:
           if [ -n "$(git diff develop...master)" ]; then
             echo "Develop needs sync with master!";
             git checkout master
-            echo 4b0b520a27229fbbaa22a554ae1de55f7971a936
-            echo "BRANCH_NAME=sync-master-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-            echo ${{ env.BRANCH_NAME }}
-            git checkout -b ${{ env.BRANCH_NAME }}
-            git push origin ${{ env.BRANCH_NAME }}
+            export BRANCH_NAME=sync-master-$(git rev-parse --short HEAD)
+            echo "${BRANCH_NAME}" >> $GITHUB_ENV
+            echo ${BRANCH_NAME}
+            git checkout -b ${BRANCH_NAME}
+            git push origin ${BRANCH_NAME}
             echo "create_pull_request=1" >> $GITHUB_OUTPUT
           else
             echo "Develop is already up to date.";
