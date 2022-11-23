@@ -34,7 +34,7 @@ Webots environment variables needed by extern controllers:
 |----------------------------------------------------|---------------------------------------------------------------------------|
 | WEBOTS\_HOME                                       | `C:\Program Files\Webots`                                                 |
 | Path (all controllers except Python)               | add `%WEBOTS_HOME%\lib\controller;%WEBOTS_HOME%\msys64\mingw64\bin`       |
-| Path (for C++ and Java only)                       | add `%WEBOTS_HOME%\msys64\mingw64\bin\cpp`                                |
+| Path (for C++, Java and e-puck robot)              | add `%WEBOTS_HOME%\msys64\mingw64\bin\cpp`                                |
 | PYTHONPATH (for Python)                            | add `${WEBOTS_HOME}\lib\controller\python`                                |
 | PYTHONIOENCODING (for Python)                      | `UTF-8`                                                                   |
 | WEBOTS\_PROJECT (for MATLAB)                       | `C:\Users\MyUsername\my_folder\my_webots_project`                         |
@@ -64,6 +64,10 @@ For example to launch the `Driver` Java controller, type:
 ```bash
 java -classpath $WEBOTS_HOME\lib\controller\java\Controller.jar:$WEBOTS_HOME\projects\languages\java\controllers\Driver\ -Djava.library.path=$WEBOTS_HOME\lib\controller\java Driver
 ```
+
+&nbsp;
+
+**e-puck**: The e-puck robot has a remote-control plugin library which has dependencies on C++ libraries. Thus, when running a extern C or Python controller for an e-puck robot on Windows, you should add the C++ dependencies to your `Path` environment variable as well.
 
 %tab-end
 
