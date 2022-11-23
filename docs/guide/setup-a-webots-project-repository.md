@@ -10,7 +10,7 @@ In order to run a Webots simulation from a source code repository, the repositor
 
 ### Docker Solution
 
-All these dependencies could be bundled into a Docker image constructed from a root Docker image such as [cyberbotics/webots.cloud:R2022b-ubuntu20.04](https://hub.docker.com/layers/cyberbotics/webots.cloud/R2022b-ubuntu20.04/images/sha256-1a645747c8883dfaa667dd4e22567a0237a68ede30cf5bca07b7779611f091f7?context=explore) to which additional dependencies could be added.
+All these dependencies could be bundled into a Docker image constructed from a root Docker image such as [cyberbotics/webots.cloud:R2023a-ubuntu20.04](https://hub.docker.com/layers/cyberbotics/webots.cloud/R2023a-ubuntu20.04/images/sha256-d2dfd82fba27d0aa7f02ac27b1692a4fdb2b642f789618098d4dce70d80d2c3e?context=explore) to which additional dependencies could be added.
 
 #### Running a Simulation
 
@@ -28,7 +28,7 @@ However, it is also possible to directly provide the built binaries in the corre
 
 A typical `Dockerfile` would look something like this:
 ```Dockerfile
-FROM cyberbotics/webots.cloud:R2022b-ubuntu20.04
+FROM cyberbotics/webots.cloud:R2023a-ubuntu20.04
 ARG PROJECT_PATH
 RUN mkdir -p $PROJECT_PATH
 COPY . $PROJECT_PATH
