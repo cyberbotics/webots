@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#rplidar-a2
@@ -19,7 +19,7 @@ PROTO RpLidarA2 [
     children [
       Transform {
         translation 0.000000 0.000000 -0.031000
-        rotation 0.000000 0.000000 1.000000 3.14000000
+        rotation 0.000000 0.000000 1.000000 3.141592
         children [
           Shape {
             appearance MattePaint {
@@ -59,7 +59,7 @@ PROTO RpLidarA2 [
       density -1
       mass 0.2
     }
-    fieldOfView 6.28
+    fieldOfView 6.283184
     horizontalResolution 800
     numberOfLayers 1
     near 0.05
@@ -67,8 +67,7 @@ PROTO RpLidarA2 [
     maxRange 12.000000
     noise 0.000833
     resolution 0.010000
-    # Rotating is bugging the lidar measurements.
-    #type "rotating"
+    # type "rotating"
     rotatingHead Solid{
       translation 0.000000 0.000000 -0.0314
       children [
