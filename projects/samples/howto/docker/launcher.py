@@ -39,7 +39,7 @@ controllers = {
   "MyBot": "controllers/camera/camera"
 }
 port = 1234
-docker_image = 'cyberbotics/webots:R2022b'  # this should correspond to the current version of Webots
+docker_image = 'cyberbotics/webots:R2023a'  # this should correspond to the current version of Webots
 
 subprocess.run(['xhost', '+local:root'])
 with open('simulation/.env', 'w+') as env_file:

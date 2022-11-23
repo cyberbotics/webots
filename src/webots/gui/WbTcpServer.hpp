@@ -109,6 +109,7 @@ private:
   bool mClientsReadyToReceiveMessages;
   bool mDisableTextStreams;
   bool mStream;
+  bool mWorldReady;
   int mPort;
 };
 

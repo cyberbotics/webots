@@ -113,8 +113,6 @@ private:
   bool loadTexture();
   bool loadTextureData(QIODevice *device);
 
-  static QSet<QString> cQualityChangedTexturesList;
-
 private slots:
   void updateUrl();
   void updateRepeatS();

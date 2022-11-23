@@ -75,6 +75,9 @@ int scheduler_init_remote(const char *host, int port, const char *robot_name) {
             robot_name == NULL ? "Exactly one robot should be set with an <extern> controller in the Webots simulation" :
                                  "The specified robot is not in the list of robots with <extern> controllers");
     return false;
+  } else if (strncmp(acknowledge_message, "PROCESSING", 10) == 0) {
+    fprintf(stderr, "%s", "The Webots simulation world is not ready yet");
+    return false;
   } else if (strncmp(acknowledge_message, "FORBIDDEN", 9) == 0) {
     fprintf(
       stderr, "%s",

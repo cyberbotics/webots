@@ -16,6 +16,7 @@ import ctypes
 from .wb import wb
 from .constants import constant
 import struct
+import sys
 import typing
 
 
@@ -155,16 +156,28 @@ class Field:
         self.value = value
 
     def setSFVec2f(self, value: typing.List[float]):
-        self.value = value
+        if len(value) == 2:
+            self.value = value
+        else:
+            print("Error: setSFVec2f(): length of 'value' argument should be 2.", file=sys.stderr)
 
     def setSFVec3f(self, value: typing.List[float]):
-        self.value = value
+        if len(value) == 3:
+            self.value = value
+        else:
+            print("Error: setSFVec3f(): length of 'value' argument should be 3.", file=sys.stderr)
 
     def setSFRotation(self, value: typing.List[float]):
-        self.value = value
+        if len(value) == 4:
+            self.value = value
+        else:
+            print("Error: setSFRotation(): length of 'value' argument should be 4.", file=sys.stderr)
 
     def setSFColor(self, value: typing.List[float]):
-        self.value = value
+        if len(value) == 3:
+            self.value = value
+        else:
+            print("Error: setSFColor(): length of 'value' argument should be 3.", file=sys.stderr)
 
     def setSFString(self, value: str):
         self.value = value
@@ -299,3 +312,5 @@ class Field:
             wb.wb_supervisor_field_set_sf_rotation(self._ref, (ctypes.c_double * 4)(*value))
         elif self.type == Field.SF_COLOR and isinstance(value, list) and len(value) == 3:
             wb.wb_supervisor_field_set_sf_color(self._ref, (ctypes.c_double * 3)(*value))
+        else:
+            print("Error: new field value has wrong type or length.", file=sys.stderr)

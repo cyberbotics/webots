@@ -52,7 +52,7 @@ class Camera(Sensor):
         return self.height
 
     def getImage(self) -> bytes:
-        return self.image
+        return bytes(self.image[:self.width * self.height * 4])
 
     def getImageArray(self) -> List[List[List[int]]]:
         array = []
@@ -117,6 +117,10 @@ class Camera(Sensor):
     @property
     def image(self):
         return wb.wb_camera_get_image(self._tag)
+
+    @property
+    def segmentation_image(self):
+        return wb.wb_camera_recognition_get_segmentation_image(self._tag)
 
     @property
     def exposure(self) -> float:
@@ -249,7 +253,7 @@ class Camera(Sensor):
         return wb.wb_camera_recognition_is_segmentation_enabled(self._tag) != 0
 
     def getRecognitionSegmentationImage(self) -> bytes:
-        return wb.wb_camera_recognition_get_segmentation_image(self._tag)
+        return bytes(self.segmentation_image[:self.width * self.height * 4])
 
     def getRecognitionSegmentationImageArray(self) -> List[List[List[int]]]:
         array = []

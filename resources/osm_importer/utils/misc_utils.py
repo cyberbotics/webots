@@ -19,7 +19,7 @@ import re
 from projection import Projection
 
 
-PREFIX = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022b/'
+PREFIX = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023a/'
 GRASS_TEXTURE = f'{PREFIX}projects/default/worlds/textures/grass.jpg'
 
 
@@ -62,7 +62,7 @@ def extern_proto_declaration(options):
 def print_header(options, file, minlat, minlon, maxlat, maxlon, elevation=None):
     """Print the 'WorldInfo', 'Viewpoint', 'TexturedBackground', 'TexturedBackgroundLight' and 'Floor' nodes."""
     xSize, zSize = get_world_size(minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon)
-    file.write("#VRML_SIM R2022b utf8\n")
+    file.write("#VRML_SIM R2023a utf8\n")
     file.write(extern_proto_declaration(options))
     file.write("WorldInfo {\n")
     file.write("  info [\n")
