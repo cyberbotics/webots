@@ -1,8 +1,6 @@
 name: Branch synchronizer
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, labeled, unlabeled]
   schedule:
     - cron:  '0 04 * * *'
 
