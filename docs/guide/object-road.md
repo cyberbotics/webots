@@ -840,7 +840,7 @@ RoadIntersection {
          MFFloat              startRoadsLength               [5]
          SFInt32              startRoadsNumberOfLanes        2
          MFString             startRoadsStartLine            [ "textures/road_line_dashed.png",
-                                                                     "textures/road_line_triangle.png" ]
+                                                               "textures/road_line_triangle.png" ]
          MFString             startRoadsEndLine              []
          MFNode               startRoadsLine                 [ RoadLine { } ]
          SFBool               startRoadBorder                TRUE
@@ -1028,7 +1028,7 @@ Roundabout {
          SFFloat              startRoadsWidth          7
          SFInt32              startRoadsNumberOfLanes  2
          MFString             startRoadsStartLine      [ "textures/road_line_dashed.png",
-                                                               "textures/road_line_triangle.png" ]
+                                                         "textures/road_line_triangle.png" ]
          MFString             startRoadsEndLine        []
          MFNode               startRoadsLine           [ RoadLine { } ]
          SFBool               roadBoundingObject       FALSE
@@ -1220,4 +1220,3 @@ StraightRoadSegment {
 - `leftBarrierBoundingObject`: Defines whether the left crash barrier (if any) should have a bounding object.
 
 - `castShadows`: Defines whether the road should cast shadows.
-
