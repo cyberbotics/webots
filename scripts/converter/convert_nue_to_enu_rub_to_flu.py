@@ -1,4 +1,4 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -79,7 +79,7 @@ geometry IndexedFaceSet {
 
 **Conversion process**
     Here is a list of the conversion process that the script performs automatically:
-        - replace `R2021b` by `R2023a`
+        - replace `R2021b` by `R2023b`
         - remove the `coordinateSystem ENU` line
         - convert the position of the viewpoint: [Px, Py, Pz] --> [-Pz, -Px, Py]
         - convert the vector of the keyword 'translation', 'axis', 'anchor',
@@ -258,10 +258,10 @@ def convert_nue_to_enu_world(filename, mode='all', objects_pi=[], objects_pi_2=[
             else:
                 miss_rotation = False
 
-            if 'R2023a' in line:
-                warning_verbose += 'The version of the file was already R2023a. '
+            if 'R2023b' in line:
+                warning_verbose += 'The version of the file was already R2023b. '
             elif '#VRML_SIM' in line:
-                line = '#VRML_SIM R2023a utf8 \r\n'
+                line = '#VRML_SIM R2023b utf8 \r\n'
             if type in ['coordinateSystem']:  # remove the 'coordinateSystem ENU'
                 vector = None
             elif type in ['position'] and len(vector) == 3:

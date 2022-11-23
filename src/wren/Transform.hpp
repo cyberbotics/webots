@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef TRANSFROM_HPP
-#define TRANSFROM_HPP
+#ifndef TRANSFORM_HPP
+#define TRANSFORM_HPP
 
 #include <vector>
 
@@ -84,4 +84,4 @@ namespace wren {
 
 }  // namespace wren
 
-#endif  // TRANSFROM_HPP
+#endif  // TRANSFORM_HPP

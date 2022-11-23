@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,7 +29,8 @@ class WbProtoIcon : public QObject {
   Q_OBJECT
 
 public:
-  explicit WbProtoIcon(const QString &modelName, const QString &protoPath, QObject *parent = NULL);
+  explicit WbProtoIcon(const QString &modelName, const QString &protoPath,
+                       QObject *parent = NULL);
 
   const QString &path() const { return mPath; }
   bool isReady() const { return mReady; }

@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -64,6 +64,12 @@ const QStringList WbLanguageTools::javaArguments() {
 
 QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &command, QProcessEnvironment &env) {
   QString pythonCommand = command;
+  if (pythonCommand.isEmpty())
+#ifdef _WIN32
+    pythonCommand = "python";
+#else
+    pythonCommand = "python3";
+#endif
   const QString advice =
 #ifdef __APPLE__
     "To fix the problem, you should set the full path of your python command in "
@@ -124,7 +130,7 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
   if (pythonCommand == "!")
     WbLog::warning(QObject::tr("Python was not found.\n") + advice);
 #else  // __linux__
-    shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
+      shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
   if (shortVersion.isEmpty()) {
     pythonCommand = "!";
     WbLog::warning(QObject::tr("Python was not found.\n") + advice);
