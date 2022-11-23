@@ -4173,7 +4173,7 @@ typedef struct {
 %tab "C++"
 
 ```cpp
-#include <webots/Camera.hpp>
+#include <webots/Node.hpp>
 
 namespace webots {
   typedef struct {
@@ -4188,7 +4188,7 @@ namespace webots {
 %tab "Python"
 
 ```python
-from controller import ContactPoint
+from controller import Node
 
 ContactPoint:
     def __init__(self):
