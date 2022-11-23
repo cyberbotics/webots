@@ -1346,7 +1346,7 @@ namespace webots {
 %tab "Python"
 
 ```python
-from controller import CameraRecognitionObject
+from controller import Camera
 
 class CameraRecognitionObject:
     def getId(self):
