@@ -25,7 +25,7 @@ jobs:
             echo "Master needs sync with released!";
             git checkout released
             export BRANCH_NAME=sync-released-$(git rev-parse --short HEAD)
-            echo "${BRANCH_NAME}" >> $GITHUB_ENV
+            echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
             echo ${BRANCH_NAME}
             git checkout -b ${BRANCH_NAME}
             git push origin ${BRANCH_NAME}
@@ -62,7 +62,7 @@ jobs:
             echo "Develop needs sync with master!";
             git checkout master
             export BRANCH_NAME=sync-master-$(git rev-parse --short HEAD)
-            echo "${BRANCH_NAME}" >> $GITHUB_ENV
+            echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
             echo ${BRANCH_NAME}
             git checkout -b ${BRANCH_NAME}
             git push origin ${BRANCH_NAME}
