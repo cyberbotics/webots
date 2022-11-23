@@ -26,7 +26,6 @@ jobs:
             git checkout released
             export BRANCH_NAME=sync-released-$(git rev-parse --short HEAD)
             echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
-            echo ${BRANCH_NAME}
             git checkout -b ${BRANCH_NAME}
             git push origin ${BRANCH_NAME}
             echo "create_pull_request=1" >> $GITHUB_OUTPUT
@@ -63,7 +62,6 @@ jobs:
             git checkout master
             export BRANCH_NAME=sync-master-$(git rev-parse --short HEAD)
             echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
-            echo ${BRANCH_NAME}
             git checkout -b ${BRANCH_NAME}
             git push origin ${BRANCH_NAME}
             echo "create_pull_request=1" >> $GITHUB_OUTPUT
