@@ -25,6 +25,7 @@ jobs:
             echo "Master needs sync with released!";
             git checkout released
             echo "BRANCH_NAME=sync-released-$(git log -1 --pretty=format:"%H")" >> $GITHUB_ENV
+            echo ${{ env.BRANCH_NAME }}
             git checkout -b ${{ env.BRANCH_NAME }}
             git push origin ${{ env.BRANCH_NAME }}
             echo "create_pull_request=1" >> $GITHUB_OUTPUT
