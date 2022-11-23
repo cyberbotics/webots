@@ -24,3 +24,6 @@ elif sys.platform == 'darwin':
     path = os.path.join('Contents', 'lib', 'controller', 'libController.dylib')
 
 wb = ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], path))
+
+if sys.platform == 'win32':
+    ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], 'lib', 'controller', 'generic_robot_window.dll'))
