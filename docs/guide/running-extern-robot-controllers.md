@@ -34,8 +34,8 @@ Webots environment variables needed by extern controllers:
 |----------------------------------------------------|---------------------------------------------------------------------------|
 | WEBOTS\_HOME                                       | `C:\Program Files\Webots`                                                 |
 | Path (all controllers)                             | add `%WEBOTS_HOME%\lib\controller`                                        |
-| Path (all controllers except Python >= 3.8)        | add `%WEBOTS_HOME%\msys64\mingw64\bin`                                    |
-| Path (for C++, Python < 3.8, and Java controllers) | add `%WEBOTS_HOME%\msys64\mingw64\bin\cpp`                                |
+| Path (all controllers except Python)               | add `%WEBOTS_HOME%\msys64\mingw64\bin`                                    |
+| Path (for C++ and Java)                            | add `%WEBOTS_HOME%\msys64\mingw64\bin\cpp`                                |
 | PYTHONPATH (for Python)                            | add `${WEBOTS_HOME}\lib\controller\python`                                |
 | PYTHONIOENCODING (for Python)                      | `UTF-8`                                                                   |
 | WEBOTS\_PROJECT (for MATLAB)                       | `C:\Users\MyUsername\my_folder\my_webots_project`                         |
