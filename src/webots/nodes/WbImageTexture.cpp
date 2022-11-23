@@ -48,7 +48,6 @@
 
 #include <utility>
 
-QSet<QString> WbImageTexture::cQualityChangedTexturesList;
 static QMap<QString, std::pair<const QImage *, int>> gImagesMap;
 
 void WbImageTexture::init() {
@@ -219,14 +218,6 @@ bool WbImageTexture::loadTextureData(QIODevice *device) {
     Qt::TransformationMode mode = (quality % 2) ? Qt::SmoothTransformation : Qt::FastTransformation;
     QImage tmp = mImage->scaled(w, h, Qt::KeepAspectRatio, mode);
     mImage->swap(tmp);
-
-    if (WbWorld::isX3DStreaming()) {
-      const QString &tmpFileName = WbStandardPaths::webotsTmpPath() + QFileInfo(path()).fileName();
-      if (mImage->save(tmpFileName))
-        cQualityChangedTexturesList.insert(path());
-      else
-        warn(tr("Cannot save texture with reduced quality to temporary file '%1'.").arg(tmpFileName));
-    }
   }
 
   return true;
@@ -549,12 +540,8 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
     else {
       if (writer.isWritingToFile())
         urlFieldValue->setItem(i, WbUrl::exportTexture(this, mUrl, i, writer));
-      else {
-        if (cQualityChangedTexturesList.contains(completeUrl))
-          completeUrl = WbStandardPaths::webotsTmpPath() + QFileInfo(mUrl->item(i)).fileName();
-
+      else
         urlFieldValue->setItem(i, WbUrl::expressRelativeToWorld(completeUrl));
-      }
     }
   }
 
