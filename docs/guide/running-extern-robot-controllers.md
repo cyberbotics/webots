@@ -30,16 +30,16 @@ Webots environment variables needed by extern controllers:
 %tab-component "os"
 
 %tab "Windows"
-| Environment Variable                               | Typical Value                                                             |
-|----------------------------------------------------|---------------------------------------------------------------------------|
-| WEBOTS\_HOME                                       | `C:\Program Files\Webots`                                                 |
-| Path (all controllers except Python)               | add `%WEBOTS_HOME%\lib\controller;%WEBOTS_HOME%\msys64\mingw64\bin`       |
-| Path (for C++, Java and e-puck robot)              | add `%WEBOTS_HOME%\msys64\mingw64\bin\cpp`                                |
-| PYTHONPATH (for Python)                            | add `${WEBOTS_HOME}\lib\controller\python`                                |
-| PYTHONIOENCODING (for Python)                      | `UTF-8`                                                                   |
-| WEBOTS\_PROJECT (for MATLAB)                       | `C:\Users\MyUsername\my_folder\my_webots_project`                         |
-| WEBOTS\_CONTROLLER\_NAME (for MATLAB)              | `my_robot_controller`                                                     |
-| WEBOTS\_VERSION (for MATLAB)                       | `{{ webots.version.full }}`                                               |
+| Environment Variable                  | Typical Value                                                       |
+|---------------------------------------|---------------------------------------------------------------------|
+| WEBOTS\_HOME                          | `C:\Program Files\Webots`                                           |
+| Path (all controllers except Python)  | add `%WEBOTS_HOME%\lib\controller;%WEBOTS_HOME%\msys64\mingw64\bin` |
+| Path (for C++, Java and e-puck robot) | add `%WEBOTS_HOME%\msys64\mingw64\bin\cpp`                          |
+| PYTHONPATH (for Python)               | add `${WEBOTS_HOME}\lib\controller\python`                          |
+| PYTHONIOENCODING (for Python)         | `UTF-8`                                                             |
+| WEBOTS\_PROJECT (for MATLAB)          | `C:\Users\MyUsername\my_folder\my_webots_project`                   |
+| WEBOTS\_CONTROLLER\_NAME (for MATLAB) | `my_robot_controller`                                               |
+| WEBOTS\_VERSION (for MATLAB)          | `{{ webots.version.full }}`                                         |
 
 &nbsp;
 
