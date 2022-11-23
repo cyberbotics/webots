@@ -1,6 +1,8 @@
 name: Branch synchronizer
 
 on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
   schedule:
     - cron:  '0 04 * * *'
 
@@ -21,6 +23,10 @@ jobs:
           git checkout master
           if [ -n "$(git diff master...released)" ]; then
             echo "Master needs sync with released!";
+            git checkout released
+            echo "BRANCH_NAME=sync-released-$(git log -1 --pretty=format:"%H")" >> $GITHUB_ENV
+            git checkout -b ${{ env.BRANCH_NAME }}
+            git push origin ${{ env.BRANCH_NAME }}
             echo "create_pull_request=1" >> $GITHUB_OUTPUT
           else
             echo "Master is already up to date.";
@@ -31,16 +37,13 @@ jobs:
         uses: repo-sync/pull-request@v2.6.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          source_branch: released
+          source_branch: ${{ env.BRANCH_NAME }}
           destination_branch: master
           pr_title: Merge released into master
           pr_body: Synchronizes changes of released branch into master branch.
           pr_reviewer: Maintainers
-    outputs:
-      pr_opened: ${{ steps.check-diff.outputs.create_pull_request == 1 }}
   sync-develop-with-master:
     runs-on: ubuntu-latest
-    needs: sync-master-with-released
     steps:
       - name: Checkout master
         uses: actions/checkout@v3
@@ -55,19 +58,22 @@ jobs:
           git checkout develop
           if [ -n "$(git diff develop...master)" ]; then
             echo "Develop needs sync with master!";
+            git checkout master
+            echo "BRANCH_NAME=sync-master-$(git log -1 --pretty=format:"%H")" >> $GITHUB_ENV
+            git checkout -b ${{ env.BRANCH_NAME }}
+            git push origin ${{ env.BRANCH_NAME }}
             echo "create_pull_request=1" >> $GITHUB_OUTPUT
           else
             echo "Develop is already up to date.";
             echo "create_pull_request=0" >> $GITHUB_OUTPUT
           fi
       - name: Create Pull Request if necessary
-        if: ${{ steps.check-diff.outputs.create_pull_request == 1 }} || ${{ needs.sync-master-with-released.outputs.pr_opened == 1 }}
+        if: ${{ steps.check-diff.outputs.create_pull_request == 1 }}
         uses: repo-sync/pull-request@v2.6.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          source_branch: master
+          source_branch: ${{ env.BRANCH_NAME }}
           destination_branch: develop
           pr_title: Merge master into develop
           pr_body: Synchronizes changes of master branch into develop branch.
           pr_reviewer: Maintainers
-          pr_allow_empty: true
