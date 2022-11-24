@@ -1,7 +1,7 @@
 # Webots R2023 Change Log
 
 ## Webots R2023a
-Released on December, 12th, 2022.
+Released on November, 25th, 2022.
   - New Features
     - Added support for any current and upcoming version of Python for robot controllers ([#5297](https://github.com/cyberbotics/webots/pull/5297)).
     - **Added new `projection` field to [Camera](camera.md), [RangeFinder](rangefinder.md), and [Lidar](lidar.md) nodes. This field replaces the deprecated `spherical` field ([#5266](https://github.com/cyberbotics/webots/pull/5266)).**
