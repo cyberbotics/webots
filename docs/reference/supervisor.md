@@ -4173,7 +4173,7 @@ typedef struct {
 %tab "C++"
 
 ```cpp
-#include <webots/Camera.hpp>
+#include <webots/Node.hpp>
 
 namespace webots {
   typedef struct {
