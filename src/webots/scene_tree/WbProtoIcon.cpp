@@ -24,25 +24,23 @@
 #include <QtCore/QDir>
 #include <QtCore/QUrl>
 
-WbProtoIcon::WbProtoIcon(const QString &modelName, const QString &protoPath, QObject *parent): QObject(parent),
-      mPath(QString("%1icons/%2.png")
-                .arg(QUrl(protoPath).adjusted(QUrl::RemoveFilename).toString())
-                .arg(modelName)),
-      mModelName(modelName), mDownloader(NULL), mReady(true) {
+WbProtoIcon::WbProtoIcon(const QString &modelName, const QString &protoPath, QObject *parent) :
+  QObject(parent),
+  mPath(QString("%1icons/%2.png").arg(QUrl(protoPath).adjusted(QUrl::RemoveFilename).toString()).arg(modelName)),
+  mModelName(modelName),
+  mDownloader(NULL),
+  mReady(true) {
   if (WbUrl::isWeb(mPath)) {
     if (WbNetwork::instance()->isCachedWithMapUpdate(mPath))
       mPath = WbNetwork::instance()->get(mPath);
     else {
       mReady = false;
-      mDownloader =
-          WbDownloadManager::instance()->createDownloader(QUrl(mPath), this);
-      connect(mDownloader, &WbDownloader::complete, this,
-              &WbProtoIcon::updateIcon);
+      mDownloader = WbDownloadManager::instance()->createDownloader(QUrl(mPath), this);
+      connect(mDownloader, &WbDownloader::complete, this, &WbProtoIcon::updateIcon);
       mDownloader->download();
     }
   } else if (WbUrl::isLocalUrl(mPath))
-    mPath = QDir::cleanPath(
-        mPath.replace("webots://", WbStandardPaths::webotsHomePath()));
+    mPath = QDir::cleanPath(mPath.replace("webots://", WbStandardPaths::webotsHomePath()));
 }
 
 void WbProtoIcon::updateIcon() {
@@ -63,7 +61,5 @@ void WbProtoIcon::duplicate(QDir destinationDir) {
     return;
 
   if (destinationDir.exists("icons") || destinationDir.mkdir("icons"))
-    WbFileUtil::forceCopy(mPath, QString("%1/icons/%2.png")
-                                     .arg(destinationDir.absolutePath())
-                                     .arg(mModelName));
+    WbFileUtil::forceCopy(mPath, QString("%1/icons/%2.png").arg(destinationDir.absolutePath()).arg(mModelName));
 }
