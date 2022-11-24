@@ -67,7 +67,7 @@ java -classpath $WEBOTS_HOME\lib\controller\java\Controller.jar:$WEBOTS_HOME\pro
 
 &nbsp;
 
-**e-puck**: The e-puck robot has a remote-control plugin library which has dependencies on C++ libraries. Thus, when running a extern C or Python controller for an e-puck robot on Windows, you should add the C++ dependencies to your `Path` environment variable as well.
+**e-puck**: The e-puck robot has a remote-control plugin library which has dependencies on C++ libraries. Thus, when running a extern C or Python controller for an e-puck robot on Windows, you should add the C++ dependencies to your `Path` environment variable as shown in the table above.
 
 %tab-end
 
