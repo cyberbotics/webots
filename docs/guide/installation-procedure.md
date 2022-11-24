@@ -141,7 +141,7 @@ However, the sand-boxing constraints of snaps yield the following limitations:
 ##### Download Size
 
 The download is significantly bigger as it includes all the dependencies of Webots (ffmpeg, Python, C++ and Java compilers, etc.).
-For Webots R2022b, the download size of the snap is 766MB compared to 201MB of the Debian package.
+For Webots R2023a, the download size of the snap is 775MB compared to 183MB of the Debian package.
 
 ##### Extern Controllers
 
