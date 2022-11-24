@@ -57,6 +57,9 @@ jobs:
          submodules: true
          fetch-depth: 15
          ref: develop
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
     - name: Install Visual Studio 10 and OpenJDK 18
       shell: powershell
       run: |
@@ -64,7 +67,7 @@ jobs:
         choco install -y visualcpp-build-tools
     - name: Install Webots Compilation Dependencies
       run: |
-        export PYTHON_HOME=/C/hostedtoolcache/windows/Python/3.10.`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.10\.[0-9]\+$' | cut -c6- | sort -n | tail -n1`/x64
+        export PYTHON_HOME=/C/hostedtoolcache/windows/Python/3.11.`ls $PYTHON_INSTALLATION_FOLDER | grep '^3\.11\.[0-9]\+$' | cut -c6- | sort -n | tail -n1`/x64
         echo 'export JAVA_HOME=/C/Program\ Files/OpenJDK/`ls /C/Program\ Files/OpenJDK`' >> ~/.bash_profile
         echo 'export PYTHON_HOME='$PYTHON_HOME >> ~/.bash_profile
         echo 'export VISUAL_STUDIO_PATH="/C/Program Files (x86)/Microsoft Visual Studio/2017"' >> ~/.bash_profile
@@ -91,6 +94,7 @@ jobs:
     - name: Create/Update GitHub release
       if: ${{ (github.event_name == 'push' || github.event_name == 'schedule') }}
       run: |
+        export PATH=/c/hostedtoolcache/windows/Python/3.11.0/x64:$PATH
         python -m pip install requests PyGithub
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=$(git log -1 --format='%H') --tag=${{ github.ref }}
     - uses: actions/upload-artifact@v2

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -137,7 +137,7 @@ for file, path in local_files.items():
 
     # update proto header
     contents = contents[n:]  # remove old header
-    header[0] = '#VRML_SIM R2023a utf8\n'
+    header[0] = '#VRML_SIM R2023b utf8\n'
     contents = header + contents
 
     # write to file
