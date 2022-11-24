@@ -711,16 +711,6 @@ This can be caused by duplicate vertices in your mesh. Try to open your model in
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Webots requires Python version 3.10, 3.9, 3.8 or 3.7 from python.org in your current PATH.
-To fix the problem, you should:
-1. Check the Python command set in the Webots preferences.
-2. Check the COMMAND set in the [python] section of the runtime.ini file of your controller program if any.
-3. Fix your PATH environment variable to use the required Python 64 bit version (if available).
-4. Install the required Python 64 bit version and ensure your PATH environment variable points to it.
-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Python was not found.
 </source>
         <translation type="unfinished"></translation>
@@ -817,6 +807,23 @@ To fix the problem, you should:
         <source>&apos;%1&apos;: This file was created with Webots %2 while you are using Webots %3. You may need to adjust urls for textures and meshes, see details in the change log of Webots R2021b.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Webots requires Python version 3.7 or newer in your current PATH.
+To fix the problem, you should:
+1. Check the Python command set in the Webots preferences.
+2. Check the COMMAND set in the [python] section of the runtime.ini file of your controller program if any.
+3. Install a recent Python 64 bit version and ensure your PATH environment variable points to it.
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TMPDIR is not set: cannot run Webots.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TMPDIR &apos;%1&apos; doesn&apos;t exist: cannot run Webots.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>T</name>
@@ -835,11 +842,15 @@ To fix the problem, you should:
 <context>
     <name>WbAbstractCamera</name>
     <message>
-        <source>Invalid &apos;fieldOfView&apos; changed to 0.7854. The field of view is limited to pi if the &apos;spherical&apos; field is FALSE.</source>
+        <source>Cannot allocate memory mapped file for camera image.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cannot allocate memory mapped file for camera image.</source>
+        <source>Invalid &apos;fieldOfView&apos; changed to 0.7854. The field of view is limited to pi if the &apos;projection&apos; field is &quot;planar&quot;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown &apos;projection&apos; value &quot;%1&quot;: field value reset to &quot;planar&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1782,7 +1793,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Insert the identity matrix 
+        <source>Insert the identity matrix
  [ 1 1 1, 0 0 0]</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1924,7 +1935,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Error: No animation content is available because the simulation did not start.</source>
+        <source>Error: No animation content is available because no changes occurred in the simulation. If you just want a 3D environment file, consider exporting a scene instead.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2159,6 +2170,10 @@ You don&apos;t have write access to the &apos;Program Files&apos; folder. Webots
         <source>Mesh &apos;%1&apos; has more than 100&apos;000 vertices, it is recommended to reduce the number of vertices.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Mesh &apos;%1&apos; created but it is fully transparent.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbCamera</name>
@@ -2222,7 +2237,7 @@ Color %1: %2 %3 %4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Lens flare cannot be applied to spherical cameras.</source>
+        <source>Lens flare can only be applied to planar cameras.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2430,11 +2445,6 @@ Color %1: %2 %3 %4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&apos;%1&apos;
-The path to this Webots project contains non 8-bit characters. Webots won&apos;t be able to execute any Java controller in this path. Please move this Webots project into a folder with only 8-bit characters.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Unable to find the &apos;%1&apos; executable in the current PATH. Please check your %1 installation. It should be possible to launch %1 from a terminal by typing &apos;%1&apos;. It may be necessary to add the %1 bin directory to your PATH environment variable. More information about the %1 installation is available in Webots&apos; User guide.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2613,10 +2623,6 @@ Please close any running instances of the controller and reload the world.</sour
 </context>
 <context>
     <name>WbDownloader</name>
-    <message>
-        <source>Downloading assets</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Cannot download &apos;%1&apos;, error code: %2: %3</source>
         <translation type="unfinished"></translation>
@@ -3787,10 +3793,6 @@ The following file formats are supported:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;strong&gt;Force:&lt;/strong&gt;&lt;br/&gt; Place the mouse pointer where the force will apply and hold down the Alt key, the Control key (Ctrl) and the left mouse button together while dragging the mouse.&lt;br/&gt;&lt;br/&gt; &lt;strong&gt;Torque:&lt;/strong&gt;&lt;br/&gt;Place the mouse pointer on the object and hold down the Alt key, the Control key (Ctrl) and the right mouse button together while dragging the mouse.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&lt;strong&gt;Force:&lt;/strong&gt;&lt;br/&gt; Place the mouse pointer where the force will apply and hold down the Alt key and the left mouse button together while dragging the mouse.&lt;br/&gt;&lt;br/&gt; &lt;strong&gt;Torque:&lt;/strong&gt;&lt;br/&gt;Place the mouse pointer on the object and hold down the Alt key and the right mouse button together while dragging the mouse.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4152,11 +4154,6 @@ The following file formats are supported:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;strong&gt;Rotate:&lt;/strong&gt;&lt;br/&gt;To rotate the camera around the x and y axis, you have to set the mouse pointer in the 3D scene, press the left mouse button and drag the mouse:&lt;br/&gt;- if you clicked on an object, the rotation will be centered around the picked point on this object.&lt;br/&gt;- if you clicked outside of any object, the rotation will be centered around the position of the camera.&lt;br/&gt;Dragging the mouse horizontally will rotate the camera around the world up axis. Dragging the mouse vertically will rotate the camera around its horizontal axis.&lt;br/&gt;&lt;br/&gt;&lt;strong&gt;Translate:&lt;/strong&gt;&lt;br/&gt;To translate the camera in the x and y directions, you have to set the mouse pointer in the 3D scene, press the right mouse button and drag the mouse.&lt;br/&gt;&lt;br/&gt;&lt;strong&gt;Zoom / Tilt:&lt;/strong&gt;&lt;br/&gt;Set the mouse pointer in the 3D scene, then:
-- if you press both left and right mouse buttons (or the middle button) and drag the mouse vertically, the camera will zoom in or out.&lt;br/&gt;- if you press both left and right mouse buttons (or the middle button) and drag the mouse horizontally, the camera will rotate around the viewing axis (tilt movement).&lt;br/&gt;- if you use the wheel of the mouse, the camera will zoom in or out.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Controller &lt;none&gt; cannot be modified.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4232,6 +4229,24 @@ The following file formats are supported:
         <source>Share your simulation...</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The selected directory for saving the world file is not named &quot;worlds&quot;.
+Thus it is not located in a valid Webots project.
+As a consequence, some project-related functionalities may not work.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save Anyway</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;strong&gt;Force:&lt;/strong&gt;&lt;br/&gt; Place the mouse pointer where the force will apply and hold down the Alt key and the left mouse button together while dragging the mouse. In some window managers it might be necessary to also hold the Control (ctrl) key together with the Alt key.&lt;br/&gt;&lt;br/&gt; &lt;strong&gt;Torque:&lt;/strong&gt;&lt;br/&gt;Place the mouse pointer on the object and hold down the Alt key and the right mouse button together while dragging the mouse. In some window managers it might be necessary to also hold the Control (ctrl) key together with the Alt key.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;strong&gt;Rotate:&lt;/strong&gt;&lt;br/&gt;To rotate the camera around the x and y axis, you have to set the mouse pointer in the 3D scene, press the left mouse button and drag the mouse:&lt;br/&gt;- if you clicked on an object, the rotation will be centered around the picked point on this object.&lt;br/&gt;- if you clicked outside of any object, the rotation will be centered around the position of the camera.&lt;br/&gt;Dragging the mouse horizontally will rotate the camera around the world up axis. Dragging the mouse vertically will rotate the camera around its horizontal axis.&lt;br/&gt;&lt;br/&gt;&lt;strong&gt;Translate:&lt;/strong&gt;&lt;br/&gt;To translate the camera in the x and y directions, you have to set the mouse pointer in the 3D scene, press the right mouse button and drag the mouse.&lt;br/&gt;&lt;br/&gt;&lt;strong&gt;Zoom / Tilt:&lt;/strong&gt;&lt;br/&gt;Set the mouse pointer in the 3D scene, then:&lt;br/&gt;- if you press both left and right mouse buttons (or the middle button) and drag the mouse vertically, the camera will zoom in or out.&lt;br/&gt;- if you press both left and right mouse buttons (or the middle button) and drag the mouse horizontally, the camera will rotate around the viewing axis (tilt movement).&lt;br/&gt;- if you use the wheel of the mouse, the camera will zoom in or out.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>WbMatter</name>
@@ -4284,6 +4299,10 @@ The following file formats are supported:
     </message>
     <message>
         <source>Geometry with color index &quot;%1&quot; doesn&apos;t exist in the mesh.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mesh &apos;%1&apos; has more than 100&apos;000 vertices, it is recommended to reduce the number of vertices.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4486,10 +4505,6 @@ The following file formats are supported:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Open &apos;%1.sln&apos; in Microsoft Visual Studio (the controller need to be set to &lt;&lt;extern&gt;&gt; to be able to launch the controller from Microsoft Visual Studio.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Please specify a controller name.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4499,6 +4514,10 @@ The following file formats are supported:
     </message>
     <message>
         <source>A controller with this name already exists, please choose a different name.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open &apos;%1.sln&apos; in Microsoft Visual Studio (the controller need to be set to &lt;extern&gt; to be able to launch the controller from Microsoft Visual Studio.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4818,10 +4837,6 @@ a larger node.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Invalid world name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>World settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4863,6 +4878,10 @@ a larger node.</source>
     </message>
     <message>
         <source>The following file will be created:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please specify a world name and not a path.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4962,7 +4981,7 @@ Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This DEF string is already used by subsequent USE and DEF nodes. Applying this change will modify all the USE nodes referring to previous node with same DEF name and USE nodes referring to the selected node. 
+        <source>This DEF string is already used by subsequent USE and DEF nodes. Applying this change will modify all the USE nodes referring to previous node with same DEF name and USE nodes referring to the selected node.
 Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5652,7 +5671,7 @@ screenshot of the world in .jpg format when the it is saved, shared or exported.
 <context>
     <name>WbProtoManager</name>
     <message>
-        <source>Please adapt your project to R2022b following these instructions: https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b</source>
+        <source>Please adapt your project to R2023a following these instructions: https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5864,22 +5883,6 @@ screenshot of the world in .jpg format when the it is saved, shared or exported.
     <message>
         <source>Invalid &apos;height&apos;: changed to 1.</source>
         <translation>&apos;Altura&apos; inválida: cambiada a 1.</translation>
-    </message>
-    <message>
-        <source>&apos;windowPosition&apos; is deprecated.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The position of the overlay will be automatically stored after moving it from the 3D view.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&apos;pixelSize&apos; is deprecated.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The size of the overlay will be automatically stored after resizing it from the 3D view.</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>&apos;width&apos; has been modified. This modification will be taken into account after saving and reloading the world.</source>
@@ -6820,15 +6823,15 @@ Please save the current world to get rid of this message.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Couldn&apos;t write jsTemplateFilled to disk.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>failed to import JavaScript template: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>failed to execute JavaScript template: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Couldn&apos;t write jsTemplateFilled in %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6982,14 +6985,6 @@ Do you want to save it before closing?</source>
 <context>
     <name>WbUpdatedDialog</name>
     <message>
-        <source>Welcome to Webots R2022b</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Thank you for using Webots R2022b.&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Important Note for Users of Versions Lower than R2022a</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6998,12 +6993,20 @@ Do you want to save it before closing?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Find out the new features, enhancements and bug fixes of Webots R2022b in the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/reference/changelog-r2022&apos;&gt;changelog&lt;/a&gt;.</source>
+        <source>Close</source>
+        <translation type="unfinished">Cerrar</translation>
+    </message>
+    <message>
+        <source>Welcome to Webots R2023b</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Close</source>
-        <translation type="unfinished">Cerrar</translation>
+        <source>&lt;b&gt;Thank you for using Webots R2023b.&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find out the new features, enhancements and bug fixes of Webots R2023b in the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/reference/changelog-r2023&apos;&gt;changelog&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7364,10 +7367,6 @@ Do you want to play it back?
 <context>
     <name>WbWrenCamera</name>
     <message>
-        <source>Noise mask can only be applied to RGB non-spherical cameras</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Invalid URL &apos;%1&apos;. The noise mask must be in &apos;.jpeg&apos;, &apos;.jpg&apos; or &apos;.png&apos; format.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7377,6 +7376,10 @@ Do you want to play it back?
     </message>
     <message>
         <source>Cannot load &apos;%1&apos;: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Noise mask can only be applied to RGB planar cameras</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

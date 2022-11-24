@@ -1,4 +1,4 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,9 +13,9 @@
 # limitations under the License.
 
 import ctypes
-from controller.wb import wb
-from controller.constants import constant
-from controller import Field
+from .wb import wb
+from .constants import constant
+from .field import Field
 import struct
 import typing
 
@@ -175,7 +175,7 @@ class Node:
     def loadState(self, stateName: str):
         wb.wb_supervisor_node_load_state(self._ref, str.encode(stateName))
 
-    def resetPhysics(self, stateName: str):
+    def resetPhysics(self):
         wb.wb_supervisor_node_reset_physics(self._ref)
 
     def setJointPosition(self, position: float, index: int = 1):

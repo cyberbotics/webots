@@ -1,4 +1,4 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@
 
 LIBRARIES=robotis/darwin-op/libraries.Makefile \
 	neuronics/ipr/libraries.Makefile \
-	mobsya/thymio/libraries.Makefile \
 	kuka/youbot/libraries.Makefile
 
 CONTROLLERS=\
@@ -95,8 +94,6 @@ release debug profile clean: $(TARGETS)
 robotis/darwin-op/controllers.Makefile robotis/darwin-op/plugins/robot_windows.Makefile: robotis/darwin-op/libraries.Makefile
 
 neuronics/ipr/controllers.Makefile: neuronics/ipr/libraries.Makefile
-
-mobsya/thymio/controllers.Makefile: mobsya/thymio/libraries.Makefile
 
 kuka/youbot/controllers.Makefile: kuka/youbot/libraries.Makefile
 

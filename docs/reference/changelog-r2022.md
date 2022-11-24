@@ -1,26 +1,5 @@
 # Webots R2022 Change Log
 
-## Webots R2022b Revision 1
-  - Bug Fixes
-    - Fixed controller restart after crash ([#5284](https://github.com/cyberbotics/webots/pull/5284)).
-    - Fixed the export of [Lidar](lidar.md)'s rotating head to X3D ([#5224](https://github.com/cyberbotics/webots/pull/5224)).
-    - Fixed behavior of `WbLightSensor::computeLightMeasurement` when spotlight is rotated ([#5231](https://github.com/cyberbotics/webots/pull/5231)).
-    - Fixed the reset of the viewpoint in animation when the follow is activated ([#5237](https://github.com/cyberbotics/webots/pull/5237)).
-    - Fixed a recursion bug in web animation ([#5260](https://github.com/cyberbotics/webots/pull/5260)).
-    - Fixed reset of [Lidar](lidar.md) memory mapped file in an extern controller restarted during the simulation run ([#5305](https://github.com/cyberbotics/webots/pull/5305)).
-    - Fixed a crash when trying to connect a remote extern controllers while a world is loading ([#5310](https://github.com/cyberbotics/webots/pull/5310)).
-    - Fixed close and resize buttons rendered in black in the [RangeFinder](rangefinder.md) overlay if underlying pixel value is `inf` ([#5337](https://github.com/cyberbotics/webots/pull/5337)).
-    - Fixed error message about missing PROTO declaration when copying and pasting a PROTO node that was just added using the Add Node dialog ([#5341](https://github.com/cyberbotics/webots/pull/5341)).
-    - Fixed the description of base nodes in the "Add node" dialog ([#5346](https://github.com/cyberbotics/webots/pull/5346)).
-    - Fixed robot window updates when an extern controller reconnects ([#5367](https://github.com/cyberbotics/webots/pull/5367)).
-    - Fixed regeneration of PROTO nodes derived from a procedural PROTO ([#5413](https://github.com/cyberbotics/webots/pull/5413)).
-  - Enhancements
-    - Added additional checks for path validity in wizards and save world dialogs ([#5350](https://github.com/cyberbotics/webots/pull/5350)).
-    - Added warning if external mesh used in [CadShape](cadshape.md) node is fully transparent ([#5359](https://github.com/cyberbotics/webots/pull/5359)).
-    - Added warning if external mesh used in [Mesh](mesh.md) node has more than 100'000 vertices ([#5359](https://github.com/cyberbotics/webots/pull/5359)).
-  - Dependency Updates
-    - Upgraded to Qt6.4 on Windows ([#5301](https://github.com/cyberbotics/webots/pull/5301)).
-
 ## Webots R2022b
 Released on September, 13th, 2022.
   - New Robots
@@ -128,7 +107,7 @@ Released on September, 13th, 2022.
 ## Webots R2022a
 Released on December 21th, 2021.
 
-  - New Features:
+  - New Features
     - Released [Skin](skin.md) node ([#3566](https://github.com/cyberbotics/webots/pull/3566)).
     - Added support for rolling friction in [ContactProperties](contactproperties.md) ([#3771](https://github.com/cyberbotics/webots/pull/3771)).
     - Added the ColladaShapes PROTO that allows importing a Collada file on the fly ([#3956](https://github.com/cyberbotics/webots/pull/3956)).

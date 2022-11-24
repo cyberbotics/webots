@@ -1,4 +1,4 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,18 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 TARGETS = thymio2_demo.Makefile
-
-ifneq (,$(wildcard ../libraries/dashel/dashel/dashel.h))
-ADD_THYMIO2_ASEBA = 1
-endif
-
-ifeq ($(MAKECMDGOALS),clean)
-ADD_THYMIO2_ASEBA = 1
-endif
-
-ifdef ADD_THYMIO2_ASEBA
-TARGETS += thymio2_aseba.Makefile
-endif
 
 .PHONY: release debug profile clean
 

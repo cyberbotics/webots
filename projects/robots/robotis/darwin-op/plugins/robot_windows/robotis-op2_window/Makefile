@@ -1,4 +1,4 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -41,6 +41,7 @@ ifeq ($(OSTYPE),darwin)
 LIBRARIES += -L"$(WEBOTS_HOME)/projects/robots/robotis/darwin-op/libraries/libzip" -lnihzip -L"$(WEBOTS_HOME)/projects/robots/robotis/darwin-op/libraries/libssh" -lssh
 INCLUDE += -I"$(WEBOTS_HOME)/projects/robots/robotis/darwin-op/libraries/libzip/include/libzip" -I"$(WEBOTS_HOME)/projects/robots/robotis/darwin-op/libraries/libssh/include/libssh"
 NO_FAT_BINARY = 1
+PROCESSOR = x86_64
 endif
 
 ifeq ($(OSTYPE),linux)
@@ -79,6 +80,7 @@ ifeq ($(OSTYPE),darwin)
  INCLUDE += -F"$(FRAMEWORKS_DIR)"
  FRAMEWORKS += -F"$(FRAMEWORKS_DIR)"
  DYNAMIC_LIBRARIES += -bind_at_load $(FRAMEWORKS)
+ LD_FLAGS = -target $(PROCESSOR)-apple-macos11
  MOC = "$(WEBOTS_HOME)/bin/qt/moc"
  MOC_PLATFORM_FLAGS = -D__APPLE__
  FRAMEWORKS += -framework QtCore -framework QtGui -framework QtWidgets -framework QtConcurrent

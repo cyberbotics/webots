@@ -1,4 +1,4 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ ifeq ($(OS),Windows_NT)
 endif
 
 ifndef OSTYPE
- OSTYPE = $(shell uname)
+ OSTYPE := $(shell uname)
 endif
 
 ifeq ($(OSTYPE),Linux)
@@ -74,7 +74,7 @@ ifeq ($(OSTYPE),darwin)
 
  SUPPORTED_SDK = 11 12
  MACOSX_MIN_SDK_VERSION = 11
-
+ ECHO = echo
  # cf. https://stackoverflow.com/a/30225756/2210777
  MACOSX_SDK_PATH = $(shell xcrun --sdk macosx --show-sdk-path)
  ifeq ($(wildcard $(MACOSX_SDK_PATH)),)
@@ -85,6 +85,8 @@ ifeq ($(OSTYPE),darwin)
   ## Only recent SDKs are working, but this doesn't prevent to use others.
   $(warning Your macOS SDK ("$(MACOSX_SDK_PATH)") is $(MACOSX_SDK_VERSION) while Webots supports the $(SUPPORTED_SDK) SDKs.)
  endif
+else
+ ECHO = echo -e
 endif
 
 # extensions and prefixes

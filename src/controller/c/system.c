@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2022 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -123,7 +123,11 @@ const char *wbu_system_tmpdir() {
   if (tmpdir == NULL)
     tmpdir = "/tmp";
 #elif defined(__APPLE__)
-  tmpdir = "/var/tmp";
+  tmpdir = getenv("TMPDIR");
+  if (tmpdir == NULL || tmpdir[0] == '\0') {
+    fprintf(stderr, "TMPDIR is not defined or empty.");
+    exit(EXIT_FAILURE);
+  }
 #endif
   return tmpdir;
 }

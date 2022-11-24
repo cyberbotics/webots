@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -118,8 +118,14 @@ namespace wren {
           mInputTextures[i]->setTextureUnit(i);
           mInputTextures[i]->bind(mInputTextureParams[i]);
 
-          const int locationTexture =
+          int locationTexture =
             mProgram->uniformLocation(static_cast<WrGlslLayoutUniform>(WR_GLSL_LAYOUT_UNIFORM_TEXTURE0 + i));
+
+          // Special gtao case to bypass a chrome driver bug where texelFetch does not work with textures coming from array:
+          // https://community.amd.com/t5/archives-discussions/bug-report-texelfetch-shader-crash-on-msaa-fbo/td-p/87124
+          if (locationTexture == -1 && i == 2)
+            locationTexture = mProgram->uniformLocation(static_cast<WrGlslLayoutUniform>(WR_GLSL_LAYOUT_UNIFORM_GTAO));
+
           assert(locationTexture >= 0);
           glUniform1i(locationTexture, mInputTextures[i]->textureUnit());
         }

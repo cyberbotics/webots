@@ -1,4 +1,4 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -36,10 +36,10 @@ release debug profile clean: $(TARGETS)
 
 %.Makefile:
 ifeq ($(NO_LIBSSH),1)
-	+@echo -e "# \033[0;33mlibssh not installed, skipping Robotis OP2 robot window\033[0m"
+	+@$(ECHO) "# \033[0;33mlibssh not installed, skipping Robotis OP2 robot window\033[0m"
 else
 ifeq ($(NO_LIBZIP),1)
-	+@echo -e "# \033[0;33mlibzip not installed, skipping Robotis OP2 robot window\033[0m"
+	+@$(ECHO) "# \033[0;33mlibzip not installed, skipping Robotis OP2 robot window\033[0m"
 else
 	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)
 	+@make -s -C $(@:.Makefile=) $(MAKECMDGOALS)

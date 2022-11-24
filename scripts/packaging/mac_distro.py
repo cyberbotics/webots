@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@ def check_rpath(home_path):
         frameworkFiles[i] = re.sub(r"^/", "", frameworkFiles[i])
     controllerFiles = command('find projects resources -name controllers | '
                               'xargs -I{} find {} -maxdepth 1 -mindepth 1 -type d | '
-                              'grep -v ros | grep -v thymio2_aseba | '
+                              'grep -v ros | '
                               'sed -e "s:\\(.*\\)/\\([^/]*\\):\\1/\\2/\\2:" | '
                               'perl -ne \'chomp(); if (-e $_) {print "$_\n"}\' ').split()
     binaryFiles = [
@@ -69,6 +69,8 @@ def check_rpath(home_path):
         dependencies = command('otool -L ' + f + ' | grep -v ' + f + ': | sed -e "s: (compatibility.*::" | '
                                'sed -e "s:^[ \t]*::"').split('\n')
         for d in dependencies:
+            if d.startswith(f + ' ('):
+                continue
             if (not d.startswith('/') and not d.startswith('@rpath/')) or 'local' in d:
                 success = False
                 sys.stderr.write('Dependency error:\n')

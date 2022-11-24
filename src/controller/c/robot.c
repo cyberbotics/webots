@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2022 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -525,7 +525,7 @@ void robot_read_answer(WbDevice *d, WbRequest *r) {
   }
 }
 
-// Protected funtions available from other files of the client library
+// Protected functions available from other files of the client library
 
 const char *robot_get_device_name(WbDeviceTag tag) {
   if (tag < robot.n_device)

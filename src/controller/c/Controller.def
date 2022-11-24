@@ -436,6 +436,7 @@ wb_robot_wait_for_user_input_event
 wb_robot_window_custom_function
 wb_robot_wwi_send
 wb_robot_wwi_receive
+wb_robot_wwi_receive_text
 wb_skin_get_bone_count
 wb_skin_get_bone_name
 wb_skin_get_bone_orientation

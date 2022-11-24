@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ QString WbNewProjectWizard::proposeNewProjectPath() const {
     path = WbPreferences::instance()->value("Directories/projects").toString();
     if (!path.isEmpty()) {
       if (WbFileUtil::isDirectoryWritable(path))
-        path += +"/my_project";
+        path += "my_project";
       else
         path = "";  // no valid default path found
     }

@@ -1,4 +1,4 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -133,10 +133,10 @@ endif
 # rules
 ifeq ($(SWIG_EXISTS),)
 release debug profile:
-	@echo -e "# \033[0;33mSWIG not installed, skipping Java API\033[0m"
+	@$(ECHO) "# \033[0;33mSWIG not installed, skipping Java API\033[0m"
 else ifeq ($(JAVA_HOME),)
 release debug profile:
-	@echo -e "# \033[0;33mJava not installed or 'JAVA_HOME' not set, skipping Java API\033[0m"
+	@$(ECHO) "# \033[0;33mJava not installed or 'JAVA_HOME' not set, skipping Java API\033[0m"
 else
 release debug profile: $(JAR_FILE) $(TARGET)
 

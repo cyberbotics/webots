@@ -1,4 +1,4 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ PYTHON_OK := $(shell which python3)
 release debug profile:
 	@echo "# generating matlab"
 ifeq ('$(PYTHON_OK)','')
-	@echo "# \033[0;33mUnable to find python3, skipping matlab API\033[0m"
+	@$(ECHO) "# \033[0;33mUnable to find python3, skipping matlab API\033[0m"
 else
 	$(shell python3 mgenerate.py;)
 endif
