@@ -4188,7 +4188,7 @@ namespace webots {
 %tab "Python"
 
 ```python
-from controller import Node
+from controller import ContactPoint
 
 ContactPoint:
     def __init__(self):

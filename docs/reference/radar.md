@@ -76,7 +76,7 @@ namespace webots {
 %tab "Python"
 
 ```python
-from controller import Radar
+from controller import RadarTarget
 
 class RadarTarget:
     @property

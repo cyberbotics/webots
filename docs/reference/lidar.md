@@ -86,7 +86,7 @@ namespace webots {
 %tab "Python"
 
 ```python
-from controller import Lidar
+from controller import LidarPoint
 
 class LidarPoint:
     @property
