@@ -242,7 +242,7 @@ class Field:
         wb.wb_supervisor_field_remove_mf(self._ref, index)
 
     def removeSF(self):
-        wb.wb_supervisor_field_remove_mf(self._ref)
+        wb.wb_supervisor_field_remove_sf(self._ref)
 
     def importMFNodeFromString(self, position: int, nodeString: str):
         wb.wb_supervisor_field_import_mf_node_from_string(self._ref, position, str.encode(nodeString))
