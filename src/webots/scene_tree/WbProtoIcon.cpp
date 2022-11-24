@@ -24,9 +24,7 @@
 #include <QtCore/QDir>
 #include <QtCore/QUrl>
 
-WbProtoIcon::WbProtoIcon(const QString &modelName, const QString &protoPath,
-                         QObject *parent)
-    : QObject(parent),
+WbProtoIcon::WbProtoIcon(const QString &modelName, const QString &protoPath, QObject *parent): QObject(parent),
       mPath(QString("%1icons/%2.png")
                 .arg(QUrl(protoPath).adjusted(QUrl::RemoveFilename).toString())
                 .arg(modelName)),

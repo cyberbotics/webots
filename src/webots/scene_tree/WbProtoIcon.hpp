@@ -29,8 +29,7 @@ class WbProtoIcon : public QObject {
   Q_OBJECT
 
 public:
-  explicit WbProtoIcon(const QString &modelName, const QString &protoPath,
-                       QObject *parent = NULL);
+  explicit WbProtoIcon(const QString &modelName, const QString &protoPath, QObject *parent = NULL);
 
   const QString &path() const { return mPath; }
   bool isReady() const { return mReady; }
