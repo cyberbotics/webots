@@ -1991,7 +1991,7 @@ namespace webots {
 from controller import Supervisor
 
 class Supervisor (Robot):
-    def setLabel(self, id, label, xpos, ypos, size, color, transparency, font="Arial"):
+    def setLabel(self, id, label, x, y, size, color, transparency, font="Arial"):
     # ...
 ```
 
