@@ -3554,7 +3554,7 @@ void wb_supervisor_field_remove_mf_node(WbFieldRef field, int position) {
 }
 
 void wb_supervisor_field_remove_sf(WbFieldRef field) {
-  if (field->count == 0 || field->data.sf_node_uid == 0) {
+  if (field->count == 0) {
     fprintf(stderr, "Error: %s() called for an empty field.\n", __FUNCTION__);
     return;
   }
@@ -3583,7 +3583,7 @@ void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char
     return;
   }
 
-  if (field->count == 1 || field->data.sf_node_uid != 0) {
+  if (field->count == 1) {
     fprintf(stderr, "Error: %s() called with a non-empty field.\n", __FUNCTION__);
     return;
   }
