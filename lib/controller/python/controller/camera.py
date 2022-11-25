@@ -18,6 +18,49 @@ from .wb import wb
 from typing import List, Union
 
 
+class CameraRecognitionObject(ctypes.Structure):
+    _fields_ = [('id', ctypes.c_int),
+                ('position', ctypes.c_double * 3),
+                ('orientation', ctypes.c_double * 4),
+                ('size', ctypes.c_double * 2),
+                ('position_on_image', ctypes.c_int * 2),
+                ('size_on_image', ctypes.c_int * 2),
+                ('number_of_colors', ctypes.c_int),
+                ('colors', ctypes.POINTER(ctypes.c_double)),
+                ('_model', ctypes.c_char_p)]
+
+    def getId(self) -> int:
+        return self.id
+
+    def getPosition(self) -> List[float]:
+        return self.position
+
+    def getOrientation(self) -> List[float]:
+        return self.orientation
+
+    def getSize(self) -> List[float]:
+        return self.size
+
+    def getPositionOnImage(self) -> List[int]:
+        return self.position_on_image
+
+    def getSizeOnImage(self) -> List[int]:
+        return self.size_on_image
+
+    def getNumberOfColors(self) -> int:
+        return self.number_of_colors
+
+    def getColors(self) -> List[float]:
+        return self.colors
+
+    def getModel(self) -> str:
+        return self.model
+
+    @property
+    def model(self) -> str:
+        return self._model.decode()
+
+
 class Camera(Sensor):
     wb.wb_camera_get_image.restype = ctypes.POINTER(ctypes.c_ubyte)
     wb.wb_camera_recognition_get_segmentation_image.restype = ctypes.POINTER(ctypes.c_ubyte)
@@ -177,48 +220,6 @@ class Camera(Sensor):
     @property
     def width(self) -> int:
         return wb.wb_camera_get_width(self._tag)
-
-    class CameraRecognitionObject(ctypes.Structure):
-        _fields_ = [('id', ctypes.c_int),
-                    ('position', ctypes.c_double * 3),
-                    ('orientation', ctypes.c_double * 4),
-                    ('size', ctypes.c_double * 2),
-                    ('position_on_image', ctypes.c_int * 2),
-                    ('size_on_image', ctypes.c_int * 2),
-                    ('number_of_colors', ctypes.c_int),
-                    ('colors', ctypes.POINTER(ctypes.c_double)),
-                    ('_model', ctypes.c_char_p)]
-
-        def getId(self) -> int:
-            return self.id
-
-        def getPosition(self) -> List[float]:
-            return self.position
-
-        def getOrientation(self) -> List[float]:
-            return self.orientation
-
-        def getSize(self) -> List[float]:
-            return self.size
-
-        def getPositionOnImage(self) -> List[int]:
-            return self.position_on_image
-
-        def getSizeOnImage(self) -> List[int]:
-            return self.size_on_image
-
-        def getNumberOfColors(self) -> int:
-            return self.number_of_colors
-
-        def getColors(self) -> List[float]:
-            return self.colors
-
-        def getModel(self) -> str:
-            return self.model
-
-        @property
-        def model(self) -> str:
-            return self._model.decode()
 
     wb.wb_camera_recognition_get_objects.restype = ctypes.POINTER(CameraRecognitionObject)
 
