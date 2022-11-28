@@ -1977,7 +1977,7 @@ void wb_supervisor_set_label(int id, const char *text, double x, double y, doubl
 namespace webots {
   class Supervisor : public Robot {
     virtual void setLabel(int id, const std::string &label, double xpos, double ypos,
-      double size, int color, double transparency, const std::string &font="Arial");
+      double size, int color, double transparency = 0, const std::string &font = "Arial");
     // ...
   }
 }
@@ -1991,7 +1991,7 @@ namespace webots {
 from controller import Supervisor
 
 class Supervisor (Robot):
-    def setLabel(self, id, label, xpos, ypos, size, color, transparency, font="Arial"):
+    def setLabel(self, id, label, x, y, size, color, transparency=0, font='Arial'):
     # ...
 ```
 
@@ -2004,7 +2004,7 @@ import com.cyberbotics.webots.controller.Supervisor;
 
 public class Supervisor extends Robot {
   public void setLabel(int id, String label, double xpos, double ypos,
-     double size, int color, double transparency, String font);
+     double size, int color, double transparency = 0, String font = "Arial");
   // ...
 }
 ```
@@ -2014,7 +2014,7 @@ public class Supervisor extends Robot {
 %tab "MATLAB"
 
 ```MATLAB
-wb_supervisor_set_label(id, 'text', x, y, size, [r g b], transparency)
+wb_supervisor_set_label(id, 'text', x, y, size, [r g b], transparency, font)
 ```
 
 %tab-end
