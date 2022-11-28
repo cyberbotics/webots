@@ -87,7 +87,7 @@ class WbConsole : public WbDockWidget {
 
 public:
   explicit WbConsole(QWidget *parent = NULL, const QString &name = QString("Console"));
-  virtual ~WbConsole() {}
+  virtual ~WbConsole();
 
   // parse compilation error line
   void jumpToError(const QString &errorLine);

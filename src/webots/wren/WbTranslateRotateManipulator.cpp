@@ -45,6 +45,7 @@ WbTranslateRotateManipulator::WbTranslateRotateManipulator(bool isTranslationAva
 
 void WbTranslateRotateManipulator::initializeHandlesEntities() {
   // Creates handles materials and axes
+    /*
   if (mHasTranslationHandles || mHasRotationHandles) {
     const float axesColor[3][3] = {{1.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, 1.0f}};
     const float axesAmbientColor[3][3] = {{0.9f, 0.0f, 0.0f}, {0.0f, 0.9f, 0.0f}, {0.0f, 0.0f, 0.9f}};
@@ -193,6 +194,7 @@ void WbTranslateRotateManipulator::initializeHandlesEntities() {
     } else
       mHasRotationHandles = false;
   }
+
   if (mHasRotationHandles) {
     mActiveRotationHandleMaterial = wr_phong_material_new();
     const float color[3] = {0.0f, 0.0f, 0.0f};
@@ -246,6 +248,7 @@ void WbTranslateRotateManipulator::initializeHandlesEntities() {
     wr_node_set_visible(WR_NODE(mRotationLineTransform), false);
     wr_node_set_visible(WR_NODE(mRotationDoubleArrowTransform), false);
   }
+  */
 }
 
 WbTranslateRotateManipulator::~WbTranslateRotateManipulator() {
