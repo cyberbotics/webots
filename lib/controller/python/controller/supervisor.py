@@ -66,7 +66,9 @@ class Supervisor(Robot):
     def worldLoad(self, filename: str):
         wb.wb_supervisor_world_load(str.encode(filename))
 
-    def worldSave(self, filename: str) -> int:
+    def worldSave(self, filename: str = None) -> int:
+        if not filename:
+            return wb.wb_supervisor_world_save(None)
         return wb.wb_supervisor_world_save(str.encode(filename))
 
     def worldReload(self):
