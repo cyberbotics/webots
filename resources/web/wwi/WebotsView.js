@@ -6,39 +6,44 @@ import WbWorld from './nodes/WbWorld.js';
 
 /* The following member variables can be set by the application:
 
-webotsView.showIde             // defines whether the IDE button should be displayed.
-webotsView.showInfo            // defines whether the info button should be displayed.
-webotsView.showPlay            // defines whether the play button should be displayed.
-webotsView.showQuit            // defines whether the quit button should be displayed.
-webotsView.showReload          // defines whether the reload button should be displayed.
-webotsView.showReset           // defines whether the reset button should be displayed.
-webotsView.showRobotWindow     // defines whether the robot window button should be displayed.
-webotsView.showRun             // defines whether the run button should be displayed.
-webotsView.showStep            // defines whether the step button should be displayed.
-webotsView.showWorldSelection  // defines whether the world selection button should be displayed.
+webotsView.showIde               // defines whether the IDE button should be displayed.
+webotsView.showInfo              // defines whether the info button should be displayed.
+webotsView.showPlay              // defines whether the play button should be displayed.
+webotsView.showQuit              // defines whether the quit button should be displayed.
+webotsView.showReload            // defines whether the reload button should be displayed.
+webotsView.showReset             // defines whether the reset button should be displayed.
+webotsView.showRobotWindow       // defines whether the robot window button should be displayed.
+webotsView.showRun               // defines whether the run button should be displayed.
+webotsView.showStep              // defines whether the step button should be displayed.
+webotsView.showTerminal          // defines whether the terminal button should be displayed.
+webotsView.showCustomWindow      // defines whether the custom window button should be displayed.
+webotsView.showWorldSelection    // defines whether the world selection button should be displayed.
 */
 
 export default class WebotsView extends HTMLElement {
+  #hasAnimation;
+  #hasScene;
+  #initialCallbackDone;
   constructor() {
     super();
-    this._hasAnimation = false;
-    this._initialCallbackDone = false;
+    this.#hasAnimation = false;
+    this.#initialCallbackDone = false;
   }
 
   connectedCallback() {
-    if (this._initialCallbackDone)
+    if (this.#initialCallbackDone)
       return;
 
-    this._initialCallbackDone = true;
+    this.#initialCallbackDone = true;
 
     this.toolbarCss = document.createElement('link');
-    this.toolbarCss.href = 'https://cyberbotics.com/wwi/R2022b/css/toolbar.css';
+    this.toolbarCss.href = 'https://cyberbotics.com/wwi/R2023a/css/toolbar.css';
     this.toolbarCss.type = 'text/css';
     this.toolbarCss.rel = 'stylesheet';
     document.head.appendChild(this.toolbarCss);
 
     this.progressCss = document.createElement('link');
-    this.progressCss.href = 'https://cyberbotics.com/wwi/R2022b/css/progress.css';
+    this.progressCss.href = 'https://cyberbotics.com/wwi/R2023a/css/progress.css';
     this.progressCss.type = 'text/css';
     this.progressCss.rel = 'stylesheet';
     document.head.appendChild(this.progressCss);
@@ -49,16 +54,16 @@ export default class WebotsView extends HTMLElement {
 
         // if it's a data file, use a custom dir
         if (path.endsWith('.data'))
-          return 'https://cyberbotics.com/wwi/R2022b/' + path;
+          return 'https://cyberbotics.com/wwi/R2023a/' + path;
 
         // otherwise, use the default, the prefix (JS file's dir) + the path
         return prefix + path;
       }`;
     document.head.appendChild(script);
-    this._init();
+    this.#init();
   }
 
-  _loadScript(scriptUrl) {
+  #loadScript(scriptUrl) {
     return new Promise(function(resolve, reject) {
       const script = document.createElement('script');
       script.onload = resolve;
@@ -67,7 +72,7 @@ export default class WebotsView extends HTMLElement {
     });
   }
 
-  _init() {
+  #init() {
     const promises = [];
     Module.onRuntimeInitialized = () => {
       Promise.all(promises).then(() => {
@@ -86,14 +91,16 @@ export default class WebotsView extends HTMLElement {
           this.connect(server, this.dataset.mode, this.dataset.isBroadcast, isMobileDevice, this.dataset.timeout, thumbnail);
       });
     };
-    promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/dependencies/assimpjs.js'));
-    promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/dependencies/glm-js.min.js'));
-    promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/dependencies/quaternion.min.js'));
-    promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/enum.js'));
-    promises.push(this._loadScript('https://cyberbotics.com/wwi/R2022b/wrenjs.js'));
+
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023a/dependencies/ansi_up.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023a/dependencies/assimpjs.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023a/dependencies/glm-js.min.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023a/dependencies/quaternion.min.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023a/enum.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023a/wrenjs.js'));
   }
 
-  _closeWhenDOMElementRemoved() {
+  #closeWhenDOMElementRemoved() {
     // https://stackoverflow.com/questions/52834774/dom-event-when-element-is-removed
     let observer = new MutationObserver(() => {
       if (!document.body.contains(this)) {
@@ -105,13 +112,13 @@ export default class WebotsView extends HTMLElement {
   }
 
   close() {
-    if (this._hasAnimation)
-      this._closeAnimation();
-    else if (this._hasScene)
-      this._closeScene();
+    if (this.#hasAnimation)
+      this.#closeAnimation();
+    else if (this.#hasScene)
+      this.#closeScene();
     else if (typeof this._view !== 'undefined' && typeof this._view.stream !== 'undefined' &&
       typeof this._view.stream.socket !== 'undefined')
-      this._disconnect();
+      this.#disconnect();
   }
 
   resize() {
@@ -201,12 +208,27 @@ export default class WebotsView extends HTMLElement {
         this._view.setAnimation(animation, 'pause', true);
       else
         this._view.setAnimation(animation, 'play', true);
-      this._hasAnimation = true;
-      this._closeWhenDOMElementRemoved();
+      this.#hasAnimation = true;
+      this.#closeWhenDOMElementRemoved();
     }
   }
 
-  _closeAnimation() {
+  setCustomWindowTitle(title) {
+    if (typeof this.toolbar !== 'undefined' && typeof this.toolbar.customWindow !== 'undefined')
+      this.toolbar.customWindow.setTitle(title);
+  }
+
+  setCustomWindowTooltip(tooltip) {
+    if (typeof this.toolbar !== 'undefined' && typeof this.toolbar.customWindow !== 'undefined')
+      this.toolbar.customWindow.setTooltip(tooltip);
+  }
+
+  setCustomWindowContent(content) {
+    if (typeof this.toolbar !== 'undefined' && typeof this.toolbar.customWindow !== 'undefined')
+      this.toolbar.customWindow.setContent(content);
+  }
+
+  #closeAnimation() {
     this._view.animation.pause();
     if (typeof this.toolbar !== 'undefined') {
       this.toolbar.removeAnimationToolbar();
@@ -215,12 +237,19 @@ export default class WebotsView extends HTMLElement {
     this._view.removeLabels();
     this._view.destroyWorld();
     this._view.animation = undefined;
-    this._hasAnimation = false;
+    this.#hasAnimation = false;
     this.innerHTML = null;
   }
 
   hasAnimation() {
-    return this._hasAnimation;
+    return this.#hasAnimation;
+  }
+
+  setAnimationStepCallback(callbackFunction) {
+    if (typeof this._view !== 'undefined' && typeof this._view.animation !== 'undefined') {
+      this._view.animation.stepCallback = callbackFunction;
+      return true;
+    }
   }
 
   // Streaming viewer's functions
@@ -253,6 +282,8 @@ export default class WebotsView extends HTMLElement {
       this._view.onready = () => {
         if (typeof this.toolbar === 'undefined')
           this.toolbar = new Toolbar(this._view, 'streaming', this);
+        if (document.getElementById('robot-window-button') !== null)
+          document.getElementsByTagName('webots-view')[0].toolbar.loadRobotWindows();
         if (typeof this.onready === 'function')
           this.onready();
       };
@@ -261,11 +292,11 @@ export default class WebotsView extends HTMLElement {
         if (typeof this.ondisconnect === 'function')
           this.ondisconnect();
       };
-      this._closeWhenDOMElementRemoved();
+      this.#closeWhenDOMElementRemoved();
     }
   }
 
-  _disconnect() {
+  #disconnect() {
     let exitFullscreenButton = document.getElementById('exit_fullscreenButton');
     if (exitFullscreenButton && exitFullscreenButton.style.display !== 'none')
       exitFullscreen();
@@ -321,22 +352,22 @@ export default class WebotsView extends HTMLElement {
           this.onready();
       };
       this._view.open(scene, 'undefined', thumbnail);
-      this._hasScene = true;
-      this._closeWhenDOMElementRemoved();
+      this.#hasScene = true;
+      this.#closeWhenDOMElementRemoved();
     }
   }
 
   hasScene() {
-    return this._hasScene;
+    return this.#hasScene;
   }
 
-  _closeScene() {
+  #closeScene() {
     if (typeof this.toolbar !== 'undefined') {
       this.toolbar.removeToolbar();
       this.toolbar = undefined;
     }
     this._view.destroyWorld();
-    this._hasScene = false;
+    this.#hasScene = false;
     this.innerHTML = null;
   }
 }

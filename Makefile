@@ -164,15 +164,15 @@ install:
 
 help:
 	@+echo
-	@+echo -e "\033[32;1mWebots Makefile targets:\033[0m"
+	@+$(ECHO) "\033[32;1mWebots Makefile targets:\033[0m"
 	@+echo
-	@+echo -e "\033[33;1mmake -j$(THREADS) release\033[0m\t# compile with maximum optimization (default)"
-	@+echo -e "\033[33;1mmake -j$(THREADS) debug\033[0m  \t# compile with gdb debugging symbols"
-	@+echo -e "\033[33;1mmake -j$(THREADS) profile\033[0m\t# compile with gprof profiling information"
-	@+echo -e "\033[33;1mmake -j$(THREADS) distrib\033[0m\t# compile in release mode & create distribution package"
-	@+echo -e "\033[33;1mmake -j$(THREADS) clean\033[0m  \t# clean-up the compilation output"
-	@+echo -e "\033[33;1mmake -j$(THREADS) cleanse\033[0m\t# deep clean-up (dependencies are also removed)"
-	@+echo -e "\033[33;1mmake help\033[0m\t\t# display this message and exit"
+	@+$(ECHO) "\033[33;1mmake -j$(THREADS) release\033[0m\t# compile with maximum optimization (default)"
+	@+$(ECHO) "\033[33;1mmake -j$(THREADS) debug\033[0m  \t# compile with gdb debugging symbols"
+	@+$(ECHO) "\033[33;1mmake -j$(THREADS) profile\033[0m\t# compile with gprof profiling information"
+	@+$(ECHO) "\033[33;1mmake -j$(THREADS) distrib\033[0m\t# compile in release mode & create distribution package"
+	@+$(ECHO) "\033[33;1mmake -j$(THREADS) clean\033[0m  \t# clean-up the compilation output"
+	@+$(ECHO) "\033[33;1mmake -j$(THREADS) cleanse\033[0m\t# deep clean-up (dependencies are also removed)"
+	@+$(ECHO) "\033[33;1mmake help\033[0m\t\t# display this message and exit"
 	@+echo
-	@+echo -e "\033[32;1mNote:\033[0m You seem to have a processor with $(NUMBER_OF_PROCESSORS) virtual cores,"
-	@+echo -e "      hence the \033[33;1m-j$(THREADS)\033[0m option to speed-up the compilation."
+	@+$(ECHO) "\033[32;1mNote:\033[0m You seem to have a processor with $(NUMBER_OF_PROCESSORS) virtual cores,"
+	@+$(ECHO) "      hence the \033[33;1m-j$(THREADS)\033[0m option to speed-up the compilation."

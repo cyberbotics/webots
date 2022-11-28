@@ -232,6 +232,7 @@ Depending on the complexity of the simulation and execution mode, the function m
 When it returns, the requested duration of simulation time is elapsed.
 In other words the physics runs for the specified duration: objects may move, the motors may run, the sensor values may change, etc.
 Note that the `duration` parameter must be a multiple of the `WorldInfo.basicTimeStep`.
+In Python, if no `duration` parameter is given, the `WorldInfo.basicTimeStep` is used.
 
 If this function returns -1, this indicates that Webots is about to terminate the controller.
 This happens when the user hits the `Reload` button or quits Webots.
@@ -1135,7 +1136,7 @@ In that case, the sampling period is expressed in real time and not in simulatio
 
 #### `wb_robot_battery_sensor_enable`
 #### `wb_robot_battery_sensor_disable`
-#### `wb_robot_get_battery_sampling_period`
+#### `wb_robot_battery_sensor_get_sampling_period`
 #### `wb_robot_battery_sensor_get_value`
 
 %tab-component "language"
@@ -1148,7 +1149,7 @@ In that case, the sampling period is expressed in real time and not in simulatio
 void wb_robot_battery_sensor_enable(int sampling_period);
 void wb_robot_battery_sensor_disable();
 double wb_robot_battery_sensor_get_value();
-int wb_robot_get_battery_sampling_period(WbDeviceTag tag);
+int wb_robot_battery_sensor_get_sampling_period();
 ```
 
 %tab-end

@@ -1036,6 +1036,13 @@ void WbMainWindow::closeEvent(QCloseEvent *event) {
   if (WbApplication::instance())
     savePerspective(false, true);
 
+  // if there is a pending recording, stop it correctly
+  if (WbAnimationRecorder::instance()) {
+    // setting the gui flag to false to prevent the dialog box "exporting success" to pop-up
+    WbAnimationRecorder::instance()->setStartFromGuiFlag(false);
+    WbAnimationRecorder::instance()->stop();
+  }
+
   // the scene tree qt model should be cleaned first
   // otherwise some signals can be fired after the
   // QCoreApplication::exit() call
@@ -1789,7 +1796,7 @@ void WbMainWindow::show3DViewingInfo() {
        "To translate the camera in the x and y directions, you have to set the mouse pointer in the 3D scene, press the right "
        "mouse button and drag the mouse.<br/><br/>"
        "<strong>Zoom / Tilt:</strong><br/>"
-       "Set the mouse pointer in the 3D scene, then:\n"
+       "Set the mouse pointer in the 3D scene, then:<br/>"
        "- if you press both left and right mouse buttons (or the middle button) and drag the mouse vertically, the camera will "
        "zoom in or out.<br/>"
        "- if you press both left and right mouse buttons (or the middle button) and drag the mouse horizontally, the camera "
@@ -1817,11 +1824,11 @@ void WbMainWindow::show3DMovingInfo() {
 void WbMainWindow::show3DForceInfo() {
   static const QString infoLinux(
     tr("<strong>Force:</strong><br/> Place the mouse pointer where the force will apply and hold down the Alt key"
-       ", the Control key (Ctrl)"
-       " and the left mouse button together while dragging the mouse.<br/><br/> <strong>Torque:</strong><br/>"
+       " and the left mouse button together while dragging the mouse. In some window managers it might be necessary"
+       " to also hold the Control (ctrl) key together with the Alt key.<br/><br/> <strong>Torque:</strong><br/>"
        "Place the mouse pointer on the object and hold down the Alt key"
-       ", the Control key (Ctrl)"
-       " and the right mouse button together while dragging the mouse."));
+       " and the right mouse button together while dragging the mouse. In some window managers it might be necessary"
+       " to also hold the Control (ctrl) key together with the Alt key."));
 
   static const QString infoWindows(
     tr("<strong>Force:</strong><br/> Place the mouse pointer where the force will apply and hold down the Alt key"

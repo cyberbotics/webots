@@ -33,7 +33,7 @@ private slots:
   void sendUpdatePackageToClients() override;
   void processTextMessage(QString) override;
 
-  void propagateNodeDeletion(WbNode *node);
+  void propagateNodeDeletion(WbNode *node) override;
 
 private:
   void create(int port) override;

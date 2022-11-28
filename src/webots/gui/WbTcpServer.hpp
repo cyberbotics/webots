@@ -65,11 +65,13 @@ protected:
   virtual void sendWorldToClient(QWebSocket *client);
   virtual void sendTcpRequestReply(const QString &completeUrl, const QString &etag, const QString &host, QTcpSocket *socket);
   virtual void addNewTcpController(QTcpSocket *socket);
+  virtual void propagateNodeDeletion(WbNode *node);
 
   bool isActive() const { return mWebSocketServer != NULL; }
   void destroy();
   void resetSimulation();
   void pauseClientIfNeeded(QWebSocket *client);
+  void sendRobotWindowInformation(QWebSocket *client, const WbRobot *robot, bool remove = false);
 
   QList<QWebSocket *> mWebSocketClients;
   double mPauseTimeout;
@@ -107,6 +109,7 @@ private:
   bool mClientsReadyToReceiveMessages;
   bool mDisableTextStreams;
   bool mStream;
+  bool mWorldReady;
   int mPort;
 };
 

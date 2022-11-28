@@ -36,10 +36,10 @@ release debug profile clean: $(TARGETS)
 
 %.Makefile:
 ifeq ($(NO_LIBSSH),1)
-	+@echo -e "# \033[0;33mlibssh not installed, skipping Robotis OP2 robot window\033[0m"
+	+@$(ECHO) "# \033[0;33mlibssh not installed, skipping Robotis OP2 robot window\033[0m"
 else
 ifeq ($(NO_LIBZIP),1)
-	+@echo -e "# \033[0;33mlibzip not installed, skipping Robotis OP2 robot window\033[0m"
+	+@$(ECHO) "# \033[0;33mlibzip not installed, skipping Robotis OP2 robot window\033[0m"
 else
 	+@echo "# make" $(MAKECMDGOALS) $(@:.Makefile=)
 	+@make -s -C $(@:.Makefile=) $(MAKECMDGOALS)

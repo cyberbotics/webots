@@ -20,7 +20,7 @@ export default class WbBox extends WbGeometry {
     super.createWrenObjects();
     super._computeWrenRenderable();
 
-    this._sanitizeFields();
+    this.#sanitizeFields();
 
     const createOutlineMesh = this.isInBoundingObject();
     this._wrenMesh = _wr_static_mesh_unit_box_new(createOutlineMesh);
@@ -46,7 +46,7 @@ export default class WbBox extends WbGeometry {
   }
 
   updateSize() {
-    if (!this._sanitizeFields())
+    if (!this.#sanitizeFields())
       return;
 
     if (this.isInBoundingObject())
@@ -55,7 +55,7 @@ export default class WbBox extends WbGeometry {
       _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.size.x, this.size.y, this.size.z));
   }
 
-  _sanitizeFields() {
+  #sanitizeFields() {
     const newSize = resetVector3IfNonPositive(this.size, new WbVector3(1.0, 1.0, 1.0));
     if (newSize !== false) {
       this.size = newSize;
@@ -65,12 +65,12 @@ export default class WbBox extends WbGeometry {
     return true;
   }
 
-  _isSuitableForInsertionInBoundingObject() {
-    return this._sanitizeFields();
+  #isSuitableForInsertionInBoundingObject() {
+    return this.#sanitizeFields();
   }
 
   _isAValidBoundingObject() {
-    return super._isAValidBoundingObject() && this._isSuitableForInsertionInBoundingObject();
+    return super._isAValidBoundingObject() && this.#isSuitableForInsertionInBoundingObject();
   }
 }
 

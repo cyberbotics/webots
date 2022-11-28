@@ -31,7 +31,6 @@
 
 #include <QtCore/QFileInfo>
 #include <QtCore/QHash>
-#include <QtCore/QPair>
 #include <QtGui/QImageReader>
 
 static int cResizeIconSize = -1;
@@ -47,7 +46,7 @@ static float cBorderColors[WbWrenTextureOverlay::OVERLAY_TYPE_COUNT][4] = {{1.0f
 // map storing status of overlay elements:
 // TRUE: overlay enabled
 // FALSE: overlay disabled, i.e. already open in an external window
-static QHash<WrOverlay *, QPair<WbWrenTextureOverlay *, bool>> cOverlayStatusMap;
+static QHash<WrOverlay *, std::pair<WbWrenTextureOverlay *, bool>> cOverlayStatusMap;
 
 ////////////////////////////////////////
 //  Constructor  and initializations  //
@@ -128,7 +127,7 @@ WbWrenTextureOverlay::WbWrenTextureOverlay(void *data, int width, int height, Te
   updateTexture();
   updatePercentagePosition(0.0, 0.0);
 
-  cOverlayStatusMap.insert(mWrenOverlay, QPair<WbWrenTextureOverlay *, bool>(this, true));
+  cOverlayStatusMap.insert(mWrenOverlay, std::pair<WbWrenTextureOverlay *, bool>(this, true));
   setVisible(false, true);
 
   WbWrenOpenGlContext::doneWren();
@@ -531,12 +530,12 @@ bool WbWrenTextureOverlay::isInsideCloseButton(int x, int y) const {
 //////////////////////////////////////////////////////
 
 void WbWrenTextureOverlay::updateOverlayDimensions() {
-  for (const QPair<WbWrenTextureOverlay *, bool> &p : cOverlayStatusMap)
+  for (const std::pair<WbWrenTextureOverlay *, bool> &p : cOverlayStatusMap)
     p.first->applyChangesToWren();
 }
 
 void WbWrenTextureOverlay::setElementsVisible(OverlayType type, bool visible) {
-  for (const QPair<WbWrenTextureOverlay *, bool> &p : cOverlayStatusMap) {
+  for (const std::pair<WbWrenTextureOverlay *, bool> &p : cOverlayStatusMap) {
     if (p.first->mOverlayType == type && p.second)  // skip explicitly closed overlays
       wr_overlay_set_visible(p.first->mWrenOverlay, visible);
   }

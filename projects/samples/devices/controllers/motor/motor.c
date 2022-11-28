@@ -15,7 +15,7 @@
  */
 
 /*
- * Description: simple example of motor position control
+ * Description: Simple example of motor position control.
  */
 
 #include <math.h>
