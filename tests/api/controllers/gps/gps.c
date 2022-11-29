@@ -4,7 +4,7 @@
 #include "../../../lib/ts_assertion.h"
 #include "../../../lib/ts_utils.h"
 
-static void check_position(WbDeviceTag gps, double x, double y, double z, char *end_msg) {
+static void check_position(WbDeviceTag gps, double x, double y, double z, const char *end_msg) {
   double expected_position[3] = {x, y, z};
   const double *position = wb_gps_get_values(gps);
   const char *axisNames = "XYZ";
