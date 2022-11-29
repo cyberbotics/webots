@@ -30,7 +30,6 @@
 #include "WbNodeFactory.hpp"
 #include "WbNodeModel.hpp"
 #include "WbNodeReader.hpp"
-#include "WbNodeUtilities.hpp"
 #include "WbParser.hpp"
 #include "WbProject.hpp"
 #include "WbProtoManager.hpp"
@@ -48,6 +47,7 @@
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 #include "WbUrl.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWriter.hpp"
 
 #include <QtCore/QFile>
@@ -78,7 +78,7 @@ static bool gDerivedProtoParentFlag = false;  // true during the creation of a P
 static bool gTopParameterFlag = false;
 static bool gDerivedProtoAncestorFlag = false;
 static QStringList *gInternalDefNamesInWrite = NULL;
-static QList<QPair<WbNode *, int>> *gExternalUseNodesInWrite = NULL;
+static QList<std::pair<WbNode *, int>> *gExternalUseNodesInWrite = NULL;
 static bool gRestoreUniqueIdOnClone;
 
 bool WbNode::cUpdatingDictionary = false;
@@ -983,7 +983,7 @@ void WbNode::enableDefNodeTrackInWrite(bool substituteInStream) {
   assert(gInternalDefNamesInWrite == NULL && gExternalUseNodesInWrite == NULL);
   gInternalDefNamesInWrite = new QStringList();
   if (!substituteInStream)
-    gExternalUseNodesInWrite = new QList<QPair<WbNode *, int>>();
+    gExternalUseNodesInWrite = new QList<std::pair<WbNode *, int>>();
 }
 
 void WbNode::disableDefNodeTrackInWrite() {
@@ -993,7 +993,7 @@ void WbNode::disableDefNodeTrackInWrite() {
   gExternalUseNodesInWrite = NULL;
 }
 
-QList<QPair<WbNode *, int>> *WbNode::externalUseNodesPositionsInWrite() {
+QList<std::pair<WbNode *, int>> *WbNode::externalUseNodesPositionsInWrite() {
   return gExternalUseNodesInWrite;
 }
 
@@ -1041,8 +1041,8 @@ void WbNode::write(WbWriter &writer) const {
     return;
   }
   if (writer.isX3d() || (writer.isProto() && (!writer.rootNode() || this == writer.rootNode() ||
-                                              WbNodeUtilities::findContainingProto(this) ==
-                                                WbNodeUtilities::findContainingProto(writer.rootNode())))) {
+                                              WbVrmlNodeUtilities::findContainingProto(this) ==
+                                                WbVrmlNodeUtilities::findContainingProto(writer.rootNode())))) {
     writeExport(writer);
     return;
   }
@@ -1052,7 +1052,7 @@ void WbNode::write(WbWriter &writer) const {
     if (isUseNode() && !gInternalDefNamesInWrite->contains(mUseName)) {
       if (gExternalUseNodesInWrite)
         // keep track of DEF node
-        gExternalUseNodesInWrite->append(QPair<WbNode *, int>(mDefNode, writer.string()->size()));
+        gExternalUseNodesInWrite->append(std::pair<WbNode *, int>(mDefNode, writer.string()->size()));
       else {
         // write definition directly on the stream
         mDefNode->write(writer);
@@ -1087,8 +1087,8 @@ void WbNode::write(WbWriter &writer) const {
 // This function lists only the texture files which are explicitly referred to in
 // this world file and not the one implicitly referred to by included PROTO files.
 // This list may contain duplicate texture files.
-QList<QPair<QString, WbMFString *>> WbNode::listTextureFiles() const {
-  QList<QPair<QString, WbMFString *>> list;
+QList<std::pair<QString, WbMFString *>> WbNode::listTextureFiles() const {
+  QList<std::pair<QString, WbMFString *>> list;
   bool imageTexture = model()->name() == "ImageTexture";
   const QString currentTexturePath = WbProject::current()->worldsPath();
   foreach (WbField *field, fields())
@@ -1114,7 +1114,7 @@ QList<QPair<QString, WbMFString *>> WbNode::listTextureFiles() const {
         if (proto && QFile::exists(protoPath + textureFile))  // PROTO texture
           continue;                                           // skip it
         if (QFile::exists(currentTexturePath + textureFile))
-          list << QPair<QString, WbMFString *>(textureFile, mfstring);
+          list << std::pair<QString, WbMFString *>(textureFile, mfstring);
       }
     }
   return list;
@@ -1247,7 +1247,7 @@ void WbNode::exportExternalSubProto(WbWriter &writer) const {
     return;
 
   // find all proto that were already exposed prior to converting the root (typically, slots with world visibility)
-  const QList<const WbNode *> protos = WbNodeUtilities::protoNodesInWorldFile(this);
+  const QList<const WbNode *> protos = WbVrmlNodeUtilities::protoNodesInWorldFile(this);
   foreach (const WbNode *p, protos) {
     // the node itself doesn't need to be re-declared since it won't exist after conversion
     if (p != this) {
@@ -1782,8 +1782,12 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
         WbField *aliasParam = aliasIt.next();
         if (aliasParam->name() == param->alias() && aliasParam->type() == param->type()) {
           aliasNotFound = false;
-          if (!aliasParam->isTemplateRegenerator())
-            aliasParam->setTemplateRegenerator(param->isTemplateRegenerator());
+          if (!aliasParam->isTemplateRegenerator()) {
+            const bool paramTemplate = param->isTemplateRegenerator();
+            aliasParam->setTemplateRegenerator(paramTemplate);
+            if (paramTemplate)
+              instance->mProto->setIsTemplate(true);
+          }
 
           WbNode *tmpParent = gParent;
           foreach (WbField *internalField, param->internalFields()) {
@@ -2322,10 +2326,12 @@ void WbNode::printDebugNodeStructure(int level) {
   for (int i = 0; i < level; ++i)
     indent += "  ";
 
-  QString line;
-  line.sprintf("%sNode %s %p id %d parameterNode %p", indent.toStdString().c_str(), usefulName().toStdString().c_str(), this,
-               uniqueId(), protoParameterNode());
-  qDebug() << line;
+  qDebug() << QString("%1Node %2 0x%3 id %4 parameterNode 0x%5")
+                .arg(indent.toStdString().c_str())
+                .arg(usefulName().toStdString().c_str())
+                .arg((quintptr)this, QT_POINTER_SIZE * 2, 16)
+                .arg(uniqueId())
+                .arg((quintptr)protoParameterNode(), 0, 16);
   printDebugNodeFields(level, true);
   printDebugNodeFields(level, false);
 }
@@ -2339,9 +2345,12 @@ void WbNode::printDebugNodeFields(int level, bool printParameters) {
   QString type = printParameters ? "Parameter" : "Field";
   QVector<WbField *> fieldList = printParameters ? parameters() : fields();
   foreach (WbField *p, fieldList) {
-    line.sprintf("%s%s %s %p (alias %p):", indent.toStdString().c_str(), type.toStdString().c_str(),
-                 p->name().toStdString().c_str(), p, p->parameter());
-    qDebug() << line;
+    qDebug() << QString("%1%2 %3 0x%4 (alias 0x%5):")
+                  .arg(indent.toStdString().c_str())
+                  .arg(type.toStdString().c_str())
+                  .arg(p->name().toStdString().c_str())
+                  .arg((quintptr)p, 0, 16)
+                  .arg((quintptr)p->parameter(), 0, 16);
     if (p->type() == WB_SF_NODE) {
       WbNode *n = dynamic_cast<WbSFNode *>(p->value())->value();
       if (n)
@@ -2353,10 +2362,9 @@ void WbNode::printDebugNodeFields(int level, bool printParameters) {
         if (n)
           n->printDebugNodeStructure(level + 1);
       }
-    } else {
-      line.sprintf("%s  %s", indent.toStdString().c_str(), p->toString(WbPrecision::GUI_LOW).toStdString().c_str());
-      qDebug() << line;
-    }
+    } else
+      qDebug()
+        << QString("%1 %2").arg(indent.toStdString().c_str()).arg(p->toString(WbPrecision::GUI_LOW).toStdString().c_str());
   }
 }
 */

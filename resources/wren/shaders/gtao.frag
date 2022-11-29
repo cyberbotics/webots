@@ -8,10 +8,11 @@ precision highp float;
 #define PI 3.1415926535897932
 #define PI_HALF 1.5707963267948966
 
-uniform sampler2D inputTextures[3];
+uniform sampler2D inputTextures[2];
+uniform sampler2D gtaoTexture;
 
 uniform float radius;
-uniform float flipNormalY;
+uniform bool flipNormalY;
 uniform vec4 clipInfo;
 uniform vec2 viewportSize;
 uniform vec4 params;
@@ -118,7 +119,7 @@ void main() {
   viewSpaceNormal *= 2.0;
   viewSpaceNormal = normalize(vec3(viewSpaceNormal.xy, -viewSpaceNormal.z));
 
-  if (flipNormalY > 0.0)
+  if (flipNormalY)
     viewSpaceNormal.y *= -1.0;
 
   // calculate screen-space radius
@@ -127,7 +128,7 @@ void main() {
 
   // fetch noises and calculate jittered slice angle
   ivec2 loc = ivec2(gl_FragCoord.xy);
-  vec2 noises = texelFetch(inputTextures[2], loc % 4, 0).rg;
+  vec2 noises = texelFetch(gtaoTexture, loc % 4, 0).rg;
   float sliceAngle = (params.x + noises.x) * PI;
   float currentStep = mod(params.y + noises.y, 1.0) * (stepsize - 1.0) + 1.0;
   vec3 searchDirection = vec3(cos(sliceAngle), sin(sliceAngle), 0.0);

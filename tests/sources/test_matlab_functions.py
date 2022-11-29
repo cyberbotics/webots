@@ -18,7 +18,8 @@
 import unittest
 import os
 import sys
-sys.path.append(os.environ['WEBOTS_HOME'] + "/src/controller/matlab/")
+WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
+sys.path.append(os.path.join(WEBOTS_HOME, 'src', 'controller', 'matlab'))
 import mgenerate  # noqa: E402
 
 
@@ -42,21 +43,21 @@ class TestMatlabFunctions(unittest.TestCase):
                 'EXPORTS'
             ]
             self.functions = []
-            filename = os.environ['WEBOTS_HOME'] + '/src/controller/c/Controller.def'
+            filename = os.path.join(WEBOTS_HOME, 'src', 'controller', 'c', 'Controller.def')
             self.assertTrue(
                 os.path.isfile(filename),
                 msg='Missing "%s" file.' % filename
             )
             with open(filename) as file:
                 for line in file:
-                    if not any(skippedLine in line for skippedLine in skippedLines):
+                    if not any(skippedLine in line for skippedLine in skippedLines) and not line[3:].isupper():
                         self.functions.append(line.replace('\n', ''))
 
     @unittest.skipIf(sys.version_info[0] < 3, "not supported by Python 2.7")
     def test_matlab_function_exists(self):
         """Test that the function file exists."""
         for function in self.functions:
-            filename = os.environ['WEBOTS_HOME'] + '/lib/controller/matlab/' + function + '.m'
+            filename = os.path.join(WEBOTS_HOME, 'lib', 'controller', 'matlab', function + '.m')
             self.assertTrue(
                 os.path.isfile(filename),
                 msg='Missing "%s" file.' % filename

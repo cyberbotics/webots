@@ -156,9 +156,9 @@ void WbInsertExternProtoDialog::accept() {
   if (mTree->selectedItems().size() == 0 || !mInsertButton->isEnabled())
     return;
 
-  const QList<WbExternProto *> cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
+  const QList<WbExternProto *> &clipboardBuffer = WbProtoManager::instance()->externProtoClipboardBuffer();
   bool conflict = false;
-  foreach (const WbExternProto *proto, cutBuffer) {
+  foreach (const WbExternProto *proto, clipboardBuffer) {
     if (proto && proto->name() == mTree->selectedItems().at(0)->text(0) && !mRetrievalTriggered) {
       conflict = true;
       break;
@@ -166,13 +166,13 @@ void WbInsertExternProtoDialog::accept() {
   }
 
   if (conflict) {
-    const QMessageBox::StandardButton cutBufferWarningDialog = WbMessageBox::warning(
+    const QMessageBox::StandardButton clipboardBufferWarningDialog = WbMessageBox::warning(
       "One or more PROTO nodes with the same name as the one you are about to insert is contained in the clipboard. Do "
       "you want to continue? This operation will clear the clipboard.",
       this, "Warning", QMessageBox::Cancel, QMessageBox::Ok | QMessageBox::Cancel);
 
-    if (cutBufferWarningDialog == QMessageBox::Ok) {
-      WbProtoManager::instance()->clearExternProtoCutBuffer();
+    if (clipboardBufferWarningDialog == QMessageBox::Ok) {
+      WbProtoManager::instance()->clearExternProtoClipboardBuffer();
       WbClipboard::instance()->clear();
     } else
       return;

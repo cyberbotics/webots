@@ -53,6 +53,7 @@ public:
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
   void write(WbWriter &writer) const override;
+  void exportNodeSubNodes(WbWriter &writer) const override;
   WbRgb enabledCameraFrustrumColor() const override { return WbRgb(0.0f, 1.0f, 1.0f); }
 
   double maxRange() const override { return mMaxRange->value(); }

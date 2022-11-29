@@ -18,7 +18,6 @@
 #include "WbClipboard.hpp"
 #include "WbDesktopServices.hpp"
 #include "WbDictionary.hpp"
-#include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbFileUtil.hpp"
 #include "WbLog.hpp"
@@ -31,12 +30,14 @@
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbProjectRelocationDialog.hpp"
+#include "WbProtoIcon.hpp"
 #include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbSFNode.hpp"
 #include "WbSimulationState.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbUrl.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWorld.hpp"
 
 #include <QtCore/QRegularExpression>
@@ -67,11 +68,9 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   mRetrievalTriggered(false) {
   assert(mCurrentNode && mField);
 
-  mIconDownloaders.clear();
-
   // check if top node is a robot node
   const WbNode *const topNode =
-    field ? WbNodeUtilities::findTopNode(mCurrentNode) : WbNodeUtilities::findTopNode(mCurrentNode->parentNode());
+    field ? WbVrmlNodeUtilities::findTopNode(mCurrentNode) : WbVrmlNodeUtilities::findTopNode(mCurrentNode->parentNode());
   mHasRobotTopNode = topNode ? WbNodeUtilities::isRobotTypeName(topNode->nodeModelName()) : false;
 
   setWindowTitle(tr("Add a node"));
@@ -180,27 +179,7 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   WbProtoManager::instance()->retrieveLocalProtoDependencies();
 }
 
-WbAddNodeDialog::~WbAddNodeDialog() {
-}
-
-void WbAddNodeDialog::downloadIcon(const QString &url) {
-  WbDownloader *const downloader = new WbDownloader(this);
-  mIconDownloaders.push_back(downloader);
-  connect(downloader, &WbDownloader::complete, this, &WbAddNodeDialog::iconUpdate);
-
-  downloader->download(QUrl(url));
-}
-
-void WbAddNodeDialog::iconUpdate() {
-  const WbDownloader *const source = dynamic_cast<WbDownloader *>(sender());
-  QString pixmapPath;
-  if (source && !source->error().isEmpty()) {
-    // failure downloading or file does not exist (404)
-    pixmapPath = WbUrl::missingProtoIcon();
-  } else {
-    pixmapPath = WbNetwork::instance()->get(source->url().toString());
-  }
-
+void WbAddNodeDialog::setPixmap(const QString &pixmapPath) {
   QPixmap pixmap(pixmapPath);
   if (!pixmap.isNull()) {
     if (pixmap.size() != QSize(128, 128)) {
@@ -210,12 +189,14 @@ void WbAddNodeDialog::iconUpdate() {
     mPixmapLabel->show();
     mPixmapLabel->setPixmap(pixmap);
   }
+}
 
-  // purge completed downloaders
-  for (int i = mIconDownloaders.size() - 1; i >= 0; --i) {
-    if (mIconDownloaders[i] && mIconDownloaders[i]->hasFinished())
-      mIconDownloaders.remove(i);
-  }
+void WbAddNodeDialog::updateIcon(const QString &path) {
+  setPixmap(path.isEmpty() ? WbUrl::missingProtoIcon() : path);
+
+  WbProtoIcon *protoIcon = dynamic_cast<WbProtoIcon *>(sender());
+  assert(protoIcon);
+  protoIcon->deleteLater();
 }
 
 QString WbAddNodeDialog::modelName() const {
@@ -371,60 +352,47 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
       mLicenseLabel->setText(tr("License: ") + license);
     }
 
-    mInfoText->clear();
-
-    if (!boundingObjectInfo.isEmpty())
-      mInfoText->appendHtml(tr("<font color=\"red\">WARNING: this node contains a Geometry with non-positive dimensions and "
-                               "hence cannot be inserted in a bounding object.</font><br/>"));
-
     description = info->description();
-    if (description.isEmpty())
-      mInfoText->setPlainText(tr("No info available."));
-    else {
-      // replace carriage returns with spaces where appropriate:
-      // "\n\n" => "\n\n": two consecutive carriage returns are preserved (new paragraph)
-      // "\n-"  => "\n-": a carriage return followed by a "-" are preserved (bullet list)
-      // "\n"   => " ": a single carriage return is transformed into a space (comment line wrap)
-      for (int i = 0; i < description.length(); i++) {
-        if (description[i] == '\n') {
-          if (i < (description.length() - 1)) {
-            if (description[i + 1] == '\n' || description[i + 1] == '-') {
-              i++;
-              continue;
-            }
-          }
-          description[i] = ' ';
-        }
-      }
-      mInfoText->appendPlainText(description.trimmed());
-    }
-    mInfoText->moveCursor(QTextCursor::Start);
-
-    pixmapPath = QString("%1icons/%2.png").arg(QUrl(path).adjusted(QUrl::RemoveFilename).toString()).arg(modelName);
   }
+
+  mInfoText->clear();
+
+  if (!boundingObjectInfo.isEmpty())
+    mInfoText->appendHtml(tr("<font color=\"red\">WARNING: this node contains a Geometry with non-positive dimensions and "
+                             "hence cannot be inserted in a bounding object.</font><br/>"));
+
+  if (description.isEmpty())
+    mInfoText->setPlainText(tr("No info available."));
+  else {
+    // replace carriage returns with spaces where appropriate:
+    // "\n\n" => "\n\n": two consecutive carriage returns are preserved (new paragraph)
+    // "\n-"  => "\n-": a carriage return followed by a "-" are preserved (bullet list)
+    // "\n"   => " ": a single carriage return is transformed into a space (comment line wrap)
+    for (int i = 0; i < description.length(); i++) {
+      if (description[i] == '\n') {
+        if (i < (description.length() - 1)) {
+          if (description[i + 1] == '\n' || description[i + 1] == '-') {
+            i++;
+            continue;
+          }
+        }
+        description[i] = ' ';
+      }
+    }
+    mInfoText->appendPlainText(description.trimmed());
+  }
+  mInfoText->moveCursor(QTextCursor::Start);
 
   mPixmapLabel->hide();
-  if (!pixmapPath.isEmpty()) {
-    if (WbUrl::isWeb(pixmapPath)) {
-      if (WbNetwork::instance()->isCachedWithMapUpdate(pixmapPath))
-        pixmapPath = WbNetwork::instance()->get(pixmapPath);
-      else {
-        downloadIcon(pixmapPath);
-        return;
-      }
-    } else if (WbUrl::isLocalUrl(pixmapPath))
-      pixmapPath = QDir::cleanPath(pixmapPath.replace("webots://", WbStandardPaths::webotsHomePath()));
-
-    QPixmap pixmap(pixmapPath);
-    if (!pixmap.isNull()) {
-      if (pixmap.size() != QSize(128, 128)) {
-        WbLog::warning(tr("The \"%1\" icon should have a dimension of 128x128 pixels.").arg(pixmapPath));
-        pixmap = pixmap.scaled(128, 128);
-      }
-      mPixmapLabel->show();
-      mPixmapLabel->setPixmap(pixmap);
-    }
-  }
+  if (pixmapPath.isEmpty()) {
+    WbProtoIcon *icon = new WbProtoIcon(modelName, path, this);
+    if (icon->isReady()) {
+      setPixmap(icon->path());
+      delete icon;
+    } else
+      connect(icon, &WbProtoIcon::iconReady, this, &WbAddNodeDialog::updateIcon);
+  } else
+    setPixmap(pixmapPath);
 }
 
 bool WbAddNodeDialog::doFieldRestrictionsAllowNode(const QString &nodeName) const {
@@ -683,12 +651,12 @@ void WbAddNodeDialog::accept() {
     return;
   }
 
-  const QList<WbExternProto *> cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
+  const QList<WbExternProto *> &clipboardBuffer = WbProtoManager::instance()->externProtoClipboardBuffer();
   const QString protoName =
     QUrl(mTree->selectedItems().at(0)->text(FILE_NAME)).fileName().replace(".proto", "", Qt::CaseInsensitive);
 
   bool conflict = false;
-  foreach (const WbExternProto *proto, cutBuffer) {
+  foreach (const WbExternProto *proto, clipboardBuffer) {
     if (proto && proto->name() == protoName && !mRetrievalTriggered) {
       conflict = true;
       break;
@@ -696,13 +664,13 @@ void WbAddNodeDialog::accept() {
   }
 
   if (conflict) {
-    const QMessageBox::StandardButton cutBufferWarningDialog = WbMessageBox::warning(
+    const QMessageBox::StandardButton clipboardBufferWarningDialog = WbMessageBox::warning(
       "One or more PROTO nodes with the same name as the one you are about to insert is contained in the clipboard. Do "
       "you want to continue? This operation will clear the clipboard.",
       this, "Warning", QMessageBox::Cancel, QMessageBox::Ok | QMessageBox::Cancel);
 
-    if (cutBufferWarningDialog == QMessageBox::Ok) {
-      WbProtoManager::instance()->clearExternProtoCutBuffer();
+    if (clipboardBufferWarningDialog == QMessageBox::Ok) {
+      WbProtoManager::instance()->clearExternProtoClipboardBuffer();
       WbClipboard::instance()->clear();
     } else
       return;

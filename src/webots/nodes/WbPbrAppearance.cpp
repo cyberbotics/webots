@@ -665,7 +665,7 @@ bool WbPbrAppearance::exportNodeHeader(WbWriter &writer) const {
   return WbAbstractAppearance::exportNodeHeader(writer);
 }
 
-void WbPbrAppearance::exportShallowNode(WbWriter &writer) const {
+void WbPbrAppearance::exportShallowNode(const WbWriter &writer) const {
   if (!writer.isX3d())
     return;
 

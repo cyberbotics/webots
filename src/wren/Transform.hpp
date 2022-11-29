@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef TRANSFROM_HPP
-#define TRANSFROM_HPP
+#ifndef TRANSFORM_HPP
+#define TRANSFORM_HPP
 
 #include <vector>
 
@@ -84,4 +84,4 @@ namespace wren {
 
 }  // namespace wren
 
-#endif  // TRANSFROM_HPP
+#endif  // TRANSFORM_HPP

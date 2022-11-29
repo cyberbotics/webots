@@ -510,7 +510,7 @@ void WbSimulationView::hideInappropriateToolBarItems() {
     // have blank action text and aren't parented by the toolbar. We need to check
     // the parent as menu separators have blank text but are always parented by the
     // QToolBar instance
-    if (action->text().isEmpty() && action->parentWidget() != mToolBar)
+    if (action->text().isEmpty() && qobject_cast<QWidget *>(action->parent()) != mToolBar)
       action->setVisible(false);
   }
 }

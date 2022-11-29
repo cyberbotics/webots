@@ -70,7 +70,7 @@ public:
 
   void setRole(const QString &role) { mRole = role; }
 
-  void exportShallowNode(WbWriter &writer) const;
+  void exportShallowNode(const WbWriter &writer) const;
 
 signals:
   void changed();
@@ -112,8 +112,6 @@ private:
   void destroyWrenTexture();
   bool loadTexture();
   bool loadTextureData(QIODevice *device);
-
-  static QSet<QString> cQualityChangedTexturesList;
 
 private slots:
   void updateUrl();

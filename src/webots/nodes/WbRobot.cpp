@@ -1484,21 +1484,17 @@ void WbRobot::exportNodeFields(WbWriter &writer) const {
       writer << " controller=";
       writer.writeLiteralString(controllerName());
     }
-    if (findField("window") && !window().isEmpty()) {
-      writer << " window=";
-      writer.writeLiteralString(window());
-    }
     writer << " type='robot'";
   }
 }
 
 void WbRobot::fixMissingResources() const {
-  if (controllerName() != "<generic>" && mControllerDir != (WbProject::current()->controllersPath() + controllerName() + "/")) {
+  if (controllerName()[0] != '<' && mControllerDir != (WbProject::current()->controllersPath() + controllerName() + "/")) {
     mController->setValue("<generic>");
     WbLog::info(tr("The 'controller' field of the robot has been changed to \"<generic>\"."));
   }
 
-  if (window() != "<generic>" &&
+  if (window()[0] != '<' &&
       windowFile() != (WbProject::current()->robotWindowPluginsPath() + window() + "/" + window() + ".html")) {
     mWindow->blockSignals(true);
     mWindow->setValue("<generic>");
@@ -1523,12 +1519,16 @@ int WbRobot::computeSimulationMode() {
   }
 }
 
-void WbRobot::externControllerChanged() {
+void WbRobot::notifyExternControllerChanged() {
   foreach (WbRenderingDevice *device, mRenderingDevices) {
     WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
     if (ac)
       ac->externControllerChanged();  // memory mapped file should be sent to new extern controller
   }
+
+  if (WbSimulationState::instance()->hasStarted())
+    // close old robot window if already configured
+    emit externControllerChanged();
 }
 
 void WbRobot::newRemoteExternController() {

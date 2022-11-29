@@ -14,17 +14,13 @@
 
 #include "WbProtoManager.hpp"
 
-#include "WbApplication.hpp"
 #include "WbApplicationInfo.hpp"
-#include "WbDownloader.hpp"
 #include "WbFieldModel.hpp"
 #include "WbFileUtil.hpp"
 #include "WbLog.hpp"
 #include "WbMultipleValue.hpp"
 #include "WbNetwork.hpp"
 #include "WbNode.hpp"
-#include "WbNodeOperations.hpp"
-#include "WbNodeUtilities.hpp"
 #include "WbParser.hpp"
 #include "WbProject.hpp"
 #include "WbProtoModel.hpp"
@@ -34,10 +30,12 @@
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 #include "WbUrl.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 
 #include <QtCore/QDir>
 #include <QtCore/QDirIterator>
 #include <QtCore/QRegularExpression>
+#include <QtCore/QUrl>
 #include <QtCore/QXmlStreamReader>
 
 static WbProtoManager *gInstance = NULL;
@@ -108,9 +106,9 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
 
   // nodes imported from a supervisor should only check the IMPORTABLE list
   if (!mImportedFromSupervisor) {
-    // check the cut buffer
-    if (protoDeclaration.isEmpty() && !mExternProtoCutBuffer.isEmpty()) {
-      foreach (const WbExternProto *item, mExternProtoCutBuffer) {
+    // check the clipboard buffer
+    if (protoDeclaration.isEmpty() && !mExternProtoClipboardBuffer.isEmpty()) {
+      foreach (const WbExternProto *item, mExternProtoClipboardBuffer) {
         if (item->name() == modelName)
           protoDeclaration = item->url();
       }
@@ -124,7 +122,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
   // for IMPORTABLE proto nodes the declaration is in the EXTERNPROTO list, nodes added with add-node follow a different pipe
   if (protoDeclaration.isEmpty()) {
     foreach (const WbExternProto *proto, mExternProto) {
-      if (proto->name() == modelName && (proto->isImportable() || proto->isFromRootNodeConversion()))
+      if (proto->name() == modelName && proto->isImportable())
         protoDeclaration = proto->url();
     }
     // for supervisor imported nodes, only the first level should be exclusively checked in the IMPORTABLE list
@@ -147,7 +145,7 @@ WbProtoModel *WbProtoManager::findModel(const QString &modelName, const QString 
     const WbVersion protoVersion = checkProtoVersion(parentFilePath, &foundProtoVersion);
     if (foundProtoVersion && protoVersion < WbVersion(2022, 1, 0)) {
       const QString backwardsCompatibilityMessage =
-        tr("Please adapt your project to R2022b following these instructions: "
+        tr("Please adapt your project to R2023a following these instructions: "
            "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b");
       const QString outdatedProtoMessage =
         tr("'%1' must be converted because EXTERNPROTO declarations are missing.").arg(parentFilePath);
@@ -272,7 +270,7 @@ QMap<QString, QString> WbProtoManager::undeclaredProtoNodes(const QString &filen
   queue << parser.protoNodeList();
 
   displayMissingDeclarations(
-    tr("Please adapt your project to R2022b following these instructions: "
+    tr("Please adapt your project to R2023a following these instructions: "
        "https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b"));
 
   // list all PROTO nodes which are known
@@ -419,7 +417,7 @@ void WbProtoManager::loadWorld() {
 
   // cleanup and load world at last
   mTreeRoot->deleteLater();
-  WbApplication::instance()->loadWorld(mCurrentWorld, mReloading, true);
+  emit worldLoadCompleted(mCurrentWorld, mReloading, true);
 }
 
 void WbProtoManager::loadWebotsProtoMap() {
@@ -723,7 +721,7 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
   // establish if it requires a Robot ancestor by checking if it contains devices
   while (tokenizer.hasMoreTokens()) {
     WbToken *token = tokenizer.nextToken();
-    if (token->isIdentifier() && WbNodeUtilities::isDeviceTypeName(token->word()) && token->word() != "Connector") {
+    if (token->isIdentifier() && mNeedsRobotAncestorCallback(token->word())) {
       needsRobotAncestor = true;
       break;
     }
@@ -738,7 +736,7 @@ WbProtoInfo *WbProtoManager::generateInfoFromProtoFile(const QString &protoFileN
     if (defaultValue->type() == WB_SF_NODE) {
       const WbSFNode *sfn = dynamic_cast<const WbSFNode *>(defaultValue);
       if (sfn->value()) {
-        QString nodeContent = WbNodeOperations::exportNodeToString(sfn->value());
+        QString nodeContent = WbVrmlNodeUtilities::exportNodeToString(sfn->value());
         vrmlDefaultValue = nodeContent.replace(QRegularExpression("[\\s\\n]+"), " ");
       }
     } else
@@ -784,14 +782,12 @@ QString WbProtoManager::declareExternProto(const QString &protoName, const QStri
     }
   }
 
-  mExternProto.push_back(new WbExternProto(protoName, expandedProtoPath, importable, !forceUpdate));
+  mExternProto.push_back(new WbExternProto(protoName, expandedProtoPath, importable));
   return previousUrl;
 }
 
 void WbProtoManager::purgeUnusedExternProtoDeclarations(const QSet<QString> &protoNamesInUse) {
   for (int i = mExternProto.size() - 1; i >= 0; --i) {
-    mExternProto[i]->unflagFromRootNodeConversion();  // deactivate the flag as it's no longer needed
-
     if (!protoNamesInUse.contains(mExternProto[i]->name()) && !mExternProto[i]->isImportable()) {
       // delete non-importable nodes that have no remaining visible instances
       delete mExternProto[i];
@@ -821,32 +817,49 @@ QString WbProtoManager::externProtoUrl(const WbNode *node, bool formatted) const
   return QString();
 }
 
-void WbProtoManager::saveToExternProtoCutBuffer(const QList<const WbNode *> &nodes) {
-  foreach (const WbNode *node, nodes) {
-    if (!node->proto())
-      continue;
-
-    for (int i = 0; i < mExternProto.size(); ++i) {
-      if (mExternProto[i]->url() == node->proto()->url()) {
-        mExternProtoCutBuffer << new WbExternProto(*mExternProto[i]);
-        break;
-      }
+void WbProtoManager::saveToExternProtoClipboardBuffer(const QString &url) {
+  for (int i = 0; i < mExternProto.size(); ++i) {
+    if (mExternProto[i]->url() == url) {
+      mExternProtoClipboardBuffer << new WbExternProto(*mExternProto[i]);
+      return;
     }
   }
 }
 
-void WbProtoManager::clearExternProtoCutBuffer() {
-  qDeleteAll(mExternProtoCutBuffer);
-  mExternProtoCutBuffer.clear();
+void WbProtoManager::saveToExternProtoClipboardBuffer(const QList<const WbNode *> &nodes) {
+  foreach (const WbNode *node, nodes) {
+    if (!node->proto())
+      continue;
+
+    saveToExternProtoClipboardBuffer(node->proto()->url());
+  }
 }
 
-void WbProtoManager::removeImportableExternProto(const QString &protoName) {
+void WbProtoManager::clearExternProtoClipboardBuffer() {
+  qDeleteAll(mExternProtoClipboardBuffer);
+  mExternProtoClipboardBuffer.clear();
+}
+
+QList<QString> WbProtoManager::externProtoClipboardBufferUrls() const {
+  QList<QString> list;
+  foreach (WbExternProto *proto, mExternProtoClipboardBuffer)
+    list << proto->url();
+  return list;
+}
+
+void WbProtoManager::resetExternProtoClipboardBuffer(const QList<QString> &bufferUrls) {
+  clearExternProtoClipboardBuffer();
+  foreach (QString url, bufferUrls)
+    saveToExternProtoClipboardBuffer(url);
+}
+
+void WbProtoManager::removeImportableExternProto(const QString &protoName, WbNode *root) {
   for (int i = mExternProto.size() - 1; i >= 0; --i) {
     if (mExternProto[i]->name() == protoName) {
       assert(mExternProto[i]->isImportable());
       // only IMPORTABLE nodes should be removed using this function, instantiated nodes are removed when deleting the node
       mExternProto[i]->setImportable(false);
-      if (!WbNodeUtilities::existsVisibleProtoNodeNamed(protoName)) {
+      if (!WbVrmlNodeUtilities::existsVisibleProtoNodeNamed(protoName, root)) {
         delete mExternProto[i];
         mExternProto.remove(i);
       }

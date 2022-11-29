@@ -16,12 +16,12 @@
 
 #include "WbBaseNode.hpp"
 #include "WbDictionary.hpp"
-#include "WbNodeOperations.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbRgb.hpp"
 #include "WbRotation.hpp"
 #include "WbVector2.hpp"
 #include "WbVector3.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 
 #include "../../../include/controller/c/webots/supervisor.h"
 
@@ -155,8 +155,8 @@ void WbClipboard::setNode(WbNode *n, bool persistent) {
   mNodeInfo->hasADeviceDescendant = WbNodeUtilities::hasADeviceDescendant(n, true);
   mNodeInfo->hasAConnectorDescendant = mNodeInfo->hasADeviceDescendant || WbNodeUtilities::hasADeviceDescendant(n, false);
   WbNode::enableDefNodeTrackInWrite(false);
-  mNodeExportString = WbNodeOperations::exportNodeToString(n);
-  QList<QPair<WbNode *, int>> externalDefNodes(*WbNode::externalUseNodesPositionsInWrite());
+  mNodeExportString = WbVrmlNodeUtilities::exportNodeToString(n);
+  QList<std::pair<WbNode *, int>> externalDefNodes(*WbNode::externalUseNodesPositionsInWrite());
   WbNode::disableDefNodeTrackInWrite();
   // store all the required external DEF nodes data in order to work correctly
   // independently if other nodes are deleted
@@ -167,7 +167,7 @@ void WbClipboard::setNode(WbNode *n, bool persistent) {
     data->type = node->nodeType();
     data->defName = node->defName();
     WbNode::enableDefNodeTrackInWrite(false);
-    data->definition = WbNodeOperations::exportNodeToString(node);
+    data->definition = WbVrmlNodeUtilities::exportNodeToString(node);
     WbNode::disableDefNodeTrackInWrite();
     mLinkedDefNodeDefinitions.append(data);
   }

@@ -94,8 +94,8 @@ class OpenAIGymEnvironment(Supervisor, gym.Env):
         # Observation
         robot = self.getSelf()
         endpoint = self.getFromDef("POLE_ENDPOINT")
-        self.state = np.array([robot.getPosition()[2], robot.getVelocity()[2],
-                               self.__pendulum_sensor.getValue(), endpoint.getVelocity()[3]])
+        self.state = np.array([robot.getPosition()[0], robot.getVelocity()[0],
+                               self.__pendulum_sensor.getValue(), endpoint.getVelocity()[4]])
 
         # Done
         done = bool(

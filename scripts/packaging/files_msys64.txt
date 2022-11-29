@@ -15,7 +15,7 @@
 /mingw64/bin/libmd4c.dll
 /mingw64/bin/libminizip-1.dll
 /mingw64/bin/libopenal-1.dll
-/mingw64/bin/libpcre-1.dll
+/mingw64/bin/libpcre2-8-0.dll
 /mingw64/bin/libpcre2-16-0.dll
 /mingw64/bin/libpng16-16.dll
 /mingw64/bin/Qt6Core.dll

@@ -315,7 +315,8 @@ void WbLightSensor::computeLightMeasurement(const WbLight *light,
 
     // compute spot's beam effect
     const WbVector3 &dir = spotLight->direction();
-    WbVector3 R = -dir;
+    const WbTransform *ut = spotLight->upperTransform();
+    WbVector3 R = ut ? -(ut->rotation().toMatrix3() * dir) : -dir;
     R.normalize();
     double alpha = WbMathsUtilities::clampedAcos(lightDirection.dot(R));  // both lightDirection and R are normalized
     assert(!std::isnan(alpha));

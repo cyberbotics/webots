@@ -64,17 +64,22 @@ const QStringList WbLanguageTools::javaArguments() {
 
 QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &command, QProcessEnvironment &env) {
   QString pythonCommand = command;
+  if (pythonCommand.isEmpty())
+#ifdef _WIN32
+    pythonCommand = "python";
+#else
+    pythonCommand = "python3";
+#endif
   const QString advice =
 #ifdef __APPLE__
     "To fix the problem, you should set the full path of your python command in "
     "Webots->preferences->python command.\n";
 #else
-    QObject::tr("Webots requires Python version 3.10, 3.9, 3.8 or 3.7 from python.org in your current PATH.\n"
+    QObject::tr("Webots requires Python version 3.7 or newer in your current PATH.\n"
                 "To fix the problem, you should:\n"
                 "1. Check the Python command set in the Webots preferences.\n"
                 "2. Check the COMMAND set in the [python] section of the runtime.ini file of your controller program if any.\n"
-                "3. Fix your PATH environment variable to use the required Python 64 bit version (if available).\n"
-                "4. Install the required Python 64 bit version and ensure your PATH environment variable points to it.\n");
+                "3. Install a recent Python 64 bit version and ensure your PATH environment variable points to it.\n");
 #endif
 #ifdef _WIN32
   if (!command.endsWith(".exe", Qt::CaseInsensitive))
@@ -88,8 +93,8 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
   const QString output = process.readAll();
   // "3.6.3 (v3.6.3:2c5fed8, Oct  3 2017, 18:11:49) [MSC v.1900 64 bit (AMD64)]\nTrue\n" or the like
   const QStringList version = output.split("\n");
-  if (!version[0].startsWith("3.10.") && !version[0].startsWith("3.9.") && !version[0].startsWith("3.8.") &&
-      !version[0].startsWith("3.7.")) {
+  const int v = (QString(version[0][2]) + (version[0][3] != '.' ? QString(version[0][3]) : "")).toInt();
+  if (!version[0].startsWith("3.") || v < 7) {
     WbLog::warning(QObject::tr("\"%1\" was not found.\n").arg(pythonCommand) + advice);
     pythonCommand = "!";
   } else if (version.size() > 1 && version[1].startsWith("False")) {
@@ -102,48 +107,30 @@ QString WbLanguageTools::pythonCommand(QString &shortVersion, const QString &com
 #elif __APPLE__
   if (std::getenv("PWD"))
     shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
-  else {
-    if (pythonCommand == "python" || pythonCommand == "python3") {
-      pythonCommand = findWorkingPythonPath("3.10", env, false);
-      if (pythonCommand != "!")
-        shortVersion = "310";
-      else {
-        pythonCommand = findWorkingPythonPath("3.9", env, false);
-        if (pythonCommand != "!")
-          shortVersion = "39";
-        else {
-          pythonCommand = findWorkingPythonPath("3.8", env, false);
-          if (pythonCommand != "!")
-            shortVersion = "38";
-          else {
-            pythonCommand = findWorkingPythonPath("3.7", env, true);
-            if (pythonCommand != "!")
-              shortVersion = "37";
-          }
-        }
+  else if (pythonCommand == "python" || pythonCommand == "python3") {
+    for (int minorVersion = 11; minorVersion >= 7; minorVersion--) {
+      const QString versionString = QString::number(minorVersion);
+      const QString fullVersionString = "3." + versionString;
+      pythonCommand = findWorkingPythonPath(fullVersionString, env, false);
+      if (pythonCommand != "!") {
+        shortVersion = QString("3") + versionString;
+        break;
       }
-    } else if (pythonCommand == "python3.7") {
-      pythonCommand = findWorkingPythonPath("3.7", env, true);
-      shortVersion = "37";
-    } else if (pythonCommand == "python3.8") {
-      pythonCommand = findWorkingPythonPath("3.8", env, true);
-      shortVersion = "38";
-    } else if (pythonCommand == "python3.9") {
-      pythonCommand = findWorkingPythonPath("3.9", env, true);
-      shortVersion = "39";
-    } else if (pythonCommand == "python3.10") {
-      pythonCommand = findWorkingPythonPath("3.10", env, true);
-      shortVersion = "310";
-    } else
-      shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
-  }
+    }
+  } else if (pythonCommand.startsWith("python3.")) {
+    pythonCommand = findWorkingPythonPath(pythonCommand.mid(6), env, true);
+    shortVersion = QString("3") + pythonCommand[8];
+    if (pythonCommand.length() > 9 && pythonCommand[9] != '.')
+      shortVersion += pythonCommand[9];
+  } else
+    shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
   if (shortVersion.isEmpty())
     pythonCommand = "!";
 
   if (pythonCommand == "!")
     WbLog::warning(QObject::tr("Python was not found.\n") + advice);
 #else  // __linux__
-    shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
+      shortVersion = checkIfPythonCommandExist(pythonCommand, env, true);
   if (shortVersion.isEmpty()) {
     pythonCommand = "!";
     WbLog::warning(QObject::tr("Python was not found.\n") + advice);

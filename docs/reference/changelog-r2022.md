@@ -107,7 +107,7 @@ Released on September, 13th, 2022.
 ## Webots R2022a
 Released on December 21th, 2021.
 
-  - New Features:
+  - New Features
     - Released [Skin](skin.md) node ([#3566](https://github.com/cyberbotics/webots/pull/3566)).
     - Added support for rolling friction in [ContactProperties](contactproperties.md) ([#3771](https://github.com/cyberbotics/webots/pull/3771)).
     - Added the ColladaShapes PROTO that allows importing a Collada file on the fly ([#3956](https://github.com/cyberbotics/webots/pull/3956)).

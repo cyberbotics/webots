@@ -19,7 +19,6 @@
 // Description: List of actions available from any Webots module
 //
 
-#include <QtCore/QPair>
 #include <QtCore/QString>
 
 namespace WbAction {
