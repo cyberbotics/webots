@@ -270,5 +270,8 @@ PROTO Forest [
         }
       %< } >%
     ]
+    recognitionColors [
+      0.324 0.468 0.336
+    ]
   }
 }

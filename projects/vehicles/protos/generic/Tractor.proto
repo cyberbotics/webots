@@ -1226,5 +1226,8 @@ Car {
   type "4x4"
   time0To100 20
   window IS window
+  recognitionColors [
+    0.24 0.53 0.79
+  ]
 }
 }
