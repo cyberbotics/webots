@@ -1,6 +1,6 @@
 # Version R2023a Released
 
-<p id="publish-data">By Yannick Goumaz - XXth November 2022</p>
+<p id="publish-data">By Yannick Goumaz - 29th November 2022</p>
 
 ---
 
