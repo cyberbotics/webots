@@ -1,6 +1,6 @@
 # Webots R2023 Change Log
 
-## Webots R2023a revision 1
+## Webots R2023a Revision 1
 Released on ??
   - Bug Fixes
     - Fixed Python API `Supervisor.setSimulationMode` which was failing ([#5603](https://github.com/cyberbotics/webots/pull/5603)).
