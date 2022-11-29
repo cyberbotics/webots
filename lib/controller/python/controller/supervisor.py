@@ -102,7 +102,7 @@ class Supervisor(Robot):
         return wb.wb_supervisor_simulation_get_mode()
 
     @simulation_mode.setter
-    def mode(self, mode: int):
+    def simulation_mode(self, mode: int):
         return wb.wb_supervisor_simulation_set_mode(mode)
 
 
