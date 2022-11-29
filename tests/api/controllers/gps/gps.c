@@ -17,7 +17,7 @@ static void check_position(WbDeviceTag gps, double x, double y, double z, char *
 int main(int argc, char **argv) {
   ts_setup(argv[0]);
   const int time_step = wb_robot_get_basic_time_step();
-  WbDeviceTag gps = wb_robot_get_device("gps");
+  const WbDeviceTag gps = wb_robot_get_device("gps");
 
   check_position(gps, NAN, NAN, NAN, "before the device is enabled");
   wb_gps_enable(gps, time_step);
