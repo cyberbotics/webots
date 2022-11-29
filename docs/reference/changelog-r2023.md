@@ -1,7 +1,7 @@
 # Webots R2023 Change Log
 
 ## Webots R2023a
-Released on December, 12th, 2022.
+Released on November, 29th, 2022.
   - New Features
     - Added support for any current and upcoming version of Python for robot controllers ([#5297](https://github.com/cyberbotics/webots/pull/5297)).
     - **Added new `projection` field to [Camera](camera.md), [RangeFinder](rangefinder.md), and [Lidar](lidar.md) nodes. This field replaces the deprecated `spherical` field ([#5266](https://github.com/cyberbotics/webots/pull/5266)).**
@@ -22,6 +22,7 @@ Released on December, 12th, 2022.
   - New Examples
     - Added a sample world showing how to compute the attitude of a robot from IMU sensors ([#5256](https://github.com/cyberbotics/webots/pull/5256)).
   - Bug Fixes
+    - Fixed the OpenAI Gym example which was not converging after ENU/FLU conversion ([#5581](https://github.com/cyberbotics/webots/pull/5581)).
     - Fixed wrong warnings due to SFNode empty flag in the controller ([#5430](https://github.com/cyberbotics/webots/pull/5430)).
     - Fixed controller restart after crash ([#5284](https://github.com/cyberbotics/webots/pull/5284)).
     - Fixed the export of [Lidar](lidar.md)'s rotating head to X3D ([#5224](https://github.com/cyberbotics/webots/pull/5224)).

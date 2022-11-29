@@ -3208,10 +3208,6 @@ and show the new robot window)</source>
         <translation>Le dimensioni della texture &apos;%1&apos; non sono una potenza di due: ridimensionato da %2x%3 a %4x%5.</translation>
     </message>
     <message>
-        <source>Cannot save texture with reduced quality to temporary file &apos;%1&apos;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Texture file could not be read: &apos;%1&apos;</source>
         <translation type="unfinished"></translation>
     </message>
