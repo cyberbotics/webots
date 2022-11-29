@@ -12,5 +12,3 @@ WbWrenRenderingContext.PP_GTAO = 0;
 WbWrenRenderingContext.PP_BLOOM = 1;
 WbWrenRenderingContext.PP_HDR = 2;
 WbWrenRenderingContext.PP_SMAA = 3;
-
-WbWrenRenderingContext.visibilityMask = mOptionalWbWrenRenderingContext.VM_MAIN |= WbWrenRenderingContext.VF_RANGE_FINDER_FRUSTUMS;

@@ -50,33 +50,9 @@ export default class WbAbstractCamera extends WbSolid {
     _wr_transform_attach_child(this.wrenNode, this._transform);
 
     this._applyFrustumToWren();
-
-    // Frustum display
-    this._frustumDisplayTransform = _wr_transform_new();
-    this._frustumDisplayRenderable = _wr_renderable_new();
-    this._frustumDisplayMesh = _wr_static_mesh_unit_rectangle_new(false);
-    this._frustumDisplayMaterial = _wr_phong_material_new();
-
-    _wr_material_set_default_program(this._frustumDisplayMaterial, WbWrenShaders.simpleShader());
-    _wr_phong_material_set_transparency(this._frustumDisplayMaterial, 0.5);
-    _wr_renderable_set_material(this._frustumDisplayRenderable, this._frustumDisplayMaterial, null);
-    _wr_renderable_set_mesh(this._frustumDisplayRenderable, this._frustumDisplayMesh);
-    _wr_renderable_set_face_culling(this._frustumDisplayRenderable, false);
-
-    if (this._isRangeFinder)
-      _wr_renderable_set_visibility_flags(this.frustumDisplayRenderable, WbWrenRenderingContext.VF_RANGE_FINDER_FRUSTUMS);
-    else
-      _wr_renderable_set_visibility_flags(this._frustumDisplayRenderable, WbWrenRenderingContext.VF_CAMERA_FRUSTUMS);
-
-    _wr_node_set_visible(this._frustumDisplayTransform, false);
-    _wr_transform_attach_child(this._frustumDisplayTransform, this._frustumDisplayRenderable);
-    _wr_transform_attach_child(this.wrenNode, this._frustumDisplayTransform);
-
-    this.updateFrustumDisplay();
   }
 
   _applyFrustumToWren() {
-    console.error('salut');
     _wr_node_set_visible(this._transform, false);
 
     _wr_static_mesh_delete(this._mesh);
@@ -84,7 +60,6 @@ export default class WbAbstractCamera extends WbSolid {
 
     if (!this._isFrustumEnabled)
       return;
-
     const frustumColor = [0.5, 0.5, 0.5];
     const frustumColorRgb = _wrjs_array3(frustumColor[0], frustumColor[1], frustumColor[2]);
 
@@ -103,7 +78,6 @@ export default class WbAbstractCamera extends WbSolid {
       f = this.maxRange();
       drawFarPlane = true;
     }
-
     const w = this.#width;
     const h = this.#height;
     const fovX = this.#fieldOfView;
@@ -142,36 +116,15 @@ export default class WbAbstractCamera extends WbSolid {
     const colorsPointer = arrayXPointerFloat(colors);
     this._mesh = _wr_static_mesh_line_set_new(vertices.length / 3, verticesPointer, colorsPointer);
     _wr_renderable_set_mesh(this._renderable, this._mesh);
-    // _free(verticesPointer);
-    // _free(colorsPointer);
+    _free(verticesPointer);
+    _free(colorsPointer);
 
     if (this._isRangeFinder)
-      _wr_renderable_set_visibility_flags(this._renderable, WbWrenRenderingContext.VF_RANGE_FINDER_FRUSTUMS);
+      _wr_renderable_set_visibility_flags(this._renderable, WbWrenRenderingContext.VM_REGULAR);
     else
-      _wr_renderable_set_visibility_flags(this._renderable, WbWrenRenderingContext.VF_CAMERA_FRUSTUMS);
+      _wr_renderable_set_visibility_flags(this._renderable, WbWrenRenderingContext.VM_REGULAR);
 
     _wr_node_set_visible(this._transform, true);
-  }
-
-  updateFrustumDisplay() {
-    _wr_node_set_visible(this._frustumDisplayTransform, false);
-
-    if (!this._isFrustumEnabled)
-      return;
-
-    const n = this.minRange();
-    const quadWidth = 2 * n * Math.tan(this.#fieldOfView / 2);
-    const translation = [n, 0, 0];
-    // Axis-angle for roll(pi/2), pitch(-pi/2), and yaw(0)
-    const orientation = [Math.PI * 2 / 3, Math.sqrt(3) / 3, -Math.sqrt(3) / 3, -Math.sqrt(3) / 3];
-    const scale = [quadWidth, (quadWidth * this.#height) / this.#width, 1];
-
-    _wr_transform_set_position(this._frustumDisplayTransform, translation);
-    _wr_transform_set_orientation(this._frustumDisplayTransform, orientation);
-    _wr_transform_set_scale(this._frustumDisplayTransform, scale);
-    // _wr_material_set_texture(this._frustumDisplayMaterial, mWrenCamera->getWrenTexture(), 0);
-    console.log('update');
-    _wr_node_set_visible(this._frustumDisplayTransform, true);
   }
 
   minRange() {

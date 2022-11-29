@@ -594,8 +594,8 @@ export default class Parser {
       newNode = new WbAltimeter(id, translation, scale, rotation, name === '' ? 'altimeter' : name);
     else if (node.tagName === 'Camera') {
       const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', M_PI_4));
-      const far = parseFloat(getNodeAttribute(node, 'zFar', '0'));
-      const near = parseFloat(getNodeAttribute(node, 'zNear', '0.01'));
+      const far = parseFloat(getNodeAttribute(node, 'far', '0'));
+      const near = parseFloat(getNodeAttribute(node, 'near', '0.01'));
       const height = parseInt(getNodeAttribute(node, 'height', '64'));
       const width = parseInt(getNodeAttribute(node, 'width', '64'));
       newNode = new WbCamera(id, translation, scale, rotation, name === '' ? 'camera' : name, height, width, fieldOfView, near,
