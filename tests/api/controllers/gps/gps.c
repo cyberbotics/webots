@@ -5,7 +5,7 @@
 #include "../../../lib/ts_utils.h"
 
 static void check_position(WbDeviceTag gps, double x, double y, double z, const char *end_msg) {
-  double expected_position[3] = {x, y, z};
+  const double expected_position[3] = {x, y, z};
   const double *position = wb_gps_get_values(gps);
   const char *axisNames = "XYZ";
   for (int i = 0; i < 3; i++)
