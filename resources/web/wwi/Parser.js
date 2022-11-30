@@ -387,6 +387,8 @@ export default class Parser {
     WbWorld.instance.basicTimeStep = parseInt(getNodeAttribute(node, 'basicTimeStep', 32));
     WbWorld.instance.title = getNodeAttribute(node, 'title', 'No title');
     WbWorld.instance.description = getNodeAttribute(node, 'info', 'No description was provided for this world.');
+    const lineScale = parseFloat(getNodeAttribute(node, 'lineScale', 0.1));
+    _wr_config_set_line_scale(lineScale); // Line scale does not support updates.
 
     // Update information panel when switching between worlds
     let webotsView = document.getElementsByTagName('webots-view')[0];

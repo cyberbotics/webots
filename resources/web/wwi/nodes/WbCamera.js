@@ -8,6 +8,7 @@ export default class WbCamera extends WbAbstractCamera {
     super(id, translation, scale, rotation, name, height, width, fieldOfView);
     this.#near = near;
     this.#far = far;
+    this._charType = 'c';
   }
 
   minRange() {

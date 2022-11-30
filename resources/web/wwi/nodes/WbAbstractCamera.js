@@ -7,6 +7,7 @@ import {arrayXPointerFloat} from './utils/utils.js';
 export default class WbAbstractCamera extends WbSolid {
   #fieldOfView;
   #height;
+  #isFrustumEnabled:
   #width;
   constructor(id, translation, scale, rotation, name, height, width, fieldOfView) {
     super(id, translation, scale, rotation, name);
@@ -16,7 +17,7 @@ export default class WbAbstractCamera extends WbSolid {
     this.#width = width;
 
     this._isRangeFinder = false;
-    this._isFrustumEnabled = true;
+    this.#isFrustumEnabled = false;
     this._charType = '';
   }
 
@@ -49,16 +50,16 @@ export default class WbAbstractCamera extends WbSolid {
     _wr_transform_attach_child(this._transform, this._renderable);
     _wr_transform_attach_child(this.wrenNode, this._transform);
 
-    this._applyFrustumToWren();
+    this.#applyFrustumToWren();
   }
 
-  _applyFrustumToWren() {
+  #applyFrustumToWren() {
     _wr_node_set_visible(this._transform, false);
 
     _wr_static_mesh_delete(this._mesh);
     this._mesh = undefined;
 
-    if (!this._isFrustumEnabled)
+    if (!this.#isFrustumEnabled)
       return;
     const frustumColor = [0.5, 0.5, 0.5];
     const frustumColorRgb = _wrjs_array3(frustumColor[0], frustumColor[1], frustumColor[2]);
@@ -70,14 +71,14 @@ export default class WbAbstractCamera extends WbSolid {
     const n = this.minRange();
     // if the far is set to 0 it means the far clipping plane is set to infinity
     // so, the far distance of the colored frustum should be set arbitrarily
-
-    if (this._charType === 'c' && this.maxRange() === 0.0) {
+    if (this._charType === 'c' && this.maxRange() === 0) {
       f = n + 2 * _wr_config_get_line_scale();
       drawFarPlane = false;
     } else {
       f = this.maxRange();
       drawFarPlane = true;
     }
+    console.log(_wr_config_get_line_scale())
     const w = this.#width;
     const h = this.#height;
     const fovX = this.#fieldOfView;
@@ -91,7 +92,7 @@ export default class WbAbstractCamera extends WbSolid {
 
     let vertices = [];
     let colors = [];
-    let vertex = [0.0, 0.0, 0.0];
+    let vertex = [0, 0, 0];
     this.#addVertex(vertices, colors, vertex, frustumColor);
     vertex[0] = n;
     this.#addVertex(vertices, colors, vertex, frustumColor);
@@ -133,6 +134,10 @@ export default class WbAbstractCamera extends WbSolid {
     return 1.0;
   }
 
+  applyOptionalRendering(enable) {
+    this.isFrustumEnabled = enable;
+    this.#applyFrustumToWren();
+  }
   #addVertex(vertices, colors, vertex, color) {
     vertices.push(vertex[0]);
     vertices.push(vertex[1]);

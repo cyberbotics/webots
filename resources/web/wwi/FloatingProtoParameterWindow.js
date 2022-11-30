@@ -1,5 +1,6 @@
 import FloatingWindow from './FloatingWindow.js';
 import {VRML} from './protoVisualizer/vrml_type.js';
+import WbCamera from './nodes/WbCamera.js';
 import WbHingeJoint from './nodes/WbHingeJoint.js';
 import WbWorld from './nodes/WbWorld.js';
 
@@ -73,7 +74,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       this.tab2.style.backgroundColor = '#222';
       this.frame.style.display = 'none';
       this.joints.style.display = 'none';
-      this.devices.style.display = 'grid';
+      this.devices.style.display = 'block';
     }
   }
 
@@ -449,9 +450,36 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   populateDeviceTab() {
     this.devices.innerHTML = '';
-    const noDevice = document.createElement('h1');
-    noDevice.innerHTML = 'No devices';
-    this.devices.appendChild(noDevice);
+    const nodes = WbWorld.instance.nodes;
+    const keys = nodes.keys();
+    let numberOfDevices = 0;
+
+    for (const key of keys) {
+      const device = nodes.get(key);
+      if (device instanceof WbCamera) {
+        numberOfDevices++;
+
+        let div = document.createElement('div');
+        div.className = 'proto-device';
+        div.addEventListener('mouseover', () => this.#displayOptionalRendering(device.id));
+
+        const nameDiv = document.createElement('div');
+        nameDiv.innerHTML = this.#stringRemoveQuote(device.name);
+        nameDiv.className = 'proto-device-name';
+        div.appendChild(nameDiv);
+        this.devices.appendChild(div);
+      }
+    }
+
+    if (numberOfDevices === 0) {
+      const noDevice = document.createElement('h1');
+      noDevice.innerHTML = 'No devices';
+      this.devices.appendChild(noDevice);
+    }
+  }
+
+  #displayOptionalRendering(id) {
+    console.log("display " + id)
   }
 
   populateJointTab() {

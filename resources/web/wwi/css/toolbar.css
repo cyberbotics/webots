@@ -1031,7 +1031,19 @@ webots-view .proto-joint .proto-slider {
   margin: 0px 10px;
 }
 
-.webots-view .proto-slider::-webkit-slider-runnable-track {
+webots-view .proto-device .proto-device-name {
+  color: white;
+  text-align: left;
+  word-wrap: break-word;
+  padding: 10px 70px 10px 70px;
+  font-size: 20px;
+}
+
+webots-view .proto-device .proto-device-name:hover {
+  background-color: grey;
+}
+
+webots-view .proto-slider::-webkit-slider-runnable-track {
   margin: 18px 0;
   width: 100%;
   height: 2px;
@@ -1040,7 +1052,7 @@ webots-view .proto-joint .proto-slider {
   border: none;
 }
 
-.webots-view .proto-slider::-webkit-slider-thumb {
+webots-view .proto-slider::-webkit-slider-thumb {
   border: none;
   height: 15px;
   width: 15px;
@@ -1051,11 +1063,11 @@ webots-view .proto-joint .proto-slider {
   border-radius: 12px;
 }
 
-.webots-view .proto-slider:focus::-webkit-slider-runnable-track {
+webots-view .proto-slider:focus::-webkit-slider-runnable-track {
   background: white;
 }
 
-.webots-view .proto-slider::-moz-range-track {
+webots-view .proto-slider::-moz-range-track {
   width: 100%;
   height: 2px;
   cursor: pointer;
@@ -1063,7 +1075,7 @@ webots-view .proto-joint .proto-slider {
   border: none;
 }
 
-.webots-view .proto-slider::-moz-range-thumb {
+webots-view .proto-slider::-moz-range-thumb {
   border: none;
   height: 15px;
   width: 15px;
