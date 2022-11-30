@@ -3199,10 +3199,6 @@ and show the new robot window)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Cannot save texture with reduced quality to temporary file &apos;%1&apos;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Texture file could not be read: &apos;%1&apos;</source>
         <translation type="unfinished"></translation>
     </message>

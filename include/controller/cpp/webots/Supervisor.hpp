@@ -51,7 +51,7 @@ namespace webots {
     bool movieFailed() const;
 
     virtual void setLabel(int id, const std::string &label, double xpos, double ypos, double size, int color,
-                          double transparency, const std::string &font = "Arial");
+                          double transparency = 0, const std::string &font = "Arial");
     Node *getRoot() const;
     Node *getSelf() const;
     Node *getFromDef(const std::string &name) const;

@@ -97,22 +97,13 @@ export default class WebotsView extends HTMLElement {
       });
     };
 
-<<<<<<< HEAD
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023a/dependencies/ansi_up.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023a/dependencies/assimpjs.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023a/dependencies/glm-js.min.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023a/dependencies/quaternion.min.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023a/dependencies/libtess.min.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023a/enum.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023a/wrenjs.js'));
-=======
     promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/dependencies/ansi_up.js'));
     promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/dependencies/assimpjs.js'));
     promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/dependencies/glm-js.min.js'));
     promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/dependencies/quaternion.min.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/dependencies/libtess.min.js'));
     promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/enum.js'));
     promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/wrenjs.js'));
->>>>>>> develop
   }
 
   #closeWhenDOMElementRemoved() {
@@ -137,12 +128,7 @@ export default class WebotsView extends HTMLElement {
   }
 
   resize() {
-<<<<<<< HEAD
-    this.#view?.onresize();
-=======
-    if (typeof this._view !== 'undefined')
-      this._view.onresize();
->>>>>>> develop
+    this._view?.onresize();
   }
 
   setWebotsMessageCallback(callback) {
@@ -399,13 +385,13 @@ export default class WebotsView extends HTMLElement {
       this.close();
 
       console.time('Loaded in: ');
-      if (typeof this.#view === 'undefined')
-        this.#view = new webots.View(this, isMobileDevice);
-      this.protoManager = new ProtoManager(this.#view);
+      if (typeof this._view === 'undefined')
+        this._view = new webots.View(this, isMobileDevice);
+      this.protoManager = new ProtoManager(this._view);
       this.protoManager.loadMinimalScene();
-      this.#view.onready = () => {
+      this._view.onready = () => {
         this.protoManager.loadProto(proto).then(() => {
-          this.toolbar = new Toolbar(this.#view, 'proto', this);
+          this.toolbar = new Toolbar(this._view, 'proto', this);
           if (typeof this.onready === 'function')
             this.onready();
 
