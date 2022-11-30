@@ -11,7 +11,6 @@ import WbWrenHdr from './../wren/WbWrenHdr.js';
 import WbWrenGtao from './../wren/WbWrenGtao.js';
 import WbWrenBloom from './../wren/WbWrenBloom.js';
 import WbWrenSmaa from './../wren/WbWrenSmaa.js';
-import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 import {webots} from '../webots.js';
 
 export default class WbViewpoint extends WbBaseNode {
@@ -76,8 +75,6 @@ export default class WbViewpoint extends WbBaseNode {
     this.#applyFieldOfViewToWren();
     this.updatePostProcessingEffects();
     this.#inverseViewMatrix = _wr_transform_get_matrix(this.#wrenCamera);
-
-    _wr_viewport_set_visibility_mask(this.#wrenViewport, WbWrenRenderingContext.visibilityMask);
   }
 
   delete() {
