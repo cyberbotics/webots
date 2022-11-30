@@ -35,7 +35,6 @@ PROTO Forest [
   field SFFloat    minHeight            2                         # Defines the minimum height of the trees.
   field SFFloat    maxRadius            3                         # Defines the maximum radius of the trees.
   field SFFloat    minRadius            1                         # Defines the minimum radius of the trees.
-  field MFColor    recognitionColors    []                        # Is `Solid.recognitionColors`.
 ]
 {
   %<
@@ -271,6 +270,5 @@ PROTO Forest [
         }
       %< } >%
     ]
-    recognitionColors IS recognitionColors
   }
 }
