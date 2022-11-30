@@ -1,4 +1,4 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -102,7 +102,7 @@ class Supervisor(Robot):
         return wb.wb_supervisor_simulation_get_mode()
 
     @simulation_mode.setter
-    def mode(self, mode: int):
+    def simulation_mode(self, mode: int):
         return wb.wb_supervisor_simulation_set_mode(mode)
 
 
