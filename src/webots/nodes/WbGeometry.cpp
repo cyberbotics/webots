@@ -83,7 +83,6 @@ WbGeometry::WbGeometry(const WbNode &other) : WbBaseNode(other) {
 }
 
 WbGeometry::~WbGeometry() {
-  qDebug() << "DELETE RESIZE";
   delete mResizeManipulator;
   if (mOdeGeom)
     destroyOdeObjects();  // for WbGeometries lying in a boundingObject
@@ -443,14 +442,11 @@ void WbGeometry::attachResizeManipulator() {
 }
 
 void WbGeometry::detachResizeManipulator() const {
-  /*
   if (mResizeManipulator && mResizeManipulator->isAttached())
     mResizeManipulator->hide();
-    */
 }
 
 void WbGeometry::setUniformConstraintForResizeHandles(bool enabled) {
-  /*
   createResizeManipulatorIfNeeded();
   if (!mResizeManipulator || !mResizeManipulator->isAttached())
     return;
@@ -459,7 +455,6 @@ void WbGeometry::setUniformConstraintForResizeHandles(bool enabled) {
     mResizeManipulator->setResizeConstraint(WbScaleManipulator::UNIFORM);
   else
     mResizeManipulator->setResizeConstraint((WbWrenAbstractResizeManipulator::ResizeConstraint)mResizeConstraint);
-  */
 }
 
 // ODE setters

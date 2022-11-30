@@ -24,7 +24,6 @@
 
 #include <QtCore/QByteArray>
 #include <QtCore/QFileInfo>
-#include <QtCore/QDebug>
 
 const int WbWrenAbstractResizeManipulator::STANDARD_COORDINATES[3] = {X, Y, Z};
 const WbVector3 WbWrenAbstractResizeManipulator::STANDARD_COORDINATE_VECTORS[3] = {
@@ -70,7 +69,6 @@ WbWrenAbstractResizeManipulator::~WbWrenAbstractResizeManipulator() {
 }
 
 void WbWrenAbstractResizeManipulator::initializeHandlesEntities(bool resize) {
-  qDebug() << "initializeHandlesEntities";
   mHandlesShader = WbWrenShaders::handlesShader();
   mHandlesPickingShader = WbWrenShaders::handlesPickingShader();
 
@@ -109,6 +107,7 @@ void WbWrenAbstractResizeManipulator::initializeHandlesEntities(bool resize) {
   }
 
   mMeshes.push_back(mesh);
+
   const int pickerAxis[3] = {WbWrenPicker::HANDLES_X_AXIS, WbWrenPicker::HANDLES_Y_AXIS, WbWrenPicker::HANDLES_Z_AXIS};
 
   for (int i = 0; i < mNumberOfHandles; ++i) {
@@ -133,6 +132,7 @@ void WbWrenAbstractResizeManipulator::initializeHandlesEntities(bool resize) {
     wr_transform_attach_child(mTransform, WR_NODE(transform));
     mHandleTransforms[i] = transform;
   }
+
   // Create axes
   const float axesCoordinates[3][6] = {
     {0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f}};

@@ -36,7 +36,6 @@
 #include <wren/transform.h>
 
 #include <ode/ode.h>
-#include <QtCore/QDebug>
 
 void WbBox::init() {
   mSize = findSFVector3("size");
@@ -58,7 +57,6 @@ WbBox::WbBox(const WbNode &other) : WbGeometry(other) {
 
 WbBox::~WbBox() {
   wr_static_mesh_delete(mWrenMesh);
-  qDebug() << "DELETE BOX";
 }
 
 void WbBox::postFinalize() {
@@ -104,7 +102,6 @@ void WbBox::setResizeManipulatorDimensions() {
 }
 
 void WbBox::createResizeManipulator() {
-  qDebug() << "CREATE RESIZE";
   mResizeManipulator = new WbRegularResizeManipulator(uniqueId());
 }
 

@@ -93,6 +93,8 @@ namespace wren {
     }
     if (mTextureTransform)
       mTextureTransform->removeMaterialUser(this);
+
+    delete mMaterialStructure;
   }
 
   void Material::updateTranslucency() {

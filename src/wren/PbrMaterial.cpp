@@ -213,10 +213,6 @@ namespace wren {
     mMaterialStructure->data = reinterpret_cast<void *>(this);
   }
 
-  PbrMaterial::~PbrMaterial() {
-    delete mMaterialStructure;
-  }
-
   void PbrMaterial::init() {
     GlslLayout::PbrMaterial material;
     material.mBaseColorAndTransparency = glm::vec4(gVec3Ones, 0.0f);

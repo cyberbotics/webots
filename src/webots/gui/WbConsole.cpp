@@ -411,8 +411,7 @@ WbConsole::WbConsole(QWidget *parent, const QString &name) :
 
 WbConsole::~WbConsole() {
   for (int i = 0; mErrorPatterns[i]; ++i)
-    if (mErrorPatterns[i] != NULL)
-      delete mErrorPatterns[i];
+    delete mErrorPatterns[i];
 }
 
 void WbConsole::setEnabledFilters(const QStringList &filters) {
