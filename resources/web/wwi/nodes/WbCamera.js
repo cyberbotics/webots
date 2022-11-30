@@ -11,6 +11,22 @@ export default class WbCamera extends WbAbstractCamera {
     this._charType = 'c';
   }
 
+  get near() {
+    return this.#near;
+  }
+
+  set near(newNear) {
+    this.#near = newNear;
+  }
+
+  get far() {
+    return this.#far;
+  }
+
+  set far(newFar) {
+    this.#far = newFar;
+  }
+
   minRange() {
     return this.#near;
   }

@@ -3,8 +3,10 @@ import Parser, {convertStringToVec3, convertStringToQuaternion, convertStringToF
 import {webots} from './webots.js';
 import WrenRenderer from './WrenRenderer.js';
 
+import WbAbstractCamera from './nodes/WbAbstractCamera.js';
 import WbBox from './nodes/WbBox.js';
 import WbCadShape from './nodes/WbCadShape.js';
+import WbCamera from './nodes/WbCamera.js';
 import WbCapsule from './nodes/WbCapsule.js';
 import WbCone from './nodes/WbCone.js';
 import WbCoordinate from './nodes/WbCoordinate.js';
@@ -272,6 +274,8 @@ export default class X3dScene {
         else if (object instanceof WbElevationGrid)
           // Filter is used to remove Nan elements
           object.height = convertStringToFloatArray(pose[key]).filter(e => e);
+        else if (object instanceof WbAbstractCamera)
+          object.height = parseInt(pose[key]);
       } else if (key === 'bottom') {
         if (object instanceof WbCapsule || object instanceof WbCone || object instanceof WbCylinder)
           object.bottom = pose[key].toLowerCase() === 'true';
@@ -392,6 +396,16 @@ export default class X3dScene {
           object.repeatT = pose[key].toLowerCase() === 'true';
         else if (key === 'filtering')
           object.filtering = parseInt(pose[key]);
+      } else if (object instanceof WbCamera) {
+        if (key === 'far')
+          object.far = parseFloat(pose[key]);
+        else if (key === 'near')
+          object.near = parseFloat(pose[key]);
+      } else if (object instanceof WbAbstractCamera) {
+        if (key === 'width')
+          object.width = parseInt(pose[key]);
+        else if (key === 'fieldOfView')
+          object.fieldOfView = parseFloat(pose[key]);
       }
     }
 

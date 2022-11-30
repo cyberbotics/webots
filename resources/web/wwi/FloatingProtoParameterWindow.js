@@ -364,7 +364,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     const input = document.createElement('input');
     input.type = 'number';
-    input.step = 0.1;
+    input.step = 1;
     input.value = parameter.value.value;
     input.style.width = '50px';
 

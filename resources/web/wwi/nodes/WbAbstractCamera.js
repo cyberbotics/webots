@@ -25,12 +25,24 @@ export default class WbAbstractCamera extends WbSolid {
     return this.#fieldOfView;
   }
 
+  set fieldOfView(newFieldOfView) {
+    this.#fieldOfView = newFieldOfView;
+  }
+
   get height() {
     return this.#height;
   }
 
+  set height(newHeight) {
+    this.#height = newHeight;
+  }
+
   get width() {
     return this.#width;
+  }
+
+  set width(newWidth) {
+    this.#width = newWidth;
   }
 
   createWrenObjects() {
