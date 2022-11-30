@@ -960,7 +960,7 @@ webots-view input:checked+.visibility-dot {
   background-color: rgb(0, 122, 204);
 }
 
-webots-view #proto-parameter-content {
+webots-view #proto-parameter-content, #joints-tab, #devices-tab {
   color: white;
   font-size: 14px;
   font-family: Arial, Helvetica, sans-serif;
@@ -968,6 +968,8 @@ webots-view #proto-parameter-content {
   grid-template-columns: max-content max-content max-content;
   overflow-x: auto;
   align-items: center;
+  height: inherit;
+  padding-bottom: 17px; /* To position the scrollbar correctly */
 }
 
 webots-view #proto-parameter {

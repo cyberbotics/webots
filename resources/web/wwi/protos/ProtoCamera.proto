@@ -13,6 +13,9 @@ PROTO ProtoCamera [
           Shape {
             appearance Asphalt {
             }
+            geometry Sphere {
+              radius 0.005
+            }
           }
         ]
         width 64
