@@ -61,6 +61,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       this.frame.style.display = 'grid';
       this.joints.style.display = 'none';
       this.devices.style.display = 'none';
+      this.#displayOptionalRendering();
     } else if (number === 1) {
       this.tab0.style.backgroundColor = '#333';
       this.tab1.style.backgroundColor = '#222';
@@ -68,6 +69,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       this.frame.style.display = 'none';
       this.joints.style.display = 'block';
       this.devices.style.display = 'none';
+      this.#displayOptionalRendering();
     } else if (number === 2) {
       this.tab0.style.backgroundColor = '#333';
       this.tab1.style.backgroundColor = '#333';
@@ -479,7 +481,18 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #displayOptionalRendering(id) {
-    console.log("display " + id)
+    if (WbWorld.instance.readyForUpdates) {
+      let node = WbWorld.instance.nodes?.get(this.optionalDisplayId);
+      if (node)
+        node.applyOptionalRendering(false);
+
+      node = WbWorld.instance.nodes?.get(id);
+      if (node) {
+        this.optionalDisplayId = id;
+        node.applyOptionalRendering(true);
+      }
+      this.#view.x3dScene.render();
+    }
   }
 
   populateJointTab() {

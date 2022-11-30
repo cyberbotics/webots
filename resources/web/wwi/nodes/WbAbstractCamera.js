@@ -7,7 +7,7 @@ import {arrayXPointerFloat} from './utils/utils.js';
 export default class WbAbstractCamera extends WbSolid {
   #fieldOfView;
   #height;
-  #isFrustumEnabled:
+  #isFrustumEnabled;
   #width;
   constructor(id, translation, scale, rotation, name, height, width, fieldOfView) {
     super(id, translation, scale, rotation, name);
@@ -61,6 +61,7 @@ export default class WbAbstractCamera extends WbSolid {
 
     if (!this.#isFrustumEnabled)
       return;
+
     const frustumColor = [0.5, 0.5, 0.5];
     const frustumColorRgb = _wrjs_array3(frustumColor[0], frustumColor[1], frustumColor[2]);
 
@@ -78,7 +79,7 @@ export default class WbAbstractCamera extends WbSolid {
       f = this.maxRange();
       drawFarPlane = true;
     }
-    console.log(_wr_config_get_line_scale())
+
     const w = this.#width;
     const h = this.#height;
     const fovX = this.#fieldOfView;
@@ -135,9 +136,10 @@ export default class WbAbstractCamera extends WbSolid {
   }
 
   applyOptionalRendering(enable) {
-    this.isFrustumEnabled = enable;
+    this.#isFrustumEnabled = enable;
     this.#applyFrustumToWren();
   }
+
   #addVertex(vertices, colors, vertex, color) {
     vertices.push(vertex[0]);
     vertices.push(vertex[1]);
