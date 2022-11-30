@@ -56,15 +56,16 @@ namespace wren {
     }
 
     bool importStaticMeshFromObj(const char *fileName, StaticMesh **outputMesh) {
+
       const int len = strlen(fileName);
       const cache::Key key(cache::sipHash13c(fileName, len));
 
       StaticMesh *mesh;
+
       if (StaticMesh::createOrRetrieveFromCache(&mesh, key)) {
         *outputMesh = mesh;
         return true;
       }
-
 #ifdef _WIN32  // handle UTF-8 paths on Windows
       wchar_t *wFileName = new wchar_t[len + 1];
       MultiByteToWideChar(CP_UTF8, 0, fileName, -1, wFileName, len + 1);

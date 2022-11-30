@@ -46,8 +46,10 @@ WbWrenAbstractResizeManipulator::WbWrenAbstractResizeManipulator(ResizeConstrain
 WbWrenAbstractResizeManipulator::~WbWrenAbstractResizeManipulator() {
   WbWrenOpenGlContext::makeWrenCurrent();
 
-  for (WrStaticMesh *mesh : mMeshes)
+  for (WrStaticMesh *mesh : mMeshes) {
+    //qDebug() << "DELETE MESH" << mesh << mMeshes.size();
     wr_static_mesh_delete(mesh);
+  }
 
   for (WrRenderable *renderable : mRenderables) {
     // Delete picking material
@@ -59,6 +61,7 @@ WbWrenAbstractResizeManipulator::~WbWrenAbstractResizeManipulator() {
     wr_material_delete(mHandleMaterials[i]);
     wr_material_delete(mAxisMaterials[i]);
     wr_node_delete(WR_NODE(mHandleTransforms[i]));
+    //qDebug() << "CLEARED" << mAxisTransforms[i];
     wr_node_delete(WR_NODE(mAxisTransforms[i]));
   }
 
@@ -69,6 +72,15 @@ WbWrenAbstractResizeManipulator::~WbWrenAbstractResizeManipulator() {
 }
 
 void WbWrenAbstractResizeManipulator::initializeHandlesEntities(bool resize) {
+  const float axesCoordinates[6] = {0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f}; //, 2.0f, 0.0f, 0.0f,3.0f, 0.0f, 0.0f};
+
+  WrStaticMesh *mesh;
+    mesh = wr_static_mesh_line_set_new(4, axesCoordinates, NULL);
+    //qDebug() << "CREATE MESH" << mesh << mMeshes;
+    mMeshes.push_back(mesh);
+
+
+  /*
   mHandlesShader = WbWrenShaders::handlesShader();
   mHandlesPickingShader = WbWrenShaders::handlesPickingShader();
 
@@ -79,14 +91,14 @@ void WbWrenAbstractResizeManipulator::initializeHandlesEntities(bool resize) {
 
   const float handlesTransparency = 0.3f;
   for (int i = 0; i < mNumberOfHandles; ++i) {
-    mHandleMaterials[i] = wr_phong_material_new();
-    wr_material_set_default_program(mHandleMaterials[i], mHandlesShader);
-    wr_phong_material_set_all_parameters(mHandleMaterials[i], axesAmbientColor[i], colors[i], ones, zeroes, 0.2f,
-                                         handlesTransparency);
+    //mHandleMaterials[i] = wr_phong_material_new();
+    //wr_material_set_default_program(mHandleMaterials[i], mHandlesShader);
+    //wr_phong_material_set_all_parameters(mHandleMaterials[i], axesAmbientColor[i], colors[i], ones, zeroes, 0.2f,
+    //                                     handlesTransparency);
 
-    mAxisMaterials[i] = wr_phong_material_new();
-    wr_material_set_default_program(mAxisMaterials[i], mHandlesShader);
-    wr_phong_material_set_color(mAxisMaterials[i], colors[i]);
+    //mAxisMaterials[i] = wr_phong_material_new();
+    //wr_material_set_default_program(mAxisMaterials[i], mHandlesShader);
+    //wr_phong_material_set_color(mAxisMaterials[i], colors[i]);
   }
 
   // Create double arrows
@@ -99,38 +111,38 @@ void WbWrenAbstractResizeManipulator::initializeHandlesEntities(bool resize) {
 
   QByteArray objFile = QFileInfo(FILE_PATH_DOUBLE_ARROW).absoluteFilePath().toUtf8();
   WrStaticMesh *mesh;
-  const bool success = wr_import_static_mesh_from_obj(objFile.constData(), &mesh);
-  assert(success);
-  if (!success) {
-    mNumberOfHandles = 0;
-    return;
-  }
 
-  mMeshes.push_back(mesh);
+  //const bool success = wr_import_static_mesh_from_obj(objFile.constData(), &mesh);
+  //assert(success);
+  //if (!success) {
+  //  mNumberOfHandles = 0;
+  //  return;
+  //}
+  //mMeshes.push_back(mesh);
 
   const int pickerAxis[3] = {WbWrenPicker::HANDLES_X_AXIS, WbWrenPicker::HANDLES_Y_AXIS, WbWrenPicker::HANDLES_Z_AXIS};
 
   for (int i = 0; i < mNumberOfHandles; ++i) {
-    WrRenderable *renderable = wr_renderable_new();
-    wr_renderable_set_scene_culling(renderable, false);
-    mRenderables.push_back(renderable);
+    //WrRenderable *renderable = wr_renderable_new();
+    //wr_renderable_set_scene_culling(renderable, false);
+    //mRenderables.push_back(renderable);
 
-    WbWrenPicker::setPickable(renderable,
-                              (pickerAxis[i] | (resize ? WbWrenPicker::HANDLES_RESIZE : WbWrenPicker::HANDLES_SCALE)), true);
-    WrMaterial *pickingMaterial = wr_renderable_get_material(renderable, "picking");
-    wr_material_set_default_program(pickingMaterial, mHandlesPickingShader);
+    //WbWrenPicker::setPickable(renderable,
+    //                          (pickerAxis[i] | (resize ? WbWrenPicker::HANDLES_RESIZE : WbWrenPicker::HANDLES_SCALE)), true);
+    //WrMaterial *pickingMaterial = wr_renderable_get_material(renderable, "picking");
+    //wr_material_set_default_program(pickingMaterial, mHandlesPickingShader);
 
-    wr_renderable_set_drawing_order(renderable, WR_RENDERABLE_DRAWING_ORDER_AFTER_1);
-    wr_renderable_set_visibility_flags(renderable, WbWrenRenderingContext::VF_INVISIBLE_FROM_CAMERA);
-    wr_renderable_set_mesh(renderable, WR_MESH(mesh));
-    wr_renderable_set_material(renderable, mHandleMaterials[i], NULL);
+    //wr_renderable_set_drawing_order(renderable, WR_RENDERABLE_DRAWING_ORDER_AFTER_1);
+    //wr_renderable_set_visibility_flags(renderable, WbWrenRenderingContext::VF_INVISIBLE_FROM_CAMERA);
+    //wr_renderable_set_mesh(renderable, WR_MESH(mesh));
+    //wr_renderable_set_material(renderable, mHandleMaterials[i], NULL);
 
-    WrTransform *transform = wr_transform_new();
-    wr_transform_set_orientation(transform, rotation[i]);
-    wr_transform_set_position(transform, offset[i]);
-    wr_transform_attach_child(transform, WR_NODE(renderable));
-    wr_transform_attach_child(mTransform, WR_NODE(transform));
-    mHandleTransforms[i] = transform;
+    //WrTransform *transform = wr_transform_new();
+    //wr_transform_set_orientation(transform, rotation[i]);
+    //wr_transform_set_position(transform, offset[i]);
+    //wr_transform_attach_child(transform, WR_NODE(renderable));
+    //wr_transform_attach_child(mTransform, WR_NODE(transform));
+    //mHandleTransforms[i] = transform;
   }
 
   // Create axes
@@ -138,25 +150,29 @@ void WbWrenAbstractResizeManipulator::initializeHandlesEntities(bool resize) {
     {0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f}};
 
   for (int i = 0; i < mNumberOfHandles; ++i) {
-    WrRenderable *renderable = wr_renderable_new();
-    mRenderables.push_back(renderable);
+    //WrRenderable *renderable = wr_renderable_new();
+    //mRenderables.push_back(renderable);
 
     mesh = wr_static_mesh_line_set_new(2, axesCoordinates[i], NULL);
     mMeshes.push_back(mesh);
 
-    wr_renderable_set_mesh(renderable, WR_MESH(mesh));
-    wr_renderable_set_drawing_mode(renderable, WR_RENDERABLE_DRAWING_MODE_LINES);
-    wr_renderable_set_drawing_order(renderable, WR_RENDERABLE_DRAWING_ORDER_AFTER_1);
-    wr_renderable_set_visibility_flags(renderable, WbWrenRenderingContext::VF_INVISIBLE_FROM_CAMERA);
-    wr_renderable_set_material(renderable, mAxisMaterials[i], NULL);
+    //wr_renderable_set_mesh(renderable, WR_MESH(mesh));
+    //wr_renderable_set_drawing_mode(renderable, WR_RENDERABLE_DRAWING_MODE_LINES);
+    //wr_renderable_set_drawing_order(renderable, WR_RENDERABLE_DRAWING_ORDER_AFTER_1);
+    //wr_renderable_set_visibility_flags(renderable, WbWrenRenderingContext::VF_INVISIBLE_FROM_CAMERA);
+    //wr_renderable_set_material(renderable, mAxisMaterials[i], NULL);
 
-    WrTransform *transform = wr_transform_new();
-    wr_transform_attach_child(transform, WR_NODE(renderable));
-    wr_transform_attach_child(mTransform, WR_NODE(transform));
-    mAxisTransforms[i] = transform;
+    //WrTransform *transform = wr_transform_new();
+    //wr_transform_attach_child(transform, WR_NODE(renderable));
+    //wr_transform_attach_child(mTransform, WR_NODE(transform));
+    //mAxisTransforms[i] = transform;
+    //qDebug() << "CREATED" << transform;
+
   }
 
-  updateHandlesMaterial();
+  //updateHandlesMaterial();
+  */
+
 }
 
 void WbWrenAbstractResizeManipulator::updateHandlesMaterial() {

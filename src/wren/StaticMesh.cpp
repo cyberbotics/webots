@@ -1527,7 +1527,6 @@ namespace wren {
     // bounding volumes
     mesh->mCacheData->mBoundingSphere = primitive::computeBoundingSphereFromVertices(mesh->coords());
     mesh->mCacheData->mAabb = primitive::Aabb(mesh->coords());
-
     mesh->setup();
 
     return mesh;
@@ -1880,7 +1879,6 @@ namespace wren {
 
     // shadow volume buffers (coords and indices)
     glGenVertexArrays(1, &mCacheData->mGlNameVertexArrayObjectShadow);
-
     bindShadowVolume();
 
     // even indices store original vertex coord, odd indices store vertex coord to be extruded in vertex shader
@@ -1902,6 +1900,7 @@ namespace wren {
       mCacheData->mSupportShadows = true;
     } else
       mCacheData->mSupportShadows = false;
+
 
     // only the number of indices needs to be known in order to render the mesh
     // vertex count kept for mesh export
