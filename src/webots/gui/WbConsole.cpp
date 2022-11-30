@@ -409,11 +409,6 @@ WbConsole::WbConsole(QWidget *parent, const QString &name) :
   dSetMessageHandler(odeMessageFunc);
 }
 
-WbConsole::~WbConsole() {
-  for (int i = 0; mErrorPatterns[i]; ++i)
-    delete mErrorPatterns[i];
-}
-
 void WbConsole::setEnabledFilters(const QStringList &filters) {
   mEnabledFilters = filters;
   updateTitle();
