@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -50,7 +50,8 @@ WbTcpServer::WbTcpServer(bool stream) :
   mPauseTimeout(-1),
   mWebSocketServer(NULL),
   mClientsReadyToReceiveMessages(false),
-  mStream(stream) {
+  mStream(stream),
+  mWorldReady(false) {
   connect(WbApplication::instance(), &WbApplication::postWorldLoaded, this, &WbTcpServer::newWorld);
   connect(WbApplication::instance(), &WbApplication::preWorldLoaded, this, &WbTcpServer::deleteWorld);
   connect(WbApplication::instance(), &WbApplication::worldLoadingHasProgressed, this, &WbTcpServer::setWorldLoadingProgress);
@@ -132,6 +133,8 @@ void WbTcpServer::create(int port) {
   // - https://bugreports.qt.io/browse/QTBUG-54276
   mWebSocketServer = new QWebSocketServer("Webots Streaming Server", QWebSocketServer::NonSecureMode, this);
   mTcpServer = new QTcpServer();
+  if (!mTcpServer->listen(QHostAddress::Any, port))
+    throw tr("Cannot set the server in listen mode: %1").arg(mTcpServer->errorString());
   connect(mWebSocketServer, &QWebSocketServer::newConnection, this, &WbTcpServer::onNewWebSocketConnection);
   connect(mTcpServer, &QTcpServer::newConnection, this, &WbTcpServer::onNewTcpConnection);
   connect(WbSimulationState::instance(), &WbSimulationState::controllerReadRequestsCompleted, this,
@@ -210,6 +213,11 @@ void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
   const QStringList tokens = QString(line).split(QRegularExpression("\\s+"));
   const int robotNameIndex = tokens.indexOf("Robot-Name:") + 1;
   QByteArray reply;
+  if (!mWorldReady) {
+    reply.append("PROCESSING");
+    socket->write(reply);
+    return;
+  }
 
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
   const QList<WbController *> &availableControllers = WbControlledWorld::instance()->disconnectedExternControllers();
@@ -530,14 +538,11 @@ void WbTcpServer::newWorld() {
   foreach (WbRobot *const robot, robots)
     connectNewRobot(robot);
 
-  if (!mTcpServer->isListening() && !mTcpServer->listen(QHostAddress::Any, mPort))
-    WbLog::error(tr("Cannot set the server in listen mode: %1").arg(mTcpServer->errorString()));
+  mWorldReady = true;
 }
 
 void WbTcpServer::deleteWorld() {
-  if (mTcpServer->isListening())
-    mTcpServer->close();
-
+  mWorldReady = false;
   if (mWebSocketServer == NULL)
     return;
   foreach (QWebSocket *client, mWebSocketClients)

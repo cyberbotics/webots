@@ -1,4 +1,4 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,9 +13,52 @@
 # limitations under the License.
 
 import ctypes
-from controller.sensor import Sensor
-from controller.wb import wb
+from .sensor import Sensor
+from .wb import wb
 from typing import List, Union
+
+
+class CameraRecognitionObject(ctypes.Structure):
+    _fields_ = [('id', ctypes.c_int),
+                ('position', ctypes.c_double * 3),
+                ('orientation', ctypes.c_double * 4),
+                ('size', ctypes.c_double * 2),
+                ('position_on_image', ctypes.c_int * 2),
+                ('size_on_image', ctypes.c_int * 2),
+                ('number_of_colors', ctypes.c_int),
+                ('colors', ctypes.POINTER(ctypes.c_double)),
+                ('_model', ctypes.c_char_p)]
+
+    def getId(self) -> int:
+        return self.id
+
+    def getPosition(self) -> List[float]:
+        return self.position
+
+    def getOrientation(self) -> List[float]:
+        return self.orientation
+
+    def getSize(self) -> List[float]:
+        return self.size
+
+    def getPositionOnImage(self) -> List[int]:
+        return self.position_on_image
+
+    def getSizeOnImage(self) -> List[int]:
+        return self.size_on_image
+
+    def getNumberOfColors(self) -> int:
+        return self.number_of_colors
+
+    def getColors(self) -> List[float]:
+        return self.colors
+
+    def getModel(self) -> str:
+        return self.model
+
+    @property
+    def model(self) -> str:
+        return self._model.decode()
 
 
 class Camera(Sensor):
@@ -52,7 +95,7 @@ class Camera(Sensor):
         return self.height
 
     def getImage(self) -> bytes:
-        return self.image
+        return bytes(self.image[:self.width * self.height * 4])
 
     def getImageArray(self) -> List[List[List[int]]]:
         array = []
@@ -119,6 +162,10 @@ class Camera(Sensor):
         return wb.wb_camera_get_image(self._tag)
 
     @property
+    def segmentation_image(self):
+        return wb.wb_camera_recognition_get_segmentation_image(self._tag)
+
+    @property
     def exposure(self) -> float:
         return wb.wb_camera_get_exposure(self._tag)
 
@@ -174,48 +221,6 @@ class Camera(Sensor):
     def width(self) -> int:
         return wb.wb_camera_get_width(self._tag)
 
-    class CameraRecognitionObject(ctypes.Structure):
-        _fields_ = [('id', ctypes.c_int),
-                    ('position', ctypes.c_double * 3),
-                    ('orientation', ctypes.c_double * 4),
-                    ('size', ctypes.c_double * 2),
-                    ('position_on_image', ctypes.c_int * 2),
-                    ('size_on_image', ctypes.c_int * 2),
-                    ('number_of_colors', ctypes.c_int),
-                    ('colors', ctypes.POINTER(ctypes.c_double)),
-                    ('_model', ctypes.c_char_p)]
-
-        def getId(self) -> int:
-            return self.id
-
-        def getPosition(self) -> List[float]:
-            return self.position
-
-        def getOrientation(self) -> List[float]:
-            return self.orientation
-
-        def getSize(self) -> List[float]:
-            return self.size
-
-        def getPositionOnImage(self) -> List[int]:
-            return self.position_on_image
-
-        def getSizeOnImage(self) -> List[int]:
-            return self.size_on_image
-
-        def getNumberOfColors(self) -> int:
-            return self.number_of_colors
-
-        def getColors(self) -> List[float]:
-            return self.colors
-
-        def getModel(self) -> str:
-            return self.model
-
-        @property
-        def model(self) -> str:
-            return self._model.decode()
-
     wb.wb_camera_recognition_get_objects.restype = ctypes.POINTER(CameraRecognitionObject)
 
     def getRecognitionNumberOfObjects(self) -> int:
@@ -249,7 +254,7 @@ class Camera(Sensor):
         return wb.wb_camera_recognition_is_segmentation_enabled(self._tag) != 0
 
     def getRecognitionSegmentationImage(self) -> bytes:
-        return wb.wb_camera_recognition_get_segmentation_image(self._tag)
+        return bytes(self.segmentation_image[:self.width * self.height * 4])
 
     def getRecognitionSegmentationImageArray(self) -> List[List[List[int]]]:
         array = []

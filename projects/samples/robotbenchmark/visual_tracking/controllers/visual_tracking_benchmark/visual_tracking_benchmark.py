@@ -111,7 +111,7 @@ class MovingTarget():
 
         if distance < maxStep:
             self.trajectoryStep += 1
-            self.translation += vector
+            self.translation = [a + b for a, b in zip(self.translation, vector)]
             segmentChanged = True
         else:
             if math.isinf(self.rotationStep):

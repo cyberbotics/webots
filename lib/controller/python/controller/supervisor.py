@@ -1,4 +1,4 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from controller.wb import wb
-from controller.node import Node
-from controller.robot import Robot
+from .wb import wb
+from .node import Node
+from .robot import Robot
 import ctypes
 
 
@@ -66,7 +66,9 @@ class Supervisor(Robot):
     def worldLoad(self, filename: str):
         wb.wb_supervisor_world_load(str.encode(filename))
 
-    def worldSave(self, filename: str) -> int:
+    def worldSave(self, filename: str = None) -> int:
+        if not filename:
+            return wb.wb_supervisor_world_save(None)
         return wb.wb_supervisor_world_save(str.encode(filename))
 
     def worldReload(self):

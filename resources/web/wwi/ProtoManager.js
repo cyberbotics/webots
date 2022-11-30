@@ -82,7 +82,7 @@ export default class ProtoManager {
 
     // write PROTO contents
     let s = '';
-    s += '#VRML_SIM R2023a utf8\n';
+    s += '#VRML_SIM R2023b utf8\n';
     s += '\n';
 
     const externProto = listExternProto(this.proto);
