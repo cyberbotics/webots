@@ -54,4 +54,8 @@ export default class WbSlot extends WbBaseNode {
 
     this.endPoint?.postFinalize();
   }
+
+  updateBoundingObjectVisibility() {
+    this.endPoint?.updateBoundingObjectVisibility();
+  }
 }
