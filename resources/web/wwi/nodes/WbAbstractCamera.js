@@ -74,7 +74,7 @@ export default class WbAbstractCamera extends WbSolid {
     if (!this.#isFrustumEnabled)
       return;
 
-    const frustumColor = [0.5, 0.5, 0.5];
+    const frustumColor = [1, 0, 1];
     const frustumColorRgb = _wrjs_array3(frustumColor[0], frustumColor[1], frustumColor[2]);
 
     _wr_phong_material_set_color(this._material, frustumColorRgb);
