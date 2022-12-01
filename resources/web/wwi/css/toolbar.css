@@ -993,6 +993,7 @@ webots-view .reset-field-button {
   vertical-align: bottom;
   background-color: transparent;
   border: none;
+  filter: brightness(50%);
 }
 
 webots-view .export-checkbox {
