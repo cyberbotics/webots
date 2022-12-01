@@ -1,7 +1,15 @@
 # Webots R2023 Change Log
 
+## Webots R2023a Revision 1
+Released on ??
+  - Enhancements
+    - Added default [Solid](solid.md).`recognitionColors` value for [animals](../guide/object-animals.md) and [Barn](../guide/object-buildings.md#barn) PROTO models ([#5606](https://github.com/cyberbotics/webots/pull/5606)).
+    - Added `recognitionColors` field to [SolidBox](../guide/object-solids.md#solidbox) and Tractor PROTO models ([#5606](https://github.com/cyberbotics/webots/pull/5606)).
+  - Bug Fixes
+    - Fixed Python API `Supervisor.setSimulationMode` which was failing ([#5603](https://github.com/cyberbotics/webots/pull/5603)).
+
 ## Webots R2023a
-Released on November, 29th, 2022.
+Released on November 29th, 2022.
   - New Features
     - Added support for any current and upcoming version of Python for robot controllers ([#5297](https://github.com/cyberbotics/webots/pull/5297)).
     - **Added new `projection` field to [Camera](camera.md), [RangeFinder](rangefinder.md), and [Lidar](lidar.md) nodes. This field replaces the deprecated `spherical` field ([#5266](https://github.com/cyberbotics/webots/pull/5266)).**
