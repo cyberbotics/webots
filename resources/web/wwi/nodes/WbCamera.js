@@ -30,6 +30,7 @@ export default class WbCamera extends WbAbstractCamera {
   minRange() {
     return this.#near;
   }
+  
   maxRange() {
     return this.#far;
   }
