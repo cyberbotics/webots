@@ -143,6 +143,7 @@ export default class WbAbstractCamera extends WbSolid {
 
   minRange() {
   }
+  
   maxRange() {
     return 1.0;
   }
