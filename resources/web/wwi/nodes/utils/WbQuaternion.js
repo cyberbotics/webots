@@ -1,7 +1,7 @@
 import WbVector3 from './WbVector3.js';
 
 export default class WbQuaternion {
-  constructor(x, y, z, angle) {
+  constructor(x = 0, y = 0, z = 0, angle = 1) {
     this.x = x;
     this.y = y;
     this.z = z;
