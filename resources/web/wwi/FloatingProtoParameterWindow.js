@@ -509,6 +509,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         div.className = 'proto-device';
         div.addEventListener('mouseover', () => this.#displayOptionalRendering(device.id));
         div.addEventListener('mouseleave', () => this.#hideOptionalRendering(device.id));
+        div.addEventListener('click', _ => this.#changeVisibility(device.id, _));
         const nameDiv = document.createElement('div');
         nameDiv.innerHTML = this.#stringRemoveQuote(device.name);
         nameDiv.className = 'proto-device-name';
@@ -535,8 +536,24 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   #hideOptionalRendering(id) {
     const node = WbWorld.instance.nodes?.get(id);
-    if (node)
+    if (node) {
+      if (node.optionnalRenderingLocked)
+        return;
       node.applyOptionalRendering(false);
+    }
+    this.#view.x3dScene.render();
+  }
+
+  #changeVisibility(id, event) {
+    const node = WbWorld.instance.nodes?.get(id);
+    if (node) {
+      node.optionnalRenderingLocked = !node.optionnalRenderingLocked;
+      node.applyOptionalRendering(node.optionnalRenderingLocked);
+      if (node.optionnalRenderingLocked)
+        event.target.style.backgroundColor = 'grey';
+      else
+        event.target.style.backgroundColor = 'transparent';
+    }
     this.#view.x3dScene.render();
   }
 

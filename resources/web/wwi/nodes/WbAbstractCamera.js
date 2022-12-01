@@ -27,6 +27,7 @@ export default class WbAbstractCamera extends WbSolid {
 
   set fieldOfView(newFieldOfView) {
     this.#fieldOfView = newFieldOfView;
+    this._update();
   }
 
   get height() {
@@ -35,6 +36,7 @@ export default class WbAbstractCamera extends WbSolid {
 
   set height(newHeight) {
     this.#height = newHeight;
+    this._update();
   }
 
   get width() {
@@ -43,6 +45,7 @@ export default class WbAbstractCamera extends WbSolid {
 
   set width(newWidth) {
     this.#width = newWidth;
+    this._update();
   }
 
   createWrenObjects() {
@@ -143,9 +146,14 @@ export default class WbAbstractCamera extends WbSolid {
 
   minRange() {
   }
-  
+
   maxRange() {
     return 1.0;
+  }
+
+  _update() {
+    if (this.wrenObjectsCreatedCalled)
+      this.#applyFrustumToWren();
   }
 
   applyOptionalRendering(enable) {

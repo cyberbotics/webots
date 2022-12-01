@@ -17,6 +17,7 @@ export default class WbCamera extends WbAbstractCamera {
 
   set near(newNear) {
     this.#near = newNear;
+    this._update();
   }
 
   get far() {
@@ -25,12 +26,13 @@ export default class WbCamera extends WbAbstractCamera {
 
   set far(newFar) {
     this.#far = newFar;
+    this._update();
   }
 
   minRange() {
     return this.#near;
   }
-  
+
   maxRange() {
     return this.#far;
   }
