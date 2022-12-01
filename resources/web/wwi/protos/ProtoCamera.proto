@@ -3,11 +3,11 @@
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/appearances/protos/Asphalt.proto"
 
 PROTO ProtoCamera [
-field     SFFloat                                        fieldOfView            0.785398 # range is (0,pi)
-field     SFInt32                                        width                  64       # pixel width
-field     SFInt32                                        height                 64       # pixel height
-field     SFFloat                                        near                   0.01     # OpenGL near clipping plane (meters)
-field     SFFloat                                        far                    0.0      # OpenGL far clipping plane (meters)
+field     SFFloat                                        fieldOfView            0.785398
+field     SFInt32                                        width                  64   
+field     SFInt32                                        height                 64
+field     SFFloat                                        near                   0.01
+field     SFFloat                                        far                    0.0
 ]
 {
   Robot {
