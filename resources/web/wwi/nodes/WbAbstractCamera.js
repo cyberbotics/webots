@@ -26,6 +26,9 @@ export default class WbAbstractCamera extends WbSolid {
   }
 
   set fieldOfView(newFieldOfView) {
+    if (newFieldOfView <= 0 || newFieldOfView > Math.PI)
+      newFieldOfView = Math.PI / 2;
+
     this.#fieldOfView = newFieldOfView;
     this._update();
   }
@@ -35,6 +38,9 @@ export default class WbAbstractCamera extends WbSolid {
   }
 
   set height(newHeight) {
+    if (newHeight <= 0)
+      newHeight = 1;
+
     this.#height = newHeight;
     this._update();
   }
@@ -44,6 +50,9 @@ export default class WbAbstractCamera extends WbSolid {
   }
 
   set width(newWidth) {
+    if (newWidth <= 0)
+      newWidth = 1;
+
     this.#width = newWidth;
     this._update();
   }
