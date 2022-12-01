@@ -1901,7 +1901,6 @@ namespace wren {
     } else
       mCacheData->mSupportShadows = false;
 
-
     // only the number of indices needs to be known in order to render the mesh
     // vertex count kept for mesh export
     mCacheData->mIndexCount = mIndices.size();
@@ -1923,8 +1922,10 @@ namespace wren {
     if (!mCacheData->mNumUsers) {
       if (mCacheData->mGlNameVertexArrayObject) {
         release();
+        releaseShadowVolume();
 
         glDeleteVertexArrays(1, &mCacheData->mGlNameVertexArrayObject);
+        glDeleteVertexArrays(1, &mCacheData->mGlNameVertexArrayObjectShadow);
         glDeleteBuffers(1, &mCacheData->mGlNameBufferCoords);
         glDeleteBuffers(1, &mCacheData->mGlNameBufferIndices);
         glDeleteBuffers(1, &mCacheData->mGlNameBufferShadowCoords);
