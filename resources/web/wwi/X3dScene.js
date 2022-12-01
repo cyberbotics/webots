@@ -335,13 +335,6 @@ export default class X3dScene {
           object.beamWidth = parseFloat(pose[key]);
         else if (key === 'cutOffAngle')
           object.cutOffAngle = parseFloat(pose[key]);
-      } else if (object instanceof WbLight) {
-        if (key === 'on')
-          object.on = pose[key].toLowerCase() === 'true';
-        else if (key === 'ambientIntensity')
-          object.ambientIntensity = parseFloat(pose[key]);
-        else if (key === 'intensity')
-          object.intensity = parseFloat(pose[key]);
       } else if (object instanceof WbIndexedFaceSet) {
         if (key === 'normalPerVertex')
           object.normalPerVertex = pose[key].toLowerCase() === 'true';
@@ -401,6 +394,15 @@ export default class X3dScene {
           object.far = parseFloat(pose[key]);
         else if (key === 'near')
           object.near = parseFloat(pose[key]);
+      }
+
+      if (object instanceof WbLight) {
+        if (key === 'on')
+          object.on = pose[key].toLowerCase() === 'true';
+        else if (key === 'ambientIntensity')
+          object.ambientIntensity = parseFloat(pose[key]);
+        else if (key === 'intensity')
+          object.intensity = parseFloat(pose[key]);
       } else if (object instanceof WbAbstractCamera) {
         if (key === 'width')
           object.width = parseInt(pose[key]);
