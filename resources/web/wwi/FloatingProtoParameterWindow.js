@@ -464,7 +464,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         let div = document.createElement('div');
         div.className = 'proto-device';
         div.addEventListener('mouseover', () => this.#displayOptionalRendering(device.id));
-
+        div.addEventListener('mouseleave', () => this.#hideOptionalRendering(device.id));
         const nameDiv = document.createElement('div');
         nameDiv.innerHTML = this.#stringRemoveQuote(device.name);
         nameDiv.className = 'proto-device-name';
@@ -482,17 +482,18 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   #displayOptionalRendering(id) {
     if (WbWorld.instance.readyForUpdates) {
-      let node = WbWorld.instance.nodes?.get(this.optionalDisplayId);
+      const node = WbWorld.instance.nodes?.get(id);
       if (node)
-        node.applyOptionalRendering(false);
-
-      node = WbWorld.instance.nodes?.get(id);
-      if (node) {
-        this.optionalDisplayId = id;
         node.applyOptionalRendering(true);
-      }
       this.#view.x3dScene.render();
     }
+  }
+
+  #hideOptionalRendering(id) {
+    const node = WbWorld.instance.nodes?.get(id);
+    if (node)
+      node.applyOptionalRendering(false);
+    this.#view.x3dScene.render();
   }
 
   populateJointTab() {
