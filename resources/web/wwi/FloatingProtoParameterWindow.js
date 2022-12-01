@@ -166,16 +166,28 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     values.style.gridRow = '' + row + ' / ' + row;
     values.style.gridColumn = '3 / 3';
     values.className = 'value-parameter';
-    p.inputs.push(this.#createVectorInput('x', parameter.value.value.x, values, () => this.#vector3OnChange(p)));
-    p.inputs.push(this.#createVectorInput(' y', parameter.value.value.y, values, () => this.#vector3OnChange(p)));
-    p.inputs.push(this.#createVectorInput(' z', parameter.value.value.z, values, () => this.#vector3OnChange(p)));
+
+    p.inputs.push(this.#createVectorInput('x', parameter.value.value.x, values, () => {
+      this.#vector3OnChange(p);
+      resetButton.style.filter = 'brightness(100%)';
+    }));
+    p.inputs.push(this.#createVectorInput(' y', parameter.value.value.y, values, () => {
+      this.#vector3OnChange(p);
+      resetButton.style.filter = 'brightness(100%)';
+    }));
+    p.inputs.push(this.#createVectorInput(' z', parameter.value.value.z, values, () => {
+      this.#vector3OnChange(p);
+      resetButton.style.filter = 'brightness(100%)';
+    }));
 
     const resetButton = this.#createResetButton(values);
+    resetButton.style.filter = 'brightness(50%)';
     resetButton.onclick = () => {
       p.inputs[0].value = parameter.defaultValue.value.x;
       p.inputs[1].value = parameter.defaultValue.value.y;
       p.inputs[2].value = parameter.defaultValue.value.z;
       this.#vector3OnChange(p);
+      resetButton.style.filter = 'brightness(50%)';
     };
 
     parent.appendChild(p);
@@ -200,18 +212,32 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     values.style.gridRow = '' + row + ' / ' + row;
     values.style.gridColumn = '3 / 3';
     values.className = 'value-parameter';
-    p.inputs.push(this.#createVectorInput('x', parameter.value.value.x, values, () => this.#rotationOnChange(p)));
-    p.inputs.push(this.#createVectorInput(' y', parameter.value.value.y, values, () => this.#rotationOnChange(p)));
-    p.inputs.push(this.#createVectorInput(' z', parameter.value.value.z, values, () => this.#rotationOnChange(p)));
-    p.inputs.push(this.#createVectorInput(' a', parameter.value.value.a, values, () => this.#rotationOnChange(p)));
+    p.inputs.push(this.#createVectorInput('x', parameter.value.value.x, values, () => {
+      this.#rotationOnChange(p);
+      resetButton.style.filter = 'brightness(100%)';
+    }));
+    p.inputs.push(this.#createVectorInput(' y', parameter.value.value.y, values, () => {
+      this.#rotationOnChange(p);
+      resetButton.style.filter = 'brightness(100%)';
+    }));
+    p.inputs.push(this.#createVectorInput(' z', parameter.value.value.z, values, () => {
+      this.#rotationOnChange(p);
+      resetButton.style.filter = 'brightness(100%)';
+    }));
+    p.inputs.push(this.#createVectorInput(' a', parameter.value.value.a, values, () => {
+      this.#rotationOnChange(p);
+      resetButton.style.filter = 'brightness(100%)';
+    }));
     p.checkbox = exportCheckbox;
     const resetButton = this.#createResetButton(values);
+    resetButton.style.filter = 'brightness(50%)';
     resetButton.onclick = () => {
       p.inputs[0].value = parameter.defaultValue.value.x;
       p.inputs[1].value = parameter.defaultValue.value.y;
       p.inputs[2].value = parameter.defaultValue.value.z;
       p.inputs[3].value = parameter.defaultValue.value.a;
       this.#rotationOnChange(p);
+      resetButton.style.filter = 'brightness(50%)';
     };
     parent.appendChild(p);
     parent.appendChild(values);
@@ -268,17 +294,23 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     input.value = this.#stringRemoveQuote(string);
     input.style.height = '20px';
-
-    input.onchange = () => this.#stringOnChange(p);
-    p.input = input;
-    p.checkbox = exportCheckbox;
     value.appendChild(input);
 
     const resetButton = this.#createResetButton(value);
+    resetButton.style.filter = 'brightness(50%)';
     resetButton.onclick = () => {
       input.value = this.#stringRemoveQuote(parameter.defaultValue.value);
       this.#stringOnChange(p);
+      resetButton.style.filter = 'brightness(50%)';
     };
+
+    input.onchange = () => {
+      this.#stringOnChange(p);
+      resetButton.style.filter = 'brightness(100%)';
+    };
+
+    p.input = input;
+    p.checkbox = exportCheckbox;
 
     parent.appendChild(p);
     parent.appendChild(value);
@@ -323,7 +355,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     input.value = parameter.value.value;
     input.style.width = '50px';
 
-    input.onchange = () => this.#floatOnChange(p);
+    input.onchange = () => {
+      resetButton.style.filter = 'brightness(100%)';
+      this.#floatOnChange(p);
+    };
     p.input = input;
     p.checkbox = exportCheckbox;
     value.appendChild(input);
@@ -332,6 +367,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     resetButton.onclick = () => {
       input.value = parameter.defaultValue.value;
       this.#floatOnChange(p);
+      resetButton.style.filter = 'brightness(50%)';
     };
     parent.appendChild(p);
     parent.appendChild(value);
@@ -366,7 +402,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     input.style.width = '50px';
 
     input.oninput = () => this.#intOnChange(p);
-    input.onchange = () => this.#floatOnChange(p);
+    input.onchange = () => {
+      this.#floatOnChange(p);
+      resetButton.style.filter = 'brightness(100%)';
+    };
     p.input = input;
     p.checkbox = exportCheckbox;
     value.appendChild(input);
@@ -375,6 +414,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     resetButton.onclick = () => {
       input.value = parameter.defaultValue.value;
       this.#floatOnChange(p);
+      resetButton.style.filter = 'brightness(50%)';
     };
     parent.appendChild(p);
     parent.appendChild(value);
@@ -384,7 +424,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     node.input.value = node.input.value.replace(/[^0-9-]/g, '');
     node.input.value = node.input.value.replace(/(\..*)\-/g, '$1');
   }
-  
+
   #createSFBoolField(key, parent, row) {
     const parameter = this.#protoManager.exposedParameters.get(key);
 
@@ -408,7 +448,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     input.checked = parameter.value.value;
     input.style.width = '50px';
 
-    input.onchange = () => this.#boolOnChange(p);
+    input.onchange = () => {
+      this.#boolOnChange(p);
+      resetButton.style.filter = 'brightness(100%)';
+    };
     p.input = input;
     p.checkbox = exportCheckbox;
     value.appendChild(input);
@@ -417,6 +460,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     resetButton.onclick = () => {
       input.checked = parameter.defaultValue.value;
       this.#boolOnChange(p);
+      resetButton.style.filter = 'brightness(50%)';
     };
     parent.appendChild(p);
     parent.appendChild(value);
