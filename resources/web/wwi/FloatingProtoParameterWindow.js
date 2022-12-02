@@ -552,7 +552,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       if (node.optionnalRenderingLocked)
         event.target.style.backgroundColor = 'grey';
       else
-        event.target.style.backgroundColor = 'transparent';
+        event.target.style.backgroundColor = '';
     }
     this.#view.x3dScene.render();
   }
