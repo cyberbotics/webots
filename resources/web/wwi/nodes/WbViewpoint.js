@@ -53,7 +53,7 @@ export default class WbViewpoint extends WbBaseNode {
 
     this.followSmoothness = followSmoothness;
     this.followedId = followedId;
-    this.#followedEnable = true;
+    this.#followEnable = true;
     this.#viewpointForce = new WbVector3();
     this.#viewpointVelocity = new WbVector3();
 
