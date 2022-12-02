@@ -791,7 +791,7 @@ export default class Toolbar {
 
     let label = document.createElement('span');
     label.className = 'setting-span';
-    label.innerHTML = 'Reset viewpoint';
+    label.innerHTML = 'Reset Viewpoint';
     resetViewpoint.appendChild(label);
 
     label = document.createElement('div');
@@ -1197,7 +1197,7 @@ export default class Toolbar {
     playbackLi.onclick = () => this.#openSpeedPane();
 
     let label = document.createElement('span');
-    label.innerHTML = 'Playback speed';
+    label.innerHTML = 'Playback Speed';
     label.className = 'setting-span';
     playbackLi.appendChild(label);
 
@@ -1236,7 +1236,7 @@ export default class Toolbar {
     playbackLi.appendChild(label);
 
     label = document.createElement('span');
-    label.innerHTML = 'Playback speed';
+    label.innerHTML = 'Playback Speed';
     label.className = 'setting-span';
     playbackLi.appendChild(label);
 
