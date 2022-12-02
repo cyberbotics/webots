@@ -914,7 +914,7 @@ export default class Toolbar {
     gtaoLevelLi.appendChild(label);
 
     label = document.createElement('span');
-    label.innerHTML = 'Ambient Occlusion Level';
+    label.innerHTML = 'Ambient Occlusion';
     label.className = 'setting-span';
     gtaoLevelLi.appendChild(label);
 
@@ -924,7 +924,7 @@ export default class Toolbar {
     gtaoLevelLi.onclick = () => this.#closeGtaoPane();
     gtaoList.appendChild(gtaoLevelLi);
 
-    for (let i of ['low', 'normal', 'high', 'ultra']) {
+    for (let i of ['Low', 'Medium', 'High', 'Ultra']) {
       gtaoLevelLi = document.createElement('li');
       gtaoLevelLi.id = i;
       label = document.createElement('span');
@@ -976,20 +976,20 @@ export default class Toolbar {
 
   gtaoLevelToText(number) {
     const pairs = {
-      1: 'low',
-      2: 'medium',
-      3: 'high',
-      4: 'ultra'
+      1: 'Low',
+      2: 'Medium',
+      3: 'High',
+      4: 'Ultra'
     };
     return (number in pairs) ? pairs[number] : '';
   }
 
   #textToGtaoLevel(text) {
     const pairs = {
-      'low': 1,
-      'medium': 2,
-      'high': 3,
-      'ultra': 4
+      'Low': 1,
+      'Medium': 2,
+      'High': 3,
+      'Ultra': 4
     };
     return (text in pairs) ? pairs[text] : 4;
   }
