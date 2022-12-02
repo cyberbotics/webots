@@ -7,8 +7,8 @@ export default class WbRangeFinder extends WbAbstractCamera {
   constructor(id, translation, scale, rotation, name, height, width, fieldOfView, maxRange, minRange) {
     super(id, translation, scale, rotation, name, height, width, fieldOfView);
     this.#maxRange = maxRange;
-    console.log(minRange)
     this.#minRange = minRange;
+    this._charType = 'r';
   }
 
   get maxRange() {
