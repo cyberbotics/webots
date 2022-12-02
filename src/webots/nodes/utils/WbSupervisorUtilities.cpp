@@ -1266,6 +1266,12 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbNode *const fromNode = WbNode::findNode(fromNodeId);
       WbNode *const toNode = WbNode::findNode(toNodeId);
 
+      if (!dynamic_cast<WbTransform *const>(toNode)) {
+        mRobot->warn(tr("Node '%1' is not a valid reference for pose tracking, aborting request.").arg(toNode->modelName()));
+        return;
+      }
+
+
       if (enable) {
         WbTrackedPoseInfo trackedPose;
         trackedPose.fromNode = dynamic_cast<WbTransform *>(fromNode);
@@ -1726,6 +1732,8 @@ void WbSupervisorUtilities::pushSingleFieldContentToStream(WbDataStream &stream,
 
 void WbSupervisorUtilities::pushRelativePoseToStream(WbDataStream &stream, WbTransform *fromNode, WbTransform *toNode) {
   WbMatrix4 m;
+
+  printf("%p %p\n", fromNode, toNode);
 
   WbMatrix4 mTo(toNode->matrix());
   const WbVector3 &sTo = mTo.scale();
