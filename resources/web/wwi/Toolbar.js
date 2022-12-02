@@ -735,6 +735,8 @@ export default class Toolbar {
 
     this.#createResetViewpoint();
     this.#createChangeShadows();
+    if (this.type === 'animation' || this.type === 'streaming')
+      this.#createEnableFollow();
     this.#createChangeGtao();
     if (this.type === 'animation')
       this.#createChangeSpeed();
@@ -742,7 +744,8 @@ export default class Toolbar {
 
   #changeSettingsPaneVisibility(event) {
     // Avoid to close the settings when modifying the shadows or the other options
-    if (event.srcElement.id === 'enable-shadows' || event.srcElement.id === 'gtao-settings')
+    if (event.srcElement.id === 'enable-shadows' || event.srcElement.id === 'enable-follow' ||
+      event.srcElement.id === 'gtao-settings')
       return;
 
     if (typeof this.settingsPane === 'undefined' || typeof this.#gtaoPane === 'undefined')
@@ -827,6 +830,39 @@ export default class Toolbar {
       button.click();
       changeShadows();
       this.#view.x3dScene.render();
+    };
+  }
+
+  #createEnableFollow() {
+    const followLi = document.createElement('li');
+    followLi.id = 'enable-follow';
+    this.settingsList.appendChild(followLi);
+
+    let label = document.createElement('span');
+    label.className = 'setting-span';
+    label.innerHTML = 'Viewpoint follow';
+    followLi.appendChild(label);
+
+    label = document.createElement('div');
+    label.className = 'spacer';
+    followLi.appendChild(label);
+
+    const button = document.createElement('label');
+    button.className = 'switch';
+    followLi.appendChild(button);
+
+    label = document.createElement('input');
+    label.type = 'checkbox';
+    label.checked = true;
+    button.appendChild(label);
+
+    label = document.createElement('span');
+    label.className = 'slider round';
+    button.appendChild(label);
+
+    followLi.onclick = _ => {
+      button.click();
+      WbWorld.instance.viewpoint?.enableFollow();
     };
   }
 
