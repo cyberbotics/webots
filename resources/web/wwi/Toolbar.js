@@ -833,7 +833,7 @@ export default class Toolbar {
     };
   }
 
-  #createEnableFollow() {
+  #createFollowObject() {
     const followLi = document.createElement('li');
     followLi.id = 'enable-follow';
     this.settingsList.appendChild(followLi);
