@@ -736,7 +736,7 @@ export default class Toolbar {
     this.#createResetViewpoint();
     this.#createChangeShadows();
     if (this.type === 'animation' || this.type === 'streaming')
-      this.#createEnableFollow();
+      this.#createFollowObject();
     this.#createChangeGtao();
     if (this.type === 'animation')
       this.#createChangeSpeed();
