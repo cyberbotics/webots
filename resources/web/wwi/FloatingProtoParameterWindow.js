@@ -550,7 +550,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       node.optionnalRenderingLocked = !node.optionnalRenderingLocked;
       node.applyOptionalRendering(node.optionnalRenderingLocked);
       if (node.optionnalRenderingLocked)
-        event.target.style.backgroundColor = 'rgb(0, 122, 204)';
+        event.target.style.backgroundColor = '#007acc';
       else
         event.target.style.backgroundColor = '';
     }
