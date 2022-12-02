@@ -1,17 +1,22 @@
-import WbSolid from './WbSolid.js';
+import WbAbstractCamera from './WbAbstractCamera.js';
 
 // This class is used to retrieve the type of device
-export default class WbLidar extends WbSolid {
+export default class WbLidar extends WbAbstractCamera {
   #frustumMaterial;
   #frustumMesh;
   #frustumRenderable;
   #maxRange;
   #minRange;
-  constructor(id, translation, scale, rotation, name, fieldOfView, maxRange, minRange, numberOfLayers, tiltAngle, verticalFieldOfView) {
+  #numberOfLayers;
+  #tiltAngle;
+  #verticalFieldOfView;
+  constructor(id, translation, scale, rotation, name, fieldOfView, maxRange, minRange, numberOfLayers, tiltAngle,
+    verticalFieldOfView) {
     super(id, translation, scale, rotation, name, undefined, undefined, fieldOfView);
     this.#maxRange = maxRange;
     this.#minRange = minRange;
     this.#numberOfLayers = numberOfLayers;
+    this.#tiltAngle = tiltAngle;
     this.#verticalFieldOfView = verticalFieldOfView;
   }
 
@@ -57,37 +62,44 @@ export default class WbLidar extends WbSolid {
     for (let layer = 0; layer < this.#numberOfLayers; layer++) {
       let vAngle = 0;
       if (this.#numberOfLayers > 1)
-        vAngle = this.#verticalFieldOfView / 2.0 - (layer / (this.#numberOfLayers - 1.0)) * this.#verticalFieldOfView + this.#tiltAngle;
-      const cosV = cos(vAngle);
-      const sinV = sin(vAngle);
-      pushVertex(vertices, i++, 0, 0, 0);
+        vAngle = this.#verticalFieldOfView / 2.0 - (layer / (this.#numberOfLayers - 1.0)) * this.#verticalFieldOfView +
+        this.#tiltAngle;
+      const cosV = Math.cos(vAngle);
+      const sinV = Math.sin(vAngle);
+      this.#pushVertex(vertices, i++, 0, 0, 0);
       // min range
-      for (int j = 0; j < intermediatePointsNumber + 2; ++j) {
-        const double tmpHAngle = fovH / 2.0 - fovH * j / (intermediatePointsNumber + 1);
-        const double x = n * cos(tmpHAngle) * cosV;
-        const double y = n * sin(tmpHAngle) * cosV;
-        const double z = n * sinV;
-        pushVertex(vertices, i++, x, y, z);
-        pushVertex(vertices, i++, x, y, z);
+      for (let j = 0; j < intermediatePointsNumber + 2; ++j) {
+        const tmpHAngle = fovH / 2.0 - fovH * j / (intermediatePointsNumber + 1);
+        const x = n * Math.cos(tmpHAngle) * cosV;
+        const y = n * Math.sin(tmpHAngle) * cosV;
+        const z = n * sinV;
+        this.#pushVertex(vertices, i++, x, y, z);
+        this.#pushVertex(vertices, i++, x, y, z);
       }
 
-      pushVertex(vertices, i++, 0, 0, 0);
-      pushVertex(vertices, i++, 0, 0, 0);
+      this.#pushVertex(vertices, i++, 0, 0, 0);
+      this.#pushVertex(vertices, i++, 0, 0, 0);
 
       // max range
-      for (int j = 0; j < intermediatePointsNumber + 2; ++j) {
-        const double tmpHAngle = fovH / 2.0 - fovH * j / (intermediatePointsNumber + 1);
-        const double x = f * cos(tmpHAngle) * cosV;
-        const double y = f * sin(tmpHAngle) * cosV;
-        const double z = f * sinV;
-        pushVertex(vertices, i++, x, y, z);
-        pushVertex(vertices, i++, x, y, z);
+      for (let j = 0; j < intermediatePointsNumber + 2; ++j) {
+        const tmpHAngle = fovH / 2.0 - fovH * j / (intermediatePointsNumber + 1);
+        const x = f * Math.cos(tmpHAngle) * cosV;
+        const y = f * Math.sin(tmpHAngle) * cosV;
+        const z = f * sinV;
+        this.#pushVertex(vertices, i++, x, y, z);
+        this.#pushVertex(vertices, i++, x, y, z);
       }
-      pushVertex(vertices, i++, 0, 0, 0);
+      this.#pushVertex(vertices, i++, 0, 0, 0);
     }
 
-    mFrustumMesh = wr_static_mesh_line_set_new(vertexCount, vertices, NULL);
-    wr_renderable_set_mesh(mFrustumRenderable, WR_MESH(mFrustumMesh));
-    wr_node_set_visible(WR_NODE(mFrustumRenderable), true);
+    this.#frustumMesh = _wr_static_mesh_line_set_new(vertexCount, vertices, undefined);
+    _wr_renderable_set_mesh(this.#frustumRenderable, this.#frustumMesh);
+    _wr_node_set_visible(this.#frustumRenderable, true);
+  }
+
+  #pushVertex(vertices, index, x, y, z) {
+    vertices[3 * index] = x;
+    vertices[3 * index + 1] = y;
+    vertices[3 * index + 2] = z;
   }
 }
