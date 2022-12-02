@@ -1,0 +1,34 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/appearances/protos/Asphalt.proto"
+
+PROTO ProtoCamera [
+field     SFFloat                                        fieldOfView            0.785398
+field     SFInt32                                        width                  64   
+field     SFInt32                                        height                 64
+field     SFFloat                                        near                   0.01
+field     SFFloat                                        far                    0.0
+]
+{
+  Robot {
+    translation 0 0 0.2
+    children [
+      Camera {
+        children [
+          Shape {
+            appearance Asphalt {
+            }
+            geometry Sphere {
+              radius 0.005
+            }
+          }
+        ]
+        width IS width
+        height IS height
+        far IS far
+        near IS near
+        fieldOfView IS fieldOfView
+      }
+    ]
+  }
+}

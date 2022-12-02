@@ -1,5 +1,6 @@
 import FloatingWindow from './FloatingWindow.js';
 import {VRML} from './protoVisualizer/vrml_type.js';
+import WbCamera from './nodes/WbCamera.js';
 import WbHingeJoint from './nodes/WbHingeJoint.js';
 import WbWorld from './nodes/WbWorld.js';
 
@@ -60,6 +61,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       this.frame.style.display = 'grid';
       this.joints.style.display = 'none';
       this.devices.style.display = 'none';
+      this.#displayOptionalRendering();
     } else if (number === 1) {
       this.tab0.style.backgroundColor = '#333';
       this.tab1.style.backgroundColor = '#222';
@@ -67,13 +69,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       this.frame.style.display = 'none';
       this.joints.style.display = 'block';
       this.devices.style.display = 'none';
+      this.#displayOptionalRendering();
     } else if (number === 2) {
       this.tab0.style.backgroundColor = '#333';
       this.tab1.style.backgroundColor = '#333';
       this.tab2.style.backgroundColor = '#222';
       this.frame.style.display = 'none';
       this.joints.style.display = 'none';
-      this.devices.style.display = 'grid';
+      this.devices.style.display = 'block';
     }
   }
 
@@ -397,7 +400,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     const input = document.createElement('input');
     input.type = 'number';
-    input.step = 0.1;
+    input.step = 1;
     input.value = parameter.value.value;
     input.style.width = '50px';
 
@@ -493,16 +496,68 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   populateDeviceTab() {
     this.devices.innerHTML = '';
-    const noDevice = document.createElement('h1');
-    noDevice.innerHTML = 'No devices';
-    this.devices.appendChild(noDevice);
+    const nodes = WbWorld.instance.nodes;
+    const keys = nodes.keys();
+    let numberOfDevices = 0;
+
+    for (const key of keys) {
+      const device = nodes.get(key);
+      if (device instanceof WbCamera) {
+        numberOfDevices++;
+
+        let div = document.createElement('div');
+        div.className = 'proto-device';
+        div.addEventListener('mouseover', () => this.#displayOptionalRendering(device.id));
+        div.addEventListener('mouseleave', () => this.#hideOptionalRendering(device.id));
+        div.addEventListener('click', _ => this.#changeVisibility(device.id, _));
+        const nameDiv = document.createElement('div');
+        nameDiv.innerHTML = this.#stringRemoveQuote(device.name);
+        nameDiv.className = 'proto-device-name';
+        div.appendChild(nameDiv);
+        this.devices.appendChild(div);
+      }
+    }
+
+    if (numberOfDevices === 0) {
+      const noDevice = document.createElement('h1');
+      noDevice.innerHTML = 'No devices';
+      this.devices.appendChild(noDevice);
+    }
+  }
+
+  #displayOptionalRendering(id) {
+    if (WbWorld.instance.readyForUpdates) {
+      const node = WbWorld.instance.nodes?.get(id);
+      if (node)
+        node.applyOptionalRendering(true);
+      this.#view.x3dScene.render();
+    }
+  }
+
+  #hideOptionalRendering(id) {
+    const node = WbWorld.instance.nodes?.get(id);
+    if (node) {
+      if (node.optionnalRenderingLocked)
+        return;
+      node.applyOptionalRendering(false);
+    }
+    this.#view.x3dScene.render();
+  }
+
+  #changeVisibility(id, event) {
+    const node = WbWorld.instance.nodes?.get(id);
+    if (node) {
+      node.optionnalRenderingLocked = !node.optionnalRenderingLocked;
+      node.applyOptionalRendering(node.optionnalRenderingLocked);
+      if (node.optionnalRenderingLocked)
+        event.target.style.backgroundColor = '#007acc';
+      else
+        event.target.style.backgroundColor = '';
+    }
+    this.#view.x3dScene.render();
   }
 
   populateJointTab() {
-    this.listJoints();
-  }
-
-  listJoints() {
     this.joints.innerHTML = '';
     const nodes = WbWorld.instance.nodes;
     const keys = nodes.keys();
