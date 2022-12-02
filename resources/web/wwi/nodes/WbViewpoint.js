@@ -180,7 +180,7 @@ export default class WbViewpoint extends WbBaseNode {
   }
 
   updateFollowUp(time, forcePosition) {
-    if (!this.#followedEnable || typeof this.followedId === 'undefined' ||
+    if (!this.#followEnable || typeof this.followedId === 'undefined' ||
       typeof WbWorld.instance.nodes.get(this.followedId) === 'undefined')
       return;
 
