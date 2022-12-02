@@ -93,14 +93,14 @@ export default class WbAbstractCamera extends WbSolid {
 
     let drawFarPlane;
     let f;
-    const n = this._minRange();
+    const n = this.minRange();
     // if the far is set to 0 it means the far clipping plane is set to infinity
     // so, the far distance of the colored frustum should be set arbitrarily
-    if (this._charType === 'c' && this._maxRange() === 0) {
+    if (this._charType === 'c' && this.maxRange() === 0) {
       f = n + 2 * _wr_config_get_line_scale();
       drawFarPlane = false;
     } else {
-      f = this._maxRange();
+      f = this.maxRange();
       drawFarPlane = true;
     }
 
@@ -153,10 +153,10 @@ export default class WbAbstractCamera extends WbSolid {
     _wr_node_set_visible(this._transform, true);
   }
 
-  _minRange() {
+  minRange() {
   }
 
-  _maxRange() {
+  maxRange() {
     return 1.0;
   }
 

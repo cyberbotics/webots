@@ -29,11 +29,11 @@ export default class WbCamera extends WbAbstractCamera {
     this._update();
   }
 
-  _minRange() {
+  minRange() {
     return this.#near;
   }
 
-  _maxRange() {
+  maxRange() {
     return this.#far;
   }
 }

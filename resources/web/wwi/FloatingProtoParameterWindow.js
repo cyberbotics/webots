@@ -3,7 +3,6 @@ import {VRML} from './protoVisualizer/vrml_type.js';
 import WbCamera from './nodes/WbCamera.js';
 import WbHingeJoint from './nodes/WbHingeJoint.js';
 import WbWorld from './nodes/WbWorld.js';
-import WbRangeFinder from './nodes/WbRangeFinder.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #protoManager;
@@ -503,7 +502,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     for (const key of keys) {
       const device = nodes.get(key);
-      if (device instanceof WbCamera || device instanceof WbRangeFinder) {
+      if (device instanceof WbCamera) {
         numberOfDevices++;
 
         let div = document.createElement('div');
