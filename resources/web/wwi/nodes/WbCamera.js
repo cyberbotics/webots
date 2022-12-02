@@ -18,7 +18,7 @@ export default class WbCamera extends WbAbstractCamera {
   set near(newNear) {
     if (newNear <= 0)
       newNear = 0.01;
-    else if (newNear > this.#far)
+    else if (newNear > this.#far && this.#far !== 0)
       newNear = this.#far;
 
     this.#near = newNear;
