@@ -8,12 +8,15 @@ field     SFInt32                                        width                  
 field     SFInt32                                        height                 64
 field     SFFloat                                        near                   0.01
 field     SFFloat                                        far                    0.0
+field     SFFloat                                        minRange               0.01
+field     SFFloat                                        maxRange               1
 ]
 {
   Robot {
     translation 0 0 0.2
     children [
       Camera {
+        rotation 0 1 0 1.5708
         children [
           Shape {
             appearance Asphalt {
@@ -27,6 +30,13 @@ field     SFFloat                                        far                    
         height IS height
         far IS far
         near IS near
+        fieldOfView IS fieldOfView
+      }
+      RangeFinder {
+        width IS width
+        height IS height
+        maxRange IS maxRange
+        minRange IS minRange
         fieldOfView IS fieldOfView
       }
     ]

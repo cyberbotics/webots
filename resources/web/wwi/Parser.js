@@ -628,8 +628,15 @@ export default class Parser {
       newNode = new WbPen(id, translation, scale, rotation, name === '' ? 'pen' : name);
     else if (node.tagName === 'Radar')
       newNode = new WbRadar(id, translation, scale, rotation, name === '' ? 'radar' : name);
-    else if (node.tagName === 'RangeFinder')
-      newNode = new WbRangeFinder(id, translation, scale, rotation, name === '' ? 'range finder' : name);
+    else if (node.tagName === 'RangeFinder') {
+      const height = parseInt(getNodeAttribute(node, 'height', '64'));
+      const width = parseInt(getNodeAttribute(node, 'width', '64'));
+      const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', M_PI_4));
+      const maxRange = parseFloat(getNodeAttribute(node, 'maxRange', '1'));
+      const minRange = parseFloat(getNodeAttribute(node, 'minRange', '0.01'));
+      newNode = new WbRangeFinder(id, translation, scale, rotation, name === '' ? 'range finder' : name, height, width,
+        fieldOfView, maxRange, minRange);
+    }
     else if (node.tagName === 'Receiver')
       newNode = new WbReceiver(id, translation, scale, rotation, name === '' ? 'receiver' : name);
     else if (node.tagName === 'Speaker')
