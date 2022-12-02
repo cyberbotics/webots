@@ -4,7 +4,7 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/project
 
 PROTO ProtoCamera [
 field     SFFloat                                        fieldOfView            0.785398
-field     SFInt32                                        width                  64   
+field     SFInt32                                        width                  64
 field     SFInt32                                        height                 64
 field     SFFloat                                        near                   0.01
 field     SFFloat                                        far                    0.0
@@ -33,11 +33,15 @@ field     SFFloat                                        maxRange               
         fieldOfView IS fieldOfView
       }
       RangeFinder {
+        rotation 0 0 1 1.5708
         width IS width
         height IS height
         maxRange IS maxRange
         minRange IS minRange
         fieldOfView IS fieldOfView
+      }
+      Lidar {
+      
       }
     ]
   }

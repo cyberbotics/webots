@@ -16,6 +16,9 @@ export default class WbRangeFinder extends WbAbstractCamera {
   }
 
   set maxRange(newMaxRange) {
+    if (this.#minRange > newMaxRange || newMaxRange <= 0)
+      newMaxRange = this.#minRange + 1;
+
     this.#maxRange = newMaxRange;
     this._update();
   }
@@ -25,6 +28,9 @@ export default class WbRangeFinder extends WbAbstractCamera {
   }
 
   set minRange(newMinRange) {
+    if (newMinRange <= 0 || newMinRange > this.#maxRange)
+      newMinRange = 0.01;
+
     this.#minRange = newMinRange;
     this._update();
   }

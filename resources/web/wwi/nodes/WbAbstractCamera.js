@@ -7,7 +7,6 @@ import {arrayXPointerFloat} from './utils/utils.js';
 export default class WbAbstractCamera extends WbSolid {
   #fieldOfView;
   #height;
-  #isFrustumEnabled;
   #width;
   constructor(id, translation, scale, rotation, name, height, width, fieldOfView) {
     super(id, translation, scale, rotation, name);
@@ -17,7 +16,7 @@ export default class WbAbstractCamera extends WbSolid {
     this.#width = width;
 
     this._isRangeFinder = false;
-    this.#isFrustumEnabled = false;
+    this._isFrustumEnabled = false;
     this._charType = '';
   }
 
@@ -74,16 +73,16 @@ export default class WbAbstractCamera extends WbSolid {
     _wr_transform_attach_child(this._transform, this._renderable);
     _wr_transform_attach_child(this.wrenNode, this._transform);
 
-    this.#applyFrustumToWren();
+    this._applyFrustumToWren();
   }
 
-  #applyFrustumToWren() {
+  _applyFrustumToWren() {
     _wr_node_set_visible(this._transform, false);
 
     _wr_static_mesh_delete(this._mesh);
     this._mesh = undefined;
 
-    if (!this.#isFrustumEnabled)
+    if (!this._isFrustumEnabled)
       return;
 
     let frustumColor;
@@ -167,12 +166,12 @@ export default class WbAbstractCamera extends WbSolid {
 
   _update() {
     if (this.wrenObjectsCreatedCalled)
-      this.#applyFrustumToWren();
+      this._applyFrustumToWren();
   }
 
   applyOptionalRendering(enable) {
-    this.#isFrustumEnabled = enable;
-    this.#applyFrustumToWren();
+    this._isFrustumEnabled = enable;
+    this._applyFrustumToWren();
   }
 
   #addVertex(vertices, colors, vertex, color) {
