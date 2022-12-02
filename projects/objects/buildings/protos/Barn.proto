@@ -105,5 +105,8 @@ PROTO Barn [
         }
       ]
     }
+    recognitionColors [
+      0.625 0.293 0.226
+    ]
   }
 }

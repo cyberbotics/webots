@@ -229,5 +229,8 @@ PROTO Cat [
         }
       ]
     }
+    recognitionColors [
+      0.870 0.580 0
+    ]
   }
 }
