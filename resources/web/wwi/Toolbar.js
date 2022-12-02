@@ -840,7 +840,7 @@ export default class Toolbar {
 
     let label = document.createElement('span');
     label.className = 'setting-span';
-    label.innerHTML = 'Viewpoint follow';
+    label.innerHTML = 'Follow Object';
     followLi.appendChild(label);
 
     label = document.createElement('div');
