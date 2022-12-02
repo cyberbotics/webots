@@ -29,8 +29,6 @@ jobs:
     - uses: msys2/setup-msys2@v2
       with:
         update: false
-        install: >-
-          git
     - uses: actions/checkout@v3
       with:
          submodules: true
@@ -54,9 +52,6 @@ jobs:
     - uses: msys2/setup-msys2@v2
       with:
         update: false
-        install: >-
-          git
-          openssh
     - uses: actions/checkout@v3
       with:
          submodules: true
