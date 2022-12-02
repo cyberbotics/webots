@@ -46,7 +46,7 @@ jobs:
     - name: Webots Package Creation
       run: |
         export JAVA_HOME="$(/usr/libexec/java_home -v 16)"
-        export PATH=/Library/Frameworks/Python.framework/Versions/3.10/bin:/Library/Frameworks/Python.framework/Versions/3.9/bin:/Library/Frameworks/Python.framework/Versions/3.8/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/bin/:$PATH
+        export PATH=/Library/Frameworks/Python.framework/Versions/3.10/bin:/usr/local/bin/:$PATH
         make distrib -j4
     - name: Prepare Webots Controller Deployment
       if: ${{ github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'deploy libcontroller') }}
