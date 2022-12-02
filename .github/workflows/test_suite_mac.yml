@@ -42,7 +42,7 @@ jobs:
          fetch-depth: 15
     - name: Install Webots Compilation Dependencies
       run: |
-        # swig wget cmake python@3.8 python@3.9 and python@3.10 are already installed
+        # swig wget and cmake are already installed
         npm install -g appdmg
     - name: Set Commit SHA in Version
       if: ${{ github.event_name == 'schedule' }}
@@ -50,7 +50,7 @@ jobs:
     - name: Webots Package Creation
       run: |
         export JAVA_HOME="$(/usr/libexec/java_home -v 16)"
-        export PATH=/Library/Frameworks/Python.framework/Versions/3.10/bin:/usr/local/bin/:$PATH
+        export PATH=/Library/Frameworks/Python.framework/Versions/3.11/bin:/usr/local/bin/:$PATH
         make distrib -j4
     - name: Prepare Webots Controller Deployment
       if: ${{ github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'deploy libcontroller') }}
@@ -90,10 +90,10 @@ jobs:
         hdiutil mount artifact/webots-*.dmg
         sudo cp -R /Volumes/Webots/Webots.app /Applications
         hdiutil unmount /Volumes/Webots
-    - name: Set up Python 3.10
+    - name: Set up Python 3.11
       uses: actions/setup-python@v2
       with:
-        python-version: 3.10
+        python-version: 3.11
     - name: Test
       run:
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
