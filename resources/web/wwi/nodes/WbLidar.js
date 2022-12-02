@@ -48,10 +48,7 @@ export default class WbLidar extends WbSolid {
     let i = 0;
     const n = this.#minRange;
     const f = this.#maxRange;
-    const fovV = verticalFieldOfView();
-    double fovH = fieldOfView();
-    if (mIsActuallyRotating)
-      fovH = 2 * M_PI;
+    let fovH = this.fieldOfView;
 
     const int intermediatePointsNumber = floor(fovH / 0.2);
     const int vertexCount = 4 * actualNumberOfLayers() * (intermediatePointsNumber + 3);
@@ -60,7 +57,7 @@ export default class WbLidar extends WbSolid {
     for (int layer = 0; layer < actualNumberOfLayers(); ++layer) {
       double vAngle = 0;
       if (actualNumberOfLayers() > 1)
-        vAngle = fovV / 2.0 - ((int)layer / ((int)actualNumberOfLayers() - 1.0)) * fovV + mTiltAngle->value();
+        vAngle = this.#verticalFieldOfView / 2.0 - ((int)layer / ((int)actualNumberOfLayers() - 1.0)) * this.#verticalFieldOfView + mTiltAngle->value();
       const double cosV = cos(vAngle);
       const double sinV = sin(vAngle);
       pushVertex(vertices, i++, 0, 0, 0);
