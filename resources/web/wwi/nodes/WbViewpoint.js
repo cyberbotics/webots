@@ -115,7 +115,7 @@ export default class WbViewpoint extends WbBaseNode {
   }
 
   enableFollow() {
-    this.#followedEnable = !this.#followedEnable;
+    this.#followEnable = !this.#followEnable;
   }
 
   // Converts screen coordinates to world coordinates
