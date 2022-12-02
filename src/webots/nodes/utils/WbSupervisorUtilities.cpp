@@ -1266,6 +1266,11 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       WbNode *const fromNode = WbNode::findNode(fromNodeId);
       WbNode *const toNode = WbNode::findNode(toNodeId);
 
+      if (!dynamic_cast<WbTransform *const>(toNode)) {
+        mRobot->warn(tr("Node '%1' is not suitable for pose tracking, aborting request.").arg(toNode->modelName()));
+        return;
+      }
+
       if (enable) {
         WbTrackedPoseInfo trackedPose;
         trackedPose.fromNode = dynamic_cast<WbTransform *>(fromNode);
