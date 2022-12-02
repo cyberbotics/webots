@@ -4244,12 +4244,27 @@ PROTO Nao [
                               }
                             ]
                             contactMaterial IS contactMaterial
-                            boundingObject DEF TIBIA_BO Transform {
-                              translation 0.01 0 -0.055
-                              rotation 0 1 0 0.2
+                            boundingObject Group {
                               children [
-                                Box {
-                                  size 0.06 0.08 0.11
+                                DEF TIBIA_HIGH Transform {
+                                  translation 0.01 0 -0.033
+                                  rotation 0 1 0 0.462
+                                  children [
+                                    Box {
+                                      size 0.04 0.08 0.07
+                                    }
+                                  ]
+                                }
+                                Transform {
+                                  translation 0 -0.003 -0.09
+                                  rotation -1 0 0 -1.57
+                                  children [
+                                    DEF TIBIA_LOW Capsule {
+                                      height 0.018
+                                      radius 0.035
+                                      subdivision 16
+                                    }
+                                  ]
                                 }
                               ]
                             }
@@ -5732,7 +5747,18 @@ PROTO Nao [
                               }
                             ]
                             contactMaterial IS contactMaterial
-                            boundingObject USE TIBIA_BO
+                            boundingObject Group {
+                              children [
+                                USE TIBIA_HIGH
+                                Transform {
+                                  translation 0 0.003 -0.09
+                                  rotation -1 0 0 -1.57
+                                  children [
+                                    USE TIBIA_LOW
+                                  ]
+                                }
+                              ]
+                            }
                             physics Physics {
                               density -1
                               %< if (version === 3.3) { >%
