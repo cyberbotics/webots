@@ -17,7 +17,7 @@ export default class WbViewpoint extends WbBaseNode {
   #defaultOrientation;
   #defaultPosition;
   #fieldOfViewY;
-  #followedEnable;
+  #followEnable;
   #followedObjectDeltaPosition;
   #initialPosition;
   #inverseViewMatrix;
