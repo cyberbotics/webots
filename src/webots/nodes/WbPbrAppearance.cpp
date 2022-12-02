@@ -146,10 +146,14 @@ WbPbrAppearance::WbPbrAppearance(const aiMaterial *material, const QString &file
 }
 
 WbPbrAppearance::~WbPbrAppearance() {
+  //printf("CTR %d\n", cInstanceCounter);
   if (isPostFinalizedCalled())
     --cInstanceCounter;
 
+  //printf("CTR %d\n", cInstanceCounter);
+
   if (cInstanceCounter == 0) {
+    //printf("DEL\n");
     wr_texture_delete(WR_TEXTURE(cBrdfTexture));
     cBrdfTexture = NULL;
   }
@@ -224,6 +228,7 @@ void WbPbrAppearance::preFinalize() {
   updateEmissiveColorMap();
 
   if (cInstanceCounter == 0) {
+    //printf("CRE\n");
     WbWrenOpenGlContext::makeWrenCurrent();
     const int quality = WbPreferences::instance()->value("OpenGL/textureQuality", 4).toInt() / 2;
     const int resolution = pow(2, 6 + quality);  // 0: 64, 1: 128, 2: 256
@@ -390,9 +395,9 @@ WrMaterial *WbPbrAppearance::modifyWrenMaterial(WrMaterial *wrenMaterial) {
   else
     wr_material_set_texture_transform(wrenMaterial, NULL);
 
-  wr_material_set_texture(wrenMaterial, WR_TEXTURE(cBrdfTexture), 5);
-  wr_material_set_texture_enable_mip_maps(wrenMaterial, false, 5);
-  wr_material_set_texture_enable_interpolation(wrenMaterial, false, 5);
+  //wr_material_set_texture(wrenMaterial, WR_TEXTURE(cBrdfTexture), 5);
+  //wr_material_set_texture_enable_mip_maps(wrenMaterial, false, 5);
+  //wr_material_set_texture_enable_interpolation(wrenMaterial, false, 5);
 
   const float newBaseColor[] = {static_cast<float>(mBaseColor->red()), static_cast<float>(mBaseColor->green()),
                                 static_cast<float>(mBaseColor->blue())};

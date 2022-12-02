@@ -1,0 +1,21 @@
+#VRML_SIM R2023a utf8
+
+IMPORTABLE EXTERNPROTO "../protos/human_01_standing.proto"
+IMPORTABLE EXTERNPROTO "../protos/human_01_standing2.proto"
+IMPORTABLE EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/plants/protos/FlowerPot.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.20859132267071617 -0.049852752992215636 0.976731469302376 3.600265063691316
+  position 6.645044523503172 3.675571417201704 4.283742722389555
+}
+Background {
+  skyColor [
+    0.4 0.7 1
+  ]
+}
+Robot {
+  controller "my_controller"
+  supervisor TRUE
+}
