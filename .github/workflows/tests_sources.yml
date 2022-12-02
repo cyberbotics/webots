@@ -1,5 +1,7 @@
 name: Test Sources
 
+runs-on: self-hosted
+
 on:
   pull_request:
     types: [opened, synchronize, reopened, labeled, unlabeled]
