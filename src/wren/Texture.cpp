@@ -150,7 +150,6 @@ namespace wren {
 
   void Texture::cleanupGl() {
     unsigned int name = glName();
-    //printf("cleanupGL %d\n", glName());
     if (name) {
       // Reset parameters to default state before freeing OpenGL name
       glstate::clearTextureParams(name);
@@ -179,7 +178,6 @@ namespace wren {
   }
 
   void Texture::addMaterialUser(Material *material) {
-    //printf("add material %p\n", material);
     assert(material);
     for (const Material *user : mMaterialsUsingThisTexture) {
       if (user == material)
@@ -190,9 +188,8 @@ namespace wren {
   }
 
   void Texture::removeMaterialUser(Material *material) {
-    //printf("remove material %p of %d\n", material, mMaterialsUsingThisTexture.size());
-
     assert(material);
+
     for (size_t i = 0; i < mMaterialsUsingThisTexture.size(); ++i) {
       if (mMaterialsUsingThisTexture[i] == material)
         mMaterialsUsingThisTexture.erase(mMaterialsUsingThisTexture.begin() + i);

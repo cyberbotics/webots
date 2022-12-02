@@ -39,7 +39,6 @@ namespace wren {
   TextureRtt::TextureRtt() : mGlName(0), mInitializeData(false) {}
 
   void TextureRtt::prepareGl() {
-    //printf("prepareGL\n");
     mGlName = generateNewTexture();
 
     if (textureUnit() < 0)

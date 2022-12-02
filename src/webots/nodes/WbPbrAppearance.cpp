@@ -395,9 +395,9 @@ WrMaterial *WbPbrAppearance::modifyWrenMaterial(WrMaterial *wrenMaterial) {
   else
     wr_material_set_texture_transform(wrenMaterial, NULL);
 
-  //wr_material_set_texture(wrenMaterial, WR_TEXTURE(cBrdfTexture), 5);
-  //wr_material_set_texture_enable_mip_maps(wrenMaterial, false, 5);
-  //wr_material_set_texture_enable_interpolation(wrenMaterial, false, 5);
+  wr_material_set_texture(wrenMaterial, WR_TEXTURE(cBrdfTexture), 5);
+  wr_material_set_texture_enable_mip_maps(wrenMaterial, false, 5);
+  wr_material_set_texture_enable_interpolation(wrenMaterial, false, 5);
 
   const float newBaseColor[] = {static_cast<float>(mBaseColor->red()), static_cast<float>(mBaseColor->green()),
                                 static_cast<float>(mBaseColor->blue())};

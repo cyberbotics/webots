@@ -368,6 +368,7 @@ namespace wren {
       glstate::releaseRenderBuffer(captureRBO);
       brdfShader->release();
       glDeleteVertexArrays(1, &quadVAO);
+      glDeleteBuffers(1, &quadVBO);
       quadVAO = quadVBO = 0;
       return brdfTexture;
     }
