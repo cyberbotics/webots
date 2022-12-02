@@ -1733,8 +1733,6 @@ void WbSupervisorUtilities::pushSingleFieldContentToStream(WbDataStream &stream,
 void WbSupervisorUtilities::pushRelativePoseToStream(WbDataStream &stream, WbTransform *fromNode, WbTransform *toNode) {
   WbMatrix4 m;
 
-  printf("%p %p\n", fromNode, toNode);
-
   WbMatrix4 mTo(toNode->matrix());
   const WbVector3 &sTo = mTo.scale();
   mTo.scale(1.0 / sTo.x(), 1.0 / sTo.y(), 1.0 / sTo.z());
