@@ -16,6 +16,11 @@ export default class WbCamera extends WbAbstractCamera {
   }
 
   set near(newNear) {
+    if (newNear <= 0)
+      newNear = 0.01;
+    else if (newNear > this.#far)
+      newNear = this.#far;
+
     this.#near = newNear;
     this._update();
   }
@@ -25,6 +30,11 @@ export default class WbCamera extends WbAbstractCamera {
   }
 
   set far(newFar) {
+    if (newFar < 0)
+      newFar = 0;
+    else if (this.#near > newFar)
+      newFar = this.#near + 1;
+
     this.#far = newFar;
     this._update();
   }
