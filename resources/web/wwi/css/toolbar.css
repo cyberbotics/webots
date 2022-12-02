@@ -1043,6 +1043,7 @@ webots-view .proto-device .proto-device-name {
 
 webots-view .proto-device .proto-device-name:hover {
   background-color: grey;
+  cursor: pointer;
 }
 
 webots-view .proto-slider::-webkit-slider-runnable-track {
