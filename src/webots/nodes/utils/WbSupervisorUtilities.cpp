@@ -1271,7 +1271,6 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         return;
       }
 
-
       if (enable) {
         WbTrackedPoseInfo trackedPose;
         trackedPose.fromNode = dynamic_cast<WbTransform *>(fromNode);
