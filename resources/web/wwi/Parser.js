@@ -115,6 +115,13 @@ export default class Parser {
     if (typeof xml === 'undefined')
       console.error('File to parse not found');
     else {
+      const head = xml.getElementsByTagName('head')[0];
+      if (typeof head !== 'undefined') {
+        for (const child of head.children) {
+          if (getNodeAttribute(child, 'name', '') === 'version')
+            WbWorld.instance.version = getNodeAttribute(child, 'content', '');
+        }
+      }
       const scene = xml.getElementsByTagName('Scene')[0];
       if (typeof scene === 'undefined') {
         const node = xml.getElementsByTagName('nodes')[0];

@@ -17,6 +17,7 @@ export default class WbViewpoint extends WbBaseNode {
   #defaultOrientation;
   #defaultPosition;
   #fieldOfViewY;
+  #followEnable;
   #followedObjectDeltaPosition;
   #initialPosition;
   #inverseViewMatrix;
@@ -52,6 +53,7 @@ export default class WbViewpoint extends WbBaseNode {
 
     this.followSmoothness = followSmoothness;
     this.followedId = followedId;
+    this.#followEnable = true;
     this.#viewpointForce = new WbVector3();
     this.#viewpointVelocity = new WbVector3();
 
@@ -103,6 +105,10 @@ export default class WbViewpoint extends WbBaseNode {
     this.orientation = this.#defaultOrientation;
     this.updatePosition();
     this.updateOrientation();
+  }
+
+  enableFollow() {
+    this.#followEnable = !this.#followEnable;
   }
 
   // Converts screen coordinates to world coordinates
@@ -167,7 +173,8 @@ export default class WbViewpoint extends WbBaseNode {
   }
 
   updateFollowUp(time, forcePosition) {
-    if (typeof this.followedId === 'undefined' || typeof WbWorld.instance.nodes.get(this.followedId) === 'undefined')
+    if (!this.#followEnable || typeof this.followedId === 'undefined' ||
+      typeof WbWorld.instance.nodes.get(this.followedId) === 'undefined')
       return;
 
     // reset the viewpoint position and the variables when the animation restarts
