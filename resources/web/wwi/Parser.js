@@ -642,9 +642,15 @@ export default class Parser {
       newNode = new WbLightSensor(id, translation, scale, rotation, name === '' ? 'light sensor' : name);
     else if (node.tagName === 'Pen')
       newNode = new WbPen(id, translation, scale, rotation, name === '' ? 'pen' : name);
-    else if (node.tagName === 'Radar')
-      newNode = new WbRadar(id, translation, scale, rotation, name === '' ? 'radar' : name);
-    else if (node.tagName === 'RangeFinder') {
+    else if (node.tagName === 'Radar') {
+      const horizontalFieldOfView = parseFloat(getNodeAttribute(node, 'horizontalFieldOfView', '0.78'));
+      const verticalFieldOfView = parseFloat(getNodeAttribute(node, 'verticalFieldOfView', '0.1'));
+      const maxRange = parseFloat(getNodeAttribute(node, 'maxRange', '50'));
+      const minRange = parseFloat(getNodeAttribute(node, 'minRange', '1'));
+
+      newNode = new WbRadar(id, translation, scale, rotation, name === '' ? 'radar' : name, horizontalFieldOfView,
+        verticalFieldOfView, maxRange, minRange);
+    } else if (node.tagName === 'RangeFinder') {
       const height = parseInt(getNodeAttribute(node, 'height', '64'));
       const width = parseInt(getNodeAttribute(node, 'width', '64'));
       const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', M_PI_4));
