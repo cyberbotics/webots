@@ -91,7 +91,7 @@ LIBS              += -bind_at_load $(LIBS_FRAMEWORKS) $(LIB_WREN)
 CFLAGS             = -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 CXXFLAGS           = -std=c++11 -F$(FRAMEWORKS) -x objective-c++
 EXTRA_CMD          = cp launcher/webots-mac.sh $(WEBOTS_PATH)/webots && chmod 755 $(WEBOTS_PATH)/webots
-FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots ; $(WEBOTS_PATH)/webots-controller 
+FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots
 ifeq ($(MAKECMDGOALS), profile)
 LIB_ODE = ../ode/libode.a
 LIBS += $(LIB_ODE)
@@ -124,7 +124,7 @@ MOC                = $(WEBOTS_PATH)/bin/qt/moc
 LIBS              += $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a $(LIB_WREN) -Wl,-rpath $(WEBOTS_LIB_PATH) -L$(WEBOTS_LIB_PATH) -lQt6Core -lQt6Network -lQt6Gui -lQt6OpenGL -lQt6OpenGLWidgets -lQt6WebSockets -lQt6Widgets -lQt6PrintSupport -lQt6Qml -lQt6Xml -lopenal -lGL -lGLU -ldl -lOIS -lpico -lfreetype -lassimp -lrt
 LD_FLAGS           = -rdynamic
 EXTRA_CMD          = cp launcher/webots-linux.sh $(WEBOTS_PATH)/webots && chmod 755 $(WEBOTS_PATH)/webots
-FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots ; $(WEBOTS_PATH)/webots-controller 
+FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots
 ifeq ($(MAKECMDGOALS), profile)
 LIB_ODE = ../ode/libode.a
 LIBS += $(LIB_ODE) -lpthread
@@ -625,7 +625,7 @@ endif
 
 .PHONY: debug profile release clean count-lines
 
-debug profile release: $(TARGET) $(LAUNCHER) $(LAUNCHERW) $(CONTROLLER_LAUNCHER)
+debug profile release: $(TARGET) $(LAUNCHER) $(LAUNCHERW)
 
 ifeq ($(OSTYPE),darwin)
 X86_64_OBJECTS = $(addprefix $(OBJDIR)/x86_64/, $(OBJECTS))
