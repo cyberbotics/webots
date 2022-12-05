@@ -176,7 +176,7 @@ void exec_java_config_environment() {
   strcat(cpp, WEBOTS_HOME);
   strcat(cpp, "\\msys64\\mingw64\\bin\\cpp:");
   strcat(lib_controller, cpp);
-  size_t Path_size = getenv("Path") ? strlen(getenv("Path")) : 0;
+  const size_t Path_size = getenv("Path") ? strlen(getenv("Path")) : 0;
   char *new_path = malloc(strlen(lib_controller) + Path_size + 6);
   strcat(new_path, "Path=");
   strcat(new_path, lib_controller);
@@ -187,7 +187,7 @@ void exec_java_config_environment() {
   char *lib_controller = malloc(strlen(WEBOTS_HOME) + 17);
   strcat(lib_controller, WEBOTS_HOME);
   strcat(lib_controller, "/lib/controller:");
-  size_t LD_LIBRARY_PATH_size = getenv("LD_LIBRARY_PATH") ? strlen(getenv("LD_LIBRARY_PATH")) : 0;
+  const size_t LD_LIBRARY_PATH_size = getenv("LD_LIBRARY_PATH") ? strlen(getenv("LD_LIBRARY_PATH")) : 0;
   char *new_ld_path = malloc(strlen(lib_controller) + LD_LIBRARY_PATH_size + 17);
   strcat(new_ld_path, "LD_LIBRARY_PATH=");
   strcat(new_ld_path, lib_controller);
@@ -198,7 +198,7 @@ void exec_java_config_environment() {
   char *lib_controller = malloc(strlen(WEBOTS_HOME) + 26);
   strcat(lib_controller, WEBOTS_HOME);
   strcat(lib_controller, "/Contents/lib/controller:");
-  size_t DYLD_LIBRARY_PATH_size = getenv("DYLD_LIBRARY_PATH") ? strlen(getenv("DYLD_LIBRARY_PATH")) : 0;
+  const size_t DYLD_LIBRARY_PATH_size = getenv("DYLD_LIBRARY_PATH") ? strlen(getenv("DYLD_LIBRARY_PATH")) : 0;
   char *new_ld_path = malloc(strlen(lib_controller) + DYLD_LIBRARY_PATH_size + 19);
   strcat(new_ld_path, "DYLD_LIBRARY_PATH=");
   strcat(new_ld_path, lib_controller);
@@ -213,7 +213,7 @@ void python_config_environment() {
   char *lib_controller = malloc(strlen(WEBOTS_HOME) + 24);
   strcat(lib_controller, WEBOTS_HOME);
   strcat(lib_controller, "\\lib\\controller\\python:");
-  size_t PYTHONPATH_size = getenv("PYTHONPATH") ? strlen(getenv("PYTHONPATH")) : 0;
+  const size_t PYTHONPATH_size = getenv("PYTHONPATH") ? strlen(getenv("PYTHONPATH")) : 0;
   char *new_python_path = malloc(strlen(lib_controller) + PYTHONPATH_size + 12);
   strcat(new_python_path, "PYTHONPATH=");
   strcat(new_python_path, lib_controller);
@@ -227,7 +227,7 @@ void python_config_environment() {
   char *lib_controller = malloc(strlen(WEBOTS_HOME) + 24);
   strcat(lib_controller, WEBOTS_HOME);
   strcat(lib_controller, "/lib/controller/python:");
-  size_t PYTHONPATH_size = getenv("PYTHONPATH") ? strlen(getenv("PYTHONPATH")) : 0;
+  const size_t PYTHONPATH_size = getenv("PYTHONPATH") ? strlen(getenv("PYTHONPATH")) : 0;
   char *new_python_path = malloc(strlen(lib_controller) + PYTHONPATH_size + 12);
   strcat(new_python_path, "PYTHONPATH=");
   strcat(new_python_path, lib_controller);
@@ -239,7 +239,7 @@ void python_config_environment() {
   char *lib_controller = malloc(strlen(WEBOTS_HOME) + 24);
   strcat(lib_controller, WEBOTS_HOME);
   strcat(lib_controller, "/Contents/lib/controller/python:");
-  size_t PYTHONPATH_size = getenv("PYTHONPATH") ? strlen(getenv("PYTHONPATH")) : 0;
+  const size_t PYTHONPATH_size = getenv("PYTHONPATH") ? strlen(getenv("PYTHONPATH")) : 0;
   char *new_python_path = malloc(strlen(lib_controller) + PYTHONPATH_size + 12);
   strcat(new_python_path, "PYTHONPATH=");
   strcat(new_python_path, lib_controller);
@@ -252,11 +252,12 @@ void python_config_environment() {
 
 int main(int argc, char **argv) {
   // Check WEBOTS_HOME and exit if empty
-  bool is_set = get_webots_home();
+  const bool is_set = get_webots_home();
   if (!is_set)
     return -1;
 
-  bool success = parse_options(argc, argv);
+  // Parse command line options
+  const bool success = parse_options(argc, argv);
   if (!success)
     return -1;
 
@@ -282,7 +283,7 @@ int main(int argc, char **argv) {
   if (!extension) {
     // printf("C or C++ file\n");
     exec_java_config_environment();
-    int status = system(controller);
+    system(controller);
   }
   // Python controller
   else if (strcmp(extension, ".py") == 0) {
@@ -295,7 +296,7 @@ int main(int argc, char **argv) {
     strcat(python_command, "python3 ");
 #endif
     strcat(python_command, controller);
-    int status = system(python_command);
+    system(python_command);
   }
   // Java controller
   else if (strcmp(extension, ".jar") == 0 || strcmp(extension, ".class") == 0) {
@@ -304,12 +305,12 @@ int main(int argc, char **argv) {
 
     // Compute path to controller file
 #ifdef _WIN32
-    size_t controller_file_size = strlen(strrchr(controller, '\\')) - 1;
+    const size_t controller_file_size = strlen(strrchr(controller, '\\')) - 1;
 #else
-    size_t controller_file_size = strlen(strrchr(controller, '/')) - 1;
+    const size_t controller_file_size = strlen(strrchr(controller, '/')) - 1;
 #endif
-    size_t controller_size = strlen(controller);
-    size_t controller_path_size = controller_size - controller_file_size;
+    const size_t controller_size = strlen(controller);
+    const size_t controller_path_size = controller_size - controller_file_size;
     char *controller_path = malloc(controller_path_size + 1);
     strncpy(controller_path, controller, controller_path_size);
     controller_path[controller_path_size] = '\0';
@@ -351,7 +352,7 @@ int main(int argc, char **argv) {
     strcat(java_command, " ");
     controller_name[strlen(controller_name) - strlen(extension)] = '\0';
     strcat(java_command, controller_name + 1);
-    int status = system(java_command);
+    system(java_command);
   } else
     printf("The file extension '%s' is not supported as webots controller. Supported file types are executables, '.py', "
            "'.jar', '.class' and '.m'.\n",
