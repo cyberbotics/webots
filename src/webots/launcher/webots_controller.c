@@ -248,13 +248,13 @@ int main(int argc, char **argv) {
   if (!success)
     return -1;
 
-  // Get controller file and check if exists
+  // Check if controller file exists
   if (access(controller, F_OK) != 0) {
     printf("Controller file '%s' not found. Please specify a path to an existing controller file.\n", controller);
     return -1;
   }
 
-  // Get extension from controller name (relative paths robustness)
+  // Get extension from controller name (robust against relative paths)
 #ifdef _WIN32
   char *controller_name = strrchr(controller, '\\');
 #else
