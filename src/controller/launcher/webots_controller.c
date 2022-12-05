@@ -69,24 +69,24 @@ bool parse_options(int nb_arguments, char **arguments) {
   for (int i = 1; i < nb_arguments; i++) {
     if (arguments[i][0] == '-') {
       if (strncmp(arguments[i] + 2, "protocol=", 9) == 0) {
-        protocol = malloc(strlen(arguments[i] + 11) + 1);
-        strcpy(protocol, arguments[i] + 11);
-        protocol_size = strlen(protocol);
+        protocol_size = strlen(arguments[i] + 11) + 1;
+        protocol = malloc(protocol_size);
+        memcpy(protocol, arguments[i] + 11, protocol_size);
         // printf("protocol = %s\n", protocol);
       } else if (strncmp(arguments[i] + 2, "ip_address=", 11) == 0) {
-        ip_address = malloc(strlen(arguments[i] + 13) + 1);
-        strcpy(ip_address, arguments[i] + 13);
-        ip_address_size = strlen(ip_address);
+        ip_address_size = strlen(arguments[i] + 13) + 1;
+        ip_address = malloc(ip_address_size);
+        memcpy(ip_address, arguments[i] + 13, ip_address_size);
         // printf("ip_address = %s\n", ip_address);
       } else if (strncmp(arguments[i] + 2, "port=", 5) == 0) {
-        port = malloc(strlen(arguments[i] + 7) + 1);
-        strcpy(port, arguments[i] + 7);
-        port_size = strlen(port);
+        port_size = strlen(arguments[i] + 7) + 1;
+        port = malloc(port_size);
+        memcpy(port, arguments[i] + 7, port_size);
         // printf("port = %s\n", port);
       } else if (strncmp(arguments[i] + 2, "robot_name=", 11) == 0) {
-        robot_name = malloc(strlen(arguments[i] + 13) + 1);
-        strcpy(robot_name, arguments[i] + 13);
-        robot_name_size = strlen(robot_name);
+        robot_name_size = strlen(arguments[i] + 13) + 1;
+        robot_name = malloc(robot_name_size);
+        memcpy(robot_name, arguments[i] + 13, robot_name_size);
         // printf("robot_name = %s\n", robot_name);
       } else if (strncmp(arguments[i] + 2, "help", 4) == 0) {
         print_options();
@@ -96,8 +96,9 @@ bool parse_options(int nb_arguments, char **arguments) {
         return false;
       }
     } else {
-      controller = malloc(strlen(arguments[i]));
-      strcpy(controller, arguments[i]);
+      size_t controller_size = strlen(arguments[i]) + 1;
+      controller = malloc(controller_size);
+      memcpy(controller, arguments[i], controller_size);
     }
   }
 
@@ -110,16 +111,14 @@ bool parse_options(int nb_arguments, char **arguments) {
   // If no protocol is given, ipc is used by default
   if (!protocol) {
     printf("Using default ipc protocol.\n");
-    protocol = malloc(4);
-    strcpy(protocol, "ipc");
+    protocol = strdup("ipc");
     protocol_size = strlen(protocol);
   }
 
   // If no port is given, 1234 is used by default
   if (!port) {
     printf("Using default port 1234.\n");
-    port = malloc(5);
-    strcpy(port, "1234");
+    port = strdup("1234");
     port_size = strlen(port);
   }
 
@@ -130,7 +129,7 @@ bool parse_options(int nb_arguments, char **arguments) {
       return false;
     }
     char *WEBOTS_CONTROLLER_URL = malloc(protocol_size + ip_address_size + port_size + robot_name_size + 28);
-    strcat(WEBOTS_CONTROLLER_URL, "WEBOTS_CONTROLLER_URL=");
+    memcpy(WEBOTS_CONTROLLER_URL, "WEBOTS_CONTROLLER_URL=", 22);
     strcat(WEBOTS_CONTROLLER_URL, protocol);
     strcat(WEBOTS_CONTROLLER_URL, "://");
     strcat(WEBOTS_CONTROLLER_URL, ip_address);
@@ -145,7 +144,7 @@ bool parse_options(int nb_arguments, char **arguments) {
     if (ip_address)
       printf("Ignoring IP address for ipc protocol.\n");
     char *WEBOTS_CONTROLLER_URL = malloc(protocol_size + port_size + robot_name_size + 27);
-    strcat(WEBOTS_CONTROLLER_URL, "WEBOTS_CONTROLLER_URL=");
+    memcpy(WEBOTS_CONTROLLER_URL, "WEBOTS_CONTROLLER_URL=", 22);
     strcat(WEBOTS_CONTROLLER_URL, protocol);
     strcat(WEBOTS_CONTROLLER_URL, "://");
     strcat(WEBOTS_CONTROLLER_URL, port);
@@ -159,7 +158,7 @@ bool parse_options(int nb_arguments, char **arguments) {
     return false;
   }
 
-  // printf("%s\n", getenv("WEBOTS_CONTROLLER_URL"));
+  printf("%s\n", getenv("WEBOTS_CONTROLLER_URL"));
   return true;
 }
 
@@ -350,6 +349,7 @@ int main(int argc, char **argv) {
     strcat(java_command, " ");
     controller_name[strlen(controller_name) - strlen(extension)] = '\0';
     strcat(java_command, controller_name + 1);
+    printf("%s\n", java_command);
     system(java_command);
   } else
     printf("The file extension '%s' is not supported as webots controller. Supported file types are executables, '.py', "
