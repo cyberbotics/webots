@@ -72,7 +72,6 @@ export default class WbAbstractCamera extends WbSolid {
     this._transform = _wr_transform_new();
     _wr_transform_attach_child(this._transform, this._renderable);
     _wr_transform_attach_child(this.wrenNode, this._transform);
-
     this._applyFrustumToWren();
   }
 

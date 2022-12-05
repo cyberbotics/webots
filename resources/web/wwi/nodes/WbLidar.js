@@ -1,18 +1,23 @@
 import WbAbstractCamera from './WbAbstractCamera.js';
+import WbWrenShaders from '../wren/WbWrenShaders.js';
+import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
+import {arrayXPointerFloat} from './utils/utils.js';
 
 // This class is used to retrieve the type of device
 export default class WbLidar extends WbAbstractCamera {
   #frustumMaterial;
   #frustumMesh;
   #frustumRenderable;
+  #horizontalResolution;
   #maxRange;
   #minRange;
   #numberOfLayers;
   #tiltAngle;
   #verticalFieldOfView;
   constructor(id, translation, scale, rotation, name, fieldOfView, maxRange, minRange, numberOfLayers, tiltAngle,
-    verticalFieldOfView) {
+    verticalFieldOfView, horizontalResolution) {
     super(id, translation, scale, rotation, name, undefined, undefined, fieldOfView);
+    this.#horizontalResolution = horizontalResolution;
     this.#maxRange = maxRange;
     this.#minRange = minRange;
     this.#numberOfLayers = numberOfLayers;
@@ -20,11 +25,30 @@ export default class WbLidar extends WbAbstractCamera {
     this.#verticalFieldOfView = verticalFieldOfView;
   }
 
+  get horizontalResolution() {
+    return this.#horizontalResolution;
+  }
+
+  set horizontalResolution(newHorizontalResolution) {
+    if (newHorizontalResolution <= 0)
+      newHorizontalResolution = 1;
+
+    this.#horizontalResolution = newHorizontalResolution;
+
+    if (this.#numberOfLayers > 1 && this.height < this.#numberOfLayers)
+      this.#horizontalResolution = Math.ceil((this.#numberOfLayers * this.fieldOfView) / this._verticalFieldOfView());
+
+    this._update();
+  }
+
   get maxRange() {
     return this.#maxRange;
   }
 
   set maxRange(newMaxRange) {
+    if (this.#minRange > newMaxRange || newMaxRange <= 0)
+      newMaxRange = this.#minRange + 1;
+
     this.#maxRange = newMaxRange;
     this._update();
   }
@@ -34,32 +58,84 @@ export default class WbLidar extends WbAbstractCamera {
   }
 
   set minRange(newMinRange) {
+    if (newMinRange <= 0)
+      newMinRange = 0.01;
+    if (newMinRange >= this.#maxRange)
+      this.#maxRange += 1;
+
     this.#minRange = newMinRange;
     this._update();
   }
 
+  get numberOfLayers() {
+    return this.#numberOfLayers;
+  }
+
+  set numberOfLayers(newNumberOfLayers) {
+    if (newNumberOfLayers <= 0)
+      newNumberOfLayers = 1;
+
+    this.#numberOfLayers = newNumberOfLayers;
+    if (newNumberOfLayers !== 1) {
+      const maxNumberOfLayers = this.height;
+
+      if (newNumberOfLayers > maxNumberOfLayers)
+        this.#numberOfLayers = maxNumberOfLayers;
+    }
+
+    this._update();
+  }
+
+  get tiltAngle() {
+    return this.#tiltAngle;
+  }
+
+  set tiltAngle(newTiltAngle) {
+    this.#tiltAngle = newTiltAngle;
+    this._update();
+  }
+
+  get verticalFieldOfView() {
+    return this.#verticalFieldOfView;
+  }
+
+  set verticalFieldOfView(newVerticalFieldOfView) {
+    if (newVerticalFieldOfView > Math.PI)
+      newVerticalFieldOfView = Math.PI;
+    else if (newVerticalFieldOfView <= 0)
+      newVerticalFieldOfView = 0.1;
+
+    this.#verticalFieldOfView = newVerticalFieldOfView;
+    if (this.#numberOfLayers > 1 && this.height < this.#numberOfLayers)
+      this.#verticalFieldOfView = (this.#numberOfLayers * this.fieldOfView) / this.#horizontalResolution;
+
+    this._update();
+  }
+
+  get height() {
+    if (this.#numberOfLayers === 1)
+      return 1;
+
+    return Math.ceil((this.#verticalFieldOfView + this.fieldOfView / this.#horizontalResolution) *
+      (this.#horizontalResolution / this.fieldOfView));
+  }
+
   createWrenObjects() {
     // Lidar frustum
-    mFrustumMaterial = wr_phong_material_new();
-    wr_material_set_default_program(mFrustumMaterial, WbWrenShaders::lineSetShader());
+    this.#frustumMaterial = _wr_phong_material_new();
+    _wr_material_set_default_program(this.#frustumMaterial, WbWrenShaders.lineSetShader());
 
-    mFrustumRenderable = wr_renderable_new();
-    wr_renderable_set_cast_shadows(mFrustumRenderable, false);
-    wr_renderable_set_receive_shadows(mFrustumRenderable, false);
-    wr_renderable_set_visibility_flags(mFrustumRenderable, WbWrenRenderingContext::VF_LIDAR_RAYS_PATHS);
-    wr_renderable_set_material(mFrustumRenderable, mFrustumMaterial, NULL);
-    wr_renderable_set_drawing_mode(mFrustumRenderable, WR_RENDERABLE_DRAWING_MODE_LINES);
-    wr_node_set_visible(WR_NODE(mFrustumRenderable), false);
+    this.#frustumRenderable = _wr_renderable_new();
+    _wr_renderable_set_cast_shadows(this.#frustumRenderable, false);
+    _wr_renderable_set_receive_shadows(this.#frustumRenderable, false);
+    _wr_renderable_set_visibility_flags(this.#frustumRenderable, WbWrenRenderingContext.VM_REGULAR);
+    _wr_renderable_set_material(this.#frustumRenderable, this.#frustumMaterial, undefined);
+    _wr_renderable_set_drawing_mode(this.#frustumRenderable, Enum.WR_RENDERABLE_DRAWING_MODE_LINES);
+    _wr_node_set_visible(this.#frustumRenderable, false);
 
-    WbAbstractCamera::createWrenObjects();
+    super.createWrenObjects();
 
-    wr_transform_attach_child(wrenNode(), WR_NODE(mFrustumRenderable));
-    wr_transform_attach_child(wrenNode(), WR_NODE(mLidarRaysRenderable));
-    wr_transform_attach_child(wrenNode(), WR_NODE(mLidarPointsRenderable));
-
-    WbSolid *const s = solidEndPoint();
-    if (s)
-      s->createWrenObjects();
+    _wr_transform_attach_child(this.wrenNode, this.#frustumRenderable);
   }
 
   _applyFrustumToWren() {
@@ -70,13 +146,14 @@ export default class WbLidar extends WbAbstractCamera {
     if (!this._isFrustumEnabled)
       return;
 
-    const frustumColor = [1, 0, 1];
+    const frustumColor = [0, 1, 1];
     const frustumColorRgb = _wrjs_array3(frustumColor[0], frustumColor[1], frustumColor[2]);
     _wr_phong_material_set_color(this.#frustumMaterial, frustumColorRgb);
 
     let i = 0;
     const n = this.#minRange;
     const f = this.#maxRange;
+    const fovV = this._verticalFieldOfView();
     let fovH = this.fieldOfView;
 
     const intermediatePointsNumber = Math.floor(fovH / 0.2);
@@ -86,8 +163,7 @@ export default class WbLidar extends WbAbstractCamera {
     for (let layer = 0; layer < this.#numberOfLayers; layer++) {
       let vAngle = 0;
       if (this.#numberOfLayers > 1)
-        vAngle = this.#verticalFieldOfView / 2.0 - (layer / (this.#numberOfLayers - 1.0)) * this.#verticalFieldOfView +
-        this.#tiltAngle;
+        vAngle = fovV / 2.0 - (layer / (this.#numberOfLayers - 1.0)) * fovV + this.#tiltAngle;
       const cosV = Math.cos(vAngle);
       const sinV = Math.sin(vAngle);
       this.#pushVertex(vertices, i++, 0, 0, 0);
@@ -110,20 +186,27 @@ export default class WbLidar extends WbAbstractCamera {
         const x = f * Math.cos(tmpHAngle) * cosV;
         const y = f * Math.sin(tmpHAngle) * cosV;
         const z = f * sinV;
+
         this.#pushVertex(vertices, i++, x, y, z);
         this.#pushVertex(vertices, i++, x, y, z);
       }
       this.#pushVertex(vertices, i++, 0, 0, 0);
     }
 
-    this.#frustumMesh = _wr_static_mesh_line_set_new(vertexCount, vertices, undefined);
+    const verticesPointer = arrayXPointerFloat(vertices);
+    this.#frustumMesh = _wr_static_mesh_line_set_new(vertexCount, verticesPointer, undefined);
     _wr_renderable_set_mesh(this.#frustumRenderable, this.#frustumMesh);
     _wr_node_set_visible(this.#frustumRenderable, true);
+    _free(verticesPointer);
   }
 
   #pushVertex(vertices, index, x, y, z) {
     vertices[3 * index] = x;
     vertices[3 * index + 1] = y;
     vertices[3 * index + 2] = z;
+  }
+
+  _verticalFieldOfView() {
+    return this.fieldOfView * this.height / this.#horizontalResolution;
   }
 }

@@ -10,6 +10,13 @@ field     SFFloat                                        near                   
 field     SFFloat                                        far                    0.0
 field     SFFloat                                        minRange               0.01
 field     SFFloat                                        maxRange               1
+field     SFFloat                                        lidarFieldOfView            1.5708
+field     SFFloat                                        lidarVerticalFieldOfView    0.2
+field     SFInt32                                        lidarNumberOfLayers         4
+field     SFInt32                                        lidarHorizontalResolution        512
+field     SFFloat                                        lidarMinRange               0.01
+field     SFFloat                                        lidarMaxRange               1
+field     SFFloat                                        lidarTiltAngle              0.0
 ]
 {
   Robot {
@@ -41,7 +48,13 @@ field     SFFloat                                        maxRange               
         fieldOfView IS fieldOfView
       }
       Lidar {
-
+        minRange IS lidarMinRange
+        maxRange IS lidarMaxRange
+        fieldOfView IS lidarFieldOfView
+        verticalFieldOfView IS lidarVerticalFieldOfView
+        numberOfLayers IS lidarNumberOfLayers
+        tiltAngle IS lidarTiltAngle
+        horizontalResolution IS lidarHorizontalResolution
       }
     ]
   }
