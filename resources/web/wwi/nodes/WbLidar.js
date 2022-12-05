@@ -38,6 +38,30 @@ export default class WbLidar extends WbAbstractCamera {
     this._update();
   }
 
+  createWrenObjects() {
+    // Lidar frustum
+    mFrustumMaterial = wr_phong_material_new();
+    wr_material_set_default_program(mFrustumMaterial, WbWrenShaders::lineSetShader());
+
+    mFrustumRenderable = wr_renderable_new();
+    wr_renderable_set_cast_shadows(mFrustumRenderable, false);
+    wr_renderable_set_receive_shadows(mFrustumRenderable, false);
+    wr_renderable_set_visibility_flags(mFrustumRenderable, WbWrenRenderingContext::VF_LIDAR_RAYS_PATHS);
+    wr_renderable_set_material(mFrustumRenderable, mFrustumMaterial, NULL);
+    wr_renderable_set_drawing_mode(mFrustumRenderable, WR_RENDERABLE_DRAWING_MODE_LINES);
+    wr_node_set_visible(WR_NODE(mFrustumRenderable), false);
+
+    WbAbstractCamera::createWrenObjects();
+
+    wr_transform_attach_child(wrenNode(), WR_NODE(mFrustumRenderable));
+    wr_transform_attach_child(wrenNode(), WR_NODE(mLidarRaysRenderable));
+    wr_transform_attach_child(wrenNode(), WR_NODE(mLidarPointsRenderable));
+
+    WbSolid *const s = solidEndPoint();
+    if (s)
+      s->createWrenObjects();
+  }
+
   _applyFrustumToWren() {
     _wr_node_set_visible(this.#frustumRenderable, false);
     _wr_static_mesh_delete(this.#frustumMesh);
