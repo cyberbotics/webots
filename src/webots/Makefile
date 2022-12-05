@@ -91,7 +91,7 @@ LIBS              += -bind_at_load $(LIBS_FRAMEWORKS) $(LIB_WREN)
 CFLAGS             = -isysroot $(MACOSX_SDK_PATH) -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 CXXFLAGS           = -std=c++11 -F$(FRAMEWORKS) -x objective-c++
 EXTRA_CMD          = cp launcher/webots-mac.sh $(WEBOTS_PATH)/webots && chmod 755 $(WEBOTS_PATH)/webots
-FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots
+FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots ; $(WEBOTS_PATH)/webots-controller 
 ifeq ($(MAKECMDGOALS), profile)
 LIB_ODE = ../ode/libode.a
 LIBS += $(LIB_ODE)
@@ -124,7 +124,7 @@ MOC                = $(WEBOTS_PATH)/bin/qt/moc
 LIBS              += $(WEBOTS_DEPENDENCY_PATH)/lua-5.2.3/src/liblua.a $(LIB_WREN) -Wl,-rpath $(WEBOTS_LIB_PATH) -L$(WEBOTS_LIB_PATH) -lQt6Core -lQt6Network -lQt6Gui -lQt6OpenGL -lQt6OpenGLWidgets -lQt6WebSockets -lQt6Widgets -lQt6PrintSupport -lQt6Qml -lQt6Xml -lopenal -lGL -lGLU -ldl -lOIS -lpico -lfreetype -lassimp -lrt
 LD_FLAGS           = -rdynamic
 EXTRA_CMD          = cp launcher/webots-linux.sh $(WEBOTS_PATH)/webots && chmod 755 $(WEBOTS_PATH)/webots
-FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots
+FILES_TO_REMOVE    = $(WEBOTS_PATH)/webots ; $(WEBOTS_PATH)/webots-controller 
 ifeq ($(MAKECMDGOALS), profile)
 LIB_ODE = ../ode/libode.a
 LIBS += $(LIB_ODE) -lpthread
@@ -608,6 +608,7 @@ ifeq ($(OSTYPE),windows)
 CONTROLLER_LAUNCHER = ../../msys64/mingw64/bin/webots-controller.exe
 else
 CONTROLLER_LAUNCHER = ../../bin/webots-controller
+CONTROLLER_LAUNCHER_COPY = cp $(WEBOTS_PATH)/bin/webots-controller $(WEBOTS_PATH)/webots-controller
 endif
 
 # prevent 'make' from deleting these intermediate files
@@ -693,6 +694,7 @@ $(LAUNCHER): launcher/launcher.c
 $(CONTROLLER_LAUNCHER): launcher/webots_controller.c
 	@echo "# compiling webots_controller launcher"
 	@gcc $(CFLAGS) launcher/webots_controller.c -o $@
+	@$(CONTROLLER_LAUNCHER_COPY)
 
 webots.o:gui/webots.rc gui/webots.ico gui/manifest.xml
 	@echo "# compiling gui/"$@
@@ -946,7 +948,7 @@ $(OBJDIR)/arm64/%.o: vrml/%.cpp
 
 clean:
 	@echo "# cleaning"
-	@rm -rf $(TARGET) $(FILES_TO_REMOVE) $(LAUNCHER) $(LAUNCHERW) build launcher/launcher.o
+	@rm -rf $(TARGET) $(FILES_TO_REMOVE) $(LAUNCHER) $(LAUNCHERW) $(CONTROLLER_LAUNCHER) build launcher/launcher.o
 
 count-lines:
 	wc -l */*.c* */*.h*
