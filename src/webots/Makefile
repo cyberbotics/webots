@@ -605,9 +605,9 @@ LAUNCHERW = ../../msys64/mingw64/bin/webotsw.exe
 endif
 
 ifeq ($(OSTYPE),windows)
-CONTROLLER_LAUNCHER = ../../msys64/mingw64/bin/webots_controller.exe
+CONTROLLER_LAUNCHER = ../../msys64/mingw64/bin/webots-controller.exe
 else
-CONTROLLER_LAUNCHER = ../../bin/webots_controller
+CONTROLLER_LAUNCHER = ../../bin/webots-controller
 endif
 
 # prevent 'make' from deleting these intermediate files
