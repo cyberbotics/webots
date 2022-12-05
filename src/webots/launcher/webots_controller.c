@@ -234,7 +234,8 @@ void python_config_environment() {
   if (getenv("PYTHONPATH"))
     strcat(new_python_path, getenv("PYTHONPATH"));
   putenv(new_python_path);
-  putenv("PYTHONIOENCODING=UTF-8");
+  char python_ioencoding[] = "PYTHONIOENCODING=UTF-8";
+  putenv(python_ioencoding);
 #elif defined __APPLE__
   char *lib_controller = malloc(strlen(WEBOTS_HOME) + 24);
   strcat(lib_controller, WEBOTS_HOME);
@@ -281,13 +282,11 @@ int main(int argc, char **argv) {
 
   // Executable controller
   if (!extension) {
-    // printf("C or C++ file\n");
     exec_java_config_environment();
     system(controller);
   }
   // Python controller
   else if (strcmp(extension, ".py") == 0) {
-    // printf("Python file\n");
     python_config_environment();
     char *python_command = malloc(strlen(controller) + 9);
 #ifdef _WIN32
@@ -300,7 +299,6 @@ int main(int argc, char **argv) {
   }
   // Java controller
   else if (strcmp(extension, ".jar") == 0 || strcmp(extension, ".class") == 0) {
-    // printf("Java file\n");
     exec_java_config_environment();
 
     // Compute path to controller file
