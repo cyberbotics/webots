@@ -604,13 +604,6 @@ LAUNCHER = ../../msys64/mingw64/bin/webots.exe
 LAUNCHERW = ../../msys64/mingw64/bin/webotsw.exe
 endif
 
-ifeq ($(OSTYPE),windows)
-CONTROLLER_LAUNCHER = ../../msys64/mingw64/bin/webots-controller.exe
-else
-CONTROLLER_LAUNCHER = ../../bin/webots-controller
-CONTROLLER_LAUNCHER_COPY = cp $(WEBOTS_PATH)/bin/webots-controller $(WEBOTS_PATH)/webots-controller
-endif
-
 # prevent 'make' from deleting these intermediate files
 .PRECIOUS: $(MOC_FILES)
 
@@ -690,11 +683,6 @@ $(LAUNCHERW): launcher/launcher.c launcher/launcher.o
 $(LAUNCHER): launcher/launcher.c
 	@echo "# compiling webots.exe launcher"
 	@gcc $(CFLAGS) launcher/launcher.c -lshlwapi -o $@
-
-$(CONTROLLER_LAUNCHER): launcher/webots_controller.c
-	@echo "# compiling webots_controller launcher"
-	@gcc $(CFLAGS) launcher/webots_controller.c -o $@
-	@$(CONTROLLER_LAUNCHER_COPY)
 
 webots.o:gui/webots.rc gui/webots.ico gui/manifest.xml
 	@echo "# compiling gui/"$@
@@ -948,7 +936,7 @@ $(OBJDIR)/arm64/%.o: vrml/%.cpp
 
 clean:
 	@echo "# cleaning"
-	@rm -rf $(TARGET) $(FILES_TO_REMOVE) $(LAUNCHER) $(LAUNCHERW) $(CONTROLLER_LAUNCHER) build launcher/launcher.o
+	@rm -rf $(TARGET) $(FILES_TO_REMOVE) $(LAUNCHER) $(LAUNCHERW) build launcher/launcher.o
 
 count-lines:
 	wc -l */*.c* */*.h*
