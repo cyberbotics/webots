@@ -110,14 +110,12 @@ bool parse_options(int nb_arguments, char **arguments) {
 
   // If no protocol is given, ipc is used by default
   if (!protocol) {
-    printf("Using default ipc protocol.\n");
     protocol = strdup("ipc");
     protocol_size = strlen(protocol);
   }
 
   // If no port is given, 1234 is used by default
   if (!port) {
-    printf("Using default port 1234.\n");
     port = strdup("1234");
     port_size = strlen(port);
   }
@@ -158,48 +156,55 @@ bool parse_options(int nb_arguments, char **arguments) {
     return false;
   }
 
-  printf("%s\n", getenv("WEBOTS_CONTROLLER_URL"));
+  // Show resulting target to user
+  const char *location = strncmp(protocol, "tcp", 3) == 0 ? "remote" : "local";
+  printf("The started controller targets a %s instance (%s protocol) of Webots with port number %s.", location, protocol, port);
+  strncmp(protocol, "tcp", 3) == 0 ? printf(" The IP address of the remote Webots instance is '%s'. ", ip_address) :
+                                     printf(" ");
+  robot_name ? printf("Targeting robot '%s'.\n\n", robot_name) :
+               printf("Targeting the only robot waiting for an extern controller.\n\n");
+  // printf("%s\n", getenv("WEBOTS_CONTROLLER_URL"));
   return true;
 }
 
 void exec_java_config_environment() {
 #ifdef _WIN32
   char *lib_controller = malloc(3 * strlen(WEBOTS_HOME) + 61);
-  strcat(lib_controller, WEBOTS_HOME);
+  memcpy(lib_controller, WEBOTS_HOME, strlen(WEBOTS_HOME));
   strcat(lib_controller, "\\lib\\controller:");
   char *bin = malloc(strlen(WEBOTS_HOME) + 21);
-  strcat(bin, WEBOTS_HOME);
+  memcpy(bin, WEBOTS_HOME, strlen(WEBOTS_HOME));
   strcat(bin, "\\msys64\\mingw64\\bin:");
   strcat(lib_controller, bin);
   char *cpp = malloc(strlen(WEBOTS_HOME) + 25);
-  strcat(cpp, WEBOTS_HOME);
+  memcpy(cpp, WEBOTS_HOME, strlen(WEBOTS_HOME));
   strcat(cpp, "\\msys64\\mingw64\\bin\\cpp:");
   strcat(lib_controller, cpp);
   const size_t Path_size = getenv("Path") ? strlen(getenv("Path")) : 0;
   char *new_path = malloc(strlen(lib_controller) + Path_size + 6);
-  strcat(new_path, "Path=");
+  memcpy(new_path, "Path=", 5);
   strcat(new_path, lib_controller);
   if (getenv("Path"))
     strcat(new_path, getenv("Path"));
   putenv(new_path);
 #elif defined __linux__
   char *lib_controller = malloc(strlen(WEBOTS_HOME) + 17);
-  strcat(lib_controller, WEBOTS_HOME);
+  memcpy(lib_controller, WEBOTS_HOME, strlen(WEBOTS_HOME));
   strcat(lib_controller, "/lib/controller:");
   const size_t LD_LIBRARY_PATH_size = getenv("LD_LIBRARY_PATH") ? strlen(getenv("LD_LIBRARY_PATH")) : 0;
   char *new_ld_path = malloc(strlen(lib_controller) + LD_LIBRARY_PATH_size + 17);
-  strcat(new_ld_path, "LD_LIBRARY_PATH=");
+  memcpy(new_ld_path, "LD_LIBRARY_PATH=", 16);
   strcat(new_ld_path, lib_controller);
   if (getenv("LD_LIBRARY_PATH"))
     strcat(new_ld_path, getenv("LD_LIBRARY_PATH"));
   putenv(new_ld_path);
 #elif defined __APPLE__
   char *lib_controller = malloc(strlen(WEBOTS_HOME) + 26);
-  strcat(lib_controller, WEBOTS_HOME);
+  memcpy(lib_controller, WEBOTS_HOME, strlen(WEBOTS_HOME));
   strcat(lib_controller, "/Contents/lib/controller:");
   const size_t DYLD_LIBRARY_PATH_size = getenv("DYLD_LIBRARY_PATH") ? strlen(getenv("DYLD_LIBRARY_PATH")) : 0;
   char *new_ld_path = malloc(strlen(lib_controller) + DYLD_LIBRARY_PATH_size + 19);
-  strcat(new_ld_path, "DYLD_LIBRARY_PATH=");
+  memcpy(new_ld_path, "DYLD_LIBRARY_PATH=", 18);
   strcat(new_ld_path, lib_controller);
   if (getenv("DYLD_LIBRARY_PATH"))
     strcat(new_ld_path, getenv("DYLD_LIBRARY_PATH"));
@@ -210,43 +215,45 @@ void exec_java_config_environment() {
 void python_config_environment() {
 #ifdef _WIN32
   char *lib_controller = malloc(strlen(WEBOTS_HOME) + 24);
-  strcat(lib_controller, WEBOTS_HOME);
+  memcpy(lib_controller, WEBOTS_HOME, strlen(WEBOTS_HOME));
   strcat(lib_controller, "\\lib\\controller\\python:");
   const size_t PYTHONPATH_size = getenv("PYTHONPATH") ? strlen(getenv("PYTHONPATH")) : 0;
   char *new_python_path = malloc(strlen(lib_controller) + PYTHONPATH_size + 12);
-  strcat(new_python_path, "PYTHONPATH=");
+  memcpy(new_python_path, "PYTHONPATH=", 11);
   strcat(new_python_path, lib_controller);
   if (getenv("PYTHONPATH"))
     strcat(new_python_path, getenv("PYTHONPATH"));
   putenv(new_python_path);
-  putenv("PYTHONIOENCODING=UTF-8");
+  char python_ioencoding[22] = "PYTHONIOENCODING=UTF-8";
+  putenv(python_ioencoding);
 
   // CHECK FOR EPUCK ?
 #elif defined __linux__
   char *lib_controller = malloc(strlen(WEBOTS_HOME) + 24);
-  strcat(lib_controller, WEBOTS_HOME);
+  memcpy(lib_controller, WEBOTS_HOME, strlen(WEBOTS_HOME));
   strcat(lib_controller, "/lib/controller/python:");
   const size_t PYTHONPATH_size = getenv("PYTHONPATH") ? strlen(getenv("PYTHONPATH")) : 0;
   char *new_python_path = malloc(strlen(lib_controller) + PYTHONPATH_size + 12);
-  strcat(new_python_path, "PYTHONPATH=");
+  memcpy(new_python_path, "PYTHONPATH=", 11);
   strcat(new_python_path, lib_controller);
   if (getenv("PYTHONPATH"))
     strcat(new_python_path, getenv("PYTHONPATH"));
   putenv(new_python_path);
-  char python_ioencoding[] = "PYTHONIOENCODING=UTF-8";
+  char python_ioencoding[22] = "PYTHONIOENCODING=UTF-8";
   putenv(python_ioencoding);
 #elif defined __APPLE__
   char *lib_controller = malloc(strlen(WEBOTS_HOME) + 24);
-  strcat(lib_controller, WEBOTS_HOME);
+  memcpy(lib_controller, WEBOTS_HOME, strlen(WEBOTS_HOME));
   strcat(lib_controller, "/Contents/lib/controller/python:");
   const size_t PYTHONPATH_size = getenv("PYTHONPATH") ? strlen(getenv("PYTHONPATH")) : 0;
   char *new_python_path = malloc(strlen(lib_controller) + PYTHONPATH_size + 12);
-  strcat(new_python_path, "PYTHONPATH=");
+  memcpy(new_python_path, "PYTHONPATH=", 11);
   strcat(new_python_path, lib_controller);
   if (getenv("PYTHONPATH"))
     strcat(new_python_path, getenv("PYTHONPATH"));
   putenv(new_python_path);
-  putenv("PYTHONIOENCODING=UTF-8");
+  char python_ioencoding[22] = "PYTHONIOENCODING=UTF-8";
+  putenv(python_ioencoding);
 #endif
 }
 
@@ -289,9 +296,9 @@ int main(int argc, char **argv) {
     python_config_environment();
     char *python_command = malloc(strlen(controller) + 9);
 #ifdef _WIN32
-    strcat(python_command, "python ");
+    memcpy(python_command, "python ", 7);
 #else
-    strcat(python_command, "python3 ");
+    memcpy(python_command, "python3 ", 8);
 #endif
     strcat(python_command, controller);
     system(python_command);
@@ -309,12 +316,12 @@ int main(int argc, char **argv) {
     const size_t controller_size = strlen(controller);
     const size_t controller_path_size = controller_size - controller_file_size;
     char *controller_path = malloc(controller_path_size + 1);
-    strncpy(controller_path, controller, controller_path_size);
+    memcpy(controller_path, controller, controller_path_size);
     controller_path[controller_path_size] = '\0';
 
     // Write path to java lib controller
     char *lib_controller = malloc(strlen(WEBOTS_HOME) + 30);
-    strcat(lib_controller, WEBOTS_HOME);
+    memcpy(lib_controller, WEBOTS_HOME, strlen(WEBOTS_HOME));
 #ifdef _WIN32
     strcat(lib_controller, "\\lib\\controller\\java");
 #elif defined __APPLE__
@@ -325,7 +332,7 @@ int main(int argc, char **argv) {
 
     // Write the 'classpath' option (mandatory for java controllers)
     char *classpath = malloc(strlen(lib_controller) + controller_path_size + 28);
-    strcat(classpath, "-classpath ");
+    memcpy(classpath, "-classpath ", 11);
     strcat(classpath, lib_controller);
 #ifdef _WIN32
     strcat(classpath, "\\Controller.jar:");
@@ -338,18 +345,18 @@ int main(int argc, char **argv) {
 
     // Write the 'Djava.library.path' option (mandatory for java controllers)
     char *java_library = malloc(strlen(lib_controller) + 22);
-    strcat(java_library, " -Djava.library.path=");
+    memcpy(java_library, " -Djava.library.path=", 21);
     strcat(java_library, lib_controller);
 
     // Write arguments to java command
     char *java_command = malloc(strlen(classpath) + strlen(java_library) + strlen(controller_name) + 8);
-    strcat(java_command, "java ");
+    memcpy(java_command, "java ", 5);
     strcat(java_command, classpath);
     strcat(java_command, java_library);
     strcat(java_command, " ");
     controller_name[strlen(controller_name) - strlen(extension)] = '\0';
     strcat(java_command, controller_name + 1);
-    printf("%s\n", java_command);
+    // printf("%s\n", java_command);
     system(java_command);
   } else
     printf("The file extension '%s' is not supported as webots controller. Supported file types are executables, '.py', "
