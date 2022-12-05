@@ -154,7 +154,7 @@ export default class WbLidar extends WbAbstractCamera {
     const n = this.#minRange;
     const f = this.#maxRange;
     const fovV = this._verticalFieldOfView();
-    let fovH = this.fieldOfView;
+    const fovH = this.fieldOfView;
 
     const intermediatePointsNumber = Math.floor(fovH / 0.2);
     const vertexCount = 4 * this.#numberOfLayers * (intermediatePointsNumber + 3);
