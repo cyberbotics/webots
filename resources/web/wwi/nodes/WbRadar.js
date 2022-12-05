@@ -146,6 +146,7 @@ export default class WbRadar extends WbSolid {
   applyOptionalRendering(enable) {
     this._isFrustumEnabled = enable;
     this._applyFrustumToWren();
+    _wr_node_set_visible(this.#transform, enable);
   }
 
   #addVertex(vertices, x, y, z) {
