@@ -881,7 +881,7 @@ To retrieved an internal field of a PROTO, the `wb_supervisor_node_get_proto_fie
 const double *wb_supervisor_node_get_position(WbNodeRef node);
 const double *wb_supervisor_node_get_orientation(WbNodeRef node);
 const double *wb_supervisor_node_get_pose(WbNodeRef node, WbNodeRef from_node);
-void wb_supervisor_node_enable_pose_tracking(int sampling_period, WbNodeRef node, WbNodeRef from_node);
+void wb_supervisor_node_enable_pose_tracking(WbNodeRef node, int sampling_period, WbNodeRef from_node);
 void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef from_node);
 ```
 
