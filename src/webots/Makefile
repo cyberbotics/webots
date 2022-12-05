@@ -604,6 +604,12 @@ LAUNCHER = ../../msys64/mingw64/bin/webots.exe
 LAUNCHERW = ../../msys64/mingw64/bin/webotsw.exe
 endif
 
+ifeq ($(OSTYPE),windows)
+CONTROLLER_LAUNCHER = ../../msys64/mingw64/bin/webots_controller.exe
+else
+CONTROLLER_LAUNCHER = ../../bin/webots_controller
+endif
+
 # prevent 'make' from deleting these intermediate files
 .PRECIOUS: $(MOC_FILES)
 
@@ -625,7 +631,7 @@ endif
 
 .PHONY: debug profile release clean count-lines
 
-debug profile release: $(TARGET) $(LAUNCHER) $(LAUNCHERW)
+debug profile release: $(TARGET) $(LAUNCHER) $(LAUNCHERW) $(CONTROLLER_LAUNCHER)
 
 ifeq ($(OSTYPE),darwin)
 X86_64_OBJECTS = $(addprefix $(OBJDIR)/x86_64/, $(OBJECTS))
@@ -683,6 +689,10 @@ $(LAUNCHERW): launcher/launcher.c launcher/launcher.o
 $(LAUNCHER): launcher/launcher.c
 	@echo "# compiling webots.exe launcher"
 	@gcc $(CFLAGS) launcher/launcher.c -lshlwapi -o $@
+
+$(CONTROLLER_LAUNCHER): launcher/webots_controller.c
+	@echo "# compiling webots_controller launcher"
+	@gcc $(CFLAGS) launcher/webots_controller.c -o $@
 
 webots.o:gui/webots.rc gui/webots.ico gui/manifest.xml
 	@echo "# compiling gui/"$@
