@@ -6,7 +6,7 @@ Released on ??
     - Greatly improved the performance of the Python API `Camera.getImage` method ([#5610](https://github.com/cyberbotics/webots/pull/5610)).
     - Added default [Solid](solid.md).`recognitionColors` value for [animals](../guide/object-animals.md) and [Barn](../guide/object-buildings.md#barn) PROTO models ([#5606](https://github.com/cyberbotics/webots/pull/5606)).
     - Added `recognitionColors` field to [SolidBox](../guide/object-solids.md#solidbox) and Tractor PROTO models ([#5606](https://github.com/cyberbotics/webots/pull/5606)).
-    - Improved the bounding objects of the Nao robot PROTO so that selfCollision can be activated without any issue ([#5622](https://github.com/cyberbotics/webots/pull/5622)).
+    - Improved the bounding objects of the Nao robot PROTO so that `selfCollision` can be activated without any issue ([#5622](https://github.com/cyberbotics/webots/pull/5622)).
   - Bug Fixes
     - Fixed Python API `Supervisor.setSimulationMode` which was failing ([#5603](https://github.com/cyberbotics/webots/pull/5603)).
     - Fixed crash resulting from requesting pose tracking of unsuitable nodes ([5620](https://github.com/cyberbotics/webots/pull/5620)).
