@@ -7,7 +7,6 @@ import {arrayXPointerFloat} from './utils/utils.js';
 export default class WbAbstractCamera extends WbSolid {
   #fieldOfView;
   #height;
-  #isFrustumEnabled;
   #width;
   constructor(id, translation, scale, rotation, name, height, width, fieldOfView) {
     super(id, translation, scale, rotation, name);
@@ -17,7 +16,7 @@ export default class WbAbstractCamera extends WbSolid {
     this.#width = width;
 
     this._isRangeFinder = false;
-    this.#isFrustumEnabled = false;
+    this._isFrustumEnabled = false;
     this._charType = '';
   }
 
@@ -73,34 +72,38 @@ export default class WbAbstractCamera extends WbSolid {
     this._transform = _wr_transform_new();
     _wr_transform_attach_child(this._transform, this._renderable);
     _wr_transform_attach_child(this.wrenNode, this._transform);
-
-    this.#applyFrustumToWren();
+    this._applyFrustumToWren();
   }
 
-  #applyFrustumToWren() {
+  _applyFrustumToWren() {
     _wr_node_set_visible(this._transform, false);
 
     _wr_static_mesh_delete(this._mesh);
     this._mesh = undefined;
 
-    if (!this.#isFrustumEnabled)
+    if (!this._isFrustumEnabled)
       return;
 
-    const frustumColor = [1, 0, 1];
+    let frustumColor;
+    if (this._charType === 'c')
+      frustumColor = [1, 0, 1];
+    else if (this._charType === 'r')
+      frustumColor = [1, 1, 0];
+
     const frustumColorRgb = _wrjs_array3(frustumColor[0], frustumColor[1], frustumColor[2]);
 
     _wr_phong_material_set_color(this._material, frustumColorRgb);
 
     let drawFarPlane;
     let f;
-    const n = this.minRange();
+    const n = this._minRange();
     // if the far is set to 0 it means the far clipping plane is set to infinity
     // so, the far distance of the colored frustum should be set arbitrarily
-    if (this._charType === 'c' && this.maxRange() === 0) {
+    if (this._charType === 'c' && this._maxRange() === 0) {
       f = n + 2 * _wr_config_get_line_scale();
       drawFarPlane = false;
     } else {
-      f = this.maxRange();
+      f = this._maxRange();
       drawFarPlane = true;
     }
 
@@ -153,21 +156,21 @@ export default class WbAbstractCamera extends WbSolid {
     _wr_node_set_visible(this._transform, true);
   }
 
-  minRange() {
+  _minRange() {
   }
 
-  maxRange() {
+  _maxRange() {
     return 1.0;
   }
 
   _update() {
     if (this.wrenObjectsCreatedCalled)
-      this.#applyFrustumToWren();
+      this._applyFrustumToWren();
   }
 
   applyOptionalRendering(enable) {
-    this.#isFrustumEnabled = enable;
-    this.#applyFrustumToWren();
+    this._isFrustumEnabled = enable;
+    this._applyFrustumToWren();
   }
 
   #addVertex(vertices, colors, vertex, color) {

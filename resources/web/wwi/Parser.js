@@ -627,16 +627,32 @@ export default class Parser {
       newNode = new WbInertialUnit(id, translation, scale, rotation, name === '' ? 'inertial unit' : name);
     else if (node.tagName === 'LED')
       newNode = new WbLed(id, translation, scale, rotation, name === '' ? 'led' : name);
-    else if (node.tagName === 'Lidar')
-      newNode = new WbLidar(id, translation, scale, rotation, name === '' ? 'lidar' : name);
-    else if (node.tagName === 'LightSensor')
+    else if (node.tagName === 'Lidar') {
+      const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', Math.PI / 2));
+      const horizontalResolution = parseInt(getNodeAttribute(node, 'horizontalResolution', '512'));
+      const maxRange = parseFloat(getNodeAttribute(node, 'maxRange', '1'));
+      const minRange = parseFloat(getNodeAttribute(node, 'minRange', '0.01'));
+      const numberOfLayers = parseInt(getNodeAttribute(node, 'numberOfLayers', '4'));
+      const tiltAngle = parseFloat(getNodeAttribute(node, 'tiltAngle', '0'));
+      const verticalFieldOfView = parseFloat(getNodeAttribute(node, 'verticalFieldOfView', '0.2'));
+
+      newNode = new WbLidar(id, translation, scale, rotation, name === '' ? 'lidar' : name, fieldOfView, maxRange, minRange,
+        numberOfLayers, tiltAngle, verticalFieldOfView, horizontalResolution);
+    } else if (node.tagName === 'LightSensor')
       newNode = new WbLightSensor(id, translation, scale, rotation, name === '' ? 'light sensor' : name);
     else if (node.tagName === 'Pen')
       newNode = new WbPen(id, translation, scale, rotation, name === '' ? 'pen' : name);
     else if (node.tagName === 'Radar')
       newNode = new WbRadar(id, translation, scale, rotation, name === '' ? 'radar' : name);
-    else if (node.tagName === 'RangeFinder')
-      newNode = new WbRangeFinder(id, translation, scale, rotation, name === '' ? 'range finder' : name);
+    else if (node.tagName === 'RangeFinder') {
+      const height = parseInt(getNodeAttribute(node, 'height', '64'));
+      const width = parseInt(getNodeAttribute(node, 'width', '64'));
+      const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', M_PI_4));
+      const maxRange = parseFloat(getNodeAttribute(node, 'maxRange', '1'));
+      const minRange = parseFloat(getNodeAttribute(node, 'minRange', '0.01'));
+      newNode = new WbRangeFinder(id, translation, scale, rotation, name === '' ? 'range finder' : name, height, width,
+        fieldOfView, maxRange, minRange);
+    }
     else if (node.tagName === 'Receiver')
       newNode = new WbReceiver(id, translation, scale, rotation, name === '' ? 'receiver' : name);
     else if (node.tagName === 'Speaker')

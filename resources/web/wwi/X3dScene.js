@@ -17,6 +17,7 @@ import WbGroup from './nodes/WbGroup.js';
 import WbImageTexture from './nodes/WbImageTexture.js';
 import WbIndexedFaceSet from './nodes/WbIndexedFaceSet.js';
 import WbIndexedLineSet from './nodes/WbIndexedLineSet.js';
+import WbLidar from './nodes/WbLidar.js';
 import WbLight from './nodes/WbLight.js';
 import WbMaterial from './nodes/WbMaterial.js';
 import WbMesh from './nodes/WbMesh.js';
@@ -37,6 +38,7 @@ import WbVector3 from './nodes/utils/WbVector3.js';
 import WbNormal from './nodes/WbNormal.js';
 import WbSpotLight from './nodes/WbSpotLight.js';
 import WbDirectionalLight from './nodes/WbDirectionalLight.js';
+import WbRangeFinder from './nodes/WbRangeFinder.js';
 
 export default class X3dScene {
   #loader;
@@ -394,6 +396,24 @@ export default class X3dScene {
           object.far = parseFloat(pose[key]);
         else if (key === 'near')
           object.near = parseFloat(pose[key]);
+      } else if (object instanceof WbRangeFinder) {
+        if (key === 'maxRange')
+          object.maxRange = parseFloat(pose[key]);
+        else if (key === 'minRange')
+          object.minRange = parseFloat(pose[key]);
+      } else if (object instanceof WbLidar) {
+        if (key === 'maxRange')
+          object.maxRange = parseFloat(pose[key]);
+        else if (key === 'minRange')
+          object.minRange = parseFloat(pose[key]);
+        else if (key === 'horizontalResolution')
+          object.horizontalResolution = parseInt(pose[key]);
+        else if (key === 'numberOfLayers')
+          object.numberOfLayers = parseInt(pose[key]);
+        else if (key === 'tiltAngle')
+          object.tiltAngle = parseFloat(pose[key]);
+        else if (key === 'verticalFieldOfView')
+          object.verticalFieldOfView = parseFloat(pose[key]);
       }
 
       if (object instanceof WbLight) {

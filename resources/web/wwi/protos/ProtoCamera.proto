@@ -4,16 +4,26 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/project
 
 PROTO ProtoCamera [
 field     SFFloat                                        fieldOfView            0.785398
-field     SFInt32                                        width                  64   
+field     SFInt32                                        width                  64
 field     SFInt32                                        height                 64
 field     SFFloat                                        near                   0.01
 field     SFFloat                                        far                    0.0
+field     SFFloat                                        minRange               0.01
+field     SFFloat                                        maxRange               1
+field     SFFloat                                        lidarFieldOfView            1.5708
+field     SFFloat                                        lidarVerticalFieldOfView    0.2
+field     SFInt32                                        lidarNumberOfLayers         4
+field     SFInt32                                        lidarHorizontalResolution        512
+field     SFFloat                                        lidarMinRange               0.01
+field     SFFloat                                        lidarMaxRange               1
+field     SFFloat                                        lidarTiltAngle              0.0
 ]
 {
   Robot {
     translation 0 0 0.2
     children [
       Camera {
+        rotation 0 1 0 1.5708
         children [
           Shape {
             appearance Asphalt {
@@ -28,6 +38,23 @@ field     SFFloat                                        far                    
         far IS far
         near IS near
         fieldOfView IS fieldOfView
+      }
+      RangeFinder {
+        rotation 0 0 1 1.5708
+        width IS width
+        height IS height
+        maxRange IS maxRange
+        minRange IS minRange
+        fieldOfView IS fieldOfView
+      }
+      Lidar {
+        minRange IS lidarMinRange
+        maxRange IS lidarMaxRange
+        fieldOfView IS lidarFieldOfView
+        verticalFieldOfView IS lidarVerticalFieldOfView
+        numberOfLayers IS lidarNumberOfLayers
+        tiltAngle IS lidarTiltAngle
+        horizontalResolution IS lidarHorizontalResolution
       }
     ]
   }
