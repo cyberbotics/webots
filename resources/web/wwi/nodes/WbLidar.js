@@ -140,14 +140,15 @@ export default class WbLidar extends WbAbstractCamera {
 
   _applyFrustumToWren() {
     _wr_node_set_visible(this.#frustumRenderable, false);
-    _wr_static_mesh_delete(this.#frustumMesh);
-    this.#frustumMesh = undefined;
+    if (typeof this.#frustumMesh !== 'undefined') {
+      _wr_static_mesh_delete(this.#frustumMesh);
+      this.#frustumMesh = undefined;
+    }
 
     if (!this._isFrustumEnabled)
       return;
 
-    const frustumColor = [0, 1, 1];
-    const frustumColorRgb = _wrjs_array3(frustumColor[0], frustumColor[1], frustumColor[2]);
+    const frustumColorRgb = _wrjs_array3(0, 1, 1);
     _wr_phong_material_set_color(this.#frustumMaterial, frustumColorRgb);
 
     let i = 0;

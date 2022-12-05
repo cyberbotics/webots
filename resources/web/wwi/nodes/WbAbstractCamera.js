@@ -78,8 +78,10 @@ export default class WbAbstractCamera extends WbSolid {
   _applyFrustumToWren() {
     _wr_node_set_visible(this._transform, false);
 
-    _wr_static_mesh_delete(this._mesh);
-    this._mesh = undefined;
+    if (typeof this._mesh !== 'undefined') {
+      _wr_static_mesh_delete(this._mesh);
+      this._mesh = undefined;
+    }
 
     if (!this._isFrustumEnabled)
       return;
