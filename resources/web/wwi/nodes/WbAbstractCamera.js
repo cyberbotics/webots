@@ -7,6 +7,9 @@ import {arrayXPointerFloat} from './utils/utils.js';
 export default class WbAbstractCamera extends WbSolid {
   #fieldOfView;
   #height;
+  #material;
+  #renderable;
+  #transform;
   #width;
   constructor(id, translation, scale, rotation, name, height, width, fieldOfView) {
     super(id, translation, scale, rotation, name);
@@ -59,24 +62,24 @@ export default class WbAbstractCamera extends WbSolid {
   createWrenObjects() {
     super.createWrenObjects();
     // Frustum
-    this._material = _wr_phong_material_new();
-    _wr_material_set_default_program(this._material, WbWrenShaders.lineSetShader());
-    _wr_phong_material_set_color_per_vertex(this._material, true);
+    this.#material = _wr_phong_material_new();
+    _wr_material_set_default_program(this.#material, WbWrenShaders.lineSetShader());
+    _wr_phong_material_set_color_per_vertex(this.#material, true);
 
-    this._renderable = _wr_renderable_new();
-    _wr_renderable_set_cast_shadows(this._renderable, false);
-    _wr_renderable_set_receive_shadows(this._renderable, false);
-    _wr_renderable_set_material(this._renderable, this._material, null);
-    _wr_renderable_set_drawing_mode(this._renderable, Enum.WR_RENDERABLE_DRAWING_MODE_LINES);
+    this.#renderable = _wr_renderable_new();
+    _wr_renderable_set_cast_shadows(this.#renderable, false);
+    _wr_renderable_set_receive_shadows(this.#renderable, false);
+    _wr_renderable_set_material(this.#renderable, this.#material, null);
+    _wr_renderable_set_drawing_mode(this.#renderable, Enum.WR_RENDERABLE_DRAWING_MODE_LINES);
 
-    this._transform = _wr_transform_new();
-    _wr_transform_attach_child(this._transform, this._renderable);
-    _wr_transform_attach_child(this.wrenNode, this._transform);
+    this.#transform = _wr_transform_new();
+    _wr_transform_attach_child(this.#transform, this.#renderable);
+    _wr_transform_attach_child(this.wrenNode, this.#transform);
     this._applyFrustumToWren();
   }
 
   _applyFrustumToWren() {
-    _wr_node_set_visible(this._transform, false);
+    _wr_node_set_visible(this.#transform, false);
 
     if (typeof this._mesh !== 'undefined') {
       _wr_static_mesh_delete(this._mesh);
@@ -94,7 +97,7 @@ export default class WbAbstractCamera extends WbSolid {
 
     const frustumColorRgb = _wrjs_array3(frustumColor[0], frustumColor[1], frustumColor[2]);
 
-    _wr_phong_material_set_color(this._material, frustumColorRgb);
+    _wr_phong_material_set_color(this.#material, frustumColorRgb);
 
     let drawFarPlane;
     let f;
@@ -146,16 +149,16 @@ export default class WbAbstractCamera extends WbSolid {
     const verticesPointer = arrayXPointerFloat(vertices);
     const colorsPointer = arrayXPointerFloat(colors);
     this._mesh = _wr_static_mesh_line_set_new(vertices.length / 3, verticesPointer, colorsPointer);
-    _wr_renderable_set_mesh(this._renderable, this._mesh);
+    _wr_renderable_set_mesh(this.#renderable, this._mesh);
     _free(verticesPointer);
     _free(colorsPointer);
 
     if (this._isRangeFinder)
-      _wr_renderable_set_visibility_flags(this._renderable, WbWrenRenderingContext.VM_REGULAR);
+      _wr_renderable_set_visibility_flags(this.#renderable, WbWrenRenderingContext.VM_REGULAR);
     else
-      _wr_renderable_set_visibility_flags(this._renderable, WbWrenRenderingContext.VM_REGULAR);
+      _wr_renderable_set_visibility_flags(this.#renderable, WbWrenRenderingContext.VM_REGULAR);
 
-    _wr_node_set_visible(this._transform, true);
+    _wr_node_set_visible(this.#transform, true);
   }
 
   _minRange() {
