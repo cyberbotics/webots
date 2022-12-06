@@ -1,0 +1,25 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/appearances/protos/Asphalt.proto"
+
+PROTO ProtoCamera [
+field SFVec3f translation 0 0 0.3
+field SFRotation rotation 0 0 1 1.5708
+]
+{
+  Robot {
+    children [
+      LightSensor {
+        translation IS translation
+        rotation IS rotation
+        children [
+          Shape {
+            geometry Sphere {
+              radius 0.01
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

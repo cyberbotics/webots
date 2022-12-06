@@ -14,7 +14,7 @@ export default class WbRadar extends WbSolid {
   #transform;
   #verticalFieldOfView;
   constructor(id, translation, scale, rotation, name, horizontalFieldOfView, verticalFieldOfView, maxRange, minRange) {
-    super(id, translation, scale, rotation, name)
+    super(id, translation, scale, rotation, name);
 
     this.#horizontalFieldOfView = horizontalFieldOfView;
     this.#verticalFieldOfView = verticalFieldOfView;
