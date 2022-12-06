@@ -25,6 +25,7 @@ import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbPlane from './nodes/WbPlane.js';
 import WbPointLight from './nodes/WbPointLight.js';
 import WbColor from './nodes/WbColor.js';
+import WbRadar from './nodes/WbRadar.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbTextureCoordinate from './nodes/WbTextureCoordinate.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
@@ -414,6 +415,15 @@ export default class X3dScene {
           object.tiltAngle = parseFloat(pose[key]);
         else if (key === 'verticalFieldOfView')
           object.verticalFieldOfView = parseFloat(pose[key]);
+      } else if (object instanceof WbRadar) {
+        if (key === 'maxRange')
+          object.maxRange = parseFloat(pose[key]);
+        else if (key === 'minRange')
+          object.minRange = parseFloat(pose[key]);
+        else if (key === 'verticalFieldOfView')
+          object.verticalFieldOfView = parseFloat(pose[key]);
+        else if (key === 'horizontalFieldOfView')
+          object.horizontalFieldOfView = parseFloat(pose[key]);
       }
 
       if (object instanceof WbLight) {

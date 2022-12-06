@@ -3,20 +3,24 @@
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/appearances/protos/Asphalt.proto"
 
 PROTO ProtoCamera [
-field     SFFloat                                        fieldOfView            0.785398
-field     SFInt32                                        width                  64
-field     SFInt32                                        height                 64
-field     SFFloat                                        near                   0.01
-field     SFFloat                                        far                    0.0
-field     SFFloat                                        minRange               0.01
-field     SFFloat                                        maxRange               1
-field     SFFloat                                        lidarFieldOfView            1.5708
-field     SFFloat                                        lidarVerticalFieldOfView    0.2
-field     SFInt32                                        lidarNumberOfLayers         4
-field     SFInt32                                        lidarHorizontalResolution        512
-field     SFFloat                                        lidarMinRange               0.01
-field     SFFloat                                        lidarMaxRange               1
-field     SFFloat                                        lidarTiltAngle              0.0
+field     SFFloat                                        fieldOfView                           0.785398
+field     SFInt32                                        width                                 64
+field     SFInt32                                        height                                64
+field     SFFloat                                        near                                  0.01
+field     SFFloat                                        far                                   0.0
+field     SFFloat                                        minRange                              0.01
+field     SFFloat                                        maxRange                              1
+field     SFFloat                                        lidarFieldOfView                      1.5708
+field     SFFloat                                        lidarVerticalFieldOfView              0.2
+field     SFInt32                                        lidarNumberOfLayers                   4
+field     SFInt32                                        lidarHorizontalResolution             512
+field     SFFloat                                        lidarMinRange                         0.01
+field     SFFloat                                        lidarMaxRange                         1
+field     SFFloat                                        lidarTiltAngle                        0.0
+field     SFFloat                                        radarMinRange                         1
+field     SFFloat                                        radarMaxRange                         50
+field     SFFloat                                        radarVerticalFieldOfView              0.1
+field     SFFloat                                        radarHorizontalFieldOfView    0.78
 ]
 {
   Robot {
@@ -55,6 +59,12 @@ field     SFFloat                                        lidarTiltAngle         
         numberOfLayers IS lidarNumberOfLayers
         tiltAngle IS lidarTiltAngle
         horizontalResolution IS lidarHorizontalResolution
+      }
+      Radar{
+        minRange IS radarMinRange
+        maxRange IS radarMaxRange
+        verticalFieldOfView IS radarVerticalFieldOfView
+        horizontalFieldOfView IS radarHorizontalFieldOfView
       }
     ]
   }
