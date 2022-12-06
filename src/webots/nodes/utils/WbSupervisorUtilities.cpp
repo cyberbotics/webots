@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -1265,6 +1265,11 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       WbNode *const fromNode = WbNode::findNode(fromNodeId);
       WbNode *const toNode = WbNode::findNode(toNodeId);
+
+      if (!dynamic_cast<WbTransform *const>(toNode)) {
+        mRobot->warn(tr("Node '%1' is not suitable for pose tracking, aborting request.").arg(toNode->modelName()));
+        return;
+      }
 
       if (enable) {
         WbTrackedPoseInfo trackedPose;

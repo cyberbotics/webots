@@ -1,4 +1,4 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -143,7 +143,7 @@ class Node:
 
     def disablePoseTracking(self, fromNode: Node = None):
         fromNodeRef = fromNode._ref if fromNode else None
-        wb.wb_supervisor_node_enable_pose_tracking(self._ref, fromNodeRef)
+        wb.wb_supervisor_node_disable_pose_tracking(self._ref, fromNodeRef)
 
     def getCenterOfMass(self) -> typing.List[float]:
         c = wb.wb_supervisor_node_get_center_of_mass(self._ref)
