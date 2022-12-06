@@ -159,10 +159,10 @@ class Node:
         return contact_points
 
     def enableContactPointTracking(self, samplingPeriod: int, includeDescendants: bool = False):
-        wb.wb_supervisor_node_enable_contact_point_tracking(samplingPeriod, 1 if includeDescendants else 0)
+        wb.wb_supervisor_node_enable_contact_point_tracking(self._ref, samplingPeriod, 1 if includeDescendants else 0)
 
     def disableContactPointTracking(self, includeDescendants: bool = False):
-        wb.wb_supervisor_node_disable_contact_point_tracking(1 if includeDescendants else 0)
+        wb.wb_supervisor_node_disable_contact_point_tracking(self._ref, 1 if includeDescendants else 0)
 
     def getStaticBalance(self) -> bool:
         return wb.wb_supervisor_node_get_static_balance(self._ref) != 0
