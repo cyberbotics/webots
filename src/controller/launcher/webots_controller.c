@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include <dirent.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,6 +29,7 @@
 
 char *WEBOTS_HOME;
 char *controller;
+char *matlab_path;
 
 bool get_webots_home() {
   if (!getenv("WEBOTS_HOME")) {
@@ -36,6 +38,68 @@ bool get_webots_home() {
   } else
     WEBOTS_HOME = malloc(strlen(getenv("WEBOTS_HOME")) + 1);
   strcpy(WEBOTS_HOME, getenv("WEBOTS_HOME"));
+  return true;
+}
+
+bool get_matlab_path() {
+  struct dirent *directory_entry;  // Pointer for directory entry
+
+#ifdef __APPLE__
+  const char *matlab_directory = "/Applications/";
+  const char *matlab_version_wc = "MATLAB_R20";
+#else
+  const char *matlab_version_wc = "R20";
+#ifdef _WIN32
+  const char *matlab_directory = "C:\\Program Files\\MATLAB\\";
+  const char *matlab_exec_suffix = "\\bin\\win64\\MATLAB.exe";
+#else  // __linux__
+  const char *matlab_directory = "/usr/local/MATLAB/";
+  // cppcheck-suppress unreadVariable
+  const char *matlab_exec_suffix = "/bin/matlab";
+#endif
+#endif
+
+  DIR *directory = opendir(matlab_directory);
+#ifndef __APPLE__
+  if (directory == NULL) {
+    printf("No installation of Matlab available.\n");
+    return false;
+  }
+#endif
+  // Get latest available Matlab version
+  char *latest_version = NULL;
+  while ((directory_entry = readdir(directory)) != NULL) {
+    if (strncmp(matlab_version_wc, directory_entry->d_name, strlen(matlab_version_wc)) == 0) {
+      size_t directory_name_size = strlen(directory_entry->d_name);
+      if (!latest_version) {
+        latest_version = malloc(directory_name_size);
+        strncpy(latest_version, directory_entry->d_name, directory_name_size);
+      }
+      if (latest_version && strcmp(latest_version, directory_entry->d_name) < 0) {
+        memset(latest_version, '\0', sizeof(latest_version));
+        strncpy(latest_version, directory_entry->d_name, directory_name_size);
+      }
+    }
+  }
+  // printf("%s\n", latest_version);
+#ifdef __APPLE__
+  if (latest_version == NULL) {
+    printf("No installation of Matlab available.\n");
+    return false;
+  }
+#endif
+  closedir(directory);
+
+#ifdef __APPLE__
+  size_t matlab_path_size = snprintf(NULL, 0, "%s%s", matlab_directory, latest_version) + 1;
+  matlab_path = malloc(matlab_path_size);
+  sprintf(matlab_path, "%s%s", matlab_directory, latest_version);
+#else
+  size_t matlab_path_size = snprintf(NULL, 0, "%s%s%s", matlab_directory, latest_version, matlab_exec_suffix) + 1;
+  matlab_path = malloc(matlab_path_size);
+  sprintf(matlab_path, "%s%s%s", matlab_directory, latest_version, matlab_exec_suffix);
+#endif
+
   return true;
 }
 
@@ -120,41 +184,36 @@ bool parse_options(int nb_arguments, char **arguments) {
     port_size = strlen(port);
   }
 
+  char *WEBOTS_CONTROLLER_URL = NULL;
   // Write WEBOTS_CONTROLLER_URL in function of given options
   if (strncmp(protocol, "tcp", 3) == 0) {
     if (!ip_address) {
       printf("Specify the IP address of the Webots machine to connect to with '--ip_address=' option.\n");
       return false;
     }
-    char *WEBOTS_CONTROLLER_URL = malloc(protocol_size + ip_address_size + port_size + robot_name_size + 28);
-    memcpy(WEBOTS_CONTROLLER_URL, "WEBOTS_CONTROLLER_URL=", 22);
-    strcat(WEBOTS_CONTROLLER_URL, protocol);
-    strcat(WEBOTS_CONTROLLER_URL, "://");
-    strcat(WEBOTS_CONTROLLER_URL, ip_address);
-    strcat(WEBOTS_CONTROLLER_URL, ":");
-    strcat(WEBOTS_CONTROLLER_URL, port);
-    if (robot_name) {
-      strcat(WEBOTS_CONTROLLER_URL, "/");
-      strcat(WEBOTS_CONTROLLER_URL, robot_name);
-    }
-    putenv(WEBOTS_CONTROLLER_URL);
+
+    size_t WEBOTS_CONTROLLER_URL_size =
+      snprintf(NULL, 0, "%s%s%s%s%s%s", "WEBOTS_CONTROLLER_URL=", protocol, "://", ip_address, ":", port) + 1;
+    WEBOTS_CONTROLLER_URL = malloc(WEBOTS_CONTROLLER_URL_size);
+    sprintf(WEBOTS_CONTROLLER_URL, "%s%s%s%s%s%s", "WEBOTS_CONTROLLER_URL=", protocol, "://", ip_address, ":", port);
   } else if (strncmp(protocol, "ipc", 3) == 0) {
     if (ip_address)
       printf("Skipping IP address for ipc protocol.\n");
-    char *WEBOTS_CONTROLLER_URL = malloc(protocol_size + port_size + robot_name_size + 27);
-    memcpy(WEBOTS_CONTROLLER_URL, "WEBOTS_CONTROLLER_URL=", 22);
-    strcat(WEBOTS_CONTROLLER_URL, protocol);
-    strcat(WEBOTS_CONTROLLER_URL, "://");
-    strcat(WEBOTS_CONTROLLER_URL, port);
-    if (robot_name) {
-      strcat(WEBOTS_CONTROLLER_URL, "/");
-      strcat(WEBOTS_CONTROLLER_URL, robot_name);
-    }
-    putenv(WEBOTS_CONTROLLER_URL);
+
+    size_t WEBOTS_CONTROLLER_URL_size = snprintf(NULL, 0, "%s%s%s%s", "WEBOTS_CONTROLLER_URL=", protocol, "://", port) + 1;
+    WEBOTS_CONTROLLER_URL = malloc(WEBOTS_CONTROLLER_URL_size);
+    sprintf(WEBOTS_CONTROLLER_URL, "%s%s%s%s", "WEBOTS_CONTROLLER_URL=", protocol, "://", port);
   } else {
     printf("Only ipc and tcp protocols are supported.\n");
     return false;
   }
+
+  if (robot_name) {
+    size_t with_robot_size = snprintf(NULL, 0, "%s%s%s", WEBOTS_CONTROLLER_URL, "/", robot_name) + 1;
+    WEBOTS_CONTROLLER_URL = realloc(WEBOTS_CONTROLLER_URL, with_robot_size);
+    sprintf(WEBOTS_CONTROLLER_URL, "%s%s%s", WEBOTS_CONTROLLER_URL, "/", robot_name);
+  }
+  putenv(WEBOTS_CONTROLLER_URL);
 
   // Show resulting target to user
   const char *location = strncmp(protocol, "tcp", 3) == 0 ? "remote" : "local";
@@ -164,83 +223,104 @@ bool parse_options(int nb_arguments, char **arguments) {
   robot_name ? printf("Targeting robot '%s'.\n\n", robot_name) :
                printf("Targeting the only robot waiting for an extern controller.\n\n");
   // printf("%s\n", getenv("WEBOTS_CONTROLLER_URL"));
+
   return true;
 }
 
 void exec_java_config_environment() {
 #ifdef _WIN32
-  char *lib_controller = malloc(3 * strlen(WEBOTS_HOME) + 61);
-  memcpy(lib_controller, WEBOTS_HOME, strlen(WEBOTS_HOME));
-  strcat(lib_controller, "\\lib\\controller:");
-  char *bin = malloc(strlen(WEBOTS_HOME) + 21);
-  memcpy(bin, WEBOTS_HOME, strlen(WEBOTS_HOME));
-  strcat(bin, "\\msys64\\mingw64\\bin:");
-  strcat(lib_controller, bin);
-  char *cpp = malloc(strlen(WEBOTS_HOME) + 25);
-  memcpy(cpp, WEBOTS_HOME, strlen(WEBOTS_HOME));
-  strcat(cpp, "\\msys64\\mingw64\\bin\\cpp:");
-  strcat(lib_controller, cpp);
-  const size_t Path_size = getenv("Path") ? strlen(getenv("Path")) : 0;
-  char *new_path = malloc(strlen(lib_controller) + Path_size + 6);
-  memcpy(new_path, "Path=", 5);
-  strcat(new_path, lib_controller);
-  if (getenv("Path"))
-    strcat(new_path, getenv("Path"));
+  size_t new_path_size =
+    snprintf(NULL, 0, "%s%s%s%s%s%s%s%s", "Path=", WEBOTS_HOME, "\\lib\\controller:", WEBOTS_HOME,
+             "\\msys64\\mingw64\\bin:", WEBOTS_HOME, "\\msys64\\mingw64\\bin\\cpp:", getenv("DYLD_LIBRARY_PATH")) +
+    1;
+  char *new_path = malloc(new_path_size);
+  sprintf(new_path, "%s%s%s%s%s%s%s%s", "Path=", WEBOTS_HOME, "\\lib\\controller:", WEBOTS_HOME,
+          "\\msys64\\mingw64\\bin:", WEBOTS_HOME, "\\msys64\\mingw64\\bin\\cpp:", getenv("DYLD_LIBRARY_PATH"));
   putenv(new_path);
-#elif defined __linux__
-  char *lib_controller = malloc(strlen(WEBOTS_HOME) + 17);
-  memcpy(lib_controller, WEBOTS_HOME, strlen(WEBOTS_HOME));
-  strcat(lib_controller, "/lib/controller:");
-  const size_t LD_LIBRARY_PATH_size = getenv("LD_LIBRARY_PATH") ? strlen(getenv("LD_LIBRARY_PATH")) : 0;
-  char *new_ld_path = malloc(strlen(lib_controller) + LD_LIBRARY_PATH_size + 17);
-  memcpy(new_ld_path, "LD_LIBRARY_PATH=", 16);
-  strcat(new_ld_path, lib_controller);
-  if (getenv("LD_LIBRARY_PATH"))
-    strcat(new_ld_path, getenv("LD_LIBRARY_PATH"));
-  putenv(new_ld_path);
-#elif defined __APPLE__
-  char *lib_controller = malloc(strlen(WEBOTS_HOME) + 26);
-  memcpy(lib_controller, WEBOTS_HOME, strlen(WEBOTS_HOME));
-  strcat(lib_controller, "/Contents/lib/controller:");
-  const size_t DYLD_LIBRARY_PATH_size = getenv("DYLD_LIBRARY_PATH") ? strlen(getenv("DYLD_LIBRARY_PATH")) : 0;
-  char *new_ld_path = malloc(strlen(lib_controller) + DYLD_LIBRARY_PATH_size + 19);
-  memcpy(new_ld_path, "DYLD_LIBRARY_PATH=", 18);
-  strcat(new_ld_path, lib_controller);
-  if (getenv("DYLD_LIBRARY_PATH"))
-    strcat(new_ld_path, getenv("DYLD_LIBRARY_PATH"));
+#else
+#ifdef __linux__
+  const char *lib_controller = "/lib/controller:";
+  const char *ld_env_variable = "LD_LIBRARY_PATH";
+#else  //__APPLE__
+  const char *lib_controller = "/Contents/lib/controller:";
+  const char *ld_env_variable = "DYLD_LIBRARY_PATH";
+#endif
+  size_t new_ld_path_size =
+    snprintf(NULL, 0, "%s%s%s%s%s", ld_env_variable, "=", WEBOTS_HOME, lib_controller, getenv(ld_env_variable)) + 1;
+  char *new_ld_path = malloc(new_ld_path_size);
+  sprintf(new_ld_path, "%s%s%s%s%s", ld_env_variable, "=", WEBOTS_HOME, lib_controller, getenv(ld_env_variable));
   putenv(new_ld_path);
 #endif
 }
 
 void python_config_environment() {
-  char *lib_controller = malloc(strlen(WEBOTS_HOME) + 33);
-  memcpy(lib_controller, WEBOTS_HOME, strlen(WEBOTS_HOME));
 #ifdef _WIN32
-  strcat(lib_controller, "\\lib\\controller\\python:");
+  const char *python_lib_controller = "\\lib\\controller\\python:";
 #elif defined __linux__
-  strcat(lib_controller, "/lib/controller/python:");
+  const char *python_lib_controller = "/lib/controller/python:";
 #elif defined __APPLE__
-  strcat(lib_controller, "/Contents/lib/controller/python:");
+  const char *python_lib_controller = "/Contents/lib/controller/python:";
 #endif
-  const size_t PYTHONPATH_size = getenv("PYTHONPATH") ? strlen(getenv("PYTHONPATH")) : 0;
-  char *new_python_path = malloc(strlen(lib_controller) + PYTHONPATH_size + 12);
-  memcpy(new_python_path, "PYTHONPATH=", 11);
-  strcat(new_python_path, lib_controller);
-  if (getenv("PYTHONPATH"))
-    strcat(new_python_path, getenv("PYTHONPATH"));
+  size_t new_python_path_size =
+    snprintf(NULL, 0, "%s%s%s%s", "PYTHONPATH=", WEBOTS_HOME, python_lib_controller, getenv("PYTHONPATH")) + 1;
+  char *new_python_path = malloc(new_python_path_size);
+  sprintf(new_python_path, "%s%s%s%s", "PYTHONPATH=", WEBOTS_HOME, python_lib_controller, getenv("PYTHONPATH"));
   putenv(new_python_path);
-  char python_ioencoding[22] = "PYTHONIOENCODING=UTF-8";
+
+  char *python_ioencoding = "PYTHONIOENCODING=UTF-8";
   putenv(python_ioencoding);
+
+  // on windows add the bin/cpp to Path for e-puck
 }
 
 void matlab_config_environment() {
+  // Add project folder to WEBOTS_PROJECT env variable
+  const size_t controller_folder_size = strlen(strstr(controller, "controllers")) + 1;
+  const size_t controller_size = strlen(controller);
+  const size_t project_path_size = controller_size - controller_folder_size;
+  char *project_path = malloc(project_path_size + 1);
+  strncpy(project_path, controller, project_path_size);
+  project_path[project_path_size] = '\0';
+
+  size_t webots_project_size = snprintf(NULL, 0, "%s%s", "WEBOTS_PROJECT=", project_path) + 1;
+  char *webots_project = malloc(webots_project_size);
+  sprintf(webots_project, "%s%s", "WEBOTS_PROJECT=", project_path);
+  putenv(webots_project);
+
+  // Add controller name to WEBOTS_CONTROLLER_NAME env variable
 #ifdef _WIN32
-
-#elif defined __linux__
-
-#elif defined __APPLE__
-
+  char *controller_name = strrchr(controller, '\\') + 1;
+#else
+  char *controller_name = strrchr(controller, '/') + 1;
 #endif
+  size_t webots_controller_name_size = snprintf(NULL, 0, "%s%s", "WEBOTS_CONTROLLER_NAME=", controller_name) + 1;
+  char *webots_controller_name = malloc(webots_controller_name_size);
+  sprintf(webots_controller_name, "%s%s", "WEBOTS_CONTROLLER_NAME=", controller_name);
+  putenv(webots_controller_name);
+
+  // Get Webots version and put it in WEBOTS_VERSION env variable
+#ifdef _WIN32
+  const char *version_txt_path = "\\resources\\version.txt";
+#else
+  const char *version_txt_path = "/resources/version.txt";
+#endif
+  size_t version_file_name_size = snprintf(NULL, 0, "%s%s", WEBOTS_HOME, version_txt_path) + 1;
+  char *version_file_name = malloc(version_file_name_size);
+  sprintf(version_file_name, "%s%s", WEBOTS_HOME, version_txt_path);
+
+  FILE *version_file;
+  if ((version_file = fopen(version_file_name, "r")) == NULL) {
+    printf("Webots version could not be determined. '%s' can not be opened.\n", version_file_name);
+    exit(1);
+  }
+  char version[6];
+  fscanf(version_file, "%[^\n]", version);
+  fclose(version_file);
+
+  size_t webots_version_size = snprintf(NULL, 0, "%s%s", "WEBOTS_VERSION=", version) + 1;
+  char *webots_version = malloc(webots_version_size);
+  sprintf(webots_version, "%s%s", "WEBOTS_VERSION=", version);
+  putenv(webots_version);
 }
 
 int main(int argc, char **argv) {
@@ -280,28 +360,44 @@ int main(int argc, char **argv) {
   // Python controller
   else if (strcmp(extension, ".py") == 0) {
     python_config_environment();
-    char *python_command = malloc(strlen(controller) + 9);
+
 #ifdef _WIN32
-    memcpy(python_command, "python ", 7);
+    const char *python_prefix = "python ";
 #else
-    memcpy(python_command, "python3 ", 8);
+    const char *python_prefix = "python3 ";
 #endif
-    strcat(python_command, controller);
+    size_t python_command_size = snprintf(NULL, 0, "%s%s", python_prefix, controller) + 1;
+    char *python_command = malloc(python_command_size);
+    sprintf(python_command, "%s%s", python_prefix, controller);
+
+    // printf("%s\n", python_command);
     system(python_command);
   }
   // Matlab controller
   else if (strcmp(extension, ".m") == 0) {
     matlab_config_environment();
-    char *matlab_command = malloc(strlen(WEBOTS_HOME) + 101);
-    memcpy(matlab_command, "matlab -nodisplay -nosplash -nodesktop -r \"run('", 48);
-    strcat(matlab_command, WEBOTS_HOME);
+
+    // If no Matlab path was given in command line, check in default installation folder
+    if (!matlab_path) {
+      const bool default_matlab_install = get_matlab_path();
+      // printf("%s\n", matlab_path);
+      if (!default_matlab_install)
+        return -1;
+    }
+
 #ifdef _WIN32
-    strcat(matlab_command, "\\lib\\controller\\matlab\\launcher.m'); exit;\"");
+    const char *launcher_path = "\\lib\\controller\\matlab\\launcher.m'); exit;\"";
 #elif defined __APPLE__
-    strcat(matlab_command, "/Contents/lib/controller/matlab/launcher.m'); exit;\"");
+    const char *launcher_path = "/Contents/lib/controller/matlab/launcher.m'); exit;\"";
 #elif defined __linux__
-    strcat(matlab_command, "/lib/controller/matlab/launcher.m'); exit;\"");
+    const char *launcher_path = "/lib/controller/matlab/launcher.m'); exit;\"";
 #endif
+
+    size_t matlab_command_size =
+      snprintf(NULL, 0, "%s%s%s%s", matlab_path, " -nodisplay -nosplash -nodesktop -r \"run('", WEBOTS_HOME, launcher_path) + 1;
+    char *matlab_command = malloc(matlab_command_size);
+    sprintf(matlab_command, "%s%s%s%s", matlab_path, " -nodisplay -nosplash -nodesktop -r \"run('", WEBOTS_HOME, launcher_path);
+
     printf("%s\n", matlab_command);
     system(matlab_command);
   }
@@ -318,46 +414,42 @@ int main(int argc, char **argv) {
     const size_t controller_size = strlen(controller);
     const size_t controller_path_size = controller_size - controller_file_size;
     char *controller_path = malloc(controller_path_size + 1);
-    memcpy(controller_path, controller, controller_path_size);
+    strncpy(controller_path, controller, controller_path_size);
     controller_path[controller_path_size] = '\0';
 
     // Write path to java lib controller
-    char *lib_controller = malloc(strlen(WEBOTS_HOME) + 30);
-    memcpy(lib_controller, WEBOTS_HOME, strlen(WEBOTS_HOME));
 #ifdef _WIN32
-    strcat(lib_controller, "\\lib\\controller\\java");
+    const char *java_lib_controller = "\\lib\\controller\\java";
 #elif defined __APPLE__
-    strcat(lib_controller, "/Contents/lib/controller/java");
+    const char *java_lib_controller = "/Contents/lib/controller/java";
 #elif defined __linux__
-    strcat(lib_controller, "/lib/controller/java");
+    const char *java_lib_controller = "/lib/controller/java";
 #endif
+    size_t lib_controller_size = snprintf(NULL, 0, "%s%s", WEBOTS_HOME, java_lib_controller) + 1;
+    char *lib_controller = malloc(lib_controller_size);
+    sprintf(lib_controller, "%s%s", WEBOTS_HOME, java_lib_controller);
 
     // Write the 'classpath' option (mandatory for java controllers)
-    char *classpath = malloc(strlen(lib_controller) + controller_path_size + 28);
-    memcpy(classpath, "-classpath ", 11);
-    strcat(classpath, lib_controller);
 #ifdef _WIN32
-    strcat(classpath, "\\Controller.jar:");
-#elif defined __APPLE__
-    strcat(classpath, "/Controller.jar:");
-#elif defined __linux__
-    strcat(classpath, "/Controller.jar:");
+    const char *jar_path = "\\Controller.jar:";
+#else
+    const char *jar_path = "/Controller.jar:";
 #endif
-    strcat(classpath, controller_path);
+    size_t classpath_size = snprintf(NULL, 0, "%s%s%s%s", "-classpath ", lib_controller, jar_path, controller_path) + 1;
+    char *classpath = malloc(classpath_size);
+    sprintf(classpath, "%s%s%s%s", "-classpath ", lib_controller, jar_path, controller_path);
 
     // Write the 'Djava.library.path' option (mandatory for java controllers)
-    char *java_library = malloc(strlen(lib_controller) + 22);
-    memcpy(java_library, " -Djava.library.path=", 21);
-    strcat(java_library, lib_controller);
+    size_t java_library_size = snprintf(NULL, 0, "%s%s", " -Djava.library.path=", lib_controller) + 1;
+    char *java_library = malloc(java_library_size);
+    sprintf(java_library, "%s%s", " -Djava.library.path=", lib_controller);
 
     // Write arguments to java command
-    char *java_command = malloc(strlen(classpath) + strlen(java_library) + strlen(controller_name) + 8);
-    memcpy(java_command, "java ", 5);
-    strcat(java_command, classpath);
-    strcat(java_command, java_library);
-    strcat(java_command, " ");
     controller_name[strlen(controller_name) - strlen(extension)] = '\0';
-    strcat(java_command, controller_name + 1);
+    size_t java_command_size = snprintf(NULL, 0, "%s%s%s%s%s", "java ", classpath, java_library, " ", controller_name + 1) + 1;
+    char *java_command = malloc(java_command_size);
+    sprintf(java_command, "%s%s%s%s%s", "java ", classpath, java_library, " ", controller_name + 1);
+
     // printf("%s\n", java_command);
     system(java_command);
   } else
