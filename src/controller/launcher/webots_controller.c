@@ -257,6 +257,17 @@ void python_config_environment() {
 #endif
 }
 
+void matlab_config_environment() {
+#ifdef _WIN32
+
+  // CHECK FOR EPUCK ?
+#elif defined __linux__
+
+#elif defined __APPLE__
+
+#endif
+}
+
 int main(int argc, char **argv) {
   // Check WEBOTS_HOME and exit if empty
   const bool is_set = get_webots_home();
@@ -302,6 +313,22 @@ int main(int argc, char **argv) {
 #endif
     strcat(python_command, controller);
     system(python_command);
+  }
+  // Matlab controller
+  else if (strcmp(extension, ".m") == 0) {
+    matlab_config_environment();
+    char *matlab_command = malloc(strlen(WEBOTS_HOME) + 101);
+    memcpy(matlab_command, "matlab -nodisplay -nosplash -nodesktop -r \"run('", 48);
+    strcat(matlab_command, WEBOTS_HOME);
+#ifdef _WIN32
+    strcat(matlab_command, "\\lib\\controller\\matlab\\launcher.m'); exit;\"");
+#elif defined __APPLE__
+    strcat(matlab_command, "/Contents/lib/controller/matlab/launcher.m'); exit;\"");
+#elif defined __linux__
+    strcat(matlab_command, "/lib/controller/matlab/launcher.m'); exit;\"");
+#endif
+    printf("%s\n", matlab_command);
+    system(matlab_command);
   }
   // Java controller
   else if (strcmp(extension, ".jar") == 0 || strcmp(extension, ".class") == 0) {
