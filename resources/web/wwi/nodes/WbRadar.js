@@ -23,6 +23,56 @@ export default class WbRadar extends WbSolid {
     this._isFrustumEnabled = false;
   }
 
+  get horizontalFieldOfView() {
+    return this.#horizontalFieldOfView;
+  }
+
+  set horizontalFieldOfView(newHorizontalFieldOfView) {
+    if (newHorizontalFieldOfView <= 0 || newHorizontalFieldOfView > Math.PI)
+      newHorizontalFieldOfView = 0.78;
+
+    this.#horizontalFieldOfView = newHorizontalFieldOfView;
+    this.#update();
+  }
+
+  get maxRange() {
+    return this.#maxRange;
+  }
+
+  set maxRange(newMaxRange) {
+    if (this.#minRange > newMaxRange || newMaxRange <= 0)
+      newMaxRange = this.#minRange + 1;
+
+    this.#maxRange = newMaxRange;
+    this.#update();
+  }
+
+  get minRange() {
+    return this.#minRange;
+  }
+
+  set minRange(newMinRange) {
+    if (newMinRange < 0)
+      newMinRange = 0;
+    else if (newMinRange > this.#maxRange)
+      newMinRange = this.#maxRange < 1 ? 0 : this.#maxRange - 1;
+
+    this.#minRange = newMinRange;
+    this.#update();
+  }
+
+  get verticalFieldOfView() {
+    return this.#verticalFieldOfView;
+  }
+
+  set verticalFieldOfView(newVerticalFieldOfView) {
+    if (newVerticalFieldOfView <= 0 || newVerticalFieldOfView > Math.PI / 2)
+      newVerticalFieldOfView = 0.1;
+
+    this.#verticalFieldOfView = newVerticalFieldOfView;
+    this.#update();
+  }
+
   createWrenObjects() {
     this.#transform = _wr_transform_new();
     _wr_node_set_visible(this.#transform, false);
@@ -147,6 +197,11 @@ export default class WbRadar extends WbSolid {
     this._isFrustumEnabled = enable;
     this._applyFrustumToWren();
     _wr_node_set_visible(this.#transform, enable);
+  }
+
+  #update() {
+    if (this.wrenObjectsCreatedCalled)
+      this._applyFrustumToWren();
   }
 
   #addVertex(vertices, x, y, z) {
