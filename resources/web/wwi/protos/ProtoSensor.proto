@@ -2,7 +2,7 @@
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/appearances/protos/Asphalt.proto"
 
-PROTO ProtoCamera [
+PROTO ProtoSensor [
 field SFVec3f translation 0 0 0.3
 field SFRotation rotation 0 0 1 1.5708
 ]
