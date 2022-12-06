@@ -360,12 +360,11 @@ namespace wren {
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
       renderQuad();
 
+      glBindTexture(GL_TEXTURE_2D, 0); // free the binding
       glstate::releaseFrameBuffer(captureFBO);
       glstate::releaseRenderBuffer(captureRBO);
       glDeleteFramebuffers(1, &captureFBO);
       glDeleteRenderbuffers(1, &captureRBO);
-      glstate::releaseFrameBuffer(captureFBO);
-      glstate::releaseRenderBuffer(captureRBO);
       brdfShader->release();
       glDeleteVertexArrays(1, &quadVAO);
       glDeleteBuffers(1, &quadVBO);
