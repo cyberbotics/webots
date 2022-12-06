@@ -41,10 +41,10 @@ bool get_webots_home() {
 
 void print_options() {
   printf(
-    "Usage: webots_controller [options] [controller_file]\n\nOptions:\n\n  --protocol=<ipc|tcp>\n    IPC is used by "
-    "default. IPC should be used when Webots is running on the same machine as the extern controller. TCP should be used when "
+    "Usage: webots_controller [options] [controller_file]\n\nOptions:\n\n  --protocol=<ipc|tcp>\n    ipc is used by "
+    "default. ipc should be used when Webots is running on the same machine as the extern controller. tcp should be used when "
     "connecting to a remote instance of Webots.\n\n  --ip_address=<ip_address>\n    The IP address of the remote machine on "
-    "which the Webots instance is running. This option should only be used with the TCP protocol (remote controllers).\n\n  "
+    "which the Webots instance is running. This option should only be used with the tcp protocol (remote controllers).\n\n  "
     "--port=<port>\n    1234 is used by default, as it is the default port of Webots. This parameter allows to connect to a "
     "specific instance of Webots if multiple of them are running. The port of a Webots instance can be set at its launch.\n\n  "
     "--robot_name=<robot_name>\n    Target a specific robot by specifiyng its name in case multiple robots wait for an extern "
@@ -140,7 +140,7 @@ bool parse_options(int nb_arguments, char **arguments) {
     putenv(WEBOTS_CONTROLLER_URL);
   } else if (strncmp(protocol, "ipc", 3) == 0) {
     if (ip_address)
-      printf("Ignoring IP address for ipc protocol.\n");
+      printf("Skipping IP address for ipc protocol.\n");
     char *WEBOTS_CONTROLLER_URL = malloc(protocol_size + port_size + robot_name_size + 27);
     memcpy(WEBOTS_CONTROLLER_URL, "WEBOTS_CONTROLLER_URL=", 22);
     strcat(WEBOTS_CONTROLLER_URL, protocol);
@@ -213,38 +213,15 @@ void exec_java_config_environment() {
 }
 
 void python_config_environment() {
+  char *lib_controller = malloc(strlen(WEBOTS_HOME) + 33);
+  memcpy(lib_controller, WEBOTS_HOME, strlen(WEBOTS_HOME));
 #ifdef _WIN32
-  char *lib_controller = malloc(strlen(WEBOTS_HOME) + 24);
-  memcpy(lib_controller, WEBOTS_HOME, strlen(WEBOTS_HOME));
   strcat(lib_controller, "\\lib\\controller\\python:");
-  const size_t PYTHONPATH_size = getenv("PYTHONPATH") ? strlen(getenv("PYTHONPATH")) : 0;
-  char *new_python_path = malloc(strlen(lib_controller) + PYTHONPATH_size + 12);
-  memcpy(new_python_path, "PYTHONPATH=", 11);
-  strcat(new_python_path, lib_controller);
-  if (getenv("PYTHONPATH"))
-    strcat(new_python_path, getenv("PYTHONPATH"));
-  putenv(new_python_path);
-  char python_ioencoding[22] = "PYTHONIOENCODING=UTF-8";
-  putenv(python_ioencoding);
-
-  // CHECK FOR EPUCK ?
 #elif defined __linux__
-  char *lib_controller = malloc(strlen(WEBOTS_HOME) + 24);
-  memcpy(lib_controller, WEBOTS_HOME, strlen(WEBOTS_HOME));
   strcat(lib_controller, "/lib/controller/python:");
-  const size_t PYTHONPATH_size = getenv("PYTHONPATH") ? strlen(getenv("PYTHONPATH")) : 0;
-  char *new_python_path = malloc(strlen(lib_controller) + PYTHONPATH_size + 12);
-  memcpy(new_python_path, "PYTHONPATH=", 11);
-  strcat(new_python_path, lib_controller);
-  if (getenv("PYTHONPATH"))
-    strcat(new_python_path, getenv("PYTHONPATH"));
-  putenv(new_python_path);
-  char python_ioencoding[22] = "PYTHONIOENCODING=UTF-8";
-  putenv(python_ioencoding);
 #elif defined __APPLE__
-  char *lib_controller = malloc(strlen(WEBOTS_HOME) + 24);
-  memcpy(lib_controller, WEBOTS_HOME, strlen(WEBOTS_HOME));
   strcat(lib_controller, "/Contents/lib/controller/python:");
+#endif
   const size_t PYTHONPATH_size = getenv("PYTHONPATH") ? strlen(getenv("PYTHONPATH")) : 0;
   char *new_python_path = malloc(strlen(lib_controller) + PYTHONPATH_size + 12);
   memcpy(new_python_path, "PYTHONPATH=", 11);
@@ -254,13 +231,11 @@ void python_config_environment() {
   putenv(new_python_path);
   char python_ioencoding[22] = "PYTHONIOENCODING=UTF-8";
   putenv(python_ioencoding);
-#endif
 }
 
 void matlab_config_environment() {
 #ifdef _WIN32
 
-  // CHECK FOR EPUCK ?
 #elif defined __linux__
 
 #elif defined __APPLE__
