@@ -1527,7 +1527,9 @@ namespace wren {
     // bounding volumes
     mesh->mCacheData->mBoundingSphere = primitive::computeBoundingSphereFromVertices(mesh->coords());
     mesh->mCacheData->mAabb = primitive::Aabb(mesh->coords());
+
     mesh->setup();
+
     return mesh;
   }
 
