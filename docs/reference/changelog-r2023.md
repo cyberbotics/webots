@@ -11,6 +11,8 @@ Released on ??
     - Fixed Python API `Node.enableContactPointsTracking` which was failing ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
     - Fixed Python API `Field.enableSFTracking` and `Field.disableSFTracking` which were failing ([#5640](https://github.com/cyberbotics/webots/pull/5640)).
     - Fixed crash resulting from requesting pose tracking of unsuitable nodes ([5620](https://github.com/cyberbotics/webots/pull/5620)).
+  -Clean-up
+    - Deprecated the C and MATLAB API functions `wb_supervisor_node_enable/disable_contact_point_tracking` in favor of `wb_supervisor_node_enable/disable_contact_points_tracking` to be more consistent with other APIs ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
