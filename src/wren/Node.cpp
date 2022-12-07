@@ -27,7 +27,6 @@ namespace wren {
     if (node->mParent)
       node->mParent->detachChild(node);
 
-    //printf("DEL %p\n", node);
     delete node;
   }
 

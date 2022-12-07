@@ -189,13 +189,10 @@ namespace wren {
 
   void Texture::removeMaterialUser(Material *material) {
     assert(material);
-
     for (size_t i = 0; i < mMaterialsUsingThisTexture.size(); ++i) {
       if (mMaterialsUsingThisTexture[i] == material)
         mMaterialsUsingThisTexture.erase(mMaterialsUsingThisTexture.begin() + i);
     }
-
-    //printf("size after: %d\n", mMaterialsUsingThisTexture.size());
   }
 
 }  // namespace wren

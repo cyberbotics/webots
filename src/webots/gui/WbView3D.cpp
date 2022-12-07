@@ -2538,6 +2538,6 @@ void WbView3D::updateVirtualRealityHeadsetOverlay() {
 void WbView3D::handleWorldModificationFromSupervisor() {
   // refresh only if simulation is paused (or stepped)
   const WbSimulationState *const sim = WbSimulationState::instance();
-  if (sim->isPaused())
+  if (sim->isPaused() || !WbSimulationState::instance()->isRendering())
     refresh();
 }

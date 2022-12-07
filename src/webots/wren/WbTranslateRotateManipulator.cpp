@@ -158,6 +158,7 @@ void WbTranslateRotateManipulator::initializeHandlesEntities() {
     } else
       mHasTranslationHandles = false;
   }
+
   if (mHasRotationHandles) {
     QByteArray objFile = QFileInfo(FILE_PATH_CIRCULAR_ARROW).absoluteFilePath().toUtf8();
     WrStaticMesh *mesh;
@@ -192,7 +193,6 @@ void WbTranslateRotateManipulator::initializeHandlesEntities() {
     } else
       mHasRotationHandles = false;
   }
-
   if (mHasRotationHandles) {
     mActiveRotationHandleMaterial = wr_phong_material_new();
     const float color[3] = {0.0f, 0.0f, 0.0f};

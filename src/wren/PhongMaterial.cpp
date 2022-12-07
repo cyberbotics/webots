@@ -175,6 +175,10 @@ namespace wren {
     mMaterialStructure->data = reinterpret_cast<void *>(this);
   }
 
+  PhongMaterial::~PhongMaterial() {
+    delete mMaterialStructure;
+  }
+
   void PhongMaterial::init() {
     GlslLayout::PhongMaterial material;
     material.mAmbient = glm::vec4(gVec3Ones, 1.0f);

@@ -58,7 +58,7 @@ namespace wren {
 
   private:
     PbrMaterial();
-    ~PbrMaterial() {};
+    ~PbrMaterial();
     void init();
 
     static std::unordered_map<cache::Key, cache::PbrMaterialData> cCache;

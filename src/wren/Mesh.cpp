@@ -20,7 +20,6 @@
 namespace wren {
 
   void Mesh::deleteMesh(Mesh *mesh) {
-    //printf("Mesh::deleteMesh %p\n", mesh);
     if (!mesh)
       return;
 

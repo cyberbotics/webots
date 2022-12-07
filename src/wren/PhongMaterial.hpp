@@ -57,7 +57,7 @@ namespace wren {
 
   private:
     PhongMaterial();
-    ~PhongMaterial() {};
+    ~PhongMaterial()
     void init();
 
     static std::unordered_map<cache::Key, cache::PhongMaterialData> cCache;

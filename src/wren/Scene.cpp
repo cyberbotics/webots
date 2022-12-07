@@ -908,7 +908,6 @@ void wr_scene_terminate_frame_capture(WrScene *scene) {
 void wr_scene_render(WrScene *scene, const char *material_name, bool culling) {
   if (material_name)
     wren::Renderable::setUseMaterial(material_name);
-
   reinterpret_cast<wren::Scene *>(scene)->render(culling);
 
   wren::Renderable::setUseMaterial(NULL);

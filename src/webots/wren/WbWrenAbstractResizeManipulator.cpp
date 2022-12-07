@@ -46,10 +46,8 @@ WbWrenAbstractResizeManipulator::WbWrenAbstractResizeManipulator(ResizeConstrain
 WbWrenAbstractResizeManipulator::~WbWrenAbstractResizeManipulator() {
   WbWrenOpenGlContext::makeWrenCurrent();
 
-  for (WrStaticMesh *mesh : mMeshes) {
-    // qDebug() << "DELETE MESH" << mesh << mMeshes.size();
+  for (WrStaticMesh *mesh : mMeshes)
     wr_static_mesh_delete(mesh);
-  }
 
   for (WrRenderable *renderable : mRenderables) {
     // Delete picking material
@@ -61,7 +59,6 @@ WbWrenAbstractResizeManipulator::~WbWrenAbstractResizeManipulator() {
     wr_material_delete(mHandleMaterials[i]);
     wr_material_delete(mAxisMaterials[i]);
     wr_node_delete(WR_NODE(mHandleTransforms[i]));
-    // qDebug() << "CLEARED" << mAxisTransforms[i];
     wr_node_delete(WR_NODE(mAxisTransforms[i]));
   }
 
@@ -102,13 +99,13 @@ void WbWrenAbstractResizeManipulator::initializeHandlesEntities(bool resize) {
 
   QByteArray objFile = QFileInfo(FILE_PATH_DOUBLE_ARROW).absoluteFilePath().toUtf8();
   WrStaticMesh *mesh;
-
   const bool success = wr_import_static_mesh_from_obj(objFile.constData(), &mesh);
   assert(success);
   if (!success) {
     mNumberOfHandles = 0;
     return;
   }
+
   mMeshes.push_back(mesh);
 
   const int pickerAxis[3] = {WbWrenPicker::HANDLES_X_AXIS, WbWrenPicker::HANDLES_Y_AXIS, WbWrenPicker::HANDLES_Z_AXIS};
