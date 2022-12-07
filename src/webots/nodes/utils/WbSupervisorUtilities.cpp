@@ -1265,25 +1265,39 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       WbNode *const fromNode = WbNode::findNode(fromNodeId);
       WbNode *const toNode = WbNode::findNode(toNodeId);
+      WbTransform *const toTransformNode = toNode ? dynamic_cast<WbTransform *>(toNode) : NULL;
 
-      if (!dynamic_cast<WbTransform *const>(toNode)) {
+      if (!toTransformNode) {
         mRobot->warn(tr("Node '%1' is not suitable for pose tracking, aborting request.").arg(toNode->modelName()));
         return;
       }
 
       if (enable) {
+        WbTransform *const fromTransformNode = fromNode ? dynamic_cast<WbTransform *>(fromNode) : NULL;
+        if (fromNodeId && !fromTransformNode)
+          mRobot->warn(tr("Pose tracking can be exclusively used with Transform (or derived) 'from_node' argument, but '%1' is "
+                          "given. The absolute pose in global coordinates will be returned.")
+                         .arg(fromNode->modelName()));
+
         WbTrackedPoseInfo trackedPose;
-        trackedPose.fromNode = dynamic_cast<WbTransform *>(fromNode);
-        trackedPose.toNode = dynamic_cast<WbTransform *>(toNode);
+        trackedPose.fromNode = fromTransformNode;
+        trackedPose.toNode = toTransformNode;
         trackedPose.samplingPeriod = samplingPeriod;
         trackedPose.lastUpdate = -INFINITY;
         mTrackedPoses.append(trackedPose);
       } else {
-        for (int i = 0; i < mTrackedPoses.size(); i++)
-          if (mTrackedPoses[i].fromNode == fromNode && mTrackedPoses[i].toNode == toNode) {
+        bool found = false;
+        for (int i = 0; i < mTrackedPoses.size(); i++) {
+          if (mTrackedPoses[i].fromNode == fromNode && mTrackedPoses[i].toNode == toTransformNode) {
             mTrackedPoses.removeAt(i);
+            found = true;
             break;
           }
+        }
+        if (!found)
+          mRobot->warn(tr("No active pose tracking matching the node '%1' and 'from_node' argument could be found.")
+                         .arg(toNode->modelName())
+                         .arg(fromNode->modelName()));
       }
 
       return;
