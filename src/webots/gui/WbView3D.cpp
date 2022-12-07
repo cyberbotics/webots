@@ -2536,7 +2536,8 @@ void WbView3D::updateVirtualRealityHeadsetOverlay() {
 }
 
 void WbView3D::handleWorldModificationFromSupervisor() {
-  // refresh only if simulation is paused (or stepped)
+  // refresh only if simulation is paused, stepped, or if the simulation is running in no-rendering mode
+  // the latter case is needed otherwise the memory is never cleared on node deletions
   const WbSimulationState *const sim = WbSimulationState::instance();
   if (sim->isPaused() || !WbSimulationState::instance()->isRendering())
     refresh();
