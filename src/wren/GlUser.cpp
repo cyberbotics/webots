@@ -31,9 +31,13 @@ namespace wren {
 
   void GlUser::applyGl() {
     for (size_t i = 0; i < cUsersRequiringAction.size(); ++i) {
-      if (cUsersRequiringAction[i].second == GL_ACTION_CLEANUP)
+      if (cUsersRequiringAction[i].second == GL_ACTION_CLEANUP) {
+        printf("CLEANUP\n");
         cUsersRequiringAction[i].first->cleanupGl();
+      }
       else if (cUsersRequiringAction[i].second == GL_ACTION_DELETE) {
+                printf("DELETE\n");
+
         cUsersRequiringAction[i].first->cleanupGl();
 
         // make sure prepareGl doesn't get called on deleted users
