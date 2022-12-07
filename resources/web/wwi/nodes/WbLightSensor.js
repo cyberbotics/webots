@@ -16,7 +16,7 @@ export default class WbLightSensor extends WbSolid {
     const vertices = [0, 0, 0, 1, 0, 0];
     const verticesPointer = arrayXPointerFloat(vertices);
     this.#mesh = _wr_static_mesh_line_set_new(2, verticesPointer, undefined);
-    _free(vertices);
+    _free(verticesPointer);
     this.#renderable = _wr_renderable_new();
     _wr_renderable_set_cast_shadows(this.#renderable, false);
     _wr_renderable_set_receive_shadows(this.#renderable, false);
