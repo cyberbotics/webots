@@ -8,6 +8,7 @@ import WbBox from './nodes/WbBox.js';
 import WbCadShape from './nodes/WbCadShape.js';
 import WbCamera from './nodes/WbCamera.js';
 import WbCapsule from './nodes/WbCapsule.js';
+import WbColor from './nodes/WbColor.js';
 import WbCone from './nodes/WbCone.js';
 import WbCoordinate from './nodes/WbCoordinate.js';
 import WbCylinder from './nodes/WbCylinder.js';
@@ -21,10 +22,10 @@ import WbLidar from './nodes/WbLidar.js';
 import WbLight from './nodes/WbLight.js';
 import WbMaterial from './nodes/WbMaterial.js';
 import WbMesh from './nodes/WbMesh.js';
+import WbPen from './nodes/WbPen.js';
 import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbPlane from './nodes/WbPlane.js';
 import WbPointLight from './nodes/WbPointLight.js';
-import WbColor from './nodes/WbColor.js';
 import WbRadar from './nodes/WbRadar.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbTextureCoordinate from './nodes/WbTextureCoordinate.js';
@@ -424,6 +425,9 @@ export default class X3dScene {
           object.verticalFieldOfView = parseFloat(pose[key]);
         else if (key === 'horizontalFieldOfView')
           object.horizontalFieldOfView = parseFloat(pose[key]);
+      } else if (object instanceof WbPen) {
+        if (key === 'write')
+          object.write = pose[key].toLowerCase() === 'true';
       }
 
       if (object instanceof WbLight) {
