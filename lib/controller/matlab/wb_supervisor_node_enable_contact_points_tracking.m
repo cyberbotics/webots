@@ -1,5 +1,5 @@
-function result = wb_supervisor_node_enable_contact_point_tracking(noderef, sampling_period, include_descendants)
-% Usage: wb_supervisor_node_enable_contact_point_tracking(noderef, sampling_period, include_descendants)
+function result = wb_supervisor_node_enable_contacts_point_tracking(noderef, sampling_period, include_descendants)
+% Usage: wb_supervisor_node_enable_contact_points_tracking(noderef, sampling_period, include_descendants)
 % Matlab API for Webots
 % Online documentation is available <a href="https://www.cyberbotics.com/doc/reference/supervisor">here</a>
 
