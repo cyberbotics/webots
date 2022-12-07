@@ -1017,11 +1017,11 @@ The matrix is composed of a rotation matrix `R` and a translation vector `T`.
 The `wb_supervisor_node_enable_pose_tracking` function forces Webots to stream poses to the controller.
 It improves the performance as the controller by default uses a request-response pattern to get pose data.
 The `sampling_period` argument determines how often the pose data should be sent to the controller.
-Both the `node` argument (or the node instance for C++, Python and Java) and the `fromNode` argument must be a [Transform](transform.md) node (or a derived node).
-If the `fromNode` argument is null or it is invalid, it returns the it returns the absolute pose of the node in the global coordinate system.
+Both the `node` argument (or the node instance for C++, Python and Java) and the `from_node` argument must be a [Transform](transform.md) node (or a derived node).
+If the `from_node` argument is null or it is invalid, it returns the it returns the absolute pose of the node in the global coordinate system.
 
 The `wb_supervisor_node_disable_pose_tracking` function disables pose data tracking.
-Both the node and the `fromNode` arguments should match the ones passed to the `wb_supervisor_node_enable_pose_tracking` to successfully disabled the tracking.
+Both the node and the `from_node` arguments should match the ones passed to the `wb_supervisor_node_enable_pose_tracking` to successfully disabled the tracking.
 
 The "[WEBOTS\_HOME/projects/robots/neuronics/ipr/worlds/ipr\_cube.wbt]({{ url.github_tree }}/projects/robots/neuronics/ipr/worlds/ipr_cube.wbt)" simulation shows how to use these functions to achieve this (see [the controller]({{ url.github_tree }}/projects/robots/neuronics/ipr/controllers/target_coordinates/target_coordinates.c)).
 
