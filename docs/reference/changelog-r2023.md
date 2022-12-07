@@ -8,7 +8,7 @@ Released on ??
     - Added `recognitionColors` field to [SolidBox](../guide/object-solids.md#solidbox) and Tractor PROTO models ([#5606](https://github.com/cyberbotics/webots/pull/5606)).
   - Bug Fixes
     - Fixed Python API `Supervisor.setSimulationMode` which was failing ([#5603](https://github.com/cyberbotics/webots/pull/5603)).
-    - Fixed Python API `Node.enableContactPointTracking` which was failing ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
+    - Fixed Python API `Node.enableContactPointsTracking` which was failing ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
     - Fixed crash resulting from requesting pose tracking of unsuitable nodes ([5620](https://github.com/cyberbotics/webots/pull/5620)).
 
 ## Webots R2023a
