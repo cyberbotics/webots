@@ -158,11 +158,11 @@ class Node:
             contact_points.append(ContactPoint(struct.unpack_from('3di', points, 28 * i)))
         return contact_points
 
-    def enableContactPointTracking(self, samplingPeriod: int, includeDescendants: bool = False):
-        wb.wb_supervisor_node_enable_contact_point_tracking(self._ref, samplingPeriod, 1 if includeDescendants else 0)
+    def enableContactPointsTracking(self, samplingPeriod: int, includeDescendants: bool = False):
+        wb.wb_supervisor_node_enable_contact_points_tracking(self._ref, samplingPeriod, 1 if includeDescendants else 0)
 
-    def disableContactPointTracking(self, includeDescendants: bool = False):
-        wb.wb_supervisor_node_disable_contact_point_tracking(self._ref, 1 if includeDescendants else 0)
+    def disableContactPointsTracking(self, includeDescendants: bool = False):
+        wb.wb_supervisor_node_disable_contact_points_tracking(self._ref, 1 if includeDescendants else 0)
 
     def getStaticBalance(self) -> bool:
         return wb.wb_supervisor_node_get_static_balance(self._ref) != 0

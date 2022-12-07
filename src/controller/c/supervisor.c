@@ -2848,7 +2848,7 @@ int wb_supervisor_field_get_count(WbFieldRef field) {
   return ((WbFieldStruct *)field)->count;
 }
 
-void wb_supervisor_node_enable_contact_point_tracking(WbNodeRef node, int sampling_period, bool include_descendants) {
+void wb_supervisor_node_enable_contact_points_tracking(WbNodeRef node, int sampling_period, bool include_descendants) {
   if (sampling_period < 0) {
     fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
@@ -2877,7 +2877,16 @@ void wb_supervisor_node_enable_contact_point_tracking(WbNodeRef node, int sampli
   robot_mutex_unlock();
 }
 
-void wb_supervisor_node_disable_contact_point_tracking(WbNodeRef node, bool include_descendants) {
+void wb_supervisor_node_enable_contact_point_tracking(WbNodeRef node, int sampling_period, bool include_descendants) {  // deprecated since R2023a-rev1
+  static bool deprecation_warning = true;
+  if (deprecation_warning) {
+    fprintf(stderr, "Warning: %s() is deprecated, use wb_supervisor_node_enable_contact_points_tracking() instead.\n", __FUNCTION__);
+    deprecation_warning = false;
+  }
+  wb_supervisor_node_enable_contacts_point_tracking(node, sampling_period, include_descendants);
+}
+
+void wb_supervisor_node_disable_contact_points_tracking(WbNodeRef node, bool include_descendants) {
   if (!robot_check_supervisor(__FUNCTION__))
     return;
 
@@ -2894,6 +2903,15 @@ void wb_supervisor_node_disable_contact_point_tracking(WbNodeRef node, bool incl
   wb_robot_flush_unlocked(__FUNCTION__);
   pose_change_tracking_requested = false;
   robot_mutex_unlock();
+}
+
+void wb_supervisor_node_disable_contact_point_tracking(WbNodeRef node, bool include_descendants) {  // deprecated since R2023a-rev1
+  static bool deprecation_warning = true;
+  if (deprecation_warning) {
+    fprintf(stderr, "Warning: %s() is deprecated, use wb_supervisor_node_disable_contact_points_tracking() instead.\n", __FUNCTION__);
+    deprecation_warning = false;
+  }
+  wb_supervisor_node_disable_contact_points_tracking(node, include_descendants);
 }
 
 void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_period) {
