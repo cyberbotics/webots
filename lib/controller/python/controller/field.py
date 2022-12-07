@@ -92,10 +92,10 @@ class Field:
         return self.count
 
     def enableSFTracking(self, samplingPeriod: int):
-        wb.wb_supervisor_field_enable_sf_tracking(samplingPeriod)
+        wb.wb_supervisor_field_enable_sf_tracking(self._ref, samplingPeriod)
 
     def disableSFTracking(self):
-        wb.wb_supervisor_field_disable_sf_tracking()
+        wb.wb_supervisor_field_disable_sf_tracking(self._ref)
 
     def getSFBool(self) -> bool:
         return self.value
