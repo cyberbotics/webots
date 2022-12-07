@@ -2885,7 +2885,7 @@ void wb_supervisor_node_enable_contact_point_tracking(WbNodeRef node, int sampli
             __FUNCTION__);
     deprecation_warning = false;
   }
-  wb_supervisor_node_enable_contacts_point_tracking(node, sampling_period, include_descendants);
+  wb_supervisor_node_enable_contact_points_tracking(node, sampling_period, include_descendants);
 }
 
 void wb_supervisor_node_disable_contact_points_tracking(WbNodeRef node, bool include_descendants) {
