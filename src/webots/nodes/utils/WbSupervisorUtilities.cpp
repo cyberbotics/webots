@@ -550,6 +550,32 @@ void WbSupervisorUtilities::updateDeletedNodeList(WbNode *node) {
   }
 }
 
+void WbSupervisorUtilities::removeTrackedContactPoints(QObject *obj) {
+  for (int i = 0; i < mTrackedContactPoints.size(); ++i) {
+    if (mTrackedContactPoints[i].solid == obj) {
+      mTrackedContactPoints.removeAt(i);
+      break;
+    }
+  }
+}
+
+void WbSupervisorUtilities::removeTrackedPoseNode(QObject *obj) {
+  for (int i = mTrackedPoses.size() - 1; i >= 0; --i) {
+    if (mTrackedPoses[i].fromNode == obj || mTrackedPoses[i].toNode == obj) {
+      mTrackedPoses.removeAt(i);
+    }
+  }
+}
+
+void WbSupervisorUtilities::removeTrackedField(QObject *obj) {
+  for (int i = 0; i < mTrackedFields.size(); ++i) {
+    if (mTrackedFields[i].field == obj) {
+      mTrackedFields.removeAt(i);
+      break;
+    }
+  }
+}
+
 void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
   unsigned char byte;
   stream >> byte;
@@ -1227,15 +1253,18 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       WbNode *const node = WbNode::findNode(nodeId);
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
-      if (!solid)
+      if (!solid) {
+        mRobot->warn(tr("Node '%1' is not suitable for contact points tracking, aborting request.").arg(node->modelName()));
         return;
+      }
 
       int trackingInfoIndex = -1;
-      for (int i = 0; i < mTrackedContactPoints.size(); i++)
+      for (int i = 0; i < mTrackedContactPoints.size(); i++) {
         if (mTrackedContactPoints[i].solid == solid && mTrackedContactPoints[i].includeDescendants == includeDescendants) {
           trackingInfoIndex = i;
           break;
         }
+      }
 
       if (enable) {
         if (trackingInfoIndex == -1) {
@@ -1243,12 +1272,16 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           trackedContactPoint.solid = solid;
           trackedContactPoint.solidId = nodeId;
           trackedContactPoint.includeDescendants = includeDescendants;
-          trackedContactPoint.samplingPeriod = samplingPeriod;
-          trackedContactPoint.lastUpdate = -INFINITY;
           mTrackedContactPoints.append(trackedContactPoint);
+          connect(solid, &WbSolid::destroyed, this, &WbSupervisorUtilities::removeTrackedContactPoints);
+        } else {
+          mTrackedContactPoints[trackingInfoIndex].samplingPeriod = samplingPeriod;
+          mTrackedContactPoints[trackingInfoIndex].lastUpdate = -INFINITY;
         }
       } else if (trackingInfoIndex != -1)
         mTrackedContactPoints.removeAt(trackingInfoIndex);
+      else
+        mRobot->warn(tr("No active contact points tracking could be found for the node node '%1'.").arg(solid->modelName()));
       return;
     }
     case C_SUPERVISOR_POSE_CHANGE_TRACKING_STATE: {
@@ -1272,6 +1305,14 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         return;
       }
 
+      int index = -1;
+      for (int i = 0; i < mTrackedPoses.size(); i++) {
+        if (mTrackedPoses[i].fromNode == fromNode && mTrackedPoses[i].toNode == toTransformNode) {
+          index = i;
+          break;
+        }
+      }
+
       if (enable) {
         WbTransform *const fromTransformNode = fromNode ? dynamic_cast<WbTransform *>(fromNode) : NULL;
         if (fromNodeId && !fromTransformNode)
@@ -1279,26 +1320,26 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
                           "given. The absolute pose in global coordinates will be returned.")
                          .arg(fromNode->modelName()));
 
-        WbTrackedPoseInfo trackedPose;
-        trackedPose.fromNode = fromTransformNode;
-        trackedPose.toNode = toTransformNode;
-        trackedPose.samplingPeriod = samplingPeriod;
-        trackedPose.lastUpdate = -INFINITY;
-        mTrackedPoses.append(trackedPose);
-      } else {
-        bool found = false;
-        for (int i = 0; i < mTrackedPoses.size(); i++) {
-          if (mTrackedPoses[i].fromNode == fromNode && mTrackedPoses[i].toNode == toTransformNode) {
-            mTrackedPoses.removeAt(i);
-            found = true;
-            break;
-          }
+        if (index < 0) {
+          WbTrackedPoseInfo trackedPose;
+          trackedPose.fromNode = fromTransformNode;
+          trackedPose.toNode = toTransformNode;
+          trackedPose.samplingPeriod = samplingPeriod;
+          trackedPose.lastUpdate = -INFINITY;
+          mTrackedPoses.append(trackedPose);
+          if (fromTransformNode)
+            connect(fromTransformNode, &WbNode::destroyed, this, &WbSupervisorUtilities::removeTrackedPoseNode);
+          connect(toTransformNode, &WbNode::destroyed, this, &WbSupervisorUtilities::removeTrackedPoseNode);
+        } else {
+          mTrackedPoses[index].samplingPeriod = samplingPeriod;
+          mTrackedPoses[index].lastUpdate = -INFINITY;
         }
-        if (!found)
-          mRobot->warn(tr("No active pose tracking matching the node '%1' and 'from_node' argument could be found.")
-                         .arg(toNode->modelName())
-                         .arg(fromNode->modelName()));
-      }
+      } else if (index >= 0)
+        mTrackedPoses.removeAt(index);
+      else
+        mRobot->warn(tr("No active pose tracking could be found matching the node '%1' and 'from_node' argument.")
+                       .arg(toNode->modelName())
+                       .arg(fromNode->modelName()));
 
       return;
     }
@@ -1322,22 +1363,42 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       if (node)
         field = node->field(fieldId, internal == 1);
 
-      if (enable) {
-        WbTrackedFieldInfo trackedField;
-        trackedField.field = field;
-        trackedField.samplingPeriod = samplingPeriod;
-        trackedField.lastUpdate = -INFINITY;
-        trackedField.fieldId = fieldId;
-        trackedField.nodeId = nodeId;
-        trackedField.internal = internal;
-        mTrackedFields.append(trackedField);
-      } else {
-        for (int i = 0; i < mTrackedFields.size(); i++)
-          if (mTrackedFields[i].field == field) {
-            mTrackedFields.removeAt(i);
-            break;
-          }
+      assert(field);
+      if (!field) {
+        mRobot->warn(
+          tr("'wb_supervisor_field_%1_sf_tracking' called for an invalid field.").arg(enable ? "enable" : "disable"));
+        return;
       }
+
+      int index = -1;
+      for (int i = 0; i < mTrackedFields.size(); i++) {
+        if (mTrackedFields[i].field == field) {
+          index = i;
+          break;
+        }
+      }
+
+      if (enable) {
+        if (index < 0) {
+          WbTrackedFieldInfo trackedField;
+          trackedField.field = field;
+          trackedField.samplingPeriod = samplingPeriod;
+          trackedField.lastUpdate = -INFINITY;
+          trackedField.fieldId = fieldId;
+          trackedField.nodeId = nodeId;
+          trackedField.internal = internal;
+          mTrackedFields.append(trackedField);
+          connect(field, &WbField::destroyed, this, &WbSupervisorUtilities::removeTrackedField);
+        } else {
+          mTrackedFields[index].samplingPeriod = samplingPeriod;
+          mTrackedFields[index].lastUpdate = -INFINITY;
+        }
+      } else if (index >= 0)
+        mTrackedFields.removeAt(index);
+      else
+        mRobot->warn(tr("No active field tracking could be found matching the field '%1' of node '%2'.")
+                       .arg(field->name())
+                       .arg(node->modelName()));
 
       return;
     }
