@@ -176,7 +176,6 @@ void WbControlledWorld::checkIfReadRequestCompleted() {
   if (!needToWait()) {
     WbSimulationState *state = WbSimulationState::instance();
     emit state->controllerReadRequestsCompleted();
-    //printf("EMIT1: controllerReadRequestsCompleted\n");
     if (state->isPaused() || state->isStep()) {
       // in order to avoid mixing immediate messages sent by Webots and the libController
       // some Webots immediate messages could have been postponed
@@ -465,10 +464,8 @@ void WbControlledWorld::waitForRobotWindowIfNeededAndCompleteStep() {
     mNewControllers.clear();
   }
 
-  if (!needToWait()) {
-   //printf("EMIT2: controllerReadRequestsCompleted\n");
+  if (!needToWait())
     emit WbSimulationState::instance()->controllerReadRequestsCompleted();
-  }
 
   mIsExecutingStep = false;
   processWaitingStep();
