@@ -2,10 +2,10 @@ import WbBaseNode from './WbBaseNode.js';
 import WbBillboard from './WbBillboard.js';
 import WbWorld from './WbWorld.js';
 import WbWrenMeshBuffers from './utils/WbWrenMeshBuffers.js';
-import WbWrenPicker from './../wren/WbWrenPicker.js';
-import WbWrenShaders from './../wren/WbWrenShaders.js';
-import WbWrenRenderingContext from './../wren/WbWrenRenderingContext.js';
-import Selector from './../Selector.js';
+import WbWrenPicker from '../wren/WbWrenPicker.js';
+import WbWrenShaders from '../wren/WbWrenShaders.js';
+import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
+import Selector from '../Selector.js';
 import {findUpperTransform, nodeIsInBoundingObject} from './utils/node_utilities.js';
 
 export default class WbGeometry extends WbBaseNode {

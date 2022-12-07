@@ -1,5 +1,5 @@
 import WbGeometry from './WbGeometry.js';
-import WbWrenShaders from './../wren/WbWrenShaders.js';
+import WbWrenShaders from '../wren/WbWrenShaders.js';
 import {arrayXPointerFloat} from './utils/utils.js';
 import {getAnId} from './utils/id_provider.js';
 
