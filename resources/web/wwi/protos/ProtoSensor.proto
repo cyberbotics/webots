@@ -6,6 +6,10 @@ PROTO ProtoSensor [
 field SFVec3f      translation    0 0 0.3
 field SFRotation   rotation       0 0 1 1.5708
 field SFBool       write          TRUE
+field MFVec3f      lookupTable    [ 0 0 0, 0.1 1000 0 ]
+field SFInt32      numberOfRays   1
+field SFFloat      aperture       1.5708
+
 ]
 {
   Robot {
@@ -24,6 +28,11 @@ field SFBool       write          TRUE
       Pen {
         translation IS translation
         write IS write
+      }
+      DistanceSensor {
+        lookupTable IS lookupTable
+        numberOfRays IS numberOfRays
+        aperture IS aperture
       }
     ]
   }

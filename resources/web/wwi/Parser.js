@@ -615,9 +615,12 @@ export default class Parser {
       newNode = new WbConnector(id, translation, scale, rotation, name === '' ? 'connector' : name);
     else if (node.tagName === 'Display')
       newNode = new WbDisplay(id, translation, scale, rotation, name === '' ? 'display' : name);
-    else if (node.tagName === 'DistanceSensor')
-      newNode = new WbDistanceSensor(id, translation, scale, rotation, name === '' ? 'distance sensor' : name);
-    else if (node.tagName === 'Emitter')
+    else if (node.tagName === 'DistanceSensor') {
+      const aperture = parseFloat(getNodeAttribute(node, 'aperture', 1.5708));
+      const numberOfRays = parseInt(getNodeAttribute(node, 'numberOfRays', '1'));
+
+      newNode = new WbDistanceSensor(id, translation, scale, rotation, name === '' ? 'distance sensor' : name, numberOfRays, aperture);
+    } else if (node.tagName === 'Emitter')
       newNode = new WbEmitter(id, translation, scale, rotation, name === '' ? 'emitter' : name);
     else if (node.tagName === 'GPS')
       newNode = new WbGps(id, translation, scale, rotation, name === '' ? 'gps' : name);

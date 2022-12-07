@@ -21,7 +21,7 @@ export default class WbDistanceSensor extends WbSolid {
   constructor(id, translation, scale, rotation, name, numberOfRays, aperture, lookupTable) {
     super(id, translation, scale, rotation, name);
     this.#aperture = aperture;
-    this.#lookupTable = lookupTable;
+    this.#lookupTable = [new WbVector3(0, 0, 0), new WbVector3(1, 0, 0)];
     this.#numberOfRays = numberOfRays;
 
     this.#NUM_PREDEFINED = 10;
@@ -112,7 +112,7 @@ export default class WbDistanceSensor extends WbSolid {
     this.#updateRaySetup();
   }
 
-  #applyOptionalRenderingToWren() {
+  #applyOptionalRenderingToWren() {;
     if (!this.wrenObjectsCreatedCalled)
       return;
 
@@ -138,9 +138,9 @@ export default class WbDistanceSensor extends WbSolid {
 
         vertex = direction.mul(maxValue / scale);
         vertexPointer = _wrjs_array3(vertex.x, vertex.y, vertex.z)
-        _wr_dynamic_mesh_add_vertex(mMesh, vertexPointer);
-        _wr_dynamic_mesh_add_index(mMesh, vertexIndex++);
-        _wr_dynamic_mesh_add_color(mMesh, colorPointer);
+        _wr_dynamic_mesh_add_vertex(this.#mesh, vertexPointer);
+        _wr_dynamic_mesh_add_index(this.#mesh, vertexIndex++);
+        _wr_dynamic_mesh_add_color(this.#mesh, colorPointer);
       }
       _free(colorPointer);
     }
@@ -155,7 +155,7 @@ export default class WbDistanceSensor extends WbSolid {
 
     this.#rays = [];
 
-    setupRayDirs();
+    this.#setupRayDirs();
 
     if (this.wrenObjectsCreatedCalled)
       this.#applyOptionalRenderingToWren();
@@ -163,7 +163,7 @@ export default class WbDistanceSensor extends WbSolid {
 
   #setupRayDirs() {
     if (this.#nRays === 1)
-      this.#nRays[0] = new WbVector3(1, 0, 0);
+      this.#rays[0] = new WbVector3(1, 0, 0);
     else {
       if (this.#nRays > this.#NUM_PREDEFINED) {
         // Not a predefined configuration: arrange rays in a 3d cone oriented towards x. The cone is further divided in a

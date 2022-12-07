@@ -63,7 +63,7 @@ export default class WbVector3 {
   }
 
   mulByVector(vector) {
-    return new WbVector2(this.x * vector.x, this.y * vectory.y, this.z * vector.z)
+    return new WbVector3(this.x * vector.x, this.y * vector.y, this.z * vector.z)
   }
 
   normalize() {

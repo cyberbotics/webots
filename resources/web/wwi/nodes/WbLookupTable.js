@@ -4,7 +4,7 @@ export default class WbLookupTable {
   #maxOutput;
   #size;
   constructor(lookupTable) {
-    this.#size = lookupTable.length;
+    this.#size = lookupTable?.length;
     if (this.#size) {
       this.#inputs = [];
 
