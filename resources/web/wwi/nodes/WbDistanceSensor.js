@@ -129,7 +129,7 @@ export default class WbDistanceSensor extends WbSolid {
       let vertexIndex = 0;
       for (let i = 0; i < this.#nRays; ++i) {
         const direction = this.#rays[i];
-
+        console.log(this.#rays)
         let vertex = direction.mul(minValue / scale);
         let vertexPointer = _wrjs_array3(vertex.x, vertex.y, vertex.z)
         _wr_dynamic_mesh_add_vertex(this.#mesh, vertexPointer);
@@ -191,7 +191,7 @@ export default class WbDistanceSensor extends WbSolid {
           left -= capacity;
         }
 
-        for (let i = 0; i < this.nRays; i++) {
+        for (let i = 0; i < this.#nRays; i++) {
           // rescale the cones to fit all rays
           thetas[i] /= (ncone - 1);
 
@@ -208,7 +208,7 @@ export default class WbDistanceSensor extends WbSolid {
 
   #polarTo3d(alpha, theta, i) {
     // rotate the cone so that its initial angle looks upwards, that ways we obtain a left/right symmetry
-    alpha += QUARTER;
+    alpha += Math.PI / 2;
 
     // rescale the cone tip angle to fit all rays in the user-defined aperture angle
     theta *= this.#aperture / 2;
