@@ -60,7 +60,6 @@
 
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDataStream>
-#include <QtCore/QDebug>
 #include <QtCore/QDir>
 #include <QtCore/QFile>
 #include <cassert>
@@ -1322,8 +1321,6 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           break;
         }
       }
-
-      qDebug() << "pose tracking enable ? " << enable << "fromNode" << fromNode;
 
       if (enable) {
         WbTransform *const fromTransformNode = fromNode ? dynamic_cast<WbTransform *>(fromNode) : NULL;
