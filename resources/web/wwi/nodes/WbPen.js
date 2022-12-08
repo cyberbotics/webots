@@ -58,6 +58,17 @@ export default class WbPen extends WbSolid {
     _wr_node_set_visible(this.#transform, enable);
   }
 
+  delete() {
+    if (this.wrenObjectsCreatedCalled) {
+      _wr_node_delete(this.#transform);
+      _wr_node_delete(this.#renderable);
+      _wr_static_mesh_delete(this.#mesh);
+      _wr_material_delete(this.#material);
+    }
+
+    super.delete();
+  }
+
   #applyOptionalRenderingToWren() {
     if (!this.wrenObjectsCreatedCalled)
       return;

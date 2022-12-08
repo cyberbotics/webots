@@ -1,4 +1,5 @@
 #VRML_SIM R2023b utf8
+# template language: javascript
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/appearances/protos/Asphalt.proto"
 
@@ -20,7 +21,8 @@ field     SFFloat                                        lidarTiltAngle         
 field     SFFloat                                        radarMinRange                         1
 field     SFFloat                                        radarMaxRange                         50
 field     SFFloat                                        radarVerticalFieldOfView              0.1
-field     SFFloat                                        radarHorizontalFieldOfView    0.78
+field     SFFloat                                        radarHorizontalFieldOfView            0.78
+field     SFBool                                         triggerRegeneration                   TRUE
 ]
 {
   Robot {
@@ -67,5 +69,9 @@ field     SFFloat                                        radarHorizontalFieldOfV
         horizontalFieldOfView IS radarHorizontalFieldOfView
       }
     ]
+    %< if (fields.triggerRegeneration.value) { >%
+    physics Physics {
+    }
+    %< } >%
   }
 }

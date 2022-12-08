@@ -38,6 +38,17 @@ export default class WbLightSensor extends WbSolid {
     this.#applyOptionalRenderingToWren();
   }
 
+  delete() {
+    if (this.wrenObjectsCreatedCalled) {
+      _wr_node_delete(this.#renderable);
+      _wr_node_delete(this.#transform);
+      _wr_material_delete(this.#material);
+      _wr_static_mesh_delete(this.#mesh);
+    }
+
+    super.delete();
+  }
+
   #applyOptionalRenderingToWren() {
     if (!this.wrenObjectsCreatedCalled)
       return;
