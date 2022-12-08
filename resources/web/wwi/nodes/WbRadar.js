@@ -99,6 +99,7 @@ export default class WbRadar extends WbSolid {
       _wr_material_delete(this.#material);
       _wr_static_mesh_delete(this.#mesh);
     }
+
     super.delete();
   }
 
