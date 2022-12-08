@@ -21,7 +21,7 @@ export default class WbDistanceSensor extends WbSolid {
   constructor(id, translation, scale, rotation, name, numberOfRays, aperture, lookupTable) {
     super(id, translation, scale, rotation, name);
     this.#aperture = aperture;
-    this.#lookupTable = [new WbVector3(0, 0, 0), new WbVector3(1, 0, 0)];
+    this.#lookupTable = lookupTable;
     this.#numberOfRays = numberOfRays;
 
     this.#NUM_PREDEFINED = 10;
@@ -105,6 +105,17 @@ export default class WbDistanceSensor extends WbSolid {
     _wr_transform_attach_child(this.wrenNode, this.#transform);
 
     this.#applyOptionalRenderingToWren();
+  }
+
+  delete() {
+    if (this.wrenObjectsCreatedCalled) {
+      _wr_node_delete(this.#renderable);
+      _wr_node_delete(this.#transform);
+      _wr_material_delete(this.#material);
+      _wr_dynamic_mesh_delete(this.#mesh);
+    }
+
+    super.delete();
   }
 
   preFinalize() {
