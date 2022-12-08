@@ -77,6 +77,17 @@ export default class WbAbstractCamera extends WbSolid {
     this._applyFrustumToWren();
   }
 
+  delete() {
+    if (this.wrenObjectsCreatedCalled) {
+      _wr_static_mesh_delete(this._mesh);
+      _wr_node_delete(this.#renderable);
+      _wr_node_delete(this.#transform);
+      _wr_material_delete(this.#material);
+    }
+
+    super.delete();
+  }
+
   _applyFrustumToWren() {
     _wr_node_set_visible(this.#transform, false);
 

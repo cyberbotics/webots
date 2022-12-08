@@ -1,4 +1,5 @@
 #VRML_SIM R2023b utf8
+# template language: javascript
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/appearances/protos/Asphalt.proto"
 
@@ -9,7 +10,7 @@ field SFBool       write          TRUE
 field MFVec3f      lookupTable    [ 0 0 0, 0.2 1000 0 ]
 field SFInt32      numberOfRays   1
 field SFFloat      aperture       1.5708
-
+field SFBool       triggerRegeneration   TRUE
 ]
 {
   Robot {
@@ -34,5 +35,9 @@ field SFFloat      aperture       1.5708
         aperture IS aperture
       }
     ]
+    %< if (fields.triggerRegeneration.value) { >%
+    physics Physics {
+    }
+    %< } >%
   }
 }

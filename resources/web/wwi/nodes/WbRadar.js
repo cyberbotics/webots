@@ -92,6 +92,17 @@ export default class WbRadar extends WbSolid {
     this._applyFrustumToWren();
   }
 
+  delete() {
+    if (this.wrenObjectsCreatedCalled) {
+      _wr_node_delete(this.#transform);
+      _wr_node_delete(this.#renderable);
+      _wr_material_delete(this.#material);
+      _wr_static_mesh_delete(this.#mesh);
+    }
+
+    super.delete();
+  }
+
   _applyFrustumToWren() {
     if (typeof this.#mesh !== 'undefined') {
       _wr_static_mesh_delete(this.#mesh);
