@@ -1252,6 +1252,11 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         stream >> samplingPeriod;
 
       WbNode *const node = WbNode::findNode(nodeId);
+      if (!node) {
+        mRobot->warn(
+          tr("'wb_supervisor_node_%1_contact_point_tracking' called for an invalid node.").arg(enable ? "enable" : "disable"));
+        return;
+      }
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       if (!solid) {
         mRobot->warn(tr("Node '%1' is not suitable for contact points tracking, aborting request.").arg(node->modelName()));
@@ -1296,15 +1301,19 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       if (enable)
         stream >> samplingPeriod;
 
-      WbNode *const fromNode = WbNode::findNode(fromNodeId);
       WbNode *const toNode = WbNode::findNode(toNodeId);
-      WbTransform *const toTransformNode = toNode ? dynamic_cast<WbTransform *>(toNode) : NULL;
-
+      if (!toNode) {
+        mRobot->warn(
+          tr("'wb_supervisor_node_%1_pose_tracking' called for an invalid node.").arg(enable ? "enable" : "disable"));
+        return;
+      }
+      WbTransform *const toTransformNode = dynamic_cast<WbTransform *>(toNode);
       if (!toTransformNode) {
         mRobot->warn(tr("Node '%1' is not suitable for pose tracking, aborting request.").arg(toNode->modelName()));
         return;
       }
 
+      WbNode *const fromNode = WbNode::findNode(fromNodeId);
       int index = -1;
       for (int i = 0; i < mTrackedPoses.size(); i++) {
         if (mTrackedPoses[i].fromNode == fromNode && mTrackedPoses[i].toNode == toTransformNode) {
@@ -1358,12 +1367,12 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         stream >> samplingPeriod;
 
       WbNode *const node = WbNode::findNode(nodeId);
-      WbField *field = NULL;
+      if (!node) {
+        mRobot->warn(tr("'wb_supervisor_field_%1_sf_tracking' called for an invalid node.").arg(enable ? "enable" : "disable"));
+        return;
+      }
 
-      if (node)
-        field = node->field(fieldId, internal == 1);
-
-      assert(field);
+      WbField *field = node->field(fieldId, internal == 1);
       if (!field) {
         mRobot->warn(
           tr("'wb_supervisor_field_%1_sf_tracking' called for an invalid field.").arg(enable ? "enable" : "disable"));
