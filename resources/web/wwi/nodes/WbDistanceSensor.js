@@ -140,7 +140,6 @@ export default class WbDistanceSensor extends WbSolid {
       let vertexIndex = 0;
       for (let i = 0; i < this.#nRays; ++i) {
         const direction = this.#rays[i];
-        console.log(this.#rays)
         let vertex = direction.mul(minValue / scale);
         let vertexPointer = _wrjs_array3(vertex.x, vertex.y, vertex.z)
         _wr_dynamic_mesh_add_vertex(this.#mesh, vertexPointer);

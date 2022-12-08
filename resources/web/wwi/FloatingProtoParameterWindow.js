@@ -93,35 +93,37 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
       // populate the parameters
       const keys = this.#protoManager.exposedParameters.keys();
-      let row = 1;
+      this.row = 1;
       for (let key of keys) {
         const parameter = this.#protoManager.exposedParameters.get(key);
         if (parameter.type === VRML.SFVec3f)
-          this.#createSFVec3Field(key, contentDiv, row);
+          this.#createSFVec3Field(key, contentDiv);
         else if (parameter.type === VRML.SFRotation)
-          this.#createSFRotation(key, contentDiv, row);
+          this.#createSFRotation(key, contentDiv);
         else if (parameter.type === VRML.SFString)
-          this.#createSFStringField(key, contentDiv, row);
+          this.#createSFStringField(key, contentDiv);
         else if (parameter.type === VRML.SFFloat)
-          this.#createSFFloatField(key, contentDiv, row);
+          this.#createSFFloatField(key, contentDiv);
         else if (parameter.type === (VRML.SFInt32))
-          this.#createSFInt32Field(key, contentDiv, row);
+          this.#createSFInt32Field(key, contentDiv);
         else if (parameter.type === VRML.SFBool)
-          this.#createSFBoolField(key, contentDiv, row);
+          this.#createSFBoolField(key, contentDiv);
+        else if (parameter.type === VRML.MFVec3f)
+          this.#createMFVec3fField(key, contentDiv);
 
-        row++;
+        this.row++;
       }
 
-      this.#createDownloadButton(contentDiv, row);
+      this.#createDownloadButton(contentDiv);
     }
   }
 
-  #createDownloadButton(parent, row) {
+  #createDownloadButton(parent) {
     const downloadlButton = document.createElement('button');
     downloadlButton.innerHTML = 'Download';
     const buttonContainer = document.createElement('span');
     buttonContainer.className = 'value-parameter';
-    buttonContainer.style.gridRow = '' + row + ' / ' + row;
+    buttonContainer.style.gridRow = '' + this.row + ' / ' + this.row;
     buttonContainer.style.gridColumn = '3 / 3';
 
     const input = document.createElement('input');
@@ -156,23 +158,23 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(buttonContainer);
   }
 
-  #createSFVec3Field(key, parent, row) {
+  #createSFVec3Field(key, parent) {
     const parameter = this.#protoManager.exposedParameters.get(key);
 
     const p = document.createElement('p');
     p.innerHTML = key + ': ';
     p.key = key;
     p.inputs = [];
-    p.style.gridRow = '' + row + ' / ' + row;
+    p.style.gridRow = '' + this.row + ' / ' + this.row;
     p.style.gridColumn = '2 / 2';
     p.parameter = parameter;
     p.className = 'key-parameter';
 
-    const exportCheckbox = this.#createCheckbox(parent, row);
+    const exportCheckbox = this.#createCheckbox(parent);
     p.checkbox = exportCheckbox;
 
     const values = document.createElement('p');
-    values.style.gridRow = '' + row + ' / ' + row;
+    values.style.gridRow = '' + this.row + ' / ' + this.row;
     values.style.gridColumn = '3 / 3';
     values.className = 'value-parameter';
 
@@ -203,22 +205,134 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(values);
   }
 
-  #createSFRotation(key, parent, row) {
+  #createMFVec3fField(key, parent) {
+    const parameter = this.#protoManager.exposedParameters.get(key);
+    const p = document.createElement('p');
+    p.innerHTML = key + ': ';
+    p.key = key;
+    p.inputs = [];
+    p.style.gridRow = '' + this.row + ' / ' + this.row;
+    p.style.gridColumn = '2 / 2';
+    p.parameter = parameter;
+    p.className = 'key-parameter';
+
+    const exportCheckbox = this.#createCheckbox(parent);
+    p.checkbox = exportCheckbox;
+
+    const hideShowButton = document.createElement('button');
+    hideShowButton.innerHTML = 'Show';
+    hideShowButton.style.gridRow = '' + this.row + ' / ' + this.row;
+    hideShowButton.style.gridColumn = '3 / 3';
+    hideShowButton.className = 'mf-expand-button';
+    hideShowButton.onclick = () => {
+      for (let i = 0; i < parameter.value.value.length; i++) {
+        const sfVec3 = document.getElementById(key + '-parameter-' + i);
+        if (sfVec3) {
+          if (sfVec3.style.display === 'block')
+            sfVec3.style.display = 'none';
+          else
+            sfVec3.style.display = 'block';
+        }
+      }
+
+      if (hideShowButton.innerHTML === 'Show')
+        hideShowButton.innerHTML = 'Hide';
+      else
+        hideShowButton.innerHTML = 'Show';
+    };
+
+    const resetButton = this.#createResetButton(parent);
+    resetButton.style.filter = 'brightness(50%)';
+    resetButton.style.gridRow = '' + this.row + ' / ' + this.row;
+    resetButton.style.gridColumn = '3 / 3';
+    resetButton.style.marginLeft = '68px';
+    resetButton.onclick = () => {
+      resetButton.style.filter = 'brightness(50%)';
+    };
+
+    for (let i = 0; i < parameter.value.value.length; i++) {
+      this.row++;
+      const values = document.createElement('p');
+      values.style.gridRow = '' + this.row + ' / ' + this.row;
+      values.style.gridColumn = '3 / 3';
+      values.id = key + '-parameter-' + i;
+      values.className = 'value-parameter mf-parameter';
+      this.#createVectorInput(' x', parameter.value.value[i].value.x, values);
+      this.#createVectorInput(' y', parameter.value.value[i].value.y, values);
+      this.#createVectorInput(' z', parameter.value.value[i].value.z, values);
+
+      const addButton = document.createElement('button');
+      addButton.innerHTML = '+';
+      addButton.style.marginLeft = '10px';
+      values.appendChild(addButton);
+      parent.appendChild(values);
+
+      addButton.onclick = () => {
+        const newValues = document.createElement('p');
+        const gridRow = values.style.gridRow;
+        let slashIndex = gridRow.indexOf('/');
+        const row = parseInt(gridRow.substring(0, slashIndex)) + 1;
+        newValues.style.gridRow = '' + row + ' / ' + row;
+        newValues.style.gridColumn = '3 / 3';
+        newValues.innerHTML = 'BONJOUR';
+
+        const grid = document.getElementById('proto-parameter-content');
+        for (let i = 0; i < grid.childNodes.length; i++) {
+          let node = grid.childNodes[i];
+          const nodeRow = node.style.gridRow;
+          slashIndex = gridRow.indexOf('/');
+          const position = parseInt(nodeRow.substring(0, slashIndex));
+          if (position >= row) {
+            const newPosition = position + 1;
+            node.style.gridRow = '' + newPosition + ' / ' + newPosition;
+          }
+        }
+        parent.appendChild(newValues);
+      };
+
+      const removeButton = document.createElement('button');
+      removeButton.innerHTML = '-';
+      removeButton.style.marginLeft = '10px';
+      removeButton.onclick = () => {
+        const gridRow = removeButton.parentNode.style.gridRow;
+        let slashIndex = gridRow.indexOf('/');
+        const row = parseInt(gridRow.substring(0, slashIndex));
+        const grid = document.getElementById('proto-parameter-content');
+        for (let i = 0; i < grid.childNodes.length; i++) {
+          let node = grid.childNodes[i];
+          const nodeRow = node.style.gridRow;
+          slashIndex = nodeRow.indexOf('/');
+          const position = parseInt(nodeRow.substring(0, slashIndex));
+          if (position > row) {
+            const newPosition = position - 1;
+            node.style.gridRow = '' + newPosition + ' / ' + newPosition;
+          }
+        }
+        removeButton.parentNode.parentNode.removeChild(removeButton.parentNode);
+      };
+      values.appendChild(removeButton);
+    }
+
+    parent.appendChild(p);
+    parent.appendChild(hideShowButton);
+  }
+
+  #createSFRotation(key, parent) {
     const parameter = this.#protoManager.exposedParameters.get(key);
 
     const p = document.createElement('p');
     p.innerHTML = key + ': ';
     p.inputs = [];
     p.key = key;
-    p.style.gridRow = '' + row + ' / ' + row;
+    p.style.gridRow = '' + this.row + ' / ' + this.row;
     p.style.gridColumn = '2 / 2';
     p.parameter = parameter;
     p.className = 'key-parameter';
 
-    const exportCheckbox = this.#createCheckbox(parent, row);
+    const exportCheckbox = this.#createCheckbox(parent);
 
     const values = document.createElement('p');
-    values.style.gridRow = '' + row + ' / ' + row;
+    values.style.gridRow = '' + this.row + ' / ' + this.row;
     values.style.gridColumn = '3 / 3';
     values.className = 'value-parameter';
     p.inputs.push(this.#createVectorInput('x', parameter.value.value.x, values, () => {
@@ -278,21 +392,21 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     node.parameter.setValueFromJavaScript(this.#view, object);
   }
 
-  #createSFStringField(key, parent, row) {
+  #createSFStringField(key, parent) {
     const parameter = this.#protoManager.exposedParameters.get(key);
 
     const p = document.createElement('p');
     p.innerHTML = key + ': ';
     p.parameter = parameter;
     p.key = key;
-    p.style.gridRow = '' + row + ' / ' + row;
+    p.style.gridRow = '' + this.row + ' / ' + this.row;
     p.style.gridColumn = '2 / 2';
     p.className = 'key-parameter';
 
-    const exportCheckbox = this.#createCheckbox(parent, row);
+    const exportCheckbox = this.#createCheckbox(parent);
 
     const value = document.createElement('p');
-    value.style.gridRow = '' + row + ' / ' + row;
+    value.style.gridRow = '' + this.row + ' / ' + this.row;
     value.style.gridColumn = '3 / 3';
     value.className = 'value-parameter';
 
@@ -340,7 +454,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     return string;
   }
 
-  #createSFFloatField(key, parent, row) {
+  #createSFFloatField(key, parent) {
     const parameter = this.#protoManager.exposedParameters.get(key);
 
     const p = document.createElement('p');
@@ -348,14 +462,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.innerHTML = key + ': ';
     p.key = key;
     p.parameter = parameter;
-    p.style.gridRow = '' + row + ' / ' + row;
+    p.style.gridRow = '' + this.row + ' / ' + this.row;
     p.style.gridColumn = '2 / 2';
 
-    const exportCheckbox = this.#createCheckbox(parent, row);
+    const exportCheckbox = this.#createCheckbox(parent);
 
     const value = document.createElement('p');
     value.className = 'value-parameter';
-    value.style.gridRow = '' + row + ' / ' + row;
+    value.style.gridRow = '' + this.row + ' / ' + this.row;
     value.style.gridColumn = '3 / 3';
 
     const input = document.createElement('input');
@@ -386,7 +500,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     node.parameter.setValueFromJavaScript(this.#view, node.input.value);
   }
 
-  #createSFInt32Field(key, parent, row) {
+  #createSFInt32Field(key, parent) {
     const parameter = this.#protoManager.exposedParameters.get(key);
 
     const p = document.createElement('p');
@@ -394,14 +508,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.innerHTML = key + ': ';
     p.key = key;
     p.parameter = parameter;
-    p.style.gridRow = '' + row + ' / ' + row;
+    p.style.gridRow = '' + this.row + ' / ' + this.row;
     p.style.gridColumn = '2 / 2';
 
-    const exportCheckbox = this.#createCheckbox(parent, row);
+    const exportCheckbox = this.#createCheckbox(parent, this.row);
 
     const value = document.createElement('p');
     value.className = 'value-parameter';
-    value.style.gridRow = '' + row + ' / ' + row;
+    value.style.gridRow = '' + this.row + ' / ' + this.row;
     value.style.gridColumn = '3 / 3';
 
     const input = document.createElement('input');
@@ -434,7 +548,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     node.input.value = node.input.value.replace(/(\..*)\-/g, '$1');
   }
 
-  #createSFBoolField(key, parent, row) {
+  #createSFBoolField(key, parent) {
     const parameter = this.#protoManager.exposedParameters.get(key);
 
     const p = document.createElement('p');
@@ -442,14 +556,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.innerHTML = key + ': ';
     p.key = key;
     p.parameter = parameter;
-    p.style.gridRow = '' + row + ' / ' + row;
+    p.style.gridRow = '' + this.row + ' / ' + this.row;
     p.style.gridColumn = '2 / 2';
 
-    const exportCheckbox = this.#createCheckbox(parent, row);
+    const exportCheckbox = this.#createCheckbox(parent);
 
     const value = document.createElement('p');
     value.className = 'value-parameter';
-    value.style.gridRow = '' + row + ' / ' + row;
+    value.style.gridRow = '' + this.row + ' / ' + this.row;
     value.style.gridColumn = '3 / 3';
 
     const input = document.createElement('input');
@@ -488,12 +602,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     return resetButton;
   }
 
-  #createCheckbox(parent, row) {
+  #createCheckbox(parent) {
     const exportCheckbox = document.createElement('input');
     exportCheckbox.type = 'checkbox';
     exportCheckbox.className = 'export-checkbox';
     exportCheckbox.title = 'Field to be exposed';
-    exportCheckbox.style.gridRow = '' + row + ' / ' + row;
+    exportCheckbox.style.gridRow = '' + this.row + ' / ' + this.row;
     exportCheckbox.style.gridColumn = '1 / 1';
     parent.appendChild(exportCheckbox);
 

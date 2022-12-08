@@ -989,6 +989,15 @@ webots-view .value-parameter {
   margin: 10px 10px 10px 10px;
 }
 
+webots-view .mf-parameter {
+  display: none;
+}
+
+webots-view .mf-expand-button {
+  width: 58px;
+  margin-left: 10px;
+}
+
 webots-view .reset-field-button {
   background-image: url(../images/icons/reload.svg);
   height: 20px;
