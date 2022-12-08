@@ -3,9 +3,12 @@ import Parser, {convertStringToVec3, convertStringToQuaternion, convertStringToF
 import {webots} from './webots.js';
 import WrenRenderer from './WrenRenderer.js';
 
+import WbAbstractCamera from './nodes/WbAbstractCamera.js';
 import WbBox from './nodes/WbBox.js';
 import WbCadShape from './nodes/WbCadShape.js';
+import WbCamera from './nodes/WbCamera.js';
 import WbCapsule from './nodes/WbCapsule.js';
+import WbColor from './nodes/WbColor.js';
 import WbCone from './nodes/WbCone.js';
 import WbCoordinate from './nodes/WbCoordinate.js';
 import WbCylinder from './nodes/WbCylinder.js';
@@ -15,13 +18,15 @@ import WbGroup from './nodes/WbGroup.js';
 import WbImageTexture from './nodes/WbImageTexture.js';
 import WbIndexedFaceSet from './nodes/WbIndexedFaceSet.js';
 import WbIndexedLineSet from './nodes/WbIndexedLineSet.js';
+import WbLidar from './nodes/WbLidar.js';
 import WbLight from './nodes/WbLight.js';
 import WbMaterial from './nodes/WbMaterial.js';
 import WbMesh from './nodes/WbMesh.js';
+import WbPen from './nodes/WbPen.js';
 import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbPlane from './nodes/WbPlane.js';
 import WbPointLight from './nodes/WbPointLight.js';
-import WbColor from './nodes/WbColor.js';
+import WbRadar from './nodes/WbRadar.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbTextureCoordinate from './nodes/WbTextureCoordinate.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
@@ -35,6 +40,7 @@ import WbVector3 from './nodes/utils/WbVector3.js';
 import WbNormal from './nodes/WbNormal.js';
 import WbSpotLight from './nodes/WbSpotLight.js';
 import WbDirectionalLight from './nodes/WbDirectionalLight.js';
+import WbRangeFinder from './nodes/WbRangeFinder.js';
 
 export default class X3dScene {
   #loader;
@@ -284,6 +290,8 @@ export default class X3dScene {
         else if (object instanceof WbElevationGrid)
           // Filter is used to remove Nan elements
           object.height = convertStringToFloatArray(pose[key]).filter(e => e);
+        else if (object instanceof WbAbstractCamera)
+          object.height = parseInt(pose[key]);
       } else if (key === 'bottom') {
         if (object instanceof WbCapsule || object instanceof WbCone || object instanceof WbCylinder)
           object.bottom = pose[key].toLowerCase() === 'true';
@@ -343,13 +351,6 @@ export default class X3dScene {
           object.beamWidth = parseFloat(pose[key]);
         else if (key === 'cutOffAngle')
           object.cutOffAngle = parseFloat(pose[key]);
-      } else if (object instanceof WbLight) {
-        if (key === 'on')
-          object.on = pose[key].toLowerCase() === 'true';
-        else if (key === 'ambientIntensity')
-          object.ambientIntensity = parseFloat(pose[key]);
-        else if (key === 'intensity')
-          object.intensity = parseFloat(pose[key]);
       } else if (object instanceof WbIndexedFaceSet) {
         if (key === 'normalPerVertex')
           object.normalPerVertex = pose[key].toLowerCase() === 'true';
@@ -404,6 +405,55 @@ export default class X3dScene {
           object.repeatT = pose[key].toLowerCase() === 'true';
         else if (key === 'filtering')
           object.filtering = parseInt(pose[key]);
+      } else if (object instanceof WbCamera) {
+        if (key === 'far')
+          object.far = parseFloat(pose[key]);
+        else if (key === 'near')
+          object.near = parseFloat(pose[key]);
+      } else if (object instanceof WbRangeFinder) {
+        if (key === 'maxRange')
+          object.maxRange = parseFloat(pose[key]);
+        else if (key === 'minRange')
+          object.minRange = parseFloat(pose[key]);
+      } else if (object instanceof WbLidar) {
+        if (key === 'maxRange')
+          object.maxRange = parseFloat(pose[key]);
+        else if (key === 'minRange')
+          object.minRange = parseFloat(pose[key]);
+        else if (key === 'horizontalResolution')
+          object.horizontalResolution = parseInt(pose[key]);
+        else if (key === 'numberOfLayers')
+          object.numberOfLayers = parseInt(pose[key]);
+        else if (key === 'tiltAngle')
+          object.tiltAngle = parseFloat(pose[key]);
+        else if (key === 'verticalFieldOfView')
+          object.verticalFieldOfView = parseFloat(pose[key]);
+      } else if (object instanceof WbRadar) {
+        if (key === 'maxRange')
+          object.maxRange = parseFloat(pose[key]);
+        else if (key === 'minRange')
+          object.minRange = parseFloat(pose[key]);
+        else if (key === 'verticalFieldOfView')
+          object.verticalFieldOfView = parseFloat(pose[key]);
+        else if (key === 'horizontalFieldOfView')
+          object.horizontalFieldOfView = parseFloat(pose[key]);
+      } else if (object instanceof WbPen) {
+        if (key === 'write')
+          object.write = pose[key].toLowerCase() === 'true';
+      }
+
+      if (object instanceof WbLight) {
+        if (key === 'on')
+          object.on = pose[key].toLowerCase() === 'true';
+        else if (key === 'ambientIntensity')
+          object.ambientIntensity = parseFloat(pose[key]);
+        else if (key === 'intensity')
+          object.intensity = parseFloat(pose[key]);
+      } else if (object instanceof WbAbstractCamera) {
+        if (key === 'width')
+          object.width = parseInt(pose[key]);
+        else if (key === 'fieldOfView')
+          object.fieldOfView = parseFloat(pose[key]);
       }
     }
 

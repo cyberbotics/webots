@@ -115,6 +115,13 @@ export default class Parser {
     if (typeof xml === 'undefined')
       console.error('File to parse not found');
     else {
+      const head = xml.getElementsByTagName('head')[0];
+      if (typeof head !== 'undefined') {
+        for (const child of head.children) {
+          if (getNodeAttribute(child, 'name', '') === 'version')
+            WbWorld.instance.version = getNodeAttribute(child, 'content', '');
+        }
+      }
       const scene = xml.getElementsByTagName('Scene')[0];
       if (typeof scene === 'undefined') {
         const node = xml.getElementsByTagName('nodes')[0];
@@ -172,7 +179,7 @@ export default class Parser {
 
       if (typeof callback === 'function')
         callback();
-      console.log(WbWorld.instance)
+      console.log(WbWorld.instance);
       console.timeEnd('Loaded in: ');
     });
   }
@@ -387,6 +394,8 @@ export default class Parser {
     WbWorld.instance.basicTimeStep = parseInt(getNodeAttribute(node, 'basicTimeStep', 32));
     WbWorld.instance.title = getNodeAttribute(node, 'title', 'No title');
     WbWorld.instance.description = getNodeAttribute(node, 'info', 'No description was provided for this world.');
+    const lineScale = parseFloat(getNodeAttribute(node, 'lineScale', 0.1));
+    _wr_config_set_line_scale(lineScale); // Line scale does not support updates.
 
     // Update information panel when switching between worlds
     let webotsView = document.getElementsByTagName('webots-view')[0];
@@ -590,9 +599,15 @@ export default class Parser {
       newNode = new WbAccelerometer(id, translation, scale, rotation, name === '' ? 'accelerometer' : name);
     else if (node.tagName === 'Altimeter')
       newNode = new WbAltimeter(id, translation, scale, rotation, name === '' ? 'altimeter' : name);
-    else if (node.tagName === 'Camera')
-      newNode = new WbCamera(id, translation, scale, rotation, name === '' ? 'camera' : name);
-    else if (node.tagName === 'Charger')
+    else if (node.tagName === 'Camera') {
+      const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', M_PI_4));
+      const far = parseFloat(getNodeAttribute(node, 'far', '0'));
+      const near = parseFloat(getNodeAttribute(node, 'near', '0.01'));
+      const height = parseInt(getNodeAttribute(node, 'height', '64'));
+      const width = parseInt(getNodeAttribute(node, 'width', '64'));
+      newNode = new WbCamera(id, translation, scale, rotation, name === '' ? 'camera' : name, height, width, fieldOfView, near,
+        far);
+    } else if (node.tagName === 'Charger')
       newNode = new WbCharger(id, translation, scale, rotation, name === '' ? 'charger' : name);
     else if (node.tagName === 'Compass')
       newNode = new WbCompass(id, translation, scale, rotation, name === '' ? 'compass' : name);
@@ -612,16 +627,39 @@ export default class Parser {
       newNode = new WbInertialUnit(id, translation, scale, rotation, name === '' ? 'inertial unit' : name);
     else if (node.tagName === 'LED')
       newNode = new WbLed(id, translation, scale, rotation, name === '' ? 'led' : name);
-    else if (node.tagName === 'Lidar')
-      newNode = new WbLidar(id, translation, scale, rotation, name === '' ? 'lidar' : name);
-    else if (node.tagName === 'LightSensor')
+    else if (node.tagName === 'Lidar') {
+      const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', Math.PI / 2));
+      const horizontalResolution = parseInt(getNodeAttribute(node, 'horizontalResolution', '512'));
+      const maxRange = parseFloat(getNodeAttribute(node, 'maxRange', '1'));
+      const minRange = parseFloat(getNodeAttribute(node, 'minRange', '0.01'));
+      const numberOfLayers = parseInt(getNodeAttribute(node, 'numberOfLayers', '4'));
+      const tiltAngle = parseFloat(getNodeAttribute(node, 'tiltAngle', '0'));
+      const verticalFieldOfView = parseFloat(getNodeAttribute(node, 'verticalFieldOfView', '0.2'));
+
+      newNode = new WbLidar(id, translation, scale, rotation, name === '' ? 'lidar' : name, fieldOfView, maxRange, minRange,
+        numberOfLayers, tiltAngle, verticalFieldOfView, horizontalResolution);
+    } else if (node.tagName === 'LightSensor')
       newNode = new WbLightSensor(id, translation, scale, rotation, name === '' ? 'light sensor' : name);
-    else if (node.tagName === 'Pen')
-      newNode = new WbPen(id, translation, scale, rotation, name === '' ? 'pen' : name);
-    else if (node.tagName === 'Radar')
-      newNode = new WbRadar(id, translation, scale, rotation, name === '' ? 'radar' : name);
-    else if (node.tagName === 'RangeFinder')
-      newNode = new WbRangeFinder(id, translation, scale, rotation, name === '' ? 'range finder' : name);
+    else if (node.tagName === 'Pen') {
+      const write = getNodeAttribute(node, 'write', 'true').toLowerCase() === 'true';
+      newNode = new WbPen(id, translation, scale, rotation, name === '' ? 'pen' : name, write);
+    } else if (node.tagName === 'Radar') {
+      const horizontalFieldOfView = parseFloat(getNodeAttribute(node, 'horizontalFieldOfView', '0.78'));
+      const verticalFieldOfView = parseFloat(getNodeAttribute(node, 'verticalFieldOfView', '0.1'));
+      const maxRange = parseFloat(getNodeAttribute(node, 'maxRange', '50'));
+      const minRange = parseFloat(getNodeAttribute(node, 'minRange', '1'));
+
+      newNode = new WbRadar(id, translation, scale, rotation, name === '' ? 'radar' : name, horizontalFieldOfView,
+        verticalFieldOfView, maxRange, minRange);
+    } else if (node.tagName === 'RangeFinder') {
+      const height = parseInt(getNodeAttribute(node, 'height', '64'));
+      const width = parseInt(getNodeAttribute(node, 'width', '64'));
+      const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', M_PI_4));
+      const maxRange = parseFloat(getNodeAttribute(node, 'maxRange', '1'));
+      const minRange = parseFloat(getNodeAttribute(node, 'minRange', '0.01'));
+      newNode = new WbRangeFinder(id, translation, scale, rotation, name === '' ? 'range finder' : name, height, width,
+        fieldOfView, maxRange, minRange);
+    }
     else if (node.tagName === 'Receiver')
       newNode = new WbReceiver(id, translation, scale, rotation, name === '' ? 'receiver' : name);
     else if (node.tagName === 'Speaker')

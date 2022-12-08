@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -35,8 +35,8 @@ try:
     if os.path.exists("../../src/wren/functions_to_export.txt"):
         os.remove("../../src/wren/functions_to_export.txt")
 
-    functionName = list(functionName) + ["_wr_config_enable_point_size, _wr_config_get_line_scale, " +
-                                         "_wr_config_get_max_active_directional_light_count, " +
+    functionName = list(functionName) + ["_wr_config_enable_point_size, _wr_config_get_line_scale, _wr_config_set_line_scale" +
+                                         ", _wr_config_get_max_active_directional_light_count, " +
                                          " _wr_config_get_max_active_point_light_count, " +
                                          "_wr_config_get_max_active_spot_light_count, _wr_config_enable_shadows"]
 

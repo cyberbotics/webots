@@ -1,4 +1,4 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,9 +13,9 @@
 # limitations under the License.
 
 import ctypes
-from controller.wb import wb
-from controller.constants import constant
-import struct
+from .wb import wb
+from .constants import constant
+import sys
 import typing
 
 
@@ -155,16 +155,28 @@ class Field:
         self.value = value
 
     def setSFVec2f(self, value: typing.List[float]):
-        self.value = value
+        if len(value) == 2:
+            self.value = value
+        else:
+            print("Error: setSFVec2f(): length of 'value' argument should be 2.", file=sys.stderr)
 
     def setSFVec3f(self, value: typing.List[float]):
-        self.value = value
+        if len(value) == 3:
+            self.value = value
+        else:
+            print("Error: setSFVec3f(): length of 'value' argument should be 3.", file=sys.stderr)
 
     def setSFRotation(self, value: typing.List[float]):
-        self.value = value
+        if len(value) == 4:
+            self.value = value
+        else:
+            print("Error: setSFRotation(): length of 'value' argument should be 4.", file=sys.stderr)
 
     def setSFColor(self, value: typing.List[float]):
-        self.value = value
+        if len(value) == 3:
+            self.value = value
+        else:
+            print("Error: setSFColor(): length of 'value' argument should be 3.", file=sys.stderr)
 
     def setSFString(self, value: str):
         self.value = value
@@ -179,20 +191,16 @@ class Field:
         wb.wb_supervisor_field_set_mf_float(self._ref, index, ctypes.c_double(value))
 
     def setMFVec2f(self, index, value: typing.List[float]):
-        data = struct.pack('dd', *value)
-        wb.wb_supervisor_field_set_mf_vec2f(self._ref, index, ctypes.POINTER(ctypes.c_ubyte(data)))
+        wb.wb_supervisor_field_set_mf_vec2f(self._ref, index, (ctypes.c_double * 2)(*value))
 
     def setMFVec3f(self, index, value: typing.List[float]):
-        data = struct.pack('ddd', *value)
-        wb.wb_supervisor_field_set_mf_vec3f(self._ref, index, ctypes.POINTER(ctypes.c_ubyte(data)))
+        wb.wb_supervisor_field_set_mf_vec3f(self._ref, index, (ctypes.c_double * 3)(*value))
 
     def setMFRotation(self, index, value: typing.List[float]):
-        data = struct.pack('dddd', *value)
-        wb.wb_supervisor_field_set_mf_rotation(self._ref, index, ctypes.POINTER(ctypes.c_ubyte(data)))
+        wb.wb_supervisor_field_set_mf_rotation(self._ref, index, (ctypes.c_double * 4)(*value))
 
     def setMFColor(self, index, value: typing.List[float]):
-        data = struct.pack('ddd', *value)
-        wb.wb_supervisor_field_set_mf_color(self._ref, index, ctypes.POINTER(ctypes.c_ubyte(data)))
+        wb.wb_supervisor_field_set_mf_color(self._ref, index, (ctypes.c_double * 3)(*value))
 
     def setMFString(self, index, value: str):
         wb.wb_supervisor_field_set_mf_string(self._ref, index, str.encode(value))
@@ -207,20 +215,16 @@ class Field:
         wb.wb_supervisor_field_insert_mf_float(self._ref, index, ctypes.c_double(value))
 
     def insertMFVec2f(self, index, value: typing.List[float]):
-        data = struct.pack('dd', *value)
-        wb.wb_supervisor_field_insert_mf_vec2f(self._ref, index, ctypes.POINTER(ctypes.c_ubyte(data)))
+        wb.wb_supervisor_field_insert_mf_vec2f(self._ref, index, (ctypes.c_double * 2)(*value))
 
     def insertMFVec3f(self, index, value: typing.List[float]):
-        data = struct.pack('ddd', *value)
-        wb.wb_supervisor_field_insert_mf_vec3f(self._ref, index, ctypes.POINTER(ctypes.c_ubyte(data)))
+        wb.wb_supervisor_field_insert_mf_vec3f(self._ref, index, (ctypes.c_double * 3)(*value))
 
     def insertMFRotation(self, index, value: typing.List[float]):
-        data = struct.pack('dddd', *value)
-        wb.wb_supervisor_field_insert_mf_rotation(self._ref, index, ctypes.POINTER(ctypes.c_ubyte(data)))
+        wb.wb_supervisor_field_insert_mf_rotation(self._ref, index, (ctypes.c_double * 4)(*value))
 
     def insertMFColor(self, index, value: typing.List[float]):
-        data = struct.pack('ddd', *value)
-        wb.wb_supervisor_field_insert_mf_color(self._ref, index, ctypes.POINTER(ctypes.c_ubyte(data)))
+        wb.wb_supervisor_field_insert_mf_color(self._ref, index, (ctypes.c_double * 3)(*value))
 
     def insertMFString(self, index, value):
         wb.wb_supervisor_field_insert_mf_string(self._ref, index, str.encode(value))
@@ -229,7 +233,7 @@ class Field:
         wb.wb_supervisor_field_remove_mf(self._ref, index)
 
     def removeSF(self):
-        wb.wb_supervisor_field_remove_mf(self._ref)
+        wb.wb_supervisor_field_remove_sf(self._ref)
 
     def importMFNodeFromString(self, position: int, nodeString: str):
         wb.wb_supervisor_field_import_mf_node_from_string(self._ref, position, str.encode(nodeString))
@@ -299,3 +303,5 @@ class Field:
             wb.wb_supervisor_field_set_sf_rotation(self._ref, (ctypes.c_double * 4)(*value))
         elif self.type == Field.SF_COLOR and isinstance(value, list) and len(value) == 3:
             wb.wb_supervisor_field_set_sf_color(self._ref, (ctypes.c_double * 3)(*value))
+        else:
+            print("Error: new field value has wrong type or length.", file=sys.stderr)

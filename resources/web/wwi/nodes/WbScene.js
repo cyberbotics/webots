@@ -1,7 +1,7 @@
 import {GtaoLevel} from './wb_preferences.js';
 import WbWorld from './WbWorld.js';
-import WbWrenPostProcessingEffects from './../wren/WbWrenPostProcessingEffects.js';
-import WbWrenShaders from './../wren/WbWrenShaders.js';
+import WbWrenPostProcessingEffects from '../wren/WbWrenPostProcessingEffects.js';
+import WbWrenShaders from '../wren/WbWrenShaders.js';
 
 export default class WbScene {
   #wrenDepthFrameBufferTexture;

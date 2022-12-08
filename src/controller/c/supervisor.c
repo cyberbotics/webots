@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2022 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -3554,7 +3554,7 @@ void wb_supervisor_field_remove_mf_node(WbFieldRef field, int position) {
 }
 
 void wb_supervisor_field_remove_sf(WbFieldRef field) {
-  if (field->count == 0 || field->data.sf_node_uid == 0) {
+  if (field->count == 0) {
     fprintf(stderr, "Error: %s() called for an empty field.\n", __FUNCTION__);
     return;
   }
@@ -3564,6 +3564,7 @@ void wb_supervisor_field_remove_sf(WbFieldRef field) {
 
   field_operation(field, REMOVE, -1, __FUNCTION__);
   field->count = 0;
+  field->data.sf_node_uid = 0;
 }
 
 void wb_supervisor_field_import_sf_node_from_string(WbFieldRef field, const char *node_string) {

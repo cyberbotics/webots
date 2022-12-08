@@ -232,6 +232,7 @@ Depending on the complexity of the simulation and execution mode, the function m
 When it returns, the requested duration of simulation time is elapsed.
 In other words the physics runs for the specified duration: objects may move, the motors may run, the sensor values may change, etc.
 Note that the `duration` parameter must be a multiple of the `WorldInfo.basicTimeStep`.
+In Python, if no `duration` parameter is given, the `WorldInfo.basicTimeStep` is used.
 
 If this function returns -1, this indicates that Webots is about to terminate the controller.
 This happens when the user hits the `Reload` button or quits Webots.

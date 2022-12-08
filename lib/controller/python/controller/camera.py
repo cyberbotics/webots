@@ -1,4 +1,4 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,14 +13,55 @@
 # limitations under the License.
 
 import ctypes
-from controller.sensor import Sensor
-from controller.wb import wb
+from .sensor import Sensor
+from .wb import wb
 from typing import List, Union
 
 
+class CameraRecognitionObject(ctypes.Structure):
+    _fields_ = [('id', ctypes.c_int),
+                ('position', ctypes.c_double * 3),
+                ('orientation', ctypes.c_double * 4),
+                ('size', ctypes.c_double * 2),
+                ('position_on_image', ctypes.c_int * 2),
+                ('size_on_image', ctypes.c_int * 2),
+                ('number_of_colors', ctypes.c_int),
+                ('colors', ctypes.POINTER(ctypes.c_double)),
+                ('_model', ctypes.c_char_p)]
+
+    def getId(self) -> int:
+        return self.id
+
+    def getPosition(self) -> List[float]:
+        return self.position
+
+    def getOrientation(self) -> List[float]:
+        return self.orientation
+
+    def getSize(self) -> List[float]:
+        return self.size
+
+    def getPositionOnImage(self) -> List[int]:
+        return self.position_on_image
+
+    def getSizeOnImage(self) -> List[int]:
+        return self.size_on_image
+
+    def getNumberOfColors(self) -> int:
+        return self.number_of_colors
+
+    def getColors(self) -> List[float]:
+        return self.colors
+
+    def getModel(self) -> str:
+        return self.model
+
+    @property
+    def model(self) -> str:
+        return self._model.decode()
+
+
 class Camera(Sensor):
-    wb.wb_camera_get_image.restype = ctypes.POINTER(ctypes.c_ubyte)
-    wb.wb_camera_recognition_get_segmentation_image.restype = ctypes.POINTER(ctypes.c_ubyte)
     wb.wb_camera_get_fov.restype = ctypes.c_double
     wb.wb_camera_get_exposure.restype = ctypes.c_double
     wb.wb_camera_get_focal_distance.restype = ctypes.c_double
@@ -35,6 +76,10 @@ class Camera(Sensor):
         self._enable = wb.wb_camera_enable
         self._get_sampling_period = wb.wb_camera_get_sampling_period
         super().__init__(name, sampling_period)
+        width = self.width
+        height = self.height
+        wb.wb_camera_get_image.restype = ctypes.POINTER(ctypes.c_ubyte * (4 * width * height))
+        wb.wb_camera_recognition_get_segmentation_image.restype = ctypes.POINTER(ctypes.c_ubyte * (4 * width * height))
 
     def getExposure(self) -> float:
         return self.exposure
@@ -115,8 +160,12 @@ class Camera(Sensor):
         self.fov = f
 
     @property
-    def image(self):
-        return wb.wb_camera_get_image(self._tag)
+    def image(self) -> bytes:
+        return bytes(wb.wb_camera_get_image(self._tag).contents)
+
+    @property
+    def segmentation_image(self) -> bytes:
+        return bytes(wb.wb_camera_recognition_get_segmentation_image(self._tag).contents)
 
     @property
     def exposure(self) -> float:
@@ -174,48 +223,6 @@ class Camera(Sensor):
     def width(self) -> int:
         return wb.wb_camera_get_width(self._tag)
 
-    class CameraRecognitionObject(ctypes.Structure):
-        _fields_ = [('id', ctypes.c_int),
-                    ('position', ctypes.c_double * 3),
-                    ('orientation', ctypes.c_double * 4),
-                    ('size', ctypes.c_double * 2),
-                    ('position_on_image', ctypes.c_int * 2),
-                    ('size_on_image', ctypes.c_int * 2),
-                    ('number_of_colors', ctypes.c_int),
-                    ('colors', ctypes.POINTER(ctypes.c_double)),
-                    ('_model', ctypes.c_char_p)]
-
-        def getId(self) -> int:
-            return self.id
-
-        def getPosition(self) -> List[float]:
-            return self.position
-
-        def getOrientation(self) -> List[float]:
-            return self.orientation
-
-        def getSize(self) -> List[float]:
-            return self.size
-
-        def getPositionOnImage(self) -> List[int]:
-            return self.position_on_image
-
-        def getSizeOnImage(self) -> List[int]:
-            return self.size_on_image
-
-        def getNumberOfColors(self) -> int:
-            return self.number_of_colors
-
-        def getColors(self) -> List[float]:
-            return self.colors
-
-        def getModel(self) -> str:
-            return self.model
-
-        @property
-        def model(self) -> str:
-            return self._model.decode()
-
     wb.wb_camera_recognition_get_objects.restype = ctypes.POINTER(CameraRecognitionObject)
 
     def getRecognitionNumberOfObjects(self) -> int:
@@ -249,7 +256,7 @@ class Camera(Sensor):
         return wb.wb_camera_recognition_is_segmentation_enabled(self._tag) != 0
 
     def getRecognitionSegmentationImage(self) -> bytes:
-        return wb.wb_camera_recognition_get_segmentation_image(self._tag)
+        return self.segmentation_image
 
     def getRecognitionSegmentationImageArray(self) -> List[List[List[int]]]:
         array = []

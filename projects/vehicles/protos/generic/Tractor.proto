@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
@@ -20,6 +20,7 @@ PROTO Tractor [
   field     SFBool     synchronization   TRUE
   field     MFNode     sensorSlot        [ ]
   field     SFString   window            "automobile"
+  field     MFColor    recognitionColors []
 ]
 {
 Car {
@@ -1209,6 +1210,7 @@ Car {
       0 -792.28908 0
     ]
   }
+  recognitionColors IS recognitionColors
   wheelFrontRight TractorFrontWheel {
     name "front right wheel"
   }

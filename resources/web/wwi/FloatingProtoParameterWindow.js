@@ -1,7 +1,13 @@
 import FloatingWindow from './FloatingWindow.js';
 import {VRML} from './protoVisualizer/vrml_type.js';
+import WbCamera from './nodes/WbCamera.js';
 import WbHingeJoint from './nodes/WbHingeJoint.js';
+import WbLidar from './nodes/WbLidar.js';
+import WbLightSensor from './nodes/WbLightSensor.js';
+import WbPen from './nodes/WbPen.js';
+import WbRadar from './nodes/WbRadar.js';
 import WbWorld from './nodes/WbWorld.js';
+import WbRangeFinder from './nodes/WbRangeFinder.js';
 import FloatingNodeSelectorWindow from './FloatingNodeSelectorWindow.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
@@ -63,6 +69,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       this.frame.style.display = 'grid';
       this.joints.style.display = 'none';
       this.devices.style.display = 'none';
+      this.#displayOptionalRendering();
     } else if (number === 1) {
       this.tab0.style.backgroundColor = '#333';
       this.tab1.style.backgroundColor = '#222';
@@ -70,13 +77,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       this.frame.style.display = 'none';
       this.joints.style.display = 'block';
       this.devices.style.display = 'none';
+      this.#displayOptionalRendering();
     } else if (number === 2) {
       this.tab0.style.backgroundColor = '#333';
       this.tab1.style.backgroundColor = '#333';
       this.tab2.style.backgroundColor = '#222';
       this.frame.style.display = 'none';
       this.joints.style.display = 'none';
-      this.devices.style.display = 'grid';
+      this.devices.style.display = 'block';
     }
   }
 
@@ -190,16 +198,28 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     values.style.gridRow = '' + row + ' / ' + row;
     values.style.gridColumn = '3 / 3';
     values.className = 'value-parameter';
-    p.inputs.push(this.#createVectorInput('x', parameter.value.value.x, values, () => this.#vector3OnChange(p)));
-    p.inputs.push(this.#createVectorInput(' y', parameter.value.value.y, values, () => this.#vector3OnChange(p)));
-    p.inputs.push(this.#createVectorInput(' z', parameter.value.value.z, values, () => this.#vector3OnChange(p)));
+
+    p.inputs.push(this.#createVectorInput('x', parameter.value.value.x, values, () => {
+      this.#vector3OnChange(p);
+      resetButton.style.filter = 'brightness(100%)';
+    }));
+    p.inputs.push(this.#createVectorInput(' y', parameter.value.value.y, values, () => {
+      this.#vector3OnChange(p);
+      resetButton.style.filter = 'brightness(100%)';
+    }));
+    p.inputs.push(this.#createVectorInput(' z', parameter.value.value.z, values, () => {
+      this.#vector3OnChange(p);
+      resetButton.style.filter = 'brightness(100%)';
+    }));
 
     const resetButton = this.#createResetButton(values);
+    resetButton.style.filter = 'brightness(50%)';
     resetButton.onclick = () => {
       p.inputs[0].value = parameter.defaultValue.value.x;
       p.inputs[1].value = parameter.defaultValue.value.y;
       p.inputs[2].value = parameter.defaultValue.value.z;
       this.#vector3OnChange(p);
+      resetButton.style.filter = 'brightness(50%)';
     };
 
     parent.appendChild(p);
@@ -227,17 +247,31 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     values.style.gridRow = '' + row + ' / ' + row;
     values.style.gridColumn = '3 / 3';
     values.className = 'value-parameter';
-    p.inputs.push(this.#createVectorInput('x', parameter.value.value.x, values, () => this.#rotationOnChange(p)));
-    p.inputs.push(this.#createVectorInput(' y', parameter.value.value.y, values, () => this.#rotationOnChange(p)));
-    p.inputs.push(this.#createVectorInput(' z', parameter.value.value.z, values, () => this.#rotationOnChange(p)));
-    p.inputs.push(this.#createVectorInput(' a', parameter.value.value.a, values, () => this.#rotationOnChange(p)));
+    p.inputs.push(this.#createVectorInput('x', parameter.value.value.x, values, () => {
+      this.#rotationOnChange(p);
+      resetButton.style.filter = 'brightness(100%)';
+    }));
+    p.inputs.push(this.#createVectorInput(' y', parameter.value.value.y, values, () => {
+      this.#rotationOnChange(p);
+      resetButton.style.filter = 'brightness(100%)';
+    }));
+    p.inputs.push(this.#createVectorInput(' z', parameter.value.value.z, values, () => {
+      this.#rotationOnChange(p);
+      resetButton.style.filter = 'brightness(100%)';
+    }));
+    p.inputs.push(this.#createVectorInput(' a', parameter.value.value.a, values, () => {
+      this.#rotationOnChange(p);
+      resetButton.style.filter = 'brightness(100%)';
+    }));
     const resetButton = this.#createResetButton(values);
+    resetButton.style.filter = 'brightness(50%)';
     resetButton.onclick = () => {
       p.inputs[0].value = parameter.defaultValue.value.x;
       p.inputs[1].value = parameter.defaultValue.value.y;
       p.inputs[2].value = parameter.defaultValue.value.z;
       p.inputs[3].value = parameter.defaultValue.value.a;
       this.#rotationOnChange(p);
+      resetButton.style.filter = 'brightness(50%)';
     };
     parent.appendChild(p);
     parent.appendChild(values);
@@ -297,16 +331,22 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     input.value = this.#stringRemoveQuote(string);
     input.style.height = '20px';
-
-    input.onchange = () => this.#stringOnChange(p);
-    p.input = input;
     value.appendChild(input);
 
     const resetButton = this.#createResetButton(value);
+    resetButton.style.filter = 'brightness(50%)';
     resetButton.onclick = () => {
       input.value = this.#stringRemoveQuote(parameter.defaultValue.value);
       this.#stringOnChange(p);
+      resetButton.style.filter = 'brightness(50%)';
     };
+
+    input.onchange = () => {
+      this.#stringOnChange(p);
+      resetButton.style.filter = 'brightness(100%)';
+    };
+
+    p.input = input;
 
     parent.appendChild(p);
     parent.appendChild(value);
@@ -354,7 +394,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     input.value = parameter.value.value;
     input.style.width = '50px';
 
-    input.onchange = () => this.#floatOnChange(p);
+    input.onchange = () => {
+      resetButton.style.filter = 'brightness(100%)';
+      this.#floatOnChange(p);
+    };
     p.input = input;
     value.appendChild(input);
 
@@ -362,6 +405,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     resetButton.onclick = () => {
       input.value = parameter.defaultValue.value;
       this.#floatOnChange(p);
+      resetButton.style.filter = 'brightness(50%)';
     };
     parent.appendChild(p);
     parent.appendChild(value);
@@ -484,12 +528,15 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     const input = document.createElement('input');
     input.type = 'number';
-    input.step = 0.1;
+    input.step = 1;
     input.value = parameter.value.value;
     input.style.width = '50px';
 
     input.oninput = () => this.#intOnChange(p);
-    input.onchange = () => this.#floatOnChange(p);
+    input.onchange = () => {
+      this.#floatOnChange(p);
+      resetButton.style.filter = 'brightness(100%)';
+    };
     p.input = input;
     p.checkbox = exportCheckbox;
     value.appendChild(input);
@@ -498,6 +545,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     resetButton.onclick = () => {
       input.value = parameter.defaultValue.value;
       this.#floatOnChange(p);
+      resetButton.style.filter = 'brightness(50%)';
     };
     parent.appendChild(p);
     parent.appendChild(value);
@@ -531,7 +579,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     input.checked = parameter.value.value;
     input.style.width = '50px';
 
-    input.onchange = () => this.#boolOnChange(p);
+    input.onchange = () => {
+      this.#boolOnChange(p);
+      resetButton.style.filter = 'brightness(100%)';
+    };
     p.input = input;
     p.checkbox = exportCheckbox;
     value.appendChild(input);
@@ -540,6 +591,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     resetButton.onclick = () => {
       input.checked = parameter.defaultValue.value;
       this.#boolOnChange(p);
+      resetButton.style.filter = 'brightness(50%)';
     };
     parent.appendChild(p);
     parent.appendChild(value);
@@ -572,16 +624,70 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   populateDeviceTab() {
     this.devices.innerHTML = '';
-    const noDevice = document.createElement('h1');
-    noDevice.innerHTML = 'No devices';
-    this.devices.appendChild(noDevice);
+    const nodes = WbWorld.instance.nodes;
+    const keys = nodes.keys();
+    let numberOfDevices = 0;
+
+    for (const key of keys) {
+      const device = nodes.get(key);
+      // TODO once all the optional rendering are implemented, replace this list by device instanceof WbDevice
+      if (device instanceof WbCamera || device instanceof WbRangeFinder || device instanceof WbLidar ||
+        device instanceof WbRadar || device instanceof WbLightSensor || device instanceof WbPen) {
+        numberOfDevices++;
+
+        let div = document.createElement('div');
+        div.className = 'proto-device';
+        div.addEventListener('mouseover', () => this.#displayOptionalRendering(device.id));
+        div.addEventListener('mouseleave', () => this.#hideOptionalRendering(device.id));
+        div.addEventListener('click', _ => this.#changeVisibility(device.id, _));
+        const nameDiv = document.createElement('div');
+        nameDiv.innerHTML = this.#stringRemoveQuote(device.name);
+        nameDiv.className = 'proto-device-name';
+        div.appendChild(nameDiv);
+        this.devices.appendChild(div);
+      }
+    }
+
+    if (numberOfDevices === 0) {
+      const noDevice = document.createElement('h1');
+      noDevice.innerHTML = 'No devices';
+      this.devices.appendChild(noDevice);
+    }
+  }
+
+  #displayOptionalRendering(id) {
+    if (WbWorld.instance.readyForUpdates) {
+      const node = WbWorld.instance.nodes?.get(id);
+      if (node)
+        node.applyOptionalRendering(true);
+      this.#view.x3dScene.render();
+    }
+  }
+
+  #hideOptionalRendering(id) {
+    const node = WbWorld.instance.nodes?.get(id);
+    if (node) {
+      if (node.optionnalRenderingLocked)
+        return;
+      node.applyOptionalRendering(false);
+    }
+    this.#view.x3dScene.render();
+  }
+
+  #changeVisibility(id, event) {
+    const node = WbWorld.instance.nodes?.get(id);
+    if (node) {
+      node.optionnalRenderingLocked = !node.optionnalRenderingLocked;
+      node.applyOptionalRendering(node.optionnalRenderingLocked);
+      if (node.optionnalRenderingLocked)
+        event.target.style.backgroundColor = '#007acc';
+      else
+        event.target.style.backgroundColor = '';
+    }
+    this.#view.x3dScene.render();
   }
 
   populateJointTab() {
-    this.listJoints();
-  }
-
-  listJoints() {
     this.joints.innerHTML = '';
     const nodes = WbWorld.instance.nodes;
     const keys = nodes.keys();

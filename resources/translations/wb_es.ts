@@ -816,6 +816,14 @@ To fix the problem, you should:
 </source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>TMPDIR is not set: cannot run Webots.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TMPDIR &apos;%1&apos; doesn&apos;t exist: cannot run Webots.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>T</name>
@@ -1785,7 +1793,7 @@ Restore initial state of the simulation. (%1+Shift+T)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Insert the identity matrix 
+        <source>Insert the identity matrix
  [ 1 1 1, 0 0 0]</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2434,11 +2442,6 @@ Color %1: %2 %3 %4</source>
     </message>
     <message>
         <source>Unknown key: %1 in matlab section</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&apos;%1&apos;
-The path to this Webots project contains non 8-bit characters. Webots won&apos;t be able to execute any Java controller in this path. Please move this Webots project into a folder with only 8-bit characters.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3188,10 +3191,6 @@ and show the new robot window)</source>
     </message>
     <message>
         <source>Texture image size of &apos;%1&apos; is not a power of two: rescaling it from %2x%3 to %4x%5.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Cannot save texture with reduced quality to temporary file &apos;%1&apos;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4151,11 +4150,6 @@ The following file formats are supported:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;strong&gt;Rotate:&lt;/strong&gt;&lt;br/&gt;To rotate the camera around the x and y axis, you have to set the mouse pointer in the 3D scene, press the left mouse button and drag the mouse:&lt;br/&gt;- if you clicked on an object, the rotation will be centered around the picked point on this object.&lt;br/&gt;- if you clicked outside of any object, the rotation will be centered around the position of the camera.&lt;br/&gt;Dragging the mouse horizontally will rotate the camera around the world up axis. Dragging the mouse vertically will rotate the camera around its horizontal axis.&lt;br/&gt;&lt;br/&gt;&lt;strong&gt;Translate:&lt;/strong&gt;&lt;br/&gt;To translate the camera in the x and y directions, you have to set the mouse pointer in the 3D scene, press the right mouse button and drag the mouse.&lt;br/&gt;&lt;br/&gt;&lt;strong&gt;Zoom / Tilt:&lt;/strong&gt;&lt;br/&gt;Set the mouse pointer in the 3D scene, then:
-- if you press both left and right mouse buttons (or the middle button) and drag the mouse vertically, the camera will zoom in or out.&lt;br/&gt;- if you press both left and right mouse buttons (or the middle button) and drag the mouse horizontally, the camera will rotate around the viewing axis (tilt movement).&lt;br/&gt;- if you use the wheel of the mouse, the camera will zoom in or out.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Controller &lt;none&gt; cannot be modified.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4243,6 +4237,10 @@ As a consequence, some project-related functionalities may not work.</source>
     </message>
     <message>
         <source>&lt;strong&gt;Force:&lt;/strong&gt;&lt;br/&gt; Place the mouse pointer where the force will apply and hold down the Alt key and the left mouse button together while dragging the mouse. In some window managers it might be necessary to also hold the Control (ctrl) key together with the Alt key.&lt;br/&gt;&lt;br/&gt; &lt;strong&gt;Torque:&lt;/strong&gt;&lt;br/&gt;Place the mouse pointer on the object and hold down the Alt key and the right mouse button together while dragging the mouse. In some window managers it might be necessary to also hold the Control (ctrl) key together with the Alt key.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;strong&gt;Rotate:&lt;/strong&gt;&lt;br/&gt;To rotate the camera around the x and y axis, you have to set the mouse pointer in the 3D scene, press the left mouse button and drag the mouse:&lt;br/&gt;- if you clicked on an object, the rotation will be centered around the picked point on this object.&lt;br/&gt;- if you clicked outside of any object, the rotation will be centered around the position of the camera.&lt;br/&gt;Dragging the mouse horizontally will rotate the camera around the world up axis. Dragging the mouse vertically will rotate the camera around its horizontal axis.&lt;br/&gt;&lt;br/&gt;&lt;strong&gt;Translate:&lt;/strong&gt;&lt;br/&gt;To translate the camera in the x and y directions, you have to set the mouse pointer in the 3D scene, press the right mouse button and drag the mouse.&lt;br/&gt;&lt;br/&gt;&lt;strong&gt;Zoom / Tilt:&lt;/strong&gt;&lt;br/&gt;Set the mouse pointer in the 3D scene, then:&lt;br/&gt;- if you press both left and right mouse buttons (or the middle button) and drag the mouse vertically, the camera will zoom in or out.&lt;br/&gt;- if you press both left and right mouse buttons (or the middle button) and drag the mouse horizontally, the camera will rotate around the viewing axis (tilt movement).&lt;br/&gt;- if you use the wheel of the mouse, the camera will zoom in or out.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4503,10 +4501,6 @@ As a consequence, some project-related functionalities may not work.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Open &apos;%1.sln&apos; in Microsoft Visual Studio (the controller need to be set to &lt;&lt;extern&gt;&gt; to be able to launch the controller from Microsoft Visual Studio.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Please specify a controller name.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4516,6 +4510,10 @@ As a consequence, some project-related functionalities may not work.</source>
     </message>
     <message>
         <source>A controller with this name already exists, please choose a different name.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open &apos;%1.sln&apos; in Microsoft Visual Studio (the controller need to be set to &lt;extern&gt; to be able to launch the controller from Microsoft Visual Studio.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4979,7 +4977,7 @@ Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This DEF string is already used by subsequent USE and DEF nodes. Applying this change will modify all the USE nodes referring to previous node with same DEF name and USE nodes referring to the selected node. 
+        <source>This DEF string is already used by subsequent USE and DEF nodes. Applying this change will modify all the USE nodes referring to previous node with same DEF name and USE nodes referring to the selected node.
 Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5669,7 +5667,7 @@ screenshot of the world in .jpg format when the it is saved, shared or exported.
 <context>
     <name>WbProtoManager</name>
     <message>
-        <source>Please adapt your project to R2022b following these instructions: https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b</source>
+        <source>Please adapt your project to R2023a following these instructions: https://github.com/cyberbotics/webots/wiki/How-to-adapt-your-world-or-PROTO-to-Webots-R2022b</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6995,15 +6993,15 @@ Do you want to save it before closing?</source>
         <translation type="unfinished">Cerrar</translation>
     </message>
     <message>
-        <source>Welcome to Webots R2023a</source>
+        <source>Welcome to Webots R2023b</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;b&gt;Thank you for using Webots R2023a.&lt;/b&gt;</source>
+        <source>&lt;b&gt;Thank you for using Webots R2023b.&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Find out the new features, enhancements and bug fixes of Webots R2023a in the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/reference/changelog-r2023&apos;&gt;changelog&lt;/a&gt;.</source>
+        <source>Find out the new features, enhancements and bug fixes of Webots R2023b in the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/reference/changelog-r2023&apos;&gt;changelog&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

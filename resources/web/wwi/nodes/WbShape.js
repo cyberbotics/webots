@@ -3,7 +3,7 @@ import WbBaseNode from './WbBaseNode.js';
 import WbPbrAppearance from './WbPbrAppearance.js';
 import WbPointSet from './WbPointSet.js';
 import WbWorld from './WbWorld.js';
-import WbWrenShaders from './../wren/WbWrenShaders.js';
+import WbWrenShaders from '../wren/WbWrenShaders.js';
 import {getAnId} from './utils/id_provider.js';
 import {nodeIsInBoundingObject} from './utils/node_utilities.js';
 
