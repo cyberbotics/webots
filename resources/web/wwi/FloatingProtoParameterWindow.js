@@ -9,8 +9,10 @@ import WbPen from './nodes/WbPen.js';
 import WbRadar from './nodes/WbRadar.js';
 import WbWorld from './nodes/WbWorld.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
+import WbVector3 from './nodes/utils/WbVector3.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
+  #mfId;
   #protoManager;
   #view;
   constructor(parentNode, protoManager, view) {
@@ -34,6 +36,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     this.#protoManager = protoManager;
     this.#view = view;
+
+    this.#mfId = 0;
 
     // create tabs
     const infoTabsBar = document.createElement('div');
@@ -224,9 +228,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     hideShowButton.style.gridRow = '' + this.row + ' / ' + this.row;
     hideShowButton.style.gridColumn = '3 / 3';
     hideShowButton.className = 'mf-expand-button';
+    const currentMfId = this.#mfId;
     hideShowButton.onclick = () => {
-      for (let i = 0; i < parameter.value.value.length; i++) {
-        const sfVec3 = document.getElementById(key + '-parameter-' + i);
+      const nodes = document.getElementsByClassName('mf-id-' + currentMfId);
+      for (let i = 0; i < nodes.length; i++) {
+        const sfVec3 = nodes[i];
         if (sfVec3) {
           if (sfVec3.style.display === 'block')
             sfVec3.style.display = 'none';
@@ -252,69 +258,76 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     for (let i = 0; i < parameter.value.value.length; i++) {
       this.row++;
-      const values = document.createElement('p');
-      values.style.gridRow = '' + this.row + ' / ' + this.row;
-      values.style.gridColumn = '3 / 3';
-      values.id = key + '-parameter-' + i;
-      values.className = 'value-parameter mf-parameter';
-      this.#createVectorInput(' x', parameter.value.value[i].value.x, values);
-      this.#createVectorInput(' y', parameter.value.value[i].value.y, values);
-      this.#createVectorInput(' z', parameter.value.value[i].value.z, values);
-
-      const addButton = document.createElement('button');
-      addButton.innerHTML = '+';
-      addButton.style.marginLeft = '10px';
-      values.appendChild(addButton);
-      parent.appendChild(values);
-
-      addButton.onclick = () => {
-        const newValues = document.createElement('p');
-        const gridRow = values.style.gridRow;
-        let slashIndex = gridRow.indexOf('/');
-        const row = parseInt(gridRow.substring(0, slashIndex)) + 1;
-        newValues.style.gridRow = '' + row + ' / ' + row;
-        newValues.style.gridColumn = '3 / 3';
-        newValues.innerHTML = 'BONJOUR';
-
-        const grid = document.getElementById('proto-parameter-content');
-        for (let i = 0; i < grid.childNodes.length; i++) {
-          let node = grid.childNodes[i];
-          const nodeRow = node.style.gridRow;
-          slashIndex = gridRow.indexOf('/');
-          const position = parseInt(nodeRow.substring(0, slashIndex));
-          if (position >= row) {
-            const newPosition = position + 1;
-            node.style.gridRow = '' + newPosition + ' / ' + newPosition;
-          }
-        }
-        parent.appendChild(newValues);
-      };
-
-      const removeButton = document.createElement('button');
-      removeButton.innerHTML = '-';
-      removeButton.style.marginLeft = '10px';
-      removeButton.onclick = () => {
-        const gridRow = removeButton.parentNode.style.gridRow;
-        let slashIndex = gridRow.indexOf('/');
-        const row = parseInt(gridRow.substring(0, slashIndex));
-        const grid = document.getElementById('proto-parameter-content');
-        for (let i = 0; i < grid.childNodes.length; i++) {
-          let node = grid.childNodes[i];
-          const nodeRow = node.style.gridRow;
-          slashIndex = nodeRow.indexOf('/');
-          const position = parseInt(nodeRow.substring(0, slashIndex));
-          if (position > row) {
-            const newPosition = position - 1;
-            node.style.gridRow = '' + newPosition + ' / ' + newPosition;
-          }
-        }
-        removeButton.parentNode.parentNode.removeChild(removeButton.parentNode);
-      };
-      values.appendChild(removeButton);
+      this.createVector3Row(parameter.value.value[i].value, this.row, parent, this.#mfId);
     }
 
     parent.appendChild(p);
     parent.appendChild(hideShowButton);
+
+    this.#mfId++;
+  }
+
+  createVector3Row(value, row, parent, mfId) {
+    const p = document.createElement('p');
+    p.style.gridRow = '' + row + ' / ' + row;
+    p.style.gridColumn = '3 / 3';
+    p.className = 'value-parameter mf-parameter mf-id-' + mfId;
+    this.#createVectorInput(' x', value.x, p);
+    this.#createVectorInput(' y', value.y, p);
+    this.#createVectorInput(' z', value.z, p);
+
+    const addButton = document.createElement('button');
+    addButton.innerHTML = '+';
+    addButton.style.marginLeft = '10px';
+    p.appendChild(addButton);
+    parent.appendChild(p);
+
+    addButton.onclick = () => {
+      const newValues = document.createElement('p');
+      const row = this.getRow(p) + 1;
+      newValues.style.gridRow = '' + row + ' / ' + row;
+      newValues.style.gridColumn = '3 / 3';
+
+      const newRow = this.createVector3Row(new WbVector3(), row, newValues, mfId);
+      newRow.style.display = 'block';
+
+      const grid = document.getElementById('proto-parameter-content');
+      for (let i = 0; i < grid.childNodes.length; i++) {
+        let node = grid.childNodes[i];
+        const position = this.getRow(node);
+        if (position >= row) {
+          const newPosition = position + 1;
+          node.style.gridRow = '' + newPosition + ' / ' + newPosition;
+        }
+      }
+      parent.appendChild(newValues);
+    };
+
+    const removeButton = document.createElement('button');
+    removeButton.innerHTML = '-';
+    removeButton.style.marginLeft = '10px';
+    removeButton.onclick = () => {
+      const row = this.getRow(removeButton.parentNode);
+      const grid = document.getElementById('proto-parameter-content');
+      for (let i = 0; i < grid.childNodes.length; i++) {
+        let node = grid.childNodes[i];
+        const position = this.getRow(node);
+        if (position > row) {
+          const newPosition = position - 1;
+          node.style.gridRow = '' + newPosition + ' / ' + newPosition;
+        }
+      }
+      removeButton.parentNode.parentNode.removeChild(removeButton.parentNode);
+    };
+    p.appendChild(removeButton);
+
+    return p;
+  }
+
+  getRow(node) {
+    const nodeRow = node.style.gridRow;
+    const slashIndex = nodeRow.indexOf('/');
+    return parseInt(nodeRow.substring(0, slashIndex));
   }
 
   #createSFRotation(key, parent) {
