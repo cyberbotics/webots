@@ -105,14 +105,18 @@ bool get_matlab_path() {
 
 void print_options() {
   printf(
-    "Usage: webots_controller [options] [controller_file]\n\nOptions:\n\n  --protocol=<ipc|tcp>\n    ipc is used by "
+    "Usage: webots-controller [options] [controller_file]\n\nOptions:\n\n  --protocol=<ipc|tcp>\n    ipc is used by "
     "default. ipc should be used when Webots is running on the same machine as the extern controller. tcp should be used when "
-    "connecting to a remote instance of Webots.\n\n  --ip_address=<ip_address>\n    The IP address of the remote machine on "
+    "connecting to a remote instance of Webots.\n\n  --ip-address=<ip-address>\n    The IP address of the remote machine on "
     "which the Webots instance is running. This option should only be used with the tcp protocol (remote controllers).\n\n  "
     "--port=<port>\n    1234 is used by default, as it is the default port of Webots. This parameter allows to connect to a "
     "specific instance of Webots if multiple of them are running. The port of a Webots instance can be set at its launch.\n\n  "
-    "--robot_name=<robot_name>\n    Target a specific robot by specifiyng its name in case multiple robots wait for an extern "
-    "controller in the Webots instance.\n");
+    "--robot-name=<robot-name>\n    Target a specific robot by specifiyng its name in case multiple robots wait for an extern "
+    "controller in the Webots instance.\n\n  --matlab-path=<matlab-path>\n    For MATLAB controllers, this option allows to "
+    "specify the path to the executable of a specific MATLAB version. By default, the launcher checks in the default MATLAB "
+    "installation folder. See https://cyberbotics.com/doc/guide/using-matlab#matlab-installation for more information.\n\n  "
+    "--stdout-redirect>\n    Redirect the stdout of the controller to the terminal of Webots.\n\n  --stderr-redirect>\n    "
+    "Redirect the stderr of the controller to the terminal of Webots.\n\n");
 }
 
 bool parse_options(int nb_arguments, char **arguments) {
@@ -128,8 +132,8 @@ bool parse_options(int nb_arguments, char **arguments) {
   char *port = NULL;
   size_t port_size = 0;
   char *robot_name = NULL;
-  size_t robot_name_size = 0;
   controller = NULL;
+  matlab_path = NULL;
   for (int i = 1; i < nb_arguments; i++) {
     if (arguments[i][0] == '-') {
       if (strncmp(arguments[i] + 2, "protocol=", 9) == 0) {
@@ -137,7 +141,7 @@ bool parse_options(int nb_arguments, char **arguments) {
         protocol = malloc(protocol_size);
         memcpy(protocol, arguments[i] + 11, protocol_size);
         // printf("protocol = %s\n", protocol);
-      } else if (strncmp(arguments[i] + 2, "ip_address=", 11) == 0) {
+      } else if (strncmp(arguments[i] + 2, "ip-address=", 11) == 0) {
         ip_address_size = strlen(arguments[i] + 13) + 1;
         ip_address = malloc(ip_address_size);
         memcpy(ip_address, arguments[i] + 13, ip_address_size);
@@ -147,11 +151,20 @@ bool parse_options(int nb_arguments, char **arguments) {
         port = malloc(port_size);
         memcpy(port, arguments[i] + 7, port_size);
         // printf("port = %s\n", port);
-      } else if (strncmp(arguments[i] + 2, "robot_name=", 11) == 0) {
-        robot_name_size = strlen(arguments[i] + 13) + 1;
+      } else if (strncmp(arguments[i] + 2, "robot-name=", 11) == 0) {
+        size_t robot_name_size = strlen(arguments[i] + 13) + 1;
         robot_name = malloc(robot_name_size);
         memcpy(robot_name, arguments[i] + 13, robot_name_size);
         // printf("robot_name = %s\n", robot_name);
+      } else if (strncmp(arguments[i] + 2, "matlab-path=", 12) == 0) {
+        size_t matlab_path_size = strlen(arguments[i] + 14) + 1;
+        matlab_path = malloc(matlab_path_size);
+        memcpy(matlab_path, arguments[i] + 14, matlab_path_size);
+        // printf("matlab_path = %s\n", matlab_path);
+      } else if (strncmp(arguments[i] + 2, "stdout-redirect", 15) == 0) {
+        putenv("WEBOTS_STDOUT_REDIRECT=1");
+      } else if (strncmp(arguments[i] + 2, "stderr-redirect", 15) == 0) {
+        putenv("WEBOTS_STDERR_REDIRECT=1");
       } else if (strncmp(arguments[i] + 2, "help", 4) == 0) {
         print_options();
         return false;
