@@ -137,6 +137,16 @@ export default class WbLidar extends WbAbstractCamera {
     _wr_transform_attach_child(this.wrenNode, this.#frustumRenderable);
   }
 
+  delete() {
+    if (this.wrenObjectsCreatedCalled) {
+      _wr_node_delete(this.#frustumRenderable);
+      _wr_material_delete(this.#frustumMaterial);
+      _wr_static_mesh_delete(this.#frustumMesh);
+    }
+
+    super.delete();
+  }
+
   _applyFrustumToWren() {
     _wr_node_set_visible(this.#frustumRenderable, false);
     if (typeof this.#frustumMesh !== 'undefined') {

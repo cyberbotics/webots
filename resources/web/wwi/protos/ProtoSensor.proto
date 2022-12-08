@@ -1,11 +1,13 @@
 #VRML_SIM R2023b utf8
+# template language: javascript
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/appearances/protos/Asphalt.proto"
 
 PROTO ProtoSensor [
-field SFVec3f      translation    0 0 0.3
-field SFRotation   rotation       0 0 1 1.5708
-field SFBool       write          TRUE
+field SFVec3f      translation           0 0 0.3
+field SFRotation   rotation              0 0 1 1.5708
+field SFBool       write                 TRUE
+field SFBool       triggerRegeneration   TRUE
 ]
 {
   Robot {
@@ -26,5 +28,9 @@ field SFBool       write          TRUE
         write IS write
       }
     ]
+    %< if (fields.triggerRegeneration.value) { >%
+    physics Physics {
+    }
+    %< } >%
   }
 }
