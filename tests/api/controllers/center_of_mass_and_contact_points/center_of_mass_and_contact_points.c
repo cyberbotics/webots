@@ -105,6 +105,15 @@ int main(int argc, char **argv) {
   ts_assert_boolean_equal(
     stable, "The support polygon stability test returns an unstable state whereas the reference state is stable.");
 
+  // test that removing a tracked node doesn't cause a crash
+  wb_robot_step(TIME_STEP);
+  wb_supervisor_node_enable_contact_point_tracking(node, TIME_STEP, false);
+  wb_robot_step(2 * TIME_STEP);
+  wb_supervisor_node_remove(node);
+  wb_robot_step(2 * TIME_STEP);
+  wb_supervisor_node_get_contact_points(node, false, &number_of_contact_points);
+  wb_supervisor_node_disable_pose_tracking(node, false);
+
   ts_send_success();
   return EXIT_SUCCESS;
 }
