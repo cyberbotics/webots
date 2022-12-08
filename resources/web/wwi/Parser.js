@@ -611,9 +611,10 @@ export default class Parser {
       newNode = new WbCharger(id, translation, scale, rotation, name === '' ? 'charger' : name);
     else if (node.tagName === 'Compass')
       newNode = new WbCompass(id, translation, scale, rotation, name === '' ? 'compass' : name);
-    else if (node.tagName === 'Connector')
-      newNode = new WbConnector(id, translation, scale, rotation, name === '' ? 'connector' : name);
-    else if (node.tagName === 'Display')
+    else if (node.tagName === 'Connector') {
+      const numberOfRotations = parseInt(getNodeAttribute(node, 'numberOfRotations', '4'));
+      newNode = new WbConnector(id, translation, scale, rotation, name === '' ? 'connector' : name, numberOfRotations);
+    } else if (node.tagName === 'Display')
       newNode = new WbDisplay(id, translation, scale, rotation, name === '' ? 'display' : name);
     else if (node.tagName === 'DistanceSensor')
       newNode = new WbDistanceSensor(id, translation, scale, rotation, name === '' ? 'distance sensor' : name);

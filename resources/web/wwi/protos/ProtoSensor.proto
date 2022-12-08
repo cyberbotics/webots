@@ -8,13 +8,14 @@ field SFVec3f      translation           0 0 0.3
 field SFRotation   rotation              0 0 1 1.5708
 field SFBool       write                 TRUE
 field SFBool       triggerRegeneration   TRUE
+field SFInt32      numberOfRotations     4
 ]
 {
   Robot {
+    translation IS translation
+    rotation IS rotation
     children [
       LightSensor {
-        translation IS translation
-        rotation IS rotation
         children [
           Shape {
             geometry Sphere {
@@ -24,8 +25,10 @@ field SFBool       triggerRegeneration   TRUE
         ]
       }
       Pen {
-        translation IS translation
         write IS write
+      }
+      Connector {
+        numberOfRotations IS numberOfRotations
       }
     ]
     %< if (fields.triggerRegeneration.value) { >%
