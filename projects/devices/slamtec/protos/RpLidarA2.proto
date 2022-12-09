@@ -19,7 +19,6 @@ PROTO RpLidarA2 [
     children [
       Transform {
         translation 0.000000 0.000000 -0.031000
-        rotation 0.000000 0.000000 1.000000 3.141592
         children [
           Shape {
             appearance MattePaint {
@@ -67,7 +66,7 @@ PROTO RpLidarA2 [
     maxRange 12.000000
     noise 0.000833
     resolution 0.010000
-    # type "rotating"
+    type "rotating"
     rotatingHead Solid{
       translation 0.000000 0.000000 -0.0314
       children [

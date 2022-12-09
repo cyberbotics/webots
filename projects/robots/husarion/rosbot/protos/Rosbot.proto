@@ -1,4 +1,4 @@
-#VRML_SIM R2023b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://cyberbotics.com/doc/guide/rosbot
@@ -23,7 +23,7 @@ PROTO Rosbot [
   field  SFBool      synchronization TRUE      # Is `Robot.synchronization`.
   field  SFBool      selfCollision   FALSE     # Is `Robot.selfCollision`.
   field  MFNode      cameraSlot      [ Astra { name "camera" } ] # Extends the robot with an Astra RGBD camera.
-  field  MFNode      lidarSlot       [ RpLidarA2 { name "lidar_link" } ] # Extends the robot with a RpLidar A2 lidar.
+  field  MFNode      lidarSlot       [ RpLidarA2 { name "laser" } ] # Extends the robot with a RpLidar A2 lidar.
 ]
 {
   Robot {
@@ -439,7 +439,7 @@ PROTO Rosbot [
         }
         device [
           RotationalMotor {
-            name "front_left_wheel_joint"
+            name "fl_wheel_joint"
             maxVelocity 26.0
             maxTorque 100.0
           }
@@ -506,7 +506,7 @@ PROTO Rosbot [
         }
         device [
           RotationalMotor {
-            name "front_right_wheel_joint"
+            name "fr_wheel_joint"
             maxVelocity 26.0
             maxTorque 100.0
           }
@@ -546,7 +546,7 @@ PROTO Rosbot [
         }
         device [
           RotationalMotor {
-            name "rear_left_wheel_joint"
+            name "rl_wheel_joint"
             maxVelocity 26.0
             maxTorque 100.0
           }
@@ -580,7 +580,7 @@ PROTO Rosbot [
         }
         device [
           RotationalMotor {
-            name "rear_right_wheel_joint"
+            name "rr_wheel_joint"
             maxVelocity 26.0
             maxTorque 100.0
           }
@@ -667,7 +667,6 @@ PROTO Rosbot [
       }
       DEF LIDAR_SLOT Transform {
         translation 0.02 0 0.1
-        rotation 0.000000 0.000000 1.000000 3.14000000
         children IS lidarSlot
       }
     ]
