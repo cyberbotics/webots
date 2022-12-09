@@ -1041,6 +1041,8 @@ webots-view .reset-field-button {
   border: none;
   filter: brightness(50%);
   cursor: pointer;
+  margin-left: 10px;
+  pointer-events: none;
 }
 
 webots-view .reset-field-button:hover {

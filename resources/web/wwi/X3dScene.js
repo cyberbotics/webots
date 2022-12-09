@@ -434,6 +434,7 @@ export default class X3dScene {
           object.numberOfRays = parseInt(pose[key]);
         else if (key === 'aperture')
           object.aperture = parseFloat(pose[key]);
+        console.log(pose[key])
       }
 
       if (object instanceof WbLight) {
