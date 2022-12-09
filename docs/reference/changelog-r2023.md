@@ -1,5 +1,10 @@
 # Webots R2023 Change Log
 
+## Webots R2023b
+Released on ??
+  - Cleanup
+    - Deprecated the C and MATLAB API functions `wb_supervisor_node_enable/disable_contact_point_tracking` in favor of `wb_supervisor_node_enable/disable_contact_points_tracking` to be more consistent with other APIs ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
+
 ## Webots R2023a Revision 1
 Released on ??
   - Enhancements
