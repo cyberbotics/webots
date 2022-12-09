@@ -110,19 +110,23 @@ class Node:
         return wb.wb_supervisor_node_export_string(self._ref).decode()
 
     def getField(self, name: str) -> Field:
-        return Field(self, name=name)
+        field = Field(self, name=name)
+        return field if field._ref else None
 
     def getFieldByIndex(self, index: int) -> Field:
-        return Field(self, index=index)
+        field = Field(self, index=index)
+        return field if field._ref else None
 
     def getNumberOfFields(self) -> int:
         return self.number_of_fields
 
     def getProtoField(self, name: str) -> Field:
-        return Field(self, name=name, proto=True)
+        field = Field(self, name=name, proto=True)
+        return field if field._ref else None
 
     def getProtoFieldByIndex(self, index: int) -> Field:
-        return Field(self, index=index, proto=True)
+        field = Field(self, index=index, proto=True)
+        return field if field._ref else None
 
     def getPosition(self) -> typing.List[float]:
         p = wb.wb_supervisor_node_get_position(self._ref)
@@ -158,11 +162,12 @@ class Node:
             contact_points.append(ContactPoint(struct.unpack_from('3di', points, 28 * i)))
         return contact_points
 
-    def enableContactPointTracking(self, samplingPeriod: int, includeDescendants: bool = False):
-        wb.wb_supervisor_node_enable_contact_point_tracking(samplingPeriod, 1 if includeDescendants else 0)
+    def enableContactPointsTracking(self, samplingPeriod: int, includeDescendants: bool = False):
+        wb.wb_supervisor_node_enable_contact_points_tracking(self._ref, samplingPeriod, 1 if includeDescendants else 0)
 
-    def disableContactPointTracking(self, includeDescendants: bool = False):
-        wb.wb_supervisor_node_disable_contact_point_tracking(1 if includeDescendants else 0)
+    def disableContactPointsTracking(self, includeDescendants: bool = False):
+        # includeDescendants is kept for backwards compatibility, but should not be used in new code
+        wb.wb_supervisor_node_disable_contact_points_tracking(self._ref)
 
     def getStaticBalance(self) -> bool:
         return wb.wb_supervisor_node_get_static_balance(self._ref) != 0
