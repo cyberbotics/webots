@@ -142,12 +142,22 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
     license.innerHTML = 'License:&nbsp;<i>not specified.</i>';
     nodeInfo.appendChild(license);
 
+    const topLine = document.createElement('hr');
+    topLine.id = 'top-line';
+    topLine.style.width = '75%'
+    nodeInfo.appendChild(topLine);
+
     const img = document.createElement('img');
     img.id = 'node-image';
     img.className = 'node-image'
     img.draggable = false;
     img.src = '../../images/missing_proto_icon.png';
     nodeInfo.appendChild(img);
+
+    const bottomLine = document.createElement('hr');
+    bottomLine.id = 'bottom-line';
+    bottomLine.style.width = '75%'
+    nodeInfo.appendChild(bottomLine);
 
     const description = document.createElement('span');
     description.id = 'node-description';
@@ -223,12 +233,12 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
 
     // remove selection
     if (typeof this.selection !== 'undefined') {
-      this.selection.style.border = 'none';
+      this.selection.style.backgroundColor = '';
       this.selection = undefined;
     }
 
     // populate node info
-    this.populateNodeInfo('NULL');
+    this.populateNodeInfo();
   }
 
   #createNodeButton(name, url) {
@@ -240,10 +250,10 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
 
     button.onclick = (item) => {
       if (typeof this.selection !== 'undefined')
-        this.selection.style.border = 'none';
+        this.selection.style.backgroundColor = '';
 
       this.selection = item.target;
-      this.selection.style.border = 'inset';
+      this.selection.style.backgroundColor = '#007acc';
 
       this.populateNodeInfo(this.selection.value);
     };
@@ -257,12 +267,28 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
     const nodeImage = document.getElementById('node-image');
     const description = document.getElementById('node-description');
     const license = document.getElementById('node-license');
+    const topLine = document.getElementById('top-line');
+    const bottomLine = document.getElementById('bottom-line');
 
-    if (protoName === 'NULL') {
-      nodeImage.src = '../../images/missing_proto_icon.png';
-      description.innerHTML = 'No description available.';
-      license.innerHTML = 'License:&nbsp;<i>not specified.</i>';
+    if (typeof protoName === 'undefined') {
+      nodeImage.style.display = 'none';
+      description.innerHTML = 'No node selected';
+      license.style.display = 'none';
+      topLine.style.display = 'none';
+      bottomLine.style.display = 'none';
+    } else if (protoName === 'NULL') {
+      nodeImage.style.display = 'none';
+      description.innerHTML = 'The current node will be removed.';
+      license.style.display = 'none';
+      topLine.style.display = 'none';
+      bottomLine.style.display = 'none';
     } else {
+      nodeImage.style.display = 'block';
+      description.style.display = 'block';
+      license.style.display = 'block';
+      topLine.style.display = 'block';
+      bottomLine.style.display = 'block';
+
       const info = this.nodes.get(protoName);
       const url = info.url;
       nodeImage.src = url.slice(0, url.lastIndexOf('/') + 1) + 'icons/' + protoName + '.png';

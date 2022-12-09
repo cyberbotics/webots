@@ -1051,7 +1051,7 @@ webots-view .node-library .node-image {
 webots-view .node-library .node-description {
   font-family: Arial;
   color: rgba(240, 240, 240, 1);
-  padding-top: 40px;
+  padding-top: 20px;
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 5px;
@@ -1060,8 +1060,10 @@ webots-view .node-library .node-description {
 webots-view .node-library .node-license {
   font-family: Arial;
   color: rgba(240, 240, 240, 1);
-  padding: 5px;
-  height: 50px;
+  padding-top: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 5px;
   justify-content: start;
   align-content: flex-start;
   display: flex;
@@ -1092,8 +1094,7 @@ webots-view .node-library button {
 }
 
 webots-view .node-library button:hover {
-  background: #111;
-  backdrop-filter: blur(10px);
+  background-color: grey;
   cursor: pointer;
 }
 
