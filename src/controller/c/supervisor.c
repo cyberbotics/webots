@@ -2888,7 +2888,7 @@ void wb_supervisor_node_enable_contact_point_tracking(WbNodeRef node, int sampli
   wb_supervisor_node_enable_contact_points_tracking(node, sampling_period, include_descendants);
 }
 
-void wb_supervisor_node_disable_contact_points_tracking(WbNodeRef node, bool include_descendants) {
+void wb_supervisor_node_disable_contact_points_tracking(WbNodeRef node) {
   if (!robot_check_supervisor(__FUNCTION__))
     return;
 
@@ -2901,7 +2901,7 @@ void wb_supervisor_node_disable_contact_points_tracking(WbNodeRef node, bool inc
   contact_point_change_tracking_requested = true;
   contact_point_change_tracking.node = node;
   contact_point_change_tracking.enable = false;
-  contact_point_change_tracking.include_descendants = include_descendants;
+  contact_point_change_tracking.include_descendants = false;
   wb_robot_flush_unlocked(__FUNCTION__);
   pose_change_tracking_requested = false;
   robot_mutex_unlock();
@@ -2915,7 +2915,7 @@ void wb_supervisor_node_disable_contact_point_tracking(WbNodeRef node, bool incl
             __FUNCTION__);
     deprecation_warning = false;
   }
-  wb_supervisor_node_disable_contact_points_tracking(node, include_descendants);
+  wb_supervisor_node_disable_contact_points_tracking(node);
 }
 
 void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_period) {

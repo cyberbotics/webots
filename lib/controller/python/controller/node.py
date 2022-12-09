@@ -166,7 +166,8 @@ class Node:
         wb.wb_supervisor_node_enable_contact_points_tracking(self._ref, samplingPeriod, 1 if includeDescendants else 0)
 
     def disableContactPointsTracking(self, includeDescendants: bool = False):
-        wb.wb_supervisor_node_disable_contact_points_tracking(self._ref, 1 if includeDescendants else 0)
+        # includeDescendants is kept for backwards compatibility, but should not be used in new code
+        wb.wb_supervisor_node_disable_contact_points_tracking(self._ref)
 
     def getStaticBalance(self) -> bool:
         return wb.wb_supervisor_node_get_static_balance(self._ref) != 0

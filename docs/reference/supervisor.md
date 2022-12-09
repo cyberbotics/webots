@@ -1127,7 +1127,7 @@ The "[WEBOTS\_HOME/projects/samples/howto/center\_of\_mass/worlds/center\_of\_ma
 
 WbContactPoint *wb_supervisor_node_get_contact_points(WbNodeRef node, bool include_descendants, int *size);
 wb_supervisor_node_enable_contact_points_tracking(WbNodeRef node, int sampling_period, bool include_descendants);
-wb_supervisor_node_disable_contact_points_tracking(WbNodeRef node, bool include_descendants);
+wb_supervisor_node_disable_contact_points_tracking(WbNodeRef node);
 ```
 
 %tab-end
@@ -1141,7 +1141,7 @@ namespace webots {
   class Node {
     ContactPoint *getContactPoints(bool includeDescendants, int *size) const;
     void enableContactPointsTracking(int samplingPeriod, bool includeDescendants = false) const;
-    void disableContactPointsTracking(bool includeDescendants = false) const;
+    void disableContactPointsTracking() const;
     // ...
   }
 }
@@ -1157,7 +1157,7 @@ from controller import Node
 class Node:
     def getContactPoints(includeDescendants=False):
     def enableContactPointsTracking(samplingPeriod, includeDescendants=False):
-    def disableContactPointsTracking(includeDescendants=False):
+    def disableContactPointsTracking():
     # ...
 ```
 
@@ -1171,7 +1171,7 @@ import com.cyberbotics.webots.controller.Node;
 public class Node {
   public ContactPoint[] getContactPoints(boolean includeDescendants);
   public enableContactPointsTracking(int samplingPeriod, boolean includeDescendants = false);
-  public disableContactPointsTracking(boolean includeDescendants = false);
+  public disableContactPointsTracking();
   // ...
 }
 ```
@@ -1183,7 +1183,7 @@ public class Node {
 ```MATLAB
 contact_point = wb_supervisor_node_get_contact_points(include_descendants):
 wb_supervisor_node_enable_contact_points_tracking(sampling_period, include_descendants):
-wb_supervisor_node_disable_contact_points_tracking(include_descendants):
+wb_supervisor_node_disable_contact_points_tracking():
 ```
 
 %tab-end
@@ -1194,7 +1194,7 @@ wb_supervisor_node_disable_contact_points_tracking(include_descendants):
 | --- | --- | --- | --- |
 | `/supervisor/node/get_contact_points` | `service` | `webots_ros::node_get_contact_points` | `uint64 node`<br/>`---`<br/>[`webots_ros/ContactPoint[]`](supervisor.md#contact-point) contact_points |
 | `/supervisor/node/enable_contact_points_tracking` | `service` | `webots_ros::enable_contact_points_tracking` | `uint64 node`<br/>`int32 sampling_period`<br/>`bool include_descendants`<br/>`---`<br/>`int32 success` |
-| `/supervisor/node/disable_contact_points_tracking` | `service` | `webots_ros::disable_contact_points_tracking` | `uint64 node`<br/>`bool include_descendants`<br/>`---`<br/>`int32 success` |
+| `/supervisor/node/disable_contact_points_tracking` | `service` | `webots_ros::disable_contact_points_tracking` | `uint64 node`<br/>`---`<br/>`int32 success` |
 
 %tab-end
 
