@@ -241,15 +241,6 @@ class Field:
     def importSFNodeFromString(self, nodeString: str):
         wb.wb_supervisor_field_import_sf_node_from_string(self._ref, str.encode(nodeString))
 
-    def virtualRealityHeadsetIsUsed(self):
-        return wb.wb_supervisor_virtual_reality_headset_is_used() != 0
-
-    def virtualRealityHeadsetGetPosition(self) -> typing.List[float]:
-        return wb.wb_supervisor_virtual_reality_headset_get_position()
-
-    def virtualRealityHeadsetGetOrientation(self) -> typing.List[float]:
-        return wb.wb_supervisor_virtual_reality_headset_get_orientation()
-
     @property
     def name(self) -> str:
         return wb.wb_supervisor_field_get_name(self._ref).decode()
