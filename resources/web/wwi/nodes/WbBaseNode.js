@@ -53,6 +53,11 @@ export default class WbBaseNode {
 
     if (!this.isPostFinalizedCalled)
       this.postFinalize();
+
+    for (const useId of this.useList) {
+      const useNode = WbWorld.instance.nodes.get(useId);
+      useNode.finalize();
+    }
   }
 
   preFinalize() {

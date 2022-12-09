@@ -207,7 +207,6 @@ export default class X3dScene {
       parentNode.isPostFinalizedCalled = false;
     }
     parentNode = WbWorld.instance.nodes.get('n' + parentId);
-    console.log('PARENT', parentNode)
 
     if (typeof this.#loader === 'undefined')
       this.#loader = new Parser(webots.currentView.prefix);
@@ -218,16 +217,14 @@ export default class X3dScene {
     const start = x3dObject.indexOf('"');
     const end = x3dObject.indexOf('"', start+1);
     n = WbWorld.instance.nodes.get(x3dObject.substring(start + 1, end)); // temporary solution
-    console.log('WILL FINALIZE:', n)
 
     if (typeof parentId !== 'undefined') {
       n.finalize();
-      if (parentNode instanceof WbShape)
+      if (parentNode instanceof WbShape) // TODO: replace by a mechanism similar to onchange/#update?
         parentNode.updateAppearance();
     }
     else
       n.finalize()
-    console.log('FINALIZED')
     this.renderer.render();
     //await this.#loader.finalize(this.renderer, callback);
   }

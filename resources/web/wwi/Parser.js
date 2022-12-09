@@ -105,7 +105,6 @@ export default class Parser {
   }
 
   async parse(text, parent) {
-    console.log('PARSE');
     webots.currentView.progress.setProgressBar('Connecting to webots instance...', 'same', 60 + 0.1 * 30, 'Parsing object...');
     let xml = null;
     if (window.DOMParser) {
@@ -154,14 +153,12 @@ export default class Parser {
         this.smaaSearchTexture = undefined;
         this.gtaoNoiseTexture = undefined;
       }
-      console.log('PARSE DONE')
       console.log('NODES', WbWorld.instance);
     });
   }
 
   async finalize(renderer, callback) {
     return new Promise((resolve, reject) => {
-      console.log('FINALIZING');
       WbWorld.instance.readyForUpdates = false;
 
       if (typeof WbWorld.instance.viewpoint === 'undefined')
@@ -194,7 +191,6 @@ export default class Parser {
         callback();
       console.log('NODES', WbWorld.instance);
       console.timeEnd('Loaded in: ');
-      console.log('FINALIZING DONE');
       resolve();
     });
   }

@@ -38,8 +38,7 @@ export default class WbShape extends WbBaseNode {
       if (typeof value === 'undefined') {
         if (typeof useNode !== 'undefined')
           useNode.appearance.delete();
-      }
-      else {
+      } else {
         const newAppearance = value.clone();
         WbWorld.instance.nodes.set(newAppearance.id, newAppearance);
         useNode.appearance = newAppearance;
@@ -142,9 +141,13 @@ export default class WbShape extends WbBaseNode {
   }
 
   updateAppearance() {
-    console.log('updateAppearance')
     if (this.wrenObjectsCreatedCalled)
       this.applyMaterialToGeometry();
+
+    for (const useId of this.useList) {
+      const useNode = WbWorld.instance.nodes.get(useId);
+      useNode.updateAppearance();
+    }
   }
 
   updateBoundingObjectVisibility() {
