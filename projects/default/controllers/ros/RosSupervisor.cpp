@@ -72,7 +72,7 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
   mNodeGetContactPointsServer = mRos->nodeHandle()->advertiseService("supervisor/node/get_contact_points",
                                                                      &RosSupervisor::nodeGetContactPointsCallback, this);
   mNodeEnableContactPointsTrackingServer = mRos->nodeHandle()->advertiseService(
-    "supervisor/node/enable_contact_point_tracking", &RosSupervisor::nodeEnableContactPointsTrackingCallback, this);
+    "supervisor/node/enable_contact_points_tracking", &RosSupervisor::nodeEnableContactPointsTrackingCallback, this);
   mNodeDisableContactPointsTrackingServer = mRos->nodeHandle()->advertiseService(
     "supervisor/node/disable_contact_points_tracking", &RosSupervisor::nodeDisableContactPointsTrackingCallback, this);
 
