@@ -136,7 +136,7 @@ void Node::enableContactPointsTracking(int samplingPeriod) const {
 }
 
 void Node::disableContactPointsTracking() const {
-  wb_supervisor_node_disable_contact_points_tracking(nodeRef, false);
+  wb_supervisor_node_disable_contact_points_tracking(nodeRef);
 }
 
 void Node::enableContactPointsTracking(int samplingPeriod, bool includeDescendants) const {
