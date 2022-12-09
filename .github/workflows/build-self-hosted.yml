@@ -1,0 +1,133 @@
+name: Linux build
+
+on:
+  pull_request:
+    types: [labeled]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+jobs:
+  webots-build:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test webots build') }}
+    strategy:
+      fail-fast: false
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v3
+      with:
+         submodules: true
+         fetch-depth: 15
+    - name: Install Webots Compilation Dependencies
+      run: |
+        sudo scripts/install/linux_compilation_dependencies.sh
+    - name: Build Webots
+      run: |
+        make webots_target -j 12
+  build:
+    if: ${{ github.event_name == 'push' || contains(github.event.pull_request.labels.*.name, 'test distribution') || contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test worlds') }}
+    strategy:
+      fail-fast: false
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v3
+      with:
+         submodules: true
+         fetch-depth: 15
+    - name: Install Webots Compilation Dependencies
+      run: |
+        sudo scripts/install/linux_optional_compilation_dependencies.sh
+    - name: Set Commit SHA in Version
+      if: ${{ github.event_name == 'schedule' }}
+      run: python scripts/packaging/set_commit_and_date_in_version.py $(git log -1 --format='%H')
+    - name: Webots Package Creation
+      run: |
+        export JAVA_HOME=/usr/lib/jvm/java-${{ matrix.JAVA_VERSION }}-openjdk-amd64
+        export PATH=$JAVA_HOME/bin:$PATH
+        export LIBGL_ALWAYS_SOFTWARE=true
+        export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
+        make distrib -j 12
+  test-suite:
+    needs: build
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || github.event_name == 'schedule' }}
+    strategy:
+      fail-fast: false
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v3
+    - name: Download Artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: build-ubuntu-20.04
+        path: artifact
+    - name: Extract Webots
+      run: tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
+    - name: Install Webots Dependencies
+      run: sudo scripts/install/linux_test_dependencies.sh --exclude-ros
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Test Suite
+      run: |
+        export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
+        python scripts/packaging/update_urls.py $(git log -1 --format='%H')
+        export WEBOTS_HOME=$PWD/artifact/webots
+        export TESTS_HOME=$PWD # required by cache group in the test suite
+        export BRANCH_HASH=$(git log -1 --format='%H')
+        python tests/test_suite.py
+  test-worlds:
+    needs: build
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'test worlds') || github.event_name == 'schedule' }}
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v3
+    - name: Download Artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: build-ubuntu-20.04
+        path: artifact
+    - name: Extract Webots and Cache
+      run: |
+        tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
+        mkdir -p ~/.cache/Cyberbotics/Webots/
+        unzip -q artifact/assets-*.zip -d ~/.cache/Cyberbotics/Webots/assets
+    - name: Install Webots Dependencies
+      run: sudo scripts/install/linux_runtime_dependencies.sh
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Update World, Check Warnings and Validate Cache
+      run: |
+        git config --global user.name ${GITHUB_ACTOR}
+        git config --global user.email ${GITHUB_ACTOR}@github.com
+        export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
+        python scripts/packaging/update_urls.py $(git log -1 --format='%H')
+        echo "Updated urls with commit $(git log -1 --format='%H')"
+        git add -u && git commit -m "Fake-commit the updated urls so that no diff exists prior to running the test"
+        export WEBOTS_HOME=$PWD/artifact/webots
+        if [[ -d ~/.cache/Cyberbotics/Webots/assets/ ]]; then cached_files_before=$(ls ~/.cache/Cyberbotics/Webots/assets/ | wc -l); else cached_files_before=0; fi
+        python tests/test_worlds.py
+        if [[ "$(git diff --name-only *.wbt *.wbproj | wc -l)" -ne "0" ]]; then echo Some world and/or wbproj files are not up to date: "$(git diff *.wbt *.wbproj)"; exit -1; fi
+        if [[ -d ~/.cache/Cyberbotics/Webots/assets/ ]]; then cached_files_after=$(ls ~/.cache/Cyberbotics/Webots/assets/ | wc -l); else cached_files_after=0; fi
+        # Note: need an offset of 22 because world 'url.wbt' uses non-cached assets on purpose
+        if [ "$cached_files_after" -ne "$((cached_files_before + 22))" ]; then
+          echo "Some assets are not included in the cache (before $cached_files_before, after $cached_files_after)";
+          echo "Asset log content is:"
+          cat ~/.cache/Cyberbotics/Webots/assets/log.txt
+          exit 1
+        fi
+  delete-artifacts:
+    needs: [build, test-suite, test-worlds]
+    if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution')  && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
+    runs-on: self-hosted
+    steps:
+    - name: Delete artifacts
+      uses: geekyeggo/delete-artifact@v1
+      with:
+        name: build-${{ matrix.os }}
