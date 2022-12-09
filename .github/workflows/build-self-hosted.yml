@@ -1,4 +1,4 @@
-name: Linux build
+name: Linux build (self-hosted)
 
 on:
   pull_request:
