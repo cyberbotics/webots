@@ -29,6 +29,9 @@
 
 char *WEBOTS_HOME;
 char *controller;
+char *controller_path;
+char *controller;
+char *controller_extension;
 char *matlab_path;
 
 bool get_webots_home() {
@@ -293,9 +296,16 @@ void matlab_config_environment() {
   strncpy(project_path, controller, project_path_size);
   project_path[project_path_size] = '\0';
 
-  size_t webots_project_size = snprintf(NULL, 0, "%s%s", "WEBOTS_PROJECT=", project_path) + 1;
+  char current_path[128];
+  getcwd(current_path, sizeof(current_path));
+#ifdef _WIN32
+  strcat(current_path, "\\");
+#else
+  strcat(current_path, "/");
+#endif
+  size_t webots_project_size = snprintf(NULL, 0, "%s%s%s", "WEBOTS_PROJECT=", current_path, project_path) + 1;
   char *webots_project = malloc(webots_project_size);
-  sprintf(webots_project, "%s%s", "WEBOTS_PROJECT=", project_path);
+  sprintf(webots_project, "%s%s%s", "WEBOTS_PROJECT=", current_path, project_path);
   putenv(webots_project);
 
   // Add controller name to WEBOTS_CONTROLLER_NAME env variable
@@ -306,6 +316,7 @@ void matlab_config_environment() {
 #endif
   size_t webots_controller_name_size = snprintf(NULL, 0, "%s%s", "WEBOTS_CONTROLLER_NAME=", controller_name) + 1;
   char *webots_controller_name = malloc(webots_controller_name_size);
+  controller_name[strlen(controller_name) - strlen(controller_extension)] = '\0';
   sprintf(webots_controller_name, "%s%s", "WEBOTS_CONTROLLER_NAME=", controller_name);
   putenv(webots_controller_name);
 
@@ -324,7 +335,7 @@ void matlab_config_environment() {
     printf("Webots version could not be determined. '%s' can not be opened.\n", version_file_name);
     exit(1);
   }
-  char version[6];
+  char version[16];  // RXXXXx-revisionX
   fscanf(version_file, "%[^\n]", version);
   fclose(version_file);
 
@@ -332,6 +343,95 @@ void matlab_config_environment() {
   char *webots_version = malloc(webots_version_size);
   sprintf(webots_version, "%s%s", "WEBOTS_VERSION=", version);
   putenv(webots_version);
+}
+
+void remove_spaces(char *string) {
+  char *removed = string;
+  do {
+    while (*removed == ' ') {
+      ++removed;
+    }
+  } while (*string++ = *removed++);
+}
+
+void parse_runtime_ini() {
+  // Compute path to controller file
+#ifdef _WIN32
+  const size_t controller_file_size = strlen(strrchr(controller, '\\')) - 1;
+#else
+  const size_t controller_file_size = strlen(strrchr(controller, '/')) - 1;
+#endif
+  const size_t controller_size = strlen(controller);
+  const size_t controller_path_size = controller_size - controller_file_size;
+  controller_path = malloc(controller_path_size + 1);
+  strncpy(controller_path, controller, controller_path_size);
+  controller_path[controller_path_size] = '\0';
+
+  size_t ini_file_name_size = snprintf(NULL, 0, "%s%s", controller_path, "/runtime.ini") + 1;
+  char *ini_file_name = malloc(ini_file_name_size);
+  sprintf(ini_file_name, "%s%s", controller_path, "/runtime.ini");
+
+  FILE *runtime_ini;
+  if ((runtime_ini = fopen(ini_file_name, "r")) == NULL)
+    return;
+
+  ssize_t line_size;
+  size_t buffer_size;
+  char *line = NULL;
+  enum sections { Path, Simple, Windows, macOS, Linux } section;
+  while ((line_size = getline(&line, &buffer_size, runtime_ini)) != -1) {
+    printf("%s", line);
+    remove_spaces(line);
+    printf("%s", line);
+    // Empty line
+    if (line_size <= 2)
+      continue;
+
+    // Section line
+    if (strncmp(line, "[", 1) == 0) {
+      if (strncmp(line, "[environmentvariableswithpaths]", 31) == 0) {
+        section = Path;
+        printf("0: %s", line);
+      } else if (strncmp(line, "[environmentvariables]", 22) == 0) {
+        section = Simple;
+        printf("1: %s", line);
+      } else if (strncmp(line, "[environmentvariablesforWindows]", 32) == 0) {
+        section = Windows;
+        printf("2: %s", line);
+      } else if (strncmp(line, "[environmentvariablesformacOS]", 30) == 0) {
+        section = macOS;
+        printf("3: %s", line);
+      } else if (strncmp(line, "[environmentvariablesforLinux]", 30) == 0) {
+        section = Linux;
+        printf("4: %s", line);
+      } else {
+        printf("Unknown section in the runtime.ini file. Please refer to "
+               "https://cyberbotics.com/doc/guide/controller-programming#environment-variables for more information.\n");
+        exit(1);
+      }
+    }
+    // Key-value line
+    else {
+      switch (section) {
+        case Path:
+          printf("%d\n", section);
+          break;
+        case Simple:
+          printf("%d\n", section);
+          break;
+        case Windows:
+          printf("%d\n", section);
+          break;
+        case macOS:
+          printf("%d\n", section);
+          break;
+        case Linux:
+          printf("%d\n", section);
+          break;
+      }
+    }
+  }
+  fclose(runtime_ini);
 }
 
 int main(int argc, char **argv) {
@@ -345,6 +445,9 @@ int main(int argc, char **argv) {
   if (!success)
     return -1;
 
+  // Parse possible runtime.ini file
+  parse_runtime_ini();
+
   // Check if controller file exists
   if (access(controller, F_OK) != 0) {
     printf("Controller file '%s' not found. Please specify a path to an existing controller file.\n", controller);
@@ -357,19 +460,18 @@ int main(int argc, char **argv) {
 #else
   char *controller_name = strrchr(controller, '/');
 #endif
-  char *extension;
   if (!controller_name)
-    extension = strrchr(controller, '.');
+    controller_extension = strrchr(controller, '.');
   else
-    extension = strrchr(controller_name, '.');
+    controller_extension = strrchr(controller_name, '.');
 
   // Executable controller
-  if (!extension) {
+  if (!controller_extension) {
     exec_java_config_environment();
     system(controller);
   }
   // Python controller
-  else if (strcmp(extension, ".py") == 0) {
+  else if (strcmp(controller_extension, ".py") == 0) {
     python_config_environment();
 
 #ifdef _WIN32
@@ -385,7 +487,7 @@ int main(int argc, char **argv) {
     system(python_command);
   }
   // Matlab controller
-  else if (strcmp(extension, ".m") == 0) {
+  else if (strcmp(controller_extension, ".m") == 0) {
     matlab_config_environment();
 
     // If no Matlab path was given in command line, check in default installation folder
@@ -413,20 +515,8 @@ int main(int argc, char **argv) {
     system(matlab_command);
   }
   // Java controller
-  else if (strcmp(extension, ".jar") == 0 || strcmp(extension, ".class") == 0) {
+  else if (strcmp(controller_extension, ".jar") == 0 || strcmp(controller_extension, ".class") == 0) {
     exec_java_config_environment();
-
-    // Compute path to controller file
-#ifdef _WIN32
-    const size_t controller_file_size = strlen(strrchr(controller, '\\')) - 1;
-#else
-    const size_t controller_file_size = strlen(strrchr(controller, '/')) - 1;
-#endif
-    const size_t controller_size = strlen(controller);
-    const size_t controller_path_size = controller_size - controller_file_size;
-    char *controller_path = malloc(controller_path_size + 1);
-    strncpy(controller_path, controller, controller_path_size);
-    controller_path[controller_path_size] = '\0';
 
     // Write path to java lib controller
 #ifdef _WIN32
@@ -456,7 +546,7 @@ int main(int argc, char **argv) {
     sprintf(java_library, "%s%s", " -Djava.library.path=", lib_controller);
 
     // Write arguments to java command
-    controller_name[strlen(controller_name) - strlen(extension)] = '\0';
+    controller_name[strlen(controller_name) - strlen(controller_extension)] = '\0';
     size_t java_command_size = snprintf(NULL, 0, "%s%s%s%s%s", "java ", classpath, java_library, " ", controller_name + 1) + 1;
     char *java_command = malloc(java_command_size);
     sprintf(java_command, "%s%s%s%s%s", "java ", classpath, java_library, " ", controller_name + 1);
@@ -466,7 +556,7 @@ int main(int argc, char **argv) {
   } else
     printf("The file extension '%s' is not supported as webots controller. Supported file types are executables, '.py', "
            "'.jar', '.class' and '.m'.\n",
-           extension);
+           controller_extension);
 
   return 0;
 }
