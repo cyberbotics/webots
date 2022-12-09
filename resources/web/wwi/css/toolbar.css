@@ -993,7 +993,7 @@ webots-view .node-library {
   position: absolute;
   top: calc(50% - 250px);
   left: calc(50% - 220px);
-  background-color: #222;
+  background-color: #333;
   width: 600px;
   height: 500px;
   border-radius: 5px;
@@ -1010,6 +1010,7 @@ webots-view .node-library .node-filter {
   color: rgba(240, 240, 240, 1);
   display: flex;
   justify-content: flex-end;
+  background-color: #111;
 }
 
 webots-view .node-library .node-list {
@@ -1019,6 +1020,7 @@ webots-view .node-library .node-list {
   font-family: Arial;
   overflow-y: scroll;
   overflow-x: hidden;
+  background-color: #222;
 }
 
 webots-view .node-library .node-buttons {
@@ -1028,6 +1030,7 @@ webots-view .node-library .node-buttons {
   color: rgba(240, 240, 240, 1);
   display: flex;
   justify-content: flex-end;
+  background-color: #111;
 }
 
 webots-view .node-library .node-info {
@@ -1038,6 +1041,7 @@ webots-view .node-library .node-info {
   align-items: top;
   display: flex;
   flex-direction: column;
+  background-color: #222;
 }
 
 webots-view .node-library .node-image {

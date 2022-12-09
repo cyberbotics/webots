@@ -110,6 +110,7 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
     panel.className = 'node-library';
     panel.id = 'node-library';
     parentNode.appendChild(panel);
+    //this.floatingWindowContent.appendChild(panel);
 
     // setup search input
     const nodeFilter = document.createElement('div');
@@ -393,6 +394,8 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
     this.populateWindow();
     const panel = document.getElementById('node-library');
     panel.style.display = 'block';
+    //this.changeVisibility();
+    //this.setSize(600, 500);
   }
 
   hide() {
@@ -401,5 +404,6 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
     this.configureButton = undefined;
     const panel = document.getElementById('node-library');
     panel.style.display = 'none';
+    //this.changeVisibility();
   }
 }
