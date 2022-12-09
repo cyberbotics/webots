@@ -104,7 +104,8 @@ export default class Parser {
     WbWorld.instance.prefix = prefix;
   }
 
-  parse(text, renderer, parent, callback) {
+  async parse(text, parent) {
+    console.log('PARSE');
     webots.currentView.progress.setProgressBar('Connecting to webots instance...', 'same', 60 + 0.1 * 30, 'Parsing object...');
     let xml = null;
     if (window.DOMParser) {
@@ -153,9 +154,19 @@ export default class Parser {
         this.smaaSearchTexture = undefined;
         this.gtaoNoiseTexture = undefined;
       }
+      console.log('PARSE DONE')
+      console.log('NODES', WbWorld.instance);
+    });
+  }
+
+  async finalize(renderer, callback) {
+    return new Promise((resolve, reject) => {
+      console.log('FINALIZING');
+      WbWorld.instance.readyForUpdates = false;
 
       if (typeof WbWorld.instance.viewpoint === 'undefined')
-        return;
+        reject();
+
       WbWorld.instance.viewpoint.finalize();
 
       if (typeof WbBackground.instance !== 'undefined') {
@@ -164,9 +175,11 @@ export default class Parser {
         WbBackground.instance.setIrradianceCubeArray(this.irradianceCubeURL);
         this.irradianceCubeURL = undefined;
       }
+
       WbWorld.instance.sceneTree.forEach((node, i) => {
         const percentage = 70 + 30 * (i + 1) / WbWorld.instance.sceneTree.length;
         const info = 'Finalizing node ' + node.id + ': ' + Math.round(100 * (i + 1) / WbWorld.instance.sceneTree.length) + '%';
+        console.log('finalizing node id: ', node.id)
         webots.currentView.progress.setProgressBar('block', 'same', 75 + 0.25 * percentage, info);
         node.finalize();
       });
@@ -179,8 +192,10 @@ export default class Parser {
 
       if (typeof callback === 'function')
         callback();
-      console.log(WbWorld.instance);
+      console.log('NODES', WbWorld.instance);
       console.timeEnd('Loaded in: ');
+      console.log('FINALIZING DONE');
+      resolve();
     });
   }
 

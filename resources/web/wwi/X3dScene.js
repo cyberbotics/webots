@@ -27,6 +27,7 @@ import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbPlane from './nodes/WbPlane.js';
 import WbPointLight from './nodes/WbPointLight.js';
 import WbRadar from './nodes/WbRadar.js';
+import WbShape from './nodes/WbShape.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbTextureCoordinate from './nodes/WbTextureCoordinate.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
@@ -163,23 +164,30 @@ export default class X3dScene {
     this.render();
   }
 
-  loadRawWorldFile(raw, onLoad, progress) {
+  async loadRawWorldFile(raw, onLoad, progress) {
+    console.log('loadRawWorldFile')
     const prefix = webots.currentView.prefix;
     this.#loader = new Parser(prefix);
-    this.#loader.parse(raw, this.renderer).then(() => onLoad());
+    await this.#loader.parse(raw);
+    await this.#loader.finalize(this.renderer).then(() => {
+      console.log('calling:', onLoad);
+      onLoad()
+    })
   }
 
   loadWorldFile(url, onLoad, progress) {
+    console.log('loadWorldFile')
     const prefix = webots.currentView.prefix;
     const renderer = this.renderer;
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.open('GET', url, true);
     xmlhttp.overrideMimeType('plain/text');
-    xmlhttp.onreadystatechange = () => {
+    xmlhttp.onreadystatechange = async () => {
       // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
       if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) {
         this.#loader = new Parser(prefix);
-        this.#loader.parse(xmlhttp.responseText, renderer).then(() => onLoad());
+        await this.#loader.parse(xmlhttp.responseText)
+        await this.#loader.finalize(this.renderer).then(() => onLoad());
       } else if (xmlhttp.status === 404)
         progress.setProgressBar('block', 'Loading world file...', 5, '(error) File not found: ' + url);
     };
@@ -189,21 +197,39 @@ export default class X3dScene {
     xmlhttp.send();
   }
 
-  loadObject(x3dObject, parentId, callback) {
+  async loadObject(x3dObject, parentId, callback, id) {
+    console.log('LOADOBJECT', id)
     let parentNode;
     if (typeof parentId !== 'undefined') {
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
-      const ancestor = getAncestor(parentNode);
-      ancestor.isPreFinalizedCalled = false;
-      ancestor.wrenObjectsCreatedCalled = false;
-      ancestor.isPostFinalizedCalled = false;
+      parentNode.isPreFinalizedCalled = false;
+      //ancestor.wrenObjectsCreatedCalled = false;
+      parentNode.isPostFinalizedCalled = false;
     }
+    parentNode = WbWorld.instance.nodes.get('n' + parentId);
+    console.log('PARENT', parentNode)
 
     if (typeof this.#loader === 'undefined')
       this.#loader = new Parser(webots.currentView.prefix);
     else
       this.#loader.prefix = webots.currentView.prefix;
-    this.#loader.parse(x3dObject, this.renderer, parentNode, callback);
+
+    await this.#loader.parse(x3dObject, parentNode);
+    const start = x3dObject.indexOf('"');
+    const end = x3dObject.indexOf('"', start+1);
+    n = WbWorld.instance.nodes.get(x3dObject.substring(start + 1, end)); // temporary solution
+    console.log('WILL FINALIZE:', n)
+
+    if (typeof parentId !== 'undefined') {
+      n.finalize();
+      if (parentNode instanceof WbShape)
+        parentNode.updateAppearance();
+    }
+    else
+      n.finalize()
+    console.log('FINALIZED')
+    this.renderer.render();
+    //await this.#loader.finalize(this.renderer, callback);
   }
 
   applyPose(pose) {

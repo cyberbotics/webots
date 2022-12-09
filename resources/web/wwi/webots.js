@@ -163,6 +163,7 @@ webots.View = class View {
     };
 
     const finalizeWorld = () => {
+      console.log('finalizeWorld')
       if (typeof this.x3dScene !== 'undefined') {
         if (!this.#isWebSocketProtocol) { // skip robot windows initialization
           if (typeof this.animation !== 'undefined')
