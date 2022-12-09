@@ -970,7 +970,7 @@ webots-view #proto-parameter-content, #joints-tab, #devices-tab {
   overflow-x: auto;
   align-items: center;
   height: inherit;
-  padding-bottom: 17px; /* To position the scrollbar correctly */
+  padding-bottom: 10px; /* To position the scrollbar correctly */
 }
 
 webots-view #proto-parameter {
@@ -991,11 +991,45 @@ webots-view .value-parameter {
 
 webots-view .mf-parameter {
   display: none;
+  margin-top: 7px;
+  margin-bottom: 7px;
 }
 
 webots-view .mf-expand-button {
   width: 58px;
   margin-left: 10px;
+}
+
+webots-view .add-row {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  border: 2px solid transparent;
+  height: 2px;
+  background-color: transparent;
+  background-clip: padding-box;
+  cursor: cell;
+}
+
+webots-view .add-row:hover {
+  background-color: rgb(0, 122, 204);
+}
+
+webots-view .remove-row-button {
+  height: 20px;
+  width: 20px;
+  background-image: url(../images/icons/clear.svg);
+  background-size: cover;
+  border: 0px;
+  background-color: transparent;
+  position: absolute;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+webots-view .remove-row-button:hover {
+  background-color: grey;
+  border: 1px solid grey;
+  border-radius: 2px;
 }
 
 webots-view .reset-field-button {
@@ -1006,6 +1040,13 @@ webots-view .reset-field-button {
   background-color: transparent;
   border: none;
   filter: brightness(50%);
+  cursor: pointer;
+}
+
+webots-view .reset-field-button:hover {
+  background-color: grey;
+  border: 1px solid grey;
+  border-radius: 2px;
 }
 
 webots-view .export-checkbox {

@@ -14,6 +14,7 @@ import WbVector3 from './nodes/utils/WbVector3.js';
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #mfId;
   #protoManager;
+  #rowId;
   #view;
   constructor(parentNode, protoManager, view) {
     super(parentNode, 'proto-parameter');
@@ -38,6 +39,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.#view = view;
 
     this.#mfId = 0;
+    this.#rowId = 0;
 
     // create tabs
     const infoTabsBar = document.createElement('div');
@@ -255,10 +257,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     resetButton.onclick = () => {
       resetButton.style.filter = 'brightness(50%)';
     };
-
+    this.#createAddRowSection(this.#mfId, resetButton, this.row, parent);
+    this.row++;
     for (let i = 0; i < parameter.value.value.length; i++) {
       this.row++;
-      this.createVector3Row(parameter.value.value[i].value, this.row, parent, this.#mfId);
+      this.createVector3Row(parameter.value.value[i].value, this.row, parent, this.#mfId, resetButton);
+      this.row++;
     }
 
     parent.appendChild(p);
@@ -267,45 +271,30 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.#mfId++;
   }
 
-  createVector3Row(value, row, parent, mfId) {
+  createVector3Row(value, row, parent, mfId, resetButton) {
     const p = document.createElement('p');
     p.style.gridRow = '' + row + ' / ' + row;
     p.style.gridColumn = '3 / 3';
+    p.id = 'row-' + this.#rowId;
     p.className = 'value-parameter mf-parameter mf-id-' + mfId;
-    this.#createVectorInput(' x', value.x, p);
-    this.#createVectorInput(' y', value.y, p);
-    this.#createVectorInput(' z', value.z, p);
+    this.#createVectorInput(' x', value.x, p, () => {
+      this.#MFVec3fOnChange(p);
+      resetButton.style.filter = 'brightness(100%)';
+    });
+    this.#createVectorInput(' y', value.y, p, () => {
+      this.#MFVec3fOnChange(p);
+      resetButton.style.filter = 'brightness(100%)';
+    });
+    this.#createVectorInput(' z', value.z, p, () => {
+      this.#MFVec3fOnChange(p);
+      resetButton.style.filter = 'brightness(100%)';
+    });
 
-    const addButton = document.createElement('button');
-    addButton.innerHTML = '+';
-    addButton.style.marginLeft = '10px';
-    p.appendChild(addButton);
     parent.appendChild(p);
 
-    addButton.onclick = () => {
-      const newValues = document.createElement('p');
-      const row = this.getRow(p) + 1;
-      newValues.style.gridRow = '' + row + ' / ' + row;
-      newValues.style.gridColumn = '3 / 3';
-
-      const newRow = this.createVector3Row(new WbVector3(), row, newValues, mfId);
-      newRow.style.display = 'block';
-
-      const grid = document.getElementById('proto-parameter-content');
-      for (let i = 0; i < grid.childNodes.length; i++) {
-        let node = grid.childNodes[i];
-        const position = this.getRow(node);
-        if (position >= row) {
-          const newPosition = position + 1;
-          node.style.gridRow = '' + newPosition + ' / ' + newPosition;
-        }
-      }
-      parent.appendChild(newValues);
-    };
-
     const removeButton = document.createElement('button');
-    removeButton.innerHTML = '-';
-    removeButton.style.marginLeft = '10px';
+    removeButton.className = 'remove-row-button';
+    removeButton.title = 'Delete this row';
     removeButton.onclick = () => {
       const row = this.getRow(removeButton.parentNode);
       const grid = document.getElementById('proto-parameter-content');
@@ -313,21 +302,66 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         let node = grid.childNodes[i];
         const position = this.getRow(node);
         if (position > row) {
-          const newPosition = position - 1;
+          const newPosition = position - 2;
           node.style.gridRow = '' + newPosition + ' / ' + newPosition;
         }
       }
       removeButton.parentNode.parentNode.removeChild(removeButton.parentNode);
+
+      // remove the 'add new node row'
+      const addNew = document.getElementById(p.id);
+      addNew.parentNode.removeChild(addNew);
+      resetButton.style.filter = 'brightness(100%)';
     };
     p.appendChild(removeButton);
 
-    return p;
+    // Add row
+    const addRow = this.#createAddRowSection(mfId, resetButton, row, parent);
+    return [p, addRow];
+  }
+
+  #createAddRowSection(mfId, resetButton, row, parent) {
+    const addRow = document.createElement('button');
+    addRow.onclick = () => {
+      const row = this.getRow(addRow) + 1;
+
+      const grid = document.getElementById('proto-parameter-content');
+      for (let i = 0; i < grid.childNodes.length; i++) {
+        let node = grid.childNodes[i];
+        const position = this.getRow(node);
+        if (position >= row) {
+          const newPosition = position + 2;
+          node.style.gridRow = '' + newPosition + ' / ' + newPosition;
+        }
+      }
+
+      const newRows = this.createVector3Row(new WbVector3(), row, parent, mfId, resetButton);
+      newRows[0].style.display = 'block';
+      newRows[1].style.display = 'block';
+      resetButton.style.filter = 'brightness(100%)';
+    };
+
+    addRow.style.gridColumn = '3 / 3';
+    addRow.className = 'add-row mf-parameter mf-id-' + mfId;
+    addRow.id = 'row-' + this.#rowId;
+    addRow.title = 'Insert a new row here';
+    const rowNumber = row + 1;
+    addRow.style.gridRow = '' + rowNumber + ' / ' + rowNumber;
+    parent.appendChild(addRow);
+
+    this.#rowId++;
+
+    return addRow;
   }
 
   getRow(node) {
     const nodeRow = node.style.gridRow;
     const slashIndex = nodeRow.indexOf('/');
     return parseInt(nodeRow.substring(0, slashIndex));
+  }
+
+  #MFVec3fOnChange(node) {
+    const className = node.className;
   }
 
   #createSFRotation(key, parent) {
