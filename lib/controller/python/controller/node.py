@@ -110,19 +110,23 @@ class Node:
         return wb.wb_supervisor_node_export_string(self._ref).decode()
 
     def getField(self, name: str) -> Field:
-        return Field(self, name=name)
+        field = Field(self, name=name)
+        return field if field._ref else None
 
     def getFieldByIndex(self, index: int) -> Field:
-        return Field(self, index=index)
+        field = Field(self, index=index)
+        return field if field._ref else None
 
     def getNumberOfFields(self) -> int:
         return self.number_of_fields
 
     def getProtoField(self, name: str) -> Field:
-        return Field(self, name=name, proto=True)
+        field = Field(self, name=name, proto=True)
+        return field if field._ref else None
 
     def getProtoFieldByIndex(self, index: int) -> Field:
-        return Field(self, index=index, proto=True)
+        field = Field(self, index=index, proto=True)
+        return field if field._ref else None
 
     def getPosition(self) -> typing.List[float]:
         p = wb.wb_supervisor_node_get_position(self._ref)
