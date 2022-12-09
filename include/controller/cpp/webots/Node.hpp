@@ -142,8 +142,6 @@ namespace webots {
     const double *getOrientation() const;
     const double *getPose() const;
     const double *getPose(const Node *fromNode) const;
-    void enableContactPointsTracking(int samplingPeriod) const;
-    void disableContactPointsTracking() const;
     void enableContactPointsTracking(int samplingPeriod, bool includeDescendants = false) const;
     void disableContactPointsTracking(bool includeDescendants = false) const;
     void enablePoseTracking(int samplingPeriod) const;
