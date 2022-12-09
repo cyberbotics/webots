@@ -125,29 +125,26 @@ bool parse_options(int nb_arguments, char **arguments) {
     return false;
   }
 
-  char *protocol = NULL;
-  size_t protocol_size = 0;
-  char *ip_address = NULL;
-  size_t ip_address_size = 0;
-  char *port = NULL;
-  size_t port_size = 0;
-  char *robot_name = NULL;
   controller = NULL;
   matlab_path = NULL;
+  char *protocol = NULL;
+  char *ip_address = NULL;
+  char *port = NULL;
+  char *robot_name = NULL;
   for (int i = 1; i < nb_arguments; i++) {
     if (arguments[i][0] == '-') {
       if (strncmp(arguments[i] + 2, "protocol=", 9) == 0) {
-        protocol_size = strlen(arguments[i] + 11) + 1;
+        size_t protocol_size = strlen(arguments[i] + 11) + 1;
         protocol = malloc(protocol_size);
         memcpy(protocol, arguments[i] + 11, protocol_size);
         // printf("protocol = %s\n", protocol);
       } else if (strncmp(arguments[i] + 2, "ip-address=", 11) == 0) {
-        ip_address_size = strlen(arguments[i] + 13) + 1;
+        size_t ip_address_size = strlen(arguments[i] + 13) + 1;
         ip_address = malloc(ip_address_size);
         memcpy(ip_address, arguments[i] + 13, ip_address_size);
         // printf("ip_address = %s\n", ip_address);
       } else if (strncmp(arguments[i] + 2, "port=", 5) == 0) {
-        port_size = strlen(arguments[i] + 7) + 1;
+        size_t port_size = strlen(arguments[i] + 7) + 1;
         port = malloc(port_size);
         memcpy(port, arguments[i] + 7, port_size);
         // printf("port = %s\n", port);
@@ -173,6 +170,10 @@ bool parse_options(int nb_arguments, char **arguments) {
         return false;
       }
     } else {
+      if (controller) {
+        printf("Please specify only one single controller file to launch.\n");
+        return false;
+      }
       size_t controller_size = strlen(arguments[i]) + 1;
       controller = malloc(controller_size);
       memcpy(controller, arguments[i], controller_size);
@@ -186,16 +187,12 @@ bool parse_options(int nb_arguments, char **arguments) {
   }
 
   // If no protocol is given, ipc is used by default
-  if (!protocol) {
+  if (!protocol)
     protocol = strdup("ipc");
-    protocol_size = strlen(protocol);
-  }
 
   // If no port is given, 1234 is used by default
-  if (!port) {
+  if (!port)
     port = strdup("1234");
-    port_size = strlen(port);
-  }
 
   char *WEBOTS_CONTROLLER_URL = NULL;
   // Write WEBOTS_CONTROLLER_URL in function of given options
@@ -221,6 +218,7 @@ bool parse_options(int nb_arguments, char **arguments) {
     return false;
   }
 
+  // If a robot name is specified, add it to WEBOTS_CONTROLLER_URL
   if (robot_name) {
     size_t with_robot_size = snprintf(NULL, 0, "%s%s%s", WEBOTS_CONTROLLER_URL, "/", robot_name) + 1;
     WEBOTS_CONTROLLER_URL = realloc(WEBOTS_CONTROLLER_URL, with_robot_size);
@@ -228,7 +226,7 @@ bool parse_options(int nb_arguments, char **arguments) {
   }
   putenv(WEBOTS_CONTROLLER_URL);
 
-  // Show resulting target to user
+  // Show resulting target options to user
   const char *location = strncmp(protocol, "tcp", 3) == 0 ? "remote" : "local";
   printf("The started controller targets a %s instance (%s protocol) of Webots with port number %s.", location, protocol, port);
   strncmp(protocol, "tcp", 3) == 0 ? printf(" The IP address of the remote Webots instance is '%s'. ", ip_address) :
@@ -243,12 +241,12 @@ bool parse_options(int nb_arguments, char **arguments) {
 void exec_java_config_environment() {
 #ifdef _WIN32
   size_t new_path_size =
-    snprintf(NULL, 0, "%s%s%s%s%s%s%s%s", "Path=", WEBOTS_HOME, "\\lib\\controller:", WEBOTS_HOME,
-             "\\msys64\\mingw64\\bin:", WEBOTS_HOME, "\\msys64\\mingw64\\bin\\cpp:", getenv("DYLD_LIBRARY_PATH")) +
+    snprintf(NULL, 0, "%s%s%s%s%s%s%s%s", "Path=", WEBOTS_HOME, "\\lib\\controller;", WEBOTS_HOME, "\\msys64\\mingw64\\bin;",
+             WEBOTS_HOME, "\\msys64\\mingw64\\bin\\cpp;", getenv("DYLD_LIBRARY_PATH")) +
     1;
   char *new_path = malloc(new_path_size);
-  sprintf(new_path, "%s%s%s%s%s%s%s%s", "Path=", WEBOTS_HOME, "\\lib\\controller:", WEBOTS_HOME,
-          "\\msys64\\mingw64\\bin:", WEBOTS_HOME, "\\msys64\\mingw64\\bin\\cpp:", getenv("DYLD_LIBRARY_PATH"));
+  sprintf(new_path, "%s%s%s%s%s%s%s%s", "Path=", WEBOTS_HOME, "\\lib\\controller;", WEBOTS_HOME, "\\msys64\\mingw64\\bin;",
+          WEBOTS_HOME, "\\msys64\\mingw64\\bin\\cpp;", getenv("DYLD_LIBRARY_PATH"));
   putenv(new_path);
 #else
 #ifdef __linux__
@@ -411,7 +409,7 @@ int main(int argc, char **argv) {
     char *matlab_command = malloc(matlab_command_size);
     sprintf(matlab_command, "%s%s%s%s", matlab_path, " -nodisplay -nosplash -nodesktop -r \"run('", WEBOTS_HOME, launcher_path);
 
-    printf("%s\n", matlab_command);
+    // printf("%s\n", matlab_command);
     system(matlab_command);
   }
   // Java controller
