@@ -1,0 +1,40 @@
+#VRML_SIM R2023b utf8
+PROTO HusarionWorld [
+    field SFVec3f    translation        0 0 0
+    field SFRotation rotation           0 0 1 0
+    field SFString   name               "husarion_world"
+]
+{
+    Solid {
+        translation IS translation
+        rotation IS rotation
+        name IS name
+        scale 10 10 10
+        children [
+            DEF BORDER Shape {
+                geometry Mesh {
+                    url "meshes/husarion_world.dae"
+                    materialIndex 0
+                }
+                appearance PBRAppearance {
+                    baseColor 0.6307572 0.005605392 0.02415763
+                }
+            }
+            DEF LOGO Shape {
+                geometry Mesh {
+                    url "meshes/husarion_world.dae"
+                    materialIndex 1
+                }
+                appearance PBRAppearance {
+                    baseColor 1 1 1
+                }
+            }
+        ]
+        boundingObject Group{
+            children[
+                USE LOGO
+                USE BORDER
+            ]
+        }
+    }
+}
