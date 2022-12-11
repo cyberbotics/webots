@@ -660,7 +660,7 @@ bool RosSupervisor::nodeDisableContactPointsTrackingCallback(webots_ros::node_di
   if (!req.node)
     return false;
   Node *node = reinterpret_cast<Node *>(req.node);
-  node->disableContactPointsTracking(req.include_descendants);
+  node->disableContactPointsTracking();
   res.success = true;
   return true;
 }
