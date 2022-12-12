@@ -129,11 +129,6 @@ export default class NodeSelectorWindow {
     nodeInfo.id = 'node-info';
     nodeInfo.className = 'node-info';
 
-    //const topLine = document.createElement('hr');
-    //topLine.id = 'top-line';
-    //topLine.style.width = '75%'
-    //nodeInfo.appendChild(topLine);
-
     const img = document.createElement('img');
     img.id = 'node-image';
     img.className = 'node-image'
@@ -141,10 +136,20 @@ export default class NodeSelectorWindow {
     img.src = '../../images/missing_proto_icon.png';
     nodeInfo.appendChild(img);
 
-    const bottomLine = document.createElement('hr');
-    bottomLine.id = 'bottom-line';
-    bottomLine.style.width = '75%'
-    nodeInfo.appendChild(bottomLine);
+    const line = document.createElement('hr');
+    line.id = 'line';
+    line.style.width = '75%'
+    nodeInfo.appendChild(line);
+
+    const warning = document.createElement('span');
+    warning.id = 'node-warning';
+    warning.innerHTML = 'No nodes match the criteria.';
+    warning.style.height = '100%';
+    warning.style.verticalAlign = 'middle';
+    warning.style.alignItems = 'center';
+    warning.style.color = 'rgba(240, 240, 240, 1)';
+    warning.style.display = 'none';
+    nodeInfo.appendChild(warning);
 
     const description = document.createElement('span');
     description.id = 'node-description';
@@ -194,8 +199,8 @@ export default class NodeSelectorWindow {
 
     const ol = document.createElement('ol');
 
-    // the NULL element is always available
-    ol.appendChild(this.#createNodeButton('NULL', 'null'));
+    //// the NULL element is always available
+    //ol.appendChild(this.#createNodeButton('NULL', 'null'));
 
     // add compatible nodes
     for (const [name, info] of this.nodes) {
@@ -224,21 +229,26 @@ export default class NodeSelectorWindow {
 
     nodeList.appendChild(ol);
 
-    // remove selection
-    if (typeof this.selection !== 'undefined') {
+    // select first item by default, if any
+    console.log(ol.children.length)
+    if (ol.children.length === 0) {
       this.selection.style.backgroundColor = '';
       this.selection = undefined;
+    } else {
+      this.selection = ol.children[0];
+      this.selection.style.backgroundColor = '#007acc';
     }
 
     // populate node info
-    this.populateNodeInfo();
+    this.populateNodeInfo(this.selection?.innerText);
   }
 
   #createNodeButton(name, url) {
     const item = document.createElement('li');
     const button = document.createElement('button');
+    button.style.width = '100%';
+    button.style.textAlign = 'left';
     button.innerText = name;
-    button.value = name;
     item.appendChild(button);
 
     button.onclick = (item) => {
@@ -248,7 +258,7 @@ export default class NodeSelectorWindow {
       this.selection = item.target;
       this.selection.style.backgroundColor = '#007acc';
 
-      this.populateNodeInfo(this.selection.value);
+      this.populateNodeInfo(this.selection.innerText);
     };
 
     button.ondblclick = async(item) => await this.insertNode(item.target.value);
@@ -258,29 +268,23 @@ export default class NodeSelectorWindow {
 
   populateNodeInfo(protoName) {
     const nodeImage = document.getElementById('node-image');
+    const warning = document.getElementById('node-warning');
     const description = document.getElementById('node-description');
     const license = document.getElementById('node-license');
-    //const topLine = document.getElementById('top-line');
-    const bottomLine = document.getElementById('bottom-line');
+    const line = document.getElementById('line');
 
     if (typeof protoName === 'undefined') {
       nodeImage.style.display = 'none';
-      description.innerHTML = 'No node selected';
+      description.style.display = 'none';
       license.style.display = 'none';
-      //topLine.style.display = 'none';
-      bottomLine.style.display = 'none';
-    } else if (protoName === 'NULL') {
-      nodeImage.style.display = 'none';
-      description.innerHTML = 'The current node will be removed.';
-      license.style.display = 'none';
-      //topLine.style.display = 'none';
-      bottomLine.style.display = 'none';
+      line.style.display = 'none';
+      warning.style.display = 'flex';
     } else {
+      warning.style.display = 'none';
       nodeImage.style.display = 'block';
       description.style.display = 'block';
       license.style.display = 'block';
-      //topLine.style.display = 'block';
-      bottomLine.style.display = 'block';
+      line.style.display = 'block';
 
       const info = this.nodes.get(protoName);
       const url = info.url;
