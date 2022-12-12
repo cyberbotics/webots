@@ -107,7 +107,7 @@ int main(int argc, char **argv) {
 
   // test that removing a tracked node doesn't cause a crash
   wb_robot_step(TIME_STEP);
-  wb_supervisor_node_enable_contact_point_tracking(node, TIME_STEP, false);
+  wb_supervisor_node_enable_contact_points_tracking(node, TIME_STEP, false);
   wb_robot_step(2 * TIME_STEP);
   wb_supervisor_node_remove(node);
   wb_robot_step(2 * TIME_STEP);
