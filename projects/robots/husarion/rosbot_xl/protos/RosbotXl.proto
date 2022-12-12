@@ -1,0 +1,254 @@
+#VRML_SIM R2023b utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# This is a proto file for Webots for the RosbotXl
+EXTERNPROTO "webots://projects/devices/slamtec/protos/RpLidarA2.proto"
+EXTERNPROTO "webots://projects/devices/tdk/protos/Mpu-9250.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/29265faa469a5f86d67a1e2407f33059f63dc981/projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/29265faa469a5f86d67a1e2407f33059f63dc981/projects/appearances/protos/GlossyPaint.proto"
+
+PROTO RosbotXl [
+  field  SFVec3f     translation     0 0 0
+  field  SFRotation  rotation        0 0 1 0
+  field  SFString    name            "RosbotXl"  # Is `Robot.name`.
+  field  SFString    controller      "void"      # Is `Robot.controller`.
+  field  MFString    controllerArgs  []          # Is `Robot.controllerArgs`.
+  field  SFString    customData      ""          # Is `Robot.customData`.
+  field  SFBool      supervisor      FALSE       # Is `Robot.supervisor`.
+  field  SFBool      synchronization TRUE        # Is `Robot.synchronization`.
+  field  SFBool      selfCollision   FALSE       # Is `Robot.selfCollision`.
+  field  MFNode      lidarSlot       [ RpLidarA2 { name "laser" } ] # Extends the robot with a RpLidar A2 lidar.
+
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    selfCollision IS selfCollision
+    children [
+      DEF MAIN_BODY Transform {
+        translation 0.000000 0.000000 0.048000
+        rotation 0.000000 0.000000 1.000000 0.000000
+        children [
+          CadShape {
+              url "meshes/body.dae"
+          }
+        ]
+      }
+      DEF FL_WHEEL_AXIS Transform {
+        translation 0.085000 0.118000 0.000000
+        rotation 1 0 0 -1.5707953071795862
+      }
+      DEF FR_WHEEL_AXIS Transform {
+        translation 0.085000 -0.118000 0.000000
+        rotation 1 0 0 -1.5707953071795862
+      }
+      DEF RL_WHEEL_AXIS Transform {
+        translation -0.085000 0.118000 0.000000
+        rotation 1 0 0 -1.5707953071795862
+      }
+      DEF RR_WHEEL_AXIS Transform {
+        translation -0.085000 -0.118000 0.000000
+        rotation 1 0 0 -1.5707953071795862
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0.000000 1.000000 0.000000
+          anchor 0.085000 0.118000 0.048
+          dampingConstant 5.0
+          staticFriction 1.0
+        }
+        device [
+          RotationalMotor {
+            name "fl_wheel_joint"
+            maxVelocity 26.0
+            maxTorque 100.0
+          }
+          PositionSensor {
+            name "front left wheel motor sensor"
+          }
+        ]
+        endPoint Solid {
+          translation 0.085000 0.118000 0.048
+          rotation 0.000000 0.000000 1.000000 0.000000
+          children [
+            Transform {
+              translation 0.000000 0.000000 0.000000
+              rotation 0.000000 0.000000 1.000000 0.000000
+              children [
+                DEF WHEEL_SHAPE CadShape {
+                  url "meshes/wheel_a.dae"
+                }
+              ]
+            }
+          ]
+          name "front left wheel"
+          boundingObject DEF LEFT_WHEEL_CYLINDER Transform {
+            translation 0.000000 0.000000 0.000000
+            rotation 1.000000 0.000000 0.000000 -1.570800
+            children [
+              DEF WHEEL_CYLINDER Cylinder {
+                radius 0.048
+                height 0.032
+              }
+            ]
+          }
+          physics DEF WHEEL_PHYSICS Physics {
+            density -1
+            mass 0.051000
+            centerOfMass [ 0.000000 0.000000 0.000000 ]
+            inertiaMatrix [
+              3.954000e-05 7.116000e-05 4.032000e-05
+              0.000000e+00 0.000000e+00 0.000000e+00
+            ]
+          }
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0.000000 1.000000 0.000000
+          anchor 0.085000 -0.118000 0.048
+          dampingConstant 5.0
+          staticFriction 1.0
+        }
+        device [
+          RotationalMotor {
+            name "fr_wheel_joint"
+            maxVelocity 26.0
+            maxTorque 100.0
+          }
+          PositionSensor {
+            name "front right wheel motor sensor"
+          }
+        ]
+        endPoint Solid {
+          translation 0.085000 -0.118000 0.048
+          rotation 0.000000 0.000000 1.000000 0.000000
+          children [
+            Transform {
+              translation 0.000000 0.000000 0.000000
+              rotation 0.000000 0.000000 1.000000 3.141592
+              children [
+                USE WHEEL_SHAPE
+              ]
+            }
+          ]
+          name "front right wheel"
+          boundingObject DEF RIGHT_WHEEL_CYLINDER Transform {
+            translation 0.000000 0.000000 0.000000
+            rotation 1.000000 0.000000 0.000000 -1.570800
+            children [
+              USE WHEEL_CYLINDER
+            ]
+          }
+          physics USE WHEEL_PHYSICS
+        }
+      }
+
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0.000000 1.000000 0.000000
+          anchor -0.085000 0.118000 0.048
+          dampingConstant 5.0
+          staticFriction 1.0
+        }
+        device [
+          RotationalMotor {
+            name "rl_wheel_joint"
+            maxVelocity 26.0
+            maxTorque 100.0
+          }
+          PositionSensor {
+            name "rear left wheel motor sensor"
+          }
+        ]
+        endPoint Solid {
+          translation -0.085000 0.118000 0.048
+          rotation 0.000000 0.000000 1.000000 0.000000
+          children [
+            Transform {
+              translation 0.000000 0.000000 0.000000
+              rotation 0.000000 0.000000 1.000000 3.141592
+              children [
+                USE WHEEL_SHAPE
+              ]
+            }
+          ]
+          name "rear left wheel"
+          boundingObject DEF LEFT_WHEEL_CYLINDER Transform {
+            translation 0.000000 0.000000 0.000000
+            rotation 1.000000 0.000000 0.000000 -1.570800
+            children [
+              USE WHEEL_CYLINDER
+            ]
+          }
+          physics USE WHEEL_PHYSICS
+        }
+      }
+
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0.000000 1.000000 0.000000
+          anchor -0.085000 -0.118000 0.048
+          dampingConstant 5.0
+          staticFriction 1.0
+        }
+        device [
+          RotationalMotor {
+            name "rr_wheel_joint"
+            maxVelocity 26.0
+            maxTorque 100.0
+          }
+          PositionSensor {
+            name "rear right wheel motor sensor"
+          }
+        ]
+        endPoint Solid {
+          translation -0.085000 -0.118000 0.048
+          rotation 0.000000 0.000000 1.000000 0.000000
+          children [
+            Transform {
+              translation 0.000000 0.000000 0.000000
+              rotation 0.000000 0.000000 1.000000 3.141592
+              children [
+                USE WHEEL_SHAPE
+              ]
+            }
+          ]
+          name "rear right wheel"
+          boundingObject DEF RIGHT_WHEEL_CYLINDER Transform {
+            translation 0.000000 0.000000 0.000000
+            rotation 1.000000 0.000000 0.000000 -1.570800
+            children [
+              USE WHEEL_CYLINDER
+            ]
+          }
+          physics USE WHEEL_PHYSICS
+        }
+      }
+      DEF LIDAR_SLOT Transform {
+        translation 0.0 0 0.13145
+        children IS lidarSlot
+      }
+      Mpu-9250 {
+        translation -0.1369 -0.0419 0.085
+        name "imu"
+      }
+    ]
+    physics Physics {
+      density -1
+      mass 3.500000
+      centerOfMass [ -0.016319 -0.004036 0.028190 ]
+      inertiaMatrix [
+        2.540425e-02 2.874642e-02 4.622710e-02
+        -2.000608e-04 -9.754257e-04 -2.603326e-04
+      ]
+    }
+  }
+}
