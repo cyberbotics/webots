@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
   }
   epsilon = 0.0;
   ts_assert_boolean_equal(epsilon <= THRESHOLD, "The contact points positions do not match the reference positions.");
-  wb_supervisor_node_disable_contact_points_tracking(node, false);
+  wb_supervisor_node_disable_contact_points_tracking(node);
 
   // contact points (descendants included) checks
   number_of_contact_points = wb_supervisor_node_get_number_of_contact_points(node, true);
@@ -91,7 +91,7 @@ int main(int argc, char **argv) {
       contact_points_array[REFERENCE_NUMBER_OF_CONTACT_POINTS + ADDITIONAL_CONTACT_POINTS_NUMBER - 1].node_id) ==
       wb_supervisor_node_get_from_def("SECONDARY_SOLID"),
     "Last contact point should belong to the 'SECONDARY_SOLID' node.");
-  wb_supervisor_node_disable_contact_points_tracking(node, true);
+  wb_supervisor_node_disable_contact_points_tracking(node);
 
   // The `wb_supervisor_node_get_contact_points` should also work with Slot nodes
   wb_supervisor_node_get_contact_points(wb_supervisor_node_get_from_def("SLOT_SOLID"), false, &number_of_contact_points);
