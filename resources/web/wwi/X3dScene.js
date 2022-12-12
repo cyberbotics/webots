@@ -42,6 +42,7 @@ import WbNormal from './nodes/WbNormal.js';
 import WbSpotLight from './nodes/WbSpotLight.js';
 import WbDirectionalLight from './nodes/WbDirectionalLight.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
+import WbConnector from './nodes/WbConnector.js';
 
 export default class X3dScene {
   #loader;
@@ -448,6 +449,9 @@ export default class X3dScene {
           }
           object.lookupTable = lookupTable;
         }
+      } else if (object instanceof WbConnector) {
+        if (key === 'numberOfRotations')
+          object.numberOfRotations = parseInt(pose[key]);
       }
 
       if (object instanceof WbLight) {

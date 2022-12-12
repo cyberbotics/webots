@@ -12,6 +12,7 @@ field MFVec3f      lookupTable    [ 0 0 0, 0.2 1000 0 ]
 field SFInt32      numberOfRays   1
 field SFFloat      aperture       1.5708
 field SFBool       triggerRegeneration   TRUE
+field SFInt32      numberOfRotations     4
 ]
 {
   Robot {
@@ -35,6 +36,9 @@ field SFBool       triggerRegeneration   TRUE
         lookupTable IS lookupTable
         numberOfRays IS numberOfRays
         aperture IS aperture
+      }
+      Connector {
+        numberOfRotations IS numberOfRotations
       }
     ]
     %< if (fields.triggerRegeneration.value) { >%

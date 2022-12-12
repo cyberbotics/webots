@@ -1,6 +1,7 @@
 import FloatingWindow from './FloatingWindow.js';
 import {VRML} from './protoVisualizer/vrml_type.js';
 import WbCamera from './nodes/WbCamera.js';
+import WbConnector from './nodes/WbConnector.js';
 import WbDistanceSensor from './nodes/WbDistanceSensor.js';
 import WbHingeJoint from './nodes/WbHingeJoint.js';
 import WbLidar from './nodes/WbLidar.js';
@@ -755,7 +756,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       // TODO once all the optional rendering are implemented, replace this list by device instanceof WbDevice
       if (device instanceof WbCamera || device instanceof WbRangeFinder || device instanceof WbLidar ||
         device instanceof WbRadar || device instanceof WbLightSensor || device instanceof WbPen ||
-        device instanceof WbDistanceSensor) {
+        device instanceof WbDistanceSensor || device instanceof WbConnector) {
         numberOfDevices++;
 
         let div = document.createElement('div');
