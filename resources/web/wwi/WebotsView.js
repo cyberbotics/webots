@@ -56,7 +56,7 @@ export default class WebotsView extends HTMLElement {
 
         // if it's a data file, use a custom dir
         if (path.endsWith('.data'))
-          return '../wwi/' + path;
+          return 'https://cyberbotics.com/wwi/proto/' + path;
 
         // otherwise, use the default, the prefix (JS file's dir) + the path
         return prefix + path;
@@ -103,7 +103,7 @@ export default class WebotsView extends HTMLElement {
     promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/dependencies/quaternion.min.js'));
     promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/dependencies/libtess.min.js'));
     promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/enum.js'));
-    promises.push(this.#loadScript('../wwi/wrenjs.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/proto/wrenjs.js'));
   }
 
   #closeWhenDOMElementRemoved() {
