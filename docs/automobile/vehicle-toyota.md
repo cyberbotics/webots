@@ -8,7 +8,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![ToyotaPrius](images/toyota/ToyotaPrius.png)
+![ToyotaPrius](images/toyota/ToyotaPrius.thumbnail.png)
 
 %end
 
@@ -47,7 +47,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![ToyotaPriusSimple](images/toyota/ToyotaPriusSimple.png)
+![ToyotaPriusSimple](images/toyota/ToyotaPriusSimple.thumbnail.png)
 
 %end
 
@@ -87,7 +87,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![ToyotaPriusWheel](images/toyota/ToyotaPriusWheel.png)
+![ToyotaPriusWheel](images/toyota/ToyotaPriusWheel.thumbnail.png)
 
 %end
 

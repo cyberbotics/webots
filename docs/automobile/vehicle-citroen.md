@@ -10,7 +10,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![CitroenCZero](images/citroen/CitroenCZero.png)
+![CitroenCZero](images/citroen/CitroenCZero.thumbnail.png)
 
 %end
 
@@ -52,7 +52,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![CitroenCZeroFrontWheel](images/citroen/CitroenCZeroFrontWheel.png)
+![CitroenCZeroFrontWheel](images/citroen/CitroenCZeroFrontWheel.thumbnail.png)
 
 %end
 
@@ -82,7 +82,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![CitroenCZeroRearWheel](images/citroen/CitroenCZeroRearWheel.png)
+![CitroenCZeroRearWheel](images/citroen/CitroenCZeroRearWheel.thumbnail.png)
 
 %end
 
@@ -109,7 +109,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![CitroenCZeroSimple](images/citroen/CitroenCZeroSimple.png)
+![CitroenCZeroSimple](images/citroen/CitroenCZeroSimple.thumbnail.png)
 
 %end
 

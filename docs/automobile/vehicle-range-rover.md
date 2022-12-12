@@ -6,7 +6,7 @@ Model of a Range Rover Sport SVR 2015.
 
 %figure
 
-![RangeRoverSportSVR](images/range_rover/RangeRoverSportSVR.png)
+![RangeRoverSportSVR](images/range_rover/RangeRoverSportSVR.thumbnail.png)
 
 %end
 
@@ -45,7 +45,7 @@ Simple kinematic model of the Range Rover Sport SVR 2015 to be moved with a Supe
 
 %figure
 
-![RangeRoverSportSVRSimple](images/range_rover/RangeRoverSportSVRSimple.png)
+![RangeRoverSportSVRSimple](images/range_rover/RangeRoverSportSVRSimple.thumbnail.png)
 
 %end
 

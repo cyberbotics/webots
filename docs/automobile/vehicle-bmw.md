@@ -9,7 +9,7 @@ For the last 6 fields to have any effect, the 'interior' has to be enabled.
 
 %figure
 
-![BmwX5](images/bmw/BmwX5.png)
+![BmwX5](images/bmw/BmwX5.thumbnail.png)
 
 %end
 
@@ -61,7 +61,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![BmwX5Simple](images/bmw/BmwX5Simple.png)
+![BmwX5Simple](images/bmw/BmwX5Simple.thumbnail.png)
 
 %end
 
@@ -98,7 +98,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![BmwX5Wheel](images/bmw/BmwX5Wheel.png)
+![BmwX5Wheel](images/bmw/BmwX5Wheel.thumbnail.png)
 
 %end
 

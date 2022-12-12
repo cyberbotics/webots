@@ -6,7 +6,7 @@ Model of a Lincoln MKZ 2017.
 
 %figure
 
-![LincolnMKZ](images/lincoln/LincolnMKZ.png)
+![LincolnMKZ](images/lincoln/LincolnMKZ.thumbnail.png)
 
 %end
 
@@ -44,7 +44,7 @@ Simple kinematic model of the Lincoln MKZ 2017 to be moved with a Supervisor.
 
 %figure
 
-![LincolnMKZSimple](images/lincoln/LincolnMKZSimple.png)
+![LincolnMKZSimple](images/lincoln/LincolnMKZSimple.thumbnail.png)
 
 %end
 

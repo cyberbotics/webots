@@ -7,7 +7,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![Bus](images/generic/Bus.png)
+![Bus](images/generic/Bus.thumbnail.png)
 
 %end
 
@@ -43,7 +43,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![BusSimple](images/generic/BusSimple.png)
+![BusSimple](images/generic/BusSimple.thumbnail.png)
 
 %end
 
@@ -80,7 +80,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %figure
 
-![BusWheel](images/generic/BusWheel.png)
+![BusWheel](images/generic/BusWheel.thumbnail.png)
 
 %end
 
@@ -106,7 +106,7 @@ The Motorbike driver is based on the pedestrian PROTO.
 
 %figure
 
-![MotorbikeDriver](images/generic/MotorbikeDriver.png)
+![MotorbikeDriver](images/generic/MotorbikeDriver.thumbnail.png)
 
 %end
 
@@ -132,7 +132,7 @@ Simple non-controllable model of a generic motorbike without physics properties.
 
 %figure
 
-![MotorbikeSimple](images/generic/MotorbikeSimple.png)
+![MotorbikeSimple](images/generic/MotorbikeSimple.thumbnail.png)
 
 %end
 
@@ -162,7 +162,7 @@ Model of a motorbike wheel using the generic [VehicleWheel](vehiclewheel.md) PRO
 
 %figure
 
-![MotorbikeWheel](images/generic/MotorbikeWheel.png)
+![MotorbikeWheel](images/generic/MotorbikeWheel.thumbnail.png)
 
 %end
 
@@ -187,7 +187,7 @@ The Scooter driver is based on the pedestrian PROTO.
 
 %figure
 
-![ScooterDriver](images/generic/ScooterDriver.png)
+![ScooterDriver](images/generic/ScooterDriver.thumbnail.png)
 
 %end
 
@@ -213,7 +213,7 @@ Simple non-controllable model of a generic scooter without physics properties.
 
 %figure
 
-![ScooterSimple](images/generic/ScooterSimple.png)
+![ScooterSimple](images/generic/ScooterSimple.thumbnail.png)
 
 %end
 
@@ -243,7 +243,7 @@ Model of a scooter wheel using the generic [VehicleWheel](vehiclewheel.md) PROTO
 
 %figure
 
-![ScooterWheel](images/generic/ScooterWheel.png)
+![ScooterWheel](images/generic/ScooterWheel.thumbnail.png)
 
 %end
 
@@ -268,7 +268,7 @@ A simple tractor.
 
 %figure
 
-![Tractor](images/generic/Tractor.png)
+![Tractor](images/generic/Tractor.thumbnail.png)
 
 %end
 
@@ -300,7 +300,7 @@ Tractor front wheel.
 
 %figure
 
-![TractorFrontWheel](images/generic/TractorFrontWheel.png)
+![TractorFrontWheel](images/generic/TractorFrontWheel.thumbnail.png)
 
 %end
 
@@ -329,7 +329,7 @@ Tractor rear wheel.
 
 %figure
 
-![TractorRearWheel](images/generic/TractorRearWheel.png)
+![TractorRearWheel](images/generic/TractorRearWheel.thumbnail.png)
 
 %end
 
@@ -358,7 +358,7 @@ A simple truck.
 
 %figure
 
-![Truck](images/generic/Truck.png)
+![Truck](images/generic/Truck.thumbnail.png)
 
 %end
 
@@ -417,7 +417,7 @@ Simple kinematic model of truck to be moved with a Supervisor.
 
 %figure
 
-![TruckSimple](images/generic/TruckSimple.png)
+![TruckSimple](images/generic/TruckSimple.thumbnail.png)
 
 %end
 
@@ -453,7 +453,7 @@ A non-controllable truck tank model with physics properties.
 
 %figure
 
-![TruckTank](images/generic/TruckTank.png)
+![TruckTank](images/generic/TruckTank.thumbnail.png)
 
 %end
 
@@ -477,7 +477,7 @@ A simple non-controllable truck tank model without physics properties.
 
 %figure
 
-![TruckTankSimple](images/generic/TruckTankSimple.png)
+![TruckTankSimple](images/generic/TruckTankSimple.thumbnail.png)
 
 %end
 
@@ -504,7 +504,7 @@ The length and number of wheels is configurable.
 
 %figure
 
-![TruckTrailer](images/generic/TruckTrailer.png)
+![TruckTrailer](images/generic/TruckTrailer.thumbnail.png)
 
 %end
 
@@ -540,7 +540,7 @@ A simple non-controllable truck trailer model without physics properties.
 
 %figure
 
-![TruckTrailerSimple](images/generic/TruckTrailerSimple.png)
+![TruckTrailerSimple](images/generic/TruckTrailerSimple.thumbnail.png)
 
 %end
 
@@ -566,7 +566,7 @@ Model of a truck wheel using the generic [VehicleWheel](vehiclewheel.md) PROTO.
 
 %figure
 
-![TruckWheel](images/generic/TruckWheel.png)
+![TruckWheel](images/generic/TruckWheel.thumbnail.png)
 
 %end
 

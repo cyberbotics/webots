@@ -6,7 +6,7 @@ Model of a Mercedes-Benz Sprinter.
 
 %figure
 
-![MercedesBenzSprinter](images/mercedes_benz/MercedesBenzSprinter.png)
+![MercedesBenzSprinter](images/mercedes_benz/MercedesBenzSprinter.thumbnail.png)
 
 %end
 
@@ -42,7 +42,7 @@ Simple kinematic model of the Mercedes-Benz Sprinter to be moved with a Supervis
 
 %figure
 
-![MercedesBenzSprinterSimple](images/mercedes_benz/MercedesBenzSprinterSimple.png)
+![MercedesBenzSprinterSimple](images/mercedes_benz/MercedesBenzSprinterSimple.thumbnail.png)
 
 %end
 

@@ -8,7 +8,7 @@ Weight, transmission and motor properties are calibrated according to the 'Long 
 
 %figure
 
-![TeslaModel3](images/tesla/TeslaModel3.png)
+![TeslaModel3](images/tesla/TeslaModel3.thumbnail.png)
 
 %end
 
@@ -46,7 +46,7 @@ Simple kinematic model of the Tesla model 3 to be moved with a Supervisor.
 
 %figure
 
-![TeslaModel3Simple](images/tesla/TeslaModel3Simple.png)
+![TeslaModel3Simple](images/tesla/TeslaModel3Simple.thumbnail.png)
 
 %end
 
