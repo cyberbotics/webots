@@ -2,7 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car#twowheelersimple
-# Simple non-controllable model of a generic motorbike without physics properties
+# Simple non-controllable model of a generic motorbike without physics properties.
 # template language: javascript
 
 EXTERNPROTO "MotorbikeDriver.proto"

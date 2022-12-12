@@ -2,8 +2,8 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
-# Model of a Citroën C-Zero car using the Car proto as a base.
-# The vehicle is modelled with realistic physics properties: motor torques, body mass, friction forces, suspensions, etc.
+# Model of a Citroën C-Zero car using the Car PROTO as a base.
+# The vehicle is modeled with realistic physics properties: motor torques, body mass, friction forces, suspensions, etc.
 # The contactMaterial of the wheels is "CitroenCZeroWheels"
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
@@ -104,7 +104,7 @@ PROTO CitroenCZero [
       Transform {
         children IS sensorsSlotCenter
       }
-     
+
       Transform{
         rotation 0.57735 0.57735 0.57735 2.094395
         children [

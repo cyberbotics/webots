@@ -2,7 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car#heavy-weights
-# A simple truck
+# A simple truck.
 # template language: javascript
 
 EXTERNPROTO "TruckTrailer.proto"

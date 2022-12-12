@@ -10,7 +10,7 @@ EXTERNPROTO "TruckCab.proto"
 EXTERNPROTO "TruckWheel.proto"
 
 PROTO TruckSimple [
-  field     SFVec3f    translation         0 0.5 0
+  field     SFVec3f    translation         0 0 0.5
   field     SFRotation rotation            0 0 1 0
   field     SFColor    color               0.39 0 0
   field     MFColor    recognitionColors   [ 0.39 0 0 ]

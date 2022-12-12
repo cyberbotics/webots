@@ -20,7 +20,7 @@ EXTERNPROTO "RangeRoverSportSVRLeftMirrorMesh.proto"
 EXTERNPROTO "RangeRoverSportSVRRightMirrorMesh.proto"
 
 PROTO RangeRoverSportSVRSimple [
-  field       SFVec3f    translation                    0 0.4 0
+  field       SFVec3f    translation                    0 0 0.4
   field       SFRotation rotation                       0 0 1 0
   field       SFColor    color                          0.0 0.25 0.65
   field       SFColor    secondaryColor                 0.1 0.1 0.1
