@@ -14,6 +14,7 @@ import WbVector3 from './nodes/utils/WbVector3.js';
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #mfId;
   #protoManager;
+  #rowNumber;
   #rowId;
   #view;
   constructor(parentNode, protoManager, view) {
@@ -99,7 +100,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
       // populate the parameters
       const keys = this.#protoManager.exposedParameters.keys();
-      this.row = 1;
+      this.#rowNumber = 1;
       for (let key of keys) {
         const parameter = this.#protoManager.exposedParameters.get(key);
         if (parameter.type === VRML.SFVec3f)
@@ -117,7 +118,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         else if (parameter.type === VRML.MFVec3f)
           this.#createMFVec3fField(key, contentDiv);
 
-        this.row++;
+        this.#rowNumber++;
       }
 
       this.#createDownloadButton(contentDiv);
@@ -139,8 +140,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     downloadlButton.innerHTML = 'Download';
     const buttonContainer = document.createElement('span');
     buttonContainer.className = 'value-parameter';
-    buttonContainer.style.gridRow = '' + this.row + ' / ' + this.row;
-    buttonContainer.style.gridColumn = '3 / 3';
+    buttonContainer.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
+    buttonContainer.style.gridColumn = '4 / 4';
 
     const input = document.createElement('input');
     input.type = 'text';
@@ -181,7 +182,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.innerHTML = key + ': ';
     p.key = key;
     p.inputs = [];
-    p.style.gridRow = '' + this.row + ' / ' + this.row;
+    p.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     p.style.gridColumn = '2 / 2';
     p.parameter = parameter;
     p.className = 'key-parameter';
@@ -190,8 +191,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.checkbox = exportCheckbox;
 
     const values = document.createElement('p');
-    values.style.gridRow = '' + this.row + ' / ' + this.row;
-    values.style.gridColumn = '3 / 3';
+    values.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
+    values.style.gridColumn = '4 / 4';
     values.className = 'value-parameter';
 
     p.inputs.push(this.#createVectorInput('x', parameter.value.value.x, values, () => {
@@ -207,7 +208,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       this.#enableResetButton(resetButton);
     }));
 
-    const resetButton = this.#createResetButton(values);
+    const resetButton = this.#createResetButton(parent, p.style.gridRow);
     this.#disableResetButton(resetButton);
     resetButton.onclick = () => {
       p.inputs[0].value = parameter.defaultValue.value.x;
@@ -227,7 +228,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.innerHTML = key + ': ';
     p.key = key;
     p.inputs = [];
-    p.style.gridRow = '' + this.row + ' / ' + this.row;
+    p.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     p.style.gridColumn = '2 / 2';
     p.className = 'key-parameter';
 
@@ -235,10 +236,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.checkbox = exportCheckbox;
 
     const hideShowButton = document.createElement('button');
-    hideShowButton.innerHTML = 'Show';
-    hideShowButton.style.gridRow = '' + this.row + ' / ' + this.row;
-    hideShowButton.style.gridColumn = '3 / 3';
+    hideShowButton.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
+    hideShowButton.style.gridColumn = '4 / 4';
     hideShowButton.className = 'mf-expand-button';
+    hideShowButton.isHidden = true;
+
     const currentMfId = this.#mfId;
     hideShowButton.onclick = () => {
       const nodes = document.getElementsByClassName('mf-id-' + currentMfId);
@@ -252,27 +254,45 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         }
       }
 
-      if (hideShowButton.innerHTML === 'Show')
-        hideShowButton.innerHTML = 'Hide';
-      else
-        hideShowButton.innerHTML = 'Show';
+      if (hideShowButton.isHidden) {
+        hideShowButton.style.transform = 'rotate(90deg)';
+        hideShowButton.isHidden = false;
+      } else {
+        hideShowButton.style.transform = '';
+        hideShowButton.isHidden = true;
+      }
     };
 
-    const resetButton = this.#createResetButton(parent);
+    const resetButton = this.#createResetButton(parent, p.style.gridRow);
     this.#disableResetButton(resetButton);
-    resetButton.style.gridRow = '' + this.row + ' / ' + this.row;
-    resetButton.style.gridColumn = '3 / 3';
-    resetButton.style.marginLeft = '77px';
     resetButton.onclick = () => {
       this.#disableResetButton(resetButton);
+      const nodesToRemove = document.getElementsByClassName('mf-id-' + currentMfId);
+      let maxRowNumber = 0;
+      for (let i = nodesToRemove.length - 1; i >= 0; i--) {
+        const rowNumber = this.#getRow(nodesToRemove[i]);
+        if (rowNumber > maxRowNumber)
+          maxRowNumber = rowNumber;
+        nodesToRemove[i].parentNode.removeChild(nodesToRemove[i]);
+      }
+
+      parameter.value = parameter.defaultValue.clone();
+      const resetButtonRow = this.#getRow(resetButton);
+      // two times because of the `add` button and plus one for the first `add` button.
+      const maxRowNumberNeeded = parameter.value.value.length * 2 + 1 + resetButtonRow;
+
+      // Need to offset the following rows by the difference to keep the coherency.
+      if (maxRowNumber > maxRowNumberNeeded)
+        this.#offsetNegativelyRows(resetButtonRow, maxRowNumber - maxRowNumberNeeded);
+      else if (maxRowNumber < maxRowNumberNeeded)
+        this.#offsetPositivelyRows(resetButtonRow + 1, maxRowNumberNeeded - maxRowNumber);
+
+      this.#populateMFVec3f(resetButton, parent, parameter, resetButtonRow, currentMfId, !hideShowButton.isHidden);
+
+      this.#MFVec3fOnChange('value-parameter mf-parameter mf-id-' + currentMfId, parameter);
     };
-    this.#createAddRowSection(this.#mfId, resetButton, this.row, parent, parameter);
-    this.row++;
-    for (let i = 0; i < parameter.value.value.length; i++) {
-      this.row++;
-      this.createVector3Row(parameter.value.value[i].value, this.row, parent, this.#mfId, resetButton, parameter);
-      this.row++;
-    }
+
+    this.#rowNumber += this.#populateMFVec3f(resetButton, parent, parameter, this.#rowNumber, currentMfId);
 
     parent.appendChild(p);
     parent.appendChild(hideShowButton);
@@ -280,12 +300,27 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.#mfId++;
   }
 
-  createVector3Row(value, row, parent, mfId, resetButton, parameter) {
+  #populateMFVec3f(resetButton, parent, parameter, firstRow, mfId, isVisible) {
+    this.#createAddRowSection(mfId, resetButton, firstRow, parent, parameter, isVisible);
+    let numberOfRows = 1;
+    for (let i = 0; i < parameter.value.value.length; i++) {
+      numberOfRows++;
+      this.createVector3Row(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
+        parameter, isVisible);
+      numberOfRows++;
+    }
+
+    return numberOfRows;
+  }
+
+  createVector3Row(value, row, parent, mfId, resetButton, parameter, isVisible) {
     const p = document.createElement('p');
     p.style.gridRow = '' + row + ' / ' + row;
-    p.style.gridColumn = '3 / 3';
+    p.style.gridColumn = '4 / 4';
     p.id = 'row-' + this.#rowId;
     p.className = 'value-parameter mf-parameter mf-id-' + mfId;
+    if (isVisible)
+      p.style.display = 'block';
     this.#createVectorInput(' x', value.x, p, () => {
       this.#MFVec3fOnChange(p.className, parameter);
       this.#enableResetButton(resetButton);
@@ -306,15 +341,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     removeButton.title = 'Delete this row';
     removeButton.onclick = () => {
       const row = this.#getRow(removeButton.parentNode);
-      const grid = document.getElementById('proto-parameter-content');
-      for (let i = 0; i < grid.childNodes.length; i++) {
-        let node = grid.childNodes[i];
-        const position = this.#getRow(node);
-        if (position > row) {
-          const newPosition = position - 2;
-          node.style.gridRow = '' + newPosition + ' / ' + newPosition;
-        }
-      }
+      this.#offsetNegativelyRows(row, 2);
       const className = removeButton.parentNode.className;
       removeButton.parentNode.parentNode.removeChild(removeButton.parentNode);
 
@@ -327,24 +354,39 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.appendChild(removeButton);
 
     // Add row
-    const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter);
+    const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible);
     return [p, addRow];
   }
 
-  #createAddRowSection(mfId, resetButton, row, parent, parameter) {
+  #offsetNegativelyRows(row, offset) {
+    const grid = document.getElementById('proto-parameter-content');
+    for (let i = 0; i < grid.childNodes.length; i++) {
+      let node = grid.childNodes[i];
+      const position = this.#getRow(node);
+      if (position > row) {
+        const newPosition = position - offset;
+        node.style.gridRow = '' + newPosition + ' / ' + newPosition;
+      }
+    }
+  }
+
+  #offsetPositivelyRows(row, offset) {
+    const grid = document.getElementById('proto-parameter-content');
+    for (let i = 0; i < grid.childNodes.length; i++) {
+      let node = grid.childNodes[i];
+      const position = this.#getRow(node);
+      if (position >= row) {
+        const newPosition = position + offset;
+        node.style.gridRow = '' + newPosition + ' / ' + newPosition;
+      }
+    }
+  }
+
+  #createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible) {
     const addRow = document.createElement('button');
     addRow.onclick = () => {
       const row = this.#getRow(addRow) + 1;
-
-      const grid = document.getElementById('proto-parameter-content');
-      for (let i = 0; i < grid.childNodes.length; i++) {
-        let node = grid.childNodes[i];
-        const position = this.#getRow(node);
-        if (position >= row) {
-          const newPosition = position + 2;
-          node.style.gridRow = '' + newPosition + ' / ' + newPosition;
-        }
-      }
+      this.#offsetPositivelyRows(row, 2);
 
       const newRows = this.createVector3Row(new WbVector3(), row, parent, mfId, resetButton, parameter);
       newRows[0].style.display = 'block';
@@ -353,10 +395,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       this.#MFVec3fOnChange(newRows[0].className, parameter);
     };
 
-    addRow.style.gridColumn = '3 / 3';
+    addRow.style.gridColumn = '4 / 4';
     addRow.className = 'add-row mf-parameter mf-id-' + mfId;
     addRow.id = 'row-' + this.#rowId;
     addRow.title = 'Insert a new row here';
+    if (isVisible)
+      addRow.style.display = 'block';
+
     const rowNumber = row + 1;
     addRow.style.gridRow = '' + rowNumber + ' / ' + rowNumber;
     parent.appendChild(addRow);
@@ -404,7 +449,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.innerHTML = key + ': ';
     p.inputs = [];
     p.key = key;
-    p.style.gridRow = '' + this.row + ' / ' + this.row;
+    p.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     p.style.gridColumn = '2 / 2';
     p.parameter = parameter;
     p.className = 'key-parameter';
@@ -412,8 +457,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const exportCheckbox = this.#createCheckbox(parent);
 
     const values = document.createElement('p');
-    values.style.gridRow = '' + this.row + ' / ' + this.row;
-    values.style.gridColumn = '3 / 3';
+    values.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
+    values.style.gridColumn = '4 / 4';
     values.className = 'value-parameter';
     p.inputs.push(this.#createVectorInput('x', parameter.value.value.x, values, () => {
       this.#rotationOnChange(p);
@@ -432,7 +477,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       this.#enableResetButton(resetButton);
     }));
     p.checkbox = exportCheckbox;
-    const resetButton = this.#createResetButton(values);
+    const resetButton = this.#createResetButton(parent, p.style.gridRow);
     this.#disableResetButton(resetButton);
     resetButton.onclick = () => {
       p.inputs[0].value = parameter.defaultValue.value.x;
@@ -479,15 +524,15 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.innerHTML = key + ': ';
     p.parameter = parameter;
     p.key = key;
-    p.style.gridRow = '' + this.row + ' / ' + this.row;
+    p.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     p.style.gridColumn = '2 / 2';
     p.className = 'key-parameter';
 
     const exportCheckbox = this.#createCheckbox(parent);
 
     const value = document.createElement('p');
-    value.style.gridRow = '' + this.row + ' / ' + this.row;
-    value.style.gridColumn = '3 / 3';
+    value.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
+    value.style.gridColumn = '4 / 4';
     value.className = 'value-parameter';
 
     const input = document.createElement('input');
@@ -499,7 +544,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     input.style.height = '20px';
     value.appendChild(input);
 
-    const resetButton = this.#createResetButton(value);
+    const resetButton = this.#createResetButton(parent, p.style.gridRow);
     this.#disableResetButton(resetButton);
     resetButton.onclick = () => {
       input.value = this.#stringRemoveQuote(parameter.defaultValue.value);
@@ -542,15 +587,15 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.innerHTML = key + ': ';
     p.key = key;
     p.parameter = parameter;
-    p.style.gridRow = '' + this.row + ' / ' + this.row;
+    p.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     p.style.gridColumn = '2 / 2';
 
     const exportCheckbox = this.#createCheckbox(parent);
 
     const value = document.createElement('p');
     value.className = 'value-parameter';
-    value.style.gridRow = '' + this.row + ' / ' + this.row;
-    value.style.gridColumn = '3 / 3';
+    value.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
+    value.style.gridColumn = '4 / 4';
 
     const input = document.createElement('input');
     input.type = 'number';
@@ -566,7 +611,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.checkbox = exportCheckbox;
     value.appendChild(input);
 
-    const resetButton = this.#createResetButton(value);
+    const resetButton = this.#createResetButton(parent, p.style.gridRow);
     this.#disableResetButton(resetButton);
     resetButton.onclick = () => {
       input.value = parameter.defaultValue.value;
@@ -589,15 +634,15 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.innerHTML = key + ': ';
     p.key = key;
     p.parameter = parameter;
-    p.style.gridRow = '' + this.row + ' / ' + this.row;
+    p.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     p.style.gridColumn = '2 / 2';
 
-    const exportCheckbox = this.#createCheckbox(parent, this.row);
+    const exportCheckbox = this.#createCheckbox(parent, this.#rowNumber);
 
     const value = document.createElement('p');
     value.className = 'value-parameter';
-    value.style.gridRow = '' + this.row + ' / ' + this.row;
-    value.style.gridColumn = '3 / 3';
+    value.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
+    value.style.gridColumn = '4 / 4';
 
     const input = document.createElement('input');
     input.type = 'number';
@@ -614,7 +659,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.checkbox = exportCheckbox;
     value.appendChild(input);
 
-    const resetButton = this.#createResetButton(value);
+    const resetButton = this.#createResetButton(parent, p.style.gridRow);
     this.#disableResetButton(resetButton);
     resetButton.onclick = () => {
       input.value = parameter.defaultValue.value;
@@ -638,20 +683,20 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.innerHTML = key + ': ';
     p.key = key;
     p.parameter = parameter;
-    p.style.gridRow = '' + this.row + ' / ' + this.row;
+    p.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     p.style.gridColumn = '2 / 2';
 
     const exportCheckbox = this.#createCheckbox(parent);
 
     const value = document.createElement('p');
     value.className = 'value-parameter';
-    value.style.gridRow = '' + this.row + ' / ' + this.row;
-    value.style.gridColumn = '3 / 3';
+    value.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
+    value.style.gridColumn = '4 / 4';
 
     const input = document.createElement('input');
     input.type = 'checkbox';
     input.checked = parameter.value.value;
-    input.style.width = '50px';
+    input.className = 'bool-field';
 
     input.onchange = () => {
       this.#boolOnChange(p);
@@ -661,7 +706,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.checkbox = exportCheckbox;
     value.appendChild(input);
 
-    const resetButton = this.#createResetButton(value);
+    const resetButton = this.#createResetButton(parent, p.style.gridRow);
     this.#disableResetButton(resetButton);
     resetButton.onclick = () => {
       input.checked = parameter.defaultValue.value;
@@ -676,10 +721,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     node.parameter.setValueFromJavaScript(this.#view, node.input.checked);
   }
 
-  #createResetButton(parentNode) {
+  #createResetButton(parentNode, row) {
     const resetButton = document.createElement('button');
     resetButton.className = 'reset-field-button';
     resetButton.title = 'Reset to initial value';
+    resetButton.style.gridColumn = '3 / 3';
+    resetButton.style.gridRow = row;
 
     parentNode.appendChild(resetButton);
     return resetButton;
@@ -690,7 +737,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     exportCheckbox.type = 'checkbox';
     exportCheckbox.className = 'export-checkbox';
     exportCheckbox.title = 'Field to be exposed';
-    exportCheckbox.style.gridRow = '' + this.row + ' / ' + this.row;
+    exportCheckbox.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     exportCheckbox.style.gridColumn = '1 / 1';
     parent.appendChild(exportCheckbox);
 

@@ -995,9 +995,25 @@ webots-view .mf-parameter {
   margin-bottom: 7px;
 }
 
+webots-view .bool-field {
+    margin-left: 0px;
+}
+
 webots-view .mf-expand-button {
-  width: 58px;
   margin-left: 10px;
+  background-image: url(../images/icons/arrow_left.svg);
+  width: 20px;
+  height: 20px;
+  padding: 0px;
+  border: 0px;
+  background-size: cover;
+  background-color: transparent;
+}
+
+webots-view .mf-expand-button:hover {
+  background-color: grey;
+  border: 1px solid grey;
+  border-radius: 2px;
 }
 
 webots-view .add-row {
