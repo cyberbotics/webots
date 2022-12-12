@@ -20,6 +20,7 @@ PROTO Tractor [
   field     SFBool     synchronization   TRUE
   field     MFNode     sensorSlot        [ ]
   field     SFString   window            "automobile"
+  field     MFColor    recognitionColors []
 ]
 {
 Car {
@@ -1209,6 +1210,7 @@ Car {
       0 -792.28908 0
     ]
   }
+  recognitionColors IS recognitionColors
   wheelFrontRight TractorFrontWheel {
     name "front right wheel"
   }
