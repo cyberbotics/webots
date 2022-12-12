@@ -2,7 +2,7 @@
 
 ## BmwX5
 
-Model of an BMW X5 car using the Car PROTO as a base.
+Model of an BMW X5 car using the [Car](car.md) PROTO as a base.
 The vehicle is modelled with realistic physics properties: motor torques, body mass, friction forces, suspensions, etc.
 This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles)).
 For the last 6 fields to have any effect, the 'interior' has to be enabled.
@@ -92,8 +92,8 @@ BmwX5Simple {
 
 ## BmwX5Wheel
 
-Model of the BMW X5 wheels using the generic VehicleWheel PROTO
-including physic properties and baseColorMaps
+Model of the BMW X5 wheels using the generic [VehicleWheel](vehiclewheel.md) PROTO
+including physic properties and baseColorMaps.
 This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles)).
 
 %figure
