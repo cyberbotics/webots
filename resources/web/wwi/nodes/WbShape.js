@@ -29,7 +29,7 @@ export default class WbShape extends WbBaseNode {
   }
 
   set appearance(value) {
-    console.log('setting appearance value of Shape', this.id, ' to ', typeof value === 'undefined' ? undefined : 'node (id = ' + value.id + ')');
+    // console.log('setting appearance value of Shape', this.id, ' to ', typeof value === 'undefined' ? undefined : 'node (id = ' + value.id + ')');
     this.#appearance = value;
 
     for (const useId of this.useList) {
@@ -100,8 +100,6 @@ export default class WbShape extends WbBaseNode {
   }
 
   delete(isBoundingObject) {
-    console.log('deleting Shape', this.id)
-
     if (typeof this.parent === 'undefined') {
       const index = WbWorld.instance.sceneTree.indexOf(this);
       WbWorld.instance.sceneTree.splice(index, 1);

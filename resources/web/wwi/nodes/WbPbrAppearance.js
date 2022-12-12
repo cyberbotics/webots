@@ -268,7 +268,6 @@ export default class WbPbrAppearance extends WbAbstractAppearance {
     }
 
     this.useList.push(customID);
-    //console.log('added ' + customID + ' to uselist of ', this.id)
     return new WbPbrAppearance(customID, this.#baseColor, baseColorMap, this.#transparency, this.#roughness, roughnessMap,
       this.#metalness, metalnessMap, this.#IBLStrength, normalMap, this.#normalMapFactor, occlusionMap,
       this.#occlusionMapStrength, this.#emissiveColor, emissiveColorMap, this.#emissiveIntensity, textureTransform);
@@ -285,8 +284,6 @@ export default class WbPbrAppearance extends WbAbstractAppearance {
   }
 
   delete() {
-    console.log('deleting ', this.id)
-
     if (this.isPostFinalizedCalled)
       WbPbrAppearance.cInstanceCounter--;
 
@@ -303,12 +300,6 @@ export default class WbPbrAppearance extends WbAbstractAppearance {
     this.#emissiveColorMap?.delete();
 
     super.delete();
-    console.log('done deleting')
-    //const parent = WbWorld.instance.nodes.get(this.parent);
-    //if (typeof parent !== 'undefined') {
-    //  //console.log('set appearance of parent ', parent.id, ' to undefined')
-    //  //parent.appearance = undefined;
-    //}
   }
 
   modifyWrenMaterial(wrenMaterial) {

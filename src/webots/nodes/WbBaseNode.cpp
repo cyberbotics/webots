@@ -25,7 +25,6 @@
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenOpenGlContext.hpp"
-#include <QtCore/QDebug>
 
 #include <wren/scene.h>
 

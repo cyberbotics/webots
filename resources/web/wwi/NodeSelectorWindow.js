@@ -198,18 +198,17 @@ export default class NodeSelectorWindow {
 
     const ol = document.createElement('ol');
 
-    // add compatible nodes
     for (const [name, info] of this.nodes) {
       // filter incompatible nodes
       if (typeof info.tags !== 'undefined' && (info.tags.includes('hidden') || info.tags.includes('deprecated')))
         continue;
 
-      // don't display PROTO nodes which have been filtered-out by the user's "filter" widget.
+      // don't display PROTO nodes which have been filtered-out by the user's "filter" widget
       if (!info.url.toLowerCase().includes(filterInput.value) && !info.baseType.toLowerCase().includes(filterInput.value))
         continue;
 
-      // don't display non-Robot PROTO nodes containing devices (e.g. Kinect) about to be inserted outside a robot.
-      const isRobotDescendant = false; // TODO
+      // don't display non-Robot PROTO nodes containing devices (e.g. Kinect) about to be inserted outside a robot
+      const isRobotDescendant = false; // TODO: find way of determining if the loaded PROTO is a robot descendant
       if (typeof info.baseType === 'undefined')
         throw new Error('base-type property is undefined, is the xml complete?');
 
@@ -342,7 +341,6 @@ export default class NodeSelectorWindow {
   }
 
   isSlotTypeMatch(firstType, secondType) {
-    // console.log('compare slot type: ', firstType, ' with ', secondType);
     if (typeof firstType === 'undefined' || typeof secondType === 'undefined')
       throw new Error('Cannot determine slot match because inputs are undefined.');
 

@@ -13,7 +13,7 @@ import NodeSelectorWindow from './NodeSelectorWindow.js';
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #protoManager;
   #view;
-  constructor(parentNode, protoManager, view, proto) {
+  constructor(parentNode, protoManager, view) {
     super(parentNode, 'proto-parameter');
     this.floatingWindow.style.zIndex = '2';
     this.headerText.innerHTML = 'Proto window';
@@ -33,9 +33,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.floatingWindowContent.appendChild(this.devices);
 
     this.#protoManager = protoManager;
-    this.proto = proto;
+    this.proto = protoManager.proto;
     this.headerText.innerHTML = this.proto.name;
     this.#view = view;
+
 
     // create tabs
     const infoTabsBar = document.createElement('div');
@@ -131,11 +132,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     backButton.innerHTML = 'Back';
     backButton.title = 'Return to the previous PROTO';
     backButton.onclick = () => {
-      this.proto = this.#protoManager.proto; // TODO: go one layer up, not back to root ?
+      this.proto = this.#protoManager.proto;
       this.populateProtoParameterWindow();
     };
     buttonContainer.appendChild(backButton);
-
     parent.appendChild(buttonContainer);
   }
 
@@ -148,7 +148,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const input = document.createElement('input');
     input.type = 'text';
     input.title = 'New proto name';
-    input.value = 'My' + this.proto.name;
+    input.value = 'My' + this.#protoManager.proto.name;
     buttonContainer.appendChild(input);
 
     const downloadButton = document.createElement('button');
@@ -493,38 +493,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #hideNodeSelector(event) {
-    console.log('HERE', this.nodeSelector.nodeSelector.style.display)
     if (typeof this.nodeSelector !== 'undefined' && !this.nodeSelector.nodeSelector.contains(event.target)) {
       this.nodeSelector.hide();
-      console.log('ASD')
       window.removeEventListener('click', this.nodeSelectorListener, true);
     }
-  }
-
-  isSlotTypeMatch(firstType, secondType) {
-    // console.log('compare slot type: ', firstType, ' with ', secondType);
-    if (typeof firstType === 'undefined' || typeof secondType === 'undefined')
-      throw new Error('Cannot determine slot match because inputs are undefined.');
-
-    if (firstType.length === 0 || secondType.length === 0)
-      return true; // empty type matches any type
-    else if (firstType.endsWith('+') || firstType.endsWith('-')) {
-      // gendered slot types
-      if (firstType.slice(0, -1) === secondType.slice(0, -1)) {
-        if (firstType === secondType)
-          return false; // same gender
-        else
-          return true; // different gender
-      }
-    } else if (firstType === secondType)
-      return true;
-
-    return false;
-  }
-
-  isGeometryTypeMatch(type) {
-    return ['Box', 'Capsule', 'Cylinder', 'Cone', 'Plane', 'Sphere', 'Mesh', 'ElevationGrid',
-      'IndexedFaceSet', 'IndexedLineSet'].includes(type);
   }
 
   #floatOnChange(node) {

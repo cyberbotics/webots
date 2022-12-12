@@ -26,14 +26,12 @@ export default class WbAbstractAppearance extends WbBaseNode {
   }
 
   delete() {
-    console.log('delete abstract appearance of ', this.id);
     if (typeof this.parent !== 'undefined') {
       const parent = WbWorld.instance.nodes.get(this.parent);
       if (typeof parent !== 'undefined') {
-        // console.log('set parent appearance to undefined')
         parent.appearance = undefined;
         parent.wrenMaterial = undefined;
-        //parent.updateAppearance();
+        parent.updateAppearance();
       }
     }
 

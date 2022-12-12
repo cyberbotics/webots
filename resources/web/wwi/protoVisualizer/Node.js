@@ -412,13 +412,8 @@ function combinePaths(url, parentUrl) {
   let newUrl;
   if (parentUrl.startsWith('http://' || url.startsWith('https://')))
     newUrl = new URL(url, parentUrl.slice(0, parentUrl.lastIndexOf('/') + 1)).href;
-  else {
-    // TODO: likely wrong, temp fix to load local stuff
-    //if (url.endsWith('.proto') && parentUrl.endsWith('.proto'))
-      newUrl = parentUrl.slice(0, parentUrl.lastIndexOf('/') + 1) + url;
-    //else
-    //  newUrl = url;
-  }
+  else
+    newUrl = parentUrl.slice(0, parentUrl.lastIndexOf('/') + 1) + url;
 
   // console.log('FROM >' + url + '< AND >' + parentUrl + "< === " + newUrl);
   return newUrl;

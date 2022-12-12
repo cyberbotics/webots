@@ -1614,7 +1614,7 @@ export default class Toolbar {
   }
 
   #createProtoParameterWindow() {
-    this.protoParameterWindow = new FloatingProtoParameterWindow(this.parentNode, this.parentNode.protoManager, this.#view, this.parentNode.protoManager.proto);
+    this.protoParameterWindow = new FloatingProtoParameterWindow(this.parentNode, this.parentNode.protoManager, this.#view);
 
     this.protoParameterWindow.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
     this.protoParameterWindow.headerQuit.addEventListener('mouseup',

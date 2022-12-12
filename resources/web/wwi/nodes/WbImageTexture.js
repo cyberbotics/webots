@@ -69,7 +69,7 @@ export default class WbImageTexture extends WbBaseNode {
   clone(customID) {
     const imageTexture = new WbImageTexture(customID, this.#url, this.#isTransparent, this.#repeatS, this.#repeatT,
       this.#filtering);
-    //this.useList.push(customID);
+    this.useList.push(customID);
     return imageTexture;
   }
 
