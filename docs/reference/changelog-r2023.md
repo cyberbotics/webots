@@ -12,6 +12,7 @@ Released on ??
     - Fixed Python API field getters sometimes returning an invalid Field object ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
     - Fixed Python API `Field.enableSFTracking` and `Field.disableSFTracking` which were failing ([#5640](https://github.com/cyberbotics/webots/pull/5640)).
     - Fixed crash resulting from requesting pose tracking of unsuitable nodes ([5620](https://github.com/cyberbotics/webots/pull/5620)).
+    - Fixed BotStudio robot window loading errors ([5651](https://github.com/cyberbotics/webots/pull/5651)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
