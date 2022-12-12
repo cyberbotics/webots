@@ -436,11 +436,20 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const buttonContainer = document.createElement('div');
     buttonContainer.style.display = 'flex';
 
+    const deleteNodeButton = document.createElement('button');
+    deleteNodeButton.className = 'delete-button';
+    deleteNodeButton.title = 'Remove this node.';
+    deleteNodeButton.onclick = async() => {
+      parameter.setValueFromJavaScript(this.#view, null);
+      deleteNodeButton.style.display = 'none';
+      configureButton.style.display = 'none';
+      nodeButton.innerHTML = 'NULL';
+    };
+
     const configureButton = document.createElement('button');
     configureButton.className = 'configure-button';
     configureButton.title = 'Edit this node.';
     configureButton.onclick = async() => {
-      console.log('configure.');
       this.proto = parameter.value.value;
       this.populateProtoParameterWindow();
     };
@@ -454,21 +463,24 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         await this.nodeSelector.initialize();
       }
 
-      this.nodeSelector.show(parameter, nodeButton, configureButton);
+      this.nodeSelector.show(parameter, nodeButton, deleteNodeButton, configureButton);
       this.nodeSelectorListener = (event) => this.#hideNodeSelector(event);
       window.addEventListener('click', this.nodeSelectorListener, true);
     };
 
     if (parameter.value.value === null) {
+      deleteNodeButton.style.display = 'none';
       configureButton.style.display = 'none';
       nodeButton.innerHTML = 'NULL';
     } else {
+      deleteNodeButton.style.display = 'block';
       configureButton.style.display = 'block';
       configureButton.title = 'Configure ' + parameter.value.value.name + ' node';
       nodeButton.innerHTML = parameter.value.value.name;
     }
 
     buttonContainer.appendChild(nodeButton);
+    buttonContainer.appendChild(deleteNodeButton);
     buttonContainer.appendChild(configureButton);
     value.append(buttonContainer);
 

@@ -257,7 +257,7 @@ export default class NodeSelectorWindow {
       this.populateNodeInfo(this.selection.innerText);
     };
 
-    button.ondblclick = async(item) => await this.insertNode(item.target.value);
+    button.ondblclick = async(item) => await this.insertNode(item.target.innerText);
 
     return item;
   }
@@ -303,6 +303,7 @@ export default class NodeSelectorWindow {
     this.parameter.setValueFromJavaScript(this.#view, node);
 
     // update button name
+    this.deleteNodeButton.style.display = 'block';
     this.configureButton.style.display = 'block';
     this.configureButton.title = 'Configure ' + this.parameter.value.value.name + ' node';
     this.nodeButton.innerHTML = this.parameter.value.value.name;
@@ -366,7 +367,7 @@ export default class NodeSelectorWindow {
       'IndexedFaceSet', 'IndexedLineSet'].includes(type);
   }
 
-  show(parameter, nodeButton, configureButton) { // TODO: find better solution rather than passing these buttons
+  show(parameter, nodeButton, deleteNodeButton, configureButton) {
     // cleanup input field
     const filterInput = document.getElementById('filter');
     filterInput.value = '';
@@ -376,6 +377,7 @@ export default class NodeSelectorWindow {
 
     this.parameter = parameter;
     this.nodeButton = nodeButton;
+    this.deleteNodeButton = deleteNodeButton;
     this.configureButton = configureButton;
     this.populateWindow();
     this.nodeSelector.style.display = 'block';
@@ -384,6 +386,7 @@ export default class NodeSelectorWindow {
   hide() {
     this.parameter = undefined;
     this.nodeButton = undefined;
+    this.deleteNodeButton = undefined;
     this.configureButton = undefined;
     this.nodeSelector.style.display = 'none';
   }
