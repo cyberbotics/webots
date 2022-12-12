@@ -266,7 +266,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     resetButton.onclick = () => {
       this.#disableResetButton(resetButton);
     };
-    this.#createAddRowSection(this.#mfId, resetButton, this.row, parent);
+    this.#createAddRowSection(this.#mfId, resetButton, this.row, parent, parameter);
     this.row++;
     for (let i = 0; i < parameter.value.value.length; i++) {
       this.row++;
@@ -287,15 +287,15 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.id = 'row-' + this.#rowId;
     p.className = 'value-parameter mf-parameter mf-id-' + mfId;
     this.#createVectorInput(' x', value.x, p, () => {
-      this.#MFVec3fOnChange(p, parameter);
+      this.#MFVec3fOnChange(p.className, parameter);
       this.#enableResetButton(resetButton);
     });
     this.#createVectorInput(' y', value.y, p, () => {
-      this.#MFVec3fOnChange(p, parameter);
+      this.#MFVec3fOnChange(p.className, parameter);
       this.#enableResetButton(resetButton);
     });
     this.#createVectorInput(' z', value.z, p, () => {
-      this.#MFVec3fOnChange(p, parameter);
+      this.#MFVec3fOnChange(p.className, parameter);
       this.#enableResetButton(resetButton);
     });
 
@@ -315,12 +315,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           node.style.gridRow = '' + newPosition + ' / ' + newPosition;
         }
       }
+      const className = removeButton.parentNode.className;
       removeButton.parentNode.parentNode.removeChild(removeButton.parentNode);
 
       // remove the 'add new node row'
       const addNew = document.getElementById(p.id);
       addNew.parentNode.removeChild(addNew);
       this.#enableResetButton(resetButton);
+      this.#MFVec3fOnChange(className, parameter);
     };
     p.appendChild(removeButton);
 
@@ -348,6 +350,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       newRows[0].style.display = 'block';
       newRows[1].style.display = 'block';
       this.#enableResetButton(resetButton);
+      this.#MFVec3fOnChange(newRows[0].className, parameter);
     };
 
     addRow.style.gridColumn = '3 / 3';
@@ -369,8 +372,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     return parseInt(nodeRow.substring(0, slashIndex));
   }
 
-  #MFVec3fOnChange(node, parameter) {
-    const className = node.className;
+  #MFVec3fOnChange(className, parameter) {
     const elements = document.getElementsByClassName(className);
     let lut = new Map();
     for (let i = 0; i < elements.length; i++) {
@@ -382,8 +384,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
       lut.set(order, value);
     }
-
-    lut = new Map([...lut.entries()].sort());
+    lut = new Map([...lut.entries()].sort((a, b) => a[0] - b[0]));
 
     // Separately printing only keys
     const vectorArray = [];
