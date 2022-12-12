@@ -123,7 +123,7 @@ export default class WbDistanceSensor extends WbSolid {
     this.#updateRaySetup();
   }
 
-  #applyOptionalRenderingToWren() {;
+  #applyOptionalRenderingToWren() {
     if (!this.wrenObjectsCreatedCalled)
       return;
 
@@ -135,19 +135,19 @@ export default class WbDistanceSensor extends WbSolid {
       const maxValue = this.#lut.maxMetricsRange();
 
       const redColor = [1, 0, 0];
-      const colorPointer = arrayXPointerFloat(redColor)
+      const colorPointer = arrayXPointerFloat(redColor);
 
       let vertexIndex = 0;
       for (let i = 0; i < this.#nRays; ++i) {
         const direction = this.#rays[i];
         let vertex = direction.mul(minValue / scale);
-        let vertexPointer = _wrjs_array3(vertex.x, vertex.y, vertex.z)
+        let vertexPointer = _wrjs_array3(vertex.x, vertex.y, vertex.z);
         _wr_dynamic_mesh_add_vertex(this.#mesh, vertexPointer);
         _wr_dynamic_mesh_add_index(this.#mesh, vertexIndex++);
         _wr_dynamic_mesh_add_color(this.#mesh, colorPointer);
 
         vertex = direction.mul(maxValue / scale);
-        vertexPointer = _wrjs_array3(vertex.x, vertex.y, vertex.z)
+        vertexPointer = _wrjs_array3(vertex.x, vertex.y, vertex.z);
         _wr_dynamic_mesh_add_vertex(this.#mesh, vertexPointer);
         _wr_dynamic_mesh_add_index(this.#mesh, vertexIndex++);
         _wr_dynamic_mesh_add_color(this.#mesh, colorPointer);
@@ -179,8 +179,8 @@ export default class WbDistanceSensor extends WbSolid {
         // Not a predefined configuration: arrange rays in a 3d cone oriented towards x. The cone is further divided in a
         // number of thinner cones that will accomodate some rays.
         let left = this.#nRays; // number of rays left to be assigned
-        let ncone;          // number of orbits
-        let s = 0;          // number of so far assigned rays
+        let ncone; // number of orbits
+        let s = 0; // number of so far assigned rays
 
         const alphas = [];
         const thetas = [];

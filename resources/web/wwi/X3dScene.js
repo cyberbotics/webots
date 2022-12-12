@@ -434,7 +434,20 @@ export default class X3dScene {
           object.numberOfRays = parseInt(pose[key]);
         else if (key === 'aperture')
           object.aperture = parseFloat(pose[key]);
-        console.log(pose[key])
+        else if (key === 'lookupTable') {
+          let lookupString = pose[key];
+          if (lookupString.startsWith('['))
+            lookupString = lookupString.substring(1);
+          if (lookupString.startsWith(']'))
+            lookupString = lookupString.substring(0, lookupString.size - 1);
+          const lookupTableArray = convertStringToFloatArray(lookupString);
+          const lookupTable = [];
+          if (lookupTableArray.length % 3 === 0) {
+            for (let i = 0; i < lookupTableArray.length; i = i + 3)
+              lookupTable.push(new WbVector3(lookupTableArray[i], lookupTableArray[i + 1], lookupTableArray[i + 2]));
+          }
+          object.lookupTable = lookupTable;
+        }
       }
 
       if (object instanceof WbLight) {
