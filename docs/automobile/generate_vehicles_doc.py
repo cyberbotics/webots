@@ -17,30 +17,23 @@
 
 import os
 from io import open
-
 import sys
 sys.path.append('../')
 from generate_doc_util import get_proto_files_in_directory, generate_doc_for_proto_files  # noqa: E402
 
 
 def get_category(proto_file):
-    category = os.path.basename(os.path.dirname(os.path.dirname(proto_file)))
-    upperCategory = os.path.basename(os.path.dirname(os.path.dirname(os.path.dirname(proto_file))))
-    return category, upperCategory
+    category = os.path.basename(os.path.dirname(proto_file))
+    return category, 'vehicles'
 
 
-upperCategories = {'projects': ['appearances']}
-
-# look for all the PROTO files in the 'projects/objects' directory
-fileList = get_proto_files_in_directory(os.path.join(os.environ['WEBOTS_HOME'], 'projects', 'objects'))
-fileList += get_proto_files_in_directory(os.path.join(os.environ['WEBOTS_HOME'], 'projects', 'appearances'))
+# look for all the PROTO files
+vehiclesDir = os.path.join(os.environ['WEBOTS_HOME'], 'projects', 'vehicles', 'protos')
+carsDirNames = ['bmw', 'citroen', 'lincoln', 'mercedes_benz', 'range_rover', 'tesla', 'toyota', 'generic']
+fileList = []
+for dirName in carsDirNames:
+    fileList += get_proto_files_in_directory(os.path.join(vehiclesDir, dirName))
 fileList = sorted(fileList)
-
-# create the 'appearances' page
-with open('appearances.md', 'w', encoding='utf-8', newline='\n') as file:
-    file.write(u'# Appearances\n')
-    file.write(u'This chapter describes the list of available appearance PROTO nodes based on the '
-               '[PBRAppearance](../reference/pbrappearance.md) node.\n\n')
 
 # make sure that if a PROTO has the same name than the title it appears first
 prioritaryProtoList = []
@@ -54,33 +47,35 @@ for proto in fileList:
 
 upperCategories = generate_doc_for_proto_files(
     prioritaryProtoList + fileList,
-    upperCategories,
-    'object-',
+    {},
+    'vehicle-',
     get_category
 )
 
 # write the menu in 'object.md'
-del upperCategories['projects']
 upperCategoriesList = sorted(upperCategories.keys())
 categoriesList = []
-with open('objects.md', 'w', encoding='utf-8', newline='\n') as file:
-    file.write(u'# Objects\n\n')
+with open('proto-nodes.md', 'w', encoding='utf-8', newline='\n') as file:
+    file.write(u'# PROTO Nodes\n\n')
+    file.write(u'This section presents the set of PROTO nodes developed specifically for automobile related simulations, ' +
+               'from the PROTO of a wheel to the PROTO of a complete car.\n\n')
     file.write(u'## Sections\n\n')
+    file.write(u'- [AckermannVehicle](ackermannvehicle.md)\n')
+    file.write(u'- [VehicleWheel](vehiclewheel.md)\n')
+    file.write(u'- [Car](car.md)\n')
     for upperCategory in upperCategoriesList:
         categories = sorted(upperCategories[upperCategory])
-        if not upperCategory == categories[0]:
-            file.write(u'- [%s](object-%s.md)\n' % (upperCategory.replace('_', ' ').title(), upperCategory.replace('_', '-')))
         for category in categories:
             categoriesList.append(category)
-            if upperCategory == category:
-                file.write(u'- [%s](object-%s.md)\n' % (category.replace('_', ' ').title(), category.replace('_', '-')))
-            else:
-                file.write(u'  - [%s](object-%s.md#%s)\n' % (category.replace('_', ' ').title(),
-                                                             upperCategory.replace('_', '-'), category.replace('_', '-')))
+            file.write(u'- [%s](vehicle-%s.md)\n' % (category.replace('_', ' ').title(), category.replace('_', '-')))
     file.write(u'\n')
 
 # print the updated part of 'menu.md'
 categoriesList = sorted(categoriesList)
-print("Please update the 'Objects' part in 'menu.md' with:")
-for category in upperCategoriesList:
-    print('    - [%s](object-%s.md)' % (category.replace('_', ' ').title(), category.replace('_', '-')))
+print("Please update the 'PROTO Nodes' part in 'menu.md' with:")
+print('    - [AckermannVehicle](ackermannvehicle.md)')
+print('    - [VehicleWheel](vehiclewheel.md)')
+print('    - [Car](car.md)')
+print('    - [Car](car.md)')
+for category in categoriesList:
+    print('    - [%s](vehicle-%s.md)' % (category.replace('_', ' ').title(), category.replace('_', '-')))
