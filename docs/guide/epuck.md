@@ -292,7 +292,7 @@ An example of BotStudio can be found by opening the "WEBOTS\_HOME/projects/robot
 The BotStudio window can be opened by selecting the "Show Robot Window" item in the e-puck [context menu](the-3d-window.md#context-menu) when the controller points on a *.bsg* file.
 
 BotStudio needs some additional Qt libraries to run, so it is necessary to add a [`runtime.ini` file](controller-programming.md#environment-variables) in the folder containing the BotStudio controller file.
-A sample `runtime.ini` specifiying the required libraries could be found at ""WEBOTS\_HOME/projects/robots/gctronic/e-puck/controllers/obstacle/runtime.ini".
+A sample `runtime.ini` specifiying the required libraries could be found at "[WEBOTS\_HOME/projects/robots/gctronic/e-puck/controllers/obstacle/runtime.ini]({{ url.github_tree }}/projects/robots/gctronic/e-puck/controllers/obstacle/runtime.ini)".
 
 #### Bluetooth Setup
 
