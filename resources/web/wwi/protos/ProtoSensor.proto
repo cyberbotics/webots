@@ -5,6 +5,7 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/project
 
 PROTO ProtoSensor [
 field SFVec3f      translation    0 0 0.3
+field SFVec3f      scale          1 1 1
 field SFRotation   rotation       0 0 1 1.5708
 field SFBool       write          TRUE
 field MFVec3f      lookupTable    [ 0 0 0, 0.2 1000 0 ]
@@ -15,6 +16,7 @@ field SFBool       triggerRegeneration   TRUE
 {
   Robot {
     translation IS translation
+    scale IS scale
     rotation IS rotation
     children [
       LightSensor {
