@@ -566,6 +566,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     value.appendChild(input);
 
     const resetButton = this.#createResetButton(value);
+    this.#disableResetButton(resetButton);
     resetButton.onclick = () => {
       input.value = parameter.defaultValue.value;
       this.#floatOnChange(p);
@@ -613,6 +614,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     value.appendChild(input);
 
     const resetButton = this.#createResetButton(value);
+    this.#disableResetButton(resetButton);
     resetButton.onclick = () => {
       input.value = parameter.defaultValue.value;
       this.#floatOnChange(p);
@@ -659,6 +661,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     value.appendChild(input);
 
     const resetButton = this.#createResetButton(value);
+    this.#disableResetButton(resetButton);
     resetButton.onclick = () => {
       input.checked = parameter.defaultValue.value;
       this.#boolOnChange(p);
