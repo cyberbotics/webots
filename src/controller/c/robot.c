@@ -28,11 +28,12 @@
 #include <locale.h>  // LC_NUMERIC
 #include <signal.h>  // signal
 #include <stdarg.h>
-#include <stdio.h>     // snprintf
-#include <stdlib.h>    // exit
-#include <string.h>    // strlen
-#include <sys/stat.h>  // stat
-#include <unistd.h>    // sleep, pipe, dup2, STDOUT_FILENO, STDERR_FILENO
+#include <stdio.h>      // snprintf
+#include <stdio_ext.h>  //__fpurge
+#include <stdlib.h>     // exit
+#include <string.h>     // strlen
+#include <sys/stat.h>   // stat
+#include <unistd.h>     // sleep, pipe, dup2, STDOUT_FILENO, STDERR_FILENO
 
 #if defined(__APPLE__) || defined(_WIN32)
 #define st_mtim st_mtimespec
@@ -1323,8 +1324,13 @@ int wb_robot_init() {  // API initialization
         free(host);
         free(robot_name);
         break;
-      } else
-        fprintf(stderr, ", retrying in %d second%s...\n", retry, retry < 2 ? "" : "s");
+      } else {
+        if (retry % 5 == 0 && retry != 50)
+          fprintf(stderr, ", retrying for another %d seconds...\n", 50 - retry);
+        else
+          __fpurge(stderr);
+      }
+
       free(host);
       free(robot_name);
     } else {  // Intern or IPC extern controller
@@ -1334,18 +1340,20 @@ int wb_robot_init() {  // API initialization
         free(socket_filename);
         break;
       }
-      if (socket_filename)
-        fprintf(stderr, "Cannot connect to Webots instance on socket \"%s\", retrying in %d second%s...\n", socket_filename,
-                retry, retry < 2 ? "" : "s");
-      else
-        fprintf(stderr, "Cannot connect to Webots instance, retrying in %d second%s...\n", retry, retry < 2 ? "" : "s");
+      if (retry % 5 == 0 && retry != 50) {
+        if (socket_filename)
+          fprintf(stderr, "Cannot connect to Webots instance on socket \"%s\", retrying for another %d seconds...\n",
+                  socket_filename, 50 - retry);
+        else
+          fprintf(stderr, "Cannot connect to Webots instance, retrying for another %d seconds...\n", 50 - retry);
+      }
       free(socket_filename);
     }
-    if (retry++ > 10) {
+    if (retry++ > 50) {
       fprintf(stderr, "Giving up...\n");
       exit(EXIT_FAILURE);
     }
-    sleep(retry);
+    sleep(1);
   }
   if (getenv("WEBOTS_STDOUT_REDIRECT"))
     stdout_read = stream_pipe_create(1);
