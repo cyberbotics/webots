@@ -119,9 +119,9 @@ export default class X3dScene {
     }
 
     if (typeof WbWorld.instance !== 'undefined') {
-      let index = WbWorld.instance.sceneTree.length - 1;
+      let index = WbWorld.instance.root.children.length - 1;
       while (index >= 0) {
-        WbWorld.instance.sceneTree[index].delete();
+        WbWorld.instance.root.children[index].delete();
         --index;
       }
 
@@ -213,7 +213,7 @@ export default class X3dScene {
     else
       this.#loader.prefix = webots.currentView.prefix;
 
-    await this.#loader.parse(x3dObject, parentNode);
+    const root = await this.#loader.parse(x3dObject, parentNode);
     const start = x3dObject.indexOf('"');
     const end = x3dObject.indexOf('"', start+1);
     n = WbWorld.instance.nodes.get(x3dObject.substring(start + 1, end)); // temporary solution

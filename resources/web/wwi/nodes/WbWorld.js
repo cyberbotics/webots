@@ -3,8 +3,7 @@ export default class WbWorld {
     this.hasFog = false;
     this.coordinateSystem = 'ENU';
     this.upVector = glm.vec3(0, 0, 1);
-    // Only the top level nodes are represented here
-    this.sceneTree = [];
+    this.root = undefined;
     // All the nodes are included here so it is easier to retrieve them for updates
     // map from id to node
     this.nodes = new Map();

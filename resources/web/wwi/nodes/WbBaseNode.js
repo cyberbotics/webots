@@ -25,6 +25,7 @@ export default class WbBaseNode {
   }
 
   finalize() {
+    console.log('FINALIZE', this.id)
     if (!this.isPreFinalizedCalled)
       this.preFinalize();
 

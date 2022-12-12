@@ -173,13 +173,16 @@ export default class Parser {
         this.irradianceCubeURL = undefined;
       }
 
-      WbWorld.instance.sceneTree.forEach((node, i) => {
-        const percentage = 70 + 30 * (i + 1) / WbWorld.instance.sceneTree.length;
-        const info = 'Finalizing node ' + node.id + ': ' + Math.round(100 * (i + 1) / WbWorld.instance.sceneTree.length) + '%';
-        console.log('finalizing node id: ', node.id)
-        webots.currentView.progress.setProgressBar('block', 'same', 75 + 0.25 * percentage, info);
-        node.finalize();
-      });
+      WbWorld.instance.root.finalize();
+
+      // TODO: restore progress
+      //WbWorld.instance.root.children.forEach((node, i) => {
+      //  const percentage = 70 + 30 * (i + 1) / WbWorld.instance.root.children.length;
+      //  const info = 'Finalizing node ' + node.id + ': ' + Math.round(100 * (i + 1) / WbWorld.instance.root.children.length) + '%';
+      //  console.log('finalizing node id: ', node.id)
+      //  webots.currentView.progress.setProgressBar('block', 'same', 75 + 0.25 * percentage, info);
+      //  node.finalize();
+      //});
 
       WbWorld.instance.readyForUpdates = true;
 
@@ -208,8 +211,8 @@ export default class Parser {
     let result;
     switch (node.tagName) {
       case 'Scene':
-        this.#parseScene(node);
-        this.#parseChildren(node, parentNode);
+        this.#parseScene();
+        this.#createRoot(node);
         break;
       case 'WorldInfo':
         this.#parseWorldInfo(node);
@@ -218,7 +221,7 @@ export default class Parser {
         WbWorld.instance.viewpoint = this.#parseViewpoint(node);
         break;
       case 'Background':
-        result = this.#parseBackground(node);
+        result = this.#parseBackground(node, parentNode);
         break;
       case 'HingeJoint':
       case 'SliderJoint':
@@ -364,10 +367,6 @@ export default class Parser {
         } else
           console.error("The parser doesn't support this type of node: " + node.tagName);
     }
-
-    // check if top-level nodes
-    if (typeof result !== 'undefined' && typeof parentNode === 'undefined')
-      WbWorld.instance.sceneTree.push(result);
   }
 
   #parseChildren(node, parentNode, isBoundingObject) {
@@ -378,7 +377,7 @@ export default class Parser {
     }
   }
 
-  #parseScene(node) {
+  #parseScene() {
     const prefix = DefaultUrl.wrenImagesUrl();
     this.#promises.push(ImageLoader.loadTextureData(prefix, 'smaa_area_texture.png').then(image => {
       this.smaaAreaTexture = image;
@@ -400,7 +399,16 @@ export default class Parser {
     WbWorld.instance.scene = new WbScene();
   }
 
-  #parseWorldInfo(node) {
+  #createRoot(node) {
+    const root = new WbGroup(getAnId(), false);
+    console.log('ROOT IS: ', root.id, root,  node.childNodes.length);
+
+    WbWorld.instance.nodes.set(root.id, root);
+    WbWorld.instance.root = root;
+    this.#parseChildren(node, root, false);
+  }
+
+  #parseWorldInfo(node, parentNode) {
     WbWorld.instance.coordinateSystem = getNodeAttribute(node, 'coordinateSystem', 'ENU');
     WbWorld.instance.basicTimeStep = parseInt(getNodeAttribute(node, 'basicTimeStep', 32));
     WbWorld.instance.title = getNodeAttribute(node, 'title', 'No title');
@@ -444,11 +452,21 @@ export default class Parser {
     const followedId = getNodeAttribute(node, 'followedId');
     const ambientOcclusionRadius = parseFloat(getNodeAttribute(node, 'ambientOcclusionRadius', 2));
 
-    return new WbViewpoint(id, fieldOfView, orientation, position, exposure, bloomThreshold, near, far, followSmoothness,
-      followedId, ambientOcclusionRadius);
+    const viewpoint = new WbViewpoint(id, fieldOfView, orientation, position, exposure, bloomThreshold, near, far,
+      followSmoothness, followedId, ambientOcclusionRadius);
+
+    if (typeof parentNode !== 'undefined') {
+      if (parentNode instanceof WbGroup)
+        parentNode.children.push(viewpoint);
+
+      viewpoint.parent = parentNode.id;
+    }
+
+    WbWorld.instance.nodes.set(viewpoint.id, viewpoint);
+    return viewpoint;
   }
 
-  #parseBackground(node) {
+  #parseBackground(node, parentNode) {
     const id = this.#parseId(node);
     const skyColor = convertStringToVec3(getNodeAttribute(node, 'skyColor', '0 0 0'));
     const luminosity = parseFloat(getNodeAttribute(node, 'luminosity', '1'));
@@ -520,6 +538,13 @@ export default class Parser {
 
     const background = new WbBackground(id, skyColor, luminosity);
     WbBackground.instance = background;
+
+    if (typeof parentNode !== 'undefined') {
+      if (parentNode instanceof WbGroup)
+        parentNode.children.push(background);
+
+      background.parent = parentNode.id;
+    }
 
     WbWorld.instance.nodes.set(background.id, background);
 
