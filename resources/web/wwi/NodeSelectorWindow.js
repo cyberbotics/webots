@@ -169,11 +169,10 @@ export default class NodeSelectorWindow {
     const acceptButton = document.createElement('button');
     acceptButton.innerHTML = 'Accept';
     acceptButton.onclick = () => {
-      // TODO: show selection in gui
       if (typeof this.selection === 'undefined')
-        throw new Error('No node selected.');
+        return;
 
-      this.insertNode(this.selection.value);
+      this.insertNode(this.selection.innerText);
     };
 
     const cancelButton = document.createElement('button');
@@ -198,9 +197,6 @@ export default class NodeSelectorWindow {
     nodeList.innerHTML = '';
 
     const ol = document.createElement('ol');
-
-    //// the NULL element is always available
-    //ol.appendChild(this.#createNodeButton('NULL', 'null'));
 
     // add compatible nodes
     for (const [name, info] of this.nodes) {
@@ -230,9 +226,9 @@ export default class NodeSelectorWindow {
     nodeList.appendChild(ol);
 
     // select first item by default, if any
-    console.log(ol.children.length)
     if (ol.children.length === 0) {
-      this.selection.style.backgroundColor = '';
+      if (typeof this.selection !== 'undefined')
+        this.selection.style.backgroundColor = '';
       this.selection = undefined;
     } else {
       this.selection = ol.children[0];
@@ -295,27 +291,21 @@ export default class NodeSelectorWindow {
   }
 
   async insertNode(protoName) {
-    if (protoName === 'NULL')
-      this.parameter.setValueFromJavaScript(this.#view, null);
-    else {
-      const info = this.nodes.get(protoName);
-      const url = info.url;
-      console.log('inserting:', protoName, ', url: ', info.url);
-      console.log('generating node');
-      const node = await this.#protoManager.generateNodeFromUrl(url);
+    console.log('INSERT:', protoName);
+    if (typeof protoName === 'undefined')
+      return;
+    const info = this.nodes.get(protoName);
+    const url = info.url;
+    console.log('inserting:', protoName, ', url: ', info.url);
+    console.log('generating node');
+    const node = await this.#protoManager.generateNodeFromUrl(url);
 
-      this.parameter.setValueFromJavaScript(this.#view, node);
-    }
+    this.parameter.setValueFromJavaScript(this.#view, node);
 
     // update button name
-    if (this.parameter.value.value === null) {
-      this.configureButton.style.display = 'none';
-      this.nodeButton.innerHTML = 'NULL';
-    } else {
-      this.configureButton.style.display = 'block';
-      this.configureButton.title = 'Configure ' + this.parameter.value.value.name + ' node';
-      this.nodeButton.innerHTML = this.parameter.value.value.name;
-    }
+    this.configureButton.style.display = 'block';
+    this.configureButton.title = 'Configure ' + this.parameter.value.value.name + ' node';
+    this.nodeButton.innerHTML = this.parameter.value.value.name;
 
     // close library panel
     this.hide();
