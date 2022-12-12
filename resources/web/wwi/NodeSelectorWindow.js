@@ -129,16 +129,10 @@ export default class NodeSelectorWindow {
     nodeInfo.id = 'node-info';
     nodeInfo.className = 'node-info';
 
-    const license = document.createElement('span');
-    license.id = 'node-license';
-    license.className = 'node-license';
-    license.innerHTML = 'License:&nbsp;<i>not specified.</i>';
-    nodeInfo.appendChild(license);
-
-    const topLine = document.createElement('hr');
-    topLine.id = 'top-line';
-    topLine.style.width = '75%'
-    nodeInfo.appendChild(topLine);
+    //const topLine = document.createElement('hr');
+    //topLine.id = 'top-line';
+    //topLine.style.width = '75%'
+    //nodeInfo.appendChild(topLine);
 
     const img = document.createElement('img');
     img.id = 'node-image';
@@ -157,6 +151,12 @@ export default class NodeSelectorWindow {
     description.className = 'node-description';
     description.innerHTML = 'No description available.';
     nodeInfo.appendChild(description);
+
+    const license = document.createElement('span');
+    license.id = 'node-license';
+    license.className = 'node-license';
+    license.innerHTML = 'License:&nbsp;<i>not specified.</i>';
+    nodeInfo.appendChild(license);
 
     const buttonContainer = document.createElement('div');
     buttonContainer.className = 'node-buttons';
@@ -260,26 +260,26 @@ export default class NodeSelectorWindow {
     const nodeImage = document.getElementById('node-image');
     const description = document.getElementById('node-description');
     const license = document.getElementById('node-license');
-    const topLine = document.getElementById('top-line');
+    //const topLine = document.getElementById('top-line');
     const bottomLine = document.getElementById('bottom-line');
 
     if (typeof protoName === 'undefined') {
       nodeImage.style.display = 'none';
       description.innerHTML = 'No node selected';
       license.style.display = 'none';
-      topLine.style.display = 'none';
+      //topLine.style.display = 'none';
       bottomLine.style.display = 'none';
     } else if (protoName === 'NULL') {
       nodeImage.style.display = 'none';
       description.innerHTML = 'The current node will be removed.';
       license.style.display = 'none';
-      topLine.style.display = 'none';
+      //topLine.style.display = 'none';
       bottomLine.style.display = 'none';
     } else {
       nodeImage.style.display = 'block';
       description.style.display = 'block';
       license.style.display = 'block';
-      topLine.style.display = 'block';
+      //topLine.style.display = 'block';
       bottomLine.style.display = 'block';
 
       const info = this.nodes.get(protoName);
@@ -373,7 +373,6 @@ export default class NodeSelectorWindow {
   }
 
   show(parameter, nodeButton, configureButton) { // TODO: find better solution rather than passing these buttons
-    console.log('SHOW')
     // cleanup input field
     const filterInput = document.getElementById('filter');
     filterInput.value = '';
@@ -386,17 +385,12 @@ export default class NodeSelectorWindow {
     this.configureButton = configureButton;
     this.populateWindow();
     this.nodeSelector.style.display = 'block';
-    //this.changeVisibility();
-    //this.setSize(600, 500);
   }
 
   hide() {
-    console.log('HIDE')
-
     this.parameter = undefined;
     this.nodeButton = undefined;
     this.configureButton = undefined;
     this.nodeSelector.style.display = 'none';
-    //this.changeVisibility();
   }
 }

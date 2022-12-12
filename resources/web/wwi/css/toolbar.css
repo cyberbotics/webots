@@ -991,20 +991,21 @@ webots-view .value-parameter {
 
 webots-view .node-library {
   position: absolute;
-  top: calc(50% - 250px);
-  left: calc(50% - 220px);
+  top: calc(50% - 300px);
+  left: calc(50% - 350px);
   background-color: #333;
-  width: 600px;
-  height: 500px;
+  width: 700px;
+  height: 600px;
   border-radius: 5px;
   opacity: 0.95;
   display: none;
   z-index: 3;
   overflow: hidden;
+  opacity: 1.0;
 }
 
 webots-view .node-library .node-filter {
-  width: 600px;
+  width: 700px;
   height: 50px;
   font-family: Arial;
   color: rgba(240, 240, 240, 1);
@@ -1014,8 +1015,8 @@ webots-view .node-library .node-filter {
 }
 
 webots-view .node-library .node-list {
-  width: 300px;
-  height: 400px;
+  width: 350px;
+  height: 500px;
   float: left;
   font-family: Arial;
   overflow-y: scroll;
@@ -1024,7 +1025,7 @@ webots-view .node-library .node-list {
 }
 
 webots-view .node-library .node-buttons {
-  width: 600px;
+  width: 700px;
   height: 50px;
   font-family: Arial;
   color: rgba(240, 240, 240, 1);
@@ -1034,8 +1035,8 @@ webots-view .node-library .node-buttons {
 }
 
 webots-view .node-library .node-info {
-  width: 300px;
-  height: 400px;
+  width: 350px;
+  height: 500px;
   float: left;
   font-family: Arial;
   align-items: top;
@@ -1047,6 +1048,8 @@ webots-view .node-library .node-info {
 webots-view .node-library .node-image {
   width: 150px;
   height: 150px;
+  padding-top: 20px;
+  padding-bottom: 15px;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -1059,6 +1062,10 @@ webots-view .node-library .node-description {
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 5px;
+  float: left;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 225px;
 }
 
 webots-view .node-library .node-license {
@@ -1068,9 +1075,8 @@ webots-view .node-library .node-license {
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 5px;
-  justify-content: start;
-  align-content: flex-start;
-  display: flex;
+  position: absolute;
+  bottom: 50px;
 }
 
 webots-view .node-library ol {
