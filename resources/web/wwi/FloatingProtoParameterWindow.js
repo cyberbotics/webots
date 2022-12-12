@@ -8,7 +8,7 @@ import WbPen from './nodes/WbPen.js';
 import WbRadar from './nodes/WbRadar.js';
 import WbWorld from './nodes/WbWorld.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
-import FloatingNodeSelectorWindow from './FloatingNodeSelectorWindow.js';
+import NodeSelectorWindow from './NodeSelectorWindow.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #protoManager;
@@ -450,11 +450,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     nodeButton.onclick = async() => {
       console.log('editing: ' + parameter.name);
       if (typeof this.nodeSelector === 'undefined') {
-        this.nodeSelector = new FloatingNodeSelectorWindow(this.parentNode, this.parentNode.protoManager, this.#view, this.parentNode.protoManager.proto);
+        this.nodeSelector = new NodeSelectorWindow(this.parentNode, this.parentNode.protoManager, this.#view);
         await this.nodeSelector.initialize();
       }
 
       this.nodeSelector.show(parameter, nodeButton, configureButton);
+      this.nodeSelectorListener = (event) => this.#hideNodeSelector(event);
+      window.addEventListener('click', this.nodeSelectorListener, true);
     };
 
     if (parameter.value.value === null) {
@@ -476,6 +478,15 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     };
     parent.appendChild(p);
     parent.appendChild(value);
+  }
+
+  #hideNodeSelector(event) {
+    console.log('HERE', this.nodeSelector.nodeSelector.style.display)
+    if (typeof this.nodeSelector !== 'undefined' && !this.nodeSelector.nodeSelector.contains(event.target)) {
+      this.nodeSelector.hide();
+      console.log('ASD')
+      window.removeEventListener('click', this.nodeSelectorListener, true);
+    }
   }
 
   isSlotTypeMatch(firstType, secondType) {

@@ -44,28 +44,21 @@ class ProtoInfo {
   get slotType() {
     return this.#slotType;
   }
+
   get tags() {
     return this.#tags;
   }
+
   get needsRobotAncestor() {
     return this.#needsRobotAncestor;
   }
 }
 
-export default class FloatingNodeSelectorWindow extends FloatingWindow {
+export default class NodeSelectorWindow {
   #protoManager;
   #view;
-  constructor(parentNode, protoManager, view, proto) {
-    super(parentNode, 'node-selector');
-    this.floatingWindow.style.zIndex = '3';
-    this.headerText.innerHTML = 'Proto window';
-    this.floatingWindowContent.removeChild(this.frame);
-    this.frame = document.createElement('div');
-    this.frame.id = this.name + '-content';
-    this.floatingWindowContent.appendChild(this.frame);
-
+  constructor(parentNode, protoManager, view) {
     this.#protoManager = protoManager;
-    this.proto = proto;
     this.#view = view;
 
     this.#setupWindow(parentNode);
@@ -106,11 +99,10 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
   }
 
   #setupWindow(parentNode) {
-    const panel = document.createElement('div'); // TODO: add elements to floatingWindow, not this div
-    panel.className = 'node-library';
-    panel.id = 'node-library';
-    parentNode.appendChild(panel);
-    //this.floatingWindowContent.appendChild(panel);
+    this.nodeSelector = document.createElement('div');
+    this.nodeSelector.className = 'node-library';
+    this.nodeSelector.id = 'node-library';
+    parentNode.appendChild(this.nodeSelector);
 
     // setup search input
     const nodeFilter = document.createElement('div');
@@ -186,10 +178,10 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
     buttonContainer.appendChild(cancelButton);
     buttonContainer.appendChild(acceptButton);
 
-    panel.appendChild(nodeFilter);
-    panel.appendChild(nodeList);
-    panel.appendChild(nodeInfo);
-    panel.appendChild(buttonContainer);
+    this.nodeSelector.appendChild(nodeFilter);
+    this.nodeSelector.appendChild(nodeList);
+    this.nodeSelector.appendChild(nodeInfo);
+    this.nodeSelector.appendChild(buttonContainer);
   }
 
   populateWindow() {
@@ -381,6 +373,7 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
   }
 
   show(parameter, nodeButton, configureButton) { // TODO: find better solution rather than passing these buttons
+    console.log('SHOW')
     // cleanup input field
     const filterInput = document.getElementById('filter');
     filterInput.value = '';
@@ -392,18 +385,18 @@ export default class FloatingNodeSelectorWindow extends FloatingWindow {
     this.nodeButton = nodeButton;
     this.configureButton = configureButton;
     this.populateWindow();
-    const panel = document.getElementById('node-library');
-    panel.style.display = 'block';
+    this.nodeSelector.style.display = 'block';
     //this.changeVisibility();
     //this.setSize(600, 500);
   }
 
   hide() {
+    console.log('HIDE')
+
     this.parameter = undefined;
     this.nodeButton = undefined;
     this.configureButton = undefined;
-    const panel = document.getElementById('node-library');
-    panel.style.display = 'none';
+    this.nodeSelector.style.display = 'none';
     //this.changeVisibility();
   }
 }
