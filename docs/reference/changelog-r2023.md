@@ -15,6 +15,7 @@ Released on ??
     - Fixed crash resulting from requesting pose tracking of unsuitable nodes ([5620](https://github.com/cyberbotics/webots/pull/5620)).
     - Fixed crashes resulting from streaming pose, SF field values or contact points after deleting the tracked nodes ([5638](https://github.com/cyberbotics/webots/pull/5638)).
     - Fixed invalid default NULL `from_node` argument in [`wb_supervisor_node_disable_pose_tracking`](supervisor.md#wb_supervisor_node_disable_pose_tracking) ([5638](https://github.com/cyberbotics/webots/pull/5638)).
+    - Fixed BotStudio robot window loading errors ([5651](https://github.com/cyberbotics/webots/pull/5651)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
