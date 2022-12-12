@@ -561,9 +561,8 @@ void WbSupervisorUtilities::removeTrackedContactPoints(QObject *obj) {
 
 void WbSupervisorUtilities::removeTrackedPoseNode(QObject *obj) {
   for (int i = mTrackedPoses.size() - 1; i >= 0; --i) {
-    if (mTrackedPoses[i].fromNode == obj || mTrackedPoses[i].toNode == obj) {
+    if (mTrackedPoses[i].fromNode == obj || mTrackedPoses[i].toNode == obj)
       mTrackedPoses.removeAt(i);
-    }
   }
 }
 
