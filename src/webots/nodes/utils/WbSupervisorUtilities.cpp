@@ -1258,7 +1258,9 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       }
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       if (!solid) {
-        mRobot->warn(tr("Node '%1' is not suitable for contact points tracking, aborting request.").arg(node->modelName()));
+        mRobot->warn(tr("Node '%1' (%2) is not suitable for contact points tracking, aborting request.")
+                       .arg(node->usefulName())
+                       .arg(node->modelName()));
         return;
       }
 
@@ -1285,7 +1287,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       } else if (trackingInfoIndex != -1)
         mTrackedContactPoints.removeAt(trackingInfoIndex);
       else
-        mRobot->warn(tr("No active contact points tracking could be found for the node '%1'.").arg(solid->modelName()));
+        mRobot->warn(tr("No active contact points tracking could be found for the node '%1'.")
+                       .arg(solid->usefulName()));
       return;
     }
     case C_SUPERVISOR_POSE_CHANGE_TRACKING_STATE: {
@@ -1308,7 +1311,9 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       }
       WbTransform *const toTransformNode = dynamic_cast<WbTransform *>(toNode);
       if (!toTransformNode) {
-        mRobot->warn(tr("Node '%1' is not suitable for pose tracking, aborting request.").arg(toNode->modelName()));
+        mRobot->warn(tr("Node '%1' (%2) is not suitable for pose tracking, aborting request.")
+                       .arg(toNode->usefulName())
+                       .arg(toNode->modelName()));
         return;
       }
 
@@ -1324,9 +1329,11 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       if (enable) {
         WbTransform *const fromTransformNode = fromNode ? dynamic_cast<WbTransform *>(fromNode) : NULL;
         if (fromNodeId && !fromTransformNode)
-          mRobot->warn(tr("Pose tracking can be exclusively used with Transform (or derived) 'from_node' argument, but '%1' is "
-                          "given. The absolute pose in global coordinates will be returned.")
-                         .arg(fromNode->modelName()));
+          mRobot->warn(
+            tr("Pose tracking can be exclusively used with Transform (or derived) 'from_node' argument, but '%1' (%2) is "
+               "given. The absolute pose in global coordinates will be returned.")
+              .arg(fromNode->usefulName())
+              .arg(fromNode->modelName()));
 
         if (index < 0) {
           WbTrackedPoseInfo trackedPose;
@@ -1345,9 +1352,9 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       } else if (index >= 0)
         mTrackedPoses.removeAt(index);
       else
-        mRobot->warn(tr("No active pose tracking could be found matching nodes '%1' (to) and '%2' (from) arguments.")
-                       .arg(toNode->modelName())
-                       .arg(fromNode->modelName()));
+        mRobot->warn(tr("No active pose tracking could be found matching nodes '%1' (to) and '%3' (from) arguments.")
+                       .arg(toNode->usefulName())
+                       .arg(fromNode->usefulName()));
 
       return;
     }
@@ -1609,7 +1616,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       if (!WbVrmlNodeUtilities::isVisible(node)) {
         mRobot->warn(
-          tr("Node '%1' is internal to a PROTO and therefore cannot be deleted from a Supervisor.").arg(node->modelName()));
+          tr("Node '%1' is internal to a PROTO and therefore cannot be deleted from a Supervisor.").arg(node->usefulName()));
         return;
       }
 
