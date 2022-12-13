@@ -174,7 +174,7 @@ PROTO RosbotXl [
           children [
             Transform {
               translation 0.000000 0.000000 0.000000
-              rotation 0.000000 0.000000 1.000000 3.141592
+              rotation 0.000000 0.000000 1.000000 0.000000
               children [
                 USE WHEEL_SHAPE
               ]
