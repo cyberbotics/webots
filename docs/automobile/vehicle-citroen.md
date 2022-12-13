@@ -44,8 +44,7 @@ CitroenCZero {
 
 ## CitroenCZeroFrontWheel
 
-Model of the Citroën C-Zero front wheels using the generic [VehicleWheel](vehiclewheel.md) PROTO
-including physic properties and textures.
+Model of the Citroën C-Zero front wheels using the generic [VehicleWheel](vehiclewheel.md) PROTO including physic properties and textures.
 The contactMaterial is "CitroenCZeroWheels".
 Size: 145/65/R15
 This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles)).
@@ -74,10 +73,9 @@ CitroenCZeroFrontWheel {
 
 ## CitroenCZeroRearWheel
 
-Model of the Citroën C-Zero rear wheels using the generic [VehicleWheel](vehiclewheel.md) PROTO
-including physic properties and textures.
+Model of the Citroën C-Zero rear wheels using the generic [VehicleWheel](vehiclewheel.md) PROTO including physic properties and textures.
 The contactMaterial is "CitroenCZeroWheels".
-Size: 175/55/R15
+Size: 175/55/R15.
 This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles)).
 
 %figure
