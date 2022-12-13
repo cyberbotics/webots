@@ -432,6 +432,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   #intOnChange(node) {
     node.input.value = node.input.value.replace(/[^0-9-]/g, '');
+    // eslint-disable-next-line
     node.input.value = node.input.value.replace(/(\..*)\-/g, '$1');
   }
 
