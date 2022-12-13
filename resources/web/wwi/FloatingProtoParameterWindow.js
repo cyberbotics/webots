@@ -702,13 +702,20 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     input.checked = parameter.value.value;
     input.className = 'bool-field';
 
-    input.onchange = () => {
-      this.#boolOnChange(p);
-      this.#enableResetButton(resetButton);
-    };
     p.input = input;
     p.checkbox = exportCheckbox;
     value.appendChild(input);
+
+    const boolText = document.createElement('span');
+    boolText.style.verticalAlign = 'middle';
+    this.#changeBoolText(boolText, input);
+    value.appendChild(boolText);
+
+    input.onchange = () => {
+      this.#boolOnChange(p);
+      this.#enableResetButton(resetButton);
+      this.#changeBoolText(boolText, input);
+    };
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow);
     this.#disableResetButton(resetButton);
@@ -719,6 +726,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     };
     parent.appendChild(p);
     parent.appendChild(value);
+  }
+
+  #changeBoolText(boolText, input) {
+    if (input.checked)
+      boolText.innerHTML = 'TRUE';
+    else
+      boolText.innerHTML = 'FALSE';
   }
 
   #boolOnChange(node) {

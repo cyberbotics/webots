@@ -997,6 +997,7 @@ webots-view .mf-parameter {
 
 webots-view .bool-field {
     margin-left: 0px;
+    vertical-align: middle;
 }
 
 webots-view .mf-expand-button {
