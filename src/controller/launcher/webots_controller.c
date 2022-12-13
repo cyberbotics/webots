@@ -354,6 +354,24 @@ void remove_spaces(char *string) {
   } while (*string++ = *removed++);
 }
 
+void remove_comment(char *string) {
+  const char *comment = strchr(string, ';');
+  if (comment) {
+    const size_t comment_size = strlen(comment);
+    const size_t full_line_size = strlen(string);
+    const size_t content_size = full_line_size - comment_size;
+    string[content_size] = '\0';
+    return true;
+  }
+  string[strlen(string) - 1] = '\0';
+  return false;
+}
+
+void parse_ini_paths(char *string) {
+  // TODO: add controller_path to relative path, should be checked after '=' and every ':'
+  // TODO: replace $() by actual value
+}
+
 void parse_runtime_ini() {
   // Compute path to controller file
 #ifdef _WIN32
@@ -367,43 +385,46 @@ void parse_runtime_ini() {
   strncpy(controller_path, controller, controller_path_size);
   controller_path[controller_path_size] = '\0';
 
+  // Open runtime.ini if it exists
   size_t ini_file_name_size = snprintf(NULL, 0, "%s%s", controller_path, "/runtime.ini") + 1;
   char *ini_file_name = malloc(ini_file_name_size);
   sprintf(ini_file_name, "%s%s", controller_path, "/runtime.ini");
-
   FILE *runtime_ini;
   if ((runtime_ini = fopen(ini_file_name, "r")) == NULL)
     return;
 
+  // Read the file line by line
   ssize_t line_size;
   size_t buffer_size;
   char *line = NULL;
   enum sections { Path, Simple, Windows, macOS, Linux } section;
   while ((line_size = getline(&line, &buffer_size, runtime_ini)) != -1) {
-    printf("%s", line);
+    // printf("%s", line);
     remove_spaces(line);
-    printf("%s", line);
+    // printf("%s", line);
+    line_size = strlen(line) - 1;  // re-evaluate line size and ignore end-of-line
+    // printf("%d\n", line_size);
     // Empty line
-    if (line_size <= 2)
+    if (line_size <= 1)
       continue;
 
     // Section line
     if (strncmp(line, "[", 1) == 0) {
       if (strncmp(line, "[environmentvariableswithpaths]", 31) == 0) {
         section = Path;
-        printf("0: %s", line);
+        // printf("0: %s", line);
       } else if (strncmp(line, "[environmentvariables]", 22) == 0) {
         section = Simple;
-        printf("1: %s", line);
+        // printf("1: %s", line);
       } else if (strncmp(line, "[environmentvariablesforWindows]", 32) == 0) {
         section = Windows;
-        printf("2: %s", line);
+        // printf("2: %s", line);
       } else if (strncmp(line, "[environmentvariablesformacOS]", 30) == 0) {
         section = macOS;
-        printf("3: %s", line);
+        // printf("3: %s", line);
       } else if (strncmp(line, "[environmentvariablesforLinux]", 30) == 0) {
         section = Linux;
-        printf("4: %s", line);
+        // printf("4: %s", line);
       } else {
         printf("Unknown section in the runtime.ini file. Please refer to "
                "https://cyberbotics.com/doc/guide/controller-programming#environment-variables for more information.\n");
@@ -414,19 +435,56 @@ void parse_runtime_ini() {
     else {
       switch (section) {
         case Path:
-          printf("%d\n", section);
+          remove_comment(line);
+          line_size = strlen(line);  // Update line size
+
+          parse_ini_paths(line);
+#ifdef _WIN32
+          // replace / and :
+#endif
+
+          /*char *value = strchr(line, '=') + 1;
+          const size_t value_size = strlen(value);
+          const size_t key_size = line_size - value_size + 1;
+          char *key = malloc(key_size + 1);
+          strncpy(key, line, key_size);
+          key[key_size] = '\0';
+          printf("%s and %s\n", key, value);*/
+
+          putenv(line);
+
           break;
         case Simple:
-          printf("%d\n", section);
+          remove_comment(line);
+          line_size = strlen(line);  // Update line size
+          putenv(line);
           break;
         case Windows:
-          printf("%d\n", section);
+          // TODO: remove comment fancy way
+#ifdef _WIN32
+          // TODO: remove ""
+          parse_ini_paths(line);
+          putenv(line);
+
+#endif
           break;
         case macOS:
-          printf("%d\n", section);
+
+#ifdef __APPLE__
+          remove_comment(line);
+          line_size = strlen(line);  // Update line size
+          parse_ini_paths(line);
+          putenv(line);
+
+#endif
           break;
         case Linux:
-          printf("%d\n", section);
+#ifdef __linux__
+          remove_comment(line);
+          line_size = strlen(line);  // Update line size
+          parse_ini_paths(line);
+          putenv(line);
+#endif
           break;
       }
     }
