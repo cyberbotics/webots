@@ -28,12 +28,11 @@
 #include <locale.h>  // LC_NUMERIC
 #include <signal.h>  // signal
 #include <stdarg.h>
-#include <stdio.h>      // snprintf
-#include <stdio_ext.h>  //__fpurge
-#include <stdlib.h>     // exit
-#include <string.h>     // strlen
-#include <sys/stat.h>   // stat
-#include <unistd.h>     // sleep, pipe, dup2, STDOUT_FILENO, STDERR_FILENO
+#include <stdio.h>     // snprintf
+#include <stdlib.h>    // exit
+#include <string.h>    // strlen
+#include <sys/stat.h>  // stat
+#include <unistd.h>    // sleep, pipe, dup2, STDOUT_FILENO, STDERR_FILENO
 
 #if defined(__APPLE__) || defined(_WIN32)
 #define st_mtim st_mtimespec
