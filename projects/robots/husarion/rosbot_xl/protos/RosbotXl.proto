@@ -10,7 +10,7 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/29265faa469a5f
 PROTO RosbotXl [
   field  SFVec3f     translation     0 0 0
   field  SFRotation  rotation        0 0 1 0
-  field  SFString    name            "RosbotXl"  # Is `Robot.name`.
+  field  SFString    name            "rosbot_xl"  # Is `Robot.name`.
   field  SFString    controller      "void"      # Is `Robot.controller`.
   field  MFString    controllerArgs  []          # Is `Robot.controllerArgs`.
   field  SFString    customData      ""          # Is `Robot.customData`.
@@ -238,6 +238,7 @@ PROTO RosbotXl [
       }
       Mpu-9250 {
         translation -0.1369 -0.0419 0.085
+        rotation 1.000000 0.000000 0.000000 3.14159
         name "imu"
       }
     ]
