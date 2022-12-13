@@ -2,17 +2,24 @@ import WbGroup from './WbGroup.js';
 import WbWorld from './WbWorld.js';
 
 import {getAnId} from './utils/id_provider.js';
+import {findUpperTransform} from './utils/node_utilities.js';
 
 export default class WbTransform extends WbGroup {
+  #absoluteScale;
+  #absoluteScaleNeedUpdate;
   #rotation;
   #translation;
   #scale;
   #previousTranslation;
+  #upperTransformFirstTimeSearch;
   constructor(id, translation, scale, rotation) {
     super(id);
     this.#translation = translation;
     this.#scale = scale;
     this.#rotation = rotation;
+
+    this.#absoluteScaleNeedUpdate = true;
+    this.#upperTransformFirstTimeSearch = true;
   }
 
   get translation() {
@@ -46,19 +53,21 @@ export default class WbTransform extends WbGroup {
     this.#updateRotation();
   }
 
-  #applyRotationToWren() {
-    const rotation = _wrjs_array4(this.#rotation.w, this.#rotation.x, this.#rotation.y, this.#rotation.z);
-    _wr_transform_set_orientation(this.wrenNode, rotation);
+  absoluteScale() {
+    if (this.#absoluteScaleNeedUpdate)
+      this.#updateAbsoluteScale();
+
+    return this.#absoluteScale;
   }
 
-  #applyScaleToWren() {
-    const scale = _wrjs_array3(this.#scale.x, this.#scale.y, this.#scale.z);
-    _wr_transform_set_scale(this.wrenNode, scale);
-  }
+  #updateAbsoluteScale() {
+    this.#absoluteScale = this.#scale;
+    // multiply with upper transform scale if any
+    const ut = this.#upperTransform();
+    if (typeof ut !== 'undefined')
+      this.#absoluteScale = this.#absoluteScale.mulByVector(ut.absoluteScale());
 
-  #applyTranslationToWren() {
-    const translation = _wrjs_array3(this.#translation.x, this.#translation.y, this.#translation.z);
-    _wr_transform_set_position(this.wrenNode, translation);
+    this.#absoluteScaleNeedUpdate = false;
   }
 
   clone(customID) {
@@ -103,6 +112,21 @@ export default class WbTransform extends WbGroup {
     super.delete(isBoundingObject);
   }
 
+  #applyRotationToWren() {
+    const rotation = _wrjs_array4(this.#rotation.w, this.#rotation.x, this.#rotation.y, this.#rotation.z);
+    _wr_transform_set_orientation(this.wrenNode, rotation);
+  }
+
+  #applyScaleToWren() {
+    const scale = _wrjs_array3(this.#scale.x, this.#scale.y, this.#scale.z);
+    _wr_transform_set_scale(this.wrenNode, scale);
+  }
+
+  #applyTranslationToWren() {
+    const translation = _wrjs_array3(this.#translation.x, this.#translation.y, this.#translation.z);
+    _wr_transform_set_position(this.wrenNode, translation);
+  }
+
   #updateTranslation() {
     if (typeof WbWorld.instance.viewpoint.followedId !== 'undefined' &&
       WbWorld.instance.viewpoint.followedId === this.id)
@@ -120,5 +144,15 @@ export default class WbTransform extends WbGroup {
   #updateScale() {
     if (this.wrenObjectsCreatedCalled)
       this.#applyScaleToWren();
+  }
+
+  #upperTransform() {
+    if (this.#upperTransformFirstTimeSearch) {
+      this.upperTransform = findUpperTransform(this);
+      if (this.wrenObjectsCreatedCalled)
+        this.#upperTransformFirstTimeSearch = false;
+    }
+
+    return this.upperTransform;
   }
 }

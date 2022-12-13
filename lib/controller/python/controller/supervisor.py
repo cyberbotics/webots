@@ -16,6 +16,7 @@ from .wb import wb
 from .node import Node
 from .robot import Robot
 import ctypes
+import typing
 
 
 class Supervisor(Robot):
@@ -96,6 +97,15 @@ class Supervisor(Robot):
 
     def animationStopRecording(self):
         return wb.wb_supervisor_animation_stop_recording()
+
+    def virtualRealityHeadsetIsUsed(self):
+        return wb.wb_supervisor_virtual_reality_headset_is_used() != 0
+
+    def virtualRealityHeadsetGetPosition(self) -> typing.List[float]:
+        return wb.wb_supervisor_virtual_reality_headset_get_position()
+
+    def virtualRealityHeadsetGetOrientation(self) -> typing.List[float]:
+        return wb.wb_supervisor_virtual_reality_headset_get_orientation()
 
     @property
     def simulation_mode(self) -> int:
