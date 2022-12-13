@@ -3,7 +3,7 @@
 ## ToyotaPrius
 
 Model of a Toyota Prius car using the Car PROTO as a base.
-The contactMaterial of the wheels is "ToyotaPriusWheels"
+The contactMaterial of the wheels is "ToyotaPriusWheels".
 This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles)).
 
 %figure
@@ -79,8 +79,7 @@ ToyotaPriusSimple {
 
 ## ToyotaPriusWheel
 
-Model of the Toyota Prius wheels using the generic VehicleWheel proto
-including physic properties and textures
+Model of the Toyota Prius wheels using the generic [VehicleWheel](vehiclewheel.md) PROTO including physic properties and textures
 The contactMaterial is "ToyotaPriusWheels"
 Size: 195/65 R15
 This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles)).
