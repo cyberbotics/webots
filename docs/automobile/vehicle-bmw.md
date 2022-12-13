@@ -92,8 +92,7 @@ BmwX5Simple {
 
 ## BmwX5Wheel
 
-Model of the BMW X5 wheels using the generic [VehicleWheel](vehiclewheel.md) PROTO
-including physic properties and baseColorMaps.
+Model of the BMW X5 wheels using the generic [VehicleWheel](vehiclewheel.md) PROTO including physic properties and baseColorMaps.
 This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles)).
 
 %figure
