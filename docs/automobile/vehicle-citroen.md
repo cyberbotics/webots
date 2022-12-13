@@ -21,7 +21,7 @@ CitroenCZero {
   SFVec3f    translation       0 0 0.4
   SFRotation rotation          0 0 1 0
   SFColor    color             0.85 0.85 0.05
-  MFString   plate             "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/vehicles/protos/textures/plate.jpg"
+  MFString   plate             "../protos/textures/plate.jpg"
   SFString   engineSound       ""
   SFString   name              "vehicle"
   SFString   controller        "<generic>"
@@ -121,7 +121,7 @@ CitroenCZeroSimple {
   SFRotation rotation            0 0 1 0
   SFColor    color               0.85 0.85 0.05
   MFColor    recognitionColors   [ 0.85 0.85 0.05 ]
-  MFString   plate               "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/vehicles/protos/textures/plate.jpg"
+  MFString   plate               "../textures/plate.jpg"
   SFString   name                "vehicle"
   SFString   controller          "<none>"
   MFString   controllerArgs      [ ]
