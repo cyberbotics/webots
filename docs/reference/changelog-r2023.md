@@ -13,7 +13,7 @@ Released on ??
     - Fixed Python API `Field.enableSFTracking` and `Field.disableSFTracking` which were failing ([#5640](https://github.com/cyberbotics/webots/pull/5640)).
     - Fixed crash resulting from requesting pose tracking of unsuitable nodes ([#5620](https://github.com/cyberbotics/webots/pull/5620)).
     - Fixed BotStudio robot window loading errors ([#5651](https://github.com/cyberbotics/webots/pull/5651)).
-    - Fixed the long connection delay for extern controller in complex simulations ([#5656](https://github.com/cyberbotics/webots/pull/5656)).
+    - Fixed the large connection delay for extern controller in complex simulations ([#5656](https://github.com/cyberbotics/webots/pull/5656)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
