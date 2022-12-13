@@ -19,7 +19,7 @@ TeslaModel3 {
   SFVec3f    translation       0 0 0.4
   SFRotation rotation          0 0 1 0
   SFColor    color             1 1 1
-  MFString   plate             "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/vehicles/protos/textures/plate.jpg"
+  MFString   plate             "../textures/plate.jpg"
   SFString   engineSound       ""
   SFString   name              "vehicle"
   SFString   controller        "<generic>"
@@ -58,7 +58,7 @@ TeslaModel3Simple {
   SFRotation rotation                       0 0 1 0
   SFColor    color                          1 0 0
   MFColor    recognitionColors              [ 1 0 0 ]
-  MFString   plate                          "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/vehicles/protos/textures/plate.jpg"
+  MFString   plate                          "../textures/plate.jpg"
   SFString   name                           "vehicle"
   SFString   controller                     "<none>"
   MFString   controllerArgs                 [ ]
