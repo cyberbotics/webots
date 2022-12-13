@@ -58,7 +58,7 @@ RangeRoverSportSVRSimple {
   SFColor    color                          0.0 0.25 0.65
   SFColor    secondaryColor                 0.1 0.1 0.1
   MFColor    recognitionColors              [ 0.0 0.25 0.65, 0.1 0.1 0.1 ]
-  MFString   plate                          "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/vehicles/protos/textures/plate.jpg"
+  MFString   plate                          "../textures/plate.jpg"
   SFString   name                           "vehicle"
   SFString   controller                     "<none>"
   MFString   controllerArgs                 [ ]
