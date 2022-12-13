@@ -1319,20 +1319,21 @@ int wb_robot_init() {  // API initialization
       char *host, *robot_name;
       int port = -1;
       compute_remote_info(&host, &port, &robot_name);
-      success = scheduler_init_remote(host, port, robot_name);
+      char *error_message = malloc(128);
+      success = scheduler_init_remote(host, port, robot_name, error_message);
       if (success) {
         free(host);
         free(robot_name);
+        free(error_message);
         break;
       } else {
         if (retry % 5 == 0 && retry != 50)
-          fprintf(stderr, ", retrying for another %d seconds...\n", 50 - retry);
-        else
-          __fpurge(stderr);
+          fprintf(stderr, "%s, retrying for another %d seconds...\n", error_message, 50 - retry);
       }
 
       free(host);
       free(robot_name);
+      free(error_message);
     } else {  // Intern or IPC extern controller
       char *socket_filename = compute_socket_filename();
       success = socket_filename ? scheduler_init_local(socket_filename) : false;
