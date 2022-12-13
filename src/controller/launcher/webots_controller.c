@@ -33,6 +33,20 @@ char *controller_path;
 char *controller;
 char *controller_extension;
 char *matlab_path;
+char *current_path;
+
+void get_current_path() {
+  if (!current_path) {
+    current_path = malloc(512);
+    getcwd(current_path, 512);
+#ifdef _WIN32
+    strcat(current_path, "\\");
+#else
+    strcat(current_path, "/");
+#endif
+    printf("%s\n", current_path);
+  }
+}
 
 bool get_webots_home() {
   if (!getenv("WEBOTS_HOME")) {
@@ -296,13 +310,7 @@ void matlab_config_environment() {
   strncpy(project_path, controller, project_path_size);
   project_path[project_path_size] = '\0';
 
-  char current_path[128];
-  getcwd(current_path, sizeof(current_path));
-#ifdef _WIN32
-  strcat(current_path, "\\");
-#else
-  strcat(current_path, "/");
-#endif
+  get_current_path();
   size_t webots_project_size = snprintf(NULL, 0, "%s%s%s", "WEBOTS_PROJECT=", current_path, project_path) + 1;
   char *webots_project = malloc(webots_project_size);
   sprintf(webots_project, "%s%s%s", "WEBOTS_PROJECT=", current_path, project_path);
@@ -345,15 +353,6 @@ void matlab_config_environment() {
   putenv(webots_version);
 }
 
-void remove_spaces(char *string) {
-  char *removed = string;
-  do {
-    while (*removed == ' ') {
-      ++removed;
-    }
-  } while (*string++ = *removed++);
-}
-
 void remove_comment(char *string) {
   const char *comment = strchr(string, ';');
   if (comment) {
@@ -361,15 +360,88 @@ void remove_comment(char *string) {
     const size_t full_line_size = strlen(string);
     const size_t content_size = full_line_size - comment_size;
     string[content_size] = '\0';
-    return true;
+    return;
   }
   string[strlen(string) - 1] = '\0';
-  return false;
 }
 
-void parse_ini_paths(char *string) {
-  // TODO: add controller_path to relative path, should be checked after '=' and every ':'
+void replace_char(char *string, char occurence, char replace) {
+  char *current_pos = strchr(string, occurence);
+  while (current_pos) {
+    *current_pos = replace;
+    current_pos = strchr(current_pos + 1, occurence);
+  }
+}
+
+void remove_char(char *string, char occurence) {
+  char *removed = string;
+  do {
+    while (*removed == occurence) {
+      ++removed;
+    }
+  } while (*string++ = *removed++);
+}
+
+void insert_string_at_index(char **string, char *insert, int index) {
+  size_t new_size = strlen(*string) + strlen(insert) + 1;
+
+  char *tmp = strdup(*string);
+  *string = realloc(*string, new_size);
+  strncpy(*string + index, insert, strlen(insert));
+  strncpy(*string + index + strlen(insert), tmp + index, strlen(tmp) - index);
+  (*string)[new_size - 1] = '\0';
+}
+
+void parse_ini_paths(char **string) {
+  // Compute absolute path to ini file
+  get_current_path();
+  size_t absolute_controller_path_size = snprintf(NULL, 0, "%s%s", current_path, controller_path) + 1;
+  char *absolute_controller_path = malloc(absolute_controller_path_size);
+  sprintf(absolute_controller_path, "%s%s", current_path, controller_path);
+
+  // Add absolute path to runtime.ini in front of all relative paths
+  char *tmp = strdup(*string);
+  char *ptr = strtok(tmp, "=");
+  char *env_name = ptr;
+  int offset = 0;
+  while (ptr != NULL) {
+    int index = ptr - tmp + offset;
+    // printf("ptr = %s\n", ptr);
+#ifdef _WIN32
+    if (index && ptr[0] != '\\' && ptr[0] != '$') {
+      insert_string_at_index(*string, absolute_controller_path, index);
+      offset += absolute_controller_path_size - 1;
+    }
+    ptr = strtok(NULL, ";");
+#else
+    if (index && ptr[0] != '/' && ptr[0] != '$') {
+      insert_string_at_index(string, absolute_controller_path, index);
+      offset += absolute_controller_path_size - 1;
+    }
+    ptr = strtok(NULL, ":");
+#endif
+  }
+
+  // Append previous environment string
+  if (getenv(env_name)) {
+    size_t new_size = snprintf(NULL, 0, "%s:%s", *string, getenv(env_name)) + 1;
+    *string = realloc(*string, new_size);
+#ifdef _WIN32
+    sprintf(*string, "%s;%s", *string, getenv(env_name));
+#else
+    sprintf(*string, "%s:%s", *string, getenv(env_name));
+#endif
+  }
+
   // TODO: replace $() by actual value
+  /*char *variable = strstr(string, "$(");
+  if (variable) {
+    char *variable_end = strchr(variable, ')');
+    char *test = malloc(100);
+    strncpy(test, variable, variable_end - variable);
+  }*/
+
+  printf("%s\n", *string);
 }
 
 void parse_runtime_ini() {
@@ -400,7 +472,8 @@ void parse_runtime_ini() {
   enum sections { Path, Simple, Windows, macOS, Linux } section;
   while ((line_size = getline(&line, &buffer_size, runtime_ini)) != -1) {
     // printf("%s", line);
-    remove_spaces(line);
+    remove_char(line, ' ');   // remove useless spaces
+    remove_char(line, '\n');  // remove useless end-of-lines
     // printf("%s", line);
     line_size = strlen(line) - 1;  // re-evaluate line size and ignore end-of-line
     // printf("%d\n", line_size);
@@ -438,11 +511,13 @@ void parse_runtime_ini() {
           remove_comment(line);
           line_size = strlen(line);  // Update line size
 
-          parse_ini_paths(line);
 #ifdef _WIN32
-          // replace / and :
+          // replace ':' and '/' by Windows equivalents
+          replace_char(line, '/', '\\');
+          replace_char(line, ':', ';');
 #endif
 
+          parse_ini_paths(&line);
           /*char *value = strchr(line, '=') + 1;
           const size_t value_size = strlen(value);
           const size_t key_size = line_size - value_size + 1;
@@ -450,7 +525,7 @@ void parse_runtime_ini() {
           strncpy(key, line, key_size);
           key[key_size] = '\0';
           printf("%s and %s\n", key, value);*/
-
+          // line[strlen(line) - 1] = '\0';
           putenv(line);
 
           break;
@@ -460,29 +535,31 @@ void parse_runtime_ini() {
           putenv(line);
           break;
         case Windows:
-          // TODO: remove comment fancy way
+          if (!strchr(line, '\"')) {
+            printf("Paths for windows should be written between double-quotes symbols \".\n");
+            exit(1);
+          }
+          remove_comment(strrchr(line, '\"'));
+          // printf("%s\n", line);
 #ifdef _WIN32
-          // TODO: remove ""
-          parse_ini_paths(line);
+          remove_char(line, '"');
+          parse_ini_paths(&line);
           putenv(line);
-
 #endif
           break;
         case macOS:
-
 #ifdef __APPLE__
           remove_comment(line);
           line_size = strlen(line);  // Update line size
-          parse_ini_paths(line);
+          parse_ini_paths(&line);
           putenv(line);
-
 #endif
           break;
         case Linux:
 #ifdef __linux__
           remove_comment(line);
           line_size = strlen(line);  // Update line size
-          parse_ini_paths(line);
+          parse_ini_paths(&line);
           putenv(line);
 #endif
           break;
