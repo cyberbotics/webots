@@ -20,7 +20,6 @@ export default class WbSliderJoint extends WbJoint {
   preFinalize() {
     super.preFinalize();
     this.device.forEach(child => child.preFinalize());
-    this.position = typeof this.jointParameters === 'undefined' ? 0 : this.jointParameters.position;
   }
 
   postFinalize() {
@@ -64,7 +63,6 @@ export default class WbSliderJoint extends WbJoint {
   }
 
   #computeEndPointSolidPositionFromParameters() {
-    console.log(this.#endPointZeroTranslation)
     return this.#endPointZeroTranslation.add(this.#axis().mul(this.position));
   }
 }

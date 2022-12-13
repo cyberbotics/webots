@@ -24,7 +24,6 @@ export default class WbHingeJoint extends WbJoint {
   preFinalize() {
     super.preFinalize();
     this.#device.forEach(child => child.preFinalize());
-    this.position = typeof this.jointParameters === 'undefined' ? 0 : this.jointParameters.position;
   }
 
   postFinalize() {
