@@ -74,8 +74,7 @@ BusSimple {
 
 ## BusWheel
 
-Model of a bus wheel using the generic [VehicleWheel](vehiclewheel.md) PROTO
-including physic properties and textures.
+Model of a bus wheel using the generic [VehicleWheel](vehiclewheel.md) PROTO including physic properties and textures.
 This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles)).
 
 %figure
