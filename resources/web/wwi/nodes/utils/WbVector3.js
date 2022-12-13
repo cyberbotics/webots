@@ -62,6 +62,10 @@ export default class WbVector3 {
     return new WbVector3(this.x * number, this.y * number, this.z * number);
   }
 
+  mulByVector(vector) {
+    return new WbVector3(this.x * vector.x, this.y * vector.y, this.z * vector.z)
+  }
+
   normalize() {
     const result = this.div(this.length());
     this.x = result.x;
