@@ -1287,8 +1287,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       } else if (trackingInfoIndex != -1)
         mTrackedContactPoints.removeAt(trackingInfoIndex);
       else
-        mRobot->warn(tr("No active contact points tracking could be found for the node '%1'.")
-                       .arg(solid->usefulName()));
+        mRobot->warn(tr("No active contact points tracking could be found for the node '%1'.").arg(solid->usefulName()));
       return;
     }
     case C_SUPERVISOR_POSE_CHANGE_TRACKING_STATE: {
