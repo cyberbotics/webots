@@ -45,6 +45,7 @@ PROTO EmergencyButton [
       }
       SliderJoint {
         jointParameters JointParameters {
+          axis 1 0 0
           minStop -0.013
           springConstant 1000
         }

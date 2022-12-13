@@ -601,9 +601,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
         const parameters = joint.jointParameters;
         if (typeof parameters !== 'undefined' && parameters.minStop !== parameters.maxStop) {
-          minLabel.innerHTML = parameters.minStop;
+          minLabel.innerHTML = this.#decimalCount(parameters.minStop) > 2 ? parameters.minStop.toFixed(2) : parameters.minStop;
           slider.min = parameters.minStop;
-          maxLabel.innerHTML = parameters.maxStop;
+          maxLabel.innerHTML = this.#decimalCount(parameters.maxStop) > 2 ? parameters.maxStop.toFixed(2) : parameters.maxStop;
           slider.max = parameters.maxStop;
         } else {
           minLabel.innerHTML = -3.14;
@@ -637,5 +637,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       title.innerHTML = 'No joints';
       this.joints.appendChild(title);
     }
+  }
+
+  #decimalCount(number) {
+    const numberString = String(number);
+    if (numberString.includes('.'))
+      return numberString.split('.')[1].length;
+    return 0;
   }
 }
