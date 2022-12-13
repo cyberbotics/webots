@@ -240,6 +240,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     hideShowButton.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     hideShowButton.style.gridColumn = '4 / 4';
     hideShowButton.className = 'mf-expand-button';
+    hideShowButton.title = 'Show content';
     hideShowButton.isHidden = true;
 
     const currentMfId = this.#mfId;
@@ -258,9 +259,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       if (hideShowButton.isHidden) {
         hideShowButton.style.transform = 'rotate(90deg)';
         hideShowButton.isHidden = false;
+        hideShowButton.title = 'Hide content';
       } else {
         hideShowButton.style.transform = '';
         hideShowButton.isHidden = true;
+        hideShowButton.title = 'Show content';
       }
     };
 
