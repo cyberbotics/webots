@@ -3,7 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
 # Model of a Toyota Prius car using the Car PROTO as a base.
-# The contactMaterial of the wheels is "ToyotaPriusWheels"
+# The contactMaterial of the wheels is "ToyotaPriusWheels".
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
 
