@@ -28,6 +28,7 @@ extern "C" {
 #endif
 
 extern const int ERROR_BUFFER_SIZE;
+
 int tcp_client_new(const char *host, int port, char *buffer);
 int tcp_client_open(char *buffer);
 int tcp_client_connect(int fd, const char *host, int port, char *buffer);
