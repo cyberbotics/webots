@@ -32,6 +32,8 @@
 
 #include "tcp_client.h"
 
+const int ERROR_BUFFER_SIZE = 128;
+
 int tcp_client_new(const char *host, int port, char *buffer) {
   const int fd = tcp_client_open(buffer);
   if (fd < 0)
@@ -50,14 +52,14 @@ int tcp_client_open(char *buffer) {
   // initialize the socket API if needed
   WSADATA info;
   if (WSAStartup(MAKEWORD(1, 1), &info) != 0) {  // Winsock 1.1
-    sprintf(buffer, "Cannot initialize Winsock");
+    snprintf(buffer, ERROR_BUFFER_SIZE, "Cannot initialize Winsock");
     return -1;
   }
 #endif
   /* create the socket */
   const int fd = socket(AF_INET, SOCK_STREAM, 0);
   if (fd == -1) {
-    sprintf(buffer, "Cannot create socket");
+    snprintf(buffer, ERROR_BUFFER_SIZE, "Cannot create socket");
     return -1;
   }
   return fd;
@@ -75,13 +77,13 @@ int tcp_client_connect(int fd, const char *host, int port, char *buffer) {
   if (server)
     memcpy((char *)&address.sin_addr.s_addr, (char *)server->h_addr, server->h_length);
   else {
-    sprintf(buffer, "Cannot resolve server name: %s", host);
+    snprintf(buffer, ERROR_BUFFER_SIZE, "Cannot resolve server name: %s", host);
     return -1;
   }
   /* connect to the server */
   const int rc = connect(fd, (struct sockaddr *)&address, sizeof(struct sockaddr));
   if (rc == -1) {
-    sprintf(buffer, "Cannot connect to Webots instance");
+    snprintf(buffer, ERROR_BUFFER_SIZE, "Cannot connect to Webots instance");
     return 0;
   }
   return 1;

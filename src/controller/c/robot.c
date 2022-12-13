@@ -62,6 +62,7 @@
 #include "robot_window_private.h"
 #include "scheduler.h"
 #include "supervisor_private.h"
+#include "tcp_client.h"
 
 #ifdef _WIN32
 #include <windows.h>  // GetCommandLine
@@ -1318,7 +1319,7 @@ int wb_robot_init() {  // API initialization
       char *host, *robot_name;
       int port = -1;
       compute_remote_info(&host, &port, &robot_name);
-      char *error_message = malloc(128);
+      char *error_message = malloc(ERROR_BUFFER_SIZE);
       success = scheduler_init_remote(host, port, robot_name, error_message);
       if (success) {
         free(host);

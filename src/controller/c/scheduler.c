@@ -71,12 +71,12 @@ int scheduler_init_remote(const char *host, int port, const char *robot_name, ch
   char *acknowledge_message = malloc(10);
   tcp_client_receive(scheduler_client, acknowledge_message, 10);  // wait for ack message from Webots
   if (strncmp(acknowledge_message, "FAILED", 6) == 0) {
-    sprintf(buffer, "%s",
-            robot_name == NULL ? "Exactly one robot should be set with an <extern> controller in the Webots simulation" :
-                                 "The specified robot is not in the list of robots with <extern> controllers");
+    snprintf(buffer, ERROR_BUFFER_SIZE, "%s",
+             robot_name == NULL ? "Exactly one robot should be set with an <extern> controller in the Webots simulation" :
+                                  "The specified robot is not in the list of robots with <extern> controllers");
     return false;
   } else if (strncmp(acknowledge_message, "PROCESSING", 10) == 0) {
-    sprintf(buffer, "The Webots simulation world is not ready yet");
+    snprintf(buffer, ERROR_BUFFER_SIZE, "The Webots simulation world is not ready yet");
     return false;
   } else if (strncmp(acknowledge_message, "FORBIDDEN", 9) == 0) {
     fprintf(stderr, "Error: The connection was closed by Webots. The robot is already connected or your IP address is not "
