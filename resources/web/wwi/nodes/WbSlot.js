@@ -23,6 +23,7 @@ export default class WbSlot extends WbBaseNode {
 
   createWrenObjects() {
     super.createWrenObjects();
+    console.log("createWrenObjects " + this.id + " " + this.wrenNode)
 
     this.endPoint?.createWrenObjects();
   }
