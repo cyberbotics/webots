@@ -107,13 +107,13 @@ For the three other sensor slots, the positions are different for each model (be
 
 | Model                | Front slot translation | Top slot translation | Rear slot translation |
 | -------------------- | ---------------------- | -------------------- | --------------------- |
-| [BmwX5](vehicle-bmw.md#BmwX5)                                         | 3.85 0 0.45   | 1 0 1.45     | -1 0 0.3     |
-| [LincolnMKZ](vehicle-lincoln.md#LincolnMKZ)                           | 3.944 0 0.142 | 1.11 0 1.16  | -1.06 0 0.33 |
-| [RangeRoverSportSVR](vehicle-range-rover.md#RangeRoverSportSVR)       | 3.5 0 0.5     | 1.4 0 1.3    | -1.06 0 0.33 |
-| [CitroenCZero](vehicle-citroen.md#CitroenCZero)                       | 3.075 0 0.05  | 1.075 0 1.35 | -0.425 0 0.3 |
-| [ToyotaPrius](vehicle-toyota.md#ToyotaPrius)                          | 3.635 0 0.4   | 1.1 0 1.3    | -0.85 0 0.3  |
-| [TeslaModel3](vehicle-tesla.md#TeslaModel3)                           | 3.79 0 0.142  | 1.11 0 1.16  | -1.05 0 0.2  |
-| [MercedesBenzSprinter](vehicle-mercedes-benz.md#MercedesBenzSprinter) | 5.31 0 0.47   | 2.99 0 2.3   | 0 0 1 3.1415 |
+| [BmwX5](vehicle-bmw.md#bmwx5)                                         | 3.85 0 0.45   | 1 0 1.45     | -1 0 0.3     |
+| [LincolnMKZ](vehicle-lincoln.md#lincolnmkz)                           | 3.944 0 0.142 | 1.11 0 1.16  | -1.06 0 0.33 |
+| [RangeRoverSportSVR](vehicle-range-rover.md#rangeroversportsvr)       | 3.5 0 0.5     | 1.4 0 1.3    | -1.06 0 0.33 |
+| [CitroenCZero](vehicle-citroen.md#citroenczero)                       | 3.075 0 0.05  | 1.075 0 1.35 | -0.425 0 0.3 |
+| [ToyotaPrius](vehicle-toyota.md#toyotaprius)                          | 3.635 0 0.4   | 1.1 0 1.3    | -0.85 0 0.3  |
+| [TeslaModel3](vehicle-tesla.md#teslamodel3)                           | 3.79 0 0.142  | 1.11 0 1.16  | -1.05 0 0.2  |
+| [MercedesBenzSprinter](vehicle-mercedes-benz.md#mercedesbenzsprinter) | 5.31 0 0.47   | 2.99 0 2.3   | 0 0 1 3.1415 |
 
 
 %end
@@ -139,14 +139,14 @@ The rest of the positions can be seen in the [following table](#positions-of-the
 
 | Model   | Front slot translation | Top slot translation | Rear slot translation |
 | ------- | ---------------------- | -------------------- | --------------------- |
-| [Bus](vehicle-generic.md#Bus)    | 11.5 0 0.2 | 2.5 0 5.3  | -6.2 0 1           |
-| [Truck](vehicle-generic.md#Truck)| 6.75 0 1.1 | 4.3 0 4.15 | -7.3 0 2.7         |
+| [Bus](vehicle-generic.md#bus)    | 11.5 0 0.2 | 2.5 0 5.3  | -6.2 0 1           |
+| [Truck](vehicle-generic.md#truck)| 6.75 0 1.1 | 4.3 0 4.15 | -7.3 0 2.7         |
 
 %end
 
 ### Agricultural Vehicles
 
-A [Tractor](vehicle-generic.md#Tractor) PROTO model is also provided which inherits from the `Car` PROTO.
+A [Tractor](vehicle-generic.md#tractor) PROTO model is also provided which inherits from the `Car` PROTO.
 
 %figure "Model of a Tractor using the `Car` PROTO"
 
@@ -154,7 +154,7 @@ A [Tractor](vehicle-generic.md#Tractor) PROTO model is also provided which inher
 
 %end
 
-The [Tractor](vehicle-generic.md#Tractor) PROTO model provides a `sensorSlots` at center of the vehicle.
+The [Tractor](vehicle-generic.md#tractor) PROTO model provides a `sensorSlots` at center of the vehicle.
 
 ### Simple Vehicles
 
@@ -231,7 +231,7 @@ PROTO TwoWheelerSimple {
 - `secondaryColor`: Defines a secondary color to be chosen alongside the main one.
 - `driver`: Defines a `Slot` node for the two-wheeler driver.
 
-[ScooterSimple](vehicle-generic.md#ScooterSimple) and [MotorbikeSimple](vehicle-generic.md#MotorbikeSimple) are examples of actual TwoWheelerSimple PROTO that represent a scooter and a motorbike:
+[ScooterSimple](vehicle-generic.md#scootersimple) and [MotorbikeSimple](vehicle-generic.md#motorbikesimple) are examples of actual TwoWheelerSimple PROTO that represent a scooter and a motorbike:
 
 %figure "Models of ScooterSimple and MotorbikeSimple currently available"
 
