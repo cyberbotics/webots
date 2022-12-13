@@ -1352,7 +1352,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       } else if (index >= 0)
         mTrackedPoses.removeAt(index);
       else
-        mRobot->warn(tr("No active pose tracking could be found matching nodes '%1' (to) and '%3' (from) arguments.")
+        mRobot->warn(tr("No active pose tracking could be found matching nodes '%1' (to) and '%2' (from) arguments.")
                        .arg(toNode->usefulName())
                        .arg(fromNode->usefulName()));
 
