@@ -154,7 +154,7 @@ A [Tractor](vehicle-generic.md#tractor) PROTO model is also provided which inher
 
 %end
 
-The [Tractor](vehicle-generic.md#tractor) PROTO model provides a `sensorSlots` at center of the vehicle.
+The [Tractor](vehicle-generic.md#tractor) PROTO model provides a `sensorSlot at center of the vehicle.
 
 ### Simple Vehicles
 
