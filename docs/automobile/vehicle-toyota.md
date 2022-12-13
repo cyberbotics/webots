@@ -2,7 +2,7 @@
 
 ## ToyotaPrius
 
-Model of an Toyota Prius car using the Car PROTO as a base.
+Model of a Toyota Prius car using the Car PROTO as a base.
 The contactMaterial of the wheels is "ToyotaPriusWheels"
 This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles)).
 
