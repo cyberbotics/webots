@@ -3011,9 +3011,9 @@ void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef from_nod
     return;
   }
 
-  if (!is_node_ref_valid(from_node)) {
+  if (from_node != NULL && !is_node_ref_valid(from_node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with a NULL or invalid 'from_node' argument.\n", __FUNCTION__);
+      fprintf(stderr, "Error: %s() called with an invalid 'from_node' argument.\n", __FUNCTION__);
     return;
   }
 
