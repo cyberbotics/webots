@@ -7,6 +7,7 @@ import WbLidar from './nodes/WbLidar.js';
 import WbLightSensor from './nodes/WbLightSensor.js';
 import WbPen from './nodes/WbPen.js';
 import WbRadar from './nodes/WbRadar.js';
+import WbSliderJoint from './nodes/WbSliderJoint.js';
 import WbWorld from './nodes/WbWorld.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
 
@@ -573,7 +574,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     let numberOfJoint = 0;
     for (const key of keys) {
       const joint = nodes.get(key);
-      if (joint instanceof WbHingeJoint) {
+      if (joint instanceof WbHingeJoint || joint instanceof WbSliderJoint) {
         numberOfJoint++;
 
         let div = document.createElement('div');
