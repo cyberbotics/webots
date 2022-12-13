@@ -660,8 +660,7 @@ export default class Parser {
       const minRange = parseFloat(getNodeAttribute(node, 'minRange', '0.01'));
       newNode = new WbRangeFinder(id, translation, scale, rotation, name === '' ? 'range finder' : name, height, width,
         fieldOfView, maxRange, minRange);
-    }
-    else if (node.tagName === 'Receiver')
+    } else if (node.tagName === 'Receiver')
       newNode = new WbReceiver(id, translation, scale, rotation, name === '' ? 'receiver' : name);
     else if (node.tagName === 'Speaker')
       newNode = new WbSpeaker(id, translation, scale, rotation, name === '' ? 'speaker' : name);

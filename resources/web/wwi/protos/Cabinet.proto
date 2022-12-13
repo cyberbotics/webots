@@ -24,214 +24,3718 @@ PROTO Cabinet [
   field SFFloat    innerThickness 0.02                 # Defines the inner thickness of the cabinet frame.
   field SFFloat    outerThickness 0.03                 # Defines the outer thickness of the cabinet frame.
   field MFFloat    rowsHeights [                       # Defines the height of the cabinet rows.
-    0.1
-    2
-    0.5
+    0.24
+    0.2
+    0.2
+    0.4
+    0.4
   ]
   field MFFloat columnsWidths [                        # Defines the width of the cabinet columns.
-    0.3
-    0.6
-    0.9
+    0.4
+    0.17
+    0.17
   ]
   field MFString layout [                              # Defines the layout of the cabinet.
+    "RightSidedDoor (1, 4, 1, 2, 1.5)"
+    "LeftSidedDoor (2, 4, 2, 2, 1.5)"
+    "Drawer (3, 3, 1, 1, 1.5)"
+    "Drawer (2, 2, 1, 1, 1.5)"
+    "Drawer (3, 2, 1, 1, 1.5)"
+    "Drawer (1, 1, 3, 1, 3.5)"
+    "Shelf (1, 5, 3, 0)"
+    "Shelf (1, 4, 3, 0)"
+    "Shelf (1, 3, 3, 0)"
+    "Shelf (1, 2, 3, 0)"
+    "Shelf (1, 3, 0, 1)"
+    "Shelf (2, 3, 0, 1)"
   ]
   field SFNode   handle              CabinetHandle {}  # Defines the handle of the cabinet.
   field SFNode   primaryAppearance   PaintedWood {}    # Defines the primary appearance.
   field SFNode   secondaryAppearance PaintedWood {}    # Defines the secondary appearance.
 ]
 {
-  %<
-    function computeCoordinate (elements, item, dimension) {
-      let from = 0.0;
-      for (let i = 0; i < (item - 1); ++i)
-        if (elements[i] !== undefined)
-          from += elements[i];
-
-      let to = 0.0;
-      for (let i = 0; i < item + dimension - 1; ++i)
-        if (elements[i] !== undefined)
-          to += elements[i];
-
-      return 0.5 * (from + to);
-    }
-
-    function computeDimension (elements, item, dimension) {
-      let length = 0.0;
-      for (let i = item - 1; i < item + dimension - 1; ++i)
-        if (elements[i] !== undefined)
-          length += elements[i];
-
-      return length;
-    }
-
-    let innerThickness = fields.innerThickness.value;
-    if (innerThickness <= 0.0) {
-      innerThickness = fields.innerThickness.defaultValue;
-      console.error('\'innerThickness\' must be strictly positive. Value reset to ' + innerThickness + '.');
-    }
-
-    let outerThickness = fields.outerThickness.value;
-    if (outerThickness <= 0.0) {
-      outerThickness = fields.outerThickness.defaultValue;
-      console.error('\'outerThickness\' must be strictly positive. Value reset to ' + outerThickness + '.');
-    }
-
-    if (2.0 * outerThickness <= innerThickness) {
-      outerThickness = 0.51 * innerThickness;
-      console.error('\'innerThickness\' should be at least twice bigger than \'outerThickness\'. Value reset to ' + outerThickness + '.');
-    }
-
-    let depth = fields.depth.value;
-    if (depth <= 0.0) {
-      depth = fields.depth.defaultValue;
-      console.error('\'depth\' must be strictly positive. Value reset to ' + depth + '.');
-    }
-    if (depth < 2 * outerThickness + 3 * innerThickness) {
-      depth = 2 * outerThickness + 3 * innerThickness;
-      console.error('\'depth\' must be bigger than 2 * \'outerThickness\' + 3 * \'innerThickness\'. Value reset to ' + depth + '.');
-    }
-
-    let rowsHeights = fields.rowsHeights.value;
-    const nRows = fields.rowsHeights.value.length;
-    for (let i = 0; i < nRows; ++i) {
-      const height = rowsHeights[i];
-      if (height < 3 * innerThickness) {
-        rowsHeights[i] = 3 * innerThickness; // minimum size
-        console.error('\'rowsHeights[' + i + ']\' must be bigger than 3 * \'innerThickness\'. Value reset to ' + rowsHeights[i] + '.');
-      }
-    }
-
-    let columnsWidths = fields.columnsWidths.value;
-    const nColumns = fields.columnsWidths.value.length;
-    for (let i = 0; i < nColumns; ++i) {
-      const width = columnsWidths[i];
-      if (width < 3 * innerThickness) {
-        columnsWidths[i] = 3 * innerThickness; // minimum size;
-        console.error('\'columnsWidths[' + i + ']\' must be bigger than 3 * \'innerThickness\'. Value reset to ' + columnsWidths[i] + '.');
-      }
-    }
-
-    let size = {x: depth, y: 2 * outerThickness, z: 2 * outerThickness};
-    for (let i = 0; i < nColumns; ++i)
-      size.y += columnsWidths[i];
-
-    for (let i = 0; i < nRows; ++i)
-      size.z += rowsHeights[i];
-
-    // in order to avoid object collisions
-    const objectScaleFactor = 0.995;
-  >%
-  Solid {
-    translation IS translation
-    rotation IS rotation
-    children [
-      SolidBox { # back of the cabinet frame
-        translation %<= 0.5 * outerThickness >% 0 %<= 0.5 * size.z >%
-        name "back box"
-        size %<= outerThickness >% %<= size.y >% %<= size.z - 2.0 * outerThickness >%
-        appearance IS primaryAppearance
-      }
-      SolidBox { # left side of the cabinet frame
-        translation %<= 0.5 * outerThickness + 0.5 * size.x >% %<= 0.5 * size.y - 0.5 * outerThickness >% %<= 0.5 * size.z >%
-        name "left box"
-        size %<= size.x - outerThickness >% %<= outerThickness >% %<= size.z - 2.0 * outerThickness >%
-        appearance IS primaryAppearance
-      }
-      SolidBox { # right side of the cabinet frame
-        translation %<= 0.5 * outerThickness + 0.5 * size.x >% %<= -0.5 * size.y + 0.5 * outerThickness >% %<= 0.5 * size.z >%
-        name "right box"
-        size %<= size.x - outerThickness >% %<= outerThickness >% %<= size.z - 2.0 * outerThickness >%
-        appearance IS primaryAppearance
-      }
-      SolidBox { # top side of the cabinet frame
-        translation %<= 0.5 * size.x >% 0 %<= size.z - 0.5 * outerThickness>%
-        name "top box"
-        size %<= size.x >% %<= size.y >% %<= outerThickness >%
-        appearance IS primaryAppearance
-      }
-      SolidBox { # bottom side of the cabinet frame
-        translation %<= 0.5 * size.x >% 0 %<= 0.5 * outerThickness >%
-        name "bottom box"
-        size %<= size.x >% %<= size.y >% %<= outerThickness >%
-        appearance IS primaryAppearance
-      }
-      # parse layout
-      %< for (let i = 0; i < fields.layout.value.length; ++i) { >%
-        %<
-          const layout = fields.layout.value[i];
-          let data = layout.match(/([^", ( ) %s"]+)/g);
-          for (let j = 1; j < data.length; ++j) {
-            data[j] = Number(data[j]);
-            if (data[j] < 0) {
-              data[j] = 0.1;
-              console.error('\'layout[' + i + '][' + j + ']\' must be positive. Value reset to ' + data[j] + '.');
+Solid {
+  children [
+    Solid {
+      translation 0.015 0 0.75
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughnessMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+              ]
+            }
+            metalness 0
+            normalMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+              ]
+            }
+            occlusionMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+              ]
             }
           }
-        >%
-        %< if (data.length >= 5) { >%
-          %< if (data[1] > 0 && data[1] <= nColumns && data[2] > 0 && data[2] <= nRows &&
-                 data[3] >= 0 && data[1] + data[3] - 1 <= nColumns && data[4] >= 0 && data[2] + data[4] - 1 <= nRows) {
-          >%
-            %< if (data[0] === 'RightSidedDoor' || data[0] === 'LeftSidedDoor' || data[0] === 'Drawer') { >%
-              %< if (data[0] === 'RightSidedDoor') { >%
-                 CabinetDoor {
-                   name %<= '"door ' + i + '"' >%
-                   rightSided TRUE
-              %< } else if (data[0] === 'LeftSidedDoor') { >%
-                CabinetDoor {
-                  name %<= '"door ' + i + '"' >%
-                  rightSided FALSE
-              %< } else if (data[0] === 'Drawer') { >%
-                CabinetDrawer {
-                  name %<= '"drawer ' + i + '"' >%
-              %< } >%
-                  translation
-                    %<= size.x >%
-                    %<= computeCoordinate(columnsWidths, data[1], data[3]) - 0.5 * size.y + outerThickness >%
-                    %<= computeCoordinate(rowsHeights,   data[2], data[4]) + outerThickness >%
-                  size
-                    %<= objectScaleFactor * (size.x - outerThickness) >%
-                    %<= objectScaleFactor * computeDimension(columnsWidths, data[1], data[3]) >%
-                    %<= objectScaleFactor * computeDimension(rowsHeights,   data[2], data[4]) >%
-                  %< if (data[5] !== undefined && data[5] > 0.0) { >%
-                    mass %<= data[5] >%
-                  %< } >%
-                  thickness IS innerThickness
-                  handle IS handle
-                  %< if (data[0] === 'Drawer') { >%
-                    primaryAppearance IS primaryAppearance
-                  %< } >%
-                  secondaryAppearance IS secondaryAppearance
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.015 0.4 0.72
+                0.015 0.4 0.72
+                0.015 0.4 -0.72
+                -0.015 0.4 -0.72
+                -0.015 -0.4 -0.72
+                0.015 -0.4 -0.72
+                0.015 -0.4 0.72
+                -0.015 -0.4 0.72
+                -0.015 -0.4 0.72
+                0.015 -0.4 0.72
+                0.015 0.4 0.72
+                -0.015 0.4 0.72
+                0.015 -0.4 -0.72
+                -0.015 -0.4 -0.72
+                -0.015 0.4 -0.72
+                0.015 0.4 -0.72
+                -0.015 -0.4 -0.72
+                -0.015 -0.4 0.72
+                -0.015 0.4 0.72
+                -0.015 0.4 -0.72
+                0.015 -0.4 0.72
+                0.015 -0.4 -0.72
+                0.015 0.4 -0.72
+                0.015 0.4 0.72
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.020833333333333332 1
+                0 1
+                0 0
+                0.020833333333333332 0
+                0 0
+                0.020833333333333332 0
+                0.020833333333333332 1
+                0 1
+                0 0.020833333333333332
+                0 0
+                0.5555555555555556 0
+                0.5555555555555556 0.020833333333333332
+                0 0.020833333333333332
+                0 0
+                0.5555555555555556 0
+                0.5555555555555556 0.020833333333333332
+                0.5555555555555556 0
+                0.5555555555555556 1
+                0 1
+                0 0
+                0 1
+                0 0
+                0.5555555555555556 0
+                0.5555555555555556 1
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "back box"
+      model "box"
+      boundingObject Box {
+        size 0.03 0.8 1.44
+      }
+    }
+    Solid {
+      translation 0.265 0.385 0.75
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughnessMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+              ]
+            }
+            metalness 0
+            normalMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+              ]
+            }
+            occlusionMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.235 0.015 0.72
+                0.235 0.015 0.72
+                0.235 0.015 -0.72
+                -0.235 0.015 -0.72
+                -0.235 -0.015 -0.72
+                0.235 -0.015 -0.72
+                0.235 -0.015 0.72
+                -0.235 -0.015 0.72
+                -0.235 -0.015 0.72
+                0.235 -0.015 0.72
+                0.235 0.015 0.72
+                -0.235 0.015 0.72
+                0.235 -0.015 -0.72
+                -0.235 -0.015 -0.72
+                -0.235 0.015 -0.72
+                0.235 0.015 -0.72
+                -0.235 -0.015 -0.72
+                -0.235 -0.015 0.72
+                -0.235 0.015 0.72
+                -0.235 0.015 -0.72
+                0.235 -0.015 0.72
+                0.235 -0.015 -0.72
+                0.235 0.015 -0.72
+                0.235 0.015 0.72
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.3263888888888889 1
+                0 1
+                0 0
+                0.3263888888888889 0
+                0 0
+                0.3263888888888889 0
+                0.3263888888888889 1
+                0 1
+                0 0.3263888888888889
+                0 0
+                0.020833333333333332 0
+                0.020833333333333332 0.3263888888888889
+                0 0.3263888888888889
+                0 0
+                0.020833333333333332 0
+                0.020833333333333332 0.3263888888888889
+                0.020833333333333332 0
+                0.020833333333333332 1
+                0 1
+                0 0
+                0 1
+                0 0
+                0.020833333333333332 0
+                0.020833333333333332 1
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "left box"
+      model "box"
+      boundingObject Box {
+        size 0.47 0.03 1.44
+      }
+    }
+    Solid {
+      translation 0.265 -0.385 0.75
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughnessMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+              ]
+            }
+            metalness 0
+            normalMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+              ]
+            }
+            occlusionMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.235 0.015 0.72
+                0.235 0.015 0.72
+                0.235 0.015 -0.72
+                -0.235 0.015 -0.72
+                -0.235 -0.015 -0.72
+                0.235 -0.015 -0.72
+                0.235 -0.015 0.72
+                -0.235 -0.015 0.72
+                -0.235 -0.015 0.72
+                0.235 -0.015 0.72
+                0.235 0.015 0.72
+                -0.235 0.015 0.72
+                0.235 -0.015 -0.72
+                -0.235 -0.015 -0.72
+                -0.235 0.015 -0.72
+                0.235 0.015 -0.72
+                -0.235 -0.015 -0.72
+                -0.235 -0.015 0.72
+                -0.235 0.015 0.72
+                -0.235 0.015 -0.72
+                0.235 -0.015 0.72
+                0.235 -0.015 -0.72
+                0.235 0.015 -0.72
+                0.235 0.015 0.72
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.3263888888888889 1
+                0 1
+                0 0
+                0.3263888888888889 0
+                0 0
+                0.3263888888888889 0
+                0.3263888888888889 1
+                0 1
+                0 0.3263888888888889
+                0 0
+                0.020833333333333332 0
+                0.020833333333333332 0.3263888888888889
+                0 0.3263888888888889
+                0 0
+                0.020833333333333332 0
+                0.020833333333333332 0.3263888888888889
+                0.020833333333333332 0
+                0.020833333333333332 1
+                0 1
+                0 0
+                0 1
+                0 0
+                0.020833333333333332 0
+                0.020833333333333332 1
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "right box"
+      model "box"
+      boundingObject Box {
+        size 0.47 0.03 1.44
+      }
+    }
+    Solid {
+      translation 0.25 0 1.485
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughnessMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+              ]
+            }
+            metalness 0
+            normalMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+              ]
+            }
+            occlusionMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.25 0.4 0.015
+                0.25 0.4 0.015
+                0.25 0.4 -0.015
+                -0.25 0.4 -0.015
+                -0.25 -0.4 -0.015
+                0.25 -0.4 -0.015
+                0.25 -0.4 0.015
+                -0.25 -0.4 0.015
+                -0.25 -0.4 0.015
+                0.25 -0.4 0.015
+                0.25 0.4 0.015
+                -0.25 0.4 0.015
+                0.25 -0.4 -0.015
+                -0.25 -0.4 -0.015
+                -0.25 0.4 -0.015
+                0.25 0.4 -0.015
+                -0.25 -0.4 -0.015
+                -0.25 -0.4 0.015
+                -0.25 0.4 0.015
+                -0.25 0.4 -0.015
+                0.25 -0.4 0.015
+                0.25 -0.4 -0.015
+                0.25 0.4 -0.015
+                0.25 0.4 0.015
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.625 0.0375
+                0 0.0375
+                0 0
+                0.625 0
+                0 0
+                0.625 0
+                0.625 0.0375
+                0 0.0375
+                0 0.625
+                0 0
+                1 0
+                1 0.625
+                0 0.625
+                0 0
+                1 0
+                1 0.625
+                1 0
+                1 0.0375
+                0 0.0375
+                0 0
+                0 0.0375
+                0 0
+                1 0
+                1 0.0375
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "top box"
+      model "box"
+      boundingObject Box {
+        size 0.5 0.8 0.03
+      }
+    }
+    Solid {
+      translation 0.25 0 0.015
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughnessMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+              ]
+            }
+            metalness 0
+            normalMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+              ]
+            }
+            occlusionMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.25 0.4 0.015
+                0.25 0.4 0.015
+                0.25 0.4 -0.015
+                -0.25 0.4 -0.015
+                -0.25 -0.4 -0.015
+                0.25 -0.4 -0.015
+                0.25 -0.4 0.015
+                -0.25 -0.4 0.015
+                -0.25 -0.4 0.015
+                0.25 -0.4 0.015
+                0.25 0.4 0.015
+                -0.25 0.4 0.015
+                0.25 -0.4 -0.015
+                -0.25 -0.4 -0.015
+                -0.25 0.4 -0.015
+                0.25 0.4 -0.015
+                -0.25 -0.4 -0.015
+                -0.25 -0.4 0.015
+                -0.25 0.4 0.015
+                -0.25 0.4 -0.015
+                0.25 -0.4 0.015
+                0.25 -0.4 -0.015
+                0.25 0.4 -0.015
+                0.25 0.4 0.015
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.625 0.0375
+                0 0.0375
+                0 0
+                0.625 0
+                0 0
+                0.625 0
+                0.625 0.0375
+                0 0.0375
+                0 0.625
+                0 0
+                1 0
+                1 0.625
+                0 0.625
+                0 0
+                1 0
+                1 0.625
+                1 0
+                1 0.0375
+                0 0.0375
+                0 0
+                0 0.0375
+                0 0
+                1 0
+                1 0.0375
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "bottom box"
+      model "box"
+      boundingObject Box {
+        size 0.5 0.8 0.03
+      }
+    }
+    Solid {
+      translation 0.5 -0.17 1.07
+      children [
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 0 1
+            anchor 0 -0.199 0
+            minStop -1.57
+            maxStop 0.01
+            dampingConstant 5
+          }
+          endPoint Solid {
+            children [
+              Solid {
+                translation -0.01 0 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      roughnessMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+                        ]
+                      }
+                      metalness 0
+                      normalMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+                        ]
+                      }
+                      occlusionMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          -0.01 0.199 0.398
+                          0.01 0.199 0.398
+                          0.01 0.199 -0.398
+                          -0.01 0.199 -0.398
+                          -0.01 -0.199 -0.398
+                          0.01 -0.199 -0.398
+                          0.01 -0.199 0.398
+                          -0.01 -0.199 0.398
+                          -0.01 -0.199 0.398
+                          0.01 -0.199 0.398
+                          0.01 0.199 0.398
+                          -0.01 0.199 0.398
+                          0.01 -0.199 -0.398
+                          -0.01 -0.199 -0.398
+                          -0.01 0.199 -0.398
+                          0.01 0.199 -0.398
+                          -0.01 -0.199 -0.398
+                          -0.01 -0.199 0.398
+                          -0.01 0.199 0.398
+                          -0.01 0.199 -0.398
+                          0.01 -0.199 0.398
+                          0.01 -0.199 -0.398
+                          0.01 0.199 -0.398
+                          0.01 0.199 0.398
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          0.025125628140703515 1
+                          0 1
+                          0 0
+                          0.025125628140703515 0
+                          0 0
+                          0.025125628140703515 0
+                          0.025125628140703515 1
+                          0 1
+                          0 0.025125628140703515
+                          0 0
+                          0.5 0
+                          0.5 0.025125628140703515
+                          0 0.025125628140703515
+                          0 0
+                          0.5 0
+                          0.5 0.025125628140703515
+                          0.5 0
+                          0.5 1
+                          0 1
+                          0 0
+                          0 1
+                          0 0
+                          0.5 0
+                          0.5 1
+                        ]
+                      }
+                      coordIndex [
+                        0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+                      ]
+                      creaseAngle 1.5
+                    }
+                  }
+                ]
+                name "box"
+                model "box"
+                boundingObject Box {
+                  size 0.02 0.398 0.796
                 }
-            %< } else if (data[0] === 'Shelf') { >%
-              %<
-                const horizontalOffset = data[3] === 0 ? 1 : 0;
-                const depthFightingOffset = data[3] < data[4] ? 0.0001 : 0;
-              >%
-              SolidBox {
-                 name %<= '"box ' + i + '"' >%
-                appearance IS primaryAppearance
-                translation
-                  %<= 0.5 * size.x + 0.5 * (outerThickness - innerThickness) + depthFightingOffset >%
-                  %<= computeCoordinate(columnsWidths, horizontalOffset + data[1], data[3]) - 0.5 * size.y + outerThickness + depthFightingOffset >%
-                  %<= computeCoordinate(rowsHeights, data[2], data[4]) + outerThickness + depthFightingOffset >%
-                size
-                  %<= objectScaleFactor * (size.x - outerThickness - innerThickness) >%
-                  %<= innerThickness + computeDimension(columnsWidths, data[1], data[3]) >%
-                  %<= innerThickness + computeDimension(rowsHeights,   data[2], data[4]) >%
-               }
-            %<  } else { >%
-              %< console.error('\'layout[' + i + ']\': unknown object: ' + data[0] + '.'); >%
-            %< } >%
-          %< } else { >%
-            %< console.error('\'layout[' + i + ']\': invalid position or dimension.'); >%
-          %< } >%
-        %< } else { >%
-          %< console.error('\'layout[' + i + ']\': invalid layout.'); >%
-        %< } >%
-      %< } >%
-    ]
-    name IS name
-    model "cabinet"
-  }
+                physics Physics {
+                  density -1
+                  mass 1.5
+                }
+              }
+              Transform {
+                translation 0 0.1592 0
+                rotation 1 0 0 1.57
+                children [
+                  Slot {
+                    endPoint Slot {
+                      type "handle"
+                      endPoint Solid {
+                        children [
+                          DEF HANDLE Group {
+                            children [
+                              Transform {
+                                translation 0.011 0 0
+                                rotation 1 0 0 1.57
+                                children [
+                                  Shape {
+                                    appearance DEF HANDLE_APPEARANCE PBRAppearance {
+                                      baseColor 0.74 0.74 0.74
+                                      roughness 0.3
+                                    }
+                                    geometry Capsule {
+                                      height 0.065
+                                      radius 0.0055
+                                    }
+                                  }
+                                ]
+                              }
+                              Transform {
+                                translation 0 0.02275 0
+                                rotation 0 1 0 1.57
+                                children [
+                                  Shape {
+                                    appearance USE HANDLE_APPEARANCE
+                                    geometry DEF ANCHORAGE Capsule {
+                                      height 0.011
+                                      radius 0.0038499999999999997
+                                    }
+                                  }
+                                ]
+                              }
+                              Transform {
+                                translation 0 -0.02275 0
+                                rotation 0 1 0 1.57
+                                children [
+                                  Shape {
+                                    appearance USE HANDLE_APPEARANCE
+                                    geometry USE ANCHORAGE
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                        name "cabinet handle"
+                        model "cabinet handle"
+                        boundingObject USE HANDLE
+                        physics Physics {
+                          density -1
+                          mass 0.3
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+            boundingObject Transform {
+              translation -0.01 0 0
+              children [
+                Sphere {
+                  radius 0.01
+                }
+              ]
+            }
+            physics Physics {
+              density -1
+              mass 0.01
+            }
+          }
+        }
+      ]
+      name "door 0"
+      model "cabinet door"
+    }
+    Solid {
+      translation 0.5 0.20000000000000004 1.07
+      children [
+        HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 0 1
+            anchor 0 0.16915 0
+            minStop -0.01
+            maxStop 1.57
+            dampingConstant 5
+          }
+          endPoint Solid {
+            children [
+              Solid {
+                translation -0.01 0 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      roughnessMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+                        ]
+                      }
+                      metalness 0
+                      normalMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+                        ]
+                      }
+                      occlusionMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          -0.01 0.16915 0.398
+                          0.01 0.16915 0.398
+                          0.01 0.16915 -0.398
+                          -0.01 0.16915 -0.398
+                          -0.01 -0.16915 -0.398
+                          0.01 -0.16915 -0.398
+                          0.01 -0.16915 0.398
+                          -0.01 -0.16915 0.398
+                          -0.01 -0.16915 0.398
+                          0.01 -0.16915 0.398
+                          0.01 0.16915 0.398
+                          -0.01 0.16915 0.398
+                          0.01 -0.16915 -0.398
+                          -0.01 -0.16915 -0.398
+                          -0.01 0.16915 -0.398
+                          0.01 0.16915 -0.398
+                          -0.01 -0.16915 -0.398
+                          -0.01 -0.16915 0.398
+                          -0.01 0.16915 0.398
+                          -0.01 0.16915 -0.398
+                          0.01 -0.16915 0.398
+                          0.01 -0.16915 -0.398
+                          0.01 0.16915 -0.398
+                          0.01 0.16915 0.398
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          0.025125628140703515 1
+                          0 1
+                          0 0
+                          0.025125628140703515 0
+                          0 0
+                          0.025125628140703515 0
+                          0.025125628140703515 1
+                          0 1
+                          0 0.025125628140703515
+                          0 0
+                          0.425 0
+                          0.425 0.025125628140703515
+                          0 0.025125628140703515
+                          0 0
+                          0.425 0
+                          0.425 0.025125628140703515
+                          0.425 0
+                          0.425 1
+                          0 1
+                          0 0
+                          0 1
+                          0 0
+                          0.425 0
+                          0.425 1
+                        ]
+                      }
+                      coordIndex [
+                        0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+                      ]
+                      creaseAngle 1.5
+                    }
+                  }
+                ]
+                name "box"
+                model "box"
+                boundingObject Box {
+                  size 0.02 0.3383 0.796
+                }
+                physics Physics {
+                  density -1
+                  mass 1.5
+                }
+              }
+              Transform {
+                translation 0 -0.13532 0
+                rotation 1 0 0 1.57
+                children [
+                  Slot {
+                    endPoint Slot {
+                      type "handle"
+                      endPoint Solid {
+                        children [
+                          DEF HANDLE Group {
+                            children [
+                              Transform {
+                                translation 0.011 0 0
+                                rotation 1 0 0 1.57
+                                children [
+                                  Shape {
+                                    appearance DEF HANDLE_APPEARANCE PBRAppearance {
+                                      baseColor 0.74 0.74 0.74
+                                      roughness 0.3
+                                    }
+                                    geometry Capsule {
+                                      height 0.065
+                                      radius 0.0055
+                                    }
+                                  }
+                                ]
+                              }
+                              Transform {
+                                translation 0 0.02275 0
+                                rotation 0 1 0 1.57
+                                children [
+                                  Shape {
+                                    appearance USE HANDLE_APPEARANCE
+                                    geometry DEF ANCHORAGE Capsule {
+                                      height 0.011
+                                      radius 0.0038499999999999997
+                                    }
+                                  }
+                                ]
+                              }
+                              Transform {
+                                translation 0 -0.02275 0
+                                rotation 0 1 0 1.57
+                                children [
+                                  Shape {
+                                    appearance USE HANDLE_APPEARANCE
+                                    geometry USE ANCHORAGE
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                        name "cabinet handle"
+                        model "cabinet handle"
+                        boundingObject USE HANDLE
+                        physics Physics {
+                          density -1
+                          mass 0.3
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+            boundingObject Transform {
+              translation -0.01 0 0
+              children [
+                Sphere {
+                  radius 0.01
+                }
+              ]
+            }
+            physics Physics {
+              density -1
+              mass 0.01
+            }
+          }
+        }
+      ]
+      name "door 1"
+      model "cabinet door"
+    }
+    Solid {
+      translation 0.5 0.28500000000000003 0.5700000000000001
+      children [
+        SliderJoint {
+          jointParameters JointParameters {
+            axis 1 0 0
+            minStop -0.01
+            maxStop 0.199
+            dampingConstant 5
+          }
+          endPoint Solid {
+            children [
+              Solid {
+                translation -0.45765 0 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      roughnessMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+                        ]
+                      }
+                      metalness 0
+                      normalMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+                        ]
+                      }
+                      occlusionMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          -0.01 0.074575 0.0895
+                          0.01 0.074575 0.0895
+                          0.01 0.074575 -0.0895
+                          -0.01 0.074575 -0.0895
+                          -0.01 -0.074575 -0.0895
+                          0.01 -0.074575 -0.0895
+                          0.01 -0.074575 0.0895
+                          -0.01 -0.074575 0.0895
+                          -0.01 -0.074575 0.0895
+                          0.01 -0.074575 0.0895
+                          0.01 0.074575 0.0895
+                          -0.01 0.074575 0.0895
+                          0.01 -0.074575 -0.0895
+                          -0.01 -0.074575 -0.0895
+                          -0.01 0.074575 -0.0895
+                          0.01 0.074575 -0.0895
+                          -0.01 -0.074575 -0.0895
+                          -0.01 -0.074575 0.0895
+                          -0.01 0.074575 0.0895
+                          -0.01 0.074575 -0.0895
+                          0.01 -0.074575 0.0895
+                          0.01 -0.074575 -0.0895
+                          0.01 0.074575 -0.0895
+                          0.01 0.074575 0.0895
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          0.111731843575419 1
+                          0 1
+                          0 0
+                          0.111731843575419 0
+                          0 0
+                          0.111731843575419 0
+                          0.111731843575419 1
+                          0 1
+                          0 0.111731843575419
+                          0 0
+                          0.8332402234636872 0
+                          0.8332402234636872 0.111731843575419
+                          0 0.111731843575419
+                          0 0
+                          0.8332402234636872 0
+                          0.8332402234636872 0.111731843575419
+                          0.8332402234636872 0
+                          0.8332402234636872 1
+                          0 1
+                          0 0
+                          0 1
+                          0 0
+                          0.8332402234636872 0
+                          0.8332402234636872 1
+                        ]
+                      }
+                      coordIndex [
+                        0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+                      ]
+                      creaseAngle 1.5
+                    }
+                  }
+                ]
+                name "back box"
+                model "box"
+                boundingObject Box {
+                  size 0.02 0.14915 0.179
+                }
+                physics Physics {
+                  density -1
+                  mass 0.01
+                }
+              }
+              Solid {
+                translation -0.233825 0 -0.0795
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      roughnessMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+                        ]
+                      }
+                      metalness 0
+                      normalMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+                        ]
+                      }
+                      occlusionMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          -0.213825 0.074575 0.01
+                          0.213825 0.074575 0.01
+                          0.213825 0.074575 -0.01
+                          -0.213825 0.074575 -0.01
+                          -0.213825 -0.074575 -0.01
+                          0.213825 -0.074575 -0.01
+                          0.213825 -0.074575 0.01
+                          -0.213825 -0.074575 0.01
+                          -0.213825 -0.074575 0.01
+                          0.213825 -0.074575 0.01
+                          0.213825 0.074575 0.01
+                          -0.213825 0.074575 0.01
+                          0.213825 -0.074575 -0.01
+                          -0.213825 -0.074575 -0.01
+                          -0.213825 0.074575 -0.01
+                          0.213825 0.074575 -0.01
+                          -0.213825 -0.074575 -0.01
+                          -0.213825 -0.074575 0.01
+                          -0.213825 0.074575 0.01
+                          -0.213825 0.074575 -0.01
+                          0.213825 -0.074575 0.01
+                          0.213825 -0.074575 -0.01
+                          0.213825 0.074575 -0.01
+                          0.213825 0.074575 0.01
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          1 0.0467672161814568
+                          0 0.0467672161814568
+                          0 0
+                          1 0
+                          0 0
+                          1 0
+                          1 0.0467672161814568
+                          0 0.0467672161814568
+                          0 1
+                          0 0
+                          0.3487665146732141 0
+                          0.3487665146732141 1
+                          0 1
+                          0 0
+                          0.3487665146732141 0
+                          0.3487665146732141 1
+                          0.3487665146732141 0
+                          0.3487665146732141 0.0467672161814568
+                          0 0.0467672161814568
+                          0 0
+                          0 0.0467672161814568
+                          0 0
+                          0.3487665146732141 0
+                          0.3487665146732141 0.0467672161814568
+                        ]
+                      }
+                      coordIndex [
+                        0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+                      ]
+                      creaseAngle 1.5
+                    }
+                  }
+                ]
+                name "bottom box"
+                model "box"
+                boundingObject Box {
+                  size 0.42765 0.14915 0.02
+                }
+                physics Physics {
+                  density -1
+                  mass 0.01
+                }
+              }
+              Solid {
+                translation -0.01 0 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      roughnessMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+                        ]
+                      }
+                      metalness 0
+                      normalMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+                        ]
+                      }
+                      occlusionMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          -0.01 0.084575 0.0995
+                          0.01 0.084575 0.0995
+                          0.01 0.084575 -0.0995
+                          -0.01 0.084575 -0.0995
+                          -0.01 -0.084575 -0.0995
+                          0.01 -0.084575 -0.0995
+                          0.01 -0.084575 0.0995
+                          -0.01 -0.084575 0.0995
+                          -0.01 -0.084575 0.0995
+                          0.01 -0.084575 0.0995
+                          0.01 0.084575 0.0995
+                          -0.01 0.084575 0.0995
+                          0.01 -0.084575 -0.0995
+                          -0.01 -0.084575 -0.0995
+                          -0.01 0.084575 -0.0995
+                          0.01 0.084575 -0.0995
+                          -0.01 -0.084575 -0.0995
+                          -0.01 -0.084575 0.0995
+                          -0.01 0.084575 0.0995
+                          -0.01 0.084575 -0.0995
+                          0.01 -0.084575 0.0995
+                          0.01 -0.084575 -0.0995
+                          0.01 0.084575 -0.0995
+                          0.01 0.084575 0.0995
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          0.10050251256281406 1
+                          0 1
+                          0 0
+                          0.10050251256281406 0
+                          0 0
+                          0.10050251256281406 0
+                          0.10050251256281406 1
+                          0 1
+                          0 0.10050251256281406
+                          0 0
+                          0.85 0
+                          0.85 0.10050251256281406
+                          0 0.10050251256281406
+                          0 0
+                          0.85 0
+                          0.85 0.10050251256281406
+                          0.85 0
+                          0.85 1
+                          0 1
+                          0 0
+                          0 1
+                          0 0
+                          0.85 0
+                          0.85 1
+                        ]
+                      }
+                      coordIndex [
+                        0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+                      ]
+                      creaseAngle 1.5
+                    }
+                  }
+                ]
+                name "front box"
+                model "box"
+                boundingObject Box {
+                  size 0.02 0.16915 0.199
+                }
+                physics Physics {
+                  density -1
+                  mass 0.01
+                }
+              }
+              Solid {
+                translation -0.233825 -0.064575 0.01
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      roughnessMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+                        ]
+                      }
+                      metalness 0
+                      normalMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+                        ]
+                      }
+                      occlusionMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          -0.213825 0.01 0.0795
+                          0.213825 0.01 0.0795
+                          0.213825 0.01 -0.0795
+                          -0.213825 0.01 -0.0795
+                          -0.213825 -0.01 -0.0795
+                          0.213825 -0.01 -0.0795
+                          0.213825 -0.01 0.0795
+                          -0.213825 -0.01 0.0795
+                          -0.213825 -0.01 0.0795
+                          0.213825 -0.01 0.0795
+                          0.213825 0.01 0.0795
+                          -0.213825 0.01 0.0795
+                          0.213825 -0.01 -0.0795
+                          -0.213825 -0.01 -0.0795
+                          -0.213825 0.01 -0.0795
+                          0.213825 0.01 -0.0795
+                          -0.213825 -0.01 -0.0795
+                          -0.213825 -0.01 0.0795
+                          -0.213825 0.01 0.0795
+                          -0.213825 0.01 -0.0795
+                          0.213825 -0.01 0.0795
+                          0.213825 -0.01 -0.0795
+                          0.213825 0.01 -0.0795
+                          0.213825 0.01 0.0795
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          1 0.37179936864258156
+                          0 0.37179936864258156
+                          0 0
+                          1 0
+                          0 0
+                          1 0
+                          1 0.37179936864258156
+                          0 0.37179936864258156
+                          0 1
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 1
+                          0 1
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 1
+                          0.0467672161814568 0
+                          0.0467672161814568 0.37179936864258156
+                          0 0.37179936864258156
+                          0 0
+                          0 0.37179936864258156
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 0.37179936864258156
+                        ]
+                      }
+                      coordIndex [
+                        0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+                      ]
+                      creaseAngle 1.5
+                    }
+                  }
+                ]
+                name "right box"
+                model "box"
+                boundingObject Box {
+                  size 0.42765 0.02 0.159
+                }
+                physics Physics {
+                  density -1
+                  mass 0.01
+                }
+              }
+              Solid {
+                translation -0.233825 0.064575 0.01
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      roughnessMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+                        ]
+                      }
+                      metalness 0
+                      normalMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+                        ]
+                      }
+                      occlusionMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          -0.213825 0.01 0.0795
+                          0.213825 0.01 0.0795
+                          0.213825 0.01 -0.0795
+                          -0.213825 0.01 -0.0795
+                          -0.213825 -0.01 -0.0795
+                          0.213825 -0.01 -0.0795
+                          0.213825 -0.01 0.0795
+                          -0.213825 -0.01 0.0795
+                          -0.213825 -0.01 0.0795
+                          0.213825 -0.01 0.0795
+                          0.213825 0.01 0.0795
+                          -0.213825 0.01 0.0795
+                          0.213825 -0.01 -0.0795
+                          -0.213825 -0.01 -0.0795
+                          -0.213825 0.01 -0.0795
+                          0.213825 0.01 -0.0795
+                          -0.213825 -0.01 -0.0795
+                          -0.213825 -0.01 0.0795
+                          -0.213825 0.01 0.0795
+                          -0.213825 0.01 -0.0795
+                          0.213825 -0.01 0.0795
+                          0.213825 -0.01 -0.0795
+                          0.213825 0.01 -0.0795
+                          0.213825 0.01 0.0795
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          1 0.37179936864258156
+                          0 0.37179936864258156
+                          0 0
+                          1 0
+                          0 0
+                          1 0
+                          1 0.37179936864258156
+                          0 0.37179936864258156
+                          0 1
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 1
+                          0 1
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 1
+                          0.0467672161814568 0
+                          0.0467672161814568 0.37179936864258156
+                          0 0.37179936864258156
+                          0 0
+                          0 0.37179936864258156
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 0.37179936864258156
+                        ]
+                      }
+                      coordIndex [
+                        0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+                      ]
+                      creaseAngle 1.5
+                    }
+                  }
+                ]
+                name "left box"
+                model "box"
+                boundingObject Box {
+                  size 0.42765 0.02 0.159
+                }
+                physics Physics {
+                  density -1
+                  mass 0.01
+                }
+              }
+              Slot {
+                endPoint Slot {
+                  type "handle"
+                  endPoint Solid {
+                    children [
+                      DEF HANDLE Group {
+                        children [
+                          Transform {
+                            translation 0.011 0 0
+                            rotation 1 0 0 1.57
+                            children [
+                              Shape {
+                                appearance DEF HANDLE_APPEARANCE PBRAppearance {
+                                  baseColor 0.74 0.74 0.74
+                                  roughness 0.3
+                                }
+                                geometry Capsule {
+                                  height 0.065
+                                  radius 0.0055
+                                }
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation 0 0.02275 0
+                            rotation 0 1 0 1.57
+                            children [
+                              Shape {
+                                appearance USE HANDLE_APPEARANCE
+                                geometry DEF ANCHORAGE Capsule {
+                                  height 0.011
+                                  radius 0.0038499999999999997
+                                }
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation 0 -0.02275 0
+                            rotation 0 1 0 1.57
+                            children [
+                              Shape {
+                                appearance USE HANDLE_APPEARANCE
+                                geometry USE ANCHORAGE
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                    name "cabinet handle"
+                    model "cabinet handle"
+                    boundingObject USE HANDLE
+                    physics Physics {
+                      density -1
+                      mass 0.3
+                    }
+                  }
+                }
+              }
+            ]
+            boundingObject Transform {
+              translation -0.01 0 0
+              children [
+                Sphere {
+                  radius 0.01
+                }
+              ]
+            }
+            physics Physics {
+              density -1
+              mass 1.5
+            }
+          }
+        }
+      ]
+      name "drawer 2"
+      model "cabinet drawer"
+    }
+    Solid {
+      translation 0.5 0.11500000000000002 0.37
+      children [
+        SliderJoint {
+          jointParameters JointParameters {
+            axis 1 0 0
+            minStop -0.01
+            maxStop 0.199
+            dampingConstant 5
+          }
+          endPoint Solid {
+            children [
+              Solid {
+                translation -0.45765 0 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      roughnessMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+                        ]
+                      }
+                      metalness 0
+                      normalMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+                        ]
+                      }
+                      occlusionMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          -0.01 0.074575 0.0895
+                          0.01 0.074575 0.0895
+                          0.01 0.074575 -0.0895
+                          -0.01 0.074575 -0.0895
+                          -0.01 -0.074575 -0.0895
+                          0.01 -0.074575 -0.0895
+                          0.01 -0.074575 0.0895
+                          -0.01 -0.074575 0.0895
+                          -0.01 -0.074575 0.0895
+                          0.01 -0.074575 0.0895
+                          0.01 0.074575 0.0895
+                          -0.01 0.074575 0.0895
+                          0.01 -0.074575 -0.0895
+                          -0.01 -0.074575 -0.0895
+                          -0.01 0.074575 -0.0895
+                          0.01 0.074575 -0.0895
+                          -0.01 -0.074575 -0.0895
+                          -0.01 -0.074575 0.0895
+                          -0.01 0.074575 0.0895
+                          -0.01 0.074575 -0.0895
+                          0.01 -0.074575 0.0895
+                          0.01 -0.074575 -0.0895
+                          0.01 0.074575 -0.0895
+                          0.01 0.074575 0.0895
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          0.111731843575419 1
+                          0 1
+                          0 0
+                          0.111731843575419 0
+                          0 0
+                          0.111731843575419 0
+                          0.111731843575419 1
+                          0 1
+                          0 0.111731843575419
+                          0 0
+                          0.8332402234636872 0
+                          0.8332402234636872 0.111731843575419
+                          0 0.111731843575419
+                          0 0
+                          0.8332402234636872 0
+                          0.8332402234636872 0.111731843575419
+                          0.8332402234636872 0
+                          0.8332402234636872 1
+                          0 1
+                          0 0
+                          0 1
+                          0 0
+                          0.8332402234636872 0
+                          0.8332402234636872 1
+                        ]
+                      }
+                      coordIndex [
+                        0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+                      ]
+                      creaseAngle 1.5
+                    }
+                  }
+                ]
+                name "back box"
+                model "box"
+                boundingObject Box {
+                  size 0.02 0.14915 0.179
+                }
+                physics Physics {
+                  density -1
+                  mass 0.01
+                }
+              }
+              Solid {
+                translation -0.233825 0 -0.0795
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      roughnessMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+                        ]
+                      }
+                      metalness 0
+                      normalMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+                        ]
+                      }
+                      occlusionMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          -0.213825 0.074575 0.01
+                          0.213825 0.074575 0.01
+                          0.213825 0.074575 -0.01
+                          -0.213825 0.074575 -0.01
+                          -0.213825 -0.074575 -0.01
+                          0.213825 -0.074575 -0.01
+                          0.213825 -0.074575 0.01
+                          -0.213825 -0.074575 0.01
+                          -0.213825 -0.074575 0.01
+                          0.213825 -0.074575 0.01
+                          0.213825 0.074575 0.01
+                          -0.213825 0.074575 0.01
+                          0.213825 -0.074575 -0.01
+                          -0.213825 -0.074575 -0.01
+                          -0.213825 0.074575 -0.01
+                          0.213825 0.074575 -0.01
+                          -0.213825 -0.074575 -0.01
+                          -0.213825 -0.074575 0.01
+                          -0.213825 0.074575 0.01
+                          -0.213825 0.074575 -0.01
+                          0.213825 -0.074575 0.01
+                          0.213825 -0.074575 -0.01
+                          0.213825 0.074575 -0.01
+                          0.213825 0.074575 0.01
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          1 0.0467672161814568
+                          0 0.0467672161814568
+                          0 0
+                          1 0
+                          0 0
+                          1 0
+                          1 0.0467672161814568
+                          0 0.0467672161814568
+                          0 1
+                          0 0
+                          0.3487665146732141 0
+                          0.3487665146732141 1
+                          0 1
+                          0 0
+                          0.3487665146732141 0
+                          0.3487665146732141 1
+                          0.3487665146732141 0
+                          0.3487665146732141 0.0467672161814568
+                          0 0.0467672161814568
+                          0 0
+                          0 0.0467672161814568
+                          0 0
+                          0.3487665146732141 0
+                          0.3487665146732141 0.0467672161814568
+                        ]
+                      }
+                      coordIndex [
+                        0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+                      ]
+                      creaseAngle 1.5
+                    }
+                  }
+                ]
+                name "bottom box"
+                model "box"
+                boundingObject Box {
+                  size 0.42765 0.14915 0.02
+                }
+                physics Physics {
+                  density -1
+                  mass 0.01
+                }
+              }
+              Solid {
+                translation -0.01 0 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      roughnessMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+                        ]
+                      }
+                      metalness 0
+                      normalMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+                        ]
+                      }
+                      occlusionMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          -0.01 0.084575 0.0995
+                          0.01 0.084575 0.0995
+                          0.01 0.084575 -0.0995
+                          -0.01 0.084575 -0.0995
+                          -0.01 -0.084575 -0.0995
+                          0.01 -0.084575 -0.0995
+                          0.01 -0.084575 0.0995
+                          -0.01 -0.084575 0.0995
+                          -0.01 -0.084575 0.0995
+                          0.01 -0.084575 0.0995
+                          0.01 0.084575 0.0995
+                          -0.01 0.084575 0.0995
+                          0.01 -0.084575 -0.0995
+                          -0.01 -0.084575 -0.0995
+                          -0.01 0.084575 -0.0995
+                          0.01 0.084575 -0.0995
+                          -0.01 -0.084575 -0.0995
+                          -0.01 -0.084575 0.0995
+                          -0.01 0.084575 0.0995
+                          -0.01 0.084575 -0.0995
+                          0.01 -0.084575 0.0995
+                          0.01 -0.084575 -0.0995
+                          0.01 0.084575 -0.0995
+                          0.01 0.084575 0.0995
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          0.10050251256281406 1
+                          0 1
+                          0 0
+                          0.10050251256281406 0
+                          0 0
+                          0.10050251256281406 0
+                          0.10050251256281406 1
+                          0 1
+                          0 0.10050251256281406
+                          0 0
+                          0.85 0
+                          0.85 0.10050251256281406
+                          0 0.10050251256281406
+                          0 0
+                          0.85 0
+                          0.85 0.10050251256281406
+                          0.85 0
+                          0.85 1
+                          0 1
+                          0 0
+                          0 1
+                          0 0
+                          0.85 0
+                          0.85 1
+                        ]
+                      }
+                      coordIndex [
+                        0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+                      ]
+                      creaseAngle 1.5
+                    }
+                  }
+                ]
+                name "front box"
+                model "box"
+                boundingObject Box {
+                  size 0.02 0.16915 0.199
+                }
+                physics Physics {
+                  density -1
+                  mass 0.01
+                }
+              }
+              Solid {
+                translation -0.233825 -0.064575 0.01
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      roughnessMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+                        ]
+                      }
+                      metalness 0
+                      normalMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+                        ]
+                      }
+                      occlusionMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          -0.213825 0.01 0.0795
+                          0.213825 0.01 0.0795
+                          0.213825 0.01 -0.0795
+                          -0.213825 0.01 -0.0795
+                          -0.213825 -0.01 -0.0795
+                          0.213825 -0.01 -0.0795
+                          0.213825 -0.01 0.0795
+                          -0.213825 -0.01 0.0795
+                          -0.213825 -0.01 0.0795
+                          0.213825 -0.01 0.0795
+                          0.213825 0.01 0.0795
+                          -0.213825 0.01 0.0795
+                          0.213825 -0.01 -0.0795
+                          -0.213825 -0.01 -0.0795
+                          -0.213825 0.01 -0.0795
+                          0.213825 0.01 -0.0795
+                          -0.213825 -0.01 -0.0795
+                          -0.213825 -0.01 0.0795
+                          -0.213825 0.01 0.0795
+                          -0.213825 0.01 -0.0795
+                          0.213825 -0.01 0.0795
+                          0.213825 -0.01 -0.0795
+                          0.213825 0.01 -0.0795
+                          0.213825 0.01 0.0795
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          1 0.37179936864258156
+                          0 0.37179936864258156
+                          0 0
+                          1 0
+                          0 0
+                          1 0
+                          1 0.37179936864258156
+                          0 0.37179936864258156
+                          0 1
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 1
+                          0 1
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 1
+                          0.0467672161814568 0
+                          0.0467672161814568 0.37179936864258156
+                          0 0.37179936864258156
+                          0 0
+                          0 0.37179936864258156
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 0.37179936864258156
+                        ]
+                      }
+                      coordIndex [
+                        0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+                      ]
+                      creaseAngle 1.5
+                    }
+                  }
+                ]
+                name "right box"
+                model "box"
+                boundingObject Box {
+                  size 0.42765 0.02 0.159
+                }
+                physics Physics {
+                  density -1
+                  mass 0.01
+                }
+              }
+              Solid {
+                translation -0.233825 0.064575 0.01
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      roughnessMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+                        ]
+                      }
+                      metalness 0
+                      normalMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+                        ]
+                      }
+                      occlusionMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          -0.213825 0.01 0.0795
+                          0.213825 0.01 0.0795
+                          0.213825 0.01 -0.0795
+                          -0.213825 0.01 -0.0795
+                          -0.213825 -0.01 -0.0795
+                          0.213825 -0.01 -0.0795
+                          0.213825 -0.01 0.0795
+                          -0.213825 -0.01 0.0795
+                          -0.213825 -0.01 0.0795
+                          0.213825 -0.01 0.0795
+                          0.213825 0.01 0.0795
+                          -0.213825 0.01 0.0795
+                          0.213825 -0.01 -0.0795
+                          -0.213825 -0.01 -0.0795
+                          -0.213825 0.01 -0.0795
+                          0.213825 0.01 -0.0795
+                          -0.213825 -0.01 -0.0795
+                          -0.213825 -0.01 0.0795
+                          -0.213825 0.01 0.0795
+                          -0.213825 0.01 -0.0795
+                          0.213825 -0.01 0.0795
+                          0.213825 -0.01 -0.0795
+                          0.213825 0.01 -0.0795
+                          0.213825 0.01 0.0795
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          1 0.37179936864258156
+                          0 0.37179936864258156
+                          0 0
+                          1 0
+                          0 0
+                          1 0
+                          1 0.37179936864258156
+                          0 0.37179936864258156
+                          0 1
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 1
+                          0 1
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 1
+                          0.0467672161814568 0
+                          0.0467672161814568 0.37179936864258156
+                          0 0.37179936864258156
+                          0 0
+                          0 0.37179936864258156
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 0.37179936864258156
+                        ]
+                      }
+                      coordIndex [
+                        0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+                      ]
+                      creaseAngle 1.5
+                    }
+                  }
+                ]
+                name "left box"
+                model "box"
+                boundingObject Box {
+                  size 0.42765 0.02 0.159
+                }
+                physics Physics {
+                  density -1
+                  mass 0.01
+                }
+              }
+              Slot {
+                endPoint Slot {
+                  type "handle"
+                  endPoint Solid {
+                    children [
+                      DEF HANDLE Group {
+                        children [
+                          Transform {
+                            translation 0.011 0 0
+                            rotation 1 0 0 1.57
+                            children [
+                              Shape {
+                                appearance DEF HANDLE_APPEARANCE PBRAppearance {
+                                  baseColor 0.74 0.74 0.74
+                                  roughness 0.3
+                                }
+                                geometry Capsule {
+                                  height 0.065
+                                  radius 0.0055
+                                }
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation 0 0.02275 0
+                            rotation 0 1 0 1.57
+                            children [
+                              Shape {
+                                appearance USE HANDLE_APPEARANCE
+                                geometry DEF ANCHORAGE Capsule {
+                                  height 0.011
+                                  radius 0.0038499999999999997
+                                }
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation 0 -0.02275 0
+                            rotation 0 1 0 1.57
+                            children [
+                              Shape {
+                                appearance USE HANDLE_APPEARANCE
+                                geometry USE ANCHORAGE
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                    name "cabinet handle"
+                    model "cabinet handle"
+                    boundingObject USE HANDLE
+                    physics Physics {
+                      density -1
+                      mass 0.3
+                    }
+                  }
+                }
+              }
+            ]
+            boundingObject Transform {
+              translation -0.01 0 0
+              children [
+                Sphere {
+                  radius 0.01
+                }
+              ]
+            }
+            physics Physics {
+              density -1
+              mass 1.5
+            }
+          }
+        }
+      ]
+      name "drawer 3"
+      model "cabinet drawer"
+    }
+    Solid {
+      translation 0.5 0.28500000000000003 0.37
+      children [
+        SliderJoint {
+          jointParameters JointParameters {
+            axis 1 0 0
+            minStop -0.01
+            maxStop 0.199
+            dampingConstant 5
+          }
+          endPoint Solid {
+            children [
+              Solid {
+                translation -0.45765 0 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      roughnessMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+                        ]
+                      }
+                      metalness 0
+                      normalMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+                        ]
+                      }
+                      occlusionMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          -0.01 0.074575 0.0895
+                          0.01 0.074575 0.0895
+                          0.01 0.074575 -0.0895
+                          -0.01 0.074575 -0.0895
+                          -0.01 -0.074575 -0.0895
+                          0.01 -0.074575 -0.0895
+                          0.01 -0.074575 0.0895
+                          -0.01 -0.074575 0.0895
+                          -0.01 -0.074575 0.0895
+                          0.01 -0.074575 0.0895
+                          0.01 0.074575 0.0895
+                          -0.01 0.074575 0.0895
+                          0.01 -0.074575 -0.0895
+                          -0.01 -0.074575 -0.0895
+                          -0.01 0.074575 -0.0895
+                          0.01 0.074575 -0.0895
+                          -0.01 -0.074575 -0.0895
+                          -0.01 -0.074575 0.0895
+                          -0.01 0.074575 0.0895
+                          -0.01 0.074575 -0.0895
+                          0.01 -0.074575 0.0895
+                          0.01 -0.074575 -0.0895
+                          0.01 0.074575 -0.0895
+                          0.01 0.074575 0.0895
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          0.111731843575419 1
+                          0 1
+                          0 0
+                          0.111731843575419 0
+                          0 0
+                          0.111731843575419 0
+                          0.111731843575419 1
+                          0 1
+                          0 0.111731843575419
+                          0 0
+                          0.8332402234636872 0
+                          0.8332402234636872 0.111731843575419
+                          0 0.111731843575419
+                          0 0
+                          0.8332402234636872 0
+                          0.8332402234636872 0.111731843575419
+                          0.8332402234636872 0
+                          0.8332402234636872 1
+                          0 1
+                          0 0
+                          0 1
+                          0 0
+                          0.8332402234636872 0
+                          0.8332402234636872 1
+                        ]
+                      }
+                      coordIndex [
+                        0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+                      ]
+                      creaseAngle 1.5
+                    }
+                  }
+                ]
+                name "back box"
+                model "box"
+                boundingObject Box {
+                  size 0.02 0.14915 0.179
+                }
+                physics Physics {
+                  density -1
+                  mass 0.01
+                }
+              }
+              Solid {
+                translation -0.233825 0 -0.0795
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      roughnessMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+                        ]
+                      }
+                      metalness 0
+                      normalMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+                        ]
+                      }
+                      occlusionMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          -0.213825 0.074575 0.01
+                          0.213825 0.074575 0.01
+                          0.213825 0.074575 -0.01
+                          -0.213825 0.074575 -0.01
+                          -0.213825 -0.074575 -0.01
+                          0.213825 -0.074575 -0.01
+                          0.213825 -0.074575 0.01
+                          -0.213825 -0.074575 0.01
+                          -0.213825 -0.074575 0.01
+                          0.213825 -0.074575 0.01
+                          0.213825 0.074575 0.01
+                          -0.213825 0.074575 0.01
+                          0.213825 -0.074575 -0.01
+                          -0.213825 -0.074575 -0.01
+                          -0.213825 0.074575 -0.01
+                          0.213825 0.074575 -0.01
+                          -0.213825 -0.074575 -0.01
+                          -0.213825 -0.074575 0.01
+                          -0.213825 0.074575 0.01
+                          -0.213825 0.074575 -0.01
+                          0.213825 -0.074575 0.01
+                          0.213825 -0.074575 -0.01
+                          0.213825 0.074575 -0.01
+                          0.213825 0.074575 0.01
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          1 0.0467672161814568
+                          0 0.0467672161814568
+                          0 0
+                          1 0
+                          0 0
+                          1 0
+                          1 0.0467672161814568
+                          0 0.0467672161814568
+                          0 1
+                          0 0
+                          0.3487665146732141 0
+                          0.3487665146732141 1
+                          0 1
+                          0 0
+                          0.3487665146732141 0
+                          0.3487665146732141 1
+                          0.3487665146732141 0
+                          0.3487665146732141 0.0467672161814568
+                          0 0.0467672161814568
+                          0 0
+                          0 0.0467672161814568
+                          0 0
+                          0.3487665146732141 0
+                          0.3487665146732141 0.0467672161814568
+                        ]
+                      }
+                      coordIndex [
+                        0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+                      ]
+                      creaseAngle 1.5
+                    }
+                  }
+                ]
+                name "bottom box"
+                model "box"
+                boundingObject Box {
+                  size 0.42765 0.14915 0.02
+                }
+                physics Physics {
+                  density -1
+                  mass 0.01
+                }
+              }
+              Solid {
+                translation -0.01 0 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      roughnessMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+                        ]
+                      }
+                      metalness 0
+                      normalMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+                        ]
+                      }
+                      occlusionMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          -0.01 0.084575 0.0995
+                          0.01 0.084575 0.0995
+                          0.01 0.084575 -0.0995
+                          -0.01 0.084575 -0.0995
+                          -0.01 -0.084575 -0.0995
+                          0.01 -0.084575 -0.0995
+                          0.01 -0.084575 0.0995
+                          -0.01 -0.084575 0.0995
+                          -0.01 -0.084575 0.0995
+                          0.01 -0.084575 0.0995
+                          0.01 0.084575 0.0995
+                          -0.01 0.084575 0.0995
+                          0.01 -0.084575 -0.0995
+                          -0.01 -0.084575 -0.0995
+                          -0.01 0.084575 -0.0995
+                          0.01 0.084575 -0.0995
+                          -0.01 -0.084575 -0.0995
+                          -0.01 -0.084575 0.0995
+                          -0.01 0.084575 0.0995
+                          -0.01 0.084575 -0.0995
+                          0.01 -0.084575 0.0995
+                          0.01 -0.084575 -0.0995
+                          0.01 0.084575 -0.0995
+                          0.01 0.084575 0.0995
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          0.10050251256281406 1
+                          0 1
+                          0 0
+                          0.10050251256281406 0
+                          0 0
+                          0.10050251256281406 0
+                          0.10050251256281406 1
+                          0 1
+                          0 0.10050251256281406
+                          0 0
+                          0.85 0
+                          0.85 0.10050251256281406
+                          0 0.10050251256281406
+                          0 0
+                          0.85 0
+                          0.85 0.10050251256281406
+                          0.85 0
+                          0.85 1
+                          0 1
+                          0 0
+                          0 1
+                          0 0
+                          0.85 0
+                          0.85 1
+                        ]
+                      }
+                      coordIndex [
+                        0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+                      ]
+                      creaseAngle 1.5
+                    }
+                  }
+                ]
+                name "front box"
+                model "box"
+                boundingObject Box {
+                  size 0.02 0.16915 0.199
+                }
+                physics Physics {
+                  density -1
+                  mass 0.01
+                }
+              }
+              Solid {
+                translation -0.233825 -0.064575 0.01
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      roughnessMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+                        ]
+                      }
+                      metalness 0
+                      normalMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+                        ]
+                      }
+                      occlusionMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          -0.213825 0.01 0.0795
+                          0.213825 0.01 0.0795
+                          0.213825 0.01 -0.0795
+                          -0.213825 0.01 -0.0795
+                          -0.213825 -0.01 -0.0795
+                          0.213825 -0.01 -0.0795
+                          0.213825 -0.01 0.0795
+                          -0.213825 -0.01 0.0795
+                          -0.213825 -0.01 0.0795
+                          0.213825 -0.01 0.0795
+                          0.213825 0.01 0.0795
+                          -0.213825 0.01 0.0795
+                          0.213825 -0.01 -0.0795
+                          -0.213825 -0.01 -0.0795
+                          -0.213825 0.01 -0.0795
+                          0.213825 0.01 -0.0795
+                          -0.213825 -0.01 -0.0795
+                          -0.213825 -0.01 0.0795
+                          -0.213825 0.01 0.0795
+                          -0.213825 0.01 -0.0795
+                          0.213825 -0.01 0.0795
+                          0.213825 -0.01 -0.0795
+                          0.213825 0.01 -0.0795
+                          0.213825 0.01 0.0795
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          1 0.37179936864258156
+                          0 0.37179936864258156
+                          0 0
+                          1 0
+                          0 0
+                          1 0
+                          1 0.37179936864258156
+                          0 0.37179936864258156
+                          0 1
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 1
+                          0 1
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 1
+                          0.0467672161814568 0
+                          0.0467672161814568 0.37179936864258156
+                          0 0.37179936864258156
+                          0 0
+                          0 0.37179936864258156
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 0.37179936864258156
+                        ]
+                      }
+                      coordIndex [
+                        0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+                      ]
+                      creaseAngle 1.5
+                    }
+                  }
+                ]
+                name "right box"
+                model "box"
+                boundingObject Box {
+                  size 0.42765 0.02 0.159
+                }
+                physics Physics {
+                  density -1
+                  mass 0.01
+                }
+              }
+              Solid {
+                translation -0.233825 0.064575 0.01
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      roughnessMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+                        ]
+                      }
+                      metalness 0
+                      normalMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+                        ]
+                      }
+                      occlusionMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          -0.213825 0.01 0.0795
+                          0.213825 0.01 0.0795
+                          0.213825 0.01 -0.0795
+                          -0.213825 0.01 -0.0795
+                          -0.213825 -0.01 -0.0795
+                          0.213825 -0.01 -0.0795
+                          0.213825 -0.01 0.0795
+                          -0.213825 -0.01 0.0795
+                          -0.213825 -0.01 0.0795
+                          0.213825 -0.01 0.0795
+                          0.213825 0.01 0.0795
+                          -0.213825 0.01 0.0795
+                          0.213825 -0.01 -0.0795
+                          -0.213825 -0.01 -0.0795
+                          -0.213825 0.01 -0.0795
+                          0.213825 0.01 -0.0795
+                          -0.213825 -0.01 -0.0795
+                          -0.213825 -0.01 0.0795
+                          -0.213825 0.01 0.0795
+                          -0.213825 0.01 -0.0795
+                          0.213825 -0.01 0.0795
+                          0.213825 -0.01 -0.0795
+                          0.213825 0.01 -0.0795
+                          0.213825 0.01 0.0795
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          1 0.37179936864258156
+                          0 0.37179936864258156
+                          0 0
+                          1 0
+                          0 0
+                          1 0
+                          1 0.37179936864258156
+                          0 0.37179936864258156
+                          0 1
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 1
+                          0 1
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 1
+                          0.0467672161814568 0
+                          0.0467672161814568 0.37179936864258156
+                          0 0.37179936864258156
+                          0 0
+                          0 0.37179936864258156
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 0.37179936864258156
+                        ]
+                      }
+                      coordIndex [
+                        0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+                      ]
+                      creaseAngle 1.5
+                    }
+                  }
+                ]
+                name "left box"
+                model "box"
+                boundingObject Box {
+                  size 0.42765 0.02 0.159
+                }
+                physics Physics {
+                  density -1
+                  mass 0.01
+                }
+              }
+              Slot {
+                endPoint Slot {
+                  type "handle"
+                  endPoint Solid {
+                    children [
+                      DEF HANDLE Group {
+                        children [
+                          Transform {
+                            translation 0.011 0 0
+                            rotation 1 0 0 1.57
+                            children [
+                              Shape {
+                                appearance DEF HANDLE_APPEARANCE PBRAppearance {
+                                  baseColor 0.74 0.74 0.74
+                                  roughness 0.3
+                                }
+                                geometry Capsule {
+                                  height 0.065
+                                  radius 0.0055
+                                }
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation 0 0.02275 0
+                            rotation 0 1 0 1.57
+                            children [
+                              Shape {
+                                appearance USE HANDLE_APPEARANCE
+                                geometry DEF ANCHORAGE Capsule {
+                                  height 0.011
+                                  radius 0.0038499999999999997
+                                }
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation 0 -0.02275 0
+                            rotation 0 1 0 1.57
+                            children [
+                              Shape {
+                                appearance USE HANDLE_APPEARANCE
+                                geometry USE ANCHORAGE
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                    name "cabinet handle"
+                    model "cabinet handle"
+                    boundingObject USE HANDLE
+                    physics Physics {
+                      density -1
+                      mass 0.3
+                    }
+                  }
+                }
+              }
+            ]
+            boundingObject Transform {
+              translation -0.01 0 0
+              children [
+                Sphere {
+                  radius 0.01
+                }
+              ]
+            }
+            physics Physics {
+              density -1
+              mass 1.5
+            }
+          }
+        }
+      ]
+      name "drawer 4"
+      model "cabinet drawer"
+    }
+    Solid {
+      translation 0.5 2.7755575615628914e-17 0.15
+      children [
+        SliderJoint {
+          jointParameters JointParameters {
+            axis 1 0 0
+            minStop -0.01
+            maxStop 0.2388
+            dampingConstant 5
+          }
+          endPoint Solid {
+            children [
+              Solid {
+                translation -0.45765 0 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      roughnessMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+                        ]
+                      }
+                      metalness 0
+                      normalMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+                        ]
+                      }
+                      occlusionMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          -0.01 0.35815 0.1094
+                          0.01 0.35815 0.1094
+                          0.01 0.35815 -0.1094
+                          -0.01 0.35815 -0.1094
+                          -0.01 -0.35815 -0.1094
+                          0.01 -0.35815 -0.1094
+                          0.01 -0.35815 0.1094
+                          -0.01 -0.35815 0.1094
+                          -0.01 -0.35815 0.1094
+                          0.01 -0.35815 0.1094
+                          0.01 0.35815 0.1094
+                          -0.01 0.35815 0.1094
+                          0.01 -0.35815 -0.1094
+                          -0.01 -0.35815 -0.1094
+                          -0.01 0.35815 -0.1094
+                          0.01 0.35815 -0.1094
+                          -0.01 -0.35815 -0.1094
+                          -0.01 -0.35815 0.1094
+                          -0.01 0.35815 0.1094
+                          -0.01 0.35815 -0.1094
+                          0.01 -0.35815 0.1094
+                          0.01 -0.35815 -0.1094
+                          0.01 0.35815 -0.1094
+                          0.01 0.35815 0.1094
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          0.027921262041044254 0.30545860672902414
+                          0 0.30545860672902414
+                          0 0
+                          0.027921262041044254 0
+                          0 0
+                          0.027921262041044254 0
+                          0.027921262041044254 0.30545860672902414
+                          0 0.30545860672902414
+                          0 0.027921262041044254
+                          0 0
+                          1 0
+                          1 0.027921262041044254
+                          0 0.027921262041044254
+                          0 0
+                          1 0
+                          1 0.027921262041044254
+                          1 0
+                          1 0.30545860672902414
+                          0 0.30545860672902414
+                          0 0
+                          0 0.30545860672902414
+                          0 0
+                          1 0
+                          1 0.30545860672902414
+                        ]
+                      }
+                      coordIndex [
+                        0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+                      ]
+                      creaseAngle 1.5
+                    }
+                  }
+                ]
+                name "back box"
+                model "box"
+                boundingObject Box {
+                  size 0.02 0.7163 0.2188
+                }
+                physics Physics {
+                  density -1
+                  mass 0.01
+                }
+              }
+              Solid {
+                translation -0.233825 0 -0.0994
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      roughnessMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+                        ]
+                      }
+                      metalness 0
+                      normalMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+                        ]
+                      }
+                      occlusionMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          -0.213825 0.35815 0.01
+                          0.213825 0.35815 0.01
+                          0.213825 0.35815 -0.01
+                          -0.213825 0.35815 -0.01
+                          -0.213825 -0.35815 -0.01
+                          0.213825 -0.35815 -0.01
+                          0.213825 -0.35815 0.01
+                          -0.213825 -0.35815 0.01
+                          -0.213825 -0.35815 0.01
+                          0.213825 -0.35815 0.01
+                          0.213825 0.35815 0.01
+                          -0.213825 0.35815 0.01
+                          0.213825 -0.35815 -0.01
+                          -0.213825 -0.35815 -0.01
+                          -0.213825 0.35815 -0.01
+                          0.213825 0.35815 -0.01
+                          -0.213825 -0.35815 -0.01
+                          -0.213825 -0.35815 0.01
+                          -0.213825 0.35815 0.01
+                          -0.213825 0.35815 -0.01
+                          0.213825 -0.35815 0.01
+                          0.213825 -0.35815 -0.01
+                          0.213825 0.35815 -0.01
+                          0.213825 0.35815 0.01
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          0.5970263855926287 0.027921262041044254
+                          0 0.027921262041044254
+                          0 0
+                          0.5970263855926287 0
+                          0 0
+                          0.5970263855926287 0
+                          0.5970263855926287 0.027921262041044254
+                          0 0.027921262041044254
+                          0 0.5970263855926287
+                          0 0
+                          1 0
+                          1 0.5970263855926287
+                          0 0.5970263855926287
+                          0 0
+                          1 0
+                          1 0.5970263855926287
+                          1 0
+                          1 0.027921262041044254
+                          0 0.027921262041044254
+                          0 0
+                          0 0.027921262041044254
+                          0 0
+                          1 0
+                          1 0.027921262041044254
+                        ]
+                      }
+                      coordIndex [
+                        0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+                      ]
+                      creaseAngle 1.5
+                    }
+                  }
+                ]
+                name "bottom box"
+                model "box"
+                boundingObject Box {
+                  size 0.42765 0.7163 0.02
+                }
+                physics Physics {
+                  density -1
+                  mass 0.01
+                }
+              }
+              Solid {
+                translation -0.01 0 0
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      roughnessMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+                        ]
+                      }
+                      metalness 0
+                      normalMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+                        ]
+                      }
+                      occlusionMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          -0.01 0.36815 0.1194
+                          0.01 0.36815 0.1194
+                          0.01 0.36815 -0.1194
+                          -0.01 0.36815 -0.1194
+                          -0.01 -0.36815 -0.1194
+                          0.01 -0.36815 -0.1194
+                          0.01 -0.36815 0.1194
+                          -0.01 -0.36815 0.1194
+                          -0.01 -0.36815 0.1194
+                          0.01 -0.36815 0.1194
+                          0.01 0.36815 0.1194
+                          -0.01 0.36815 0.1194
+                          0.01 -0.36815 -0.1194
+                          -0.01 -0.36815 -0.1194
+                          -0.01 0.36815 -0.1194
+                          0.01 0.36815 -0.1194
+                          -0.01 -0.36815 -0.1194
+                          -0.01 -0.36815 0.1194
+                          -0.01 0.36815 0.1194
+                          -0.01 0.36815 -0.1194
+                          0.01 -0.36815 0.1194
+                          0.01 -0.36815 -0.1194
+                          0.01 0.36815 -0.1194
+                          0.01 0.36815 0.1194
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          0.027162841233192993 0.32432432432432434
+                          0 0.32432432432432434
+                          0 0
+                          0.027162841233192993 0
+                          0 0
+                          0.027162841233192993 0
+                          0.027162841233192993 0.32432432432432434
+                          0 0.32432432432432434
+                          0 0.027162841233192993
+                          0 0
+                          1 0
+                          1 0.027162841233192993
+                          0 0.027162841233192993
+                          0 0
+                          1 0
+                          1 0.027162841233192993
+                          1 0
+                          1 0.32432432432432434
+                          0 0.32432432432432434
+                          0 0
+                          0 0.32432432432432434
+                          0 0
+                          1 0
+                          1 0.32432432432432434
+                        ]
+                      }
+                      coordIndex [
+                        0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+                      ]
+                      creaseAngle 1.5
+                    }
+                  }
+                ]
+                name "front box"
+                model "box"
+                boundingObject Box {
+                  size 0.02 0.7363 0.2388
+                }
+                physics Physics {
+                  density -1
+                  mass 0.01
+                }
+              }
+              Solid {
+                translation -0.233825 -0.34814999999999996 0.01
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      roughnessMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+                        ]
+                      }
+                      metalness 0
+                      normalMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+                        ]
+                      }
+                      occlusionMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          -0.213825 0.01 0.0994
+                          0.213825 0.01 0.0994
+                          0.213825 0.01 -0.0994
+                          -0.213825 0.01 -0.0994
+                          -0.213825 -0.01 -0.0994
+                          0.213825 -0.01 -0.0994
+                          0.213825 -0.01 0.0994
+                          -0.213825 -0.01 0.0994
+                          -0.213825 -0.01 0.0994
+                          0.213825 -0.01 0.0994
+                          0.213825 0.01 0.0994
+                          -0.213825 0.01 0.0994
+                          0.213825 -0.01 -0.0994
+                          -0.213825 -0.01 -0.0994
+                          -0.213825 0.01 -0.0994
+                          0.213825 0.01 -0.0994
+                          -0.213825 -0.01 -0.0994
+                          -0.213825 -0.01 0.0994
+                          -0.213825 0.01 0.0994
+                          -0.213825 0.01 -0.0994
+                          0.213825 -0.01 0.0994
+                          0.213825 -0.01 -0.0994
+                          0.213825 0.01 -0.0994
+                          0.213825 0.01 0.0994
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          1 0.4648661288436806
+                          0 0.4648661288436806
+                          0 0
+                          1 0
+                          0 0
+                          1 0
+                          1 0.4648661288436806
+                          0 0.4648661288436806
+                          0 1
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 1
+                          0 1
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 1
+                          0.0467672161814568 0
+                          0.0467672161814568 0.4648661288436806
+                          0 0.4648661288436806
+                          0 0
+                          0 0.4648661288436806
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 0.4648661288436806
+                        ]
+                      }
+                      coordIndex [
+                        0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+                      ]
+                      creaseAngle 1.5
+                    }
+                  }
+                ]
+                name "right box"
+                model "box"
+                boundingObject Box {
+                  size 0.42765 0.02 0.1988
+                }
+                physics Physics {
+                  density -1
+                  mass 0.01
+                }
+              }
+              Solid {
+                translation -0.233825 0.34814999999999996 0.01
+                children [
+                  Shape {
+                    appearance PBRAppearance {
+                      roughnessMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+                        ]
+                      }
+                      metalness 0
+                      normalMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+                        ]
+                      }
+                      occlusionMap ImageTexture {
+                        url [
+                          "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+                        ]
+                      }
+                    }
+                    geometry IndexedFaceSet {
+                      coord Coordinate {
+                        point [
+                          -0.213825 0.01 0.0994
+                          0.213825 0.01 0.0994
+                          0.213825 0.01 -0.0994
+                          -0.213825 0.01 -0.0994
+                          -0.213825 -0.01 -0.0994
+                          0.213825 -0.01 -0.0994
+                          0.213825 -0.01 0.0994
+                          -0.213825 -0.01 0.0994
+                          -0.213825 -0.01 0.0994
+                          0.213825 -0.01 0.0994
+                          0.213825 0.01 0.0994
+                          -0.213825 0.01 0.0994
+                          0.213825 -0.01 -0.0994
+                          -0.213825 -0.01 -0.0994
+                          -0.213825 0.01 -0.0994
+                          0.213825 0.01 -0.0994
+                          -0.213825 -0.01 -0.0994
+                          -0.213825 -0.01 0.0994
+                          -0.213825 0.01 0.0994
+                          -0.213825 0.01 -0.0994
+                          0.213825 -0.01 0.0994
+                          0.213825 -0.01 -0.0994
+                          0.213825 0.01 -0.0994
+                          0.213825 0.01 0.0994
+                        ]
+                      }
+                      texCoord TextureCoordinate {
+                        point [
+                          1 0.4648661288436806
+                          0 0.4648661288436806
+                          0 0
+                          1 0
+                          0 0
+                          1 0
+                          1 0.4648661288436806
+                          0 0.4648661288436806
+                          0 1
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 1
+                          0 1
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 1
+                          0.0467672161814568 0
+                          0.0467672161814568 0.4648661288436806
+                          0 0.4648661288436806
+                          0 0
+                          0 0.4648661288436806
+                          0 0
+                          0.0467672161814568 0
+                          0.0467672161814568 0.4648661288436806
+                        ]
+                      }
+                      coordIndex [
+                        0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+                      ]
+                      creaseAngle 1.5
+                    }
+                  }
+                ]
+                name "left box"
+                model "box"
+                boundingObject Box {
+                  size 0.42765 0.02 0.1988
+                }
+                physics Physics {
+                  density -1
+                  mass 0.01
+                }
+              }
+              Slot {
+                endPoint Slot {
+                  type "handle"
+                  endPoint Solid {
+                    children [
+                      DEF HANDLE Group {
+                        children [
+                          Transform {
+                            translation 0.011 0 0
+                            rotation 1 0 0 1.57
+                            children [
+                              Shape {
+                                appearance DEF HANDLE_APPEARANCE PBRAppearance {
+                                  baseColor 0.74 0.74 0.74
+                                  roughness 0.3
+                                }
+                                geometry Capsule {
+                                  height 0.065
+                                  radius 0.0055
+                                }
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation 0 0.02275 0
+                            rotation 0 1 0 1.57
+                            children [
+                              Shape {
+                                appearance USE HANDLE_APPEARANCE
+                                geometry DEF ANCHORAGE Capsule {
+                                  height 0.011
+                                  radius 0.0038499999999999997
+                                }
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation 0 -0.02275 0
+                            rotation 0 1 0 1.57
+                            children [
+                              Shape {
+                                appearance USE HANDLE_APPEARANCE
+                                geometry USE ANCHORAGE
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                    name "cabinet handle"
+                    model "cabinet handle"
+                    boundingObject USE HANDLE
+                    physics Physics {
+                      density -1
+                      mass 0.3
+                    }
+                  }
+                }
+              }
+            ]
+            boundingObject Transform {
+              translation -0.01 0 0
+              children [
+                Sphere {
+                  radius 0.01
+                }
+              ]
+            }
+            physics Physics {
+              density -1
+              mass 3.5
+            }
+          }
+        }
+      ]
+      name "drawer 5"
+      model "cabinet drawer"
+    }
+    Solid {
+      translation 0.255 2.7755575615628914e-17 1.07
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughnessMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+              ]
+            }
+            metalness 0
+            normalMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+              ]
+            }
+            occlusionMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.223875 0.38 0.01
+                0.223875 0.38 0.01
+                0.223875 0.38 -0.01
+                -0.223875 0.38 -0.01
+                -0.223875 -0.38 -0.01
+                0.223875 -0.38 -0.01
+                0.223875 -0.38 0.01
+                -0.223875 -0.38 0.01
+                -0.223875 -0.38 0.01
+                0.223875 -0.38 0.01
+                0.223875 0.38 0.01
+                -0.223875 0.38 0.01
+                0.223875 -0.38 -0.01
+                -0.223875 -0.38 -0.01
+                -0.223875 0.38 -0.01
+                0.223875 0.38 -0.01
+                -0.223875 -0.38 -0.01
+                -0.223875 -0.38 0.01
+                -0.223875 0.38 0.01
+                -0.223875 0.38 -0.01
+                0.223875 -0.38 0.01
+                0.223875 -0.38 -0.01
+                0.223875 0.38 -0.01
+                0.223875 0.38 0.01
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.5891447368421052 0.02631578947368421
+                0 0.02631578947368421
+                0 0
+                0.5891447368421052 0
+                0 0
+                0.5891447368421052 0
+                0.5891447368421052 0.02631578947368421
+                0 0.02631578947368421
+                0 0.5891447368421052
+                0 0
+                1 0
+                1 0.5891447368421052
+                0 0.5891447368421052
+                0 0
+                1 0
+                1 0.5891447368421052
+                1 0
+                1 0.02631578947368421
+                0 0.02631578947368421
+                0 0
+                0 0.02631578947368421
+                0 0
+                1 0
+                1 0.02631578947368421
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "box 6"
+      model "box"
+      boundingObject Box {
+        size 0.44775 0.76 0.02
+      }
+    }
+    Solid {
+      translation 0.255 2.7755575615628914e-17 0.67
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughnessMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+              ]
+            }
+            metalness 0
+            normalMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+              ]
+            }
+            occlusionMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.223875 0.38 0.01
+                0.223875 0.38 0.01
+                0.223875 0.38 -0.01
+                -0.223875 0.38 -0.01
+                -0.223875 -0.38 -0.01
+                0.223875 -0.38 -0.01
+                0.223875 -0.38 0.01
+                -0.223875 -0.38 0.01
+                -0.223875 -0.38 0.01
+                0.223875 -0.38 0.01
+                0.223875 0.38 0.01
+                -0.223875 0.38 0.01
+                0.223875 -0.38 -0.01
+                -0.223875 -0.38 -0.01
+                -0.223875 0.38 -0.01
+                0.223875 0.38 -0.01
+                -0.223875 -0.38 -0.01
+                -0.223875 -0.38 0.01
+                -0.223875 0.38 0.01
+                -0.223875 0.38 -0.01
+                0.223875 -0.38 0.01
+                0.223875 -0.38 -0.01
+                0.223875 0.38 -0.01
+                0.223875 0.38 0.01
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.5891447368421052 0.02631578947368421
+                0 0.02631578947368421
+                0 0
+                0.5891447368421052 0
+                0 0
+                0.5891447368421052 0
+                0.5891447368421052 0.02631578947368421
+                0 0.02631578947368421
+                0 0.5891447368421052
+                0 0
+                1 0
+                1 0.5891447368421052
+                0 0.5891447368421052
+                0 0
+                1 0
+                1 0.5891447368421052
+                1 0
+                1 0.02631578947368421
+                0 0.02631578947368421
+                0 0
+                0 0.02631578947368421
+                0 0
+                1 0
+                1 0.02631578947368421
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "box 7"
+      model "box"
+      boundingObject Box {
+        size 0.44775 0.76 0.02
+      }
+    }
+    Solid {
+      translation 0.255 2.7755575615628914e-17 0.47
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughnessMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+              ]
+            }
+            metalness 0
+            normalMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+              ]
+            }
+            occlusionMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.223875 0.38 0.01
+                0.223875 0.38 0.01
+                0.223875 0.38 -0.01
+                -0.223875 0.38 -0.01
+                -0.223875 -0.38 -0.01
+                0.223875 -0.38 -0.01
+                0.223875 -0.38 0.01
+                -0.223875 -0.38 0.01
+                -0.223875 -0.38 0.01
+                0.223875 -0.38 0.01
+                0.223875 0.38 0.01
+                -0.223875 0.38 0.01
+                0.223875 -0.38 -0.01
+                -0.223875 -0.38 -0.01
+                -0.223875 0.38 -0.01
+                0.223875 0.38 -0.01
+                -0.223875 -0.38 -0.01
+                -0.223875 -0.38 0.01
+                -0.223875 0.38 0.01
+                -0.223875 0.38 -0.01
+                0.223875 -0.38 0.01
+                0.223875 -0.38 -0.01
+                0.223875 0.38 -0.01
+                0.223875 0.38 0.01
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.5891447368421052 0.02631578947368421
+                0 0.02631578947368421
+                0 0
+                0.5891447368421052 0
+                0 0
+                0.5891447368421052 0
+                0.5891447368421052 0.02631578947368421
+                0 0.02631578947368421
+                0 0.5891447368421052
+                0 0
+                1 0
+                1 0.5891447368421052
+                0 0.5891447368421052
+                0 0
+                1 0
+                1 0.5891447368421052
+                1 0
+                1 0.02631578947368421
+                0 0.02631578947368421
+                0 0
+                0 0.02631578947368421
+                0 0
+                1 0
+                1 0.02631578947368421
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "box 8"
+      model "box"
+      boundingObject Box {
+        size 0.44775 0.76 0.02
+      }
+    }
+    Solid {
+      translation 0.255 2.7755575615628914e-17 0.27
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughnessMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+              ]
+            }
+            metalness 0
+            normalMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+              ]
+            }
+            occlusionMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.223875 0.38 0.01
+                0.223875 0.38 0.01
+                0.223875 0.38 -0.01
+                -0.223875 0.38 -0.01
+                -0.223875 -0.38 -0.01
+                0.223875 -0.38 -0.01
+                0.223875 -0.38 0.01
+                -0.223875 -0.38 0.01
+                -0.223875 -0.38 0.01
+                0.223875 -0.38 0.01
+                0.223875 0.38 0.01
+                -0.223875 0.38 0.01
+                0.223875 -0.38 -0.01
+                -0.223875 -0.38 -0.01
+                -0.223875 0.38 -0.01
+                0.223875 0.38 -0.01
+                -0.223875 -0.38 -0.01
+                -0.223875 -0.38 0.01
+                -0.223875 0.38 0.01
+                -0.223875 0.38 -0.01
+                0.223875 -0.38 0.01
+                0.223875 -0.38 -0.01
+                0.223875 0.38 -0.01
+                0.223875 0.38 0.01
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                0.5891447368421052 0.02631578947368421
+                0 0.02631578947368421
+                0 0
+                0.5891447368421052 0
+                0 0
+                0.5891447368421052 0
+                0.5891447368421052 0.02631578947368421
+                0 0.02631578947368421
+                0 0.5891447368421052
+                0 0
+                1 0
+                1 0.5891447368421052
+                0 0.5891447368421052
+                0 0
+                1 0
+                1 0.5891447368421052
+                1 0
+                1 0.02631578947368421
+                0 0.02631578947368421
+                0 0
+                0 0.02631578947368421
+                0 0
+                1 0
+                1 0.02631578947368421
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "box 9"
+      model "box"
+      boundingObject Box {
+        size 0.44775 0.76 0.02
+      }
+    }
+    Solid {
+      translation 0.2551 0.0301 0.5701
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughnessMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+              ]
+            }
+            metalness 0
+            normalMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+              ]
+            }
+            occlusionMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.223875 0.01 0.11
+                0.223875 0.01 0.11
+                0.223875 0.01 -0.11
+                -0.223875 0.01 -0.11
+                -0.223875 -0.01 -0.11
+                0.223875 -0.01 -0.11
+                0.223875 -0.01 0.11
+                -0.223875 -0.01 0.11
+                -0.223875 -0.01 0.11
+                0.223875 -0.01 0.11
+                0.223875 0.01 0.11
+                -0.223875 0.01 0.11
+                0.223875 -0.01 -0.11
+                -0.223875 -0.01 -0.11
+                -0.223875 0.01 -0.11
+                0.223875 0.01 -0.11
+                -0.223875 -0.01 -0.11
+                -0.223875 -0.01 0.11
+                -0.223875 0.01 0.11
+                -0.223875 0.01 -0.11
+                0.223875 -0.01 0.11
+                0.223875 -0.01 -0.11
+                0.223875 0.01 -0.11
+                0.223875 0.01 0.11
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                1 0.4913456169737577
+                0 0.4913456169737577
+                0 0
+                1 0
+                0 0
+                1 0
+                1 0.4913456169737577
+                0 0.4913456169737577
+                0 1
+                0 0
+                0.0446677833612507 0
+                0.0446677833612507 1
+                0 1
+                0 0
+                0.0446677833612507 0
+                0.0446677833612507 1
+                0.0446677833612507 0
+                0.0446677833612507 0.4913456169737577
+                0 0.4913456169737577
+                0 0
+                0 0.4913456169737577
+                0 0
+                0.0446677833612507 0
+                0.0446677833612507 0.4913456169737577
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "box 10"
+      model "box"
+      boundingObject Box {
+        size 0.44775 0.02 0.22
+      }
+    }
+    Solid {
+      translation 0.2551 0.20010000000000003 0.5701
+      children [
+        Shape {
+          appearance PBRAppearance {
+            roughnessMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_roughness.jpg"
+              ]
+            }
+            metalness 0
+            normalMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_normal.jpg"
+              ]
+            }
+            occlusionMap ImageTexture {
+              url [
+                "webots://projects/appearances/protos/textures/painted_wood/painted_wood_occlusion.jpg"
+              ]
+            }
+          }
+          geometry IndexedFaceSet {
+            coord Coordinate {
+              point [
+                -0.223875 0.01 0.11
+                0.223875 0.01 0.11
+                0.223875 0.01 -0.11
+                -0.223875 0.01 -0.11
+                -0.223875 -0.01 -0.11
+                0.223875 -0.01 -0.11
+                0.223875 -0.01 0.11
+                -0.223875 -0.01 0.11
+                -0.223875 -0.01 0.11
+                0.223875 -0.01 0.11
+                0.223875 0.01 0.11
+                -0.223875 0.01 0.11
+                0.223875 -0.01 -0.11
+                -0.223875 -0.01 -0.11
+                -0.223875 0.01 -0.11
+                0.223875 0.01 -0.11
+                -0.223875 -0.01 -0.11
+                -0.223875 -0.01 0.11
+                -0.223875 0.01 0.11
+                -0.223875 0.01 -0.11
+                0.223875 -0.01 0.11
+                0.223875 -0.01 -0.11
+                0.223875 0.01 -0.11
+                0.223875 0.01 0.11
+              ]
+            }
+            texCoord TextureCoordinate {
+              point [
+                1 0.4913456169737577
+                0 0.4913456169737577
+                0 0
+                1 0
+                0 0
+                1 0
+                1 0.4913456169737577
+                0 0.4913456169737577
+                0 1
+                0 0
+                0.0446677833612507 0
+                0.0446677833612507 1
+                0 1
+                0 0
+                0.0446677833612507 0
+                0.0446677833612507 1
+                0.0446677833612507 0
+                0.0446677833612507 0.4913456169737577
+                0 0.4913456169737577
+                0 0
+                0 0.4913456169737577
+                0 0
+                0.0446677833612507 0
+                0.0446677833612507 0.4913456169737577
+              ]
+            }
+            coordIndex [
+              0, 1, 2, 3, -1, 4, 5, 6, 7, -1, 8, 9, 10, 11, -1, 12, 13, 14, 15, -1, 16, 17, 18, 19, -1, 20, 21, 22, 23, -1
+            ]
+            creaseAngle 1.5
+          }
+        }
+      ]
+      name "box 11"
+      model "box"
+      boundingObject Box {
+        size 0.44775 0.02 0.22
+      }
+    }
+  ]
+  name "cabinet"
+  model "cabinet"
+}
 }

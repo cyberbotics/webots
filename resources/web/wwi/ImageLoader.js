@@ -45,6 +45,7 @@ export default class ImageLoader {
         url = prefix + url;
       else {
         // in simulations the asset is provided relative to the world, therefore the URL has to be resolved before requesting it
+        console.log(url)
         let worldsPath = ImageLoader.currentWorld;
         worldsPath = worldsPath.substring(0, worldsPath.lastIndexOf('/')) + '/';
         url = prefix + worldsPath + url;
