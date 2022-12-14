@@ -141,19 +141,30 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #refreshParameterRow(parameter) {
-    console.log('refreshing: ', parameter.name)
     const resetButton = document.getElementById('reset-' + parameter.name);
 
-    if (parameter.isDefault()) {
-      console.log('PARAMETER IS DEFAULT => DISABLE RESET')
+    if (parameter.isDefault())
       this.#disableResetButton(resetButton);
-    } else {
-      console.log('PARAMETER IS NOT DEFAULT => ENABLE RESET')
+    else
       this.#enableResetButton(resetButton);
-    }
+
 
     if (parameter.value instanceof SFNode) {
-      console.log('REFRESH SFNODE')
+      const currentNodeButton = document.getElementById('current-node-' + parameter.name);
+      const deleteNodeButton = document.getElementById('delete-node-' + parameter.name);
+      const configureNodeButton = document.getElementById('configure-node-' + parameter.name);
+
+      if (parameter.value.value === null) {
+        currentNodeButton.innerHTML = 'NULL';
+        deleteNodeButton.style.display = 'none';
+        configureNodeButton.style.display = 'none';
+      } else {
+        currentNodeButton.style.display = 'block';
+        deleteNodeButton.style.display = 'block';
+        configureNodeButton.style.display = 'block';
+        configureNodeButton.title = 'Configure ' + parameter.value.value.name + ' node';
+        currentNodeButton.innerHTML = parameter.value.value.name;
+      }
     }
 
     if (parameter.value instanceof SFBool) {
@@ -672,63 +683,53 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     const deleteNodeButton = document.createElement('button');
     deleteNodeButton.className = 'delete-button';
+    deleteNodeButton.id = 'delete-node-' + parameter.name;
     deleteNodeButton.title = 'Remove this node.';
-    deleteNodeButton.onclick = async() => {
+    deleteNodeButton.onclick = () => {
       parameter.setValueFromJavaScript(this.#view, null);
-      deleteNodeButton.style.display = 'none';
-      configureButton.style.display = 'none';
-      nodeButton.innerHTML = 'NULL';
+      this.#refreshParameterRow(parameter);
     };
 
-    const configureButton = document.createElement('button');
-    configureButton.className = 'configure-button';
-    configureButton.title = 'Edit this node.';
-    configureButton.onclick = async() => {
+    const configureNodeButton = document.createElement('button');
+    configureNodeButton.className = 'configure-button';
+    configureNodeButton.id = 'configure-node-' + parameter.name;
+    configureNodeButton.title = 'Edit this node.';
+    configureNodeButton.onclick = async() => {
       this.proto = parameter.value.value;
       this.populateProtoParameterWindow();
     };
 
-    const nodeButton = document.createElement('button');
-    nodeButton.title = 'Select a node to insert';
-
-    nodeButton.onclick = async() => {
+    const currentNodeButton = document.createElement('button');
+    currentNodeButton.id = 'current-node-' + parameter.name;
+    currentNodeButton.title = 'Select a node to insert';
+    currentNodeButton.onclick = async() => {
       console.log('editing: ' + parameter.name);
       if (typeof this.nodeSelector === 'undefined') {
         this.nodeSelector = new NodeSelectorWindow(this.parentNode, this.parentNode.protoManager, this.#view);
         await this.nodeSelector.initialize();
       }
 
-      this.nodeSelector.show(parameter, nodeButton, deleteNodeButton, configureButton);
+      this.nodeSelector.show(parameter, currentNodeButton, deleteNodeButton, configureNodeButton); // use callback to refreshparameterrow
       this.nodeSelectorListener = (event) => this.#hideNodeSelector(event);
       window.addEventListener('click', this.nodeSelectorListener, true);
     };
 
-    if (parameter.value.value === null) {
-      deleteNodeButton.style.display = 'none';
-      configureButton.style.display = 'none';
-      nodeButton.innerHTML = 'NULL';
-    } else {
-      deleteNodeButton.style.display = 'block';
-      configureButton.style.display = 'block';
-      configureButton.title = 'Configure ' + parameter.value.value.name + ' node';
-      nodeButton.innerHTML = parameter.value.value.name;
-    }
-
-    buttonContainer.appendChild(nodeButton);
+    buttonContainer.appendChild(currentNodeButton);
     buttonContainer.appendChild(deleteNodeButton);
-    buttonContainer.appendChild(configureButton);
+    buttonContainer.appendChild(configureNodeButton);
     value.append(buttonContainer);
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     this.#disableResetButton(resetButton);
     resetButton.onclick = () => {
-      console.log('HERE')
-      //this.#boolOnChange(p);
-      //this.#disableResetButton(resetButton);
+      parameter.setValueFromJavaScript(this.#view, parameter.defaultValue.value);
+      this.#refreshParameterRow(parameter);
     };
 
     parent.appendChild(p);
     parent.appendChild(value);
+
+    this.#refreshParameterRow(parameter);
   }
 
   #hideNodeSelector(event) {
