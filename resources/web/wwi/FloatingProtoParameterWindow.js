@@ -703,13 +703,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     currentNodeButton.id = 'current-node-' + parameter.name;
     currentNodeButton.title = 'Select a node to insert';
     currentNodeButton.onclick = async() => {
-      console.log('editing: ' + parameter.name);
       if (typeof this.nodeSelector === 'undefined') {
-        this.nodeSelector = new NodeSelectorWindow(this.parentNode, this.parentNode.protoManager, this.#view);
+        this.nodeSelector = new NodeSelectorWindow(this.parentNode, this.#sfnodeOnChange.bind(this));
         await this.nodeSelector.initialize();
       }
 
-      this.nodeSelector.show(parameter, currentNodeButton, deleteNodeButton, configureNodeButton); // use callback to refreshparameterrow
+      this.nodeSelector.show(parameter);
       this.nodeSelectorListener = (event) => this.#hideNodeSelector(event);
       window.addEventListener('click', this.nodeSelectorListener, true);
     };
@@ -731,6 +730,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     this.#refreshParameterRow(parameter);
   }
+
+  async #sfnodeOnChange(parameter, url) {
+    const node = await this.#protoManager.generateNodeFromUrl(url);
+
+    parameter.setValueFromJavaScript(this.#view, node);
+    this.#refreshParameterRow(parameter);
+  }
+
 
   #hideNodeSelector(event) {
     if (typeof this.nodeSelector !== 'undefined' && !this.nodeSelector.nodeSelector.contains(event.target)) {
