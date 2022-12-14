@@ -44,7 +44,6 @@ import WbDirectionalLight from './nodes/WbDirectionalLight.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
 
 export default class X3dScene {
-  #loader;
   #nextRenderingTime;
   #renderingTimeout;
   constructor(domElement) {
@@ -134,7 +133,6 @@ export default class X3dScene {
 
     this.renderMinimal();
     clearTimeout(this.#renderingTimeout);
-    this.#loader = undefined;
   }
 
   parentId(id) {
@@ -164,19 +162,14 @@ export default class X3dScene {
     this.render();
   }
 
-  async loadRawWorldFile(raw, onLoad, progress) {
+  loadRawWorldFile(raw, onLoad, progress) {
     console.log('loadRawWorldFile')
     const prefix = webots.currentView.prefix;
-    this.#loader = new Parser(prefix);
-    await this.#loader.parse(raw);
-    await this.#loader.finalize(this.renderer).then(() => {
-      console.log('calling:', onLoad);
-      onLoad()
-    })
+    const parser = new Parser(prefix);
+    parser.parse(raw, this.renderer).then(() => onLoad());
   }
 
   loadWorldFile(url, onLoad, progress) {
-    console.log('loadWorldFile')
     const prefix = webots.currentView.prefix;
     const renderer = this.renderer;
     const xmlhttp = new XMLHttpRequest();
@@ -185,9 +178,8 @@ export default class X3dScene {
     xmlhttp.onreadystatechange = async () => {
       // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
       if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) {
-        this.#loader = new Parser(prefix);
-        await this.#loader.parse(xmlhttp.responseText)
-        await this.#loader.finalize(this.renderer).then(() => onLoad());
+        const parser = new Parser(prefix);
+        parser.parse(xmlhttp.responseText, renderer).then(() => onLoad());
       } else if (xmlhttp.status === 404)
         progress.setProgressBar('block', 'Loading world file...', 5, '(error) File not found: ' + url);
     };
@@ -197,8 +189,8 @@ export default class X3dScene {
     xmlhttp.send();
   }
 
-  async loadObject(x3dObject, parentId, callback, id) {
-    console.log('LOADOBJECT', id)
+  async loadObject(x3dObject, parentId, callback) {
+    console.log('LOADOBJECT')
     let parentNode;
     if (typeof parentId !== 'undefined') {
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
@@ -208,25 +200,21 @@ export default class X3dScene {
     }
     parentNode = WbWorld.instance.nodes.get('n' + parentId);
 
-    if (typeof this.#loader === 'undefined')
-      this.#loader = new Parser(webots.currentView.prefix);
-    else
-      this.#loader.prefix = webots.currentView.prefix;
+    const parser = new Parser(webots.currentView.prefix);
+    parser.prefix = webots.currentView.prefix;
+    parser.parse(x3dObject, this.renderer, false, parentNode, callback);
+    //const start = x3dObject.indexOf('"');
+    //const end = x3dObject.indexOf('"', start+1);
 
-    const root = await this.#loader.parse(x3dObject, parentNode);
-    const start = x3dObject.indexOf('"');
-    const end = x3dObject.indexOf('"', start+1);
-    n = WbWorld.instance.nodes.get(x3dObject.substring(start + 1, end)); // temporary solution
-
+    console.log('>>>', parser.rootNodeId, WbWorld.instance.nodes.has(parser.rootNodeId))
+    const node = WbWorld.instance.nodes.get(parser.rootNodeId);
+    console.log('>>>>>>>>>>>>>', node)
     if (typeof parentId !== 'undefined') {
-      n.finalize();
+      node.finalize();
       if (parentNode instanceof WbShape) // TODO: replace by a mechanism similar to onchange/#update?
         parentNode.updateAppearance();
-    }
-    else
-      n.finalize()
-    this.renderer.render();
-    //await this.#loader.finalize(this.renderer, callback);
+    } else
+      node.finalize()
   }
 
   applyPose(pose) {

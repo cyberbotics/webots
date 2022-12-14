@@ -144,7 +144,7 @@ export default class WbShape extends WbBaseNode {
 
     for (const useId of this.useList) {
       const useNode = WbWorld.instance.nodes.get(useId);
-      useNode.updateAppearance();
+      useNode?.updateAppearance();
     }
   }
 

@@ -94,6 +94,7 @@ export default class Parser {
   #promises;
   #promiseCounter;
   #promiseNumber;
+  #rootNodeId;
   constructor(prefix = '') {
     this.prefix = prefix;
     this.#downloadingImage = new Set();
@@ -104,14 +105,18 @@ export default class Parser {
     WbWorld.instance.prefix = prefix;
   }
 
-  async parse(text, parent) {
+  get rootNodeId() {
+    return this.#rootNodeId;
+  }
+
+  parse(text, renderer, finalize = true, parentNode, callback) {
     webots.currentView.progress.setProgressBar('Connecting to webots instance...', 'same', 60 + 0.1 * 30, 'Parsing object...');
     let xml = null;
     if (window.DOMParser) {
       const parser = new DOMParser();
       xml = parser.parseFromString(text, 'text/xml');
     }
-    console.log(xml);
+
     if (typeof xml === 'undefined')
       console.error('File to parse not found');
     else {
@@ -131,7 +136,8 @@ export default class Parser {
           this.#nodeNumber = 0;
           this.#nodeCounter = 0;
           this.#countChildElements(node);
-          this.#parseChildren(node, parent);
+          // note: here the assumption is made that the list of nodes provided are single-root
+          this.#parseNode(node.childNodes[0], parentNode);
         }
       } else {
         this.#nodeNumber = 0;
@@ -154,15 +160,14 @@ export default class Parser {
         this.gtaoNoiseTexture = undefined;
       }
       console.log('NODES', WbWorld.instance);
-    });
-  }
 
-  async finalize(renderer, callback) {
-    return new Promise((resolve, reject) => {
+      if (!finalize)
+        return;
+
       WbWorld.instance.readyForUpdates = false;
 
       if (typeof WbWorld.instance.viewpoint === 'undefined')
-        reject();
+        return;
 
       WbWorld.instance.viewpoint.finalize();
 
@@ -194,7 +199,6 @@ export default class Parser {
         callback();
       console.log('NODES', WbWorld.instance);
       console.timeEnd('Loaded in: ');
-      resolve();
     });
   }
 
@@ -207,6 +211,9 @@ export default class Parser {
 
     if (typeof WbWorld.instance === 'undefined')
       WbWorld.init();
+
+    if (typeof this.#rootNodeId === 'undefined')
+      this.#rootNodeId = node.id;
 
     let result;
     switch (node.tagName) {
@@ -401,7 +408,8 @@ export default class Parser {
 
   #createRoot(node) {
     const root = new WbGroup(getAnId(), false);
-    console.log('ROOT IS: ', root.id, root,  node.childNodes.length);
+    this.#rootNodeId = root.id;
+    console.log('ROOT IS: ', root.id, root, node.childNodes.length);
 
     WbWorld.instance.nodes.set(root.id, root);
     WbWorld.instance.root = root;
