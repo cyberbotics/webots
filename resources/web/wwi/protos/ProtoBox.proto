@@ -1,25 +1,21 @@
 #VRML_SIM R2023b utf8
 
 PROTO ProtoBox [
-  field SFVec3f size 1 1 1
+  field SFNode myBox Box { size 1 1 0.6 }
 ]
 {
   Group {
     children [
       Transform {
-        translation 0 1 0
+        translation 0 0 2
         children [
           Shape {
-           geometry Box {
-             size IS size
-           }
+           geometry IS myBox
           }
         ]
       }
       Shape {
-        geometry Box {
-          size 0.5 0.5 0.8
-        }
+        geometry IS myBox
       }
     ]
   }
