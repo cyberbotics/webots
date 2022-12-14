@@ -380,8 +380,10 @@ function combinePaths(url, parentUrl) {
     if (parentUrl.startsWith('http://') || parentUrl.startsWith('https://')) {
       // eslint-disable-next-line
       const match = parentUrl.match(/(https:\/\/raw.githubusercontent.com\/cyberbotics\/webots\/[a-zA-Z0-9\_\-\+]+\/)/);
-      if (match === null)
-        throw new Error('Expected prefix not found in parent url.');
+      if (match === null) {
+        console.warn('Expected prefix not found in parent url.');
+        return url;
+      }
 
       return url.replace('webots://', match[0]);
     } else
