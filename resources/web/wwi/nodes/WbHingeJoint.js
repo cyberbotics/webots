@@ -24,8 +24,6 @@ export default class WbHingeJoint extends WbJoint {
   preFinalize() {
     super.preFinalize();
     this.#device.forEach(child => child.preFinalize());
-    this.position = typeof this.jointParameters === 'undefined' ? 0 : this.jointParameters.position;
-    this.updateEndPointZeroTranslationAndRotation();
   }
 
   postFinalize() {
@@ -76,7 +74,7 @@ export default class WbHingeJoint extends WbJoint {
     return q.mulByVec3(this.#endPointZeroTranslation.sub(a)).add(a);
   }
 
-  updateEndPointZeroTranslationAndRotation() {
+  _updateEndPointZeroTranslationAndRotation() {
     if (typeof this.endPoint === 'undefined')
       return;
 

@@ -70,6 +70,9 @@ private slots:
   void notifyNodeUpdate(WbNode *node);
   void notifyFieldUpdate();
   void updateProtoRegeneratedFlag(WbNode *node);
+  void removeTrackedContactPoints(QObject *obj);
+  void removeTrackedPoseNode(QObject *obj);
+  void removeTrackedField(QObject *obj);
 
 private:
   WbRobot *mRobot;

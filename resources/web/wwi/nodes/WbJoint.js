@@ -55,6 +55,9 @@ export default class WbJoint extends WbBaseNode {
     super.preFinalize();
     this.#jointParameters?.preFinalize();
     this.#endPoint?.preFinalize();
+
+    this.position = typeof this.jointParameters === 'undefined' ? 0 : this.jointParameters.position;
+    this._updateEndPointZeroTranslationAndRotation();
   }
 
   postFinalize() {
@@ -65,4 +68,5 @@ export default class WbJoint extends WbBaseNode {
   }
 
   _updatePosition() {}
+  _updateEndPointZeroTranslationAndRotation() {}
 }

@@ -37,7 +37,7 @@ import WbIndexedFaceSet from './nodes/WbIndexedFaceSet.js';
 import WbIndexedLineSet from './nodes/WbIndexedLineSet.js';
 import WbInertialUnit from './nodes/WbInertialUnit.js';
 import WbJoint from './nodes/WbJoint.js';
-import WbJoinParameters from './nodes/WbJointParameters.js';
+import WbJointParameters from './nodes/WbJointParameters.js';
 import WbLed from './nodes/WbLed.js';
 import WbLidar from './nodes/WbLidar.js';
 import WbLight from './nodes/WbLight.js';
@@ -659,13 +659,23 @@ export default class Parser {
       newNode = new WbCharger(id, translation, scale, rotation, name === '' ? 'charger' : name);
     else if (node.tagName === 'Compass')
       newNode = new WbCompass(id, translation, scale, rotation, name === '' ? 'compass' : name);
-    else if (node.tagName === 'Connector')
-      newNode = new WbConnector(id, translation, scale, rotation, name === '' ? 'connector' : name);
-    else if (node.tagName === 'Display')
+    else if (node.tagName === 'Connector') {
+      const numberOfRotations = parseInt(getNodeAttribute(node, 'numberOfRotations', '4'));
+      newNode = new WbConnector(id, translation, scale, rotation, name === '' ? 'connector' : name, numberOfRotations);
+    } else if (node.tagName === 'Display')
       newNode = new WbDisplay(id, translation, scale, rotation, name === '' ? 'display' : name);
-    else if (node.tagName === 'DistanceSensor')
-      newNode = new WbDistanceSensor(id, translation, scale, rotation, name === '' ? 'distance sensor' : name);
-    else if (node.tagName === 'Emitter')
+    else if (node.tagName === 'DistanceSensor') {
+      const aperture = parseFloat(getNodeAttribute(node, 'aperture', 1.5708));
+      const numberOfRays = parseInt(getNodeAttribute(node, 'numberOfRays', '1'));
+      const lookupTableArray = convertStringToFloatArray(getNodeAttribute(node, 'lookupTable', '0 0 0, 0.1 1000 0'));
+      const lookupTable = [];
+      if (lookupTableArray.length % 3 === 0) {
+        for (let i = 0; i < lookupTableArray.length; i = i + 3)
+          lookupTable.push(new WbVector3(lookupTableArray[i], lookupTableArray[i + 1], lookupTableArray[i + 2]));
+      }
+      newNode = new WbDistanceSensor(id, translation, scale, rotation, name === '' ? 'distance sensor' : name, numberOfRays,
+        aperture, lookupTable);
+    } else if (node.tagName === 'Emitter')
       newNode = new WbEmitter(id, translation, scale, rotation, name === '' ? 'emitter' : name);
     else if (node.tagName === 'GPS')
       newNode = new WbGps(id, translation, scale, rotation, name === '' ? 'gps' : name);
@@ -707,8 +717,7 @@ export default class Parser {
       const minRange = parseFloat(getNodeAttribute(node, 'minRange', '0.01'));
       newNode = new WbRangeFinder(id, translation, scale, rotation, name === '' ? 'range finder' : name, height, width,
         fieldOfView, maxRange, minRange);
-    }
-    else if (node.tagName === 'Receiver')
+    } else if (node.tagName === 'Receiver')
       newNode = new WbReceiver(id, translation, scale, rotation, name === '' ? 'receiver' : name);
     else if (node.tagName === 'Speaker')
       newNode = new WbSpeaker(id, translation, scale, rotation, name === '' ? 'speaker' : name);
@@ -827,7 +836,7 @@ export default class Parser {
     let jointParameters;
     if (node.tagName === 'JointParameters') {
       const axis = convertStringToVec3(getNodeAttribute(node, 'axis', '0 0 1'));
-      jointParameters = new WbJoinParameters(id, position, axis, minStop, maxStop);
+      jointParameters = new WbJointParameters(id, position, axis, minStop, maxStop);
     } else if (node.tagName === 'HingeJointParameters') {
       const axis = convertStringToVec3(getNodeAttribute(node, 'axis', '1 0 0'));
       jointParameters = new WbHingeJointParameters(id, position, axis, anchor, minStop, maxStop);

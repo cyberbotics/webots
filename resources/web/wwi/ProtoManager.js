@@ -62,12 +62,12 @@ export default class ProtoManager {
   }
 
   async loadX3d() {
-    console.log('protomanager::loadX3d')
-    const x3d = new XMLSerializer().serializeToString(this.proto.toX3d());
+    let xml = this.getXmlOfMinimalScene();
+    const scene = xml.getElementsByTagName('Scene')[0];
+    scene.appendChild(this.proto.toX3d());
+    const x3d = new XMLSerializer().serializeToString(xml);
     this.#view.prefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);
-    console.log('proto:', this.proto);
-    console.log('load:', x3d);
-    await this.#view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', this.parentId);
+    this.#view.open(x3d, 'x3d', '', true);
   }
 
   async demoRegeneration() {
@@ -138,7 +138,7 @@ export default class ProtoManager {
     return s;
   }
 
-  loadMinimalScene() {
+  getXmlOfMinimalScene() {
     const xml = document.implementation.createDocument('', '', null);
     const scene = xml.createElement('Scene');
 
@@ -202,7 +202,6 @@ export default class ProtoManager {
     scene.appendChild(floor);
     xml.appendChild(scene);
 
-    const x3d = new XMLSerializer().serializeToString(xml);
-    this.#view.open(x3d, 'x3d', '', true);
+    return xml;
   }
 }
