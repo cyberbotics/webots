@@ -290,11 +290,12 @@ export default class NodeSelectorWindow {
     if (typeof protoName === 'undefined')
       return;
 
+    this.hide();
+
     const info = this.nodes.get(protoName);
     const url = info.url;
 
     this.#callback(this.parameter, url);
-    this.hide();
   }
 
   isAllowedToInsert(baseType, slotType) {
@@ -309,8 +310,7 @@ export default class NodeSelectorWindow {
     }
 
     for (const link of this.parameter.parameterLinks) {
-      // console.log('found ' + link.node.name, link.name);
-      const fieldName = link.name; // TODO: does it work for derived proto? or need to get the basenode equivalent first?
+      const fieldName = link.name;
 
       if (fieldName === 'appearance') {
         if (baseType === 'Appearance')
