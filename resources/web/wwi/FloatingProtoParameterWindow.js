@@ -844,7 +844,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         div.className = 'proto-joint';
 
         const nameDiv = document.createElement('div');
-        nameDiv.innerHTML = 'Joint ' + numberOfJoint;
+        if (joint instanceof WbHingeJoint)
+          nameDiv.innerHTML = 'Hingejoint ' + numberOfJoint;
+        else
+          nameDiv.innerHTML = 'Sliderjoint ' + numberOfJoint;
+
         nameDiv.className = 'proto-joint-name';
         div.appendChild(nameDiv);
 
