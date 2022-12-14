@@ -90,8 +90,6 @@ export default class WbTransform extends WbGroup {
       super.createWrenObjects(true);
       const transform = _wr_transform_new();
 
-      if (typeof this.wrenNode === 'undefined')
-        console.log(this)
       _wr_transform_attach_child(this.wrenNode, transform);
       this.wrenNode = transform;
     }
