@@ -18,7 +18,6 @@ Released on ??
     - Fixed BotStudio robot window loading errors ([#5651](https://github.com/cyberbotics/webots/pull/5651)).
     - Lowered the connection retry delay for extern controllers ([#5656](https://github.com/cyberbotics/webots/pull/5656)).
 
-
 ## Webots R2023a
 Released on November 29th, 2022.
   - New Features
