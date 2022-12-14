@@ -4,6 +4,7 @@ import WbCamera from './nodes/WbCamera.js';
 import WbConnector from './nodes/WbConnector.js';
 import WbDistanceSensor from './nodes/WbDistanceSensor.js';
 import WbHingeJoint from './nodes/WbHingeJoint.js';
+import WbHinge2Joint from './nodes/WbHinge2Joint.js';
 import WbLidar from './nodes/WbLidar.js';
 import WbLightSensor from './nodes/WbLightSensor.js';
 import WbPen from './nodes/WbPen.js';
@@ -844,7 +845,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         div.className = 'proto-joint';
 
         const nameDiv = document.createElement('div');
-        if (joint instanceof WbHingeJoint)
+        if (joint instanceof WbHinge2Joint)
+          nameDiv.innerHTML = 'Hinge2joint a';
+        else if (joint instanceof WbHingeJoint)
           nameDiv.innerHTML = 'Hingejoint ' + numberOfJoint;
         else
           nameDiv.innerHTML = 'Sliderjoint ' + numberOfJoint;
