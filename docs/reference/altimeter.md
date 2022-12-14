@@ -16,6 +16,7 @@ Altimeter {
 }
 ```
 **Note**: The above description lists only the fields specific to the Altimeter node. The complete field list can be found in the [Altimeter.wrl]({{ url.github_tree }}/resources/nodes/Altimeter.wrl) definition file.
+
 - `name`: This field defines the string name used by `wb_robot_get_device()` to get the `WbDeviceTag` handle of this sensor. Its default value is "altimeter".
 
 -  `accuracy`: This field defines the precision of the altimeter, that is the standard deviation (expressed in meter) of the gaussian noise added to the altitude.
