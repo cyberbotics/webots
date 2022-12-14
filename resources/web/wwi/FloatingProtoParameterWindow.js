@@ -8,6 +8,7 @@ import WbLidar from './nodes/WbLidar.js';
 import WbLightSensor from './nodes/WbLightSensor.js';
 import WbPen from './nodes/WbPen.js';
 import WbRadar from './nodes/WbRadar.js';
+import WbSliderJoint from './nodes/WbSliderJoint.js';
 import WbWorld from './nodes/WbWorld.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
@@ -676,6 +677,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   #intOnChange(node) {
     node.input.value = node.input.value.replace(/[^0-9-]/g, '');
+    // eslint-disable-next-line
     node.input.value = node.input.value.replace(/(\..*)\-/g, '$1');
   }
 
@@ -835,14 +837,20 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     let numberOfJoint = 0;
     for (const key of keys) {
       const joint = nodes.get(key);
-      if (joint instanceof WbHingeJoint) {
+      // No need to test for WbHinge2Joint as they are descendant of WbHingeJoint
+      if (joint instanceof WbHingeJoint || joint instanceof WbSliderJoint) {
         numberOfJoint++;
 
         let div = document.createElement('div');
         div.className = 'proto-joint';
 
         const nameDiv = document.createElement('div');
-        nameDiv.innerHTML = 'Joint ' + numberOfJoint;
+        const jointName = joint.endPoint ? joint.endPoint.name : numberOfJoint;
+        if (joint instanceof WbHingeJoint)
+          nameDiv.innerHTML = 'Hingejoint: ' + jointName;
+        else
+          nameDiv.innerHTML = 'Sliderjoint: ' + jointName;
+
         nameDiv.className = 'proto-joint-name';
         div.appendChild(nameDiv);
 
@@ -862,9 +870,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
         const parameters = joint.jointParameters;
         if (typeof parameters !== 'undefined' && parameters.minStop !== parameters.maxStop) {
-          minLabel.innerHTML = parameters.minStop;
+          minLabel.innerHTML = this.#decimalCount(parameters.minStop) > 2 ? parameters.minStop.toFixed(2) : parameters.minStop;
           slider.min = parameters.minStop;
-          maxLabel.innerHTML = parameters.maxStop;
+          maxLabel.innerHTML = this.#decimalCount(parameters.maxStop) > 2 ? parameters.maxStop.toFixed(2) : parameters.maxStop;
           slider.max = parameters.maxStop;
         } else {
           minLabel.innerHTML = -3.14;
@@ -898,5 +906,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       title.innerHTML = 'No joints';
       this.joints.appendChild(title);
     }
+  }
+
+  #decimalCount(number) {
+    const numberString = String(number);
+    if (numberString.includes('.'))
+      return numberString.split('.')[1].length;
+    return 0;
   }
 }

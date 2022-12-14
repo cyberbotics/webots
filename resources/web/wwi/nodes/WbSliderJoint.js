@@ -1,7 +1,9 @@
 import WbJoint from './WbJoint.js';
+import WbVector3 from './utils/WbVector3.js';
 
 export default class WbSliderJoint extends WbJoint {
   #device;
+  #endPointZeroTranslation;
   constructor(id) {
     super(id);
     this.#device = [];
@@ -35,4 +37,34 @@ export default class WbSliderJoint extends WbJoint {
 
     super.delete();
   }
+
+  _updatePosition() {
+    if (typeof this.endPoint !== 'undefined')
+      this.#updatePosition(typeof this.jointParameters !== 'undefined' ? this.jointParameters.position : this.position);
+  }
+
+  _updateEndPointZeroTranslationAndRotation() {
+    if (typeof this.endPoint === 'undefined')
+      return;
+
+    this.#endPointZeroTranslation = this.endPoint.translation.sub(this.#axis().mul(this.position));
+  }
+
+  #axis() {
+    return typeof this.jointParameters !== 'undefined' ? this.jointParameters.axis.normalized() : WbSliderJoint.DEFAULT_AXIS;
+  }
+
+  #updatePosition(position) {
+    // called after an artificial move
+    this.position = position;
+    const translation = this.#computeEndPointSolidPositionFromParameters();
+    if (!translation.almostEquals(this.endPoint.translation))
+      this.endPoint.translation = translation;
+  }
+
+  #computeEndPointSolidPositionFromParameters() {
+    return this.#endPointZeroTranslation.add(this.#axis().mul(this.position));
+  }
 }
+
+WbSliderJoint.DEFAULT_AXIS = new WbVector3(0, 0, 1);

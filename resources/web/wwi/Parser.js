@@ -37,7 +37,7 @@ import WbIndexedFaceSet from './nodes/WbIndexedFaceSet.js';
 import WbIndexedLineSet from './nodes/WbIndexedLineSet.js';
 import WbInertialUnit from './nodes/WbInertialUnit.js';
 import WbJoint from './nodes/WbJoint.js';
-import WbJoinParameters from './nodes/WbJointParameters.js';
+import WbJointParameters from './nodes/WbJointParameters.js';
 import WbLed from './nodes/WbLed.js';
 import WbLidar from './nodes/WbLidar.js';
 import WbLight from './nodes/WbLight.js';
@@ -669,8 +669,7 @@ export default class Parser {
       const minRange = parseFloat(getNodeAttribute(node, 'minRange', '0.01'));
       newNode = new WbRangeFinder(id, translation, scale, rotation, name === '' ? 'range finder' : name, height, width,
         fieldOfView, maxRange, minRange);
-    }
-    else if (node.tagName === 'Receiver')
+    } else if (node.tagName === 'Receiver')
       newNode = new WbReceiver(id, translation, scale, rotation, name === '' ? 'receiver' : name);
     else if (node.tagName === 'Speaker')
       newNode = new WbSpeaker(id, translation, scale, rotation, name === '' ? 'speaker' : name);
@@ -789,7 +788,7 @@ export default class Parser {
     let jointParameters;
     if (node.tagName === 'JointParameters') {
       const axis = convertStringToVec3(getNodeAttribute(node, 'axis', '0 0 1'));
-      jointParameters = new WbJoinParameters(id, position, axis, minStop, maxStop);
+      jointParameters = new WbJointParameters(id, position, axis, minStop, maxStop);
     } else if (node.tagName === 'HingeJointParameters') {
       const axis = convertStringToVec3(getNodeAttribute(node, 'axis', '1 0 0'));
       jointParameters = new WbHingeJointParameters(id, position, axis, anchor, minStop, maxStop);
