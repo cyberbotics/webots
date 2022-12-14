@@ -12,6 +12,7 @@ import WbColor from './nodes/WbColor.js';
 import WbCone from './nodes/WbCone.js';
 import WbCoordinate from './nodes/WbCoordinate.js';
 import WbCylinder from './nodes/WbCylinder.js';
+import WbDistanceSensor from './nodes/WbDistanceSensor.js';
 import WbElevationGrid from './nodes/WbElevationGrid.js';
 import WbFog from './nodes/WbFog.js';
 import WbGroup from './nodes/WbGroup.js';
@@ -429,6 +430,25 @@ export default class X3dScene {
       } else if (object instanceof WbPen) {
         if (key === 'write')
           object.write = pose[key].toLowerCase() === 'true';
+      } else if (object instanceof WbDistanceSensor) {
+        if (key === 'numberOfRays')
+          object.numberOfRays = parseInt(pose[key]);
+        else if (key === 'aperture')
+          object.aperture = parseFloat(pose[key]);
+        else if (key === 'lookupTable') {
+          let lookupString = pose[key];
+          if (lookupString.startsWith('['))
+            lookupString = lookupString.substring(1);
+          if (lookupString.startsWith(']'))
+            lookupString = lookupString.substring(0, lookupString.size - 1);
+          const lookupTableArray = convertStringToFloatArray(lookupString);
+          const lookupTable = [];
+          if (lookupTableArray.length % 3 === 0) {
+            for (let i = 0; i < lookupTableArray.length; i = i + 3)
+              lookupTable.push(new WbVector3(lookupTableArray[i], lookupTableArray[i + 1], lookupTableArray[i + 2]));
+          }
+          object.lookupTable = lookupTable;
+        }
       } else if (object instanceof WbConnector) {
         if (key === 'numberOfRotations')
           object.numberOfRotations = parseInt(pose[key]);

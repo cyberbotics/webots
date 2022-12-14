@@ -4,15 +4,20 @@
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/appearances/protos/Asphalt.proto"
 
 PROTO ProtoSensor [
-field SFVec3f      translation           0 0 0.3
-field SFRotation   rotation              0 0 1 1.5708
-field SFBool       write                 TRUE
+field SFVec3f      translation    0 0 0.3
+field SFVec3f      scale          1 1 1
+field SFRotation   rotation       0 0 1 1.5708
+field SFBool       write          TRUE
+field MFVec3f      lookupTable    [ 0 0 0, 0.2 1000 0 ]
+field SFInt32      numberOfRays   1
+field SFFloat      aperture       1.5708
 field SFBool       triggerRegeneration   TRUE
 field SFInt32      numberOfRotations     4
 ]
 {
   Robot {
     translation IS translation
+    scale IS scale
     rotation IS rotation
     children [
       LightSensor {
@@ -26,6 +31,11 @@ field SFInt32      numberOfRotations     4
       }
       Pen {
         write IS write
+      }
+      DistanceSensor {
+        lookupTable IS lookupTable
+        numberOfRays IS numberOfRays
+        aperture IS aperture
       }
       Connector {
         numberOfRotations IS numberOfRotations
