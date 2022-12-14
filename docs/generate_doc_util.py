@@ -56,6 +56,7 @@ if 'WEBOTS_HOME' in os.environ:
 else:
     raise RuntimeError('Error, WEBOTS_HOME variable is not set.')
 
+
 def get_proto_files_in_directory(directory):
     fileList = []
     for rootPath, dirNames, fileNames in os.walk(directory):
