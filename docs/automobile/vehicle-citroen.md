@@ -4,7 +4,7 @@
 
 Model of a Citroën C-Zero car using the [Car](car.md) PROTO as a base.
 The vehicle is modeled with realistic physics properties: motor torques, body mass, friction forces, suspensions, etc.
-The contactMaterial of the wheels is "CitroenCZeroWheels"
+The contactMaterial of the wheels is "CitroenCZeroWheels".
 This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles)).
 1.199 -0.007 0.272  I-Mev benchmark
 
@@ -46,7 +46,7 @@ CitroenCZero {
 
 Model of the Citroën C-Zero front wheels using the generic [VehicleWheel](vehiclewheel.md) PROTO including physic properties and textures.
 The contactMaterial is "CitroenCZeroWheels".
-Size: 145/65/R15
+Size: 145/65/R15.
 This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles)).
 
 %figure
@@ -136,4 +136,3 @@ CitroenCZeroSimple {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
-

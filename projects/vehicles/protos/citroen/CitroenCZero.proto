@@ -4,7 +4,7 @@
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
 # Model of a Citroën C-Zero car using the Car PROTO as a base.
 # The vehicle is modeled with realistic physics properties: motor torques, body mass, friction forces, suspensions, etc.
-# The contactMaterial of the wheels is "CitroenCZeroWheels"
+# The contactMaterial of the wheels is "CitroenCZeroWheels".
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
 

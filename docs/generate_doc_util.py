@@ -50,6 +50,11 @@ FIELDS_STATE = 1
 BODY_STATE = 2
 TAG = 'R2023a'
 
+# ensure WEBOTS_HOME is set and tag was provided
+if 'WEBOTS_HOME' in os.environ:
+    WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
+else:
+    raise RuntimeError('Error, WEBOTS_HOME variable is not set.')
 
 def get_proto_files_in_directory(directory):
     fileList = []
@@ -62,7 +67,7 @@ def get_proto_files_in_directory(directory):
 def generate_doc_for_proto_files(proto_files, upperCategories, file_prefix, get_category):
     # get list of base nodes
     baseNodeList = []
-    for rootPath, dirNames, fileNames in os.walk(os.path.join(os.environ['WEBOTS_HOME'], 'resources', 'nodes')):
+    for rootPath, dirNames, fileNames in os.walk(os.path.join(WEBOTS_HOME, 'resources', 'nodes')):
         for fileName in fnmatch.filter(fileNames, '*.wrl'):
             baseNodeList.append(os.path.splitext(fileName)[0])
 
@@ -73,6 +78,7 @@ def generate_doc_for_proto_files(proto_files, upperCategories, file_prefix, get_
         if upperCategory == 'objects':
             upperCategory = category
         upperCategoryName = upperCategory.replace('_', '-')
+        categoryName = category.replace('_', '-')
         description = ''
         license = ''
         licenseUrl = ''
@@ -178,7 +184,7 @@ def generate_doc_for_proto_files(proto_files, upperCategories, file_prefix, get_
 
         baseType = None
         # use the proto-list.xml file to get the baseType
-        root = ET.parse(os.path.join(os.environ['WEBOTS_HOME'], 'resources', 'proto-list.xml')).getroot()
+        root = ET.parse(os.path.join(WEBOTS_HOME, 'resources', 'proto-list.xml')).getroot()
 
         for child in root:
             for item in list(child):
@@ -188,17 +194,20 @@ def generate_doc_for_proto_files(proto_files, upperCategories, file_prefix, get_
             sys.stderr.write(f'Could not find proto \"{protoName}\"\n')
 
         # add documentation for this PROTO file
-        mode = 'a'
-        fileName = file_prefix + upperCategoryName + '.md'
         if upperCategory == 'projects':
             fileName = 'appearances.md'
-        elif upperCategory not in upperCategories:
-            mode = 'w'
+            mode = 'a'
+        elif upperCategory == 'vehicles':
+            fileName = file_prefix + categoryName + '.md'
+            mode = 'w' if upperCategory not in upperCategories or category not in upperCategories[upperCategory] else 'a'
+        else:
+            fileName = file_prefix + upperCategoryName + '.md'
+            mode = 'w' if upperCategory not in upperCategories else 'a'
         with open(fileName, mode, encoding='utf-8', newline='\n') as file:
-            if upperCategory not in upperCategories and not upperCategory == category and not upperCategory == 'projects':
+            if upperCategory not in upperCategories and upperCategory not in [category, 'projects', 'vehicles']:
                 file.write(u'# %s\n\n' % upperCategory.replace('_', ' ').title())
             headerPrefix = u'#'
-            if not upperCategory == category and not upperCategory == 'projects':
+            if upperCategory not in [category, 'projects', 'vehicles']:
                 headerPrefix = u'##'
 
             if upperCategory not in upperCategories or category not in upperCategories[upperCategory]:
@@ -264,7 +273,7 @@ def generate_doc_for_proto_files(proto_files, upperCategories, file_prefix, get_
             file.write(fields)
             file.write(u'}\n')
             file.write(u'```\n\n')
-            location = os.path.normpath(proto.replace(os.environ['WEBOTS_HOME'], ''))
+            location = os.path.normpath(proto.replace(WEBOTS_HOME, ''))
             file.write(u'> **File location**: "[WEBOTS\\_HOME%s]({{ url.github_tree }}%s)"\n\n' %
                        (location.replace('_', '\\_'), location))
             if license:

@@ -79,9 +79,9 @@ ToyotaPriusSimple {
 
 ## ToyotaPriusWheel
 
-Model of the Toyota Prius wheels using the generic [VehicleWheel](vehiclewheel.md) PROTO including physic properties and textures
-The contactMaterial is "ToyotaPriusWheels"
-Size: 195/65 R15
+Model of the Toyota Prius wheels using the generic [VehicleWheel](vehiclewheel.md) PROTO including physic properties and textures.
+The contactMaterial is "ToyotaPriusWheels".
+Size: 195/65 R15.
 This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles)).
 
 %figure
