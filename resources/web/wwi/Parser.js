@@ -95,14 +95,14 @@ export default class Parser {
   #promiseCounter;
   #promiseNumber;
   #rootNodeId;
+  #prefix;
   constructor(prefix = '') {
     this.prefix = prefix;
     this.#downloadingImage = new Set();
     this.#promises = [];
     this.#promiseCounter = 0;
     this.#promiseNumber = 0;
-    WbWorld.init();
-    WbWorld.instance.prefix = prefix;
+    this.#prefix = prefix;
   }
 
   get rootNodeId() {
@@ -161,6 +161,7 @@ export default class Parser {
       }
       console.log('NODES', WbWorld.instance);
 
+      console.log('FINALIZE NODE', this.#rootNodeId, '?', finalize)
       if (!finalize)
         return;
 
@@ -385,6 +386,9 @@ export default class Parser {
   }
 
   #parseScene() {
+    WbWorld.init();
+    WbWorld.instance.prefix = this.#prefix;
+
     const prefix = DefaultUrl.wrenImagesUrl();
     this.#promises.push(ImageLoader.loadTextureData(prefix, 'smaa_area_texture.png').then(image => {
       this.smaaAreaTexture = image;

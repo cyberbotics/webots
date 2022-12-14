@@ -195,20 +195,15 @@ export default class X3dScene {
     if (typeof parentId !== 'undefined') {
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
       parentNode.isPreFinalizedCalled = false;
-      //ancestor.wrenObjectsCreatedCalled = false;
       parentNode.isPostFinalizedCalled = false;
     }
     parentNode = WbWorld.instance.nodes.get('n' + parentId);
 
     const parser = new Parser(webots.currentView.prefix);
     parser.prefix = webots.currentView.prefix;
-    parser.parse(x3dObject, this.renderer, false, parentNode, callback);
-    //const start = x3dObject.indexOf('"');
-    //const end = x3dObject.indexOf('"', start+1);
+    await parser.parse(x3dObject, this.renderer, false, parentNode, callback);
 
-    console.log('>>>', parser.rootNodeId, WbWorld.instance.nodes.has(parser.rootNodeId))
     const node = WbWorld.instance.nodes.get(parser.rootNodeId);
-    console.log('>>>>>>>>>>>>>', node)
     if (typeof parentId !== 'undefined') {
       node.finalize();
       if (parentNode instanceof WbShape) // TODO: replace by a mechanism similar to onchange/#update?
