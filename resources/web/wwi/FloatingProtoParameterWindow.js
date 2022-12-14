@@ -668,7 +668,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.className = 'key-parameter';
     p.innerHTML = key + ': ';
     p.key = key;
-    p.inputs = [];
     p.parameter = parameter;
     p.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     p.style.gridColumn = '2 / 2';
@@ -706,6 +705,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     const nodeButton = document.createElement('button');
     nodeButton.title = 'Select a node to insert';
+
+    nodeButton.onchange = () => {
+      console.log('BAC')
+      //this.#boolOnChange(p);
+      this.#enableResetButton(resetButton);
+      //this.#changeBoolText(boolText, input);
+    };
+
     nodeButton.onclick = async() => {
       console.log('editing: ' + parameter.name);
       if (typeof this.nodeSelector === 'undefined') {
@@ -735,12 +742,18 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     value.append(buttonContainer);
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow);
-    this.#disableResetButton(resetButton);
     resetButton.onclick = () => {
       console.log('HERE')
       //this.#boolOnChange(p);
       //this.#disableResetButton(resetButton);
     };
+
+    if (parameter.isDefault())
+      this.#disableResetButton(resetButton);
+    else
+      this.#enableResetButton(resetButton);
+
+
     parent.appendChild(p);
     parent.appendChild(value);
   }

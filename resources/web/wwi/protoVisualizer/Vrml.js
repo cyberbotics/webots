@@ -438,8 +438,7 @@ export class SFNode extends SingleValue {
         return false;
     }
 
-    // note: it's overkill to check that the def list and externproto lists match as we assume that two PROTO that have the
-    // same URL will yield the same underlying structure
+    return true;
   }
 
   type() {
