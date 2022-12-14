@@ -849,7 +849,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
         const jointName = joint.endPoint ? joint.endPoint.name : numberOfJoint;
         if (joint instanceof WbHinge2Joint)
-          nameDiv.innerHTML = 'Hinge2joint a: ' + jointName;
+          nameDiv.innerHTML = 'Hinge2joint 1: ' + jointName;
         else if (joint instanceof WbHingeJoint)
           nameDiv.innerHTML = 'Hingejoint: ' + jointName;
         else
@@ -872,7 +872,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           div.className = 'proto-joint';
 
           nameDiv = document.createElement('div');
-          nameDiv.innerHTML = 'Hinge2joint b: ' + jointName;
+          nameDiv.innerHTML = 'Hinge2joint 2: ' + jointName;
           nameDiv.className = 'proto-joint-name';
           div.appendChild(nameDiv);
           const parameters2 = joint.jointParameters2;
