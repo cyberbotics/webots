@@ -857,8 +857,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
         nameDiv.className = 'proto-joint-name';
         div.appendChild(nameDiv);
+        const parameters = joint.jointParameters;
+        div.appendChild(this.#createSlider(parameters, _ => {
+          if (parameters) {
+            parameters.position = _.target.value;
+            this.#view.x3dScene.render();
+          }
+        }));
 
-        div.appendChild(this.#createSlider(joint.jointParameters));
         this.joints.appendChild(div);
 
         if (joint instanceof WbHinge2Joint) {
@@ -869,7 +875,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           nameDiv.innerHTML = 'Hinge2joint b: ' + jointName;
           nameDiv.className = 'proto-joint-name';
           div.appendChild(nameDiv);
-          div.appendChild(this.#createSlider(joint.jointParameters2));
+          const parameters2 = joint.jointParameters2;
+          div.appendChild(this.#createSlider(parameters2, _ => {
+            if (parameters2) {
+              parameters2.position = _.target.value;
+              this.#view.x3dScene.render();
+            }
+          }));
           this.joints.appendChild(div);
         }
       }
@@ -882,7 +894,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     }
   }
 
-  #createSlider(parameters) {
+  #createSlider(parameters, callback) {
     const sliderElement = document.createElement('div');
     sliderElement.className = 'proto-slider-element';
 
@@ -914,12 +926,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     else
       slider.value = parameters.position;
 
-    slider.addEventListener('input', _ => {
-      if (parameters) {
-        parameters.position = _.target.value;
-        this.#view.x3dScene.render();
-      }
-    });
+    slider.addEventListener('input', callback);
 
     sliderElement.appendChild(minLabel);
     sliderElement.appendChild(slider);
