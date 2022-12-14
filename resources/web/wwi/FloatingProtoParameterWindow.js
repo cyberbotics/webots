@@ -4,6 +4,7 @@ import WbCamera from './nodes/WbCamera.js';
 import WbConnector from './nodes/WbConnector.js';
 import WbDistanceSensor from './nodes/WbDistanceSensor.js';
 import WbHingeJoint from './nodes/WbHingeJoint.js';
+import WbHinge2Joint from './nodes/WbHinge2Joint.js';
 import WbLidar from './nodes/WbLidar.js';
 import WbLightSensor from './nodes/WbLightSensor.js';
 import WbPen from './nodes/WbPen.js';
@@ -844,60 +845,45 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         let div = document.createElement('div');
         div.className = 'proto-joint';
 
-        const nameDiv = document.createElement('div');
+        let nameDiv = document.createElement('div');
+
         const jointName = joint.endPoint ? joint.endPoint.name : numberOfJoint;
-        if (joint instanceof WbHingeJoint)
+        if (joint instanceof WbHinge2Joint)
+          nameDiv.innerHTML = 'Hinge2joint 1: ' + jointName;
+        else if (joint instanceof WbHingeJoint)
           nameDiv.innerHTML = 'Hingejoint: ' + jointName;
         else
           nameDiv.innerHTML = 'Sliderjoint: ' + jointName;
 
         nameDiv.className = 'proto-joint-name';
         div.appendChild(nameDiv);
-
-        const sliderElement = document.createElement('div');
-        sliderElement.className = 'proto-slider-element';
-
-        const slider = document.createElement('input');
-        slider.className = 'proto-slider';
-        slider.type = 'range';
-        slider.step = 'any';
-
-        const minLabel = document.createElement('div');
-        minLabel.className = 'proto-joint-value-label';
-
-        const maxLabel = document.createElement('div');
-        maxLabel.className = 'proto-joint-value-label';
-
         const parameters = joint.jointParameters;
-        if (typeof parameters !== 'undefined' && parameters.minStop !== parameters.maxStop) {
-          minLabel.innerHTML = this.#decimalCount(parameters.minStop) > 2 ? parameters.minStop.toFixed(2) : parameters.minStop;
-          slider.min = parameters.minStop;
-          maxLabel.innerHTML = this.#decimalCount(parameters.maxStop) > 2 ? parameters.maxStop.toFixed(2) : parameters.maxStop;
-          slider.max = parameters.maxStop;
-        } else {
-          minLabel.innerHTML = -3.14;
-          slider.min = -3.14;
-          maxLabel.innerHTML = 3.14;
-          slider.max = 3.14;
-        }
-
-        if (typeof parameters === 'undefined')
-          slider.value = 0;
-        else
-          slider.value = parameters.position;
-
-        slider.addEventListener('input', _ => {
+        div.appendChild(this.#createSlider(parameters, _ => {
           if (parameters) {
             parameters.position = _.target.value;
             this.#view.x3dScene.render();
           }
-        });
+        }));
 
-        sliderElement.appendChild(minLabel);
-        sliderElement.appendChild(slider);
-        sliderElement.appendChild(maxLabel);
-        div.appendChild(sliderElement);
         this.joints.appendChild(div);
+
+        if (joint instanceof WbHinge2Joint) {
+          div = document.createElement('div');
+          div.className = 'proto-joint';
+
+          nameDiv = document.createElement('div');
+          nameDiv.innerHTML = 'Hinge2joint 2: ' + jointName;
+          nameDiv.className = 'proto-joint-name';
+          div.appendChild(nameDiv);
+          const parameters2 = joint.jointParameters2;
+          div.appendChild(this.#createSlider(parameters2, _ => {
+            if (parameters2) {
+              parameters2.position = _.target.value;
+              this.#view.x3dScene.render();
+            }
+          }));
+          this.joints.appendChild(div);
+        }
       }
     }
 
@@ -906,6 +892,47 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       title.innerHTML = 'No joints';
       this.joints.appendChild(title);
     }
+  }
+
+  #createSlider(parameters, callback) {
+    const sliderElement = document.createElement('div');
+    sliderElement.className = 'proto-slider-element';
+
+    const slider = document.createElement('input');
+    slider.className = 'proto-slider';
+    slider.type = 'range';
+    slider.step = 'any';
+
+    const minLabel = document.createElement('div');
+    minLabel.className = 'proto-joint-value-label';
+
+    const maxLabel = document.createElement('div');
+    maxLabel.className = 'proto-joint-value-label';
+
+    if (typeof parameters !== 'undefined' && parameters.minStop !== parameters.maxStop) {
+      minLabel.innerHTML = this.#decimalCount(parameters.minStop) > 2 ? parameters.minStop.toFixed(2) : parameters.minStop;
+      slider.min = parameters.minStop;
+      maxLabel.innerHTML = this.#decimalCount(parameters.maxStop) > 2 ? parameters.maxStop.toFixed(2) : parameters.maxStop;
+      slider.max = parameters.maxStop;
+    } else {
+      minLabel.innerHTML = -3.14;
+      slider.min = -3.14;
+      maxLabel.innerHTML = 3.14;
+      slider.max = 3.14;
+    }
+
+    if (typeof parameters === 'undefined')
+      slider.value = 0;
+    else
+      slider.value = parameters.position;
+
+    slider.addEventListener('input', callback);
+
+    sliderElement.appendChild(minLabel);
+    sliderElement.appendChild(slider);
+    sliderElement.appendChild(maxLabel);
+
+    return sliderElement;
   }
 
   #decimalCount(number) {

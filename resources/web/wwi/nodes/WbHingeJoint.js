@@ -6,8 +6,6 @@ import {isZeroAngle} from './utils/math_utilities.js';
 
 export default class WbHingeJoint extends WbJoint {
   #device;
-  #endPointZeroRotation;
-  #endPointZeroTranslation;
   constructor(id) {
     super(id);
     this.#device = [];
@@ -62,7 +60,7 @@ export default class WbHingeJoint extends WbJoint {
     const axis = this.axis().normalized();
     const q = new WbQuaternion();
     q.fromAxisAngle(axis.x, axis.y, axis.z, this.position);
-    const iq = this.#endPointZeroRotation.toQuaternion();
+    const iq = this._endPointZeroRotation.toQuaternion();
     const qp = q.mul(iq);
     if (qp.w !== 1)
       qp.normalize();
@@ -71,7 +69,7 @@ export default class WbHingeJoint extends WbJoint {
     if (rotation.w === 0)
       rotation = new WbVector4(axis.x, axis.y, axis.z, 0);
     const a = this.anchor();
-    return q.mulByVec3(this.#endPointZeroTranslation.sub(a)).add(a);
+    return q.mulByVec3(this._endPointZeroTranslation.sub(a)).add(a);
   }
 
   _updateEndPointZeroTranslationAndRotation() {
@@ -85,7 +83,7 @@ export default class WbHingeJoint extends WbJoint {
     const angle = this.position;
     if (isZeroAngle(angle)) {
       // In case of a zero angle, the quaternion axis is undefined, so we keep track of the original one
-      this.#endPointZeroRotation = ir;
+      this._endPointZeroRotation = ir;
       qMinus = new WbQuaternion();
     } else {
       const axis = this.axis().normalized();
@@ -96,12 +94,12 @@ export default class WbHingeJoint extends WbJoint {
 
       if (qNormalized.w !== 1)
         qNormalized.normalize();
-      this.#endPointZeroRotation = new WbVector4(qNormalized.x, qNormalized.y, qNormalized.z, qNormalized.w);
-      if (this.#endPointZeroRotation.w === 0)
-        this.#endPointZeroRotation = new WbVector4(axis.x, axis.y, axis.z, 0.0);
+      this._endPointZeroRotation = new WbVector4(qNormalized.x, qNormalized.y, qNormalized.z, qNormalized.w);
+      if (this._endPointZeroRotation.w === 0)
+        this._endPointZeroRotation = new WbVector4(axis.x, axis.y, axis.z, 0.0);
     }
     const anchor = this.anchor();
-    this.#endPointZeroTranslation = qMinus.mulByVec3(it.sub(anchor)).add(anchor);
+    this._endPointZeroTranslation = qMinus.mulByVec3(it.sub(anchor)).add(anchor);
   }
 
   axis() {
