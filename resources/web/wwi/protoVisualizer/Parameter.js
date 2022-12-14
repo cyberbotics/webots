@@ -1,7 +1,6 @@
 'use strict';
 
 import {SFNode, stringifyType} from './Vrml.js';
-import WbWorld from '../nodes/WbWorld.js';
 import Node from './Node.js';
 
 export default class Parameter {
@@ -168,6 +167,8 @@ export default class Parameter {
       this.isTemplateRegenerator);
     return copy;
   }
+
+  parameter
 }
 
 export {Parameter};
