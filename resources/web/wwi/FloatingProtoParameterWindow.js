@@ -845,7 +845,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         let div = document.createElement('div');
         div.className = 'proto-joint';
 
-        const nameDiv = document.createElement('div');
+        let nameDiv = document.createElement('div');
 
         const jointName = joint.endPoint ? joint.endPoint.name : numberOfJoint;
         if (joint instanceof WbHinge2Joint)
@@ -858,50 +858,20 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         nameDiv.className = 'proto-joint-name';
         div.appendChild(nameDiv);
 
-        const sliderElement = document.createElement('div');
-        sliderElement.className = 'proto-slider-element';
-
-        const slider = document.createElement('input');
-        slider.className = 'proto-slider';
-        slider.type = 'range';
-        slider.step = 'any';
-
-        const minLabel = document.createElement('div');
-        minLabel.className = 'proto-joint-value-label';
-
-        const maxLabel = document.createElement('div');
-        maxLabel.className = 'proto-joint-value-label';
-
-        const parameters = joint.jointParameters;
-        if (typeof parameters !== 'undefined' && parameters.minStop !== parameters.maxStop) {
-          minLabel.innerHTML = this.#decimalCount(parameters.minStop) > 2 ? parameters.minStop.toFixed(2) : parameters.minStop;
-          slider.min = parameters.minStop;
-          maxLabel.innerHTML = this.#decimalCount(parameters.maxStop) > 2 ? parameters.maxStop.toFixed(2) : parameters.maxStop;
-          slider.max = parameters.maxStop;
-        } else {
-          minLabel.innerHTML = -3.14;
-          slider.min = -3.14;
-          maxLabel.innerHTML = 3.14;
-          slider.max = 3.14;
-        }
-
-        if (typeof parameters === 'undefined')
-          slider.value = 0;
-        else
-          slider.value = parameters.position;
-
-        slider.addEventListener('input', _ => {
-          if (parameters) {
-            parameters.position = _.target.value;
-            this.#view.x3dScene.render();
-          }
-        });
-
-        sliderElement.appendChild(minLabel);
-        sliderElement.appendChild(slider);
-        sliderElement.appendChild(maxLabel);
-        div.appendChild(sliderElement);
+        div.appendChild(this.#createSlider(joint.jointParameters));
         this.joints.appendChild(div);
+
+        if (joint instanceof WbHinge2Joint) {
+          div = document.createElement('div');
+          div.className = 'proto-joint';
+
+          nameDiv = document.createElement('div');
+          nameDiv.innerHTML = 'Hinge2joint b: ' + jointName;
+          nameDiv.className = 'proto-joint-name';
+          div.appendChild(nameDiv);
+          div.appendChild(this.#createSlider(joint.jointParameters2));
+          this.joints.appendChild(div);
+        }
       }
     }
 
@@ -910,6 +880,52 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       title.innerHTML = 'No joints';
       this.joints.appendChild(title);
     }
+  }
+
+  #createSlider(parameters) {
+    const sliderElement = document.createElement('div');
+    sliderElement.className = 'proto-slider-element';
+
+    const slider = document.createElement('input');
+    slider.className = 'proto-slider';
+    slider.type = 'range';
+    slider.step = 'any';
+
+    const minLabel = document.createElement('div');
+    minLabel.className = 'proto-joint-value-label';
+
+    const maxLabel = document.createElement('div');
+    maxLabel.className = 'proto-joint-value-label';
+
+    if (typeof parameters !== 'undefined' && parameters.minStop !== parameters.maxStop) {
+      minLabel.innerHTML = this.#decimalCount(parameters.minStop) > 2 ? parameters.minStop.toFixed(2) : parameters.minStop;
+      slider.min = parameters.minStop;
+      maxLabel.innerHTML = this.#decimalCount(parameters.maxStop) > 2 ? parameters.maxStop.toFixed(2) : parameters.maxStop;
+      slider.max = parameters.maxStop;
+    } else {
+      minLabel.innerHTML = -3.14;
+      slider.min = -3.14;
+      maxLabel.innerHTML = 3.14;
+      slider.max = 3.14;
+    }
+
+    if (typeof parameters === 'undefined')
+      slider.value = 0;
+    else
+      slider.value = parameters.position;
+
+    slider.addEventListener('input', _ => {
+      if (parameters) {
+        parameters.position = _.target.value;
+        this.#view.x3dScene.render();
+      }
+    });
+
+    sliderElement.appendChild(minLabel);
+    sliderElement.appendChild(slider);
+    sliderElement.appendChild(maxLabel);
+
+    return sliderElement;
   }
 
   #decimalCount(number) {
