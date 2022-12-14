@@ -1,4 +1,8 @@
 import WbHinge2Joint from './WbHinge2Joint.js';
+import WbQuaternion from './utils/WbQuaternion.js';
+import WbVector3 from './utils/WbVector3.js';
+import WbVector4 from './utils/WbVector4.js';
+import {isZeroAngle} from './utils/math_utilities.js';
 
 export default class WbBallJoint extends WbHinge2Joint {
   #device3;
@@ -25,6 +29,8 @@ export default class WbBallJoint extends WbHinge2Joint {
   }
 
   preFinalize() {
+    this.position3 = typeof this.jointParameters3 === 'undefined' ? 0 : this.jointParameters3.position;
+
     super.preFinalize();
     this.#device3.forEach(child => child.preFinalize());
     this.#jointParameters3?.preFinalize();
@@ -47,5 +53,100 @@ export default class WbBallJoint extends WbHinge2Joint {
     this.#jointParameters3?.delete();
 
     super.delete();
+  }
+
+  axis3() {
+    const p2 = this.jointParameters2;
+    const p3 = this.jointParameters3;
+    if (typeof p3 === 'undefined') {
+      if (typeof p2 === 'undefined')
+        return new WbVector3(0.0, 0.0, 1.0);
+      else if (p2.axis.cross(new WbVector3(1.0, 0.0, 0.0)).isNull())
+        return p2.axis.cross(new WbVector3(0.0, 0.0, 1.0));
+      else
+        return p2.axis.cross(new WbVector3(1.0, 0.0, 0.0));
+    }
+    return p3.axis;
+  }
+
+  updatePosition() {
+    if (typeof this.endPoint !== 'undefined') {
+      const position = typeof this.jointParameters !== 'undefined' ? this.jointParameters.position : this.position;
+      const position2 = typeof this.jointParameters2 !== 'undefined' ? this.jointParameters2.position : this.position2;
+      const position3 = typeof this.jointParameters3 !== 'undefined' ? this.jointParameters3.position : this.position3;
+
+      this.#updatePositions(position, position2, position3);
+    }
+  }
+
+  _updateEndPointZeroTranslationAndRotation() {
+    if (typeof this.endPoint === 'undefined')
+      return;
+
+    const ir = this.endPoint.rotation;
+    const it = this.endPoint.translation;
+
+    let qp = WbQuaternion;
+    if (isZeroAngle(this.position) && isZeroAngle(this.position2) && isZeroAngle(this.position3))
+      this._endPointZeroRotation = ir;
+    else {
+      const axis = this.axis();
+      const q = new WbQuaternion();
+      q.fromAxisAngle(axis.x, axis.y, axis.z, -this.position);
+
+      const axis2 = this.axis2();
+      const q2 = new WbQuaternion();
+      q2.fromAxisAngle(axis2.x, axis2.y, axis2.z, -this.position2);
+
+      const axis3 = this.axis3();
+      const q3 = new WbQuaternion();
+      q3.fromAxisAngle(axis3.x, axis3.y, axis3.z, -this.position3);
+
+      qp = q3.mul(q2).mul(q);
+      const iq = ir.toQuaternion();
+      const qr = qp * iq;
+      qr.normalize();
+      this._endPointZeroRotation = new WbVector4();
+      this._endPointZeroRotation.fromQuaternion(qr);
+    }
+    const a = this.anchor();
+    const t = it.sub(a);
+    this._endPointZeroTranslation = qp.mulByVec3(t).add(a);
+  }
+
+  #updatePositions(position, position2, position3) {
+    this.position = position;
+    this.position2 = position2;
+    this.position3 = position3;
+    let rotation = new WbVector4();
+    const translation = this.computeEndPointSolidPositionFromParameters(rotation);
+    if (!translation.almostEquals(this.endPoint.translation) || !rotation.almostEquals(this.endPoint.rotation)) {
+      this.endPoint.translation = translation;
+      this.endPoint.rotation = rotation;
+    }
+  }
+
+  #computeEndPointSolidPositionFromParameters(rotation) {
+    const q = new WbQuaternion();
+    const axis = this.axis();
+    q.fromAxisAngle(axis.x, axis.y, axis.z, this.position);
+
+    const q2 = new WbQuaternion();
+    const axis2 = this.axis2();
+    q2.fromAxisAngle(axis2.x, axis2.y, axis2.z, this.position2);
+
+    const q3 = new WbQuaternion();
+    const axis3 = this.axis3();
+    q3.fromAxisAngle(axis3.x, axis3.y, axis3.z, this.position3);
+
+    const qi = this._endPointZeroRotation.toQuaternion();
+    let qp = q.mul(q2).mul(q3);
+    const a = this.anchor();
+    const t = this._endPointZeroTranslation.sub(a);
+    const translation = qp.mulByVec3(t).add(a);
+    qp = qp.mul(qi);
+    qp.normalize();
+    rotation.fromQuaternion(qp);
+    return translation;
   }
 }

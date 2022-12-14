@@ -1,5 +1,6 @@
 import FloatingWindow from './FloatingWindow.js';
 import {VRML} from './protoVisualizer/vrml_type.js';
+import WbBallJoint from './nodes/WbBallJoint.js';
 import WbCamera from './nodes/WbCamera.js';
 import WbConnector from './nodes/WbConnector.js';
 import WbDistanceSensor from './nodes/WbDistanceSensor.js';
@@ -9,7 +10,7 @@ import WbLidar from './nodes/WbLidar.js';
 import WbLightSensor from './nodes/WbLightSensor.js';
 import WbPen from './nodes/WbPen.js';
 import WbRadar from './nodes/WbRadar.js';
-import WbSliderJoint from './nodes/WbSliderJoint.js';
+import WbJoint from './nodes/WbJoint.js';
 import WbWorld from './nodes/WbWorld.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
@@ -838,8 +839,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     let numberOfJoint = 0;
     for (const key of keys) {
       const joint = nodes.get(key);
-      // No need to test for WbHinge2Joint as they are descendant of WbHingeJoint
-      if (joint instanceof WbHingeJoint || joint instanceof WbSliderJoint) {
+      if (joint instanceof WbJoint) {
         numberOfJoint++;
 
         let div = document.createElement('div');
@@ -848,7 +848,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         let nameDiv = document.createElement('div');
 
         const jointName = joint.endPoint ? joint.endPoint.name : numberOfJoint;
-        if (joint instanceof WbHinge2Joint)
+        if (joint instanceof WbBallJoint)
+          nameDiv.innerHTML = 'BallJoint 1: ' + jointName;
+        else if (joint instanceof WbHinge2Joint)
           nameDiv.innerHTML = 'Hinge2joint 1: ' + jointName;
         else if (joint instanceof WbHingeJoint)
           nameDiv.innerHTML = 'Hingejoint: ' + jointName;
@@ -867,7 +869,36 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
         this.joints.appendChild(div);
 
-        if (joint instanceof WbHinge2Joint) {
+        if (joint instanceof WbBallJoint) {
+          div = document.createElement('div');
+          div.className = 'proto-joint';
+
+          nameDiv = document.createElement('div');
+          nameDiv.innerHTML = 'BallJoint 2: ' + jointName;
+          nameDiv.className = 'proto-joint-name';
+          div.appendChild(nameDiv);
+          const parameters2 = joint.jointParameters2;
+          div.appendChild(this.#createSlider(parameters2, _ => {
+            if (parameters2) {
+              parameters2.position = _.target.value;
+              this.#view.x3dScene.render();
+            }
+          }));
+          this.joints.appendChild(div);
+
+          nameDiv = document.createElement('div');
+          nameDiv.innerHTML = 'BallJoint 3: ' + jointName;
+          nameDiv.className = 'proto-joint-name';
+          div.appendChild(nameDiv);
+          const parameters3 = joint.jointParameters3;
+          div.appendChild(this.#createSlider(parameters3, _ => {
+            if (parameters3) {
+              parameters3.position = _.target.value;
+              this.#view.x3dScene.render();
+            }
+          }));
+          this.joints.appendChild(div);
+        } else if (joint instanceof WbHinge2Joint) {
           div = document.createElement('div');
           div.className = 'proto-joint';
 

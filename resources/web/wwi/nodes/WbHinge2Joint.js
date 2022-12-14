@@ -119,14 +119,16 @@ export default class WbHinge2Joint extends WbHingeJoint {
     const q2 = new WbQuaternion();
     const axis2 = this.axis2();
     q2.fromAxisAngle(axis2.x, axis2.y, axis2.z, this.position2);
+
     const qi = this._endPointZeroRotation.toQuaternion();
     let qp = q.mul(q2);
     const a = this.anchor();
     const t = this._endPointZeroTranslation.sub(a);
+    const translation = qp.mulByVec3(t).add(a);
     qp = qp.mul(qi);
     qp.normalize();
     rotation.fromQuaternion(qp);
-    return qp.mulByVec3(t).add(a);
+    return translation;
   }
 
   axis2() {
