@@ -44,7 +44,6 @@ void get_current_path() {
 #else
     strcat(current_path, "/");
 #endif
-    printf("%s\n", current_path);
   }
 }
 
@@ -98,7 +97,6 @@ bool get_matlab_path() {
       }
     }
   }
-  // printf("%s\n", latest_version);
 #ifdef __APPLE__
   if (latest_version == NULL) {
     printf("No installation of Matlab available.\n");
@@ -154,27 +152,22 @@ bool parse_options(int nb_arguments, char **arguments) {
         size_t protocol_size = strlen(arguments[i] + 11) + 1;
         protocol = malloc(protocol_size);
         memcpy(protocol, arguments[i] + 11, protocol_size);
-        // printf("protocol = %s\n", protocol);
       } else if (strncmp(arguments[i] + 2, "ip-address=", 11) == 0) {
         size_t ip_address_size = strlen(arguments[i] + 13) + 1;
         ip_address = malloc(ip_address_size);
         memcpy(ip_address, arguments[i] + 13, ip_address_size);
-        // printf("ip_address = %s\n", ip_address);
       } else if (strncmp(arguments[i] + 2, "port=", 5) == 0) {
         size_t port_size = strlen(arguments[i] + 7) + 1;
         port = malloc(port_size);
         memcpy(port, arguments[i] + 7, port_size);
-        // printf("port = %s\n", port);
       } else if (strncmp(arguments[i] + 2, "robot-name=", 11) == 0) {
         size_t robot_name_size = strlen(arguments[i] + 13) + 1;
         robot_name = malloc(robot_name_size);
         memcpy(robot_name, arguments[i] + 13, robot_name_size);
-        // printf("robot_name = %s\n", robot_name);
       } else if (strncmp(arguments[i] + 2, "matlab-path=", 12) == 0) {
         size_t matlab_path_size = strlen(arguments[i] + 14) + 1;
         matlab_path = malloc(matlab_path_size);
         memcpy(matlab_path, arguments[i] + 14, matlab_path_size);
-        // printf("matlab_path = %s\n", matlab_path);
       } else if (strncmp(arguments[i] + 2, "stdout-redirect", 15) == 0) {
         putenv("WEBOTS_STDOUT_REDIRECT=1");
       } else if (strncmp(arguments[i] + 2, "stderr-redirect", 15) == 0) {
@@ -218,18 +211,17 @@ bool parse_options(int nb_arguments, char **arguments) {
       printf("Specify the IP address of the Webots machine to connect to with '--ip_address=' option.\n");
       return false;
     }
-
-    size_t WEBOTS_CONTROLLER_URL_size =
-      snprintf(NULL, 0, "%s%s%s%s%s%s", "WEBOTS_CONTROLLER_URL=", protocol, "://", ip_address, ":", port) + 1;
+    const size_t WEBOTS_CONTROLLER_URL_size =
+      snprintf(NULL, 0, "WEBOTS_CONTROLLER_URL=%s://%s:%s", protocol, ip_address, port) + 1;
     WEBOTS_CONTROLLER_URL = malloc(WEBOTS_CONTROLLER_URL_size);
-    sprintf(WEBOTS_CONTROLLER_URL, "%s%s%s%s%s%s", "WEBOTS_CONTROLLER_URL=", protocol, "://", ip_address, ":", port);
+    sprintf(WEBOTS_CONTROLLER_URL, "WEBOTS_CONTROLLER_URL=%s://%s:%s", protocol, ip_address, port);
   } else if (strncmp(protocol, "ipc", 3) == 0) {
     if (ip_address)
       printf("Skipping IP address for ipc protocol.\n");
 
-    size_t WEBOTS_CONTROLLER_URL_size = snprintf(NULL, 0, "%s%s%s%s", "WEBOTS_CONTROLLER_URL=", protocol, "://", port) + 1;
+    const size_t WEBOTS_CONTROLLER_URL_size = snprintf(NULL, 0, "WEBOTS_CONTROLLER_URL=%s://%s", protocol, port) + 1;
     WEBOTS_CONTROLLER_URL = malloc(WEBOTS_CONTROLLER_URL_size);
-    sprintf(WEBOTS_CONTROLLER_URL, "%s%s%s%s", "WEBOTS_CONTROLLER_URL=", protocol, "://", port);
+    sprintf(WEBOTS_CONTROLLER_URL, "WEBOTS_CONTROLLER_URL=%s://%s", protocol, port);
   } else {
     printf("Only ipc and tcp protocols are supported.\n");
     return false;
@@ -237,9 +229,9 @@ bool parse_options(int nb_arguments, char **arguments) {
 
   // If a robot name is specified, add it to WEBOTS_CONTROLLER_URL
   if (robot_name) {
-    size_t with_robot_size = snprintf(NULL, 0, "%s%s%s", WEBOTS_CONTROLLER_URL, "/", robot_name) + 1;
+    const size_t with_robot_size = snprintf(NULL, 0, "%s/%s", WEBOTS_CONTROLLER_URL, robot_name) + 1;
     WEBOTS_CONTROLLER_URL = realloc(WEBOTS_CONTROLLER_URL, with_robot_size);
-    sprintf(WEBOTS_CONTROLLER_URL, "%s%s%s", WEBOTS_CONTROLLER_URL, "/", robot_name);
+    sprintf(WEBOTS_CONTROLLER_URL, "%s/%s", WEBOTS_CONTROLLER_URL, robot_name);
   }
   putenv(WEBOTS_CONTROLLER_URL);
 
@@ -250,20 +242,18 @@ bool parse_options(int nb_arguments, char **arguments) {
                                      printf(" ");
   robot_name ? printf("Targeting robot '%s'.\n\n", robot_name) :
                printf("Targeting the only robot waiting for an extern controller.\n\n");
-  // printf("%s\n", getenv("WEBOTS_CONTROLLER_URL"));
 
   return true;
 }
 
 void exec_java_config_environment() {
 #ifdef _WIN32
-  size_t new_path_size =
-    snprintf(NULL, 0, "%s%s%s%s%s%s%s%s", "Path=", WEBOTS_HOME, "\\lib\\controller;", WEBOTS_HOME, "\\msys64\\mingw64\\bin;",
-             WEBOTS_HOME, "\\msys64\\mingw64\\bin\\cpp;", getenv("DYLD_LIBRARY_PATH")) +
-    1;
+  size_t new_path_size = snprintf(NULL, 0, "Path=%s\\lib\\controller;%s\\msys64\\mingw64\\bin;%s\\msys64\\mingw64\\bin\\cpp;%s",
+                                  WEBOTS_HOME, WEBOTS_HOME, WEBOTS_HOME, getenv("DYLD_LIBRARY_PATH")) +
+                         1;
   char *new_path = malloc(new_path_size);
-  sprintf(new_path, "%s%s%s%s%s%s%s%s", "Path=", WEBOTS_HOME, "\\lib\\controller;", WEBOTS_HOME, "\\msys64\\mingw64\\bin;",
-          WEBOTS_HOME, "\\msys64\\mingw64\\bin\\cpp;", getenv("DYLD_LIBRARY_PATH"));
+  sprintf(new_path, "Path=%s\\lib\\controller;%s\\msys64\\mingw64\\bin;%s\\msys64\\mingw64\\bin\\cpp;%s", WEBOTS_HOME,
+          WEBOTS_HOME, WEBOTS_HOME, getenv("DYLD_LIBRARY_PATH"));
   putenv(new_path);
 #else
 #ifdef __linux__
@@ -274,9 +264,9 @@ void exec_java_config_environment() {
   const char *ld_env_variable = "DYLD_LIBRARY_PATH";
 #endif
   size_t new_ld_path_size =
-    snprintf(NULL, 0, "%s%s%s%s%s", ld_env_variable, "=", WEBOTS_HOME, lib_controller, getenv(ld_env_variable)) + 1;
+    snprintf(NULL, 0, "%s=%s%s%s", ld_env_variable, WEBOTS_HOME, lib_controller, getenv(ld_env_variable)) + 1;
   char *new_ld_path = malloc(new_ld_path_size);
-  sprintf(new_ld_path, "%s%s%s%s%s", ld_env_variable, "=", WEBOTS_HOME, lib_controller, getenv(ld_env_variable));
+  sprintf(new_ld_path, "%s=%s%s%s", ld_env_variable, WEBOTS_HOME, lib_controller, getenv(ld_env_variable));
   putenv(new_ld_path);
 #endif
 }
@@ -382,6 +372,44 @@ void remove_char(char *string, char occurence) {
   } while (*string++ = *removed++);
 }
 
+void replace_string(char **string, const char *occurence, const char *replace) {
+  char *tmp = *string;
+  const size_t occurence_size = strlen(occurence);
+  const size_t replace_size = strlen(replace);
+
+  // Count number of occurences
+  int occurence_count = 0;
+  while (true) {
+    char *next = strstr(tmp, occurence);
+    if (next == NULL)
+      break;
+    tmp = next + occurence_size;
+    occurence_count++;
+  }
+
+  // Adapt memory size
+  size_t new_size = strlen(*string) + occurence_count * (replace_size - occurence_size) + 1;
+  *string = realloc(*string, new_size);
+  char *buffer = malloc(new_size);
+  char *insert_point = &buffer[0];
+  tmp = *string;
+
+  // Replace 'occurence' by 'replace'
+  while (true) {
+    char *next = strstr(tmp, occurence);
+    if (next == NULL) {
+      strcpy(insert_point, tmp);
+      break;
+    }
+    memcpy(insert_point, tmp, next - tmp);
+    insert_point += next - tmp;
+    memcpy(insert_point, replace, replace_size);
+    insert_point += replace_size;
+    tmp = next + occurence_size;
+  }
+  strcpy(*string, buffer);
+}
+
 void insert_string_at_index(char **string, char *insert, int index) {
   size_t new_size = strlen(*string) + strlen(insert) + 1;
 
@@ -390,6 +418,28 @@ void insert_string_at_index(char **string, char *insert, int index) {
   strncpy(*string + index, insert, strlen(insert));
   strncpy(*string + index + strlen(insert), tmp + index, strlen(tmp) - index);
   (*string)[new_size - 1] = '\0';
+}
+
+void replace_environment(char **string) {
+  char *tmp = *string;
+  while (tmp = strstr(tmp, "$(")) {
+    // Get environment variable string, name and length
+    const char *end = strchr(tmp, ')');
+    const size_t env_size = end - tmp + 1;
+    char *var = malloc(env_size + 1);
+    char *var_name = malloc(env_size - 2);
+    strncpy(var, tmp, env_size);
+    strncpy(var_name, tmp + 2, env_size - 3);
+    var[env_size] = '\0';
+    var_name[env_size - 3] = '\0';
+
+    // Replace '$(ENV)' by the content in the complete string
+    if (getenv(var_name))
+      replace_string(string, var, getenv(var_name));
+    else
+      replace_string(string, var, "");
+    tmp = *string;
+  }
 }
 
 void parse_ini_paths(char **string) {
@@ -406,7 +456,6 @@ void parse_ini_paths(char **string) {
   int offset = 0;
   while (ptr != NULL) {
     int index = ptr - tmp + offset;
-    // printf("ptr = %s\n", ptr);
 #ifdef _WIN32
     if (index && ptr[0] != '\\' && ptr[0] != '$') {
       insert_string_at_index(*string, absolute_controller_path, index);
@@ -422,6 +471,9 @@ void parse_ini_paths(char **string) {
 #endif
   }
 
+  // Replace environment variables '$(ENV)' with their content
+  replace_environment(string);
+
   // Append previous environment string
   if (getenv(env_name)) {
     size_t new_size = snprintf(NULL, 0, "%s:%s", *string, getenv(env_name)) + 1;
@@ -432,16 +484,6 @@ void parse_ini_paths(char **string) {
     sprintf(*string, "%s:%s", *string, getenv(env_name));
 #endif
   }
-
-  // TODO: replace $() by actual value
-  /*char *variable = strstr(string, "$(");
-  if (variable) {
-    char *variable_end = strchr(variable, ')');
-    char *test = malloc(100);
-    strncpy(test, variable, variable_end - variable);
-  }*/
-
-  printf("%s\n", *string);
 }
 
 void parse_runtime_ini() {
@@ -471,33 +513,25 @@ void parse_runtime_ini() {
   char *line = NULL;
   enum sections { Path, Simple, Windows, macOS, Linux } section;
   while ((line_size = getline(&line, &buffer_size, runtime_ini)) != -1) {
-    // printf("%s", line);
     remove_char(line, ' ');   // remove useless spaces
     remove_char(line, '\n');  // remove useless end-of-lines
-    // printf("%s", line);
-    line_size = strlen(line) - 1;  // re-evaluate line size and ignore end-of-line
-    // printf("%d\n", line_size);
-    // Empty line
-    if (line_size <= 1)
+
+    // Ignore empty lines
+    if (!(strlen(line) - 1))
       continue;
 
     // Section line
     if (strncmp(line, "[", 1) == 0) {
       if (strncmp(line, "[environmentvariableswithpaths]", 31) == 0) {
         section = Path;
-        // printf("0: %s", line);
       } else if (strncmp(line, "[environmentvariables]", 22) == 0) {
         section = Simple;
-        // printf("1: %s", line);
       } else if (strncmp(line, "[environmentvariablesforWindows]", 32) == 0) {
         section = Windows;
-        // printf("2: %s", line);
       } else if (strncmp(line, "[environmentvariablesformacOS]", 30) == 0) {
         section = macOS;
-        // printf("3: %s", line);
       } else if (strncmp(line, "[environmentvariablesforLinux]", 30) == 0) {
         section = Linux;
-        // printf("4: %s", line);
       } else {
         printf("Unknown section in the runtime.ini file. Please refer to "
                "https://cyberbotics.com/doc/guide/controller-programming#environment-variables for more information.\n");
@@ -509,39 +543,37 @@ void parse_runtime_ini() {
       switch (section) {
         case Path:
           remove_comment(line);
-          line_size = strlen(line);  // Update line size
-
 #ifdef _WIN32
           // replace ':' and '/' by Windows equivalents
           replace_char(line, '/', '\\');
           replace_char(line, ':', ';');
 #endif
-
           parse_ini_paths(&line);
-          /*char *value = strchr(line, '=') + 1;
-          const size_t value_size = strlen(value);
-          const size_t key_size = line_size - value_size + 1;
-          char *key = malloc(key_size + 1);
-          strncpy(key, line, key_size);
-          key[key_size] = '\0';
-          printf("%s and %s\n", key, value);*/
-          // line[strlen(line) - 1] = '\0';
           putenv(line);
-
           break;
         case Simple:
           remove_comment(line);
-          line_size = strlen(line);  // Update line size
+          // Append existing environment variable
+          char *line_copy = strdup(line);
+          char *env_name = strtok(line_copy, "=");
+          if (getenv(env_name)) {
+            size_t new_size = snprintf(NULL, 0, "%s:%s", line, getenv(env_name)) + 1;
+            line = realloc(line, new_size);
+#ifdef _WIN32
+            sprintf(line, "%s;%s", line, getenv(env_name));
+#else
+            sprintf(line, "%s:%s", line, getenv(env_name));
+#endif
+          }
           putenv(line);
           break;
         case Windows:
+#ifdef _WIN32
           if (!strchr(line, '\"')) {
             printf("Paths for windows should be written between double-quotes symbols \".\n");
             exit(1);
           }
           remove_comment(strrchr(line, '\"'));
-          // printf("%s\n", line);
-#ifdef _WIN32
           remove_char(line, '"');
           parse_ini_paths(&line);
           putenv(line);
@@ -550,7 +582,6 @@ void parse_runtime_ini() {
         case macOS:
 #ifdef __APPLE__
           remove_comment(line);
-          line_size = strlen(line);  // Update line size
           parse_ini_paths(&line);
           putenv(line);
 #endif
@@ -558,7 +589,6 @@ void parse_runtime_ini() {
         case Linux:
 #ifdef __linux__
           remove_comment(line);
-          line_size = strlen(line);  // Update line size
           parse_ini_paths(&line);
           putenv(line);
 #endif
@@ -618,7 +648,6 @@ int main(int argc, char **argv) {
     char *python_command = malloc(python_command_size);
     sprintf(python_command, "%s%s", python_prefix, controller);
 
-    // printf("%s\n", python_command);
     system(python_command);
   }
   // Matlab controller
@@ -628,7 +657,6 @@ int main(int argc, char **argv) {
     // If no Matlab path was given in command line, check in default installation folder
     if (!matlab_path) {
       const bool default_matlab_install = get_matlab_path();
-      // printf("%s\n", matlab_path);
       if (!default_matlab_install)
         return -1;
     }
@@ -646,7 +674,6 @@ int main(int argc, char **argv) {
     char *matlab_command = malloc(matlab_command_size);
     sprintf(matlab_command, "%s%s%s%s", matlab_path, " -nodisplay -nosplash -nodesktop -r \"run('", WEBOTS_HOME, launcher_path);
 
-    // printf("%s\n", matlab_command);
     system(matlab_command);
   }
   // Java controller
@@ -686,7 +713,6 @@ int main(int argc, char **argv) {
     char *java_command = malloc(java_command_size);
     sprintf(java_command, "%s%s%s%s%s", "java ", classpath, java_library, " ", controller_name + 1);
 
-    // printf("%s\n", java_command);
     system(java_command);
   } else
     printf("The file extension '%s' is not supported as webots controller. Supported file types are executables, '.py', "
