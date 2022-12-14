@@ -290,12 +290,11 @@ export default class NodeSelectorWindow {
     if (typeof protoName === 'undefined')
       return;
 
-    this.hide();
-
     const info = this.nodes.get(protoName);
     const url = info.url;
 
     this.#callback(this.parameter, url);
+    this.hide();
   }
 
   isAllowedToInsert(baseType, slotType) {
