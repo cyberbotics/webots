@@ -838,6 +838,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     let numberOfJoint = 0;
     for (const key of keys) {
       const joint = nodes.get(key);
+      // No need to test for WbHinge2Joint as they are descendant of WbHingeJoint
       if (joint instanceof WbHingeJoint || joint instanceof WbSliderJoint) {
         numberOfJoint++;
 
@@ -845,12 +846,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         div.className = 'proto-joint';
 
         const nameDiv = document.createElement('div');
+
+        const jointName = joint.endPoint ? joint.endPoint.name : numberOfJoint;
         if (joint instanceof WbHinge2Joint)
-          nameDiv.innerHTML = 'Hinge2joint a';
+          nameDiv.innerHTML = 'Hinge2joint a: ' + jointName;
         else if (joint instanceof WbHingeJoint)
-          nameDiv.innerHTML = 'Hingejoint ' + numberOfJoint;
+          nameDiv.innerHTML = 'Hingejoint: ' + jointName;
         else
-          nameDiv.innerHTML = 'Sliderjoint ' + numberOfJoint;
+          nameDiv.innerHTML = 'Sliderjoint: ' + jointName;
 
         nameDiv.className = 'proto-joint-name';
         div.appendChild(nameDiv);
