@@ -139,7 +139,7 @@ void WbMotor::preFinalize() {
 void WbMotor::postFinalize() {
   WbJointDevice::postFinalize();
   assert(robot());
-  if (!mMuscles->isEmpty() || robot()->maxEnergy() > 0)
+  if (!mMuscles->isEmpty() || robot()->currentEnergy() >= 0)
     setupJointFeedback();
 
   inferMotorCouplings();  // it also checks consistency across couplings
