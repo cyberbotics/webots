@@ -284,7 +284,7 @@ void exec_java_config_environment() {
 
 void python_config_environment() {
 #ifdef _WIN32
-  const char *python_lib_controller = "\\lib\\controller\\python:";
+  const char *python_lib_controller = "\\lib\\controller\\python;";
 #elif defined __linux__
   const char *python_lib_controller = "/lib/controller/python:";
 #elif defined __APPLE__
