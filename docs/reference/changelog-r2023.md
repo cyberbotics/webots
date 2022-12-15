@@ -17,6 +17,7 @@ Released on ??
     - Fixed invalid default NULL `from_node` argument in [`wb_supervisor_node_disable_pose_tracking`](supervisor.md#wb_supervisor_node_disable_pose_tracking) ([#5638](https://github.com/cyberbotics/webots/pull/5638)).
     - Fixed BotStudio robot window loading errors ([#5651](https://github.com/cyberbotics/webots/pull/5651)).
     - Lowered the connection retry delay for extern controllers ([#5656](https://github.com/cyberbotics/webots/pull/5656)).
+    - Fixed a crash when setting the `Robot.battery` after the simulation start ([#5669](https://github.com/cyberbotics/webots/pull/5669)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
