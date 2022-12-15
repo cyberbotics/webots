@@ -577,9 +577,9 @@ void parse_runtime_ini() {
             const size_t new_size = snprintf(NULL, 0, "%s:%s", runtime_ini_line, getenv(env_name)) + 1;
             runtime_ini_line = realloc(runtime_ini_line, new_size);
 #ifdef _WIN32
-            sprintf(runtime_ini_line, "%s;%s", runtime_ini_line, getenv(env_name));
+            sprintf(runtime_ini_line + strlen(runtime_ini_line), ";%s", getenv(env_name));
 #else
-            sprintf(runtime_ini_line, "%s:%s", runtime_ini_line, getenv(env_name));
+            sprintf(runtime_ini_line + strlen(runtime_ini_line), ":%s", getenv(env_name));
 #endif
           }
           putenv(runtime_ini_line);
