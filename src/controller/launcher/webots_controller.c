@@ -493,9 +493,9 @@ void format_ini_paths(char **string) {
     const size_t new_size = snprintf(NULL, 0, "%s:%s", *string, getenv(env_name)) + 1;
     *string = realloc(*string, new_size);
 #ifdef _WIN32
-    sprintf(*string, "%s;%s", *string, getenv(env_name));
+    sprintf(*string + strlen(*string), ";%s", getenv(env_name));
 #else
-    sprintf(*string, "%s:%s", *string, getenv(env_name));
+    sprintf(*string + strlen(*string), ":%s", getenv(env_name));
 #endif
   }
   free(tmp);
