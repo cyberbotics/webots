@@ -1017,8 +1017,11 @@ The matrix is composed of a rotation matrix `R` and a translation vector `T`.
 The `wb_supervisor_node_enable_pose_tracking` function forces Webots to stream poses to the controller.
 It improves the performance as the controller by default uses a request-response pattern to get pose data.
 The `sampling_period` argument determines how often the pose data should be sent to the controller.
+Both the `node` argument (or the node instance for C++, Python and Java) and the `from_node` argument must be a [Transform](transform.md) node (or a derived node).
+If the `from_node` argument is null or it is invalid, it returns the it returns the absolute pose of the node in the global coordinate system.
 
 The `wb_supervisor_node_disable_pose_tracking` function disables pose data tracking.
+Both the node and the `from_node` arguments should match the ones passed to the `wb_supervisor_node_enable_pose_tracking` to successfully disable the tracking.
 
 The "[WEBOTS\_HOME/projects/robots/neuronics/ipr/worlds/ipr\_cube.wbt]({{ url.github_tree }}/projects/robots/neuronics/ipr/worlds/ipr_cube.wbt)" simulation shows how to use these functions to achieve this (see [the controller]({{ url.github_tree }}/projects/robots/neuronics/ipr/controllers/target_coordinates/target_coordinates.c)).
 
@@ -1114,8 +1117,8 @@ The "[WEBOTS\_HOME/projects/samples/howto/center\_of\_mass/worlds/center\_of\_ma
 ---
 
 #### `wb_supervisor_node_get_contact_points`
-#### `wb_supervisor_node_enable_contact_point_tracking`
-#### `wb_supervisor_node_disable_contact_point_tracking`
+#### `wb_supervisor_node_enable_contact_points_tracking`
+#### `wb_supervisor_node_disable_contact_points_tracking`
 
 
 %tab-component "language"
@@ -1126,8 +1129,8 @@ The "[WEBOTS\_HOME/projects/samples/howto/center\_of\_mass/worlds/center\_of\_ma
 #include <webots/supervisor.h>
 
 WbContactPoint *wb_supervisor_node_get_contact_points(WbNodeRef node, bool include_descendants, int *size);
-wb_supervisor_node_enable_contact_point_tracking(WbNodeRef node, int sampling_period, bool include_descendants);
-wb_supervisor_node_disable_contact_point_tracking(WbNodeRef node, bool include_descendants);
+wb_supervisor_node_enable_contact_points_tracking(WbNodeRef node, int sampling_period, bool include_descendants);
+wb_supervisor_node_disable_contact_points_tracking(WbNodeRef node);
 ```
 
 %tab-end
@@ -1141,7 +1144,7 @@ namespace webots {
   class Node {
     ContactPoint *getContactPoints(bool includeDescendants, int *size) const;
     void enableContactPointsTracking(int samplingPeriod, bool includeDescendants = false) const;
-    void disableContactPointsTracking(bool includeDescendants = false) const;
+    void disableContactPointsTracking() const;
     // ...
   }
 }
@@ -1157,7 +1160,7 @@ from controller import Node
 class Node:
     def getContactPoints(includeDescendants=False):
     def enableContactPointsTracking(samplingPeriod, includeDescendants=False):
-    def disableContactPointsTracking(includeDescendants=False):
+    def disableContactPointsTracking():
     # ...
 ```
 
@@ -1171,7 +1174,7 @@ import com.cyberbotics.webots.controller.Node;
 public class Node {
   public ContactPoint[] getContactPoints(boolean includeDescendants);
   public enableContactPointsTracking(int samplingPeriod, boolean includeDescendants = false);
-  public disableContactPointsTracking(boolean includeDescendants = false);
+  public disableContactPointsTracking();
   // ...
 }
 ```
@@ -1182,8 +1185,8 @@ public class Node {
 
 ```MATLAB
 contact_point = wb_supervisor_node_get_contact_points(include_descendants):
-wb_supervisor_node_enable_contact_point_tracking(sampling_period, include_descendants):
-wb_supervisor_node_disable_contact_point_tracking(include_descendants):
+wb_supervisor_node_enable_contact_points_tracking(sampling_period, include_descendants):
+wb_supervisor_node_disable_contact_points_tracking():
 ```
 
 %tab-end
@@ -1193,8 +1196,8 @@ wb_supervisor_node_disable_contact_point_tracking(include_descendants):
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
 | `/supervisor/node/get_contact_points` | `service` | `webots_ros::node_get_contact_points` | `uint64 node`<br/>`---`<br/>[`webots_ros/ContactPoint[]`](supervisor.md#contact-point) contact_points |
-| `/supervisor/node/enable_contact_point_tracking` | `service` | `webots_ros::enable_contact_point_tracking` | `uint64 node`<br/>`int32 sampling_period`<br/>`bool include_descendants`<br/>`---`<br/>`int32 success` |
-| `/supervisor/node/disable_contact_points_tracking` | `service` | `webots_ros::disable_contact_points_tracking` | `uint64 node`<br/>`bool include_descendants`<br/>`---`<br/>`int32 success` |
+| `/supervisor/node/enable_contact_points_tracking` | `service` | `webots_ros::enable_contact_points_tracking` | `uint64 node`<br/>`int32 sampling_period`<br/>`bool include_descendants`<br/>`---`<br/>`int32 success` |
+| `/supervisor/node/disable_contact_points_tracking` | `service` | `webots_ros::disable_contact_points_tracking` | `uint64 node`<br/>`---`<br/>`int32 success` |
 
 %tab-end
 
@@ -1209,11 +1212,11 @@ The `include_descendants` argument defines whether the descendant nodes should a
 The descendant nodes are the nodes included within the node given as an argument.
 The `size` argument is an output argument and it returns a number of contact points in the list.
 
-The `wb_supervisor_node_enable_contact_point_tracking` function forces Webots to stream contact point data to the controller.
+The `wb_supervisor_node_enable_contact_points_tracking` function forces Webots to stream contact points data to the controller.
 It improves the performance as the controller by default uses a request-response pattern to get data from the field.
-The `sampling_period` argument determines how often the contact point data should be sent to the controller.
+The `sampling_period` argument determines how often the contact points data should be sent to the controller.
 
-The `wb_supervisor_node_disable_contact_point_tracking` function disables contact point data tracking.
+The `wb_supervisor_node_disable_contact_points_tracking` function disables contact points data tracking.
 
 The "[WEBOTS\_HOME/projects/samples/howto/cylinder\_stack/worlds/cylinder\_stack.wbt]({{ url.github_tree }}/projects/samples/howto/cylinder_stack/worlds/cylinder_stack.wbt)" project shows how to use this function.
 
