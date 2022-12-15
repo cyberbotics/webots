@@ -398,7 +398,9 @@ void replace_substring(char **string, const char *substring, const char *replace
 
   // Adapt memory size
   const size_t new_size = strlen(*string) + substring_count * (replace_size - substring_size) + 1;
-  *string = realloc(*string, new_size);
+  char *tmp_realloc = realloc(*string, new_size);
+  if (tmp_realloc)
+    *string = tmp_realloc;
   char *buffer = malloc(new_size);
   char *insert_point = &buffer[0];
   tmp = *string;
@@ -423,7 +425,9 @@ void replace_substring(char **string, const char *substring, const char *replace
 void insert_string(char **string, char *insert, int index) {
   const size_t new_size = strlen(*string) + strlen(insert) + 1;
   char *tmp = strdup(*string);
-  *string = realloc(*string, new_size);
+  char *tmp_realloc = realloc(*string, new_size);
+  if (tmp_realloc)
+    *string = tmp_realloc;
   strncpy(*string + index, insert, strlen(insert));
   strncpy(*string + index + strlen(insert), tmp + index, strlen(tmp) - index);
   (*string)[new_size - 1] = '\0';
@@ -491,7 +495,9 @@ void format_ini_paths(char **string) {
   // Append existing environment variable content
   if (getenv(env_name)) {
     const size_t new_size = snprintf(NULL, 0, "%s:%s", *string, getenv(env_name)) + 1;
-    *string = realloc(*string, new_size);
+    char *tmp_realloc = realloc(*string, new_size);
+    if (tmp_realloc)
+      *string = tmp_realloc;
 #ifdef _WIN32
     sprintf(*string + strlen(*string), ";%s", getenv(env_name));
 #else
@@ -575,7 +581,9 @@ void parse_runtime_ini() {
           const char *env_name = strtok(line_copy, "=");
           if (getenv(env_name)) {
             const size_t new_size = snprintf(NULL, 0, "%s:%s", runtime_ini_line, getenv(env_name)) + 1;
-            runtime_ini_line = realloc(runtime_ini_line, new_size);
+            char *tmp_realloc = realloc(runtime_ini_line, new_size);
+            if (tmp_realloc)
+              runtime_ini_line = tmp_realloc;
 #ifdef _WIN32
             sprintf(runtime_ini_line + strlen(runtime_ini_line), ";%s", getenv(env_name));
 #else
