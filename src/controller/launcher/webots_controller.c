@@ -342,7 +342,7 @@ void matlab_config_environment() {
     exit(1);
   }
   char version[16];  // RXXXXx-revisionX
-  fscanf(version_file, "%16[^\n]", version);
+  fscanf(version_file, "%15[^\n]", version);
   fclose(version_file);
   free(version_file_name);
 
