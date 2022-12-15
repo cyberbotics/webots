@@ -32,12 +32,14 @@
 
 #include "tcp_client.h"
 
-int tcp_client_new(const char *host, int port) {
-  const int fd = tcp_client_open();
+const int ERROR_BUFFER_SIZE = 128;
+
+int tcp_client_new(const char *host, int port, char *buffer) {
+  const int fd = tcp_client_open(buffer);
   if (fd < 0)
     return -1;
 
-  const int connect = tcp_client_connect(fd, host, port);
+  const int connect = tcp_client_connect(fd, host, port, buffer);
   if (connect == -1 || connect == 0) {  // Failed to lookup host or connection failed
     tcp_client_close(fd);
     return -1;
@@ -45,25 +47,25 @@ int tcp_client_new(const char *host, int port) {
   return fd;
 }
 
-int tcp_client_open() {
+int tcp_client_open(char *buffer) {
 #ifdef _WIN32
   // initialize the socket API if needed
   WSADATA info;
   if (WSAStartup(MAKEWORD(1, 1), &info) != 0) {  // Winsock 1.1
-    fprintf(stderr, "Cannot initialize Winsock");
+    snprintf(buffer, ERROR_BUFFER_SIZE, "Cannot initialize Winsock");
     return -1;
   }
 #endif
   /* create the socket */
   const int fd = socket(AF_INET, SOCK_STREAM, 0);
   if (fd == -1) {
-    fprintf(stderr, "Cannot create socket");
+    snprintf(buffer, ERROR_BUFFER_SIZE, "Cannot create socket");
     return -1;
   }
   return fd;
 }
 
-int tcp_client_connect(int fd, const char *host, int port) {
+int tcp_client_connect(int fd, const char *host, int port, char *buffer) {
   struct sockaddr_in address;
   struct hostent *server;
   // fill in the socket address
@@ -75,13 +77,13 @@ int tcp_client_connect(int fd, const char *host, int port) {
   if (server)
     memcpy((char *)&address.sin_addr.s_addr, (char *)server->h_addr, server->h_length);
   else {
-    fprintf(stderr, "Cannot resolve server name: %s", host);
+    snprintf(buffer, ERROR_BUFFER_SIZE, "Cannot resolve server name: %s", host);
     return -1;
   }
   /* connect to the server */
   const int rc = connect(fd, (struct sockaddr *)&address, sizeof(struct sockaddr));
   if (rc == -1) {
-    fprintf(stderr, "Cannot connect to Webots instance");
+    snprintf(buffer, ERROR_BUFFER_SIZE, "Cannot connect to Webots instance");
     return 0;
   }
   return 1;
