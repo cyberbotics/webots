@@ -55,21 +55,39 @@ export default class WbBallJoint extends WbHinge2Joint {
     super.delete();
   }
 
+  axis() {
+    const p2 = this.jointParameters2;
+    const p3 = this.jointParameters3;
+    if (typeof p2 === 'undefined') {
+      if (typeof p3 === 'undefined')
+        return new WbVector3(1, 0, 0);
+      else if (p3.axis().cross(new WbVector3(0, 0, 1)).isNull())
+        return p3.axis().cross(new WbVector3(1, 0, 0));
+      else
+        return p3.axis().cross(new WbVector3(0, 0, 1));
+    }
+    return p2.axis();
+  }
+
+  axis2() {
+    return this.axis3().cross(this.axis());
+  }
+
   axis3() {
     const p2 = this.jointParameters2;
     const p3 = this.jointParameters3;
     if (typeof p3 === 'undefined') {
       if (typeof p2 === 'undefined')
-        return new WbVector3(0.0, 0.0, 1.0);
-      else if (p2.axis.cross(new WbVector3(1.0, 0.0, 0.0)).isNull())
-        return p2.axis.cross(new WbVector3(0.0, 0.0, 1.0));
+        return new WbVector3(0, 0, 1);
+      else if (p2.axis.cross(new WbVector3(1, 0, 0)).isNull())
+        return p2.axis.cross(new WbVector3(0, 0, 1));
       else
-        return p2.axis.cross(new WbVector3(1.0, 0.0, 0.0));
+        return p2.axis.cross(new WbVector3(1, 0, 0));
     }
     return p3.axis;
   }
 
-  updatePosition() {
+  _updatePosition() {
     if (typeof this.endPoint !== 'undefined') {
       const position = typeof this.jointParameters !== 'undefined' ? this.jointParameters.position : this.position;
       const position2 = typeof this.jointParameters2 !== 'undefined' ? this.jointParameters2.position : this.position2;
@@ -86,7 +104,7 @@ export default class WbBallJoint extends WbHinge2Joint {
     const ir = this.endPoint.rotation;
     const it = this.endPoint.translation;
 
-    let qp = WbQuaternion;
+    let qp = new WbQuaternion();
     if (isZeroAngle(this.position) && isZeroAngle(this.position2) && isZeroAngle(this.position3))
       this._endPointZeroRotation = ir;
     else {
@@ -119,7 +137,7 @@ export default class WbBallJoint extends WbHinge2Joint {
     this.position2 = position2;
     this.position3 = position3;
     let rotation = new WbVector4();
-    const translation = this.computeEndPointSolidPositionFromParameters(rotation);
+    const translation = this.#computeEndPointSolidPositionFromParameters(rotation);
     if (!translation.almostEquals(this.endPoint.translation) || !rotation.almostEquals(this.endPoint.rotation)) {
       this.endPoint.translation = translation;
       this.endPoint.rotation = rotation;

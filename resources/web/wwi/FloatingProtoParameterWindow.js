@@ -879,10 +879,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           div.appendChild(nameDiv);
           const parameters2 = joint.jointParameters2;
           div.appendChild(this.#createSlider(parameters2, _ => {
-            if (parameters2) {
+            if (parameters2)
               parameters2.position = _.target.value;
-              this.#view.x3dScene.render();
-            }
+            else
+              joint.position2 = _.target.value;
+            this.#view.x3dScene.render();
           }));
           this.joints.appendChild(div);
 
