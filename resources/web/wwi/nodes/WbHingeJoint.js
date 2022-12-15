@@ -6,6 +6,7 @@ import {isZeroAngle} from './utils/math_utilities.js';
 
 export default class WbHingeJoint extends WbJoint {
   #device;
+  #position;
   constructor(id) {
     super(id);
     this.#device = [];
@@ -17,6 +18,19 @@ export default class WbHingeJoint extends WbJoint {
 
   set device(device) {
     this.#device = device;
+  }
+
+  get position() {
+    return this.#position;
+  }
+
+  set position(newPosition) {
+    if (this.#position === newPosition)
+      return;
+
+    this.#position = newPosition;
+    if (typeof this.jointParameters === 'undefined')
+      this._updatePosition();
   }
 
   preFinalize() {
@@ -42,12 +56,12 @@ export default class WbHingeJoint extends WbJoint {
 
   _updatePosition() {
     if (typeof this.endPoint !== 'undefined')
-      this.#updatePosition(typeof this.jointParameters !== 'undefined' ? this.jointParameters.position : this.position);
+      this.#updatePosition(typeof this.jointParameters !== 'undefined' ? this.jointParameters.position : this.#position);
   }
 
   #updatePosition(position) {
     // called after an artificial move
-    this.position = position;
+    this.#position = position;
     let rotation = new WbVector4();
     const translation = this.#computeEndPointSolidPositionFromParameters(rotation);
     if (!translation.almostEquals(this.endPoint.translation) || !rotation.almostEquals(this.endPoint.rotation)) {
@@ -59,7 +73,7 @@ export default class WbHingeJoint extends WbJoint {
   #computeEndPointSolidPositionFromParameters(rotation) {
     const axis = this.axis().normalized();
     const q = new WbQuaternion();
-    q.fromAxisAngle(axis.x, axis.y, axis.z, this.position);
+    q.fromAxisAngle(axis.x, axis.y, axis.z, this.#position);
     const iq = this._endPointZeroRotation.toQuaternion();
     const qp = q.mul(iq);
     if (qp.w !== 1)
@@ -80,7 +94,7 @@ export default class WbHingeJoint extends WbJoint {
     const it = this.endPoint.translation;
 
     let qMinus;
-    const angle = this.position;
+    const angle = this.#position;
     if (isZeroAngle(angle)) {
       // In case of a zero angle, the quaternion axis is undefined, so we keep track of the original one
       this._endPointZeroRotation = ir;

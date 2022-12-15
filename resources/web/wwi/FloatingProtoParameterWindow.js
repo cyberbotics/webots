@@ -861,10 +861,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         div.appendChild(nameDiv);
         const parameters = joint.jointParameters;
         div.appendChild(this.#createSlider(parameters, _ => {
-          if (parameters) {
+          if (parameters)
             parameters.position = _.target.value;
-            this.#view.x3dScene.render();
-          }
+          else
+            joint.position = _.target.value;
+          this.#view.x3dScene.render();
         }));
 
         this.joints.appendChild(div);
@@ -893,10 +894,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           div.appendChild(nameDiv);
           const parameters3 = joint.jointParameters3;
           div.appendChild(this.#createSlider(parameters3, _ => {
-            if (parameters3) {
+            if (parameters3)
               parameters3.position = _.target.value;
-              this.#view.x3dScene.render();
-            }
+            else
+              joint.position3 = _.target.value;
+            this.#view.x3dScene.render();
           }));
           this.joints.appendChild(div);
         } else if (joint instanceof WbHinge2Joint) {
@@ -909,10 +911,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           div.appendChild(nameDiv);
           const parameters2 = joint.jointParameters2;
           div.appendChild(this.#createSlider(parameters2, _ => {
-            if (parameters2) {
+            if (parameters2)
               parameters2.position = _.target.value;
-              this.#view.x3dScene.render();
-            }
+            else
+              joint.position2 = _.target.value;
+            this.#view.x3dScene.render();
           }));
           this.joints.appendChild(div);
         }

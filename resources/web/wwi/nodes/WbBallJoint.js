@@ -7,6 +7,7 @@ import {isZeroAngle} from './utils/math_utilities.js';
 export default class WbBallJoint extends WbHinge2Joint {
   #device3;
   #jointParameters3;
+  #position3;
   constructor(id) {
     super(id);
     this.#device3 = [];
@@ -28,8 +29,21 @@ export default class WbBallJoint extends WbHinge2Joint {
     this.#jointParameters3 = jointParameters;
   }
 
+  get position3() {
+    return this.#position3;
+  }
+
+  set position3(newPosition) {
+    if (this.#position3 === newPosition)
+      return;
+
+    this.#position3 = newPosition;
+    if (typeof this.jointParameters3 === 'undefined')
+      this._updatePosition();
+  }
+
   preFinalize() {
-    this.position3 = typeof this.jointParameters3 === 'undefined' ? 0 : this.jointParameters3.position;
+    this.#position3 = typeof this.jointParameters3 === 'undefined' ? 0 : this.jointParameters3.position;
 
     super.preFinalize();
     this.#device3.forEach(child => child.preFinalize());
@@ -91,7 +105,7 @@ export default class WbBallJoint extends WbHinge2Joint {
     if (typeof this.endPoint !== 'undefined') {
       const position = typeof this.jointParameters !== 'undefined' ? this.jointParameters.position : this.position;
       const position2 = typeof this.jointParameters2 !== 'undefined' ? this.jointParameters2.position : this.position2;
-      const position3 = typeof this.jointParameters3 !== 'undefined' ? this.jointParameters3.position : this.position3;
+      const position3 = typeof this.jointParameters3 !== 'undefined' ? this.jointParameters3.position : this.#position3;
 
       this.#updatePositions(position, position2, position3);
     }
@@ -105,7 +119,7 @@ export default class WbBallJoint extends WbHinge2Joint {
     const it = this.endPoint.translation;
 
     let qp = new WbQuaternion();
-    if (isZeroAngle(this.position) && isZeroAngle(this.position2) && isZeroAngle(this.position3))
+    if (isZeroAngle(this.position) && isZeroAngle(this.position2) && isZeroAngle(this.#position3))
       this._endPointZeroRotation = ir;
     else {
       const axis = this.axis();
@@ -118,7 +132,7 @@ export default class WbBallJoint extends WbHinge2Joint {
 
       const axis3 = this.axis3();
       const q3 = new WbQuaternion();
-      q3.fromAxisAngle(axis3.x, axis3.y, axis3.z, -this.position3);
+      q3.fromAxisAngle(axis3.x, axis3.y, axis3.z, -this.#position3);
 
       qp = q3.mul(q2).mul(q);
       const iq = ir.toQuaternion();
@@ -135,7 +149,7 @@ export default class WbBallJoint extends WbHinge2Joint {
   #updatePositions(position, position2, position3) {
     this.position = position;
     this.position2 = position2;
-    this.position3 = position3;
+    this.#position3 = position3;
     let rotation = new WbVector4();
     const translation = this.#computeEndPointSolidPositionFromParameters(rotation);
     if (!translation.almostEquals(this.endPoint.translation) || !rotation.almostEquals(this.endPoint.rotation)) {
@@ -155,7 +169,7 @@ export default class WbBallJoint extends WbHinge2Joint {
 
     const q3 = new WbQuaternion();
     const axis3 = this.axis3();
-    q3.fromAxisAngle(axis3.x, axis3.y, axis3.z, this.position3);
+    q3.fromAxisAngle(axis3.x, axis3.y, axis3.z, this.#position3);
 
     const qi = this._endPointZeroRotation.toQuaternion();
     let qp = q.mul(q2).mul(q3);
