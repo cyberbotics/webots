@@ -19,7 +19,7 @@ Altimeter {
 
 - `name`: This field defines the string name used by `wb_robot_get_device()` to get the `WbDeviceTag` handle of this sensor. Its default value is "altimeter".
 
--  `accuracy`: This field defines the precision of the altimeter, that is the standard deviation (expressed in meter) of the gaussian noise added to the altitude.
+- `accuracy`: This field defines the precision of the altimeter, that is the standard deviation (expressed in meter) of the gaussian noise added to the altitude.
 
 - `resolution`: This field allows the user to define the resolution of the sensor. The resolution is the smallest change that it is able to measure.
 Setting this field to -1 (default) means that the sensor has an 'infinite' resolution (it can measure any infinitesimal change).
