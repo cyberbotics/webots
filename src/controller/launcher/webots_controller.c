@@ -19,6 +19,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <unistd.h>
 
 #ifdef WIN32
@@ -361,7 +363,7 @@ void remove_comment(char *string) {
     string[content_size] = '\0';
     return;
   }
-  string[strlen(string) - 1] = '\0';
+  string[strlen(string)] = '\0';
 }
 
 void replace_char(char *string, char occurence, char replace) {
@@ -396,15 +398,17 @@ void replace_substring(char **string, const char *substring, const char *replace
     substring_count++;
   }
 
-  // Adapt memory size
+  // Adapt memory size, only realloc if more memory is needed
   const size_t new_size = strlen(*string) + substring_count * (replace_size - substring_size) + 1;
-  char *tmp_realloc = realloc(*string, new_size);
-  if (tmp_realloc)
-    *string = tmp_realloc;
+  if (new_size > strlen(*string)) {
+    char *tmp_realloc = realloc(*string, new_size);
+    if (tmp_realloc)
+      *string = tmp_realloc;
+  }
+
   char *buffer = malloc(new_size);
   char *insert_point = &buffer[0];
   tmp = *string;
-
   // Replace 'substring' by 'replace'
   while (true) {
     char *next = strstr(tmp, substring);
@@ -418,6 +422,14 @@ void replace_substring(char **string, const char *substring, const char *replace
     insert_point += replace_size;
     tmp = next + substring_size;
   }
+
+  // If memory size needed has decreased, realloc memory
+  if (new_size < strlen(*string)) {
+    char *tmp_realloc = realloc(*string, new_size);
+    if (tmp_realloc)
+      *string = tmp_realloc;
+  }
+
   strcpy(*string, buffer);
   free(buffer);
 }
@@ -639,21 +651,28 @@ int main(int argc, char **argv) {
   // Check WEBOTS_HOME and exit if empty
   const bool is_set = get_webots_home();
   if (!is_set)
-    return -1;
+    exit(1);
 
   // Parse command line options
   const bool success = parse_options(argc, argv);
   if (!success)
-    return -1;
-
-  // Parse possible runtime.ini file
-  parse_runtime_ini();
+    exit(1);
 
   // Check if controller file exists
   if (access(controller, F_OK) != 0) {
     printf("Controller file '%s' not found. Please specify a path to an existing controller file.\n", controller);
-    return -1;
+    exit(1);
   }
+
+  struct stat path;
+  stat(controller, &path);
+  if (S_ISDIR(path.st_mode)) {
+    printf("Controller path '%s' is a directory. Please specify a path to an existing controller file.\n", controller);
+    exit(1);
+  };
+
+  // Parse possible runtime.ini file
+  parse_runtime_ini();
 
   // Get extension from controller name (robust against relative paths)
 #ifdef _WIN32
