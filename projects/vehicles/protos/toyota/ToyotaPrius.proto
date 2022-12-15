@@ -18,22 +18,22 @@ EXTERNPROTO "ToyotaPriusRearLight.proto"
 EXTERNPROTO "ToyotaPriusMesh.proto"
 
 PROTO ToyotaPrius [
-  field     SFVec3f    translation       0 0 0.4
-  field     SFRotation rotation          0 0 1 0
-  field     SFColor    color             0.1 0.15 0.18
-  field     MFString   plate             "webots://projects/vehicles/protos/textures/plate.jpg"
-  field     SFString   engineSound       "sounds/engine.wav"
-  field     SFString   name              "vehicle"
-  field     SFString   controller        "<generic>"
-  field     MFString   controllerArgs    []
-  field     SFBool     supervisor        FALSE
-  field     SFBool     synchronization   TRUE
-  field     MFNode     sensorsSlotFront  []
-  field     MFNode     sensorsSlotRear   []
-  field     MFNode     sensorsSlotTop    []
-  field     MFNode     sensorsSlotCenter []
-  field     SFBool     frontSpotLights   FALSE
-  field     SFString   window            "automobile"
+  field     SFVec3f    translation       0 0 0.4                                                 # Is `Car.translation`.
+  field     SFRotation rotation          0 0 1 0                                                 # Is `Car.rotation`.
+  field     SFColor    color             0.1 0.15 0.18                                           # Defines the car body color.
+  field     MFString   plate             "webots://projects/vehicles/protos/textures/plate.jpg"  # Defines the plate texture.
+  field     SFString   engineSound       "sounds/engine.wav"                                     # Is `Car.engineSound`.
+  field     SFString   name              "vehicle"                                               # Is `Car.name`.
+  field     SFString   controller        "<generic>"                                             # Is `Car.controller`.
+  field     MFString   controllerArgs    []                                                      # Is `Car.controllerArgs`.
+  field     SFBool     supervisor        FALSE                                                   # Is `Car.supervisor`.
+  field     SFBool     synchronization   TRUE                                                    # Is `Car.synchronization`.
+  field     MFNode     sensorsSlotFront  []                                                      # Extends the robot with new nodes on the front of the car.
+  field     MFNode     sensorsSlotRear   []                                                      # Extends the robot with new nodes on the back of the car.
+  field     MFNode     sensorsSlotTop    []                                                      # Extends the robot with new nodes on the roof of the car.
+  field     MFNode     sensorsSlotCenter []                                                      # Extends the robot with new nodes at the center of the car.
+  field     SFBool     frontSpotLights   FALSE                                                   # Defines whether the car should have front spot lights.
+  field     SFString   window            "automobile"                                            # Is `Car.window`.
 ]
 {
   %< const frontSpotLights = fields.frontSpotLights.value; >%
