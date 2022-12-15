@@ -28,7 +28,7 @@ extern unsigned int scheduler_data_size;
 extern char *scheduler_date;
 extern unsigned int scheduler_actual_step;
 
-int scheduler_init_remote(const char *host, int port, const char *robot_name);
+int scheduler_init_remote(const char *host, int port, const char *robot_name, char *buffer);
 int scheduler_init_local(const char *pipe);
 void scheduler_cleanup();
 void scheduler_send_request(WbRequest *);
