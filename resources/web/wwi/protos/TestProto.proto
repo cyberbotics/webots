@@ -4,17 +4,21 @@ EXTERNPROTO "Copper.proto"
 
 PROTO TestProto [
   field SFNode app Copper{}
-  field SFVec3f translation 0 0 0
 ]
 {
-  Transform {
-    translation IS translation
+  Group {
     children [
-      Shape {
+      DEF SHAPE Shape {
         appearance IS app
         geometry Box {
           size 0.2 0.05 0.05
         }
+      }
+      Transform {
+        rotation 0 0 1 1
+        children [
+          USE SHAPE
+        ]
       }
     ]
   }
