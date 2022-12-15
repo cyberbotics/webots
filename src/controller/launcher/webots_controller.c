@@ -561,8 +561,12 @@ void parse_runtime_ini() {
         exit(1);
       }
     }
+    // Commented line
+    else if (strncmp(runtime_ini_line, ";", 1) == 0)
+      continue;
     // Key-value line
     else {
+      char *new_env_ptr;
       switch (section) {
         case Path:
           remove_comment(runtime_ini_line);
@@ -572,7 +576,8 @@ void parse_runtime_ini() {
           replace_char(runtime_ini_line, ':', ';');
 #endif
           format_ini_paths(&runtime_ini_line);
-          putenv(runtime_ini_line);
+          new_env_ptr = strdup(runtime_ini_line);
+          putenv(new_env_ptr);
           break;
         case Simple:
           remove_comment(runtime_ini_line);
@@ -590,7 +595,8 @@ void parse_runtime_ini() {
             sprintf(runtime_ini_line + strlen(runtime_ini_line), ":%s", getenv(env_name));
 #endif
           }
-          putenv(runtime_ini_line);
+          new_env_ptr = strdup(runtime_ini_line);
+          putenv(new_env_ptr);
           break;
         case Windows:
 #ifdef _WIN32
@@ -601,22 +607,27 @@ void parse_runtime_ini() {
           remove_comment(strrchr(runtime_ini_line, '\"'));
           remove_char(runtime_ini_line, '"');
           format_ini_paths(&runtime_ini_line);
-          putenv(runtime_ini_line);
+          new_env_ptr = strdup(runtime_ini_line);
+          putenv(new_env_ptr);
 #endif
           break;
         case macOS:
 #ifdef __APPLE__
           remove_comment(runtime_ini_line);
           format_ini_paths(&runtime_ini_line);
-          putenv(runtime_ini_line);
+          new_env_ptr = strdup(runtime_ini_line);
+          putenv(new_env_ptr);
 #endif
           break;
         case Linux:
 #ifdef __linux__
           remove_comment(runtime_ini_line);
           format_ini_paths(&runtime_ini_line);
-          putenv(runtime_ini_line);
+          new_env_ptr = strdup(runtime_ini_line);
+          putenv(new_env_ptr);
 #endif
+          break;
+        default:
           break;
       }
     }
