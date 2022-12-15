@@ -10,7 +10,7 @@ The [Altimeter](#altimeter) node is used to model an altimeter sensor, which can
 
 ```
 Altimeter {
-  SFString name            "altimeter"    # used by wb_robot_get_device()
+  SFString name             "altimeter"   # used by wb_robot_get_device()
   SFFloat  accuracy         0             # [0, inf)
   SFFloat  resolution       -1            # {-1, [0, inf)}
 }
