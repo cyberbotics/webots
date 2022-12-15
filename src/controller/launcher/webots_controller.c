@@ -29,6 +29,8 @@
 #define access _access
 #endif
 
+#define MAX_LINE_BUFFER_SIZE 2048
+
 char *WEBOTS_HOME;
 char *controller;
 char *controller_path;
@@ -544,10 +546,10 @@ void parse_runtime_ini() {
   free(ini_file_name);
 
   // Read the file line by line
-  size_t buffer_size;
-  runtime_ini_line = NULL;
+  char *line_buffer = malloc(MAX_LINE_BUFFER_SIZE);
   enum sections { Path, Simple, Windows, macOS, Linux } section;
-  while ((getline(&runtime_ini_line, &buffer_size, runtime_ini)) != -1) {
+  while (fgets(line_buffer, MAX_LINE_BUFFER_SIZE, runtime_ini)) {
+    runtime_ini_line = &line_buffer[0];
     remove_char(runtime_ini_line, ' ');   // remove useless spaces
     remove_char(runtime_ini_line, '\n');  // remove useless end-of-lines
 
@@ -686,7 +688,7 @@ int main(int argc, char **argv) {
     controller_extension = strrchr(controller_name, '.');
 
   // Executable controller
-  if (!controller_extension) {
+  if (!controller_extension || strcmp(controller_extension, ".exe") == 0) {
     exec_java_config_environment();
     system(controller);
   }
