@@ -98,7 +98,7 @@ bool get_matlab_path() {
     if (strncmp(matlab_version_wc, directory_entry->d_name, strlen(matlab_version_wc)) == 0) {
       if (!latest_version)
         latest_version = malloc(directory_name_size);
-      else if (latest_version && strcmp(latest_version, directory_entry->d_name) < 0)
+      else if (strcmp(latest_version, directory_entry->d_name) < 0)
         memset(latest_version, '\0', directory_name_size);
       strncpy(latest_version, directory_entry->d_name, directory_name_size);
     }
