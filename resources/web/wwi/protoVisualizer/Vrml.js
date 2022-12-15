@@ -446,7 +446,6 @@ export class SFNode extends SingleValue {
   }
 
   clone() {
-    console.log('cloning sfnode')
     const copy = new SFNode();
 
     if (typeof this.value !== 'undefined') {

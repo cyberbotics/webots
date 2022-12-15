@@ -133,7 +133,7 @@ export default class Parameter {
 
         if (v !== null) {
           // get the parent id to insert the new node
-          const parentId = baseNode.id.replace('n', ''); // view.x3dScene.parentId(id);
+          const parentId = baseNode.id.replace('n', '');
           console.log('parent node: ' + parentId);
 
           const x3d = new XMLSerializer().serializeToString(v.toX3d());
@@ -167,8 +167,6 @@ export default class Parameter {
       this.isTemplateRegenerator);
     return copy;
   }
-
-  parameter
 }
 
 export {Parameter};

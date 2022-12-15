@@ -161,7 +161,6 @@ export default class Parser {
       }
       console.log('NODES', WbWorld.instance);
 
-      console.log('FINALIZE NODE', this.#rootNodeId, '?', finalize)
       if (!finalize)
         return;
 
@@ -413,14 +412,13 @@ export default class Parser {
   #createRoot(node) {
     const root = new WbGroup(getAnId(), false);
     this.#rootNodeId = root.id;
-    console.log('ROOT IS: ', root.id, root, node.childNodes.length);
 
     WbWorld.instance.nodes.set(root.id, root);
     WbWorld.instance.root = root;
     this.#parseChildren(node, root, false);
   }
 
-  #parseWorldInfo(node, parentNode) {
+  #parseWorldInfo(node) {
     WbWorld.instance.coordinateSystem = getNodeAttribute(node, 'coordinateSystem', 'ENU');
     WbWorld.instance.basicTimeStep = parseInt(getNodeAttribute(node, 'basicTimeStep', 32));
     WbWorld.instance.title = getNodeAttribute(node, 'title', 'No title');

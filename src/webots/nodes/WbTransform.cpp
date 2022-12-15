@@ -174,6 +174,7 @@ void WbTransform::emitTranslationOrRotationChangedByUser() {
 
 void WbTransform::createWrenObjects() {
   WbBaseNode::createWrenObjects();
+
   WrTransform *transform = wr_transform_new();
   wr_transform_attach_child(wrenNode(), WR_NODE(transform));
   setWrenNode(transform);
