@@ -989,6 +989,18 @@ webots-view .value-parameter {
   margin: 10px 10px 10px 10px;
 }
 
+webots-view .sfnode-button {
+  border-width: 2px;
+  background-color: #444;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  color:rgba(240, 240, 240, 1)
+}
+
+webots-view .sfnode-button:hover {
+  background-color: #007acc;
+}
+
 webots-view .node-library {
   position: absolute;
   top: calc(50% - 300px);

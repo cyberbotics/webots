@@ -681,6 +681,21 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const buttonContainer = document.createElement('div');
     buttonContainer.style.display = 'flex';
 
+    const currentNodeButton = document.createElement('button');
+    currentNodeButton.className = 'sfnode-button';
+    currentNodeButton.id = 'current-node-' + parameter.name;
+    currentNodeButton.title = 'Select a node to insert';
+    currentNodeButton.onclick = async() => {
+      if (typeof this.nodeSelector === 'undefined') {
+        this.nodeSelector = new NodeSelectorWindow(this.parentNode, this.#sfnodeOnChange.bind(this));
+        await this.nodeSelector.initialize();
+      }
+
+      this.nodeSelector.show(parameter);
+      this.nodeSelectorListener = (event) => this.#hideNodeSelector(event);
+      window.addEventListener('click', this.nodeSelectorListener, true);
+    };
+
     const deleteNodeButton = document.createElement('button');
     deleteNodeButton.className = 'delete-button';
     deleteNodeButton.id = 'delete-node-' + parameter.name;
@@ -699,19 +714,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       this.populateProtoParameterWindow();
     };
 
-    const currentNodeButton = document.createElement('button');
-    currentNodeButton.id = 'current-node-' + parameter.name;
-    currentNodeButton.title = 'Select a node to insert';
-    currentNodeButton.onclick = async() => {
-      if (typeof this.nodeSelector === 'undefined') {
-        this.nodeSelector = new NodeSelectorWindow(this.parentNode, this.#sfnodeOnChange.bind(this));
-        await this.nodeSelector.initialize();
-      }
-
-      this.nodeSelector.show(parameter);
-      this.nodeSelectorListener = (event) => this.#hideNodeSelector(event);
-      window.addEventListener('click', this.nodeSelectorListener, true);
-    };
 
     buttonContainer.appendChild(currentNodeButton);
     buttonContainer.appendChild(deleteNodeButton);
