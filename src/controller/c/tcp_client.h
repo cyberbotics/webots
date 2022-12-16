@@ -27,9 +27,11 @@
 extern "C" {
 #endif
 
-int tcp_client_new(const char *host, int port);
-int tcp_client_open();
-int tcp_client_connect(int fd, const char *host, int port);
+extern const int ERROR_BUFFER_SIZE;
+
+int tcp_client_new(const char *host, int port, char *buffer);
+int tcp_client_open(char *buffer);
+int tcp_client_connect(int fd, const char *host, int port, char *buffer);
 bool tcp_client_send(int fd, const char *buffer, int size);
 int tcp_client_receive(int fd, char *buffer, int size);
 void tcp_client_close(int fd);

@@ -507,10 +507,14 @@ def main(args=None):
     generator.gen(PROC, "wb_supervisor_node_add_force(noderef, force, relative)", "supervisor")
     generator.gen(PROC, "wb_supervisor_node_add_force_with_offset(noderef, force, offset, relative)", "supervisor")
     generator.gen(PROC, "wb_supervisor_node_add_torque(noderef, torque, relative)", "supervisor")
+    generator.gen(FUNC, "wb_supervisor_node_disable_contact_points_tracking(noderef)", "supervisor")
+    # DEPRECATED
     generator.gen(FUNC, "wb_supervisor_node_disable_contact_point_tracking(noderef, include_descendants)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_node_disable_pose_tracking(node, from_node)", "supervisor")
-    generator.gen(FUNC, "wb_supervisor_node_enable_contact_point_tracking(noderef, sampling_period, include_descendants)",
+    generator.gen(FUNC, "wb_supervisor_node_enable_contact_points_tracking(noderef, sampling_period, include_descendants)",
                         "supervisor")
+    generator.gen(FUNC, "wb_supervisor_node_enable_contact_point_tracking(noderef, sampling_period, include_descendants)",
+                        "supervisor")  # DEPRECATED
     generator.gen(FUNC, "wb_supervisor_node_enable_pose_tracking(sampling_period, node, from_node)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_node_export_string(noderef)", "supervisor")
     generator.gen(FUNC, "wb_supervisor_node_get_base_type_name(noderef)", "supervisor")

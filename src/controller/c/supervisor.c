@@ -2848,7 +2848,7 @@ int wb_supervisor_field_get_count(WbFieldRef field) {
   return ((WbFieldStruct *)field)->count;
 }
 
-void wb_supervisor_node_enable_contact_point_tracking(WbNodeRef node, int sampling_period, bool include_descendants) {
+void wb_supervisor_node_enable_contact_points_tracking(WbNodeRef node, int sampling_period, bool include_descendants) {
   if (sampling_period < 0) {
     fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
@@ -2877,7 +2877,20 @@ void wb_supervisor_node_enable_contact_point_tracking(WbNodeRef node, int sampli
   robot_mutex_unlock();
 }
 
-void wb_supervisor_node_disable_contact_point_tracking(WbNodeRef node, bool include_descendants) {
+// to be officially deprecated in R2023b
+void wb_supervisor_node_enable_contact_point_tracking(WbNodeRef node, int sampling_period, bool include_descendants) {
+  /*
+  static bool deprecation_warning = true;
+  if (deprecation_warning) {
+    fprintf(stderr, "Warning: %s() is deprecated, use wb_supervisor_node_enable_contact_points_tracking() instead.\n",
+            __FUNCTION__);
+    deprecation_warning = false;
+  }
+  */
+  wb_supervisor_node_enable_contact_points_tracking(node, sampling_period, include_descendants);
+}
+
+void wb_supervisor_node_disable_contact_points_tracking(WbNodeRef node) {
   if (!robot_check_supervisor(__FUNCTION__))
     return;
 
@@ -2890,10 +2903,23 @@ void wb_supervisor_node_disable_contact_point_tracking(WbNodeRef node, bool incl
   contact_point_change_tracking_requested = true;
   contact_point_change_tracking.node = node;
   contact_point_change_tracking.enable = false;
-  contact_point_change_tracking.include_descendants = include_descendants;
+  contact_point_change_tracking.include_descendants = false;
   wb_robot_flush_unlocked(__FUNCTION__);
   pose_change_tracking_requested = false;
   robot_mutex_unlock();
+}
+
+// to be officially deprecated in R2023b
+void wb_supervisor_node_disable_contact_point_tracking(WbNodeRef node, bool include_descendants) {
+  /*
+  static bool deprecation_warning = true;
+  if (deprecation_warning) {
+    fprintf(stderr, "Warning: %s() is deprecated, use wb_supervisor_node_disable_contact_points_tracking() instead.\n",
+            __FUNCTION__);
+    deprecation_warning = false;
+  }
+  */
+  wb_supervisor_node_disable_contact_points_tracking(node);
 }
 
 void wb_supervisor_field_enable_sf_tracking(WbFieldRef field, int sampling_period) {
@@ -2989,9 +3015,9 @@ void wb_supervisor_node_disable_pose_tracking(WbNodeRef node, WbNodeRef from_nod
     return;
   }
 
-  if (!is_node_ref_valid(from_node)) {
+  if (from_node != NULL && !is_node_ref_valid(from_node)) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with a NULL or invalid 'from_node' argument.\n", __FUNCTION__);
+      fprintf(stderr, "Error: %s() called with an invalid 'from_node' argument.\n", __FUNCTION__);
     return;
   }
 
