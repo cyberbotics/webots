@@ -187,14 +187,12 @@ export default class NodeSelectorWindow {
 
   populateWindow() {
     const filterInput = document.getElementById('filter');
-    console.log('populate with filter : ' + filterInput.value + ' for nodes compatible with: ' + this.parameter.name);
 
     // populate node list
     const nodeList = document.getElementById('node-list');
     nodeList.innerHTML = '';
 
     const ol = document.createElement('ol');
-
     for (const [name, info] of this.nodes) {
       // filter incompatible nodes
       if (typeof info.tags !== 'undefined' && (info.tags.includes('hidden') || info.tags.includes('deprecated')))
@@ -207,7 +205,7 @@ export default class NodeSelectorWindow {
       // don't display non-Robot PROTO nodes containing devices (e.g. Kinect) about to be inserted outside a robot
       const isRobotDescendant = false; // TODO: find way of determining if the loaded PROTO is a robot descendant
       if (typeof info.baseType === 'undefined')
-        throw new Error('base-type property is undefined, is the xml complete?');
+        throw new Error('"base-type" property is undefined, is the proto-list.xml complete?');
 
       if (!isRobotDescendant && !(info.baseType === 'Robot') && info.needsRobotAncestor)
         continue;
@@ -215,7 +213,7 @@ export default class NodeSelectorWindow {
       if (!this.isAllowedToInsert(info.baseType, info.slotType))
         continue;
 
-      const item = this.#createNodeButton(name, info.url);
+      const item = this.#createNodeButton(name);
       ol.appendChild(item);
     }
 
@@ -235,7 +233,7 @@ export default class NodeSelectorWindow {
     this.populateNodeInfo(this.selection?.innerText);
   }
 
-  #createNodeButton(name, url) {
+  #createNodeButton(name) {
     const item = document.createElement('li');
     const button = document.createElement('button');
     button.style.width = '100%';
@@ -260,23 +258,23 @@ export default class NodeSelectorWindow {
 
   populateNodeInfo(protoName) {
     const nodeImage = document.getElementById('node-image');
-    const warning = document.getElementById('node-warning');
+    const line = document.getElementById('line');
     const description = document.getElementById('node-description');
     const license = document.getElementById('node-license');
-    const line = document.getElementById('line');
+    const warning = document.getElementById('node-warning');
 
     if (typeof protoName === 'undefined') {
       nodeImage.style.display = 'none';
+      line.style.display = 'none';
       description.style.display = 'none';
       license.style.display = 'none';
-      line.style.display = 'none';
       warning.style.display = 'flex';
     } else {
-      warning.style.display = 'none';
       nodeImage.style.display = 'block';
+      line.style.display = 'block';
       description.style.display = 'block';
       license.style.display = 'block';
-      line.style.display = 'block';
+      warning.style.display = 'none';
 
       const info = this.nodes.get(protoName);
       const url = info.url;
@@ -288,12 +286,10 @@ export default class NodeSelectorWindow {
 
   insertNode(protoName) {
     if (typeof protoName === 'undefined')
-      return;
+      throw new Error('It should not be possible to insert an undefined node.');
 
     const info = this.nodes.get(protoName);
-    const url = info.url;
-
-    this.#callback(this.parameter, url);
+    this.#callback(this.parameter, info.url);
     this.hide();
   }
 
@@ -302,7 +298,6 @@ export default class NodeSelectorWindow {
       throw new Error('The parameter is expected to be defined prior to checking node compatibility.')
 
     const baseNode = this.parameter.node.getBaseNode();
-
     if (baseNode.name === 'Slot' && typeof slotType !== 'undefined') {
       const otherSlotType = baseNode.getParameterByName('type').value.value.replaceAll('"', '');
       return this.isSlotTypeMatch(otherSlotType, slotType);

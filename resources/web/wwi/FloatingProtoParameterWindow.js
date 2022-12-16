@@ -696,7 +696,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const deleteNodeButton = document.createElement('button');
     deleteNodeButton.className = 'delete-button';
     deleteNodeButton.id = 'delete-node-' + parameter.name;
-    deleteNodeButton.title = 'Remove this node.';
+    deleteNodeButton.title = 'Remove node.';
     deleteNodeButton.onclick = () => {
       parameter.setValueFromJavaScript(this.#view, null);
       this.#refreshParameterRow(parameter);
@@ -705,12 +705,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const configureNodeButton = document.createElement('button');
     configureNodeButton.className = 'configure-button';
     configureNodeButton.id = 'configure-node-' + parameter.name;
-    configureNodeButton.title = 'Edit this node.';
+    configureNodeButton.title = 'Edit node.';
     configureNodeButton.onclick = async() => {
+      if (parameter.value.value === null)
+        return;
+
       this.proto = parameter.value.value;
       this.populateProtoParameterWindow();
     };
-
 
     buttonContainer.appendChild(currentNodeButton);
     buttonContainer.appendChild(deleteNodeButton);
@@ -732,7 +734,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   async #sfnodeOnChange(parameter, url) {
     const node = await this.#protoManager.generateNodeFromUrl(url);
-
     parameter.setValueFromJavaScript(this.#view, node);
     this.#refreshParameterRow(parameter);
   }
