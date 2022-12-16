@@ -31,6 +31,28 @@ PROTO RosbotXl [
     supervisor IS supervisor
     synchronization IS synchronization
     selfCollision IS selfCollision
+    physics Physics {
+      density -1
+      mass 3.500000
+      centerOfMass [ -0.016319 -0.004036 0.028190 ]
+      inertiaMatrix [
+        2.540425e-02 2.874642e-02 4.622710e-02
+        -2.000608e-04 -9.754257e-04 -2.603326e-04
+      ]
+    }
+    boundingObject DEF body_colision Group {
+      children [
+        DEF MAIN_BODY_BOX Transform {
+          translation 0.000000 0.000000 0.061200
+          rotation 0.000000 0.000000 1.000000 0.000000
+          children [
+            Mesh {
+              url "meshes/body_colision.stl"
+            }
+          ]
+        }
+      ]
+    }
     children [
       DEF MAIN_BODY Transform {
         translation 0.000000 0.000000 0.048000
@@ -41,26 +63,11 @@ PROTO RosbotXl [
           }
         ]
       }
-      DEF FL_WHEEL_AXIS Transform {
-        translation 0.085000 0.118000 0.000000
-        rotation 1 0 0 -1.5707953071795862
-      }
-      DEF FR_WHEEL_AXIS Transform {
-        translation 0.085000 -0.118000 0.000000
-        rotation 1 0 0 -1.5707953071795862
-      }
-      DEF RL_WHEEL_AXIS Transform {
-        translation -0.085000 0.118000 0.000000
-        rotation 1 0 0 -1.5707953071795862
-      }
-      DEF RR_WHEEL_AXIS Transform {
-        translation -0.085000 -0.118000 0.000000
-        rotation 1 0 0 -1.5707953071795862
-      }
+
       HingeJoint {
         jointParameters HingeJointParameters {
           axis 0.000000 1.000000 0.000000
-          anchor 0.085000 0.118000 0.048
+          anchor 0.085000 0.135000 0.048000
           dampingConstant 5.0
           staticFriction 1.0
         }
@@ -75,15 +82,15 @@ PROTO RosbotXl [
           }
         ]
         endPoint Solid {
-          translation 0.085000 0.118000 0.048
+          translation 0.085000 0.135000 0.048000
           rotation 0.000000 0.000000 1.000000 0.000000
           children [
             Transform {
               translation 0.000000 0.000000 0.000000
               rotation 0.000000 0.000000 1.000000 0.000000
               children [
-                DEF WHEEL_SHAPE CadShape {
-                  url "meshes/wheel_a.dae"
+                DEF WHEEL_SHAPE_B CadShape {
+                  url "meshes/mecanum_b.dae"
                 }
               ]
             }
@@ -94,8 +101,8 @@ PROTO RosbotXl [
             rotation 1.000000 0.000000 0.000000 -1.570800
             children [
               DEF WHEEL_CYLINDER Cylinder {
-                radius 0.048
-                height 0.032
+                radius 0.05
+                height 0.05
               }
             ]
           }
@@ -113,7 +120,7 @@ PROTO RosbotXl [
       HingeJoint {
         jointParameters HingeJointParameters {
           axis 0.000000 1.000000 0.000000
-          anchor 0.085000 -0.118000 0.048
+          anchor 0.085000 -0.135000 0.048000
           dampingConstant 5.0
           staticFriction 1.0
         }
@@ -128,14 +135,16 @@ PROTO RosbotXl [
           }
         ]
         endPoint Solid {
-          translation 0.085000 -0.118000 0.048
+          translation 0.085000 -0.135000 0.048000
           rotation 0.000000 0.000000 1.000000 0.000000
           children [
             Transform {
               translation 0.000000 0.000000 0.000000
               rotation 0.000000 0.000000 1.000000 3.141592
               children [
-                USE WHEEL_SHAPE
+                DEF WHEEL_SHAPE_A CadShape {
+                  url "meshes/mecanum_a.dae"
+                }
               ]
             }
           ]
@@ -154,7 +163,7 @@ PROTO RosbotXl [
       HingeJoint {
         jointParameters HingeJointParameters {
           axis 0.000000 1.000000 0.000000
-          anchor -0.085000 0.118000 0.048
+          anchor -0.085000 0.135000 0.048000
           dampingConstant 5.0
           staticFriction 1.0
         }
@@ -169,14 +178,14 @@ PROTO RosbotXl [
           }
         ]
         endPoint Solid {
-          translation -0.085000 0.118000 0.048
+          translation -0.085000 0.135000 0.048000
           rotation 0.000000 0.000000 1.000000 0.000000
           children [
             Transform {
               translation 0.000000 0.000000 0.000000
               rotation 0.000000 0.000000 1.000000 0.000000
               children [
-                USE WHEEL_SHAPE
+                USE WHEEL_SHAPE_A
               ]
             }
           ]
@@ -195,7 +204,7 @@ PROTO RosbotXl [
       HingeJoint {
         jointParameters HingeJointParameters {
           axis 0.000000 1.000000 0.000000
-          anchor -0.085000 -0.118000 0.048
+          anchor -0.085000 -0.135000 0.048000
           dampingConstant 5.0
           staticFriction 1.0
         }
@@ -210,14 +219,14 @@ PROTO RosbotXl [
           }
         ]
         endPoint Solid {
-          translation -0.085000 -0.118000 0.048
+          translation -0.085000 -0.135000 0.048000
           rotation 0.000000 0.000000 1.000000 0.000000
           children [
             Transform {
               translation 0.000000 0.000000 0.000000
               rotation 0.000000 0.000000 1.000000 3.141592
               children [
-                USE WHEEL_SHAPE
+                USE WHEEL_SHAPE_B
               ]
             }
           ]
@@ -233,23 +242,14 @@ PROTO RosbotXl [
         }
       }
       DEF LIDAR_SLOT Transform {
-        translation 0.0 0 0.13145
+        translation 0.000000 0.000000 0.13145
         children IS lidarSlot
       }
       Mpu-9250 {
-        translation -0.1369 -0.0419 0.085
+        translation -0.136900 -0.041900 0.037000
         rotation 1.000000 0.000000 0.000000 3.14159
         name "imu"
       }
     ]
-    physics Physics {
-      density -1
-      mass 3.500000
-      centerOfMass [ -0.016319 -0.004036 0.028190 ]
-      inertiaMatrix [
-        2.540425e-02 2.874642e-02 4.622710e-02
-        -2.000608e-04 -9.754257e-04 -2.603326e-04
-      ]
-    }
   }
 }
