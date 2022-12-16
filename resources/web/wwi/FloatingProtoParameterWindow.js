@@ -13,7 +13,7 @@ import WbWorld from './nodes/WbWorld.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 import NodeSelectorWindow from './NodeSelectorWindow.js';
-import { SFBool, SFNode } from './protoVisualizer/Vrml.js';
+import { SFNode } from './protoVisualizer/Vrml.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #mfId;
@@ -104,7 +104,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     if (contentDiv) {
       this.headerText.innerHTML = this.proto.name;
 
-      // populate the parameters
+      // populate the parameters based on the value of this.proto (i.e. current active proto)
       contentDiv.innerHTML = '';
       this.#rowNumber = 1;
 
@@ -148,7 +148,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     else
       this.#enableResetButton(resetButton);
 
-
     if (parameter.value instanceof SFNode) {
       const currentNodeButton = document.getElementById('current-node-' + parameter.name);
       const deleteNodeButton = document.getElementById('delete-node-' + parameter.name);
@@ -166,10 +165,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         currentNodeButton.innerHTML = parameter.value.value.name;
       }
     }
-
-    if (parameter.value instanceof SFBool) {
-
-    }
   }
 
   #disableResetButton(resetButton) {
@@ -185,7 +180,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   #createBackButton(parent) {
     const buttonContainer = document.createElement('span');
     buttonContainer.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
-    buttonContainer.style.gridColumn = '2 / 2';
+    buttonContainer.style.gridColumn = '1 / 5';
+    buttonContainer.style.justifySelf = 'center';
+    buttonContainer.style.paddingTop = '15px';
 
     const backButton = document.createElement('button');
     backButton.innerHTML = 'Back';
