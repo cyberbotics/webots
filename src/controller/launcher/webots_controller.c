@@ -120,7 +120,7 @@ bool get_matlab_path() {
   const size_t matlab_path_size = snprintf(NULL, 0, "\"\"%s%s%s\"", matlab_directory, latest_version, matlab_exec_suffix) + 1;
   matlab_path = malloc(matlab_path_size);
   sprintf(matlab_path, "\"\"%s%s%s\"", matlab_directory, latest_version, matlab_exec_suffix);
-#elif __linux__ 
+#elif __linux__
   const size_t matlab_path_size = snprintf(NULL, 0, "%s%s%s", matlab_directory, latest_version, matlab_exec_suffix) + 1;
   matlab_path = malloc(matlab_path_size);
   sprintf(matlab_path, "%s%s%s", matlab_directory, latest_version, matlab_exec_suffix);
@@ -740,8 +740,9 @@ int main(int argc, char **argv) {
     const char *jar_path = "/Controller.jar:";
 #endif
     char *short_controller_path = strdup(controller_path);
-    short_controller_path[strlen(controller_path)-1] = '\0';
-    const size_t classpath_size = snprintf(NULL, 0, "-classpath \"%s%s%s\"", lib_controller, jar_path, short_controller_path) + 1;
+    short_controller_path[strlen(controller_path) - 1] = '\0';
+    const size_t classpath_size =
+      snprintf(NULL, 0, "-classpath \"%s%s%s\"", lib_controller, jar_path, short_controller_path) + 1;
     char *classpath = malloc(classpath_size);
     sprintf(classpath, "-classpath \"%s%s%s\"", lib_controller, jar_path, short_controller_path);
 
