@@ -1060,6 +1060,7 @@ webots-view .node-library .node-info {
 webots-view .node-library .node-image {
   width: 150px;
   height: 150px;
+  aspect-ratio: 1.0;
   padding-top: 20px;
   padding-bottom: 15px;
   display: block;
@@ -1074,10 +1075,15 @@ webots-view .node-library .node-description {
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 5px;
+  scrollbar-width: none;
   float: left;
   overflow-y: scroll;
   overflow-x: hidden;
   height: 225px;
+}
+
+webots-view .node-library .node-description::-webkit-scrollbar {
+  display: none;
 }
 
 webots-view .node-library .node-license {
