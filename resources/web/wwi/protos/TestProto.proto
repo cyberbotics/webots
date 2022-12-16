@@ -1,9 +1,9 @@
 #VRML_SIM R2023b utf8
 
-EXTERNPROTO "Copper.proto"
+EXTERNPROTO "CustomCopper.proto"
 
 PROTO TestProto [
-  field SFNode app Copper{}
+  field SFNode app CustomCopper{}
 ]
 {
   Group {
