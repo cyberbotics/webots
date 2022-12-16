@@ -216,7 +216,7 @@ namespace wren {
   int Scene::computeNodeCount() const { return 1 + mRoot->computeChildCount(); }
   void Scene::printSceneTree() { debug::printSceneTree(); }
 
-  void Scene::render(bool culling, bool isRendering) {
+  void Scene::render(bool culling) {
     assert(glstate::isInitialized());
 
     ++mFrameCounter;
@@ -225,10 +225,10 @@ namespace wren {
     // debug::printCacheContents();
     // debug::printSceneTree();
 
-    renderToViewports({mMainViewport}, culling, isRendering);
+    renderToViewports({mMainViewport}, culling);
   }
 
-  void Scene::renderToViewports(std::vector<Viewport *> viewports, bool culling, bool isRendering) {
+  void Scene::renderToViewports(std::vector<Viewport *> viewports, bool culling) {
     printf("renderToViewports\n");
     assert(glstate::isInitialized());
 
@@ -241,17 +241,8 @@ namespace wren {
 
     prepareRender();
 
-    static bool isMainViewportRenderedOnce = false;
     for (Viewport *viewport : viewports) {
       mCurrentViewport = viewport;
-
-      if (!isRendering) {
-        if (!isMainViewportRenderedOnce && (mCurrentViewport == mMainViewport))
-          isMainViewportRenderedOnce = true;
-        else
-          continue;
-      }
-
 
       glstate::setDefaultState();
       mCurrentViewport->updateUniforms();
@@ -915,11 +906,11 @@ void wr_scene_terminate_frame_capture(WrScene *scene) {
   reinterpret_cast<wren::Scene *>(scene)->terminateFrameCapture();
 }
 
-void wr_scene_render(WrScene *scene, const char *material_name, bool culling, bool isRendering) {
+void wr_scene_render(WrScene *scene, const char *material_name, bool culling) {
   if (material_name)
     wren::Renderable::setUseMaterial(material_name);
 
-  reinterpret_cast<wren::Scene *>(scene)->render(culling, isRendering);
+  reinterpret_cast<wren::Scene *>(scene)->render(culling);
 
   wren::Renderable::setUseMaterial(NULL);
 }

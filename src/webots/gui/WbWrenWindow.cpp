@@ -228,7 +228,7 @@ void WbWrenWindow::renderNow(bool culling) {
 
   WbWrenOpenGlContext::makeWrenCurrent();
 
-  wr_scene_render(wr_scene_get_instance(), NULL, culling, WbSimulationState::instance()->isRendering());
+  wr_scene_render(wr_scene_get_instance(), NULL, culling);
 
   WbWrenOpenGlContext::instance()->swapBuffers(this);
   WbWrenOpenGlContext::doneWren();
