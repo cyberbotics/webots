@@ -22,11 +22,6 @@ export default class WbBaseNode {
 
   delete() {
     WbWorld.instance.nodes.delete(this.id);
-
-    //for (const useId of this.useList) {
-    //  const useNode = WbWorld.instance.nodes.get(useId);
-    //  useNode?.delete();
-    //}
   }
 
   finalize() {

@@ -132,15 +132,14 @@ export default class Node {
       copy.baseType = this.baseType.clone();
 
     copy.id = getAnId();
-    // console.log('cloned ' + this.name + ' id : ' + this.id + ' -> ' + copy.id);
     copy.parameters = new Map();
     for (const [parameterName, parameter] of this.parameters) {
       if (typeof parameter !== 'undefined') {
         // console.log('cloning parameter ' + parameterName + ' (type ' + parameter.type + ')');
         const parameterCopy = parameter.clone();
         parameterCopy.node = copy;
-        //console.log('NODE ORIGINAL', parameter);
-        //console.log('NODE COPY', parameterCopy);
+        // console.log('NODE ORIGINAL', parameter);
+        // console.log('NODE COPY', parameterCopy);
         copy.parameters.set(parameterName, parameterCopy);
       }
     }
@@ -202,7 +201,6 @@ export default class Node {
     tokenizer.skipToken('{');
 
     this.baseType = Node.createNode(tokenizer);
-    // console.log('STRUCT', this);
 
     tokenizer.skipToken('}');
   };
@@ -227,8 +225,6 @@ export default class Node {
 
             const exposedParameter = tokenizer.proto.parameters.get(alias);
             parameter.value = exposedParameter.value.clone();
-            //console.log('ORIGINAL:', exposedParameter.value);
-            //console.log('CLONE:', parameter.value);
             exposedParameter.insertLink(parameter);
           } else
             parameter.value.setValueFromTokenizer(tokenizer, this);
@@ -314,7 +310,7 @@ export default class Node {
       throw new Error('Regeneration was called but the template engine is not defined (i.e this.isTemplate is false)');
 
     this.protoBody = this.templateEngine.generateVrml(fieldsEncoding, this.rawBody);
-    console.log('Regenerated Proto Body:\n' + this.protoBody);
+    // console.log('Regenerated Proto Body:\n' + this.protoBody);
   };
 
   clearReferences() {
