@@ -235,8 +235,13 @@ export default class NodeSelectorWindow {
         this.selection.style.backgroundColor = '';
       this.selection = undefined;
     } else {
-      this.selection = ol.children[0];
+      if (this.parameter.value.value === null || !compatibleNodes.includes(this.parameter.value.value.name))
+        this.selection = ol.children[0]; // select the first item if the parameter doesn't currently contain anything
+      else
+        this.selection = ol.children[compatibleNodes.indexOf(this.parameter.value.value.name)]
+
       this.selection.style.backgroundColor = '#007acc';
+
     }
 
     // populate node info
