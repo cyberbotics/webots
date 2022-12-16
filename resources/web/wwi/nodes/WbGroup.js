@@ -5,6 +5,7 @@ import WbWorld from './WbWorld.js';
 import {getAnId} from './utils/id_provider.js';
 
 export default class WbGroup extends WbBaseNode {
+  #boundingSphere;
   #device;
   constructor(id, isPropeller) {
     super(id);
@@ -22,6 +23,10 @@ export default class WbGroup extends WbBaseNode {
 
   set device(device) {
     this.#device = device;
+  }
+
+  boundingSphere() {
+    return this.#boundingSphere;
   }
 
   clone(customID) {

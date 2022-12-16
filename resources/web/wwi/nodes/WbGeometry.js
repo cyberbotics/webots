@@ -10,6 +10,7 @@ import {findUpperTransform, nodeIsInBoundingObject} from './utils/node_utilities
 
 export default class WbGeometry extends WbBaseNode {
   #boundingObjectFirstTimeSearch;
+  #boundingSphere;
   #isInBoundingObject;
   #upperTransformFirstTimeSearch;
   #wrenScaleTransform;
@@ -24,6 +25,10 @@ export default class WbGeometry extends WbBaseNode {
 
     this.#upperTransformFirstTimeSearch = true;
     this.upperTransform = false;
+  }
+
+  boundingSphere() {
+    return this.#boundingSphere;
   }
 
   computeCastShadows(enabled) {

@@ -24,8 +24,8 @@ export default class WbJoint extends WbBaseNode {
       this.#jointParameters.onChange = () => this._updatePosition();
   }
 
-  updateBoundingObjectVisibility() {
-    this.#endPoint?.updateBoundingObjectVisibility();
+  boundingSphere() {
+    return this?.#endPoint.boundingSphere();
   }
 
   createWrenObjects() {
@@ -65,6 +65,10 @@ export default class WbJoint extends WbBaseNode {
 
     this.#jointParameters?.postFinalize();
     this.#endPoint?.postFinalize();
+  }
+
+  updateBoundingObjectVisibility() {
+    this.#endPoint?.updateBoundingObjectVisibility();
   }
 
   _updatePosition() {}

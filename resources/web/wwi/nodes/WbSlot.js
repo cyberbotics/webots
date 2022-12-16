@@ -8,6 +8,10 @@ export default class WbSlot extends WbBaseNode {
     this.type = type;
   }
 
+  boundingSphere() {
+    return this?.endPoint.boundingSphere();
+  }
+
   clone(customID) {
     const slot = new WbSlot(customID, this.type);
 
