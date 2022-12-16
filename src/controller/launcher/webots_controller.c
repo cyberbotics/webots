@@ -37,7 +37,6 @@ char *controller_path;
 char *controller_extension;
 char *matlab_path;
 char *current_path;
-char *runtime_ini_line;
 
 // Environment variables
 char *WEBOTS_CONTROLLER_URL;
@@ -218,7 +217,7 @@ bool parse_options(int nb_arguments, char **arguments) {
   const char *robot_name_string = robot_name ? robot_name : "";
   if (strncmp(protocol, "tcp", 3) == 0) {
     if (!ip_address) {
-      printf("Specify the IP address of the Webots machine to connect to with '--ip_address=' option.\n");
+      printf("Specify the IP address of the Webots machine to connect to with '--ip-address=' option.\n");
       return false;
     }
     const size_t WEBOTS_CONTROLLER_URL_size = snprintf(NULL, 0, "WEBOTS_CONTROLLER_URL=%s://%s:%s%s%s", protocol, ip_address,
@@ -549,13 +548,17 @@ void parse_runtime_ini() {
   char *line_buffer = malloc(MAX_LINE_BUFFER_SIZE);
   enum sections { Path, Simple, Windows, macOS, Linux } section;
   while (fgets(line_buffer, MAX_LINE_BUFFER_SIZE, runtime_ini)) {
-    runtime_ini_line = &line_buffer[0];
+    char *runtime_ini_line = malloc(strlen(line_buffer) + 1);
+    strcpy(runtime_ini_line, line_buffer);
     remove_char(runtime_ini_line, ' ');   // remove useless spaces
     remove_char(runtime_ini_line, '\n');  // remove useless end-of-lines
+    remove_char(runtime_ini_line, '\r');  // remove useless end-of-lines
 
     // Ignore empty lines
-    if (!(strlen(runtime_ini_line) - 1))
+    if (!strlen(runtime_ini_line)) {
+      free(runtime_ini_line);
       continue;
+    }
 
     // Section line
     if (strncmp(runtime_ini_line, "[", 1) == 0) {
@@ -576,8 +579,10 @@ void parse_runtime_ini() {
       }
     }
     // Commented line
-    else if (strncmp(runtime_ini_line, ";", 1) == 0)
+    else if (strncmp(runtime_ini_line, ";", 1) == 0) {
+      free(runtime_ini_line);
       continue;
+    }
     // Key-value line
     else {
       char *new_env_ptr;
@@ -645,7 +650,9 @@ void parse_runtime_ini() {
           break;
       }
     }
+    free(runtime_ini_line);
   }
+  free(line_buffer);
   fclose(runtime_ini);
 }
 
@@ -784,7 +791,6 @@ int main(int argc, char **argv) {
   free(matlab_path);
   free(current_path);
   free(controller);
-  free(runtime_ini_line);
 
   free(WEBOTS_CONTROLLER_URL);
   free(new_path);
