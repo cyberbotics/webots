@@ -684,7 +684,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     currentNodeButton.title = 'Select a node to insert';
     currentNodeButton.onclick = async() => {
       if (typeof this.nodeSelector === 'undefined') {
-        this.nodeSelector = new NodeSelectorWindow(this.parentNode, this.#sfnodeOnChange.bind(this));
+        this.nodeSelector = new NodeSelectorWindow(this.parentNode, this.#sfnodeOnChange.bind(this), this.#protoManager.proto);
         await this.nodeSelector.initialize();
       }
 

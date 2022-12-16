@@ -55,8 +55,10 @@ class ProtoInfo {
 
 export default class NodeSelectorWindow {
   #callback;
-  constructor(parentNode, callback) {
+  #rootProto;
+  constructor(parentNode, callback, rootProto) {
     this.#callback = callback;
+    this.#rootProto = rootProto;
 
     this.#setupWindow(parentNode);
   }
@@ -203,11 +205,10 @@ export default class NodeSelectorWindow {
         continue;
 
       // don't display non-Robot PROTO nodes containing devices (e.g. Kinect) about to be inserted outside a robot
-      const isRobotDescendant = false; // TODO: find way of determining if the loaded PROTO is a robot descendant
       if (typeof info.baseType === 'undefined')
         throw new Error('"base-type" property is undefined, is the proto-list.xml complete?');
 
-      if (!isRobotDescendant && !(info.baseType === 'Robot') && info.needsRobotAncestor)
+      if (!this.isRobotDescendant() && !(info.baseType === 'Robot') && info.needsRobotAncestor)
         continue;
 
       if (!this.isAllowedToInsert(info.baseType, info.slotType))
@@ -356,6 +357,10 @@ export default class NodeSelectorWindow {
     this.parameter = parameter;
     this.populateWindow();
     this.nodeSelector.style.display = 'block';
+  }
+
+  isRobotDescendant() {
+    return this.#rootProto.getBaseNode().name === 'Robot';
   }
 
   hide() {
