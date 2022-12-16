@@ -2536,9 +2536,12 @@ void WbView3D::updateVirtualRealityHeadsetOverlay() {
 }
 
 void WbView3D::handleWorldModificationFromSupervisor() {
-  // refresh only if simulation is paused, stepped, or if the simulation is running in no-rendering mode
-  // the latter case is needed otherwise the memory is never cleared on node deletions
+  // if the simulation is running in no-rendering mode, we need to execute the pending updates in order to clear supervisor deletions
+  if (!WbSimulationState::instance()->isRendering())
+    wr_scene_apply_pending_updates(wr_scene_get_instance());
+
   const WbSimulationState *const sim = WbSimulationState::instance();
-  if (sim->isPaused() || !WbSimulationState::instance()->isRendering())
+  // refresh only if simulation is paused or stepped
+  if (sim->isPaused())
     refresh();
 }
