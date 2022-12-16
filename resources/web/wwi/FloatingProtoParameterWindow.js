@@ -48,6 +48,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.#mfId = 0;
     this.#rowId = 0;
 
+    this.fieldsToExport = new Map();
+
     // create tabs
     const infoTabsBar = document.createElement('div');
     infoTabsBar.className = 'proto-tabs-bar';
@@ -211,16 +213,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     downloadButton.innerHTML = 'Download';
     downloadButton.title = 'Download the new proto';
     downloadButton.onclick = () => {
-      const fields = document.getElementsByClassName('key-parameter');
-      let fieldsToExport = new Set();
-      if (fields) {
-        for (let i = 0; i < fields.length; i++) {
-          if (fields[i].checkbox.checked)
-            fieldsToExport.add(fields[i].key);
-        }
-      }
-
-      const data = this.#protoManager.exportProto(input.value, fieldsToExport);
+      const data = this.#protoManager.exportProto(input.value, this.fieldsToExport);
       const downloadLink = document.createElement('a');
       downloadLink.download = input.value + '.proto';
       const file = new Blob([data], {
@@ -246,7 +239,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.className = 'key-parameter';
 
     if (this.proto.isRoot) {
-      const exportCheckbox = this.#createCheckbox(parent);
+      const exportCheckbox = this.#createCheckbox(parent, key);
       p.checkbox = exportCheckbox;
     }
 
@@ -282,7 +275,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.style.gridColumn = '2 / 2';
     p.className = 'key-parameter';
 
-    const exportCheckbox = this.#createCheckbox(parent);
+    const exportCheckbox = this.#createCheckbox(parent, key);
     p.checkbox = exportCheckbox;
 
     const hideShowButton = document.createElement('button');
@@ -497,7 +490,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.className = 'key-parameter';
 
     if (this.proto.isRoot) {
-      const exportCheckbox = this.#createCheckbox(parent);
+      const exportCheckbox = this.#createCheckbox(parent, key);
       p.checkbox = exportCheckbox;
     }
 
@@ -564,7 +557,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.className = 'key-parameter';
 
     if (this.proto.isRoot) {
-      const exportCheckbox = this.#createCheckbox(parent);
+      const exportCheckbox = this.#createCheckbox(parent, key);
       p.checkbox = exportCheckbox;
     }
 
@@ -625,7 +618,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.style.gridColumn = '2 / 2';
 
     if (this.proto.isRoot) {
-      const exportCheckbox = this.#createCheckbox(parent);
+      const exportCheckbox = this.#createCheckbox(parent, key);
       p.checkbox = exportCheckbox;
     }
 
@@ -666,7 +659,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.style.gridColumn = '2 / 2';
 
     if (this.proto.isRoot) {
-      const exportCheckbox = this.#createCheckbox(parent,  this.#rowNumber);
+      const exportCheckbox = this.#createCheckbox(parent, key);
       p.checkbox = exportCheckbox;
     }
 
@@ -762,7 +755,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     p.style.gridColumn = '2 / 2';
 
-    const exportCheckbox = this.#createCheckbox(parent, this.#rowNumber);
+    const exportCheckbox = this.#createCheckbox(parent, key);
 
     const value = document.createElement('p');
     value.className = 'value-parameter';
@@ -808,7 +801,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     p.style.gridColumn = '2 / 2';
 
-    const exportCheckbox = this.#createCheckbox(parent);
+    const exportCheckbox = this.#createCheckbox(parent, key);
 
     const value = document.createElement('p');
     value.className = 'value-parameter';
@@ -868,13 +861,18 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     return resetButton;
   }
 
-  #createCheckbox(parent) {
+  #createCheckbox(parent, key) {
     const exportCheckbox = document.createElement('input');
     exportCheckbox.type = 'checkbox';
     exportCheckbox.className = 'export-checkbox';
     exportCheckbox.title = 'Field to be exposed';
+    exportCheckbox.key = key;
     exportCheckbox.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     exportCheckbox.style.gridColumn = '1 / 1';
+    exportCheckbox.onchange = (event) => this.fieldsToExport.set(exportCheckbox.key, exportCheckbox.checked);
+    if (this.fieldsToExport.has(key))
+      exportCheckbox.checked = this.fieldsToExport.get(key);
+
     parent.appendChild(exportCheckbox);
 
     return exportCheckbox;
