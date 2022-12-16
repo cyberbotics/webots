@@ -81,10 +81,10 @@ export default class Parameter {
   // TODO: find better approach rather than propagating the view to subsequent parameters
   setValueFromJavaScript(view, v) {
     // notify linked parameters of the change
-    console.log(this.name, ' has links: ', this.parameterLinks);
+    // console.log(this.name, ' has links: ', this.parameterLinks);
     for (const link of this.parameterLinks) {
       const newValue = (v !== null && v instanceof Node) ? v.clone() : v;
-      console.log(this.name + ' change notifies ' + link.name);
+      // console.log(this.name + ' change notifies ' + link.name);
       link.setValueFromJavaScript(view, newValue);
     }
 
@@ -125,7 +125,7 @@ export default class Parameter {
           const id = p.value.value.getBaseNode().id;
 
           view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
-          console.log('delete: ', id);
+          // console.log('delete: ', id);
         }
 
         // update value on the structure side
@@ -134,10 +134,9 @@ export default class Parameter {
         if (v !== null) {
           // get the parent id to insert the new node
           const parentId = baseNode.id.replace('n', '');
-          console.log('parent node: ' + parentId);
 
           const x3d = new XMLSerializer().serializeToString(v.toX3d());
-          console.log('in parent ', parentId, ' insert:' + x3d);
+          // console.log('in parent ', parentId, ' insert:' + x3d);
           view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
         }
       } else {

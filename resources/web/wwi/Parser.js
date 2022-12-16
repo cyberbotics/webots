@@ -181,7 +181,6 @@ export default class Parser {
       WbWorld.instance.root.children.forEach((node, i) => {
         const percentage = 70 + 30 * (i + 1) / WbWorld.instance.root.children.length;
         const info = 'Finalizing node ' + node.id + ': ' + Math.round(100 * (i + 1) / WbWorld.instance.root.children.length) + '%';
-        console.log('finalizing node id: ', node.id)
         webots.currentView.progress.setProgressBar('block', 'same', 75 + 0.25 * percentage, info);
         node.finalize();
       });
