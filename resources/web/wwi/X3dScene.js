@@ -192,7 +192,6 @@ export default class X3dScene {
   }
 
   async loadObject(x3dObject, parentId, callback) {
-    console.log('LOADOBJECT')
     let parentNode;
     if (typeof parentId !== 'undefined') {
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
