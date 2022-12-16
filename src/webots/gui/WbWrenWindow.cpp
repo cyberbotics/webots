@@ -33,7 +33,6 @@
 #include "WbWrenPostProcessingEffects.hpp"
 #include "WbWrenShaders.hpp"
 #include "WbWrenTextureOverlay.hpp"
-#include "WbSimulationState.hpp"
 
 #include <wren/config.h>
 #include <wren/frame_buffer.h>
@@ -195,7 +194,6 @@ void WbWrenWindow::blitMainFrameBufferToScreen() {
 }
 
 void WbWrenWindow::renderLater() {
-  printf("RENDERLATER? %d\n", mUpdatePending);
   if (!mUpdatePending) {
     mUpdatePending = true;
     QApplication::postEvent(this, new QEvent(QEvent::UpdateRequest));
@@ -203,7 +201,6 @@ void WbWrenWindow::renderLater() {
 }
 
 void WbWrenWindow::renderNow(bool culling) {
-  printf("renderNow\n");
   if (!isExposed() || !wr_gl_state_is_initialized())
     return;
 
@@ -247,10 +244,8 @@ void WbWrenWindow::renderNow(bool culling) {
 bool WbWrenWindow::event(QEvent *event) {
   switch (event->type()) {
     case QEvent::UpdateRequest:
-      printf("doing event UpdateRequest, %d\n", mUpdatePending);
       if (mUpdatePending) {
         mUpdatePending = false;
-        printf("render now!\n");
         renderNow();
       }
       return true;

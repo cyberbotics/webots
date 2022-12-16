@@ -229,7 +229,6 @@ namespace wren {
   }
 
   void Scene::renderToViewports(std::vector<Viewport *> viewports, bool culling) {
-    printf("renderToViewports\n");
     assert(glstate::isInitialized());
 
     DEBUG("Notify frame listeners...");
