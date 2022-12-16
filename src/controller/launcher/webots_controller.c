@@ -116,7 +116,11 @@ bool get_matlab_path() {
   const size_t matlab_path_size = snprintf(NULL, 0, "%s%s", matlab_directory, latest_version) + 1;
   matlab_path = malloc(matlab_path_size);
   sprintf(matlab_path, "%s%s", matlab_directory, latest_version);
-#else
+#elif _WIN32
+  const size_t matlab_path_size = snprintf(NULL, 0, "\"\"%s%s%s\"", matlab_directory, latest_version, matlab_exec_suffix) + 1;
+  matlab_path = malloc(matlab_path_size);
+  sprintf(matlab_path, "\"\"%s%s%s\"", matlab_directory, latest_version, matlab_exec_suffix);
+#elif __linux__ 
   const size_t matlab_path_size = snprintf(NULL, 0, "%s%s%s", matlab_directory, latest_version, matlab_exec_suffix) + 1;
   matlab_path = malloc(matlab_path_size);
   sprintf(matlab_path, "%s%s%s", matlab_directory, latest_version, matlab_exec_suffix);
@@ -259,11 +263,11 @@ void exec_java_config_environment() {
 #ifdef _WIN32
   const size_t new_path_size =
     snprintf(NULL, 0, "Path=%s\\lib\\controller;%s\\msys64\\mingw64\\bin;%s\\msys64\\mingw64\\bin\\cpp;%s", WEBOTS_HOME,
-             WEBOTS_HOME, WEBOTS_HOME, getenv("DYLD_LIBRARY_PATH")) +
+             WEBOTS_HOME, WEBOTS_HOME, getenv("Path")) +
     1;
   new_path = malloc(new_path_size);
   sprintf(new_path, "Path=%s\\lib\\controller;%s\\msys64\\mingw64\\bin;%s\\msys64\\mingw64\\bin\\cpp;%s", WEBOTS_HOME,
-          WEBOTS_HOME, WEBOTS_HOME, getenv("DYLD_LIBRARY_PATH"));
+          WEBOTS_HOME, WEBOTS_HOME, getenv("Path"));
   putenv(new_path);
 #else
 #ifdef __linux__
@@ -482,7 +486,6 @@ void format_ini_paths(char **string) {
   // Add absolute path to runtime.ini in front of all relative paths
   char *tmp = strdup(*string);
   char *ptr = strtok(tmp, "=");
-  const char *env_name = ptr;
   int offset = 0;
   while (ptr != NULL) {
     int index = ptr - tmp + offset;
@@ -505,18 +508,6 @@ void format_ini_paths(char **string) {
   // Replace environment variables '$(ENV)' with their content
   parse_environment_variables(string);
 
-  // Append existing environment variable content
-  if (getenv(env_name)) {
-    const size_t new_size = snprintf(NULL, 0, "%s:%s", *string, getenv(env_name)) + 1;
-    char *tmp_realloc = realloc(*string, new_size);
-    if (tmp_realloc)
-      *string = tmp_realloc;
-#ifdef _WIN32
-    sprintf(*string + strlen(*string), ";%s", getenv(env_name));
-#else
-    sprintf(*string + strlen(*string), ":%s", getenv(env_name));
-#endif
-  }
   free(tmp);
 }
 
@@ -534,9 +525,9 @@ void parse_runtime_ini() {
   controller_path[controller_path_size] = '\0';
 
   // Open runtime.ini if it exists
-  const size_t ini_file_name_size = snprintf(NULL, 0, "%s/runtime.ini", controller_path) + 1;
+  const size_t ini_file_name_size = snprintf(NULL, 0, "%sruntime.ini", controller_path) + 1;
   char *ini_file_name = malloc(ini_file_name_size);
-  sprintf(ini_file_name, "%s/runtime.ini", controller_path);
+  sprintf(ini_file_name, "%sruntime.ini", controller_path);
   FILE *runtime_ini;
   if ((runtime_ini = fopen(ini_file_name, "r")) == NULL) {
     free(ini_file_name);
@@ -600,20 +591,6 @@ void parse_runtime_ini() {
           break;
         case Simple:
           remove_comment(runtime_ini_line);
-          // Append existing environment variable
-          char *line_copy = strdup(runtime_ini_line);
-          const char *env_name = strtok(line_copy, "=");
-          if (getenv(env_name)) {
-            const size_t new_size = snprintf(NULL, 0, "%s:%s", runtime_ini_line, getenv(env_name)) + 1;
-            char *tmp_realloc = realloc(runtime_ini_line, new_size);
-            if (tmp_realloc)
-              runtime_ini_line = tmp_realloc;
-#ifdef _WIN32
-            sprintf(runtime_ini_line + strlen(runtime_ini_line), ";%s", getenv(env_name));
-#else
-            sprintf(runtime_ini_line + strlen(runtime_ini_line), ":%s", getenv(env_name));
-#endif
-          }
           new_env_ptr = strdup(runtime_ini_line);
           putenv(new_env_ptr);
           break;
@@ -726,7 +703,7 @@ int main(int argc, char **argv) {
     }
 
 #ifdef _WIN32
-    const char *launcher_path = "\\lib\\controller\\matlab\\launcher.m'); exit;\"";
+    const char *launcher_path = "\\lib\\controller\\matlab\\launcher.m'); exit;\"\"";
 #elif defined __APPLE__
     const char *launcher_path = "/Contents/lib/controller/matlab/launcher.m'); exit;\"";
 #elif defined __linux__
@@ -758,18 +735,20 @@ int main(int argc, char **argv) {
 
     // Write the 'classpath' option (mandatory for java controllers)
 #ifdef _WIN32
-    const char *jar_path = "\\Controller.jar:";
+    const char *jar_path = "\\Controller.jar;";
 #else
     const char *jar_path = "/Controller.jar:";
 #endif
-    const size_t classpath_size = snprintf(NULL, 0, "-classpath %s%s%s", lib_controller, jar_path, controller_path) + 1;
+    char *short_controller_path = strdup(controller_path);
+    short_controller_path[strlen(controller_path)-1] = '\0';
+    const size_t classpath_size = snprintf(NULL, 0, "-classpath \"%s%s%s\"", lib_controller, jar_path, short_controller_path) + 1;
     char *classpath = malloc(classpath_size);
-    sprintf(classpath, "-classpath %s%s%s", lib_controller, jar_path, controller_path);
+    sprintf(classpath, "-classpath \"%s%s%s\"", lib_controller, jar_path, short_controller_path);
 
     // Write the 'Djava.library.path' option (mandatory for java controllers)
-    const size_t java_library_size = snprintf(NULL, 0, "-Djava.library.path=%s", lib_controller) + 1;
+    const size_t java_library_size = snprintf(NULL, 0, "\"-Djava.library.path=%s\"", lib_controller) + 1;
     char *java_library = malloc(java_library_size);
-    sprintf(java_library, "-Djava.library.path=%s", lib_controller);
+    sprintf(java_library, "\"-Djava.library.path=%s\"", lib_controller);
 
     // Write arguments to java command
     controller_name[strlen(controller_name) - strlen(controller_extension)] = '\0';
@@ -779,6 +758,7 @@ int main(int argc, char **argv) {
 
     system(java_command);
     free(lib_controller);
+    free(short_controller_path);
     free(classpath);
     free(java_library);
     free(java_command);
