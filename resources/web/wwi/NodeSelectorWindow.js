@@ -195,7 +195,7 @@ export default class NodeSelectorWindow {
     const nodeList = document.getElementById('node-list');
     nodeList.innerHTML = '';
 
-    const ol = document.createElement('ol');
+    const compatibleNodes = [];
     for (const [name, info] of this.nodes) {
       // filter incompatible nodes
       if (typeof info.tags !== 'undefined' && (info.tags.includes('hidden') || info.tags.includes('deprecated')))
@@ -215,6 +215,14 @@ export default class NodeSelectorWindow {
       if (!this.isAllowedToInsert(info.baseType, info.slotType))
         continue;
 
+      compatibleNodes.push(name);
+    }
+
+    compatibleNodes.sort();
+    console.log(compatibleNodes)
+
+    const ol = document.createElement('ol');
+    for (const name of compatibleNodes) {
       const item = this.#createNodeButton(name);
       ol.appendChild(item);
     }

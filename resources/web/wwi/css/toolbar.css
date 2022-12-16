@@ -991,6 +991,7 @@ webots-view .value-parameter {
 
 webots-view .sfnode-button {
   border-width: 2px;
+  border-color:white;
   background-color: #444;
   background-repeat: no-repeat;
   cursor: pointer;
