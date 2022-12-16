@@ -219,7 +219,6 @@ export default class NodeSelectorWindow {
     }
 
     compatibleNodes.sort();
-    console.log(compatibleNodes)
 
     const ol = document.createElement('ol');
     for (const name of compatibleNodes) {
