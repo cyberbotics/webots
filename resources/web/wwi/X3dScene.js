@@ -137,18 +137,6 @@ export default class X3dScene {
     clearTimeout(this.#renderingTimeout);
   }
 
-  parentId(id) {
-    if (!id.startsWith('n'))
-      id = 'n' + id;
-
-    const object = WbWorld.instance.nodes.get(id);
-    if (typeof object === 'undefined') {
-      throw new Error('Requested parentage of node that does not exist.');
-    }
-
-    return object.parent.replace('n', '');
-  }
-
   #deleteObject(id) {
     const object = WbWorld.instance.nodes.get('n' + id);
     if (typeof object === 'undefined')
@@ -164,11 +152,11 @@ export default class X3dScene {
     this.render();
   }
 
-  loadRawWorldFile(raw, onLoad, progress) {
+  async loadRawWorldFile(raw, onLoad, progress) {
     console.log('loadRawWorldFile')
     const prefix = webots.currentView.prefix;
     const parser = new Parser(prefix);
-    parser.parse(raw, this.renderer).then(() => onLoad());
+    await parser.parse(raw, this.renderer).then(() => onLoad());
   }
 
   loadWorldFile(url, onLoad, progress) {
@@ -181,7 +169,7 @@ export default class X3dScene {
       // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
       if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) {
         const parser = new Parser(prefix);
-        parser.parse(xmlhttp.responseText, renderer).then(() => onLoad());
+        await parser.parse(xmlhttp.responseText, renderer).then(() => onLoad());
       } else if (xmlhttp.status === 404)
         progress.setProgressBar('block', 'Loading world file...', 5, '(error) File not found: ' + url);
     };
@@ -198,7 +186,6 @@ export default class X3dScene {
       parentNode.isPreFinalizedCalled = false;
       parentNode.isPostFinalizedCalled = false;
     }
-    parentNode = WbWorld.instance.nodes.get('n' + parentId);
 
     const parser = new Parser(webots.currentView.prefix);
     parser.prefix = webots.currentView.prefix;
@@ -207,7 +194,7 @@ export default class X3dScene {
     const node = WbWorld.instance.nodes.get(parser.rootNodeId);
     if (typeof parentId !== 'undefined') {
       node.finalize();
-      if (parentNode instanceof WbShape) // TODO: replace by a mechanism similar to onchange/#update?
+      if (parentNode instanceof WbShape) // TODO: this might be improved with a onchange trigger
         parentNode.updateAppearance();
     } else
       node.finalize()

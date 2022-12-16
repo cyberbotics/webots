@@ -116,7 +116,6 @@ export default class Parser {
       const parser = new DOMParser();
       xml = parser.parseFromString(text, 'text/xml');
     }
-
     if (typeof xml === 'undefined')
       console.error('File to parse not found');
     else {
@@ -159,7 +158,6 @@ export default class Parser {
         this.smaaSearchTexture = undefined;
         this.gtaoNoiseTexture = undefined;
       }
-      console.log('NODES', WbWorld.instance);
 
       if (!finalize)
         return;
@@ -180,14 +178,13 @@ export default class Parser {
 
       WbWorld.instance.root.finalize();
 
-      // TODO: restore progress
-      //WbWorld.instance.root.children.forEach((node, i) => {
-      //  const percentage = 70 + 30 * (i + 1) / WbWorld.instance.root.children.length;
-      //  const info = 'Finalizing node ' + node.id + ': ' + Math.round(100 * (i + 1) / WbWorld.instance.root.children.length) + '%';
-      //  console.log('finalizing node id: ', node.id)
-      //  webots.currentView.progress.setProgressBar('block', 'same', 75 + 0.25 * percentage, info);
-      //  node.finalize();
-      //});
+      WbWorld.instance.root.children.forEach((node, i) => {
+        const percentage = 70 + 30 * (i + 1) / WbWorld.instance.root.children.length;
+        const info = 'Finalizing node ' + node.id + ': ' + Math.round(100 * (i + 1) / WbWorld.instance.root.children.length) + '%';
+        console.log('finalizing node id: ', node.id)
+        webots.currentView.progress.setProgressBar('block', 'same', 75 + 0.25 * percentage, info);
+        node.finalize();
+      });
 
       WbWorld.instance.readyForUpdates = true;
 
@@ -197,7 +194,7 @@ export default class Parser {
 
       if (typeof callback === 'function')
         callback();
-      console.log('NODES', WbWorld.instance);
+      console.log('World Instance', WbWorld.instance);
       console.timeEnd('Loaded in: ');
     });
   }
