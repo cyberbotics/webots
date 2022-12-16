@@ -2536,7 +2536,7 @@ void WbView3D::updateVirtualRealityHeadsetOverlay() {
 }
 
 void WbView3D::handleWorldModificationFromSupervisor() {
-  // if the simulation is running in no-rendering mode, we need to execute the pending updates in order to clear supervisor deletions
+  // if the simulation is running in no-rendering mode the pending updates in order to clear supervisor deletions
   if (!WbSimulationState::instance()->isRendering())
     wr_scene_apply_pending_updates(wr_scene_get_instance());
 
