@@ -67,7 +67,7 @@ export default class WebotsView extends HTMLElement {
   }
 
   #loadScript(scriptUrl) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       const script = document.createElement('script');
       script.onload = resolve;
       script.src = scriptUrl;

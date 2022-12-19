@@ -66,9 +66,8 @@ export default class NodeSelectorWindow {
   async initialize() {
     return new Promise((resolve, reject) => {
       const xmlhttp = new XMLHttpRequest();
-      //xmlhttp.open('GET', './protoVisualizer/temporary-proto-list.xml', true);
-      xmlhttp.open('GET', 'https://raw.githubusercontent.com/cyberbotics/webots/enhancement-insert-sfnode/resources/web/wwi/protoVisualizer/temporary-proto-list.xml', true);
-      xmlhttp.onreadystatechange = async() => {
+      xmlhttp.open('GET', 'https://cyberbotics.com/wwi/proto/protoVisualizer/temporary-proto-list.xml', true);
+      xmlhttp.onreadystatechange = async () => {
         if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
           resolve(xmlhttp.responseText);
       };
@@ -133,7 +132,7 @@ export default class NodeSelectorWindow {
     img.id = 'node-image';
     img.className = 'node-image'
     img.draggable = false;
-    img.src = '../../images/missing_proto_icon.png';
+    img.src = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023a/resources/images/missing_proto_icon.png';
     nodeInfo.appendChild(img);
 
     const line = document.createElement('hr');
@@ -265,7 +264,7 @@ export default class NodeSelectorWindow {
       this.populateNodeInfo(this.selection.innerText);
     };
 
-    button.ondblclick = async(item) => this.insertNode(item.target.innerText);
+    button.ondblclick = async (item) => this.insertNode(item.target.innerText);
 
     return item;
   }
