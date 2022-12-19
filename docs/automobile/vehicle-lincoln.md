@@ -38,6 +38,22 @@ LincolnMKZ {
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
 
+### LincolnMKZ Field Summary
+
+- `color`: Defines the car body color.
+
+- `plate`: Defines the plate texture.
+
+- `sensorsSlotFront`: Extends the robot with new nodes on the front of the car.
+
+- `sensorsSlotRear`: Extends the robot with new nodes on the back of the car.
+
+- `sensorsSlotTop`: Extends the robot with new nodes on the roof of the car.
+
+- `sensorsSlotCenter`: Extends the robot with new nodes at the center of the car.
+
+- `frontSpotLights`: Defines whether the car should have front spot lights.
+
 ## LincolnMKZSimple
 
 Simple kinematic model of the Lincoln MKZ 2017 to be moved with a Supervisor.
@@ -73,4 +89,20 @@ LincolnMKZSimple {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+
+### LincolnMKZSimple Field Summary
+
+- `color`: Defines the car body color.
+
+- `plate`: Defines the plate texture.
+
+- `sensorsSlotFront`: Extends the robot with new nodes on the front of the car.
+
+- `sensorsSlotRear`: Extends the robot with new nodes on the back of the car.
+
+- `sensorsSlotTop`: Extends the robot with new nodes on the roof of the car.
+
+- `sensorsSlotCenter`: Extends the robot with new nodes at the center of the car.
+
+- `wheelBoundingObject`: Defines whether the wheels should have a bounding object.
 

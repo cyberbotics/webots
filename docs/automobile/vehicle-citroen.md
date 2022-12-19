@@ -21,7 +21,7 @@ CitroenCZero {
   SFVec3f    translation       0 0 0.4
   SFRotation rotation          0 0 1 0
   SFColor    color             0.85 0.85 0.05
-  MFString   plate             "../protos/textures/plate.jpg"
+  MFString   plate             "../textures/plate.jpg"
   SFString   engineSound       ""
   SFString   name              "vehicle"
   SFString   controller        "<generic>"
@@ -41,6 +41,22 @@ CitroenCZero {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+
+### CitroenCZero Field Summary
+
+- `color`: Defines the car body color.
+
+- `plate`: Defines the plate texture.
+
+- `sensorsSlotFront`: Extends the robot with new nodes on the front of the car.
+
+- `sensorsSlotRear`: Extends the robot with new nodes on the back of the car.
+
+- `sensorsSlotTop`: Extends the robot with new nodes on the roof of the car.
+
+- `sensorsSlotCenter`: Extends the robot with new nodes at the center of the car.
+
+- `frontSpotLights`: Defines whether the car should have front spot lights.
 
 ## CitroenCZeroFrontWheel
 
@@ -136,3 +152,20 @@ CitroenCZeroSimple {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+
+### CitroenCZeroSimple Field Summary
+
+- `color`: Defines the car body color.
+
+- `plate`: Defines the plate texture.
+
+- `sensorsSlotFront`: Extends the robot with new nodes on the front of the car.
+
+- `sensorsSlotRear`: Extends the robot with new nodes on the back of the car.
+
+- `sensorsSlotTop`: Extends the robot with new nodes on the roof of the car.
+
+- `sensorsSlotCenter`: Extends the robot with new nodes at the center of the car.
+
+- `wheelBoundingObject`: Defines whether the wheels should have a bounding object.
+

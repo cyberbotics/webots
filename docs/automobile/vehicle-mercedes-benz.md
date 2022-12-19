@@ -36,6 +36,20 @@ MercedesBenzSprinter {
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
 
+### MercedesBenzSprinter Field Summary
+
+- `color`: Defines the car body color.
+
+- `sensorsSlotFront`: Extends the robot with new nodes on the front of the car.
+
+- `sensorsSlotRear`: Extends the robot with new nodes on the back of the car.
+
+- `sensorsSlotTop`: Extends the robot with new nodes on the roof of the car.
+
+- `sensorsSlotCenter`: Extends the robot with new nodes at the center of the car.
+
+- `interior`: Defines whether the car should have front spot lights.
+
 ## MercedesBenzSprinterSimple
 
 Simple kinematic model of the Mercedes-Benz Sprinter to be moved with a Supervisor.
@@ -70,4 +84,18 @@ MercedesBenzSprinterSimple {
 
 > **License**: Apache License 2.0
 [More information.](http://www.apache.org/licenses/LICENSE-2.0)
+
+### MercedesBenzSprinterSimple Field Summary
+
+- `color`: Defines the car body color.
+
+- `sensorsSlotFront`: Extends the robot with new nodes on the front of the car.
+
+- `sensorsSlotRear`: Extends the robot with new nodes on the back of the car.
+
+- `sensorsSlotTop`: Extends the robot with new nodes on the roof of the car.
+
+- `sensorsSlotCenter`: Extends the robot with new nodes at the center of the car.
+
+- `wheelBoundingObject`: Defines whether the wheels should have a bounding object.
 

@@ -36,6 +36,18 @@ Bus {
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
 
+### Bus Field Summary
+
+- `color`: Defines the bus body color.
+
+- `sensorsSlotFront`: Extends the robot with new nodes on the front of the vehicle.
+
+- `sensorsSlotRear`: Extends the robot with new nodes on the back of the vehicle.
+
+- `sensorsSlotTop`: Extends the robot with new nodes on the roof of the vehicle.
+
+- `sensorsSlotCenter`: Extends the robot with new nodes at the center of the vehicle.
+
 ## BusSimple
 
 Simple kinematic model of bus to be moved with a Supervisor.
@@ -71,6 +83,20 @@ BusSimple {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+
+### BusSimple Field Summary
+
+- `color`: Defines the car body color.
+
+- `sensorsSlotFront`: Extends the robot with new nodes on the front of the vehicle.
+
+- `sensorsSlotRear`: Extends the robot with new nodes on the back of the vehicle.
+
+- `sensorsSlotTop`: Extends the robot with new nodes on the roof of the vehicle.
+
+- `sensorsSlotCenter`: Extends the robot with new nodes at the center of the vehicle.
+
+- `wheelBoundingObject`: Defines whether the wheels should have a bounding object.
 
 ## BusWheel
 
@@ -125,6 +151,16 @@ MotorbikeDriver {
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
 
+### MotorbikeDriver Field Summary
+
+- `shirtColor`: Defines the shirt color of the driver.
+
+- `pantsColor`: Defines the pants color of the driver.
+
+- `skinColor`: Defines the skin color of the driver.
+
+- `helmetColor`: Defines the helmet color of the driver.
+
 ## MotorbikeSimple
 
 Simple non-controllable model of a generic motorbike without physics properties.
@@ -154,6 +190,16 @@ MotorbikeSimple {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+
+### MotorbikeSimple Field Summary
+
+- `primaryColor`: Defines the primary color of the motorbike.
+
+- `secondaryColor`: Defines the secondary color of the motorbike.
+
+- `driver`: Defines a `Slot` node for the motorbike driver.
+
+- `wheelBoundingObject`: Defines whether the wheels should have a bounding object.
 
 ## MotorbikeWheel
 
@@ -206,6 +252,16 @@ ScooterDriver {
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
 
+### ScooterDriver Field Summary
+
+- `shirtColor`: Defines the shirt color of the driver.
+
+- `pantsColor`: Defines the pants color of the driver.
+
+- `skinColor`: Defines the skin color of the driver.
+
+- `helmetColor`: Defines the helmet color of the driver.
+
 ## ScooterSimple
 
 Simple non-controllable model of a generic scooter without physics properties.
@@ -235,6 +291,16 @@ ScooterSimple {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+
+### ScooterSimple Field Summary
+
+- `primaryColor`: Defines the primary color of the scooter.
+
+- `secondaryColor`: Defines the secondary color of the scooter.
+
+- `driver`: Defines a `Slot` node for the scooter driver.
+
+- `wheelBoundingObject`: Defines whether the wheels should have a bounding object.
 
 ## ScooterWheel
 
@@ -285,6 +351,7 @@ Tractor {
   SFBool     synchronization   TRUE
   MFNode     sensorSlot        [ ]
   SFString   window            "automobile"
+  MFColor    recognitionColors []
 }
 ```
 
@@ -292,6 +359,12 @@ Tractor {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+
+### Tractor Field Summary
+
+- `color`: Defines the tractor body color.
+
+- `sensorSlot`: Extends the robot with new nodes at the center of the vehicle.
 
 ## TractorFrontWheel
 
@@ -322,6 +395,22 @@ TractorFrontWheel {
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
 
+### TractorFrontWheel Field Summary
+
+- `name`: Identifies the wheel.
+
+- `tireRadius`: Defines the outer radius of the wheel.
+
+- `width`: Defines the thickness of the wheel.
+
+- `subdivision`: Defines the number of subdivisions for the cylinder approximation.
+
+- `wheelSide`: Defines whether the wheel is positioned on the right or on the left of the tractor.
+
+- `physics`: Physics node of the wheel defining all the physical characteristics.
+
+- `boundingObject`: Defines whether the wheel should have a bounding object.
+
 ## TractorRearWheel
 
 Tractor rear wheel.
@@ -350,6 +439,22 @@ TractorRearWheel {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+
+### TractorRearWheel Field Summary
+
+- `name`: Identifies the wheel.
+
+- `tireRadius`: Defines the outer radius of the wheel.
+
+- `width`: Defines the thickness of the wheel.
+
+- `subdivision`: Defines the number of subdivisions for the cylinder approximation.
+
+- `wheelSide`: Defines whether the wheel is positioned on the right or on the left of the tractor.
+
+- `physics`: Physics node of the wheel defining all the physical characteristics.
+
+- `boundingObject`: Defines whether the wheel should have a bounding object.
 
 ## Truck
 
@@ -446,6 +551,22 @@ TruckSimple {
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
 
+### TruckSimple Field Summary
+
+- `color`: Defines the main color of the truck.
+
+- `recognitionColors`: Defines the main color of the truck.
+
+- `trailer`: Defines an optional trailer.
+
+- `sensorsSlotFront`: Extends the truck with new nodes in the front slot.
+
+- `sensorsSlotRear`: Extends the truck with new nodes in the rear slot.
+
+- `sensorsSlotTop`: Extends the truck with new nodes in the top slot.
+
+- `sensorsSlotCenter`: Extends the truck with new nodes in the center slot.
+
 ## TruckTank
 
 A non-controllable truck tank model with physics properties.
@@ -469,6 +590,12 @@ TruckTank {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+
+### TruckTank Field Summary
+
+- `name`: Identifies the truck tank.
+
+- `color`: Defines the color of the truck tank.
 
 ## TruckTankSimple
 
@@ -495,6 +622,16 @@ TruckTankSimple {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+
+### TruckTankSimple Field Summary
+
+- `name`: Identifies the truck tank.
+
+- `color`: Defines the color of the truck tank.
+
+- `rotation`: Defines the rotation of the truck tank w.r.t the truck cabin. Only the rotation in Z should be used (Javascript is not used for efficiency reasons).
+
+- `wheelBoundingObject`: Defines whether the wheels should have a bounding object.
 
 ## TruckTrailer
 
@@ -527,11 +664,15 @@ TruckTrailer {
 
 ### TruckTrailer Field Summary
 
+- `name`: Identifies the trailer.
+
 - `length`: Defines the total length of the trailer.
 
 - `kingPinDistance`: Defines the distance (along the Z direction) between the front of the trailer and the rotation axis.
 
 - `mass`: Defines the mass of the trailer (wheels not included).
+
+- `wheelAxles`: Defines the number and position of the trailer wheels.
 
 ## TruckTrailerSimple
 
@@ -559,6 +700,16 @@ TruckTrailerSimple {
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
 
+### TruckTrailerSimple Field Summary
+
+- `name`: Identifies the trailer.
+
+- `appearance`: Defines the appearance of the trailer.
+
+- `rotation`: Defines the rotation of the truck tank w.r.t the truck cabin. Only the rotation in Z should be used (Javascript is not used for efficiency reasons).
+
+- `wheelBoundingObject`: Defines whether the wheels should have a bounding object.
+
 ## TruckWheel
 
 Model of a truck wheel using the generic [VehicleWheel](vehiclewheel.md) PROTO.
@@ -576,7 +727,7 @@ TruckWheel {
   SFString name           "truck wheel"
   SFNode   physics        NULL
   SFBool   boundingObject TRUE
-  SFBool    wheelSide     FALSE    
+  SFBool   wheelSide      FALSE    
 }
 ```
 

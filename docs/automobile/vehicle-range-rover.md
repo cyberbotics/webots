@@ -18,7 +18,7 @@ RangeRoverSportSVR {
   SFRotation rotation          0 0 1 0
   SFColor    color             0.0 0.25 0.65
   SFColor    secondaryColor    0.1 0.1 0.1
-  MFString   plate             "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/vehicles/protos/textures/plate.jpg"
+  MFString   plate             "../textures/plate.jpg"
   SFString   engineSound       "sounds/engine.wav"
   SFString   name              "vehicle"
   SFString   controller        "<generic>"
@@ -38,6 +38,24 @@ RangeRoverSportSVR {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+
+### RangeRoverSportSVR Field Summary
+
+- `color`: Defines the car primary body color.
+
+- `secondaryColor`: Defines the car secondary body color.
+
+- `plate`: Defines the plate texture.
+
+- `sensorsSlotFront`: Extends the robot with new nodes on the front of the car.
+
+- `sensorsSlotRear`: Extends the robot with new nodes on the back of the car.
+
+- `sensorsSlotTop`: Extends the robot with new nodes on the roof of the car.
+
+- `sensorsSlotCenter`: Extends the robot with new nodes at the center of the car.
+
+- `frontSpotLights`: Defines whether the car should have front spot lights.
 
 ## RangeRoverSportSVRSimple
 
@@ -75,4 +93,22 @@ RangeRoverSportSVRSimple {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+
+### RangeRoverSportSVRSimple Field Summary
+
+- `color`: Defines the car primary body color.
+
+- `secondaryColor`: Defines the car secondary body color.
+
+- `plate`: Defines the plate texture.
+
+- `sensorsSlotFront`: Extends the robot with new nodes on the front of the car.
+
+- `sensorsSlotRear`: Extends the robot with new nodes on the back of the car.
+
+- `sensorsSlotTop`: Extends the robot with new nodes on the roof of the car.
+
+- `sensorsSlotCenter`: Extends the robot with new nodes at the center of the car.
+
+- `wheelBoundingObject`: Defines whether the wheels should have a bounding object.
 

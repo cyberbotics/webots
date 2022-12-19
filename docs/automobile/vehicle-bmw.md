@@ -54,6 +54,48 @@ BmwX5 {
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
 
+### BmwX5 Field Summary
+
+- `color`: Defines the car body color.
+
+- `windshieldWipers`: Defines whether the car should have windshiel wipers.
+
+- `frontSpotLights`: Defines whether the car should have front spot lights.
+
+- `rearMirror`: Defines whether the car should have a rear mirror.
+
+- `leftWingMirror`: Defines whether the car should have a left wing mirror.
+
+- `rightWingMirror`: Defines whether the car should have a right wing mirror.
+
+- `mirrorFar`: Defines the far clipping plane for the rear, left and right mirrors.
+
+- `sensorsSlotFront`: Extends the robot with new nodes on the front of the car.
+
+- `sensorsSlotRear`: Extends the robot with new nodes on the back of the car.
+
+- `sensorsSlotTop`: Extends the robot with new nodes on the roof of the car.
+
+- `sensorsSlotCenter`: Extends the robot with new nodes at the center of the car.
+
+- `interior`: Defines whether the car should have the interior walls and the dashboard.
+
+- `dynamicSpeedDisplay`: Defines whether the current speed can be displaed in the dashboard.
+
+- `indicatorLevers`: Defines whether the car has indicator levers.
+
+- `steeringWheel`: Defines the car steering wheel.
+
+- `completeInterior`: Defines whether the interior of the car should have seats, armrests, and handbrake.
+
+- `shifter`: Defines whether the interior of the car should have the gear shifter.
+
+- `outerWindowTransparency`: Defines the transparency level of the windows seen from outside.
+
+- `innerWindowTransparency`: Defines the transparency level of the windows seen from inside.
+
+- `innerWindowDust`: Defines whether there is dust on windows seen from inside.
+
 ## BmwX5Simple
 
 Simple kinematic model of the BMW X5 to be moved with a Supervisor.
@@ -89,6 +131,20 @@ BmwX5Simple {
 
 > **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 [More information.](https://cyberbotics.com/webots_assets_license)
+
+### BmwX5Simple Field Summary
+
+- `color`: Defines the car body color.
+
+- `sensorsSlotFront`: Extends the robot with new nodes on the front of the car.
+
+- `sensorsSlotRear`: Extends the robot with new nodes on the back of the car.
+
+- `sensorsSlotTop`: Extends the robot with new nodes on the roof of the car.
+
+- `sensorsSlotCenter`: Extends the robot with new nodes at the center of the car.
+
+- `wheelBoundingObject`: Defines whether the wheels should have a bounding object.
 
 ## BmwX5Wheel
 
