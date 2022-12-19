@@ -674,7 +674,7 @@ void WbSceneTree::transform(const QString &modelName) {
   // reassign pointer in parent
   WbField *parentField = mSelectedItem->parent()->field();
   WbNode *upperTemplate =
-    WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(parentField, currentNode->parentNode());
+    WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(parentField, currentNode->parentNode());
   bool isInsideATemplateRegenerator = upperTemplate && upperTemplate != currentNode;
   if (mSelectedItem->isSFNode()) {
     WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(mSelectedItem->field()->value());
@@ -761,7 +761,7 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     }
 
     const bool skipTemplateRegeneration =
-      WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(parentField, parentNode);
+      WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(parentField, parentNode);
     if (skipTemplateRegeneration)
       // PROTO will be regenerated after importing the converted node
       parentField->blockSignals(true);

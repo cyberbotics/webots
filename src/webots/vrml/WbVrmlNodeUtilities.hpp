@@ -58,6 +58,14 @@ namespace WbVrmlNodeUtilities {
   // default fields that won't be written to the WBT file are skipped
   bool existsVisibleProtoNodeNamed(const QString &modelName, WbNode *root);
 
+  // find the closest template ancestor in which the modified node is contained in template field
+  // which requires a template instance regeneration
+  WbNode *findUpperTemplateNeedingRegeneration(WbNode *modifiedNode);
+
+  // find the closest template ancestor of given field in which the modified field is contained
+  // in template field which requires a template instance regeneration
+  WbNode *findUpperTemplateNeedingRegenerationFromField(WbField *modifiedField, WbNode *parentNode);
+
   //////////////////////////////
   // Non-permanent properties //
   //////////////////////////////

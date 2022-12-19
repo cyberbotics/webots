@@ -35,6 +35,7 @@
 #include "WbSolid.hpp"
 #include "WbSolidReference.hpp"
 #include "WbViewpoint.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWorld.hpp"
 
 #include <QtCore/QCoreApplication>
@@ -194,7 +195,7 @@ void WbTemplateManager::regenerateNodeFromParameterChange(WbField *field) {
 // Note: The security is probably overkill there, but its also safer for the first versions of the template mechanism
 void WbTemplateManager::regenerateNodeFromField(WbNode *templateNode, WbField *field, bool isParameter) {
   // 1. retrieve upper template node where the modification appeared in a template regenerator field
-  WbNode *upperTemplateNode = WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(field, templateNode);
+  WbNode *upperTemplateNode = WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(field, templateNode);
 
   if (!upperTemplateNode)
     return;
@@ -262,7 +263,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
     followedSolidName = followedSolid->name();
 
   // 2. regenerate the new node
-  WbNode *upperTemplateNode = WbNodeUtilities::findUpperTemplateNeedingRegeneration(node);
+  WbNode *upperTemplateNode = WbVrmlNodeUtilities::findUpperTemplateNeedingRegeneration(node);
   bool nested = upperTemplateNode && upperTemplateNode != node;
   cRegeneratingNodeCount++;
   if (isWorldInitialized && !restarted)

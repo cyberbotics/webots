@@ -226,7 +226,7 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
   WbBaseNode *const baseNode = dynamic_cast<WbBaseNode *>(newNode);
   // set parent node
   newNode->setParentNode(parentNode);
-  WbNode *upperTemplate = WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(field, parentNode);
+  WbNode *upperTemplate = WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(field, parentNode);
   bool isInsideATemplateRegenerator = upperTemplate && (upperTemplate != baseNode);
 
   // insert in parent field
