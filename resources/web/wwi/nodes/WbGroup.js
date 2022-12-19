@@ -6,7 +6,6 @@ import WbBoundingSphere from './utils/WbBoundingSphere.js';
 import {getAnId} from './utils/id_provider.js';
 
 export default class WbGroup extends WbBaseNode {
-  #boundingSphere;
   #device;
   constructor(id, isPropeller) {
     super(id);
@@ -27,7 +26,7 @@ export default class WbGroup extends WbBaseNode {
   }
 
   boundingSphere() {
-    return this.#boundingSphere;
+    return this._boundingSphere;
   }
 
   clone(customID) {
@@ -102,14 +101,14 @@ export default class WbGroup extends WbBaseNode {
   }
 
   recomputeBoundingSphere() {
-    this.#boundingSphere = new WbBoundingSphere(this);
-    this.#boundingSphere.empty();
+    this._boundingSphere = new WbBoundingSphere(this);
+    this._boundingSphere.empty();
 
     this.children.forEach(child => {
       if (!child.isPostFinalizedCalled)
         child.postFinalize();
 
-      this.#boundingSphere.addSubBoundingSphere(child.boundingSphere());
+      this._boundingSphere.addSubBoundingSphere(child.boundingSphere());
     });
   }
 

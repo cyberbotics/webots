@@ -10,6 +10,45 @@ export default class WbMatrix4 {
     return new WbMatrix3(this.m[0], this.m[1], this.m[2], this.m[4], this.m[5], this.m[6], this.m[8], this.m[9], this.m[10]);
   }
 
+  fromVrml(translation, rotation, scale) {
+    const tx = translation.x;
+    const ty = translation.y;
+    const tz = translation.z;
+    const rx = rotation.x;
+    const ry = rotation.y;
+    const rz = rotation.z;
+    const angle = rotation.w;
+    const sx = scale.x;
+    const sy = scale.y;
+    const sz = scale.z;
+
+    const c = Math.cos(angle);
+    const s = Math.sin(angle);
+
+    const t1 = 1 - c;
+    const t2 = rx * rz * t1;
+    const t3 = rx * ry * t1;
+    const t4 = ry * rz * t1;
+
+    // translation
+    this.m[3] = tx;
+    this.m[7] = ty;
+    this.m[11] = tz;
+    this.m[12] = this.m[13] = this.m[14] = 0;
+    this.m[15] = 1;
+
+    // rotate and scale (assuming the rotation vector is normalized)
+    this.m[0] = (rx * rx * t1 + c) * sx;
+    this.m[1] = (t3 - rz * s) * sy;
+    this.m[2] = (t2 + ry * s) * sz;
+    this.m[4] = (t3 + rz * s) * sx;
+    this.m[5] = (ry * ry * t1 + c) * sy;
+    this.m[6] = (t4 - rx * s) * sz;
+    this.m[8] = (t2 - ry * s) * sx;
+    this.m[9] = (t4 + rx * s) * sy;
+    this.m[10] = (rz * rz * t1 + c) * sz;
+  }
+
   inverse() {
     const inv = new Array(16);
 

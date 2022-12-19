@@ -16,13 +16,10 @@ export default class WbBoundingSphere {
       this.boundSpaceDirty = false;
   }
 
-  empty() {
-    this.set(new WbVector3(), 0);
-  }
-
-  set(center, radius) {
-    this.#center = center;
-    this.#radius = radius;
+  get radius() {
+    if (this.boundSpaceDirty)
+      this.recomputeIfNeeded();
+    return this.#radius;
   }
 
   addSubBoundingSphere(subBoundingSphere) {
@@ -34,6 +31,18 @@ export default class WbBoundingSphere {
     this.boundSpaceDirty = true;
     this.parentCoordinatesDirty = true;
     this.parentUpdateNotification();
+  }
+
+  centerInParentCoordinates() {
+    if (this.boundSpaceDirty)
+      this.recomputeIfNeeded();
+    if (this.parentCoordinatesDirty)
+      this.recomputeSphereInParentCoordinates();
+    return this.centerInParentCoordinates;
+  }
+
+  empty() {
+    this.set(new WbVector3(), 0);
   }
 
   enclose(point) {
@@ -51,8 +60,89 @@ export default class WbBoundingSphere {
     this.set(point.add(delta.normalized().mul(newRadius)), newRadius);
   }
 
+  encloseBoundingSphere(other) {
+    if (other.isEmpty())
+      return false;
+
+    const otherCenter = const_cast<WbBoundingSphere *>(other)->centerInParentCoordinates();
+    const double otherRadius = const_cast<WbBoundingSphere *>(other)->radiusInParentCoordinates();
+    if (isEmpty()) {
+      set(otherCenter, otherRadius);
+      return true;
+    }
+
+    // Test matching centers
+    if (mCenter == otherCenter) {
+      if (otherRadius > mRadius) {
+        set(mCenter, otherRadius);
+        return true;
+      }
+      return false;
+    }
+
+    const WbVector3 &distanceVector = otherCenter - mCenter;
+    const double distance = distanceVector.length();
+    const double sum = mRadius + distance + otherRadius;
+
+    // Other is inside the instance
+    if (sum <= mRadius * 2)
+      return false;
+    // Other contains the instance
+    if (sum <= otherRadius * 2) {
+      set(otherCenter, otherRadius);
+      return true;
+    }
+
+    // General case
+    // compute radius of the sphere which includes the two spheres.
+    const double newRadius = sum / 2.0;
+    set(mCenter + distanceVector.normalized() * (newRadius - mRadius), newRadius);
+    return true;
+  }
+
   isEmpty() {
     return this.#radius === 0 && this.#center.equal(new WbVector3());
+  }
+
+  recomputeIfNeeded(dirtyOnly) {
+    if (dirtyOnly && !this.boundSpaceDirty)
+      return;
+
+    if (this.#subBoundingSpheres.size === 0) {
+      if (this.geomOwner)
+        this.#owner.recomputeBoundingSphere();
+      this._boundSpaceDirty = false;
+      return;
+    }
+
+    const prevCenter = this.#center;
+    const prevRadius = this.#radius;
+    this.#center = new WbVector3();
+    this.#radius = 0;
+    for (const sub of this.#subBoundingSpheres.values()) {
+      sub.recomputeIfNeeded(true);
+      if (!sub.isEmpty())
+        this.encloseBoundingSphere(sub);
+    }
+
+    if (this.parentBoundingSphere && (!this.#center.equal(prevCenter) || this.#radius !== prevRadius))
+      this.parentCoordinatesDirty = true;
+    this.boundSpaceDirty = false;
+  }
+
+  recomputeSphereInParentCoordinates() {
+    if (!this.parentCoordinatesDirty)
+      return;
+
+    if (this.transformOwner) {
+      const scale = this.#owner.scale();
+      this.radiusInParentCoordinates = Math.max(Math.max(scale.x, scale.y), scale.z) * this.#radius;
+      this.centerInParentCoordinates = this.#owner.vrmlMatrix() * this.#center;
+    } else {
+      this.radiusInParentCoordinates = this.#radius;
+      this.centerInParentCoordinates = this.#center;
+    }
+    this.parentCoordinatesDirty = false;
   }
 
   parentUpdateNotification() {
@@ -64,5 +154,10 @@ export default class WbBoundingSphere {
         parent = parent.parentBoundingSphere;
       }
     }
+  }
+
+  set(center, radius) {
+    this.#center = center;
+    this.#radius = radius;
   }
 }

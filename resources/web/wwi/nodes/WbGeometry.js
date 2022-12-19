@@ -75,6 +75,7 @@ export default class WbGeometry extends WbBaseNode {
     super.postFinalize();
 
     this._boundingSphere = new WbBoundingSphere(this);
+    this._boundingSphere.geomOwner = true;
     this.recomputeBoundingSphere();
   }
 

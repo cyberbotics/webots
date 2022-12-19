@@ -3,6 +3,7 @@ import WbWorld from './WbWorld.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 import {arrayXPointerFloat} from './utils/utils.js';
+import {findUpperTransform} from './utils/node_utilities.js';
 
 // This class is used to retrieve the type of device
 export default class WbTouchSensor extends WbSolid {
@@ -11,7 +12,37 @@ export default class WbTouchSensor extends WbSolid {
   #axesTransform;
   #material;
   #transform;
-  createWrenObjects() {
+
+  delete() {
+    _wr_node_delete(this.#transform);
+    _wr_node_delete(this.#axesTransform);
+    _wr_node_delete(this.#axisRenderable[0]);
+    _wr_node_delete(this.#axisRenderable[1]);
+    _wr_node_delete(this.#axisRenderable[2]);
+    _wr_static_mesh_delete(this.#axisMesh[0]);
+    _wr_static_mesh_delete(this.#axisMesh[1]);
+    _wr_static_mesh_delete(this.#axisMesh[2]);
+
+    for (let i = 0; i < 3; ++i)
+      _wr_material_delete(this.#material[i]);
+  }
+
+  applyOptionalRendering(enable) {
+    _wr_node_set_visible(this.#transform, enable);
+  }
+
+  postFinalize() {
+    super.postFinalize();
+
+    let ancestor = findUpperTransform(this);
+    if (typeof ancestor === 'undefined')
+      ancestor = this;
+    console.log(ancestor.boundingSphere().radius)
+
+    this.#applyOptionalRenderingToWren();
+  }
+
+  #applyOptionalRenderingToWren() {
     this.#transform = _wr_transform_new();
     this.#axesTransform = _wr_transform_new();
 
@@ -52,23 +83,5 @@ export default class WbTouchSensor extends WbSolid {
     super.createWrenObjects();
 
     _wr_transform_attach_child(this.wrenNode, this.#transform);
-  }
-
-  applyOptionalRendering(enable) {
-    _wr_node_set_visible(this.#transform, enable);
-  }
-
-  postFinalize() {
-    super.postFinalize();
-
-    let ancestor = this
-    while (ancestor) {
-      let prevAncestor = WbWorld.instance.nodes.get(ancestor.parent)
-      if (!prevAncestor) {
-        console.log(ancestor.boundingSphere())
-      }
-
-      ancestor = prevAncestor;
-    }
   }
 }

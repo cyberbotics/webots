@@ -17,7 +17,7 @@ PROTO ProtoBox [
             children [
               Shape {
                 geometry Box {
-                  size 0.1 1 0
+                  size 0.1 1 0.5
                 }
               }
             ]

@@ -3,6 +3,7 @@ import WbWorld from './WbWorld.js';
 
 import {getAnId} from './utils/id_provider.js';
 import {findUpperTransform} from './utils/node_utilities.js';
+import WbMatrix4 from './utils/WbMatrix4.js';
 
 export default class WbTransform extends WbGroup {
   #absoluteScale;
@@ -12,6 +13,8 @@ export default class WbTransform extends WbGroup {
   #scale;
   #previousTranslation;
   #upperTransformFirstTimeSearch;
+  #vrmlMatrix;
+  #vrmlMatrixNeedUpdate;
   constructor(id, translation, scale, rotation) {
     super(id);
     this.#translation = translation;
@@ -20,6 +23,8 @@ export default class WbTransform extends WbGroup {
 
     this.#absoluteScaleNeedUpdate = true;
     this.#upperTransformFirstTimeSearch = true;
+    this.#vrmlMatrix = new WbMatrix4();
+    this.#vrmlMatrixNeedUpdate = true;
   }
 
   get translation() {
@@ -108,6 +113,20 @@ export default class WbTransform extends WbGroup {
       _wr_node_delete(this.wrenNode);
 
     super.delete(isBoundingObject);
+  }
+
+  recomputeBoundingSphere() {
+    super.recomputeBoundingSphere();
+    this._boundingSphere.transformOwner = true;
+  }
+
+  vrmlMatrix() {
+    if (this.#vrmlMatrixNeedUpdate) {
+      this.#vrmlMatrix.fromVrml(this.#translation, this.#rotation, this.#scale);
+      this.#vrmlMatrixNeedUpdate = false;
+    }
+
+    return this.#vrmlMatrix;
   }
 
   #applyRotationToWren() {

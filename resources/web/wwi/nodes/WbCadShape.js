@@ -290,6 +290,7 @@ export default class WbCadShape extends WbBaseNode {
       this.actualizeAppearance();
     });
 
+    this.#boundingSphere = new WbBoundingSphere(this);
     this.#recomputeBoundingSphere();
   }
 

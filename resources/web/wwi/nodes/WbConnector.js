@@ -87,7 +87,7 @@ export default class WbConnector extends WbSolid {
     this.#applyOptionalRenderingToWren();
   }
 
-  deleteWrenObjects() {
+  delete() {
     _wr_node_delete(this.#transform);
     _wr_node_delete(this.#axesTransform);
     _wr_node_delete(this.#axisRenderable[0]);
