@@ -108,12 +108,12 @@ export default class NodeSelectorWindow {
     nodeFilter.id = 'node-filter';
     nodeFilter.className = 'node-filter';
     const p = document.createElement('p');
+    p.style.margin = 'auto 10px auto 0px'
     p.innerHTML = 'Find: ';
 
     const input = document.createElement('input');
     input.id = 'filter';
     input.type = 'text';
-    input.style.marginRight = '10px';
     input.oninput = () => this.populateWindow();
     p.appendChild(input);
     nodeFilter.appendChild(p);
@@ -130,14 +130,16 @@ export default class NodeSelectorWindow {
 
     const img = document.createElement('img');
     img.id = 'node-image';
-    img.className = 'node-image'
+    img.className = 'node-image';
     img.draggable = false;
     img.src = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023a/resources/images/missing_proto_icon.png';
     nodeInfo.appendChild(img);
 
     const line = document.createElement('hr');
     line.id = 'line';
-    line.style.width = '75%'
+    line.style.width = '75%';
+    line.style.marginLeft = 'auto';
+    line.style.marginRight = 'auto';
     nodeInfo.appendChild(line);
 
     const warning = document.createElement('span');

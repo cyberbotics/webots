@@ -1067,6 +1067,7 @@ webots-view .node-library .node-image {
   display: block;
   margin-left: auto;
   margin-right: auto;
+  box-sizing: initial;
 }
 
 webots-view .node-library .node-description {
