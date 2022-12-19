@@ -176,14 +176,9 @@ export default class Parser {
         this.irradianceCubeURL = undefined;
       }
 
-      WbWorld.instance.root.finalize();
+      WbWorld.instance.currentView = webots.currentView;
 
-      WbWorld.instance.root.children.forEach((node, i) => {
-        const percentage = 70 + 30 * (i + 1) / WbWorld.instance.root.children.length;
-        const info = 'Finalizing node ' + node.id + ': ' + Math.round(100 * (i + 1) / WbWorld.instance.root.children.length) + '%';
-        webots.currentView.progress.setProgressBar('block', 'same', 75 + 0.25 * percentage, info);
-        node.finalize();
-      });
+      WbWorld.instance.root.finalize();
 
       WbWorld.instance.readyForUpdates = true;
 
