@@ -1,5 +1,5 @@
 /*
- * Copyright 1996-2022 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,6 +84,26 @@ static driver *instance = NULL;
 //***********************************//
 //        Utility functions          //
 //***********************************//
+
+bool wbu_driver_initialization_is_possible() {
+  // Parse vehicle caracteristics from the beginning of the data string
+  int read_int;
+  double read_double;
+  char read_char;
+  int i;
+
+  wb_robot_init();
+  const char *sub_data_string = wb_robot_get_custom_data();
+  i = sscanf(sub_data_string, "%lf %lf %lf %lf %lf %lf %lf %c %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %d %d", &read_double,
+             &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_char, &read_double,
+             &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_double,
+             &read_double, &read_int, &read_int);
+
+  if (i < 20)
+    return false;
+
+  return true;
+}
 
 static double kmh_to_rads(double kmh, double wheel_radius) {
   return kmh / 3.6 / wheel_radius;
@@ -470,26 +490,6 @@ void wbu_driver_init() {
     fprintf(stderr, "Warning: Any car should have a 'engine_speaker' speaker.\n");
     exit(0);
   }
-}
-
-bool wbu_driver_initialization_is_possible() {
-  // Parse vehicle caracteristics from the beginning of the data string
-  int read_int;
-  double read_double;
-  char read_char;
-  int i;
-
-  wb_robot_init();
-  const char *sub_data_string = wb_robot_get_custom_data();
-  i = sscanf(sub_data_string, "%lf %lf %lf %lf %lf %lf %lf %c %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %d %d", &read_double,
-             &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_char, &read_double,
-             &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_double,
-             &read_double, &read_int, &read_int);
-
-  if (i < 20)
-    return false;
-
-  return true;
 }
 
 int wbu_driver_step() {

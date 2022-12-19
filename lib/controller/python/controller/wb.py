@@ -1,4 +1,4 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,6 +21,9 @@ if sys.platform == 'linux' or sys.platform == 'linux2':
 elif sys.platform == 'win32':
     path = os.path.join('lib', 'controller', 'Controller.dll')
 elif sys.platform == 'darwin':
-    path = os.path.join('Contents', 'MacOS', 'lib', 'controller', 'libController.dylib')
+    path = os.path.join('Contents', 'lib', 'controller', 'libController.dylib')
 
 wb = ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], path))
+
+if sys.platform == 'win32':
+    ctypes.cdll.LoadLibrary(os.path.join(os.environ['WEBOTS_HOME'], 'lib', 'controller', 'generic_robot_window.dll'))

@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A static brown and white cow.
@@ -275,5 +275,8 @@ PROTO Cow [
         }
       ]
     }
+    recognitionColors [
+      0.380 0.220 0.137
+    ]
   }
 }

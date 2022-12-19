@@ -1,0 +1,79 @@
+name: Branch synchronizer
+
+on:
+  schedule:
+    - cron:  '0 04 * * *'
+
+jobs:
+  sync-master-with-released:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout released
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 0
+          ref: released
+      - name: Check for diff
+        id: check-diff
+        run: |
+          git fetch origin master
+          git checkout master
+          if [ -n "$(git diff master...released)" ]; then
+            echo "Master needs sync with released!";
+            git checkout released
+            export BRANCH_NAME=sync-released-$(git rev-parse --short HEAD)
+            echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+            git checkout -b ${BRANCH_NAME}
+            git push origin ${BRANCH_NAME}
+            echo "create_pull_request=1" >> $GITHUB_OUTPUT
+          else
+            echo "Master is already up to date.";
+            echo "create_pull_request=0" >> $GITHUB_OUTPUT
+          fi
+      - name: Create Pull Request if necessary
+        if: ${{ steps.check-diff.outputs.create_pull_request == 1 }}
+        uses: repo-sync/pull-request@v2.6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          source_branch: ${{ env.BRANCH_NAME }}
+          destination_branch: master
+          pr_title: Merge released into master
+          pr_body: Synchronizes changes of released branch into master branch.
+          pr_reviewer: Maintainers
+  sync-develop-with-master:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+          fetch-depth: 0
+          ref: master
+      - name: Check for diff
+        id: check-diff
+        run: |
+          git fetch origin develop
+          git checkout develop
+          if [ -n "$(git diff develop...master)" ]; then
+            echo "Develop needs sync with master!";
+            git checkout master
+            export BRANCH_NAME=sync-master-$(git rev-parse --short HEAD)
+            echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+            git checkout -b ${BRANCH_NAME}
+            git push origin ${BRANCH_NAME}
+            echo "create_pull_request=1" >> $GITHUB_OUTPUT
+          else
+            echo "Develop is already up to date.";
+            echo "create_pull_request=0" >> $GITHUB_OUTPUT
+          fi
+      - name: Create Pull Request if necessary
+        if: ${{ steps.check-diff.outputs.create_pull_request == 1 }}
+        uses: repo-sync/pull-request@v2.6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          source_branch: ${{ env.BRANCH_NAME }}
+          destination_branch: develop
+          pr_title: Merge master into develop
+          pr_body: Synchronizes changes of master branch into develop branch.
+          pr_reviewer: Maintainers

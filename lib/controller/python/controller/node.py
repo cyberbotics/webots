@@ -1,4 +1,4 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,9 +13,9 @@
 # limitations under the License.
 
 import ctypes
-from controller.wb import wb
-from controller.constants import constant
-from controller import Field
+from .wb import wb
+from .constants import constant
+from .field import Field
 import struct
 import typing
 
@@ -84,13 +84,15 @@ class Node:
         return self.id
 
     def getParentNode(self) -> Node:
-        return Node(ref=wb.wb_supervisor_node_get_parent_node(self._ref))
+        node = wb.wb_supervisor_node_get_parent_node(self._ref)
+        return Node(ref=node) if node else None
 
     def isProto(self) -> bool:
         return wb.wb_supervisor_node_is_proto(self._ref) != 0
 
     def getFromProtoDef(self, DEF: str) -> Node:
-        return Node(wb.wb_supervisor_node_get_from_proto_def(self._ref, str.encode(DEF)))
+        node = wb.wb_supervisor_node_get_from_proto_def(self._ref, str.encode(DEF))
+        return Node(ref=node) if node else None
 
     def getType(self) -> int:
         return self.type
@@ -108,19 +110,23 @@ class Node:
         return wb.wb_supervisor_node_export_string(self._ref).decode()
 
     def getField(self, name: str) -> Field:
-        return Field(self, name=name)
+        field = Field(self, name=name)
+        return field if field._ref else None
 
     def getFieldByIndex(self, index: int) -> Field:
-        return Field(self, index=index)
+        field = Field(self, index=index)
+        return field if field._ref else None
 
     def getNumberOfFields(self) -> int:
         return self.number_of_fields
 
     def getProtoField(self, name: str) -> Field:
-        return Field(self, name=name, proto=True)
+        field = Field(self, name=name, proto=True)
+        return field if field._ref else None
 
     def getProtoFieldByIndex(self, index: int) -> Field:
-        return Field(self, index=index, proto=True)
+        field = Field(self, index=index, proto=True)
+        return field if field._ref else None
 
     def getPosition(self) -> typing.List[float]:
         p = wb.wb_supervisor_node_get_position(self._ref)
@@ -130,15 +136,18 @@ class Node:
         o = wb.wb_supervisor_node_get_orientation(self._ref)
         return [o[0], o[1], o[2], o[3], o[4], o[5], o[6], o[7], o[8]]
 
-    def getPose(self, fromNode: Node) -> typing.List[float]:
-        p = wb.wb_supervisor_node_get_pose(self._ref, fromNode._ref)
+    def getPose(self, fromNode: Node = None) -> typing.List[float]:
+        fromNodeRef = fromNode._ref if fromNode else None
+        p = wb.wb_supervisor_node_get_pose(self._ref, fromNodeRef)
         return [p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10], p[11], p[12], p[13], p[14], p[15]]
 
-    def enablePoseTracking(self, samplingPeriod: int, fromNode: Node):
-        wb.wb_supervisor_node_enable_pose_tracking(samplingPeriod, self._ref, fromNode._ref)
+    def enablePoseTracking(self, samplingPeriod: int, fromNode: Node = None):
+        fromNodeRef = fromNode._ref if fromNode else None
+        wb.wb_supervisor_node_enable_pose_tracking(self._ref, samplingPeriod, fromNodeRef)
 
-    def disablePoseTracking(self, fromNode: Node):
-        wb.wb_supervisor_node_enable_pose_tracking(self._ref, fromNode._ref)
+    def disablePoseTracking(self, fromNode: Node = None):
+        fromNodeRef = fromNode._ref if fromNode else None
+        wb.wb_supervisor_node_disable_pose_tracking(self._ref, fromNodeRef)
 
     def getCenterOfMass(self) -> typing.List[float]:
         c = wb.wb_supervisor_node_get_center_of_mass(self._ref)
@@ -153,11 +162,12 @@ class Node:
             contact_points.append(ContactPoint(struct.unpack_from('3di', points, 28 * i)))
         return contact_points
 
-    def enableContactPointTracking(self, samplingPeriod: int, includeDescendants: bool = False):
-        wb.wb_supervisor_node_enable_contact_point_tracking(samplingPeriod, 1 if includeDescendants else 0)
+    def enableContactPointsTracking(self, samplingPeriod: int, includeDescendants: bool = False):
+        wb.wb_supervisor_node_enable_contact_points_tracking(self._ref, samplingPeriod, 1 if includeDescendants else 0)
 
-    def disableContactPointTracking(self, includeDescendants: bool = False):
-        wb.wb_supervisor_node_disable_contact_point_tracking(1 if includeDescendants else 0)
+    def disableContactPointsTracking(self, includeDescendants: bool = False):
+        # includeDescendants is kept for backwards compatibility, but should not be used in new code
+        wb.wb_supervisor_node_disable_contact_points_tracking(self._ref)
 
     def getStaticBalance(self) -> bool:
         return wb.wb_supervisor_node_get_static_balance(self._ref) != 0
@@ -175,7 +185,7 @@ class Node:
     def loadState(self, stateName: str):
         wb.wb_supervisor_node_load_state(self._ref, str.encode(stateName))
 
-    def resetPhysics(self, stateName: str):
+    def resetPhysics(self):
         wb.wb_supervisor_node_reset_physics(self._ref)
 
     def setJointPosition(self, position: float, index: int = 1):
@@ -316,11 +326,13 @@ wb.wb_supervisor_field_get_sf_node.restype = ctypes.c_void_p
 
 
 def getSFNode(self) -> Node:
-    return Node(ref=wb.wb_supervisor_field_get_sf_node(self._ref))
+    node = wb.wb_supervisor_field_get_sf_node(self._ref)
+    return Node(ref=node) if node else None
 
 
 def getMFNode(self, index: int) -> Node:
-    return Node(ref=wb.wb_supervisor_field_get_mf_node(self._ref, index))
+    node = wb.wb_supervisor_field_get_mf_node(self._ref, index)
+    return Node(ref=node) if node else None
 
 
 Field.getSFNode = getSFNode

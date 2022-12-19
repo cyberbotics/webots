@@ -232,6 +232,7 @@ Depending on the complexity of the simulation and execution mode, the function m
 When it returns, the requested duration of simulation time is elapsed.
 In other words the physics runs for the specified duration: objects may move, the motors may run, the sensor values may change, etc.
 Note that the `duration` parameter must be a multiple of the `WorldInfo.basicTimeStep`.
+In Python, if no `duration` parameter is given, the `WorldInfo.basicTimeStep` is used.
 
 If this function returns -1, this indicates that Webots is about to terminate the controller.
 This happens when the user hits the `Reload` button or quits Webots.
@@ -262,7 +263,7 @@ This includes some [Supervisor API](supervisor.md) functions, like `wb_superviso
 Webots will warn you in case you call one of these functions between `wb_robot_step_begin` and `wb_robot_step_end`.
 You can simply call them before `wb_robot_step_begin` or after `wb_robot_step_end`.
 However, some of these functions can be called between `wb_robot_step_begin` and `wb_robot_step_end` if you enable the supervisor tracking feature.
-`wb_supervisor_field_enable_sf_tracking`, `wb_supervisor_node_enable_pose_tracking` and `wb_supervisor_node_enable_contact_point_tracking` force Webots to continuously stream the requested information to the controller.
+`wb_supervisor_field_enable_sf_tracking`, `wb_supervisor_node_enable_pose_tracking` and `wb_supervisor_node_enable_contact_points_tracking` force Webots to continuously stream the requested information to the controller.
 By enabling the tracking, the corresponding supervisor functions can be called between `wb_robot_step_begin` and `wb_robot_step_end`, because their value will be queried to Webots during `wb_robot_step_begin` and received during `wb_robot_step_end`.
 
 The C API has two additional functions: `wb_robot_init` and `wb_robot_cleanup`.

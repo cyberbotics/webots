@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A static rabbit.
@@ -89,5 +89,8 @@ PROTO Rabbit [
         }
       ]
     }
+    recognitionColors [
+      0.827 0.827 0.827
+    ]
   }
 }

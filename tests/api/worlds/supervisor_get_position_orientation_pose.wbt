@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
@@ -62,6 +62,7 @@ DEF ROBOT Robot {
 }
 Transform {
   translation 0.1 -0.2 0.3
+  rotation 1 0 0 -1.57079632679
   children [
     Shape {
       geometry Cone {
@@ -71,7 +72,6 @@ Transform {
       }
     }
   ]
-  rotation 1 0 0 -1.57079632679
 }
 TestSuiteSupervisor {
 }

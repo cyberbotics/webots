@@ -1021,7 +1021,7 @@ Roundabout {
          SFFloat              innerRadius              4
          SFFloat              outerRadius              8
          SFBool               center                   TRUE
-         MFString             centerTexture            "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/grass.jpg"
+         MFString             centerTexture            "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/textures/grass.jpg"
          SFVec2f              centerTextureScale       4 4
          SFInt32              roadNumber               4
          MFFloat              startRoadsLength         [5]
@@ -1220,4 +1220,3 @@ StraightRoadSegment {
 - `leftBarrierBoundingObject`: Defines whether the left crash barrier (if any) should have a bounding object.
 
 - `castShadows`: Defines whether the road should cast shadows.
-
