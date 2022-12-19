@@ -14,14 +14,14 @@ EXTERNPROTO "MotorbikeLeftIndicator.proto"
 EXTERNPROTO "MotorbikeWheel.proto"
 
 PROTO MotorbikeSimple [
-  field       SFVec3f    translation                0 0 0.25
-  field       SFRotation rotation                   0 0 1 0
-  field       SFColor    primaryColor               0.153 0.004 0.004
-  field       SFColor    secondaryColor             0.647 0.647 0.647
-  field       MFColor    recognitionColors          [0.153 0.004 0.004, 0.647 0.647 0.647]
-  field       SFNode     driver                     MotorbikeDriver { }
-  field       SFString   name                       "vehicle"
-  field       SFBool     wheelBoundingObject        FALSE
+  field       SFVec3f    translation                0 0 0.25                                # Is `Solid.translation`.
+  field       SFRotation rotation                   0 0 1 0                                 # Is `Solid.rotation`.
+  field       SFColor    primaryColor               0.153 0.004 0.004                       # Defines the primary color of the motorbike.
+  field       SFColor    secondaryColor             0.647 0.647 0.647                       # Defines the secondary color of the motorbike.
+  field       MFColor    recognitionColors          [0.153 0.004 0.004, 0.647 0.647 0.647]  # Is `Solid.recognitionColors`.
+  field       SFNode     driver                     MotorbikeDriver { }                     # Defines a `Slot` node for the motorbike driver.
+  field       SFString   name                       "vehicle"                               # Is `Solid.name`.
+  field       SFBool     wheelBoundingObject        FALSE                                   # Defines whether the wheels should have a bounding object.
   hiddenField SFVec3f    frontWheelAngularVelocity  0 0 0
   hiddenField SFVec3f    rearWheelAngularVelocity   0 0 0
 ]

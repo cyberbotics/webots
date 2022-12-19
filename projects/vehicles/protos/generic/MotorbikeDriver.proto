@@ -4,10 +4,10 @@
 # The Motorbike driver is based on the pedestrian PROTO.
 
 PROTO MotorbikeDriver [
-  field   SFColor    shirtColor     0.404 0.329 0.255
-  field   SFColor    pantsColor     0.215 0.310 0.478
-  field   SFColor    skinColor      0.996 0.765 0.674
-  field   SFColor    helmetColor    0.267 0.267 0.267
+  field   SFColor    shirtColor     0.404 0.329 0.255  # Defines the shirt color of the driver.
+  field   SFColor    pantsColor     0.215 0.310 0.478  # Defines the pants color of the driver.
+  field   SFColor    skinColor      0.996 0.765 0.674  # Defines the skin color of the driver.
+  field   SFColor    helmetColor    0.267 0.267 0.267  # Defines the helmet color of the driver.
 ]
 {
   Slot {

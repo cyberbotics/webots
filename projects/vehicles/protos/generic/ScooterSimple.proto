@@ -14,14 +14,14 @@ EXTERNPROTO "ScooterLeftIndicator.proto"
 EXTERNPROTO "ScooterWheel.proto"
 
 PROTO ScooterSimple [
-  field       SFVec3f    translation                0 0 0.23
-  field       SFRotation rotation                   0 0 1 0
-  field       SFColor    primaryColor               0.43 0.11 0.1
-  field       SFColor    secondaryColor             0.69 0.43 0.43
-  field       MFColor    recognitionColors          [ 0.43 0.11 0.1, 0.69 0.43 0.43 ]
-  field       SFNode     driver                     ScooterDriver { }
-  field       SFString   name                       "vehicle"
-  field       SFBool     wheelBoundingObject        FALSE
+  field       SFVec3f    translation                0 0 0.23                           # Is `Solid.translation`.
+  field       SFRotation rotation                   0 0 1 0                            # Is `Solid.rotation`.
+  field       SFColor    primaryColor               0.43 0.11 0.1                      # Defines the primary color of the scooter.
+  field       SFColor    secondaryColor             0.69 0.43 0.43                     # Defines the secondary color of the scooter.
+  field       MFColor    recognitionColors          [ 0.43 0.11 0.1, 0.69 0.43 0.43 ]  # Is `Solid.recognitionColors`.
+  field       SFNode     driver                     ScooterDriver { }                  # Defines a `Slot` node for the scooter driver.
+  field       SFString   name                       "vehicle"                          # Is `Solid.name`.
+  field       SFBool     wheelBoundingObject        FALSE                              # Defines whether the wheels should have a bounding object.
   hiddenField SFVec3f    frontWheelAngularVelocity  0 0 0
   hiddenField SFVec3f    rearWheelAngularVelocity   0 0 0
 ]

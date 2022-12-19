@@ -10,19 +10,19 @@ EXTERNPROTO "TruckCab.proto"
 EXTERNPROTO "TruckWheel.proto"
 
 PROTO TruckSimple [
-  field     SFVec3f    translation         0 0 0.5
-  field     SFRotation rotation            0 0 1 0
-  field     SFColor    color               0.39 0 0
-  field     MFColor    recognitionColors   [ 0.39 0 0 ]
-  field     SFNode     trailer             TruckTrailerSimple { }
-  field     SFString   name                "vehicle"
-  field     SFString   controller          "<none>"
-  field     MFString   controllerArgs      [ ]
-  field     SFString   window              "<none>"
-  field     MFNode     sensorsSlotFront    [ ]
-  field     MFNode     sensorsSlotRear     [ ]
-  field     MFNode     sensorsSlotTop      [ ]
-  field     MFNode     sensorsSlotCenter   [ ]
+  field     SFVec3f    translation         0 0 0.5                 # Is `Robot.translation`.
+  field     SFRotation rotation            0 0 1 0                 # Is `Robot.rotation`.
+  field     SFColor    color               0.39 0 0                # Defines the main color of the truck.
+  field     MFColor    recognitionColors   [ 0.39 0 0 ]            # Defines the main color of the truck.
+  field     SFNode     trailer             TruckTrailerSimple { }  # Defines an optional trailer.
+  field     SFString   name                "vehicle"               # Is `Robot.name`.
+  field     SFString   controller          "<none>"                # Is `Robot.controller`.
+  field     MFString   controllerArgs      [ ]                     # Is `Robot.controllerArgs`.
+  field     SFString   window              "<none>"                # Is `Robot.window`.
+  field     MFNode     sensorsSlotFront    [ ]                     # Extends the truck with new nodes in the front slot.
+  field     MFNode     sensorsSlotRear     [ ]                     # Extends the truck with new nodes in the rear slot.
+  field     MFNode     sensorsSlotTop      [ ]                     # Extends the truck with new nodes in the top slot.
+  field     MFNode     sensorsSlotCenter   [ ]                     # Extends the truck with new nodes in the center slot.
   field     SFBool     wheelBoundingObject FALSE
   hiddenField SFVec3f frontRightWheelAngularVelocity 0 0 0
   hiddenField SFVec3f frontLeftWheelAngularVelocity  0 0 0

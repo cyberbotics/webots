@@ -6,10 +6,10 @@
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
 
 PROTO ScooterWheel [
-  field       SFString name           "scooter wheel"
-  field       SFNode   physics        NULL
-  field       SFBool   boundingObject TRUE
-  hiddenField SFFloat  tireRadius     0.23             # We need to make this value 'visible' to the car PROTO so that the tire radius can be sent to the controller.
+  field       SFString name           "scooter wheel"  # Is `VehicleWheel.name`.
+  field       SFNode   physics        NULL             # Is `VehicleWheel.physics`.
+  field       SFBool   boundingObject TRUE             # Is `VehicleWheel.boundingObject`.
+  hiddenField SFFloat  tireRadius     0.23             # Is `VehicleWheel.tireRadius`. We need to make this value 'visible' to the car PROTO so that the tire radius can be sent to the controller.
 ]
 {
   VehicleWheel {
