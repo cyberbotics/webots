@@ -2536,7 +2536,7 @@ void WbView3D::updateVirtualRealityHeadsetOverlay() {
 }
 
 void WbView3D::handleWorldModificationFromSupervisor() {
-  // even if the simulation is running in no-rendering mode the pending updates need to be executed in order to process 
+  // even if the simulation is running in no-rendering mode the pending updates need to be executed in order to process
   // supervisor deletions, or Webots might run out of memory
   if (!WbSimulationState::instance()->isRendering())
     wr_scene_apply_pending_updates(wr_scene_get_instance());
