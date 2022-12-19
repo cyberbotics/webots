@@ -62,9 +62,6 @@ WbWrenAbstractResizeManipulator::~WbWrenAbstractResizeManipulator() {
     wr_node_delete(WR_NODE(mAxisTransforms[i]));
   }
 
-  mMeshes.clear();
-  mRenderables.clear();
-
   WbWrenOpenGlContext::doneWren();
 }
 

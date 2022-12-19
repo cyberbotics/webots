@@ -2538,8 +2538,11 @@ void WbView3D::updateVirtualRealityHeadsetOverlay() {
 void WbView3D::handleWorldModificationFromSupervisor() {
   // even if the simulation is running in no-rendering mode the pending updates need to be executed in order to process
   // supervisor deletions, or Webots might run out of memory
-  if (!WbSimulationState::instance()->isRendering())
+  if (!WbSimulationState::instance()->isRendering()) {
+    WbWrenOpenGlContext::makeWrenCurrent();
     wr_scene_apply_pending_updates(wr_scene_get_instance());
+    WbWrenOpenGlContext::doneWren();
+  }
 
   const WbSimulationState *const sim = WbSimulationState::instance();
   // refresh only if simulation is paused or stepped
