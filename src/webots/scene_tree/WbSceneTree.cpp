@@ -1416,10 +1416,6 @@ void WbSceneTree::applyNodeRegeneration(WbNode *node) {
 
   setUpdatesEnabled(true);
 
-  // TODO: this shouldn't be done in the scene tree
-  // The best way to fix this would be to move WbDictionary in another module (vrml?)
-  WbNodeOperations::instance()->updateDictionary(false, dynamic_cast<WbBaseNode *>(node));
-
   if (mFocusWidgetBeforeNodeRegeneration) {
     mFocusWidgetBeforeNodeRegeneration->setFocus();
     mFocusWidgetBeforeNodeRegeneration = NULL;

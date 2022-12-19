@@ -24,13 +24,6 @@ PROTO Panda [
   Robot {
     translation IS translation
     rotation IS rotation
-    controller IS controller
-    controllerArgs IS controllerArgs
-    window IS window
-    customData IS customData
-    supervisor IS supervisor
-    synchronization IS synchronization
-    selfCollision IS selfCollision
     name IS name
     children [
       Solid {
@@ -487,4 +480,11 @@ PROTO Panda [
       }
     ]
   }
+  controller IS controller
+  controllerArgs IS controllerArgs
+  customData IS customData
+  supervisor IS supervisor
+  synchronization IS synchronization
+  selfCollision IS selfCollision
+  window IS window
 }
