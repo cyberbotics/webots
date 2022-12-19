@@ -2,6 +2,7 @@ import {arrayXPointerFloat, arrayXPointerInt} from './utils/utils.js';
 import WbGeometry from './WbGeometry.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
 import WbTriangleMesh from './utils/WbTriangleMesh.js';
+import WbVector3 from './utils/WbVector3.js';
 import WbWrenMeshBuffers from './utils/WbWrenMeshBuffers.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
@@ -33,6 +34,53 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
     super.preFinalize();
 
     this.#createTriangleMesh();
+  }
+
+  recomputeBoundingSphere() {
+    this._boundingSphere.empty();
+    if (typeof this._triangleMesh === 'undefined' || this._triangleMesh.numberOfTriangles === 0)
+      return;
+
+    // Ritter's bounding sphere approximation:
+    // 1. Pick a point x from P, search a point y in P, which has the largest distance from x;
+    // 2. Search a point z in P, which has the largest distance from y. set up an
+    //    initial sphere B, with its centre as the midpoint of y and z, the radius as
+    //    half of the distance between y and z;
+    // 3. If all points in P are within sphere B, then we get a bounding sphere.
+    //    Otherwise, let p be a point outside the sphere, construct a new sphere covering
+    //    both point p and previous sphere. Repeat this step until all points are covered.
+    // Note that steps 1. and 2. help in computing a better fitting (smaller) sphere by
+    // estimating the center of the final sphere and thus reducing the bias due to the enclosed
+    // vertices order.
+    const nbTriangles = this._triangleMesh.numberOfTriangles;
+    let p2 = new WbVector3(this._triangleMesh.vertex(0, 0, 0), this._triangleMesh.vertex(0, 0, 1),
+      this._triangleMesh.vertex(0, 0, 2));
+    let p1;
+    let maxDistance; // squared distance
+    for (let i = 0; i < 2; ++i) {
+      maxDistance = 0.0;
+      p1 = p2;
+      for (let t = 0; t < nbTriangles; ++t) {
+        for (let v = 0; v < 3; ++v) {
+          const point = new WbVector3(this._triangleMesh.vertex(t, v, 0), this._triangleMesh.vertex(t, v, 1),
+            this._triangleMesh.vertex(t, v, 2));
+          const d = p1.distance2(point);
+          if (d > maxDistance) {
+            maxDistance = d;
+            p2 = point;
+          }
+        }
+      }
+    }
+    this._boundingSphere.set(p2.add(p1).mul(0.5), Math.sqrt(maxDistance) * 0.5);
+
+    for (let t = 0; t < nbTriangles; ++t) {
+      for (let v = 0; v < 3; ++v) {
+        const point = new WbVector3(this._triangleMesh.vertex(t, v, 0), this._triangleMesh.vertex(t, v, 1),
+          this._triangleMesh.vertex(t, v, 2));
+        this._boundingSphere.enclose(point);
+      }
+    }
   }
 
   // Private functions

@@ -1,4 +1,5 @@
 import WbSolid from './WbSolid.js';
+import WbWorld from './WbWorld.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 import {arrayXPointerFloat} from './utils/utils.js';
@@ -39,6 +40,7 @@ export default class WbTouchSensor extends WbSolid {
       _wr_renderable_set_cast_shadows(this.#axisRenderable[i], false);
       _wr_renderable_set_receive_shadows(this.#axisRenderable[i], false);
       _wr_renderable_set_visibility_flags(this.#axisRenderable[i], WbWrenRenderingContext.VM_REGULAR);
+      _wr_renderable_set_drawing_order(this.#axisRenderable[i], Enum.WR_RENDERABLE_DRAWING_ORDER_AFTER_2);
       _wr_renderable_set_drawing_mode(this.#axisRenderable[i], Enum.WR_RENDERABLE_DRAWING_MODE_LINES);
       _wr_renderable_set_mesh(this.#axisRenderable[i], this.#axisMesh[i]);
       _wr_renderable_set_material(this.#axisRenderable[i], this.#material[i], undefined);
@@ -54,5 +56,19 @@ export default class WbTouchSensor extends WbSolid {
 
   applyOptionalRendering(enable) {
     _wr_node_set_visible(this.#transform, enable);
+  }
+
+  postFinalize() {
+    super.postFinalize();
+
+    let ancestor = this
+    while (ancestor) {
+      let prevAncestor = WbWorld.instance.nodes.get(ancestor.parent)
+      if (!prevAncestor) {
+        console.log(ancestor.boundingSphere())
+      }
+
+      ancestor = prevAncestor;
+    }
   }
 }

@@ -2,8 +2,10 @@ import WbBaseNode from './WbBaseNode.js';
 import WbImageTexture from './WbImageTexture.js';
 import WbPbrAppearance from './WbPbrAppearance.js';
 import WbWorld from './WbWorld.js';
-import {arrayXPointerFloat, arrayXPointerInt} from './utils/utils.js';
 import {getAnId} from './utils/id_provider.js';
+import {findUpperTransform} from './utils/node_utilities.js';
+import {arrayXPointerFloat, arrayXPointerInt} from './utils/utils.js';
+import WbBoundingSphere from './utils/WbBoundingSphere.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbVector4 from './utils/WbVector4.js';
@@ -102,14 +104,15 @@ export default class WbCadShape extends WbBaseNode {
     this.#updateUrl();
   }
 
-  absoluteScale()  {
-    const ut = upperTransform();
+  absoluteScale() {
+    const ut = this.#upperTransform();
     return ut ? ut.absoluteScale() : new WbVector3(1.0, 1.0, 1.0);
   }
 
   boundingSphere() {
     return this.#boundingSphere;
   }
+
   clone(customID) {
     const cadShape = new WbCadShape(customID, this.#url, this.#ccw, this.#castShadows, this.#isPickable, this.prefix);
     cadShape.materialPath = this.materialPath;
@@ -331,10 +334,9 @@ export default class WbCadShape extends WbBaseNode {
       sphere[3] = Module.getValue(spherePointer + 12, 'float');
 
       const center = new WbVector3(sphere[0], sphere[1], sphere[2]);
-      double radius = sphere[3];
-      radius = radius / std::max(std::max(scale.x(), scale.y()), scale.z());
-      const WbBoundingSphere meshBoundingSphere(NULL, center, radius);
-      mBoundingSphere->enclose(&meshBoundingSphere);
+      let radius = sphere[3];
+      radius = radius / Math.max(Math.max(scale.x, scale.y), scale.z);
+      this.#boundingSphere.set(center, radius);
     }
   }
 

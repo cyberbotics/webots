@@ -1,6 +1,7 @@
 import WbGeometry from './WbGeometry.js';
 import {resetIfNegative, resetIfNonPositive} from './utils/WbFieldChecker.js';
 import {arrayXPointerFloat} from './utils/utils.js';
+import WbVector3 from './utils/WbVector3.js';
 
 export default class WbElevationGrid extends WbGeometry {
   #height;
@@ -97,6 +98,52 @@ export default class WbElevationGrid extends WbGeometry {
     super.delete();
 
     _wr_static_mesh_delete(this._wrenMesh);
+  }
+
+  recomputeBoundingSphere() {
+    this._boundingSphere.empty();
+
+    // create list of vertices
+    const xd = this.#xDimension;
+    const yd = this.#yDimension;
+    const xs = this.#xSpacing;
+    const ys = this.#ySpacing;
+    const size = yd * xd;
+    const h = [];
+    for (let i = 0; i < size; i++)
+      h[i] = typeof this.#height[i] === 'undefined' ? 0 : this.#height[i];
+
+    const vertices = [];
+    let index = 0;
+    let posY = 0;
+    for (let y = 0; y < yd; y++, posY += ys) {
+      let posX = 0;
+      for (let x = 0; x < xd; x++, posX += xs) {
+        vertices[index] = new WbVector3(posX, posY, h[index]);
+        ++index;
+      }
+    }
+
+    // Ritter's bounding sphere approximation
+    // (see description in WbIndexedFaceSet.recomputeBoundingSphere)
+    let p2 = new WbVector3(vertices[0].x, vertices[0].y, vertices[0].z);
+    let p1;
+    let maxDistance; // squared distance
+    for (let i = 0; i < 2; ++i) {
+      maxDistance = 0;
+      p1 = p2;
+      for (let j = 0; j < size; ++j) {
+        const d = p1.distance2(vertices[j]);
+        if (d > maxDistance) {
+          maxDistance = d;
+          p2 = vertices[j];
+        }
+      }
+    }
+    this._boundingSphere.set(p2.add(p1).mul(0.5), Math.sqrt(maxDistance) * 0.5);
+
+    for (let j = 0; j < size; ++j)
+      this._boundingSphere.enclose(vertices[j]);
   }
 
   #updateLineScale() {

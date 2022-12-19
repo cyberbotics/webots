@@ -25,6 +25,10 @@ export default class WbVector3 {
       this.x * vector.y - this.y * vector.x);
   }
 
+  distance2(v) {
+    return (this.sub(v)).length2();
+  }
+
   div(number) {
     return new WbVector3(this.x / number, this.y / number, this.z / number);
   }

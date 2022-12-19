@@ -6,16 +6,23 @@ PROTO ProtoBox [
 {
   Group {
     children [
-      Transform {
+      TouchSensor {
         translation 0 0 2
         children [
           Shape {
            geometry IS myBox
           }
+          Transform {
+            translation 0 0 -1
+            children [
+              Shape {
+                geometry Box {
+                  size 0.1 1 0
+                }
+              }
+            ]
+          }
         ]
-      }
-      Shape {
-        geometry IS myBox
       }
     ]
   }

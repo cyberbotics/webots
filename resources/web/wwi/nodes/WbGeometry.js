@@ -1,6 +1,8 @@
 import WbBaseNode from './WbBaseNode.js';
 import WbBillboard from './WbBillboard.js';
 import WbWorld from './WbWorld.js';
+import WbBoundingSphere from './utils/WbBoundingSphere.js';
+import WbVector3 from './utils/WbVector3.js';
 import WbWrenMeshBuffers from './utils/WbWrenMeshBuffers.js';
 import WbWrenPicker from '../wren/WbWrenPicker.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
@@ -10,7 +12,6 @@ import {findUpperTransform, nodeIsInBoundingObject} from './utils/node_utilities
 
 export default class WbGeometry extends WbBaseNode {
   #boundingObjectFirstTimeSearch;
-  #boundingSphere;
   #isInBoundingObject;
   #upperTransformFirstTimeSearch;
   #wrenScaleTransform;
@@ -27,8 +28,13 @@ export default class WbGeometry extends WbBaseNode {
     this.upperTransform = false;
   }
 
+  absoluteScale() {
+    const ut = this.#upperTransform();
+    return ut ? ut.absoluteScale() : new WbVector3(1, 1, 1);
+  }
+
   boundingSphere() {
-    return this.#boundingSphere;
+    return this._boundingSphere;
   }
 
   computeCastShadows(enabled) {
@@ -64,6 +70,15 @@ export default class WbGeometry extends WbBaseNode {
 
     return this.#isInBoundingObject;
   }
+
+  postFinalize() {
+    super.postFinalize();
+
+    this._boundingSphere = new WbBoundingSphere(this);
+    this.recomputeBoundingSphere();
+  }
+
+  recomputeBoundingSphere() {}
 
   setPickable(pickable) {
     if (typeof this._wrenRenderable === 'undefined' || this.isInBoundingObject())
