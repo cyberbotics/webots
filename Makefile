@@ -61,7 +61,7 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 release debug profile: docs webots_projects
 
-distrib: release
+distrib: debug
 	@+echo "#"; echo "# packaging"; echo "#"
 	@+make --silent -C scripts/packaging
 	$(eval DT := `expr \`date +%s\` - $(START)`)
