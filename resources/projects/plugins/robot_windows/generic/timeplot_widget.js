@@ -383,6 +383,8 @@ TimeplotWidget.prototype.jumpToRange = function(y) {
   let yMin, yMax;
   if (Array.isArray(y)) {
     for (let i = 0; i < y.length; ++i) {
+      if (isNaN(y[i]))
+        continue;
       if (!jumpUp) {
         jumpUp = y[i] > this.yRange['max'];
         yMax = y[i];
@@ -392,7 +394,7 @@ TimeplotWidget.prototype.jumpToRange = function(y) {
         yMin = y[i];
       }
     }
-  } else {
+  } else if (!isNaN(y)) {
     jumpUp = y > this.yRange['max'];
     jumpDown = y < this.yRange['max'];
     yMin = y;
@@ -418,6 +420,8 @@ TimeplotWidget.prototype.adaptRange = function(y, values) {
   for (let i = 0; i < values.length; ++i) {
     const y = Array.isArray(values[i].y) ? values[i].y : [values[i].y];
     for (let j = 0; j < y.length; j++) {
+      if (isNaN(y[j]))
+        continue;
       if (min == null || y[j] < min)
         min = y[j];
       if (max == null || y[j] > max)
@@ -444,6 +448,8 @@ TimeplotWidget.prototype.stretchRange = function(y) {
   if (Array.isArray(y)) {
     for (let i = 0; i < y.length; ++i) {
       const v = y[i];
+      if (isNaN(v))
+        continue;
       if (v < this.yRange['min']) {
         this.yRange['min'] = increaseFactor * v;
         changed = true;
@@ -452,7 +458,7 @@ TimeplotWidget.prototype.stretchRange = function(y) {
         changed = true;
       }
     }
-  } else {
+  } else if (!isNaN(y)) {
     console.assert(isNumber(y));
     if (y < this.yRange['min']) {
       this.yRange['min'] = increaseFactor * y;
