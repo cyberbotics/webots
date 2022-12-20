@@ -162,6 +162,7 @@ void WbCadShape::postFinalize() {
           &WbCadShape::createWrenObjects);
 
   mBoundingSphere = new WbBoundingSphere(this);
+  recomputeBoundingSphere();
 
   // apply segmentation color
   const WbSolid *solid = WbNodeUtilities::findUpperSolid(this);
@@ -506,9 +507,6 @@ void WbCadShape::createWrenObjects() {
     mWrenEncodeDepthMaterials.push_back(depthMaterial);
     mWrenSegmentationMaterials.push_back(segmentationMaterial);
   }
-
-  if (mBoundingSphere)
-    recomputeBoundingSphere();
 }
 
 void WbCadShape::updateAppearance() {
