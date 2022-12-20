@@ -45,7 +45,7 @@ export default class WbGroup extends WbBaseNode {
       this.children.forEach((child, i) => {
         if (typeof this.loadProgress !== 'undefined') {
           this.loadProgress++;
-          const percentage = this.loadProgress * 100 / (3 * this.children.length) //70 + 30 * (i + 1) / this.children.length;
+          const percentage = this.loadProgress * 100 / (3 * this.children.length);
           const info = 'Create WREN object ' + child.id + ': ' + Math.round(percentage) + '%';
           WbWorld.instance.currentView.progress.setProgressBar('block', 'same', percentage, info);
         }
@@ -92,7 +92,7 @@ export default class WbGroup extends WbBaseNode {
     this.children.forEach((child, i) => {
       if (typeof this.loadProgress !== 'undefined') {
         this.loadProgress++;
-        const percentage = this.loadProgress * 100 / (3 * this.children.length) //70 + 30 * (i + 1) / this.children.length;
+        const percentage = this.loadProgress * 100 / (3 * this.children.length);
         const info = 'Pre-finalize node ' + child.id + ': ' + Math.round(percentage) + '%';
         WbWorld.instance.currentView.progress.setProgressBar('block', 'same', percentage, info);
       }
@@ -106,7 +106,7 @@ export default class WbGroup extends WbBaseNode {
     this.children.forEach((child, i) => {
       if (typeof this.loadProgress !== 'undefined') {
         this.loadProgress++;
-        const percentage = this.loadProgress * 100 / (3 * this.children.length) //70 + 30 * (i + 1) / this.children.length;
+        const percentage = this.loadProgress * 100 / (3 * this.children.length);
         const info = 'Post-finalize node ' + child.id + ': ' + Math.round(percentage) + '%';
         WbWorld.instance.currentView.progress.setProgressBar('block', 'same', percentage, info);
       }
