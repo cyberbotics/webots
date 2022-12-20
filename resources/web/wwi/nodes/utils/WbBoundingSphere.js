@@ -1,8 +1,10 @@
 import WbVector3 from './WbVector3.js';
 export default class WbBoundingSphere {
   #center;
+  #centerInParentCoordinates;
   #owner;
   #radius;
+  #radiusInParentCoordinates;
   #subBoundingSpheres;
   constructor(owner, center, radius) {
     this.#center = center;
@@ -22,6 +24,16 @@ export default class WbBoundingSphere {
     return this.#radius;
   }
 
+  get center() {
+    if (this.boundSpaceDirty)
+      this.recomputeIfNeeded();
+    return this.#center;
+  }
+
+  get owner() {
+    return this.#owner;
+  }
+
   addSubBoundingSphere(subBoundingSphere) {
     if (typeof subBoundingSphere === 'undefined' || this.#subBoundingSpheres.has(subBoundingSphere))
       return;
@@ -38,7 +50,7 @@ export default class WbBoundingSphere {
       this.recomputeIfNeeded();
     if (this.parentCoordinatesDirty)
       this.recomputeSphereInParentCoordinates();
-    return this.centerInParentCoordinates;
+    return this.#centerInParentCoordinates;
   }
 
   empty() {
@@ -64,44 +76,51 @@ export default class WbBoundingSphere {
     if (other.isEmpty())
       return false;
 
-    const otherCenter = const_cast<WbBoundingSphere *>(other)->centerInParentCoordinates();
-    const double otherRadius = const_cast<WbBoundingSphere *>(other)->radiusInParentCoordinates();
-    if (isEmpty()) {
-      set(otherCenter, otherRadius);
+    const otherCenter = other.centerInParentCoordinates();
+    const otherRadius = other.radiusInParentCoordinates();
+    if (this.isEmpty()) {
+      this.set(otherCenter, otherRadius);
       return true;
     }
 
     // Test matching centers
-    if (mCenter == otherCenter) {
-      if (otherRadius > mRadius) {
-        set(mCenter, otherRadius);
+    if (this.#center === otherCenter) {
+      if (otherRadius > this.#radius) {
+        this.set(this.#center, otherRadius);
         return true;
       }
       return false;
     }
 
-    const WbVector3 &distanceVector = otherCenter - mCenter;
-    const double distance = distanceVector.length();
-    const double sum = mRadius + distance + otherRadius;
+    const distanceVector = otherCenter.sub(this.#center);
+    const distance = distanceVector.length();
+    const sum = this.#radius + distance + otherRadius;
 
     // Other is inside the instance
-    if (sum <= mRadius * 2)
+    if (sum <= this.#radius * 2)
       return false;
     // Other contains the instance
     if (sum <= otherRadius * 2) {
-      set(otherCenter, otherRadius);
+      this.set(otherCenter, otherRadius);
       return true;
     }
-
     // General case
     // compute radius of the sphere which includes the two spheres.
-    const double newRadius = sum / 2.0;
-    set(mCenter + distanceVector.normalized() * (newRadius - mRadius), newRadius);
+    const newRadius = sum / 2;
+    this.set(this.#center.add(distanceVector.normalized().mul(newRadius - this.#radius)), newRadius);
     return true;
   }
 
   isEmpty() {
     return this.#radius === 0 && this.#center.equal(new WbVector3());
+  }
+
+  radiusInParentCoordinates() {
+    if (this.boundSpaceDirty)
+      this.recomputeIfNeeded();
+    if (this.parentCoordinatesDirty)
+      this.recomputeSphereInParentCoordinates();
+    return this.#radiusInParentCoordinates;
   }
 
   recomputeIfNeeded(dirtyOnly) {
@@ -111,7 +130,7 @@ export default class WbBoundingSphere {
     if (this.#subBoundingSpheres.size === 0) {
       if (this.geomOwner)
         this.#owner.recomputeBoundingSphere();
-      this._boundSpaceDirty = false;
+      this.boundSpaceDirty = false;
       return;
     }
 
@@ -135,13 +154,14 @@ export default class WbBoundingSphere {
       return;
 
     if (this.transformOwner) {
-      const scale = this.#owner.scale();
-      this.radiusInParentCoordinates = Math.max(Math.max(scale.x, scale.y), scale.z) * this.#radius;
-      this.centerInParentCoordinates = this.#owner.vrmlMatrix() * this.#center;
+      const scale = this.#owner.scale;
+      this.#radiusInParentCoordinates = Math.max(Math.max(scale.x, scale.y), scale.z) * this.#radius;
+      this.#centerInParentCoordinates = this.#owner.vrmlMatrix().mulByVec3(this.#center);
     } else {
-      this.radiusInParentCoordinates = this.#radius;
-      this.centerInParentCoordinates = this.#center;
+      this.#radiusInParentCoordinates = this.#radius;
+      this.#centerInParentCoordinates = this.#center;
     }
+
     this.parentCoordinatesDirty = false;
   }
 

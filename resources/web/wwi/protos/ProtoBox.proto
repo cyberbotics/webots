@@ -16,8 +16,29 @@ PROTO ProtoBox [
             translation 0 0 -1
             children [
               Shape {
-                geometry Box {
-                  size 0.1 1 0.5
+                geometry Sphere {
+                  radius 1.2
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 1 -1
+            children [
+              Shape {
+                geometry Cylinder {
+                  radius 0.3
+                  height 1.2
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 -1.5 -1
+            children [
+              Shape {
+                geometry Mesh {
+                  url "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/meshes/suzanne.obj"
                 }
               }
             ]

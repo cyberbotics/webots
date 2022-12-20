@@ -20,6 +20,7 @@ export default class WbTransform extends WbGroup {
     this.#translation = translation;
     this.#scale = scale;
     this.#rotation = rotation;
+    this.#rotation.normalizeRotation();
 
     this.#absoluteScaleNeedUpdate = true;
     this.#upperTransformFirstTimeSearch = true;
@@ -54,6 +55,7 @@ export default class WbTransform extends WbGroup {
 
   set rotation(newRotation) {
     this.#rotation = newRotation;
+    this.#rotation.normalizeRotation();
 
     this.#updateRotation();
   }

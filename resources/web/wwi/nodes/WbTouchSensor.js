@@ -1,5 +1,4 @@
 import WbSolid from './WbSolid.js';
-import WbWorld from './WbWorld.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 import {arrayXPointerFloat} from './utils/utils.js';
@@ -37,9 +36,10 @@ export default class WbTouchSensor extends WbSolid {
     let ancestor = findUpperTransform(this);
     if (typeof ancestor === 'undefined')
       ancestor = this;
-    console.log(ancestor.boundingSphere().radius)
 
     this.#applyOptionalRenderingToWren();
+
+    console.log(this._boundingSphere.radius);
   }
 
   #applyOptionalRenderingToWren() {
