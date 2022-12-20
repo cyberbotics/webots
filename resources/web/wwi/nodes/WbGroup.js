@@ -84,8 +84,10 @@ export default class WbGroup extends WbBaseNode {
   preFinalize() {
     super.preFinalize();
 
-    if (this === WbWorld.instance.root)
+    if (this === WbWorld.instance.root) {
       this.loadProgress = 0;
+      WbWorld.instance.currentView.progress.setProgressBar('block', 'same', 0, 'Finalizing...');
+    }
 
     this.children.forEach((child, i) => {
       if (typeof this.loadProgress !== 'undefined') {
