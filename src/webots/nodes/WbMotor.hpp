@@ -79,6 +79,8 @@ public:
 
   static const QList<const WbMotor *> &motors() { return cMotors; }
 
+  void setupJointFeedback();
+
 signals:
   void minPositionChanged();
   void maxPositionChanged();
@@ -101,9 +103,6 @@ protected:
 protected slots:
   void updateMaxForceOrTorque();
   void updateMinAndMaxPosition();
-
-protected:
-  void setupJointFeedback();
 
 private:
   static QList<const WbMotor *> cMotors;

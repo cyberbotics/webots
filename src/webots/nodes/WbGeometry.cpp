@@ -85,7 +85,7 @@ WbGeometry::WbGeometry(const WbNode &other) : WbBaseNode(other) {
 WbGeometry::~WbGeometry() {
   delete mResizeManipulator;
   if (mOdeGeom)
-    destroyOdeObjects();  // for WbGeometries lying in a boundinObject
+    destroyOdeObjects();  // for WbGeometries lying in a boundingObject
   delete mOdeMass;
   delete mBoundingSphere;
 
