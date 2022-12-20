@@ -107,7 +107,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       this.#rowNumber = 1;
       for (let key of keys) {
         const parameter = this.#protoManager.exposedParameters.get(key);
-        if (parameter.type === VRML.SFVec3f)
+
+        if (parameter.restrictions.length > 0 && parameter.type !== VRML.SFNode) // TODO: handle this case
+          this.#createRestrictedField(key, contentDiv);
+        else if (parameter.type === VRML.SFVec3f)
           this.#createSFVec3Field(key, contentDiv);
         else if (parameter.type === VRML.SFRotation)
           this.#createSFRotation(key, contentDiv);
@@ -523,6 +526,54 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const object = {'x': node.inputs[0].value, 'y': node.inputs[1].value, 'z': node.inputs[2].value};
     node.parameter.setValueFromJavaScript(this.#view, object);
   }
+
+  #createRestrictedField(key, parent) {
+    const parameter = this.#protoManager.exposedParameters.get(key);
+
+    const p = document.createElement('p');
+    p.innerHTML = key + ': ';
+    p.parameter = parameter;
+    p.key = key;
+    p.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
+    p.style.gridColumn = '2 / 2';
+    p.className = 'key-parameter';
+
+    const exportCheckbox = this.#createCheckbox(parent);
+
+    const value = document.createElement('p');
+    value.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
+    value.style.gridColumn = '4 / 4';
+    value.className = 'value-parameter';
+
+    const select = document.createElement('select');
+
+    for (const item of parameter.restrictions) {
+      const value = parameter.type === VRML.SFString ? this.#stringRemoveQuote(item.value) : item.value;
+      const option =  document.createElement('option');
+      option.value = value;
+      option.innerText =  value;
+      select.appendChild(option);
+    }
+
+    value.appendChild(select);
+
+    const resetButton = this.#createResetButton(parent, p.style.gridRow);
+    resetButton.onclick = () => {
+      input.value = this.#stringRemoveQuote(parameter.defaultValue.value);
+      this.#stringOnChange(p);
+    };
+
+    select.onchange = (e) => {
+      console.log('value is', e.target.options[e.target.selectedIndex].value)
+    };
+
+    p.input = select;
+    p.checkbox = exportCheckbox;
+
+    parent.appendChild(p);
+    parent.appendChild(value);
+  }
+
 
   #createSFStringField(key, parent) {
     const parameter = this.#protoManager.exposedParameters.get(key);

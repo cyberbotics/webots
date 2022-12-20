@@ -194,39 +194,5 @@ Token.KEYWORDS = [
   'SFVec3f',
   'MFVec3f'
 ];
-/*
-Token.SUPPORTED_NODE_LIST = [
-  'Appearance',
-  'Background',
-  'Billboard',
-  'Box',
-  'Capsule',
-  'Cone',
-  'Cylinder',
-  'DirectionalLight',
-  'ElevationGrid',
-  'Fog',
-  'Geometry',
-  'Group',
-  'Image',
-  'ImageTexture',
-  'IndexedFaceSet',
-  'IndexedLineSet',
-  'Light',
-  'Material',
-  'PBRAppearance',
-  'Plane',
-  'PointLight',
-  'PointSet',
-  'Scene',
-  'Shape',
-  'Sphere',
-  'SpotLight',
-  'TextureTransform',
-  'Transform',
-  'TriangleMeshGeometry',
-  'Viewpoint',
-  'World'
-];
-*/
+
 export {isSpace, isPunctuation};

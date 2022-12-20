@@ -8,16 +8,25 @@ export default class Parameter {
   #value;
   #defaultValue;
   #isTemplateRegenerator;
+  #restrictions;
   #parameterLinks;
-  constructor(node, name, type, defaultValue, value, isTemplateRegenerator) {
+  constructor(node, name, type, restrictions, defaultValue, value, isTemplateRegenerator) {
     this.node = node; // node this parameter belongs to
-    this.type = type;
-    this.name = name;
+    this.#type = type;
+    this.#name = name;
+    this.#restrictions = restrictions;
     this.defaultValue = defaultValue;
     this.value = value;
-    this.isTemplateRegenerator = isTemplateRegenerator;
-    this.parentNode = undefined;
+    this.#isTemplateRegenerator = isTemplateRegenerator;
     this.#parameterLinks = []; // list of other parameters to notify whenever this instance changes
+  }
+
+  get restrictions() {
+    return this.#restrictions;
+  }
+
+  set restrictions(newValue) {
+    this.#restrictions = newValue;
   }
 
   get value() {
@@ -27,6 +36,15 @@ export default class Parameter {
   set value(v) {
     if (v.type() !== this.type)
       throw new Error('Type mismatch, setting ' + stringifyType(v.type()) + ' to ' + stringifyType(this.type) + ' parameter.');
+
+    if (this.restrictions.length > 0) {
+      let isValueAcceptable = false;
+      for (const item of this.restrictions)
+        isValueAcceptable = isValueAcceptable || item.equals(v);
+
+      if (!isValueAcceptable)
+        throw new Error('Parameter ' + this.name + ' is restricted and the value being set is not permitted.');
+    }
 
     this.#value = v;
   }
@@ -128,7 +146,10 @@ export default class Parameter {
   }
 
   clone() {
-    const copy = new Parameter(this.node, this.name, this.type, this.defaultValue.clone(), this.value.clone(),
+    const restrictions = []
+    for (const item in this.restrictions)
+      restrictedValues.push(item.clone());
+    const copy = new Parameter(this.node, this.name, this.type, restrictions, this.defaultValue.clone(), this.value.clone(),
       this.isTemplateRegenerator);
     copy.parentNode = this.parentNode;
     return copy;
