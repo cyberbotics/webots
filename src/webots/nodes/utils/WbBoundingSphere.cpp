@@ -50,7 +50,6 @@ WbBoundingSphere::WbBoundingSphere(const WbBaseNode *owner) :
   mSkinOwner(NULL),
   mTransformOwner(NULL),
   mBoundSpaceDirty(false),
-  mGeomSphereDirty(false),
   mParentCoordinatesDirty(true),
   mRadiusInParentCoordinates(0.0),
   mGlobalCoordinatesUpdateTime(-1.0),
@@ -67,7 +66,6 @@ WbBoundingSphere::WbBoundingSphere(const WbBaseNode *owner, const WbVector3 &cen
   mSkinOwner(NULL),
   mTransformOwner(NULL),
   mBoundSpaceDirty(true),
-  mGeomSphereDirty(true),
   mParentCoordinatesDirty(true),
   mRadiusInParentCoordinates(0.0),
   mGlobalCoordinatesUpdateTime(-1.0),
@@ -278,7 +276,6 @@ void WbBoundingSphere::recomputeIfNeededInternal(bool dirtyOnly, QSet<const WbBo
         mGeomOwner->recomputeBoundingSphere();
       else
         mSkinOwner->recomputeBoundingSphere();
-      mGeomSphereDirty = false;
     }
     mBoundSpaceDirty = false;
     return;
@@ -324,8 +321,6 @@ void WbBoundingSphere::setOwnerMoved() {
 
 void WbBoundingSphere::setOwnerSizeChanged() {
   assert(mGeomOwner || mSkinOwner || mTransformOwner);
-  if (mGeomOwner || mSkinOwner)
-    mGeomSphereDirty = true;
   mBoundSpaceDirty = true;
   mParentCoordinatesDirty = true;
   if (gUpdatesEnabled)

@@ -463,7 +463,7 @@ webots-view .arrow-right{
   transform: rotate(-45deg);
   -webkit-transform: rotate(-45deg);
   position: absolute;
-  top: 11px;
+  top: 13px;
   right: 17px;
   pointer-events: none;
 }
@@ -497,7 +497,7 @@ webots-view .arrow-left{
   transform: rotate(135deg);
   -webkit-transform: rotate(135deg);
   position: absolute;
-  top: 11px;
+  top: 13px;
   left: 11px;
   right: auto;
 }
