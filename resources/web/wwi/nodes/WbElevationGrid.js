@@ -126,7 +126,7 @@ export default class WbElevationGrid extends WbGeometry {
 
     // Ritter's bounding sphere approximation
     // (see description in WbIndexedFaceSet.recomputeBoundingSphere)
-    let p2 = new WbVector3(vertices[0].x, vertices[0].y, vertices[0].z);
+    let p2 = vertices.length > 0 ? new WbVector3(vertices[0].x, vertices[0].y, vertices[0].z) : new WbVector3();
     let p1;
     let maxDistance; // squared distance
     for (let i = 0; i < 2; ++i) {

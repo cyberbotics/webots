@@ -41,6 +41,15 @@ PROTO ProtoBox [
                   url "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/meshes/suzanne.obj"
                 }
               }
+              Shape {
+                geometry ElevationGrid {
+                  height [-1,1,0,0,0]
+                  xDimension 5
+                  yDimension 1
+                  xSpacing 2
+                  ySpacing 0.5
+                }
+              }
             ]
           }
         ]
