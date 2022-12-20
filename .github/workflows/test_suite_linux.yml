@@ -67,7 +67,7 @@ jobs:
         export PATH=$JAVA_HOME/bin:$PATH
         export LIBGL_ALWAYS_SOFTWARE=true
         export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
-        xvfb-run --auto-servernum make debug -j4
+        xvfb-run --auto-servernum make distrib -j4
     - name: Prepare Webots Controller Deployment
       if: ${{ (github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'deploy libcontroller')) && matrix.os == 'ubuntu-20.04' }}
       uses: webfactory/ssh-agent@v0.5.3
