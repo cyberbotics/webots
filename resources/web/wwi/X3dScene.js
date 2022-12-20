@@ -36,7 +36,6 @@ import WbTrackWheel from './nodes/WbTrackWheel.js';
 import WbTransform from './nodes/WbTransform.js';
 import WbWorld from './nodes/WbWorld.js';
 
-import {getAncestor} from './nodes/utils/utils.js';
 import WbVector2 from './nodes/utils/WbVector2.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 import WbNormal from './nodes/WbNormal.js';
@@ -164,7 +163,7 @@ export default class X3dScene {
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.open('GET', url, true);
     xmlhttp.overrideMimeType('plain/text');
-    xmlhttp.onreadystatechange = async () => {
+    xmlhttp.onreadystatechange = async() => {
       // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
       if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) {
         const parser = new Parser(prefix);
@@ -196,7 +195,7 @@ export default class X3dScene {
       if (parentNode instanceof WbShape) // TODO: this might be improved with a onchange trigger
         parentNode.updateAppearance();
     } else
-      node.finalize()
+      node.finalize();
   }
 
   applyPose(pose) {

@@ -1,7 +1,6 @@
 import Node from './protoVisualizer/Node.js';
 import { MFNode, SFNode, stringifyType } from './protoVisualizer/Vrml.js';
 import {getAnId} from './nodes/utils/id_provider.js';
-import WbWorld from './nodes/WbWorld.js';
 
 export default class ProtoManager {
   #view;

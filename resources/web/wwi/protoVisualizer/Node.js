@@ -316,7 +316,7 @@ export default class Node {
   clearReferences() {
     this.def = new Map();
 
-    for (const [parameterName, parameter] of this.parameters)
+    for (const [, parameter] of this.parameters)
       parameter.resetParameterLinks();
   };
 

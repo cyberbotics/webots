@@ -210,7 +210,7 @@ export default class Parser {
         this.#parseWorldInfo(node);
         break;
       case 'Viewpoint':
-        WbWorld.instance.viewpoint = this.#parseViewpoint(node);
+        WbWorld.instance.viewpoint = this.#parseViewpoint(node, parentNode);
         break;
       case 'Background':
         result = this.#parseBackground(node, parentNode);
@@ -435,7 +435,7 @@ export default class Parser {
     return id;
   }
 
-  #parseViewpoint(node) {
+  #parseViewpoint(node, parentNode) {
     this.#updateParserProgress(node);
     const id = this.#parseId(node);
     const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', M_PI_4));

@@ -67,7 +67,7 @@ export default class NodeSelectorWindow {
     return new Promise((resolve, reject) => {
       const xmlhttp = new XMLHttpRequest();
       xmlhttp.open('GET', 'https://cyberbotics.com/wwi/proto/protoVisualizer/temporary-proto-list.xml', true);
-      xmlhttp.onreadystatechange = async () => {
+      xmlhttp.onreadystatechange = async() => {
         if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
           resolve(xmlhttp.responseText);
       };
@@ -108,7 +108,7 @@ export default class NodeSelectorWindow {
     nodeFilter.id = 'node-filter';
     nodeFilter.className = 'node-filter';
     const p = document.createElement('p');
-    p.style.margin = 'auto 10px auto 0px'
+    p.style.margin = 'auto 10px auto 0px';
     p.innerHTML = 'Find: ';
 
     const input = document.createElement('input');
@@ -238,10 +238,9 @@ export default class NodeSelectorWindow {
       if (this.parameter.value.value === null || !compatibleNodes.includes(this.parameter.value.value.name))
         this.selection = ol.children[0]; // select the first item if the parameter doesn't currently contain anything
       else
-        this.selection = ol.children[compatibleNodes.indexOf(this.parameter.value.value.name)]
+        this.selection = ol.children[compatibleNodes.indexOf(this.parameter.value.value.name)];
 
       this.selection.style.backgroundColor = '#007acc';
-
     }
 
     // populate node info
@@ -266,7 +265,7 @@ export default class NodeSelectorWindow {
       this.populateNodeInfo(this.selection.innerText);
     };
 
-    button.ondblclick = async (item) => this.insertNode(item.target.innerText);
+    button.ondblclick = async(item) => this.insertNode(item.target.innerText);
 
     return item;
   }
@@ -295,7 +294,7 @@ export default class NodeSelectorWindow {
       const url = info.url;
       nodeImage.src = url.slice(0, url.lastIndexOf('/') + 1) + 'icons/' + protoName + '.png';
       description.innerHTML = info.description;
-      license.innerHTML = 'License:&nbsp;<i>' + info.license + '</i>'
+      license.innerHTML = 'License:&nbsp;<i>' + info.license + '</i>';
     }
   }
 
@@ -310,7 +309,7 @@ export default class NodeSelectorWindow {
 
   isAllowedToInsert(baseType, slotType) {
     if (typeof this.parameter === 'undefined')
-      throw new Error('The parameter is expected to be defined prior to checking node compatibility.')
+      throw new Error('The parameter is expected to be defined prior to checking node compatibility.');
 
     const baseNode = this.parameter.node.getBaseNode();
     if (baseNode.name === 'Slot' && typeof slotType !== 'undefined') {
@@ -366,7 +365,7 @@ export default class NodeSelectorWindow {
     filterInput.value = '';
 
     if (!(parameter instanceof Parameter))
-      throw new Error('Cannot display node selector unless a parameter is provided.')
+      throw new Error('Cannot display node selector unless a parameter is provided.');
 
     this.parameter = parameter;
     this.populateWindow();

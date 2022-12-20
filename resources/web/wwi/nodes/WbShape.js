@@ -45,7 +45,6 @@ export default class WbShape extends WbBaseNode {
     }
   }
 
-
   applyMaterialToGeometry() {
     if (!this.wrenMaterial)
       this.#createWrenMaterial(Enum.WR_MATERIAL_PHONG);

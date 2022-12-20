@@ -535,14 +535,22 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #rotationOnChange(node) {
-    const object = {'x': parseFloat(node.inputs[0].value), 'y': parseFloat(node.inputs[1].value),
-      'z': parseFloat(node.inputs[2].value), 'a': parseFloat(node.inputs[3].value)};
+    const object = {
+      'x': parseFloat(node.inputs[0].value),
+      'y': parseFloat(node.inputs[1].value),
+      'z': parseFloat(node.inputs[2].value),
+      'a': parseFloat(node.inputs[3].value)
+    };
     node.parameter.setValueFromJavaScript(this.#view, object);
     this.#refreshParameterRow(node.parameter);
   }
 
   #vector3OnChange(node) {
-    const object = {'x': parseFloat(node.inputs[0].value), 'y': parseFloat(node.inputs[1].value), 'z': parseFloat(node.inputs[2].value)};
+    const object = {
+      'x': parseFloat(node.inputs[0].value),
+      'y': parseFloat(node.inputs[1].value),
+      'z': parseFloat(node.inputs[2].value)
+    };
     node.parameter.setValueFromJavaScript(this.#view, object);
     this.#refreshParameterRow(node.parameter);
   }
@@ -732,7 +740,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parameter.setValueFromJavaScript(this.#view, node);
     this.#refreshParameterRow(parameter);
   }
-
 
   #hideNodeSelector(event) {
     if (typeof this.nodeSelector !== 'undefined' && !this.nodeSelector.nodeSelector.contains(event.target)) {

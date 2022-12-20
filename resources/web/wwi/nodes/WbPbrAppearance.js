@@ -216,7 +216,7 @@ export default class WbPbrAppearance extends WbAbstractAppearance {
 
   clone(customID) {
     if (typeof customID === 'undefined')
-      customID = getAnId()
+      customID = getAnId();
 
     let baseColorMap, roughnessMap, metalnessMap, normalMap, occlusionMap, emissiveColorMap, textureTransform;
     if (typeof this.#baseColorMap !== 'undefined') {
