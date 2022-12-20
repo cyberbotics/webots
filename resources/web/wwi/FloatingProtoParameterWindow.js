@@ -205,10 +205,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     buttonContainer.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     buttonContainer.style.gridColumn = '4 / 4';
 
+    if (typeof this.exportName === 'undefined')
+      this.exportName = this.#protoManager.proto.name
+
     const input = document.createElement('input');
     input.type = 'text';
     input.title = 'New proto name';
-    input.value = 'My' + this.#protoManager.proto.name;
+    input.value = this.exportName;
+    input.onchange = (e) => this.exportName = e.target.value;
     buttonContainer.appendChild(input);
 
     const downloadButton = document.createElement('button');
@@ -217,7 +221,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     downloadButton.onclick = () => {
       const data = this.#protoManager.exportProto(input.value, this.fieldsToExport);
       const downloadLink = document.createElement('a');
-      downloadLink.download = input.value + '.proto';
+      downloadLink.download = this.exportName + '.proto';
       const file = new Blob([data], {
         type: 'text/plain'
       });
@@ -265,6 +269,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     parent.appendChild(p);
     parent.appendChild(values);
+
+    this.#refreshParameterRow(parameter);
   }
 
   #createMFVec3fField(key, parent) {
@@ -345,6 +351,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(hideShowButton);
 
     this.#mfId++;
+
+    this.#refreshParameterRow(parameter);
   }
 
   #populateMFVec3f(resetButton, parent, parameter, firstRow, mfId, isVisible) {
@@ -516,6 +524,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     };
     parent.appendChild(p);
     parent.appendChild(values);
+
+    this.#refreshParameterRow(parameter);
   }
 
   #createVectorInput(name, initialValue, parent, callback) {
@@ -598,6 +608,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     parent.appendChild(p);
     parent.appendChild(value);
+
+    this.#refreshParameterRow(parameter);
   }
 
   #stringOnChange(node) {
@@ -655,6 +667,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     };
     parent.appendChild(p);
     parent.appendChild(value);
+
+    this.#refreshParameterRow(parameter);
   }
 
   #createSFNodeField(key, parent) {
@@ -718,8 +732,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     };
 
     buttonContainer.appendChild(currentNodeButton);
-    buttonContainer.appendChild(deleteNodeButton);
     buttonContainer.appendChild(configureNodeButton);
+    buttonContainer.appendChild(deleteNodeButton);
     value.append(buttonContainer);
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
@@ -791,6 +805,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     };
     parent.appendChild(p);
     parent.appendChild(value);
+
+    this.#refreshParameterRow(parameter);
   }
 
   #intOnChange(node) {
@@ -844,6 +860,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     };
     parent.appendChild(p);
     parent.appendChild(value);
+
+    this.#refreshParameterRow(parameter);
   }
 
   #changeBoolText(boolText, input) {

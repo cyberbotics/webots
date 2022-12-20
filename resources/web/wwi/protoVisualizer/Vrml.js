@@ -291,13 +291,13 @@ export class SFRotation extends SingleValue {
   }
 
   setValueFromJavaScript(v) {
-    if (isNan(v.x))
+    if (isNaN(v.x))
       v.x = 0;
-    if (isNan(v.y))
+    if (isNaN(v.y))
       v.y = 0;
-    if (isNan(v.z))
+    if (isNaN(v.z))
       v.z = 0;
-    if (isNan(v.a))
+    if (isNaN(v.a))
       v.a = 0;
 
     this.normalize(v.x, v.y, v.z, v.a);

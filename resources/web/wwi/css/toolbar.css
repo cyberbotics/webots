@@ -1135,7 +1135,6 @@ webots-view .configure-button {
   vertical-align: bottom;
   background-color: transparent;
   border: none;
-  margin-right: 5px;
   background-size: 20px;
 }
 
@@ -1146,6 +1145,7 @@ webots-view .delete-button {
   vertical-align: bottom;
   background-color: transparent;
   border: none;
+  margin-right: 5px;
   background-size: 20px;
 }
 

@@ -148,6 +148,7 @@ export default class NodeSelectorWindow {
     warning.style.height = '100%';
     warning.style.verticalAlign = 'middle';
     warning.style.alignItems = 'center';
+    warning.style.marginLeft = '15px';
     warning.style.color = 'rgba(240, 240, 240, 1)';
     warning.style.display = 'none';
     nodeInfo.appendChild(warning);
