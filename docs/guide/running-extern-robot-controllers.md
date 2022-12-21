@@ -63,6 +63,7 @@ $WEBOTS_HOME/webots-controller [options] [path\to\controller\file]
 
 ### Options
 
+```
   --help
     Display this help message and exit.
 
@@ -86,6 +87,7 @@ $WEBOTS_HOME/webots-controller [options] [path\to\controller\file]
 
   --stderr-redirect
     Redirect the stderr of the controllers to the Webots console.
+```
 
 ## Setup
 
