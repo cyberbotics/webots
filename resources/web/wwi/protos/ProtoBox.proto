@@ -1,10 +1,12 @@
 #VRML_SIM R2023b utf8
+# template language: javascript
 
 PROTO ProtoBox [
-  field SFNode myBox Box { size 1 1 0.6 }
+  field     SFNode                             myBox Box { size 1 1 0.6 }
+  field     SFBool triggerRegeneration         TRUE
 ]
 {
-  Group {
+  Robot {
     children [
       TouchSensor {
         translation 0 0 2
@@ -55,5 +57,9 @@ PROTO ProtoBox [
         ]
       }
     ]
+    %< if (fields.triggerRegeneration.value) { >%
+    physics Physics {
+    }
+    %< } >%
   }
 }

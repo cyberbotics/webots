@@ -13,7 +13,7 @@ import WbRadar from './nodes/WbRadar.js';
 import WbJoint from './nodes/WbJoint.js';
 import WbWorld from './nodes/WbWorld.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
-import WbTouchSensor from './nodes/WbTouchSensor.js';
+import WbDevice from './nodes/WbDevice.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
@@ -776,9 +776,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     for (const key of keys) {
       const device = nodes.get(key);
       // TODO once all the optional rendering are implemented, replace this list by device instanceof WbDevice
-      if (device instanceof WbCamera || device instanceof WbRangeFinder || device instanceof WbLidar ||
-        device instanceof WbRadar || device instanceof WbLightSensor || device instanceof WbPen ||
-        device instanceof WbDistanceSensor || device instanceof WbConnector || device instanceof WbTouchSensor) {
+      if (device instanceof WbRadar || device instanceof WbLightSensor || device instanceof WbPen ||
+        device instanceof WbDistanceSensor || device instanceof WbConnector || device instanceof WbDevice) {
         numberOfDevices++;
 
         let div = document.createElement('div');
