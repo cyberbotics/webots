@@ -293,6 +293,7 @@ src/controller/matlab/
 src/controller/matlab/mgenerate.py
 
 webots [exe,linux] # on Windows, we create a shortcut in setup.iss, on macOS, we create it in mac_distro.py
+webots-controller [mac,linux]
 bin/webots-bin [linux]
 bin/qt.conf [linux]
 

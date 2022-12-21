@@ -388,7 +388,7 @@ void remove_char(char *string, char occurence) {
     while (*removed == occurence) {
       ++removed;
     }
-  } while (*string++ = *removed++);
+  } while ((*string++ = *removed++));
 }
 
 void replace_substring(char **string, const char *substring, const char *replace) {
@@ -456,7 +456,7 @@ void insert_string(char **string, char *insert, int index) {
 
 void parse_environment_variables(char **string) {
   char *tmp = *string;
-  while (tmp = strstr(tmp, "$(")) {
+  while ((tmp = strstr(tmp, "$("))) {
     // Get environment variable string, name and length
     const char *end = strchr(tmp, ')');
     const size_t env_size = end - tmp + 1;
