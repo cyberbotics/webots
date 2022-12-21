@@ -83,13 +83,13 @@ Concrete use cases are discussed in the next section [Setup](#setup).
     Target a specific robot by specifying its name in case multiple robots wait for an extern controller in the Webots instance.
 
   --matlab-path=<matlab-path>
-    For MATLAB controllers, this option allows to specify the path to the executable of a specific MATLAB version. By default, the launcher checks in the default MATLAB installation folder. See [Using Matlab](using-matlab.md) for more information.
+    For MATLAB controllers, this option allows to specify the path to the executable of a specific MATLAB version. By default, the launcher checks in the default MATLAB installation folder.
 
   --stdout-redirect
-    Redirect the stdout of the controllers to the Webots console.
+    Redirect the stdout of the controller to the Webots console.
 
   --stderr-redirect
-    Redirect the stderr of the controllers to the Webots console.
+    Redirect the stderr of the controller to the Webots console.
 ```
 
 ## Setup
@@ -126,7 +126,7 @@ To achieve this, simply set the launcher `port` option to the TCP port of the ta
 ### Remote Extern Controllers
 
 `<extern>` controllers can also be started from a remote machine.
-In this case, on the machine running the controller, the `--protocol` option should be set to `tcp`.
+In this case, when starting the controller with the launcher, the `--protocol` option should be set to `tcp`.
 The `--ip-address` option must be set to the IP address of the remote machine on which the target instance of Webots is running.
 If multiple instances of Webots are running on the remote machine, the `--port` option must be set to the TCP port (defined in the `--port` command line option at Webots launch) of the Webots instance to which you want to connect your controller.
 Finally, if the target instance contains multiple robots waiting for an extern controller connection, the `--robot-name` option can be set to the name of the robot to which you want to connect your controller.
@@ -156,7 +156,9 @@ It is recommended that you do not override this `WEBOTS_TMPDIR` environment vari
 2. If the simulation was running, stop it and revert it.
 3. Then, open the Nao node in the scene tree and change its controller field from `nao_demo` to `<extern>`.
 4. Save the simulation, restart it and run it.
-5. Open the "WEBOTS\_HOME/projects/robots/softbank/nao/controllers/nao_demo" folder from a terminal.
-6. Setup environment variables needed for a C/C++ controller as explained in the above section.
-7. Start the `nao_demo` controller manually from the terminal.
-8. You should see the Nao robot moving in the simulation, controlled by the `nao_demo` program you just started.
+5. Open a terminal and go to the "WEBOTS\_HOME/projects/robots/softbank/nao/controllers/nao_demo" folder. Note that other controllers could be started from anywhere, but in the example of the NAO, motion files are given relative to this folder. Executing the controller from another location would lead to an error in finding these files.
+6. Start the `nao_demo` controller with:
+```bash
+$WEBOTS_HOME/webots-controller $WEBOTS_HOME/projects/robots/softbank/nao/controllers/nao_demo/nao_demo  --protocol=ipc --port=1234 --robot-name=NAO
+```
+7. You should see the Nao robot moving in the simulation, controlled by the `nao_demo` program you just started.
