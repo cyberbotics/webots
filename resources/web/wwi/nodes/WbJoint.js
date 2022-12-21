@@ -25,7 +25,7 @@ export default class WbJoint extends WbBaseNode {
   }
 
   boundingSphere() {
-    return this?.#endPoint.boundingSphere();
+    return this.#endPoint?.boundingSphere();
   }
 
   createWrenObjects() {

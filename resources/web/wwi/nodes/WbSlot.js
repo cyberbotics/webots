@@ -9,7 +9,7 @@ export default class WbSlot extends WbBaseNode {
   }
 
   boundingSphere() {
-    return this?.endPoint.boundingSphere();
+    return this.endPoint?.boundingSphere();
   }
 
   clone(customID) {

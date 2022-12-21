@@ -45,7 +45,7 @@ export default class WbShape extends WbBaseNode {
   }
 
   boundingSphere() {
-    return this?.geometry.boundingSphere();
+    return this.geometry?.boundingSphere();
   }
 
   clone(customID) {
