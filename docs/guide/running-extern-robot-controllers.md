@@ -20,158 +20,72 @@ Moreover, starting external controllers remotely allows to run Webots on a diffe
 
 > **Note**: If the `robot.synchronization` field is set to `TRUE` Webots will wait for the extern controller to be launched, otherwise the simulation will run whether the controller is started or not.
 
-## Environment Variables
+## Launcher
 
-In order to be able to run an extern Webots controller, a number of environment variables should be set or extended.
-Please refer to the documentation of your operating system to set environment variables.
-
-Webots environment variables needed by extern controllers:
+Webots is distributed with a controller launcher.
+It must be used to start any compatible controller file listed below:
+* C and C++ binaries: no extension on Linux/macOS and `.exe` on Windows.
+* Python: `.py`.
+* Java: `.jar` and `.class`.
+* Matlab: `.m`.
 
 %tab-component "os"
 
 %tab "Windows"
-| Environment Variable                  | Typical Value                                                       |
-|---------------------------------------|---------------------------------------------------------------------|
-| WEBOTS\_HOME                          | `C:\Program Files\Webots`                                           |
-| Path (all controllers except Python)  | add `%WEBOTS_HOME%\lib\controller;%WEBOTS_HOME%\msys64\mingw64\bin` |
-| Path (for C++, Java and e-puck robot) | add `%WEBOTS_HOME%\msys64\mingw64\bin\cpp`                          |
-| PYTHONPATH (for Python)               | add `${WEBOTS_HOME}\lib\controller\python`                          |
-| PYTHONIOENCODING (for Python)         | `UTF-8`                                                             |
-| WEBOTS\_PROJECT (for MATLAB)          | `C:\Users\MyUsername\my_folder\my_webots_project`                   |
-| WEBOTS\_CONTROLLER\_NAME (for MATLAB) | `my_robot_controller`                                               |
-| WEBOTS\_VERSION (for MATLAB)          | `{{ webots.version.full }}`                                         |
 
-&nbsp;
+The following command line should be used to start a controller:
 
-**MATLAB**: Here is an example of what you should enter in the MATLAB console:
-
-```matlab
->> setenv('WEBOTS_PROJECT', 'C:\Users\MyUsername\my_folder\my_webots_project')
->> setenv('WEBOTS_CONTROLLER_NAME', 'my_robot_controller')
->> setenv('WEBOTS_VERSION', '{{ webots.version.full }}')
->> cd(getenv('WEBOTS_HOME'))
->> cd('lib/controller/matlab')
->> launcher
-```
-
-&nbsp;
-
-**Java**: You should add the following options to the `java` command line for launching the Java controller:
-- `-classpath $WEBOTS_HOME\lib\controller\java\Controller.jar:$WEBOTS_HOME\my_project\controllers\MyController\`
-- `-Djava.library.path=$WEBOTS_HOME\lib\controller\java`
-
-For example to launch the `Driver` Java controller, type:
 ```bash
-java -classpath $WEBOTS_HOME\lib\controller\java\Controller.jar:$WEBOTS_HOME\projects\languages\java\controllers\Driver\ -Djava.library.path=$WEBOTS_HOME\lib\controller\java Driver
+$WEBOTS_HOME\webots-controller.exe [options] [path\to\controller\file]
 ```
-
-&nbsp;
-
-**e-puck**: The e-puck robot has a remote-control plugin library which has dependencies on C++ libraries. Thus, when running a extern C or Python controller for an e-puck robot on Windows, you should add the C++ dependencies to your `Path` environment variable as shown in the table above.
 
 %tab-end
 
 %tab "Linux"
 
-| Environment Variable                                  | Typical Value                                    |
-|-------------------------------------------------------|--------------------------------------------------|
-| WEBOTS\_HOME                                          | `/usr/local/webots`                              |
-| LD\_LIBRARY\_PATH (not needed for Python controllers) | add `${WEBOTS_HOME}/lib/controller`              |
-| PYTHONPATH (for Python)                               | add `${WEBOTS_HOME}/lib/controller/python`       |
-| PYTHONIOENCODING (for Python)                         | `UTF-8`                                          |
-| WEBOTS\_PROJECT (for MATLAB)                          | `/home/my_username/my_folder/my_webots_project`  |
-| WEBOTS\_CONTROLLER\_NAME (for MATLAB)                 | `my_robot_controller`                            |
-| WEBOTS\_VERSION (for MATLAB)                          | `{{ webots.version.full }}`                      |
-
-&nbsp;
-
-**MATLAB**: Here is an example of what you should enter in the MATLAB console:
-
-```matlab
->> setenv('WEBOTS_PROJECT','/home/my_username/my_folder/my_webots_project')
->> setenv('WEBOTS_CONTROLLER_NAME', 'my_robot_controller')
->> setenv('WEBOTS_VERSION', '{{ webots.version.full }}')
->> cd(getenv('WEBOTS_HOME'))
->> cd('lib/controller/matlab')
->> launcher
-```
-
-&nbsp;
-
-**Java**: You should add the following options to the `java` command line for launching the Java controller:
-- `-classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/my_project/controllers/MyController/`
-- `-Djava.library.path=${WEBOTS_HOME}/lib/controller/java`
-
-For example to launch the `Driver` Java controller, type:
 ```bash
-java -classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/projects/languages/java/controllers/Driver/ -Djava.library.path=$WEBOTS_HOME/lib/controller/java Driver
+$WEBOTS_HOME/webots-controller [options] [path\to\controller\file]
 ```
 
 %tab-end
 
 %tab "macOS"
 
-| Environment Variable                                  | Typical Value                                              |
-|-------------------------------------------------------|------------------------------------------------------------|
-| WEBOTS\_HOME                                          | `/Applications/Webots.app`                                 |
-| DYLD\_LIBRARY\_PATH                                   | add `${WEBOTS_HOME}/Contents/lib/controller`               |
-| PYTHONPATH                                            | add `${WEBOTS_HOME}/Contents/lib/controller/python`      |
-| PYTHONIOENCODING (for Python)                         | `UTF-8`                                                    |
-| WEBOTS\_PROJECT (for MATLAB)                          | `/Users/my_username/my_folder/my_webots_project`           |
-| WEBOTS\_CONTROLLER\_NAME (for MATLAB)                 | `my_robot_controller`                                      |
-| WEBOTS\_VERSION (for MATLAB)                          | `{{ webots.version.full }}`                                |
-
-&nbsp;
-
-**MATLAB**: Here is an example of what you should enter in the MATLAB console:
-
-```matlab
->> setenv('WEBOTS_PROJECT','/Users/my_username/my_folder/my_webots_project')
->> setenv('WEBOTS_CONTROLLER_NAME', 'my_robot_controller')
->> setenv('WEBOTS_VERSION', '{{ webots.version.full }}')
->> cd(getenv('WEBOTS_HOME'))
->> cd('lib/controller/matlab')
->> launcher
-```
-
-&nbsp;
-
-**Java**: You should add the following options to the `java` command line for launching the Java controller:
-- `-classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/my_project/controllers/MyController/`
-- `-Djava.library.path=${WEBOTS_HOME}/lib/controller/java`
-
-For example to launch the `Driver` Java controller, type:
 ```bash
-java -classpath $WEBOTS_HOME/lib/controller/java/Controller.jar:$WEBOTS_HOME/projects/languages/java/controllers/Driver/ -Djava.library.path=$WEBOTS_HOME/lib/controller/java Driver
+$WEBOTS_HOME/webots-controller [options] [path\to\controller\file]
 ```
 
 %tab-end
 
 %end
 
-&nbsp;
+> **Note**: The controller file path can be absolute or relative to the directory from which the launcher is started.
 
-Also, the [runtime.ini](controller-programming.md#environment-variables) file located in the controller folder (if any) is ignored while starting an extern controller.
-Therefore it may be needed to setup manually some extra environment variables which are defined in this file, like for example adding more paths in `PYTHONPATH`.
+### Options
 
-For convenience, it is also possible to set some environment variables programmatically in your controller program as the very first statements before initializing the Webots controller API.
+  --help
+    Display this help message and exit.
 
-&nbsp;
+  --protocol=<ipc|tcp>
+    Define the protocol to use to communicate between the controller and Webots. `ipc` is used by default. `ipc` should be used when Webots is running on the same machine as the extern controller. `tcp` should be used when connecting to a remote instance of Webots.
 
-**C/C++**: You can set environment variables using `putenv("VARIABLE=VALUE")`.
-It is not recommended to use `setenv()` as this function is not available on Windows.
+  --ip-address=<ip-address>
+    The IP address of the remote machine on which the Webots instance is running. This option should only be used with the `tcp` protocol (i.e. remote controllers).
 
-&nbsp;
+  --port=<port>
+    Define the port to which the controller should connect. 1234 is used by default, as it is the default port for Webots. This setting allows you to connect to a specific instance of Webots if there are multiple instances running on the target machine. The port of a Webots instance can be set at its launch.
 
-**Python**: You can set environment variables using `os.environ["VARIABLE"] = "VALUE"`.
+  --robot-name=<robot-name>
+    Target a specific robot by specifiyng its name in case multiple robots wait for an extern controller in the Webots instance.
 
-&nbsp;
+  --matlab-path=<matlab-path>
+    For MATLAB controllers, this option allows to specify the path to the executable of a specific MATLAB version. By default, the launcher checks in the default MATLAB installation folder. See [Using Matlab](using-matlab.md) for more information.
 
-**Java**: It's a little bit [hacky and difficult, but doable](https://stackoverflow.com/a/7201825/810268) to set environment variables in Java.
+  --stdout-redirect
+    Redirect the stdout of the controllers to the Webots console.
 
-&nbsp;
-
-**MATLAB**: You can set environment variables using `setenv('VARIABLE', 'VALUE')`.
+  --stderr-redirect
+    Redirect the stderr of the controllers to the Webots console.
 
 ## Setup
 
@@ -216,30 +130,6 @@ It is possible to restrict the IP addresses that can connect to a Webots instanc
 To do this, the allowed IP addresses can be added in the format `X.X.X.X` in the Webots preferences in the `Network` tab.
 It is also possible to allow a range of addresses using a subnet mask in [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing) notation, with the following format: `X.X.X.X/<netmask>`.
 Note that if the list is left empty, all incoming connections are allowed.
-
-### Notes about the WEBOTS\_CONTROLLER\_URL Environment Variable
-
-`WEBOTS_CONTROLLER_URL` can be left unset and the controller will connect to the only extern robot of a local Webots instance.
-If this instance has several extern robots, Webots will refuse the connection and the controller will quit, displaying an error.
-For remote connections, it is mandatory to specify the complete URL for the controller to find the Webots instance, but the `/<robot_name>` URL path can be left blank if only one robot has an `<extern>` controller.
-If this instance has several extern robots, Webots will refuse the connection and the controller will quit, displaying an error.
-If the robot name in the `WEBOTS_CONTROLLER_URL` variable contains special characters, they should be [percent encoded](https://en.wikipedia.org/wiki/Percent-encoding).
-Finally, the `WEBOTS_CONTROLLER_URL` environment variable can be set inside the controller program, before calling the `wb_robot_init()` function.
-
-&nbsp;
-
-The following table summarizes the possible values of the `WEBOTS_CONTROLLER_URL` environment variable:
-
-&nbsp;
-
-| `WEBOTS_CONTROLLER_URL` value              | Typical Use Case                                                             |
-|--------------------------------------------|------------------------------------------------------------------------------|
-| (not defined or empty)                     | Single local instance of Webots running a single extern robot controller     |
-| `<robot_name>`                             | Single local instance of Webots running multiple extern robot controllers    |
-| `ipc://<port>`                             | Multiple local instances of Webots running a single extern robot controller  |
-| `ipc://<port>/<robot_name>`                | Multiple local instances of Webots running multiple extern robot controllers |
-| `tcp://<ip_address>:<port>`                | Remote instance(s) of Webots running a single extern robot controller        |
-| `tcp://<ip_address>:<port>/<robot_name>`   | Remote instance(s) of Webots running multiple extern robot controllers       |
 
 ### Running Extern Robot Controller with the Snap Version of Webots
 

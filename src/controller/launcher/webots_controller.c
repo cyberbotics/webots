@@ -132,18 +132,20 @@ bool get_matlab_path() {
 
 void print_options() {
   printf(
-    "Usage: webots-controller [options] [controller_file]\n\nOptions:\n\n  --protocol=<ipc|tcp>\n    ipc is used by "
-    "default. ipc should be used when Webots is running on the same machine as the extern controller. tcp should be used when "
-    "connecting to a remote instance of Webots.\n\n  --ip-address=<ip-address>\n    The IP address of the remote machine on "
-    "which the Webots instance is running. This option should only be used with the tcp protocol (remote controllers).\n\n  "
-    "--port=<port>\n    1234 is used by default, as it is the default port of Webots. This parameter allows to connect to a "
-    "specific instance of Webots if multiple of them are running. The port of a Webots instance can be set at its launch.\n\n  "
+    "Usage: webots-controller [options] [controller_file]\n\nOptions:\n\n  --help\n    Display this help message and exit.\n\n "
+    " --protocol=<ipc|tcp>\n    Define the protocol to use to communicate between the controller and Webots. 'ipc' is used by "
+    "default. 'ipc' should be used when Webots is running on the same machine as the extern controller. 'tcp' should be used "
+    "when connecting to a remote instance of Webots.\n\n  --ip-address=<ip-address>\n    The IP address of the remote machine "
+    "on which the Webots instance is running. This option should only be used with the `tcp` protocol (i.e. remote "
+    "controllers).\n\n  --port=<port>\n    Define the port to which the controller should connect. 1234 is used by default, as "
+    "it is the default port for Webots. This setting allows you to connect to a specific instance of Webots if there are "
+    "multiple instances running on the target machine. The port of a Webots instance can be set at its launch.\n\n  "
     "--robot-name=<robot-name>\n    Target a specific robot by specifiyng its name in case multiple robots wait for an extern "
     "controller in the Webots instance.\n\n  --matlab-path=<matlab-path>\n    For MATLAB controllers, this option allows to "
     "specify the path to the executable of a specific MATLAB version. By default, the launcher checks in the default MATLAB "
     "installation folder. See https://cyberbotics.com/doc/guide/using-matlab#matlab-installation for more information.\n\n  "
-    "--stdout-redirect>\n    Redirect the stdout of the controller to the terminal of Webots.\n\n  --stderr-redirect>\n    "
-    "Redirect the stderr of the controller to the terminal of Webots.\n\n");
+    "--stdout-redirect\n    Redirect the stdout of the controller to the Webots console.\n\n  --stderr-redirect\n    "
+    "Redirect the stderr of the controller to the Webots console.\n\n");
 }
 
 bool parse_options(int nb_arguments, char **arguments) {
