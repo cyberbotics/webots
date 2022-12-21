@@ -125,8 +125,6 @@ export default class X3dScene {
         --index;
       }
 
-      WbWorld.instance?.viewpoint.delete();
-
       WbWorld.instance?.scene.destroy();
 
       WbWorld.instance = undefined;
