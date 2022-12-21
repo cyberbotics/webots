@@ -44,7 +44,7 @@ $WEBOTS_HOME\webots-controller.exe [options] [path\to\controller\file]
 %tab "Linux"
 
 ```bash
-$WEBOTS_HOME/webots-controller [options] [path\to\controller\file]
+$WEBOTS_HOME/webots-controller [options] [path/to/controller/file]
 ```
 
 %tab-end
@@ -52,7 +52,7 @@ $WEBOTS_HOME/webots-controller [options] [path\to\controller\file]
 %tab "macOS"
 
 ```bash
-$WEBOTS_HOME/webots-controller [options] [path\to\controller\file]
+$WEBOTS_HOME/webots-controller [options] [path/to/controller/file]
 ```
 
 %tab-end
@@ -62,6 +62,9 @@ $WEBOTS_HOME/webots-controller [options] [path\to\controller\file]
 > **Note**: The controller file path can be absolute or relative to the directory from which the launcher is started.
 
 ### Options
+
+The following options are available when starting an extern controller with the launcher.
+Concrete use cases are discussed in the next section [Setup](#setup).
 
 ```
   --help
