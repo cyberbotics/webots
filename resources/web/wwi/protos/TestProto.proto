@@ -1,25 +1,15 @@
 #VRML_SIM R2023b utf8
 
-EXTERNPROTO "CustomCopper.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/Cardboard.proto"
 
 PROTO TestProto [
-  field SFNode app CustomCopper{}
+  field SFNode app Cardboard{}
 ]
 {
-  Group {
-    children [
-      DEF SHAPE Shape {
-        appearance IS app
-        geometry Box {
-          size 0.2 0.05 0.05
-        }
-      }
-      Transform {
-        rotation 0 0 1 1
-        children [
-          USE SHAPE
-        ]
-      }
-    ]
+  Shape {
+    appearance IS app
+    geometry Box {
+      size 0.2 0.05 0.05
+    }
   }
 }

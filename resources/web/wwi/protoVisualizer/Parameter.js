@@ -96,21 +96,30 @@ export default class Parameter {
       console.log('  > ' + this.name + ' is a template regenerator!');
 
       if (!this.node.isProto)
-        throw new Error('Attempting to regenerate a base node.'); // TODO: can we reach this point anyway? if so, just return
+        throw new Error('Attempting to regenerate a base node.');
 
       // note: only base-nodes write to x3d, so to know the ID of the node we need to delete, we need to navigate through the
       // value of the proto (or multiple times if it's a derived PROTO)
-      const id = this.node.getBaseNode().id;
-      const currentNode = WbWorld.instance.nodes.get(id);
+      //const id = this.node.getBaseNode().id;
+      //const currentNode = WbWorld.instance.nodes.get(id);
+      //console.log('=>', id , currentNode, this.node)
+      //const pbr = WbWorld.instance.nodes.get('n-273');
+      //console.log('PBR', pbr)
       // delete existing node prior to regeneration otherwise the information is lost
-      view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
+      //view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
+      //view.x3dScene.processServerMessage(`delete: -273`);
+      //const id = this.node.getBaseNode().id;
+      //console.log('basenode id', id)
+
+      view.x3dScene.processServerMessage(`delete: -20`);
 
       // regenerate and parse the body of the associated node
       this.node.parseBody(true);
 
       const x3d = new XMLSerializer().serializeToString(this.node.toX3d());
-      console.log('parent', currentNode.parent)
-      view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', currentNode.parent.replace('n', ''));
+      //console.log('in parent ', currentNode.parent, ' insert:', x3d);
+      //view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', currentNode.parent.replace('n', ''));
+      view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', -19);
 
       if (typeof this.onChange === 'function')
         this.onChange();
@@ -130,7 +139,7 @@ export default class Parameter {
           const id = p.value.value.getBaseNode().id;
 
           view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
-          // console.log('delete: ', id);
+          console.log('request:', `delete: ${id.replace('n', '')}`);
         }
 
         // update value on the structure side
@@ -141,8 +150,9 @@ export default class Parameter {
           const parentId = baseNode.id.replace('n', '');
 
           const x3d = new XMLSerializer().serializeToString(v.toX3d());
-          // console.log('in parent ', parentId, ' insert:' + x3d);
+          console.log('in parent ', parentId, ' insert:' + x3d);
           view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
+          console.log(WbWorld.instance)
         }
       } else {
         // update value on the structure side

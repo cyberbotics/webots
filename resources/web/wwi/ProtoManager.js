@@ -57,11 +57,12 @@ export default class ProtoManager {
   }
 
   async loadX3d() {
+    console.log('STRUCT', this.proto)
     let xml = this.getXmlOfMinimalScene();
     const scene = xml.getElementsByTagName('Scene')[0];
     scene.appendChild(this.proto.toX3d());
-    console.log('SCENE IS', new XMLSerializer().serializeToString(xml))
     const x3d = new XMLSerializer().serializeToString(xml);
+    console.log('LOAD', x3d)
     this.#view.prefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);
     this.#view.open(x3d, 'x3d', '', true);
   }

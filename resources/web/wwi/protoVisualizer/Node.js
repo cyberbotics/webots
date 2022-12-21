@@ -22,7 +22,7 @@ export default class Node {
     this.isProto = this.url.toLowerCase().endsWith('.proto');
 
     this.name = this.isProto ? this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '') : url;
-    // console.log('CREATING ' + (this.isProto ? 'PROTO ' : 'BASENODE ') + this.name + ', id: ', this.id);
+    console.log('CREATING ' + (this.isProto ? 'PROTO ' : 'BASENODE ') + this.name + ', id: ', this.id);
 
     this.parameters = new Map();
     this.externProto = new Map();
@@ -246,7 +246,7 @@ export default class Node {
 
     const nodeElement = this.xml.createElement(this.name);
     if (isUse) {
-      // console.log('is USE! Will reference id: ' + this.id);
+      console.log('is USE! Will reference id: ' + this.id);
       nodeElement.setAttribute('USE', this.id);
       // TODO: needed here as well or sufficient in vrml.js?
       if (['Shape', 'Group', 'Transform', 'Solid', 'Robot'].includes(this.name)) {
@@ -258,9 +258,9 @@ export default class Node {
         nodeElement.setAttribute('role', parameterReference); // identifies which device slot the node belongs to
     } else {
       nodeElement.setAttribute('id', this.id);
-      // console.log('ENCODE ' + this.name, ', id: ', this.id)
+      console.log('ENCODE ' + this.name, ', id: ', this.id)
       for (const [parameterName, parameter] of this.parameters) {
-        // console.log('  ENCODE PARAMETER ' + parameterName + ', is default? ', parameter.isDefault());
+        console.log('  ENCODE PARAMETER ' + parameterName + ', is default? ', parameter.isDefault());
         if (typeof parameter.value === 'undefined') // note: SFNode can be null, not undefined
           throw new Error('All parameters should be defined, ' + parameterName + ' is not.');
 
