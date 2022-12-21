@@ -1,8 +1,8 @@
 import WbSolid from './WbSolid.js';
+import WbWorld from './WbWorld.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 import {arrayXPointerFloat} from './utils/utils.js';
-import {findUpperTransform} from './utils/node_utilities.js';
 
 // This class is used to retrieve the type of device
 export default class WbTouchSensor extends WbSolid {
@@ -11,38 +11,44 @@ export default class WbTouchSensor extends WbSolid {
   #axesTransform;
   #material;
   #transform;
-
   delete() {
     _wr_node_delete(this.#transform);
+    this.#transform = undefined;
     _wr_node_delete(this.#axesTransform);
+    this.#axesTransform = undefined;
     _wr_node_delete(this.#axisRenderable[0]);
     _wr_node_delete(this.#axisRenderable[1]);
     _wr_node_delete(this.#axisRenderable[2]);
+    this.#axisRenderable = [];
     _wr_static_mesh_delete(this.#axisMesh[0]);
     _wr_static_mesh_delete(this.#axisMesh[1]);
     _wr_static_mesh_delete(this.#axisMesh[2]);
+    this.#axisMesh = [];
 
     for (let i = 0; i < 3; ++i)
       _wr_material_delete(this.#material[i]);
+    this.#material = [];
   }
 
   applyOptionalRendering(enable) {
+    if (typeof this.#transform === 'undefined')
+      this.#applyOptionalRenderingToWren();
     _wr_node_set_visible(this.#transform, enable);
   }
 
-  postFinalize() {
-    super.postFinalize();
-
-    let ancestor = findUpperTransform(this);
-    if (typeof ancestor === 'undefined')
-      ancestor = this;
-
-    this.#applyOptionalRenderingToWren();
-
-    console.log(this._boundingSphere.radius);
-  }
-
   #applyOptionalRenderingToWren() {
+    // TODO adapt with the new structure Introduce in SFNODE
+    let currentNode = this;
+    let parentId = this.parent;
+    while (typeof parentId !== 'undefined') {
+      let parent = WbWorld.instance.nodes.get(parentId);
+      if (typeof parent !== 'undefined') {
+        parentId = parent.parent;
+        currentNode = parent;
+      }
+    }
+    const radiusScale = currentNode._boundingSphere.radius;
+
     this.#transform = _wr_transform_new();
     this.#axesTransform = _wr_transform_new();
 
@@ -60,7 +66,7 @@ export default class WbTouchSensor extends WbSolid {
     }
 
     // Axes (X & Z only)
-    const axesCoordinates = [[0, 0, 0, 0.5, 0, 0], [0, 0, 0, 0, 0.5, 0], [0, 0, 0, 0, 0, 0.5]];
+    const axesCoordinates = [[0, 0, 0, 0.1 * radiusScale, 0, 0], [0, 0, 0, 0, 0.1 * radiusScale, 0], [0, 0, 0, 0, 0, 0.1 * radiusScale]];
 
     for (let i = 0; i < 3; ++i) {
       const axesCoordinatesPointer = arrayXPointerFloat(axesCoordinates[i]);
