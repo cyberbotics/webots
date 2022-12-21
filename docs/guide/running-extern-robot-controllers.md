@@ -101,35 +101,35 @@ Different use cases are detailed here from the most simple to the most complex:
 ### Single Simulation and Single Local Extern Robot Controller
 
 You are running a single Webots simulation simultaneously on the same machine and this simulation has only one robot that you want to control from an extern controller.
-In this case, you simply need to set the `controller` field of this robot to `<extern>` and to launch the controller program from a console or from your favorite IDE.
-Once an extern controller is connected to a robot, any other attempt to connect to that robot will be refused by Webots and the controller attempting to connect will terminate immediately.
+In this case, you simply need to set the `controller` field of this robot to `<extern>` and to launch the controller with the launcher.
+No specific option is needed in this case, as default parameters will automatically target the correct instance of Webots and the single available robot.
+Once an extern controller is connected to the robot, any other attempt to connect to that robot will be refused by Webots and the controller attempting to connect will terminate immediately.
 
 ### Single Simulation and Multiple Local Extern Robot Controllers
 
 You are running a single Webots simulation simultaneously on the same machine and this simulation has several robots that you want to control from extern controllers.
 In this case, for each robot that you want to control externally, you should set their `controller` field to `<extern>`.
-Then, in the environment from which you are going to launch the extern controller, you should define an environment variable named `WEBOTS_CONTROLLER_URL` and set it to match the `name` field of the [Robot](../reference/robot.md) node you want to control.
-Once this environment variable is set, you can launch your controller and it will connect to the extern robot whose `name` matches the one provided in the environment variable.
-You can repeat this for the other controllers, e.g., set a different value to the `WEBOTS_CONTROLLER_URL` environment variable before starting a new controller, so that it will connect to a different robot.
+Then, you should set the `--robot-name` option of the controller launcher to match the `name` field of the [Robot](../reference/robot.md) node you want to control.
+The started controller will connect to the extern robot whose `name` matches the one provided in the command line.
+This operation can be repeated in a new terminal for each robot in the simulation.
 
 ### Multiple Concurrent Simulations and Single Local Extern Robot Controller
 
 If you are running multiple simulations simultaneously on the same machine, and each simulation has only one robot that you want to control from an extern controller, then you need to indicate to the controller to which instance of Webots it should try to connect.
-This can be achieved by setting the `WEBOTS_CONTROLLER_URL` environment variable to the following value: `ipc://<port>` where `<port>` is the TCP port (defined in the `--port` command line option) of the Webots instance to which you want to connect your controller.
+This can be achieved by setting the `--port` option of the launcher to the TCP port of the target Webots instance (defined in the equivalent `--port` command line option at Webots launch) to which you want to connect your controller.
 
 ### Multiple Concurrent Simulations and Multiple Local Extern Robot Controllers
 
 If you are running multiple simulations simultaneously on the same machine, and each simulation has several robots that you want to control from extern controllers, then you need to indicate to each controller to which instance of Webots and to which robot it should try to connect.
-This can be achieved by setting the `WEBOTS_CONTROLLER_URL` environment variable to the following value: `ipc://<port>/<robot_name>` where `<port>` is the TCP port (defined in the `--port` command line option) of the target Webots instance and `<robot_name>` is the name of the robot to which you want to connect your controller.
+To achieve this, simply set the launcher `port` option to the TCP port of the target Webots instance (set in the equivalent `--port` command line option when launching Webots) and the `--robot-name` option to the name of the target robot to which you want to connect your controller.
 
 ### Remote Extern Controllers
 
 `<extern>` controllers can also be started from a remote machine.
-In this case, on the computer running the controller, the `WEBOTS_CONTROLLER_URL` environment variable should be set to the following value: `tcp://<ip_address>:<port>/<robot_name>`.
-`<ip_address>` corresponds to the IP address of the machine running Webots.
-`<port>` is the TCP port (defined in the `--port` command line option) of the Webots instance to which you want to connect your controller.
-Finally, `<robot_name>` is the name of the robot to which you want to connect your controller.
-Note that the URL path `/<robot_name>` can be left blank and the controller will connect to the only robot with an `<extern>` controller.
+In this case, on the machine running the controller, the `--protocol` option should be set to `tcp`.
+The `--ip-address` option must be set to the IP address of the remote machine on which the target instance of Webots is running.
+If multiple instances of Webots are running on the remote machine, the `--port` option must be set to the TCP port (defined in the `--port` command line option at Webots launch) of the Webots instance to which you want to connect your controller.
+Finally, if the target instance contains multiple robots waiting for an extern controller connection, the `--robot-name` option can be set to the name of the robot to which you want to connect your controller.
 
 It is possible to restrict the IP addresses that can connect to a Webots instance.
 To do this, the allowed IP addresses can be added in the format `X.X.X.X` in the Webots preferences in the `Network` tab.
