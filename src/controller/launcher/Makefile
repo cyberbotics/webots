@@ -41,6 +41,6 @@ release debug profile: $(CONTROLLER_LAUNCHER)
 
 $(CONTROLLER_LAUNCHER): webots_controller.c
 	@echo "# compiling" $<
-	@gcc $(CFLAGS) webots_controller.c -o $@
+	@gcc $(CFLAGS) webots_controller.c -o $@ -g
 
 FILES_TO_REMOVE += $(CONTROLLER_LAUNCHER)
