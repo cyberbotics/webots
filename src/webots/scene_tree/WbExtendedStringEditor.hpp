@@ -62,7 +62,7 @@ private:
   };
   StringType mStringType;
 
-  bool isWorldInfoPluginType(StringType type);
+  bool isWorldInfoPluginType(StringType type) const;
 
   // optional buttons below the string field
   QPushButton *mSelectButton, *mEditButton;

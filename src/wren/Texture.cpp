@@ -149,13 +149,13 @@ namespace wren {
   void Texture::release() { glstate::releaseTexture(glName(), mTextureUnit); }
 
   void Texture::cleanupGl() {
-    if (glName()) {
+    unsigned int name = glName();
+    if (name) {
       // Reset parameters to default state before freeing OpenGL name
-      glstate::clearTextureParams(glName());
+      glstate::clearTextureParams(name);
 
       release();
 
-      unsigned int name = glName();
       glDeleteTextures(1, &name);
 
       setTextureUnit(-1);
