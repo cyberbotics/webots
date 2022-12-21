@@ -2,6 +2,7 @@
 
 import {SFNode, stringifyType} from './Vrml.js';
 import Node from './Node.js';
+import WbWorld from '../nodes/WbWorld.js';
 
 export default class Parameter {
   #type;
@@ -99,17 +100,21 @@ export default class Parameter {
 
       // note: only base-nodes write to x3d, so to know the ID of the node we need to delete, we need to navigate through the
       // value of the proto (or multiple times if it's a derived PROTO)
-      const id = this.node.getBaseNode().id; // delete existing node prior to regeneration otherwise the information is lost
+      const id = this.node.getBaseNode().id;
+      const currentNode = WbWorld.instance.nodes.get(id);
+      // delete existing node prior to regeneration otherwise the information is lost
       view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
 
       // regenerate and parse the body of the associated node
       this.node.parseBody(true);
 
       const x3d = new XMLSerializer().serializeToString(this.node.toX3d());
-      view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>');
+      console.log('parent', currentNode.parent)
+      view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', currentNode.parent.replace('n', ''));
 
       if (typeof this.onChange === 'function')
         this.onChange();
+      console.log('AFTER REGEN', WbWorld.instance)
     } else {
       if (this.node.isProto) {
         // update value on the structure side
