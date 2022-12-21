@@ -303,6 +303,33 @@ bool WbVrmlNodeUtilities::existsVisibleProtoNodeNamed(const QString &modelName, 
   return false;
 }
 
+WbNode *WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(WbField *modifiedField, WbNode *parentNode) {
+  if (parentNode == NULL || modifiedField == NULL)
+    return NULL;
+
+  if (parentNode->isTemplate() && modifiedField->isTemplateRegenerator())
+    return parentNode;
+
+  return findUpperTemplateNeedingRegeneration(parentNode);
+}
+
+WbNode *WbVrmlNodeUtilities::findUpperTemplateNeedingRegeneration(WbNode *modifiedNode) {
+  if (modifiedNode == NULL)
+    return NULL;
+
+  WbField *field = modifiedNode->parentField();
+  WbNode *node = modifiedNode->parentNode();
+  while (node && field && !node->isWorldRoot()) {
+    if (node->isTemplate() && field->isTemplateRegenerator())
+      return node;
+
+    field = node->parentField();
+    node = node->parentNode();
+  }
+
+  return NULL;
+}
+
 bool WbVrmlNodeUtilities::hasAUseNodeAncestor(const WbNode *node) {
   const WbNode *p = node;
   while (p) {
