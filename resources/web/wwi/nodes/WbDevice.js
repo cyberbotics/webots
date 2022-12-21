@@ -35,6 +35,8 @@ export default class WbDevice extends WbSolid {
     for (let i = 0; i < 3; ++i)
       _wr_material_delete(this.#material[i]);
     this.#material = [];
+
+    super.delete();
   }
 
   applyOptionalRendering(enable) {

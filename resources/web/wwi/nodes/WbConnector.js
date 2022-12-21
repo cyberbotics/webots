@@ -100,6 +100,8 @@ export default class WbConnector extends WbSolid {
 
     for (let i = 0; i < 3; ++i)
       _wr_material_delete(this.#material[i]);
+
+    super.delete();
   }
 
   applyOptionalRendering(enable) {
