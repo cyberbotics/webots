@@ -29,7 +29,9 @@ It must be used to start any compatible controller file listed below:
 * **Java**: `.jar` and `.class`.
 * **Matlab**: `.m`.
 
-The `WEBOTS_HOME` environment variable should be set to the installation folder of Webots.
+The `WEBOTS_HOME` environment variable must be set to the installation folder of Webots.
+If you are using the snap version of Webots, please refer to the corresponding section: [Running Extern Robot Controller with the Snap Version of Webots](#running-extern-robot-controller-with-the-snap-version-of-webots).
+
 The following command line should be used to start a controller:
 
 %tab-component "os"
