@@ -126,14 +126,12 @@ export default class WbGeometry extends WbBaseNode {
         let shouldRender = false;
         let parent = WbWorld.instance.nodes.get(this.parent);
         while (parent) {
-          console.log(parent)
           if (parent instanceof WbTouchSensor) {
             shouldRender = parent.showOptionalRendering;
             break;
           } else
             parent = WbWorld.instance.nodes.get(parent.parent);
         }
-        console.log("END OF LOOP")
 
         if (shouldRender) {
           _wr_renderable_set_visibility_flags(this._wrenRenderable, WbWrenRenderingContext.VF_INVISIBLE_FROM_CAMERA);
