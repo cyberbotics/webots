@@ -1,5 +1,6 @@
 import WbBaseNode from './WbBaseNode.js';
 import WbBillboard from './WbBillboard.js';
+import WbTouchSensor from './WbTouchSensor.js';
 import WbWorld from './WbWorld.js';
 import WbBoundingSphere from './utils/WbBoundingSphere.js';
 import WbVector3 from './utils/WbVector3.js';
@@ -121,8 +122,25 @@ export default class WbGeometry extends WbBaseNode {
       if (selected) {
         _wr_renderable_set_visibility_flags(this._wrenRenderable, WbWrenRenderingContext.VF_INVISIBLE_FROM_CAMERA);
         _wr_node_set_visible(this.#wrenScaleTransform, true);
-      } else if (_wr_node_get_parent(this.#wrenScaleTransform))
-        _wr_node_set_visible(this.#wrenScaleTransform, false);
+      } else {
+        let shouldRender = false;
+        let parent = WbWorld.instance.nodes.get(this.parent);
+        while (parent) {
+          console.log(parent)
+          if (parent instanceof WbTouchSensor) {
+            shouldRender = parent.showOptionalRendering;
+            break;
+          } else
+            parent = WbWorld.instance.nodes.get(parent.parent);
+        }
+        console.log("END OF LOOP")
+
+        if (shouldRender) {
+          _wr_renderable_set_visibility_flags(this._wrenRenderable, WbWrenRenderingContext.VF_INVISIBLE_FROM_CAMERA);
+          _wr_node_set_visible(this.#wrenScaleTransform, true);
+        } else if (_wr_node_get_parent(this.#wrenScaleTransform))
+          _wr_node_set_visible(this.#wrenScaleTransform, false);
+      }
     } else if (WbBillboard.isDescendantOfBillboard(this)) {
       _wr_renderable_set_visibility_flags(this._wrenRenderable, WbWrenRenderingContext.VF_INVISIBLE_FROM_CAMERA);
       _wr_node_set_visible(this.#wrenScaleTransform, true);
