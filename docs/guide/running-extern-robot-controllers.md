@@ -24,16 +24,16 @@ Moreover, starting external controllers remotely allows to run Webots on a diffe
 
 Webots is distributed with a controller launcher.
 It must be used to start any compatible controller file listed below:
-* C and C++ binaries: no extension on Linux/macOS and `.exe` on Windows.
-* Python: `.py`.
-* Java: `.jar` and `.class`.
-* Matlab: `.m`.
+* **C and C++ binaries**: no extension on Linux/macOS and `.exe` on Windows.
+* **Python**: `.py`.
+* **Java**: `.jar` and `.class`.
+* **Matlab**: `.m`.
+
+The following command line should be used to start a controller:
 
 %tab-component "os"
 
 %tab "Windows"
-
-The following command line should be used to start a controller:
 
 ```bash
 $WEBOTS_HOME\webots-controller.exe [options] [path\to\controller\file]
