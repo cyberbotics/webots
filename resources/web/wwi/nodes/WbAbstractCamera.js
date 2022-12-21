@@ -1,9 +1,9 @@
-import WbSolid from './WbSolid.js';
+import WbDevice from './WbDevice.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 import {arrayXPointerFloat} from './utils/utils.js';
 
-export default class WbAbstractCamera extends WbSolid {
+export default class WbAbstractCamera extends WbDevice {
   #fieldOfView;
   #height;
   #material;

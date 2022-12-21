@@ -1,9 +1,9 @@
-import WbSolid from './WbSolid.js';
+import WbDevice from './WbDevice.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 import {arrayXPointerFloat} from './utils/utils.js';
 
-export default class WbConnector extends WbSolid {
+export default class WbConnector extends WbDevice {
   #axisMesh;
   #axisRenderable;
   #axesTransform;

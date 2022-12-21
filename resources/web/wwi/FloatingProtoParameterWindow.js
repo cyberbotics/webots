@@ -776,8 +776,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     for (const key of keys) {
       const device = nodes.get(key);
       // TODO once all the optional rendering are implemented, replace this list by device instanceof WbDevice
-      if (device instanceof WbRadar || device instanceof WbLightSensor || device instanceof WbPen ||
-        device instanceof WbDistanceSensor || device instanceof WbConnector || device instanceof WbDevice) {
+      if (device instanceof WbDevice) {
         numberOfDevices++;
 
         let div = document.createElement('div');

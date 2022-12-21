@@ -1,11 +1,11 @@
 import WbLookupTable from './WbLookupTable.js';
-import WbSolid from './WbSolid.js';
+import WbDevice from './WbDevice.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 import {arrayXPointerFloat} from './utils/utils.js';
 import WbVector3 from './utils/WbVector3.js';
 
-export default class WbDistanceSensor extends WbSolid {
+export default class WbDistanceSensor extends WbDevice {
   #aperture;
   #lookupTable;
   #lut;
