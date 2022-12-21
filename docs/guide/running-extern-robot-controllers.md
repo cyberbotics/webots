@@ -29,6 +29,7 @@ It must be used to start any compatible controller file listed below:
 * **Java**: `.jar` and `.class`.
 * **Matlab**: `.m`.
 
+The `WEBOTS_HOME` environment variable should be set to the installation folder of Webots.
 The following command line should be used to start a controller:
 
 %tab-component "os"
