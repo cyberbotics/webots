@@ -698,33 +698,6 @@ WbTransform *WbNodeUtilities::findUpperTransform(const WbNode *node) {
   return NULL;
 }
 
-WbNode *WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(WbField *modifiedField, WbNode *parentNode) {
-  if (parentNode == NULL || modifiedField == NULL)
-    return NULL;
-
-  if (parentNode->isTemplate() && modifiedField->isTemplateRegenerator())
-    return parentNode;
-
-  return findUpperTemplateNeedingRegeneration(parentNode);
-}
-
-WbNode *WbNodeUtilities::findUpperTemplateNeedingRegeneration(WbNode *modifiedNode) {
-  if (modifiedNode == NULL)
-    return NULL;
-
-  WbField *field = modifiedNode->parentField();
-  WbNode *node = modifiedNode->parentNode();
-  while (node && field && !node->isWorldRoot()) {
-    if (node->isTemplate() && field->isTemplateRegenerator())
-      return node;
-
-    field = node->parentField();
-    node = node->parentNode();
-  }
-
-  return NULL;
-}
-
 bool WbNodeUtilities::hasARobotDescendant(const WbNode *node) {
   const QList<WbNode *> &subNodes = node->subNodes(true);
 
