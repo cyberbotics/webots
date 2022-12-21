@@ -140,7 +140,7 @@ void print_options() {
     "controllers).\n\n  --port=<port>\n    Define the port to which the controller should connect. 1234 is used by default, as "
     "it is the default port for Webots. This setting allows you to connect to a specific instance of Webots if there are "
     "multiple instances running on the target machine. The port of a Webots instance can be set at its launch.\n\n  "
-    "--robot-name=<robot-name>\n    Target a specific robot by specifiyng its name in case multiple robots wait for an extern "
+    "--robot-name=<robot-name>\n    Target a specific robot by specifying its name in case multiple robots wait for an extern "
     "controller in the Webots instance.\n\n  --matlab-path=<matlab-path>\n    For MATLAB controllers, this option allows to "
     "specify the path to the executable of a specific MATLAB version. By default, the launcher checks in the default MATLAB "
     "installation folder. See https://cyberbotics.com/doc/guide/using-matlab#matlab-installation for more information.\n\n  "
