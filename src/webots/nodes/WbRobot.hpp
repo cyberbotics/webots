@@ -286,6 +286,7 @@ private slots:
   void updateData();
   void updateSupervisor();
   void updateModel();
+  void updateBattery(bool itemInserted);
   void removeRenderingDevice();
   void handleMouseChange();
   void handleJoystickChange();

@@ -53,8 +53,8 @@ char *scheduler_meta = NULL;
 GPipe *scheduler_pipe = NULL;
 int scheduler_client = -1;
 
-int scheduler_init_remote(const char *host, int port, const char *robot_name) {
-  scheduler_client = tcp_client_new(host, port);
+int scheduler_init_remote(const char *host, int port, const char *robot_name, char *buffer) {
+  scheduler_client = tcp_client_new(host, port, buffer);
   if (scheduler_client == -1)
     return false;
 
@@ -71,18 +71,16 @@ int scheduler_init_remote(const char *host, int port, const char *robot_name) {
   char *acknowledge_message = malloc(10);
   tcp_client_receive(scheduler_client, acknowledge_message, 10);  // wait for ack message from Webots
   if (strncmp(acknowledge_message, "FAILED", 6) == 0) {
-    fprintf(stderr, "%s",
-            robot_name == NULL ? "Exactly one robot should be set with an <extern> controller in the Webots simulation" :
-                                 "The specified robot is not in the list of robots with <extern> controllers");
+    snprintf(buffer, ERROR_BUFFER_SIZE, "%s",
+             robot_name == NULL ? "Exactly one robot should be set with an <extern> controller in the Webots simulation" :
+                                  "The specified robot is not in the list of robots with <extern> controllers");
     return false;
   } else if (strncmp(acknowledge_message, "PROCESSING", 10) == 0) {
-    fprintf(stderr, "%s", "The Webots simulation world is not ready yet");
+    snprintf(buffer, ERROR_BUFFER_SIZE, "The Webots simulation world is not ready yet");
     return false;
   } else if (strncmp(acknowledge_message, "FORBIDDEN", 9) == 0) {
-    fprintf(
-      stderr, "%s",
-      "Error: The connection was closed by Webots. The robot is already connected or your IP address is not allowed by this "
-      "instance of Webots.\n");
+    fprintf(stderr, "Error: The connection was closed by Webots. The robot is already connected or your IP address is not "
+                    "allowed by this instance of Webots.\n");
     exit(EXIT_FAILURE);
   } else if (strncmp(acknowledge_message, "CONNECTED", 9) != 0) {
     fprintf(stderr, "Error: Unknown Webots response %s.\n", acknowledge_message);
