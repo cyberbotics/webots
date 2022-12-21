@@ -304,6 +304,17 @@ open ~/Applications/Webots.app    # to launch Webots using the open command
 
 Alternatively, you can double-click on the Webots icon to launch it.
 
+#### Trouble Shooting for Mac M1 Users
+
+If you are geting errors like these
+`...(mach-o file, but is an incompatible architecture (have (arm64), need (x86_64)))`
+This is caused by Rosetta loading Webots under the x86 architecture instead of the native ARM. Unless if you plan on using x86 binaries with your Webots simulator, make sure to turn off Rosetta. Sometimes it may try to open the app using Rosetta by default, which may cause issues with running your code inside the simulator. 
+
+To check if it's opened using Rosetta, right click on the Webots application in Finder and select Get Info. 
+
+Make sure open using Rosetta setting is like the picture below. 
+
+![Screenshot 2022-12-21 at 9 55 39 AM](https://user-images.githubusercontent.com/33169711/208961163-6a0826da-0247-4e9a-91e8-6e053cc29d5e.png)
 
 #### From the Homebrew Package
 
