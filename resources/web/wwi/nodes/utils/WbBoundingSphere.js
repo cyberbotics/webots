@@ -1,4 +1,6 @@
 import WbVector3 from './WbVector3.js';
+import {findUpperTransform} from './node_utilities.js';
+
 export default class WbBoundingSphere {
   #center;
   #centerInParentCoordinates;
@@ -51,6 +53,24 @@ export default class WbBoundingSphere {
     if (this.parentCoordinatesDirty)
       this.recomputeSphereInParentCoordinates();
     return this.#centerInParentCoordinates;
+  }
+
+  computeSphereInGlobalCoordinates() {
+    let upperTransform;
+    let radius;
+    let center;
+    if (!this.transformOwner)
+      upperTransform = findUpperTransform(this.#owner);
+    if (typeof upperTransform !== 'undefined') {
+      const scale = upperTransform.absoluteScale();
+      radius = Math.max(Math.max(scale.x, scale.y), scale.z) * this.#radius;
+      center = upperTransform.matrix().mulByVec3(this.#center);
+    } else {
+      radius = this.#radius;
+      center = this.#center;
+    }
+
+    return [center, radius];
   }
 
   empty() {

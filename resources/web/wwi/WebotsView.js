@@ -4,6 +4,7 @@ import ProtoManager from './ProtoManager.js';
 import {webots} from './webots.js';
 import {changeGtaoLevel} from './nodes/wb_preferences.js';
 import WbWorld from './nodes/WbWorld.js';
+import WbVector3 from './nodes/utils/WbVector3.js';
 
 /* The following member variables can be set by the application:
 
@@ -388,14 +389,18 @@ export default class WebotsView extends HTMLElement {
       if (typeof this._view === 'undefined')
         this._view = new webots.View(this, isMobileDevice);
       this.protoManager = new ProtoManager(this._view);
-      this.protoManager.loadProto(proto).then(() => {
+      this.protoManager.loadProto(proto);
+      this._view.onready = () => {
         this.toolbar = new Toolbar(this._view, 'proto', this);
         if (typeof this.onready === 'function')
           this.onready();
 
         this.resize();
         this.toolbar.protoParameterWindowInitializeSizeAndPosition();
-      });
+        const topProtoNode = WbWorld.instance.sceneTree[WbWorld.instance.sceneTree.length - 1];
+        WbWorld.instance.viewpoint.moveViewpointToObject(topProtoNode);
+        this._view.x3dScene.render();
+      };
 
       this.#hasProto = true;
       this.#closeWhenDOMElementRemoved();

@@ -8,10 +8,12 @@ import WbMatrix4 from './utils/WbMatrix4.js';
 export default class WbTransform extends WbGroup {
   #absoluteScale;
   #absoluteScaleNeedUpdate;
-  #rotation;
-  #translation;
-  #scale;
+  #matrix;
+  #matrixNeedUpdate;
   #previousTranslation;
+  #rotation;
+  #scale;
+  #translation;
   #upperTransformFirstTimeSearch;
   #vrmlMatrix;
   #vrmlMatrixNeedUpdate;
@@ -26,6 +28,7 @@ export default class WbTransform extends WbGroup {
     this.#upperTransformFirstTimeSearch = true;
     this.#vrmlMatrix = new WbMatrix4();
     this.#vrmlMatrixNeedUpdate = true;
+    this.#matrixNeedUpdate = true;
   }
 
   get translation() {
@@ -117,6 +120,16 @@ export default class WbTransform extends WbGroup {
     super.delete(isBoundingObject);
   }
 
+  matrix() {
+    if (typeof this.#matrix === 'undefined') {
+      this.#matrix = new WbMatrix4();
+      this.#updateMatrix();
+    } else if (this.#matrixNeedUpdate)
+      this.#updateMatrix();
+
+    return this.#matrix;
+  }
+
   recomputeBoundingSphere() {
     super.recomputeBoundingSphere();
     this._boundingSphere.transformOwner = true;
@@ -146,6 +159,16 @@ export default class WbTransform extends WbGroup {
     _wr_transform_set_position(this.wrenNode, translation);
   }
 
+  #updateMatrix() {
+    this.#matrix.fromVrml(this.#translation, this.#rotation, this.#scale);
+
+    // multiply with upper matrix if any
+    const transform = this.upperTransform();
+    if (typeof transform !== 'undefined')
+      this.#matrix = transform.matrix().mul(this.#matrix);
+    this.#matrixNeedUpdate = false;
+  }
+
   #updateTranslation() {
     if (typeof WbWorld.instance.viewpoint.followedId !== 'undefined' &&
       WbWorld.instance.viewpoint.followedId === this.id)
@@ -153,16 +176,22 @@ export default class WbTransform extends WbGroup {
 
     if (this.wrenObjectsCreatedCalled)
       this.#applyTranslationToWren();
+
+    this.#matrixNeedUpdate = true;
   }
 
   #updateRotation() {
     if (this.wrenObjectsCreatedCalled)
       this.#applyRotationToWren();
+
+    this.#matrixNeedUpdate = true;
   }
 
   #updateScale() {
     if (this.wrenObjectsCreatedCalled)
       this.#applyScaleToWren();
+
+    this.#matrixNeedUpdate = true;
   }
 
   #upperTransform() {
