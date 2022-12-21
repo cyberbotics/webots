@@ -153,6 +153,17 @@ This variable is computed from the `SNAP_USER_COMMON` environment variable which
 Similarly, the libController will automatically check this folder and its contents to determine if it should use it to communicate with Webots.
 It is recommended that you do not override this `WEBOTS_TMPDIR` environment variable, unless you want to experiment a different mechanism.
 
+### Running a MATLAB Extern Robot Controller
+
+Matlab controllers can also be started using the launcher.
+By default, the launcher will look for the latest installed version of MATLAB in the following locations, depending on the OS:
+
+- **Windows**: C:\Program Files\MATLAB\R20XXx\bin\win64\MATLAB.exe
+- **Linux**: /usr/local/MATLAB/R20XXx/bin/matlab
+- **MacOS**: /Applications/MATLAB_R20XXx.app
+
+It is also possible to give a custom MATLAB installation path to the launcher, by providing the absolute path to the executable in the `--matlab-path` option.
+
 ## Example Usage
 
 1. Open for example the "WEBOTS\_HOME/projects/robots/softbank/nao/worlds/nao_demo.wbt" world file.

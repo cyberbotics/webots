@@ -143,9 +143,10 @@ void print_options() {
     "--robot-name=<robot-name>\n    Target a specific robot by specifying its name in case multiple robots wait for an extern "
     "controller in the Webots instance.\n\n  --matlab-path=<matlab-path>\n    For MATLAB controllers, this option allows to "
     "specify the path to the executable of a specific MATLAB version. By default, the launcher checks in the default MATLAB "
-    "installation folder. See https://cyberbotics.com/doc/guide/using-matlab#matlab-installation for more information.\n\n  "
-    "--stdout-redirect\n    Redirect the stdout of the controller to the Webots console.\n\n  --stderr-redirect\n    "
-    "Redirect the stderr of the controller to the Webots console.\n\n");
+    "installation folder. See "
+    "https://cyberbotics.com/doc/guide/running-extern-robot-controllers#running-a-matlab-extern-controller "
+    "for more information.\n\n  --stdout-redirect\n    Redirect the stdout of the controller to the Webots console.\n\n  "
+    "--stderr-redirect\n    Redirect the stderr of the controller to the Webots console.\n\n");
 }
 
 bool parse_options(int nb_arguments, char **arguments) {
