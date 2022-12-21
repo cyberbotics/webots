@@ -114,7 +114,7 @@ export default class WbViewpoint extends WbBaseNode {
   moveViewpointToObject(node) {
     if (typeof node === 'undefined')
       return;
-    console.log(node)
+
     const boundingSphere = node.boundingSphere();
 
     boundingSphere.recomputeIfNeeded(false);
@@ -133,7 +133,8 @@ export default class WbViewpoint extends WbBaseNode {
     // The bounding sphere will be entirely contained in the 3D view.
     // Use a slightly larger sphere to keep some space between the object and the 3D view borders
     radius *= 1.1;
-    let distance = radius / (Math.sin(this.fieldOfView / 2) * ((this.aspectRatio <= 1) ? this.aspectRatio : (1 / this.aspectRatio)));
+    let distance = radius / (Math.sin(this.fieldOfView / 2) *
+      ((this.aspectRatio <= 1) ? this.aspectRatio : (1 / this.aspectRatio)));
 
     // set a minimum distance
     if (distance < this.near + radius)
