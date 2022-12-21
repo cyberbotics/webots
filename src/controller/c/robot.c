@@ -158,7 +158,12 @@ void stream_pipe_read(int fd, char **buffer) {
   if (len == -1)
     len = 0;
 #endif
-  (*buffer)[len] = '\0';
+  if (len != 0)
+    (*buffer)[len] = '\0';
+  else {
+    free(*buffer);
+    *buffer = NULL;
+  }
 }
 
 static void init_robot_window_library() {
