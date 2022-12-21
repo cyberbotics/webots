@@ -162,6 +162,6 @@ It is recommended that you do not override this `WEBOTS_TMPDIR` environment vari
 5. Open a terminal and go to the "WEBOTS\_HOME/projects/robots/softbank/nao/controllers/nao_demo" folder. Note that other controllers could be started from anywhere, but in the example of the NAO, motion files are given relative to this folder. Executing the controller from another location would lead to an error in finding these files.
 6. Start the `nao_demo` controller with:
 ```bash
-$WEBOTS_HOME/webots-controller $WEBOTS_HOME/projects/robots/softbank/nao/controllers/nao_demo/nao_demo  --protocol=ipc --port=1234 --robot-name=NAO
+$WEBOTS_HOME/webots-controller ./nao_demo  --protocol=ipc --port=1234 --robot-name=NAO
 ```
 7. You should see the Nao robot moving in the simulation, controlled by the `nao_demo` program you just started.
