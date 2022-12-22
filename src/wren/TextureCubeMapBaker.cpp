@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -364,10 +364,9 @@ namespace wren {
       glstate::releaseRenderBuffer(captureRBO);
       glDeleteFramebuffers(1, &captureFBO);
       glDeleteRenderbuffers(1, &captureRBO);
-      glstate::releaseFrameBuffer(captureFBO);
-      glstate::releaseRenderBuffer(captureRBO);
       brdfShader->release();
       glDeleteVertexArrays(1, &quadVAO);
+      glDeleteBuffers(1, &quadVBO);
       quadVAO = quadVBO = 0;
       return brdfTexture;
     }

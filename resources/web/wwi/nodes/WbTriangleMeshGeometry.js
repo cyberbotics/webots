@@ -3,8 +3,8 @@ import WbGeometry from './WbGeometry.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
 import WbTriangleMesh from './utils/WbTriangleMesh.js';
 import WbWrenMeshBuffers from './utils/WbWrenMeshBuffers.js';
-import WbWrenRenderingContext from './../wren/WbWrenRenderingContext.js';
-import WbWrenShaders from './../wren/WbWrenShaders.js';
+import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
+import WbWrenShaders from '../wren/WbWrenShaders.js';
 
 export default class WbTriangleMeshGeometry extends WbGeometry {
   #normalsMaterial;

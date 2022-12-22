@@ -4,59 +4,33 @@
 #include "../../../lib/ts_assertion.h"
 #include "../../../lib/ts_utils.h"
 
-#define TIME_STEP 32
+static void check_position(WbDeviceTag gps, double x, double y, double z, const char *end_msg) {
+  const double expected_position[3] = {x, y, z};
+  const double *position = wb_gps_get_values(gps);
+  const char *axisNames = "XYZ";
+  for (int i = 0; i < 3; i++)
+    ts_assert_double_in_delta(position[i], expected_position[i], 0.000001,
+                              "The %c value measured by the GPS should be %f and not %f %s.", axisNames[i],
+                              expected_position[i], position[i], end_msg);
+}
 
 int main(int argc, char **argv) {
   ts_setup(argv[0]);
-  WbDeviceTag gps;
-  int i, j;
-  const double *r;
-  const double e[3] = {0.19996, 0.05, -0.35};
+  const int time_step = wb_robot_get_basic_time_step();
+  const WbDeviceTag gps = wb_robot_get_device("gps");
 
-  gps = wb_robot_get_device("gps");
+  check_position(gps, NAN, NAN, NAN, "before the device is enabled");
+  wb_gps_enable(gps, time_step);
 
-  r = wb_gps_get_values(gps);
-  for (i = 0; i < 3; i++)
-    // clang-format off
-    // clang-format 11.0.0 is not compatible with previous versions with respect to nested conditional operators
-    ts_assert_double_equal(r[i], NAN, "The %c value measured by the GPS should be NaN and not %g before the device is enabled",
-                           i == 0 ? 'X' :
-                           i == 1 ? 'Y' :
-                                    'Z',
-                           r[i]);
-  // clang-format on
+  check_position(gps, NAN, NAN, NAN, "before a wb_robot_step is performed");
 
-  wb_gps_enable(gps, TIME_STEP);
+  ts_assert_int_equal(wb_gps_get_coordinate_system(gps), WB_GPS_LOCAL_COORDINATE, "Wrong coordinate system returned");
 
-  r = wb_gps_get_values(gps);
-
-  for (i = 0; i < 3; i++)
-    // clang-format off
-    // clang-format 11.0.0 is not compatible with previous versions with respect to nested conditional operators
-    ts_assert_double_equal(r[i], NAN,
-                           "The %c value measured by the GPS should be NaN and not %g before a wb_robot_step is performed",
-                           i == 0 ? 'X' :
-                           i == 1 ? 'Y' :
-                                    'Z',
-                           r[i]);
-  // clang-format on
-
-  int coordinate_system = wb_gps_get_coordinate_system(gps);
-  ts_assert_int_equal(coordinate_system, WB_GPS_LOCAL_COORDINATE, "Wrong coordinate system returned");
-
-  for (j = 1; j <= 10; j++) {
-    wb_robot_step(TIME_STEP);
-    r = wb_gps_get_values(gps);
-    for (i = 0; i < 3; i++)
-      // clang-format off
-      // clang-format 11.0.0 is not compatible with previous versions with respect to nested conditional operators
-      ts_assert_double_in_delta(r[i], e[i], 0.000001,
-                                "The %c value measured by the GPS should be %g and not %g after %d wb_robot_step(s)",
-                                i == 0 ? 'X' :
-                                i == 1 ? 'Y' :
-                                         'Z',
-                                e[i], r[i], j);
-    // clang-format on
+  for (int i = 1; i <= 10; i++) {
+    wb_robot_step(time_step);
+    char s[64];
+    snprintf(s, sizeof(s), "after %d wb_robot_step(s)", i);
+    check_position(gps, 0.19996, 0.05, -0.35, s);
   }
 
   ts_send_success();
