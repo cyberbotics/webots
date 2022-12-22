@@ -31,6 +31,8 @@ import WbWorld from './nodes/WbWorld.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
 import WbTouchSensor from './nodes/WbTouchSensor.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
+import WbBrake from './nodes/WbBrake.js';
+import WbPositionSensor from './nodes/WbPositionSensor.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #mfId;
@@ -965,20 +967,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         nameDiv.className = 'proto-joint-name';
         div.appendChild(nameDiv);
         const parameters = joint.jointParameters;
-        let motor;
-        for (let i = 0; i < joint.device.length; i++) {
-          if (joint.device[i] instanceof WbMotor) {
-            motor = joint.device[i];
-            break;
-          }
-        }
-        div.appendChild(this.#createSlider(parameters, motor, _ => {
+        this.#createSlider(parameters, joint.device, div, _ => {
           if (parameters)
             parameters.position = _.target.value;
           else
             joint.position = _.target.value;
           this.#view.x3dScene.render();
-        }));
+        });
 
         this.joints.appendChild(div);
 
@@ -991,20 +986,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           nameDiv.className = 'proto-joint-name';
           div.appendChild(nameDiv);
           const parameters2 = joint.jointParameters2;
-          let motor2;
-          for (let i = 0; i < joint.device2.length; i++) {
-            if (joint.device2[i] instanceof WbMotor) {
-              motor2 = joint.device2[i];
-              break;
-            }
-          }
-          div.appendChild(this.#createSlider(parameters2, motor2, _ => {
+          this.#createSlider(parameters2, joint.device2, div, _ => {
             if (parameters2)
               parameters2.position = _.target.value;
             else
               joint.position2 = _.target.value;
             this.#view.x3dScene.render();
-          }));
+          });
           this.joints.appendChild(div);
 
           nameDiv = document.createElement('div');
@@ -1012,20 +1000,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           nameDiv.className = 'proto-joint-name';
           div.appendChild(nameDiv);
           const parameters3 = joint.jointParameters3;
-          let motor3;
-          for (let i = 0; i < joint.device3.length; i++) {
-            if (joint.device3[i] instanceof WbMotor) {
-              motor3 = joint.device3[i];
-              break;
-            }
-          }
-          div.appendChild(this.#createSlider(parameters3, motor3, _ => {
+          this.#createSlider(parameters3, joint.device3, div, _ => {
             if (parameters3)
               parameters3.position = _.target.value;
             else
               joint.position3 = _.target.value;
             this.#view.x3dScene.render();
-          }));
+          });
           this.joints.appendChild(div);
         } else if (joint instanceof WbHinge2Joint) {
           div = document.createElement('div');
@@ -1036,21 +1017,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           nameDiv.className = 'proto-joint-name';
           div.appendChild(nameDiv);
           const parameters2 = joint.jointParameters2;
-          let motor2;
-          console.log(joint.device2)
-          for (let i = 0; i < joint.device2.length; i++) {
-            if (joint.device2[i] instanceof WbMotor) {
-              motor2 = joint.device2[i];
-              break;
-            }
-          }
-          div.appendChild(this.#createSlider(parameters2, motor2, _ => {
+          this.#createSlider(parameters2, joint.device2, div, _ => {
             if (parameters2)
               parameters2.position = _.target.value;
             else
               joint.position2 = _.target.value;
             this.#view.x3dScene.render();
-          }));
+          });
           this.joints.appendChild(div);
         }
       }
@@ -1063,7 +1036,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     }
   }
 
-  #createSlider(parameters, motor, callback) {
+  #createSlider(parameters, device, parent, callback) {
     const sliderElement = document.createElement('div');
     sliderElement.className = 'proto-slider-element';
 
@@ -1077,6 +1050,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     const maxLabel = document.createElement('div');
     maxLabel.className = 'proto-joint-value-label';
+
+    let motor;
+    for (let i = 0; i < device.length; i++) {
+      if (device[i] instanceof WbMotor) {
+        motor = device[i];
+        break;
+      }
+    }
 
     if (typeof motor !== 'undefined' && motor.minPosition !== motor.maxPosition) {
       minLabel.innerHTML = this.#decimalCount(motor.minPosition) > 2 ? motor.minPosition.toFixed(2) : motor.minPosition;
@@ -1105,8 +1086,54 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     sliderElement.appendChild(minLabel);
     sliderElement.appendChild(slider);
     sliderElement.appendChild(maxLabel);
+    parent.appendChild(sliderElement);
 
-    return sliderElement;
+    if (device.length > 0) {
+      const devicesDiv = document.createElement('div');
+      devicesDiv.className = 'devices-div';
+      const open = document.createElement('button');
+      open.className = 'devices-button';
+      open.isHidden = true;
+      devicesDiv.appendChild(open);
+
+      const devicesDetails = document.createElement('div');
+      devicesDetails.className = 'devices-details';
+      for (let i = 0; i < device.length; i++) {
+        const deviceDiv = document.createElement('div');
+        deviceDiv.className = 'device-div';
+        const name = this.#stringRemoveQuote(device[i].deviceName);
+        if (device[i] instanceof WbRotationalMotor)
+          deviceDiv.innerHTML = 'RotationalMotor: ' + name;
+        else if (device[i] instanceof WbLinearMotor)
+          deviceDiv.innerHTML = 'LinearMotor: ' + name;
+        else if (device[i] instanceof WbBrake)
+          deviceDiv.innerHTML = 'Brake: ' + name;
+        else if (device[i] instanceof WbPositionSensor)
+          deviceDiv.innerHTML = 'PositionSensor: ' + name;
+
+        devicesDetails.appendChild(deviceDiv);
+      }
+
+      open.onclick = () => {
+        if (open.isHidden) {
+          open.style.transform = 'rotate(90deg)';
+          open.isHidden = false;
+          open.title = 'Hide information';
+          devicesDetails.style.visibility = 'visible';
+          devicesDiv.style.height = (30 + 20 * device.length) + 'px';
+        } else {
+          open.style.transform = '';
+          open.isHidden = true;
+          open.title = 'Show information';
+          devicesDetails.style.visibility = 'hidden';
+          devicesDiv.style.height = '20px';
+        }
+      };
+
+      devicesDiv.appendChild(devicesDetails);
+
+      parent.appendChild(devicesDiv);
+    }
   }
 
   #decimalCount(number) {

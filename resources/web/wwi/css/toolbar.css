@@ -1087,6 +1087,41 @@ webots-view .device-title {
   font-size: 18px;
 }
 
+webots-view .devices-div {
+  height: 20px;
+}
+
+webots-view .device-div {
+  height: 20px;
+  margin-left: 30px;
+  font-size: 14px;
+}
+
+webots-view .devices-details {
+  visibility: hidden;
+}
+
+webots-view .devices-button {
+  margin-left: 30px;
+  background-image: url(../images/icons/arrow_left.svg);
+  width: 20px;
+  height: 20px;
+  padding: 0px;
+  border: 0px;
+  background-size: cover;
+  background-color: transparent;
+}
+
+webots-view .devices-button:hover {
+  background-color: grey;
+  border: 1px solid grey;
+  border-radius: 2px;
+}
+
+webots-view .proto-joint {
+  padding-top: 5px;
+}
+
 webots-view .proto-joint .proto-joint-name {
   color: white;
   text-align: center;
