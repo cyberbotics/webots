@@ -1,19 +1,32 @@
 import FloatingWindow from './FloatingWindow.js';
 import {VRML} from './protoVisualizer/vrml_type.js';
+import WbAccelerometer from './nodes/WbAccelerometer.js';
+import WbAltimeter from './nodes/WbAltimeter.js';
 import WbBallJoint from './nodes/WbBallJoint.js';
 import WbCamera from './nodes/WbCamera.js';
+import WbCharger from './nodes/WbCharger.js';
+import WbCompass from './nodes/WbCompass.js';
 import WbConnector from './nodes/WbConnector.js';
+import WbDevice from './nodes/WbDevice.js';
+import WbDisplay from './nodes/WbDisplay.js';
 import WbDistanceSensor from './nodes/WbDistanceSensor.js';
+import WbEmitter from './nodes/WbEmitter.js';
+import WbGps from './nodes/WbGps.js';
+import WbGyro from './nodes/WbGyro.js';
 import WbHingeJoint from './nodes/WbHingeJoint.js';
 import WbHinge2Joint from './nodes/WbHinge2Joint.js';
+import WbInertialUnit from './nodes/WbInertialUnit.js';
+import WbJoint from './nodes/WbJoint.js';
+import WbLed from './nodes/WbLed.js';
 import WbLidar from './nodes/WbLidar.js';
 import WbLightSensor from './nodes/WbLightSensor.js';
 import WbPen from './nodes/WbPen.js';
 import WbRadar from './nodes/WbRadar.js';
-import WbJoint from './nodes/WbJoint.js';
+import WbReceiver from './nodes/WbReceiver.js';
+import WbSpeaker from './nodes/WbSpeaker.js';
 import WbWorld from './nodes/WbWorld.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
-import WbDevice from './nodes/WbDevice.js';
+import WbTouchSensor from './nodes/WbTouchSensor.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
@@ -769,6 +782,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   populateDeviceTab() {
     this.devices.innerHTML = '';
+    this.devicesList = this.#initDeviceList();
     const nodes = WbWorld.instance.nodes;
     const keys = nodes.keys();
     let numberOfDevices = 0;
@@ -788,14 +802,103 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         nameDiv.innerHTML = this.#stringRemoveQuote(device.name);
         nameDiv.className = 'proto-device-name';
         div.appendChild(nameDiv);
-        this.devices.appendChild(div);
+
+        this.#sortDevice(device, div);
       }
     }
+
+    this.#appendDevices();
 
     if (numberOfDevices === 0) {
       const noDevice = document.createElement('h1');
       noDevice.innerHTML = 'No devices';
       this.devices.appendChild(noDevice);
+    }
+  }
+
+  #initDeviceList() {
+    const map = new Map();
+    map.set('Accelerometer', []);
+    map.set('Altimeter', []);
+    map.set('Camera', []);
+    map.set('Charger', []);
+    map.set('Compass', []);
+    map.set('Connector', []);
+    map.set('Display', []);
+    map.set('DistanceSensor', []);
+    map.set('Emitter', []);
+    map.set('Gps', []);
+    map.set('Gyro', []);
+    map.set('InertialUnit', []);
+    map.set('Led', []);
+    map.set('Lidar', []);
+    map.set('LightSensor', []);
+    map.set('Pen', []);
+    map.set('Radar', []);
+    map.set('Rangefinder', []);
+    map.set('Receiver', []);
+    map.set('Speaker', []);
+    map.set('TouchSensor', []);
+
+    return map;
+  }
+
+  #sortDevice(device, div) {
+    if (device instanceof WbAccelerometer)
+      this.devicesList.get('Accelerometer').push(div);
+    else if (device instanceof WbAltimeter)
+      this.devicesList.get('Altimeter').push(div);
+    else if (device instanceof WbCamera)
+      this.devicesList.get('Camera').push(div);
+    else if (device instanceof WbCharger)
+      this.devicesList.get('Charger').push(div);
+    else if (device instanceof WbCompass)
+      this.devicesList.get('Compass').push(div);
+    else if (device instanceof WbConnector)
+      this.devicesList.get('Connector').push(div);
+    else if (device instanceof WbDisplay)
+      this.devicesList.get('Display').push(div);
+    else if (device instanceof WbDistanceSensor)
+      this.devicesList.get('DistanceSensor').push(div);
+    else if (device instanceof WbEmitter)
+      this.devicesList.get('Emitter').push(div);
+    else if (device instanceof WbGps)
+      this.devicesList.get('Gps').push(div);
+    else if (device instanceof WbGyro)
+      this.devicesList.get('Gyro').push(div);
+    else if (device instanceof WbInertialUnit)
+      this.devicesList.get('InertialUnit').push(div);
+    else if (device instanceof WbLed)
+      this.devicesList.get('Led').push(div);
+    else if (device instanceof WbLidar)
+      this.devicesList.get('Lidar').push(div);
+    else if (device instanceof WbLightSensor)
+      this.devicesList.get('LightSensor').push(div);
+    else if (device instanceof WbPen)
+      this.devicesList.get('Pen').push(div);
+    else if (device instanceof WbRadar)
+      this.devicesList.get('Radar').push(div);
+    else if (device instanceof WbRangeFinder)
+      this.devicesList.get('Rangefinder').push(div);
+    else if (device instanceof WbReceiver)
+      this.devicesList.get('Receiver').push(div);
+    else if (device instanceof WbSpeaker)
+      this.devicesList.get('Speaker').push(div);
+    else if (device instanceof WbTouchSensor)
+      this.devicesList.get('TouchSensor').push(div);
+  }
+
+  #appendDevices() {
+    for (const key of this.devicesList.keys()) {
+      const values = this.devicesList.get(key);
+      if (values.length > 0) {
+        const title = document.createElement('div');
+        title.className = 'device-title';
+        title.innerHTML = key;
+        this.devices.appendChild(title);
+        for (const value of values)
+          this.devices.appendChild(value);
+      }
     }
   }
 

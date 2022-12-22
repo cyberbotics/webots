@@ -1079,6 +1079,14 @@ webots-view #devices-tab h1,
   text-align: center;
 }
 
+webots-view .device-title {
+  text-align: center;
+  border-bottom: solid white 2px;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  font-size: 18px;
+}
+
 webots-view .proto-joint .proto-joint-name {
   color: white;
   text-align: center;
