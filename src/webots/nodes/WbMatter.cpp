@@ -582,8 +582,6 @@ void WbMatter::updateOdePlaceableGeomPosition(dGeomID g) {
   assert(odeGeomData);
   WbGeometry *geom = odeGeomData->geometry();
   assert(geom);
-  if (geom->isBeingDeleted())
-    return;
 
   WbTransform *transform = geom->upperTransform();
   if (transform == NULL)
