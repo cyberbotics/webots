@@ -78,13 +78,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     this.tab1 = document.createElement('button');
     this.tab1.className = 'proto-tab tab1';
-    this.tab1.innerHTML = 'Joints';
+    this.tab1.innerHTML = 'Joint devices';
     this.tab1.onclick = () => this.switchTab(1);
     infoTabsBar.appendChild(this.tab1);
 
     this.tab2 = document.createElement('button');
     this.tab2.className = 'proto-tab tab2';
-    this.tab2.innerHTML = 'Devices';
+    this.tab2.innerHTML = 'Other devices';
     this.tab2.onclick = () => this.switchTab(2);
     infoTabsBar.appendChild(this.tab2);
   }
