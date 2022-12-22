@@ -19,10 +19,13 @@ import WbInertialUnit from './nodes/WbInertialUnit.js';
 import WbJoint from './nodes/WbJoint.js';
 import WbLed from './nodes/WbLed.js';
 import WbLidar from './nodes/WbLidar.js';
+import WbLinearMotor from './nodes/WbLinearMotor.js';
 import WbLightSensor from './nodes/WbLightSensor.js';
+import WbMotor from './nodes/WbMotor.js';
 import WbPen from './nodes/WbPen.js';
 import WbRadar from './nodes/WbRadar.js';
 import WbReceiver from './nodes/WbReceiver.js';
+import WbRotationalMotor from './nodes/WbRotationalMotor.js';
 import WbSpeaker from './nodes/WbSpeaker.js';
 import WbWorld from './nodes/WbWorld.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
@@ -962,7 +965,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         nameDiv.className = 'proto-joint-name';
         div.appendChild(nameDiv);
         const parameters = joint.jointParameters;
-        div.appendChild(this.#createSlider(parameters, _ => {
+        let motor;
+        for (let i = 0; i < joint.device.length; i++) {
+          if (joint.device[i] instanceof WbMotor) {
+            motor = joint.device[i];
+            break;
+          }
+        }
+        div.appendChild(this.#createSlider(parameters, motor, _ => {
           if (parameters)
             parameters.position = _.target.value;
           else
@@ -981,7 +991,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           nameDiv.className = 'proto-joint-name';
           div.appendChild(nameDiv);
           const parameters2 = joint.jointParameters2;
-          div.appendChild(this.#createSlider(parameters2, _ => {
+          let motor2;
+          for (let i = 0; i < joint.device2.length; i++) {
+            if (joint.device2[i] instanceof WbMotor) {
+              motor2 = joint.device2[i];
+              break;
+            }
+          }
+          div.appendChild(this.#createSlider(parameters2, motor2, _ => {
             if (parameters2)
               parameters2.position = _.target.value;
             else
@@ -995,7 +1012,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           nameDiv.className = 'proto-joint-name';
           div.appendChild(nameDiv);
           const parameters3 = joint.jointParameters3;
-          div.appendChild(this.#createSlider(parameters3, _ => {
+          let motor3;
+          for (let i = 0; i < joint.device3.length; i++) {
+            if (joint.device3[i] instanceof WbMotor) {
+              motor3 = joint.device3[i];
+              break;
+            }
+          }
+          div.appendChild(this.#createSlider(parameters3, motor3, _ => {
             if (parameters3)
               parameters3.position = _.target.value;
             else
@@ -1012,7 +1036,15 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           nameDiv.className = 'proto-joint-name';
           div.appendChild(nameDiv);
           const parameters2 = joint.jointParameters2;
-          div.appendChild(this.#createSlider(parameters2, _ => {
+          let motor2;
+          console.log(joint.device2)
+          for (let i = 0; i < joint.device2.length; i++) {
+            if (joint.device2[i] instanceof WbMotor) {
+              motor2 = joint.device2[i];
+              break;
+            }
+          }
+          div.appendChild(this.#createSlider(parameters2, motor2, _ => {
             if (parameters2)
               parameters2.position = _.target.value;
             else
@@ -1031,7 +1063,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     }
   }
 
-  #createSlider(parameters, callback) {
+  #createSlider(parameters, motor, callback) {
     const sliderElement = document.createElement('div');
     sliderElement.className = 'proto-slider-element';
 
@@ -1046,7 +1078,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const maxLabel = document.createElement('div');
     maxLabel.className = 'proto-joint-value-label';
 
-    if (typeof parameters !== 'undefined' && parameters.minStop !== parameters.maxStop) {
+    if (typeof motor !== 'undefined' && motor.minPosition !== motor.maxPosition) {
+      minLabel.innerHTML = this.#decimalCount(motor.minPosition) > 2 ? motor.minPosition.toFixed(2) : motor.minPosition;
+      slider.min = motor.minPosition;
+      maxLabel.innerHTML = this.#decimalCount(motor.maxPosition) > 2 ? motor.maxPosition.toFixed(2) : motor.maxPosition;
+      slider.max = motor.maxPosition;
+    } else if (typeof parameters !== 'undefined' && parameters.minStop !== parameters.maxStop) {
       minLabel.innerHTML = this.#decimalCount(parameters.minStop) > 2 ? parameters.minStop.toFixed(2) : parameters.minStop;
       slider.min = parameters.minStop;
       maxLabel.innerHTML = this.#decimalCount(parameters.maxStop) > 2 ? parameters.maxStop.toFixed(2) : parameters.maxStop;

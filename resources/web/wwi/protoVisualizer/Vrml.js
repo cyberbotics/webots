@@ -391,7 +391,7 @@ export class SFNode extends SingleValue {
         nodeX3d.setAttribute('role', 'boundingObject');
     } else if (['BallJointParameters', 'JointParameters', 'HingeJointParameters'].includes(this.value.name))
       nodeX3d.setAttribute('role', parameterName); // identifies which jointParameter slot the node belongs to
-    else if (['Brake', 'PositionSensor', 'Motor'].includes(this.value.name))
+    else if (['Brake', 'PositionSensor', 'RotationalMotor', 'LinearMotor'].includes(this.value.name))
       nodeX3d.setAttribute('role', parameterName); // identifies which device slot the node belongs to
 
     if (typeof nodeX3d !== 'undefined')
