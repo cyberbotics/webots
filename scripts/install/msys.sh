@@ -19,5 +19,8 @@ if [ -v MATLAB_HOME ]; then
 PATH+=":$MATLAB_HOME/bin"
 fi
 export PATH=$PATH
-cd "$1"
+cd ~
+if [[ "$1" == *"$MSYS64_HOME"/home/"$USER/"* ]]; then
+cd ${1#$MSYS64_HOME"/home/"$USER/}
+fi
 fi
