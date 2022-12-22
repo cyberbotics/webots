@@ -304,7 +304,7 @@ open ~/Applications/Webots.app    # to launch Webots using the open command
 
 Alternatively, you can double-click on the Webots icon to launch it.
 
-#### Trouble Shooting for Mac M1 Users
+#### Troubleshooting for Apple Silicon Users
 
 If you are geting errors like these
 `...(mach-o file, but is an incompatible architecture (have (arm64), need (x86_64)))`
