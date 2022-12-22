@@ -314,7 +314,11 @@ To check if it's opened using Rosetta, right click on the Webots application in 
 
 Make sure that the "Open using Rosetta" setting is unchecked, like in the picture below: 
 
-![Screenshot 2022-12-21 at 9 55 39 AM](https://user-images.githubusercontent.com/33169711/208961163-6a0826da-0247-4e9a-91e8-6e053cc29d5e.png)
+%figure "Rosetta setting"
+
+![rosetta_setting.png](images/rosetta_setting.png)
+
+%end
 
 #### From the Homebrew Package
 
