@@ -61,6 +61,9 @@ export default class WbBoundingSphere {
     let center;
     if (!this.transformOwner)
       upperTransform = findUpperTransform(this.#owner);
+    else
+      upperTransform = this.#owner;
+
     if (typeof upperTransform !== 'undefined') {
       const scale = upperTransform.absoluteScale();
       radius = Math.max(Math.max(scale.x, scale.y), scale.z) * this.#radius;

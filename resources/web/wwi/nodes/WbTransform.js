@@ -163,7 +163,7 @@ export default class WbTransform extends WbGroup {
     this.#matrix.fromVrml(this.#translation, this.#rotation, this.#scale);
 
     // multiply with upper matrix if any
-    const transform = this.upperTransform();
+    const transform = this.#upperTransform();
     if (typeof transform !== 'undefined')
       this.#matrix = transform.matrix().mul(this.#matrix);
     this.#matrixNeedUpdate = false;
