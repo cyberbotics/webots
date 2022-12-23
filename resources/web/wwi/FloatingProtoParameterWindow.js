@@ -140,8 +140,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           this.#createSFBoolField(key, contentDiv);
         else if (parameter.type === VRML.MFVec3f)
           this.#createMFVec3fField(key, contentDiv);
-        else if (parameter.type === VRML.MFString)
-          this.#createMFStringField(key, contentDiv);
 
         this.#rowNumber++;
       }
@@ -384,81 +382,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     // Add row
     const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible);
     return [p, addRow];
-  }
-
-  #createMFStringField(key, parent) {
-    const parameter = this.#protoManager.exposedParameters.get(key);
-    const p = document.createElement('p');
-    p.innerHTML = key + ': ';
-    p.key = key;
-    p.inputs = [];
-    p.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
-    p.style.gridColumn = '2 / 2';
-    p.className = 'key-parameter';
-
-    const exportCheckbox = this.#createCheckbox(parent);
-    p.checkbox = exportCheckbox;
-
-    const hideShowButton = document.createElement('button');
-    hideShowButton.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
-    hideShowButton.style.gridColumn = '4 / 4';
-    hideShowButton.className = 'mf-expand-button';
-    hideShowButton.title = 'Show content';
-    hideShowButton.isHidden = true;
-
-    const currentMfId = this.#mfId;
-    hideShowButton.onclick = () => {
-      const nodes = document.getElementsByClassName('mf-id-' + currentMfId);
-      for (let i = 0; i < nodes.length; i++) {
-        const sfString = nodes[i];
-        if (sfString) {
-          if (sfString.style.display === 'block')
-            sfString.style.display = 'none';
-          else
-            sfString.style.display = 'block';
-        }
-      }
-
-      if (hideShowButton.isHidden) {
-        hideShowButton.style.transform = 'rotate(90deg)';
-        hideShowButton.isHidden = false;
-        hideShowButton.title = 'Hide content';
-      } else {
-        hideShowButton.style.transform = '';
-        hideShowButton.isHidden = true;
-        hideShowButton.title = 'Show content';
-      }
-    };
-
-    const resetButton = this.#createResetButton(parent, p.style.gridRow);
-    this.#disableResetButton(resetButton);
-    resetButton.onclick = () => {
-      this.#disableResetButton(resetButton);
-      const nodesToRemove = document.getElementsByClassName('mf-id-' + currentMfId);
-      let maxRowNumber = 0;
-      for (let i = nodesToRemove.length - 1; i >= 0; i--) {
-        const rowNumber = this.#getRow(nodesToRemove[i]);
-        if (rowNumber > maxRowNumber)
-          maxRowNumber = rowNumber;
-        nodesToRemove[i].parentNode.removeChild(nodesToRemove[i]);
-      }
-
-      parameter.value = parameter.defaultValue.clone();
-      const resetButtonRow = this.#getRow(resetButton);
-      // two times because of the `add` button and plus one for the first `add` button.
-      const maxRowNumberNeeded = parameter.value.value.length * 2 + 1 + resetButtonRow;
-
-      // Need to offset the following rows by the difference to keep the coherency.
-      if (maxRowNumber > maxRowNumberNeeded)
-        this.#offsetNegativelyRows(resetButtonRow, maxRowNumber - maxRowNumberNeeded);
-      else if (maxRowNumber < maxRowNumberNeeded)
-        this.#offsetPositivelyRows(resetButtonRow + 1, maxRowNumberNeeded - maxRowNumber);
-    };
-
-    parent.appendChild(p);
-    parent.appendChild(hideShowButton);
-
-    this.#mfId++;
   }
 
   #offsetNegativelyRows(row, offset) {

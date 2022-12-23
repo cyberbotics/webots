@@ -286,6 +286,7 @@ export default class Parser {
         result = this.#parseTransform(node, parentNode, isBoundingObject);
         break;
       case 'Physics':
+      case 'SolidReference':
       case 'ImmersionProperties':
         // skip those nodes as they are not needed for web representation.
         break;
