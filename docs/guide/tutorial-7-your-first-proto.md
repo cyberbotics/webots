@@ -12,7 +12,7 @@ Create a new empty text file in the `protos` folder of your project called `Four
 
 Any PROTO file should at least respect the following structure:
 ```
-#VRML_SIM R2023a utf8
+#VRML_SIM {{ webots.version.major }} utf8
 PROTO protoName [
   protoFields
 ]
