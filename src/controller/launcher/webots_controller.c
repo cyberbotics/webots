@@ -31,6 +31,8 @@
 
 #define MAX_LINE_BUFFER_SIZE 2048
 
+extern char** environ;
+
 char *WEBOTS_HOME;
 char *controller;
 char *controller_path;
@@ -677,7 +679,11 @@ int main(int argc, char **argv) {
   // Executable controller
   if (!controller_extension || strcmp(controller_extension, ".exe") == 0) {
     exec_java_config_environment();
-    system(controller);
+    char *new_argv[] = {controller, NULL};
+    //char *env_char[] = {"WEBOTS_CONTROLLER_URL=ipc://1234/MyBot", "DYLD_LIBRARY_PATH=/Users/yannickgoumaz/webots/Contents/lib/controller",NULL};
+    execve(new_argv[0], new_argv, environ);
+    //putenv("SHELL=/bin/bash");
+    //system(controller);
   }
   // Python controller
   else if (strcmp(controller_extension, ".py") == 0) {
