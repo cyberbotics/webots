@@ -82,7 +82,7 @@ And the `mass` field of the [Physics](../reference/physics.md) node of the [Robo
 ```
 Save your PROTO file, it should now look like this:
 ```
-#VRML_SIM R2023a utf8
+#VRML_SIM {{ webots.version.major }} utf8
 PROTO FourWheelsRobot [
   field SFVec3f    translation  0 0 0
   field SFRotation rotation     0 0 1 0
