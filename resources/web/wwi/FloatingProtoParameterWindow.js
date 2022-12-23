@@ -247,7 +247,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     if (this.proto.isRoot) {
       const exportCheckbox = this.#createCheckbox(parent, key);
       p.checkbox = exportCheckbox;
-    }
+    } else
+      p.style.marginLeft = '10px';
 
     const values = document.createElement('p');
     values.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
@@ -502,7 +503,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     if (this.proto.isRoot) {
       const exportCheckbox = this.#createCheckbox(parent, key);
       p.checkbox = exportCheckbox;
-    }
+    } else
+      p.style.marginLeft = '10px';
 
     const values = document.createElement('p');
     values.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
@@ -579,7 +581,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     if (this.proto.isRoot) {
       const exportCheckbox = this.#createCheckbox(parent, key);
       p.checkbox = exportCheckbox;
-    }
+    } else
+      p.style.marginLeft = '10px';
 
     const value = document.createElement('p');
     value.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
@@ -642,7 +645,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     if (this.proto.isRoot) {
       const exportCheckbox = this.#createCheckbox(parent, key);
       p.checkbox = exportCheckbox;
-    }
+    } else
+      p.style.marginLeft = '10px';
 
     const value = document.createElement('p');
     value.className = 'value-parameter';
@@ -685,7 +689,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     if (this.proto.isRoot) {
       const exportCheckbox = this.#createCheckbox(parent, key);
       p.checkbox = exportCheckbox;
-    }
+    } else
+      p.style.marginLeft = '10px';
 
     const value = document.createElement('p');
     value.className = 'value-parameter';
