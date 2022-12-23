@@ -92,7 +92,7 @@ export default class WbPointSet extends WbGeometry {
     if (typeof this.#coord === 'undefined')
       return;
 
-    const points = this.#coord.point();
+    const points = this.#coord.point;
     if (points.length === 0)
       return;
 
