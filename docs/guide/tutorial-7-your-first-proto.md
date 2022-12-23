@@ -31,7 +31,7 @@ Finally, save the PROTO file.
   **Solution**: You should have something like this:
 
 ```
-  #VRML_SIM R2023a utf8
+  #VRML_SIM {{ webots.version.major }} utf8
   PROTO FourWheelsRobot [
 
   ]
