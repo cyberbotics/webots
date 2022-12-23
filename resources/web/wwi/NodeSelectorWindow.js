@@ -84,7 +84,7 @@ export default class NodeSelectorWindow {
         const licenseUrl = proto.getElementsByTagName('license-url')[0]?.innerHTML;
         let description = proto.getElementsByTagName('description')[0]?.innerHTML;
         if (typeof description !== 'undefined')
-          description = description.replace('\\n', '<br>');
+          description = description.replaceAll('\\n', '<br>');
         const slotType = proto.getElementsByTagName('slot-type')[0]?.innerHTML;
         const items = proto.getElementsByTagName('tags')[0]?.innerHTML.split(',');
         const tags = typeof items !== 'undefined' ? items : [];
@@ -295,7 +295,7 @@ export default class NodeSelectorWindow {
       const url = info.url;
       nodeImage.src = url.slice(0, url.lastIndexOf('/') + 1) + 'icons/' + protoName + '.png';
       description.innerHTML = info.description;
-      license.innerHTML = 'License:&nbsp;<i>' + info.license + '</i>';
+      license.innerHTML = 'License:&nbsp;<i>' + (typeof info.license !== 'undefined' ? info.license : 'not specified.') + '</i>';
     }
   }
 
@@ -312,14 +312,14 @@ export default class NodeSelectorWindow {
     if (typeof this.parameter === 'undefined')
       throw new Error('The parameter is expected to be defined prior to checking node compatibility.');
 
-    const baseNode = this.parameter.node.getBaseNode();
-    if (baseNode.name === 'Slot' && typeof slotType !== 'undefined') {
-      const otherSlotType = baseNode.getParameterByName('type').value.value.replaceAll('"', '');
-      return this.isSlotTypeMatch(otherSlotType, slotType);
-    }
-
     for (const link of this.parameter.parameterLinks) {
       const fieldName = link.name;
+      const parentNode = link.node;
+
+      if (parentNode.name === 'Slot' && typeof slotType !== 'undefined') {
+        const otherSlotType = parentNode.getParameterByName('type').value.value.replaceAll('"', '');
+        return this.isSlotTypeMatch(otherSlotType, slotType);
+      }
 
       if (fieldName === 'appearance') {
         if (baseType === 'Appearance')
