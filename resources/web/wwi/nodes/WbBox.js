@@ -1,7 +1,7 @@
 import WbGeometry from './WbGeometry.js';
 import {resetVector3IfNonPositive} from './utils/WbFieldChecker.js';
-import WbVector3 from './utils/WbVector3.js';
 import WbVector2 from './utils/WbVector2.js';
+import WbVector3 from './utils/WbVector3.js';
 
 export default class WbBox extends WbGeometry {
   #size;
@@ -49,6 +49,10 @@ export default class WbBox extends WbGeometry {
     super.delete();
 
     _wr_static_mesh_delete(this._wrenMesh);
+  }
+
+  recomputeBoundingSphere() {
+    this._boundingSphere.set(new WbVector3(), this.size.length() / 2);
   }
 
   updateLineScale() {

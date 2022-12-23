@@ -1,5 +1,6 @@
 import WbGeometry from './WbGeometry.js';
 import {resetIfNotInRangeWithIncludedBounds, resetIfNonPositive} from './utils/WbFieldChecker.js';
+import WbVector3 from './utils/WbVector3.js';
 
 export default class WbCylinder extends WbGeometry {
   #bottom;
@@ -102,18 +103,26 @@ export default class WbCylinder extends WbGeometry {
     _wr_static_mesh_delete(this._wrenMesh);
   }
 
-  #updateScale() {
-    const scale = _wrjs_array3(this.#radius, this.#radius, this.#height);
-    _wr_transform_set_scale(this.wrenNode, scale);
+  recomputeBoundingSphere() {
+    const halfHeight = this.scaledHeight() / 2;
+    const r = this.scaledRadius();
+
+    if (this.#top + this.#side + this.#bottom === 0) // it is empty
+      this._boundingSphere.empty();
+    else if (this.#top + this.#side + this.#bottom === 1 && !this.#side) { // just one disk
+      const center = this.#top ? halfHeight : -halfHeight;
+      this._boundingSphere.set(new WbVector3(0, center, 0), r);
+    } else
+      this._boundingSphere.set(new WbVector3(), new WbVector3(r, halfHeight, 0).length());
   }
 
-  #updateLineScale() {
-    if (!this._isAValidBoundingObject())
-      return;
+  scaledRadius() {
+    const scale = this.absoluteScale();
+    return Math.abs(this.#radius * Math.max(scale.x, scale.y));
+  }
 
-    const offset = _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;
-    _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.#radius * (1.0 + offset), this.#radius * (1.0 + offset),
-      this.#height * (1.0 + offset)));
+  scaledHeight() {
+    return Math.abs(this.#height * this.absoluteScale().z);
   }
 
   // Private functions
@@ -190,5 +199,19 @@ export default class WbCylinder extends WbGeometry {
 
     if (typeof this.onChange === 'function')
       this.onChange();
+  }
+
+  #updateScale() {
+    const scale = _wrjs_array3(this.#radius, this.#radius, this.#height);
+    _wr_transform_set_scale(this.wrenNode, scale);
+  }
+
+  #updateLineScale() {
+    if (!this._isAValidBoundingObject())
+      return;
+
+    const offset = _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;
+    _wr_transform_set_scale(this.wrenNode, _wrjs_array3(this.#radius * (1.0 + offset), this.#radius * (1.0 + offset),
+    this.#height * (1.0 + offset)));
   }
 }

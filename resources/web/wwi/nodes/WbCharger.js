@@ -1,5 +1,5 @@
-import WbSolid from './WbSolid.js';
+import WbDevice from './WbDevice.js';
 
 // This class is used to retrieve the type of device
-export default class WbCharger extends WbSolid {
+export default class WbCharger extends WbDevice {
 }

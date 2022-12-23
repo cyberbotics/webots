@@ -1,22 +1,65 @@
 #VRML_SIM R2023b utf8
+# template language: javascript
 
 PROTO ProtoBox [
-  field SFNode myBox Box { size 1 1 0.6 }
+  field     SFNode                             myBox Box { size 1 1 0.6 }
+  field     SFBool triggerRegeneration         TRUE
 ]
 {
-  Group {
+  Robot {
     children [
-      Transform {
+      TouchSensor {
         translation 0 0 2
         children [
           Shape {
            geometry IS myBox
           }
+          Transform {
+            translation 0 0 -1
+            children [
+              Shape {
+                geometry Sphere {
+                  radius 1.2
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 1 -1
+            children [
+              Shape {
+                geometry Cylinder {
+                  radius 0.3
+                  height 1.2
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 -1.5 -1
+            children [
+              Shape {
+                geometry Mesh {
+                  url "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/meshes/suzanne.obj"
+                }
+              }
+              Shape {
+                geometry ElevationGrid {
+                  height [-1,1,0,0,0]
+                  xDimension 5
+                  yDimension 1
+                  xSpacing 2
+                  ySpacing 0.5
+                }
+              }
+            ]
+          }
         ]
       }
-      Shape {
-        geometry IS myBox
-      }
     ]
+    %< if (fields.triggerRegeneration.value) { >%
+    physics Physics {
+    }
+    %< } >%
   }
 }
