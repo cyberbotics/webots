@@ -535,15 +535,14 @@ export default class X3dScene {
       data = data.substring(data.indexOf(':') + 1).trim();
       this.#deleteObject(data);
     } else if (data.startsWith('model:')) {
-      view.progress.setProgressBar('block', 'same', 60 + 0.1 * 17, 'Loading 3D scene...');
       this.destroyWorld();
       view.removeLabels();
       data = data.substring(data.indexOf(':') + 1).trim();
       if (!data) // received an empty model case: just destroy the view
         return true;
       view.stream.socket.send('pause');
-      view.progress.setProgressBar('block', 'same', 60 + 0.1 * 23, 'Loading object...');
-      this.loadObject(data, 0, view.onready);
+      view.progress.setProgressBar('block', 'same', 0, 'Loading 3D scene...');
+      this.loadRawWorldFile(data, view.onready);
     } else
       return false;
     return true;
