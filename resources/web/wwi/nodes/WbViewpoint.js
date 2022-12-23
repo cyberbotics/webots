@@ -63,6 +63,14 @@ export default class WbViewpoint extends WbBaseNode {
     this.#wrenSmaa = new WbWrenSmaa();
   }
 
+  get defaultPosition() {
+    return this.#defaultPosition;
+  }
+
+  set defaultPosition(newDefaultPosition) {
+    this.#defaultPosition = newDefaultPosition;
+  }
+
   createWrenObjects() {
     super.createWrenObjects();
 

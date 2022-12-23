@@ -4,7 +4,6 @@ import ProtoManager from './ProtoManager.js';
 import {webots} from './webots.js';
 import {changeGtaoLevel} from './nodes/wb_preferences.js';
 import WbWorld from './nodes/WbWorld.js';
-import WbVector3 from './nodes/utils/WbVector3.js';
 
 /* The following member variables can be set by the application:
 
@@ -399,6 +398,7 @@ export default class WebotsView extends HTMLElement {
         this.toolbar.protoParameterWindowInitializeSizeAndPosition();
         const topProtoNode = WbWorld.instance.sceneTree[WbWorld.instance.sceneTree.length - 1];
         WbWorld.instance.viewpoint.moveViewpointToObject(topProtoNode);
+        WbWorld.instance.viewpoint.defaultPosition = WbWorld.instance.viewpoint.position;
         this._view.x3dScene.render();
       };
 
