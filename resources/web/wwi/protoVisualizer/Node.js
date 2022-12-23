@@ -224,7 +224,7 @@ export default class Node {
               throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
 
             const exposedParameter = tokenizer.proto.parameters.get(alias);
-            parameter.value = exposedParameter.value.clone();
+            parameter.value = exposedParameter.value; //exposedParameter.value.clone();
             exposedParameter.insertLink(parameter);
           } else
             parameter.value.setValueFromTokenizer(tokenizer, this);

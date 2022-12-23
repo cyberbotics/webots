@@ -136,9 +136,6 @@ export default class X3dScene {
 
   #deleteObject(id) {
     const object = WbWorld.instance.nodes.get('n' + id);
-    if (typeof object === 'undefined')
-      throw new Error('Requested deletion of node that does not exist.');
-
     object.delete();
 
     WbWorld.instance.robots.forEach((robot, i) => {
