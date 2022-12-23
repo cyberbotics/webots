@@ -894,13 +894,25 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #appendDevices() {
+    let first = true;
     for (const key of this.devicesList.keys()) {
       const values = this.devicesList.get(key);
       if (values.length > 0) {
+        const titleContainer = document.createElement('div');
+        titleContainer.className = 'device-title-container';
+        if (first) {
+          first = false;
+          titleContainer.style.paddingTop = '10px';
+        }
+        let hr = document.createElement('hr');
+        titleContainer.appendChild(hr);
         const title = document.createElement('div');
         title.className = 'device-title';
         title.innerHTML = key;
-        this.devices.appendChild(title);
+        titleContainer.appendChild(title);
+        hr = document.createElement('hr');
+        titleContainer.appendChild(hr);
+        this.devices.appendChild(titleContainer);
         for (const value of values)
           this.devices.appendChild(value);
       }
@@ -952,20 +964,18 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         let div = document.createElement('div');
         div.className = 'proto-joint';
 
-        let nameDiv = document.createElement('div');
-
-        const jointName = joint.endPoint ? joint.endPoint.name : numberOfJoint;
+        const endPointName = joint.endPoint ? joint.endPoint.name : numberOfJoint;
+        let jointType;
         if (joint instanceof WbBallJoint)
-          nameDiv.innerHTML = 'BallJoint 1: ' + jointName;
+          jointType = 'BallJoint 1: ';
         else if (joint instanceof WbHinge2Joint)
-          nameDiv.innerHTML = 'Hinge2joint 1: ' + jointName;
+          jointType = 'Hinge2joint 1: ';
         else if (joint instanceof WbHingeJoint)
-          nameDiv.innerHTML = 'Hingejoint: ' + jointName;
+          jointType = 'Hingejoint: ';
         else
-          nameDiv.innerHTML = 'Sliderjoint: ' + jointName;
+          jointType = 'Sliderjoint: ';
 
-        nameDiv.className = 'proto-joint-name';
-        div.appendChild(nameDiv);
+        div.appendChild(this.#createJointInfo(jointType, endPointName, joint.device));
         const parameters = joint.jointParameters;
         this.#createSlider(parameters, joint.device, div, _ => {
           if (parameters)
@@ -981,10 +991,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           div = document.createElement('div');
           div.className = 'proto-joint';
 
-          nameDiv = document.createElement('div');
-          nameDiv.innerHTML = 'BallJoint 2: ' + jointName;
-          nameDiv.className = 'proto-joint-name';
-          div.appendChild(nameDiv);
+          jointType = document.createElement('div');
+          jointType.innerHTML = 'BallJoint 2: ' + endPointName;
+          jointType.className = 'proto-joint-name';
+          div.appendChild(jointType);
           const parameters2 = joint.jointParameters2;
           this.#createSlider(parameters2, joint.device2, div, _ => {
             if (parameters2)
@@ -995,10 +1005,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           });
           this.joints.appendChild(div);
 
-          nameDiv = document.createElement('div');
-          nameDiv.innerHTML = 'BallJoint 3: ' + jointName;
-          nameDiv.className = 'proto-joint-name';
-          div.appendChild(nameDiv);
+          jointType = document.createElement('div');
+          jointType.innerHTML = 'BallJoint 3: ' + endPointName;
+          jointType.className = 'proto-joint-name';
+          div.appendChild(jointType);
           const parameters3 = joint.jointParameters3;
           this.#createSlider(parameters3, joint.device3, div, _ => {
             if (parameters3)
@@ -1012,10 +1022,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           div = document.createElement('div');
           div.className = 'proto-joint';
 
-          nameDiv = document.createElement('div');
-          nameDiv.innerHTML = 'Hinge2joint 2: ' + jointName;
-          nameDiv.className = 'proto-joint-name';
-          div.appendChild(nameDiv);
+          div.appendChild(this.#createJointInfo('Hinge2joint 2: ', endPointName, joint.device2));
           const parameters2 = joint.jointParameters2;
           this.#createSlider(parameters2, joint.device2, div, _ => {
             if (parameters2)
@@ -1034,6 +1041,93 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       title.innerHTML = 'No joints';
       this.joints.appendChild(title);
     }
+  }
+
+  #createJointInfo(jointType, endPointName, devices) {
+    const grid = document.createElement('div');
+    grid.className = 'joint-details-grid';
+
+    const jointTypeDiv = document.createElement('div');
+    jointTypeDiv.className = 'proto-joint-name';
+    jointTypeDiv.style.gridRow = '1 / 1';
+    jointTypeDiv.style.gridColumn = '2 / 2';
+    jointTypeDiv.innerHTML = jointType;
+    grid.appendChild(jointTypeDiv);
+
+    const endPointDiv = document.createElement('div');
+    endPointDiv.className = 'proto-joint-name';
+    endPointDiv.style.gridRow = '1 / 1';
+    endPointDiv.style.gridColumn = '3 / 3';
+    endPointDiv.innerHTML = this.#stringRemoveQuote(endPointName);
+    grid.appendChild(endPointDiv);
+
+    if (devices.length > 0) {
+      const open = document.createElement('button');
+      open.className = 'devices-button';
+      open.isHidden = true;
+      open.title = 'Show more information';
+      grid.appendChild(open);
+
+      for (let i = 0; i < devices.length; i++) {
+        const row = i + 2;
+        this.#createGridFiller(grid, row);
+
+        const deviceType = document.createElement('div');
+        if (devices[i] instanceof WbRotationalMotor)
+          deviceType.innerHTML = 'RotationalMotor: ';
+        else if (devices[i] instanceof WbLinearMotor)
+          deviceType.innerHTML = 'LinearMotor: ';
+        else if (devices[i] instanceof WbBrake)
+          deviceType.innerHTML = 'Brake: ';
+        else if (devices[i] instanceof WbPositionSensor)
+          deviceType.innerHTML = 'PositionSensor:';
+
+        deviceType.style.gridRow = row + ' / ' + row;
+        deviceType.style.column = '2 / 2';
+        deviceType.style.display = 'none';
+        grid.appendChild(deviceType);
+
+        const deviceName = document.createElement('div');
+        deviceName.innerHTML = this.#stringRemoveQuote(devices[i].deviceName);
+        deviceName.style.gridRow = row + ' / ' + row;
+        deviceName.style.column = '3 / 3';
+        deviceName.style.display = 'none';
+        grid.appendChild(deviceName);
+      }
+
+      open.onclick = () => {
+        const children = grid.childNodes;
+        if (open.isHidden) {
+          open.style.transform = 'rotate(90deg)';
+          open.isHidden = false;
+          open.title = 'Hide additional information';
+          for (const child of children) {
+            if (child.style.gridRow[0] > 1)
+              child.style.display = 'block';
+          }
+        } else {
+          open.style.transform = '';
+          open.isHidden = true;
+          open.title = 'Show more information';
+          for (const child of children) {
+            if (child.style.gridRow[0] > 1)
+              child.style.display = 'none';
+          }
+        }
+      };
+    } else
+      this.#createGridFiller(grid, 1);
+
+    return grid;
+  }
+
+  #createGridFiller(grid, row) {
+    const filler = document.createElement('div');
+    filler.className = 'joint-grid-filler';
+    filler.style.gridRow = row + ' / ' + row;
+    filler.style.gridColumn = '1 / 1';
+    grid.appendChild(filler);
+    return filler;
   }
 
   #createSlider(parameters, device, parent, callback) {
@@ -1087,53 +1181,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     sliderElement.appendChild(slider);
     sliderElement.appendChild(maxLabel);
     parent.appendChild(sliderElement);
-
-    if (device.length > 0) {
-      const devicesDiv = document.createElement('div');
-      devicesDiv.className = 'devices-div';
-      const open = document.createElement('button');
-      open.className = 'devices-button';
-      open.isHidden = true;
-      devicesDiv.appendChild(open);
-
-      const devicesDetails = document.createElement('div');
-      devicesDetails.className = 'devices-details';
-      for (let i = 0; i < device.length; i++) {
-        const deviceDiv = document.createElement('div');
-        deviceDiv.className = 'device-div';
-        const name = this.#stringRemoveQuote(device[i].deviceName);
-        if (device[i] instanceof WbRotationalMotor)
-          deviceDiv.innerHTML = 'RotationalMotor: ' + name;
-        else if (device[i] instanceof WbLinearMotor)
-          deviceDiv.innerHTML = 'LinearMotor: ' + name;
-        else if (device[i] instanceof WbBrake)
-          deviceDiv.innerHTML = 'Brake: ' + name;
-        else if (device[i] instanceof WbPositionSensor)
-          deviceDiv.innerHTML = 'PositionSensor: ' + name;
-
-        devicesDetails.appendChild(deviceDiv);
-      }
-
-      open.onclick = () => {
-        if (open.isHidden) {
-          open.style.transform = 'rotate(90deg)';
-          open.isHidden = false;
-          open.title = 'Hide information';
-          devicesDetails.style.visibility = 'visible';
-          devicesDiv.style.height = (30 + 20 * device.length) + 'px';
-        } else {
-          open.style.transform = '';
-          open.isHidden = true;
-          open.title = 'Show information';
-          devicesDetails.style.visibility = 'hidden';
-          devicesDiv.style.height = '20px';
-        }
-      };
-
-      devicesDiv.appendChild(devicesDetails);
-
-      parent.appendChild(devicesDiv);
-    }
   }
 
   #decimalCount(number) {
