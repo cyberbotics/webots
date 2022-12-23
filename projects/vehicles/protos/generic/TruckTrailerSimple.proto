@@ -8,10 +8,10 @@ EXTERNPROTO "TruckRearLight.proto"
 EXTERNPROTO "TruckTrailerMesh.proto"
 
 PROTO TruckTrailerSimple [
-  field SFString   name                 "truck trailer"
-  field SFNode     appearance           PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { url [ "textures/truck_trailer_webots.jpg" ] } }
-  field SFRotation rotation             0 0 1 0
-  field SFBool     wheelBoundingObject  FALSE
+  field SFString   name                 "truck trailer"        # Identifies the trailer.
+  field SFNode     appearance           PBRAppearance { metalness 0 roughness 0.4 baseColorMap ImageTexture { url [ "textures/truck_trailer_webots.jpg" ] } }  # Defines the appearance of the trailer.
+  field SFRotation rotation             0 0 1 0                # Defines the rotation of the truck tank w.r.t the truck cabin. Only the rotation in Z should be used (Javascript is not used for efficiency reasons).
+  field SFBool     wheelBoundingObject  FALSE                  # Defines whether the wheels should have a bounding object.
   hiddenField SFVec3f frontRightWheelAngularVelocity    0 0 0
   hiddenField SFVec3f frontLeftWheelAngularVelocity     0 0 0
   hiddenField SFVec3f centerRightWheelAngularVelocity   0 0 0
