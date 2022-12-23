@@ -1092,6 +1092,7 @@ webots-view hr {
   width: 50%;
   height: 1px;
   border:0;
+  margin: 0px
 }
 
 webots-view .device-title-container {
