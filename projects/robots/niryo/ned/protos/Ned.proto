@@ -398,14 +398,14 @@ PROTO Ned [
                                                 }
                                                 device [
                                                   LinearMotor {
-                                                    name "joint_base_to_jaw_1"
+                                                    name "gripper::right"
                                                     maxVelocity 5
                                                     minPosition -0.01
                                                     maxPosition 0.01
                                                     maxForce 1
                                                   }
                                                   PositionSensor {
-                                                    name "joint_base_to_jaw_1_sensor"
+                                                    name "gripper::right_sensor"
                                                   }
                                                 ]
                                                 endPoint Solid {
@@ -448,14 +448,14 @@ PROTO Ned [
                                                 }
                                                 device [
                                                   LinearMotor {
-                                                    name "joint_base_to_jaw_2"
+                                                    name "gripper::left"
                                                     maxVelocity 5
                                                     minPosition -0.01
                                                     maxPosition 0.01
                                                     maxForce 1
                                                   }
                                                   PositionSensor {
-                                                    name "joint_base_to_jaw_2_sensor"
+                                                    name "gripper::left_sensor"
                                                   }
                                                 ]
                                                 endPoint Solid {
