@@ -306,8 +306,11 @@ Alternatively, you can double-click on the Webots icon to launch it.
 
 #### Troubleshooting for Apple Silicon Users
 
-If you are geting errors like these
-`...(mach-o file, but is an incompatible architecture (have (arm64), need (x86_64)))`
+If you are getting errors like these:
+```bash
+...(mach-o file, but is an incompatible architecture (have (arm64), need (x86_64)))
+```
+
 This is likely caused by Rosetta loading Webots under the x86 architecture instead of the native ARM. Unless you really want to use x86 binaries with your Webots simulation, make sure to turn off Rosetta. Sometimes macOS may try to open the app using Rosetta by default, which may cause issues when it comes to run robot controllers with dependencies on ARM libraries.
 
 To check if it's opened using Rosetta, right click on the Webots application in Finder and select Get Info. 
