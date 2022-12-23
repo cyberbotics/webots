@@ -122,8 +122,11 @@ export default class Parser {
       const head = xml.getElementsByTagName('head')[0];
       if (typeof head !== 'undefined') {
         for (const child of head.children) {
-          if (getNodeAttribute(child, 'name', '') === 'version')
+          if (getNodeAttribute(child, 'name', '') === 'version') {
+            if (typeof WbWorld.instance === 'undefined')
+              WbWorld.init();
             WbWorld.instance.version = getNodeAttribute(child, 'content', '');
+          }
         }
       }
       const scene = xml.getElementsByTagName('Scene')[0];
@@ -194,9 +197,6 @@ export default class Parser {
   }
 
   #parseNode(node, parentNode, isBoundingObject) {
-    if (typeof WbWorld.instance === 'undefined')
-      WbWorld.init();
-
     if (typeof this.#rootNodeId === 'undefined')
       this.#rootNodeId = node.id;
 
@@ -370,8 +370,10 @@ export default class Parser {
   }
 
   #parseScene() {
-    WbWorld.init();
-    WbWorld.instance.prefix = this.#prefix;
+    if (typeof WbWorld.instance === 'undefined') {
+      WbWorld.init();
+      WbWorld.instance.prefix = this.#prefix;
+    }
 
     const prefix = DefaultUrl.wrenImagesUrl();
     this.#promises.push(ImageLoader.loadTextureData(prefix, 'smaa_area_texture.png').then(image => {

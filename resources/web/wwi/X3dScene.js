@@ -153,6 +153,8 @@ export default class X3dScene {
   }
 
   loadWorldFile(url, onLoad, progress) {
+    console.log('LOADWORLD: ', url)
+
     const prefix = webots.currentView.prefix;
     const renderer = this.renderer;
     const xmlhttp = new XMLHttpRequest();
@@ -173,6 +175,7 @@ export default class X3dScene {
   }
 
   async loadObject(x3dObject, parentId, callback) {
+    console.log('GOT: ', x3dObject, parentId)
     let parentNode;
     if (typeof parentId !== 'undefined') {
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
@@ -487,6 +490,8 @@ export default class X3dScene {
   }
 
   processServerMessage(data, view) {
+    console.log('MESSAGE: ', data)
+
     if (data.startsWith('application/json:')) {
       if (typeof view.time !== 'undefined') { // otherwise ignore late updates until the scene loading is completed
         data = data.substring(data.indexOf(':') + 1);

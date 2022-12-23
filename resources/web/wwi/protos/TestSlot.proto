@@ -1,0 +1,17 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/robots/softbank/nao/protos/NaoJersey.proto"
+
+PROTO TestSlot [
+  field SFNode param NULL
+]
+{
+  Robot {
+    children [
+      Slot {
+        type "nao jersey"
+        endPoint IS param
+      }
+    ]
+  }
+}

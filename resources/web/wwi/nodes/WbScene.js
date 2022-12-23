@@ -24,7 +24,6 @@ export default class WbScene {
   }
 
   destroy() {
-    console.log('DESTROY SCENE')
     WbWrenPostProcessingEffects.clearResources();
 
     if (typeof this.#wrenMainFrameBuffer !== 'undefined')
