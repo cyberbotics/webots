@@ -24,7 +24,7 @@
 static float block_positions[3][3] = {{0.37, -2.7, 2.9}, {0.52, -2.37, 2.73}, {0.74, -1.96, 2.53}};
 static float block_clearings[3][3] = {{-0.1, -2.78, 2.61}, {0.22, -2.48, 2.53}, {0.33, -2.18, 2.35}};
 
-enum Joints { JOINT1, JOINT2, JOINT3, JOINT4, JOINT5, JOINT6, JOINT7, FINGER1, FINGER2 };
+enum Joints { JOINT1, JOINT2, JOINT3, JOINT4, JOINT5, JOINT6, JOINT7, FINGER };
 enum Blocks { BLOCK1, BLOCK2, BLOCK3 };
 enum HandCommands { OPEN_HAND, CLOSE_HAND };
 
@@ -32,13 +32,11 @@ static WbDeviceTag motors[9];
 
 void hand_control(int command) {
   // based on the state, opens or closes the gripper
-  if (command == OPEN_HAND) {
-    wb_motor_set_position(motors[FINGER1], 0.02);
-    wb_motor_set_position(motors[FINGER2], 0.02);
-  } else {
-    wb_motor_set_position(motors[FINGER1], 0.012);
-    wb_motor_set_position(motors[FINGER2], 0.012);
-  }
+  if (command == OPEN_HAND)
+    wb_motor_set_position(motors[FINGER], 0.02);
+  else
+    wb_motor_set_position(motors[FINGER], 0.012);
+
   // delay for the action to take place
   wb_robot_step(TIME_STEP * 10);
 }
@@ -81,13 +79,14 @@ int main(int argc, char **argv) {
 
   char device_name[30];
   // retrive the motor references of all the joints
-  for (int i = 0; i < 9; ++i) {
-    const char *prefix = i < 7 ? "panda_joint" : "panda_finger_joint";
+  for (int i = 0; i < 8; ++i) {
+    const char *prefix = "panda_joint";
     int offset = i < 7 ? 0 : 7;
     sprintf(device_name, "%s%d", prefix, i + 1 - offset);
     motors[i] = wb_robot_get_device(device_name);
   }
 
+  motors[7] = wb_robot_get_device("panda_finger::right");
   hand_control(OPEN_HAND);
 
   for (int i = 0; i < 10; ++i) {
