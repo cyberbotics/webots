@@ -7,10 +7,10 @@ import WbMatrix4 from './utils/WbMatrix4.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbVector4 from './utils/WbVector4.js';
 import WbWorld from './WbWorld.js';
-import WbWrenHdr from './../wren/WbWrenHdr.js';
-import WbWrenGtao from './../wren/WbWrenGtao.js';
-import WbWrenBloom from './../wren/WbWrenBloom.js';
-import WbWrenSmaa from './../wren/WbWrenSmaa.js';
+import WbWrenHdr from '../wren/WbWrenHdr.js';
+import WbWrenGtao from '../wren/WbWrenGtao.js';
+import WbWrenBloom from '../wren/WbWrenBloom.js';
+import WbWrenSmaa from '../wren/WbWrenSmaa.js';
 import {webots} from '../webots.js';
 
 export default class WbViewpoint extends WbBaseNode {
