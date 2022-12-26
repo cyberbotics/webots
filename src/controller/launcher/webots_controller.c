@@ -688,7 +688,15 @@ int main(int argc, char **argv) {
   else if (strcmp(controller_extension, ".py") == 0) {
     python_config_environment();
 #ifdef _WIN32
-    const char *const new_argv[] = {"python", controller, NULL};
+    char *controller_formated = NULL;
+    if (strstr(controller, " ") != NULL) {
+      const size_t controller_formated_size = snprintf(NULL, 0, "\"%s\"", controller) + 1;
+      controller_formated = malloc(controller_formated_size);
+      sprintf(controller_formated, "\"%s\"", controller);
+    } else
+      controller_formated = strdup(controller);
+
+    const char *const new_argv[] = {"python", controller_formated, NULL};
     _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
 #else
     char *new_argv[] = {"python3", controller, NULL};
