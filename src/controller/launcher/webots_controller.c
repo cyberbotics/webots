@@ -25,15 +25,13 @@
 #include <unistd.h>
 
 #ifdef WIN32
-#include <process.h>
 #include <io.h>
+#include <process.h>
 #define F_OK 0
 #define access _access
 #endif
 
 #define MAX_LINE_BUFFER_SIZE 2048
-
-extern char **environ;
 
 char *WEBOTS_HOME;
 char *controller;
@@ -689,7 +687,7 @@ int main(int argc, char **argv) {
     _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
 #else
     char *new_argv[] = {controller, NULL};
-    execve(new_argv[0], new_argv, environ);
+    execvp(new_argv[0], new_argv);
 #endif
   }
   // Python controller
@@ -708,7 +706,7 @@ int main(int argc, char **argv) {
     _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
 #else
     char *new_argv[] = {"python3", controller, NULL};
-    execve(new_argv[0], new_argv, environ);
+    execvp(new_argv[0], new_argv);
 #endif
   }
   // Matlab controller
@@ -738,7 +736,7 @@ int main(int argc, char **argv) {
     _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
 #else
     char *new_argv[] = {matlab_path, "-nodisplay", "-nosplash", "-nodesktop", "-r", matlab_command, NULL};
-    execve(new_argv[0], new_argv, environ);
+    execvp(new_argv[0], new_argv);
 #endif
     free(matlab_command);
   }
@@ -781,7 +779,7 @@ int main(int argc, char **argv) {
     _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
 #else
     char *new_argv[] = {"java", "-classpath", classpath, java_library, controller_name + 1, NULL};
-    execve(new_argv[0], new_argv, environ);
+    execvp(new_argv[0], new_argv);
 #endif
 
     free(lib_controller);
