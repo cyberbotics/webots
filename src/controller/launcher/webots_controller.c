@@ -15,6 +15,7 @@
  */
 
 #include <dirent.h>
+#include <process.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,7 +32,7 @@
 
 #define MAX_LINE_BUFFER_SIZE 2048
 
-extern char** environ;
+extern char **environ;
 
 char *WEBOTS_HOME;
 char *controller;
@@ -118,11 +119,7 @@ bool get_matlab_path() {
   const size_t matlab_path_size = snprintf(NULL, 0, "%s%s", matlab_directory, latest_version) + 1;
   matlab_path = malloc(matlab_path_size);
   sprintf(matlab_path, "%s%s", matlab_directory, latest_version);
-#elif _WIN32
-  const size_t matlab_path_size = snprintf(NULL, 0, "\"\"%s%s%s\"", matlab_directory, latest_version, matlab_exec_suffix) + 1;
-  matlab_path = malloc(matlab_path_size);
-  sprintf(matlab_path, "\"\"%s%s%s\"", matlab_directory, latest_version, matlab_exec_suffix);
-#elif __linux__
+#else
   const size_t matlab_path_size = snprintf(NULL, 0, "%s%s%s", matlab_directory, latest_version, matlab_exec_suffix) + 1;
   matlab_path = malloc(matlab_path_size);
   sprintf(matlab_path, "%s%s%s", matlab_directory, latest_version, matlab_exec_suffix);
@@ -679,26 +676,24 @@ int main(int argc, char **argv) {
   // Executable controller
   if (!controller_extension || strcmp(controller_extension, ".exe") == 0) {
     exec_java_config_environment();
+#ifdef _WIN32
+    const char *const new_argv[] = {controller, NULL};
+    _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
+#else
     char *new_argv[] = {controller, NULL};
-    //char *env_char[] = {"WEBOTS_CONTROLLER_URL=ipc://1234/MyBot", "DYLD_LIBRARY_PATH=/Users/yannickgoumaz/webots/Contents/lib/controller",NULL};
     execve(new_argv[0], new_argv, environ);
-    //putenv("SHELL=/bin/bash");
-    //system(controller);
+#endif
   }
   // Python controller
   else if (strcmp(controller_extension, ".py") == 0) {
     python_config_environment();
 #ifdef _WIN32
-    const char *python_prefix = "python ";
+    const char *const new_argv[] = {"python", controller, NULL};
+    _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
 #else
-    const char *python_prefix = "python3 ";
+    char *new_argv[] = {"python3", controller, NULL};
+    execve(new_argv[0], new_argv, environ);
 #endif
-    const size_t python_command_size = snprintf(NULL, 0, "%s%s", python_prefix, controller) + 1;
-    char *python_command = malloc(python_command_size);
-    sprintf(python_command, "%s%s", python_prefix, controller);
-
-    system(python_command);
-    free(python_command);
   }
   // Matlab controller
   else if (strcmp(controller_extension, ".m") == 0) {
@@ -712,18 +707,23 @@ int main(int argc, char **argv) {
     }
 
 #ifdef _WIN32
-    const char *launcher_path = "\\lib\\controller\\matlab\\launcher.m'); exit;\"\"";
+    const char *launcher_path = "\\lib\\controller\\matlab\\launcher.m";
 #elif defined __APPLE__
-    const char *launcher_path = "/Contents/lib/controller/matlab/launcher.m'); exit;\"";
+    const char *launcher_path = "/Contents/lib/controller/matlab/launcher.m";
 #elif defined __linux__
-    const char *launcher_path = "/lib/controller/matlab/launcher.m'); exit;\"";
+    const char *launcher_path = "/lib/controller/matlab/launcher.m";
 #endif
-    const size_t matlab_command_size =
-      snprintf(NULL, 0, "%s -nodisplay -nosplash -nodesktop -r \"run('%s%s", matlab_path, WEBOTS_HOME, launcher_path) + 1;
+    const size_t matlab_command_size = snprintf(NULL, 0, "\"run('%s%s'); exit;\"", WEBOTS_HOME, launcher_path) + 1;
     char *matlab_command = malloc(matlab_command_size);
-    sprintf(matlab_command, "%s -nodisplay -nosplash -nodesktop -r \"run('%s%s", matlab_path, WEBOTS_HOME, launcher_path);
+    sprintf(matlab_command, "\"run('%s%s'); exit;\"", WEBOTS_HOME, launcher_path);
 
-    system(matlab_command);
+#ifdef _WIN32
+    const char *const new_argv[] = {matlab_path, "-nodisplay", "-nosplash", "-nodesktop", "-r", matlab_command, NULL};
+    _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
+#else
+    char *new_argv[] = {matlab_path, "-nodisplay", "-nosplash", "-nodesktop", "-r", matlab_command, NULL};
+    execve(new_argv[0], new_argv, environ);
+#endif
     free(matlab_command);
   }
   // Java controller
@@ -750,30 +750,30 @@ int main(int argc, char **argv) {
 #endif
     char *short_controller_path = strdup(controller_path);
     short_controller_path[strlen(controller_path) - 1] = '\0';
-    const size_t classpath_size =
-      snprintf(NULL, 0, "-classpath \"%s%s%s\"", lib_controller, jar_path, short_controller_path) + 1;
+    const size_t classpath_size = snprintf(NULL, 0, "\"%s%s%s\"", lib_controller, jar_path, short_controller_path) + 1;
     char *classpath = malloc(classpath_size);
-    sprintf(classpath, "-classpath \"%s%s%s\"", lib_controller, jar_path, short_controller_path);
+    sprintf(classpath, "\"%s%s%s\"", lib_controller, jar_path, short_controller_path);
 
     // Write the 'Djava.library.path' option (mandatory for java controllers)
     const size_t java_library_size = snprintf(NULL, 0, "\"-Djava.library.path=%s\"", lib_controller) + 1;
     char *java_library = malloc(java_library_size);
     sprintf(java_library, "\"-Djava.library.path=%s\"", lib_controller);
 
-    // Write arguments to java command
     controller_name[strlen(controller_name) - strlen(controller_extension)] = '\0';
-    const size_t java_command_size = snprintf(NULL, 0, "java %s %s %s", classpath, java_library, controller_name + 1) + 1;
-    char *java_command = malloc(java_command_size);
-    sprintf(java_command, "java %s %s %s", classpath, java_library, controller_name + 1);
+#ifdef _WIN32
+    const char *const new_argv[] = {"java", "-classpath", classpath, java_library, controller_name + 1, NULL};
+    _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
+#else
+    char *new_argv[] = {"java", "-classpath", classpath, java_library, controller_name + 1, NULL};
+    execve(new_argv[0], new_argv, environ);
+#endif
 
-    system(java_command);
     free(lib_controller);
     free(short_controller_path);
     free(classpath);
     free(java_library);
-    free(java_command);
   } else
-    printf("The file extension '%s' is not supported as webots controller. Supported file types are executables, '.py', "
+    printf("The file extension '%s' is not supported as webots controller. Supported file types are executable files, '.py', "
            "'.jar', '.class' and '.m'.\n",
            controller_extension);
 
