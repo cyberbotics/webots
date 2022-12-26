@@ -756,7 +756,6 @@ int main(int argc, char **argv) {
     char *lib_controller = malloc(lib_controller_size);
     sprintf(lib_controller, "%s%s", WEBOTS_HOME, java_lib_controller);
 
-    // Write the 'classpath' option (mandatory for java controllers)
 #ifdef _WIN32
     const char *jar_path = "\\Controller.jar;";
 #else
@@ -764,6 +763,9 @@ int main(int argc, char **argv) {
 #endif
     char *short_controller_path = strdup(controller_path);
     short_controller_path[strlen(controller_path) - 1] = '\0';
+
+#ifdef _WIN32
+    // Write the 'classpath' option (mandatory for java controllers)
     const size_t classpath_size = snprintf(NULL, 0, "\"%s%s%s\"", lib_controller, jar_path, short_controller_path) + 1;
     char *classpath = malloc(classpath_size);
     sprintf(classpath, "\"%s%s%s\"", lib_controller, jar_path, short_controller_path);
@@ -772,6 +774,17 @@ int main(int argc, char **argv) {
     const size_t java_library_size = snprintf(NULL, 0, "\"-Djava.library.path=%s\"", lib_controller) + 1;
     char *java_library = malloc(java_library_size);
     sprintf(java_library, "\"-Djava.library.path=%s\"", lib_controller);
+#else
+    // Write the 'classpath' option (mandatory for java controllers)
+    const size_t classpath_size = snprintf(NULL, 0, "%s%s%s", lib_controller, jar_path, short_controller_path) + 1;
+    char *classpath = malloc(classpath_size);
+    sprintf(classpath, "%s%s%s", lib_controller, jar_path, short_controller_path);
+
+    // Write the 'Djava.library.path' option (mandatory for java controllers)
+    const size_t java_library_size = snprintf(NULL, 0, "-Djava.library.path=%s", lib_controller) + 1;
+    char *java_library = malloc(java_library_size);
+    sprintf(java_library, "-Djava.library.path=%s", lib_controller);
+#endif
 
     controller_name[strlen(controller_name) - strlen(controller_extension)] = '\0';
 #ifdef _WIN32
