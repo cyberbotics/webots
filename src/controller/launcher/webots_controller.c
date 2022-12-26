@@ -16,7 +16,6 @@
 
 #include <ctype.h>
 #include <dirent.h>
-#include <process.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -26,6 +25,7 @@
 #include <unistd.h>
 
 #ifdef WIN32
+#include <process.h>
 #include <io.h>
 #define F_OK 0
 #define access _access
