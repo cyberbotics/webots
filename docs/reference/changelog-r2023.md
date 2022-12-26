@@ -30,6 +30,7 @@ Released on ??
     - Fixed a crash when setting the `Robot.battery` after the simulation start ([#5669](https://github.com/cyberbotics/webots/pull/5669)).
     - Fixed crashes resulting from converting to base nodes a PROTO containing DEF and USE nodes ([#5676](https://github.com/cyberbotics/webots/pull/5676)).
     - Fixed crashes resulting from updating a DEF node whose USE node is contained in a PROTO field triggering the regeneration ([#5676](https://github.com/cyberbotics/webots/pull/5676)).
+    - Fixed crashes resulting from copy or DEF/USE update in [`Solid.boundingObject`](solid.md) field ([#5686](https://github.com/cyberbotics/webots/pull/5686)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
