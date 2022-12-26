@@ -49,6 +49,98 @@ char *webots_project;
 char *webots_controller_name;
 char *webots_version;
 
+void remove_comment(char *string) {
+  const char *comment = strchr(string, ';');
+  if (comment) {
+    const size_t comment_size = strlen(comment);
+    const size_t full_line_size = strlen(string);
+    const size_t content_size = full_line_size - comment_size;
+    string[content_size] = '\0';
+    return;
+  }
+  string[strlen(string)] = '\0';
+}
+
+void replace_char(char *string, char occurence, char replace) {
+  char *current_pos = strchr(string, occurence);
+  while (current_pos) {
+    *current_pos = replace;
+    current_pos = strchr(current_pos + 1, occurence);
+  }
+}
+
+void remove_char(char *string, char occurence) {
+  char *removed = string;
+  do {
+    while (*removed == occurence) {
+      ++removed;
+    }
+  } while ((*string++ = *removed++));
+}
+
+void replace_substring(char **string, const char *substring, const char *replace) {
+  char *tmp = *string;
+  const size_t substring_size = strlen(substring);
+  const size_t replace_size = strlen(replace);
+
+  // Count number of occurences
+  int substring_count = 0;
+  while (true) {
+    char *next = strstr(tmp, substring);
+    if (next == NULL)
+      break;
+    tmp = next + substring_size;
+    substring_count++;
+  }
+
+  // Adapt memory size, only realloc if more memory is needed
+  const size_t new_size = strlen(*string) + substring_count * (replace_size - substring_size) + 1;
+  if (new_size > strlen(*string)) {
+    char *tmp_realloc = realloc(*string, new_size);
+    if (tmp_realloc)
+      *string = tmp_realloc;
+  }
+
+  char *buffer = malloc(new_size);
+  char *insert_point = &buffer[0];
+  tmp = *string;
+  // Replace 'substring' by 'replace'
+  while (true) {
+    char *next = strstr(tmp, substring);
+    if (next == NULL) {
+      strcpy(insert_point, tmp);
+      break;
+    }
+    memcpy(insert_point, tmp, next - tmp);
+    insert_point += next - tmp;
+    memcpy(insert_point, replace, replace_size);
+    insert_point += replace_size;
+    tmp = next + substring_size;
+  }
+
+  // If memory size needed has decreased, realloc memory
+  if (new_size < strlen(*string)) {
+    char *tmp_realloc = realloc(*string, new_size);
+    if (tmp_realloc)
+      *string = tmp_realloc;
+  }
+
+  strcpy(*string, buffer);
+  free(buffer);
+}
+
+void insert_string(char **string, char *insert, int index) {
+  const size_t new_size = strlen(*string) + strlen(insert) + 1;
+  char *tmp = strdup(*string);
+  char *tmp_realloc = realloc(*string, new_size);
+  if (tmp_realloc)
+    *string = tmp_realloc;
+  strncpy(*string + index, insert, strlen(insert));
+  strncpy(*string + index + strlen(insert), tmp + index, strlen(tmp) - index);
+  (*string)[new_size - 1] = '\0';
+  free(tmp);
+}
+
 void get_current_path() {
   if (!current_path) {
     current_path = malloc(512);
@@ -73,7 +165,6 @@ bool get_webots_home() {
 
 bool get_matlab_path() {
   struct dirent *directory_entry;  // Pointer for directory entry
-
 #ifdef __APPLE__
   const char *matlab_directory = "/Applications/";
   const char *matlab_version_wc = "MATLAB_R20";
@@ -84,7 +175,6 @@ bool get_matlab_path() {
   const char *matlab_exec_suffix = "\\bin\\win64\\MATLAB.exe";
 #else  // __linux__
   const char *matlab_directory = "/usr/local/MATLAB/";
-  // cppcheck-suppress unreadVariable
   const char *matlab_exec_suffix = "/bin/matlab";
 #endif
 #endif
@@ -358,98 +448,6 @@ void matlab_config_environment() {
   webots_version = malloc(webots_version_size);
   sprintf(webots_version, "WEBOTS_VERSION=%s", version);
   putenv(webots_version);
-}
-
-void remove_comment(char *string) {
-  const char *comment = strchr(string, ';');
-  if (comment) {
-    const size_t comment_size = strlen(comment);
-    const size_t full_line_size = strlen(string);
-    const size_t content_size = full_line_size - comment_size;
-    string[content_size] = '\0';
-    return;
-  }
-  string[strlen(string)] = '\0';
-}
-
-void replace_char(char *string, char occurence, char replace) {
-  char *current_pos = strchr(string, occurence);
-  while (current_pos) {
-    *current_pos = replace;
-    current_pos = strchr(current_pos + 1, occurence);
-  }
-}
-
-void remove_char(char *string, char occurence) {
-  char *removed = string;
-  do {
-    while (*removed == occurence) {
-      ++removed;
-    }
-  } while ((*string++ = *removed++));
-}
-
-void replace_substring(char **string, const char *substring, const char *replace) {
-  char *tmp = *string;
-  const size_t substring_size = strlen(substring);
-  const size_t replace_size = strlen(replace);
-
-  // Count number of occurences
-  int substring_count = 0;
-  while (true) {
-    char *next = strstr(tmp, substring);
-    if (next == NULL)
-      break;
-    tmp = next + substring_size;
-    substring_count++;
-  }
-
-  // Adapt memory size, only realloc if more memory is needed
-  const size_t new_size = strlen(*string) + substring_count * (replace_size - substring_size) + 1;
-  if (new_size > strlen(*string)) {
-    char *tmp_realloc = realloc(*string, new_size);
-    if (tmp_realloc)
-      *string = tmp_realloc;
-  }
-
-  char *buffer = malloc(new_size);
-  char *insert_point = &buffer[0];
-  tmp = *string;
-  // Replace 'substring' by 'replace'
-  while (true) {
-    char *next = strstr(tmp, substring);
-    if (next == NULL) {
-      strcpy(insert_point, tmp);
-      break;
-    }
-    memcpy(insert_point, tmp, next - tmp);
-    insert_point += next - tmp;
-    memcpy(insert_point, replace, replace_size);
-    insert_point += replace_size;
-    tmp = next + substring_size;
-  }
-
-  // If memory size needed has decreased, realloc memory
-  if (new_size < strlen(*string)) {
-    char *tmp_realloc = realloc(*string, new_size);
-    if (tmp_realloc)
-      *string = tmp_realloc;
-  }
-
-  strcpy(*string, buffer);
-  free(buffer);
-}
-
-void insert_string(char **string, char *insert, int index) {
-  const size_t new_size = strlen(*string) + strlen(insert) + 1;
-  char *tmp = strdup(*string);
-  char *tmp_realloc = realloc(*string, new_size);
-  if (tmp_realloc)
-    *string = tmp_realloc;
-  strncpy(*string + index, insert, strlen(insert));
-  strncpy(*string + index + strlen(insert), tmp + index, strlen(tmp) - index);
-  (*string)[new_size - 1] = '\0';
-  free(tmp);
 }
 
 void parse_environment_variables(char **string) {
@@ -763,7 +761,6 @@ int main(int argc, char **argv) {
 #endif
     char *short_controller_path = strdup(controller_path);
     short_controller_path[strlen(controller_path) - 1] = '\0';
-
 #ifdef _WIN32
     // Write the 'classpath' option (mandatory for java controllers)
     const size_t classpath_size = snprintf(NULL, 0, "\"%s%s%s\"", lib_controller, jar_path, short_controller_path) + 1;
@@ -774,6 +771,10 @@ int main(int argc, char **argv) {
     const size_t java_library_size = snprintf(NULL, 0, "\"-Djava.library.path=%s\"", lib_controller) + 1;
     char *java_library = malloc(java_library_size);
     sprintf(java_library, "\"-Djava.library.path=%s\"", lib_controller);
+
+    controller_name[strlen(controller_name) - strlen(controller_extension)] = '\0';
+    const char *const new_argv[] = {"java", "-classpath", classpath, java_library, controller_name + 1, NULL};
+    _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
 #else
     // Write the 'classpath' option (mandatory for java controllers)
     const size_t classpath_size = snprintf(NULL, 0, "%s%s%s", lib_controller, jar_path, short_controller_path) + 1;
@@ -784,13 +785,8 @@ int main(int argc, char **argv) {
     const size_t java_library_size = snprintf(NULL, 0, "-Djava.library.path=%s", lib_controller) + 1;
     char *java_library = malloc(java_library_size);
     sprintf(java_library, "-Djava.library.path=%s", lib_controller);
-#endif
 
     controller_name[strlen(controller_name) - strlen(controller_extension)] = '\0';
-#ifdef _WIN32
-    const char *const new_argv[] = {"java", "-classpath", classpath, java_library, controller_name + 1, NULL};
-    _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
-#else
     char *new_argv[] = {"java", "-classpath", classpath, java_library, controller_name + 1, NULL};
     execvp(new_argv[0], new_argv);
 #endif
