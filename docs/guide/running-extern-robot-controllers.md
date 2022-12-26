@@ -44,7 +44,7 @@ The following command line should be used to start a controller:
 %tab "Windows"
 
 ```bash
-"%WEBOTS_HOME%\msys64\mingw64\bin\webots-controller.exe" [options] [path\to\controller\file]
+"%WEBOTS_HOME%\msys64\mingw64\bin\webots-controller.exe" [options] "path\to\controller\file"
 ```
 
 %tab-end
@@ -52,7 +52,7 @@ The following command line should be used to start a controller:
 %tab "Linux"
 
 ```bash
-$WEBOTS_HOME/webots-controller [options] [path/to/controller/file]
+$WEBOTS_HOME/webots-controller [options] path/to/controller/file
 ```
 
 %tab-end
@@ -60,7 +60,7 @@ $WEBOTS_HOME/webots-controller [options] [path/to/controller/file]
 %tab "macOS"
 
 ```bash
-$WEBOTS_HOME/Contents/webots-controller [options] [path/to/controller/file]
+$WEBOTS_HOME/Contents/webots-controller [options] path/to/controller/file
 ```
 
 %tab-end
