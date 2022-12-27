@@ -33,6 +33,7 @@
 
 #define MAX_LINE_BUFFER_SIZE 2048
 
+// Global variables
 char *WEBOTS_HOME;
 char *controller;
 char *controller_path;
@@ -49,6 +50,7 @@ char *webots_project;
 char *webots_controller_name;
 char *webots_version;
 
+// Removes comments and trailing whitespace from a string.
 void remove_comment(char *string) {
   const char *comment = strchr(string, ';');
   if (comment) {
@@ -61,6 +63,7 @@ void remove_comment(char *string) {
   string[strlen(string)] = '\0';
 }
 
+// Replaces all occurrences of a character in a string with a different character.
 void replace_char(char *string, char occurence, char replace) {
   char *current_pos = strchr(string, occurence);
   while (current_pos) {
@@ -69,6 +72,7 @@ void replace_char(char *string, char occurence, char replace) {
   }
 }
 
+// Removes all occurrences of a character from a string.
 void remove_char(char *string, char occurence) {
   char *removed = string;
   do {
@@ -78,6 +82,7 @@ void remove_char(char *string, char occurence) {
   } while ((*string++ = *removed++));
 }
 
+// Replaces all occurrences of a substring in a string with a different string.
 void replace_substring(char **string, const char *substring, const char *replace) {
   char *tmp = *string;
   const size_t substring_size = strlen(substring);
@@ -129,6 +134,7 @@ void replace_substring(char **string, const char *substring, const char *replace
   free(buffer);
 }
 
+// Inserts a string into another string at a specified index.
 void insert_string(char **string, char *insert, int index) {
   const size_t new_size = strlen(*string) + strlen(insert) + 1;
   char *tmp = strdup(*string);
@@ -141,6 +147,7 @@ void insert_string(char **string, char *insert, int index) {
   free(tmp);
 }
 
+// Gets and stores the current working directory path.
 void get_current_path() {
   if (!current_path) {
     current_path = malloc(512);
@@ -153,6 +160,7 @@ void get_current_path() {
   }
 }
 
+// Gets and stores the path to the Webots installation folder from the WEBOTS_HOME environment variable.
 bool get_webots_home() {
   if (!getenv("WEBOTS_HOME")) {
     printf("Set the path to your webots installation folder in WEBOTS_HOME environment variable.\n");
@@ -163,6 +171,7 @@ bool get_webots_home() {
   return true;
 }
 
+// Gets and stores the path to the latest installed version of Matlab on the system.
 bool get_matlab_path() {
   struct dirent *directory_entry;  // Pointer for directory entry
 #ifdef __APPLE__
@@ -218,6 +227,7 @@ bool get_matlab_path() {
   return true;
 }
 
+// Prints the command line options and their descriptions for the Webots controller launcher.
 void print_options() {
   printf(
     "Usage: webots-controller [options] [controller_file]\n\nOptions:\n\n  --help\n    Display this help message and exit.\n\n "
@@ -237,6 +247,7 @@ void print_options() {
     "--stderr-redirect\n    Redirect the stderr of the controller to the Webots console.\n\n");
 }
 
+// Parses the command line options for the Webots controller launcher and sets WEBOTS_CONTROLLER_URL envrionment variable.
 bool parse_options(int nb_arguments, char **arguments) {
   if (nb_arguments == 1) {
     printf("No controller file provided. Please provide an existing controller file as argument.\n");
@@ -350,6 +361,7 @@ bool parse_options(int nb_arguments, char **arguments) {
   return true;
 }
 
+// Set environment variables for java and executable controllers execution
 void exec_java_config_environment() {
 #ifdef _WIN32
   const size_t new_path_size =
@@ -376,6 +388,7 @@ void exec_java_config_environment() {
 #endif
 }
 
+// Set environment variables for python controllers execution
 void python_config_environment() {
 #ifdef _WIN32
   const char *python_lib_controller = "\\lib\\controller\\python;";
@@ -393,9 +406,15 @@ void python_config_environment() {
   char *python_ioencoding = "PYTHONIOENCODING=UTF-8";
   putenv(python_ioencoding);
 
-  // TODO: on windows add the bin/cpp to Path for e-puck
+// On windows add libCppController to Path (useful for e-puck controllers)
+#ifdef _WIN32
+  const size_t new_path_size = snprintf(NULL, 0, "Path=%s\\msys64\\mingw64\\bin\\cpp;%s", WEBOTS_HOME, getenv("Path")) + 1;
+  new_path = malloc(new_path_size);
+  sprintf(new_path, "Path=%s\\msys64\\mingw64\\bin\\cpp;%s", WEBOTS_HOME, getenv("Path"));
+  putenv(new_path);
 }
 
+// Set environment variables for MATLAB controllers execution (WEBOTS_PROJECT, WEBOTS_CONTROLLER_NAME, WEBOTS_VERSION)
 void matlab_config_environment() {
   // Add project folder to WEBOTS_PROJECT env variable
   const size_t controller_folder_size = strlen(strstr(controller, "controllers")) + 1;
@@ -452,6 +471,7 @@ void matlab_config_environment() {
   putenv(webots_version);
 }
 
+// Set environment variables for MATLAB controllers execution (WEBOTS_PROJECT, WEBOTS_CONTROLLER_NAME, WEBOTS_VERSION)
 void parse_environment_variables(char **string) {
   char *tmp = *string;
   while ((tmp = strstr(tmp, "$("))) {
@@ -477,6 +497,7 @@ void parse_environment_variables(char **string) {
   }
 }
 
+// Convert relative path to absolute and replaces environment variables with their content
 void format_ini_paths(char **string) {
   // Compute absolute path to ini file
   get_current_path();
@@ -519,6 +540,7 @@ void format_ini_paths(char **string) {
   free(tmp);
 }
 
+// Parse the runtime.ini file line by line
 void parse_runtime_ini() {
   // Compute path to controller file
 #ifdef _WIN32
@@ -543,7 +565,7 @@ void parse_runtime_ini() {
   }
   free(ini_file_name);
 
-  // Read the file line by line
+  // Read and process the runtime.ini file line by line
   char *line_buffer = malloc(MAX_LINE_BUFFER_SIZE);
   enum sections { Path, Simple, Windows, macOS, Linux } section;
   while (fgets(line_buffer, MAX_LINE_BUFFER_SIZE, runtime_ini)) {
@@ -658,6 +680,7 @@ int main(int argc, char **argv) {
     exit(1);
   }
 
+  // Check if controller file is a directory
   struct stat path;
   stat(controller, &path);
   if (S_ISDIR(path.st_mode)) {
@@ -665,7 +688,7 @@ int main(int argc, char **argv) {
     exit(1);
   };
 
-  // Parse possible runtime.ini file
+  // Parse eventual runtime.ini file
   parse_runtime_ini();
 
   // Get extension from controller name (robust against relative paths)
@@ -709,11 +732,11 @@ int main(int argc, char **argv) {
     execvp(new_argv[0], new_argv);
 #endif
   }
-  // Matlab controller
+  // MATLAB controller
   else if (strcmp(controller_extension, ".m") == 0) {
     matlab_config_environment();
 
-    // If no Matlab installation path was given in command line, check in default installation folder
+    // If no MATLAB installation path was given in command line, check in default installation folder
     if (!matlab_path) {
       const bool default_matlab_install = get_matlab_path();
       if (!default_matlab_install)
