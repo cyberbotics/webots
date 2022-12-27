@@ -427,8 +427,10 @@ void matlab_config_environment() {
   // Get Webots version (in txt file) and put it in WEBOTS_VERSION environment variable
 #ifdef _WIN32
   const char *version_txt_path = "\\resources\\version.txt";
-#else
+#elif defined __linux__
   const char *version_txt_path = "/resources/version.txt";
+#elif defined __APPLE__
+  const char *version_txt_path = "/Contents/Resources/version.txt";
 #endif
   const size_t version_file_name_size = snprintf(NULL, 0, "%s%s", WEBOTS_HOME, version_txt_path) + 1;
   char *version_file_name = malloc(version_file_name_size);

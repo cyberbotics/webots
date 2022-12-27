@@ -23,8 +23,9 @@ Moreover, starting external controllers remotely allows to run Webots on a diffe
 ## Launcher
 
 Webots is distributed with a controller launcher.
-It must be used to start any compatible controller file listed below:
-* **C and C++ binaries**: no extension on Linux/macOS and `.exe` on Windows.
+It must be used to start any controller file.
+Compatible file types are listed below:
+* **Executables**: no extension on Linux/macOS and `.exe` on Windows.
 * **Python**: `.py`.
 * **Java**: `.jar` and `.class`.
 * **Matlab**: `.m`.
@@ -60,7 +61,7 @@ $WEBOTS_HOME/webots-controller [options] path/to/controller/file
 %tab "macOS"
 
 ```bash
-$WEBOTS_HOME/Contents/webots-controller [options] path/to/controller/file
+$WEBOTS_HOME/Contents/MacOS/webots-controller [options] path/to/controller/file
 ```
 
 %tab-end
@@ -175,7 +176,7 @@ It is also possible to give a custom MATLAB installation path to the launcher, b
 2. If the simulation was running, stop it and revert it.
 3. Then, open the Nao node in the scene tree and change its controller field from `nao_demo` to `<extern>`.
 4. Save the simulation, restart it and run it.
-5. Open a terminal and go to the "WEBOTS\_HOME/projects/robots/softbank/nao/controllers/nao_demo" folder. Note that other controllers could be started from anywhere, but in the example of the NAO, motion files are given relative to this folder. Executing the controller from another location would lead to an error in finding these files.
+5. Open a terminal and go to the "WEBOTS\_HOME/projects/robots/softbank/nao/controllers/nao_demo" folder. Note that other controllers could be started from anywhere, but in the example of the Nao, motion files are given relative to this folder. Executing the controller from another location would lead to an error in finding these files.
 6. Start the `nao_demo` controller with:
 
   ```bash
