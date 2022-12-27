@@ -406,12 +406,13 @@ void python_config_environment() {
   char *python_ioencoding = "PYTHONIOENCODING=UTF-8";
   putenv(python_ioencoding);
 
-// On windows add libCppController to Path (useful for e-puck controllers)
+// On Windows add libCppController to Path (useful for e-puck controllers)
 #ifdef _WIN32
   const size_t new_path_size = snprintf(NULL, 0, "Path=%s\\msys64\\mingw64\\bin\\cpp;%s", WEBOTS_HOME, getenv("Path")) + 1;
   new_path = malloc(new_path_size);
   sprintf(new_path, "Path=%s\\msys64\\mingw64\\bin\\cpp;%s", WEBOTS_HOME, getenv("Path"));
   putenv(new_path);
+#endif
 }
 
 // Set environment variables for MATLAB controllers execution (WEBOTS_PROJECT, WEBOTS_CONTROLLER_NAME, WEBOTS_VERSION)
