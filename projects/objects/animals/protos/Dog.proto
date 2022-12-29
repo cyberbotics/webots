@@ -139,5 +139,8 @@ PROTO Dog [
         }
       ]
     }
+    recognitionColors [
+      0.937 0.921 0.862
+    ]
   }
 }

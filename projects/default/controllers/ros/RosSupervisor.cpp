@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -72,7 +72,7 @@ RosSupervisor::RosSupervisor(Ros *ros, Supervisor *supervisor) {
   mNodeGetContactPointsServer = mRos->nodeHandle()->advertiseService("supervisor/node/get_contact_points",
                                                                      &RosSupervisor::nodeGetContactPointsCallback, this);
   mNodeEnableContactPointsTrackingServer = mRos->nodeHandle()->advertiseService(
-    "supervisor/node/enable_contact_point_tracking", &RosSupervisor::nodeEnableContactPointsTrackingCallback, this);
+    "supervisor/node/enable_contact_points_tracking", &RosSupervisor::nodeEnableContactPointsTrackingCallback, this);
   mNodeDisableContactPointsTrackingServer = mRos->nodeHandle()->advertiseService(
     "supervisor/node/disable_contact_points_tracking", &RosSupervisor::nodeDisableContactPointsTrackingCallback, this);
 
@@ -660,7 +660,7 @@ bool RosSupervisor::nodeDisableContactPointsTrackingCallback(webots_ros::node_di
   if (!req.node)
     return false;
   Node *node = reinterpret_cast<Node *>(req.node);
-  node->disableContactPointsTracking(req.include_descendants);
+  node->disableContactPointsTracking();
   res.success = true;
   return true;
 }
