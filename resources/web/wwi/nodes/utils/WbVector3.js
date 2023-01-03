@@ -25,6 +25,10 @@ export default class WbVector3 {
       this.x * vector.y - this.y * vector.x);
   }
 
+  distance2(v) {
+    return (this.sub(v)).length2();
+  }
+
   div(number) {
     return new WbVector3(this.x / number, this.y / number, this.z / number);
   }
@@ -63,7 +67,7 @@ export default class WbVector3 {
   }
 
   mulByVector(vector) {
-    return new WbVector3(this.x * vector.x, this.y * vector.y, this.z * vector.z)
+    return new WbVector3(this.x * vector.x, this.y * vector.y, this.z * vector.z);
   }
 
   normalize() {

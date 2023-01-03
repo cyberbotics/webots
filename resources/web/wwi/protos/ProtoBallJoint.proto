@@ -1,6 +1,6 @@
 #VRML_SIM R2023b utf8
 
-PROTO ProtoHinge2 [
+PROTO ProtoBallJoint [
 ]
 {
 Robot {

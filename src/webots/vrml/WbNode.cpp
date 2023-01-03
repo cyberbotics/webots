@@ -795,8 +795,11 @@ void WbNode::notifyFieldChanged() {
             continue;
           assert(parent);
           setGlobalParentNode(parent);
+          const bool isTemplateRegenerationRequired =
+            WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(subField, subField->parentNode());
           subField->copyValueFrom(field);
-          subField->defHasChanged();
+          if (!isTemplateRegenerationRequired)
+            subField->defHasChanged();
         }
 
         setGlobalParentNode(NULL);

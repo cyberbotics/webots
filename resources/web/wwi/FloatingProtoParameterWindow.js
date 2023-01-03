@@ -1,22 +1,40 @@
 import FloatingWindow from './FloatingWindow.js';
 import {VRML} from './protoVisualizer/vrml_type.js';
+import WbAccelerometer from './nodes/WbAccelerometer.js';
+import WbAltimeter from './nodes/WbAltimeter.js';
 import WbBallJoint from './nodes/WbBallJoint.js';
 import WbCamera from './nodes/WbCamera.js';
+import WbCharger from './nodes/WbCharger.js';
+import WbCompass from './nodes/WbCompass.js';
 import WbConnector from './nodes/WbConnector.js';
+import WbDevice from './nodes/WbDevice.js';
+import WbDisplay from './nodes/WbDisplay.js';
 import WbDistanceSensor from './nodes/WbDistanceSensor.js';
+import WbEmitter from './nodes/WbEmitter.js';
+import WbGps from './nodes/WbGps.js';
+import WbGyro from './nodes/WbGyro.js';
 import WbHingeJoint from './nodes/WbHingeJoint.js';
 import WbHinge2Joint from './nodes/WbHinge2Joint.js';
+import WbInertialUnit from './nodes/WbInertialUnit.js';
+import WbJoint from './nodes/WbJoint.js';
+import WbLed from './nodes/WbLed.js';
 import WbLidar from './nodes/WbLidar.js';
+import WbLinearMotor from './nodes/WbLinearMotor.js';
 import WbLightSensor from './nodes/WbLightSensor.js';
+import WbMotor from './nodes/WbMotor.js';
 import WbPen from './nodes/WbPen.js';
 import WbRadar from './nodes/WbRadar.js';
-import WbJoint from './nodes/WbJoint.js';
+import WbReceiver from './nodes/WbReceiver.js';
+import WbRotationalMotor from './nodes/WbRotationalMotor.js';
+import WbSpeaker from './nodes/WbSpeaker.js';
 import WbWorld from './nodes/WbWorld.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
+import WbTouchSensor from './nodes/WbTouchSensor.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
+import WbBrake from './nodes/WbBrake.js';
+import WbPositionSensor from './nodes/WbPositionSensor.js';
 import NodeSelectorWindow from './NodeSelectorWindow.js';
 import { SFNode } from './protoVisualizer/Vrml.js';
-
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #mfId;
   #protoManager;
@@ -65,13 +83,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     this.tab1 = document.createElement('button');
     this.tab1.className = 'proto-tab tab1';
-    this.tab1.innerHTML = 'Joints';
+    this.tab1.innerHTML = 'Joint devices';
     this.tab1.onclick = () => this.switchTab(1);
     infoTabsBar.appendChild(this.tab1);
 
     this.tab2 = document.createElement('button');
     this.tab2.className = 'proto-tab tab2';
-    this.tab2.innerHTML = 'Devices';
+    this.tab2.innerHTML = 'Other devices';
     this.tab2.onclick = () => this.switchTab(2);
     infoTabsBar.appendChild(this.tab2);
   }
@@ -912,6 +930,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   populateDeviceTab() {
     this.devices.innerHTML = '';
+    this.devicesList = this.#initDeviceList();
     const nodes = WbWorld.instance.nodes;
     const keys = nodes.keys();
     let numberOfDevices = 0;
@@ -919,9 +938,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     for (const key of keys) {
       const device = nodes.get(key);
       // TODO once all the optional rendering are implemented, replace this list by device instanceof WbDevice
-      if (device instanceof WbCamera || device instanceof WbRangeFinder || device instanceof WbLidar ||
-        device instanceof WbRadar || device instanceof WbLightSensor || device instanceof WbPen ||
-        device instanceof WbDistanceSensor || device instanceof WbConnector) {
+      if (device instanceof WbDevice) {
         numberOfDevices++;
 
         let div = document.createElement('div');
@@ -933,14 +950,115 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         nameDiv.innerHTML = this.#stringRemoveQuote(device.name);
         nameDiv.className = 'proto-device-name';
         div.appendChild(nameDiv);
-        this.devices.appendChild(div);
+
+        this.#sortDevice(device, div);
       }
     }
+
+    this.#appendDevices();
 
     if (numberOfDevices === 0) {
       const noDevice = document.createElement('h1');
       noDevice.innerHTML = 'No devices';
       this.devices.appendChild(noDevice);
+    }
+  }
+
+  #initDeviceList() {
+    const map = new Map();
+    map.set('Accelerometer', []);
+    map.set('Altimeter', []);
+    map.set('Camera', []);
+    map.set('Charger', []);
+    map.set('Compass', []);
+    map.set('Connector', []);
+    map.set('Display', []);
+    map.set('DistanceSensor', []);
+    map.set('Emitter', []);
+    map.set('Gps', []);
+    map.set('Gyro', []);
+    map.set('InertialUnit', []);
+    map.set('Led', []);
+    map.set('Lidar', []);
+    map.set('LightSensor', []);
+    map.set('Pen', []);
+    map.set('Radar', []);
+    map.set('Rangefinder', []);
+    map.set('Receiver', []);
+    map.set('Speaker', []);
+    map.set('TouchSensor', []);
+
+    return map;
+  }
+
+  #sortDevice(device, div) {
+    if (device instanceof WbAccelerometer)
+      this.devicesList.get('Accelerometer').push(div);
+    else if (device instanceof WbAltimeter)
+      this.devicesList.get('Altimeter').push(div);
+    else if (device instanceof WbCamera)
+      this.devicesList.get('Camera').push(div);
+    else if (device instanceof WbCharger)
+      this.devicesList.get('Charger').push(div);
+    else if (device instanceof WbCompass)
+      this.devicesList.get('Compass').push(div);
+    else if (device instanceof WbConnector)
+      this.devicesList.get('Connector').push(div);
+    else if (device instanceof WbDisplay)
+      this.devicesList.get('Display').push(div);
+    else if (device instanceof WbDistanceSensor)
+      this.devicesList.get('DistanceSensor').push(div);
+    else if (device instanceof WbEmitter)
+      this.devicesList.get('Emitter').push(div);
+    else if (device instanceof WbGps)
+      this.devicesList.get('Gps').push(div);
+    else if (device instanceof WbGyro)
+      this.devicesList.get('Gyro').push(div);
+    else if (device instanceof WbInertialUnit)
+      this.devicesList.get('InertialUnit').push(div);
+    else if (device instanceof WbLed)
+      this.devicesList.get('Led').push(div);
+    else if (device instanceof WbLidar)
+      this.devicesList.get('Lidar').push(div);
+    else if (device instanceof WbLightSensor)
+      this.devicesList.get('LightSensor').push(div);
+    else if (device instanceof WbPen)
+      this.devicesList.get('Pen').push(div);
+    else if (device instanceof WbRadar)
+      this.devicesList.get('Radar').push(div);
+    else if (device instanceof WbRangeFinder)
+      this.devicesList.get('Rangefinder').push(div);
+    else if (device instanceof WbReceiver)
+      this.devicesList.get('Receiver').push(div);
+    else if (device instanceof WbSpeaker)
+      this.devicesList.get('Speaker').push(div);
+    else if (device instanceof WbTouchSensor)
+      this.devicesList.get('TouchSensor').push(div);
+  }
+
+  #appendDevices() {
+    let first = true;
+    for (const key of this.devicesList.keys()) {
+      const values = this.devicesList.get(key);
+      if (values.length > 0) {
+        const titleContainer = document.createElement('div');
+        titleContainer.className = 'device-title-container';
+        if (first) {
+          first = false;
+          titleContainer.style.paddingTop = '10px';
+        }
+        let hr = document.createElement('hr');
+        titleContainer.appendChild(hr);
+        const title = document.createElement('div');
+        title.className = 'device-title';
+        title.innerHTML = key;
+        titleContainer.appendChild(title);
+        hr = document.createElement('hr');
+        titleContainer.appendChild(hr);
+        this.devices.appendChild(titleContainer);
+        for (const value of values)
+          this.devices.appendChild(value);
+      }
     }
   }
 
@@ -989,28 +1107,26 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         let div = document.createElement('div');
         div.className = 'proto-joint';
 
-        let nameDiv = document.createElement('div');
-
-        const jointName = joint.endPoint ? joint.endPoint.name : numberOfJoint;
+        const endPointName = joint.endPoint ? joint.endPoint.name : numberOfJoint;
+        let jointType;
         if (joint instanceof WbBallJoint)
-          nameDiv.innerHTML = 'BallJoint 1: ' + jointName;
+          jointType = 'BallJoint 1: ';
         else if (joint instanceof WbHinge2Joint)
-          nameDiv.innerHTML = 'Hinge2joint 1: ' + jointName;
+          jointType = 'Hinge2joint 1: ';
         else if (joint instanceof WbHingeJoint)
-          nameDiv.innerHTML = 'Hingejoint: ' + jointName;
+          jointType = 'Hingejoint: ';
         else
-          nameDiv.innerHTML = 'Sliderjoint: ' + jointName;
+          jointType = 'Sliderjoint: ';
 
-        nameDiv.className = 'proto-joint-name';
-        div.appendChild(nameDiv);
+        div.appendChild(this.#createJointInfo(jointType, endPointName, joint.device));
         const parameters = joint.jointParameters;
-        div.appendChild(this.#createSlider(parameters, _ => {
+        this.#createSlider(parameters, joint.device, div, _ => {
           if (parameters)
             parameters.position = _.target.value;
           else
             joint.position = _.target.value;
           this.#view.x3dScene.render();
-        }));
+        });
 
         this.joints.appendChild(div);
 
@@ -1018,49 +1134,46 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           div = document.createElement('div');
           div.className = 'proto-joint';
 
-          nameDiv = document.createElement('div');
-          nameDiv.innerHTML = 'BallJoint 2: ' + jointName;
-          nameDiv.className = 'proto-joint-name';
-          div.appendChild(nameDiv);
+          jointType = document.createElement('div');
+          jointType.innerHTML = 'BallJoint 2: ' + endPointName;
+          jointType.className = 'proto-joint-name';
+          div.appendChild(jointType);
           const parameters2 = joint.jointParameters2;
-          div.appendChild(this.#createSlider(parameters2, _ => {
+          this.#createSlider(parameters2, joint.device2, div, _ => {
             if (parameters2)
               parameters2.position = _.target.value;
             else
               joint.position2 = _.target.value;
             this.#view.x3dScene.render();
-          }));
+          });
           this.joints.appendChild(div);
 
-          nameDiv = document.createElement('div');
-          nameDiv.innerHTML = 'BallJoint 3: ' + jointName;
-          nameDiv.className = 'proto-joint-name';
-          div.appendChild(nameDiv);
+          jointType = document.createElement('div');
+          jointType.innerHTML = 'BallJoint 3: ' + endPointName;
+          jointType.className = 'proto-joint-name';
+          div.appendChild(jointType);
           const parameters3 = joint.jointParameters3;
-          div.appendChild(this.#createSlider(parameters3, _ => {
+          this.#createSlider(parameters3, joint.device3, div, _ => {
             if (parameters3)
               parameters3.position = _.target.value;
             else
               joint.position3 = _.target.value;
             this.#view.x3dScene.render();
-          }));
+          });
           this.joints.appendChild(div);
         } else if (joint instanceof WbHinge2Joint) {
           div = document.createElement('div');
           div.className = 'proto-joint';
 
-          nameDiv = document.createElement('div');
-          nameDiv.innerHTML = 'Hinge2joint 2: ' + jointName;
-          nameDiv.className = 'proto-joint-name';
-          div.appendChild(nameDiv);
+          div.appendChild(this.#createJointInfo('Hinge2joint 2: ', endPointName, joint.device2));
           const parameters2 = joint.jointParameters2;
-          div.appendChild(this.#createSlider(parameters2, _ => {
+          this.#createSlider(parameters2, joint.device2, div, _ => {
             if (parameters2)
               parameters2.position = _.target.value;
             else
               joint.position2 = _.target.value;
             this.#view.x3dScene.render();
-          }));
+          });
           this.joints.appendChild(div);
         }
       }
@@ -1073,7 +1186,94 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     }
   }
 
-  #createSlider(parameters, callback) {
+  #createJointInfo(jointType, endPointName, devices) {
+    const grid = document.createElement('div');
+    grid.className = 'joint-details-grid';
+
+    const jointTypeDiv = document.createElement('div');
+    jointTypeDiv.className = 'proto-joint-name';
+    jointTypeDiv.style.gridRow = '1 / 1';
+    jointTypeDiv.style.gridColumn = '2 / 2';
+    jointTypeDiv.innerHTML = jointType;
+    grid.appendChild(jointTypeDiv);
+
+    const endPointDiv = document.createElement('div');
+    endPointDiv.className = 'proto-joint-name';
+    endPointDiv.style.gridRow = '1 / 1';
+    endPointDiv.style.gridColumn = '3 / 3';
+    endPointDiv.innerHTML = this.#stringRemoveQuote(endPointName);
+    grid.appendChild(endPointDiv);
+
+    if (devices.length > 0) {
+      const open = document.createElement('button');
+      open.className = 'devices-button';
+      open.isHidden = true;
+      open.title = 'Show more information';
+      grid.appendChild(open);
+
+      for (let i = 0; i < devices.length; i++) {
+        const row = i + 2;
+        this.#createGridFiller(grid, row);
+
+        const deviceType = document.createElement('div');
+        if (devices[i] instanceof WbRotationalMotor)
+          deviceType.innerHTML = 'RotationalMotor: ';
+        else if (devices[i] instanceof WbLinearMotor)
+          deviceType.innerHTML = 'LinearMotor: ';
+        else if (devices[i] instanceof WbBrake)
+          deviceType.innerHTML = 'Brake: ';
+        else if (devices[i] instanceof WbPositionSensor)
+          deviceType.innerHTML = 'PositionSensor:';
+
+        deviceType.style.gridRow = row + ' / ' + row;
+        deviceType.style.column = '2 / 2';
+        deviceType.style.display = 'none';
+        grid.appendChild(deviceType);
+
+        const deviceName = document.createElement('div');
+        deviceName.innerHTML = this.#stringRemoveQuote(devices[i].deviceName);
+        deviceName.style.gridRow = row + ' / ' + row;
+        deviceName.style.column = '3 / 3';
+        deviceName.style.display = 'none';
+        grid.appendChild(deviceName);
+      }
+
+      open.onclick = () => {
+        const children = grid.childNodes;
+        if (open.isHidden) {
+          open.style.transform = 'rotate(90deg)';
+          open.isHidden = false;
+          open.title = 'Hide additional information';
+          for (const child of children) {
+            if (child.style.gridRow[0] > 1)
+              child.style.display = 'block';
+          }
+        } else {
+          open.style.transform = '';
+          open.isHidden = true;
+          open.title = 'Show more information';
+          for (const child of children) {
+            if (child.style.gridRow[0] > 1)
+              child.style.display = 'none';
+          }
+        }
+      };
+    } else
+      this.#createGridFiller(grid, 1);
+
+    return grid;
+  }
+
+  #createGridFiller(grid, row) {
+    const filler = document.createElement('div');
+    filler.className = 'joint-grid-filler';
+    filler.style.gridRow = row + ' / ' + row;
+    filler.style.gridColumn = '1 / 1';
+    grid.appendChild(filler);
+    return filler;
+  }
+
+  #createSlider(parameters, device, parent, callback) {
     const sliderElement = document.createElement('div');
     sliderElement.className = 'proto-slider-element';
 
@@ -1088,7 +1288,20 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const maxLabel = document.createElement('div');
     maxLabel.className = 'proto-joint-value-label';
 
-    if (typeof parameters !== 'undefined' && parameters.minStop !== parameters.maxStop) {
+    let motor;
+    for (let i = 0; i < device.length; i++) {
+      if (device[i] instanceof WbMotor) {
+        motor = device[i];
+        break;
+      }
+    }
+
+    if (typeof motor !== 'undefined' && motor.minPosition !== motor.maxPosition) {
+      minLabel.innerHTML = this.#decimalCount(motor.minPosition) > 2 ? motor.minPosition.toFixed(2) : motor.minPosition;
+      slider.min = motor.minPosition;
+      maxLabel.innerHTML = this.#decimalCount(motor.maxPosition) > 2 ? motor.maxPosition.toFixed(2) : motor.maxPosition;
+      slider.max = motor.maxPosition;
+    } else if (typeof parameters !== 'undefined' && parameters.minStop !== parameters.maxStop) {
       minLabel.innerHTML = this.#decimalCount(parameters.minStop) > 2 ? parameters.minStop.toFixed(2) : parameters.minStop;
       slider.min = parameters.minStop;
       maxLabel.innerHTML = this.#decimalCount(parameters.maxStop) > 2 ? parameters.maxStop.toFixed(2) : parameters.maxStop;
@@ -1110,8 +1323,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     sliderElement.appendChild(minLabel);
     sliderElement.appendChild(slider);
     sliderElement.appendChild(maxLabel);
-
-    return sliderElement;
+    parent.appendChild(sliderElement);
   }
 
   #decimalCount(number) {

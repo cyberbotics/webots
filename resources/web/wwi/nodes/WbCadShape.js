@@ -2,8 +2,10 @@ import WbBaseNode from './WbBaseNode.js';
 import WbImageTexture from './WbImageTexture.js';
 import WbPbrAppearance from './WbPbrAppearance.js';
 import WbWorld from './WbWorld.js';
-import {arrayXPointerFloat, arrayXPointerInt} from './utils/utils.js';
 import {getAnId} from './utils/id_provider.js';
+import {findUpperTransform} from './utils/node_utilities.js';
+import {arrayXPointerFloat, arrayXPointerInt} from './utils/utils.js';
+import WbBoundingSphere from './utils/WbBoundingSphere.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbVector4 from './utils/WbVector4.js';
@@ -14,12 +16,14 @@ import MeshLoader from '../MeshLoader.js';
 import ImageLoader from '../ImageLoader.js';
 
 export default class WbCadShape extends WbBaseNode {
-  #promises;
+  #boundingSphere;
   #ccw;
   #castShadows;
   #isCollada;
   #isPickable;
   #pbrAppearances;
+  #promises;
+  #upperTransformFirstTimeSearch;
   #url;
   #wrenMaterials;
   #wrenMeshes;
@@ -98,6 +102,15 @@ export default class WbCadShape extends WbBaseNode {
     }
 
     this.#updateUrl();
+  }
+
+  absoluteScale() {
+    const ut = this.#upperTransform();
+    return ut ? ut.absoluteScale() : new WbVector3(1.0, 1.0, 1.0);
+  }
+
+  boundingSphere() {
+    return this.#boundingSphere;
   }
 
   clone(customID) {
@@ -276,6 +289,9 @@ export default class WbCadShape extends WbBaseNode {
     Promise.all(this.#promises).then(() => {
       this.actualizeAppearance();
     });
+
+    this.#boundingSphere = new WbBoundingSphere(this);
+    this.#recomputeBoundingSphere();
   }
 
   actualizeAppearance() {
@@ -303,6 +319,26 @@ export default class WbCadShape extends WbBaseNode {
     this.#wrenMaterials = [];
     this.#wrenTransforms = [];
     this.#pbrAppearances = [];
+  }
+
+  #recomputeBoundingSphere() {
+    this.#boundingSphere.empty();
+
+    const scale = this.absoluteScale();
+    for (let i = 0; i < this.#wrenMeshes.length; i++) {
+      let sphere = [0, 0, 0, 0];
+      const spherePointer = arrayXPointerFloat(sphere);
+      _wr_static_mesh_get_bounding_sphere(this.#wrenMeshes[i], spherePointer);
+      sphere[0] = Module.getValue(spherePointer, 'float');
+      sphere[1] = Module.getValue(spherePointer + 4, 'float');
+      sphere[2] = Module.getValue(spherePointer + 8, 'float');
+      sphere[3] = Module.getValue(spherePointer + 12, 'float');
+
+      const center = new WbVector3(sphere[0], sphere[1], sphere[2]);
+      let radius = sphere[3];
+      radius = radius / Math.max(Math.max(scale.x, scale.y), scale.z);
+      this.#boundingSphere.set(center, radius);
+    }
   }
 
   #createPbrAppearance(material, materialIndex) {
@@ -451,5 +487,15 @@ export default class WbCadShape extends WbBaseNode {
           this.createWrenObjects();
       }
     });
+  }
+
+  #upperTransform() {
+    if (this.#upperTransformFirstTimeSearch) {
+      this.upperTransform = findUpperTransform(this);
+      if (this.wrenObjectsCreatedCalled)
+        this.#upperTransformFirstTimeSearch = false;
+    }
+
+    return this.upperTransform;
   }
 }

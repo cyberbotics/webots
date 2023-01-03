@@ -1239,16 +1239,74 @@ webots-view #devices-tab h1,
   text-align: center;
 }
 
+webots-view .device-title {
+  text-align: center;
+  font-size: 16px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+webots-view hr {
+  align-self: center;
+  background: white;
+  width: 50%;
+  height: 1px;
+  border:0;
+  margin: 0px
+}
+
+webots-view .device-title-container {
+  display: flex;
+  padding-top: 20px;
+}
+
+webots-view .devices-button {
+  background-image: url(../images/icons/arrow_left.svg);
+  width: 20px;
+  height: 20px;
+  padding: 0px;
+  border: 0px;
+  background-size: cover;
+  background-color: transparent;
+  grid-row: 1 / 1;
+  grid-column: 1 / 1;
+  align-self: center;
+}
+
+webots-view .devices-button:hover {
+  background-color: grey;
+  border: 1px solid grey;
+  border-radius: 2px;
+}
+
+webots-view .proto-joint {
+  padding-top: 10px;
+}
+
+webots-view .proto-joint .joint-details-grid {
+  display: grid;
+  padding-left: 20px;
+  grid-template-columns: max-content max-content max-content;
+  column-gap: 10px;
+}
+
 webots-view .proto-joint .proto-joint-name {
   color: white;
-  text-align: center;
+  text-align: left;
   word-wrap: break-word;
+  font-size: 14px;
+  align-self: center;
+}
+
+webots-view .proto-joint .joint-details-grid .joint-grid-filler {
+  width: 20px;
 }
 
 webots-view .proto-joint .proto-slider-element {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  padding-bottom: 10px;
 }
 
 webots-view .proto-joint .proto-joint-value-label {
@@ -1267,8 +1325,8 @@ webots-view .proto-device .proto-device-name {
   color: white;
   text-align: left;
   word-wrap: break-word;
-  padding: 10px 70px 10px 70px;
-  font-size: 20px;
+  padding: 10px 0px 10px 20px;
+  font-size: 14px;
 }
 
 webots-view .proto-device .proto-device-name:hover {

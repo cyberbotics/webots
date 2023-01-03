@@ -1,6 +1,6 @@
 import WbGeometry from './WbGeometry.js';
-
 import {resetIfNonPositive, resetIfNotInRangeWithIncludedBounds} from './utils/WbFieldChecker.js';
+import WbVector3 from './utils/WbVector3.js';
 
 export default class WbCone extends WbGeometry {
   #bottom;
@@ -86,6 +86,28 @@ export default class WbCone extends WbGeometry {
     _wr_static_mesh_delete(this._wrenMesh);
 
     super.delete();
+  }
+
+  recomputeBoundingSphere() {
+    const r = this.scaledBottomRadius();
+    const h = this.scaledHeight();
+    const halfHeight = h / 2.0;
+
+    if (!this.#side || h <= r) // consider it as disk
+      this._boundingSphere.set(new WbVector3(0, -halfHeight, 0), r);
+    else {
+      const newRadius = halfHeight + r * r / (2 * h);
+      this._boundingSphere.set(new WbVector3(0, halfHeight - newRadius, 0), newRadius);
+    }
+  }
+
+  scaledBottomRadius() {
+    const scale = this.absoluteScale();
+    return Math.abs(this.#bottomRadius * Math.max(scale.x, scale.z));
+  }
+
+  scaledHeight() {
+    return Math.abs(this.#height * this.absoluteScale().y);
   }
 
   #buildWrenMesh() {

@@ -1,6 +1,7 @@
 import WbGeometry from './WbGeometry.js';
 import {resetVector2IfNonPositive} from './utils/WbFieldChecker.js';
 import WbVector2 from './utils/WbVector2.js';
+import WbVector3 from './utils/WbVector3.js';
 
 export default class WbPlane extends WbGeometry {
   #size;
@@ -49,6 +50,16 @@ export default class WbPlane extends WbGeometry {
     super.delete();
 
     _wr_static_mesh_delete(this._wrenMesh);
+  }
+
+  recomputeBoundingSphere() {
+    this._boundingSphere.set(new WbVector3(), this.scaledSize().length() / 2);
+  }
+
+  scaledSize() {
+    const s1 = this.#size;
+    const s2 = this.absoluteScale();
+    return new WbVector2(Math.abs(s2.x * s1.x), Math.abs(s2.y * s1.y));
   }
 
   updateLineScale() {

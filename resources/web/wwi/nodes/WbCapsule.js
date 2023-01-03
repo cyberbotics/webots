@@ -1,5 +1,6 @@
 import WbGeometry from './WbGeometry.js';
 import {resetIfNonPositive, resetIfNotInRangeWithIncludedBounds} from './utils/WbFieldChecker.js';
+import WbVector3 from './utils/WbVector3.js';
 
 export default class WbCapsule extends WbGeometry {
   #bottom;
@@ -102,6 +103,40 @@ export default class WbCapsule extends WbGeometry {
     _wr_static_mesh_delete(this._wrenMesh);
   }
 
+  recomputeBoundingSphere() {
+    const halfHeight = this.scaledHeight() / 2;
+    const r = this.scaledRadius();
+
+    if (!this.#top && !this.#side && !this.#bottom) { // it is empty
+      this._boundingSphere.empty();
+      return;
+    }
+
+    if (this.#top + this.#side + this.#bottom === 1) { // only one is true
+      if (this.#top || this.#bottom)
+        this._boundingSphere.set(new WbVector3(0, 0, this.top ? halfHeight : -halfHeight), r);
+      else // side
+        this._boundingSphere.set(new WbVector3(), new WbVector3(r, 0, halfHeight).length());
+    } else if (this.#top !== this.#bottom) { // we have 'top and side' or 'side and bottom'
+      const maxZ = this.#top ? halfHeight + r : halfHeight;
+      const minZ = this.#bottom ? -halfHeight - r : -halfHeight;
+      const totalHeight = maxZ - minZ;
+      const newRadius = totalHeight / 2 + r * r / (2 * totalHeight);
+      const offsetZ = this.#top ? (maxZ - newRadius) : (minZ + newRadius);
+      this._boundingSphere.set(new WbVector3(0, 0, offsetZ), newRadius);
+    } else // complete capsule
+      this._boundingSphere.set(new WbVector3(), halfHeight + r);
+  }
+
+  scaledHeight() {
+    return Math.abs(this.#height * this.absoluteScale().z);
+  }
+
+  scaledRadius() {
+    const scale = this.absoluteScale();
+    return Math.abs(this.#radius * Math.max(scale.x, scale.y));
+  }
+
   updateLineScale() {
     if (!this._isAValidBoundingObject())
       return;
@@ -135,8 +170,8 @@ export default class WbCapsule extends WbGeometry {
     super.setPickable(this.isPickable);
 
     const createOutlineMesh = this.isInBoundingObject();
-    this._wrenMesh = _wr_static_mesh_capsule_new(this.#subdivision, this.#radius, this.#height, this.#side, this.#top, this.#bottom,
-      createOutlineMesh);
+    this._wrenMesh = _wr_static_mesh_capsule_new(this.#subdivision, this.#radius, this.#height, this.#side, this.#top,
+      this.#bottom, createOutlineMesh);
 
     _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
   }

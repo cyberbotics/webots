@@ -41,7 +41,7 @@ export default class WbHinge2Joint extends WbHingeJoint {
       return;
 
     this.#position2 = newPosition;
-    if (typeof this.jointParameters2 === 'undefined')
+    if (typeof this.#jointParameters2 === 'undefined')
       this._updatePosition();
   }
 

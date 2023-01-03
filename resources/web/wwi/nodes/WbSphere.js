@@ -1,5 +1,6 @@
 import WbGeometry from './WbGeometry.js';
 import {resetIfNotInRangeWithIncludedBounds, resetIfNonPositive} from './utils/WbFieldChecker.js';
+import WbVector3 from './utils/WbVector3.js';
 
 export default class WbSphere extends WbGeometry {
   #ico;
@@ -61,6 +62,15 @@ export default class WbSphere extends WbGeometry {
     super.delete();
 
     _wr_static_mesh_delete(this._wrenMesh);
+  }
+
+  recomputeBoundingSphere() {
+    this._boundingSphere.set(new WbVector3(), this.scaledRadius());
+  }
+
+  scaledRadius() {
+    const scale = this.absoluteScale();
+    return Math.abs(this.#radius * Math.max(Math.max(scale.x, scale.y), scale.z));
   }
 
   // Private functions

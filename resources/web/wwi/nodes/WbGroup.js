@@ -2,6 +2,7 @@ import WbBaseNode from './WbBaseNode.js';
 import WbCadShape from './WbCadShape.js';
 import WbLight from './WbLight.js';
 import WbWorld from './WbWorld.js';
+import WbBoundingSphere from './utils/WbBoundingSphere.js';
 import {getAnId} from './utils/id_provider.js';
 
 export default class WbGroup extends WbBaseNode {
@@ -22,6 +23,10 @@ export default class WbGroup extends WbBaseNode {
 
   set device(device) {
     this.#device = device;
+  }
+
+  boundingSphere() {
+    return this._boundingSphere;
   }
 
   clone(customID) {
@@ -113,6 +118,8 @@ export default class WbGroup extends WbBaseNode {
       child.postFinalize();
     });
 
+    this.recomputeBoundingSphere();
+
     if (this.isPropeller === true) {
       if (typeof this.children[1] !== 'undefined')
         this.currentHelix = this.children[1].id;
@@ -120,6 +127,18 @@ export default class WbGroup extends WbBaseNode {
         this.currentHelix = this.children[0].id;
       this.switchHelix(this.currentHelix, true);
     }
+  }
+
+  recomputeBoundingSphere() {
+    this._boundingSphere = new WbBoundingSphere(this);
+    this._boundingSphere.empty();
+
+    this.children.forEach(child => {
+      if (!child.isPostFinalizedCalled)
+        child.postFinalize();
+
+      this._boundingSphere.addSubBoundingSphere(child.boundingSphere());
+    });
   }
 
   switchHelix(id, force) {

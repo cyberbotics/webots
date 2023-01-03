@@ -2,7 +2,6 @@ import WbBaseNode from './WbBaseNode.js';
 import WbWorld from './WbWorld.js';
 import {resetMultipleColorIfInvalid} from './utils/WbFieldChecker.js';
 
-// This class is used to retrieve the type of device
 export default class WbColor extends WbBaseNode {
   #color;
   constructor(id, color) {
