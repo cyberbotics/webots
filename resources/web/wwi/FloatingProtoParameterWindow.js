@@ -35,6 +35,7 @@ import WbBrake from './nodes/WbBrake.js';
 import WbPositionSensor from './nodes/WbPositionSensor.js';
 import NodeSelectorWindow from './NodeSelectorWindow.js';
 import { SFNode } from './protoVisualizer/Vrml.js';
+
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #mfId;
   #protoManager;
@@ -750,6 +751,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       if (parameter.value.value === null)
         return;
 
+      console.log('CONFIG', parameter.value.value)
       this.proto = parameter.value.value;
       this.populateProtoParameterWindow();
     };

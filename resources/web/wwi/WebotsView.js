@@ -397,7 +397,7 @@ export default class WebotsView extends HTMLElement {
 
         this.resize();
         this.toolbar.protoParameterWindowInitializeSizeAndPosition();
-        const topProtoNode = WbWorld.instance.sceneTree[WbWorld.instance.sceneTree.length - 1];
+        const topProtoNode = WbWorld.instance.root.children[WbWorld.instance.root.children.length - 1];
         WbWorld.instance.viewpoint.moveViewpointToObject(topProtoNode);
         WbWorld.instance.viewpoint.defaultPosition = WbWorld.instance.viewpoint.position;
         this._view.x3dScene.render();

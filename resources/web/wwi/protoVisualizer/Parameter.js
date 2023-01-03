@@ -19,6 +19,7 @@ export default class Parameter {
     this.value = value;
     this.isTemplateRegenerator = isTemplateRegenerator;
     this.#parameterLinks = []; // list of other parameters to notify whenever this instance changes
+    //this.clones = [];
   }
 
   get value() {
@@ -81,9 +82,11 @@ export default class Parameter {
 
   // TODO: find better approach rather than propagating the view to subsequent parameters
   setValueFromJavaScript(view, v) {
+    console.log('CONS', this)
     // notify linked parameters of the change
-    // console.log(this.name, ' has links: ', this.parameterLinks);
+    console.log(this.name, ' has links: ', this.parameterLinks);
     for (const link of this.parameterLinks) {
+      console.log('NOTIFYING LINK', link.name, 'TO SET VALUE', v)
       const newValue = (v !== null && v instanceof Node) ? v.clone() : v;
       // console.log(this.name + ' change notifies ' + link.name);
       link.setValueFromJavaScript(view, newValue);
@@ -98,21 +101,62 @@ export default class Parameter {
       if (!this.node.isProto)
         throw new Error('Attempting to regenerate a base node.');
 
-      // note: only base-nodes write to x3d, so to know the ID of the node we need to delete, we need to navigate through the
-      // value of the proto (or multiple times if it's a derived PROTO)
-      //view.x3dScene.processServerMessage(`delete: -20`);
-      const id = this.node.getBaseNode().id;
-      const currentNode = WbWorld.instance.nodes.get(id);
-      view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
-      console.log('>>>', this.name, 'node', this.node.name, this.node.id, 'basenode', this.node.getBaseNode().name, this.node.getBaseNode().id);
+
+      //if (this.#value.value !== null && this.node.parameters.has(this.name)) {
+      //  // delete existing node
+      //  const baseNode = this.node.getBaseNode();
+      //  console.log('TO DEL', baseNode)
+      //  console.log('request:', `delete: ${baseNode.id.replace('n', '')}`);
+      //  view.x3dScene.processServerMessage(`delete: ${baseNode.id.replace('n', '')}`);
+      //}
+
+      const tolist = this.node.getBaseNode().to;
+      const parentList = []
+      for (const item of tolist) {
+        const node = WbWorld.instance.nodes.get(item.id);
+        if (typeof node !== 'undefined') {
+          console.log('>>>>> ', item.id, ' is a node, request deletion');
+          view.x3dScene.processServerMessage(`delete: ${item.id.replace('n', '')}`);
+          console.log('>>>>>> adding parent:', node.parent)
+          parentList.push(node.parent)
+        }
+      }
 
       // regenerate and parse the body of the associated node
       this.node.parseBody(true);
 
-      const x3d = new XMLSerializer().serializeToString(this.node.toX3d());
+      console.log('####', Node.cProtoBaseNodeLinks, parentList)
+
+      let j = 0;
+      for (let i = 0; i < tolist.length; ++i) {
+        if (Node.cProtoBaseNodeLinks.has(tolist[i].id)) {
+          console.log('ADDING', tolist[i].id, 'to', parentList[j])
+          const protoNode = Node.cProtoBaseNodeLinks
+          const x3d = new XMLSerializer().serializeToString(Node.cProtoBaseNodeLinks.get(tolist[i].id).toX3d());
+          console.log('>>>>>>>>>', x3d)
+          view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentList[j++].replace('n', ''));
+        }
+      }
+
       //console.log('in parent ', currentNode.parent, ' insert:', x3d);
-      view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', currentNode.parent.replace('n', ''));
-      //view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', -19);
+      //view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', currentNode.parent.replace('n', ''));
+
+      return;
+      // note: only base-nodes write to x3d, so to know the ID of the node we need to delete, we need to navigate through the
+      // value of the proto (or multiple times if it's a derived PROTO)
+      //view.x3dScene.processServerMessage(`delete: -20`);
+//      const id = this.node.getBaseNode().id;
+//      const currentNode = WbWorld.instance.nodes.get(id);
+//      view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
+//      console.log('>>>', this.name, 'node', this.node.name, this.node.id, 'basenode', this.node.getBaseNode().name, this.node.getBaseNode().id);
+//
+//      // regenerate and parse the body of the associated node
+//      this.node.parseBody(true);
+//
+//      const x3d = new XMLSerializer().serializeToString(this.node.toX3d());
+//      //console.log('in parent ', currentNode.parent, ' insert:', x3d);
+//      view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', currentNode.parent.replace('n', ''));
+//      //view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', -19);
 
       if (typeof this.onChange === 'function')
         this.onChange();
@@ -131,8 +175,9 @@ export default class Parameter {
           const p = baseNode.getParameterByName(this.name);
           const id = p.value.value.getBaseNode().id;
 
-          view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
+          // console.log('param', p, 'value', p.value.value)
           console.log('request:', `delete: ${id.replace('n', '')}`);
+          view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
         }
 
         // update value on the structure side
@@ -172,6 +217,10 @@ export default class Parameter {
   clone() {
     const copy = new Parameter(this.node, this.name, this.type, this.defaultValue.clone(), this.value.clone(),
       this.isTemplateRegenerator);
+
+    //copy.defaultValue.parameterRef = 'ERG';
+    copy.value.parameterRef = 'ERG';
+    //copy.clones = this.clones.slice();
     return copy;
   }
 }

@@ -4,13 +4,14 @@ import {getAnId} from '../nodes/utils/id_provider.js';
 import TemplateEngine from './TemplateEngine.js';
 import Tokenizer from './Tokenizer.js';
 import {VRML} from './vrml_type.js';
-import {vrmlFactory} from './Vrml.js';
+import {SFNode, vrmlFactory} from './Vrml.js';
 import {FieldModel} from './FieldModel.js';
 import {Parameter} from './Parameter.js';
 
 export default class Node {
   static cProtoModels = new Map();
   static cBaseModels = new Map();
+  static cProtoBaseNodeLinks = new Map();
 
   constructor(url, protoText, isRoot = false) {
     // IMPORTANT! When adding new member variables of type Map, modify the .clone method so that it creates a copy of it
@@ -27,6 +28,8 @@ export default class Node {
     this.parameters = new Map();
     this.externProto = new Map();
     this.def = new Map();
+    this.from = [];
+    this.to = [];
 
     if (!this.isProto) {
       // create parameters from the pre-defined FieldModel
@@ -131,7 +134,13 @@ export default class Node {
     if (typeof this.baseType !== 'undefined')
       copy.baseType = this.baseType.clone();
 
+    //copy.parameterRef = 'XYZ';
+    copy.from = this.from.splice();
+    copy.from.push(this)
+    this.to.push(copy)
+
     copy.id = getAnId();
+    console.log('>>>> CLONED ', this.name , this.id, ' TO ', copy.id)
     copy.parameters = new Map();
     for (const [parameterName, parameter] of this.parameters) {
       if (typeof parameter !== 'undefined') {
@@ -180,6 +189,11 @@ export default class Node {
         const defaultValue = vrmlFactory(parameterType, headTokenizer);
         const value = defaultValue.clone();
         const parameter = new Parameter(this, parameterName, parameterType, defaultValue, value, isRegenerator);
+        if (value instanceof SFNode) {
+          console.log('CREATED NODE AS PARAMETER, SETTING REF', (value.value !== null ? value.value.name : 'null'), 'TO', parameter)
+          //value.parameterRef = 'ASD';
+          //defaultValue.parameterRef = 'ASD';
+        }
         // console.log(parameterName + ' has parent ' + this.name);
         this.parameters.set(parameterName, parameter);
       }
@@ -224,8 +238,10 @@ export default class Node {
               throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
 
             const exposedParameter = tokenizer.proto.parameters.get(alias);
-            parameter.value = exposedParameter.value; //exposedParameter.value.clone();
+            parameter.value = exposedParameter.value.clone(); //exposedParameter.value.clone();
             exposedParameter.insertLink(parameter);
+            //exposedParameter.clones.push(parameter);
+            //parameter.clones.push(exposedParameter);
           } else
             parameter.value.setValueFromTokenizer(tokenizer, this);
         }
@@ -241,12 +257,19 @@ export default class Node {
     // console.log('ENCODE NODE ' + this.name + ', isUse? ', isUse, ' parameterReference ?', parameterReference);
     // if this node has a value (i.e. this.baseType is defined) then it means we have not yet reached the bottom as only
     // base-nodes should write x3d. If it has a value, then it means the current node is a derived PROTO.
-    if (typeof this.baseType !== 'undefined')
+    if (typeof this.baseType !== 'undefined') {
+      //if (Array.from(Node.cProtoBaseNodeLinks.values()).includes(this.id)) {
+      //  const key = [...Node.cProtoBaseNodeLinks].find(([k, v]) => v === this.id)[0];
+      //  Node.cProtoBaseNodeLinks.set(key, this.baseType.id);
+      //} else
+      Node.cProtoBaseNodeLinks.set(this.baseType.id, this);
+
       return this.baseType.toX3d();
+    }
 
     const nodeElement = this.xml.createElement(this.name);
     if (isUse) {
-      console.log('is USE! Will reference id: ' + this.id);
+      // console.log('is USE! Will reference id: ' + this.id);
       nodeElement.setAttribute('USE', this.id);
       // TODO: needed here as well or sufficient in vrml.js?
       if (['Shape', 'Group', 'Transform', 'Solid', 'Robot'].includes(this.name)) {
@@ -258,9 +281,9 @@ export default class Node {
         nodeElement.setAttribute('role', parameterReference); // identifies which device slot the node belongs to
     } else {
       nodeElement.setAttribute('id', this.id);
-      console.log('ENCODE ' + this.name, ', id: ', this.id)
+      // console.log('ENCODE ' + this.name, ', id: ', this.id)
       for (const [parameterName, parameter] of this.parameters) {
-        console.log('  ENCODE PARAMETER ' + parameterName + ', is default? ', parameter.isDefault());
+        // console.log('  ENCODE PARAMETER ' + parameterName + ', is default? ', parameter.isDefault());
         if (typeof parameter.value === 'undefined') // note: SFNode can be null, not undefined
           throw new Error('All parameters should be defined, ' + parameterName + ' is not.');
 
@@ -376,7 +399,8 @@ export default class Node {
       const url = tokenizer.proto.externProto.get(nodeName);
       if (!Node.cProtoModels.has(url))
         throw new Error('Model of PROTO ' + nodeName + ' not available. Was it declared as EXTERNPROTO?');
-
+      else
+        console.log('FOUND MODEL FOR ' + nodeName + ' is ID: ', Node.cProtoModels.get(url).id)
       node = Node.cProtoModels.get(url).clone();
     }
 
