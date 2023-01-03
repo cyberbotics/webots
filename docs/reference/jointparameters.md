@@ -92,7 +92,7 @@ If the `springConstant` is zero (the default), no spring torque/force will be ap
 If the `springConstant` is greater than zero, then a spring force will be computed and applied to the joint in addition to the other forces (i.e., motor force, damping force).
 In case of a linear joint it is expressed in *N/m* and the spring force is calculated according to Hooke's law: *F = -Kx*, where *K* is the `springConstant` and *x* is the current joint position as represented by the `position` field.
 Therefore, the spring force is computed so as to be proportional to the current joint position, and to move the joint back to its initial position.
-Similarly, in case of a rotational joint, the spring constant is expressed in *N.m/rd* and the resulting torque *T* is computed in from this formula: *T = -Kx*.
+Similarly, in case of a rotational joint, the spring constant is expressed in *N.m/rad* and the resulting torque *T* is computed in from this formula: *T = -Kx*.
 When designing a robot model that uses springs, it is important to remember that the spring's resting position for each joint will correspond to the initial position of the joint.
 The only exception arises when the closest upper [Solid](solid.md) of the [Joint](joint.md) is passive, i.e. the `physics` field is not defined.
 In this case the spring force direction is inverted.
