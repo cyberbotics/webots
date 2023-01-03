@@ -102,7 +102,7 @@ The value of `dampingConstant` must be positive or zero.
 If `dampingConstant` is zero (the default), no damping torque/force will be added to the joint.
 If `dampingConstant` is greater than zero, a damping torque/force will be applied to the joint in addition to the other forces (i.e., motor force, spring force).
 This damping torque/force *F* is proportional to the effective joint velocity: *F = -Bv*, where *B* is the damping constant, and *v = dx/dt* is the effective joint velocity computed by the physics simulator.
-The unit of the damping constant for a rotational joint is expressed in *N.m.s/rd* whereas the unit of the damping constant for a linear joint is expressed in *N.s/m*.
+The unit of the damping constant for a rotational joint is expressed in *N.m.s/rad* whereas the unit of the damping constant for a linear joint is expressed in *N.s/m*.
 
 %figure "Mechanical Diagram of a Slider Joint"
 
