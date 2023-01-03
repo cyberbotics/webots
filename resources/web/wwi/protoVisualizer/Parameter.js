@@ -82,7 +82,6 @@ export default class Parameter {
 
   // TODO: find better approach rather than propagating the view to subsequent parameters
   setValueFromJavaScript(view, v) {
-    console.log('CONS', this)
     // notify linked parameters of the change
     console.log(this.name, ' has links: ', this.parameterLinks);
     for (const link of this.parameterLinks) {
@@ -100,15 +99,6 @@ export default class Parameter {
 
       if (!this.node.isProto)
         throw new Error('Attempting to regenerate a base node.');
-
-
-      //if (this.#value.value !== null && this.node.parameters.has(this.name)) {
-      //  // delete existing node
-      //  const baseNode = this.node.getBaseNode();
-      //  console.log('TO DEL', baseNode)
-      //  console.log('request:', `delete: ${baseNode.id.replace('n', '')}`);
-      //  view.x3dScene.processServerMessage(`delete: ${baseNode.id.replace('n', '')}`);
-      //}
 
       const tolist = this.node.getBaseNode().to;
       const parentList = []
@@ -137,26 +127,6 @@ export default class Parameter {
           view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentList[j++].replace('n', ''));
         }
       }
-
-      //console.log('in parent ', currentNode.parent, ' insert:', x3d);
-      //view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', currentNode.parent.replace('n', ''));
-
-      return;
-      // note: only base-nodes write to x3d, so to know the ID of the node we need to delete, we need to navigate through the
-      // value of the proto (or multiple times if it's a derived PROTO)
-      //view.x3dScene.processServerMessage(`delete: -20`);
-//      const id = this.node.getBaseNode().id;
-//      const currentNode = WbWorld.instance.nodes.get(id);
-//      view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
-//      console.log('>>>', this.name, 'node', this.node.name, this.node.id, 'basenode', this.node.getBaseNode().name, this.node.getBaseNode().id);
-//
-//      // regenerate and parse the body of the associated node
-//      this.node.parseBody(true);
-//
-//      const x3d = new XMLSerializer().serializeToString(this.node.toX3d());
-//      //console.log('in parent ', currentNode.parent, ' insert:', x3d);
-//      view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', currentNode.parent.replace('n', ''));
-//      //view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', -19);
 
       if (typeof this.onChange === 'function')
         this.onChange();
