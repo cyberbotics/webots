@@ -10,7 +10,7 @@ Released on ??
     - Disable `Select..` button in SFString editor if the field has restricted values ([5663](https://github.com/cyberbotics/webots/pull/5663)).
     - Improved plot representation in default robot window when a NaN value is received from a device ([#5680](https://github.com/cyberbotics/webots/pull/5680)).
   - Bug Fixes
-    - Fixed crash in Python API when a robot controller was using several cameras with different resolutions ([]()).
+    - Fixed crash in Python API when a robot controller was using several cameras with different resolutions ([#5705](https://github.com/cyberbotics/webots/pull/5705)).
     - Fixed Python API `Supervisor.setSimulationMode` which was failing ([#5603](https://github.com/cyberbotics/webots/pull/5603)).
     - Fixed Python API `Node.enableContactPointsTracking` which was failing ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
     - Fixed Python API field getters sometimes returning an invalid Field object ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
