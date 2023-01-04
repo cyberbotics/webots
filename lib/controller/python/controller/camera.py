@@ -76,10 +76,6 @@ class Camera(Sensor):
         self._enable = wb.wb_camera_enable
         self._get_sampling_period = wb.wb_camera_get_sampling_period
         super().__init__(name, sampling_period)
-        width = self.width
-        height = self.height
-        wb.wb_camera_get_image.restype = ctypes.POINTER(ctypes.c_ubyte * (4 * width * height))
-        wb.wb_camera_recognition_get_segmentation_image.restype = ctypes.POINTER(ctypes.c_ubyte * (4 * width * height))
 
     def getExposure(self) -> float:
         return self.exposure
@@ -161,10 +157,12 @@ class Camera(Sensor):
 
     @property
     def image(self) -> bytes:
+        wb.wb_camera_get_image.restype = ctypes.POINTER(ctypes.c_ubyte * (4 * self.width * self.height))
         return bytes(wb.wb_camera_get_image(self._tag).contents)
 
     @property
     def segmentation_image(self) -> bytes:
+        wb.wb_camera_recognition_get_segmentation_image.restype = ctypes.POINTER(ctypes.c_ubyte * (4 * self.width * self.height))
         return bytes(wb.wb_camera_recognition_get_segmentation_image(self._tag).contents)
 
     @property
