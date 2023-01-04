@@ -41,7 +41,7 @@ char *controller_extension;
 char *matlab_path;
 char *current_path;
 
-// Environment variables
+// Environment variables (putenv() requires the string that is set into the environment to exist)
 char *WEBOTS_CONTROLLER_URL;
 char *new_path;
 char *new_ld_path;
@@ -543,18 +543,6 @@ void format_ini_paths(char **string) {
 
 // Parse the runtime.ini file line by line
 void parse_runtime_ini() {
-  // Compute path to controller file
-#ifdef _WIN32
-  const size_t controller_file_size = strlen(strrchr(controller, '\\')) - 1;
-#else
-  const size_t controller_file_size = strlen(strrchr(controller, '/')) - 1;
-#endif
-  const size_t controller_size = strlen(controller);
-  const size_t controller_path_size = controller_size - controller_file_size;
-  controller_path = malloc(controller_path_size + 1);
-  strncpy(controller_path, controller, controller_path_size);
-  controller_path[controller_path_size] = '\0';
-
   // Open runtime.ini if it exists
   const size_t ini_file_name_size = snprintf(NULL, 0, "%sruntime.ini", controller_path) + 1;
   char *ini_file_name = malloc(ini_file_name_size);
@@ -689,19 +677,57 @@ int main(int argc, char **argv) {
     exit(1);
   };
 
-  // Parse eventual runtime.ini file
-  parse_runtime_ini();
-
-  // Get extension from controller name (robust against relative paths)
+    // Compute path to controller file
 #ifdef _WIN32
   char *controller_name = strrchr(controller, '\\');
-#else
-  char *controller_name = strrchr(controller, '/');
-#endif
+  // Get extension from controller name (robust against relative paths)
   if (!controller_name)
-    controller_extension = strrchr(controller, '.');
+    controller_extension = strrchr(controller, '.') == NULL ? NULL : strdup(strrchr(controller, '.'));
   else
-    controller_extension = strrchr(controller_name, '.');
+    controller_extension = strrchr(controller_name, '.') == NULL ? NULL : strdup(strrchr(controller_name, '.'));
+  controller_path = strdup(".\\");
+  if (strrchr(controller, '\\')) {
+    const size_t controller_file_size = strlen(strrchr(controller, '\\')) - 1;
+#else
+  char *controller_name = strrchr(controller, '/') == NULL ? NULL : strdup(strrchr(controller, '/'));
+  // Get extension from controller name (robust against relative paths)
+  if (!controller_name)
+    controller_extension = strrchr(controller, '.') == NULL ? NULL : strdup(strrchr(controller, '.'));
+  else
+    controller_extension = strrchr(controller_name, '.') == NULL ? NULL : strdup(strrchr(controller_name, '.'));
+  controller_path = strdup("./");
+  if (strrchr(controller, '/')) {
+    const size_t controller_file_size = strlen(strrchr(controller, '/')) - 1;
+#endif
+    const size_t controller_size = strlen(controller);
+    const size_t controller_path_size = controller_size - controller_file_size;
+    char *controller_path_tmp = malloc(controller_path_size + 1);
+    strncpy(controller_path_tmp, controller, controller_path_size);
+    controller_path_tmp[controller_path_size] = '\0';
+
+    // Change to controller directory and edit controller file path
+    chdir(controller_path_tmp);
+    const size_t new_controller_size = snprintf(NULL, 0, "%s%s", controller_path, controller_name + 1) + 1;
+    char *tmp_realloc = realloc(controller, new_controller_size);
+    if (tmp_realloc)
+      controller = tmp_realloc;
+    snprintf(controller, new_controller_size, "%s%s", controller_path, controller_name + 1);
+  } else {
+    // Add current relative path to controller for execvp() function
+    const size_t controller_size = strlen(controller);
+    char *tmp_realloc = realloc(controller, controller_size + 3);
+    if (tmp_realloc)
+      controller = tmp_realloc;
+    memmove(controller + 2, controller, controller_size + 1);
+    memcpy(controller, controller_path, 2);
+  }
+
+  // Parse eventual runtime.ini file
+  parse_runtime_ini();
+  printf("controller %s\n", controller);
+  printf("controller_path %s\n", controller_path);
+  printf("controller_name %s\n", controller_name);
+  printf("controller_extension %s\n", controller_extension);
 
   // Executable controller
   if (!controller_extension || strcmp(controller_extension, ".exe") == 0) {
@@ -749,7 +775,7 @@ int main(int argc, char **argv) {
 #elif defined __APPLE__
     const char *launcher_path = "/Contents/lib/controller/matlab/launcher.m";
 #elif defined __linux__
-    const char *launcher_path = "/lib/controller/matlab/launcher.m";
+  const char *launcher_path = "/lib/controller/matlab/launcher.m";
 #endif
     const size_t matlab_command_size = snprintf(NULL, 0, "\"run('%s%s'); exit;\"", WEBOTS_HOME, launcher_path) + 1;
     char *matlab_command = malloc(matlab_command_size);
@@ -774,7 +800,7 @@ int main(int argc, char **argv) {
 #elif defined __APPLE__
     const char *java_lib_controller = "/Contents/lib/controller/java";
 #elif defined __linux__
-    const char *java_lib_controller = "/lib/controller/java";
+  const char *java_lib_controller = "/lib/controller/java";
 #endif
     const size_t lib_controller_size = snprintf(NULL, 0, "%s%s", WEBOTS_HOME, java_lib_controller) + 1;
     char *lib_controller = malloc(lib_controller_size);
