@@ -260,7 +260,7 @@ int main() {
     double gate_position = wb_position_sensor_get_value(gate_sensor);
     if ((pinsB & dirsB & (64 + 128)) == 64 || k == 'C') {
       wb_motor_set_position(gate, 0);  // portal closed position
-      if (gate_position <= 0.01) {  // derail position
+      if (gate_position <= 0.01) {     // derail position
         play_sound(1);
         wb_motor_set_position(rail, -0.005);
       } else {
@@ -269,7 +269,7 @@ int main() {
       }
     } else if ((pinsB & dirsB & (64 + 128)) == 128 || k == 'O') {
       wb_motor_set_position(gate, 0.3);  // portal open position
-      if (gate_position >= 0.29) {  // derail position
+      if (gate_position >= 0.29) {       // derail position
         play_sound(1);
         wb_motor_set_position(rail, -0.005);
       } else {
