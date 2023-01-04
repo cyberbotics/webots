@@ -325,8 +325,7 @@ static void robot_go_forward(double distance) {
 // If wait_on_feedback is true, the gripper is stopped either when the target is reached,
 // or either when something has been gripped
 static void set_gripper(bool left, bool open, double torqueWhenGripping, bool wait_on_feedback) {
-  WbDeviceTag motor;
-  motor = left ? left_finger_motor : right_finger_motor;
+  WbDeviceTag motor = left ? left_finger_motor : right_finger_motor;
 
   WbDeviceTag finger_sensor = left ? left_finger_sensor : right_finger_sensor;
 
