@@ -470,7 +470,10 @@ void WbGeometry::setOdeData(dGeomID geom, WbMatter *matterAncestor) {
   if (!areOdeObjectsCreated())
     createOdeObjects();
 
+  if (mOdeGeom)
+    dGeomDestroy(mOdeGeom);
   mOdeGeom = geom;
+
   WbSolid *s = dynamic_cast<WbSolid *>(matterAncestor);
   if (s)
     dGeomSetData(geom, new WbOdeGeomData(s, this));
