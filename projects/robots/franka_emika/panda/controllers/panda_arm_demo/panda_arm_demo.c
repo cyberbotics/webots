@@ -76,10 +76,9 @@ int main(int argc, char **argv) {
 
   char device_name[30];
   // retrive the motor references of all the joints
-  for (int i = 0; i < 8; ++i) {
+  for (int i = 0; i < 7; ++i) {
     const char *prefix = "panda_joint";
-    int offset = i < 7 ? 0 : 7;
-    sprintf(device_name, "%s%d", prefix, i + 1 - offset);
+    sprintf(device_name, "%s%d", prefix, i + 1);
     motors[i] = wb_robot_get_device(device_name);
   }
 
