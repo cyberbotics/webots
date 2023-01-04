@@ -45,14 +45,12 @@ for sensor in armPositionSensors:
     sensor.enable(timestep)
 
 # Initialize gripper motors.
-finger1 = robot.getDevice("finger1")
-finger2 = robot.getDevice("finger2")
+finger = robot.getDevice("finger::left")
 # Set the maximum motor velocity.
-finger1.setVelocity(0.03)
-finger2.setVelocity(0.03)
+finger.setVelocity(0.03)
 # Read the miminum and maximum position of the gripper motors.
-fingerMinPosition = finger1.getMinPosition()
-fingerMaxPosition = finger1.getMaxPosition()
+fingerMinPosition = finger.getMinPosition()
+fingerMaxPosition = finger.getMaxPosition()
 
 # Move forward.
 for wheel in wheels:
@@ -68,8 +66,7 @@ for wheel in wheels:
 armMotors[1].setPosition(-0.55)
 armMotors[2].setPosition(-0.9)
 armMotors[3].setPosition(-1.5)
-finger1.setPosition(fingerMaxPosition)
-finger2.setPosition(fingerMaxPosition)
+finger.setPosition(fingerMaxPosition)
 
 # Monitor the arm joint position to detect when the motion is completed.
 while robot.step(timestep) != -1:
@@ -78,8 +75,7 @@ while robot.step(timestep) != -1:
         break
 
 # Close gripper.
-finger1.setPosition(0.013)
-finger2.setPosition(0.013)
+finger.setPosition(0.013)
 # Wait until the gripper is closed.
 robot.step(50 * timestep)
 
@@ -144,6 +140,5 @@ armMotors[2].setPosition(-0.4)
 robot.step(50 * timestep)
 
 # Open gripper.
-finger1.setPosition(fingerMaxPosition)
-finger2.setPosition(fingerMaxPosition)
+finger.setPosition(fingerMaxPosition)
 robot.step(50 * timestep)
