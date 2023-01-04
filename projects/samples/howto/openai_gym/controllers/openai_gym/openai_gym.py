@@ -23,7 +23,7 @@ try:
 except ImportError:
     sys.exit(
         'Please make sure you have all dependencies installed. '
-        'Run: "pip3 install numpy gym stable_baselines3"'
+        'Run: "pip3 install numpy gym==0.21 stable_baselines3"'
     )
 
 
