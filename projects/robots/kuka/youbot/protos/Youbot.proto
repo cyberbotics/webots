@@ -172,12 +172,12 @@ Robot {
                                         }
                                         device [
                                           LinearMotor {
-                                            name "finger1"
+                                            name "finger::left"
                                             maxPosition 0.025
                                             maxForce 100
                                           }
                                           PositionSensor {
-                                            name "finger1sensor"
+                                            name "finger::leftsensor"
                                           }
                                         ]
                                         endPoint Solid {
@@ -187,7 +187,7 @@ Robot {
                                             FingerMesh {
                                             }
                                           ]
-                                          name "finger1"
+                                          name "finger::left"
                                           boundingObject DEF FINGER_BO Group {
                                             children [
                                               Transform {
@@ -227,12 +227,12 @@ Robot {
                                         }
                                         device [
                                           LinearMotor {
-                                            name "finger2"
+                                            name "finger::right"
                                             maxPosition 0.025
                                             maxForce 100
                                           }
                                           PositionSensor {
-                                            name "finger2sensor"
+                                            name "finger::rightsensor"
                                           }
                                         ]
                                         endPoint Solid {
@@ -242,7 +242,7 @@ Robot {
                                             FingerMesh {
                                             }
                                           ]
-                                          name "finger2"
+                                          name "finger::right"
                                           boundingObject USE FINGER_BO
                                           physics USE FINGER_PH
                                         }
@@ -525,12 +525,12 @@ Robot {
                                         }
                                         device [
                                           LinearMotor {
-                                            name "front finger1"
+                                            name "front finger::left"
                                             maxPosition 0.025
                                             maxForce 100
                                           }
                                           PositionSensor {
-                                            name "front finger1sensor"
+                                            name "front finger::leftsensor"
                                           }
                                         ]
                                         endPoint Solid {
@@ -540,7 +540,7 @@ Robot {
                                             FingerMesh {
                                             }
                                           ]
-                                          name "front finger1"
+                                          name "front finger::left"
                                           boundingObject DEF FINGER_BO Group {
                                             children [
                                               Transform {
@@ -580,12 +580,12 @@ Robot {
                                         }
                                         device [
                                           LinearMotor {
-                                            name "front finger2"
+                                            name "front finger::right"
                                             maxPosition 0.025
                                             maxForce 100
                                           }
                                           PositionSensor {
-                                            name "front finger2sensor"
+                                            name "front finger::rightsensor"
                                           }
                                         ]
                                         endPoint Solid {
@@ -595,7 +595,7 @@ Robot {
                                             FingerMesh {
                                             }
                                           ]
-                                          name "front finger2"
+                                          name "front finger::right"
                                           boundingObject USE FINGER_BO
                                           physics USE FINGER_PH
                                         }
