@@ -1,6 +1,7 @@
 'use strict';
 
-import {SFNode, stringifyType} from './Vrml.js';
+import { SFNode, stringifyType } from './Vrml.js';
+import { VRML } from './vrml_type.js';
 import Node from './Node.js';
 import WbWorld from '../nodes/WbWorld.js';
 
@@ -17,6 +18,14 @@ export default class Parameter {
     this.name = name;
     this.defaultValue = defaultValue;
     this.value = value;
+
+    if (type === VRML.SFNode) {
+      if (this.#defaultValue.value !== null)
+        this.#defaultValue.value.parentParameter = this;
+      if (this.#value.value !== null)
+        this.#value.value.parentParameter = this;
+    }
+
     this.isTemplateRegenerator = isTemplateRegenerator;
     this.#parameterLinks = []; // list of other parameters to notify whenever this instance changes
     //this.clones = [];
@@ -92,6 +101,14 @@ export default class Parameter {
     }
 
     if (this.isTemplateRegenerator) {
+      // regenerate this node, and all its siblings
+      console.log('doing parameter ' + this.name + ' of node ' + this.node.name + ' (which belongs to parameter: ', this.node.parentParameter?.name, 'node id:', this.node.parentParameter?.node.id, ')')
+      console.log('siblings of ' + this.node.id + ': ', Node.cNodeFamily.get(this.node.id))
+      console.log('setting value of parameter', this)
+      this.#value.setValueFromJavaScript(v);
+      this.node.regenerate(v, view);
+
+      /*
       // update value on the structure side
       this.#value.setValueFromJavaScript(v);
 
@@ -122,8 +139,8 @@ export default class Parameter {
         if (Node.cProtoBaseNodeLinks.has(tolist[i].id)) {
           console.log('ADDING', tolist[i].id, 'to', parentList[j])
           const protoNode = Node.cProtoBaseNodeLinks
-          const x3d = new XMLSerializer().serializeToString(Node.cProtoBaseNodeLinks.get(tolist[i].id).toX3d());
-          console.log('>>>>>>>>>', x3d)
+          const x3d = new XMLSerializer().serializeToString(this.node.toX3d());
+          console.log('>>>>>>>>>', this.node)
           view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentList[j++].replace('n', ''));
         }
       }
@@ -131,7 +148,9 @@ export default class Parameter {
       if (typeof this.onChange === 'function')
         this.onChange();
       console.log('AFTER REGEN', WbWorld.instance)
+      */
     } else {
+      console.log('here', this.node.isProto, this.#value instanceof SFNode)
       if (this.node.isProto) {
         // update value on the structure side
         this.#value.setValueFromJavaScript(v);
@@ -184,15 +203,22 @@ export default class Parameter {
     return this.value.equals(this.defaultValue);
   }
 
-  clone() {
-    const copy = new Parameter(this.node, this.name, this.type, this.defaultValue.clone(), this.value.clone(),
+  clone(deep = false) {
+    const copy = new Parameter(this.node, this.name, this.type, this.defaultValue.clone(deep), this.value.clone(deep),
       this.isTemplateRegenerator);
 
     //copy.defaultValue.parameterRef = 'ERG';
     copy.value.parameterRef = 'ERG';
     //copy.clones = this.clones.slice();
+
+    //if (copy.type === VRML.SFNode) {
+    //  console.log('REDIRECTING PARENTPARAM IN PARAMETER CLONE')
+    //  copy.defaultValue.parentParameter = copy
+    //  copy.value.parentParameter = copy;
+    //}
+
     return copy;
   }
 }
 
-export {Parameter};
+export { Parameter };

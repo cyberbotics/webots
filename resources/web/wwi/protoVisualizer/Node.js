@@ -1,17 +1,19 @@
 'use strict';
 
-import {getAnId} from '../nodes/utils/id_provider.js';
+import { getAnId } from '../nodes/utils/id_provider.js';
 import TemplateEngine from './TemplateEngine.js';
 import Tokenizer from './Tokenizer.js';
-import {VRML} from './vrml_type.js';
-import {SFNode, vrmlFactory} from './Vrml.js';
-import {FieldModel} from './FieldModel.js';
-import {Parameter} from './Parameter.js';
+import { VRML } from './vrml_type.js';
+import { SFNode, vrmlFactory } from './Vrml.js';
+import { FieldModel } from './FieldModel.js';
+import { Parameter } from './Parameter.js';
+import WbWorld from '../nodes/WbWorld.js';
 
 export default class Node {
   static cProtoModels = new Map();
   static cBaseModels = new Map();
   static cProtoBaseNodeLinks = new Map();
+  static cNodeFamily = new Map();
 
   constructor(url, protoText, isRoot = false) {
     // IMPORTANT! When adding new member variables of type Map, modify the .clone method so that it creates a copy of it
@@ -30,6 +32,9 @@ export default class Node {
     this.def = new Map();
     this.from = [];
     this.to = [];
+    this.siblings = [];
+
+    this.parentParameter = undefined;
 
     if (!this.isProto) {
       // create parameters from the pre-defined FieldModel
@@ -38,7 +43,7 @@ export default class Node {
         const type = FieldModel[this.name][parameterName]['type'];
         const defaultValue = vrmlFactory(type);
         defaultValue.setValueFromJavaScript(FieldModel[this.name][parameterName]['defaultValue']);
-        const value = defaultValue.clone();
+        const value = defaultValue.clone(true);
         const parameter = new Parameter(this, parameterName, type, defaultValue, value, false);
         // console.log(parameterName + ' has parent ' + this.name);
         this.parameters.set(parameterName, parameter);
@@ -99,7 +104,7 @@ export default class Node {
       const xmlhttp = new XMLHttpRequest();
       xmlhttp.open('GET', protoUrl, true);
       xmlhttp.overrideMimeType('plain/text');
-      xmlhttp.onreadystatechange = async() => {
+      xmlhttp.onreadystatechange = async () => {
         if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
           resolve(xmlhttp.responseText);
       };
@@ -121,31 +126,52 @@ export default class Node {
   }
 
   async generateInterface() {
-    return Promise.all(this.promises).then(async() => {
+    return Promise.all(this.promises).then(async () => {
       // parse header and map each parameter entry
       // console.log(this.name + ': all EXTERNPROTO promises have been resolved');
       await this.parseHead();
     });
   }
 
-  clone() {
+  clone(deep = false) {
     let copy = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
 
     if (typeof this.baseType !== 'undefined')
-      copy.baseType = this.baseType.clone();
+      copy.baseType = this.baseType.clone(deep);
 
-    //copy.parameterRef = 'XYZ';
     copy.from = this.from.splice();
     copy.from.push(this)
     this.to.push(copy)
-
     copy.id = getAnId();
-    console.log('>>>> CLONED ', this.name , this.id, ' TO ', copy.id)
+
+    //if (deep) {
+    //  copy.siblings = [];
+    //} else {
+    //  console.log('adding ' + copy.id + ' as sibling of ' + this.id)
+    //  this.siblings.push(copy);
+    //  console.log('adding ' + this.id + ' as sibling of ' + copy.id)
+    //  copy.siblings.push(this);
+    //}
+    if (!deep) {
+      if (!Node.cNodeFamily.has(this.id))
+        Node.cNodeFamily.set(this.id, [])
+      if (!Node.cNodeFamily.has(copy.id))
+        Node.cNodeFamily.set(copy.id, [])
+
+      const s1 = Node.cNodeFamily.get(this.id);
+      s1.push(copy);
+      console.log('adding ' + copy.id + ' as sibling of ' + this.id)
+      const s2 = Node.cNodeFamily.get(copy.id);
+      s2.push(this);
+      console.log('adding ' + this.id + ' as sibling of ' + copy.id)
+    }
+
+    console.log('>>>> CLONED ', this.name, this.id, ' TO ', copy.id)
     copy.parameters = new Map();
     for (const [parameterName, parameter] of this.parameters) {
       if (typeof parameter !== 'undefined') {
         // console.log('cloning parameter ' + parameterName + ' (type ' + parameter.type + ')');
-        const parameterCopy = parameter.clone();
+        const parameterCopy = parameter.clone(deep);
         parameterCopy.node = copy;
         // console.log('NODE ORIGINAL', parameter);
         // console.log('NODE COPY', parameterCopy);
@@ -187,13 +213,8 @@ export default class Node {
 
         // console.log('INTERFACE PARAMETER ' + parameterName + ', TYPE: ' + parameterType + ', VALUE:');
         const defaultValue = vrmlFactory(parameterType, headTokenizer);
-        const value = defaultValue.clone();
+        const value = defaultValue.clone(true);
         const parameter = new Parameter(this, parameterName, parameterType, defaultValue, value, isRegenerator);
-        if (value instanceof SFNode) {
-          console.log('CREATED NODE AS PARAMETER, SETTING REF', (value.value !== null ? value.value.name : 'null'), 'TO', parameter)
-          //value.parameterRef = 'ASD';
-          //defaultValue.parameterRef = 'ASD';
-        }
         // console.log(parameterName + ' has parent ' + this.name);
         this.parameters.set(parameterName, parameter);
       }
@@ -336,6 +357,34 @@ export default class Node {
     // console.log('Regenerated Proto Body:\n' + this.protoBody);
   };
 
+  regenerate(v, view, propagate = true) {
+    console.log('REGENERATING NODE ' + this.name + ' [id: ' + this.id + ', isProto: ' + this.isProto + ']');
+
+    const baseNodeId = this.getBaseNode().id;
+
+    const node = WbWorld.instance.nodes.get(baseNodeId);
+    if (typeof node !== 'undefined') {
+      // delete existing one
+      view.x3dScene.processServerMessage(`delete: ${baseNodeId.replace('n', '')}`);
+      console.log(`delete: ${baseNodeId.replace('n', '')}`)
+
+      // insert regenerated one
+      console.log('parentParam', this.parameters, this.parentParameter.value.value.parameters)
+
+      const x3d = new XMLSerializer().serializeToString(this.toX3d());
+      console.log('X3d', x3d)
+    }
+
+    if (!propagate)
+      return;
+
+    for (const sibling of Node.cNodeFamily.get(this.id)) {
+      console.log(this.id, ' requests regeneration of sibling: ', sibling.id)
+      //console.log('--> is in param', sibling.parentParameter.name, 'node id', sibling.parentParameter.node.id)
+      sibling.regenerate(v, view, false); // prevent endless loop
+    }
+  }
+
   clearReferences() {
     this.def = new Map();
 
@@ -387,7 +436,7 @@ export default class Node {
         Node.cBaseModels.set(nodeName, model);
       }
 
-      node = Node.cBaseModels.get(nodeName).clone();
+      node = Node.cBaseModels.get(nodeName).clone(true);
       // console.log('ORIGINAL', Node.cBaseModels.get(nodeName))
       // console.log('CLONE', node)
     } else { // it's a PROTO node
@@ -401,7 +450,7 @@ export default class Node {
         throw new Error('Model of PROTO ' + nodeName + ' not available. Was it declared as EXTERNPROTO?');
       else
         console.log('FOUND MODEL FOR ' + nodeName + ' is ID: ', Node.cProtoModels.get(url).id)
-      node = Node.cProtoModels.get(url).clone();
+      node = Node.cProtoModels.get(url).clone(true);
     }
 
     if (typeof defName !== 'undefined')
