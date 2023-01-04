@@ -32,10 +32,7 @@ static WbDeviceTag motors[9];
 
 void hand_control(int command) {
   // based on the state, opens or closes the gripper
-  if (command == OPEN_HAND)
-    wb_motor_set_position(motors[FINGER], 0.02);
-  else
-    wb_motor_set_position(motors[FINGER], 0.012);
+  wb_motor_set_position(motors[FINGER], (command == OPEN_HAND) ? 0.02 : 0.012);
 
   // delay for the action to take place
   wb_robot_step(TIME_STEP * 10);
