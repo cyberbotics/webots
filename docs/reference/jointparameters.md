@@ -90,8 +90,9 @@ The `springConstant` field specifies the value of the spring constant (or spring
 The `springConstant` must be positive or zero.
 If the `springConstant` is zero (the default), no spring torque/force will be applied to the joint.
 If the `springConstant` is greater than zero, then a spring force will be computed and applied to the joint in addition to the other forces (i.e., motor force, damping force).
-The spring force is calculated according to Hooke's law: *F = -Kx*, where *K* is the `springConstant` and *x* is the current joint position as represented by the `position` field.
+In case of a linear joint it is expressed in *N/m* and the spring force is calculated according to Hooke's law: *F = -Kx*, where *K* is the `springConstant` and *x* is the current joint position as represented by the `position` field.
 Therefore, the spring force is computed so as to be proportional to the current joint position, and to move the joint back to its initial position.
+Similarly, in case of a rotational joint, the spring constant is expressed in *N.m/rad* and the resulting torque *T* is computed in from this formula: *T = -Kx*.
 When designing a robot model that uses springs, it is important to remember that the spring's resting position for each joint will correspond to the initial position of the joint.
 The only exception arises when the closest upper [Solid](solid.md) of the [Joint](joint.md) is passive, i.e. the `physics` field is not defined.
 In this case the spring force direction is inverted.
@@ -100,7 +101,8 @@ The `dampingConstant` field specifies the value of the joint damping constant.
 The value of `dampingConstant` must be positive or zero.
 If `dampingConstant` is zero (the default), no damping torque/force will be added to the joint.
 If `dampingConstant` is greater than zero, a damping torque/force will be applied to the joint in addition to the other forces (i.e., motor force, spring force).
-This damping torque/force is proportional to the effective joint velocity: *F = -Bv*, where *B* is the damping constant, and *v = dx/dt* is the effective joint velocity computed by the physics simulator.
+This damping torque/force *F* is proportional to the effective joint velocity: *F = -Bv*, where *B* is the damping constant, and *v = dx/dt* is the effective joint velocity computed by the physics simulator.
+The unit of the damping constant for a rotational joint is expressed in *N.m.s/rad* whereas the unit of the damping constant for a linear joint is expressed in *N.s/m*.
 
 %figure "Mechanical Diagram of a Slider Joint"
 
