@@ -558,8 +558,9 @@ static void parse_runtime_ini() {
       } else if (strncmp(runtime_ini_line, "[environmentvariablesforLinux]", 30) == 0) {
         section = Linux;
       } else {
-        fprintf(stderr, "Unknown section in the runtime.ini file. Please refer to "
-               "https://cyberbotics.com/doc/guide/controller-programming#environment-variables for more information.\n");
+        fprintf(stderr,
+                "Unknown section in the runtime.ini file. Please refer to "
+                "https://cyberbotics.com/doc/guide/controller-programming#environment-variables for more information.\n");
         exit(1);
       }
     }
@@ -806,9 +807,10 @@ int main(int argc, char **argv) {
     free(classpath);
     free(java_library);
   } else
-    fprintf(stderr, "The file extension '%s' is not supported as webots controller. Supported file types are executable files, '.py', "
-           "'.jar', '.class' and '.m'.\n",
-           controller_extension);
+    fprintf(stderr,
+            "The file extension '%s' is not supported as webots controller. Supported file types are executable files, '.py', "
+            "'.jar', '.class' and '.m'.\n",
+            controller_extension);
 
   free(WEBOTS_HOME);
   free(matlab_path);
