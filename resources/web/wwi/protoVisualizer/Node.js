@@ -50,12 +50,6 @@ export default class Node {
       this.templateEngine = new TemplateEngine();
     }
 
-    // change all relative paths to remote ones
-    const re = /"(?:[^"]*)\.(jpe?g|png|hdr|obj|stl|dae)"/g;
-    let result;
-    while ((result = re.exec(protoText)) !== null)
-      protoText = protoText.replace(result[0], '"' + combinePaths(result[0].slice(1, -1), this.url) + '"');
-
     // raw PROTO body text must be kept in case the template needs to be regenerated
     const indexBeginBody = protoText.search(/(?<=\]\s*\n*\r*)({)/g);
     this.rawBody = protoText.substring(indexBeginBody);
@@ -187,6 +181,12 @@ export default class Node {
     // note: if not a template, the body is already pure VRML
     if (this.isTemplate)
       this.regenerateBodyVrml(); // overwrites this.protoBody with a purely VRML compliant body
+
+    // change all relative paths to remote ones
+    const re = /"(?:[^"]*)\.(jpe?g|png|hdr|obj|stl|dae)"/g;
+    let result;
+    while ((result = re.exec(this.protoBody)) !== null)
+      this.protoBody = this.protoBody.replace(result[0], '"' + combinePaths(result[0].slice(1, -1), this.url) + '"');
 
     // tokenize body
     const tokenizer = new Tokenizer(this.protoBody, this);
