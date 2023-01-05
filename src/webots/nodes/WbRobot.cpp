@@ -244,6 +244,8 @@ void WbRobot::postFinalize() {
   connect(mSupervisor, &WbSFString::changed, this, &WbRobot::updateSupervisor);
   connect(this, &WbMatter::matterModelChanged, this, &WbRobot::updateModel);
   connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbRobot::updateSimulationMode);
+  connect(mBattery, &WbMFDouble::itemInserted, this, [this]() { this->updateBattery(true); });
+  connect(mBattery, &WbMFDouble::itemRemoved, this, [this]() { this->updateBattery(false); });
 
   if (absoluteScale() != WbVector3(1.0, 1.0, 1.0))
     parsingWarn(tr("This Robot node is scaled: this is discouraged as it could compromise the correct physical behavior."));
@@ -367,10 +369,6 @@ void WbRobot::addDevices(WbNode *node) {
 }
 
 void WbRobot::clearDevices() {
-  foreach (const WbDevice *device, mDevices)
-    disconnect(dynamic_cast<const WbBaseNode *>(device), &WbBaseNode::destroyed, this, &WbRobot::updateDevicesAfterDestruction);
-  foreach (const WbRenderingDevice *device, mRenderingDevices)
-    disconnect(device, &WbBaseNode::isBeingDestroyed, this, &WbRobot::removeRenderingDevice);
   mDevices.clear();
   mRenderingDevices.clear();
   mActiveCameras.clear();
@@ -604,6 +602,20 @@ void WbRobot::updateSupervisor() {
 
 void WbRobot::updateModel() {
   mModelNeedToWriteAnswer = true;
+}
+
+void WbRobot::updateBattery(bool itemInserted) {
+  if (mBattery->size() > (ENERGY_UPLOAD_SPEED + 1))
+    warn(tr("'battery' field can only contain three values. Remaining values are ignored."));
+  if (!itemInserted || mBattery->isEmpty())
+    return;
+
+  foreach (WbDevice *const device, mDevices) {
+    // setup motor joint feedback needed to compute energy consumption
+    WbMotor *motor = dynamic_cast<WbMotor *>(device);
+    if (motor)
+      motor->setupJointFeedback();
+  }
 }
 
 void WbRobot::removeRenderingDevice() {

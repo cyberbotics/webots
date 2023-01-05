@@ -1,0 +1,413 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "webots://projects/objects/gear/protos/Gear.proto"
+
+PROTO ProtoCoupled [
+]
+{
+DEF GRIPPER Robot {
+  translation 0.2 0.5 0
+  children [
+    DEF BASE Transform {
+      translation 0.025 0 0
+      rotation 0 0 1 -1.570795
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.933333 0.933333 0.92549
+            baseColorMap ImageTexture {
+              url [
+                "webots://projects/default/worlds/textures/roughcast.jpg"
+              ]
+            }
+            roughness 0.5
+          }
+          geometry Box {
+            size 0.12 0.12 0.001
+          }
+        }
+      ]
+    }
+    DEF ROD Transform {
+      translation -0.025 0 0.08
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.729412 0.741176 0.713725
+          }
+          geometry Cylinder {
+            height 0.16
+            radius 0.004
+          }
+        }
+      ]
+    }
+    SliderJoint {
+      jointParameters JointParameters {
+      }
+      device [
+        LinearMotor {
+          maxForce 15
+        }
+      ]
+      endPoint Solid {
+        translation 0 0 0.01
+        children [
+          Transform {
+            translation 0 0 -0.004
+            rotation 0.577349935856137 0.5773509358560258 -0.577349935856137 -2.094395
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.180392 0.203922 0.211765
+                }
+                geometry Mesh {
+                  url [
+                    "webots://projects/samples/devices/worlds/meshes/support.obj"
+                  ]
+                }
+              }
+            ]
+          }
+          Transform {
+            translation 0 0 0.006
+            rotation 0.577349935856137 0.5773509358560258 -0.577349935856137 -2.094395
+            children [
+              Shape {
+                appearance DEF BLACK PBRAppearance {
+                  baseColor 0.180392 0.203922 0.211765
+                  transparency 0.4
+                }
+                geometry Mesh {
+                  url [
+                    "webots://projects/samples/devices/worlds/meshes/support.obj"
+                  ]
+                }
+              }
+            ]
+          }
+          DEF LEFT_ACTUATED HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 0 1
+              anchor 0 -0.008 0
+            }
+            device [
+              RotationalMotor {
+                name "motor::left finger"
+              }
+            ]
+            endPoint Solid {
+              translation 0 -0.008 0
+              children [
+                Gear {
+                  translation 0 0 0.0025
+                  rotation -0.5773489358556708 0.5773509358554485 -0.5773509358554485 -2.094395
+                  appearance PBRAppearance {
+                    baseColor 0.913725 0.72549 0.431373
+                    roughness 0.5
+                  }
+                  teeth 12
+                  width 0.003
+                  innerRadius 0.0025
+                  pitchRadius 0.0078
+                  toothDepth 0.002
+                  density 0
+                  bodyBoundingObject FALSE
+                }
+                DEF LEFT_ACTUATED_LINKAGE Transform {
+                  translation 0 0 0.001
+                  rotation 0.8673832709970314 -0.35188510993965805 -0.35188510993965805 1.71259
+                  children [
+                    DEF LINKAGE Shape {
+                      appearance DEF METAL_APPEARANCE PBRAppearance {
+                        baseColor 0.729412 0.741176 0.713725
+                        baseColorMap ImageTexture {
+                          url [
+                            "webots://projects/default/worlds/textures/metal.jpg"
+                          ]
+                        }
+                        roughness 0.8
+                      }
+                      geometry Mesh {
+                        url [
+                          "webots://projects/samples/devices/worlds/meshes/linkage.obj"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                DEF LEFT_ACTUATED_AXLE Shape {
+                  appearance USE METAL_APPEARANCE
+                  geometry DEF LEFT_AXLE Cylinder {
+                    height 0.0125
+                    radius 0.0025
+                  }
+                }
+                Transform {
+                  translation 0.02869 -0.02787 0
+                  children [
+                    USE LEFT_ACTUATED_AXLE
+                  ]
+                }
+                DEF LEFT_ACTUATED_PIVOT HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis 0 0 1
+                    anchor 0.02869 -0.02787 0
+                  }
+                  endPoint Solid {
+                    translation 0.02869 -0.02787 0
+                    rotation 0 0 1 1.5708
+                    children [
+                      Transform {
+                        translation 0 0 -0.006
+                        children [
+                          Transform {
+                            rotation -0.5773502691896258 0.5773502691896258 -0.5773502691896258 2.0944
+                            children [
+                              Shape {
+                                appearance DEF FINGER_APPEARANCE PBRAppearance {
+                                  baseColor 0.180392 0.203922 0.211765
+                                }
+                                geometry Mesh {
+                                  url [
+                                    "webots://projects/samples/devices/worlds/meshes/right_angle.obj"
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                    name "left_gripper"
+                    boundingObject Transform {
+                      translation 0.0075 -0.0175 -0.001
+                      rotation 0 0 1 -1.570795
+                      children [
+                        Box {
+                          size 0.04 0.005 0.01
+                        }
+                      ]
+                    }
+                    physics DEF TIP_PHYSICS Physics {
+                      density 500
+                    }
+                  }
+                }
+              ]
+              boundingObject USE LEFT_AXLE
+              physics USE TIP_PHYSICS
+            }
+          }
+          DEF LEFT_PASSIVE HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 0 1
+              anchor 0 -0.023 0
+            }
+            endPoint Solid {
+              translation 0 -0.023 0
+              children [
+                DEF LEFT_PASSIVE_LINKAGE Transform {
+                  translation 0 0 0.001
+                  rotation 0.8673832709970314 -0.35188510993965805 -0.35188510993965805 1.712593
+                  children [
+                    USE LINKAGE
+                  ]
+                }
+                DEF LEFT_PASSIVE_AXLE Shape {
+                  appearance USE METAL_APPEARANCE
+                  geometry Cylinder {
+                    height 0.0125
+                    radius 0.0025
+                  }
+                }
+                Transform {
+                  translation 0.02869 -0.02787 0
+                  children [
+                    USE LEFT_PASSIVE_AXLE
+                  ]
+                }
+                DEF LEFT_PASSIVE_PIVOT HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis 0 0 1
+                    anchor 0.02869 -0.02787 0
+                  }
+                  endPoint SolidReference {
+                    solidName "left_gripper"
+                  }
+                }
+              ]
+              name "left tip"
+              boundingObject USE LEFT_PASSIVE_AXLE
+              physics DEF FINGER_TIP_PHYSICS Physics {
+                density 500
+              }
+            }
+          }
+          DEF RIGHT_ACTUATED HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 0 1
+              anchor 0 0.008 0
+            }
+            device [
+              RotationalMotor {
+                name "motor::right finger"
+                multiplier -1
+              }
+            ]
+            endPoint Solid {
+              translation 0 0.008 0
+              children [
+                Transform {
+                  rotation 0 0 1 -0.1309
+                  children [
+                    Gear {
+                      translation 0 0 0.0025
+                      rotation -0.5773489358556708 0.5773509358554485 -0.5773509358554485 -2.094395
+                      appearance PBRAppearance {
+                        baseColor 0.913725 0.72549 0.431373
+                        roughness 0.5
+                      }
+                      teeth 12
+                      width 0.003
+                      innerRadius 0.0025
+                      pitchRadius 0.0078
+                      toothDepth 0.002
+                      density 0
+                      bodyBoundingObject FALSE
+                    }
+                  ]
+                }
+                DEF RIGHT_ACTUATED_LINKAGE Transform {
+                  translation 0 0 0.001
+                  rotation 0.8673809443796324 0.3518879774353601 0.3518879774353601 1.712596
+                  children [
+                    DEF LINKAGE Shape {
+                      appearance USE METAL_APPEARANCE
+                      geometry Mesh {
+                        url [
+                          "webots://projects/samples/devices/worlds/meshes/linkage.obj"
+                        ]
+                      }
+                    }
+                  ]
+                }
+                DEF RIGHT_ACTUATED_AXLE Shape {
+                  appearance USE METAL_APPEARANCE
+                  geometry DEF RIGHT_AXLE Cylinder {
+                    height 0.0125
+                    radius 0.0025
+                  }
+                }
+                Transform {
+                  translation 0.02869 0.02787 0
+                  children [
+                    USE RIGHT_ACTUATED_AXLE
+                  ]
+                }
+                DEF RIGHT_ACTUATED_PIVOT HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis 0 0 1
+                    anchor 0.02869 0.02787 0
+                  }
+                  endPoint Solid {
+                    translation 0.02869 0.02787 0
+                    children [
+                      Transform {
+                        translation 0 0 0.004
+                        rotation -1 0 0 -1.570796
+                        children [
+                          Shape {
+                            appearance USE FINGER_APPEARANCE
+                            geometry Mesh {
+                              url [
+                                "webots://projects/samples/devices/worlds/meshes/right_angle.obj"
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                    name "right_gripper"
+                    boundingObject Transform {
+                      translation 0.0175 -0.0075 -0.001
+                      children [
+                        Box {
+                          size 0.04 0.005 0.01
+                        }
+                      ]
+                    }
+                    physics DEF TIP_PHYSICS Physics {
+                      density 500
+                    }
+                  }
+                }
+              ]
+              name "right tip"
+              boundingObject USE RIGHT_AXLE
+              physics USE TIP_PHYSICS
+            }
+          }
+          DEF RIGHT_PASSIVE HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 0 1
+              anchor 0 0.023 0
+            }
+            endPoint Solid {
+              translation 0 0.023 0
+              children [
+                DEF RIGHT_PASSIVE_LINKAGE Transform {
+                  translation 0 0 0.001
+                  rotation 0.8673809443796324 0.3518879774353601 0.3518879774353601 1.712596
+                  children [
+                    USE LINKAGE
+                  ]
+                }
+                DEF RIGHT_PASSIVE_AXLE Shape {
+                  appearance USE METAL_APPEARANCE
+                  geometry Cylinder {
+                    height 0.0125
+                    radius 0.0025
+                  }
+                }
+                Transform {
+                  translation 0.02869 0.02787 0
+                  children [
+                    USE RIGHT_PASSIVE_AXLE
+                  ]
+                }
+                DEF RIGHT_PASSIVE_PIVOT HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis 0 0 1
+                    anchor 0.02869 0.02787 0
+                  }
+                  endPoint SolidReference {
+                    solidName "right_gripper"
+                  }
+                }
+              ]
+              name "right pivot"
+              boundingObject USE RIGHT_AXLE
+              physics DEF FINGER_TIP_PHYSICS Physics {
+                density 500
+              }
+            }
+          }
+        ]
+        boundingObject Transform {
+          children [
+            Box {
+              size 0.02 0.08 0.012
+            }
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 0.01
+        }
+      }
+    }
+  ]
+  controller "coupled_motors"
+}
+}

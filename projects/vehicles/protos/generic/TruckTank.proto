@@ -8,8 +8,8 @@ EXTERNPROTO "TruckTankMesh.proto"
 EXTERNPROTO "TruckWheel.proto"
 
 PROTO TruckTank [
-  field SFString name    "truck tank"
-  field SFColor  color   0.66 0.66 0.66
+  field SFString name    "truck tank"    # Identifies the truck tank.
+  field SFColor  color   0.66 0.66 0.66  # Defines the color of the truck tank.
 ]
 {
   Slot {

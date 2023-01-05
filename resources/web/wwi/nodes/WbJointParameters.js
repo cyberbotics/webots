@@ -40,8 +40,12 @@ export default class WbJointParameters extends WbBaseNode {
   delete() {
     const parent = WbWorld.instance.nodes.get(this.parent);
     if (typeof parent !== 'undefined') {
-      if (typeof parent.jointParameters !== 'undefined')
+      if (parent.jointParameters?.id === this.id)
         parent.jointParameters = undefined;
+      else if (parent.jointParameters2?.id === this.id)
+        parent.jointParameters2 = undefined;
+      else if (parent.jointParameters3?.id === this.id)
+        parent.jointParameters3 = undefined;
     }
 
     super.delete();

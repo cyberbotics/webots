@@ -70,6 +70,46 @@ export default class WbIndexedLineSet extends WbGeometry {
     }
   }
 
+  recomputeBoundingSphere() {
+    this._boundingSphere.empty();
+
+    if (typeof this.#coord === 'undefined')
+      return;
+
+    const points = this.#coord.point;
+    if (points.length === 0)
+      return;
+
+    // Ritter's bounding sphere approximation
+    // (see description in WbIndexedFaceSet::recomputeBoundingSphere)
+    let p2 = points[this.#coordIndex[0]];
+    let p1;
+    let maxDistance; // squared distance
+    for (let i = 0; i < 2; ++i) {
+      maxDistance = 0;
+      p1 = p2;
+      for (let j = 0; j < this.#coordIndex.length; j++) {
+        const index = this.#coordIndex[j];
+        if (index >= 0 && index < points.length) { // skip '-1' or other invalid indices.
+          const point = points[index];
+          const d = p1.distance2(point);
+          if (d > maxDistance) {
+            maxDistance = d;
+            p2 = point;
+          }
+        }
+      }
+    }
+
+    this._boundingSphere.set(p2.add(p1).mul(0.5), Math.sqrt(maxDistance) * 0.5);
+
+    for (let i = 0; i < this.#coordIndex.length; i++) {
+      const index = this.#coordIndex[i];
+      if (index >= 0 && index < points.length) // skip '-1' or other invalid indices.
+        this._boundingSphere.enclose(points[index]);
+    }
+  }
+
   // Private functions
   #buildWrenMesh() {
     super._deleteWrenRenderable();

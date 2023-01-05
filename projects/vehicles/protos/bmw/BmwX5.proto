@@ -2,7 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
-# Model of an BMW X5 car using the Car proto as a base.
+# Model of an BMW X5 car using the Car PROTO as a base.
 # The vehicle is modelled with realistic physics properties: motor torques, body mass, friction forces, suspensions, etc.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # For the last 6 fields to have any effect, the 'interior' has to be enabled.
@@ -31,35 +31,35 @@ EXTERNPROTO "BmwX5CentralMirror.proto"
 EXTERNPROTO "BmwX5RearInterior.proto"
 
 PROTO BmwX5 [
-  field SFVec3f      translation              0 0 0.4
-  field SFRotation   rotation                 0 0 1 0
-  field SFColor      color                    0.43 0.11 0.1
-  field SFString     engineSound              "sounds/engine.wav"
-  field SFString     name                     "vehicle"
-  field SFString     controller               "<generic>"
-  field MFString     controllerArgs           []
-  field SFBool       supervisor               FALSE
-  field SFBool       synchronization          TRUE
-  field SFBool       windshieldWipers         TRUE
-  field SFBool       frontSpotLights          FALSE
-  field SFBool       rearMirror               FALSE
-  field SFBool       leftWingMirror           FALSE
-  field SFBool       rightWingMirror          FALSE
-  field SFFloat      mirrorFar                200.0
-  field MFNode       sensorsSlotFront         []
-  field MFNode       sensorsSlotRear          []
-  field MFNode       sensorsSlotTop           []
-  field MFNode       sensorsSlotCenter        []
-  field SFBool       interior                 TRUE
-  field SFBool       dynamicSpeedDisplay      TRUE
-  field SFBool       indicatorLevers          TRUE
-  field SFNode       steeringWheel            CarSteeringWheel {}
-  field SFBool       completeInterior         TRUE
-  field SFBool       shifter                  TRUE
-  field SFFloat      outerWindowTransparency  0.4
-  field SFFloat      innerWindowTransparency  0.7
-  field SFBool       innerWindowDust          FALSE
-  field SFString     window                   "automobile"
+  field SFVec3f      translation              0 0 0.4              # Is `Car.translation`.
+  field SFRotation   rotation                 0 0 1 0              # Is `Car.rotation`.
+  field SFColor      color                    0.43 0.11 0.1        # Defines the car body color.
+  field SFString     engineSound              "sounds/engine.wav"  # Is `Car.engineSound`.
+  field SFString     name                     "vehicle"            # Is `Car.name`.
+  field SFString     controller               "<generic>"          # Is `Car.controller`.
+  field MFString     controllerArgs           []                   # Is `Car.controllerArgs`.
+  field SFBool       supervisor               FALSE                # Is `Car.supervisor`.
+  field SFBool       synchronization          TRUE                 # Is `Car.synchronization`.
+  field SFBool       windshieldWipers         TRUE                 # Defines whether the car should have windshiel wipers.
+  field SFBool       frontSpotLights          FALSE                # Defines whether the car should have front spot lights.
+  field SFBool       rearMirror               FALSE                # Defines whether the car should have a rear mirror.
+  field SFBool       leftWingMirror           FALSE                # Defines whether the car should have a left wing mirror.
+  field SFBool       rightWingMirror          FALSE                # Defines whether the car should have a right wing mirror.
+  field SFFloat      mirrorFar                200.0                # Defines the far clipping plane for the rear, left and right mirrors.
+  field MFNode       sensorsSlotFront         []                   # Extends the robot with new nodes on the front of the car.
+  field MFNode       sensorsSlotRear          []                   # Extends the robot with new nodes on the back of the car.
+  field MFNode       sensorsSlotTop           []                   # Extends the robot with new nodes on the roof of the car.
+  field MFNode       sensorsSlotCenter        []                   # Extends the robot with new nodes at the center of the car.
+  field SFBool       interior                 TRUE                 # Defines whether the car should have the interior walls and the dashboard.
+  field SFBool       dynamicSpeedDisplay      TRUE                 # Defines whether the current speed can be displaed in the dashboard.
+  field SFBool       indicatorLevers          TRUE                 # Defines whether the car has indicator levers.
+  field SFNode       steeringWheel            CarSteeringWheel {}  # Defines the car steering wheel.
+  field SFBool       completeInterior         TRUE                 # Defines whether the interior of the car should have seats, armrests, and handbrake.
+  field SFBool       shifter                  TRUE                 # Defines whether the interior of the car should have the gear shifter.
+  field SFFloat      outerWindowTransparency  0.4                  # Defines the transparency level of the windows seen from outside.
+  field SFFloat      innerWindowTransparency  0.7                  # Defines the transparency level of the windows seen from inside.
+  field SFBool       innerWindowDust          FALSE                # Defines whether there is dust on windows seen from inside.
+  field SFString     window                   "automobile"         # Is `Car.window`.
 ]
 {
   %<

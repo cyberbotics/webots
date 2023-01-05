@@ -86,6 +86,39 @@ export default class WbPointSet extends WbGeometry {
     }
   }
 
+  recomputeBoundingSphere() {
+    this._boundingSphere.empty();
+
+    if (typeof this.#coord === 'undefined')
+      return;
+
+    const points = this.#coord.point;
+    if (points.length === 0)
+      return;
+
+    // Ritter's bounding sphere approximation
+    let p2 = points[0];
+    let p1;
+    let maxDistance; // squared distance
+    for (let i = 0; i < 2; ++i) {
+      maxDistance = 0;
+      p1 = p2;
+      for (let j = 0; j < points.length; j++) {
+        const point = points[j];
+        const d = p1.distance2(point);
+        if (d > maxDistance) {
+          maxDistance = d;
+          p2 = point;
+        }
+      }
+    }
+
+    this._boundingSphere.set(p2.add(p1).mul(0.5), Math.sqrt(maxDistance) * 0.5);
+
+    for (let i = 0; i < points.length; i++)
+      this._boundingSphere.enclose(points[i]);
+  }
+
   // Private functions
 
   #buildWrenMesh() {

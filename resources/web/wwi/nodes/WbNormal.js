@@ -1,7 +1,6 @@
 import WbBaseNode from './WbBaseNode.js';
 import WbWorld from './WbWorld.js';
 
-// This class is used to retrieve the type of device
 export default class WbNormal extends WbBaseNode {
   #vector;
   constructor(id, vector) {

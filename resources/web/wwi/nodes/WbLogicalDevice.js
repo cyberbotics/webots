@@ -15,8 +15,18 @@ export default class WbLogicalDevice extends WbBaseNode {
   delete() {
     const parent = WbWorld.instance.nodes.get(this.parent);
     if (typeof parent !== 'undefined') {
-      const index = parent?.device.indexOf(this);
-      parent?.device.splice(index, 1);
+      let index = parent.device?.indexOf(this);
+      if (index !== -1)
+        parent.device?.splice(index, 1);
+      else {
+        index = parent.device2?.indexOf(this);
+        if (index !== -1)
+          parent.device2?.splice(index, 1);
+        else {
+          index = parent.device3?.indexOf(this);
+          parent.device3?.splice(index, 1);
+        }
+      }
     }
 
     super.delete();

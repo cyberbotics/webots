@@ -62,6 +62,7 @@
 #include "robot_window_private.h"
 #include "scheduler.h"
 #include "supervisor_private.h"
+#include "tcp_client.h"
 
 #ifdef _WIN32
 #include <windows.h>  // GetCommandLine
@@ -157,7 +158,12 @@ void stream_pipe_read(int fd, char **buffer) {
   if (len == -1)
     len = 0;
 #endif
-  (*buffer)[len] = '\0';
+  if (len != 0)
+    (*buffer)[len] = '\0';
+  else {
+    free(*buffer);
+    *buffer = NULL;
+  }
 }
 
 static void init_robot_window_library() {
@@ -1318,15 +1324,21 @@ int wb_robot_init() {  // API initialization
       char *host, *robot_name;
       int port = -1;
       compute_remote_info(&host, &port, &robot_name);
-      success = scheduler_init_remote(host, port, robot_name);
+      char *error_message = malloc(ERROR_BUFFER_SIZE);
+      success = scheduler_init_remote(host, port, robot_name, error_message);
       if (success) {
         free(host);
         free(robot_name);
+        free(error_message);
         break;
-      } else
-        fprintf(stderr, ", retrying in %d second%s...\n", retry, retry < 2 ? "" : "s");
+      } else {
+        if (retry % 5 == 0 && retry != 50)
+          fprintf(stderr, "%s, retrying for another %d seconds...\n", error_message, 50 - retry);
+      }
+
       free(host);
       free(robot_name);
+      free(error_message);
     } else {  // Intern or IPC extern controller
       char *socket_filename = compute_socket_filename();
       success = socket_filename ? scheduler_init_local(socket_filename) : false;
@@ -1334,18 +1346,20 @@ int wb_robot_init() {  // API initialization
         free(socket_filename);
         break;
       }
-      if (socket_filename)
-        fprintf(stderr, "Cannot connect to Webots instance on socket \"%s\", retrying in %d second%s...\n", socket_filename,
-                retry, retry < 2 ? "" : "s");
-      else
-        fprintf(stderr, "Cannot connect to Webots instance, retrying in %d second%s...\n", retry, retry < 2 ? "" : "s");
+      if (retry % 5 == 0 && retry != 50) {
+        if (socket_filename)
+          fprintf(stderr, "Cannot connect to Webots instance on socket \"%s\", retrying for another %d seconds...\n",
+                  socket_filename, 50 - retry);
+        else
+          fprintf(stderr, "Cannot connect to Webots instance, retrying for another %d seconds...\n", 50 - retry);
+      }
       free(socket_filename);
     }
-    if (retry++ > 10) {
+    if (retry++ > 50) {
       fprintf(stderr, "Giving up...\n");
       exit(EXIT_FAILURE);
     }
-    sleep(retry);
+    sleep(1);
   }
   if (getenv("WEBOTS_STDOUT_REDIRECT"))
     stdout_read = stream_pipe_create(1);

@@ -286,6 +286,7 @@ export default class Parser {
         result = this.#parseTransform(node, parentNode, isBoundingObject);
         break;
       case 'Physics':
+      case 'SolidReference':
       case 'ImmersionProperties':
         // skip those nodes as they are not needed for web representation.
         break;
@@ -784,6 +785,7 @@ export default class Parser {
     const anchor = convertStringToVec3(getNodeAttribute(node, 'anchor', '0 0 0'));
     const minStop = parseFloat(getNodeAttribute(node, 'minStop', '0'));
     const maxStop = parseFloat(getNodeAttribute(node, 'maxStop', '0'));
+    const role = getNodeAttribute(node, 'role', 'jointParameters');
 
     let jointParameters;
     if (node.tagName === 'JointParameters') {
@@ -798,18 +800,13 @@ export default class Parser {
     WbWorld.instance.nodes.set(jointParameters.id, jointParameters);
 
     if (typeof parentNode !== 'undefined') {
-      if (parentNode instanceof WbBallJoint) {
-        if (jointParameters instanceof WbBallJointParameters)
-          parentNode.jointParameters = jointParameters;
-        else
-          parentNode.jointParameters2 = jointParameters;
-      } else if (parentNode instanceof WbHinge2Joint) {
-        if (jointParameters instanceof WbHingeJointParameters)
-          parentNode.jointParameters = jointParameters;
-        else
-          parentNode.jointParameters2 = jointParameters;
-      } else
+      if (role === 'jointParameters')
         parentNode.jointParameters = jointParameters;
+      else if (role === 'jointParameters2')
+        parentNode.jointParameters2 = jointParameters;
+      else if (role === 'jointParameters3')
+        parentNode.jointParameters3 = jointParameters;
+
       jointParameters.parent = parentNode.id;
     }
 
@@ -820,6 +817,7 @@ export default class Parser {
     const id = this.#parseId(node);
 
     const name = getNodeAttribute(node, 'name', '');
+    const role = getNodeAttribute(node, 'role', 'device');
 
     let logicalDevice;
     if (node.tagName === 'PositionSensor')
@@ -839,7 +837,13 @@ export default class Parser {
 
     if (typeof parentNode !== 'undefined') {
       logicalDevice.parent = parentNode.id;
-      parentNode.device.push(logicalDevice);
+
+      if (role === 'device' && parentNode.device !== 'undefined')
+        parentNode.device.push(logicalDevice);
+      else if (role === 'device2' && parentNode.device2 !== 'undefined')
+        parentNode.device2.push(logicalDevice);
+      else if (role === 'device3' && parentNode.device3 !== 'undefined')
+        parentNode.device3.push(logicalDevice);
     }
 
     return logicalDevice;

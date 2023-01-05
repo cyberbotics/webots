@@ -1,10 +1,10 @@
-import WbSolid from './WbSolid.js';
+import WbDevice from './WbDevice.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import {arrayXPointerFloat} from './utils/utils.js';
 
 // This class is used to retrieve the type of device
-export default class WbPen extends WbSolid {
+export default class WbPen extends WbDevice {
   #material;
   #mesh;
   #renderable;

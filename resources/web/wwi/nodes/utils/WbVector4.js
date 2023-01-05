@@ -77,4 +77,36 @@ export default class WbVector4 {
     this.y = q.y * inv;
     this.z = q.z * inv;
   }
+
+  normalizeRotation() {
+    this.normalizeAxis();
+    this.normalizeAngle();
+  }
+
+  normalizeAxis() {
+    if (!this.isValid()) {
+      this.x = 0.0;
+      this.y = 0.0;
+      this.z = 1.0;
+      return;
+    }
+
+    const invl = 1 / Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
+    if (Math.abs(invl - 1) > DOUBLE_EQUALITY_TOLERANCE) {
+      this.x *= invl;
+      this.y *= invl;
+      this.z *= invl;
+    }
+  }
+
+  normalizeAngle() {
+    while (this.w < -Math.PI)
+      this.w += 2 * Math.PI;
+    while (this.w > Math.PI)
+      this.w -= 2 * Math.PI;
+  }
+
+  isValid() {
+    return !(this.x === 0 && this.y === 0 && this.z === 0) && !(typeof this.w === 'undefined');
+  }
 }

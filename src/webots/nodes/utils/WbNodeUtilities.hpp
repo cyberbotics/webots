@@ -47,14 +47,6 @@ namespace WbNodeUtilities {
   // find the closest WbTransform ancestor
   WbTransform *findUpperTransform(const WbNode *node);
 
-  // find the closest template ancestor in which the modified node is contained in template field
-  // which requires a template instance regeneration
-  WbNode *findUpperTemplateNeedingRegeneration(WbNode *modifiedNode);
-
-  // find the closest template ancestor of given field in which the modified field is contained
-  // in template field which requires a template instance regeneration
-  WbNode *findUpperTemplateNeedingRegenerationFromField(WbField *modifiedField, WbNode *parentNode);
-
   // find the closest WbSolid ancestor
   WbSolid *findUpperSolid(const WbNode *node);
 
