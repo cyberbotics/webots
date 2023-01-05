@@ -140,6 +140,13 @@ export default class Node {
 
   async parseHead() {
     // console.log('PARSE HEAD OF ' + this.name);
+    console.log(this.rawInterface);
+    // change all relative paths to remote ones
+    const re = /"(?:[^"]*)\.(jpe?g|png|hdr|obj|stl|dae)"/g;
+    let result;
+    while ((result = re.exec(this.rawInterface)) !== null)
+      this.rawInterface = this.rawInterface.replace(result[0], '"' + combinePaths(result[0].slice(1, -1), this.url) + '"');
+
     const headTokenizer = new Tokenizer(this.rawInterface, this);
     headTokenizer.tokenize();
 
