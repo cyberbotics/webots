@@ -368,11 +368,13 @@ export default class Node {
       view.x3dScene.processServerMessage(`delete: ${baseNodeId.replace('n', '')}`);
       console.log(`delete: ${baseNodeId.replace('n', '')}`)
 
-      // insert regenerated one
-      console.log('parentParam', this.parameters, this.parentParameter.value.value.parameters)
+      // regenerate and parse the body of the associated node
+      this.parseBody(true);
 
+      // insert regenerated one
       const x3d = new XMLSerializer().serializeToString(this.toX3d());
       console.log('X3d', x3d)
+      view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', node.parent.replace('n', ''));
     }
 
     if (!propagate)

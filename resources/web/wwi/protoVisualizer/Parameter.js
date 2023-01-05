@@ -204,8 +204,13 @@ export default class Parameter {
   }
 
   clone(deep = false) {
-    const copy = new Parameter(this.node, this.name, this.type, this.defaultValue.clone(deep), this.value.clone(deep),
-      this.isTemplateRegenerator);
+
+    let copy;
+    if (deep)
+      copy = new Parameter(this.node, this.name, this.type, this.defaultValue.clone(deep), this.value.clone(deep),
+        this.isTemplateRegenerator);
+    else
+      copy = new Parameter(this.node, this.name, this.type, this.defaultValue, this.value, this.isTemplateRegenerator);
 
     //copy.defaultValue.parameterRef = 'ERG';
     copy.value.parameterRef = 'ERG';
