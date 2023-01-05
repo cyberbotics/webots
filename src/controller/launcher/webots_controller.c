@@ -674,20 +674,16 @@ int main(int argc, char **argv) {
     chdir(controller_path_tmp);
     const size_t new_controller_size = snprintf(NULL, 0, "%s%s", controller_path, controller_name + 1) + 1;
     char *tmp_realloc = realloc(controller, new_controller_size);
-    if (!tmp_realloc) {
-      free(controller);
+    if (!tmp_realloc)
       exit(1);
-    }
     controller = tmp_realloc;
     snprintf(controller, new_controller_size, "%s%s", controller_path, controller_name + 1);
   } else {
     // Add current relative path to controller for execvp() function
     const size_t controller_size = strlen(controller);
     char *tmp_realloc = realloc(controller, controller_size + 3);
-    if (!tmp_realloc) {
-      free(controller);
+    if (!tmp_realloc)
       exit(1);
-    }
     controller = tmp_realloc;
     memmove(controller + 2, controller, controller_size + 1);
     memcpy(controller, controller_path, 2);
