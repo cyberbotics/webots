@@ -504,14 +504,9 @@ void format_ini_paths(char **string) {
   get_current_path();
   char *absolute_controller_path = NULL;
   size_t absolute_controller_path_size = 0;
-  if (controller_path[0] == '\\' || controller_path[0] == '/' || (isalpha(controller_path[0]) && controller_path[1] == ':')) {
-    absolute_controller_path = strdup(controller_path);
-    absolute_controller_path_size = strlen(controller_path) + 1;
-  } else {
-    absolute_controller_path_size = snprintf(NULL, 0, "%s%s", current_path, controller_path) + 1;
-    absolute_controller_path = malloc(absolute_controller_path_size);
-    sprintf(absolute_controller_path, "%s%s", current_path, controller_path);
-  }
+  absolute_controller_path_size = snprintf(NULL, 0, "%s%s", current_path, controller_path) + 1;
+  absolute_controller_path = malloc(absolute_controller_path_size);
+  sprintf(absolute_controller_path, "%s%s", current_path, controller_path);
 
   // Add absolute path to runtime.ini in front of all relative paths
   char *tmp = strdup(*string);
