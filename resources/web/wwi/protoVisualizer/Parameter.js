@@ -2,7 +2,6 @@
 
 import {SFNode, stringifyType} from './Vrml.js';
 import Node from './Node.js';
-import WbWorld from '../nodes/WbWorld.js';
 
 export default class Parameter {
   #type;
@@ -82,14 +81,11 @@ export default class Parameter {
   // TODO: find better approach rather than propagating the view to subsequent parameters
   setValueFromJavaScript(view, v) {
     // notify linked parameters of the change
-    for (const link of this.parameterLinks) {
-      const newValue = (v !== null && v instanceof Node) ? v.clone() : v;
-      link.setValueFromJavaScript(view, newValue);
-    }
+    for (const link of this.parameterLinks)
+      link.setValueFromJavaScript(view, (v !== null && v instanceof Node) ? v.clone() : v);
 
     if (this.isTemplateRegenerator) {
       // regenerate this node, and all its siblings
-      console.log('siblings of ' + this.node.id + ': ', Node.cNodeSiblings.get(this.node.id))
       this.#value.setValueFromJavaScript(v);
       this.node.regenerateNode(view);
 

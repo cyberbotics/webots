@@ -98,7 +98,7 @@ export default class Node {
       const xmlhttp = new XMLHttpRequest();
       xmlhttp.open('GET', protoUrl, true);
       xmlhttp.overrideMimeType('plain/text');
-      xmlhttp.onreadystatechange = async () => {
+      xmlhttp.onreadystatechange = async() => {
         if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
           resolve(xmlhttp.responseText);
       };
@@ -346,10 +346,8 @@ export default class Node {
       return;
 
     if (Node.cNodeSiblings.has(this.id)) {
-      for (const sibling of Node.cNodeSiblings.get(this.id)) {
-        // console.log(this.id, ' requests regeneration of sibling node: ', sibling.id)
+      for (const sibling of Node.cNodeSiblings.get(this.id))
         sibling.regenerateNode(view, false); // prevent endless loop
-      }
     }
   }
 

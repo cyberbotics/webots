@@ -751,7 +751,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       if (parameter.value.value === null)
         return;
 
-      console.log('CONFIG', parameter.value.value)
       this.proto = parameter.value.value;
       this.populateProtoParameterWindow();
     };

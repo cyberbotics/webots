@@ -1664,7 +1664,7 @@ export default class Parser {
   #updateParserProgress(node) {
     this.#nodeCounter += 1;
     const percentage = 100 * this.#nodeCounter / this.#nodeNumber;
-    const info = 'Parsing node: ' + node.id + ' (' + node.tagName + ') ' + percentage + '%';
+    const info = 'Parsing node: ' + node.id + ' (' + node.tagName + ') ' + percentage.toFixed(0) + '%';
     webots.currentView.progress.setProgressBar('block', 'same', percentage, info);
   }
 }
