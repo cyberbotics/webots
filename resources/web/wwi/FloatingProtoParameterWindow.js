@@ -128,6 +128,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         const parameter = this.#protoManager.exposedParameters.get(key);
         if (parameter.type === VRML.SFVec3f)
           this.#createSFVec3Field(key, contentDiv);
+        else if (parameter.type === VRML.SFColor)
+          this.#createSFColorField(key, contentDiv);
         else if (parameter.type === VRML.SFVec2f)
           this.#createSFVec2Field(key, contentDiv);
         else if (parameter.type === VRML.SFRotation)
@@ -257,6 +259,53 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     parent.appendChild(p);
     parent.appendChild(values);
+  }
+
+  #createSFColorField(key, parent) {
+    const results = this.#createFieldCommonPart(key, parent);
+    const p = results[0];
+    const parameter = results[1];
+    const values = this.#createSFValue();
+
+    const resetButton = this.#createResetButton(parent, p.style.gridRow);
+    this.#disableResetButton(resetButton);
+    resetButton.onclick = () => {
+      const defaultValue = parameter.defaultValue.value;
+      this.#colorOnChange(parameter, this.rgbToHex(parseInt(defaultValue.r * 255), parseInt(initialValue.g * 255),
+        parseInt(initialValue.b * 255)));
+      this.#disableResetButton(resetButton);
+    };
+
+    const input = document.createElement('input');
+    input.type = 'color';
+    const initialValue = parameter.value.value;
+    input.value = this.rgbToHex(parseInt(initialValue.r * 255), parseInt(initialValue.g * 255), parseInt(initialValue.b * 255));
+    input.onchange = _ => {
+      this.#colorOnChange(parameter, _.target.value);
+      this.#enableResetButton(resetButton);
+    };
+
+    values.appendChild(input);
+
+    parent.appendChild(p);
+    parent.appendChild(values);
+  }
+
+  #colorOnChange(parameter, hexValue) {
+    const red = parseInt(hexValue.substring(1, 3), 16) / 255;
+    const green = parseInt(hexValue.substring(3, 5), 16) / 255;
+    const blue = parseInt(hexValue.substring(5, 7), 16) / 255;
+    const newColor = {r: red, g: green, b: blue};
+    parameter.setValueFromJavaScript(this.#view, newColor);
+  }
+
+  #colorComponentToHex(c) {
+    let hex = c.toString(16);
+    return hex.length === 1 ? '0' + hex : hex;
+  }
+
+  rgbToHex(r, g, b) {
+    return '#' + this.#colorComponentToHex(r) + this.#colorComponentToHex(g) + this.#colorComponentToHex(b);
   }
 
   #createSFVec2Field(key, parent) {
