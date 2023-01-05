@@ -34,7 +34,7 @@ import WbVector3 from './nodes/utils/WbVector3.js';
 import WbBrake from './nodes/WbBrake.js';
 import WbPositionSensor from './nodes/WbPositionSensor.js';
 import NodeSelectorWindow from './NodeSelectorWindow.js';
-import { SFNode } from './protoVisualizer/Vrml.js';
+import {SFNode} from './protoVisualizer/Vrml.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #mfId;
@@ -764,7 +764,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     this.#disableResetButton(resetButton);
     resetButton.onclick = () => {
-      parameter.setValueFromJavaScript(this.#view, parameter.defaultValue.value);
+      parameter.setValueFromJavaScript(this.#view, parameter.defaultValue.value.clone(true));
       this.#refreshParameterRow(parameter);
     };
 

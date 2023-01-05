@@ -1,9 +1,9 @@
 'use strict';
 
-import { Node } from './Node.js';
-import { VRML } from './vrml_type.js';
+import {Node} from './Node.js';
+import {VRML} from './vrml_type.js';
 
-import { DOUBLE_EQUALITY_TOLERANCE } from '../nodes/utils/constants.js';
+import {DOUBLE_EQUALITY_TOLERANCE} from '../nodes/utils/constants.js';
 
 class SingleValue {
   #value;
@@ -141,7 +141,7 @@ export class SFString extends SingleValue {
 
 export class SFVec2f extends SingleValue {
   setValueFromTokenizer(tokenizer) {
-    this.value = { x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat() };
+    this.value = {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat()};
   }
 
   toX3d(parameterName, parentElement) {
@@ -188,7 +188,7 @@ export class SFVec2f extends SingleValue {
 
 export class SFVec3f extends SingleValue {
   setValueFromTokenizer(tokenizer) {
-    this.value = { x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), z: tokenizer.nextToken().toFloat() };
+    this.value = {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), z: tokenizer.nextToken().toFloat()};
   }
 
   toX3d(parameterName, parentElement) {
@@ -235,7 +235,7 @@ export class SFVec3f extends SingleValue {
 
 export class SFColor extends SingleValue {
   setValueFromTokenizer(tokenizer) {
-    this.value = { r: tokenizer.nextToken().toFloat(), g: tokenizer.nextToken().toFloat(), b: tokenizer.nextToken().toFloat() };
+    this.value = {r: tokenizer.nextToken().toFloat(), g: tokenizer.nextToken().toFloat(), b: tokenizer.nextToken().toFloat()};
   }
 
   toX3d(parameterName, parentElement) {
@@ -320,7 +320,7 @@ export class SFRotation extends SingleValue {
       zValue *= invl;
     }
 
-    this.value = { x: xValue, y: yValue, z: zValue, a: aValue };
+    this.value = {x: xValue, y: yValue, z: zValue, a: aValue};
   }
 
   toJS() {

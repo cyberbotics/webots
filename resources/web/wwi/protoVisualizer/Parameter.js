@@ -1,7 +1,6 @@
 'use strict';
 
-import { SFNode, stringifyType } from './Vrml.js';
-import { VRML } from './vrml_type.js';
+import {SFNode, stringifyType} from './Vrml.js';
 import Node from './Node.js';
 import WbWorld from '../nodes/WbWorld.js';
 
@@ -83,11 +82,8 @@ export default class Parameter {
   // TODO: find better approach rather than propagating the view to subsequent parameters
   setValueFromJavaScript(view, v) {
     // notify linked parameters of the change
-    console.log(this.name, ' has links: ', this.parameterLinks);
     for (const link of this.parameterLinks) {
-      console.log('NOTIFYING LINK', link.name, 'TO SET VALUE', v)
       const newValue = (v !== null && v instanceof Node) ? v.clone() : v;
-      // console.log(this.name + ' change notifies ' + link.name);
       link.setValueFromJavaScript(view, newValue);
     }
 
@@ -95,9 +91,11 @@ export default class Parameter {
       // regenerate this node, and all its siblings
       console.log('siblings of ' + this.node.id + ': ', Node.cNodeSiblings.get(this.node.id))
       this.#value.setValueFromJavaScript(v);
-      this.node.regenerate(view);
+      this.node.regenerateNode(view);
+
+      if (typeof this.onChange === 'function')
+        this.onChange();
     } else {
-      console.log('here', this.node.isProto, this.#value instanceof SFNode)
       if (this.node.isProto) {
         // update value on the structure side
         this.#value.setValueFromJavaScript(v);
@@ -111,8 +109,6 @@ export default class Parameter {
           const p = baseNode.getParameterByName(this.name);
           const id = p.value.value.getBaseNode().id;
 
-          // console.log('param', p, 'value', p.value.value)
-          console.log('request:', `delete: ${id.replace('n', '')}`);
           view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
         }
 
@@ -124,9 +120,7 @@ export default class Parameter {
           const parentId = baseNode.id.replace('n', '');
 
           const x3d = new XMLSerializer().serializeToString(v.toX3d());
-          console.log('in parent ', parentId, ' insert:' + x3d);
           view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
-          console.log(WbWorld.instance)
         }
       } else {
         // update value on the structure side

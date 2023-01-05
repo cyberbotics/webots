@@ -19,7 +19,6 @@ export default class WbShape extends WbBaseNode {
     this.#boundingObjectFirstTimeSearch = true;
     this.#isInBoundingObject = false;
 
-    this.#appearance = appearance;
     this.appearance = appearance;
     this.geometry = geometry;
   }

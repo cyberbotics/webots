@@ -1,12 +1,12 @@
 'use strict';
 
-import { getAnId } from '../nodes/utils/id_provider.js';
+import {getAnId} from '../nodes/utils/id_provider.js';
 import TemplateEngine from './TemplateEngine.js';
 import Tokenizer from './Tokenizer.js';
-import { VRML } from './vrml_type.js';
-import { SFNode, vrmlFactory } from './Vrml.js';
-import { FieldModel } from './FieldModel.js';
-import { Parameter } from './Parameter.js';
+import {VRML} from './vrml_type.js';
+import {SFNode, vrmlFactory} from './Vrml.js';
+import {FieldModel} from './FieldModel.js';
+import {Parameter} from './Parameter.js';
 import WbWorld from '../nodes/WbWorld.js';
 
 export default class Node {
@@ -24,12 +24,11 @@ export default class Node {
     this.isProto = this.url.toLowerCase().endsWith('.proto');
 
     this.name = this.isProto ? this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '') : url;
-    console.log('CREATING ' + (this.isProto ? 'PROTO ' : 'BASENODE ') + this.name + ', id: ', this.id);
+    // console.log('CREATING ' + (this.isProto ? 'PROTO ' : 'BASENODE ') + this.name + ', id: ', this.id);
 
     this.parameters = new Map();
     this.externProto = new Map();
     this.def = new Map();
-    this.siblings = [];
 
     if (!this.isProto) {
       // create parameters from the pre-defined FieldModel
@@ -121,7 +120,7 @@ export default class Node {
   }
 
   async generateInterface() {
-    return Promise.all(this.promises).then(async () => {
+    return Promise.all(this.promises).then(async() => {
       // parse header and map each parameter entry
       // console.log(this.name + ': all EXTERNPROTO promises have been resolved');
       await this.parseHead();
@@ -143,11 +142,9 @@ export default class Node {
         Node.cNodeSiblings.set(copy.id, [])
 
       const s1 = Node.cNodeSiblings.get(this.id);
-      s1.push(copy);
-      // console.log('adding ' + copy.id + ' as sibling of ' + this.id)
+      s1.push(copy); // add copy as a sibling of this node
       const s2 = Node.cNodeSiblings.get(copy.id);
-      s2.push(this);
-      // console.log('adding ' + this.id + ' as sibling of ' + copy.id)
+      s2.push(this); // add this node as a sibling of the copy
     }
 
     copy.parameters = new Map();
@@ -242,10 +239,8 @@ export default class Node {
               throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
 
             const exposedParameter = tokenizer.proto.parameters.get(alias);
-            parameter.value = exposedParameter.value.clone(); //exposedParameter.value.clone();
+            parameter.value = exposedParameter.value.clone();
             exposedParameter.insertLink(parameter);
-            //exposedParameter.clones.push(parameter);
-            //parameter.clones.push(exposedParameter);
           } else
             parameter.value.setValueFromTokenizer(tokenizer, this);
         }
@@ -333,23 +328,17 @@ export default class Node {
     // console.log('Regenerated Proto Body:\n' + this.protoBody);
   };
 
-  regenerate(view, propagate = true) {
-    console.log('REGENERATING NODE ' + this.name + ' [id: ' + this.id + ', isProto: ' + this.isProto + ']');
-
+  regenerateNode(view, propagate = true) {
+    // console.log('Regenerating node ' + this.name + ' [id: ' + this.id + ', isProto: ' + this.isProto + ']');
     const baseNodeId = this.getBaseNode().id;
-
     const node = WbWorld.instance.nodes.get(baseNodeId);
     if (typeof node !== 'undefined') {
-      // delete existing one
+      // delete existing node
       view.x3dScene.processServerMessage(`delete: ${baseNodeId.replace('n', '')}`);
-      // console.log(`delete: ${baseNodeId.replace('n', '')}`)
-
-      // regenerate and parse the body of the associated node
+      // regenerate the VRML and parse body
       this.parseBody(true);
-
-      // insert regenerated one
+      // insert new node
       const x3d = new XMLSerializer().serializeToString(this.toX3d());
-      console.log('X3d', x3d)
       view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', node.parent.replace('n', ''));
     }
 
@@ -358,8 +347,8 @@ export default class Node {
 
     if (Node.cNodeSiblings.has(this.id)) {
       for (const sibling of Node.cNodeSiblings.get(this.id)) {
-        console.log(this.id, ' requests regeneration of sibling: ', sibling.id)
-        sibling.regenerate(view, false); // prevent endless loop
+        // console.log(this.id, ' requests regeneration of sibling node: ', sibling.id)
+        sibling.regenerateNode(view, false); // prevent endless loop
       }
     }
   }
@@ -430,8 +419,7 @@ export default class Node {
       const url = tokenizer.proto.externProto.get(nodeName);
       if (!Node.cProtoModels.has(url))
         throw new Error('Model of PROTO ' + nodeName + ' not available. Was it declared as EXTERNPROTO?');
-      else
-        console.log('FOUND MODEL FOR ' + nodeName + ' is ID: ', Node.cProtoModels.get(url).id)
+
       node = Node.cProtoModels.get(url).clone(true);
     }
 
