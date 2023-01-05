@@ -678,6 +678,7 @@ int main(int argc, char **argv) {
       free(controller);
       exit(1);
     }
+    controller = tmp_realloc;
     snprintf(controller, new_controller_size, "%s%s", controller_path, controller_name + 1);
   } else {
     // Add current relative path to controller for execvp() function
@@ -687,6 +688,7 @@ int main(int argc, char **argv) {
       free(controller);
       exit(1);
     }
+    controller = tmp_realloc;
     memmove(controller + 2, controller, controller_size + 1);
     memcpy(controller, controller_path, 2);
   }
