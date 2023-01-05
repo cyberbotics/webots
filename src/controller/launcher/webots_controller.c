@@ -183,7 +183,7 @@ static bool get_matlab_path() {
   DIR *directory = opendir(matlab_directory);
 #ifndef __APPLE__
   if (directory == NULL) {
-    printf("No installation of Matlab available.\n");
+    fprintf(stderr, "No installation of Matlab available.\n");
     return false;
   }
 #endif
