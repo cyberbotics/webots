@@ -242,7 +242,7 @@ static void print_options() {
 // Parses the command line options for the Webots controller launcher and sets WEBOTS_CONTROLLER_URL envrionment variable.
 static bool parse_options(int nb_arguments, char **arguments) {
   if (nb_arguments == 1) {
-    printf("No controller file provided. Please provide an existing controller file as argument.\n");
+    fprintf(stderr, "No controller file provided. Please provide an existing controller file as an argument.\n");
     return false;
   }
 
@@ -287,7 +287,7 @@ static bool parse_options(int nb_arguments, char **arguments) {
       }
     } else {
       if (controller) {
-        printf("Please specify only one single controller file to launch.\n");
+        fprintf(stderr, "Please specify only a single controller file to launch.\n");
         return false;
       }
       const size_t controller_size = strlen(arguments[i]) + 1;
@@ -298,7 +298,7 @@ static bool parse_options(int nb_arguments, char **arguments) {
 
   // Check that a controller path has been provided
   if (!controller) {
-    printf("No controller file provided. Please provide an existing controller file as argument.\n");
+    fprintf(stderr, "No controller file provided. Please provide an existing controller file as argument.\n");
     return false;
   }
 
@@ -315,7 +315,7 @@ static bool parse_options(int nb_arguments, char **arguments) {
   const char *robot_name_string = robot_name ? robot_name : "";
   if (strncmp(protocol, "tcp", 3) == 0) {
     if (!ip_address) {
-      printf("Specify the IP address of the Webots machine to connect to with '--ip-address=' option.\n");
+      fprintf(stderr, "Specify the IP address of the Webots machine to connect to with '--ip-address=' option.\n");
       return false;
     }
     const size_t WEBOTS_CONTROLLER_URL_size = snprintf(NULL, 0, "WEBOTS_CONTROLLER_URL=%s://%s:%s%s%s", protocol, ip_address,
@@ -326,14 +326,14 @@ static bool parse_options(int nb_arguments, char **arguments) {
             robot_name_string);
   } else if (strncmp(protocol, "ipc", 3) == 0) {
     if (ip_address)
-      printf("Skipping IP address for ipc protocol.\n");
+      fprintf(stderr, "Skipping IP address for ipc protocol.\n");
 
     const size_t WEBOTS_CONTROLLER_URL_size =
       snprintf(NULL, 0, "WEBOTS_CONTROLLER_URL=%s://%s%s%s", protocol, port, robot_separator, robot_name_string) + 1;
     WEBOTS_CONTROLLER_URL = malloc(WEBOTS_CONTROLLER_URL_size);
     sprintf(WEBOTS_CONTROLLER_URL, "WEBOTS_CONTROLLER_URL=%s://%s%s%s", protocol, port, robot_separator, robot_name_string);
   } else {
-    printf("Only ipc and tcp protocols are supported.\n");
+    fprintf(stderr, "Only ipc and tcp protocols are supported.\n");
     return false;
   }
   putenv(WEBOTS_CONTROLLER_URL);
@@ -398,7 +398,7 @@ static void python_config_environment() {
   char *python_ioencoding = "PYTHONIOENCODING=UTF-8";
   putenv(python_ioencoding);
 
-// On Windows add libCppController to Path (useful for e-puck controllers)
+// On Windows add libCppController to Path (useful for C++ controllers, robot windows and remote control plugins)
 #ifdef _WIN32
   const size_t new_path_size = snprintf(NULL, 0, "Path=%s\\msys64\\mingw64\\bin\\cpp;%s", WEBOTS_HOME, getenv("Path")) + 1;
   new_path = malloc(new_path_size);
@@ -558,7 +558,7 @@ static void parse_runtime_ini() {
       } else if (strncmp(runtime_ini_line, "[environmentvariablesforLinux]", 30) == 0) {
         section = Linux;
       } else {
-        printf("Unknown section in the runtime.ini file. Please refer to "
+        fprintf(stderr, "Unknown section in the runtime.ini file. Please refer to "
                "https://cyberbotics.com/doc/guide/controller-programming#environment-variables for more information.\n");
         exit(1);
       }
@@ -591,7 +591,7 @@ static void parse_runtime_ini() {
         case Windows:
 #ifdef _WIN32
           if (!strchr(runtime_ini_line, '\"')) {
-            printf("Paths for windows should be written between double-quotes symbols \".\n");
+            fprintf(stderr, "Paths for windows should be written between double-quotes symbols \".\n");
             exit(1);
           }
           remove_comment(strrchr(runtime_ini_line, '\"'));
@@ -629,18 +629,16 @@ static void parse_runtime_ini() {
 
 int main(int argc, char **argv) {
   // Check WEBOTS_HOME and exit if empty
-  const bool is_set = get_webots_home();
-  if (!is_set)
+  if (!get_webots_home())
     exit(1);
 
   // Parse command line options
-  const bool success = parse_options(argc, argv);
-  if (!success)
+  if (!parse_options(argc, argv))
     exit(1);
 
   // Check if controller file exists
   if (access(controller, F_OK) != 0) {
-    printf("Controller file '%s' not found. Please specify a path to an existing controller file.\n", controller);
+    fprintf(stderr, "Controller file '%s' not found. Please specify a path to an existing controller file.\n", controller);
     exit(1);
   }
 
@@ -648,7 +646,7 @@ int main(int argc, char **argv) {
   struct stat path;
   stat(controller, &path);
   if (S_ISDIR(path.st_mode)) {
-    printf("Controller path '%s' is a directory. Please specify a path to an existing controller file.\n", controller);
+    fprintf(stderr, "Controller path '%s' is a directory. Please specify a path to an existing controller file.\n", controller);
     exit(1);
   };
 
@@ -723,11 +721,8 @@ int main(int argc, char **argv) {
     matlab_config_environment();
 
     // If no MATLAB installation path was given in command line, check in default installation folder
-    if (!matlab_path) {
-      const bool default_matlab_install = get_matlab_path();
-      if (!default_matlab_install)
-        return -1;
-    }
+    if (!matlab_path && !get_matlab_path())
+      return -1;
 
 #ifdef _WIN32
     const char *launcher_path = "\\lib\\controller\\matlab\\launcher.m";
@@ -778,7 +773,7 @@ int main(int argc, char **argv) {
     char *classpath = malloc(classpath_size);
     sprintf(classpath, "\"%s%s%s\"", lib_controller, jar_path, short_controller_path);
 
-    // Write the 'Djava.library.path' option (mandatory for java controllers)
+    // Write the '-Djava.library.path' option (mandatory for java controllers)
     const size_t java_library_size = snprintf(NULL, 0, "\"-Djava.library.path=%s\"", lib_controller) + 1;
     char *java_library = malloc(java_library_size);
     sprintf(java_library, "\"-Djava.library.path=%s\"", lib_controller);
@@ -811,7 +806,7 @@ int main(int argc, char **argv) {
     free(classpath);
     free(java_library);
   } else
-    printf("The file extension '%s' is not supported as webots controller. Supported file types are executable files, '.py', "
+    fprintf(stderr, "The file extension '%s' is not supported as webots controller. Supported file types are executable files, '.py', "
            "'.jar', '.class' and '.m'.\n",
            controller_extension);
 
