@@ -192,6 +192,7 @@ It is also possible to give a custom MATLAB installation path to the launcher, b
   ```bash
   $WEBOTS_HOME/webots-controller $WEBOTS_HOME/projects/robots/softbank/nao/controllers/nao_demo/nao_demo
   ```
+  
   **Note**: If you need to connect to a remote Webots instance, the controller can be started the following way:
   ```bash
   $WEBOTS_HOME/webots-controller $WEBOTS_HOME/projects/robots/softbank/nao/controllers/nao_demo/nao_demo --protocol=tcp --ip-address=127.0.0.1
