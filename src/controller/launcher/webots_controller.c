@@ -838,6 +838,8 @@ int main(int argc, char **argv) {
     char *java_library = malloc(java_library_size);
     sprintf(java_library, "-Djava.library.path=%s", lib_controller);
 
+    if (!controller_name)
+      controller_name = strrchr(controller, '/');
     controller_name[strlen(controller_name) - strlen(controller_extension)] = '\0';
     char *new_argv[] = {"java", "-classpath", classpath, java_library, controller_name + 1, NULL};
     execvp(new_argv[0], new_argv);
