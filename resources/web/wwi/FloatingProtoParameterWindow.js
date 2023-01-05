@@ -30,6 +30,7 @@ import WbSpeaker from './nodes/WbSpeaker.js';
 import WbWorld from './nodes/WbWorld.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
 import WbTouchSensor from './nodes/WbTouchSensor.js';
+import WbVector2 from './nodes/utils/WbVector2.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 import WbBrake from './nodes/WbBrake.js';
 import WbPositionSensor from './nodes/WbPositionSensor.js';
@@ -144,6 +145,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           this.#createSFBoolField(key, contentDiv);
         else if (parameter.type === VRML.MFVec3f)
           this.#createMFVec3fField(key, contentDiv);
+        else if (parameter.type === VRML.MFVec2f)
+          this.#createMFVec2fField(key, contentDiv);
         else if (parameter.type === VRML.MFString)
           this.#createMFStringField(key, contentDiv);
 
@@ -453,6 +456,111 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parameter.setValueFromJavaScript(this.#view, vectorArray);
   }
 
+  #createMFVec2fField(key, parent) {
+    const results = this.#createFieldCommonPart(key, parent);
+    const p = results[0];
+    const parameter = results[1];
+
+    const currentMfId = this.#mfId;
+    const hideShowButton = this.#createHideShowButtom(currentMfId);
+
+    const resetButton = this.#createResetButton(parent, p.style.gridRow);
+    this.#disableResetButton(resetButton);
+    resetButton.onclick = () => {
+      this.#disableResetButton(resetButton);
+      const nodesToRemove = document.getElementsByClassName('mf-id-' + currentMfId);
+      let maxRowNumber = 0;
+      for (let i = nodesToRemove.length - 1; i >= 0; i--) {
+        const rowNumber = this.#getRow(nodesToRemove[i]);
+        if (rowNumber > maxRowNumber)
+          maxRowNumber = rowNumber;
+        nodesToRemove[i].parentNode.removeChild(nodesToRemove[i]);
+      }
+
+      parameter.value = parameter.defaultValue.clone();
+      const resetButtonRow = this.#getRow(resetButton);
+      // two times because of the `add` button and plus one for the first `add` button.
+      const maxRowNumberNeeded = parameter.value.value.length * 2 + 1 + resetButtonRow;
+
+      // Need to offset the following rows by the difference to keep the coherency.
+      if (maxRowNumber > maxRowNumberNeeded)
+        this.#offsetNegativelyRows(resetButtonRow, maxRowNumber - maxRowNumberNeeded);
+      else if (maxRowNumber < maxRowNumberNeeded)
+        this.#offsetPositivelyRows(resetButtonRow + 1, maxRowNumberNeeded - maxRowNumber);
+
+      this.#populateMFVec2f(resetButton, parent, parameter, resetButtonRow, currentMfId, !hideShowButton.isHidden);
+
+      this.#MFVec2fOnChange('value-parameter mf-parameter mf-id-' + currentMfId, parameter);
+    };
+
+    this.#rowNumber += this.#populateMFVec2f(resetButton, parent, parameter, this.#rowNumber, currentMfId);
+
+    parent.appendChild(p);
+    parent.appendChild(hideShowButton);
+
+    this.#mfId++;
+  }
+
+  #populateMFVec2f(resetButton, parent, parameter, firstRow, mfId, isVisible) {
+    this.#createAddRowSection(mfId, resetButton, firstRow, parent, parameter, isVisible, VRML.MFVec2f);
+    let numberOfRows = 1;
+    for (let i = 0; i < parameter.value.value.length; i++) {
+      numberOfRows++;
+      this.#createVector2Row(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
+        parameter, isVisible);
+      numberOfRows++;
+    }
+
+    return numberOfRows;
+  }
+
+  #createVector2Row(value, row, parent, mfId, resetButton, parameter, isVisible) {
+    const p = this.#createMfRowElement(row, mfId);
+
+    if (isVisible)
+      p.style.display = 'block';
+    this.#createVectorInput(' x', value.x, p, () => {
+      this.#MFVec2fOnChange(p.className, parameter);
+      this.#enableResetButton(resetButton);
+    });
+    this.#createVectorInput(' y', value.y, p, () => {
+      this.#MFVec2fOnChange(p.className, parameter);
+      this.#enableResetButton(resetButton);
+    });
+
+    parent.appendChild(p);
+
+    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFVec2fOnChange(p.className, parameter));
+
+    // Add row
+    const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible, VRML.MFVec2f);
+    return [p, addRow];
+  }
+
+  #MFVec2fOnChange(className, parameter) {
+    const elements = document.getElementsByClassName(className);
+    let lut = new Map();
+    for (let i = 0; i < elements.length; i++) {
+      let order = this.#getRow(elements[i]);
+
+      // the last one is the delete button
+      const value = new WbVector2(elements[i].childNodes[0].childNodes[1].value, elements[i].childNodes[1].childNodes[1].value);
+
+      lut.set(order, value);
+    }
+    lut = new Map([...lut.entries()].sort((a, b) => a[0] - b[0]));
+
+    // Separately printing only keys
+    const vectorArray = [];
+    let i = 0;
+    for (let value of lut.values()) {
+      vectorArray[i] = value;
+      i++;
+    }
+
+    parameter.setValueFromJavaScript(this.#view, vectorArray);
+  }
+
   #createMFStringField(key, parent) {
     const results = this.#createFieldCommonPart(key, parent);
     const p = results[0];
@@ -658,6 +766,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       if (type === VRML.MFVec3f) {
         newRows = this.#createVector3Row(new WbVector3(), row, parent, mfId, resetButton, parameter);
         this.#MFVec3fOnChange(newRows[0].className, parameter);
+      } else if (type === VRML.MFVec2f) {
+        newRows = this.#createVector2Row(new WbVector2(), row, parent, mfId, resetButton, parameter);
+        this.#MFVec2fOnChange(newRows[0].className, parameter);
       } else if (type === VRML.MFString) {
         newRows = this.#createMFStringRow('', row, parent, mfId, resetButton, parameter);
         this.#MFStringfOnChange(newRows[0].className, parameter);

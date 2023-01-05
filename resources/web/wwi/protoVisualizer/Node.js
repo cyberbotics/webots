@@ -140,7 +140,7 @@ export default class Node {
 
   async parseHead() {
     // console.log('PARSE HEAD OF ' + this.name);
-    console.log(this.rawInterface);
+
     // change all relative paths to remote ones
     const re = /"(?:[^"]*)\.(jpe?g|png|hdr|obj|stl|dae)"/g;
     let result;
