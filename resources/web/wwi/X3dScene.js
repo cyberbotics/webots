@@ -153,7 +153,7 @@ export default class X3dScene {
   }
 
   loadWorldFile(url, onLoad, progress) {
-    console.log('LOADWORLD: ', url)
+    console.log('LOADWORLD: ', url);
 
     const prefix = webots.currentView.prefix;
     const renderer = this.renderer;

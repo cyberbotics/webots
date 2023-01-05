@@ -4,7 +4,7 @@ import {getAnId} from '../nodes/utils/id_provider.js';
 import TemplateEngine from './TemplateEngine.js';
 import Tokenizer from './Tokenizer.js';
 import {VRML} from './vrml_type.js';
-import {SFNode, vrmlFactory} from './Vrml.js';
+import {vrmlFactory} from './Vrml.js';
 import {FieldModel} from './FieldModel.js';
 import {Parameter} from './Parameter.js';
 import WbWorld from '../nodes/WbWorld.js';
@@ -137,9 +137,9 @@ export default class Node {
 
     if (!deep) {
       if (!Node.cNodeSiblings.has(this.id))
-        Node.cNodeSiblings.set(this.id, [])
+        Node.cNodeSiblings.set(this.id, []);
       if (!Node.cNodeSiblings.has(copy.id))
-        Node.cNodeSiblings.set(copy.id, [])
+        Node.cNodeSiblings.set(copy.id, []);
 
       const s1 = Node.cNodeSiblings.get(this.id);
       s1.push(copy); // add copy as a sibling of this node
@@ -358,7 +358,7 @@ export default class Node {
       parameter.resetParameterLinks();
 
     if (this.isRoot)
-      Node.cNodeSiblings = new Map()
+      Node.cNodeSiblings = new Map();
   };
 
   getParameterByName(name) {
