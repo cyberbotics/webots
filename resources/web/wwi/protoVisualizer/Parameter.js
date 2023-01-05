@@ -18,17 +18,8 @@ export default class Parameter {
     this.name = name;
     this.defaultValue = defaultValue;
     this.value = value;
-
-    if (type === VRML.SFNode) {
-      if (this.#defaultValue.value !== null)
-        this.#defaultValue.value.parentParameter = this;
-      if (this.#value.value !== null)
-        this.#value.value.parentParameter = this;
-    }
-
     this.isTemplateRegenerator = isTemplateRegenerator;
     this.#parameterLinks = []; // list of other parameters to notify whenever this instance changes
-    //this.clones = [];
   }
 
   get value() {
@@ -102,53 +93,9 @@ export default class Parameter {
 
     if (this.isTemplateRegenerator) {
       // regenerate this node, and all its siblings
-      console.log('doing parameter ' + this.name + ' of node ' + this.node.name + ' (which belongs to parameter: ', this.node.parentParameter?.name, 'node id:', this.node.parentParameter?.node.id, ')')
-      console.log('siblings of ' + this.node.id + ': ', Node.cNodeFamily.get(this.node.id))
-      console.log('setting value of parameter', this)
+      console.log('siblings of ' + this.node.id + ': ', Node.cNodeSiblings.get(this.node.id))
       this.#value.setValueFromJavaScript(v);
-      this.node.regenerate(v, view);
-
-      /*
-      // update value on the structure side
-      this.#value.setValueFromJavaScript(v);
-
-      console.log('  > ' + this.name + ' is a template regenerator!');
-
-      if (!this.node.isProto)
-        throw new Error('Attempting to regenerate a base node.');
-
-      const tolist = this.node.getBaseNode().to;
-      const parentList = []
-      for (const item of tolist) {
-        const node = WbWorld.instance.nodes.get(item.id);
-        if (typeof node !== 'undefined') {
-          console.log('>>>>> ', item.id, ' is a node, request deletion');
-          view.x3dScene.processServerMessage(`delete: ${item.id.replace('n', '')}`);
-          console.log('>>>>>> adding parent:', node.parent)
-          parentList.push(node.parent)
-        }
-      }
-
-      // regenerate and parse the body of the associated node
-      this.node.parseBody(true);
-
-      console.log('####', Node.cProtoBaseNodeLinks, parentList)
-
-      let j = 0;
-      for (let i = 0; i < tolist.length; ++i) {
-        if (Node.cProtoBaseNodeLinks.has(tolist[i].id)) {
-          console.log('ADDING', tolist[i].id, 'to', parentList[j])
-          const protoNode = Node.cProtoBaseNodeLinks
-          const x3d = new XMLSerializer().serializeToString(this.node.toX3d());
-          console.log('>>>>>>>>>', this.node)
-          view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentList[j++].replace('n', ''));
-        }
-      }
-
-      if (typeof this.onChange === 'function')
-        this.onChange();
-      console.log('AFTER REGEN', WbWorld.instance)
-      */
+      this.node.regenerate(view);
     } else {
       console.log('here', this.node.isProto, this.#value instanceof SFNode)
       if (this.node.isProto) {
@@ -204,24 +151,8 @@ export default class Parameter {
   }
 
   clone(deep = false) {
-
-    let copy;
-    if (deep)
-      copy = new Parameter(this.node, this.name, this.type, this.defaultValue.clone(deep), this.value.clone(deep),
-        this.isTemplateRegenerator);
-    else
-      copy = new Parameter(this.node, this.name, this.type, this.defaultValue, this.value, this.isTemplateRegenerator);
-
-    //copy.defaultValue.parameterRef = 'ERG';
-    copy.value.parameterRef = 'ERG';
-    //copy.clones = this.clones.slice();
-
-    //if (copy.type === VRML.SFNode) {
-    //  console.log('REDIRECTING PARENTPARAM IN PARAMETER CLONE')
-    //  copy.defaultValue.parentParameter = copy
-    //  copy.value.parentParameter = copy;
-    //}
-
+    const copy = new Parameter(this.node, this.name, this.type, deep ? this.defaultValue.clone(deep) : this.defaultValue,
+      deep ? this.value.clone(deep) : this.value, this.isTemplateRegenerator);
     return copy;
   }
 }

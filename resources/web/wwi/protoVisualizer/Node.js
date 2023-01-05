@@ -12,8 +12,7 @@ import WbWorld from '../nodes/WbWorld.js';
 export default class Node {
   static cProtoModels = new Map();
   static cBaseModels = new Map();
-  static cProtoBaseNodeLinks = new Map();
-  static cNodeFamily = new Map();
+  static cNodeSiblings = new Map(); // maps a node id to all other instances of the same node (clones, but different id)
 
   constructor(url, protoText, isRoot = false) {
     // IMPORTANT! When adding new member variables of type Map, modify the .clone method so that it creates a copy of it
@@ -30,11 +29,7 @@ export default class Node {
     this.parameters = new Map();
     this.externProto = new Map();
     this.def = new Map();
-    this.from = [];
-    this.to = [];
     this.siblings = [];
-
-    this.parentParameter = undefined;
 
     if (!this.isProto) {
       // create parameters from the pre-defined FieldModel
@@ -139,34 +134,22 @@ export default class Node {
     if (typeof this.baseType !== 'undefined')
       copy.baseType = this.baseType.clone(deep);
 
-    copy.from = this.from.splice();
-    copy.from.push(this)
-    this.to.push(copy)
     copy.id = getAnId();
 
-    //if (deep) {
-    //  copy.siblings = [];
-    //} else {
-    //  console.log('adding ' + copy.id + ' as sibling of ' + this.id)
-    //  this.siblings.push(copy);
-    //  console.log('adding ' + this.id + ' as sibling of ' + copy.id)
-    //  copy.siblings.push(this);
-    //}
     if (!deep) {
-      if (!Node.cNodeFamily.has(this.id))
-        Node.cNodeFamily.set(this.id, [])
-      if (!Node.cNodeFamily.has(copy.id))
-        Node.cNodeFamily.set(copy.id, [])
+      if (!Node.cNodeSiblings.has(this.id))
+        Node.cNodeSiblings.set(this.id, [])
+      if (!Node.cNodeSiblings.has(copy.id))
+        Node.cNodeSiblings.set(copy.id, [])
 
-      const s1 = Node.cNodeFamily.get(this.id);
+      const s1 = Node.cNodeSiblings.get(this.id);
       s1.push(copy);
-      console.log('adding ' + copy.id + ' as sibling of ' + this.id)
-      const s2 = Node.cNodeFamily.get(copy.id);
+      // console.log('adding ' + copy.id + ' as sibling of ' + this.id)
+      const s2 = Node.cNodeSiblings.get(copy.id);
       s2.push(this);
-      console.log('adding ' + this.id + ' as sibling of ' + copy.id)
+      // console.log('adding ' + this.id + ' as sibling of ' + copy.id)
     }
 
-    console.log('>>>> CLONED ', this.name, this.id, ' TO ', copy.id)
     copy.parameters = new Map();
     for (const [parameterName, parameter] of this.parameters) {
       if (typeof parameter !== 'undefined') {
@@ -278,15 +261,8 @@ export default class Node {
     // console.log('ENCODE NODE ' + this.name + ', isUse? ', isUse, ' parameterReference ?', parameterReference);
     // if this node has a value (i.e. this.baseType is defined) then it means we have not yet reached the bottom as only
     // base-nodes should write x3d. If it has a value, then it means the current node is a derived PROTO.
-    if (typeof this.baseType !== 'undefined') {
-      //if (Array.from(Node.cProtoBaseNodeLinks.values()).includes(this.id)) {
-      //  const key = [...Node.cProtoBaseNodeLinks].find(([k, v]) => v === this.id)[0];
-      //  Node.cProtoBaseNodeLinks.set(key, this.baseType.id);
-      //} else
-      Node.cProtoBaseNodeLinks.set(this.baseType.id, this);
-
+    if (typeof this.baseType !== 'undefined')
       return this.baseType.toX3d();
-    }
 
     const nodeElement = this.xml.createElement(this.name);
     if (isUse) {
@@ -357,7 +333,7 @@ export default class Node {
     // console.log('Regenerated Proto Body:\n' + this.protoBody);
   };
 
-  regenerate(v, view, propagate = true) {
+  regenerate(view, propagate = true) {
     console.log('REGENERATING NODE ' + this.name + ' [id: ' + this.id + ', isProto: ' + this.isProto + ']');
 
     const baseNodeId = this.getBaseNode().id;
@@ -366,7 +342,7 @@ export default class Node {
     if (typeof node !== 'undefined') {
       // delete existing one
       view.x3dScene.processServerMessage(`delete: ${baseNodeId.replace('n', '')}`);
-      console.log(`delete: ${baseNodeId.replace('n', '')}`)
+      // console.log(`delete: ${baseNodeId.replace('n', '')}`)
 
       // regenerate and parse the body of the associated node
       this.parseBody(true);
@@ -380,10 +356,9 @@ export default class Node {
     if (!propagate)
       return;
 
-    for (const sibling of Node.cNodeFamily.get(this.id)) {
+    for (const sibling of Node.cNodeSiblings.get(this.id)) {
       console.log(this.id, ' requests regeneration of sibling: ', sibling.id)
-      //console.log('--> is in param', sibling.parentParameter.name, 'node id', sibling.parentParameter.node.id)
-      sibling.regenerate(v, view, false); // prevent endless loop
+      sibling.regenerate(view, false); // prevent endless loop
     }
   }
 
