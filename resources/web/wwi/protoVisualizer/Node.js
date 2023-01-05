@@ -356,9 +356,11 @@ export default class Node {
     if (!propagate)
       return;
 
-    for (const sibling of Node.cNodeSiblings.get(this.id)) {
-      console.log(this.id, ' requests regeneration of sibling: ', sibling.id)
-      sibling.regenerate(view, false); // prevent endless loop
+    if (Node.cNodeSiblings.has(this.id)) {
+      for (const sibling of Node.cNodeSiblings.get(this.id)) {
+        console.log(this.id, ' requests regeneration of sibling: ', sibling.id)
+        sibling.regenerate(view, false); // prevent endless loop
+      }
     }
   }
 
@@ -367,6 +369,9 @@ export default class Node {
 
     for (const [, parameter] of this.parameters)
       parameter.resetParameterLinks();
+
+    if (this.isRoot)
+      Node.cNodeSiblings = new Map()
   };
 
   getParameterByName(name) {
