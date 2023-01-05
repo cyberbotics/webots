@@ -201,7 +201,7 @@ static bool get_matlab_path() {
   }
   closedir(directory);
   if (!latest_version) {
-    printf("No installation of Matlab available.\n");
+    fprintf(stderr, "No installation of Matlab available.\n");
     return false;
   }
 
