@@ -130,7 +130,7 @@ This can be achieved by setting the `--port` option of the launcher to the TCP p
 ### Multiple Concurrent Simulations and Multiple Local Extern Robot Controllers
 
 If you are running multiple simulations simultaneously on the same machine, and each simulation has several robots that you want to control from extern controllers, then you need to indicate to each controller to which instance of Webots and to which robot it should try to connect.
-To achieve this, simply set the launcher `port` option to the TCP port of the target Webots instance (set in the equivalent `--port` command line option when launching Webots) and the `--robot-name` option to the name of the target robot to which you want to connect your controller.
+To achieve this, simply set the launcher `--port` option to the TCP port of the target Webots instance (set in the equivalent `--port` command line option when launching Webots) and the `--robot-name` option to the name of the target robot to which you want to connect your controller.
 
 ### Remote Extern Controllers
 
