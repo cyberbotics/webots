@@ -133,12 +133,12 @@ This operation can be repeated in a new terminal for each robot in the simulatio
 ### Multiple Concurrent Simulations and Single Local Extern Robot Controller
 
 If you are running multiple simulations simultaneously on the same machine, and each simulation has only one robot that you want to control from an extern controller, then you need to indicate to the controller to which instance of Webots it should try to connect.
-This can be achieved by setting the `--port` option of the launcher to the TCP port of the target Webots instance (defined in the equivalent `--port` command line option at Webots launch) to which you want to connect your controller.
+This can be achieved by setting the `--port` option of the launcher to the TCP port of the target Webots instance (defined with the equivalent `--port` command line option at Webots launch) to which you want to connect your controller.
 
 ### Multiple Concurrent Simulations and Multiple Local Extern Robot Controllers
 
 If you are running multiple simulations simultaneously on the same machine, and each simulation has several robots that you want to control from extern controllers, then you need to indicate to each controller to which instance of Webots and to which robot it should try to connect.
-To achieve this, simply set the launcher `--port` option to the TCP port of the target Webots instance (set in the equivalent `--port` command line option when launching Webots) and the `--robot-name` option to the name of the target robot to which you want to connect your controller.
+To achieve this, simply set the launcher `--port` option to the TCP port of the target Webots instance (set with the equivalent `--port` command line option when launching Webots) and the `--robot-name` option to the name of the target robot to which you want to connect your controller.
 
 ### Remote Extern Controllers
 
@@ -184,11 +184,10 @@ It is also possible to give a custom MATLAB installation path to the launcher, b
 2. If the simulation was running, stop it and revert it.
 3. Then, open the Nao node in the scene tree and change its controller field from `nao_demo` to `<extern>`.
 4. Save the simulation, restart it and run it.
-5. Open a terminal and go to the "WEBOTS\_HOME/projects/robots/softbank/nao/controllers/nao_demo" folder. Note that other controllers could be started from anywhere, but in the example of the Nao, motion files are given relative to this folder. Executing the controller from another location would lead to an error in finding these files.
-6. Start the `nao_demo` controller with:
-
+5. Open a terminal and start the `nao_demo` controller with:
   ```bash
-  $WEBOTS_HOME/webots-controller ./nao_demo  --protocol=ipc --port=1234 --robot-name=NAO
+  $WEBOTS_HOME/webots-controller $WEBOTS_HOME/projects/robots/softbank/nao/controllers/nao_demo/nao_demo  --protocol=ipc --port=1234 --robot-name=NAO
   ```
-
-7. You should see the Nao robot moving in the simulation, controlled by the `nao_demo` program you just started.
+  > **Note**: Options given in the above command line (--protocol, --port and --robot-name) are not mandatory as these are default values.
+  They are given as an example.
+6. You should see the Nao robot moving in the simulation, controlled by the `nao_demo` program you just started.
