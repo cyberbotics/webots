@@ -222,19 +222,19 @@ static bool get_matlab_path() {
 static void print_options() {
   printf(
     "Usage: webots-controller [options] [controller_file]\n\nOptions:\n\n  --help\n    Display this help message and exit.\n\n "
-    " --protocol=<ipc|tcp>\n    Define the protocol to use to communicate between the controller and Webots. 'ipc' is used by "
-    "default. 'ipc' should be used when Webots is running on the same machine as the extern controller. 'tcp' should be used "
-    "when connecting to a remote instance of Webots.\n\n  --ip-address=<ip-address>\n    The IP address of the remote machine "
-    "on which the Webots instance is running. This option should only be used with the `tcp` protocol (i.e. remote "
-    "controllers).\n\n  --port=<port>\n    Define the port to which the controller should connect. 1234 is used by default, as "
-    "it is the default port for Webots. This setting allows you to connect to a specific instance of Webots if there are "
-    "multiple instances running on the target machine. The port of a Webots instance can be set at its launch.\n\n  "
-    "--robot-name=<robot-name>\n    Target a specific robot by specifying its name in case multiple robots wait for an extern "
-    "controller in the Webots instance.\n\n  --matlab-path=<matlab-path>\n    For MATLAB controllers, this option allows to "
-    "specify the path to the executable of a specific MATLAB version. By default, the launcher checks in the default MATLAB "
-    "installation folder. See "
-    "https://cyberbotics.com/doc/guide/running-extern-robot-controllers#running-a-matlab-extern-controller "
-    "for more information.\n\n  --stdout-redirect\n    Redirect the stdout of the controller to the Webots console.\n\n  "
+    " --protocol=<ipc|tcp>\n    Define the protocol to use to communicate between the controller and Webots.\n    'ipc' is "
+    "used by default. 'ipc' should be used when Webots is\n    running on the same machine as the extern controller.\n    "
+    "'tcp' should be used when connecting to a remote instance of Webots.\n\n  --ip-address=<ip-address>\n    The IP address "
+    "of the remote machine on which the Webots instance is running.\n    This option should only be used with the `tcp` "
+    "protocol\n    (i.e. remote controllers).\n\n  --port=<port>\n    Define the port to which the controller should "
+    "connect.\n    1234 is used by default, as it is the default port for Webots.\n    This setting allows you to connect to a "
+    "specific instance of Webots if\n    there are multiple instances running on the target machine.\n    The port of a Webots "
+    "instance can be set at its launch.\n\n  --robot-name=<robot-name>\n    Target a specific robot by specifying its name in "
+    "case multiple robots wait\n    for an extern controller in the Webots instance.\n\n  --matlab-path=<matlab-path>\n    For "
+    "MATLAB controllers, this option allows to specify the path to the\n    executable of a specific MATLAB version.\n    By "
+    "default, the launcher checks in the default MATLAB installation folder.\n    See "
+    "https://cyberbotics.com/doc/guide/running-extern-robot-controllers#running-a-matlab-extern-controller\n    for more "
+    "information.\n\n  --stdout-redirect\n    Redirect the stdout of the controller to the Webots console.\n\n  "
     "--stderr-redirect\n    Redirect the stderr of the controller to the Webots console.\n\n");
 }
 
