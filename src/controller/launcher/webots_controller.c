@@ -547,17 +547,17 @@ static void parse_runtime_ini() {
 
     // Section line
     if (strncmp(runtime_ini_line, "[", 1) == 0) {
-      if (strncmp(runtime_ini_line, "[environmentvariableswithpaths]", 31) == 0) {
+      if (strncmp(runtime_ini_line, "[environmentvariableswithpaths]", 31) == 0)
         section = Path;
-      } else if (strncmp(runtime_ini_line, "[environmentvariables]", 22) == 0) {
+      else if (strncmp(runtime_ini_line, "[environmentvariables]", 22) == 0)
         section = Simple;
-      } else if (strncmp(runtime_ini_line, "[environmentvariablesforWindows]", 32) == 0) {
+      else if (strncmp(runtime_ini_line, "[environmentvariablesforWindows]", 32) == 0)
         section = Windows;
-      } else if (strncmp(runtime_ini_line, "[environmentvariablesformacOS]", 30) == 0) {
+      else if (strncmp(runtime_ini_line, "[environmentvariablesformacOS]", 30) == 0)
         section = macOS;
-      } else if (strncmp(runtime_ini_line, "[environmentvariablesforLinux]", 30) == 0) {
+      else if (strncmp(runtime_ini_line, "[environmentvariablesforLinux]", 30) == 0)
         section = Linux;
-      } else {
+      else {
         fprintf(stderr,
                 "Unknown section in the runtime.ini file. Please refer to "
                 "https://cyberbotics.com/doc/guide/controller-programming#environment-variables for more information.\n");
