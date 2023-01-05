@@ -155,7 +155,7 @@ static void get_current_path() {
 // Gets and stores the path to the Webots installation folder from the WEBOTS_HOME environment variable.
 static bool get_webots_home() {
   if (!getenv("WEBOTS_HOME")) {
-    printf("Set the path to your webots installation folder in WEBOTS_HOME environment variable.\n");
+    fprintf(stderr, "Set the path to your webots installation folder in WEBOTS_HOME environment variable.\n");
     return false;
   } else
     WEBOTS_HOME = malloc(strlen(getenv("WEBOTS_HOME")) + 1);
