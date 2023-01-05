@@ -29,6 +29,11 @@
 #include <process.h>
 #define F_OK 0
 #define access _access
+const char PATH_SEPARATOR[] = "\\";
+const char ENV_SEPARATOR[] = ";";
+#else
+const char PATH_SEPARATOR[] = "/";
+const char ENV_SEPARATOR[] = ":";
 #endif
 
 #define MAX_LINE_BUFFER_SIZE 2048
@@ -152,11 +157,7 @@ void get_current_path() {
   if (!current_path) {
     current_path = malloc(512);
     getcwd(current_path, 512);
-#ifdef _WIN32
-    strcat(current_path, "\\");
-#else
-    strcat(current_path, "/");
-#endif
+    strcat(current_path, PATH_SEPARATOR);
   }
 }
 
@@ -433,11 +434,7 @@ void matlab_config_environment() {
   free(project_path);
 
   // Add controller name to WEBOTS_CONTROLLER_NAME env variable
-#ifdef _WIN32
-  char *controller_name = strrchr(controller, '\\') + 1;
-#else
-  char *controller_name = strrchr(controller, '/') + 1;
-#endif
+  char *controller_name = strrchr(controller, PATH_SEPARATOR[0]) + 1;
   const size_t webots_controller_name_size = snprintf(NULL, 0, "WEBOTS_CONTROLLER_NAME=%s", controller_name) + 1;
   webots_controller_name = malloc(webots_controller_name_size);
   controller_name[strlen(controller_name) - strlen(controller_extension)] = '\0';
@@ -514,19 +511,11 @@ void format_ini_paths(char **string) {
   int offset = 0;
   while (ptr != NULL) {
     int index = ptr - tmp + offset;
-#ifdef _WIN32
-    if (index && ptr[0] != '\\' && ptr[0] != '$') {
+    if (index && ptr[0] != PATH_SEPARATOR[0] && ptr[0] != '$') {
       insert_string(string, absolute_controller_path, index);
       offset += absolute_controller_path_size - 1;
     }
-    ptr = strtok(NULL, ";");
-#else
-    if (index && ptr[0] != '/' && ptr[0] != '$') {
-      insert_string(string, absolute_controller_path, index);
-      offset += absolute_controller_path_size - 1;
-    }
-    ptr = strtok(NULL, ":");
-#endif
+    ptr = strtok(NULL, ENV_SEPARATOR);
   }
   free(absolute_controller_path);
 
@@ -672,28 +661,20 @@ int main(int argc, char **argv) {
     exit(1);
   };
 
-    // Compute path to controller file
+  // Compute path to controller file
+  char *controller_name = strrchr(controller, PATH_SEPARATOR[0]);
+  // Get extension from controller name (robust against relative paths)
+  if (!controller_name)
+    controller_extension = strrchr(controller, '.') == NULL ? NULL : strdup(strrchr(controller, '.'));
+  else
+    controller_extension = strrchr(controller_name, '.') == NULL ? NULL : strdup(strrchr(controller_name, '.'));
 #ifdef _WIN32
-  char *controller_name = strrchr(controller, '\\');
-  // Get extension from controller name (robust against relative paths)
-  if (!controller_name)
-    controller_extension = strrchr(controller, '.') == NULL ? NULL : strdup(strrchr(controller, '.'));
-  else
-    controller_extension = strrchr(controller_name, '.') == NULL ? NULL : strdup(strrchr(controller_name, '.'));
   controller_path = strdup(".\\");
-  if (strrchr(controller, '\\')) {
-    const size_t controller_file_size = strlen(strrchr(controller, '\\')) - 1;
 #else
-  char *controller_name = strrchr(controller, '/') == NULL ? NULL : strdup(strrchr(controller, '/'));
-  // Get extension from controller name (robust against relative paths)
-  if (!controller_name)
-    controller_extension = strrchr(controller, '.') == NULL ? NULL : strdup(strrchr(controller, '.'));
-  else
-    controller_extension = strrchr(controller_name, '.') == NULL ? NULL : strdup(strrchr(controller_name, '.'));
   controller_path = strdup("./");
-  if (strrchr(controller, '/')) {
-    const size_t controller_file_size = strlen(strrchr(controller, '/')) - 1;
 #endif
+  if (strrchr(controller, PATH_SEPARATOR[0])) {
+    const size_t controller_file_size = strlen(strrchr(controller, PATH_SEPARATOR[0])) - 1;
     const size_t controller_size = strlen(controller);
     const size_t controller_path_size = controller_size - controller_file_size;
     char *controller_path_tmp = malloc(controller_path_size + 1);
@@ -766,7 +747,7 @@ int main(int argc, char **argv) {
 #elif defined __APPLE__
     const char *launcher_path = "/Contents/lib/controller/matlab/launcher.m";
 #elif defined __linux__
-  const char *launcher_path = "/lib/controller/matlab/launcher.m";
+    const char *launcher_path = "/lib/controller/matlab/launcher.m";
 #endif
     const size_t matlab_command_size = snprintf(NULL, 0, "\"run('%s%s'); exit;\"", WEBOTS_HOME, launcher_path) + 1;
     char *matlab_command = malloc(matlab_command_size);
@@ -791,7 +772,7 @@ int main(int argc, char **argv) {
 #elif defined __APPLE__
     const char *java_lib_controller = "/Contents/lib/controller/java";
 #elif defined __linux__
-  const char *java_lib_controller = "/lib/controller/java";
+    const char *java_lib_controller = "/lib/controller/java";
 #endif
     const size_t lib_controller_size = snprintf(NULL, 0, "%s%s", WEBOTS_HOME, java_lib_controller) + 1;
     char *lib_controller = malloc(lib_controller_size);
@@ -815,6 +796,8 @@ int main(int argc, char **argv) {
     char *java_library = malloc(java_library_size);
     sprintf(java_library, "\"-Djava.library.path=%s\"", lib_controller);
 
+    if (!controller_name)
+      controller_name = strrchr(controller, '\\');
     controller_name[strlen(controller_name) - strlen(controller_extension)] = '\0';
     const char *const new_argv[] = {"java", "-classpath", classpath, java_library, controller_name + 1, NULL};
     _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
