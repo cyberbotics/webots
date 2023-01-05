@@ -833,7 +833,6 @@ int main(int argc, char **argv) {
   free(WEBOTS_HOME);
   free(matlab_path);
   free(current_path);
-  free(controller);
 
   free(WEBOTS_CONTROLLER_URL);
   free(new_path);
