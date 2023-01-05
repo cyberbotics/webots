@@ -565,25 +565,34 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     value.className = 'value-parameter';
 
     const select = document.createElement('select');
+    select.parameter = parameter;
 
     for (const item of parameter.restrictions) {
       const value = parameter.type === VRML.SFString ? this.#stringRemoveQuote(item.value) : item.value;
-      const option =  document.createElement('option');
+      const option = document.createElement('option');
       option.value = value;
-      option.innerText =  value;
+      option.innerText = value;
       select.appendChild(option);
     }
+    console.log('before', WbWorld.instance);
+    select.onchange = (e) => {
+      const parameter = e.target.parameter;
+      const selection = e.target.value;
+      console.log('selected value', selection);
+      for (const item of parameter.restrictions) {
+        const value = parameter.type === VRML.SFString ? this.#stringRemoveQuote(item.value) : item.value;
+        if (selection === value)
+          parameter.setValueFromJavaScript(this.#view, item.toJS());
+      }
 
+      console.log('after', WbWorld.instance);
+    };
     value.appendChild(select);
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow);
     resetButton.onclick = () => {
       input.value = this.#stringRemoveQuote(parameter.defaultValue.value);
       this.#stringOnChange(p);
-    };
-
-    select.onchange = (e) => {
-      console.log('value is', e.target.options[e.target.selectedIndex].value)
     };
 
     p.input = select;

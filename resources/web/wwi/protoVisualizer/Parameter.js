@@ -146,9 +146,9 @@ export default class Parameter {
   }
 
   clone() {
-    const restrictions = []
+    const restrictions = [];
     for (const item in this.restrictions)
-      restrictedValues.push(item.clone());
+      restrictions.push(item.clone()); // DEEP?
     const copy = new Parameter(this.node, this.name, this.type, restrictions, this.defaultValue.clone(), this.value.clone(),
       this.isTemplateRegenerator);
     copy.parentNode = this.parentNode;
