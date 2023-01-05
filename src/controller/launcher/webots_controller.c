@@ -81,9 +81,8 @@ void replace_char(char *string, char occurence, char replace) {
 void remove_char(char *string, char occurence) {
   char *removed = string;
   do {
-    while (*removed == occurence) {
+    while (*removed == occurrence)
       ++removed;
-    }
   } while ((*string++ = *removed++));
 }
 
