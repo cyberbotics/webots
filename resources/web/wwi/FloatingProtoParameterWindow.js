@@ -953,6 +953,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   populateJointTab() {
     this.joints.innerHTML = '';
+    this.coupledSlidersList = [];
     const nodes = WbWorld.instance.nodes;
     const keys = nodes.keys();
     let numberOfJoint = 0;
@@ -1175,11 +1176,33 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     else
       slider.value = parameters.position;
 
-    slider.addEventListener('input', callback);
+    slider.addEventListener('input', _ => {
+      if (typeof callback === 'function')
+        callback(_);
+
+      if (slider.motorName?.includes('::')) {
+        let coupledMotorName = slider.motorName.split('::')[0];
+        for (let i = 0; i < this.coupledSlidersList.length; i++) {
+          if (this.coupledSlidersList[i].motorName.startsWith(coupledMotorName)) {
+            this.coupledSlidersList[i].value = slider.value;
+            this.coupledSlidersList[i].callback(_);
+          }
+        }
+      }
+    });
 
     sliderElement.appendChild(minLabel);
     sliderElement.appendChild(slider);
     sliderElement.appendChild(maxLabel);
+
+    if (typeof motor !== 'undefined') {
+      if (motor.deviceName.includes('::')) {
+        slider.motorName = motor.deviceName;
+        slider.callback = callback;
+
+        this.coupledSlidersList.push(slider);
+      }
+    }
     parent.appendChild(sliderElement);
   }
 

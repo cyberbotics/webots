@@ -105,10 +105,10 @@ export default class WbHingeJoint extends WbJoint {
       qMinus.fromAxisAngle(axis.x, axis.y, axis.z, -angle);
       const q = ir.toQuaternion();
       let qNormalized = qMinus.mul(q);
-
       if (qNormalized.w !== 1)
         qNormalized.normalize();
-      this._endPointZeroRotation = new WbVector4(qNormalized.x, qNormalized.y, qNormalized.z, qNormalized.w);
+      this._endPointZeroRotation = new WbVector4();
+      this._endPointZeroRotation.fromQuaternion(qNormalized);
       if (this._endPointZeroRotation.w === 0)
         this._endPointZeroRotation = new WbVector4(axis.x, axis.y, axis.z, 0.0);
     }
