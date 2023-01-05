@@ -69,16 +69,16 @@ void remove_comment(char *string) {
 }
 
 // Replaces all occurrences of a character in a string with a different character.
-void replace_char(char *string, char occurence, char replace) {
-  char *current_pos = strchr(string, occurence);
+void replace_char(char *string, char occurrence, char replace) {
+  char *current_pos = strchr(string, occurrence);
   while (current_pos) {
     *current_pos = replace;
-    current_pos = strchr(current_pos + 1, occurence);
+    current_pos = strchr(current_pos + 1, occurrence);
   }
 }
 
 // Removes all occurrences of a character from a string.
-void remove_char(char *string, char occurence) {
+void remove_char(char *string, char occurrence) {
   char *removed = string;
   do {
     while (*removed == occurrence)
