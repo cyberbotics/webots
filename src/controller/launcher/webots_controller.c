@@ -692,8 +692,10 @@ int main(int argc, char **argv) {
     // Add current relative path to controller for execvp() function
     const size_t controller_size = strlen(controller);
     char *tmp_realloc = realloc(controller, controller_size + 3);
-    if (tmp_realloc)
+    if (tmp_realloc) {
+      free(controller);
       controller = tmp_realloc;
+    }
     memmove(controller + 2, controller, controller_size + 1);
     memcpy(controller, controller_path, 2);
   }
