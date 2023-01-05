@@ -104,11 +104,8 @@ void replace_substring(char **string, const char *substring, const char *replace
 
   // Adapt memory size, only realloc if more memory is needed
   const size_t new_size = strlen(*string) + substring_count * (replace_size - substring_size) + 1;
-  if (new_size > strlen(*string)) {
-    char *tmp_realloc = realloc(*string, new_size);
-    if (tmp_realloc)
-      *string = tmp_realloc;
-  }
+  if (new_size > strlen(*string))
+    *string = realloc(*string, new_size);
 
   char *buffer = malloc(new_size);
   char *insert_point = &buffer[0];
@@ -128,11 +125,8 @@ void replace_substring(char **string, const char *substring, const char *replace
   }
 
   // If memory size needed has decreased, realloc memory
-  if (new_size < strlen(*string)) {
-    char *tmp_realloc = realloc(*string, new_size);
-    if (tmp_realloc)
-      *string = tmp_realloc;
-  }
+  if (new_size < strlen(*string))
+    *string = realloc(*string, new_size);
 
   strcpy(*string, buffer);
   free(buffer);
@@ -142,9 +136,7 @@ void replace_substring(char **string, const char *substring, const char *replace
 void insert_string(char **string, char *insert, int index) {
   const size_t new_size = strlen(*string) + strlen(insert) + 1;
   char *tmp = strdup(*string);
-  char *tmp_realloc = realloc(*string, new_size);
-  if (tmp_realloc)
-    *string = tmp_realloc;
+  *string = realloc(*string, new_size);
   strncpy(*string + index, insert, strlen(insert));
   strncpy(*string + index + strlen(insert), tmp + index, strlen(tmp) - index);
   (*string)[new_size - 1] = '\0';
@@ -683,16 +675,12 @@ int main(int argc, char **argv) {
     // Change to controller directory and edit controller file path
     chdir(controller_path_tmp);
     const size_t new_controller_size = snprintf(NULL, 0, "%s%s", controller_path, controller_name + 1) + 1;
-    char *tmp_realloc = realloc(controller, new_controller_size);
-    if (tmp_realloc)
-      controller = tmp_realloc;
+    controller = realloc(controller, new_controller_size);
     snprintf(controller, new_controller_size, "%s%s", controller_path, controller_name + 1);
   } else {
     // Add current relative path to controller for execvp() function
     const size_t controller_size = strlen(controller);
-    char *tmp_realloc = realloc(controller, controller_size + 3);
-    if (tmp_realloc)
-      controller = tmp_realloc;
+    controller = realloc(controller, controller_size + 3);
     memmove(controller + 2, controller, controller_size + 1);
     memcpy(controller, controller_path, 2);
   }
