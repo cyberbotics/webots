@@ -81,19 +81,26 @@ Concrete use cases are discussed in the [Setup](#setup) section.
     Display this help message and exit.
 
   --protocol=<ipc|tcp>
-    Define the protocol to use to communicate between the controller and Webots. `ipc` is used by default. `ipc` should be used when Webots is running on the same machine as the extern controller. `tcp` should be used when connecting to a remote instance of Webots.
+    Define the protocol to use to communicate between the controller and Webots.
+    `ipc` is used by default.
+    `ipc` should be used when Webots is running on the same machine as the extern controller.
+    `tcp` should be used when connecting to a remote instance of Webots.
 
   --ip-address=<ip-address>
-    The IP address of the remote machine on which the Webots instance is running. This option should only be used with the `tcp` protocol (i.e. remote controllers).
+    The IP address of the remote machine on which the Webots instance is running.
+    This option should only be used with the `tcp` protocol (i.e. remote controllers).
 
   --port=<port>
-    Define the port to which the controller should connect. 1234 is used by default, as it is the default port for Webots. This setting allows you to connect to a specific instance of Webots if there are multiple instances running on the target machine. The port of a Webots instance can be set at its launch.
+    Define the port to which the controller should connect. 1234 is used by default, as it is the default port for Webots.
+    This setting allows you to connect to a specific instance of Webots if there are multiple instances running on the target machine.
+    The port of a Webots instance can be set at its launch.
 
   --robot-name=<robot-name>
     Target a specific robot by specifying its name in case multiple robots wait for an extern controller in the Webots instance.
 
   --matlab-path=<matlab-path>
-    For MATLAB controllers, this option allows to specify the path to the executable of a specific MATLAB version. By default, the launcher checks in the default MATLAB installation folder.
+    For MATLAB controllers, this option allows to specify the path to the executable of a specific MATLAB version.
+    By default, the launcher checks in the default MATLAB installation folder.
 
   --stdout-redirect
     Redirect the stdout of the controller to the Webots console.
