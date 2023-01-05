@@ -181,9 +181,11 @@ It is also possible to give a custom MATLAB installation path to the launcher, b
 ## Example Usage
 
 1. Set WEBOTS_HOME to the Webots installation directory, for example:
+
   ```bash
   export WEBOTS_HOME=/usr/local/webots
   ```
+
 2. Open for example the "WEBOTS\_HOME/projects/robots/softbank/nao/worlds/nao_demo.wbt" world file.
 3. If the simulation was running, stop it and revert it.
 4. Then, open the Nao node in the scene tree and change its controller field from `nao_demo` to `<extern>`.
@@ -193,12 +195,12 @@ It is also possible to give a custom MATLAB installation path to the launcher, b
   ```bash
   $WEBOTS_HOME/webots-controller $WEBOTS_HOME/projects/robots/softbank/nao/controllers/nao_demo/nao_demo
   ```
-  
+
   **Note**: If you need to connect to a remote Webots instance, the controller can be started the following way:
 
   ```bash
   $WEBOTS_HOME/webots-controller $WEBOTS_HOME/projects/robots/softbank/nao/controllers/nao_demo/nao_demo --protocol=tcp --ip-address=127.0.0.1
   ```
-  
+
   Simply replace `127.0.0.1` by the IP address of your remote machine.
 7. You should see the Nao robot moving in the simulation, controlled by the `nao_demo` program you just started.
