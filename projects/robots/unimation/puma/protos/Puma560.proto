@@ -399,7 +399,7 @@ PROTO Puma560 [
                                             }
                                             device [
                                               LinearMotor {
-                                                name "joint_GripperR"
+                                                name "gripper::right"
                                                 minPosition -0.004
                                                 maxPosition 0.01
                                               }
@@ -458,7 +458,7 @@ PROTO Puma560 [
                                             }
                                             device [
                                               LinearMotor {
-                                                name "joint_GripperL"
+                                                name "gripper::left"
                                                 minPosition -0.004
                                                 maxPosition 0.01
                                               }
