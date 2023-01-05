@@ -418,14 +418,14 @@ void python_config_environment() {
 // Set environment variables for MATLAB controllers execution (WEBOTS_PROJECT, WEBOTS_CONTROLLER_NAME, WEBOTS_VERSION)
 void matlab_config_environment() {
   // Add project folder to WEBOTS_PROJECT env variable
-  const size_t controller_folder_size = strlen(strstr(controller, "controllers")) + 1;
-  const size_t controller_size = strlen(controller);
+  get_current_path();
+  const size_t controller_folder_size = strlen(strstr(current_path, "controllers")) + 1;
+  const size_t controller_size = strlen(current_path);
   const size_t project_path_size = controller_size - controller_folder_size;
   char *project_path = malloc(project_path_size + 1);
   strncpy(project_path, controller, project_path_size);
   project_path[project_path_size] = '\0';
 
-  get_current_path();
   const size_t webots_project_size = snprintf(NULL, 0, "WEBOTS_PROJECT=%s%s", current_path, project_path) + 1;
   webots_project = malloc(webots_project_size);
   sprintf(webots_project, "WEBOTS_PROJECT=%s%s", current_path, project_path);
@@ -724,10 +724,6 @@ int main(int argc, char **argv) {
 
   // Parse eventual runtime.ini file
   parse_runtime_ini();
-  printf("controller %s\n", controller);
-  printf("controller_path %s\n", controller_path);
-  printf("controller_name %s\n", controller_name);
-  printf("controller_extension %s\n", controller_extension);
 
   // Executable controller
   if (!controller_extension || strcmp(controller_extension, ".exe") == 0) {
