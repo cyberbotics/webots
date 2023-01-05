@@ -23,14 +23,15 @@ Moreover, starting external controllers remotely allows to run Webots on a diffe
 ## Launcher
 
 Webots is distributed with a controller launcher.
-It must be used to start any controller file.
+It must be used to start any extern controller file.
 Compatible file types are listed below:
 * **Executables**: no extension on Linux/macOS and `.exe` on Windows.
 * **Python**: `.py`.
 * **Java**: `.jar` and `.class`.
 * **Matlab**: `.m`.
 
-The `WEBOTS_HOME` environment variable must be set to the installation folder of Webots. For example:
+The `WEBOTS_HOME` environment variable must be set to the installation folder of Webots.
+For example:
 
 ```bash
 export WEBOTS_HOME=/home/username/webots
@@ -73,7 +74,7 @@ $WEBOTS_HOME/Contents/MacOS/webots-controller [options] path/to/controller/file
 ### Options
 
 The following options are available when starting an extern controller with the launcher.
-Concrete use cases are discussed in the next section [Setup](#setup).
+Concrete use cases are discussed in the [Setup](#setup) section.
 
 ```
   --help
@@ -137,7 +138,7 @@ To achieve this, simply set the launcher `--port` option to the TCP port of the 
 `<extern>` controllers can also be started from a remote machine.
 In this case, when starting the controller with the launcher, the `--protocol` option should be set to `tcp`.
 The `--ip-address` option must be set to the IP address of the remote machine on which the target instance of Webots is running.
-If multiple instances of Webots are running on the remote machine, the `--port` option must be set to the TCP port (defined in the `--port` command line option at Webots launch) of the Webots instance to which you want to connect your controller.
+If multiple instances of Webots are running on the remote machine, the `--port` option must be set to the TCP port (defined with the `--port` command line option at Webots launch) of the Webots instance to which you want to connect your controller.
 Finally, if the target instance contains multiple robots waiting for an extern controller connection, the `--robot-name` option can be set to the name of the robot to which you want to connect your controller.
 
 It is possible to restrict the IP addresses that can connect to a Webots instance.
