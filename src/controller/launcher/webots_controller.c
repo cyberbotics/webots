@@ -39,24 +39,24 @@ const char ENV_SEPARATOR[] = ":";
 #define MAX_LINE_BUFFER_SIZE 2048
 
 // Global variables
-char *WEBOTS_HOME;
-char *controller;
-char *controller_path;
-char *controller_extension;
-char *matlab_path;
-char *current_path;
+static char *WEBOTS_HOME;
+static char *controller;
+static char *controller_path;
+static char *controller_extension;
+static char *matlab_path;
+static char *current_path;
 
 // Environment variables (putenv() requires the string that is set into the environment to exist)
-char *WEBOTS_CONTROLLER_URL;
-char *new_path;
-char *new_ld_path;
-char *new_python_path;
-char *webots_project;
-char *webots_controller_name;
-char *webots_version;
+static char *WEBOTS_CONTROLLER_URL;
+static char *new_path;
+static char *new_ld_path;
+static char *new_python_path;
+static char *webots_project;
+static char *webots_controller_name;
+static char *webots_version;
 
 // Removes comments and trailing whitespace from a string.
-void remove_comment(char *string) {
+static void remove_comment(char *string) {
   const char *comment = strchr(string, ';');
   if (comment) {
     const size_t comment_size = strlen(comment);
@@ -69,7 +69,7 @@ void remove_comment(char *string) {
 }
 
 // Replaces all occurrences of a character in a string with a different character.
-void replace_char(char *string, char occurrence, char replace) {
+static void replace_char(char *string, char occurrence, char replace) {
   char *current_pos = strchr(string, occurrence);
   while (current_pos) {
     *current_pos = replace;
@@ -78,7 +78,7 @@ void replace_char(char *string, char occurrence, char replace) {
 }
 
 // Removes all occurrences of a character from a string.
-void remove_char(char *string, char occurrence) {
+static void remove_char(char *string, char occurrence) {
   char *removed = string;
   do {
     while (*removed == occurrence)
@@ -87,7 +87,7 @@ void remove_char(char *string, char occurrence) {
 }
 
 // Replaces all occurrences of a substring in a string with a different string.
-void replace_substring(char **string, const char *substring, const char *replace) {
+static void replace_substring(char **string, const char *substring, const char *replace) {
   char *tmp = *string;
   const size_t substring_size = strlen(substring);
   const size_t replace_size = strlen(replace);
@@ -133,7 +133,7 @@ void replace_substring(char **string, const char *substring, const char *replace
 }
 
 // Inserts a string into another string at a specified index.
-void insert_string(char **string, char *insert, int index) {
+static void insert_string(char **string, char *insert, int index) {
   const size_t new_size = strlen(*string) + strlen(insert) + 1;
   char *tmp = strdup(*string);
   *string = realloc(*string, new_size);
@@ -144,7 +144,7 @@ void insert_string(char **string, char *insert, int index) {
 }
 
 // Gets and stores the current working directory path.
-void get_current_path() {
+static void get_current_path() {
   if (!current_path) {
     current_path = malloc(512);
     getcwd(current_path, 512);
@@ -153,7 +153,7 @@ void get_current_path() {
 }
 
 // Gets and stores the path to the Webots installation folder from the WEBOTS_HOME environment variable.
-bool get_webots_home() {
+static bool get_webots_home() {
   if (!getenv("WEBOTS_HOME")) {
     printf("Set the path to your webots installation folder in WEBOTS_HOME environment variable.\n");
     return false;
@@ -164,7 +164,7 @@ bool get_webots_home() {
 }
 
 // Gets and stores the path to the latest installed version of Matlab on the system.
-bool get_matlab_path() {
+static bool get_matlab_path() {
   struct dirent *directory_entry;  // Pointer for directory entry
 #ifdef __APPLE__
   const char *matlab_directory = "/Applications/";
@@ -220,7 +220,7 @@ bool get_matlab_path() {
 }
 
 // Prints the command line options and their descriptions for the Webots controller launcher.
-void print_options() {
+static void print_options() {
   printf(
     "Usage: webots-controller [options] [controller_file]\n\nOptions:\n\n  --help\n    Display this help message and exit.\n\n "
     " --protocol=<ipc|tcp>\n    Define the protocol to use to communicate between the controller and Webots. 'ipc' is used by "
@@ -240,7 +240,7 @@ void print_options() {
 }
 
 // Parses the command line options for the Webots controller launcher and sets WEBOTS_CONTROLLER_URL envrionment variable.
-bool parse_options(int nb_arguments, char **arguments) {
+static bool parse_options(int nb_arguments, char **arguments) {
   if (nb_arguments == 1) {
     printf("No controller file provided. Please provide an existing controller file as argument.\n");
     return false;
@@ -354,7 +354,7 @@ bool parse_options(int nb_arguments, char **arguments) {
 }
 
 // Set environment variables for java and executable controllers execution
-void exec_java_config_environment() {
+static void exec_java_config_environment() {
 #ifdef _WIN32
   const size_t new_path_size =
     snprintf(NULL, 0, "Path=%s\\lib\\controller;%s\\msys64\\mingw64\\bin;%s\\msys64\\mingw64\\bin\\cpp;%s", WEBOTS_HOME,
@@ -381,7 +381,7 @@ void exec_java_config_environment() {
 }
 
 // Set environment variables for python controllers execution
-void python_config_environment() {
+static void python_config_environment() {
 #ifdef _WIN32
   const char *python_lib_controller = "\\lib\\controller\\python;";
 #elif defined __linux__
@@ -408,7 +408,7 @@ void python_config_environment() {
 }
 
 // Set environment variables for MATLAB controllers execution (WEBOTS_PROJECT, WEBOTS_CONTROLLER_NAME, WEBOTS_VERSION)
-void matlab_config_environment() {
+static void matlab_config_environment() {
   // Add project folder to WEBOTS_PROJECT env variable
   get_current_path();
   const size_t controller_folder_size = strlen(strstr(current_path, "controllers")) + 1;
@@ -461,7 +461,7 @@ void matlab_config_environment() {
 }
 
 // Set environment variables for MATLAB controllers execution (WEBOTS_PROJECT, WEBOTS_CONTROLLER_NAME, WEBOTS_VERSION)
-void parse_environment_variables(char **string) {
+static void parse_environment_variables(char **string) {
   char *tmp = *string;
   while ((tmp = strstr(tmp, "$("))) {
     // Get environment variable string, name and length
@@ -487,7 +487,7 @@ void parse_environment_variables(char **string) {
 }
 
 // Convert relative path to absolute and replaces environment variables with their content
-void format_ini_paths(char **string) {
+static void format_ini_paths(char **string) {
   // Compute absolute path to ini file
   get_current_path();
   char *absolute_controller_path = NULL;
@@ -517,7 +517,7 @@ void format_ini_paths(char **string) {
 }
 
 // Parse the runtime.ini file line by line
-void parse_runtime_ini() {
+static void parse_runtime_ini() {
   // Open runtime.ini if it exists
   const size_t ini_file_name_size = snprintf(NULL, 0, "%sruntime.ini", controller_path) + 1;
   char *ini_file_name = malloc(ini_file_name_size);
@@ -818,6 +818,7 @@ int main(int argc, char **argv) {
   free(WEBOTS_HOME);
   free(matlab_path);
   free(current_path);
+  free(controller);
 
   free(WEBOTS_CONTROLLER_URL);
   free(new_path);
