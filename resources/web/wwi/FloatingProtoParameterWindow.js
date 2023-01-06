@@ -127,7 +127,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       for (let key of keys) {
         const parameter = this.#protoManager.exposedParameters.get(key);
 
-        if (parameter.restrictions.length > 0 && parameter.type !== VRML.SFNode && parameter.type !== VRML.MFNode)
+        if (parameter.restrictions.length > 0 && ![VRML.SFBool, VRML.SFNode, VRML.MFNode].includes(parameter.type))
           this.#createRestrictedField(key, contentDiv);
         else if (parameter.type === VRML.SFVec3f)
           this.#createSFVec3Field(key, contentDiv);
@@ -568,10 +568,31 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     select.parameter = parameter;
 
     for (const item of parameter.restrictions) {
-      const value = parameter.type === VRML.SFString ? this.#stringRemoveQuote(item.value) : item.value;
+      let value;
+      switch(parameter.type) {
+        case VRML.SFString:
+          value = this.#stringRemoveQuote(item.value);
+          break;
+        case VRML.SFFloat:
+        case VRML.SFInt32:
+          value = item.value;
+          break;
+        case VRML.SFVec2f:
+        case VRML.SFVec3f:
+        case VRML.SFColor:
+        case VRML.SFRotation:
+          value = item.toVrml(); // it stringifies it
+          break;
+        default:
+          throw new Error('Unsupported parameter type: ', parameter.type);
+      }
+      // const value = parameter.type === VRML.SFString ? this.#stringRemoveQuote(item.value) : item.value;
       const option = document.createElement('option');
       option.value = value;
       option.innerText = value;
+      if (parameter.value && item.equals(parameter.value))
+        option.selected = true;
+
       select.appendChild(option);
     }
 
