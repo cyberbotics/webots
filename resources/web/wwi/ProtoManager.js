@@ -23,7 +23,7 @@ export default class ProtoManager {
       xmlhttp.send();
     }).then(async text => {
       console.log('Load PROTO from URL: ' + url);
-      this.proto = new Node(url, text);
+      this.proto = new Node(url, text, true);
       await this.proto.generateInterface();
       this.proto.parseBody();
       this.loadX3d();
@@ -34,13 +34,29 @@ export default class ProtoManager {
         parameter._view = this.#view;
         this.exposedParameters.set(parameterName, parameter); // TODO: change key to parameter id ?
       }
-
-      // test this using the world: DemoRegeneration.proto in the html
-      // setTimeout(() => this.demoRegeneration(), 2000);
     });
   }
 
-  loadX3d() {
+  async generateNodeFromUrl(url) {
+    return new Promise((resolve, reject) => {
+      const xmlhttp = new XMLHttpRequest();
+      xmlhttp.open('GET', url, true);
+      xmlhttp.overrideMimeType('plain/text');
+      xmlhttp.onreadystatechange = async() => {
+        if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
+          resolve(xmlhttp.responseText);
+      };
+      xmlhttp.send();
+    }).then(async text => {
+      console.log('Load PROTO from URL: ' + url);
+      const node = new Node(url, text);
+      await node.generateInterface();
+      node.parseBody();
+      return node;
+    });
+  }
+
+  async loadX3d() {
     let xml = this.getXmlOfMinimalScene();
     const scene = xml.getElementsByTagName('Scene')[0];
     scene.appendChild(this.proto.toX3d());
@@ -63,24 +79,25 @@ export default class ProtoManager {
       return ' '.repeat(depth);
     }
 
-    function listExternProto(node) {
-      const list = [node.url]; // the base-type must always be declared
+    function listExternProto(node, list) {
       for (const parameter of node.parameters.values()) {
         const currentValue = parameter.value;
         if (currentValue instanceof SFNode && currentValue.value !== null) {
-          if (currentValue.value.isProto && !list.includes(currentValue.value.url))
+          if (currentValue.value.isProto && !list.includes(currentValue.value.url)) {
             list.push(currentValue.value.url);
+            listExternProto(currentValue.value, list);
+          }
         }
 
         if (parameter.value instanceof MFNode && currentValue.value.length > 0) {
           for (const item of currentValue.value) {
-            if (item.value.isProto && !list.includes(item.value.url))
+            if (item.value.isProto && !list.includes(item.value.url)) {
               list.push(item.value.url);
+              listExternProto(item.value, list);
+            }
           }
         }
       }
-
-      return list;
     }
 
     // write PROTO contents
@@ -88,7 +105,8 @@ export default class ProtoManager {
     s += '#VRML_SIM R2023b utf8\n';
     s += '\n';
 
-    const externProto = listExternProto(this.proto);
+    const externProto = [this.proto.url];
+    listExternProto(this.proto, externProto);
     for (const item of externProto)
       s += `EXTERNPROTO "${item}"\n`;
 

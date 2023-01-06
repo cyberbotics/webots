@@ -53,8 +53,8 @@ export default class WbFog extends WbBaseNode {
 
   delete() {
     if (typeof this.parent === 'undefined') {
-      const index = WbWorld.instance.sceneTree.indexOf(this);
-      WbWorld.instance.sceneTree.splice(index, 1);
+      const index = WbWorld.instance.root.children.indexOf(this);
+      WbWorld.instance.root.children.splice(index, 1);
     }
 
     if (this.wrenObjectsCreatedCalled) {

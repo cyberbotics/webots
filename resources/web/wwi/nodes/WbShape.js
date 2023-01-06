@@ -10,6 +10,7 @@ import {nodeIsInBoundingObject} from './utils/node_utilities.js';
 export default class WbShape extends WbBaseNode {
   #boundingObjectFirstTimeSearch;
   #isInBoundingObject;
+  #appearance;
   constructor(id, castShadow, isPickable, geometry, appearance) {
     super(id);
     this.castShadow = castShadow;
@@ -20,6 +21,27 @@ export default class WbShape extends WbBaseNode {
 
     this.appearance = appearance;
     this.geometry = geometry;
+  }
+
+  get appearance() {
+    return this.#appearance;
+  }
+
+  set appearance(value) {
+    this.#appearance = value;
+
+    for (const useId of this.useList) {
+      const useNode = WbWorld.instance.nodes.get(useId);
+      if (typeof value === 'undefined') {
+        if (typeof useNode !== 'undefined')
+          useNode.appearance.delete();
+      } else {
+        const newAppearance = value.clone();
+        WbWorld.instance.nodes.set(newAppearance.id, newAppearance);
+        useNode.appearance = newAppearance;
+        useNode.appearance.parent = useNode.id;
+      }
+    }
   }
 
   applyMaterialToGeometry() {
@@ -80,8 +102,8 @@ export default class WbShape extends WbBaseNode {
 
   delete(isBoundingObject) {
     if (typeof this.parent === 'undefined') {
-      const index = WbWorld.instance.sceneTree.indexOf(this);
-      WbWorld.instance.sceneTree.splice(index, 1);
+      const index = WbWorld.instance.root.children.indexOf(this);
+      WbWorld.instance.root.children.splice(index, 1);
     } else {
       const parent = WbWorld.instance.nodes.get(this.parent);
       if (typeof parent !== 'undefined') {
@@ -120,6 +142,11 @@ export default class WbShape extends WbBaseNode {
   updateAppearance() {
     if (this.wrenObjectsCreatedCalled)
       this.applyMaterialToGeometry();
+
+    for (const useId of this.useList) {
+      const useNode = WbWorld.instance.nodes.get(useId);
+      useNode?.updateAppearance();
+    }
   }
 
   updateBoundingObjectVisibility() {

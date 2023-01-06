@@ -94,32 +94,39 @@ export default class Parser {
   #promises;
   #promiseCounter;
   #promiseNumber;
+  #rootNodeId;
+  #prefix;
   constructor(prefix = '') {
     this.prefix = prefix;
     this.#downloadingImage = new Set();
     this.#promises = [];
     this.#promiseCounter = 0;
     this.#promiseNumber = 0;
-    WbWorld.init();
-    WbWorld.instance.prefix = prefix;
+    this.#prefix = prefix;
   }
 
-  parse(text, renderer, parent, callback) {
-    webots.currentView.progress.setProgressBar('Connecting to webots instance...', 'same', 60 + 0.1 * 30, 'Parsing object...');
+  get rootNodeId() {
+    return this.#rootNodeId;
+  }
+
+  async parse(text, renderer, finalize = true, parentNode, callback) {
+    webots.currentView.progress.setProgressBar('same', 'Parsing...', 0, 'Parsing object...');
     let xml = null;
     if (window.DOMParser) {
       const parser = new DOMParser();
       xml = parser.parseFromString(text, 'text/xml');
     }
-    console.log(xml);
     if (typeof xml === 'undefined')
       console.error('File to parse not found');
     else {
       const head = xml.getElementsByTagName('head')[0];
       if (typeof head !== 'undefined') {
         for (const child of head.children) {
-          if (getNodeAttribute(child, 'name', '') === 'version')
+          if (getNodeAttribute(child, 'name', '') === 'version') {
+            if (typeof WbWorld.instance === 'undefined')
+              WbWorld.init();
             WbWorld.instance.version = getNodeAttribute(child, 'content', '');
+          }
         }
       }
       const scene = xml.getElementsByTagName('Scene')[0];
@@ -131,7 +138,8 @@ export default class Parser {
           this.#nodeNumber = 0;
           this.#nodeCounter = 0;
           this.#countChildElements(node);
-          this.#parseChildren(node, parent);
+          // note: here the assumption is made that the list of nodes provided are single-root
+          this.#parseNode(node.childNodes[0], parentNode);
         }
       } else {
         this.#nodeNumber = 0;
@@ -140,8 +148,6 @@ export default class Parser {
         this.#parseNode(scene);
       }
     }
-
-    webots.currentView.progress.setProgressBar('block', 'Finalizing...', 75, 'Finalizing webotsJS nodes...');
 
     return Promise.all(this.#promises).then(() => {
       this.#promises = [];
@@ -154,8 +160,17 @@ export default class Parser {
         this.gtaoNoiseTexture = undefined;
       }
 
+      webots.currentView.progress.setProgressBar('none');
+
+      if (!finalize)
+        return;
+
+      WbWorld.instance.readyForUpdates = false;
+
       if (typeof WbWorld.instance.viewpoint === 'undefined')
         return;
+
+      webots.currentView.progress.setProgressBar('block', 'Finalizing...', 0, 'Finalizing...');
       WbWorld.instance.viewpoint.finalize();
 
       if (typeof WbBackground.instance !== 'undefined') {
@@ -164,12 +179,9 @@ export default class Parser {
         WbBackground.instance.setIrradianceCubeArray(this.irradianceCubeURL);
         this.irradianceCubeURL = undefined;
       }
-      WbWorld.instance.sceneTree.forEach((node, i) => {
-        const percentage = 70 + 30 * (i + 1) / WbWorld.instance.sceneTree.length;
-        const info = 'Finalizing node ' + node.id + ': ' + Math.round(100 * (i + 1) / WbWorld.instance.sceneTree.length) + '%';
-        webots.currentView.progress.setProgressBar('block', 'same', 75 + 0.25 * percentage, info);
-        node.finalize();
-      });
+
+      WbWorld.instance.currentView = webots.currentView;
+      WbWorld.instance.root.finalize();
 
       WbWorld.instance.readyForUpdates = true;
 
@@ -179,35 +191,29 @@ export default class Parser {
 
       if (typeof callback === 'function')
         callback();
-      console.log(WbWorld.instance);
+      console.log('World Instance', WbWorld.instance);
       console.timeEnd('Loaded in: ');
     });
   }
 
   #parseNode(node, parentNode, isBoundingObject) {
-    this.#nodeCounter += 1;
-    const percentage = 30 + 70 * this.#nodeCounter / this.#nodeNumber;
-    const infoPercentage = 100 * this.#nodeCounter / this.#nodeNumber;
-    const info = 'Parsing node: ' + node.id + ' (' + node.tagName + ') ' + infoPercentage + '%';
-    webots.currentView.progress.setProgressBar('block', 'same', 60 + 0.1 * percentage, info);
-
-    if (typeof WbWorld.instance === 'undefined')
-      WbWorld.init();
+    if (typeof this.#rootNodeId === 'undefined')
+      this.#rootNodeId = node.id;
 
     let result;
     switch (node.tagName) {
       case 'Scene':
-        this.#parseScene(node);
-        this.#parseChildren(node, parentNode);
+        this.#parseScene();
+        this.#createRoot(node);
         break;
       case 'WorldInfo':
         this.#parseWorldInfo(node);
         break;
       case 'Viewpoint':
-        WbWorld.instance.viewpoint = this.#parseViewpoint(node);
+        WbWorld.instance.viewpoint = this.#parseViewpoint(node, parentNode);
         break;
       case 'Background':
-        result = this.#parseBackground(node);
+        result = this.#parseBackground(node, parentNode);
         break;
       case 'HingeJoint':
       case 'SliderJoint':
@@ -355,10 +361,6 @@ export default class Parser {
         } else
           console.error("The parser doesn't support this type of node: " + node.tagName);
     }
-
-    // check if top-level nodes
-    if (typeof result !== 'undefined' && typeof parentNode === 'undefined')
-      WbWorld.instance.sceneTree.push(result);
   }
 
   #parseChildren(node, parentNode, isBoundingObject) {
@@ -369,7 +371,12 @@ export default class Parser {
     }
   }
 
-  #parseScene(node) {
+  #parseScene() {
+    if (typeof WbWorld.instance === 'undefined') {
+      WbWorld.init();
+      WbWorld.instance.prefix = this.#prefix;
+    }
+
     const prefix = DefaultUrl.wrenImagesUrl();
     this.#promises.push(ImageLoader.loadTextureData(prefix, 'smaa_area_texture.png').then(image => {
       this.smaaAreaTexture = image;
@@ -391,7 +398,17 @@ export default class Parser {
     WbWorld.instance.scene = new WbScene();
   }
 
+  #createRoot(node) {
+    const root = new WbGroup(getAnId(), false);
+    this.#rootNodeId = root.id;
+
+    WbWorld.instance.nodes.set(root.id, root);
+    WbWorld.instance.root = root;
+    this.#parseChildren(node, root, false);
+  }
+
   #parseWorldInfo(node) {
+    this.#updateParserProgress(node);
     WbWorld.instance.coordinateSystem = getNodeAttribute(node, 'coordinateSystem', 'ENU');
     WbWorld.instance.basicTimeStep = parseInt(getNodeAttribute(node, 'basicTimeStep', 32));
     WbWorld.instance.title = getNodeAttribute(node, 'title', 'No title');
@@ -422,7 +439,8 @@ export default class Parser {
     return id;
   }
 
-  #parseViewpoint(node) {
+  #parseViewpoint(node, parentNode) {
+    this.#updateParserProgress(node);
     const id = this.#parseId(node);
     const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', M_PI_4));
     const orientation = convertStringToQuaternion(getNodeAttribute(node, 'orientation', '0 0 1 0'));
@@ -435,11 +453,22 @@ export default class Parser {
     const followedId = getNodeAttribute(node, 'followedId');
     const ambientOcclusionRadius = parseFloat(getNodeAttribute(node, 'ambientOcclusionRadius', 2));
 
-    return new WbViewpoint(id, fieldOfView, orientation, position, exposure, bloomThreshold, near, far, followSmoothness,
-      followedId, ambientOcclusionRadius);
+    const viewpoint = new WbViewpoint(id, fieldOfView, orientation, position, exposure, bloomThreshold, near, far,
+      followSmoothness, followedId, ambientOcclusionRadius);
+
+    if (typeof parentNode !== 'undefined') {
+      if (parentNode instanceof WbGroup)
+        parentNode.children.push(viewpoint);
+
+      viewpoint.parent = parentNode.id;
+    }
+
+    WbWorld.instance.nodes.set(viewpoint.id, viewpoint);
+    return viewpoint;
   }
 
-  #parseBackground(node) {
+  #parseBackground(node, parentNode) {
+    this.#updateParserProgress(node);
     const id = this.#parseId(node);
     const skyColor = convertStringToVec3(getNodeAttribute(node, 'skyColor', '0 0 0'));
     const luminosity = parseFloat(getNodeAttribute(node, 'luminosity', '1'));
@@ -512,14 +541,21 @@ export default class Parser {
     const background = new WbBackground(id, skyColor, luminosity);
     WbBackground.instance = background;
 
+    if (typeof parentNode !== 'undefined') {
+      if (parentNode instanceof WbGroup)
+        parentNode.children.push(background);
+
+      background.parent = parentNode.id;
+    }
+
     WbWorld.instance.nodes.set(background.id, background);
 
     return background;
   }
 
-  #countChildElements(tree) {
-    if (tree !== 'undefined') {
-      tree.childNodes.forEach(child => {
+  #countChildElements(item) {
+    if (item !== 'undefined') {
+      item.childNodes.forEach(child => {
         if (child.tagName) {
           this.#nodeNumber += 1;
           this.#countChildElements(child);
@@ -530,8 +566,8 @@ export default class Parser {
 
   #updatePromiseCounter(info) {
     this.#promiseCounter += 1;
-    const percentage = 70 * this.#promiseCounter / this.#promiseNumber;
-    webots.currentView.progress.setProgressBar('block', 'same', 75 + 0.25 * percentage, info);
+    const percentage = 100 * this.#promiseCounter / this.#promiseNumber;
+    webots.currentView.progress.setProgressBar('block', 'same', percentage, info);
   }
 
   #checkUse(node, parentNode) {
@@ -566,6 +602,7 @@ export default class Parser {
   }
 
   #parseTransform(node, parentNode, isBoundingObject) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
@@ -704,6 +741,7 @@ export default class Parser {
   }
 
   #parseGroup(node, parentNode) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
@@ -731,6 +769,7 @@ export default class Parser {
   }
 
   #parseSlot(node, parentNode) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
@@ -753,6 +792,7 @@ export default class Parser {
   }
 
   #parseJoint(node, parentNode) {
+    this.#updateParserProgress(node);
     const id = this.#parseId(node);
 
     let joint;
@@ -780,6 +820,7 @@ export default class Parser {
   }
 
   #parseJointParameters(node, parentNode) {
+    this.#updateParserProgress(node);
     const id = this.#parseId(node);
 
     const position = parseFloat(getNodeAttribute(node, 'position', '0'));
@@ -851,6 +892,7 @@ export default class Parser {
   }
 
   #parseShape(node, parentNode, isBoundingObject) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
@@ -913,6 +955,7 @@ export default class Parser {
   }
 
   #parseCadShape(node, parentNode) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
@@ -954,6 +997,7 @@ export default class Parser {
   }
 
   #parseBillboard(node, parentNode) {
+    this.#updateParserProgress(node);
     const id = this.#parseId(node);
 
     const billboard = new WbBillboard(id);
@@ -965,6 +1009,7 @@ export default class Parser {
   }
 
   #parseDirectionalLight(node, parentNode) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
@@ -993,6 +1038,7 @@ export default class Parser {
   }
 
   #parsePointLight(node, parentNode) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
@@ -1022,6 +1068,7 @@ export default class Parser {
   }
 
   #parseSpotLight(node, parentNode) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
@@ -1051,6 +1098,7 @@ export default class Parser {
   }
 
   #parseFog(node) {
+    this.#updateParserProgress(node);
     const id = this.#parseId(node);
     const color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
     const visibilityRange = parseFloat(getNodeAttribute(node, 'visibilityRange', '0'));
@@ -1106,6 +1154,7 @@ export default class Parser {
   }
 
   #parseBox(node, id) {
+    this.#updateParserProgress(node);
     const size = convertStringToVec3(getNodeAttribute(node, 'size', '2 2 2'));
 
     const box = new WbBox(id, size);
@@ -1114,6 +1163,7 @@ export default class Parser {
   }
 
   #parseSphere(node, id) {
+    this.#updateParserProgress(node);
     const radius = parseFloat(getNodeAttribute(node, 'radius', '1'));
     const ico = getNodeAttribute(node, 'ico', 'true').toLowerCase() === 'true';
     const subdivision = parseInt(getNodeAttribute(node, 'subdivision', '1,1'));
@@ -1126,6 +1176,7 @@ export default class Parser {
   }
 
   #parseCone(node, id) {
+    this.#updateParserProgress(node);
     const bottomRadius = getNodeAttribute(node, 'bottomRadius', '1');
     const height = getNodeAttribute(node, 'height', '2');
     const subdivision = getNodeAttribute(node, 'subdivision', '32');
@@ -1140,6 +1191,7 @@ export default class Parser {
   }
 
   #parseCylinder(node, id) {
+    this.#updateParserProgress(node);
     const radius = getNodeAttribute(node, 'radius', '1');
     const height = getNodeAttribute(node, 'height', '2');
     const subdivision = getNodeAttribute(node, 'subdivision', '32');
@@ -1155,6 +1207,7 @@ export default class Parser {
   }
 
   #parsePlane(node, id) {
+    this.#updateParserProgress(node);
     const size = convertStringToVec2(getNodeAttribute(node, 'size', '1,1'));
 
     const plane = new WbPlane(id, size);
@@ -1165,6 +1218,7 @@ export default class Parser {
   }
 
   #parseCapsule(node, id) {
+    this.#updateParserProgress(node);
     const radius = getNodeAttribute(node, 'radius', '1');
     const height = getNodeAttribute(node, 'height', '2');
     const subdivision = getNodeAttribute(node, 'subdivision', '32');
@@ -1180,6 +1234,7 @@ export default class Parser {
   }
 
   #parseIndexedFaceSet(node, id) {
+    this.#updateParserProgress(node);
     const coordIndex = convertStringToFloatArray(getNodeAttribute(node, 'coordIndex', ''));
     const normalIndex = convertStringToFloatArray(getNodeAttribute(node, 'normalIndex', ''));
     const texCoordIndex = convertStringToFloatArray(getNodeAttribute(node, 'texCoordIndex', ''));
@@ -1219,6 +1274,7 @@ export default class Parser {
   }
 
   #parseIndexedLineSet(node, id) {
+    this.#updateParserProgress(node);
     const coordinateNode = node.getElementsByTagName('Coordinate');
     let coord;
     if (coordinateNode.length > 0)
@@ -1241,6 +1297,7 @@ export default class Parser {
   }
 
   #parseElevationGrid(node, id) {
+    this.#updateParserProgress(node);
     const heightStr = getNodeAttribute(node, 'height');
     const xDimension = parseInt(getNodeAttribute(node, 'xDimension', '0'));
     const xSpacing = parseFloat(getNodeAttribute(node, 'xSpacing', '1'));
@@ -1261,6 +1318,7 @@ export default class Parser {
   }
 
   #parsePointSet(node, id) {
+    this.#updateParserProgress(node);
     const coordinateNode = node.getElementsByTagName('Coordinate');
     let coord;
     if (coordinateNode.length > 0)
@@ -1285,6 +1343,7 @@ export default class Parser {
   }
 
   #parseColor(node) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node);
     if (typeof use !== 'undefined')
       return use;
@@ -1303,6 +1362,7 @@ export default class Parser {
   }
 
   #parseCoordinate(node) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node);
     if (typeof use !== 'undefined')
       return use;
@@ -1321,6 +1381,7 @@ export default class Parser {
   }
 
   #parseTextureCoordinate(node) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node);
     if (typeof use !== 'undefined')
       return use;
@@ -1339,6 +1400,7 @@ export default class Parser {
   }
 
   #parseNormal(node) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node);
     if (typeof use !== 'undefined')
       return use;
@@ -1357,6 +1419,7 @@ export default class Parser {
   }
 
   #parseMesh(node, id) {
+    this.#updateParserProgress(node);
     let url = getNodeAttribute(node, 'url', '');
     if (typeof url !== 'undefined')
       url = url.split('"').filter(element => { if (element !== ' ') return element; })[0]; // filter removes empty elements
@@ -1383,6 +1446,7 @@ export default class Parser {
   }
 
   #parseAppearance(node, parentId) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node);
     if (typeof use !== 'undefined')
       return use;
@@ -1428,6 +1492,7 @@ export default class Parser {
   }
 
   #parseMaterial(node, parentId) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node);
     if (typeof use !== 'undefined')
       return use;
@@ -1452,6 +1517,7 @@ export default class Parser {
   }
 
   #parseImageTexture(node, parentId) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node);
     if (typeof use !== 'undefined')
       return use;
@@ -1486,6 +1552,7 @@ export default class Parser {
   }
 
   #parsePbrAppearance(node, parentId) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node);
     if (typeof use !== 'undefined')
       return use;
@@ -1593,6 +1660,13 @@ export default class Parser {
     WbWorld.instance.nodes.set(textureTransform.id, textureTransform);
 
     return textureTransform;
+  }
+
+  #updateParserProgress(node) {
+    this.#nodeCounter += 1;
+    const percentage = 100 * this.#nodeCounter / this.#nodeNumber;
+    const info = 'Parsing node: ' + node.id + ' (' + node.tagName + ') ' + percentage.toFixed(0) + '%';
+    webots.currentView.progress.setProgressBar('block', 'same', percentage, info);
   }
 }
 
