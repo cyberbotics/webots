@@ -139,7 +139,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
       const keys = this.proto.parameters.keys();
       for (let key of keys) {
-        const parameter = this.#protoManager.exposedParameters.get(key);
+        const parameter = this.proto.parameters.get(key);
 
         if (parameter.restrictions.length > 0 && !this.unsupportedRestrictions.includes(parameter.type))
           this.#createRestrictedField(key, contentDiv);
@@ -318,7 +318,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #createMFVec3fField(key, parent) {
-    const parameter = this.#protoManager.exposedParameters.get(key);
+    const parameter = this.proto.parameters.get(key);
     const p = document.createElement('p');
     p.innerHTML = key + ': ';
     p.key = key;
@@ -327,8 +327,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.style.gridColumn = '2 / 2';
     p.className = 'key-parameter';
 
-    const exportCheckbox = this.#createCheckbox(parent, key);
-    p.checkbox = exportCheckbox;
+    if (this.proto.isRoot) {
+      const exportCheckbox = this.#createCheckbox(parent, key);
+      p.checkbox = exportCheckbox;
+    } else
+      p.style.marginLeft = '20px';
 
     const hideShowButton = document.createElement('button');
     hideShowButton.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
@@ -611,7 +614,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #createRestrictedField(key, parent) {
-    const parameter = this.#protoManager.exposedParameters.get(key);
+    const parameter = this.proto.parameters.get(key);
 
     const p = document.createElement('p');
     p.innerHTML = key + ': ';
@@ -621,7 +624,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.style.gridColumn = '2 / 2';
     p.className = 'key-parameter';
 
-    const exportCheckbox = this.#createCheckbox(parent);
+    if (this.proto.isRoot) {
+      const exportCheckbox = this.#createCheckbox(parent, key);
+      p.checkbox = exportCheckbox;
+    } else
+      p.style.marginLeft = '20px';
 
     const value = document.createElement('p');
     value.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
@@ -671,6 +678,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       this.#refreshParameterRow(parameter);
     };
     value.appendChild(select);
+    p.input = select;
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     this.#disableResetButton(resetButton);
@@ -681,8 +689,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       this.#refreshParameterRow(parameter);
     };
 
-    p.input = select;
-    p.checkbox = exportCheckbox;
 
     parent.appendChild(p);
     parent.appendChild(value);
@@ -899,7 +905,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #createSFInt32Field(key, parent) {
-    const parameter = this.#protoManager.exposedParameters.get(key);
+    const parameter = this.proto.parameters.get(key);
 
     const p = document.createElement('p');
     p.className = 'key-parameter';
@@ -909,7 +915,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     p.style.gridColumn = '2 / 2';
 
-    const exportCheckbox = this.#createCheckbox(parent, key);
+    if (this.proto.isRoot) {
+      const exportCheckbox = this.#createCheckbox(parent, key);
+      p.checkbox = exportCheckbox;
+    } else
+      p.style.marginLeft = '20px';
 
     const value = document.createElement('p');
     value.className = 'value-parameter';
@@ -947,7 +957,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #createSFBoolField(key, parent) {
-    const parameter = this.#protoManager.exposedParameters.get(key);
+    const parameter = this.proto.parameters.get(key);
 
     const p = document.createElement('p');
     p.className = 'key-parameter';
@@ -957,7 +967,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     p.style.gridColumn = '2 / 2';
 
-    const exportCheckbox = this.#createCheckbox(parent, key);
+    if (this.proto.isRoot) {
+      const exportCheckbox = this.#createCheckbox(parent, key);
+      p.checkbox = exportCheckbox;
+    } else
+      p.style.marginLeft = '20px';
 
     const value = document.createElement('p');
     value.className = 'value-parameter';

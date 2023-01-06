@@ -960,26 +960,3 @@ export function stringifyType(type) {
       throw new Error('Unknown VRML type: ', type);
   }
 }
-
-/*
-export function isValueAcceptable(v, restrictions) {
-  for (const item of restrictions) {
-    if (item.type() !== v.type())
-      return false;
-
-    switch(item.type()) {
-      case VRML.SFBool:
-      case VRML.SFInt32:
-      case VRML.SFFloat:
-      case VRML.SFString:
-        if (item.value === v.value)
-          return true;
-
-      default:
-        throw new Error('Unknown VRML type: ', type);
-    }
-  }
-
-  return false;
-}
-*/

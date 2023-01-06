@@ -329,7 +329,7 @@ export default class Node {
 
   regenerateBodyVrml() {
     const fieldsEncoding = this.toJS(true); // make current proto parameters in a format compliant to template engine
-    console.log('fields encoding', fieldsEncoding);
+    console.log('Encoded fields:', fieldsEncoding);
 
     if (typeof this.templateEngine === 'undefined')
       throw new Error('Regeneration was called but the template engine is not defined (i.e this.isTemplate is false)');
