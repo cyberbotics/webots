@@ -16,8 +16,6 @@ field MFVec3f    spine                     [0 0 0, 0 0 1]                  # Def
         children [
           Shape {
             geometry Extrusion {
-              orientation IS orientation
-              spine IS spine
             }
           }
         ]

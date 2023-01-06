@@ -157,6 +157,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           this.#createMFBoolField(key, contentDiv);
         else if (parameter.type === VRML.MFRotation)
           this.#createMFRotationField(key, contentDiv);
+        else if (parameter.type === VRML.MFColor)
+          this.#createMFColorField(key, contentDiv);
 
         this.#rowNumber++;
       }
@@ -1040,6 +1042,118 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parameter.setValueFromJavaScript(this.#view, vectorArray);
   }
 
+  #createMFColorField(key, parent) {
+    const results = this.#createFieldCommonPart(key, parent);
+    const p = results[0];
+    const parameter = results[1];
+
+    const currentMfId = this.#mfId;
+    const hideShowButton = this.#createHideShowButtom(currentMfId);
+
+    const resetButton = this.#createResetButton(parent, p.style.gridRow);
+    this.#disableResetButton(resetButton);
+    resetButton.onclick = () => {
+      this.#disableResetButton(resetButton);
+      const nodesToRemove = document.getElementsByClassName('mf-id-' + currentMfId);
+      let maxRowNumber = 0;
+      for (let i = nodesToRemove.length - 1; i >= 0; i--) {
+        const rowNumber = this.#getRow(nodesToRemove[i]);
+        if (rowNumber > maxRowNumber)
+          maxRowNumber = rowNumber;
+        nodesToRemove[i].parentNode.removeChild(nodesToRemove[i]);
+      }
+
+      parameter.value = parameter.defaultValue.clone();
+      const resetButtonRow = this.#getRow(resetButton);
+      // two times because of the `add` button and plus one for the first `add` button.
+      const maxRowNumberNeeded = parameter.value.value.length * 2 + 1 + resetButtonRow;
+
+      // Need to offset the following rows by the difference to keep the coherency.
+      if (maxRowNumber > maxRowNumberNeeded)
+        this.#offsetNegativelyRows(resetButtonRow, maxRowNumber - maxRowNumberNeeded);
+      else if (maxRowNumber < maxRowNumberNeeded)
+        this.#offsetPositivelyRows(resetButtonRow + 1, maxRowNumberNeeded - maxRowNumber);
+
+      this.#populateMFColor(resetButton, parent, parameter, resetButtonRow, currentMfId, !hideShowButton.isHidden);
+
+      this.#MFColorOnChange('value-parameter mf-parameter mf-id-' + currentMfId, parameter);
+    };
+
+    this.#rowNumber += this.#populateMFColor(resetButton, parent, parameter, this.#rowNumber, currentMfId);
+
+    parent.appendChild(p);
+    parent.appendChild(hideShowButton);
+
+    this.#mfId++;
+  }
+
+  #populateMFColor(resetButton, parent, parameter, firstRow, mfId, isVisible) {
+    this.#createAddRowSection(mfId, resetButton, firstRow, parent, parameter, isVisible, VRML.MFColor);
+    let numberOfRows = 1;
+    for (let i = 0; i < parameter.value.value.length; i++) {
+      numberOfRows++;
+      this.#createMFColorRow(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
+        parameter, isVisible);
+      numberOfRows++;
+    }
+
+    return numberOfRows;
+  }
+
+  #createMFColorRow(value, row, parent, mfId, resetButton, parameter, isVisible) {
+    const p = this.#createMfRowElement(row, mfId);
+
+    if (isVisible)
+      p.style.display = 'block';
+
+    const input = document.createElement('input');
+    input.type = 'color';
+    const initialValue = parameter.value.value;
+    input.value = this.rgbToHex(parseInt(initialValue.r * 255), parseInt(initialValue.g * 255), parseInt(initialValue.b * 255));
+    input.onchange = _ => {
+      this.#MFColorOnChange(p.className, parameter);
+      this.#enableResetButton(resetButton);
+    };
+
+    p.appendChild(input);
+
+    parent.appendChild(p);
+
+    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFColorOnChange(p, parameter));
+
+    // Add row
+    const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible, VRML.MFColor);
+    return [p, addRow];
+  }
+
+  #MFColorOnChange(className, parameter) {
+    const elements = document.getElementsByClassName(className);
+    let lut = new Map();
+    for (let i = 0; i < elements.length; i++) {
+      let order = this.#getRow(elements[i]);
+
+      // the last one is the delete button
+      const hexValue = elements[i].childNodes[0].value;
+      const red = parseInt(hexValue.substring(1, 3), 16) / 255;
+      const green = parseInt(hexValue.substring(3, 5), 16) / 255;
+      const blue = parseInt(hexValue.substring(5, 7), 16) / 255;
+      const value = {r: red, g: green, b: blue};
+
+      lut.set(order, value);
+    }
+    lut = new Map([...lut.entries()].sort((a, b) => a[0] - b[0]));
+
+    // Separately printing only keys
+    const stringArray = [];
+    let i = 0;
+    for (let value of lut.values()) {
+      stringArray[i] = value;
+      i++;
+    }
+
+    parameter.setValueFromJavaScript(this.#view, stringArray);
+  }
+
   #createMfRowElement(row, mfId) {
     const p = document.createElement('p');
     p.style.gridRow = '' + row + ' / ' + row;
@@ -1128,8 +1242,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         newRows = this.#createMFFloatRow(0, row, parent, mfId, resetButton, parameter, true, isInt);
         this.#MFFloatfOnChange(newRows[0].className, parameter);
       } else if (type === VRML.MFBool) {
-        newRows = this.#createMFBoolRow('', row, parent, mfId, resetButton, parameter);
+        newRows = this.#createMFBoolRow(false, row, parent, mfId, resetButton, parameter);
         this.#MFBoolOnChange(newRows[0].className, parameter);
+      } else if (type === VRML.MFRotation) {
+        newRows = this.#createMFRotationRow({x: 0, y: 0, z: 1, a: 0}, row, parent, mfId, resetButton, parameter);
+        this.#MFRotationOnChange(newRows[0].className, parameter);
+      } else if (type === VRML.MFColor) {
+        newRows = this.#createMFColorRow('', row, parent, mfId, resetButton, parameter);
+        this.#MFColorOnChange(newRows[0].className, parameter);
       }
       newRows[0].style.display = 'block';
       newRows[1].style.display = 'block';
