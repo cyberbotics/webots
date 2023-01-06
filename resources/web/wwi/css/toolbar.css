@@ -993,6 +993,7 @@ webots-view .mf-parameter {
   display: none;
   margin-top: 7px;
   margin-bottom: 7px;
+  align-items: center;
 }
 
 webots-view .bool-field {
@@ -1040,7 +1041,6 @@ webots-view .remove-row-button {
   border: 0px;
   background-color: transparent;
   cursor: pointer;
-  position: absolute;
 }
 
 webots-view .remove-row-button:hover {
@@ -1048,7 +1048,6 @@ webots-view .remove-row-button:hover {
   border: 1px solid grey;
   border-radius: 2px;
 }
-
 
 webots-view .reset-field-button {
   background-image: url(../images/icons/reload.svg);

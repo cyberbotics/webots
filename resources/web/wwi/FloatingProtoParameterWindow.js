@@ -418,7 +418,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const p = this.#createMfRowElement(row, mfId);
 
     if (isVisible)
-      p.style.display = 'block';
+      p.style.display = 'flex';
     this.#createVectorInput(' x', value.x, p, () => {
       this.#MFVec3fOnChange(p.className, parameter);
       this.#enableResetButton(resetButton);
@@ -528,7 +528,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const p = this.#createMfRowElement(row, mfId);
 
     if (isVisible)
-      p.style.display = 'block';
+      p.style.display = 'flex';
     this.#createVectorInput(' x', value.x, p, () => {
       this.#MFVec2fOnChange(p.className, parameter);
       this.#enableResetButton(resetButton);
@@ -633,7 +633,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const p = this.#createMfRowElement(row, mfId);
 
     if (isVisible)
-      p.style.display = 'block';
+      p.style.display = 'flex';
 
     const input = document.createElement('input');
     input.type = 'text';
@@ -759,7 +759,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const p = this.#createMfRowElement(row, mfId);
 
     if (isVisible)
-      p.style.display = 'block';
+      p.style.display = 'flex';
 
     const input = document.createElement('input');
     input.type = 'number';
@@ -873,7 +873,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const p = this.#createMfRowElement(row, mfId);
 
     if (isVisible)
-      p.style.display = 'block';
+      p.style.display = 'flex';
 
     const input = document.createElement('input');
     input.type = 'checkbox';
@@ -988,7 +988,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const p = this.#createMfRowElement(row, mfId);
     if (isVisible)
 
-      p.style.display = 'block';
+      p.style.display = 'flex';
     this.#createVectorInput(' x', value.x, p, () => {
       this.#MFRotationOnChange(p.className, parameter);
       this.#enableResetButton(resetButton);
@@ -1104,7 +1104,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const p = this.#createMfRowElement(row, mfId);
 
     if (isVisible)
-      p.style.display = 'block';
+      p.style.display = 'flex';
 
     const input = document.createElement('input');
     input.type = 'color';
@@ -1177,10 +1177,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       for (let i = 0; i < nodes.length; i++) {
         const element = nodes[i];
         if (element) {
-          if (element.style.display === 'block')
+          if (element.style.display === 'flex')
             element.style.display = 'none';
           else
-            element.style.display = 'block';
+            element.style.display = 'flex';
         }
       }
 
@@ -1251,8 +1251,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         newRows = this.#createMFColorRow('', row, parent, mfId, resetButton, parameter);
         this.#MFColorOnChange(newRows[0].className, parameter);
       }
-      newRows[0].style.display = 'block';
-      newRows[1].style.display = 'block';
+      newRows[0].style.display = 'flex';
+      newRows[1].style.display = 'flex';
       this.#enableResetButton(resetButton);
     };
 
@@ -1261,7 +1261,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     addRow.id = 'row-' + this.#rowId;
     addRow.title = 'Insert a new row here';
     if (isVisible)
-      addRow.style.display = 'block';
+      addRow.style.display = 'flex';
 
     const rowNumber = row + 1;
     addRow.style.gridRow = '' + rowNumber + ' / ' + rowNumber;
@@ -1850,7 +1850,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           open.title = 'Hide additional information';
           for (const child of children) {
             if (child.style.gridRow[0] > 1)
-              child.style.display = 'block';
+              child.style.display = 'flex';
           }
         } else {
           open.style.transform = '';
