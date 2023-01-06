@@ -12,9 +12,6 @@ export default class WbBaseNode {
   }
 
   createWrenObjects() {
-    if (this.wrenObjectsCreatedCalled)
-      return;
-
     this.wrenObjectsCreatedCalled = true;
 
     if (typeof this.parent !== 'undefined')
@@ -24,19 +21,6 @@ export default class WbBaseNode {
   }
 
   delete() {
-    if (this.useList.length !== 0) {
-      let newDef;
-      let index = 0;
-      while (typeof newDef === 'undefined' && index < this.useList.length) {
-        newDef = WbWorld.instance.nodes.get(this.useList[index]);
-        this.useList.splice(index, 1);
-        index++;
-      }
-
-      if (typeof newDef !== 'undefined')
-        newDef.useList = this.useList;
-    }
-
     WbWorld.instance.nodes.delete(this.id);
   }
 
@@ -49,6 +33,11 @@ export default class WbBaseNode {
 
     if (!this.isPostFinalizedCalled)
       this.postFinalize();
+
+    for (const useId of this.useList) {
+      const useNode = WbWorld.instance.nodes.get(useId);
+      useNode.finalize();
+    }
   }
 
   preFinalize() {

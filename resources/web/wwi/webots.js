@@ -132,7 +132,7 @@ webots.View = class View {
     if (typeof mode === 'undefined')
       mode = 'x3d';
     this.mode = mode;
-    const initWorld = () => {
+    const initWorld = async() => {
       if (typeof this.progress === 'undefined')
         this.progress = new Progress(this.view3D, 'Initializing...', thumbnail);
 
@@ -156,9 +156,9 @@ webots.View = class View {
         }
       } else { // assuming it's an URL to a .x3d file
         if (raw)
-          this.x3dScene.loadRawWorldFile(this.url, finalizeWorld, this.progress);
+          await this.x3dScene.loadRawWorldFile(this.url, finalizeWorld, this.progress);
         else
-          this.x3dScene.loadWorldFile(this.url, finalizeWorld, this.progress);
+          await this.x3dScene.loadWorldFile(this.url, finalizeWorld, this.progress);
       }
     };
 
