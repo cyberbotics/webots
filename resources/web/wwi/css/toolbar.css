@@ -1039,9 +1039,8 @@ webots-view .remove-row-button {
   background-size: cover;
   border: 0px;
   background-color: transparent;
-  position: absolute;
-  margin-left: 5px;
   cursor: pointer;
+  position: absolute;
 }
 
 webots-view .remove-row-button:hover {
@@ -1049,6 +1048,7 @@ webots-view .remove-row-button:hover {
   border: 1px solid grey;
   border-radius: 2px;
 }
+
 
 webots-view .reset-field-button {
   background-image: url(../images/icons/reload.svg);

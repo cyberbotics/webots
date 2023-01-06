@@ -4,6 +4,9 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/project
 
 PROTO ProtoCylinder [
 field MFBool  top   [TRUE]
+field MFString  string   ["hello world"]
+field MFInt32  int   [1, 0]
+field MFColor  color   [0 1 0]
 field MFRotation orientation[0 0 1 0]
 field MFVec3f    spine                     [0 0 0, 0 0 1]                  # Defines the 3D extrusion path.
 
