@@ -929,7 +929,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     input.oninput = () => this.#intOnChange(p);
     input.onchange = () => this.#floatOnChange(p);
     p.input = input;
-    p.checkbox = exportCheckbox;
     value.appendChild(input);
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
@@ -978,7 +977,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     input.className = 'bool-field';
 
     p.input = input;
-    p.checkbox = exportCheckbox;
     value.appendChild(input);
 
     const boolText = document.createElement('span');
