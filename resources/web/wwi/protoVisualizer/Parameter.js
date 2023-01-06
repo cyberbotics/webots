@@ -40,10 +40,8 @@ export default class Parameter {
 
     if (this.restrictions.length > 0) {
       let isValueAcceptable = false;
-      for (const item of this.restrictions) {
-        console.log('COMPARE', item, v)
+      for (const item of this.restrictions)
         isValueAcceptable = isValueAcceptable || (v instanceof SFNode && v.value === null) || item.equals(v);
-      }
 
       if (!isValueAcceptable)
         throw new Error('Parameter ' + this.name + ' is restricted and the value being set is not permitted.');

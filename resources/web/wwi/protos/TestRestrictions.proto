@@ -12,7 +12,7 @@ PROTO TestRestrictions [
   field SFVec3f{0.05 0.05 0.05, 0.1 0.1 0.1, 0.15 0.15 0.15} sfvec3 0.1 0.1 0.1
   field SFColor{1 0 0, 0 1 0, 0 0 1} sfcolor 0 1 0
   field SFRotation{0 0 1 0, 0 0 1 1, 0 0 1 2} sfrotation 0 0 1 1
-  field SFNode{Copper{}, Cardboard{}} sfnode NULL
+  field SFNode{Copper{}, Cardboard{}} sfnode Copper{}
 ]
 {
   Group {

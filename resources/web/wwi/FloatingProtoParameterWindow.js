@@ -658,7 +658,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         default:
           throw new Error('Unsupported parameter type: ', parameter.type);
       }
-      // const value = parameter.type === VRML.SFString ? this.#stringRemoveQuote(item.value) : item.value;
+
       const option = document.createElement('option');
       option.value = value;
       option.innerText = value;
@@ -671,10 +671,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     select.onchange = (e) => {
       const parameter = e.target.parameter;
       const selectionIndex = e.target.selectedIndex;
-      const newValue = parameter.restrictions[selectionIndex]; // TODO: should it be cloned deeply? does reinserting the same thing twice work?
-      console.log('selected value', e.target.options[selectionIndex].value);
-      console.log('will set:', newValue.toJS(false))
-      parameter.setValueFromJavaScript(this.#view, newValue.toJS(false));
+      parameter.setValueFromJavaScript(this.#view, parameter.restrictions[selectionIndex].toJS(false));
       this.#refreshParameterRow(parameter);
     };
     value.appendChild(select);
@@ -683,19 +680,16 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     this.#disableResetButton(resetButton);
     resetButton.onclick = () => {
-      console.log('resetting', parameter.name)
-      // we can use stringify because SFNodes are handled separately (node selection window)
+      // we can use stringify because SFNodes/MFNodes are handled separately (through the node selection window)
       parameter.setValueFromJavaScript(this.#view, JSON.parse(JSON.stringify(parameter.defaultValue.value)));
       this.#refreshParameterRow(parameter);
     };
-
 
     parent.appendChild(p);
     parent.appendChild(value);
 
     this.#refreshParameterRow(parameter);
   }
-
 
   #createSFStringField(key, parent) {
     const parameter = this.proto.parameters.get(key);

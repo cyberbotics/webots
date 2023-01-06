@@ -168,31 +168,28 @@ export default class Node {
     // console.log('PARSE HEAD OF ' + this.name);
     const headTokenizer = new Tokenizer(this.rawInterface, this);
     headTokenizer.tokenize();
-    console.log('TOKENS', headTokenizer.tokens())
 
     // build parameter list
     headTokenizer.skipToken('PROTO');
     this.protoName = headTokenizer.nextWord();
 
     while (!headTokenizer.peekToken().isEof()) {
-      let token = headTokenizer.nextToken();
+      const token = headTokenizer.nextToken();
       let nextToken = headTokenizer.peekToken();
 
       const restrictions = [];
       if (token.isKeyword() && nextToken.isPunctuation()) {
         if (nextToken.word() === '{') {
+          // parse field restrictions
           headTokenizer.skipToken('{');
           const parameterType = token.fieldTypeFromVrml();
-          console.log('TYPE:', parameterType);
-          while (headTokenizer.peekWord() !== '}') { // parse field restrictions
-            console.log('WILL DO: ', headTokenizer.peekWord());
+          while (headTokenizer.peekWord() !== '}') {
             const value = vrmlFactory(parameterType, headTokenizer);
             restrictions.push(value);
           }
           headTokenizer.skipToken('}');
           nextToken = headTokenizer.peekToken(); // we need to update the nextToken as it has to point after the restrictions
         }
-        console.log('RESTRICTED:', restrictions)
       }
 
       if (token.isKeyword() && nextToken.isIdentifier()) {
@@ -201,7 +198,7 @@ export default class Node {
         const isRegenerator = this.isTemplate ? (this.rawBody.search('fields.' + parameterName + '.') !== -1) : false;
         headTokenizer.nextToken(); // consume the token containing the parameter name
 
-        console.log('INTERFACE PARAMETER ' + parameterName + ', TYPE: ' + parameterType);
+        // console.log('INTERFACE PARAMETER ' + parameterName + ', TYPE: ' + parameterType);
         const defaultValue = vrmlFactory(parameterType, headTokenizer);
         const value = defaultValue.clone(true);
         const parameter = new Parameter(this, parameterName, parameterType, restrictions, defaultValue, value, isRegenerator);
