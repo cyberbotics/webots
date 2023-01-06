@@ -157,8 +157,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       if (this.proto.isRoot) {
         this.#createDownloadButton(contentDiv);
         this.backBuffer = [];
-      }
-      else
+      } else
         this.#createBackButton(contentDiv);
 
       this.#rowNumber++;
