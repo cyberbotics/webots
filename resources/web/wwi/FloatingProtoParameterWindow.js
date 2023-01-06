@@ -154,8 +154,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         this.#rowNumber++;
       }
 
-      if (this.proto.isRoot)
+      if (this.proto.isRoot) {
         this.#createDownloadButton(contentDiv);
+        this.backBuffer = [];
+      }
       else
         this.#createBackButton(contentDiv);
 
@@ -211,7 +213,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     backButton.innerHTML = 'Back';
     backButton.title = 'Return to the previous PROTO';
     backButton.onclick = () => {
-      this.proto = this.#protoManager.proto;
+      this.proto = this.backBuffer.pop();
       this.populateProtoParameterWindow();
     };
     buttonContainer.appendChild(backButton);
@@ -225,7 +227,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     buttonContainer.style.gridColumn = '4 / 4';
 
     if (typeof this.exportName === 'undefined')
-      this.exportName = this.#protoManager.proto.name
+      this.exportName = 'My' + this.#protoManager.proto.name;
 
     const input = document.createElement('input');
     input.type = 'text';
@@ -751,6 +753,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       if (parameter.value.value === null)
         return;
 
+      this.backBuffer.push(this.proto);
       this.proto = parameter.value.value;
       this.populateProtoParameterWindow();
     };
@@ -763,7 +766,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     this.#disableResetButton(resetButton);
     resetButton.onclick = () => {
-      parameter.setValueFromJavaScript(this.#view, parameter.defaultValue.value.clone(true));
+      parameter.setValueFromJavaScript(this.#view, parameter.defaultValue.value === null ? null : parameter.defaultValue.value.clone(true));
       this.#refreshParameterRow(parameter);
     };
 

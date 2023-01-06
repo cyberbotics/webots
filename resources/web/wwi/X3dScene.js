@@ -175,7 +175,6 @@ export default class X3dScene {
   }
 
   async loadObject(x3dObject, parentId, callback) {
-    // console.log('GOT: ', x3dObject, parentId)
     let parentNode;
     if (typeof parentId !== 'undefined') {
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
@@ -528,7 +527,7 @@ export default class X3dScene {
       data = data.substring(data.indexOf(':') + 1);
       const parentId = data.split(':')[0];
       data = data.substring(data.indexOf(':') + 1);
-      this.loadObject(data, parentId);
+      this.loadObject(data, parentId === "0" ? WbWorld.instance.root.id.replace('n', '') : parentId);
     } else if (data.startsWith('delete:')) {
       data = data.substring(data.indexOf(':') + 1).trim();
       this.#deleteObject(data);

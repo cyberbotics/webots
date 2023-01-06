@@ -79,24 +79,25 @@ export default class ProtoManager {
       return ' '.repeat(depth);
     }
 
-    function listExternProto(node) {
-      const list = [node.url]; // the base-type must always be declared
+    function listExternProto(node, list) {
       for (const parameter of node.parameters.values()) {
         const currentValue = parameter.value;
         if (currentValue instanceof SFNode && currentValue.value !== null) {
-          if (currentValue.value.isProto && !list.includes(currentValue.value.url))
+          if (currentValue.value.isProto && !list.includes(currentValue.value.url)) {
             list.push(currentValue.value.url);
+            listExternProto(currentValue.value, list);
+          }
         }
 
         if (parameter.value instanceof MFNode && currentValue.value.length > 0) {
           for (const item of currentValue.value) {
-            if (item.value.isProto && !list.includes(item.value.url))
+            if (item.value.isProto && !list.includes(item.value.url)) {
               list.push(item.value.url);
+              listExternProto(item.value, list);
+            }
           }
         }
       }
-
-      return list;
     }
 
     // write PROTO contents
@@ -104,7 +105,8 @@ export default class ProtoManager {
     s += '#VRML_SIM R2023b utf8\n';
     s += '\n';
 
-    const externProto = listExternProto(this.proto);
+    const externProto = [this.proto.url];
+    listExternProto(this.proto, externProto);
     for (const item of externProto)
       s += `EXTERNPROTO "${item}"\n`;
 
