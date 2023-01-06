@@ -232,7 +232,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     input.type = 'text';
     input.title = 'New proto name';
     input.value = this.exportName;
-    input.onchange = (e) => this.exportName = e.target.value;
+    input.onchange = (e) => {
+      this.exportName = e.target.value
+    };
     buttonContainer.appendChild(input);
 
     const downloadButton = document.createElement('button');
