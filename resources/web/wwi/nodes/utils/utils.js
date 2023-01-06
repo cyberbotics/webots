@@ -69,17 +69,6 @@ function fromAxisAngle(x, y, z, angle) {
   return result;
 }
 
-function getAncestor(node) {
-  if (typeof node !== 'undefined' && typeof node.parent !== 'undefined') {
-    let parent = WbWorld.instance.nodes.get(node.parent);
-
-    if (typeof parent !== 'undefined')
-      return getAncestor(parent);
-  }
-
-  return node;
-}
-
 function length(vec3) {
   return Math.sqrt(vec3.x * vec3.x + vec3.y * vec3.y + vec3.z * vec3.z);
 }
@@ -140,4 +129,4 @@ function vec4ToQuaternion(vec4) {
 }
 
 export {array3Pointer, arrayXPointer, arrayXPointerInt, arrayXPointerFloat, pointerOnFloat, direction, up, right, length,
-  vec4ToQuaternion, quaternionToVec4, fromAxisAngle, getAncestor};
+  vec4ToQuaternion, quaternionToVec4, fromAxisAngle};

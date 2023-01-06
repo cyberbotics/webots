@@ -1,5 +1,6 @@
 export default class FloatingWindow {
   constructor(parentNode, name, url) {
+    this.parentNode = parentNode;
     this.name = name;
     this.url = url;
 
