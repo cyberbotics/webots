@@ -1,0 +1,24 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/geometries/protos/Extrusion.proto"
+
+PROTO ProtoCylinder [
+field MFBool  top   [TRUE]
+field MFRotation orientation[0 0 1 0]
+]
+{
+  Group {
+    children [
+      Transform {
+        translation 0 1 0
+        children [
+          Shape {
+            geometry Extrusion {
+              orientation IS orientation
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
