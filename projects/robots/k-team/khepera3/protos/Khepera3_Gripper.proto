@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Physics-based model of the Khepera III gripper (K-Team Corp.)
@@ -387,7 +387,7 @@ DEF BASE Solid {
                           anchor -0.033 0.0715 -0.061
                         }
                         device RotationalMotor {
-                          name "left_finger_motor"
+                          name "finger_motor::left"
                         }
                         endPoint SolidReference {
                           solidName "left_finger_tip"
@@ -537,11 +537,11 @@ DEF BASE Solid {
                       }
                       DEF RIGHT_INTERNAL_TIP_HINGE HingeJoint {
                         jointParameters HingeJointParameters {
-                          axis 0 1 0
+                          axis 0 -1 0
                           anchor 0.033 0.0715 -0.061
                         }
                         device RotationalMotor {
-                          name "right_finger_motor"
+                          name "finger_motor::right"
                         }
                         endPoint SolidReference {
                           solidName "right_finger_tip"
