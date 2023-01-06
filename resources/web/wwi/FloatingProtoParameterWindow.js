@@ -648,7 +648,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     parent.appendChild(p);
 
-    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFStringfOnChange(p, parameter));
+    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFStringfOnChange(p.className, parameter));
 
     // Add row
     const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible, VRML.MFString);
@@ -781,7 +781,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     parent.appendChild(p);
 
-    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFFloatfOnChange(p, parameter));
+    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFFloatfOnChange(p.className, parameter));
 
     // Add row
     const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible, VRML.MFFloat, isInt);
@@ -895,7 +895,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     parent.appendChild(p);
 
-    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFBoolOnChange(p, parameter));
+    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFBoolOnChange(p.className, parameter));
 
     // Add row
     const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible, VRML.MFBool, isInt);
@@ -1119,7 +1119,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     parent.appendChild(p);
 
-    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFColorOnChange(p, parameter));
+    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFColorOnChange(p.className, parameter));
 
     // Add row
     const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible, VRML.MFColor);
