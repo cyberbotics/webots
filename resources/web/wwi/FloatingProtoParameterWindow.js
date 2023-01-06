@@ -198,6 +198,18 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         currentNodeButton.innerHTML = parameter.value.value.name;
       }
     }
+
+    if (parameter.restrictions.length > 0) {
+      const select = document.getElementById('select-' + parameter.name);
+      let i = 0;
+      for (const item of parameter.restrictions) {
+        if (parameter.value && item.equals(parameter.value)) {
+          select.options[i].selected = true;
+          break;
+        }
+        i++;
+      }
+    }
   }
 
   #disableResetButton(resetButton) {
@@ -617,6 +629,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     value.className = 'value-parameter';
 
     const select = document.createElement('select');
+    select.id = 'select-' + parameter.name;
     select.parameter = parameter;
 
     for (const item of parameter.restrictions) {
@@ -633,7 +646,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         case VRML.SFVec3f:
         case VRML.SFColor:
         case VRML.SFRotation:
-          value = item.toVrml(); // it stringifies it
+          value = item.toVrml(); // does what is needed, useless to create another ad-hoc method
           break;
         default:
           throw new Error('Unsupported parameter type: ', parameter.type);
@@ -651,17 +664,21 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     select.onchange = (e) => {
       const parameter = e.target.parameter;
       const selectionIndex = e.target.selectedIndex;
-      console.log('selected value', e.target.options[selectionIndex].value);
       const newValue = parameter.restrictions[selectionIndex]; // TODO: should it be cloned deeply? does reinserting the same thing twice work?
-      parameter.setValueFromJavaScript(this.#view, newValue.toJS());
-
+      console.log('selected value', e.target.options[selectionIndex].value);
+      console.log('will set:', newValue.toJS(false))
+      parameter.setValueFromJavaScript(this.#view, newValue.toJS(false));
+      this.#refreshParameterRow(parameter);
     };
     value.appendChild(select);
 
-    const resetButton = this.#createResetButton(parent, p.style.gridRow);
+    const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
+    this.#disableResetButton(resetButton);
     resetButton.onclick = () => {
-      input.value = this.#stringRemoveQuote(parameter.defaultValue.value);
-      this.#stringOnChange(p);
+      console.log('resetting', parameter.name)
+      // we can use stringify because SFNodes are handled separately (node selection window)
+      parameter.setValueFromJavaScript(this.#view, JSON.parse(JSON.stringify(parameter.defaultValue.value)));
+      this.#refreshParameterRow(parameter);
     };
 
     p.input = select;
@@ -669,6 +686,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     parent.appendChild(p);
     parent.appendChild(value);
+
+    this.#refreshParameterRow(parameter);
   }
 
 

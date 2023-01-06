@@ -13,7 +13,6 @@ PROTO TestRestrictions [
   field SFColor{1 0 0, 0 1 0, 0 0 1} sfcolor 0 1 0
   field SFRotation{0 0 1 0, 0 0 1 1, 0 0 1 2} sfrotation 0 0 1 1
   field SFNode{Copper{}, Cardboard{}} sfnode NULL
-  #field MFNode{Solid{}, Group{}} mfnode []
 ]
 {
   Group {
