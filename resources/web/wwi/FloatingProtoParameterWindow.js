@@ -65,6 +65,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.#mfId = 0;
     this.#rowId = 0;
 
+    this.unsupportedRestrictions = [
+      VRML.SFBool, VRML.SFNode, VRML.MFNode, VRML.MFBool,
+      VRML.MFString, VRML.MFInt32, VRML.MFFloat, VRML.MFVec2f,
+      VRML.MFVec3f, VRML.MFColor, VRML.MFRotation
+    ];
+
     // create tabs
     const infoTabsBar = document.createElement('div');
     infoTabsBar.className = 'proto-tabs-bar';
@@ -127,7 +133,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       for (let key of keys) {
         const parameter = this.#protoManager.exposedParameters.get(key);
 
-        if (parameter.restrictions.length > 0 && ![VRML.SFBool, VRML.SFNode, VRML.MFNode].includes(parameter.type))
+        if (parameter.restrictions.length > 0 && !this.unsupportedRestrictions.includes(parameter.type))
           this.#createRestrictedField(key, contentDiv);
         else if (parameter.type === VRML.SFVec3f)
           this.#createSFVec3Field(key, contentDiv);
@@ -600,7 +606,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       const parameter = e.target.parameter;
       const selectionIndex = e.target.selectedIndex;
       console.log('selected value', e.target.options[selectionIndex].value);
-      const newValue = parameter.restrictions[selectionIndex];
+      const newValue = parameter.restrictions[selectionIndex]; // TODO: should it be cloned deeply? does reinserting the same thing twice work?
       parameter.setValueFromJavaScript(this.#view, newValue.toJS());
 
     };

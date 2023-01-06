@@ -43,7 +43,7 @@ PROTO TestRestrictions [
         ]
       }
       Transform {
-        translation 0 0.15 0.05
+        translation 0 0.15 %<= fields.sffloat.value * 0.5 >%
         children [
           Shape {
             appearance PBRAppearance {
@@ -136,7 +136,6 @@ PROTO TestRestrictions [
       }
       Transform {
         translation 0 1.05 0.05
-        rotation IS sfrotation
         children [
           Shape {
             appearance IS sfnode
