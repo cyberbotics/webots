@@ -8,7 +8,7 @@ PROTO TestRestrictions [
   field SFString{"box", "cylinder"} sfstring "box"
   field SFFloat{0.1, 0.2, 0.4} sffloat 0.2
   fielf SFInt32{1, 2, 3} sfint 2
-  field SFVec2f{0 0, 1 1, 2 2} sfvec2 1 1
+  field SFVec2f{1 1, 2 2, 3 3} sfvec2 1 1
   field SFVec3f{0.05 0.05 0.05, 0.1 0.1 0.1, 0.15 0.15 0.15} sfvec3 0.1 0.1 0.1
   field SFColor{1 0 0, 0 1 0, 0 0 1} sfcolor 0 1 0
   field SFRotation{0 0 1 0, 0 0 1 1, 0 0 1 2} sfrotation 0 0 1 1

@@ -598,14 +598,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     select.onchange = (e) => {
       const parameter = e.target.parameter;
-      const selection = e.target.value;
-      console.log('selected value', selection);
-      for (const item of parameter.restrictions) {
-        const value = parameter.type === VRML.SFString ? this.#stringRemoveQuote(item.value) : item.value;
-        if (selection === value) {
-          parameter.setValueFromJavaScript(this.#view, item.toJS());
-        }
-      }
+      const selectionIndex = e.target.selectedIndex;
+      console.log('selected value', e.target.options[selectionIndex].value);
+      const newValue = parameter.restrictions[selectionIndex];
+      parameter.setValueFromJavaScript(this.#view, newValue.toJS());
+
     };
     value.appendChild(select);
 
