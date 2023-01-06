@@ -310,7 +310,7 @@ export default class Node {
     vrml += `${this.name}{`;
     for (const [parameterName, parameter] of this.parameters) {
       if (!parameter.isDefault())
-        vrml += `${parameterName} ${parameter.value.toVrml()}`;
+        vrml += `${parameterName} ${parameter.value.toVrml()} `;
     }
     vrml += '}\n';
 
