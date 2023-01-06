@@ -1,20 +1,44 @@
 #VRML_SIM R2023b utf8
 # template language: javascript
 
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/appearances/protos/Copper.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/appearances/protos/Cardboard.proto"
+
 PROTO TestProto [
   field SFString{"green", "blue"} color "green"
+  field SFFloat{0.1, 0.2, 0.4} height 0.1
+  field SFNode{Copper{}, Cardboard{}} appearance Copper{}
 ]
 {
-  Shape {
-    appearance PBRAppearance {
-      %< if (fields.color.value === 'green') { >%
-        baseColor 0 1 0
-      %< } else { >%
-        baseColor 0 0 1
-      %< } >%
-    }
-    geometry Box {
-      size 0.1 0.1 0.1
-    }
+  Group {
+    children [
+      Transform {
+        children [
+          Shape {
+            appearance PBRAppearance {
+              %< if (fields.color.value === 'green') { >%
+                baseColor 0 1 0
+              %< } else { >%
+                baseColor 0 0 1
+              %< } >%
+            }
+            geometry Box {
+              size 0.1 0.1 %<= fields.height.value >%
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0 -0.1 0
+        children [
+          Shape {
+            appearance IS appearance
+            geometry Box {
+              size 0.1 0.1 0.1
+            }
+          }
+        ]
+      }
+    ]
   }
 }

@@ -39,8 +39,10 @@ export default class Parameter {
 
     if (this.restrictions.length > 0) {
       let isValueAcceptable = false;
-      for (const item of this.restrictions)
+      for (const item of this.restrictions) {
+        // console.log('COMPARE', item, v)
         isValueAcceptable = isValueAcceptable || item.equals(v);
+      }
 
       if (!isValueAcceptable)
         throw new Error('Parameter ' + this.name + ' is restricted and the value being set is not permitted.');
@@ -147,8 +149,9 @@ export default class Parameter {
 
   clone() {
     const restrictions = [];
-    for (const item in this.restrictions)
+    for (const item of this.restrictions)
       restrictions.push(item.clone()); // DEEP?
+
     const copy = new Parameter(this.node, this.name, this.type, restrictions, this.defaultValue.clone(), this.value.clone(),
       this.isTemplateRegenerator);
     copy.parentNode = this.parentNode;

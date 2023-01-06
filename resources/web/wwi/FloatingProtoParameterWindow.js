@@ -127,7 +127,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       for (let key of keys) {
         const parameter = this.#protoManager.exposedParameters.get(key);
 
-        if (parameter.restrictions.length > 0 && parameter.type !== VRML.SFNode) // TODO: handle this case
+        if (parameter.restrictions.length > 0 && parameter.type !== VRML.SFNode && parameter.type !== VRML.MFNode)
           this.#createRestrictedField(key, contentDiv);
         else if (parameter.type === VRML.SFVec3f)
           this.#createSFVec3Field(key, contentDiv);
@@ -574,18 +574,17 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       option.innerText = value;
       select.appendChild(option);
     }
-    console.log('before', WbWorld.instance);
+
     select.onchange = (e) => {
       const parameter = e.target.parameter;
       const selection = e.target.value;
       console.log('selected value', selection);
       for (const item of parameter.restrictions) {
         const value = parameter.type === VRML.SFString ? this.#stringRemoveQuote(item.value) : item.value;
-        if (selection === value)
+        if (selection === value) {
           parameter.setValueFromJavaScript(this.#view, item.toJS());
+        }
       }
-
-      console.log('after', WbWorld.instance);
     };
     value.appendChild(select);
 
