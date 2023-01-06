@@ -2,11 +2,23 @@
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/geometries/protos/Extrusion.proto"
 
-PROTO ProtoCylinder [
-field MFBool  top   [TRUE]
-field MFRotation orientation[0 0 1 0]
-field MFVec3f    spine                     [0 0 0, 0 0 1]                  # Defines the 3D extrusion path.
-
+PROTO ProtoMf [
+field SFBool  bool   FALSE
+field MFBool  bools  [TRUE, FALSE]
+field SFString  str  "hey houston"
+field MFString  strs   ["hello world"]
+field SFInt32  int   10
+field MFInt32  ints   [1, 0]
+field SFFloat  float   10.5
+field MFFloat  floats   [0.5, 0.6]
+field SFColor  color   0 1 1
+field MFColor  colors   [0 1 0]
+field SFRotation orientation 0 0 1 0
+field MFRotation orientations [0 0 1 0]
+field SFVec3f   vec3                     0 2 1
+field MFVec3f   vec3s                     [0 0 0, 0 0 1]                  # Defines the 3D extrusion path.
+field SFVec2f   vec2                    0 2
+field MFVec2f   vec2s                     [0 0 , 0 1]                  # Defines the 3D extrusion path.
 ]
 {
   Group {

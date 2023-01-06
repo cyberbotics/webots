@@ -30,8 +30,6 @@ import WbSpeaker from './nodes/WbSpeaker.js';
 import WbWorld from './nodes/WbWorld.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
 import WbTouchSensor from './nodes/WbTouchSensor.js';
-import WbVector2 from './nodes/utils/WbVector2.js';
-import WbVector3 from './nodes/utils/WbVector3.js';
 import WbBrake from './nodes/WbBrake.js';
 import WbPositionSensor from './nodes/WbPositionSensor.js';
 import NodeSelectorWindow from './NodeSelectorWindow.js';
@@ -337,8 +335,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     resetButton.onclick = () => {
       const defaultValue = parameter.defaultValue.value;
-      this.#colorOnChange(parameter, this.rgbToHex(parseInt(defaultValue.r * 255), parseInt(initialValue.g * 255),
-        parseInt(initialValue.b * 255)));
+      input.value = this.rgbToHex(parseInt(defaultValue.r * 255), parseInt(initialValue.g * 255),
+        parseInt(initialValue.b * 255));
+      this.#colorOnChange(parameter, input.value);
     };
 
     const input = document.createElement('input');
@@ -392,7 +391,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #vector2OnChange(node) {
-    const object = {'x': node.inputs[0].value, 'y': node.inputs[1].value};
+    const object = {'x': parseFloat(node.inputs[0].value), 'y': parseFloat(node.inputs[1].value)};
     node.parameter.setValueFromJavaScript(this.#view, object);
     this.#refreshParameterRow(node.parameter);
   }
@@ -480,8 +479,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       let order = this.#getRow(elements[i]);
 
       // the last one is the delete button
-      const value = new WbVector3(elements[i].childNodes[0].childNodes[1].value, elements[i].childNodes[1].childNodes[1].value,
-        elements[i].childNodes[2].childNodes[1].value);
+      const value = {x: parseFloat(elements[i].childNodes[0].childNodes[1].value),
+        y: parseFloat(elements[i].childNodes[1].childNodes[1].value),
+        z: parseFloat(elements[i].childNodes[2].childNodes[1].value)};
 
       lut.set(order, value);
     }
@@ -580,7 +580,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       let order = this.#getRow(elements[i]);
 
       // the last one is the delete button
-      const value = new WbVector2(elements[i].childNodes[0].childNodes[1].value, elements[i].childNodes[1].childNodes[1].value);
+      const value = {x: parseFloat(elements[i].childNodes[0].childNodes[1].value),
+        y: parseFloat(elements[i].childNodes[1].childNodes[1].value)};
 
       lut.set(order, value);
     }
@@ -1028,10 +1029,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       let order = this.#getRow(elements[i]);
 
       // the last one is the delete button
-      const value = {'x': elements[i].childNodes[0].childNodes[1].value,
-        'y': elements[i].childNodes[1].childNodes[1].value,
-        'z': elements[i].childNodes[2].childNodes[1].value,
-        'a': elements[i].childNodes[3].childNodes[1].value};
+      const value = {'x': parseFloat(elements[i].childNodes[0].childNodes[1].value),
+        'y': parseFloat(elements[i].childNodes[1].childNodes[1].value),
+        'z': parseFloat(elements[i].childNodes[2].childNodes[1].value),
+        'a': parseFloat(elements[i].childNodes[3].childNodes[1].value)};
 
       lut.set(order, value);
     }
@@ -1108,14 +1109,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   #createMFColorRow(value, row, parent, mfId, resetButton, parameter, isVisible) {
     const p = this.#createMfRowElement(row, mfId);
-
     if (isVisible)
       p.style.display = 'block';
 
     const input = document.createElement('input');
     input.type = 'color';
-    const initialValue = parameter.value.value;
-    input.value = this.rgbToHex(parseInt(initialValue.r * 255), parseInt(initialValue.g * 255), parseInt(initialValue.b * 255));
+    input.value = this.rgbToHex(parseInt(value.r * 255), parseInt(value.g * 255), parseInt(value.b * 255));
     input.onchange = _ => this.#MFColorOnChange(p.className, parameter);
 
     p.appendChild(input);
@@ -1234,10 +1233,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
       let newRows;
       if (type === VRML.MFVec3f) {
-        newRows = this.#createVector3Row(new WbVector3(), row, parent, mfId, resetButton, parameter);
+        newRows = this.#createVector3Row({x: 0, y: 0, z: 0}, row, parent, mfId, resetButton, parameter);
         this.#MFVec3fOnChange(newRows[0].className, parameter);
       } else if (type === VRML.MFVec2f) {
-        newRows = this.#createVector2Row(new WbVector2(), row, parent, mfId, resetButton, parameter);
+        newRows = this.#createVector2Row({x: 0, y: 0}, row, parent, mfId, resetButton, parameter);
         this.#MFVec2fOnChange(newRows[0].className, parameter);
       } else if (type === VRML.MFString) {
         newRows = this.#createMFStringRow('', row, parent, mfId, resetButton, parameter);
@@ -1511,7 +1510,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #floatOnChange(node) {
-    node.parameter.setValueFromJavaScript(this.#view, node.input.value);
+    node.parameter.setValueFromJavaScript(this.#view, parseFloat(node.input.value));
     this.#refreshParameterRow(node.parameter);
   }
 
