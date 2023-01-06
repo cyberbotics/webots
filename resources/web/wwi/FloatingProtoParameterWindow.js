@@ -253,11 +253,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       this.#vector3OnChange(p);
       this.#enableResetButton(resetButton);
     }));
-    p.inputs.push(this.#createVectorInput(' y', parameter.value.value.y, values, () => {
+    p.inputs.push(this.#createVectorInput('y', parameter.value.value.y, values, () => {
       this.#vector3OnChange(p);
       this.#enableResetButton(resetButton);
     }));
-    p.inputs.push(this.#createVectorInput(' z', parameter.value.value.z, values, () => {
+    p.inputs.push(this.#createVectorInput('z', parameter.value.value.z, values, () => {
       this.#vector3OnChange(p);
       this.#enableResetButton(resetButton);
     }));
@@ -333,7 +333,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       this.#vector2OnChange(p);
       this.#enableResetButton(resetButton);
     }));
-    p.inputs.push(this.#createVectorInput(' y', parameter.value.value.y, values, () => {
+    p.inputs.push(this.#createVectorInput('y', parameter.value.value.y, values, () => {
       this.#vector2OnChange(p);
       this.#enableResetButton(resetButton);
     }));
@@ -419,15 +419,15 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     if (isVisible)
       p.style.display = 'flex';
-    this.#createVectorInput(' x', value.x, p, () => {
+    this.#createVectorInput('x', value.x, p, () => {
       this.#MFVec3fOnChange(p.className, parameter);
       this.#enableResetButton(resetButton);
     });
-    this.#createVectorInput(' y', value.y, p, () => {
+    this.#createVectorInput('y', value.y, p, () => {
       this.#MFVec3fOnChange(p.className, parameter);
       this.#enableResetButton(resetButton);
     });
-    this.#createVectorInput(' z', value.z, p, () => {
+    this.#createVectorInput('z', value.z, p, () => {
       this.#MFVec3fOnChange(p.className, parameter);
       this.#enableResetButton(resetButton);
     });
@@ -529,11 +529,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     if (isVisible)
       p.style.display = 'flex';
-    this.#createVectorInput(' x', value.x, p, () => {
+    this.#createVectorInput('x', value.x, p, () => {
       this.#MFVec2fOnChange(p.className, parameter);
       this.#enableResetButton(resetButton);
     });
-    this.#createVectorInput(' y', value.y, p, () => {
+    this.#createVectorInput('y', value.y, p, () => {
       this.#MFVec2fOnChange(p.className, parameter);
       this.#enableResetButton(resetButton);
     });
@@ -989,19 +989,19 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     if (isVisible)
 
       p.style.display = 'flex';
-    this.#createVectorInput(' x', value.x, p, () => {
+    this.#createVectorInput('x', value.x, p, () => {
       this.#MFRotationOnChange(p.className, parameter);
       this.#enableResetButton(resetButton);
     });
-    this.#createVectorInput(' y', value.y, p, () => {
+    this.#createVectorInput('y', value.y, p, () => {
       this.#MFRotationOnChange(p.className, parameter);
       this.#enableResetButton(resetButton);
     });
-    this.#createVectorInput(' z', value.z, p, () => {
+    this.#createVectorInput('z', value.z, p, () => {
       this.#MFRotationOnChange(p.className, parameter);
       this.#enableResetButton(resetButton);
     });
-    this.#createVectorInput(' angle', value.a, p, () => {
+    this.#createVectorInput('angle', value.a, p, () => {
       this.#MFRotationOnChange(p.className, parameter);
       this.#enableResetButton(resetButton);
     });
@@ -1288,15 +1288,15 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       this.#rotationOnChange(p);
       this.#enableResetButton(resetButton);
     }));
-    p.inputs.push(this.#createVectorInput(' y', parameter.value.value.y, values, () => {
+    p.inputs.push(this.#createVectorInput('y', parameter.value.value.y, values, () => {
       this.#rotationOnChange(p);
       this.#enableResetButton(resetButton);
     }));
-    p.inputs.push(this.#createVectorInput(' z', parameter.value.value.z, values, () => {
+    p.inputs.push(this.#createVectorInput('z', parameter.value.value.z, values, () => {
       this.#rotationOnChange(p);
       this.#enableResetButton(resetButton);
     }));
-    p.inputs.push(this.#createVectorInput(' a', parameter.value.value.a, values, () => {
+    p.inputs.push(this.#createVectorInput('a', parameter.value.value.a, values, () => {
       this.#rotationOnChange(p);
       this.#enableResetButton(resetButton);
     }));
@@ -1318,6 +1318,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   #createVectorInput(name, initialValue, parent, callback) {
     const span = document.createElement('span');
     span.innerHTML = name + ': ';
+    span.style.paddingLeft = '10px';
     const input = document.createElement('input');
     input.type = 'number';
     input.value = initialValue;

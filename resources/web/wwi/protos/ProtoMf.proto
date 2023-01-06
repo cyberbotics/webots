@@ -9,6 +9,7 @@ field MFInt32  int   [1, 0]
 field MFColor  color   [0 1 0]
 field MFRotation orientation[0 0 1 0]
 field MFVec3f    spine                     [0 0 0, 0 0 1]                  # Defines the 3D extrusion path.
+field SFVec3f    sf                     0 2 1
 
 ]
 {
