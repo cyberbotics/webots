@@ -199,7 +199,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       }
     }
 
-    if (parameter.restrictions.length > 0) {
+    if (parameter.restrictions.length > 0 && ![VRML.SFNode, VRML.MFNode].includes(parameter.type)) {
       const select = document.getElementById('select-' + parameter.name);
       let i = 0;
       for (const item of parameter.restrictions) {
