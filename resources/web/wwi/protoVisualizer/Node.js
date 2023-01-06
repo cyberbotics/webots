@@ -7,21 +7,24 @@ import {VRML} from './vrml_type.js';
 import {vrmlFactory} from './Vrml.js';
 import {FieldModel} from './FieldModel.js';
 import {Parameter} from './Parameter.js';
+import WbWorld from '../nodes/WbWorld.js';
 
 export default class Node {
   static cProtoModels = new Map();
   static cBaseModels = new Map();
+  static cNodeSiblings = new Map(); // maps a node id to all other instances of the same node (clones, but different id)
 
-  constructor(url, protoText, parent) {
+  constructor(url, protoText, isRoot = false) {
     // IMPORTANT! When adding new member variables of type Map, modify the .clone method so that it creates a copy of it
     this.id = getAnId();
     this.baseType = undefined; // may correspond to a base-node or another PROTO if it's a derived PROTO
+    this.isRoot = isRoot;
 
     this.url = url;
     this.isProto = this.url.toLowerCase().endsWith('.proto');
 
     this.name = this.isProto ? this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '') : url;
-    // console.log('CREATING ' + (this.isProto ? 'PROTO ' : 'BASENODE ') + this.name + ', id: ', this.id, parent);
+    // console.log('CREATING ' + (this.isProto ? 'PROTO ' : 'BASENODE ') + this.name + ', id: ', this.id);
 
     this.parameters = new Map();
     this.externProto = new Map();
@@ -34,7 +37,7 @@ export default class Node {
         const type = FieldModel[this.name][parameterName]['type'];
         const defaultValue = vrmlFactory(type);
         defaultValue.setValueFromJavaScript(FieldModel[this.name][parameterName]['defaultValue']);
-        const value = defaultValue.clone();
+        const value = defaultValue.clone(true);
         const parameter = new Parameter(this, parameterName, type, [], defaultValue, value, false);
         // console.log(parameterName + ' has parent ' + this.name);
         this.parameters.set(parameterName, parameter);
@@ -124,17 +127,34 @@ export default class Node {
     });
   }
 
-  clone() {
+  clone(deep = false) {
     let copy = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
+
+    if (typeof this.baseType !== 'undefined')
+      copy.baseType = this.baseType.clone(deep);
+
     copy.id = getAnId();
+
+    if (!deep) {
+      if (!Node.cNodeSiblings.has(this.id))
+        Node.cNodeSiblings.set(this.id, []);
+      if (!Node.cNodeSiblings.has(copy.id))
+        Node.cNodeSiblings.set(copy.id, []);
+
+      const s1 = Node.cNodeSiblings.get(this.id);
+      s1.push(copy); // add copy as a sibling of this node
+      const s2 = Node.cNodeSiblings.get(copy.id);
+      s2.push(this); // add this node as a sibling of the copy
+    }
+
     copy.parameters = new Map();
     for (const [parameterName, parameter] of this.parameters) {
       if (typeof parameter !== 'undefined') {
         // console.log('cloning parameter ' + parameterName + ' (type ' + parameter.type + ')');
-        const parameterCopy = parameter.clone();
+        const parameterCopy = parameter.clone(deep);
         parameterCopy.node = copy;
-        // console.log('ORIGINAL', parameter);
-        // console.log('COPY', parameterCopy);
+        // console.log('NODE ORIGINAL', parameter);
+        // console.log('NODE COPY', parameterCopy);
         copy.parameters.set(parameterName, parameterCopy);
       }
     }
@@ -158,7 +178,7 @@ export default class Node {
       let token = headTokenizer.nextToken();
       let nextToken = headTokenizer.peekToken();
 
-      const restrictedValues = [];
+      const restrictions = [];
       if (token.isKeyword() && nextToken.isPunctuation()) {
         if (nextToken.word() === '{') {
           headTokenizer.skipToken('{');
@@ -167,12 +187,12 @@ export default class Node {
           while (headTokenizer.peekWord() !== '}') { // parse field restrictions
             console.log('WILL DO: ', headTokenizer.peekWord());
             const value = vrmlFactory(parameterType, headTokenizer);
-            restrictedValues.push(value);
+            restrictions.push(value);
           }
           headTokenizer.skipToken('}');
           nextToken = headTokenizer.peekToken(); // we need to update the nextToken as it has to point after the restrictions
         }
-        console.log('RESTRICTED:', restrictedValues)
+        console.log('RESTRICTED:', restrictions)
       }
 
       if (token.isKeyword() && nextToken.isIdentifier()) {
@@ -183,11 +203,8 @@ export default class Node {
 
         console.log('INTERFACE PARAMETER ' + parameterName + ', TYPE: ' + parameterType);
         const defaultValue = vrmlFactory(parameterType, headTokenizer);
-        const value = defaultValue.clone();
-        console.log('defaultValue', defaultValue, defaultValue.type())
-        console.log('value', value, value.type())
-        const parameter = new Parameter(this, parameterName, parameterType, restrictedValues, defaultValue, value, isRegenerator, restrictedValues);
-        console.log('CREATED PARAMETER', parameterName)
+        const value = defaultValue.clone(true);
+        const parameter = new Parameter(this, parameterName, parameterType, restrictions, defaultValue, value, isRegenerator);
         // console.log(parameterName + ' has parent ' + this.name);
         this.parameters.set(parameterName, parameter);
       }
@@ -209,7 +226,6 @@ export default class Node {
     tokenizer.skipToken('{');
 
     this.baseType = Node.createNode(tokenizer);
-    // console.log('STRUCT', this.baseType);
 
     tokenizer.skipToken('}');
   };
@@ -233,7 +249,7 @@ export default class Node {
               throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
 
             const exposedParameter = tokenizer.proto.parameters.get(alias);
-            parameter.value = exposedParameter.value;
+            parameter.value = exposedParameter.value.clone();
             exposedParameter.insertLink(parameter);
           } else
             parameter.value.setValueFromTokenizer(tokenizer, this);
@@ -267,10 +283,9 @@ export default class Node {
         nodeElement.setAttribute('role', parameterReference); // identifies which device slot the node belongs to
     } else {
       nodeElement.setAttribute('id', this.id);
-      // console.log('ENCODE ' + this.name)
+      // console.log('ENCODE ' + this.name, ', id: ', this.id)
       for (const [parameterName, parameter] of this.parameters) {
-        // console.log('  ENCODE PARAMETER ' + parameterName + ', is default? ', parameter.isDefault(),
-        //   ' parentNode: ', parameter.parentNode.id);
+        // console.log('  ENCODE PARAMETER ' + parameterName + ', is default? ', parameter.isDefault());
         if (typeof parameter.value === 'undefined') // note: SFNode can be null, not undefined
           throw new Error('All parameters should be defined, ' + parameterName + ' is not.');
 
@@ -287,14 +302,14 @@ export default class Node {
     return nodeElement;
   }
 
-  toJS(isRoot = false) {
+  toJS(isFirstNode = false) {
     let jsFields = '';
     for (const [parameterName, parameter] of this.parameters) {
       // console.log('JS-encoding of ' + parameterName);
       jsFields += `${parameterName}: {value: ${parameter.value.toJS()}, defaultValue: ${parameter.defaultValue.toJS()}}, `;
     }
 
-    if (isRoot)
+    if (isFirstNode)
       return jsFields.slice(0, -2);
 
     return `{node_name: '${this.name}', fields: {${jsFields.slice(0, -2)}}}`;
@@ -305,7 +320,7 @@ export default class Node {
     vrml += `${this.name}{`;
     for (const [parameterName, parameter] of this.parameters) {
       if (!parameter.isDefault())
-        vrml += `${parameterName} ${parameter.value.toVrml()}`;
+        vrml += `${parameterName} ${parameter.value.toVrml()} `;
     }
     vrml += '}\n';
 
@@ -323,9 +338,52 @@ export default class Node {
     // console.log('Regenerated Proto Body:\n' + this.protoBody);
   };
 
+  regenerateNode(view, propagate = true) {
+    // console.log('Regenerating node ' + this.name + ' [id: ' + this.id + ', isProto: ' + this.isProto + ']');
+    const baseNodeId = this.getBaseNode().id;
+    const node = WbWorld.instance.nodes.get(baseNodeId);
+    if (typeof node !== 'undefined') {
+      // delete existing node
+      view.x3dScene.processServerMessage(`delete: ${baseNodeId.replace('n', '')}`);
+      // regenerate the VRML and parse body
+      this.parseBody(true);
+      // insert new node
+      const x3d = new XMLSerializer().serializeToString(this.toX3d());
+      view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', node.parent.replace('n', ''));
+    }
+
+    if (!propagate)
+      return;
+
+    if (Node.cNodeSiblings.has(this.id)) {
+      for (const sibling of Node.cNodeSiblings.get(this.id))
+        sibling.regenerateNode(view, false); // prevent endless loop
+    }
+  }
+
   clearReferences() {
-    // TODO
+    this.def = new Map();
+
+    for (const [, parameter] of this.parameters)
+      parameter.resetParameterLinks();
+
+    if (this.isRoot)
+      Node.cNodeSiblings = new Map();
   };
+
+  getParameterByName(name) {
+    if (!this.parameters.has(name))
+      throw new Error('Node ' + this.name + ' does not have a parameter named: ' + name);
+
+    return this.parameters.get(name);
+  }
+
+  getBaseNode() {
+    if (this.isProto)
+      return this.baseType.getBaseNode();
+
+    return this;
+  }
 
   static createNode(tokenizer) {
     let defName;
@@ -357,7 +415,7 @@ export default class Node {
         Node.cBaseModels.set(nodeName, model);
       }
 
-      node = Node.cBaseModels.get(nodeName).clone();
+      node = Node.cBaseModels.get(nodeName).clone(true);
       // console.log('ORIGINAL', Node.cBaseModels.get(nodeName))
       // console.log('CLONE', node)
     } else { // it's a PROTO node
@@ -370,7 +428,7 @@ export default class Node {
       if (!Node.cProtoModels.has(url))
         throw new Error('Model of PROTO ' + nodeName + ' not available. Was it declared as EXTERNPROTO?');
 
-      node = Node.cProtoModels.get(url).clone();
+      node = Node.cProtoModels.get(url).clone(true);
     }
 
     if (typeof defName !== 'undefined')

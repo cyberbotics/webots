@@ -291,13 +291,13 @@ export class SFRotation extends SingleValue {
   }
 
   setValueFromJavaScript(v) {
-    if (v.x === '')
+    if (isNaN(v.x))
       v.x = 0;
-    if (v.y === '')
+    if (isNaN(v.y))
       v.y = 0;
-    if (v.z === '')
+    if (isNaN(v.z))
       v.z = 0;
-    if (v.a === '')
+    if (isNaN(v.a))
       v.a = 0;
 
     this.normalize(v.x, v.y, v.z, v.a);
@@ -340,7 +340,7 @@ export class SFRotation extends SingleValue {
       throw new Error('Values should be defined for them to be compared.');
 
     return this.value.x === other.value.x && this.value.y === other.value.y &&
-           this.value.z === other.value.z && this.value.a === other.value.a;
+      this.value.z === other.value.z && this.value.a === other.value.a;
   }
 
   type() {
@@ -366,15 +366,7 @@ export class SFNode extends SingleValue {
   }
 
   setValueFromJavaScript(value) {
-    if (value === null)
-      this.value = null;
-    else {
-      // (possible) working principle: value = URL of a PROTO
-      // 1. download PROTO and all dependencies
-      // 2. load PROTO (as we do in ProtoManager)
-      // 3. set it as value
-      throw new Error('SFNode initializer from JS object not implemented.');
-    }
+    this.value = value;
   }
 
   toX3d(parameterName, parentElement) {
@@ -446,8 +438,7 @@ export class SFNode extends SingleValue {
         return false;
     }
 
-    // note: it's overkill to check that the def list and externproto lists match as we assume that two PROTO that have the
-    // same URL will yield the same underlying structure
+    return true;
   }
 
   type() {

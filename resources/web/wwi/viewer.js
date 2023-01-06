@@ -908,7 +908,7 @@ function highlightX3DElement(deviceElement) {
     if (typeof WbWorld.instance !== 'undefined' && typeof pointer === 'undefined') {
       if (typeof sizeOfMarker === 'undefined') {
         // We estimate the size of the robot by the calculating the distance between the robot and the viewpoint
-        let robotPosition = WbWorld.instance.sceneTree[WbWorld.instance.sceneTree.length - 1].translation;
+        let robotPosition = WbWorld.instance.root.children[WbWorld.instance.root.children.length - 1].translation;
         let viewpointPosition = WbWorld.instance.viewpoint.position;
         sizeOfMarker = 0.012 * robotPosition.sub(viewpointPosition).length(); // value determined empirically
       }

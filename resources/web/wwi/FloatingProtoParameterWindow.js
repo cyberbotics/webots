@@ -33,6 +33,8 @@ import WbTouchSensor from './nodes/WbTouchSensor.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 import WbBrake from './nodes/WbBrake.js';
 import WbPositionSensor from './nodes/WbPositionSensor.js';
+import NodeSelectorWindow from './NodeSelectorWindow.js';
+import {SFNode} from './protoVisualizer/Vrml.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #mfId;
@@ -60,10 +62,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.floatingWindowContent.appendChild(this.devices);
 
     this.#protoManager = protoManager;
+    this.proto = protoManager.proto;
+    this.headerText.innerHTML = this.proto.name;
     this.#view = view;
 
     this.#mfId = 0;
     this.#rowId = 0;
+
+    this.fieldsToExport = new Map();
 
     this.unsupportedRestrictions = [
       VRML.SFBool, VRML.SFNode, VRML.MFNode, VRML.MFBool,
@@ -125,11 +131,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   populateProtoParameterWindow() {
     const contentDiv = document.getElementById('proto-parameter-content');
     if (contentDiv) {
-      contentDiv.innerHTML = '';
+      this.headerText.innerHTML = this.proto.name;
 
-      // populate the parameters
-      const keys = this.#protoManager.exposedParameters.keys();
+      // populate the parameters based on the value of this.proto (i.e. current active proto)
+      contentDiv.innerHTML = '';
       this.#rowNumber = 1;
+
+      const keys = this.proto.parameters.keys();
       for (let key of keys) {
         const parameter = this.#protoManager.exposedParameters.get(key);
 
@@ -147,13 +155,48 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           this.#createSFInt32Field(key, contentDiv);
         else if (parameter.type === VRML.SFBool)
           this.#createSFBoolField(key, contentDiv);
+        else if (parameter.type === VRML.SFNode)
+          this.#createSFNodeField(key, contentDiv);
         else if (parameter.type === VRML.MFVec3f)
           this.#createMFVec3fField(key, contentDiv);
 
         this.#rowNumber++;
       }
 
-      this.#createDownloadButton(contentDiv);
+      if (this.proto.isRoot) {
+        this.#createDownloadButton(contentDiv);
+        this.backBuffer = [];
+      } else
+        this.#createBackButton(contentDiv);
+
+      this.#rowNumber++;
+    }
+  }
+
+  #refreshParameterRow(parameter) {
+    const resetButton = document.getElementById('reset-' + parameter.name);
+
+    if (parameter.isDefault())
+      this.#disableResetButton(resetButton);
+    else
+      this.#enableResetButton(resetButton);
+
+    if (parameter.value instanceof SFNode) {
+      const currentNodeButton = document.getElementById('current-node-' + parameter.name);
+      const deleteNodeButton = document.getElementById('delete-node-' + parameter.name);
+      const configureNodeButton = document.getElementById('configure-node-' + parameter.name);
+
+      if (parameter.value.value === null) {
+        currentNodeButton.innerHTML = 'NULL';
+        deleteNodeButton.style.display = 'none';
+        configureNodeButton.style.display = 'none';
+      } else {
+        currentNodeButton.style.display = 'block';
+        deleteNodeButton.style.display = 'block';
+        configureNodeButton.style.display = 'block';
+        configureNodeButton.title = 'Configure ' + parameter.value.value.name + ' node';
+        currentNodeButton.innerHTML = parameter.value.value.name;
+      }
     }
   }
 
@@ -167,36 +210,49 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     resetButton.style.pointerEvents = 'all';
   }
 
+  #createBackButton(parent) {
+    const buttonContainer = document.createElement('span');
+    buttonContainer.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
+    buttonContainer.style.gridColumn = '1 / 5';
+    buttonContainer.style.justifySelf = 'center';
+    buttonContainer.style.paddingTop = '15px';
+
+    const backButton = document.createElement('button');
+    backButton.innerHTML = 'Back';
+    backButton.title = 'Return to the previous PROTO';
+    backButton.onclick = () => {
+      this.proto = this.backBuffer.pop();
+      this.populateProtoParameterWindow();
+    };
+    buttonContainer.appendChild(backButton);
+    parent.appendChild(buttonContainer);
+  }
+
   #createDownloadButton(parent) {
-    const downloadlButton = document.createElement('button');
-    downloadlButton.innerHTML = 'Download';
     const buttonContainer = document.createElement('span');
     buttonContainer.className = 'value-parameter';
     buttonContainer.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     buttonContainer.style.gridColumn = '4 / 4';
 
+    if (typeof this.exportName === 'undefined')
+      this.exportName = 'My' + this.#protoManager.proto.name;
+
     const input = document.createElement('input');
     input.type = 'text';
     input.title = 'New proto name';
-    input.value = 'My' + this.#protoManager.proto.name;
+    input.value = this.exportName;
+    input.onchange = (e) => {
+      this.exportName = e.target.value
+    };
     buttonContainer.appendChild(input);
 
     const downloadButton = document.createElement('button');
     downloadButton.innerHTML = 'Download';
     downloadButton.title = 'Download the new proto';
     downloadButton.onclick = () => {
-      const fields = document.getElementsByClassName('key-parameter');
-      let fieldsToExport = new Set();
-      if (fields) {
-        for (let i = 0; i < fields.length; i++) {
-          if (fields[i].checkbox.checked)
-            fieldsToExport.add(fields[i].key);
-        }
-      }
-
-      const data = this.#protoManager.exportProto(input.value, fieldsToExport);
+      const data = this.#protoManager.exportProto(input.value, this.fieldsToExport);
       const downloadLink = document.createElement('a');
-      downloadLink.download = input.value + '.proto';
+      downloadLink.download = this.exportName + '.proto';
       const file = new Blob([data], {
         type: 'text/plain'
       });
@@ -208,7 +264,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #createSFVec3Field(key, parent) {
-    const parameter = this.#protoManager.exposedParameters.get(key);
+    const parameter = this.proto.parameters.get(key);
 
     const p = document.createElement('p');
     p.innerHTML = key + ': ';
@@ -219,39 +275,34 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.parameter = parameter;
     p.className = 'key-parameter';
 
-    const exportCheckbox = this.#createCheckbox(parent);
-    p.checkbox = exportCheckbox;
+    if (this.proto.isRoot) {
+      const exportCheckbox = this.#createCheckbox(parent, key);
+      p.checkbox = exportCheckbox;
+    } else
+      p.style.marginLeft = '20px';
 
     const values = document.createElement('p');
     values.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     values.style.gridColumn = '4 / 4';
     values.className = 'value-parameter';
 
-    p.inputs.push(this.#createVectorInput('x', parameter.value.value.x, values, () => {
-      this.#vector3OnChange(p);
-      this.#enableResetButton(resetButton);
-    }));
-    p.inputs.push(this.#createVectorInput(' y', parameter.value.value.y, values, () => {
-      this.#vector3OnChange(p);
-      this.#enableResetButton(resetButton);
-    }));
-    p.inputs.push(this.#createVectorInput(' z', parameter.value.value.z, values, () => {
-      this.#vector3OnChange(p);
-      this.#enableResetButton(resetButton);
-    }));
+    p.inputs.push(this.#createVectorInput('x', parameter.value.value.x, values, () => this.#vector3OnChange(p)));
+    p.inputs.push(this.#createVectorInput(' y', parameter.value.value.y, values, () => this.#vector3OnChange(p)));
+    p.inputs.push(this.#createVectorInput(' z', parameter.value.value.z, values, () => this.#vector3OnChange(p)));
 
-    const resetButton = this.#createResetButton(parent, p.style.gridRow);
+    const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     this.#disableResetButton(resetButton);
     resetButton.onclick = () => {
       p.inputs[0].value = parameter.defaultValue.value.x;
       p.inputs[1].value = parameter.defaultValue.value.y;
       p.inputs[2].value = parameter.defaultValue.value.z;
       this.#vector3OnChange(p);
-      this.#disableResetButton(resetButton);
     };
 
     parent.appendChild(p);
     parent.appendChild(values);
+
+    this.#refreshParameterRow(parameter);
   }
 
   #createMFVec3fField(key, parent) {
@@ -264,7 +315,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.style.gridColumn = '2 / 2';
     p.className = 'key-parameter';
 
-    const exportCheckbox = this.#createCheckbox(parent);
+    const exportCheckbox = this.#createCheckbox(parent, key);
     p.checkbox = exportCheckbox;
 
     const hideShowButton = document.createElement('button');
@@ -298,10 +349,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       }
     };
 
-    const resetButton = this.#createResetButton(parent, p.style.gridRow);
+    const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     this.#disableResetButton(resetButton);
     resetButton.onclick = () => {
-      this.#disableResetButton(resetButton);
       const nodesToRemove = document.getElementsByClassName('mf-id-' + currentMfId);
       let maxRowNumber = 0;
       for (let i = nodesToRemove.length - 1; i >= 0; i--) {
@@ -333,6 +383,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(hideShowButton);
 
     this.#mfId++;
+
+    this.#refreshParameterRow(parameter);
   }
 
   #populateMFVec3f(resetButton, parent, parameter, firstRow, mfId, isVisible) {
@@ -356,18 +408,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.className = 'value-parameter mf-parameter mf-id-' + mfId;
     if (isVisible)
       p.style.display = 'block';
-    this.#createVectorInput(' x', value.x, p, () => {
-      this.#MFVec3fOnChange(p.className, parameter);
-      this.#enableResetButton(resetButton);
-    });
-    this.#createVectorInput(' y', value.y, p, () => {
-      this.#MFVec3fOnChange(p.className, parameter);
-      this.#enableResetButton(resetButton);
-    });
-    this.#createVectorInput(' z', value.z, p, () => {
-      this.#MFVec3fOnChange(p.className, parameter);
-      this.#enableResetButton(resetButton);
-    });
+    this.#createVectorInput(' x', value.x, p, () => this.#MFVec3fOnChange(p.className, parameter));
+    this.#createVectorInput(' y', value.y, p, () => this.#MFVec3fOnChange(p.className, parameter));
+    this.#createVectorInput(' z', value.z, p, () => this.#MFVec3fOnChange(p.className, parameter));
 
     parent.appendChild(p);
 
@@ -383,7 +426,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       // remove the 'add new node row'
       const addNew = document.getElementById(p.id);
       addNew.parentNode.removeChild(addNew);
-      this.#enableResetButton(resetButton);
       this.#MFVec3fOnChange(className, parameter);
     };
     p.appendChild(removeButton);
@@ -426,7 +468,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       const newRows = this.createVector3Row(new WbVector3(), row, parent, mfId, resetButton, parameter);
       newRows[0].style.display = 'block';
       newRows[1].style.display = 'block';
-      this.#enableResetButton(resetButton);
       this.#MFVec3fOnChange(newRows[0].className, parameter);
     };
 
@@ -475,10 +516,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     }
 
     parameter.setValueFromJavaScript(this.#view, vectorArray);
+    this.#refreshParameterRow(parameter);
   }
 
   #createSFRotation(key, parent) {
-    const parameter = this.#protoManager.exposedParameters.get(key);
+    const parameter = this.proto.parameters.get(key);
 
     const p = document.createElement('p');
     p.innerHTML = key + ': ';
@@ -489,30 +531,22 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.parameter = parameter;
     p.className = 'key-parameter';
 
-    const exportCheckbox = this.#createCheckbox(parent);
+    if (this.proto.isRoot) {
+      const exportCheckbox = this.#createCheckbox(parent, key);
+      p.checkbox = exportCheckbox;
+    } else
+      p.style.marginLeft = '20px';
 
     const values = document.createElement('p');
     values.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     values.style.gridColumn = '4 / 4';
     values.className = 'value-parameter';
-    p.inputs.push(this.#createVectorInput('x', parameter.value.value.x, values, () => {
-      this.#rotationOnChange(p);
-      this.#enableResetButton(resetButton);
-    }));
-    p.inputs.push(this.#createVectorInput(' y', parameter.value.value.y, values, () => {
-      this.#rotationOnChange(p);
-      this.#enableResetButton(resetButton);
-    }));
-    p.inputs.push(this.#createVectorInput(' z', parameter.value.value.z, values, () => {
-      this.#rotationOnChange(p);
-      this.#enableResetButton(resetButton);
-    }));
-    p.inputs.push(this.#createVectorInput(' a', parameter.value.value.a, values, () => {
-      this.#rotationOnChange(p);
-      this.#enableResetButton(resetButton);
-    }));
-    p.checkbox = exportCheckbox;
-    const resetButton = this.#createResetButton(parent, p.style.gridRow);
+    p.inputs.push(this.#createVectorInput('x', parameter.value.value.x, values, () => this.#rotationOnChange(p)));
+    p.inputs.push(this.#createVectorInput(' y', parameter.value.value.y, values, () => this.#rotationOnChange(p)));
+    p.inputs.push(this.#createVectorInput(' z', parameter.value.value.z, values, () => this.#rotationOnChange(p)));
+    p.inputs.push(this.#createVectorInput(' a', parameter.value.value.a, values, () => this.#rotationOnChange(p)));
+
+    const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     this.#disableResetButton(resetButton);
     resetButton.onclick = () => {
       p.inputs[0].value = parameter.defaultValue.value.x;
@@ -520,10 +554,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       p.inputs[2].value = parameter.defaultValue.value.z;
       p.inputs[3].value = parameter.defaultValue.value.a;
       this.#rotationOnChange(p);
-      this.#disableResetButton(resetButton);
     };
     parent.appendChild(p);
     parent.appendChild(values);
+
+    this.#refreshParameterRow(parameter);
   }
 
   #createVectorInput(name, initialValue, parent, callback) {
@@ -543,13 +578,24 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #rotationOnChange(node) {
-    const object = {'x': node.inputs[0].value, 'y': node.inputs[1].value, 'z': node.inputs[2].value, 'a': node.inputs[3].value};
+    const object = {
+      'x': parseFloat(node.inputs[0].value),
+      'y': parseFloat(node.inputs[1].value),
+      'z': parseFloat(node.inputs[2].value),
+      'a': parseFloat(node.inputs[3].value)
+    };
     node.parameter.setValueFromJavaScript(this.#view, object);
+    this.#refreshParameterRow(node.parameter);
   }
 
   #vector3OnChange(node) {
-    const object = {'x': node.inputs[0].value, 'y': node.inputs[1].value, 'z': node.inputs[2].value};
+    const object = {
+      'x': parseFloat(node.inputs[0].value),
+      'y': parseFloat(node.inputs[1].value),
+      'z': parseFloat(node.inputs[2].value)
+    };
     node.parameter.setValueFromJavaScript(this.#view, object);
+    this.#refreshParameterRow(node.parameter);
   }
 
   #createRestrictedField(key, parent) {
@@ -627,7 +673,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
 
   #createSFStringField(key, parent) {
-    const parameter = this.#protoManager.exposedParameters.get(key);
+    const parameter = this.proto.parameters.get(key);
 
     const p = document.createElement('p');
     p.innerHTML = key + ': ';
@@ -637,7 +683,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.style.gridColumn = '2 / 2';
     p.className = 'key-parameter';
 
-    const exportCheckbox = this.#createCheckbox(parent);
+    if (this.proto.isRoot) {
+      const exportCheckbox = this.#createCheckbox(parent, key);
+      p.checkbox = exportCheckbox;
+    } else
+      p.style.marginLeft = '20px';
 
     const value = document.createElement('p');
     value.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
@@ -653,28 +703,26 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     input.style.height = '20px';
     value.appendChild(input);
 
-    const resetButton = this.#createResetButton(parent, p.style.gridRow);
+    const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     this.#disableResetButton(resetButton);
     resetButton.onclick = () => {
       input.value = this.#stringRemoveQuote(parameter.defaultValue.value);
       this.#stringOnChange(p);
-      this.#disableResetButton(resetButton);
     };
 
-    input.onchange = () => {
-      this.#stringOnChange(p);
-      this.#enableResetButton(resetButton);
-    };
+    input.onchange = () => this.#stringOnChange(p);
 
     p.input = input;
-    p.checkbox = exportCheckbox;
 
     parent.appendChild(p);
     parent.appendChild(value);
+
+    this.#refreshParameterRow(parameter);
   }
 
   #stringOnChange(node) {
     node.parameter.setValueFromJavaScript(this.#view, node.input.value);
+    this.#refreshParameterRow(node.parameter);
   }
 
   #stringRemoveQuote(string) {
@@ -689,7 +737,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #createSFFloatField(key, parent) {
-    const parameter = this.#protoManager.exposedParameters.get(key);
+    const parameter = this.proto.parameters.get(key);
 
     const p = document.createElement('p');
     p.className = 'key-parameter';
@@ -699,7 +747,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     p.style.gridColumn = '2 / 2';
 
-    const exportCheckbox = this.#createCheckbox(parent);
+    if (this.proto.isRoot) {
+      const exportCheckbox = this.#createCheckbox(parent, key);
+      p.checkbox = exportCheckbox;
+    } else
+      p.style.marginLeft = '20px';
 
     const value = document.createElement('p');
     value.className = 'value-parameter';
@@ -712,27 +764,119 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     input.value = parameter.value.value;
     input.style.width = '50px';
 
-    input.onchange = () => {
-      this.#enableResetButton(resetButton);
-      this.#floatOnChange(p);
-    };
+    input.onchange = () => this.#floatOnChange(p);
     p.input = input;
-    p.checkbox = exportCheckbox;
     value.appendChild(input);
 
-    const resetButton = this.#createResetButton(parent, p.style.gridRow);
+    const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     this.#disableResetButton(resetButton);
     resetButton.onclick = () => {
       input.value = parameter.defaultValue.value;
       this.#floatOnChange(p);
-      this.#disableResetButton(resetButton);
     };
     parent.appendChild(p);
     parent.appendChild(value);
+
+    this.#refreshParameterRow(parameter);
+  }
+
+  #createSFNodeField(key, parent) {
+    const parameter = this.proto.parameters.get(key);
+
+    const p = document.createElement('p');
+    p.className = 'key-parameter';
+    p.innerHTML = key + ': ';
+    p.key = key;
+    p.parameter = parameter;
+    p.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
+    p.style.gridColumn = '2 / 2';
+
+    if (this.proto.isRoot) {
+      const exportCheckbox = this.#createCheckbox(parent, key);
+      p.checkbox = exportCheckbox;
+    } else
+      p.style.marginLeft = '20px';
+
+    const value = document.createElement('p');
+    value.className = 'value-parameter';
+    value.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
+    value.style.gridColumn = '4 / 4';
+
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.display = 'flex';
+
+    const currentNodeButton = document.createElement('button');
+    currentNodeButton.className = 'sfnode-button';
+    currentNodeButton.id = 'current-node-' + parameter.name;
+    currentNodeButton.title = 'Select a node to insert';
+    currentNodeButton.onclick = async() => {
+      if (typeof this.nodeSelector === 'undefined') {
+        this.nodeSelector = new NodeSelectorWindow(this.parentNode, this.#sfnodeOnChange.bind(this), this.#protoManager.proto);
+        await this.nodeSelector.initialize();
+      }
+
+      this.nodeSelector.show(parameter);
+      this.nodeSelectorListener = (event) => this.#hideNodeSelector(event);
+      window.addEventListener('click', this.nodeSelectorListener, true);
+    };
+
+    const deleteNodeButton = document.createElement('button');
+    deleteNodeButton.className = 'delete-button';
+    deleteNodeButton.id = 'delete-node-' + parameter.name;
+    deleteNodeButton.title = 'Remove node.';
+    deleteNodeButton.onclick = () => {
+      parameter.setValueFromJavaScript(this.#view, null);
+      this.#refreshParameterRow(parameter);
+    };
+
+    const configureNodeButton = document.createElement('button');
+    configureNodeButton.className = 'configure-button';
+    configureNodeButton.id = 'configure-node-' + parameter.name;
+    configureNodeButton.title = 'Edit node.';
+    configureNodeButton.onclick = async() => {
+      if (parameter.value.value === null)
+        return;
+
+      this.backBuffer.push(this.proto);
+      this.proto = parameter.value.value;
+      this.populateProtoParameterWindow();
+    };
+
+    buttonContainer.appendChild(currentNodeButton);
+    buttonContainer.appendChild(configureNodeButton);
+    buttonContainer.appendChild(deleteNodeButton);
+    value.append(buttonContainer);
+
+    const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
+    this.#disableResetButton(resetButton);
+    resetButton.onclick = () => {
+      parameter.setValueFromJavaScript(this.#view, parameter.defaultValue.value === null
+        ? null : parameter.defaultValue.value.clone(true));
+      this.#refreshParameterRow(parameter);
+    };
+
+    parent.appendChild(p);
+    parent.appendChild(value);
+
+    this.#refreshParameterRow(parameter);
+  }
+
+  async #sfnodeOnChange(parameter, url) {
+    const node = await this.#protoManager.generateNodeFromUrl(url);
+    parameter.setValueFromJavaScript(this.#view, node);
+    this.#refreshParameterRow(parameter);
+  }
+
+  #hideNodeSelector(event) {
+    if (typeof this.nodeSelector !== 'undefined' && !this.nodeSelector.nodeSelector.contains(event.target)) {
+      this.nodeSelector.hide();
+      window.removeEventListener('click', this.nodeSelectorListener, true);
+    }
   }
 
   #floatOnChange(node) {
     node.parameter.setValueFromJavaScript(this.#view, node.input.value);
+    this.#refreshParameterRow(node.parameter);
   }
 
   #createSFInt32Field(key, parent) {
@@ -746,7 +890,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     p.style.gridColumn = '2 / 2';
 
-    const exportCheckbox = this.#createCheckbox(parent, this.#rowNumber);
+    const exportCheckbox = this.#createCheckbox(parent, key);
 
     const value = document.createElement('p');
     value.className = 'value-parameter';
@@ -760,23 +904,21 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     input.style.width = '50px';
 
     input.oninput = () => this.#intOnChange(p);
-    input.onchange = () => {
-      this.#floatOnChange(p);
-      this.#enableResetButton(resetButton);
-    };
+    input.onchange = () => this.#floatOnChange(p);
     p.input = input;
     p.checkbox = exportCheckbox;
     value.appendChild(input);
 
-    const resetButton = this.#createResetButton(parent, p.style.gridRow);
+    const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     this.#disableResetButton(resetButton);
     resetButton.onclick = () => {
       input.value = parameter.defaultValue.value;
       this.#floatOnChange(p);
-      this.#disableResetButton(resetButton);
     };
     parent.appendChild(p);
     parent.appendChild(value);
+
+    this.#refreshParameterRow(parameter);
   }
 
   #intOnChange(node) {
@@ -796,7 +938,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     p.style.gridColumn = '2 / 2';
 
-    const exportCheckbox = this.#createCheckbox(parent);
+    const exportCheckbox = this.#createCheckbox(parent, key);
 
     const value = document.createElement('p');
     value.className = 'value-parameter';
@@ -818,20 +960,20 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     value.appendChild(boolText);
 
     input.onchange = () => {
-      this.#boolOnChange(p);
-      this.#enableResetButton(resetButton);
       this.#changeBoolText(boolText, input);
+      this.#boolOnChange(p);
     };
 
-    const resetButton = this.#createResetButton(parent, p.style.gridRow);
+    const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     this.#disableResetButton(resetButton);
     resetButton.onclick = () => {
       input.checked = parameter.defaultValue.value;
       this.#boolOnChange(p);
-      this.#disableResetButton(resetButton);
     };
     parent.appendChild(p);
     parent.appendChild(value);
+
+    this.#refreshParameterRow(parameter);
   }
 
   #changeBoolText(boolText, input) {
@@ -843,11 +985,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   #boolOnChange(node) {
     node.parameter.setValueFromJavaScript(this.#view, node.input.checked);
+    this.#refreshParameterRow(node.parameter);
   }
 
-  #createResetButton(parentNode, row) {
+  #createResetButton(parentNode, row, id) {
     const resetButton = document.createElement('button');
     resetButton.className = 'reset-field-button';
+    resetButton.id = 'reset-' + id;
     resetButton.title = 'Reset to initial value';
     resetButton.style.gridColumn = '3 / 3';
     resetButton.style.gridRow = row;
@@ -856,13 +1000,18 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     return resetButton;
   }
 
-  #createCheckbox(parent) {
+  #createCheckbox(parent, key) {
     const exportCheckbox = document.createElement('input');
     exportCheckbox.type = 'checkbox';
     exportCheckbox.className = 'export-checkbox';
     exportCheckbox.title = 'Field to be exposed';
+    exportCheckbox.key = key;
     exportCheckbox.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     exportCheckbox.style.gridColumn = '1 / 1';
+    exportCheckbox.onchange = (event) => this.fieldsToExport.set(exportCheckbox.key, exportCheckbox.checked);
+    if (this.fieldsToExport.has(key))
+      exportCheckbox.checked = this.fieldsToExport.get(key);
+
     parent.appendChild(exportCheckbox);
 
     return exportCheckbox;

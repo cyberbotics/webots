@@ -28,6 +28,7 @@ import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbPlane from './nodes/WbPlane.js';
 import WbPointLight from './nodes/WbPointLight.js';
 import WbRadar from './nodes/WbRadar.js';
+import WbShape from './nodes/WbShape.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbTextureCoordinate from './nodes/WbTextureCoordinate.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
@@ -35,7 +36,6 @@ import WbTrackWheel from './nodes/WbTrackWheel.js';
 import WbTransform from './nodes/WbTransform.js';
 import WbWorld from './nodes/WbWorld.js';
 
-import {getAncestor} from './nodes/utils/utils.js';
 import WbVector2 from './nodes/utils/WbVector2.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 import WbNormal from './nodes/WbNormal.js';
@@ -45,7 +45,6 @@ import WbRangeFinder from './nodes/WbRangeFinder.js';
 import WbConnector from './nodes/WbConnector.js';
 
 export default class X3dScene {
-  #loader;
   #nextRenderingTime;
   #renderingTimeout;
   constructor(domElement) {
@@ -120,13 +119,11 @@ export default class X3dScene {
     }
 
     if (typeof WbWorld.instance !== 'undefined') {
-      let index = WbWorld.instance.sceneTree.length - 1;
+      let index = WbWorld.instance.root.children.length - 1;
       while (index >= 0) {
-        WbWorld.instance.sceneTree[index].delete();
+        WbWorld.instance.root.children[index].delete();
         --index;
       }
-
-      WbWorld.instance?.viewpoint.delete();
 
       WbWorld.instance?.scene.destroy();
 
@@ -135,14 +132,10 @@ export default class X3dScene {
 
     this.renderMinimal();
     clearTimeout(this.#renderingTimeout);
-    this.#loader = undefined;
   }
 
   #deleteObject(id) {
     const object = WbWorld.instance.nodes.get('n' + id);
-    if (typeof object === 'undefined')
-      return;
-
     object.delete();
 
     WbWorld.instance.robots.forEach((robot, i) => {
@@ -153,23 +146,25 @@ export default class X3dScene {
     this.render();
   }
 
-  loadRawWorldFile(raw, onLoad, progress) {
+  async loadRawWorldFile(raw, onLoad, progress) {
     const prefix = webots.currentView.prefix;
-    this.#loader = new Parser(prefix);
-    this.#loader.parse(raw, this.renderer).then(() => onLoad());
+    const parser = new Parser(prefix);
+    await parser.parse(raw, this.renderer).then(() => onLoad());
   }
 
   loadWorldFile(url, onLoad, progress) {
+    console.log('LOADWORLD: ', url);
+
     const prefix = webots.currentView.prefix;
     const renderer = this.renderer;
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.open('GET', url, true);
     xmlhttp.overrideMimeType('plain/text');
-    xmlhttp.onreadystatechange = () => {
+    xmlhttp.onreadystatechange = async() => {
       // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
       if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) {
-        this.#loader = new Parser(prefix);
-        this.#loader.parse(xmlhttp.responseText, renderer).then(() => onLoad());
+        const parser = new Parser(prefix);
+        await parser.parse(xmlhttp.responseText, renderer).then(() => onLoad());
       } else if (xmlhttp.status === 404)
         progress.setProgressBar('block', 'Loading world file...', 5, '(error) File not found: ' + url);
     };
@@ -179,21 +174,25 @@ export default class X3dScene {
     xmlhttp.send();
   }
 
-  loadObject(x3dObject, parentId, callback) {
+  async loadObject(x3dObject, parentId, callback) {
     let parentNode;
-    if (typeof parentId !== 'undefined' && parentId > 0) {
+    if (typeof parentId !== 'undefined') {
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
-      const ancestor = getAncestor(parentNode);
-      ancestor.isPreFinalizedCalled = false;
-      ancestor.wrenObjectsCreatedCalled = false;
-      ancestor.isPostFinalizedCalled = false;
+      parentNode.isPreFinalizedCalled = false;
+      parentNode.isPostFinalizedCalled = false;
     }
 
-    if (typeof this.#loader === 'undefined')
-      this.#loader = new Parser(webots.currentView.prefix);
-    else
-      this.#loader.prefix = webots.currentView.prefix;
-    this.#loader.parse(x3dObject, this.renderer, parentNode, callback);
+    const parser = new Parser(webots.currentView.prefix);
+    parser.prefix = webots.currentView.prefix;
+    await parser.parse(x3dObject, this.renderer, false, parentNode, callback);
+
+    const node = WbWorld.instance.nodes.get(parser.rootNodeId);
+    if (typeof parentId !== 'undefined') {
+      node.finalize();
+      if (parentNode instanceof WbShape) // TODO: this might be improved with a onchange trigger
+        parentNode.updateAppearance();
+    } else
+      node.finalize();
   }
 
   applyPose(pose) {
@@ -528,20 +527,19 @@ export default class X3dScene {
       data = data.substring(data.indexOf(':') + 1);
       const parentId = data.split(':')[0];
       data = data.substring(data.indexOf(':') + 1);
-      this.loadObject(data, parentId);
+      this.loadObject(data, parentId === '0' ? WbWorld.instance.root.id.replace('n', '') : parentId);
     } else if (data.startsWith('delete:')) {
       data = data.substring(data.indexOf(':') + 1).trim();
       this.#deleteObject(data);
     } else if (data.startsWith('model:')) {
-      view.progress.setProgressBar('block', 'same', 60 + 0.1 * 17, 'Loading 3D scene...');
       this.destroyWorld();
       view.removeLabels();
       data = data.substring(data.indexOf(':') + 1).trim();
       if (!data) // received an empty model case: just destroy the view
         return true;
       view.stream.socket.send('pause');
-      view.progress.setProgressBar('block', 'same', 60 + 0.1 * 23, 'Loading object...');
-      this.loadObject(data, 0, view.onready);
+      view.progress.setProgressBar('block', 'same', 0, 'Loading 3D scene...');
+      this.loadRawWorldFile(data, view.onready);
     } else
       return false;
     return true;
