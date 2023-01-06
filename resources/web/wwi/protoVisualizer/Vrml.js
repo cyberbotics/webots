@@ -503,14 +503,12 @@ class MultipleValue {
     parentElement.setAttribute(parameterName, x3d.slice(0, -1));
   }
 
-  toJS(stringified = true) {
+  toJS() {
     let js = '[';
-    this.#value.forEach((item) => { js += item.toJS(stringified) + ', '; });
+    this.#value.forEach((item) => { js += item.toJS() + ', '; });
     if (this.#value.length > 0)
       js = js.slice(0, -2);
-    js += ']';
-
-    return stringified ? js : JSON.parse(js);
+    return js + ']';
   }
 
   toJson() {
@@ -850,14 +848,12 @@ export class MFNode extends MultipleValue {
     this.value.forEach((item) => item.toX3d(parameterName, parentElement));
   }
 
-  toJS(stringified = true) {
+  toJS() {
     let js = '[';
-    this.value.forEach((item) => { js += item.value.toJS(stringified) + ', '; });
+    this.value.forEach((item) => { js += item.value.toJS() + ', '; });
     if (this.value.length > 0)
       js = js.slice(0, -2);
-    js += ']'
-
-    return stringified ? js : JSON.parse(js);
+    return js + ']';
   }
 
   toJson() {

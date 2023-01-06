@@ -199,15 +199,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       }
     }
 
+    // note: SFNode/MFNode rows don't need refresh since the restriction and its handling is done in the node selector window
     if (parameter.restrictions.length > 0 && ![VRML.SFNode, VRML.MFNode].includes(parameter.type)) {
       const select = document.getElementById('select-' + parameter.name);
-      let i = 0;
-      for (const item of parameter.restrictions) {
-        if (parameter.value && item.equals(parameter.value)) {
+      for (const [i, restriction] of parameter.restrictions.entries()) {
+        if (parameter.value && restriction.equals(parameter.value)) {
           select.options[i].selected = true;
           break;
         }
-        i++;
       }
     }
   }
