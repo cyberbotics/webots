@@ -767,7 +767,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     this.#disableResetButton(resetButton);
     resetButton.onclick = () => {
-      parameter.setValueFromJavaScript(this.#view, parameter.defaultValue.value === null ? null : parameter.defaultValue.value.clone(true));
+      parameter.setValueFromJavaScript(this.#view, parameter.defaultValue.value === null
+        ? null : parameter.defaultValue.value.clone(true));
       this.#refreshParameterRow(parameter);
     };
 
