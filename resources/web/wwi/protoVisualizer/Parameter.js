@@ -39,12 +39,14 @@ export default class Parameter {
       throw new Error('Type mismatch, setting ' + stringifyType(v.type()) + ' to ' + stringifyType(this.type) + ' parameter.');
 
     if (this.restrictions.length > 0) {
-      let isValueAcceptable = false;
-      for (const item of this.restrictions)
-        isValueAcceptable = isValueAcceptable || (v instanceof SFNode && v.value === null) || item.equals(v);
+      for (const item of this.restrictions) {
+        if ((v instanceof SFNode && v.value === null) || item.equals(v)) {
+          this.#value = v;
+          return;
+        }
+      }
 
-      if (!isValueAcceptable)
-        throw new Error('Parameter ' + this.name + ' is restricted and the value being set is not permitted.');
+      throw new Error('Parameter ' + this.name + ' is restricted and the value being set is not permitted.');
     }
 
     this.#value = v;
