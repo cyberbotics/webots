@@ -70,6 +70,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     this.fieldsToExport = new Map();
 
+    this.unsupportedRestrictions = [
+      VRML.SFBool, VRML.SFNode, VRML.MFNode, VRML.MFBool,
+      VRML.MFString, VRML.MFInt32, VRML.MFFloat, VRML.MFVec2f,
+      VRML.MFVec3f, VRML.MFColor, VRML.MFRotation
+    ];
+
     // create tabs
     const infoTabsBar = document.createElement('div');
     infoTabsBar.className = 'proto-tabs-bar';
@@ -133,7 +139,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       const keys = this.proto.parameters.keys();
       for (let key of keys) {
         const parameter = this.proto.parameters.get(key);
-        if (parameter.type === VRML.SFVec3f)
+
+        if (parameter.restrictions.length > 0 && !this.unsupportedRestrictions.includes(parameter.type))
+          this.#createRestrictedField(key, contentDiv);
+        else if (parameter.type === VRML.SFVec3f)
           this.#createSFVec3Field(key, contentDiv);
         else if (parameter.type === VRML.SFColor)
           this.#createSFColorField(key, contentDiv);
@@ -208,6 +217,17 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         configureNodeButton.style.display = 'block';
         configureNodeButton.title = 'Configure ' + parameter.value.value.name + ' node';
         currentNodeButton.innerHTML = parameter.value.value.name;
+      }
+    }
+
+    // note: SFNode/MFNode rows don't need refresh since the restriction and its handling is done in the node selector window
+    if (parameter.restrictions.length > 0 && ![VRML.SFNode, VRML.MFNode].includes(parameter.type)) {
+      const select = document.getElementById('select-' + parameter.name);
+      for (const [i, restriction] of parameter.restrictions.entries()) {
+        if (parameter.value && restriction.equals(parameter.value)) {
+          select.options[i].selected = true;
+          break;
+        }
       }
     }
   }
@@ -1480,6 +1500,84 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     };
     node.parameter.setValueFromJavaScript(this.#view, object);
     this.#refreshParameterRow(node.parameter);
+  }
+
+  #createRestrictedField(key, parent) {
+    const parameter = this.proto.parameters.get(key);
+
+    const p = document.createElement('p');
+    p.innerHTML = key + ': ';
+    p.parameter = parameter;
+    p.key = key;
+    p.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
+    p.style.gridColumn = '2 / 2';
+    p.className = 'key-parameter';
+
+    if (this.proto.isRoot) {
+      const exportCheckbox = this.#createCheckbox(parent, key);
+      p.checkbox = exportCheckbox;
+    } else
+      p.style.marginLeft = '20px';
+
+    const value = document.createElement('p');
+    value.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
+    value.style.gridColumn = '4 / 4';
+    value.className = 'value-parameter';
+
+    const select = document.createElement('select');
+    select.id = 'select-' + parameter.name;
+    select.parameter = parameter;
+
+    for (const item of parameter.restrictions) {
+      let value;
+      switch(parameter.type) {
+        case VRML.SFString:
+          value = this.#stringRemoveQuote(item.value);
+          break;
+        case VRML.SFFloat:
+        case VRML.SFInt32:
+          value = item.value;
+          break;
+        case VRML.SFVec2f:
+        case VRML.SFVec3f:
+        case VRML.SFColor:
+        case VRML.SFRotation:
+          value = item.toVrml(); // does what is needed, useless to create another ad-hoc method
+          break;
+        default:
+          throw new Error('Unsupported parameter type: ', parameter.type);
+      }
+
+      const option = document.createElement('option');
+      option.value = value;
+      option.innerText = value;
+      if (parameter.value && item.equals(parameter.value))
+        option.selected = true;
+
+      select.appendChild(option);
+    }
+
+    select.onchange = (e) => {
+      const parameter = e.target.parameter;
+      const selectionIndex = e.target.selectedIndex;
+      parameter.setValueFromJavaScript(this.#view, parameter.restrictions[selectionIndex].toJS(false));
+      this.#refreshParameterRow(parameter);
+    };
+    value.appendChild(select);
+    p.input = select;
+
+    const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
+    this.#disableResetButton(resetButton);
+    resetButton.onclick = () => {
+      // we can use stringify because SFNodes/MFNodes are handled separately (through the node selection window)
+      parameter.setValueFromJavaScript(this.#view, JSON.parse(JSON.stringify(parameter.defaultValue.value)));
+      this.#refreshParameterRow(parameter);
+    };
+
+    parent.appendChild(p);
+    parent.appendChild(value);
+
+    this.#refreshParameterRow(parameter);
   }
 
   #createSFStringField(key, parent) {

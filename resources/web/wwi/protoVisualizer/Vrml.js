@@ -153,8 +153,9 @@ export class SFVec2f extends SingleValue {
     return `${this.value.x} ${this.value.y}`;
   }
 
-  toJS() {
-    return `{x: ${this.value.x}, y: ${this.value.y}}`;
+  toJS(stringified = true) {
+    const js = `{"x": ${this.value.x}, "y": ${this.value.y}}`;
+    return stringified ? js : JSON.parse(js);
   }
 
   toJson() {
@@ -200,8 +201,9 @@ export class SFVec3f extends SingleValue {
     return `${this.value.x} ${this.value.y} ${this.value.z}`;
   }
 
-  toJS() {
-    return `{x: ${this.value.x}, y: ${this.value.y}, z: ${this.value.z}}`;
+  toJS(stringified = true) {
+    const js = `{"x": ${this.value.x}, "y": ${this.value.y}, "z": ${this.value.z}}`;
+    return stringified ? js : JSON.parse(js);
   }
 
   toJson() {
@@ -247,8 +249,9 @@ export class SFColor extends SingleValue {
     return `${this.value.r} ${this.value.g} ${this.value.b}`;
   }
 
-  toJS() {
-    return `{r: ${this.value.r}, g: ${this.value.g}, b: ${this.value.b}}`;
+  toJS(stringified = true) {
+    const js = `{"r": ${this.value.r}, "g": ${this.value.g}, "b": ${this.value.b}}`;
+    return stringified ? js : JSON.parse(js);
   }
 
   toJson() {
@@ -323,8 +326,9 @@ export class SFRotation extends SingleValue {
     this.value = {x: xValue, y: yValue, z: zValue, a: aValue};
   }
 
-  toJS() {
-    return `{x: ${this.value.x}, y: ${this.value.y}, z: ${this.value.z}, a: ${this.value.a}}`;
+  toJS(stringified = true) {
+    const js = `{"x": ${this.value.x}, "y": ${this.value.y}, "z": ${this.value.z}, "a": ${this.value.a}}`;
+    return stringified ? js : JSON.parse(js);
   }
 
   toJson() {
