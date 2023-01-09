@@ -154,30 +154,18 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           this.#createSFStringField(key, contentDiv);
         else if (parameter.type === VRML.SFFloat)
           this.#createSFFloatField(key, contentDiv);
-        else if (parameter.type === (VRML.SFInt32))
+        else if (parameter.type === VRML.SFInt32)
           this.#createSFInt32Field(key, contentDiv);
         else if (parameter.type === VRML.SFBool)
           this.#createSFBoolField(key, contentDiv);
         else if (parameter.type === VRML.SFNode)
           this.#createSFNodeField(key, contentDiv);
-        else if (parameter.type === VRML.MFVec3f)
-          this.#createMFVec3fField(key, contentDiv);
-        else if (parameter.type === VRML.MFVec2f)
-          this.#createMFVec2fField(key, contentDiv);
-        else if (parameter.type === VRML.MFString)
-          this.#createMFStringField(key, contentDiv);
-        else if (parameter.type === VRML.MFFloat)
-          this.#createMFFloatField(key, contentDiv);
         else if (parameter.type === VRML.MFInt32)
-          this.#createMFFloatField(key, contentDiv, true);
-        else if (parameter.type === VRML.MFBool)
-          this.#createMFBoolField(key, contentDiv);
-        else if (parameter.type === VRML.MFRotation)
-          this.#createMFRotationField(key, contentDiv);
-        else if (parameter.type === VRML.MFColor)
-          this.#createMFColorField(key, contentDiv);
+          this.#createMFField(key, contentDiv, true);
         else if (parameter.type === VRML.MFNode)
           this.#createMFNodeField(key, contentDiv);
+        else
+          this.#createMFField(key, contentDiv);
 
         this.#rowNumber++;
       }
@@ -417,7 +405,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.#refreshParameterRow(node.parameter);
   }
 
-  #createMFVec3fField(key, parent) {
+  #createMFField(key, parent, isInt) {
     const results = this.#createFieldCommonPart(key, parent);
     const p = results[0];
     const parameter = results[1];
@@ -447,12 +435,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       else if (maxRowNumber < maxRowNumberNeeded)
         this.#offsetPositivelyRows(resetButtonRow + 1, maxRowNumberNeeded - maxRowNumber);
 
-      this.#populateMFVec3f(resetButton, parent, parameter, resetButtonRow, currentMfId, !hideShowButton.isHidden);
+      this.#populateMFField(resetButton, parent, parameter, resetButtonRow, currentMfId, !hideShowButton.isHidden, isInt);
 
-      this.#MFVec3fOnChange('value-parameter mf-parameter mf-id-' + currentMfId, parameter);
+      this.#MFOnChange('value-parameter mf-parameter mf-id-' + currentMfId, parameter);
     };
 
-    this.#rowNumber += this.#populateMFVec3f(resetButton, parent, parameter, this.#rowNumber, currentMfId);
+    this.#rowNumber += this.#populateMFField(resetButton, parent, parameter, this.#rowNumber, currentMfId, false, isInt);
 
     parent.appendChild(p);
     parent.appendChild(hideShowButton);
@@ -462,13 +450,87 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.#refreshParameterRow(parameter);
   }
 
-  #populateMFVec3f(resetButton, parent, parameter, firstRow, mfId, isVisible) {
-    this.#createAddRowSection(mfId, resetButton, firstRow, parent, parameter, isVisible);
+  #MFOnChange(className, parameter) {
+    const elements = document.getElementsByClassName(className);
+    let lut = new Map();
+    for (let i = 0; i < elements.length; i++) {
+      let order = this.#getRow(elements[i]);
+
+      let value;
+      if (parameter.type === VRML.MFVec3f) {
+        value = {x: parseFloat(elements[i].childNodes[0].childNodes[1].value),
+          y: parseFloat(elements[i].childNodes[1].childNodes[1].value),
+          z: parseFloat(elements[i].childNodes[2].childNodes[1].value)};
+      } else if (parameter.type === VRML.MFVec2f) {
+        value = {x: parseFloat(elements[i].childNodes[0].childNodes[1].value),
+          y: parseFloat(elements[i].childNodes[1].childNodes[1].value)};
+      } else if (parameter.type === VRML.MFString)
+        value = elements[i].childNodes[0].value;
+      else if (parameter.type === VRML.MFFloat || parameter.type === VRML.MFInt32)
+        value = elements[i].childNodes[0].value;
+      else if (parameter.type === VRML.MFBool)
+        value = elements[i].childNodes[0].checked;
+      else if (parameter.type === VRML.MFRotation) {
+        value = {'x': parseFloat(elements[i].childNodes[0].childNodes[1].value),
+          'y': parseFloat(elements[i].childNodes[1].childNodes[1].value),
+          'z': parseFloat(elements[i].childNodes[2].childNodes[1].value),
+          'a': parseFloat(elements[i].childNodes[3].childNodes[1].value)};
+      } else if (parameter.type === VRML.MFColor) {
+        const hexValue = elements[i].childNodes[0].value;
+        const red = parseInt(hexValue.substring(1, 3), 16) / 255;
+        const green = parseInt(hexValue.substring(3, 5), 16) / 255;
+        const blue = parseInt(hexValue.substring(5, 7), 16) / 255;
+        value = {r: red, g: green, b: blue};
+      } else if (parameter.type === VRML.MFNode) {
+        // TODO
+      }
+
+      lut.set(order, value);
+    }
+    lut = new Map([...lut.entries()].sort((a, b) => a[0] - b[0]));
+
+    // Separately printing only keys
+    const array = [];
+    let i = 0;
+    for (let value of lut.values()) {
+      array[i] = value;
+      i++;
+    }
+
+    parameter.setValueFromJavaScript(this.#view, array);
+    this.#refreshParameterRow(parameter);
+  }
+
+  #populateMFField(resetButton, parent, parameter, firstRow, mfId, isVisible, isInt) {
+    this.#createAddRowSection(mfId, resetButton, firstRow, parent, parameter, isVisible, isInt);
     let numberOfRows = 1;
     for (let i = 0; i < parameter.value.value.length; i++) {
       numberOfRows++;
-      this.#createVector3Row(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
-        parameter, isVisible);
+      if (parameter.type === VRML.MFVec3f)
+        this.#createVector3Row(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
+          parameter, isVisible);
+      else if (parameter.type === VRML.MFVec2f)
+        this.#createVector2Row(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
+          parameter, isVisible);
+      else if (parameter.type === VRML.MFString)
+        this.#createMFStringRow(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
+          parameter, isVisible);
+      else if (parameter.type === VRML.MFFloat || parameter.type === VRML.MFInt32)
+        this.#createMFFloatRow(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
+          parameter, isVisible, isInt);
+      else if (parameter.type === VRML.MFBool)
+        this.#createMFBoolRow(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
+          parameter, isVisible);
+      else if (parameter.type === VRML.MFRotation)
+        this.#createMFRotationRow(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
+          parameter, isVisible);
+      else if (parameter.type === VRML.MFColor)
+        this.#createMFColorRow(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
+          parameter, isVisible);
+      else if (parameter.type === VRML.MFNode)
+        this.#createMFNodeRow(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
+          parameter, isVisible);
+
       numberOfRows++;
     }
 
@@ -480,101 +542,17 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     if (isVisible)
       p.style.display = 'flex';
-    this.#createVectorInput('x', value.x, p, () => this.#MFVec3fOnChange(p.className, parameter));
-    this.#createVectorInput('y', value.y, p, () => this.#MFVec3fOnChange(p.className, parameter));
-    this.#createVectorInput('z', value.z, p, () => this.#MFVec3fOnChange(p.className, parameter));
+    this.#createVectorInput('x', value.x, p, () => this.#MFOnChange(p.className, parameter));
+    this.#createVectorInput('y', value.y, p, () => this.#MFOnChange(p.className, parameter));
+    this.#createVectorInput('z', value.z, p, () => this.#MFOnChange(p.className, parameter));
 
     parent.appendChild(p);
 
-    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFVec3fOnChange(p.className, parameter));
+    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFOnChange(p.className, parameter));
 
     // Add row
     const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible);
     return [p, addRow];
-  }
-
-  #MFVec3fOnChange(className, parameter) {
-    const elements = document.getElementsByClassName(className);
-    let lut = new Map();
-    for (let i = 0; i < elements.length; i++) {
-      let order = this.#getRow(elements[i]);
-
-      // the last one is the delete button
-      const value = {x: parseFloat(elements[i].childNodes[0].childNodes[1].value),
-        y: parseFloat(elements[i].childNodes[1].childNodes[1].value),
-        z: parseFloat(elements[i].childNodes[2].childNodes[1].value)};
-
-      lut.set(order, value);
-    }
-    lut = new Map([...lut.entries()].sort((a, b) => a[0] - b[0]));
-
-    // Separately printing only keys
-    const vectorArray = [];
-    let i = 0;
-    for (let value of lut.values()) {
-      vectorArray[i] = value;
-      i++;
-    }
-
-    parameter.setValueFromJavaScript(this.#view, vectorArray);
-    this.#refreshParameterRow(parameter);
-  }
-
-  #createMFVec2fField(key, parent) {
-    const results = this.#createFieldCommonPart(key, parent);
-    const p = results[0];
-    const parameter = results[1];
-
-    const currentMfId = this.#mfId;
-    const hideShowButton = this.#createHideShowButtom(currentMfId);
-
-    const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
-    resetButton.onclick = () => {
-      const nodesToRemove = document.getElementsByClassName('mf-id-' + currentMfId);
-      let maxRowNumber = 0;
-      for (let i = nodesToRemove.length - 1; i >= 0; i--) {
-        const rowNumber = this.#getRow(nodesToRemove[i]);
-        if (rowNumber > maxRowNumber)
-          maxRowNumber = rowNumber;
-        nodesToRemove[i].parentNode.removeChild(nodesToRemove[i]);
-      }
-
-      parameter.value = parameter.defaultValue.clone();
-      const resetButtonRow = this.#getRow(resetButton);
-      // two times because of the `add` button and plus one for the first `add` button.
-      const maxRowNumberNeeded = parameter.value.value.length * 2 + 1 + resetButtonRow;
-
-      // Need to offset the following rows by the difference to keep the coherency.
-      if (maxRowNumber > maxRowNumberNeeded)
-        this.#offsetNegativelyRows(resetButtonRow, maxRowNumber - maxRowNumberNeeded);
-      else if (maxRowNumber < maxRowNumberNeeded)
-        this.#offsetPositivelyRows(resetButtonRow + 1, maxRowNumberNeeded - maxRowNumber);
-
-      this.#populateMFVec2f(resetButton, parent, parameter, resetButtonRow, currentMfId, !hideShowButton.isHidden);
-
-      this.#MFVec2fOnChange('value-parameter mf-parameter mf-id-' + currentMfId, parameter);
-    };
-
-    this.#rowNumber += this.#populateMFVec2f(resetButton, parent, parameter, this.#rowNumber, currentMfId);
-
-    parent.appendChild(p);
-    parent.appendChild(hideShowButton);
-
-    this.#mfId++;
-    this.#refreshParameterRow(parameter);
-  }
-
-  #populateMFVec2f(resetButton, parent, parameter, firstRow, mfId, isVisible) {
-    this.#createAddRowSection(mfId, resetButton, firstRow, parent, parameter, isVisible);
-    let numberOfRows = 1;
-    for (let i = 0; i < parameter.value.value.length; i++) {
-      numberOfRows++;
-      this.#createVector2Row(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
-        parameter, isVisible);
-      numberOfRows++;
-    }
-
-    return numberOfRows;
   }
 
   #createVector2Row(value, row, parent, mfId, resetButton, parameter, isVisible) {
@@ -582,99 +560,16 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     if (isVisible)
       p.style.display = 'flex';
-    this.#createVectorInput('x', value.x, p, () => this.#MFVec2fOnChange(p.className, parameter));
-    this.#createVectorInput('y', value.y, p, () => this.#MFVec2fOnChange(p.className, parameter));
+    this.#createVectorInput('x', value.x, p, () => this.#MFOnChange(p.className, parameter));
+    this.#createVectorInput('y', value.y, p, () => this.#MFOnChange(p.className, parameter));
 
     parent.appendChild(p);
 
-    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFVec2fOnChange(p.className, parameter));
+    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFOnChange(p.className, parameter));
 
     // Add row
     const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible);
     return [p, addRow];
-  }
-
-  #MFVec2fOnChange(className, parameter) {
-    const elements = document.getElementsByClassName(className);
-    let lut = new Map();
-    for (let i = 0; i < elements.length; i++) {
-      let order = this.#getRow(elements[i]);
-
-      // the last one is the delete button
-      const value = {x: parseFloat(elements[i].childNodes[0].childNodes[1].value),
-        y: parseFloat(elements[i].childNodes[1].childNodes[1].value)};
-
-      lut.set(order, value);
-    }
-    lut = new Map([...lut.entries()].sort((a, b) => a[0] - b[0]));
-
-    // Separately printing only keys
-    const vectorArray = [];
-    let i = 0;
-    for (let value of lut.values()) {
-      vectorArray[i] = value;
-      i++;
-    }
-
-    parameter.setValueFromJavaScript(this.#view, vectorArray);
-    this.#refreshParameterRow(parameter);
-  }
-
-  #createMFStringField(key, parent) {
-    const results = this.#createFieldCommonPart(key, parent);
-    const p = results[0];
-    const parameter = results[1];
-
-    const currentMfId = this.#mfId;
-    const hideShowButton = this.#createHideShowButtom(currentMfId);
-
-    const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
-    resetButton.onclick = () => {
-      const nodesToRemove = document.getElementsByClassName('mf-id-' + currentMfId);
-      let maxRowNumber = 0;
-      for (let i = nodesToRemove.length - 1; i >= 0; i--) {
-        const rowNumber = this.#getRow(nodesToRemove[i]);
-        if (rowNumber > maxRowNumber)
-          maxRowNumber = rowNumber;
-        nodesToRemove[i].parentNode.removeChild(nodesToRemove[i]);
-      }
-
-      parameter.value = parameter.defaultValue.clone();
-      const resetButtonRow = this.#getRow(resetButton);
-      // two times because of the `add` button and plus one for the first `add` button.
-      const maxRowNumberNeeded = parameter.value.value.length * 2 + 1 + resetButtonRow;
-
-      // Need to offset the following rows by the difference to keep the coherency.
-      if (maxRowNumber > maxRowNumberNeeded)
-        this.#offsetNegativelyRows(resetButtonRow, maxRowNumber - maxRowNumberNeeded);
-      else if (maxRowNumber < maxRowNumberNeeded)
-        this.#offsetPositivelyRows(resetButtonRow + 1, maxRowNumberNeeded - maxRowNumber);
-
-      this.#populateMFString(resetButton, parent, parameter, resetButtonRow, currentMfId, !hideShowButton.isHidden);
-
-      this.#MFStringfOnChange('value-parameter mf-parameter mf-id-' + currentMfId, parameter);
-    };
-
-    this.#rowNumber += this.#populateMFString(resetButton, parent, parameter, this.#rowNumber, currentMfId);
-
-    parent.appendChild(p);
-    parent.appendChild(hideShowButton);
-
-    this.#mfId++;
-    this.#refreshParameterRow(parameter);
-  }
-
-  #populateMFString(resetButton, parent, parameter, firstRow, mfId, isVisible) {
-    this.#createAddRowSection(mfId, resetButton, firstRow, parent, parameter, isVisible);
-    let numberOfRows = 1;
-    for (let i = 0; i < parameter.value.value.length; i++) {
-      numberOfRows++;
-      this.#createMFStringRow(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
-        parameter, isVisible);
-      numberOfRows++;
-    }
-
-    return numberOfRows;
   }
 
   #createMFStringRow(value, row, parent, mfId, resetButton, parameter, isVisible) {
@@ -685,7 +580,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     const input = document.createElement('input');
     input.type = 'text';
-    input.onchange = () => this.#MFStringfOnChange(p.className, parameter);
+    input.onchange = () => this.#MFOnChange(p.className, parameter);
 
     input.value = this.#stringRemoveQuote(value);
     input.style.height = '20px';
@@ -693,36 +588,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     parent.appendChild(p);
 
-    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFStringfOnChange(p.className, parameter));
+    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFOnChange(p.className, parameter));
 
     // Add row
     const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible);
     return [p, addRow];
-  }
-
-  #MFStringfOnChange(className, parameter) {
-    const elements = document.getElementsByClassName(className);
-    let lut = new Map();
-    for (let i = 0; i < elements.length; i++) {
-      let order = this.#getRow(elements[i]);
-
-      // the last one is the delete button
-      const value = elements[i].childNodes[0].value;
-
-      lut.set(order, value);
-    }
-    lut = new Map([...lut.entries()].sort((a, b) => a[0] - b[0]));
-
-    // Separately printing only keys
-    const stringArray = [];
-    let i = 0;
-    for (let value of lut.values()) {
-      stringArray[i] = value;
-      i++;
-    }
-
-    parameter.setValueFromJavaScript(this.#view, stringArray);
-    this.#refreshParameterRow(parameter);
   }
 
   #createRemoveMFButton(resetButton, p, parameter, callback) {
@@ -743,64 +613,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.appendChild(removeButton);
   }
 
-  #createMFFloatField(key, parent, isInt) {
-    const results = this.#createFieldCommonPart(key, parent);
-    const p = results[0];
-    const parameter = results[1];
-
-    const currentMfId = this.#mfId;
-    const hideShowButton = this.#createHideShowButtom(currentMfId);
-
-    const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
-    resetButton.onclick = () => {
-      const nodesToRemove = document.getElementsByClassName('mf-id-' + currentMfId);
-      let maxRowNumber = 0;
-      for (let i = nodesToRemove.length - 1; i >= 0; i--) {
-        const rowNumber = this.#getRow(nodesToRemove[i]);
-        if (rowNumber > maxRowNumber)
-          maxRowNumber = rowNumber;
-        nodesToRemove[i].parentNode.removeChild(nodesToRemove[i]);
-      }
-      parameter.value = parameter.defaultValue.clone();
-      const resetButtonRow = this.#getRow(resetButton);
-      // two times because of the `add` button and plus one for the first `add` button.
-      const maxRowNumberNeeded = parameter.value.value.length * 2 + 1 + resetButtonRow;
-
-      // Need to offset the following rows by the difference to keep the coherency.
-      if (maxRowNumber > maxRowNumberNeeded)
-        this.#offsetNegativelyRows(resetButtonRow, maxRowNumber - maxRowNumberNeeded);
-      else if (maxRowNumber < maxRowNumberNeeded)
-        this.#offsetPositivelyRows(resetButtonRow + 1, maxRowNumberNeeded - maxRowNumber);
-
-      this.#populateMFFloat(resetButton, parent, parameter, resetButtonRow, currentMfId, !hideShowButton.isHidden, isInt);
-
-      this.#MFStringfOnChange('value-parameter mf-parameter mf-id-' + currentMfId, parameter);
-    };
-
-    this.#rowNumber += this.#populateMFFloat(resetButton, parent, parameter, this.#rowNumber, currentMfId, false, isInt);
-
-    parent.appendChild(p);
-    parent.appendChild(hideShowButton);
-
-    this.#mfId++;
-    this.#refreshParameterRow(parameter);
-  }
-
-  #populateMFFloat(resetButton, parent, parameter, firstRow, mfId, isVisible, isInt) {
-    this.#createAddRowSection(mfId, resetButton, firstRow, parent, parameter, isVisible, isInt);
-    let numberOfRows = 1;
-    for (let i = 0; i < parameter.value.value.length; i++) {
-      numberOfRows++;
-      this.#createMFFloatRow(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
-        parameter, isVisible, isInt);
-      numberOfRows++;
-    }
-
-    return numberOfRows;
-  }
-
   #createMFFloatRow(value, row, parent, mfId, resetButton, parameter, isVisible, isInt) {
     const p = this.#createMfRowElement(row, mfId);
+    console.log(isInt)
 
     if (isVisible)
       p.style.display = 'flex';
@@ -815,99 +630,18 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     } else
       input.step = 0.1;
 
-    input.onchange = () => this.#MFFloatfOnChange(p.className, parameter);
+    input.onchange = () => this.#MFOnChange(p.className, parameter);
 
     input.style.width = '50px';
     p.appendChild(input);
 
     parent.appendChild(p);
 
-    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFFloatfOnChange(p.className, parameter));
+    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFOnChange(p.className, parameter));
 
     // Add row
     const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible, isInt);
     return [p, addRow];
-  }
-
-  #MFFloatfOnChange(className, parameter) {
-    const elements = document.getElementsByClassName(className);
-    let lut = new Map();
-    for (let i = 0; i < elements.length; i++) {
-      let order = this.#getRow(elements[i]);
-
-      // the last one is the delete button
-      const value = elements[i].childNodes[0].value;
-
-      lut.set(order, value);
-    }
-    lut = new Map([...lut.entries()].sort((a, b) => a[0] - b[0]));
-
-    // Separately printing only keys
-    const floatArray = [];
-    let i = 0;
-    for (let value of lut.values()) {
-      floatArray[i] = value;
-      i++;
-    }
-
-    parameter.setValueFromJavaScript(this.#view, floatArray);
-    this.#refreshParameterRow(parameter);
-  }
-
-  #createMFBoolField(key, parent) {
-    const results = this.#createFieldCommonPart(key, parent);
-    const p = results[0];
-    const parameter = results[1];
-
-    const currentMfId = this.#mfId;
-    const hideShowButton = this.#createHideShowButtom(currentMfId);
-
-    const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
-    resetButton.onclick = () => {
-      const nodesToRemove = document.getElementsByClassName('mf-id-' + currentMfId);
-      let maxRowNumber = 0;
-      for (let i = nodesToRemove.length - 1; i >= 0; i--) {
-        const rowNumber = this.#getRow(nodesToRemove[i]);
-        if (rowNumber > maxRowNumber)
-          maxRowNumber = rowNumber;
-        nodesToRemove[i].parentNode.removeChild(nodesToRemove[i]);
-      }
-      parameter.value = parameter.defaultValue.clone();
-      const resetButtonRow = this.#getRow(resetButton);
-      // two times because of the `add` button and plus one for the first `add` button.
-      const maxRowNumberNeeded = parameter.value.value.length * 2 + 1 + resetButtonRow;
-
-      // Need to offset the following rows by the difference to keep the coherency.
-      if (maxRowNumber > maxRowNumberNeeded)
-        this.#offsetNegativelyRows(resetButtonRow, maxRowNumber - maxRowNumberNeeded);
-      else if (maxRowNumber < maxRowNumberNeeded)
-        this.#offsetPositivelyRows(resetButtonRow + 1, maxRowNumberNeeded - maxRowNumber);
-
-      this.#populateMFBool(resetButton, parent, parameter, resetButtonRow, currentMfId, !hideShowButton.isHidden);
-
-      this.#MFBoolOnChange('value-parameter mf-parameter mf-id-' + currentMfId, parameter);
-    };
-
-    this.#rowNumber += this.#populateMFBool(resetButton, parent, parameter, this.#rowNumber, currentMfId, false);
-
-    parent.appendChild(p);
-    parent.appendChild(hideShowButton);
-
-    this.#mfId++;
-    this.#refreshParameterRow(parameter);
-  }
-
-  #populateMFBool(resetButton, parent, parameter, firstRow, mfId, isVisible) {
-    this.#createAddRowSection(mfId, resetButton, firstRow, parent, parameter, isVisible);
-    let numberOfRows = 1;
-    for (let i = 0; i < parameter.value.value.length; i++) {
-      numberOfRows++;
-      this.#createMFBoolRow(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
-        parameter, isVisible);
-      numberOfRows++;
-    }
-
-    return numberOfRows;
   }
 
   #createMFBoolRow(value, row, parent, mfId, resetButton, parameter, isVisible, isInt) {
@@ -926,7 +660,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.#changeBoolText(boolText, input);
 
     input.onchange = () => {
-      this.#MFBoolOnChange(p.className, parameter);
+      this.#MFOnChange(p.className, parameter);
       this.#changeBoolText(boolText, input);
     };
 
@@ -935,93 +669,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     parent.appendChild(p);
 
-    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFBoolOnChange(p.className, parameter));
+    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFOnChange(p.className, parameter));
 
     // Add row
     const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible, isInt);
     return [p, addRow];
-  }
-
-  #MFBoolOnChange(className, parameter) {
-    const elements = document.getElementsByClassName(className);
-    let lut = new Map();
-    for (let i = 0; i < elements.length; i++) {
-      let order = this.#getRow(elements[i]);
-
-      // the last one is the delete button
-      const value = elements[i].childNodes[0].checked;
-
-      lut.set(order, value);
-    }
-    lut = new Map([...lut.entries()].sort((a, b) => a[0] - b[0]));
-
-    // Separately printing only keys
-    const boolArray = [];
-    let i = 0;
-    for (let value of lut.values()) {
-      boolArray[i] = value;
-      i++;
-    }
-
-    parameter.setValueFromJavaScript(this.#view, boolArray);
-    this.#refreshParameterRow(parameter);
-  }
-
-  #createMFRotationField(key, parent) {
-    const results = this.#createFieldCommonPart(key, parent);
-    const p = results[0];
-    const parameter = results[1];
-
-    const currentMfId = this.#mfId;
-    const hideShowButton = this.#createHideShowButtom(currentMfId);
-
-    const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
-    resetButton.onclick = () => {
-      const nodesToRemove = document.getElementsByClassName('mf-id-' + currentMfId);
-      let maxRowNumber = 0;
-      for (let i = nodesToRemove.length - 1; i >= 0; i--) {
-        const rowNumber = this.#getRow(nodesToRemove[i]);
-        if (rowNumber > maxRowNumber)
-          maxRowNumber = rowNumber;
-        nodesToRemove[i].parentNode.removeChild(nodesToRemove[i]);
-      }
-
-      parameter.value = parameter.defaultValue.clone();
-      const resetButtonRow = this.#getRow(resetButton);
-      // two times because of the `add` button and plus one for the first `add` button.
-      const maxRowNumberNeeded = parameter.value.value.length * 2 + 1 + resetButtonRow;
-
-      // Need to offset the following rows by the difference to keep the coherency.
-      if (maxRowNumber > maxRowNumberNeeded)
-        this.#offsetNegativelyRows(resetButtonRow, maxRowNumber - maxRowNumberNeeded);
-      else if (maxRowNumber < maxRowNumberNeeded)
-        this.#offsetPositivelyRows(resetButtonRow + 1, maxRowNumberNeeded - maxRowNumber);
-
-      this.#populateMFRotation(resetButton, parent, parameter, resetButtonRow, currentMfId, !hideShowButton.isHidden);
-
-      this.#MFRotationOnChange('value-parameter mf-parameter mf-id-' + currentMfId, parameter);
-    };
-
-    this.#rowNumber += this.#populateMFRotation(resetButton, parent, parameter, this.#rowNumber, currentMfId);
-
-    parent.appendChild(p);
-    parent.appendChild(hideShowButton);
-
-    this.#mfId++;
-    this.#refreshParameterRow(parameter);
-  }
-
-  #populateMFRotation(resetButton, parent, parameter, firstRow, mfId, isVisible) {
-    this.#createAddRowSection(mfId, resetButton, firstRow, parent, parameter, isVisible);
-    let numberOfRows = 1;
-    for (let i = 0; i < parameter.value.value.length; i++) {
-      numberOfRows++;
-      this.#createMFRotationRow(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
-        parameter, isVisible);
-      numberOfRows++;
-    }
-
-    return numberOfRows;
   }
 
   #createMFRotationRow(value, row, parent, mfId, resetButton, parameter, isVisible) {
@@ -1029,103 +681,18 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     if (isVisible)
 
       p.style.display = 'flex';
-    this.#createVectorInput('x', value.x, p, () => this.#MFRotationOnChange(p.className, parameter));
-    this.#createVectorInput('y', value.y, p, () => this.#MFRotationOnChange(p.className, parameter));
-    this.#createVectorInput('z', value.z, p, () => this.#MFRotationOnChange(p.className, parameter));
-    this.#createVectorInput('angle', value.a, p, () => this.#MFRotationOnChange(p.className, parameter));
+    this.#createVectorInput('x', value.x, p, () => this.#MFOnChange(p.className, parameter));
+    this.#createVectorInput('y', value.y, p, () => this.#MFOnChange(p.className, parameter));
+    this.#createVectorInput('z', value.z, p, () => this.#MFOnChange(p.className, parameter));
+    this.#createVectorInput('angle', value.a, p, () => this.#MFOnChange(p.className, parameter));
 
     parent.appendChild(p);
 
-    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFRotationOnChange(p.className, parameter));
+    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFOnChange(p.className, parameter));
 
     // Add row
     const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible);
     return [p, addRow];
-  }
-
-  #MFRotationOnChange(className, parameter) {
-    const elements = document.getElementsByClassName(className);
-    let lut = new Map();
-    for (let i = 0; i < elements.length; i++) {
-      let order = this.#getRow(elements[i]);
-
-      // the last one is the delete button
-      const value = {'x': parseFloat(elements[i].childNodes[0].childNodes[1].value),
-        'y': parseFloat(elements[i].childNodes[1].childNodes[1].value),
-        'z': parseFloat(elements[i].childNodes[2].childNodes[1].value),
-        'a': parseFloat(elements[i].childNodes[3].childNodes[1].value)};
-
-      lut.set(order, value);
-    }
-    lut = new Map([...lut.entries()].sort((a, b) => a[0] - b[0]));
-
-    // Separately printing only keys
-    const vectorArray = [];
-    let i = 0;
-    for (let value of lut.values()) {
-      vectorArray[i] = value;
-      i++;
-    }
-
-    parameter.setValueFromJavaScript(this.#view, vectorArray);
-    this.#refreshParameterRow(parameter);
-  }
-
-  #createMFColorField(key, parent) {
-    const results = this.#createFieldCommonPart(key, parent);
-    const p = results[0];
-    const parameter = results[1];
-
-    const currentMfId = this.#mfId;
-    const hideShowButton = this.#createHideShowButtom(currentMfId);
-
-    const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
-    resetButton.onclick = () => {
-      const nodesToRemove = document.getElementsByClassName('mf-id-' + currentMfId);
-      let maxRowNumber = 0;
-      for (let i = nodesToRemove.length - 1; i >= 0; i--) {
-        const rowNumber = this.#getRow(nodesToRemove[i]);
-        if (rowNumber > maxRowNumber)
-          maxRowNumber = rowNumber;
-        nodesToRemove[i].parentNode.removeChild(nodesToRemove[i]);
-      }
-
-      parameter.value = parameter.defaultValue.clone();
-      const resetButtonRow = this.#getRow(resetButton);
-      // two times because of the `add` button and plus one for the first `add` button.
-      const maxRowNumberNeeded = parameter.value.value.length * 2 + 1 + resetButtonRow;
-
-      // Need to offset the following rows by the difference to keep the coherency.
-      if (maxRowNumber > maxRowNumberNeeded)
-        this.#offsetNegativelyRows(resetButtonRow, maxRowNumber - maxRowNumberNeeded);
-      else if (maxRowNumber < maxRowNumberNeeded)
-        this.#offsetPositivelyRows(resetButtonRow + 1, maxRowNumberNeeded - maxRowNumber);
-
-      this.#populateMFColor(resetButton, parent, parameter, resetButtonRow, currentMfId, !hideShowButton.isHidden);
-
-      this.#MFColorOnChange('value-parameter mf-parameter mf-id-' + currentMfId, parameter);
-    };
-
-    this.#rowNumber += this.#populateMFColor(resetButton, parent, parameter, this.#rowNumber, currentMfId);
-
-    parent.appendChild(p);
-    parent.appendChild(hideShowButton);
-
-    this.#mfId++;
-    this.#refreshParameterRow(parameter);
-  }
-
-  #populateMFColor(resetButton, parent, parameter, firstRow, mfId, isVisible) {
-    this.#createAddRowSection(mfId, resetButton, firstRow, parent, parameter, isVisible);
-    let numberOfRows = 1;
-    for (let i = 0; i < parameter.value.value.length; i++) {
-      numberOfRows++;
-      this.#createMFColorRow(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
-        parameter, isVisible);
-      numberOfRows++;
-    }
-
-    return numberOfRows;
   }
 
   #createMFColorRow(value, row, parent, mfId, resetButton, parameter, isVisible) {
@@ -1136,46 +703,17 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const input = document.createElement('input');
     input.type = 'color';
     input.value = this.rgbToHex(parseInt(value.r * 255), parseInt(value.g * 255), parseInt(value.b * 255));
-    input.onchange = _ => this.#MFColorOnChange(p.className, parameter);
+    input.onchange = _ => this.#MFOnChange(p.className, parameter);
 
     p.appendChild(input);
 
     parent.appendChild(p);
 
-    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFColorOnChange(p.className, parameter));
+    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFOnChange(p.className, parameter));
 
     // Add row
     const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible);
     return [p, addRow];
-  }
-
-  #MFColorOnChange(className, parameter) {
-    const elements = document.getElementsByClassName(className);
-    let lut = new Map();
-    for (let i = 0; i < elements.length; i++) {
-      let order = this.#getRow(elements[i]);
-
-      // the last one is the delete button
-      const hexValue = elements[i].childNodes[0].value;
-      const red = parseInt(hexValue.substring(1, 3), 16) / 255;
-      const green = parseInt(hexValue.substring(3, 5), 16) / 255;
-      const blue = parseInt(hexValue.substring(5, 7), 16) / 255;
-      const value = {r: red, g: green, b: blue};
-
-      lut.set(order, value);
-    }
-    lut = new Map([...lut.entries()].sort((a, b) => a[0] - b[0]));
-
-    // Separately printing only keys
-    const stringArray = [];
-    let i = 0;
-    for (let value of lut.values()) {
-      stringArray[i] = value;
-      i++;
-    }
-
-    parameter.setValueFromJavaScript(this.#view, stringArray);
-    this.#refreshParameterRow(parameter);
   }
 
   #createMFNodeField(key, parent) {
@@ -1276,7 +814,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     parent.appendChild(p);
 
-    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFColorOnChange(p.className, parameter));
+    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFOnChange(p.className, parameter));
 
     // Add row
     const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible);
@@ -1390,25 +928,25 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       let newRows;
       if (parameter.type === VRML.MFVec3f) {
         newRows = this.#createVector3Row({x: 0, y: 0, z: 0}, row, parent, mfId, resetButton, parameter);
-        this.#MFVec3fOnChange(newRows[0].className, parameter);
+        this.#MFOnChange(newRows[0].className, parameter);
       } else if (parameter.type === VRML.MFVec2f) {
         newRows = this.#createVector2Row({x: 0, y: 0}, row, parent, mfId, resetButton, parameter);
-        this.#MFVec2fOnChange(newRows[0].className, parameter);
+        this.#MFOnChange(newRows[0].className, parameter);
       } else if (parameter.type === VRML.MFString) {
         newRows = this.#createMFStringRow('', row, parent, mfId, resetButton, parameter);
-        this.#MFStringfOnChange(newRows[0].className, parameter);
-      } else if (parameter.type === VRML.MFFloat) {
+        this.#MFOnChange(newRows[0].className, parameter);
+      } else if (parameter.type === VRML.MFFloat || parameter.type === VRML.MFInt32) {
         newRows = this.#createMFFloatRow(0, row, parent, mfId, resetButton, parameter, true, isInt);
-        this.#MFFloatfOnChange(newRows[0].className, parameter);
+        this.#MFOnChange(newRows[0].className, parameter);
       } else if (parameter.type === VRML.MFBool) {
         newRows = this.#createMFBoolRow(false, row, parent, mfId, resetButton, parameter);
-        this.#MFBoolOnChange(newRows[0].className, parameter);
+        this.#MFOnChange(newRows[0].className, parameter);
       } else if (parameter.type === VRML.MFRotation) {
         newRows = this.#createMFRotationRow({x: 0, y: 0, z: 1, a: 0}, row, parent, mfId, resetButton, parameter);
-        this.#MFRotationOnChange(newRows[0].className, parameter);
+        this.#MFOnChange(newRows[0].className, parameter);
       } else if (parameter.type === VRML.MFColor) {
         newRows = this.#createMFColorRow('', row, parent, mfId, resetButton, parameter);
-        this.#MFColorOnChange(newRows[0].className, parameter);
+        this.#MFOnChange(newRows[0].className, parameter);
       } else if (parameter.type === VRML.MFNode) {
         newRows = this.#createMFNodeRow('', row, parent, mfId, resetButton, parameter);
         this.#MFNodeOnChange(newRows[0].className, parameter);
@@ -1530,7 +1068,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     for (const item of parameter.restrictions) {
       let value;
-      switch(parameter.type) {
+      switch (parameter.type) {
         case VRML.SFString:
           value = this.#stringRemoveQuote(item.value);
           break;
