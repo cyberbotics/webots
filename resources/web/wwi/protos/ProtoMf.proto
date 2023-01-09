@@ -19,6 +19,8 @@ field SFVec3f   vec3                     0 2 1
 field MFVec3f   vec3s                     [0 0 0, 0 0 1]                  # Defines the 3D extrusion path.
 field SFVec2f   vec2                    0 2
 field MFVec2f   vec2s                     [0 0 , 0 1]                  # Defines the 3D extrusion path.
+field MFNode    nodes   []
+field SFNode    node    NULL
 ]
 {
   Group {
