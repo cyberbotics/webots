@@ -491,8 +491,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const array = [];
     let i = 0;
     for (let value of lut.values()) {
-      array[i] = value;
-      i++;
+      array[i++] = value;
     }
 
     parameter.setValueFromJavaScript(this.#view, array);
