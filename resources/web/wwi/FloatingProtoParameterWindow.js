@@ -160,8 +160,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           this.#createSFBoolField(key, contentDiv);
         else if (parameter.type === VRML.SFNode)
           this.#createSFNodeField(key, contentDiv);
-        else if (parameter.type === VRML.MFInt32)
-          this.#createMFField(key, contentDiv, true);
         else if (parameter.type === VRML.MFNode)
           this.#createMFNodeField(key, contentDiv);
         else
@@ -405,7 +403,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.#refreshParameterRow(node.parameter);
   }
 
-  #createMFField(key, parent, isInt) {
+  #createMFField(key, parent) {
     const results = this.#createFieldCommonPart(key, parent);
     const p = results[0];
     const parameter = results[1];
@@ -435,12 +433,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       else if (maxRowNumber < maxRowNumberNeeded)
         this.#offsetPositivelyRows(resetButtonRow + 1, maxRowNumberNeeded - maxRowNumber);
 
-      this.#populateMFField(resetButton, parent, parameter, resetButtonRow, currentMfId, !hideShowButton.isHidden, isInt);
+      this.#populateMFField(resetButton, parent, parameter, resetButtonRow, currentMfId, !hideShowButton.isHidden);
 
       this.#MFOnChange('value-parameter mf-parameter mf-id-' + currentMfId, parameter);
     };
 
-    this.#rowNumber += this.#populateMFField(resetButton, parent, parameter, this.#rowNumber, currentMfId, false, isInt);
+    this.#rowNumber += this.#populateMFField(resetButton, parent, parameter, this.#rowNumber, currentMfId, false);
 
     parent.appendChild(p);
     parent.appendChild(hideShowButton);
@@ -501,8 +499,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.#refreshParameterRow(parameter);
   }
 
-  #populateMFField(resetButton, parent, parameter, firstRow, mfId, isVisible, isInt) {
-    this.#createAddRowSection(mfId, resetButton, firstRow, parent, parameter, isVisible, isInt);
+  #populateMFField(resetButton, parent, parameter, firstRow, mfId, isVisible) {
+    this.#createAddRowSection(mfId, resetButton, firstRow, parent, parameter, isVisible);
     let numberOfRows = 1;
     for (let i = 0; i < parameter.value.value.length; i++) {
       numberOfRows++;
@@ -512,7 +510,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           parameter, isVisible);
       else
         this.#createMfRow(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
-          parameter, isVisible, isInt)
+          parameter, isVisible)
 
       numberOfRows++;
     }
@@ -520,7 +518,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     return numberOfRows;
   }
 
-  #createMfRow(value, row, parent, mfId, resetButton, parameter, isVisible, isInt) {
+  #createMfRow(value, row, parent, mfId, resetButton, parameter, isVisible) {
     const p = this.#createMfRowElement(row, mfId);
 
     if (isVisible)
@@ -531,7 +529,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       input.type = 'number';
       input.value = value;
 
-      if (isInt) {
+      if (parameter.type === VRML.MFInt32) {
         input.oninput = () => this.#intOnChange(input);
         input.step = 1;
       } else
@@ -592,7 +590,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFOnChange(p.className, parameter));
 
     // Add row
-    const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible, isInt);
+    const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible);
     return [p, addRow];
   }
 
@@ -817,7 +815,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     }
   }
 
-  #createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible, isInt) {
+  #createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible) {
     const addRow = document.createElement('button');
     addRow.onclick = () => {
       const row = this.#getRow(addRow) + 1;
@@ -845,7 +843,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         else if (parameter.type === VRML.MFColor)
           defaultValue = {r: 0, g: 0, b: 0};
 
-        const newRows = this.#createMfRow(defaultValue, row, parent, mfId, resetButton, parameter, true, isInt);
+        const newRows = this.#createMfRow(defaultValue, row, parent, mfId, resetButton, parameter, true);
         this.#MFOnChange(newRows[0].className, parameter);
 
         newRows[0].style.display = 'flex';
