@@ -22,10 +22,10 @@
     },
     {
       "anchor": "0 0.0665 0.0288",
-      "axis": "0 0 1",
-      "maxPosition": 0,
-      "minPosition": -1.22171,
-      "name": "left_gripper",
+      "axis": "0 0 -1",
+      "maxPosition": 1.22171,
+      "minPosition": 0,
+      "name": "gripper::left",
       "position": 0,
       "transformID": "n240",
       "type": "RotationalMotor"
@@ -35,7 +35,7 @@
       "axis": "0 0 1",
       "maxPosition": 1.22171,
       "minPosition": 0,
-      "name": "right_gripper",
+      "name": "gripper::right",
       "position": 0,
       "transformID": "n276",
       "type": "RotationalMotor"
@@ -142,8 +142,8 @@
     },
     {
       "anchor": "0 0.0665 0.0288",
-      "axis": "0 0 1",
-      "name": "left_gripper_sensor",
+      "axis": "0 0 -1",
+      "name": "gripper::left_sensor",
       "position": 0,
       "transformID": "n240",
       "type": "PositionSensor"
@@ -151,7 +151,7 @@
     {
       "anchor": "0 0.0665 0.0288",
       "axis": "0 0 1",
-      "name": "right_gripper_sensor",
+      "name": "gripper::right_sensor",
       "position": 0,
       "transformID": "n276",
       "type": "PositionSensor"
