@@ -831,8 +831,9 @@ export class MFNode extends MultipleValue {
       this.insert(new SFNode(tokenizer));
   }
 
-  setValueFromJavaScript(items) {
+  setValueFromJavaScript(items, index) {
     this.value = [];
+    console.log('GOT:', items)
     items.forEach((item) => {
       const sfnode = new SFNode();
       sfnode.setValueFromJavaScript(item);
@@ -841,6 +842,9 @@ export class MFNode extends MultipleValue {
   }
 
   toX3d(parameterName, parentElement) {
+    if (this.value === [])
+      return;
+
     this.value.forEach((item) => item.toX3d(parameterName, parentElement));
   }
 

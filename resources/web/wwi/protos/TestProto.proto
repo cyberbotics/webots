@@ -1,36 +1,12 @@
 #VRML_SIM R2023b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/Cardboard.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/objects/fruits/protos/Apple.proto"
 
 PROTO TestProto [
-  field SFNode seatAppearance Cardboard{}
+  field MFNode extension [Apple{}]
 ]
 {
-  Transform {
-    children [
-      Transform {
-        translation 0 0 0.25
-        children [
-          Shape {
-            appearance IS seatAppearance
-            geometry Box {
-              size 0.05 0.2 0.1
-            }
-          }
-        ]
-      }
-      DEF SHAPE Shape {
-        appearance IS seatAppearance
-        geometry Box {
-          size 0.05 0.2 0.1
-        }
-      }
-      Transform {
-        rotation 0 0 1 1
-        children [
-          USE SHAPE
-        ]
-      }
-    ]
+  Group {
+    children IS extension
   }
 }

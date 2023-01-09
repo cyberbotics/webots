@@ -56,9 +56,11 @@ class ProtoInfo {
 export default class NodeSelectorWindow {
   #callback;
   #rootProto;
-  constructor(parentNode, callback, rootProto) {
+  #index;
+  constructor(parentNode, callback, rootProto, index) {
     this.#callback = callback;
     this.#rootProto = rootProto;
+    this.#index = index;
 
     this.#setupWindow(parentNode);
   }
@@ -304,7 +306,7 @@ export default class NodeSelectorWindow {
       throw new Error('It should not be possible to insert an undefined node.');
 
     const info = this.nodes.get(protoName);
-    this.#callback(this.parameter, info.url);
+    this.#callback(this.parameter, info.url, this.#index);
     this.hide();
   }
 
@@ -330,6 +332,54 @@ export default class NodeSelectorWindow {
 
       if (fieldName === 'geometry')
         return this.isGeometryTypeMatch(baseType);
+
+      if (fieldName === 'children') {
+        if (['Group', 'Transform', 'Shape', 'CadShape', 'Solid', 'PointLight', 'SpotLight', 'Propeller', 'Charger'].includes(parentNode.name))
+          return true;
+      }
+
+        /*
+        if (fieldName == "children") {
+          if (WbNodeUtilities::isDescendantOfBillboard(node))
+            // only Group, Transform and Shape allowed
+            return false;
+
+          if (WbVrmlNodeUtilities::isFieldDescendant(node, "animatedGeometry"))
+            // only Group, Transform, Shape and Slot allowed
+            return false;
+
+          if ((parentModelName == "TrackWheel") || WbNodeUtilities::findUpperNodeByType(node, WB_NODE_TRACK_WHEEL))
+            // only Group, Transform, Shape and Slot allowed
+            return false;
+
+
+          if (nodeName == "Skin" && parentModelName == "Robot")
+            return true;
+          if (nodeName == "TrackWheel")
+            return parentModelName == "Track";
+
+          if (nodeName == "Connector" || nodeName.endsWith("Joint")) {
+            if (WbNodeUtilities::isSolidTypeName(parentModelName) || WbNodeUtilities::findUpperSolid(node) != NULL)
+              return true;
+
+            errorMessage = QObject::tr("Cannot insert %1 node in '%2' field of %3 node that doesn't have a Solid ancestor.")
+                             .arg(nodeName)
+                             .arg(fieldName)
+                             .arg(parentModelName);
+          }
+
+          if (WbNodeUtilities::isSolidDeviceTypeName(nodeName)) {
+            if (WbNodeUtilities::hasARobotAncestor(node))
+              return true;
+
+            errorMessage = QObject::tr("Cannot insert %1 node in '%2' field of %3 node that doesn't have a Robot ancestor.")
+                             .arg(nodeName)
+                             .arg(fieldName)
+                             .arg(parentModelName);
+          }
+
+        }
+        */
     }
 
     return false;
@@ -375,6 +425,23 @@ export default class NodeSelectorWindow {
 
   isRobotDescendant() {
     return this.#rootProto.getBaseNode().name === 'Robot';
+  }
+
+  isFieldDescendant(node, fieldName) {
+    if (typeof node === 'undefined')
+      return false;
+
+    let n = node.parentNode; // TODO
+    let f = node.parentField; // TODO
+    while(typeof n !== 'undefined' && typeof f !== 'undefined') {
+      if (f.name === fieldName)
+        return true;
+
+      f = n.parentField;
+      n = n.parentNode;
+    }
+
+    return false;
   }
 
   hide() {

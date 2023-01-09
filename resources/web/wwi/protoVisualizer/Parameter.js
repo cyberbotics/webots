@@ -1,7 +1,8 @@
 'use strict';
 
-import {SFNode, stringifyType} from './Vrml.js';
+import {MFNode, SFNode, stringifyType} from './Vrml.js';
 import Node from './Node.js';
+import { VRML } from './vrml_type.js';
 
 export default class Parameter {
   #type;
@@ -81,8 +82,15 @@ export default class Parameter {
   // TODO: find better approach rather than propagating the view to subsequent parameters
   setValueFromJavaScript(view, v) {
     // notify linked parameters of the change
-    for (const link of this.parameterLinks)
-      link.setValueFromJavaScript(view, (v !== null && v instanceof Node) ? v.clone() : v);
+    for (const link of this.parameterLinks) {
+      if (Array.isArray(v) && this.type == VRML.MFNode) {
+        const clones = [];
+        v.forEach((item) => clones.push(item.clone()));
+        console.log('CLONES', clones)
+        link.setValueFromJavaScript(view, clones);
+      } else
+        link.setValueFromJavaScript(view, (v !== null && v instanceof Node) ? v.clone() : v);
+    }
 
     if (this.isTemplateRegenerator) {
       // regenerate this node, and all its siblings
@@ -118,6 +126,30 @@ export default class Parameter {
           const x3d = new XMLSerializer().serializeToString(v.toX3d());
           view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
         }
+      } else if (this.#value instanceof MFNode) {
+        const baseNode = this.node.getBaseNode();
+        console.log('need del?', this.#value.value)
+        if (this.#value.value.length > 0) {
+          console.log('DELETE EXISTING NODES')
+          // delete existing nodes
+          const p = baseNode.getParameterByName(this.name);
+          p.value.value.forEach((item) => {
+            const id = item.value.getBaseNode().id;
+            view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
+          });
+        }
+
+        console.log('SETVALUEFROMJS:', v)
+        // update value on the structure side
+        this.#value.setValueFromJavaScript(v);
+
+        // get the parent id to insert the new node
+        const parentId = baseNode.id.replace('n', '');
+
+        v.forEach((item) => {
+          const x3d = new XMLSerializer().serializeToString(item.toX3d());
+          view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
+        });
       } else {
         // update value on the structure side
         this.#value.setValueFromJavaScript(v);

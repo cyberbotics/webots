@@ -33,7 +33,7 @@ import WbTouchSensor from './nodes/WbTouchSensor.js';
 import WbBrake from './nodes/WbBrake.js';
 import WbPositionSensor from './nodes/WbPositionSensor.js';
 import NodeSelectorWindow from './NodeSelectorWindow.js';
-import {SFNode} from './protoVisualizer/Vrml.js';
+import {SFNode,MFNode} from './protoVisualizer/Vrml.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #mfId;
@@ -209,6 +209,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         configureNodeButton.title = 'Configure ' + parameter.value.value.name + ' node';
         currentNodeButton.innerHTML = parameter.value.value.name;
       }
+    }
+
+    if (parameter.value instanceof MFNode) {
+
     }
   }
 
@@ -1215,6 +1219,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #createMFNodeRow(value, row, parent, mfId, resetButton, parameter, isVisible) {
+    console.log('CREATE ROW, ID', mfId, 'ROW', row)
     const p = this.#createMfRowElement(row, mfId);
     if (isVisible)
       p.style.display = 'block';
@@ -1226,12 +1231,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     currentNodeButton.className = 'sfnode-button';
     currentNodeButton.id = 'current-node-' + parameter.name;
     currentNodeButton.title = 'Select a node to insert';
+    currentNodeButton.innerHTML = value !== null ? value.name : 'NULL';
     currentNodeButton.onclick = async() => {
       if (typeof this.nodeSelector === 'undefined') {
-        this.nodeSelector = new NodeSelectorWindow(this.parentNode, this.#MFNodeOnChange.bind(this), this.#protoManager.proto);
+        this.nodeSelector = new NodeSelectorWindow(this.parentNode, this.#MFNodeOnChange.bind(this), this.#protoManager.proto, mfId);
         await this.nodeSelector.initialize();
       }
-
       this.nodeSelector.show(parameter);
       this.nodeSelectorListener = (event) => this.#hideNodeSelector(event);
       window.addEventListener('click', this.nodeSelectorListener, true);
@@ -1257,15 +1262,36 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     parent.appendChild(p);
 
-    this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFColorOnChange(p.className, parameter));
+    // NOTE: calls color atm
+    //this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFColorOnChange(p.className, parameter));
 
     // Add row
     const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible, VRML.MFNode);
     return [p, addRow];
   }
 
-  #MFNodeOnChange(parameter, url) {
-    console.log(url)
+  async #MFNodeOnChange(parameter, url, mfId) {
+    console.log(url, mfId)
+
+    const nodes = document.getElementsByClassName('mf-id-' + mfId);
+    for (let i = 0; i < nodes.length; i++) {
+      const element = nodes[i];
+      if (element) {
+        console.log(element)
+      }
+    }
+
+
+    return;
+    const node = await this.#protoManager.generateNodeFromUrl(url);
+
+    // accumulate items in the MF
+    const items = [];
+
+
+    parameter.setValueFromJavaScript(this.#view, [node], index);
+    this.#refreshParameterRow(parameter);
+
     // const elements = document.getElementsByClassName(className);
     // let lut = new Map();
     // for (let i = 0; i < elements.length; i++) {
@@ -1391,8 +1417,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         newRows = this.#createMFColorRow('', row, parent, mfId, resetButton, parameter);
         this.#MFColorOnChange(newRows[0].className, parameter);
       } else if (type === VRML.MFNode) {
-        newRows = this.#createMFNodeRow('', row, parent, mfId, resetButton, parameter);
-        this.#MFNodeOnChange(newRows[0].className, parameter);
+        newRows = this.#createMFNodeRow(null, row, parent, mfId, resetButton, parameter);
+        //this.#MFNodeOnChange(newRows[0].className, parameter);
       }
       newRows[0].style.display = 'block';
       newRows[1].style.display = 'block';
