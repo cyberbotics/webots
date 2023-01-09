@@ -101,21 +101,14 @@ export default class Parameter {
   }
 
   // TODO: find better approach rather than propagating the view to subsequent parameters
-  setValueFromJavaScript(view, v) {
+  setValueFromJavaScript(view, v, index) {
     // notify linked parameters of the change
-    for (const link of this.parameterLinks) {
-      if (Array.isArray(v) && this.type == VRML.MFNode) {
-        const clones = [];
-        v.forEach((item) => clones.push(item.clone()));
-        console.log('CLONES', clones)
-        link.setValueFromJavaScript(view, clones);
-      } else
-        link.setValueFromJavaScript(view, (v !== null && v instanceof Node) ? v.clone() : v);
-    }
+    for (const link of this.parameterLinks)
+      link.setValueFromJavaScript(view, (v !== null && v instanceof Node) ? v.clone() : v, index);
 
     if (this.isTemplateRegenerator) {
       // regenerate this node, and all its siblings
-      this.#value.setValueFromJavaScript(v);
+      this.#value.setValueFromJavaScript(v, index);
       this.node.regenerateNode(view);
 
       if (typeof this.onChange === 'function')
@@ -123,7 +116,7 @@ export default class Parameter {
     } else {
       if (this.node.isProto) {
         // update value on the structure side
-        this.#value.setValueFromJavaScript(v);
+        this.#value.setValueFromJavaScript(v, index);
         return; // webotsJS needs to be notified of parameter changes only if the parameter belongs to a base-node, not PROTO
       }
 
@@ -152,17 +145,20 @@ export default class Parameter {
         console.log('need del?', this.#value.value)
         if (this.#value.value.length > 0) {
           console.log('DELETE EXISTING NODES')
-          // delete existing nodes
+          // delete existing node
           const p = baseNode.getParameterByName(this.name);
-          p.value.value.forEach((item) => {
-            const id = item.value.getBaseNode().id;
-            view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
-          });
+          //p.value.value.forEach((item) => {
+          //  const id = item.value.getBaseNode().id;
+          //  view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
+          //});
+
+          const id = p.value.value[index].value.getBaseNode().id;
+          view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
         }
 
         console.log('SETVALUEFROMJS:', v)
         // update value on the structure side
-        this.#value.setValueFromJavaScript(v);
+        this.#value.setValueFromJavaScript(v, index);
 
         // get the parent id to insert the new node
         const parentId = baseNode.id.replace('n', '');

@@ -1,4 +1,5 @@
 import Parameter from './protoVisualizer/Parameter.js';
+import { VRML } from './protoVisualizer/vrml_type.js';
 
 class ProtoInfo {
   #url;
@@ -56,11 +57,9 @@ class ProtoInfo {
 export default class NodeSelectorWindow {
   #callback;
   #rootProto;
-  #index;
-  constructor(parentNode, callback, rootProto, index) {
+  constructor(parentNode, callback, rootProto) {
     this.#callback = callback;
     this.#rootProto = rootProto;
-    this.#index = index;
 
     this.#setupWindow(parentNode);
   }
@@ -310,7 +309,7 @@ export default class NodeSelectorWindow {
       throw new Error('It should not be possible to insert an undefined node.');
 
     const info = this.nodes.get(protoName);
-    this.#callback(this.parameter, info.url, this.#index);
+    this.#callback(this.parameter, info.url, this.index); // this.parameter, info.url,
     this.hide();
   }
 
@@ -426,7 +425,7 @@ export default class NodeSelectorWindow {
       'IndexedFaceSet', 'IndexedLineSet'].includes(type);
   }
 
-  show(parameter) {
+  show(parameter, caller) {
     // cleanup input field
     const filterInput = document.getElementById('filter');
     filterInput.value = '';
@@ -435,6 +434,8 @@ export default class NodeSelectorWindow {
       throw new Error('Cannot display node selector unless a parameter is provided.');
 
     this.parameter = parameter;
+    if (parameter.type === VRML.MFNode)
+      this.index = caller.index;
     this.populateWindow();
     this.nodeSelector.style.display = 'block';
   }

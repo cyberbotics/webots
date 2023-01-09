@@ -835,7 +835,7 @@ export class MFNode extends MultipleValue {
       this.insert(new SFNode(tokenizer));
   }
 
-  setValueFromJavaScript(items, index) {
+  setValueFromJavaScript(items) {
     this.value = [];
     console.log('GOT:', items)
     items.forEach((item) => {
