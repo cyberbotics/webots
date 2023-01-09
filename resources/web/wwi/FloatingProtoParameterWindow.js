@@ -347,7 +347,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const initialValue = parameter.value.value;
     input.value = this.rgbToHex(parseInt(initialValue.r * 255), parseInt(initialValue.g * 255), parseInt(initialValue.b * 255));
     input.onchange = _ => this.#colorOnChange(parameter, _.target.value);
-
     values.appendChild(input);
 
     parent.appendChild(p);
@@ -1202,7 +1201,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #populateMFNode(resetButton, parent, parameter, firstRow, mfId, isVisible) {
-    this.#createAddRowSection(mfId, resetButton, firstRow, parent, parameter, isVisible, VRML.MFNode);
+    this.#createAddRowSection(mfId, resetButton, firstRow, parent, parameter, isVisible);
     let numberOfRows = 1;
     for (let i = 0; i < parameter.value.value.length; i++) {
       numberOfRows++;
@@ -1260,7 +1259,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.#createRemoveMFButton(resetButton, p, parameter, () => this.#MFColorOnChange(p.className, parameter));
 
     // Add row
-    const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible, VRML.MFNode);
+    const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible);
     return [p, addRow];
   }
 
@@ -1390,7 +1389,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       } else if (parameter.type === VRML.MFColor) {
         newRows = this.#createMFColorRow('', row, parent, mfId, resetButton, parameter);
         this.#MFColorOnChange(newRows[0].className, parameter);
-      } else if (type === VRML.MFNode) {
+      } else if (parameter.type === VRML.MFNode) {
         newRows = this.#createMFNodeRow('', row, parent, mfId, resetButton, parameter);
         this.#MFNodeOnChange(newRows[0].className, parameter);
       }
@@ -1558,26 +1557,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #createSFNodeField(key, parent) {
-    const parameter = this.proto.parameters.get(key);
-
-    const p = document.createElement('p');
-    p.className = 'key-parameter';
-    p.innerHTML = key + ': ';
-    p.key = key;
-    p.parameter = parameter;
-    p.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
-    p.style.gridColumn = '2 / 2';
-
-    if (this.proto.isRoot) {
-      const exportCheckbox = this.#createCheckbox(parent, key);
-      p.checkbox = exportCheckbox;
-    } else
-      p.style.marginLeft = '20px';
-
-    const value = document.createElement('p');
-    value.className = 'value-parameter';
-    value.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
-    value.style.gridColumn = '4 / 4';
+    const results = this.#createFieldCommonPart(key, parent);
+    const p = results[0];
+    const parameter = results[1];
+    const value = this.#createSFValue();
 
     const buttonContainer = document.createElement('div');
     buttonContainer.style.display = 'flex';
