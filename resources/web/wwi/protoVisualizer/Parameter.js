@@ -10,15 +10,25 @@ export default class Parameter {
   #value;
   #defaultValue;
   #isTemplateRegenerator;
+  #restrictions;
   #parameterLinks;
-  constructor(node, name, type, defaultValue, value, isTemplateRegenerator) {
+  constructor(node, name, type, restrictions, defaultValue, value, isTemplateRegenerator) {
     this.node = node; // node this parameter belongs to
-    this.type = type;
-    this.name = name;
+    this.#type = type;
+    this.#name = name;
+    this.#restrictions = restrictions;
     this.defaultValue = defaultValue;
     this.value = value;
-    this.isTemplateRegenerator = isTemplateRegenerator;
+    this.#isTemplateRegenerator = isTemplateRegenerator;
     this.#parameterLinks = []; // list of other parameters to notify whenever this instance changes
+  }
+
+  get restrictions() {
+    return this.#restrictions;
+  }
+
+  set restrictions(newValue) {
+    this.#restrictions = newValue;
   }
 
   get value() {
@@ -28,6 +38,17 @@ export default class Parameter {
   set value(v) {
     if (v.type() !== this.type)
       throw new Error('Type mismatch, setting ' + stringifyType(v.type()) + ' to ' + stringifyType(this.type) + ' parameter.');
+
+    if (this.restrictions.length > 0) {
+      for (const item of this.restrictions) {
+        if ((v instanceof SFNode && v.value === null) || item.equals(v)) {
+          this.#value = v;
+          return;
+        }
+      }
+
+      throw new Error('Parameter ' + this.name + ' is restricted and the value being set is not permitted.');
+    }
 
     this.#value = v;
   }
@@ -173,8 +194,14 @@ export default class Parameter {
   }
 
   clone(deep = false) {
-    const copy = new Parameter(this.node, this.name, this.type, deep ? this.defaultValue.clone(deep) : this.defaultValue,
+    const restrictions = [];
+    for (const item of this.restrictions)
+      restrictions.push(item.clone(deep));
+
+    const copy = new Parameter(this.node, this.name, this.type, restrictions,
+      deep ? this.defaultValue.clone(deep) : this.defaultValue,
       deep ? this.value.clone(deep) : this.value, this.isTemplateRegenerator);
+
     return copy;
   }
 }

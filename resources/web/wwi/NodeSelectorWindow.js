@@ -201,6 +201,10 @@ export default class NodeSelectorWindow {
 
     const compatibleNodes = [];
     for (const [name, info] of this.nodes) {
+      // filter nodes based on restrictions
+      if (!this.doFieldRestrictionsAllowNode(name))
+        continue;
+
       // filter incompatible nodes
       if (typeof info.tags !== 'undefined' && (info.tags.includes('hidden') || info.tags.includes('deprecated')))
         continue;
@@ -308,6 +312,18 @@ export default class NodeSelectorWindow {
     const info = this.nodes.get(protoName);
     this.#callback(this.parameter, info.url, this.#index);
     this.hide();
+  }
+
+  doFieldRestrictionsAllowNode(nodeName) {
+    if (this.parameter.restrictions.length === 0)
+      return true;
+
+    for (const restriction of this.parameter.restrictions) {
+      if (nodeName === restriction.value.name)
+        return true;
+    }
+
+    return false;
   }
 
   isAllowedToInsert(baseType, slotType) {
