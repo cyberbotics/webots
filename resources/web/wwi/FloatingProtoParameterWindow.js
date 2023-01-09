@@ -615,7 +615,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   #createMFFloatRow(value, row, parent, mfId, resetButton, parameter, isVisible, isInt) {
     const p = this.#createMfRowElement(row, mfId);
-    console.log(isInt)
 
     if (isVisible)
       p.style.display = 'flex';
@@ -926,31 +925,27 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       this.#offsetPositivelyRows(row, 2);
 
       let newRows;
-      if (parameter.type === VRML.MFVec3f) {
+      if (parameter.type === VRML.MFVec3f)
         newRows = this.#createVector3Row({x: 0, y: 0, z: 0}, row, parent, mfId, resetButton, parameter);
-        this.#MFOnChange(newRows[0].className, parameter);
-      } else if (parameter.type === VRML.MFVec2f) {
+      else if (parameter.type === VRML.MFVec2f)
         newRows = this.#createVector2Row({x: 0, y: 0}, row, parent, mfId, resetButton, parameter);
-        this.#MFOnChange(newRows[0].className, parameter);
-      } else if (parameter.type === VRML.MFString) {
+      else if (parameter.type === VRML.MFString)
         newRows = this.#createMFStringRow('', row, parent, mfId, resetButton, parameter);
-        this.#MFOnChange(newRows[0].className, parameter);
-      } else if (parameter.type === VRML.MFFloat || parameter.type === VRML.MFInt32) {
+      else if (parameter.type === VRML.MFFloat || parameter.type === VRML.MFInt32)
         newRows = this.#createMFFloatRow(0, row, parent, mfId, resetButton, parameter, true, isInt);
-        this.#MFOnChange(newRows[0].className, parameter);
-      } else if (parameter.type === VRML.MFBool) {
+      else if (parameter.type === VRML.MFBool)
         newRows = this.#createMFBoolRow(false, row, parent, mfId, resetButton, parameter);
-        this.#MFOnChange(newRows[0].className, parameter);
-      } else if (parameter.type === VRML.MFRotation) {
+      else if (parameter.type === VRML.MFRotation)
         newRows = this.#createMFRotationRow({x: 0, y: 0, z: 1, a: 0}, row, parent, mfId, resetButton, parameter);
-        this.#MFOnChange(newRows[0].className, parameter);
-      } else if (parameter.type === VRML.MFColor) {
+      else if (parameter.type === VRML.MFColor)
         newRows = this.#createMFColorRow('', row, parent, mfId, resetButton, parameter);
-        this.#MFOnChange(newRows[0].className, parameter);
-      } else if (parameter.type === VRML.MFNode) {
+      else if (parameter.type === VRML.MFNode) {
         newRows = this.#createMFNodeRow('', row, parent, mfId, resetButton, parameter);
         this.#MFNodeOnChange(newRows[0].className, parameter);
       }
+
+      this.#MFOnChange(newRows[0].className, parameter);
+
       newRows[0].style.display = 'flex';
       newRows[1].style.display = 'flex';
     };
