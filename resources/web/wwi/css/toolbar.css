@@ -1153,6 +1153,7 @@ webots-view .mf-parameter {
   display: none;
   margin-top: 7px;
   margin-bottom: 7px;
+  align-items: center;
 }
 
 webots-view .bool-field {
@@ -1199,8 +1200,6 @@ webots-view .remove-row-button {
   background-size: cover;
   border: 0px;
   background-color: transparent;
-  position: absolute;
-  margin-left: 5px;
   cursor: pointer;
 }
 
