@@ -38,7 +38,7 @@ export default class Node {
         const defaultValue = vrmlFactory(type);
         defaultValue.setValueFromJavaScript(FieldModel[this.name][parameterName]['defaultValue']);
         const value = defaultValue.clone(true);
-        const parameter = new Parameter(this, parameterName, type, defaultValue, value, false);
+        const parameter = new Parameter(this, parameterName, type, [], defaultValue, value, false);
         // console.log(parameterName + ' has parent ' + this.name);
         this.parameters.set(parameterName, parameter);
       }
@@ -177,11 +177,18 @@ export default class Node {
       const token = headTokenizer.nextToken();
       let nextToken = headTokenizer.peekToken();
 
+      const restrictions = [];
       if (token.isKeyword() && nextToken.isPunctuation()) {
         if (nextToken.word() === '{') {
-          // TODO: field restrictions are not supported yet, consume the tokens
-          headTokenizer.consumeTokensByType(VRML.SFNode);
-          nextToken = headTokenizer.peekToken(); // update upcoming token reference after consumption
+          // parse field restrictions
+          headTokenizer.skipToken('{');
+          const parameterType = token.fieldTypeFromVrml();
+          while (headTokenizer.peekWord() !== '}') {
+            const value = vrmlFactory(parameterType, headTokenizer);
+            restrictions.push(value);
+          }
+          headTokenizer.skipToken('}');
+          nextToken = headTokenizer.peekToken(); // we need to update the nextToken as it has to point after the restrictions
         }
       }
 
@@ -191,10 +198,10 @@ export default class Node {
         const isRegenerator = this.isTemplate ? (this.rawBody.search('fields.' + parameterName + '.') !== -1) : false;
         headTokenizer.nextToken(); // consume the token containing the parameter name
 
-        // console.log('INTERFACE PARAMETER ' + parameterName + ', TYPE: ' + parameterType + ', VALUE:');
+        // console.log('INTERFACE PARAMETER ' + parameterName + ', TYPE: ' + parameterType);
         const defaultValue = vrmlFactory(parameterType, headTokenizer);
         const value = defaultValue.clone(true);
-        const parameter = new Parameter(this, parameterName, parameterType, defaultValue, value, isRegenerator);
+        const parameter = new Parameter(this, parameterName, parameterType, restrictions, defaultValue, value, isRegenerator);
         // console.log(parameterName + ' has parent ' + this.name);
         this.parameters.set(parameterName, parameter);
       }
@@ -319,7 +326,7 @@ export default class Node {
 
   regenerateBodyVrml() {
     const fieldsEncoding = this.toJS(true); // make current proto parameters in a format compliant to template engine
-    // console.log(fieldsEncoding);
+    // console.log('Encoded fields:', fieldsEncoding);
 
     if (typeof this.templateEngine === 'undefined')
       throw new Error('Regeneration was called but the template engine is not defined (i.e this.isTemplate is false)');
