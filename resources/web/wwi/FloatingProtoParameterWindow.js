@@ -605,14 +605,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     parent.appendChild(p);
 
-    this.#createRemoveMFButton(p, parameter, () => this.#MFOnChange(p.className, parameter));
+    this.#createRemoveMFButton(p, () => this.#MFOnChange(p.className, parameter));
 
     // Add row
     const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible);
     return [p, addRow];
   }
 
-  #createRemoveMFButton(p, parameter, callback) {
+  #createRemoveMFButton(p, callback) {
     const removeButton = document.createElement('button');
     removeButton.className = 'remove-row-button';
     removeButton.title = 'Delete this row';
@@ -760,7 +760,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     parent.appendChild(p);
 
-    this.#createRemoveMFButton(p, parameter, () => this.#MFNodeOnRemoval(p.className, parameter, value.id));
+    this.#createRemoveMFButton(p, () => this.#MFNodeOnRemoval(p.className, parameter, value.id));
 
     // Add row
     const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible);
