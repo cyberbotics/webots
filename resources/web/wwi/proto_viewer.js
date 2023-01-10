@@ -23,9 +23,10 @@ function populateProtoViewDiv(mdContent, imgPrefix) {
 
   view.innerHTML = html;
 
+  setupModalWindow();
   // renderGraphs();
   redirectImages(view, imgPrefix);
-  // updateModalEvents(view);
+  updateModalEvents(view);
   // redirectUrls(view);
   // collapseMovies(view);
   //
@@ -109,6 +110,112 @@ function redirectImages(node, prefix) {
     if (match && match.length === 2)
       img.setAttribute('src', prefix + 'images/' + match[1]);
   }
+}
+
+function updateModalEvents(view) {
+  const modal = document.querySelector('#modal-window');
+  const image = modal.querySelector('.modal-window-image-content');
+  const loadImage = modal.querySelector('.modal-window-load-image');
+  const caption = modal.querySelector('.modal-window-caption');
+
+  // Add the modal events on each image.
+  const imgs = view.querySelectorAll('img');
+  for (let i = 0; i < imgs.length; i++) {
+    imgs[i].onclick = function(event) {
+      const img = event.target;
+      // The modal window is only enabled on big enough images and on thumbnail.
+      if (img.src.indexOf('thumbnail') === -1 && !(img.naturalWidth > 128 && img.naturalHeight > 128))
+        return;
+
+      // Show the modal window and the caption.
+      modal.style.display = 'block';
+      caption.innerHTML = (typeof this.parentNode.childNodes[1] !== 'undefined') ? this.parentNode.childNodes[1].innerHTML : '';
+
+      if (img.src.indexOf('.thumbnail.') === -1) {
+        // this is not a thumbnail => show the image directly.
+        image.src = img.src;
+        loadImage.style.display = 'none';
+        image.style.display = 'block';
+      } else {
+        // this is a thumbnail => load the actual image.
+        let url = img.src.replace('.thumbnail.', '.');
+        if (image.src === url) {
+          // The image has already been loaded.
+          loadImage.style.display = 'none';
+          image.style.display = 'block';
+          return;
+        } else {
+          // The image has to be loaded: show the loading image.
+          loadImage.style.display = 'block';
+          image.style.display = 'none';
+        }
+        // In case of thumbnail, search for the original png or jpg
+        image.onload = function() {
+          // The original image has been loaded successfully => show it.
+          loadImage.style.display = 'none';
+          image.style.display = 'block';
+        };
+        image.onerror = function() {
+          // The original image has not been loaded successfully => try to change the extension and reload it.
+          image.onerror = function() {
+            // The original image has not been loaded successfully => abort.
+            modal.style.display = 'none';
+            loadImage.style.display = 'block';
+            image.style.display = 'none';
+          };
+          url = img.src.replace('.thumbnail.jpg', '.png');
+          image.src = url;
+        };
+        image.src = url;
+      }
+    };
+  }
+}
+
+function setupModalWindow() {
+  const doc = document.querySelector('#main-container');
+
+  // Create the following HTML tags:
+  // <div id="modal-window" class="modal-window">
+  //   <span class="modal-window-close-button">&times;</span>
+  //   <img class="modal-window-image-content" />
+  //   <div class="modal-window-caption"></div>
+  // </div>
+
+  const close = document.createElement('span');
+  close.classList.add('modal-window-close-button');
+  close.innerHTML = '&times;';
+  close.onclick = function() {
+    modal.style.display = 'none';
+  };
+
+  const loadImage = document.createElement('img');
+  loadImage.classList.add('modal-window-load-image');
+  loadImage.setAttribute('src', 'https://raw.githubusercontent.com/cyberbotics/webots/R2023a/resources/web/wwi/images/loading/load_animation.gif');
+
+  const image = document.createElement('img');
+  image.classList.add('modal-window-image-content');
+
+  const caption = document.createElement('div');
+  caption.classList.add('modal-window-caption');
+
+  const modal = document.createElement('div');
+  modal.setAttribute('id', 'modal-window');
+  modal.classList.add('modal-window');
+
+  modal.appendChild(close);
+  modal.appendChild(loadImage);
+  modal.appendChild(image);
+  modal.appendChild(caption);
+  doc.appendChild(modal);
+
+  window.onclick = function(event) {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+      loadImage.style.display = 'block';
+      image.style.display = 'none';
+    }
+  };
 }
 
 export {populateProtoViewDiv};

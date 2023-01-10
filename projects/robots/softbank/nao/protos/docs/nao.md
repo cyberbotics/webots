@@ -1,7 +1,3 @@
-## SoftBank Robotics' Nao
-
-%robot nao images/robots/nao/model.thumbnail.png
-
 The Nao robot is a humanoid robot developed by [SoftBank Robotics](https://www.ald.softbankrobotics.com/en) (formerly known as Aldebaran Robotics).
 This section explains how to use Nao robot simulated in Webots.
 Currently, Webots supports the Nao V3.3, V4 and V5 versions, with and without their articulated fingers (respectively with 25 and 21 degrees of freedom) for the first two.
@@ -121,31 +117,31 @@ You will find some in this folder: "WEBOTS\_HOME/projects/robots/softbank/nao/wo
 
 #### nao\_demo.wbt
 
-![nao_demo.wbt.png](images/robots/nao/nao_demo.wbt.thumbnail.jpg) The "nao\_demo.wbt" world is a demonstration of a very simple C controller that run motions on a Nao robot when keys are pressed on the keyboard.
+![nao_demo.wbt.png](images/nao/nao_demo.wbt.thumbnail.jpg) The "nao\_demo.wbt" world is a demonstration of a very simple C controller that run motions on a Nao robot when keys are pressed on the keyboard.
 
 #### nao\_matlab.wbt
 
-![nao_demo.wbt.png](images/robots/nao/nao_demo.wbt.thumbnail.jpg) The "nao\_matlab.wbt" world is an example of programming Webots using the MATLAB API.
+![nao_demo.wbt.png](images/nao/nao_demo.wbt.thumbnail.jpg) The "nao\_matlab.wbt" world is an example of programming Webots using the MATLAB API.
 
 #### nao\_indoors.wbt
 
-![nao_indoors.wbt.png](images/robots/nao/nao_indoors.wbt.thumbnail.jpg) The "nao\_indoors.wbt" world features a Nao robot in an apartment containing typical objects found in a living room.
+![nao_indoors.wbt.png](images/nao/nao_indoors.wbt.thumbnail.jpg) The "nao\_indoors.wbt" world features a Nao robot in an apartment containing typical objects found in a living room.
 
 #### nao\_robocup.wbt
 
-![nao_robocup.wbt.png](images/robots/nao/nao_robocup.wbt.thumbnail.jpg) The "nao\_robocup.wbt" world features a Nao robot on a soccer field ready to shoot the ball in the goal.
+![nao_robocup.wbt.png](images/nao/nao_robocup.wbt.thumbnail.jpg) The "nao\_robocup.wbt" world features a Nao robot on a soccer field ready to shoot the ball in the goal.
 
 #### challenge.wbt
 
-![nao_challenge.wbt.png](images/robots/nao/nao_challenge.wbt.thumbnail.jpg) The "challenge.wbt" world contains the scenario of the Nao Challenge contest 2013-2014 edition by Aldebaran Robotics.
+![nao_challenge.wbt.png](images/nao/nao_challenge.wbt.thumbnail.jpg) The "challenge.wbt" world contains the scenario of the Nao Challenge contest 2013-2014 edition by Aldebaran Robotics.
 The robot has to grab a key in a door and drop it into a key pot.
 
 #### get\_the\_candies.wbt
 
-![nao_get_the_candies.wbt.png](images/robots/nao/nao_get_the_candies.wbt.thumbnail.jpg) The "get\_the\_candies.wbt" world contains one of the scenarios of the Nao Challenge contest 2014-2015 edition by Aldebaran Robotics.
+![nao_get_the_candies.wbt.png](images/nao/nao_get_the_candies.wbt.thumbnail.jpg) The "get\_the\_candies.wbt" world contains one of the scenarios of the Nao Challenge contest 2014-2015 edition by Aldebaran Robotics.
 The robot has to carry candies from a shelf to a cart.
 
 #### robotstadium\_nao\_vs\_robotis-op2.wbt
 
-![nao_vs_robotis-op2.wbt.png](images/robots/nao/nao_vs_robotis-op2.wbt.thumbnail.jpg) The "robotstadium\_nao\_vs\_robotis-op2.wbt" world contains a robot soccer game scenario based on the Standard Platform League (SPL) rules of the RoboCup.
+![nao_vs_robotis-op2.wbt.png](images/nao/nao_vs_robotis-op2.wbt.thumbnail.jpg) The "robotstadium\_nao\_vs\_robotis-op2.wbt" world contains a robot soccer game scenario based on the Standard Platform League (SPL) rules of the RoboCup.
 It opposes 5 Nao robots to 5 ROBOTIS OP2 robots.
