@@ -30,7 +30,7 @@ function populateProtoViewDiv(mdContent, imgPrefix) {
   // redirectUrls(view);
   // collapseMovies(view);
   //
-  // applyAnchorIcons(view);
+  applyAnchorIcons(view);
   // highlightCode(view);
   //
   // updateSelection();
@@ -48,6 +48,33 @@ function populateProtoViewDiv(mdContent, imgPrefix) {
   // } else
   //   applyAnchor();
   // applyTabs();
+}
+
+function applyAnchorIcons(view) {
+  let elements = [];
+  const tags = ['figcaption', 'h1', 'h2', 'h3', 'h4', 'h5'];
+  for (let i = 0; i < tags.length; i++) {
+    const array = Array.prototype.slice.call(view.querySelectorAll(tags[i]));
+    elements = elements.concat(array);
+  }
+  for (let i = 0; i < elements.length; i++) {
+    const el = elements[i];
+    let name = null;
+    if (el.parentNode && el.tagName.toLowerCase() === 'figcaption' && el.parentNode.tagName.toLowerCase() === 'figure')
+      name = el.parentNode.getAttribute('name');
+    else
+      name = el.getAttribute('name');
+    if (name) {
+      el.classList.add('anchor-header');
+      const span = document.createElement('span');
+      span.classList.add('anchor-link-image');
+      const a = document.createElement('a');
+      a.setAttribute('href', '#' + name);
+      a.classList.add('anchor-link');
+      a.appendChild(span);
+      el.insertBefore(a, el.firstChild);
+    }
+  }
 }
 
 function createIndex(view) {

@@ -1,3 +1,7 @@
+## SoftBank Robotics' Nao
+
+%robot nao images/robots/nao/model.thumbnail.png
+
 The Nao robot is a humanoid robot developed by [SoftBank Robotics](https://www.ald.softbankrobotics.com/en) (formerly known as Aldebaran Robotics).
 This section explains how to use Nao robot simulated in Webots.
 Currently, Webots supports the Nao V3.3, V4 and V5 versions, with and without their articulated fingers (respectively with 25 and 21 degrees of freedom) for the first two.
