@@ -32,7 +32,7 @@ Version 5.0 does not exist without articulated fingers, so the only possible val
 
 ### Nao PROTO
 
-Derived from [Robot](../reference/robot.md).
+Derived from [Robot](https://cyberbotics.com/doc/robot.md).
 
 ```
 Nao {
@@ -78,21 +78,21 @@ Nao {
 - `customColor`: If a color is defined in this field, it overrides the default secondary color of the robot.
 Either zero or one color is allowed in this field.
 
-- `gpsAccuracy`: Defines the `accuracy` field of the [GPS](../reference/gps.md).
+- `gpsAccuracy`: Defines the `accuracy` field of the [GPS](https://cyberbotics.com/doc/gps.md).
 
-- `cameraWidth`: Defines the `width` field of the [Camera](../reference/camera.md).
+- `cameraWidth`: Defines the `width` field of the [Camera](https://cyberbotics.com/doc/camera.md).
 
-- `cameraHeight`: Defines the `height` field of the [Camera](../reference/camera.md).
+- `cameraHeight`: Defines the `height` field of the [Camera](https://cyberbotics.com/doc/camera.md).
 
 - `jersey`: Extends the robot with a jersey: typically NaoJersey.proto.
 
-- `channel`: Defines the `channel` field of the [Emitter](../reference/emitter.md) and [Receiver](../reference/receiver.md).
+- `channel`: Defines the `channel` field of the [Emitter](https://cyberbotics.com/doc/emitter.md) and [Receiver](https://cyberbotics.com/doc/receiver.md).
 
-- `contactMaterial`: Defines the `contactMaterial` field of all the [Solid](../reference/solid.md) nodes except the feet and the fingers ones.
+- `contactMaterial`: Defines the `contactMaterial` field of all the [Solid](https://cyberbotics.com/doc/solid.md) nodes except the feet and the fingers ones.
 
-- `footContactMaterial`: Defines the `contactMaterial` field of the foot [Solid](../reference/solid.md) nodes.
+- `footContactMaterial`: Defines the `contactMaterial` field of the foot [Solid](https://cyberbotics.com/doc/solid.md) nodes.
 
-- `fingerContactMaterial`: Defines the `contactMaterial` field of the finger [Solid](../reference/solid.md) nodes.
+- `fingerContactMaterial`: Defines the `contactMaterial` field of the finger [Solid](https://cyberbotics.com/doc/solid.md) nodes.
 
 - `fingerRadius`: Defines the radius of all the fingers.
 

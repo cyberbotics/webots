@@ -1,4 +1,7 @@
 /* global showdown */
+/* global hljs */
+
+let localSetup = {};
 
 function populateProtoViewDiv(mdContent, imgPrefix) {
   const view = document.getElementsByClassName('proto-doc')[0];
@@ -24,14 +27,14 @@ function populateProtoViewDiv(mdContent, imgPrefix) {
   view.innerHTML = html;
 
   setupModalWindow();
-  // renderGraphs();
+  renderGraphs();
   redirectImages(view, imgPrefix);
   updateModalEvents(view);
-  // redirectUrls(view);
+  redirectUrls(view);
   // collapseMovies(view);
   //
   applyAnchorIcons(view);
-  // highlightCode(view);
+  highlightCode(view);
   //
   // updateSelection();
   createIndex(view);
@@ -39,15 +42,43 @@ function populateProtoViewDiv(mdContent, imgPrefix) {
   // setupBlogFunctionalitiesIfNeeded();
   // addNavigationToBlogIfNeeded();
   //
-  // const images = view.querySelectorAll('img');
-  // if (images.length > 0) {
-  //   // apply the anchor only when the images are loaded,
-  //   // otherwise, the anchor can be overestimated.
-  //   const lastImage = images[images.length - 1];
-  //   lastImage.onload = () => applyAnchor();
-  // } else
-  //   applyAnchor();
+  const images = view.querySelectorAll('img');
+  if (images.length > 0) {
+    // apply the anchor only when the images are loaded,
+    // otherwise, the anchor can be overestimated.
+    const lastImage = images[images.length - 1];
+    lastImage.onload = () => applyAnchor();
+  } else
+    applyAnchor();
   // applyTabs();
+}
+
+function renderGraphs() {
+  for (let id in window.mermaidGraphs) {
+    window.mermaidAPI.render(id, window.mermaidGraphs[id], function(svgCode, bindFunctions) {
+      document.querySelector('#' + id + 'Div').innerHTML = svgCode;
+      // set min-width to be 2/3 of the max-width otherwise the text might become too small
+      const element = document.querySelector('#' + id);
+      const style = element.getAttribute('style');
+      element.setAttribute('style',
+        style + ' min-width:' + Math.floor(0.66 * parseInt(style.split('max-width:')[1].split('px'))) + 'px;');
+    });
+  }
+}
+
+function highlightCode(view) {
+  const supportedLanguages = ['c', 'cpp', 'java', 'python', 'matlab', 'sh', 'ini', 'tex', 'makefile', 'lua', 'xml',
+    'javascript'];
+
+  for (let i = 0; i < supportedLanguages.length; i++) {
+    const language = supportedLanguages[i];
+    hljs.configure({languages: [ language ]});
+    const codes = document.querySelectorAll('.' + language);
+    for (let j = 0; j < codes.length; j++) {
+      const code = codes[j];
+      hljs.highlightBlock(code);
+    }
+  }
 }
 
 function applyAnchorIcons(view) {
@@ -77,6 +108,232 @@ function applyAnchorIcons(view) {
   }
 }
 
+function redirectUrls(node) {
+  // redirect a's href
+  const as = node.querySelectorAll('a');
+  for (let i = 0; i < as.length; i++) {
+    const a = as[i];
+    const href = a.getAttribute('href');
+    if (!href)
+      continue;
+    else if (href.startsWith('#'))
+      addDynamicAnchorEvent(a); // on firefox, the second click on the anchor is not dealt cleanly
+    else if (href.startsWith('http')) // open external links in a new window
+      a.setAttribute('target', '_blank');
+    else if (href.endsWith('.md') || href.indexOf('.md#') > -1) {
+      let match, newPage, anchor;
+      if (href.startsWith('../')) { // Cross-book hyperlink case.
+        match = /^..\/([\w-]+)\/([\w-]+).md(#[\w-]+)?$/.exec(href);
+        if (match && match.length >= 3) {
+          const book = match[1];
+          newPage = match[2];
+          anchor = match[3];
+          if (anchor)
+            anchor = anchor.substring(1); // remove the '#' character
+          a.setAttribute('href', forgeUrl(book, newPage, localSetup.tabs, anchor));
+        }
+      } else { // Cross-page hyperlink case.
+        addDynamicLoadEvent(a);
+        match = /^([\w-]+).md(#[\w-]+)?$/.exec(href);
+        if (match && match.length >= 2) {
+          newPage = match[1];
+          anchor = match[2];
+          if (anchor)
+            anchor = anchor.substring(1); // remove the '#' character
+          a.setAttribute('href', forgeUrl(localSetup.book, newPage, localSetup.tabs, anchor));
+        }
+      }
+    }
+  }
+}
+
+function addDynamicLoadEvent(el) {
+  if (el.classList.contains('dynamicLoad'))
+    return;
+  el.addEventListener('click',
+    function(event) {
+      if (event.ctrlKey)
+        return;
+      aClick(event.target);
+      event.preventDefault();
+    },
+    false
+  );
+  el.classList.add('dynamicLoad');
+}
+
+function aClick(el) {
+  setupUrl(el.getAttribute('href'));
+  getMDFile();
+  updateBrowserUrl();
+}
+
+function getMDFile() {
+  const target = computeTargetPath() + localSetup.page + '.md';
+  console.log('Get MD file: ' + target);
+  fetch(target)
+    .then(response => response.text())
+    .then(content => populateProtoViewDiv(content))
+    .catch(error => {
+      console.error('Error: ' + error);
+      const mainPage = 'index';
+      // get the main page instead
+      if (localSetup.page !== mainPage) {
+        localSetup.page = mainPage;
+        getMDFile();
+      }
+    });
+}
+
+function computeTargetPath() {
+  let branch = 'released';
+  let targetPath = '';
+  if (localSetup.branch)
+    branch = localSetup.branch;
+  if (localSetup.url.startsWith('http'))
+    targetPath = localSetup.url + branch + '/docs/';
+
+  targetPath += localSetup.book + '/';
+
+  return targetPath;
+}
+
+function updateBrowserUrl() {
+  const url = forgeUrl(localSetup.book, localSetup.page, localSetup.tabs, localSetup.anchor);
+  if (history.pushState) {
+    try {
+      history.pushState({state: 'new'}, null, url);
+    } catch (err) {
+    }
+  }
+  const canonicalUrl = 'https://cyberbotics.com/doc/' + localSetup.book + '/' + localSetup.page;
+  const canonical = document.querySelector('link[rel="canonical"]');
+  if (canonical !== null)
+    canonical.href = canonicalUrl;
+}
+
+function setupUrl(url) {
+  setupDefaultUrl(url);
+
+  let tabsQuery = '';
+  for (let option in localSetup.tabs) {
+    if (!localSetup.tabs[option])
+      continue;
+    if (tabsQuery)
+      tabsQuery += ',';
+    tabsQuery += option + '=' + localSetup.tabs[option];
+  }
+  tabsQuery = '[' + tabsQuery + ']';
+  console.log('book=' + localSetup.book + ' page=' + localSetup.page + ' branch=' + localSetup.branch +
+    ' tabs=' + tabsQuery + ' anchor=' + localSetup.anchor);
+}
+
+function setupDefaultUrl(url) {
+  let m;
+
+  m = url.match(/page=([^&#]*)/);
+  if (m)
+    localSetup.page = m[1].replace(/.md$/, '');
+  else
+    localSetup.page = 'index';
+
+  m = url.match(/book=([^&#]*)/);
+  if (m)
+    localSetup.book = m[1];
+  else if (!localSetup.book)
+    localSetup.book = 'guide';
+
+  // Extract tab options
+  if (!localSetup.tabs)
+    localSetup.tabs = {};
+  const tabRegex = /[?&](tab-[^=]+)=([^&#]+)/g;
+  while ((m = tabRegex.exec(url)) !== null)
+    localSetup.tabs[m[1]] = m[2];
+
+  m = url.match(/#([^&#]*)/);
+  if (m)
+    localSetup.anchor = m[1];
+  else
+    localSetup.anchor = '';
+}
+
+function addDynamicAnchorEvent(el) {
+  if (el.classList.contains('dynamicAnchor'))
+    return;
+  el.addEventListener('click',
+    function(event) {
+      if (event.ctrlKey)
+        return;
+      let node = event.target;
+      while (node && !node.hasAttribute('href'))
+        node = node.getParent();
+      if (node) {
+        localSetup.anchor = extractAnchor(node.getAttribute('href'));
+        applyAnchor();
+        event.preventDefault();
+      }
+    },
+    false
+  );
+  el.classList.add('dynamicAnchor');
+}
+
+function applyAnchor() {
+  const firstAnchor = document.querySelector("[name='" + localSetup.anchor + "']");
+  console.log(firstAnchor)
+  if (firstAnchor) {
+    firstAnchor.scrollIntoView(true);
+    if (document.querySelector('.contribution-banner'))
+      window.scrollBy(0, -38); // GitHub banner.
+  } else
+    window.scrollTo(0, 0);
+}
+
+function extractAnchor(url) {
+  const match = /#([\w-]+)/.exec(url);
+  if (match && match.length === 2)
+    return match[1];
+  return '';
+}
+
+function forgeUrl(book, page, tabs, anchor) {
+  let tabOption;
+  let isFirstArgument;
+  const tabsWithUrl = ['tab-language', 'tab-os'];
+  const anchorString = (anchor && anchor.length > 0) ? ('#' + anchor) : '';
+  let url = location.href;
+  isFirstArgument = (url.indexOf('?') < 0);
+
+  // Remove anchor from url
+  url = url.split('#')[0];
+
+  // Add or replace the book argument.
+  if (url.indexOf('book=') > -1)
+    url = url.replace(/book=([^&]+)?/, 'book=' + book);
+  else
+    url += (isFirstArgument ? '?' : '&') + 'book=' + book;
+
+  // Add or replace the page argument.
+  if (url.indexOf('page=') > -1)
+    url = url.replace(/page=([\w-]+)?/, 'page=' + page);
+  else
+    url += '&page=' + page;
+
+  // Add or replace the tab argument.
+  for (tabOption in tabs) {
+    if (tabsWithUrl.includes(tabOption)) {
+      let tabName = tabs[tabOption] ? tabs[tabOption] : '';
+      if (url.indexOf(tabOption + '=') > -1)
+        url = url.replace(new RegExp(tabOption + '=([^&]+)(#[\\w-]+)?'), tabOption + '=' + tabName);
+      else if (tabName)
+        url += '&' + tabOption + '=' + tabName;
+    }
+  }
+
+  url += anchorString;
+  return url;
+}
+
 function createIndex(view) {
   // Note: the previous index is cleaned up when the parent title is destroyed.
 
@@ -88,16 +345,16 @@ function createIndex(view) {
   if ((content.offsetHeight < 2 * window.innerHeight || headings.length < 4) && headings.length < 2)
     return;
 
-  let level = parseInt(headings[0].tagName[1]) + 1; // current heading level.
+  let level = 3; // current heading level.
 
   // Create an empty index, and insert it before the second heading.
   const indexTitle = document.createElement('h' + level);
   indexTitle.textContent = 'Index';
   indexTitle.setAttribute('id', 'indexTitle');
-  headings[0].parentNode.insertBefore(indexTitle, headings[1]);
+  headings[0].parentNode.insertBefore(indexTitle, headings[0]);
   let ul = document.createElement('ul');
   ul.setAttribute('id', 'index');
-  headings[0].parentNode.insertBefore(ul, headings[1]);
+  headings[0].parentNode.insertBefore(ul, headings[0]);
 
   headings.forEach(function(heading, i) {
     if (i === 0) // Skip the first heading.
