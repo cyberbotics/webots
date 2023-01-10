@@ -762,12 +762,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
 
-  async #MFNodeOnChange(parameter, url, index) {
-    console.log('MFNodeOnChange:\n  name:', parameter.name, '\n  index:', index, '\n  url:', url)
-    const node = await this.#protoManager.generateNodeFromUrl(url);
+  async #MFNodeOnChange(parameter, url) {
+    console.log('MFNodeOnChange:\n  name:', parameter.name, '\n  url:', url)
+    //const node = await this.#protoManager.generateNodeFromUrl(url);
 
-    //parameter.setValueFromJavaScript(this.#view, node, index);
-    // this.#refreshParameterRow(parameter);
+    const protoName = url.split('/').pop().replace('.proto', '');
+
+    //parameter.setValueFromJavaScript(this.#view, node);
+    //this.#refreshParameterRow(parameter);
   }
 
   #createMfRowElement(row, mfId) {
@@ -847,7 +849,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const sortedPositions = positions.slice().sort(function(a, b) { return a - b; });
     let index = 0
     for (const p of sortedPositions) {
-      indexableNodes[positions.indexOf(p)].firstChild.childNodes[0].index = index++;
+      const button = indexableNodes[positions.indexOf(p)].firstChild.childNodes[0];
+      button.index = index++;
+
     }
   }
 
@@ -866,16 +870,26 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   #createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible) {
     const addRow = document.createElement('button');
-    addRow.onclick = () => {
+    addRow.onclick = async() => {
       const row = this.#getRow(addRow) + 1;
-      this.#offsetPositivelyRows(row, 2);
 
       if (parameter.type === VRML.MFNode) {
-        const newRows = this.#createMFNodeRow(null, row, parent, mfId, resetButton, parameter);
+        if (typeof this.nodeSelector === 'undefined') {
+          this.nodeSelector = new NodeSelectorWindow(this.parentNode, this.#MFNodeOnChange.bind(this), this.#protoManager.proto);
+          await this.nodeSelector.initialize();
+        }
+
+        this.nodeSelector.show(parameter, row, parent, mfId, resetButton);
+        this.nodeSelectorListener = (event) => this.#hideNodeSelector(event);
+        window.addEventListener('click', this.nodeSelectorListener, true);
+
+        //const newRows = this.#createMFNodeRow(null, row, parent, mfId, resetButton, parameter);
         //this.#MFNodeOnChange(newRows[0].className, parameter);
-        newRows[0].style.display = 'flex';
-        newRows[1].style.display = 'flex';
+        //newRows[0].style.display = 'flex';
+        //newRows[1].style.display = 'flex';
       } else {
+        this.#offsetPositivelyRows(row, 2);
+
         let defaultValue;
         if (parameter.type === VRML.MFVec3f)
           defaultValue = {x: 0, y: 0, z: 0};
