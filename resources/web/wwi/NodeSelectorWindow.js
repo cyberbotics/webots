@@ -309,7 +309,7 @@ export default class NodeSelectorWindow {
       throw new Error('It should not be possible to insert an undefined node.');
 
     const info = this.nodes.get(protoName);
-    this.#callback(this.parameter, info.url); // this.parameter, info.url,
+    this.#callback(this.parameter, info.url, this.row, this.parent, this.mfId, this.resetButton); // this.parameter, info.url,
     this.hide();
   }
 
@@ -425,7 +425,7 @@ export default class NodeSelectorWindow {
       'IndexedFaceSet', 'IndexedLineSet'].includes(type);
   }
 
-  show(parameter) {
+  show(parameter, row, parent, mfId, resetButton) {
     // cleanup input field
     const filterInput = document.getElementById('filter');
     filterInput.value = '';
@@ -434,6 +434,10 @@ export default class NodeSelectorWindow {
       throw new Error('Cannot display node selector unless a parameter is provided.');
 
     this.parameter = parameter;
+    this.row = row;
+    this.parent = parent;
+    this.mfId = mfId;
+    this.resetButton = resetButton;
     this.populateWindow();
     this.nodeSelector.style.display = 'block';
   }

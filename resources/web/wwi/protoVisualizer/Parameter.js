@@ -3,6 +3,7 @@
 import {MFNode, SFNode, stringifyType} from './Vrml.js';
 import Node from './Node.js';
 import { VRML } from './vrml_type.js';
+import WbWorld from '../nodes/WbWorld.js';
 
 export default class Parameter {
   #type;
@@ -98,6 +99,60 @@ export default class Parameter {
 
   insertLink(parameter) {
     this.#parameterLinks.push(parameter);
+  }
+
+  addNode(view, v) {
+    console.log('add node request:', v.name)
+    if (this.type !== VRML.MFNode)
+      throw new Error('Item insertion is possible only for MFNodes.')
+
+    for (const link of this.parameterLinks)
+      link.addNode(view, v.clone());
+
+    if (this.node.isProto) { // add value on the structure side
+      this.#value.addNode(v);
+      return; // webotsJS needs to be notified of parameter changes only if the parameter belongs to a base-node, not PROTO
+    }
+
+    // get the parent id to insert the new node
+    const baseNode = this.node.getBaseNode();
+    const parentId = baseNode.id.replace('n', '');
+    const x3d = new XMLSerializer().serializeToString(v.toX3d());
+    console.log('IN PARENT', parentId, 'INSERT', x3d)
+    console.log('PARENT', WbWorld.instance.nodes.get('n' + parentId))
+    view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
+    this.#value.addNode(v); // add value on the structure side
+
+    view.x3dScene.render();
+  }
+
+  removeNode(view, index) {
+    console.log('parameter.removeNode index:', index, 'size is:', this.#value.value.length)
+    if (this.type !== VRML.MFNode)
+      throw new Error('Item insertion is possible only for MFNodes.')
+
+    for (const link of this.parameterLinks) {
+      console.log('Notify parameter links')
+      link.removeNode(view, index);
+    }
+
+    if (this.node.isProto) { // update value on the structure side
+      this.#value.removeNode(index);
+      return; // webotsJS needs to be notified of parameter changes only if the parameter belongs to a base-node, not PROTO
+    }
+
+    console.log('ARRAY LENGTH:', this.#value.value.length, this.#value.value)
+    if (this.#value.value.length > 0) {
+      // delete existing node
+      const baseNode = this.node.getBaseNode();
+      const p = baseNode.getParameterByName(this.name);
+      const id = p.value.value[index].value.getBaseNode().id;
+
+      view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
+      this.#value.removeNode(index); // update value on the structure side
+    }
+
+    view.x3dScene.render();
   }
 
   // TODO: find better approach rather than propagating the view to subsequent parameters
