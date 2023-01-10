@@ -735,11 +735,21 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     configureNodeButton.id = 'configure-node-' + parameter.name;
     configureNodeButton.title = 'Edit node.';
     configureNodeButton.onclick = async() => {
-      if (parameter.value.value === null)
-        return;
-
       this.backBuffer.push(this.proto);
-      this.proto = parameter.value.value;
+
+      // determine node being selected among the list of nodes of the MF
+      let index;
+      for (let i = parameter.value.value.length - 1; i >= 0; --i) {
+        if (parameter.value.value[i].value.id === value.id) {
+          index = i;
+          break;
+        }
+      }
+      if (typeof index === 'undefined')
+        throw new Error('The PROTO node to be configured is not defined, this should never be the case.')
+
+        console.log('CONFIG INDEX', index, parameter.value.value[index])
+      this.proto = parameter.value.value[index].value;
       this.populateProtoParameterWindow();
     };
 
