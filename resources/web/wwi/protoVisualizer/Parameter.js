@@ -236,6 +236,10 @@ export default class Parameter {
       deep ? this.defaultValue.clone(deep) : this.defaultValue,
       deep ? this.value.clone(deep) : this.value, this.isTemplateRegenerator);
 
+    copy.#parameterLinks = [];
+    for (const item of this.parameterLinks)
+      copy.insertLink(item.clone(deep));
+
     return copy;
   }
 }
