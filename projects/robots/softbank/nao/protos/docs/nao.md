@@ -67,8 +67,6 @@ Nao {
 }
 ```
 
-> **File location**: "WEBOTS\_HOME/projects/robots/softbank/nao/protos/Nao.proto"
-
 #### Nao Field Summary
 
 - `version`: Defines the Nao version; either "V3.3", "V4 (orange)", "V4 (blue)", "V5 (red)", "V5 (blue)" or "V5 (grey)".
