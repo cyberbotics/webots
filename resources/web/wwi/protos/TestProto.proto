@@ -4,6 +4,7 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projec
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/objects/balls/protos/Ball.proto"
 
 PROTO TestProto [
+  field SFNode sfnode Ball{}
   field MFNode extension [Ball{}]
   field MFNode extension2 [Ball{}]
 ]

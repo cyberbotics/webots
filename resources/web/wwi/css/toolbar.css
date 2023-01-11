@@ -1132,21 +1132,33 @@ webots-view .configure-button {
   background-image: url(../images/icons/settings.svg);
   height: 20px;
   width: 20px;
-  vertical-align: bottom;
   background-color: transparent;
-  border: none;
-  background-size: 20px;
+  border: 0px;
+  background-size: cover;
+  cursor: pointer;
+}
+
+webots-view .configure-button:hover {
+  background-color: grey;
+  border: 1px solid grey;
+  border-radius: 2px;
 }
 
 webots-view .delete-button {
   background-image: url(../images/icons/clear.svg);
   height: 20px;
   width: 20px;
-  vertical-align: bottom;
   background-color: transparent;
-  border: none;
+  border: 0px;
   margin-right: 5px;
-  background-size: 20px;
+  background-size: cover;
+  cursor: pointer;
+}
+
+webots-view .delete-button:hover {
+  background-color: grey;
+  border: 1px solid grey;
+  border-radius: 2px;
 }
 
 webots-view .mf-parameter {
