@@ -1,5 +1,5 @@
 #VRML_SIM R2023b utf8
-# documentation url: https://www.cyberbotics.com/doc/guide/nao
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/softbank/nao/protos/Nao.proto
 # Generic model of Nao robot
 # Model designed by Cyberbotics Ltd. according to the online documentation provided by Aldebaran Robotics.
 # template language: javascript
