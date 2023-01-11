@@ -1,7 +1,8 @@
 'use strict';
 
-import {SFNode, stringifyType} from './Vrml.js';
+import {MFNode, SFNode, stringifyType} from './Vrml.js';
 import Node from './Node.js';
+import {VRML} from './vrml_type.js';
 
 export default class Parameter {
   #type;
@@ -99,15 +100,62 @@ export default class Parameter {
     this.#parameterLinks.push(parameter);
   }
 
+  insertNode(view, v, index) {
+    if (this.type !== VRML.MFNode)
+      throw new Error('Item insertion is possible only for MFNodes.')
+
+    for (const link of this.parameterLinks)
+      link.insertNode(view, v.clone(), index);
+
+    if (this.node.isProto) { // add value on the structure side
+      this.#value.insertNode(v, index);
+      return; // webotsJS needs to be notified of parameter changes only if the parameter belongs to a base-node, not PROTO
+    }
+
+    // get the parent id to insert the new node
+    const baseNode = this.node.getBaseNode();
+    const parentId = baseNode.id.replace('n', '');
+    const x3d = new XMLSerializer().serializeToString(v.toX3d());
+    view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
+    this.#value.insertNode(v, index); // add value on the structure side
+
+    view.x3dScene.render();
+  }
+
+  removeNode(view, index) {
+    if (this.type !== VRML.MFNode)
+      throw new Error('Item insertion is possible only for MFNodes.')
+
+    for (const link of this.parameterLinks)
+      link.removeNode(view, index);
+
+    if (this.node.isProto) { // update value on the structure side
+      this.#value.removeNode(index);
+      return; // webotsJS needs to be notified of parameter changes only if the parameter belongs to a base-node, not PROTO
+    }
+
+    if (this.#value.value.length > 0) {
+      // delete existing node
+      const baseNode = this.node.getBaseNode();
+      const p = baseNode.getParameterByName(this.name);
+      const id = p.value.value[index].value.getBaseNode().id;
+
+      view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
+      this.#value.removeNode(index); // update value on the structure side
+    }
+
+    view.x3dScene.render();
+  }
+
   // TODO: find better approach rather than propagating the view to subsequent parameters
-  setValueFromJavaScript(view, v) {
+  setValueFromJavaScript(view, v, index) {
     // notify linked parameters of the change
     for (const link of this.parameterLinks)
-      link.setValueFromJavaScript(view, (v !== null && v instanceof Node) ? v.clone() : v);
+      link.setValueFromJavaScript(view, (v !== null && v instanceof Node) ? v.clone() : v, index);
 
     if (this.isTemplateRegenerator) {
       // regenerate this node, and all its siblings
-      this.#value.setValueFromJavaScript(v);
+      this.#value.setValueFromJavaScript(v, index);
       this.node.regenerateNode(view);
 
       if (typeof this.onChange === 'function')
@@ -115,7 +163,7 @@ export default class Parameter {
     } else {
       if (this.node.isProto) {
         // update value on the structure side
-        this.#value.setValueFromJavaScript(v);
+        this.#value.setValueFromJavaScript(v, index);
         return; // webotsJS needs to be notified of parameter changes only if the parameter belongs to a base-node, not PROTO
       }
 
@@ -139,6 +187,23 @@ export default class Parameter {
           const x3d = new XMLSerializer().serializeToString(v.toX3d());
           view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
         }
+      } else if (this.#value instanceof MFNode) {
+        const baseNode = this.node.getBaseNode();
+        if (this.#value.value.length > 0) { // delete existing node
+          const p = baseNode.getParameterByName(this.name);
+          const id = p.value.value[index].value.getBaseNode().id;
+          view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
+        }
+
+        // update value on the structure side
+        this.#value.setValueFromJavaScript(v, index);
+
+        // get the parent id to insert the new node and notify webotsjs
+        const parentId = baseNode.id.replace('n', '');
+        v.forEach((item) => {
+          const x3d = new XMLSerializer().serializeToString(item.toX3d());
+          view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
+        });
       } else {
         // update value on the structure side
         this.#value.setValueFromJavaScript(v);
@@ -169,6 +234,10 @@ export default class Parameter {
     const copy = new Parameter(this.node, this.name, this.type, restrictions,
       deep ? this.defaultValue.clone(deep) : this.defaultValue,
       deep ? this.value.clone(deep) : this.value, this.isTemplateRegenerator);
+
+    copy.#parameterLinks = [];
+    for (const item of this.parameterLinks)
+      copy.insertLink(item.clone(deep));
 
     return copy;
   }
