@@ -3,7 +3,7 @@
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/objects/fruits/protos/Apple.proto"
 
 PROTO TestProto [
-  field MFNode extension [Apple{}]
+  field MFNode extension [Apple{}Apple{}Apple{}Apple{}]
 ]
 {
   Group {

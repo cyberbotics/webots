@@ -55,10 +55,8 @@ class ProtoInfo {
 }
 
 export default class NodeSelectorWindow {
-  #callback;
   #rootProto;
-  constructor(parentNode, callback, rootProto) {
-    this.#callback = callback;
+  constructor(parentNode, rootProto) {
     this.#rootProto = rootProto;
 
     this.#setupWindow(parentNode);
@@ -309,7 +307,7 @@ export default class NodeSelectorWindow {
       throw new Error('It should not be possible to insert an undefined node.');
 
     const info = this.nodes.get(protoName);
-    this.#callback(this.parameter, info.url, this.row, this.parent, this.mfId, this.resetButton); // this.parameter, info.url,
+    this.callback(this.parameter, info.url, this.element); // this.parameter, info.url,
     this.hide();
   }
 
@@ -425,7 +423,7 @@ export default class NodeSelectorWindow {
       'IndexedFaceSet', 'IndexedLineSet'].includes(type);
   }
 
-  show(parameter, row, parent, mfId, resetButton) {
+  show(parameter, element, callback) {
     // cleanup input field
     const filterInput = document.getElementById('filter');
     filterInput.value = '';
@@ -434,10 +432,8 @@ export default class NodeSelectorWindow {
       throw new Error('Cannot display node selector unless a parameter is provided.');
 
     this.parameter = parameter;
-    this.row = row;
-    this.parent = parent;
-    this.mfId = mfId;
-    this.resetButton = resetButton;
+    this.element = element;
+    this.callback = callback
     this.populateWindow();
     this.nodeSelector.style.display = 'block';
   }
@@ -465,6 +461,8 @@ export default class NodeSelectorWindow {
 
   hide() {
     this.parameter = undefined;
+    this.element = undefined;
+    this.callback = undefined
     this.nodeSelector.style.display = 'none';
   }
 }

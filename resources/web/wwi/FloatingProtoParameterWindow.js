@@ -721,11 +721,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     currentNodeButton.innerText = value.name;
     currentNodeButton.onclick = async() => {
       if (typeof this.nodeSelector === 'undefined') {
-        this.nodeSelector = new NodeSelectorWindow(this.parentNode, this.#MFNodeOnInsertion.bind(this), this.#protoManager.proto);
+        this.nodeSelector = new NodeSelectorWindow(this.parentNode, this.#protoManager.proto);
         await this.nodeSelector.initialize();
       }
 
-      this.nodeSelector.show(parameter, mfId);
+      this.nodeSelector.show(parameter, p, this.#MFNodeOnChange.bind(this));
       this.nodeSelectorListener = (event) => this.#hideNodeSelector(event);
       window.addEventListener('click', this.nodeSelectorListener, true);
     };
@@ -760,7 +760,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     parent.appendChild(p);
 
-    this.#createRemoveMFButton(p, () => this.#MFNodeOnRemoval(p.className, parameter, value.id));
+    this.#createRemoveMFButton(p, () => this.#MFNodeOnRemoval(parameter, undefined, p));
 
     // Add row
     const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible);
@@ -770,6 +770,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     return [p, addRow];
   }
 
+  /*
   #MFNodeOnRemoval(className, parameter, id) {
     console.log('removal called for id:', id);
 
@@ -783,42 +784,160 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     throw new Error('When requesting a node removal, a match must be found.')
 
-    /*
-    const grid = document.getElementById('proto-parameter-content');
 
-    // determine index of item based on grid order
-    const indexableNodes = [];
-    const positions = [];
-    for (let i = 0; i < grid.childNodes.length; i++) {
-      const node = grid.childNodes[i];
-      if (node.className.includes('value-parameter') && node.className.includes('mf-id')) {
-        indexableNodes.push(node);
-        positions.push(parseInt(this.#getRow(node)));
-      }
-    }
+    //const grid = document.getElementById('proto-parameter-content');
+    //
+    //// determine index of item based on grid order
+    //const indexableNodes = [];
+    //const positions = [];
+    //for (let i = 0; i < grid.childNodes.length; i++) {
+    //  const node = grid.childNodes[i];
+    //  if (node.className.includes('value-parameter') && node.className.includes('mf-id')) {
+    //    indexableNodes.push(node);
+    //    positions.push(parseInt(this.#getRow(node)));
+    //  }
+    //}
+    //
+    //const sortedPositions = positions.slice().sort(function(a, b) { return a - b; });
+    //let index = 0
+    //for (const p of sortedPositions) {
+    //  const button = indexableNodes[positions.indexOf(p)].firstChild.childNodes[0];
+    //  button.index = index++;
+    //}
 
-    const sortedPositions = positions.slice().sort(function(a, b) { return a - b; });
-    let index = 0
-    for (const p of sortedPositions) {
-      const button = indexableNodes[positions.indexOf(p)].firstChild.childNodes[0];
-      button.index = index++;
-    }
-    */
     //const index = 0
     //parameter.removeNode(this.#view, index);
   }
+  */
 
 
-  async #MFNodeOnInsertion(parameter, url, row, parent, mfId, resetButton) {
-    console.log('MFNodeOnInsertion:\n  name:', parameter.name, '\n  url:', url, '\n  id:', mfId)
-    const node = await this.#protoManager.generateNodeFromUrl(url);
-    parameter.addNode(this.#view, node);
+  async #MFNodeOnInsertion(parameter, url, element) {
+    const index = this.#rowToParameterIndex(element);
+    console.log('insert node at index:', index)
+
+    // INSERTION:  arr.splice(index, 0, itemToInsert)
+    return;
+    row = parseInt(row);
+    console.log('MFNodeOnInsertion, url: ', url, 'row', row);
+
+    const grid = document.getElementById('proto-parameter-content');
+
+    const rows = [];
+    for (let i = 0; i < grid.childNodes.length; i++) {
+      const node = grid.childNodes[i];
+      if (node.className.includes('value-parameter') && node.className.includes('mf-id'))
+        rows.push(parseInt(this.#getRow(node)));
+    }
+
+    const sorted = rows.slice().sort(function(a, b) { return a - b; });
+    console.log(sorted)
+
+    /*
+    let index;
+    if (sorted.indexOf(row) !== -1)
+      index = sorted.indexOf(row)
+    else {
+      if (row <= rows[0])
+        index = 0;
+      else if (row >= rows[rows.length - 1])
+        index = rows.length;
+      else {
+        for (const [i, item] of rows) {
+          if (item > row) {
+            index = i;
+            break;
+          }
+        }
+      }
+    }
+    */
+
+
+    //console.log('insert parameter at location:',  index)
+  }
+
+  async #MFNodeOnRemoval(parameter, url, element) {
+    const index = this.#rowToParameterIndex(element);
+    console.log('remove node at index:', index)
+    return;
+
+    /*
+    row = parseInt(row) - 1
+    console.log('MFNodeOnRemoval, url: ', url, 'row', row);
+
+    const grid = document.getElementById('proto-parameter-content');
+
+    const rows = [];
+    for (let i = 0; i < grid.childNodes.length; i++) {
+      const node = grid.childNodes[i];
+      if (node.className.includes('add-row') && node.className.includes('mf-id'))
+        rows.push(parseInt(this.#getRow(node)));
+    }
+
+    const sorted = rows.slice().sort(function(a, b) { return a - b; });
+
+    const index = rows.indexOf(row);
+
+    console.log('remove parameter at index:',  index, sorted)
+    */
+
+  }
+
+
+  async #MFNodeOnChange(parameter, url, element) {
+    const index = this.#rowToParameterIndex(element);
+    console.log('change node at index:', index)
+    return;
+
+    row = parseInt(row);
+    console.log('MFNodeOnChange, url: ', url, 'row', row);
+
+    const grid = document.getElementById('proto-parameter-content');
+
+    const rows = [];
+    for (let i = 0; i < grid.childNodes.length; i++) {
+      const node = grid.childNodes[i];
+      if (node.className.includes('value-parameter') && node.className.includes('mf-id'))
+        rows.push(parseInt(this.#getRow(node)));
+    }
+
+    const sorted = rows.slice().sort(function(a, b) { return a - b; });
+    console.log(sorted)
+
+
+    //const node = await this.#protoManager.generateNodeFromUrl(url);
 
     // create new row
     this.#offsetPositivelyRows(row, 2);
     const newRows = this.#createMFNodeRow(node, row, parent, mfId, resetButton, parameter);
     newRows[0].style.display = 'flex';
     newRows[1].style.display = 'flex';
+  }
+
+  #rowToParameterIndex(element) {
+    const row = this.#getRow(element);
+
+    if (row % 2 == 0 )
+      return (row * 0.5) - 1;
+    else
+      return ((row - 1) * 0.5) - 1;
+
+    /*
+    INTERFACE
+    [
+        2 -------- ====> 0
+        3 [ A ]    ====> 0
+        4 -------- ====> 1
+        5 [ B ]    ====> 1
+        6 -------- ====> 2
+    ]
+
+    MFNODE LIST
+    [
+      A {}
+      B {}
+    ]
+    */
   }
 
   #createMfRowElement(row, mfId) {
@@ -922,25 +1041,24 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   #createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible) {
     const addRow = document.createElement('button');
     addRow.onclick = async() => {
-      const row = this.#getRow(addRow) + 1;
-
       if (parameter.type === VRML.MFNode) {
+        const row = this.#getRow(addRow) + 1;
         if (typeof this.nodeSelector === 'undefined') {
-          this.nodeSelector = new NodeSelectorWindow(this.parentNode, this.#MFNodeOnInsertion.bind(this), this.#protoManager.proto);
+          this.nodeSelector = new NodeSelectorWindow(this.parentNode, this.#protoManager.proto);
           await this.nodeSelector.initialize();
         }
 
-        this.nodeSelector.show(parameter, row, parent, mfId, resetButton, parameter);
+        this.nodeSelector.show(parameter, addRow, this.#MFNodeOnInsertion.bind(this));
         this.nodeSelectorListener = (event) => this.#hideNodeSelector(event);
         window.addEventListener('click', this.nodeSelectorListener, true);
 
-        //const newRows = this.#createMFNodeRow(null, row, parent, mfId, resetButton, parameter);
+        const newRows = this.#createMFNodeRow(null, row, parent, mfId, resetButton, parameter);
+        this.#offsetPositivelyRows(row, 2);
         //this.#MFNodeOnChange(newRows[0].className, parameter);
         //newRows[0].style.display = 'flex';
         //newRows[1].style.display = 'flex';
       } else {
         this.#offsetPositivelyRows(row, 2);
-
         let defaultValue;
         if (parameter.type === VRML.MFVec3f)
           defaultValue = {x: 0, y: 0, z: 0};
@@ -1217,7 +1335,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     currentNodeButton.title = 'Select a node to insert';
     currentNodeButton.onclick = async() => {
       if (typeof this.nodeSelector === 'undefined') {
-        this.nodeSelector = new NodeSelectorWindow(this.parentNode, this.#sfnodeOnChange.bind(this), this.#protoManager.proto);
+        this.nodeSelector = new NodeSelectorWindow(this.parentNode, this.#sfnodeOnChange.bind(this), this.#protoManager.proto); // FIX THIS, CALLBACK NOT IN CONSTRUCTOR
         await this.nodeSelector.initialize();
       }
 
