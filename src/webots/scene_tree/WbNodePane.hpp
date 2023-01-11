@@ -64,12 +64,14 @@ private:
   WbPhysicsViewer *mPhysicsViewer;
   WbPositionViewer *mPositionViewer;
   WbVelocityViewer *mVelocityViewer;
+  // save the selected tab name to restore it when a different node is selected
+  QString mPreviousTabName;
 
+  void update();
   void enableTab(int index, QWidget *widget, bool enabled);
   void takeKeyboardFocus() override {}
 
 private slots:
-  void update();
   void updateSelectedTab();
 };
 
