@@ -269,7 +269,7 @@ export default class NodeSelectorWindow {
       this.populateNodeInfo(this.selection.innerText);
     };
 
-    button.ondblclick = async(item) => this.insertNode(item.target.innerText);
+    button.ondblclick = async (item) => this.insertNode(item.target.innerText);
 
     return item;
   }
@@ -350,7 +350,7 @@ export default class NodeSelectorWindow {
         return this.isGeometryTypeMatch(baseType);
 
       if (fieldName === 'children') {
-        if (['Group', 'Transform', 'Shape', 'CadShape', 'Solid', 'PointLight', 'SpotLight', 'Propeller', 'Charger'].includes(parentNode.name))
+        if (['Group', 'Transform', 'Shape', 'CadShape', 'Solid', 'PointLight', 'SpotLight', 'Propeller', 'Charger'].includes(baseType))
           return true;
       }
     }
