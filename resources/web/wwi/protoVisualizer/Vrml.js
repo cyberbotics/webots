@@ -845,18 +845,20 @@ export class MFNode extends MultipleValue {
     });
   }
 
-  addNode(node) {
+  insertNode(node, index) {
     const sfnode = new SFNode();
     sfnode.setValueFromJavaScript(node);
-    this.value.push(sfnode);
+    this.value.splice(index, 0, sfnode);
+    console.log('>>>>> INSERTING NODE at INDEX', index, this.value)
   }
 
   removeNode(index) {
-    console.log('>>>> REMOVING NODE at INDEX', index)
     if (index > this.value.length - 1)
       throw new Error('Node at index ' + index + ' cannot be removed because out of bounds.')
 
     this.value.splice(index, 1);
+    console.log('>>>> REMOVING NODE at INDEX', index, this.value)
+
   }
 
   toX3d(parameterName, parentElement) {

@@ -208,20 +208,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     if (parameter.value instanceof MFNode) {
       console.log('refresh mfnode:', mfId);
-      /*
-      // delete existing items
-      const nodesToRemove = document.getElementsByClassName('mf-id-' + mfId);
-      let rowNumber = nodesToRemove.length === 0 ? 0 : 100000;
-      for (let i = nodesToRemove.length - 1; i >= 0; i--) {
-        rowNumber = this.#getRow(nodesToRemove[i]) < rowNumber ? this.#getRow(nodesToRemove[i]) : rowNumber;
-        nodesToRemove[i].parentNode.removeChild(nodesToRemove[i]);
+      const nodes = document.getElementsByClassName('value-parameter mf-parameter mf-id-' + mfId);
+      for (let i = 0; i < nodes.length; ++i) {
+        const index = this.#rowToParameterIndex(nodes[i]);
+        const button = nodes[i].firstChild.firstChild;
+        button.innerText = parameter.value.value[index].value.name;
       }
-      this.#mfId--;
-      // repopulate
-      const contentDiv = document.getElementById('proto-parameter-content');
-      console.log('SETTINGS', resetButton, contentDiv, parameter, rowNumber, mfId)
-      this.#populateMFNode(resetButton, contentDiv, parameter, rowNumber, mfId);
-      */
     }
 
     // note: SFNode/MFNode rows don't need refresh since the restriction and its handling is done in the node selector window
@@ -722,7 +714,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         await this.nodeSelector.initialize();
       }
 
-      this.nodeSelector.show(parameter, p, this.#MFNodeOnChange.bind(this));
+      this.nodeSelector.show(parameter, p, this.#MFNodeOnChange.bind(this), parent, mfId, resetButton);
       this.nodeSelectorListener = (event) => this.#hideNodeSelector(event);
       window.addEventListener('click', this.nodeSelectorListener, true);
     };
@@ -808,107 +800,38 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   */
 
 
-  async #MFNodeOnInsertion(parameter, url, element) {
+  async #MFNodeOnInsertion(parameter, url, element, parent, mfId, resetButton) {
     const index = this.#rowToParameterIndex(element);
-    console.log('insert node at index:', index)
+    console.log('insert node at index:', index, element)
 
-    // INSERTION:  arr.splice(index, 0, itemToInsert)
-    return;
-    row = parseInt(row);
-    console.log('MFNodeOnInsertion, url: ', url, 'row', row);
+    const node = await this.#protoManager.generateNodeFromUrl(url);
+    parameter.insertNode(this.#view, node, index);
 
-    const grid = document.getElementById('proto-parameter-content');
-
-    const rows = [];
-    for (let i = 0; i < grid.childNodes.length; i++) {
-      const node = grid.childNodes[i];
-      if (node.className.includes('value-parameter') && node.className.includes('mf-id'))
-        rows.push(parseInt(this.#getRow(node)));
-    }
-
-    const sorted = rows.slice().sort(function(a, b) { return a - b; });
-    console.log(sorted)
-
-    /*
-    let index;
-    if (sorted.indexOf(row) !== -1)
-      index = sorted.indexOf(row)
-    else {
-      if (row <= rows[0])
-        index = 0;
-      else if (row >= rows[rows.length - 1])
-        index = rows.length;
-      else {
-        for (const [i, item] of rows) {
-          if (item > row) {
-            index = i;
-            break;
-          }
-        }
-      }
-    }
-    */
-
-
-    //console.log('insert parameter at location:',  index)
-  }
-
-  async #MFNodeOnRemoval(parameter, url, element) {
-    const index = this.#rowToParameterIndex(element);
-    console.log('remove node at index:', index)
-    return;
-
-    /*
-    row = parseInt(row) - 1
-    console.log('MFNodeOnRemoval, url: ', url, 'row', row);
-
-    const grid = document.getElementById('proto-parameter-content');
-
-    const rows = [];
-    for (let i = 0; i < grid.childNodes.length; i++) {
-      const node = grid.childNodes[i];
-      if (node.className.includes('add-row') && node.className.includes('mf-id'))
-        rows.push(parseInt(this.#getRow(node)));
-    }
-
-    const sorted = rows.slice().sort(function(a, b) { return a - b; });
-
-    const index = rows.indexOf(row);
-
-    console.log('remove parameter at index:',  index, sorted)
-    */
-
-  }
-
-
-  async #MFNodeOnChange(parameter, url, element) {
-    const index = this.#rowToParameterIndex(element);
-    console.log('change node at index:', index)
-    return;
-
-    row = parseInt(row);
-    console.log('MFNodeOnChange, url: ', url, 'row', row);
-
-    const grid = document.getElementById('proto-parameter-content');
-
-    const rows = [];
-    for (let i = 0; i < grid.childNodes.length; i++) {
-      const node = grid.childNodes[i];
-      if (node.className.includes('value-parameter') && node.className.includes('mf-id'))
-        rows.push(parseInt(this.#getRow(node)));
-    }
-
-    const sorted = rows.slice().sort(function(a, b) { return a - b; });
-    console.log(sorted)
-
-
-    //const node = await this.#protoManager.generateNodeFromUrl(url);
-
-    // create new row
+    const row = this.#getRow(element) + 1;
     this.#offsetPositivelyRows(row, 2);
+
     const newRows = this.#createMFNodeRow(node, row, parent, mfId, resetButton, parameter);
     newRows[0].style.display = 'flex';
     newRows[1].style.display = 'flex';
+  }
+
+  async #MFNodeOnRemoval(parameter, url, element, parent, mfId, resetButton) {
+    const index = this.#rowToParameterIndex(element);
+    console.log('remove node at index:', index)
+
+    parameter.removeNode(this.#view, index);
+  }
+
+
+  async #MFNodeOnChange(parameter, url, element, parent, mfId, resetButton) {
+    const index = this.#rowToParameterIndex(element);
+    console.log('change node at index:', index)
+
+    const node = await this.#protoManager.generateNodeFromUrl(url);
+    parameter.removeNode(this.#view, index);
+    parameter.insertNode(this.#view, node, index);
+    this.#refreshParameterRow(parameter, mfId);
+
   }
 
   #rowToParameterIndex(element) {
@@ -1039,8 +962,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const addRow = document.createElement('button');
     addRow.onclick = async() => {
       if (parameter.type === VRML.MFNode) {
-        const row = this.#getRow(addRow) + 1;
-        this.#offsetPositivelyRows(row, 2);
+        //const row = this.#getRow(addRow) + 1;
+        //this.#offsetPositivelyRows(row, 2);
 
         //console.log('WILL ADD AT:', row)
         if (typeof this.nodeSelector === 'undefined') {
@@ -1048,15 +971,16 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           await this.nodeSelector.initialize();
         }
 
-        this.nodeSelector.show(parameter, addRow, this.#MFNodeOnInsertion.bind(this));
+        this.nodeSelector.show(parameter, addRow, this.#MFNodeOnInsertion.bind(this), parent, mfId, resetButton);
         this.nodeSelectorListener = (event) => this.#hideNodeSelector(event);
         window.addEventListener('click', this.nodeSelectorListener, true);
 
-        const newRows = this.#createMFNodeRow(null, row, parent, mfId, resetButton, parameter);
-        //this.#MFNodeOnChange(newRows[0].className, parameter);
-        newRows[0].style.display = 'flex';
-        newRows[1].style.display = 'flex';
+        //const newRows = this.#createMFNodeRow(null, row, parent, mfId, resetButton, parameter);
+        ////this.#MFNodeOnChange(newRows[0].className, parameter);
+        //newRows[0].style.display = 'flex';
+        //newRows[1].style.display = 'flex';
       } else {
+        const row = this.#getRow(addRow) + 1;
         this.#offsetPositivelyRows(row, 2);
         let defaultValue;
         if (parameter.type === VRML.MFVec3f)

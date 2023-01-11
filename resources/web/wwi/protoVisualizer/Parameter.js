@@ -101,16 +101,16 @@ export default class Parameter {
     this.#parameterLinks.push(parameter);
   }
 
-  addNode(view, v) {
+  insertNode(view, v, index) {
     console.log('add node request:', v.name)
     if (this.type !== VRML.MFNode)
       throw new Error('Item insertion is possible only for MFNodes.')
 
     for (const link of this.parameterLinks)
-      link.addNode(view, v.clone());
+      link.insertNode(view, v.clone(), index);
 
     if (this.node.isProto) { // add value on the structure side
-      this.#value.addNode(v);
+      this.#value.insertNode(v, index);
       return; // webotsJS needs to be notified of parameter changes only if the parameter belongs to a base-node, not PROTO
     }
 
@@ -121,7 +121,7 @@ export default class Parameter {
     console.log('IN PARENT', parentId, 'INSERT', x3d)
     console.log('PARENT', WbWorld.instance.nodes.get('n' + parentId))
     view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
-    this.#value.addNode(v); // add value on the structure side
+    this.#value.insertNode(v, index); // add value on the structure side
 
     view.x3dScene.render();
   }

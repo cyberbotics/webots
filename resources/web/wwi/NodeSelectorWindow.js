@@ -307,7 +307,10 @@ export default class NodeSelectorWindow {
       throw new Error('It should not be possible to insert an undefined node.');
 
     const info = this.nodes.get(protoName);
-    this.callback(this.parameter, info.url, this.element); // this.parameter, info.url,
+    if (this.parameter.type === VRML.SFNode)
+      this.callback(this.parameter, info.url);
+    else
+      this.callback(this.parameter, info.url, this.element, this.parent, this.mfId, this.resetButton);
     this.hide();
   }
 
@@ -423,7 +426,7 @@ export default class NodeSelectorWindow {
       'IndexedFaceSet', 'IndexedLineSet'].includes(type);
   }
 
-  show(parameter, element, callback) {
+  show(parameter, element, callback, parent, mfId, resetButton) {
     // cleanup input field
     const filterInput = document.getElementById('filter');
     filterInput.value = '';
@@ -433,7 +436,10 @@ export default class NodeSelectorWindow {
 
     this.parameter = parameter;
     this.element = element;
-    this.callback = callback
+    this.callback = callback;
+    this.parent = parent;
+    this.mfId = mfId;
+    this.resetButton = resetButton;
     this.populateWindow();
     this.nodeSelector.style.display = 'block';
   }
@@ -462,7 +468,10 @@ export default class NodeSelectorWindow {
   hide() {
     this.parameter = undefined;
     this.element = undefined;
-    this.callback = undefined
+    this.callback = undefined;
+    this.parent = undefined;
+    this.mfId = undefined;
+    this.resetButton = undefined;
     this.nodeSelector.style.display = 'none';
   }
 }
