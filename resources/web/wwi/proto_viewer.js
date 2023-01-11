@@ -1,7 +1,7 @@
 /* global showdown */
 /* global hljs */
 
-function populateProtoViewDiv(mdContent, imgPrefix) {
+function populateProtoViewDiv(mdContent, imgPrefix, infoArray) {
   const view = document.getElementsByClassName('proto-doc')[0];
   while (view.firstChild)
     view.removeChild(view.firstChild);
@@ -38,6 +38,7 @@ function populateProtoViewDiv(mdContent, imgPrefix) {
   // addNavigationToBlogIfNeeded();
   //
   // applyTabs();
+  view.insertBefore(infoArray, view.firstChild);
 }
 
 function renderGraphs() {
