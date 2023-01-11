@@ -68,7 +68,7 @@ private:
   // @return Returns `true` if the object is inside the frustum, `false` otherwise.
   bool isWithinBounds(const WbAffinePlane *frustumPlanes, const WbBaseNode *boundingObject, WbVector3 &objectSize,
                       WbVector3 &objectRelativePosition, const WbBaseNode *rootObject = NULL);
-  // Checks whether the object and its solid children are located visible in the `frustumPlanes` frustum.
+  // Checks whether the object and its solid children are inside the `frustumPlanes` frustum.
   bool recursivelyCheckIfWithinBounds(WbSolid *solid, bool boundsInitialized, const WbAffinePlane *frustumPlanes);
   virtual double distance() = 0;
 
