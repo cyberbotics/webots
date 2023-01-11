@@ -590,7 +590,7 @@ export class MFInt32 extends MultipleValue {
     this.value = [];
     items.forEach((item) => {
       const sfint32 = new SFInt32();
-      sfint32.setValueFromJavaScript(item);
+      sfint32.setValueFromJavaScript(parseInt(item));
       this.insert(sfint32);
     });
   }
@@ -623,7 +623,7 @@ export class MFFloat extends MultipleValue {
     this.value = [];
     items.forEach((item) => {
       const sffloat = new SFFloat();
-      sffloat.setValueFromJavaScript(item);
+      sffloat.setValueFromJavaScript(parseFloat(item));
       this.insert(sffloat);
     });
   }

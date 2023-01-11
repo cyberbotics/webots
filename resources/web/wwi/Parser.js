@@ -293,6 +293,7 @@ export default class Parser {
         break;
       case 'Physics':
       case 'SolidReference':
+      case 'Zoom':
       case 'ImmersionProperties':
         // skip those nodes as they are not needed for web representation.
         break;
