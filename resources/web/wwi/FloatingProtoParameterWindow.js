@@ -467,11 +467,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #MFOnChange(className, parameter) {
-    console.log('className', className)
     const elements = document.getElementsByClassName(className);
     let lut = new Map();
-
-    console.log('elements:', elements.length)
     for (let i = 0; i < elements.length; i++) {
       let order = this.#getRow(elements[i]);
 
@@ -500,6 +497,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         const green = parseInt(hexValue.substring(3, 5), 16) / 255;
         const blue = parseInt(hexValue.substring(5, 7), 16) / 255;
         value = {r: red, g: green, b: blue};
+      } else if (parameter.type === VRML.MFNode) {
+        // TODO
       }
 
       lut.set(order, value);
@@ -681,7 +680,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     let numberOfRows = 1;
     for (let i = 0; i < parameter.value.value.length; i++) {
       numberOfRows++;
-      console.log('create row for:', parameter.value.value[i]?.value.name)
       this.#createMFNodeRow(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
         parameter, isVisible);
       numberOfRows++;
@@ -692,7 +690,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   #createMFNodeRow(value, row, parent, mfId, resetButton, parameter, isVisible) {
     console.log('createMFNodeRow')
-
     const p = this.#createMfRowElement(row, mfId);
 
     if (isVisible)
