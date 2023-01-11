@@ -350,7 +350,7 @@ export default class NodeSelectorWindow {
         return this.isGeometryTypeMatch(baseType);
 
       if (fieldName === 'children') {
-        if (['Group', 'Transform', 'Shape', 'CadShape', 'Solid', 'PointLight', 'SpotLight', 'Propeller', 'Charger'].includes(baseType))
+        if (['Group', 'Transform', 'Shape', 'CadShape', 'Solid', 'Robot', 'PointLight', 'SpotLight', 'Propeller', 'Charger'].includes(baseType))
           return true;
       }
     }
