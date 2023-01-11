@@ -709,7 +709,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       // determine node being selected among the list of nodes of the MF
       let index = this.#rowToParameterIndex(p, mfId);
       if (typeof index === 'undefined')
-        throw new Error('The PROTO node to be configured is not defined, this should never be the case.')
+        throw new Error('The PROTO node to be configured is not defined, this should never be the case.');
 
       this.proto = parameter.value.value[index].value;
       this.populateProtoParameterWindow();
