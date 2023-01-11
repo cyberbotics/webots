@@ -209,7 +209,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     if (parameter.value instanceof MFNode) {
       const nodes = document.getElementsByClassName('value-parameter mf-parameter mf-id-' + mfId);
       for (let i = 0; i < nodes.length; ++i) {
-        const index = this.#rowToParameterIndex(nodes[i]);
+        const index = this.#rowToParameterIndex(nodes[i], mfId);
         const button = nodes[i].firstChild.firstChild;
         button.innerText = parameter.value.value[index].value.name;
       }
@@ -707,7 +707,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     configureNodeButton.onclick = async() => {
       this.backBuffer.push(this.proto);
       // determine node being selected among the list of nodes of the MF
-      let index = this.#rowToParameterIndex(p);
+      let index = this.#rowToParameterIndex(p, mfId);
       if (typeof index === 'undefined')
         throw new Error('The PROTO node to be configured is not defined, this should never be the case.')
 
@@ -722,7 +722,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     parent.appendChild(p);
 
-    this.#createRemoveMFButton(p, () => this.#MFNodeOnRemoval(parameter, undefined, p));
+    this.#createRemoveMFButton(p, () => this.#MFNodeOnRemoval(parameter, undefined, p, undefined, mfId));
 
     // Add row
     const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible);
@@ -733,7 +733,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   async #MFNodeOnInsertion(parameter, url, element, parent, mfId, resetButton) {
-    const index = this.#rowToParameterIndex(element);
+    const index = this.#rowToParameterIndex(element, mfId);
 
     // generate node being inserted
     const node = await this.#protoManager.generateNodeFromUrl(url);
@@ -750,7 +750,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   async #MFNodeOnRemoval(parameter, url, element, parent, mfId, resetButton) {
-    const index = this.#rowToParameterIndex(element);
+    const index = this.#rowToParameterIndex(element, mfId);
 
     // remove existing node
     parameter.removeNode(this.#view, index);
@@ -759,7 +759,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   async #MFNodeOnChange(parameter, url, element, parent, mfId, resetButton) {
-    const index = this.#rowToParameterIndex(element);
+    const index = this.#rowToParameterIndex(element, mfId);
 
     // remove existing node
     parameter.removeNode(this.#view, index);
@@ -770,8 +770,17 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.#refreshParameterRow(parameter, mfId);
   }
 
-  #rowToParameterIndex(element) {
-    const row = this.#getRow(element);
+  #rowToParameterIndex(element, mfId) {
+    // since every MFNode parameter starts at a different grid-row, in order to determine the index from the
+    // element rows (node buttons & add-row buttons), the value needs to be offset to account for it
+    const nodes = document.getElementsByClassName('mf-parameter mf-id-' + mfId);
+    let minRow = nodes.length > 0 ? Infinity : 0;
+    for (let i = 0; i < nodes.length; ++i) {
+      if (this.#getRow(nodes[i]) < minRow)
+        minRow = this.#getRow(nodes[i]);
+    }
+
+    const row = this.#getRow(element) - minRow + 2;
     if (row % 2 == 0 )
       return (row * 0.5) - 1;
     else
