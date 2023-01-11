@@ -269,7 +269,7 @@ export default class NodeSelectorWindow {
       this.populateNodeInfo(this.selection.innerText);
     };
 
-    button.ondblclick = async (item) => this.insertNode(item.target.innerText);
+    button.ondblclick = async(item) => this.insertNode(item.target.innerText);
 
     return item;
   }
