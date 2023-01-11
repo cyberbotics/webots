@@ -213,7 +213,7 @@ export default class Parameter {
         const action = {};
         action['id'] = this.node.id;
         action[this.name] = this.value.toJson();
-        // console.log('setPose', action);
+        console.log('setPose', action);
         view.x3dScene.applyPose(action);
       }
       view.x3dScene.render();
