@@ -33,7 +33,7 @@ import WbTouchSensor from './nodes/WbTouchSensor.js';
 import WbBrake from './nodes/WbBrake.js';
 import WbPositionSensor from './nodes/WbPositionSensor.js';
 import NodeSelectorWindow from './NodeSelectorWindow.js';
-import {SFNode,MFNode} from './protoVisualizer/Vrml.js';
+import {SFNode, MFNode} from './protoVisualizer/Vrml.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #mfId;
