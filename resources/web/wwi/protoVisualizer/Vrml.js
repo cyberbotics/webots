@@ -852,7 +852,7 @@ export class MFNode extends MultipleValue {
 
   removeNode(index) {
     if (index > this.value.length - 1)
-      throw new Error('Node at index ' + index + ' cannot be removed because out of bounds.')
+      throw new Error('Node at index ' + index + ' cannot be removed because out of bounds.');
 
     this.value.splice(index, 1);
   }
