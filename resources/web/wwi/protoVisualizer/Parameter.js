@@ -197,15 +197,10 @@ export default class Parameter {
         }
       } else if (this.#value instanceof MFNode) {
         const baseNode = this.node.getBaseNode();
-        console.log('need del?', this.#value.value)
         if (this.#value.value.length > 0) {
           console.log('DELETE EXISTING NODES')
           // delete existing node
           const p = baseNode.getParameterByName(this.name);
-          //p.value.value.forEach((item) => {
-          //  const id = item.value.getBaseNode().id;
-          //  view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
-          //});
 
           const id = p.value.value[index].value.getBaseNode().id;
           view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
