@@ -718,7 +718,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     currentNodeButton.className = 'sfnode-button';
     currentNodeButton.id = 'current-node-' + parameter.name;
     currentNodeButton.title = 'Select a node to insert';
-    currentNodeButton.innerText = value.name;
+    currentNodeButton.innerText = value === null ? 'NULL' : value.name; // TMP
     currentNodeButton.onclick = async() => {
       if (typeof this.nodeSelector === 'undefined') {
         this.nodeSelector = new NodeSelectorWindow(this.parentNode, this.#protoManager.proto);
@@ -1043,6 +1043,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     addRow.onclick = async() => {
       if (parameter.type === VRML.MFNode) {
         const row = this.#getRow(addRow) + 1;
+        console.log('WILL ADD AT:', row)
         if (typeof this.nodeSelector === 'undefined') {
           this.nodeSelector = new NodeSelectorWindow(this.parentNode, this.#protoManager.proto);
           await this.nodeSelector.initialize();
@@ -1055,8 +1056,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         const newRows = this.#createMFNodeRow(null, row, parent, mfId, resetButton, parameter);
         this.#offsetPositivelyRows(row, 2);
         //this.#MFNodeOnChange(newRows[0].className, parameter);
-        //newRows[0].style.display = 'flex';
-        //newRows[1].style.display = 'flex';
+        newRows[0].style.display = 'flex';
+        newRows[1].style.display = 'flex';
       } else {
         this.#offsetPositivelyRows(row, 2);
         let defaultValue;
