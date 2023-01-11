@@ -650,7 +650,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       this.#refreshParameterRow(parameter, currentMfId);
       hideShowButton.style.transform = '';
       hideShowButton.isHidden = true;
-      hideShowButton.title = 'Hide content';
+      hideShowButton.title = 'Show content';
     };
 
     this.#rowNumber += this.#populateMFNode(resetButton, parent, parameter, this.#rowNumber, currentMfId);
