@@ -94,9 +94,7 @@ void WbNodePane::stopEditing() {
   mPreviousTabName = mTabs->tabText(mTabs->currentIndex());
   // remove tabs
   disconnect(mTabs, &QTabWidget::currentChanged, this, &WbNodePane::updateSelectedTab);
-  const int tabsCount = mTabs->count();
-  for (int i = 0; i < tabsCount; ++i)
-    mTabs->removeTab(0);
+  mTabs->clear();
   connect(mTabs, &QTabWidget::currentChanged, this, &WbNodePane::updateSelectedTab);
 }
 
