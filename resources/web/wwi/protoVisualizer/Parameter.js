@@ -2,8 +2,7 @@
 
 import {MFNode, SFNode, stringifyType} from './Vrml.js';
 import Node from './Node.js';
-import { VRML } from './vrml_type.js';
-import WbWorld from '../nodes/WbWorld.js';
+import {VRML} from './vrml_type.js';
 
 export default class Parameter {
   #type;
