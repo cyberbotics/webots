@@ -778,7 +778,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     }
 
     const row = this.#getRow(element) - minRow + 2;
-    if (row % 2 == 0 )
+    if (row % 2 === 0)
       return (row * 0.5) - 1;
     else
       return ((row - 1) * 0.5) - 1;
