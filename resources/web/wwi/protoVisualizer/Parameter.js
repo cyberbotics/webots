@@ -102,7 +102,6 @@ export default class Parameter {
   }
 
   insertNode(view, v, index) {
-    console.log('add node request:', v.name)
     if (this.type !== VRML.MFNode)
       throw new Error('Item insertion is possible only for MFNodes.')
 
@@ -118,8 +117,6 @@ export default class Parameter {
     const baseNode = this.node.getBaseNode();
     const parentId = baseNode.id.replace('n', '');
     const x3d = new XMLSerializer().serializeToString(v.toX3d());
-    console.log('IN PARENT', parentId, 'INSERT', x3d)
-    console.log('PARENT', WbWorld.instance.nodes.get('n' + parentId))
     view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
     this.#value.insertNode(v, index); // add value on the structure side
 
@@ -127,21 +124,17 @@ export default class Parameter {
   }
 
   removeNode(view, index) {
-    console.log('parameter.removeNode index:', index, 'size is:', this.#value.value.length)
     if (this.type !== VRML.MFNode)
       throw new Error('Item insertion is possible only for MFNodes.')
 
-    for (const link of this.parameterLinks) {
-      console.log('Notify parameter links')
+    for (const link of this.parameterLinks)
       link.removeNode(view, index);
-    }
 
     if (this.node.isProto) { // update value on the structure side
       this.#value.removeNode(index);
       return; // webotsJS needs to be notified of parameter changes only if the parameter belongs to a base-node, not PROTO
     }
 
-    console.log('ARRAY LENGTH:', this.#value.value.length, this.#value.value)
     if (this.#value.value.length > 0) {
       // delete existing node
       const baseNode = this.node.getBaseNode();
@@ -197,22 +190,17 @@ export default class Parameter {
         }
       } else if (this.#value instanceof MFNode) {
         const baseNode = this.node.getBaseNode();
-        if (this.#value.value.length > 0) {
-          console.log('DELETE EXISTING NODES')
-          // delete existing node
+        if (this.#value.value.length > 0) { // delete existing node
           const p = baseNode.getParameterByName(this.name);
-
           const id = p.value.value[index].value.getBaseNode().id;
           view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
         }
 
-        console.log('SETVALUEFROMJS:', v)
         // update value on the structure side
         this.#value.setValueFromJavaScript(v, index);
 
-        // get the parent id to insert the new node
+        // get the parent id to insert the new node and notify webotsjs
         const parentId = baseNode.id.replace('n', '');
-
         v.forEach((item) => {
           const x3d = new XMLSerializer().serializeToString(item.toX3d());
           view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
