@@ -463,8 +463,7 @@ void WbCamera::updateRaysSetupIfNeeded() {
 
   // compute the camera frustum planes
   const double horizontalFieldOfView = fieldOfView();
-  const double verticalFieldOfView = (horizontalFieldOfView * height()) / width();
-  WbWrenCamera::computeFieldOfViewY(horizontalFieldOfView, (double)width() / (double)height());
+  const double verticalFieldOfView = WbWrenCamera::computeFieldOfViewY(horizontalFieldOfView, (double)width() / (double)height());
   const WbAffinePlane *frustumPlanes =
     WbObjectDetection::computeFrustumPlanes(this, verticalFieldOfView, horizontalFieldOfView, recognition()->maxRange());
   // update list of recognized objects
