@@ -726,9 +726,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     // Add row
     const addRow = this.#createAddRowSection(mfId, resetButton, row, parent, parameter, isVisible);
-
-    //this.#updateMfIndexes(parameter);
-
     return [p, addRow];
   }
 
