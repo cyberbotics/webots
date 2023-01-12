@@ -124,7 +124,7 @@ export default class Parameter {
 
   removeNode(view, index) {
     if (this.type !== VRML.MFNode)
-      throw new Error('Item insertion is possible only for MFNodes.')
+      throw new Error('Item insertion is possible only for MFNodes.');
 
     for (const link of this.parameterLinks)
       link.removeNode(view, index);
@@ -173,7 +173,6 @@ export default class Parameter {
           // delete existing node
           const p = baseNode.getParameterByName(this.name);
           const id = p.value.value.getBaseNode().id;
-
           view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
         }
 
