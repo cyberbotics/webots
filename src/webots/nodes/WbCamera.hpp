@@ -109,9 +109,8 @@ private:
   bool refreshRecognitionSensorIfNeeded();
   void removeOccludedRecognizedObjects();
   WbVector2 projectOnImage(const WbVector3 &position);
-  void computeObjects(bool finalSetup, bool needCollisionDetection);
-  bool computeObject(const WbVector3 &cameraPosition, const WbMatrix3 &cameraRotation, const WbMatrix3 &cameraInverseRotation,
-                     const WbAffinePlane *frustumPlanes, WbRecognizedObject *recognizedObject, bool fromRayUpdate);
+  void computeRecognizedObjects(bool finalSetup, bool needCollisionDetection);
+  bool setRecognizedObjectProperties(WbRecognizedObject *recognizedObject);
   void updateRaysSetupIfNeeded() override;
   short mRecognitionRefreshRate;
   bool mNeedToDeleteRecognizedObjectsRays;

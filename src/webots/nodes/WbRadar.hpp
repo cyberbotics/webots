@@ -59,10 +59,6 @@ public:
   double verticalFieldOfView() const { return mVerticalFieldOfView->value(); }
   double wavelength() const { return 0.299792458 / mFrequency->value(); }
 
-  bool computeTarget(const WbVector3 &radarPosition, const WbMatrix3 &radarRotation, const WbMatrix3 &radarInverseRotation,
-                     const WbVector3 &radarAxis, const WbAffinePlane &radarPlane, const WbAffinePlane *frustumPlanes,
-                     WbRadarTarget *radarTarget, bool fromRayUpdate);
-
 private:
   // user accessible fields
   WbSFDouble *mMinRange;
@@ -115,6 +111,8 @@ private:
   void updateRaysSetupIfNeeded() override;
   void updateReceivedPowerFactor();
   void computeTargets(bool finalSetup, bool needCollisionDetection);
+  bool setTargetProperties(const WbVector3 &radarPosition, const WbMatrix3 &radarRotation, const WbVector3 &radarAxis,
+                           const WbAffinePlane &radarPlane, WbRadarTarget *radarTarget);
 
 private slots:
   void updateMinRange();
