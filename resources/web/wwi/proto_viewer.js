@@ -10,6 +10,7 @@ function populateProtoViewDiv(mdContent, imgPrefix, infoArray) {
   // console.log(mdContent);
 
   // markdown to html
+  console.log(mdContent)
   window.mermaidGraphCounter = 0;
   window.mermaidGraphs = {};
   const converter = new showdown.Converter({tables: 'True',
@@ -18,7 +19,6 @@ function populateProtoViewDiv(mdContent, imgPrefix, infoArray) {
       'wbIllustratedSection', 'youtube'
     ]});
   const html = converter.makeHtml(mdContent);
-  console.log(html)
 
   // console.log('HTML content: \n\n')
   // console.log(html);
