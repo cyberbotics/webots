@@ -10,7 +10,6 @@ function populateProtoViewDiv(mdContent, imgPrefix, infoArray) {
   // console.log(mdContent);
 
   // markdown to html
-  console.log(mdContent)
   window.mermaidGraphCounter = 0;
   window.mermaidGraphs = {};
   const converter = new showdown.Converter({tables: 'True',
