@@ -407,7 +407,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #vector2OnChange(node) {
-    const object = {'x': parseFloat(node.inputs[0].value), 'y': parseFloat(node.inputs[1].value)};
+    const object = {'x': this.#sanitizeNumber(node.inputs[0].value), 'y': this.#sanitizeNumber(node.inputs[1].value)};
     node.parameter.setValueFromJavaScript(this.#view, object);
     this.#refreshParameterRow(node.parameter);
   }
@@ -464,31 +464,29 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
       let value;
       if (parameter.type === VRML.MFVec3f) {
-        value = {x: parseFloat(elements[i].childNodes[0].childNodes[1].value),
-          y: parseFloat(elements[i].childNodes[1].childNodes[1].value),
-          z: parseFloat(elements[i].childNodes[2].childNodes[1].value)};
+        value = {x: this.#sanitizeNumber(elements[i].childNodes[0].childNodes[1].value),
+          y: this.#sanitizeNumber(elements[i].childNodes[1].childNodes[1].value),
+          z: this.#sanitizeNumber(elements[i].childNodes[2].childNodes[1].value)};
       } else if (parameter.type === VRML.MFVec2f) {
-        value = {x: parseFloat(elements[i].childNodes[0].childNodes[1].value),
-          y: parseFloat(elements[i].childNodes[1].childNodes[1].value)};
+        value = {x: this.#sanitizeNumber(elements[i].childNodes[0].childNodes[1].value),
+          y: this.#sanitizeNumber(elements[i].childNodes[1].childNodes[1].value)};
       } else if (parameter.type === VRML.MFString)
         value = elements[i].childNodes[0].value;
       else if (parameter.type === VRML.MFFloat || parameter.type === VRML.MFInt32)
-        value = elements[i].childNodes[0].value;
+        value = this.#sanitizeNumber(elements[i].childNodes[0].value);
       else if (parameter.type === VRML.MFBool)
         value = elements[i].childNodes[0].checked;
       else if (parameter.type === VRML.MFRotation) {
-        value = {'x': parseFloat(elements[i].childNodes[0].childNodes[1].value),
-          'y': parseFloat(elements[i].childNodes[1].childNodes[1].value),
-          'z': parseFloat(elements[i].childNodes[2].childNodes[1].value),
-          'a': parseFloat(elements[i].childNodes[3].childNodes[1].value)};
+        value = {'x': this.#sanitizeNumber(elements[i].childNodes[0].childNodes[1].value),
+          'y': this.#sanitizeNumber(elements[i].childNodes[1].childNodes[1].value),
+          'z': this.#sanitizeNumber(elements[i].childNodes[2].childNodes[1].value),
+          'a': this.#sanitizeNumber(elements[i].childNodes[3].childNodes[1].value)};
       } else if (parameter.type === VRML.MFColor) {
         const hexValue = elements[i].childNodes[0].value;
         const red = parseInt(hexValue.substring(1, 3), 16) / 255;
         const green = parseInt(hexValue.substring(3, 5), 16) / 255;
         const blue = parseInt(hexValue.substring(5, 7), 16) / 255;
         value = {r: red, g: green, b: blue};
-      } else if (parameter.type === VRML.MFNode) {
-        // TODO
       }
 
       lut.set(order, value);
@@ -957,10 +955,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   #rotationOnChange(node) {
     const object = {
-      'x': parseFloat(node.inputs[0].value),
-      'y': parseFloat(node.inputs[1].value),
-      'z': parseFloat(node.inputs[2].value),
-      'a': parseFloat(node.inputs[3].value)
+      'x': this.#sanitizeNumber(node.inputs[0].value),
+      'y': this.#sanitizeNumber(node.inputs[1].value),
+      'z': this.#sanitizeNumber(node.inputs[2].value),
+      'a': this.#sanitizeNumber(node.inputs[3].value)
     };
     node.parameter.setValueFromJavaScript(this.#view, object);
     this.#refreshParameterRow(node.parameter);
@@ -968,9 +966,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   #vector3OnChange(node) {
     const object = {
-      'x': parseFloat(node.inputs[0].value),
-      'y': parseFloat(node.inputs[1].value),
-      'z': parseFloat(node.inputs[2].value)
+      'x': this.#sanitizeNumber(node.inputs[0].value),
+      'y': this.#sanitizeNumber(node.inputs[1].value),
+      'z': this.#sanitizeNumber(node.inputs[2].value)
     };
     node.parameter.setValueFromJavaScript(this.#view, object);
     this.#refreshParameterRow(node.parameter);
@@ -1206,7 +1204,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #floatOnChange(node) {
-    node.parameter.setValueFromJavaScript(this.#view, parseFloat(node.input.value));
+    node.parameter.setValueFromJavaScript(this.#view, this.#sanitizeNumber(node.input.value));
     this.#refreshParameterRow(node.parameter);
   }
 
@@ -1331,7 +1329,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     for (const key of keys) {
       const device = nodes.get(key);
-      // TODO once all the optional rendering are implemented, replace this list by device instanceof WbDevice
       if (device instanceof WbDevice) {
         numberOfDevices++;
 
@@ -1748,5 +1745,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     if (numberString.includes('.'))
       return numberString.split('.')[1].length;
     return 0;
+  }
+
+  #sanitizeNumber(numberString) {
+    let number = parseFloat(numberString);
+    if (isNaN(number))
+      return 0;
+    return number;
   }
 }
