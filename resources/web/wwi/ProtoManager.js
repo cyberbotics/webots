@@ -59,7 +59,12 @@ export default class ProtoManager {
   async loadX3d() {
     let xml = this.getXmlOfMinimalScene();
     const scene = xml.getElementsByTagName('Scene')[0];
-    scene.appendChild(this.proto.toX3d());
+    if (this.proto.isRoot && (this.proto.baseType.name === 'PBRAppearance' || this.proto.baseType.name === 'Appearance')) {
+      const wrapper = this.createAppearanceWrapper();
+      scene.appendChild(wrapper);
+    } else
+      scene.appendChild(this.proto.toX3d());
+
     const x3d = new XMLSerializer().serializeToString(xml);
     this.#view.prefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);
     this.#view.open(x3d, 'x3d', '', true);
@@ -200,5 +205,25 @@ export default class ProtoManager {
     xml.appendChild(scene);
 
     return xml;
+  }
+
+  createAppearanceWrapper() {
+    const xml = document.implementation.createDocument('', '', null);
+    const transform = xml.createElement('Transform');
+    transform.setAttribute('id', getAnId);
+    transform.setAttribute('translation', '0 0 0.1');
+
+    const shape = xml.createElement('Shape');
+    shape.setAttribute('id', getAnId());
+
+    const sphere = xml.createElement('Sphere');
+    sphere.setAttribute('id', getAnId());
+    sphere.setAttribute('radius', 0.1);
+    sphere.setAttribute('ico', 'FALSE');
+
+    shape.appendChild(sphere);
+    shape.appendChild(this.proto.toX3d());
+    transform.appendChild(shape);
+    return transform;
   }
 }
