@@ -62,8 +62,7 @@ export default class ProtoManager {
     if (this.proto.isRoot && (this.proto.baseType.name === 'PBRAppearance' || this.proto.baseType.name === 'Appearance')) {
       const xml = document.implementation.createDocument('', '', null);
       const transform = xml.createElement('Transform');
-      this.proto.wrapperTransformID = getAnId();
-      transform.setAttribute('id', this.proto.wrapperTransformID);
+      transform.setAttribute('id', getAnId);
       transform.setAttribute('translation', '0 0 0.1');
 
       const shape = xml.createElement('Shape');
