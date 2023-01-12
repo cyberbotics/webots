@@ -1,6 +1,26 @@
 {
   "devices": [
     {
+      "anchor": "0 0 0.058",
+      "axis": "1 0 0",
+      "maxPosition": 1.0472,
+      "minPosition": 0,
+      "name": "gripper::left",
+      "position": 0,
+      "transformID": "n679",
+      "type": "RotationalMotor"
+    },
+    {
+      "anchor": "0 0 0.058",
+      "axis": "-1 0 0",
+      "maxPosition": 1.0472,
+      "minPosition": 0,
+      "name": "gripper::right",
+      "position": 0,
+      "transformID": "n636",
+      "type": "RotationalMotor"
+    },
+    {
       "anchor": "0 0 0.212",
       "axis": "0 0 1",
       "maxPosition": 2.95903,
@@ -61,26 +81,6 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0 0.058",
-      "axis": "-1 0 0",
-      "maxPosition": 1.0472,
-      "minPosition": 0,
-      "name": "motor 7",
-      "position": 0,
-      "transformID": "n636",
-      "type": "RotationalMotor"
-    },
-    {
-      "anchor": "0 0 0.058",
-      "axis": "1 0 0",
-      "maxPosition": 1.0472,
-      "minPosition": 0,
-      "name": "motor 7 left",
-      "position": 0,
-      "transformID": "n679",
-      "type": "RotationalMotor"
-    },
-    {
       "name": "button 0",
       "transformID": "n380",
       "type": "TouchSensor"
@@ -125,6 +125,22 @@
       "transformID": "n605",
       "transformOffset": "0 0 0.085",
       "type": "DistanceSensor"
+    },
+    {
+      "anchor": "0 0 0.058",
+      "axis": "1 0 0",
+      "name": "gripper::left sensor",
+      "position": 0,
+      "transformID": "n679",
+      "type": "PositionSensor"
+    },
+    {
+      "anchor": "0 0 0.058",
+      "axis": "-1 0 0",
+      "name": "gripper::right sensor",
+      "position": 0,
+      "transformID": "n636",
+      "type": "PositionSensor"
     },
     {
       "name": "left finger sensor 0",
@@ -196,22 +212,6 @@
       "name": "motor 6 sensor",
       "position": 0,
       "transformID": "n371",
-      "type": "PositionSensor"
-    },
-    {
-      "anchor": "0 0 0.058",
-      "axis": "1 0 0",
-      "name": "motor 7 left sensor",
-      "position": 0,
-      "transformID": "n679",
-      "type": "PositionSensor"
-    },
-    {
-      "anchor": "0 0 0.058",
-      "axis": "-1 0 0",
-      "name": "motor 7 sensor",
-      "position": 0,
-      "transformID": "n636",
       "type": "PositionSensor"
     },
     {
