@@ -17,6 +17,7 @@ Released on ??
     - Improved warnings when passing invalid arguments to [`wb_supervisor_node_enable_pose_tracking`/`wb_supervisor_node_disable_pose_tracking`](supervisor.md#wb_supervisor_node_enable_pose_tracking), [`wb_supervisor_node_enable_contact_points_tracking`/`wb_supervisor_node_disable_contact_points_tracking`](supervisor.md#wb_supervisor_node_enable_contact_points_tracking) and [`wb_supervisor_field_enable_sf_tracking`/`wb_supervisor_field_disable_sf_tracking`](supervisor.md#wb_supervisor_field_enable_sf_tracking) ([5638](https://github.com/cyberbotics/webots/pull/5638)).
     - Disable `Select..` button in SFString editor if the field has restricted values ([5663](https://github.com/cyberbotics/webots/pull/5663)).
     - Improved plot representation in default robot window when a NaN value is received from a device ([#5680](https://github.com/cyberbotics/webots/pull/5680)).
+    - Improved default selected tab in Field Editor when nodes are selected ([#5726](https://github.com/cyberbotics/webots/pull/5726)).
   - Bug Fixes
     - Fixed crash in Python API when a robot controller was using several cameras with different resolutions ([#5705](https://github.com/cyberbotics/webots/pull/5705)).
     - Fixed Python API `Supervisor.setSimulationMode` which was failing ([#5603](https://github.com/cyberbotics/webots/pull/5603)).
