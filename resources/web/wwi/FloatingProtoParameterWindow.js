@@ -1351,10 +1351,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     this.#appendDevices();
 
-    if (numberOfDevices === 0)
-      this.tab2.style.display = 'none';
-    else
-      this.tab2.style.display = 'block';
+    this.tab2.style.display = (numberOfDevices === 0) ? 'none' : 'block';
   }
 
   #initDeviceList() {
