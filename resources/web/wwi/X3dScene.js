@@ -178,8 +178,7 @@ export default class X3dScene {
     let parentNode;
     if (typeof parentId !== 'undefined') {
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
-      parentNode.isPreFinalizedCalled = false;
-      parentNode.isPostFinalizedCalled = false;
+      parentNode.unfinalize();
     }
 
     const parser = new Parser(webots.currentView.prefix);
@@ -187,11 +186,9 @@ export default class X3dScene {
     await parser.parse(x3dObject, this.renderer, false, parentNode, callback);
 
     const node = WbWorld.instance.nodes.get(parser.rootNodeId);
-    if (typeof parentId !== 'undefined') {
-      node.finalize();
-      if (parentNode instanceof WbShape) // TODO: this might be improved with a onchange trigger
-        parentNode.updateAppearance();
-    } else
+    if (typeof parentId !== 'undefined')
+      parentNode.finalize();
+    else
       node.finalize();
   }
 

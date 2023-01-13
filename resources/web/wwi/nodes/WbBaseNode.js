@@ -24,6 +24,16 @@ export default class WbBaseNode {
     WbWorld.instance.nodes.delete(this.id);
   }
 
+  unfinalize() {
+    this.isPreFinalizedCalled = false;
+    this.wrenObjectsCreatedCalled = false;
+    this.isPostFinalizedCalled = false;
+    for (const useId of this.useList) { // notify USE nodes to do the same
+      const useNode = WbWorld.instance.nodes.get(useId);
+      useNode?.unfinalize();
+    }
+  }
+
   finalize() {
     if (!this.isPreFinalizedCalled)
       this.preFinalize();
