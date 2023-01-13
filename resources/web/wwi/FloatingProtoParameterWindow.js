@@ -496,9 +496,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     // Separately printing only keys
     const array = [];
     let i = 0;
-    for (let value of lut.values()) {
+    for (let value of lut.values())
       array[i++] = value;
-    }
 
     parameter.setValueFromJavaScript(this.#view, array);
     this.#refreshParameterRow(parameter);
@@ -515,7 +514,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           parameter, isVisible);
       else
         this.#createMfRow(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
-          parameter, isVisible)
+          parameter, isVisible);
 
       numberOfRows++;
     }
