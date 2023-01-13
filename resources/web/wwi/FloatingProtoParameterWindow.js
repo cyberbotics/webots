@@ -213,6 +213,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         const button = nodes[i].firstChild.firstChild;
         button.innerText = parameter.value.value[index].value.name;
       }
+      this.updateProtoWindow();
     }
 
     // note: SFNode/MFNode rows don't need refresh since the restriction and its handling is done in the node selector window
