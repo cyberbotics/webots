@@ -552,7 +552,6 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
   findField("filtering", true)->write(writer);
 
   if (writer.isX3d()) {
-    writer << " isTransparent=\'" << (mIsMainTextureTransparent ? "true" : "false") << "\'";
     if (!mRole.isEmpty())
       writer << " role=\'" << mRole << "\'";
   }

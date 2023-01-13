@@ -455,7 +455,7 @@ export default class WbCadShape extends WbBaseNode {
       url = assetPrefix + imageUrl;
 
     const imageTexture = new WbImageTexture(getAnId(), url, false, true, true, 4);
-    const promise = ImageLoader.loadImageTextureInWren(this.prefix, url, false, true);
+    const promise = ImageLoader.loadImageTextureInWren(imageTexture, this.prefix, url);
     promise.then(() => imageTexture.updateUrl());
     this.#promises.push(promise);
     return imageTexture;
