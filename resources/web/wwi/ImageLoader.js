@@ -3,12 +3,13 @@ import WbImage from './nodes/WbImage.js';
 import {arrayXPointer} from './nodes/utils/utils.js';
 
 export default class ImageLoader {
-  static loadImageTextureInWren(prefix, url, isTransparent, checkTransparency) {
+  static loadImageTextureInWren(imageTexture, prefix, url, checkTransparency = true) {
     let needToDownloadTexture = Module.ccall('wr_texture_2d_copy_from_cache', 'number', ['string'], [url]);
     if (needToDownloadTexture !== 0)
       return Promise.resolve();
 
     return this.loadTextureData(prefix, url).then((image) => {
+      let isTransparent = false;
       if (checkTransparency) {
         for (let i = 3, n = image.bits.length; i < n; i += 4) {
           if (image.bits[i] < 255) {
@@ -17,6 +18,8 @@ export default class ImageLoader {
           }
         }
       }
+
+      imageTexture.isTransparent = isTransparent;
 
       let texture = _wr_texture_2d_new();
       _wr_texture_set_size(texture, image.width, image.height);
