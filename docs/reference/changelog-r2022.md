@@ -35,7 +35,7 @@ Released on September, 13th, 2022.
     - Forbid the `USE` of [TrackWheel](trackwheel.md) to avoid wrong behavior ([#4257](https://github.com/cyberbotics/webots/pull/4257)).
     - Changed the behavior of `wb_robot_wwi_receive_text` to iterate through the received messages buffer ([#4336](https://github.com/cyberbotics/webots/pull/4336)).
     - Added a python controller for the [Mavic 2 Pro](../guide/mavic-2-pro.md) demonstrating how to move the drone to specific coordinates and altitude ([#4293](https://github.com/cyberbotics/webots/pull/4293)).
-    - Improved the structure of the [Nao](../guide/nao.md) PROTO: the `version` field changed and the `color` field was replaced with a `customColor` field ([#4180](https://github.com/cyberbotics/webots/pull/4180)).
+    - Improved the structure of the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) PROTO: the `version` field changed and the `color` field was replaced with a `customColor` field ([#4180](https://github.com/cyberbotics/webots/pull/4180)).
     - Allowed negative `scale` values in the [Transform](transform.md) node and added a `ccw` field in the [Mesh](mesh.md) node ([#4243](https://github.com/cyberbotics/webots/pull/4243)).
     - Added rendering of anchors in joints ([#4256](https://github.com/cyberbotics/webots/pull/4256)).
     - Replaced ColladaShapes PROTO by the [CadShape](cadshape.md) node ([#4285](https://github.com/cyberbotics/webots/pull/4285)).
@@ -138,7 +138,7 @@ Released on December 21th, 2021.
     - Fixed mass computation after inserting a [Physics](physics.md) node in case the [Solid.boundingObject](solid.md) was already defined ([#3240](https://github.com/cyberbotics/webots/pull/3240)).
     - Fixed pickable state for cone and cylinder ([#3644](https://github.com/cyberbotics/webots/pull/3644)).
     - Fixed mass calculation of Mesh nodes ([#3719](https://github.com/cyberbotics/webots/pull/3719)).
-    - Fixed regression where the v3.3 (21 DoF) variant of the [Nao](../guide/nao.md) PROTO had no hands ([#3696](https://github.com/cyberbotics/webots/pull/3696)).
+    - Fixed regression where the v3.3 (21 DoF) variant of the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) PROTO had no hands ([#3696](https://github.com/cyberbotics/webots/pull/3696)).
     - Fixed laser and infra-red distance sensors hitting fully transparent objects ([#3726](https://github.com/cyberbotics/webots/pull/3726)).
     - Fixed propagation of rotation change from supervisor ([#3752](https://github.com/cyberbotics/webots/pull/3752)).
     - Fixed incorrect update of the differential slip ratio in 4x4 vehicles ([#3770](https://github.com/cyberbotics/webots/pull/3770)).
