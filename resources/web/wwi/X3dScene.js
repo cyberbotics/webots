@@ -178,9 +178,7 @@ export default class X3dScene {
     let parentNode;
     if (typeof parentId !== 'undefined') {
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
-      parentNode.isPreFinalizedCalled = false;
-      parentNode.wrenObjectsCreatedCalled = false;
-      parentNode.isPostFinalizedCalled = false;
+      parentNode.unfinalize();
     }
 
     const parser = new Parser(webots.currentView.prefix);
