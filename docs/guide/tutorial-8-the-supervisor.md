@@ -378,7 +378,7 @@ It is just a matter of getting a node reference, from which a field reference ca
 ### Spawning and Removing Nodes
 
 Supervisors can also be used to populate the environment, allowing to dynamically setup the scene.
-This section focuses on how nodes can be added and removed, specifically we will remove [BB-8](bb8.md) from this world, and replace it with a different robot, namely [Nao](nao.md).
+This section focuses on how nodes can be added and removed, specifically we will remove [BB-8](bb8.md) from this world, and replace it with a different robot, namely [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto).
 
 %tab-component "language"
 
@@ -394,22 +394,22 @@ Add the following code in `CODE PLACEHOLDER 2`.
 >   wb_supervisor_node_remove(bb8_node);
 > ```
 After 10 time steps, [BB-8](bb8.md) will be removed from the scene.
-Now, let's instead add the [Nao](nao.md) robot after 20 time steps.
+Now, let's instead add the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot after 20 time steps.
 In order to add a node, we must know where we wish to spawn it in the scene tree.
 Should it be added at the top level of the scene tree? Should it inserted as a field of a another node?
 These questions will change how the node will be inserted and which supervisor function needs to be used, but the constant factor among them is that we need a reference to this position.
-In this context, the [Nao](nao.md) robot will be added at the last position in the scene tree, where BB-8 used to appear.
-First of all, we need to declare the [Nao](nao.md) to Webots as in importable PROTO for the world we created.
+In this context, the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot will be added at the last position in the scene tree, where BB-8 used to appear.
+First of all, we need to declare the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) to Webots as in importable PROTO for the world we created.
 To proceed, click on the `IMPORTABLE EXTERNPROTO` button located at the top of the scene tree.
 The field editor, located below the scene tree, should display an `IMPORTABLE EXTERNPROTO` pane with a button named "Insert new".
-Click this button and select the [Nao](nao.md) robot from the `PROTO nodes (Webots Projects)` section.
+Click this button and select the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot from the `PROTO nodes (Webots Projects)` section.
 Press the "Insert" button.
-If you hover the [Nao](nao.md) item that appeared below the "Insert new" button, you will see in the tooltip the URL from where it is downloaded.
+If you hover the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) item that appeared below the "Insert new" button, you will see in the tooltip the URL from where it is downloaded.
 Save the world file, so that this information is stored.
 
 > Although not apparent, the scene tree is in fact a [Group](../reference/group.md) node, and each of the objects in the scene tree like `WorldInfo`, `Viewpoint`, `TexturedBackground` and so forth are nothing more than nodes defined as its children.
 We refer to this [Group](../reference/group.md) node containing everything as the `root` node.
-In order to insert the [Nao](nao.md) robot, the reference we require is actually a reference to the `children` field of the `root` node.
+In order to insert the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot, the reference we require is actually a reference to the `children` field of the `root` node.
 In the spot marked by `CODE PLACEHOLDER 1`, the following code allows to get this reference.
 > ```c
 > WbNodeRef root_node = wb_supervisor_node_get_root();
@@ -419,7 +419,7 @@ To spawn a node you should use the supervisor function [`wb_supervisor_field_imp
 The "mf\_node" and "sf\_node" components in the name of these functions specify what is the type of the node where the objects is inserted *into*.
 "mf\_node" stands for multi-field node whereas "sf\_node" stands for single-field node.
 
-> As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
+> As previously mentioned, the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
 
 > Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
 > ```c
@@ -429,9 +429,9 @@ The "mf\_node" and "sf\_node" components in the name of these functions specify 
 The "-1" specifies in which position we wish to insert the node, in this case, to insert it at the last position.
 `"Nao { }"` is a string that describes what we wish to spawn.
 The way the object is described is by using the VRML97 format, this is the format used in the world files as well.
-After 20 timesteps, the [Nao](nao.md) robot will spawn in the middle of the scene.
+After 20 timesteps, the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot will spawn in the middle of the scene.
 
-> Let's assume we wanted the [Nao](nao.md) to be spawned in the position BB-8 used to be, we certainly could move it there following the procedure of hands-on 2, but that would not be smart.
+> Let's assume we wanted the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) to be spawned in the position BB-8 used to be, we certainly could move it there following the procedure of hands-on 2, but that would not be smart.
 In fact, we can simply specify the translation field directly in the string!
 Replace the string `"Nao { }"` with `"Nao { translation 2.5 0 0.334 }"` and it will spawn exactly at that location.
 It does not stop there, in the same fashion we could define its `controller` parameter, or the `cameraWidth` or any other of its parameters in the same fashion.
@@ -449,22 +449,22 @@ Add the following code in `CODE PLACEHOLDER 2`.
 >   bb8Node->remove();
 > ```
 After 10 time steps, [BB-8](bb8.md) will be removed from the scene.
-Now, let's instead add the [Nao](nao.md) robot after 20 time steps.
+Now, let's instead add the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot after 20 time steps.
 In order to add a node, we must know where we wish to spawn it in the scene tree.
 Should it be added at the top level of the scene tree? Should it inserted as a field of a another node?
 These questions will change how the node will be inserted and which supervisor function needs to be used, but the constant factor among them is that we need a reference to this position.
-In this context, the [Nao](nao.md) robot will be added at the last position in the scene tree, where BB-8 used to appear.
-First of all, we need to declare the [Nao](nao.md) to Webots as in importable PROTO for the world we created.
+In this context, the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot will be added at the last position in the scene tree, where BB-8 used to appear.
+First of all, we need to declare the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) to Webots as in importable PROTO for the world we created.
 To proceed, click on the `IMPORTABLE EXTERNPROTO` button located at the top of the scene tree.
 The field editor, located below the scene tree, should display an `IMPORTABLE EXTERNPROTO` pane with a button named "Insert new".
-Click this button and select the [Nao](nao.md) robot from the `PROTO nodes (Webots Projects)` section.
+Click this button and select the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot from the `PROTO nodes (Webots Projects)` section.
 Press the "Insert" button.
-If you hover the [Nao](nao.md) item that appeared below the "Insert new" button, you will see in the tooltip the URL from where it is downloaded.
+If you hover the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) item that appeared below the "Insert new" button, you will see in the tooltip the URL from where it is downloaded.
 Save the world file, so that this information is stored.
 
 > Although not apparent, the scene tree is in fact a [Group](../reference/group.md) node, and each of the objects in the scene tree like `WorldInfo`, `Viewpoint`, `TexturedBackground` and so forth are nothing more than nodes defined as its children.
 We refer to this [Group](../reference/group.md) node containing everything as the `root` node.
-In order to insert the [Nao](nao.md) robot, the reference we require is actually a reference to the `children` field of the `root` node.
+In order to insert the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot, the reference we require is actually a reference to the `children` field of the `root` node.
 In the spot marked by `CODE PLACEHOLDER 1`, the following code allows to get this reference.
 > ```cpp
 > Node *rootNode = robot->getRoot();
@@ -474,7 +474,7 @@ To spawn a node you should use the supervisor function [`importMFNodeFromString`
 The "MFNode" and "SFNode" components in the name of these functions specify what is the type of the node where the objects is inserted *into*.
 "MFNode" stands for multi-field node whereas "SFNode" stands for single-field node.
 
-> As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
+> As previously mentioned, the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
 
 > Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
 > ```cpp
@@ -484,9 +484,9 @@ The "MFNode" and "SFNode" components in the name of these functions specify what
 The "-1" specifies in which position we wish to insert the node, in this case, to insert it at the last position.
 `"Nao { }"` is a string that describes what we wish to spawn.
 The way the object is described is by using the VRML97 format, this is the format used in the world files as well.
-After 20 timesteps, the [Nao](nao.md) robot will spawn in the middle of the scene.
+After 20 timesteps, the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot will spawn in the middle of the scene.
 
-> Let's assume we wanted the [Nao](nao.md) to be spawned in the position BB-8 used to be, we certainly could move it there following the procedure of hands-on 2, but that would not be smart.
+> Let's assume we wanted the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) to be spawned in the position BB-8 used to be, we certainly could move it there following the procedure of hands-on 2, but that would not be smart.
 In fact, we can simply specify the translation field directly in the string!
 Replace the string `"Nao { }"` with `"Nao { translation 2.5 0 0.334 }"` and it will spawn exactly at that location.
 It does not stop there, in the same fashion we could define its `controller` parameter, or the `cameraWidth` or any other of its parameters in the same fashion.
@@ -504,22 +504,22 @@ Add the following code in `CODE PLACEHOLDER 2`.
 >   bb8_node.remove()
 > ```
 After 10 time steps, [BB-8](bb8.md) will be removed from the scene.
-Now, let's instead add the [Nao](nao.md) robot after 20 time steps.
+Now, let's instead add the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot after 20 time steps.
 In order to add a node, we must know where we wish to spawn it in the scene tree.
 Should it be added at the top level of the scene tree? Should it inserted as a field of a another node?
 These questions will change how the node will be inserted and which supervisor function needs to be used, but the constant factor among them is that we need a reference to this position.
-In this context, the [Nao](nao.md) robot will be added at the last position in the scene tree, where BB-8 used to appear.
-First of all, we need to declare the [Nao](nao.md) to Webots as in importable PROTO for the world we created.
+In this context, the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot will be added at the last position in the scene tree, where BB-8 used to appear.
+First of all, we need to declare the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) to Webots as in importable PROTO for the world we created.
 To proceed, click on the `IMPORTABLE EXTERNPROTO` button located at the top of the scene tree.
 The field editor, located below the scene tree, should display an `IMPORTABLE EXTERNPROTO` pane with a button named "Insert new".
-Click this button and select the [Nao](nao.md) robot from the `PROTO nodes (Webots Projects)` section.
+Click this button and select the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot from the `PROTO nodes (Webots Projects)` section.
 Press the "Insert" button.
-If you hover the [Nao](nao.md) item that appeared below the "Insert new" button, you will see in the tooltip the URL from where it is downloaded.
+If you hover the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) item that appeared below the "Insert new" button, you will see in the tooltip the URL from where it is downloaded.
 Save the world file, so that this information is stored.
 
 > Although not apparent, the scene tree is in fact a [Group](../reference/group.md) node, and each of the objects in the scene tree like `WorldInfo`, `Viewpoint`, `TexturedBackground` and so forth are nothing more than nodes defined as its children.
 We refer to this [Group](../reference/group.md) node containing everything as the `root` node.
-In order to insert the [Nao](nao.md) robot, the reference we require is actually a reference to the `children` field of the `root` node.
+In order to insert the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot, the reference we require is actually a reference to the `children` field of the `root` node.
 In the spot marked by `CODE PLACEHOLDER 1`, the following code allows to get this reference.
 > ```python
 > root_node = robot.getRoot()
@@ -529,7 +529,7 @@ To spawn a node you should use the supervisor function [`importMFNodeFromString`
 The "MFNode" and "SFNode" components in the name of these functions specify what is the type of the node where the objects is inserted *into*.
 "MFNode" stands for multi-field node whereas "sf_node" stands for single-field node.
 
-> As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
+> As previously mentioned, the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
 
 > Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
 > ```python
@@ -539,9 +539,9 @@ The "MFNode" and "SFNode" components in the name of these functions specify what
 The "-1" specifies in which position we wish to insert the node, in this case, to insert it at the last position.
 `"Nao { }"` is a string that describes what we wish to spawn.
 The way the object is described is by using the VRML97 format, this is the format used in the world files as well.
-After 20 timesteps, the [Nao](nao.md) robot will spawn in the middle of the scene.
+After 20 timesteps, the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot will spawn in the middle of the scene.
 
-> Let's assume we wanted the [Nao](nao.md) to be spawned in the position BB-8 used to be, we certainly could move it there following the procedure of hands-on 2, but that would not be smart.
+> Let's assume we wanted the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) to be spawned in the position BB-8 used to be, we certainly could move it there following the procedure of hands-on 2, but that would not be smart.
 In fact, we can simply specify the translation field directly in the string!
 Replace the string `"Nao { }"` with `"Nao { translation 2.5 0 0.334 }"` and it will spawn exactly at that location.
 It does not stop there, in the same fashion we could define its `controller` parameter, or the `cameraWidth` or any other of its parameters in the same fashion.
@@ -559,22 +559,22 @@ Add the following code in `CODE PLACEHOLDER 2`.
 >   bb8Node.remove();
 > ```
 After 10 time steps, [BB-8](bb8.md) will be removed from the scene.
-Now, let's instead add the [Nao](nao.md) robot after 20 time steps.
+Now, let's instead add the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot after 20 time steps.
 In order to add a node, we must know where we wish to spawn it in the scene tree.
 Should it be added at the top level of the scene tree? Should it inserted as a field of a another node?
 These questions will change how the node will be inserted and which supervisor function needs to be used, but the constant factor among them is that we need a reference to this position.
-In this context, the [Nao](nao.md) robot will be added at the last position in the scene tree, where BB-8 used to appear.
-First of all, we need to declare the [Nao](nao.md) to Webots as in importable PROTO for the world we created.
+In this context, the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot will be added at the last position in the scene tree, where BB-8 used to appear.
+First of all, we need to declare the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) to Webots as in importable PROTO for the world we created.
 To proceed, click on the `IMPORTABLE EXTERNPROTO` button located at the top of the scene tree.
 The field editor, located below the scene tree, should display an `IMPORTABLE EXTERNPROTO` pane with a button named "Insert new".
-Click this button and select the [Nao](nao.md) robot from the `PROTO nodes (Webots Projects)` section.
+Click this button and select the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot from the `PROTO nodes (Webots Projects)` section.
 Press the "Insert" button.
-If you hover the [Nao](nao.md) item that appeared below the "Insert new" button, you will see in the tooltip the URL from where it is downloaded.
+If you hover the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) item that appeared below the "Insert new" button, you will see in the tooltip the URL from where it is downloaded.
 Save the world file, so that this information is stored.
 
 > Although not apparent, the scene tree is in fact a [Group](../reference/group.md) node, and each of the objects in the scene tree like `WorldInfo`, `Viewpoint`, `TexturedBackground` and so forth are nothing more than nodes defined as its children.
 We refer to this [Group](../reference/group.md) node containing everything as the `root` node.
-In order to insert the [Nao](nao.md) robot, the reference we require is actually a reference to the `children` field of the `root` node.
+In order to insert the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot, the reference we require is actually a reference to the `children` field of the `root` node.
 In the spot marked by `CODE PLACEHOLDER 1`, the following code allows to get this reference.
 > ```java
 > Node rootNode = robot.getRoot();
@@ -584,7 +584,7 @@ To spawn a node you should use the supervisor function [`importMFNodeFromString`
 The "MFNode" and "sf_node" components in the name of these functions specify what is the type of the node where the objects is inserted *into*.
 "MFNode" stands for multi-field node whereas "SFNode" stands for single-field node.
 
-> As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
+> As previously mentioned, the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
 
 > Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
 > ```java
@@ -594,9 +594,9 @@ The "MFNode" and "sf_node" components in the name of these functions specify wha
 The "-1" specifies in which position we wish to insert the node, in this case, to insert it at the last position.
 `"Nao { }"` is a string that describes what we wish to spawn.
 The way the object is described is by using the VRML97 format, this is the format used in the world files as well.
-After 20 timesteps, the [Nao](nao.md) robot will spawn in the middle of the scene.
+After 20 timesteps, the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot will spawn in the middle of the scene.
 
-> Let's assume we wanted the [Nao](nao.md) to be spawned in the position BB-8 used to be, we certainly could move it there following the procedure of hands-on 2, but that would not be smart.
+> Let's assume we wanted the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) to be spawned in the position BB-8 used to be, we certainly could move it there following the procedure of hands-on 2, but that would not be smart.
 In fact, we can simply specify the translation field directly in the string!
 Replace the string `"Nao { }"` with `"Nao { translation 2.5 0.334 }"` and it will spawn exactly at that location.
 It does not stop there, in the same fashion we could define its `controller` parameter, or the `cameraWidth` or any other of its parameters in the same fashion.
@@ -615,22 +615,22 @@ Add the following code in `CODE PLACEHOLDER 2`.
 > end
 > ```
 After 10 time steps, [BB-8](bb8.md) will be removed from the scene.
-Now, let's instead add the [Nao](nao.md) robot after 20 time steps.
+Now, let's instead add the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot after 20 time steps.
 In order to add a node, we must know where we wish to spawn it in the scene tree.
 Should it be added at the top level of the scene tree? Should it inserted as a field of a another node?
 These questions will change how the node will be inserted and which supervisor function needs to be used, but the constant factor among them is that we need a reference to this position.
-In this context, the [Nao](nao.md) robot will be added at the last position in the scene tree, where BB-8 used to appear.
-First of all, we need to declare the [Nao](nao.md) to Webots as in importable PROTO for the world we created.
+In this context, the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot will be added at the last position in the scene tree, where BB-8 used to appear.
+First of all, we need to declare the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) to Webots as in importable PROTO for the world we created.
 To proceed, click on the `IMPORTABLE EXTERNPROTO` button located at the top of the scene tree.
 The field editor, located below the scene tree, should display an `IMPORTABLE EXTERNPROTO` pane with a button named "Insert new".
-Click this button and select the [Nao](nao.md) robot from the `PROTO nodes (Webots Projects)` section.
+Click this button and select the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot from the `PROTO nodes (Webots Projects)` section.
 Press the "Insert" button.
-If you hover the [Nao](nao.md) item that appeared below the "Insert new" button, you will see in the tooltip the URL from where it is downloaded.
+If you hover the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) item that appeared below the "Insert new" button, you will see in the tooltip the URL from where it is downloaded.
 Save the world file, so that this information is stored.
 
 > Although not apparent, the scene tree is in fact a [Group](../reference/group.md) node, and each of the objects in the scene tree like `WorldInfo`, `Viewpoint`, `TexturedBackground` and so forth are nothing more than nodes defined as its children.
 We refer to this [Group](../reference/group.md) node containing everything as the `root` node.
-In order to insert the [Nao](nao.md) robot, the reference we require is actually a reference to the `children` field of the `root` node.
+In order to insert the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot, the reference we require is actually a reference to the `children` field of the `root` node.
 In the spot marked by `CODE PLACEHOLDER 1`, the following code allows to get this reference.
 > ```matlab
 > root_node = wb_supervisor_node_get_root()
@@ -640,7 +640,7 @@ To spawn a node you should use the supervisor function [`wb_supervisor_field_imp
 The "mf_node" and "sf_node" component in the name of these functions specify what is the type of the node where the objects is inserted *into*.
 "mf_node" stands for multi-field node whereas "sf_node" stands for single-field node.
 
-> As previously mentioned, the [Nao](nao.md) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
+> As previously mentioned, the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) should be added to the `children` field of the `root` node, and as you might guess, this `children` field is of type multi-field.
 
 > Let's add it from string after 20 time steps, add the following snippet in `CODE PLACEHOLDER 2`:
 > ```matlab
@@ -651,9 +651,9 @@ The "mf_node" and "sf_node" component in the name of these functions specify wha
 The "-1" specifies in which position we wish to insert the node, in this case, to insert it at the last position.
 `"Nao { }"` is a string that describes what we wish to spawn.
 The way the object is described is by using the VRML97 format, this is the format used in the world files as well.
-After 20 timesteps, the [Nao](nao.md) robot will spawn in the middle of the scene.
+After 20 timesteps, the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot will spawn in the middle of the scene.
 
-> Let's assume we wanted the [Nao](nao.md) to be spawned in the position BB-8 used to be, we certainly could move it there following the procedure of hands-on 2, but that would not be smart.
+> Let's assume we wanted the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) to be spawned in the position BB-8 used to be, we certainly could move it there following the procedure of hands-on 2, but that would not be smart.
 In fact, we can simply specify the translation field directly in the string!
 Replace the string `"Nao { }"` with `"Nao { translation 2.5 0 0.334 }"` and it will spawn exactly at that location.
 It does not stop there, in the same fashion we could define its `controller` parameter, or the `cameraWidth` or any other of its parameters in the same fashion.
@@ -678,7 +678,7 @@ In this section, we will use the acquired knowledge to spawn a ball, and track i
 
 > **Hands-on #4**:
 We need to use the [`wb_supervisor_field_import_mf_node_from_string`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) function to spawn the ball at location `0 1 1`, and since we are at it, let us get a reference to this node and to the `color` field of the `Ball`.
-But first, we have to declare the [Ball](object-balls.md#ball) as an `IMPORTABLE EXTERNPROTO` as we did it previously for the [Nao](nao.md) robot. Once done, in `CODE PLACEHOLDER 1` add:
+But first, we have to declare the [Ball](object-balls.md#ball) as an `IMPORTABLE EXTERNPROTO` as we did it previously for the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot. Once done, in `CODE PLACEHOLDER 1` add:
 > ```c
 > wb_supervisor_field_import_mf_node_from_string(children_field, -1, "DEF BALL Ball { translation 0 1 1 }");
 > WbNodeRef ball_node = wb_supervisor_node_get_from_def("BALL");
@@ -706,7 +706,7 @@ Since the ball has a radius of 0.2, we can change the `color` field when the "Y"
 %tab "C++"
 > **Hands-on #4**:
 We need to use the [`wb_supervisor_field_import_mf_node_from_string`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) function to spawn the ball at location `0 1 1`, and since we are at it, let us get a reference to this node and to the `color` field of the `Ball`.
-But first, we have to declare the [Ball](object-balls.md#ball) as an `IMPORTABLE EXTERNPROTO` as we did it previously for the [Nao](nao.md) robot. Once done, in `CODE PLACEHOLDER 1` add:
+But first, we have to declare the [Ball](object-balls.md#ball) as an `IMPORTABLE EXTERNPROTO` as we did it previously for the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot. Once done, in `CODE PLACEHOLDER 1` add:
 > ```cpp
 > childrenField->importMFNodeFromString(-1, "DEF BALL Ball { translation 0 1 1 }");
 > Node *ballNode = robot->getFromDef("BALL");
@@ -733,7 +733,7 @@ Since the ball has a radius of 0.2, we can change the `color` field when the "Y"
 %tab "Python"
 > **Hands-on #4**:
 We need to use the [`wb_supervisor_field_import_mf_node_from_string`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) function to spawn the ball at location `0 1 1`, and since we are at it, let us get a reference to this node and to the `color` field of the `Ball`.
-But first, we have to declare the [Ball](object-balls.md#ball) as an `IMPORTABLE EXTERNPROTO` as we did it previously for the [Nao](nao.md) robot. Once done, in `CODE PLACEHOLDER 1` add:
+But first, we have to declare the [Ball](object-balls.md#ball) as an `IMPORTABLE EXTERNPROTO` as we did it previously for the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot. Once done, in `CODE PLACEHOLDER 1` add:
 > ```python
 > children_field.importMFNodeFromString(-1, 'DEF BALL Ball { translation 0 1 1 }')
 > ball_node = robot.getFromDef('BALL')
@@ -760,7 +760,7 @@ Since the ball has a radius of 0.2, we can change the `color` field when the "Y"
 %tab "Java"
 > **Hands-on #4**:
 We need to use the [`wb_supervisor_field_import_mf_node_from_string`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) function to spawn the ball at location `0 1 1`, and since we are at it, let us get a reference to this node and to the `color` field of the `Ball`.
-But first, we have to declare the [Ball](object-balls.md#ball) as an `IMPORTABLE EXTERNPROTO` as we did it previously for the [Nao](nao.md) robot. Once done, in `CODE PLACEHOLDER 1` add:
+But first, we have to declare the [Ball](object-balls.md#ball) as an `IMPORTABLE EXTERNPROTO` as we did it previously for the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot. Once done, in `CODE PLACEHOLDER 1` add:
 > ```java
 > childrenField.importMFNodeFromString(-1, "DEF BALL Ball { translation 0 1 1 }");
 > Node ballNode = robot.getFromDef("BALL");
@@ -788,7 +788,7 @@ Since the ball has a radius of 0.2, we can change the `color` field when the "Y"
 %tab "MATLAB"
 > **Hands-on #4**:
 We need to use the [`wb_supervisor_field_import_mf_node_from_string`](../reference/supervisor.md#wb_supervisor_field_import_mf_node_from_string) function to spawn the ball at location `0 1 1`, and since we are at it, let us get a reference to this node and to the `color` field of the `Ball`.
-But first, we have to declare the [Ball](object-balls.md#ball) as an `IMPORTABLE EXTERNPROTO` as we did it previously for the [Nao](nao.md) robot. Once done, in `CODE PLACEHOLDER 1` add:
+But first, we have to declare the [Ball](object-balls.md#ball) as an `IMPORTABLE EXTERNPROTO` as we did it previously for the [Nao](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) robot. Once done, in `CODE PLACEHOLDER 1` add:
 > ```matlab
 > wb_supervisor_field_import_mf_node_from_string(children_field, -1, 'DEF BALL Ball { translation 0 1 1 }');
 > ball_node = wb_supervisor_node_get_from_def('BALL');
