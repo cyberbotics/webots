@@ -1623,7 +1623,7 @@ export default class Toolbar {
     this.protoParameterButton.onclick = () => this.#changeFloatingWindowVisibility(this.protoParameterWindow.getId());
     this.protoParameterWindow.populateProtoParameterWindow();
 
-    this.protoParameterWindow.updateProtoWindow();
+    this.protoParameterWindow.updateDevicesTabs();
 
     this.protoParameterWindowInitializeSizeAndPosition();
     this.#checkWindowBoundaries();

@@ -178,13 +178,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     }
   }
 
-  #refreshParameterRow(parameter, mfId) {
+  #refreshParameterRow(parameter, mfId, isCreatingParameters) {
     const resetButton = document.getElementById('reset-' + parameter.name);
     if (!resetButton)
       return;
 
-    if (parameter.isTemplateRegenerator || parameter.value instanceof SFNode || parameter.value instanceof MFNode)
-      this.updateProtoWindow();
+    if ((parameter.isTemplateRegenerator || parameter.value instanceof SFNode || parameter.value instanceof MFNode) &&
+      !isCreatingParameters)
+      this.updateDevicesTabs();
 
     if (parameter.isDefault())
       this.#disableResetButton(resetButton);
@@ -343,7 +344,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(p);
     parent.appendChild(values);
 
-    this.#refreshParameterRow(parameter);
+    this.#refreshParameterRow(parameter, undefined, true);
   }
 
   #createSFColorField(key, parent) {
@@ -456,7 +457,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(hideShowButton);
 
     this.#mfId++;
-    this.#refreshParameterRow(parameter, currentMfId);
+    this.#refreshParameterRow(parameter, currentMfId, true);
   }
 
   #MFOnChange(className, parameter) {
@@ -499,9 +500,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     // Separately printing only keys
     const array = [];
     let i = 0;
-    for (let value of lut.values()) {
+    for (let value of lut.values())
       array[i++] = value;
-    }
 
     parameter.setValueFromJavaScript(this.#view, array);
     this.#refreshParameterRow(parameter);
@@ -660,7 +660,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(hideShowButton);
 
     this.#mfId++;
-    this.#refreshParameterRow(parameter, currentMfId);
+    this.#refreshParameterRow(parameter, currentMfId, true);
   }
 
   #populateMFNode(resetButton, parent, parameter, firstRow, mfId, isVisible) {
@@ -936,7 +936,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(p);
     parent.appendChild(values);
 
-    this.#refreshParameterRow(parameter);
+    this.#refreshParameterRow(parameter, undefined, true);
   }
 
   #createVectorInput(name, initialValue, parent, callback) {
@@ -1052,7 +1052,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(p);
     parent.appendChild(value);
 
-    this.#refreshParameterRow(parameter);
+    this.#refreshParameterRow(parameter, undefined, true);
   }
 
   #createSFStringField(key, parent) {
@@ -1083,7 +1083,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(p);
     parent.appendChild(value);
 
-    this.#refreshParameterRow(parameter);
+    this.#refreshParameterRow(parameter, undefined, true);
   }
 
   #stringOnChange(node) {
@@ -1126,7 +1126,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(p);
     parent.appendChild(value);
 
-    this.#refreshParameterRow(parameter);
+    this.#refreshParameterRow(parameter, undefined, true);
   }
 
   #createSFNodeField(key, parent) {
@@ -1190,7 +1190,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(p);
     parent.appendChild(value);
 
-    this.#refreshParameterRow(parameter);
+    this.#refreshParameterRow(parameter, undefined, true);
   }
 
   async #sfnodeOnChange(parameter, url) {
@@ -1237,7 +1237,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(p);
     parent.appendChild(value);
 
-    this.#refreshParameterRow(parameter);
+    this.#refreshParameterRow(parameter, undefined, true);
   }
 
   #intOnChange(input) {
@@ -1279,7 +1279,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(p);
     parent.appendChild(value);
 
-    this.#refreshParameterRow(parameter);
+    this.#refreshParameterRow(parameter, undefined, true);
   }
 
   #changeBoolText(boolText, input) {
@@ -1760,8 +1760,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     return number;
   }
 
-  updateProtoWindow() {
-    console.log("populate")
+  updateDevicesTabs() {
     this.populateJointTab();
     this.populateDeviceTab();
   }
