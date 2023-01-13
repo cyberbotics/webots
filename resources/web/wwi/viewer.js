@@ -6,7 +6,7 @@
 
 import {getGETQueryValue, getGETQueriesMatchingRegularExpression} from './request_methods.js';
 import {webots} from './webots.js';
-import {setupModalWindow, renderGraphs, highlightCode, updateModalEvents} from './proto_viewer.js;';
+import {setupModalWindow, renderGraphs, highlightCode, updateModalEvents} from './proto_viewer.js';
 
 import WbImageTexture from './nodes/WbImageTexture.js';
 import WbPbrAppearance from './nodes/WbPbrAppearance.js';
