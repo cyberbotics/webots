@@ -26,11 +26,11 @@ export default class WbImageTexture extends WbBaseNode {
     this.#usedFiltering = 0;
   }
 
-  get isTranslarent() {
+  get isTransparent() {
     return this.#isTransparent;
   }
 
-  set isTranslarent(newValue) {
+  set isTransparent(newValue) {
     this.#isTransparent = newValue;
   }
 
