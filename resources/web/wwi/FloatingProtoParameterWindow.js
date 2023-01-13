@@ -183,6 +183,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     if (!resetButton)
       return;
 
+    if (parameter.isTemplateRegenerator || parameter.value instanceof SFNode || parameter.value instanceof MFNode)
+      this.updateProtoWindow();
+
     if (parameter.isDefault())
       this.#disableResetButton(resetButton);
     else
@@ -515,7 +518,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           parameter, isVisible);
       else
         this.#createMfRow(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
-          parameter, isVisible)
+          parameter, isVisible);
 
       numberOfRows++;
     }
@@ -649,7 +652,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       hideShowButton.style.transform = '';
       hideShowButton.isHidden = true;
       hideShowButton.title = 'Show content';
-      this.updateProtoWindow();
     };
 
     this.#rowNumber += this.#populateMFNode(resetButton, parent, parameter, this.#rowNumber, currentMfId);
@@ -743,7 +745,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     newRows[1].style.display = 'flex';
 
     this.#refreshParameterRow(parameter, mfId);
-    this.updateProtoWindow();
   }
 
   async #MFNodeOnRemoval(parameter, url, element, parent, mfId, resetButton) {
@@ -753,7 +754,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parameter.removeNode(this.#view, index);
 
     this.#refreshParameterRow(parameter, mfId);
-    this.updateProtoWindow();
   }
 
   async #MFNodeOnChange(parameter, url, element, parent, mfId, resetButton) {
@@ -766,7 +766,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parameter.insertNode(this.#view, node, index);
 
     this.#refreshParameterRow(parameter, mfId);
-    this.updateProtoWindow();
   }
 
   #rowToParameterIndex(element, mfId) {
@@ -1161,7 +1160,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     deleteNodeButton.onclick = () => {
       parameter.setValueFromJavaScript(this.#view, null);
       this.#refreshParameterRow(parameter);
-      this.updateProtoWindow();
     };
 
     const configureNodeButton = document.createElement('button');
@@ -1187,7 +1185,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       parameter.setValueFromJavaScript(this.#view, parameter.defaultValue.value === null
         ? null : parameter.defaultValue.value.clone(true));
       this.#refreshParameterRow(parameter);
-      this.updateProtoWindow();
     };
 
     parent.appendChild(p);
@@ -1200,7 +1197,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const node = await this.#protoManager.generateNodeFromUrl(url);
     parameter.setValueFromJavaScript(this.#view, node);
     this.#refreshParameterRow(parameter);
-    this.updateProtoWindow();
   }
 
   #hideNodeSelector(event) {

@@ -162,8 +162,10 @@ export default class Parser {
 
       webots.currentView.progress.setProgressBar('none');
 
-      if (!finalize)
+      if (!finalize) {
+        setTimeout(() => { webots.currentView.progress.setProgressBar('none'); }, 300);
         return;
+      }
 
       WbWorld.instance.readyForUpdates = false;
 
@@ -188,7 +190,6 @@ export default class Parser {
       webots.currentView.x3dScene.resize();
       renderer.render();
       setTimeout(() => { webots.currentView.progress.setProgressBar('none'); }, 300);
-
       if (typeof callback === 'function')
         callback();
       console.log('World Instance', WbWorld.instance);

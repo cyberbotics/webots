@@ -28,7 +28,6 @@ import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbPlane from './nodes/WbPlane.js';
 import WbPointLight from './nodes/WbPointLight.js';
 import WbRadar from './nodes/WbRadar.js';
-import WbShape from './nodes/WbShape.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbTextureCoordinate from './nodes/WbTextureCoordinate.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
