@@ -844,7 +844,23 @@ export class MFNode extends MultipleValue {
     });
   }
 
+  insertNode(node, index) {
+    const sfnode = new SFNode();
+    sfnode.setValueFromJavaScript(node);
+    this.value.splice(index, 0, sfnode);
+  }
+
+  removeNode(index) {
+    if (index > this.value.length - 1)
+      throw new Error('Node at index ' + index + ' cannot be removed because out of bounds.');
+
+    this.value.splice(index, 1);
+  }
+
   toX3d(parameterName, parentElement) {
+    if (this.value === [])
+      return;
+
     this.value.forEach((item) => item.toX3d(parameterName, parentElement));
   }
 

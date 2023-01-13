@@ -1,4 +1,5 @@
 import Parameter from './protoVisualizer/Parameter.js';
+import { VRML } from './protoVisualizer/vrml_type.js';
 
 class ProtoInfo {
   #url;
@@ -54,10 +55,8 @@ class ProtoInfo {
 }
 
 export default class NodeSelectorWindow {
-  #callback;
   #rootProto;
-  constructor(parentNode, callback, rootProto) {
-    this.#callback = callback;
+  constructor(parentNode, rootProto) {
     this.#rootProto = rootProto;
 
     this.#setupWindow(parentNode);
@@ -308,7 +307,10 @@ export default class NodeSelectorWindow {
       throw new Error('It should not be possible to insert an undefined node.');
 
     const info = this.nodes.get(protoName);
-    this.#callback(this.parameter, info.url);
+    if (this.parameter.type === VRML.SFNode)
+      this.callback(this.parameter, info.url);
+    else
+      this.callback(this.parameter, info.url, this.element, this.parent, this.mfId, this.resetButton);
     this.hide();
   }
 
@@ -346,6 +348,12 @@ export default class NodeSelectorWindow {
 
       if (fieldName === 'geometry')
         return this.isGeometryTypeMatch(baseType);
+
+      if (fieldName === 'children') {
+        if (['Group', 'Transform', 'Shape', 'CadShape', 'Solid', 'Robot', 'PointLight', 'SpotLight', 'Propeller', 'Charger']
+          .includes(baseType))
+          return true;
+      }
     }
 
     return false;
@@ -376,7 +384,7 @@ export default class NodeSelectorWindow {
       'IndexedFaceSet', 'IndexedLineSet'].includes(type);
   }
 
-  show(parameter) {
+  show(parameter, element, callback, parent, mfId, resetButton) {
     // cleanup input field
     const filterInput = document.getElementById('filter');
     filterInput.value = '';
@@ -385,6 +393,11 @@ export default class NodeSelectorWindow {
       throw new Error('Cannot display node selector unless a parameter is provided.');
 
     this.parameter = parameter;
+    this.element = element;
+    this.callback = callback;
+    this.parent = parent;
+    this.mfId = mfId;
+    this.resetButton = resetButton;
     this.populateWindow();
     this.nodeSelector.style.display = 'block';
   }
@@ -395,6 +408,11 @@ export default class NodeSelectorWindow {
 
   hide() {
     this.parameter = undefined;
+    this.element = undefined;
+    this.callback = undefined;
+    this.parent = undefined;
+    this.mfId = undefined;
+    this.resetButton = undefined;
     this.nodeSelector.style.display = 'none';
   }
 }
