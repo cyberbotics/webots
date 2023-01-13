@@ -1347,11 +1347,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     this.#appendDevices();
 
-    if (numberOfDevices === 0) {
-      const noDevice = document.createElement('h1');
-      noDevice.innerHTML = 'No devices';
-      this.devices.appendChild(noDevice);
-    }
+    if (numberOfDevices === 0)
+      this.tab2.style.display = 'none';
+    else
+      this.tab2.style.display = 'block';
   }
 
   #initDeviceList() {
@@ -1571,9 +1570,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     }
 
     if (numberOfJoint === 0) {
-      const title = document.createElement('h1');
-      title.innerHTML = 'No joints';
-      this.joints.appendChild(title);
+      this.tab1.style.display = 'none';
+      this.tab2.style.left = '33%';
+      this.tab2.textContent = 'Devices';
+    } else {
+      this.tab1.style.display = 'block';
+      this.tab2.style.left = '66%';
+      this.tab2.textContent = 'Other devices';
     }
   }
 
