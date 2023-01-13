@@ -8,18 +8,50 @@ import {vrmlFactory} from './Vrml.js';
 import {FieldModel} from './FieldModel.js';
 import {Parameter} from './Parameter.js';
 import WbWorld from '../nodes/WbWorld.js';
-import Field from './Field.js';
 
 export default class Node {
+  static cProtoModels = new Map();
+  static cBaseModels = new Map();
+  static cNodeSiblings = new Map(); // maps a node id to all other instances of the same node (clones, but different id)
+
   constructor(url, protoText, isRoot = false) {
+    // IMPORTANT! When adding new member variables of type Map, modify the .clone method so that it creates a copy of it
+    this.id = getAnId();
+    this.baseType = undefined; // may correspond to a base-node or another PROTO if it's a derived PROTO
+    this.isRoot = isRoot;
+
     this.url = url;
     this.isProto = this.url.toLowerCase().endsWith('.proto');
-    this.name = this.isProto ? this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '') : url;
 
-    this.fields = new Map();
+    this.name = this.isProto ? this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '') : url;
+    // console.log('CREATING ' + (this.isProto ? 'PROTO ' : 'BASENODE ') + this.name + ', id: ', this.id);
+
     this.parameters = new Map();
     this.externProto = new Map();
     this.def = new Map();
+
+    if (!this.isProto) {
+      // create parameters from the pre-defined FieldModel
+      const fields = FieldModel[this.name];
+      for (const parameterName of Object.keys(fields)) {
+        const type = FieldModel[this.name][parameterName]['type'];
+        const defaultValue = vrmlFactory(type);
+        defaultValue.setValueFromJavaScript(FieldModel[this.name][parameterName]['defaultValue']);
+        const value = defaultValue.clone(true);
+        const parameter = new Parameter(this, parameterName, type, [], defaultValue, value, false);
+        // console.log(parameterName + ' has parent ' + this.name);
+        this.parameters.set(parameterName, parameter);
+      }
+
+      return;
+    }
+
+    // for PROTO only
+    this.isTemplate = protoText.search('template language: javascript') !== -1;
+    if (this.isTemplate) {
+      // console.log('PROTO is a template!');
+      this.templateEngine = new TemplateEngine();
+    }
 
     // raw PROTO body text must be kept in case the template needs to be regenerated
     const indexBeginBody = protoText.search(/(?<=\]\s*\n*\r*)({)/g);
@@ -33,46 +65,6 @@ export default class Node {
 
     // header defines tags and EXTERNPROTO, persists through regenerations
     this.rawHeader = protoText.substring(0, indexBeginInterface);
-
-    if (this.isProto) {
-      // determine basetype
-      const match = this.rawBody.match(/\{\s*([a-zA-Z0-9\_\-\+]+)\s*\{/);
-      const baseType = match[1];
-      console.log(this.name, 'derives from', baseType);
-
-      if (typeof FieldModel[baseType] !== 'undefined') {
-        console.log('> derives from a base node')
-        const f = FieldModel[baseType];
-
-        // set field values based on field model
-        for (const fieldName of Object.keys(f)) {
-          const type = FieldModel[baseType][fieldName]['type'];
-          const defaultValue = vrmlFactory(type);
-          defaultValue.setValueFromJavaScript(FieldModel[baseType][fieldName]['defaultValue']);
-          const value = vrmlFactory(type);
-          value.setValueFromJavaScript(FieldModel[baseType][fieldName]['defaultValue']);
-          const field = new Field(fieldName, type, defaultValue, value);
-          this.fields.set(fieldName, field);
-        }
-      } else
-        console.log('> derives from a PROTO')
-    }
-
-    console.log(this)
-    return;
-    if (!this.isProto) {
-      // create field list
-      const fields = FieldModel[this.name];
-      for (const fieldName of Object.keys(fields)) {
-        const type = FieldModel[this.name][fieldName]['type'];
-        const defaultValue = vrmlFactory(type);
-        defaultValue.setValueFromJavaScript(FieldModel[this.name][fieldName]['defaultValue']);
-        const value = defaultValue.clone(true);
-        const parameter = new Parameter(this, fieldName, type, [], defaultValue, value, false);
-        // console.log(parameterName + ' has parent ' + this.name);
-        this.fields.set(fieldName, parameter);
-      }
-    }
 
     // get EXTERNPROTO
     this.promises = [];
@@ -127,6 +119,43 @@ export default class Node {
       // console.log(this.name + ': all EXTERNPROTO promises have been resolved');
       await this.parseHead();
     });
+  }
+
+  clone(deep = false) {
+    let copy = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
+
+    if (typeof this.baseType !== 'undefined')
+      copy.baseType = this.baseType.clone(deep);
+
+    copy.id = getAnId();
+
+    if (!deep) {
+      if (!Node.cNodeSiblings.has(this.id))
+        Node.cNodeSiblings.set(this.id, []);
+      if (!Node.cNodeSiblings.has(copy.id))
+        Node.cNodeSiblings.set(copy.id, []);
+
+      const s1 = Node.cNodeSiblings.get(this.id);
+      s1.push(copy); // add copy as a sibling of this node
+      const s2 = Node.cNodeSiblings.get(copy.id);
+      s2.push(this); // add this node as a sibling of the copy
+    }
+
+    copy.parameters = new Map();
+    for (const [parameterName, parameter] of this.parameters) {
+      if (typeof parameter !== 'undefined') {
+        // console.log('cloning parameter ' + parameterName + ' (type ' + parameter.type + ')');
+        const parameterCopy = parameter.clone(deep);
+        parameterCopy.node = copy;
+        // console.log('NODE ORIGINAL', parameter);
+        // console.log('NODE COPY', parameterCopy);
+        copy.parameters.set(parameterName, parameterCopy);
+      }
+    }
+
+    copy.def = new Map(this.def); // TODO: probably wrong, need to clone nodes?
+    copy.externProto = new Map(this.externProto);
+    return copy;
   }
 
   async parseHead() {

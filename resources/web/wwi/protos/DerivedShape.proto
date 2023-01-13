@@ -1,0 +1,15 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "SubProto.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/Copper.proto"
+
+PROTO DerivedShape [
+  field SFNode appearance Copper{}
+  field SFNode geometry Box{}
+]
+{
+  SubProto {
+    appearance IS appearance
+    geometry IS geometry
+  }
+}
