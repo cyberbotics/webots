@@ -462,7 +462,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
   #MFOnChange(className, parameter) {
     const elements = document.getElementsByClassName(className);
-    let lut = new Map();
+    let valuesMap = new Map();
     for (let i = 0; i < elements.length; i++) {
       let order = this.#getRow(elements[i]);
 
@@ -493,14 +493,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         value = {r: red, g: green, b: blue};
       }
 
-      lut.set(order, value);
+      valuesMap.set(order, value);
     }
-    lut = new Map([...lut.entries()].sort((a, b) => a[0] - b[0]));
+    valuesMap = new Map([...valuesMap.entries()].sort((a, b) => a[0] - b[0]));
 
     // Separately printing only keys
     const array = [];
     let i = 0;
-    for (let value of lut.values())
+    for (let value of valuesMap.values())
       array[i++] = value;
 
     parameter.setValueFromJavaScript(this.#view, array);
