@@ -892,7 +892,7 @@ function highlightX3DElement(deviceElement) {
 
   if (typeof imageTexture === 'undefined') {
     imageTexture = new WbImageTexture(getAnId(), computeTargetPath() + '../css/images/marker.png', false, true, true, 4);
-    ImageLoader.loadImageTextureInWren('', computeTargetPath() + '../css/images/marker.png', false).then(() => {
+    ImageLoader.loadImageTextureInWren(imageTexture, '', computeTargetPath() + '../css/images/marker.png', false).then(() => {
       imageTexture.updateUrl();
       highlightX3DElement(deviceElement);
     });

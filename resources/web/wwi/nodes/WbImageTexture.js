@@ -13,17 +13,25 @@ export default class WbImageTexture extends WbBaseNode {
   #url;
   #usedFiltering;
   #wrenTextureIndex;
-  constructor(id, url, isTransparent, s, t, filtering) {
+  constructor(id, url, s, t, filtering) {
     super(id);
     this.#url = url;
 
-    this.#isTransparent = isTransparent;
+    this.#isTransparent = false; // this field is updated whenever loadTextureData is called
     this.#repeatS = s;
     this.#repeatT = t;
     this.#filtering = filtering;
 
     this.#wrenTextureIndex = 0;
     this.#usedFiltering = 0;
+  }
+
+  get isTransparent() {
+    return this.#isTransparent;
+  }
+
+  set isTransparent(newValue) {
+    this.#isTransparent = newValue;
   }
 
   get filtering() {
@@ -186,7 +194,7 @@ export default class WbImageTexture extends WbBaseNode {
   }
 
   #updateUrl() {
-    ImageLoader.loadImageTextureInWren(WbWorld.instance.prefix, this.#url, undefined)
+    ImageLoader.loadImageTextureInWren(this, WbWorld.instance.prefix, this.#url)
       .then(() => {
         this.#updateWrenTexture();
         this.#update();
