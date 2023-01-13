@@ -178,10 +178,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     }
   }
 
-  #refreshParameterRow(parameter, mfId) {
+  #refreshParameterRow(parameter, mfId, isCreatingParameters) {
     const resetButton = document.getElementById('reset-' + parameter.name);
     if (!resetButton)
       return;
+
+    if ((parameter.isTemplateRegenerator || parameter.value instanceof SFNode || parameter.value instanceof MFNode) &&
+      !isCreatingParameters)
+      this.updateDevicesTabs();
 
     if (parameter.isDefault())
       this.#disableResetButton(resetButton);
@@ -340,7 +344,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(p);
     parent.appendChild(values);
 
-    this.#refreshParameterRow(parameter);
+    this.#refreshParameterRow(parameter, undefined, true);
   }
 
   #createSFColorField(key, parent) {
@@ -453,12 +457,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(hideShowButton);
 
     this.#mfId++;
-    this.#refreshParameterRow(parameter, currentMfId);
+    this.#refreshParameterRow(parameter, currentMfId, true);
   }
 
   #MFOnChange(className, parameter) {
     const elements = document.getElementsByClassName(className);
-    let lut = new Map();
+    let valuesMap = new Map();
     for (let i = 0; i < elements.length; i++) {
       let order = this.#getRow(elements[i]);
 
@@ -489,16 +493,15 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         value = {r: red, g: green, b: blue};
       }
 
-      lut.set(order, value);
+      valuesMap.set(order, value);
     }
-    lut = new Map([...lut.entries()].sort((a, b) => a[0] - b[0]));
+    valuesMap = new Map([...valuesMap.entries()].sort((a, b) => a[0] - b[0]));
 
     // Separately printing only keys
     const array = [];
     let i = 0;
-    for (let value of lut.values()) {
+    for (let value of valuesMap.values())
       array[i++] = value;
-    }
 
     parameter.setValueFromJavaScript(this.#view, array);
     this.#refreshParameterRow(parameter);
@@ -515,7 +518,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           parameter, isVisible);
       else
         this.#createMfRow(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
-          parameter, isVisible)
+          parameter, isVisible);
 
       numberOfRows++;
     }
@@ -657,7 +660,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(hideShowButton);
 
     this.#mfId++;
-    this.#refreshParameterRow(parameter, currentMfId);
+    this.#refreshParameterRow(parameter, currentMfId, true);
   }
 
   #populateMFNode(resetButton, parent, parameter, firstRow, mfId, isVisible) {
@@ -933,7 +936,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(p);
     parent.appendChild(values);
 
-    this.#refreshParameterRow(parameter);
+    this.#refreshParameterRow(parameter, undefined, true);
   }
 
   #createVectorInput(name, initialValue, parent, callback) {
@@ -1049,7 +1052,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(p);
     parent.appendChild(value);
 
-    this.#refreshParameterRow(parameter);
+    this.#refreshParameterRow(parameter, undefined, true);
   }
 
   #createSFStringField(key, parent) {
@@ -1080,7 +1083,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(p);
     parent.appendChild(value);
 
-    this.#refreshParameterRow(parameter);
+    this.#refreshParameterRow(parameter, undefined, true);
   }
 
   #stringOnChange(node) {
@@ -1123,7 +1126,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(p);
     parent.appendChild(value);
 
-    this.#refreshParameterRow(parameter);
+    this.#refreshParameterRow(parameter, undefined, true);
   }
 
   #createSFNodeField(key, parent) {
@@ -1187,7 +1190,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(p);
     parent.appendChild(value);
 
-    this.#refreshParameterRow(parameter);
+    this.#refreshParameterRow(parameter, undefined, true);
   }
 
   async #sfnodeOnChange(parameter, url) {
@@ -1234,7 +1237,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(p);
     parent.appendChild(value);
 
-    this.#refreshParameterRow(parameter);
+    this.#refreshParameterRow(parameter, undefined, true);
   }
 
   #intOnChange(input) {
@@ -1276,7 +1279,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parent.appendChild(p);
     parent.appendChild(value);
 
-    this.#refreshParameterRow(parameter);
+    this.#refreshParameterRow(parameter, undefined, true);
   }
 
   #changeBoolText(boolText, input) {
@@ -1348,11 +1351,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     this.#appendDevices();
 
-    if (numberOfDevices === 0) {
-      const noDevice = document.createElement('h1');
-      noDevice.innerHTML = 'No devices';
-      this.devices.appendChild(noDevice);
-    }
+    this.tab2.style.display = (numberOfDevices === 0) ? 'none' : 'block';
   }
 
   #initDeviceList() {
@@ -1572,9 +1571,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     }
 
     if (numberOfJoint === 0) {
-      const title = document.createElement('h1');
-      title.innerHTML = 'No joints';
-      this.joints.appendChild(title);
+      this.tab1.style.display = 'none';
+      this.tab2.style.left = '33%';
+      this.tab2.textContent = 'Devices';
+    } else {
+      this.tab1.style.display = 'block';
+      this.tab2.style.left = '66%';
+      this.tab2.textContent = 'Other devices';
     }
   }
 
@@ -1752,5 +1755,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     if (isNaN(number))
       return 0;
     return number;
+  }
+
+  updateDevicesTabs() {
+    this.populateJointTab();
+    this.populateDeviceTab();
   }
 }

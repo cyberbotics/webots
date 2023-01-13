@@ -1,0 +1,19 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/traffic/protos/TrafficLightBigPole.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/robots/softbank/nao/protos/Nao.proto"
+
+PROTO MyTrafficLightBigPole [
+  field SFVec3f translation 0 0 0
+  field MFNode slot1 []
+  field MFNode slot2 []
+  field MFNode slot3 [Nao{}]
+]
+{
+  TrafficLightBigPole {
+    translation IS translation
+    slot1 IS slot1
+    slot2 IS slot2
+    slot3 IS slot3
+  }
+}

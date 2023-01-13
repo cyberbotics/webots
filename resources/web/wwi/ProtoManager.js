@@ -28,9 +28,7 @@ export default class ProtoManager {
       this.proto.parseBody();
       this.loadX3d();
       // generate list of exposed parameters (that will be tied to interface elements)
-      console.log('EXPOSED PARAMETERS ARE:');
       for (const [parameterName, parameter] of this.proto.parameters) {
-        console.log('> ', parameterName);
         parameter._view = this.#view;
         this.exposedParameters.set(parameterName, parameter); // TODO: change key to parameter id ?
       }
