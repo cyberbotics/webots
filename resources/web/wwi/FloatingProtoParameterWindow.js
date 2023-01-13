@@ -213,7 +213,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         const button = nodes[i].firstChild.firstChild;
         button.innerText = parameter.value.value[index].value.name;
       }
-      this.updateProtoWindow();
     }
 
     // note: SFNode/MFNode rows don't need refresh since the restriction and its handling is done in the node selector window
@@ -650,6 +649,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       hideShowButton.style.transform = '';
       hideShowButton.isHidden = true;
       hideShowButton.title = 'Show content';
+      this.updateProtoWindow();
     };
 
     this.#rowNumber += this.#populateMFNode(resetButton, parent, parameter, this.#rowNumber, currentMfId);
@@ -743,6 +743,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     newRows[1].style.display = 'flex';
 
     this.#refreshParameterRow(parameter, mfId);
+    this.updateProtoWindow();
   }
 
   async #MFNodeOnRemoval(parameter, url, element, parent, mfId, resetButton) {
@@ -752,6 +753,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parameter.removeNode(this.#view, index);
 
     this.#refreshParameterRow(parameter, mfId);
+    this.updateProtoWindow();
   }
 
   async #MFNodeOnChange(parameter, url, element, parent, mfId, resetButton) {
@@ -764,6 +766,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parameter.insertNode(this.#view, node, index);
 
     this.#refreshParameterRow(parameter, mfId);
+    this.updateProtoWindow();
   }
 
   #rowToParameterIndex(element, mfId) {
@@ -1759,6 +1762,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   updateProtoWindow() {
+    console.log("populate")
     this.populateJointTab();
     this.populateDeviceTab();
   }
