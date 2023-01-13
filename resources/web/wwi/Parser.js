@@ -162,8 +162,10 @@ export default class Parser {
 
       webots.currentView.progress.setProgressBar('none');
 
-      if (!finalize)
+      if (!finalize) {
+        setTimeout(() => { webots.currentView.progress.setProgressBar('none'); }, 300);
         return;
+      }
 
       WbWorld.instance.readyForUpdates = false;
 
@@ -188,7 +190,6 @@ export default class Parser {
       webots.currentView.x3dScene.resize();
       renderer.render();
       setTimeout(() => { webots.currentView.progress.setProgressBar('none'); }, 300);
-
       if (typeof callback === 'function')
         callback();
       console.log('World Instance', WbWorld.instance);
@@ -1526,18 +1527,17 @@ export default class Parser {
     let url = getNodeAttribute(node, 'url', '');
     if (typeof url !== 'undefined')
       url = url.split('"').filter(element => { if (element !== ' ') return element; })[0]; // filter removes empty elements.
-    const isTransparent = getNodeAttribute(node, 'isTransparent', 'false').toLowerCase() === 'true';
     const s = getNodeAttribute(node, 'repeatS', 'true').toLowerCase() === 'true';
     const t = getNodeAttribute(node, 'repeatT', 'true').toLowerCase() === 'true';
     const filtering = parseFloat(getNodeAttribute(node, 'filtering', '4'));
 
     let imageTexture;
     if (typeof url !== 'undefined' && url !== '') {
-      imageTexture = new WbImageTexture(id, url, isTransparent, s, t, filtering);
+      imageTexture = new WbImageTexture(id, url, s, t, filtering);
       if (!this.#downloadingImage.has(url)) {
         this.#downloadingImage.add(url);
         // Load the texture in WREN
-        this.#promises.push(ImageLoader.loadImageTextureInWren(this.prefix, url, isTransparent));
+        this.#promises.push(ImageLoader.loadImageTextureInWren(imageTexture, this.prefix, url));
       }
     }
 
