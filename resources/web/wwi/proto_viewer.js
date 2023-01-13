@@ -6,9 +6,6 @@ function populateProtoViewDiv(mdContent, imgPrefix, infoArray) {
   while (view.firstChild)
     view.removeChild(view.firstChild);
 
-  // console.log('Raw MD content:\n\n');
-  // console.log(mdContent);
-
   // markdown to html
   window.mermaidGraphCounter = 0;
   window.mermaidGraphs = {};
@@ -24,20 +21,12 @@ function populateProtoViewDiv(mdContent, imgPrefix, infoArray) {
 
   view.innerHTML = html;
 
-  setupModalWindow();
+  setupModalWindow('#main-container');
   renderGraphs();
   redirectImages(view, imgPrefix);
   updateModalEvents(view);
-  // collapseMovies(view);
-  //
+  redirectUrls(view);
   highlightCode(view);
-  //
-  // updateSelection();
-  //
-  // setupBlogFunctionalitiesIfNeeded();
-  // addNavigationToBlogIfNeeded();
-  //
-  // applyTabs();
   view.insertBefore(infoArray, view.firstChild);
 }
 
@@ -66,6 +55,19 @@ function highlightCode(view) {
       const code = codes[j];
       hljs.highlightBlock(code);
     }
+  }
+}
+
+function redirectUrls(node) {
+  // redirect a's href
+  const as = node.querySelectorAll('a');
+  for (let i = 0; i < as.length; i++) {
+    const a = as[i];
+    const href = a.getAttribute('href');
+    if (!href)
+      continue;
+    else if (href.startsWith('http')) // open external links in a new window
+      a.setAttribute('target', '_blank');
   }
 }
 
@@ -141,8 +143,8 @@ function updateModalEvents(view) {
   }
 }
 
-function setupModalWindow() {
-  const doc = document.querySelector('#main-container');
+function setupModalWindow(container) {
+  const doc = document.querySelector(container);
 
   // Create the following HTML tags:
   // <div id="modal-window" class="modal-window">
@@ -187,4 +189,4 @@ function setupModalWindow() {
   };
 }
 
-export {populateProtoViewDiv};
+export {setupModalWindow, populateProtoViewDiv};
