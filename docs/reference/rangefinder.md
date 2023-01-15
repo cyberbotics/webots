@@ -567,7 +567,7 @@ Their content are identical but their handling is of course different.
 
 > ```python
 > image_c_ptr = range_finder.getRangeImage(data_type="buffer")
-> image_np = np.ctypeslib.as_array(image_c_ptr, (range_finder.getWidth()*range_finder.getHeight(),))
+> image_np = np.ctypeslib.as_array(image_c_ptr, (range_finder.getWidth() * range_finder.getHeight(),))
 > ```
 
 ---
