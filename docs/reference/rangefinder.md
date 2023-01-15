@@ -566,8 +566,8 @@ Their content are identical but their handling is of course different.
 > `buffer` is significantly faster than `list`, and can easily be wrapped using external libraries such as NumPy:
 
 > ```python
-> image_bytes = range_finder.getRangeImage(data_type="buffer")
-> image_np = np.frombuffer(image_bytes, dtype=np.float32)
+> image_c_ptr = range_finder.getRangeImage(data_type="buffer")
+> image_np = np.ctypeslib.as_array(image_c_ptr, (range_finder.getWidth() * range_finder.getHeight(),))
 > ```
 
 ---
