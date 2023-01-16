@@ -22,25 +22,25 @@ class Road(object):
         self.roadType = roadType
 
         id = re.findall(r'id\s*"([^"]*)"', wbtString)
-        self.id = id[0] if not id else ""
+        self.id = id[0] if id else ""
 
         width = re.findall(r'width\s*(%s)' % floatRE, wbtString)
-        self.width = float(width[0]) if not width else 7
+        self.width = float(width[0]) if width else 7
 
         speedLimit = re.findall(r'speedLimit\s*(%s)' % floatRE, wbtString)
-        self.speedLimit = float(speedLimit[0]) if not speedLimit else 50.0 / 3.6  # 50 km/h
+        self.speedLimit = float(speedLimit[0]) if speedLimit else 50.0 / 3.6  # 50 km/h
 
         translation = re.findall(r'translation\s*(%s\s*%s\s*%s)' % (floatRE, floatRE, floatRE), wbtString)
-        self.translation = [float(x) for x in translation[0].split()] if not translation else [0.0, 0.0, 0.0]
+        self.translation = [float(x) for x in translation[0].split()] if translation else [0.0, 0.0, 0.0]
 
         rotation = re.findall(r'rotation\s*(%s\s*%s\s*%s\s*%s)' % (floatRE, floatRE, floatRE, floatRE), wbtString)
-        self.rotation = [float(x) for x in rotation[0].split()] if not rotation else [0.0, 0.0, 1.0, 0]
+        self.rotation = [float(x) for x in rotation[0].split()] if rotation else [0.0, 0.0, 1.0, 0]
 
         startJunctionID = re.findall(r'startJunction\s*"([^"]*)"', wbtString)
-        self.startJunctionID = startJunctionID[0] if not startJunctionID else ""
+        self.startJunctionID = startJunctionID[0] if startJunctionID else ""
 
         endJunctionID = re.findall(r'endJunction\s*"([^"]*)"', wbtString)
-        self.endJunctionID = endJunctionID[0] if not endJunctionID else ""
+        self.endJunctionID = endJunctionID[0] if endJunctionID else ""
 
         if self.roadType == 'Road':
             try:
@@ -56,24 +56,24 @@ class Road(object):
                 self.wayPoints = []
 
             splineSubdivision = re.findall(r'splineSubdivision\s*(%s)' % intRE, wbtString)
-            splineSubdivision = int(splineSubdivision[0]) if not splineSubdivision else 4
+            splineSubdivision = int(splineSubdivision[0]) if splineSubdivision else 4
             if splineSubdivision > 0:
                 self.wayPoints = apply_spline_subdivision_to_path(self.wayPoints, splineSubdivision)
         elif self.roadType == 'StraightRoadSegment':
             length = re.findall(r'length\s*(%s)' % floatRE, wbtString)
-            length = float(length[0]) if not length else 10.0
+            length = float(length[0]) if length else 10.0
             self.wayPoints = [[0, 0, 0], [0, length, 0]]
         elif self.roadType == 'CurvedRoadSegment':
             self.wayPoints = []
 
             subdivision = re.findall(r'subdivision\s*(%s)' % intRE, wbtString)
-            subdivision = int(subdivision[0]) if not subdivision else 16
+            subdivision = int(subdivision[0]) if subdivision else 16
 
             curvatureRadius = re.findall(r'curvatureRadius\s*(%s)' % floatRE, wbtString)
-            curvatureRadius = float(curvatureRadius[0]) if not curvatureRadius else 10.0
+            curvatureRadius = float(curvatureRadius[0]) if curvatureRadius else 10.0
 
             totalAngle = re.findall(r'totalAngle\s*(%s)' % floatRE, wbtString)
-            totalAngle = float(totalAngle[0]) if not totalAngle else 1.5708
+            totalAngle = float(totalAngle[0]) if totalAngle else 1.5708
 
             for i in range(subdivision + 1):
                 x1 = curvatureRadius * math.cos(float(i) * totalAngle / float(subdivision))
@@ -83,10 +83,10 @@ class Road(object):
             self.wayPoints = []
 
         lanes = re.findall(r'numberOfLanes\s*(%s)' % intRE, wbtString)
-        self.lanes = int(lanes[0]) if not lanes else 2
+        self.lanes = int(lanes[0]) if lanes else 2
 
         forwardLanes = re.findall(r'numberOfForwardLanes\s*(%s)' % intRE, wbtString)[0]
-        self.forwardLanes = int(forwardLanes[0]) if not forwardLanes else 1
+        self.forwardLanes = int(forwardLanes[0]) if forwardLanes else 1
 
         self.backwardLanes = self.lanes - self.forwardLanes
         self.oneWay = self.backwardLanes == 0

@@ -26,16 +26,16 @@ class Crossroad(object):
         """Extract info from the wbtString matching the node."""
 
         id = re.findall(r'id\s*"([^"]*)"', wbtString)
-        self.id = id[0] if not id else self.id
+        self.id = id[0] if id else self.id
 
         translation = re.findall(r'translation\s*(%s\s*%s\s*%s)' % (floatRE, floatRE, floatRE), wbtString)
-        self.translation = [float(x) for x in translation[0].split()] if not translation else self.translation
+        self.translation = [float(x) for x in translation[0].split()] if translation else self.translation
 
         rotation = re.findall(r'rotation\s*(%s\s*%s\s*%s\s*%s)' % (floatRE, floatRE, floatRE, floatRE), wbtString)
-        self.rotation = [float(x) for x in rotation[0].split()] if not rotation else [0.0, 0.0, 1.0, 0]
+        self.rotation = [float(x) for x in rotation[0].split()] if rotation else [0.0, 0.0, 1.0, 0]
 
         connectedRoadIDs = re.findall(r'connectedRoadIDs\s*\[([^\]]*)\]', wbtString)
-        if not connectedRoadIDs:
+        if connectedRoadIDs:
             self.connectedRoadIDs = [x.replace('"', '') for x in connectedRoadIDs[0].split()]
 
         if self.crossroadType == "Crossroad":
@@ -54,10 +54,10 @@ class Crossroad(object):
             self.shape = []
 
             roadNumber = re.findall(r'roadNumber\s*(%s)' % intRE, wbtString)
-            roadNumber = int(roadNumber[0]) if not roadNumber else 4
+            roadNumber = int(roadNumber[0]) if roadNumber else 4
 
             roadsWidth = re.findall(r'roadsWidth\s*(%s)' % floatRE, wbtString)
-            roadsWidth = float(roadsWidth[0]) if not roadsWidth else 7.0
+            roadsWidth = float(roadsWidth[0]) if roadsWidth else 7.0
 
             outerRadius = roadsWidth / (2 * math.sin(math.pi / roadNumber))
             angle = -self.rotation[3]
