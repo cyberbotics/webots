@@ -49,8 +49,8 @@ from controller.joystick import Joystick                       # noqa
 from controller.motion import Motion                           # noqa
 
 __all__ = [
-    Field, Node, ContactPoint, AnsiCodes, Accelerometer, Altimeter, Brake, Camera, CameraRecognitionObject, Compass, Connector,
-    Display, DistanceSensor, Emitter, GPS, Gyro, InertialUnit, LED, Lidar, LidarPoint, LightSensor, Motor, PositionSensor,
-    Radar, RadarTarget, RangeFinder, Receiver, Robot, Skin, Speaker, Supervisor, TouchSensor, Keyboard, Mouse, MouseState,
-    Joystick, Motion
+    Accelerometer, Altimeter, AnsiCodes, Brake, Camera, CameraRecognitionObject, Compass, Connector, ContactPoint, Display,
+    DistanceSensor, Emitter, Field, GPS, Gyro, InertialUnit, Joystick, Keyboard, LED, Lidar, LidarPoint, LightSensor, Motion,
+    Motor, Mouse, MouseState, Node, PositionSensor, Radar, RadarTarget, RangeFinder, Receiver, Robot, Skin, Speaker,
+    Supervisor, TouchSensor
 ]
