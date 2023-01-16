@@ -15,10 +15,6 @@ function populateProtoViewDiv(mdContent, imgPrefix, infoArray) {
       'wbIllustratedSection', 'youtube'
     ]});
   const html = converter.makeHtml(mdContent);
-
-  // console.log('HTML content: \n\n')
-  // console.log(html);
-
   view.innerHTML = html;
 
   setupModalWindow('#main-container');
