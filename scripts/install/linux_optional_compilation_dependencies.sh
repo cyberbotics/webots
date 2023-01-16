@@ -6,6 +6,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # Install add-apt-repository command
+alias apt='apt --option="APT::Acquire::Retries=3"'
 apt install --yes software-properties-common
 add-apt-repository -y ppa:deadsnakes/ppa
 apt update
