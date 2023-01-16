@@ -35,7 +35,8 @@ skippedDirectories = [
     'lib',
     'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba',
     'projects/robots/robotis/darwin-op/libraries/python',
-    'projects/default/resources/sumo'
+    'projects/default/resources/sumo',
+    'resources/webots_ros/'
 ]
 skippedDirectoriesFull = [os.path.join(WEBOTS_HOME, os.path.normpath(path)) for path in skippedDirectories]
 
