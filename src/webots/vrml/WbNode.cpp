@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -795,8 +795,11 @@ void WbNode::notifyFieldChanged() {
             continue;
           assert(parent);
           setGlobalParentNode(parent);
+          const bool isTemplateRegenerationRequired =
+            WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(subField, subField->parentNode());
           subField->copyValueFrom(field);
-          subField->defHasChanged();
+          if (!isTemplateRegenerationRequired)
+            subField->defHasChanged();
         }
 
         setGlobalParentNode(NULL);

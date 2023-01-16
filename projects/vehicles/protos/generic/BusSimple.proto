@@ -9,19 +9,19 @@ EXTERNPROTO "BusShape.proto"
 EXTERNPROTO "BusWheel.proto"
 
 PROTO BusSimple [
-  field     SFVec3f    translation         0 0 0.55
-  field     SFRotation rotation            0 0 1 0
-  field     SFColor    color               0.03 0.12 0.42
-  field     MFColor    recognitionColors   [  0.03 0.12 0.42 ]
-  field     SFString   name                "vehicle"
-  field     SFString   controller          "<none>"
-  field     MFString   controllerArgs      [ ]
-  field     SFString   window              "<none>"
-  field     MFNode     sensorsSlotFront    [ ]
-  field     MFNode     sensorsSlotRear     [ ]
-  field     MFNode     sensorsSlotTop      [ ]
-  field     MFNode     sensorsSlotCenter   [ ]
-  field     SFBool     wheelBoundingObject FALSE
+  field     SFVec3f    translation         0 0 0.55             # Is `Robot.translation`.
+  field     SFRotation rotation            0 0 1 0              # Is `Robot.rotation`.
+  field     SFColor    color               0.03 0.12 0.42       # Defines the car body color.
+  field     MFColor    recognitionColors   [  0.03 0.12 0.42 ]  # Is `Robot.recognitionColors`.
+  field     SFString   name                "vehicle"            # Is `Robot.name`.
+  field     SFString   controller          "<none>"             # Is `Robot.controller`.
+  field     MFString   controllerArgs      [ ]                  # Is `Robot.controllerArgs`.
+  field     SFString   window              "<none>"             # Is `Robot.window`.
+  field     MFNode     sensorsSlotFront    [ ]                  # Extends the robot with new nodes on the front of the vehicle.
+  field     MFNode     sensorsSlotRear     [ ]                  # Extends the robot with new nodes on the back of the vehicle.
+  field     MFNode     sensorsSlotTop      [ ]                  # Extends the robot with new nodes on the roof of the vehicle.
+  field     MFNode     sensorsSlotCenter   [ ]                  # Extends the robot with new nodes at the center of the vehicle.
+  field     SFBool     wheelBoundingObject FALSE                # Defines whether the wheels should have a bounding object.
   hiddenField SFVec3f frontRightWheelAngularVelocity 0 0 0
   hiddenField SFVec3f frontLeftWheelAngularVelocity  0 0 0
   hiddenField SFVec3f rearRightWheelAngularVelocity  0 0 0

@@ -3,7 +3,7 @@ import WbBaseNode from './WbBaseNode.js';
 import WbPbrAppearance from './WbPbrAppearance.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbWorld from './WbWorld.js';
-import WbWrenShaders from './../wren/WbWrenShaders.js';
+import WbWrenShaders from '../wren/WbWrenShaders.js';
 
 export default class WbBackground extends WbBaseNode {
   #cubeArray;
