@@ -32,7 +32,6 @@ WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
 skippedDirectories = [
     '.git',
     'dependencies',
-    'lib',
     'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba',
     'projects/robots/robotis/darwin-op/libraries/python',
     'projects/default/resources/sumo',
