@@ -293,9 +293,9 @@ class SumoSupervisor (Supervisor):
                 pos = [x3 + vehicle.targetPos[0], y3 + vehicle.targetPos[1], pos[2]]
                 diffYaw = yaw - vehicle.targetAngles[2] - artificialAngle
                 # limit angular speed
-                diffYaw = (diffYaw + 2*math.pi) % (2*math.pi)
+                diffYaw = (diffYaw + 2 * math.pi) % (2 * math.pi)
                 if (diffYaw > math.pi):
-                    diffYaw -= 2*math.pi
+                    diffYaw -= 2 * math.pi
                 threshold = 0.001 * step * maximumAngularSpeed
                 diffYaw = min(max(diffYaw, -threshold), threshold)
                 yaw = diffYaw + vehicle.targetAngles[2]
@@ -335,9 +335,9 @@ class SumoSupervisor (Supervisor):
                 velocity.append(self.vehicles[i].targetPos[2] - self.vehicles[i].currentPos[2])
                 for j in range(0, 3):
                     diffAngle = self.vehicles[i].currentAngles[j] - self.vehicles[i].targetAngles[j]
-                    diffAngle = (diffAngle + 2*math.pi) % (2*math.pi)
+                    diffAngle = (diffAngle + 2 * math.pi) % (2 * math.pi)
                     if (diffAngle > math.pi):
-                        diffAngle -= 2*math.pi
+                        diffAngle -= 2 * math.pi
                     velocity.append(diffAngle)
                 velocity[:] = [1000 * x / step for x in velocity]
                 self.vehicles[i].node.setVelocity(velocity)
