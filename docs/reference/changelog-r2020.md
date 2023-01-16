@@ -231,7 +231,7 @@ Released on December 18th, 2019.
     - Fixed the [`wb_supervisor_node_reset_physics()`](supervisor.md#wb_supervisor_node_reset_physics) and [`wb_supervisor_simulation_reset_physics()`](supervisor.md#wb_supervisor_simulation_reset_physics) functions when applied on dynamic objects (in motion and containing joints).
     - Fixed [Lidar](lidar.md) point cloud access in controllers (thanks to Alexander).
     - Fixed bugs in Python Display.imageNew() when passing an image array: rearranged image data from column-major order and memory leak (thanks to Inbae Jeong).
-    - Fixed [Nao.selfCollision](https://proto.webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/enhancement-proto-doc/projects/robots/softbank/nao/protos/Nao.proto) due to overlapping bounding objects in feet (thanks to Sheila).
+    - Fixed [Nao.selfCollision](../guide/nao.md) due to overlapping bounding objects in feet (thanks to Sheila).
     - Fixed [infra-red DistanceSensors](distancesensor.md) or [Pen](pen.md) versus [Plane](plane.md) collision detection.
     - Fixed determinism in camera rendering order.
     - Fixed missing `WB_NODE_MUSCLE` and `WB_NODE_PROPELLER` types in [`wb_node_get_name()`](supervisor.md#wb_supervisor_node_get_type) function.
