@@ -19,7 +19,7 @@ import unittest
 
 import _ast
 import fnmatch
-import pep8
+import pycodestyle
 import os
 import sys
 from io import open  # needed for compatibility with Python 2.7 for open(file, encoding='utf-8')
@@ -108,7 +108,7 @@ def checkFlakesPath(filename, reporter):
     checkFlakes(codestr.encode('utf-8'), filename, reporter)
 
 
-class CustomReport(pep8.StandardReport):
+class CustomReport(pycodestyle.StandardReport):
     """Collect report, and overload the string operator."""
 
     results = []
@@ -166,7 +166,7 @@ class TestCodeFormat(unittest.TestCase):
     def test_pep8_conformance(self):
         """Test that the tests are PEP8 compliant."""
         # Use pep8 module to detect 'W' and 'E' errors
-        checker = pep8.StyleGuide(
+        checker = pycodestyle.StyleGuide(
             quiet=True,
             paths=self.files,
             reporter=CustomReport,
