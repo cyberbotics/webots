@@ -86,7 +86,7 @@ def checkFlakes(codeString, filename, reporter):
     except Exception:
         reporter.unexpectedError(filename, 'problem decoding source')
         return
-    # Okay, it's syntactically valid.  Now check it.
+    # Okay, it's syntactically valid. Now check it.
     w = checker.Checker(tree, filename)
     w.messages.sort(key=lambda m: m.lineno)
     for warning in w.messages:

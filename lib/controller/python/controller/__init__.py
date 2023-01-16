@@ -47,3 +47,10 @@ from controller.mouse import Mouse                             # noqa
 from controller.mouse import MouseState                        # noqa
 from controller.joystick import Joystick                       # noqa
 from controller.motion import Motion                           # noqa
+
+__all__ = [
+    Field, Node, ContactPoint, AnsiCodes, Accelerometer, Altimeter, Brake, Camera, CameraRecognitionObject, Compass, Connector,
+    Display, DistanceSensor, Emitter, GPS, Gyro, InertialUnit, LED, Lidar, LidarPoint, LightSensor, Motor, PositionSensor,
+    Radar, RadarTarget, RangeFinder, Receiver, Robot, Skin, Speaker, Supervisor, TouchSensor, Keyboard, Mouse, MouseState,
+    Joystick, Motion
+]
