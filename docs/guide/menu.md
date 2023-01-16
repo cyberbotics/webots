@@ -116,6 +116,7 @@
     - [Mindstorms](mindstorms.md)
     - [MiR100](mir100.md)
     - [Moose](moose.md)
+    - [Nao](nao.md)
     - [Ned](ned.md)
     - [Panda](panda.md)
     - [P-Rob 3](p-rob3.md)
