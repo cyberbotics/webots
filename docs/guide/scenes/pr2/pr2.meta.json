@@ -151,6 +151,46 @@
       "type": "RotationalMotor"
     },
     {
+      "anchor": "0.07691 0.01 0",
+      "axis": "0 0 1",
+      "maxPosition": 0.548,
+      "minPosition": 0,
+      "name": "l_finger_gripper_motor::l_finger",
+      "position": 0,
+      "transformID": "n546",
+      "type": "RotationalMotor"
+    },
+    {
+      "anchor": "0.09137 0.00495 0",
+      "axis": "0 0 -1",
+      "maxPosition": 0.548,
+      "minPosition": 0,
+      "name": "l_finger_gripper_motor::l_finger_tip",
+      "position": 0,
+      "transformID": "n554",
+      "type": "RotationalMotor"
+    },
+    {
+      "anchor": "0.07691 -0.01 0",
+      "axis": "0 0 -1",
+      "maxPosition": 0.548,
+      "minPosition": 0,
+      "name": "l_finger_gripper_motor::r_finger",
+      "position": 0,
+      "transformID": "n567",
+      "type": "RotationalMotor"
+    },
+    {
+      "anchor": "0.09137 -0.00495 0",
+      "axis": "0 0 1",
+      "maxPosition": 0.548,
+      "minPosition": 0,
+      "name": "l_finger_gripper_motor::r_finger_tip",
+      "position": 0,
+      "transformID": "n576",
+      "type": "RotationalMotor"
+    },
+    {
       "anchor": "0 0 0",
       "axis": "1 0 0",
       "maxPosition": 0,
@@ -161,26 +201,6 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0.07691 0.01 0",
-      "axis": "0 0 1",
-      "maxPosition": 0.548,
-      "minPosition": 0,
-      "name": "l_gripper_l_finger_joint",
-      "position": 0,
-      "transformID": "n546",
-      "type": "RotationalMotor"
-    },
-    {
-      "anchor": "0.09137 0.00495 0",
-      "axis": "0 0 -1",
-      "maxPosition": 0.548,
-      "minPosition": 0,
-      "name": "l_gripper_l_finger_tip_joint",
-      "position": 0,
-      "transformID": "n554",
-      "type": "RotationalMotor"
-    },
-    {
       "anchor": "0 0 0",
       "axis": "0 1 0",
       "maxPosition": 0,
@@ -188,26 +208,6 @@
       "name": "l_gripper_motor_screw_joint",
       "position": 0,
       "transformID": "n539",
-      "type": "RotationalMotor"
-    },
-    {
-      "anchor": "0.07691 -0.01 0",
-      "axis": "0 0 -1",
-      "maxPosition": 0.548,
-      "minPosition": 0,
-      "name": "l_gripper_r_finger_joint",
-      "position": 0,
-      "transformID": "n567",
-      "type": "RotationalMotor"
-    },
-    {
-      "anchor": "0.09137 -0.00495 0",
-      "axis": "0 0 1",
-      "maxPosition": 0.548,
-      "minPosition": 0,
-      "name": "l_gripper_r_finger_tip_joint",
-      "position": 0,
-      "transformID": "n576",
       "type": "RotationalMotor"
     },
     {
@@ -281,21 +281,11 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0 0",
-      "axis": "1 0 0",
-      "maxPosition": 0,
-      "minPosition": 0,
-      "name": "r_forearm_roll_joint",
-      "position": 0,
-      "transformID": "n312",
-      "type": "RotationalMotor"
-    },
-    {
       "anchor": "0.07691 0.01 0",
       "axis": "0 0 1",
       "maxPosition": 0.548,
       "minPosition": 0,
-      "name": "r_gripper_l_finger_joint",
+      "name": "r_finger_gripper_motor::l_finger",
       "position": 0,
       "transformID": "n358",
       "type": "RotationalMotor"
@@ -305,7 +295,7 @@
       "axis": "0 0 -1",
       "maxPosition": 0.548,
       "minPosition": 0,
-      "name": "r_gripper_l_finger_tip_joint",
+      "name": "r_finger_gripper_motor::l_finger_tip",
       "position": 0,
       "transformID": "n366",
       "type": "RotationalMotor"
@@ -315,7 +305,7 @@
       "axis": "0 0 -1",
       "maxPosition": 0.548,
       "minPosition": 0,
-      "name": "r_gripper_r_finger_joint",
+      "name": "r_finger_gripper_motor::r_finger",
       "position": 0,
       "transformID": "n379",
       "type": "RotationalMotor"
@@ -325,9 +315,19 @@
       "axis": "0 0 1",
       "maxPosition": 0.548,
       "minPosition": 0,
-      "name": "r_gripper_r_finger_tip_joint",
+      "name": "r_finger_gripper_motor::r_finger_tip",
       "position": 0,
       "transformID": "n388",
+      "type": "RotationalMotor"
+    },
+    {
+      "anchor": "0 0 0",
+      "axis": "1 0 0",
+      "maxPosition": 0,
+      "minPosition": 0,
+      "name": "r_forearm_roll_joint",
+      "position": 0,
+      "transformID": "n312",
       "type": "RotationalMotor"
     },
     {
