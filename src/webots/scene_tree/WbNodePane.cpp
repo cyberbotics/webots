@@ -36,7 +36,8 @@ WbNodePane::WbNodePane(QWidget *parent) :
   mNodeEditor(new WbNodeEditor()),
   mPhysicsViewer(new WbPhysicsViewer()),
   mPositionViewer(new WbPositionViewer()),
-  mVelocityViewer(new WbVelocityViewer()) {
+  mVelocityViewer(new WbVelocityViewer()),
+  mPreviousTabName(cTabNames[NODE_TAB]) {
   // tabs added only when this editor has focus
   // otherwise they affects the minimum size of other editors
   mLayout->addWidget(mTabs, 1, 1);
@@ -89,11 +90,11 @@ void WbNodePane::stopEditing() {
   mPositionViewer->clean();
   mVelocityViewer->clean();
   mNodeEditor->cleanValue();
+  // save last selected tab to restore it when a different node is selected
+  mPreviousTabName = mTabs->tabText(mTabs->currentIndex());
   // remove tabs
   disconnect(mTabs, &QTabWidget::currentChanged, this, &WbNodePane::updateSelectedTab);
-  int tabsCount = mTabs->count();
-  for (int i = 0; i < tabsCount; ++i)
-    mTabs->removeTab(0);
+  mTabs->clear();
   connect(mTabs, &QTabWidget::currentChanged, this, &WbNodePane::updateSelectedTab);
 }
 
@@ -159,13 +160,15 @@ void WbNodePane::enableTab(int index, QWidget *widget, bool enabled) {
     }
   }
 
-  int insertIndex = index;
-  if (insertIndex > mTabs->count())
-    insertIndex = mTabs->count();
-
   if (enabled) {
-    if (!tabExists)
-      mTabs->insertTab(insertIndex, widget, cTabNames[index]);
+    if (!tabExists) {
+      if (i > mTabs->count())
+        i = mTabs->count();
+      mTabs->insertTab(i, widget, cTabNames[index]);
+    }
+    if (cTabNames[index] == mPreviousTabName)
+      // restore previously selected tab
+      mTabs->setCurrentIndex(i);
   } else if (tabExists)
     mTabs->removeTab(i);
 }

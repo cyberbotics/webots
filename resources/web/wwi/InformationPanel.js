@@ -23,8 +23,9 @@ export default class InformationPanel {
 
     this.webotsPresentation = document.createElement('div');
     this.webotsPresentation.style.display = 'none';
+    const version = typeof WbWorld.instance !== 'undefined' ? WbWorld.instance.version : '';
     this.webotsPresentation.innerHTML = `
-      <h2>Webots<span class=cloud>.cloud ` + WbWorld.instance.version + `</span></h2>
+      <h2>Webots<span class=cloud>.cloud ` + version + `</span></h2>
       <img src=https://raw.githubusercontent.com/cyberbotics/webots/master/resources/icons/core/webots.png></img></br>
       <p>Open Source Robot Simulator</p>
       <a href="https://cyberbotics.com" target="_blank">Cyberbotics Ltd.</a>`;
