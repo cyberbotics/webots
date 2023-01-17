@@ -18,7 +18,7 @@ Webots provides a complete development environment to model, program and simulat
 
 - See the [Webots introduction video](https://www.youtube.com/watch?v=O7U3sX_ubGc).
 - View online Webots simulations at [webots.cloud](https://webots.cloud).
-- Participate in the [ICRA 2023 Simulated Humanoid Robot Wrestling Competition](https://webots.cloud/run?version=R2023a&url=https%3A%2F%2Fgithub.com%2Fcyberbotics%2Fwrestling%2Fblob%2Fmain%2Fworlds%2Fwrestling.wbt&type=competition) and win 1 ETH.
+- Participate in the [ICRA 2023 Simulated Humanoid Robot Wrestling Competition](https://webots.cloud/run?version=R2023a&url=https%3A%2F%2Fgithub.com%2Fcyberbotics%2Fwrestling%2Fblob%2Fmain%2Fworlds%2Fwrestling.wbt&type=competition) and win 1 Ethereum.
 
 ### Download
 
