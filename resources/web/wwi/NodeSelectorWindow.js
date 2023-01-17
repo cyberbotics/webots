@@ -190,6 +190,28 @@ export default class NodeSelectorWindow {
   }
 
   populateWindow() {
+    // The provider of the proto lists is webots.cloud but it should be possible to generalize it.
+    let url = window.location.href;
+    if (!url.includes('webots.cloud'))
+      url = 'https://proto.webots.cloud/';
+    url = new URL(url).hostname;
+
+    const content = {};
+    content.base_types = this.getAllowedBaseType();
+
+    if (content.base_types.length === 1 && content.base_types[0] === 'Slot')
+      content.slot_type = this.getSlotType();
+
+    if (!this.isRobotDescendant())
+      content.skip_no_robot_ancestor = true;
+
+    fetch('https://' + url + '/ajax/proto/insertable.php', {method: 'post', body: JSON.stringify(content)})
+      .then(result => result.json())
+      .then(json => {
+        for (const proto of json)
+          console.log(proto);
+      });
+
     const filterInput = document.getElementById('filter');
 
     // populate node list
@@ -324,6 +346,42 @@ export default class NodeSelectorWindow {
     }
 
     return false;
+  }
+
+  getAllowedBaseType() {
+    if (typeof this.parameter === 'undefined')
+      throw new Error('The parameter is expected to be defined prior to checking node compatibility.');
+
+    if (this.parameter.parameterLinks.length <= 0)
+      throw new Error('The parameter has no IS.');
+
+    let baseType = [];
+    const fieldName = this.parameter.parameterLinks[0].name;
+    const parentNode = this.parameter.parameterLinks[0].node;
+    if (fieldName === 'appearance')
+      baseType = ['Appearance', 'PBRAppearance'];
+    else if (fieldName === 'geometry')
+      baseType = ['Box', 'Capsule', 'Cylinder', 'Cone', 'Plane', 'Sphere', 'Mesh', 'ElevationGrid', 'IndexedFaceSet',
+        'IndexedLineSet'];
+    else if (fieldName === 'endPoint' && parentNode.name === 'Slot')
+      baseType = ['Slot'];
+    else if (fieldName === 'endPoint' || fieldName === 'children')
+      baseType = ['Group', 'Transform', 'Shape', 'CadShape', 'Solid', 'Robot', 'PointLight', 'SpotLight', 'Propeller',
+        'Charger'];
+
+    return baseType;
+  }
+
+  getSlotType() {
+    const parentNode = this.parameter.parameterLinks[0].node;
+    let slotType = parentNode.getParameterByName('type').value.value.replaceAll('"', '');
+
+    if (slotType.endsWith('+'))
+      slotType = slotType.substring(0, slotType.length - 1) + '-';
+    else if (slotType.endsWith('-'))
+      slotType = slotType.substring(0, slotType.length - 1) + '+';
+
+    return slotType;
   }
 
   isAllowedToInsert(baseType, slotType) {
