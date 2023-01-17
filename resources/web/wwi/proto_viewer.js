@@ -57,8 +57,7 @@ function highlightCode(view) {
 function redirectUrls(node) {
   // redirect a's href
   const as = node.querySelectorAll('a');
-  for (let i = 0; i < as.length; i++) {
-    const a = as[i];
+  for (const a of as) {
     const href = a.getAttribute('href');
     if (!href)
       continue;
