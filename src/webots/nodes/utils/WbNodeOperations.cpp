@@ -298,7 +298,7 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
 
   const QString nodeModelName = node->modelName();  // save the node model name prior to it being deleted
 
-  bool dictionaryNeedsUpdate = node->hasAreferredDefNodeDescendant();
+  const bool dictionaryNeedsUpdate = WbVrmlNodeUtilities::hasAreferredDefNodeDescendant(node);
   WbField *parentField = node->parentField();
   assert(parentField);
   WbSFNode *sfnode = dynamic_cast<WbSFNode *>(parentField->value());

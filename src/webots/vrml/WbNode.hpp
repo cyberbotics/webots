@@ -121,7 +121,6 @@ public:
   virtual const QString &vrmlName() const { return nodeModelName(); };  // e.g. "Transform" instead of "Robot"
   virtual const QString &x3dName() const { return vrmlName(); }
   virtual const QString urdfName() const;
-  QString fullVrmlName() const;          // e.g. "DEF MY_ROBOT Transform"
   const QString &modelName() const;      // e.g. for Nao -> "Nao"
   const QString &nodeModelName() const;  // e.g. for Nao -> "Robot"
   // it's useless to write a empty Group or an invisible Cylinder (with no top, bottom or side)
@@ -151,11 +150,6 @@ public:
   int useCount() const { return mUseNodes.size(); }
   const QList<WbNode *> &useNodes() const { return mUseNodes; }
   virtual void defHasChanged() {}
-
-  // has this node a referred DEF node descendant, i.e. a descendant with positive use count
-  // which is moreover referred outside the subtree below root
-  bool hasAreferredDefNodeDescendant() const;  // root = this;
-  bool hasAreferredDefNodeDescendant(const WbNode *root) const;
   static void setDictionaryUpdateFlag(bool b) { cUpdatingDictionary = b; }
 
   // index functions
@@ -178,7 +172,7 @@ public:
   bool isRegenerationRequired() const { return mRegenerationRequired; }
   const QByteArray &protoInstanceTemplateContent() const { return mProtoInstanceTemplateContent; }
   QVector<WbField *> parameters() const { return mParameters; }
-  void setProtoInstanceTemplateContent(const QByteArray &content);
+  void setProtoInstanceTemplateContent(const QByteArray &content) { mProtoInstanceTemplateContent = content; }
   void updateNestedProtoFlag();
 
   // return if 'node' is a direct child of this PROTO parameters
@@ -207,8 +201,8 @@ public:
   // fields or proto parameters
   bool isDefault() const;  // true if all fields have default values
   QVector<WbField *> fields() const { return mFields; }
-  const QVector<WbField *> &fieldsOrParameters() const;
-  int numFields() const;
+  const QVector<WbField *> &fieldsOrParameters() const { return isProtoInstance() ? mParameters : mFields; }
+  int numFields() const { return fieldsOrParameters().size(); }
   WbField *field(int index, bool internal = false) const;
   WbField *findField(const QString &fieldName, bool internal = false) const;
   WbField *parentField(bool internal = false) const {
@@ -224,7 +218,6 @@ public:
   void setFieldsParentNode();
 
   // to find field values in init() functions
-  WbValue *findValue(const QString &fieldName) const;
   WbSFString *findSFString(const QString &fieldName) const;
   WbSFInt *findSFInt(const QString &fieldName) const;
   WbSFDouble *findSFDouble(const QString &fieldName) const;
@@ -392,8 +385,9 @@ private:
   // if possible displays the visible structure of PROTO nodes and not the internal one
   QString fullPath(const QString &fieldName, QString &parameterName) const;
   // extract first single quoted text from message
-  QString extractFieldName(const QString &message) const;
+  static QString extractFieldName(const QString &message);
 
+  WbValue *findValue(const QString &fieldName) const;
   void readFields(WbTokenizer *tokenizer, const QString &worldPath);
   void addField(WbFieldModel *fieldModel);
   void init();

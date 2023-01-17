@@ -293,7 +293,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
 
   subscribe(newNode);
 
-  bool ancestorTemplateRegeneration = upperTemplateNode != NULL;
+  const bool ancestorTemplateRegeneration = upperTemplateNode != NULL;
   if (node->isProtoParameterNode()) {
     // internal PROTO child could be regenerated due to a parameter exposed in the parent PROTO node
     // so for parent PROTO instances both fields and parameters needs to be checked

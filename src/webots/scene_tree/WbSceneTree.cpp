@@ -462,7 +462,7 @@ void WbSceneTree::del(WbNode *nodeToDel) {
 
   bool dictionaryUpdated = false;
   if (node) {
-    dictionaryUpdated = node->hasAreferredDefNodeDescendant();
+    dictionaryUpdated = WbVrmlNodeUtilities::hasAreferredDefNodeDescendant(node);
     if (dictionaryUpdated &&
         WbMessageBox::question(
           tr("This node is a DEF node, or has a descendant DEF node, on which at least one external USE node depends. "
@@ -525,12 +525,12 @@ void WbSceneTree::reset() {
     WbMFNode *mfnode = dynamic_cast<WbMFNode *>(field->value());
     if (sfnode) {
       mRowsAreAboutToBeRemoved = sfnode->value();
-      containsReferredNode = sfnode->value() && sfnode->value()->hasAreferredDefNodeDescendant();
+      containsReferredNode = sfnode->value() && WbVrmlNodeUtilities::hasAreferredDefNodeDescendant(sfnode->value());
     } else if (mfnode) {
       mRowsAreAboutToBeRemoved = mfnode->size() > 0;
       WbMFIterator<WbMFNode, WbNode *> it(mfnode);
       while (it.hasNext()) {
-        if (it.next()->hasAreferredDefNodeDescendant()) {
+        if (WbVrmlNodeUtilities::hasAreferredDefNodeDescendant(it.next())) {
           containsReferredNode = true;
           break;
         }
