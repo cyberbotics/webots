@@ -6,6 +6,7 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projec
 PROTO DerivedShape [
   field SFNode appearance Copper{}
   field SFNode geometry Box{}
+  field SFBool extra TRUE
 ]
 {
   SubProto {

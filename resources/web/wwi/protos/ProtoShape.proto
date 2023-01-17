@@ -1,0 +1,16 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/Copper.proto"
+
+
+PROTO ProtoShape [
+  field SFNode app Copper{}
+]
+{
+  Shape {
+    appearance IS app
+    geometry Box {
+      size 0.1 0.1 0.1
+    }
+  }
+}

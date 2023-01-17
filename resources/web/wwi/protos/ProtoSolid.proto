@@ -1,0 +1,15 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "ProtoShape.proto"
+
+PROTO ProtoSolid [
+  field SFString name "solid"
+]
+{
+  Solid {
+    children [
+      ProtoShape {}
+    ]
+    name IS name
+  }
+}

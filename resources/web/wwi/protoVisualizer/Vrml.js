@@ -972,3 +972,63 @@ export function stringifyType(type) {
       throw new Error('Unknown VRML type: ', type);
   }
 }
+
+export function jsifyFromTokenizer(type, tokenizer) {
+  switch (type) {
+    case VRML.SFBool:
+        return tokenizer.nextToken().toBool();
+    case VRML.SFInt32:
+        return tokenizer.nextToken().toInt();
+    case VRML.SFFloat:
+      return tokenizer.nextToken().toFloat()
+    case VRML.SFString: {
+      const value = tokenizer.nextWord();
+      if (!value.startsWith('"') && !value.endsWith('"'))
+        return '"' + value + '"';
+      return value;
+    }
+    case VRML.SFVec2f:
+      return {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat()};
+    case VRML.SFVec3f:
+      return {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat()};
+    case VRML.SFColor:
+      return {r: tokenizer.nextToken().toFloat(), g: tokenizer.nextToken().toFloat(), b: tokenizer.nextToken().toFloat()};
+    case VRML.SFRotation:
+      return {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), a: tokenizer.nextToken().toFloat()};
+    case VRML.SFNode:
+      const word = tokenizer.nextWord();
+      if (word === 'NULL')
+        return null;
+
+      tokenizer.consumeTokensByType(VRML.SFNode);
+      for (const item of tokenizer.externProto) {
+        if (item.endsWith(word + '.proto'))
+          return item;
+      }
+      throw new Error('Should happen.')
+    case VRML.MFBool:
+    case VRML.MFInt32:
+    case VRML.MFFloat:
+    case VRML.MFString:
+    case VRML.MFVec2f:
+    case VRML.MFVec3f:
+    case VRML.MFColor:
+    case VRML.MFRotation:
+    case VRML.MFNode: {
+      const value = [];
+      if (tokenizer.peekWord() === '[') {
+        tokenizer.skipToken('[');
+
+        while (tokenizer.peekWord() !== ']')
+          value.push(jsifyFromTokenizer(type + 1, tokenizer))
+
+        tokenizer.skipToken(']');
+      } else
+        value.push(jsifyFromTokenizer(type + 1, tokenizer));
+
+      return;
+    }
+    default:
+      throw new Error('Unknown VRML type: ', type);
+  }
+}

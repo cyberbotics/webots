@@ -23,15 +23,20 @@ export default class ProtoManager {
       xmlhttp.send();
     }).then(async text => {
       console.log('Load PROTO from URL: ' + url);
-      this.proto = new Node(url, text, true);
-      await this.proto.generateInterface();
-      this.proto.parseBody();
-      this.loadX3d();
-      // generate list of exposed parameters (that will be tied to interface elements)
-      for (const [parameterName, parameter] of this.proto.parameters) {
-        parameter._view = this.#view;
-        this.exposedParameters.set(parameterName, parameter); // TODO: change key to parameter id ?
-      }
+      await Node.prepareProtoDependencies(url)
+      console.log('>>> known models:', Node.cProtoModels)
+      //const a = Node.cProtoModels.get('https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/Copper.proto');
+      //console.log(a['IBLStrength']['type'])
+      //this.proto = new Node(url, text, true);
+      //this.proto.test();
+      //await this.proto.generateInterface();
+      //this.proto.parseBody();
+      //this.loadX3d();
+      //// generate list of exposed parameters (that will be tied to interface elements)
+      //for (const [parameterName, parameter] of this.proto.parameters) {
+      //  parameter._view = this.#view;
+      //  this.exposedParameters.set(parameterName, parameter); // TODO: change key to parameter id ?
+      //}
     });
   }
 
