@@ -185,4 +185,4 @@ function setupModalWindow(container) {
   };
 }
 
-export {setupModalWindow, populateProtoViewDiv, highlightCode, updateModalEvents};
+export {setupModalWindow, populateProtoViewDiv, highlightCode, updateModalEvents, renderGraphs};
