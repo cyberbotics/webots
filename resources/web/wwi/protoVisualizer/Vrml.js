@@ -215,11 +215,9 @@ export class SFVec2f extends SingleValue {
 export class SFVec3f extends SingleValue {
   setValueFromTokenizer(tokenizer) {
     this.value = {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), z: tokenizer.nextToken().toFloat()};
-    console.log('tttt',this.value)
   }
 
   setValueFromModel(v) {
-    console.log('setting vvv', v)
     super.value = v;
   }
 

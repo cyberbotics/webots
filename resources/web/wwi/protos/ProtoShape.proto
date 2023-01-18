@@ -1,4 +1,5 @@
 #VRML_SIM R2023b utf8
+# template language: javascript
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/Copper.proto"
 
@@ -6,12 +7,13 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projec
 PROTO ProtoShape [
   field SFNode app Copper{}
   field SFVec3f size 0.1 0.1 0.1
+  field SFFloat height 0.2
 ]
 {
   Shape {
     appearance IS app
     geometry Box {
-      size IS size
+      size 0.1 0.1 %<= fields.height.value >%
     }
   }
 }

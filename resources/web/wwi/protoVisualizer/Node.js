@@ -16,6 +16,7 @@ export default class Node {
   constructor(url, isRoot = false) {
     this.url = url;
     this.isProto = this.url.toLowerCase().endsWith('.proto');
+    this.isTemplate = false; // updated when the model is determined
     this.name = this.isProto ? this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '') : url;
     console.log('create new node:', this.name, 'from', this.url);
 
@@ -40,74 +41,94 @@ export default class Node {
     // header defines tags and EXTERNPROTO, persists through regenerations
     //this.rawHeader = protoText.substring(0, indexBeginInterface);
 
-    // create parameters based on prototype
+    // create parameters based on the PROTO model
     if (this.isProto) {
       if (!Node.cProtoModels.has(this.url))
         throw new Error('A PROTO model should be available for', this.name, 'by now.');
 
-      const protoModel = Node.cProtoModels.get(this.url);
-      console.log('PROTOMODEL', protoModel)
-      for (const [parameterName, model] of Object.entries(protoModel['parameters'])) {
-        console.log('parameter name:', parameterName, 'model:',model)
-        const parameterType = model['type'];
-        const defaultValue = vrmlFactory(parameterType, model['defaultValue']);
+      this.model = Node.cProtoModels.get(this.url);
+      this.isTemplate = this.model['isTemplate'];
+      if (this.isTemplate)
+        this.templateEngine = new TemplateEngine();
+
+      console.log('PROTOMODEL', this.model)
+      for (const [parameterName, parameterModel] of Object.entries(this.model['parameters'])) {
+        console.log('parameter name:', parameterName, 'model:', parameterModel)
+        const parameterType = parameterModel['type'];
+        const isTemplateRegenerator = parameterModel['isTemplateRegenerator'];
+        const defaultValue = vrmlFactory(parameterType, parameterModel['defaultValue']);
         //defaultValue.setValueFromModel(model['defaultValue'])
-        const value = vrmlFactory(parameterType, model['defaultValue']);
+        const value = vrmlFactory(parameterType, parameterModel['defaultValue']);
         //value.setValueFromModel(model['defaultValue'])
         console.log(parameterType, defaultValue)
 
-        const parameter = new Parameter(this, parameterName, parameterType, [], defaultValue, value, false);
+        const parameter = new Parameter(this, parameterName, parameterType, [], defaultValue, value, isTemplateRegenerator);
         console.log(parameterName, parameter);
         this.parameters.set(parameterName, parameter);
       }
     }
 
     if (this.isProto) {
-      // create fields based on prototype
-      const match = Node.cProtoModels.get(this.url)['rawBody'].match(/\{\s*([a-zA-Z0-9\_\-\+]+)\s*\{/);
-      this.baseType = match[1];
-      console.log(this.name, 'derives from', this.baseType);
-
-      if (typeof FieldModel[this.baseType] !== 'undefined') {
-        this.isDerived = false;
-        console.log('> derives from a base node')
-        const f = FieldModel[this.baseType];
-
-        // set field values based on field model
-        for (const fieldName of Object.keys(f)) {
-          const type = FieldModel[this.baseType][fieldName]['type'];
-          const value = vrmlFactory(type, FieldModel[this.baseType][fieldName]['defaultValue']);
-          //value.setValueFromJavaScript();
-          const defaultValue = vrmlFactory(type, FieldModel[this.baseType][fieldName]['defaultValue']);
-          //defaultValue.setValueFromJavaScript(FieldModel[this.baseType][fieldName]['defaultValue']);
-          const field = new Field(this, fieldName, type, value, defaultValue);
-          this.fields.set(fieldName, field);
-        }
-      } else {
-        console.log('> derives from a PROTO')
-        this.isDerived = true;
-      }
+      this.regenerate();
     } else {
       this.baseType = this.name;
+      this.model = FieldModel[this.name];
 
-      // create from FieldModel
-      const fields = FieldModel[this.name];
-      for (const fieldName of Object.keys(fields)) {
-        const type = FieldModel[this.baseType][fieldName]['type'];
-        const value = vrmlFactory(type, FieldModel[this.baseType][fieldName]['defaultValue']);
-        //value.setValueFromJavaScript(FieldModel[this.baseType][fieldName]['defaultValue']);
-        const defaultValue = vrmlFactory(type, FieldModel[this.baseType][fieldName]['defaultValue']);
-        //defaultValue.setValueFromJavaScript(FieldModel[this.baseType][fieldName]['defaultValue']);
-        const field = new Field(this, fieldName, type, value, defaultValue);
-        this.fields.set(fieldName, field);
+      this.generateInternalFields(FieldModel[this.baseType])
+    }
+  };
+
+  generateInternalFields(model) {
+    console.log('generateInternalFields from model', model)
+    // set field values based on field model
+    for (const fieldName of Object.keys(model)) {
+      const type = model[fieldName]['type'];
+      const value = vrmlFactory(type, model[fieldName]['defaultValue']);
+      //value.setValueFromJavaScript();
+      const defaultValue = vrmlFactory(type, model[fieldName]['defaultValue']);
+      //defaultValue.setValueFromJavaScript(FieldModel[this.baseType][fieldName]['defaultValue']);
+      const field = new Field(this, fieldName, type, value, defaultValue);
+      this.fields.set(fieldName, field);
+    }
+  }
+
+  regenerate() {
+    let protoBody = this.model['rawBody'];
+
+    // create fields based on prototype
+    const match = protoBody.match(/\{\s*([a-zA-Z0-9\_\-\+]+)\s*\{/); // TODO: what if contains DEF?
+    this.baseType = match[1];
+    console.log(this.name, 'derives from', this.baseType);
+
+    this.isDerived = typeof FieldModel[this.baseType] === 'undefined';
+    console.log(this.name, ' is a derived node? ', this.isDerived);
+
+    // determine model of the base-type
+    if (this.isDerived) {
+      for (const item of this.model['externProto']) {
+        if (item.endsWith(this.baseType + '.proto'))
+          this.baseTypeModel = Node.cProtoModels.get(item);
       }
-    }
+    } else
+      this.baseTypeModel = FieldModel[this.baseType]
 
-    if (this.isProto) {
-      const tokenizer = new Tokenizer(Node.cProtoModels.get(this.url)['rawBody'], this);
-      tokenizer.tokenize();
-      this.configureNodeFromTokenizer(tokenizer);
-    }
+    // generate field placeholders from the model
+    this.generateInternalFields(this.baseTypeModel);
+
+    if (this.isTemplate)
+      protoBody = this.regenerateBodyVrml(protoBody);
+
+    console.log('body after template regeneration', protoBody);
+
+    // configure non-default fields from tokenizer
+    const tokenizer = new Tokenizer(protoBody, this);
+    tokenizer.tokenize();
+    this.configureNodeFromTokenizer(tokenizer);
+  }
+
+  clearReferences() {
+    this.def = new Map(); // TODO: can be removed?
+    this.fields = new Map();
   };
 
   configureNodeFromTokenizer(tokenizer) {
@@ -162,12 +183,28 @@ export default class Node {
     return nodeElement;
   }
 
-  getInternalFields(parameter) {
-    for (const [fieldName, field] of this.fields.entries()) {
-      console.log('Internal field:', fieldName)
-      if (field instanceof Parameter)
-        console.log('HERE')
+  regenerateBodyVrml(protoBody) {
+    const fieldsEncoding = this.toJS(true); // make current proto parameters in a format compliant to template engine
+    // console.log('Encoded fields:', fieldsEncoding);
+
+    if (typeof this.templateEngine === 'undefined')
+      throw new Error('Regeneration was called but the template engine is not defined (i.e this.isTemplate is false)');
+
+    return this.templateEngine.generateVrml(fieldsEncoding, protoBody);
+    // console.log('Regenerated Proto Body:\n' + this.protoBody);
+  };
+
+  toJS(isFirstNode = false) {
+    let jsFields = '';
+    for (const [parameterName, parameter] of this.parameters) {
+      // console.log('JS-encoding of ' + parameterName);
+      jsFields += `${parameterName}: {value: ${parameter.value.toJS()}, defaultValue: ${parameter.defaultValue.toJS()}}, `;
     }
+
+    if (isFirstNode)
+      return jsFields.slice(0, -2);
+
+    return `{node_name: '${this.name}', fields: {${jsFields.slice(0, -2)}}}`;
   }
 
   static async prepareProtoDependencies(protoUrl) {
@@ -219,7 +256,6 @@ export default class Node {
       return;
     }
 
-
     // interface (i.e. parameters) only needs to be parsed once and persists through regenerations
     const indexBeginInterface = protoText.search(/(^\s*PROTO\s+[a-zA-Z0-9\-_+]+\s*\[\s*$)/gm);
     const indexBeginBody = protoText.search(/(?<=\]\s*\n*\r*)({)/g);
@@ -238,7 +274,7 @@ export default class Node {
       rawBody = rawBody.replace(result[0], '"' + combinePaths(result[0].slice(1, -1), protoUrl) + '"');
 
     const tokenizer = new Tokenizer(rawInterface, this); // TODO: remove this
-    tokenizer.externProto = externProto;
+    tokenizer.externProto = externProto; // TODO: still needed?
     tokenizer.tokenize();
 
     // build parameter list
@@ -247,6 +283,8 @@ export default class Node {
 
     const model = {};
     model['rawBody'] = rawBody;
+    model['isTemplate'] = protoText.substring(0, indexBeginInterface).search('template language: javascript') !== -1;
+    model['externProto'] = externProto;
     model['parameters'] = {}
     while (!tokenizer.peekToken().isEof()) {
       const token = tokenizer.nextToken();
@@ -270,7 +308,7 @@ export default class Node {
       if (token.isKeyword() && nextToken.isIdentifier()) {
         const parameterName = nextToken.word();
         const parameterType = token.fieldTypeFromVrml();
-        //const isRegenerator = this.isTemplate ? (this.rawBody.search('fields.' + parameterName + '.') !== -1) : false;
+        const isRegenerator = rawBody.search('fields.' + parameterName + '.') !== -1;
         tokenizer.nextToken(); // consume the token containing the parameter name
         //const defaultValue = vrmlFactory(parameterType, tokenizer);
         //console.log('found ', parameterName, parameterType)
@@ -279,6 +317,7 @@ export default class Node {
         const parameter = {}
         parameter['type'] = parameterType;
         parameter['defaultValue'] = value;
+        parameter['isTemplateRegenerator'] = isRegenerator;
         model['parameters'][parameterName] = parameter;
         //model[protoUrl][parameterName]['defaultValue'] = defaultValue.toJS(false);
         //model[protoUrl][parameterName]['isRegenerator'] = isRegenerator;
