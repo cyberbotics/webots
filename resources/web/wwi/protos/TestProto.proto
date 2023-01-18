@@ -6,7 +6,7 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projec
 PROTO TestProto [
   field SFNode sfnode Ball{}
   field MFNode extension [Ball{}]
-  field MFNode extension2 [Ball{}]
+  field SFNode slot NULL
 ]
 {
   Group {
@@ -15,7 +15,11 @@ PROTO TestProto [
         children IS extension
       }
       Group {
-        children IS extension2
+        children [
+          Slot {
+            endPoint IS slot
+          }
+        ]
       }
     ]
 
