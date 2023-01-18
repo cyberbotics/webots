@@ -4,6 +4,7 @@ EXTERNPROTO "ProtoShape.proto"
 
 PROTO ProtoSolid [
   field SFString name "solid"
+  field SFNode anotherApp Copper{}
 ]
 {
   Solid {

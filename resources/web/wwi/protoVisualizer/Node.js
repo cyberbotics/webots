@@ -7,6 +7,7 @@ import {vrmlFactory, jsifyFromTokenizer} from './Vrml.js';
 import {FieldModel} from './FieldModel.js';
 import {Parameter} from './Parameter.js';
 import Field from './Field.js';
+import { VRML } from './vrml_type.js';
 
 export default class Node {
   static cProtoModels = new Map();
@@ -50,11 +51,12 @@ export default class Node {
         console.log('parameter name:', parameterName, 'model:', parameterModel)
         const parameterType = parameterModel['type'];
         const isTemplateRegenerator = parameterModel['isTemplateRegenerator'];
+        const restrictions = parameterModel['restrictions'];
         const defaultValue = vrmlFactory(parameterType, parameterModel['defaultValue']);
         const value = vrmlFactory(parameterType, parameterModel['defaultValue']);
         console.log(parameterType, defaultValue)
 
-        const parameter = new Parameter(this, parameterName, parameterType, [], defaultValue, value, isTemplateRegenerator);
+        const parameter = new Parameter(this, parameterName, parameterType, restrictions, defaultValue, value, isTemplateRegenerator);
         console.log(parameterName, parameter);
         this.parameters.set(parameterName, parameter);
       }
@@ -175,7 +177,7 @@ export default class Node {
 
   regenerateBodyVrml(protoBody) {
     const fieldsEncoding = this.toJS(true); // make current proto parameters in a format compliant to template engine
-    // console.log('Encoded fields:', fieldsEncoding);
+    console.log('Encoded fields:', fieldsEncoding);
 
     if (typeof this.templateEngine === 'undefined')
       throw new Error('Regeneration was called but the template engine is not defined (i.e this.isTemplate is false)');
@@ -187,7 +189,7 @@ export default class Node {
   toJS(isFirstNode = false) {
     let jsFields = '';
     for (const [parameterName, parameter] of this.parameters) {
-      // console.log('JS-encoding of ' + parameterName);
+      console.log('JS-encoding of ' + parameterName, parameter);
       jsFields += `${parameterName}: {value: ${parameter.value.toJS()}, defaultValue: ${parameter.defaultValue.toJS()}}, `;
     }
 
@@ -281,19 +283,21 @@ export default class Node {
       let nextToken = tokenizer.peekToken();
 
       const restrictions = [];
-      //if (token.isKeyword() && nextToken.isPunctuation()) {
-      //  if (nextToken.word() === '{') {
-      //    // parse field restrictions
-      //    tokenizer.skipToken('{');
-      //    const parameterType = token.fieldTypeFromVrml();
-      //    while (tokenizer.peekWord() !== '}') {
-      //      const value = vrmlFactory(parameterType, tokenizer);
-      //      restrictions.push(value);
-      //    }
-      //    tokenizer.skipToken('}');
-      //    nextToken = tokenizer.peekToken(); // we need to update the nextToken as it has to point after the restrictions
-      //  }
-      //}
+      if (token.isKeyword() && nextToken.isPunctuation()) {
+        if (nextToken.word() === '{') {
+          // parse field restrictions
+          tokenizer.skipToken('{');
+          const parameterType = token.fieldTypeFromVrml();
+          while (tokenizer.peekWord() !== '}') {
+            // TODO: handle MF/SFNode restrictions (encode urls?)
+            const value = vrmlFactory(parameterType, tokenizer);
+            restrictions.push(value);
+          }
+          tokenizer.skipToken('}');
+          nextToken = tokenizer.peekToken(); // we need to update the nextToken as it has to point after the restrictions
+        }
+      }
+      console.log('restrictions', restrictions)
 
       if (token.isKeyword() && nextToken.isIdentifier()) {
         const parameterName = nextToken.word();
@@ -308,6 +312,7 @@ export default class Node {
         parameter['type'] = parameterType;
         parameter['defaultValue'] = value;
         parameter['isTemplateRegenerator'] = isRegenerator;
+        parameter['restrictions'] = restrictions;
         model['parameters'][parameterName] = parameter;
         //model[protoUrl][parameterName]['defaultValue'] = defaultValue.toJS(false);
         //model[protoUrl][parameterName]['isRegenerator'] = isRegenerator;
