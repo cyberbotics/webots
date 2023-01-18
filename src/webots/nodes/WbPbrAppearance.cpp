@@ -614,27 +614,27 @@ void WbPbrAppearance::exportNodeSubNodes(WbWriter &writer) const {
 
   if (writer.isX3d()) {
     if (baseColorMap()) {
-      baseColorMap()->setRole("baseColor");
+      baseColorMap()->setRole("baseColorMap");
       baseColorMap()->write(writer);
     }
     if (roughnessMap()) {
-      roughnessMap()->setRole("roughness");
+      roughnessMap()->setRole("roughnessMap");
       roughnessMap()->write(writer);
     }
     if (metalnessMap()) {
-      metalnessMap()->setRole("metalness");
+      metalnessMap()->setRole("metalnessMap");
       metalnessMap()->write(writer);
     }
     if (normalMap()) {
-      normalMap()->setRole("normal");
+      normalMap()->setRole("normalMap");
       normalMap()->write(writer);
     }
     if (occlusionMap()) {
-      occlusionMap()->setRole("occlusion");
+      occlusionMap()->setRole("occlusionMap");
       occlusionMap()->write(writer);
     }
     if (emissiveColorMap()) {
-      emissiveColorMap()->setRole("emissiveColor");
+      emissiveColorMap()->setRole("emissiveColorMap");
       emissiveColorMap()->write(writer);
     }
 

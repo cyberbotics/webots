@@ -381,7 +381,7 @@ export class SFNode extends SingleValue {
 
     // handle exceptions
     if (this.value.name === 'ImageTexture')
-      nodeX3d.setAttribute('role', parameterName.slice(0, -3));
+      nodeX3d.setAttribute('role', parameterName);
     else if (['Shape', 'Group', 'Transform', 'Solid', 'Robot'].includes(this.value.name)) {
       if (parameterName === 'boundingObject')
         nodeX3d.setAttribute('role', 'boundingObject');
