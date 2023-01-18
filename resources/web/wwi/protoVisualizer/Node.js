@@ -38,46 +38,127 @@ export default class Node {
     //this.rawHeader = protoText.substring(0, indexBeginInterface);
 
     // create parameters based on prototype
-    if (this.isProto && Node.cProtoModels.has(this.url)) {
+    if (this.isProto) {
+      if (!Node.cProtoModels.has(this.url))
+        throw new Error('A PROTO model should be available for', this.name, 'by now.');
+
       const protoModel = Node.cProtoModels.get(this.url);
       console.log(protoModel)
-      for (const [parameterName, parameterValue] of Object.entries(protoModel['parameters'])) {
-        console.log(parameterName, parameterValue)
-        const parameterType = parameterValue['type'];
-        const v = vrmlFactory(parameterType);
-        v.value = parameterValue['defaultValue'];
-        this.parameters.set(parameterName, v)
+      for (const [parameterName, model] of Object.entries(protoModel['parameters'])) {
+        console.log(parameterName, model)
+        const parameterType = model['type'];
+        const defaultValue = vrmlFactory(parameterType, model['defaultValue']);
+        //defaultValue.setValueFromModel(model['defaultValue'])
+        const value = vrmlFactory(parameterType, model['defaultValue']);
+        //value.setValueFromModel(model['defaultValue'])
+
+        const parameter = new Parameter(this, parameterName, parameterType, [], defaultValue, value, false);
+        console.log(parameterName, parameter);
+        this.parameters.set(parameterName, parameter);
       }
-
-
-    } else
-      throw new Error('A PROTO model should be available for', this.name, 'by now.')
+    }
 
     if (this.isProto) {
-      // determine basetype
-      const match = this.rawBody.match(/\{\s*([a-zA-Z0-9\_\-\+]+)\s*\{/);
-      const baseType = match[1];
-      console.log(this.name, 'derives from', baseType);
+      // create fields based on prototype
+      const match = Node.cProtoModels.get(this.url)['rawBody'].match(/\{\s*([a-zA-Z0-9\_\-\+]+)\s*\{/);
+      this.baseType = match[1];
+      console.log(this.name, 'derives from', this.baseType);
 
-      if (typeof FieldModel[baseType] !== 'undefined') {
+      if (typeof FieldModel[this.baseType] !== 'undefined') {
+        this.isDerived = false;
         console.log('> derives from a base node')
-        const f = FieldModel[baseType];
+        const f = FieldModel[this.baseType];
 
         // set field values based on field model
         for (const fieldName of Object.keys(f)) {
-          const type = FieldModel[baseType][fieldName]['type'];
-          const value = vrmlFactory(type);
-          value.setValueFromJavaScript(FieldModel[baseType][fieldName]['defaultValue']);
-          const field = new Field(fieldName, type, value);
+          const type = FieldModel[this.baseType][fieldName]['type'];
+          const value = vrmlFactory(type, FieldModel[this.baseType][fieldName]['defaultValue']);
+          //value.setValueFromJavaScript();
+          const defaultValue = vrmlFactory(type, FieldModel[this.baseType][fieldName]['defaultValue']);
+          //defaultValue.setValueFromJavaScript(FieldModel[this.baseType][fieldName]['defaultValue']);
+          const field = new Field(fieldName, type, value, defaultValue);
           this.fields.set(fieldName, field);
         }
       } else {
         console.log('> derives from a PROTO')
-
+        this.isDerived = true;
       }
+    } else {
+      this.baseType = this.name;
+
+      // create from FieldModel
+      const fields = FieldModel[this.name];
+      for (const fieldName of Object.keys(fields)) {
+        const type = FieldModel[this.baseType][fieldName]['type'];
+        const value = vrmlFactory(type, FieldModel[this.baseType][fieldName]['defaultValue']);
+        //value.setValueFromJavaScript(FieldModel[this.baseType][fieldName]['defaultValue']);
+        const defaultValue = vrmlFactory(type, FieldModel[this.baseType][fieldName]['defaultValue']);
+        //defaultValue.setValueFromJavaScript(FieldModel[this.baseType][fieldName]['defaultValue']);
+        const field = new Field(fieldName, type, value, defaultValue);
+        this.fields.set(fieldName, field);
+      }
+    }
+
+    if (this.isProto) {
+      const tokenizer = new Tokenizer(Node.cProtoModels.get(this.url)['rawBody'], this);
+      tokenizer.tokenize();
+      this.configureNodeFromTokenizer(tokenizer);
     }
   };
 
+  configureNodeFromTokenizer(tokenizer) {
+    console.log('configureNodeFromTokenizer')
+    tokenizer.skipToken('{');
+
+    while (tokenizer.peekWord() !== '}') {
+      console.log('here')
+      const field = tokenizer.nextWord();
+      for (const [fieldName, fieldValue] of this.fields) {
+        if (field === fieldName) {
+          console.log('configuring ' + fieldName + ' of ' + this.name);
+
+          if (tokenizer.peekWord() === 'IS') {
+            tokenizer.skipToken('IS');
+            const alias = tokenizer.nextWord();
+            console.log('alias:', alias);
+            if (!this.parameters.has(alias))
+              throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
+
+            this.fields.set(fieldName, this.parameters.get(alias));
+            console.log(this)
+          } else {
+            console.log('setting value from tokenizer')
+            fieldValue.value.setValueFromTokenizer(tokenizer, this);
+          }
+        }
+      }
+    }
+
+    tokenizer.skipToken('}');
+  }
+
+  toX3d(isUse, parameterReference) {
+    this.xml = document.implementation.createDocument('', '', null);
+
+    const nodeElement = this.xml.createElement(this.baseType);
+    //nodeElement.setAttribute('id', this.id);
+    for (const [fieldName, field] of this.fields) {
+      console.log('  ENCODE FIELD ' + fieldName);
+      //if (typeof fiel.value === 'undefined') // note: SFNode can be null, not undefined
+      //  throw new Error('All parameters should be defined, ' + parameterName + ' is not.');
+
+      console.log(field)
+      //if (field.isDefault())
+      //  continue;
+
+      field.value.toX3d(fieldName, nodeElement);
+    }
+
+    this.xml.appendChild(nodeElement);
+    console.log('RESULT:', new XMLSerializer().serializeToString(this.xml));
+
+    return nodeElement;
+  }
 
   static async prepareProtoDependencies(protoUrl) {
     return new Promise((resolve, reject) => {
@@ -139,7 +220,12 @@ export default class Node {
     const re = /"(?:[^"]*)\.(jpe?g|png|hdr|obj|stl|dae)"/g;
     let result;
     while ((result = re.exec(rawInterface)) !== null)
-      rawInterface = rawInterface.replace(result[0], '"' + combinePaths(result[0].slice(1, -1), this.url) + '"');
+      rawInterface = rawInterface.replace(result[0], '"' + combinePaths(result[0].slice(1, -1),protoUrl) + '"');
+
+    let rawBody = protoText.substring(indexBeginBody);
+    // change all relative paths to remote ones
+    while ((result = re.exec(rawBody)) !== null)
+      rawBody = rawBody.replace(result[0], '"' + combinePaths(result[0].slice(1, -1), protoUrl) + '"');
 
     const tokenizer = new Tokenizer(rawInterface, this); // TODO: remove this
     tokenizer.externProto = externProto;
@@ -150,7 +236,7 @@ export default class Node {
     this.protoName = tokenizer.nextWord();
 
     const model = {};
-    model['rawBody'] = protoText.substring(indexBeginBody);
+    model['rawBody'] = rawBody;
     model['parameters'] = {}
     while (!tokenizer.peekToken().isEof()) {
       const token = tokenizer.nextToken();

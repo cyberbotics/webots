@@ -4,12 +4,17 @@ import {Node} from './Node.js';
 import {VRML} from './vrml_type.js';
 
 import {DOUBLE_EQUALITY_TOLERANCE} from '../nodes/utils/constants.js';
+import Tokenizer from './Tokenizer.js';
 
 class SingleValue {
   #value;
   constructor(v) {
-    if (typeof v !== 'undefined')
-      this.setValueFromModel(v);
+    if (typeof v !== 'undefined') {
+      if (v instanceof Tokenizer)
+        this.setValueFromTokenizer(v)
+      else
+        this.setValueFromModel(v);
+    }
   }
 
   get value() {
@@ -395,14 +400,23 @@ export class SFRotation extends SingleValue {
 
 export class SFNode extends SingleValue {
   setValueFromTokenizer(tokenizer) {
+    console.log('PEEK', tokenizer.peekWord());
     if (tokenizer.peekWord() === 'USE')
       this.isUse = true;
 
-    this.value = Node.createNode(tokenizer);
+    this.value = new Node(tokenizer.nextWord());
+    this.value.configureNodeFromTokenizer(tokenizer);
   }
 
   setValueFromModel(v) {
-    this.value = Node.createNode(v);
+    console.log('got ', v)
+    if (typeof v === 'undefined')
+      throw new Error('Cannot initialize undefined VRML type.')
+
+    if (v === null)
+      this.value = v;
+    else
+      this.value = new Node(v);
   }
 
   setValueFromJavaScript(value) {
@@ -504,7 +518,12 @@ export class SFNode extends SingleValue {
 class MultipleValue {
   #value = [];
   constructor(v) {
-    if (typeof v !== 'undefined')
+    if (typeof v === 'undefined')
+      throw new Error('Cannot initialize undefined VRML type.')
+
+    if (v instanceof Tokenizer)
+      this.setValueFromTokenizer(v);
+    else
       this.setValueFromModel(v);
   }
 
@@ -692,11 +711,14 @@ export class MFFloat extends MultipleValue {
 
 export class MFString extends MultipleValue {
   setValueFromTokenizer(tokenizer) {
+    console.log('here')
     if (tokenizer.peekWord() === '[') {
       tokenizer.skipToken('[');
 
-      while (tokenizer.peekWord() !== ']')
+      while (tokenizer.peekWord() !== ']') {
+        console.log(tokenizer.peekWord())
         this.insert(new SFString(tokenizer));
+      }
 
       tokenizer.skipToken(']');
     } else

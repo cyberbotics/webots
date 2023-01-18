@@ -4,14 +4,22 @@ export default class Field {
   #type;
   #name;
   #value;
-  constructor(name, type, value) {
+  #defaultValue;
+  #restrictions;
+  constructor(name, type, value, defaultValue) {
     this.#name = name;
     this.#type = type;
     this.#value = value;
+    this.#defaultValue = defaultValue;
+    this.#restrictions = [];
   }
 
   get value() {
     return this.#value;
+  }
+
+  get defaultValue() {
+    return this.#defaultValue;
   }
 
   get type() {
@@ -20,6 +28,17 @@ export default class Field {
 
   get name() {
     return this.#name;
+  }
+
+  get restrictions() {
+    return this.#restrictions;
+  }
+
+  isDefault() {
+    if (typeof this.defaultValue === 'undefined' || typeof this.value === 'undefined')
+      throw new Error('Cannot check default-ness, either "value" or "defaultValue" is undefined.');
+
+    return this.value.equals(this.defaultValue);
   }
 }
 
