@@ -406,6 +406,8 @@ webots-view .information-panel .info-tabs-bar .info-tab,
   border-top-right-radius: 10px;
   border-top-left-radius: 10px;
   border-bottom: 1px #222 solid;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 webots-view .information-panel .info-tabs-bar .info-tab {
@@ -702,6 +704,7 @@ webots-view .floating-window-text {
   margin-left: 10px;
   font-size: 14px;
   margin-top: 12px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 webots-view .floating-window-close {

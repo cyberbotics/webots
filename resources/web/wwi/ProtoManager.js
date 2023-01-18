@@ -22,7 +22,6 @@ export default class ProtoManager {
       };
       xmlhttp.send();
     }).then(async text => {
-      console.log('Load PROTO from URL: ' + url);
       this.proto = new Node(url, text, true);
       await this.proto.generateInterface();
       this.proto.parseBody();
