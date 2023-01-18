@@ -150,18 +150,34 @@ export default class Parameter {
   setValueFromJavaScript(view, v, index) {
     console.log(this.#name, ' change to ', v, 'node:', this.node)
 
-    // update the parameter
-    this.value.setValueFromJavaScript(v);
+    if (v instanceof Node) {
+      for (const link of this.#parameterLinks) {
+        console.log('notifying link', link)
+        const parentId = link.node.id;
+        console.log('myId:', this.value.value.id, 'parentId:', parentId)
+        view.x3dScene.processServerMessage(`delete: ${this.value.value.id.replace('n', '')}`);
+        console.log(`delete: ${this.value.value.id}`);
 
-    for (const link of this.#parameterLinks) {
-      const action = {}
-      action['id'] = link.node.id;
-      action[this.name] = this.value.toJson();
-      console.log('setPose', action);
-      view.x3dScene.applyPose(action);
-      view.x3dScene.render();
+        // update the parameter (must happen after the existing node is deleted or the information is lost)
+        this.value.value = v;
+
+        const x3d = new XMLSerializer().serializeToString(v.toX3d());
+        console.log(x3d)
+        view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId.replace('n', ''));
+      }
+    } else {
+      // update the parameter
+      this.value.setValueFromJavaScript(v);
+
+      for (const link of this.#parameterLinks) {
+        const action = {}
+        action['id'] = link.node.id;
+        action[this.name] = this.value.toJson();
+        console.log('setPose', action);
+        view.x3dScene.applyPose(action);
+        view.x3dScene.render();
+      }
     }
-
   }
 
   // TODO: find better approach rather than propagating the view to subsequent parameters

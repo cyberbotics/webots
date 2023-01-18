@@ -115,7 +115,6 @@ export default class Node {
     tokenizer.skipToken('{');
 
     while (tokenizer.peekWord() !== '}') {
-      console.log('here')
       const field = tokenizer.nextWord();
       for (const [fieldName, fieldValue] of this.fields) {
         if (field === fieldName) {

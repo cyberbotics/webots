@@ -34,6 +34,7 @@ import WbBrake from './nodes/WbBrake.js';
 import WbPositionSensor from './nodes/WbPositionSensor.js';
 import NodeSelectorWindow from './NodeSelectorWindow.js';
 import {SFNode, MFNode} from './protoVisualizer/Vrml.js';
+import Node from './protoVisualizer/Node.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #mfId;
@@ -1194,7 +1195,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   async #sfnodeOnChange(parameter, url) {
-    const node = await this.#protoManager.generateNodeFromUrl(url);
+    //const node = await this.#protoManager.generateNodeFromUrl(url);
+    await Node.prepareProtoDependencies(url);
+    const node = new Node(url);
     parameter.setValueFromJavaScript(this.#view, node);
     this.#refreshParameterRow(parameter);
   }

@@ -403,7 +403,9 @@ export default class NodeSelectorWindow {
   }
 
   isRobotDescendant() {
-    return this.#rootProto.getBaseNode().name === 'Robot';
+    // TODO: to fix
+    //return this.#rootProto.getBaseNode().name === 'Robot';
+    return true;
   }
 
   hide() {

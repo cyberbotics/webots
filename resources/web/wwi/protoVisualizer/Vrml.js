@@ -713,14 +713,11 @@ export class MFFloat extends MultipleValue {
 
 export class MFString extends MultipleValue {
   setValueFromTokenizer(tokenizer) {
-    console.log('here')
     if (tokenizer.peekWord() === '[') {
       tokenizer.skipToken('[');
 
-      while (tokenizer.peekWord() !== ']') {
-        console.log(tokenizer.peekWord())
+      while (tokenizer.peekWord() !== ']')
         this.insert(new SFString(tokenizer));
-      }
 
       tokenizer.skipToken(']');
     } else
