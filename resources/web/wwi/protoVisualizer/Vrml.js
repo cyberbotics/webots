@@ -381,7 +381,7 @@ export class SFNode extends SingleValue {
 
     // handle exceptions
     if (this.value.name === 'ImageTexture')
-      nodeX3d.setAttribute('role', parameterName.slice(0, -3)); // TODO: rename on the JS side so it matches the field name?
+      nodeX3d.setAttribute('role', parameterName.slice(0, -3));
     else if (['Shape', 'Group', 'Transform', 'Solid', 'Robot'].includes(this.value.name)) {
       if (parameterName === 'boundingObject')
         nodeX3d.setAttribute('role', 'boundingObject');
@@ -812,8 +812,6 @@ export class MFNode extends MultipleValue {
   set value(v) {
     if (!Array.isArray(v)) {
       if (v instanceof Node) {
-        // TODO: can we avoid doing this here and ensure it's sent as SFNode already?
-        // TODO: still needed?
         const sf = new SFNode();
         sf.value = v;
         this.insert(sf);

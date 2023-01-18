@@ -29,7 +29,7 @@ export default class ProtoManager {
       // generate list of exposed parameters (that will be tied to interface elements)
       for (const [parameterName, parameter] of this.proto.parameters) {
         parameter._view = this.#view;
-        this.exposedParameters.set(parameterName, parameter); // TODO: change key to parameter id ?
+        this.exposedParameters.set(parameterName, parameter);
       }
     });
   }
