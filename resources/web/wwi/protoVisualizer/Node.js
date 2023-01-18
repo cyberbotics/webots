@@ -3,17 +3,16 @@
 import {getAnId} from '../nodes/utils/id_provider.js';
 import TemplateEngine from './TemplateEngine.js';
 import Tokenizer from './Tokenizer.js';
-import {VRML} from './vrml_type.js';
-import {vrmlFactory, jsifyFromTokenizer, SFString} from './Vrml.js';
+import {vrmlFactory, jsifyFromTokenizer} from './Vrml.js';
 import {FieldModel} from './FieldModel.js';
 import {Parameter} from './Parameter.js';
-import WbWorld from '../nodes/WbWorld.js';
 import Field from './Field.js';
 
 export default class Node {
   static cProtoModels = new Map();
 
   constructor(url, isRoot = false) {
+    console.log('>>>', url)
     this.url = url;
     this.isProto = this.url.toLowerCase().endsWith('.proto');
     this.isTemplate = false; // updated when the model is determined
@@ -22,24 +21,10 @@ export default class Node {
 
     this.fields = new Map();
     this.parameters = new Map();
-    this.externProto = new Map();
     this.def = new Map();
 
     this.id = getAnId();
     this.isRoot = isRoot;
-
-    // raw PROTO body text must be kept in case the template needs to be regenerated
-    //const indexBeginBody = protoText.search(/(?<=\]\s*\n*\r*)({)/g);
-    //this.rawBody = protoText.substring(indexBeginBody);
-    //if (!this.isTemplate)
-    //  this.protoBody = this.rawBody; // body already in VRML format
-
-    // interface (i.e. parameters) only needs to be parsed once and persists through regenerations
-    //const indexBeginInterface = protoText.search(/(^\s*PROTO\s+[a-zA-Z0-9\-_+]+\s*\[\s*$)/gm);
-    //this.rawInterface = protoText.substring(indexBeginInterface, indexBeginBody);
-
-    // header defines tags and EXTERNPROTO, persists through regenerations
-    //this.rawHeader = protoText.substring(0, indexBeginInterface);
 
     // create parameters based on the PROTO model
     if (this.isProto) {
@@ -47,6 +32,15 @@ export default class Node {
         throw new Error('A PROTO model should be available for', this.name, 'by now.');
 
       this.model = Node.cProtoModels.get(this.url);
+
+      // compile externproto list
+      this.externProto = new Map();
+      for (const item of this.model['externProto']) {
+        const protoName = item.split('/').pop().replace('.proto', '');
+        this.externProto.set(protoName, item);
+      }
+
+
       this.isTemplate = this.model['isTemplate'];
       if (this.isTemplate)
         this.templateEngine = new TemplateEngine();
@@ -57,9 +51,7 @@ export default class Node {
         const parameterType = parameterModel['type'];
         const isTemplateRegenerator = parameterModel['isTemplateRegenerator'];
         const defaultValue = vrmlFactory(parameterType, parameterModel['defaultValue']);
-        //defaultValue.setValueFromModel(model['defaultValue'])
         const value = vrmlFactory(parameterType, parameterModel['defaultValue']);
-        //value.setValueFromModel(model['defaultValue'])
         console.log(parameterType, defaultValue)
 
         const parameter = new Parameter(this, parameterName, parameterType, [], defaultValue, value, isTemplateRegenerator);
@@ -84,9 +76,7 @@ export default class Node {
     for (const fieldName of Object.keys(model)) {
       const type = model[fieldName]['type'];
       const value = vrmlFactory(type, model[fieldName]['defaultValue']);
-      //value.setValueFromJavaScript();
       const defaultValue = vrmlFactory(type, model[fieldName]['defaultValue']);
-      //defaultValue.setValueFromJavaScript(FieldModel[this.baseType][fieldName]['defaultValue']);
       const field = new Field(this, fieldName, type, value, defaultValue);
       this.fields.set(fieldName, field);
     }
@@ -105,10 +95,10 @@ export default class Node {
 
     // determine model of the base-type
     if (this.isDerived) {
-      for (const item of this.model['externProto']) {
-        if (item.endsWith(this.baseType + '.proto'))
-          this.baseTypeModel = Node.cProtoModels.get(item);
-      }
+      if (this.externProto.has(this.baseType + '.proto'))
+        this.baseTypeModel = Node.cProtoModels.get(this.externProto.get(this.baseType));
+      else
+        throw new Error('The model of the base-type is not available but it should.')
     } else
       this.baseTypeModel = FieldModel[this.baseType]
 

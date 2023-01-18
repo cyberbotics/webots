@@ -400,16 +400,21 @@ export class SFRotation extends SingleValue {
 
 export class SFNode extends SingleValue {
   setValueFromTokenizer(tokenizer) {
-    console.log('PEEK', tokenizer.peekWord());
     if (tokenizer.peekWord() === 'USE')
       this.isUse = true;
 
-    this.value = new Node(tokenizer.nextWord());
+    let url;
+    if (tokenizer.proto.externProto.has(tokenizer.peekWord()))
+      url = tokenizer.proto.externProto.get(tokenizer.nextWord())
+    else
+      url = tokenizer.nextWord();
+
+    console.log('>>', url)
+    this.value = new Node(url);
     this.value.configureNodeFromTokenizer(tokenizer);
   }
 
   setValueFromModel(v) {
-    console.log('got ', v)
     if (typeof v === 'undefined')
       throw new Error('Cannot initialize undefined VRML type.')
 
