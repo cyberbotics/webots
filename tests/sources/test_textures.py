@@ -86,6 +86,7 @@ class TestTextures(unittest.TestCase):
         for image in images:
             if not (
                 'controllers' in image or
+                'docs' in image or
                 'icons' in image or
                 'libraries' in image or
                 'plugins' in image or
