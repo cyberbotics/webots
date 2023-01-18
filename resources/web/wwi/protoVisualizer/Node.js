@@ -24,6 +24,8 @@ export default class Node {
     this.externProto = new Map();
     this.def = new Map();
 
+    this.id = getAnId();
+
     // raw PROTO body text must be kept in case the template needs to be regenerated
     //const indexBeginBody = protoText.search(/(?<=\]\s*\n*\r*)({)/g);
     //this.rawBody = protoText.substring(indexBeginBody);
@@ -124,7 +126,8 @@ export default class Node {
             if (!this.parameters.has(alias))
               throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
 
-            this.fields.set(fieldName, this.parameters.get(alias));
+            const p = this.parameters.get(alias);
+            fieldValue.value = p.value
             console.log(this)
           } else {
             console.log('setting value from tokenizer')
@@ -141,15 +144,13 @@ export default class Node {
     this.xml = document.implementation.createDocument('', '', null);
 
     const nodeElement = this.xml.createElement(this.baseType);
-    //nodeElement.setAttribute('id', this.id);
+    nodeElement.setAttribute('id', this.id);
     for (const [fieldName, field] of this.fields) {
       console.log('  ENCODE FIELD ' + fieldName);
       //if (typeof fiel.value === 'undefined') // note: SFNode can be null, not undefined
       //  throw new Error('All parameters should be defined, ' + parameterName + ' is not.');
-
-      console.log(field)
-      //if (field.isDefault())
-      //  continue;
+      if (field.isDefault())
+        continue;
 
       field.value.toX3d(fieldName, nodeElement);
     }

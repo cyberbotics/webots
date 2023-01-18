@@ -18,6 +18,10 @@ export default class Field {
     return this.#value;
   }
 
+  set value(newValue) {
+    this.#value = newValue;
+  }
+
   get defaultValue() {
     return this.#defaultValue;
   }
