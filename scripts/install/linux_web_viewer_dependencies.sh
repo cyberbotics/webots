@@ -5,6 +5,7 @@ if [[ $EUID -ne 0 ]]; then
        exit 1
 fi
 
+alias apt='apt --option="APT::Acquire::Retries=3"'
 apt install python3-pip python3-setuptools -y
 pip3 install --upgrade pip
 pip3 install pyclibrary
@@ -12,7 +13,7 @@ pip3 install pyclibrary
 
 git clone https://github.com/emscripten-core/emsdk.git dependencies/emsdk
 
-USER=$(env | grep SUDO_USER | cut -d '=' -f 2-) 
+USER=$(env | grep SUDO_USER | cut -d '=' -f 2-)
 
 git pull
 ./dependencies/emsdk/emsdk install latest
