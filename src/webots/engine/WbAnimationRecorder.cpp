@@ -341,14 +341,14 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
     out << "}";
     return result;
   }
-  out << ",\"poses\":[";
-  bool hasPreviousPose = false;
+  out << ",\"updates\":[";
+  bool hasPreviousUpdate = false;
   foreach (WbAnimationCommand *command, mChangedCommands) {
     const QList<QString> keys = force ? command->allFields() : command->dirtyFields();
     if (keys.isEmpty())
       continue;
     QString nodeString = QString("{\"id\":%1").arg(command->node()->uniqueId());
-    if (hasPreviousPose)
+    if (hasPreviousUpdate)
       nodeString.prepend(",");
     bool emptyUpdate = true;
     foreach (const QString &fieldName, keys) {
@@ -362,7 +362,7 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
       out << nodeString;
       out << "}";
 
-      hasPreviousPose = true;
+      hasPreviousUpdate = true;
     }
     command->resetChanges();
   }
@@ -483,7 +483,7 @@ void WbAnimationRecorder::stopRecording() {
 
   out << " \"frames\":[\n";
   // write initial state
-  out << "{\"time\":0,\"poses\":[";
+  out << "{\"time\":0,\"updates\":[";
   if (commandsChangedFromStart.isEmpty()) {
     WbLog::info(tr("Error: No animation content is available because no changes occurred in the simulation. "
                    "If you just want a 3D environment file, consider exporting a scene instead."));
