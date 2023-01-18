@@ -26,11 +26,6 @@ export default class ProtoManager {
       await this.proto.generateInterface();
       this.proto.parseBody();
       this.loadX3d();
-      // generate list of exposed parameters (that will be tied to interface elements)
-      for (const [parameterName, parameter] of this.proto.parameters) {
-        parameter._view = this.#view;
-        this.exposedParameters.set(parameterName, parameter); // TODO: change key to parameter id ?
-      }
     });
   }
 
@@ -45,7 +40,6 @@ export default class ProtoManager {
       };
       xmlhttp.send();
     }).then(async text => {
-      console.log('Load PROTO from URL: ' + url);
       const node = new Node(url, text);
       await node.generateInterface();
       node.parseBody();
@@ -133,7 +127,6 @@ export default class ProtoManager {
     s += `${indent(2)}}\n`;
     s += '}\n';
 
-    console.log(s);
     return s;
   }
 
@@ -180,7 +173,7 @@ export default class ProtoManager {
     const imageTexture = xml.createElement('ImageTexture');
     imageTexture.setAttribute('id', getAnId());
     imageTexture.setAttribute('url', 'https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/grid.png');
-    imageTexture.setAttribute('role', 'baseColor');
+    imageTexture.setAttribute('role', 'baseColorMap');
     appearance.appendChild(imageTexture);
     const textureTransform = xml.createElement('TextureTransform');
     textureTransform.setAttribute('id', getAnId());

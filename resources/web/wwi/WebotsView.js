@@ -158,11 +158,11 @@ export default class WebotsView extends HTMLElement {
       typeof this._view === 'undefined')
       return;
 
-    let pose = {
+    let update = {
       'id': nodeId,
       [field]: value
     };
-    this._view.x3dScene.applyPose(pose);
+    this._view.x3dScene.applyUpdate(update);
     if (render)
       this._view.x3dScene.render();
   }

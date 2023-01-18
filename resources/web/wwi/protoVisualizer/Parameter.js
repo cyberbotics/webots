@@ -147,7 +147,6 @@ export default class Parameter {
     view.x3dScene.render();
   }
 
-  // TODO: find better approach rather than propagating the view to subsequent parameters
   setValueFromJavaScript(view, v, index) {
     // notify linked parameters of the change
     for (const link of this.parameterLinks)
@@ -211,8 +210,7 @@ export default class Parameter {
         const action = {};
         action['id'] = this.node.id;
         action[this.name] = this.value.toJson();
-        console.log('setPose', action);
-        view.x3dScene.applyPose(action);
+        view.x3dScene.applyUpdate(action);
       }
       view.x3dScene.render();
     }
