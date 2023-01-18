@@ -26,7 +26,8 @@ export default class ProtoManager {
       await Node.prepareProtoDependencies(url);
       console.log('>>> known models:', Node.cProtoModels);
       this.proto = new Node(url, true);
-      console.log('>>> result:', this.proto)
+      console.log('>>> resulting proto:', this.proto)
+      console.log('>>> resulting x3d:', new XMLSerializer().serializeToString(this.proto.toX3d()))
       this.loadX3d();
       //const a = Node.cProtoModels.get('https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/Copper.proto');
       //console.log(a['IBLStrength']['type'])
@@ -45,6 +46,8 @@ export default class ProtoManager {
   }
 
   async generateNodeFromUrl(url) {
+    throw new Error('STILL NEEDED?')
+    /*
     return new Promise((resolve, reject) => {
       const xmlhttp = new XMLHttpRequest();
       xmlhttp.open('GET', url, true);
@@ -61,6 +64,7 @@ export default class ProtoManager {
       node.parseBody();
       return node;
     });
+    */
   }
 
   async loadX3d() {
