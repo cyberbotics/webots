@@ -4,7 +4,7 @@ import {getAnId} from '../nodes/utils/id_provider.js';
 import TemplateEngine from './TemplateEngine.js';
 import Tokenizer from './Tokenizer.js';
 import {VRML} from './vrml_type.js';
-import {vrmlFactory, jsifyFromTokenizer} from './Vrml.js';
+import {vrmlFactory, jsifyFromTokenizer, SFString} from './Vrml.js';
 import {FieldModel} from './FieldModel.js';
 import {Parameter} from './Parameter.js';
 import WbWorld from '../nodes/WbWorld.js';
@@ -17,6 +17,7 @@ export default class Node {
     this.url = url;
     this.isProto = this.url.toLowerCase().endsWith('.proto');
     this.name = this.isProto ? this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '') : url;
+    console.log('create new node:', this.name, 'from', this.url);
 
     this.fields = new Map();
     this.parameters = new Map();
@@ -24,17 +25,33 @@ export default class Node {
     this.def = new Map();
 
     // raw PROTO body text must be kept in case the template needs to be regenerated
-    const indexBeginBody = protoText.search(/(?<=\]\s*\n*\r*)({)/g);
-    this.rawBody = protoText.substring(indexBeginBody);
-    if (!this.isTemplate)
-      this.protoBody = this.rawBody; // body already in VRML format
+    //const indexBeginBody = protoText.search(/(?<=\]\s*\n*\r*)({)/g);
+    //this.rawBody = protoText.substring(indexBeginBody);
+    //if (!this.isTemplate)
+    //  this.protoBody = this.rawBody; // body already in VRML format
 
     // interface (i.e. parameters) only needs to be parsed once and persists through regenerations
-    const indexBeginInterface = protoText.search(/(^\s*PROTO\s+[a-zA-Z0-9\-_+]+\s*\[\s*$)/gm);
-    this.rawInterface = protoText.substring(indexBeginInterface, indexBeginBody);
+    //const indexBeginInterface = protoText.search(/(^\s*PROTO\s+[a-zA-Z0-9\-_+]+\s*\[\s*$)/gm);
+    //this.rawInterface = protoText.substring(indexBeginInterface, indexBeginBody);
 
     // header defines tags and EXTERNPROTO, persists through regenerations
-    this.rawHeader = protoText.substring(0, indexBeginInterface);
+    //this.rawHeader = protoText.substring(0, indexBeginInterface);
+
+    // create parameters based on prototype
+    if (this.isProto && Node.cProtoModels.has(this.url)) {
+      const protoModel = Node.cProtoModels.get(this.url);
+      console.log(protoModel)
+      for (const [parameterName, parameterValue] of Object.entries(protoModel['parameters'])) {
+        console.log(parameterName, parameterValue)
+        const parameterType = parameterValue['type'];
+        const v = vrmlFactory(parameterType);
+        v.value = parameterValue['defaultValue'];
+        this.parameters.set(parameterName, v)
+      }
+
+
+    } else
+      throw new Error('A PROTO model should be available for', this.name, 'by now.')
 
     if (this.isProto) {
       // determine basetype
@@ -133,6 +150,8 @@ export default class Node {
     this.protoName = tokenizer.nextWord();
 
     const model = {};
+    model['rawBody'] = protoText.substring(indexBeginBody);
+    model['parameters'] = {}
     while (!tokenizer.peekToken().isEof()) {
       const token = tokenizer.nextToken();
       let nextToken = tokenizer.peekToken();
@@ -164,7 +183,7 @@ export default class Node {
         const parameter = {}
         parameter['type'] = parameterType;
         parameter['defaultValue'] = value;
-        model[parameterName] = parameter;
+        model['parameters'][parameterName] = parameter;
         //model[protoUrl][parameterName]['defaultValue'] = defaultValue.toJS(false);
         //model[protoUrl][parameterName]['isRegenerator'] = isRegenerator;
       }

@@ -7,9 +7,9 @@ import {DOUBLE_EQUALITY_TOLERANCE} from '../nodes/utils/constants.js';
 
 class SingleValue {
   #value;
-  constructor(tokenizer) {
-    if (typeof tokenizer !== 'undefined')
-      this.setValueFromTokenizer(tokenizer);
+  constructor(v) {
+    if (typeof v !== 'undefined')
+      this.setValueFromModel(v);
   }
 
   get value() {
@@ -57,6 +57,10 @@ export class SFBool extends SingleValue {
     super.value = tokenizer.nextToken().toBool();
   }
 
+  setValueFromModel(v) {
+    super.value = v
+  }
+
   type() {
     return VRML.SFBool;
   }
@@ -74,6 +78,10 @@ export class SFBool extends SingleValue {
 export class SFInt32 extends SingleValue {
   setValueFromTokenizer(tokenizer) {
     super.value = tokenizer.nextToken().toInt();
+  }
+
+  setValueFromModel(v) {
+    super.value = v;
   }
 
   type() {
@@ -95,6 +103,10 @@ export class SFFloat extends SingleValue {
     this.value = tokenizer.nextToken().toFloat();
   }
 
+  setValueFromModel(v) {
+    super.value = v;
+  }
+
   type() {
     return VRML.SFFloat;
   }
@@ -112,6 +124,10 @@ export class SFFloat extends SingleValue {
 export class SFString extends SingleValue {
   setValueFromTokenizer(tokenizer) {
     this.value = tokenizer.nextWord();
+  }
+
+  setValueFromModel(v) {
+    super.value = v;
   }
 
   setValueFromJavaScript(v) {
@@ -142,6 +158,10 @@ export class SFString extends SingleValue {
 export class SFVec2f extends SingleValue {
   setValueFromTokenizer(tokenizer) {
     this.value = {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat()};
+  }
+
+  setValueFromModel(v) {
+    super.value = v;
   }
 
   toX3d(parameterName, parentElement) {
@@ -192,6 +212,10 @@ export class SFVec3f extends SingleValue {
     this.value = {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), z: tokenizer.nextToken().toFloat()};
   }
 
+  setValueFromModel(v) {
+    super.value = v;
+  }
+
   toX3d(parameterName, parentElement) {
     if (typeof parentElement !== 'undefined') { // this is the case if this instance is an item of a MF*
       parentElement.setAttribute(parameterName, `${this.value.x} ${this.value.y} ${this.value.z}`);
@@ -238,6 +262,10 @@ export class SFVec3f extends SingleValue {
 export class SFColor extends SingleValue {
   setValueFromTokenizer(tokenizer) {
     this.value = {r: tokenizer.nextToken().toFloat(), g: tokenizer.nextToken().toFloat(), b: tokenizer.nextToken().toFloat()};
+  }
+
+  setValueFromModel(v) {
+    super.value = v;
   }
 
   toX3d(parameterName, parentElement) {
@@ -291,6 +319,10 @@ export class SFRotation extends SingleValue {
     let aValue = tokenizer.nextToken().toFloat();
 
     this.normalize(xValue, yValue, zValue, aValue);
+  }
+
+  setValueFromModel(v) {
+    super.value = v;
   }
 
   setValueFromJavaScript(v) {
@@ -367,6 +399,10 @@ export class SFNode extends SingleValue {
       this.isUse = true;
 
     this.value = Node.createNode(tokenizer);
+  }
+
+  setValueFromModel(v) {
+    this.value = Node.createNode(v);
   }
 
   setValueFromJavaScript(value) {
@@ -467,9 +503,9 @@ export class SFNode extends SingleValue {
 
 class MultipleValue {
   #value = [];
-  constructor(tokenizer) {
-    if (typeof tokenizer !== 'undefined')
-      this.setValueFromTokenizer(tokenizer);
+  constructor(v) {
+    if (typeof v !== 'undefined')
+      this.setValueFromModel(v);
   }
 
   get value() {
@@ -553,6 +589,11 @@ export class MFBool extends MultipleValue {
       this.insert(new SFBool(tokenizer));
   }
 
+  setValueFromModel(v) {
+    this.value = [];
+    v.forEach((item) => this.value.push(new SFBool(item)));
+  }
+
   setValueFromJavaScript(items) {
     this.value = [];
     items.forEach((item) => {
@@ -584,6 +625,11 @@ export class MFInt32 extends MultipleValue {
       tokenizer.skipToken(']');
     } else
       this.insert(new SFInt32(tokenizer));
+  }
+
+  setValueFromModel(v) {
+    this.value = [];
+    v.forEach((item) => this.value.push(new SFInt32(item)));
   }
 
   setValueFromJavaScript(items) {
@@ -619,6 +665,11 @@ export class MFFloat extends MultipleValue {
       this.insert(new SFFloat(tokenizer));
   }
 
+  setValueFromModel(v) {
+    this.value = [];
+    v.forEach((item) => this.value.push(new SFFloat(item)));
+  }
+
   setValueFromJavaScript(items) {
     this.value = [];
     items.forEach((item) => {
@@ -650,6 +701,11 @@ export class MFString extends MultipleValue {
       tokenizer.skipToken(']');
     } else
       this.insert(new SFString(tokenizer));
+  }
+
+  setValueFromModel(v) {
+    this.value = [];
+    v.forEach((item) => this.value.push(new SFString(item)));
   }
 
   setValueFromJavaScript(items) {
@@ -685,6 +741,11 @@ export class MFVec2f extends MultipleValue {
       this.insert(new SFVec2f(tokenizer));
   }
 
+  setValueFromModel(v) {
+    this.value = [];
+    v.forEach((item) => this.value.push(new SFVec2f(item)));
+  }
+
   setValueFromJavaScript(items) {
     this.value = [];
     items.forEach((item) => {
@@ -716,6 +777,11 @@ export class MFVec3f extends MultipleValue {
       tokenizer.skipToken(']');
     } else
       this.insert(new SFVec3f(tokenizer));
+  }
+
+  setValueFromModel(v) {
+    this.value = [];
+    v.forEach((item) => this.value.push(new SFVec3f(item)));
   }
 
   setValueFromJavaScript(items) {
@@ -751,6 +817,11 @@ export class MFColor extends MultipleValue {
       this.insert(new SFColor(tokenizer));
   }
 
+  setValueFromModel(v) {
+    this.value = [];
+    v.forEach((item) => this.value.push(new SFColor(item)));
+  }
+
   setValueFromJavaScript(items) {
     this.value = [];
     items.forEach((item) => {
@@ -782,6 +853,11 @@ export class MFRotation extends MultipleValue {
       tokenizer.skipToken(']');
     } else
       this.insert(new SFRotation(tokenizer));
+  }
+
+  setValueFromModel(v) {
+    this.value = [];
+    v.forEach((item) => this.value.push(new SFRotation(item)));
   }
 
   setValueFromJavaScript(items) {
@@ -833,6 +909,11 @@ export class MFNode extends MultipleValue {
       tokenizer.skipToken(']');
     } else
       this.insert(new SFNode(tokenizer));
+  }
+
+  setValueFromModel(v) {
+    this.value = [];
+    v.forEach((item) => this.value.push(new SFNode(item)));
   }
 
   setValueFromJavaScript(items) {
@@ -887,44 +968,44 @@ export class MFNode extends MultipleValue {
   }
 }
 
-export function vrmlFactory(type, tokenizer) {
+export function vrmlFactory(type, value) {
   switch (type) {
     case VRML.SFBool:
-      return new SFBool(tokenizer);
+      return new SFBool(value);
     case VRML.SFInt32:
-      return new SFInt32(tokenizer);
+      return new SFInt32(value);
     case VRML.SFFloat:
-      return new SFFloat(tokenizer);
+      return new SFFloat(value);
     case VRML.SFString:
-      return new SFString(tokenizer);
+      return new SFString(value);
     case VRML.SFVec2f:
-      return new SFVec2f(tokenizer);
+      return new SFVec2f(value);
     case VRML.SFVec3f:
-      return new SFVec3f(tokenizer);
+      return new SFVec3f(value);
     case VRML.SFColor:
-      return new SFColor(tokenizer);
+      return new SFColor(value);
     case VRML.SFRotation:
-      return new SFRotation(tokenizer);
+      return new SFRotation(value);
     case VRML.SFNode:
-      return new SFNode(tokenizer);
+      return new SFNode(value);
     case VRML.MFBool:
-      return new MFBool(tokenizer);
+      return new MFBool(value);
     case VRML.MFInt32:
-      return new MFInt32(tokenizer);
+      return new MFInt32(value);
     case VRML.MFFloat:
-      return new MFFloat(tokenizer);
+      return new MFFloat(value);
     case VRML.MFString:
-      return new MFString(tokenizer);
+      return new MFString(value);
     case VRML.MFVec2f:
-      return new MFVec2f(tokenizer);
+      return new MFVec2f(value);
     case VRML.MFVec3f:
-      return new MFVec3f(tokenizer);
+      return new MFVec3f(value);
     case VRML.MFColor:
-      return new MFColor(tokenizer);
+      return new MFColor(value);
     case VRML.MFRotation:
-      return new MFRotation(tokenizer);
+      return new MFRotation(value);
     case VRML.MFNode:
-      return new MFNode(tokenizer);
+      return new MFNode(value);
     default:
       throw new Error('Unknown VRML type: ', type);
   }

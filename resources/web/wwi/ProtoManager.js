@@ -23,8 +23,9 @@ export default class ProtoManager {
       xmlhttp.send();
     }).then(async text => {
       console.log('Load PROTO from URL: ' + url);
-      await Node.prepareProtoDependencies(url)
-      console.log('>>> known models:', Node.cProtoModels)
+      await Node.prepareProtoDependencies(url);
+      console.log('>>> known models:', Node.cProtoModels);
+      this.proto = new Node(url);
       //const a = Node.cProtoModels.get('https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/Copper.proto');
       //console.log(a['IBLStrength']['type'])
       //this.proto = new Node(url, text, true);
