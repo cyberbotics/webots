@@ -165,6 +165,7 @@ export default class Parameter {
       this.node.regenerate();
 
       const x3d = new XMLSerializer().serializeToString(this.node.toX3d());
+      console.log('Insert regenerated x3d into node', parentNodeId)
       view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentNodeId.replace('n', ''));
       return;
     }
@@ -192,7 +193,7 @@ export default class Parameter {
       for (const link of this.parameterLinks) {
         const action = {}
         action['id'] = link.node.getBaseNode().id;
-        action[this.name] = this.value.toJson();
+        action[link.name] = this.value.toJson();
         console.log('setPose', action);
         view.x3dScene.applyPose(action);
         view.x3dScene.render();
