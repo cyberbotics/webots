@@ -260,6 +260,10 @@ export default class NodeSelectorWindow {
       const info = this.nodes.get(protoName);
       const url = info.url;
       nodeImage.src = url.slice(0, url.lastIndexOf('/') + 1) + 'icons/' + protoName + '.png';
+      nodeImage.onerror = () => {
+        nodeImage.onerror = undefined;
+        nodeImage.src = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023a/resources/images/missing_proto_icon.png';
+      };
       description.innerHTML = info.description;
       license.innerHTML =
         'License:&nbsp;<i>' + (typeof info.license !== 'undefined' ? info.license : 'not specified.') + '</i>';
