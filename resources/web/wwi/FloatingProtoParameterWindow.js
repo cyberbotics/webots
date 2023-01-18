@@ -1183,8 +1183,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     resetButton.onclick = () => {
-      parameter.setValueFromJavaScript(this.#view, parameter.defaultValue.value === null
-        ? null : parameter.defaultValue.value.clone(true));
+      if (parameter.defaultValue.value === null)
+        parameter.setValueFromJavaScript(this.#view, null);
+      else {
+        const node = new Node(parameter.defaultValue.value.url); // TODO: need to configure this node or raw model suffices?
+        parameter.setValueFromJavaScript(this.#view, node);
+      }
       this.#refreshParameterRow(parameter);
     };
 
