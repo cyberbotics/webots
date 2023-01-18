@@ -153,7 +153,7 @@ export default class Node {
       }
     }
 
-    copy.def = new Map(this.def); // TODO: probably wrong, need to clone nodes?
+    copy.def = new Map(this.def);
     copy.externProto = new Map(this.externProto);
     return copy;
   }
@@ -274,18 +274,9 @@ export default class Node {
       return this.baseType.toX3d();
 
     const nodeElement = this.xml.createElement(this.name);
-    if (isUse) {
-      // console.log('is USE! Will reference id: ' + this.id);
+    if (isUse)
       nodeElement.setAttribute('USE', this.id);
-      // TODO: needed here as well or sufficient in vrml.js?
-      if (['Shape', 'Group', 'Transform', 'Solid', 'Robot'].includes(this.name)) {
-        if (parameterReference === 'boundingObject')
-          nodeElement.setAttribute('role', 'boundingObject');
-      } else if (['BallJointParameters', 'JointParameters', 'HingeJointParameters'].includes(this.name))
-        nodeElement.setAttribute('role', parameterReference); // identifies which jointParameter slot the node belongs to
-      else if (['Brake', 'PositionSensor', 'Motor'].includes(this.name))
-        nodeElement.setAttribute('role', parameterReference); // identifies which device slot the node belongs to
-    } else {
+    else {
       nodeElement.setAttribute('id', this.id);
       // console.log('ENCODE ' + this.name, ', id: ', this.id)
       for (const [parameterName, parameter] of this.parameters) {
@@ -446,7 +437,6 @@ export default class Node {
   }
 };
 
-// TODO: move to utility?
 function combinePaths(url, parentUrl) {
   if (url.startsWith('http://') || url.startsWith('https://'))
     return url; // url is already resolved

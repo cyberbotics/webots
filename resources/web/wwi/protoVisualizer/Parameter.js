@@ -147,7 +147,6 @@ export default class Parameter {
     view.x3dScene.render();
   }
 
-  // TODO: find better approach rather than propagating the view to subsequent parameters
   setValueFromJavaScript(view, v, index) {
     // notify linked parameters of the change
     for (const link of this.parameterLinks)
