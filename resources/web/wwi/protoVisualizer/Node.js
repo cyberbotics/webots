@@ -13,7 +13,7 @@ import Field from './Field.js';
 export default class Node {
   static cProtoModels = new Map();
 
-  constructor(url, protoText, isRoot = false) {
+  constructor(url, isRoot = false) {
     this.url = url;
     this.isProto = this.url.toLowerCase().endsWith('.proto');
     this.name = this.isProto ? this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '') : url;
@@ -25,6 +25,7 @@ export default class Node {
     this.def = new Map();
 
     this.id = getAnId();
+    this.isRoot = isRoot;
 
     // raw PROTO body text must be kept in case the template needs to be regenerated
     //const indexBeginBody = protoText.search(/(?<=\]\s*\n*\r*)({)/g);
@@ -45,14 +46,15 @@ export default class Node {
         throw new Error('A PROTO model should be available for', this.name, 'by now.');
 
       const protoModel = Node.cProtoModels.get(this.url);
-      console.log(protoModel)
+      console.log('PROTOMODEL', protoModel)
       for (const [parameterName, model] of Object.entries(protoModel['parameters'])) {
-        console.log(parameterName, model)
+        console.log('parameter name:', parameterName, 'model:',model)
         const parameterType = model['type'];
         const defaultValue = vrmlFactory(parameterType, model['defaultValue']);
         //defaultValue.setValueFromModel(model['defaultValue'])
         const value = vrmlFactory(parameterType, model['defaultValue']);
         //value.setValueFromModel(model['defaultValue'])
+        console.log(parameterType, defaultValue)
 
         const parameter = new Parameter(this, parameterName, parameterType, [], defaultValue, value, false);
         console.log(parameterName, parameter);
@@ -78,7 +80,7 @@ export default class Node {
           //value.setValueFromJavaScript();
           const defaultValue = vrmlFactory(type, FieldModel[this.baseType][fieldName]['defaultValue']);
           //defaultValue.setValueFromJavaScript(FieldModel[this.baseType][fieldName]['defaultValue']);
-          const field = new Field(fieldName, type, value, defaultValue);
+          const field = new Field(this, fieldName, type, value, defaultValue);
           this.fields.set(fieldName, field);
         }
       } else {
@@ -96,7 +98,7 @@ export default class Node {
         //value.setValueFromJavaScript(FieldModel[this.baseType][fieldName]['defaultValue']);
         const defaultValue = vrmlFactory(type, FieldModel[this.baseType][fieldName]['defaultValue']);
         //defaultValue.setValueFromJavaScript(FieldModel[this.baseType][fieldName]['defaultValue']);
-        const field = new Field(fieldName, type, value, defaultValue);
+        const field = new Field(this, fieldName, type, value, defaultValue);
         this.fields.set(fieldName, field);
       }
     }
@@ -122,13 +124,13 @@ export default class Node {
           if (tokenizer.peekWord() === 'IS') {
             tokenizer.skipToken('IS');
             const alias = tokenizer.nextWord();
-            console.log('alias:', alias);
-            if (!this.parameters.has(alias))
-              throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
+            console.log('alias:', alias, 'reference PROTO:', tokenizer.proto.name);
+            if (!tokenizer.proto.parameters.has(alias))
+              throw new Error('Alias "' + alias + '" not found in PROTO ' + tokenizer.proto.name);
 
-            const p = this.parameters.get(alias);
+            const p = tokenizer.proto.parameters.get(alias);
             fieldValue.value = p.value
-            console.log(this)
+            p.insertLink(fieldValue);
           } else {
             console.log('setting value from tokenizer')
             fieldValue.value.setValueFromTokenizer(tokenizer, this);
@@ -159,6 +161,14 @@ export default class Node {
     console.log('RESULT:', new XMLSerializer().serializeToString(this.xml));
 
     return nodeElement;
+  }
+
+  getInternalFields(parameter) {
+    for (const [fieldName, field] of this.fields.entries()) {
+      console.log('Internal field:', fieldName)
+      if (field instanceof Parameter)
+        console.log('HERE')
+    }
   }
 
   static async prepareProtoDependencies(protoUrl) {

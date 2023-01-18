@@ -5,12 +5,13 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projec
 
 PROTO ProtoShape [
   field SFNode app Copper{}
+  field SFVec3f size 0.1 0.1 0.1
 ]
 {
   Shape {
     appearance IS app
     geometry Box {
-      size 0.1 0.1 0.1
+      size IS size
     }
   }
 }

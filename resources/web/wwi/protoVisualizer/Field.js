@@ -1,17 +1,23 @@
 'use strict';
 
 export default class Field {
+  #node;
   #type;
   #name;
   #value;
   #defaultValue;
   #restrictions;
-  constructor(name, type, value, defaultValue) {
+  constructor(node, name, type, value, defaultValue) {
+    this.#node = node;
     this.#name = name;
     this.#type = type;
     this.#value = value;
     this.#defaultValue = defaultValue;
     this.#restrictions = [];
+  }
+
+  get node() {
+    return this.#node;
   }
 
   get value() {
