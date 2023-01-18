@@ -691,10 +691,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     currentNodeButton.title = 'Select a node to insert';
     currentNodeButton.innerText = value.name;
     currentNodeButton.onclick = async() => {
-      if (typeof this.nodeSelector === 'undefined') {
+      if (typeof this.nodeSelector === 'undefined')
         this.nodeSelector = new NodeSelectorWindow(this.parentNode, this.#protoManager.proto);
-        await this.nodeSelector.initialize();
-      }
 
       this.nodeSelector.show(parameter, p, this.#MFNodeOnChange.bind(this), parent, mfId, resetButton);
       this.nodeSelectorListener = (event) => this.#hideNodeSelector(event);
@@ -857,10 +855,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const addRow = document.createElement('button');
     addRow.onclick = async() => {
       if (parameter.type === VRML.MFNode) {
-        if (typeof this.nodeSelector === 'undefined') {
+        if (typeof this.nodeSelector === 'undefined')
           this.nodeSelector = new NodeSelectorWindow(this.parentNode, this.#protoManager.proto);
-          await this.nodeSelector.initialize();
-        }
 
         this.nodeSelector.show(parameter, addRow, this.#MFNodeOnInsertion.bind(this), parent, mfId, resetButton);
         this.nodeSelectorListener = (event) => this.#hideNodeSelector(event);
@@ -1143,10 +1139,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     currentNodeButton.id = 'current-node-' + parameter.name;
     currentNodeButton.title = 'Select a node to insert';
     currentNodeButton.onclick = async() => {
-      if (typeof this.nodeSelector === 'undefined') {
+      if (typeof this.nodeSelector === 'undefined')
         this.nodeSelector = new NodeSelectorWindow(this.parentNode, this.#protoManager.proto);
-        await this.nodeSelector.initialize();
-      }
 
       this.nodeSelector.show(parameter, p, this.#sfnodeOnChange.bind(this));
       this.nodeSelectorListener = (event) => this.#hideNodeSelector(event);
