@@ -192,7 +192,6 @@ export default class Parser {
       setTimeout(() => { webots.currentView.progress.setProgressBar('none'); }, 300);
       if (typeof callback === 'function')
         callback();
-      console.log('World Instance', WbWorld.instance);
       console.timeEnd('Loaded in: ');
     });
   }

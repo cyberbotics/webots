@@ -45,7 +45,6 @@ export default class ProtoManager {
       };
       xmlhttp.send();
     }).then(async text => {
-      console.log('Load PROTO from URL: ' + url);
       const node = new Node(url, text);
       await node.generateInterface();
       node.parseBody();
@@ -133,7 +132,6 @@ export default class ProtoManager {
     s += `${indent(2)}}\n`;
     s += '}\n';
 
-    console.log(s);
     return s;
   }
 
