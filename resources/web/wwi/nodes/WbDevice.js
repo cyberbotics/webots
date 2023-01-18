@@ -46,10 +46,9 @@ export default class WbDevice extends WbSolid {
   }
 
   #applyOptionalRenderingToWren() {
-    // TODO adapt with the new structure Introduce in SFNODE
     let currentNode = this;
     let parentId = this.parent;
-    while (typeof parentId !== 'undefined') {
+    while (typeof parentId !== 'undefined' && parentId !== WbWorld.instance.root.id) {
       let parent = WbWorld.instance.nodes.get(parentId);
       if (typeof parent !== 'undefined') {
         parentId = parent.parent;
