@@ -41,7 +41,10 @@ export default class Node {
         this.externProto.set(protoName, item);
       }
 
+
       this.isTemplate = this.model['isTemplate'];
+      if (this.isTemplate)
+        this.templateEngine = new TemplateEngine();
 
       console.log('PROTOMODEL', this.model)
       for (const [parameterName, parameterModel] of Object.entries(this.model['parameters'])) {
@@ -62,34 +65,15 @@ export default class Node {
     if (this.isProto) {
       this.regenerate();
     } else {
-      this.baseType = undefined;
-      const model = FieldModel[this.url];
-      for (const fieldName of Object.keys(model)) {
-        const type = model[fieldName]['type'];
-        const value = vrmlFactory(type, model[fieldName]['defaultValue']);
-        const defaultValue = vrmlFactory(type, model[fieldName]['defaultValue']);
-        const field = new Field(this, fieldName, type, value, defaultValue);
-        this.fields.set(fieldName, field);
-      }
+      this.baseType = this.name;
+      this.model = FieldModel[this.name];
+
+      this.generateInternalFields(FieldModel[this.baseType])
     }
   };
 
-  getBaseNode() {
-    if (this.isProto)
-      return this.baseType.getBaseNode();
-
-    return this;
-  }
-
-  generateBaseType(baseUrl) {
-    console.log('generateBaseType from:', baseUrl)
-
-    const model = this.isDerived ? FieldModel[baseUrl] : Node.cProtoModels.get(baseUrl);
-    console.log('basetype model:', model)
-
-    const base = new Node(baseUrl)
-    console.log('BASETYPE', baseUrl, 'HAS ID', base.id, 'and I have', this.id)
-    /*
+  generateInternalFields(model) {
+    console.log('generateInternalFields from model', model)
     // set field values based on field model
     for (const fieldName of Object.keys(model)) {
       const type = model[fieldName]['type'];
@@ -98,9 +82,6 @@ export default class Node {
       const field = new Field(this, fieldName, type, value, defaultValue);
       this.fields.set(fieldName, field);
     }
-    */
-
-    return base;
   }
 
   regenerate() {
@@ -108,32 +89,33 @@ export default class Node {
 
     // create fields based on prototype
     const match = protoBody.match(/\{\s*([a-zA-Z0-9\_\-\+]+)\s*\{/); // TODO: what if contains DEF?
-    const baseType = match[1];
-    console.log(this.name, 'derives from', baseType);
+    this.baseType = match[1];
+    console.log(this.name, 'derives from', this.baseType);
 
-    this.isDerived = typeof FieldModel[baseType] === 'undefined';
+    this.isDerived = typeof FieldModel[this.baseType] === 'undefined';
     console.log(this.name, ' is a derived node? ', this.isDerived);
 
     // determine model of the base-type
-    let baseUrl;
     if (this.isDerived) {
-      if (this.externProto.has(baseType + '.proto'))
-        baseUrl = this.externProto.get(baseType);
+      if (this.externProto.has(this.baseType + '.proto'))
+        this.baseTypeModel = Node.cProtoModels.get(this.externProto.get(this.baseType));
+      else
+        throw new Error('The model of the base-type is not available but it should.')
     } else
-      baseUrl = baseType;
+      this.baseTypeModel = FieldModel[this.baseType]
 
     // generate field placeholders from the model
-    this.baseType = this.generateBaseType(baseUrl);
+    this.generateInternalFields(this.baseTypeModel);
 
     if (this.isTemplate)
       protoBody = this.regenerateBodyVrml(protoBody);
 
-    // console.log('body after template regeneration', protoBody);
+    console.log('body after template regeneration', protoBody);
 
     // configure non-default fields from tokenizer
     const tokenizer = new Tokenizer(protoBody, this);
     tokenizer.tokenize();
-    this.baseType.configureNodeFromTokenizer(tokenizer);
+    this.configureNodeFromTokenizer(tokenizer);
   }
 
   clearReferences() {
@@ -175,16 +157,10 @@ export default class Node {
   toX3d(isUse, parameterReference) {
     this.xml = document.implementation.createDocument('', '', null);
 
-    // console.log('ENCODE NODE ' + this.name + ', isUse? ', isUse, ' parameterReference ?', parameterReference);
-    // if this node has a value (i.e. this.baseType is defined) then it means we have not yet reached the bottom as only
-    // base-nodes should write x3d. If it has a value, then it means the current node is a derived PROTO.
-    if (typeof this.baseType !== 'undefined')
-      return this.baseType.toX3d();
-
-    const nodeElement = this.xml.createElement(this.name);
+    const nodeElement = this.xml.createElement(this.baseType);
     nodeElement.setAttribute('id', this.id);
     for (const [fieldName, field] of this.fields) {
-      //console.log('  ENCODE FIELD ' + fieldName);
+      console.log('  ENCODE FIELD ' + fieldName);
       //if (typeof fiel.value === 'undefined') // note: SFNode can be null, not undefined
       //  throw new Error('All parameters should be defined, ' + parameterName + ' is not.');
       if (field.isDefault())
@@ -194,22 +170,26 @@ export default class Node {
     }
 
     this.xml.appendChild(nodeElement);
+    console.log('RESULT:', new XMLSerializer().serializeToString(this.xml));
 
     return nodeElement;
   }
 
   regenerateBodyVrml(protoBody) {
     const fieldsEncoding = this.toJS(true); // make current proto parameters in a format compliant to template engine
-    //console.log('Encoded fields:', fieldsEncoding);
+    console.log('Encoded fields:', fieldsEncoding);
 
-    const templateEngine = new TemplateEngine();
-    return templateEngine.generateVrml(fieldsEncoding, protoBody);
+    if (typeof this.templateEngine === 'undefined')
+      throw new Error('Regeneration was called but the template engine is not defined (i.e this.isTemplate is false)');
+
+    return this.templateEngine.generateVrml(fieldsEncoding, protoBody);
+    // console.log('Regenerated Proto Body:\n' + this.protoBody);
   };
 
   toJS(isFirstNode = false) {
     let jsFields = '';
     for (const [parameterName, parameter] of this.parameters) {
-      // console.log('JS-encoding of ' + parameterName, parameter);
+      console.log('JS-encoding of ' + parameterName, parameter);
       jsFields += `${parameterName}: {value: ${parameter.value.toJS()}, defaultValue: ${parameter.defaultValue.toJS()}}, `;
     }
 

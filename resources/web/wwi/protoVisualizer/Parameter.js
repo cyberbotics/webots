@@ -154,11 +154,11 @@ export default class Parameter {
     if (this.isTemplateRegenerator) {
       console.log(this.name, 'is a template regenerator!')
 
-      const jsNode = WbWorld.instance.nodes.get(this.node.getBaseNode().id);
+      const jsNode = WbWorld.instance.nodes.get(this.node.id);
       const parentNodeId = jsNode.parent;
 
       console.log(`delete: ${this.node.id.replace('n', '')}`);
-      view.x3dScene.processServerMessage(`delete: ${this.node.getBaseNode().id.replace('n', '')}`);
+      view.x3dScene.processServerMessage(`delete: ${this.node.id.replace('n', '')}`);
 
       // update the value of the parameter
       this.value.setValueFromJavaScript(v);
@@ -173,9 +173,9 @@ export default class Parameter {
     if (v instanceof Node) {
       for (const link of this.parameterLinks) {
         console.log('notifying link', link)
-        const parentId = link.node.getBaseNode().id;
-        console.log('myId:', this.value.value.getBaseNode().id, 'parentId:', parentId)
-        view.x3dScene.processServerMessage(`delete: ${this.value.value.getBaseNode().id.replace('n', '')}`);
+        const parentId = link.node.id;
+        console.log('myId:', this.value.value.id, 'parentId:', parentId)
+        view.x3dScene.processServerMessage(`delete: ${this.value.value.id.replace('n', '')}`);
         console.log(`delete: ${this.value.value.id}`);
 
         // update the parameter (must happen after the existing node is deleted or the information is lost)
@@ -192,7 +192,7 @@ export default class Parameter {
 
       for (const link of this.parameterLinks) {
         const action = {}
-        action['id'] = link.node.getBaseNode().id;
+        action['id'] = link.node.id;
         action[link.name] = this.value.toJson();
         console.log('setPose', action);
         view.x3dScene.applyPose(action);
