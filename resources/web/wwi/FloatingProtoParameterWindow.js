@@ -1505,11 +1505,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
         div.appendChild(this.#createJointInfo(jointType, endPointName, joint.device));
         const parameters = joint.jointParameters;
-        this.#createSlider(parameters, joint.device, div, _ => {
+        this.#createSlider(parameters, joint.device, div, value => {
           if (parameters)
-            parameters.position = _.target.value;
+            parameters.position = value;
           else
-            joint.position = _.target.value;
+            joint.position = value;
           this.#view.x3dScene.render();
         });
 
@@ -1709,14 +1709,15 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     slider.addEventListener('input', _ => {
       if (typeof callback === 'function')
-        callback(_);
+        callback(_.target.value);
 
       if (slider.motorName?.includes('::')) {
         const coupledMotorName = slider.motorName.split('::')[0];
         for (let i = 0; i < this.coupledSlidersList.length; i++) {
           if (this.coupledSlidersList[i].motorName.startsWith(coupledMotorName)) {
-            this.coupledSlidersList[i].value = slider.value;
-            this.coupledSlidersList[i].callback(_);
+            const newValue = slider.value * this.coupledSlidersList[i].multiplier / slider.multiplier;
+            this.coupledSlidersList[i].value = newValue;
+            this.coupledSlidersList[i].callback(newValue);
           }
         }
       }
@@ -1730,6 +1731,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       if (motor.deviceName.includes('::')) {
         slider.motorName = motor.deviceName;
         slider.callback = callback;
+        slider.multiplier = motor.multiplier;
 
         this.coupledSlidersList.push(slider);
       }
