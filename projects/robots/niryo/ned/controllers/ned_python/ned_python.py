@@ -168,6 +168,7 @@ def pick_place():
     m3.setPosition(0)
     m2.setPosition(0)
 
+
 while True:
 
     print("------------COMMANDS--------------")

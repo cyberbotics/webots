@@ -162,7 +162,9 @@ class Camera(Sensor):
 
     @property
     def segmentation_image(self) -> bytes:
-        wb.wb_camera_recognition_get_segmentation_image.restype = ctypes.POINTER(ctypes.c_ubyte * (4 * self.width * self.height))
+        wb.wb_camera_recognition_get_segmentation_image.restype = ctypes.POINTER(
+            ctypes.c_ubyte * (4 * self.width * self.height)
+        )
         return bytes(wb.wb_camera_recognition_get_segmentation_image(self._tag).contents)
 
     @property
