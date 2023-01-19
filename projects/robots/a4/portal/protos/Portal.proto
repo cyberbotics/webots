@@ -314,7 +314,7 @@ PROTO Portal [
           }
           DEF GEAR_JOINT HingeJoint {
             jointParameters HingeJointParameters {
-              position 0.12
+              position 1,2
               axis 0 0 1
               anchor -0.0058 0.057 0.012
             }
