@@ -293,7 +293,7 @@
     <child link="gripper middle distance sensor"/>
     <origin xyz="0 0 0.085" rpy="0 -1.57079 0"/>
   </joint>
-  <joint name="motor 7 left" type="revolute">
+  <joint name="gripper::left" type="revolute">
     <parent link="link_base_tcp180"/>
     <child link="left finger"/>
     <axis xyz="-1 -0.000003 0"/>
@@ -414,7 +414,7 @@
     <child link="left finger sensor 0"/>
     <origin xyz="0.013 0.02 0.118" rpy="0.523602 0 0"/>
   </joint>
-  <joint name="motor 7" type="revolute">
+  <joint name="gripper::right" type="revolute">
     <parent link="link_base_tcp180"/>
     <child link="right finger"/>
     <axis xyz="-1 0 0"/>
