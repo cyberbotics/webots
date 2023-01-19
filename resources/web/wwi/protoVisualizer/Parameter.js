@@ -93,6 +93,10 @@ export default class Parameter {
     return this.#parameterLinks;
   }
 
+  set parameterLinks(newValue) {
+    this.#parameterLinks = newValue;
+  }
+
   resetParameterLinks() {
     this.#parameterLinks = [];
   }

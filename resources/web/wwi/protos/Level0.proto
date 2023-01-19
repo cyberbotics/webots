@@ -1,18 +1,14 @@
 #VRML_SIM R2023b utf8
-# template language: javascript
-
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/Copper.proto"
-
 
 PROTO Level0 [
   field SFFloat size_x 0.1
   field SFFloat size_y 0.1
+  field SFVec3f zise 0.1 0.1 0.1
 ]
 {
   Shape {
-    appearance Copper {}
     geometry Box {
-      size %<= size_x >% %<= size_y >% 0.1
+      size IS zise
     }
   }
 }

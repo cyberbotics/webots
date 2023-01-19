@@ -12,13 +12,12 @@ import { VRML } from './vrml_type.js';
 export default class Node {
   static cProtoModels = new Map();
 
-  constructor(url, isRoot = false) {
-    console.log('>>>', url)
+  constructor(url, isDerivedInstance = false, isRoot = false) {
     this.url = url;
     this.isProto = this.url.toLowerCase().endsWith('.proto');
     this.isTemplate = false; // updated when the model is determined
     this.name = this.isProto ? this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '') : url;
-    console.log('create new node:', this.name, 'from', this.url);
+    console.log(this.name, ':', 'create new node:', this.name, 'from', this.url);
 
     this.fields = new Map();
     this.parameters = new Map();
@@ -41,25 +40,30 @@ export default class Node {
         this.externProto.set(protoName, item);
       }
 
-
       this.isTemplate = this.model['isTemplate'];
       if (this.isTemplate)
         this.templateEngine = new TemplateEngine();
 
-      console.log('PROTOMODEL', this.model)
+      console.log(this.name, ':', 'PROTOMODEL', this.model)
       for (const [parameterName, parameterModel] of Object.entries(this.model['parameters'])) {
-        console.log('parameter name:', parameterName, 'model:', parameterModel)
+        // console.log('parameter name:', parameterName, 'model:', parameterModel);
         const parameterType = parameterModel['type'];
         const isTemplateRegenerator = parameterModel['isTemplateRegenerator'];
         const restrictions = parameterModel['restrictions'];
         const defaultValue = vrmlFactory(parameterType, parameterModel['defaultValue']);
         const value = vrmlFactory(parameterType, parameterModel['defaultValue']);
-        console.log(parameterType, defaultValue)
+        //console.log(parameterType, defaultValue);
 
-        const parameter = new Parameter(this, parameterName, parameterType, restrictions, defaultValue, value, isTemplateRegenerator);
-        console.log(parameterName, parameter);
+        const parameter = new Parameter(this, parameterName, parameterType, restrictions, defaultValue,
+          value, isTemplateRegenerator);
+        // console.log(parameterName, parameter);
         this.parameters.set(parameterName, parameter);
       }
+    }
+
+    console.log(this.name, ':', 'isDerivedInstance?', isDerivedInstance);
+    if (isDerivedInstance) {
+      return;
     }
 
     if (this.isProto) {
@@ -68,12 +72,12 @@ export default class Node {
       this.baseType = this.name;
       this.model = FieldModel[this.name];
 
-      this.generateInternalFields(FieldModel[this.baseType])
+      this.generateInternalFields(FieldModel[this.baseType]);
     }
   };
 
   generateInternalFields(model) {
-    console.log('generateInternalFields from model', model)
+    console.log(this.name, ':', 'generateInternalFields from model', model, Object.keys(model));
     // set field values based on field model
     for (const fieldName of Object.keys(model)) {
       const type = model[fieldName]['type'];
@@ -85,38 +89,88 @@ export default class Node {
   }
 
   regenerate() {
+    console.log('REGENERATE!')
     let protoBody = this.model['rawBody'];
 
     // create fields based on prototype
     const match = protoBody.match(/\{\s*([a-zA-Z0-9\_\-\+]+)\s*\{/); // TODO: what if contains DEF?
     this.baseType = match[1];
-    console.log(this.name, 'derives from', this.baseType);
+    console.log(this.name, ':', this.name, 'derives from', this.baseType);
 
     this.isDerived = typeof FieldModel[this.baseType] === 'undefined';
-    console.log(this.name, ' is a derived node? ', this.isDerived);
+    console.log(this.name, ':', this.name, ' is a derived node? ', this.isDerived);
 
     // determine model of the base-type
+    let baseTypeModel;
     if (this.isDerived) {
-      console.log(this.externProto)
-      if (this.externProto.has(this.baseType))
-        this.baseTypeModel = Node.cProtoModels.get(this.externProto.get(this.baseType));
-      else
-        throw new Error('The model of the base-type is not available but it should.')
-    } else
-      this.baseTypeModel = FieldModel[this.baseType]
+      console.assert(this.externProto.has(this.baseType));
+      const baseTypeUrl = this.externProto.get(this.baseType);
+      if (this.isTemplate)
+        protoBody = this.regenerateBodyVrml(protoBody);
 
-    // generate field placeholders from the model
-    this.generateInternalFields(this.baseTypeModel);
+      // console.log(this.name, ':', 'Upper node after regen', protoBody);
 
-    if (this.isTemplate)
-      protoBody = this.regenerateBodyVrml(protoBody);
+      // configure non-default fields from tokenizer
+      const tokenizer = new Tokenizer(protoBody, this);
+      tokenizer.tokenize();
+      // TODO: what if DEF?
+      const result = this.generateBaseType(baseTypeUrl, tokenizer);
+      console.log(this.name, ':', 'DERIVED NODE:', result);
+      this.baseType = result.baseType;
+      this.fields = result.fields;
+      this.id = result.id;
 
-    console.log('body after template regeneration', protoBody);
+      console.log('----------------------')
 
-    // configure non-default fields from tokenizer
-    const tokenizer = new Tokenizer(protoBody, this);
-    tokenizer.tokenize();
-    this.configureNodeFromTokenizer(tokenizer);
+
+      for (const [parameterName, parameter] of this.parameters.entries()) {
+        const toAdd = [];
+        const toRem = [];
+        for (const link of parameter.parameterLinks) {
+          console.log('--', parameterName, 'is linked to', link.name);
+          for (const l of link.parameterLinks) {
+            if (!toRem.includes(link))
+              toRem.push(link);
+            console.log('----', link.name, 'is linked to', l.name);
+            toAdd.push(l);
+          }
+        }
+        console.log(parameterName, 'toAdd', toAdd, 'toRem', toRem);
+        for (const item of toRem) {
+          const ix = parameter.parameterLinks.indexOf(item);
+          parameter.parameterLinks = parameter.parameterLinks.splice(ix, 1);
+        }
+        for (const item of toAdd)
+          parameter.parameterLinks.push(item);
+      }
+
+      console.log('--------------------------')
+    } else {
+      baseTypeModel = FieldModel[this.baseType];
+
+      // generate field placeholders from the model
+      this.generateInternalFields(baseTypeModel);
+
+      if (this.isTemplate)
+        protoBody = this.regenerateBodyVrml(protoBody);
+
+      // console.log('body after template regeneration', protoBody);
+
+      // configure non-default fields from tokenizer
+      const tokenizer = new Tokenizer(protoBody, this);
+      tokenizer.tokenize();
+      this.configureFieldsFromTokenizer(tokenizer);
+    }
+  }
+
+  generateBaseType(baseTypeUrl, tokenizer) {
+    console.log(this.name, ':', 'GENERATE BASETYPE OF ', this.name, 'WHICH IS', baseTypeUrl)
+    let baseType = new Node(baseTypeUrl, true);
+    baseType.configureParametersFromTokenizer(tokenizer);
+    console.log(this.name, ':', '>>>>>>>>>AFTER CONFIG', baseType)
+    baseType.regenerate();
+    console.log(this.name, ':', 'BASETYPE AFTER REFCONFIG', baseType);
+    return baseType;
   }
 
   clearReferences() {
@@ -124,28 +178,61 @@ export default class Node {
     this.fields = new Map();
   };
 
-  configureNodeFromTokenizer(tokenizer) {
-    console.log('configureNodeFromTokenizer')
+  configureParametersFromTokenizer(tokenizer) {
+    console.log(this.name, ':', 'configureParametersFromTokenizer');
+    tokenizer.skipToken('{');
+
+    while (tokenizer.peekWord() !== '}') {
+      const field = tokenizer.nextWord();
+      for (const [fieldName, fieldValue] of this.parameters) {
+        if (field === fieldName) {
+          console.log(this.name, ':', 'configuring ' + fieldName + ' of ' + this.name);
+
+          if (tokenizer.peekWord() === 'IS') {
+            tokenizer.skipToken('IS');
+            const alias = tokenizer.nextWord();
+            console.log(this.name, ':', 'alias:', alias, 'reference PROTO:', tokenizer.proto.name);
+            if (!tokenizer.proto.parameters.has(alias))
+              throw new Error('Alias "' + alias + '" not found in PROTO ' + tokenizer.proto.name);
+
+            console.log(this.name, ':', 'ALIAS:', alias, '<<<---->>>', fieldName)
+            const p = tokenizer.proto.parameters.get(alias);
+            fieldValue.value = p.value;
+            p.insertLink(fieldValue);
+          } else {
+            console.log(this.name, ':', 'setting value from tokenizer');
+            fieldValue.value.setValueFromTokenizer(tokenizer, this);
+          }
+        }
+      }
+    }
+
+    tokenizer.skipToken('}');
+    console.log(this.name, ':', 'configureParametersFromTokenizer FINISHED', this.parameters)
+  }
+
+  configureFieldsFromTokenizer(tokenizer) {
+    console.log(this.name, ':', 'configureFieldsFromTokenizer');
     tokenizer.skipToken('{');
 
     while (tokenizer.peekWord() !== '}') {
       const field = tokenizer.nextWord();
       for (const [fieldName, fieldValue] of this.fields) {
         if (field === fieldName) {
-          console.log('configuring ' + fieldName + ' of ' + this.name);
+          console.log(this.name, ':', 'configuring ' + fieldName + ' of ' + this.name);
 
           if (tokenizer.peekWord() === 'IS') {
             tokenizer.skipToken('IS');
             const alias = tokenizer.nextWord();
-            console.log('alias:', alias, 'reference PROTO:', tokenizer.proto.name);
+            console.log(this.name, ':', 'alias:', alias, 'reference PROTO:', tokenizer.proto.name);
             if (!tokenizer.proto.parameters.has(alias))
               throw new Error('Alias "' + alias + '" not found in PROTO ' + tokenizer.proto.name);
 
             const p = tokenizer.proto.parameters.get(alias);
-            fieldValue.value = p.value
+            fieldValue.value = p.value;
             p.insertLink(fieldValue);
           } else {
-            console.log('setting value from tokenizer')
+            console.log(this.name, ':', 'setting value from tokenizer');
             fieldValue.value.setValueFromTokenizer(tokenizer, this);
           }
         }
@@ -161,7 +248,7 @@ export default class Node {
     const nodeElement = this.xml.createElement(this.baseType);
     nodeElement.setAttribute('id', this.id);
     for (const [fieldName, field] of this.fields) {
-      console.log('  ENCODE FIELD ' + fieldName);
+      //console.log('  ENCODE FIELD ' + fieldName);
       //if (typeof fiel.value === 'undefined') // note: SFNode can be null, not undefined
       //  throw new Error('All parameters should be defined, ' + parameterName + ' is not.');
       if (field.isDefault())
@@ -298,7 +385,8 @@ export default class Node {
           nextToken = tokenizer.peekToken(); // we need to update the nextToken as it has to point after the restrictions
         }
       }
-      console.log('restrictions', restrictions)
+
+      //console.log('restrictions', restrictions)
 
       if (token.isKeyword() && nextToken.isIdentifier()) {
         const parameterName = nextToken.word();

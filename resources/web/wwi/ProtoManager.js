@@ -25,7 +25,7 @@ export default class ProtoManager {
       console.log('Load PROTO from URL: ' + url);
       await Node.prepareProtoDependencies(url);
       console.log('>>> known models:', Node.cProtoModels);
-      this.proto = new Node(url, true);
+      this.proto = new Node(url, false, true);
       console.log('>>> result:', this.proto)
       this.loadX3d();
       //const a = Node.cProtoModels.get('https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/Copper.proto');
@@ -66,6 +66,8 @@ export default class ProtoManager {
   async loadX3d() {
     let xml = this.getXmlOfMinimalScene();
     const scene = xml.getElementsByTagName('Scene')[0];
+    console.log('BASETYPE', this.proto.baseType)
+    console.log('x3d:', new XMLSerializer().serializeToString(this.proto.toX3d()))
     if (this.proto.isRoot && (this.proto.baseType === 'PBRAppearance' || this.proto.baseType === 'Appearance')) {
       const wrapper = this.createAppearanceWrapper();
       scene.appendChild(wrapper);
@@ -73,6 +75,7 @@ export default class ProtoManager {
       scene.appendChild(this.proto.toX3d());
 
     const x3d = new XMLSerializer().serializeToString(xml);
+
     this.#view.prefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);
     this.#view.open(x3d, 'x3d', '', true);
   }

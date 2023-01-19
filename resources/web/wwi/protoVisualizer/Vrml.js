@@ -409,9 +409,9 @@ export class SFNode extends SingleValue {
     else
       url = tokenizer.nextWord();
 
-    console.log('>>', url)
+    console.log('here')
     this.value = new Node(url);
-    this.value.configureNodeFromTokenizer(tokenizer);
+    this.value.configureFieldsFromTokenizer(tokenizer);
   }
 
   setValueFromModel(v) {
