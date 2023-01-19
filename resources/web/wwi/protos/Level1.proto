@@ -1,0 +1,12 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "Level0.proto"
+
+PROTO Level1 [
+  field SFFloat lvl1_param 0.2
+]
+{
+  Level0 {
+    size_x IS lvl1_param
+  }
+}

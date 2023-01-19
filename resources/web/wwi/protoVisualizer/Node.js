@@ -97,7 +97,8 @@ export default class Node {
 
     // determine model of the base-type
     if (this.isDerived) {
-      if (this.externProto.has(this.baseType + '.proto'))
+      console.log(this.externProto)
+      if (this.externProto.has(this.baseType))
         this.baseTypeModel = Node.cProtoModels.get(this.externProto.get(this.baseType));
       else
         throw new Error('The model of the base-type is not available but it should.')
