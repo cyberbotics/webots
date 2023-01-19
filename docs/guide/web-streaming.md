@@ -104,6 +104,7 @@ This is the API of the `webots-streaming` web component:
     * `callback`: the function to be called when a message is received, the text of the message is passed to this function as the only argument.
 * `setWebotsErrorMessageCallback(callback)`: define a function that will be called every time an error is send by Webots.
     * `callback`: the function to be called when an error is received, the text of the error is passed to this function as the only argument.
+* `showRobotWindowOnStartup(name)`: display the desired robot window on simulation startup. The worldInfo robot window is called 'robot'. Must be called before connect. No windows are shown by default.
 
 Moreover, the following attributes are available:
 * `data-server`: URL of the server.
@@ -111,7 +112,6 @@ Moreover, the following attributes are available:
 * `data-broadcast`: boolean variable enabling or not the broadcast.
 * `data-isMobileDevice`: boolean variable specifying if the application is running on a mobile device.
 * `data-thumbnail`: the name of the .jpg file containing the thumbnail. If the `data-thumbnail` attribute is not set, a default thumbnail will be displayed during load.
-* `showMainRobotWindow`: specify if the world's robot window must be displayed. Must be called before connect. It is hidden by default.
 * `showIde`: specify if the IDE button must be displayed on the toolbar. Must be called before connect. The IDE button is displayed by default if an IDE is available.
 * `showPlay`: specify if the play button must be displayed on the toolbar. Must be called before connect. The play button is displayed by default.
 * `showQuit`: specify if the quit button must be displayed on the toolbar. Must be called before connect. The quit button is displayed by default.
