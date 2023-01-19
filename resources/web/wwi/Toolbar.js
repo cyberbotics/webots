@@ -572,7 +572,7 @@ export default class Toolbar {
 
     this.#checkWindowBoundaries();
     this.#initializeWindowLayerChanges();
-    if (new URL(document.location.href).searchParams.get('context') === 'try')
+    if (!(typeof this.parentNode.showMainRobotWindow === 'undefined' || this.parentNode.showMainRobotWindow))
       this.#changeFloatingWindowVisibility('robot');
   }
 
