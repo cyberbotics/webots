@@ -111,6 +111,7 @@ export default class WbIndexedFaceSet extends WbTriangleMeshGeometry {
     this.#normal?.createWrenObjects();
     this.#texCoord?.createWrenObjects();
   }
+
   delete() {
     this.#coord?.delete();
     this.#normal?.delete();
