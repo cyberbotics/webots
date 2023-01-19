@@ -58,7 +58,7 @@ export default class MeshLoader {
           fileList.AddFile(urls[i], new Uint8Array(arrayBuffers[i]));
 
         // convert file list to assimp json
-        let result = ajs.ConvertFileList(fileList, 'assjson', true);
+        const result = ajs.ConvertFileList(fileList, 'assjson', true);
 
         // check if the conversion succeeded
         if (!result.IsSuccess() || result.FileCount() === 0) {
@@ -67,8 +67,8 @@ export default class MeshLoader {
         }
 
         // get the result file, and convert to string
-        let resultFile = result.GetFile(0);
-        let jsonContent = new TextDecoder().decode(resultFile.GetContent());
+        const resultFile = result.GetFile(0);
+        const jsonContent = new TextDecoder().decode(resultFile.GetContent());
 
         return [JSON.parse(jsonContent), mtlPath];
       });

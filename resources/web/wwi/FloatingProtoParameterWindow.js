@@ -382,7 +382,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #colorComponentToHex(c) {
-    let hex = c.toString(16);
+    const hex = c.toString(16);
     return hex.length === 1 ? '0' + hex : hex;
   }
 
@@ -464,7 +464,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const elements = document.getElementsByClassName(className);
     let valuesMap = new Map();
     for (let i = 0; i < elements.length; i++) {
-      let order = this.#getRow(elements[i]);
+      const order = this.#getRow(elements[i]);
 
       let value;
       if (parameter.type === VRML.MFVec3f) {
@@ -706,7 +706,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     configureNodeButton.onclick = async() => {
       this.backBuffer.push(this.proto);
       // determine node being selected among the list of nodes of the MF
-      let index = this.#rowToParameterIndex(p, mfId);
+      const index = this.#rowToParameterIndex(p, mfId);
       if (typeof index === 'undefined')
         throw new Error('The PROTO node to be configured is not defined, this should never be the case.');
 
@@ -830,7 +830,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   #offsetNegativelyRows(row, offset) {
     const grid = document.getElementById('proto-parameter-content');
     for (let i = 0; i < grid.childNodes.length; i++) {
-      let node = grid.childNodes[i];
+      const node = grid.childNodes[i];
       const position = this.#getRow(node);
       if (position > row) {
         const newPosition = position - offset;
@@ -842,7 +842,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   #offsetPositivelyRows(row, offset) {
     const grid = document.getElementById('proto-parameter-content');
     for (let i = 0; i < grid.childNodes.length; i++) {
-      let node = grid.childNodes[i];
+      const node = grid.childNodes[i];
       const position = this.#getRow(node);
       if (position >= row) {
         const newPosition = position + offset;
@@ -1329,7 +1329,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       if (device instanceof WbDevice) {
         numberOfDevices++;
 
-        let div = document.createElement('div');
+        const div = document.createElement('div');
         div.className = 'proto-device';
         div.addEventListener('mouseover', () => this.#displayOptionalRendering(device.id));
         div.addEventListener('mouseleave', () => this.#hideOptionalRendering(device.id));
@@ -1712,7 +1712,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         callback(_);
 
       if (slider.motorName?.includes('::')) {
-        let coupledMotorName = slider.motorName.split('::')[0];
+        const coupledMotorName = slider.motorName.split('::')[0];
         for (let i = 0; i < this.coupledSlidersList.length; i++) {
           if (this.coupledSlidersList[i].motorName.startsWith(coupledMotorName)) {
             this.coupledSlidersList[i].value = slider.value;
@@ -1745,7 +1745,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #sanitizeNumber(numberString) {
-    let number = parseFloat(numberString);
+    const number = parseFloat(numberString);
     if (isNaN(number))
       return 0;
     return number;
