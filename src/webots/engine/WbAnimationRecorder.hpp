@@ -16,6 +16,7 @@
 #define WB_ANIMATION_RECORDER_HPP
 
 #include <QtCore/QList>
+#include <QtCore/QMap>
 #include <QtCore/QObject>
 #include <QtCore/QSet>
 
@@ -115,6 +116,7 @@ private:
   double mStartTime;
 
   QString mAnimationFilename;
+  QMap<QString, QString> mPreviousLabels;
   QFile *mFile;
   bool mFirstFrame;
   bool mStreamingServer;

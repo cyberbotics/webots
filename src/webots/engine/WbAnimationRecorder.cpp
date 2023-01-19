@@ -319,15 +319,24 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
   out << "]";
 
   if (mChangedLabels.size() != 0) {
+    bool first = true;
     out << ",\"labels\":[";
     foreach (QString label, mChangedLabels) {
-      out << "{";
+      const QString id = label.split(',')[0].remove(0, 6);
+
+      if (label == mPreviousLabels.value(id))
+        continue;
+
+      if (first) {
+        out << "{";
+        first = false;
+      } else
+        out << ",{";
       out << label;
       mLabelsIds.insert(label.mid(5, label.indexOf("font") - 7));
-      if (label == mChangedLabels.last())
-        out << "}";
-      else
-        out << "},";
+      out << "}";
+
+      mPreviousLabels.insert(id, label);
     }
     out << "]";
   }
