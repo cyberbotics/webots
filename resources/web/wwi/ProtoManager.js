@@ -61,15 +61,6 @@ export default class ProtoManager {
     this.#view.open(x3d, 'x3d', '', true);
   }
 
-  async demoRegeneration() {
-    const parameterName = 'flag2'; // parameter to change
-    const newValue = true; // new value to set
-
-    // get reference to the parameter being changed
-    const parameter = this.exposedParameters.get(parameterName);
-    parameter.setValueFromJavaScript(this.#view, newValue);
-  }
-
   exportProto(name, fieldsToExport) {
     function indent(depth) {
       return ' '.repeat(depth);
