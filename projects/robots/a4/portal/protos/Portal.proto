@@ -268,7 +268,6 @@ PROTO Portal [
                   device [
                     LinearMotor {
                       name "portal_motor::gate"
-                      multiplier 0.025
                       maxVelocity 0.05
                       maxPosition 0.3
                     }
