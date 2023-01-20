@@ -682,7 +682,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       }
 
       int labelId;
-      if (id < MAX_LABELS) {
+      if (id < MAX_LABELS)
         labelId = (int)id + mRobot->uniqueId() * MAX_LABELS;  // kind of hack to avoid an id clash.
       else {
         mRobot->warn(tr("wb_supervisor_set_label() is out of range. The supported range is [0, %1].").arg(MAX_LABELS - 1));
