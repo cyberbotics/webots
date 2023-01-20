@@ -581,8 +581,8 @@ export default class Toolbar {
       const newElement = document.activeElement;
       if (newElement.parentNode.parentNode.classList &&
         newElement.parentNode.parentNode.classList.contains('floating-window')) {
-        document.querySelectorAll('.floating-window').forEach((fw) => { fw.style.zIndex = '1'; });
-        document.getElementById(newElement.parentNode.parentNode.id).style.zIndex = '2';
+        document.querySelectorAll('.floating-window').forEach((fw) => { fw.style.zIndex = '3'; });
+        document.getElementById(newElement.parentNode.parentNode.id).style.zIndex = '4';
       }
     });
   }
