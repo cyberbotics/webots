@@ -47,12 +47,12 @@ Ball {
 }
 DEF RED_TEE Solid {
   translation -0.0376035 0.618808 0
-  rotation 1 0 0 1.5708
   children [
     Group {
       children [
         DEF PITCH_PLATE Transform {
-          translation 0 0.0465 0
+          translation 0 0 0.0465
+          rotation 1 0 0 1.5708
           children [
             Shape {
               appearance PBRAppearance {
@@ -67,8 +67,7 @@ DEF RED_TEE Solid {
           ]
         }
         Transform {
-          translation 0 0.02 0
-          rotation 1 0 0 1.5708
+          translation 0 0 0.02
           children [
             Shape {
               appearance DEF PITCH_APPEARANCE PBRAppearance {
@@ -84,8 +83,8 @@ DEF RED_TEE Solid {
           ]
         }
         Transform {
-          translation 0 0.028 0
-          rotation 9.381857096790023e-07 0.7071067811862364 -0.7071067811862364 3.14159
+          translation 0 0 0.028
+          rotation 1 0 0 3.14159
           children [
             Shape {
               appearance USE PITCH_APPEARANCE
@@ -103,12 +102,12 @@ DEF RED_TEE Solid {
   boundingObject USE PITCH_PLATE
 }
 DEF BLUE_TEE Solid {
-  rotation 1 0 0 1.568
   children [
     Group {
       children [
         DEF PITCH_PLATE Transform {
-          translation 0 0.0465 0
+          translation 0 0 0.0465
+          rotation 1 0 0 1.5708
           children [
             Shape {
               appearance PBRAppearance {
@@ -123,8 +122,7 @@ DEF BLUE_TEE Solid {
           ]
         }
         Transform {
-          translation 0 0.02 0
-          rotation 1 0 0 1.5708
+          translation 0 0 0.02
           children [
             Shape {
               appearance DEF PITCH_APPEARANCE PBRAppearance {
@@ -140,8 +138,8 @@ DEF BLUE_TEE Solid {
           ]
         }
         Transform {
-          translation 0 0.028 0
-          rotation 0 0.7071067811862364 -0.7071067811862364 3.14159
+          translation 0 0 0.028
+          rotation 0 1 0 3.14159
           children [
             Shape {
               appearance USE PITCH_APPEARANCE
