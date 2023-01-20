@@ -22,6 +22,7 @@ export default class Parameter {
     this.value = value;
     this.#isTemplateRegenerator = isTemplateRegenerator;
     this.#parameterLinks = []; // list of other parameters to notify whenever this instance changes
+    this.ref = 0 // TODO: can be removed later on
   }
 
   get restrictions() {
@@ -152,7 +153,8 @@ export default class Parameter {
   }
 
   setValueFromJavaScript(view, v, index) {
-    console.log(this.name, ' change to ', v, 'node:', this.node)
+    console.log(this.name, 'paramlinks', this.parameterLinks)
+    console.log(this.name, ': change to ', v, 'node:', this.node)
 
     if (this.isTemplateRegenerator) {
       console.log(this.name, 'is a template regenerator!')
@@ -173,7 +175,6 @@ export default class Parameter {
       return;
     }
 
-    console.log('>>>>>>>>>', v, v instanceof Node)
     if (v instanceof Node || v === null) {
       const links = this.linksToNotify();
       for (const link of links) {
@@ -185,19 +186,22 @@ export default class Parameter {
           view.x3dScene.processServerMessage(`delete: ${link.value.value.getBaseNode().id.replace('n', '')}`);
         }
         // update the parameter (must happen after the existing node is deleted or the information is lost)
-        this.value.value = v;
-        if (v === null)
-          return;
-
-        const x3d = new XMLSerializer().serializeToString(v.toX3d());
-        console.log(x3d)
-        view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId.replace('n', ''));
-        view.x3dScene.render();
+        //this.value.value = v;
+        //if (v === null)
+        //  return;
+//
+        //const x3d = new XMLSerializer().serializeToString(v.toX3d());
+        //console.log(x3d)
+        //console.log('insert x3d into parent', parentId)
+        //view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId.replace('n', ''));
+        //view.x3dScene.render();
       }
     } else {
       console.log('pose change required')
       // update the parameter
       this.value.setValueFromJavaScript(v);
+
+      console.log('asd', this.parameterLinks)
 
       console.log(this)
       const links = this.linksToNotify();
