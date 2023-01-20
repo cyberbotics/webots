@@ -1,11 +1,12 @@
 #VRML_SIM R2023b utf8
 
 EXTERNPROTO "Level0.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/Cardboard.proto"
 
 PROTO Level1 [
   field SFFloat lvl1_param 0.2
   field SFVec3f zuse 0.2 0.2 0.2
-  field SFNode appearance NULL
+  field SFNode appearance Cardboard{}
 ]
 {
   Level0 {

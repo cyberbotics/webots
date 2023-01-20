@@ -12,7 +12,7 @@ import { VRML } from './vrml_type.js';
 export default class Node {
   static cProtoModels = new Map();
 
-  constructor(url, isDerivedInstance = false, isRoot = false) {
+  constructor(url, parameterTokenizer, isRoot = false) {
     this.url = url;
     this.isProto = this.url.toLowerCase().endsWith('.proto');
     this.isDerived = false; // updated when the model is determined
@@ -58,10 +58,19 @@ export default class Node {
         // console.log(parameterName, parameter);
         this.parameters.set(parameterName, parameter);
       }
+
+      // NEED A "CONFIG PARAM FROM HEADER TOKENIZER" HERE
+      if (typeof parameterTokenizer !== 'undefined') {
+        console.log(this.name, ': configuring parameters of node', this.name, 'from provided parameter tokenizer')
+        this.configureParametersFromTokenizer(parameterTokenizer);
+      }
+      console.log(this.name, ': finished creating parameters of ', this.name);
     } else {
       this.model = FieldModel[this.name];
     }
 
+    //if (isDerivedInstance)
+    //  return;
 
     if (this.isProto)
       this.createBaseType();
@@ -105,7 +114,7 @@ export default class Node {
     if (this.isTemplate)
       protoBody = this.regenerateBodyVrml(protoBody);
 
-    console.log(this.name, ':', 'Upper node after regen', protoBody);
+    // console.log(this.name, ':', 'Upper node after regen', protoBody);
 
     // configure non-default fields from tokenizer
     const tokenizer = new Tokenizer(protoBody, this);
@@ -114,15 +123,14 @@ export default class Node {
     if (this.isDerived) {
       console.log(this.name, ': is a derived PROTO, generating ancestor node')
 
-      console.log()
       console.assert(this.externProto.has(this.model['baseType']));
       const baseTypeUrl = this.externProto.get(this.model['baseType']);
-      this.baseType = new Node(baseTypeUrl)
-      this.baseType.configureParametersFromTokenizer(tokenizer);
+      this.baseType = new Node(baseTypeUrl, tokenizer)
+      //this.baseType.configureParametersFromTokenizer(tokenizer);
     } else {
       console.log(this.name, ': is derives from base-node', this.model['baseType'], 'generating it from model')
 
-      this.baseType = new Node(this.model['baseType'])
+      this.baseType = new Node(this.model['baseType'], undefined, true); // base nodes don't have parameters
       this.baseType.configureFieldsFromTokenizer(tokenizer);
     }
   }
@@ -183,7 +191,7 @@ export default class Node {
   */
 
   configureParametersFromTokenizer(tokenizer) {
-    console.log(this.name, ':', 'configureParametersFromTokenizer');
+    console.log(this.name, ':', 'configureParametersFromTokenizer', tokenizer);
     tokenizer.skipToken('{');
 
     while (tokenizer.peekWord() !== '}') {
@@ -195,13 +203,14 @@ export default class Node {
           if (tokenizer.peekWord() === 'IS') {
             tokenizer.skipToken('IS');
             const alias = tokenizer.nextWord();
-            console.log(this.name, ':', 'alias:', alias, 'reference PROTO:', tokenizer.proto.name);
+            // console.log(this.name, ':', 'alias:', alias, 'reference PROTO:', tokenizer.proto.name);
             if (!tokenizer.proto.parameters.has(alias))
               throw new Error('Alias "' + alias + '" not found in PROTO ' + tokenizer.proto.name);
 
             console.log(this.name, ':', 'ALIAS:', alias, '<<<---->>>', fieldName)
             const p = tokenizer.proto.parameters.get(alias);
             fieldValue.value = p.value;
+            console.log('SETTING VAL TO', p.value)
             p.insertLink(fieldValue);
           } else {
             console.log(this.name, ':', 'setting value from tokenizer');
@@ -212,7 +221,7 @@ export default class Node {
     }
 
     tokenizer.skipToken('}');
-    console.log(this.name, ':', 'configureParametersFromTokenizer FINISHED', this.parameters)
+    console.log(this.name, ':', 'configureParametersFromTokenizer FINISHED')
   }
 
   configureFieldsFromTokenizer(tokenizer) {
@@ -236,8 +245,8 @@ export default class Node {
             fieldValue.value = p.value;
             p.insertLink(fieldValue);
           } else {
-            console.log(this.name, ':', 'setting value from tokenizer');
-            fieldValue.value.setValueFromTokenizer(tokenizer, this);
+            console.log(this.name, ':', 'setting value of ', fieldName,' from tokenizer');
+            fieldValue.value.setValueFromTokenizer(tokenizer);
           }
         }
       }
@@ -265,10 +274,6 @@ export default class Node {
     }
 
     this.xml.appendChild(nodeElement);
-
-    if (this.isRoot)
-    console.log('RESULT:', new XMLSerializer().serializeToString(this.xml));
-
     return nodeElement;
   }
 

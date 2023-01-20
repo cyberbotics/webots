@@ -25,7 +25,7 @@ export default class ProtoManager {
       console.log('Load PROTO from URL: ' + url);
       await Node.prepareProtoDependencies(url);
       console.log('>>> known models:', Node.cProtoModels);
-      this.proto = new Node(url, false, true);
+      this.proto = new Node(url, undefined, true);
       console.log('>>> result:', this.proto)
       this.loadX3d();
       //const a = Node.cProtoModels.get('https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/Copper.proto');

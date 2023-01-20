@@ -410,9 +410,10 @@ export class SFNode extends SingleValue {
       url = tokenizer.nextWord();
 
     console.log('create node in sfnode parameter:', url)
-    this.value = new Node(url);
+    this.value = new Node(url, tokenizer);
     if (this.value.isProto) {
-      //this.value.configureParametersFromTokenizer(tokenizer);
+      throw new Error('REACHED, NEED TO DO SOMETHING?')
+      // this.value.configureParametersFromTokenizer(tokenizer);
     } else {
       this.value.configureFieldsFromTokenizer(tokenizer);
     }
@@ -1109,12 +1110,12 @@ export function jsifyFromTokenizer(type, tokenizer) {
       if (word === 'NULL')
         return null;
 
-      tokenizer.consumeTokensByType(VRML.SFNode);
+      tokenizer.consumeTokensByType(VRML.SFNode); // TODO: node settings in param header not handled
       for (const item of tokenizer.externProto) {
         if (item.endsWith(word + '.proto'))
           return item;
       }
-      throw new Error('Should happen.')
+      return word; // this is reached only for base-nodes
     case VRML.MFBool:
     case VRML.MFInt32:
     case VRML.MFFloat:
