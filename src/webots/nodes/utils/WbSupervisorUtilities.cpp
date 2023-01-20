@@ -704,7 +704,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       mLabelIds << labelId;
 
       WbWrenLabelOverlay *label = WbWrenLabelOverlay::createOrRetrieve(labelId, filename);
-      QString error = label->getFontError();
+      const QString error = label->getFontError();
       if (error != "") {
         mRobot->warn(tr(error.toStdString().c_str()));
         return;
