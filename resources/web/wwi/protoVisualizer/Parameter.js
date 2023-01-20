@@ -173,13 +173,15 @@ export default class Parameter {
       return;
     }
 
+    console.log('>>>>>>>>>', v, v instanceof Node)
     if (v instanceof Node) {
-      for (const link of this.parameterLinks) {
+      const links = this.linksToNotify();
+      for (const link of links) {
         console.log('notifying link', link)
-        const parentId = link.node.id;
-        console.log('myId:', this.value.value.id, 'parentId:', parentId)
-        view.x3dScene.processServerMessage(`delete: ${this.value.value.id.replace('n', '')}`);
-        console.log(`delete: ${this.value.value.id}`);
+        const parentId = link.node.getBaseNode().id;
+        console.log('myId:', link.value.value.getBaseNode().id, 'parentId:', parentId)
+        console.log(`delete: ${link.value.value.getBaseNode().id}`);
+        view.x3dScene.processServerMessage(`delete: ${link.value.value.getBaseNode().id.replace('n', '')}`);
 
         // update the parameter (must happen after the existing node is deleted or the information is lost)
         this.value.value = v;
@@ -210,7 +212,6 @@ export default class Parameter {
   linksToNotify() {
     let links = [];
     for (const link of this.parameterLinks) {
-      console.log(link)
       if (link instanceof Parameter && link.parameterLinks.length > 0)
         links = links.concat(link.linksToNotify());
 

@@ -4,6 +4,7 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projec
 
 PROTO TestProto [
   field MFNode ch [Ball{}]
+  field SFNode app Card
 ]
 {
   Group {
