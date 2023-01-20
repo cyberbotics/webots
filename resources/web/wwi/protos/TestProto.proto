@@ -1,13 +1,30 @@
 #VRML_SIM R2023b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/objects/balls/protos/Ball.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/Cardboard.proto"
 
 PROTO TestProto [
-  field MFNode ch [Ball{}]
-  field SFNode app Card
+  field SFNode app Cardboard {}
 ]
 {
-  Group {
-    children IS ch
+  Transform {
+    children [
+      Shape {
+        appearance IS app
+        geometry Box {
+          size 0.1 0.1 0.1
+        }
+      }
+      Transform {
+        rotation 0 0 1 0.5
+        children [
+           Shape {
+            appearance IS app
+            geometry Box {
+              size 0.1 0.1 0.05
+            }
+          }
+        ]
+      }
+    ]
   }
 }
