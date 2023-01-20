@@ -64,6 +64,7 @@
 #include <QtCore/QFile>
 #include <cassert>
 
+#include <iostream>
 static const int MAX_LABELS = 100;
 
 struct WbTrackedFieldInfo {
@@ -666,17 +667,6 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       const QString &text = readString(stream);
       const QString &font = readString(stream);
 
-      WbWrenLabelOverlay *existingLabel = WbWrenLabelOverlay::retrieveById(id);
-      if (existingLabel && y == existingLabel->x() && y == existingLabel->y() && size == existingLabel->size() &&
-          text == existingLabel->text() && font == existingLabel->font()) {
-        const float *oldColors = existingLabel->color();
-        float colorArray[4];
-        WbWrenLabelOverlay::colorToArray(colorArray, color);
-        if (colorArray[0] == oldColors[0] && colorArray[1] == oldColors[1] && colorArray[2] == oldColors[2] &&
-            colorArray[3] == oldColors[3])
-          return;
-      }
-
       bool fileFound = false;
       QString filename = WbStandardPaths::fontsPath() + font + ".ttf";
       if (QFile::exists(filename))
@@ -692,26 +682,40 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         filename = WbStandardPaths::fontsPath() + "Arial.ttf";
       }
 
+      int labelId;
       if (id < MAX_LABELS) {
-        int labelId = (int)id + mRobot->uniqueId() * MAX_LABELS;  // kind of hack to avoid an id clash.
-
-        mLabelIds.removeAll(labelId);
-        mLabelIds << labelId;
-
-        WbWrenLabelOverlay *label = WbWrenLabelOverlay::createOrRetrieve(labelId, filename);
-        QString error = label->getFontError();
-        if (error != "") {
-          mRobot->warn(tr(error.toStdString().c_str()));
-          return;
-        }
-        label->setText(text);
-        label->setPosition(x, y);
-        label->setSize(size);
-        label->setColor(color);
-        label->applyChangesToWren();
-        emit labelChanged(createLabelUpdateString(label));
-      } else
+        labelId = (int)id + mRobot->uniqueId() * MAX_LABELS;  // kind of hack to avoid an id clash.
+      } else {
         mRobot->warn(tr("wb_supervisor_set_label() is out of range. The supported range is [0, %1].").arg(MAX_LABELS));
+        return;
+      }
+
+      WbWrenLabelOverlay *existingLabel = WbWrenLabelOverlay::retrieveById(labelId);
+      if (existingLabel && x == existingLabel->x() && y == existingLabel->y() && size == existingLabel->size() &&
+          filename == existingLabel->font() && text == existingLabel->text()) {
+        const float *oldColors = existingLabel->color();
+        float colorArray[4];
+        WbWrenLabelOverlay::colorToArray(colorArray, color);
+        if (colorArray[0] == oldColors[0] && colorArray[1] == oldColors[1] && colorArray[2] == oldColors[2] &&
+            colorArray[3] == oldColors[3])
+          return;
+      }
+
+      mLabelIds.removeAll(labelId);
+      mLabelIds << labelId;
+
+      WbWrenLabelOverlay *label = WbWrenLabelOverlay::createOrRetrieve(labelId, filename);
+      QString error = label->getFontError();
+      if (error != "") {
+        mRobot->warn(tr(error.toStdString().c_str()));
+        return;
+      }
+      label->setText(text);
+      label->setPosition(x, y);
+      label->setSize(size);
+      label->setColor(color);
+      label->applyChangesToWren();
+      emit labelChanged(createLabelUpdateString(label));
 
       return;
     }
@@ -2257,7 +2261,8 @@ QStringList WbSupervisorUtilities::labelsState() const {
 
 QString WbSupervisorUtilities::createLabelUpdateString(const WbWrenLabelOverlay *labelOverlay) const {
   assert(labelOverlay);
-  float x, y, alpha;
+  double x, y;
+  float alpha;
   int r, g, b;
   labelOverlay->position(x, y);
   labelOverlay->color(r, g, b, alpha);
