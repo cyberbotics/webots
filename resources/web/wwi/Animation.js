@@ -100,7 +100,6 @@ export default class Animation {
         }
 
         if (i === 0) {
-          // No need to check the labels because they are defined in the second frames.
           const updates = this.data.frames[0].updates;
           if (updates) {
             for (let j = 0; j < updates.length; j++) {
@@ -113,6 +112,13 @@ export default class Animation {
                   currentIdFields.set(field, {'id': updates[j].id, [field]: updates[j][field]});
               }
               allUpdates.set(updates[j].id, currentIdFields);
+            }
+          }
+          // add an empty, transparent label for labels that are initialized later.
+          if (allLabels.size !== this.#labelsIds.length) {
+            for (const labelId of this.#labelsIds) {
+              if (!allLabels.has(labelId))
+                allLabels.set(labelId, {'id': labelId, 'rgba': '0,0,0,0', 'size': 0, 'x': 0, 'y': 0, 'text': ''});
             }
           }
         } else { // Check the previous keyFrame to get missing updates
