@@ -251,6 +251,7 @@ resources/web/templates/x3d_playback.html
 resources/web/templates/x3d_playback.css
 resources/web/wwi/
 resources/web/wwi/protoVisualizer/
+resources/web/wwi/protoVisualizer/*.js
 resources/web/wwi/protoVisualizer/templating/
 resources/web/wwi/protoVisualizer/templating/jsTemplate.js
 resources/web/wwi/protoVisualizer/templating/modules/
