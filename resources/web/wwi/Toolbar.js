@@ -651,8 +651,12 @@ export default class Toolbar {
     this.robotWindowButton.removeEventListener('mouseup', this.mouseupRefWFirst);
     this.mouseupRefWFirst = undefined;
     this.#changeRobotWindowPaneVisibility();
-    if (this.robotWindows)
-      this.robotWindows.forEach((rw) => this.#changeFloatingWindowVisibility(rw.getId()));
+    if (this.robotWindows) {
+      this.robotWindows.forEach((rw) => {
+        if (rw.getVisibility() === 'hidden')
+          this.#changeFloatingWindowVisibility(rw.getId());
+      });
+    }
     this.robotWindowButton.addEventListener('mouseup', _ => this.#changeRobotWindowPaneVisibility(_));
     document.addEventListener('keydown', this.keydownRefW = _ => this.#robotWindowPaneKeyboardHandler(_, false));
   }
