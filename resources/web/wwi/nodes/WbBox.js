@@ -75,20 +75,20 @@ export default class WbBox extends WbGeometry {
   }
 
   static findIntersectedFace(minBound, maxBound, intersectionPoint) {
-    const Tolerance = 1e-9;
+    const tolerance = 1e-9;
 
     // determine intersected face
-    if (Math.abs(intersectionPoint.x - maxBound.x) < Tolerance)
+    if (Math.abs(intersectionPoint.x - maxBound.x) < tolerance)
       return WbBox.IntersectedFace.RIGHT_FACE;
-    else if (Math.abs(intersectionPoint.x - minBound.x) < Tolerance)
+    else if (Math.abs(intersectionPoint.x - minBound.x) < tolerance)
       return WbBox.IntersectedFace.LEFT_FACE;
-    else if (Math.abs(intersectionPoint.z - minBound.z) < Tolerance)
+    else if (Math.abs(intersectionPoint.z - minBound.z) < tolerance)
       return WbBox.IntersectedFace.BACK_FACE;
-    else if (Math.abs(intersectionPoint.z - maxBound.z) < Tolerance)
+    else if (Math.abs(intersectionPoint.z - maxBound.z) < tolerance)
       return WbBox.IntersectedFace.FRONT_FACE;
-    else if (Math.abs(intersectionPoint.y - maxBound.y) < Tolerance)
+    else if (Math.abs(intersectionPoint.y - maxBound.y) < tolerance)
       return WbBox.IntersectedFace.TOP_FACE;
-    else if (Math.abs(intersectionPoint.y - minBound.y) < Tolerance)
+    else if (Math.abs(intersectionPoint.y - minBound.y) < tolerance)
       return WbBox.IntersectedFace.BOTTOM_FACE;
 
     return -1;
