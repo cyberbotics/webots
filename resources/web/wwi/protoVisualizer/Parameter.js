@@ -153,16 +153,16 @@ export default class Parameter {
   }
 
   setValueFromJavaScript(view, v, index) {
-    console.log(this.name, ' change to ', v, 'proto:', this.proto)
+    console.log(this.name, ' change to ', v, 'node:', this.node)
 
     if (this.isTemplateRegenerator) {
       console.log(this.name, 'is a template regenerator!')
 
-      const jsNode = WbWorld.instance.nodes.get(this.node.id);
+      const jsNode = WbWorld.instance.nodes.get(this.node.getBaseNode().id);
       const parentNodeId = jsNode.parent;
 
-      console.log(`delete: ${this.node.id.replace('n', '')}`);
-      view.x3dScene.processServerMessage(`delete: ${this.node.id.replace('n', '')}`);
+      console.log(`delete: ${this.node.getBaseNode().id.replace('n', '')}`);
+      view.x3dScene.processServerMessage(`delete: ${this.node.getBaseNode().id.replace('n', '')}`);
 
       // update the value of the parameter
       this.value.setValueFromJavaScript(v);

@@ -90,6 +90,15 @@ export default class Node {
     }
   }
 
+  getBaseNode() {
+    if (this.isProto) {
+      console.assert(typeof this.baseType !== 'undefined')
+      return this.baseType.getBaseNode();
+    }
+
+    return this;
+  }
+
   createBaseType() {
     let protoBody = this.model['rawBody'];
 
@@ -118,61 +127,18 @@ export default class Node {
     }
   }
 
-  /*
+
   regenerate() {
+
+    if (!this.isProto)
+      throw new Error('Attempting to regenerate a base node');
+
     console.log('REGENERATE!')
-    let protoBody = this.model['rawBody'];
 
-    // create fields based on prototype
-    const match = protoBody.match(/\{\s*([a-zA-Z0-9\_\-\+]+)\s*\{/); // TODO: what if contains DEF?
-    this.baseType = match[1];
-    console.log(this.name, ':', this.name, 'derives from', this.baseType);
-
-    this.isDerived = typeof FieldModel[this.baseType] === 'undefined';
-    console.log(this.name, ':', this.name, ' is a derived node? ', this.isDerived);
-
-    // determine model of the base-type
-    let baseTypeModel;
-    if (this.isDerived) {
-      console.assert(this.externProto.has(this.baseType));
-      const baseTypeUrl = this.externProto.get(this.baseType);
-      if (this.isTemplate)
-        protoBody = this.regenerateBodyVrml(protoBody);
-
-      // console.log(this.name, ':', 'Upper node after regen', protoBody);
-
-      // configure non-default fields from tokenizer
-      const tokenizer = new Tokenizer(protoBody, this);
-      tokenizer.tokenize();
-      // TODO: what if DEF?
-      const result = this.generateBaseType(baseTypeUrl, tokenizer);
-      console.log(this.name, ':', 'DERIVED NODE:', result);
-      this.baseType = result.baseType;
-      this.fields = result.fields;
-      this.id = result.id;
-
-      console.log('-------------------------')
-      //this.collapseParameterLinks();
-      console.log('--------------------------')
-    } else {
-      baseTypeModel = FieldModel[this.baseType];
-
-      // generate field placeholders from the model
-      this.generateInternalFields(baseTypeModel);
-
-      if (this.isTemplate)
-        protoBody = this.regenerateBodyVrml(protoBody);
-
-      // console.log('body after template regeneration', protoBody);
-
-      // configure non-default fields from tokenizer
-      const tokenizer = new Tokenizer(protoBody, this);
-      tokenizer.tokenize();
-      this.configureFieldsFromTokenizer(tokenizer);
-    }
+    this.createBaseType();
   }
 
-
+  /*
   generateBaseType(baseTypeUrl, tokenizer) {
     console.log(this.name, ':', 'GENERATE BASETYPE OF ', this.name, 'WHICH IS', baseTypeUrl)
     let baseType = new Node(baseTypeUrl, true);
