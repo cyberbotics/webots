@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/ned
@@ -398,14 +398,14 @@ PROTO Ned [
                                                 }
                                                 device [
                                                   LinearMotor {
-                                                    name "joint_base_to_jaw_1"
+                                                    name "gripper::right"
                                                     maxVelocity 5
                                                     minPosition -0.01
                                                     maxPosition 0.01
                                                     maxForce 1
                                                   }
                                                   PositionSensor {
-                                                    name "joint_base_to_jaw_1_sensor"
+                                                    name "gripper::right_sensor"
                                                   }
                                                 ]
                                                 endPoint Solid {
@@ -448,14 +448,14 @@ PROTO Ned [
                                                 }
                                                 device [
                                                   LinearMotor {
-                                                    name "joint_base_to_jaw_2"
+                                                    name "gripper::left"
                                                     maxVelocity 5
                                                     minPosition -0.01
                                                     maxPosition 0.01
                                                     maxForce 1
                                                   }
                                                   PositionSensor {
-                                                    name "joint_base_to_jaw_2_sensor"
+                                                    name "gripper::left_sensor"
                                                   }
                                                 ]
                                                 endPoint Solid {
