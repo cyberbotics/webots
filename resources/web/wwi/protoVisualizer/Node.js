@@ -279,8 +279,8 @@ export default class Node {
         // console.log('  ENCODE FIELD ' + fieldName);
         //if (typeof fiel.value === 'undefined') // note: SFNode can be null, not undefined
         //  throw new Error('All parameters should be defined, ' + parameterName + ' is not.');
-        //if (field.isDefault())
-        //  continue;
+        if (field.isDefault())
+          continue;
 
         field.value.toX3d(fieldName, nodeElement);
       }

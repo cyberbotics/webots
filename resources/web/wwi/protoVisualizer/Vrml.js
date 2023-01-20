@@ -426,7 +426,7 @@ export class SFNode extends SingleValue {
     console.log('create node in sfnode parameter:', url)
     this.value = new Node(url, tokenizer);
     if (this.value.isProto) {
-      throw new Error('REACHED, NEED TO DO SOMETHING?')
+      //throw new Error('REACHED, NEED TO DO SOMETHING?')
       // this.value.configureParametersFromTokenizer(tokenizer);
     } else {
       this.value.configureFieldsFromTokenizer(tokenizer);
@@ -1121,7 +1121,7 @@ export function jsifyFromTokenizer(type, tokenizer) {
     case VRML.SFColor:
       return {r: tokenizer.nextToken().toFloat(), g: tokenizer.nextToken().toFloat(), b: tokenizer.nextToken().toFloat()};
     case VRML.SFRotation:
-      return {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), a: tokenizer.nextToken().toFloat()};
+      return {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), z: tokenizer.nextToken().toFloat(), a: tokenizer.nextToken().toFloat()};
     case VRML.SFNode:
       const word = tokenizer.nextWord();
       if (word === 'NULL')
