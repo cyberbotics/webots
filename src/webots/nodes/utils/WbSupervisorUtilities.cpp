@@ -666,12 +666,14 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       const QString &text = readString(stream);
       const QString &font = readString(stream);
 
-      WbWrenLabelOverlay existingLabel = WbWrenLabelOverlay::retrieveById(id);
-      if (existingLabel && y == existingLabel.x() && y == existingLabel.y() && size == existingLabel.size() &&
-          text == existingLabel.text() && font == existingLabel.font()) {
-        float[4] colorArray;
+      WbWrenLabelOverlay *existingLabel = WbWrenLabelOverlay::retrieveById(id);
+      if (existingLabel && y == existingLabel->x() && y == existingLabel->y() && size == existingLabel->size() &&
+          text == existingLabel->text() && font == existingLabel->font()) {
+        const float *oldColors = existingLabel->color();
+        float colorArray[4];
         WbWrenLabelOverlay::colorToArray(colorArray, color);
-        if (mColor[0] == lColor[0] && mColor[1] == lColor[1] && mColor[2] == lColor[2] && mColor[3] == lColor[3])
+        if (colorArray[0] == oldColors[0] && colorArray[1] == oldColors[1] && colorArray[2] == oldColors[2] &&
+            colorArray[3] == oldColors[3])
           return;
       }
 

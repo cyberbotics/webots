@@ -38,6 +38,7 @@ public:
   static int movieCaptionOverlayId() { return 65535; }
   static int dragCaptionOverlayId() { return 65534; }
   static int cameraCaptionOverlayId() { return 65533; }
+  static void colorToArray(float *dest, int color);
 
   void setText(const QString &text);
   void setPosition(float x, float y) {
@@ -57,7 +58,7 @@ public:
   float size() const { return mSize; }
   float x() const { return mX; }
   float y() const { return mY; }
-  const float[4] color() const { return mColor; }
+  const float *color() const { return mColor; }
   void position(float &x, float &y) const {
     x = mX;
     y = mY;
@@ -92,7 +93,6 @@ private:
   void deleteOverlay();
 
   void drawText();
-  static void colorToArray(float *dest, int color);
 
   void updateOverlayDimensions();
 
