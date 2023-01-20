@@ -422,7 +422,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const parameter = results[1];
 
     const currentMfId = this.#mfId;
-    const hideShowButton = this.#createHideShowButtom(currentMfId);
+    const addButton = this.#createAddButtom(currentMfId);
+    const hideShowButton = this.#createHideShowButtom(currentMfId, addButton);
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     resetButton.onclick = () => {
@@ -455,7 +456,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     parent.appendChild(p);
     parent.appendChild(hideShowButton);
-
+    parent.appendChild(addButton);
     this.#mfId++;
     this.#refreshParameterRow(parameter, currentMfId, true);
   }
@@ -626,7 +627,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const parameter = results[1];
 
     const currentMfId = this.#mfId;
-    const hideShowButton = this.#createHideShowButtom(currentMfId);
+    const addButton = this.#createAddButtom(currentMfId);
+    const hideShowButton = this.#createHideShowButtom(currentMfId, addButton);
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
 
@@ -658,6 +660,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     parent.appendChild(p);
     parent.appendChild(hideShowButton);
+    parent.appendChild(addButton);
 
     this.#mfId++;
     this.#refreshParameterRow(parameter, currentMfId, true);
@@ -793,7 +796,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     return p;
   }
 
-  #createHideShowButtom(currentMfId) {
+  #createHideShowButtom(currentMfId, addButton) {
     const hideShowButton = document.createElement('button');
     hideShowButton.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     hideShowButton.style.gridColumn = '4 / 4';
@@ -817,14 +820,41 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         hideShowButton.style.transform = 'rotate(90deg)';
         hideShowButton.isHidden = false;
         hideShowButton.title = 'Hide content';
+        addButton.style.display = 'block';
       } else {
         hideShowButton.style.transform = '';
         hideShowButton.isHidden = true;
         hideShowButton.title = 'Show content';
+        addButton.style.display = 'none';
       }
     };
 
     return hideShowButton;
+  }
+
+  #createAddButtom(currentMfId, parameter) {
+    const addButton = document.createElement('button');
+    addButton.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
+    addButton.style.gridColumn = '4 / 4';
+    addButton.className = 'mf-add-button';
+    addButton.title = 'Add a new element at the end';
+    addButton.innerText = '+';
+
+    addButton.onclick = () => {
+      const elements = document.getElementsByClassName('mf-id-' + currentMfId);
+      let maxRow = 0;
+      let lastAddRow;
+      for (const item of elements) {
+        let row = this.#getRow(item);
+        if (maxRow < row) {
+          maxRow = row;
+          lastAddRow = item;
+        }
+      }
+      lastAddRow.click();
+    };
+
+    return addButton;
   }
 
   #offsetNegativelyRows(row, offset) {
