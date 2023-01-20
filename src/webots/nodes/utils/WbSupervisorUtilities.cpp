@@ -64,7 +64,6 @@
 #include <QtCore/QFile>
 #include <cassert>
 
-#include <iostream>
 static const int MAX_LABELS = 100;
 
 struct WbTrackedFieldInfo {
