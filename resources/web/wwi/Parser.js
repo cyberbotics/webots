@@ -869,10 +869,11 @@ export default class Parser {
     else if (node.tagName === 'RotationalMotor' || node.tagName === 'LinearMotor') {
       const minPosition = parseFloat(getNodeAttribute(node, 'minPosition', '0'));
       const maxPosition = parseFloat(getNodeAttribute(node, 'maxPosition', '0'));
+      const multiplier = parseFloat(getNodeAttribute(node, 'multiplier', '1'));
       if (node.tagName === 'RotationalMotor')
-        logicalDevice = new WbRotationalMotor(id, name, minPosition, maxPosition);
+        logicalDevice = new WbRotationalMotor(id, name, minPosition, maxPosition, multiplier);
       else
-        logicalDevice = new WbLinearMotor(id, name, minPosition, maxPosition);
+        logicalDevice = new WbLinearMotor(id, name, minPosition, maxPosition, multiplier);
     }
 
     WbWorld.instance.nodes.set(logicalDevice.id, logicalDevice);
