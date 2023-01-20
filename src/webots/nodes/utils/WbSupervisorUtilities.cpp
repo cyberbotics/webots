@@ -2265,6 +2265,7 @@ QString WbSupervisorUtilities::createLabelUpdateString(const WbWrenLabelOverlay 
   int r, g, b;
   labelOverlay->position(x, y);
   labelOverlay->color(r, g, b, alpha);
+  QString text = labelOverlay->text();
   return QString("\"id\":%1,\"font\":\"%2\",\"rgba\":\"%3,%4,%5,%6\",\"size\":%7,\"x\":%8,\"y\":%9,\"text\":\"%10\"")
     .arg(labelOverlay->id())
     .arg(labelOverlay->font())
@@ -2275,5 +2276,5 @@ QString WbSupervisorUtilities::createLabelUpdateString(const WbWrenLabelOverlay 
     .arg(labelOverlay->size())
     .arg(x)
     .arg(y)
-    .arg(labelOverlay->text());
+    .arg(text.replace("\n", "\\n"));
 }
