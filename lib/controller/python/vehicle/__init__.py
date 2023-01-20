@@ -14,3 +14,5 @@
 
 from vehicle.driver import Driver  # noqa
 from vehicle.car import Car        # noqa
+
+__all__ = [Car, Driver]
