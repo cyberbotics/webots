@@ -666,6 +666,15 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       const QString &text = readString(stream);
       const QString &font = readString(stream);
 
+      WbWrenLabelOverlay existingLabel = WbWrenLabelOverlay::retrieveById(id);
+      if (existingLabel && y == existingLabel.x() && y == existingLabel.y() && size == existingLabel.size() &&
+          text == existingLabel.text() && font == existingLabel.font()) {
+        float[4] colorArray;
+        WbWrenLabelOverlay::colorToArray(colorArray, color);
+        if (mColor[0] == lColor[0] && mColor[1] == lColor[1] && mColor[2] == lColor[2] && mColor[3] == lColor[3])
+          return;
+      }
+
       bool fileFound = false;
       QString filename = WbStandardPaths::fontsPath() + font + ".ttf";
       if (QFile::exists(filename))

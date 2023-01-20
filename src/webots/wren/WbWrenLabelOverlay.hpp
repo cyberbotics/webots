@@ -55,6 +55,9 @@ public:
   const QString &text() const { return mText; }
   const QString &font() const { return mFontName; }
   float size() const { return mSize; }
+  float x() const { return mX; }
+  float y() const { return mY; }
+  const float[4] color() const { return mColor; }
   void position(float &x, float &y) const {
     x = mX;
     y = mY;
