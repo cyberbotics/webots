@@ -153,7 +153,7 @@ export default class Parameter {
   }
 
   setValueFromJavaScript(view, v, index) {
-    console.log(this.name, ' change to ', v, 'node:', this.node)
+    console.log(this.name, ' change to ', v, 'proto:', this.proto)
 
     if (this.isTemplateRegenerator) {
       console.log(this.name, 'is a template regenerator!')
@@ -194,7 +194,10 @@ export default class Parameter {
       // update the parameter
       this.value.setValueFromJavaScript(v);
 
-      for (const link of this.parameterLinks) {
+      console.log(this)
+      const links = this.linksToNotify();
+      console.log('links to notify', links)
+      for (const link of links) {
         const action = {}
         action['id'] = link.node.id;
         action[link.name] = this.value.toJson();
@@ -203,6 +206,20 @@ export default class Parameter {
         view.x3dScene.render();
       }
     }
+  }
+
+  linksToNotify() {
+    let links = [];
+    for (const link of this.parameterLinks) {
+      console.log(link)
+      if (link instanceof Parameter && link.parameterLinks.length > 0)
+        links = links.concat(link.linksToNotify());
+
+      if (!link.node.isProto)
+        links.push(link);
+    }
+
+    return links;
   }
 
   // TODO: find better approach rather than propagating the view to subsequent parameters

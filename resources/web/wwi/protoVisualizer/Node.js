@@ -52,7 +52,6 @@ export default class Node {
         const restrictions = parameterModel['restrictions'];
         const defaultValue = vrmlFactory(parameterType, parameterModel['defaultValue']);
         const value = vrmlFactory(parameterType, parameterModel['defaultValue']);
-        //console.log(parameterType, defaultValue);
 
         const parameter = new Parameter(this, parameterName, parameterType, restrictions, defaultValue,
           value, isTemplateRegenerator);
@@ -77,7 +76,7 @@ export default class Node {
   };
 
   generateInternalFields(model) {
-    console.log(this.name, ':', 'generateInternalFields from model', model, Object.keys(model));
+    console.log(this.name, ':', 'generateInternalFields from model (', this.baseType, ')', model, Object.keys(model));
     // set field values based on field model
     for (const fieldName of Object.keys(model)) {
       const type = model[fieldName]['type'];
@@ -120,30 +119,8 @@ export default class Node {
       this.fields = result.fields;
       this.id = result.id;
 
-      console.log('----------------------')
-
-
-      for (const [parameterName, parameter] of this.parameters.entries()) {
-        const toAdd = [];
-        const toRem = [];
-        for (const link of parameter.parameterLinks) {
-          console.log('--', parameterName, 'is linked to', link.name);
-          for (const l of link.parameterLinks) {
-            if (!toRem.includes(link))
-              toRem.push(link);
-            console.log('----', link.name, 'is linked to', l.name);
-            toAdd.push(l);
-          }
-        }
-        console.log(parameterName, 'toAdd', toAdd, 'toRem', toRem);
-        for (const item of toRem) {
-          const ix = parameter.parameterLinks.indexOf(item);
-          parameter.parameterLinks = parameter.parameterLinks.splice(ix, 1);
-        }
-        for (const item of toAdd)
-          parameter.parameterLinks.push(item);
-      }
-
+      console.log('-------------------------')
+      //this.collapseParameterLinks();
       console.log('--------------------------')
     } else {
       baseTypeModel = FieldModel[this.baseType];
@@ -177,6 +154,33 @@ export default class Node {
     this.def = new Map(); // TODO: can be removed?
     this.fields = new Map();
   };
+
+
+  /*
+  collapseParameterLinks() {
+    for (const [parameterName, parameter] of this.parameters.entries()) {
+      const toAdd = [];
+      const toRem = [];
+      for (const link of parameter.parameterLinks) {
+        console.log('--', parameterName, 'is linked to', link.name);
+        for (const l of link.parameterLinks) {
+          if (!toRem.includes(link))
+            toRem.push(link);
+          console.log('----', link.name, 'is linked to', l.name);
+          toAdd.push(l);
+        }
+      }
+      console.log(parameterName, 'toAdd', toAdd, 'toRem', toRem);
+      for (const item of toRem) {
+        const ix = parameter.parameterLinks.indexOf(item);
+        parameter.parameterLinks = parameter.parameterLinks.splice(ix, 1);
+      }
+      for (const item of toAdd)
+        parameter.parameterLinks.push(item);
+    }
+
+  }
+  */
 
   configureParametersFromTokenizer(tokenizer) {
     console.log(this.name, ':', 'configureParametersFromTokenizer');

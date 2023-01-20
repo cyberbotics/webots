@@ -399,7 +399,7 @@ export class SFRotation extends SingleValue {
 }
 
 export class SFNode extends SingleValue {
-  setValueFromTokenizer(tokenizer) {
+  setValueFromTokenizer(tokenizer, parent) {
     if (tokenizer.peekWord() === 'USE')
       this.isUse = true;
 
@@ -409,7 +409,7 @@ export class SFNode extends SingleValue {
     else
       url = tokenizer.nextWord();
 
-    console.log('here')
+    console.log('CONTEXT', url, parent)
     this.value = new Node(url);
     this.value.configureFieldsFromTokenizer(tokenizer);
   }
