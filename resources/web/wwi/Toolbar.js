@@ -572,7 +572,7 @@ export default class Toolbar {
 
     this.#checkWindowBoundaries();
     this.#initializeWindowLayerChanges();
-    if (this.parentNode?.visibleRobotWindowOnStartup)
+    if (typeof this.parentNode.visibleRobotWindowOnStartup !== 'undefined')
       this.#changeFloatingWindowVisibility(this.parentNode.visibleRobotWindowOnStartup);
   }
 
