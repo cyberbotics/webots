@@ -66,7 +66,7 @@ export default class ProtoManager {
   async loadX3d() {
     let xml = this.getXmlOfMinimalScene();
     const scene = xml.getElementsByTagName('Scene')[0];
-    console.log('BASETYPE', this.proto.baseType)
+    console.log('ROOT PROTO', this.proto)
     console.log('x3d:', new XMLSerializer().serializeToString(this.proto.toX3d()))
     if (this.proto.isRoot && (this.proto.baseType === 'PBRAppearance' || this.proto.baseType === 'Appearance')) {
       const wrapper = this.createAppearanceWrapper();

@@ -15,6 +15,7 @@ export default class Node {
   constructor(url, isDerivedInstance = false, isRoot = false) {
     this.url = url;
     this.isProto = this.url.toLowerCase().endsWith('.proto');
+    this.isDerived = false; // updated when the model is determined
     this.isTemplate = false; // updated when the model is determined
     this.name = this.isProto ? this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '') : url;
     console.log(this.name, ':', 'create new node:', this.name, 'from', this.url);
@@ -32,6 +33,7 @@ export default class Node {
         throw new Error('A PROTO model should be available for', this.name, 'by now.');
 
       this.model = Node.cProtoModels.get(this.url);
+      this.isDerived = typeof FieldModel[this.model['baseType']] === 'undefined';
 
       // compile externproto list
       this.externProto = new Map();
@@ -41,10 +43,8 @@ export default class Node {
       }
 
       this.isTemplate = this.model['isTemplate'];
-      if (this.isTemplate)
-        this.templateEngine = new TemplateEngine();
 
-      console.log(this.name, ':', 'PROTOMODEL', this.model)
+      console.log(this.name, 'creating parameters based on PROTO model')
       for (const [parameterName, parameterModel] of Object.entries(this.model['parameters'])) {
         // console.log('parameter name:', parameterName, 'model:', parameterModel);
         const parameterType = parameterModel['type'];
@@ -58,35 +58,67 @@ export default class Node {
         // console.log(parameterName, parameter);
         this.parameters.set(parameterName, parameter);
       }
-    }
-
-    console.log(this.name, ':', 'isDerivedInstance?', isDerivedInstance);
-    if (isDerivedInstance) {
-      return;
-    }
-
-    if (this.isProto) {
-      this.regenerate();
     } else {
-      this.baseType = this.name;
       this.model = FieldModel[this.name];
-
-      this.generateInternalFields(FieldModel[this.baseType]);
     }
+
+
+    if (this.isProto)
+      this.createBaseType();
+    else
+      this.generateInternalFields();
+
+    //if (this.isProto) {
+    //  this.regenerate();
+    //} else {
+    //  this.baseType = this.name;
+    //  this.model = FieldModel[this.name];
+    //
+    //  this.generateInternalFields(FieldModel[this.baseType]);
+    //}
   };
 
-  generateInternalFields(model) {
-    console.log(this.name, ':', 'generateInternalFields from model (', this.baseType, ')', model, Object.keys(model));
+  generateInternalFields() {
+    console.log(this.name, ':', 'generating internal fields from model', this.model);
     // set field values based on field model
-    for (const fieldName of Object.keys(model)) {
-      const type = model[fieldName]['type'];
-      const value = vrmlFactory(type, model[fieldName]['defaultValue']);
-      const defaultValue = vrmlFactory(type, model[fieldName]['defaultValue']);
+    for (const fieldName of Object.keys(this.model)) {
+      const type = this.model[fieldName]['type'];
+      const value = vrmlFactory(type, this.model[fieldName]['defaultValue']);
+      const defaultValue = vrmlFactory(type, this.model[fieldName]['defaultValue']);
       const field = new Field(this, fieldName, type, value, defaultValue);
       this.fields.set(fieldName, field);
     }
   }
 
+  createBaseType() {
+    let protoBody = this.model['rawBody'];
+
+    if (this.isTemplate)
+      protoBody = this.regenerateBodyVrml(protoBody);
+
+    console.log(this.name, ':', 'Upper node after regen', protoBody);
+
+    // configure non-default fields from tokenizer
+    const tokenizer = new Tokenizer(protoBody, this);
+    tokenizer.tokenize();
+
+    if (this.isDerived) {
+      console.log(this.name, ': is a derived PROTO, generating ancestor node')
+
+      console.log()
+      console.assert(this.externProto.has(this.model['baseType']));
+      const baseTypeUrl = this.externProto.get(this.model['baseType']);
+      this.baseType = new Node(baseTypeUrl)
+      this.baseType.configureParametersFromTokenizer(tokenizer);
+    } else {
+      console.log(this.name, ': is derives from base-node', this.model['baseType'], 'generating it from model')
+
+      this.baseType = new Node(this.model['baseType'])
+      this.baseType.configureFieldsFromTokenizer(tokenizer);
+    }
+  }
+
+  /*
   regenerate() {
     console.log('REGENERATE!')
     let protoBody = this.model['rawBody'];
@@ -140,6 +172,7 @@ export default class Node {
     }
   }
 
+
   generateBaseType(baseTypeUrl, tokenizer) {
     console.log(this.name, ':', 'GENERATE BASETYPE OF ', this.name, 'WHICH IS', baseTypeUrl)
     let baseType = new Node(baseTypeUrl, true);
@@ -149,6 +182,7 @@ export default class Node {
     console.log(this.name, ':', 'BASETYPE AFTER REFCONFIG', baseType);
     return baseType;
   }
+  */
 
   clearReferences() {
     this.def = new Map(); // TODO: can be removed?
@@ -249,19 +283,24 @@ export default class Node {
   toX3d(isUse, parameterReference) {
     this.xml = document.implementation.createDocument('', '', null);
 
-    const nodeElement = this.xml.createElement(this.baseType);
+    if (this.isProto)
+      return this.baseType.toX3d();
+
+    const nodeElement = this.xml.createElement(this.name);
     nodeElement.setAttribute('id', this.id);
     for (const [fieldName, field] of this.fields) {
-      //console.log('  ENCODE FIELD ' + fieldName);
+      // console.log('  ENCODE FIELD ' + fieldName);
       //if (typeof fiel.value === 'undefined') // note: SFNode can be null, not undefined
       //  throw new Error('All parameters should be defined, ' + parameterName + ' is not.');
-      if (field.isDefault())
-        continue;
+      //if (field.isDefault())
+      //  continue;
 
       field.value.toX3d(fieldName, nodeElement);
     }
 
     this.xml.appendChild(nodeElement);
+
+    if (this.isRoot)
     console.log('RESULT:', new XMLSerializer().serializeToString(this.xml));
 
     return nodeElement;
@@ -271,10 +310,9 @@ export default class Node {
     const fieldsEncoding = this.toJS(true); // make current proto parameters in a format compliant to template engine
     console.log('Encoded fields:', fieldsEncoding);
 
-    if (typeof this.templateEngine === 'undefined')
-      throw new Error('Regeneration was called but the template engine is not defined (i.e this.isTemplate is false)');
+    const templateEngine = new TemplateEngine();
 
-    return this.templateEngine.generateVrml(fieldsEncoding, protoBody);
+    return templateEngine.generateVrml(fieldsEncoding, protoBody);
     // console.log('Regenerated Proto Body:\n' + this.protoBody);
   };
 
@@ -357,6 +395,8 @@ export default class Node {
     while ((result = re.exec(rawBody)) !== null)
       rawBody = rawBody.replace(result[0], '"' + combinePaths(result[0].slice(1, -1), protoUrl) + '"');
 
+    const baseType = rawBody.match(/\{\s*([a-zA-Z0-9\_\-\+]+)\s*\{/)[1]; // TODO: what if contains DEF?
+
     const tokenizer = new Tokenizer(rawInterface, this); // TODO: remove this
     tokenizer.externProto = externProto; // TODO: still needed?
     tokenizer.tokenize();
@@ -369,6 +409,7 @@ export default class Node {
     model['rawBody'] = rawBody;
     model['isTemplate'] = protoText.substring(0, indexBeginInterface).search('template language: javascript') !== -1;
     model['externProto'] = externProto;
+    model['baseType'] = baseType;
     model['parameters'] = {}
     while (!tokenizer.peekToken().isEof()) {
       const token = tokenizer.nextToken();
