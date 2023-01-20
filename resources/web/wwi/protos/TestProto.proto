@@ -6,10 +6,20 @@ PROTO TestProto [
   field SFNode app Cardboard{}
 ]
 {
-  Shape {
-    appearance IS app
-    geometry Box {
-      size 0.1 0.1 0.1
-    }
+  Group {
+    children [
+      DEF SHA Shape {
+        appearance IS app
+        geometry Box {
+          size 0.1 0.1 0.1
+        }
+      }
+      Transform {
+        translation 0 0 0.2
+        children [
+          USE SHA
+        ]
+      }
+    ]
   }
 }

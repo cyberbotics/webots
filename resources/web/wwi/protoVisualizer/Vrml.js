@@ -400,8 +400,22 @@ export class SFRotation extends SingleValue {
 
 export class SFNode extends SingleValue {
   setValueFromTokenizer(tokenizer) {
-    if (tokenizer.peekWord() === 'USE')
+    if (tokenizer.peekWord() === 'USE') {
       this.isUse = true;
+      tokenizer.skipToken('USE');
+      const useName = tokenizer.nextWord();
+      if (!tokenizer.proto.def.has(useName))
+        throw new Error('No DEF name ' + useName + ' found in PROTO:' + tokenizer.proto.name);
+
+      this.value = tokenizer.proto.def.get(useName);
+      return;
+    }
+
+    let defName;
+    if (tokenizer.peekWord() === 'DEF') {
+      tokenizer.skipToken('DEF');
+      defName = tokenizer.nextWord();
+    }
 
     let url;
     if (tokenizer.proto.externProto.has(tokenizer.peekWord()))
@@ -417,6 +431,9 @@ export class SFNode extends SingleValue {
     } else {
       this.value.configureFieldsFromTokenizer(tokenizer);
     }
+
+    if (typeof defName !== 'undefined')
+      tokenizer.proto.def.set(defName, this.value);
   }
 
   setValueFromModel(v) {
@@ -1136,7 +1153,7 @@ export function jsifyFromTokenizer(type, tokenizer) {
       } else
         value.push(jsifyFromTokenizer(type + 1, tokenizer));
 
-      return;
+      return value;
     }
     default:
       throw new Error('Unknown VRML type: ', type);

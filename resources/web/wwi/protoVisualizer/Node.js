@@ -44,7 +44,7 @@ export default class Node {
 
       this.isTemplate = this.model['isTemplate'];
 
-      console.log(this.name, 'creating parameters based on PROTO model')
+      console.log(this.name, 'creating parameters based on PROTO model', this.model)
       for (const [parameterName, parameterModel] of Object.entries(this.model['parameters'])) {
         // console.log('parameter name:', parameterName, 'model:', parameterModel);
         const parameterType = parameterModel['type'];
@@ -262,15 +262,28 @@ export default class Node {
       return this.baseType.toX3d();
 
     const nodeElement = this.xml.createElement(this.name);
-    nodeElement.setAttribute('id', this.id);
-    for (const [fieldName, field] of this.fields) {
-      // console.log('  ENCODE FIELD ' + fieldName);
-      //if (typeof fiel.value === 'undefined') // note: SFNode can be null, not undefined
-      //  throw new Error('All parameters should be defined, ' + parameterName + ' is not.');
-      //if (field.isDefault())
-      //  continue;
+    if (isUse) {
+      // console.log('is USE! Will reference id: ' + this.id);
+      nodeElement.setAttribute('USE', this.id);
+      // TODO: needed here as well or sufficient in vrml.js?
+      if (['Shape', 'Group', 'Transform', 'Solid', 'Robot'].includes(this.name)) {
+        if (parameterReference === 'boundingObject')
+          nodeElement.setAttribute('role', 'boundingObject');
+      } else if (['BallJointParameters', 'JointParameters', 'HingeJointParameters'].includes(this.name))
+        nodeElement.setAttribute('role', parameterReference); // identifies which jointParameter slot the node belongs to
+      else if (['Brake', 'PositionSensor', 'Motor'].includes(this.name))
+        nodeElement.setAttribute('role', parameterReference); // identifies which device slot the node belongs to
+    } else {
+      nodeElement.setAttribute('id', this.id);
+      for (const [fieldName, field] of this.fields) {
+        // console.log('  ENCODE FIELD ' + fieldName);
+        //if (typeof fiel.value === 'undefined') // note: SFNode can be null, not undefined
+        //  throw new Error('All parameters should be defined, ' + parameterName + ' is not.');
+        //if (field.isDefault())
+        //  continue;
 
-      field.value.toX3d(fieldName, nodeElement);
+        field.value.toX3d(fieldName, nodeElement);
+      }
     }
 
     this.xml.appendChild(nodeElement);
@@ -366,7 +379,7 @@ export default class Node {
     while ((result = re.exec(rawBody)) !== null)
       rawBody = rawBody.replace(result[0], '"' + combinePaths(result[0].slice(1, -1), protoUrl) + '"');
 
-    const baseType = rawBody.match(/\{\s*([a-zA-Z0-9\_\-\+]+)\s*\{/)[1]; // TODO: what if contains DEF?
+    const baseType = rawBody.match(/\{\s*(?:\%\<[\s\S]*?(?:\>\%\s*))?(?:DEF\s+[^\s]+)?\s+([a-zA-Z0-9\_\-\+]+)\s*\{/)[1];
 
     const tokenizer = new Tokenizer(rawInterface, this); // TODO: remove this
     tokenizer.externProto = externProto; // TODO: still needed?
@@ -412,7 +425,6 @@ export default class Node {
         //const defaultValue = vrmlFactory(parameterType, tokenizer);
         //console.log('found ', parameterName, parameterType)
         const value = jsifyFromTokenizer(parameterType, tokenizer);
-
         const parameter = {}
         parameter['type'] = parameterType;
         parameter['defaultValue'] = value;
