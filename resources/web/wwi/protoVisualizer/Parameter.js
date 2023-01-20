@@ -109,17 +109,16 @@ export default class Parameter {
     if (this.type !== VRML.MFNode)
       throw new Error('Item insertion is possible only for MFNodes.')
 
-    for (const link of this.parameterLinks)
-      link.insertNode(view, v.clone(), index);
+    //for (const link of this.parameterLinks)
+    //  link.insertNode(view, v.clone(), index);
 
-    if (this.node.isProto) { // add value on the structure side
+    //if (this.node.isProto) { // add value on the structure side
       this.#value.insertNode(v, index);
-      return; // webotsJS needs to be notified of parameter changes only if the parameter belongs to a base-node, not PROTO
-    }
+    //  return; // webotsJS needs to be notified of parameter changes only if the parameter belongs to a base-node, not PROTO
+    //}
 
     // get the parent id to insert the new node
-    const baseNode = this.node.getBaseNode();
-    const parentId = baseNode.id.replace('n', '');
+    const parentId = this.node.getBaseNode().id.replace('n', '');
     const x3d = new XMLSerializer().serializeToString(v.toX3d());
     view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
     this.#value.insertNode(v, index); // add value on the structure side
@@ -131,8 +130,8 @@ export default class Parameter {
     if (this.type !== VRML.MFNode)
       throw new Error('Item insertion is possible only for MFNodes.');
 
-    for (const link of this.parameterLinks)
-      link.removeNode(view, index);
+    //for (const link of this.parameterLinks)
+    //  link.removeNode(view, index);
 
     if (this.node.isProto) { // update value on the structure side
       this.#value.removeNode(index);

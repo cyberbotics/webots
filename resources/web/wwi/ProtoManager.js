@@ -44,6 +44,7 @@ export default class ProtoManager {
     });
   }
 
+  /*
   async generateNodeFromUrl(url) {
     return new Promise((resolve, reject) => {
       const xmlhttp = new XMLHttpRequest();
@@ -62,6 +63,7 @@ export default class ProtoManager {
       return node;
     });
   }
+  */
 
   async loadX3d() {
     let xml = this.getXmlOfMinimalScene();

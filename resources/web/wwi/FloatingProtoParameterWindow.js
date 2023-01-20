@@ -735,7 +735,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const index = this.#rowToParameterIndex(element, mfId);
 
     // generate node being inserted
-    const node = await this.#protoManager.generateNodeFromUrl(url);
+    await Node.prepareProtoDependencies(url);
+    const node = new Node(url);
     parameter.insertNode(this.#view, node, index);
 
     const row = this.#getRow(element) + 1;
@@ -763,7 +764,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     // remove existing node
     parameter.removeNode(this.#view, index);
     // generate new node and insert it
-    const node = await this.#protoManager.generateNodeFromUrl(url);
+    await Node.prepareProtoDependencies(url);
+    const node = new Node(url)
     parameter.insertNode(this.#view, node, index);
 
     this.#refreshParameterRow(parameter, mfId);
@@ -1199,7 +1201,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   async #sfnodeOnChange(parameter, url) {
-    //const node = await this.#protoManager.generateNodeFromUrl(url);
     await Node.prepareProtoDependencies(url);
     const node = new Node(url);
     parameter.setValueFromJavaScript(this.#view, node);
