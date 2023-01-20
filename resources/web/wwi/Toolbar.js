@@ -553,6 +553,8 @@ export default class Toolbar {
       if (rw.isMainWindow) {
         rw.setSize(2 * robotWindowWidth, 2 * robotWindowHeight);
         rw.setPosition(margin, margin);
+        if (this.parentNode?.openMainRobotWindow === true)
+          rw.changeVisibility();
       } else {
         if (margin + (numRow + 1) * (margin + robotWindowHeight) > viewHeight) {
           numCol++;
@@ -572,8 +574,6 @@ export default class Toolbar {
 
     this.#checkWindowBoundaries();
     this.#initializeWindowLayerChanges();
-    if (typeof this.parentNode.visibleRobotWindowOnStartup !== 'undefined')
-      this.#changeFloatingWindowVisibility(this.parentNode.visibleRobotWindowOnStartup);
   }
 
   #initializeWindowLayerChanges() {

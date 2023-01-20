@@ -104,7 +104,6 @@ This is the API of the `webots-streaming` web component:
     * `callback`: the function to be called when a message is received, the text of the message is passed to this function as the only argument.
 * `setWebotsErrorMessageCallback(callback)`: define a function that will be called every time an error is send by Webots.
     * `callback`: the function to be called when an error is received, the text of the error is passed to this function as the only argument.
-* `showRobotWindowOnStartup(name)`: display the desired robot window on simulation startup. The worldInfo robot window is called 'robot'. Must be called before connect. No windows are shown by default.
 
 Moreover, the following attributes are available:
 * `data-server`: URL of the server.
@@ -121,6 +120,7 @@ Moreover, the following attributes are available:
 * `showStep`: specify if the step button must be displayed on the toolbar. Must be called before connect. The step button is displayed by default.
 * `showTerminal`: specify if the terminal button must be displayed on the toolbar. Must be called before connect. The step button is displayed by default.
 * `showWorldSelection`: specify if the world selection button must be displayed on the toolbar. Must be called before connect. The world selection is displayed by default.
+* `openMainRobotWindow`: display the robot window defined in node `worldInfo` on simulation startup. Must be called before connect. The main window is not shown by default.
 
 The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-server` attribute is set, the `webots-view` web-component will automatically connect to the `server`.
 

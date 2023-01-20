@@ -18,6 +18,7 @@ webotsView.showStep              // defines whether the step button should be di
 webotsView.showTerminal          // defines whether the terminal button should be displayed.
 webotsView.showCustomWindow      // defines whether the custom window button should be displayed.
 webotsView.showWorldSelection    // defines whether the world selection button should be displayed.
+webotsView.openMainRobotWindow   // defines whether the worldInfo robot window should be opened on startup.
 */
 
 export default class WebotsView extends HTMLElement {
@@ -322,11 +323,6 @@ export default class WebotsView extends HTMLElement {
   showToolbar() {
     if (typeof this.toolbar !== 'undefined')
       this.toolbar.showToolbar(true);
-  }
-
-  showRobotWindowOnStartup(name) {
-    if (typeof this._view !== 'undefined')
-      this._view.visibleRobotWindowOnStartup = name;
   }
 
   sendMessage(message) {
