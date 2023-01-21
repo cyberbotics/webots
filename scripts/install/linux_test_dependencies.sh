@@ -5,6 +5,7 @@ if [[ $EUID -ne 0 ]]; then
        exit 1
 fi
 
+alias apt='apt --option="APT::Acquire::Retries=3"'
 apt install liburdfdom-tools -y
 
 if [[ $@ != *"--exclude-ros"* ]]; then

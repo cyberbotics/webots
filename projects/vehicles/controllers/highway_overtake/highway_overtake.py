@@ -40,9 +40,9 @@ safeOvertake = False
 
 def apply_PID(position, targetPosition):
     """Apply the PID controller and return the angle command."""
-    P = 0.05
-    I = 0.000015
-    D = 25
+    p_coefficient = 0.05
+    i_coefficient = 0.000015
+    d_coefficient = 25
     diff = position - targetPosition
     if apply_PID.previousDiff is None:
         apply_PID.previousDiff = diff
@@ -53,7 +53,7 @@ def apply_PID(position, targetPosition):
         apply_PID.integral = 0
     apply_PID.integral += diff
     # compute angle
-    angle = P * diff + I * apply_PID.integral + D * (diff - apply_PID.previousDiff)
+    angle = p_coefficient * diff + i_coefficient * apply_PID.integral + d_coefficient * (diff - apply_PID.previousDiff)
     apply_PID.previousDiff = diff
     return angle
 
