@@ -23,6 +23,7 @@
 #include "WbImmersionProperties.hpp"
 #include "WbKinematicDifferentialWheels.hpp"
 #include "WbLightSensor.hpp"
+#include "WbLog.hpp"
 #include "WbOdeContact.hpp"
 #include "WbOdeContext.hpp"
 #include "WbOdeGeomData.hpp"
@@ -36,7 +37,6 @@
 #include "WbTrack.hpp"
 #include "WbWorld.hpp"
 #include "WbWorldInfo.hpp"
-#include "WbLog.hpp"
 
 #include <QtCore/QMutex>
 
@@ -46,12 +46,12 @@
 #include <cassert>
 #include <limits>
 
-// The maximum number of contact joints to create. Note that the time to compute a physics timestep with the ODE 
+// The maximum number of contact joints to create. Note that the time to compute a physics timestep with the ODE
 // physics engine scales with the cube of the number of joints.
 #define MAX_CONTACT_JOINTS 10
 
 // The maximum number of contact points to look for when colliding 2 geometries. A larger number decreases the
-// chances that contact points in important areas won't be considered. Of the (at most) MAX_CONTACTS points that 
+// chances that contact points in important areas won't be considered. Of the (at most) MAX_CONTACTS points that
 // might be found, joints will only be created for the deepest MAX_CONTACT_JOINTS points.
 #define MAX_CONTACTS 100
 
@@ -644,13 +644,15 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     return;
 
   if (n == MAX_CONTACTS) {
-    emit WbLog::instance()->logEmitted(WbLog::WARNING, 
-      QString("WARNING: %1 contact points found so others are ignored.").arg(MAX_CONTACTS), false, WbLog::filterName(WbLog::ODE));
+    emit WbLog::instance()->logEmitted(WbLog::WARNING,
+                                       QString("WARNING: %1 contact points found so others are ignored.").arg(MAX_CONTACTS), false,
+                                       WbLog::filterName(WbLog::ODE));
   }
 
   if (n > MAX_CONTACT_JOINTS) {
-    emit WbLog::instance()->logEmitted(WbLog::WARNING, 
-      QString("WARNING: %1 contact points found but only using the %2 deepest.").arg(n).arg(MAX_CONTACT_JOINTS), false, WbLog::filterName(WbLog::ODE));
+    emit WbLog::instance()->logEmitted(
+      WbLog::WARNING, QString("WARNING: %1 contact points found but only using the %2 deepest.").arg(n).arg(MAX_CONTACT_JOINTS),
+      false, WbLog::filterName(WbLog::ODE));
     std::sort(contact, contact + n, [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
     n = MAX_CONTACT_JOINTS;
   }
