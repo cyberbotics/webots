@@ -724,6 +724,7 @@ webots-view .floating-window-close:hover {
 
 webots-view .floating-window-content {
   height: calc(100% - 45px);
+  width: calc(100% - 5px);
 }
 
 webots-view .floating-window-content iframe {
