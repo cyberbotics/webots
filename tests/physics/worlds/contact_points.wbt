@@ -92,7 +92,7 @@ DEF CONE Solid {
       }
       geometry Mesh {
         url [
-          "simplify_Cone.stl"
+          "meshes/cone.stl"
         ]
       }
     }
@@ -101,7 +101,7 @@ DEF CONE Solid {
   contactMaterial "cone"
   boundingObject Mesh {
     url [
-      "simplify_Cone.stl"
+      "meshes/cone.stl"
     ]
   }
   physics Physics {
