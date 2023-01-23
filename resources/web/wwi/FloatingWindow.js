@@ -91,7 +91,7 @@ export default class FloatingWindow {
   #interactElement(fw) {
     let posX, dX, top, height, maxTop, maxHeight, containerHeight, topOffset, bottomOffset;
     let posY, dY, left, width, maxLeft, maxWidth, containerWidth, leftOffset, rightOffset;
-    let interactionType, direction;
+    let interactionType, direction, parentOffsetX, parentOffsetY;
     const minWidth = parseInt(window.getComputedStyle(fw).getPropertyValue('min-width'));
     const minHeight = parseInt(window.getComputedStyle(fw).getPropertyValue('min-height'));
 
@@ -112,8 +112,12 @@ export default class FloatingWindow {
       maxWidth = fw.offsetLeft + fw.offsetWidth;
       maxTop = maxHeight - minHeight;
       maxLeft = maxWidth - minWidth;
-      posX = e.clientX;
-      posY = e.clientY;
+      const boundingRectangle = document.getElementsByClassName('webots-view')[0].getBoundingClientRect();
+      parentOffsetX = boundingRectangle.left;
+      parentOffsetY = boundingRectangle.top;
+      posX = e.clientX - parentOffsetX;
+      posY = e.clientY - parentOffsetY;
+
       topOffset = posY - fw.offsetTop;
       bottomOffset = posY + containerHeight - fw.offsetTop - fw.offsetHeight;
       leftOffset = posX - fw.offsetLeft;
@@ -139,10 +143,10 @@ export default class FloatingWindow {
       height = fw.offsetHeight;
 
       let e = event.touches ? event.touches[0] : event;
-      dX = e.clientX - posX;
-      dY = e.clientY - posY;
-      posX = e.clientX;
-      posY = e.clientY;
+      dX = e.clientX - parentOffsetX - posX;
+      dY = e.clientY - parentOffsetY - posY;
+      posX = e.clientX - parentOffsetX;
+      posY = e.clientY - parentOffsetY;
 
       if (interactionType === 'resize') {
         // Resize element
