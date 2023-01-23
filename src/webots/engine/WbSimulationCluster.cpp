@@ -46,15 +46,6 @@
 #include <cassert>
 #include <limits>
 
-// The maximum number of contact joints to create. Note that the time to compute a physics timestep with the ODE
-// physics engine scales with the cube of the number of joints.
-#define MAX_CONTACT_JOINTS 10
-
-// The maximum number of contact points to look for when colliding 2 geometries. A larger number decreases the
-// chances that contact points in important areas won't be considered. Of the (at most) MAX_CONTACTS points that
-// might be found, joints will only be created for the deepest MAX_CONTACT_JOINTS points.
-#define MAX_CONTACTS 100
-
 // "webots" where each character is replaced by its ascii hexadecimal number.
 const long long int WbSimulationCluster::WEBOTS_MAGIC_NUMBER = 0x7765626F7473LL;
 
@@ -638,19 +629,21 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     }
   }
 
-  dContact contact[MAX_CONTACTS];
-  int n = dCollide(o1, o2, MAX_CONTACTS, &contact[0].geom, sizeof(dContact));
+  const int maxContacts = WbWorld::instance()->worldInfo()->maxContacts();
+  const int maxContactJoints = WbWorld::instance()->worldInfo()->maxContactJoints();
+  dContact contact[maxContacts];
+  int n = dCollide(o1, o2, maxContacts, &contact[0].geom, sizeof(dContact));
   if (n == 0)
     return;
 
-  if (n == MAX_CONTACTS)
-    WbLog::warning(QObject::tr("%1 contact points found so others might be ignored.").arg(MAX_CONTACTS), false, WbLog::ODE);
+  if (n == maxContacts)
+    WbLog::warning(QObject::tr("%1 contact points found so others might be ignored.").arg(maxContacts), false, WbLog::ODE);
 
-  if (n > MAX_CONTACT_JOINTS) {
-    WbLog::warning(QObject::tr("%1 contact points found but only the %2 deepest are used.").arg(MAX_CONTACTS).arg(MAX_CONTACT_JOINTS), false,
+  if (n > maxContactJoints) {
+    WbLog::warning(QObject::tr("%1 contact points found but only the %2 deepest are used.").arg(maxContacts).arg(maxContactJoints), false,
                    WbLog::ODE);
     std::sort(contact, contact + n, [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
-    n = MAX_CONTACT_JOINTS;
+    n = maxContactJoints;
   }
 
   WbTouchSensor *const ts1 = dynamic_cast<WbTouchSensor *>(s1);

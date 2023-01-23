@@ -66,6 +66,8 @@ public:
   const QString &gpsCoordinateSystem() const { return mGpsCoordinateSystem->value(); }
   const WbVector3 &gpsReference() const { return mGpsReference->value(); }
   int randomSeed() const { return mRandomSeed->value(); }
+  int maxContacts() const { return mMaxContacts->value(); }
+  int maxContactJoints() const { return mMaxContactJoints->value(); }
   int contactPropertiesCount() const;
   const WbMFNode &contactProperties() const { return *mContactProperties; }
   WbContactProperties *contactProperties(int index) const;
@@ -97,6 +99,8 @@ signals:
   void globalPhysicsPropertiesChanged();
   void optimalThreadCountChanged();
   void randomSeedChanged();
+  void maxContactsChanged();
+  void maxContactJointsChanged();
 
 private:
   WbWorldInfo &operator=(const WbWorldInfo &);  // non copyable
@@ -128,6 +132,8 @@ private:
   WbSFDouble *mDragTorqueScale;
   WbSFInt *mRandomSeed;
   WbMFNode *mContactProperties;
+  WbSFInt *mMaxContacts;
+  WbSFInt *mMaxContactJoints;
 
   // physics receiver node
   WbReceiver *mPhysicsReceiver;
@@ -165,6 +171,8 @@ private slots:
   void updateGpsCoordinateSystem();
   void updateContactProperties();
   void displayOptimalThreadCountWarning();
+  void updateMaxContacts();
+  void updateMaxContactJoints();
 };
 
 #endif

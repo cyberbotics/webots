@@ -80,6 +80,8 @@ void WbWorldInfo::init(const WbVersion *version) {
   mDragTorqueScale = findSFDouble("dragTorqueScale");
   mRandomSeed = findSFInt("randomSeed");
   mContactProperties = findMFNode("contactProperties");
+  mMaxContacts= findSFInt("maxContacts");
+  mMaxContactJoints= findSFInt("maxContactJoints");
 
   mPhysicsReceiver = NULL;
 
@@ -130,6 +132,8 @@ void WbWorldInfo::preFinalize() {
   updateDragForceScale();
   updateDragTorqueScale();
   updateRandomSeed();
+  updateMaxContacts();
+  updateMaxContactJoints();
   updateDefaultDamping();
   updateGpsCoordinateSystem();
   WbProtoTemplateEngine::setCoordinateSystem(mCoordinateSystem->value());
@@ -165,6 +169,8 @@ void WbWorldInfo::postFinalize() {
   connect(mDefaultDamping, &WbSFNode::changed, this, &WbWorldInfo::updateDefaultDamping);
   connect(mCoordinateSystem, &WbSFString::changed, this, &WbWorldInfo::updateCoordinateSystem);
   connect(mCoordinateSystem, &WbSFString::changed, this, &WbWorldInfo::updateGravity);
+  connect(mMaxContacts, &WbSFInt::changed, this, &WbWorldInfo::updateMaxContacts);
+  connect(mMaxContactJoints, &WbSFInt::changed, this, &WbWorldInfo::updateMaxContactJoints);
 
   connect(mGpsCoordinateSystem, &WbSFString::changed, this, &WbWorldInfo::updateGpsCoordinateSystem);
   connect(mGpsReference, &WbSFString::changed, this, &WbWorldInfo::gpsReferenceChanged);
@@ -273,6 +279,16 @@ void WbWorldInfo::updateDragTorqueScale() {
 void WbWorldInfo::updateRandomSeed() {
   WbFieldChecker::resetIntIfNegativeAndNotDisabled(this, mRandomSeed, 0, -1);
   emit randomSeedChanged();
+}
+
+void WbWorldInfo::updateMaxContacts() {
+  WbFieldChecker::resetIntIfNonPositive(this, mMaxContacts, 10);
+  emit maxContactsChanged();
+}
+
+void WbWorldInfo::updateMaxContactJoints() {
+  WbFieldChecker::resetIntIfNonPositive(this, mMaxContactJoints, 10);
+  emit maxContactJointsChanged();
 }
 
 void WbWorldInfo::applyToOdePhysicsDisableTime() {
