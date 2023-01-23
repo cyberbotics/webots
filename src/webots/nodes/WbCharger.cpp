@@ -192,7 +192,7 @@ void WbCharger::prePhysicsStep(double ms) {
     if (newEnergy > maxEnergy)
       newEnergy = maxEnergy;
   } else {  // exchange of energy from the Charger to the Robot
-    double e = (mRobot->energyUploadSpeed() * ms) / 1000.0
+    double e = (mRobot->energyUploadSpeed() * ms) / 1000.0;
     if (e > currentEnergy) {  // robot cannot take more than available
       e = currentEnergy;
       newEnergy = 0.0;
