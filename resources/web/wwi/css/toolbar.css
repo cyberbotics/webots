@@ -1,5 +1,9 @@
 @import "fonts.css";
 
+webots-view *, ::after, ::before {
+    box-sizing: border-box;
+}
+
 body {
   scroll-behavior: smooth;
 }
