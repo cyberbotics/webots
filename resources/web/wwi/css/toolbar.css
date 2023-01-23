@@ -723,7 +723,7 @@ webots-view .floating-window-close:hover {
 }
 
 webots-view .floating-window-content {
-  height: calc(100% - 45px);
+  height: calc(100% - 40px);
   width: calc(100% - 5px);
 }
 
