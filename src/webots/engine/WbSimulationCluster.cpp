@@ -643,11 +643,8 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   if (n == 0)
     return;
 
-  if (n == MAX_CONTACTS) {
-    emit WbLog::instance()->logEmitted(WbLog::WARNING,
-                                       QString("WARNING: %1 contact points found so others are ignored.").arg(MAX_CONTACTS),
-                                       false, WbLog::filterName(WbLog::ODE));
-  }
+  if (n == MAX_CONTACTS)
+    WbLog::warning(QObject::tr("%1 contact points found so others might be ignored.").arg(MAX_CONTACTS), false, WbLog::ODE);
 
   if (n > MAX_CONTACT_JOINTS) {
     WbLog::warning(QObject::tr("%1 contact points found but only the %2 deepest are used.").arg(MAX_CONTACTS), false,
