@@ -17,6 +17,7 @@ export default class WbWorld {
 
   static init() {
     WbWorld.instance = new WbWorld();
+    WbWorld.instance.version = '';
   }
 
   static computeUpVector() {
