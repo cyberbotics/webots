@@ -1020,7 +1020,7 @@ webots-view .node-library {
   border-radius: 5px;
   opacity: 0.95;
   display: none;
-  z-index: 3;
+  z-index: 5;
   overflow: hidden;
   opacity: 1.0;
 }
