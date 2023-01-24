@@ -25,8 +25,8 @@ WorldInfo {
   field       SFFloat                        dragTorqueScale                5.0        # order of magnitude of the torque applied to an object in the interface
   field       SFInt32                        randomSeed                     0          # defines the seed used internally by the random number generator
   field       MFNode                         contactProperties              []         # contact properties
-  field       SFInt32                        maxContacts                    10         # max number of contacts to consider in a collision
-  field       SFInt32                        maxContactJoints               10         # max number of contact joints to create in a collision
+  field       SFInt32                        maxContacts                    10         # maximum number of contacts to consider in a collision
+  field       SFInt32                        maxContactJoints               10         # maximum number of contact joints to create in a collision
 
   # deprecated fields
   deprecatedField SFVec3f                    northDirection                 0 1 0      # north direction is now defined by the coordinate system
