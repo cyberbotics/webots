@@ -645,8 +645,8 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
 
   if (n > maxContactJoints) {
     WbLog::warning(
-      QObject::tr("%1 contact points found but only the %2 deepest are used.").arg(maxContactPoints).arg(maxContactJoints), false,
-      WbLog::ODE);
+      QObject::tr("%1 contact points found but only the %2 deepest are used.").arg(maxContactPoints).arg(maxContactJoints),
+      false, WbLog::ODE);
     std::sort(contact, contact + n, [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
     n = maxContactJoints;
   }
