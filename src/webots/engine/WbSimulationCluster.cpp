@@ -213,8 +213,6 @@ const WbContactProperties *WbSimulationCluster::findContactProperties(const WbSo
 // fill surface parameters using values in ContactProperties and Track nodes
 void WbSimulationCluster::fillSurfaceParameters(const WbContactProperties *cp, const WbSolid *s1, const WbSolid *s2,
                                                 const WbGeometry *wg1, const WbGeometry *wg2, dContact *contact) {
-  int j;
-
   // default values
   int frictionSize = 1;
   int fdsSize = 1;
@@ -236,15 +234,15 @@ void WbSimulationCluster::fillSurfaceParameters(const WbContactProperties *cp, c
     fdsSize = cp->forceDependentSlipSize();
     soft_cfm = cp->softCFM();
     soft_erp = cp->softERP();
-    for (j = 0; (j < frictionSize) && (j < 4); ++j) {
+    for (int j = 0; (j < frictionSize) && (j < 4); ++j) {
       mu[j] = cp->coulombFriction(j);
       if (mu[j] == -1.0)
         mu[j] = dInfinity;
     }
     const WbVector3 rf = cp->rollingFriction();
-    for (j = 0; j < 3; ++j)
+    for (int j = 0; j < 3; ++j)
       rho[j] = rf[j] == -1.0 ? dInfinity : rf[j];
-    for (j = 0; (j < fdsSize) && (j < 4); ++j)
+    for (int j = 0; (j < fdsSize) && (j < 4); ++j)
       fds[j] = cp->forceDependentSlip(j);
     // get friction direction only if needed
     if ((frictionSize > 1) || (fdsSize > 1))  // asymetric contact

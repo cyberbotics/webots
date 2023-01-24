@@ -59,8 +59,8 @@ private:
   void swapBuffer();
   static void handleCollisionIfSpace(void *data, dGeomID o1, dGeomID o2);
   static const WbContactProperties *findContactProperties(const WbSolid *s1, const WbSolid *s2);
-  static void fillSurfaceParameters(const WbContactProperties *cp, const WbSolid *s1, const WbSolid *s2, 
-                                    const WbGeometry *wg1, const WbGeometry *wg2, dContact *contact);
+  static void fillSurfaceParameters(const WbContactProperties *cp, const WbSolid *s1, const WbSolid *s2, const WbGeometry *wg1,
+                                    const WbGeometry *wg2, dContact *contact);
   static void fillImmersionSurfaceParameters(const WbSolid *s, const WbImmersionProperties *ip,
                                              dImmersionSurfaceParameters *surf);
   static void odeNearCallback(void *data, dGeomID o1, dGeomID o2);
