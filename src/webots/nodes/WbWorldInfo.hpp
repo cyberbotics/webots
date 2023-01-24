@@ -66,7 +66,7 @@ public:
   const QString &gpsCoordinateSystem() const { return mGpsCoordinateSystem->value(); }
   const WbVector3 &gpsReference() const { return mGpsReference->value(); }
   int randomSeed() const { return mRandomSeed->value(); }
-  int maxContactPoints() const { return mMaxContacts->value(); }
+  int maxContactPoints() const { return mMaxContactPoints->value(); }
   int maxContactJoints() const { return mMaxContactJoints->value(); }
   int contactPropertiesCount() const;
   const WbMFNode &contactProperties() const { return *mContactProperties; }
@@ -132,7 +132,7 @@ private:
   WbSFDouble *mDragTorqueScale;
   WbSFInt *mRandomSeed;
   WbMFNode *mContactProperties;
-  WbSFInt *mMaxContacts;
+  WbSFInt *mMaxContactPoints;
   WbSFInt *mMaxContactJoints;
 
   // physics receiver node

@@ -80,7 +80,7 @@ void WbWorldInfo::init(const WbVersion *version) {
   mDragTorqueScale = findSFDouble("dragTorqueScale");
   mRandomSeed = findSFInt("randomSeed");
   mContactProperties = findMFNode("contactProperties");
-  mMaxContacts = findSFInt("maxContactPoints");
+  mMaxContactPoints = findSFInt("maxContactPoints");
   mMaxContactJoints = findSFInt("maxContactJoints");
 
   mPhysicsReceiver = NULL;
@@ -169,7 +169,7 @@ void WbWorldInfo::postFinalize() {
   connect(mDefaultDamping, &WbSFNode::changed, this, &WbWorldInfo::updateDefaultDamping);
   connect(mCoordinateSystem, &WbSFString::changed, this, &WbWorldInfo::updateCoordinateSystem);
   connect(mCoordinateSystem, &WbSFString::changed, this, &WbWorldInfo::updateGravity);
-  connect(mMaxContacts, &WbSFInt::changed, this, &WbWorldInfo::updateMaxContacts);
+  connect(mMaxContactPoints, &WbSFInt::changed, this, &WbWorldInfo::updateMaxContacts);
   connect(mMaxContactJoints, &WbSFInt::changed, this, &WbWorldInfo::updateMaxContactJoints);
 
   connect(mGpsCoordinateSystem, &WbSFString::changed, this, &WbWorldInfo::updateGpsCoordinateSystem);
@@ -282,7 +282,7 @@ void WbWorldInfo::updateRandomSeed() {
 }
 
 void WbWorldInfo::updateMaxContacts() {
-  WbFieldChecker::resetIntIfNonPositive(this, mMaxContacts, 10);
+  WbFieldChecker::resetIntIfNonPositive(this, mMaxContactPoints, 10);
   emit maxContactPointsChanged();
 }
 
