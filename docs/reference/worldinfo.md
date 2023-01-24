@@ -140,4 +140,9 @@ Using a time-based seed makes simulations non-reproducible.
 
 - The `contactProperties` field allows to specifiy a number of [ContactProperties](contactproperties.md) nodes that define the behavior when [Solid](solid.md) nodes collide.
 
-- The `maxContacts` and `maxContactJoints` fields control the generation of contact joints during a collision. At most `maxContacts` contact points are detected (the rest are ignored). Of those, contact joints will only be created for the (at most) `maxContactJoints` contact points that are the deepest. If it seems like some points of contact are being ignored, consider greatly increasing `maxContacts`. This will likely have little impact on performance. By contrast changes to `maxContactJoints` may have a significant effect on performance because the computational complexity of the default ODE physics engine scales with the cube of the number of contact joints.
+- The `maxContacts` and `maxContactJoints` fields control the generation of contact joints during a collision.
+At most `maxContacts` contact points are detected (the rest are ignored).
+Of those, contact joints will only be created for the (at most) `maxContactJoints` contact points that are the deepest.
+If it seems like some points of contact are being ignored, consider greatly increasing `maxContacts`.
+This will likely have little impact on performance.
+By contrast, changes to `maxContactJoints` may have a significant effect on performance because the computational complexity of the default ODE physics engine scales with the cube of the number of contact joints.
