@@ -18,10 +18,10 @@
 #include "WbBaseNode.hpp"
 #include "WbMFDouble.hpp"
 #include "WbSFDouble.hpp"
+#include "WbSFInt.hpp"
 #include "WbSFString.hpp"
 #include "WbSFVector2.hpp"
 #include "WbSFVector3.hpp"
-#include "WbSFInt.hpp"
 
 class WbSoundClip;
 class WbDownloader;
