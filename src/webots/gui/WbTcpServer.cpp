@@ -417,6 +417,8 @@ void WbTcpServer::processTextMessage(QString message) {
         mPauseTimeout = -1.0;
     } else if (message == "reset") {
       resetSimulation();
+      printf("reset\n");
+      fflush(stdout);
       sendToClients("reset finished");
     } else if (message == "reload")
       WbApplication::instance()->worldReload();
