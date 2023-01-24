@@ -15,6 +15,8 @@ ContactProperties {
   SFString bumpSound          "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/sounds/bump.wav" # any string
   SFString rollSound          "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/sounds/roll.wav" # any string
   SFString slideSound         "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/sounds/slide.wav"# any string
+  SFInt32  maxContactPoints   10                                                                                                    # (1, inf)
+  SFInt32  maxContactJoints   10                                                                                                    # (1, inf)
 }
 ```
 
@@ -114,5 +116,13 @@ Its gain and pitch are modulated by the angular velocities of the bodies in cont
 Its gain and pitch are modulated by the linear velocity of the contact surface.
 The formulas affecting the gain and pitch of these sounds were determined empirically to produce fairly realistic sounds.
 They are subject to improvements.
+
+- The `maxContactPoints` and `maxContactJoints` fields control the generation of contact joints during a collision.
+At most `maxContactPoints` contact points are detected (the rest are ignored).
+Of those, contact joints will only be created for the (at most) `maxContactJoints` contact points that are the deepest.
+If it seems like some points of contact are being ignored, consider greatly increasing `maxContactPoints`.
+This will likely have little impact on performance.
+By contrast, changes to `maxContactJoints` may have a significant effect on performance because the computational complexity of the default ODE physics engine scales with the cube of the number of contact joints.
+
 
 > **Note**: The [youBot](../guide/youbot.md) robot is a good example of asymmetric coulombFriction and forceDependentSlip.

@@ -21,6 +21,7 @@
 #include "WbSFString.hpp"
 #include "WbSFVector2.hpp"
 #include "WbSFVector3.hpp"
+#include "WbSFInt.hpp"
 
 class WbSoundClip;
 class WbDownloader;
@@ -57,10 +58,14 @@ public:
   const WbSoundClip *bumpSoundClip() const { return mBumpSoundClip; }
   const WbSoundClip *rollSoundClip() const { return mRollSoundClip; }
   const WbSoundClip *slideSoundClip() const { return mSlideSoundClip; }
+  int maxContactPoints() const { return mMaxContactPoints->value(); }
+  int maxContactJoints() const { return mMaxContactJoints->value(); }
 
 signals:
   void valuesChanged();
   void needToEnableBodies();
+  void maxContactPointsChanged();
+  void maxContactJointsChanged();
 
 private:
   // user accessible fields
@@ -77,6 +82,8 @@ private:
   WbSFString *mBumpSound;
   WbSFString *mRollSound;
   WbSFString *mSlideSound;
+  WbSFInt *mMaxContactPoints;
+  WbSFInt *mMaxContactJoints;
   const WbSoundClip *mBumpSoundClip;
   const WbSoundClip *mRollSoundClip;
   const WbSoundClip *mSlideSoundClip;
@@ -100,6 +107,8 @@ private slots:
   void updateSlideSound();
   void updateForceDependentSlip();
   void enableBodies();
+  void updateMaxContactPoints();
+  void updateMaxContactJoints();
 };
 
 #endif

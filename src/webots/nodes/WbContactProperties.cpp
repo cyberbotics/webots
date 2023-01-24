@@ -38,6 +38,8 @@ void WbContactProperties::init() {
   mBumpSound = findSFString("bumpSound");
   mRollSound = findSFString("rollSound");
   mSlideSound = findSFString("slideSound");
+  mMaxContactPoints = findSFInt("maxContactPoints");
+  mMaxContactJoints = findSFInt("maxContactJoints");
 
   mBumpSoundClip = NULL;
   mRollSoundClip = NULL;
@@ -97,6 +99,8 @@ void WbContactProperties::preFinalize() {
   updateBumpSound();
   updateRollSound();
   updateSlideSound();
+  updateMaxContactPoints();
+  updateMaxContactJoints();
 }
 
 void WbContactProperties::postFinalize() {
@@ -116,6 +120,8 @@ void WbContactProperties::postFinalize() {
   connect(mRollSound, &WbSFString::changed, this, &WbContactProperties::updateRollSound);
   connect(mSlideSound, &WbSFString::changed, this, &WbContactProperties::updateSlideSound);
   connect(this, &WbContactProperties::needToEnableBodies, this, &WbContactProperties::enableBodies);
+  connect(mMaxContactPoints, &WbSFInt::changed, this, &WbContactProperties::updateMaxContactPoints);
+  connect(mMaxContactJoints, &WbSFInt::changed, this, &WbContactProperties::updateMaxContactJoints);
 }
 
 void WbContactProperties::updateCoulombFriction() {
@@ -211,6 +217,16 @@ void WbContactProperties::updateSoftErp() {
     emit valuesChanged();
 
   emit needToEnableBodies();
+}
+
+void WbContactProperties::updateMaxContactPoints() {
+  WbFieldChecker::resetIntIfNonPositive(this, mMaxContactPoints, 10);
+  emit maxContactPointsChanged();
+}
+
+void WbContactProperties::updateMaxContactJoints() {
+  WbFieldChecker::resetIntIfNonPositive(this, mMaxContactJoints, 10);
+  emit maxContactJointsChanged();
 }
 
 void WbContactProperties::loadSound(int index, const QString &sound, const QString &name, const WbSoundClip **clip) {
