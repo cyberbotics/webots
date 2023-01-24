@@ -636,9 +636,10 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     }
   }
 
+  WbContactProperties defaultContactProperties;
   const WbContactProperties *contactProperties = cl->findContactProperties(s1, s2);
-  const int maxContactPoints = contactProperties ? contactProperties->maxContactPoints() : 10;
-  const int maxContactJoints = contactProperties ? contactProperties->maxContactJoints() : 10;
+  const int maxContactPoints = (contactProperties ? contactProperties : &defaultContactProperties)->maxContactPoints();
+  const int maxContactJoints = (contactProperties ? contactProperties : &defaultContactProperties)->maxContactJoints();
 
   // Get a pointer to the first element of an dContacts array of length maxContactPoints such that the associated memory will be
   // freed properly.
