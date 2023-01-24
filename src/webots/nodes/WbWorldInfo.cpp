@@ -80,7 +80,7 @@ void WbWorldInfo::init(const WbVersion *version) {
   mDragTorqueScale = findSFDouble("dragTorqueScale");
   mRandomSeed = findSFInt("randomSeed");
   mContactProperties = findMFNode("contactProperties");
-  mMaxContacts = findSFInt("maxContacts");
+  mMaxContacts = findSFInt("maxContactPoints");
   mMaxContactJoints = findSFInt("maxContactJoints");
 
   mPhysicsReceiver = NULL;
@@ -283,7 +283,7 @@ void WbWorldInfo::updateRandomSeed() {
 
 void WbWorldInfo::updateMaxContacts() {
   WbFieldChecker::resetIntIfNonPositive(this, mMaxContacts, 10);
-  emit maxContactsChanged();
+  emit maxContactPointsChanged();
 }
 
 void WbWorldInfo::updateMaxContactJoints() {

@@ -25,7 +25,7 @@ WorldInfo {
   SFFloat  dragTorqueScale                5.0        # (0, inf)
   SFInt32  randomSeed                     0          # {-1, [0, inf)}
   MFNode   contactProperties              []         # {ContactProperties, PROTO}
-  SFInt32  maxContacts                    10         # (1, inf)
+  SFInt32  maxContactPoints                    10         # (1, inf)
   SFInt32  maxContactJoints               10         # (1, inf)
 
 }
@@ -140,9 +140,9 @@ Using a time-based seed makes simulations non-reproducible.
 
 - The `contactProperties` field allows to specifiy a number of [ContactProperties](contactproperties.md) nodes that define the behavior when [Solid](solid.md) nodes collide.
 
-- The `maxContacts` and `maxContactJoints` fields control the generation of contact joints during a collision.
-At most `maxContacts` contact points are detected (the rest are ignored).
+- The `maxContactPoints` and `maxContactJoints` fields control the generation of contact joints during a collision.
+At most `maxContactPoints` contact points are detected (the rest are ignored).
 Of those, contact joints will only be created for the (at most) `maxContactJoints` contact points that are the deepest.
-If it seems like some points of contact are being ignored, consider greatly increasing `maxContacts`.
+If it seems like some points of contact are being ignored, consider greatly increasing `maxContactPoints`.
 This will likely have little impact on performance.
 By contrast, changes to `maxContactJoints` may have a significant effect on performance because the computational complexity of the default ODE physics engine scales with the cube of the number of contact joints.

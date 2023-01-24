@@ -629,23 +629,23 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     }
   }
 
-  const int maxContacts = WbWorld::instance()->worldInfo()->maxContacts();
+  const int maxContactPoints = WbWorld::instance()->worldInfo()->maxContactPoints();
   const int maxContactJoints = WbWorld::instance()->worldInfo()->maxContactJoints();
-  // Get a pointer to the first element of an dContacts array of length maxContacts such that the associated memory will be
+  // Get a pointer to the first element of an dContacts array of length maxContactPoints such that the associated memory will be
   // freed properly.
-  std::vector<dContact> contactVector(maxContacts);
+  std::vector<dContact> contactVector(maxContactPoints);
   dContact *contact = contactVector.data();
 
-  int n = dCollide(o1, o2, maxContacts, &contact[0].geom, sizeof(dContact));
+  int n = dCollide(o1, o2, maxContactPoints, &contact[0].geom, sizeof(dContact));
   if (n == 0)
     return;
 
-  if (n == maxContacts)
-    WbLog::warning(QObject::tr("%1 contact points found so others might be ignored.").arg(maxContacts), false, WbLog::ODE);
+  if (n == maxContactPoints)
+    WbLog::warning(QObject::tr("%1 contact points found so others might be ignored.").arg(maxContactPoints), false, WbLog::ODE);
 
   if (n > maxContactJoints) {
     WbLog::warning(
-      QObject::tr("%1 contact points found but only the %2 deepest are used.").arg(maxContacts).arg(maxContactJoints), false,
+      QObject::tr("%1 contact points found but only the %2 deepest are used.").arg(maxContactPoints).arg(maxContactJoints), false,
       WbLog::ODE);
     std::sort(contact, contact + n, [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
     n = maxContactJoints;
