@@ -553,6 +553,8 @@ void WbTcpServer::resetSimulation() {
   WbApplication::instance()->simulationReset(true);
   QCoreApplication::processEvents();  // this is required to make sure the simulation reset has been performed before sending
                                       // the update
+    printf("reset\n");
+    fflush(stdout);
   mLastUpdateTime = -1.0;
   mPauseTimeout = -1.0;
 }
