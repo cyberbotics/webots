@@ -673,7 +673,7 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
       wg1->setColliding();
       cl->mCollisionedRobots.append(robot1->kinematicDifferentialWheels());
       if (robot2 && !p2 && robot2->kinematicDifferentialWheels()) {
-        dCollide(o1, o2, 10, &contact[0].geom, sizeof(dContact));  // we want only one contact point
+        dCollide(o1, o2, MAX_CONTACTS, &contact[0].geom, sizeof(dContact));  // we want only one contact point
         wg2->setColliding();
         cl->mCollisionedRobots.append(robot2->kinematicDifferentialWheels());
         collideKinematicRobots(robot1->kinematicDifferentialWheels(), true, contact, true);
@@ -683,7 +683,7 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
       return;
     }
     if (robot2 && !p2 && !isRayGeom1 && robot2->kinematicDifferentialWheels()) {
-      dCollide(o1, o2, 10, &contact[0].geom, sizeof(dContact));
+      dCollide(o1, o2, MAX_CONTACTS, &contact[0].geom, sizeof(dContact));
       wg2->setColliding();
       cl->mCollisionedRobots.append(robot2->kinematicDifferentialWheels());
       collideKinematicRobots(robot2->kinematicDifferentialWheels(), false, contact, false);
