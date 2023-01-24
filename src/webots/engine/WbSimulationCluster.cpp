@@ -631,7 +631,10 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
 
   const int maxContacts = WbWorld::instance()->worldInfo()->maxContacts();
   const int maxContactJoints = WbWorld::instance()->worldInfo()->maxContactJoints();
-  dContact contact[maxContacts];
+  // Get a pointer to the first element of an dContacts array of length maxContacts such that the associated memory will be freed properly.
+  std::vector<dContact> contactVector(maxContacts);
+  dContact *contact = contactVector.data();
+  
   int n = dCollide(o1, o2, maxContacts, &contact[0].geom, sizeof(dContact));
   if (n == 0)
     return;
