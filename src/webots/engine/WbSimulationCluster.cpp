@@ -212,8 +212,7 @@ const WbContactProperties *WbSimulationCluster::findContactProperties(const WbSo
 
 // fill surface parameters using values in ContactProperties and Track nodes
 void WbSimulationCluster::fillSurfaceParameters(const WbContactProperties *cp, const WbSolid *s1, const WbSolid *s2,
-                                                const WbGeometry *wg1, const WbGeometry *wg2,
-                                                dContact *contact) {
+                                                const WbGeometry *wg1, const WbGeometry *wg2, dContact *contact) {
   int j;
 
   // default values
