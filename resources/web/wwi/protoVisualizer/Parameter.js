@@ -121,10 +121,8 @@ export default class Parameter extends Field {
     // TODO: can simplify by just deleting and requesting the parent from webotsjs?
     for (const link of links) {
       // determine ids of nodes that need to be deleted on the webotsjs side
-      for (const item of link.value.value) { // iterate over the elements of the MFNode
-        for (const id of item.value.getBaseNodeIds())
-          idsToDelete.add(id);
-      }
+      for (const id of link.value.value[index].value.getBaseNodeIds())
+        idsToDelete.add(id);
     }
 
     console.log('ids to delete', idsToDelete);
