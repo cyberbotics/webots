@@ -88,6 +88,7 @@ export default class Node {
     //}
 
     if (this.isRoot) {
+      this.assignId();
       this.printStructure();
     }
   };
@@ -135,7 +136,7 @@ export default class Node {
     } else {
       console.log(this.name, ': is derives from base-node', this.model['baseType'], 'generating it from model')
 
-      this.baseType = new Node(this.model['baseType'], undefined, true); // base nodes don't have parameters
+      this.baseType = new Node(this.model['baseType']); // base nodes don't have parameters
       this.baseType.configureFieldsFromTokenizer(tokenizer);
     }
   }
@@ -272,9 +273,6 @@ export default class Node {
       return this.baseType.printStructure(depth);
 
     console.log(index + this.name, this.ids)
-    //const id = getAnId();
-    //this.ids.push(id);
-    //console.log(this.name, 'added id ', id, ', list contains:', this.ids)
 
     for (const [fieldName, field] of this.fields) {
       if (field.type === VRML.SFNode && field.value.value !== null) {
@@ -282,6 +280,23 @@ export default class Node {
       } else if (field.type === VRML.MFNode) {
         for (const child of field.value.value)
           child.value.printStructure(depth + 1);
+      }
+    }
+  }
+
+  assignId() {
+    const index = '--'.repeat();
+    if (this.isProto)
+      return this.baseType.assignId();
+
+    this.ids.push(getAnId());
+
+    for (const [fieldName, field] of this.fields) {
+      if (field.type === VRML.SFNode && field.value.value !== null) {
+        field.value.value.assignId();
+      } else if (field.type === VRML.MFNode) {
+        for (const child of field.value.value)
+          child.value.assignId();
       }
     }
   }
