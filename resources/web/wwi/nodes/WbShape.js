@@ -172,6 +172,13 @@ export default class WbShape extends WbBaseNode {
       this.applyMaterialToGeometry();
   }
 
+  unfinalize() {
+    super.unfinalize();
+
+    this.appearance?.unfinalize();
+    this.geometry?.unfinalize();
+  }
+
   preFinalize() {
     super.preFinalize();
 

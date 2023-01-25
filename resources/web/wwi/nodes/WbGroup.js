@@ -86,6 +86,12 @@ export default class WbGroup extends WbBaseNode {
     super.delete();
   }
 
+  unfinalize() {
+    super.unfinalize();
+
+    this.children?.forEach((child) => child.unfinalize());
+  }
+
   preFinalize() {
     super.preFinalize();
 

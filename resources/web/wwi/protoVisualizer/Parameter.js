@@ -145,7 +145,7 @@ export default class Parameter {
     view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
     this.#value.insertNode(v, index); // add value on the structure side
     */
-
+    console.log(WbWorld.instance.nodes)
     view.x3dScene.render();
   }
 
@@ -197,7 +197,7 @@ export default class Parameter {
     */
 
     console.log('after removal', this)
-
+    console.log(WbWorld.instance.nodes)
     view.x3dScene.render();
   }
 
@@ -309,6 +309,7 @@ export default class Parameter {
     }
 
     view.x3dScene.render();
+    console.log(WbWorld.instance.nodes)
   }
 
 

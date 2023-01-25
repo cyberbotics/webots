@@ -25,6 +25,7 @@ export default class WbBaseNode {
   }
 
   unfinalize() {
+    console.log('unfinalize id', this.id)
     this.isPreFinalizedCalled = false;
     this.wrenObjectsCreatedCalled = false;
     this.isPostFinalizedCalled = false;
@@ -35,6 +36,7 @@ export default class WbBaseNode {
   }
 
   finalize() {
+    console.log('finalize', this.id, this.isPreFinalizedCalled, this.wrenObjectsCreatedCalled, this.isPostFinalizedCalled);
     if (!this.isPreFinalizedCalled)
       this.preFinalize();
 

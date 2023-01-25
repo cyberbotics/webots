@@ -375,6 +375,17 @@ export default class WbPbrAppearance extends WbAbstractAppearance {
     return wrenMaterial;
   }
 
+  unfinalize() {
+    super.unfinalize();
+
+    this.#baseColorMap?.unfinalize();
+    this.#roughnessMap?.unfinalize();
+    this.#metalnessMap?.unfinalize();
+    this.#normalMap?.unfinalize();
+    this.#occlusionMap?.unfinalize();
+    this.#emissiveColorMap?.unfinalize();
+  }
+
   preFinalize() {
     super.preFinalize();
 
