@@ -1,0 +1,12 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/objects/balls/protos/Ball.proto"
+
+PROTO TestMFNode [
+  field MFNode extension [Ball{}]
+]
+{
+  Group {
+    children IS extension
+  }
+}

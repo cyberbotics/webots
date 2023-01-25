@@ -109,9 +109,28 @@ export default class Parameter {
   }
 
   insertNode(view, v, index) {
+    console.log('------------------------------')
     if (this.type !== VRML.MFNode)
       throw new Error('Item insertion is possible only for MFNodes.')
 
+    const links = this.linksToNotify();
+    for (const link of links) {
+      console.log('PARENT:', link.node.name, link.node.getBaseNodeIds())
+    }
+
+    this.#value.insertNode(v, index);
+
+    // insert the new node on the webotsjs side
+    for (const id of this.node.getBaseNodeIds()) {
+      v.assignId();
+      const x3d = new XMLSerializer().serializeToString(v.toX3d());
+      view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', id.replace('n', ''));
+    }
+
+    console.log('after insertion', this);
+
+
+    /*
     //for (const link of this.parameterLinks)
     //  link.insertNode(view, v.clone(), index);
 
@@ -125,6 +144,7 @@ export default class Parameter {
     const x3d = new XMLSerializer().serializeToString(v.toX3d());
     view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
     this.#value.insertNode(v, index); // add value on the structure side
+    */
 
     view.x3dScene.render();
   }
@@ -133,6 +153,30 @@ export default class Parameter {
     if (this.type !== VRML.MFNode)
       throw new Error('Item insertion is possible only for MFNodes.');
 
+    console.log('removeNode at index', index);
+
+    const links = this.linksToNotify();
+    const idsToDelete = new Set();
+
+    // TODO: can simplify by just deleting and requesting the parent from webotsjs?
+    for (const link of links) {
+      // determine ids of nodes that need to be deleted on the webotsjs side
+      for (const item of link.value.value) { // iterate over the elements of the MFNode
+        for (const id of item.value.getBaseNodeIds())
+          idsToDelete.add(id);
+      }
+    }
+
+    console.log('ids to delete', idsToDelete);
+
+    // delete node on the structure side
+    this.#value.removeNode(index);
+
+    // delete existing nodes
+    for (const id of idsToDelete)
+      view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
+
+    /*
     //for (const link of this.parameterLinks)
     //  link.removeNode(view, index);
 
@@ -150,6 +194,9 @@ export default class Parameter {
       view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
       this.#value.removeNode(index); // update value on the structure side
     }
+    */
+
+    console.log('after removal', this)
 
     view.x3dScene.render();
   }
