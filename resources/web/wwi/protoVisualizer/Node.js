@@ -302,6 +302,13 @@ export default class Node {
     }
   }
 
+  getBaseNodeIds() {
+    if (this.isProto)
+      return this.baseType.getBaseNodeIds();
+
+    return this.ids;
+  }
+
   resetRefs() {
     if (this.isProto)
       return this.baseType.resetRefs();

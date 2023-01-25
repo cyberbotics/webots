@@ -161,6 +161,31 @@ export default class Parameter {
     if (this.isTemplateRegenerator) {
       console.log(this.name, 'is a template regenerator!')
 
+      const parentIds = new Set();
+      for (const id of this.node.getBaseNodeIds()) {
+        const jsNode = WbWorld.instance.nodes.get(id);
+        parentIds.add(jsNode.parent);
+
+        console.log('requesting deletion for node:', id, 'parent is', jsNode.parent);
+        view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
+      }
+
+      // update the parameter value (note: all IS instances refer to the parameter itself, so they don't need to change)
+      this.value.setValueFromJavaScript(v);
+      this.node.regenerate();
+
+      this.node.resetRefs(); // reset the instance counters
+      // insert the new node on the webotsjs side
+      for (const id of parentIds) {
+        // note: there must be as many id assignments as there are parents, this is because on the webotsjs side the instances
+        // need to be distinguishable, so each "IS" needs to notify webotsjs and provide a unique variant of the x3d (with unique ids)
+        // for each node
+        this.node.assignId();
+        const x3d = new XMLSerializer().serializeToString(this.node.toX3d());
+        view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', id.replace('n', ''));
+      }
+
+      /*
       const jsNode = WbWorld.instance.nodes.get(this.node.getBaseNode().id);
       const parentNodeId = jsNode.parent;
 
@@ -174,6 +199,9 @@ export default class Parameter {
       const x3d = new XMLSerializer().serializeToString(this.node.toX3d());
       console.log('Insert regenerated x3d into node', parentNodeId)
       view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentNodeId.replace('n', ''));
+      */
+
+      view.x3dScene.render();
       return;
     }
 
@@ -182,13 +210,14 @@ export default class Parameter {
       const parentIds = new Set();
       const idsToDelete = new Set();
 
+      // TODO: can simplify by just deleting and requesting the parent from webotsjs?
       for (const link of links) {
         // determine parent node ids and ids of nodes that need to be deleted on the webotsjs side
-        for (const id of link.node.getBaseNode().ids) {
+        for (const id of link.node.getBaseNodeIds()) {
           parentIds.add(id);
 
           if (link.value.value !== null) {
-            for (const id of link.value.value.getBaseNode().ids)
+            for (const id of link.value.value.getBaseNodeIds())
               idsToDelete.add(id);
           }
         }
