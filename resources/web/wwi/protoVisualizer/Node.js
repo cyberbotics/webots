@@ -218,7 +218,6 @@ export default class Node {
             fieldValue.value = p.value;
             console.log('SETTING VAL TO', p.value)
             p.insertLink(fieldValue);
-            p.ref += 1;
             console.log('INSERTED2')
 
           } else {
@@ -252,10 +251,7 @@ export default class Node {
 
             const p = tokenizer.proto.parameters.get(alias);
             fieldValue.value = p.value;
-
             p.insertLink(fieldValue);
-            p.ref = p.ref + 1
-            console.log('INSERTED1', p.name, p.ref)
           } else {
             console.log(this.name, ':', 'setting value of ', fieldName,' from tokenizer');
             fieldValue.value.setValueFromTokenizer(tokenizer);
@@ -275,6 +271,7 @@ export default class Node {
     console.log(index + this.name, this.ids)
 
     for (const [fieldName, field] of this.fields) {
+      console.log(index + fieldName);
       if (field.type === VRML.SFNode && field.value.value !== null) {
         field.value.value.printStructure(depth + 1);
       } else if (field.type === VRML.MFNode) {

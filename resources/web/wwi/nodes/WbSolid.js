@@ -27,14 +27,6 @@ export default class WbSolid extends WbTransform {
     super.delete(isBoundingObject);
   }
 
-  unfinalize() {
-    super.unfinalize();
-
-    this.boundingObject?.unfinalize();
-    this.physics?.unfinalize();
-    this.damping?.unfinalize();
-  }
-
   preFinalize() {
     super.preFinalize();
 
