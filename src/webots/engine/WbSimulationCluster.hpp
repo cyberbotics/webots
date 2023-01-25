@@ -23,6 +23,8 @@
 #include <ode/ode.h>
 #include <QtCore/QList>
 
+#include <vector>
+
 class WbContactProperties;
 class WbImmersionProperties;
 class WbOdeContext;
@@ -69,6 +71,7 @@ private:
   static void odeSensorRaysUpdate(int threadID);
   static const long long int WEBOTS_MAGIC_NUMBER;
   bool mSwapJointContactBuffer;
+  std::vector<dContact> mContactVector;
 };
 
 #endif

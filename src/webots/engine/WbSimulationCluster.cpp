@@ -635,20 +635,30 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
 
   WbContactProperties defaultContactProperties;
   const WbContactProperties *contactProperties = cl->findContactProperties(s1, s2);
-  const int maxContactPoints = (contactProperties ? contactProperties : &defaultContactProperties)->maxContactPoints();
+  int maxContactPoints = (contactProperties ? contactProperties : &defaultContactProperties)->maxContactPoints();
   const int maxContactJoints = (contactProperties ? contactProperties : &defaultContactProperties)->maxContactJoints();
 
-  // Get a pointer to the first element of an dContacts array of length maxContactPoints such that the associated memory will be
-  // freed properly.
-  std::vector<dContact> contactVector(maxContactPoints);
-  dContact *contact = contactVector.data();
+  bool findAllContactPoints = (maxContactPoints == -1);
+  if (findAllContactPoints) {
+    maxContactPoints = std::max<size_t>(100, cl->mContactVector.capacity());
+  }
 
-  int n = dCollide(o1, o2, maxContactPoints, &contact[0].geom, sizeof(dContact));
+  int n;
+  dContact *contact;
+  while (true) {
+    cl->mContactVector.reserve(maxContactPoints);
+    contact = cl->mContactVector.data();
+    n = dCollide(o1, o2, maxContactPoints, &contact[0].geom, sizeof(dContact));
+    if (n < maxContactPoints)
+      break;
+    else if (findAllContactPoints)
+      maxContactPoints *= 10;
+    else
+      WbLog::warning(QObject::tr("%1 contact points found so others might be ignored.").arg(maxContactPoints), false, WbLog::ODE);
+  }
+
   if (n == 0)
     return;
-
-  if (n == maxContactPoints)
-    WbLog::warning(QObject::tr("%1 contact points found so others might be ignored.").arg(maxContactPoints), false, WbLog::ODE);
 
   if (n > maxContactJoints) {
     WbLog::warning(
