@@ -19,8 +19,8 @@ int main(int argc, char **argv) {
   const double *translation_after = wb_supervisor_field_get_sf_vec3f(translation_field);
   const double *rotation_after = wb_supervisor_field_get_sf_rotation(rotation_field);
 
-  ts_assert_double_is_bigger(-rotation_after[3], 2.44, "Cone is not rotated as much as expected");
-  ts_assert_double_is_bigger(translation_after[2], 1.018, "Cone is not as high as expected");
+  ts_assert_double_is_bigger(-rotation_after[3], 2.44, "Cone is not rotated as much as expected.");
+  ts_assert_double_is_bigger(translation_after[2], 1.018, "Cone is not as high as expected.");
 
   ts_send_success();
   return EXIT_SUCCESS;
