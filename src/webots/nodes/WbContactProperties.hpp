@@ -64,8 +64,6 @@ public:
 signals:
   void valuesChanged();
   void needToEnableBodies();
-  void maxContactPointsChanged();
-  void maxContactJointsChanged();
 
 private:
   // user accessible fields

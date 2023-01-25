@@ -221,12 +221,10 @@ void WbContactProperties::updateSoftErp() {
 
 void WbContactProperties::updateMaxContactPoints() {
   WbFieldChecker::resetIntIfNonPositive(this, mMaxContactPoints, 100);
-  emit maxContactPointsChanged();
 }
 
 void WbContactProperties::updateMaxContactJoints() {
   WbFieldChecker::resetIntIfNonPositive(this, mMaxContactJoints, 10);
-  emit maxContactJointsChanged();
 }
 
 void WbContactProperties::loadSound(int index, const QString &sound, const QString &name, const WbSoundClip **clip) {
