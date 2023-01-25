@@ -152,49 +152,10 @@ export default class Node {
     this.createBaseType();
   }
 
-  /*
-  generateBaseType(baseTypeUrl, tokenizer) {
-    console.log(this.name, ':', 'GENERATE BASETYPE OF ', this.name, 'WHICH IS', baseTypeUrl)
-    let baseType = new Node(baseTypeUrl, true);
-    baseType.configureParametersFromTokenizer(tokenizer);
-    console.log(this.name, ':', '>>>>>>>>>AFTER CONFIG', baseType)
-    baseType.regenerate();
-    console.log(this.name, ':', 'BASETYPE AFTER REFCONFIG', baseType);
-    return baseType;
-  }
-  */
-
   clearReferences() {
     this.def = new Map();
     this.fields = new Map();
   };
-
-
-  /*
-  collapseParameterLinks() {
-    for (const [parameterName, parameter] of this.parameters.entries()) {
-      const toAdd = [];
-      const toRem = [];
-      for (const link of parameter.parameterLinks) {
-        console.log('--', parameterName, 'is linked to', link.name);
-        for (const l of link.parameterLinks) {
-          if (!toRem.includes(link))
-            toRem.push(link);
-          console.log('----', link.name, 'is linked to', l.name);
-          toAdd.push(l);
-        }
-      }
-      console.log(parameterName, 'toAdd', toAdd, 'toRem', toRem);
-      for (const item of toRem) {
-        const ix = parameter.parameterLinks.indexOf(item);
-        parameter.parameterLinks = parameter.parameterLinks.splice(ix, 1);
-      }
-      for (const item of toAdd)
-        parameter.parameterLinks.push(item);
-    }
-
-  }
-  */
 
   configureParametersFromTokenizer(tokenizer) {
     console.log(this.name, ':', 'configureParametersFromTokenizer', tokenizer);
@@ -331,32 +292,16 @@ export default class Node {
       return this.baseType.toX3d();
 
     const nodeElement = this.xml.createElement(this.name);
-    //if (isUse) {
-    //  // console.log('is USE! Will reference id: ' + this.id);
-    //  nodeElement.setAttribute('USE', this.id);
-    //  // TODO: needed here as well or sufficient in vrml.js?
-    //  if (['Shape', 'Group', 'Transform', 'Solid', 'Robot'].includes(this.name)) {
-    //    if (parameterReference === 'boundingObject')
-    //      nodeElement.setAttribute('role', 'boundingObject');
-    //  } else if (['BallJointParameters', 'JointParameters', 'HingeJointParameters'].includes(this.name))
-    //    nodeElement.setAttribute('role', parameterReference); // identifies which jointParameter slot the node belongs to
-    //  else if (['Brake', 'PositionSensor', 'Motor'].includes(this.name))
-    //    nodeElement.setAttribute('role', parameterReference); // identifies which device slot the node belongs to
-    //} else {
-      if (this.refId > this.ids.length - 1)
-        throw new Error('Something has gone wrong, the refId is bigger the number of available ids.')
-      const id = this.ids[this.refId++];
-      nodeElement.setAttribute('id', id);
-      for (const [fieldName, field] of this.fields) {
-        // console.log('  ENCODE FIELD ' + fieldName);
-        //if (typeof fiel.value === 'undefined') // note: SFNode can be null, not undefined
-        //  throw new Error('All parameters should be defined, ' + parameterName + ' is not.');
-        if (field.isDefault())
-          continue;
+    if (this.refId > this.ids.length - 1)
+      throw new Error('Something has gone wrong, the refId is bigger the number of available ids.')
+    const id = this.ids[this.refId++];
+    nodeElement.setAttribute('id', id);
+    for (const [fieldName, field] of this.fields) {
+      if (field.isDefault())
+        continue;
 
-        field.value.toX3d(fieldName, nodeElement);
-      }
-    //}
+      field.value.toX3d(fieldName, nodeElement);
+    }
 
     this.xml.appendChild(nodeElement);
     return nodeElement;
