@@ -187,9 +187,9 @@ export default class X3dScene {
     await parser.parse(x3dObject, this.renderer, false, parentNode, callback);
 
     const node = WbWorld.instance.nodes.get(parser.rootNodeId);
-    if (node instanceof WbShape) {
-      node.unfinalize();
-      node.finalize();
+    if (parentNode instanceof WbShape) {
+      parentNode.unfinalize();
+      parentNode.finalize();
     } else
       node.finalize();
   }
