@@ -33,7 +33,6 @@ WorldInfo {
       bounce 0
       softERP 0.0138
       softCFM 1e-05
-      maxContactPoints 100
     }
     ContactProperties {
       material1 "ramp"

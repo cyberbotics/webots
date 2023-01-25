@@ -220,7 +220,7 @@ void WbContactProperties::updateSoftErp() {
 }
 
 void WbContactProperties::updateMaxContactPoints() {
-  WbFieldChecker::resetIntIfNonPositive(this, mMaxContactPoints, 10);
+  WbFieldChecker::resetIntIfNonPositive(this, mMaxContactPoints, 100);
   emit maxContactPointsChanged();
 }
 
