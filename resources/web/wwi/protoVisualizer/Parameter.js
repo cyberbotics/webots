@@ -1,30 +1,21 @@
 'use strict';
 
-import {MFNode, SFNode, stringifyType} from './Vrml.js';
+import {SFNode, stringifyType} from './Vrml.js';
 import Node from './Node.js';
 import {VRML} from './vrml_type.js';
 import WbWorld from '../nodes/WbWorld.js';
-import { getAnId } from '../nodes/utils/id_provider.js';
 import Field from './Field.js';
 
-export default class Parameter {
-  #type;
-  #name;
-  #value;
-  #defaultValue;
-  #isTemplateRegenerator;
+export default class Parameter extends Field {
   #restrictions;
-  #parameterLinks;
-  constructor(node, name, type, restrictions, defaultValue, value, isTemplateRegenerator) {
-    this.node = node; // node this parameter belongs to
-    this.#type = type;
-    this.#name = name;
+  #parameterLinks; // rename to IS links
+  #isTemplateRegenerator;
+  constructor(node, name, type, defaultValue, value, restrictions, isTemplateRegenerator) {
+    super(node, name, type, value, defaultValue);
+
     this.#restrictions = restrictions;
-    this.defaultValue = defaultValue;
-    this.value = value;
     this.#isTemplateRegenerator = isTemplateRegenerator;
     this.#parameterLinks = []; // list of other parameters to notify whenever this instance changes
-    this.ref = 0 // TODO: can be removed later on
   }
 
   get restrictions() {
@@ -36,17 +27,17 @@ export default class Parameter {
   }
 
   get value() {
-    return this.#value;
+    return super.value;
   }
 
-  set value(v) {
-    if (v.type() !== this.type)
-      throw new Error('Type mismatch, setting ' + stringifyType(v.type()) + ' to ' + stringifyType(this.type) + ' parameter.');
+  set value(newValue) {
+    if (newValue.type() !== this.type)
+      throw new Error('Type mismatch, setting ' + stringifyType(newValue.type()) + ' to ' + stringifyType(this.type) + ' parameter.');
 
     if (this.restrictions.length > 0) {
       for (const item of this.restrictions) {
-        if ((v instanceof SFNode && v.value === null) || item.equals(v)) {
-          this.#value = v;
+        if ((newValue instanceof SFNode && newValue.value === null) || item.equals(newValue)) {
+          super.value = newValue;
           return;
         }
       }
@@ -54,34 +45,7 @@ export default class Parameter {
       throw new Error('Parameter ' + this.name + ' is restricted and the value being set is not permitted.');
     }
 
-    this.#value = v;
-  }
-
-  get defaultValue() {
-    return this.#defaultValue;
-  }
-
-  set defaultValue(v) {
-    if (v.type() !== this.type)
-      throw new Error('Type mismatch, setting ' + stringifyType(v.type()) + ' to ' + stringifyType(this.type) + ' parameter.');
-
-    this.#defaultValue = v;
-  }
-
-  get type() {
-    return this.#type;
-  }
-
-  set type(type) {
-    this.#type = type;
-  }
-
-  get name() {
-    return this.#name;
-  }
-
-  set name(value) {
-    this.#name = value;
+    super.value = newValue;
   }
 
   get isTemplateRegenerator() {
@@ -100,11 +64,7 @@ export default class Parameter {
     this.#parameterLinks = newValue;
   }
 
-  resetParameterLinks() {
-    this.#parameterLinks = [];
-  }
-
-  insertLink(parameter) {
+  insertLink(parameter) { // TODO: rename
     this.#parameterLinks.push(parameter);
   }
 
@@ -118,7 +78,7 @@ export default class Parameter {
       console.log('PARENT:', link.node.name, link.node.getBaseNodeIds())
     }
 
-    this.#value.insertNode(v, index);
+    this.value.insertNode(v, index);
 
     // insert the new node on the webotsjs side
     for (const id of this.node.getBaseNodeIds()) {
@@ -170,7 +130,7 @@ export default class Parameter {
     console.log('ids to delete', idsToDelete);
 
     // delete node on the structure side
-    this.#value.removeNode(index);
+    this.value.removeNode(index);
 
     // delete existing nodes
     for (const id of idsToDelete)
@@ -398,29 +358,6 @@ export default class Parameter {
     }
   }
   */
-
-  isDefault() {
-    if (typeof this.defaultValue === 'undefined' || typeof this.value === 'undefined')
-      throw new Error('Cannot check default-ness, either "value" or "defaultValue" is undefined.');
-
-    return this.value.equals(this.defaultValue);
-  }
-
-  clone(deep = false) {
-    const restrictions = [];
-    for (const item of this.restrictions)
-      restrictions.push(item.clone(deep));
-
-    const copy = new Parameter(this.node, this.name, this.type, restrictions,
-      deep ? this.defaultValue.clone(deep) : this.defaultValue,
-      deep ? this.value.clone(deep) : this.value, this.isTemplateRegenerator);
-
-    copy.#parameterLinks = [];
-    for (const item of this.parameterLinks)
-      copy.insertLink(item.clone(deep));
-
-    return copy;
-  }
 }
 
 export { Parameter };

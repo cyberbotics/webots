@@ -7,13 +7,12 @@ export default class Field {
   #value;
   #defaultValue;
   #restrictions;
-  constructor(node, name, type, value, defaultValue) {
+  constructor(node, name, type, defaultValue, value) {
     this.#node = node;
     this.#name = name;
     this.#type = type;
     this.#value = value;
     this.#defaultValue = defaultValue;
-    this.#restrictions = [];
   }
 
   get node() {
@@ -30,6 +29,13 @@ export default class Field {
 
   get defaultValue() {
     return this.#defaultValue;
+  }
+
+  set defaultValue(newValue) {
+    if (newValue.type() !== this.type)
+      throw new Error('Type mismatch, setting ' + stringifyType(newValue.type()) + ' to ' + stringifyType(this.type) + ' parameter.');
+
+    this.#defaultValue = newValue;
   }
 
   get type() {

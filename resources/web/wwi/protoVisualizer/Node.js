@@ -54,8 +54,7 @@ export default class Node {
         const defaultValue = vrmlFactory(parameterType, parameterModel['defaultValue']);
         const value = vrmlFactory(parameterType, parameterModel['defaultValue']);
 
-        const parameter = new Parameter(this, parameterName, parameterType, restrictions, defaultValue,
-          value, isTemplateRegenerator);
+        const parameter = new Parameter(this, parameterName, parameterType, defaultValue, value, restrictions, isTemplateRegenerator);
         // console.log(parameterName, parameter);
         this.parameters.set(parameterName, parameter);
       }
@@ -100,7 +99,7 @@ export default class Node {
       const type = this.model[fieldName]['type'];
       const value = vrmlFactory(type, this.model[fieldName]['defaultValue']);
       const defaultValue = vrmlFactory(type, this.model[fieldName]['defaultValue']);
-      const field = new Field(this, fieldName, type, value, defaultValue);
+      const field = new Field(this, fieldName, type, defaultValue, value);
       this.fields.set(fieldName, field);
     }
   }
