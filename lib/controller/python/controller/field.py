@@ -78,6 +78,8 @@ class Field:
                 self._ref = ctypes.c_void_p(wb.wb_supervisor_node_get_field_by_index(node._ref, index))
         if self._ref:
             self.type = wb.wb_supervisor_field_get_type(self._ref)
+        else:
+            self.type = None
 
     def getName(self) -> str:
         return self.name
