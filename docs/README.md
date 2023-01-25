@@ -70,11 +70,11 @@ python -m http.server 8000
 
 ## For running the unit tests, the following steps should be followed:
 
-1. Install the pep8 module:
+1. Install the pycodestyle module:
 
 ```sh
 sudo apt-get install python-pip
-pip install pep8
+pip install pycodestyle
 ```
 
 2. Run the tests:

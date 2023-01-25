@@ -18,6 +18,7 @@ webotsView.showStep              // defines whether the step button should be di
 webotsView.showTerminal          // defines whether the terminal button should be displayed.
 webotsView.showCustomWindow      // defines whether the custom window button should be displayed.
 webotsView.showWorldSelection    // defines whether the world selection button should be displayed.
+webotsView.openMainRobotWindow   // defines whether the worldInfo robot window should be opened on startup.
 */
 
 export default class WebotsView extends HTMLElement {
@@ -37,13 +38,13 @@ export default class WebotsView extends HTMLElement {
     this.#initialCallbackDone = true;
 
     this.toolbarCss = document.createElement('link');
-    this.toolbarCss.href = 'https://cyberbotics.com/wwi/R2023a/css/toolbar.css';
+    this.toolbarCss.href = 'https://cyberbotics.com/wwi/R2023b/css/toolbar.css';
     this.toolbarCss.type = 'text/css';
     this.toolbarCss.rel = 'stylesheet';
     document.head.appendChild(this.toolbarCss);
 
     this.progressCss = document.createElement('link');
-    this.progressCss.href = 'https://cyberbotics.com/wwi/R2023a/css/progress.css';
+    this.progressCss.href = 'https://cyberbotics.com/wwi/R2023b/css/progress.css';
     this.progressCss.type = 'text/css';
     this.progressCss.rel = 'stylesheet';
     document.head.appendChild(this.progressCss);
@@ -54,7 +55,7 @@ export default class WebotsView extends HTMLElement {
 
         // if it's a data file, use a custom dir
         if (path.endsWith('.data'))
-          return 'https://cyberbotics.com/wwi/R2023a/' + path;
+          return 'https://cyberbotics.com/wwi/R2023b/' + path;
 
         // otherwise, use the default, the prefix (JS file's dir) + the path
         return prefix + path;
@@ -92,12 +93,12 @@ export default class WebotsView extends HTMLElement {
       });
     };
 
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023a/dependencies/ansi_up.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023a/dependencies/assimpjs.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023a/dependencies/glm-js.min.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023a/dependencies/quaternion.min.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023a/enum.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023a/wrenjs.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/dependencies/ansi_up.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/dependencies/assimpjs.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/dependencies/glm-js.min.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/dependencies/quaternion.min.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/enum.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/wrenjs.js'));
   }
 
   #closeWhenDOMElementRemoved() {
