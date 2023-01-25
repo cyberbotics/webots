@@ -4,6 +4,8 @@ import {MFNode, SFNode, stringifyType} from './Vrml.js';
 import Node from './Node.js';
 import {VRML} from './vrml_type.js';
 import WbWorld from '../nodes/WbWorld.js';
+import { getAnId } from '../nodes/utils/id_provider.js';
+import Field from './Field.js';
 
 export default class Parameter {
   #type;
@@ -177,45 +179,62 @@ export default class Parameter {
 
     if (v instanceof Node || v === null) {
       const links = this.linksToNotify();
+      const parentIds = new Set();
+      const idsToDelete = new Set();
+
       for (const link of links) {
-        console.log('notifying link', link)
-        const parentId = link.node.getBaseNode().id;
-        if (this.#value.value !== null) {
-          console.log('myId:', link.value.value.getBaseNode().id, 'parentId:', parentId)
-          console.log(`delete: ${link.value.value.getBaseNode().id}`);
-          view.x3dScene.processServerMessage(`delete: ${link.value.value.getBaseNode().id.replace('n', '')}`);
+        // determine parent node ids and ids of nodes that need to be deleted on the webotsjs side
+        for (const id of link.node.getBaseNode().ids) {
+          parentIds.add(id);
+
+          if (link.value.value !== null) {
+            for (const id of link.value.value.getBaseNode().ids)
+              idsToDelete.add(id);
+          }
         }
-        // update the parameter (must happen after the existing node is deleted or the information is lost)
-        //this.value.value = v;
-        //if (v === null)
-        //  return;
-//
-        //const x3d = new XMLSerializer().serializeToString(v.toX3d());
-        //console.log(x3d)
-        //console.log('insert x3d into parent', parentId)
-        //view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId.replace('n', ''));
-        //view.x3dScene.render();
+      }
+
+      console.log('parent ids: ', parentIds, 'ids to delete', idsToDelete);
+
+      // delete existing nodes
+      for (const id of idsToDelete)
+        view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
+
+      // update the parameter value (note: all IS instances refer to the parameter itself, so they don't need to change)
+      this.value.setValueFromJavaScript(v);
+
+      if (v !== null) {
+        // insert the new node on the webotsjs side
+        for (const parent of parentIds) {
+          // note: there must be as many id assignments as there are parents, this is because on the webotsjs side the instances
+          // need to be distinguishable, so each "IS" needs to notify webotsjs and provide a unique variant of the x3d (with unique ids)
+          // for each node
+          v.assignId();
+          const x3d = new XMLSerializer().serializeToString(v.toX3d());
+          view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parent.replace('n', ''));
+        }
       }
     } else {
       console.log('pose change required')
       // update the parameter
       this.value.setValueFromJavaScript(v);
 
-      console.log('asd', this.parameterLinks)
-
-      console.log(this)
       const links = this.linksToNotify();
       console.log('links to notify', links)
       for (const link of links) {
-        const action = {}
-        action['id'] = link.node.id;
-        action[link.name] = this.value.toJson();
-        console.log('setPose', action);
-        view.x3dScene.applyPose(action);
-        view.x3dScene.render();
+        for (const id of link.node.ids) {
+          const action = {}
+          action['id'] = id;
+          action[link.name] = this.value.toJson();
+          console.log('setPose', action);
+          view.x3dScene.applyPose(action);
+        }
       }
     }
+
+    view.x3dScene.render();
   }
+
 
   linksToNotify() {
     let links = [];

@@ -25,7 +25,7 @@ export default class Node {
     this.def = new Map();
 
     this.ids = [];
-    this.id = getAnId();
+    this.refId = 0;
     this.isRoot = isRoot;
 
     // create parameters based on the PROTO model
@@ -137,6 +137,7 @@ export default class Node {
       console.log(this.name, ': is derives from base-node', this.model['baseType'], 'generating it from model')
 
       this.baseType = new Node(this.model['baseType']); // base nodes don't have parameters
+      this.baseType.parent = this;
       this.baseType.configureFieldsFromTokenizer(tokenizer);
     }
   }
@@ -285,11 +286,11 @@ export default class Node {
   }
 
   assignId() {
-    const index = '--'.repeat();
     if (this.isProto)
       return this.baseType.assignId();
 
     this.ids.push(getAnId());
+    console.log('assigning id', this.ids[this.ids.length - 1], 'to', this.name)
 
     for (const [fieldName, field] of this.fields) {
       if (field.type === VRML.SFNode && field.value.value !== null) {
@@ -301,26 +302,48 @@ export default class Node {
     }
   }
 
+  resetRefs() {
+    if (this.isProto)
+      return this.baseType.resetRefs();
+
+    this.refId = 0;
+
+    for (const [fieldName, field] of this.fields) {
+      if (field.type === VRML.SFNode && field.value.value !== null) {
+        field.value.value.resetRefs();
+      } else if (field.type === VRML.MFNode) {
+        for (const child of field.value.value)
+          child.value.resetRefs();
+      }
+    }
+  }
+
   toX3d(isUse, parameterReference) {
+    if (this.isRoot)
+      this.resetRefs(); // resets the instance counters
+
     this.xml = document.implementation.createDocument('', '', null);
 
     if (this.isProto)
       return this.baseType.toX3d();
 
     const nodeElement = this.xml.createElement(this.name);
-    if (isUse) {
-      // console.log('is USE! Will reference id: ' + this.id);
-      nodeElement.setAttribute('USE', this.id);
-      // TODO: needed here as well or sufficient in vrml.js?
-      if (['Shape', 'Group', 'Transform', 'Solid', 'Robot'].includes(this.name)) {
-        if (parameterReference === 'boundingObject')
-          nodeElement.setAttribute('role', 'boundingObject');
-      } else if (['BallJointParameters', 'JointParameters', 'HingeJointParameters'].includes(this.name))
-        nodeElement.setAttribute('role', parameterReference); // identifies which jointParameter slot the node belongs to
-      else if (['Brake', 'PositionSensor', 'Motor'].includes(this.name))
-        nodeElement.setAttribute('role', parameterReference); // identifies which device slot the node belongs to
-    } else {
-      nodeElement.setAttribute('id', this.id);
+    //if (isUse) {
+    //  // console.log('is USE! Will reference id: ' + this.id);
+    //  nodeElement.setAttribute('USE', this.id);
+    //  // TODO: needed here as well or sufficient in vrml.js?
+    //  if (['Shape', 'Group', 'Transform', 'Solid', 'Robot'].includes(this.name)) {
+    //    if (parameterReference === 'boundingObject')
+    //      nodeElement.setAttribute('role', 'boundingObject');
+    //  } else if (['BallJointParameters', 'JointParameters', 'HingeJointParameters'].includes(this.name))
+    //    nodeElement.setAttribute('role', parameterReference); // identifies which jointParameter slot the node belongs to
+    //  else if (['Brake', 'PositionSensor', 'Motor'].includes(this.name))
+    //    nodeElement.setAttribute('role', parameterReference); // identifies which device slot the node belongs to
+    //} else {
+      if (this.refId > this.ids.length - 1)
+        throw new Error('Something has gone wrong, the refId is bigger the number of available ids.')
+      const id = this.ids[this.refId++];
+      nodeElement.setAttribute('id', id);
       for (const [fieldName, field] of this.fields) {
         // console.log('  ENCODE FIELD ' + fieldName);
         //if (typeof fiel.value === 'undefined') // note: SFNode can be null, not undefined
@@ -330,7 +353,7 @@ export default class Node {
 
         field.value.toX3d(fieldName, nodeElement);
       }
-    }
+    //}
 
     this.xml.appendChild(nodeElement);
     return nodeElement;

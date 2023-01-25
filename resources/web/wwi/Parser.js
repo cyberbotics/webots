@@ -1607,7 +1607,6 @@ export default class Parser {
       }
     }
 
-    console.log('CREATED PBR WITH ID', id)
     const pbrAppearance = new WbPbrAppearance(id, baseColor, baseColorMap, transparency, roughness, roughnessMap, metalness,
       metalnessMap, IBLStrength, normalMap, normalMapFactor, occlusionMap, occlusionMapStrength, emissiveColor,
       emissiveColorMap, emissiveIntensity, transform);
