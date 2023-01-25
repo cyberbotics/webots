@@ -3,7 +3,7 @@
 import {getAnId} from '../nodes/utils/id_provider.js';
 import TemplateEngine from './TemplateEngine.js';
 import Tokenizer from './Tokenizer.js';
-import {vrmlFactory, jsifyFromTokenizer} from './Vrml.js';
+import {vrmlFactory, jsifyFromTokenizer, SFNode} from './Vrml.js';
 import {FieldModel} from './FieldModel.js';
 import {Parameter} from './Parameter.js';
 import Field from './Field.js';
@@ -54,12 +54,30 @@ export default class Node {
         const defaultValue = vrmlFactory(parameterType, parameterModel['defaultValue']);
         const value = vrmlFactory(parameterType, parameterModel['defaultValue']);
 
+        const defaultInitializer = parameterModel['parameterInitializer'];
+        if (parameterType === VRML.SFNode && typeof defaultInitializer !== 'undefined') {
+          // TODO: cleanup...
+          if (defaultValue.value.isProto) {
+            console.log('CONFIG PARAM FROM INIT (PROTO)', defaultValue)
+            defaultInitializer.rewind();
+            defaultValue.value.configureParametersFromTokenizer(defaultInitializer);
+            console.log('DONE', defaultValue)
+            defaultInitializer.rewind();
+            value.value.configureParametersFromTokenizer(defaultInitializer);
+          } else {
+            console.log('CONFIG FIELD FROM INIT (BASENODE)', defaultValue)
+            defaultInitializer.rewind();
+            defaultValue.value.configureFieldsFromTokenizer(defaultInitializer);
+            defaultInitializer.rewind();
+            value.value.configureFieldsFromTokenizer(defaultInitializer);
+          }
+        }
+
         const parameter = new Parameter(this, parameterName, parameterType, defaultValue, value, restrictions, isTemplateRegenerator);
         // console.log(parameterName, parameter);
         this.parameters.set(parameterName, parameter);
       }
 
-      // NEED A "CONFIG PARAM FROM HEADER TOKENIZER" HERE
       if (typeof parameterTokenizer !== 'undefined') {
         console.log(this.name, ': configuring parameters of node', this.name, 'from provided parameter tokenizer')
         this.configureParametersFromTokenizer(parameterTokenizer);
@@ -163,9 +181,9 @@ export default class Node {
 
     while (tokenizer.peekWord() !== '}') {
       const field = tokenizer.nextWord();
-      for (const [fieldName, fieldValue] of this.parameters) {
-        if (field === fieldName) {
-          console.log(this.name, ':', 'configuring ' + fieldName + ' of ' + this.name);
+      for (const [parameterName, parameterValue] of this.parameters) {
+        if (field === parameterName) {
+          console.log(this.name, ':', 'configuring ' + parameterName + ' of ' + this.name);
 
           if (tokenizer.peekWord() === 'IS') {
             tokenizer.skipToken('IS');
@@ -174,16 +192,16 @@ export default class Node {
             if (!tokenizer.proto.parameters.has(alias))
               throw new Error('Alias "' + alias + '" not found in PROTO ' + tokenizer.proto.name);
 
-            console.log(this.name, ':', 'ALIAS:', alias, '<<<---->>>', fieldName)
+            console.log(this.name, ':', 'ALIAS:', alias, '<<<---->>>', parameterName)
             const p = tokenizer.proto.parameters.get(alias);
-            fieldValue.value = p.value;
+            parameterValue.value = p.value;
             console.log('SETTING VAL TO', p.value)
-            p.insertLink(fieldValue);
+            p.insertLink(parameterValue);
             console.log('INSERTED2')
 
           } else {
             console.log(this.name, ':', 'setting value from tokenizer');
-            fieldValue.value.setValueFromTokenizer(tokenizer, this);
+            parameterValue.value.setValueFromTokenizer(tokenizer, this);
           }
         }
       }
@@ -199,6 +217,7 @@ export default class Node {
 
     while (tokenizer.peekWord() !== '}') {
       const field = tokenizer.nextWord();
+      console.log('========', field)
       for (const [fieldName, fieldValue] of this.fields) {
         if (field === fieldName) {
           console.log(this.name, ':', 'configuring ' + fieldName + ' of ' + this.name);
@@ -441,10 +460,12 @@ export default class Node {
         tokenizer.nextToken(); // consume the token containing the parameter name
         //const defaultValue = vrmlFactory(parameterType, tokenizer);
         //console.log('found ', parameterName, parameterType)
-        const value = jsifyFromTokenizer(parameterType, tokenizer);
+        const encoding = jsifyFromTokenizer(parameterType, tokenizer);
+        console.log('MODEL FIELD ENCODING:', encoding['value'], encoding['initializer'])
         const parameter = {}
         parameter['type'] = parameterType;
-        parameter['defaultValue'] = value;
+        parameter['defaultValue'] = encoding['value'];
+        parameter['parameterInitializer'] = encoding['initializer'];
         parameter['isTemplateRegenerator'] = isRegenerator;
         parameter['restrictions'] = restrictions;
         model['parameters'][parameterName] = parameter;

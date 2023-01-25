@@ -1,13 +1,14 @@
 #VRML_SIM R2023b utf8
 
+EXTERNPROTO "CustomBox.proto"
+
 PROTO TestDefaultValue [
   field SFNode app PBRAppearance{ baseColor 1 0 0 }
+  field SFNode geo CustomBox { customSize 0.1 0.1 0.3}
 ]
 {
   Shape {
     appearance IS app
-    geometry Box {
-      size 0.1 0.1 0.1
-    }
+    geometry IS geo
   }
 }

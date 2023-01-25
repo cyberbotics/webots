@@ -29,6 +29,13 @@ export default class Tokenizer {
     this.#index = 0;
   }
 
+  configureFromOther(tokenizer, start, end) {
+    this.vector = tokenizer.vector.splice(start, end - start);
+    this.rewind();
+    this.#atEndPos = false;
+    // TODO: define other variables
+  }
+
   get proto() {
     return this.#proto;
   }
@@ -215,6 +222,17 @@ export default class Tokenizer {
       this.#index += n;
     else
       throw new Error('Cannot skip N = ' + n + ' tokens because there are not that many left.');
+  }
+
+  spliceTokenizerByType(type) {
+    const start = this.#index;
+    this.consumeTokensByType(type)
+    const end = this.#index;
+
+    const subTokenizer = new Tokenizer(this.#stream, this.#proto);
+    subTokenizer.configureFromOther(this, start, end);
+
+    return subTokenizer;
   }
 
   consumeTokensByType(type) {

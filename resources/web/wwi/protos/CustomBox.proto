@@ -1,0 +1,11 @@
+#VRML_SIM R2023b utf8
+
+
+PROTO CustomBox [
+  field SFVec3f customSize 0.1 0.1 0.1
+]
+{
+  Box {
+    size IS customSize
+  }
+}
