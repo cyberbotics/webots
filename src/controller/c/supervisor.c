@@ -2303,7 +2303,7 @@ WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index) {
   }
   if (index < 0) {
     if (!robot_is_quitting())
-      fprintf(stderr, "Error: %s() called with an negative 'index' argument: %d.\n", __FUNCTION__, index);
+      fprintf(stderr, "Error: %s() called with a negative 'index' argument: %d.\n", __FUNCTION__, index);
     return NULL;
   }
 
