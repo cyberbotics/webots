@@ -26,7 +26,6 @@
 #include <QtCore/QList>
 #include <QtCore/QObject>
 #include <QtCore/QStringList>
-#include <QtCore/QVector>
 
 class WbNodeModel;
 class WbProtoModel;
@@ -161,9 +160,8 @@ public:
 
   // PROTO
   static WbNode *createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer, const QString &worldPath);
-  static WbNode *regenerateProtoInstanceFromParameters(WbProtoModel *proto, const QVector<WbField *> &parameters,
-                                                       bool isTopLevel, const QString &worldPath, bool fromSceneTree = false,
-                                                       int uniqueId = -1);
+  static WbNode *createProtoInstanceFromParameters(WbProtoModel *proto, const QList<WbField *> &parameters,
+                                                   const QString &worldPath, int uniqueId = -1);
 
   bool isProtoInstance() const { return mProto != NULL; }
   WbProtoModel *proto() const { return mProto; }
@@ -171,18 +169,21 @@ public:
   void setRegenerationRequired(bool required);
   bool isRegenerationRequired() const { return mRegenerationRequired; }
   const QByteArray &protoInstanceTemplateContent() const { return mProtoInstanceTemplateContent; }
-  QVector<WbField *> parameters() const { return mParameters; }
+  QList<WbField *> parameters() const { return mParameters; }
   void setProtoInstanceTemplateContent(const QByteArray &content) { mProtoInstanceTemplateContent = content; }
-  void updateNestedProtoFlag();
+  // pass argument if we know that a PROTO ancestor exists, otherwise if hasAProtoAncestorFlag is FALSE it will be computed
+  void updateNestedProtoFlag(bool hasAProtoAncestorFlag = false);
 
   // return if 'node' is a direct child of this PROTO parameters
   bool isProtoParameterChild(const WbNode *node) const;
   // is a parameter node contained in a PROTO instance
   bool isProtoParameterNode() const;
   // return the node instances redirected to this PROTO parameter node
-  QVector<WbNode *> protoParameterNodeInstances() const { return mProtoParameterNodeInstances; }
+  QList<WbNode *> protoParameterNodeInstances() const { return mProtoParameterNodeInstances; }
   bool hasAProtoAncestor() const;
   WbNode *protoAncestor() const;
+  // connect nested PROTO parameters
+  void redirectInternalFields(WbField *param = NULL);
 
   const WbNode *containingProto(bool skipThis) const;
 
@@ -200,8 +201,8 @@ public:
 
   // fields or proto parameters
   bool isDefault() const;  // true if all fields have default values
-  QVector<WbField *> fields() const { return mFields; }
-  const QVector<WbField *> &fieldsOrParameters() const { return isProtoInstance() ? mParameters : mFields; }
+  QList<WbField *> fields() const { return mFields; }
+  const QList<WbField *> &fieldsOrParameters() const { return isProtoInstance() ? mParameters : mFields; }
   int numFields() const { return fieldsOrParameters().size(); }
   WbField *field(int index, bool internal = false) const;
   WbField *findField(const QString &fieldName, bool internal = false) const;
@@ -343,7 +344,7 @@ private:
   bool mIsBeingDeleted;
   bool mIsCreationCompleted;
   bool mInsertionCompleted;  // true if the current node is already added to the parent field
-  QVector<WbField *> mFields;
+  QList<WbField *> mFields;
 
   // DEF/USE mechanism
   QString mDefName;  // for DEF nodes
@@ -354,26 +355,20 @@ private:
 
   // for proto instances only
   WbProtoModel *mProto;
-  QVector<WbField *> mParameters;
+  QList<WbField *> mParameters;
   QByteArray mProtoInstanceTemplateContent;
   bool mRegenerationRequired;
 
   // for proto parameter nodes only
-  bool mIsProtoDescendant;
   bool mIsNestedProtoNode;
-  bool mIsTopParameterDescendant;
   mutable bool mIsProtoParameterNodeDescendant;
-  QVector<WbNode *> mProtoParameterNodeInstances;
+  QList<WbNode *> mProtoParameterNodeInstances;
   static const QStringList cHiddenParameterNames;
 
   // if PROTO instance is created as a consequence of an explicit insertion from the scene tree or due to a template
   // regeneration, then setup of instance's nested PROTO flag should be postponed to correctly redirect all the parameters
-  static WbNode *createProtoInstanceFromParameters(WbProtoModel *proto, const QVector<WbField *> &parameters, bool isTopLevel,
+  static WbNode *createProtoInstanceFromParameters(WbProtoModel *proto, const QList<WbField *> &parameters, bool isTopLevel,
                                                    const QString &worldPath, bool fromSceneTree = false, int uniqueId = -1);
-
-  // setup flags mechanism mechanism
-  void setupDescendantAndNestedProtoFlags(bool isTopNode, bool isTopParameterDescendant, bool isInsertedFromSceneTree);
-  static void setupDescendantAndNestedProtoFlags(QVector<WbField *> fields, bool isTopParameterDescendant);
 
   // for proto parameter node instances only
   WbNode *mProtoParameterNode;
@@ -402,6 +397,11 @@ private:
   void readFieldValue(WbField *field, WbTokenizer *tokenizer, const QString &worldPath) const;
   static void copyAliasValue(WbField *field, const QString &alias);
   void addExternProtoFromFile(const WbProtoModel *proto, WbWriter &writer) const;
+
+  bool setProtoParameterNode(WbNode *node);
+  static void redirectInternalFields(WbNode *instance, WbNode *parameterNode);
+  static void redirectInternalFields(WbField *field, WbField *parameter);
+  // static void redirectIntermediateConnections(WbField *parameter);
 };
 
 #endif

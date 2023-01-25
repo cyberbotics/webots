@@ -130,7 +130,7 @@ void WbSingleTaskApplication::convertProto() const {
 
   // Generate a node structure
   WbNode::setInstantiateMode(true);
-  WbNode *node = WbNode::regenerateProtoInstanceFromParameters(model, fields, true, "");
+  WbNode *node = WbNode::createProtoInstanceFromParameters(model, fields, "");
   for (WbNode *subNode : node->subNodes(true)) {
     if (dynamic_cast<WbSolidReference *>(subNode))
       cout << tr("Warning: Exporting a Joint node with a SolidReference endpoint (%1) to URDF is not supported.")

@@ -222,7 +222,7 @@ WbBaseNode *WbBaseNode::getFirstFinalizedProtoInstance() const {
       continue;
     }
     baseNode = static_cast<const WbBaseNode *>(nodeInstances.at(0));
-    for (int i = nodeInstances.size() - 1; i >= 1; --i)
+    for (int i = 0; i < nodeInstances.size(); ++i)
       nodes.append(nodeInstances.at(i));
   }
 

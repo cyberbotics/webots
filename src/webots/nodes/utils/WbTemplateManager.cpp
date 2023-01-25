@@ -272,8 +272,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
 
   WbNode::setGlobalParentNode(parent);
 
-  WbNode *newNode = WbNode::regenerateProtoInstanceFromParameters(proto, parameters, node->isTopLevel(),
-                                                                  WbWorld::instance()->fileName(), true, uniqueId);
+  WbNode *newNode = WbNode::createProtoInstanceFromParameters(proto, parameters, WbWorld::instance()->fileName(), uniqueId);
 
   if (!newNode) {
     WbLog::error(tr("Template regeneration failed. The node cannot be generated."), false, WbLog::PARSING);
@@ -336,8 +335,11 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
             break;
           }
         }
-        if (found)
+        if (found) {
+          if (parent && parent->isProtoInstance())
+            parent->redirectInternalFields(parentField);
           break;
+        }
       }
     }
   } else {

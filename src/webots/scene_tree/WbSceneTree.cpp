@@ -683,8 +683,6 @@ void WbSceneTree::transform(const QString &modelName) {
     WbTemplateManager::instance()->blockRegeneration(true);
     mSelectedItem->del();  // remove previous item
     sfnode->setValue(newNode);
-    newNode->validate();
-    WbTemplateManager::instance()->blockRegeneration(false);
   } else {
     assert(mSelectedItem->parent()->isField());
     WbMFNode *mfnode = dynamic_cast<WbMFNode *>(parentField->value());
@@ -697,9 +695,12 @@ void WbSceneTree::transform(const QString &modelName) {
     // insert just after currentNode
     mfnode->insertItem(nodeIndex, newNode);
     // mfnode->setItem(nodeIndex, newNode); // TODO: make WbMFNode::setItem() work!
-    newNode->validate();
-    WbTemplateManager::instance()->blockRegeneration(false);
   }
+
+  newNode->validate();
+  if (newNode->parentNode() && newNode->parentNode()->isProtoInstance())
+    newNode->parentNode()->redirectInternalFields(parentField);
+  WbTemplateManager::instance()->blockRegeneration(false);
 
   if (!isInsideATemplateRegenerator)
     static_cast<WbBaseNode *>(newNode)->finalize();

@@ -245,6 +245,8 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
     if (sfnode)
       sfnode->setValue(newNode);
   }
+  if (parentNode && parentNode->isProtoInstance())
+    parentNode->redirectInternalFields(field);
   mNodesAreAboutToBeInserted = false;
 
   // in case of template the newNode/baseNode pointers are no more available here

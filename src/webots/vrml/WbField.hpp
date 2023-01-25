@@ -66,7 +66,7 @@ public:
   // optional redirection to a proto parameter
   void setAlias(const QString &alias) { mAlias = alias; }
   const QString &alias() const { return mAlias; }
-  void redirectTo(WbField *parameter);
+  void redirectTo(WbField *parameter, bool skipCopy = false);
   WbField *parameter() const { return mParameter; }
   const QList<WbField *> &internalFields() const { return mInternalFields; }
   bool isParameter() const { return mInternalFields.size() != 0; }
@@ -115,6 +115,9 @@ public:
   const QString &scope() const { return mScope; }
   void setScope(const QString &value) { mScope = value; }
 
+  void disable();
+  bool isDisabledParameter() const { return mDisabledParameter; }
+
 signals:
   void valueChanged();
   void valueChangedByOde();
@@ -140,6 +143,9 @@ private:
   WbNode *mParentNode;
 
   QString mScope;
+
+  bool mDisabledParameter;  // parameter of a PROTO instance, this parameter is disabled because the fields are redirected to
+                            // the PROTO parameter node
 
 private slots:
   void parameterChanged();

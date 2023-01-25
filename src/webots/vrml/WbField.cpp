@@ -36,6 +36,7 @@
 #include "WbValue.hpp"
 #include "WbWriter.hpp"
 
+#include <QtCore/QDebug>
 #include <cassert>
 #include <iostream>
 
@@ -46,7 +47,8 @@ WbField::WbField(const WbFieldModel *model, WbNode *parentNode) :
   mWasRead(false),
   mParameter(NULL),
   mIsTemplateRegenerator(model->isTemplateRegenerator()),
-  mParentNode(parentNode) {
+  mParentNode(parentNode),
+  mDisabledParameter(false) {
   mModel->ref();
   if (hasRestrictedValues())
     connect(mValue, &WbValue::changed, this, &WbField::checkValueIsAccepted, Qt::UniqueConnection);
@@ -63,7 +65,8 @@ WbField::WbField(const WbField &other, WbNode *parentNode) :
   mAlias(other.mAlias),
   mIsTemplateRegenerator(other.mIsTemplateRegenerator),
   mParentNode(parentNode),
-  mScope(other.mScope) {
+  mScope(other.mScope),
+  mDisabledParameter(false) {
   mModel->ref();
   if (hasRestrictedValues())
     connect(mValue, &WbValue::changed, this, &WbField::checkValueIsAccepted, Qt::UniqueConnection);
@@ -312,24 +315,57 @@ bool WbField::isHiddenParameter() const {
 }
 
 // redirect this node field to a proto parameter
-void WbField::redirectTo(WbField *parameter) {
+void WbField::redirectTo(WbField *parameter, bool skipCopy) {
   // qDebug() << "redirectTo: " << this << " " << name() << " -> " << parameter << " " << parameter->name();
 
-  if (this == parameter || parameter->mInternalFields.contains(this)) {
+  if (this == parameter || parameter->mInternalFields.contains(this))
     // skip self and duplicated redirection
     return;
+
+  if (mParameter && mParameter != parameter) {
+    // remove previous connections
+    WbMFNode *mfnode = dynamic_cast<WbMFNode *>(mParameter->value());
+    if (mfnode) {
+      disconnect(mfnode, &WbMFNode::itemInserted, mParameter, &WbField::parameterNodeInserted);
+      disconnect(mfnode, &WbMFNode::itemRemoved, mParameter, &WbField::parameterNodeRemoved);
+    } else {
+      // make sure the field gets updated when the parameter changes, e.g. by Scene Tree or Supervisor, etc.
+      if (mParameter->mInternalFields.size() == 1) {
+        disconnect(mParameter, &WbField::valueChanged, mParameter, &WbField::parameterChanged);
+        disconnect(mParameter->value(), &WbValue::changedByUser, this->value(), &WbValue::changedByUser);
+      }
+      disconnect(this, &WbField::valueChanged, mParameter, &WbField::fieldChanged);
+    }
+
+    // ODE updates
+    const QString &fieldName = name();
+    if (fieldName == "translation") {
+      disconnect(static_cast<WbSFVector3 *>(mValue), &WbSFVector3::changedByOde, mParameter, &WbField::fieldChangedByOde);
+      disconnect(static_cast<WbSFVector2 *>(mValue), &WbSFVector2::changedByWebots, mParameter, &WbField::fieldChangedByOde);
+    } else if (fieldName == "rotation")
+      disconnect(static_cast<WbSFRotation *>(mValue), &WbSFRotation::changedByOde, mParameter, &WbField::fieldChangedByOde);
+    else if (fieldName == "position")
+      disconnect(static_cast<WbSFDouble *>(mValue), &WbSFDouble::changedByOde, mParameter, &WbField::fieldChangedByOde);
+
+    mParameter->mInternalFields.removeAll(this);
   }
+
+  mParameter = parameter;
+
+  assert(mParameter);
+  if (!mParameter)
+    return;
 
   // propagate top -> down the template regenerator flag
   if (isTemplateRegenerator())
     parameter->setTemplateRegenerator(true);
 
-  mParameter = parameter;
   mParameter->mInternalFields.append(this);
   connect(this, &QObject::destroyed, mParameter, &WbField::removeInternalField);
 
   // copy parameter value to field
-  mValue->copyFrom(mParameter->value());
+  if (!skipCopy)
+    mValue->copyFrom(mParameter->value());
 
   WbMFNode *mfnode = dynamic_cast<WbMFNode *>(mParameter->value());
   if (mfnode) {
@@ -357,6 +393,12 @@ void WbField::redirectTo(WbField *parameter) {
     connect(static_cast<WbSFRotation *>(mValue), &WbSFRotation::changedByOde, mParameter, &WbField::fieldChangedByOde);
   else if (fieldName == "position")
     connect(static_cast<WbSFDouble *>(mValue), &WbSFDouble::changedByOde, mParameter, &WbField::fieldChangedByOde);
+}
+
+void WbField::disable() {
+  mDisabledParameter = true;
+  assert(mInternalFields.isEmpty());
+  mInternalFields.clear();
 }
 
 void WbField::removeInternalField(QObject *field) {
