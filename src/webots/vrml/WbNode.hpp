@@ -387,8 +387,7 @@ private:
   void addField(WbFieldModel *fieldModel);
   void init();
   void redirectAliasedFields(WbField *param, WbNode *protoInstance, bool searchInParameters = false,
-                             bool parametersOnly = false, bool copyValueOnly = false);
-  void swapFieldAlias(const QString &oldAlias, WbField *newParam, bool searchInParameters);
+                             bool copyValueOnly = false);
   void resetUseAncestorFlag();
   int findSubFieldIndex(const WbField *const searched) const;
   static void subNodeIndex(const WbNode *currentNode, const WbNode *targetNode, int &index, bool &subNodeFound);

@@ -219,14 +219,8 @@ WbNode::WbNode(const WbNode &other) :
     }
 
     // connect fields to PROTO parameters
-    foreach (WbField *parameter, mParameters) {
-      if (!parameter->alias().isEmpty())
-        // redirect parameter of nested PROTO nodes to alias
-        redirectAliasedFields(parameter, this, other.mProto->isDerived());
-
-      // TODO 1 connect field to parameters
+    foreach (WbField *parameter, mParameters)
       redirectAliasedFields(parameter, this);
-    }
   }
 
   gParent = parentNode();
@@ -1249,8 +1243,7 @@ bool WbNode::isDefault() const {
 // because the scope of a PROTO parameter must be local to a PROTO instance
 // but, when loading from file, it looks up in the parameters of direct PROTO instances in order to pass a parameter to a sub
 // PROTO
-void WbNode::redirectAliasedFields(WbField *param, WbNode *protoInstance, bool searchInParameters, bool parametersOnly,
-                                   bool copyValueOnly) {
+void WbNode::redirectAliasedFields(WbField *param, WbNode *protoInstance, bool searchInParameters, bool copyValueOnly) {
   QList<WbField *> fields;
   if (searchInParameters) {
     // search for matching IS fields in subPROTO declaration
@@ -1274,47 +1267,22 @@ void WbNode::redirectAliasedFields(WbField *param, WbNode *protoInstance, bool s
         // reset alias value so that the value is copied when node is cloned
         // this is needed for derived PROTO nodes linked to a default base PROTO parameter
         field->setAlias(QString());
-      } else {
+      } else
         field->redirectTo(param);
-      }
       gParent = tmpParent;
     }
   }
 
   // do not search in sub nodes of a sub PROTO node
-  foreach (WbNode *node, subNodes(false, !parametersOnly, searchInParameters)) {
+  foreach (WbNode *node, subNodes(false, !searchInParameters, searchInParameters)) {
     if (node->isProtoInstance()) {
       // search also in parameters of direct sub PROTO nodes
-      node->redirectAliasedFields(param, protoInstance, true, true, copyValueOnly);
+      node->redirectAliasedFields(param, protoInstance, true, copyValueOnly);
     } else {
       // do not search in fields of PROTO parameter node instances
       const WbNode *protoParameterNode = node->protoParameterNode();
       if (!protoParameterNode || !protoParameterNode->isProtoInstance())
-        node->redirectAliasedFields(param, protoInstance, false, false, copyValueOnly);
-    }
-  }
-}
-
-// recursively search for matching IS fields and change alias name
-void WbNode::swapFieldAlias(const QString &oldAlias, WbField *newParam, bool searchInParameters) {
-  const QList<WbField *> fields(searchInParameters ? mParameters : mFields);
-
-  // search self
-  foreach (WbField *field, fields) {
-    if (field->alias() == oldAlias && field->type() == newParam->type())
-      field->setAlias(newParam->name());
-  }
-
-  // do not search in sub nodes of a sub PROTO node
-  foreach (WbNode *node, subNodes(false, !searchInParameters, true)) {
-    if (node->isProtoInstance()) {
-      // search in parameters of direct sub PROTO nodes
-      node->swapFieldAlias(oldAlias, newParam, true);
-    } else {
-      // do not search in fields of PROTO parameter node instances
-      WbNode *protoParameterNode = node->protoParameterNode();
-      if (!protoParameterNode || !protoParameterNode->isProtoInstance())
-        node->swapFieldAlias(oldAlias, newParam, false);
+        node->redirectAliasedFields(param, protoInstance, false, copyValueOnly);
     }
   }
 }
@@ -1333,7 +1301,6 @@ WbNode *WbNode::cloneAndReferenceProtoInstance() {
     // associate instance with respective PROTO parameter node
     // DEF/USE nodes should not be associated
     copy->setProtoParameterNode(this);
-    redirectInternalFields(copy, this);
   }
 
   return copy;
@@ -1354,8 +1321,7 @@ bool WbNode::setProtoParameterNode(WbNode *node) {
   if (mProtoParameterNode) {
     mProtoParameterNode->mProtoParameterNodeInstances.append(this);
     connect(this, &QObject::destroyed, mProtoParameterNode, &WbNode::removeProtoParameterNodeInstance);
-    // TODO 2 redirect instance's parameters to new PROTO parameter node
-    // redirectInternalFields(this, mProtoParameterNode);
+    redirectInternalFields(this, mProtoParameterNode);
   }
 
   return true;
@@ -1398,7 +1364,6 @@ void WbNode::redirectInternalFields(WbField *field, WbField *parameter) {
         WbNode *subnode = mfnode->item(i);
         WbNode *parameterNode = static_cast<WbMFNode *>(parameter->value())->item(i);
         subnode->setProtoParameterNode(parameterNode);
-        redirectInternalFields(subnode, parameterNode);
       }
       break;
     }
@@ -1409,7 +1374,6 @@ void WbNode::redirectInternalFields(WbField *field, WbField *parameter) {
       if (subnode) {
         WbNode *parameterNode = static_cast<WbSFNode *>(parameter->value())->value();
         subnode->setProtoParameterNode(parameterNode);
-        redirectInternalFields(subnode, parameterNode);
       }
       break;
     }
@@ -1428,16 +1392,6 @@ void WbNode::redirectInternalFields(WbNode *instance, WbNode *parameterNode) {
     if (instanceParam->name() != param->name() || instanceParam->type() != param->type())
       continue;
     instanceParam->redirectTo(param, true);  // redirect without copying value
-    if (instanceParam->isParameter()) {
-      // TODO 3 keep track of original connection
-      // if redirection made too early it is no longer possible to update the subsequent ones
-      /*foreach (WbField *field, instanceParam->internalFields()) {
-        qDebug() << "REDIRECT INTERNAL FIELDS " << field << field->name() << "node" << instance << instance->usefulName()
-                 << " parameter node " << parameterNode << parameterNode->usefulName() << "param" << param << param->name();
-        field->redirectTo(param, true);  // redirect without copying value
-      }
-      instanceParam->disable();*/
-    }
     redirectInternalFields(instanceParam, param);
   }
 }
@@ -1669,7 +1623,6 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
         if (aliasParam->type() != param->type())
           continue;
         if (aliasParam->name() == param->alias()) {
-          aliasNotFound = false;
           if (!aliasParam->isTemplateRegenerator()) {
             const bool paramTemplate = param->isTemplateRegenerator();
             aliasParam->setTemplateRegenerator(paramTemplate);
@@ -1685,9 +1638,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
           }
           gParent = tmpParent;
 
-          // swap alias name
-          instance->swapFieldAlias(param->name(), aliasParam, false);  // TODO 4 WHY?
-
+          aliasNotFound = false;
           remove = true;
         } else if (aliasParam->name() == param->name()) {
           // homonymous derived and base parameters
@@ -1700,10 +1651,10 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
         paramIt.remove();
         param->clearInternalFields();
         delete param;
-      } else if (aliasNotFound)  // TODO 5 else if or else
+      } else if (aliasNotFound)
         // base PROTO parameter not overwritten by derived PROTO parameter
         // copy values from base PROTO default parameter
-        instance->redirectAliasedFields(param, instance, false, false, true);
+        instance->redirectAliasedFields(param, instance, false, true);
     }
   }
 
@@ -1747,11 +1698,8 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QLi
         break;
     }
 
-    instance->redirectAliasedFields(parameter, instance);  // TODO 6
-    // previously
-    // if (!(proto->isDerived() && notAssociatedDerivedParameters.contains(parameter))) TRUE
-    // if (fromSceneTree || !instance->mIsNestedProtoNode) and if (!(proto->isDerived() &&
-    // notAssociatedDerivedParameters.contains(parameter))) FALSE
+    if (!(proto->isDerived() && notAssociatedDerivedParameters.contains(parameter)))
+      instance->redirectAliasedFields(parameter, instance);
   }
 
   // remove the fake parameters introduced in case of direct nested PROTOs
