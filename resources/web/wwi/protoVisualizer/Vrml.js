@@ -1169,7 +1169,7 @@ export function jsifyFromTokenizer(type, tokenizer) {
         return value;
         */
 
-
+        console.log('before splice', tokenizer.vector)
         encoding['initializer'] = tokenizer.spliceTokenizerByType(VRML.SFNode);
         if (typeof FieldModel[word] !== 'undefined')
           encoding['value'] = word;
@@ -1179,6 +1179,7 @@ export function jsifyFromTokenizer(type, tokenizer) {
               encoding['value'] = item;
           }
         }
+        console.log('after splice', tokenizer.peekWord())
       }
       break;
     }

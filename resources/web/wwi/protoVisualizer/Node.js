@@ -47,7 +47,7 @@ export default class Node {
 
       console.log(this.name, 'creating parameters based on PROTO model', this.model)
       for (const [parameterName, parameterModel] of Object.entries(this.model['parameters'])) {
-        // console.log('parameter name:', parameterName, 'model:', parameterModel);
+        console.log('parameter name:', parameterName, 'model:', parameterModel);
         const parameterType = parameterModel['type'];
         const isTemplateRegenerator = parameterModel['isTemplateRegenerator'];
         const restrictions = parameterModel['restrictions'];
@@ -74,10 +74,11 @@ export default class Node {
         }
 
         const parameter = new Parameter(this, parameterName, parameterType, defaultValue, value, restrictions, isTemplateRegenerator);
-        // console.log(parameterName, parameter);
+        console.log('CREATED PARAM', parameterName, parameter);
         this.parameters.set(parameterName, parameter);
       }
 
+      console.log('asd', this.parameters)
       if (typeof parameterTokenizer !== 'undefined') {
         console.log(this.name, ': configuring parameters of node', this.name, 'from provided parameter tokenizer')
         this.configureParametersFromTokenizer(parameterTokenizer);
@@ -217,7 +218,6 @@ export default class Node {
 
     while (tokenizer.peekWord() !== '}') {
       const field = tokenizer.nextWord();
-      console.log('========', field)
       for (const [fieldName, fieldValue] of this.fields) {
         if (field === fieldName) {
           console.log(this.name, ':', 'configuring ' + fieldName + ' of ' + this.name);
@@ -461,6 +461,7 @@ export default class Node {
         //const defaultValue = vrmlFactory(parameterType, tokenizer);
         //console.log('found ', parameterName, parameterType)
         const encoding = jsifyFromTokenizer(parameterType, tokenizer);
+        console.log('asd', tokenizer.peekWord())
         console.log('MODEL FIELD ENCODING:', encoding['value'], encoding['initializer'])
         const parameter = {}
         parameter['type'] = parameterType;

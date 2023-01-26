@@ -30,7 +30,7 @@ export default class Tokenizer {
   }
 
   configureFromOther(tokenizer, start, end) {
-    this.vector = tokenizer.vector.splice(start, end - start);
+    this.vector = tokenizer.vector.filter((_, i) => { return i >= start && i < end;});
     this.rewind();
     this.#atEndPos = false;
     // TODO: define other variables
