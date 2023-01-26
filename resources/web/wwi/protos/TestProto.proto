@@ -5,12 +5,14 @@ EXTERNPROTO "CustomBox.proto"
 PROTO TestProto [
 ]
 {
-  Shape {
-    appearance PBRAppearance {
-      baseColor 1 0 0
-    }
-    geometry       CustomBox{
-        customSize 0.1 0.1 0.3
+  Transform {
+    children [
+      DEF BOARD TexturedBoxShape {
+        size 0.001 0.024 0.024
+        textureUrl [
+          "textures/raspberry_pi_camera.jpg"
+        ]
       }
+    ]
   }
 }

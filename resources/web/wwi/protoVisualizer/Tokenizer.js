@@ -231,7 +231,7 @@ export default class Tokenizer {
   }
 
   spliceTokenizerByType(type) {
-    console.log('spliceTokenizerByType')
+    // console.log('spliceTokenizerByType')
     const start = this.#index;
     this.consumeTokensByType(type);
     const end = this.#index;
@@ -264,8 +264,13 @@ export default class Tokenizer {
       case VRML.MFString:
       case VRML.MFVec2f:
       case VRML.MFVec3f: {
+        if (this.peekWord() !== '[') {
+          this.consumeTokensByType(type + 1); // the MF* only has one item
+          break;
+        } else
+          this.skipToken('[');
+
         let ctr = 1; // because the first '[' is preemptively skipped
-        this.skipToken('['); // skip first token, must be always present for an MF field
         while (ctr > 0) {
           ctr = this.peekWord() === '[' ? ++ctr : ctr;
           ctr = this.peekWord() === ']' ? --ctr : ctr;

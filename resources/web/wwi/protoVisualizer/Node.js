@@ -379,10 +379,7 @@ export default class Node {
         }
       }
 
-      Promise.all(promises).then(async() => {
-        await this.generateProtoModel(protoUrl, text, externProto);
-      });
-
+      Promise.all(promises).then(async() => await this.generateProtoModel(protoUrl, text, externProto));
     });
   }
 
@@ -458,7 +455,8 @@ export default class Node {
         //console.log('found ', parameterName, parameterType)
         //const defaultValue = jsifyFromTokenizer(parameterType, tokenizer);
         const defaultValue = tokenizer.spliceTokenizerByType(parameterType);
-        console.log('MODEL FIELD ENCODING:', defaultValue)
+        console.log('PARAMETER', parameterName, 'ENCONDED IN THE MODEL AS')
+        defaultValue.printTokens();
         const parameter = {}
         parameter['type'] = parameterType;
         parameter['defaultValue'] = defaultValue;
