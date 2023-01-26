@@ -46,6 +46,15 @@
 #include <cassert>
 #include <limits>
 
+// The maximum number of contact joints to create. Note that the time to compute a physics timestep with the ODE
+// physics engine scales with the cube of the number of joints.
+#define MAX_CONTACT_JOINTS 10
+
+// The maximum number of contact points to look for when colliding 2 geometries. A larger number decreases the
+// chances that contact points in important areas won't be considered. Of the (at most) MAX_CONTACTS points that
+// might be found, joints will only be created for the deepest MAX_CONTACT_JOINTS points.
+#define MAX_CONTACTS 100
+
 // "webots" where each character is replaced by its ascii hexadecimal number.
 const long long int WbSimulationCluster::WEBOTS_MAGIC_NUMBER = 0x7765626F7473LL;
 
