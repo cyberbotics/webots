@@ -83,7 +83,7 @@ private:
   double lastMoreContactPointsThanContactJointsWarnTime = -INFINITY;
   void warnMoreContactPointsThanContactJoints() {
     const double currentSimulationTime = WbSimulationState::instance()->time();
-    if (currentSimulationTime > lastMaxContactPointsFoundWarnTime + 1000.0) {
+    if (currentSimulationTime > lastMoreContactPointsThanContactJointsWarnTime + 1000.0) {
       WbLog::warning(QObject::tr("Contact joints will only be created for the deepest contact points."), false, WbLog::ODE);
       lastMoreContactPointsThanContactJointsWarnTime = currentSimulationTime;
     }
