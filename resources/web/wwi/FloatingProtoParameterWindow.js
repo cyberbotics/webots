@@ -187,9 +187,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       !isCreatingParameters)
       this.updateDevicesTabs();
 
-    if (parameter.isDefault())
+    if (parameter.isDefault() && parameter.type === VRML.SFBool)
       this.#disableResetButton(resetButton);
-    else
+    else if (!parameter.isDefault())
       this.#enableResetButton(resetButton);
 
     if (parameter.value instanceof SFNode) {
@@ -335,11 +335,23 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     resetButton.onclick = () => {
-      p.inputs[0].value = parameter.defaultValue.value.x;
-      p.inputs[1].value = parameter.defaultValue.value.y;
-      p.inputs[2].value = parameter.defaultValue.value.z;
-      this.#vector3OnChange(p);
+      if (typeof p.previous !== 'undefined') {
+        resetButton.style.backgroundImage = 'url(../images/icons/reload.svg)';
+        p.inputs[0].value = p.previous[0];
+        p.inputs[1].value = p.previous[1];
+        p.inputs[2].value = p.previous[2];
+        p.previous = undefined;
+      } else {
+        resetButton.style.backgroundImage = 'url(../images/icons/revert.svg)';
+        p.previous = [p.inputs[0].value, p.inputs[1].value, p.inputs[2].value];
+        p.inputs[0].value = parameter.defaultValue.value.x;
+        p.inputs[1].value = parameter.defaultValue.value.y;
+        p.inputs[2].value = parameter.defaultValue.value.z;
+      }
+
+      this.#vector3OnChange(p, true);
     };
+    p.resetButton = resetButton;
 
     parent.appendChild(p);
     parent.appendChild(values);
@@ -355,30 +367,43 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     resetButton.onclick = () => {
-      const defaultValue = parameter.defaultValue.value;
-      input.value = this.rgbToHex(parseInt(defaultValue.r * 255), parseInt(initialValue.g * 255),
-        parseInt(initialValue.b * 255));
-      this.#colorOnChange(parameter, input.value);
+      if (typeof p.previous !== 'undefined') {
+        resetButton.style.backgroundImage = 'url(../images/icons/reload.svg)';
+        input.value = p.previous;
+        p.previous = undefined;
+      } else {
+        resetButton.style.backgroundImage = 'url(../images/icons/revert.svg)';
+        p.previous = input.value;
+
+        const defaultValue = parameter.defaultValue.value;
+        input.value = this.rgbToHex(parseInt(defaultValue.r * 255), parseInt(initialValue.g * 255),
+          parseInt(initialValue.b * 255));
+      }
+
+      this.#colorOnChange(parameter, input.value, p, true);
     };
+    p.resetButton = resetButton;
 
     const input = document.createElement('input');
     input.type = 'color';
     const initialValue = parameter.value.value;
     input.value = this.rgbToHex(parseInt(initialValue.r * 255), parseInt(initialValue.g * 255), parseInt(initialValue.b * 255));
-    input.onchange = _ => this.#colorOnChange(parameter, _.target.value);
+    input.onchange = _ => this.#colorOnChange(parameter, _.target.value, p);
     values.appendChild(input);
 
     parent.appendChild(p);
     parent.appendChild(values);
   }
 
-  #colorOnChange(parameter, hexValue) {
+  #colorOnChange(parameter, hexValue, node, isReset) {
     const red = parseInt(hexValue.substring(1, 3), 16) / 255;
     const green = parseInt(hexValue.substring(3, 5), 16) / 255;
     const blue = parseInt(hexValue.substring(5, 7), 16) / 255;
     const newColor = {r: red, g: green, b: blue};
     parameter.setValueFromJavaScript(this.#view, newColor);
     this.#refreshParameterRow(parameter);
+
+    this.#resetReset(node, isReset);
   }
 
   #colorComponentToHex(c) {
@@ -401,19 +426,32 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     resetButton.onclick = () => {
-      p.inputs[0].value = parameter.defaultValue.value.x;
-      p.inputs[1].value = parameter.defaultValue.value.y;
-      this.#vector2OnChange(p);
+      if (typeof p.previous !== 'undefined') {
+        resetButton.style.backgroundImage = 'url(../images/icons/reload.svg)';
+        p.inputs[0].value = p.previous[0];
+        p.inputs[1].value = p.previous[1];
+        p.previous = undefined;
+      } else {
+        resetButton.style.backgroundImage = 'url(../images/icons/revert.svg)';
+        p.previous = [p.inputs[0].value, p.inputs[1].value];
+        p.inputs[0].value = parameter.defaultValue.value.x;
+        p.inputs[1].value = parameter.defaultValue.value.y;
+      }
+
+      this.#vector2OnChange(p, true);
     };
 
+    p.resetButton = resetButton;
     parent.appendChild(p);
     parent.appendChild(values);
   }
 
-  #vector2OnChange(node) {
+  #vector2OnChange(node, isReset) {
     const object = {'x': this.#sanitizeNumber(node.inputs[0].value), 'y': this.#sanitizeNumber(node.inputs[1].value)};
     node.parameter.setValueFromJavaScript(this.#view, object);
     this.#refreshParameterRow(node.parameter);
+
+    this.#resetReset(node, isReset);
   }
 
   #createMFField(key, parent) {
@@ -426,6 +464,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const hideShowButton = this.#createHideShowButtom(currentMfId, addButton);
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
+    console.log(p)
     resetButton.onclick = () => {
       const nodesToRemove = document.getElementsByClassName('mf-id-' + currentMfId);
       let maxRowNumber = 0;
@@ -435,8 +474,16 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           maxRowNumber = rowNumber;
         nodesToRemove[i].parentNode.removeChild(nodesToRemove[i]);
       }
+      if (typeof p.previous !== 'undefined') {
+        resetButton.style.backgroundImage = 'url(../images/icons/reload.svg)';
+        parameter.value = p.previous;
+        p.previous = undefined;
+      } else {
+        resetButton.style.backgroundImage = 'url(../images/icons/revert.svg)';
+        p.previous = parameter.value;
+        parameter.value = parameter.defaultValue.clone();
+      }
 
-      parameter.value = parameter.defaultValue.clone();
       const resetButtonRow = this.#getRow(resetButton);
       // two times because of the `add` button and plus one for the first `add` button.
       const maxRowNumberNeeded = parameter.value.value.length * 2 + 1 + resetButtonRow;
@@ -449,8 +496,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
       this.#populateMFField(resetButton, parent, parameter, resetButtonRow, currentMfId, !hideShowButton.isHidden);
 
-      this.#MFOnChange('value-parameter mf-parameter mf-id-' + currentMfId, parameter);
+      this.#MFOnChange('value-parameter mf-parameter mf-id-' + currentMfId, parameter, p, true);
     };
+
+    p.resetButton = resetButton;
 
     this.#rowNumber += this.#populateMFField(resetButton, parent, parameter, this.#rowNumber, currentMfId, false);
 
@@ -461,7 +510,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.#refreshParameterRow(parameter, currentMfId, true);
   }
 
-  #MFOnChange(className, parameter) {
+  #MFOnChange(className, parameter, isReset) {
     const elements = document.getElementsByClassName(className);
     let valuesMap = new Map();
     for (let i = 0; i < elements.length; i++) {
@@ -506,6 +555,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     parameter.setValueFromJavaScript(this.#view, array);
     this.#refreshParameterRow(parameter);
+
+    for (const p of document.getElementsByClassName('key-parameter')) {
+      if (p.textContent === parameter.name + ': ') {
+        this.#resetReset(p, isReset);
+        break;
+      }
+    }
   }
 
   #populateMFField(resetButton, parent, parameter, firstRow, mfId, isVisible) {
@@ -953,12 +1009,25 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     resetButton.onclick = () => {
-      p.inputs[0].value = parameter.defaultValue.value.x;
-      p.inputs[1].value = parameter.defaultValue.value.y;
-      p.inputs[2].value = parameter.defaultValue.value.z;
-      p.inputs[3].value = parameter.defaultValue.value.a;
-      this.#rotationOnChange(p);
+      if (typeof p.previous !== 'undefined') {
+        resetButton.style.backgroundImage = 'url(../images/icons/reload.svg)';
+        p.inputs[0].value = p.previous[0];
+        p.inputs[1].value = p.previous[1];
+        p.inputs[2].value = p.previous[2];
+        p.inputs[3].value = p.previous[3];
+        p.previous = undefined;
+      } else {
+        resetButton.style.backgroundImage = 'url(../images/icons/revert.svg)';
+        p.previous = [p.inputs[0].value, p.inputs[1].value, p.inputs[2].value, p.inputs[3].value];
+        p.inputs[0].value = parameter.defaultValue.value.x;
+        p.inputs[1].value = parameter.defaultValue.value.y;
+        p.inputs[2].value = parameter.defaultValue.value.z;
+        p.inputs[3].value = parameter.defaultValue.value.a;
+      }
+      this.#rotationOnChange(p, true);
     };
+    p.resetButton = resetButton;
+
     parent.appendChild(p);
     parent.appendChild(values);
 
@@ -982,7 +1051,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     return input;
   }
 
-  #rotationOnChange(node) {
+  #resetReset(node, isReset) {
+    if (!isReset) {
+      node.previous = undefined;
+      node.resetButton.style.backgroundImage = 'url(../images/icons/reload.svg)';
+    }
+  }
+
+  #rotationOnChange(node, isReset) {
     const object = {
       'x': this.#sanitizeNumber(node.inputs[0].value),
       'y': this.#sanitizeNumber(node.inputs[1].value),
@@ -991,9 +1067,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     };
     node.parameter.setValueFromJavaScript(this.#view, object);
     this.#refreshParameterRow(node.parameter);
+
+    this.#resetReset(node, isReset);
   }
 
-  #vector3OnChange(node) {
+  #vector3OnChange(node, isReset) {
     const object = {
       'x': this.#sanitizeNumber(node.inputs[0].value),
       'y': this.#sanitizeNumber(node.inputs[1].value),
@@ -1001,6 +1079,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     };
     node.parameter.setValueFromJavaScript(this.#view, object);
     this.#refreshParameterRow(node.parameter);
+
+    this.#resetReset(node, isReset);
   }
 
   #createRestrictedField(key, parent) {
@@ -1098,9 +1178,18 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     resetButton.onclick = () => {
-      input.value = this.#stringRemoveQuote(parameter.defaultValue.value);
-      this.#stringOnChange(p);
+      if (typeof p.previous !== 'undefined') {
+        resetButton.style.backgroundImage = 'url(../images/icons/reload.svg)';
+        p.input.value = p.previous;
+        p.previous = undefined;
+      } else {
+        resetButton.style.backgroundImage = 'url(../images/icons/revert.svg)';
+        p.previous = p.input.value;
+        input.value = this.#stringRemoveQuote(parameter.defaultValue.value);
+      }
+      this.#stringOnChange(p, true);
     };
+    p.resetButton = resetButton;
 
     input.onchange = () => this.#stringOnChange(p);
 
@@ -1112,9 +1201,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.#refreshParameterRow(parameter, undefined, true);
   }
 
-  #stringOnChange(node) {
+  #stringOnChange(node, isReset) {
     node.parameter.setValueFromJavaScript(this.#view, node.input.value);
     this.#refreshParameterRow(node.parameter);
+
+    this.#resetReset(node, isReset);
   }
 
   #stringRemoveQuote(string) {
@@ -1146,9 +1237,19 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     resetButton.onclick = () => {
-      input.value = parameter.defaultValue.value;
-      this.#floatOnChange(p);
+      if (typeof p.previous !== 'undefined') {
+        resetButton.style.backgroundImage = 'url(../images/icons/reload.svg)';
+        p.input.value = p.previous;
+        p.previous = undefined;
+      } else {
+        resetButton.style.backgroundImage = 'url(../images/icons/revert.svg)';
+        p.previous = p.input.value;
+        input.value = parameter.defaultValue.value;
+      }
+      this.#floatOnChange(p, true);
     };
+    p.resetButton = resetButton;
+
     parent.appendChild(p);
     parent.appendChild(value);
 
@@ -1230,9 +1331,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     }
   }
 
-  #floatOnChange(node) {
+  #floatOnChange(node, isReset) {
     node.parameter.setValueFromJavaScript(this.#view, this.#sanitizeNumber(node.input.value));
     this.#refreshParameterRow(node.parameter);
+
+    this.#resetReset(node, isReset);
   }
 
   #createSFInt32Field(key, parent) {
@@ -1255,9 +1358,18 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     resetButton.onclick = () => {
-      input.value = parameter.defaultValue.value;
-      this.#floatOnChange(p);
+      if (typeof p.previous !== 'undefined') {
+        resetButton.style.backgroundImage = 'url(../images/icons/reload.svg)';
+        p.input.value = p.previous;
+        p.previous = undefined;
+      } else {
+        resetButton.style.backgroundImage = 'url(../images/icons/revert.svg)';
+        p.previous = p.input.value;
+        input.value = parameter.defaultValue.value;
+      }
+      this.#floatOnChange(p, true);
     };
+    p.resetButton = resetButton;
     parent.appendChild(p);
     parent.appendChild(value);
 
