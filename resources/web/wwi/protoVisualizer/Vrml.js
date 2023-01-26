@@ -430,7 +430,7 @@ export class SFNode extends SingleValue {
       url = tokenizer.nextWord();
 
     console.log('create node in sfnode parameter:', url);
-    this.value = new Node(url, tokenizer);
+    this.value = new Node(url);
     if (this.value.isProto) {
       //throw new Error('REACHED, NEED TO DO SOMETHING?')
       this.value.configureParametersFromTokenizer(tokenizer);

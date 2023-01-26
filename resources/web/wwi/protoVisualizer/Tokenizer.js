@@ -32,9 +32,6 @@ export default class Tokenizer {
 
   configureFromOther(tokenizer, start, end) {
     this.vector = tokenizer.vector.filter((_, i) => { return i >= start && i < end; });
-    // add EOF token
-    this.vector.push(new Token('end of file', this.#tokenLine, this.#tokenColumn));
-
     this.rewind();
     this.#atEndPos = false;
 

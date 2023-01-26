@@ -33,7 +33,7 @@ import WbTouchSensor from './nodes/WbTouchSensor.js';
 import WbBrake from './nodes/WbBrake.js';
 import WbPositionSensor from './nodes/WbPositionSensor.js';
 import NodeSelectorWindow from './NodeSelectorWindow.js';
-import {SFNode, MFNode} from './protoVisualizer/Vrml.js';
+import {SFNode, MFNode, vrmlFactory} from './protoVisualizer/Vrml.js';
 import Node from './protoVisualizer/Node.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
@@ -1188,8 +1188,18 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       if (parameter.defaultValue.value === null)
         parameter.setValueFromJavaScript(this.#view, null);
       else {
-        const node = new Node(parameter.defaultValue.value.url); // TODO: need to configure this node or raw model suffices?
-        parameter.setValueFromJavaScript(this.#view, node);
+        // note: in order to have a node instance for "value" that is independent from that of "defaultValue",
+        // a new node needs to be created. However, it cannot be created from the model of the node itself
+        // (in cProtoModels), as the PROTO that references this node might be setting extra parameters, like:
+        // -- field SFNode appearance Leather { textureTransform TextureTransform { scale 10 10 } }
+        // this information is however only available on the parent PROTO side, hence why the parameter
+        // model needs to be retrieved and used as initialization when creating the node instance (i.e. before
+        // the internal body is created as these extra parameters might yield different results)
+        const protoModel = parameter.node.model;
+        const parameterModel = protoModel['parameters'][parameter.name]['defaultValue'];
+        parameterModel.rewind();
+        const sfnode = vrmlFactory(VRML.SFNode, parameterModel);
+        parameter.setValueFromJavaScript(this.#view, sfnode.value);
       }
       this.#refreshParameterRow(parameter);
     };

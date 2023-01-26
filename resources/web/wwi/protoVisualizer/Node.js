@@ -3,7 +3,7 @@
 import {getAnId} from '../nodes/utils/id_provider.js';
 import TemplateEngine from './TemplateEngine.js';
 import Tokenizer from './Tokenizer.js';
-import {vrmlFactory, jsifyFromTokenizer, SFNode} from './Vrml.js';
+import {vrmlFactory, jsifyFromTokenizer} from './Vrml.js';
 import {FieldModel} from './FieldModel.js';
 import {Parameter} from './Parameter.js';
 import Field from './Field.js';
@@ -12,7 +12,7 @@ import { VRML } from './vrml_type.js';
 export default class Node {
   static cProtoModels = new Map();
 
-  constructor(url, parameterTokenizer, isRoot = false) {
+  constructor(url, isRoot = false) {
     this.url = url;
     this.isProto = this.url.toLowerCase().endsWith('.proto');
     this.isDerived = false; // updated when the model is determined
@@ -146,7 +146,7 @@ export default class Node {
 
       console.assert(this.externProto.has(this.model['baseType']));
       const baseTypeUrl = this.externProto.get(this.model['baseType']);
-      this.baseType = new Node(baseTypeUrl, tokenizer)
+      this.baseType = new Node(baseTypeUrl);
       //this.baseType.configureParametersFromTokenizer(tokenizer);
     } else {
       console.log(this.name, ': is derives from base-node', this.model['baseType'], 'generating it from model')
