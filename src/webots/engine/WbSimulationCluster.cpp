@@ -666,6 +666,7 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
                      WbLog::ODE);
       break;      
   }
+  }
 
   if (n == 0)
     return;
