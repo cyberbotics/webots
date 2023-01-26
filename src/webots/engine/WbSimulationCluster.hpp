@@ -23,6 +23,9 @@
 #include <ode/ode.h>
 #include <QtCore/QList>
 
+#include "WbLog.hpp"
+#include "WbSimulationState.hpp"
+
 class WbContactProperties;
 class WbImmersionProperties;
 class WbOdeContext;
@@ -68,6 +71,23 @@ private:
   static void odeSensorRaysUpdate(int threadID);
   static const long long int WEBOTS_MAGIC_NUMBER;
   bool mSwapJointContactBuffer;
+
+  double lastMaxContactPointsFoundWarnTime = -INFINITY;
+  void warnMaxContactPointsFound() {
+    const double currentSimulationTime = WbSimulationState::instance()->time();
+    if (currentSimulationTime > lastMaxContactPointsFoundWarnTime + 1000.0) {
+      WbLog::warning(QObject::tr("Maximum number of contact points found so others might be ignored."), false, WbLog::ODE);
+      lastMaxContactPointsFoundWarnTime = currentSimulationTime;
+    }
+  }
+  double lastMoreContactPointsThanContactJointsWarnTime = -INFINITY;
+  void warnMoreContactPointsThanContactJoints() {
+    const double currentSimulationTime = WbSimulationState::instance()->time();
+    if (currentSimulationTime > lastMaxContactPointsFoundWarnTime + 1000.0) {
+      WbLog::warning(QObject::tr("Contact joints will only be created for the deepest contact points."), false, WbLog::ODE);
+      lastMoreContactPointsThanContactJointsWarnTime = currentSimulationTime;
+    }
+  }
 };
 
 #endif
