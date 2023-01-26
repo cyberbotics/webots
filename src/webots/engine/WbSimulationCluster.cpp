@@ -661,9 +661,10 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
       break;
     else if (findAllContactPoints)
       maxContactPoints *= 10;
-    else
+    else {
       WbLog::warning(QObject::tr("%1 contact points found so others might be ignored.").arg(maxContactPoints), false,
                      WbLog::ODE);
+      break;      
   }
 
   if (n == 0)
