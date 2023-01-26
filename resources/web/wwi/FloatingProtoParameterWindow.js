@@ -187,7 +187,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       !isCreatingParameters)
       this.updateDevicesTabs();
 
-    if (parameter.isDefault() && parameter.type === VRML.SFBool)
+    if (parameter.isDefault() && (parameter.type === VRML.SFBool || parameter.type === VRML.SFNode ||
+        parameter.type === VRML.MFNode))
       this.#disableResetButton(resetButton);
     else if (!parameter.isDefault())
       this.#enableResetButton(resetButton);
