@@ -46,11 +46,11 @@ export default class Node {
         const isTemplateRegenerator = parameterModel['isTemplateRegenerator'];
         const restrictions = parameterModel['restrictions'];
         const initializer = parameterModel['defaultValue'];
-        if (parameterType === VRML.SFNode) // TODO: should all be like this?
-          initializer.rewind();
+        //if (parameterType === VRML.SFNode) // TODO: should all be like this?
+        initializer.rewind(); // TODO: move to vrmlfactory
         const defaultValue = vrmlFactory(parameterType, initializer);
-        if (parameterType === VRML.SFNode)
-          initializer.rewind();
+        //if (parameterType === VRML.SFNode)
+        initializer.rewind();
         const value = vrmlFactory(parameterType, initializer);
 
         //const defaultInitializer = parameterModel['parameterInitializer'];
@@ -455,15 +455,13 @@ export default class Node {
         tokenizer.nextToken(); // consume the token containing the parameter name
         //const defaultValue = vrmlFactory(parameterType, tokenizer);
         //console.log('found ', parameterName, parameterType)
-        const encoding = jsifyFromTokenizer(parameterType, tokenizer);
-        console.log('MODEL FIELD ENCODING:', encoding['value'], encoding['initializer'])
-        if (parameterType === VRML.SFNode) {
-          encoding['value'].printTokens();
-        }
+        //const defaultValue = jsifyFromTokenizer(parameterType, tokenizer);
+        const defaultValue = tokenizer.spliceTokenizerByType(parameterType);
+        console.log('MODEL FIELD ENCODING:', defaultValue)
         const parameter = {}
         parameter['type'] = parameterType;
-        parameter['defaultValue'] = encoding['value'];
-        parameter['parameterInitializer'] = encoding['initializer'];
+        parameter['defaultValue'] = defaultValue;
+        //parameter['parameterInitializer'] = encoding['initializer'];
         parameter['isTemplateRegenerator'] = isRegenerator;
         parameter['restrictions'] = restrictions;
         model['parameters'][parameterName] = parameter;

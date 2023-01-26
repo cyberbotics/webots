@@ -1107,88 +1107,30 @@ export function stringifyType(type) {
 }
 
 export function jsifyFromTokenizer(type, tokenizer) {
-  const encoding = {}
+
   switch (type) {
     case VRML.SFBool:
-      encoding['value'] = tokenizer.nextToken().toBool();
-      break;
+      return tokenizer.nextToken().toBool();
     case VRML.SFInt32:
-      encoding['value'] = tokenizer.nextToken().toInt();
-      break;
+      return tokenizer.nextToken().toInt();
     case VRML.SFFloat:
-      encoding['value'] = tokenizer.nextToken().toFloat()
-      break;
+      return tokenizer.nextToken().toFloat();
     case VRML.SFString: {
       const value = tokenizer.nextWord();
       if (!value.startsWith('"') && !value.endsWith('"'))
-        encoding['value'] =  '"' + value + '"';
-      else
-        encoding['value'] = value;
-      break;
+        return '"' + value + '"';
+      return value;
     }
     case VRML.SFVec2f:
-      encoding['value'] = {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat()};
-      break;
+      return {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat()};
     case VRML.SFVec3f:
-      encoding['value'] = {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), z: tokenizer.nextToken().toFloat()};
-      break;
+      return {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), z: tokenizer.nextToken().toFloat()};
     case VRML.SFColor:
-      encoding['value'] = {r: tokenizer.nextToken().toFloat(), g: tokenizer.nextToken().toFloat(), b: tokenizer.nextToken().toFloat()};
-      break;
+      return {r: tokenizer.nextToken().toFloat(), g: tokenizer.nextToken().toFloat(), b: tokenizer.nextToken().toFloat()};
     case VRML.SFRotation:
-      encoding['value'] = {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), z: tokenizer.nextToken().toFloat(), a: tokenizer.nextToken().toFloat()};
-      break;
-    case VRML.SFNode: {
-      //const word = tokenizer.nextWord();
-      //if (word === 'NULL')
-      //  encoding['value'] = null;
-      //else {
-
-
-
-        /*
-        let subModel, url;
-        if (typeof FieldModel[word] !== 'undefined') {
-          subModel = FieldModel[word];
-          url = word;
-        } else {
-          // determine url of the node from the externProto list
-          for (const item of tokenizer.externProto) {
-            if (item.endsWith(word + '.proto')) {
-              url = item;
-              subModel = Node.cProtoModels.get(item)['parameters'];
-            }
-          }
-        }
-
-        console.assert(typeof subModel !== 'undefined', 'Node ' + word + ' is neither a known PROTO nor a known BaseNode.')
-        console.log('word: ', word, 'model:', subModel);
-
-        // determine type from model
-        tokenizer.skipToken('{');
-        const fieldName = tokenizer.nextWord();
-        const type = Node.cProtoModels.has(word) ? subModel['parameters'][fieldName]['type'] : subModel[fieldName]['type'];
-        console.log('type of field: ', fieldName, 'is:', type);
-
-        const value = {}
-        value[url] = {}
-        value[url][fieldName] = jsifyFromTokenizer(type, tokenizer);
-        tokenizer.skipToken('}');
-        return value;
-        */
-
-        encoding['value'] = tokenizer.spliceTokenizerByType(VRML.SFNode);
-        //if (typeof FieldModel[word] !== 'undefined')
-        //  encoding['value'] = word;
-        //else {
-        //  for (const item of tokenizer.externProto) {
-        //    if (item.endsWith(word + '.proto'))
-        //      encoding['value'] = item;
-        //  }
-        //}
-      //}
-      break;
-    }
+      return {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), z: tokenizer.nextToken().toFloat(), a: tokenizer.nextToken().toFloat()};
+    case VRML.SFNode:
+      return tokenizer.spliceTokenizerByType(VRML.SFNode);
     case VRML.MFBool:
     case VRML.MFInt32:
     case VRML.MFFloat:
@@ -1209,12 +1151,9 @@ export function jsifyFromTokenizer(type, tokenizer) {
       } else
         value.push(jsifyFromTokenizer(type + 1, tokenizer));
 
-      encoding['value'] = value;
-      break;
+      return value;
     }
     default:
       throw new Error('Unknown VRML type: ', type);
   }
-
-  return encoding;
 }

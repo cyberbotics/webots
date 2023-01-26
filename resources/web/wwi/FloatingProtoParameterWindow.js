@@ -641,9 +641,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       for (let i = parameter.value.value.length - 1; i >= 0; --i)
         parameter.removeNode(this.#view, i);
 
-      const newValue = [];
-      for (const node of parameter.defaultValue.value)
-        newValue.push(node.value.clone(true));
+      throw new Error('TO DO');
 
       parameter.setValueFromJavaScript(this.#view, newValue);
 
