@@ -5,7 +5,16 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projec
 PROTO TestProto [
 ]
 {
-  SolidPipe {
-
+  Group {
+    children [
+      SolidPipe {
+          translation 0 0 0.0393
+          height 0.007
+          radius 0.2
+          thickness 0.004
+          subdivision 64
+      }
+    ]
   }
+
 }
