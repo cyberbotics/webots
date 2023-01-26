@@ -1,20 +1,16 @@
 #VRML_SIM R2023b utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/objects/solids/protos/SolidPipe.proto"
+EXTERNPROTO "CustomBox.proto"
 
 PROTO TestProto [
 ]
 {
-  Group {
-    children [
-      SolidPipe {
-          translation 0 0 0.0393
-          height 0.007
-          radius 0.2
-          thickness 0.004
-          subdivision 64
+  Shape {
+    appearance PBRAppearance {
+      baseColor 1 0 0
+    }
+    geometry       CustomBox{
+        customSize 0.1 0.1 0.3
       }
-    ]
   }
-
 }
