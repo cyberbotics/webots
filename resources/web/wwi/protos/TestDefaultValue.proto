@@ -1,14 +1,14 @@
 #VRML_SIM R2023b utf8
 
 EXTERNPROTO "CustomBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/Leather.proto"
 
 PROTO TestDefaultValue [
-  field SFNode app PBRAppearance{ baseColor 1 0 0 }
-  field SFNode geo CustomBox { customSize 0.1 0.1 0.3}
+  field SFNode geo Leather { textureTransform TextureTransform { scale 10 10 } }
 ]
 {
   Shape {
-    appearance IS app
+    appearance IS PBRAppearance{ baseColor 1 0 0 }
     geometry IS geo
   }
 }

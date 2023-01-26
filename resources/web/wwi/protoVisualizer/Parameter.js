@@ -69,7 +69,6 @@ export default class Parameter extends Field {
   }
 
   insertNode(view, v, index) {
-    console.log('------------------------------')
     if (this.type !== VRML.MFNode)
       throw new Error('Item insertion is possible only for MFNodes.')
 

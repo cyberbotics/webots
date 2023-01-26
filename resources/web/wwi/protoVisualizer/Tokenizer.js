@@ -33,6 +33,8 @@ export default class Tokenizer {
     this.vector = tokenizer.vector.filter((_, i) => { return i >= start && i < end;});
     this.rewind();
     this.#atEndPos = false;
+    this.#proto = tokenizer.proto;
+    this.externProto = tokenizer.externProto;
     // TODO: define other variables
   }
 
@@ -267,6 +269,7 @@ export default class Tokenizer {
         break;
       }
       case VRML.SFNode: {
+        this.nextToken(); // consume node name
         if (this.peekWord() !== '{')
           this.nextWord(); // skip node name
         let ctr = 1; // because the first '{' is preemptively skipped
@@ -386,6 +389,14 @@ export default class Tokenizer {
       this.#index = startPos;
     }
   };
+
+  printTokens() {
+    let string = '';
+    for (const item of this.vector)
+      string += item.word() + ' > ';
+
+    console.log(string.slice(0, -3));
+  }
 
   #markTokenStart() {
     this.#tokenLine = this.#line;

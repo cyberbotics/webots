@@ -400,7 +400,7 @@ export class SFRotation extends SingleValue {
 }
 
 export class SFNode extends SingleValue {
-  setValueFromTokenizer(tokenizer) {
+  setValueFromTokenizer(tokenizer, externProto) {
     if (tokenizer.peekWord() === 'USE') {
       this.isUse = true;
       tokenizer.skipToken('USE');
@@ -419,8 +419,8 @@ export class SFNode extends SingleValue {
     }
 
     let url;
-    if (tokenizer.proto.externProto.has(tokenizer.peekWord()))
-      url = tokenizer.proto.externProto.get(tokenizer.nextWord())
+    if (tokenizer.externProto.has(tokenizer.peekWord()))
+      url = tokenizer.externProto.get(tokenizer.nextWord())
     else
       url = tokenizer.nextWord();
 
@@ -428,7 +428,7 @@ export class SFNode extends SingleValue {
     this.value = new Node(url, tokenizer);
     if (this.value.isProto) {
       //throw new Error('REACHED, NEED TO DO SOMETHING?')
-      // this.value.configureParametersFromTokenizer(tokenizer);
+      this.value.configureParametersFromTokenizer(tokenizer);
     } else {
       this.value.configureFieldsFromTokenizer(tokenizer);
     }
@@ -1134,10 +1134,13 @@ export function jsifyFromTokenizer(type, tokenizer) {
       encoding['value'] = {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), z: tokenizer.nextToken().toFloat(), a: tokenizer.nextToken().toFloat()};
       break;
     case VRML.SFNode: {
-      const word = tokenizer.nextWord();
-      if (word === 'NULL')
-        encoding['value'] = null;
-      else {
+      //const word = tokenizer.nextWord();
+      //if (word === 'NULL')
+      //  encoding['value'] = null;
+      //else {
+
+
+
         /*
         let subModel, url;
         if (typeof FieldModel[word] !== 'undefined') {
@@ -1169,18 +1172,16 @@ export function jsifyFromTokenizer(type, tokenizer) {
         return value;
         */
 
-        console.log('before splice', tokenizer.vector)
-        encoding['initializer'] = tokenizer.spliceTokenizerByType(VRML.SFNode);
-        if (typeof FieldModel[word] !== 'undefined')
-          encoding['value'] = word;
-        else {
-          for (const item of tokenizer.externProto) {
-            if (item.endsWith(word + '.proto'))
-              encoding['value'] = item;
-          }
-        }
-        console.log('after splice', tokenizer.peekWord())
-      }
+        encoding['value'] = tokenizer.spliceTokenizerByType(VRML.SFNode);
+        //if (typeof FieldModel[word] !== 'undefined')
+        //  encoding['value'] = word;
+        //else {
+        //  for (const item of tokenizer.externProto) {
+        //    if (item.endsWith(word + '.proto'))
+        //      encoding['value'] = item;
+        //  }
+        //}
+      //}
       break;
     }
     case VRML.MFBool:

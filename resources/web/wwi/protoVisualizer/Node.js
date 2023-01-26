@@ -36,13 +36,7 @@ export default class Node {
       this.model = Node.cProtoModels.get(this.url);
       this.isDerived = typeof FieldModel[this.model['baseType']] === 'undefined';
 
-      // compile externproto list
-      this.externProto = new Map();
-      for (const item of this.model['externProto']) {
-        const protoName = item.split('/').pop().replace('.proto', '');
-        this.externProto.set(protoName, item);
-      }
-
+      this.externProto = this.model['externProto'];
       this.isTemplate = this.model['isTemplate'];
 
       console.log(this.name, 'creating parameters based on PROTO model', this.model)
@@ -51,34 +45,37 @@ export default class Node {
         const parameterType = parameterModel['type'];
         const isTemplateRegenerator = parameterModel['isTemplateRegenerator'];
         const restrictions = parameterModel['restrictions'];
-        const defaultValue = vrmlFactory(parameterType, parameterModel['defaultValue']);
-        const value = vrmlFactory(parameterType, parameterModel['defaultValue']);
+        const initializer = parameterModel['defaultValue'];
+        if (parameterType === VRML.SFNode) // TODO: should all be like this?
+          initializer.rewind();
+        const defaultValue = vrmlFactory(parameterType, initializer);
+        if (parameterType === VRML.SFNode)
+          initializer.rewind();
+        const value = vrmlFactory(parameterType, initializer);
 
-        const defaultInitializer = parameterModel['parameterInitializer'];
-        if (parameterType === VRML.SFNode && typeof defaultInitializer !== 'undefined') {
-          // TODO: cleanup...
-          if (defaultValue.value.isProto) {
-            console.log('CONFIG PARAM FROM INIT (PROTO)', defaultValue)
-            defaultInitializer.rewind();
-            defaultValue.value.configureParametersFromTokenizer(defaultInitializer);
-            console.log('DONE', defaultValue)
-            defaultInitializer.rewind();
-            value.value.configureParametersFromTokenizer(defaultInitializer);
-          } else {
-            console.log('CONFIG FIELD FROM INIT (BASENODE)', defaultValue)
-            defaultInitializer.rewind();
-            defaultValue.value.configureFieldsFromTokenizer(defaultInitializer);
-            defaultInitializer.rewind();
-            value.value.configureFieldsFromTokenizer(defaultInitializer);
-          }
-        }
+        //const defaultInitializer = parameterModel['parameterInitializer'];
+        //if (parameterType === VRML.SFNode && typeof defaultInitializer !== 'undefined') {
+        //  // TODO: cleanup...
+        //  if (defaultValue.value.isProto) {
+        //    console.log('CONFIG PARAM FROM INIT (PROTO)', defaultValue)
+        //    defaultInitializer.rewind();
+        //    defaultValue.value.configureParametersFromTokenizer(defaultInitializer);
+        //    console.log('DONE', defaultValue)
+        //    defaultInitializer.rewind();
+        //    value.value.configureParametersFromTokenizer(defaultInitializer);
+        //  } else {
+        //    console.log('CONFIG FIELD FROM INIT (BASENODE)', defaultValue)
+        //    defaultInitializer.rewind();
+        //    defaultValue.value.configureFieldsFromTokenizer(defaultInitializer);
+        //    defaultInitializer.rewind();
+        //    value.value.configureFieldsFromTokenizer(defaultInitializer);
+        //  }
+        //}
 
         const parameter = new Parameter(this, parameterName, parameterType, defaultValue, value, restrictions, isTemplateRegenerator);
-        console.log('CREATED PARAM', parameterName, parameter);
         this.parameters.set(parameterName, parameter);
       }
 
-      console.log('asd', this.parameters)
       if (typeof parameterTokenizer !== 'undefined') {
         console.log(this.name, ': configuring parameters of node', this.name, 'from provided parameter tokenizer')
         this.configureParametersFromTokenizer(parameterTokenizer);
@@ -365,7 +362,7 @@ export default class Node {
       const rawHeader = text.substring(0, indexBeginInterface);
 
       const promises = [];
-      const externProto = []
+      const externProto = new Map();
       const lines = rawHeader.split('\n');
       for (let i = 0; i < lines.length; i++) {
         let line = lines[i];
@@ -377,7 +374,8 @@ export default class Node {
           else
             address = combinePaths(address, protoUrl);
 
-          externProto.push(address);
+          const protoName = address.split('/').pop().replace('.proto', '');
+          externProto.set(protoName, address);
           promises.push(await Node.prepareProtoDependencies(address));
         }
       }
@@ -428,7 +426,7 @@ export default class Node {
     const model = {};
     model['rawBody'] = rawBody;
     model['isTemplate'] = protoText.substring(0, indexBeginInterface).search('template language: javascript') !== -1;
-    model['externProto'] = externProto;
+    model['externProto'] = externProto; // TODO: needed? or sufficient in tokenizer?
     model['baseType'] = baseType;
     model['parameters'] = {}
     while (!tokenizer.peekToken().isEof()) {
@@ -461,8 +459,10 @@ export default class Node {
         //const defaultValue = vrmlFactory(parameterType, tokenizer);
         //console.log('found ', parameterName, parameterType)
         const encoding = jsifyFromTokenizer(parameterType, tokenizer);
-        console.log('asd', tokenizer.peekWord())
         console.log('MODEL FIELD ENCODING:', encoding['value'], encoding['initializer'])
+        if (parameterType === VRML.SFNode) {
+          encoding['value'].printTokens();
+        }
         const parameter = {}
         parameter['type'] = parameterType;
         parameter['defaultValue'] = encoding['value'];
