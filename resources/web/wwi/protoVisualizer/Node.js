@@ -76,11 +76,11 @@ export default class Node {
         this.parameters.set(parameterName, parameter);
       }
 
-      if (typeof parameterTokenizer !== 'undefined') {
-        console.log(this.name, ': configuring parameters of node', this.name, 'from provided parameter tokenizer')
-        this.configureParametersFromTokenizer(parameterTokenizer);
-      }
-      console.log(this.name, ': finished creating parameters of ', this.name);
+      //if (typeof parameterTokenizer !== 'undefined') {
+      //  console.log(this.name, ': configuring parameters of node', this.name, 'from provided parameter tokenizer')
+      //  this.configureParametersFromTokenizer(parameterTokenizer);
+      //}
+      //console.log(this.name, ': finished creating parameters of ', this.name);
     } else {
       this.model = FieldModel[this.name];
     }
@@ -138,7 +138,7 @@ export default class Node {
     // console.log(this.name, ':', 'Upper node after regen', protoBody);
 
     // configure non-default fields from tokenizer
-    const tokenizer = new Tokenizer(protoBody, this);
+    const tokenizer = new Tokenizer(protoBody, this, this.externProto);
     tokenizer.tokenize();
 
     if (this.isDerived) {
@@ -175,6 +175,7 @@ export default class Node {
 
   configureParametersFromTokenizer(tokenizer) {
     console.log(this.name, ':', 'configureParametersFromTokenizer', tokenizer);
+
     tokenizer.skipToken('{');
 
     while (tokenizer.peekWord() !== '}') {
@@ -193,10 +194,7 @@ export default class Node {
             console.log(this.name, ':', 'ALIAS:', alias, '<<<---->>>', parameterName)
             const p = tokenizer.proto.parameters.get(alias);
             parameterValue.value = p.value;
-            console.log('SETTING VAL TO', p.value)
             p.insertLink(parameterValue);
-            console.log('INSERTED2')
-
           } else {
             console.log(this.name, ':', 'setting value from tokenizer');
             parameterValue.value.setValueFromTokenizer(tokenizer, this);
@@ -415,8 +413,7 @@ export default class Node {
 
     const baseType = rawBody.match(/\{\s*(?:\%\<[\s\S]*?(?:\>\%\s*))?(?:DEF\s+[^\s]+)?\s+([a-zA-Z0-9\_\-\+]+)\s*\{/)[1];
 
-    const tokenizer = new Tokenizer(rawInterface, this); // TODO: remove this
-    tokenizer.externProto = externProto; // TODO: still needed?
+    const tokenizer = new Tokenizer(rawInterface, this, externProto);
     tokenizer.tokenize();
 
     // build parameter list
@@ -428,7 +425,7 @@ export default class Node {
     model['isTemplate'] = protoText.substring(0, indexBeginInterface).search('template language: javascript') !== -1;
     model['externProto'] = externProto; // TODO: needed? or sufficient in tokenizer?
     model['baseType'] = baseType;
-    model['parameters'] = {}
+    model['parameters'] = {};
     while (!tokenizer.peekToken().isEof()) {
       const token = tokenizer.nextToken();
       let nextToken = tokenizer.peekToken();
@@ -476,6 +473,7 @@ export default class Node {
     }
 
     Node.cProtoModels.set(protoUrl, model);
+    console.log('FINISHED GENERATING MODEL OF ', protoUrl)
   }
 };
 

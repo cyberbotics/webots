@@ -4,11 +4,11 @@ EXTERNPROTO "CustomBox.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/Leather.proto"
 
 PROTO TestDefaultValue [
-  field SFNode geo Leather { textureTransform TextureTransform { scale 10 10 } }
+  field SFNode app Leather { textureTransform TextureTransform { scale 10 10 } }
 ]
 {
   Shape {
-    appearance IS PBRAppearance{ baseColor 1 0 0 }
-    geometry IS geo
+    appearance IS app
+    geometry Box {}
   }
 }

@@ -12,7 +12,7 @@ class SingleValue {
   constructor(v) {
     if (typeof v !== 'undefined') {
       if (v instanceof Tokenizer)
-        this.setValueFromTokenizer(v)
+        this.setValueFromTokenizer(v);
       else
         this.setValueFromModel(v);
     }
@@ -400,7 +400,9 @@ export class SFRotation extends SingleValue {
 }
 
 export class SFNode extends SingleValue {
-  setValueFromTokenizer(tokenizer, externProto) {
+  setValueFromTokenizer(tokenizer) {
+    console.log('setValueFromTokenizer with tokens:');
+    tokenizer.printTokens();
     if (tokenizer.peekWord() === 'USE') {
       this.isUse = true;
       tokenizer.skipToken('USE');
@@ -416,15 +418,18 @@ export class SFNode extends SingleValue {
     if (tokenizer.peekWord() === 'DEF') {
       tokenizer.skipToken('DEF');
       defName = tokenizer.nextWord();
+    } else if (tokenizer.peekWord() === 'NULL') {
+      this.value = null;
+      return;
     }
 
     let url;
     if (tokenizer.externProto.has(tokenizer.peekWord()))
-      url = tokenizer.externProto.get(tokenizer.nextWord())
+      url = tokenizer.externProto.get(tokenizer.nextWord());
     else
       url = tokenizer.nextWord();
 
-    console.log('create node in sfnode parameter:', url)
+    console.log('create node in sfnode parameter:', url);
     this.value = new Node(url, tokenizer);
     if (this.value.isProto) {
       //throw new Error('REACHED, NEED TO DO SOMETHING?')

@@ -12,7 +12,8 @@ export default class Tokenizer {
   #tokenColumn;
   #tokenLine;
   #proto;
-  constructor(stream, proto) {
+  #externProto;
+  constructor(stream, proto, externProto) {
     this.#char = '';
     this.vector = [];
     this.#stream = stream;
@@ -25,21 +26,27 @@ export default class Tokenizer {
     if (typeof proto === 'undefined')
       throw new Error('When tokenizing a string, a PROTO reference is required');
     this.#proto = proto; // proto reference from which we are tokenizing
-    // control position in token vector
-    this.#index = 0;
+    this.#externProto = externProto;
+    this.#index = 0; // control position in token vector
   }
 
   configureFromOther(tokenizer, start, end) {
-    this.vector = tokenizer.vector.filter((_, i) => { return i >= start && i < end;});
+    this.vector = tokenizer.vector.filter((_, i) => { return i >= start && i < end; });
+    // add EOF token
+    this.vector.push(new Token('end of file', this.#tokenLine, this.#tokenColumn));
+
     this.rewind();
     this.#atEndPos = false;
-    this.#proto = tokenizer.proto;
-    this.externProto = tokenizer.externProto;
+
     // TODO: define other variables
   }
 
   get proto() {
     return this.#proto;
+  }
+
+  get externProto() {
+    return this.#externProto;
   }
 
   tokenize() {
@@ -227,11 +234,12 @@ export default class Tokenizer {
   }
 
   spliceTokenizerByType(type) {
+    console.log('spliceTokenizerByType')
     const start = this.#index;
-    this.consumeTokensByType(type)
+    this.consumeTokensByType(type);
     const end = this.#index;
 
-    const subTokenizer = new Tokenizer(this.#stream, this.#proto);
+    const subTokenizer = new Tokenizer(this.#stream, this.proto, this.externProto);
     subTokenizer.configureFromOther(this, start, end);
 
     return subTokenizer;
@@ -269,9 +277,12 @@ export default class Tokenizer {
         break;
       }
       case VRML.SFNode: {
-        this.nextToken(); // consume node name
-        if (this.peekWord() !== '{')
-          this.nextWord(); // skip node name
+        if (this.peekWord() === 'NULL') {
+          this.nextToken();
+          break;
+        } else if (this.peekWord() !== '{')
+          this.nextToken(); // skip node name
+
         let ctr = 1; // because the first '{' is preemptively skipped
         this.skipToken('{'); // skip first token, must be always present for an SFNode
         while (ctr > 0) {
