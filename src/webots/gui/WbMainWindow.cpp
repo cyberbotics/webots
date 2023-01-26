@@ -1208,8 +1208,8 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
       mRobotWindowClosed = false;
       foreach (WbRobot *robot, robots) {
         if (perspective->enabledRobotWindowNodeNames().contains(robot->computeUniqueName()))
+          // show robot window if it is in the perspective file
           showHtmlRobotWindow(robot, false);
-          // if firstLoad, send message to streaming client to open the robot window on startup?
       }
     }
     restoreState(perspective->mainWindowState());

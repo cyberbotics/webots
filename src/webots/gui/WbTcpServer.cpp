@@ -646,7 +646,7 @@ void WbTcpServer::sendRobotWindowInformation(QWebSocket *client, const WbRobot *
     QJsonObject windowObject;
     windowObject.insert("robot", robot->name());
     windowObject.insert("window", robot->window());
-    // insert if the robot window should be visible based on perspective->enabledRobotWindowNodeNames().contains(robot->computeUniqueName())
+    // if the robot window should be visible based on wbproj perspective file c.f. WbMainWindow::restorePerspective():
     if (WbWorld::instance()->perspective()->enabledRobotWindowNodeNames().contains(robot->computeUniqueName()))
       windowObject.insert("visible", true);
     if (remove)
