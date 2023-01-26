@@ -465,7 +465,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const hideShowButton = this.#createHideShowButtom(currentMfId, addButton);
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
-    console.log(p)
     resetButton.onclick = () => {
       const nodesToRemove = document.getElementsByClassName('mf-id-' + currentMfId);
       let maxRowNumber = 0;
