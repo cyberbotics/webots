@@ -337,13 +337,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     resetButton.onclick = () => {
       if (typeof p.previous !== 'undefined') {
-        resetButton.style.backgroundImage = 'url(../images/icons/reload.svg)';
+        resetButton.style.backgroundImage = 'url(https://cyberbotics.com/wwi/proto/images/icons/reload.svg/images/icons/reload.svg)';
         p.inputs[0].value = p.previous[0];
         p.inputs[1].value = p.previous[1];
         p.inputs[2].value = p.previous[2];
         p.previous = undefined;
       } else {
-        resetButton.style.backgroundImage = 'url(../images/icons/revert.svg)';
+        resetButton.style.backgroundImage = 'url(https://cyberbotics.com/wwi/proto/images/icons/reload.svg/images/icons/revert.svg)';
         p.previous = [p.inputs[0].value, p.inputs[1].value, p.inputs[2].value];
         p.inputs[0].value = parameter.defaultValue.value.x;
         p.inputs[1].value = parameter.defaultValue.value.y;
