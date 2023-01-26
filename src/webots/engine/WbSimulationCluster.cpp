@@ -638,13 +638,8 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     }
   }
 
-  const int maxContactPoints = MAX_CONTACTS;
+  int maxContactPoints = MAX_CONTACTS;
   const int maxContactJoints = MAX_CONTACT_JOINTS;
-
-  // Get a pointer to the first element of an dContacts array of length maxContactPoints such that the associated memory will be
-  // freed properly.
-  std::vector<dContact> contactVector(maxContactPoints);
-  dContact *contact = contactVector.data();
 
   const bool findAllContactPoints = maxContactPoints == -1;
   if (findAllContactPoints)
@@ -661,7 +656,7 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     else if (findAllContactPoints)
       maxContactPoints *= 10;
     else {
-      
+      cl->warnMaxContactPointsFound();
       break;
     }
   }
@@ -669,12 +664,10 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   if (n == 0)
     return;
 
-  if (n == maxContactPoints)
-    cl->warnMaxContactPointsFound();
-
   if (n > maxContactJoints) {
     cl->warnMoreContactPointsThanContactJoints();
-    std::nth_element(contact, contact + maxContactJoints, contact + n, [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
+    std::nth_element(contact, contact + maxContactJoints, contact + n,
+                     [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
     n = maxContactJoints;
   }
 
