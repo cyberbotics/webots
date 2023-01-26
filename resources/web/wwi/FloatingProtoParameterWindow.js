@@ -337,13 +337,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     resetButton.onclick = () => {
       if (typeof p.previous !== 'undefined') {
-        resetButton.style.backgroundImage = 'url(https://cyberbotics.com/wwi/proto/images/icons/reload.svg/images/icons/reload.svg)';
+        resetButton.style.backgroundImage = 'url(https://cyberbotics.com/wwi/proto/images/icons/reload.svg)';
         p.inputs[0].value = p.previous[0];
         p.inputs[1].value = p.previous[1];
         p.inputs[2].value = p.previous[2];
         p.previous = undefined;
       } else {
-        resetButton.style.backgroundImage = 'url(https://cyberbotics.com/wwi/proto/images/icons/reload.svg/images/icons/revert.svg)';
+        resetButton.style.backgroundImage = 'url(https://cyberbotics.com/wwi/proto/images/icons/revert.svg)';
         p.previous = [p.inputs[0].value, p.inputs[1].value, p.inputs[2].value];
         p.inputs[0].value = parameter.defaultValue.value.x;
         p.inputs[1].value = parameter.defaultValue.value.y;
@@ -369,11 +369,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     resetButton.onclick = () => {
       if (typeof p.previous !== 'undefined') {
-        resetButton.style.backgroundImage = 'url(../images/icons/reload.svg)';
+        resetButton.style.backgroundImage = 'url(https://cyberbotics.com/wwi/proto/images/icons/reload.svg)';
         input.value = p.previous;
         p.previous = undefined;
       } else {
-        resetButton.style.backgroundImage = 'url(../images/icons/revert.svg)';
+        resetButton.style.backgroundImage = 'url(https://cyberbotics.com/wwi/proto/images/icons/revert.svg)';
         p.previous = input.value;
 
         const defaultValue = parameter.defaultValue.value;
@@ -428,12 +428,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     resetButton.onclick = () => {
       if (typeof p.previous !== 'undefined') {
-        resetButton.style.backgroundImage = 'url(../images/icons/reload.svg)';
+        resetButton.style.backgroundImage = 'url(https://cyberbotics.com/wwi/proto/images/icons/reload.svg)';
         p.inputs[0].value = p.previous[0];
         p.inputs[1].value = p.previous[1];
         p.previous = undefined;
       } else {
-        resetButton.style.backgroundImage = 'url(../images/icons/revert.svg)';
+        resetButton.style.backgroundImage = 'url(https://cyberbotics.com/wwi/proto/images/icons/revert.svg)';
         p.previous = [p.inputs[0].value, p.inputs[1].value];
         p.inputs[0].value = parameter.defaultValue.value.x;
         p.inputs[1].value = parameter.defaultValue.value.y;
@@ -475,11 +475,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         nodesToRemove[i].parentNode.removeChild(nodesToRemove[i]);
       }
       if (typeof p.previous !== 'undefined') {
-        resetButton.style.backgroundImage = 'url(../images/icons/reload.svg)';
+        resetButton.style.backgroundImage = 'url(https://cyberbotics.com/wwi/proto/images/icons/reload.svg)';
         parameter.value = p.previous;
         p.previous = undefined;
       } else {
-        resetButton.style.backgroundImage = 'url(../images/icons/revert.svg)';
+        resetButton.style.backgroundImage = 'url(https://cyberbotics.com/wwi/proto/images/icons/revert.svg)';
         p.previous = parameter.value;
         parameter.value = parameter.defaultValue.clone();
       }
@@ -1010,14 +1010,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     resetButton.onclick = () => {
       if (typeof p.previous !== 'undefined') {
-        resetButton.style.backgroundImage = 'url(../images/icons/reload.svg)';
+        resetButton.style.backgroundImage = 'url(https://cyberbotics.com/wwi/proto/images/icons/reload.svg)';
         p.inputs[0].value = p.previous[0];
         p.inputs[1].value = p.previous[1];
         p.inputs[2].value = p.previous[2];
         p.inputs[3].value = p.previous[3];
         p.previous = undefined;
       } else {
-        resetButton.style.backgroundImage = 'url(../images/icons/revert.svg)';
+        resetButton.style.backgroundImage = 'url(https://cyberbotics.com/wwi/proto/images/icons/revert.svg)';
         p.previous = [p.inputs[0].value, p.inputs[1].value, p.inputs[2].value, p.inputs[3].value];
         p.inputs[0].value = parameter.defaultValue.value.x;
         p.inputs[1].value = parameter.defaultValue.value.y;
@@ -1054,7 +1054,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   #resetReset(node, isReset) {
     if (!isReset) {
       node.previous = undefined;
-      node.resetButton.style.backgroundImage = 'url(../images/icons/reload.svg)';
+      node.resetButton.style.backgroundImage = 'url(https://cyberbotics.com/wwi/proto/images/icons/reload.svg)';
     }
   }
 
@@ -1179,11 +1179,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     resetButton.onclick = () => {
       if (typeof p.previous !== 'undefined') {
-        resetButton.style.backgroundImage = 'url(../images/icons/reload.svg)';
+        resetButton.style.backgroundImage = 'url(https://cyberbotics.com/wwi/proto/images/icons/reload.svg)';
         p.input.value = p.previous;
         p.previous = undefined;
       } else {
-        resetButton.style.backgroundImage = 'url(../images/icons/revert.svg)';
+        resetButton.style.backgroundImage = 'url(https://cyberbotics.com/wwi/proto/images/icons/revert.svg)';
         p.previous = p.input.value;
         input.value = this.#stringRemoveQuote(parameter.defaultValue.value);
       }
@@ -1238,11 +1238,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     resetButton.onclick = () => {
       if (typeof p.previous !== 'undefined') {
-        resetButton.style.backgroundImage = 'url(../images/icons/reload.svg)';
+        resetButton.style.backgroundImage = 'url(https://cyberbotics.com/wwi/proto/images/icons/reload.svg)';
         p.input.value = p.previous;
         p.previous = undefined;
       } else {
-        resetButton.style.backgroundImage = 'url(../images/icons/revert.svg)';
+        resetButton.style.backgroundImage = 'url(https://cyberbotics.com/wwi/proto/images/icons/revert.svg)';
         p.previous = p.input.value;
         input.value = parameter.defaultValue.value;
       }
@@ -1359,11 +1359,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     resetButton.onclick = () => {
       if (typeof p.previous !== 'undefined') {
-        resetButton.style.backgroundImage = 'url(../images/icons/reload.svg)';
+        resetButton.style.backgroundImage = 'url(https://cyberbotics.com/wwi/proto/images/icons/reload.svg)';
         p.input.value = p.previous;
         p.previous = undefined;
       } else {
-        resetButton.style.backgroundImage = 'url(../images/icons/revert.svg)';
+        resetButton.style.backgroundImage = 'url(https://cyberbotics.com/wwi/proto/images/icons/revert.svg)';
         p.previous = p.input.value;
         input.value = parameter.defaultValue.value;
       }
