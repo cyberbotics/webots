@@ -59,7 +59,7 @@ export default class ProtoManager {
     const scene = xml.getElementsByTagName('Scene')[0];
     console.log('ROOT PROTO', this.proto)
     console.log('x3d:', new XMLSerializer().serializeToString(this.proto.toX3d()))
-    if (this.proto.isRoot && (this.proto.baseType === 'PBRAppearance' || this.proto.baseType === 'Appearance')) {
+    if (this.proto.isRoot && ['PBRAppearance', 'Appearance'].includes(this.proto.getBaseNode().name)) {
       const wrapper = this.createAppearanceWrapper();
       scene.appendChild(wrapper);
     } else
