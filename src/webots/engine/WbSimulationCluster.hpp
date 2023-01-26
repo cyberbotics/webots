@@ -23,6 +23,8 @@
 #include <ode/ode.h>
 #include <QtCore/QList>
 
+#include <vector>
+
 #include "WbLog.hpp"
 #include "WbSimulationState.hpp"
 
@@ -71,6 +73,7 @@ private:
   static void odeSensorRaysUpdate(int threadID);
   static const long long int WEBOTS_MAGIC_NUMBER;
   bool mSwapJointContactBuffer;
+  std::vector<dContact> mContactVector;
 
   double lastMaxContactPointsFoundWarnTime = -INFINITY;
   void warnMaxContactPointsFound() {

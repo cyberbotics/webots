@@ -52,8 +52,8 @@
 
 // The maximum number of contact points to look for when colliding 2 geometries. A larger number decreases the
 // chances that contact points in important areas won't be considered. Of the (at most) MAX_CONTACTS points that
-// might be found, joints will only be created for the deepest MAX_CONTACT_JOINTS points.
-#define MAX_CONTACTS 100
+// might be found, joints will only be created for the deepest MAX_CONTACT_JOINTS points. -1 means all points.
+#define MAX_CONTACTS -1
 
 // "webots" where each character is replaced by its ascii hexadecimal number.
 const long long int WbSimulationCluster::WEBOTS_MAGIC_NUMBER = 0x7765626F7473LL;
@@ -638,19 +638,44 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     }
   }
 
-  dContact contact[MAX_CONTACTS];
-  int n = dCollide(o1, o2, MAX_CONTACTS, &contact[0].geom, sizeof(dContact));
+  const int maxContactPoints = MAX_CONTACTS;
+  const int maxContactJoints = MAX_CONTACT_JOINTS;
+
+  // Get a pointer to the first element of an dContacts array of length maxContactPoints such that the associated memory will be
+  // freed properly.
+  std::vector<dContact> contactVector(maxContactPoints);
+  dContact *contact = contactVector.data();
+
+  const bool findAllContactPoints = maxContactPoints == -1;
+  if (findAllContactPoints)
+    maxContactPoints = std::max<size_t>(100, cl->mContactVector.capacity());
+
+  int n;
+  dContact *contact;
+  while (true) {
+    cl->mContactVector.reserve(maxContactPoints);
+    contact = cl->mContactVector.data();
+    n = dCollide(o1, o2, maxContactPoints, &contact[0].geom, sizeof(dContact));
+    if (n < maxContactPoints)
+      break;
+    else if (findAllContactPoints)
+      maxContactPoints *= 10;
+    else {
+      
+      break;
+    }
+  }
+
   if (n == 0)
     return;
 
-  if (n == MAX_CONTACTS)
+  if (n == maxContactPoints)
     cl->warnMaxContactPointsFound();
 
-  if (n > MAX_CONTACT_JOINTS) {
+  if (n > maxContactJoints) {
     cl->warnMoreContactPointsThanContactJoints();
-    std::nth_element(contact, contact + MAX_CONTACT_JOINTS, contact + n,
-                     [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
-    n = MAX_CONTACT_JOINTS;
+    std::nth_element(contact, contact + maxContactJoints, contact + n, [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
+    n = maxContactJoints;
   }
 
   WbTouchSensor *const ts1 = dynamic_cast<WbTouchSensor *>(s1);
