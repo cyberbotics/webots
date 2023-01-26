@@ -12,7 +12,7 @@ import { VRML } from './vrml_type.js';
 export default class Node {
   static cProtoModels = new Map();
 
-  constructor(url, isRoot = false) {
+  constructor(url, parameterTokenizer, isRoot = false) {
     this.url = url;
     this.isProto = this.url.toLowerCase().endsWith('.proto');
     this.isDerived = false; // updated when the model is determined
@@ -76,10 +76,10 @@ export default class Node {
         this.parameters.set(parameterName, parameter);
       }
 
-      //if (typeof parameterTokenizer !== 'undefined') {
-      //  console.log(this.name, ': configuring parameters of node', this.name, 'from provided parameter tokenizer')
-      //  this.configureParametersFromTokenizer(parameterTokenizer);
-      //}
+      if (typeof parameterTokenizer !== 'undefined' && parameterTokenizer.hasMoreTokens()) {
+        console.log(this.name, ': configuring parameters of node', this.name, 'from provided parameter tokenizer')
+        this.configureParametersFromTokenizer(parameterTokenizer);
+      }
       //console.log(this.name, ': finished creating parameters of ', this.name);
     } else {
       this.model = FieldModel[this.name];
@@ -130,12 +130,13 @@ export default class Node {
   }
 
   createBaseType() {
+    console.log(this.name + ': createBaseType')
     let protoBody = this.model['rawBody'];
 
     if (this.isTemplate)
       protoBody = this.regenerateBodyVrml(protoBody);
 
-    // console.log(this.name, ':', 'Upper node after regen', protoBody);
+    console.log(this.name, ':', 'Upper node after regen', protoBody);
 
     // configure non-default fields from tokenizer
     const tokenizer = new Tokenizer(protoBody, this, this.externProto);
