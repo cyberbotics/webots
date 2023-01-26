@@ -12,7 +12,7 @@ This allows to store the position and orientation of the PROTO instances.
 "TwoColorChair.proto":
 
 ```
-#VRML_SIM R2023a utf8
+#VRML_SIM {{ webots.version.major }} utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # documentation url: https://www.cyberbotics.com/doc/guide/object-chairs
@@ -74,7 +74,6 @@ PROTO TwoColorChair [
     name IS name
   }
 }
-
 ```
 
 As you can observe in this example, it is perfectly valid to have several IS statement for one interface field (`seatColor`), as long as the types match.
@@ -92,8 +91,8 @@ Field values which differ from the default must be specified.
 #VRML_SIM {{ webots.version.major }} utf8
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/{{ webots.version.major }}/projects/appearances/protos/DamascusSteel.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/{{ webots.version.major }}/projects/appearances/protos/Parquetry.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/{{ webots.version.major }}/projects/appearances/protos/VarnishedPine.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/{{ webots.version.major }}/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/{{ webots.version.major }}/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/{{ webots.version.major }}/projects/objects/floors/protos/Floor.proto"
 EXTERNPROTO "../protos/TwoColorChair.proto"
@@ -101,24 +100,27 @@ EXTERNPROTO "../protos/TwoColorChair.proto"
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.6095496312901781 0.4415559474005154 0.6583901520445464 1.1033265589135623
-  position -3.9751672517895353 -4.670609825962619 6.693962536337223
+  orientation -0.141 0.263 0.954 1.078
+  position -0.863 -3.489 1.757
+}
+TexturedBackground {
 }
 TexturedBackgroundLight {
+  luminosity 0.5
   castShadows FALSE
 }
 PointLight {
   attenuation 0 0 1
-  intensity 21
-  location 4 4 -1
+  intensity 20
+  location -4 -4 1
   radius 10
   castShadows TRUE
 }
 Floor {
-  size 20.0 20.0
+  size 20 20
 }
 DEF GREEN_STOOL TwoColorChair {
-  translation 0 0 1
+  translation 0 0 0.9
   name "two-color chair(2)"
   legColor 0 0.666667 0
   seatColor 0.235294 0.470588 0
@@ -128,7 +130,7 @@ DEF GREEN_STOOL TwoColorChair {
   }
 }
 DEF YELLOW_CHAIR TwoColorChair {
-  translation 1 0 1
+  translation 1 0 0.9
   seatGeometry Box {
     size 0.6 0.6 0.1
   }
@@ -151,7 +153,7 @@ DEF YELLOW_CHAIR TwoColorChair {
   ]
 }
 DEF DAMACUS_SPHERE TwoColorChair {
-  translation 3 0 1
+  translation 3 0 0.9
   name "two-color chair(1)"
   legColor 0.678431 0.678431 0.678431
   seatExtensionSlot [
@@ -171,7 +173,7 @@ DEF DAMACUS_SPHERE TwoColorChair {
   ]
 }
 DEF WOODEN_CHAIR TwoColorChair {
-  translation 2 0 1
+  translation 2 0 0.9
   name "two-color chair(3)"
   legColor 0.478431 0.239216 0
   seatColor 0.666667 0.333333 0
