@@ -642,10 +642,9 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     }
   }
 
-  WbContactProperties defaultContactProperties;
   const WbContactProperties *contactProperties = cl->findContactProperties(s1, s2);
-  int maxContactPoints = (contactProperties ? contactProperties : &defaultContactProperties)->maxContactPoints();
-  const int maxContactJoints = (contactProperties ? contactProperties : &defaultContactProperties)->maxContactJoints();
+  int maxContactPoints = contactProperties ? contactProperties->maxContactPoints() : -1;
+  const int maxContactJoints = contactProperties ? contactProperties->maxContactJoints() : 10;
 
   const bool findAllContactPoints = maxContactPoints == -1;
   if (findAllContactPoints)
@@ -662,10 +661,10 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     else if (findAllContactPoints)
       maxContactPoints *= 10;
     else {
-      WbLog::warning(QObject::tr("%1 contact points found so others might be ignored.").arg(maxContactPoints), false,
+      WbLog::warning(QObject::tr("maxContactPoints contact points found so others might be ignored."), false,
                      WbLog::ODE);
-      break;      
-  }
+      break;
+    }
   }
 
   if (n == 0)
@@ -673,9 +672,9 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
 
   if (n > maxContactJoints) {
     WbLog::warning(
-      QObject::tr("%1 contact points found but only the %2 deepest are used.").arg(maxContactPoints).arg(maxContactJoints),
+      QObject::tr("Detected more than maxContactJoints contact points. Only maxContactJoints contact joints will be created."),
       false, WbLog::ODE);
-    std::sort(contact, contact + n, [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
+    std::nth_element(contact, contact + maxContactJoints, contact + n, [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
     n = maxContactJoints;
   }
 
