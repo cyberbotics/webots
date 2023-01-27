@@ -23,8 +23,6 @@
 #include <ode/ode.h>
 #include <QtCore/QList>
 
-#include <vector>
-
 #include "WbLog.hpp"
 #include "WbSimulationState.hpp"
 
@@ -73,16 +71,8 @@ private:
   static void odeSensorRaysUpdate(int threadID);
   static const long long int WEBOTS_MAGIC_NUMBER;
   bool mSwapJointContactBuffer;
-  std::vector<dContact> mContactVector;
 
-  static void warnMoreContactPointsThanContactJoints() {
-    static double lastWarningTime = -INFINITY;
-    const double currentSimulationTime = WbSimulationState::instance()->time();
-    if (currentSimulationTime > lastWarningTime + 1000) {
-      WbLog::warning(QObject::tr("Contact joints will only be created for the deepest contact points."), false, WbLog::ODE);
-      lastWarningTime = currentSimulationTime;
-    }
-  }
+  static void warnMoreContactPointsThanContactJoints();
 };
 
 #endif

@@ -45,6 +45,8 @@
 
 #include <cassert>
 #include <limits>
+#include <mutex>
+#include <vector>
 
 // The maximum number of contact joints to create. Note that the time to compute a physics timestep with the ODE
 // physics engine scales with the cube of the number of joints.
@@ -462,6 +464,23 @@ void WbSimulationCluster::handleCollisionIfSpace(void *data, dGeomID o1, dGeomID
   }
 }
 
+void WbSimulationCluster::warnMoreContactPointsThanContactJoints() {
+  static std::mutex mutex;
+  static std::atomic<double> lastWarningTime(-INFINITY);  // std::atomic<> just in case doubles are not atomic.
+  const double currentSimulationTime = WbSimulationState::instance()->time();
+  if (currentSimulationTime > lastWarningTime + 1000.0) {
+    // We almost definitely need to create the warning, but there is a small
+    // possibility that another thread has come to the same conclusion
+    // simultaneously, so redo the check using the mutex. We do this after the
+    // initial check, to minimize how often we need to acquire the lock.
+    std::lock_guard<std::mutex> lock(mutex);
+    if (currentSimulationTime > lastWarningTime + 1000.0) {
+      WbLog::warning(QObject::tr("Contact joints will only be created for the deepest contact points."), false, WbLog::ODE);
+      lastWarningTime = currentSimulationTime;
+    }
+  }
+}
+
 void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   // retrieve data
   WbOdeGeomData *const odeGeomData1 = static_cast<WbOdeGeomData *>(dGeomGetData(o1));
@@ -634,14 +653,15 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   }
 
   const int maxContactJoints = MAX_CONTACT_JOINTS;
+  thread_local std::vector<dContact> contactVector;
 
-  int maxContactPoints = std::max<size_t>(100, cl->mContactVector.capacity());
+  int maxContactPoints = std::max<size_t>(100, contactVector.capacity());
 
   int n;
   dContact *contact;
   while (true) {
-    cl->mContactVector.reserve(maxContactPoints);
-    contact = cl->mContactVector.data();
+    contactVector.reserve(maxContactPoints);
+    contact = contactVector.data();
     n = dCollide(o1, o2, maxContactPoints, &contact[0].geom, sizeof(dContact));
     if (n < maxContactPoints)
       break;
