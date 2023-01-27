@@ -18,7 +18,7 @@ export default class Node {
     this.isDerived = false; // updated when the model is determined
     this.isTemplate = false; // updated when the model is determined
     this.name = this.isProto ? this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '') : url;
-    console.log(this.name, ':', 'create new node:', this.name, 'from', this.url);
+    console.log(this.name, ': create new node:', this.name, 'from', this.url);
 
     this.fields = new Map();
     this.parameters = new Map();
@@ -39,9 +39,9 @@ export default class Node {
       this.externProto = this.model['externProto'];
       this.isTemplate = this.model['isTemplate'];
 
-      console.log(this.name, 'creating parameters based on PROTO model', this.model)
+      // console.log(this.name, 'creating parameters based on PROTO model', this.model)
       for (const [parameterName, parameterModel] of Object.entries(this.model['parameters'])) {
-        console.log('parameter name:', parameterName, 'model:', parameterModel);
+        console.log(this.name + ': parameter name:', parameterName, ', based on model :', parameterModel);
         const parameterType = parameterModel['type'];
         const isTemplateRegenerator = parameterModel['isTemplateRegenerator'];
         const restrictions = parameterModel['restrictions'];
@@ -52,6 +52,7 @@ export default class Node {
         //if (parameterType === VRML.SFNode)
         initializer.rewind();
         const value = vrmlFactory(parameterType, initializer);
+        console.log(this.name, ': value of parameter ' + parameterName + ' after initialization is ', defaultValue)
 
         //const defaultInitializer = parameterModel['parameterInitializer'];
         //if (parameterType === VRML.SFNode && typeof defaultInitializer !== 'undefined') {
@@ -79,7 +80,9 @@ export default class Node {
       if (typeof parameterTokenizer !== 'undefined' && parameterTokenizer.hasMoreTokens()) {
         console.log(this.name, ': configuring parameters of node', this.name, 'from provided parameter tokenizer')
         this.configureParametersFromTokenizer(parameterTokenizer);
-      }
+        console.log(this.name, ': parameters after configuration', this.parameters);
+      } else
+        console.log(this.name, ': parameterTokenizer is undefined, skipping parameter configuration')
       //console.log(this.name, ': finished creating parameters of ', this.name);
     } else {
       this.model = FieldModel[this.name];
@@ -90,8 +93,10 @@ export default class Node {
 
     if (this.isProto)
       this.createBaseType();
-    else
+    else {
       this.generateInternalFields();
+      console.log(this.name + ': resulting internal fields are', this.fields)
+    }
 
     //if (this.isProto) {
     //  this.regenerate();
@@ -136,7 +141,7 @@ export default class Node {
     if (this.isTemplate)
       protoBody = this.regenerateBodyVrml(protoBody);
 
-    console.log(this.name, ':', 'Upper node after regen', protoBody);
+    //console.log(this.name, ':', 'Upper node after regen', protoBody);
 
     // configure non-default fields from tokenizer
     const tokenizer = new Tokenizer(protoBody, this, this.externProto);
@@ -147,7 +152,7 @@ export default class Node {
 
       console.assert(this.externProto.has(this.model['baseType']));
       const baseTypeUrl = this.externProto.get(this.model['baseType']);
-      this.baseType = new Node(baseTypeUrl);
+      this.baseType = new Node(baseTypeUrl, tokenizer);
       //this.baseType.configureParametersFromTokenizer(tokenizer);
     } else {
       console.log(this.name, ': is derives from base-node', this.model['baseType'], 'generating it from model')
@@ -175,7 +180,7 @@ export default class Node {
   };
 
   configureParametersFromTokenizer(tokenizer) {
-    console.log(this.name, ':', 'configureParametersFromTokenizer', tokenizer);
+    console.log(this.name, ':', 'configureParametersFromTokenizer');
 
     tokenizer.skipToken('{');
 
@@ -369,7 +374,7 @@ export default class Node {
           line = line.split('EXTERNPROTO')[1].trim();
           let address = line.replaceAll('"', '');
           if (address.startsWith('webots://'))
-            address = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022b/' + address.substring(9);
+            address = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023a/' + address.substring(9);
           else
             address = combinePaths(address, protoUrl);
 

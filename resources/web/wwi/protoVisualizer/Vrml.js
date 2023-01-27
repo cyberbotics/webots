@@ -433,8 +433,8 @@ export class SFNode extends SingleValue {
     this.value = new Node(url, tokenizer);
 
     if (this.value.isProto) {
-      //throw new Error('REACHED, NEED TO DO SOMETHING?')
-      //this.value.configureParametersFromTokenizer(tokenizer);
+    //  //throw new Error('REACHED, NEED TO DO SOMETHING?')
+    //this.value.configureParametersFromTokenizer(tokenizer);
     } else {
       this.value.configureFieldsFromTokenizer(tokenizer);
     }
