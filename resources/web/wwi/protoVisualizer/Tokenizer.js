@@ -229,7 +229,6 @@ export default class Tokenizer {
   }
 
   spliceTokenizerByType(type) {
-    // console.log('spliceTokenizerByType')
     const start = this.#index;
     this.consumeTokensByType(type);
     const end = this.#index;
