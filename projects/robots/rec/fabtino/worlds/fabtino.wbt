@@ -14,6 +14,7 @@ EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 EXTERNPROTO "webots://projects/objects/kitchen/components/protos/Sink.proto"
 EXTERNPROTO "webots://projects/objects/factory/conveyors/protos/ConveyorBelt.proto"
 EXTERNPROTO "webots://projects/appearances/protos/CorrugatedMetal.proto"
+EXTERNPROTO "webots://projects/objects/factory/containers/protos/CardboardBox.proto"
 EXTERNPROTO "webots://projects/objects/factory/containers/protos/PlasticCrate.proto"
 EXTERNPROTO "webots://projects/objects/factory/manhole/protos/SquareManhole.proto"
 EXTERNPROTO "webots://projects/objects/tables/protos/Table.proto"
@@ -318,11 +319,10 @@ PlasticCrate {
   name "plastic crate(5)"
   size 1 1 0.9
 }
-PlasticCrate {
-  translation -6.187 -0.937 0.9
-  name "Kasten(2)"
-  size 0.4 0.23 0.12
-  mass 0.92
+CardboardBox {
+  translation -6.187 -0.937 1.02
+  rotation 1 0 0 1.5708
+  size 0.3 0.23 0.23
 }
 SquareManhole {
   translation 0.560459 -1.782 -0.03
