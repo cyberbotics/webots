@@ -686,11 +686,13 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   if (!p1 || !p2) {
     WbRobot *const robot1 = dynamic_cast<WbRobot *>(s1);
     WbRobot *const robot2 = dynamic_cast<WbRobot *>(s2);
+    // Ensure that the deepest contact point is first for calls to collideKinematicRobots() below.
+    std::nth_element(contact, contact, contact + n,
+                     [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
     if (robot1 && !p1 && !isRayGeom2 && robot1->kinematicDifferentialWheels()) {
       wg1->setColliding();
       cl->mCollisionedRobots.append(robot1->kinematicDifferentialWheels());
       if (robot2 && !p2 && robot2->kinematicDifferentialWheels()) {
-        dCollide(o1, o2, MAX_CONTACTS, &contact[0].geom, sizeof(dContact));  // we want only one contact point
         wg2->setColliding();
         cl->mCollisionedRobots.append(robot2->kinematicDifferentialWheels());
         collideKinematicRobots(robot1->kinematicDifferentialWheels(), true, contact, true);
@@ -700,7 +702,6 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
       return;
     }
     if (robot2 && !p2 && !isRayGeom1 && robot2->kinematicDifferentialWheels()) {
-      dCollide(o1, o2, MAX_CONTACTS, &contact[0].geom, sizeof(dContact));
       wg2->setColliding();
       cl->mCollisionedRobots.append(robot2->kinematicDifferentialWheels());
       collideKinematicRobots(robot2->kinematicDifferentialWheels(), false, contact, false);
