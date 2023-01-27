@@ -31,7 +31,7 @@ export default class ProtoManager {
   }
 
   async loadX3d() {
-    let xml = this.getXmlOfMinimalScene();
+    const xml = this.getXmlOfMinimalScene();
     const scene = xml.getElementsByTagName('Scene')[0];
     if (this.proto.isRoot && ['PBRAppearance', 'Appearance'].includes(this.proto.getBaseNode().name)) {
       const wrapper = this.createAppearanceWrapper();
@@ -102,7 +102,6 @@ export default class ProtoManager {
     s += `${indent(2)}}\n`;
     s += '}\n';
 
-    console.log(s);
     return s;
   }
 
@@ -149,7 +148,7 @@ export default class ProtoManager {
     const imageTexture = xml.createElement('ImageTexture');
     imageTexture.setAttribute('id', getAnId());
     imageTexture.setAttribute('url', 'https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/grid.png');
-    imageTexture.setAttribute('role', 'baseColor');
+    imageTexture.setAttribute('role', 'baseColorMap');
     appearance.appendChild(imageTexture);
     const textureTransform = xml.createElement('TextureTransform');
     textureTransform.setAttribute('id', getAnId());

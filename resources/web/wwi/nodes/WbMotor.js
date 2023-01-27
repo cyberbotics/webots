@@ -3,10 +3,12 @@ import WbLogicalDevice from './WbLogicalDevice.js';
 export default class WbMotor extends WbLogicalDevice {
   #minPosition;
   #maxPosition;
-  constructor(id, deviceName, minPosition, maxPosition) {
+  #multiplier;
+  constructor(id, deviceName, minPosition, maxPosition, multiplier) {
     super(id, deviceName);
     this.#minPosition = minPosition;
     this.#maxPosition = maxPosition;
+    this.#multiplier = multiplier;
   }
 
   get minPosition() {
@@ -15,5 +17,9 @@ export default class WbMotor extends WbLogicalDevice {
 
   get maxPosition() {
     return this.#maxPosition;
+  }
+
+  get multiplier() {
+    return this.#multiplier;
   }
 }

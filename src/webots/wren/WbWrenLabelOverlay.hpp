@@ -38,13 +38,14 @@ public:
   static int movieCaptionOverlayId() { return 65535; }
   static int dragCaptionOverlayId() { return 65534; }
   static int cameraCaptionOverlayId() { return 65533; }
+  static void colorToArray(float *dest, int color);
 
   void setText(const QString &text);
-  void setPosition(float x, float y) {
+  void setPosition(double x, double y) {
     mX = x;
     mY = y;
   }
-  void setSize(float size) { mSize = size; }
+  void setSize(double size) { mSize = size; }
   void setColor(int color) {
     colorToArray(mColor, color);
     mTextNeedRedraw = true;
@@ -54,8 +55,11 @@ public:
   int id() const { return mId; };
   const QString &text() const { return mText; }
   const QString &font() const { return mFontName; }
-  float size() const { return mSize; }
-  void position(float &x, float &y) const {
+  double size() const { return mSize; }
+  double x() const { return mX; }
+  double y() const { return mY; }
+  const float *color() const { return mColor; }
+  void position(double &x, double &y) const {
     x = mX;
     y = mY;
   }
@@ -89,16 +93,15 @@ private:
   void deleteOverlay();
 
   void drawText();
-  static void colorToArray(float *dest, int color);
 
   void updateOverlayDimensions();
 
   int mId;
   QString mText;
   QString mFontName;
-  float mX;
-  float mY;
-  float mSize;
+  double mX;
+  double mY;
+  double mSize;
   float mColor[4];
   float mBackgroundColor[4];
   int mLinesCount;

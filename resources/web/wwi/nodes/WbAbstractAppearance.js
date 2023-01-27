@@ -11,6 +11,7 @@ export default class WbAbstractAppearance extends WbBaseNode {
   get textureTransform() {
     return this.#textureTransform;
   }
+
   set textureTransform(newTextureTransform) {
     this.#textureTransform = newTextureTransform;
 

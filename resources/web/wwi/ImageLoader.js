@@ -4,7 +4,7 @@ import {arrayXPointer} from './nodes/utils/utils.js';
 
 export default class ImageLoader {
   static loadImageTextureInWren(imageTexture, prefix, url, checkTransparency = true) {
-    let needToDownloadTexture = Module.ccall('wr_texture_2d_copy_from_cache', 'number', ['string'], [url]);
+    const needToDownloadTexture = Module.ccall('wr_texture_2d_copy_from_cache', 'number', ['string'], [url]);
     if (needToDownloadTexture !== 0)
       return Promise.resolve();
 
@@ -21,7 +21,7 @@ export default class ImageLoader {
 
       imageTexture.isTransparent = isTransparent;
 
-      let texture = _wr_texture_2d_new();
+      const texture = _wr_texture_2d_new();
       _wr_texture_set_size(texture, image.width, image.height);
       _wr_texture_set_translucent(texture, isTransparent);
       const bitsPointer = arrayXPointer(image.bits);
@@ -121,7 +121,7 @@ export default class ImageLoader {
   }
 
   static #rotateHDR(image, rotate) {
-    let rotatedbits = [];
+    const rotatedbits = [];
     if (rotate === 90) {
       for (let x = 0; x < image.width; x++) {
         for (let y = 0; y < image.height; y++) {

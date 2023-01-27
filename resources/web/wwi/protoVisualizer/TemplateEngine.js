@@ -6,7 +6,7 @@ import * as wbvector2 from './templating/modules/webots/wbvector2.js';
 import * as wbvector3 from './templating/modules/webots/wbvector3.js';
 
 export default class TemplateEngine {
-  constructor() {
+  constructor(id, version) {
     this.minimalTemplate = `
     function render(text) {
       return text;
@@ -28,11 +28,11 @@ export default class TemplateEngine {
       world: '',
       proto: '',
       project_path: '',
-      webots_version: {major: 2022, revision: 0},
+      webots_version: {major: ${version.major}, revision: ${version.revision}},
       webots_home: '',
       temporary_files_path: '',
       os: 'linux',
-      id: 0,
+      id: ${id},
       coordinate_system: 'ENU'
     }
     `;
@@ -104,7 +104,6 @@ export default class TemplateEngine {
     template = template.replace('%fields%', fields);
     template = template.replace('%body%', jsBody);
 
-    // console.log('Filled template:\n' + template);
     return eval(template);
   };
 }

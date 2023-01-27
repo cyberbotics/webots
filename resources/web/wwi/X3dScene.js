@@ -156,8 +156,6 @@ export default class X3dScene {
   }
 
   loadWorldFile(url, onLoad, progress) {
-    console.log('LOADWORLD: ', url);
-
     const prefix = webots.currentView.prefix;
     const renderer = this.renderer;
     const xmlhttp = new XMLHttpRequest();
@@ -194,8 +192,8 @@ export default class X3dScene {
       node.finalize();
   }
 
-  applyPose(pose) {
-    let id = pose.id;
+  applyUpdate(update) {
+    let id = update.id;
 
     if (typeof id === 'string')
       id = id.replace('n', '');
@@ -207,7 +205,7 @@ export default class X3dScene {
     if (typeof object === 'undefined')
       return;
 
-    this.#applyPoseToObject(pose, object);
+    this.#applyUpdateToObject(update, object);
 
     // Update the related USE nodes
     let length = object.useList.length - 1;
@@ -218,27 +216,27 @@ export default class X3dScene {
         const index = object.useList.indexOf(length);
         this.useList.splice(index, 1);
       } else
-        this.#applyPoseToObject(pose, use);
+        this.#applyUpdateToObject(update, use);
 
       --length;
     }
   }
 
-  #applyPoseToObject(pose, object) {
-    for (let key in pose) {
+  #applyUpdateToObject(update, object) {
+    for (let key in update) {
       if (key === 'id')
         continue;
 
       if (key === 'translation') {
         if (object instanceof WbTransform)
-          object.translation = convertStringToVec3(pose[key]);
+          object.translation = convertStringToVec3(update[key]);
         else if (object instanceof WbTextureTransform)
-          object.translation = convertStringToVec2(pose[key]);
+          object.translation = convertStringToVec2(update[key]);
       } else if (key === 'rotation') {
         if (object instanceof WbTextureTransform)
-          object.rotation = parseFloat(pose[key]);
+          object.rotation = parseFloat(update[key]);
         else {
-          const quaternion = convertStringToQuaternion(pose[key]);
+          const quaternion = convertStringToQuaternion(update[key]);
           if (object instanceof WbTrackWheel)
             object.updateRotation(quaternion);
           else
@@ -246,195 +244,195 @@ export default class X3dScene {
         }
       } else if (key === 'scale') {
         if (object instanceof WbTransform)
-          object.scale = convertStringToVec3(pose[key]);
+          object.scale = convertStringToVec3(update[key]);
         else if (object instanceof WbTextureTransform)
-          object.scale = convertStringToVec2(pose[key]);
+          object.scale = convertStringToVec2(update[key]);
       } else if (key === 'center') {
         if (object instanceof WbTextureTransform)
-          object.center = convertStringToVec2(pose[key]);
+          object.center = convertStringToVec2(update[key]);
       } else if (key === 'castShadows') {
         if (object instanceof WbLight || object instanceof WbCadShape)
-          object.castShadows = pose[key].toLowerCase() === 'true';
+          object.castShadows = update[key].toLowerCase() === 'true';
       } else if (key === 'isPickable') {
         if (object instanceof WbCadShape)
-          object.isPickable = pose[key].toLowerCase() === 'true';
+          object.isPickable = update[key].toLowerCase() === 'true';
       } else if (key === 'size') {
         if (object instanceof WbBox || object instanceof WbPlane)
-          object.size = convertStringToVec3(pose[key]);
+          object.size = convertStringToVec3(update[key]);
       } else if (key === 'radius') {
         if (object instanceof WbCapsule || object instanceof WbSphere || object instanceof WbCylinder ||
           object instanceof WbSpotLight || object instanceof WbPointLight)
-          object.radius = parseFloat(pose[key]);
+          object.radius = parseFloat(update[key]);
       } else if (key === 'subdivision') {
         if (object instanceof WbSphere || object instanceof WbCapsule || object instanceof WbCone ||
            object instanceof WbCylinder)
-          object.subdivision = parseInt(pose[key]);
+          object.subdivision = parseInt(update[key]);
       } else if (key === 'ico') {
         if (object instanceof WbSphere)
-          object.ico = pose[key].toLowerCase() === 'true';
+          object.ico = update[key].toLowerCase() === 'true';
       } else if (key === 'height') {
         if (object instanceof WbCapsule || object instanceof WbCone || object instanceof WbCylinder)
-          object.height = parseFloat(pose[key]);
+          object.height = parseFloat(update[key]);
         else if (object instanceof WbElevationGrid)
           // Filter is used to remove Nan elements
-          object.height = convertStringToFloatArray(pose[key]).filter(e => e);
+          object.height = convertStringToFloatArray(update[key]).filter(e => e);
         else if (object instanceof WbAbstractCamera)
-          object.height = parseInt(pose[key]);
+          object.height = parseInt(update[key]);
       } else if (key === 'bottom') {
         if (object instanceof WbCapsule || object instanceof WbCone || object instanceof WbCylinder)
-          object.bottom = pose[key].toLowerCase() === 'true';
+          object.bottom = update[key].toLowerCase() === 'true';
       } else if (key === 'top') {
         if (object instanceof WbCapsule || object instanceof WbCylinder)
-          object.top = pose[key].toLowerCase() === 'true';
+          object.top = update[key].toLowerCase() === 'true';
       } else if (key === 'side') {
         if (object instanceof WbCapsule || object instanceof WbCone || object instanceof WbCylinder)
-          object.side = pose[key].toLowerCase() === 'true';
+          object.side = update[key].toLowerCase() === 'true';
       } else if (key === 'bottomRadius') {
         if (object instanceof WbCone)
-          object.bottomRadius = parseFloat(pose[key]);
+          object.bottomRadius = parseFloat(update[key]);
       } else if (key === 'ccw') {
         if (object instanceof WbMesh || object instanceof WbIndexedFaceSet || object instanceof WbCadShape)
-          object.ccw = pose[key].toLowerCase() === 'true';
+          object.ccw = update[key].toLowerCase() === 'true';
       } else if (key === 'direction') {
         if (object instanceof WbSpotLight || WbDirectionalLight)
-          object.direction = convertStringToVec3(pose[key]);
+          object.direction = convertStringToVec3(update[key]);
       } else if (key === 'color') {
         if (object instanceof WbLight || object instanceof WbFog)
-          object.color = convertStringToVec3(pose[key]);
+          object.color = convertStringToVec3(update[key]);
         else if (object instanceof WbColor)
-          object.color = convertStringToVec3Array(pose[key]);
+          object.color = convertStringToVec3Array(update[key]);
       } else if (key === 'name') {
         if (object instanceof WbMesh)
-          object.name = pose[key];
+          object.name = update[key];
       } else if (key === 'materialIndex') {
         if (object instanceof WbMesh)
-          object.materialIndex = parseInt(pose[key]);
+          object.materialIndex = parseInt(update[key]);
       } else if (key === 'url') {
         if (object instanceof WbMesh || object instanceof WbCadShape)
-          object.url = pose[key][0];
+          object.url = update[key][0];
       } else if (key === 'point') {
         if (object instanceof WbCoordinate)
-          object.point = convertStringToVec3Array(pose[key]);
+          object.point = convertStringToVec3Array(update[key]);
         if (object instanceof WbTextureCoordinate)
-          object.point = convertStringToVec2Array(pose[key]);
+          object.point = convertStringToVec2Array(update[key]);
       } else if (key === 'vector') {
         if (object instanceof WbNormal)
-          object.vector = convertStringToVec3Array(pose[key]);
+          object.vector = convertStringToVec3Array(update[key]);
       } else if (key === 'coordIndex') {
         if (object instanceof WbIndexedLineSet || object instanceof WbIndexedFaceSet)
-          object.coordIndex = pose[key];
+          object.coordIndex = update[key];
       } else if (key === 'attenuation') {
         if (object instanceof WbSpotLight || object instanceof WbPointLight)
-          object.attenuation = convertStringToVec3(pose[key]);
+          object.attenuation = convertStringToVec3(update[key]);
       } else if (key === 'location') {
         if (object instanceof WbSpotLight || object instanceof WbPointLight)
-          object.location = convertStringToVec3(pose[key]);
+          object.location = convertStringToVec3(update[key]);
       } else if (object instanceof WbFog) {
         if (key === 'visibilityRange')
-          object.visibilityRange = parseFloat(pose[key]);
+          object.visibilityRange = parseFloat(update[key]);
         else if (key === 'fogType')
-          object.fogType = pose[key];
+          object.fogType = update[key];
       } else if (object instanceof WbSpotLight) {
         if (key === 'beamWidth')
-          object.beamWidth = parseFloat(pose[key]);
+          object.beamWidth = parseFloat(update[key]);
         else if (key === 'cutOffAngle')
-          object.cutOffAngle = parseFloat(pose[key]);
+          object.cutOffAngle = parseFloat(update[key]);
       } else if (object instanceof WbIndexedFaceSet) {
         if (key === 'normalPerVertex')
-          object.normalPerVertex = pose[key].toLowerCase() === 'true';
+          object.normalPerVertex = update[key].toLowerCase() === 'true';
         else if (key === 'normalIndex')
-          object.normalIndex = pose[key];
+          object.normalIndex = update[key];
         else if (key === 'texCoordIndex')
-          object.texCoordIndex = pose[key];
+          object.texCoordIndex = update[key];
         else if (key === 'creaseAngle')
-          object.creaseAngle = parseFloat(pose[key]);
+          object.creaseAngle = parseFloat(update[key]);
       } else if (object instanceof WbElevationGrid) {
         if (key === 'xDimension')
-          object.xDimension = pose[key];
+          object.xDimension = update[key];
         else if (key === 'xSpacing')
-          object.xSpacing = pose[key];
+          object.xSpacing = update[key];
         else if (key === 'yDimension')
-          object.yDimension = pose[key];
+          object.yDimension = update[key];
         else if (key === 'ySpacing')
-          object.ySpacing = pose[key];
+          object.ySpacing = update[key];
         else if (key === 'thickness')
-          object.thickness = pose[key];
+          object.thickness = update[key];
       } else if (object instanceof WbPbrAppearance || object instanceof WbMaterial) {
         if (key === 'baseColor')
-          object.baseColor = convertStringToVec3(pose[key]);
+          object.baseColor = convertStringToVec3(update[key]);
         else if (key === 'diffuseColor')
-          object.diffuseColor = convertStringToVec3(pose[key]);
+          object.diffuseColor = convertStringToVec3(update[key]);
         else if (key === 'emissiveColor')
-          object.emissiveColor = convertStringToVec3(pose[key]);
+          object.emissiveColor = convertStringToVec3(update[key]);
         else if (key === 'roughness')
-          object.roughness = parseFloat(pose[key]);
+          object.roughness = parseFloat(update[key]);
         else if (key === 'metalness')
-          object.metalness = parseFloat(pose[key]);
+          object.metalness = parseFloat(update[key]);
         else if (key === 'IBLStrength')
-          object.IBLStrength = parseFloat(pose[key]);
+          object.IBLStrength = parseFloat(update[key]);
         else if (key === 'normalMapFactor')
-          object.normalMapFactor = parseFloat(pose[key]);
+          object.normalMapFactor = parseFloat(update[key]);
         else if (key === 'occlusionMapStrength')
-          object.occlusionMapStrength = parseFloat(pose[key]);
+          object.occlusionMapStrength = parseFloat(update[key]);
         else if (key === 'emissiveIntensity')
-          object.emissiveIntensity = parseFloat(pose[key]);
+          object.emissiveIntensity = parseFloat(update[key]);
         else if (key === 'transparency')
-          object.transparency = parseFloat(pose[key]);
+          object.transparency = parseFloat(update[key]);
         else if (key === 'ambientIntensity')
-          object.ambientIntensity = parseFloat(pose[key]);
+          object.ambientIntensity = parseFloat(update[key]);
         else if (key === 'shininess')
-          object.shininess = parseFloat(pose[key]);
+          object.shininess = parseFloat(update[key]);
         else if (key === 'specularColor')
-          object.specularColor = convertStringToVec3(pose[key]);
+          object.specularColor = convertStringToVec3(update[key]);
       } else if (object instanceof WbImageTexture) {
         if (key === 'repeatS')
-          object.repeatS = pose[key].toLowerCase() === 'true';
+          object.repeatS = update[key].toLowerCase() === 'true';
         else if (key === 'repeatT')
-          object.repeatT = pose[key].toLowerCase() === 'true';
+          object.repeatT = update[key].toLowerCase() === 'true';
         else if (key === 'filtering')
-          object.filtering = parseInt(pose[key]);
+          object.filtering = parseInt(update[key]);
       } else if (object instanceof WbCamera) {
         if (key === 'far')
-          object.far = parseFloat(pose[key]);
+          object.far = parseFloat(update[key]);
         else if (key === 'near')
-          object.near = parseFloat(pose[key]);
+          object.near = parseFloat(update[key]);
       } else if (object instanceof WbRangeFinder) {
         if (key === 'maxRange')
-          object.maxRange = parseFloat(pose[key]);
+          object.maxRange = parseFloat(update[key]);
         else if (key === 'minRange')
-          object.minRange = parseFloat(pose[key]);
+          object.minRange = parseFloat(update[key]);
       } else if (object instanceof WbLidar) {
         if (key === 'maxRange')
-          object.maxRange = parseFloat(pose[key]);
+          object.maxRange = parseFloat(update[key]);
         else if (key === 'minRange')
-          object.minRange = parseFloat(pose[key]);
+          object.minRange = parseFloat(update[key]);
         else if (key === 'horizontalResolution')
-          object.horizontalResolution = parseInt(pose[key]);
+          object.horizontalResolution = parseInt(update[key]);
         else if (key === 'numberOfLayers')
-          object.numberOfLayers = parseInt(pose[key]);
+          object.numberOfLayers = parseInt(update[key]);
         else if (key === 'tiltAngle')
-          object.tiltAngle = parseFloat(pose[key]);
+          object.tiltAngle = parseFloat(update[key]);
         else if (key === 'verticalFieldOfView')
-          object.verticalFieldOfView = parseFloat(pose[key]);
+          object.verticalFieldOfView = parseFloat(update[key]);
       } else if (object instanceof WbRadar) {
         if (key === 'maxRange')
-          object.maxRange = parseFloat(pose[key]);
+          object.maxRange = parseFloat(update[key]);
         else if (key === 'minRange')
-          object.minRange = parseFloat(pose[key]);
+          object.minRange = parseFloat(update[key]);
         else if (key === 'verticalFieldOfView')
-          object.verticalFieldOfView = parseFloat(pose[key]);
+          object.verticalFieldOfView = parseFloat(update[key]);
         else if (key === 'horizontalFieldOfView')
-          object.horizontalFieldOfView = parseFloat(pose[key]);
+          object.horizontalFieldOfView = parseFloat(update[key]);
       } else if (object instanceof WbPen) {
         if (key === 'write')
-          object.write = pose[key].toLowerCase() === 'true';
+          object.write = update[key].toLowerCase() === 'true';
       } else if (object instanceof WbDistanceSensor) {
         if (key === 'numberOfRays')
-          object.numberOfRays = parseInt(pose[key]);
+          object.numberOfRays = parseInt(update[key]);
         else if (key === 'aperture')
-          object.aperture = parseFloat(pose[key]);
+          object.aperture = parseFloat(update[key]);
         else if (key === 'lookupTable') {
-          let lookupString = pose[key];
+          let lookupString = update[key];
           if (lookupString.startsWith('['))
             lookupString = lookupString.substring(1);
           if (lookupString.startsWith(']'))
@@ -449,21 +447,21 @@ export default class X3dScene {
         }
       } else if (object instanceof WbConnector) {
         if (key === 'numberOfRotations')
-          object.numberOfRotations = parseInt(pose[key]);
+          object.numberOfRotations = parseInt(update[key]);
       }
 
       if (object instanceof WbLight) {
         if (key === 'on')
-          object.on = pose[key].toLowerCase() === 'true';
+          object.on = update[key].toLowerCase() === 'true';
         else if (key === 'ambientIntensity')
-          object.ambientIntensity = parseFloat(pose[key]);
+          object.ambientIntensity = parseFloat(update[key]);
         else if (key === 'intensity')
-          object.intensity = parseFloat(pose[key]);
+          object.intensity = parseFloat(update[key]);
       } else if (object instanceof WbAbstractCamera) {
         if (key === 'width')
-          object.width = parseInt(pose[key]);
+          object.width = parseInt(update[key]);
         else if (key === 'fieldOfView')
-          object.fieldOfView = parseFloat(pose[key]);
+          object.fieldOfView = parseFloat(update[key]);
       }
     }
 
@@ -496,9 +494,9 @@ export default class X3dScene {
         if (document.getElementById('webots-clock'))
           document.getElementById('webots-clock').innerHTML = webots.parseMillisecondsIntoReadableTime(frame.time);
 
-        if (frame.hasOwnProperty('poses')) {
-          for (let i = 0; i < frame.poses.length; i++)
-            this.applyPose(frame.poses[i]);
+        if (frame.hasOwnProperty('updates')) {
+          for (let i = 0; i < frame.updates.length; i++)
+            this.applyUpdate(frame.updates[i]);
           WbWorld.instance.tracks.forEach(track => {
             if (track.linearSpeed !== 0) {
               track.animateMesh();

@@ -192,7 +192,6 @@ export default class Parser {
       setTimeout(() => { webots.currentView.progress.setProgressBar('none'); }, 300);
       if (typeof callback === 'function')
         callback();
-      console.log('World Instance', WbWorld.instance);
       console.timeEnd('Loaded in: ');
     });
   }
@@ -870,10 +869,11 @@ export default class Parser {
     else if (node.tagName === 'RotationalMotor' || node.tagName === 'LinearMotor') {
       const minPosition = parseFloat(getNodeAttribute(node, 'minPosition', '0'));
       const maxPosition = parseFloat(getNodeAttribute(node, 'maxPosition', '0'));
+      const multiplier = parseFloat(getNodeAttribute(node, 'multiplier', '1'));
       if (node.tagName === 'RotationalMotor')
-        logicalDevice = new WbRotationalMotor(id, name, minPosition, maxPosition);
+        logicalDevice = new WbRotationalMotor(id, name, minPosition, maxPosition, multiplier);
       else
-        logicalDevice = new WbLinearMotor(id, name, minPosition, maxPosition);
+        logicalDevice = new WbLinearMotor(id, name, minPosition, maxPosition, multiplier);
     }
 
     WbWorld.instance.nodes.set(logicalDevice.id, logicalDevice);
@@ -1580,27 +1580,27 @@ export default class Parser {
     for (let i = 0; i < imageTextures.length; i++) {
       const imageTexture = imageTextures[i];
       const role = getNodeAttribute(imageTexture, 'role', undefined);
-      if (role === 'baseColor') {
+      if (role === 'baseColorMap') {
         baseColorMap = this.#parseImageTexture(imageTexture);
         if (typeof baseColorMap !== 'undefined')
           baseColorMap.role = 'baseColorMap';
-      } else if (role === 'roughness') {
+      } else if (role === 'roughnessMap') {
         roughnessMap = this.#parseImageTexture(imageTexture);
         if (typeof roughnessMap !== 'undefined')
           roughnessMap.role = 'roughnessMap';
-      } else if (role === 'metalness') {
+      } else if (role === 'metalnessMap') {
         metalnessMap = this.#parseImageTexture(imageTexture);
         if (typeof metalnessMap !== 'undefined')
           metalnessMap.role = 'metalnessMap';
-      } else if (role === 'normal') {
+      } else if (role === 'normalMap') {
         normalMap = this.#parseImageTexture(imageTexture);
         if (typeof normalMap !== 'undefined')
           normalMap.role = 'normalMap';
-      } else if (role === 'occlusion') {
+      } else if (role === 'occlusionMap') {
         occlusionMap = this.#parseImageTexture(imageTexture);
         if (typeof occlusionMap !== 'undefined')
           occlusionMap.role = 'occlusionMap';
-      } else if (role === 'emissiveColor') {
+      } else if (role === 'emissiveColorMap') {
         emissiveColorMap = this.#parseImageTexture(imageTexture);
         if (typeof emissiveColorMap !== 'undefined')
           emissiveColorMap.role = 'emissiveColorMap';

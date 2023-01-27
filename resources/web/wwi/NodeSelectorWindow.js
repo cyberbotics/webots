@@ -5,20 +5,12 @@ class ProtoInfo {
   #url;
   #baseType;
   #license;
-  #licenseUrl;
   #description;
-  #slotType;
-  #tags;
-  #needsRobotAncestor;
-  constructor(url, baseType, license, licenseUrl, description, slotType, tags, needsRobotAncestor) {
+  constructor(url, baseType, license, description) {
     this.#url = url;
     this.#baseType = baseType;
     this.#license = license;
-    this.#licenseUrl = licenseUrl;
     this.#description = description;
-    this.#slotType = slotType;
-    this.#tags = tags;
-    this.#needsRobotAncestor = needsRobotAncestor;
   }
 
   get url() {
@@ -33,24 +25,8 @@ class ProtoInfo {
     return this.#license;
   }
 
-  get licenseUrl() {
-    return this.#licenseUrl;
-  }
-
   get description() {
     return this.#description;
-  }
-
-  get slotType() {
-    return this.#slotType;
-  }
-
-  get tags() {
-    return this.#tags;
-  }
-
-  get needsRobotAncestor() {
-    return this.#needsRobotAncestor;
   }
 }
 
@@ -60,40 +36,6 @@ export default class NodeSelectorWindow {
     this.#rootProto = rootProto;
 
     this.#setupWindow(parentNode);
-  }
-
-  async initialize() {
-    return new Promise((resolve, reject) => {
-      const xmlhttp = new XMLHttpRequest();
-      xmlhttp.open('GET', 'https://cyberbotics.com/wwi/proto/protoVisualizer/temporary-proto-list.xml', true);
-      xmlhttp.onreadystatechange = async() => {
-        if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
-          resolve(xmlhttp.responseText);
-      };
-      xmlhttp.send();
-    }).then(text => {
-      this.nodes = new Map();
-
-      const parser = new DOMParser();
-      const xml = parser.parseFromString(text, 'text/xml').firstChild;
-      for (const proto of xml.getElementsByTagName('proto')) {
-        const url = proto.getElementsByTagName('url')[0]?.innerHTML;
-        const baseType = proto.getElementsByTagName('base-type')[0]?.innerHTML;
-        const license = proto.getElementsByTagName('license')[0]?.innerHTML;
-        const licenseUrl = proto.getElementsByTagName('license-url')[0]?.innerHTML;
-        let description = proto.getElementsByTagName('description')[0]?.innerHTML;
-        if (typeof description !== 'undefined')
-          description = description.replaceAll('\\n', '<br>');
-        const slotType = proto.getElementsByTagName('slot-type')[0]?.innerHTML;
-        const items = proto.getElementsByTagName('tags')[0]?.innerHTML.split(',');
-        const tags = typeof items !== 'undefined' ? items : [];
-        const needsRobotAncestor = proto.getElementsByTagName('needs-robot-ancestor')[0]?.innerHTML === 'true';
-        const protoInfo = new ProtoInfo(url, baseType, license, licenseUrl, description, slotType, tags, needsRobotAncestor);
-
-        const protoName = url.split('/').pop().replace('.proto', '');
-        this.nodes.set(protoName, protoInfo);
-      }
-    });
   }
 
   #setupWindow(parentNode) {
@@ -189,6 +131,41 @@ export default class NodeSelectorWindow {
     this.nodeSelector.appendChild(buttonContainer);
   }
 
+  async fetchCompatibleNodes() {
+    // The provider of the list of protos is webots.cloud but it should be possible to generalize it.
+    let url = window.location.href;
+    if (!url.includes('webots.cloud'))
+      url = 'https://proto.webots.cloud/';
+    url = new URL(url).hostname;
+
+    const content = {};
+    content.base_types = this.getAllowedBaseType();
+
+    if (content.base_types.length === 1 && content.base_types[0] === 'Slot')
+      content.slot_type = this.getSlotType();
+
+    if (!this.isRobotDescendant())
+      content.skip_no_robot_ancestor = true;
+
+    return fetch('https://' + url + '/ajax/proto/insertable.php', {method: 'post', body: JSON.stringify(content)})
+      .then(result => result.json())
+      .then(json => {
+        this.nodes = new Map();
+        for (const proto of json) {
+          let url = proto.url;
+          url = url.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
+          const baseType = proto.base_type;
+          const license = proto.license;
+          let description = proto.description;
+          if (typeof description !== 'undefined')
+            description = description.replaceAll('\\n', '<br>');
+          const protoInfo = new ProtoInfo(url, baseType, license, description);
+          const protoName = url.split('/').pop().replace('.proto', '');
+          this.nodes.set(protoName, protoInfo);
+        }
+      });
+  }
+
   populateWindow() {
     const filterInput = document.getElementById('filter');
 
@@ -202,22 +179,8 @@ export default class NodeSelectorWindow {
       if (!this.doFieldRestrictionsAllowNode(name))
         continue;
 
-      // filter incompatible nodes
-      if (typeof info.tags !== 'undefined' && (info.tags.includes('hidden') || info.tags.includes('deprecated')))
-        continue;
-
       // don't display PROTO nodes which have been filtered-out by the user's "filter" widget
       if (!info.url.toLowerCase().includes(filterInput.value) && !info.baseType.toLowerCase().includes(filterInput.value))
-        continue;
-
-      // don't display non-Robot PROTO nodes containing devices (e.g. Kinect) about to be inserted outside a robot
-      if (typeof info.baseType === 'undefined')
-        throw new Error('"base-type" property is undefined, is the proto-list.xml complete?');
-
-      if (!this.isRobotDescendant() && !(info.baseType === 'Robot') && info.needsRobotAncestor)
-        continue;
-
-      if (!this.isAllowedToInsert(info.baseType, info.slotType))
         continue;
 
       compatibleNodes.push(name);
@@ -297,8 +260,13 @@ export default class NodeSelectorWindow {
       const info = this.nodes.get(protoName);
       const url = info.url;
       nodeImage.src = url.slice(0, url.lastIndexOf('/') + 1) + 'icons/' + protoName + '.png';
+      nodeImage.onerror = () => {
+        nodeImage.onerror = undefined;
+        nodeImage.src = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023a/resources/images/missing_proto_icon.png';
+      };
       description.innerHTML = info.description;
-      license.innerHTML = 'License:&nbsp;<i>' + (typeof info.license !== 'undefined' ? info.license : 'not specified.') + '</i>';
+      license.innerHTML =
+        'License:&nbsp;<i>' + (typeof info.license !== 'undefined' ? info.license : 'not specified.') + '</i>';
     }
   }
 
@@ -326,62 +294,41 @@ export default class NodeSelectorWindow {
     return false;
   }
 
-  isAllowedToInsert(baseType, slotType) {
+  getAllowedBaseType() {
     if (typeof this.parameter === 'undefined')
       throw new Error('The parameter is expected to be defined prior to checking node compatibility.');
 
-    for (const link of this.parameter.parameterLinks) {
-      const fieldName = link.name;
-      const parentNode = link.node;
+    if (this.parameter.parameterLinks.length <= 0)
+      throw new Error('The parameter has no IS.');
 
-      if (parentNode.name === 'Slot' && typeof slotType !== 'undefined') {
-        const otherSlotType = parentNode.getParameterByName('type').value.value.replaceAll('"', '');
-        return this.isSlotTypeMatch(otherSlotType, slotType);
-      }
-
-      if (fieldName === 'appearance') {
-        if (baseType === 'Appearance')
-          return true;
-        else if (baseType === 'PBRAppearance')
-          return true;
-      }
-
-      if (fieldName === 'geometry')
-        return this.isGeometryTypeMatch(baseType);
-
-      if (fieldName === 'children') {
-        if (['Group', 'Transform', 'Shape', 'CadShape', 'Solid', 'Robot', 'PointLight', 'SpotLight', 'Propeller', 'Charger']
-          .includes(baseType))
-          return true;
-      }
+    let baseType = [];
+    const fieldName = this.parameter.parameterLinks[0].name;
+    const parentNode = this.parameter.parameterLinks[0].node;
+    if (fieldName === 'appearance')
+      baseType = ['Appearance', 'PBRAppearance'];
+    else if (fieldName === 'geometry') {
+      baseType = ['Box', 'Capsule', 'Cylinder', 'Cone', 'Plane', 'Sphere', 'Mesh', 'ElevationGrid', 'IndexedFaceSet',
+        'IndexedLineSet'];
+    } else if (fieldName === 'endPoint' && parentNode.name === 'Slot')
+      baseType = ['Slot'];
+    else if (fieldName === 'endPoint' || fieldName === 'children') {
+      baseType = ['Group', 'Transform', 'Shape', 'CadShape', 'Solid', 'Robot', 'PointLight', 'SpotLight', 'Propeller',
+        'Charger'];
     }
 
-    return false;
+    return baseType;
   }
 
-  isSlotTypeMatch(firstType, secondType) {
-    if (typeof firstType === 'undefined' || typeof secondType === 'undefined')
-      throw new Error('Cannot determine slot match because inputs are undefined.');
+  getSlotType() {
+    const parentNode = this.parameter.parameterLinks[0].node;
+    let slotType = parentNode.fields.get('type').value.value.replaceAll('"', '');
 
-    if (firstType.length === 0 || secondType.length === 0)
-      return true; // empty type matches any type
-    else if (firstType.endsWith('+') || firstType.endsWith('-')) {
-      // gendered slot types
-      if (firstType.slice(0, -1) === secondType.slice(0, -1)) {
-        if (firstType === secondType)
-          return false; // same gender
-        else
-          return true; // different gender
-      }
-    } else if (firstType === secondType)
-      return true;
+    if (slotType.endsWith('+'))
+      slotType = slotType.substring(0, slotType.length - 1) + '-';
+    else if (slotType.endsWith('-'))
+      slotType = slotType.substring(0, slotType.length - 1) + '+';
 
-    return false;
-  }
-
-  isGeometryTypeMatch(type) {
-    return ['Box', 'Capsule', 'Cylinder', 'Cone', 'Plane', 'Sphere', 'Mesh', 'ElevationGrid',
-      'IndexedFaceSet', 'IndexedLineSet'].includes(type);
+    return slotType;
   }
 
   show(parameter, element, callback, parent, mfId, resetButton) {
@@ -398,14 +345,13 @@ export default class NodeSelectorWindow {
     this.parent = parent;
     this.mfId = mfId;
     this.resetButton = resetButton;
-    this.populateWindow();
+    this.fetchCompatibleNodes()
+      .then(() => this.populateWindow());
     this.nodeSelector.style.display = 'block';
   }
 
   isRobotDescendant() {
-    // TODO: to fix
-    //return this.#rootProto.getBaseNode().name === 'Robot';
-    return true;
+    return this.#rootProto.getBaseNode().name === 'Robot';
   }
 
   hide() {

@@ -30,7 +30,7 @@ from webots_objects.tree import Tree
 import sys
 try:
     from lxml import etree
-except:
+except Exception:
     sys.exit("Error: lxml python module not installed. You can install it using pip: 'pip install lxml'")
 
 
@@ -61,7 +61,7 @@ class Parser(object):
         try:
             countryTags = tree.xpath("//tag[@k='addr:country']")
             self.country = sorted(countryTags, key=lambda x: countryTags.count(x.attrib['v']))[-1].attrib['v']
-        except:
+        except Exception:
             pass
         if self.country is None:
             print('Warning: Failed to determine the country.')

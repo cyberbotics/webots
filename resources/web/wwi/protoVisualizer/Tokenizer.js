@@ -403,7 +403,7 @@ export default class Tokenizer {
     }
   };
 
-  printTokens() {
+  printTokens() { // for debugging purposes
     let string = '';
     for (const item of this.vector)
       string += item.word() + ' > ';

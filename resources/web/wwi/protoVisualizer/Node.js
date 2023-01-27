@@ -217,7 +217,7 @@ export default class Node {
     }
   }
 
-  toX3d(isUse, parameterReference) { // TODO: isUse?
+  toX3d(isUse) {
     if (this.isRoot)
       this.resetRefs(); // resets the instance counters
 
@@ -227,15 +227,19 @@ export default class Node {
       return this.baseType.toX3d();
 
     const nodeElement = this.xml.createElement(this.name);
-    if (this.refId > this.ids.length - 1)
-      throw new Error('Something has gone wrong, the refId is bigger the number of available ids.');
-    const id = this.ids[this.refId++];
-    nodeElement.setAttribute('id', id);
-    for (const [fieldName, field] of this.fields) {
-      if (field.isDefault())
-        continue;
+    if (isUse)
+      nodeElement.setAttribute('USE', this.ids[0]);
+    else {
+      if (this.refId > this.ids.length - 1)
+        throw new Error('Something has gone wrong, the refId is bigger the number of available ids.');
+      const id = this.ids[this.refId++];
+      nodeElement.setAttribute('id', id);
+      for (const [fieldName, field] of this.fields) {
+        if (field.isDefault())
+          continue;
 
-      field.value.toX3d(fieldName, nodeElement);
+        field.value.toX3d(fieldName, nodeElement);
+      }
     }
 
     this.xml.appendChild(nodeElement);
@@ -244,7 +248,7 @@ export default class Node {
 
   regenerateBodyVrml(protoBody) {
     const fieldsEncoding = this.toJS(true); // make current proto parameters in a format compliant to template engine
-    const templateEngine = new TemplateEngine();
+    const templateEngine = new TemplateEngine(Math.abs(getAnId().replace('n', '')), this.model['version']);
 
     return templateEngine.generateVrml(fieldsEncoding, protoBody);
   };
@@ -303,6 +307,7 @@ export default class Node {
     const indexBeginInterface = protoText.search(/(^\s*PROTO\s+[a-zA-Z0-9\-_+]+\s*\[\s*$)/gm);
     const indexBeginBody = protoText.search(/(?<=\]\s*\n*\r*)({)/g);
 
+    const rawHeader = protoText.substring(0, indexBeginInterface);
     let rawInterface = protoText.substring(indexBeginInterface, indexBeginBody);
 
     // change all relative paths to remote ones
@@ -316,8 +321,6 @@ export default class Node {
     while ((result = re.exec(rawBody)) !== null)
       rawBody = rawBody.replace(result[0], '"' + combinePaths(result[0].slice(1, -1), protoUrl) + '"');
 
-    const baseType = rawBody.match(/\{\s*(?:%<[\s\S]*?(?:>%\s*))?(?:DEF\s+[^\s]+)?\s+([a-zA-Z0-9_\-+]+)\s*\{/)[1];
-
     const tokenizer = new Tokenizer(rawInterface, this, externProto);
     tokenizer.tokenize();
 
@@ -328,8 +331,10 @@ export default class Node {
     const model = {};
     model['rawBody'] = rawBody;
     model['isTemplate'] = protoText.substring(0, indexBeginInterface).search('template language: javascript') !== -1;
+    const match = rawHeader.match(/R(\d+)([a-z])(?:\srevision\s(\d+)|-rev(\d+))?(?:-(\w*))?(?:-(\w*\/\w*\/\w*))?/);
+    model['version'] = {'major': parseInt(match[1]), 'revision': typeof match[4] === 'undefined' ? 0 : parseInt(match[4])};
     model['externProto'] = externProto;
-    model['baseType'] = baseType;
+    model['baseType'] = rawBody.match(/\{\s*(?:%<[\s\S]*?(?:>%\s*))?(?:DEF\s+[^\s]+)?\s+([a-zA-Z0-9_\-+]+)\s*\{/)[1];
     model['parameters'] = {};
 
     while (!tokenizer.peekToken().isEof()) {
