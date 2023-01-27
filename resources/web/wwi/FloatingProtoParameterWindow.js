@@ -514,13 +514,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     for (let i = 0; i < parameter.value.value.length; i++) {
       numberOfRows++;
 
-      if (parameter.type === VRML.MFNode)
+      if (parameter.type === VRML.MFNode) {
         this.#createMFNodeRow(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
           parameter, isVisible);
-      else
+      } else {
         this.#createMfRow(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
           parameter, isVisible);
-
+      }
       numberOfRows++;
     }
 
@@ -763,7 +763,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     parameter.removeNode(this.#view, index);
     // generate new node and insert it
     await Node.prepareProtoDependencies(url);
-    const node = new Node(url)
+    const node = new Node(url);
     parameter.insertNode(this.#view, node, index);
 
     this.#refreshParameterRow(parameter, mfId);

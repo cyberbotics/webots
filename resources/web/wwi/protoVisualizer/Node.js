@@ -142,8 +142,6 @@ export default class Node {
       const field = tokenizer.nextWord();
       for (const [fieldName, fieldValue] of this.fields) {
         if (field === fieldName) {
-          console.log(this.name, ':', 'configuring ' + fieldName + ' of ' + this.name);
-
           if (tokenizer.peekWord() === 'IS') {
             tokenizer.skipToken('IS');
             const alias = tokenizer.nextWord();
@@ -312,7 +310,7 @@ export default class Node {
     const re = /"(?:[^"]*)\.(jpe?g|png|hdr|obj|stl|dae)"/g;
     let result;
     while ((result = re.exec(rawInterface)) !== null)
-      rawInterface = rawInterface.replace(result[0], '"' + combinePaths(result[0].slice(1, -1),protoUrl) + '"');
+      rawInterface = rawInterface.replace(result[0], '"' + combinePaths(result[0].slice(1, -1), protoUrl) + '"');
 
     let rawBody = protoText.substring(indexBeginBody);
     // change all relative paths to remote ones
