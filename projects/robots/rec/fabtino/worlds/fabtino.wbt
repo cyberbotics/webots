@@ -321,7 +321,7 @@ PlasticCrate {
 CardboardBox {
   translation -6.187 -0.937 1.02
   rotation 1 0 0 1.5708
-  name "cardboard box(1)"
+  name "cardboard box(2)"
   size 0.3 0.23 0.23
 }
 SquareManhole {
@@ -429,7 +429,7 @@ CardboardBox {
 CardboardBox {
   translation -1.198389 2.100678 0.75
   rotation 0 0 1 0.523598
-  name "cardboard box(2)"
+  name "cardboard box(1)"
   size 0.6 0.4 0.3
 }
 RectangleArena {
