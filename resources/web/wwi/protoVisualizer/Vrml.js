@@ -429,7 +429,7 @@ export class SFNode extends SingleValue {
     this.value = new Node(url, tokenizer);
 
     if (!this.value.isProto)
-      this.value.configureFieldsFromTokenizer(tokenizer);
+      this.value.configureFromTokenizer(tokenizer, 'fields');
 
     if (typeof defName !== 'undefined')
       tokenizer.proto.def.set(defName, this.value);

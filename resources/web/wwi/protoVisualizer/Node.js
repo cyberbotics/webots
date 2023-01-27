@@ -53,7 +53,7 @@ export default class Node {
       // configure the parameters based on the VRML provided in the PROTO body (typically, in a derived PROTO context,
       // sub-PROTO parameters are overwritten by the parent PROTO)
       if (typeof parameterTokenizer !== 'undefined' && parameterTokenizer.hasMoreTokens())
-        this.configureParametersFromTokenizer(parameterTokenizer);
+        this.configureFromTokenizer(parameterTokenizer, 'parameters');
     } else
       this.model = FieldModel[this.name];
 
@@ -103,42 +103,20 @@ export default class Node {
       this.baseType = new Node(baseTypeUrl, tokenizer);
     } else {
       this.baseType = new Node(this.model['baseType']);
-      this.baseType.configureFieldsFromTokenizer(tokenizer); // base-nodes don't have parameters
+      this.baseType.configureFromTokenizer(tokenizer, 'fields'); // base-nodes don't have parameters
     }
   }
 
-  configureParametersFromTokenizer(tokenizer) {
+  configureFromTokenizer(tokenizer, target) {
     tokenizer.skipToken('{');
 
-    while (tokenizer.peekWord() !== '}') {
-      const field = tokenizer.nextWord();
-      for (const [parameterName, parameterValue] of this.parameters) {
-        if (field === parameterName) {
-          if (tokenizer.peekWord() === 'IS') {
-            tokenizer.skipToken('IS');
-            const alias = tokenizer.nextWord();
-            if (!tokenizer.proto.parameters.has(alias))
-              throw new Error('Alias "' + alias + '" not found in PROTO ' + tokenizer.proto.name);
-
-            const p = tokenizer.proto.parameters.get(alias);
-            parameterValue.value = p.value;
-            p.addAliasLink(parameterValue);
-          } else
-            parameterValue.value.setValueFromTokenizer(tokenizer, this);
-        }
-      }
-    }
-
-    tokenizer.skipToken('}');
-  }
-
-  configureFieldsFromTokenizer(tokenizer) { // TODO: merge with other
-    tokenizer.skipToken('{');
+    console.assert(['fields', 'parameters'].includes(target), `${target} is not a known list.`);
+    const fieldOrParameters = target === 'fields' ? this.fields : this.parameters;
 
     while (tokenizer.peekWord() !== '}') {
-      const field = tokenizer.nextWord();
-      for (const [fieldName, fieldValue] of this.fields) {
-        if (field === fieldName) {
+      const word = tokenizer.nextWord();
+      for (const [fieldName, fieldValue] of fieldOrParameters) {
+        if (word === fieldName) {
           if (tokenizer.peekWord() === 'IS') {
             tokenizer.skipToken('IS');
             const alias = tokenizer.nextWord();

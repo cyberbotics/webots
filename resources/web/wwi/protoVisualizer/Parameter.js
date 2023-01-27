@@ -141,7 +141,6 @@ export default class Parameter extends Field {
       const parentIds = new Set();
       const idsToDelete = new Set();
 
-      // TODO: can simplify by just deleting and requesting the parent from webotsjs?
       for (const link of links) {
         // determine parent node ids and ids of nodes that need to be deleted on the webotsjs side
         for (const id of link.node.getBaseNodeIds()) {
