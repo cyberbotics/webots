@@ -22,8 +22,11 @@ export default class Animation {
 
   init(onReady) {
     this.#onReady = onReady;
-    this.#jsonPromise.then(json => this.#setup(json))
-      .catch(error => console.error(error));
+    if (this.#jsonPromise instanceof Promise) {
+      this.#jsonPromise.then(json => this.#setup(json))
+        .catch(error => console.error(error));
+    } else
+      this.#setup(this.#jsonPromise);
   }
 
   pause() {

@@ -211,9 +211,9 @@ export default class WebotsView extends HTMLElement {
       };
       this._view.open(scene, 'undefined', thumbnail, raw);
       if (play !== 'undefined' && play === false)
-        this._view.setAnimation(animation, 'pause', true);
+        this._view.setAnimation(animation, 'pause', true, raw);
       else
-        this._view.setAnimation(animation, 'play', true);
+        this._view.setAnimation(animation, 'play', true, raw);
       this.#hasAnimation = true;
       this.#closeWhenDOMElementRemoved();
     }
