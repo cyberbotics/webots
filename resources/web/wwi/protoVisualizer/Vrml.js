@@ -2,7 +2,6 @@
 
 import {Node} from './Node.js';
 import {VRML} from './vrml_type.js';
-import {FieldModel} from './FieldModel.js';
 
 import {DOUBLE_EQUALITY_TOLERANCE} from '../nodes/utils/constants.js';
 import Tokenizer from './Tokenizer.js';
@@ -64,7 +63,7 @@ export class SFBool extends SingleValue {
   }
 
   setValueFromModel(v) {
-    super.value = v
+    super.value = v; // TODO: this.value?
   }
 
   type() {
@@ -401,8 +400,6 @@ export class SFRotation extends SingleValue {
 
 export class SFNode extends SingleValue {
   setValueFromTokenizer(tokenizer) {
-    console.log('setValueFromTokenizer with tokens:');
-    tokenizer.printTokens();
     if (tokenizer.peekWord() === 'USE') {
       this.isUse = true;
       tokenizer.skipToken('USE');
@@ -429,15 +426,10 @@ export class SFNode extends SingleValue {
     else
       url = tokenizer.nextWord();
 
-    console.log('create node in sfnode parameter:', url);
     this.value = new Node(url, tokenizer);
 
-    if (this.value.isProto) {
-    //  //throw new Error('REACHED, NEED TO DO SOMETHING?')
-    //this.value.configureParametersFromTokenizer(tokenizer);
-    } else {
+    if (!this.value.isProto)
       this.value.configureFieldsFromTokenizer(tokenizer);
-    }
 
     if (typeof defName !== 'undefined')
       tokenizer.proto.def.set(defName, this.value);
@@ -445,7 +437,7 @@ export class SFNode extends SingleValue {
 
   setValueFromModel(v) {
     if (typeof v === 'undefined')
-      throw new Error('Cannot initialize undefined VRML type.')
+      throw new Error('Cannot initialize undefined VRML type.');
 
     if (v === null)
       this.value = v;
@@ -553,7 +545,7 @@ class MultipleValue {
   #value = [];
   constructor(v) {
     if (typeof v === 'undefined')
-      throw new Error('Cannot initialize undefined VRML type.')
+      throw new Error('Cannot initialize undefined VRML type.');
 
     if (v instanceof Tokenizer)
       this.setValueFromTokenizer(v);
@@ -1109,58 +1101,6 @@ export function stringifyType(type) {
       return 'MFRotation';
     case VRML.MFNode:
       return 'MFNode';
-    default:
-      throw new Error('Unknown VRML type: ', type);
-  }
-}
-
-export function jsifyFromTokenizer(type, tokenizer) {
-
-  switch (type) {
-    case VRML.SFBool:
-      return tokenizer.nextToken().toBool();
-    case VRML.SFInt32:
-      return tokenizer.nextToken().toInt();
-    case VRML.SFFloat:
-      return tokenizer.nextToken().toFloat();
-    case VRML.SFString: {
-      const value = tokenizer.nextWord();
-      if (!value.startsWith('"') && !value.endsWith('"'))
-        return '"' + value + '"';
-      return value;
-    }
-    case VRML.SFVec2f:
-      return {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat()};
-    case VRML.SFVec3f:
-      return {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), z: tokenizer.nextToken().toFloat()};
-    case VRML.SFColor:
-      return {r: tokenizer.nextToken().toFloat(), g: tokenizer.nextToken().toFloat(), b: tokenizer.nextToken().toFloat()};
-    case VRML.SFRotation:
-      return {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), z: tokenizer.nextToken().toFloat(), a: tokenizer.nextToken().toFloat()};
-    case VRML.SFNode:
-      return tokenizer.spliceTokenizerByType(VRML.SFNode);
-    case VRML.MFBool:
-    case VRML.MFInt32:
-    case VRML.MFFloat:
-    case VRML.MFString:
-    case VRML.MFVec2f:
-    case VRML.MFVec3f:
-    case VRML.MFColor:
-    case VRML.MFRotation:
-    case VRML.MFNode: {
-      const value = [];
-      if (tokenizer.peekWord() === '[') {
-        tokenizer.skipToken('[');
-
-        while (tokenizer.peekWord() !== ']')
-          value.push(jsifyFromTokenizer(type + 1, tokenizer))
-
-        tokenizer.skipToken(']');
-      } else
-        value.push(jsifyFromTokenizer(type + 1, tokenizer));
-
-      return value;
-    }
     default:
       throw new Error('Unknown VRML type: ', type);
   }
