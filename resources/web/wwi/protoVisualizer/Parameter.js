@@ -68,6 +68,10 @@ export default class Parameter extends Field {
     this.#aliasLinks.push(parameter);
   }
 
+  resetAliasLinks() {
+    this.#aliasLinks = [];
+  }
+
   insertNode(view, v, index) {
     if (this.type !== VRML.MFNode)
       throw new Error('Item insertion is possible only for MFNodes.');
@@ -113,9 +117,11 @@ export default class Parameter extends Field {
       for (const id of this.node.getBaseNodeIds()) {
         const jsNode = WbWorld.instance.nodes.get(id);
         parentIds.add(jsNode.parent);
-
         view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
       }
+
+      // now that the nodes have been deleted on the webotsjs side, the corresponding ids need to be cleared in the structure
+      this.node.resetIds();
 
       // update the parameter value (note: all IS instances refer to the parameter itself, so they don't need to change)
       this.value.setValueFromJavaScript(v);

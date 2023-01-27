@@ -88,6 +88,9 @@ export default class Node {
 
   createBaseType() {
     this.def = new Map(); // recreate def list
+    for (const parameter of this.parameters.values()) // cleanup previous links
+      parameter.resetAliasLinks();
+
     let protoBody = this.model['rawBody'];
 
     if (this.isTemplate)
@@ -189,6 +192,22 @@ export default class Node {
       else if (field.type === VRML.MFNode) {
         for (const child of field.value.value)
           child.value.resetRefs();
+      }
+    }
+  }
+
+  resetIds() {
+    if (this.isProto)
+      return this.baseType.resetIds();
+
+    this.ids = [];
+
+    for (const field of this.fields.values()) {
+      if (field.type === VRML.SFNode && field.value.value !== null)
+        field.value.value.resetIds();
+      else if (field.type === VRML.MFNode) {
+        for (const child of field.value.value)
+          child.value.resetIds();
       }
     }
   }
