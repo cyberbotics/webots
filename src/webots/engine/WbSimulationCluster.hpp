@@ -75,12 +75,12 @@ private:
   bool mSwapJointContactBuffer;
   std::vector<dContact> mContactVector;
 
-  double lastMoreContactPointsThanContactJointsWarnTime = -INFINITY;
   void warnMoreContactPointsThanContactJoints() {
-    const double currentSimulationTime = WbSimulationState::instance()->time();
-    if (currentSimulationTime > lastMoreContactPointsThanContactJointsWarnTime + 1000.0) {
+      static double lastWarningTime = -INFINITY;
+      const double currentSimulationTime = WbSimulationState::instance()->time();
+    if (currentSimulationTime > lastWarningTime + 1000) {
       WbLog::warning(QObject::tr("Contact joints will only be created for the deepest contact points."), false, WbLog::ODE);
-      lastMoreContactPointsThanContactJointsWarnTime = currentSimulationTime;
+      lastWarningTime = currentSimulationTime;
     }
   }
 };
