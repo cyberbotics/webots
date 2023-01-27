@@ -22,8 +22,7 @@ export default class ProtoManager {
       };
       xmlhttp.send();
     }).then(async text => {
-      await Node.prepareProtoDependencies(url);
-      this.proto = new Node(url, undefined, true);
+      this.proto = await Node.createNode(url, undefined, true);
       this.loadX3d();
     });
   }

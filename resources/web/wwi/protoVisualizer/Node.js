@@ -272,6 +272,11 @@ export default class Node {
     });
   }
 
+  static async createNode(url, tokenizer, isRoot) {
+    await Node.prepareProtoDependencies(url);
+    return new Node(url, tokenizer, isRoot);
+  }
+
   static async generateProtoModel(protoUrl, protoText, externProto) {
     if (Node.cProtoModels.has(protoUrl))
       return; // model is known already
