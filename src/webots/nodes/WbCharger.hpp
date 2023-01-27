@@ -56,7 +56,6 @@ private:
   // private fields
   const WbRobot *mParentRobot;
   WbRobot *mRobot;  // robot currently connected to the Charger
-  bool mDone;
   bool mElementsUpdateRequired;
   QList<VisualElement *> mVisualElements;
   QMap<QString, double> mSavedEnergies;
