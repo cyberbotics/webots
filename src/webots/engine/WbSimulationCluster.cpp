@@ -653,7 +653,7 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     return;
 
   if (n > maxContactJoints) {
-    cl->warnMoreContactPointsThanContactJoints();
+    WbSimulationCluster::warnMoreContactPointsThanContactJoints();
     std::nth_element(contact, contact + maxContactJoints, contact + n,
                      [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
     n = maxContactJoints;
