@@ -643,9 +643,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       for (let i = parameter.value.value.length - 1; i >= 0; --i)
         parameter.removeNode(this.#view, i);
 
-      throw new Error('TO DO');
+      const protoModel = parameter.node.model;
+      const parameterModel = protoModel['parameters'][parameter.name]['defaultValue'];
+      parameterModel.rewind();
+      const mfnode = vrmlFactory(VRML.MFNode, parameterModel);
 
-      parameter.setValueFromJavaScript(this.#view, newValue);
+      for (const [i, node] of mfnode.value.entries())
+        parameter.insertNode(this.#view, node.value, i);
 
       const resetButtonRow = this.#getRow(resetButton);
       this.#populateMFNode(resetButton, parent, parameter, resetButtonRow, currentMfId, false);
