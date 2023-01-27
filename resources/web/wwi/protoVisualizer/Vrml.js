@@ -59,11 +59,11 @@ class SingleValue {
 
 export class SFBool extends SingleValue {
   setValueFromTokenizer(tokenizer) {
-    super.value = tokenizer.nextToken().toBool();
+    this.value = tokenizer.nextToken().toBool();
   }
 
   setValueFromModel(v) {
-    super.value = v; // TODO: this.value?
+    this.value = v;
   }
 
   type() {
@@ -82,11 +82,11 @@ export class SFBool extends SingleValue {
 
 export class SFInt32 extends SingleValue {
   setValueFromTokenizer(tokenizer) {
-    super.value = tokenizer.nextToken().toInt();
+    this.value = tokenizer.nextToken().toInt();
   }
 
   setValueFromModel(v) {
-    super.value = v;
+    this.value = v;
   }
 
   type() {
@@ -109,7 +109,7 @@ export class SFFloat extends SingleValue {
   }
 
   setValueFromModel(v) {
-    super.value = v;
+    this.value = v;
   }
 
   type() {
@@ -132,7 +132,7 @@ export class SFString extends SingleValue {
   }
 
   setValueFromModel(v) {
-    super.value = v;
+    this.value = v;
   }
 
   setValueFromJavaScript(v) {
@@ -166,7 +166,7 @@ export class SFVec2f extends SingleValue {
   }
 
   setValueFromModel(v) {
-    super.value = v;
+    this.value = v;
   }
 
   toX3d(parameterName, parentElement) {
@@ -218,7 +218,7 @@ export class SFVec3f extends SingleValue {
   }
 
   setValueFromModel(v) {
-    super.value = v;
+    this.value = v;
   }
 
   toX3d(parameterName, parentElement) {
@@ -270,7 +270,7 @@ export class SFColor extends SingleValue {
   }
 
   setValueFromModel(v) {
-    super.value = v;
+    this.value = v;
   }
 
   toX3d(parameterName, parentElement) {
@@ -327,7 +327,7 @@ export class SFRotation extends SingleValue {
   }
 
   setValueFromModel(v) {
-    super.value = v;
+    this.value = v;
   }
 
   setValueFromJavaScript(v) {
@@ -926,22 +926,6 @@ export class MFRotation extends MultipleValue {
 }
 
 export class MFNode extends MultipleValue {
-  get value() {
-    return super.value;
-  }
-
-  set value(v) {
-    if (!Array.isArray(v)) {
-      if (v instanceof Node) {
-        const sf = new SFNode();
-        sf.value = v;
-        this.insert(sf);
-      } else
-        this.insert(v);
-    } else
-      super.value = v;
-  }
-
   setValueFromTokenizer(tokenizer) {
     if (tokenizer.peekWord() === '[') {
       tokenizer.skipToken('[');

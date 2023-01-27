@@ -345,7 +345,6 @@ export default class Node {
           const parameterType = token.fieldTypeFromVrml();
 
           while (tokenizer.peekWord() !== '}') {
-            // TODO: handle MF/SFNode restrictions (encode urls?)
             const value = vrmlFactory(parameterType, tokenizer);
             restrictions.push(value);
           }

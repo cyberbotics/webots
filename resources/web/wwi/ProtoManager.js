@@ -25,8 +25,6 @@ export default class ProtoManager {
       await Node.prepareProtoDependencies(url);
       this.proto = new Node(url, undefined, true);
       this.loadX3d();
-      for (const parameter of this.proto.parameters.values())
-        parameter._view = this.#view;
     });
   }
 
