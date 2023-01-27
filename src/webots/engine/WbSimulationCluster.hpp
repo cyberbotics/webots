@@ -76,8 +76,8 @@ private:
   std::vector<dContact> mContactVector;
 
   void warnMoreContactPointsThanContactJoints() {
-      static double lastWarningTime = -INFINITY;
-      const double currentSimulationTime = WbSimulationState::instance()->time();
+    static double lastWarningTime = -INFINITY;
+    const double currentSimulationTime = WbSimulationState::instance()->time();
     if (currentSimulationTime > lastWarningTime + 1000) {
       WbLog::warning(QObject::tr("Contact joints will only be created for the deepest contact points."), false, WbLog::ODE);
       lastWarningTime = currentSimulationTime;
