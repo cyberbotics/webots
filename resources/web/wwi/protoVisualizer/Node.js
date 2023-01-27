@@ -42,10 +42,8 @@ export default class Node {
         const isTemplateRegenerator = parameterModel['isTemplateRegenerator'];
         const restrictions = parameterModel['restrictions'];
         const initializer = parameterModel['defaultValue'];
-        initializer.rewind(); // TODO: improve
-        const defaultValue = vrmlFactory(parameterType, initializer);
-        initializer.rewind();
-        const value = vrmlFactory(parameterType, initializer);
+        const defaultValue = vrmlFactory(parameterType, initializer, true);
+        const value = vrmlFactory(parameterType, initializer, true);
 
         const parameter = new Parameter(this, parameterName, parameterType, defaultValue, value, restrictions,
           isTemplateRegenerator);
@@ -72,8 +70,8 @@ export default class Node {
     // set field values based on field model
     for (const fieldName of Object.keys(this.model)) {
       const type = this.model[fieldName]['type'];
-      const value = vrmlFactory(type, this.model[fieldName]['defaultValue']);
-      const defaultValue = vrmlFactory(type, this.model[fieldName]['defaultValue']);
+      const value = vrmlFactory(type, this.model[fieldName]['defaultValue'], false);
+      const defaultValue = vrmlFactory(type, this.model[fieldName]['defaultValue'], false);
       const field = new Field(this, fieldName, type, defaultValue, value);
       this.fields.set(fieldName, field);
     }
@@ -345,7 +343,7 @@ export default class Node {
           const parameterType = token.fieldTypeFromVrml();
 
           while (tokenizer.peekWord() !== '}') {
-            const value = vrmlFactory(parameterType, tokenizer);
+            const value = vrmlFactory(parameterType, tokenizer, false);
             restrictions.push(value);
           }
 

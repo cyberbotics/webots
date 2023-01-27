@@ -645,8 +645,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
       const protoModel = parameter.node.model;
       const parameterModel = protoModel['parameters'][parameter.name]['defaultValue'];
-      parameterModel.rewind();
-      const mfnode = vrmlFactory(VRML.MFNode, parameterModel);
+      const mfnode = vrmlFactory(VRML.MFNode, parameterModel, true);
 
       for (const [i, node] of mfnode.value.entries())
         parameter.insertNode(this.#view, node.value, i);
@@ -1223,8 +1222,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         // the internal body is created as these extra parameters might yield different results)
         const protoModel = parameter.node.model;
         const parameterModel = protoModel['parameters'][parameter.name]['defaultValue'];
-        parameterModel.rewind();
-        const sfnode = vrmlFactory(VRML.SFNode, parameterModel);
+        const sfnode = vrmlFactory(VRML.SFNode, parameterModel, true);
         parameter.setValueFromJavaScript(this.#view, sfnode.value);
       }
       this.#refreshParameterRow(parameter);

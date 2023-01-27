@@ -34,8 +34,6 @@ export default class Tokenizer {
     this.vector = tokenizer.vector.filter((_, i) => { return i >= start && i < end; });
     this.rewind();
     this.#atEndPos = false;
-
-    // TODO: define other variables
   }
 
   get proto() {

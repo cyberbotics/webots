@@ -91,7 +91,6 @@ export default class Parameter extends Field {
     const links = this.linksToNotify();
     const idsToDelete = new Set();
 
-    // TODO: can simplify by just deleting and requesting the parent from webotsjs?
     for (const link of links) {
       // determine ids of nodes that need to be deleted on the webotsjs side
       for (const id of link.value.value[index].value.getBaseNodeIds())
@@ -101,7 +100,7 @@ export default class Parameter extends Field {
     // delete node on the structure side
     this.value.removeNode(index);
 
-    // delete existing nodes
+    // delete existing nodes on the webotsjs side
     for (const id of idsToDelete)
       view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
 

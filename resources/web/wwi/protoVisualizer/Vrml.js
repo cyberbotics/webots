@@ -995,13 +995,9 @@ export class MFNode extends MultipleValue {
   }
 }
 
-export function vrmlFactory(type, tokenizer) {
-  // note: the tokenizer provided to vrmlFactory should only contain the tokens relative to a single field, namely those
-  // spliced from a PROTO header. In other words, vrmlFactory should only be called with the tokenizer found in a node
-  // model (FieldModel or cProtoModels alike)
-
-  //if (rewind)
-  //  tokenizer.rewind(); // ensure the tokenizer starts from the beginning every time
+export function vrmlFactory(type, tokenizer, rewind) {
+  if (rewind)
+    tokenizer.rewind(); // ensures the tokenizer starts from the beginning every time
 
   switch (type) {
     case VRML.SFBool:
