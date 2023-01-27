@@ -227,19 +227,15 @@ export default class Node {
       return this.baseType.toX3d();
 
     const nodeElement = this.xml.createElement(this.name);
-    if (isUse)
-      nodeElement.setAttribute('USE', this.ids[0]);
-    else {
-      if (this.refId > this.ids.length - 1)
-        throw new Error('Something has gone wrong, the refId is bigger the number of available ids.');
-      const id = this.ids[this.refId++];
-      nodeElement.setAttribute('id', id);
-      for (const [fieldName, field] of this.fields) {
-        if (field.isDefault())
-          continue;
+    if (this.refId > this.ids.length - 1)
+      throw new Error('Something has gone wrong, the refId is bigger the number of available ids.');
+    const id = this.ids[this.refId++];
+    nodeElement.setAttribute('id', id);
+    for (const [fieldName, field] of this.fields) {
+      if (field.isDefault())
+        continue;
 
-        field.value.toX3d(fieldName, nodeElement);
-      }
+      field.value.toX3d(fieldName, nodeElement);
     }
 
     this.xml.appendChild(nodeElement);
