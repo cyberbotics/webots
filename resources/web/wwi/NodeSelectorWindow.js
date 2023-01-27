@@ -287,7 +287,12 @@ export default class NodeSelectorWindow {
       return true;
 
     for (const restriction of this.parameter.restrictions) {
-      if (nodeName === restriction.value.name)
+      if (this.parameter.type === VRML.MFNode) {
+        for (const child of restriction.value) {
+          if (nodeName === child.value.name)
+            return true;
+        }
+      } else if (nodeName === restriction.value.name)
         return true;
     }
 
@@ -332,6 +337,7 @@ export default class NodeSelectorWindow {
   }
 
   show(parameter, element, callback, parent, mfId, resetButton) {
+    console.log(parameter.restrictions)
     // cleanup input field
     const filterInput = document.getElementById('filter');
     filterInput.value = '';
