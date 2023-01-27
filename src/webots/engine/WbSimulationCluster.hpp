@@ -75,7 +75,7 @@ private:
   bool mSwapJointContactBuffer;
   std::vector<dContact> mContactVector;
 
-  void warnMoreContactPointsThanContactJoints() {
+  static void warnMoreContactPointsThanContactJoints() {
     static double lastWarningTime = -INFINITY;
     const double currentSimulationTime = WbSimulationState::instance()->time();
     if (currentSimulationTime > lastWarningTime + 1000) {
