@@ -75,14 +75,6 @@ private:
   bool mSwapJointContactBuffer;
   std::vector<dContact> mContactVector;
 
-  double lastMaxContactPointsFoundWarnTime = -INFINITY;
-  void warnMaxContactPointsFound() {
-    const double currentSimulationTime = WbSimulationState::instance()->time();
-    if (currentSimulationTime > lastMaxContactPointsFoundWarnTime + 1000.0) {
-      WbLog::warning(QObject::tr("Maximum number of contact points found so others might be ignored."), false, WbLog::ODE);
-      lastMaxContactPointsFoundWarnTime = currentSimulationTime;
-    }
-  }
   double lastMoreContactPointsThanContactJointsWarnTime = -INFINITY;
   void warnMoreContactPointsThanContactJoints() {
     const double currentSimulationTime = WbSimulationState::instance()->time();

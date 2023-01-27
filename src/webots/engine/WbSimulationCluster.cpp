@@ -50,11 +50,6 @@
 // physics engine scales with the cube of the number of joints.
 #define MAX_CONTACT_JOINTS 10
 
-// The maximum number of contact points to look for when colliding 2 geometries. A larger number decreases the
-// chances that contact points in important areas won't be considered. Of the (at most) MAX_CONTACTS points that
-// might be found, joints will only be created for the deepest MAX_CONTACT_JOINTS points. -1 means all points.
-#define MAX_CONTACTS -1
-
 // "webots" where each character is replaced by its ascii hexadecimal number.
 const long long int WbSimulationCluster::WEBOTS_MAGIC_NUMBER = 0x7765626F7473LL;
 
@@ -638,12 +633,9 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     }
   }
 
-  int maxContactPoints = MAX_CONTACTS;
   const int maxContactJoints = MAX_CONTACT_JOINTS;
 
-  const bool findAllContactPoints = maxContactPoints == -1;
-  if (findAllContactPoints)
-    maxContactPoints = std::max<size_t>(100, cl->mContactVector.capacity());
+  int maxContactPoints = std::max<size_t>(100, cl->mContactVector.capacity());
 
   int n;
   dContact *contact;
@@ -653,12 +645,8 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     n = dCollide(o1, o2, maxContactPoints, &contact[0].geom, sizeof(dContact));
     if (n < maxContactPoints)
       break;
-    else if (findAllContactPoints)
+    else
       maxContactPoints *= 10;
-    else {
-      cl->warnMaxContactPointsFound();
-      break;
-    }
   }
 
   if (n == 0)
