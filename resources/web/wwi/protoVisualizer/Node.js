@@ -455,8 +455,8 @@ export default class Node {
         //console.log('found ', parameterName, parameterType)
         //const defaultValue = jsifyFromTokenizer(parameterType, tokenizer);
         const defaultValue = tokenizer.spliceTokenizerByType(parameterType);
-        console.log('PARAMETER', parameterName, 'ENCONDED IN THE MODEL AS')
-        defaultValue.printTokens();
+        //console.log('PARAMETER', parameterName, 'ENCONDED IN THE MODEL AS')
+        //defaultValue.printTokens();
         const parameter = {}
         parameter['type'] = parameterType;
         parameter['defaultValue'] = defaultValue;

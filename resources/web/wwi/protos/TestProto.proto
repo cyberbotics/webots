@@ -1,18 +1,13 @@
 #VRML_SIM R2023b utf8
 
-EXTERNPROTO "CustomBox.proto"
+EXTERNPROTO "webots://projects/objects/shapes/protos/TexturedBoxShape.proto"
 
 PROTO TestProto [
 ]
 {
-  Transform {
-    children [
-      DEF BOARD TexturedBoxShape {
-        size 0.001 0.024 0.024
-        textureUrl [
-          "textures/raspberry_pi_camera.jpg"
-        ]
-      }
+  TexturedBoxShape {
+    textureUrl [
+      "webots://projects/robots/nvidia/jetbot/protos/textures/raspberry_pi_camera.jpg"
     ]
   }
 }

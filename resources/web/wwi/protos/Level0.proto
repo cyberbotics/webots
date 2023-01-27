@@ -1,8 +1,6 @@
 #VRML_SIM R2023b utf8
 
 PROTO Level0 [
-  field SFFloat size_x 0.1
-  field SFFloat size_y 0.1
   field SFVec3f zise 0.1 0.1 0.1
   field SFNode app NULL
 ]
