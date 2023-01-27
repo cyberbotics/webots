@@ -303,12 +303,12 @@ export default class NodeSelectorWindow {
     if (typeof this.parameter === 'undefined')
       throw new Error('The parameter is expected to be defined prior to checking node compatibility.');
 
-    if (this.parameter.parameterLinks.length <= 0)
+    if (this.parameter.aliasLinks.length <= 0)
       throw new Error('The parameter has no IS.');
 
     let baseType = [];
-    const fieldName = this.parameter.parameterLinks[0].name;
-    const parentNode = this.parameter.parameterLinks[0].node;
+    const fieldName = this.parameter.aliasLinks[0].name;
+    const parentNode = this.parameter.aliasLinks[0].node;
     if (fieldName === 'appearance')
       baseType = ['Appearance', 'PBRAppearance'];
     else if (fieldName === 'geometry') {
@@ -325,7 +325,7 @@ export default class NodeSelectorWindow {
   }
 
   getSlotType() {
-    const parentNode = this.parameter.parameterLinks[0].node;
+    const parentNode = this.parameter.aliasLinks[0].node;
     let slotType = parentNode.fields.get('type').value.value.replaceAll('"', '');
 
     if (slotType.endsWith('+'))
@@ -337,7 +337,6 @@ export default class NodeSelectorWindow {
   }
 
   show(parameter, element, callback, parent, mfId, resetButton) {
-    console.log(parameter.restrictions)
     // cleanup input field
     const filterInput = document.getElementById('filter');
     filterInput.value = '';

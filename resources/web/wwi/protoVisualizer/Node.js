@@ -124,7 +124,7 @@ export default class Node {
 
             const p = tokenizer.proto.parameters.get(alias);
             parameterValue.value = p.value;
-            p.insertLink(parameterValue); // TODO: rename
+            p.addAliasLink(parameterValue);
           } else
             parameterValue.value.setValueFromTokenizer(tokenizer, this);
         }
@@ -149,7 +149,7 @@ export default class Node {
 
             const p = tokenizer.proto.parameters.get(alias);
             fieldValue.value = p.value;
-            p.insertLink(fieldValue);
+            p.addAliasLink(fieldValue);
           } else
             fieldValue.value.setValueFromTokenizer(tokenizer);
         }

@@ -1,5 +1,7 @@
 'use strict';
 
+import {stringifyType} from './Vrml.js';
+
 export default class Field {
   #node;
   #type;
@@ -33,7 +35,7 @@ export default class Field {
 
   set defaultValue(newValue) {
     if (newValue.type() !== this.type)
-      throw new Error('Type mismatch, setting ' + stringifyType(newValue.type()) + ' to ' + stringifyType(this.type) + ' parameter.');
+      throw new Error(`Type mismatch, setting ${stringifyType(newValue.type())} to ${stringifyType(this.type)} parameter.`);
 
     this.#defaultValue = newValue;
   }

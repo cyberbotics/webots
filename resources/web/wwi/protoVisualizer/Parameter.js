@@ -8,14 +8,14 @@ import Field from './Field.js';
 
 export default class Parameter extends Field {
   #restrictions;
-  #parameterLinks; // TODO: rename to IS links
+  #aliasLinks;
   #isTemplateRegenerator;
   constructor(node, name, type, defaultValue, value, restrictions, isTemplateRegenerator) {
     super(node, name, type, value, defaultValue);
 
     this.#restrictions = restrictions;
     this.#isTemplateRegenerator = isTemplateRegenerator;
-    this.#parameterLinks = []; // list of other parameters to notify whenever this instance changes
+    this.#aliasLinks = []; // list of other parameters to notify whenever this instance changes
   }
 
   get restrictions() {
@@ -56,23 +56,21 @@ export default class Parameter extends Field {
     this.#isTemplateRegenerator = value;
   }
 
-  get parameterLinks() {
-    return this.#parameterLinks;
+  get aliasLinks() {
+    return this.#aliasLinks;
   }
 
-  set parameterLinks(newValue) {
-    this.#parameterLinks = newValue;
+  set aliasLinks(newValue) {
+    this.#aliasLinks = newValue;
   }
 
-  insertLink(parameter) { // TODO: rename
-    this.#parameterLinks.push(parameter);
+  addAliasLink(parameter) {
+    this.#aliasLinks.push(parameter);
   }
 
   insertNode(view, v, index) {
     if (this.type !== VRML.MFNode)
       throw new Error('Item insertion is possible only for MFNodes.');
-
-    console.log(v)
 
     this.value.insertNode(v, index);
 
@@ -192,8 +190,8 @@ export default class Parameter extends Field {
 
   linksToNotify() {
     let links = [];
-    for (const link of this.parameterLinks) {
-      if (link instanceof Parameter && link.parameterLinks.length > 0)
+    for (const link of this.aliasLinks) {
+      if (link instanceof Parameter && link.aliasLinks.length > 0)
         links = links.concat(link.linksToNotify());
 
       if (!link.node.isProto)

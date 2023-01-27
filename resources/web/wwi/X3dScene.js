@@ -42,9 +42,6 @@ import WbSpotLight from './nodes/WbSpotLight.js';
 import WbDirectionalLight from './nodes/WbDirectionalLight.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
 import WbConnector from './nodes/WbConnector.js';
-import WbSolid from './nodes/WbSolid.js';
-import WbAbstractAppearance from './nodes/WbAbstractAppearance.js';
-import WbGeometry from './nodes/WbGeometry.js';
 import WbShape from './nodes/WbShape.js';
 
 export default class X3dScene {
