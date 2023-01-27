@@ -176,7 +176,7 @@ export default class Parameter extends Field {
 
       // update the parameter value (note: all IS instances refer to the parameter itself, so they don't need to change)
       this.value.setValueFromJavaScript(v);
-      this.node.regenerate();
+      this.node.createBaseType(); // regenerate the base type
 
       this.node.resetRefs(); // reset the instance counters
       // insert the new node on the webotsjs side
@@ -188,22 +188,6 @@ export default class Parameter extends Field {
         const x3d = new XMLSerializer().serializeToString(this.node.toX3d());
         view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', id.replace('n', ''));
       }
-
-      /*
-      const jsNode = WbWorld.instance.nodes.get(this.node.getBaseNode().id);
-      const parentNodeId = jsNode.parent;
-
-      console.log(`delete: ${this.node.getBaseNode().id.replace('n', '')}`);
-      view.x3dScene.processServerMessage(`delete: ${this.node.getBaseNode().id.replace('n', '')}`);
-
-      // update the value of the parameter
-      this.value.setValueFromJavaScript(v);
-      this.node.regenerate();
-
-      const x3d = new XMLSerializer().serializeToString(this.node.toX3d());
-      console.log('Insert regenerated x3d into node', parentNodeId)
-      view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentNodeId.replace('n', ''));
-      */
 
       view.x3dScene.render();
       return;
