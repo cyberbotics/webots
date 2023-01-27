@@ -466,18 +466,12 @@ void WbSimulationCluster::handleCollisionIfSpace(void *data, dGeomID o1, dGeomID
 
 void WbSimulationCluster::warnMoreContactPointsThanContactJoints() {
   static std::mutex mutex;
-  static std::atomic<double> lastWarningTime(-INFINITY);  // std::atomic<> just in case doubles are not atomic.
+  std::lock_guard<std::mutex> lock(mutex);
+  static double lastWarningTime = -INFINITY;
   const double currentSimulationTime = WbSimulationState::instance()->time();
   if (currentSimulationTime > lastWarningTime + 1000.0) {
-    // We almost definitely need to create the warning, but there is a small
-    // possibility that another thread has come to the same conclusion
-    // simultaneously, so redo the check using the mutex. We do this after the
-    // initial check, to minimize how often we need to acquire the lock.
-    std::lock_guard<std::mutex> lock(mutex);
-    if (currentSimulationTime > lastWarningTime + 1000.0) {
-      WbLog::warning(QObject::tr("Contact joints will only be created for the deepest contact points."), false, WbLog::ODE);
-      lastWarningTime = currentSimulationTime;
-    }
+    WbLog::warning(QObject::tr("Contact joints will only be created for the deepest contact points."), false, WbLog::ODE);
+    lastWarningTime = currentSimulationTime;
   }
 }
 
