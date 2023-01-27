@@ -69,7 +69,6 @@ export default class Node {
   };
 
   generateInternalFields() {
-    console.log(this.name, ':', 'generating internal fields from model', this.model);
     // set field values based on field model
     for (const fieldName of Object.keys(this.model)) {
       const type = this.model[fieldName]['type'];

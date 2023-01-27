@@ -22,43 +22,17 @@ export default class ProtoManager {
       };
       xmlhttp.send();
     }).then(async text => {
-      console.log('Load PROTO from URL: ' + url);
       await Node.prepareProtoDependencies(url);
-      console.log('>>> known models:', Node.cProtoModels);
       this.proto = new Node(url, undefined, true);
-      console.log('>>> result:', this.proto)
       this.loadX3d();
-      for (const [parameterName, parameter] of this.proto.parameters)
+      for (const parameter of this.proto.parameters.values())
         parameter._view = this.#view;
     });
   }
 
-  /*
-  async generateNodeFromUrl(url) {
-    return new Promise((resolve, reject) => {
-      const xmlhttp = new XMLHttpRequest();
-      xmlhttp.open('GET', url, true);
-      xmlhttp.overrideMimeType('plain/text');
-      xmlhttp.onreadystatechange = async() => {
-        if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
-          resolve(xmlhttp.responseText);
-      };
-      xmlhttp.send();
-    }).then(async text => {
-      console.log('Load PROTO from URL: ' + url);
-      const node = new Node(url, text);
-      await node.generateInterface();
-      node.parseBody();
-      return node;
-    });
-  }
-  */
-
   async loadX3d() {
     let xml = this.getXmlOfMinimalScene();
     const scene = xml.getElementsByTagName('Scene')[0];
-    console.log('ROOT PROTO', this.proto)
-    console.log('x3d:', new XMLSerializer().serializeToString(this.proto.toX3d()))
     if (this.proto.isRoot && ['PBRAppearance', 'Appearance'].includes(this.proto.getBaseNode().name)) {
       const wrapper = this.createAppearanceWrapper();
       scene.appendChild(wrapper);
@@ -69,15 +43,6 @@ export default class ProtoManager {
 
     this.#view.prefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);
     this.#view.open(x3d, 'x3d', '', true);
-  }
-
-  async demoRegeneration() {
-    const parameterName = 'flag2'; // parameter to change
-    const newValue = true; // new value to set
-
-    // get reference to the parameter being changed
-    const parameter = this.exposedParameters.get(parameterName);
-    parameter.setValueFromJavaScript(this.#view, newValue);
   }
 
   exportProto(name, fieldsToExport) {

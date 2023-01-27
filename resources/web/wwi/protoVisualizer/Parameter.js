@@ -180,7 +180,6 @@ export default class Parameter extends Field {
           const action = {};
           action['id'] = id;
           action[link.name] = this.value.toJson();
-          console.log('setPose', action);
           view.x3dScene.applyPose(action);
         }
       }
