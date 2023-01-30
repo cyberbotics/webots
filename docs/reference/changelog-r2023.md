@@ -6,6 +6,7 @@ Released on ??
     - Deprecated the C and MATLAB API functions `wb_supervisor_node_enable/disable_contact_point_tracking` in favor of `wb_supervisor_node_enable/disable_contact_points_tracking` to be more consistent with other APIs ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
   - Enhancements
     - Improved the robots' grippers such that they use coupled motors ([#5694](https://github.com/cyberbotics/webots/pull/5694)).
+    - Improved the [Charger](charger.md) behavior ([#5771](https://github.com/cyberbotics/webots/pull/5771)).
 
 ## Webots R2023a Revision 1
 Released on ??
@@ -35,6 +36,8 @@ Released on ??
     - Fixed crashes resulting from converting to base nodes a PROTO containing DEF and USE nodes ([#5676](https://github.com/cyberbotics/webots/pull/5676)).
     - Fixed crashes resulting from updating a DEF node whose USE node is contained in a PROTO field triggering the regeneration ([#5676](https://github.com/cyberbotics/webots/pull/5676)).
     - Fixed crashes resulting from copy or DEF/USE update in [`Solid.boundingObject`](solid.md) field ([#5686](https://github.com/cyberbotics/webots/pull/5686)).
+    - Fixed silent ignoring of more that 10 contact points when detecting collisions. The limit has been raised to 100 contact points and a warning is now logged if that limit is reached ([#5776](https://github.com/cyberbotics/webots/pull/5776)).
+    - Fixed performance issues when retrieving multiple times a node's field defined in a PROTO body using the [Supervisor API](supervisor.md) ([#5774](https://github.com/cyberbotics/webots/pull/5774)).
 
 ## Webots R2023a
 Released on November 29th, 2022.

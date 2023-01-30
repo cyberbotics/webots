@@ -1,5 +1,9 @@
 @import "fonts.css";
 
+webots-view *, ::after, ::before {
+    box-sizing: border-box;
+}
+
 body {
   scroll-behavior: smooth;
 }
@@ -350,7 +354,7 @@ webots-view .information-panel {
   font-family: Arial;
   display: none;
   pointer-events: auto;
-  z-index: 3;
+  z-index: 5;
 }
 
 webots-view .information-panel a {
@@ -491,7 +495,7 @@ webots-view .settings-pane {
   border-radius: 4px;
   line-height: 1.5;
   text-size-adjust: 100%;
-  z-index: 2
+  z-index: 5;
 }
 
 webots-view ul {
@@ -723,7 +727,8 @@ webots-view .floating-window-close:hover {
 }
 
 webots-view .floating-window-content {
-  height: calc(100% - 45px);
+  height: calc(100% - 40px);
+  width: calc(100% - 5px);
 }
 
 webots-view .floating-window-content iframe {
@@ -912,7 +917,7 @@ webots-view .vertical-list-pane {
   text-shadow: 0 0 2px black;
   color: rgba(240, 240, 240, 1);
   border-radius: 4px;
-  z-index: 4;
+  z-index: 5;
 }
 
 webots-view .vertical-list-pane-li {
@@ -1015,7 +1020,7 @@ webots-view .node-library {
   border-radius: 5px;
   opacity: 0.95;
   display: none;
-  z-index: 3;
+  z-index: 5;
   overflow: hidden;
   opacity: 1.0;
 }
@@ -1191,6 +1196,25 @@ webots-view .mf-expand-button {
 webots-view .mf-expand-button:hover {
   background-color: grey;
   border: 1px solid grey;
+  border-radius: 2px;
+}
+
+webots-view .mf-add-button {
+  margin-left: 30px;
+  width: 20px;
+  height: 20px;
+  padding: 0px;
+  border: 0px;
+  background-size: cover;
+  background-color: transparent;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  display: none;
+}
+
+webots-view .mf-add-button:hover {
+  background-color: grey;
   border-radius: 2px;
 }
 

@@ -19,6 +19,10 @@ import re
 import json
 from pathlib import Path
 
+# This script generates the FieldModel.js file, which encodes in javascript all the information
+# about the nodes normally available in the .wrl files. Every time a change is done to the .wrl
+# files, this script must be re-run.
+
 # ensure WEBOTS_HOME is set
 if 'WEBOTS_HOME' in os.environ:
     WEBOTS_HOME = os.environ['WEBOTS_HOME']
@@ -144,7 +148,7 @@ if __name__ == '__main__':
     for old, new in replacements.items():
         json_str = json_str.replace(old, new)
 
-    contents = f'import {{VRML}} from \'./Vrml.js\';\n\nexport const FieldModel = {json_str};\n'
+    contents = f'import {{VRML}} from \'./vrml_type.js\';\n\nexport const FieldModel = {json_str};\n'
 
     with open(OUTPUT_FILE, 'w') as f:
         f.seek(0)

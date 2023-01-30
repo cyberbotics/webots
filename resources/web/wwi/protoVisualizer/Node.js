@@ -43,11 +43,6 @@ export default class Node {
       return;
     }
 
-    // for PROTO only
-    this.isTemplate = protoText.search('template language: javascript') !== -1;
-    if (this.isTemplate)
-      this.templateEngine = new TemplateEngine();
-
     // raw PROTO body text must be kept in case the template needs to be regenerated
     const indexBeginBody = protoText.search(/(?<=\]\s*\n*\r*)({)/g);
     this.rawBody = protoText.substring(indexBeginBody);
@@ -60,6 +55,13 @@ export default class Node {
 
     // header defines tags and EXTERNPROTO, persists through regenerations
     this.rawHeader = protoText.substring(0, indexBeginInterface);
+
+    // for PROTO only
+    const match = this.rawHeader.match(/R(\d+)([a-z])(?:\srevision\s(\d+)|-rev(\d+))?(?:-(\w*))?(?:-(\w*\/\w*\/\w*))?/);
+    const version = {'major': parseInt(match[1]), 'revision': typeof match[4] === 'undefined' ? 0 : parseInt(match[4])};
+    this.isTemplate = protoText.search('template language: javascript') !== -1;
+    if (this.isTemplate)
+      this.templateEngine = new TemplateEngine(Math.abs(parseInt(this.id.replace('n', ''))), version);
 
     // get EXTERNPROTO
     this.promises = [];

@@ -681,26 +681,40 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         filename = WbStandardPaths::fontsPath() + "Arial.ttf";
       }
 
-      if (id < MAX_LABELS) {
-        int labelId = (int)id + mRobot->uniqueId() * MAX_LABELS;  // kind of hack to avoid an id clash.
+      int labelId;
+      if (id < MAX_LABELS)
+        labelId = (int)id + mRobot->uniqueId() * MAX_LABELS;  // kind of hack to avoid an id clash.
+      else {
+        mRobot->warn(tr("wb_supervisor_set_label() is out of range. The supported range is [0, %1].").arg(MAX_LABELS - 1));
+        return;
+      }
 
-        mLabelIds.removeAll(labelId);
-        mLabelIds << labelId;
-
-        WbWrenLabelOverlay *label = WbWrenLabelOverlay::createOrRetrieve(labelId, filename);
-        QString error = label->getFontError();
-        if (error != "") {
-          mRobot->warn(tr(error.toStdString().c_str()));
+      WbWrenLabelOverlay *existingLabel = WbWrenLabelOverlay::retrieveById(labelId);
+      if (existingLabel && x == existingLabel->x() && y == existingLabel->y() && size == existingLabel->size() &&
+          filename == existingLabel->font() && text == existingLabel->text()) {
+        const float *oldColors = existingLabel->color();
+        float colorArray[4];
+        WbWrenLabelOverlay::colorToArray(colorArray, color);
+        if (colorArray[0] == oldColors[0] && colorArray[1] == oldColors[1] && colorArray[2] == oldColors[2] &&
+            colorArray[3] == oldColors[3])
           return;
-        }
-        label->setText(text);
-        label->setPosition(x, y);
-        label->setSize(size);
-        label->setColor(color);
-        label->applyChangesToWren();
-        emit labelChanged(createLabelUpdateString(label));
-      } else
-        mRobot->warn(tr("wb_supervisor_set_label() is out of range. The supported range is [0, %1].").arg(MAX_LABELS));
+      }
+
+      mLabelIds.removeAll(labelId);
+      mLabelIds << labelId;
+
+      WbWrenLabelOverlay *label = WbWrenLabelOverlay::createOrRetrieve(labelId, filename);
+      const QString error = label->getFontError();
+      if (error != "") {
+        mRobot->warn(tr(error.toStdString().c_str()));
+        return;
+      }
+      label->setText(text);
+      label->setPosition(x, y);
+      label->setSize(size);
+      label->setColor(color);
+      label->applyChangesToWren();
+      emit labelChanged(createLabelUpdateString(label));
 
       return;
     }
@@ -2246,10 +2260,12 @@ QStringList WbSupervisorUtilities::labelsState() const {
 
 QString WbSupervisorUtilities::createLabelUpdateString(const WbWrenLabelOverlay *labelOverlay) const {
   assert(labelOverlay);
-  float x, y, alpha;
+  double x, y;
+  float alpha;
   int r, g, b;
   labelOverlay->position(x, y);
   labelOverlay->color(r, g, b, alpha);
+  QString text = labelOverlay->text();
   return QString("\"id\":%1,\"font\":\"%2\",\"rgba\":\"%3,%4,%5,%6\",\"size\":%7,\"x\":%8,\"y\":%9,\"text\":\"%10\"")
     .arg(labelOverlay->id())
     .arg(labelOverlay->font())
@@ -2260,5 +2276,5 @@ QString WbSupervisorUtilities::createLabelUpdateString(const WbWrenLabelOverlay 
     .arg(labelOverlay->size())
     .arg(x)
     .arg(y)
-    .arg(labelOverlay->text());
+    .arg(text.replace("\n", "\\n"));
 }

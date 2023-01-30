@@ -422,7 +422,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const parameter = results[1];
 
     const currentMfId = this.#mfId;
-    const hideShowButton = this.#createHideShowButtom(currentMfId);
+    const addButton = this.#createAddButtom(currentMfId);
+    const hideShowButton = this.#createHideShowButtom(currentMfId, addButton);
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     resetButton.onclick = () => {
@@ -455,7 +456,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     parent.appendChild(p);
     parent.appendChild(hideShowButton);
-
+    parent.appendChild(addButton);
     this.#mfId++;
     this.#refreshParameterRow(parameter, currentMfId, true);
   }
@@ -626,7 +627,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const parameter = results[1];
 
     const currentMfId = this.#mfId;
-    const hideShowButton = this.#createHideShowButtom(currentMfId);
+    const addButton = this.#createAddButtom(currentMfId);
+    const hideShowButton = this.#createHideShowButtom(currentMfId, addButton);
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
 
@@ -658,6 +660,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     parent.appendChild(p);
     parent.appendChild(hideShowButton);
+    parent.appendChild(addButton);
 
     this.#mfId++;
     this.#refreshParameterRow(parameter, currentMfId, true);
@@ -793,7 +796,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     return p;
   }
 
-  #createHideShowButtom(currentMfId) {
+  #createHideShowButtom(currentMfId, addButton) {
     const hideShowButton = document.createElement('button');
     hideShowButton.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
     hideShowButton.style.gridColumn = '4 / 4';
@@ -817,14 +820,41 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         hideShowButton.style.transform = 'rotate(90deg)';
         hideShowButton.isHidden = false;
         hideShowButton.title = 'Hide content';
+        addButton.style.display = 'block';
       } else {
         hideShowButton.style.transform = '';
         hideShowButton.isHidden = true;
         hideShowButton.title = 'Show content';
+        addButton.style.display = 'none';
       }
     };
 
     return hideShowButton;
+  }
+
+  #createAddButtom(currentMfId, parameter) {
+    const addButton = document.createElement('button');
+    addButton.style.gridRow = '' + this.#rowNumber + ' / ' + this.#rowNumber;
+    addButton.style.gridColumn = '4 / 4';
+    addButton.className = 'mf-add-button';
+    addButton.title = 'Add a new element at the end';
+    addButton.innerText = '+';
+
+    addButton.onclick = () => {
+      const elements = document.getElementsByClassName('mf-id-' + currentMfId);
+      let maxRow = 0;
+      let lastAddRow;
+      for (const item of elements) {
+        let row = this.#getRow(item);
+        if (maxRow < row) {
+          maxRow = row;
+          lastAddRow = item;
+        }
+      }
+      lastAddRow.click();
+    };
+
+    return addButton;
   }
 
   #offsetNegativelyRows(row, offset) {
@@ -1519,30 +1549,24 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           div = document.createElement('div');
           div.className = 'proto-joint';
 
-          jointType = document.createElement('div');
-          jointType.innerHTML = 'BallJoint 2: ' + endPointName;
-          jointType.className = 'proto-joint-name';
-          div.appendChild(jointType);
+          div.appendChild(this.#createJointInfo('BallJoint 2: ', endPointName, joint.device2));
           const parameters2 = joint.jointParameters2;
-          this.#createSlider(parameters2, joint.device2, div, _ => {
+          this.#createSlider(parameters2, joint.device2, div, value => {
             if (parameters2)
-              parameters2.position = _.target.value;
+              parameters2.position = value;
             else
-              joint.position2 = _.target.value;
+              joint.position2 = value;
             this.#view.x3dScene.render();
           });
           this.joints.appendChild(div);
 
-          jointType = document.createElement('div');
-          jointType.innerHTML = 'BallJoint 3: ' + endPointName;
-          jointType.className = 'proto-joint-name';
-          div.appendChild(jointType);
+          div.appendChild(this.#createJointInfo('BallJoint 3: ', endPointName, joint.device3));
           const parameters3 = joint.jointParameters3;
-          this.#createSlider(parameters3, joint.device3, div, _ => {
+          this.#createSlider(parameters3, joint.device3, div, value => {
             if (parameters3)
-              parameters3.position = _.target.value;
+              parameters3.position = value;
             else
-              joint.position3 = _.target.value;
+              joint.position3 = value;
             this.#view.x3dScene.render();
           });
           this.joints.appendChild(div);
@@ -1552,11 +1576,11 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
           div.appendChild(this.#createJointInfo('Hinge2joint 2: ', endPointName, joint.device2));
           const parameters2 = joint.jointParameters2;
-          this.#createSlider(parameters2, joint.device2, div, _ => {
+          this.#createSlider(parameters2, joint.device2, div, value => {
             if (parameters2)
-              parameters2.position = _.target.value;
+              parameters2.position = value;
             else
-              joint.position2 = _.target.value;
+              joint.position2 = value;
             this.#view.x3dScene.render();
           });
           this.joints.appendChild(div);

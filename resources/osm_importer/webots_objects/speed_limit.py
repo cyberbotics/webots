@@ -52,16 +52,13 @@ class SpeedLimit:
                             return value[1] / 3.6
 
             # Case 2: The OSM 'maxspeed' is defined as a specific speed, possibly containing the 'mph' suffix.
-            speedLimit = -1.0
-            try:
-                m = re.match(r'(\d*)\s*(.*)?', speed)
+            m = re.match(r'(\d*)\s*(.*)?', speed)
+            if m is not None:
                 speedLimit = int(m.group(1)) / 3.6
                 if m.group(2).lower() == 'mph':
                     speedLimit = int(m.group(1)) * 0.44704
-            except:
-                pass
-            if speedLimit > 0.0:
-                return speedLimit
+                if speedLimit > 0.0:
+                    return speedLimit
 
         # Case 3: 'maxspeed' is not specified, then the default speed should be computed.
         # A rule per country should be implemented.

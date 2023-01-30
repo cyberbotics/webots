@@ -1,7 +1,7 @@
 """Math utilities."""
 
 
-def apply_spline_subdivison_to_path(path, subdivision):
+def apply_spline_subdivision_to_path(path, subdivision):
     """Apply spline subdivision to the list of points."""
     spline = []
     points = list(path)
