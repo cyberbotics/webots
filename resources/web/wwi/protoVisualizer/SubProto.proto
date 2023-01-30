@@ -1,0 +1,45 @@
+#VRML_SIM R2023b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/automobile/ackermannvehicle
+# Generic model of an Ackerman vehicle. Positions and joints of the wheels are set automatically
+# using 'trackFont', 'trackRear' and 'wheelbase' fields
+# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# template language: javascript
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/vehicles/protos/abstract/VehicleWheel.proto"
+
+PROTO SubProto [
+  field SFNode     wheelFrontRight                VehicleWheel { name "front right wheel" }
+]
+{
+  Robot {
+    children [
+      Transform {
+        children [
+          DEF RIGHT_STEER_HINGE2 Hinge2Joint {
+            jointParameters HingeJointParameters {
+              axis 0 0 -1
+              suspensionAxis 0 0 1
+            }
+            jointParameters2 JointParameters {
+              axis 1 0 0
+            }
+            device [
+              RotationalMotor {
+                sound ""
+              }
+              PositionSensor {
+                name "right_steer_sensor"
+              }
+            ]
+            endPoint Slot {
+              type "vehicle wheel"
+              endPoint IS wheelFrontRight
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
