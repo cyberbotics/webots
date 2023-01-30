@@ -23,7 +23,7 @@ class BlinkingLED:
 
     def toggle(self):
         self.led_device.set(self.on)
-        self.on = not(self.on)
+        self.on = not self.on
 
 
 supervisor = Supervisor()

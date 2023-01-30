@@ -300,7 +300,7 @@ webots-view .information-panel {
   font-family: Arial;
   display: none;
   pointer-events: auto;
-  z-index: 3;
+  z-index: 5;
 }
 
 webots-view .information-panel a {
@@ -414,6 +414,7 @@ webots-view .settings-pane {
   border-radius: 4px;
   line-height: 1.5;
   text-size-adjust: 100%;
+  z-index: 5;
 }
 
 webots-view ul {
@@ -819,7 +820,7 @@ webots-view .vertical-list-pane {
   text-shadow: 0 0 2px black;
   color: rgba(240, 240, 240, 1);
   border-radius: 4px;
-  z-index: 4;
+  z-index: 5;
 }
 
 webots-view .vertical-list-pane-li {
