@@ -355,7 +355,15 @@ static bool parse_options(int nb_arguments, char **arguments) {
   return true;
 }
 
-// Set environment variables for java and executable controllers execution
+/*
+This function sets the environment variable for java and executable controllers execution.
+
+On Windows, the function adds a new path to the "Path" environment variable by concatenating the WEBOTS_HOME constant, the
+'lib\controller' directory, and the 'msys64\mingw64\bin' and 'msys64\mingw64\bin\cpp' directories to the current "Path" value.
+
+On Linux and macOS, the function adds the 'WEBOTS_HOME/lib/controller' or 'WEBOTS_HOME/Contents/lib/controller' directory to
+the LD_LIBRARY_PATH or DYLD_LIBRARY_PATH environment variable, respectively.
+*/
 static void exec_java_config_environment() {
 #ifdef _WIN32
   const size_t new_path_size =
@@ -382,7 +390,13 @@ static void exec_java_config_environment() {
 #endif
 }
 
-// Set environment variables for python controllers execution
+/*
+This function sets the environment variable for python controllers execution.
+
+For Windows it adds "\lib\controller\python;" to PYTHONPATH and adds "\msys64\mingw64\bin\cpp;" to the Path environment
+variable. For Linux, it adds "/lib/controller/python:" to PYTHONPATH. For macOS it adds "/Contents/lib/controller/python:" to
+PYTHONPATH and adds "/Contents/lib/controller:" to DYLD_LIBRARY_PATH. It sets PYTHONIOENCODING to "UTF-8" on all platforms.
+*/
 static void python_config_environment() {
 #ifdef _WIN32
   const char *python_lib_controller = "\\lib\\controller\\python;";
@@ -401,15 +415,29 @@ static void python_config_environment() {
   putenv(python_ioencoding);
 
 // On Windows add libCppController to Path (useful for C++ controllers, robot windows and remote control plugins)
+// On macOS add libController to DYLD_LIBRARY_PATH (useful for generic robot window library)
 #ifdef _WIN32
   const size_t new_path_size = snprintf(NULL, 0, "Path=%s\\msys64\\mingw64\\bin\\cpp;%s", WEBOTS_HOME, getenv("Path")) + 1;
   new_path = malloc(new_path_size);
   sprintf(new_path, "Path=%s\\msys64\\mingw64\\bin\\cpp;%s", WEBOTS_HOME, getenv("Path"));
   putenv(new_path);
+#elif defined __APPLE__
+  const size_t new_ld_path_size =
+    snprintf(NULL, 0, "DYLD_LIBRARY_PATH=%s/Contents/lib/controller:%s", WEBOTS_HOME, getenv("DYLD_LIBRARY_PATH")) + 1;
+  new_ld_path = malloc(new_ld_path_size);
+  sprintf(new_ld_path, "DYLD_LIBRARY_PATH=%s/Contents/lib/controller:%s", WEBOTS_HOME, getenv("DYLD_LIBRARY_PATH"));
+  putenv(new_ld_path);
 #endif
 }
 
-// Set environment variables for MATLAB controllers execution (WEBOTS_PROJECT, WEBOTS_CONTROLLER_NAME, WEBOTS_VERSION)
+/*
+This function sets the environment variable for MATLAB controllers execution.
+
+-It sets WEBOTS_PROJECT environment variable to the path of the project folder.
+-Sets WEBOTS_CONTROLLER_NAME environment variable to the name of the controller.
+-Determines Webots version from version.txt file contained in the Webots installation, and sets WEBOTS_VERSION environment
+variable to this version.
+*/
 static void matlab_config_environment() {
   // Add project folder to WEBOTS_PROJECT env variable
   get_current_path();
@@ -462,7 +490,7 @@ static void matlab_config_environment() {
   putenv(webots_version);
 }
 
-// Set environment variables for MATLAB controllers execution (WEBOTS_PROJECT, WEBOTS_CONTROLLER_NAME, WEBOTS_VERSION)
+// Replace all environment variables in the string ('$(ENV)' syntax) by its content
 static void parse_environment_variables(char **string) {
   char *tmp = *string;
   while ((tmp = strstr(tmp, "$("))) {
@@ -488,7 +516,7 @@ static void parse_environment_variables(char **string) {
   }
 }
 
-// Convert relative path to absolute and replaces environment variables with their content
+// Convert relative paths to absolute paths and replaces environment variables with their content in the ini file
 static void format_ini_paths(char **string) {
   // Compute absolute path to ini file
   get_current_path();
@@ -518,7 +546,7 @@ static void format_ini_paths(char **string) {
   free(tmp);
 }
 
-// Parse the runtime.ini file line by line
+// Read and apply the runtime.ini file line by line
 static void parse_runtime_ini() {
   // Open runtime.ini if it exists
   const size_t ini_file_name_size = snprintf(NULL, 0, "%sruntime.ini", controller_path) + 1;
@@ -716,6 +744,7 @@ int main(int argc, char **argv) {
   else if (strcmp(controller_extension, ".py") == 0) {
     python_config_environment();
 #ifdef _WIN32
+    // Add quotation marks to the controller string if it contains whitespaces
     char *controller_formated = NULL;
     if (strstr(controller, " ") != NULL) {
       const size_t controller_formated_size = snprintf(NULL, 0, "\"%s\"", controller) + 1;
@@ -746,10 +775,12 @@ int main(int argc, char **argv) {
 #elif defined __linux__
     const char *launcher_path = "/lib/controller/matlab/launcher.m";
 #endif
+    // matlab_command starts the launcher.m file contained in the lib controller
     const size_t matlab_command_size = snprintf(NULL, 0, "\"run('%s%s'); exit;\"", WEBOTS_HOME, launcher_path) + 1;
     char *matlab_command = malloc(matlab_command_size);
     sprintf(matlab_command, "\"run('%s%s'); exit;\"", WEBOTS_HOME, launcher_path);
 
+    // Start MATLAB without display and execute matlab_command to start the launcher.m file
 #ifdef _WIN32
     const char *const new_argv[] = {matlab_path, "-nodisplay", "-nosplash", "-nodesktop", "-r", matlab_command, NULL};
     _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
@@ -783,12 +814,13 @@ int main(int argc, char **argv) {
     char *short_controller_path = strdup(controller_path);
     short_controller_path[strlen(controller_path) - 1] = '\0';
 #ifdef _WIN32
-    // Write the 'classpath' option (mandatory for java controllers)
+    // Write the 'classpath' option (mandatory for java controllers) with the path to Controller.jar and the path to the
+    // controller
     const size_t classpath_size = snprintf(NULL, 0, "\"%s%s%s\"", lib_controller, jar_path, short_controller_path) + 1;
     char *classpath = malloc(classpath_size);
     sprintf(classpath, "\"%s%s%s\"", lib_controller, jar_path, short_controller_path);
 
-    // Write the '-Djava.library.path' option (mandatory for java controllers)
+    // Write the '-Djava.library.path' option (mandatory for java controllers) with the path to the libController
     const size_t java_library_size = snprintf(NULL, 0, "\"-Djava.library.path=%s\"", lib_controller) + 1;
     char *java_library = malloc(java_library_size);
     sprintf(java_library, "\"-Djava.library.path=%s\"", lib_controller);
@@ -799,16 +831,18 @@ int main(int argc, char **argv) {
     const char *const new_argv[] = {"java", "-classpath", classpath, java_library, controller_name + 1, NULL};
     _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
 #else
-    // Write the 'classpath' option (mandatory for java controllers)
+    // Write the 'classpath' option (mandatory for java controllers) with the path to Controller.jar and the path to the
+    // controller
     const size_t classpath_size = snprintf(NULL, 0, "%s%s%s", lib_controller, jar_path, short_controller_path) + 1;
     char *classpath = malloc(classpath_size);
     sprintf(classpath, "%s%s%s", lib_controller, jar_path, short_controller_path);
 
-    // Write the 'Djava.library.path' option (mandatory for java controllers)
+    // Write the '-Djava.library.path' option (mandatory for java controllers) with the path to the libController
     const size_t java_library_size = snprintf(NULL, 0, "-Djava.library.path=%s", lib_controller) + 1;
     char *java_library = malloc(java_library_size);
     sprintf(java_library, "-Djava.library.path=%s", lib_controller);
 
+    // Java command has the following syntax: 'java -classpath [...] -Djava.library.path=[...] controller_name'
     if (!controller_name)
       controller_name = strrchr(controller, '/');
     controller_name[strlen(controller_name) - strlen(controller_extension)] = '\0';
