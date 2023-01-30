@@ -636,6 +636,11 @@ int main(int argc, char **argv) {
   if (!parse_options(argc, argv))
     exit(1);
 
+#ifdef _WIN32
+  // On Windows, convert forward slashes to backward slashes in controller path
+  replace_char(controller, '/', '\\');
+#endif
+
   // Check if controller file exists
   if (access(controller, F_OK) != 0) {
     fprintf(stderr, "Controller file '%s' not found. Please specify a path to an existing controller file.\n", controller);
