@@ -286,7 +286,8 @@ static bool parse_options(int nb_arguments, char **arguments) {
       }
     } else {
       if (controller) {
-        fprintf(stderr, "Please specify only a single controller file to launch.\n");
+        fprintf(stderr, "Please specify only a single controller file to launch. '%s' and '%s' were given.\n", controller,
+                arguments[i]);
         return false;
       }
       const size_t controller_size = strlen(arguments[i]) + 1;
