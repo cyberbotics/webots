@@ -516,6 +516,8 @@ export default class Toolbar {
       if (robot.window !== '<none>') {
         let mainWindow = robot.main;
         let robotWindow = new FloatingRobotWindow(this.parentNode, robot.name, robotWindowUrl, robot.window, mainWindow);
+        if (robot.visible) // if the robot window is visible by default in Webots, then show it
+          robotWindow.changeVisibility();
         if (mainWindow)
           this.robotWindows.unshift(robotWindow);
         else
@@ -544,8 +546,6 @@ export default class Toolbar {
       if (rw.isMainWindow) {
         rw.setSize(2 * robotWindowWidth, 2 * robotWindowHeight);
         rw.setPosition(margin, margin);
-        if (this.parentNode?.openMainRobotWindow === true)
-          rw.changeVisibility();
       } else {
         if (margin + (numRow + 1) * (margin + robotWindowHeight) > viewHeight) {
           numCol++;
