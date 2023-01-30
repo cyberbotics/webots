@@ -42,6 +42,7 @@ import WbSpotLight from './nodes/WbSpotLight.js';
 import WbDirectionalLight from './nodes/WbDirectionalLight.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
 import WbConnector from './nodes/WbConnector.js';
+import WbShape from './nodes/WbShape.js';
 
 export default class X3dScene {
   #nextRenderingTime;
@@ -173,19 +174,18 @@ export default class X3dScene {
 
   async loadObject(x3dObject, parentId, callback) {
     let parentNode;
-    if (typeof parentId !== 'undefined') {
+    if (typeof parentId !== 'undefined')
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
-      parentNode.unfinalize();
-    }
 
     const parser = new Parser(webots.currentView.prefix);
     parser.prefix = webots.currentView.prefix;
     await parser.parse(x3dObject, this.renderer, false, parentNode, callback);
 
     const node = WbWorld.instance.nodes.get(parser.rootNodeId);
-    if (typeof parentId !== 'undefined')
+    if (parentNode instanceof WbShape) {
+      parentNode.unfinalize();
       parentNode.finalize();
-    else
+    } else
       node.finalize();
   }
 

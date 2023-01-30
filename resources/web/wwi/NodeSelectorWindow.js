@@ -287,7 +287,12 @@ export default class NodeSelectorWindow {
       return true;
 
     for (const restriction of this.parameter.restrictions) {
-      if (nodeName === restriction.value.name)
+      if (this.parameter.type === VRML.MFNode) {
+        for (const child of restriction.value) {
+          if (nodeName === child.value.name)
+            return true;
+        }
+      } else if (nodeName === restriction.value.name)
         return true;
     }
 
@@ -298,29 +303,30 @@ export default class NodeSelectorWindow {
     if (typeof this.parameter === 'undefined')
       throw new Error('The parameter is expected to be defined prior to checking node compatibility.');
 
-    if (this.parameter.parameterLinks.length <= 0)
+    if (this.parameter.aliasLinks.length <= 0)
       throw new Error('The parameter has no IS.');
 
     let baseType = [];
-    const fieldName = this.parameter.parameterLinks[0].name;
-    const parentNode = this.parameter.parameterLinks[0].node;
+    const fieldName = this.parameter.aliasLinks[0].name;
+    const parentNode = this.parameter.aliasLinks[0].node;
     if (fieldName === 'appearance')
       baseType = ['Appearance', 'PBRAppearance'];
-    else if (fieldName === 'geometry')
+    else if (fieldName === 'geometry') {
       baseType = ['Box', 'Capsule', 'Cylinder', 'Cone', 'Plane', 'Sphere', 'Mesh', 'ElevationGrid', 'IndexedFaceSet',
         'IndexedLineSet'];
-    else if (fieldName === 'endPoint' && parentNode.name === 'Slot')
+    } else if (fieldName === 'endPoint' && parentNode.name === 'Slot')
       baseType = ['Slot'];
-    else if (fieldName === 'endPoint' || fieldName === 'children')
+    else if (fieldName === 'endPoint' || fieldName === 'children') {
       baseType = ['Group', 'Transform', 'Shape', 'CadShape', 'Solid', 'Robot', 'PointLight', 'SpotLight', 'Propeller',
         'Charger'];
+    }
 
     return baseType;
   }
 
   getSlotType() {
-    const parentNode = this.parameter.parameterLinks[0].node;
-    let slotType = parentNode.getParameterByName('type').value.value.replaceAll('"', '');
+    const parentNode = this.parameter.aliasLinks[0].node;
+    let slotType = parentNode.fields.get('type').value.value.replaceAll('"', '');
 
     if (slotType.endsWith('+'))
       slotType = slotType.substring(0, slotType.length - 1) + '-';
