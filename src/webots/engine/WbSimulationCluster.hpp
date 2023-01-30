@@ -71,6 +71,8 @@ private:
   static void odeSensorRaysUpdate(int threadID);
   static const long long int WEBOTS_MAGIC_NUMBER;
   bool mSwapJointContactBuffer;
+
+  static void warnMoreContactPointsThanContactJoints();
 };
 
 #endif
