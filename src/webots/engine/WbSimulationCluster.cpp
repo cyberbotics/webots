@@ -39,6 +39,7 @@
 #include "WbWorldInfo.hpp"
 
 #include <QtCore/QMutex>
+#include <QtCore/QMutexLocker>
 
 #include <ode/fluid_dynamics/ode_fluid_dynamics.h>
 #include <ode/ode_MT.h>
@@ -455,6 +456,14 @@ static bool needCollisionDetection(WbSolid *solid, bool isOtherRayGeom) {
   return false;
 }
 
+void WbSimulationCluster::appendCollisionedRobot(WbKinematicDifferentialWheels *robot) {
+  if (WbOdeContext::instance()->numberOfThreads() > 1) {
+    QMutexLocker<QMutex> lock(&mCollisionedRobotsMutex);
+    mCollisionedRobots.append(robot);
+  } else
+    mCollisionedRobots.append(robot);
+}
+
 void WbSimulationCluster::handleCollisionIfSpace(void *data, dGeomID o1, dGeomID o2) {
   if (dGeomIsSpace(o1) || dGeomIsSpace(o2)) {
     // colliding a mContext->space() with something
@@ -671,11 +680,11 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     WbRobot *const robot2 = dynamic_cast<WbRobot *>(s2);
     if (robot1 && !p1 && !isRayGeom2 && robot1->kinematicDifferentialWheels()) {
       wg1->setColliding();
-      cl->mCollisionedRobots.append(robot1->kinematicDifferentialWheels());
+      cl->appendCollisionedRobot(robot1->kinematicDifferentialWheels());
       if (robot2 && !p2 && robot2->kinematicDifferentialWheels()) {
         dCollide(o1, o2, MAX_CONTACTS, &contact[0].geom, sizeof(dContact));  // we want only one contact point
         wg2->setColliding();
-        cl->mCollisionedRobots.append(robot2->kinematicDifferentialWheels());
+        cl->appendCollisionedRobot(robot2->kinematicDifferentialWheels());
         collideKinematicRobots(robot1->kinematicDifferentialWheels(), true, contact, true);
         collideKinematicRobots(robot2->kinematicDifferentialWheels(), true, contact, false);
       } else
@@ -685,7 +694,7 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     if (robot2 && !p2 && !isRayGeom1 && robot2->kinematicDifferentialWheels()) {
       dCollide(o1, o2, MAX_CONTACTS, &contact[0].geom, sizeof(dContact));
       wg2->setColliding();
-      cl->mCollisionedRobots.append(robot2->kinematicDifferentialWheels());
+      cl->appendCollisionedRobot(robot2->kinematicDifferentialWheels());
       collideKinematicRobots(robot2->kinematicDifferentialWheels(), false, contact, false);
       return;
     }
