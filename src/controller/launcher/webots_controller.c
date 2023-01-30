@@ -721,10 +721,10 @@ int main(int argc, char **argv) {
     } else
       controller_formated = strdup(controller);
 
-    const char *const new_argv[] = {"python", controller_formated, NULL};
+    const char *const new_argv[] = {"python", "-u", controller_formated, NULL};
     _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
 #else
-    char *new_argv[] = {"python3", controller, NULL};
+    char *new_argv[] = {"python3", "-u", controller, NULL};
     execvp(new_argv[0], new_argv);
 #endif
   }
