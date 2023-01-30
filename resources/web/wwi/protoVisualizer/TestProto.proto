@@ -19,8 +19,8 @@ PROTO TestProto [
         endPoint Slot {
           type "vehicle wheel"
           endPoint MooseWheel {
-                name "left wheel 4"
-              }
+            name "left wheel 4"
+          }
         }
       }
     ]

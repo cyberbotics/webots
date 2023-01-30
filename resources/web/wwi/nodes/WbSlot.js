@@ -1,4 +1,5 @@
 import WbBaseNode from './WbBaseNode.js';
+import WbSolid from './WbSolid.js';
 import WbWorld from './WbWorld.js';
 import {getAnId} from './utils/id_provider.js';
 
@@ -57,6 +58,16 @@ export default class WbSlot extends WbBaseNode {
     super.postFinalize();
 
     this.endPoint?.postFinalize();
+  }
+
+  solidEndPoint() {
+    if (typeof this.endPoint !== 'undefined' && this.endPoint instanceof WbSolid)
+      return this.endPoint;
+  }
+
+  slotEndPoint() {
+    if (typeof this.endPoint !== 'undefined' && this.endPoint instanceof WbSlot)
+      return this.endPoint;
   }
 
   updateBoundingObjectVisibility() {

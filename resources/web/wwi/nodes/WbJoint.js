@@ -1,4 +1,6 @@
 import WbBaseNode from './WbBaseNode.js';
+import WbSlot from './WbSlot.js';
+import WbSolid from './WbSolid.js';
 import WbWorld from './WbWorld.js';
 
 export default class WbJoint extends WbBaseNode {
@@ -25,7 +27,8 @@ export default class WbJoint extends WbBaseNode {
   }
 
   boundingSphere() {
-    return this.#endPoint?.boundingSphere();
+    const solid = this.solidEndPoint();
+    return solid?.boundingSphere();
   }
 
   createWrenObjects() {
@@ -54,7 +57,6 @@ export default class WbJoint extends WbBaseNode {
   preFinalize() {
     super.preFinalize();
 
-    console.log('jp', this.jointParameters)
     super.position = typeof this.jointParameters === 'undefined' ? 0 : this.jointParameters.position;
     this._updateEndPointZeroTranslationAndRotation();
 
@@ -67,6 +69,21 @@ export default class WbJoint extends WbBaseNode {
 
     this.#jointParameters?.postFinalize();
     this.#endPoint?.postFinalize();
+  }
+
+  solidEndPoint() {
+    console.log('solidEndPoint')
+    if (typeof this.endPoint === 'undefined')
+      return;
+
+    if (this.endPoint instanceof WbSlot) {
+      const childrenSlot = this.endPoint.slotEndPoint();
+      if (typeof childrenSlot !== 'undefined') {
+        const slot = childrenSlot.slotEndPoint();
+        return typeof slot !== 'undefined' ? slot.solidEndPoint() : undefined;
+      }
+    } else if (this.endPoint instanceof WbSolid)
+      return this.endPoint;
   }
 
   updateBoundingObjectVisibility() {
