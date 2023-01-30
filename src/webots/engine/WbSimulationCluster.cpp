@@ -458,7 +458,7 @@ static bool needCollisionDetection(WbSolid *solid, bool isOtherRayGeom) {
 
 void WbSimulationCluster::appendCollisionedRobot(WbKinematicDifferentialWheels *robot) {
   if (WbOdeContext::instance()->numberOfThreads() > 1) {
-    QMutexLocker lock(&mCollisionedRobotsMutex);
+    QMutexLocker<QMutex> lock(&mCollisionedRobotsMutex);
     mCollisionedRobots.append(robot);
   } else
     mCollisionedRobots.append(robot);
