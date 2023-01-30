@@ -25,7 +25,7 @@
 #include <webots/motor.h>
 #include <webots/robot.h>
 
-#define TIME_STEP 8
+#define TIME_STEP wb_robot_get_basic_time_step() 
 
 int main() {
   // initialize webots stuff
