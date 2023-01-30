@@ -35,6 +35,7 @@ import WbPositionSensor from './nodes/WbPositionSensor.js';
 import NodeSelectorWindow from './NodeSelectorWindow.js';
 import {SFNode, MFNode, vrmlFactory} from './protoVisualizer/Vrml.js';
 import Node from './protoVisualizer/Node.js';
+import {isBaseNode} from './protoVisualizer/FieldModel.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #mfId;
@@ -199,10 +200,17 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       const configureNodeButton = document.getElementById('configure-node-' + parameter.name);
 
       if (parameter.value.value === null) {
+        currentNodeButton.disabled = false;
         currentNodeButton.innerHTML = 'NULL';
         deleteNodeButton.style.display = 'none';
         configureNodeButton.style.display = 'none';
+      } else if (isBaseNode(parameter.value.value.name)) {
+        currentNodeButton.disabled = true;
+        currentNodeButton.innerHTML = parameter.value.value.name;
+        configureNodeButton.style.display = 'none';
+        deleteNodeButton.style.display = 'none';
       } else {
+        currentNodeButton.disabled = false;
         currentNodeButton.style.display = 'block';
         deleteNodeButton.style.display = 'block';
         configureNodeButton.style.display = 'block';

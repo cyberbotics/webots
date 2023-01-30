@@ -5023,5 +5023,5 @@ export const FieldModel = {
 };
 
 export function isBaseNode(nodeName) {
-  return FieldModel[nodeName] !== 'undefined';
+  return typeof FieldModel[nodeName] !== 'undefined';
 }
