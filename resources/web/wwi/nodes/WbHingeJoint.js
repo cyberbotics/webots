@@ -89,7 +89,6 @@ export default class WbHingeJoint extends WbJoint {
   }
 
   _updateEndPointZeroTranslationAndRotation() {
-    console.log('_updateEndPointZeroTranslationAndRotation', this.solidEndPoint())
     if (typeof this.solidEndPoint() === 'undefined')
       return;
 
@@ -97,7 +96,6 @@ export default class WbHingeJoint extends WbJoint {
     const ir = solid.rotation;
     const it = solid.translation;
 
-    console.log(ir, it)
     let qMinus;
     const angle = this.#position;
     if (isZeroAngle(angle)) {

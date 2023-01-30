@@ -148,6 +148,7 @@ export default class X3dScene {
 
   async loadRawWorldFile(raw, onLoad, progress) {
     const prefix = webots.currentView.prefix;
+    console.time('Parsed scene in: ');
     const parser = new Parser(prefix);
     await parser.parse(raw, this.renderer).then(() => onLoad());
   }

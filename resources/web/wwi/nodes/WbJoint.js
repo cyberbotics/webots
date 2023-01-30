@@ -72,7 +72,6 @@ export default class WbJoint extends WbBaseNode {
   }
 
   solidEndPoint() {
-    console.log('solidEndPoint')
     if (typeof this.endPoint === 'undefined')
       return;
 

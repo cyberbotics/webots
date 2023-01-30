@@ -192,7 +192,7 @@ export default class Parser {
       setTimeout(() => { webots.currentView.progress.setProgressBar('none'); }, 300);
       if (typeof callback === 'function')
         callback();
-      console.timeEnd('Loaded in: ');
+      console.timeEnd('Parsed scene in: ');
     });
   }
 
