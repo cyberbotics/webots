@@ -1,6 +1,5 @@
 # Blender v3.0.1 OBJ File: ''
 # www.blender.org
-mtllib colored_cube.mtl
 o Cube_Cube.003
 v 1.000000 1.000000 -1.000000
 v 1.000000 1.000000 1.000000
