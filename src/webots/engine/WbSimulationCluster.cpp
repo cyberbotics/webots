@@ -39,14 +39,13 @@
 #include "WbWorldInfo.hpp"
 
 #include <QtCore/QMutex>
+#include <QtCore/QMutexLocker>
 
 #include <ode/fluid_dynamics/ode_fluid_dynamics.h>
 #include <ode/ode_MT.h>
 
 #include <cassert>
 #include <limits>
-#include <mutex>
-#include <vector>
 
 // The maximum number of contact joints to create. Note that the time to compute a physics timestep with the ODE
 // physics engine scales with the cube of the number of joints.
@@ -465,8 +464,8 @@ void WbSimulationCluster::handleCollisionIfSpace(void *data, dGeomID o1, dGeomID
 }
 
 void WbSimulationCluster::warnMoreContactPointsThanContactJoints() {
-  static std::mutex mutex;
-  std::lock_guard<std::mutex> lock(mutex);
+  static QMutex mutex;
+  QMutexLocker lock(&mutex);
   static double lastWarningTime = -INFINITY;
   const double currentSimulationTime = WbSimulationState::instance()->time();
   if (currentSimulationTime > lastWarningTime + 1000.0) {
@@ -647,7 +646,7 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   }
 
   const int maxContactJoints = MAX_CONTACT_JOINTS;
-  thread_local std::vector<dContact> contactVector;
+  thread_local QVector<dContact> contactVector;
 
   int maxContactPoints = std::max<size_t>(100, contactVector.capacity());
 
