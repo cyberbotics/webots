@@ -1010,12 +1010,6 @@ webots-view .sfnode-button:hover {
   background-color: #007acc;
 }
 
-webots-view .sfnode-button:disabled {
-  background-color: lightgray;
-  color: black;
-  cursor: default;
-}
-
 webots-view .node-library {
   position: absolute;
   top: calc(50% - 300px);

@@ -200,20 +200,16 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       const configureNodeButton = document.getElementById('configure-node-' + parameter.name);
 
       if (parameter.value.value === null) {
-        currentNodeButton.disabled = false;
         currentNodeButton.innerHTML = 'NULL';
         deleteNodeButton.style.display = 'none';
         configureNodeButton.style.display = 'none';
-      } else if (isBaseNode(parameter.value.value.name)) {
-        currentNodeButton.disabled = true;
-        currentNodeButton.innerHTML = parameter.value.value.name;
-        configureNodeButton.style.display = 'none';
-        deleteNodeButton.style.display = 'none';
       } else {
-        currentNodeButton.disabled = false;
         currentNodeButton.style.display = 'block';
         deleteNodeButton.style.display = 'block';
-        configureNodeButton.style.display = 'block';
+        if (isBaseNode(parameter.value.value.name))
+          configureNodeButton.style.display = 'none';
+        else
+          configureNodeButton.style.display = 'block';
         configureNodeButton.title = 'Configure ' + parameter.value.value.name + ' node';
         currentNodeButton.innerHTML = parameter.value.value.name;
       }
