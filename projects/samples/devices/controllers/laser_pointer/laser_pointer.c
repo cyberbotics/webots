@@ -26,7 +26,6 @@
 #include <webots/robot.h>
 
 int main() {
-
   // initialize webots stuff
   wb_robot_init();
   const int time_step = wb_robot_get_basic_time_step();
