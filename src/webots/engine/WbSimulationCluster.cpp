@@ -465,7 +465,7 @@ void WbSimulationCluster::handleCollisionIfSpace(void *data, dGeomID o1, dGeomID
 
 void WbSimulationCluster::warnMoreContactPointsThanContactJoints() {
   static QMutex mutex;
-  QMutexLocker lock(&mutex);
+  QMutexLocker<QMutex> lock(&mutex);
   static double lastWarningTime = -INFINITY;
   const double currentSimulationTime = WbSimulationState::instance()->time();
   if (currentSimulationTime > lastWarningTime + 1000.0) {
