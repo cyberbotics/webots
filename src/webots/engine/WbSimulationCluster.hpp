@@ -23,9 +23,6 @@
 #include <ode/ode.h>
 #include <QtCore/QList>
 
-#include "WbLog.hpp"
-#include "WbSimulationState.hpp"
-
 class WbContactProperties;
 class WbImmersionProperties;
 class WbOdeContext;
