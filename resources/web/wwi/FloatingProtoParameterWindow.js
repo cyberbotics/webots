@@ -437,7 +437,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         nodesToRemove[i].parentNode.removeChild(nodesToRemove[i]);
       }
 
-      parameter.value = parameter.defaultValue.clone();
+      const protoModel = parameter.node.model;
+      const parameterModel = protoModel['parameters'][parameter.name]['defaultValue'];
+      parameter.value = vrmlFactory(parameter.type, parameterModel, true);
       const resetButtonRow = this.#getRow(resetButton);
       // two times because of the `add` button and plus one for the first `add` button.
       const maxRowNumberNeeded = parameter.value.value.length * 2 + 1 + resetButtonRow;

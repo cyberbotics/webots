@@ -69,15 +69,6 @@ export class SFBool extends SingleValue {
   type() {
     return VRML.SFBool;
   }
-
-  clone() {
-    const copy = new SFBool();
-
-    if (typeof this.value !== 'undefined')
-      copy.value = this.value;
-
-    return copy;
-  }
 }
 
 export class SFInt32 extends SingleValue {
@@ -92,15 +83,6 @@ export class SFInt32 extends SingleValue {
   type() {
     return VRML.SFInt32;
   }
-
-  clone() {
-    const copy = new SFInt32();
-
-    if (typeof this.value !== 'undefined')
-      copy.value = this.value;
-
-    return copy;
-  }
 }
 
 export class SFFloat extends SingleValue {
@@ -114,15 +96,6 @@ export class SFFloat extends SingleValue {
 
   type() {
     return VRML.SFFloat;
-  }
-
-  clone() {
-    const copy = new SFFloat();
-
-    if (typeof this.value !== 'undefined')
-      copy.value = this.value;
-
-    return copy;
   }
 }
 
@@ -148,15 +121,6 @@ export class SFString extends SingleValue {
 
   type() {
     return VRML.SFString;
-  }
-
-  clone() {
-    const copy = new SFString();
-
-    if (typeof this.value !== 'undefined')
-      copy.value = this.value;
-
-    return copy;
   }
 }
 
@@ -201,15 +165,6 @@ export class SFVec2f extends SingleValue {
   type() {
     return VRML.SFVec2f;
   }
-
-  clone() {
-    const copy = new SFVec2f();
-
-    if (typeof this.value !== 'undefined')
-      copy.value = JSON.parse(JSON.stringify(this.value));
-
-    return copy;
-  }
 }
 
 export class SFVec3f extends SingleValue {
@@ -253,15 +208,6 @@ export class SFVec3f extends SingleValue {
   type() {
     return VRML.SFVec3f;
   }
-
-  clone() {
-    const copy = new SFVec3f();
-
-    if (typeof this.value !== 'undefined')
-      copy.value = JSON.parse(JSON.stringify(this.value));
-
-    return copy;
-  }
 }
 
 export class SFColor extends SingleValue {
@@ -304,15 +250,6 @@ export class SFColor extends SingleValue {
 
   type() {
     return VRML.SFColor;
-  }
-
-  clone() {
-    const copy = new SFColor();
-
-    if (typeof this.value !== 'undefined')
-      copy.value = JSON.parse(JSON.stringify(this.value));
-
-    return copy;
   }
 }
 
@@ -386,15 +323,6 @@ export class SFRotation extends SingleValue {
 
   type() {
     return VRML.SFRotation;
-  }
-
-  clone() {
-    const copy = new SFRotation();
-
-    if (typeof this.value !== 'undefined')
-      copy.value = JSON.parse(JSON.stringify(this.value));
-
-    return copy;
   }
 }
 
@@ -524,21 +452,6 @@ export class SFNode extends SingleValue {
   type() {
     return VRML.SFNode;
   }
-
-  clone() {
-    const copy = new SFNode();
-
-    if (typeof this.value !== 'undefined') {
-      if (this.value === null) {
-        copy.value = null; // necessary since being null and being undefined have different meanings in this context
-        return copy;
-      }
-
-      copy.value = this.value.clone();
-    }
-
-    return copy;
-  }
 }
 
 class MultipleValue {
@@ -651,12 +564,6 @@ export class MFBool extends MultipleValue {
   type() {
     return VRML.MFBool;
   }
-
-  clone() {
-    const copy = new MFBool();
-    this.value.forEach((item) => copy.insert(item.clone()));
-    return copy;
-  }
 }
 
 export class MFInt32 extends MultipleValue {
@@ -688,12 +595,6 @@ export class MFInt32 extends MultipleValue {
 
   type() {
     return VRML.MFInt32;
-  }
-
-  clone() {
-    const copy = new MFInt32();
-    this.value.forEach((item) => copy.insert(item.clone()));
-    return copy;
   }
 }
 
@@ -727,12 +628,6 @@ export class MFFloat extends MultipleValue {
   type() {
     return VRML.MFFloat;
   }
-
-  clone() {
-    const copy = new MFFloat();
-    this.value.forEach((item) => copy.insert(item.clone()));
-    return copy;
-  }
 }
 
 export class MFString extends MultipleValue {
@@ -764,12 +659,6 @@ export class MFString extends MultipleValue {
 
   type() {
     return VRML.MFString;
-  }
-
-  clone() {
-    const copy = new MFString();
-    this.value.forEach((item) => copy.insert(item.clone()));
-    return copy;
   }
 }
 
@@ -803,12 +692,6 @@ export class MFVec2f extends MultipleValue {
   type() {
     return VRML.MFVec2f;
   }
-
-  clone() {
-    const copy = new MFVec2f();
-    this.value.forEach((item) => copy.insert(item.clone()));
-    return copy;
-  }
 }
 
 export class MFVec3f extends MultipleValue {
@@ -840,12 +723,6 @@ export class MFVec3f extends MultipleValue {
 
   type() {
     return VRML.MFVec3f;
-  }
-
-  clone() {
-    const copy = new MFVec3f();
-    this.value.forEach((item) => copy.insert(item.clone()));
-    return copy;
   }
 }
 
@@ -879,12 +756,6 @@ export class MFColor extends MultipleValue {
   type() {
     return VRML.MFColor;
   }
-
-  clone() {
-    const copy = new MFColor();
-    this.value.forEach((item) => copy.insert(item.clone()));
-    return copy;
-  }
 }
 
 export class MFRotation extends MultipleValue {
@@ -916,12 +787,6 @@ export class MFRotation extends MultipleValue {
 
   type() {
     return VRML.MFRotation;
-  }
-
-  clone() {
-    const copy = new MFRotation();
-    this.value.forEach((item) => copy.insert(item.clone()));
-    return copy;
   }
 }
 
@@ -986,12 +851,6 @@ export class MFNode extends MultipleValue {
 
   type() {
     return VRML.MFNode;
-  }
-
-  clone() {
-    const copy = new MFNode();
-    this.value.forEach((item) => copy.insert(item.clone()));
-    return copy;
   }
 }
 
