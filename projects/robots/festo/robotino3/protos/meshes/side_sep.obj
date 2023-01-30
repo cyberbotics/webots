@@ -1,6 +1,5 @@
 # Blender v2.93.1 OBJ File: 'base_link_6.blend'
 # www.blender.org
-mtllib side_sep.mtl
 o side_sep
 v -0.188893 0.046164 -0.013937
 v -0.188387 0.045838 -0.015012

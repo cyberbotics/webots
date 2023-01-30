@@ -1,6 +1,5 @@
 # Blender v2.93.1 OBJ File: 'base_link_6.blend'
 # www.blender.org
-mtllib head_extension_plate.mtl
 o head_extension_plate
 v -0.036749 -0.006217 0.245000
 v -0.035883 -0.006717 0.156500
