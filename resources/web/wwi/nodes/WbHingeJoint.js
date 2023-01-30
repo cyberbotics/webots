@@ -29,7 +29,7 @@ export default class WbHingeJoint extends WbJoint {
       return;
 
     this.#position = newPosition;
-    if (typeof this.jointParameters === 'undefined')
+    if (typeof this.jointParameters !== 'undefined')
       this._updatePosition();
   }
 
@@ -87,12 +87,14 @@ export default class WbHingeJoint extends WbJoint {
   }
 
   _updateEndPointZeroTranslationAndRotation() {
-    if (typeof this.endPoint === 'undefined')
+    console.log('_updateEndPointZeroTranslationAndRotation')
+    if (typeof this.endPoint === 'undefined' || typeof this.endPoint.endPoint === 'undefined')
       return;
 
-    const ir = this.endPoint.rotation;
-    const it = this.endPoint.translation;
+    const ir = this.endPoint.endPoint.endPoint.rotation;
+    const it = this.endPoint.endPoint.endPoint.translation;
 
+    console.log(ir, it, this.endPoint.endPoint.endPoint.translation)
     let qMinus;
     const angle = this.#position;
     if (isZeroAngle(angle)) {
