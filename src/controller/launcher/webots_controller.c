@@ -651,7 +651,8 @@ int main(int argc, char **argv) {
   };
 
   // Compute path to controller file
-  char *controller_name = strrchr(controller, PATH_SEPARATOR[0]);
+  char *controller_name =
+    strrchr(controller, PATH_SEPARATOR[0]) == NULL ? NULL : strdup(strrchr(controller, PATH_SEPARATOR[0]));
   // Get extension from controller name (robust against relative paths)
   if (!controller_name)
     controller_extension = strrchr(controller, '.') == NULL ? NULL : strdup(strrchr(controller, '.'));
@@ -673,11 +674,11 @@ int main(int argc, char **argv) {
     // Change to controller directory and edit controller file path
     chdir(controller_path_tmp);
     const size_t new_controller_size = snprintf(NULL, 0, "%s%s", controller_path, controller_name + 1) + 1;
+    snprintf(controller, new_controller_size, "%s%s", controller_path, controller_name + 1);
     char *tmp_realloc = realloc(controller, new_controller_size);
     if (!tmp_realloc)
       exit(1);
     controller = tmp_realloc;
-    snprintf(controller, new_controller_size, "%s%s", controller_path, controller_name + 1);
   } else {
     // Add current relative path to controller for execvp() function
     const size_t controller_size = strlen(controller);
