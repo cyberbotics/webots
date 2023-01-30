@@ -12,7 +12,8 @@ export default class Tokenizer {
   #tokenColumn;
   #tokenLine;
   #proto;
-  constructor(stream, proto) {
+  #externProto;
+  constructor(stream, proto, externProto) {
     this.#char = '';
     this.vector = [];
     this.#stream = stream;
@@ -25,12 +26,22 @@ export default class Tokenizer {
     if (typeof proto === 'undefined')
       throw new Error('When tokenizing a string, a PROTO reference is required');
     this.#proto = proto; // proto reference from which we are tokenizing
-    // control position in token vector
-    this.#index = 0;
+    this.#externProto = externProto;
+    this.#index = 0; // control position in token vector
+  }
+
+  configureFromOther(tokenizer, start, end) {
+    this.vector = tokenizer.vector.filter((_, i) => { return i >= start && i < end; });
+    this.rewind();
+    this.#atEndPos = false;
   }
 
   get proto() {
     return this.#proto;
+  }
+
+  get externProto() {
+    return this.#externProto;
   }
 
   tokenize() {
@@ -217,6 +228,17 @@ export default class Tokenizer {
       throw new Error('Cannot skip N = ' + n + ' tokens because there are not that many left.');
   }
 
+  spliceTokenizerByType(type) {
+    const start = this.#index;
+    this.consumeTokensByType(type);
+    const end = this.#index;
+
+    const subTokenizer = new Tokenizer(this.#stream, this.proto, this.externProto);
+    subTokenizer.configureFromOther(this, start, end);
+
+    return subTokenizer;
+  }
+
   consumeTokensByType(type) {
     if (['IS', 'USE'].includes(this.peekWord())) {
       this.nextToken(); // consume keyword
@@ -239,8 +261,13 @@ export default class Tokenizer {
       case VRML.MFString:
       case VRML.MFVec2f:
       case VRML.MFVec3f: {
+        if (this.peekWord() !== '[') {
+          this.consumeTokensByType(type + 1); // the MF* only has one item
+          break;
+        } else
+          this.skipToken('[');
+
         let ctr = 1; // because the first '[' is preemptively skipped
-        this.skipToken('['); // skip first token, must be always present for an MF field
         while (ctr > 0) {
           ctr = this.peekWord() === '[' ? ++ctr : ctr;
           ctr = this.peekWord() === ']' ? --ctr : ctr;
@@ -249,8 +276,12 @@ export default class Tokenizer {
         break;
       }
       case VRML.SFNode: {
-        if (this.peekWord() !== '{')
-          this.nextWord(); // skip node name
+        if (this.peekWord() === 'NULL') {
+          this.nextToken();
+          break;
+        } else if (this.peekWord() !== '{')
+          this.nextToken(); // skip node name
+
         let ctr = 1; // because the first '{' is preemptively skipped
         this.skipToken('{'); // skip first token, must be always present for an SFNode
         while (ctr > 0) {
@@ -368,6 +399,14 @@ export default class Tokenizer {
       this.#index = startPos;
     }
   };
+
+  printTokens() { // for debugging purposes
+    let string = '';
+    for (const item of this.vector)
+      string += item.word() + ' > ';
+
+    console.log(string.slice(0, -3));
+  }
 
   #markTokenStart() {
     this.#tokenLine = this.#line;

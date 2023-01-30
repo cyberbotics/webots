@@ -33,7 +33,9 @@ import WbTouchSensor from './nodes/WbTouchSensor.js';
 import WbBrake from './nodes/WbBrake.js';
 import WbPositionSensor from './nodes/WbPositionSensor.js';
 import NodeSelectorWindow from './NodeSelectorWindow.js';
-import {SFNode, MFNode} from './protoVisualizer/Vrml.js';
+import {SFNode, MFNode, vrmlFactory} from './protoVisualizer/Vrml.js';
+import Node from './protoVisualizer/Node.js';
+import {isBaseNode} from './protoVisualizer/FieldModel.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #mfId;
@@ -204,8 +206,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       } else {
         currentNodeButton.style.display = 'block';
         deleteNodeButton.style.display = 'block';
-        configureNodeButton.style.display = 'block';
-        configureNodeButton.title = 'Configure ' + parameter.value.value.name + ' node';
+        if (isBaseNode(parameter.value.value.name))
+          configureNodeButton.style.display = 'none';
+        else {
+          configureNodeButton.style.display = 'block';
+          configureNodeButton.title = 'Configure ' + parameter.value.value.name + ' node';
+        }
         currentNodeButton.innerHTML = parameter.value.value.name;
       }
     }
@@ -436,7 +442,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         nodesToRemove[i].parentNode.removeChild(nodesToRemove[i]);
       }
 
-      parameter.value = parameter.defaultValue.clone();
+      const protoModel = parameter.node.model;
+      const parameterModel = protoModel['parameters'][parameter.name]['defaultValue'];
+      parameter.value = vrmlFactory(parameter.type, parameterModel, true);
       const resetButtonRow = this.#getRow(resetButton);
       // two times because of the `add` button and plus one for the first `add` button.
       const maxRowNumberNeeded = parameter.value.value.length * 2 + 1 + resetButtonRow;
@@ -514,13 +522,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     for (let i = 0; i < parameter.value.value.length; i++) {
       numberOfRows++;
 
-      if (parameter.type === VRML.MFNode)
+      if (parameter.type === VRML.MFNode) {
         this.#createMFNodeRow(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
           parameter, isVisible);
-      else
+      } else {
         this.#createMfRow(parameter.value.value[i].value, firstRow + numberOfRows, parent, mfId, resetButton,
           parameter, isVisible);
-
+      }
       numberOfRows++;
     }
 
@@ -642,11 +650,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       for (let i = parameter.value.value.length - 1; i >= 0; --i)
         parameter.removeNode(this.#view, i);
 
-      const newValue = [];
-      for (const node of parameter.defaultValue.value)
-        newValue.push(node.value.clone(true));
+      const protoModel = parameter.node.model;
+      const parameterModel = protoModel['parameters'][parameter.name]['defaultValue'];
+      const mfnode = vrmlFactory(VRML.MFNode, parameterModel, true);
 
-      parameter.setValueFromJavaScript(this.#view, newValue);
+      for (const [i, node] of mfnode.value.entries())
+        parameter.insertNode(this.#view, node.value, i);
 
       const resetButtonRow = this.#getRow(resetButton);
       this.#populateMFNode(resetButton, parent, parameter, resetButtonRow, currentMfId, false);
@@ -735,7 +744,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const index = this.#rowToParameterIndex(element, mfId);
 
     // generate node being inserted
-    const node = await this.#protoManager.generateNodeFromUrl(url);
+    const node = await Node.createNode(url);
     parameter.insertNode(this.#view, node, index);
 
     const row = this.#getRow(element) + 1;
@@ -763,7 +772,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     // remove existing node
     parameter.removeNode(this.#view, index);
     // generate new node and insert it
-    const node = await this.#protoManager.generateNodeFromUrl(url);
+    const node = await Node.createNode(url);
     parameter.insertNode(this.#view, node, index);
 
     this.#refreshParameterRow(parameter, mfId);
@@ -1206,8 +1215,21 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     resetButton.onclick = () => {
-      parameter.setValueFromJavaScript(this.#view, parameter.defaultValue.value === null
-        ? null : parameter.defaultValue.value.clone(true));
+      if (parameter.defaultValue.value === null)
+        parameter.setValueFromJavaScript(this.#view, null);
+      else {
+        // note: in order to have a node instance for "value" that is independent from that of "defaultValue",
+        // a new node needs to be created. However, it cannot be created from the model of the node itself
+        // (in cProtoModels), as the PROTO that references this node might be setting extra parameters, like:
+        // -- field SFNode appearance Leather { textureTransform TextureTransform { scale 10 10 } }
+        // this information is however only available on the parent PROTO side, hence why the parameter
+        // model needs to be retrieved and used as initialization when creating the node instance (i.e. before
+        // the internal body is created as these extra parameters might yield different results)
+        const protoModel = parameter.node.model;
+        const parameterModel = protoModel['parameters'][parameter.name]['defaultValue'];
+        const sfnode = vrmlFactory(VRML.SFNode, parameterModel, true);
+        parameter.setValueFromJavaScript(this.#view, sfnode.value);
+      }
       this.#refreshParameterRow(parameter);
     };
 
@@ -1218,7 +1240,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   async #sfnodeOnChange(parameter, url) {
-    const node = await this.#protoManager.generateNodeFromUrl(url);
+    const node = await Node.createNode(url);
     parameter.setValueFromJavaScript(this.#view, node);
     this.#refreshParameterRow(parameter);
   }
