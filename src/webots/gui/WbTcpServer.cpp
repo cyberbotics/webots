@@ -131,6 +131,14 @@ void WbTcpServer::create(int port) {
   // - a websocket on "/"
   // - texture images on the other urls. e.g. "/textures/dir/image.[jpg|png|hdr]"
 
+  // See if a server is already running on port by trying to connect to it.
+  QTcpSocket socket;
+  socket.connectToHost("localhost", port);
+  if (socket.waitForConnected(100)) {
+    socket.disconnectFromHost();
+    throw tr("Port %1 is already in use").arg(port);
+  }
+
   // Reference to let live QTcpSocket and QWebSocketServer on the same port using `QWebSocketServer::handleConnection()`:
   // - https://bugreports.qt.io/browse/QTBUG-54276
   mWebSocketServer = new QWebSocketServer("Webots Streaming Server", QWebSocketServer::NonSecureMode, this);
