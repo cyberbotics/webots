@@ -22,6 +22,7 @@
 #include <ode/fluid_dynamics/ode_fluid_dynamics.h>
 #include <ode/ode.h>
 #include <QtCore/QList>
+#include <QtCore/QMutex>
 
 class WbContactProperties;
 class WbImmersionProperties;
@@ -54,7 +55,9 @@ private:
   WbOdeContext *mContext;
   static QMutex *cJointCreationMutex;
 
+  QMutex mCollisionedRobotsMutex;
   QList<WbKinematicDifferentialWheels *> mCollisionedRobots;
+  void appendCollisionedRobot(WbKinematicDifferentialWheels *robot);
   void handleKinematicsCollisions();
   void swapBuffer();
   static void handleCollisionIfSpace(void *data, dGeomID o1, dGeomID o2);
@@ -68,6 +71,8 @@ private:
   static void odeSensorRaysUpdate(int threadID);
   static const long long int WEBOTS_MAGIC_NUMBER;
   bool mSwapJointContactBuffer;
+
+  static void warnMoreContactPointsThanContactJoints();
 };
 
 #endif
