@@ -14,8 +14,11 @@
 
 """Sets the environment so that the cache tests can be performed in any condition"""
 
+import atexit
+import http.server
 import os
 import sys
+import threading
 from pathlib import Path
 
 if 'WEBOTS_HOME' in os.environ:
@@ -29,16 +32,22 @@ if 'TESTS_HOME' in os.environ:
 else:
     ROOT_FOLDER = WEBOTS_HOME
 
+# Start an HTTP server to serve the contents of ROOT_FOLDER
+class WebotsHomeHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs, directory=Path(ROOT_FOLDER))
+    
+    def log_request(self, code='-', size='-'):
+        if (code == 200):
+            return
+        super().log_request(code=code, size=size)
 
-branch_file_path = os.path.join(WEBOTS_HOME, 'resources', 'branch.txt')
-if os.path.exists(branch_file_path):
-    with open(branch_file_path, 'r') as file:
-        BRANCH = file.read().strip()
-elif 'BRANCH_HASH' in os.environ:  # fall-back mechanism for CI built image used by the test_suite
-    BRANCH = os.environ['BRANCH_HASH']
-else:
-    raise RuntimeError('It was not possible to select a branch name. Running the test suite "cache" group may fail.')
 
+HTTP_PORT=8000
+httpd = http.server.HTTPServer(('', HTTP_PORT), WebotsHomeHTTPRequestHandler)
+atexit.register(http.server.HTTPServer.server_close, httpd)
+httpdThread = threading.Thread(target=http.server.HTTPServer.serve_forever, args=[httpd], daemon=True)
+httpdThread.start()
 
 def update_cache_urls(revert=False):
     paths = []
@@ -51,10 +60,10 @@ def update_cache_urls(revert=False):
 
         if revert:
             content = content.replace(ROOT_FOLDER + '/', 'absolute://')
-            content = content.replace(f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/', 'web://')
+            content = content.replace(f'http://localhost:{HTTP_PORT}/', 'web://')
         else:
             content = content.replace('absolute://', ROOT_FOLDER + '/')
-            content = content.replace('web://', f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/')
+            content = content.replace('web://', f'http://localhost:{HTTP_PORT}/')
 
         with open(path, 'w', newline='\n') as fd:
             fd.write(content)
