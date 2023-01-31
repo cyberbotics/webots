@@ -1698,10 +1698,17 @@ function convertStringToFloatArray(string) {
     return stringList.map(element => parseFloat(element));
 }
 
+function convertStringToStringArray(string) {
+  const stringList = string.replaceAll(',', ' ').split(/\s/).filter(element => element);
+  if (stringList)
+    return stringList.map(element => element);
+}
+
 function _sanitizeHTML(text) {
   const element = document.createElement('div');
   element.innerText = text;
   return element.innerHTML;
 }
 
-export {convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringToFloatArray};
+export {convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringToFloatArray,
+  convertStringToStringArray};

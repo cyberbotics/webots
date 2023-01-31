@@ -1,5 +1,5 @@
 import Parser, {convertStringToVec3, convertStringToQuaternion, convertStringToFloatArray,
-  convertStringToVec2} from './Parser.js';
+  convertStringToVec2, convertStringToStringArray} from './Parser.js';
 import {webots} from './webots.js';
 import WrenRenderer from './WrenRenderer.js';
 
@@ -225,6 +225,8 @@ export default class X3dScene {
       if (key === 'id')
         continue;
 
+      console.log('update:', update)
+
       if (key === 'translation') {
         if (object instanceof WbTransform)
           object.translation = convertStringToVec3(update[key]);
@@ -308,6 +310,20 @@ export default class X3dScene {
       } else if (key === 'url') {
         if (object instanceof WbMesh || object instanceof WbCadShape)
           object.url = update[key][0];
+        if (object instanceof WbImageTexture) {
+          console.log('got', update[key])
+          let urlString = update[key];
+          if (urlString === '[]') {
+            object.url = undefined;
+            return;
+          }
+
+          if (urlString.startsWith('[') && urlString.endsWith(']'))
+            urlString = urlString.substring(1, urlString.length - 1);
+
+          console.log('SEND', urlString.split('"').filter(element => { if (element !== ' ') return element; })[0])
+          object.url = urlString.split('"').filter(element => { if (element !== ' ') return element; })[0];
+        }
       } else if (key === 'point') {
         if (object instanceof WbCoordinate)
           object.point = convertStringToVec3Array(update[key]);
@@ -383,6 +399,8 @@ export default class X3dScene {
         else if (key === 'specularColor')
           object.specularColor = convertStringToVec3(update[key]);
       } else if (object instanceof WbImageTexture) {
+        console.log('here')
+
         if (key === 'repeatS')
           object.repeatS = update[key].toLowerCase() === 'true';
         else if (key === 'repeatT')
