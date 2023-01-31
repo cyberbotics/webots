@@ -25,6 +25,7 @@ Released on ??
     - Fixed Python API `Node.enableContactPointsTracking` which was failing ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
     - Fixed Python API field getters sometimes returning an invalid Field object ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
     - Fixed Python API `Field.enableSFTracking` and `Field.disableSFTracking` which were failing ([#5640](https://github.com/cyberbotics/webots/pull/5640)).
+    - Fixed Python API `Motor.enableForceFeedback` where the `sampling_period` argument was missing ([#5797](https://github.com/cyberbotics/webots/pull/5797)).
     - Fixed crash resulting from requesting pose tracking of unsuitable nodes ([#5620](https://github.com/cyberbotics/webots/pull/5620)).
     - Fixed memory leaks, particularly when in no-rendering mode and spawning/deleting nodes ([#5639](https://github.com/cyberbotics/webots/pull/5639)).
     - Fixed crashes resulting from streaming pose, SF field values or contact points after deleting the tracked nodes ([#5638](https://github.com/cyberbotics/webots/pull/5638)).
@@ -36,6 +37,8 @@ Released on ??
     - Fixed crashes resulting from converting to base nodes a PROTO containing DEF and USE nodes ([#5676](https://github.com/cyberbotics/webots/pull/5676)).
     - Fixed crashes resulting from updating a DEF node whose USE node is contained in a PROTO field triggering the regeneration ([#5676](https://github.com/cyberbotics/webots/pull/5676)).
     - Fixed crashes resulting from copy or DEF/USE update in [`Solid.boundingObject`](solid.md) field ([#5686](https://github.com/cyberbotics/webots/pull/5686)).
+    - Fixed silent ignoring of more that 10 contact points when detecting collisions. The limit has been raised to 100 contact points and a warning is now logged if that limit is reached ([#5776](https://github.com/cyberbotics/webots/pull/5776)).
+    - Fixed performance issues when retrieving multiple times a node's field defined in a PROTO body using the [Supervisor API](supervisor.md) ([#5774](https://github.com/cyberbotics/webots/pull/5774)).
 
 ## Webots R2023a
 Released on November 29th, 2022.

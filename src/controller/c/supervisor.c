@@ -58,8 +58,9 @@ typedef struct WbFieldStructPrivate {
   WbFieldType type;  // WB_SF_* or WB_MT_* as defined in supervisor.h
   int count;         // used in MF fields only
   int node_unique_id;
-  int id;                  // attributed by Webots
-  bool is_proto_internal;  // internal field can't be changed
+  int id;                        // attributed by Webots
+  bool is_proto_internal_field;  // TRUE if this is a PROTO field, FALSE in case of PROTO parameter or NODE field
+  bool is_read_only;             // only fields visible from the scene tree can be modified from the Supervisor API
   union WbFieldData data;
   WbFieldRef next;
   double last_update;
@@ -112,7 +113,7 @@ typedef struct WbNodeStructPrivate {
   bool static_balance;
   double *solid_velocity;  // double[6] (linear[3] + angular[3])
   bool is_proto;
-  bool is_proto_internal;
+  bool is_proto_internal;  // FALSE if the node is visible in the scene tree, otherwise TRUE
   WbNodeRef parent_proto;
   int tag;
   WbNodeRef next;
@@ -174,23 +175,23 @@ static char *supervisor_strdup(const char *src) {
 }
 
 // find field in field_list
-static WbFieldStruct *find_field_by_name(const char *field_name, int node_id, bool is_proto_internal) {
+static WbFieldStruct *find_field_by_name(const char *field_name, int node_id, bool is_proto_internal_field) {
   // TODO: Hash map needed
   WbFieldStruct *field = field_list;
   while (field) {
     if (field->node_unique_id == node_id && strcmp(field_name, field->name) == 0 &&
-        field->is_proto_internal == is_proto_internal)
+        field->is_proto_internal_field == is_proto_internal_field)
       return field;
     field = field->next;
   }
   return NULL;
 }
 
-static WbFieldStruct *find_field_by_id(int node_id, int field_id, bool is_proto_internal) {
+static WbFieldStruct *find_field_by_id(int node_id, int field_id, bool is_proto_internal_field) {
   // TODO: Hash map needed
   WbFieldStruct *field = field_list;
   while (field) {
-    if (field->node_unique_id == node_id && field->id == field_id && field->is_proto_internal == is_proto_internal)
+    if (field->node_unique_id == node_id && field->id == field_id && field->is_proto_internal_field == is_proto_internal_field)
       return field;
     field = field->next;
   }
@@ -325,7 +326,7 @@ static void remove_internal_proto_nodes_and_fields_from_list() {
   WbFieldStruct *field = field_list;
   WbFieldStruct *previous_field = NULL;
   while (field) {
-    if (field->is_proto_internal) {
+    if (field->is_read_only) {  // field not visible from the scene tree and thus defined inside a PROTO node
       if (previous_field)
         previous_field->next = field->next;
       else
@@ -588,7 +589,7 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
     request_write_uchar(r, C_SUPERVISOR_FIELD_CHANGE_TRACKING_STATE);
     request_write_int32(r, field_change_tracking.field->node_unique_id);
     request_write_int32(r, field_change_tracking.field->id);
-    request_write_uchar(r, field_change_tracking.field->is_proto_internal ? 1 : 0);
+    request_write_uchar(r, field_change_tracking.field->is_proto_internal_field ? 1 : 0);
     request_write_uchar(r, field_change_tracking.enable);
     if (field_change_tracking.enable)
       request_write_int32(r, field_change_tracking.sampling_period);
@@ -608,7 +609,7 @@ static void supervisor_write_request(WbDevice *d, WbRequest *r) {
         request_write_uchar(r, C_SUPERVISOR_FIELD_GET_VALUE);
         request_write_uint32(r, f->node_unique_id);
         request_write_uint32(r, f->id);
-        request_write_uchar(r, f->is_proto_internal ? 1 : 0);
+        request_write_uchar(r, f->is_proto_internal_field ? 1 : 0);
         if (request->index != -1)
           request_write_uint32(r, request->index);  // MF fields only
       } else if (request->type == SET) {
@@ -952,7 +953,7 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
     case C_SUPERVISOR_FIELD_GET_FROM_NAME: {
       const int field_ref = request_read_int32(r);
       const WbFieldType field_type = request_read_int32(r);
-      const bool is_proto_internal = request_read_uchar(r) == 1;
+      const bool is_proto_internal_field = request_read_uchar(r) == 1;
       const int field_count = request_read_int32(r);
       const char *name = request_read_string(r);
       if (field_ref == -1) {
@@ -966,7 +967,8 @@ static void supervisor_read_answer(WbDevice *d, WbRequest *r) {
       f->count = field_count;
       f->node_unique_id = node_ref;
       f->name = name;
-      f->is_proto_internal = is_proto_internal;
+      f->is_proto_internal_field = is_proto_internal_field;
+      f->is_read_only = is_proto_internal_field;
       f->last_update = -DBL_MAX;
       f->data.sf_string = NULL;
       field_list = f;
@@ -1303,7 +1305,7 @@ static bool check_field(WbFieldRef f, const char *function, WbFieldType type, bo
     return false;
   }
 
-  if (check_type_internal && ((WbFieldStruct *)f)->is_proto_internal) {
+  if (check_type_internal && ((WbFieldStruct *)f)->is_read_only) {
     fprintf(stderr, "Error: %s() called on a read-only PROTO internal field.\n", function);
     return false;
   }
@@ -2320,7 +2322,7 @@ WbFieldRef wb_supervisor_node_get_field_by_index(WbNodeRef node, int index) {
     else
       result = find_field_by_id(node->id, index, false);
     if (result && node->is_proto_internal)
-      result->is_proto_internal = true;
+      result->is_read_only = true;
   }
   robot_mutex_unlock();
   return result;
@@ -2357,7 +2359,7 @@ WbFieldRef wb_supervisor_node_get_proto_field_by_index(WbNodeRef node, int index
     else
       result = find_field_by_id(node->id, index, true);
     if (result)
-      result->is_proto_internal = true;
+      result->is_read_only = true;
     allow_search_in_proto = false;
   }
   robot_mutex_unlock();
@@ -2391,7 +2393,7 @@ WbFieldRef wb_supervisor_node_get_field(WbNodeRef node, const char *field_name) 
       requested_field_name = NULL;
       result = field_list;  // was just inserted at list head
       if (result && node->is_proto_internal)
-        result->is_proto_internal = true;
+        result->is_read_only = true;
     }
   }
   robot_mutex_unlock();
@@ -2479,7 +2481,7 @@ WbFieldRef wb_supervisor_node_get_proto_field(WbNodeRef node, const char *field_
       requested_field_name = NULL;
       result = field_list;  // was just inserted at list head
       if (result)
-        result->is_proto_internal = true;
+        result->is_read_only = true;
     }
     allow_search_in_proto = false;
   }
@@ -3099,7 +3101,7 @@ WbNodeRef wb_supervisor_field_get_sf_node(WbFieldRef field) {
   if (id <= 0)
     return NULL;
   WbNodeRef result = find_node_by_id(id);
-  if (result && ((WbFieldStruct *)field)->is_proto_internal)
+  if (result && ((WbFieldStruct *)field)->is_read_only)
     result->is_proto_internal = true;
   return result;
 }
@@ -3174,7 +3176,7 @@ WbNodeRef wb_supervisor_field_get_mf_node(WbFieldRef field, int index) {
 
   field_operation(field, GET, index, __FUNCTION__);
   WbNodeRef result = find_node_by_id(((WbFieldStruct *)field)->data.sf_node_uid);
-  if (result && ((WbFieldStruct *)field)->is_proto_internal)
+  if (result && ((WbFieldStruct *)field)->is_read_only)
     result->is_proto_internal = true;
   return result;
 }

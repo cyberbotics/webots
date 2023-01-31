@@ -5021,3 +5021,7 @@ export const FieldModel = {
     }
   }
 };
+
+export function isBaseNode(nodeName) {
+  return typeof FieldModel[nodeName] !== 'undefined';
+}

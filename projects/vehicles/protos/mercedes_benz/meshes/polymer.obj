@@ -1,6 +1,5 @@
 # Blender v2.93.1 OBJ File: ''
 # www.blender.org
-mtllib interior_plastic.mtl
 o windshield_frame
 v -0.838306 1.665829 3.761390
 v -0.833870 1.700899 3.720000
