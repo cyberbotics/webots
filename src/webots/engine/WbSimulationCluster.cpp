@@ -39,6 +39,7 @@
 #include "WbWorldInfo.hpp"
 
 #include <QtCore/QMutex>
+#include <QtCore/QMutexLocker>
 
 #include <ode/fluid_dynamics/ode_fluid_dynamics.h>
 #include <ode/ode_MT.h>
@@ -49,11 +50,6 @@
 // The maximum number of contact joints to create. Note that the time to compute a physics timestep with the ODE
 // physics engine scales with the cube of the number of joints.
 #define MAX_CONTACT_JOINTS 10
-
-// The maximum number of contact points to look for when colliding 2 geometries. A larger number decreases the
-// chances that contact points in important areas won't be considered. Of the (at most) MAX_CONTACTS points that
-// might be found, joints will only be created for the deepest MAX_CONTACT_JOINTS points.
-#define MAX_CONTACTS 100
 
 // "webots" where each character is replaced by its ascii hexadecimal number.
 const long long int WbSimulationCluster::WEBOTS_MAGIC_NUMBER = 0x7765626F7473LL;
@@ -459,6 +455,14 @@ static bool needCollisionDetection(WbSolid *solid, bool isOtherRayGeom) {
   return false;
 }
 
+void WbSimulationCluster::appendCollisionedRobot(WbKinematicDifferentialWheels *robot) {
+  if (WbOdeContext::instance()->numberOfThreads() > 1) {
+    QMutexLocker<QMutex> lock(&mCollisionedRobotsMutex);
+    mCollisionedRobots.append(robot);
+  } else
+    mCollisionedRobots.append(robot);
+}
+
 void WbSimulationCluster::handleCollisionIfSpace(void *data, dGeomID o1, dGeomID o2) {
   if (dGeomIsSpace(o1) || dGeomIsSpace(o2)) {
     // colliding a mContext->space() with something
@@ -468,6 +472,28 @@ void WbSimulationCluster::handleCollisionIfSpace(void *data, dGeomID o1, dGeomID
       dSpaceCollide((dSpaceID)o1, data, odeNearCallback);
     if (dGeomIsSpace(o2))
       dSpaceCollide((dSpaceID)o2, data, odeNearCallback);
+  }
+}
+
+void WbSimulationCluster::warnMoreContactPointsThanContactJoints() {
+  static QMutex mutex;
+  QMutexLocker<QMutex> lock(&mutex);
+  static double lastWarningTime = -INFINITY;
+  const double currentSimulationTime = WbSimulationState::instance()->time();
+  if (currentSimulationTime > lastWarningTime + 1000.0) {
+    WbLog::warning(QObject::tr("Contact joints will only be created for the deepest contact points."), false, WbLog::ODE);
+    lastWarningTime = currentSimulationTime;
+  }
+}
+
+void WbSimulationCluster::warnMaxContactPointsFound() {
+  static QMutex mutex;
+  QMutexLocker<QMutex> lock(&mutex);
+  static double lastWarningTime = -INFINITY;
+  const double currentSimulationTime = WbSimulationState::instance()->time();
+  if (currentSimulationTime > lastWarningTime + 1000.0) {
+    WbLog::warning(QObject::tr("maxContactPoints contact points found so others might be ignored."), false, WbLog::ODE);
+    lastWarningTime = currentSimulationTime;
   }
 }
 
@@ -646,22 +672,23 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   int maxContactPoints = contactProperties ? contactProperties->maxContactPoints() : -1;
   const int maxContactJoints = contactProperties ? contactProperties->maxContactJoints() : 10;
 
+  thread_local QVector<dContact> contactVector;
   const bool findAllContactPoints = maxContactPoints == -1;
   if (findAllContactPoints)
-    maxContactPoints = std::max<size_t>(100, cl->mContactVector.capacity());
+    maxContactPoints = std::max<size_t>(100, cl->contactVector.capacity());
 
   int n;
   dContact *contact;
   while (true) {
-    cl->mContactVector.reserve(maxContactPoints);
-    contact = cl->mContactVector.data();
+    cl->contactVector.reserve(maxContactPoints);
+    contact = cl->contactVector.data();
     n = dCollide(o1, o2, maxContactPoints, &contact[0].geom, sizeof(dContact));
     if (n < maxContactPoints)
       break;
     else if (findAllContactPoints)
       maxContactPoints *= 10;
     else {
-      WbLog::warning(QObject::tr("maxContactPoints contact points found so others might be ignored."), false, WbLog::ODE);
+      WbSimulationCluster::warnMaxContactPointsFound();
       break;
     }
   }
@@ -670,9 +697,7 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     return;
 
   if (n > maxContactJoints) {
-    WbLog::warning(
-      QObject::tr("Detected more than maxContactJoints contact points. Only maxContactJoints contact joints will be created."),
-      false, WbLog::ODE);
+    WbSimulationCluster::warnMoreContactPointsThanContactJoints();
     std::nth_element(contact, contact + maxContactJoints, contact + n,
                      [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
     n = maxContactJoints;
@@ -698,10 +723,10 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
                      [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
     if (robot1 && !p1 && !isRayGeom2 && robot1->kinematicDifferentialWheels()) {
       wg1->setColliding();
-      cl->mCollisionedRobots.append(robot1->kinematicDifferentialWheels());
+      cl->appendCollisionedRobot(robot1->kinematicDifferentialWheels());
       if (robot2 && !p2 && robot2->kinematicDifferentialWheels()) {
         wg2->setColliding();
-        cl->mCollisionedRobots.append(robot2->kinematicDifferentialWheels());
+        cl->appendCollisionedRobot(robot2->kinematicDifferentialWheels());
         collideKinematicRobots(robot1->kinematicDifferentialWheels(), true, contact, true);
         collideKinematicRobots(robot2->kinematicDifferentialWheels(), true, contact, false);
       } else
@@ -710,7 +735,7 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     }
     if (robot2 && !p2 && !isRayGeom1 && robot2->kinematicDifferentialWheels()) {
       wg2->setColliding();
-      cl->mCollisionedRobots.append(robot2->kinematicDifferentialWheels());
+      cl->appendCollisionedRobot(robot2->kinematicDifferentialWheels());
       collideKinematicRobots(robot2->kinematicDifferentialWheels(), false, contact, false);
       return;
     }
