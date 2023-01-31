@@ -49,8 +49,6 @@ export default class WbImageTexture extends WbBaseNode {
   }
 
   set url(newUrl) {
-    console.log('new url:', newUrl)
-
     this.#url = newUrl;
 
     this.#updateUrl();

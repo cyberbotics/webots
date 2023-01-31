@@ -225,8 +225,6 @@ export default class X3dScene {
       if (key === 'id')
         continue;
 
-      console.log('update:', update)
-
       if (key === 'translation') {
         if (object instanceof WbTransform)
           object.translation = convertStringToVec3(update[key]);
@@ -311,17 +309,13 @@ export default class X3dScene {
         if (object instanceof WbMesh || object instanceof WbCadShape)
           object.url = update[key][0];
         if (object instanceof WbImageTexture) {
-          console.log('got', update[key])
           let urlString = update[key];
           if (urlString === '[]') {
             object.url = undefined;
             return;
           }
-
           if (urlString.startsWith('[') && urlString.endsWith(']'))
             urlString = urlString.substring(1, urlString.length - 1);
-
-          console.log('SEND', urlString.split('"').filter(element => { if (element !== ' ') return element; })[0])
           object.url = urlString.split('"').filter(element => { if (element !== ' ') return element; })[0];
         }
       } else if (key === 'point') {
