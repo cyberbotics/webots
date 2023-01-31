@@ -28,6 +28,7 @@ import threading
 import time
 import multiprocessing
 import argparse
+import atexit
 
 from command import Command
 from cache.cache_environment import update_cache_urls
@@ -312,6 +313,10 @@ finalMessage = 'Test suite complete'
 outputMonitor = OutputMonitor()
 thread = threading.Thread(target=outputMonitor.monitorOutputFile, args=[finalMessage])
 thread.start()
+
+# Run a copy of webots in the background to ensure doing so doesn't cause any tests to fail
+backgroundWebots = subprocess.Popen([webotsFullPath, "--mode=pause", "--no-rendering", "--minimize"])
+atexit.register(subprocess.Popen.terminate, self=backgroundWebots)
 
 for groupName in testGroups:
     if groupName == 'cache':
