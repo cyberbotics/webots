@@ -275,12 +275,7 @@ export default class Node {
       const lines = rawHeader.split('\n');
       for (const line of lines) {
         if (line.indexOf('EXTERNPROTO') !== -1) { // get only the text after 'EXTERNPROTO'
-          let address = line.split('EXTERNPROTO')[1].trim().replaceAll('"', '');
-          if (address.startsWith('webots://'))
-            address = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023a/' + address.substring(9);
-          else
-            address = combinePaths(address, protoUrl);
-
+          const address = combinePaths(line.split('EXTERNPROTO')[1].trim().replaceAll('"', ''), protoUrl);
           const protoName = address.split('/').pop().replace('.proto', '');
           externProto.set(protoName, address);
           promises.push(await Node.prepareProtoDependencies(address));

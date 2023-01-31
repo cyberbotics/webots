@@ -22,15 +22,13 @@ export default class ProtoManager {
       };
       xmlhttp.send();
     }).then(async text => {
-      console.time('Created PROTO node in: ');
+      console.time('Loaded in: ');
       this.proto = await Node.createNode(url, undefined, true);
-      console.timeEnd('Created PROTO node in: ');
       this.loadX3d();
     });
   }
 
   async loadX3d() {
-    console.time('Prepared x3d in: ');
     const xml = this.getXmlOfMinimalScene();
     const scene = xml.getElementsByTagName('Scene')[0];
     if (this.proto.isRoot && ['PBRAppearance', 'Appearance'].includes(this.proto.getBaseNode().name)) {
@@ -42,7 +40,6 @@ export default class ProtoManager {
     const x3d = new XMLSerializer().serializeToString(xml);
 
     this.#view.prefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);
-    console.timeEnd('Prepared x3d in: ');
     this.#view.open(x3d, 'x3d', '', true);
   }
 
