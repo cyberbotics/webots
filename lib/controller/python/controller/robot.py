@@ -66,7 +66,7 @@ if sys.platform == 'win32':
             self._stream = stream
             self._thread = threading.Thread(target=self._handler)
             self._thread.start()
-        
+
         def __del__(self):
             self._w.close()
             self._thread.join()
@@ -82,8 +82,9 @@ if sys.platform == 'win32':
                             break
                         libc._write(self._stream, str.encode(line), len(line), 0)
 
-                except:
+                except Exception:
                     break
+
     def _delete_object(object):
         del object
     if 'WEBOTS_STDOUT_REDIRECT' in os.environ and os.environ['WEBOTS_STDOUT_REDIRECT']:
