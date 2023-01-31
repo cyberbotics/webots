@@ -13,7 +13,7 @@ webots-view #progress {
   overflow: hidden;
   background-color: black;
   font-family: 'Raleway-Light';
-  z-index: 4;
+  z-index: 5;
 }
 
 webots-view #progress-image {

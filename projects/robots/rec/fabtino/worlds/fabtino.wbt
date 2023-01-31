@@ -318,11 +318,11 @@ PlasticCrate {
   name "plastic crate(5)"
   size 1 1 0.9
 }
-PlasticCrate {
-  translation -6.187 -0.937 0.9
-  name "Kasten(2)"
-  size 0.4 0.23 0.12
-  mass 0.92
+CardboardBox {
+  translation -6.187 -0.937 1.02
+  rotation 1 0 0 1.5708
+  name "cardboard box(2)"
+  size 0.3 0.23 0.23
 }
 SquareManhole {
   translation 0.560459 -1.782 -0.03
