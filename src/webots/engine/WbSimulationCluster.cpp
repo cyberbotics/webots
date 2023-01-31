@@ -675,7 +675,7 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   thread_local QVector<dContact> contactVector;
   const bool findAllContactPoints = maxContactPoints == -1;
   if (findAllContactPoints)
-    maxContactPoints = std::max<size_t>(100, cl->contactVector.capacity());
+    maxContactPoints = std::max<size_t>(100, contactVector.capacity());
 
   int n;
   dContact *contact;
