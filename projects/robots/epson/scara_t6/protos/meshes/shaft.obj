@@ -1,6 +1,5 @@
 # Blender v3.0.1 OBJ File: 'shaft.blend'
 # www.blender.org
-mtllib shaft.mtl
 o shaft
 v 0.014224 0.010178 -0.395961
 v 0.013537 0.010178 -0.397321
