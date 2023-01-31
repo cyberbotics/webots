@@ -62,6 +62,7 @@ supervisorControllerName = 'test_suite_supervisor'
 tempWorldCounterFilename = os.path.join(testsFolderPath, 'world_counter.txt')
 webotsStdOutFilename = os.path.join(testsFolderPath, 'webots_stdout.txt')
 webotsStdErrFilename = os.path.join(testsFolderPath, 'webots_stderr.txt')
+performanceLogFilename = os.path.join(testsFolderPath, 'performance_log.txt')
 
 
 class OutputMonitor:
@@ -70,7 +71,7 @@ class OutputMonitor:
 
     def monitorOutputFile(self, finalMessage):
         """Display the output file on the console."""
-        self.command = Command('tail -f ' + outputFilename, args.ansi_escape)
+        self.command = Command(['tail', '-f', outputFilename], args.ansi_escape)
         self.command.run(expectedString=finalMessage, silent=False)
 
 
@@ -91,7 +92,7 @@ def setupWebots():
             sys.exit('Error: ' + webotsBinary + ' binary not found')
         webotsFullPath = os.path.normpath(webotsFullPath)
 
-    command = Command(webotsFullPath + ' --version')
+    command = Command([webotsFullPath, '--version'])
     command.run()
     if command.returncode != 0:
         raise RuntimeError('Error when getting the Webots version: ' + command.output)
@@ -100,7 +101,7 @@ def setupWebots():
     except IndexError:
         raise RuntimeError('Cannot parse Webots version: ' + command.output)
 
-    command = Command(webotsFullPath + ' --sysinfo')
+    command = Command([webotsFullPath, '--sysinfo'])
     command.run()
     if command.returncode != 0:
         raise RuntimeError('Error when getting the Webots information of the system')
@@ -155,7 +156,7 @@ def executeMake():
     """Execute 'make release' to ensure every controller/plugin is compiled."""
     curdir = os.getcwd()
     os.chdir(testsFolderPath)
-    command = Command('make release -j%d' % multiprocessing.cpu_count())
+    command = Command(['make', 'release', '-j%d' % multiprocessing.cpu_count()])
     command.run(silent=False)
     os.chdir(curdir)
     if command.returncode != 0:
@@ -220,16 +221,17 @@ def runGroupTest(groupName, firstSimulation, worldsCount, failures):
     # Here is an example to run webots in gdb and display the stack
     # when it crashes.
     # this is particularly useful to debug on the jenkins server
-    #  command = Command('gdb -ex run --args ' + webotsFullPath + '-bin ' +
-    #                    firstSimulation + ' --mode=fast --no-rendering --minimize')
+    #  command = Command(['gdb', '-ex', 'run', '--args', webotsFullPath + '-bin',
+    #                    firstSimulation, '--mode=fast', '--no-rendering', '--minimize'])
     #  command.run(silent = False)
 
-    webotsArguments = '--mode=fast --stdout --stderr --batch'
+    webotsArguments = [webotsFullPath, firstSimulation]
+    webotsArguments += ['--mode=fast', '--stdout', '--stderr', '--batch', '--log-performance=' + performanceLogFilename]
     if groupName != 'with_rendering':
-        webotsArguments = webotsArguments + ' --no-rendering --minimize'
+        webotsArguments += ['--no-rendering', '--minimize']
     if groupName == 'cache':
-        webotsArguments = webotsArguments + ' --clear-cache'
-    command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArguments)
+        webotsArguments += '--clear-cache'
+    command = Command(webotsArguments)
 
     # redirect stdout and stderr to files
     command.runTest(timeout=10 * 60)  # 10 minutes

@@ -24,20 +24,20 @@ f = open('slave.py', 'w')
 f.write(
     "# File: slave.py\n"
     "import time, sys\n"
-    "print('Start count'\n"
+    "print('Start count')\n"
     "for i in range(1, 5):\n"
-    "  print(str(i)\n\n"
+    "  print(str(i))\n\n"
     "  # important otherwise may trick the subprocess.stdout.readline function"
     "  sys.stdout.flush()\n"
     "  time.sleep(1)\n"
-    "print('Stop count'\n"
+    "print('Stop count')\n"
 )
 f.close()
 
 if sys.platform == 'win32':
     sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', 0)
 
-command = Command('python slave.py')
+command = Command('python slave.py'.split())
 
 command.run(silent=False)
 print('command log (timeout = ' + str(command.timeout) + ', expectedString = ' +
