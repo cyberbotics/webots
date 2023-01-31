@@ -680,8 +680,8 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   int n;
   dContact *contact;
   while (true) {
-    cl->contactVector.reserve(maxContactPoints);
-    contact = cl->contactVector.data();
+    contactVector.reserve(maxContactPoints);
+    contact = contactVector.data();
     n = dCollide(o1, o2, maxContactPoints, &contact[0].geom, sizeof(dContact));
     if (n < maxContactPoints)
       break;
