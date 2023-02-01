@@ -93,7 +93,7 @@ PROTO TeslaModel3 [
                     cutOffAngle 0.6
                     direction -1 -0.5 -0.05
                     intensity 60
-                    location -4.03 0.72 -0.72
+                    location -2.03 0.72 -0.72
                     radius 40
                   }
                   SpotLight {
