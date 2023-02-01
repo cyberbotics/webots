@@ -28,6 +28,7 @@
 #include "WbSphere.hpp"
 
 WbObjectDetection::WbObjectDetection(WbSolid *device, WbSolid *object, bool needToCheckCollision, double maxRange) :
+  mDevice(device),
   mObjectRelativePosition(0.0, 0.0, 0.0),
   mObjectSize(0.0, 0.0, 0.0),
   mObject(object),
@@ -38,16 +39,15 @@ WbObjectDetection::WbObjectDetection(WbSolid *device, WbSolid *object, bool need
     assert(device);
 
     // setup ray geom for ODE collision detection
-    const WbVector3 devicePosition = device->matrix().translation();
-    const WbVector3 objectPosition = object->matrix().translation();
-    const WbVector3 direction = objectPosition - devicePosition;
+    const WbVector3 devicePosition = mDevice->position();
+    const WbVector3 direction = object->position() - devicePosition;
     mGeom = dCreateRay(WbOdeContext::instance()->space(), direction.length());
     dGeomSetDynamicFlag(mGeom);
     dGeomRaySet(mGeom, devicePosition.x(), devicePosition.y(), devicePosition.z(), direction.x(), direction.y(), direction.z());
     dGeomRaySetLength(mGeom, direction.length());
 
     // set device as callback data in case there is a collision
-    dGeomSetData(mGeom, new WbOdeGeomData(device));
+    dGeomSetData(mGeom, new WbOdeGeomData(mDevice));
   }
 };
 
@@ -74,16 +74,15 @@ void WbObjectDetection::setCollided(double depth) {
     mCollisionDepth = d;
 }
 
-bool WbObjectDetection::recomputeRayDirection(WbSolid *device, const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation,
-                                              const WbMatrix3 &deviceInverseRotation, const WbAffinePlane *frustumPlanes) {
+bool WbObjectDetection::recomputeRayDirection(const WbAffinePlane *frustumPlanes) {
   assert(mGeom);
   mObject->updateTransformForPhysicsStep();
-  // recompute ray properties
-  if (!computeObject(devicePosition, deviceRotation, deviceInverseRotation, frustumPlanes))
+  if (!isContainedInFrustum(frustumPlanes))
     return false;
 
-  const WbVector3 objectPosition = mObject->matrix().translation();
-  const WbVector3 direction = objectPosition - devicePosition;
+  // recompute ray properties
+  const WbVector3 devicePosition = mDevice->position();
+  const WbVector3 direction = mObject->position() - devicePosition;
   dGeomRaySet(mGeom, devicePosition.x(), devicePosition.y(), devicePosition.z(), direction.x(), direction.y(), direction.z());
   dGeomRaySetLength(mGeom, direction.length());
   return true;
@@ -123,10 +122,8 @@ bool WbObjectDetection::doesChildrenHaveBoundingObject(const WbSolid *solid) {
   return false;
 }
 
-bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation,
-                                      const WbMatrix3 &deviceInverseRotation, const WbAffinePlane *frustumPlanes,
-                                      const WbBaseNode *boundingObject, WbVector3 &objectSize,
-                                      WbVector3 &objectRelativePosition, const WbBaseNode *rootObject) {
+bool WbObjectDetection::isWithinBounds(const WbAffinePlane *frustumPlanes, const WbBaseNode *boundingObject,
+                                       WbVector3 &objectSize, WbVector3 &objectRelativePosition, const WbBaseNode *rootObject) {
   int nodeType = WB_NODE_NO_NODE;
   bool useBoundingSphere = false;
   if (boundingObject)
@@ -146,32 +143,31 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
     transform = referenceObject->upperTransform();
   assert(transform);
   WbMatrix3 objectRotation = transform->rotationMatrix();
-  WbVector3 objectPosition = transform->matrix().translation();
+  WbVector3 objectPosition = transform->position();
 
   if (nodeType == WB_NODE_SHAPE) {
     const WbShape *shape = static_cast<const WbShape *>(boundingObject);
     boundingObject = shape->geometry();
-    return computeBounds(devicePosition, deviceRotation, deviceInverseRotation, frustumPlanes, boundingObject, objectSize,
-                         objectRelativePosition);
+    return isWithinBounds(frustumPlanes, boundingObject, objectSize, objectRelativePosition);
   } else if (nodeType == WB_NODE_GROUP || nodeType == WB_NODE_TRANSFORM) {
     bool visible = false;
     const WbGroup *group = static_cast<const WbGroup *>(boundingObject);
     for (int i = 0; i < group->childCount(); ++i) {
       boundingObject = group->child(i);
       if (!visible) {
-        if (computeBounds(devicePosition, deviceRotation, deviceInverseRotation, frustumPlanes, boundingObject, objectSize,
-                          objectRelativePosition))
+        if (isWithinBounds(frustumPlanes, boundingObject, objectSize, objectRelativePosition))
           visible = true;
       } else {
         WbVector3 newObjectSize, newObjectRelativePosition;
-        if (computeBounds(devicePosition, deviceRotation, deviceInverseRotation, frustumPlanes, boundingObject, newObjectSize,
-                          newObjectRelativePosition))
+        if (isWithinBounds(frustumPlanes, boundingObject, newObjectSize, newObjectRelativePosition))
           mergeBounds(objectSize, objectRelativePosition, newObjectSize, newObjectRelativePosition);
       }
     }
     return visible;
   }
 
+  const WbVector3 devicePosition = mDevice->position();
+  const WbMatrix3 deviceInverseRotation = mDevice->rotationMatrix().transposed();
   if (boundingObject &&
       (nodeType == WB_NODE_BOX || nodeType == WB_NODE_INDEXED_FACE_SET || nodeType == WB_NODE_ELEVATION_GRID)) {
     QVector<WbVector3> points;
@@ -338,28 +334,23 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
   return true;
 }
 
-bool WbObjectDetection::recursivelyComputeBounds(WbSolid *solid, bool boundsInitialized, const WbVector3 &devicePosition,
-                                                 const WbMatrix3 &deviceRotation, const WbMatrix3 &deviceInverseRotation,
-                                                 const WbAffinePlane *frustumPlanes) {
+bool WbObjectDetection::recursivelyCheckIfWithinBounds(WbSolid *solid, bool boundsInitialized,
+                                                       const WbAffinePlane *frustumPlanes) {
   bool initialized = boundsInitialized;
   if (initialized) {
     WbVector3 newObjectSize, newObjectRelativePosition;
-    if (computeBounds(devicePosition, deviceRotation, deviceInverseRotation, frustumPlanes, solid->boundingObject(),
-                      newObjectSize, newObjectRelativePosition))
+    if (isWithinBounds(frustumPlanes, solid->boundingObject(), newObjectSize, newObjectRelativePosition))
       mergeBounds(mObjectSize, mObjectRelativePosition, newObjectSize, newObjectRelativePosition);
   } else
-    initialized = computeBounds(devicePosition, deviceRotation, deviceInverseRotation, frustumPlanes, solid->boundingObject(),
-                                mObjectSize, mObjectRelativePosition, solid);
+    initialized = isWithinBounds(frustumPlanes, solid->boundingObject(), mObjectSize, mObjectRelativePosition, solid);
   foreach (WbSolid *solid, solid->solidChildren())
-    initialized =
-      recursivelyComputeBounds(solid, initialized, devicePosition, deviceRotation, deviceInverseRotation, frustumPlanes);
+    initialized = recursivelyCheckIfWithinBounds(solid, initialized, frustumPlanes);
   return initialized;
 }
 
-bool WbObjectDetection::computeObject(const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation,
-                                      const WbMatrix3 &deviceInverseRotation, const WbAffinePlane *frustumPlanes) {
+bool WbObjectDetection::isContainedInFrustum(const WbAffinePlane *frustumPlanes) {
   assert(mObject);
-  if (!recursivelyComputeBounds(mObject, false, devicePosition, deviceRotation, deviceInverseRotation, frustumPlanes))
+  if (!recursivelyCheckIfWithinBounds(mObject, false, frustumPlanes))
     return false;
   // check distance
   if (distance() > (mMaxRange + mObjectSize.x() / 2.0))
@@ -368,9 +359,10 @@ bool WbObjectDetection::computeObject(const WbVector3 &devicePosition, const WbM
   return true;
 }
 
-WbAffinePlane *WbObjectDetection::computeFrustumPlanes(const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation,
-                                                       const double verticalFieldOfView, const double horizontalFieldOfView,
-                                                       const double maxRange) {
+WbAffinePlane *WbObjectDetection::computeFrustumPlanes(const WbSolid *device, const double verticalFieldOfView,
+                                                       const double horizontalFieldOfView, const double maxRange) {
+  const WbVector3 devicePosition = device->position();
+  const WbMatrix3 deviceRotation = device->rotationMatrix();
   // construct the 4 planes defining the sides of the frustum
   const double z = maxRange * tan(verticalFieldOfView / 2.0);
   const double y = maxRange * tan(horizontalFieldOfView / 2.0);
