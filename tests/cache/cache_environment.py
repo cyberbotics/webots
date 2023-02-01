@@ -33,21 +33,24 @@ else:
     ROOT_FOLDER = WEBOTS_HOME
 
 # Start an HTTP server to serve the contents of ROOT_FOLDER
+
+
 class WebotsHomeHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs, directory=Path(ROOT_FOLDER))
-    
+
     def log_request(self, code='-', size='-'):
         if (code == 200):
             return
         super().log_request(code=code, size=size)
 
 
-HTTP_PORT=8000
+HTTP_PORT = 8000
 httpd = http.server.HTTPServer(('', HTTP_PORT), WebotsHomeHTTPRequestHandler)
 atexit.register(http.server.HTTPServer.server_close, httpd)
 httpdThread = threading.Thread(target=http.server.HTTPServer.serve_forever, args=[httpd], daemon=True)
 httpdThread.start()
+
 
 def update_cache_urls(revert=False):
     paths = []
