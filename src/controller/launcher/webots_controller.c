@@ -622,7 +622,7 @@ static void parse_runtime_ini() {
         case Windows:
 #ifdef _WIN32
           if (!strchr(runtime_ini_line, '\"')) {
-            fprintf(stderr, "Paths for windows should be written between double-quotes symbols \".\n");
+            fprintf(stderr, "Windows paths should be written between double-quotes symbols \".\n");
             exit(1);
           }
           remove_comment(strrchr(runtime_ini_line, '\"'));
