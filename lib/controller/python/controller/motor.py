@@ -1,4 +1,4 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -91,8 +91,8 @@ class Motor(Device):
     def getMultiplier(self) -> float:
         return self.multiplier
 
-    def enableForceFeedback(self):
-        wb.wb_motor_enable_force_feedback(self._tag)
+    def enableForceFeedback(self, sampling_period: int):
+        wb.wb_motor_enable_force_feedback(self._tag, sampling_period)
 
     def disableForceFeedback(self):
         wb.wb_motor_disable_force_feedback(self._tag)

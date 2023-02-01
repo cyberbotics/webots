@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -52,7 +52,7 @@ public:
   void notifyNodeDeleted(WbNode *node);
   void notifyNodeRegenerated();
 
-  void updateDictionary(bool load, WbBaseNode *protoRoot);  // called after every modification of the Scene Tree
+  bool updateDictionary(bool load, WbBaseNode *protoRoot);  // called after every modification of the Scene Tree
 
   bool areNodesAboutToBeInserted() { return mNodesAreAboutToBeInserted; }
   bool isSkipUpdates() { return mSkipUpdates; }
