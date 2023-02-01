@@ -533,20 +533,20 @@ void WbLidar::displayPointCloud() {
     float color[3] = {0.0f, 0.0f, 1.0f};
     unsigned int pointsIndex = 0;
     unsigned int raysIndex = 0;
+    WbLidarPoint *points = pointArray();
     for (int k = 0; k < layersNumber; ++k) {
       if (layersNumber > 1) {  // to avoid division by zero
         color[0] = k / (layersNumber - 1.0f);
         color[2] = 1.0f - color[0];
       }
       for (int l = 0; l < resolution; ++l) {
-        const float *vertex_x = &pointArray()[k * resolution + l].x;
-        const float *vertex_y = &pointArray()[k * resolution + l].y;
-        const float *vertex_z = &pointArray()[k * resolution + l].z;
+        WbLidarPoint p = points[k * resolution + l];
+        const float vertex[] = {p.x, p.y, p.z};
 
-        if (isinf(*vertex_x) || isinf(*vertex_y) || isinf(*vertex_z))
+        if (isinf(p.x) || isinf(p.y) || isinf(p.z))
           continue;
 
-        wr_dynamic_mesh_add_vertex(mLidarPointsMesh, vertex_x);
+        wr_dynamic_mesh_add_vertex(mLidarPointsMesh, vertex);
         wr_dynamic_mesh_add_color(mLidarPointsMesh, color);
         wr_dynamic_mesh_add_index(mLidarPointsMesh, pointsIndex++);
         // Ray
@@ -555,7 +555,7 @@ void WbLidar::displayPointCloud() {
           wr_dynamic_mesh_add_color(mLidarRaysMesh, color);
           wr_dynamic_mesh_add_index(mLidarRaysMesh, raysIndex++);
 
-          wr_dynamic_mesh_add_vertex(mLidarRaysMesh, vertex_x);
+          wr_dynamic_mesh_add_vertex(mLidarRaysMesh, vertex);
           wr_dynamic_mesh_add_color(mLidarRaysMesh, color);
           wr_dynamic_mesh_add_index(mLidarRaysMesh, raysIndex++);
         }
