@@ -1331,8 +1331,7 @@ bool WbNode::setProtoParameterNode(WbNode *node) {
   }
 
   mProtoParameterNode = node;
-  mIsRedirectedToParameterNode = false;
-  assert(mProtoParameterNode);
+  mIsRedirectedToParameterNode = mProtoParameterNode == NULL;
   if (mProtoParameterNode) {
     mProtoParameterNode->mProtoParameterNodeInstances.append(this);
     connect(this, &QObject::destroyed, mProtoParameterNode, &WbNode::removeProtoParameterNodeInstance);
@@ -1365,7 +1364,7 @@ void WbNode::redirectInternalFields(WbField *param, bool finalize) {
     QList<WbField *> internalFields = parameter->internalFields();
     while (!internalFields.isEmpty()) {
       WbField *field = internalFields.takeFirst();
-      redirectInternalFields(field, parameter);
+      redirectInternalFields(field, parameter, finalize);
       internalFields << field->internalFields();
     }
   }
@@ -1381,8 +1380,8 @@ void WbNode::redirectInternalFields(WbField *field, WbField *parameter, bool fin
         WbNode *parameterNode = static_cast<WbMFNode *>(parameter->value())->item(i);
         if (subnode->setProtoParameterNode(parameterNode) || finalize)
           redirectInternalFields(subnode, parameterNode, finalize);
-        break;
       }
+      break;
     }
     case WB_SF_NODE: {
       WbSFNode *sfnode = static_cast<WbSFNode *>(field->value());
@@ -1392,8 +1391,8 @@ void WbNode::redirectInternalFields(WbField *field, WbField *parameter, bool fin
         WbNode *parameterNode = static_cast<WbSFNode *>(parameter->value())->value();
         if (subnode->setProtoParameterNode(parameterNode) || finalize)
           redirectInternalFields(subnode, parameterNode, finalize);
-        break;
       }
+      break;
     }
     default:
       break;
