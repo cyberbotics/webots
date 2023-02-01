@@ -56,7 +56,7 @@ if sys.platform == 'win32':
     class StdStreamRedirect:
         def __init__(self, stream):
             r, w = os.pipe()
-            r, w = os.fdopen(r, 'r'), os.fdopen(w, 'w', buffering=1, encoding='utf-8')
+            r, w = os.fdopen(r, 'r', encoding='utf-8'), os.fdopen(w, 'w', buffering=1, encoding='utf-8')
             self._r = r
             self._w = w
             if stream == 1:  # stdout
@@ -80,7 +80,7 @@ if sys.platform == 'win32':
                         line = self._r.readline()
                         if len(line) == 0:
                             break
-                        encoded = line.encode('cp1252')
+                        encoded = line.encode('utf-8')
                         libc._write(self._stream, encoded, len(encoded), 0)
                 except Exception:
                     break
