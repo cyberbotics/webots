@@ -326,8 +326,10 @@ outputMonitor = OutputMonitor()
 thread = threading.Thread(target=outputMonitor.monitorOutputFile, args=[finalMessage])
 thread.start()
 
-# Run a copy of webots in the background to ensure doing so doesn't cause any tests to fail
-backgroundWebots = subprocess.Popen([webotsFullPath, "--mode=pause", "--no-rendering", "--minimize"])
+# Run a copy of webots in the background to ensure doing so doesn't cause any tests to fail.
+# Use WEBOTS_SAFE_MODE=true to ensure it always runs with the same (empty) project.
+backgroundWebots = subprocess.Popen([webotsFullPath, "--mode=pause", "--no-rendering", "--minimize"],
+                                    env=(os.environ | {"WEBOTS_SAFE_MODE": "true"}))
 atexit.register(subprocess.Popen.terminate, self=backgroundWebots)
 
 for groupName in testGroups:
