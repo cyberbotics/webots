@@ -257,19 +257,21 @@ def runGroupTest(groupName, firstSimulation, worldsCount, failures):
             appendToOutputFile('- number of worlds actually tested: %s)\n' % (counterString))
         else:
             lines = open(webotsStdErrFilename, 'r').readlines()
+            foundWarning = False
             for line in lines:
                 if 'Failure' in line:
                     # check if it should be ignored
                     if not any(item in line for item in whitelist):
                         failures += 1
                         systemFailures.append(line)
-            # Should not be listening on port 1234 because we started another webots in the background
-            lines = open(webotsStdOutFilename, 'r').readlines()
-            for line in lines:
-                if 'server listening on port 1234' in line:
-                    failures += 1
-                    appendToOutputFile("FAILURE: Webots listened on a port that was in use.")
-                    testFailed = True
+                # There should be a warning about needing to use port 1235 instead of 1234 
+                # because we started another webots in the background.
+                if '1234' in line and '1235' in line:
+                    foundWarning = True
+            if not foundWarning:
+                failures += 1
+                appendToOutputFile("FAILURE: Webots listened on a port that was in use.")
+                testFailed = True
 
     if testFailed:
         appendToOutputFile('\nWebots complete STDOUT log:\n')
