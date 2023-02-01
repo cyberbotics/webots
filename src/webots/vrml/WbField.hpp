@@ -115,9 +115,6 @@ public:
   const QString &scope() const { return mScope; }
   void setScope(const QString &value) { mScope = value; }
 
-  void disable();
-  bool isDisabledParameter() const { return mDisabledParameter; }
-
 signals:
   void valueChanged();
   void valueChangedByOde();
@@ -143,9 +140,6 @@ private:
   WbNode *mParentNode;
 
   QString mScope;
-
-  bool mDisabledParameter;  // parameter of a PROTO instance, this parameter is disabled because the fields are redirected to
-                            // the PROTO parameter node
 
 private slots:
   void parameterChanged();

@@ -36,7 +36,6 @@
 #include "WbValue.hpp"
 #include "WbWriter.hpp"
 
-#include <QtCore/QDebug>
 #include <cassert>
 #include <iostream>
 
@@ -47,8 +46,7 @@ WbField::WbField(const WbFieldModel *model, WbNode *parentNode) :
   mWasRead(false),
   mParameter(NULL),
   mIsTemplateRegenerator(model->isTemplateRegenerator()),
-  mParentNode(parentNode),
-  mDisabledParameter(false) {
+  mParentNode(parentNode) {
   mModel->ref();
   if (hasRestrictedValues())
     connect(mValue, &WbValue::changed, this, &WbField::checkValueIsAccepted, Qt::UniqueConnection);
@@ -65,8 +63,7 @@ WbField::WbField(const WbField &other, WbNode *parentNode) :
   mAlias(other.mAlias),
   mIsTemplateRegenerator(other.mIsTemplateRegenerator),
   mParentNode(parentNode),
-  mScope(other.mScope),
-  mDisabledParameter(false) {
+  mScope(other.mScope) {
   mModel->ref();
   if (hasRestrictedValues())
     connect(mValue, &WbValue::changed, this, &WbField::checkValueIsAccepted, Qt::UniqueConnection);
@@ -393,12 +390,6 @@ void WbField::redirectTo(WbField *parameter, bool skipCopy) {
     connect(static_cast<WbSFRotation *>(mValue), &WbSFRotation::changedByOde, mParameter, &WbField::fieldChangedByOde);
   else if (fieldName == "position")
     connect(static_cast<WbSFDouble *>(mValue), &WbSFDouble::changedByOde, mParameter, &WbField::fieldChangedByOde);
-}
-
-void WbField::disable() {
-  mDisabledParameter = true;
-  assert(mInternalFields.isEmpty());
-  mInternalFields.clear();
 }
 
 void WbField::removeInternalField(QObject *field) {
