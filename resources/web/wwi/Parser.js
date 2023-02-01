@@ -674,10 +674,8 @@ export default class Parser {
       newNode = new WbGyro(id, translation, scale, rotation, name === '' ? 'gyro' : name);
     else if (node.tagName === 'InertialUnit')
       newNode = new WbInertialUnit(id, translation, scale, rotation, name === '' ? 'inertial unit' : name);
-    else if (node.tagName === 'LED') {
-      console.log('PARSING LED, parent:', parentNode)
+    else if (node.tagName === 'LED')
       newNode = new WbLed(id, translation, scale, rotation, name === '' ? 'led' : name);
-    }
     else if (node.tagName === 'Lidar') {
       const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', Math.PI / 2));
       const horizontalResolution = parseInt(getNodeAttribute(node, 'horizontalResolution', '512'));
@@ -729,8 +727,6 @@ export default class Parser {
 
     if (typeof parentNode !== 'undefined') {
       newNode.parent = parentNode.id;
-      if (node.tagName === 'LED')
-        console.log('> parent of ', newNode.id, 'is', newNode.parent)
 
       if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
         parentNode.geometryField = newNode;
@@ -738,9 +734,8 @@ export default class Parser {
         parentNode.boundingObject = newNode;
       else if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = newNode;
-      else {
-          parentNode.children.push(newNode);
-      }
+      else
+        parentNode.children.push(newNode);
     }
 
     return newNode;
@@ -762,7 +757,6 @@ export default class Parser {
     this.#parseChildren(node, group, isBoundingObject);
 
     if (typeof parentNode !== 'undefined') {
-      console.log('> parent of', group.id, 'is', parentNode.id)
       group.parent = parentNode.id;
       if (isBoundingObject && parentNode instanceof WbSolid)
         parentNode.boundingObject = group;
@@ -1093,15 +1087,11 @@ export default class Parser {
     const radius = parseFloat(getNodeAttribute(node, 'radius', '100'));
     const ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0'));
     const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
-    console.log('parse-spotlight:', location)
     const spotLight = new WbSpotLight(id, on, attenuation, beamWidth, color, cutOffAngle, direction, intensity, location,
       radius, ambientIntensity, castShadows, parentNode);
 
-    if (typeof parentNode !== 'undefined') {
-      spotLight.parent = parentNode.id;
-      console.log('> parent of', spotLight.id, 'is', parentNode.id)
+    if (typeof parentNode !== 'undefined')
       parentNode.children.push(spotLight);
-    }
 
     WbWorld.instance.nodes.set(spotLight.id, spotLight);
 
@@ -1708,17 +1698,10 @@ function convertStringToFloatArray(string) {
     return stringList.map(element => parseFloat(element));
 }
 
-function convertStringToStringArray(string) {
-  const stringList = string.replaceAll(',', ' ').split(/\s/).filter(element => element);
-  if (stringList)
-    return stringList.map(element => element);
-}
-
 function _sanitizeHTML(text) {
   const element = document.createElement('div');
   element.innerText = text;
   return element.innerHTML;
 }
 
-export {convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringToFloatArray,
-  convertStringToStringArray};
+export {convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringToFloatArray};

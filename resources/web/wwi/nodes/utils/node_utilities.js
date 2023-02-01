@@ -1,6 +1,4 @@
-import WbGroup from '../WbGroup.js';
 import WbSolid from '../WbSolid.js';
-import WbSpotLight from '../WbSpotLight.js';
 import WbTransform from '../WbTransform.js';
 import WbWorld from '../WbWorld.js';
 

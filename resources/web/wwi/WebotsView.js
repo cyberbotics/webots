@@ -384,6 +384,7 @@ export default class WebotsView extends HTMLElement {
       // terminate the previous activity if any
       this.close();
 
+      console.time('Loaded in: ');
       if (typeof this._view === 'undefined')
         this._view = new webots.View(this, isMobileDevice);
       this.protoManager = new ProtoManager(this._view);

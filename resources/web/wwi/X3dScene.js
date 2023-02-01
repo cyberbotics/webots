@@ -1,5 +1,5 @@
 import Parser, {convertStringToVec3, convertStringToQuaternion, convertStringToFloatArray,
-  convertStringToVec2, convertStringToStringArray} from './Parser.js';
+  convertStringToVec2} from './Parser.js';
 import {webots} from './webots.js';
 import WrenRenderer from './WrenRenderer.js';
 
@@ -148,7 +148,6 @@ export default class X3dScene {
 
   async loadRawWorldFile(raw, onLoad, progress) {
     const prefix = webots.currentView.prefix;
-    console.time('Parsed scene in: ');
     const parser = new Parser(prefix);
     await parser.parse(raw, this.renderer).then(() => onLoad());
   }
@@ -393,8 +392,6 @@ export default class X3dScene {
         else if (key === 'specularColor')
           object.specularColor = convertStringToVec3(update[key]);
       } else if (object instanceof WbImageTexture) {
-        console.log('here')
-
         if (key === 'repeatS')
           object.repeatS = update[key].toLowerCase() === 'true';
         else if (key === 'repeatT')
@@ -496,7 +493,6 @@ export default class X3dScene {
   }
 
   processServerMessage(data, view) {
-    console.log(data);
     if (data.startsWith('application/json:')) {
       if (typeof view.time !== 'undefined') { // otherwise ignore late updates until the scene loading is completed
         data = data.substring(data.indexOf(':') + 1);

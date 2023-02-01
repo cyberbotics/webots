@@ -103,14 +103,13 @@ export default class WbGeometry extends WbBaseNode {
   }
 
   #upperTransform() {
-    let upperTransform;
     if (this.#upperTransformFirstTimeSearch) {
-      upperTransform = findUpperTransform(this);
+      this.upperTransform = findUpperTransform(this);
       if (this.wrenObjectsCreatedCalled)
         this.#upperTransformFirstTimeSearch = false;
     }
 
-    return upperTransform;
+    return this.upperTransform;
   }
 
   // Private functions

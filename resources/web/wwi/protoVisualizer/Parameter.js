@@ -135,7 +135,6 @@ export default class Parameter extends Field {
         // (with unique ids) for each node
         this.node.assignId();
         const x3d = new XMLSerializer().serializeToString(this.node.toX3d());
-        console.log(x3d)
         view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', id.replace('n', ''));
       }
 

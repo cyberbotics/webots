@@ -63,7 +63,6 @@ export default class WbHingeJoint extends WbJoint {
     // called after an artificial move
     this.#position = position;
     let rotation = new WbVector4();
-
     const translation = this.#computeEndPointSolidPositionFromParameters(rotation);
     const solid = this.solidEndPoint();
     if (!translation.almostEquals(solid.translation) || !rotation.almostEquals(solid.rotation)) {
