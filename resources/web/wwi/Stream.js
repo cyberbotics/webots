@@ -72,7 +72,7 @@ export default class Stream {
           }
         }
       } else
-        webots.currentView.robots.push({name: json.robot, window: robotWindow, main: json.main});
+        webots.currentView.robots.push({name: json.robot, window: robotWindow, main: json.main, visible: json.visible});
       if (document.getElementById('robot-window-button') !== null)
         document.getElementsByTagName('webots-view')[0].toolbar.loadRobotWindows();
     } else if (data.startsWith('robot:'))
