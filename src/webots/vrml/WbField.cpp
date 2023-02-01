@@ -318,7 +318,7 @@ bool WbField::isHiddenParameter() const {
 void WbField::redirectTo(WbField *parameter, bool skipCopy) {
   // qDebug() << "redirectTo: " << this << " " << name() << " -> " << parameter << " " << parameter->name();
 
-  if (this == parameter || parameter->mInternalFields.contains(this))
+  if (mParameter == parameter || this == parameter || parameter->mInternalFields.contains(this))
     // skip self and duplicated redirection
     return;
 

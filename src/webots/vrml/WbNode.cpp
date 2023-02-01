@@ -148,6 +148,7 @@ void WbNode::init() {
   gParent = this;
   mIsBeingDeleted = false;
   mProtoParameterNode = NULL;
+  mIsRedirectedToParameterNode = false;
   mIsNestedProtoNode = false;
   mProtoParameterNodeInstances.clear();
   mRegenerationRequired = false;
@@ -155,6 +156,8 @@ void WbNode::init() {
   mInsertionCompleted = false;
   mProto = NULL;
   mCurrentStateId = "__init__";
+  mProtoParameterParentNode = NULL;
+  mIsProtoParameterNode = NULL;
 }
 
 // special constructor for shallow nodes, it's used by CadShape to instantiate PBRAppearances from an assimp material in
@@ -247,6 +250,7 @@ WbNode::~WbNode() {
     if (instance->mProtoParameterNode == this)
       instance->mProtoParameterNode = NULL;
   }
+  mIsRedirectedToParameterNode = false;
   mProtoParameterNodeInstances.clear();
 
   // nodes in PROTO definitions and in scene tree clipboard are not in gNodes[]
@@ -263,6 +267,9 @@ WbNode::~WbNode() {
     foreach (WbNode *const useNode, mUseNodes)
       useNode->setDefNode(NULL);
   }
+
+  if (mIsProtoParameterNode)
+    delete[] mIsProtoParameterNode;
 }
 
 const QString &WbNode::modelName() const {
@@ -1253,6 +1260,10 @@ void WbNode::redirectAliasedFields(WbField *param, WbNode *protoInstance, bool s
   } else
     fields = mFields;
 
+  // always assign new unique id when copying due to field redirection
+  const bool restoreUniqueId = gRestoreUniqueIdOnClone;
+  gRestoreUniqueIdOnClone = false;
+
   // search self
   foreach (WbField *field, fields) {
     if (field->alias() == param->name() && field->type() == param->type()) {
@@ -1285,6 +1296,9 @@ void WbNode::redirectAliasedFields(WbField *param, WbNode *protoInstance, bool s
         node->redirectAliasedFields(param, protoInstance, false, copyValueOnly);
     }
   }
+
+  // restore flag
+  gRestoreUniqueIdOnClone = restoreUniqueId;
 }
 
 WbNode *WbNode::cloneDefNode() {
@@ -1317,45 +1331,47 @@ bool WbNode::setProtoParameterNode(WbNode *node) {
   }
 
   mProtoParameterNode = node;
+  mIsRedirectedToParameterNode = false;
   assert(mProtoParameterNode);
   if (mProtoParameterNode) {
     mProtoParameterNode->mProtoParameterNodeInstances.append(this);
     connect(this, &QObject::destroyed, mProtoParameterNode, &WbNode::removeProtoParameterNodeInstance);
-    redirectInternalFields(this, mProtoParameterNode);
   }
-
   return true;
 }
 
-/*
-void WbNode::redirectIntermediateConnections(WbField *parameter) {
-  QQueue<WbField *> fields;
-  // skip first step
-  foreach (WbField *field, parameter->internalFields())
-    fields.append(field->internalFields());
-  while (!fields.isEmpty()) {
-    WbField *field = fields.dequeue();
-    if (field->parameter() == parameter)
-      continue;  // no intermediate redirections
-    field->redirectTo(parameter);
-    field->setAlias(parameter->name());
-    if (field->isParameter()) {
-      fields.append(field->internalFields());
-      field->disable();
-    }
-  }
-}*/
+void WbNode::finalizeProtoParametersRedirection() {
+  if (isProtoInstance())
+    redirectInternalFields(NULL, true);
 
-void WbNode::redirectInternalFields(WbField *param) {
+  const QList<WbNode *> nodeInstances = protoParameterNodeInstances();
+  if (!nodeInstances.isEmpty()) {
+    foreach (WbNode *n, nodeInstances)
+      redirectInternalFields(n, this, true);
+    return;
+  }
+
+  const QList<WbNode *> nodes = subNodes(false, true, true);
+  foreach (WbNode *n, nodes)
+    n->finalizeProtoParametersRedirection();
+}
+
+void WbNode::redirectInternalFields(WbField *param, bool finalize) {
+  if (mIsRedirectedToParameterNode)
+    return;
+  mIsRedirectedToParameterNode = true;
   const QList<WbField *> parameters = param ? QList<WbField *>() << param : mParameters;
   foreach (WbField *parameter, parameters) {
-    foreach (WbField *field, parameter->internalFields())
+    QList<WbField *> internalFields = parameter->internalFields();
+    while (!internalFields.isEmpty()) {
+      WbField *field = internalFields.takeFirst();
       redirectInternalFields(field, parameter);
+      internalFields << field->internalFields();
+    }
   }
 }
 
-void WbNode::redirectInternalFields(WbField *field, WbField *parameter) {
-  assert(field && parameter);
+void WbNode::redirectInternalFields(WbField *field, WbField *parameter, bool finalize) {
   switch (field->type()) {
     case WB_MF_NODE: {
       WbMFNode *mfnode = static_cast<WbMFNode *>(field->value());
@@ -1363,9 +1379,10 @@ void WbNode::redirectInternalFields(WbField *field, WbField *parameter) {
       for (int i = 0; i < mfnode->size(); i++) {
         WbNode *subnode = mfnode->item(i);
         WbNode *parameterNode = static_cast<WbMFNode *>(parameter->value())->item(i);
-        subnode->setProtoParameterNode(parameterNode);
+        if (subnode->setProtoParameterNode(parameterNode) || finalize)
+          redirectInternalFields(subnode, parameterNode, finalize);
+        break;
       }
-      break;
     }
     case WB_SF_NODE: {
       WbSFNode *sfnode = static_cast<WbSFNode *>(field->value());
@@ -1373,17 +1390,22 @@ void WbNode::redirectInternalFields(WbField *field, WbField *parameter) {
       WbNode *subnode = sfnode->value();
       if (subnode) {
         WbNode *parameterNode = static_cast<WbSFNode *>(parameter->value())->value();
-        subnode->setProtoParameterNode(parameterNode);
+        if (subnode->setProtoParameterNode(parameterNode) || finalize)
+          redirectInternalFields(subnode, parameterNode, finalize);
+        break;
       }
-      break;
     }
     default:
       break;
   }
 }
 
-void WbNode::redirectInternalFields(WbNode *instance, WbNode *parameterNode) {
+void WbNode::redirectInternalFields(WbNode *instance, WbNode *parameterNode, bool finalize) {
+  if (instance->mIsRedirectedToParameterNode)
+    return;
+  instance->mIsRedirectedToParameterNode = true;
   assert(instance && parameterNode);
+
   QListIterator<WbField *> referenceIt(parameterNode->fieldsOrParameters());
   QListIterator<WbField *> instanceIt(instance->fieldsOrParameters());
   while (referenceIt.hasNext() && instanceIt.hasNext()) {
@@ -1392,7 +1414,7 @@ void WbNode::redirectInternalFields(WbNode *instance, WbNode *parameterNode) {
     if (instanceParam->name() != param->name() || instanceParam->type() != param->type())
       continue;
     instanceParam->redirectTo(param, true);  // redirect without copying value
-    redirectInternalFields(instanceParam, param);
+    redirectInternalFields(instanceParam, param, finalize);
   }
 }
 
@@ -1471,8 +1493,8 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
       WbFieldModel *parameterModel = NULL;
       const bool hidden = parameterName == "hidden";
       if (hidden) {
-        static const QRegularExpression rx1("(_\\d+)+$");  // looks for a substring of the form _7 or _13_1 at the end of the
-                                                           // parameter name, e.g. as in rotation_7, position2_13_1
+        static const QRegularExpression rx1("(_\\d+)+$");  // looks for a substring of the form _7 or _13_1 at the end of
+                                                           // the parameter name, e.g. as in rotation_7, position2_13_1
         const QString &hiddenParameterName(tokenizer->peekWord());
         const QRegularExpressionMatch match1 = rx1.match(hiddenParameterName);
         static const QRegularExpression rx2("^[A-Za-z]+\\d?");
@@ -1773,15 +1795,23 @@ bool WbNode::isProtoParameterChild(const WbNode *node) const {
   if (!isProtoInstance())
     return false;
 
+  if (node->mProtoParameterParentNode)
+    return node->mProtoParameterParentNode == this;
+
   foreach (WbField *const field, parameters()) {
     const WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(field->value());
-    if (sfnode && sfnode->value() == node)
+    if (sfnode && sfnode->value() == node) {
+      node->mProtoParameterParentNode = this;
       return true;
+    }
     const WbMFNode *const mfnode = dynamic_cast<WbMFNode *>(field->value());
-    if (mfnode && mfnode->nodeIndex(node) != -1)
+    if (mfnode && mfnode->nodeIndex(node) != -1) {
+      node->mProtoParameterParentNode = this;
       return true;
+    }
   }
 
+  node->mProtoParameterParentNode = node;  // set to self if parent is not a PROTO
   return false;
 }
 
@@ -1789,14 +1819,22 @@ bool WbNode::isProtoParameterNode() const {
   if (mIsCreationCompleted)
     return mIsProtoParameterNodeDescendant;
 
+  if (mIsProtoParameterNode)
+    return mIsProtoParameterNode[0];
+  mIsProtoParameterNode = new bool[1];
   WbNode *parent = parentNode();
-  if (!parent || parent->isWorldRoot())
+  if (!parent || parent->isWorldRoot()) {
+    mIsProtoParameterNode[0] = false;
     return false;
+  }
 
-  if (parent->isProtoParameterChild(this))
+  if (parent->isProtoParameterChild(this)) {
+    mIsProtoParameterNode[0] = true;
     return true;
+  }
 
-  return parent->isProtoParameterNode();
+  mIsProtoParameterNode[0] = parent->isProtoParameterNode();
+  return mIsProtoParameterNode[0];
 }
 
 QList<WbNode *> WbNode::subNodes(bool recurse, bool searchInFields, bool searchInParameters) const {

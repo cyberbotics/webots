@@ -183,7 +183,7 @@ public:
   bool hasAProtoAncestor() const;
   WbNode *protoAncestor() const;
   // connect nested PROTO parameters
-  void redirectInternalFields(WbField *param = NULL);
+  void redirectInternalFields(WbField *param = NULL, bool finalize = false);
 
   const WbNode *containingProto(bool skipThis) const;
 
@@ -326,6 +326,9 @@ protected:
   void setUrdfPrefix(const QString &prefix) { mUrdfPrefix = prefix; };
   virtual const bool isJoint() const { return false; };
 
+  static void redirectInternalFields(WbNode *instance, WbNode *parameterNode, bool finalize = false);
+  void finalizeProtoParametersRedirection();
+
 private slots:
   void notifyFieldChanged();
   void notifyParameterChanged();
@@ -364,6 +367,11 @@ private:
   mutable bool mIsProtoParameterNodeDescendant;
   QList<WbNode *> mProtoParameterNodeInstances;
   static const QStringList cHiddenParameterNames;
+  // if this node has is a direct PROTO parameter node, store the parent PROTO node
+  // otherwise set mProtoParameterParentNode to this.
+  // mProtoParameterParentNode is NULL before the value it is computed.
+  mutable const WbNode *mProtoParameterParentNode;
+  mutable bool *mIsProtoParameterNode;
 
   // if PROTO instance is created as a consequence of an explicit insertion from the scene tree or due to a template
   // regeneration, then setup of instance's nested PROTO flag should be postponed to correctly redirect all the parameters
@@ -372,6 +380,7 @@ private:
 
   // for proto parameter node instances only
   WbNode *mProtoParameterNode;
+  bool mIsRedirectedToParameterNode;
 
   // create a copy of this node by copying all its field values (polymorphic constructor)
   virtual WbNode *clone() const;
@@ -398,9 +407,7 @@ private:
   void addExternProtoFromFile(const WbProtoModel *proto, WbWriter &writer) const;
 
   bool setProtoParameterNode(WbNode *node);
-  static void redirectInternalFields(WbNode *instance, WbNode *parameterNode);
-  static void redirectInternalFields(WbField *field, WbField *parameter);
-  // static void redirectIntermediateConnections(WbField *parameter);
+  static void redirectInternalFields(WbField *field, WbField *parameter, bool finzalize = false);
 };
 
 #endif

@@ -76,6 +76,8 @@ WbBaseNode::~WbBaseNode() {
 }
 
 void WbBaseNode::finalize() {
+  finalizeProtoParametersRedirection();
+
   if (isProtoParameterNode()) {
     // finalize PROTO parameter node instances of the current node
     QVector<WbNode *> nodeInstances = protoParameterNodeInstances();
