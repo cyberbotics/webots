@@ -106,8 +106,6 @@ void WbTcpServer::start(int port) {
                      .arg(mPort));
   else if (mStream)
     WbLog::info(tr("Streaming server listening on port %1.").arg(port));
-  else
-    WbLog::info(tr("Non-streaming server listening on port %1.").arg(port));
 }
 
 void WbTcpServer::sendToJavascript(const QByteArray &string) {
