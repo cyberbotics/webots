@@ -1,4 +1,6 @@
 import WbBaseNode from './WbBaseNode.js';
+import WbSlot from './WbSlot.js';
+import WbSolid from './WbSolid.js';
 import WbWorld from './WbWorld.js';
 
 export default class WbJoint extends WbBaseNode {
