@@ -257,7 +257,7 @@ def runGroupTest(groupName, firstSimulation, worldsCount, failures):
             appendToOutputFile('- number of worlds actually tested: %s)\n' % (counterString))
         else:
             lines = open(webotsStdErrFilename, 'r').readlines()
-            # There should be a warning about needing to use port 1235 instead of 1234 
+            # There should be a warning about needing to use port 1235 instead of 1234
             # because we started another webots in the background.
             foundWarning = False
             # The parser tests clear the stderr file, so don't try to find the warning in them.
