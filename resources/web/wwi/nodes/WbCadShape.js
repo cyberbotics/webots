@@ -490,12 +490,13 @@ export default class WbCadShape extends WbBaseNode {
   }
 
   #upperTransform() {
+    let upperTransform;
     if (this.#upperTransformFirstTimeSearch) {
-      this.upperTransform = findUpperTransform(this);
+      upperTransform = findUpperTransform(this);
       if (this.wrenObjectsCreatedCalled)
         this.#upperTransformFirstTimeSearch = false;
     }
 
-    return this.upperTransform;
+    return upperTransform;
   }
 }

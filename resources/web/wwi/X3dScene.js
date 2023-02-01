@@ -496,6 +496,7 @@ export default class X3dScene {
   }
 
   processServerMessage(data, view) {
+    console.log(data);
     if (data.startsWith('application/json:')) {
       if (typeof view.time !== 'undefined') { // otherwise ignore late updates until the scene loading is completed
         data = data.substring(data.indexOf(':') + 1);

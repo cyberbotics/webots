@@ -103,13 +103,14 @@ export default class WbGeometry extends WbBaseNode {
   }
 
   #upperTransform() {
+    let upperTransform;
     if (this.#upperTransformFirstTimeSearch) {
-      this.upperTransform = findUpperTransform(this);
+      upperTransform = findUpperTransform(this);
       if (this.wrenObjectsCreatedCalled)
         this.#upperTransformFirstTimeSearch = false;
     }
 
-    return this.upperTransform;
+    return upperTransform;
   }
 
   // Private functions
@@ -216,7 +217,7 @@ export default class WbGeometry extends WbBaseNode {
       return false;
 
     const upperTransform = this.#upperTransform();
-    if (typeof upperTransform !== 'undefined' && upperTransform.isInBoundingObject() && upperTransform.geometry !== this)
+    if (typeof upperTransform !== 'undefined' && nodeIsInBoundingObject(upperTransform) && upperTransform.geometry !== this)
       return false;
 
     return true;

@@ -674,8 +674,10 @@ export default class Parser {
       newNode = new WbGyro(id, translation, scale, rotation, name === '' ? 'gyro' : name);
     else if (node.tagName === 'InertialUnit')
       newNode = new WbInertialUnit(id, translation, scale, rotation, name === '' ? 'inertial unit' : name);
-    else if (node.tagName === 'LED')
+    else if (node.tagName === 'LED') {
+      console.log('PARSING LED, parent:', parentNode)
       newNode = new WbLed(id, translation, scale, rotation, name === '' ? 'led' : name);
+    }
     else if (node.tagName === 'Lidar') {
       const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', Math.PI / 2));
       const horizontalResolution = parseInt(getNodeAttribute(node, 'horizontalResolution', '512'));
@@ -727,14 +729,18 @@ export default class Parser {
 
     if (typeof parentNode !== 'undefined') {
       newNode.parent = parentNode.id;
+      if (node.tagName === 'LED')
+        console.log('> parent of ', newNode.id, 'is', newNode.parent)
+
       if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
         parentNode.geometryField = newNode;
       else if (isBoundingObject && parentNode instanceof WbSolid)
         parentNode.boundingObject = newNode;
       else if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = newNode;
-      else
-        parentNode.children.push(newNode);
+      else {
+          parentNode.children.push(newNode);
+      }
     }
 
     return newNode;
@@ -756,6 +762,7 @@ export default class Parser {
     this.#parseChildren(node, group, isBoundingObject);
 
     if (typeof parentNode !== 'undefined') {
+      console.log('> parent of', group.id, 'is', parentNode.id)
       group.parent = parentNode.id;
       if (isBoundingObject && parentNode instanceof WbSolid)
         parentNode.boundingObject = group;
@@ -1086,12 +1093,15 @@ export default class Parser {
     const radius = parseFloat(getNodeAttribute(node, 'radius', '100'));
     const ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0'));
     const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
-
+    console.log('parse-spotlight:', location)
     const spotLight = new WbSpotLight(id, on, attenuation, beamWidth, color, cutOffAngle, direction, intensity, location,
       radius, ambientIntensity, castShadows, parentNode);
 
-    if (typeof parentNode !== 'undefined' && typeof spotLight !== 'undefined')
+    if (typeof parentNode !== 'undefined') {
+      spotLight.parent = parentNode.id;
+      console.log('> parent of', spotLight.id, 'is', parentNode.id)
       parentNode.children.push(spotLight);
+    }
 
     WbWorld.instance.nodes.set(spotLight.id, spotLight);
 

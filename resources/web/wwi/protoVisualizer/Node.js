@@ -16,7 +16,6 @@ export default class Node {
     this.url = url;
     this.isProto = this.url.toLowerCase().endsWith('.proto');
     this.name = this.isProto ? this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '') : url;
-
     this.fields = new Map(); // fields are defined only for base nodes, PROTO nodes have a baseType and parameters
     this.parameters = new Map(); // defines the exposed parameters of a PROTO, hence base-nodes have not parameters
     this.def = new Map();
@@ -222,6 +221,10 @@ export default class Node {
       return this.baseType.toX3d();
 
     const nodeElement = this.xml.createElement(this.name);
+
+    if(this.name === 'SpotLight')
+      console.log('asd')
+
     if (this.refId > this.ids.length - 1)
       throw new Error('Something has gone wrong, the refId is bigger the number of available ids.');
     const id = this.ids[this.refId++];

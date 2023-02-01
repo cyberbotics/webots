@@ -1,4 +1,6 @@
+import WbGroup from '../WbGroup.js';
 import WbSolid from '../WbSolid.js';
+import WbSpotLight from '../WbSpotLight.js';
 import WbTransform from '../WbTransform.js';
 import WbWorld from '../WbWorld.js';
 
@@ -10,9 +12,10 @@ export function findUpperTransform(node) {
   while (typeof n !== 'undefined') {
     if (n instanceof WbTransform)
       return n;
-    else
-      n = n.parent;
+
+    n = WbWorld.instance.nodes.get(n.parent);
   }
+
   return undefined;
 }
 
