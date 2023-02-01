@@ -14,6 +14,5 @@ ContactProperties {
   field SFString   bumpSound          "webots://projects/default/worlds/sounds/bump.wav"  # bump impact sound
   field SFString   rollSound          "webots://projects/default/worlds/sounds/roll.wav"  # rolling friction sound
   field SFString   slideSound         "webots://projects/default/worlds/sounds/slide.wav" # sliding friction sound
-  field SFInt32    maxContactPoints   -1                                                  # maximum number of contacts to consider in a collision (-1 means all points)
   field SFInt32    maxContactJoints   10                                                  # maximum number of contact joints to create in a collision
 }

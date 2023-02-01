@@ -15,7 +15,6 @@ ContactProperties {
   SFString bumpSound          "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/sounds/bump.wav" # any string
   SFString rollSound          "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/sounds/roll.wav" # any string
   SFString slideSound         "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/sounds/slide.wav"# any string
-  SFInt32  maxContactPoints   -1                                                                                                    # -1 or (0, inf)
   SFInt32  maxContactJoints   10                                                                                                    # (0, inf)
 }
 ```
@@ -117,10 +116,8 @@ Its gain and pitch are modulated by the linear velocity of the contact surface.
 The formulas affecting the gain and pitch of these sounds were determined empirically to produce fairly realistic sounds.
 They are subject to improvements.
 
-- The `maxContactPoints` and `maxContactJoints` fields control the generation of contact joints during a collision.
-If `maxContactPoints` is -1 (the default), all contact points will be detected.
-Otherwise at most `maxContactPoints` contact points will be detected and the rest will be ignored.
-Of the contact points detected, contact joints will only be created for, at most, the deepest `maxContactJoints`.
+- The`maxContactJoints` field controls the generation of contact joints during a collision.
+Contact joints will only be created for, at most, the deepest `maxContactJoints` contact points.
 Changes to `maxContactJoints` may have a significant effect on performance because the computational complexity of the default ODE physics engine scales with the cube of the number of contact joints.
 
 

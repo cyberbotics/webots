@@ -486,17 +486,6 @@ void WbSimulationCluster::warnMoreContactPointsThanContactJoints() {
   }
 }
 
-void WbSimulationCluster::warnMaxContactPointsFound() {
-  static QMutex mutex;
-  QMutexLocker<QMutex> lock(&mutex);
-  static double lastWarningTime = -INFINITY;
-  const double currentSimulationTime = WbSimulationState::instance()->time();
-  if (currentSimulationTime > lastWarningTime + 1000.0) {
-    WbLog::warning(QObject::tr("maxContactPoints contact points found so others might be ignored."), false, WbLog::ODE);
-    lastWarningTime = currentSimulationTime;
-  }
-}
-
 void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   // retrieve data
   WbOdeGeomData *const odeGeomData1 = static_cast<WbOdeGeomData *>(dGeomGetData(o1));
@@ -669,13 +658,10 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   }
 
   const WbContactProperties *contactProperties = cl->findContactProperties(s1, s2);
-  int maxContactPoints = contactProperties ? contactProperties->maxContactPoints() : -1;
   const int maxContactJoints = contactProperties ? contactProperties->maxContactJoints() : 10;
 
   thread_local QVector<dContact> contactVector;
-  const bool findAllContactPoints = maxContactPoints == -1;
-  if (findAllContactPoints)
-    maxContactPoints = std::max<size_t>(100, contactVector.capacity());
+  int maxContactPoints = std::max<size_t>(100, contactVector.capacity());
 
   int n;
   dContact *contact;
@@ -685,12 +671,8 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     n = dCollide(o1, o2, maxContactPoints, &contact[0].geom, sizeof(dContact));
     if (n < maxContactPoints)
       break;
-    else if (findAllContactPoints)
+    else
       maxContactPoints *= 10;
-    else {
-      WbSimulationCluster::warnMaxContactPointsFound();
-      break;
-    }
   }
 
   if (n == 0)

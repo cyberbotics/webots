@@ -75,7 +75,6 @@ private:
   static const long long int WEBOTS_MAGIC_NUMBER;
   bool mSwapJointContactBuffer;
   static void warnMoreContactPointsThanContactJoints();
-  static void warnMaxContactPointsFound();
 };
 
 #endif
