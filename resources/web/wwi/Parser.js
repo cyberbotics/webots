@@ -727,7 +727,6 @@ export default class Parser {
 
     if (typeof parentNode !== 'undefined') {
       newNode.parent = parentNode.id;
-
       if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
         parentNode.geometryField = newNode;
       else if (isBoundingObject && parentNode instanceof WbSolid)

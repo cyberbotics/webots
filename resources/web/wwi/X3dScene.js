@@ -305,9 +305,7 @@ export default class X3dScene {
         if (object instanceof WbMesh)
           object.materialIndex = parseInt(update[key]);
       } else if (key === 'url') {
-        if (object instanceof WbMesh || object instanceof WbCadShape)
-          object.url = update[key][0];
-        if (object instanceof WbImageTexture) {
+        if (object instanceof WbMesh || object instanceof WbCadShape || object instanceof WbImageTexture) {
           let urlString = update[key];
           if (urlString === '[]') {
             object.url = undefined;

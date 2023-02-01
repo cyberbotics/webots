@@ -222,7 +222,6 @@ export default class Node {
       return this.baseType.toX3d();
 
     const nodeElement = this.xml.createElement(this.name);
-
     if (this.refId > this.ids.length - 1)
       throw new Error('Something has gone wrong, the refId is bigger the number of available ids.');
     const id = this.ids[this.refId++];
