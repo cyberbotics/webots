@@ -84,6 +84,7 @@ void WbTcpServer::start(int port) {
   mPort = port;
   try {
     create(port);
+    originalPort = -1;
   } catch (const QString &e) {
     errorString = e;
     if (originalPort + 10 > port) {
@@ -95,7 +96,7 @@ void WbTcpServer::start(int port) {
   const QString items = (mStream ? "web clients, " : "") + QString("extern controllers and robot windows");
   if (mPort == -1)
     WbLog::error(tr("Could not listen to %1 on port %2. %3. Giving up.").arg(items).arg(port).arg(errorString));
-  else if (port != originalPort)
+  else if (port != mPort)
     WbLog::warning(tr("Could not listen to %1 on port %2. %3. Using port %4 instead. This "
                       "could be caused by another running instance of Webots. You should use the '--port' option to start "
                       "several instances of Webots.")
@@ -107,7 +108,6 @@ void WbTcpServer::start(int port) {
     WbLog::info(tr("Streaming server listening on port %1.").arg(port));
   else
     WbLog::info(tr("Non-streaming server listening on port %1.").arg(port));
-  originalPort = -1;
 }
 
 void WbTcpServer::sendToJavascript(const QByteArray &string) {
