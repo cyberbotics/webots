@@ -15,7 +15,9 @@
 """Sets the environment so that the cache tests can be performed in any condition"""
 
 import os
+import subprocess
 import sys
+import urllib.request
 from pathlib import Path
 
 if 'WEBOTS_HOME' in os.environ:
@@ -38,6 +40,18 @@ elif 'BRANCH_HASH' in os.environ:  # fall-back mechanism for CI built image used
     BRANCH = os.environ['BRANCH_HASH']
 else:
     raise RuntimeError('It was not possible to select a branch name. Running the test suite "cache" group may fail.')
+
+test_url = f'https://raw.githubusercontent.com/cyberbotics/webots/{BRANCH}/README.md'
+try:
+    with urllib.request.urlopen(test_url) as response:
+        pass
+except urllib.error.HTTPError:
+    # This occurs when you are on a branch that does not yet exist in the cyberbotics webots repo (e.g. a local branch).
+    print(f'Unable to access {test_url}.')
+    print(f'Assuming branch {BRANCH} does not exist in the cyberbotics webot repo.')
+    BRANCH = subprocess.run(["git", "merge-base", "HEAD", "upstream/develop", "upstream/master"],
+                            capture_output=True, text=True).stdout.strip()
+    print(f'Using the nearest ancestor commit that is on either upstream/develop or upstream/master: {BRANCH}')
 
 
 def update_cache_urls(revert=False):
