@@ -29,6 +29,8 @@ import time
 import multiprocessing
 import argparse
 import atexit
+import socket
+import contextlib
 
 from command import Command
 from cache.cache_environment import update_cache_urls
@@ -340,6 +342,21 @@ backgroundWebots = subprocess.Popen([webotsFullPath, "--mode=pause", "--no-rende
                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
                                     env=(os.environ | {"WEBOTS_SAFE_MODE": "true"}))
 atexit.register(subprocess.Popen.terminate, self=backgroundWebots)
+# Wait until we can actually connect to it, trying 10 times.
+with contextlib.closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
+    retries = 0
+    error = None
+    while retries < 10:
+        try:
+            sock.settimeout(1)
+            sock.connect(("127.0.0.1", 1234))
+            break
+        except socket.error as e:
+            error = e
+            retries += 1
+            time.sleep(1)
+    if retries == 10:
+        raise error
 
 for groupName in testGroups:
     if groupName == 'cache':
