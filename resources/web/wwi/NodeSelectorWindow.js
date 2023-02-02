@@ -307,8 +307,15 @@ export default class NodeSelectorWindow {
       throw new Error('The parameter has no IS.');
 
     let baseType = [];
-    const fieldName = this.parameter.aliasLinks[0].name;
-    const parentNode = this.parameter.aliasLinks[0].node;
+    // get the field name linked to the parameter (full-depth)
+    let p = this.parameter;
+    while (p instanceof Parameter && p.aliasLinks.length > 0)
+      p = p.aliasLinks[0];
+    const fieldName = p.name;
+    const parentNode = p.node;
+
+    const ff = this.parameter.aliasLinks;
+    console.log(fieldName, parentNode.name, ff)
     if (fieldName === 'appearance')
       baseType = ['Appearance', 'PBRAppearance'];
     else if (fieldName === 'geometry') {
