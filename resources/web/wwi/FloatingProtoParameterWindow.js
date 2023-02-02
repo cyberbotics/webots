@@ -1544,7 +1544,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         let div = document.createElement('div');
         div.className = 'proto-joint';
 
-        const endPointName = joint.endPoint ? joint.endPoint.name : numberOfJoint;
+        const endPointName = joint.solidEndPoint() ? joint.solidEndPoint().name : numberOfJoint;
         let jointType;
         if (joint instanceof WbBallJoint)
           jointType = 'BallJoint 1: ';

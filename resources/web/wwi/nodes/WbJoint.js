@@ -91,10 +91,7 @@ export default class WbJoint extends WbBaseNode {
 
     if (this.endPoint instanceof WbSlot) {
       const childrenSlot = this.endPoint.slotEndPoint();
-      if (typeof childrenSlot !== 'undefined') {
-        const slot = childrenSlot.slotEndPoint();
-        return typeof slot !== 'undefined' ? slot.solidEndPoint() : undefined;
-      }
+      return childrenSlot?.solidEndPoint();
     } else if (this.endPoint instanceof WbSolid)
       return this.endPoint;
   }
