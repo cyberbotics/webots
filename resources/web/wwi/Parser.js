@@ -1086,11 +1086,10 @@ export default class Parser {
     const radius = parseFloat(getNodeAttribute(node, 'radius', '100'));
     const ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0'));
     const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
-
     const spotLight = new WbSpotLight(id, on, attenuation, beamWidth, color, cutOffAngle, direction, intensity, location,
       radius, ambientIntensity, castShadows, parentNode);
 
-    if (typeof parentNode !== 'undefined' && typeof spotLight !== 'undefined')
+    if (typeof parentNode !== 'undefined')
       parentNode.children.push(spotLight);
 
     WbWorld.instance.nodes.set(spotLight.id, spotLight);

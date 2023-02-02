@@ -305,8 +305,16 @@ export default class X3dScene {
         if (object instanceof WbMesh)
           object.materialIndex = parseInt(update[key]);
       } else if (key === 'url') {
-        if (object instanceof WbMesh || object instanceof WbCadShape)
-          object.url = update[key][0];
+        if (object instanceof WbMesh || object instanceof WbCadShape || object instanceof WbImageTexture) {
+          let urlString = update[key];
+          if (urlString === '[]') {
+            object.url = undefined;
+            return;
+          }
+          if (urlString.startsWith('[') && urlString.endsWith(']'))
+            urlString = urlString.substring(1, urlString.length - 1);
+          object.url = urlString.split('"').filter(element => { if (element !== ' ') return element; })[0];
+        }
       } else if (key === 'point') {
         if (object instanceof WbCoordinate)
           object.point = convertStringToVec3Array(update[key]);

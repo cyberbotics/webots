@@ -237,6 +237,17 @@ export default class Node {
     return nodeElement;
   }
 
+  toVrml() {
+    let vrml = `${this.name}{`;
+    for (const [fieldName, field] of (this.isProto ? this.parameters : this.fields)) {
+      if (!field.isDefault())
+        vrml += `${fieldName} ${field.value.toVrml()} `;
+    }
+    vrml += '}';
+
+    return vrml;
+  }
+
   regenerateBodyVrml(protoBody) {
     const fieldsEncoding = this.toJS(true); // make current proto parameters in a format compliant to template engine
     const templateEngine = new TemplateEngine(Math.abs(getAnId().replace('n', '')), this.model['version']);
@@ -277,7 +288,7 @@ export default class Node {
         if (line.indexOf('EXTERNPROTO') !== -1) { // get only the text after 'EXTERNPROTO'
           let address = line.split('EXTERNPROTO')[1].trim().replaceAll('"', '');
           if (address.startsWith('webots://'))
-            address = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023a/' + address.substring(9);
+            address = 'https://raw.githubusercontent.com/cyberbotics/webots/fix-web-proto-issues/' + address.substring(9); // TODO: revert before merging
           else
             address = combinePaths(address, protoUrl);
 
