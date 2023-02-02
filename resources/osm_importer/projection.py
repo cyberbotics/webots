@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import sys
 
 try:
     import pyproj
-except:
+except Exception:
     sys.exit("Error: pyproj python module not installed. You can install it using pip: 'pip install pyproj'")
 
 

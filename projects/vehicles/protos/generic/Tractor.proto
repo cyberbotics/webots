@@ -10,16 +10,17 @@ EXTERNPROTO "TractorFrontWheel.proto"
 EXTERNPROTO "TractorRearWheel.proto"
 
 PROTO Tractor [
-  field     SFVec3f    translation       0 0 0.6
-  field     SFRotation rotation          0 1 0 0.13
-  field     SFColor    color             0.24 0.53 0.79
-  field     SFString   name              "vehicle"
-  field     SFString   controller        "<generic>"
-  field     MFString   controllerArgs    [ ]
-  field     SFBool     supervisor        FALSE
-  field     SFBool     synchronization   TRUE
-  field     MFNode     sensorSlot        [ ]
-  field     SFString   window            "automobile"
+  field     SFVec3f    translation       0 0 0.6         # Is `Car.translation`.
+  field     SFRotation rotation          0 1 0 0.13      # Is `Car.rotation`.
+  field     SFColor    color             0.24 0.53 0.79  # Defines the tractor body color.
+  field     SFString   name              "vehicle"       # Is `Car.name`.
+  field     SFString   controller        "<generic>"     # Is `Car.controller`.
+  field     MFString   controllerArgs    [ ]             # Is `Car.controllerArgs`.
+  field     SFBool     supervisor        FALSE           # Is `Car.supervisor`.
+  field     SFBool     synchronization   TRUE            # Is `Car.synchronization`.
+  field     MFNode     sensorSlot        [ ]             # Extends the robot with new nodes at the center of the vehicle.
+  field     SFString   window            "automobile"    # Is `Car.window`.
+  field     MFColor    recognitionColors []              # Is `Car.recognitionColors`.
 ]
 {
 Car {
@@ -1209,6 +1210,7 @@ Car {
       0 -792.28908 0
     ]
   }
+  recognitionColors IS recognitionColors
   wheelFrontRight TractorFrontWheel {
     name "front right wheel"
   }
