@@ -273,7 +273,15 @@ def runGroupTest(groupName, firstSimulation, worldsCount, failures):
                     foundWarning = True
             if not foundWarning:
                 failures += 1
-                appendToOutputFile("FAILURE: Webots listened on a port that was in use.")
+                appendToOutputFile("FAILURE: Webots listened on a port that was in use.\n")
+                if backgroundWebots.poll() != None:
+                    appendToOutputFile(
+                        f'Background webots process has unexpectedly stopped with status code {backgroundWebots.returncode}!\n')
+                    appendToOutputFile("Background webots stdout was:\n")
+                    appendToOutputFile(backgroundWebots.stdout.read())
+                    appendToOutputFile("\nBackground webots stderr was:\n")
+                    appendToOutputFile(backgroundWebots.stderr.read())
+
                 testFailed = True
 
     if testFailed:
@@ -328,7 +336,8 @@ thread.start()
 
 # Run a copy of webots in the background to ensure doing so doesn't cause any tests to fail.
 # Use WEBOTS_SAFE_MODE=true to ensure it always runs with the same (empty) project.
-backgroundWebots = subprocess.Popen([webotsFullPath, "--mode=pause", "--no-rendering", "--minimize"],
+backgroundWebots = subprocess.Popen([webotsFullPath, "--mode=pause", "--no-rendering", "--minimize", "--stdout", "--stderr"],
+                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
                                     env=(os.environ | {"WEBOTS_SAFE_MODE": "true"}))
 atexit.register(subprocess.Popen.terminate, self=backgroundWebots)
 
