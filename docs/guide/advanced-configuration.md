@@ -94,14 +94,14 @@ For more informations about assets, see [here](installation-procedure.md#asset-c
 
 **Note**: This is already implemented in the Docker images provided by Cyberbotics.
 
-#### Increase the number of parallel simulations supported by the server
+#### Increase the Number of Parallel Simulations Supported by the Server
 
 The server can become saturated because both its CPU and GPU RAM are full.
 What happens normally is that the GPU and CPU will grow in parallel as new simulations are added.
 In most cases the GPU RAM will be saturated first. Once it happens, the CPU RAM will take the share of the GPU and therefore fill up faster.
 Once the CPU RAM is full, the swap will take over. Once the swap is full, the computer will crash if we try to open more simulations.
 
-##### Enable the zram
+##### Enable the Zram
 
 [Zram](https://en.wikipedia.org/wiki/Zram) is a Linus kernal module that will compress the least used parts of the RAM.
 It has the same role as swap but is normally faster.
@@ -127,7 +127,7 @@ and it should display something like:
  /dev/zram3                              partition	755740	8064	5
 ```
 
-#### Increase the size of the swap
+#### Increase the Size of the Swap
 
 Increasing the size of the swap will allow the server to have more simulations in parallel.
 However, once the swap fills up, it is possible that there may be a performance drop.
