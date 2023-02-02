@@ -96,9 +96,9 @@ For more informations about assets, see [here](installation-procedure.md#asset-c
 
 #### Increase the number of parallel simulations supported by the server
 
-The server can become saturated because both its CPU and GPU RAM is full.
+The server can become saturated because both its CPU and GPU RAM are full.
 What happens normally is that the GPU and CPU will grow in parallel as new simulations are added.
-In most cases the GPU RAM will be saturated first. Once it happens, the CPU RAM will take the share of the GPU and therefore full up faster.
+In most cases the GPU RAM will be saturated first. Once it happens, the CPU RAM will take the share of the GPU and therefore fill up faster.
 Once the CPU RAM is full, the swap will take over. Once the swap is full, the computer will crash if we try to open more simulations.
 
 ##### Enable the zram
@@ -120,11 +120,11 @@ cat /proc/swaps
 and it should display something like:
  ```
  Filename				Type		Size	Used	Priority
-/dev/sda3                               partition	9215996	0	-1
-/dev/zram0                              partition	755740	8104	5
-/dev/zram1                              partition	755740	8004	5
-/dev/zram2                              partition	755740	8120	5
-/dev/zram3                              partition	755740	8064	5
+ /dev/sda3                               partition	9215996	0	-1
+ /dev/zram0                              partition	755740	8104	5
+ /dev/zram1                              partition	755740	8004	5
+ /dev/zram2                              partition	755740	8120	5
+ /dev/zram3                              partition	755740	8064	5
 ```
 
 #### Increase the size of the swap
