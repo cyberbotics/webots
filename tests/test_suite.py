@@ -233,7 +233,7 @@ def runGroupTest(groupName, firstSimulation, worldsCount, failures):
     if groupName != 'with_rendering':
         webotsArguments += ['--no-rendering', '--minimize']
     if groupName == 'cache':
-        webotsArguments += '--clear-cache'
+        webotsArguments += ['--clear-cache']
     command = Command(webotsArguments)
 
     # redirect stdout and stderr to files
@@ -247,7 +247,7 @@ def runGroupTest(groupName, firstSimulation, worldsCount, failures):
         else:
             failures += 1
             appendToOutputFile(
-                'FAILURE: Webots exits abnormally with this error code: ' + str(command.returncode) + '\n')
+                f'FAILURE: "{webotsArguments}" exits abnormally with this error code: ' + str(command.returncode) + '\n')
         testFailed = True
     else:
         # check count of executed worlds
