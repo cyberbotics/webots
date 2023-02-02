@@ -50,7 +50,7 @@ except urllib.error.HTTPError:
     print(f'Unable to access {test_url}.')
     print(f'Assuming branch {BRANCH} does not exist in the cyberbotics webot repo.')
     BRANCH = subprocess.run(["git", "merge-base", "HEAD", "upstream/develop", "upstream/master"],
-                            capture_output=True, text=True).stdout.strip()
+                            capture_output=True, text=True, check=True).stdout.strip()
     print(f'Using the nearest ancestor commit that is on either upstream/develop or upstream/master: {BRANCH}')
 
 
