@@ -48,8 +48,8 @@ try:
 except urllib.error.HTTPError:
     # This occurs when you are on a branch that does not yet exist in the cyberbotics webots repo (e.g. a local branch).
     print(f'Unable to access {test_url}.')
-    print(f'Assuming branch {BRANCH} does not exist in the cyberbotics webot repo.')
     repo = "github.com/cyberbotics/webots.git"
+    print(f'Assuming branch {BRANCH} does not exist in the {repo} repo.')
     print(f'Finding a remote that refers to {repo}.')
     remotes = subprocess.run(["git", "remote", "-v"], capture_output=True, text=True, check=True).stdout
     remote = next(filter(lambda line: repo in line, remotes.splitlines())).split("\t")[0]
