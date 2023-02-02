@@ -49,9 +49,15 @@ except urllib.error.HTTPError:
     # This occurs when you are on a branch that does not yet exist in the cyberbotics webots repo (e.g. a local branch).
     print(f'Unable to access {test_url}.')
     print(f'Assuming branch {BRANCH} does not exist in the cyberbotics webot repo.')
-    BRANCH = subprocess.run(["git", "merge-base", "HEAD", "upstream/develop", "upstream/master"],
+    repo = "github.com/cyberbotics/webots.git"
+    print(f'Finding a remote that refers to {repo}.')
+    remotes = subprocess.run(["git", "remote", "-v"], capture_output=True, text=True, check=True).stdout
+    remote = next(filter(lambda line: repo in line, remotes.splitlines())).split("\t")[0]
+
+    print(f'Finding the nearest ancestor commit that is on either {remote}/develop or {remote}/master.')
+    BRANCH = subprocess.run(["git", "merge-base", "HEAD", f'{remote}/develop', f'{remote}/master'],
                             capture_output=True, text=True, check=True).stdout.strip()
-    print(f'Using the nearest ancestor commit that is on either upstream/develop or upstream/master: {BRANCH}')
+    print(f'Using commit {BRANCH}')
 
 
 def update_cache_urls(revert=False):
