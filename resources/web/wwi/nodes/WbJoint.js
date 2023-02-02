@@ -6,6 +6,7 @@ import WbWorld from './WbWorld.js';
 export default class WbJoint extends WbBaseNode {
   #endPoint;
   #jointParameters;
+  #position;
 
   get endPoint() {
     return this.#endPoint;
@@ -24,6 +25,19 @@ export default class WbJoint extends WbBaseNode {
 
     if (typeof this.#jointParameters !== 'undefined')
       this.#jointParameters.onChange = () => this._updatePosition();
+  }
+
+  get position() {
+    return this.#position;
+  }
+
+  set position(newPosition) {
+    if (this.#position === newPosition)
+      return;
+
+    this.#position = newPosition;
+    if (typeof this.jointParameters !== 'undefined')
+      this._updatePosition();
   }
 
   boundingSphere() {
@@ -57,7 +71,7 @@ export default class WbJoint extends WbBaseNode {
   preFinalize() {
     super.preFinalize();
 
-    super.position = typeof this.jointParameters === 'undefined' ? 0 : this.jointParameters.position;
+    this.#position = typeof this.jointParameters === 'undefined' ? 0 : this.jointParameters.position;
     this._updateEndPointZeroTranslationAndRotation();
 
     this.#jointParameters?.preFinalize();
