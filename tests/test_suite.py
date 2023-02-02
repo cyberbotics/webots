@@ -48,6 +48,8 @@ parser.add_argument('--nomake', dest='nomake', default=False, action='store_true
 parser.add_argument('--no-ansi-escape', dest='ansi_escape', default=True, action='store_false', help='Disables ansi escape.')
 parser.add_argument('--group', '-g', type=str, dest='group', default=[], help='Specifies which group of tests should be run.',
                     choices=['api', 'cache', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering'])
+parser.add_argument('--performance-log', '-p', type=str, dest='performance_log', default="",
+                    help='The name of the performance log file to use if you want to log performance.')
 parser.add_argument('worlds', nargs='*', default=[])
 args = parser.parse_args()
 
@@ -62,7 +64,6 @@ supervisorControllerName = 'test_suite_supervisor'
 tempWorldCounterFilename = os.path.join(testsFolderPath, 'world_counter.txt')
 webotsStdOutFilename = os.path.join(testsFolderPath, 'webots_stdout.txt')
 webotsStdErrFilename = os.path.join(testsFolderPath, 'webots_stderr.txt')
-performanceLogFilename = os.path.join(testsFolderPath, 'performance_log.txt')
 
 
 class OutputMonitor:
@@ -194,7 +195,7 @@ def generateWorldsList(groupName):
                         filename.endswith('local_proto_with_texture.wbt') or
                         (filename.endswith('robot_window_html.wbt') and is_ubuntu_22_04) or
                         (filename.endswith('supervisor_start_stop_movie.wbt') and is_ubuntu_22_04)
-                        ))):
+                    ))):
                 worldsList.append(filename)
 
     return worldsList
@@ -226,7 +227,9 @@ def runGroupTest(groupName, firstSimulation, worldsCount, failures):
     #  command.run(silent = False)
 
     webotsArguments = [webotsFullPath, firstSimulation]
-    webotsArguments += ['--mode=fast', '--stdout', '--stderr', '--batch', '--log-performance=' + performanceLogFilename]
+    webotsArguments += ['--mode=fast', '--stdout', '--stderr', '--batch']
+    if args.performance_log:
+        webotsArguments += [f'--log-performance={args.performance_log}']
     if groupName != 'with_rendering':
         webotsArguments += ['--no-rendering', '--minimize']
     if groupName == 'cache':

@@ -6,4 +6,3 @@
 .*.cache
 /cppcheck_report.txt
 /slave.py
-/performance_log.txt
