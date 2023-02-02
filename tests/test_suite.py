@@ -276,7 +276,7 @@ def runGroupTest(groupName, firstSimulation, worldsCount, failures):
             if not foundWarning:
                 failures += 1
                 appendToOutputFile("FAILURE: Webots listened on a port that was in use.\n")
-                if backgroundWebots.poll() != None:
+                if backgroundWebots.poll() is not None:
                     appendToOutputFile(
                         f'Background webots process has unexpectedly stopped with status code {backgroundWebots.returncode}!\n')
                     appendToOutputFile("Background webots stdout was:\n")
