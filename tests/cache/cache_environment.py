@@ -48,7 +48,7 @@ try:
 except urllib.error.HTTPError:
     # This occurs when you are on a branch that does not yet exist in the cyberbotics webots repo (e.g. a local branch).
     print(f'Unable to access {test_url}.')
-    print(f'Assuming branch {BRANCH} does not exist in the cyberbotics webot repo.')
+    print(f'Assuming branch {BRANCH} does not exist in the cyberbotics Webots repo.')
     BRANCH = subprocess.run(["git", "merge-base", "HEAD", "upstream/develop", "upstream/master"],
                             capture_output=True, text=True, check=True).stdout.strip()
     print(f'Using the nearest ancestor commit that is on either upstream/develop or upstream/master: {BRANCH}')
