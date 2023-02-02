@@ -98,8 +98,10 @@ For more informations about assets, see [here](installation-procedure.md#asset-c
 
 The server can become saturated because both its CPU and GPU RAM are full.
 What happens normally is that the GPU and CPU will grow in parallel as new simulations are added.
-In most cases the GPU RAM will be saturated first. Once it happens, the CPU RAM will take the share of the GPU and therefore fill up faster.
-Once the CPU RAM is full, the swap will take over. Once the swap is full, the computer will crash if we try to open more simulations.
+In most cases the GPU RAM will be saturated first.
+Once it happens, the CPU RAM will take the share of the GPU and therefore fill up faster.
+Once the CPU RAM is full, the swap will take over.
+Once the swap is full, the computer will crash if we try to open more simulations.
 
 ##### Enable the Zram
 
