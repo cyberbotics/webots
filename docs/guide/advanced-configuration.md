@@ -132,6 +132,6 @@ Filename                                Type        Size    Used   Priority
 #### Increase the Size of the Swap
 
 Increasing the size of the swap will allow the server to support more simulations in parallel.
-However, once the swap fills up, it is possible that there may be a performance drop.
+However, when the swap is filling-up, you may observe a performance drop.
 
 You can follow [this tutorial](https://linuxhandbook.com/increase-swap-ubuntu/) to increase the size of the swap.
