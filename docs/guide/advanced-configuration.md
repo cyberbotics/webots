@@ -105,7 +105,7 @@ Once the swap is full, the computer will crash if we try to open more simulation
 
 ##### Enable the Zram
 
-[Zram](https://en.wikipedia.org/wiki/Zram) is a Linus kernal module that will compress the least used parts of the RAM.
+[Zram](https://en.wikipedia.org/wiki/Zram) is a Linus kernel module that will compress the least used parts of the RAM.
 It has the same role as swap but is normally faster.
 
 To enable it:
