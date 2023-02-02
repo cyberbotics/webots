@@ -120,7 +120,7 @@ cat /proc/swaps
 ```
 
 It should display something like:
- ```
+```
 Filename				Type		Size	Used	Priority
 /dev/sda3                               partition	9215996	0	-1
 /dev/zram0                              partition	755740	8104	5
