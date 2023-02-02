@@ -245,6 +245,8 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
     if (sfnode)
       sfnode->setValue(newNode);
   }
+  if (parentNode && parentNode->isProtoInstance())
+    parentNode->redirectInternalFields(field);
   mNodesAreAboutToBeInserted = false;
 
   // in case of template the newNode/baseNode pointers are no more available here
@@ -298,7 +300,7 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
 
   const QString nodeModelName = node->modelName();  // save the node model name prior to it being deleted
 
-  bool dictionaryNeedsUpdate = node->hasAreferredDefNodeDescendant();
+  const bool dictionaryNeedsUpdate = WbVrmlNodeUtilities::hasAreferredDefNodeDescendant(node);
   WbField *parentField = node->parentField();
   assert(parentField);
   WbSFNode *sfnode = dynamic_cast<WbSFNode *>(parentField->value());
