@@ -121,12 +121,12 @@ cat /proc/swaps
 
 It should display something like:
  ```
- Filename				Type		Size	Used	Priority
- /dev/sda3                               partition	9215996	0	-1
- /dev/zram0                              partition	755740	8104	5
- /dev/zram1                              partition	755740	8004	5
- /dev/zram2                              partition	755740	8120	5
- /dev/zram3                              partition	755740	8064	5
+Filename				Type		Size	Used	Priority
+/dev/sda3                               partition	9215996	0	-1
+/dev/zram0                              partition	755740	8104	5
+/dev/zram1                              partition	755740	8004	5
+/dev/zram2                              partition	755740	8120	5
+/dev/zram3                              partition	755740	8064	5
 ```
 
 #### Increase the Size of the Swap
