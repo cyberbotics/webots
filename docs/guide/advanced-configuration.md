@@ -119,7 +119,7 @@ To check the zram installation:
 cat /proc/swaps
 ```
 
-and it should display something like:
+It should display something like:
  ```
  Filename				Type		Size	Used	Priority
  /dev/sda3                               partition	9215996	0	-1
