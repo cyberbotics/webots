@@ -300,8 +300,10 @@ webots.View = class View {
   }
 
   removeLabels() {
+    console.log("labels off")
     const labels = document.getElementsByClassName('webots-label');
     for (let i = labels.length - 1; i >= 0; i--) {
+      console.log("remove label")
       const element = labels.item(i);
       element.parentNode.removeChild(element);
     }
