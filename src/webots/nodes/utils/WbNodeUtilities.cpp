@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -695,33 +695,6 @@ WbTransform *WbNodeUtilities::findUpperTransform(const WbNode *node) {
     else
       n = n->parentNode();
   }
-  return NULL;
-}
-
-WbNode *WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(WbField *modifiedField, WbNode *parentNode) {
-  if (parentNode == NULL || modifiedField == NULL)
-    return NULL;
-
-  if (parentNode->isTemplate() && modifiedField->isTemplateRegenerator())
-    return parentNode;
-
-  return findUpperTemplateNeedingRegeneration(parentNode);
-}
-
-WbNode *WbNodeUtilities::findUpperTemplateNeedingRegeneration(WbNode *modifiedNode) {
-  if (modifiedNode == NULL)
-    return NULL;
-
-  WbField *field = modifiedNode->parentField();
-  WbNode *node = modifiedNode->parentNode();
-  while (node && field && !node->isWorldRoot()) {
-    if (node->isTemplate() && field->isTemplateRegenerator())
-      return node;
-
-    field = node->parentField();
-    node = node->parentNode();
-  }
-
   return NULL;
 }
 

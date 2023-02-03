@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -226,7 +226,7 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
   WbBaseNode *const baseNode = dynamic_cast<WbBaseNode *>(newNode);
   // set parent node
   newNode->setParentNode(parentNode);
-  WbNode *upperTemplate = WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(field, parentNode);
+  WbNode *upperTemplate = WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(field, parentNode);
   bool isInsideATemplateRegenerator = upperTemplate && (upperTemplate != baseNode);
 
   // insert in parent field
@@ -329,15 +329,16 @@ void WbNodeOperations::requestUpdateDictionary() {
   updateDictionary(false, NULL);
 }
 
-void WbNodeOperations::updateDictionary(bool load, WbBaseNode *protoRoot) {
+bool WbNodeOperations::updateDictionary(bool load, WbBaseNode *protoRoot) {
   mSkipUpdates = true;
   WbNode::setDictionaryUpdateFlag(true);
   WbDictionary *dictionary = WbDictionary::instance();
-  dictionary->update(load);  // update all DEF-USE dependencies
+  const bool regenerationRequired = dictionary->update(load);  // update all DEF-USE dependencies
   if (protoRoot && !protoRoot->isUseNode())
     dictionary->updateProtosPrivateDef(protoRoot);
   WbNode::setDictionaryUpdateFlag(false);
   mSkipUpdates = false;
+  return regenerationRequired;
 }
 
 void WbNodeOperations::requestUpdateSceneDictionary(WbNode *node, bool fromUseToDef) {
