@@ -6996,15 +6996,15 @@ Möchten Sie vor dem Schliessen speichern?</translation>
         <translation type="unfinished">Schliessen</translation>
     </message>
     <message>
-        <source>Welcome to Webots R2023a</source>
+        <source>Welcome to Webots R2023b</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;b&gt;Thank you for using Webots R2023a.&lt;/b&gt;</source>
+        <source>&lt;b&gt;Thank you for using Webots R2023b.&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Find out the new features, enhancements and bug fixes of Webots R2023a in the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/reference/changelog-r2023&apos;&gt;changelog&lt;/a&gt;.</source>
+        <source>Find out the new features, enhancements and bug fixes of Webots R2023b in the &lt;a style=&apos;color: #5DADE2;&apos; href=&apos;https://cyberbotics.com/doc/reference/changelog-r2023&apos;&gt;changelog&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
