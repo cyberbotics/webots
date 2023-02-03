@@ -335,9 +335,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const parameter = results[1];
     const values = this.#createSFValue();
 
-    p.inputs.push(this.#createVectorInput('x', parameter.value.value.x, values, () => this.#vector3OnChange(p)));
-    p.inputs.push(this.#createVectorInput('y', parameter.value.value.y, values, () => this.#vector3OnChange(p)));
-    p.inputs.push(this.#createVectorInput('z', parameter.value.value.z, values, () => this.#vector3OnChange(p)));
+    p.inputs.push(this.#createVectorInput(parameter.value.value.x, values, () => this.#vector3OnChange(p), true));
+    p.inputs.push(this.#createVectorInput(parameter.value.value.y, values, () => this.#vector3OnChange(p)));
+    p.inputs.push(this.#createVectorInput(parameter.value.value.z, values, () => this.#vector3OnChange(p)));
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     resetButton.onclick = () => {
@@ -402,8 +402,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const parameter = results[1];
     const values = this.#createSFValue();
 
-    p.inputs.push(this.#createVectorInput('x', parameter.value.value.x, values, () => this.#vector2OnChange(p)));
-    p.inputs.push(this.#createVectorInput('y', parameter.value.value.y, values, () => this.#vector2OnChange(p)));
+    p.inputs.push(this.#createVectorInput(parameter.value.value.x, values, () => this.#vector2OnChange(p), true));
+    p.inputs.push(this.#createVectorInput(parameter.value.value.y, values, () => this.#vector2OnChange(p)));
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     resetButton.onclick = () => {
@@ -574,17 +574,17 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       p.appendChild(input);
       p.appendChild(boolText);
     } else if (parameter.type === VRML.MFVec2f) {
-      this.#createVectorInput('x', value.x, p, () => this.#MFOnChange(p.className, parameter));
-      this.#createVectorInput('y', value.y, p, () => this.#MFOnChange(p.className, parameter));
+      this.#createVectorInput(value.x, p, () => this.#MFOnChange(p.className, parameter, true));
+      this.#createVectorInput(value.y, p, () => this.#MFOnChange(p.className, parameter));
     } else if (parameter.type === VRML.MFVec3f) {
-      this.#createVectorInput('x', value.x, p, () => this.#MFOnChange(p.className, parameter));
-      this.#createVectorInput('y', value.y, p, () => this.#MFOnChange(p.className, parameter));
-      this.#createVectorInput('z', value.z, p, () => this.#MFOnChange(p.className, parameter));
+      this.#createVectorInput(value.x, p, () => this.#MFOnChange(p.className, parameter, true));
+      this.#createVectorInput(value.y, p, () => this.#MFOnChange(p.className, parameter));
+      this.#createVectorInput(value.z, p, () => this.#MFOnChange(p.className, parameter));
     } else if (parameter.type === VRML.MFRotation) {
-      this.#createVectorInput('x', value.x, p, () => this.#MFOnChange(p.className, parameter));
-      this.#createVectorInput('y', value.y, p, () => this.#MFOnChange(p.className, parameter));
-      this.#createVectorInput('z', value.z, p, () => this.#MFOnChange(p.className, parameter));
-      this.#createVectorInput('angle', value.a, p, () => this.#MFOnChange(p.className, parameter));
+      this.#createVectorInput(value.x, p, () => this.#MFOnChange(p.className, parameter, true));
+      this.#createVectorInput(value.y, p, () => this.#MFOnChange(p.className, parameter));
+      this.#createVectorInput(value.z, p, () => this.#MFOnChange(p.className, parameter));
+      this.#createVectorInput(value.a, p, () => this.#MFOnChange(p.className, parameter));
     } else if (parameter.type === VRML.MFColor) {
       const input = document.createElement('input');
       input.type = 'color';
@@ -955,10 +955,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const parameter = results[1];
     const values = this.#createSFValue();
 
-    p.inputs.push(this.#createVectorInput('x', parameter.value.value.x, values, () => this.#rotationOnChange(p)));
-    p.inputs.push(this.#createVectorInput('y', parameter.value.value.y, values, () => this.#rotationOnChange(p)));
-    p.inputs.push(this.#createVectorInput('z', parameter.value.value.z, values, () => this.#rotationOnChange(p)));
-    p.inputs.push(this.#createVectorInput('a', parameter.value.value.a, values, () => this.#rotationOnChange(p)));
+    p.inputs.push(this.#createVectorInput(parameter.value.value.x, values, () => this.#rotationOnChange(p), true));
+    p.inputs.push(this.#createVectorInput(parameter.value.value.y, values, () => this.#rotationOnChange(p)));
+    p.inputs.push(this.#createVectorInput(parameter.value.value.z, values, () => this.#rotationOnChange(p)));
+    p.inputs.push(this.#createVectorInput(parameter.value.value.a, values, () => this.#rotationOnChange(p)));
 
     const resetButton = this.#createResetButton(parent, p.style.gridRow, parameter.name);
     resetButton.onclick = () => {
@@ -974,10 +974,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.#refreshParameterRow(parameter, undefined, true);
   }
 
-  #createVectorInput(name, initialValue, parent, callback) {
+  #createVectorInput(initialValue, parent, callback, first) {
     const span = document.createElement('span');
-    span.innerHTML = name + ': ';
-    span.style.paddingLeft = '10px';
+    if (!first)
+      span.style.paddingLeft = '10px';
     const input = document.createElement('input');
     input.type = 'number';
     input.value = initialValue;
