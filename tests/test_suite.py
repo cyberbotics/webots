@@ -51,6 +51,8 @@ parser.add_argument('--nomake', dest='nomake', default=False, action='store_true
 parser.add_argument('--no-ansi-escape', dest='ansi_escape', default=True, action='store_false', help='Disables ansi escape.')
 parser.add_argument('--group', '-g', type=str, dest='group', default=[], help='Specifies which group of tests should be run.',
                     choices=['api', 'cache', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering'])
+parser.add_argument('--performance-log', '-p', type=str, dest='performance_log', default="",
+                    help='The name of the performance log file to use if you want to log performance.')
 parser.add_argument('worlds', nargs='*', default=[])
 args = parser.parse_args()
 
@@ -73,7 +75,7 @@ class OutputMonitor:
 
     def monitorOutputFile(self, finalMessage):
         """Display the output file on the console."""
-        self.command = Command('tail -f ' + outputFilename, args.ansi_escape)
+        self.command = Command(['tail', '-f', outputFilename], args.ansi_escape)
         self.command.run(expectedString=finalMessage, silent=False)
 
 
@@ -94,7 +96,7 @@ def setupWebots():
             sys.exit('Error: ' + webotsBinary + ' binary not found')
         webotsFullPath = os.path.normpath(webotsFullPath)
 
-    command = Command(webotsFullPath + ' --version')
+    command = Command([webotsFullPath, '--version'])
     command.run()
     if command.returncode != 0:
         raise RuntimeError('Error when getting the Webots version: ' + command.output)
@@ -103,7 +105,7 @@ def setupWebots():
     except IndexError:
         raise RuntimeError('Cannot parse Webots version: ' + command.output)
 
-    command = Command(webotsFullPath + ' --sysinfo')
+    command = Command([webotsFullPath, '--sysinfo'])
     command.run()
     if command.returncode != 0:
         raise RuntimeError('Error when getting the Webots information of the system')
@@ -158,7 +160,7 @@ def executeMake():
     """Execute 'make release' to ensure every controller/plugin is compiled."""
     curdir = os.getcwd()
     os.chdir(testsFolderPath)
-    command = Command('make release -j%d' % multiprocessing.cpu_count())
+    command = Command(['make', 'release', '-j%d' % multiprocessing.cpu_count()])
     command.run(silent=False)
     os.chdir(curdir)
     if command.returncode != 0:
@@ -196,7 +198,7 @@ def generateWorldsList(groupName):
                         filename.endswith('local_proto_with_texture.wbt') or
                         (filename.endswith('robot_window_html.wbt') and is_ubuntu_22_04) or
                         (filename.endswith('supervisor_start_stop_movie.wbt') and is_ubuntu_22_04)
-                        ))):
+                    ))):
                 worldsList.append(filename)
 
     return worldsList
@@ -223,16 +225,19 @@ def runGroupTest(groupName, firstSimulation, worldsCount, failures):
     # Here is an example to run webots in gdb and display the stack
     # when it crashes.
     # this is particularly useful to debug on the jenkins server
-    #  command = Command('gdb -ex run --args ' + webotsFullPath + '-bin ' +
-    #                    firstSimulation + ' --mode=fast --no-rendering --minimize')
+    #  command = Command(['gdb', '-ex', 'run', '--args', webotsFullPath + '-bin',
+    #                    firstSimulation, '--mode=fast', '--no-rendering', '--minimize'])
     #  command.run(silent = False)
 
-    webotsArguments = '--mode=fast --stdout --stderr --batch'
+    webotsArguments = [webotsFullPath, firstSimulation]
+    webotsArguments += ['--mode=fast', '--stdout', '--stderr', '--batch']
+    if args.performance_log:
+        webotsArguments += [f'--log-performance={args.performance_log}']
     if groupName != 'with_rendering':
-        webotsArguments = webotsArguments + ' --no-rendering --minimize'
+        webotsArguments += ['--no-rendering', '--minimize']
     if groupName == 'cache':
-        webotsArguments = webotsArguments + ' --clear-cache'
-    command = Command(webotsFullPath + ' ' + firstSimulation + ' ' + webotsArguments)
+        webotsArguments += ['--clear-cache']
+    command = Command(webotsArguments)
 
     # redirect stdout and stderr to files
     command.runTest(timeout=10 * 60)  # 10 minutes
@@ -245,7 +250,7 @@ def runGroupTest(groupName, firstSimulation, worldsCount, failures):
         else:
             failures += 1
             appendToOutputFile(
-                'FAILURE: Webots exits abnormally with this error code: ' + str(command.returncode) + '\n')
+                f'FAILURE: "{webotsArguments}" exits abnormally with this error code: ' + str(command.returncode) + '\n')
         testFailed = True
     else:
         # check count of executed worlds
