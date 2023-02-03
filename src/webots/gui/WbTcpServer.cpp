@@ -131,7 +131,7 @@ void WbTcpServer::create(int port) {
 
   // See if a server is already running on port by trying to connect to it.
   // This is needed because in some environments QTcpServer::listen() uses a socket that is configured to reuse a port [1]
-  // and Qt does not provide a way configure the socket before calling listen() [2].
+  // and Qt does not provide a way to configure the socket before calling listen() [2].
   // [1] https://doc.qt.io/qt-6/qabstractsocket.html#BindFlag-enum
   // [2] https://stackoverflow.com/questions/47268023/how-to-set-so-reuseaddr-on-the-socket-used-by-qtcpserver
   QTcpSocket socket;
