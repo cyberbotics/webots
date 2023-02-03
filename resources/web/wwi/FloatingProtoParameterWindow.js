@@ -978,7 +978,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     const span = document.createElement('span');
     span.title = name;
     if (!first)
-      span.style.paddingLeft = '10px';
+      span.style.paddingLeft = '5px';
     const input = document.createElement('input');
     input.type = 'number';
     input.value = initialValue;
