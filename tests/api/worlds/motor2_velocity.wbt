@@ -43,7 +43,7 @@ Solid {
               geometry Cylinder {
                 height 0.05
                 radius 0.05
-                subdivision 24
+                subdivision 6
               }
             }
           ]
@@ -79,7 +79,7 @@ Solid {
               InertialUnit {
               }
               DEF THICK_CYLINDER_SHAPE Transform {
-                rotation 1 0 0 -1.57079632679
+                rotation 1 0 0 0
                 children [
                   Shape {
                     appearance DEF GRAY_APPEARANCE Appearance {
@@ -90,7 +90,7 @@ Solid {
                     geometry Cylinder {
                       height 0.05
                       radius 0.02
-                      subdivision 24
+                      subdivision 6
                     }
                   }
                 ]
