@@ -77,7 +77,6 @@ Robot {
               }
               DEF THICK_CYLINDER Transform {
                 translation 0 0.05 0
-                rotation 1 0 0 -1.57079632679
                 children [
                   Shape {
                     appearance DEF GRAY_APPEARANCE Appearance {
@@ -92,10 +91,11 @@ Robot {
                     }
                   }
                 ]
+                rotation 1 0 0 -1.57079632679
               }
               DEF THIN_CYLINDER Transform {
                 translation 0 0.05 -0.1
-                rotation 1 0 0 3.673189128e-06
+                rotation 1 0 0 0.000003673189128
                 children [
                   Shape {
                     appearance USE GRAY_APPEARANCE

@@ -23,7 +23,7 @@
 #include <webots/robot.h>
 
 #define TIME_STEP 16
-#define SPEED 8.0f
+#define SPEED 0.2f
 
 int main(int argc, char **argv) {
   wb_robot_init();
@@ -35,19 +35,13 @@ int main(int argc, char **argv) {
   wb_motor_set_position(rotor_motor, INFINITY);
   wb_motor_set_velocity(rotor_motor, SPEED);
 
-  int count = 0;
   while (wb_robot_step(TIME_STEP) != -1) {
     double position = wb_position_sensor_get_value(rotor_sensor);
 
-
     if (position > 1.0471)
-      // wb_motor_set_velocity(rotor_motor, -(0.01+SPEED*fabs(cos(0.1*count))));
       wb_motor_set_velocity(rotor_motor, -SPEED);
     else if (position < -1.0471)
-      // wb_motor_set_velocity(rotor_motor, (0.01+SPEED*fabs(cos(0.1*count))));
       wb_motor_set_velocity(rotor_motor, SPEED);
-
-    count++;
   }
 
   wb_robot_cleanup();
