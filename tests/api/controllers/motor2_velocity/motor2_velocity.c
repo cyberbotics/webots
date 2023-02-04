@@ -57,8 +57,8 @@ void test_position_under_velocity_control(WbDeviceTag motor, WbDeviceTag positio
     }
   }
   ts_assert_double_in_delta(original_position, position, 0.01,
-                            "The motor's position (%g) and it's original position (%g) are different", normalized_position,
-                            rpy[axis]);
+                            "The motor's position (%g) and it's original position (%g) are different", position,
+                            original_position);
   ts_assert_double_is_bigger(1e-6, fabs(position - prev_position), "The motor has not stopped");
 }
 
