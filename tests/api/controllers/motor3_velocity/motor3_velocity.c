@@ -46,16 +46,17 @@ void test_position_under_velocity_control(const char *sensor_name, const char *m
     axis = 1;
   actual_quaternion[axis] = sin(position / 2);
   ts_assert_double_in_delta(quaternion[3], actual_quaternion[3], 0.01,
-                            "The cos(theta/2) measured by %s (%g) and the inertial unit (%g) are different",
-                            sensor_name, actual_quaternion[0], quaternion[0]);
-  ts_assert_vec3_in_delta(quaternion[0], quaternion[1], quaternion[2], actual_quaternion[0], actual_quaternion[1], actual_quaternion[2], 0.01,
-                          "The rotation axis measured by %s (%g, %g, %g) and the inertial unit (%g, %g, %g) are different", sensor_name,
-                          actual_quaternion[0], actual_quaternion[1], actual_quaternion[2], quaternion[0], quaternion[1], quaternion[2]);
+                            "The cos(theta/2) measured by %s (%g) and the inertial unit (%g) are different", sensor_name,
+                            actual_quaternion[0], quaternion[0]);
+  ts_assert_vec3_in_delta(
+    quaternion[0], quaternion[1], quaternion[2], actual_quaternion[0], actual_quaternion[1], actual_quaternion[2], 0.01,
+    "The rotation axis measured by %s (%g, %g, %g) and the inertial unit (%g, %g, %g) are different", sensor_name,
+    actual_quaternion[0], actual_quaternion[1], actual_quaternion[2], quaternion[0], quaternion[1], quaternion[2]);
 
   // The position itself should not be normalized to be between -pi and pi
-  double min_expected_position = max_velocity/2*TIME_STEP/1000.0*100.0;
-  ts_assert_double_is_bigger(position, min_expected_position, "The position measured by %s shoud be at least %g but is only %g", sensor_name,
-                             min_expected_position, position);
+  double min_expected_position = max_velocity / 2 * TIME_STEP / 1000.0 * 100.0;
+  ts_assert_double_is_bigger(position, min_expected_position, "The position measured by %s shoud be at least %g but is only %g",
+                             sensor_name, min_expected_position, position);
 
   // Returning to original position
   printf("Returning to original position\n");
