@@ -32,6 +32,7 @@ Released on ??
     - Fixed silent ignoring of more that 10 contact points when detecting collisions. All contact points are now found and the deepest 10 are used. ([#5792](https://github.com/cyberbotics/webots/pull/5792)).
     - Fixed performance issues when retrieving multiple times a node's field defined in a PROTO body using the [Supervisor API](supervisor.md) ([#5774](https://github.com/cyberbotics/webots/pull/5774)).
     - Fixed thread-safety issue when robots collide. This was only an issue if physics multi-threading was enabled (which is not the default and rarely used) ([#5796](https://github.com/cyberbotics/webots/pull/5796)).
+    - Fixed inaccurate position reporting when using velocity control for HingeJoints, Hinge2Joints, and BallJoints ([#5834](https://github.com/cyberbotics/webots/pull/5834)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
