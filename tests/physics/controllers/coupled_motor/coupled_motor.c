@@ -234,7 +234,7 @@ int main(int argc, char **argv) {
     wb_motor_set_position(motors[0], 1.5708);
 
     k = 0;
-    tolerance = 1e-4;
+    tolerance = 1e-7;
     while (wb_robot_step(TIME_STEP) != -1 && k < 301) {
       if (k == 101)
         wb_motor_set_position(motors[0], -0.7854);
@@ -323,7 +323,7 @@ int main(int argc, char **argv) {
     wb_motor_set_torque(motors[4], 0.001);
 
     k = 0;
-    tolerance = 1e-2;
+    tolerance = 1e-3;
     while (wb_robot_step(TIME_STEP) != -1 && k < 250) {
       if (k == 50)
         wb_motor_set_torque(motors[4], -0.002);
