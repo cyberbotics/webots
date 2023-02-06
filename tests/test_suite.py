@@ -355,12 +355,12 @@ for groupName in testGroups:
     if groupName == 'cache':
         update_cache_urls(True)
 
-appendToOutputFile('\n' + finalMessage + '\n')
-
 if len(systemFailures) > 0:
     appendToOutputFile('\nSystem Failures:\n')
     for message in systemFailures:
         appendToOutputFile(message)
+
+appendToOutputFile('\n' + finalMessage + '\n')
 
 time.sleep(1)
 if outputMonitor.command.isRunning():
