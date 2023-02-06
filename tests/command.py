@@ -105,7 +105,7 @@ class Command(object):
                     if self.expectedString and self.expectedString in line:
                         self.expectedStringFound = True
                         self.terminate(force=True)
-                        return                        
+                        return
 
         self.resetAttributes()
 
