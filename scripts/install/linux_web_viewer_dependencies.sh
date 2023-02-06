@@ -18,7 +18,6 @@ git clone https://github.com/emscripten-core/emsdk.git dependencies/emsdk
 
 USER=$(env | grep SUDO_USER | cut -d '=' -f 2-)
 
-git pull
 ./dependencies/emsdk/emsdk install latest
 ./dependencies/emsdk/emsdk activate latest
 chown -R $USER dependencies/emsdk
