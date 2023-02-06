@@ -48,7 +48,7 @@ do
   echo installing $MODULE...
   mkdir -p include/qt/$MODULE/$MODULE
   # Ignore errors while copying
-  (cp /mingw64/include/qt6/$MODULE/* include/qt/$MODULE/$MODULE/ 2>&1 || true) | grep -v 'omitting directory'
+  cp /mingw64/include/qt6/$MODULE/* include/qt/$MODULE/$MODULE/ 2>&1 | grep -v 'omitting directory' || true
 done
 
 echo done.
