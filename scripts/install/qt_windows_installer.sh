@@ -47,7 +47,8 @@ for MODULE in QtConcurrent QtCore QtGui QtNetwork QtOpenGL QtOpenGLWidgets QtPri
 do
   echo installing $MODULE...
   mkdir -p include/qt/$MODULE/$MODULE
-  cp /mingw64/include/qt6/$MODULE/* include/qt/$MODULE/$MODULE/ 2>&1 | grep -v 'omitting directory'
+  # Ignore errors while copying
+  (cp /mingw64/include/qt6/$MODULE/* include/qt/$MODULE/$MODULE/ 2>&1 || true) | grep -v 'omitting directory'
 done
 
 echo done.
