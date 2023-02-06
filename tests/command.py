@@ -102,16 +102,10 @@ class Command(object):
                         print(line[:-1])
                         if sys.platform == 'win32':
                             sys.stdout.flush()
-
-        def outputListenerTarget():
-            size = 0
-            while self.isRunningFlag:
-                if size != len(self.output):
-                    if self.expectedString in self.output:
+                    if self.expectedString and self.expectedString in line:
                         self.expectedStringFound = True
                         self.terminate(force=True)
-                        return
-                    size = len(self.output)
+                        return                        
 
         self.resetAttributes()
 
@@ -127,11 +121,6 @@ class Command(object):
             self.outputWriterThread = threading.Thread(
                 target=outputWriterTarget)
             self.outputWriterThread.start()
-
-            if expectedString:
-                self.outputListenerThread = threading.Thread(
-                    target=outputListenerTarget)
-                self.outputListenerThread.start()
 
             self.mainThread = threading.Thread(target=mainTarget)
             self.mainThread.start()
