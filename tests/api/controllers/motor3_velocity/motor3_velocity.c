@@ -33,8 +33,8 @@ void test_position_under_velocity_control(const char *sensor_name, const char *m
     wb_robot_step(TIME_STEP);
     quaternion = wb_inertial_unit_get_quaternion(inertial_unit);
     position = wb_position_sensor_get_value(position_sensor);
-    printf("position = %g, quaternion = %g, %g, %g, %g\n", position, quaternion[0], quaternion[1], quaternion[2],
-           quaternion[3]);
+    // printf("position = %g, quaternion = %g, %g, %g, %g\n", position, quaternion[0], quaternion[1], quaternion[2],
+    //        quaternion[3]);
   }
 
   // The new position should match the one provided by the inertial unit
@@ -59,7 +59,7 @@ void test_position_under_velocity_control(const char *sensor_name, const char *m
                              sensor_name, min_expected_position, position);
 
   // Returning to original position
-  printf("Returning to original position\n");
+  // printf("Returning to original position\n");
   wb_motor_set_position(motor, original_position);
   wb_motor_set_velocity(motor, max_velocity);
   double prev_position = 0.0, prev_position2 = 0.0;
@@ -69,8 +69,8 @@ void test_position_under_velocity_control(const char *sensor_name, const char *m
     prev_position = position;
     position = wb_position_sensor_get_value(position_sensor);
     quaternion = wb_inertial_unit_get_quaternion(inertial_unit);
-    printf("position = %g, quaternion = %g, %g, %g, %g\n", position, quaternion[0], quaternion[1], quaternion[2],
-           quaternion[3]);
+    // printf("position = %g, quaternion = %g, %g, %g, %g\n", position, quaternion[0], quaternion[1], quaternion[2],
+    //        quaternion[3]);
     if (fabs(position - prev_position) < 1e-6 && fabs(prev_position - prev_position2) < 1e-6) {
       break;
     }
