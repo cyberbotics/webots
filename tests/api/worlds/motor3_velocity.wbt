@@ -5,7 +5,7 @@ EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
 
 WorldInfo {
-  coordinateSystem "NUE"
+  coordinateSystem "ENU"
   lineScale 0.3
 }
 Viewpoint {
