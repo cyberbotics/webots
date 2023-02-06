@@ -439,16 +439,16 @@ class Road(WebotsObject):
             if not Road.noIntersectionRoadLines and not road.insideARoundAbout:
                 if road.startJunction is not None and len(road.startJunction.roads) > 2:
                     f.write('  startLine [\n')
-                    for l in range(road.forwardLanes):
+                    for lane in range(road.forwardLanes):
                         f.write(f'    "{ROAD_LINE_DASHED_TEXTURE}"\n')
-                    for l in range(road.backwardLanes):
+                    for lane in range(road.backwardLanes):
                         f.write(f'    "{ROAD_LINE_TRIANGLE_TEXTURE}"\n')
                     f.write('  ]\n')
                 if road.endJunction is not None and len(road.endJunction.roads) > 2:
                     f.write('  endLine [\n')
-                    for l in range(road.forwardLanes):
+                    for lane in range(road.forwardLanes):
                         f.write(f'    "{ROAD_LINE_TRIANGLE_TEXTURE}"\n')
-                    for l in range(road.backwardLanes):
+                    for lane in range(road.backwardLanes):
                         f.write(f'    "{ROAD_LINE_DASHED_TEXTURE}"\n')
                     f.write('  ]\n')
             f.write('  wayPoints [\n')

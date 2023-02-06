@@ -20,7 +20,7 @@ import sys
 
 try:
     import pyproj
-except:
+except Exception:
     sys.exit("Error: pyproj python module not installed. You can install it using pip: 'pip install pyproj'")
 
 

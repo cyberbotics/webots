@@ -104,15 +104,15 @@ class WebotsVehicle:
             try:
                 traci.vehicle.add(vehID=self.name, routeID=traci.route.getIDList()[0])
                 traci.vehicle.setColor(self.name, (0, 255, 0))
-            except:
+            except Exception:
                 pass
         try:
             traci.vehicle.setSpeed(self.name, speed)
-        except:
+        except Exception:
             pass
         try:
             traci.vehicle.moveToXY(vehID=self.name, edgeID='', lane=0, x=self.currentPosition[0], y=self.currentPosition[1],
                                    angle=180 * self.angle / math.pi, keepRoute=0)
-        except:
+        except Exception:
             pass
         self.previousPosition = self.currentPosition
