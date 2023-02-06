@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
   // position sensor3 does not have an associated brake. Make sure we don't get
   // the brake associated with the first position sensor instead.
   WbDeviceTag brake = wb_position_sensor_get_brake(wb_robot_get_device("position sensor3"));
-  ts_assert_pointer_null(brake, "wb_position_sensor_get_brake(wb_robot_get_device(\"position sensor3\")) != NULL");
+  ts_assert_int_equal(brake, 0, "wb_position_sensor_get_brake(wb_robot_get_device(\"position sensor3\")) != NULL");
 
   ts_send_success();
   return EXIT_SUCCESS;
