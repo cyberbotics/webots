@@ -32,7 +32,7 @@ Released on ??
     - Fixed silent ignoring of more that 10 contact points when detecting collisions. All contact points are now found and the deepest 10 are used. ([#5792](https://github.com/cyberbotics/webots/pull/5792)).
     - Fixed performance issues when retrieving multiple times a node's field defined in a PROTO body using the [Supervisor API](supervisor.md) ([#5774](https://github.com/cyberbotics/webots/pull/5774)).
     - Fixed thread-safety issue when robots collide. This was only an issue if physics multi-threading was enabled (which is not the default and rarely used) ([#5796](https://github.com/cyberbotics/webots/pull/5796)).
-    - Fixed retrieval of sibling devices from `BallJoint`'s `device3` list. Previously, the devices retrieved were from the `device` list instead([#5839](https://github.com/cyberbotics/webots/pull/5839)).
+    - Fixed retrieval of sibling devices from [`BallJoint.device3`](balljoint.md) list. Previously, the devices retrieved were from the `device` list instead ([#5839](https://github.com/cyberbotics/webots/pull/5839)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
