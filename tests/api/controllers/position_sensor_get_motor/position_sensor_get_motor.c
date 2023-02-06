@@ -13,7 +13,7 @@ void test_get_motor(char *sensor_name, char *expected_motor_name) {
   ts_assert_string_equal(actual_sensor_name, sensor_name, "wb_device_get_name(wb_robot_get_device(\"%s\")) returned \"%s\"",
                          sensor_name, actual_sensor_name);
   WbDeviceTag motor = wb_position_sensor_get_motor(position_sensor);
-  char *motor_name = wb_device_get_name(motor);
+  const char *motor_name = wb_device_get_name(motor);
   ts_assert_string_equal(
     motor_name, expected_motor_name,
     "wb_device_get_name(wb_position_sensor_get_motor(wb_robot_get_device(\"%s\"))) returned \"%s\" instead of \"%s\"",
