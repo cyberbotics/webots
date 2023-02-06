@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# exit when any command fails
+set -e
+
 # install the latest Qt6 which comes with msys64
 
 QT_BASE_PACKAGE=mingw-w64-x86_64-qt6-base
