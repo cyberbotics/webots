@@ -118,8 +118,7 @@ bool WbTemplateManager::nodeNeedsToSubscribe(WbNode *node) {
   if (!node->isProtoInstance())
     return false;
 
-  QVector<WbField *> fields = node->fieldsOrParameters();
-  foreach (WbField *field, fields) {
+  foreach (WbField *field, node->fieldsOrParameters()) {
     if (!field->alias().isEmpty())
       return true;
   }
@@ -273,8 +272,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
 
   WbNode::setGlobalParentNode(parent);
 
-  WbNode *newNode = WbNode::regenerateProtoInstanceFromParameters(proto, parameters, node->isTopLevel(),
-                                                                  WbWorld::instance()->fileName(), true, uniqueId);
+  WbNode *newNode = WbNode::createProtoInstanceFromParameters(proto, parameters, WbWorld::instance()->fileName(), uniqueId);
 
   if (!newNode) {
     WbLog::error(tr("Template regeneration failed. The node cannot be generated."), false, WbLog::PARSING);
@@ -294,9 +292,12 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
 
   subscribe(newNode);
 
-  bool ancestorTemplateRegeneration = upperTemplateNode != NULL;
+  const bool ancestorTemplateRegeneration = upperTemplateNode != NULL;
   if (node->isProtoParameterNode()) {
-    const QVector<WbField *> &parentFields = parent->fieldsOrParameters();
+    // internal PROTO child could be regenerated due to a parameter exposed in the parent PROTO node
+    // so for parent PROTO instances both fields and parameters needs to be checked
+    const QList<WbField *> parentFields = (parent->isProtoInstance() ? parent->parameters() : QList<WbField *>())
+                                          << parent->fields();
     foreach (WbField *const parentField, parentFields) {
       if (parentField->type() == WB_SF_NODE) {
         WbSFNode *sfnode = static_cast<WbSFNode *>(parentField->value());
@@ -311,9 +312,11 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
             regenerateNode(upperTemplateNode);
             return;
           }
+          break;
         }
       } else if (parentField->type() == WB_MF_NODE) {
         WbMFNode *mfnode = static_cast<WbMFNode *>(parentField->value());
+        bool found = false;
         for (int i = 0; i < mfnode->size(); ++i) {
           WbNode *n = mfnode->item(i);
           if (n == node) {
@@ -328,8 +331,14 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
               regenerateNode(upperTemplateNode);
               return;
             }
+            found = true;
             break;
           }
+        }
+        if (found) {
+          if (parent && parent->isProtoInstance())
+            parent->redirectInternalFields(parentField);
+          break;
         }
       }
     }
