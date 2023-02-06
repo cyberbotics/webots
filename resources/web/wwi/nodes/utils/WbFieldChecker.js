@@ -86,5 +86,5 @@ function clampValue(value) {
   return value;
 }
 
-export {resetIfNegative, resetIfNonPositive, resetVector2IfNonPositive, resetVector3IfNonPositive,
+export {resetIfNegative, resetIfNonPositive, resetVector2IfNonPositive, resetVector3IfNonPositive, clampValuesIfNeeded,
   resetIfNotInRangeWithIncludedBounds, resetColorIfInvalid, resetMultipleColorIfInvalid, resetVector3IfNegative};
