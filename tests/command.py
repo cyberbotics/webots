@@ -23,10 +23,10 @@ import threading
 class Command(object):
     """Launch a system command."""
 
-    def __init__(self, cmd, ansiEscape=False):
+    def __init__(self, argList, ansiEscape=False):
         """Constructor."""
         self.ansiEscape = ansiEscape
-        self.cmd = cmd.split()
+        self.cmd = argList
         self.resetAttributes()
         self.mainProcessMutex = threading.Lock()
 
