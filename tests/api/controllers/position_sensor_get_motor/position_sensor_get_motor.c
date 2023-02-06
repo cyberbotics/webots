@@ -28,8 +28,8 @@ int main(int argc, char **argv) {
   test_get_motor("position sensor2", "rotational motor2");
   test_get_motor("position sensor3", "rotational motor3");
 
-  // position sensor3 does not have an associated brake. Make sure we don't get
-  // the brake associated with the first position sensor instead.
+  // position sensor3 does not have an associated brake.
+  // Make sure we don't get the brake associated with the first position sensor instead.
   WbDeviceTag brake = wb_position_sensor_get_brake(wb_robot_get_device("position sensor3"));
   ts_assert_int_equal(brake, 0, "wb_position_sensor_get_brake(wb_robot_get_device(\"position sensor3\")) != NULL");
 
