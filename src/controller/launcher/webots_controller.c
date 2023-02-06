@@ -41,6 +41,7 @@ const char ENV_SEPARATOR[] = ":";
 // Global variables
 static char *WEBOTS_HOME;
 static char *controller;
+static char *controller_args;
 static char *controller_path;
 static char *controller_extension;
 static char *matlab_path;
@@ -222,11 +223,12 @@ static bool get_matlab_path() {
 static void print_options() {
   printf(
     "Usage: webots-controller [options] [controller_file]\n\nOptions:\n\n  --help\n    Display this help message and exit.\n\n "
-    " --protocol=<ipc|tcp>\n    Define the protocol to use to communicate between the controller and Webots.\n    'ipc' is "
-    "used by default. 'ipc' should be used when Webots is\n    running on the same machine as the extern controller.\n    "
-    "'tcp' should be used when connecting to a remote instance of Webots.\n\n  --ip-address=<ip-address>\n    The IP address "
-    "of the remote machine on which the Webots instance is running.\n    This option should only be used with the `tcp` "
-    "protocol\n    (i.e. remote controllers).\n\n  --port=<port>\n    Define the port to which the controller should "
+    " --controller-args=<arg1>,<arg2>,...\n    Specify arguments that are passed to the started controller.\n\n  "
+    "--protocol=<ipc|tcp>\n    Define the protocol to use to communicate between the controller and Webots.\n    'ipc' is used "
+    "by default. 'ipc' should be used when Webots is\n    running on the same machine as the extern "
+    "controller.\n    'tcp' should be used when connecting to a remote instance of Webots.\n\n  --ip-address=<ip-address>\n    "
+    "The IP address of the remote machine on which the Webots instance is running.\n    This option should only be used with "
+    "the `tcp` protocol\n    (i.e. remote controllers).\n\n  --port=<port>\n    Define the port to which the controller should "
     "connect.\n    1234 is used by default, as it is the default port for Webots.\n    This setting allows you to connect to a "
     "specific instance of Webots if\n    there are multiple instances running on the target machine.\n    The port of a Webots "
     "instance can be set at its launch.\n\n  --robot-name=<robot-name>\n    Target a specific robot by specifying its name in "
@@ -246,6 +248,7 @@ static bool parse_options(int nb_arguments, char **arguments) {
   }
 
   controller = NULL;
+  controller_args = NULL;
   matlab_path = NULL;
   char *protocol = NULL;
   char *ip_address = NULL;
@@ -277,6 +280,10 @@ static bool parse_options(int nb_arguments, char **arguments) {
         putenv("WEBOTS_STDOUT_REDIRECT=1");
       } else if (strncmp(arguments[i] + 2, "stderr-redirect", 15) == 0) {
         putenv("WEBOTS_STDERR_REDIRECT=1");
+      } else if (strncmp(arguments[i] + 2, "controller-args=", 16) == 0) {
+        const size_t controller_args_size = strlen(arguments[i] + 18) + 1;
+        controller_args = malloc(controller_args_size);
+        memcpy(controller_args, arguments[i] + 18, controller_args_size);
       } else if (strncmp(arguments[i] + 2, "help", 4) == 0) {
         print_options();
         return false;
@@ -658,6 +665,31 @@ static void parse_runtime_ini() {
   fclose(runtime_ini);
 }
 
+// Add a single string argument to the argument 'argv' array
+static char **add_single_argument(char **argv, size_t *current_size, char *str) {
+  (*current_size)++;
+  argv = realloc(argv, *current_size * sizeof(char *));
+  if (!argv)
+    exit(1);
+  argv[(*current_size) - 1] = (str == NULL) ? NULL : strdup(str);
+  return argv;
+}
+
+// Add all controller arguments (separated by a comma) to the 'argv' array
+static char **add_controller_arguments(char **argv, size_t *current_size) {
+  char *str;
+  if (controller_args) {
+    if (!strchr(controller_args, ','))
+      argv = add_single_argument(argv, current_size, controller_args);
+    else {
+      argv = add_single_argument(argv, current_size, strtok(controller_args, ","));
+      while ((str = strtok(NULL, ",")) != NULL)
+        argv = add_single_argument(argv, current_size, str);
+    }
+  }
+  return argv;
+}
+
 int main(int argc, char **argv) {
   // Check WEBOTS_HOME and exit if empty
   if (!get_webots_home())
@@ -736,7 +768,11 @@ int main(int argc, char **argv) {
     const char *const new_argv[] = {controller, NULL};
     _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
 #else
-    char *new_argv[] = {controller, NULL};
+    size_t current_size = 0;
+    char **new_argv = NULL;
+    new_argv = add_single_argument(new_argv, &current_size, controller);
+    new_argv = add_controller_arguments(new_argv, &current_size);
+    new_argv = add_single_argument(new_argv, &current_size, NULL);
     execvp(new_argv[0], new_argv);
 #endif
   }
@@ -756,7 +792,13 @@ int main(int argc, char **argv) {
     const char *const new_argv[] = {"python", "-u", controller_formated, NULL};
     _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
 #else
-    char *new_argv[] = {"python3", "-u", controller, NULL};
+    size_t current_size = 0;
+    char **new_argv = NULL;
+    new_argv = add_single_argument(new_argv, &current_size, "python3");
+    new_argv = add_single_argument(new_argv, &current_size, "-u");
+    new_argv = add_single_argument(new_argv, &current_size, controller);
+    new_argv = add_controller_arguments(new_argv, &current_size);
+    new_argv = add_single_argument(new_argv, &current_size, NULL);
     execvp(new_argv[0], new_argv);
 #endif
   }
@@ -846,7 +888,15 @@ int main(int argc, char **argv) {
     if (!controller_name)
       controller_name = strrchr(controller, '/');
     controller_name[strlen(controller_name) - strlen(controller_extension)] = '\0';
-    char *new_argv[] = {"java", "-classpath", classpath, java_library, controller_name + 1, NULL};
+    size_t current_size = 0;
+    char **new_argv = NULL;
+    new_argv = add_single_argument(new_argv, &current_size, "java");
+    new_argv = add_single_argument(new_argv, &current_size, "-classpath");
+    new_argv = add_single_argument(new_argv, &current_size, classpath);
+    new_argv = add_single_argument(new_argv, &current_size, java_library);
+    new_argv = add_single_argument(new_argv, &current_size, controller_name + 1);
+    new_argv = add_controller_arguments(new_argv, &current_size);
+    new_argv = add_single_argument(new_argv, &current_size, NULL);
     execvp(new_argv[0], new_argv);
 #endif
 
