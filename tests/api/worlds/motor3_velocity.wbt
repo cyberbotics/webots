@@ -28,7 +28,7 @@ Floor {
 Solid {
   children [
     DEF BLUE_ROBOT Robot {
-      translation 0.04999999999999999 0.025 0.3
+      translation 0.05 0.025 0.3
       children [
         DEF BASE_SHAPE Transform {
           rotation 1 0 0 -1.57079632679
