@@ -158,13 +158,13 @@ int main(int argc, char **argv) {
     wb_robot_step(TIME_STEP);
   }
   position = wb_position_sensor_get_value(position_sensor);
-  rpy = wb_inertial_unit_get_roll_pitch_yaw(inertial_unit);
+  roll_pitch_yaw = wb_inertial_unit_get_roll_pitch_yaw(inertial_unit);
   double normalized_position = fmod(position, 2 * M_PI);
   if (normalized_position > M_PI)
     normalized_position -= 2 * M_PI;
-  ts_assert_double_in_delta(rpy[2], normalized_position, 0.001,
+  ts_assert_double_in_delta(roll_pitch_yaw[2], normalized_position, 0.001,
                             "The normalized rotation measured by position sensor (%g) and the inertial unit (%g) are different",
-                            normalized_position, rpy[2]);
+                            normalized_position, roll_pitch_yaw[2]);
 
   // The position itself should not be normalized to be between -pi and pi
   ts_assert_double_is_bigger(position, 2 * M_PI, "The position shoud be at least %g but is only %g", 2 * M_PI, position);
