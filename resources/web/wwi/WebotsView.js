@@ -187,14 +187,14 @@ export default class WebotsView extends HTMLElement {
   }
 
   // Animation's functions
-  loadAnimation(scene, animation, play, isMobileDevice, thumbnail) {
+  loadAnimation(scene, animation, play, isMobileDevice, thumbnail, raw) {
     if (typeof scene === 'undefined') {
       console.error('No x3d file defined');
       return;
     }
 
     if (!this.initializationComplete)
-      setTimeout(() => this.loadAnimation(scene, animation, play, isMobileDevice, thumbnail), 500);
+      setTimeout(() => this.loadAnimation(scene, animation, play, isMobileDevice, thumbnail, raw), 500);
     else {
       // terminate the previous activity if any
       this.close();
@@ -208,11 +208,11 @@ export default class WebotsView extends HTMLElement {
         if (typeof this.onready === 'function')
           this.onready();
       };
-      this._view.open(scene, 'undefined', thumbnail);
+      this._view.open(scene, 'undefined', thumbnail, raw);
       if (play !== 'undefined' && play === false)
-        this._view.setAnimation(animation, 'pause', true);
+        this._view.setAnimation(animation, 'pause', true, raw);
       else
-        this._view.setAnimation(animation, 'play', true);
+        this._view.setAnimation(animation, 'play', true, raw);
       this.#hasAnimation = true;
       this.#closeWhenDOMElementRemoved();
     }
@@ -351,6 +351,7 @@ export default class WebotsView extends HTMLElement {
         if (typeof this.onready === 'function')
           this.onready();
       };
+
       this._view.open(scene, 'undefined', thumbnail);
       this.#hasScene = true;
       this.#closeWhenDOMElementRemoved();
