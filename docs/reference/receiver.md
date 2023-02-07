@@ -392,12 +392,11 @@ It is illegal to call the `wb_receiver_get_data` function when the queue is empt
 The [Receiver](#receiver) node knows nothing about that structure of the data being sent but its byte size.
 The emitting and receiving code is responsible to agree on a specific format.
 
-
 The `wb_receiver_get_data_size` function returns the number of data bytes present in the head packet of the reception queue.
 The *data size* is always equal to the *size* argument of the corresponding `emitter_send_packet` function call.
 It is illegal to call the `wb_receiver_get_data_size` function when the queue is empty (i.e. when `wb_receiver_get_queue_length() == 0`).
 
-> **Note** [Python]: In the Python API, instead of having a single function returning the data, multiple functions are defined that automatically convert the data to the expected return type (bytes, string , list of floats, list of integers, list of booleans).
+> **Note** [Python]: In the Python API, instead of having a single function returning the data, multiple functions are defined that automatically convert the data to the expected return type (bytes, string, list of floats, list of integers, list of booleans).
 
 <!-- -->
 
