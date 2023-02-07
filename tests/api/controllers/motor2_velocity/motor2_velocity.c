@@ -46,20 +46,20 @@ void test_position_under_velocity_control(WbDeviceTag motor, WbDeviceTag positio
   // Returning to original position
   wb_motor_set_position(motor, original_position);
   wb_motor_set_velocity(motor, VELOCITY);
-  double prev_position;
+  double previous_position;
   for (i = 0; i < 400; ++i) {
     wb_robot_step(TIME_STEP);
-    prev_position = position;
+    previous_position = position;
     position = wb_position_sensor_get_value(position_sensor);
-    rpy = wb_inertial_unit_get_roll_pitch_yaw(inertial_unit);
-    if (fabs(position - prev_position) < 1e-6) {
+    roll_pitch_yaw = wb_inertial_unit_get_roll_pitch_yaw(inertial_unit);
+    if (fabs(position - previous_position) < 1e-6) {
       break;
     }
   }
   ts_assert_double_in_delta(original_position, position, 0.01,
                             "The motor's position (%g) and it's original position (%g) are different", position,
                             original_position);
-  ts_assert_double_is_bigger(1e-6, fabs(position - prev_position), "The motor has not stopped");
+  ts_assert_double_is_bigger(1e-6, fabs(position - previous_position), "The motor has not stopped");
 }
 
 int main(int argc, char **argv) {
