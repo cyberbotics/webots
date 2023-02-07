@@ -38,6 +38,8 @@ public:
   const WbVector2 &point(int index) const { return mPoint->item(index); }
   int pointSize() const { return mPoint->size(); }
 
+  QStringList fieldsToSynchronizeWithX3D() const override;
+
 private:
   // user accessible fields
   WbMFVector2 *mPoint;

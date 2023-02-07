@@ -68,9 +68,11 @@ export default class WbBackground extends WbBaseNode {
   }
 
   delete() {
+    super.delete();
+
     if (typeof this.parent === 'undefined') {
-      const index = WbWorld.instance.sceneTree.indexOf(this);
-      WbWorld.instance.sceneTree.splice(index, 1);
+      const index = WbWorld.instance.root.children.indexOf(this);
+      WbWorld.instance.root.children.splice(index, 1);
     }
 
     this.#destroySkyBox();
@@ -90,7 +92,7 @@ export default class WbBackground extends WbBaseNode {
     _wr_static_mesh_delete(this.#skyboxMesh);
 
     _wr_node_delete(this.#hdrClearRenderable);
-    this.#hdrClearRenderable = null;
+    this.#hdrClearRenderable = undefined;
     _wr_scene_set_hdr_clear_quad(_wr_scene_get_instance(), this.#hdrClearRenderable);
 
     if (typeof this.#hdrClearMaterial !== 'undefined')
@@ -102,8 +104,6 @@ export default class WbBackground extends WbBaseNode {
     WbBackground.instance = undefined;
 
     this.#updatePBRs();
-
-    super.delete();
   }
 
   postFinalize() {
@@ -182,7 +182,7 @@ export default class WbBackground extends WbBaseNode {
     } else {
       if (typeof this.irradianceCubeTexture !== 'undefined') {
         _wr_texture_delete(this.irradianceCubeTexture);
-        this.irradianceCubeTexture = null;
+        this.irradianceCubeTexture = undefined;
       }
       // Fallback: a cubemap is found but no irradiance map: bake a small irradiance map to have right colors.
       // Reflections won't be good in such case.
@@ -220,8 +220,7 @@ export default class WbBackground extends WbBaseNode {
     WbWorld.instance.nodes.forEach((value, key, map) => {
       if (value instanceof WbPbrAppearance && typeof value.parent !== 'undefined') {
         const parent = WbWorld.instance.nodes.get(value.parent);
-        if (typeof parent !== 'undefined')
-          parent.applyMaterialToGeometry();
+        parent?.applyMaterialToGeometry();
       }
     });
   }

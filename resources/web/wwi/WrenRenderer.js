@@ -29,10 +29,9 @@ export default class WrenRenderer {
 
     try {
       WbWorld.instance.viewpoint.updatePostProcessingParameters();
-
       _wr_scene_render(_wr_scene_get_instance(), null, true);
     } catch (error) {
-      console.error('No Context');
+      console.error('No Context' + error);
     }
   }
 

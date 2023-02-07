@@ -1,6 +1,5 @@
 # Blender v2.93.1 OBJ File: ''
 # www.blender.org
-mtllib front_logo.mtl
 o front_logo
 v -0.075030 0.693918 5.259330
 v -0.078216 0.680621 5.259800

@@ -1,5 +1,6 @@
 import {exitFullscreen} from './fullscreen_handler.js';
 import Toolbar from './Toolbar.js';
+import ProtoManager from './ProtoManager.js';
 import {webots} from './webots.js';
 import {changeGtaoLevel} from './nodes/wb_preferences.js';
 import WbWorld from './nodes/WbWorld.js';
@@ -22,6 +23,7 @@ webotsView.showWorldSelection    // defines whether the world selection button s
 
 export default class WebotsView extends HTMLElement {
   #hasAnimation;
+  #hasProto;
   #hasScene;
   #initialCallbackDone;
   constructor() {
@@ -79,6 +81,7 @@ export default class WebotsView extends HTMLElement {
         this.initializationComplete = true;
         let scene = this.dataset.scene;
         let animation = this.dataset.animation;
+        let proto = this.dataset.proto;
         let thumbnail = this.dataset.thumbnail;
         let isMobileDevice = this.dataset.isMobileDevice;
         let server = this.dataset.server;
@@ -89,6 +92,8 @@ export default class WebotsView extends HTMLElement {
           this.loadScene(scene, isMobileDevice, thumbnail);
         else if (typeof server !== 'undefined' && server !== '')
           this.connect(server, this.dataset.mode, this.dataset.isBroadcast, isMobileDevice, this.dataset.timeout, thumbnail);
+        else if (typeof proto !== 'undefined' && proto !== '')
+          this.loadProto(proto, isMobileDevice, thumbnail);
       });
     };
 
@@ -96,6 +101,7 @@ export default class WebotsView extends HTMLElement {
     promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/dependencies/assimpjs.js'));
     promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/dependencies/glm-js.min.js'));
     promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/dependencies/quaternion.min.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/dependencies/libtess.min.js'));
     promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/enum.js'));
     promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/wrenjs.js'));
   }
@@ -114,7 +120,7 @@ export default class WebotsView extends HTMLElement {
   close() {
     if (this.#hasAnimation)
       this.#closeAnimation();
-    else if (this.#hasScene)
+    else if (this.#hasScene || this.#hasProto)
       this.#closeScene();
     else if (typeof this._view !== 'undefined' && typeof this._view.stream !== 'undefined' &&
       typeof this._view.stream.socket !== 'undefined')
@@ -122,8 +128,7 @@ export default class WebotsView extends HTMLElement {
   }
 
   resize() {
-    if (typeof this._view !== 'undefined')
-      this._view.onresize();
+    this._view?.onresize();
   }
 
   setWebotsMessageCallback(callback) {
@@ -153,11 +158,11 @@ export default class WebotsView extends HTMLElement {
       typeof this._view === 'undefined')
       return;
 
-    let pose = {
+    let update = {
       'id': nodeId,
       [field]: value
     };
-    this._view.x3dScene.applyPose(pose);
+    this._view.x3dScene.applyUpdate(update);
     if (render)
       this._view.x3dScene.render();
   }
@@ -214,18 +219,15 @@ export default class WebotsView extends HTMLElement {
   }
 
   setCustomWindowTitle(title) {
-    if (typeof this.toolbar !== 'undefined' && typeof this.toolbar.customWindow !== 'undefined')
-      this.toolbar.customWindow.setTitle(title);
+    this.toolbar?.customWindow?.setTitle(title);
   }
 
   setCustomWindowTooltip(tooltip) {
-    if (typeof this.toolbar !== 'undefined' && typeof this.toolbar.customWindow !== 'undefined')
-      this.toolbar.customWindow.setTooltip(tooltip);
+    this.toolbar?.customWindow?.setTooltip(tooltip);
   }
 
   setCustomWindowContent(content) {
-    if (typeof this.toolbar !== 'undefined' && typeof this.toolbar.customWindow !== 'undefined')
-      this.toolbar.customWindow.setContent(content);
+    this.toolbar?.customWindow?.setContent(content);
   }
 
   #closeAnimation() {
@@ -315,13 +317,11 @@ export default class WebotsView extends HTMLElement {
   }
 
   hideToolbar() {
-    if (typeof this.toolbar !== 'undefined')
-      this.toolbar.hideToolbar(true);
+    this.toolbar?.hideToolbar(true);
   }
 
   showToolbar() {
-    if (typeof this.toolbar !== 'undefined')
-      this.toolbar.showToolbar(true);
+    this.toolbar?.showToolbar(true);
   }
 
   sendMessage(message) {
@@ -368,7 +368,47 @@ export default class WebotsView extends HTMLElement {
     }
     this._view.destroyWorld();
     this.#hasScene = false;
+    this.#hasProto = false;
     this.innerHTML = null;
+  }
+
+  loadProto(proto, isMobileDevice, thumbnail) {
+    if (typeof proto === 'undefined') {
+      console.error('No proto file defined');
+      return;
+    }
+
+    if (!this.initializationComplete)
+      setTimeout(() => this.loadProto(proto, isMobileDevice, thumbnail), 500);
+    else {
+      // terminate the previous activity if any
+      this.close();
+
+      console.time('Loaded in: ');
+      if (typeof this._view === 'undefined')
+        this._view = new webots.View(this, isMobileDevice);
+      this.protoManager = new ProtoManager(this._view);
+      this.protoManager.loadProto(proto);
+      this._view.onready = () => {
+        this.toolbar = new Toolbar(this._view, 'proto', this);
+        if (typeof this.onready === 'function')
+          this.onready();
+
+        this.resize();
+        this.toolbar.protoParameterWindowInitializeSizeAndPosition();
+        const topProtoNode = WbWorld.instance.root.children[WbWorld.instance.root.children.length - 1];
+        WbWorld.instance.viewpoint.moveViewpointToObject(topProtoNode);
+        WbWorld.instance.viewpoint.defaultPosition = WbWorld.instance.viewpoint.position;
+        this._view.x3dScene.render();
+      };
+
+      this.#hasProto = true;
+      this.#closeWhenDOMElementRemoved();
+    }
+  }
+
+  hasProto() {
+    return this.#hasProto;
   }
 }
 

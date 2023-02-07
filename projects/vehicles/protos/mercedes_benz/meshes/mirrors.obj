@@ -1,6 +1,5 @@
 # Blender v2.93.1 OBJ File: ''
 # www.blender.org
-mtllib mirrors.mtl
 o mirrors_left_mirror
 v 1.172370 1.283159 3.892910
 v 1.168680 1.307719 3.893150

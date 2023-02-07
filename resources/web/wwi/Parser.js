@@ -1,34 +1,72 @@
 import {M_PI_4} from './nodes/utils/constants.js';
 import WbAbstractAppearance from './nodes/WbAbstractAppearance.js';
+import WbAccelerometer from './nodes/WbAccelerometer.js';
+import WbAltimeter from './nodes/WbAltimeter.js';
 import WbAppearance from './nodes/WbAppearance.js';
 import WbBackground from './nodes/WbBackground.js';
+import WbBallJoint from './nodes/WbBallJoint.js';
+import WbBallJointParameters from './nodes/WbBallJointParameters.js';
 import WbBillboard from './nodes/WbBillboard.js';
 import WbBox from './nodes/WbBox.js';
-import WbCapsule from './nodes/WbCapsule.js';
+import WbBrake from './nodes/WbBrake.js';
 import WbCadShape from './nodes/WbCadShape.js';
+import WbCamera from './nodes/WbCamera.js';
+import WbCapsule from './nodes/WbCapsule.js';
+import WbCharger from './nodes/WbCharger.js';
+import WbColor from './nodes/WbColor.js';
+import WbCompass from './nodes/WbCompass.js';
 import WbCone from './nodes/WbCone.js';
+import WbConnector from './nodes/WbConnector.js';
+import WbCoordinate from './nodes/WbCoordinate.js';
 import WbCylinder from './nodes/WbCylinder.js';
 import WbDirectionalLight from './nodes/WbDirectionalLight.js';
+import WbDisplay from './nodes/WbDisplay.js';
+import WbDistanceSensor from './nodes/WbDistanceSensor.js';
 import WbElevationGrid from './nodes/WbElevationGrid.js';
+import WbEmitter from './nodes/WbEmitter.js';
 import WbFog from './nodes/WbFog.js';
 import WbGeometry from './nodes/WbGeometry.js';
+import WbGps from './nodes/WbGps.js';
 import WbGroup from './nodes/WbGroup.js';
+import WbGyro from './nodes/WbGyro.js';
+import WbHingeJoint from './nodes/WbHingeJoint.js';
+import WbHingeJointParameters from './nodes/WbHingeJointParameters.js';
+import WbHinge2Joint from './nodes/WbHinge2Joint.js';
 import WbImageTexture from './nodes/WbImageTexture.js';
 import WbIndexedFaceSet from './nodes/WbIndexedFaceSet.js';
 import WbIndexedLineSet from './nodes/WbIndexedLineSet.js';
+import WbInertialUnit from './nodes/WbInertialUnit.js';
+import WbJoint from './nodes/WbJoint.js';
+import WbJointParameters from './nodes/WbJointParameters.js';
+import WbLed from './nodes/WbLed.js';
+import WbLidar from './nodes/WbLidar.js';
 import WbLight from './nodes/WbLight.js';
+import WbLightSensor from './nodes/WbLightSensor.js';
+import WbLinearMotor from './nodes/WbLinearMotor.js';
 import WbMaterial from './nodes/WbMaterial.js';
 import WbMesh from './nodes/WbMesh.js';
+import WbNormal from './nodes/WbNormal.js';
 import WbPbrAppearance from './nodes/WbPbrAppearance.js';
+import WbPen from './nodes/WbPen.js';
 import WbPlane from './nodes/WbPlane.js';
 import WbPointLight from './nodes/WbPointLight.js';
 import WbPointSet from './nodes/WbPointSet.js';
+import WbPositionSensor from './nodes/WbPositionSensor.js';
+import WbRadar from './nodes/WbRadar.js';
+import WbRangeFinder from './nodes/WbRangeFinder.js';
+import WbReceiver from './nodes/WbReceiver.js';
+import WbRotationalMotor from './nodes/WbRotationalMotor.js';
 import WbScene from './nodes/WbScene.js';
 import WbShape from './nodes/WbShape.js';
+import WbSlot from './nodes/WbSlot.js';
 import WbSolid from './nodes/WbSolid.js';
+import WbSpeaker from './nodes/WbSpeaker.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbSpotLight from './nodes/WbSpotLight.js';
+import WbSliderJoint from './nodes/WbSliderJoint.js';
+import WbTextureCoordinate from './nodes/WbTextureCoordinate.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
+import WbTouchSensor from './nodes/WbTouchSensor.js';
 import WbTrack from './nodes/WbTrack.js';
 import WbTrackWheel from './nodes/WbTrackWheel.js';
 import WbTransform from './nodes/WbTransform.js';
@@ -39,11 +77,13 @@ import WbViewpoint from './nodes/WbViewpoint.js';
 import WbWorld from './nodes/WbWorld.js';
 import WbWrenPostProcessingEffects from './wren/WbWrenPostProcessingEffects.js';
 
-import {getAnId} from './nodes/utils/utils.js';
+import {getAnId} from './nodes/utils/id_provider.js';
 
 import DefaultUrl from './DefaultUrl.js';
 import {webots} from './webots.js';
-import {loadImageTextureInWren, loadTextureData} from './image_loader.js';
+import ImageLoader from './ImageLoader.js';
+import MeshLoader from './MeshLoader.js';
+
 /*
   This module takes an x3d world, parse it and populate the scene.
 */
@@ -51,35 +91,42 @@ export default class Parser {
   #downloadingImage;
   #nodeCounter;
   #nodeNumber;
-  #prefix;
   #promises;
   #promiseCounter;
   #promiseNumber;
+  #rootNodeId;
+  #prefix;
   constructor(prefix = '') {
-    this.#prefix = prefix;
+    this.prefix = prefix;
     this.#downloadingImage = new Set();
     this.#promises = [];
     this.#promiseCounter = 0;
     this.#promiseNumber = 0;
-    WbWorld.init();
+    this.#prefix = prefix;
   }
 
-  parse(text, renderer, parent, callback) {
-    webots.currentView.progress.setProgressBar('Connecting to webots instance...', 'same', 60 + 0.1 * 30, 'Parsing object...');
+  get rootNodeId() {
+    return this.#rootNodeId;
+  }
+
+  async parse(text, renderer, finalize = true, parentNode, callback) {
+    webots.currentView.progress.setProgressBar('same', 'Parsing...', 0, 'Parsing object...');
     let xml = null;
     if (window.DOMParser) {
       const parser = new DOMParser();
       xml = parser.parseFromString(text, 'text/xml');
     }
-
     if (typeof xml === 'undefined')
       console.error('File to parse not found');
     else {
       const head = xml.getElementsByTagName('head')[0];
       if (typeof head !== 'undefined') {
         for (const child of head.children) {
-          if (getNodeAttribute(child, 'name', '') === 'version')
+          if (getNodeAttribute(child, 'name', '') === 'version') {
+            if (typeof WbWorld.instance === 'undefined')
+              WbWorld.init();
             WbWorld.instance.version = getNodeAttribute(child, 'content', '');
+          }
         }
       }
       const scene = xml.getElementsByTagName('Scene')[0];
@@ -91,7 +138,8 @@ export default class Parser {
           this.#nodeNumber = 0;
           this.#nodeCounter = 0;
           this.#countChildElements(node);
-          this.#parseChildren(node, parent);
+          // note: here the assumption is made that the list of nodes provided are single-root
+          this.#parseNode(node.childNodes[0], parentNode);
         }
       } else {
         this.#nodeNumber = 0;
@@ -100,8 +148,6 @@ export default class Parser {
         this.#parseNode(scene);
       }
     }
-
-    webots.currentView.progress.setProgressBar('block', 'Finalizing...', 75, 'Finalizing webotsJS nodes...');
 
     return Promise.all(this.#promises).then(() => {
       this.#promises = [];
@@ -114,8 +160,19 @@ export default class Parser {
         this.gtaoNoiseTexture = undefined;
       }
 
+      webots.currentView.progress.setProgressBar('none');
+
+      if (!finalize) {
+        setTimeout(() => { webots.currentView.progress.setProgressBar('none'); }, 300);
+        return;
+      }
+
+      WbWorld.instance.readyForUpdates = false;
+
       if (typeof WbWorld.instance.viewpoint === 'undefined')
         return;
+
+      webots.currentView.progress.setProgressBar('block', 'Finalizing...', 0, 'Finalizing...');
       WbWorld.instance.viewpoint.finalize();
 
       if (typeof WbBackground.instance !== 'undefined') {
@@ -124,142 +181,186 @@ export default class Parser {
         WbBackground.instance.setIrradianceCubeArray(this.irradianceCubeURL);
         this.irradianceCubeURL = undefined;
       }
-      WbWorld.instance.sceneTree.forEach((node, i) => {
-        const percentage = 70 + 30 * (i + 1) / WbWorld.instance.sceneTree.length;
-        const info = 'Finalizing node ' + node.id + ': ' + Math.round(100 * (i + 1) / WbWorld.instance.sceneTree.length) + '%';
-        webots.currentView.progress.setProgressBar('block', 'same', 75 + 0.25 * percentage, info);
-        node.finalize();
-      });
+
+      WbWorld.instance.currentView = webots.currentView;
+      WbWorld.instance.root.finalize();
 
       WbWorld.instance.readyForUpdates = true;
 
       webots.currentView.x3dScene.resize();
       renderer.render();
       setTimeout(() => { webots.currentView.progress.setProgressBar('none'); }, 300);
-
       if (typeof callback === 'function')
         callback();
-
       console.timeEnd('Loaded in: ');
     });
   }
 
   #parseNode(node, parentNode, isBoundingObject) {
-    this.#nodeCounter += 1;
-    const percentage = 30 + 70 * this.#nodeCounter / this.#nodeNumber;
-    const infoPercentage = 100 * this.#nodeCounter / this.#nodeNumber;
-    const info = 'Parsing node: ' + node.id + ' (' + node.tagName + ') ' + infoPercentage + '%';
-    webots.currentView.progress.setProgressBar('block', 'same', 60 + 0.1 * percentage, info);
-
-    if (typeof WbWorld.instance === 'undefined')
-      WbWorld.init();
+    if (typeof this.#rootNodeId === 'undefined')
+      this.#rootNodeId = node.id;
 
     let result;
-    if (node.tagName === 'Scene') {
-      this.#parseScene(node);
-      this.#parseChildren(node, parentNode);
-    } else if (node.tagName === 'WorldInfo')
-      this.#parseWorldInfo(node);
-    else if (node.tagName === 'Viewpoint')
-      WbWorld.instance.viewpoint = this.#parseViewpoint(node);
-    else if (node.tagName === 'Background')
-      result = this.#parseBackground(node);
-    else if (node.tagName === 'Transform')
-      result = this.#parseTransform(node, parentNode, isBoundingObject);
-    else if (node.tagName === 'Billboard')
-      result = this.#parseBillboard(node, parentNode);
-    else if (node.tagName === 'Group')
-      result = this.#parseGroup(node, parentNode);
-    else if (node.tagName === 'Shape')
-      result = this.#parseShape(node, parentNode, isBoundingObject);
-    else if (node.tagName === 'CadShape')
-      result = this.#parseCadShape(node, parentNode);
-    else if (node.tagName === 'DirectionalLight')
-      result = this.#parseDirectionalLight(node, parentNode);
-    else if (node.tagName === 'PointLight')
-      result = this.#parsePointLight(node, parentNode);
-    else if (node.tagName === 'SpotLight')
-      result = this.#parseSpotLight(node, parentNode);
-    else if (node.tagName === 'Fog') {
-      if (!WbWorld.instance.hasFog)
-        result = this.#parseFog(node);
-      else
-        console.error('This world already has a fog.');
-    } else {
-      // Either it is a node added after the whole scene, or it is an unknown node, or a geometry bounding object
-      let id;
-      if (typeof parentNode !== 'undefined')
-        id = parentNode.id;
-      result = this.#parseGeometry(node, id);
-      // We are forced to check if the result correspond to the class we expect because of the case of a USE
-      if (typeof result !== 'undefined' && result instanceof WbGeometry) {
-        if (typeof parentNode !== 'undefined') {
-          if (parentNode instanceof WbShape) {
-            if (typeof parentNode.geometry !== 'undefined')
-              parentNode.geometry.delete();
-            parentNode.geometry = result;
-          } else if (parentNode instanceof WbSolid || parentNode instanceof WbTransform || parentNode instanceof WbGroup) {
-            // Bounding object
-            if (typeof parentNode.boundingObject !== 'undefined')
-              parentNode.boundingObject.delete();
-            const shape = new WbShape(getAnId(), false, false, result);
-            shape.parent = parentNode.id;
-            WbWorld.instance.nodes.set(shape.id, shape);
-            result.parent = shape.id;
-            if (parentNode instanceof WbSolid)
-              parentNode.boundingObject = shape;
-            else
-              parentNode.children.push(shape);
+    switch (node.tagName) {
+      case 'Scene':
+        this.#parseScene();
+        this.#createRoot(node);
+        break;
+      case 'WorldInfo':
+        this.#parseWorldInfo(node);
+        break;
+      case 'Viewpoint':
+        WbWorld.instance.viewpoint = this.#parseViewpoint(node, parentNode);
+        break;
+      case 'Background':
+        result = this.#parseBackground(node, parentNode);
+        break;
+      case 'HingeJoint':
+      case 'SliderJoint':
+      case 'Hinge2Joint':
+      case 'BallJoint':
+        result = this.#parseJoint(node, parentNode);
+        break;
+      case 'HingeJointParameters':
+      case 'JointParameters':
+      case 'BallJointParameters':
+        result = this.#parseJointParameters(node, parentNode);
+        break;
+      case 'PositionSensor':
+      case 'Brake':
+      case 'RotationalMotor':
+      case 'LinearMotor':
+        result = this.#parseLogicalDevice(node, parentNode);
+        break;
+      case 'Billboard':
+        result = this.#parseBillboard(node, parentNode);
+        break;
+      case 'Group':
+      case 'Propeller':
+        result = this.#parseGroup(node, parentNode);
+        break;
+      case 'Shape':
+        result = this.#parseShape(node, parentNode, isBoundingObject);
+        break;
+      case 'Slot':
+        result = this.#parseSlot(node, parentNode);
+        break;
+      case 'CadShape':
+        result = this.#parseCadShape(node, parentNode);
+        break;
+      case 'DirectionalLight':
+        result = this.#parseDirectionalLight(node, parentNode);
+        break;
+      case 'PointLight':
+        result = this.#parsePointLight(node, parentNode);
+        break;
+      case 'SpotLight':
+        result = this.#parseSpotLight(node, parentNode);
+        break;
+      case 'Fog':
+        if (!WbWorld.instance.hasFog)
+          result = this.#parseFog(node);
+        else
+          console.error('This world already has a fog.');
+        break;
+      case 'Transform':
+      case 'Robot':
+      case 'Solid':
+      case 'Accelerometer':
+      case 'Altimeter':
+      case 'Camera':
+      case 'Charger':
+      case 'Compass':
+      case 'Connector':
+      case 'Display':
+      case 'DistanceSensor':
+      case 'Emitter':
+      case 'GPS':
+      case 'Gyro':
+      case 'InertialUnit':
+      case 'LED':
+      case 'Lidar':
+      case 'LightSensor':
+      case 'Pen':
+      case 'Radar':
+      case 'RangeFinder':
+      case 'Receiver':
+      case 'Speaker':
+      case 'TouchSensor':
+      case 'Track':
+      case 'TrackWheel':
+        result = this.#parseTransform(node, parentNode, isBoundingObject);
+        break;
+      case 'Physics':
+      case 'SolidReference':
+      case 'Zoom':
+      case 'ImmersionProperties':
+        // skip those nodes as they are not needed for web representation.
+        break;
+      default:
+        // Either it is a node added after the whole scene, or it is an unknown node, or a geometry bounding object
+        let id;
+        if (typeof parentNode !== 'undefined')
+          id = parentNode.id;
+        result = this.#parseGeometry(node, id);
+        // We are forced to check if the result correspond to the class we expect because of the case of a USE
+        if (typeof result !== 'undefined' && result instanceof WbGeometry) {
+          if (typeof parentNode !== 'undefined') {
+            if (parentNode instanceof WbShape) {
+              parentNode.geometry?.delete();
+              parentNode.geometry = result;
+            } else if (parentNode instanceof WbSolid || parentNode instanceof WbTransform || parentNode instanceof WbGroup) {
+              // Bounding object
+              parentNode.boundingObject?.delete();
+              const shape = new WbShape(getAnId(), false, false, result);
+              shape.parent = parentNode.id;
+              WbWorld.instance.nodes.set(shape.id, shape);
+              result.parent = shape.id;
+              if (parentNode instanceof WbSolid)
+                parentNode.boundingObject = shape;
+              else
+                parentNode.children.push(shape);
+            }
           }
-        }
-      } else if (node.tagName === 'PBRAppearance') {
-        if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
-          if (typeof parentNode.appearance !== 'undefined')
-            parentNode.appearance.delete();
-          result = this.#parsePbrAppearance(node, id);
-          parentNode.appearance = result;
-        }
-      } else if (node.tagName === 'Appearance') {
-        if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
-          if (typeof parentNode.appearance !== 'undefined')
-            parentNode.appearance.delete();
-          result = this.#parseAppearance(node, id);
-          parentNode.appearance = result;
-        }
-      } else if (node.tagName === 'Material') {
-        result = this.#parseMaterial(node, id);
-        if (typeof result !== 'undefined') {
-          if (typeof parentNode !== 'undefined' && parentNode instanceof WbAppearance) {
-            if (typeof parentNode.material !== 'undefined')
-              parentNode.material.delete();
-            parentNode.material = result;
+        } else if (node.tagName === 'PBRAppearance') {
+          if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
+            parentNode.appearance?.delete();
+            result = this.#parsePbrAppearance(node, id);
+            parentNode.appearance = result;
           }
-        }
-      } else if (node.tagName === 'ImageTexture') {
-        result = this.#parseImageTexture(node, id);
-        if (typeof result !== 'undefined') {
-          if (typeof parentNode !== 'undefined' && parentNode instanceof WbAppearance) {
-            if (typeof parentNode.material !== 'undefined')
-              parentNode.texture.delete();
-            parentNode.texture = result;
+        } else if (node.tagName === 'Appearance') {
+          if (typeof parentNode !== 'undefined' && parentNode instanceof WbShape) {
+            parentNode.appearance?.delete();
+            result = this.#parseAppearance(node, id);
+            parentNode.appearance = result;
           }
-        }
-      } else if (node.tagName === 'TextureTransform') {
-        result = this.#parseTextureTransform(node, id);
-        if (typeof result !== 'undefined') {
-          if (typeof parentNode !== 'undefined' && parentNode instanceof WbAbstractAppearance) {
-            if (typeof parentNode.textureTransform !== 'undefined')
-              parentNode.textureTransform.delete();
-            parentNode.textureTransform = result;
+        } else if (node.tagName === 'Material') {
+          result = this.#parseMaterial(node, id);
+          if (typeof result !== 'undefined') {
+            if (typeof parentNode !== 'undefined' && parentNode instanceof WbAppearance) {
+              parentNode.material?.delete();
+              parentNode.material = result;
+            }
           }
-        }
-      } else
-        console.error("The parser doesn't support this type of node: " + node.tagName);
+        } else if (node.tagName === 'ImageTexture') {
+          result = this.#parseImageTexture(node, id);
+          if (typeof result !== 'undefined') {
+            if (typeof parentNode !== 'undefined' && parentNode instanceof WbAppearance) {
+              parentNode.texture?.delete();
+              parentNode.texture = result;
+            }
+          }
+        } else if (node.tagName === 'TextureTransform') {
+          result = this.#parseTextureTransform(node, id);
+          if (typeof result !== 'undefined') {
+            if (typeof parentNode !== 'undefined' && parentNode instanceof WbAbstractAppearance) {
+              parentNode.textureTransform?.delete();
+              parentNode.textureTransform = result;
+            }
+          }
+        } else
+          console.error("The parser doesn't support this type of node: " + node.tagName);
     }
-
-    // check if top-level nodes
-    if (typeof result !== 'undefined' && typeof parentNode === 'undefined')
-      WbWorld.instance.sceneTree.push(result);
   }
 
   #parseChildren(node, parentNode, isBoundingObject) {
@@ -270,19 +371,24 @@ export default class Parser {
     }
   }
 
-  #parseScene(node) {
+  #parseScene() {
+    if (typeof WbWorld.instance === 'undefined') {
+      WbWorld.init();
+      WbWorld.instance.prefix = this.#prefix;
+    }
+
     const prefix = DefaultUrl.wrenImagesUrl();
-    this.#promises.push(loadTextureData(prefix, 'smaa_area_texture.png').then(image => {
+    this.#promises.push(ImageLoader.loadTextureData(prefix, 'smaa_area_texture.png').then(image => {
       this.smaaAreaTexture = image;
       this.smaaAreaTexture.isTranslucent = false;
       this.#updatePromiseCounter('Downloading assets: Texture \'smaa_area_texture.png\'...');
     }));
-    this.#promises.push(loadTextureData(prefix, 'smaa_search_texture.png').then(image => {
+    this.#promises.push(ImageLoader.loadTextureData(prefix, 'smaa_search_texture.png').then(image => {
       this.smaaSearchTexture = image;
       this.smaaSearchTexture.isTranslucent = false;
       this.#updatePromiseCounter('Downloading assets: Texture \'smaa_search_texture.png\'...');
     }));
-    this.#promises.push(loadTextureData(prefix, 'gtao_noise_texture.png').then(image => {
+    this.#promises.push(ImageLoader.loadTextureData(prefix, 'gtao_noise_texture.png').then(image => {
       this.gtaoNoiseTexture = image;
       this.gtaoNoiseTexture.isTranslucent = true;
       this.#updatePromiseCounter('Downloading assets: Texture \'gtao_noise_texture.png\'...');
@@ -292,11 +398,23 @@ export default class Parser {
     WbWorld.instance.scene = new WbScene();
   }
 
+  #createRoot(node) {
+    const root = new WbGroup(getAnId(), false);
+    this.#rootNodeId = root.id;
+
+    WbWorld.instance.nodes.set(root.id, root);
+    WbWorld.instance.root = root;
+    this.#parseChildren(node, root, false);
+  }
+
   #parseWorldInfo(node) {
+    this.#updateParserProgress(node);
     WbWorld.instance.coordinateSystem = getNodeAttribute(node, 'coordinateSystem', 'ENU');
     WbWorld.instance.basicTimeStep = parseInt(getNodeAttribute(node, 'basicTimeStep', 32));
     WbWorld.instance.title = getNodeAttribute(node, 'title', 'No title');
     WbWorld.instance.description = getNodeAttribute(node, 'info', 'No description was provided for this world.');
+    const lineScale = parseFloat(getNodeAttribute(node, 'lineScale', 0.1));
+    _wr_config_set_line_scale(lineScale); // Line scale does not support updates.
 
     // Update information panel when switching between worlds
     let webotsView = document.getElementsByTagName('webots-view')[0];
@@ -321,7 +439,8 @@ export default class Parser {
     return id;
   }
 
-  #parseViewpoint(node) {
+  #parseViewpoint(node, parentNode) {
+    this.#updateParserProgress(node);
     const id = this.#parseId(node);
     const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', M_PI_4));
     const orientation = convertStringToQuaternion(getNodeAttribute(node, 'orientation', '0 0 1 0'));
@@ -334,11 +453,22 @@ export default class Parser {
     const followedId = getNodeAttribute(node, 'followedId');
     const ambientOcclusionRadius = parseFloat(getNodeAttribute(node, 'ambientOcclusionRadius', 2));
 
-    return new WbViewpoint(id, fieldOfView, orientation, position, exposure, bloomThreshold, near, far, followSmoothness,
-      followedId, ambientOcclusionRadius);
+    const viewpoint = new WbViewpoint(id, fieldOfView, orientation, position, exposure, bloomThreshold, near, far,
+      followSmoothness, followedId, ambientOcclusionRadius);
+
+    if (typeof parentNode !== 'undefined') {
+      if (parentNode instanceof WbGroup)
+        parentNode.children.push(viewpoint);
+
+      viewpoint.parent = parentNode.id;
+    }
+
+    WbWorld.instance.nodes.set(viewpoint.id, viewpoint);
+    return viewpoint;
   }
 
-  #parseBackground(node) {
+  #parseBackground(node, parentNode) {
+    this.#updateParserProgress(node);
     const id = this.#parseId(node);
     const skyColor = convertStringToVec3(getNodeAttribute(node, 'skyColor', '0 0 0'));
     const luminosity = parseFloat(getNodeAttribute(node, 'luminosity', '1'));
@@ -368,7 +498,7 @@ export default class Parser {
     this.cubeImages = [];
     if (areUrlsPresent) {
       for (let i = 0; i < 6; i++) {
-        this.#promises.push(loadTextureData(this.#prefix, backgroundUrl[backgroundIdx[i]], false, rotationValues[i])
+        this.#promises.push(ImageLoader.loadTextureData(this.prefix, backgroundUrl[backgroundIdx[i]], false, rotationValues[i])
           .then(image => {
             this.cubeImages[cubeImageIdx[i]] = image;
             this.#updatePromiseCounter('Downloading assets: Texture \'background ' + i + '\'...');
@@ -398,7 +528,8 @@ export default class Parser {
     this.irradianceCubeURL = [];
     if (areIrradianceUrlsPresent) {
       for (let i = 0; i < 6; i++) {
-        this.#promises.push(loadTextureData(this.#prefix, backgroundIrradianceUrl[backgroundIdx[i]], true, rotationValues[i])
+        this.#promises.push(ImageLoader.loadTextureData(this.prefix, backgroundIrradianceUrl[backgroundIdx[i]], true,
+          rotationValues[i])
           .then(image => {
             this.irradianceCubeURL[cubeImageIdx[i]] = image;
             this.#updatePromiseCounter('Downloading assets: Texture \'background irradiance ' + i + '\'...');
@@ -410,14 +541,21 @@ export default class Parser {
     const background = new WbBackground(id, skyColor, luminosity);
     WbBackground.instance = background;
 
+    if (typeof parentNode !== 'undefined') {
+      if (parentNode instanceof WbGroup)
+        parentNode.children.push(background);
+
+      background.parent = parentNode.id;
+    }
+
     WbWorld.instance.nodes.set(background.id, background);
 
     return background;
   }
 
-  #countChildElements(tree) {
-    if (tree !== 'undefined') {
-      tree.childNodes.forEach(child => {
+  #countChildElements(item) {
+    if (item !== 'undefined') {
+      item.childNodes.forEach(child => {
         if (child.tagName) {
           this.#nodeNumber += 1;
           this.#countChildElements(child);
@@ -428,8 +566,8 @@ export default class Parser {
 
   #updatePromiseCounter(info) {
     this.#promiseCounter += 1;
-    const percentage = 70 * this.#promiseCounter / this.#promiseNumber;
-    webots.currentView.progress.setProgressBar('block', 'same', 75 + 0.25 * percentage, info);
+    const percentage = 100 * this.#promiseCounter / this.#promiseNumber;
+    webots.currentView.progress.setProgressBar('block', 'same', percentage, info);
   }
 
   #checkUse(node, parentNode) {
@@ -464,6 +602,7 @@ export default class Parser {
   }
 
   #parseTransform(node, parentNode, isBoundingObject) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
@@ -474,20 +613,107 @@ export default class Parser {
     const translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
     const scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
     const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 0 1 0'));
+    let name = getNodeAttribute(node, 'name', '');
 
     let newNode;
-    if (type === 'track') {
+    if (type === 'track' || node.tagName === 'Track') {
       const geometriesCount = parseInt(getNodeAttribute(node, 'geometriesCount', '10'));
       newNode = new WbTrack(id, translation, scale, rotation, geometriesCount);
-    } else if (type === 'trackwheel') {
+    } else if (type === 'trackwheel' || node.tagName === 'Trackwheel') {
       const radius = parseFloat(getNodeAttribute(node, 'radius', '0.1'));
       const inner = getNodeAttribute(node, 'inner', '0').toLowerCase() === '1';
 
       newNode = new WbTrackWheel(id, translation, scale, rotation, radius, inner);
 
       parentNode.wheelsList.push(newNode);
-    } else if (type === 'solid' || type === 'robot')
-      newNode = new WbSolid(id, translation, scale, rotation);
+    } else if (node.tagName === 'Robot' || node.tagName === 'Solid' || type === 'solid' || type === 'robot') {
+      if (name === '') {
+        if (node.tagName === 'Robot' || type === 'robot')
+          name = 'robot';
+        else
+          name = 'solid';
+      }
+      newNode = new WbSolid(id, translation, scale, rotation, name);
+    } else if (node.tagName === 'Accelerometer')
+      newNode = new WbAccelerometer(id, translation, scale, rotation, name === '' ? 'accelerometer' : name);
+    else if (node.tagName === 'Altimeter')
+      newNode = new WbAltimeter(id, translation, scale, rotation, name === '' ? 'altimeter' : name);
+    else if (node.tagName === 'Camera') {
+      const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', M_PI_4));
+      const far = parseFloat(getNodeAttribute(node, 'far', '0'));
+      const near = parseFloat(getNodeAttribute(node, 'near', '0.01'));
+      const height = parseInt(getNodeAttribute(node, 'height', '64'));
+      const width = parseInt(getNodeAttribute(node, 'width', '64'));
+      newNode = new WbCamera(id, translation, scale, rotation, name === '' ? 'camera' : name, height, width, fieldOfView, near,
+        far);
+    } else if (node.tagName === 'Charger')
+      newNode = new WbCharger(id, translation, scale, rotation, name === '' ? 'charger' : name);
+    else if (node.tagName === 'Compass')
+      newNode = new WbCompass(id, translation, scale, rotation, name === '' ? 'compass' : name);
+    else if (node.tagName === 'Connector') {
+      const numberOfRotations = parseInt(getNodeAttribute(node, 'numberOfRotations', '4'));
+      newNode = new WbConnector(id, translation, scale, rotation, name === '' ? 'connector' : name, numberOfRotations);
+    } else if (node.tagName === 'Display')
+      newNode = new WbDisplay(id, translation, scale, rotation, name === '' ? 'display' : name);
+    else if (node.tagName === 'DistanceSensor') {
+      const aperture = parseFloat(getNodeAttribute(node, 'aperture', 1.5708));
+      const numberOfRays = parseInt(getNodeAttribute(node, 'numberOfRays', '1'));
+      const lookupTableArray = convertStringToFloatArray(getNodeAttribute(node, 'lookupTable', '0 0 0, 0.1 1000 0'));
+      const lookupTable = [];
+      if (lookupTableArray.length % 3 === 0) {
+        for (let i = 0; i < lookupTableArray.length; i = i + 3)
+          lookupTable.push(new WbVector3(lookupTableArray[i], lookupTableArray[i + 1], lookupTableArray[i + 2]));
+      }
+      newNode = new WbDistanceSensor(id, translation, scale, rotation, name === '' ? 'distance sensor' : name, numberOfRays,
+        aperture, lookupTable);
+    } else if (node.tagName === 'Emitter')
+      newNode = new WbEmitter(id, translation, scale, rotation, name === '' ? 'emitter' : name);
+    else if (node.tagName === 'GPS')
+      newNode = new WbGps(id, translation, scale, rotation, name === '' ? 'gps' : name);
+    else if (node.tagName === 'Gyro')
+      newNode = new WbGyro(id, translation, scale, rotation, name === '' ? 'gyro' : name);
+    else if (node.tagName === 'InertialUnit')
+      newNode = new WbInertialUnit(id, translation, scale, rotation, name === '' ? 'inertial unit' : name);
+    else if (node.tagName === 'LED')
+      newNode = new WbLed(id, translation, scale, rotation, name === '' ? 'led' : name);
+    else if (node.tagName === 'Lidar') {
+      const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', Math.PI / 2));
+      const horizontalResolution = parseInt(getNodeAttribute(node, 'horizontalResolution', '512'));
+      const maxRange = parseFloat(getNodeAttribute(node, 'maxRange', '1'));
+      const minRange = parseFloat(getNodeAttribute(node, 'minRange', '0.01'));
+      const numberOfLayers = parseInt(getNodeAttribute(node, 'numberOfLayers', '4'));
+      const tiltAngle = parseFloat(getNodeAttribute(node, 'tiltAngle', '0'));
+      const verticalFieldOfView = parseFloat(getNodeAttribute(node, 'verticalFieldOfView', '0.2'));
+
+      newNode = new WbLidar(id, translation, scale, rotation, name === '' ? 'lidar' : name, fieldOfView, maxRange, minRange,
+        numberOfLayers, tiltAngle, verticalFieldOfView, horizontalResolution);
+    } else if (node.tagName === 'LightSensor')
+      newNode = new WbLightSensor(id, translation, scale, rotation, name === '' ? 'light sensor' : name);
+    else if (node.tagName === 'Pen') {
+      const write = getNodeAttribute(node, 'write', 'true').toLowerCase() === 'true';
+      newNode = new WbPen(id, translation, scale, rotation, name === '' ? 'pen' : name, write);
+    } else if (node.tagName === 'Radar') {
+      const horizontalFieldOfView = parseFloat(getNodeAttribute(node, 'horizontalFieldOfView', '0.78'));
+      const verticalFieldOfView = parseFloat(getNodeAttribute(node, 'verticalFieldOfView', '0.1'));
+      const maxRange = parseFloat(getNodeAttribute(node, 'maxRange', '50'));
+      const minRange = parseFloat(getNodeAttribute(node, 'minRange', '1'));
+
+      newNode = new WbRadar(id, translation, scale, rotation, name === '' ? 'radar' : name, horizontalFieldOfView,
+        verticalFieldOfView, maxRange, minRange);
+    } else if (node.tagName === 'RangeFinder') {
+      const height = parseInt(getNodeAttribute(node, 'height', '64'));
+      const width = parseInt(getNodeAttribute(node, 'width', '64'));
+      const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', M_PI_4));
+      const maxRange = parseFloat(getNodeAttribute(node, 'maxRange', '1'));
+      const minRange = parseFloat(getNodeAttribute(node, 'minRange', '0.01'));
+      newNode = new WbRangeFinder(id, translation, scale, rotation, name === '' ? 'range finder' : name, height, width,
+        fieldOfView, maxRange, minRange);
+    } else if (node.tagName === 'Receiver')
+      newNode = new WbReceiver(id, translation, scale, rotation, name === '' ? 'receiver' : name);
+    else if (node.tagName === 'Speaker')
+      newNode = new WbSpeaker(id, translation, scale, rotation, name === '' ? 'speaker' : name);
+    else if (node.tagName === 'TouchSensor')
+      newNode = new WbTouchSensor(id, translation, scale, rotation, name === '' ? 'touch sensor' : name);
     else {
       if (!isBoundingObject)
         isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
@@ -505,6 +731,8 @@ export default class Parser {
         parentNode.geometryField = newNode;
       else if (isBoundingObject && parentNode instanceof WbSolid)
         parentNode.boundingObject = newNode;
+      else if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
+        parentNode.endPoint = newNode;
       else
         parentNode.children.push(newNode);
     }
@@ -513,13 +741,14 @@ export default class Parser {
   }
 
   #parseGroup(node, parentNode) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
 
     const id = this.#parseId(node);
 
-    const isPropeller = getNodeAttribute(node, 'type', '').toLowerCase() === 'propeller';
+    const isPropeller = getNodeAttribute(node, 'type', '').toLowerCase() === 'propeller' || node.tagName === 'Propeller';
     const isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
 
     const group = new WbGroup(id, isPropeller);
@@ -530,6 +759,8 @@ export default class Parser {
       group.parent = parentNode.id;
       if (isBoundingObject && parentNode instanceof WbSolid)
         parentNode.boundingObject = group;
+      else if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
+        parentNode.endPoint = group;
       else
         parentNode.children.push(group);
     }
@@ -537,7 +768,132 @@ export default class Parser {
     return group;
   }
 
+  #parseSlot(node, parentNode) {
+    this.#updateParserProgress(node);
+    const use = this.#checkUse(node, parentNode);
+    if (typeof use !== 'undefined')
+      return use;
+
+    const id = this.#parseId(node);
+    const type = getNodeAttribute(node, 'type', '');
+    const slot = new WbSlot(id, type);
+    WbWorld.instance.nodes.set(slot.id, slot);
+    this.#parseChildren(node, slot);
+
+    if (typeof parentNode !== 'undefined') {
+      slot.parent = parentNode.id;
+      if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
+        parentNode.endPoint = slot;
+      else
+        parentNode.children.push(slot);
+    }
+
+    return slot;
+  }
+
+  #parseJoint(node, parentNode) {
+    this.#updateParserProgress(node);
+    const id = this.#parseId(node);
+
+    let joint;
+    if (node.tagName === 'HingeJoint')
+      joint = new WbHingeJoint(id);
+    else if (node.tagName === 'SliderJoint')
+      joint = new WbSliderJoint(id);
+    else if (node.tagName === 'Hinge2Joint')
+      joint = new WbHinge2Joint(id);
+    else if (node.tagName === 'BallJoint')
+      joint = new WbBallJoint(id);
+
+    WbWorld.instance.nodes.set(joint.id, joint);
+    this.#parseChildren(node, joint);
+
+    if (typeof parentNode !== 'undefined') {
+      joint.parent = parentNode.id;
+      if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
+        parentNode.endPoint = joint;
+      else
+        parentNode.children.push(joint);
+    }
+
+    return joint;
+  }
+
+  #parseJointParameters(node, parentNode) {
+    this.#updateParserProgress(node);
+    const id = this.#parseId(node);
+
+    const position = parseFloat(getNodeAttribute(node, 'position', '0'));
+    const anchor = convertStringToVec3(getNodeAttribute(node, 'anchor', '0 0 0'));
+    const minStop = parseFloat(getNodeAttribute(node, 'minStop', '0'));
+    const maxStop = parseFloat(getNodeAttribute(node, 'maxStop', '0'));
+    const role = getNodeAttribute(node, 'role', 'jointParameters');
+
+    let jointParameters;
+    if (node.tagName === 'JointParameters') {
+      const axis = convertStringToVec3(getNodeAttribute(node, 'axis', '0 0 1'));
+      jointParameters = new WbJointParameters(id, position, axis, minStop, maxStop);
+    } else if (node.tagName === 'HingeJointParameters') {
+      const axis = convertStringToVec3(getNodeAttribute(node, 'axis', '1 0 0'));
+      jointParameters = new WbHingeJointParameters(id, position, axis, anchor, minStop, maxStop);
+    } else
+      jointParameters = new WbBallJointParameters(id, position, undefined, anchor, minStop, maxStop);
+
+    WbWorld.instance.nodes.set(jointParameters.id, jointParameters);
+
+    if (typeof parentNode !== 'undefined') {
+      if (role === 'jointParameters')
+        parentNode.jointParameters = jointParameters;
+      else if (role === 'jointParameters2')
+        parentNode.jointParameters2 = jointParameters;
+      else if (role === 'jointParameters3')
+        parentNode.jointParameters3 = jointParameters;
+
+      jointParameters.parent = parentNode.id;
+    }
+
+    return jointParameters;
+  }
+
+  #parseLogicalDevice(node, parentNode) {
+    const id = this.#parseId(node);
+
+    const name = getNodeAttribute(node, 'name', '');
+    const role = getNodeAttribute(node, 'role', 'device');
+
+    let logicalDevice;
+    if (node.tagName === 'PositionSensor')
+      logicalDevice = new WbPositionSensor(id, name);
+    else if (node.tagName === 'Brake')
+      logicalDevice = new WbBrake(id, name);
+    else if (node.tagName === 'RotationalMotor' || node.tagName === 'LinearMotor') {
+      const minPosition = parseFloat(getNodeAttribute(node, 'minPosition', '0'));
+      const maxPosition = parseFloat(getNodeAttribute(node, 'maxPosition', '0'));
+      const multiplier = parseFloat(getNodeAttribute(node, 'multiplier', '1'));
+      if (node.tagName === 'RotationalMotor')
+        logicalDevice = new WbRotationalMotor(id, name, minPosition, maxPosition, multiplier);
+      else
+        logicalDevice = new WbLinearMotor(id, name, minPosition, maxPosition, multiplier);
+    }
+
+    WbWorld.instance.nodes.set(logicalDevice.id, logicalDevice);
+
+    if (typeof parentNode !== 'undefined') {
+      logicalDevice.parent = parentNode.id;
+
+      if (role === 'device' && parentNode.device !== 'undefined')
+        parentNode.device.push(logicalDevice);
+      else if (role === 'device2' && parentNode.device2 !== 'undefined')
+        parentNode.device2.push(logicalDevice);
+      else if (role === 'device3' && parentNode.device3 !== 'undefined')
+        parentNode.device3.push(logicalDevice);
+    }
+
+    return logicalDevice;
+  }
+
   #parseShape(node, parentNode, isBoundingObject) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
@@ -572,6 +928,7 @@ export default class Parser {
         if (typeof geometry !== 'undefined')
           continue;
       }
+
       if (!(isBoundingObject && (child.tagName === 'Appearance' || child.tagName === 'PBRAppearance'))) {
         console.error('Parser: error with node: ' + child.tagName +
           '. Either the node is unknown or the same shape contains several appearances/geometries.');
@@ -583,6 +940,8 @@ export default class Parser {
     if (typeof parentNode !== 'undefined') {
       if (isBoundingObject && parentNode instanceof WbSolid)
         parentNode.boundingObject = shape;
+      else if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
+        parentNode.endPoint = shape;
       else
         parentNode.children.push(shape);
       shape.parent = parentNode.id;
@@ -597,34 +956,39 @@ export default class Parser {
   }
 
   #parseCadShape(node, parentNode) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
 
     const id = this.#parseId(node);
 
-    let urls = getNodeAttribute(node, 'url', '');
-    if (typeof urls !== 'undefined')
-      urls = urls.split('"').filter(element => { if (element !== ' ') return element; }); // filter removes empty elements
+    let url = getNodeAttribute(node, 'url', '');
+    if (typeof url !== 'undefined')
+      url = url.split('"').filter(element => { if (element !== ' ') return element; })[0]; // filter removes empty elements
 
     const ccw = getNodeAttribute(node, 'ccw', 'true').toLowerCase() === 'true';
     const castShadows = getNodeAttribute(node, 'castShadows', 'true').toLowerCase() === 'true';
     const isPickable = getNodeAttribute(node, 'isPickable', 'true').toLowerCase() === 'true';
 
-    const cadShape = new WbCadShape(id, urls, ccw, castShadows, isPickable, this.#prefix);
+    const cadShape = new WbCadShape(id, url, ccw, castShadows, isPickable, this.prefix);
 
     WbWorld.instance.nodes.set(cadShape.id, cadShape);
 
     if (typeof parentNode !== 'undefined') {
       cadShape.parent = parentNode.id;
-      parentNode.children.push(cadShape);
+      if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
+        parentNode.endPoint = cadShape;
+      else
+        parentNode.children.push(cadShape);
     }
 
-    this.#promises.push(loadMeshData(this.#prefix, urls).then(meshContent => {
-      cadShape.scene = meshContent;
+    this.#promises.push(MeshLoader.loadMeshData(this.prefix, url).then(meshContent => {
+      cadShape.scene = meshContent[0];
+      cadShape.materialPath = meshContent[1];
       for (let i = 0; i < cadShape.useList.length; i++) {
         const node = WbWorld.instance.nodes.get(cadShape.useList[i]);
-        node.scene = meshContent;
+        node.scene = meshContent[0];
       }
       this.#updatePromiseCounter('Downloading assets: Mesh \'CadShape\'...');
     }));
@@ -634,6 +998,7 @@ export default class Parser {
   }
 
   #parseBillboard(node, parentNode) {
+    this.#updateParserProgress(node);
     const id = this.#parseId(node);
 
     const billboard = new WbBillboard(id);
@@ -645,6 +1010,7 @@ export default class Parser {
   }
 
   #parseDirectionalLight(node, parentNode) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
@@ -660,8 +1026,11 @@ export default class Parser {
     const dirLight = new WbDirectionalLight(id, on, color, direction, intensity, castShadows, ambientIntensity);
 
     if (typeof parentNode !== 'undefined' && typeof dirLight !== 'undefined') {
-      parentNode.children.push(dirLight);
       dirLight.parent = parentNode.id;
+      if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
+        parentNode.endPoint = dirLight;
+      else
+        parentNode.children.push(dirLight);
     }
 
     WbWorld.instance.nodes.set(dirLight.id, dirLight);
@@ -670,6 +1039,7 @@ export default class Parser {
   }
 
   #parsePointLight(node, parentNode) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
@@ -687,15 +1057,19 @@ export default class Parser {
     const pointLight = new WbPointLight(id, on, attenuation, color, intensity, location, radius, ambientIntensity,
       castShadows, parentNode);
 
-    if (typeof parentNode !== 'undefined' && typeof pointLight !== 'undefined')
-      parentNode.children.push(pointLight);
-
+    if (typeof parentNode !== 'undefined' && typeof pointLight !== 'undefined') {
+      if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
+        parentNode.endPoint = pointLight;
+      else
+        parentNode.children.push(pointLight);
+    }
     WbWorld.instance.nodes.set(pointLight.id, pointLight);
 
     return pointLight;
   }
 
   #parseSpotLight(node, parentNode) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
       return use;
@@ -712,11 +1086,10 @@ export default class Parser {
     const radius = parseFloat(getNodeAttribute(node, 'radius', '100'));
     const ambientIntensity = parseFloat(getNodeAttribute(node, 'ambientIntensity', '0'));
     const castShadows = getNodeAttribute(node, 'castShadows', 'false').toLowerCase() === 'true';
-
     const spotLight = new WbSpotLight(id, on, attenuation, beamWidth, color, cutOffAngle, direction, intensity, location,
       radius, ambientIntensity, castShadows, parentNode);
 
-    if (typeof parentNode !== 'undefined' && typeof spotLight !== 'undefined')
+    if (typeof parentNode !== 'undefined')
       parentNode.children.push(spotLight);
 
     WbWorld.instance.nodes.set(spotLight.id, spotLight);
@@ -725,6 +1098,7 @@ export default class Parser {
   }
 
   #parseFog(node) {
+    this.#updateParserProgress(node);
     const id = this.#parseId(node);
     const color = convertStringToVec3(getNodeAttribute(node, 'color', '1 1 1'));
     const visibilityRange = parseFloat(getNodeAttribute(node, 'visibilityRange', '0'));
@@ -780,6 +1154,7 @@ export default class Parser {
   }
 
   #parseBox(node, id) {
+    this.#updateParserProgress(node);
     const size = convertStringToVec3(getNodeAttribute(node, 'size', '2 2 2'));
 
     const box = new WbBox(id, size);
@@ -788,8 +1163,9 @@ export default class Parser {
   }
 
   #parseSphere(node, id) {
+    this.#updateParserProgress(node);
     const radius = parseFloat(getNodeAttribute(node, 'radius', '1'));
-    const ico = getNodeAttribute(node, 'ico', 'false').toLowerCase() === 'true';
+    const ico = getNodeAttribute(node, 'ico', 'true').toLowerCase() === 'true';
     const subdivision = parseInt(getNodeAttribute(node, 'subdivision', '1,1'));
 
     const sphere = new WbSphere(id, radius, ico, subdivision);
@@ -800,6 +1176,7 @@ export default class Parser {
   }
 
   #parseCone(node, id) {
+    this.#updateParserProgress(node);
     const bottomRadius = getNodeAttribute(node, 'bottomRadius', '1');
     const height = getNodeAttribute(node, 'height', '2');
     const subdivision = getNodeAttribute(node, 'subdivision', '32');
@@ -814,6 +1191,7 @@ export default class Parser {
   }
 
   #parseCylinder(node, id) {
+    this.#updateParserProgress(node);
     const radius = getNodeAttribute(node, 'radius', '1');
     const height = getNodeAttribute(node, 'height', '2');
     const subdivision = getNodeAttribute(node, 'subdivision', '32');
@@ -829,6 +1207,7 @@ export default class Parser {
   }
 
   #parsePlane(node, id) {
+    this.#updateParserProgress(node);
     const size = convertStringToVec2(getNodeAttribute(node, 'size', '1,1'));
 
     const plane = new WbPlane(id, size);
@@ -839,6 +1218,7 @@ export default class Parser {
   }
 
   #parseCapsule(node, id) {
+    this.#updateParserProgress(node);
     const radius = getNodeAttribute(node, 'radius', '1');
     const height = getNodeAttribute(node, 'height', '2');
     const subdivision = getNodeAttribute(node, 'subdivision', '32');
@@ -854,83 +1234,82 @@ export default class Parser {
   }
 
   #parseIndexedFaceSet(node, id) {
-    let coordIndex = convertStringToFloatArray(getNodeAttribute(node, 'coordIndex', ''));
-    if (coordIndex)
-      coordIndex = coordIndex.filter(element => { return element !== -1; });
+    this.#updateParserProgress(node);
+    const coordIndex = convertStringToFloatArray(getNodeAttribute(node, 'coordIndex', ''));
+    const normalIndex = convertStringToFloatArray(getNodeAttribute(node, 'normalIndex', ''));
+    const texCoordIndex = convertStringToFloatArray(getNodeAttribute(node, 'texCoordIndex', ''));
 
-    let normalIndex = convertStringToFloatArray(getNodeAttribute(node, 'normalIndex', ''));
-    if (normalIndex)
-      normalIndex = normalIndex.filter(element => { return element !== -1; });
+    const coordinateNode = node.getElementsByTagName('Coordinate');
+    let coord;
+    if (coordinateNode.length > 0)
+      coord = this.#parseCoordinate(coordinateNode[0]);
 
-    let texCoordIndex = convertStringToFloatArray(getNodeAttribute(node, 'texCoordIndex', ''));
-    if (texCoordIndex)
-      texCoordIndex = texCoordIndex.filter(element => { return element !== -1; });
+    const textureCoordinateNode = node.getElementsByTagName('TextureCoordinate');
+    let texCoord;
+    if (textureCoordinateNode.length > 0)
+      texCoord = this.#parseTextureCoordinate(textureCoordinateNode[0]);
 
-    const coordArray = [];
-    const coordinate = node.getElementsByTagName('Coordinate')[0];
-    if (typeof coordinate !== 'undefined') {
-      const coords = convertStringToFloatArray(getNodeAttribute(coordinate, 'point', ''));
-      for (let i = 0; i < coords.length; i = i + 3)
-        coordArray.push(new WbVector3(coords[i], coords[i + 1], coords[i + 2]));
-    }
-
-    const texCoordArray = [];
-    const textureCoordinate = node.getElementsByTagName('TextureCoordinate')[0];
-    if (typeof textureCoordinate !== 'undefined') {
-      const texCoords = convertStringToFloatArray(getNodeAttribute(textureCoordinate, 'point', ''));
-      for (let i = 0; i < texCoords.length; i = i + 2)
-        texCoordArray.push(new WbVector2(texCoords[i], texCoords[i + 1]));
-    }
-
-    const normalArray = [];
-    const normalNode = node.getElementsByTagName('Normal')[0];
-    if (typeof normalNode !== 'undefined') {
-      const normals = convertStringToFloatArray(getNodeAttribute(normalNode, 'vector', ''));
-      for (let i = 0; i < normals.length; i = i + 3)
-        normalArray.push(new WbVector3(normals[i], normals[i + 1], normals[i + 2]));
-    }
+    const normalNode = node.getElementsByTagName('Normal');
+    let normal;
+    if (normalNode.length > 0)
+      normal = this.#parseNormal(normalNode[0]);
 
     const ccw = getNodeAttribute(node, 'ccw', 'true').toLowerCase() === 'true';
-    const ifs = new WbIndexedFaceSet(id, coordIndex, normalIndex, texCoordIndex, coordArray, texCoordArray, normalArray, ccw);
+    const normalPerVertex = getNodeAttribute(node, 'normalPerVertex', 'true').toLowerCase() === 'true';
+    const creaseAngle = parseFloat(getNodeAttribute(node, 'creaseAngle', '0'));
+    const ifs = new WbIndexedFaceSet(id, coordIndex, normalIndex, texCoordIndex, coord, texCoord, normal, ccw,
+      creaseAngle, normalPerVertex);
+
     WbWorld.instance.nodes.set(ifs.id, ifs);
 
+    if (typeof coord !== 'undefined')
+      coord.parent = ifs.id;
+
+    if (typeof texCoord !== 'undefined')
+      texCoord.parent = ifs.id;
+
+    if (typeof normal !== 'undefined')
+      normal.parent = ifs.id;
     return ifs;
   }
 
   #parseIndexedLineSet(node, id) {
-    const coordinate = node.getElementsByTagName('Coordinate')[0];
+    this.#updateParserProgress(node);
+    const coordinateNode = node.getElementsByTagName('Coordinate');
+    let coord;
+    if (coordinateNode.length > 0)
+      coord = this.#parseCoordinate(coordinateNode[0]);
 
-    if (typeof coordinate === 'undefined')
-      return undefined;
-
-    const indicesStr = convertStringToFloatArray(getNodeAttribute(node, 'coordIndex', ''));
-
-    const verticesStr = convertStringToFloatArray(getNodeAttribute(coordinate, 'point', ''));
-
-    const coord = [];
-    for (let i = 0; i < verticesStr.length; i += 3)
-      coord.push(new WbVector3(verticesStr[i], verticesStr[i + 1], verticesStr[i + 2]));
-
-    const coordIndex = indicesStr.map(Number);
+    let coordIndex = [];
+    const coordinateIndex = getNodeAttribute(node, 'coordIndex', '');
+    if (typeof coordinateIndex !== 'undefined') {
+      const indicesStr = convertStringToFloatArray(coordinateIndex);
+      coordIndex = indicesStr.map(Number);
+    }
 
     const ils = new WbIndexedLineSet(id, coord, coordIndex);
     WbWorld.instance.nodes.set(ils.id, ils);
+
+    if (typeof coord !== 'undefined')
+      coord.parent = ils.id;
 
     return ils;
   }
 
   #parseElevationGrid(node, id) {
+    this.#updateParserProgress(node);
     const heightStr = getNodeAttribute(node, 'height');
-    if (typeof heightStr === 'undefined')
-      return;
-
     const xDimension = parseInt(getNodeAttribute(node, 'xDimension', '0'));
     const xSpacing = parseFloat(getNodeAttribute(node, 'xSpacing', '1'));
     const yDimension = parseInt(getNodeAttribute(node, 'yDimension', '0'));
     const ySpacing = parseFloat(getNodeAttribute(node, 'ySpacing', '1'));
     const thickness = parseFloat(getNodeAttribute(node, 'thickness', '1'));
 
-    const height = convertStringToFloatArray(heightStr);
+    let height;
+    if (typeof heightStr !== 'undefined')
+      height = convertStringToFloatArray(heightStr);
+    else
+      height = [];
 
     const eg = new WbElevationGrid(id, height, xDimension, xSpacing, yDimension, ySpacing, thickness);
     WbWorld.instance.nodes.set(eg.id, eg);
@@ -939,63 +1318,135 @@ export default class Parser {
   }
 
   #parsePointSet(node, id) {
-    const coordinate = node.getElementsByTagName('Coordinate')[0];
+    this.#updateParserProgress(node);
+    const coordinateNode = node.getElementsByTagName('Coordinate');
+    let coord;
+    if (coordinateNode.length > 0)
+      coord = this.#parseCoordinate(coordinateNode[0]);
 
-    if (typeof coordinate === 'undefined')
-      return;
-
-    const coordArray = convertStringToFloatArray(getNodeAttribute(coordinate, 'point', ''));
-
-    if (typeof coordArray === 'undefined')
-      return;
-
-    const coord = [];
-    for (let i = 0; i < coordArray.length; i += 3)
-      coord.push(new WbVector3(coordArray[i], coordArray[i + 1], coordArray[i + 2]));
-
-    const colorNode = node.getElementsByTagName('Color')[0];
+    let colorNode = node.getElementsByTagName('Color');
     let color;
-    if (typeof colorNode !== 'undefined') {
-      const colorArray = convertStringToFloatArray(getNodeAttribute(colorNode, 'color', ''));
-      if (typeof colorArray !== 'undefined') {
-        color = [];
-        for (let i = 0; i < colorArray.length; i += 3)
-          color.push(new WbVector3(colorArray[i], colorArray[i + 1], colorArray[i + 2]));
-      }
-    }
+    if (colorNode.length > 0)
+      color = this.#parseColor(colorNode[0]);
 
     const ps = new WbPointSet(id, coord, color);
+
+    if (typeof color !== 'undefined')
+      color.parent = ps.id;
+
+    if (typeof coord !== 'undefined')
+      coord.parent = ps.id;
+
     WbWorld.instance.nodes.set(ps.id, ps);
 
     return ps;
   }
 
+  #parseColor(node) {
+    this.#updateParserProgress(node);
+    const use = this.#checkUse(node);
+    if (typeof use !== 'undefined')
+      return use;
+
+    const id = this.#parseId(node);
+    let colors = [];
+    const colorArray = convertStringToFloatArray(getNodeAttribute(node, 'color', ''));
+    if (typeof colorArray !== 'undefined') {
+      for (let i = 0; i < colorArray.length; i += 3)
+        colors.push(new WbVector3(colorArray[i], colorArray[i + 1], colorArray[i + 2]));
+    }
+
+    const color = new WbColor(id, colors);
+    WbWorld.instance.nodes.set(color.id, color);
+    return color;
+  }
+
+  #parseCoordinate(node) {
+    this.#updateParserProgress(node);
+    const use = this.#checkUse(node);
+    if (typeof use !== 'undefined')
+      return use;
+
+    const id = this.#parseId(node);
+    let point = [];
+    const pointArray = convertStringToFloatArray(getNodeAttribute(node, 'point', ''));
+    if (typeof pointArray !== 'undefined') {
+      for (let i = 0; i < pointArray.length; i += 3)
+        point.push(new WbVector3(pointArray[i], pointArray[i + 1], pointArray[i + 2]));
+    }
+
+    const coordinate = new WbCoordinate(id, point);
+    WbWorld.instance.nodes.set(coordinate.id, coordinate);
+    return coordinate;
+  }
+
+  #parseTextureCoordinate(node) {
+    this.#updateParserProgress(node);
+    const use = this.#checkUse(node);
+    if (typeof use !== 'undefined')
+      return use;
+
+    const id = this.#parseId(node);
+    let point = [];
+    const pointArray = convertStringToFloatArray(getNodeAttribute(node, 'point', ''));
+    if (typeof pointArray !== 'undefined') {
+      for (let i = 0; i < pointArray.length; i += 2)
+        point.push(new WbVector2(pointArray[i], pointArray[i + 1]));
+    }
+
+    const textureCoordinate = new WbTextureCoordinate(id, point);
+    WbWorld.instance.nodes.set(textureCoordinate.id, textureCoordinate);
+    return textureCoordinate;
+  }
+
+  #parseNormal(node) {
+    this.#updateParserProgress(node);
+    const use = this.#checkUse(node);
+    if (typeof use !== 'undefined')
+      return use;
+
+    const id = this.#parseId(node);
+    let point = [];
+    const pointArray = convertStringToFloatArray(getNodeAttribute(node, 'vector', ''));
+    if (typeof pointArray !== 'undefined') {
+      for (let i = 0; i < pointArray.length; i += 3)
+        point.push(new WbVector3(pointArray[i], pointArray[i + 1], pointArray[i + 2]));
+    }
+
+    const normal = new WbNormal(id, point);
+    WbWorld.instance.nodes.set(normal.id, normal);
+    return normal;
+  }
+
   #parseMesh(node, id) {
-    let urls = getNodeAttribute(node, 'url', '');
-    if (typeof urls !== 'undefined')
-      urls = urls.split('"').filter(element => { if (element !== ' ') return element; }); // filter removes empty elements
+    this.#updateParserProgress(node);
+    let url = getNodeAttribute(node, 'url', '');
+    if (typeof url !== 'undefined')
+      url = url.split('"').filter(element => { if (element !== ' ') return element; })[0]; // filter removes empty elements
 
     const ccw = getNodeAttribute(node, 'ccw', 'true').toLowerCase() === 'true';
     const name = getNodeAttribute(node, 'name', '');
     const materialIndex = parseInt(getNodeAttribute(node, 'materialIndex', -1));
 
-    const mesh = new WbMesh(id, urls[0], ccw, name, materialIndex);
+    const mesh = new WbMesh(id, url, ccw, name, materialIndex);
     WbWorld.instance.nodes.set(mesh.id, mesh);
-
-    this.#promises.push(loadMeshData(this.#prefix, urls).then(meshContent => {
-      mesh.scene = meshContent;
-      for (let i = 0; i < mesh.useList.length; i++) {
-        const node = WbWorld.instance.nodes.get(mesh.useList[i]);
-        node.scene = meshContent;
-      }
-      this.#updatePromiseCounter('Downloading assets: Mesh \'mesh ' + name + '\'...');
-    }));
-    this.#promiseNumber += 1;
+    if (url) {
+      this.#promises.push(MeshLoader.loadMeshData(this.prefix, url).then(meshContent => {
+        mesh.scene = meshContent[0];
+        for (let i = 0; i < mesh.useList.length; i++) {
+          const node = WbWorld.instance.nodes.get(mesh.useList[i]);
+          node.scene = meshContent[0];
+        }
+        this.#updatePromiseCounter('Downloading assets: Mesh \'mesh ' + name + '\'...');
+      }));
+      this.#promiseNumber += 1;
+    }
 
     return mesh;
   }
 
   #parseAppearance(node, parentId) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node);
     if (typeof use !== 'undefined')
       return use;
@@ -1041,6 +1492,7 @@ export default class Parser {
   }
 
   #parseMaterial(node, parentId) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node);
     if (typeof use !== 'undefined')
       return use;
@@ -1065,6 +1517,7 @@ export default class Parser {
   }
 
   #parseImageTexture(node, parentId) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node);
     if (typeof use !== 'undefined')
       return use;
@@ -1073,18 +1526,17 @@ export default class Parser {
     let url = getNodeAttribute(node, 'url', '');
     if (typeof url !== 'undefined')
       url = url.split('"').filter(element => { if (element !== ' ') return element; })[0]; // filter removes empty elements.
-    const isTransparent = getNodeAttribute(node, 'isTransparent', 'false').toLowerCase() === 'true';
     const s = getNodeAttribute(node, 'repeatS', 'true').toLowerCase() === 'true';
     const t = getNodeAttribute(node, 'repeatT', 'true').toLowerCase() === 'true';
     const filtering = parseFloat(getNodeAttribute(node, 'filtering', '4'));
 
     let imageTexture;
     if (typeof url !== 'undefined' && url !== '') {
-      imageTexture = new WbImageTexture(id, url, isTransparent, s, t, filtering);
+      imageTexture = new WbImageTexture(id, url, s, t, filtering);
       if (!this.#downloadingImage.has(url)) {
         this.#downloadingImage.add(url);
         // Load the texture in WREN
-        this.#promises.push(loadImageTextureInWren(this.#prefix, url, isTransparent));
+        this.#promises.push(ImageLoader.loadImageTextureInWren(imageTexture, this.prefix, url));
       }
     }
 
@@ -1099,6 +1551,7 @@ export default class Parser {
   }
 
   #parsePbrAppearance(node, parentId) {
+    this.#updateParserProgress(node);
     const use = this.#checkUse(node);
     if (typeof use !== 'undefined')
       return use;
@@ -1126,27 +1579,27 @@ export default class Parser {
     for (let i = 0; i < imageTextures.length; i++) {
       const imageTexture = imageTextures[i];
       const role = getNodeAttribute(imageTexture, 'role', undefined);
-      if (role === 'baseColor') {
+      if (role === 'baseColorMap') {
         baseColorMap = this.#parseImageTexture(imageTexture);
         if (typeof baseColorMap !== 'undefined')
           baseColorMap.role = 'baseColorMap';
-      } else if (role === 'roughness') {
+      } else if (role === 'roughnessMap') {
         roughnessMap = this.#parseImageTexture(imageTexture);
         if (typeof roughnessMap !== 'undefined')
           roughnessMap.role = 'roughnessMap';
-      } else if (role === 'metalness') {
+      } else if (role === 'metalnessMap') {
         metalnessMap = this.#parseImageTexture(imageTexture);
         if (typeof metalnessMap !== 'undefined')
           metalnessMap.role = 'metalnessMap';
-      } else if (role === 'normal') {
+      } else if (role === 'normalMap') {
         normalMap = this.#parseImageTexture(imageTexture);
         if (typeof normalMap !== 'undefined')
           normalMap.role = 'normalMap';
-      } else if (role === 'occlusion') {
+      } else if (role === 'occlusionMap') {
         occlusionMap = this.#parseImageTexture(imageTexture);
         if (typeof occlusionMap !== 'undefined')
           occlusionMap.role = 'occlusionMap';
-      } else if (role === 'emissiveColor') {
+      } else if (role === 'emissiveColorMap') {
         emissiveColorMap = this.#parseImageTexture(imageTexture);
         if (typeof emissiveColorMap !== 'undefined')
           emissiveColorMap.role = 'emissiveColorMap';
@@ -1184,7 +1637,6 @@ export default class Parser {
 
       WbWorld.instance.nodes.set(pbrAppearance.id, pbrAppearance);
     }
-
     return pbrAppearance;
   }
 
@@ -1208,60 +1660,13 @@ export default class Parser {
 
     return textureTransform;
   }
-}
 
-function loadMeshData(prefix, urls) {
-  if (typeof urls === 'undefined')
-    return;
-
-  let worldsPath;
-  if (typeof webots.currentView.stream === 'undefined')
-    worldsPath = '';
-  else {
-    worldsPath = webots.currentView.stream.view.currentWorld;
-    worldsPath = worldsPath.substring(0, worldsPath.lastIndexOf('/')) + '/';
+  #updateParserProgress(node) {
+    this.#nodeCounter += 1;
+    const percentage = 100 * this.#nodeCounter / this.#nodeNumber;
+    const info = 'Parsing node: ' + node.id + ' (' + node.tagName + ') ' + percentage.toFixed(0) + '%';
+    webots.currentView.progress.setProgressBar('block', 'same', percentage, info);
   }
-
-  for (let i = 0; i < urls.length; i++) {
-    if (urls[i].startsWith('webots://')) {
-      if (typeof webots.currentView.repository === 'undefined')
-        webots.currentView.repository = 'cyberbotics';
-      if (typeof webots.currentView.branch === 'undefined' || webots.currentView.branch === '')
-        webots.currentView.branch = 'released';
-      urls[i] = urls[i].replace('webots://', 'https://raw.githubusercontent.com/' + webots.currentView.repository + '/webots/' + webots.currentView.branch + '/');
-    }
-    if (typeof prefix !== 'undefined' && !urls[i].startsWith('http'))
-      urls[i] = prefix + worldsPath + urls[i];
-  }
-  if (typeof loadMeshData.assimpjs === 'undefined')
-    loadMeshData.assimpjs = assimpjs();
-
-  return loadMeshData.assimpjs.then(function(ajs) {
-    // fetch the files to import
-    return Promise.all(urls.map((file) => fetch(file))).then((responses) => {
-      return Promise.all(responses.map((res) => res.arrayBuffer()));
-    }).then((arrayBuffers) => {
-      // create new file list object, and add the files
-      let fileList = new ajs.FileList();
-      for (let i = 0; i < urls.length; i++)
-        fileList.AddFile(urls[i], new Uint8Array(arrayBuffers[i]));
-
-      // convert file list to assimp json
-      let result = ajs.ConvertFileList(fileList, 'assjson', true);
-
-      // check if the conversion succeeded
-      if (!result.IsSuccess() || result.FileCount() === 0) {
-        console.error(result.GetErrorCode());
-        return;
-      }
-
-      // get the result file, and convert to string
-      let resultFile = result.GetFile(0);
-      let jsonContent = new TextDecoder().decode(resultFile.GetContent());
-
-      return JSON.parse(jsonContent);
-    });
-  });
 }
 
 function getNodeAttribute(node, attributeName, defaultValue) {
@@ -1298,4 +1703,4 @@ function _sanitizeHTML(text) {
   return element.innerHTML;
 }
 
-export {convertStringToVec3, convertStringToQuaternion};
+export {convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringToFloatArray};
