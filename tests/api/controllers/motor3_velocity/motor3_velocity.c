@@ -55,7 +55,6 @@ void test_position_under_velocity_control(const char *sensor_name, const char *m
                              sensor_name, min_expected_position, position);
 
   // Returning to original position
-  // printf("Returning to original position\n");
   wb_motor_set_position(motor, original_position);
   wb_motor_set_velocity(motor, max_velocity);
   double previous_position = 0.0, previous_position2 = 0.0;
