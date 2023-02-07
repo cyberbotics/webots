@@ -75,7 +75,7 @@ void test_position_under_velocity_control(const char *sensor_name, const char *m
   ts_assert_double_in_delta(original_position, position, 0.01,
                             "The position measured by %s (%g) and it's original position (%g) are different", sensor_name,
                             position, original_position);
-  ts_assert_double_is_bigger(1e-6, fabs(position - prev_position), "The motor associated with %s has not stopped", sensor_name);
+  ts_assert_double_is_bigger(1e-6, fabs(position - previous_position), "The motor associated with %s has not stopped", sensor_name);
 }
 
 int main(int argc, char **argv) {
