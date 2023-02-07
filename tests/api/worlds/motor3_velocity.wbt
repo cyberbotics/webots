@@ -53,8 +53,10 @@ Solid {
             anchor 0 0.06 0
           }
           jointParameters2 JointParameters {
+            axis 1 0 0
           }
           jointParameters3 JointParameters {
+            axis 0 0 1
           }
           device [
             RotationalMotor {
