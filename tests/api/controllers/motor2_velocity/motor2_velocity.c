@@ -36,9 +36,9 @@ void test_position_under_velocity_control(WbDeviceTag motor, WbDeviceTag positio
   double normalized_position = fmod(position, 2 * M_PI);
   if (normalized_position > M_PI)
     normalized_position -= 2 * M_PI;
-  ts_assert_double_in_delta(rpy[axis], normalized_position, 0.01,
+  ts_assert_double_in_delta(roll_pitch_yaw[axis], normalized_position, 0.01,
                             "The normalized rotation measured by position sensor (%g) and the inertial unit (%g) are different",
-                            normalized_position, rpy[axis]);
+                            normalized_position, roll_pitch_yaw[axis]);
 
   // The position itself should not be normalized to be between -pi and pi
   ts_assert_double_is_bigger(position, 2 * M_PI, "The position shoud be at least %g but is only %g", 2 * M_PI, position);
