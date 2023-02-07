@@ -135,7 +135,7 @@ export default class NodeSelectorWindow {
     // The provider of the list of protos is webots.cloud but it should be possible to generalize it.
     let url = window.location.href;
     if (!url.includes('webots.cloud'))
-      url = 'https://proto.webots.cloud/';
+      url = 'https://webots.cloud/';
     url = new URL(url).hostname;
 
     const content = {};
