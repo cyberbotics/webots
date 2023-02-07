@@ -42,6 +42,9 @@ export default class WbShape extends WbBaseNode {
         useNode.appearance.parent = useNode.id;
       }
     }
+
+    if (typeof this.notifyLed !== 'undefined')
+      this.notifyLed();
   }
 
   applyMaterialToGeometry() {
