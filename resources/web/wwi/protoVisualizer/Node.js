@@ -288,7 +288,7 @@ export default class Node {
         if (line.indexOf('EXTERNPROTO') !== -1) { // get only the text after 'EXTERNPROTO'
           let address = line.split('EXTERNPROTO')[1].trim().replaceAll('"', '');
           if (address.startsWith('webots://'))
-            address = 'https://raw.githubusercontent.com/cyberbotics/webots/feature-web-proto/' + address.substring(9); // TODO: revert before merging
+            address = 'https://raw.githubusercontent.com/cyberbotics/webots/released/' + address.substring(9);
           else
             address = combinePaths(address, protoUrl);
 
