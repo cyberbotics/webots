@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
   const WbDeviceTag position_sensor = wb_motor_get_position_sensor(motor);
   const WbDeviceTag inertial_unit = wb_robot_get_device("inertial unit");
   wb_inertial_unit_enable(inertial_unit, TIME_STEP);
-  const double *rpy;  // For storing roll, pitch, and yaw.
+  const double *roll_pitch_yaw;
   wb_robot_step(TIME_STEP);
 
   double position = wb_position_sensor_get_value(position_sensor);
