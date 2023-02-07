@@ -28,6 +28,9 @@ import threading
 import time
 import multiprocessing
 import argparse
+import atexit
+import socket
+import contextlib
 
 from command import Command
 from cache.cache_environment import update_cache_urls
@@ -261,12 +264,32 @@ def runGroupTest(groupName, firstSimulation, worldsCount, failures):
             appendToOutputFile('- number of worlds actually tested: %s)\n' % (counterString))
         else:
             lines = open(webotsStdErrFilename, 'r').readlines()
+            # There should be a warning about needing to use port 1235 instead of 1234
+            # because we started another webots in the background.
+            foundWarning = False
+            # The parser tests clear the stderr file, so don't try to find the warning in them.
+            if groupName == "parser":
+                foundWarning = True
             for line in lines:
                 if 'Failure' in line:
                     # check if it should be ignored
                     if not any(item in line for item in whitelist):
                         failures += 1
                         systemFailures.append(line)
+                if '1234' in line and '1235' in line:
+                    foundWarning = True
+            if not foundWarning:
+                failures += 1
+                appendToOutputFile("FAILURE: Webots listened on a port that was in use.\n")
+                if backgroundWebots.poll() is not None:
+                    appendToOutputFile(
+                        f'Background webots process has unexpectedly stopped with status code {backgroundWebots.returncode}!\n')
+                    appendToOutputFile("Background webots stdout was:\n")
+                    appendToOutputFile(backgroundWebots.stdout.read())
+                    appendToOutputFile("\nBackground webots stderr was:\n")
+                    appendToOutputFile(backgroundWebots.stderr.read())
+
+                testFailed = True
 
     if testFailed:
         appendToOutputFile('\nWebots complete STDOUT log:\n')
@@ -318,6 +341,28 @@ outputMonitor = OutputMonitor()
 thread = threading.Thread(target=outputMonitor.monitorOutputFile, args=[finalMessage])
 thread.start()
 
+# Run a copy of webots in the background to ensure doing so doesn't cause any tests to fail.
+# Use WEBOTS_SAFE_MODE=true to ensure it always runs with the same (empty) project.
+backgroundWebots = subprocess.Popen([webotsFullPath, "--mode=pause", "--no-rendering", "--minimize", "--stdout", "--stderr"],
+                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+                                    env=(os.environ | {"WEBOTS_SAFE_MODE": "true"}))
+atexit.register(subprocess.Popen.terminate, self=backgroundWebots)
+# Wait until we can actually connect to it, trying 10 times.
+with contextlib.closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
+    retries = 0
+    error = None
+    while retries < 10:
+        try:
+            sock.settimeout(1)
+            sock.connect(("127.0.0.1", 1234))
+            break
+        except socket.error as e:
+            error = e
+            retries += 1
+            time.sleep(1)
+    if retries == 10:
+        raise error
+
 for groupName in testGroups:
     if groupName == 'cache':
         update_cache_urls()  # setup new environment
@@ -355,12 +400,12 @@ for groupName in testGroups:
     if groupName == 'cache':
         update_cache_urls(True)
 
-appendToOutputFile('\n' + finalMessage + '\n')
-
 if len(systemFailures) > 0:
     appendToOutputFile('\nSystem Failures:\n')
     for message in systemFailures:
         appendToOutputFile(message)
+
+appendToOutputFile('\n' + finalMessage + '\n')
 
 time.sleep(1)
 if outputMonitor.command.isRunning():
