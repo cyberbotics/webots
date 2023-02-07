@@ -47,7 +47,7 @@ void test_position_under_velocity_control(const char *sensor_name, const char *m
   actual_quaternion[axis] = sin(position / 2);
   ts_assert_double_in_delta(quaternion[3], actual_quaternion[3], 0.01,
                             "The cos(theta/2) measured by %s (%g) and the inertial unit (%g) are different", sensor_name,
-                            actual_quaternion[0], quaternion[0]);
+                            actual_quaternion[3], quaternion[3]);
   ts_assert_vec3_in_delta(
     quaternion[0], quaternion[1], quaternion[2], actual_quaternion[0], actual_quaternion[1], actual_quaternion[2], 0.01,
     "The rotation axis measured by %s (%g, %g, %g) and the inertial unit (%g, %g, %g) are different", sensor_name,
