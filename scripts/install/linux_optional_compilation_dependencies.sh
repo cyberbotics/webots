@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # exit when any command fails on CI
-if [[ -z "$CI" ]]; then
+if [[ ! -z "$CI" ]]; then
        set -e
 fi
 
