@@ -71,35 +71,35 @@
       "type": "RotationalMotor"
     },
     {
-      "axis": "0 1 0",
-      "maxPosition": 0.04,
-      "minPosition": 0,
-      "name": "panda_finger_joint1",
-      "position": 0,
-      "transformID": "n187",
-      "type": "LinearMotor"
-    },
-    {
       "axis": "0 -1 0",
       "maxPosition": 0.04,
       "minPosition": 0,
-      "name": "panda_finger_joint2",
+      "name": "panda_finger::left",
       "position": 0,
       "transformID": "n201",
       "type": "LinearMotor"
     },
     {
       "axis": "0 1 0",
-      "name": "panda_finger_joint1_sensor",
+      "maxPosition": 0.04,
+      "minPosition": 0,
+      "name": "panda_finger::right",
       "position": 0,
       "transformID": "n187",
+      "type": "LinearMotor"
+    },
+    {
+      "axis": "0 -1 0",
+      "name": "panda_finger::left_sensor",
+      "position": 0,
+      "transformID": "n201",
       "type": "PositionSensor"
     },
     {
-      "axis": "0 -1 0",
-      "name": "panda_finger_joint2_sensor",
+      "axis": "0 1 0",
+      "name": "panda_finger::right_sensor",
       "position": 0,
-      "transformID": "n201",
+      "transformID": "n187",
       "type": "PositionSensor"
     },
     {
