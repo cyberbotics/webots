@@ -46,7 +46,7 @@ The following command line should be used to start a controller:
 %tab "Windows"
 
 ```bash
-webots-controller.exe [options] path/to/controller/file
+webots-controller.exe [options] path/to/controller/file [controller-args]
 ```
 
 %tab-end
@@ -54,7 +54,7 @@ webots-controller.exe [options] path/to/controller/file
 %tab "Linux"
 
 ```bash
-$WEBOTS_HOME/webots-controller [options] path/to/controller/file
+$WEBOTS_HOME/webots-controller [options] path/to/controller/file [controller-args]
 ```
 
 %tab-end
@@ -62,7 +62,7 @@ $WEBOTS_HOME/webots-controller [options] path/to/controller/file
 %tab "macOS"
 
 ```bash
-$WEBOTS_HOME/Contents/MacOS/webots-controller [options] path/to/controller/file
+$WEBOTS_HOME/Contents/MacOS/webots-controller [options] path/to/controller/file [controller-args]
 ```
 
 %tab-end
@@ -199,7 +199,7 @@ It is also possible to give a custom MATLAB installation path to the launcher, b
   **Note**: If you need to connect to a remote Webots instance, the controller can be started the following way:
 
   ```bash
-  $WEBOTS_HOME/webots-controller $WEBOTS_HOME/projects/robots/softbank/nao/controllers/nao_demo/nao_demo --protocol=tcp --ip-address=127.0.0.1
+  $WEBOTS_HOME/webots-controller --protocol=tcp --ip-address=127.0.0.1 $WEBOTS_HOME/projects/robots/softbank/nao/controllers/nao_demo/nao_demo
   ```
 
   Simply replace `127.0.0.1` by the IP address of your remote machine.
