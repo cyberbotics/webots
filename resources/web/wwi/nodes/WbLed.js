@@ -129,8 +129,8 @@ export default class WbLed extends WbDevice {
         b = c.z;
       } else {
         r = 1;
-        g = 0;
-        b = 0;
+        g = 1;
+        b = 1;
       }
     } else {
       r = 0;
