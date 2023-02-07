@@ -24,6 +24,9 @@ export default class WbAppearance extends WbAbstractAppearance {
       this.#material.onChange = () => this.#update();
 
     this.#update();
+
+    if (typeof this.notifyLed !== 'undefined')
+      this.notifyLed();
   }
 
   get texture() {
