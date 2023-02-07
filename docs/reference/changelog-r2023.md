@@ -34,6 +34,7 @@ Released on ??
     - Fixed failure to detect that a port was already in use on some platforms ([#5806](https://github.com/cyberbotics/webots/pull/5806)).
     - Fixed thread-safety issue when robots collide. This was only an issue if physics multi-threading was enabled (which is not the default and rarely used) ([#5796](https://github.com/cyberbotics/webots/pull/5796)).
     - Fixed inaccurate position reporting when using velocity control for HingeJoints, Hinge2Joints, and BallJoints ([#5834](https://github.com/cyberbotics/webots/pull/5834)).
+    - Fixed crash during PROTO regeneration triggered by nested PROTO in parameter ([#5724](https://github.com/cyberbotics/webots/pull/5724)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
