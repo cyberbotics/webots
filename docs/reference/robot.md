@@ -251,7 +251,7 @@ It means that the step actually lasted the requested number of milliseconds, but
 It means that the requested step duration could not be respected.
 
 When using `wb_robot_step`, the controller code is executed sequentially with the Webots simulation step, i.e., not in parallel.
-This is due to the fact that a typical controller reads sensor information, makes some computation, orders motor commands and calls `wb_robot_step` which actually sends the motor commands and sensor requests and waits until Webots completes a simulation step, which may take some time depending on the complexity of the simulation.
+This is due to the fact that a typical controller reads sensor information, makes some computation, orders motor commands and calls `wb_robot_step` which actually sends the motor commands and sensors requests and waits until Webots completes a simulation step, which may take some time depending on the complexity of the simulation.
 During this time, the controller is idle, waiting for Webots to complete its simulation step.
 On the other hand, prior to starting a new step, Webots waits for all the controllers to send their `wb_robot_step` messages which may induce some idle waiting time in Webots if a controller doesn't send quickly enough its `wb_robot_step` message because it is busy with some computation.
 If the two computational processes (Webots and controller) are slow, it may be interesting to parallelize them.
