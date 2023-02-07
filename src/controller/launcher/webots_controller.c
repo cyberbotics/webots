@@ -45,6 +45,8 @@ static char *controller_path;
 static char *controller_extension;
 static char *matlab_path;
 static char *current_path;
+static int nb_controller_arguments;
+static int next_argument_index;
 
 // Environment variables (putenv() requires the string that is set into the environment to exist)
 static char *WEBOTS_CONTROLLER_URL;
@@ -221,12 +223,12 @@ static bool get_matlab_path() {
 // Prints the command line options and their descriptions for the Webots controller launcher.
 static void print_options() {
   printf(
-    "Usage: webots-controller [options] [controller_file]\n\nOptions:\n\n  --help\n    Display this help message and exit.\n\n "
-    " --protocol=<ipc|tcp>\n    Define the protocol to use to communicate between the controller and Webots.\n    'ipc' is "
-    "used by default. 'ipc' should be used when Webots is\n    running on the same machine as the extern controller.\n    "
-    "'tcp' should be used when connecting to a remote instance of Webots.\n\n  --ip-address=<ip-address>\n    The IP address "
-    "of the remote machine on which the Webots instance is running.\n    This option should only be used with the `tcp` "
-    "protocol\n    (i.e. remote controllers).\n\n  --port=<port>\n    Define the port to which the controller should "
+    "Usage: webots-controller [options] [controller_file] [controller_args]\n\nOptions:\n\n  --help\n    Display this help "
+    "message and exit.\n\n  --protocol=<ipc|tcp>\n    Define the protocol to use to communicate between the controller and "
+    "Webots.\n    'ipc' is used by default. 'ipc' should be used when Webots is\n    running on the same machine as the extern "
+    "controller.\n    'tcp' should be used when connecting to a remote instance of Webots.\n\n  --ip-address=<ip-address>\n    "
+    "The IP address of the remote machine on which the Webots instance is running.\n    This option should only be used with "
+    "the `tcp` protocol\n    (i.e. remote controllers).\n\n  --port=<port>\n    Define the port to which the controller should "
     "connect.\n    1234 is used by default, as it is the default port for Webots.\n    This setting allows you to connect to a "
     "specific instance of Webots if\n    there are multiple instances running on the target machine.\n    The port of a Webots "
     "instance can be set at its launch.\n\n  --robot-name=<robot-name>\n    Target a specific robot by specifying its name in "
@@ -251,33 +253,34 @@ static bool parse_options(int nb_arguments, char **arguments) {
   char *ip_address = NULL;
   char *port = NULL;
   char *robot_name = NULL;
+  bool option_arguments = true;
   for (int i = 1; i < nb_arguments; i++) {
-    if (arguments[i][0] == '-') {
-      if (strncmp(arguments[i] + 2, "protocol=", 9) == 0) {
+    if (option_arguments && arguments[i][0] == '-') {
+      if (strncmp(arguments[i], "--protocol=", 11) == 0) {
         const size_t protocol_size = strlen(arguments[i] + 11) + 1;
         protocol = malloc(protocol_size);
         memcpy(protocol, arguments[i] + 11, protocol_size);
-      } else if (strncmp(arguments[i] + 2, "ip-address=", 11) == 0) {
+      } else if (strncmp(arguments[i], "--ip-address=", 13) == 0) {
         const size_t ip_address_size = strlen(arguments[i] + 13) + 1;
         ip_address = malloc(ip_address_size);
         memcpy(ip_address, arguments[i] + 13, ip_address_size);
-      } else if (strncmp(arguments[i] + 2, "port=", 5) == 0) {
+      } else if (strncmp(arguments[i], "--port=", 7) == 0) {
         const size_t port_size = strlen(arguments[i] + 7) + 1;
         port = malloc(port_size);
         memcpy(port, arguments[i] + 7, port_size);
-      } else if (strncmp(arguments[i] + 2, "robot-name=", 11) == 0) {
+      } else if (strncmp(arguments[i], "--robot-name=", 13) == 0) {
         const size_t robot_name_size = strlen(arguments[i] + 13) + 1;
         robot_name = malloc(robot_name_size);
         memcpy(robot_name, arguments[i] + 13, robot_name_size);
-      } else if (strncmp(arguments[i] + 2, "matlab-path=", 12) == 0) {
+      } else if (strncmp(arguments[i], "--matlab-path=", 14) == 0) {
         const size_t matlab_path_size = strlen(arguments[i] + 14) + 1;
         matlab_path = malloc(matlab_path_size);
         memcpy(matlab_path, arguments[i] + 14, matlab_path_size);
-      } else if (strncmp(arguments[i] + 2, "stdout-redirect", 15) == 0) {
+      } else if (strncmp(arguments[i], "--stdout-redirect", 17) == 0) {
         putenv("WEBOTS_STDOUT_REDIRECT=1");
-      } else if (strncmp(arguments[i] + 2, "stderr-redirect", 15) == 0) {
+      } else if (strncmp(arguments[i], "--stderr-redirect", 17) == 0) {
         putenv("WEBOTS_STDERR_REDIRECT=1");
-      } else if (strncmp(arguments[i] + 2, "help", 4) == 0) {
+      } else if (strncmp(arguments[i], "--help", 6) == 0) {
         print_options();
         return false;
       } else {
@@ -285,14 +288,14 @@ static bool parse_options(int nb_arguments, char **arguments) {
         return false;
       }
     } else {
-      if (controller) {
-        fprintf(stderr, "Please specify only a single controller file to launch. '%s' and '%s' were given.\n", controller,
-                arguments[i]);
-        return false;
+      const size_t argument_size = strlen(arguments[i]) + 1;
+      if (option_arguments) {
+        controller = malloc(argument_size);
+        memcpy(controller, arguments[i], argument_size);
+        option_arguments = false;
+        next_argument_index = i + 1;
+        nb_controller_arguments = nb_arguments - i - 1;
       }
-      const size_t controller_size = strlen(arguments[i]) + 1;
-      controller = malloc(controller_size);
-      memcpy(controller, arguments[i], controller_size);
     }
   }
 
@@ -658,6 +661,26 @@ static void parse_runtime_ini() {
   fclose(runtime_ini);
 }
 
+// Add a single string argument to the argument 'argv' array
+static char **add_single_argument(char **argv, size_t *current_size, char *str) {
+  (*current_size)++;
+  argv = realloc(argv, *current_size * sizeof(char *));
+  if (!argv)
+    exit(1);
+  argv[(*current_size) - 1] = (str == NULL) ? NULL : strdup(str);
+  return argv;
+}
+
+// Add all controller arguments (given to the launcher) to the 'argv' array
+static char **add_controller_arguments(char **argv, char **controller_argv, size_t *current_size) {
+  while (nb_controller_arguments) {
+    argv = add_single_argument(argv, current_size, controller_argv[next_argument_index]);
+    nb_controller_arguments--;
+    next_argument_index++;
+  }
+  return argv;
+}
+
 int main(int argc, char **argv) {
   // Check WEBOTS_HOME and exit if empty
   if (!get_webots_home())
@@ -732,17 +755,25 @@ int main(int argc, char **argv) {
   // Executable controller
   if (!controller_extension || strcmp(controller_extension, ".exe") == 0) {
     exec_java_config_environment();
+    size_t current_size = 0;
+    char **new_argv = NULL;
+    new_argv = add_single_argument(new_argv, &current_size, controller);
+    new_argv = add_controller_arguments(new_argv, argv, &current_size);
+    new_argv = add_single_argument(new_argv, &current_size, NULL);
 #ifdef _WIN32
-    const char *const new_argv[] = {controller, NULL};
-    _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
+    const char *const *windows_argv = (const char **)new_argv;
+    _spawnvpe(_P_WAIT, windows_argv[0], windows_argv, NULL);
 #else
-    char *new_argv[] = {controller, NULL};
     execvp(new_argv[0], new_argv);
 #endif
   }
   // Python controller
   else if (strcmp(controller_extension, ".py") == 0) {
     python_config_environment();
+    size_t current_size = 0;
+    char **new_argv = NULL;
+    new_argv = add_single_argument(new_argv, &current_size, "python3");
+    new_argv = add_single_argument(new_argv, &current_size, "-u");
 #ifdef _WIN32
     // Add quotation marks to the controller string if it contains whitespaces
     char *controller_formated = NULL;
@@ -752,11 +783,16 @@ int main(int argc, char **argv) {
       sprintf(controller_formated, "\"%s\"", controller);
     } else
       controller_formated = strdup(controller);
-
-    const char *const new_argv[] = {"python", "-u", controller_formated, NULL};
-    _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
+    new_argv = add_single_argument(new_argv, &current_size, controller_formated);
 #else
-    char *new_argv[] = {"python3", "-u", controller, NULL};
+    new_argv = add_single_argument(new_argv, &current_size, controller);
+#endif
+    new_argv = add_controller_arguments(new_argv, argv, &current_size);
+    new_argv = add_single_argument(new_argv, &current_size, NULL);
+#ifdef _WIN32
+    const char *const *windows_argv = (const char **)new_argv;
+    _spawnvpe(_P_WAIT, windows_argv[0], windows_argv, NULL);
+#else
     execvp(new_argv[0], new_argv);
 #endif
   }
@@ -824,12 +860,6 @@ int main(int argc, char **argv) {
     const size_t java_library_size = snprintf(NULL, 0, "\"-Djava.library.path=%s\"", lib_controller) + 1;
     char *java_library = malloc(java_library_size);
     sprintf(java_library, "\"-Djava.library.path=%s\"", lib_controller);
-
-    if (!controller_name)
-      controller_name = strrchr(controller, '\\');
-    controller_name[strlen(controller_name) - strlen(controller_extension)] = '\0';
-    const char *const new_argv[] = {"java", "-classpath", classpath, java_library, controller_name + 1, NULL};
-    _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
 #else
     // Write the 'classpath' option (mandatory for java controllers) with the path to Controller.jar and the path to the
     // controller
@@ -841,12 +871,24 @@ int main(int argc, char **argv) {
     const size_t java_library_size = snprintf(NULL, 0, "-Djava.library.path=%s", lib_controller) + 1;
     char *java_library = malloc(java_library_size);
     sprintf(java_library, "-Djava.library.path=%s", lib_controller);
-
-    // Java command has the following syntax: 'java -classpath [...] -Djava.library.path=[...] controller_name'
+#endif
     if (!controller_name)
-      controller_name = strrchr(controller, '/');
+      controller_name = strrchr(controller, PATH_SEPARATOR[0]);
     controller_name[strlen(controller_name) - strlen(controller_extension)] = '\0';
-    char *new_argv[] = {"java", "-classpath", classpath, java_library, controller_name + 1, NULL};
+    size_t current_size = 0;
+    char **new_argv = NULL;
+    // Java command has the following syntax: 'java -classpath [...] -Djava.library.path=[...] controller_name'
+    new_argv = add_single_argument(new_argv, &current_size, "java");
+    new_argv = add_single_argument(new_argv, &current_size, "-classpath");
+    new_argv = add_single_argument(new_argv, &current_size, classpath);
+    new_argv = add_single_argument(new_argv, &current_size, java_library);
+    new_argv = add_single_argument(new_argv, &current_size, controller_name + 1);
+    new_argv = add_controller_arguments(new_argv, argv, &current_size);
+    new_argv = add_single_argument(new_argv, &current_size, NULL);
+#ifdef _WIN32
+    const char *const *windows_argv = (const char **)new_argv;
+    _spawnvpe(_P_WAIT, windows_argv[0], windows_argv, NULL);
+#else
     execvp(new_argv[0], new_argv);
 #endif
 
