@@ -1,4 +1,6 @@
 import Animation from './Animation.js';
+import ImageLoader from './ImageLoader.js';
+import MeshLoader from './MeshLoader.js';
 import MouseEvents from './MouseEvents.js';
 import MultimediaClient from './MultimediaClient.js';
 import Progress from './Progress.js';
@@ -7,7 +9,7 @@ import Server from './Server.js';
 import Stream from './Stream.js';
 import SystemInfo from './system_info.js';
 import X3dScene from './X3dScene.js';
-
+import WbCadShape from './nodes/WbCadShape.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 
 /*
@@ -105,14 +107,14 @@ webots.View = class View {
     this.timeout = timeout * 1000; // convert to milliseconds
   }
 
-  setAnimation(url, gui, loop) {
+  setAnimation(animation, gui, loop, raw) {
     if (typeof gui === 'undefined')
       gui = 'play';
     if (typeof loop === 'undefined')
       loop = true;
-    let jsonPromise = new Promise((resolve, reject) => {
+    let jsonPromise = raw ? animation : new Promise((resolve, reject) => {
       let xmlhttp = new XMLHttpRequest();
-      xmlhttp.open('GET', url, true);
+      xmlhttp.open('GET', animation, true);
       xmlhttp.overrideMimeType('application/json');
       xmlhttp.onload = () => {
         if (xmlhttp.status === 200 || xmlhttp.status === 0)
@@ -125,13 +127,12 @@ webots.View = class View {
     this.animation = new Animation(jsonPromise, this.x3dScene, this, gui, loop);
   }
 
-  open(url, mode, thumbnail) {
+  open(url, mode, thumbnail, raw) {
     this.url = url;
     if (typeof mode === 'undefined')
       mode = 'x3d';
     this.mode = mode;
-
-    const initWorld = () => {
+    const initWorld = async() => {
       if (typeof this.progress === 'undefined')
         this.progress = new Progress(this.view3D, 'Initializing...', thumbnail);
 
@@ -147,11 +148,18 @@ webots.View = class View {
         } else { // url expected form: "ws://cyberbotics1.epfl.ch:80"
           const httpServerUrl = 'http' + this.url.slice(2); // replace 'ws'/'wss' with 'http'/'https'
           this.stream = new Stream(this.url, this, finalizeWorld);
+          ImageLoader.stream = true;
+          MeshLoader.stream = true;
+          WbCadShape.stream = true;
           this.prefix = httpServerUrl + '/';
           this.stream.connect();
         }
-      } else // assuming it's an URL to a .x3d file
-        this.x3dScene.loadWorldFile(this.url, finalizeWorld, this.progress);
+      } else { // assuming it's an URL to a .x3d file
+        if (raw)
+          await this.x3dScene.loadRawWorldFile(this.url, finalizeWorld, this.progress);
+        else
+          await this.x3dScene.loadWorldFile(this.url, finalizeWorld, this.progress);
+      }
     };
 
     const finalizeWorld = () => {
@@ -170,9 +178,8 @@ webots.View = class View {
     };
 
     let loadFinalize = () => {
-      if (typeof this.multimediaClient !== 'undefined')
-        // finalize multimedia client
-        this.multimediaClient.finalize();
+      // finalize multimedia client
+      this.multimediaClient?.finalize();
 
       if (typeof this.onready === 'function')
         this.onready();
@@ -182,7 +189,9 @@ webots.View = class View {
       this.setTimeout(-1);
     this.#isWebSocketProtocol = this.url.startsWith('ws://') || this.url.startsWith('wss://') || this.url.endsWith('.wbt');
 
-    const texturePathPrefix = url.includes('/') ? url.substring(0, url.lastIndexOf('/') + 1) : '';
+    let texturePathPrefix;
+    if (!raw)
+      texturePathPrefix = url.includes('/') ? url.substring(0, url.lastIndexOf('/') + 1) : '';
 
     if (mode === 'mjpeg') {
       this.url = url;
@@ -243,6 +252,8 @@ webots.View = class View {
 
     const existingCurrentWorld = typeof this.currentWorld !== 'undefined';
     this.currentWorld = currentWorld;
+    ImageLoader.currentWorld = currentWorld;
+    MeshLoader.currentWorld = currentWorld;
     this.worlds = worlds;
 
     if (existingCurrentWorld) {
@@ -316,8 +327,7 @@ webots.View = class View {
   }
 
   destroyWorld() {
-    if (typeof this.x3dScene !== 'undefined')
-      this.x3dScene.destroyWorld();
+    this.x3dScene?.destroyWorld();
     this.removeLabels();
     this.robots = [];
 

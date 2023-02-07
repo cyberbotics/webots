@@ -63,6 +63,14 @@ export default class WbViewpoint extends WbBaseNode {
     this.#wrenSmaa = new WbWrenSmaa();
   }
 
+  get defaultPosition() {
+    return this.#defaultPosition;
+  }
+
+  set defaultPosition(newDefaultPosition) {
+    this.#defaultPosition = newDefaultPosition;
+  }
+
   createWrenObjects() {
     super.createWrenObjects();
 
@@ -80,17 +88,10 @@ export default class WbViewpoint extends WbBaseNode {
   }
 
   delete() {
-    if (typeof this.#wrenSmaa !== 'undefined')
-      this.#wrenSmaa.delete();
-
-    if (typeof this.#wrenHdr !== 'undefined')
-      this.#wrenHdr.delete();
-
-    if (typeof this.#wrenGtao !== 'undefined')
-      this.#wrenGtao.delete();
-
-    if (typeof this.#wrenBloom !== 'undefined')
-      this.#wrenBloom.delete();
+    this.#wrenSmaa?.delete();
+    this.#wrenHdr?.delete();
+    this.#wrenGtao?.delete();
+    this.#wrenBloom?.delete();
   }
 
   preFinalize() {
@@ -116,6 +117,43 @@ export default class WbViewpoint extends WbBaseNode {
 
   enableFollow() {
     this.#followEnable = !this.#followEnable;
+  }
+
+  moveViewpointToObject(node) {
+    if (typeof node === 'undefined')
+      return;
+
+    const boundingSphere = node.boundingSphere();
+
+    boundingSphere.recomputeIfNeeded(false);
+    if (boundingSphere.isEmpty())
+      return false;
+
+    const results = boundingSphere.computeSphereInGlobalCoordinates();
+    const boundingSphereCenter = results[0];
+    let radius = results[1];
+
+    // Compute direction vector where the viewpoint is looking at.
+    // For all orientation and a zero angle, the viewpoint is looking at the x-axis.
+    const viewpointDirection = this.orientation.toQuaternion().mulByVec3(new WbVector3(1, 0, 0));
+
+    // Compute a distance coefficient between the object and future viewpoint.
+    // The bounding sphere will be entirely contained in the 3D view.
+    // Use a slightly larger sphere to keep some space between the object and the 3D view borders
+    radius *= 1.1;
+    let distance = radius / (Math.sin(this.fieldOfView / 2) *
+      ((this.aspectRatio <= 1) ? this.aspectRatio : (1 / this.aspectRatio)));
+
+    // set a minimum distance
+    if (distance < this.near + radius)
+      distance = this.near + radius;
+
+    // Compute new position. From the center of the object, move back the viewpoint along
+    // its direction axis.
+    const newViewpointPosition = boundingSphereCenter.add(viewpointDirection.mul(-distance));
+
+    this.position = newViewpointPosition;
+    this.updatePosition();
   }
 
   // Converts screen coordinates to world coordinates
@@ -260,8 +298,7 @@ export default class WbViewpoint extends WbBaseNode {
 
     WbWorld.instance.billboards.forEach(id => {
       let billboard = WbWorld.instance.nodes.get(id);
-      if (typeof billboard !== 'undefined')
-        billboard.updatePosition();
+      billboard?.updatePosition();
     });
   }
 

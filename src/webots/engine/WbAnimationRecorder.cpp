@@ -16,6 +16,7 @@
 
 #include "WbGroup.hpp"
 #include "WbLog.hpp"
+#include "WbMFInt.hpp"
 #include "WbRobot.hpp"
 #include "WbSFRotation.hpp"
 #include "WbSimulationState.hpp"
@@ -47,6 +48,9 @@ WbAnimationCommand::WbAnimationCommand(const WbNode *n, const QStringList &field
       if (saveInitialValue) {
         const WbSFVector3 *sfVector3 = dynamic_cast<WbSFVector3 *>(field->value());
         const WbSFRotation *sfRotation = dynamic_cast<WbSFRotation *>(field->value());
+        const WbSFString *sfString = dynamic_cast<WbSFString *>(field->value());
+        const WbMFString *mfString = dynamic_cast<WbMFString *>(field->value());
+        const WbMFInt *mfInt = dynamic_cast<WbMFInt *>(field->value());
         const QString &fieldName = field->name();
         if (!state.isEmpty())
           state += ",";
@@ -68,6 +72,27 @@ WbAnimationCommand::WbAnimationCommand(const WbNode *n, const QStringList &field
                      .arg(ROUND(sfRotation->angle(), 0.0001));
           mLastRotation = WbRotation(ROUND(sfRotation->x(), 0.001), ROUND(sfRotation->y(), 0.001),
                                      ROUND(sfRotation->z(), 0.001), ROUND(sfRotation->angle(), 0.001));
+        } else if (sfString && (field->name().compare("name") == 0 || field->name().compare("fogType") == 0))
+          state += field->value()->toString();
+        else if (mfInt && (field->name().compare("coordIndex") == 0 || field->name().compare("normalIndex") == 0 ||
+                           field->name().compare("texCoordIndex") == 0)) {
+          const int size = mfInt->size();
+          QString intArray = QString("[");
+
+          for (int j = 0; j < size - 1; j++)
+            intArray.append(QString("%1,").arg(mfInt->item(j)));
+
+          if (size > 0)
+            intArray.append(QString("%1").arg(mfInt->item(size - 1)));
+
+          intArray.append("]");
+          state += intArray;
+        } else if (mfString and field->name().compare("url") == 0) {
+          QStringList urls = mfString->value();
+          QString urlArray = urls.join("\",\"");
+          urlArray.prepend("[\"");
+          urlArray.append("\"]");
+          state += urlArray;
         } else  // generic case
           state += field->value()->toString(WbPrecision::FLOAT_MAX);
         state += "\"";
@@ -94,6 +119,10 @@ void WbAnimationCommand::updateValue() {
 const QString WbAnimationCommand::sanitizeField(const WbField *field) {
   const WbSFVector3 *sfVector3 = dynamic_cast<WbSFVector3 *>(field->value());
   const WbSFRotation *sfRotation = dynamic_cast<WbSFRotation *>(field->value());
+  const WbSFString *sfString = dynamic_cast<WbSFString *>(field->value());
+  const WbMFString *mfString = dynamic_cast<WbMFString *>(field->value());
+  const WbMFInt *mfInt = dynamic_cast<WbMFInt *>(field->value());
+
   if (sfVector3 && field->name().compare("translation") == 0) {
     // special translation case
     const WbVector3 translationRounded =
@@ -119,6 +148,27 @@ const QString WbAnimationCommand::sanitizeField(const WbField *field) {
         .arg(ROUND(sfRotation->z(), 0.0001))
         .arg(ROUND(sfRotation->angle(), 0.0001));
     }
+  } else if (sfString && (field->name().compare("name") == 0 || field->name().compare("fogType") == 0))
+    return field->value()->toString();
+  else if (mfInt && (field->name().compare("coordIndex") == 0 || field->name().compare("normalIndex") == 0 ||
+                     field->name().compare("texCoordIndex") == 0)) {
+    const int size = mfInt->size();
+    QString intArray = QString("[");
+
+    for (int i = 0; i < size - 1; i++)
+      intArray.append(QString("%1,").arg(mfInt->item(i)));
+
+    if (size > 0)
+      intArray.append(QString("%1").arg(mfInt->item(size - 1)));
+
+    intArray.append("]");
+    return intArray;
+  } else if (mfString and field->name().compare("url") == 0) {
+    QStringList urls = mfString->value();
+    QString urlArray = urls.join("\",\"");
+    urlArray.prepend("[\"");
+    urlArray.append("\"]");
+    return urlArray;
   } else {
     // generic case
     mChangedFromStart = true;
@@ -291,14 +341,14 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
     out << "}";
     return result;
   }
-  out << ",\"poses\":[";
-  bool hasPreviousPose = false;
+  out << ",\"updates\":[";
+  bool hasPreviousUpdate = false;
   foreach (WbAnimationCommand *command, mChangedCommands) {
     const QList<QString> keys = force ? command->allFields() : command->dirtyFields();
     if (keys.isEmpty())
       continue;
     QString nodeString = QString("{\"id\":%1").arg(command->node()->uniqueId());
-    if (hasPreviousPose)
+    if (hasPreviousUpdate)
       nodeString.prepend(",");
     bool emptyUpdate = true;
     foreach (const QString &fieldName, keys) {
@@ -312,7 +362,7 @@ QString WbAnimationRecorder::computeUpdateData(bool force) {
       out << nodeString;
       out << "}";
 
-      hasPreviousPose = true;
+      hasPreviousUpdate = true;
     }
     command->resetChanges();
   }
@@ -433,7 +483,7 @@ void WbAnimationRecorder::stopRecording() {
 
   out << " \"frames\":[\n";
   // write initial state
-  out << "{\"time\":0,\"poses\":[";
+  out << "{\"time\":0,\"updates\":[";
   if (commandsChangedFromStart.isEmpty()) {
     WbLog::info(tr("Error: No animation content is available because no changes occurred in the simulation. "
                    "If you just want a 3D environment file, consider exporting a scene instead."));
