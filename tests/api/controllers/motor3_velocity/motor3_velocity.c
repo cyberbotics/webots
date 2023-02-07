@@ -37,21 +37,19 @@ void test_position_under_velocity_control(const char *sensor_name, const char *m
     //        quaternion[3]);
   }
 
-  // The new position should match the one provided by the inertial unit
+  // The new position should match the one provided by the inertial unit.
+  // That means the associated quaternions should be the same or just have opposite signs.
+  // Since they are unit quaternions, |q1*q2| should equal 1.
   double actual_quaternion[4] = {0.0, 0.0, 0.0, 0.0};
   actual_quaternion[3] = cos(position / 2);
-  if (axis == 1)
-    axis = 2;
-  else if (axis == 2)
-    axis = 1;
   actual_quaternion[axis] = sin(position / 2);
-  ts_assert_double_in_delta(quaternion[3], actual_quaternion[3], 0.01,
-                            "The cos(theta/2) measured by %s (%g) and the inertial unit (%g) are different", sensor_name,
-                            actual_quaternion[3], quaternion[3]);
-  ts_assert_vec3_in_delta(
-    quaternion[0], quaternion[1], quaternion[2], actual_quaternion[0], actual_quaternion[1], actual_quaternion[2], 0.01,
-    "The rotation axis measured by %s (%g, %g, %g) and the inertial unit (%g, %g, %g) are different", sensor_name,
-    actual_quaternion[0], actual_quaternion[1], actual_quaternion[2], quaternion[0], quaternion[1], quaternion[2]);
+  double dot_product = actual_quaternion[0] * quaternion[0] + actual_quaternion[1] * quaternion[1] +
+                       actual_quaternion[2] * quaternion[2] + actual_quaternion[3] * quaternion[3];
+  ts_assert_double_in_delta(fabs(dot_product), 1.0, 1e-6,
+                            "The orientation associated with the position returned by %s is wrong: expected quaternion = "
+                            "+/-(%g, %g, %g, %g) actual quaternion = (%g, %g, %g, %g)",
+                            sensor_name, quaternion[0], quaternion[1], quaternion[2], quaternion[3], actual_quaternion[0],
+                            actual_quaternion[1], actual_quaternion[2], actual_quaternion[3]);
 
   // The position itself should not be normalized to be between -pi and pi
   double min_expected_position = max_velocity / 2 * TIME_STEP / 1000.0 * 100.0;
@@ -68,14 +66,14 @@ void test_position_under_velocity_control(const char *sensor_name, const char *m
     previous_position2 = previous_position;
     previous_position = position;
     position = wb_position_sensor_get_value(position_sensor);
-    quaternion = wb_inertial_unit_get_quaternion(inertial_unit);
     if (fabs(position - previous_position) < 1e-6 && fabs(previous_position - previous_position2) < 1e-6)
       break;
   }
   ts_assert_double_in_delta(original_position, position, 0.01,
                             "The position measured by %s (%g) and it's original position (%g) are different", sensor_name,
                             position, original_position);
-  ts_assert_double_is_bigger(1e-6, fabs(position - previous_position), "The motor associated with %s has not stopped", sensor_name);
+  ts_assert_double_is_bigger(1e-6, fabs(position - previous_position), "The motor associated with %s has not stopped",
+                             sensor_name);
 }
 
 int main(int argc, char **argv) {
@@ -85,8 +83,8 @@ int main(int argc, char **argv) {
   wb_motor_set_position(wb_robot_get_device("rotational motor3"), 0.0);
 
   test_position_under_velocity_control("position sensor1", "rotational motor1", 10.0, 0);
-  test_position_under_velocity_control("position sensor3", "rotational motor3", 10.0, 1);
-  test_position_under_velocity_control("position sensor2", "rotational motor2", 0.10, 2);
+  test_position_under_velocity_control("position sensor3", "rotational motor3", 10.0, 2);
+  test_position_under_velocity_control("position sensor2", "rotational motor2", 0.10, 1);
 
   ts_send_success();
   return EXIT_SUCCESS;
