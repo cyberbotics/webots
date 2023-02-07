@@ -1703,4 +1703,4 @@ function _sanitizeHTML(text) {
   return element.innerHTML;
 }
 
-export {convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringToFloatArray, getNodeAttribute};
+export {convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringToFloatArray};
