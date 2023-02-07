@@ -5,7 +5,7 @@ EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
 
 WorldInfo {
-  coordinateSystem "NUE"
+  coordinateSystem "ENU"
   lineScale 0.3
 }
 Viewpoint {
@@ -54,6 +54,7 @@ Solid {
             anchor 0 0.06 0
           }
           jointParameters2 JointParameters {
+            axis 0 0 1
           }
           device [
             RotationalMotor {
