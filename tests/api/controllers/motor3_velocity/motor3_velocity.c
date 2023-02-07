@@ -62,11 +62,11 @@ void test_position_under_velocity_control(const char *sensor_name, const char *m
   // printf("Returning to original position\n");
   wb_motor_set_position(motor, original_position);
   wb_motor_set_velocity(motor, max_velocity);
-  double prev_position = 0.0, prev_position2 = 0.0;
+  double previous_position = 0.0, previous_position2 = 0.0;
   for (i = 0; i < 400; ++i) {
     wb_robot_step(TIME_STEP);
-    prev_position2 = prev_position;
-    prev_position = position;
+    previous_position2 = previous_position;
+    previous_position = position;
     position = wb_position_sensor_get_value(position_sensor);
     quaternion = wb_inertial_unit_get_quaternion(inertial_unit);
     // printf("position = %g, quaternion = %g, %g, %g, %g\n", position, quaternion[0], quaternion[1], quaternion[2],
