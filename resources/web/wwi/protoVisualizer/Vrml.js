@@ -728,6 +728,9 @@ export class MFVec3f extends MultipleValue {
 
 export class MFColor extends MultipleValue {
   setValueFromTokenizer(tokenizer) {
+    // If we reach this function it means that the MFColor does not have the default value.
+    // Thus we should reset the value because it already contains the default one: [1 0 0].
+    this.value = [];
     if (tokenizer.peekWord() === '[') {
       tokenizer.skipToken('[');
 

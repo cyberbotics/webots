@@ -674,9 +674,18 @@ export default class Parser {
       newNode = new WbGyro(id, translation, scale, rotation, name === '' ? 'gyro' : name);
     else if (node.tagName === 'InertialUnit')
       newNode = new WbInertialUnit(id, translation, scale, rotation, name === '' ? 'inertial unit' : name);
-    else if (node.tagName === 'LED')
-      newNode = new WbLed(id, translation, scale, rotation, name === '' ? 'led' : name);
-    else if (node.tagName === 'Lidar') {
+    else if (node.tagName === 'LED') {
+      let tempColor = getNodeAttribute(node, 'color', '1 0 0');
+      tempColor = convertStringToFloatArray(tempColor);
+      const color = [];
+      if (tempColor.length % 3 === 0) {
+        for (let i = 0; i < tempColor.length; i += 3)
+          color.push(new WbVector3(tempColor[i], tempColor[i + 1], tempColor[i + 2]));
+      } else
+        console.error('Wrong number of colors in LED');
+
+      newNode = new WbLed(id, translation, scale, rotation, name === '' ? 'led' : name, color);
+    } else if (node.tagName === 'Lidar') {
       const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', Math.PI / 2));
       const horizontalResolution = parseInt(getNodeAttribute(node, 'horizontalResolution', '512'));
       const maxRange = parseFloat(getNodeAttribute(node, 'maxRange', '1'));
