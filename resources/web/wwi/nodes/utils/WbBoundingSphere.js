@@ -56,13 +56,9 @@ export default class WbBoundingSphere {
   }
 
   computeSphereInGlobalCoordinates() {
-    let upperTransform;
     let radius;
     let center;
-    if (!this.transformOwner)
-      upperTransform = findUpperTransform(this.#owner);
-    else
-      upperTransform = this.#owner;
+    const upperTransform = !this.transformOwner ? findUpperTransform(this.#owner) : this.#owner;
 
     if (typeof upperTransform !== 'undefined') {
       const scale = upperTransform.absoluteScale();

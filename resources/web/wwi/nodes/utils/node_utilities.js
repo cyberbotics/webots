@@ -10,9 +10,10 @@ export function findUpperTransform(node) {
   while (typeof n !== 'undefined') {
     if (n instanceof WbTransform)
       return n;
-    else
-      n = n.parent;
+
+    n = WbWorld.instance.nodes.get(n.parent);
   }
+
   return undefined;
 }
 

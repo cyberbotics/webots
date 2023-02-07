@@ -115,7 +115,7 @@ export class SFString extends SingleValue {
       this.value = v;
   }
 
-  toJson(parameterName) {
+  toJson() {
     return this.value;
   }
 

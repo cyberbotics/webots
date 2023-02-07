@@ -49,6 +49,8 @@ export default class ProtoManager {
 
     function listExternProto(node, list) {
       for (const parameter of node.parameters.values()) {
+        if (parameter.isDefault())
+          continue;
         const currentValue = parameter.value;
         if (currentValue instanceof SFNode && currentValue.value !== null) {
           if (currentValue.value.isProto && !list.includes(currentValue.value.url)) {

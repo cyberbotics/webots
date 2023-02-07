@@ -1257,7 +1257,7 @@ webots-view .reset-field-button {
   border: none;
   filter: brightness(50%);
   cursor: pointer;
-  margin-left: 10px;
+  margin-left: 5px;
   pointer-events: none;
 }
 
