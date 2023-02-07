@@ -107,14 +107,14 @@ webots.View = class View {
     this.timeout = timeout * 1000; // convert to milliseconds
   }
 
-  setAnimation(url, gui, loop, raw) {
+  setAnimation(animation, gui, loop, raw) {
     if (typeof gui === 'undefined')
       gui = 'play';
     if (typeof loop === 'undefined')
       loop = true;
-    let jsonPromise = raw ? url : new Promise((resolve, reject) => {
+    let jsonPromise = raw ? animation : new Promise((resolve, reject) => {
       let xmlhttp = new XMLHttpRequest();
-      xmlhttp.open('GET', url, true);
+      xmlhttp.open('GET', animation, true);
       xmlhttp.overrideMimeType('application/json');
       xmlhttp.onload = () => {
         if (xmlhttp.status === 200 || xmlhttp.status === 0)
