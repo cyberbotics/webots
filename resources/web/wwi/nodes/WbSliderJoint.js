@@ -44,10 +44,11 @@ export default class WbSliderJoint extends WbJoint {
   }
 
   _updateEndPointZeroTranslationAndRotation() {
-    if (typeof this.endPoint === 'undefined')
+    if (typeof this.solidEndPoint() === 'undefined')
       return;
 
-    this.#endPointZeroTranslation = this.endPoint.translation.sub(this.#axis().mul(this.position));
+    const solid = this.solidEndPoint();
+    this.#endPointZeroTranslation = solid.translation.sub(this.#axis().mul(this.position));
   }
 
   #axis() {
@@ -58,8 +59,9 @@ export default class WbSliderJoint extends WbJoint {
     // called after an artificial move
     this.position = position;
     const translation = this.#computeEndPointSolidPositionFromParameters();
-    if (!translation.almostEquals(this.endPoint.translation))
-      this.endPoint.translation = translation;
+    const solid = this.solidEndPoint();
+    if (!translation.almostEquals(solid.translation))
+      solid.translation = translation;
   }
 
   #computeEndPointSolidPositionFromParameters() {

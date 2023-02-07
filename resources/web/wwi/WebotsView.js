@@ -39,7 +39,7 @@ export default class WebotsView extends HTMLElement {
     this.#initialCallbackDone = true;
 
     this.toolbarCss = document.createElement('link');
-    this.toolbarCss.href = 'https://cyberbotics.com/wwi/proto/css/toolbar.css';
+    this.toolbarCss.href = 'https://cyberbotics.com/wwi/R2023b/css/toolbar.css';
     this.toolbarCss.type = 'text/css';
     this.toolbarCss.rel = 'stylesheet';
     document.head.appendChild(this.toolbarCss);
@@ -56,7 +56,7 @@ export default class WebotsView extends HTMLElement {
 
         // if it's a data file, use a custom dir
         if (path.endsWith('.data'))
-          return 'https://cyberbotics.com/wwi/proto/' + path;
+          return 'https://cyberbotics.com/wwi/R2023b/' + path;
 
         // otherwise, use the default, the prefix (JS file's dir) + the path
         return prefix + path;
@@ -103,7 +103,7 @@ export default class WebotsView extends HTMLElement {
     promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/dependencies/quaternion.min.js'));
     promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/dependencies/libtess.min.js'));
     promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/enum.js'));
-    promises.push(this.#loadScript('https://cyberbotics.com/wwi/proto/wrenjs.js'));
+    promises.push(this.#loadScript('https://cyberbotics.com/wwi/R2023b/wrenjs.js'));
   }
 
   #closeWhenDOMElementRemoved() {

@@ -130,6 +130,18 @@ void WbTcpServer::create(int port) {
   // - a websocket on "/"
   // - texture images on the other urls. e.g. "/textures/dir/image.[jpg|png|hdr]"
 
+  // See if a server is already running on port by trying to connect to it.
+  // This is needed because in some environments QTcpServer::listen() uses a socket that is configured to reuse a port [1]
+  // and Qt does not provide a way to configure the socket before calling listen() [2].
+  // [1] https://doc.qt.io/qt-6/qabstractsocket.html#BindFlag-enum
+  // [2] https://stackoverflow.com/questions/47268023/how-to-set-so-reuseaddr-on-the-socket-used-by-qtcpserver
+  QTcpSocket socket;
+  socket.connectToHost("localhost", port);
+  if (socket.waitForConnected(100)) {
+    socket.disconnectFromHost();
+    throw tr("Port %1 is already in use").arg(port);
+  }
+
   // Reference to let live QTcpSocket and QWebSocketServer on the same port using `QWebSocketServer::handleConnection()`:
   // - https://bugreports.qt.io/browse/QTBUG-54276
   mWebSocketServer = new QWebSocketServer("Webots Streaming Server", QWebSocketServer::NonSecureMode, this);
@@ -554,6 +566,8 @@ void WbTcpServer::resetSimulation() {
   WbApplication::instance()->simulationReset(true);
   QCoreApplication::processEvents();  // this is required to make sure the simulation reset has been performed before sending
                                       // the update
+  printf("reset\n");
+  fflush(stdout);
   mLastUpdateTime = -1.0;
   mPauseTimeout = -1.0;
 }

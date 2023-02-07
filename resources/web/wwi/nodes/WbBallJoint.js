@@ -112,11 +112,12 @@ export default class WbBallJoint extends WbHinge2Joint {
   }
 
   _updateEndPointZeroTranslationAndRotation() {
-    if (typeof this.endPoint === 'undefined')
+    if (typeof this.solidEndPoint() === 'undefined')
       return;
 
-    const ir = this.endPoint.rotation;
-    const it = this.endPoint.translation;
+    const solid = this.solidEndPoint();
+    const ir = solid.rotation;
+    const it = solid.translation;
 
     let qp = new WbQuaternion();
     if (isZeroAngle(this.position) && isZeroAngle(this.position2) && isZeroAngle(this.#position3))
@@ -152,9 +153,10 @@ export default class WbBallJoint extends WbHinge2Joint {
     this.#position3 = position3;
     let rotation = new WbVector4();
     const translation = this.#computeEndPointSolidPositionFromParameters(rotation);
-    if (!translation.almostEquals(this.endPoint.translation) || !rotation.almostEquals(this.endPoint.rotation)) {
-      this.endPoint.translation = translation;
-      this.endPoint.rotation = rotation;
+    const solid = this.solidEndPoint();
+    if (!translation.almostEquals(solid.translation) || !rotation.almostEquals(solid.rotation)) {
+      solid.translation = translation;
+      solid.rotation = rotation;
     }
   }
 

@@ -4,12 +4,17 @@ import {Node} from './Node.js';
 import {VRML} from './vrml_type.js';
 
 import {DOUBLE_EQUALITY_TOLERANCE} from '../nodes/utils/constants.js';
+import Tokenizer from './Tokenizer.js';
 
 class SingleValue {
   #value;
-  constructor(tokenizer) {
-    if (typeof tokenizer !== 'undefined')
-      this.setValueFromTokenizer(tokenizer);
+  constructor(v) {
+    if (typeof v !== 'undefined') {
+      if (v instanceof Tokenizer)
+        this.setValueFromTokenizer(v);
+      else
+        this.setValueFromModel(v);
+    }
   }
 
   get value() {
@@ -54,39 +59,29 @@ class SingleValue {
 
 export class SFBool extends SingleValue {
   setValueFromTokenizer(tokenizer) {
-    super.value = tokenizer.nextToken().toBool();
+    this.value = tokenizer.nextToken().toBool();
+  }
+
+  setValueFromModel(v) {
+    this.value = v;
   }
 
   type() {
     return VRML.SFBool;
   }
-
-  clone() {
-    const copy = new SFBool();
-
-    if (typeof this.value !== 'undefined')
-      copy.value = this.value;
-
-    return copy;
-  }
 }
 
 export class SFInt32 extends SingleValue {
   setValueFromTokenizer(tokenizer) {
-    super.value = tokenizer.nextToken().toInt();
+    this.value = tokenizer.nextToken().toInt();
+  }
+
+  setValueFromModel(v) {
+    this.value = v;
   }
 
   type() {
     return VRML.SFInt32;
-  }
-
-  clone() {
-    const copy = new SFInt32();
-
-    if (typeof this.value !== 'undefined')
-      copy.value = this.value;
-
-    return copy;
   }
 }
 
@@ -95,23 +90,22 @@ export class SFFloat extends SingleValue {
     this.value = tokenizer.nextToken().toFloat();
   }
 
-  type() {
-    return VRML.SFFloat;
+  setValueFromModel(v) {
+    this.value = v;
   }
 
-  clone() {
-    const copy = new SFFloat();
-
-    if (typeof this.value !== 'undefined')
-      copy.value = this.value;
-
-    return copy;
+  type() {
+    return VRML.SFFloat;
   }
 }
 
 export class SFString extends SingleValue {
   setValueFromTokenizer(tokenizer) {
     this.value = tokenizer.nextWord();
+  }
+
+  setValueFromModel(v) {
+    this.value = v;
   }
 
   setValueFromJavaScript(v) {
@@ -121,27 +115,22 @@ export class SFString extends SingleValue {
       this.value = v;
   }
 
-  toJson(parameterName) {
+  toJson() {
     return this.value;
   }
 
   type() {
     return VRML.SFString;
   }
-
-  clone() {
-    const copy = new SFString();
-
-    if (typeof this.value !== 'undefined')
-      copy.value = this.value;
-
-    return copy;
-  }
 }
 
 export class SFVec2f extends SingleValue {
   setValueFromTokenizer(tokenizer) {
     this.value = {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat()};
+  }
+
+  setValueFromModel(v) {
+    this.value = v;
   }
 
   toX3d(parameterName, parentElement) {
@@ -176,20 +165,15 @@ export class SFVec2f extends SingleValue {
   type() {
     return VRML.SFVec2f;
   }
-
-  clone() {
-    const copy = new SFVec2f();
-
-    if (typeof this.value !== 'undefined')
-      copy.value = JSON.parse(JSON.stringify(this.value));
-
-    return copy;
-  }
 }
 
 export class SFVec3f extends SingleValue {
   setValueFromTokenizer(tokenizer) {
     this.value = {x: tokenizer.nextToken().toFloat(), y: tokenizer.nextToken().toFloat(), z: tokenizer.nextToken().toFloat()};
+  }
+
+  setValueFromModel(v) {
+    this.value = v;
   }
 
   toX3d(parameterName, parentElement) {
@@ -224,20 +208,15 @@ export class SFVec3f extends SingleValue {
   type() {
     return VRML.SFVec3f;
   }
-
-  clone() {
-    const copy = new SFVec3f();
-
-    if (typeof this.value !== 'undefined')
-      copy.value = JSON.parse(JSON.stringify(this.value));
-
-    return copy;
-  }
 }
 
 export class SFColor extends SingleValue {
   setValueFromTokenizer(tokenizer) {
     this.value = {r: tokenizer.nextToken().toFloat(), g: tokenizer.nextToken().toFloat(), b: tokenizer.nextToken().toFloat()};
+  }
+
+  setValueFromModel(v) {
+    this.value = v;
   }
 
   toX3d(parameterName, parentElement) {
@@ -272,15 +251,6 @@ export class SFColor extends SingleValue {
   type() {
     return VRML.SFColor;
   }
-
-  clone() {
-    const copy = new SFColor();
-
-    if (typeof this.value !== 'undefined')
-      copy.value = JSON.parse(JSON.stringify(this.value));
-
-    return copy;
-  }
 }
 
 export class SFRotation extends SingleValue {
@@ -291,6 +261,10 @@ export class SFRotation extends SingleValue {
     let aValue = tokenizer.nextToken().toFloat();
 
     this.normalize(xValue, yValue, zValue, aValue);
+  }
+
+  setValueFromModel(v) {
+    this.value = v;
   }
 
   setValueFromJavaScript(v) {
@@ -350,23 +324,53 @@ export class SFRotation extends SingleValue {
   type() {
     return VRML.SFRotation;
   }
-
-  clone() {
-    const copy = new SFRotation();
-
-    if (typeof this.value !== 'undefined')
-      copy.value = JSON.parse(JSON.stringify(this.value));
-
-    return copy;
-  }
 }
 
 export class SFNode extends SingleValue {
   setValueFromTokenizer(tokenizer) {
-    if (tokenizer.peekWord() === 'USE')
+    if (tokenizer.peekWord() === 'USE') {
       this.isUse = true;
+      tokenizer.skipToken('USE');
+      const useName = tokenizer.nextWord();
+      if (!tokenizer.proto.def.has(useName))
+        throw new Error('No DEF name ' + useName + ' found in PROTO:' + tokenizer.proto.name);
 
-    this.value = Node.createNode(tokenizer);
+      this.value = tokenizer.proto.def.get(useName);
+      return;
+    }
+
+    let defName;
+    if (tokenizer.peekWord() === 'DEF') {
+      tokenizer.skipToken('DEF');
+      defName = tokenizer.nextWord();
+    } else if (tokenizer.peekWord() === 'NULL') {
+      this.value = null;
+      return;
+    }
+
+    let url;
+    if (tokenizer.externProto.has(tokenizer.peekWord()))
+      url = tokenizer.externProto.get(tokenizer.nextWord());
+    else
+      url = tokenizer.nextWord();
+
+    this.value = new Node(url, tokenizer);
+
+    if (!this.value.isProto)
+      this.value.configureFromTokenizer(tokenizer, 'fields');
+
+    if (typeof defName !== 'undefined')
+      tokenizer.proto.def.set(defName, this.value);
+  }
+
+  setValueFromModel(v) {
+    if (typeof v === 'undefined')
+      throw new Error('Cannot initialize undefined VRML type.');
+
+    if (v === null)
+      this.value = v;
+    else
+      this.value = new Node(v);
   }
 
   setValueFromJavaScript(value) {
@@ -448,28 +452,18 @@ export class SFNode extends SingleValue {
   type() {
     return VRML.SFNode;
   }
-
-  clone() {
-    const copy = new SFNode();
-
-    if (typeof this.value !== 'undefined') {
-      if (this.value === null) {
-        copy.value = null; // necessary since being null and being undefined have different meanings in this context
-        return copy;
-      }
-
-      copy.value = this.value.clone();
-    }
-
-    return copy;
-  }
 }
 
 class MultipleValue {
   #value = [];
-  constructor(tokenizer) {
-    if (typeof tokenizer !== 'undefined')
-      this.setValueFromTokenizer(tokenizer);
+  constructor(v) {
+    if (typeof v === 'undefined')
+      throw new Error('Cannot initialize undefined VRML type.');
+
+    if (v instanceof Tokenizer)
+      this.setValueFromTokenizer(v);
+    else
+      this.setValueFromModel(v);
   }
 
   get value() {
@@ -553,6 +547,11 @@ export class MFBool extends MultipleValue {
       this.insert(new SFBool(tokenizer));
   }
 
+  setValueFromModel(v) {
+    this.value = [];
+    v.forEach((item) => this.value.push(new SFBool(item)));
+  }
+
   setValueFromJavaScript(items) {
     this.value = [];
     items.forEach((item) => {
@@ -564,12 +563,6 @@ export class MFBool extends MultipleValue {
 
   type() {
     return VRML.MFBool;
-  }
-
-  clone() {
-    const copy = new MFBool();
-    this.value.forEach((item) => copy.insert(item.clone()));
-    return copy;
   }
 }
 
@@ -586,6 +579,11 @@ export class MFInt32 extends MultipleValue {
       this.insert(new SFInt32(tokenizer));
   }
 
+  setValueFromModel(v) {
+    this.value = [];
+    v.forEach((item) => this.value.push(new SFInt32(item)));
+  }
+
   setValueFromJavaScript(items) {
     this.value = [];
     items.forEach((item) => {
@@ -597,12 +595,6 @@ export class MFInt32 extends MultipleValue {
 
   type() {
     return VRML.MFInt32;
-  }
-
-  clone() {
-    const copy = new MFInt32();
-    this.value.forEach((item) => copy.insert(item.clone()));
-    return copy;
   }
 }
 
@@ -619,6 +611,11 @@ export class MFFloat extends MultipleValue {
       this.insert(new SFFloat(tokenizer));
   }
 
+  setValueFromModel(v) {
+    this.value = [];
+    v.forEach((item) => this.value.push(new SFFloat(item)));
+  }
+
   setValueFromJavaScript(items) {
     this.value = [];
     items.forEach((item) => {
@@ -630,12 +627,6 @@ export class MFFloat extends MultipleValue {
 
   type() {
     return VRML.MFFloat;
-  }
-
-  clone() {
-    const copy = new MFFloat();
-    this.value.forEach((item) => copy.insert(item.clone()));
-    return copy;
   }
 }
 
@@ -652,6 +643,11 @@ export class MFString extends MultipleValue {
       this.insert(new SFString(tokenizer));
   }
 
+  setValueFromModel(v) {
+    this.value = [];
+    v.forEach((item) => this.value.push(new SFString(item)));
+  }
+
   setValueFromJavaScript(items) {
     this.value = [];
     items.forEach((item) => {
@@ -663,12 +659,6 @@ export class MFString extends MultipleValue {
 
   type() {
     return VRML.MFString;
-  }
-
-  clone() {
-    const copy = new MFString();
-    this.value.forEach((item) => copy.insert(item.clone()));
-    return copy;
   }
 }
 
@@ -685,6 +675,11 @@ export class MFVec2f extends MultipleValue {
       this.insert(new SFVec2f(tokenizer));
   }
 
+  setValueFromModel(v) {
+    this.value = [];
+    v.forEach((item) => this.value.push(new SFVec2f(item)));
+  }
+
   setValueFromJavaScript(items) {
     this.value = [];
     items.forEach((item) => {
@@ -696,12 +691,6 @@ export class MFVec2f extends MultipleValue {
 
   type() {
     return VRML.MFVec2f;
-  }
-
-  clone() {
-    const copy = new MFVec2f();
-    this.value.forEach((item) => copy.insert(item.clone()));
-    return copy;
   }
 }
 
@@ -718,6 +707,11 @@ export class MFVec3f extends MultipleValue {
       this.insert(new SFVec3f(tokenizer));
   }
 
+  setValueFromModel(v) {
+    this.value = [];
+    v.forEach((item) => this.value.push(new SFVec3f(item)));
+  }
+
   setValueFromJavaScript(items) {
     this.value = [];
     items.forEach((item) => {
@@ -729,12 +723,6 @@ export class MFVec3f extends MultipleValue {
 
   type() {
     return VRML.MFVec3f;
-  }
-
-  clone() {
-    const copy = new MFVec3f();
-    this.value.forEach((item) => copy.insert(item.clone()));
-    return copy;
   }
 }
 
@@ -751,6 +739,11 @@ export class MFColor extends MultipleValue {
       this.insert(new SFColor(tokenizer));
   }
 
+  setValueFromModel(v) {
+    this.value = [];
+    v.forEach((item) => this.value.push(new SFColor(item)));
+  }
+
   setValueFromJavaScript(items) {
     this.value = [];
     items.forEach((item) => {
@@ -762,12 +755,6 @@ export class MFColor extends MultipleValue {
 
   type() {
     return VRML.MFColor;
-  }
-
-  clone() {
-    const copy = new MFColor();
-    this.value.forEach((item) => copy.insert(item.clone()));
-    return copy;
   }
 }
 
@@ -784,6 +771,11 @@ export class MFRotation extends MultipleValue {
       this.insert(new SFRotation(tokenizer));
   }
 
+  setValueFromModel(v) {
+    this.value = [];
+    v.forEach((item) => this.value.push(new SFRotation(item)));
+  }
+
   setValueFromJavaScript(items) {
     this.value = [];
     items.forEach((item) => {
@@ -796,31 +788,9 @@ export class MFRotation extends MultipleValue {
   type() {
     return VRML.MFRotation;
   }
-
-  clone() {
-    const copy = new MFRotation();
-    this.value.forEach((item) => copy.insert(item.clone()));
-    return copy;
-  }
 }
 
 export class MFNode extends MultipleValue {
-  get value() {
-    return super.value;
-  }
-
-  set value(v) {
-    if (!Array.isArray(v)) {
-      if (v instanceof Node) {
-        const sf = new SFNode();
-        sf.value = v;
-        this.insert(sf);
-      } else
-        this.insert(v);
-    } else
-      super.value = v;
-  }
-
   setValueFromTokenizer(tokenizer) {
     if (tokenizer.peekWord() === '[') {
       tokenizer.skipToken('[');
@@ -831,6 +801,11 @@ export class MFNode extends MultipleValue {
       tokenizer.skipToken(']');
     } else
       this.insert(new SFNode(tokenizer));
+  }
+
+  setValueFromModel(v) {
+    this.value = [];
+    v.forEach((item) => this.value.push(new SFNode(item)));
   }
 
   setValueFromJavaScript(items) {
@@ -877,15 +852,12 @@ export class MFNode extends MultipleValue {
   type() {
     return VRML.MFNode;
   }
-
-  clone() {
-    const copy = new MFNode();
-    this.value.forEach((item) => copy.insert(item.clone()));
-    return copy;
-  }
 }
 
-export function vrmlFactory(type, tokenizer) {
+export function vrmlFactory(type, tokenizer, rewind) {
+  if (rewind)
+    tokenizer.rewind(); // ensures the tokenizer starts from the beginning every time
+
   switch (type) {
     case VRML.SFBool:
       return new SFBool(tokenizer);

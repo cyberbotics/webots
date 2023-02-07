@@ -1,26 +1,21 @@
 'use strict';
 
-import {MFNode, SFNode, stringifyType} from './Vrml.js';
+import {SFNode, stringifyType} from './Vrml.js';
 import Node from './Node.js';
 import {VRML} from './vrml_type.js';
+import WbWorld from '../nodes/WbWorld.js';
+import Field from './Field.js';
 
-export default class Parameter {
-  #type;
-  #name;
-  #value;
-  #defaultValue;
-  #isTemplateRegenerator;
+export default class Parameter extends Field {
   #restrictions;
-  #parameterLinks;
-  constructor(node, name, type, restrictions, defaultValue, value, isTemplateRegenerator) {
-    this.node = node; // node this parameter belongs to
-    this.#type = type;
-    this.#name = name;
+  #aliasLinks;
+  #isTemplateRegenerator;
+  constructor(node, name, type, defaultValue, value, restrictions, isTemplateRegenerator) {
+    super(node, name, type, value, defaultValue);
+
     this.#restrictions = restrictions;
-    this.defaultValue = defaultValue;
-    this.value = value;
     this.#isTemplateRegenerator = isTemplateRegenerator;
-    this.#parameterLinks = []; // list of other parameters to notify whenever this instance changes
+    this.#aliasLinks = []; // list of other parameters to notify whenever this instance changes
   }
 
   get restrictions() {
@@ -32,52 +27,25 @@ export default class Parameter {
   }
 
   get value() {
-    return this.#value;
+    return super.value;
   }
 
-  set value(v) {
-    if (v.type() !== this.type)
-      throw new Error('Type mismatch, setting ' + stringifyType(v.type()) + ' to ' + stringifyType(this.type) + ' parameter.');
+  set value(newValue) {
+    if (newValue.type() !== this.type)
+      throw new Error(`Type mismatch, setting ${stringifyType(newValue.type())} to ${stringifyType(this.type)} parameter.`);
 
     if (this.restrictions.length > 0) {
       for (const item of this.restrictions) {
-        if ((v instanceof SFNode && v.value === null) || item.equals(v)) {
-          this.#value = v;
+        if ((newValue instanceof SFNode && newValue.value === null) || item.equals(newValue)) {
+          super.value = newValue;
           return;
         }
       }
 
-      throw new Error('Parameter ' + this.name + ' is restricted and the value being set is not permitted.');
+      throw new Error(`Parameter ${this.name} is restricted and the value being set is not permitted.`);
     }
 
-    this.#value = v;
-  }
-
-  get defaultValue() {
-    return this.#defaultValue;
-  }
-
-  set defaultValue(v) {
-    if (v.type() !== this.type)
-      throw new Error('Type mismatch, setting ' + stringifyType(v.type()) + ' to ' + stringifyType(this.type) + ' parameter.');
-
-    this.#defaultValue = v;
-  }
-
-  get type() {
-    return this.#type;
-  }
-
-  set type(type) {
-    this.#type = type;
-  }
-
-  get name() {
-    return this.#name;
-  }
-
-  set name(value) {
-    this.#name = value;
+    super.value = newValue;
   }
 
   get isTemplateRegenerator() {
@@ -88,36 +56,34 @@ export default class Parameter {
     this.#isTemplateRegenerator = value;
   }
 
-  get parameterLinks() {
-    return this.#parameterLinks;
+  get aliasLinks() {
+    return this.#aliasLinks;
   }
 
-  resetParameterLinks() {
-    this.#parameterLinks = [];
+  set aliasLinks(newValue) {
+    this.#aliasLinks = newValue;
   }
 
-  insertLink(parameter) {
-    this.#parameterLinks.push(parameter);
+  addAliasLink(parameter) {
+    this.#aliasLinks.push(parameter);
+  }
+
+  resetAliasLinks() {
+    this.#aliasLinks = [];
   }
 
   insertNode(view, v, index) {
     if (this.type !== VRML.MFNode)
-      throw new Error('Item insertion is possible only for MFNodes.')
+      throw new Error('Item insertion is possible only for MFNodes.');
 
-    for (const link of this.parameterLinks)
-      link.insertNode(view, v.clone(), index);
+    this.value.insertNode(v, index);
 
-    if (this.node.isProto) { // add value on the structure side
-      this.#value.insertNode(v, index);
-      return; // webotsJS needs to be notified of parameter changes only if the parameter belongs to a base-node, not PROTO
+    // insert the new node on the webotsjs side
+    for (const id of this.node.getBaseNodeIds()) {
+      v.assignId();
+      const x3d = new XMLSerializer().serializeToString(v.toX3d());
+      view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', id.replace('n', ''));
     }
-
-    // get the parent id to insert the new node
-    const baseNode = this.node.getBaseNode();
-    const parentId = baseNode.id.replace('n', '');
-    const x3d = new XMLSerializer().serializeToString(v.toX3d());
-    view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
-    this.#value.insertNode(v, index); // add value on the structure side
 
     view.x3dScene.render();
   }
@@ -126,117 +92,117 @@ export default class Parameter {
     if (this.type !== VRML.MFNode)
       throw new Error('Item insertion is possible only for MFNodes.');
 
-    for (const link of this.parameterLinks)
-      link.removeNode(view, index);
+    const links = this.linksToNotify();
+    const idsToDelete = new Set();
 
-    if (this.node.isProto) { // update value on the structure side
-      this.#value.removeNode(index);
-      return; // webotsJS needs to be notified of parameter changes only if the parameter belongs to a base-node, not PROTO
+    for (const link of links) {
+      // determine ids of nodes that need to be deleted on the webotsjs side
+      for (const id of link.value.value[index].value.getBaseNodeIds())
+        idsToDelete.add(id);
     }
 
-    if (this.#value.value.length > 0) {
-      // delete existing node
-      const baseNode = this.node.getBaseNode();
-      const p = baseNode.getParameterByName(this.name);
-      const id = p.value.value[index].value.getBaseNode().id;
+    // delete node on the structure side
+    this.value.removeNode(index);
 
+    // delete existing nodes on the webotsjs side
+    for (const id of idsToDelete)
       view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
-      this.#value.removeNode(index); // update value on the structure side
+
+    view.x3dScene.render();
+  }
+
+  setValueFromJavaScript(view, v) {
+    if (this.isTemplateRegenerator) {
+      const parentIds = new Set();
+      for (const id of this.node.getBaseNodeIds()) {
+        const jsNode = WbWorld.instance.nodes.get(id);
+        parentIds.add(jsNode.parent);
+        view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
+      }
+
+      // now that the nodes have been deleted on the webotsjs side, the corresponding ids need to be cleared in the structure
+      this.node.resetIds();
+
+      // update the parameter value (note: all IS instances refer to the parameter itself, so they don't need to change)
+      this.value.setValueFromJavaScript(v);
+      this.node.createBaseType(); // regenerate the base type
+
+      this.node.resetRefs(); // reset the instance counters
+      // insert the new node on the webotsjs side
+      for (const id of parentIds) {
+        // note: there must be as many id assignments as there are parents, this is because on the webotsjs side the instances
+        // need to be distinguishable, so each "IS" needs to notify webotsjs and provide a unique variant of the x3d
+        // (with unique ids) for each node
+        this.node.assignId();
+        const x3d = new XMLSerializer().serializeToString(this.node.toX3d());
+        view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', id.replace('n', ''));
+      }
+
+      view.x3dScene.render();
+      return;
+    }
+
+    if (v instanceof Node || v === null) {
+      const links = this.linksToNotify();
+      const parentIds = new Set();
+      const idsToDelete = new Set();
+
+      for (const link of links) {
+        // determine parent node ids and ids of nodes that need to be deleted on the webotsjs side
+        for (const id of link.node.getBaseNodeIds()) {
+          parentIds.add(id);
+
+          if (link.value.value !== null) {
+            for (const id of link.value.value.getBaseNodeIds())
+              idsToDelete.add(id);
+          }
+        }
+      }
+
+      // delete existing nodes
+      for (const id of idsToDelete)
+        view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
+
+      // update the parameter value (note: all IS instances refer to the parameter itself, so they don't need to change)
+      this.value.setValueFromJavaScript(v);
+
+      if (v !== null) {
+        // insert the new node on the webotsjs side
+        for (const parent of parentIds) {
+          v.assignId();
+          const x3d = new XMLSerializer().serializeToString(v.toX3d());
+          view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parent.replace('n', ''));
+        }
+      }
+    } else {
+      // update the parameter
+      this.value.setValueFromJavaScript(v);
+
+      const links = this.linksToNotify();
+      for (const link of links) {
+        for (const id of link.node.ids) {
+          const action = {};
+          action['id'] = id;
+          action[link.name] = this.value.toJson();
+          view.x3dScene.applyUpdate(action);
+        }
+      }
     }
 
     view.x3dScene.render();
   }
 
-  setValueFromJavaScript(view, v, index) {
-    // notify linked parameters of the change
-    for (const link of this.parameterLinks)
-      link.setValueFromJavaScript(view, (v !== null && v instanceof Node) ? v.clone() : v, index);
+  linksToNotify() {
+    let links = [];
+    for (const link of this.aliasLinks) {
+      if (link instanceof Parameter && link.aliasLinks.length > 0)
+        links = links.concat(link.linksToNotify());
 
-    if (this.isTemplateRegenerator) {
-      // regenerate this node, and all its siblings
-      this.#value.setValueFromJavaScript(v, index);
-      this.node.regenerateNode(view);
-
-      if (typeof this.onChange === 'function')
-        this.onChange();
-    } else {
-      if (this.node.isProto) {
-        // update value on the structure side
-        this.#value.setValueFromJavaScript(v, index);
-        return; // webotsJS needs to be notified of parameter changes only if the parameter belongs to a base-node, not PROTO
-      }
-
-      if (this.#value instanceof SFNode) {
-        const baseNode = this.node.getBaseNode();
-        if (this.#value.value !== null) {
-          // delete existing node
-          const p = baseNode.getParameterByName(this.name);
-          const id = p.value.value.getBaseNode().id;
-          view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
-        }
-
-        // update value on the structure side
-        this.#value.setValueFromJavaScript(v);
-
-        if (v !== null) {
-          // get the parent id to insert the new node
-          const parentId = baseNode.id.replace('n', '');
-
-          const x3d = new XMLSerializer().serializeToString(v.toX3d());
-          view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
-        }
-      } else if (this.#value instanceof MFNode) {
-        const baseNode = this.node.getBaseNode();
-        if (this.#value.value.length > 0) { // delete existing node
-          const p = baseNode.getParameterByName(this.name);
-          const id = p.value.value[index].value.getBaseNode().id;
-          view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
-        }
-
-        // update value on the structure side
-        this.#value.setValueFromJavaScript(v, index);
-
-        // get the parent id to insert the new node and notify webotsjs
-        const parentId = baseNode.id.replace('n', '');
-        v.forEach((item) => {
-          const x3d = new XMLSerializer().serializeToString(item.toX3d());
-          view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parentId);
-        });
-      } else {
-        // update value on the structure side
-        this.#value.setValueFromJavaScript(v);
-
-        // update value on the webotsJS side
-        const action = {};
-        action['id'] = this.node.id;
-        action[this.name] = this.value.toJson();
-        view.x3dScene.applyUpdate(action);
-      }
-      view.x3dScene.render();
+      if (!link.node.isProto)
+        links.push(link);
     }
-  }
 
-  isDefault() {
-    if (typeof this.defaultValue === 'undefined' || typeof this.value === 'undefined')
-      throw new Error('Cannot check default-ness, either "value" or "defaultValue" is undefined.');
-
-    return this.value.equals(this.defaultValue);
-  }
-
-  clone(deep = false) {
-    const restrictions = [];
-    for (const item of this.restrictions)
-      restrictions.push(item.clone(deep));
-
-    const copy = new Parameter(this.node, this.name, this.type, restrictions,
-      deep ? this.defaultValue.clone(deep) : this.defaultValue,
-      deep ? this.value.clone(deep) : this.value, this.isTemplateRegenerator);
-
-    copy.#parameterLinks = [];
-    for (const item of this.parameterLinks)
-      copy.insertLink(item.clone(deep));
-
-    return copy;
+    return links;
   }
 }
 

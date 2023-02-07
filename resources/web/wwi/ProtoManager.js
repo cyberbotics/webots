@@ -22,41 +22,22 @@ export default class ProtoManager {
       };
       xmlhttp.send();
     }).then(async text => {
-      this.proto = new Node(url, text, true);
-      await this.proto.generateInterface();
-      this.proto.parseBody();
+      this.proto = await Node.createNode(url, undefined, true);
       this.loadX3d();
-    });
-  }
-
-  async generateNodeFromUrl(url) {
-    return new Promise((resolve, reject) => {
-      const xmlhttp = new XMLHttpRequest();
-      xmlhttp.open('GET', url, true);
-      xmlhttp.overrideMimeType('plain/text');
-      xmlhttp.onreadystatechange = async() => {
-        if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
-          resolve(xmlhttp.responseText);
-      };
-      xmlhttp.send();
-    }).then(async text => {
-      const node = new Node(url, text);
-      await node.generateInterface();
-      node.parseBody();
-      return node;
     });
   }
 
   async loadX3d() {
     const xml = this.getXmlOfMinimalScene();
     const scene = xml.getElementsByTagName('Scene')[0];
-    if (this.proto.isRoot && (this.proto.baseType.name === 'PBRAppearance' || this.proto.baseType.name === 'Appearance')) {
+    if (this.proto.isRoot && ['PBRAppearance', 'Appearance'].includes(this.proto.getBaseNode().name)) {
       const wrapper = this.createAppearanceWrapper();
       scene.appendChild(wrapper);
     } else
       scene.appendChild(this.proto.toX3d());
 
     const x3d = new XMLSerializer().serializeToString(xml);
+
     this.#view.prefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);
     this.#view.open(x3d, 'x3d', '', true);
   }
@@ -68,6 +49,8 @@ export default class ProtoManager {
 
     function listExternProto(node, list) {
       for (const parameter of node.parameters.values()) {
+        if (parameter.isDefault())
+          continue;
         const currentValue = parameter.value;
         if (currentValue instanceof SFNode && currentValue.value !== null) {
           if (currentValue.value.isProto && !list.includes(currentValue.value.url)) {

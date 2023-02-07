@@ -17,6 +17,8 @@ export default class WbTransform extends WbGroup {
   #upperTransformFirstTimeSearch;
   #vrmlMatrix;
   #vrmlMatrixNeedUpdate;
+  #boundingObjectFirstTimeSearch;
+  #isInBoundingObject;
   constructor(id, translation, scale, rotation) {
     super(id);
     this.#translation = translation;
@@ -140,6 +142,16 @@ export default class WbTransform extends WbGroup {
     }
 
     return this.#vrmlMatrix;
+  }
+
+  isInBoundingObject() {
+    if (this.#boundingObjectFirstTimeSearch) {
+      this.#isInBoundingObject = nodeIsInBoundingObject(this);
+      if (this.wrenObjectsCreatedCalled)
+        this.#boundingObjectFirstTimeSearch = false;
+    }
+
+    return this.#isInBoundingObject;
   }
 
   #applyRotationToWren() {

@@ -42,6 +42,7 @@ import WbSpotLight from './nodes/WbSpotLight.js';
 import WbDirectionalLight from './nodes/WbDirectionalLight.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
 import WbConnector from './nodes/WbConnector.js';
+import WbShape from './nodes/WbShape.js';
 
 export default class X3dScene {
   #nextRenderingTime;
@@ -173,19 +174,18 @@ export default class X3dScene {
 
   async loadObject(x3dObject, parentId, callback) {
     let parentNode;
-    if (typeof parentId !== 'undefined') {
+    if (typeof parentId !== 'undefined')
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
-      parentNode.unfinalize();
-    }
 
     const parser = new Parser(webots.currentView.prefix);
     parser.prefix = webots.currentView.prefix;
     await parser.parse(x3dObject, this.renderer, false, parentNode, callback);
 
     const node = WbWorld.instance.nodes.get(parser.rootNodeId);
-    if (typeof parentId !== 'undefined')
+    if (parentNode instanceof WbShape) {
+      parentNode.unfinalize();
       parentNode.finalize();
-    else
+    } else
       node.finalize();
   }
 
@@ -305,8 +305,16 @@ export default class X3dScene {
         if (object instanceof WbMesh)
           object.materialIndex = parseInt(update[key]);
       } else if (key === 'url') {
-        if (object instanceof WbMesh || object instanceof WbCadShape)
-          object.url = update[key][0];
+        if (object instanceof WbMesh || object instanceof WbCadShape || object instanceof WbImageTexture) {
+          let urlString = update[key];
+          if (urlString === '[]') {
+            object.url = undefined;
+            return;
+          }
+          if (urlString.startsWith('[') && urlString.endsWith(']'))
+            urlString = urlString.substring(1, urlString.length - 1);
+          object.url = urlString.split('"').filter(element => { if (element !== ' ') return element; })[0];
+        }
       } else if (key === 'point') {
         if (object instanceof WbCoordinate)
           object.point = convertStringToVec3Array(update[key]);

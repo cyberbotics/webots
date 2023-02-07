@@ -154,56 +154,55 @@ PROTO VehicleWheel [
                       circles[0] = wbgeometry.circle(rimRadius, subdivision, {x: 0, y: 0}, 0);
                       let beta = Math.PI / (2 * edgeSubdivision);
                       for (let i = 0; i <= edgeSubdivision; ++i)
-                        circles[i + 1] = wbgeometry.circle(tireRadius - (thickness * 0.5)  * curvatureFactor *  (1 - Math.sin(beta * i)), subdivision, {x: 0, y: 0}, 0);
+                        circles[i + 1] = wbgeometry.circle(tireRadius - (thickness * 0.5) * curvatureFactor * (1 - Math.sin(beta * i)), subdivision, {x: 0, y: 0}, 0);
+
+                      let pointBuffer = '';
+                      // top inner
+                      for (let i = 0; i < circles[0].length; ++i)
+                        pointBuffer += `${thickness * 0.5} ${-circles[0][i].x} ${circles[0][i].y}\n`;
+
+                      for (let i = 0; i <= edgeSubdivision; ++i) {
+                        for (let j = 0; j < circles[i+1].length; ++j)
+                          pointBuffer += `${thickness * 0.5 * (1 - curvatureFactor * (1 - Math.cos(beta * i)))} ${-circles[i+1][j].x} ${circles[i+1][j].y}\n`;
+                      }
+
+                      for (let i = 0; i <= edgeSubdivision; ++i) {
+                        for (let j = 0; j < circles[(edgeSubdivision - i) + 1].length; ++j)
+                          pointBuffer += `${- thickness * 0.5 * (1 - curvatureFactor * (1 - Math.sin(beta * i)))} ${-circles[(edgeSubdivision - i) + 1][j].x} ${circles[(edgeSubdivision - i) + 1][j].y}\n`;
+                      }
+
+                      // bottom inner
+                      for (let i = 0; i < circles[0].length; ++i)
+                        pointBuffer += `${- thickness * 0.5} ${-circles[0][i].x} ${circles[0][i].y}\n`;
+
                     >%
-                    
-                    # top inner
-                    %< for (let i = 0; i < circles[0].length; ++i) { >%
-                      %<= thickness * 0.5 >% %<= -circles[0][i].x >% %<= circles[0][i].y >%
-                    %< } >%
-
-                    %< for (let i = 0; i <= edgeSubdivision; ++i) { >%
-                      %< for (let j = 0; j < circles[i+1].length; ++j) { >%
-                        %<= thickness * 0.5 * (1 - curvatureFactor * (1 - Math.cos(beta * i))) >% %<= -circles[i+1][j].x >% %<= circles[i+1][j].y >%
-                      %< } >%
-                    %< } >%
-
-                    %< for (let i = 0; i <= edgeSubdivision; ++i) { >%
-                      %< for (let j = 0; j < circles[(edgeSubdivision - i) + 1].length; ++j) { >%
-                        %<= - thickness * 0.5 * (1 - curvatureFactor * (1 - Math.sin(beta * i))) >% %<= -circles[(edgeSubdivision - i) + 1][j].x >% %<= circles[(edgeSubdivision - i) + 1][j].y >%
-                      %< } >%
-                    %< } >%
-
-                    # bottom inner
-                    %< for (let i = 0; i < circles[0].length; ++i) { >%
-                    %<= - thickness * 0.5 >% %<= -circles[0][i].x >% %<= circles[0][i].y >%
-                    %< } >%
-
+                    %<= pointBuffer >%
                   ]
                 }
                 texCoord TextureCoordinate {
                   point [
-                    # top inner
-                    %< for (let i = 0; i <= subdivision; ++i) { >%
-                      0 %<= 10 * i / subdivision >%
-                    %< } >%
+                    %<
+                      let texCoordBuffer = '';
+                      // top inner
+                      for (let i = 0; i <= subdivision; ++i)
+                        texCoordBuffer += `${0} ${10 * i / subdivision}\n`;
 
-                    %< for (let j = 0; j <= edgeSubdivision; ++j) { >%
-                      %< for (let i = 0; i <= subdivision; ++i) { >%
-                        %<= 0.125 + 0.125 * j / edgeSubdivision >% %<= 10 * i / subdivision >%
-                      %< } >%
-                    %< } >%
+                      for (let j = 0; j <= edgeSubdivision; ++j) {
+                        for (let i = 0; i <= subdivision; ++i)
+                          texCoordBuffer += `${0.125 + 0.125 * j / edgeSubdivision} ${10 * i / subdivision}\n`;
+                      }
 
-                    %< for (let j = 0; j <= edgeSubdivision; ++j) { >%
-                      %< for (let i = 0; i <= subdivision; ++i) { >%
-                        %<= 0.75 + 0.125 * j / edgeSubdivision >% %<= 10 * i / subdivision >%
-                      %< } >%
-                    %< } >%
+                      for (let j = 0; j <= edgeSubdivision; ++j) {
+                        for (let i = 0; i <= subdivision; ++i)
+                          texCoordBuffer += `${0.75 + 0.125 * j / edgeSubdivision} ${10 * i / subdivision}\n`;
+                      }
 
-                    # bottom inner
-                    %< for (let i = 0; i <= subdivision; ++i) { >%
-                      1 %<= 10 * i / subdivision >%
-                    %< } >%
+                      // bottom inner
+                      for (let i = 0; i <= subdivision; ++i)
+                        texCoordBuffer += `${1} ${10 * i / subdivision}\n`;
+
+                    >%
+                    %<= texCoordBuffer >%
                   ]
                 }
                 coordIndex [
@@ -211,21 +210,28 @@ PROTO VehicleWheel [
                     let offset = [0];
                     for (let i = 1; i <= (3 + 2 * edgeSubdivision); ++i)
                       offset[i] = (subdivision + 1) * i;
+
+                    let coordIndexBuffer = '';
+                    for (let j = 0; j <= (2 + 2 * edgeSubdivision); ++j) {
+                      for (let i = 0; i <= subdivision - 1; ++i) {
+                        coordIndexBuffer += `${offset[j] + i} ${offset[j] + i + 1} ${offset[j + 1] + i + 1} -1\n`;
+                        coordIndexBuffer += `${offset[j + 1] + i + 1} ${offset[j + 1] + i} ${offset[j] + i} -1\n`;
+                      }
+                    }
                   >%
-                  %< for (let j = 0; j <= (2 + 2 * edgeSubdivision); ++j) { >%
-                    %< for (let i = 0; i <= subdivision - 1; ++i) { >%
-                      %<= offset[j] + i >% %<= offset[j] + i + 1 >% %<= offset[j + 1] + i + 1 >% -1
-                      %<= offset[j + 1] + i + 1 >% %<= offset[j + 1] + i >% %<= offset[j] + i >% -1
-                    %< } >%
-                  %< } >%
+                  %<= coordIndexBuffer >%
                 ]
                 texCoordIndex [
-                  %< for (let j = 0; j <= (2 + 2 * edgeSubdivision); ++j) { >%
-                    %< for (let i = 0; i <= subdivision - 1; ++i) { >%
-                      %<= offset[j] + i >% %<= offset[j] + i + 1 >% %<= offset[j + 1] + i + 1 >% -1
-                      %<= offset[j + 1] + i + 1 >% %<= offset[j + 1] + i >% %<= offset[j] + i >% -1
-                    %< } >%
-                  %< } >%
+                  %<
+                    let texCoordIndexBuffer = '';
+                    for (let j = 0; j <= (2 + 2 * edgeSubdivision); ++j) {
+                      for (let i = 0; i <= subdivision - 1; ++i) {
+                        texCoordIndexBuffer += `${offset[j] + i} ${offset[j] + i + 1} ${offset[j + 1] + i + 1} -1\n`;
+                        texCoordIndexBuffer += `${offset[j + 1] + i + 1} ${offset[j + 1] + i} ${offset[j] + i} -1\n`;
+                      }
+                    }
+                  >%
+                  %<= texCoordIndexBuffer >%
                 ]
                 creaseAngle 1.5
               }
@@ -243,27 +249,26 @@ PROTO VehicleWheel [
                     %<
                       const rimOuterCircle = wbgeometry.circle(rimRadius, subdivision, {x: 0, y: 0}, 0);
                       const rimInnerCircle = wbgeometry.circle(rimRadius * 0.9, subdivision, {x: 0, y: 0}, 0);
+
+                      let rimCoordBuffer = '';
+                      // top outer
+                      for (let i = 0; i < rimOuterCircle.length; ++i)
+                        rimCoordBuffer += `${-thickness * 0.5} ${rimOuterCircle[i].x} ${rimOuterCircle[i].y}\n`;
+
+                      // top inner
+                      for (let i = 0; i < rimInnerCircle.length; ++i)
+                        rimCoordBuffer += `${-thickness * 0.5} ${rimInnerCircle[i].x} ${rimInnerCircle[i].y}\n`;
+
+                      // bottom inner
+                      for (let i = 0; i < rimInnerCircle.length; ++i)
+                        rimCoordBuffer += `${thickness * 0.5} ${rimInnerCircle[i].x} ${rimInnerCircle[i].y}\n`;
+
+                      // bottom outer
+                      for (let i = 0; i < rimOuterCircle.length; ++i)
+                        rimCoordBuffer += `${thickness * 0.5} ${rimOuterCircle[i].x} ${rimOuterCircle[i].y}\n`;
+
                     >%
-
-                    # top outer
-                    %< for (let i = 0; i < rimOuterCircle.length; ++i) { >%
-                      %<= -thickness * 0.5 >% %<= rimOuterCircle[i].x >% %<= rimOuterCircle[i].y >%
-                    %< } >%
-
-                    # top inner
-                    %< for (let i = 0; i < rimInnerCircle.length; ++i) { >%
-                      %<= -thickness * 0.5 >% %<= rimInnerCircle[i].x >% %<= rimInnerCircle[i].y >%
-                    %< } >%
-
-                    # bottom inner
-                    %< for (let i = 0; i < rimInnerCircle.length; ++i) { >%
-                      %<= thickness * 0.5 >% %<= rimInnerCircle[i].x >% %<= rimInnerCircle[i].y >%
-                    %< } >%
-
-                    # bottom outer
-                    %< for (let i = 0; i < rimOuterCircle.length; ++i) { >%
-                      %<= thickness * 0.5 >% %<= rimOuterCircle[i].x >% %<= rimOuterCircle[i].y >%
-                    %< } >%
+                    %<= rimCoordBuffer >%
                   ]
                 }
                 coordIndex [
@@ -271,13 +276,16 @@ PROTO VehicleWheel [
                     offset = [0];
                     for (let i = 1; i <= 3; ++i)
                       offset[i] = (subdivision + 1) * i;
+
+                    let rimCoordIndex = '';
+                    for (let j = 0; j <= 2; ++j) {
+                      for (let i = 0; i <= subdivision - 1; ++i) {
+                        rimCoordIndex += `${offset[j] + i + 1} ${offset[j] + i} ${offset[j + 1] + i} -1\n`;
+                        rimCoordIndex += `${offset[j + 1] + i} ${offset[j + 1] + i  + 1} ${offset[j] + i + 1} -1\n`;
+                      }
+                    }
                   >%
-                  %< for (let j = 0; j <= 2; ++j) { >%
-                    %< for (let i = 0; i <= subdivision - 1; ++i) { >%
-                      %<= offset[j] + i + 1 >% %<= offset[j] + i>% %<= offset[j + 1] + i>% -1
-                      %<= offset[j + 1] + i>% %<= offset[j + 1] + i  + 1 >% %<= offset[j] + i + 1 >% -1
-                    %< } >%
-                  %< } >%
+                  %<= rimCoordIndex >%
                 ]
                 creaseAngle %<= 2 * Math.PI / subdivision + 0.01 >%
               }
@@ -301,100 +309,106 @@ PROTO VehicleWheel [
                       let centralOffset = [];
                       for (let i = 0; i <= 10; ++i)
                         centralOffset[i] = (rimBeamNumber + 1) * i;
+
+                      // Top part
+                      let rimBeamCoordBuffer = '';
+                      // Center
+                      rimBeamCoordBuffer += `${-rimBeamThickness / 2.5 - rimBeamOffset/2} 0 0\n`;
+                      for (let i = 0; i < centralCircles[0].length; ++i)
+                        rimBeamCoordBuffer += `${-rimBeamThickness * 0.5 - rimBeamOffset/2} ${centralCircles[0][i].x} ${centralCircles[0][i].y}\n`;
+
+                      // Between beams
+                      for (let i = 0; i < centralCircles[1].length; ++i)
+                        rimBeamCoordBuffer += `${-rimBeamThickness / 2.5 - rimBeamOffset/2} ${centralCircles[1][i].x} ${centralCircles[1][i].y}\n`;
+
+                      for (let i = 0; i < centralCircles[2].length; ++i)
+                        rimBeamCoordBuffer += `${-rimBeamThickness / 2.5 - rimBeamOffset/2} ${centralCircles[2][i].x} ${centralCircles[2][i].y}\n`;
+
+                      // Beams
+                      for (let i = 0; i < centralCircles[3].length; ++i)
+                        rimBeamCoordBuffer += `${-rimBeamThickness * 0.5 - rimBeamOffset/2} ${centralCircles[3][i].x} ${centralCircles[3][i].y}\n`;
+
+                      for (let i = 0; i < centralCircles[4].length; ++i)
+                        rimBeamCoordBuffer += `${-rimBeamThickness / 2.5 - rimBeamOffset/2} ${centralCircles[4][i].x} ${centralCircles[4][i].y}\n`;
+
+                      for (let i = 0; i < centralCircles[5].length; ++i)
+                        rimBeamCoordBuffer += `${-rimBeamThickness / 2.5 - rimBeamOffset/2} ${centralCircles[5][i].x} ${centralCircles[5][i].y}\n`;
+
+                      // side
+                      // Between beams
+                      for (let i = 0; i < centralCircles[1].length; ++i)
+                        rimBeamCoordBuffer += `${rimBeamThickness * 0.5 - rimBeamOffset/2} ${centralCircles[1][i].x} ${centralCircles[1][i].y}\n`;
+
+                      for (let i = 0; i < centralCircles[2].length; ++i)
+                        rimBeamCoordBuffer += `${rimBeamThickness * 0.5 - rimBeamOffset/2} ${centralCircles[2][i].x} ${centralCircles[2][i].y}\n`;
+
+                      // Beams
+                      for (let i = 0; i < centralCircles[4].length; ++i)
+                        rimBeamCoordBuffer += `${rimBeamThickness * 0.5 - rimBeamOffset/2} ${centralCircles[4][i].x} ${centralCircles[4][i].y}\n`;
+
+                      for (let i = 0; i < centralCircles[5].length; ++i)
+                        rimBeamCoordBuffer += `${rimBeamThickness * 0.5 - rimBeamOffset/2} ${centralCircles[5][i].x} ${centralCircles[5][i].y}\n`;
+
+                      // bottom
+                      rimBeamCoordBuffer += `${rimBeamThickness * 0.5 - rimBeamOffset/2} 0 0\n`;
+
                     >%
-                    # Top part
-                    ## Center
-                    %<= -rimBeamThickness / 2.5 - rimBeamOffset/2 >% 0 0
-                    %< for (let i = 0; i < centralCircles[0].length; ++i) { >%
-                      %<= -rimBeamThickness * 0.5 - rimBeamOffset/2 >% %<= centralCircles[0][i].x >% %<= centralCircles[0][i].y >%
-                    %< } >%
-                    ## Between beams
-                    %< for (let i = 0; i < centralCircles[1].length; ++i) { >%
-                      %<= -rimBeamThickness / 2.5 - rimBeamOffset/2 >% %<= centralCircles[1][i].x >% %<= centralCircles[1][i].y >%
-                    %< } >%
-                     %< for (let i = 0; i < centralCircles[2].length; ++i) { >%
-                      %<= -rimBeamThickness / 2.5 - rimBeamOffset/2 >% %<= centralCircles[2][i].x >% %<= centralCircles[2][i].y >%
-                    %< } >%
-                    ## Beams
-                    %< for (let i = 0; i < centralCircles[3].length; ++i) { >%
-                      %<= -rimBeamThickness * 0.5 - rimBeamOffset/2 >% %<= centralCircles[3][i].x >% %<= centralCircles[3][i].y >%
-                    %< } >%
-                     %< for (let i = 0; i < centralCircles[4].length; ++i) { >%
-                      %<= -rimBeamThickness / 2.5 - rimBeamOffset/2 >% %<= centralCircles[4][i].x >% %<= centralCircles[4][i].y >%
-                    %< } >%
-                    %< for (let i = 0; i < centralCircles[5].length; ++i) { >%
-                      %<= -rimBeamThickness / 2.5 - rimBeamOffset/2 >% %<= centralCircles[5][i].x >% %<= centralCircles[5][i].y >%
-                    %< } >%
-
-                    # side
-                    ## Between beams
-                    %< for (let i = 0; i < centralCircles[1].length; ++i) { >%
-                      %<= rimBeamThickness * 0.5 - rimBeamOffset/2 >% %<= centralCircles[1][i].x >% %<= centralCircles[1][i].y >%
-                    %< } >%
-                    %< for (let i = 0; i < centralCircles[2].length; ++i) { >%
-                      %<= rimBeamThickness * 0.5 - rimBeamOffset/2 >% %<= centralCircles[2][i].x >% %<= centralCircles[2][i].y >%
-                    %< } >%
-                    ## Beams
-                    %< for (let i = 0; i < centralCircles[4].length; ++i) { >%
-                      %<= rimBeamThickness * 0.5 - rimBeamOffset/2 >% %<= centralCircles[4][i].x >% %<= centralCircles[4][i].y >%
-                    %< } >%
-                    %< for (let i = 0; i < centralCircles[5].length; ++i) { >%
-                      %<= rimBeamThickness * 0.5 - rimBeamOffset/2 >% %<= centralCircles[5][i].x >% %<= centralCircles[5][i].y >%
-                    %< } >%
-
-                    # bottom
-                    %<= rimBeamThickness * 0.5 - rimBeamOffset/2 >% 0 0
+                    %<= rimBeamCoordBuffer >%
                   ]
                 }
                 coordIndex [
-                  # Top part
-                  ## Center
-                  %< for (let i = 0; i <= rimBeamNumber; ++i) { >%
-                    0 %<= i + 1 >% %<= i >% -1
-                  %< } >%
-                  ## Between beams
-                  %< for (let i = 0; i <= rimBeamNumber; ++i) { >%
-                    %<= i >% %<= i + 1 >% %<= centralOffset[2] + i + 1 >% -1
-                    %<= centralOffset[2] + i + 1 >% %<= centralOffset[1] + i >% %<= i >% -1
-                  %< } >%
-                  ## Beams
-                  %< for (let i = 0; i <= rimBeamNumber; ++i) { >%
-                    %<= i >% %<= centralOffset[1] + i >% %<= centralOffset[4] + i >% -1
-                    %<= centralOffset[4] + i >% %<= centralOffset[3] + i >% %<= i >% -1
-                  %< } >%
-                  %< for (let i = 0; i <= rimBeamNumber; ++i) { >%
-                    %<= i >% %<= centralOffset[3] + i >% %<= centralOffset[5] + i >% -1
-                    %<= centralOffset[5] + i >% %<= centralOffset[2] + i >% %<= i >% -1
-                  %< } >%
+                  %<
+                    // Top part
+                    let rimBeamCoordIndex = '';
+                    // Center
+                    for (let i = 0; i <= rimBeamNumber; ++i)
+                      rimBeamCoordIndex += `0 ${i + 1} ${i} -1\n`;
 
-                  # Side
-                  ## Between beams
-                  %< for (let i = 1; i <= rimBeamNumber; ++i) { >%
-                    %<= centralOffset[1] + i >% %<= centralOffset[2] + i + 1 >% %<= centralOffset[7] + i + 1 >% -1
-                    %<= centralOffset[7] + i + 1 >% %<= centralOffset[6] + i >% %<= centralOffset[1] + i >% -1
-                  %< } >%
-                  ## Beams
-                  %< for (let i = 1; i <= rimBeamNumber; ++i) { >%
-                    %<= centralOffset[1] + i >% %<= centralOffset[6] + i >% %<= centralOffset[8] + i >% -1
-                    %<= centralOffset[8] + i >% %<= centralOffset[4] + i >% %<= centralOffset[1] + i >% -1
-                  %< } >%
-                  %< for (let i = 1; i <= rimBeamNumber; ++i) { >%
-                    %<= centralOffset[2] + i >% %<= centralOffset[5] + i >% %<= centralOffset[9] + i >% -1
-                    %<= centralOffset[9] + i >% %<= centralOffset[7] + i >% %<= centralOffset[2] + i >% -1
-                  %< } >%
+                    // Between beams
+                    for (let i = 0; i <= rimBeamNumber; ++i) {
+                      rimBeamCoordIndex += `${i} ${i + 1} ${centralOffset[2] + i + 1} -1\n`;
+                      rimBeamCoordIndex += `${centralOffset[2] + i + 1} ${centralOffset[1] + i} ${i} -1\n`;
+                    }
 
-                  # Bottom
-                  ## Beams
-                  %< for (let i = 1; i <= rimBeamNumber; ++i) { >%
-                    %<= centralOffset[8] + i >% %<= centralOffset[6] + i >% %<= centralOffset[7] + i >% -1
-                    %<= centralOffset[7] + i >% %<= centralOffset[9] + i >% %<= centralOffset[8] + i >% -1
-                  %< } >%
-                  ## Center
-                  %< for (let i = 1; i <= rimBeamNumber; ++i) { >%
-                    %<= centralOffset[10] + 1 >% %<= centralOffset[7] + i >% %<= centralOffset[6] + i >% -1
-                    %<= centralOffset[10] + 1 >% %<= centralOffset[6] + i >% %<= centralOffset[7] + i + 1 >% -1
-                  %< } >%
+                    // Beams
+                    for (let i = 0; i <= rimBeamNumber; ++i) {
+                      rimBeamCoordIndex += `${i} ${centralOffset[1] + i} ${centralOffset[4] + i} -1\n`;
+                      rimBeamCoordIndex += `${centralOffset[4] + i} ${centralOffset[3] + i} ${i} -1\n`;
+                    }
+                    for (let i = 0; i <= rimBeamNumber; ++i) {
+                      rimBeamCoordIndex += `${i} ${centralOffset[3] + i} ${centralOffset[5] + i} -1\n`;
+                      rimBeamCoordIndex += `${centralOffset[5] + i} ${centralOffset[2] + i} ${i} -1\n`;
+                    }
 
+                    // Side
+                    // Between beams
+                    for (let i = 1; i <= rimBeamNumber; ++i) {
+                      rimBeamCoordIndex += `${centralOffset[1] + i} ${centralOffset[2] + i + 1} ${centralOffset[7] + i + 1} -1\n`;
+                      rimBeamCoordIndex += `${centralOffset[7] + i + 1} ${centralOffset[6] + i} ${centralOffset[1] + i} -1\n`;
+                    }
+                    // Beams
+                    for (let i = 1; i <= rimBeamNumber; ++i) {
+                      rimBeamCoordIndex += `${centralOffset[1] + i} ${centralOffset[6] + i} ${centralOffset[8] + i} -1\n`;
+                      rimBeamCoordIndex += `${centralOffset[8] + i} ${centralOffset[4] + i} ${centralOffset[1] + i} -1\n`;
+                    }
+                    for (let i = 1; i <= rimBeamNumber; ++i) {
+                      rimBeamCoordIndex += `${centralOffset[2] + i} ${centralOffset[5] + i} ${centralOffset[9] + i} -1\n`;
+                      rimBeamCoordIndex += `${centralOffset[9] + i} ${centralOffset[7] + i} ${centralOffset[2] + i} -1\n`;
+                    }
+
+                    // Bottom
+                    // Beams
+                    for (let i = 1; i <= rimBeamNumber; ++i) {
+                      rimBeamCoordIndex += `${centralOffset[8] + i} ${centralOffset[6] + i} ${centralOffset[7] + i} -1\n`;
+                      rimBeamCoordIndex += `${centralOffset[7] + i} ${centralOffset[9] + i} ${centralOffset[8] + i} -1\n`;
+                    }
+                    // Center
+                    for (let i = 1; i <= rimBeamNumber; ++i) {
+                      rimBeamCoordIndex += `${centralOffset[10] + 1} ${centralOffset[7] + i} ${centralOffset[6] + i} -1\n`;
+                      rimBeamCoordIndex += `${centralOffset[10] + 1} ${centralOffset[6] + i} ${centralOffset[7] + i + 1} -1\n`;
+                    }
+                  >%
+                  %<= rimBeamCoordIndex >%
                 ]
               }
             }

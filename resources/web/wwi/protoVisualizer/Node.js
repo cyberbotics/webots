@@ -4,240 +4,133 @@ import {getAnId} from '../nodes/utils/id_provider.js';
 import TemplateEngine from './TemplateEngine.js';
 import Tokenizer from './Tokenizer.js';
 import {vrmlFactory} from './Vrml.js';
-import {FieldModel} from './FieldModel.js';
+import {isBaseNode, FieldModel} from './FieldModel.js';
 import {Parameter} from './Parameter.js';
-import WbWorld from '../nodes/WbWorld.js';
+import Field from './Field.js';
+import { VRML } from './vrml_type.js';
 
 export default class Node {
   static cProtoModels = new Map();
-  static cBaseModels = new Map();
-  static cNodeSiblings = new Map(); // maps a node id to all other instances of the same node (clones, but different id)
 
-  constructor(url, protoText, isRoot = false) {
-    // IMPORTANT! When adding new member variables of type Map, modify the .clone method so that it creates a copy of it
-    this.id = getAnId();
-    this.baseType = undefined; // may correspond to a base-node or another PROTO if it's a derived PROTO
-    this.isRoot = isRoot;
-
+  constructor(url, parameterTokenizer, isRoot = false) {
     this.url = url;
     this.isProto = this.url.toLowerCase().endsWith('.proto');
-
     this.name = this.isProto ? this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '') : url;
 
-    this.parameters = new Map();
-    this.externProto = new Map();
+    this.fields = new Map(); // fields are defined only for base nodes, PROTO nodes have a baseType and parameters
+    this.parameters = new Map(); // defines the exposed parameters of a PROTO, hence base-nodes have not parameters
     this.def = new Map();
 
-    if (!this.isProto) {
-      // create parameters from the pre-defined FieldModel
-      const fields = FieldModel[this.name];
-      for (const parameterName of Object.keys(fields)) {
-        const type = FieldModel[this.name][parameterName]['type'];
-        const defaultValue = vrmlFactory(type);
-        defaultValue.setValueFromJavaScript(FieldModel[this.name][parameterName]['defaultValue']);
-        const value = defaultValue.clone(true);
-        const parameter = new Parameter(this, parameterName, type, [], defaultValue, value, false);
+    this.isDerived = false; // updated when the model is determined, false for base-nodes
+    this.isTemplate = false; // updated when the model is determined, false for base-nodes
+
+    this.ids = []; // multiple instances of the same node might be present in a node structure, this list tracks their id
+    this.refId = 0; // when writing the x3d, this counter ensures unique ids (among the this.ids list) are fed to webotsjs
+    this.isRoot = isRoot; // determines if the current node is the root node
+
+    // create parameters based on the PROTO model
+    if (this.isProto) {
+      console.assert(Node.cProtoModels.has(this.url), `A PROTO model should be available for ${this.name} by now.`);
+      this.model = Node.cProtoModels.get(this.url);
+      this.isDerived = !isBaseNode(this.model['baseType']);
+
+      this.externProto = this.model['externProto'];
+      this.isTemplate = this.model['isTemplate'];
+
+      for (const [parameterName, parameterModel] of Object.entries(this.model['parameters'])) {
+        const parameterType = parameterModel['type'];
+        const isTemplateRegenerator = parameterModel['isTemplateRegenerator'];
+        const restrictions = parameterModel['restrictions'];
+        const initializer = parameterModel['defaultValue'];
+        const defaultValue = vrmlFactory(parameterType, initializer, true);
+        const value = vrmlFactory(parameterType, initializer, true);
+
+        const parameter = new Parameter(this, parameterName, parameterType, defaultValue, value, restrictions,
+          isTemplateRegenerator);
         this.parameters.set(parameterName, parameter);
       }
 
-      return;
-    }
+      // configure the parameters based on the VRML provided in the PROTO body (typically, in a derived PROTO context,
+      // sub-PROTO parameters are overwritten by the parent PROTO)
+      if (typeof parameterTokenizer !== 'undefined' && parameterTokenizer.hasMoreTokens())
+        this.configureFromTokenizer(parameterTokenizer, 'parameters');
+    } else
+      this.model = FieldModel[this.name];
 
-    // raw PROTO body text must be kept in case the template needs to be regenerated
-    const indexBeginBody = protoText.search(/(?<=\]\s*\n*\r*)({)/g);
-    this.rawBody = protoText.substring(indexBeginBody);
-    if (!this.isTemplate)
-      this.protoBody = this.rawBody; // body already in VRML format
+    if (this.isProto)
+      this.createBaseType();
+    else // only when reaching the bottom of the PROTO chain the internal fields are created
+      this.generateInternalFields();
 
-    // interface (i.e. parameters) only needs to be parsed once and persists through regenerations
-    const indexBeginInterface = protoText.search(/(^\s*PROTO\s+[a-zA-Z0-9\-_+]+\s*\[\s*$)/gm);
-    this.rawInterface = protoText.substring(indexBeginInterface, indexBeginBody);
-
-    // header defines tags and EXTERNPROTO, persists through regenerations
-    this.rawHeader = protoText.substring(0, indexBeginInterface);
-
-    // for PROTO only
-    const match = this.rawHeader.match(/R(\d+)([a-z])(?:\srevision\s(\d+)|-rev(\d+))?(?:-(\w*))?(?:-(\w*\/\w*\/\w*))?/);
-    const version = {'major': parseInt(match[1]), 'revision': typeof match[4] === 'undefined' ? 0 : parseInt(match[4])};
-    this.isTemplate = protoText.search('template language: javascript') !== -1;
-    if (this.isTemplate)
-      this.templateEngine = new TemplateEngine(Math.abs(parseInt(this.id.replace('n', ''))), version);
-
-    // get EXTERNPROTO
-    this.promises = [];
-    const lines = this.rawHeader.split('\n');
-    for (let i = 0; i < lines.length; i++) {
-      let line = lines[i];
-      if (line.indexOf('EXTERNPROTO') !== -1) {
-        // get only the text after 'EXTERNPROTO' for the single line
-        line = line.split('EXTERNPROTO')[1].trim();
-        let address = line.replaceAll('"', '');
-        let protoName = address.split('/').pop().replace('.proto', '');
-        if (address.startsWith('webots://'))
-          address = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022b/' + address.substring(9);
-        else
-          address = combinePaths(address, this.url);
-
-        this.externProto.set(protoName, address);
-        this.promises.push(this.getExternProto(address));
-      }
-    }
+    if (this.isRoot)
+      this.assignId(); // navigates through the base-nodes of the structure, and fills the "this.ids" list
   };
 
-  async getExternProto(protoUrl) {
-    return new Promise((resolve, reject) => {
-      const xmlhttp = new XMLHttpRequest();
-      xmlhttp.open('GET', protoUrl, true);
-      xmlhttp.overrideMimeType('plain/text');
-      xmlhttp.onreadystatechange = async() => {
-        if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
-          resolve(xmlhttp.responseText);
-      };
-      xmlhttp.send();
-    }).then(async text => {
-      const prototype = await this.createPrototype(text, protoUrl);
-      return prototype;
-    });
-  }
-
-  async createPrototype(protoText, protoUrl) {
-    if (!Node.cProtoModels.has(protoUrl)) {
-      const proto = new Node(protoUrl, protoText);
-      await proto.generateInterface();
-      Node.cProtoModels.set(protoUrl, proto);
+  generateInternalFields() {
+    // set field values based on field model
+    for (const fieldName of Object.keys(this.model)) {
+      const type = this.model[fieldName]['type'];
+      const value = vrmlFactory(type, this.model[fieldName]['defaultValue'], false);
+      const defaultValue = vrmlFactory(type, this.model[fieldName]['defaultValue'], false);
+      const field = new Field(this, fieldName, type, defaultValue, value);
+      this.fields.set(fieldName, field);
     }
   }
 
-  async generateInterface() {
-    return Promise.all(this.promises).then(async() => {
-      // parse header and map each parameter entry
-      await this.parseHead();
-    });
+  getBaseNode() {
+    if (this.isProto) {
+      console.assert(typeof this.baseType !== 'undefined');
+      return this.baseType.getBaseNode();
+    }
+
+    return this;
   }
 
-  clone(deep = false) {
-    let copy = Object.assign(Object.create(Object.getPrototypeOf(this)), this);
+  createBaseType() {
+    this.def = new Map(); // recreate def list
+    for (const parameter of this.parameters.values()) // cleanup previous links
+      parameter.resetAliasLinks();
 
-    if (typeof this.baseType !== 'undefined')
-      copy.baseType = this.baseType.clone(deep);
+    let protoBody = this.model['rawBody'];
 
-    copy.id = getAnId();
-
-    if (!deep) {
-      if (!Node.cNodeSiblings.has(this.id))
-        Node.cNodeSiblings.set(this.id, []);
-      if (!Node.cNodeSiblings.has(copy.id))
-        Node.cNodeSiblings.set(copy.id, []);
-
-      const s1 = Node.cNodeSiblings.get(this.id);
-      s1.push(copy); // add copy as a sibling of this node
-      const s2 = Node.cNodeSiblings.get(copy.id);
-      s2.push(this); // add this node as a sibling of the copy
-    }
-
-    copy.parameters = new Map();
-    for (const [parameterName, parameter] of this.parameters) {
-      if (typeof parameter !== 'undefined') {
-        const parameterCopy = parameter.clone(deep);
-        parameterCopy.node = copy;
-        copy.parameters.set(parameterName, parameterCopy);
-      }
-    }
-
-    copy.def = new Map(this.def);
-    copy.externProto = new Map(this.externProto);
-    return copy;
-  }
-
-  async parseHead() {
-    // change all relative paths to remote ones
-    const re = /"(?:[^"]*)\.(jpe?g|png|hdr|obj|stl|dae)"/g;
-    let result;
-    while ((result = re.exec(this.rawInterface)) !== null)
-      this.rawInterface = this.rawInterface.replace(result[0], '"' + combinePaths(result[0].slice(1, -1), this.url) + '"');
-
-    const headTokenizer = new Tokenizer(this.rawInterface, this);
-    headTokenizer.tokenize();
-
-    // build parameter list
-    headTokenizer.skipToken('PROTO');
-    this.protoName = headTokenizer.nextWord();
-
-    while (!headTokenizer.peekToken().isEof()) {
-      const token = headTokenizer.nextToken();
-      let nextToken = headTokenizer.peekToken();
-
-      const restrictions = [];
-      if (token.isKeyword() && nextToken.isPunctuation()) {
-        if (nextToken.word() === '{') {
-          // parse field restrictions
-          headTokenizer.skipToken('{');
-          const parameterType = token.fieldTypeFromVrml();
-          while (headTokenizer.peekWord() !== '}') {
-            const value = vrmlFactory(parameterType, headTokenizer);
-            restrictions.push(value);
-          }
-          headTokenizer.skipToken('}');
-          nextToken = headTokenizer.peekToken(); // we need to update the nextToken as it has to point after the restrictions
-        }
-      }
-
-      if (token.isKeyword() && nextToken.isIdentifier()) {
-        const parameterName = nextToken.word();
-        const parameterType = token.fieldTypeFromVrml();
-        const isRegenerator = this.isTemplate ? (this.rawBody.search('fields.' + parameterName + '.') !== -1) : false;
-        headTokenizer.nextToken(); // consume the token containing the parameter name
-
-        const defaultValue = vrmlFactory(parameterType, headTokenizer);
-        const value = defaultValue.clone(true);
-        const parameter = new Parameter(this, parameterName, parameterType, restrictions, defaultValue, value, isRegenerator);
-        this.parameters.set(parameterName, parameter);
-      }
-    }
-  };
-
-  parseBody(isRegenerating = false) {
-    this.clearReferences();
-    // note: if not a template, the body is already pure VRML
     if (this.isTemplate)
-      this.regenerateBodyVrml(); // overwrites this.protoBody with a purely VRML compliant body
+      protoBody = this.regenerateBodyVrml(protoBody);
 
-    // change all relative paths to remote ones
-    const re = /"(?:[^"]*)\.(jpe?g|png|hdr|obj|stl|dae)"/g;
-    let result;
-    while ((result = re.exec(this.protoBody)) !== null)
-      this.protoBody = this.protoBody.replace(result[0], '"' + combinePaths(result[0].slice(1, -1), this.url) + '"');
-
-    // tokenize body
-    const tokenizer = new Tokenizer(this.protoBody, this);
+    // configure non-default fields from tokenizer
+    const tokenizer = new Tokenizer(protoBody, this, this.externProto);
     tokenizer.tokenize();
 
-    // skip bracket opening the PROTO body
+    if (this.isDerived) {
+      console.assert(this.externProto.has(this.model['baseType']));
+      const baseTypeUrl = this.externProto.get(this.model['baseType']);
+      this.baseType = new Node(baseTypeUrl, tokenizer);
+    } else {
+      this.baseType = new Node(this.model['baseType']);
+      this.baseType.configureFromTokenizer(tokenizer, 'fields'); // base-nodes don't have parameters
+    }
+  }
+
+  configureFromTokenizer(tokenizer, target) {
     tokenizer.skipToken('{');
 
-    this.baseType = Node.createNode(tokenizer);
-
-    tokenizer.skipToken('}');
-  };
-
-  configureNodeFromTokenizer(tokenizer) {
-    tokenizer.skipToken('{');
+    console.assert(['fields', 'parameters'].includes(target), `${target} is not a known list.`);
+    const fieldOrParameters = target === 'fields' ? this.fields : this.parameters;
 
     while (tokenizer.peekWord() !== '}') {
-      const fieldName = tokenizer.nextWord();
-      for (const [parameterName, parameter] of this.parameters) {
-        if (fieldName === parameterName) {
+      const word = tokenizer.nextWord();
+      for (const [fieldName, fieldValue] of fieldOrParameters) {
+        if (word === fieldName) {
           if (tokenizer.peekWord() === 'IS') {
             tokenizer.skipToken('IS');
             const alias = tokenizer.nextWord();
             if (!tokenizer.proto.parameters.has(alias))
-              throw new Error('Alias "' + alias + '" not found in PROTO ' + this.name);
+              throw new Error('Alias "' + alias + '" not found in PROTO ' + tokenizer.proto.name);
 
-            const exposedParameter = tokenizer.proto.parameters.get(alias);
-            parameter.value = exposedParameter.value.clone();
-            exposedParameter.insertLink(parameter);
+            const p = tokenizer.proto.parameters.get(alias);
+            fieldValue.value = p.value;
+            p.addAliasLink(fieldValue);
           } else
-            parameter.value.setValueFromTokenizer(tokenizer, this);
+            fieldValue.value.setValueFromTokenizer(tokenizer);
         }
       }
     }
@@ -245,34 +138,122 @@ export default class Node {
     tokenizer.skipToken('}');
   }
 
-  toX3d(isUse, parameterReference) {
+  printStructure(depth = 0) { // for debugging purposes
+    const index = '--'.repeat(depth);
+    if (this.isProto)
+      return this.baseType.printStructure(depth);
+
+    console.log(index + this.name, this.ids);
+
+    for (const [fieldName, field] of this.fields) {
+      console.log(index + fieldName);
+      if (field.type === VRML.SFNode && field.value.value !== null)
+        field.value.value.printStructure(depth + 1);
+      else if (field.type === VRML.MFNode) {
+        for (const child of field.value.value)
+          child.value.printStructure(depth + 1);
+      }
+    }
+  }
+
+  assignId() {
+    // note: ids are assigned only to base-nodes, PROTO nodes don't need one
+    if (this.isProto)
+      return this.baseType.assignId();
+
+    this.ids.push(getAnId());
+
+    for (const field of this.fields.values()) {
+      if (field.type === VRML.SFNode && field.value.value !== null)
+        field.value.value.assignId();
+      else if (field.type === VRML.MFNode) {
+        for (const child of field.value.value)
+          child.value.assignId();
+      }
+    }
+  }
+
+  getBaseNodeIds() {
+    if (this.isProto)
+      return this.baseType.getBaseNodeIds();
+
+    return this.ids;
+  }
+
+  resetRefs() {
+    if (this.isProto)
+      return this.baseType.resetRefs();
+
+    this.refId = 0;
+
+    for (const field of this.fields.values()) {
+      if (field.type === VRML.SFNode && field.value.value !== null)
+        field.value.value.resetRefs();
+      else if (field.type === VRML.MFNode) {
+        for (const child of field.value.value)
+          child.value.resetRefs();
+      }
+    }
+  }
+
+  resetIds() {
+    if (this.isProto)
+      return this.baseType.resetIds();
+
+    this.ids = [];
+
+    for (const field of this.fields.values()) {
+      if (field.type === VRML.SFNode && field.value.value !== null)
+        field.value.value.resetIds();
+      else if (field.type === VRML.MFNode) {
+        for (const child of field.value.value)
+          child.value.resetIds();
+      }
+    }
+  }
+
+  toX3d(isUse) {
+    if (this.isRoot)
+      this.resetRefs(); // resets the instance counters
+
     this.xml = document.implementation.createDocument('', '', null);
 
-    // if this node has a value (i.e. this.baseType is defined) then it means we have not yet reached the bottom as only
-    // base-nodes should write x3d. If it has a value, then it means the current node is a derived PROTO.
-    if (typeof this.baseType !== 'undefined')
+    if (this.isProto)
       return this.baseType.toX3d();
 
     const nodeElement = this.xml.createElement(this.name);
-    if (isUse)
-      nodeElement.setAttribute('USE', this.id);
-    else {
-      nodeElement.setAttribute('id', this.id);
-      for (const [parameterName, parameter] of this.parameters) {
-        if (typeof parameter.value === 'undefined') // note: SFNode can be null, not undefined
-          throw new Error('All parameters should be defined, ' + parameterName + ' is not.');
+    if (this.refId > this.ids.length - 1)
+      throw new Error('Something has gone wrong, the refId is bigger the number of available ids.');
+    const id = this.ids[this.refId++];
+    nodeElement.setAttribute('id', id);
+    for (const [fieldName, field] of this.fields) {
+      if (field.isDefault())
+        continue;
 
-        if (parameter.isDefault())
-          continue;
-
-        parameter.value.toX3d(parameterName, nodeElement);
-      }
+      field.value.toX3d(fieldName, nodeElement);
     }
 
     this.xml.appendChild(nodeElement);
-
     return nodeElement;
   }
+
+  toVrml() {
+    let vrml = `${this.name}{`;
+    for (const [fieldName, field] of (this.isProto ? this.parameters : this.fields)) {
+      if (!field.isDefault())
+        vrml += `${fieldName} ${field.value.toVrml()} `;
+    }
+    vrml += '}';
+
+    return vrml;
+  }
+
+  regenerateBodyVrml(protoBody) {
+    const fieldsEncoding = this.toJS(true); // make current proto parameters in a format compliant to template engine
+    const templateEngine = new TemplateEngine(Math.abs(getAnId().replace('n', '')), this.model['version']);
+
+    return templateEngine.generateVrml(fieldsEncoding, protoBody);
+  };
 
   toJS(isFirstNode = false) {
     let jsFields = '';
@@ -285,121 +266,121 @@ export default class Node {
     return `{node_name: '${this.name}', fields: {${jsFields.slice(0, -2)}}}`;
   }
 
-  toVrml() {
-    let vrml = '';
-    vrml += `${this.name}{`;
-    for (const [parameterName, parameter] of this.parameters) {
-      if (!parameter.isDefault())
-        vrml += `${parameterName} ${parameter.value.toVrml()} `;
-    }
-    vrml += '}\n';
+  static async prepareProtoDependencies(protoUrl) {
+    return new Promise((resolve, reject) => {
+      const xmlhttp = new XMLHttpRequest();
+      xmlhttp.open('GET', protoUrl, true);
+      xmlhttp.overrideMimeType('plain/text');
+      xmlhttp.onreadystatechange = async() => {
+        // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
+        if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0))
+          resolve(xmlhttp.responseText);
+      };
+      xmlhttp.send();
+    }).then(async text => {
+      const indexBeginInterface = text.search(/(^\s*PROTO\s+[a-zA-Z0-9\-_+]+\s*\[\s*$)/gm);
+      const rawHeader = text.substring(0, indexBeginInterface);
 
-    return vrml.slice(0, -1);
-  }
+      const promises = [];
+      const externProto = new Map();
+      const lines = rawHeader.split('\n');
+      for (const line of lines) {
+        if (line.indexOf('EXTERNPROTO') !== -1) { // get only the text after 'EXTERNPROTO'
+          let address = line.split('EXTERNPROTO')[1].trim().replaceAll('"', '');
+          if (address.startsWith('webots://'))
+            address = 'https://raw.githubusercontent.com/cyberbotics/webots/released/' + address.substring(9);
+          else
+            address = combinePaths(address, protoUrl);
 
-  regenerateBodyVrml() {
-    const fieldsEncoding = this.toJS(true); // make current proto parameters in a format compliant to template engine
-
-    if (typeof this.templateEngine === 'undefined')
-      throw new Error('Regeneration was called but the template engine is not defined (i.e this.isTemplate is false)');
-
-    this.protoBody = this.templateEngine.generateVrml(fieldsEncoding, this.rawBody);
-  };
-
-  regenerateNode(view, propagate = true) {
-    const baseNodeId = this.getBaseNode().id;
-    const node = WbWorld.instance.nodes.get(baseNodeId);
-    if (typeof node !== 'undefined') {
-      // delete existing node
-      view.x3dScene.processServerMessage(`delete: ${baseNodeId.replace('n', '')}`);
-      // regenerate the VRML and parse body
-      this.parseBody(true);
-      // insert new node
-      const x3d = new XMLSerializer().serializeToString(this.toX3d());
-      view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', node.parent.replace('n', ''));
-    }
-
-    if (!propagate)
-      return;
-
-    if (Node.cNodeSiblings.has(this.id)) {
-      for (const sibling of Node.cNodeSiblings.get(this.id))
-        sibling.regenerateNode(view, false); // prevent endless loop
-    }
-  }
-
-  clearReferences() {
-    this.def = new Map();
-
-    for (const [, parameter] of this.parameters)
-      parameter.resetParameterLinks();
-
-    if (this.isRoot)
-      Node.cNodeSiblings = new Map();
-  };
-
-  getParameterByName(name) {
-    if (!this.parameters.has(name))
-      throw new Error('Node ' + this.name + ' does not have a parameter named: ' + name);
-
-    return this.parameters.get(name);
-  }
-
-  getBaseNode() {
-    if (this.isProto)
-      return this.baseType.getBaseNode();
-
-    return this;
-  }
-
-  static createNode(tokenizer) {
-    let defName;
-    if (tokenizer.peekWord() === 'DEF') {
-      tokenizer.skipToken('DEF');
-      defName = tokenizer.nextWord();
-    } else if (tokenizer.peekWord() === 'USE') {
-      tokenizer.skipToken('USE');
-      const useName = tokenizer.nextWord();
-      if (!tokenizer.proto.def.has(useName))
-        throw new Error('No DEF name ' + useName + ' found in PROTO ' + tokenizer.proto.name);
-
-      return tokenizer.proto.def.get(useName);
-    }
-
-    const nodeName = tokenizer.nextWord();
-    if (nodeName === 'NULL')
-      return null;
-
-    let node;
-    if (typeof FieldModel[nodeName] !== 'undefined') { // it's a base node
-      if (!Node.cBaseModels.has(nodeName)) {
-        // create prototype if none is available
-        const model = new Node(nodeName);
-        Node.cBaseModels.set(nodeName, model);
+          const protoName = address.split('/').pop().replace('.proto', '');
+          externProto.set(protoName, address);
+          promises.push(await Node.prepareProtoDependencies(address));
+        }
       }
 
-      node = Node.cBaseModels.get(nodeName).clone(true);
-    } else { // it's a PROTO node
-      // note: protoModels are expected to already contain models for all PROTO we need this session since these have been
-      // downloaded when retrieving the EXTERNPROTO and a prototype for each should have been computed already
-      if (!tokenizer.proto.externProto.has(nodeName))
-        throw new Error('Node name ' + nodeName + ' is not recognized. Was it declared as EXTERNPROTO?');
+      Promise.all(promises).then(async() => this.generateProtoModel(protoUrl, text, externProto));
+    });
+  }
 
-      const url = tokenizer.proto.externProto.get(nodeName);
-      if (!Node.cProtoModels.has(url))
-        throw new Error('Model of PROTO ' + nodeName + ' not available. Was it declared as EXTERNPROTO?');
+  static async createNode(url, tokenizer, isRoot) {
+    await Node.prepareProtoDependencies(url);
+    return new Node(url, tokenizer, isRoot);
+  }
 
-      node = Node.cProtoModels.get(url).clone(true);
+  static async generateProtoModel(protoUrl, protoText, externProto) {
+    if (Node.cProtoModels.has(protoUrl))
+      return; // model is known already
+
+    const indexBeginInterface = protoText.search(/(^\s*PROTO\s+[a-zA-Z0-9\-_+]+\s*\[\s*$)/gm);
+    const indexBeginBody = protoText.search(/(?<=\]\s*\n*\r*)({)/g);
+
+    const rawHeader = protoText.substring(0, indexBeginInterface);
+    let rawInterface = protoText.substring(indexBeginInterface, indexBeginBody);
+
+    // change all relative paths to remote ones
+    const re = /"(?:[^"]*)\.(jpe?g|png|hdr|obj|stl|dae)"/g;
+    let result;
+    while ((result = re.exec(rawInterface)) !== null)
+      rawInterface = rawInterface.replace(result[0], '"' + combinePaths(result[0].slice(1, -1), protoUrl) + '"');
+
+    let rawBody = protoText.substring(indexBeginBody);
+    // change all relative paths to remote ones
+    while ((result = re.exec(rawBody)) !== null)
+      rawBody = rawBody.replace(result[0], '"' + combinePaths(result[0].slice(1, -1), protoUrl) + '"');
+
+    const tokenizer = new Tokenizer(rawInterface, this, externProto);
+    tokenizer.tokenize();
+
+    // build parameter list
+    tokenizer.skipToken('PROTO');
+    this.protoName = tokenizer.nextWord();
+
+    const model = {};
+    model['rawBody'] = rawBody;
+    model['isTemplate'] = protoText.substring(0, indexBeginInterface).search('template language: javascript') !== -1;
+    const match = rawHeader.match(/R(\d+)([a-z])(?:\srevision\s(\d+)|-rev(\d+))?(?:-(\w*))?(?:-(\w*\/\w*\/\w*))?/);
+    model['version'] = {'major': parseInt(match[1]), 'revision': typeof match[4] === 'undefined' ? 0 : parseInt(match[4])};
+    model['externProto'] = externProto;
+    model['baseType'] = rawBody.match(/\{\s*(?:%<[\s\S]*?(?:>%\s*))?(?:DEF\s+[^\s]+)?\s+([a-zA-Z0-9_\-+]+)\s*\{/)[1];
+    model['parameters'] = {};
+
+    while (!tokenizer.peekToken().isEof()) {
+      const token = tokenizer.nextToken();
+      let nextToken = tokenizer.peekToken();
+
+      const restrictions = [];
+      if (token.isKeyword() && nextToken.isPunctuation()) {
+        if (nextToken.word() === '{') {
+          // parse field restrictions
+          tokenizer.skipToken('{');
+          const parameterType = token.fieldTypeFromVrml();
+
+          while (tokenizer.peekWord() !== '}') {
+            const value = vrmlFactory(parameterType, tokenizer, false);
+            restrictions.push(value);
+          }
+
+          tokenizer.skipToken('}');
+          nextToken = tokenizer.peekToken(); // we need to update the nextToken as it has to point after the restrictions
+        }
+      }
+
+      if (token.isKeyword() && nextToken.isIdentifier()) {
+        const parameterName = nextToken.word();
+        const parameterType = token.fieldTypeFromVrml();
+        const isRegenerator = rawBody.search('fields.' + parameterName + '.') !== -1;
+        tokenizer.nextToken(); // consume the token containing the parameter name
+        const defaultValue = tokenizer.spliceTokenizerByType(parameterType);
+        const parameter = {};
+        parameter['type'] = parameterType;
+        parameter['defaultValue'] = defaultValue;
+        parameter['isTemplateRegenerator'] = isRegenerator;
+        parameter['restrictions'] = restrictions;
+        model['parameters'][parameterName] = parameter;
+      }
     }
 
-    if (typeof defName !== 'undefined')
-      tokenizer.proto.def.set(defName, node);
-
-    node.configureNodeFromTokenizer(tokenizer);
-    if (node.isProto)
-      node.parseBody();
-
-    return node;
+    Node.cProtoModels.set(protoUrl, model);
   }
 };
 
