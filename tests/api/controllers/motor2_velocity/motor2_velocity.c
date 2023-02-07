@@ -28,7 +28,7 @@ void test_position_under_velocity_control(WbDeviceTag motor, WbDeviceTag positio
   for (i = 0; i < 100; ++i) {
     wb_motor_set_velocity(motor, VELOCITY * fabs(cos(i * 2 * M_PI / 100)));
     wb_robot_step(TIME_STEP);
-    rpy = wb_inertial_unit_get_roll_pitch_yaw(inertial_unit);
+    roll_pitch_yaw = wb_inertial_unit_get_roll_pitch_yaw(inertial_unit);
   }
 
   // The new position should match the one provided by the inertial unit
