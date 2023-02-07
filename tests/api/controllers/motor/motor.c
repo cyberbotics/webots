@@ -108,10 +108,10 @@ int main(int argc, char **argv) {
                             "The position value measured by the position sensor should be %g and not %g", REFERENCE_POSITION,
                             position);
 
-  rpy = wb_inertial_unit_get_roll_pitch_yaw(inertial_unit);
-  ts_assert_double_in_delta(rpy[2], position, 0.001,
+  roll_pitch_yaw = wb_inertial_unit_get_roll_pitch_yaw(inertial_unit);
+  ts_assert_double_in_delta(roll_pitch_yaw[2], position, 0.001,
                             "The rotation measured by position sensor (%g) and the inertial unit (%g) are different", position,
-                            rpy[2]);
+                            roll_pitch_yaw[2]);
 
   torque = wb_motor_get_torque_feedback(motor);
   ts_assert_double_in_delta(torque, REFERENCE_TORQUE, 0.001,
