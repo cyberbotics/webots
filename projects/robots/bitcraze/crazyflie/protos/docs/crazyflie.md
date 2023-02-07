@@ -7,7 +7,7 @@ Here are examples of the Crazyflie being used in real life research:
 
 ### Crazyflie Proto
 
-Derived from [Robot](https://cyberbotics.com/doc/reference/robot.md).
+Derived from [Robot](https://cyberbotics.com/doc/reference/robot).
 
 ```
 PROTO Crazyflie [
