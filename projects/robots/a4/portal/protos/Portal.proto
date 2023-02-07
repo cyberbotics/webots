@@ -257,7 +257,7 @@ PROTO Portal [
             }
             device LinearMotor {
               name "rail"
-              maxPosition -0.005
+              minPosition -0.005
             }
             endPoint Solid {
               children [
