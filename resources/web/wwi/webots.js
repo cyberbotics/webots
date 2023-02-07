@@ -107,6 +107,7 @@ webots.View = class View {
     this.timeout = timeout * 1000; // convert to milliseconds
   }
 
+  //test comment
   setAnimation(animation, gui, loop, raw) {
     if (typeof gui === 'undefined')
       gui = 'play';
