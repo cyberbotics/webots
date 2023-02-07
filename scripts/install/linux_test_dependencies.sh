@@ -1,7 +1,9 @@
 #!/bin/bash
 
-# exit when any command fails
-set -e
+# exit when any command fails on CI
+if [[ -z "$CI" ]]; then
+       set -e
+fi
 
 if [[ $EUID -ne 0 ]]; then
        echo "This script must be run as root"
