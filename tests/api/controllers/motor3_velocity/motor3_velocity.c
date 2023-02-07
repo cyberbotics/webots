@@ -69,11 +69,8 @@ void test_position_under_velocity_control(const char *sensor_name, const char *m
     previous_position = position;
     position = wb_position_sensor_get_value(position_sensor);
     quaternion = wb_inertial_unit_get_quaternion(inertial_unit);
-    // printf("position = %g, quaternion = %g, %g, %g, %g\n", position, quaternion[0], quaternion[1], quaternion[2],
-    //        quaternion[3]);
-    if (fabs(position - prev_position) < 1e-6 && fabs(prev_position - prev_position2) < 1e-6) {
+    if (fabs(position - previous_position) < 1e-6 && fabs(previous_position - previous_position2) < 1e-6)
       break;
-    }
   }
   ts_assert_double_in_delta(original_position, position, 0.01,
                             "The position measured by %s (%g) and it's original position (%g) are different", sensor_name,
