@@ -41,11 +41,12 @@ const char ENV_SEPARATOR[] = ":";
 // Global variables
 static char *WEBOTS_HOME;
 static char *controller;
-static char *controller_args;
 static char *controller_path;
 static char *controller_extension;
 static char *matlab_path;
 static char *current_path;
+static int nb_controller_arguments;
+static int next_argument_index;
 
 // Environment variables (putenv() requires the string that is set into the environment to exist)
 static char *WEBOTS_CONTROLLER_URL;
@@ -222,10 +223,9 @@ static bool get_matlab_path() {
 // Prints the command line options and their descriptions for the Webots controller launcher.
 static void print_options() {
   printf(
-    "Usage: webots-controller [options] [controller_file]\n\nOptions:\n\n  --help\n    Display this help message and exit.\n\n "
-    " --controller-args=<arg1>,<arg2>,...\n    Specify arguments that are passed to the started controller.\n\n  "
-    "--protocol=<ipc|tcp>\n    Define the protocol to use to communicate between the controller and Webots.\n    'ipc' is used "
-    "by default. 'ipc' should be used when Webots is\n    running on the same machine as the extern "
+    "Usage: webots-controller [options] [controller_file] [controller_args]\n\nOptions:\n\n  --help\n    Display this help "
+    "message and exit.\n\n  --protocol=<ipc|tcp>\n    Define the protocol to use to communicate between the controller and "
+    "Webots.\n    'ipc' is used by default. 'ipc' should be used when Webots is\n    running on the same machine as the extern "
     "controller.\n    'tcp' should be used when connecting to a remote instance of Webots.\n\n  --ip-address=<ip-address>\n    "
     "The IP address of the remote machine on which the Webots instance is running.\n    This option should only be used with "
     "the `tcp` protocol\n    (i.e. remote controllers).\n\n  --port=<port>\n    Define the port to which the controller should "
@@ -248,7 +248,6 @@ static bool parse_options(int nb_arguments, char **arguments) {
   }
 
   controller = NULL;
-  controller_args = NULL;
   matlab_path = NULL;
   char *protocol = NULL;
   char *ip_address = NULL;
@@ -294,9 +293,8 @@ static bool parse_options(int nb_arguments, char **arguments) {
         controller = malloc(argument_size);
         memcpy(controller, arguments[i], argument_size);
         option_arguments = false;
-      } else {
-        controller_args = malloc(argument_size);
-        memcpy(controller_args, arguments[i], argument_size);
+        next_argument_index = i + 1;
+        nb_controller_arguments = nb_arguments - i - 1;
       }
     }
   }
@@ -673,17 +671,12 @@ static char **add_single_argument(char **argv, size_t *current_size, char *str) 
   return argv;
 }
 
-// Add all controller arguments (separated by a comma) to the 'argv' array
-static char **add_controller_arguments(char **argv, size_t *current_size) {
-  char *str;
-  if (controller_args) {
-    if (!strchr(controller_args, ','))
-      argv = add_single_argument(argv, current_size, controller_args);
-    else {
-      argv = add_single_argument(argv, current_size, strtok(controller_args, ","));
-      while ((str = strtok(NULL, ",")) != NULL)
-        argv = add_single_argument(argv, current_size, str);
-    }
+// Add all controller arguments (given to the launcher) to the 'argv' array
+static char **add_controller_arguments(char **argv, char **controller_argv, size_t *current_size) {
+  while (nb_controller_arguments) {
+    argv = add_single_argument(argv, current_size, controller_argv[next_argument_index]);
+    nb_controller_arguments--;
+    next_argument_index++;
   }
   return argv;
 }
@@ -769,7 +762,7 @@ int main(int argc, char **argv) {
     size_t current_size = 0;
     char **new_argv = NULL;
     new_argv = add_single_argument(new_argv, &current_size, controller);
-    new_argv = add_controller_arguments(new_argv, &current_size);
+    new_argv = add_controller_arguments(new_argv, argv, &current_size);
     new_argv = add_single_argument(new_argv, &current_size, NULL);
     execvp(new_argv[0], new_argv);
 #endif
@@ -795,7 +788,7 @@ int main(int argc, char **argv) {
     new_argv = add_single_argument(new_argv, &current_size, "python3");
     new_argv = add_single_argument(new_argv, &current_size, "-u");
     new_argv = add_single_argument(new_argv, &current_size, controller);
-    new_argv = add_controller_arguments(new_argv, &current_size);
+    new_argv = add_controller_arguments(new_argv, argv, &current_size);
     new_argv = add_single_argument(new_argv, &current_size, NULL);
     execvp(new_argv[0], new_argv);
 #endif
@@ -893,7 +886,7 @@ int main(int argc, char **argv) {
     new_argv = add_single_argument(new_argv, &current_size, classpath);
     new_argv = add_single_argument(new_argv, &current_size, java_library);
     new_argv = add_single_argument(new_argv, &current_size, controller_name + 1);
-    new_argv = add_controller_arguments(new_argv, &current_size);
+    new_argv = add_controller_arguments(new_argv, argv, &current_size);
     new_argv = add_single_argument(new_argv, &current_size, NULL);
     execvp(new_argv[0], new_argv);
 #endif
