@@ -1,26 +1,48 @@
 import WbBaseNode from './WbBaseNode.js';
+import WbBillboard from './WbBillboard.js';
+import WbTouchSensor from './WbTouchSensor.js';
 import WbWorld from './WbWorld.js';
-import {isDescendantOfBillboard} from './utils/utils.js';
+import WbBoundingSphere from './utils/WbBoundingSphere.js';
+import WbVector3 from './utils/WbVector3.js';
 import WbWrenMeshBuffers from './utils/WbWrenMeshBuffers.js';
 import WbWrenPicker from '../wren/WbWrenPicker.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 import Selector from '../Selector.js';
+import {findUpperTransform, nodeIsInBoundingObject} from './utils/node_utilities.js';
 
 export default class WbGeometry extends WbBaseNode {
+  #boundingObjectFirstTimeSearch;
+  #isInBoundingObject;
+  #upperTransformFirstTimeSearch;
   #wrenScaleTransform;
   constructor(id) {
     super(id);
 
     this.pickable = false;
     this._isShadedGeometryPickable = true;
+
+    this.#boundingObjectFirstTimeSearch = true;
+    this.#isInBoundingObject = false;
+
+    this.#upperTransformFirstTimeSearch = true;
+    this.upperTransform = false;
+  }
+
+  absoluteScale() {
+    const ut = this.#upperTransform();
+    return ut ? ut.absoluteScale() : new WbVector3(1, 1, 1);
+  }
+
+  boundingSphere() {
+    return this._boundingSphere;
   }
 
   computeCastShadows(enabled) {
     if (typeof this._wrenRenderable === 'undefined')
       return;
 
-    if (this.isInBoundingObject() || isDescendantOfBillboard(this)) {
+    if (this.isInBoundingObject() || WbBillboard.isDescendantOfBillboard(this)) {
       _wr_renderable_set_cast_shadows(this._wrenRenderable, false);
       _wr_renderable_set_receive_shadows(this._wrenRenderable, false);
     } else
@@ -39,6 +61,26 @@ export default class WbGeometry extends WbBaseNode {
 
     super.delete();
   }
+
+  isInBoundingObject() {
+    if (this.#boundingObjectFirstTimeSearch) {
+      this.#isInBoundingObject = nodeIsInBoundingObject(this);
+      if (this.wrenObjectsCreatedCalled)
+        this.#boundingObjectFirstTimeSearch = false;
+    }
+
+    return this.#isInBoundingObject;
+  }
+
+  postFinalize() {
+    super.postFinalize();
+
+    this._boundingSphere = new WbBoundingSphere(this);
+    this._boundingSphere.geomOwner = true;
+    this.recomputeBoundingSphere();
+  }
+
+  recomputeBoundingSphere() {}
 
   setPickable(pickable) {
     if (typeof this._wrenRenderable === 'undefined' || this.isInBoundingObject())
@@ -60,6 +102,16 @@ export default class WbGeometry extends WbBaseNode {
     this.#applyVisibilityFlagToWren(this.#isSelected());
   }
 
+  #upperTransform() {
+    if (this.#upperTransformFirstTimeSearch) {
+      this.upperTransform = findUpperTransform(this);
+      if (this.wrenObjectsCreatedCalled)
+        this.#upperTransformFirstTimeSearch = false;
+    }
+
+    return this.upperTransform;
+  }
+
   // Private functions
 
   #applyVisibilityFlagToWren(selected) {
@@ -70,9 +122,24 @@ export default class WbGeometry extends WbBaseNode {
       if (selected) {
         _wr_renderable_set_visibility_flags(this._wrenRenderable, WbWrenRenderingContext.VF_INVISIBLE_FROM_CAMERA);
         _wr_node_set_visible(this.#wrenScaleTransform, true);
-      } else if (_wr_node_get_parent(this.#wrenScaleTransform))
-        _wr_node_set_visible(this.#wrenScaleTransform, false);
-    } else if (isDescendantOfBillboard(this)) {
+      } else {
+        let shouldRender = false;
+        let parent = WbWorld.instance.nodes.get(this.parent);
+        while (parent) {
+          if (parent instanceof WbTouchSensor) {
+            shouldRender = parent.showOptionalRendering;
+            break;
+          } else
+            parent = WbWorld.instance.nodes.get(parent.parent);
+        }
+
+        if (shouldRender) {
+          _wr_renderable_set_visibility_flags(this._wrenRenderable, WbWrenRenderingContext.VF_INVISIBLE_FROM_CAMERA);
+          _wr_node_set_visible(this.#wrenScaleTransform, true);
+        } else if (_wr_node_get_parent(this.#wrenScaleTransform))
+          _wr_node_set_visible(this.#wrenScaleTransform, false);
+      }
+    } else if (WbBillboard.isDescendantOfBillboard(this)) {
       _wr_renderable_set_visibility_flags(this._wrenRenderable, WbWrenRenderingContext.VF_INVISIBLE_FROM_CAMERA);
       _wr_node_set_visible(this.#wrenScaleTransform, true);
     } else {
@@ -82,9 +149,6 @@ export default class WbGeometry extends WbBaseNode {
   }
 
   _computeWrenRenderable() {
-    if (this._wrenRenderable)
-      return;
-
     if (!this.wrenObjectsCreatedCalled)
       super.createWrenObjects();
 
@@ -126,6 +190,12 @@ export default class WbGeometry extends WbBaseNode {
 
   _deleteWrenRenderable() {
     if (typeof this._wrenRenderable !== 'undefined') {
+      if (this.wrenMaterial) {
+        this.setWrenMaterial(null, false);
+        _wr_material_delete(this.wrenMaterial);
+        this.wrenMaterial = undefined;
+      }
+
       // Delete picking material
       _wr_material_delete(Module.ccall('wr_renderable_get_material', 'number', ['number', 'string'],
         [this._wrenRenderable, 'picking']));
@@ -145,7 +215,7 @@ export default class WbGeometry extends WbBaseNode {
     if (!this.isInBoundingObject())
       return false;
 
-    const upperTransform = super.upperTransform();
+    const upperTransform = this.#upperTransform();
     if (typeof upperTransform !== 'undefined' && upperTransform.isInBoundingObject() && upperTransform.geometry !== this)
       return false;
 

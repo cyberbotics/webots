@@ -8,7 +8,7 @@
  *              a matrix 3x3 is an object with 9 elements
  */
 
-import * as wbutility from 'wbutility.js';
+import * as wbutility from './wbutility.js';
 
 export function equal(rA, rB) {
   wbutility.assert(wbutility.isAxisAngle(rA), 'Expected an object with keys (x, y, z, a) as first parameter in wbrotation.equal.');

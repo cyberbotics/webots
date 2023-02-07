@@ -5,7 +5,7 @@ export default class InformationPanel {
     this.informationPanel = document.createElement('div');
     this.informationPanel.className = 'information-panel';
 
-    let infoTabsBar = document.createElement('div');
+    const infoTabsBar = document.createElement('div');
     infoTabsBar.className = 'info-tabs-bar';
     this.informationPanel.appendChild(infoTabsBar);
 
@@ -31,17 +31,17 @@ export default class InformationPanel {
       <a href="https://cyberbotics.com" target="_blank">Cyberbotics Ltd.</a>`;
     this.informationPanel.appendChild(this.webotsPresentation);
 
-    this.simulationDescritption = document.createElement('div');
-    this.informationPanel.appendChild(this.simulationDescritption);
+    this.simulationDescription = document.createElement('div');
+    this.informationPanel.appendChild(this.simulationDescription);
 
     this.simulationTitle = document.createElement('h2');
     this.simulationTitle.innerHTML = 'No title found';
-    this.simulationDescritption.appendChild(this.simulationTitle);
+    this.simulationDescription.appendChild(this.simulationTitle);
 
     this.simulationText = document.createElement('div');
     this.simulationText.className = 'simulation-text';
     this.simulationText.innerHTML = 'No description found';
-    this.simulationDescritption.appendChild(this.simulationText);
+    this.simulationDescription.appendChild(this.simulationText);
 
     parentNode.appendChild(this.informationPanel);
   }
@@ -51,12 +51,12 @@ export default class InformationPanel {
       this.tab0.style.backgroundColor = '#222';
       this.tab1.style.backgroundColor = '#333';
       this.webotsPresentation.style.display = 'none';
-      this.simulationDescritption.style.display = 'block';
+      this.simulationDescription.style.display = 'block';
     } else if (number === 1) {
       this.tab0.style.backgroundColor = '#333';
       this.tab1.style.backgroundColor = '#222';
       this.webotsPresentation.style.display = 'block';
-      this.simulationDescritption.style.display = 'none';
+      this.simulationDescription.style.display = 'none';
     }
   }
 

@@ -1,6 +1,9 @@
 'use strict';
 
 import {webots} from './webots.js';
+import ImageLoader from './ImageLoader.js';
+import MeshLoader from './MeshLoader.js';
+import WbCadShape from './nodes/WbCadShape.js';
 
 export default class Stream {
   #onready;
@@ -29,6 +32,9 @@ export default class Stream {
       this.socket.close();
       this.soclet = undefined;
     }
+    ImageLoader.stream = false;
+    MeshLoader.stream = false;
+    WbCadShape.stream = false;
   }
 
   #onSocketOpen(event) {

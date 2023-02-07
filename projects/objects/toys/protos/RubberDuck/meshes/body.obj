@@ -1,6 +1,5 @@
 # Blender v2.93.4 OBJ File: ''
 # www.blender.org
-mtllib body.mtl
 o geom.003
 v -0.031698 0.024886 0.007545
 v -0.030520 0.025896 0.007273
