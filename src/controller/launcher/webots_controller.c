@@ -755,21 +755,25 @@ int main(int argc, char **argv) {
   // Executable controller
   if (!controller_extension || strcmp(controller_extension, ".exe") == 0) {
     exec_java_config_environment();
-#ifdef _WIN32
-    const char *const new_argv[] = {controller, NULL};
-    _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
-#else
     size_t current_size = 0;
     char **new_argv = NULL;
     new_argv = add_single_argument(new_argv, &current_size, controller);
     new_argv = add_controller_arguments(new_argv, argv, &current_size);
     new_argv = add_single_argument(new_argv, &current_size, NULL);
+#ifdef _WIN32
+    const char *const *windows_argv = (const char **)new_argv;
+    _spawnvpe(_P_WAIT, windows_argv[0], windows_argv, NULL);
+#else
     execvp(new_argv[0], new_argv);
 #endif
   }
   // Python controller
   else if (strcmp(controller_extension, ".py") == 0) {
     python_config_environment();
+    size_t current_size = 0;
+    char **new_argv = NULL;
+    new_argv = add_single_argument(new_argv, &current_size, "python3");
+    new_argv = add_single_argument(new_argv, &current_size, "-u");
 #ifdef _WIN32
     // Add quotation marks to the controller string if it contains whitespaces
     char *controller_formated = NULL;
@@ -779,17 +783,16 @@ int main(int argc, char **argv) {
       sprintf(controller_formated, "\"%s\"", controller);
     } else
       controller_formated = strdup(controller);
-
-    const char *const new_argv[] = {"python", "-u", controller_formated, NULL};
-    _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
+    new_argv = add_single_argument(new_argv, &current_size, controller_formated);
 #else
-    size_t current_size = 0;
-    char **new_argv = NULL;
-    new_argv = add_single_argument(new_argv, &current_size, "python3");
-    new_argv = add_single_argument(new_argv, &current_size, "-u");
     new_argv = add_single_argument(new_argv, &current_size, controller);
+#endif
     new_argv = add_controller_arguments(new_argv, argv, &current_size);
     new_argv = add_single_argument(new_argv, &current_size, NULL);
+#ifdef _WIN32
+    const char *const *windows_argv = (const char **)new_argv;
+    _spawnvpe(_P_WAIT, windows_argv[0], windows_argv, NULL);
+#else
     execvp(new_argv[0], new_argv);
 #endif
   }
@@ -857,12 +860,6 @@ int main(int argc, char **argv) {
     const size_t java_library_size = snprintf(NULL, 0, "\"-Djava.library.path=%s\"", lib_controller) + 1;
     char *java_library = malloc(java_library_size);
     sprintf(java_library, "\"-Djava.library.path=%s\"", lib_controller);
-
-    if (!controller_name)
-      controller_name = strrchr(controller, '\\');
-    controller_name[strlen(controller_name) - strlen(controller_extension)] = '\0';
-    const char *const new_argv[] = {"java", "-classpath", classpath, java_library, controller_name + 1, NULL};
-    _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
 #else
     // Write the 'classpath' option (mandatory for java controllers) with the path to Controller.jar and the path to the
     // controller
@@ -874,13 +871,13 @@ int main(int argc, char **argv) {
     const size_t java_library_size = snprintf(NULL, 0, "-Djava.library.path=%s", lib_controller) + 1;
     char *java_library = malloc(java_library_size);
     sprintf(java_library, "-Djava.library.path=%s", lib_controller);
-
-    // Java command has the following syntax: 'java -classpath [...] -Djava.library.path=[...] controller_name'
+#endif
     if (!controller_name)
-      controller_name = strrchr(controller, '/');
+      controller_name = strrchr(controller, PATH_SEPARATOR[0]);
     controller_name[strlen(controller_name) - strlen(controller_extension)] = '\0';
     size_t current_size = 0;
     char **new_argv = NULL;
+    // Java command has the following syntax: 'java -classpath [...] -Djava.library.path=[...] controller_name'
     new_argv = add_single_argument(new_argv, &current_size, "java");
     new_argv = add_single_argument(new_argv, &current_size, "-classpath");
     new_argv = add_single_argument(new_argv, &current_size, classpath);
@@ -888,6 +885,10 @@ int main(int argc, char **argv) {
     new_argv = add_single_argument(new_argv, &current_size, controller_name + 1);
     new_argv = add_controller_arguments(new_argv, argv, &current_size);
     new_argv = add_single_argument(new_argv, &current_size, NULL);
+#ifdef _WIN32
+    const char *const *windows_argv = (const char **)new_argv;
+    _spawnvpe(_P_WAIT, windows_argv[0], windows_argv, NULL);
+#else
     execvp(new_argv[0], new_argv);
 #endif
 
