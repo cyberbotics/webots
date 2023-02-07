@@ -16,7 +16,7 @@ void test_position_under_velocity_control(WbDeviceTag motor, WbDeviceTag positio
   wb_position_sensor_enable(position_sensor, TIME_STEP);
   wb_robot_step(TIME_STEP);
 
-  const double *rpy = wb_inertial_unit_get_roll_pitch_yaw(inertial_unit);
+  const double *roll_pitch_yaw = wb_inertial_unit_get_roll_pitch_yaw(inertial_unit);
   double position = wb_position_sensor_get_value(position_sensor);
   int i;
 
