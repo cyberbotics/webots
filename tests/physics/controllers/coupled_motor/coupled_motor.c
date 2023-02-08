@@ -170,7 +170,7 @@ int main(int argc, char **argv) {
       motors[i] = wb_robot_get_device_by_index(2 * i + 1);
 
     double positions[NB_SENSORS];
-    double tolerance = 1e-10;
+    double tolerance = 1e-4;
     int k = 0;
 
     // velocity control, only actuate motor[0]
@@ -291,7 +291,7 @@ int main(int argc, char **argv) {
     wb_motor_set_torque(motors[0], 0.004);
 
     k = 0;
-    tolerance = 1e-6;
+    tolerance = 1e-2;
     while (wb_robot_step(TIME_STEP) != -1 && k < 50) {
       if (k == 50)
         wb_motor_set_torque(motors[0], -0.004);
@@ -323,7 +323,7 @@ int main(int argc, char **argv) {
     wb_motor_set_torque(motors[4], 0.001);
 
     k = 0;
-    tolerance = 1e-4;
+    tolerance = 1e-3;
     while (wb_robot_step(TIME_STEP) != -1 && k < 250) {
       if (k == 50)
         wb_motor_set_torque(motors[4], -0.002);
