@@ -1,7 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/pr2
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/clearpath/pr2/protos/Pr2.proto
 # The Clearpath's PR2 robot is a mobile manipulation platform.
 # The robot is mounted on four directional wheels, had two articulated arms with grippers, an articulated body and head.
 # It is mounted by several sensors including cameras.
