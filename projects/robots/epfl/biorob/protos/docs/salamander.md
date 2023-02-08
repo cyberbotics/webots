@@ -1,9 +1,5 @@
 The "Salamander" robot is a salamander-like robot developed by the [EPFL BioRob laboratory](https://biorob.epfl.ch/).
 
-### Movie Presentation
-
-![youtube video](https://www.youtube.com/watch?v=TrdNtrGOkWg)
-
 ### Salamander PROTO
 
 Derived from [Robot](https://cyberbotics.com/doc/reference/robot).
