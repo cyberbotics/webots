@@ -1226,9 +1226,14 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         // this information is however only available on the parent PROTO side, hence why the parameter
         // model needs to be retrieved and used as initialization when creating the node instance (i.e. before
         // the internal body is created as these extra parameters might yield different results)
-        const protoModel = parameter.node.model;
-        const parameterModel = protoModel['parameters'][parameter.name]['defaultValue'];
-        const sfnode = vrmlFactory(VRML.SFNode, parameterModel, true);
+        const nodeModel = parameter.node.model;
+        let model;
+        if (parameter.node.isProto)
+          model = nodeModel['parameters'][parameter.name]['defaultValue'];
+        else
+          model = nodeModel[parameter.name]['defaultValue'];
+
+        const sfnode = vrmlFactory(VRML.SFNode, model, true);
         parameter.setValueFromJavaScript(this.#view, sfnode.value);
       }
       this.#refreshParameterRow(parameter);

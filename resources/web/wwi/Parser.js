@@ -350,6 +350,7 @@ export default class Parser {
               parentNode.texture = result;
             } else {
               const role = getNodeAttribute(node, 'role', undefined);
+              result.role = role;
               if (role === 'baseColorMap')
                 parentNode.baseColorMap = result;
               else if (role === 'roughnessMap')

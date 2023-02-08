@@ -68,7 +68,6 @@ export default class Node {
 
   generateInternalFields() {
     // set field values based on field model
-    console.log(this.model)
     for (const fieldName of Object.keys(this.model)) {
       const type = this.model[fieldName]['type'];
       const value = vrmlFactory(type, this.model[fieldName]['defaultValue'], false);

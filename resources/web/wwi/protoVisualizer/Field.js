@@ -155,6 +155,8 @@ export default class Field {
       }
 
       // delete existing nodes
+      console.log('DEL', idsToDelete)
+
       for (const id of idsToDelete)
         view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
 

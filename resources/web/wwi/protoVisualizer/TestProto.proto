@@ -8,4 +8,5 @@ PROTO TestProto [
   Shape {
     appearance IS appearance
     geometry Box {}
+  }
 }
