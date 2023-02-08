@@ -44,7 +44,7 @@ PROTO Crazyflie [
         ]
       }
       DEF MULTIRANGER Transform {
-        translation 0 0 0.02
+        translation 0 0 0.01
         children [
           DistanceSensor {
             rotation 0 0 1 -1.57
