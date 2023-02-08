@@ -1,11 +1,11 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/blimp
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/doc-add-robots/projects/robots/epfl/lis/protos/Blimp.proto
 # The "Blimp" robot is a Zeppelin-like aerial robot developed by the EPFL LIS laboratory.
 
 PROTO Blimp [
-  field SFVec3f    translation     0 0 0       # Is `Transform.translation`.
+  field SFVec3f    translation     0 0 0.4       # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.
   field SFString   name            "Blimp"     # Is `Solid.name`.
   field SFString   controller      "blimp"     # Is `Robot.controller`.
