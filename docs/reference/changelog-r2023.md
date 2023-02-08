@@ -34,6 +34,7 @@ Released on ??
     - Fixed failure to detect that a port was already in use on some platforms ([#5806](https://github.com/cyberbotics/webots/pull/5806)).
     - Fixed thread-safety issue when robots collide. This was only an issue if physics multi-threading was enabled (which is not the default and rarely used) ([#5796](https://github.com/cyberbotics/webots/pull/5796)).
     - Fixed crash during PROTO regeneration triggered by nested PROTO in parameter ([#5724](https://github.com/cyberbotics/webots/pull/5724)).
+    - Fixed wrong warning message about parent "worlds" folder displayed when saving a world ([#5843](https://github.com/cyberbotics/webots/pull/5843)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
