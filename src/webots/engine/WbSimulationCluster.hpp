@@ -24,8 +24,6 @@
 #include <QtCore/QList>
 #include <QtCore/QMutex>
 
-#include <vector>
-
 class WbContactProperties;
 class WbImmersionProperties;
 class WbOdeContext;
