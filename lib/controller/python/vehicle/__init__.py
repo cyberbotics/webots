@@ -1,4 +1,4 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,3 +14,5 @@
 
 from vehicle.driver import Driver  # noqa
 from vehicle.car import Car        # noqa
+
+__all__ = [Car, Driver]

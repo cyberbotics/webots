@@ -1,5 +1,5 @@
-import {arrayXPointerInt, arrayXPointerFloat} from './../nodes/utils/utils.js';
-import WbVector3 from './../nodes/utils/WbVector3.js';
+import {arrayXPointerInt, arrayXPointerFloat} from '../nodes/utils/utils.js';
+import WbVector3 from '../nodes/utils/WbVector3.js';
 import WbWrenShaders from './WbWrenShaders.js';
 
 export default class WbWrenPicker {

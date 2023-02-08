@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# exit when any command fails
+set -e
+
 # install the latest Qt6 which comes with msys64
 
 QT_BASE_PACKAGE=mingw-w64-x86_64-qt6-base
@@ -44,7 +47,8 @@ for MODULE in QtConcurrent QtCore QtGui QtNetwork QtOpenGL QtOpenGLWidgets QtPri
 do
   echo installing $MODULE...
   mkdir -p include/qt/$MODULE/$MODULE
-  cp /mingw64/include/qt6/$MODULE/* include/qt/$MODULE/$MODULE/ 2>&1 | grep -v 'omitting directory'
+  # Ignore errors while copying
+  cp /mingw64/include/qt6/$MODULE/* include/qt/$MODULE/$MODULE/ 2>&1 | grep -v 'omitting directory' || true
 done
 
 echo done.

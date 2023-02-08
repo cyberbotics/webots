@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -64,12 +64,14 @@ private:
   WbPhysicsViewer *mPhysicsViewer;
   WbPositionViewer *mPositionViewer;
   WbVelocityViewer *mVelocityViewer;
+  // save the selected tab name to restore it when a different node is selected
+  QString mPreviousTabName;
 
+  void update();
   void enableTab(int index, QWidget *widget, bool enabled);
   void takeKeyboardFocus() override {}
 
 private slots:
-  void update();
   void updateSelectedTab();
 };
 
