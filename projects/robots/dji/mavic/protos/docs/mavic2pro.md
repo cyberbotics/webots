@@ -10,7 +10,7 @@ Derived from [Robot](https://cyberbotics.com/doc/reference/robot).
 
 ```
 PROTO Mavic2Pro {
-  SFVec3f    translation         0 0 0
+  SFVec3f    translation         0 0 0.065
   SFRotation rotation            0 0 1 0
   SFString   name                "Mavic 2 PRO"
   SFString   controller          "mavic2pro"
