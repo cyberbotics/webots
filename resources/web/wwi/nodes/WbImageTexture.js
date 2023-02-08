@@ -197,7 +197,6 @@ export default class WbImageTexture extends WbBaseNode {
   }
 
   #updateUrl() {
-    console.log('URL IS', this.#url)
     if (typeof this.#url === 'undefined') {
       this.#destroyWrenTexture();
       return;
@@ -205,7 +204,6 @@ export default class WbImageTexture extends WbBaseNode {
 
     ImageLoader.loadImageTextureInWren(this, WbWorld.instance.prefix, this.#url)
       .then(() => {
-        console.log('here')
         this.#updateWrenTexture();
         this.#update();
       });
