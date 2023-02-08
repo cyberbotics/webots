@@ -1,7 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/pioneer-3dx
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/doc-add-robots/projects/robots/adept/pioneer3/protos/Pioneer3dx.proto
 # The Pioneer 3-DX robot (Adept MobileRobots) is an all-purpose base, used for research and applications involving mapping, teleoperation, localization, monitoring, reconnaissance and other behaviors.
 
 EXTERNPROTO "Pioneer3DistanceSensor.proto"
