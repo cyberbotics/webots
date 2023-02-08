@@ -1,0 +1,14 @@
+#VRML_SIM R2023b utf8
+
+PROTO TestProto [
+  field SFNode appearance NULL
+
+]
+{
+  Shape {
+    appearance IS appearance
+    geometry Box {
+      size 0.1 0.1 0.1
+    }
+  }
+}
