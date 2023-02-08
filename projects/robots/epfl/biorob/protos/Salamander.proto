@@ -5,7 +5,7 @@
 # The "Salamander" robot is a salamander-like robot developed by the EPFL BioRob laboratory.
 
 PROTO Salamander [
-  field SFVec3f    translation     0 0 0.044        # Is `Transform.translation`.
+  field SFVec3f    translation     0 0 0.044    # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0      # Is `Transform.rotation`.
   field SFString   name            "Salamander" # Is `Solid.name`.
   field SFString   controller      "salamander" # Is `Robot.controller`.

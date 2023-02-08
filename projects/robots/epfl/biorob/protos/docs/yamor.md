@@ -6,7 +6,7 @@ Derived from [Robot](https://cyberbotics.com/doc/reference/robot).
 
 ```
 Yamor {
-  SFVec3f    translation     0 0 0
+  SFVec3f    translation     0 0 0.03
   SFRotation rotation        0 0 1 0
   SFString   name            "Yamor"
   SFString   controller      "yamor"
