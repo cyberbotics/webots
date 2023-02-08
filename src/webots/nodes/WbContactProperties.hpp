@@ -18,6 +18,7 @@
 #include "WbBaseNode.hpp"
 #include "WbMFDouble.hpp"
 #include "WbSFDouble.hpp"
+#include "WbSFInt.hpp"
 #include "WbSFString.hpp"
 #include "WbSFVector2.hpp"
 #include "WbSFVector3.hpp"
@@ -57,6 +58,7 @@ public:
   const WbSoundClip *bumpSoundClip() const { return mBumpSoundClip; }
   const WbSoundClip *rollSoundClip() const { return mRollSoundClip; }
   const WbSoundClip *slideSoundClip() const { return mSlideSoundClip; }
+  int maxContactJoints() const { return mMaxContactJoints->value(); }
 
 signals:
   void valuesChanged();
@@ -77,6 +79,7 @@ private:
   WbSFString *mBumpSound;
   WbSFString *mRollSound;
   WbSFString *mSlideSound;
+  WbSFInt *mMaxContactJoints;
   const WbSoundClip *mBumpSoundClip;
   const WbSoundClip *mRollSoundClip;
   const WbSoundClip *mSlideSoundClip;
@@ -100,6 +103,7 @@ private slots:
   void updateSlideSound();
   void updateForceDependentSlip();
   void enableBodies();
+  void updateMaxContactJoints();
 };
 
 #endif
