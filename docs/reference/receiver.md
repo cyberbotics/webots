@@ -337,7 +337,11 @@ namespace webots {
 from controller import Receiver
 
 class Receiver (Device):
-    def getData(self):
+    def getBytes(self):
+    def getString(self):
+    def getFloats(self):
+    def getInts(self):
+    def getBools(self):
     def getDataSize(self):
     # ...
 ```
@@ -392,16 +396,7 @@ The `wb_receiver_get_data_size` function returns the number of data bytes presen
 The *data size* is always equal to the *size* argument of the corresponding `emitter_send_packet` function call.
 It is illegal to call the `wb_receiver_get_data_size` function when the queue is empty (i.e. when `wb_receiver_get_queue_length() == 0`).
 
-> **Note** [Python]: The `getData` function returns a string.
-Similarly to the `sendPacket` function of the [Emitter](emitter.md) device, using the functions of the struct module is recommended for sending primitive data types.
-Here is an example for getting the data:
-
-> ```python
-> import struct
-> #...
-> message=receiver.getData()
-> dataList=struct.unpack("chd",message)
-> ```
+> **Note** [Python]: In the Python API, instead of having a single function returning the data, multiple functions are defined that automatically convert the data to the expected return type (bytes, string, list of floats, list of integers, list of booleans).
 
 <!-- -->
 
