@@ -34,8 +34,6 @@ void test_position_under_velocity_control(const char *sensor_name, const char *m
     wb_robot_step(TIME_STEP);
     quaternion = wb_inertial_unit_get_quaternion(inertial_unit);
     position = wb_position_sensor_get_value(position_sensor);
-    // printf("position = %g, quaternion = %g, %g, %g, %g\n", position, quaternion[0], quaternion[1], quaternion[2],
-    //        quaternion[3]);
   }
 
   // The new position should match the one provided by the inertial unit.
