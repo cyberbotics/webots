@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/doc-add-robots/projects/robots/festo/robotino3/protos/Robotino3Webcam.proto
 # This is a PROTO file for Webots of a webcam for the robot Robotino 3 from Festo.
 # It is a feature for Robotino 3 to fullfil your requirement.
 # The model is based on the Logitech® HD Pro Webcam C920.

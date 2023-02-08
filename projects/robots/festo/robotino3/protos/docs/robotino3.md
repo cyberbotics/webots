@@ -1,4 +1,4 @@
-Designed by Festo, [Robotino 3](robotino3.md) is a three-wheeled (mecanum) robot.
+Designed by Festo, Robotino 3 is a three-wheeled (mecanum) robot.
 The model is a modular mobile platform used for educational, training and research purposes.
 It is controlled by an industry-standard PC system (ROS compatible) and it is also customizable with accessories to adapt to any specific need.
 
@@ -43,7 +43,7 @@ Robotino3 {
 
 You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/festo/robotino3/worlds]({{ url.github_tree }}/projects/robots/festo/robotino3/worlds)".
 
-> **Note:** For the mecanum wheels to behave correctly, the following [ContactProperties](https://cyberbotics.com/doc/reference/contactproperties.md) should be added in the `contactProperties` field of the [WorldInfo](https://cyberbotics.com/doc/reference/worldinfo.md) node:
+> **Note:** For the mecanum wheels to behave correctly, the following [ContactProperties](https://cyberbotics.com/doc/reference/contactproperties) should be added in the `contactProperties` field of the [WorldInfo](https://cyberbotics.com/doc/reference/worldinfo) node:
 ```
   contactProperties [
     ContactProperties {

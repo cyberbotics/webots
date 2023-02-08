@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/doc-add-robots/projects/robots/festo/robotino3/protos/Robotino3HokuyoMountingSupport.proto
 # This is a PROTO file for Webots of a mounting support for the robot Robotino 3 from Festo and a Hokuyo's lidar.
 # It is a feature for Robotino 3 to fullfil your requirement.
 # Use it with the "topSlot" or "middleSlot" field of the Robotino 3 robot.
