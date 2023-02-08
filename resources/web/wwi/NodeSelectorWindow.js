@@ -1,3 +1,4 @@
+import {FieldModel} from './protoVisualizer/FieldModel.js';
 import Parameter from './protoVisualizer/Parameter.js';
 import { VRML } from './protoVisualizer/vrml_type.js';
 
@@ -140,6 +141,7 @@ export default class NodeSelectorWindow {
 
     const content = {};
     content.base_types = this.getAllowedBaseType();
+    console.log('ALLOWED BASETYPES:', content.base_types);
 
     if (content.base_types.length === 1 && content.base_types[0] === 'Slot')
       content.slot_type = this.getSlotType();
@@ -162,6 +164,12 @@ export default class NodeSelectorWindow {
           const protoInfo = new ProtoInfo(url, baseType, license, description);
           const protoName = url.split('/').pop().replace('.proto', '');
           this.nodes.set(protoName, protoInfo);
+        }
+
+        // add base nodes
+        for (const baseType of content.base_types) {
+          if (Object.keys(FieldModel).includes(baseType))
+            this.nodes.set(baseType, new ProtoInfo(baseType, baseType));
         }
       });
   }
@@ -303,9 +311,8 @@ export default class NodeSelectorWindow {
     if (typeof this.parameter === 'undefined')
       throw new Error('The parameter is expected to be defined prior to checking node compatibility.');
 
-    if (this.parameter.aliasLinks.length <= 0)
-      throw new Error('The parameter has no IS.');
-
+    //if (this.parameter.aliasLinks.length <= 0)
+    //  throw new Error('The parameter has no IS.');
     let baseType = [];
     // get the field name linked to the parameter (full-depth)
     let p = this.parameter;
@@ -313,9 +320,8 @@ export default class NodeSelectorWindow {
       p = p.aliasLinks[0];
     const fieldName = p.name;
     const parentNode = p.node;
+    console.log('==>', fieldName)
 
-    const ff = this.parameter.aliasLinks;
-    console.log(fieldName, parentNode.name, ff)
     if (fieldName === 'appearance')
       baseType = ['Appearance', 'PBRAppearance'];
     else if (fieldName === 'geometry') {
@@ -326,7 +332,8 @@ export default class NodeSelectorWindow {
     else if (fieldName === 'endPoint' || fieldName === 'children') {
       baseType = ['Group', 'Transform', 'Shape', 'CadShape', 'Solid', 'Robot', 'PointLight', 'SpotLight', 'Propeller',
         'Charger'];
-    }
+    } else if (['baseColorMap', 'roughnessMap', 'metalnessMap', 'normalMap', 'occlusionMap', 'emissiveColorMap'].includes(fieldName))
+      baseType = ['ImageTexture'];
 
     return baseType;
   }
@@ -348,8 +355,8 @@ export default class NodeSelectorWindow {
     const filterInput = document.getElementById('filter');
     filterInput.value = '';
 
-    if (!(parameter instanceof Parameter))
-      throw new Error('Cannot display node selector unless a parameter is provided.');
+    //if (!(parameter instanceof Parameter))
+    //  throw new Error('Cannot display node selector unless a parameter is provided.');
 
     this.parameter = parameter;
     this.element = element;

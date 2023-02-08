@@ -173,6 +173,7 @@ export default class X3dScene {
   }
 
   async loadObject(x3dObject, parentId, callback) {
+    console.log(x3dObject)
     let parentNode;
     if (typeof parentId !== 'undefined')
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
@@ -181,8 +182,14 @@ export default class X3dScene {
     parser.prefix = webots.currentView.prefix;
     await parser.parse(x3dObject, this.renderer, false, parentNode, callback);
 
+    console.log(x3dObject, 'rootNodeId', parser.rootNodeId, parentNode.id)
+
     const node = WbWorld.instance.nodes.get(parser.rootNodeId);
-    if (parentNode instanceof WbShape) {
+    if (parentNode instanceof WbPbrAppearance) { // TODO: add "hasShapeAncestor"
+      const p = WbWorld.instance.nodes.get(parentNode.parent);
+      p.unfinalize();
+      p.finalize();
+    } else if (parentNode instanceof WbShape) {
       parentNode.unfinalize();
       parentNode.finalize();
     } else

@@ -68,6 +68,7 @@ export default class Node {
 
   generateInternalFields() {
     // set field values based on field model
+    console.log(this.model)
     for (const fieldName of Object.keys(this.model)) {
       const type = this.model[fieldName]['type'];
       const value = vrmlFactory(type, this.model[fieldName]['defaultValue'], false);
@@ -222,6 +223,11 @@ export default class Node {
       return this.baseType.toX3d();
 
     const nodeElement = this.xml.createElement(this.name);
+
+    // TODO: handle other exceptions
+    if (this.name === 'ImageTexture')
+      nodeElement.setAttribute('role', 'baseColorMap');
+
     if (this.refId > this.ids.length - 1)
       throw new Error('Something has gone wrong, the refId is bigger the number of available ids.');
     const id = this.ids[this.refId++];
@@ -266,6 +272,10 @@ export default class Node {
     return `{node_name: '${this.name}', fields: {${jsFields.slice(0, -2)}}}`;
   }
 
+  fieldsOrParameters() {
+    return this.isProto ? this.parameters : this.fields;
+  }
+
   static async prepareProtoDependencies(protoUrl) {
     return new Promise((resolve, reject) => {
       const xmlhttp = new XMLHttpRequest();
@@ -303,7 +313,8 @@ export default class Node {
   }
 
   static async createNode(url, tokenizer, isRoot) {
-    await Node.prepareProtoDependencies(url);
+    if (!isBaseNode(url))
+      await Node.prepareProtoDependencies(url);
     return new Node(url, tokenizer, isRoot);
   }
 

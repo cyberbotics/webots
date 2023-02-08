@@ -348,6 +348,20 @@ export default class Parser {
             if (typeof parentNode !== 'undefined' && parentNode instanceof WbAppearance) {
               parentNode.texture?.delete();
               parentNode.texture = result;
+            } else {
+              const role = getNodeAttribute(node, 'role', undefined);
+              if (role === 'baseColorMap')
+                parentNode.baseColorMap = result;
+              else if (role === 'roughnessMap')
+                parentNode.roughnessMap = result;
+              else if (role === 'metalnessMap')
+                parentNode.metalnessMap = result;
+              else if (role === 'normalMap')
+                parentNode.normalMap = result;
+              else if (role === 'occlusionMap')
+                parentNode.occlusionMap = result;
+              else if (role === 'emissiveColorMap')
+                parentNode.emissiveColorMap = result;
             }
           }
         } else if (node.tagName === 'TextureTransform') {
@@ -1539,22 +1553,17 @@ export default class Parser {
     const t = getNodeAttribute(node, 'repeatT', 'true').toLowerCase() === 'true';
     const filtering = parseFloat(getNodeAttribute(node, 'filtering', '4'));
 
-    let imageTexture;
-    if (typeof url !== 'undefined' && url !== '') {
-      imageTexture = new WbImageTexture(id, url, s, t, filtering);
-      if (!this.#downloadingImage.has(url)) {
-        this.#downloadingImage.add(url);
-        // Load the texture in WREN
-        this.#promises.push(ImageLoader.loadImageTextureInWren(imageTexture, this.prefix, url));
-      }
+    const imageTexture = new WbImageTexture(id, url, s, t, filtering);
+    if (typeof url !== 'undefined' && !this.#downloadingImage.has(url)) {
+      this.#downloadingImage.add(url);
+      // Load the texture in WREN
+      this.#promises.push(ImageLoader.loadImageTextureInWren(imageTexture, this.prefix, url));
     }
 
-    if (typeof imageTexture !== 'undefined') {
-      if (typeof parentId !== 'undefined')
-        imageTexture.parent = parentId;
+    if (typeof parentId !== 'undefined')
+      imageTexture.parent = parentId;
 
-      WbWorld.instance.nodes.set(imageTexture.id, imageTexture);
-    }
+    WbWorld.instance.nodes.set(imageTexture.id, imageTexture);
 
     return imageTexture;
   }

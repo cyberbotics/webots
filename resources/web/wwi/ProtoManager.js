@@ -37,6 +37,7 @@ export default class ProtoManager {
       scene.appendChild(this.proto.toX3d());
 
     const x3d = new XMLSerializer().serializeToString(xml);
+    // console.log(x3d)
 
     this.#view.prefix = this.url.substr(0, this.url.lastIndexOf('/') + 1);
     this.#view.open(x3d, 'x3d', '', true);

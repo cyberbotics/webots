@@ -63,8 +63,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.floatingWindowContent.appendChild(this.devices);
 
     this.#protoManager = protoManager;
-    this.proto = protoManager.proto;
-    this.headerText.innerHTML = this.proto.name;
+    this.node = protoManager.proto;
+    this.headerText.innerHTML = this.node.name;
     this.#view = view;
 
     this.#mfId = 0;
@@ -132,15 +132,15 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   populateProtoParameterWindow() {
     const contentDiv = document.getElementById('proto-parameter-content');
     if (contentDiv) {
-      this.headerText.innerHTML = this.proto.name;
+      this.headerText.innerHTML = this.node.name;
 
-      // populate the parameters based on the value of this.proto (i.e. current active proto)
+      // populate the parameters based on the value of this.node (i.e. current active node)
       contentDiv.innerHTML = '';
       this.#rowNumber = 1;
 
-      const keys = this.proto.parameters.keys();
+      const keys = this.node.fieldsOrParameters().keys();
       for (let key of keys) {
-        const parameter = this.proto.parameters.get(key);
+        const parameter = this.node.fieldsOrParameters().get(key);
 
         if (parameter.restrictions.length > 0 && !this.unsupportedRestrictions.includes(parameter.type))
           this.#createRestrictedField(key, contentDiv);
@@ -170,7 +170,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         this.#rowNumber++;
       }
 
-      if (this.proto.isRoot) {
+      if (this.node.isRoot) {
         this.#createDownloadButton(contentDiv);
         this.backBuffer = [];
       } else
@@ -206,12 +206,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       } else {
         currentNodeButton.style.display = 'block';
         deleteNodeButton.style.display = 'block';
-        if (isBaseNode(parameter.value.value.name))
-          configureNodeButton.style.display = 'none';
-        else {
+        //if (isBaseNode(parameter.value.value.name))
+        //  configureNodeButton.style.display = 'none';
+        //else {
           configureNodeButton.style.display = 'block';
           configureNodeButton.title = 'Configure ' + parameter.value.value.name + ' node';
-        }
+        //}
         currentNodeButton.innerHTML = parameter.value.value.name;
       }
     }
@@ -258,7 +258,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     backButton.innerHTML = 'Back';
     backButton.title = 'Return to the previous PROTO';
     backButton.onclick = () => {
-      this.proto = this.backBuffer.pop();
+      this.node = this.backBuffer.pop();
       this.populateProtoParameterWindow();
     };
     buttonContainer.appendChild(backButton);
@@ -301,7 +301,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #createFieldCommonPart(key, parent) {
-    const parameter = this.proto.parameters.get(key);
+    const parameter = this.node.fieldsOrParameters().get(key);
 
     const p = document.createElement('p');
     p.innerHTML = key + ': ';
@@ -312,7 +312,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.parameter = parameter;
     p.className = 'key-parameter';
 
-    if (this.proto.isRoot) {
+    if (this.node.isRoot) {
       const exportCheckbox = this.#createCheckbox(parent, key);
       p.checkbox = exportCheckbox;
     } else
@@ -716,13 +716,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     configureNodeButton.id = 'configure-node-' + parameter.name;
     configureNodeButton.title = 'Edit node.';
     configureNodeButton.onclick = async() => {
-      this.backBuffer.push(this.proto);
+      this.backBuffer.push(this.node);
       // determine node being selected among the list of nodes of the MF
       const index = this.#rowToParameterIndex(p, mfId);
       if (typeof index === 'undefined')
         throw new Error('The PROTO node to be configured is not defined, this should never be the case.');
 
-      this.proto = parameter.value.value[index].value;
+      this.node = parameter.value.value[index].value;
       this.populateProtoParameterWindow();
     };
 
@@ -1014,7 +1014,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #createRestrictedField(key, parent) {
-    const parameter = this.proto.parameters.get(key);
+    const parameter = this.node.fieldsOrParameters().get(key);
 
     const p = document.createElement('p');
     p.innerHTML = key + ': ';
@@ -1024,7 +1024,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.style.gridColumn = '2 / 2';
     p.className = 'key-parameter';
 
-    if (this.proto.isRoot) {
+    if (this.node.isRoot) {
       const exportCheckbox = this.#createCheckbox(parent, key);
       p.checkbox = exportCheckbox;
     } else
@@ -1204,8 +1204,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       if (parameter.value.value === null)
         return;
 
-      this.backBuffer.push(this.proto);
-      this.proto = parameter.value.value;
+      this.backBuffer.push(this.node);
+      this.node = parameter.value.value;
       this.populateProtoParameterWindow();
     };
 
@@ -1241,6 +1241,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   async #sfnodeOnChange(parameter, url) {
+    console.log('creating node', url)
     const node = await Node.createNode(url);
     parameter.setValueFromJavaScript(this.#view, node);
     this.#refreshParameterRow(parameter);

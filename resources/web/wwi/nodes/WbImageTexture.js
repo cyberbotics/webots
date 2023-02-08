@@ -148,6 +148,9 @@ export default class WbImageTexture extends WbBaseNode {
   }
 
   updateUrl() {
+    if (typeof this.#url === 'undefined')
+      return;
+
     // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
     this.#url = this.#url.replaceAll('\\', '/');
 
@@ -194,6 +197,7 @@ export default class WbImageTexture extends WbBaseNode {
   }
 
   #updateUrl() {
+    console.log('URL IS', this.#url)
     if (typeof this.#url === 'undefined') {
       this.#destroyWrenTexture();
       return;
@@ -201,6 +205,7 @@ export default class WbImageTexture extends WbBaseNode {
 
     ImageLoader.loadImageTextureInWren(this, WbWorld.instance.prefix, this.#url)
       .then(() => {
+        console.log('here')
         this.#updateWrenTexture();
         this.#update();
       });
