@@ -334,6 +334,8 @@ export default class NodeSelectorWindow {
         'Charger'];
     } else if (['baseColorMap', 'roughnessMap', 'metalnessMap', 'normalMap', 'occlusionMap', 'emissiveColorMap'].includes(fieldName))
       baseType = ['ImageTexture'];
+    else if (fieldName === 'textureTransform')
+      baseType = ['TextureTransform'];
 
     return baseType;
   }
