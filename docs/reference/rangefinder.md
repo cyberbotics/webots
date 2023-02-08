@@ -668,8 +668,7 @@ HDR images are saved as 32-bit floating-point single-channel images.
 For PNG and JPEG, depth data is stored in the range `0` to `255`.
 This depth data can thus be extracted for further use by reading the image file.
 
-`wb_range_finder_save_image` should not be called between a call to `wb_robot_step_begin` and the subsequent call to `wb_robot_step_end`,
-because the image is subject to change during that period.
+`wb_range_finder_save_image` should not be called between a call to `wb_robot_step_begin` and the subsequent call to `wb_robot_step_end`, because the image is subject to change during that period.
 
 The return value of the `wb_range_finder_save_image` function is 0 in case of success.
 It is -1 in case of failure (unable to open the specified file or unrecognized image file extension).
