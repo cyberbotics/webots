@@ -1,18 +1,11 @@
 #VRML_SIM R2023b utf8
 
 PROTO TestProto [
-  field SFNode appearance PBRAppearance {
-      baseColorMap ImageTexture {
-        url "https://upload.wikimedia.org/wikipedia/commons/e/e9/Felis_silvestris_silvestris_small_gradual_decrease_of_quality.png"
-      }
-    }
-
+  field SFNode appearance NULL
+  field SFNode geo NULL
 ]
 {
   Shape {
     appearance IS appearance
-    geometry Box {
-      size 0.1 0.1 0.1
-    }
-  }
+    geometry Box {}
 }

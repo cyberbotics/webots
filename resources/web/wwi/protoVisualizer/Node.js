@@ -213,20 +213,20 @@ export default class Node {
     }
   }
 
-  toX3d(isUse) {
+  toX3d(parameterName) {
     if (this.isRoot)
       this.resetRefs(); // resets the instance counters
 
     this.xml = document.implementation.createDocument('', '', null);
 
     if (this.isProto)
-      return this.baseType.toX3d();
+      return this.baseType.toX3d(parameterName);
 
     const nodeElement = this.xml.createElement(this.name);
 
     // TODO: handle other exceptions
     if (this.name === 'ImageTexture')
-      nodeElement.setAttribute('role', 'baseColorMap');
+      nodeElement.setAttribute('role', parameterName);
 
     if (this.refId > this.ids.length - 1)
       throw new Error('Something has gone wrong, the refId is bigger the number of available ids.');
