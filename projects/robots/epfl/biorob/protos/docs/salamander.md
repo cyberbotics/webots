@@ -10,7 +10,7 @@ Derived from [Robot](https://cyberbotics.com/doc/reference/robot).
 
 ```
 Salamander {
-  SFVec3f    translation     0 0 0
+  SFVec3f    translation     0 0 0.044
   SFRotation rotation        0 0 1 0
   SFString   name            "Salamander"
   SFString   controller      "salamander"
