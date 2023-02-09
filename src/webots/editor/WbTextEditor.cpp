@@ -89,40 +89,40 @@ WbTextEditor::~WbTextEditor() {
 }
 
 QToolBar *WbTextEditor::createToolBar() {
-  QToolBar *toolBar = new QToolBar(this);
+  QToolBar *tb = new QToolBar(this);
   WbActionManager *actionManager = WbActionManager::instance();
 
   QAction *action = actionManager->action(WbAction::NEW_FILE);
-  toolBar->addAction(action);
-  toolBar->widgetForAction(action)->setObjectName("editorButton");
+  tb->addAction(action);
+  tb->widgetForAction(action)->setObjectName("editorButton");
 
   action = actionManager->action(WbAction::OPEN_FILE);
-  toolBar->addAction(action);
-  toolBar->widgetForAction(action)->setObjectName("editorButton");
+  tb->addAction(action);
+  tb->widgetForAction(action)->setObjectName("editorButton");
 
   action = actionManager->action(WbAction::SAVE_FILE);
-  toolBar->addAction(action);
-  toolBar->widgetForAction(action)->setObjectName("editorButton");
+  tb->addAction(action);
+  tb->widgetForAction(action)->setObjectName("editorButton");
 
   action = actionManager->action(WbAction::SAVE_FILE_AS);
-  toolBar->addAction(action);
-  toolBar->widgetForAction(action)->setObjectName("editorButton");
+  tb->addAction(action);
+  tb->widgetForAction(action)->setObjectName("editorButton");
 
   action = actionManager->action(WbAction::REVERT_FILE);
-  toolBar->addAction(action);
-  toolBar->widgetForAction(action)->setObjectName("editorButton");
+  tb->addAction(action);
+  tb->widgetForAction(action)->setObjectName("editorButton");
 
-  toolBar->addSeparator();
+  tb->addSeparator();
 
   action = actionManager->action(WbAction::FIND);
-  toolBar->addAction(action);
-  toolBar->widgetForAction(action)->setObjectName("editorButton");
+  tb->addAction(action);
+  tb->widgetForAction(action)->setObjectName("editorButton");
 
   action = actionManager->action(WbAction::REPLACE);
-  toolBar->addAction(action);
-  toolBar->widgetForAction(action)->setObjectName("editorButton");
+  tb->addAction(action);
+  tb->widgetForAction(action)->setObjectName("editorButton");
 
-  return toolBar;
+  return tb;
 }
 
 void WbTextEditor::connectActions() {
