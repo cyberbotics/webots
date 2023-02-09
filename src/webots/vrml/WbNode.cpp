@@ -1115,7 +1115,7 @@ QList<std::pair<QString, WbMFString *>> WbNode::listTextureFiles() const {
       for (int i = 0; i < mfstring->size(); i++) {
         const QString &textureFile = mfstring->item(i);
         if (p && QFile::exists(protoPath + textureFile))  // PROTO texture
-          continue;                                           // skip it
+          continue;                                       // skip it
         if (QFile::exists(currentTexturePath + textureFile))
           list << std::pair<QString, WbMFString *>(textureFile, mfstring);
       }
@@ -1206,8 +1206,7 @@ void WbNode::exportNodeFields(WbWriter &writer) const {
 
 void WbNode::exportNodeSubNodes(WbWriter &writer) const {
   foreach (WbField *f, fields()) {
-    if (!f->isDeprecated() &&
-        ((f->isVrml() || writer.isProto() || writer.isUrdf()) && f->singleType() == WB_SF_NODE)) {
+    if (!f->isDeprecated() && ((f->isVrml() || writer.isProto() || writer.isUrdf()) && f->singleType() == WB_SF_NODE)) {
       const WbSFNode *const node = dynamic_cast<WbSFNode *>(f->value());
       if (node == NULL || node->value() == NULL || node->value()->shallExport() || writer.isProto() || writer.isUrdf()) {
         if (writer.isX3d() || writer.isUrdf())
