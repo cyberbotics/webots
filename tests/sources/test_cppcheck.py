@@ -43,7 +43,7 @@ class TestCppCheck(unittest.TestCase):
         os.chdir(self.WEBOTS_HOME)
         if os.path.isfile(self.reportFilename):
             os.remove(self.reportFilename)
-        os.system(command)  # warning: on Windows, the length of command is limited to 8192 characters
+        status = os.system(command)  # warning: on Windows, the length of command is limited to 8192 characters
         if os.path.isfile(self.reportFilename):
             with open(self.reportFilename, 'r') as reportFile:
                 reportText = reportFile.read()
@@ -52,6 +52,7 @@ class TestCppCheck(unittest.TestCase):
                 msg='Cppcheck detected some errors:\n\n%s' % reportText
             )
             os.remove(self.reportFilename)
+        self.assertEqual(status, 0, msg='cppcheck exited with nonzero status: %d' % status)
         os.chdir(curdir)
 
     def add_source_files(self, sourceDirs, skippedDirs, skippedfiles=[]):
