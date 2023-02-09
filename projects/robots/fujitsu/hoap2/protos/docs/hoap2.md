@@ -1,9 +1,5 @@
 The [Fujitsu HOAP-2](https://en.wikipedia.org/wiki/HOAP) (HOAP for "Humanoid for Open Architecture Platform") is an humanoid robot of 48 cm with 25 degrees of freedom.
 
-### Movie Presentation
-
-![youtube video](https://www.youtube.com/watch?v=xuVxFqmRl2g)
-
 ### Hoap2 PROTO
 
 Derived from [Robot](https://cyberbotics.com/doc/reference/robot).
@@ -31,7 +27,7 @@ Hoap2 {
 
 - `diffuseColor`: Defines the `diffuseColor` field of the main [Material](https://cyberbotics.com/doc/reference/material).
 
-- `shininess`: Defines the `shininess` field of the main [Material](https://cyberbotics.com/doc/reference/material.).
+- `shininess`: Defines the `shininess` field of the main [Material](https://cyberbotics.com/doc/reference/material).
 
 - `specularColor`: Defines the `specularColor` field of the main [Material](https://cyberbotics.com/doc/reference/material).
 
