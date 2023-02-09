@@ -256,8 +256,7 @@ void WbControlledWorld::step() {
     justStartedControllers.clear();
   }
 
-  if (mFirstStep)
-    mFirstStep = false;
+  mFirstStep = false;
 
   if (mRetryEnabled) {
     mRetryEnabled = false;

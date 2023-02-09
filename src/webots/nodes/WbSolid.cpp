@@ -487,7 +487,7 @@ void WbSolid::postFinalize() {
   }
 }
 
-void WbSolid::resolveNameClashIfNeeded(bool automaticallyChange, bool recursive, const QList<WbSolid *> siblings,
+void WbSolid::resolveNameClashIfNeeded(bool automaticallyChange, bool recursive, const QList<WbSolid *> &siblings,
                                        QSet<const QString> *topSolidNameSet) const {
   const QString &warningText =
     tr("'name' field value should be unique: '%1' already used by a sibling Solid node.").arg(name());
@@ -1770,7 +1770,8 @@ void WbSolid::setDefaultMassSettings(bool applyCenterOfMassTranslation, bool war
           tr("Mass is invalid because 'boundingObject' is not defined. Using default mass properties: mass = 1, inertia "
              "matrix = identity"));
       else
-        parsingWarn(tr("Mass is invalid: %1. Using default mass properties: mass = 1, inertia matrix = identity").arg(fieldMass));
+        parsingWarn(
+          tr("Mass is invalid: %1. Using default mass properties: mass = 1, inertia matrix = identity").arg(fieldMass));
     }
   }
 
