@@ -7,8 +7,6 @@ These wheels are efficiently modeled using asymmetric friction.
 
 ![youtube video](https://www.youtube.com/watch?v=vFwNwT8dZTU)
 
-![youtube video](https://www.youtube.com/watch?v=9Fjyu_wzIgc)
-
 ### Youbot PROTO
 
 Derived from [Robot](https://cyberbotics.com/doc/reference/robot).
