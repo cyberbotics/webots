@@ -280,14 +280,14 @@ WbSoundClip *WbSoundEngine::soundFromText(const QString &text, const QString &en
   }
   WbWaveFile wave(buffer, size, gTextToSpeech->generatedChannelNumber(), gTextToSpeech->generatedBitsPerSample(),
                   gTextToSpeech->generatedRate());
-  WbSoundClip *sound = new WbSoundClip();
+  WbSoundClip *soundClip = new WbSoundClip();
   try {
-    sound->load(&wave);
-    gSounds << sound;
-    return sound;
+    soundClip->load(&wave);
+    gSounds << soundClip;
+    return soundClip;
   } catch (const QString &e) {
     WbLog::warning(QObject::tr("Could not open generated sound from '%1'.").arg(text));
-    delete sound;
+    delete soundClip;
     return NULL;
   }
 }

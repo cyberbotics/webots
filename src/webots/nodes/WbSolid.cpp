@@ -812,10 +812,10 @@ void WbSolid::setupSolidMergers() {
 
 // Recursive method that sets children joints with referenced endpoints
 void WbSolid::setJointChildrenWithReferencedEndpoint() {
-  foreach (WbBasicJoint *const joint, mJointChildren)
-    if (joint->solidReference()) {
-      joint->updateEndPoint();
-      joint->setJoint();
+  foreach (WbBasicJoint *const j, mJointChildren)
+    if (j->solidReference()) {
+      j->updateEndPoint();
+      j->setJoint();
     }
 
   foreach (WbSolid *const solid, mSolidChildren)
@@ -877,9 +877,9 @@ void WbSolid::resetJointsToLinkedSolids() {
   foreach (WbSolid *const solid, mSolidChildren)
     solid->resetJointPositions(true);
 
-  foreach (WbBasicJoint *const joint, mJointChildren)
-    if (joint->solidReference())
-      joint->resetJointPositions();
+  foreach (WbBasicJoint *const j, mJointChildren)
+    if (j->solidReference())
+      j->resetJointPositions();
 }
 
 // Reset ODE joints (with no position offset) for every solid linked to this one or to one of its descendants
@@ -971,9 +971,9 @@ void WbSolid::adjustOdeMass(bool mergeMass) {
       const double s2 = s * s;
       dMassAdjust(mOdeMass, s * s2 * fieldMass);
     } else {
-      const double density = p->density();
-      if (density >= 0.0)
-        dMassAdjust(mOdeMass, (currentMass * density) / 1000.0);
+      const double fieldDensity = p->density();
+      if (fieldDensity >= 0.0)
+        dMassAdjust(mOdeMass, (currentMass * fieldDensity) / 1000.0);
     }
 
     memcpy(mMassAroundCoM, mOdeMass, sizeof(dMass));
@@ -1057,11 +1057,11 @@ void WbSolid::removeBoundingGeometry() {
 // This is the default joint creation behavior
 // this method is overridden in the WbTouchSensor class
 dJointID WbSolid::createJoint(dBodyID body, dBodyID parentBody, dWorldID world) const {
-  dJointID joint = dJointCreateFixed(world, 0);
+  dJointID odeJoint = dJointCreateFixed(world, 0);
 
-  setJoint(joint, body, parentBody);
+  setJoint(odeJoint, body, parentBody);
 
-  return joint;
+  return odeJoint;
 }
 
 void WbSolid::setJoint(dJointID joint, dBodyID body, dBodyID parentBody) const {
@@ -1258,10 +1258,10 @@ void WbSolid::updateScale(bool warning) {
 void WbSolid::setScaleNeedUpdate() {
   WbMatter::setScaleNeedUpdate();
 
-  foreach (WbBasicJoint *const joint, mJointChildren) {
-    if (joint->solidReference())
+  foreach (WbBasicJoint *const j, mJointChildren) {
+    if (j->solidReference())
       continue;
-    WbSolid *const s = joint->solidEndPoint();
+    WbSolid *const s = j->solidEndPoint();
     if (s)
       s->setScaleNeedUpdate();
   }
@@ -1360,16 +1360,15 @@ void WbSolid::setOdeInertiaMatrix() {
   assert(isDynamic() && physics()->mode() == WbPhysics::CUSTOM_INERTIA_MATRIX);
   const WbPhysics *const p = physics();
   mUseInertiaMatrix = true;
-  const WbMFVector3 &inertiaMatrix = p->inertiaMatrix();
-  const WbVector3 &v0 = inertiaMatrix.item(0);
-  const WbVector3 &v1 = inertiaMatrix.item(1);
+  const WbMFVector3 &inertia = p->inertiaMatrix();
+  const WbVector3 &v0 = inertia.item(0);
+  const WbVector3 &v1 = inertia.item(1);
   const double s = absoluteScale().x();
   double s3 = s * s;
   double s5 = s3;
   s3 *= s;
   s5 *= s3;
-  const double mass = p->mass();
-  dMassSetParameters(mOdeMass, s3 * mass, 0.0, 0.0, 0.0, s5 * v0.x(), s5 * v0.y(), s5 * v0.z(), s5 * v1.x(), s5 * v1.y(),
+  dMassSetParameters(mOdeMass, s3 * p->mass(), 0.0, 0.0, 0.0, s5 * v0.x(), s5 * v0.y(), s5 * v0.z(), s5 * v1.x(), s5 * v1.y(),
                      s5 * v1.z());
 
   memcpy(mMassAroundCoM, mOdeMass, sizeof(dMass));
@@ -1498,11 +1497,11 @@ void WbSolid::collectSolidChildren(const WbGroup *group, bool connectSignals, QV
       continue;
     }
 
-    WbBasicJoint *joint = dynamic_cast<WbBasicJoint *>(n);
-    if (joint) {
-      jointChildren.append(joint);
-      WbSolid *const ep = joint->solidEndPoint();
-      if (ep && joint->solidReference() == NULL) {
+    WbBasicJoint *j = dynamic_cast<WbBasicJoint *>(n);
+    if (j) {
+      jointChildren.append(j);
+      WbSolid *const ep = j->solidEndPoint();
+      if (ep && j->solidReference() == NULL) {
         solidChildren.append(ep);
         continue;
       }
@@ -1533,11 +1532,11 @@ void WbSolid::collectSolidChildren(const WbGroup *group, bool connectSignals, QV
         else if (slot->groupEndPoint())
           collectSolidChildren(slot->groupEndPoint(), connectSignals, solidChildren, jointChildren, propellerChildren);
         else {
-          joint = dynamic_cast<WbBasicJoint *>(slot->endPoint());
-          if (joint) {
-            jointChildren.append(joint);
-            WbSolid *const ep = joint->solidEndPoint();
-            if (ep && joint->solidReference() == NULL) {
+          j = dynamic_cast<WbBasicJoint *>(slot->endPoint());
+          if (j) {
+            jointChildren.append(j);
+            WbSolid *const ep = j->solidEndPoint();
+            if (ep && j->solidReference() == NULL) {
               solidChildren.append(ep);
               continue;
             }
@@ -1593,9 +1592,9 @@ bool WbSolid::resetJointPositions(bool allParents) {
 
   setOdeJointToUpperSolid();
 
-  foreach (WbBasicJoint *const joint, mJointParents) {
-    if (allParents || joint->upperSolid()->belongsToStaticBasis())
-      b |= joint->resetJointPositions();
+  foreach (WbBasicJoint *const j, mJointParents) {
+    if (allParents || j->upperSolid()->belongsToStaticBasis())
+      b |= j->resetJointPositions();
   }
 
   return b;
@@ -1642,10 +1641,10 @@ void WbSolid::updateCenterOfBuoyancy() {
     const dImmersionGeom &ig = mListOfImmersions.at(i);
     const double volume = ig.volume;
     const double *const cob = ig.buoyancyCenter;
-    const dReal density = dFluidGetDensity(dGeomGetFluid(ig.g2));
-    const dReal mass = density * volume;
-    mCenterOfBuoyancy += mass * WbVector3(cob[0], cob[1], cob[2]);
-    immersedMass += mass;
+    const dReal fluidDensity = dFluidGetDensity(dGeomGetFluid(ig.g2));
+    const dReal fluidMass = fluidDensity * volume;
+    mCenterOfBuoyancy += fluidMass * WbVector3(cob[0], cob[1], cob[2]);
+    immersedMass += fluidMass;
   }
 
   if (immersedMass > 0.0)
@@ -1657,7 +1656,7 @@ double WbSolid::averageDensity() const {
 }
 
 void WbSolid::updateGlobalVolume() {
-  double volume = 0.0;
+  double cumulativeVolume = 0.0;
 
   foreach (WbSolid *const solid, mSolidChildren) {
     if (!solid->isPreFinalizedCalled())
@@ -1665,10 +1664,10 @@ void WbSolid::updateGlobalVolume() {
       // it could happen in particular in case of multiple instances of PROTO parameter node
       return;
     solid->updateGlobalVolume();
-    volume += solid->globalVolume();
+    cumulativeVolume += solid->globalVolume();
   }
 
-  mGlobalVolume = volume + 0.001 * mReferenceMass->mass;
+  mGlobalVolume = cumulativeVolume + 0.001 * mReferenceMass->mass;
 }
 
 void WbSolid::updateCenterOfMass() {
@@ -1817,17 +1816,17 @@ void WbSolid::createOdeMass(bool reset) {
 
     assert(mOdeMass->mass > 0.0);
 
-    const double density = p->density();
-    const double mass = p->mass();
+    const double fieldDensity = p->density();
+    const double fieldMass = p->mass();
     const double s = absoluteScale().x();
 
     // Sets the actual total mass
     double actualMass = mOdeMass->mass;
-    if (mass > 0.0) {
+    if (fieldMass > 0.0) {
       const double s2 = s * s;
-      actualMass = s * s2 * mass;
-    } else if (density != 1000.0)
-      actualMass *= 0.001 * density;
+      actualMass = s * s2 * fieldMass;
+    } else if (fieldDensity != 1000.0)
+      actualMass *= 0.001 * fieldDensity;
 
     // Adjust the total according to mass and density fields
     dMassAdjust(mOdeMass, actualMass);
@@ -2003,7 +2002,7 @@ void WbSolid::applyPhysicsTransform() {
 
 void WbSolid::postPhysicsStep() {
   int i = 0;
-  dBodyID body = this->body();
+  dBodyID odeBody = this->body();
 
   if (mResetPhysicsInStep) {
     // physics reset from Supervisor: if the solid is also moved from Supervisor in the same step, ODE may overwrite velocities
@@ -2014,7 +2013,7 @@ void WbSolid::postPhysicsStep() {
     mResetPhysicsInStep = false;
   }
 
-  if (body && dBodyIsEnabled(body))
+  if (odeBody && dBodyIsEnabled(odeBody))
     applyPhysicsTransform();
 
   // Warning: do not use foreach here => Qt foreach loop are very inefficient here
@@ -2146,10 +2145,10 @@ void WbSolid::propagateSelection(bool selected) {
   select(selected);
   WbMatter::propagateSelection(selected);
 
-  foreach (WbBasicJoint *const joint, mJointChildren) {
-    if (joint->solidReference())
+  foreach (WbBasicJoint *const j, mJointChildren) {
+    if (j->solidReference())
       continue;
-    WbSolid *const solid = joint->solidEndPoint();
+    WbSolid *const solid = j->solidEndPoint();
     if (solid)
       solid->propagateSelection(selected);
   }
@@ -2236,8 +2235,8 @@ void WbSolid::jerk(bool resetVelocities, bool rootJerk) {
   foreach (WbSolid *const solid, mSolidChildren)
     solid->jerk(resetVelocities, false);
 
-  foreach (WbBasicJoint *const joint, mJointChildren)
-    joint->updateOdeWorldCoordinates();
+  foreach (WbBasicJoint *const j, mJointChildren)
+    j->updateOdeWorldCoordinates();
 
   if (isDynamic() && mJointParents.size() > 0 && rootJerk)
     emit positionChangedArtificially();
@@ -2257,16 +2256,16 @@ void WbSolid::notifyChildJerk(WbTransform *childNode) {
 void WbSolid::childrenJerk() {
   updateOdeGeomPosition();
   foreach (WbTransform *childNode, mMovedChildren) {
-    QVector<WbSolid *> solidChildren;
-    QVector<WbBasicJoint *> jointChildren;
-    QVector<WbPropeller *> propellerChildren;
-    collectSolidChildren(childNode, false, solidChildren, jointChildren, propellerChildren);
+    QVector<WbSolid *> solidChildrenList;
+    QVector<WbBasicJoint *> jointChildrenList;
+    QVector<WbPropeller *> propellerChildrenList;
+    collectSolidChildren(childNode, false, solidChildrenList, jointChildrenList, propellerChildrenList);
 
-    foreach (WbSolid *const solid, solidChildren)
+    foreach (WbSolid *const solid, solidChildrenList)
       solid->jerk(false, false);
 
-    foreach (WbBasicJoint *const joint, jointChildren)
-      joint->updateOdeWorldCoordinates();
+    foreach (WbBasicJoint *const j, jointChildrenList)
+      j->updateOdeWorldCoordinates();
   }
   mMovedChildren.clear();
 }

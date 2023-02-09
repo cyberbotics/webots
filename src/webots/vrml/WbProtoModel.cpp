@@ -54,11 +54,11 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   mInfo.clear();
   const QString &tokenizerInfo = tokenizer->info();
   if (!tokenizerInfo.isEmpty() && !tokenizerInfo.trimmed().isEmpty()) {
-    const QStringList info = tokenizerInfo.split("\n");  // # comments
-    for (int i = 0; i < info.size(); ++i) {
-      if (!info.at(i).startsWith("tags:") && !info.at(i).startsWith("license:") && !info.at(i).startsWith("license url:") &&
-          !info.at(i).startsWith("documentation url:") && !info.at(i).startsWith("template language:"))
-        mInfo += info.at(i) + "\n";
+    const QStringList headerInfo = tokenizerInfo.split("\n");  // # comments
+    for (int i = 0; i < headerInfo.size(); ++i) {
+      if (!headerInfo.at(i).startsWith("tags:") && !headerInfo.at(i).startsWith("license:") && !headerInfo.at(i).startsWith("license url:") &&
+          !headerInfo.at(i).startsWith("documentation url:") && !headerInfo.at(i).startsWith("template language:"))
+        mInfo += headerInfo.at(i) + "\n";
     }
     mInfo.chop(1);
   }
@@ -246,9 +246,9 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
             QStringList derivedParameterNames = parameterNames();
             QStringList baseParameterNames = baseProtoModel->parameterNames();
             baseTypeSlotType = baseProtoModel->slotType();
-            foreach (QString name, derivedParameterNames) {
-              if (baseParameterNames.contains(name))
-                sharedParameterNames.append(name);
+            foreach (QString derivedName, derivedParameterNames) {
+              if (baseParameterNames.contains(derivedName))
+                sharedParameterNames.append(derivedName);
             }
           } else
             error = true;

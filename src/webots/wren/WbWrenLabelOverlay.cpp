@@ -185,11 +185,11 @@ void WbWrenLabelOverlay::createTexture() {
 }
 
 void WbWrenLabelOverlay::updateTextureSize() {
-  int width, height;
-  wr_font_get_bounding_box(mWrenFont, mText.toUtf8().constData(), &width, &height);
+  int fontWidth, fontHeight;
+  wr_font_get_bounding_box(mWrenFont, mText.toUtf8().constData(), &fontWidth, &fontHeight);
 
-  width += 2.0f * (height / (float)(mLinesCount)) * HORIZONTAL_MARGIN;
-  wr_texture_set_size(WR_TEXTURE(mTexture), width, height);
+  fontWidth += 2.0f * (fontHeight / (float)(mLinesCount)) * HORIZONTAL_MARGIN;
+  wr_texture_set_size(WR_TEXTURE(mTexture), fontWidth, fontHeight);
 }
 
 void WbWrenLabelOverlay::deleteOverlay() {
