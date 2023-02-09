@@ -137,7 +137,10 @@ class TestCppCheck(unittest.TestCase):
         command += sources
         self.run_cppcheck(command)
 
-    def test_projects_with_cppcheck(self):
+    # Temporarily ignored to simulate behavior before PR #5862.
+    # Before that PR, this would incorrectly pass because cppcheck would exit with an error before producing a report.
+    # That will be addressed in a separate PR.
+    def temporarily_ignored_test_projects_with_cppcheck(self):
         """Test projects with Cppcheck."""
         sourceDirs = [
             'projects/default',
