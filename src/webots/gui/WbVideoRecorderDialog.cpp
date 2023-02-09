@@ -102,7 +102,8 @@ WbVideoRecorderDialog::WbVideoRecorderDialog(QWidget *parent, const QSize &curre
   int qualityPreference, resolutionIndexPreference;
   double accelerationPreference;
   bool captionPreference;
-  WbPreferences::instance()->moviePreferences(resolutionIndexPreference, qualityPreference, accelerationPreference, captionPreference);
+  WbPreferences::instance()->moviePreferences(resolutionIndexPreference, qualityPreference, accelerationPreference,
+                                              captionPreference);
   mResolutionList.setCurrentRow(resolutionIndexPreference);
   mQualitySpinBox->setValue(qualityPreference);
   mAccelerationSpinBox->setValue(accelerationPreference);
