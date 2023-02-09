@@ -1,4 +1,4 @@
-import WbGroup from './WbBaseNode.js';
+import WbGroup from './WbGroup.js';
 
 export default class WbPropeller extends WbGroup {
   #device;

@@ -83,6 +83,7 @@ import DefaultUrl from './DefaultUrl.js';
 import {webots} from './webots.js';
 import ImageLoader from './ImageLoader.js';
 import MeshLoader from './MeshLoader.js';
+import WbPropeller from './nodes/WbPropeller.js';
 
 /*
   This module takes an x3d world, parse it and populate the scene.
@@ -236,8 +237,10 @@ export default class Parser {
         result = this.#parseBillboard(node, parentNode);
         break;
       case 'Group':
-      case 'Propeller':
         result = this.#parseGroup(node, parentNode);
+        break;
+      case 'Propeller':
+        result = this.#parsePropeller(node, parentNode);
         break;
       case 'Shape':
         result = this.#parseShape(node, parentNode, isBoundingObject);
@@ -756,11 +759,9 @@ export default class Parser {
       return use;
 
     const id = this.#parseId(node);
-
-    const isPropeller = getNodeAttribute(node, 'type', '').toLowerCase() === 'propeller' || node.tagName === 'Propeller';
     const isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
 
-    const group = new WbGroup(id, isPropeller);
+    const group = new WbGroup(id);
     WbWorld.instance.nodes.set(group.id, group);
     this.#parseChildren(node, group, isBoundingObject);
 
@@ -775,6 +776,27 @@ export default class Parser {
     }
 
     return group;
+  }
+
+  #parsePropeller(node, parentNode) {
+    this.#updateParserProgress(node);
+    const use = this.#checkUse(node, parentNode);
+    if (typeof use !== 'undefined')
+      return use;
+
+    const id = this.#parseId(node);
+    const propeller = new WbPropeller(id);
+    console.log(propeller)
+    WbWorld.instance.nodes.set(propeller.id, propeller);
+    this.#parseChildren(node, propeller);
+
+    propeller.parent = parentNode.id;
+    if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
+      parentNode.endPoint = propeller;
+    else
+      parentNode.children.push(propeller);
+
+    return propeller;
   }
 
   #parseSlot(node, parentNode) {
