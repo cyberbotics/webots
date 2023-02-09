@@ -57,7 +57,7 @@ void WbRobotWindow::setClientID(const QString &clientID, const QString &robotNam
 
 bool WbRobotWindow::openOnWebBrowser(const QString &url, const QString &program, const bool newBrowserWindow) {
   QString systemProgram;
-  QStringList arguments;
+  QStringList arguments = QStringList();
 
 #ifdef _WIN32
   // The TEMP/TMP environment variables set my the MSYS2 console are confusing Visual C++ (among possibly other apps)

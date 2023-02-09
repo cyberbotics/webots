@@ -153,7 +153,7 @@ void WbMultimediaStreamingServer::processLimiterTimeout() {
     return;
   }
   if (mSentImagesCount == 0) {
-    if (WbSimulationState::instance()->isPaused() && mFullResolutionOnPause != 2 && mLimiter->resolutionFactor() > 1) {
+    if (WbSimulationState::instance()->isPaused() && mLimiter->resolutionFactor() > 1) {
       // nothing sent since a while
       // send one image in full resolution
       mFullResolutionOnPause = 2;

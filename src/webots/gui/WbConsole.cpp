@@ -427,9 +427,10 @@ void WbConsole::clear(bool reset) {
 
 void WbConsole::rename() {
   bool ok = false;
-  const QString name = QInputDialog::getText(this, tr("Console Name"), tr("New name:"), QLineEdit::Normal, mConsoleName, &ok);
-  if (ok && !name.isEmpty()) {
-    mConsoleName = name;
+  const QString nameString =
+    QInputDialog::getText(this, tr("Console Name"), tr("New name:"), QLineEdit::Normal, mConsoleName, &ok);
+  if (ok && !nameString.isEmpty()) {
+    mConsoleName = nameString;
     updateTitle();
   }
 }

@@ -35,7 +35,7 @@ public:
   bool validateCurrentPage() override;
 
 protected:
-  virtual const int directoryId() { return 2; }
+  const int directoryId() { return 2; }
   virtual const int worldId() override { return 3; }
   virtual const int conclusionId() override { return 4; }
 

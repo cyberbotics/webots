@@ -241,8 +241,8 @@ void WbSingleTaskApplication::showSysInfo() const {
   const quint32 rendererId = 0;
 #endif
 
-  const char *vendor = (const char *)gl->glGetString(GL_VENDOR);
-  const char *renderer = (const char *)gl->glGetString(GL_RENDERER);
+  const char *vendor = reinterpret_cast<const char *>(gl->glGetString(GL_VENDOR));
+  const char *renderer = reinterpret_cast<const char *>(gl->glGetString(GL_RENDERER));
   // cppcheck-suppress knownConditionTrueFalse
   if (vendorId == 0)
     cout << tr("OpenGL vendor: %1").arg(vendor).toUtf8().constData() << endl;
@@ -253,7 +253,8 @@ void WbSingleTaskApplication::showSysInfo() const {
     cout << tr("OpenGL renderer: %1").arg(renderer).toUtf8().constData() << endl;
   else
     cout << tr("OpenGL renderer: %1 (0x%2)").arg(renderer).arg(rendererId, 0, 16).toUtf8().constData() << endl;
-  cout << tr("OpenGL version: %1").arg((const char *)gl->glGetString(GL_VERSION)).toUtf8().constData() << endl;
+  cout << tr("OpenGL version: %1").arg(reinterpret_cast<const char *>(gl->glGetString(GL_VERSION))).toUtf8().constData()
+       << endl;
 
   delete context;
 }

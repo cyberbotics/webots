@@ -220,14 +220,14 @@ private:
   WbTcpServer *mTcpServer;
   bool mSaveLocally;
 
-  bool uploadFileExists(QString fileName);
+  bool uploadFileExists(const QString &fileName);
   char mUploadType;
 
 private slots:
   void showOnlineDocumentation(const QString &book, const QString &page = "index");
   void updateProjectPath(const QString &oldPath, const QString &newPath);
   void simulationQuit(int exitStatus);
-  void openFileInTextEditor(const QString &filePath, bool modify = true, bool isRobot = false);
+  void openFileInTextEditor(const QString &fileName, bool modify = true, bool isRobot = false);
 
   void maximizeDock();
   void minimizeDock();

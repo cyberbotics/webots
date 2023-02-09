@@ -172,10 +172,9 @@ void WbGuidedTour::setTitleText(const QString &title) {
 static QString formatInfo(const WbMFString &info) {
   QString outputText;
   QString item;
-  QString lowerCaseItem;
   for (int i = 0; i < info.size(); i++) {
     item = info.item(i);
-    lowerCaseItem = item.toLower();
+    QString lowerCaseItem = item.toLower();
     if (!lowerCaseItem.startsWith("date")) {
       if (item.contains("Author", Qt::CaseInsensitive)) {
         item.replace(QString("Author"), QString("Credits"), Qt::CaseInsensitive);
