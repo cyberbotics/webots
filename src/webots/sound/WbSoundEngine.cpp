@@ -232,18 +232,18 @@ WbSoundClip *WbSoundEngine::sound(const QString &url, const QString &extension, 
   }
 
   init();
-  foreach (WbSoundClip *sound, gSounds) {
-    if (sound->filename() == url && sound->side() == side && sound->balance() == balance)
-      return sound;
+  foreach (WbSoundClip *s, gSounds) {
+    if (s->filename() == url && s->side() == side && s->balance() == balance)
+      return s;
   }
-  WbSoundClip *sound = new WbSoundClip;
+  WbSoundClip *soundClip = new WbSoundClip;
   try {
-    sound->load(url, extension, device, balance, side);
-    gSounds << sound;
-    return sound;
+    soundClip->load(url, extension, device, balance, side);
+    gSounds << soundClip;
+    return soundClip;
   } catch (const QString &e) {
     WbLog::warning(QObject::tr("Could not open '%1' sound file: %2").arg(url).arg(e));
-    delete sound;
+    delete soundClip;
     return NULL;
   }
 }

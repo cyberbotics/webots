@@ -538,37 +538,37 @@ QStringList WbProtoModel::documentationBookAndPage(bool isRobot, bool skipProtoT
   QStringList bookAndPage;
   if (isRobot) {
     // check for robot doc
-    const QString &name = mName.toLower();
+    const QString &nodeName = mName.toLower();
 
-    const QString page("guide/" + name + ".md");
+    const QString page("guide/" + nodeName + ".md");
     if (checkIfDocumentationPageExist(page)) {
-      bookAndPage << "guide" << name;
+      bookAndPage << "guide" << nodeName;
       return bookAndPage;
     }
   } else {
     // check for object doc
     const QDir &objectsDir(WbStandardPaths::projectsPath() + "objects");
     QDir dir(projectPath());
-    QString name = dir.dirName().replace('_', '-');
+    QString directoryName = dir.dirName().replace('_', '-');
     while (!dir.isRoot()) {
       if (dir == objectsDir) {
-        const QString page("guide/object-" + name + ".md");
+        const QString page("guide/object-" + directoryName + ".md");
         if (checkIfDocumentationPageExist(page)) {
           bookAndPage << "guide"
-                      << "object-" + name;
+                      << "object-" + directoryName;
           return bookAndPage;
         }
         break;
       }
-      name = dir.dirName().replace('_', '-');
+      directoryName = dir.dirName().replace('_', '-');
       if (!dir.cdUp())
         break;
     }
   }
   if (!skipProtoTag) {
-    const QString &documentationUrl = mDocumentationUrl;
-    if (!documentationUrl.isEmpty()) {
-      const QStringList &splittedPath = documentationUrl.split("doc/");
+    const QString &rawDocumentationUrl = mDocumentationUrl;
+    if (!rawDocumentationUrl.isEmpty()) {
+      const QStringList &splittedPath = rawDocumentationUrl.split("doc/");
       if (splittedPath.size() == 2) {
         const QString file(splittedPath[1].split('#')[0]);
         const QString page(file + ".md");

@@ -410,8 +410,8 @@ int WbTreeItem::makeInvalid() {
   mNode = NULL;
 
   int count = 1;
-  foreach (WbTreeItem *child, mChildren)
-    count += child->makeInvalid();
+  foreach (WbTreeItem *c, mChildren)
+    count += c->makeInvalid();
 
   return count;
 }
@@ -442,8 +442,8 @@ void WbTreeItem::sfnodeChanged() {
 
   // delete previous children items
   int count = 0;
-  foreach (WbTreeItem *child, mChildren)
-    count += child->makeInvalid();
+  foreach (WbTreeItem *c, mChildren)
+    count += c->makeInvalid();
   if (count)
     emit childrenNeedDeletion(0, count);
 

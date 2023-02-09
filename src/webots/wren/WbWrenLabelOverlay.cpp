@@ -217,9 +217,9 @@ void WbWrenLabelOverlay::updateOverlayDimensions() {
   if (!mTexture)
     return;
 
-  int width = wr_texture_get_width(WR_TEXTURE(mTexture));
-  int height = wr_texture_get_height(WR_TEXTURE(mTexture));
-  float ratio = width / (float)(height);
+  int textureWidth = wr_texture_get_width(WR_TEXTURE(mTexture));
+  int textureHeight = wr_texture_get_height(WR_TEXTURE(mTexture));
+  float ratio = textureWidth / (float)(textureHeight);
 
   WrViewport *viewport = wr_scene_get_viewport(wr_scene_get_instance());
   int viewportHeight = wr_viewport_get_height(viewport);
