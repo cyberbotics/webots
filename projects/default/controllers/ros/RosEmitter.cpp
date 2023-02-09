@@ -36,7 +36,7 @@ RosEmitter::~RosEmitter() {
 }
 
 bool RosEmitter::sendCallback(webots_ros::set_string::Request &req, webots_ros::set_string::Response &res) {
-  mEmitter->send((void *)req.value.c_str(), req.value.size());
+  mEmitter->send(static_cast<void *>(const_cast<char *>(req.value.c_str())), req.value.size());
   res.success = true;
   return true;
 }
