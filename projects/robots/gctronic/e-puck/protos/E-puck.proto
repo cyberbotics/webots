@@ -1,7 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/epuck
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/doc-add-robots/projects/robots/gctronic/e-puck/protos/E-puck.proto
 # EPFL educational and research mini mobile robot.
 # The e-puck is powered by a dsPIC processor and features a very large number of sensors in its basic configuration.
 # More info here: http://www.e-puck.org.
