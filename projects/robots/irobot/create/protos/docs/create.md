@@ -35,5 +35,5 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 ![create.wbt.png](images/create/create.wbt.thumbnail.jpg) This simulation shows the Create robot which cleans a small apartment.
 The robot moves straight ahead.
 When hitting an obstacle or detecting a virtual wall, the robot turns randomly.
-The dust on the ground is a texture of a [Display](../reference/display.md) device managed by a [Supervisor](../reference/supervisor.md) controller.
-The [Supervisor](../reference/supervisor.md) draws transparent circles into this texture at the robot's location to simulate cleaning dust.
+The dust on the ground is a texture of a [Display](https://cyberbotics.com/doc/reference/displayd) device managed by a [Supervisor](https://cyberbotics.com/doc/reference/supervisor) controller.
+The [Supervisor](https://cyberbotics.com/doc/reference/supervisor) draws transparent circles into this texture at the robot's location to simulate cleaning dust.
