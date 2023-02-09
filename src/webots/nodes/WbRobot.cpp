@@ -609,9 +609,9 @@ void WbRobot::updateBattery(bool itemInserted) {
   if (!itemInserted || mBattery->isEmpty())
     return;
 
-  foreach (WbDevice *const device, mDevices) {
+  foreach (WbDevice *const d, mDevices) {
     // setup motor joint feedback needed to compute energy consumption
-    WbMotor *motor = dynamic_cast<WbMotor *>(device);
+    WbMotor *motor = dynamic_cast<WbMotor *>(d);
     if (motor)
       motor->setupJointFeedback();
   }
@@ -623,11 +623,11 @@ void WbRobot::removeRenderingDevice() {
 
 void WbRobot::assignDeviceTags(bool reset) {
   int i = reset ? 1 : mNextTag;  // device tag 0 is reserved for the robot
-  foreach (WbDevice *const device, mDevices) {
-    if (reset || !device->hasTag()) {
-      device->setTag(i++);
+  foreach (WbDevice *const d, mDevices) {
+    if (reset || !d->hasTag()) {
+      d->setTag(i++);
       if (!reset)
-        mNewlyAddedDevices << device;
+        mNewlyAddedDevices << d;
     }
   }
   mNextTag = i;
@@ -696,17 +696,17 @@ void WbRobot::postPhysicsStep() {
 }
 
 WbDevice *WbRobot::findDevice(WbDeviceTag tag) const {
-  foreach (WbDevice *const device, mDevices)
-    if (device->tag() == tag)
-      return device;
+  foreach (WbDevice *const d, mDevices)
+    if (d->tag() == tag)
+      return d;
 
   return NULL;  // not found
 }
 
 void WbRobot::powerOn(bool e) {
   mPowerOn = e;
-  foreach (WbDevice *const device, mDevices)
-    device->powerOn(e);
+  foreach (WbDevice *const d, mDevices)
+    d->powerOn(e);
 }
 
 void WbRobot::keyPressed(int key, int modifiers) {
@@ -1058,18 +1058,18 @@ void WbRobot::dispatchAnswer(WbDataStream &stream, bool includeDevices) {
     assignDeviceTags(true);
     writeConfigure(stream);
     if (includeDevices) {
-      foreach (WbDevice *const device, mDevices) {
-        assert(device->hasTag());
-        device->writeConfigure(stream);
+      foreach (WbDevice *const d, mDevices) {
+        assert(d->hasTag());
+        d->writeConfigure(stream);
       }
     }
     mNewlyAddedDevices.clear();
   } else {
     writeAnswer(stream);
     if (includeDevices) {
-      foreach (WbDevice *const device, mDevices) {
-        assert(device->hasTag());
-        device->writeAnswer(stream);
+      foreach (WbDevice *const d, mDevices) {
+        assert(d->hasTag());
+        d->writeAnswer(stream);
       }
     }
   }
@@ -1430,8 +1430,8 @@ void WbRobot::updateSensors() {
   if (mDevices.isEmpty())
     return;
 
-  foreach (WbDevice *const device, mDevices)
-    device->refreshSensorIfNeeded();
+  foreach (WbDevice *const d, mDevices)
+    d->refreshSensorIfNeeded();
 }
 
 bool WbRobot::refreshBatterySensorIfNeeded() {

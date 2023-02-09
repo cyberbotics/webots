@@ -37,17 +37,17 @@ WbAnimationCommand::WbAnimationCommand(const WbNode *n, const QStringList &field
   mChangedFromStart(false) {
   QString state;
   for (int i = 0; i < fields.size(); ++i) {
-    WbField *field = mNode->findField(fields[i], true);
-    if (field) {
-      connect(field, &WbField::valueChanged, this, &WbAnimationCommand::updateValue);
-      connect(field, &WbField::valueChangedByOde, this, &WbAnimationCommand::updateValue);
-      connect(field, &WbField::valueChangedByWebots, this, &WbAnimationCommand::updateValue);
-      mFields[field->name()] = field;
+    WbField *f = mNode->findField(fields[i], true);
+    if (f) {
+      connect(f, &WbField::valueChanged, this, &WbAnimationCommand::updateValue);
+      connect(f, &WbField::valueChangedByOde, this, &WbAnimationCommand::updateValue);
+      connect(f, &WbField::valueChangedByWebots, this, &WbAnimationCommand::updateValue);
+      mFields[f->name()] = f;
 
       if (saveInitialValue) {
-        const WbSFVector3 *sfVector3 = dynamic_cast<WbSFVector3 *>(field->value());
-        const WbSFRotation *sfRotation = dynamic_cast<WbSFRotation *>(field->value());
-        const QString &fieldName = field->name();
+        const WbSFVector3 *sfVector3 = dynamic_cast<WbSFVector3 *>(f->value());
+        const WbSFRotation *sfRotation = dynamic_cast<WbSFRotation *>(f->value());
+        const QString &fieldName = f->name();
         if (!state.isEmpty())
           state += ",";
         state += "\"" + fieldName + "\":\"";
@@ -69,7 +69,7 @@ WbAnimationCommand::WbAnimationCommand(const WbNode *n, const QStringList &field
           mLastRotation = WbRotation(ROUND(sfRotation->x(), 0.001), ROUND(sfRotation->y(), 0.001),
                                      ROUND(sfRotation->z(), 0.001), ROUND(sfRotation->angle(), 0.001));
         } else  // generic case
-          state += field->value()->toString(WbPrecision::FLOAT_MAX);
+          state += f->value()->toString(WbPrecision::FLOAT_MAX);
         state += "\"";
       }
     }
@@ -84,9 +84,9 @@ void WbAnimationCommand::resetChanges() {
 }
 
 void WbAnimationCommand::updateValue() {
-  const WbField *field = dynamic_cast<WbField *>(sender());
-  if (field) {
-    markFieldDirty(field);
+  const WbField *f = dynamic_cast<WbField *>(sender());
+  if (f) {
+    markFieldDirty(f);
     emit changed(this);
   }
 }

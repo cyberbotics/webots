@@ -54,8 +54,8 @@ WbVideoRecorderDialog::WbVideoRecorderDialog(QWidget *parent, const QSize &curre
   tryToAddResolution(WbResolution(3840, 2160, "4K UHD"), fullScreen);
   tryToAddResolution(WbResolution(fullScreen.width(), fullScreen.height(), ""), fullScreen);
 
-  foreach (WbResolution resolution, mAvailableResolutions)
-    mResolutionList.addItem(resolution.toString());
+  foreach (WbResolution r, mAvailableResolutions)
+    mResolutionList.addItem(r.toString());
 
   // quality
   mQualitySpinBox = new WbIntSpinBox(this);

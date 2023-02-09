@@ -258,8 +258,7 @@ void WbCamera::initializeSegmentationMemoryMappedFile() {
     unsigned char *data = (unsigned char *)mSegmentationMemoryMappedFile->data();
     // initialize the memory mapped file with a black image
     int *im = reinterpret_cast<int *>(data);
-    const int size = width() * height();
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < width() * height(); i++)
       im[i] = 0xFF000000;
   }
 }
