@@ -215,9 +215,8 @@ void WbRobot::preFinalize() {
       }
     }
     arguments << args.mid(previous).remove('"').remove('\'');
-    const WbField *const controllerArgs = findField("controllerArgs", true);
     QString message;
-    if (WbNodeUtilities::isTemplateRegeneratorField(controllerArgs))  // it would crash to change controllerArgs from here
+    if (WbNodeUtilities::isTemplateRegeneratorField(findField("controllerArgs", true)))  // it would crash to change controllerArgs from here
       message = tr("Unable to split arguments automatically, please update your world file manually.");
     else {
       mControllerArgs->setValue(arguments);
@@ -546,8 +545,8 @@ void WbRobot::updateControllerDir() {
   if (isPostFinalizedCalled()) {
     emit controllerChanged();
     if (controllerName() != "<none>") {
-      foreach (WbRenderingDevice *device, mRenderingDevices) {
-        WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
+      foreach (WbRenderingDevice *renderingDevice, mRenderingDevices) {
+        WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(renderingDevice);
         if (ac)
           ac->resetMemoryMappedFile();  // memory mapped file is automatically deleted at new controller start
       }
@@ -746,11 +745,11 @@ void WbRobot::keyReleased(int key) {
 void WbRobot::writeDeviceConfigure(QList<WbDevice *> devices, WbDataStream &stream) const {
   QListIterator<WbDevice *> it(devices);
   while (it.hasNext()) {
-    const WbDevice *device = it.next();
-    stream << (short int)device->deviceNodeType();
-    QByteArray n(device->deviceName().toUtf8());
+    const WbDevice *d = it.next();
+    stream << (short int)d->deviceNodeType();
+    QByteArray n(d->deviceName().toUtf8());
     stream.writeRawData(n.constData(), n.size() + 1);
-    const WbSolidDevice *solidDevice = dynamic_cast<const WbSolidDevice *>(device);
+    const WbSolidDevice *solidDevice = dynamic_cast<const WbSolidDevice *>(d);
     if (solidDevice)
       n = solidDevice->model().toUtf8();
     else
@@ -824,11 +823,11 @@ void WbRobot::dispatchMessage(QDataStream &stream) {
         handleMessage(stream);
       while (stream.device()->pos() < end);
     } else {
-      WbDevice *const device = findDevice(tag);
-      if (device) {
+      WbDevice *const d = findDevice(tag);
+      if (d) {
         const int end = stream.device()->pos() + size;
         do  // handle all requests for this device
-          device->handleMessage(stream);
+          d->handleMessage(stream);
         while (stream.device()->pos() < end);
       } else  // device was deleted in Webots (but the controller does not know about it)
         stream.skipRawData(size);
@@ -1532,8 +1531,8 @@ int WbRobot::computeSimulationMode() {
 }
 
 void WbRobot::notifyExternControllerChanged() {
-  foreach (WbRenderingDevice *device, mRenderingDevices) {
-    WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
+  foreach (WbRenderingDevice *renderingDevice, mRenderingDevices) {
+    WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(renderingDevice);
     if (ac)
       ac->externControllerChanged();  // memory mapped file should be sent to new extern controller
   }
@@ -1544,16 +1543,16 @@ void WbRobot::notifyExternControllerChanged() {
 }
 
 void WbRobot::newRemoteExternController() {
-  foreach (WbRenderingDevice *device, mRenderingDevices) {
-    WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
+  foreach (WbRenderingDevice *renderingDevice, mRenderingDevices) {
+    WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(renderingDevice);
     if (ac)
       ac->newRemoteExternController();  // data should be serialized and sent in the data stream (no mapped file)
   }
 }
 
 void WbRobot::removeRemoteExternController() {
-  foreach (WbRenderingDevice *device, mRenderingDevices) {
-    WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
+  foreach (WbRenderingDevice *renderingDevice, mRenderingDevices) {
+    WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(renderingDevice);
     if (ac)
       ac->removeRemoteExternController();
   }

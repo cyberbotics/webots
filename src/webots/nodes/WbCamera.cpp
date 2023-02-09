@@ -244,8 +244,7 @@ void WbCamera::initializeImageMemoryMappedFile() {
   if (mImageMemoryMappedFile) {
     // initialize the memory mapped file with a black image
     int *im = reinterpret_cast<int *>(image());
-    const int size = width() * height();
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < width() * height(); i++)
       im[i] = 0xFF000000;
   }
 }
@@ -364,16 +363,16 @@ void WbCamera::displayRecognizedObjectsInOverlay() {
 
   const int w = width();
   const int h = height();
+  const int cameraSize = w * h;
   const int frameThickness = recognition()->frameThickness();
 
   if (frameThickness > 0) {
     const int color = 0xFF000000 + (recognition()->frameColor().redByte() << 16) +
                       (recognition()->frameColor().greenByte() << 8) + recognition()->frameColor().blueByte();
 
-    int *data = new int[w * h];
-    int *clearData = new int[w * h];
-    const int size = w * h;
-    for (int i = 0; i < size; ++i) {
+    int *data = new int[cameraSize];
+    int *clearData = new int[cameraSize];
+    for (int i = 0; i < cameraSize; ++i) {
       data[i] = color;
       clearData[i] = 0;
     }
@@ -444,18 +443,18 @@ void WbCamera::postPhysicsStep() {
 void WbCamera::reset(const QString &id) {
   WbAbstractCamera::reset(id);
 
-  WbNode *const focus = mFocus->value();
-  if (focus)
-    focus->reset(id);
-  WbNode *const zoom = mZoom->value();
-  if (zoom)
-    zoom->reset(id);
-  WbNode *const recognition = mRecognition->value();
-  if (recognition)
-    recognition->reset(id);
-  WbNode *const lensFlare = mLensFlare->value();
-  if (lensFlare)
-    lensFlare->reset(id);
+  WbNode *const focusNode = mFocus->value();
+  if (focusNode)
+    focusNode->reset(id);
+  WbNode *const zoomNode = mZoom->value();
+  if (zoomNode)
+    zoomNode->reset(id);
+  WbNode *const recognitionNode = mRecognition->value();
+  if (recognitionNode)
+    recognitionNode->reset(id);
+  WbNode *const lensFlareNode = mLensFlare->value();
+  if (lensFlareNode)
+    lensFlareNode->reset(id);
 }
 
 void WbCamera::updateRaysSetupIfNeeded() {

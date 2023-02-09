@@ -951,36 +951,36 @@ void WbSimulationView::updatePlayButtons() {
 
   WbActionManager *manager = WbActionManager::instance();
 
-  QAction *pause = manager->action(WbAction::PAUSE);
-  QAction *realtime = manager->action(WbAction::REAL_TIME);
-  QAction *fast = manager->action(WbAction::FAST);
+  QAction *pauseMode = manager->action(WbAction::PAUSE);
+  QAction *realtimeMode = manager->action(WbAction::REAL_TIME);
+  QAction *fastMode = manager->action(WbAction::FAST);
 
-  mToolBar->removeAction(pause);
-  mToolBar->removeAction(realtime);
-  mToolBar->removeAction(fast);
+  mToolBar->removeAction(pauseMode);
+  mToolBar->removeAction(realtimeMode);
+  mToolBar->removeAction(fastMode);
 
   QList<QAction *> actions;
 
   switch (WbSimulationState::instance()->mode()) {
     case WbSimulationState::REALTIME:
-      actions << pause << fast;
+      actions << pauseMode << fastMode;
       break;
 
     case WbSimulationState::FAST:
-      actions << realtime << pause;
+      actions << realtimeMode << pauseMode;
       break;
 
     default:  // PAUSE
-      actions << realtime << fast;
+      actions << realtimeMode << fastMode;
       break;
   }
 
   mToolBar->insertActions(mPlayAnchor, actions);
 
   // setObjectName (used by the stylesheet)
-  QWidget *pauseWidget = mToolBar->widgetForAction(pause);
-  QWidget *realTimeWidget = mToolBar->widgetForAction(realtime);
-  QWidget *fastWidget = mToolBar->widgetForAction(fast);
+  QWidget *pauseWidget = mToolBar->widgetForAction(pauseMode);
+  QWidget *realTimeWidget = mToolBar->widgetForAction(realtimeMode);
+  QWidget *fastWidget = mToolBar->widgetForAction(fastMode);
   if (fastWidget)
     fastWidget->setObjectName("menuButton");
   if (realTimeWidget)

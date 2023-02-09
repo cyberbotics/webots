@@ -397,9 +397,9 @@ void WbNode::setDefName(const QString &defName, bool recurse) {
     if (!parent->useNodes().isEmpty()) {
       const QList<WbNode *> &useList = parent->useNodes();
       foreach (WbNode *const useNode, useList) {
-        WbNode *const defNode = findNodeFromSubNodeIndices(parentIndices, useNode);
-        assert(defNode != NULL);
-        defNode->setDefName(defName, false);
+        WbNode *const node = findNodeFromSubNodeIndices(parentIndices, useNode);
+        assert(node != NULL);
+        node->setDefName(defName, false);
       }
     }
     previousParentNode = parent;

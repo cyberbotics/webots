@@ -78,8 +78,7 @@ unsigned char *WbDisplayFont::generateCharBuffer(unsigned long character, bool a
   mFallbackFaces.prepend(mFace);
   foreach (const FT_Face face, mFallbackFaces) {
     unsigned int index = FT_Get_Char_Index(face, character);
-    FT_Error error = FT_Load_Glyph(face, index, aliasingFlags);
-    if (!error && index != 0) {  // found a glyph.
+    if (!FT_Load_Glyph(face, index, aliasingFlags) && index != 0) {  // found a glyph.
       *transparencyFactor = face->glyph->bitmap.pixel_mode == FT_PIXEL_MODE_GRAY ? 255 : 1;
       *width = face->glyph->bitmap.width;
       *rows = face->glyph->bitmap.rows;

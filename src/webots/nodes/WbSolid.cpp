@@ -388,28 +388,28 @@ bool WbSolid::applyHiddenKinematicParameters(const HiddenKinematicParameters *hk
         return false;
       const int jointIndex = i.key();
       assert(jointIndex < mJointChildren.length());
-      WbJoint *const joint = dynamic_cast<WbJoint *>(mJointChildren.at(jointIndex));
-      if (!joint)
+      WbJoint *const j = dynamic_cast<WbJoint *>(mJointChildren.at(jointIndex));
+      if (!j)
         return false;
 
       if (backupPrevious) {
         WbVector3 v(NAN, NAN, NAN);
-        const WbJointParameters *const param1 = joint->parameters();
+        const WbJointParameters *const param1 = j->parameters();
         if (param1)
-          v[0] = joint->position();
-        const WbJointParameters *const param2 = joint->parameters2();
+          v[0] = j->position();
+        const WbJointParameters *const param2 = j->parameters2();
         if (param2)
-          v[1] = joint->position(2);
-        const WbJointParameters *const param3 = joint->parameters3();
+          v[1] = j->position(2);
+        const WbJointParameters *const param3 = j->parameters3();
         if (param3)
-          v[2] = joint->position(3);
+          v[2] = j->position(3);
         previousP->insert(jointIndex, new WbVector3(v));
       }
 
-      for (int j = 0; j < 3; ++j) {
-        const double posj = (*p)[j];
-        if (!std::isnan(posj))
-          joint->setPosition(posj, j + 1);
+      for (int k = 0; k < 3; ++k) {
+        const double posk = (*p)[k];
+        if (!std::isnan(posk))
+          j->setPosition(posk, k + 1);
       }
     }
   }
@@ -1603,8 +1603,6 @@ bool WbSolid::resetJointPositions(bool allParents) {
 void WbSolid::updateGlobalCenterOfMass() {
   mGlobalCenterOfMass.setXyz(0.0, 0.0, 0.0);
   mGlobalMass = 0.0;
-  double mass = mGlobalMass;
-  WbVector3 com(mGlobalCenterOfMass);
   foreach (WbSolid *const solid, mSolidChildren) {
     if (!solid->isPreFinalizedCalled())
       // skip until finalization is completed
@@ -1613,12 +1611,9 @@ void WbSolid::updateGlobalCenterOfMass() {
 
     solid->updateGlobalCenterOfMass();
     const double childGlobalMass = solid->globalMass();
-    mass += childGlobalMass;
-    com += childGlobalMass * solid->globalCenterOfMass();
+    mGlobalMass += childGlobalMass;
+    mGlobalCenterOfMass += childGlobalMass * solid->globalCenterOfMass();
   }
-
-  mGlobalMass = mass;
-  mGlobalCenterOfMass = com;
 
   if (isDynamic()) {
     mGlobalCenterOfMass += mOdeMass->mass * (matrix() * centerOfMass());
@@ -1639,10 +1634,10 @@ void WbSolid::updateCenterOfBuoyancy() {
   mCenterOfBuoyancy.setXyz(0.0, 0.0, 0.0);
   for (int i = 0; i < size; ++i) {
     const dImmersionGeom &ig = mListOfImmersions.at(i);
-    const double volume = ig.volume;
+    const double immersedVolume = ig.volume;
     const double *const cob = ig.buoyancyCenter;
     const dReal fluidDensity = dFluidGetDensity(dGeomGetFluid(ig.g2));
-    const dReal fluidMass = fluidDensity * volume;
+    const dReal fluidMass = fluidDensity * immersedVolume;
     mCenterOfBuoyancy += fluidMass * WbVector3(cob[0], cob[1], cob[2]);
     immersedMass += fluidMass;
   }
@@ -1761,9 +1756,9 @@ void WbSolid::applyVisibilityFlagsToWren(bool selected) {
 }
 
 void WbSolid::setDefaultMassSettings(bool applyCenterOfMassTranslation, bool warning) {
-  const double mass = physics()->mass();
-  if (mass > 0.0) {
-    dMassSetParameters(mOdeMass, mass, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0);
+  const double fieldMass = physics()->mass();
+  if (fieldMass > 0.0) {
+    dMassSetParameters(mOdeMass, fieldMass, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0);
     if (warning)
       parsingWarn(
         tr("Undefined inertia matrix: using the identity matrix. Please specify 'boundingObject' or 'inertiaMatrix' values."));
@@ -1775,7 +1770,7 @@ void WbSolid::setDefaultMassSettings(bool applyCenterOfMassTranslation, bool war
           tr("Mass is invalid because 'boundingObject' is not defined. Using default mass properties: mass = 1, inertia "
              "matrix = identity"));
       else
-        parsingWarn(tr("Mass is invalid: %1. Using default mass properties: mass = 1, inertia matrix = identity").arg(mass));
+        parsingWarn(tr("Mass is invalid: %1. Using default mass properties: mass = 1, inertia matrix = identity").arg(fieldMass));
     }
   }
 
