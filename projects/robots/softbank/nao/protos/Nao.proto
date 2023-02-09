@@ -1,5 +1,7 @@
-#VRML_SIM R2023a utf8
-# documentation url: https://www.cyberbotics.com/doc/guide/nao
+#VRML_SIM R2023b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/softbank/nao/protos/Nao.proto
 # Generic model of Nao robot
 # Model designed by Cyberbotics Ltd. according to the online documentation provided by Aldebaran Robotics.
 # template language: javascript
@@ -44,7 +46,7 @@ PROTO Nao [
   field MFNode                       leftFootSlot          []                    # Extends the robot with new nodes in the left foot slot.
   field MFNode                       rightFootSlot         []                    # Extends the robot with new nodes in the right foot slot.
   field MFNode                       leftHandSlot          []                    # Extends the robot with new nodes in the left hand slot.
-  field MFNode                       rightHandSlot         []                    # Extends the robot with new nodes in the righthand slot.
+  field MFNode                       rightHandSlot         []                    # Extends the robot with new nodes in the right hand slot.
 ]
 {
   %<
@@ -2108,12 +2110,12 @@ PROTO Nao [
           name "RShoulder"
           contactMaterial IS contactMaterial
           boundingObject Transform {
-            translation 0.029 -0.005 0
+            translation 0.027 -0.005 0
             rotation 0.623805 0.552662 -0.552660 -2.026117
             children [
               DEF SHOULDER_BO Capsule {
-                height 0.1
-                radius 0.026
+                height 0.09
+                radius 0.024
               }
             ]
           }
@@ -2648,7 +2650,7 @@ PROTO Nao [
           name "LShoulder"
           contactMaterial IS contactMaterial
           boundingObject Transform {
-            translation 0.029 0.005 0
+            translation 0.027 0.005 0
             rotation 0.623805 -0.552662 0.552660 -2.026117
             children [
               USE SHOULDER_BO
@@ -4148,11 +4150,35 @@ PROTO Nao [
                                           }
                                         ]
                                         contactMaterial IS footContactMaterial
-                                        boundingObject Transform {
-                                          translation 0.02 -0.007 -0.025
+                                        boundingObject Group {
                                           children [
-                                            DEF FOOT_BO Box {
-                                              size 0.148 0.09 0.02
+                                            Transform {
+                                              translation 0.015 -0.007 -0.033
+                                              children [
+                                                DEF SOLE Box {
+                                                  size 0.11 0.085 0.004
+                                                }
+                                              ]
+                                            }
+                                            DEF HEEL Transform {
+                                              translation -0.048 0 -0.0245
+                                              rotation 1 0 0 -1.57
+                                              children [
+                                                Capsule {
+                                                  height 0.03
+                                                  radius 0.008
+                                                  subdivision 16
+                                                }
+                                              ]
+                                            }
+                                            Transform {
+                                              translation 0.065 -0.005 -0.027
+                                              rotation 0 1 0 0
+                                              children [
+                                                DEF TOES Box {
+                                                  size 0.04 0.085 0.016
+                                                }
+                                              ]
                                             }
                                           ]
                                         }
@@ -4188,8 +4214,8 @@ PROTO Nao [
                                     }
                                   ]
                                   contactMaterial IS contactMaterial
-                                  boundingObject DEF ANKLE_PITCH_BO Box {
-                                    size 0.078 0.027 0.05
+                                  boundingObject DEF ANKLE_PITCH_BO Sphere {
+                                    radius 0.005
                                   }
                                   physics Physics {
                                     density -1
@@ -4223,12 +4249,27 @@ PROTO Nao [
                               }
                             ]
                             contactMaterial IS contactMaterial
-                            boundingObject DEF TIBIA_BO Transform {
-                              translation 0.01 0 -0.055
-                              rotation 0 1 0 0.2
+                            boundingObject Group {
                               children [
-                                Box {
-                                  size 0.06 0.08 0.11
+                                DEF TIBIA_HIGH Transform {
+                                  translation 0.01 0 -0.033
+                                  rotation 0 1 0 0.462
+                                  children [
+                                    Box {
+                                      size 0.04 0.08 0.07
+                                    }
+                                  ]
+                                }
+                                Transform {
+                                  translation 0 -0.003 -0.09
+                                  rotation -1 0 0 -1.57
+                                  children [
+                                    DEF TIBIA_LOW Capsule {
+                                      height 0.018
+                                      radius 0.035
+                                      subdivision 16
+                                    }
+                                  ]
                                 }
                               ]
                             }
@@ -4264,12 +4305,29 @@ PROTO Nao [
                         }
                       ]
                       contactMaterial IS contactMaterial
-                      boundingObject DEF FEMUR_BO Transform {
-                        translation 0 0 -0.055
-                        rotation 0 1 0 5.9
+                      boundingObject DEF FEMUR_BO Group {
                         children [
-                          Box {
-                            size 0.06 0.08 0.13
+                          Transform {
+                            translation -0.009 0 -0.015
+                            rotation 0.7745972141192264 -0.44721312362157567 0.44721312362157567 1.82348
+                            children [
+                              Capsule {
+                                height 0.01
+                                radius 0.03
+                                subdivision 16
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation 0.008 0 -0.0662612
+                            rotation 0 1 0 5.9
+                            children [
+                              Cylinder {
+                                height 0.1
+                                radius 0.035
+                                subdivision 16
+                              }
+                            ]
                           }
                         ]
                       }
@@ -4305,11 +4363,23 @@ PROTO Nao [
                   }
                 ]
                 contactMaterial IS contactMaterial
-                boundingObject DEF HIP_ROLL_BO Transform {
-                  translation -0.022 0 0
+                boundingObject DEF HIP_ROLL_BO Group {
                   children [
-                    Box {
-                      size 0.08 0.05 0.05
+                    Transform {
+                      translation -0.017 0 0.004
+                      children [
+                        Box {
+                          size 0.025 0.025 0.074
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation -0.018 0 0
+                      children [
+                        Box {
+                          size 0.08 0.025 0.025
+                        }
+                      ]
                     }
                   ]
                 }
@@ -5599,10 +5669,22 @@ PROTO Nao [
                                           }
                                         ]
                                         contactMaterial IS footContactMaterial
-                                        boundingObject Transform {
-                                          translation 0.02 0.007 -0.025
+                                        boundingObject Group {
                                           children [
-                                            USE FOOT_BO
+                                            Transform {
+                                              translation 0.015 0.007 -0.033
+                                              children [
+                                                USE SOLE
+                                              ]
+                                            }
+                                            USE HEEL
+                                            Transform {
+                                              translation 0.065 0.005 -0.027
+                                              rotation 0 1 0 0
+                                              children [
+                                                USE TOES
+                                              ]
+                                            }
                                           ]
                                         }
                                         physics Physics {
@@ -5670,7 +5752,18 @@ PROTO Nao [
                               }
                             ]
                             contactMaterial IS contactMaterial
-                            boundingObject USE TIBIA_BO
+                            boundingObject Group {
+                              children [
+                                USE TIBIA_HIGH
+                                Transform {
+                                  translation 0 0.003 -0.09
+                                  rotation -1 0 0 -1.57
+                                  children [
+                                    USE TIBIA_LOW
+                                  ]
+                                }
+                              ]
+                            }
                             physics Physics {
                               density -1
                               %< if (version === 3.3) { >%
@@ -5820,12 +5913,25 @@ PROTO Nao [
         ]
       }
     ]
-    boundingObject Transform {
-      translation 0 0 0.02
+    boundingObject Group {
       children [
-        Capsule {
-          height 0.11
-          radius 0.055
+        Transform {
+          translation 0 0 -0.02
+          children [
+            Sphere {
+              radius 0.037
+            }
+          ]
+        }
+        Transform {
+          translation 0 0 0.055
+          children [
+            Capsule {
+              height 0.03
+              radius 0.055
+              subdivision 16
+            }
+          ]
         }
       ]
     }

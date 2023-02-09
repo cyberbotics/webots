@@ -5,6 +5,7 @@ import InformationPanel from './InformationPanel.js';
 import FloatingIde from './FloatingIde.js';
 import FloatingRobotWindow from './FloatingRobotWindow.js';
 import FloatingCustomWindow from './FloatingCustomWindow.js';
+import FloatingProtoParameterWindow from './FloatingProtoParameterWindow.js';
 import {changeShadows, changeGtaoLevel, GtaoLevel} from './nodes/wb_preferences.js';
 import SystemInfo from './system_info.js';
 import Terminal from './Terminal.js';
@@ -31,11 +32,14 @@ export default class Toolbar {
 
     this.#createToolbar(parentNode);
     if (type === 'animation')
-      this.createAnimationToolbar();
+      this.#createAnimationToolbar();
     else if (type === 'scene')
-      this.createSceneToolbar();
+      this.#createSceneToolbar();
     else if (type === 'streaming')
-      this.createStreamingToolbar();
+      this.#createStreamingToolbar();
+    else if (type === 'proto')
+      this.#createProtoToolbar();
+
     this.#resizeToolbar();
     this.toolbar.style.minWidth = this.minWidth + 'px';
 
@@ -54,7 +58,7 @@ export default class Toolbar {
     }
   }
 
-  createAnimationToolbar() {
+  #createAnimationToolbar() {
     if (this.type !== 'animation' || typeof this.#view === 'undefined' || typeof this.#view.animation === 'undefined')
       return;
 
@@ -63,7 +67,6 @@ export default class Toolbar {
     // Left part
     this.#createPlayButton();
     this.#createAnimationTimeIndicator();
-    this.#checkLeftTooltips();
 
     // Right part
     this.#createCustomWindowButton();
@@ -73,8 +76,8 @@ export default class Toolbar {
       this.#createFullscreenButtons();
   }
 
-  createSceneToolbar() {
-    if (this.type !== 'scene' || typeof this.#view === 'undefined')
+  #createSceneToolbar() {
+    if ((this.type !== 'scene' && this.type !== 'proto') || typeof this.#view === 'undefined')
       return;
 
     this.#createInfoButton();
@@ -83,7 +86,12 @@ export default class Toolbar {
       this.#createFullscreenButtons();
   }
 
-  createStreamingToolbar() {
+  #createProtoToolbar() {
+    this.#createProtoParameterButton();
+    this.#createSceneToolbar();
+  }
+
+  #createStreamingToolbar() {
     // Left part
     this.#createQuitButton();
     this.#createReloadButton();
@@ -93,7 +101,6 @@ export default class Toolbar {
     this.#createPlayButton();
     this.#createRunButton();
     this.#createStreamingTimeIndicator();
-    this.#checkLeftTooltips();
     if (this.#view.broadcast) {
       this.toolbarLeft.style.visibility = 'hidden';
       this.minWidth = 0;
@@ -184,12 +191,7 @@ export default class Toolbar {
       button.appendChild(buttonElement);
     }
 
-    const tooltip = document.createElement('span');
-    tooltip.id = name + '-tooltip';
-    tooltip.className = 'tooltip ' + name + '-tooltip';
-    tooltip.innerHTML = tooltipText;
-    button.appendChild(tooltip);
-
+    button.title = tooltipText;
     return button;
   }
 
@@ -214,17 +216,6 @@ export default class Toolbar {
       this.toolbar.addEventListener('mouseleave', _ => this.#onMouseLeave(_));
       this.#view.mouseEvents.hideToolbar = () => this.hideToolbar();
       this.#view.mouseEvents.showToolbar = () => this.showToolbar();
-    }
-  }
-
-  #checkLeftTooltips() {
-    const toolbarLeft = document.getElementById('toolbar-left');
-    for (let child = toolbarLeft.firstChild; child !== null; child = child.nextSibling) {
-      const left = child.lastChild.offsetLeft - child.lastChild.offsetWidth / 2;
-      if (left < 0) {
-        document.getElementById(child.lastChild.id).style.left = '0';
-        document.getElementById(child.lastChild.id).style.transform = 'translateX(0)';
-      }
     }
   }
 
@@ -301,11 +292,11 @@ export default class Toolbar {
 
     this.playButton = this.#createToolbarButton('play', 'Play (k)', () => this.#triggerPlayPauseButton());
     this.playButtonElement = this.playButton.childNodes[0];
-    this.playTooltip = this.playButton.childNodes[1];
+    this.playButtonElement.title = this.playButton.childNodes[1];
 
     if (action === 'pause') {
       this.playButtonElement.className = 'icon-pause';
-      this.playTooltip.innerHTML = 'Pause (k)';
+      this.playButtonElement.title = 'Pause (k)';
     }
 
     this.toolbarLeft.appendChild(this.playButton);
@@ -341,11 +332,11 @@ export default class Toolbar {
     }
 
     if (typeof this.runButton !== 'undefined') {
-      this.runTooltip.innerHTML = 'Run';
+      this.runButtonElement.title = 'Run';
       this.runButtonElement.className = 'icon-run';
     }
 
-    this.playTooltip.innerHTML = 'P' + action.substring(1) + ' (k)';
+    this.playButtonElement.title = 'P' + action.substring(1) + ' (k)';
     this.playButtonElement.className = 'icon-' + action;
   }
 
@@ -525,6 +516,8 @@ export default class Toolbar {
       if (robot.window !== '<none>') {
         let mainWindow = robot.main;
         let robotWindow = new FloatingRobotWindow(this.parentNode, robot.name, robotWindowUrl, robot.window, mainWindow);
+        if (robot.visible) // if the robot window is visible by default in Webots, then show it
+          robotWindow.changeVisibility();
         if (mainWindow)
           this.robotWindows.unshift(robotWindow);
         else
@@ -553,8 +546,6 @@ export default class Toolbar {
       if (rw.isMainWindow) {
         rw.setSize(2 * robotWindowWidth, 2 * robotWindowHeight);
         rw.setPosition(margin, margin);
-        if (this.parentNode?.openMainRobotWindow === true)
-          rw.changeVisibility();
       } else {
         if (margin + (numRow + 1) * (margin + robotWindowHeight) > viewHeight) {
           numCol++;
@@ -601,25 +592,17 @@ export default class Toolbar {
   }
 
   removeRobotWindows() {
-    if (typeof this.robotWindowPane !== 'undefined')
-      this.robotWindowPane.remove();
+    this.robotWindowPane?.remove();
+
     if (typeof this.robotWindows !== 'undefined')
       document.querySelectorAll('.floating-robot-window').forEach(fw => fw.remove());
   }
 
   #changeRobotWindowPaneVisibility(event) {
-    if (this.robotWindowPane.style.visibility === 'hidden') {
+    if (this.robotWindowPane.style.visibility === 'hidden')
       this.robotWindowPane.style.visibility = 'visible';
-      for (let i of document.getElementsByClassName('tooltip'))
-        i.style.visibility = 'hidden';
-    } else {
+    else
       this.robotWindowPane.style.visibility = 'hidden';
-      if (event !== 'undefined' && !(event.srcElement.id.startsWith('settings') ||
-        event.srcElement.id.startsWith('world-selection'))) {
-        for (let i of document.getElementsByClassName('tooltip'))
-          i.style.visibility = '';
-      }
-    }
   }
 
   #robotWindowPaneKeyboardHandler(e, isFirst) {
@@ -633,7 +616,7 @@ export default class Toolbar {
 
   #changeFloatingWindowVisibility(name) {
     const floatingWindow = document.getElementById(name);
-    const floatingWindowButton = document.getElementById(name);
+    const floatingWindowButton = document.getElementById(name + '-button');
     if (floatingWindow && floatingWindowButton) {
       if (document.getElementById(name).style.visibility === 'hidden') {
         document.getElementById(name + '-button').checked = true;
@@ -741,6 +724,8 @@ export default class Toolbar {
 
     this.#createResetViewpoint();
     this.#createChangeShadows();
+    if (this.type === 'animation' || this.type === 'streaming')
+      this.#createFollowObject();
     this.#createChangeGtao();
     if (this.type === 'animation')
       this.#createChangeSpeed();
@@ -748,7 +733,8 @@ export default class Toolbar {
 
   #changeSettingsPaneVisibility(event) {
     // Avoid to close the settings when modifying the shadows or the other options
-    if (event.srcElement.id === 'enable-shadows' || event.srcElement.id === 'gtao-settings')
+    if (event.srcElement.id === 'enable-shadows' || event.srcElement.id === 'enable-follow' ||
+      event.srcElement.id === 'gtao-settings')
       return;
 
     if (typeof this.settingsPane === 'undefined' || typeof this.#gtaoPane === 'undefined')
@@ -763,23 +749,11 @@ export default class Toolbar {
     }
 
     if (event.target.id === 'settings-button' && this.settingsPane.style.visibility === 'hidden' &&
-      this.#gtaoPane.style.visibility === 'hidden' && speedPanelHidden) {
+      this.#gtaoPane.style.visibility === 'hidden' && speedPanelHidden)
       this.settingsPane.style.visibility = 'visible';
-      const tooltips = document.getElementsByClassName('tooltip');
-      for (let i of tooltips)
-        i.style.visibility = 'hidden';
-    } else if (this.settingsPane.style.visibility === 'visible' || this.#gtaoPane.style.visibility === 'visible' ||
-      !speedPanelHidden) {
+    else if (this.settingsPane.style.visibility === 'visible' || this.#gtaoPane.style.visibility === 'visible' ||
+      !speedPanelHidden)
       this.settingsPane.style.visibility = 'hidden';
-      if (this.#gtaoPane.style.visibility === 'hidden' && speedPanelHidden) {
-        const tooltips = document.getElementsByClassName('tooltip');
-        if ((event !== 'undefined') && !(event.srcElement.id.startsWith('robot-window') ||
-          event.srcElement.id.startsWith('world-selection'))) {
-          for (let i of tooltips)
-            i.style.visibility = '';
-        }
-      }
-    }
 
     this.#gtaoPane.style.visibility = 'hidden';
     if (this.type === 'animation')
@@ -794,7 +768,7 @@ export default class Toolbar {
 
     let label = document.createElement('span');
     label.className = 'setting-span';
-    label.innerHTML = 'Reset viewpoint';
+    label.innerHTML = 'Reset Viewpoint';
     resetViewpoint.appendChild(label);
 
     label = document.createElement('div');
@@ -833,6 +807,39 @@ export default class Toolbar {
       button.click();
       changeShadows();
       this.#view.x3dScene.render();
+    };
+  }
+
+  #createFollowObject() {
+    const followLi = document.createElement('li');
+    followLi.id = 'enable-follow';
+    this.settingsList.appendChild(followLi);
+
+    let label = document.createElement('span');
+    label.className = 'setting-span';
+    label.innerHTML = 'Follow Object';
+    followLi.appendChild(label);
+
+    label = document.createElement('div');
+    label.className = 'spacer';
+    followLi.appendChild(label);
+
+    const button = document.createElement('label');
+    button.className = 'switch';
+    followLi.appendChild(button);
+
+    label = document.createElement('input');
+    label.type = 'checkbox';
+    label.checked = true;
+    button.appendChild(label);
+
+    label = document.createElement('span');
+    label.className = 'slider round';
+    button.appendChild(label);
+
+    followLi.onclick = _ => {
+      button.click();
+      WbWorld.instance.viewpoint?.enableFollow();
     };
   }
 
@@ -884,7 +891,7 @@ export default class Toolbar {
     gtaoLevelLi.appendChild(label);
 
     label = document.createElement('span');
-    label.innerHTML = 'Ambient Occlusion Level';
+    label.innerHTML = 'Ambient Occlusion';
     label.className = 'setting-span';
     gtaoLevelLi.appendChild(label);
 
@@ -894,7 +901,7 @@ export default class Toolbar {
     gtaoLevelLi.onclick = () => this.#closeGtaoPane();
     gtaoList.appendChild(gtaoLevelLi);
 
-    for (let i of ['low', 'normal', 'high', 'ultra']) {
+    for (let i of ['Low', 'Medium', 'High', 'Ultra']) {
       gtaoLevelLi = document.createElement('li');
       gtaoLevelLi.id = i;
       label = document.createElement('span');
@@ -946,20 +953,20 @@ export default class Toolbar {
 
   gtaoLevelToText(number) {
     const pairs = {
-      1: 'low',
-      2: 'medium',
-      3: 'high',
-      4: 'ultra'
+      1: 'Low',
+      2: 'Medium',
+      3: 'High',
+      4: 'Ultra'
     };
     return (number in pairs) ? pairs[number] : '';
   }
 
   #textToGtaoLevel(text) {
     const pairs = {
-      'low': 1,
-      'medium': 2,
-      'high': 3,
-      'ultra': 4
+      'Low': 1,
+      'Medium': 2,
+      'High': 3,
+      'Ultra': 4
     };
     return (text in pairs) ? pairs[text] : 4;
   }
@@ -1003,7 +1010,7 @@ export default class Toolbar {
   };
 
   #fullscrenKeyboardHandler(e) {
-    if (e.code === 'KeyF')
+    if (e.code === 'KeyF' && e.target.tagName !== 'INPUT')
       this.#fullscreenButton.style.display === 'none' ? exitFullscreen() : requestFullscreen(this.#view);
   }
 
@@ -1110,11 +1117,11 @@ export default class Toolbar {
         offset = 0;
     }
 
-    if (typeof this.#timeSlider !== 'undefined')
-      this.#timeSlider.setOffset(offset);
+    this.#timeSlider?.setOffset(offset);
 
     this.minWidth += 133;
   }
+
   #createCustomWindowButton() {
     this.customWindowButton = this.#createToolbarButton('custom-window', 'Custom window', undefined);
     this.toolbarRight.appendChild(this.customWindowButton);
@@ -1167,7 +1174,7 @@ export default class Toolbar {
     playbackLi.onclick = () => this.#openSpeedPane();
 
     let label = document.createElement('span');
-    label.innerHTML = 'Playback speed';
+    label.innerHTML = 'Playback Speed';
     label.className = 'setting-span';
     playbackLi.appendChild(label);
 
@@ -1206,7 +1213,7 @@ export default class Toolbar {
     playbackLi.appendChild(label);
 
     label = document.createElement('span');
-    label.innerHTML = 'Playback speed';
+    label.innerHTML = 'Playback Speed';
     label.className = 'setting-span';
     playbackLi.appendChild(label);
 
@@ -1409,12 +1416,12 @@ export default class Toolbar {
       return;
 
     if (typeof this.playButton !== 'undefined') {
-      this.playTooltip.innerHTML = 'Play (k)';
+      this.playButtonElement.title = 'Play (k)';
       this.playButtonElement.className = 'icon-play';
     }
 
     if (typeof this.runButton !== 'undefined') {
-      this.runTooltip.innerHTML = 'Run';
+      this.runButtonElement.title = 'Run';
       this.runButtonElement.className = 'icon-run';
     }
 
@@ -1426,13 +1433,13 @@ export default class Toolbar {
   #createRunButton() {
     this.runButton = this.#createToolbarButton('run', 'Run', () => this.#triggerRunPauseButton());
     this.runButtonElement = this.runButton.childNodes[0];
-    this.runTooltip = this.runButton.childNodes[1];
+    this.runButtonElement.title = this.runButton.childNodes[1];
     if (!this.parentNode.showRun)
       this.runButton.style.display = 'none';
     else
       this.minWidth += 44;
     if (this.#view.currentState === 'run' || this.#view.currentState === 'fast') {
-      this.runTooltip.innerHTML = 'Pause';
+      this.runButtonElement.title = 'Pause';
       this.runButtonElement.className = 'icon-pause';
       this.run();
     }
@@ -1454,11 +1461,11 @@ export default class Toolbar {
       }
     }
     if (typeof this.playButton !== 'undefined') {
-      this.playTooltip.innerHTML = 'Play (k)';
+      this.playButtonElement.title = 'Play (k)';
       this.playButtonElement.className = 'icon-play';
     }
 
-    this.runTooltip.innerHTML = action.charAt(0).toUpperCase() + action.slice(1);
+    this.runButtonElement.title = action.charAt(0).toUpperCase() + action.slice(1);
     this.runButtonElement.className = 'icon-' + action;
   }
 
@@ -1571,18 +1578,10 @@ export default class Toolbar {
   }
 
   #changeWorldSelectionPaneVisibility(event) {
-    if (this.worldSelectionPane.style.visibility === 'hidden') {
+    if (this.worldSelectionPane.style.visibility === 'hidden')
       this.worldSelectionPane.style.visibility = 'visible';
-      for (let i of document.getElementsByClassName('tooltip'))
-        i.style.visibility = 'hidden';
-    } else {
+    else
       this.worldSelectionPane.style.visibility = 'hidden';
-      if (event !== 'undefined' && !(event.srcElement.id.startsWith('settings') ||
-        event.srcElement.id.startsWith('robot-window'))) {
-        for (let i of document.getElementsByClassName('tooltip'))
-          i.style.visibility = '';
-      }
-    }
   }
 
   #closeWorldSelectionPaneOnClick(event) {
@@ -1609,5 +1608,41 @@ export default class Toolbar {
     }
 
     this.removeToolbar();
+  }
+
+  // Proto function
+
+  #createProtoParameterButton() {
+    this.protoParameterButton = this.#createToolbarButton('proto-parameter', 'Proto parameter window', undefined);
+    this.toolbarRight.appendChild(this.protoParameterButton);
+    this.#createProtoParameterWindow();
+    this.minWidth += 44;
+  }
+
+  #createProtoParameterWindow() {
+    this.protoParameterWindow = new FloatingProtoParameterWindow(this.parentNode, this.parentNode.protoManager, this.#view);
+
+    this.protoParameterWindow.floatingWindow.addEventListener('mouseover', () => this.showToolbar());
+    this.protoParameterWindow.headerQuit.addEventListener('mouseup',
+      _ => this.#changeFloatingWindowVisibility(this.protoParameterWindow.getId()));
+
+    this.protoParameterButton.onclick = () => this.#changeFloatingWindowVisibility(this.protoParameterWindow.getId());
+    this.protoParameterWindow.populateProtoParameterWindow();
+
+    this.protoParameterWindow.updateDevicesTabs();
+
+    this.protoParameterWindowInitializeSizeAndPosition();
+    this.#checkWindowBoundaries();
+    this.protoParameterWindow.setVisibility('visible');
+  }
+
+  protoParameterWindowInitializeSizeAndPosition() {
+    const protoParameterWindowWidth = 440;
+    const protoParameterWindowHeight = this.parentNode.offsetHeight - 40;
+    const protoParameterWindowPositionX = (this.parentNode.offsetWidth - protoParameterWindowWidth);
+    const protoParameterWindowPositionY = (this.parentNode.offsetHeight - 40 - protoParameterWindowHeight) / 2;
+    this.protoParameterWindow.setPosition(protoParameterWindowPositionX, protoParameterWindowPositionY);
+
+    this.protoParameterWindow.setSize(protoParameterWindowWidth, protoParameterWindowHeight);
   }
 }
