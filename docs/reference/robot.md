@@ -251,7 +251,7 @@ It means that the step actually lasted the requested number of milliseconds, but
 It means that the requested step duration could not be respected.
 
 When using `wb_robot_step`, the controller code is executed sequentially with the Webots simulation step, i.e., not in parallel.
-This is due to the fact that a typical controller reads sensor information, makes some computation, orders motor commands and calls `wb_robot_step` which actually sends the motor commands and sensors requests and waits until Webots completes a simulation step, which may take some time depending on the complexity of the simulation.
+This is due to the fact that a typical controller reads sensor information, makes some computation, orders motor commands and calls `wb_robot_step` which actually sends the motor commands and sensor requests and waits until Webots completes a simulation step, which may take some time depending on the complexity of the simulation.
 During this time, the controller is idle, waiting for Webots to complete its simulation step.
 On the other hand, prior to starting a new step, Webots waits for all the controllers to send their `wb_robot_step` messages which may induce some idle waiting time in Webots if a controller doesn't send quickly enough its `wb_robot_step` message because it is busy with some computation.
 If the two computational processes (Webots and controller) are slow, it may be interesting to parallelize them.
@@ -2361,7 +2361,8 @@ The message is sent using the `webots.window("<robot window name>").send` method
 The `wb_robot_window_send` and `wb_robot_wwi_send_text` functions allow a robot controller to send a message to a JavaScript function running in the HTML robot window.
 The message is received using the `webots.window("<robot window name>").receive` method of the Webots JavaScript API.
 
-The `wb_robot_wwi_send_text` function returns the first message present in the buffer of received messages and moves its reading head to the next one. To read the full buffer, you should call repeatedly this function until it returns `NULL`:
+The `wb_robot_wwi_receive_text` function returns the first message present in the buffer of received messages and moves its reading head to the next one.
+To read the full buffer, you should call repeatedly this function until it returns `NULL`:
 ```C
 const char *message;
 while ((message = wb_robot_wwi_receive_text())) {

@@ -87,6 +87,7 @@ static void wb_camera_new(WbDevice *d, unsigned int id, int w, int h, double fov
   c->has_recognition = has_recognition;
   c->set_focal_distance = false;
   c->set_fov = false;
+  c->set_exposure = false;
   c->enable_recognition = false;
   c->recognition_sampling_period = 0;
   c->recognized_object_number = 0;

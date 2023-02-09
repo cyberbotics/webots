@@ -61,6 +61,7 @@ namespace WbMathsUtilities {
   inline double clampedAsin(double value);
 };  // namespace WbMathsUtilities
 
+// Normalize angle to be within +/-pi of lastSpot.
 inline double WbMathsUtilities::normalizeAngle(double angle, double lastSpot = 0.0) {
   static const double INV_TWO_PI = 0.5 / M_PI;
   double d = angle - lastSpot;
