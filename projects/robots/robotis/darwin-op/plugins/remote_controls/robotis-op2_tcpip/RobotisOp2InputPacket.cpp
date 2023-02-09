@@ -89,7 +89,7 @@ void RobotisOp2InputPacket::decode(int simulationTime, const RobotisOp2OutputPac
       }
     }
     free(image);
-    wbr_camera_set_image(camera->tag(), (const unsigned char *)imageBGRA);
+    wbr_camera_set_image(camera->tag(), reinterpret_cast<const unsigned char *>(imageBGRA));
     camera->resetSensorRequested();
     currentPos += image_length;
   }

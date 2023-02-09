@@ -149,7 +149,7 @@ void DeviceManager::clear() {
   mTofSensor = NULL;
 }
 
-void DeviceManager::apply(int simulationTime) {
+const void DeviceManager::apply(int simulationTime) {
   vector<Device *>::const_iterator it;
 
   // check if some sensors need to be requested
