@@ -123,7 +123,7 @@ class TestCppCheck(unittest.TestCase):
             'src/webots/widgets',
             'src/webots/wren'
         ]
-        command = 'cppcheck --enable=warning,style,performance,portability --inconclusive --force -q'
+        command = 'cppcheck --enable=warning,style,performance,portability --inconclusive --force -q --library=qt'
         command += ' -j %s' % str(multiprocessing.cpu_count())
         command += ' --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm --suppress=uninitMemberVar '
         command += ' --suppress=noCopyConstructor --suppress=noOperatorEq --suppress=strdupCalled --suppress=unknownMacro'
