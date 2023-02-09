@@ -45,7 +45,7 @@ public:
   TripleValuesSensor *accelerometer() const { return mAccelerometer; }
   TripleValuesSensor *gyro() const { return mGyro; }
 
-  void apply(int simulationTime);
+  const void apply(int simulationTime);
 
 private:
   static DeviceManager *cInstance;
