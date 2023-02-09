@@ -165,7 +165,7 @@ class TestCppCheck(unittest.TestCase):
         skippedfiles = [
             'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h'
         ]
-        command = 'cppcheck --enable=warning,style,performance,portability --inconclusive --force -q '
+        command = 'cppcheck --enable=warning,style,performance,portability --inconclusive --force -q --library=qt'
         command += '--inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm -UKROS_COMPILATION '
         command += '--suppress=strdupCalled --suppress=ctuOneDefinitionRuleViolation --suppress=unknownMacro '
         # command += '--xml '  # Uncomment this line to get more information on the errors
