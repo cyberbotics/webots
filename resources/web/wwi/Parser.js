@@ -786,7 +786,6 @@ export default class Parser {
 
     const id = this.#parseId(node);
     const propeller = new WbPropeller(id);
-    console.log(propeller)
     WbWorld.instance.nodes.set(propeller.id, propeller);
     this.#parseChildren(node, propeller);
 
