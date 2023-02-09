@@ -259,9 +259,9 @@ void WbReceiver::handleMessage(QDataStream &stream) {
       return;
     }
     case C_RECEIVER_SET_CHANNEL: {
-      int channel;
-      stream >> channel;
-      mChannel->setValue(channel);
+      int receiverChannel;
+      stream >> receiverChannel;
+      mChannel->setValue(receiverChannel);
       return;
     }
     default:

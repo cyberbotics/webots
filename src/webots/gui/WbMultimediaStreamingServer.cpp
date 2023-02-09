@@ -201,11 +201,11 @@ void WbMultimediaStreamingServer::sendLastImage(QTcpSocket *client) {
     clients << client;
   else
     clients = mTcpClients;
-  foreach (QTcpSocket *client, clients) {
-    client->write(boundaryString);
-    client->write(mSceneImage);
-    client->write(QByteArray("\r\n"));
-    client->flush();
+  foreach (QTcpSocket *c, clients) {
+    c->write(boundaryString);
+    c->write(mSceneImage);
+    c->write(QByteArray("\r\n"));
+    c->flush();
   }
 }
 

@@ -170,9 +170,9 @@ void WbSimulationCluster::collideKinematicRobots(WbKinematicDifferentialWheels *
   double depth = fabs(contact[0].geom.depth * (normal2D.length() / normal3D.length()));
 
   // record contact points for graphical and sound rendering
-  WbWorld *const world = WbWorld::instance();
+  WbWorld *const w = WbWorld::instance();
   const WbOdeContact odeContact(contact[0].geom, NULL);
-  world->appendOdeContact(odeContact);
+  w->appendOdeContact(odeContact);
 
   // move robots to prevent robots beeing one inside the other
   WbVector2 displacement = WbVector2(normal2D[0] * depth, normal2D[1] * depth);
