@@ -28,7 +28,7 @@ public:
   const QString &sectionAt(int index) const { return mSections.at(index); }
   const QString &keyAt(int index) const { return mKeys.at(index); }
   const QString &valueAt(int index) const { return mValues.at(index); }
-  void setValue(int index, QString newValue);
+  void setValue(int index, const QString &newValue);
 
   // return value with the environment variables replaced by their value
   // for example: valueAt(i) -> $(WEBOTS_HOME)/lib
