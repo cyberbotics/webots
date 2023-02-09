@@ -167,7 +167,7 @@ class TestCppCheck(unittest.TestCase):
         ]
         command = 'cppcheck --enable=warning,style,performance,portability --inconclusive --force -q '
         command += '--inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm -UKROS_COMPILATION '
-        command += '--suppress=strdupCalled --suppress=ctuOneDefinitionRuleViolation --suppress=unknownMacro '
+        command += '--suppress=strdupCalled --suppress=ctuOneDefinitionRuleViolation --suppress=unknownMacro'
         # command += '--xml '  # Uncomment this line to get more information on the errors
         command += '--std=c++03 --output-file=\"' + self.reportFilename + '\"'
         sources = self.add_source_files(sourceDirs, skippedDirs, skippedfiles)
