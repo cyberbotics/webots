@@ -81,6 +81,29 @@ int main(int argc, char **argv) {
   const double newGpsValues1[3] = {-0.05, 0.0295, 0.1};
   ts_assert_doubles_in_delta(3, values, newGpsValues1, 0.00001, "GPS measurement after first pose update is wrong.");
 
+  // Give webots plenty of time to finish the step so we can be sure we'll detect any unexpected tampering with our values.
+  usleep(time_step * 1000 + 100000);
+
+  // Do some intensive computation, just for good measure
+  int result = 0xffff;
+  for (int i = 0; i < 0xffff; i++) {
+    result &= ~i;
+  }
+  ts_assert_int_equal(result, 0, "Computation produced unexpected result.");
+
+  // compass
+  values = wb_compass_get_values(compass);
+  ts_assert_doubles_in_delta(3, values, newCompassValues1, 0.0001,
+                             "Delayed compass measurement after first pose update is wrong.");
+
+  // distance sensor
+  distance = wb_distance_sensor_get_value(ds);
+  ts_assert_double_in_delta(distance, 650.0, 0.001, "Delayed distance sensor measurement after first pose update is wrong.");
+
+  // gps
+  values = wb_gps_get_values(gps);
+  ts_assert_doubles_in_delta(3, values, newGpsValues1, 0.00001, "Delayed GPS measurement after first pose update is wrong.");
+
   wb_robot_step_end();
 
   // check sensor values after second pose update
