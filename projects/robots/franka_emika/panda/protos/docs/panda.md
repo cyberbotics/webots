@@ -44,4 +44,4 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
 #### [panda.wbt]({{ url.github_tree }}/projects/robots/franka_emika/panda/worlds/panda.wbt)
 
 ![panda.wbt.png](images/panda/panda.wbt.thumbnail.jpg) This simulation shows the Franka Emika's Panda robot in a factory environment.
-The robot is equipped with a [Panda Hand](#panda-hand) gripper.
+The robot is equipped with a [Panda Hand](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/doc-add-robots/projects/robots/franka_emika/panda/protos/PandaHand.proto) gripper.
