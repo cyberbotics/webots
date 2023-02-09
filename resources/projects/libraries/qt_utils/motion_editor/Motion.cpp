@@ -329,7 +329,7 @@ void Motion::newPoseAt(int index) {
 }
 
 void Motion::duplicatePoseAt(int index) {
-  if (index >= 0 && index <= mPoses.count()) {
+  if (index >= 0 && index < mPoses.count()) {
     Pose *originalPose = mPoses.at(index);
     Pose *newPose = new Pose(*originalPose);
     QString originalName = originalPose->name();
