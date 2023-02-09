@@ -94,6 +94,7 @@ int main(int argc, char **argv) {
 
     // Actuate each motor.
     for (d = 0; d < n_motors; ++d) {
+      // cppcheck-suppress uninitvar
       WbDeviceTag motor = motors[d];
 
       // Choose 3 random numbers for this motor.
