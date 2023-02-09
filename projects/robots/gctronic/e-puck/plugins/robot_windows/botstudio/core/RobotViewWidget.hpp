@@ -25,7 +25,7 @@ class Model;
 
 class RobotViewWidget : public QGraphicsView {
 public:
-  RobotViewWidget(QWidget *parent = NULL);
+  explicit RobotViewWidget(QWidget *parent = NULL);
   virtual ~RobotViewWidget() {}
 
   virtual void updateValues() = 0;
