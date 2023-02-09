@@ -121,10 +121,10 @@ void EPuckInputPacket::decode(int simulationTime, const EPuckOutputPacket &outpu
     Camera *camera = DeviceManager::instance()->camera();
     camera->resetSensorRequested();
 
-    unsigned char *rgbImage = (unsigned char *)malloc(4 * wh1 * wh2);
+    unsigned char *rgbImage = static_cast<unsigned char *>(malloc(4 * wh1 * wh2));
 
     if (camera->rawToBgraImage(rgbImage, rawImage, mode, wh1, wh2))
-      wbr_camera_set_image(camera->tag(), (const unsigned char *)rgbImage);
+      wbr_camera_set_image(camera->tag(), static_cast<const unsigned char *>(rgbImage));
 
     free(rgbImage);
   }

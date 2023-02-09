@@ -198,7 +198,7 @@ void *Wrapper::findAvailablePorts(void *) {
     // no ports found
     return NULL;
 
-  char *port = (char *)malloc(count);
+  char *port = static_cast<char *>(malloc(count));
   int n = 0;
   for (int i = 0; i < size; i++) {
     int l = comPorts->at(i).length();

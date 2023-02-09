@@ -204,7 +204,8 @@ bool RosLidar::enablePointCloudCallback(webots_ros::set_bool::Request &req, webo
 
 bool RosLidar::getLayerRangeImage(webots_ros::lidar_get_layer_range_image::Request &req,
                                   webots_ros::lidar_get_layer_range_image::Response &res) {
-  const char *rangeImageVector = static_cast<const char *>(static_cast<void *>(const_cast<float *>(mLidar->getLayerRangeImage(req.layer))));
+  const char *rangeImageVector =
+    static_cast<const char *>(static_cast<void *>(const_cast<float *>(mLidar->getLayerRangeImage(req.layer))));
   res.image.header.stamp = ros::Time::now();
   res.image.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
   res.image.height = 1;
