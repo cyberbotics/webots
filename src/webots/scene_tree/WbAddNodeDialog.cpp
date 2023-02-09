@@ -312,9 +312,9 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
     path = WbNetwork::instance()->getUrlFromEphemeralCache(nodeFileName);
 
   const QFileInfo fileInfo(path);
-  const QString modelName = fileInfo.baseName();
-  if (nodeType != PROTO && WbNodeModel::isBaseModelName(modelName)) {
-    WbNodeModel *nodeModel = WbNodeModel::findModel(modelName);
+  const QString fileName = fileInfo.baseName();
+  if (nodeType != PROTO && WbNodeModel::isBaseModelName(fileName)) {
+    WbNodeModel *nodeModel = WbNodeModel::findModel(fileName);
     assert(nodeModel);
     description = nodeModel->info();
 
@@ -329,12 +329,12 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
     else
       list = WbProtoManager::instance()->protoInfoMap(variant);
 
-    if (!list.contains(modelName)) {
-      WbLog::error(tr("'%1' is not a known proto in category '%2'.\n").arg(modelName).arg(variant));
+    if (!list.contains(fileName)) {
+      WbLog::error(tr("'%1' is not a known proto in category '%2'.\n").arg(fileName).arg(variant));
       return;
     }
 
-    const WbProtoInfo *info = list.value(modelName);
+    const WbProtoInfo *info = list.value(fileName);
     assert(info);
 
     // set documentation url
@@ -385,7 +385,7 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
 
   mPixmapLabel->hide();
   if (pixmapPath.isEmpty()) {
-    WbProtoIcon *icon = new WbProtoIcon(modelName, path, this);
+    WbProtoIcon *icon = new WbProtoIcon(fileName, path, this);
     if (icon->isReady()) {
       setPixmap(icon->path());
       delete icon;
@@ -457,24 +457,24 @@ void WbAddNodeDialog::buildTree() {
 
     // populates the DEF-USE dictionary with suitable definitions located above mCurrentNode
     mDefNodes = WbDictionary::instance()->computeDefForInsertion(mCurrentNode, mField, mIndex, true);
-    foreach (const WbNode *const defNode, mDefNodes) {
-      const QString &currentDefName = defNode->defName();
-      const QString &currentModelName = defNode->modelName();
+    foreach (const WbNode *const node, mDefNodes) {
+      const QString &currentDefName = node->defName();
+      const QString &currentModelName = node->modelName();
       const QString &currentFullDefName = currentDefName + " (" + currentModelName + ")";
       if (!currentFullDefName.contains(regexp))
         continue;
       if (mField->hasRestrictedValues() &&
-          (!doFieldRestrictionsAllowNode(currentModelName) && !doFieldRestrictionsAllowNode(defNode->nodeModelName())))
+          (!doFieldRestrictionsAllowNode(currentModelName) && !doFieldRestrictionsAllowNode(node->nodeModelName())))
         continue;
       QString nodeFilePath(currentModelName);
       if (!WbNodeModel::isBaseModelName(currentModelName)) {
-        nodeFilePath = WbProtoManager::instance()->externProtoUrl(defNode);
+        nodeFilePath = WbProtoManager::instance()->externProtoUrl(node);
         if (WbUrl::isWeb(nodeFilePath))
           nodeFilePath = WbNetwork::instance()->get(nodeFilePath);
       }
       QStringList strl(QStringList() << currentFullDefName << nodeFilePath);
 
-      if (boInfo && !(dynamic_cast<const WbBaseNode *const>(defNode))->isSuitableForInsertionInBoundingObject())
+      if (boInfo && !(dynamic_cast<const WbBaseNode *const>(node))->isSuitableForInsertionInBoundingObject())
         strl << INVALID_FOR_INSERTION_IN_BOUNDING_OBJECT;
 
       QTreeWidgetItem *const child = new QTreeWidgetItem(mUsesItem, strl);

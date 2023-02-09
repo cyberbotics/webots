@@ -115,8 +115,8 @@ bool WbObjectDetection::doesChildrenHaveBoundingObject(const WbSolid *solid) {
   if (solid->boundingObject())
     return true;
   else {
-    foreach (WbSolid *solidChildren, solid->solidChildren()) {
-      if (doesChildrenHaveBoundingObject(solidChildren))
+    foreach (WbSolid *sc, solid->solidChildren()) {
+      if (doesChildrenHaveBoundingObject(sc))
         return true;
     }
   }
@@ -350,9 +350,9 @@ bool WbObjectDetection::recursivelyComputeBounds(WbSolid *solid, bool boundsInit
   } else
     initialized = computeBounds(devicePosition, deviceRotation, deviceInverseRotation, frustumPlanes, solid->boundingObject(),
                                 mObjectSize, mObjectRelativePosition, solid);
-  foreach (WbSolid *solid, solid->solidChildren())
+  foreach (WbSolid *s, solid->solidChildren())
     initialized =
-      recursivelyComputeBounds(solid, initialized, devicePosition, deviceRotation, deviceInverseRotation, frustumPlanes);
+      recursivelyComputeBounds(s, initialized, devicePosition, deviceRotation, deviceInverseRotation, frustumPlanes);
   return initialized;
 }
 

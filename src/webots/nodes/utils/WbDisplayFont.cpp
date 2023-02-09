@@ -59,8 +59,7 @@ void WbDisplayFont::cleanupFallbackFaces() {
 }
 
 WbDisplayFont::WbDisplayFont() : mFallbackFacesSize(0), mFaceIsInitialized(false), mError(""), mFontSize(0) {
-  FT_Error error = FT_Init_FreeType(&mLibrary);
-  if (error)
+  if (FT_Init_FreeType(&mLibrary))
     mError = "An error occurred while initializing the freetype library.";
 }
 
@@ -126,16 +125,16 @@ void WbDisplayFont::loadFace(FT_Face *face, const QString &filename, unsigned in
   args.flags = FT_OPEN_MEMORY;
   args.memory_base = reinterpret_cast<const unsigned char *>(mFileBuffers.last().constData());
   args.memory_size = mFileBuffers.last().size();
-  FT_Error error = FT_Open_Face(mLibrary, &args, 0, face);
+  FT_Error loadingError = FT_Open_Face(mLibrary, &args, 0, face);
 #else
-  FT_Error error = FT_New_Face(mLibrary, filename.toUtf8().constData(), 0, face);
+  FT_Error loadingError = FT_New_Face(mLibrary, filename.toUtf8().constData(), 0, face);
 #endif
-  if (error == FT_Err_Unknown_File_Format)
+  if (loadingError == FT_Err_Unknown_File_Format)
     mError = "The font file could be opened and read, but its font format is unsupported.";
-  else if (error)
+  else if (loadingError)
     mError = "The font file could not be opened or read, or is broken.";
-  error = FT_Set_Char_Size(*face, size * 64, 0, 100, 0);
-  if (error)
+  loadingError = FT_Set_Char_Size(*face, size * 64, 0, 100, 0);
+  if (loadingError)
     mError = "An error occurred when setting the font size.";
 }
 
