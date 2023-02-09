@@ -33,7 +33,7 @@ class AbstractWidget : public QWidget {
   Q_OBJECT
 
 public:
-  AbstractWidget(QWidget *parent = 0);
+  explicit AbstractWidget(QWidget *parent = 0);
   virtual ~AbstractWidget();
   virtual void update() = 0;
 

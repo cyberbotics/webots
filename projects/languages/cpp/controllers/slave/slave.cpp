@@ -83,7 +83,7 @@ void Slave::run() {
   while (step(timeStep) != -1) {
     // Read sensors, particularly the order of the supervisor
     if (receiver->getQueueLength() > 0) {
-      string message((const char *)receiver->getData());
+      string message(static_cast<const char *>(receiver->getData()));
       receiver->nextPacket();
 
       cout << "I should " << AnsiCodes::RED_FOREGROUND << message << AnsiCodes::RESET << "!" << endl;

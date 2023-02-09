@@ -63,7 +63,7 @@ void RemoteControlWidget::populatePorts() {
   mPortsComboBox->addItem(tr("Simulation"));
   mPortsComboBox->setCurrentIndex(0);
 
-  char *p = (char *)wb_remote_control_custom_function(NULL);
+  char *p = static_cast<char *>(wb_remote_control_custom_function(NULL));
   QStringList ports = QString::fromUtf8(p).split('\n');
   free(p);
   for (int i = 0; i < ports.size(); ++i) {

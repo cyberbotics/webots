@@ -39,7 +39,7 @@ void ::webots::Camera::enable(int samplingPeriod) {
   disable();
   ::Robot::LinuxCamera::GetInstance()->Initialize(0);
   ::Robot::LinuxCamera::GetInstance()->SetCameraSettings(::Robot::CameraSettings());
-  mImage = (unsigned char *)malloc(4 * getWidth() * getHeight());
+  mImage = static_cast<unsigned char *>(malloc(4 * getWidth() * getHeight()));
 
   int error = 0;
 

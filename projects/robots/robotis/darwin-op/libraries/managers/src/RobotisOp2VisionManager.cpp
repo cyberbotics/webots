@@ -33,7 +33,7 @@ bool RobotisOp2VisionManager::getBallCenter(double &x, double &y, const unsigned
   Point2D pos;
 
   // Put the image in mBuffer
-  mBuffer->m_BGRAFrame->m_ImageData = (unsigned char *)image;
+  mBuffer->m_BGRAFrame->m_ImageData = const_cast<unsigned char *>(image);
   // Convert the image from BGRA format to HSV format
   ImgProcess::BGRAtoHSV(mBuffer);
   // Extract position of the ball from HSV verson of the image

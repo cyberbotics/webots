@@ -22,7 +22,7 @@
 using namespace std;
 
 Packet::Packet(int maxSize, int initSize) : mMaxSize(maxSize), mSize(initSize) {
-  mData = (char *)malloc(maxSize);
+  mData = static_cast<char *>(malloc(maxSize));
   if (!mData)
     throw runtime_error("Malloc failed");
 }

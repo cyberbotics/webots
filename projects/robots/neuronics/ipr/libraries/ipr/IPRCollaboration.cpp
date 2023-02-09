@@ -30,7 +30,7 @@ IPRCollaboration::~IPRCollaboration() {
 void IPRCollaboration::waitForSignal(CollaborationState stateSignal) {
   while (true) {
     if (mReceiver->getQueueLength() > 0) {
-      const int *state = (const int *)mReceiver->getData();
+      const int *state = static_cast<const int *>(mReceiver->getData());
       if (state[0] == stateSignal) {
         mReceiver->nextPacket();
         break;

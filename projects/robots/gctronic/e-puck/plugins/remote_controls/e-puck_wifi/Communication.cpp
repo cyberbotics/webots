@@ -72,7 +72,7 @@ bool Communication::initialize(const string &ip) {
   address.sin_port = htons(SOCKET_PORT);
   server = gethostbyname(ip.c_str());
   if (server)
-    memcpy((char *)&address.sin_addr.s_addr, (char *)server->h_addr, server->h_length);
+    memcpy(reinterpret_cast<char *>(&address.sin_addr.s_addr), reinterpret_cast<char *>(server->h_addr), server->h_length);
   else {
     fprintf(stderr, "Cannot resolve server name: %s\n", ip.c_str());
     cleanup();

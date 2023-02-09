@@ -47,7 +47,7 @@ public:
   SingleValueSensor *positionSensor(int at) const { return mPositionSensors[at]; }
   TripleValuesSensor *accelerometer() const { return mAccelerometer; }
 
-  void apply(int simulationTime);
+  const void apply(int simulationTime) const;
 
 private:
   static DeviceManager *cInstance;
