@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/doc-add-robots/projects/robots/kinematics/tinkerbots/protos/TinkerbotsTwister.proto
 # Tinkerbots twister block.
 # https://www.tinkerbots.com
 # template language: javascript
