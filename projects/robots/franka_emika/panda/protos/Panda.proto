@@ -222,10 +222,12 @@ PROTO Panda [
                                                         "meshes/link7.dae"
                                                       ]
                                                     }
+                                                    %< if (fields.endEffectorSlot.value.length > 0) { >%
                                                     DEF panda_link8 Transform {
                                                       translation 0 0 0.107
                                                       children IS endEffectorSlot
                                                     }
+                                                    %< } >%
                                                   ]
                                                   name "panda_link7"
                                                   boundingObject Group {
