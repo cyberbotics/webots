@@ -25,7 +25,7 @@ It doesn't need any cables, providing optimal working comfort.
 - *Robustness and maintenance*: e-puck is resilient under student use and is simple to repair.
 - *Affordable*: the price tag of e-puck is friendly to university budgets.
 
-E-puck is equipped with a large number of devices, as summarized in [this table](#e-puck-features).
+E-puck is equipped with a large number of devices, as summarized in this table:
 
 %figure "E-puck features"
 
@@ -71,7 +71,7 @@ E-puck is equipped with a large number of devices, as summarized in [this table]
 The standard model of the e-puck is provided in the "E-puck.proto" PROTO file which is located in the "WEBOTS\_HOME/projects/robots/gctronic/e-puck/protos" directory of the Webots distribution (see also "E-puckDistanceSensor.proto" PROTO file and "E-puckGroundSensors.proto" PROTO file); you will find complete specifications in it.
 The two PROTO fields `groundSensorSlot` and `turretSlot` have been included in the simulation model in order to support extension modules.
 In particular, the ground sensors module extension of the real e-puck robot is modelled using the "E-puckGroundSensors.proto" PROTO in Webots to provide 3 optional infra-red sensors pointing to the ground in front of the robot.
-The names of the simulated devices which are to be used as an argument of the `wb_robot_get_device` function (see the [Robot section](https://cyberbotics.com/doc/reference/robot)) are presented in the [table](#devices-names) below.
+The names of the simulated devices which are to be used as an argument of the `wb_robot_get_device` function (see the [Robot section](https://cyberbotics.com/doc/reference/robot)) are presented in the table below.
 
 %figure "Devices names"
 
@@ -115,7 +115,7 @@ Proximity sensors, light sensors and [LEDs](https://cyberbotics.com/doc/referenc
 Their location and orientation are shown in [this figure](#sensors-leds-and-camera).
 The last column of the latter lists the angles between the negative y-axis and the direction of the devices, the plane *xOy* being oriented counter-clockwise.
 Note that the proximity sensors and the light sensors are actually the same devices of the real robot used in a different mode, so their direction coincides.
-Proximity sensor responses are simulated in accordance to the lookup table in [this figure](#proximity-sensor-response-against-distance); this table is the outcome of calibrations performed on the real robot.
+Proximity sensor responses are simulated in accordance to the lookup table in this figure; this table is the outcome of calibrations performed on the real robot.
 
 %figure "Proximity sensor response against distance"
 
