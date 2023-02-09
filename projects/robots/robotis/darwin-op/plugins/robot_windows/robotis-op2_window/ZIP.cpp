@@ -34,7 +34,7 @@ ZIP::~ZIP() {
 
 bool ZIP::AddFile(struct zip *archive, const QString &file, const QString &name) {
   struct zip_source *s;
-  if ((s = zip_source_file(archive, (const char *)file.toStdString().c_str(), 0, 0)) == NULL ||
+  if ((s = zip_source_file(archive, static_cast<const char *>(file.toStdString().c_str()), 0, 0)) == NULL ||
       zip_add(archive, static_cast<const char *>(name.toStdString().c_str()), s) < 0) {
     zip_source_free(s);
     return false;
