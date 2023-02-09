@@ -73,9 +73,6 @@ DEF BALL_JOINT_ROBOT Robot {
         }
       ]
       device3 [
-        Brake {
-          name "brake 3"
-        }
         PositionSensor {
           name "position sensor 3"
         }

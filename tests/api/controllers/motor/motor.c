@@ -1,3 +1,4 @@
+#include <webots/inertial_unit.h>
 #include <webots/motor.h>
 #include <webots/position_sensor.h>
 #include <webots/robot.h>
@@ -28,6 +29,9 @@ int main(int argc, char **argv) {
 
   const WbDeviceTag motor = wb_robot_get_device("rotational motor");
   const WbDeviceTag position_sensor = wb_motor_get_position_sensor(motor);
+  const WbDeviceTag inertial_unit = wb_robot_get_device("inertial unit");
+  wb_inertial_unit_enable(inertial_unit, TIME_STEP);
+  const double *roll_pitch_yaw;
   wb_robot_step(TIME_STEP);
 
   double position = wb_position_sensor_get_value(position_sensor);
@@ -104,6 +108,11 @@ int main(int argc, char **argv) {
                             "The position value measured by the position sensor should be %g and not %g", REFERENCE_POSITION,
                             position);
 
+  roll_pitch_yaw = wb_inertial_unit_get_roll_pitch_yaw(inertial_unit);
+  ts_assert_double_in_delta(roll_pitch_yaw[2], position, 0.001,
+                            "The rotation measured by position sensor (%g) and the inertial unit (%g) are different", position,
+                            roll_pitch_yaw[2]);
+
   torque = wb_motor_get_torque_feedback(motor);
   ts_assert_double_in_delta(torque, REFERENCE_TORQUE, 0.001,
                             "The torque feedback value measured by the motor should be %g and not %g", REFERENCE_TORQUE,
@@ -139,6 +148,26 @@ int main(int argc, char **argv) {
                          "The max velocity value of the motor should be %g and not %g after velocity changed", MAX_VELOCITY,
                          max_velocity);
   ts_assert_double_equal(velocity, VELOCITY, "Velocity should be %g and not %g after velocity changed", VELOCITY, velocity);
+
+  // Ensure that position is reported properly in velocity control mode
+  wb_motor_set_position(motor, INFINITY);
+  wb_motor_set_velocity(motor, 0);
+
+  for (i = 0; i < 2 * NUMBER_OF_STEPS; ++i) {
+    wb_motor_set_velocity(motor, VELOCITY * fabs(cos(0.1 * i)));
+    wb_robot_step(TIME_STEP);
+  }
+  position = wb_position_sensor_get_value(position_sensor);
+  roll_pitch_yaw = wb_inertial_unit_get_roll_pitch_yaw(inertial_unit);
+  double normalized_position = fmod(position, 2 * M_PI);
+  if (normalized_position > M_PI)
+    normalized_position -= 2 * M_PI;
+  ts_assert_double_in_delta(roll_pitch_yaw[2], normalized_position, 0.001,
+                            "The normalized rotation measured by position sensor (%g) and the inertial unit (%g) are different",
+                            normalized_position, roll_pitch_yaw[2]);
+
+  // The position itself should not be normalized to be between -pi and pi
+  ts_assert_double_is_bigger(position, 2 * M_PI, "The position shoud be at least %g but is only %g", 2 * M_PI, position);
 
   ts_send_success();
   return EXIT_SUCCESS;
