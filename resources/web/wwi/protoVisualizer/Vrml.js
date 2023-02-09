@@ -447,6 +447,17 @@ export class SFNode extends SingleValue {
         return false;
     }
 
+    for (const [fieldName, field] of this.value.fields) {
+      if (!other.value.fields.has(fieldName))
+        return false;
+
+      const otherField = other.value.fields.get(fieldName);
+      if (!field.value.equals(otherField.value))
+        return false;
+      if (!field.defaultValue.equals(otherField.defaultValue))
+        return false;
+    }
+
     return true;
   }
 
