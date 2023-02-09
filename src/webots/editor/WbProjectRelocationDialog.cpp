@@ -349,13 +349,13 @@ int WbProjectRelocationDialog::copyWorldFiles() {
 
     foreach (const QString &forest, forests) {
       const QFileInfo absolutePath = QFileInfo(QDir(WbProject::current()->worldsPath()).filePath(forest));
-      const QFileInfo targetPath = QFileInfo(QDir(mTargetPath + "/worlds/").filePath(forest));
-      QDir().mkpath(targetPath.absolutePath());  // create any necessary directories prior to copying the file
-      if (QFile::copy(absolutePath.absoluteFilePath(), targetPath.absoluteFilePath()))
+      const QFileInfo targetFile = QFileInfo(QDir(mTargetPath + "/worlds/").filePath(forest));
+      QDir().mkpath(targetFile.absolutePath());  // create any necessary directories prior to copying the file
+      if (QFile::copy(absolutePath.absoluteFilePath(), targetFile.absoluteFilePath()))
         result++;
       else
         setStatus(
-          tr("Impossible to copy file '%1' to '%2'.").arg(absolutePath.absoluteFilePath()).arg(targetPath.absoluteFilePath()));
+          tr("Impossible to copy file '%1' to '%2'.").arg(absolutePath.absoluteFilePath()).arg(targetFile.absoluteFilePath()));
     }
   } else
     setStatus(tr("Impossible to read file '%1'").arg(world->fileName()));

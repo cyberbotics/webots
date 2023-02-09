@@ -457,7 +457,7 @@ void WbTextEditor::deleteReplaceDialog() {
   mReplaceDialog = NULL;
 }
 
-void WbTextEditor::highlightSearchText(QRegularExpression regularExpression) {
+void WbTextEditor::highlightSearchText(const QRegularExpression &regularExpression) {
   WbTextBuffer *textBuffer = dynamic_cast<WbTextBuffer *>(mTabWidget->currentWidget());
   if (textBuffer)
     textBuffer->updateSearchTextHighlighting(regularExpression);
