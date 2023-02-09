@@ -216,7 +216,8 @@ void WbRobot::preFinalize() {
     }
     arguments << args.mid(previous).remove('"').remove('\'');
     QString message;
-    if (WbNodeUtilities::isTemplateRegeneratorField(findField("controllerArgs", true)))  // it would crash to change controllerArgs from here
+    if (WbNodeUtilities::isTemplateRegeneratorField(
+          findField("controllerArgs", true)))  // it would crash to change controllerArgs from here
       message = tr("Unable to split arguments automatically, please update your world file manually.");
     else {
       mControllerArgs->setValue(arguments);
