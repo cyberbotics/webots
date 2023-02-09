@@ -52,7 +52,7 @@ class TestCppCheck(unittest.TestCase):
                 msg='Cppcheck detected some errors:\n\n%s' % reportText
             )
             os.remove(self.reportFilename)
-        self.assertEqual(status, 0, msg='cppcheck exited with nonzero status: %d' % status)
+        self.assertEqual(status, 0, msg='Cppcheck exited with nonzero status: %d\nCommand line: %s' % (status, command))
         os.chdir(curdir)
 
     def add_source_files(self, sourceDirs, skippedDirs, skippedfiles=[]):
