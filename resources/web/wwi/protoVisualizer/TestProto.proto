@@ -1,12 +1,16 @@
 #VRML_SIM R2023b utf8
 
 PROTO TestProto [
-  field SFNode appearance NULL
-  field SFNode geo NULL
+  field SFNode appearance PBRAppearance { baseColor 1 0 0}
+  field SFNode boundingObject NULL
 ]
 {
-  Shape {
-    appearance IS appearance
-    geometry Box {}
-  }
+  Solid {
+    children [
+      Shape {
+        appearance IS appearance
+        geometry Box {}
+      }
+    ]
+    boundingObject IS boundingObject
 }
