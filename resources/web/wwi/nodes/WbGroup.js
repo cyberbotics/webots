@@ -6,23 +6,9 @@ import WbBoundingSphere from './utils/WbBoundingSphere.js';
 import {getAnId} from './utils/id_provider.js';
 
 export default class WbGroup extends WbBaseNode {
-  #device;
-  constructor(id, isPropeller) {
+  constructor(id) {
     super(id);
     this.children = [];
-
-    this.isPropeller = isPropeller;
-    this.currentHelix = -1; // to switch between fast and slow helix
-    if (isPropeller)
-      this.#device = [];
-  }
-
-  get device() {
-    return this.#device;
-  }
-
-  set device(device) {
-    this.#device = device;
   }
 
   boundingSphere() {
@@ -30,7 +16,7 @@ export default class WbGroup extends WbBaseNode {
   }
 
   clone(customID) {
-    const group = new WbGroup(customID, this.isPropeller);
+    const group = new WbGroup(customID);
     const length = this.children.length;
     for (let i = 0; i < length; i++) {
       const cloned = this.children[i].clone(getAnId());
@@ -119,14 +105,6 @@ export default class WbGroup extends WbBaseNode {
     });
 
     this.recomputeBoundingSphere();
-
-    if (this.isPropeller === true) {
-      if (typeof this.children[1] !== 'undefined')
-        this.currentHelix = this.children[1].id;
-      else if (typeof this.children[0] !== 'undefined')
-        this.currentHelix = this.children[0].id;
-      this.switchHelix(this.currentHelix, true);
-    }
   }
 
   recomputeBoundingSphere() {
@@ -139,18 +117,6 @@ export default class WbGroup extends WbBaseNode {
 
       this._boundingSphere.addSubBoundingSphere(child.boundingSphere());
     });
-  }
-
-  switchHelix(id, force) {
-    if (id !== this.currentHelix || force) {
-      this.currentHelix = id;
-      this.children.forEach(child => {
-        if (child.id === this.currentHelix)
-          _wr_node_set_visible(child.wrenNode, true);
-        else
-          _wr_node_set_visible(child.wrenNode, false);
-      });
-    }
   }
 
   updateBoundingObjectVisibility() {

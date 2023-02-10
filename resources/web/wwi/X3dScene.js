@@ -43,6 +43,7 @@ import WbDirectionalLight from './nodes/WbDirectionalLight.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
 import WbConnector from './nodes/WbConnector.js';
 import WbShape from './nodes/WbShape.js';
+import WbPropeller from './nodes/WbPropeller.js';
 
 export default class X3dScene {
   #nextRenderingTime;
@@ -472,8 +473,8 @@ export default class X3dScene {
 
     if (typeof object.parent !== 'undefined') {
       const parent = WbWorld.instance.nodes.get(object.parent);
-      if (typeof parent !== 'undefined' && parent instanceof WbGroup && parent.isPropeller &&
-        parent.currentHelix !== object.id && WbWorld.instance.readyForUpdates)
+      if (typeof parent !== 'undefined' && parent instanceof WbPropeller && parent.currentHelix !== object.id && 
+        WbWorld.instance.readyForUpdates)
         parent.switchHelix(object.id);
     }
   }
