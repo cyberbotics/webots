@@ -1,3 +1,5 @@
+#include <unistd.h>
+
 #include <webots/camera.h>
 #include <webots/compass.h>
 #include <webots/distance_sensor.h>
