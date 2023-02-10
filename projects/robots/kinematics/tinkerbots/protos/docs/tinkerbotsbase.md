@@ -26,7 +26,7 @@ Derived from [Robot](https://cyberbotics.com/doc/reference/robot).
 
 ```
 TinkerbotsBase {
-  field SFVec3f    translation                            0 0 0
+  field SFVec3f    translation                            0 0 0.02
   field SFRotation rotation                               0 0 1 0
   field SFString   name                                   "Tinkerbots"
   field SFString   controller                             "tinkerbots_demo"

@@ -6,7 +6,7 @@
 # https://www.tinkerbots.com
 
 PROTO TinkerbotsBase [
-  field SFVec3f    translation     0 0 0             # Is `Transform.translation`.
+  field SFVec3f    translation     0 0 0.02          # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0           # Is `Transform.rotation`.
   field SFString   name            "Tinkerbots"      # Is `Solid.name`.
   field SFString   controller      "tinkerbots_demo" # Is `Robot.controller`.
