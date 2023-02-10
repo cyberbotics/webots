@@ -20,7 +20,7 @@ namespace webotsQtUtils {
     Q_OBJECT
 
   public:
-    explicit GenericWindow(QStringList hiddenDevices = QStringList());
+    explicit GenericWindow(const QStringList &hiddenDevices = QStringList());
     virtual ~GenericWindow();
 
     void readSensors();
