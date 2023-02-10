@@ -503,7 +503,7 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
         deviceObject.insert("maxPosition", motor->maxPosition());
       } else {  // case: other WbDevice nodes.
         const WbBaseNode *parent =
-          jointDevice ? dynamic_cast<const WbBaseNode *>(deviceBaseNode->parentNode()) : deviceBaseNode;
+          jointDevice ? dynamic_cast<const WbBaseNode *>(jointDevice->parentNode()) : deviceBaseNode;
         // Retrieve closest exported Transform parent, and compute its translation offset.
         WbMatrix4 m;
         while (parent) {
