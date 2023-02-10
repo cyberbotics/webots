@@ -1,7 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/mantis
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/doc-add-robots/projects/robots/micromagic/mantis/protos/Mantis.proto
 # The Mantis robot is an hydraulic powered hexapod walking machine developed in 2009 by Matt Denton.
 # A human can drive this robot.
 
