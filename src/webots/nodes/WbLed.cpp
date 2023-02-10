@@ -208,8 +208,8 @@ void WbLed::setMaterialsAndLightsColor() {
     }
   }
 
+  assert(r >= 0 && r <= 1 && g >= 0 && g <= 1 && b >= 0 && b <= 1);
   WbRgb lightColor(r, g, b);
-  assert(!lightColor.clampValuesIfNeeded());
 
   // update every material
   foreach (WbMaterial *material, mMaterials)
