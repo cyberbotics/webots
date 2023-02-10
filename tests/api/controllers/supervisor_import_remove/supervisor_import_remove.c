@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
   ts_assert_int_equal(wb_supervisor_field_get_count(root_children_field), initial_root_children_count + 1,
                       "The number of children of the root node is not correct after the insertion of SPHERE2.");
 
-  wb_robot_step(TIME_STEP);
+  wb_robot_step(2 * TIME_STEP);
 
   // Try to remove root
   // this is an invalid action: nothing should be applied and Webots should not crash

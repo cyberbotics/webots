@@ -208,5 +208,8 @@ PROTO Horse [
         }
       ]
     }
+    recognitionColors [
+      0.333 0.290 0.243
+    ]
   }
 }

@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -1474,8 +1474,7 @@ void WbMainWindow::saveWorldAs(bool skipSimulationHasRunWarning) {
     return;
   }
 
-  const QDir dir(fileName);
-  if (dir.dirName() != "worlds") {
+  if (QFileInfo(fileName).dir().dirName() != "worlds") {
     const QString warning = tr("The selected directory for saving the world file is not named \"worlds\".\n"
                                "Thus it is not located in a valid Webots project.\n"
                                "As a consequence, some project-related functionalities may not work.");

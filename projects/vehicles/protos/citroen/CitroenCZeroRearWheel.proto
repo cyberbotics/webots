@@ -1,20 +1,19 @@
 #VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# Model of the Citroën C-Zero rear wheels using the generic VehicleWheel proto
-# including physic properties and textures
-# The contactMaterial is "CitroenCZeroWheels"
-# Size: 175/55/R15
+# Model of the Citroën C-Zero rear wheels using the generic VehicleWheel PROTO including physic properties and textures.
+# The contactMaterial is "CitroenCZeroWheels".
+# Size: 175/55/R15.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
 
 PROTO CitroenCZeroRearWheel [
-  field       SFString name           "Citroen C-Zero rear wheel"
-  field       SFNode   physics        NULL
-  field       SFBool   boundingObject TRUE
-  field SFBool     wheelSide          FALSE
-  hiddenField SFFloat  tireRadius     0.28675                      # We need to make this value 'visible' to the car PROTO so that the tire radius can be sent to the controller.
+  field       SFString name           "Citroen C-Zero rear wheel"  # Is `VehicleWheel.name`.
+  field       SFNode   physics        NULL                         # Is `VehicleWheel.physics`.
+  field       SFBool   boundingObject TRUE                         # Is `VehicleWheel.boundingObject`.
+  field       SFBool   wheelSide      FALSE                        # Is `VehicleWheel.wheelSide`.
+  hiddenField SFFloat  tireRadius     0.28675                      # Is `VehicleWheel.tireRadius`. We need to make this value 'visible' to the car PROTO so that the tire radius can be sent to the controller.
 ]
 {
   VehicleWheel {

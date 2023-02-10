@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ try:
     listheaders = os.listdir("../../include/wren/")
     buggyheaders = {"config.h", "drawable_texture.h", "file_import.h", "font.h", "overlay.h"}
     listheaders = ["../../include/wren/" + header for header in listheaders if header
-                   [len(header)-2:len(header)] == '.h' and not(header in buggyheaders)]
+                   [len(header) - 2:len(header)] == '.h' and not (header in buggyheaders)]
 
     parser = CParser(listheaders)
 

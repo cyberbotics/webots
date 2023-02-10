@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -46,7 +46,14 @@ void WbDictionary::cleanup() {
   cInstance = NULL;
 }
 
-WbDictionary::WbDictionary() : mTargetNode(NULL), mTargetField(NULL), mTargetIndex(-1), mStopUpdate(false), mLoad(false) {
+WbDictionary::WbDictionary() :
+  mTargetNode(NULL),
+  mTargetField(NULL),
+  mTargetIndex(-1),
+  mStopUpdate(false),
+  mLoad(false),
+  mCurrentProtoRegeneration(false),
+  mCurrentProtoRegenerationNode(NULL) {
 }
 
 WbDictionary::~WbDictionary() {
@@ -56,19 +63,33 @@ WbDictionary::~WbDictionary() {
 // Updates of the DEF names dictionary //
 /////////////////////////////////////////
 
-void WbDictionary::update(bool load) {
+void WbDictionary::setRegeneratedNode(const WbNode *node) {
+  assert(!node || !mCurrentProtoRegenerationNode);  // nested dictionary updates should be avoided
+  mCurrentProtoRegenerationNode = node;
+}
+
+bool WbDictionary::update(bool load) {
   mLoad = load;
   clearNestedDictionaries();
   mSceneDictionary.clear();
+  assert(!mCurrentProtoRegeneration);  // nested dictionary updates should be avoided
+  mCurrentProtoRegeneration = false;
+  bool regenerationRequired = false;
+
   WbBaseNode *rootNode = WbWorld::instance()->root();
-  updateDef(rootNode);
+  updateDef(rootNode, NULL, NULL, -1, false, regenerationRequired);
+
+  mCurrentProtoRegeneration = false;
+  return regenerationRequired;
 }
 
-bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNode, int index) {
+bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNode, int index, bool isTemplateRegenerator,
+                             bool &regenerationRequired) {
   const QString &defName = node->defName();
   const QString &useName = node->useName();
   const bool useCase = !useName.isEmpty();
   const int useNestingDegree = mNestedDictionaries.size() - 1;
+  mCurrentProtoRegeneration |= node == mCurrentProtoRegenerationNode;
 
   // Solid, Device, JointParameters and BasicJoint DEF nodes are allowed but not registered in the dictionary,
   // Solid, Device, JointParameters and BasicJoint USE nodes are prohibited
@@ -122,57 +143,58 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
         }
       }
 
-      if (definitionNode && typeMatch) {
-        if (node->defNode() != definitionNode) {
-          QString deviceModelName;
-          if (node->isInBoundingObject() != definitionNode->isInBoundingObject() &&
-              !checkBoundingObjectConstraints(definitionNode, warning)) {
-            node->parentNode()->parsingWarn(QObject::tr("Deleted invalid USE %1 node: %3").arg(useName).arg(warning));
-            WbNodeOperations::instance()->deleteNode(node);
-            return false;
-          } else if (!checkChargerAndLedConstraints(node->parentNode(), definitionNode, deviceModelName, index == 0)) {
-            node->parsingWarn(
-              QObject::tr("Non-admissible USE %1 node inside first child of %2 node.\n"
-                          "Invalid USE nodes that refer to DEF nodes defined outside the %2 node are turned into DEF nodes "
-                          "otherwise the emissive color cannot be updated correctly.")
-                .arg(useName)
-                .arg(deviceModelName));
-            makeDefNodeAndUpdateDictionary(node, true);
-          } else {
-            if (!mLoad) {
-              WbNode *const parent = node->parentNode();
-              WbNode::setGlobalParentNode(parent);
-              WbBaseNode *const newUseNode = static_cast<WbBaseNode *>(definitionNode->cloneDefNode());
-              WbNode::setGlobalParentNode(NULL);
-              newUseNode->setUseName(useName);  // Deactivates the creation of children items triggered by insertion
-              if (sfNode)
-                sfNode->setValue(newUseNode);
-              else if (mfNode) {
-                mfNode->removeItem(index);
-                mfNode->insertItem(index, newUseNode);  // TODO: replace by setItem(index, newUseNode) when it is fixed
-              }
-              newUseNode->finalize();
-              node = newUseNode;
+      if (definitionNode && typeMatch && node->defNode() != definitionNode) {
+        QString deviceModelName;
+        if (node->isInBoundingObject() != definitionNode->isInBoundingObject() &&
+            !checkBoundingObjectConstraints(definitionNode, warning)) {
+          node->parentNode()->parsingWarn(QObject::tr("Deleted invalid USE %1 node: %3").arg(useName).arg(warning));
+          WbNodeOperations::instance()->deleteNode(node);
+          if (node == mCurrentProtoRegenerationNode)
+            mCurrentProtoRegeneration = false;
+          return false;
+        } else if (!checkChargerAndLedConstraints(node->parentNode(), definitionNode, deviceModelName, index == 0)) {
+          node->parsingWarn(
+            QObject::tr("Non-admissible USE %1 node inside first child of %2 node.\n"
+                        "Invalid USE nodes that refer to DEF nodes defined outside the %2 node are turned into DEF nodes "
+                        "otherwise the emissive color cannot be updated correctly.")
+              .arg(useName)
+              .arg(deviceModelName));
+          makeDefNodeAndUpdateDictionary(node, true);
+        } else {
+          if (!mLoad && !mCurrentProtoRegeneration) {
+            WbNode *parent = node->parentNode();
+            WbNode::setGlobalParentNode(parent);
+            WbBaseNode *const newUseNode = static_cast<WbBaseNode *>(definitionNode->cloneDefNode());
+            WbNode::setGlobalParentNode(NULL);
+            newUseNode->setUseName(useName);  // Deactivates the creation of children items triggered by insertion
+            if (sfNode)
+              sfNode->setValue(newUseNode);
+            else if (mfNode)
+              mfNode->setItem(index, newUseNode);
+            regenerationRequired |= isTemplateRegenerator;
+            while (parent) {
+              parent = parent->parentNode();
             }
-            node->makeUseNode(definitionNode);  // Sets USE name, DEF reference, unregisters from previous DEF reference and
-                                                // registers to the new one
-            mNestedUseNodes.append(node);
+            newUseNode->finalize();
+            node = newUseNode;
           }
+          node->makeUseNode(definitionNode);  // Sets USE name, DEF reference, unregisters from previous DEF reference and
+                                              // registers to the new one
+          mNestedUseNodes.append(node);
         }
       }
 
       if (matchingNode && matchingNode->isDefNode()) {
         if (!mLoad) {
-          WbNode *const parent = node->parentNode();
+          WbNode *parent = node->parentNode();
           WbNode::setGlobalParentNode(parent);
           WbBaseNode *const newDefNode = static_cast<WbBaseNode *>(matchingNode->cloneAndReferenceProtoInstance());
           newDefNode->setUseName(useName);  // Deactivates the creation of children items triggered by insertion
           if (sfNode)
             sfNode->setValue(newDefNode);
-          else if (mfNode) {
-            mfNode->removeItem(index);
-            mfNode->insertItem(index, newDefNode);  // TODO: replace by setItem(index, newUseNode) when it is fixed
-          }
+          else if (mfNode)
+            mfNode->setItem(index, newDefNode);
+          regenerationRequired |= isTemplateRegenerator;
           newDefNode->finalize();
           node = newDefNode;
         }
@@ -193,6 +215,9 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
       node->parsingWarn(warning + " " + QObject::tr("Non-admissible USE node turned into DEF node."));
       makeDefNodeAndUpdateDictionary(node, true);
     }
+
+    if (node == mCurrentProtoRegenerationNode)
+      mCurrentProtoRegeneration = false;
     return true;
   }
 
@@ -211,7 +236,7 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
         if (createDictionary)  // Appends a local dictionary which is limited to the scope of this USE node
           mNestedDictionaries.append(Dictionary());
 
-        bool success = updateDef(n, sf);
+        bool success = updateDef(n, sf, NULL, -1, field->isTemplateRegenerator(), regenerationRequired);
 
         // dictionary already removed if USE node has been turned into DEF node
         if (createDictionary && (!success || n->isUseNode())) {
@@ -236,7 +261,7 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
             if (createDictionary)  // Appends a local dictionary which is limited to the scope of this USE node
               mNestedDictionaries.append(Dictionary());
 
-            bool success = updateDef(n, NULL, mf, i);
+            bool success = updateDef(n, NULL, mf, i, field->isTemplateRegenerator(), regenerationRequired);
 
             // dictionary already removed if USE node has been turned into DEF node
             if (createDictionary && (!success || n->isUseNode())) {
@@ -250,6 +275,8 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
       }
     }
   }
+  if (node == mCurrentProtoRegenerationNode)
+    mCurrentProtoRegeneration = false;
   return true;
 }
 
