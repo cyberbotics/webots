@@ -88,9 +88,8 @@ int main(int argc, char **argv) {
 
   // Do some intensive computation, just for good measure
   int result = 0xffff;
-  for (int i = 0; i < 0xffff; i++) {
+  for (int i = 0; i < 0xffff; i++)
     result &= ~i;
-  }
   ts_assert_int_equal(result, 0, "Computation produced unexpected result.");
 
   // compass
