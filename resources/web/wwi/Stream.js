@@ -1,6 +1,9 @@
 'use strict';
 
 import {webots} from './webots.js';
+import ImageLoader from './ImageLoader.js';
+import MeshLoader from './MeshLoader.js';
+import WbCadShape from './nodes/WbCadShape.js';
 
 export default class Stream {
   #onready;
@@ -29,6 +32,9 @@ export default class Stream {
       this.socket.close();
       this.soclet = undefined;
     }
+    ImageLoader.stream = false;
+    MeshLoader.stream = false;
+    WbCadShape.stream = false;
   }
 
   #onSocketOpen(event) {
@@ -72,7 +78,7 @@ export default class Stream {
           }
         }
       } else
-        webots.currentView.robots.push({name: json.robot, window: robotWindow, main: json.main});
+        webots.currentView.robots.push({name: json.robot, window: robotWindow, main: json.main, visible: json.visible});
       if (document.getElementById('robot-window-button') !== null)
         document.getElementsByTagName('webots-view')[0].toolbar.loadRobotWindows();
     } else if (data.startsWith('robot:'))

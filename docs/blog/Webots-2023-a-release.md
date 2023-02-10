@@ -12,7 +12,7 @@ Here we are going to present some of the main new features, but for a comprehens
 
 ## New Robot
 
-A new robot model has been added to the Webots library. 
+A new robot model has been added to the Webots library.
 The ROS-based four-wheeled [ROSbot](../guide/rosbot.md) robot from [Husarion](https://husarion.com/) is now included in Webots.
 
 %figure "ROSbot"
@@ -46,10 +46,10 @@ Additional models have been added to the Webots library, namely static animals (
 ## New Python API
 
 Webots R2023a comes with a brand new Python API!
-This API has the advantage of being compatible with all Python distributions (including conda, anaconda, etc.). 
+This API has the advantage of being compatible with all Python distributions (including conda, anaconda, etc.).
 The API will always be compatible with current and upcoming Python versions.
 
-This change of API does not induce any change to the methods. 
+This change of API does not induce any change to the methods.
 Python controllers developed before Webots R2023a are fully compatible with this new version.
 
 Moreover, in order to enrich the collection of sample controllers, all sample worlds of the device nodes provide an additional Python controller equivalent to the C controller already included to demonstrate the usage of the API functions.
@@ -58,9 +58,9 @@ Moreover, in order to enrich the collection of sample controllers, all sample wo
 
 ## New IMU Sample World
 
-So far, the [InertialUnit](../reference/inertialunit.md) was considered as an IMU, because it provides the ground truth data of the attitude (roll, pitch, yaw) of the object on which it is inserted. 
+So far, the [InertialUnit](../reference/inertialunit.md) was considered as an IMU, because it provides the ground truth data of the attitude (roll, pitch, yaw) of the object on which it is inserted.
 This assumption is fundamentally wrong.
-An IMU gives the raw values of its sensors ([Accelerometer](../reference/accelerometer.md), [Gyroscope](../reference/gyro.md), [Compass](../reference/compass.md)) and can optionally provide the attitude output computed from the fusion of its sensors. 
+An IMU gives the raw values of its sensors ([Accelerometer](../reference/accelerometer.md), [Gyroscope](../reference/gyro.md), [Compass](../reference/compass.md)) and can optionally provide the attitude output computed from the fusion of its sensors.
 The [InertialUnit](../reference/inertialunit.md) just makes life easier for the user who does not want to use a sensor fusion library or algorithm to combine the data from an IMU and compute the attitude.
 
 In addition to the implementation of the [Mpu-9250](../guide/imu-sensors.md#mpu-9250) IMU, Webots R2023a contains a new sample world that demonstrates a simple algorithm for calculating the attitude of a robot from the sensors of an IMU.

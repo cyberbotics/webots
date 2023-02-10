@@ -39,6 +39,8 @@ public:
   int vectorSize() const { return mVector->size(); }
   void setVector(int index, const WbVector3 &vector) { mVector->setItem(index, vector); }
 
+  QStringList fieldsToSynchronizeWithX3D() const override;
+
 private:
   // user accessible fields
   WbMFVector3 *mVector;

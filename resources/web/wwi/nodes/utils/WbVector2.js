@@ -14,6 +14,10 @@ export default class WbVector2 {
     return (s >= 1.0) ? 0 : (s <= -1.0) ? Math.PI : Math.acos(s);
   }
 
+  clone(vector) {
+    return new WbVector2(this.x, this.y);
+  }
+
   div(number) {
     return new WbVector2(this.x / number, this.y / number);
   }

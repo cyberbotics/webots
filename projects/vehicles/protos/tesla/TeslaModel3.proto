@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Model of a Tesla model 3 car using the Car PROTO as a base.
@@ -91,18 +91,18 @@ PROTO TeslaModel3 [
                     attenuation 0 0 1
                     beamWidth 0.3
                     cutOffAngle 0.6
-                    direction -0.05 -1 -0.5
+                    direction -1 -0.5 -0.05
                     intensity 60
-                    location -0.72 -2.03 0.72
+                    location -2.03 0.72 -0.72
                     radius 40
                   }
                   SpotLight {
                     attenuation 0 0 1
                     beamWidth 0.3
                     cutOffAngle 0.6
-                    direction 0.05 -1 -0.5
+                    direction -1 -0.5 0.05
                     intensity 60
-                    location 0.72 -2.03 0.72
+                    location -2.03 0.72 0.72
                     radius 40
                   }
                   %< } >%
