@@ -3,7 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieFemaleCube.proto
 # Tinkerbots cubie: cube with female cross slots.
-# https://www.tinkerbots.com
+# More information on: [TinkerbotsBase](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/kinematics/tinkerbots/protos/TinkerbotsBase.proto)
 
 EXTERNPROTO "TinkerbotsPlasticAppearance.proto"
 

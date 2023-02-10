@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/kinematics/tinkerbots/protos/TinkerbotsWheel.proto
 # Tinkerbots wheel.
+# More information on: [TinkerbotsBase](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/kinematics/tinkerbots/protos/TinkerbotsBase.proto)
 
 PROTO TinkerbotsWheel [
   field SFVec3f    translation 0 0 0   # Is `Transform.translation`.
