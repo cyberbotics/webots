@@ -231,7 +231,7 @@ int Wrapper::robotStep(int step) {
         image_counter++;
 #endif
         got_camera_image++;
-      } else if (header == 0x02) {  // senreinterpret_castsor data
+      } else if (header == 0x02) {  // sensor data
 #ifdef LOG_COMMUNICATION_TIME
         startTime = clock();
 #endif
