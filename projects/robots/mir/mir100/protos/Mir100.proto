@@ -1,7 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/mir100
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/doc-add-robots/projects/robots/mir/mir100/protos/Mir100.proto
 # Designed by Mobile Industrial Robotics (MIR), MiR100 is a six-wheeled robot (4 caster wheels and 2 regular ones at the
 # center). Used in industrial environments, it can carry a payload of up to 100kg.
 
