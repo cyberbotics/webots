@@ -3,6 +3,7 @@
 PROTO TestProto [
   field SFNode appearance PBRAppearance { baseColor 1 0 0}
   field SFNode boundingObject NULL
+  field SFNode physics NULL
 ]
 {
   Solid {
@@ -13,4 +14,5 @@ PROTO TestProto [
       }
     ]
     boundingObject IS boundingObject
+    physics IS physics
 }

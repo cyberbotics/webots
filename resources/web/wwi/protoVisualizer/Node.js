@@ -224,7 +224,7 @@ export default class Node {
     const nodeElement = this.xml.createElement(this.name);
 
     // TODO: handle other exceptions
-    if (this.name === 'ImageTexture')
+    if (this.name === 'ImageTexture' || parameterName === 'boundingObject')
       nodeElement.setAttribute('role', parameterName);
 
     if (this.refId > this.ids.length - 1)

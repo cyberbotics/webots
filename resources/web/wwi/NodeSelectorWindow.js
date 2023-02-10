@@ -320,7 +320,6 @@ export default class NodeSelectorWindow {
       p = p.aliasLinks[0];
     const fieldName = p.name;
     const parentNode = p.node;
-    console.log('==>', fieldName)
 
     if (fieldName === 'appearance')
       baseType = ['Appearance', 'PBRAppearance'];
@@ -332,10 +331,16 @@ export default class NodeSelectorWindow {
     else if (fieldName === 'endPoint' || fieldName === 'children') {
       baseType = ['Group', 'Transform', 'Shape', 'CadShape', 'Solid', 'Robot', 'PointLight', 'SpotLight', 'Propeller',
         'Charger'];
-    } else if (['baseColorMap', 'roughnessMap', 'metalnessMap', 'normalMap', 'occlusionMap', 'emissiveColorMap'].includes(fieldName))
+    } else if (['baseColorMap', 'roughnessMap', 'metalnessMap', 'normalMap', 'occlusionMap',
+      'emissiveColorMap'].includes(fieldName))
       baseType = ['ImageTexture'];
     else if (fieldName === 'textureTransform')
       baseType = ['TextureTransform'];
+    else if (fieldName === 'boundingObject') {
+      baseType = ['Box', 'Capsule', 'Cylinder', 'ElevationGrid', 'Group', 'IndexedFaceSet',  'Mesh', 'Plane', 'Shape',
+        'Sphere', 'Transform'];
+    } else if (fieldName === 'physics')
+      baseType = ['Physics'];
 
     return baseType;
   }
