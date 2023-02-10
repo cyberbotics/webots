@@ -255,7 +255,7 @@ void WbCamera::initializeSegmentationMemoryMappedFile() {
   mSegmentationMemoryMappedFile = initializeMemoryMappedFile("segmentation");
   mHasSegmentationMemoryMappedFileChanged = true;
   if (mSegmentationMemoryMappedFile) {
-    unsigned char *data = (unsigned char *)mSegmentationMemoryMappedFile->data();
+    unsigned char *data = static_cast<unsigned char *>(mSegmentationMemoryMappedFile->data());
     // initialize the memory mapped file with a black image
     int *im = reinterpret_cast<int *>(data);
     for (int i = 0; i < width() * height(); i++)
@@ -555,7 +555,7 @@ void WbCamera::writeAnswer(WbDataStream &stream) {
       stream << (int)0;
       stream << (unsigned char)0;
     } else
-      copyImageToMemoryMappedFile(mSegmentationCamera, (unsigned char *)mSegmentationMemoryMappedFile->data());
+      copyImageToMemoryMappedFile(mSegmentationCamera, static_cast<unsigned char *>(mSegmentationMemoryMappedFile->data()));
     mSegmentationImageChanged = false;
   }
 

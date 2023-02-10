@@ -199,7 +199,7 @@ void WbCharger::prePhysicsStep(double ms) {
     } else
       currentEnergy -= e;  // transfer
 
-    if (mDone == false && mRobot->battery().size() > 2) {  // else energy is wasted
+    if (mDone == false) {  // else energy is wasted
       double robotCurrentEnergy = mRobot->currentEnergy();
       // special case:
       //   if the current energy of the robot is already bigger that its max energy
