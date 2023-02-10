@@ -183,7 +183,7 @@ export default class X3dScene {
     parser.prefix = webots.currentView.prefix;
     await parser.parse(x3dObject, this.renderer, false, parentNode, callback);
 
-    console.log(x3dObject, 'rootNodeId', parser.rootNodeId, parentNode.id);
+    //console.log(x3dObject, 'rootNodeId', parser.rootNodeId, parentNode.id);
 
     const node = WbWorld.instance.nodes.get(parser.rootNodeId);
     if (typeof node === 'undefined')

@@ -296,6 +296,7 @@ export default class Parser {
       case 'SolidReference':
       case 'Zoom':
       case 'ImmersionProperties':
+      case 'Damping':
         // skip those nodes as they are not needed for web representation.
         break;
       default:

@@ -350,8 +350,10 @@ export default class NodeSelectorWindow {
         'Sphere', 'Transform'];
     } else if (fieldName === 'physics')
       baseType = ['Physics'];
-    else if(fieldName === 'immersionProperties')
+    else if (fieldName === 'immersionProperties')
       baseType = ['ImmersionProperties'];
+    else if (fieldName === 'damping')
+      baseType = ['Damping'];
 
     return baseType;
   }
