@@ -312,19 +312,21 @@ export default class Parser {
               parentNode.geometry = result;
             } else if (parentNode instanceof WbSolid || parentNode instanceof WbTransform || parentNode instanceof WbGroup) {
               // Bounding object
+              console.log('PARENT IS', parentNode.boundingObject instanceof WbBox)
               parentNode.boundingObject?.delete();
               //const shape = new WbShape(getAnId(), false, false, result);
               //shape.parent = parentNode.id;
               //WbWorld.instance.nodes.set(shape.id, shape);
               //result.parent = shape.id;
-              if (parentNode instanceof WbSolid)
+              if (parentNode instanceof WbSolid) {
                 parentNode.boundingObject = result;
-              else {
-                const shape = new WbShape(getAnId(), false, false, result);
-                shape.parent = parentNode.id;
-                WbWorld.instance.nodes.set(shape.id, shape);
-                result.parent = shape.id;
-                parentNode.children.push(shape);
+                //result.role = 'boundingObject';
+              } else {
+                //const shape = new WbShape(getAnId(), false, false, result);
+                //shape.parent = parentNode.id;
+                //WbWorld.instance.nodes.set(shape.id, shape);
+                //result.parent = shape.id;
+                parentNode.children.push(result);
               }
             }
           }

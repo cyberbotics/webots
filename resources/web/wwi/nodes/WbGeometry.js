@@ -1,5 +1,6 @@
 import WbBaseNode from './WbBaseNode.js';
 import WbBillboard from './WbBillboard.js';
+import WbSolid from './WbSolid.js';
 import WbTouchSensor from './WbTouchSensor.js';
 import WbWorld from './WbWorld.js';
 import WbBoundingSphere from './utils/WbBoundingSphere.js';
@@ -54,6 +55,9 @@ export default class WbGeometry extends WbBaseNode {
       const parent = WbWorld.instance.nodes.get(this.parent);
       if (typeof parent !== 'undefined')
         parent.geometry = undefined;
+
+      if (parent instanceof WbSolid && this.isInBoundingObject())
+        parent.boundingObject = undefined;
     }
 
     if (this.wrenObjectsCreatedCalled)

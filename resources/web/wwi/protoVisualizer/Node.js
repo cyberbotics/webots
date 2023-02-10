@@ -44,9 +44,20 @@ export default class Node {
         const initializer = parameterModel['defaultValue'];
         const defaultValue = vrmlFactory(parameterType, initializer, true);
         const value = vrmlFactory(parameterType, initializer, true);
-
         const parameter = new Parameter(this, parameterName, parameterType, defaultValue, value, restrictions,
           isTemplateRegenerator);
+
+        if (parameterType === VRML.SFNode && parameter.value.value !== null) {
+          console.log('>>> setting parentField of node', parameter.value.value.name, 'to', parameter.name)
+          parameter.value.value.parentField = parameter;
+        } else if (parameterType === VRML.MFNode) {
+          for (const item of parameter.value.value) {
+            if (item instanceof Node) {
+              console.log('>>> setting parentField of node', item, 'to', parameter.name);
+              item.parentField = parameter;
+            }
+          }
+        }
         this.parameters.set(parameterName, parameter);
       }
 
@@ -73,6 +84,18 @@ export default class Node {
       const value = vrmlFactory(type, this.model[fieldName]['defaultValue'], false);
       const defaultValue = vrmlFactory(type, this.model[fieldName]['defaultValue'], false);
       const field = new Field(this, fieldName, type, defaultValue, value);
+
+      if (type === VRML.SFNode && field.value.value !== null) {
+        console.log('>>> setting parentField of node', field.value.value.name, 'to', field.name);
+        field.value.value.parentField = field;
+      } else if (type === VRML.MFNode) {
+        for (const item of field.value.value) {
+          if (item instanceof Node) {
+            console.log('>>> setting parentField of node', item, 'to', field.name);
+            item.parentField = field;
+          }
+        }
+      }
       this.fields.set(fieldName, field);
     }
   }

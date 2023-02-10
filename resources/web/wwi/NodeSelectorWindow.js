@@ -1,3 +1,4 @@
+import WbWorld from './nodes/WbWorld.js';
 import {FieldModel} from './protoVisualizer/FieldModel.js';
 import Parameter from './protoVisualizer/Parameter.js';
 import { VRML } from './protoVisualizer/vrml_type.js';
@@ -321,6 +322,9 @@ export default class NodeSelectorWindow {
     const fieldName = p.name;
     const parentNode = p.node;
 
+    const isInBoundingObject = this.isInBoundingObject(fieldName, parentNode);
+    console.log('is', fieldName, 'in BO?', isInBoundingObject)
+
     if (fieldName === 'appearance')
       baseType = ['Appearance', 'PBRAppearance'];
     else if (fieldName === 'geometry') {
@@ -329,8 +333,13 @@ export default class NodeSelectorWindow {
     } else if (fieldName === 'endPoint' && parentNode.name === 'Slot')
       baseType = ['Slot'];
     else if (fieldName === 'endPoint' || fieldName === 'children') {
-      baseType = ['Group', 'Transform', 'Shape', 'CadShape', 'Solid', 'Robot', 'PointLight', 'SpotLight', 'Propeller',
-        'Charger'];
+      if (fieldName === 'children' && isInBoundingObject) {
+        baseType = ['Box', 'Capsule', 'Cylinder', 'ElevationGrid', 'IndexedFaceSet', 'Mesh', 'Plane', 'Shape',
+          'Sphere', 'Transform'];
+      } else {
+        baseType = ['Group', 'Transform', 'Shape', 'CadShape', 'Solid', 'Robot', 'PointLight', 'SpotLight', 'Propeller',
+          'Charger'];
+      }
     } else if (['baseColorMap', 'roughnessMap', 'metalnessMap', 'normalMap', 'occlusionMap',
       'emissiveColorMap'].includes(fieldName))
       baseType = ['ImageTexture'];
@@ -341,6 +350,8 @@ export default class NodeSelectorWindow {
         'Sphere', 'Transform'];
     } else if (fieldName === 'physics')
       baseType = ['Physics'];
+    else if(fieldName === 'immersionProperties')
+      baseType = ['ImmersionProperties'];
 
     return baseType;
   }
@@ -378,6 +389,22 @@ export default class NodeSelectorWindow {
 
   isRobotDescendant() {
     return this.#rootProto.getBaseNode().name === 'Robot';
+  }
+
+  isInBoundingObject(fieldName, parentNode) {
+    if (fieldName === 'boundingObject')
+      return true;
+
+    let n = parentNode;
+    while (typeof n !== 'undefined' && typeof n.parentField !== 'undefined') {
+      if (n.parentField.name === 'boundingObject')
+        return true;
+
+      const f = n.parentField;
+      n = f.node;
+    }
+
+    return false;
   }
 
   hide() {
