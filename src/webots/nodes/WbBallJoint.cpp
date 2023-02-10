@@ -629,32 +629,26 @@ void WbBallJoint::prePhysicsStep(double ms) {
 
 void WbBallJoint::postPhysicsStep() {
   assert(mJoint);
-  const WbMotor *const m1 = motor();
-  if (m1 && m1->isPIDPositionControl())
-    // if controlling in position we update position using directly the angle feedback
-    mPosition = WbMathsUtilities::normalizeAngle(-dJointGetAMotorAngle(mControlMotor, 0) + mOdePositionOffset, mPosition);
-  else
-    // if not controlling in position we use the angle rate feedback to update position (because at high speed angle feedback is
-    // under-estimated)
-    mPosition -= dJointGetAMotorAngle(mControlMotor, 0) * mTimeStep / 1000.0;
+  // First update the position roughly based on the angular rate of the joint so that it is within pi radians...
+  mPosition -= dJointGetAMotorAngleRate(mControlMotor, 0) * mTimeStep / 1000.0;
+  // ...then refine the update to correspond to the actual measured angle (which is normalized to [-pi,pi])
+  mPosition = WbMathsUtilities::normalizeAngle(-dJointGetAMotorAngle(mControlMotor, 0) + mOdePositionOffset, mPosition);
   WbJointParameters *const p = parameters();
   if (p)
     p->setPositionFromOde(mPosition);
 
-  const WbMotor *const m2 = motor2();
-  if (m2 && m2->isPIDPositionControl())
-    mPosition2 = WbMathsUtilities::normalizeAngle(-dJointGetAMotorAngle(mControlMotor, 1) + mOdePositionOffset2, mPosition2);
-  else
-    mPosition2 -= dJointGetAMotorAngle(mControlMotor, 1) * mTimeStep / 1000.0;
+  // First update the position roughly based on the angular rate of the joint so that it is within pi radians...
+  mPosition2 -= dJointGetAMotorAngleRate(mControlMotor, 1) * mTimeStep / 1000.0;
+  // ...then refine the update to correspond to the actual measured angle (which is normalized to [-pi,pi])
+  mPosition2 = WbMathsUtilities::normalizeAngle(-dJointGetAMotorAngle(mControlMotor, 1) + mOdePositionOffset2, mPosition2);
   WbJointParameters *const p2 = parameters2();
   if (p2)
     p2->setPositionFromOde(mPosition2);
 
-  const WbMotor *const m3 = motor3();
-  if (m3 && m3->isPIDPositionControl())
-    mPosition3 = WbMathsUtilities::normalizeAngle(-dJointGetAMotorAngle(mControlMotor, 2) + mOdePositionOffset3, mPosition3);
-  else
-    mPosition3 -= dJointGetAMotorAngle(mControlMotor, 2) * mTimeStep / 1000.0;
+  // First update the position roughly based on the angular rate of the joint so that it is within pi radians...
+  mPosition3 -= dJointGetAMotorAngleRate(mControlMotor, 2) * mTimeStep / 1000.0;
+  // ...then refine the update to correspond to the actual measured angle (which is normalized to [-pi,pi])
+  mPosition3 = WbMathsUtilities::normalizeAngle(-dJointGetAMotorAngle(mControlMotor, 2) + mOdePositionOffset3, mPosition3);
   WbJointParameters *const p3 = parameters3();
   if (p3)
     p3->setPositionFromOde(mPosition3);

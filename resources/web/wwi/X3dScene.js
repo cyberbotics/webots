@@ -136,7 +136,8 @@ export default class X3dScene {
 
   #deleteObject(id) {
     const object = WbWorld.instance.nodes.get('n' + id);
-    object.delete();
+    if (typeof object !== 'undefined')
+      object.delete();
 
     WbWorld.instance.robots.forEach((robot, i) => {
       if (robot.id === 'n' + id)
@@ -182,9 +183,12 @@ export default class X3dScene {
     parser.prefix = webots.currentView.prefix;
     await parser.parse(x3dObject, this.renderer, false, parentNode, callback);
 
-    console.log(x3dObject, 'rootNodeId', parser.rootNodeId, parentNode.id)
+    console.log(x3dObject, 'rootNodeId', parser.rootNodeId, parentNode.id);
 
     const node = WbWorld.instance.nodes.get(parser.rootNodeId);
+    if (typeof node === 'undefined')
+      return; // can happen for nodes that have no webotsjs counterpart, like Physics
+
     if (parentNode instanceof WbPbrAppearance) { // TODO: add "hasShapeAncestor"
       const p = WbWorld.instance.nodes.get(parentNode.parent);
       p.unfinalize();
