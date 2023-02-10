@@ -122,6 +122,7 @@ void WbBuildEditor::updateBuildButtons() {
 // find the directory just above the compilationDirectories list
 const QDir WbBuildEditor::compileDir() const {
   static QStringList compilationDirectories;
+  // cppcheck-suppress knownConditionTrueFalse
   if (compilationDirectories.size() == 0) {
     compilationDirectories << "controllers";
     compilationDirectories << "libraries";
