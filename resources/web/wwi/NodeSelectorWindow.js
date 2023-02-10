@@ -117,7 +117,7 @@ export default class NodeSelectorWindow {
       if (typeof this.selection === 'undefined')
         return;
 
-      this.insertNode(this.selection.innerText);
+      this.insertNode(this.selection.innerText, this.selection.baseNode ? this.baseNodes : this.protoNodes);
     };
 
     const cancelButton = document.createElement('button');
@@ -153,7 +153,7 @@ export default class NodeSelectorWindow {
     return fetch('https://' + url + '/ajax/proto/insertable.php', {method: 'post', body: JSON.stringify(content)})
       .then(result => result.json())
       .then(json => {
-        this.nodes = new Map();
+        this.protoNodes = new Map();
         for (const proto of json) {
           let url = proto.url;
           url = url.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
@@ -164,13 +164,14 @@ export default class NodeSelectorWindow {
             description = description.replaceAll('\\n', '<br>');
           const protoInfo = new ProtoInfo(url, baseType, license, description);
           const protoName = url.split('/').pop().replace('.proto', '');
-          this.nodes.set(protoName, protoInfo);
+          this.protoNodes.set(protoName, protoInfo);
         }
 
         // add base nodes
+        this.baseNodes = new Map();
         for (const baseType of content.base_types) {
           if (Object.keys(FieldModel).includes(baseType))
-            this.nodes.set(baseType, new ProtoInfo(baseType, baseType));
+            this.baseNodes.set(baseType, new ProtoInfo(baseType, baseType)); // TODO: fix this
         }
       });
   }
@@ -182,8 +183,8 @@ export default class NodeSelectorWindow {
     const nodeList = document.getElementById('node-list');
     nodeList.innerHTML = '';
 
-    const compatibleNodes = [];
-    for (const [name, info] of this.nodes) {
+    const compatibleBaseNodes = [];
+    for (const [name, info] of this.baseNodes) {
       // filter nodes based on restrictions
       if (!this.doFieldRestrictionsAllowNode(name))
         continue;
@@ -192,43 +193,73 @@ export default class NodeSelectorWindow {
       if (!info.url.toLowerCase().includes(filterInput.value) && !info.baseType.toLowerCase().includes(filterInput.value))
         continue;
 
-      compatibleNodes.push(name);
+      compatibleBaseNodes.push(name);
     }
 
-    compatibleNodes.sort();
+    compatibleBaseNodes.sort();
 
-    const ol = document.createElement('ol');
-    for (const name of compatibleNodes) {
+    const compatibleProtoNodes = [];
+    for (const [name, info] of this.protoNodes) {
+      // filter nodes based on restrictions
+      if (!this.doFieldRestrictionsAllowNode(name))
+        continue;
+
+      // don't display PROTO nodes which have been filtered-out by the user's "filter" widget
+      if (!info.url.toLowerCase().includes(filterInput.value) && !info.baseType.toLowerCase().includes(filterInput.value))
+        continue;
+
+      compatibleProtoNodes.push(name);
+    }
+
+    compatibleProtoNodes.sort();
+
+    const olb = document.createElement('ol');
+    for (const name of compatibleBaseNodes) {
+      const item = this.#createNodeButton(name, true);
+      olb.appendChild(item);
+    }
+
+    nodeList.appendChild(olb);
+
+    if (compatibleBaseNodes.length > 0) {
+      const hr = document.createElement('hr');
+      hr.style.width = '100%';
+      nodeList.appendChild(hr);
+    }
+
+    const olp = document.createElement('ol');
+    for (const name of compatibleProtoNodes) {
       const item = this.#createNodeButton(name);
-      ol.appendChild(item);
+      olp.appendChild(item);
     }
 
-    nodeList.appendChild(ol);
+    nodeList.appendChild(olp);
 
     // select first item by default, if any
-    if (ol.children.length === 0) {
-      if (typeof this.selection !== 'undefined')
-        this.selection.style.backgroundColor = '';
-      this.selection = undefined;
-    } else {
-      if (this.parameter.value.value === null || !compatibleNodes.includes(this.parameter.value.value.name))
-        this.selection = ol.children[0]; // select the first item if the parameter doesn't currently contain anything
-      else
-        this.selection = ol.children[compatibleNodes.indexOf(this.parameter.value.value.name)];
-
-      this.selection.style.backgroundColor = '#007acc';
-    }
+    // TODO: restore
+    //if (ol.children.length === 0) {
+    //  if (typeof this.selection !== 'undefined')
+    //    this.selection.style.backgroundColor = '';
+    //  this.selection = undefined;
+    //} else {
+    //  if (this.parameter.value.value === null || !compatibleNodes.includes(this.parameter.value.value.name))
+    //    this.selection = ol.children[0]; // select the first item if the parameter doesn't currently contain anything
+    //  else
+    //    this.selection = ol.children[compatibleNodes.indexOf(this.parameter.value.value.name)];
+    //
+    //  this.selection.style.backgroundColor = '#007acc';
+    //}
 
     // populate node info
     this.populateNodeInfo(this.selection?.innerText);
   }
 
-  #createNodeButton(name) {
+  #createNodeButton(name, baseNode = false) {
     const item = document.createElement('li');
     const button = document.createElement('button');
     button.style.width = '100%';
     button.style.textAlign = 'left';
-    button.innerText = name;
+    button.innerHTML = baseNode ? name.italics() : name;
     item.appendChild(button);
 
     button.onclick = (item) => {
@@ -236,17 +267,18 @@ export default class NodeSelectorWindow {
         this.selection.style.backgroundColor = '';
 
       this.selection = item.target;
+      this.selection.baseNode = baseNode;
       this.selection.style.backgroundColor = '#007acc';
 
-      this.populateNodeInfo(this.selection.innerText);
+      this.populateNodeInfo(this.selection.innerText, baseNode ? this.baseNodes : this.protoNodes);
     };
 
-    button.ondblclick = async(item) => this.insertNode(item.target.innerText);
+    button.ondblclick = async(item) => this.insertNode(item.target.innerText, baseNode ? this.baseNodes : this.protoNodes);
 
     return item;
   }
 
-  populateNodeInfo(protoName) {
+  populateNodeInfo(protoName, list) {
     const nodeImage = document.getElementById('node-image');
     const line = document.getElementById('line');
     const description = document.getElementById('node-description');
@@ -266,7 +298,7 @@ export default class NodeSelectorWindow {
       license.style.display = 'block';
       warning.style.display = 'none';
 
-      const info = this.nodes.get(protoName);
+      const info = list.get(protoName);
       const url = info.url;
       nodeImage.src = url.slice(0, url.lastIndexOf('/') + 1) + 'icons/' + protoName + '.png';
       nodeImage.onerror = () => {
@@ -279,11 +311,11 @@ export default class NodeSelectorWindow {
     }
   }
 
-  insertNode(protoName) {
-    if (typeof protoName === 'undefined')
+  insertNode(nodeName, list) {
+    if (typeof nodeName === 'undefined')
       throw new Error('It should not be possible to insert an undefined node.');
 
-    const info = this.nodes.get(protoName);
+    const info = list.get(nodeName);
     if (this.parameter.type === VRML.SFNode)
       this.callback(this.parameter, info.url);
     else
@@ -323,7 +355,6 @@ export default class NodeSelectorWindow {
     const parentNode = p.node;
 
     const isInBoundingObject = this.isInBoundingObject(fieldName, parentNode);
-    console.log('is', fieldName, 'in BO?', isInBoundingObject)
 
     if (fieldName === 'appearance')
       baseType = ['Appearance', 'PBRAppearance'];

@@ -5,15 +5,11 @@ PROTO TestProto [
   field SFNode boundingObject NULL
   field SFNode physics NULL
   field MFNode immersionProperties []
+  field MFNode children []
 ]
 {
   Solid {
-    children [
-      Shape {
-        appearance IS appearance
-        geometry Box {}
-      }
-    ]
+    children IS children
     boundingObject IS boundingObject
     immersionProperties IS immersionProperties
     physics IS physics
