@@ -27,6 +27,7 @@ class QPushButton;
 
 class WbInsertExternProtoDialog : public QDialog {
   Q_OBJECT
+
 public:
   explicit WbInsertExternProtoDialog(QWidget *parent = NULL);
   virtual ~WbInsertExternProtoDialog();
@@ -39,12 +40,11 @@ private slots:
   void updateSelection();
 
 private:
-  bool mRetrievalTriggered;
   QTreeWidget *mTree;
   QLineEdit *mSearchBar;
   QPushButton *mInsertButton;
   QPushButton *mCancelButton;
-
+  bool mRetrievalTriggered;
   QString mProto;
   QString mPath;
 };
