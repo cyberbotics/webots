@@ -244,7 +244,8 @@ void WbCamera::initializeImageMemoryMappedFile() {
   if (mImageMemoryMappedFile) {
     // initialize the memory mapped file with a black image
     int *im = reinterpret_cast<int *>(image());
-    for (int i = 0; i < width() * height(); i++)
+    const int cameraSize = width() * height();
+    for (int i = 0; i < cameraSize; i++)
       im[i] = 0xFF000000;
   }
 }
@@ -258,7 +259,8 @@ void WbCamera::initializeSegmentationMemoryMappedFile() {
     unsigned char *data = static_cast<unsigned char *>(mSegmentationMemoryMappedFile->data());
     // initialize the memory mapped file with a black image
     int *im = reinterpret_cast<int *>(data);
-    for (int i = 0; i < width() * height(); i++)
+    const int cameraSize = width() * height();
+    for (int i = 0; i < cameraSize; i++)
       im[i] = 0xFF000000;
   }
 }

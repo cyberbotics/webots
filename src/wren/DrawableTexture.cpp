@@ -27,7 +27,8 @@
 namespace wren {
 
   void DrawableTexture::clear() {
-    for (int i = 0; i < width() * height(); ++i)
+    const int size = width() * height();
+    for (int i = 0; i < size; ++i)
       mData[i] = mClearColor;
 
     mDirty = true;
