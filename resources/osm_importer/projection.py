@@ -49,8 +49,7 @@ class Projection(object):
         """Return a projected coordinate."""
         if Projection.projection is None:
             sys.stderr.write("Warning: Projection.project() called before Projection.initProjection()\n")
-        x, z = Projection.projection(long, lat)
-        return (-z, x)
+        return Projection.projection(long, lat)
 
     @staticmethod
     def initProjection(long0, lat0, projection):
