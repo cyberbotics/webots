@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/k-team/khepera3/protos/Khepera3_Gripper.proto
 # Physics-based model of the Khepera III gripper (K-Team Corp.)
 
 PROTO Khepera3_Gripper [

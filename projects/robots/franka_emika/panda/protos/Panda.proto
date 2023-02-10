@@ -1,7 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/doc-add-robots/projects/robots/franka_emika/panda/protos/Panda.proto
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/franka_emika/panda/protos/Panda.proto
 # This is a proto file for Franka Emika's Panda arm.
 # The PROTO has been generated from the officially provided xacro description of the robot, available at https://github.com/frankaemika/franka_ros.
 # template language: javascript
