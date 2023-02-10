@@ -1158,7 +1158,7 @@ void WbRobot::writeAnswer(WbDataStream &stream) {
     }
     if (mMonitoredUserInputEventTypes & WB_EVENT_KEYBOARD) {
       if (mKeyboardHasChanged)
-        userInputEvents = userInputEvents | WB_EVENT_KEYBOARD;
+        userInputEvents |= WB_EVENT_KEYBOARD;
       disconnect(this, &WbRobot::keyboardChanged, this, &WbRobot::userInputEventNeedUpdate);
     }
     if (mJoystickInterface &&

@@ -38,7 +38,7 @@ WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : mRetriev
   mSearchBar = new QLineEdit(this);
   mSearchBar->setClearButtonEnabled(true);
 
-  mTree = new QTreeWidget();
+  mTree = new QTreeWidget(this);
   mTree->setHeaderHidden(true);
   connect(mTree, &QTreeWidget::doubleClicked, this, &WbInsertExternProtoDialog::accept);
 

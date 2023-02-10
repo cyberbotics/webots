@@ -42,7 +42,6 @@ private:
   bool mRetrievalTriggered;
   QTreeWidget *mTree;
   QLineEdit *mSearchBar;
-
   QPushButton *mInsertButton;
   QPushButton *mCancelButton;
 

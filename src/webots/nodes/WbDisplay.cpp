@@ -1031,6 +1031,7 @@ void WbDisplay::imageLoad(int id, int w, int h, void *data, int format) {
   } else
     assert(0);
 
+  // cppcheck-suppress memleak
   mImages.push_back(new WbDisplayImage(id, w, h, clippedImage, isTransparent));
 }
 
