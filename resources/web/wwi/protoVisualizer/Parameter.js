@@ -78,14 +78,16 @@ export default class Parameter extends Field {
 
     this.value.insertNode(v, index);
 
-    // insert the new node on the webotsjs side
-    for (const id of this.node.getBaseNodeIds()) {
-      v.assignId();
-      const x3d = new XMLSerializer().serializeToString(v.toX3d());
-      view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', id.replace('n', ''));
-    }
+    for (const link of this.linksToNotify()) {
+      // insert the new node on the webotsjs side
+      for (const id of link.node.getBaseNodeIds()) {
+        v.assignId();
+        const x3d = new XMLSerializer().serializeToString(v.toX3d());
+        view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', id.replace('n', ''));
+      }
 
-    view.x3dScene.render();
+      view.x3dScene.render();
+    }
   }
 
   removeNode(view, index) {
