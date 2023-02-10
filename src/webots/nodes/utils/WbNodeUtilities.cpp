@@ -86,22 +86,23 @@ namespace {
   QList<WbNode *> getNodeChildrenAndBoundingForBackwardCompatibility(WbNode *node) {
     // Make a list of children to be rotated (children, TrackWheel children, bounding object with the group node ignored).
     QList<WbNode *> children = getNodeChildrenForBackwardCompatibility(node);
+    QList<WbNode *> newChildren;
     WbNode *boundingObject = static_cast<WbSolid *>(node)->boundingObject();
-    for (WbNode *child : children)
-      if (dynamic_cast<WbTrackWheel *>(child)) {
-        children += getNodeChildrenForBackwardCompatibility(child);
-        children.removeOne(child);
-      }
+    for (WbNode *child : children) {
+      if (dynamic_cast<WbTrackWheel *>(child))
+        newChildren += getNodeChildrenForBackwardCompatibility(child);
+    }
+
     if (!dynamic_cast<WbTransform *>(boundingObject) && !dynamic_cast<WbGeometry *>(boundingObject) &&
         !dynamic_cast<WbShape *>(boundingObject) && dynamic_cast<WbGroup *>(boundingObject))
-      children += boundingObject->subNodes(false, false);
+      newChildren += boundingObject->subNodes(false, false);
     else if (boundingObject)
-      children.append(boundingObject);
+      newChildren.append(boundingObject);
 
     // Insert the USE nodes in the beginning.
-    sortNodeListForBackwardCompatibility(children);
+    sortNodeListForBackwardCompatibility(newChildren);
 
-    return children;
+    return newChildren;
   }
 
   void sortNodeListForBackwardCompatibility(QList<WbNode *> &children) {
@@ -587,7 +588,7 @@ WbNode *WbNodeUtilities::findUpperNodeByType(const WbNode *node, int nodeType, i
   return NULL;
 }
 
-bool WbNodeUtilities::hasDescendantNodesOfType(const WbNode *node, QList<int> nodeTypes) {
+bool WbNodeUtilities::hasDescendantNodesOfType(const WbNode *node, const QList<int> &nodeTypes) {
   QList<WbNode *> subNodes = node->subNodes(true);
   if (subNodes.isEmpty())
     return false;

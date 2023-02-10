@@ -44,7 +44,6 @@ bool ZIP::AddFile(struct zip *archive, const QString &file, const QString &name)
 
 bool ZIP::AddFolder(struct zip *archive, const QString &folder, const QString &name, bool recursive) {
   QStringList fileList;
-  QStringList directoryList;
 
   // Add all files in this directory
   fileList = QDir(folder).entryList(QDir::Files);
@@ -57,7 +56,7 @@ bool ZIP::AddFolder(struct zip *archive, const QString &folder, const QString &n
 
   // Add all sub-directories
   if (recursive) {
-    directoryList = QDir(folder).entryList(QDir::AllDirs);
+    QStringList directoryList = QDir(folder).entryList(QDir::AllDirs);
     for (int i = 2; i < directoryList.size(); i++) {
       if ((directoryList.at(i) != ".") && (directoryList.at(i) != "..")) {
         if (!(AddFolder(archive, (folder + "/" + directoryList.at(i)), (name + "/" + directoryList.at(i))))) {

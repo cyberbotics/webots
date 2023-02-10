@@ -1292,6 +1292,8 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           trackedContactPoint.solid = solid;
           trackedContactPoint.solidId = nodeId;
           trackedContactPoint.includeDescendants = includeDescendants;
+          trackedContactPoint.samplingPeriod = 0;
+          trackedContactPoint.lastUpdate = 0;
           mTrackedContactPoints.append(trackedContactPoint);
           connect(solid, &WbSolid::destroyed, this, &WbSupervisorUtilities::removeTrackedContactPoints);
         } else {

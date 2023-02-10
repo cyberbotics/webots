@@ -266,8 +266,6 @@ bool WbWorld::saveAs(const QString &fileName) {
 
   mFileName = fileName;
   WbUrl::setWorldFileName(mFileName);
-  bool isValidProject = true;
-  const QString newProjectPath = WbProject::projectPathFromWorldFile(mFileName, isValidProject);
 
   mIsModified = false;
   mIsModifiedFromSceneTree = false;
