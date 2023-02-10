@@ -1032,7 +1032,6 @@ void WbDisplay::imageLoad(int id, int w, int h, void *data, int format) {
     assert(0);
 
   mImages.push_back(new WbDisplayImage(id, w, h, clippedImage, isTransparent));
-  delete[] clippedImage;
 }
 
 void WbDisplay::imageDelete(int id) {

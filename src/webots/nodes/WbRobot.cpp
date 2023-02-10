@@ -566,8 +566,8 @@ void WbRobot::restartController() {
   mControllerStarted = false;
   emit controllerChanged();
 
-  foreach (WbDevice *device, mDevices) {
-    WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(device);
+  foreach (WbDevice *deviceObject, mDevices) {
+    WbAbstractCamera *ac = dynamic_cast<WbAbstractCamera *>(deviceObject);
     if (ac)
       ac->resetMemoryMappedFile();  // memory mapped file is automatically deleted at new controller restart
   }
@@ -659,8 +659,8 @@ double WbRobot::energyUploadSpeed() const {
 
 double WbRobot::energyConsumption() const {
   double e = mCpuConsumption->value();
-  foreach (WbDevice *device, mDevices)  // add energy consumption for each device
-    e += device->energyConsumption();
+  foreach (WbDevice *deviceObject, mDevices)  // add energy consumption for each device
+    e += deviceObject->energyConsumption();
   return e;
 }
 
@@ -721,22 +721,22 @@ void WbRobot::keyPressed(int key, int modifiers) {
 }
 
 void WbRobot::keyReleased(int key) {
-  bool reset = true;
+  bool resetKey = true;
   QMutableListIterator<int> it(mPressedKeys);
   while (it.hasNext()) {
     int i = it.next();
     if ((i & 0xffff) == (gSpecialKeys.value(key) & 0xffff)) {
       // remove all sequences containing the released special key
       it.remove();
-      reset = false;
+      resetKey = false;
     } else if ((i & 0xffff) == (key & 0xffff)) {
       // remove all sequences containing the released key
       it.remove();
-      reset = false;
+      resetKey = false;
     }
   }
 
-  if (reset)
+  if (resetKey)
     mPressedKeys.clear();
 
   mKeyboardHasChanged = true;
@@ -837,11 +837,11 @@ void WbRobot::dispatchMessage(QDataStream &stream) {
 }
 
 void WbRobot::handleMessage(QDataStream &stream) {
-  QIODevice *const device = stream.device();
+  QIODevice *const deviceObject = stream.device();
 
   char byte;
   unsigned char pin;
-  device->getChar(&byte);
+  deviceObject->getChar(&byte);
 
   switch (byte) {
     case C_CONFIGURE:
@@ -1048,7 +1048,7 @@ void WbRobot::handleMessage(QDataStream &stream) {
     default:
       // if it was not catched, then this message is apparently for a subclass of WbRobot
       // we must rewind 1 byte so the Supervisor can read the command
-      device->ungetChar(byte);
+      deviceObject->ungetChar(byte);
   }
   if (mSupervisorUtilities)
     mSupervisorUtilities->handleMessage(stream);
@@ -1138,9 +1138,9 @@ void WbRobot::writeAnswer(WbDataStream &stream) {
     writeDeviceConfigure(mNewlyAddedDevices, stream);
     QListIterator<WbDevice *> it(mNewlyAddedDevices);
     while (it.hasNext()) {
-      WbDevice *device = it.next();
-      assert(device->hasTag());
-      device->writeConfigure(stream);
+      WbDevice *deviceObject = it.next();
+      assert(deviceObject->hasTag());
+      deviceObject->writeConfigure(stream);
     }
     mNewlyAddedDevices.clear();
   }
