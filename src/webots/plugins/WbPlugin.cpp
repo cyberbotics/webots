@@ -37,17 +37,17 @@ static HMODULE loadLibrary(const QString &library) {
   return h;
 }
 #define DLOPEN(a, b) loadLibrary(a)
-#define DLSYM GetProcAddress
+#define DLSYM(lib, name) static_cast<FARPROC>(GetProcAddress(lib, name))
 #else
 #include <dlfcn.h>
 
 #ifdef __linux__
 #define DLOPEN(a, b) dlopen(a.toUtf8(), b)
-#define DLSYM dlsym
+#define DLSYM(lib, name) dlsym(lib, name)
 
 #elif defined(__APPLE__)
 #define DLOPEN(a, b) dlopen(a.toUtf8(), b)
-#define DLSYM dlsym
+#define DLSYM(lib, name) dlsym(lib, name)
 #endif
 
 #endif
@@ -127,7 +127,8 @@ bool WbPlugin::load() {
   mFunctions = new void *[size];
   for (int i = 0; i < size; ++i) {
     const char *const fname = functionName(i);
-    mFunctions[i] = static_cast<void *>(DLSYM(mLib, fname + 1));
+    mFunctions[i] = reinterpret_cast<void *>(DLSYM(mLib, fname + 1));
+
     if (!mFunctions[i] && fname[0] == '!') {
       WbLog::warning(tr("Function %1() missing in '%2'.").arg(QString(fname + 1), mFilePath));
       WbLog::warning(tr("You need to implement this function to activate the '%1' plugin.").arg(mName));
