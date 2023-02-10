@@ -72,8 +72,8 @@ void WbIntSpinBox::paste() {
   // insert pasted text
   newText.insert(le->cursorPosition(), mClipboard->stringValue());
   // check if valid value
-  // cppcheck-suppress ignoredReturnValue
   bool ok;
+  // cppcheck-suppress ignoredReturnValue
   newText.toInt(&ok);
 
   if (ok)
