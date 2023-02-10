@@ -489,14 +489,17 @@ range = wb_lidar_get_layer_range_image(tag, layer)
 
 ##### Description
 
-*get the range image and range image associate with a specific layer*
+*get the range image and range image associated with a specific layer*
 
 The `wb_lidar_get_range_image` function allows the user to read the contents of the last range image grabbed by a lidar.
+It should not be called if the lidar was in point cloud mode during the most recent step.
 The range image is computed using the depth buffer produced by the OpenGL rendering.
 The range image is coded as an array of single precision floating point values corresponding to the range value of each pixel of the image.
 The precision of the lidar values decreases when the objects are located farther from the near clipping plane.
 Pixels are stored in scan lines running from left to right and from first to last layer.
 The memory chunk returned by this function shall not be freed, as it is managed by the lidar internally.
+The contents of the image are subject to change between a call to `wb_robot_step_begin` and the subsequent call to `wb_robot_step_end`.
+As a result, if you want to access the image during a step, you should copy it before the step begins and access the copy.
 The size in bytes of the range image can be computed as follows:
 
 ```
@@ -604,6 +607,7 @@ number_of_points = wb_lidar_get_number_of_points(tag)
 *get the points array, points array associate with a specific layer and total number of point*
 
 The `wb_lidar_get_point_cloud` function returns the pointer to the point cloud array, each point consists of a [`WbLidarPoint`](#wblidarpoint).
+It should not be called unless the lidar was in point cloud mode during the most recent step.
 The memory chunk returned by this function shall not be freed, as it is managed by the lidar internally.
 The size in bytes of the point cloud can be computed as follows:
 
@@ -612,6 +616,8 @@ size = lidar_number_of_points * sizeof(WbLidarPoint)
 ```
 
 Attempting to read outside the bounds of this memory chunk will cause an error.
+The contents of the point cloud are subject to change between a call to `wb_robot_step_begin` and the subsequent call to `wb_robot_step_end`.
+As a result, if you want to access the point cloud during a step, you should copy it before the step begins and access the copy.
 
 The `wb_lidar_get_layer_point_cloud` function is a convenient way of getting directly the sub point cloud associated with one layer.
 
