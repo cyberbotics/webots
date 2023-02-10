@@ -127,7 +127,7 @@ bool WbPlugin::load() {
   mFunctions = new void *[size];
   for (int i = 0; i < size; ++i) {
     const char *const fname = functionName(i);
-    mFunctions[i] = (void *)DLSYM(mLib, fname + 1);
+    mFunctions[i] = static_cast<void *>(DLSYM(mLib, fname + 1));
     if (!mFunctions[i] && fname[0] == '!') {
       WbLog::warning(tr("Function %1() missing in '%2'.").arg(QString(fname + 1), mFilePath));
       WbLog::warning(tr("You need to implement this function to activate the '%1' plugin.").arg(mName));
