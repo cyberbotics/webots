@@ -36,7 +36,9 @@ WbSceneTreeModel::~WbSceneTreeModel() {
 
 WbTreeItem *WbSceneTreeModel::createItemForNode(WbNode *node) {
   WbTreeItem *const item = new WbTreeItem(node);
-  connect(node, &WbNode::defUseNameChanged, this, &WbSceneTreeModel::updateItemAndChildren);
+
+  if (node)
+    connect(node, &WbNode::defUseNameChanged, this, &WbSceneTreeModel::updateItemAndChildren);
 
   // Solid, Device, Joint and JointParameters USE nodes are made expandable and turned into non-USE nodes during dictionary
   // update

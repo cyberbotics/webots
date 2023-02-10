@@ -532,6 +532,7 @@ enum WINDOWCOMPOSITIONATTRIB {
 };
 
 struct WINDOWCOMPOSITIONATTRIBDATA {
+  // cppcheck-suppress unusedStructMember
   WINDOWCOMPOSITIONATTRIB Attrib;
   PVOID pvData;
   SIZE_T cbData;

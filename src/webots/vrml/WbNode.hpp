@@ -380,7 +380,7 @@ private:
 
   // setup flags mechanism mechanism
   void setupDescendantAndNestedProtoFlags(bool isTopNode, bool isTopParameterDescendant, bool isInsertedFromSceneTree);
-  static void setupDescendantAndNestedProtoFlags(QVector<WbField *> fields, bool isTopParameterDescendant);
+  static void setupDescendantAndNestedProtoFlags(QVector<WbField *> fieldsList, bool isTopParameterDescendant);
 
   // for proto parameter node instances only
   WbNode *mProtoParameterNode;

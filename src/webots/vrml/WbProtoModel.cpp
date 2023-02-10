@@ -235,7 +235,6 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
       readBaseType = false;
 
       if (mDerived) {
-        QString protoInfo, baseNodeType;
         bool error = false;
         try {
           baseTypeList.append(mName);
