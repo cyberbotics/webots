@@ -241,7 +241,7 @@ void ConsoleEdit::addContextMenuFilterItem(const QString &name, QMenu *menu, con
   if (!toolTip.isEmpty())
     action->setToolTip(toolTip);
   if (isControllerAction)
-    action->setProperty("isControllerAction", true);
+    action->setProperty("isControllerAction", QVariant(true));
   action->setCheckable(true);
   action->setChecked(console->getEnabledFilters().contains(name));
   menu->addAction(action);
