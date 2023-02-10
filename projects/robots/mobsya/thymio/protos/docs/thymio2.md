@@ -9,7 +9,7 @@ Finally several objects related to the Thymio II are available, including a pen 
 
 ### Thymio II Model
 
-The main characteristics of the Thymio II model in Webots is summed up in [this table](#thymio-ii-characteristics).
+The main characteristics of the Thymio II model in Webots is summed up in this table:
 
 %figure "Thymio II characteristics"
 
@@ -24,7 +24,7 @@ The main characteristics of the Thymio II model in Webots is summed up in [this 
 
 %end
 
-The following [table](#thymio-ii-devices) shows which devices are supported by the model, and their names (using the Webots terminology).
+The following table shows which devices are supported by the model, and their names (using the Webots terminology).
 
 %figure "Thymio II devices"
 
@@ -43,7 +43,7 @@ The following [table](#thymio-ii-devices) shows which devices are supported by t
 
 %end
 
-The Thymio II distance sensor feedback is given on [this figure](#proximity-sensor-response-versus-distance).
+The Thymio II distance sensor feedback is given on the following figure.
 The calibration was performed using a regular A4 white paper.
 
 %figure "Proximity sensor response versus distance"
