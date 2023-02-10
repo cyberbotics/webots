@@ -30,10 +30,7 @@ export default class WbPropeller extends WbGroup {
     if (id !== this.currentHelix || force) {
       this.currentHelix = id;
       this.children.forEach(child => {
-        if (child.id === this.currentHelix)
-          _wr_node_set_visible(child.wrenNode, true);
-        else
-          _wr_node_set_visible(child.wrenNode, false);
+        _wr_node_set_visible(child.wrenNode, child.id === this.currentHelix);
       });
     }
   }
