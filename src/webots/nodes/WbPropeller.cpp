@@ -368,7 +368,7 @@ void WbPropeller::write(WbWriter &writer) const {
     WbSolid *const fastHelix = helix(FAST_HELIX);
     WbSolid *const slowHelix = helix(SLOW_HELIX);
     if (writer.isX3d())
-      writer << "<Group type='propeller'>";
+      writer << "<Propeller>";
     else {
       writer << "Group {\n";
       writer.increaseIndent();
@@ -386,7 +386,7 @@ void WbPropeller::write(WbWriter &writer) const {
     }
     writer.writeMFEnd(!fastHelix && !slowHelix);
     if (writer.isX3d())
-      writer << "</Group>";
+      writer << "</Propeller>";
     else {
       writer << "\n";
       writer.decreaseIndent();
