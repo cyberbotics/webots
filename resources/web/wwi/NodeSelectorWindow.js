@@ -236,19 +236,27 @@ export default class NodeSelectorWindow {
     nodeList.appendChild(olp);
 
     // select first item by default, if any
-    // TODO: restore
-    //if (ol.children.length === 0) {
-    //  if (typeof this.selection !== 'undefined')
-    //    this.selection.style.backgroundColor = '';
-    //  this.selection = undefined;
-    //} else {
-    //  if (this.parameter.value.value === null || !compatibleNodes.includes(this.parameter.value.value.name))
-    //    this.selection = ol.children[0]; // select the first item if the parameter doesn't currently contain anything
-    //  else
-    //    this.selection = ol.children[compatibleNodes.indexOf(this.parameter.value.value.name)];
-    //
-    //  this.selection.style.backgroundColor = '#007acc';
-    //}
+    if (olb.children.length === 0 && olp.children.length === 0) {
+      if (typeof this.selection !== 'undefined')
+        this.selection.style.backgroundColor = '';
+      this.selection = undefined;
+    } else {
+      if (this.parameter.value.value === null) {
+        // select the first item if the parameter doesn't currently contain anything
+        if (olb.children.length > 0)
+          this.selection = olb.children[0];
+        else
+          this.selection = olp.children[0];
+      } else {
+        const index = compatibleBaseNodes.indexOf(this.parameter.value.value.name);
+        if (index !== -1)
+          this.selection = olb.children[index];
+        else
+          this.selection = olp.children[compatibleProtoNodes.indexOf(this.parameter.value.value.name)];
+      }
+
+      this.selection.style.backgroundColor = '#007acc';
+    }
 
     // populate node info
     this.populateNodeInfo(this.selection?.innerText);
@@ -267,25 +275,24 @@ export default class NodeSelectorWindow {
         this.selection.style.backgroundColor = '';
 
       this.selection = item.target;
-      this.selection.baseNode = baseNode;
       this.selection.style.backgroundColor = '#007acc';
 
-      this.populateNodeInfo(this.selection.innerText, baseNode ? this.baseNodes : this.protoNodes);
+      this.populateNodeInfo(this.selection.innerText);
     };
 
-    button.ondblclick = async(item) => this.insertNode(item.target.innerText, baseNode ? this.baseNodes : this.protoNodes);
+    button.ondblclick = async(item) => this.insertNode(item.target.innerText);
 
     return item;
   }
 
-  populateNodeInfo(protoName, list) {
+  populateNodeInfo(nodeName) {
     const nodeImage = document.getElementById('node-image');
     const line = document.getElementById('line');
     const description = document.getElementById('node-description');
     const license = document.getElementById('node-license');
     const warning = document.getElementById('node-warning');
 
-    if (typeof protoName === 'undefined') {
+    if (typeof nodeName === 'undefined') {
       nodeImage.style.display = 'none';
       line.style.display = 'none';
       description.style.display = 'none';
@@ -298,9 +305,9 @@ export default class NodeSelectorWindow {
       license.style.display = 'block';
       warning.style.display = 'none';
 
-      const info = list.get(protoName);
+      const info = this.baseNodes.has(nodeName) ? this.baseNodes.get(nodeName) : this.protoNodes.get(nodeName);
       const url = info.url;
-      nodeImage.src = url.slice(0, url.lastIndexOf('/') + 1) + 'icons/' + protoName + '.png';
+      nodeImage.src = url.slice(0, url.lastIndexOf('/') + 1) + 'icons/' + nodeName + '.png';
       nodeImage.onerror = () => {
         nodeImage.onerror = undefined;
         nodeImage.src = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023a/resources/images/missing_proto_icon.png';
@@ -311,11 +318,11 @@ export default class NodeSelectorWindow {
     }
   }
 
-  insertNode(nodeName, list) {
+  insertNode(nodeName) {
     if (typeof nodeName === 'undefined')
       throw new Error('It should not be possible to insert an undefined node.');
 
-    const info = list.get(nodeName);
+    const info = this.baseNodes.has(nodeName) ? this.baseNodes.get(nodeName) : this.protoNodes.get(nodeName);
     if (this.parameter.type === VRML.SFNode)
       this.callback(this.parameter, info.url);
     else
