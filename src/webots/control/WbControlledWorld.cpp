@@ -490,7 +490,7 @@ bool WbControlledWorld::controllerInNoList(WbController *controller) {
            mTerminatingControllers.count(controller) + mDisconnectedExternControllers.count(controller) ==
          0;
 }
-bool WbControlledWorld::showControllersLists(const QString &message) {
+bool WbControlledWorld::showControllersLists(const QString &message) const {
   /*
   QString output;
   if (mControllers.count())

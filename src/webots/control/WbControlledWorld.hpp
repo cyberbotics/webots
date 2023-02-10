@@ -60,7 +60,7 @@ private:
 #ifndef NDEBUG  // debug methods
   bool controllerInOnlyOneList(WbController *controller);
   bool controllerInNoList(WbController *controller);
-  bool showControllersLists(const QString &message);
+  bool showControllersLists(const QString &message) const;
 #endif
 
   QList<WbController *> mControllers;         // currently running controllers (both intern and extern)
