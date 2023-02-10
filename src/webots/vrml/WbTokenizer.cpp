@@ -79,7 +79,7 @@ WbToken *WbTokenizer::lastToken() const {
 }
 
 const QString &WbTokenizer::lastWord() const {
-  static QString emptyWord;
+  static QString emptyWord = QString();
   if (lastToken())
     return lastToken()->word();
   else

@@ -830,7 +830,7 @@ int WbNode::findSubFieldIndex(const WbField *const searched) const {
   QList<WbNode *> list(subNodes(true, true, false));
   list.prepend(const_cast<WbNode *>(this));
   foreach (WbNode *const node, list) {
-    foreach (WbField *const f, node->mFields) {
+    foreach (const WbField *const f, node->mFields) {
       if (f == searched)
         return count;
       ++count;
@@ -1754,6 +1754,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
   if (!newNode) {
     gProtoParameterNodeFlag = previousFlag;
     delete gProtoParameterList.takeLast();
+    delete p;
     return NULL;
   }
   proto->ref(true);

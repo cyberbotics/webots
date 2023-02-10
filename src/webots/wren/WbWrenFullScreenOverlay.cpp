@@ -115,7 +115,7 @@ void WbWrenFullScreenOverlay::adjustSize() {
   wr_overlay_set_border_size(mOverlay, (1.0f - overlayWidth) / 2.0f, (1.0f - overlayHeight) / 2.0f);
 }
 
-void WbWrenFullScreenOverlay::setupTexture(QString text, int fontSize) {
+void WbWrenFullScreenOverlay::setupTexture(const QString &text, int fontSize) {
   // Prepare font
   WrFont *font = wr_font_new();
   wr_font_set_face(font, (WbStandardPaths::fontsPath() + "Ariali.ttf").toUtf8().constData());
