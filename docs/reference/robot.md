@@ -265,6 +265,8 @@ You can simply call them before `wb_robot_step_begin` or after `wb_robot_step_en
 However, some of these functions can be called between `wb_robot_step_begin` and `wb_robot_step_end` if you enable the supervisor tracking feature.
 `wb_supervisor_field_enable_sf_tracking`, `wb_supervisor_node_enable_pose_tracking` and `wb_supervisor_node_enable_contact_points_tracking` force Webots to continuously stream the requested information to the controller.
 By enabling the tracking, the corresponding supervisor functions can be called between `wb_robot_step_begin` and `wb_robot_step_end`, because their value will be queried to Webots during `wb_robot_step_begin` and received during `wb_robot_step_end`.
+Also, note that the data returned by the following functions are subject to change between a call to `wb_robot_step_begin` and the subsequent call to `wb_robot_step_end`: `wb_camera_get_image`, `wb_camera_recognition_get_segmentation_image`, `wb_lidar_get_range_image`, `wb_lidar_get_layer_range_image`, `wb_lidar_get_point_cloud`, `wb_lidar_get_layer_point_cloud`, and `wb_range_finder_get_range_image`.
+As a result, if you want to access that data during a step, you should copy it before the step begins and access the copy.
 
 The C API has two additional functions: `wb_robot_init` and `wb_robot_cleanup`.
 There is no equivalent of the `wb_robot_init` and `wb_robot_cleanup` functions in the Java, Python, C++ and MATLAB APIs.
