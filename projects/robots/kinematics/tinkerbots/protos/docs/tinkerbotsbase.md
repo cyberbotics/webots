@@ -1,7 +1,6 @@
 Tinkerbots is a robotics kit consisting of a basic brick on which various sensors, actuators and structural blocks can be connected.
 This kit is based on an Arduino system and can be programmed using the Arduino IDE.
 It is also compatible with the Lego system.
-More information on the [official website](https://www.tinkerbots.com/).
 
 In Webots, all the Tinkerbots bricks have been modeled.
 It is possible to assemble them in the same way as in reality thanks to the powerful system of "slots".
