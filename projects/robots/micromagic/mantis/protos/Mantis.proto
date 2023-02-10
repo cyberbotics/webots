@@ -1,12 +1,12 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/doc-add-robots/projects/robots/micromagic/mantis/protos/Mantis.proto
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/micromagic/mantis/protos/Mantis.proto
 # The Mantis robot is an hydraulic powered hexapod walking machine developed in 2009 by Matt Denton.
 # A human can drive this robot.
 
 PROTO Mantis [
-  field SFVec3f    translation     0 0 0       # Is `Transform.translation`.
+  field SFVec3f    translation     0 0 0.68    # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.
   field SFString   name            "Mantis"    # Is `Solid.name`.
   field SFString   controller      "mantis"    # Is `Robot.controller`.
