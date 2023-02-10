@@ -58,8 +58,8 @@ private:
   void updateRobotController(WbRobot *robot);
 
 #ifndef NDEBUG  // debug methods
-  bool controllerInOnlyOneList(WbController *controller);
-  bool controllerInNoList(WbController *controller);
+  bool controllerInOnlyOneList(WbController *controller) const;
+  bool controllerInNoList(WbController *controller) const;
   bool showControllersLists(const QString &message) const;
 #endif
 

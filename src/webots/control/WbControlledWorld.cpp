@@ -470,12 +470,12 @@ void WbControlledWorld::waitForRobotWindowIfNeededAndCompleteStep() {
 }
 
 #ifndef NDEBUG
-bool WbControlledWorld::controllerInOnlyOneList(WbController *controller) {
+bool WbControlledWorld::controllerInOnlyOneList(WbController *controller) const {
   return mControllers.count(controller) + mNewControllers.count(controller) + mWaitingControllers.count(controller) +
            mTerminatingControllers.count(controller) + mDisconnectedExternControllers.count(controller) ==
          1;
 }
-bool WbControlledWorld::controllerInNoList(WbController *controller) {
+bool WbControlledWorld::controllerInNoList(WbController *controller) const {
   if (mControllers.contains(controller))
     qDebug() << "in mControllers";
   if (mNewControllers.contains(controller))
