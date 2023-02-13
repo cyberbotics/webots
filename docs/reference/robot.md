@@ -251,7 +251,7 @@ It means that the step actually lasted the requested number of milliseconds, but
 It means that the requested step duration could not be respected.
 
 When using `wb_robot_step`, the controller code is executed sequentially with the Webots simulation step, i.e., not in parallel.
-This is due to the fact that a typical controller reads sensor information, makes some computation, orders motor commands and calls `wb_robot_step` which actually sends the motor commands and sensors requests and waits until Webots completes a simulation step, which may take some time depending on the complexity of the simulation.
+This is due to the fact that a typical controller reads sensor information, makes some computation, orders motor commands and calls `wb_robot_step` which actually sends the motor commands and sensor requests and waits until Webots completes a simulation step, which may take some time depending on the complexity of the simulation.
 During this time, the controller is idle, waiting for Webots to complete its simulation step.
 On the other hand, prior to starting a new step, Webots waits for all the controllers to send their `wb_robot_step` messages which may induce some idle waiting time in Webots if a controller doesn't send quickly enough its `wb_robot_step` message because it is busy with some computation.
 If the two computational processes (Webots and controller) are slow, it may be interesting to parallelize them.
@@ -263,7 +263,7 @@ This includes some [Supervisor API](supervisor.md) functions, like `wb_superviso
 Webots will warn you in case you call one of these functions between `wb_robot_step_begin` and `wb_robot_step_end`.
 You can simply call them before `wb_robot_step_begin` or after `wb_robot_step_end`.
 However, some of these functions can be called between `wb_robot_step_begin` and `wb_robot_step_end` if you enable the supervisor tracking feature.
-`wb_supervisor_field_enable_sf_tracking`, `wb_supervisor_node_enable_pose_tracking` and `wb_supervisor_node_enable_contact_point_tracking` force Webots to continuously stream the requested information to the controller.
+`wb_supervisor_field_enable_sf_tracking`, `wb_supervisor_node_enable_pose_tracking` and `wb_supervisor_node_enable_contact_points_tracking` force Webots to continuously stream the requested information to the controller.
 By enabling the tracking, the corresponding supervisor functions can be called between `wb_robot_step_begin` and `wb_robot_step_end`, because their value will be queried to Webots during `wb_robot_step_begin` and received during `wb_robot_step_end`.
 Also, note that the data returned by the following functions are subject to change between a call to `wb_robot_step_begin` and the subsequent call to `wb_robot_step_end`: `wb_camera_get_image`, `wb_camera_recognition_get_segmentation_image`, `wb_lidar_get_range_image`, `wb_lidar_get_layer_range_image`, `wb_lidar_get_point_cloud`, `wb_lidar_get_layer_point_cloud`, and `wb_range_finder_get_range_image`.
 As a result, if you want to access that data during a step, you should copy it before the step begins and access the copy.

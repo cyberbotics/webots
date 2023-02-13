@@ -1,17 +1,17 @@
 #VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# Tractor Front Wheel
+# Tractor front wheel.
 # template language: javascript
 
 PROTO TractorFrontWheel [
-  field SFString name           "tractor front wheel"
-  field SFFloat  tireRadius     0.38
-  field SFFloat  width          0.19
-  field SFInt32  subdivision    24
-  field SFBool   wheelSide      FALSE
-  field SFNode   physics        Physics { density -1 mass 30 }
-  field SFBool   boundingObject TRUE
+  field SFString name           "tractor front wheel"           # Identifies the wheel.
+  field SFFloat  tireRadius     0.38                            # Defines the outer radius of the wheel.
+  field SFFloat  width          0.19                            # Defines the thickness of the wheel.
+  field SFInt32  subdivision    24                              # Defines the number of subdivisions for the cylinder approximation.
+  field SFBool   wheelSide      FALSE                           # Defines whether the wheel is positioned on the right or on the left of the tractor.
+  field SFNode   physics        Physics { density -1 mass 30 }  # Physics node of the wheel defining all the physical characteristics.
+  field SFBool   boundingObject TRUE                            # Defines whether the wheel should have a bounding object.
 ]
 {
   Slot {

@@ -120,6 +120,7 @@ Moreover, the following attributes are available:
 * `showStep`: specify if the step button must be displayed on the toolbar. Must be called before connect. The step button is displayed by default.
 * `showTerminal`: specify if the terminal button must be displayed on the toolbar. Must be called before connect. The step button is displayed by default.
 * `showWorldSelection`: specify if the world selection button must be displayed on the toolbar. Must be called before connect. The world selection is displayed by default.
+* `openMainRobotWindow`: display the robot window defined in node `worldInfo` on simulation startup. Must be called before connect. The main window is not shown by default.
 
 The attributes of `webots-view` are only evaluated once: when the page is loaded. If the `data-server` attribute is set, the `webots-view` web-component will automatically connect to the `server`.
 

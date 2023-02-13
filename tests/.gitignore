@@ -5,3 +5,4 @@
 /webots_stdout.txt
 .*.cache
 /cppcheck_report.txt
+/slave.py
