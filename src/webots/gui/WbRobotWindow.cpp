@@ -57,6 +57,7 @@ void WbRobotWindow::setClientID(const QString &clientID, const QString &robotNam
 
 bool WbRobotWindow::openOnWebBrowser(const QString &url, const QString &program, const bool newBrowserWindow) {
   QString systemProgram;
+  // cppcheck-suppress unassignedVariable
   QStringList arguments;
 
 #ifdef _WIN32
