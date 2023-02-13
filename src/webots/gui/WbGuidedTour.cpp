@@ -174,7 +174,7 @@ static QString formatInfo(const WbMFString &info) {
   QString item;
   for (int i = 0; i < info.size(); i++) {
     item = info.item(i);
-    QString lowerCaseItem = item.toLower();
+    const QString lowerCaseItem = item.toLower();
     if (!lowerCaseItem.startsWith("date")) {
       if (item.contains("Author", Qt::CaseInsensitive)) {
         item.replace(QString("Author"), QString("Credits"), Qt::CaseInsensitive);
