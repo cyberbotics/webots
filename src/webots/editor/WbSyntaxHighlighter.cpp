@@ -343,7 +343,7 @@ void WbProtoHighlighter::highlightBlock(const QString &text) {
   int blockOffset = 0;
   QString currentText(text);
   while (!currentText.isEmpty()) {
-    QString pattern = mIsTemplateBlock ? mTemplateEndPattern : mTemplateStartPattern;
+    const QString pattern = mIsTemplateBlock ? mTemplateEndPattern : mTemplateStartPattern;
     const int patternIndex = currentText.indexOf(pattern);
     if (patternIndex < 0)
       break;
