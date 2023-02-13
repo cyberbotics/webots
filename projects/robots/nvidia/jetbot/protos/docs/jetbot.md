@@ -37,7 +37,7 @@ JetBot {
 ### Sample
 
 You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/nvidia/jetbot/worlds]({{ url.github_tree }}/projects/robots/nvidia/jetbot/worlds)".
-An additional example using PyTorch CNN to perform collision avoidance is available [here](https://github.com/cyberbotics/webots-projects/blob/projects/nvidia-jetbot-collision-avoidance).
+An additional example using PyTorch CNN to perform collision avoidance is available [here](https://github.com/cyberbotics/webots-projects/tree/master/projects/nvidia-jetbot-collision-avoidance).
 
 #### jetbot.wbt
 
