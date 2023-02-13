@@ -137,7 +137,8 @@ export default class X3dScene {
 
   #deleteObject(id) {
     const object = WbWorld.instance.nodes.get('n' + id);
-    object.delete();
+    if (typeof object !== 'undefined')
+      object.delete();
 
     WbWorld.instance.robots.forEach((robot, i) => {
       if (robot.id === 'n' + id)
@@ -183,11 +184,13 @@ export default class X3dScene {
     await parser.parse(x3dObject, this.renderer, false, parentNode, callback);
 
     const node = WbWorld.instance.nodes.get(parser.rootNodeId);
-    if (parentNode instanceof WbShape) {
-      parentNode.unfinalize();
-      parentNode.finalize();
-    } else
-      node.finalize();
+    if (typeof node !== 'undefined') {
+      if (parentNode instanceof WbShape) {
+        parentNode.unfinalize();
+        parentNode.finalize();
+      } else
+        node.finalize();
+    }
   }
 
   applyUpdate(update) {
