@@ -189,37 +189,27 @@ export default class X3dScene {
     if (typeof node === 'undefined')
       return; // can happen for nodes that have no webotsjs counterpart, like Physics
 
-    if (parentNode instanceof WbPbrAppearance) { // TODO: add "hasShapeAncestor"
-      const p = WbWorld.instance.nodes.get(parentNode.parent);
-      p.unfinalize();
-      p.finalize();
-    } else if (parentNode instanceof WbShape) {
-      parentNode.unfinalize();
-      parentNode.finalize();
+    function findUpperShape(node) {
+      if (typeof node === 'undefined')
+        return undefined;
+
+      let n = WbWorld.instance.nodes.get(node.parent);
+      while (typeof n !== 'undefined') {
+        if (n instanceof WbShape)
+          return n;
+
+        n = WbWorld.instance.nodes.get(n.parent);
+      }
+
+      return undefined;
+    }
+
+    const shapeAncestor = findUpperShape(node);
+    if (typeof shapeAncestor !== 'undefined') {
+      shapeAncestor.unfinalize();
+      shapeAncestor.finalize();
     } else
       node.finalize();
-
-    //function findUpperShape(node) {
-    //  if (typeof node === 'undefined')
-    //    return undefined;
-//
-    //  let n = WbWorld.instance.nodes.get(node.parent);
-    //  while (typeof n !== 'undefined') {
-    //    if (n instanceof WbShape)
-    //      return n;
-//
-    //    n = WbWorld.instance.nodes.get(n.parent);
-    //  }
-//
-    //  return undefined;
-    //}
-
-    //const shapeAncestor = findUpperShape(node);
-    //if (typeof shapeAncestor !== 'undefined') {
-    //  shapeAncestor.unfinalize();
-    //  shapeAncestor.finalize();
-    //} else
-    //  node.finalize();
   }
 
   applyUpdate(update) {
