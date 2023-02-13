@@ -2,10 +2,10 @@
 
 PROTO TestProto [
   field MFNode children []
-  field SFNode appearance NULL
+  field SFNode bo NULL
 ]
 {
-  Shape {
-    appearance IS appearance
+  Solid {
+    boundingObject IS bo
   }
 }

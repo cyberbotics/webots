@@ -394,6 +394,7 @@ export default class NodeSelectorWindow {
     const parentNode = p.node;
 
     const isInBoundingObject = this.isInBoundingObject(fieldName, parentNode);
+    console.log('isInBoundingObject: ', fieldName, parentNode.name, '?', isInBoundingObject)
 
     if (fieldName === 'appearance')
       baseType = ['Appearance', 'PBRAppearance'];
@@ -433,13 +434,12 @@ export default class NodeSelectorWindow {
       baseType = ['Lens'];
     else if (fieldName === 'focus')
       baseType = ['Focus'];
-    else if(fieldName === 'zoom')
+    else if (fieldName === 'zoom')
       baseType = ['Zoom'];
     else if (fieldName === 'recognition')
       baseType = ['Recognition'];
-    else if(fieldName === 'lensFlare')
+    else if (fieldName === 'lensFlare')
       baseType = ['LensFlare'];
-
 
     return baseType;
   }
@@ -484,12 +484,16 @@ export default class NodeSelectorWindow {
       return true;
 
     let n = parentNode;
-    while (typeof n !== 'undefined' && typeof n.parentField !== 'undefined') {
-      if (n.parentField.name === 'boundingObject')
+    while (typeof n !== 'undefined') {
+      let p = n.parentField;
+      console.log('B', p.name)
+      while (p instanceof Parameter && p.aliasLinks.length > 0)
+        p = p.aliasLinks[0];
+
+      if (p.name === 'boundingObject')
         return true;
 
-      const f = n.parentField;
-      n = f.node;
+      n = n.parentField.node;
     }
 
     return false;
