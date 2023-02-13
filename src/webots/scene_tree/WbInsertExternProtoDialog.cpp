@@ -32,7 +32,7 @@
 #include <QtWidgets/QTreeWidgetItem>
 #include <QtWidgets/QVBoxLayout>
 
-WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : mRetrievalTriggered(false) {
+WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : QDialog(parent), mRetrievalTriggered(false) {
   QVBoxLayout *const layout = new QVBoxLayout(this);
 
   mSearchBar = new QLineEdit(this);
@@ -65,13 +65,6 @@ WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : mRetriev
   connect(WbProtoManager::instance(), &WbProtoManager::dependenciesAvailable, this,
           &WbInsertExternProtoDialog::updateProtoTree);
   WbProtoManager::instance()->retrieveLocalProtoDependencies();
-}
-
-WbInsertExternProtoDialog::~WbInsertExternProtoDialog() {
-  delete mTree;
-  delete mSearchBar;
-  delete mInsertButton;
-  delete mCancelButton;
 }
 
 void WbInsertExternProtoDialog::updateProtoTree() {

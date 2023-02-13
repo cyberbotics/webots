@@ -30,7 +30,6 @@ class WbInsertExternProtoDialog : public QDialog {
 
 public:
   explicit WbInsertExternProtoDialog(QWidget *parent = NULL);
-  virtual ~WbInsertExternProtoDialog();
 
 public slots:
   void accept() override;
@@ -40,9 +39,13 @@ private slots:
   void updateSelection();
 
 private:
+  // cppcheck-suppress unsafeClassCanLeak
   QTreeWidget *mTree;
+  // cppcheck-suppress unsafeClassCanLeak
   QLineEdit *mSearchBar;
+  // cppcheck-suppress unsafeClassCanLeak
   QPushButton *mInsertButton;
+  // cppcheck-suppress unsafeClassCanLeak
   QPushButton *mCancelButton;
   bool mRetrievalTriggered;
   QString mProto;
