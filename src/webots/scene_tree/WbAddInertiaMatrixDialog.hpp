@@ -20,7 +20,6 @@
 // using the solid's bounding object
 //
 
-#include <QtCore/QMap>
 #include <QtWidgets/QDialog>
 
 class QTreeWidget;
