@@ -334,9 +334,9 @@ void WbIndexedFaceSet::exportNodeContents(WbWriter &writer) const {
   // To avoid differences due to normal computations export the computed triangle mesh.
   const int n = mTriangleMesh->numberOfTriangles();
   const int n3 = n * 3;
-  int *const coordIndexes = new int[n3];
-  int *const normalIndexes = new int[n3];
-  int *const texCoordIndexes = new int[n3];
+  int *const coordIndices = new int[n3];
+  int *const normalIndices = new int[n3];
+  int *const texCoordIndices = new int[n3];
   double *const vertices = new double[n * 9];
   double *const normals = new double[n * 9];
   double *const textures = new double[n * 6];
