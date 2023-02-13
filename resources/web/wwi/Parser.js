@@ -297,6 +297,10 @@ export default class Parser {
       case 'Zoom':
       case 'ImmersionProperties':
       case 'Damping':
+      case 'Lens':
+      case 'Focus':
+      case 'Recognition':
+      case 'LensFlare':
         // skip those nodes as they are not needed for web representation.
         break;
       default:

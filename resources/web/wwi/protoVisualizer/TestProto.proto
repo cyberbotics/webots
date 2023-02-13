@@ -1,16 +1,10 @@
 #VRML_SIM R2023b utf8
 
 PROTO TestProto [
-  field SFNode appearance PBRAppearance { baseColor 1 0 0}
-  field SFNode boundingObject NULL
-  field SFNode physics NULL
-  field MFNode immersionProperties []
-  field MFNode children []
+  field MFNode children [Camera {}]
 ]
 {
-  Solid {
+  Robot {
     children IS children
-    boundingObject IS boundingObject
-    immersionProperties IS immersionProperties
-    physics IS physics
+  }
 }

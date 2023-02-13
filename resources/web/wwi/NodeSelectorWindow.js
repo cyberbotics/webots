@@ -221,7 +221,7 @@ export default class NodeSelectorWindow {
 
     nodeList.appendChild(olb);
 
-    if (compatibleBaseNodes.length > 0) {
+    if (compatibleBaseNodes.length > 0 && compatibleProtoNodes.length > 0) {
       const hr = document.createElement('hr');
       hr.style.width = '100%';
       nodeList.appendChild(hr);
@@ -392,6 +392,16 @@ export default class NodeSelectorWindow {
       baseType = ['ImmersionProperties'];
     else if (fieldName === 'damping')
       baseType = ['Damping'];
+    else if (fieldName === 'lens')
+      baseType = ['Lens'];
+    else if (fieldName === 'focus')
+      baseType = ['Focus'];
+    else if(fieldName === 'zoom')
+      baseType = ['Zoom'];
+    else if (fieldName === 'recognition')
+      baseType = ['Recognition'];
+    else if(fieldName === 'lensFlare')
+      baseType = ['LensFlare'];
 
     return baseType;
   }
