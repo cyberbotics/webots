@@ -125,12 +125,14 @@ if __name__ == '__main__':
         data[node_name] = {}
         with open(file, 'r') as f:
             contents = f.read()
-            data[node_name]['description'] = 'asd' # encode_description(contents)
+            data[node_name]['description'] = encode_description(contents)
+            data[node_name]['icon'] = f'https://raw.githubusercontent.com/cyberbotics/webots/released/resources/nodes/icons/{node_name}.png'
 
+            data[node_name]['fields'] = {}
             for (vrml_type, type, field_name, default_value) in re.findall(pattern, contents):
-                data[node_name][field_name] = {}
-                data[node_name][field_name]['type'] = 'VRML.' + type
-                data[node_name][field_name]['defaultValue'] = encode_value(type, default_value)
+                data[node_name]['fields'][field_name] = {}
+                data[node_name]['fields'][field_name]['type'] = 'VRML.' + type
+                data[node_name]['fields'][field_name]['defaultValue'] = encode_value(type, default_value)
 
     json_str = json.dumps(data, indent=2)
 

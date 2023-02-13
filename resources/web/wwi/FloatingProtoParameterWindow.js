@@ -35,7 +35,6 @@ import WbPositionSensor from './nodes/WbPositionSensor.js';
 import NodeSelectorWindow from './NodeSelectorWindow.js';
 import {SFNode, MFNode, vrmlFactory} from './protoVisualizer/Vrml.js';
 import Node from './protoVisualizer/Node.js';
-import {isBaseNode} from './protoVisualizer/FieldModel.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #mfId;
@@ -442,8 +441,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         nodesToRemove[i].parentNode.removeChild(nodesToRemove[i]);
       }
 
-      const protoModel = parameter.node.model;
-      const parameterModel = protoModel['parameters'][parameter.name]['defaultValue'];
+      const nodeModel = parameter.node.model;
+      const parameterModel = nodeModel[parameter.node.isProto ? 'parameters' : 'fields'][parameter.name]['defaultValue'];
       parameter.value = vrmlFactory(parameter.type, parameterModel, true);
       const resetButtonRow = this.#getRow(resetButton);
       // two times because of the `add` button and plus one for the first `add` button.
@@ -1227,12 +1226,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         // model needs to be retrieved and used as initialization when creating the node instance (i.e. before
         // the internal body is created as these extra parameters might yield different results)
         const nodeModel = parameter.node.model;
-        let model;
-        if (parameter.node.isProto)
-          model = nodeModel['parameters'][parameter.name]['defaultValue'];
-        else
-          model = nodeModel[parameter.name]['defaultValue'];
-
+        const model = nodeModel[parameter.node.isProto ? 'parameters' : 'fields'][parameter.name]['defaultValue'];
         const sfnode = vrmlFactory(VRML.SFNode, model, true);
         parameter.setValueFromJavaScript(this.#view, sfnode.value);
       }

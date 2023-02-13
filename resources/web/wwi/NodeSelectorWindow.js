@@ -3,16 +3,19 @@ import {FieldModel} from './protoVisualizer/FieldModel.js';
 import Parameter from './protoVisualizer/Parameter.js';
 import { VRML } from './protoVisualizer/vrml_type.js';
 
-class ProtoInfo {
+class NodeInfo {
   #url;
   #baseType;
   #license;
   #description;
-  constructor(url, baseType, license, description) {
+  #icon;
+  constructor(url, baseType, license, description, icon) {
     this.#url = url;
     this.#baseType = baseType;
     this.#license = license;
     this.#description = description;
+    this.#license = license;
+    this.#icon = icon;
   }
 
   get url() {
@@ -29,6 +32,10 @@ class ProtoInfo {
 
   get description() {
     return this.#description;
+  }
+
+  get icon() {
+    return this.#icon;
   }
 }
 
@@ -162,16 +169,21 @@ export default class NodeSelectorWindow {
           let description = proto.description;
           if (typeof description !== 'undefined')
             description = description.replaceAll('\\n', '<br>');
-          const protoInfo = new ProtoInfo(url, baseType, license, description);
           const protoName = url.split('/').pop().replace('.proto', '');
-          this.protoNodes.set(protoName, protoInfo);
+          const icon = url.slice(0, url.lastIndexOf('/') + 1) + 'icons/' + protoName + '.png';
+          const nodeInfo = new NodeInfo(url, baseType, license, description, icon);
+          this.protoNodes.set(protoName, nodeInfo);
         }
 
         // add base nodes
         this.baseNodes = new Map();
         for (const baseType of content.base_types) {
-          if (Object.keys(FieldModel).includes(baseType))
-            this.baseNodes.set(baseType, new ProtoInfo(baseType, baseType)); // TODO: fix this
+          if (Object.keys(FieldModel).includes(baseType)) {
+            const description = FieldModel[baseType]['description'].replaceAll('\\n', '<br>');
+            const icon = FieldModel[baseType]['icon'];
+            const license = 'Apache License 2.0';
+            this.baseNodes.set(baseType, new NodeInfo(baseType, baseType, license, description, icon));
+          }
         }
       });
   }
@@ -241,7 +253,7 @@ export default class NodeSelectorWindow {
         this.selection.style.backgroundColor = '';
       this.selection = undefined;
     } else {
-      if (this.parameter.value.value === null) {
+      if (this.parameter.value.value === null || this.parameter.value.value === []) {
         // select the first item if the parameter doesn't currently contain anything
         if (olb.children.length > 0)
           this.selection = olb.children[0];
@@ -255,7 +267,8 @@ export default class NodeSelectorWindow {
           this.selection = olp.children[compatibleProtoNodes.indexOf(this.parameter.value.value.name)];
       }
 
-      this.selection.style.backgroundColor = '#007acc';
+      if (typeof this.selection !== 'undefined')
+        this.selection.style.backgroundColor = '#007acc';
     }
 
     // populate node info
@@ -306,8 +319,7 @@ export default class NodeSelectorWindow {
       warning.style.display = 'none';
 
       const info = this.baseNodes.has(nodeName) ? this.baseNodes.get(nodeName) : this.protoNodes.get(nodeName);
-      const url = info.url;
-      nodeImage.src = url.slice(0, url.lastIndexOf('/') + 1) + 'icons/' + nodeName + '.png';
+      nodeImage.src = info.icon;
       nodeImage.onerror = () => {
         nodeImage.onerror = undefined;
         nodeImage.src = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023a/resources/images/missing_proto_icon.png';

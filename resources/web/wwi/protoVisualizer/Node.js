@@ -4,10 +4,10 @@ import {getAnId} from '../nodes/utils/id_provider.js';
 import TemplateEngine from './TemplateEngine.js';
 import Tokenizer from './Tokenizer.js';
 import {vrmlFactory} from './Vrml.js';
-import {isBaseNode, FieldModel} from './FieldModel.js';
+import {FieldModel} from './FieldModel.js';
 import {Parameter} from './Parameter.js';
 import Field from './Field.js';
-import { VRML } from './vrml_type.js';
+import {VRML} from './vrml_type.js';
 
 export default class Node {
   static cProtoModels = new Map();
@@ -79,10 +79,10 @@ export default class Node {
 
   generateInternalFields() {
     // set field values based on field model
-    for (const fieldName of Object.keys(this.model)) {
-      const type = this.model[fieldName]['type'];
-      const value = vrmlFactory(type, this.model[fieldName]['defaultValue'], false);
-      const defaultValue = vrmlFactory(type, this.model[fieldName]['defaultValue'], false);
+    for (const fieldName of Object.keys(this.model['fields'])) {
+      const type = this.model['fields'][fieldName]['type'];
+      const value = vrmlFactory(type, this.model['fields'][fieldName]['defaultValue'], false);
+      const defaultValue = vrmlFactory(type, this.model['fields'][fieldName]['defaultValue'], false);
       const field = new Field(this, fieldName, type, defaultValue, value);
 
       if (type === VRML.SFNode && field.value.value !== null) {
@@ -444,4 +444,8 @@ function combinePaths(url, parentUrl) {
   return newUrl;
 }
 
-export { Node };
+function isBaseNode(nodeName) {
+  return typeof FieldModel[nodeName] !== 'undefined';
+}
+
+export { Node, isBaseNode };
