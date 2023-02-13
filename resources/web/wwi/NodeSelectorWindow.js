@@ -314,8 +314,6 @@ export default class NodeSelectorWindow {
     const fieldName = p.name;
     const parentNode = p.node;
 
-    const ff = this.parameter.aliasLinks;
-    console.log(fieldName, parentNode.name, ff)
     if (fieldName === 'appearance')
       baseType = ['Appearance', 'PBRAppearance'];
     else if (fieldName === 'geometry') {
@@ -326,6 +324,11 @@ export default class NodeSelectorWindow {
     else if (fieldName === 'endPoint' || fieldName === 'children') {
       baseType = ['Group', 'Transform', 'Shape', 'CadShape', 'Solid', 'Robot', 'PointLight', 'SpotLight', 'Propeller',
         'Charger'];
+      if (this.isRobotDescendant()) {
+        baseType = baseType.concat(['Accelerometer', 'Altimeter', 'Camera', 'Compass', 'Connector', 'Display',
+          'DistanceSensor', 'Emitter', 'GPS', 'Gyro', 'InertialUnit', 'LED', 'Lidar', 'LightSensor', 'Pen', 'Radar',
+          'RangeFinder', 'Receiver', 'Speaker', 'TouchSensor']);
+      }
     }
 
     return baseType;
