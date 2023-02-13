@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# exit when any command fails
-set -e
-
 if [ $# -eq 0 ]; then
 export PATH=/mingw64/bin:/usr/bin:/c/WINDOWS/system32
 cd ~
