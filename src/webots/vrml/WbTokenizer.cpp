@@ -79,7 +79,8 @@ WbToken *WbTokenizer::lastToken() const {
 }
 
 const QString &WbTokenizer::lastWord() const {
-  // cppcheck-suppress unassignedVariable variableScope
+  // cppcheck-suppress unassignedVariable
+  // cppcheck-suppress variableScope
   static QString emptyWord;
   if (lastToken())
     return lastToken()->word();
