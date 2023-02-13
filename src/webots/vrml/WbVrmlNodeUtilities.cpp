@@ -116,11 +116,16 @@ const WbNode *WbVrmlNodeUtilities::findTopNode(const WbNode *node) {
   return NULL;
 }
 
-bool WbVrmlNodeUtilities::isVisible(const WbNode *node) {
+bool WbVrmlNodeUtilities::isVisible(const WbNode *node, bool instanceOrParameter) {
   if (node == NULL)
     return false;
 
   const WbNode *n = node;
+  if (instanceOrParameter) {
+    while (n && n->protoParameterNode())
+      n = n->protoParameterNode();
+  }
+
   const WbNode *p = n->parentNode();
   while (n && p && !n->isTopLevel()) {
     if (p->isProtoInstance()) {
@@ -134,7 +139,7 @@ bool WbVrmlNodeUtilities::isVisible(const WbNode *node) {
   return true;
 }
 
-bool WbVrmlNodeUtilities::isVisible(const WbField *target) {
+bool WbVrmlNodeUtilities::isVisible(const WbField *target, bool instanceOrParameter) {
   if (target == NULL)
     return false;
 
@@ -148,7 +153,7 @@ bool WbVrmlNodeUtilities::isVisible(const WbField *target) {
   const WbNode *parentNode = parameter->parentNode();
   assert(parentNode);
   if (parentNode->fieldsOrParameters().contains(const_cast<WbField *>(parameter)))
-    return isVisible(parentNode);
+    return isVisible(parentNode, instanceOrParameter);
   return false;
 }
 

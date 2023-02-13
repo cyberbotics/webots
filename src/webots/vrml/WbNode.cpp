@@ -378,9 +378,9 @@ QString WbNode::fullPath(const QString &fieldName, QString &parameterName) const
     if (n->protoParameterNode())
       n = n->protoParameterNode();
 
-    path = n->usefulName();
-    if (!path.isEmpty())
-      path += " > " + path;
+    const QString nodeName = n->usefulName();
+    if (!nodeName.isEmpty())
+      path = nodeName + " > " + path;
 
     n = n->parentNode();
   }

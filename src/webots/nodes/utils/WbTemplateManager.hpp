@@ -22,6 +22,7 @@
 
 #include <QtCore/QList>
 #include <QtCore/QObject>
+#include <QtCore/QSet>
 
 class WbNode;
 class WbField;
@@ -40,6 +41,8 @@ public:
   void blockRegeneration(bool block);
 
   static bool isRegenerating() { return cRegeneratingNodeCount > 0; }
+
+  bool isNodeChangeTriggeringRegeneration(const WbNode *node) { return mNodesSubscribedForRegeneration.contains(node); }
 
 signals:
   void preNodeRegeneration(WbNode *node, bool nested);
@@ -66,6 +69,7 @@ private:
   void regenerateNodeFromField(WbNode *templateNode, WbField *field, bool isParameter);
 
   QList<WbNode *> mTemplates;
+  QSet<const WbNode *> mNodesSubscribedForRegeneration;
 
   bool mBlockRegeneration;
   bool mTemplatesNeedRegeneration;

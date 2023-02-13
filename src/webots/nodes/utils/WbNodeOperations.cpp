@@ -273,6 +273,12 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
 }
 
 void WbNodeOperations::resolveSolidNameClashIfNeeded(WbNode *node) const {
+  QList<WbNode *> instances = node->protoParameterNodeInstances();
+  if (!instances.isEmpty()) {
+    foreach (WbNode *n, instances)
+      resolveSolidNameClashIfNeeded(n);
+    return;
+  }
   QList<WbSolid *> solidNodes;
   WbSolid *solidNode = dynamic_cast<WbSolid *>(node);
   if (solidNode)

@@ -35,8 +35,8 @@ namespace WbVrmlNodeUtilities {
   const WbNode *findTopNode(const WbNode *node);
 
   // is the target field or node visible in the Scene Tree (possibly as a nested proto parameter)
-  bool isVisible(const WbNode *node);
-  bool isVisible(const WbField *target);
+  bool isVisible(const WbNode *node, bool instanceOrParameter = false);
+  bool isVisible(const WbField *target, bool instanceOrParameter = false);
 
   // is this node located directly or indirectly in the given field
   bool isFieldDescendant(const WbNode *node, const QString &fieldName);

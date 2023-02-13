@@ -54,6 +54,7 @@
 #include "WbSlot.hpp"
 #include "WbSolid.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbTemplateManager.hpp"
 #include "WbTokenizer.hpp"
 #include "WbTouchSensor.hpp"
 #include "WbTrack.hpp"
@@ -556,7 +557,9 @@ namespace {
     return false;
   }
 
-  bool isSolidNode(WbBaseNode *node) { return dynamic_cast<WbSolid *>(node); }
+  bool isSolidNode(WbBaseNode *node) {
+    return dynamic_cast<WbSolid *>(node);
+  }
 
   bool doesFieldRestrictionAcceptNode(const WbField *const field, const QStringList &nodeNames) {
     assert(field->hasRestrictedValues());
@@ -1116,7 +1119,8 @@ QList<WbNode *> WbNodeUtilities::findDescendantNodesOfType(WbNode *node, bool (&
 bool WbNodeUtilities::isTemplateRegeneratorField(const WbField *field) {
   const WbField *f = field;
   while (f != NULL) {
-    if (f->isTemplateRegenerator())
+    if (f->isTemplateRegenerator() ||
+        (f->parentNode() && WbTemplateManager::instance()->isNodeChangeTriggeringRegeneration(f->parentNode())))
       return true;
     f = f->parameter();
   }

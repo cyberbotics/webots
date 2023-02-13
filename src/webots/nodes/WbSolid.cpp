@@ -108,6 +108,7 @@ void WbSolid::init() {
   mResetPhysicsInStep = false;
   mKinematicWarningPrinted = false;
   mHasDynamicSolidDescendant = false;
+  mNameClashResolved = false;
 
   // Merger
   mSolidMerger = NULL;
@@ -488,7 +489,7 @@ void WbSolid::postFinalize() {
 }
 
 void WbSolid::resolveNameClashIfNeeded(bool automaticallyChange, bool recursive, const QList<WbSolid *> siblings,
-                                       QSet<const QString> *topSolidNameSet) const {
+                                       QSet<const QString> *topSolidNameSet) {
   const QString &warningText =
     tr("'name' field value should be unique: '%1' already used by a sibling Solid node.").arg(name());
 
@@ -513,6 +514,7 @@ void WbSolid::resolveNameClashIfNeeded(bool automaticallyChange, bool recursive,
     const WbNode *parameterNode = protoParameterNode();
     while (parameterNode && parameterNode->protoParameterNode())
       parameterNode = parameterNode->protoParameterNode();
+    const WbNode *visibleNode = parameterNode ? parameterNode : this;
 
     bool found = false;
     re.setPattern(QString("%1\\((\\d+)\\)").arg(QRegularExpression::escape(nameWithoutIndex)));
@@ -530,7 +532,7 @@ void WbSolid::resolveNameClashIfNeeded(bool automaticallyChange, bool recursive,
           while (otherParameterNode && otherParameterNode->protoParameterNode())
             otherParameterNode = otherParameterNode->protoParameterNode();
           if (otherParameterNode == parameterNode) {
-            parsingWarn(
+            visibleNode->parsingWarn(
               warningText +
               tr(" A unique name cannot be automatically generated because the same PROTO parameter is used multiple times."));
             goto recursion;
@@ -546,14 +548,17 @@ void WbSolid::resolveNameClashIfNeeded(bool automaticallyChange, bool recursive,
     if (found) {
       if (automaticallyChange) {
         WbField *nameField = findField("name", true);
-        while (nameField->parameter())
+        bool isTemplateRegenerator = false;
+        while (nameField && !isTemplateRegenerator) {
+          isTemplateRegenerator = WbNodeUtilities::isTemplateRegeneratorField(nameField);
           nameField = nameField->parameter();
-        bool isTemplateRegenerator = nameField->isTemplateRegenerator();
+        }
         if (isTemplateRegenerator)
-          parsingWarn(warningText +
-                      tr(" A unique name cannot be automatically generated because 'name' is a template regenerator field."));
+          visibleNode->parsingWarn(
+            warningText +
+            tr(" A unique name cannot be automatically generated because 'name' is a template regenerator field."));
         else if (!WbVrmlNodeUtilities::isVisible(findField("name")))
-          parsingWarn(warningText);
+          visibleNode->parsingWarn(warningText);
         else {
           // find first available index
           std::sort(indices.begin(), indices.end());
@@ -563,11 +568,12 @@ void WbSolid::resolveNameClashIfNeeded(bool automaticallyChange, bool recursive,
               break;
             newIndex++;
           }
-          QString newName = QString("%1(%2)").arg(nameWithoutIndex).arg(newIndex);
+          const QString newName = QString("%1(%2)").arg(nameWithoutIndex).arg(newIndex);
+          mNameClashResolved = true;
           mName->setValue(newName);
         }
       } else
-        parsingWarn(warningText);
+        visibleNode->parsingWarn(warningText);
     }
   }
 
@@ -580,8 +586,12 @@ recursion:
 }
 
 void WbSolid::updateName() {
-  const WbSolid *us = upperSolid();
-  resolveNameClashIfNeeded(false, false, us ? us->solidChildren().toList() : WbWorld::instance()->topSolids(), NULL);
+  if (!mNameClashResolved) {
+    const WbSolid *us = upperSolid();
+    resolveNameClashIfNeeded(false, false, us ? us->solidChildren().toList() : WbWorld::instance()->topSolids(), NULL);
+  } else
+    // name field has just been updated in a previous call of resolveNameClashIfNeeded
+    mNameClashResolved = false;
   WbMatter::updateName();
 }
 
