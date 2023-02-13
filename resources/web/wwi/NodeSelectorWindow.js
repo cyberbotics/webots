@@ -253,18 +253,38 @@ export default class NodeSelectorWindow {
         this.selection.style.backgroundColor = '';
       this.selection = undefined;
     } else {
-      if (this.parameter.value.value === null || this.parameter.value.value === []) {
-        // select the first item if the parameter doesn't currently contain anything
-        if (olb.children.length > 0)
-          this.selection = olb.children[0];
-        else
-          this.selection = olp.children[0];
-      } else {
-        const index = compatibleBaseNodes.indexOf(this.parameter.value.value.name);
-        if (index !== -1)
-          this.selection = olb.children[index];
-        else
-          this.selection = olp.children[compatibleProtoNodes.indexOf(this.parameter.value.value.name)];
+      if (this.parameter.type === VRML.SFNode) {
+        if (this.parameter.value.value === null) {
+          // select the first item if the parameter doesn't currently contain anything
+          if (olb.children.length > 0)
+            this.selection = olb.children[0];
+          else
+            this.selection = olp.children[0];
+        } else {
+          let index = compatibleBaseNodes.indexOf(this.parameter.value.value.name);
+          if (index === -1) {
+            index = compatibleProtoNodes.indexOf(this.parameter.value.value.name);
+            if (index !== -1)
+              this.selection = olp.children[index];
+          } else
+            this.selection = olb.children[index];
+        }
+      } else if (this.parameter.type === VRML.MFNode) {
+        if (this.parameter.value.value === []) {
+          if (olb.children.length > 0)
+            this.selection = olb.children[0];
+          else
+            this.selection = olp.children[0];
+        } else {
+          const name = this.parameter.value.value[0].name;
+          let index = compatibleBaseNodes.indexOf(name);
+          if (index === -1) {
+            index = compatibleProtoNodes.indexOf(name);
+            if (index !== -1)
+              this.selection = olp.children[index];
+          } else
+            this.selection = olb.children[index];
+        }
       }
 
       if (typeof this.selection !== 'undefined')
