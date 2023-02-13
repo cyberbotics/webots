@@ -67,9 +67,6 @@ WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : mRetriev
   WbProtoManager::instance()->retrieveLocalProtoDependencies();
 }
 
-WbInsertExternProtoDialog::~WbInsertExternProtoDialog() {
-}
-
 void WbInsertExternProtoDialog::updateProtoTree() {
   if (qobject_cast<WbProtoManager *>(sender())) {
     disconnect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this,
