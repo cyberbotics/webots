@@ -643,7 +643,7 @@ void WbSimulationView::writeScreenshot() {
   disconnect(mView3D, &WbView3D::screenshotReady, this, &WbSimulationView::writeScreenshot);
 
   while (!mScreenshotFileNameList.isEmpty() && !mScreenshotQualityList.isEmpty()) {
-    QString filename = mScreenshotFileNameList.takeFirst();
+    const QString filename = mScreenshotFileNameList.takeFirst();
     if (!image.save(filename, 0, mScreenshotQualityList.takeFirst()))
       WbLog::error(QString("Error while writing file: %1").arg(filename));
     else if (mIsScreenshotRequestedFromGui && mIsDecorationVisible)
