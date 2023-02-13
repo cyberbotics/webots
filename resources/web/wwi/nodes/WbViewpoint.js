@@ -123,7 +123,9 @@ export default class WbViewpoint extends WbBaseNode {
     if (typeof node === 'undefined')
       return;
 
-    const boundingSphere = node.boundingSphere();
+    const boundingSphere = node?.boundingSphere();
+    if (typeof boundingSphere === 'undefined')
+      return;
 
     boundingSphere.recomputeIfNeeded(false);
     if (boundingSphere.isEmpty())

@@ -3,9 +3,12 @@
 PROTO TestProto [
   field MFNode children []
   field SFNode bo NULL
+  field SFNode app NULL
+  field SFNode geo NULL
 ]
 {
-  Solid {
-    boundingObject IS bo
+  Shape {
+    appearance IS app
+    geometry IS geo
   }
 }

@@ -198,6 +198,28 @@ export default class X3dScene {
       parentNode.finalize();
     } else
       node.finalize();
+
+    //function findUpperShape(node) {
+    //  if (typeof node === 'undefined')
+    //    return undefined;
+//
+    //  let n = WbWorld.instance.nodes.get(node.parent);
+    //  while (typeof n !== 'undefined') {
+    //    if (n instanceof WbShape)
+    //      return n;
+//
+    //    n = WbWorld.instance.nodes.get(n.parent);
+    //  }
+//
+    //  return undefined;
+    //}
+
+    //const shapeAncestor = findUpperShape(node);
+    //if (typeof shapeAncestor !== 'undefined') {
+    //  shapeAncestor.unfinalize();
+    //  shapeAncestor.finalize();
+    //} else
+    //  node.finalize();
   }
 
   applyUpdate(update) {

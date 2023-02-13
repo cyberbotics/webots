@@ -484,16 +484,15 @@ export default class NodeSelectorWindow {
       return true;
 
     let n = parentNode;
-    while (typeof n !== 'undefined') {
-      let p = n.parentField;
-      console.log('B', p.name)
-      while (p instanceof Parameter && p.aliasLinks.length > 0)
-        p = p.aliasLinks[0];
+    let pf = n?.parentField;
+    while (typeof n !== 'undefined' && typeof pf !== 'undefined') {
+      while (pf instanceof Parameter && pf.aliasLinks.length > 0)
+        pf = pf.aliasLinks[0];
 
-      if (p.name === 'boundingObject')
+      if (pf.name === 'boundingObject')
         return true;
 
-      n = n.parentField.node;
+      n = n?.parentField?.node;
     }
 
     return false;
