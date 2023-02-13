@@ -253,9 +253,9 @@ export default class NodeSelectorWindow {
         this.selection.style.backgroundColor = '';
       this.selection = undefined;
     } else {
+      // select the node corresponding to the current value if one is present
       if (this.parameter.type === VRML.SFNode) {
         if (this.parameter.value.value === null) {
-          // select the first item if the parameter doesn't currently contain anything
           if (olb.children.length > 0)
             this.selection = olb.children[0];
           else
@@ -270,13 +270,13 @@ export default class NodeSelectorWindow {
             this.selection = olb.children[index];
         }
       } else if (this.parameter.type === VRML.MFNode) {
-        if (this.parameter.value.value === []) {
+        if (this.parameter.value.value.length === 0) {
           if (olb.children.length > 0)
             this.selection = olb.children[0];
           else
             this.selection = olp.children[0];
         } else {
-          const name = this.parameter.value.value[0].name;
+          const name = this.parameter.value.value[0].value.name;
           let index = compatibleBaseNodes.indexOf(name);
           if (index === -1) {
             index = compatibleProtoNodes.indexOf(name);

@@ -1,10 +1,11 @@
 #VRML_SIM R2023b utf8
 
 PROTO TestProto [
-  field MFNode children [Camera {}]
+  field MFNode children []
+  field SFNode appearance NULL
 ]
 {
-  Robot {
-    children IS children
+  Shape {
+    appearance IS appearance
   }
 }
