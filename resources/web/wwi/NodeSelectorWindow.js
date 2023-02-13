@@ -149,7 +149,6 @@ export default class NodeSelectorWindow {
 
     const content = {};
     content.base_types = this.getAllowedBaseType();
-    console.log('ALLOWED BASETYPES:', content.base_types);
 
     if (content.base_types.length === 1 && content.base_types[0] === 'Slot')
       content.slot_type = this.getSlotType();
@@ -383,8 +382,6 @@ export default class NodeSelectorWindow {
     if (typeof this.parameter === 'undefined')
       throw new Error('The parameter is expected to be defined prior to checking node compatibility.');
 
-    //if (this.parameter.aliasLinks.length <= 0)
-    //  throw new Error('The parameter has no IS.');
     let baseType = [];
     // get the field name linked to the parameter (full-depth)
     let p = this.parameter;
@@ -461,9 +458,6 @@ export default class NodeSelectorWindow {
     const filterInput = document.getElementById('filter');
     filterInput.value = '';
 
-    //if (!(parameter instanceof Parameter))
-    //  throw new Error('Cannot display node selector unless a parameter is provided.');
-
     this.parameter = parameter;
     this.element = element;
     this.callback = callback;
@@ -483,16 +477,16 @@ export default class NodeSelectorWindow {
     if (fieldName === 'boundingObject')
       return true;
 
-    let n = parentNode;
-    let pf = n?.parentField;
-    while (typeof n !== 'undefined' && typeof pf !== 'undefined') {
-      while (pf instanceof Parameter && pf.aliasLinks.length > 0)
-        pf = pf.aliasLinks[0];
+    let node = parentNode;
+    let parentField = node?.parentField;
+    while (typeof node !== 'undefined' && typeof parentField !== 'undefined') {
+      while (parentField instanceof Parameter && parentField.aliasLinks.length > 0)
+        parentField = parentField.aliasLinks[0];
 
-      if (pf.name === 'boundingObject')
+      if (parentField.name === 'boundingObject')
         return true;
 
-      n = n?.parentField?.node;
+      node = node?.parentField?.node;
     }
 
     return false;

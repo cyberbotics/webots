@@ -110,7 +110,6 @@ export default class Parser {
   }
 
   async parse(text, renderer, finalize = true, parentNode, callback) {
-    console.log(text)
     webots.currentView.progress.setProgressBar('same', 'Parsing...', 0, 'Parsing object...');
     let xml = null;
     if (window.DOMParser) {
@@ -317,22 +316,11 @@ export default class Parser {
               parentNode.geometry = result;
             } else if (parentNode instanceof WbSolid || parentNode instanceof WbTransform || parentNode instanceof WbGroup) {
               // Bounding object
-              console.log('PARENT IS', parentNode.boundingObject instanceof WbBox)
               parentNode.boundingObject?.delete();
-              //const shape = new WbShape(getAnId(), false, false, result);
-              //shape.parent = parentNode.id;
-              //WbWorld.instance.nodes.set(shape.id, shape);
-              //result.parent = shape.id;
-              if (parentNode instanceof WbSolid) {
+              if (parentNode instanceof WbSolid)
                 parentNode.boundingObject = result;
-                //result.role = 'boundingObject';
-              } else {
-                //const shape = new WbShape(getAnId(), false, false, result);
-                //shape.parent = parentNode.id;
-                //WbWorld.instance.nodes.set(shape.id, shape);
-                //result.parent = shape.id;
+              else
                 parentNode.children.push(result);
-              }
             }
           }
         } else if (node.tagName === 'PBRAppearance') {

@@ -47,15 +47,12 @@ export default class Node {
         const parameter = new Parameter(this, parameterName, parameterType, defaultValue, value, restrictions,
           isTemplateRegenerator);
 
-        if (parameterType === VRML.SFNode && parameter.value.value !== null) {
-          console.log('>>> setting parentField of node', parameter.value.value.name, 'to', parameter.name)
+        if (parameterType === VRML.SFNode && parameter.value.value !== null)
           parameter.value.value.parentField = parameter;
-        } else if (parameterType === VRML.MFNode) {
+        else if (parameterType === VRML.MFNode) {
           for (const item of parameter.value.value) {
-            if (item instanceof Node) {
-              console.log('>>> setting parentField of node', item, 'to', parameter.name);
+            if (item instanceof Node)
               item.parentField = parameter;
-            }
           }
         }
         this.parameters.set(parameterName, parameter);
@@ -85,15 +82,12 @@ export default class Node {
       const defaultValue = vrmlFactory(type, this.model['fields'][fieldName]['defaultValue'], false);
       const field = new Field(this, fieldName, type, defaultValue, value);
 
-      if (type === VRML.SFNode && field.value.value !== null) {
-        console.log('>>> setting parentField of node', field.value.value.name, 'to', field.name);
+      if (type === VRML.SFNode && field.value.value !== null)
         field.value.value.parentField = field;
-      } else if (type === VRML.MFNode) {
+      else if (type === VRML.MFNode) {
         for (const item of field.value.value) {
-          if (item instanceof Node) {
-            console.log('>>> setting parentField of node', item, 'to', field.name);
+          if (item instanceof Node)
             item.parentField = field;
-          }
         }
       }
       this.fields.set(fieldName, field);
@@ -246,7 +240,6 @@ export default class Node {
 
     const nodeElement = this.xml.createElement(this.name);
 
-    // TODO: handle other exceptions
     if (this.name === 'ImageTexture' || parameterName === 'boundingObject')
       nodeElement.setAttribute('role', parameterName);
 

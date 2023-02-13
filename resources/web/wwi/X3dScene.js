@@ -174,7 +174,6 @@ export default class X3dScene {
   }
 
   async loadObject(x3dObject, parentId, callback) {
-    console.log(x3dObject)
     let parentNode;
     if (typeof parentId !== 'undefined')
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
@@ -182,8 +181,6 @@ export default class X3dScene {
     const parser = new Parser(webots.currentView.prefix);
     parser.prefix = webots.currentView.prefix;
     await parser.parse(x3dObject, this.renderer, false, parentNode, callback);
-
-    //console.log(x3dObject, 'rootNodeId', parser.rootNodeId, parentNode.id);
 
     const node = WbWorld.instance.nodes.get(parser.rootNodeId);
     if (typeof node === 'undefined')
@@ -193,12 +190,12 @@ export default class X3dScene {
       if (typeof node === 'undefined')
         return undefined;
 
-      let n = WbWorld.instance.nodes.get(node.parent);
-      while (typeof n !== 'undefined') {
-        if (n instanceof WbShape)
+      let node = WbWorld.instance.nodes.get(node.parent);
+      while (typeof node !== 'undefined') {
+        if (node instanceof WbShape)
           return n;
 
-        n = WbWorld.instance.nodes.get(n.parent);
+        node = WbWorld.instance.nodes.get(node.parent);
       }
 
       return undefined;

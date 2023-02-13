@@ -119,7 +119,7 @@ if __name__ == '__main__':
 
     data = {}
     for file in files:
-        # print(file)
+        print(file)
         node_name = Path(file).stem
 
         data[node_name] = {}

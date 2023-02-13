@@ -205,12 +205,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       } else {
         currentNodeButton.style.display = 'block';
         deleteNodeButton.style.display = 'block';
-        //if (isBaseNode(parameter.value.value.name))
-        //  configureNodeButton.style.display = 'none';
-        //else {
-          configureNodeButton.style.display = 'block';
-          configureNodeButton.title = 'Configure ' + parameter.value.value.name + ' node';
-        //}
+        configureNodeButton.style.display = 'block';
+        configureNodeButton.title = 'Configure ' + parameter.value.value.name + ' node';
         currentNodeButton.innerHTML = parameter.value.value.name;
       }
     }

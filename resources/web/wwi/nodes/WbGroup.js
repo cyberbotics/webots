@@ -82,7 +82,6 @@ export default class WbGroup extends WbBaseNode {
           parent.children.splice(index, 1);
         }
 
-        console.log('HERE', parent instanceof WbSolid, this.isInBoundingObject())
         if (parent instanceof WbSolid && this.isInBoundingObject())
           parent.boundingObject = undefined;
       }
