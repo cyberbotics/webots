@@ -24,7 +24,6 @@ Please [contact us](https://cyberbotics.com/#contact) if you would like to see y
 | ![icon.png](images/robots/ghostdog/icon.png)         | [GhostDog](ghostdog.md)                   | EPFL / BioRob        | *Dog-like robot*                  |
 | ![icon.png](images/robots/hemisson/icon.png)         | [Hemisson](hemisson.md)                   | K-Team               | *Two-wheeled robot*               |
 | ![icon.png](images/robots/hoap2/icon.png)            | [HOAP-2](hoap2.md)                        | Fujitsu              | *Small size humanoid*             |
-| ![icon.png](images/robots/icub/icon.png)             | [iCub](icub.md)                           | RobotCup             | *Human-size humanoid*             |
 | ![icon.png](images/robots/ipr/icon.png)              | [IPR](ipr.md)                             | Neuronics            | *Robotics arm*                    |
 | ![icon.png](images/robots/irb4600-40/icon.png)       | [IRB 4600/40](irb4600-40.md)              | ABB                  | *Robotics arm*                    |
 | ![icon.png](images/robots/jetbot/icon.png)           | [JetBot](jetbot.md)                       | NVIDIA               | *Two-wheeled robot*               |
