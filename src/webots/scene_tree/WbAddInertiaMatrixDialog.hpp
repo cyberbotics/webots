@@ -33,7 +33,6 @@ class WbAddInertiaMatrixDialog : public QDialog {
 
 public:
   explicit WbAddInertiaMatrixDialog(bool validBoudingObject, QWidget *parent = NULL);
-  virtual ~WbAddInertiaMatrixDialog();
   enum MatrixType { IDENTITY_MATRIX, BOUNDING_OBJECT_BASED };
   int inertiaMatrixType() const;
 

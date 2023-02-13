@@ -53,12 +53,7 @@ WbAddInertiaMatrixDialog::WbAddInertiaMatrixDialog(bool validBoudingObject, QWid
   mGroupBox = new QGroupBox(this);
   mGroupBox->setObjectName("dialogInfoGroupBox");
   mGroupBox->setFlat(false);
-  /*
-  mPixmapLabel = new QLabel(this);
-  mPixmapLabel->setObjectName("nodePixmapLabel");
-  mPixmapLabel->setMinimumSize(128, 128);
-  mPixmapLabel->setMaximumSize(mPixmapLabel->minimumSize());
-  */
+
   QPushButton *cancelButton = new QPushButton(tr("Cancel"), this);
   mAddButton = new QPushButton(tr("Add"), this);
   connect(cancelButton, &QPushButton::pressed, this, &WbAddInertiaMatrixDialog::reject);
@@ -88,9 +83,6 @@ WbAddInertiaMatrixDialog::WbAddInertiaMatrixDialog(bool validBoudingObject, QWid
   setMinimumSize(500, 390);
 
   connect(mTree, &QTreeWidget::itemSelectionChanged, this, &WbAddInertiaMatrixDialog::updateItemInfo);
-}
-
-WbAddInertiaMatrixDialog::~WbAddInertiaMatrixDialog() {
 }
 
 int WbAddInertiaMatrixDialog::inertiaMatrixType() const {
