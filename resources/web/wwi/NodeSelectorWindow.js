@@ -409,6 +409,11 @@ export default class NodeSelectorWindow {
       } else {
         baseType = ['Group', 'Transform', 'Shape', 'CadShape', 'Solid', 'Robot', 'PointLight', 'SpotLight', 'Propeller',
           'Charger'];
+        if (this.isRobotDescendant()) {
+          baseType = baseType.concat(['Accelerometer', 'Altimeter', 'Camera', 'Compass', 'Connector', 'Display',
+            'DistanceSensor', 'Emitter', 'GPS', 'Gyro', 'InertialUnit', 'LED', 'Lidar', 'LightSensor', 'Pen', 'Radar',
+            'RangeFinder', 'Receiver', 'Speaker', 'TouchSensor']);
+        }
       }
     } else if (['baseColorMap', 'roughnessMap', 'metalnessMap', 'normalMap', 'occlusionMap',
       'emissiveColorMap'].includes(fieldName))
@@ -434,6 +439,7 @@ export default class NodeSelectorWindow {
       baseType = ['Recognition'];
     else if(fieldName === 'lensFlare')
       baseType = ['LensFlare'];
+
 
     return baseType;
   }
