@@ -28,7 +28,7 @@ You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots
 
 #### yamor.wbt
 
-![yamor.wbt.png](images/yamor/yamor.wbt.thumbnail.jpg) In this example, eight Yamor robot "modules" attach to and detach from each other using [Connector](../reference/connector.md) devices.
+![yamor.wbt.png](images/yamor/yamor.wbt.thumbnail.jpg) In this example, eight Yamor robot "modules" attach to and detach from each other using [Connector](https://cyberbotics.com/doc/reference/connector) devices.
 Connector devices are used to simulate the mechanical connections of docking systems.
 Each module is controlled by an instance of the same robot controller, which can only connect or disconnect from another module and move its rotational motor.
 From these simple behaviors, a global behavior emerges.

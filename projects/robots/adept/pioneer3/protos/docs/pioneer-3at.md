@@ -24,20 +24,20 @@ More information on specifications and optional devices are available on the fol
 
 The standard model of the Pioneer 3-AT is provided in the "pioneer3AT.wbt" file which is located in the "WEBOTS\_HOME/projects/robots/adept/pioneer3/worlds" directory of the Webots distribution.
 
-The Pioneer 3-AT motors are [RotationalMotor](../reference/rotationalmotor.md) nodes named according to [this figure](#pioneer-3-at-motor-names).
+The Pioneer 3-AT motors are [RotationalMotor](https://cyberbotics.com/doc/reference/rotationalmotor) nodes named according to the next figure.
 The `wb_set_motor_position` and `wb_set_motor_velocity` functions allow the user to control the rotation of the wheels.
 
 %figure "Pioneer 3-AT motor names"
 
-![pioneer3at_wheels.png](images/robots/pioneer-3at/wheels.png)
+![pioneer3at_wheels.png](images/pioneer-3at/wheels.png)
 
 %end
 
-The sonar sensors are numbered according to [this figure](#sonar-sensors-positions).
+The sonar sensors are numbered according to the following figure.
 
 %figure "Sonar sensors positions"
 
-![pioneer3at_sonars.png](images/robots/pioneer-3at/sonars.png)
+![pioneer3at_sonars.png](images/pioneer-3at/sonars.png)
 
 %end
 
@@ -69,6 +69,6 @@ Pioneer3at {
 
 #### pioneer3at.wbt
 
-![pioneer3at_avoidance.png](images/robots/pioneer-3at/pioneer3at_avoidance.wbt.thumbnail.jpg) The "pioneer3at.wbt" world file is a simulation example of a simple obstacle avoidance behavior based on the use of a SICK LMS 291 [Lidar](../reference/lidar.md) (see the "obstacle\_avoidance\_with\_lidar.c" controller file in the "WEBOTS\_HOME/projects/robots/adept/pioneer3/controller" directory).
-The [Lidar](../reference/lidar.md) depth output is used to compute two stimuli in front of the robot.
+![pioneer3at_avoidance.png](images/pioneer-3at/pioneer3at_avoidance.wbt.thumbnail.jpg) The "pioneer3at.wbt" world file is a simulation example of a simple obstacle avoidance behavior based on the use of a SICK LMS 291 [Lidar](https://cyberbotics.com/doc/reference/lidar) (see the "obstacle\_avoidance\_with\_lidar.c" controller file in the "WEBOTS\_HOME/projects/robots/adept/pioneer3/controller" directory).
+The [Lidar](https://cyberbotics.com/doc/reference/lidar) depth output is used to compute two stimuli in front of the robot.
 These two stimuli are computed by a [Gaussian function](https://en.wikipedia.org/wiki/Gaussian_function) applied slightly on the front left, and respectively on the front right of the robot.
