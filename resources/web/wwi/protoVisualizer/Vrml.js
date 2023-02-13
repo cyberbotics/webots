@@ -536,6 +536,9 @@ class MultipleValue {
 
 export class MFBool extends MultipleValue {
   setValueFromTokenizer(tokenizer) {
+    // If we reach this function it means that the MFBool does not have the default value.
+    // Thus we should reset the value because it already contains the default one.
+    this.value = [];
     if (tokenizer.peekWord() === '[') {
       tokenizer.skipToken('[');
 
@@ -568,6 +571,9 @@ export class MFBool extends MultipleValue {
 
 export class MFInt32 extends MultipleValue {
   setValueFromTokenizer(tokenizer) {
+    // If we reach this function it means that the MFInt32 does not have the default value.
+    // Thus we should reset the value because it already contains the default one.
+    this.value = [];
     if (tokenizer.peekWord() === '[') {
       tokenizer.skipToken('[');
 
@@ -600,6 +606,9 @@ export class MFInt32 extends MultipleValue {
 
 export class MFFloat extends MultipleValue {
   setValueFromTokenizer(tokenizer) {
+    // If we reach this function it means that the MFFloat does not have the default value.
+    // Thus we should reset the value because it already contains the default one.
+    this.value = [];
     if (tokenizer.peekWord() === '[') {
       tokenizer.skipToken('[');
 
@@ -632,6 +641,9 @@ export class MFFloat extends MultipleValue {
 
 export class MFString extends MultipleValue {
   setValueFromTokenizer(tokenizer) {
+    // If we reach this function it means that the MFString does not have the default value.
+    // Thus we should reset the value because it already contains the default one.
+    this.value = [];
     if (tokenizer.peekWord() === '[') {
       tokenizer.skipToken('[');
 
@@ -664,6 +676,9 @@ export class MFString extends MultipleValue {
 
 export class MFVec2f extends MultipleValue {
   setValueFromTokenizer(tokenizer) {
+    // If we reach this function it means that the MFVec2f does not have the default value.
+    // Thus we should reset the value because it already contains the default one.
+    this.value = [];
     if (tokenizer.peekWord() === '[') {
       tokenizer.skipToken('[');
 
@@ -696,6 +711,9 @@ export class MFVec2f extends MultipleValue {
 
 export class MFVec3f extends MultipleValue {
   setValueFromTokenizer(tokenizer) {
+    // If we reach this function it means that the MFVec3f does not have the default value.
+    // Thus we should reset the value because it already contains the default one.
+    this.value = [];
     if (tokenizer.peekWord() === '[') {
       tokenizer.skipToken('[');
 
@@ -729,7 +747,7 @@ export class MFVec3f extends MultipleValue {
 export class MFColor extends MultipleValue {
   setValueFromTokenizer(tokenizer) {
     // If we reach this function it means that the MFColor does not have the default value.
-    // Thus we should reset the value because it already contains the default one: [1 0 0].
+    // Thus we should reset the value because it already contains the default one.
     this.value = [];
     if (tokenizer.peekWord() === '[') {
       tokenizer.skipToken('[');
@@ -763,6 +781,9 @@ export class MFColor extends MultipleValue {
 
 export class MFRotation extends MultipleValue {
   setValueFromTokenizer(tokenizer) {
+    // If we reach this function it means that the MFRotation does not have the default value.
+    // Thus we should reset the value because it already contains the default one.
+    this.value = [];
     if (tokenizer.peekWord() === '[') {
       tokenizer.skipToken('[');
 
@@ -795,6 +816,9 @@ export class MFRotation extends MultipleValue {
 
 export class MFNode extends MultipleValue {
   setValueFromTokenizer(tokenizer) {
+    // If we reach this function it means that the MFNode does not have the default value.
+    // Thus we should reset the value because it could already contains the default one.
+    this.value = [];
     if (tokenizer.peekWord() === '[') {
       tokenizer.skipToken('[');
 
