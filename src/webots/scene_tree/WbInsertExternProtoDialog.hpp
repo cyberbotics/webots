@@ -39,6 +39,7 @@ private slots:
   void updateSelection();
 
 private:
+  // cppcheck 2.10 seems to give a series of false positives here that we want to silence:
   // cppcheck-suppress unsafeClassCanLeak
   QTreeWidget *mTree;
   // cppcheck-suppress unsafeClassCanLeak
