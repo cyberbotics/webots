@@ -30,6 +30,7 @@ class WbInsertExternProtoDialog : public QDialog {
 
 public:
   explicit WbInsertExternProtoDialog(QWidget *parent = NULL);
+  virtual ~WbInsertExternProtoDialog();
 
 public slots:
   void accept() override;
