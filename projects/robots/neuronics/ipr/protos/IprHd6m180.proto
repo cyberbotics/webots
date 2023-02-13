@@ -4,7 +4,7 @@
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/neuronics/ipr/protos/IprHd6m180.proto
 # The IPR robot is a six degrees of freedom robotic arm equipped with a gripper composed of 2 rotational fingers.
 # It was developed by Neuronics.
-# More infomation: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/neuronics/ipr/protos/IprHd6m90.proto
+# More infomation: [Ipr](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/neuronics/ipr/protos/IprHd6m90.proto)
 
 PROTO IprHd6m180 [
   field SFVec3f    translation      0 0 0.61     # Is `Transform.translation`.
