@@ -17,6 +17,7 @@
     "Enum": false,
     "document": false,
     "glm": false,
+    "libtess": false,
     "Module": false,
     "navigator": false,
     "Quaternion": false,

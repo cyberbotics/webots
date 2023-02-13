@@ -4,7 +4,7 @@
  *              e.g. v = {x: 1, y: 2, z: 3}
  */
 
-import * as wbutility from 'wbutility.js';
+import * as wbutility from './wbutility.js';
 
 export function equal(vA, vB) {
   wbutility.assert(wbutility.isVector3(vA), 'Expected an object with keys (x, y, z) as first parameter in wbvector3.equal.');

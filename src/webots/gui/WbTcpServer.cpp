@@ -22,6 +22,7 @@
 #include "WbLanguage.hpp"
 #include "WbMainWindow.hpp"
 #include "WbNodeOperations.hpp"
+#include "WbPerspective.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbRobot.hpp"
@@ -565,6 +566,8 @@ void WbTcpServer::resetSimulation() {
   WbApplication::instance()->simulationReset(true);
   QCoreApplication::processEvents();  // this is required to make sure the simulation reset has been performed before sending
                                       // the update
+  printf("reset\n");
+  fflush(stdout);
   mLastUpdateTime = -1.0;
   mPauseTimeout = -1.0;
 }
@@ -657,6 +660,9 @@ void WbTcpServer::sendRobotWindowInformation(QWebSocket *client, const WbRobot *
     QJsonObject windowObject;
     windowObject.insert("robot", robot->name());
     windowObject.insert("window", robot->window());
+    // if the robot window should be visible based on wbproj perspective file c.f. WbMainWindow::restorePerspective():
+    if (WbWorld::instance()->perspective()->enabledRobotWindowNodeNames().contains(robot->computeUniqueName()))
+      windowObject.insert("visible", true);
     if (remove)
       windowObject.insert("remove", true);
     if (WbWorld::instance()->worldInfo()->window() == robot->window())

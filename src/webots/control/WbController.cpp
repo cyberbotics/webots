@@ -245,13 +245,15 @@ bool WbController::isRunning() const {
 void WbController::start() {
   mRobot->setControllerStarted(true);
   if (mExtern) {
-    const QString localUrl =
-      "ipc://" + QString::number(WbStandardPaths::webotsTmpPathId()) + '/' + QUrl::toPercentEncoding(mRobot->name());
-    const QString remoteUrl = "tcp://<ip_address>:" + QString::number(WbStandardPaths::webotsTmpPathId()) + '/' +
-                              QUrl::toPercentEncoding(mRobot->name());
-    info(tr("waiting for connection on %1 or on %2").arg(localUrl).arg(remoteUrl));
+    info(tr("waiting for local or remote connection on port %1 targeting robot named '%2'.")
+           .arg(QString::number(WbStandardPaths::webotsTmpPathId()))
+           .arg(QUrl::toPercentEncoding(mRobot->name())));
     WbControlledWorld::instance()->externConnection(this, false);
     if (WbWorld::printExternUrls()) {
+      const QString localUrl =
+        "ipc://" + QString::number(WbStandardPaths::webotsTmpPathId()) + '/' + QUrl::toPercentEncoding(mRobot->name());
+      const QString remoteUrl = "tcp://<ip_address>:" + QString::number(WbStandardPaths::webotsTmpPathId()) + '/' +
+                                QUrl::toPercentEncoding(mRobot->name());
       std::cout << localUrl.toUtf8().constData() << std::endl;
       std::cout << remoteUrl.toUtf8().constData() << std::endl;
     }

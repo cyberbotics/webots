@@ -413,6 +413,52 @@ bool WbVrmlNodeUtilities::hasASubsequentUseOrDefNode(const WbNode *defNode, cons
   return useOverlap;
 }
 
+bool WbVrmlNodeUtilities::hasAreferredDefNodeDescendant(const WbNode *node, const WbNode *root) {
+  const WbNode *rootNode = root ? root : node;
+  const int count = node->useCount();
+  const QList<WbNode *> &useNodes = node->useNodes();
+  for (int i = 0; i < count; ++i) {
+    if (!rootNode->isAnAncestorOf(useNodes.at(i)))
+      return true;
+  }
+
+  foreach (WbField *field, node->fieldsOrParameters()) {
+    WbValue *value = field->value();
+    const WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(value);
+    if (sfnode && sfnode->value()) {
+      const WbNode *childNode = sfnode->value();
+      const int nodeCount = childNode->useCount();
+      const QList<WbNode *> &nodeUseNodes = childNode->useNodes();
+      for (int i = 0; i < nodeCount; ++i) {
+        if (!rootNode->isAnAncestorOf(nodeUseNodes.at(i)))
+          return true;
+      }
+      const bool subtreeHasDef = hasAreferredDefNodeDescendant(childNode, rootNode);
+      if (subtreeHasDef)
+        return subtreeHasDef;
+    } else {
+      const WbMFNode *const mfnode = dynamic_cast<WbMFNode *>(value);
+      if (mfnode) {
+        const int size = mfnode->size();
+        for (int i = 0; i < size; ++i) {
+          const WbNode *childNode = mfnode->item(i);
+          const int nodeCount = childNode->useCount();
+          const QList<WbNode *> &nodeUseNodes = childNode->useNodes();
+          for (int j = 0; j < nodeCount; ++j) {
+            if (!rootNode->isAnAncestorOf(nodeUseNodes.at(j)))
+              return true;
+          }
+          const bool subtreeHasDef = hasAreferredDefNodeDescendant(childNode, rootNode);
+          if (subtreeHasDef)
+            return subtreeHasDef;
+        }
+      }
+    }
+  }
+
+  return false;
+}
+
 QList<WbNode *> WbVrmlNodeUtilities::findUseNodeAncestors(WbNode *node) {
   QList<WbNode *> list;
 
