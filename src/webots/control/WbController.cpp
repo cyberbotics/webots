@@ -434,7 +434,7 @@ void WbController::setProcessEnvironment() {
   // Add the Webots lib path to be able to load (at least) libController
   QString ldLibraryPath = WbStandardPaths::controllerLibPath();
   ldLibraryPath.chop(1);
-  addToPathEnvironmentVariable(env, ldEnvironmentVariable, ldLibraryPath, false);
+  addToPathEnvironmentVariable(env, ldEnvironmentVariable, ldLibraryPath, false, true);
   // Remove paths needed by Webots only
 #ifdef _WIN32
   const QString msys64 = QDir::toNativeSeparators(WbStandardPaths::webotsMsys64Path());
