@@ -7,7 +7,7 @@
 # More infomation: [Ipr](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/neuronics/ipr/protos/IprHd6m90.proto)
 
 PROTO IprHd6ms90 [
-  field SFVec3f    translation      0 0 0.62     # Is `Transform.translation`.
+  field SFVec3f    translation      0 0 0        # Is `Transform.translation`.
   field SFRotation rotation         0 0 1 0      # Is `Transform.rotation`.
   field SFString   name             "IPR"        # Is `Solid.name`.
   field SFString   controller       "<generic>"  # Is `Robot.controller`.
