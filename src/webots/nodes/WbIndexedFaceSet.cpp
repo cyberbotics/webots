@@ -353,7 +353,7 @@ void WbIndexedFaceSet::exportNodeContents(WbWriter &writer) const {
       for (int l = 0; l < vertexCount; ++l) {
         const int k = 3 * l;
         if (vertices[k] == x && vertices[k + 1] == y && vertices[k + 2] == z) {
-          coordIndexes[indexCount] = l;
+          coordIndices[indexCount] = l;
           found = true;
           break;
         }
@@ -363,7 +363,7 @@ void WbIndexedFaceSet::exportNodeContents(WbWriter &writer) const {
         vertices[v] = x;
         vertices[v + 1] = y;
         vertices[v + 2] = z;
-        coordIndexes[indexCount] = vertexCount;
+        coordIndices[indexCount] = vertexCount;
         ++vertexCount;
       }
       const double nx = mTriangleMesh->normal(i, j, 0);
@@ -373,7 +373,7 @@ void WbIndexedFaceSet::exportNodeContents(WbWriter &writer) const {
       for (int l = 0; l < normalCount; ++l) {
         const int k = 3 * l;
         if (normals[k] == nx && normals[k + 1] == ny && normals[k + 2] == nz) {
-          normalIndexes[indexCount] = l;
+          normalIndices[indexCount] = l;
           found = true;
           break;
         }
@@ -383,7 +383,7 @@ void WbIndexedFaceSet::exportNodeContents(WbWriter &writer) const {
         normals[v] = nx;
         normals[v + 1] = ny;
         normals[v + 2] = nz;
-        normalIndexes[indexCount] = normalCount;
+        normalIndices[indexCount] = normalCount;
         ++normalCount;
       }
 
@@ -393,7 +393,7 @@ void WbIndexedFaceSet::exportNodeContents(WbWriter &writer) const {
       for (int l = 0; l < textureCount; ++l) {
         const int k = 2 * l;
         if (textures[k] == tu && textures[k + 1] == tv) {
-          texCoordIndexes[indexCount] = l;
+          texCoordIndices[indexCount] = l;
           found = true;
           break;
         }
@@ -402,7 +402,7 @@ void WbIndexedFaceSet::exportNodeContents(WbWriter &writer) const {
         const int v = 2 * textureCount;
         textures[v] = tu;
         textures[v + 1] = tv;
-        texCoordIndexes[indexCount] = textureCount;
+        texCoordIndices[indexCount] = textureCount;
         ++textureCount;
       }
       ++indexCount;
@@ -425,7 +425,7 @@ void WbIndexedFaceSet::exportNodeContents(WbWriter &writer) const {
       if (i % 3 == 0)
         writer << "-1 ";
     }
-    writer << coordIndexes[i];
+    writer << coordIndices[i];
   }
 
   writer << " -1\'";
@@ -436,7 +436,7 @@ void WbIndexedFaceSet::exportNodeContents(WbWriter &writer) const {
       if (i % 3 == 0)
         writer << "-1 ";
     }
-    writer << normalIndexes[i];
+    writer << normalIndices[i];
   }
   writer << " -1\'";
 
@@ -447,7 +447,7 @@ void WbIndexedFaceSet::exportNodeContents(WbWriter &writer) const {
       if (i % 3 == 0)
         writer << "-1 ";
     }
-    writer << texCoordIndexes[i];
+    writer << texCoordIndices[i];
   }
   writer << " -1\'";
 
@@ -485,9 +485,9 @@ void WbIndexedFaceSet::exportNodeContents(WbWriter &writer) const {
   }
   writer << "\'></TextureCoordinate>";
 
-  delete[] coordIndexes;
-  delete[] normalIndexes;
-  delete[] texCoordIndexes;
+  delete[] coordIndices;
+  delete[] normalIndices;
+  delete[] texCoordIndices;
   delete[] vertices;
   delete[] normals;
   delete[] textures;

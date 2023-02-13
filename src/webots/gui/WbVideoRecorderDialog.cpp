@@ -99,15 +99,14 @@ WbVideoRecorderDialog::WbVideoRecorderDialog(QWidget *parent, const QSize &curre
   mainLayout->setSizeConstraint(QLayout::SetFixedSize);
 
   // set default values
-  int qualityPreference, resolutionIndexPreference;
-  double accelerationPreference;
-  bool captionPreference;
-  WbPreferences::instance()->moviePreferences(resolutionIndexPreference, qualityPreference, accelerationPreference,
-                                              captionPreference);
-  mResolutionList.setCurrentRow(resolutionIndexPreference);
-  mQualitySpinBox->setValue(qualityPreference);
-  mAccelerationSpinBox->setValue(accelerationPreference);
-  mCaptionCheckBox->setChecked(captionPreference);
+  int qualityValue, resolutionIndex;
+  double accelerationValue;
+  bool captionValue;
+  WbPreferences::instance()->moviePreferences(resolutionIndex, qualityValue, accelerationValue, captionValue);
+  mResolutionList.setCurrentRow(resolutionIndex);
+  mQualitySpinBox->setValue(qualityValue);
+  mAccelerationSpinBox->setValue(accelerationValue);
+  mCaptionCheckBox->setChecked(captionValue);
 }
 
 WbVideoRecorderDialog::~WbVideoRecorderDialog() {
