@@ -1,7 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Apache License 2.0.
 # license url: http://www.apache.org/licenses/LICENSE-2.0.
-# documentation url: https://www.cyberbotics.com/doc/guide/tiago-iron
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/pal_robotics/tiago_iron/protos/TiagoIron.proto
 # Iron version of the TIAGo robot from PAL Robotics.
 # The robot is composed by the TIAGo base and a body without arm.
 
