@@ -1,10 +1,11 @@
 #VRML_SIM R2023b utf8
 
+EXTERNPROTO "CustomBO.proto"
+
 PROTO Nao [
-  field SFNode bo NULL
+  field SFNode boundingObject NULL
 ]
 {
-
   Robot {
     children [
       Shape {
@@ -14,14 +15,6 @@ PROTO Nao [
         geometry Box {size 1 1 1 }
       }
     ]
-    boundingObject Transform {
-      children [
-        Shape {
-        geometry Box{
-          size 1 1 2
-          }
-          }
-      ]
-    }
+    boundingObject IS boundingObject
   }
 }

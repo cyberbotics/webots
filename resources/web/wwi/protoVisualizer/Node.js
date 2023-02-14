@@ -240,7 +240,8 @@ export default class Node {
 
     const nodeElement = this.xml.createElement(this.name);
 
-    if (this.name === 'ImageTexture' || parameterName === 'boundingObject')
+    console.log('>>>> ', parameterName, this.name)
+    if (this.name === 'ImageTexture' || (this.name === 'Group' && parameterName === 'boundingObject') || (this.name === 'Transform' && parameterName === 'boundingObject') )
       nodeElement.setAttribute('role', parameterName);
 
     if (this.refId > this.ids.length - 1)
