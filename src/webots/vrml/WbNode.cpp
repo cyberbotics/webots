@@ -1754,7 +1754,6 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
   if (!newNode) {
     gProtoParameterNodeFlag = previousFlag;
     delete gProtoParameterList.takeLast();
-    delete p;
     return NULL;
   }
   proto->ref(true);
