@@ -145,5 +145,24 @@ Transform {
     }
   ]
 }
+Transform {
+  translation 0 -0.6 0
+  rotation 1 0 0 1.5708
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          ambientIntensity 0
+          diffuseColor 0 0 0
+          emissiveColor 1 1 1
+        }
+        texture ImageTexture {
+        }
+      }
+      geometry Plane {
+      }
+    }
+  ]
+}
 TestSuiteSupervisor {
 }
