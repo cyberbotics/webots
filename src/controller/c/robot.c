@@ -74,6 +74,10 @@
 #define WEBOTS_EXIT_NOW 1
 #define WEBOTS_EXIT_LATER 2
 
+#ifndef LIBCONTROLLER_VERSION
+#error "Missing declaration of LIBCONTROLLER_VERSION preprocessor macro in the Makefile."
+#endif
+
 typedef struct {
   WbDevice **device;  // array of devices
   double battery_value;
@@ -119,6 +123,7 @@ typedef struct {
   WbSimulationMode simulation_mode;  // WB_SUPERVISOR_SIMULATION_MODE_FAST, etc.
 } WbRobot;
 
+static char *WEBOTS_VERSION;
 static bool robot_init_was_done = false;
 static WbRobot robot;
 static WbMutexRef robot_step_mutex;
@@ -388,6 +393,11 @@ static void robot_configure(WbRequest *r) {
   init_devices_from_tag(r, 1);
 
   robot.configure = 1;
+  WEBOTS_VERSION = request_read_string(r);
+  if (strlen(WEBOTS_VERSION) && (strlen(WEBOTS_VERSION) != strlen(LIBCONTROLLER_VERSION) ||
+                                 strncmp(WEBOTS_VERSION, LIBCONTROLLER_VERSION, strlen(WEBOTS_VERSION))))
+    fprintf(stderr, "Warning: Webots version %s is not the same as the one from the libController %s!\n", WEBOTS_VERSION,
+            LIBCONTROLLER_VERSION);
   robot.basic_time_step = request_read_double(r);
   robot.project_path = request_read_string(r);
   robot.world_path = request_read_string(r);

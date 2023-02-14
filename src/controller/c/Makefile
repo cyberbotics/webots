@@ -35,6 +35,8 @@ include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
 WEBOTS_DEPENDENCY_PATH ?= $(WEBOTS_HOME_PATH)/dependencies
 
+LIBCONTROLLER_VERSION := "$(shell cat $(WEBOTS_HOME_PATH)/resources/version.txt)"
+
 ifeq ($(OSTYPE),darwin)
 CFLAGS      = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -fpascal-strings -Wno-deprecated-declarations -I/Developer/Headers/FlatCarbon -Wall -fno-common
 INCLUDE     = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include
@@ -45,7 +47,7 @@ CC          = gcc
 endif
 
 ifeq ($(OSTYPE),linux)
-CFLAGS      = -fPIC -Wall -Wno-stringop-truncation
+CFLAGS      = -fPIC -Wall -Wno-stringop-truncation -D LIBCONTROLLER_VERSION='$(LIBCONTROLLER_VERSION)'
 INCLUDE     = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include
 LD_FLAGS    = -shared -Wl,-soname,libController.so
 SHARED_LIBS = -lm -lpthread -ldl -lrt

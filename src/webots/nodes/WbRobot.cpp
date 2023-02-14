@@ -15,6 +15,7 @@
 #include "WbRobot.hpp"
 
 #include "WbAbstractCamera.hpp"
+#include "WbApplicationInfo.hpp"
 #include "WbBinaryIncubator.hpp"
 #include "WbControllerPlugin.hpp"
 #include "WbDataStream.hpp"
@@ -773,6 +774,9 @@ void WbRobot::writeConfigure(WbDataStream &stream) {
   stream.writeRawData(n.constData(), n.size() + 1);
 
   writeDeviceConfigure(mDevices, stream);
+
+  n = WbApplicationInfo::version().toString().toUtf8();
+  stream.writeRawData(n.constData(), n.size() + 1);
 
   stream << (double)WbWorld::instance()->basicTimeStep();
 
