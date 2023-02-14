@@ -643,8 +643,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     resetButton.onclick = () => {
       // delete all existing rows in the interface
       const nodes = document.getElementsByClassName('mf-id-' + currentMfId);
-      for (let i = nodes.length - 1; i >= 0; i--)
+      let maxRowNumber = 0;
+      for (let i = nodes.length - 1; i >= 0; i--) {
+        const rowNumber = this.#getRow(nodes[i]);
+        if (rowNumber > maxRowNumber)
+          maxRowNumber = rowNumber;
         nodes[i].parentNode.removeChild(nodes[i]);
+      }
 
       // delete all existing nodes in the parameter
       for (let i = parameter.value.value.length - 1; i >= 0; --i)
@@ -653,11 +658,19 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       const protoModel = parameter.node.model;
       const parameterModel = protoModel['parameters'][parameter.name]['defaultValue'];
       const mfnode = vrmlFactory(VRML.MFNode, parameterModel, true);
+      const resetButtonRow = this.#getRow(resetButton);
+      // two times because of the `add` button and plus one for the first `add` button.
+      const maxRowNumberNeeded = mfnode.value.length * 2 + 1 + resetButtonRow;
+
+      // Need to offset the following rows by the difference to keep the coherency.
+      if (maxRowNumber > maxRowNumberNeeded)
+        this.#offsetNegativelyRows(resetButtonRow, maxRowNumber - maxRowNumberNeeded);
+      else if (maxRowNumber < maxRowNumberNeeded)
+        this.#offsetPositivelyRows(resetButtonRow + 1, maxRowNumberNeeded - maxRowNumber);
 
       for (const [i, node] of mfnode.value.entries())
         parameter.insertNode(this.#view, node.value, i);
 
-      const resetButtonRow = this.#getRow(resetButton);
       this.#populateMFNode(resetButton, parent, parameter, resetButtonRow, currentMfId, false);
       this.#refreshParameterRow(parameter, currentMfId);
       hideShowButton.style.transform = '';
