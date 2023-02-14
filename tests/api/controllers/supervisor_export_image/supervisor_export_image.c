@@ -51,7 +51,7 @@ static void test_exported_image_correct(const char *color_def, const unsigned ch
   // Why isn't this all that is needed?
   sleep(1);
 
-  // Why do we need to wait a steps for this to work in real-time or fast mode but not when stepping?
+  // Why do we need to wait a step for this to work in real-time or fast mode but not when stepping?
   wb_robot_step(time_step);
 
   ts_assert_boolean_equal(file_exists(file_name_png), "wb_supervisor_export_image() failed to create the %s file.",
