@@ -321,6 +321,14 @@ export default class Parser {
                 parentNode.boundingObject = result;
               else
                 parentNode.children.push(result);
+
+              //result.isInBoundingObject();
+              console.log('box', result)
+              console.log('parent', parentNode)
+              //parentNode.unfinalize();
+              //parentNode.finalize()
+            } else {
+              throw new Error('UNHANDLED CASE')
             }
           }
         } else if (node.tagName === 'PBRAppearance') {

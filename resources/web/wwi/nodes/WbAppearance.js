@@ -2,6 +2,7 @@ import WbAbstractAppearance from './WbAbstractAppearance.js';
 import WbWorld from './WbWorld.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import {getAnId} from './utils/id_provider.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbAppearance extends WbAbstractAppearance {
   #material;
@@ -11,6 +12,10 @@ export default class WbAppearance extends WbAbstractAppearance {
     super(id, transform);
     this.material = material;
     this.texture = texture;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_APPEARANCE;
   }
 
   get material() {

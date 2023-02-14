@@ -6,6 +6,7 @@ import WbWorld from './WbWorld.js';
 import WbBoundingSphere from './utils/WbBoundingSphere.js';
 import {getAnId} from './utils/id_provider.js';
 import {nodeIsInBoundingObject} from './utils/node_utilities.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbGroup extends WbBaseNode {
   #device;
@@ -22,6 +23,10 @@ export default class WbGroup extends WbBaseNode {
     this.currentHelix = -1; // to switch between fast and slow helix
     if (isPropeller)
       this.#device = [];
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_GROUP;
   }
 
   get device() {

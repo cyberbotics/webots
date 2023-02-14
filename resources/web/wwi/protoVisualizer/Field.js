@@ -78,6 +78,7 @@ export default class Field {
       for (const id of link.node.getBaseNodeIds()) {
         v.assignId();
         const x3d = new XMLSerializer().serializeToString(v.toX3d());
+        console.log('insert', x3d, ' TO ', id)
         view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', id.replace('n', ''));
       }
     }

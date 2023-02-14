@@ -220,7 +220,10 @@ export default class WbGeometry extends WbBaseNode {
       return false;
 
     const upperTransform = this.#upperTransform();
-    if (typeof upperTransform !== 'undefined' && upperTransform.isInBoundingObject() && upperTransform.geometry !== this)
+    console.log('>>>>>>>>>>', upperTransform)
+    console.log('>>>>>>>>>>', typeof upperTransform !== 'undefined' , upperTransform.isInBoundingObject() , upperTransform.geometry() !== this)
+
+    if (typeof upperTransform !== 'undefined' && upperTransform.isInBoundingObject() && upperTransform.geometry() !== this)
       return false;
 
     return true;

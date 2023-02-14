@@ -4,6 +4,7 @@ import WbWorld from './WbWorld.js';
 import {getAnId} from './utils/id_provider.js';
 import {findUpperTransform} from './utils/node_utilities.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbTransform extends WbGroup {
   #absoluteScale;
@@ -29,6 +30,10 @@ export default class WbTransform extends WbGroup {
     this.#vrmlMatrix = new WbMatrix4();
     this.#vrmlMatrixNeedUpdate = true;
     this.#matrixNeedUpdate = true;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_TRANSFORM;
   }
 
   get translation() {
@@ -140,6 +145,18 @@ export default class WbTransform extends WbGroup {
     }
 
     return this.#vrmlMatrix;
+  }
+
+  geometry() {
+    if (this.children.length === 0)
+      return;
+
+    const firstChild = this.children[0];
+    console.log('first child', firstChild.nodeType)
+    if (firstChild.nodeType === WbNodeType.WB_NODE_SHAPE)
+      return firstChild.geometry;
+
+    return firstChild;
   }
 
   #applyRotationToWren() {
