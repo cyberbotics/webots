@@ -9,13 +9,15 @@ import Field from './Field.js';
 export default class Parameter extends Field {
   #restrictions;
   #aliasLinks;
+  #hidden;
   #isTemplateRegenerator;
-  constructor(node, name, type, defaultValue, value, restrictions, isTemplateRegenerator) {
+  constructor(node, name, type, defaultValue, value, restrictions, isTemplateRegenerator, hidden) {
     super(node, name, type, value, defaultValue);
 
     this.#restrictions = restrictions;
     this.#isTemplateRegenerator = isTemplateRegenerator;
     this.#aliasLinks = []; // list of other parameters to notify whenever this instance changes
+    this.#hidden = hidden;
   }
 
   get restrictions() {
@@ -46,6 +48,10 @@ export default class Parameter extends Field {
     }
 
     super.value = newValue;
+  }
+
+  get hidden() {
+    return this.#hidden;
   }
 
   get isTemplateRegenerator() {
