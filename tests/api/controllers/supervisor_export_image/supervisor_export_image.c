@@ -54,11 +54,11 @@ static void test_exported_image_correct(const char *color_def, const unsigned ch
   // Why do we need to wait a steps for this to work in real-time or fast mode but not when stepping?
   wb_robot_step(time_step);
 
-  ts_assert_boolean_equal(file_exists(file_name_png),
-                          "wb_supervisor_export_image() failed to create the %s file.", file_name_png);
+  ts_assert_boolean_equal(file_exists(file_name_png), "wb_supervisor_export_image() failed to create the %s file.",
+                          file_name_png);
 
-  ts_assert_boolean_equal(file_exists(file_name_jpg),
-                          "wb_supervisor_export_image() failed to create the %s file.", file_name_jpg);
+  ts_assert_boolean_equal(file_exists(file_name_jpg), "wb_supervisor_export_image() failed to create the %s file.",
+                          file_name_jpg);
 
   // Remove the emissive color and set the texture to be the image we just exported
   WbNodeRef appearance = wb_supervisor_node_get_from_def(color_def);
@@ -77,14 +77,18 @@ static void test_exported_image_correct(const char *color_def, const unsigned ch
   const unsigned char *image = wb_camera_get_image(camera);
   const int width = wb_camera_get_width(camera);
   const int height = wb_camera_get_width(camera);
-  unsigned char rgb[3] = {0, 0, 0};
-  rgb[0] = wb_camera_image_get_red(image, width, width / 2, height / 2);
-  rgb[1] = wb_camera_image_get_green(image, width, width / 2, height / 2);
-  rgb[2] = wb_camera_image_get_blue(image, width, width / 2, height / 2);
+  for (int y = 0; y < height; y++) {
+    for (int x = 0; x < width; x++) {
+      unsigned char rgb[3] = {0, 0, 0};
+      rgb[0] = wb_camera_image_get_red(image, width, x, y);
+      rgb[1] = wb_camera_image_get_green(image, width, x, y);
+      rgb[2] = wb_camera_image_get_blue(image, width, x, y);
 
-  ts_assert_color_in_delta(rgb[0], rgb[1], rgb[2], expected_rgb[0], expected_rgb[1], expected_rgb[2], 1,
-                           "Color (%d, %d, %d) is not close enough to expected color (%d, %d, %d)", rgb[0], rgb[1], rgb[2],
-                           expected_rgb[0], expected_rgb[1], expected_rgb[2]);
+      ts_assert_color_in_delta(rgb[0], rgb[1], rgb[2], expected_rgb[0], expected_rgb[1], expected_rgb[2], 1,
+                               "At position (%d, %d), color (%d, %d, %d) is not close enough to expected color (%d, %d, %d)", x,
+                               y, rgb[0], rgb[1], rgb[2], expected_rgb[0], expected_rgb[1], expected_rgb[2]);
+    }
+  }
 }
 
 int main(int argc, char **argv) {
