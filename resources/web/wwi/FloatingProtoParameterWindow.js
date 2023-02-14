@@ -477,12 +477,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
       let value;
       if (parameter.type === VRML.MFVec3f) {
-        value = {x: this.#sanitizeNumber(elements[i].childNodes[0].childNodes[1].value),
-          y: this.#sanitizeNumber(elements[i].childNodes[1].childNodes[1].value),
-          z: this.#sanitizeNumber(elements[i].childNodes[2].childNodes[1].value)};
+        value = {x: this.#sanitizeNumber(elements[i].childNodes[0].childNodes[0].value),
+          y: this.#sanitizeNumber(elements[i].childNodes[1].childNodes[0].value),
+          z: this.#sanitizeNumber(elements[i].childNodes[2].childNodes[0].value)};
       } else if (parameter.type === VRML.MFVec2f) {
-        value = {x: this.#sanitizeNumber(elements[i].childNodes[0].childNodes[1].value),
-          y: this.#sanitizeNumber(elements[i].childNodes[1].childNodes[1].value)};
+        value = {x: this.#sanitizeNumber(elements[i].childNodes[0].childNodes[0].value),
+          y: this.#sanitizeNumber(elements[i].childNodes[1].childNodes[0].value)};
       } else if (parameter.type === VRML.MFString)
         value = elements[i].childNodes[0].value;
       else if (parameter.type === VRML.MFFloat || parameter.type === VRML.MFInt32)
@@ -490,10 +490,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       else if (parameter.type === VRML.MFBool)
         value = elements[i].childNodes[0].checked;
       else if (parameter.type === VRML.MFRotation) {
-        value = {'x': this.#sanitizeNumber(elements[i].childNodes[0].childNodes[1].value),
-          'y': this.#sanitizeNumber(elements[i].childNodes[1].childNodes[1].value),
-          'z': this.#sanitizeNumber(elements[i].childNodes[2].childNodes[1].value),
-          'a': this.#sanitizeNumber(elements[i].childNodes[3].childNodes[1].value)};
+        value = {'x': this.#sanitizeNumber(elements[i].childNodes[0].childNodes[0].value),
+          'y': this.#sanitizeNumber(elements[i].childNodes[1].childNodes[0].value),
+          'z': this.#sanitizeNumber(elements[i].childNodes[2].childNodes[0].value),
+          'a': this.#sanitizeNumber(elements[i].childNodes[3].childNodes[0].value)};
       } else if (parameter.type === VRML.MFColor) {
         const hexValue = elements[i].childNodes[0].value;
         const red = parseInt(hexValue.substring(1, 3), 16) / 255;
@@ -643,8 +643,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     resetButton.onclick = () => {
       // delete all existing rows in the interface
       const nodes = document.getElementsByClassName('mf-id-' + currentMfId);
-      for (let i = nodes.length - 1; i >= 0; i--)
+      let maxRowNumber = 0;
+      for (let i = nodes.length - 1; i >= 0; i--) {
+        const rowNumber = this.#getRow(nodes[i]);
+        if (rowNumber > maxRowNumber)
+          maxRowNumber = rowNumber;
         nodes[i].parentNode.removeChild(nodes[i]);
+      }
 
       // delete all existing nodes in the parameter
       for (let i = parameter.value.value.length - 1; i >= 0; --i)
@@ -653,11 +658,19 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       const protoModel = parameter.node.model;
       const parameterModel = protoModel['parameters'][parameter.name]['defaultValue'];
       const mfnode = vrmlFactory(VRML.MFNode, parameterModel, true);
+      const resetButtonRow = this.#getRow(resetButton);
+      // two times because of the `add` button and plus one for the first `add` button.
+      const maxRowNumberNeeded = mfnode.value.length * 2 + 1 + resetButtonRow;
+
+      // Need to offset the following rows by the difference to keep the coherency.
+      if (maxRowNumber > maxRowNumberNeeded)
+        this.#offsetNegativelyRows(resetButtonRow, maxRowNumber - maxRowNumberNeeded);
+      else if (maxRowNumber < maxRowNumberNeeded)
+        this.#offsetPositivelyRows(resetButtonRow + 1, maxRowNumberNeeded - maxRowNumber);
 
       for (const [i, node] of mfnode.value.entries())
         parameter.insertNode(this.#view, node.value, i);
 
-      const resetButtonRow = this.#getRow(resetButton);
       this.#populateMFNode(resetButton, parent, parameter, resetButtonRow, currentMfId, false);
       this.#refreshParameterRow(parameter, currentMfId);
       hideShowButton.style.transform = '';
