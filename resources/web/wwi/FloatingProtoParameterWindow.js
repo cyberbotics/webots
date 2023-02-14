@@ -141,6 +141,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       const keys = this.proto.parameters.keys();
       for (let key of keys) {
         const parameter = this.proto.parameters.get(key);
+        if (parameter.hidden)
+          continue;
 
         if (parameter.restrictions.length > 0 && !this.unsupportedRestrictions.includes(parameter.type))
           this.#createRestrictedField(key, contentDiv);
