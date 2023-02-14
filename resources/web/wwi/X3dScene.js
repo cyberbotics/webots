@@ -190,12 +190,12 @@ export default class X3dScene {
       if (typeof node === 'undefined')
         return undefined;
 
-      let node = WbWorld.instance.nodes.get(node.parent);
-      while (typeof node !== 'undefined') {
-        if (node instanceof WbShape)
+      let n = WbWorld.instance.nodes.get(node.parent);
+      while (typeof n !== 'undefined') {
+        if (n instanceof WbShape)
           return n;
 
-        node = WbWorld.instance.nodes.get(node.parent);
+        n = WbWorld.instance.nodes.get(n.parent);
       }
 
       return undefined;
