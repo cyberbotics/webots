@@ -5,8 +5,8 @@ sceneTreePerspectives: 000000ff00000001000000030000001d000000c0000000fa010000000
 maximizedDockId: -1
 centralWidgetVisible: 1
 projectionMode: PERSPECTIVE
+userInteractions: selectionDisabled
 orthographicViewHeight: 1.75385
 textFiles: 0 "controllers/supervisor_export_image/supervisor_export_image.c"
 consoles: Console:All:All
-renderingDevicePerspectives: robot:camera;1;1;0;0
-userInteractions: selectionDisabled
+renderingDevicePerspectives: robot:camera;0;1;0;0
