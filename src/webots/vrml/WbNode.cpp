@@ -1754,6 +1754,7 @@ WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QVe
   if (!newNode) {
     gProtoParameterNodeFlag = previousFlag;
     delete gProtoParameterList.takeLast();
+    // cppcheck-suppress memleak
     return NULL;
   }
   proto->ref(true);
