@@ -4,7 +4,7 @@ export default class FloatingIDE extends FloatingWindow {
   constructor(parentNode, name, url) {
     super(parentNode, name, url);
 
-    this.floatingWindow.style.zIndex = '2';
+    this.floatingWindow.style.zIndex = '3';
     this.headerText.innerHTML = 'Source Code Editor';
     this.frame.id = this.name + '-floating-window';
 
