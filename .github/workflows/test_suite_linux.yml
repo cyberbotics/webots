@@ -121,7 +121,7 @@ jobs:
         export BRANCH_HASH=$(git log -1 --format='%H')
         xvfb-run --auto-servernum python tests/test_suite.py
     - uses: actions/upload-artifact@v2
-      if: falilure()
+      if: failure()
       with:
         name: test-results-${{ matrix.os }}
         path: |
