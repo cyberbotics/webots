@@ -742,6 +742,7 @@ void WbConnector::reset(const QString &id) {
   if (mPeer)
     detachFromPeer();
   mStartup = true;
+  mNeedToReconfigure = true;
 }
 
 void WbConnector::save(const QString &id) {
