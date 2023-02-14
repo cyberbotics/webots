@@ -125,7 +125,7 @@ jobs:
       with:
         name: test-results-${{ matrix.os }}
         path: |
-          ./*
+          tests/
       
   test-ros:
     needs: build
