@@ -18,14 +18,14 @@ bool file_exists(const char *filename) {
   return false;
 }
 
-void test_exported_image_correct(char *colorDef, unsigned char *expectedRgb, double angleRadians) {
-  int time_step = wb_robot_get_basic_time_step();
+static void test_exported_image_correct(const char *color_def, const unsigned char *expected_rgb, double angle_radians) {
+  const int time_step = wb_robot_get_basic_time_step();
 
   WbDeviceTag camera = wb_robot_get_device("camera");
   wb_camera_enable(camera, 1);
 
-  char fileNamePng[BUFSIZ];
-  char fileNameJpg[BUFSIZ];
+  char file_name_png[BUFFER_SIZE];
+  char file_name_jpg[BUFFER_SIZE];
   sprintf(fileNamePng, "%s.png", colorDef);
   sprintf(fileNameJpg, "%s.jpg", colorDef);
 
@@ -63,7 +63,7 @@ void test_exported_image_correct(char *colorDef, unsigned char *expectedRgb, dou
   WbNodeRef appearance = wb_supervisor_node_get_from_def(colorDef);
   WbNodeRef material = wb_supervisor_field_get_sf_node(wb_supervisor_node_get_field(appearance, "material"));
   WbFieldRef emissiveColor = wb_supervisor_node_get_field(material, "emissiveColor");
-  double black[3] = {0.0, 0.0, 0.0};
+  const double black[3] = {0.0, 0.0, 0.0};
   wb_supervisor_field_set_sf_color(emissiveColor, black);
   WbNodeRef texture = wb_supervisor_field_get_sf_node(wb_supervisor_node_get_field(appearance, "texture"));
   WbFieldRef textureUrl = wb_supervisor_node_get_field(texture, "url");
@@ -74,8 +74,8 @@ void test_exported_image_correct(char *colorDef, unsigned char *expectedRgb, dou
 
   // Use the camera to take a picture and confirm that the color is correct
   const unsigned char *image = wb_camera_get_image(camera);
-  int width = wb_camera_get_width(camera);
-  int height = wb_camera_get_width(camera);
+  const int width = wb_camera_get_width(camera);
+  const int height = wb_camera_get_width(camera);
   unsigned char rgb[3] = {0, 0, 0};
   rgb[0] = wb_camera_image_get_red(image, width, width / 2, height / 2);
   rgb[1] = wb_camera_image_get_green(image, width, width / 2, height / 2);
@@ -89,9 +89,9 @@ void test_exported_image_correct(char *colorDef, unsigned char *expectedRgb, dou
 int main(int argc, char **argv) {
   ts_setup(argv[0]);
 
-  unsigned char red[3] = {255, 0, 0};
-  unsigned char green[3] = {0, 255, 0};
-  unsigned char blue[3] = {0, 0, 255};
+  const unsigned char red[3] = {255, 0, 0};
+  const unsigned char green[3] = {0, 255, 0};
+  const unsigned char blue[3] = {0, 0, 255};
   test_exported_image_correct("RED", red, M_PI);
   test_exported_image_correct("GREEN", green, -M_PI / 2);
   test_exported_image_correct("BLUE", blue, 0.0);
