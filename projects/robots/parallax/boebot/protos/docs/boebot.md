@@ -7,7 +7,7 @@ Derived from [Robot](https://cyberbotics.com/doc/reference/robot).
 
 ```
 BoeBot {
-  SFVec3f    translation     0 0 0
+  SFVec3f    translation     0 0 0.039
   SFRotation rotation        0 0 1 0
   SFString   name            "BoeBot"
   SFString   controller      "boebot"

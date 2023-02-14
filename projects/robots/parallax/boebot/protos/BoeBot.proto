@@ -5,7 +5,7 @@
 # The "Boe-Bot" is a 3 wheeled robot (2 motorized wheels and a passive caster wheel) created by Parallax Inc.
 
 PROTO BoeBot [
-  field SFVec3f    translation     0 0 0       # Is `Transform.translation`.
+  field SFVec3f    translation     0 0 0.039   # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.
   field SFString   name            "BoeBot"    # Is `Solid.name`.
   field SFString   controller      "boebot"    # Is `Robot.controller`.
