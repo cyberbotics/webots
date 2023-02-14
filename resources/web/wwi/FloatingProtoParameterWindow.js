@@ -477,12 +477,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
       let value;
       if (parameter.type === VRML.MFVec3f) {
-        value = {x: this.#sanitizeNumber(elements[i].childNodes[0].childNodes[1].value),
-          y: this.#sanitizeNumber(elements[i].childNodes[1].childNodes[1].value),
-          z: this.#sanitizeNumber(elements[i].childNodes[2].childNodes[1].value)};
+        value = {x: this.#sanitizeNumber(elements[i].childNodes[0].childNodes[0].value),
+          y: this.#sanitizeNumber(elements[i].childNodes[1].childNodes[0].value),
+          z: this.#sanitizeNumber(elements[i].childNodes[2].childNodes[0].value)};
       } else if (parameter.type === VRML.MFVec2f) {
-        value = {x: this.#sanitizeNumber(elements[i].childNodes[0].childNodes[1].value),
-          y: this.#sanitizeNumber(elements[i].childNodes[1].childNodes[1].value)};
+        value = {x: this.#sanitizeNumber(elements[i].childNodes[0].childNodes[0].value),
+          y: this.#sanitizeNumber(elements[i].childNodes[1].childNodes[0].value)};
       } else if (parameter.type === VRML.MFString)
         value = elements[i].childNodes[0].value;
       else if (parameter.type === VRML.MFFloat || parameter.type === VRML.MFInt32)
@@ -490,10 +490,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       else if (parameter.type === VRML.MFBool)
         value = elements[i].childNodes[0].checked;
       else if (parameter.type === VRML.MFRotation) {
-        value = {'x': this.#sanitizeNumber(elements[i].childNodes[0].childNodes[1].value),
-          'y': this.#sanitizeNumber(elements[i].childNodes[1].childNodes[1].value),
-          'z': this.#sanitizeNumber(elements[i].childNodes[2].childNodes[1].value),
-          'a': this.#sanitizeNumber(elements[i].childNodes[3].childNodes[1].value)};
+        value = {'x': this.#sanitizeNumber(elements[i].childNodes[0].childNodes[0].value),
+          'y': this.#sanitizeNumber(elements[i].childNodes[1].childNodes[0].value),
+          'z': this.#sanitizeNumber(elements[i].childNodes[2].childNodes[0].value),
+          'a': this.#sanitizeNumber(elements[i].childNodes[3].childNodes[0].value)};
       } else if (parameter.type === VRML.MFColor) {
         const hexValue = elements[i].childNodes[0].value;
         const red = parseInt(hexValue.substring(1, 3), 16) / 255;
