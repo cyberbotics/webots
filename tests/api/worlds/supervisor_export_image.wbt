@@ -88,5 +88,62 @@ Transform {
     }
   ]
 }
+Transform {
+  translation 0 0 -0.5
+  rotation 0 1 0 0
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          ambientIntensity 0
+          diffuseColor 0 0 0
+          emissiveColor 1 1 0
+        }
+        texture ImageTexture {
+        }
+      }
+      geometry Plane {
+      }
+    }
+  ]
+}
+Transform {
+  translation 0 0 0.5
+  rotation 0 1 0 -3.141592653179586
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          ambientIntensity 0
+          diffuseColor 0 0 0
+          emissiveColor 1 0 1
+        }
+        texture ImageTexture {
+        }
+      }
+      geometry Plane {
+      }
+    }
+  ]
+}
+Transform {
+  translation 0 0.5 0
+  rotation 1 0 0 1.5708
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+          ambientIntensity 0
+          diffuseColor 0 0 0
+          emissiveColor 0 1 1
+        }
+        texture ImageTexture {
+        }
+      }
+      geometry Plane {
+      }
+    }
+  ]
+}
 TestSuiteSupervisor {
 }
