@@ -396,8 +396,10 @@ static void robot_configure(WbRequest *r) {
   WEBOTS_VERSION = request_read_string(r);
   if (strlen(WEBOTS_VERSION) && (strlen(WEBOTS_VERSION) != strlen(LIBCONTROLLER_VERSION) ||
                                  strncmp(WEBOTS_VERSION, LIBCONTROLLER_VERSION, strlen(WEBOTS_VERSION))))
-    fprintf(stderr, "Warning: Webots version %s is not the same as the one from the libController %s!\n", WEBOTS_VERSION,
-            LIBCONTROLLER_VERSION);
+    fprintf(stderr,
+            "Warning: Webots [%s] and libController [%s] versions are not the same for Robot '%s'! Different versions can lead "
+            "to undefined behavior.\n",
+            WEBOTS_VERSION, LIBCONTROLLER_VERSION, robot.device[0]->name);
   robot.basic_time_step = request_read_double(r);
   robot.project_path = request_read_string(r);
   robot.world_path = request_read_string(r);
