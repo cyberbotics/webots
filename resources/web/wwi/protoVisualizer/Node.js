@@ -42,11 +42,12 @@ export default class Node {
         const isTemplateRegenerator = parameterModel['isTemplateRegenerator'];
         const restrictions = parameterModel['restrictions'];
         const initializer = parameterModel['defaultValue'];
+        const hidden = parameterModel['hidden'];
         const defaultValue = vrmlFactory(parameterType, initializer, true);
         const value = vrmlFactory(parameterType, initializer, true);
 
         const parameter = new Parameter(this, parameterName, parameterType, defaultValue, value, restrictions,
-          isTemplateRegenerator);
+          isTemplateRegenerator, hidden);
         this.parameters.set(parameterName, parameter);
       }
 
@@ -344,12 +345,15 @@ export default class Node {
     model['baseType'] = rawBody.match(/\{\s*(?:%<[\s\S]*?(?:>%\s*))?(?:DEF\s+[^\s]+)?\s+([a-zA-Z0-9_\-+]+)\s*\{/)[1];
     model['parameters'] = {};
 
+    let hiddenField = false;
     while (!tokenizer.peekToken().isEof()) {
       const token = tokenizer.nextToken();
       let nextToken = tokenizer.peekToken();
-
       const restrictions = [];
-      if (token.isKeyword() && nextToken.isPunctuation()) {
+
+      if (token.isKeyword()) {
+        if (token.word() === 'hiddenField' || token.word() === 'deprecatedField')
+          hiddenField = true;
         if (nextToken.word() === '{') {
           // parse field restrictions
           tokenizer.skipToken('{');
@@ -362,21 +366,22 @@ export default class Node {
 
           tokenizer.skipToken('}');
           nextToken = tokenizer.peekToken(); // we need to update the nextToken as it has to point after the restrictions
+        } else if (nextToken.isIdentifier()) {
+          const parameterName = nextToken.word();
+          const parameterType = token.fieldTypeFromVrml();
+          const isRegenerator = rawBody.search('fields.' + parameterName + '.') !== -1;
+          tokenizer.nextToken(); // consume the token containing the parameter name
+          const defaultValue = tokenizer.spliceTokenizerByType(parameterType);
+          const parameter = {};
+          parameter['hidden'] = hiddenField;
+          if (hiddenField)
+            hiddenField = false;
+          parameter['type'] = parameterType;
+          parameter['defaultValue'] = defaultValue;
+          parameter['isTemplateRegenerator'] = isRegenerator;
+          parameter['restrictions'] = restrictions;
+          model['parameters'][parameterName] = parameter;
         }
-      }
-
-      if (token.isKeyword() && nextToken.isIdentifier()) {
-        const parameterName = nextToken.word();
-        const parameterType = token.fieldTypeFromVrml();
-        const isRegenerator = rawBody.search('fields.' + parameterName + '.') !== -1;
-        tokenizer.nextToken(); // consume the token containing the parameter name
-        const defaultValue = tokenizer.spliceTokenizerByType(parameterType);
-        const parameter = {};
-        parameter['type'] = parameterType;
-        parameter['defaultValue'] = defaultValue;
-        parameter['isTemplateRegenerator'] = isRegenerator;
-        parameter['restrictions'] = restrictions;
-        model['parameters'][parameterName] = parameter;
       }
     }
 
