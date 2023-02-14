@@ -91,6 +91,8 @@ namespace {
     for (WbNode *child : children) {
       if (dynamic_cast<WbTrackWheel *>(child))
         newChildren += getNodeChildrenForBackwardCompatibility(child);
+      else
+        newChildren += child;
     }
 
     if (!dynamic_cast<WbTransform *>(boundingObject) && !dynamic_cast<WbGeometry *>(boundingObject) &&
