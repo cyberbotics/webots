@@ -230,6 +230,7 @@ IprHd6ms180 {
   ]
 }
 IprHd6ms180 {
+  translation 0 0 0.61
   name "IPR2"
   controller "ipr2_collaboration"
   sensorsSlot [
