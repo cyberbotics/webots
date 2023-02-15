@@ -4,7 +4,7 @@
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/softbank/nao/protos/BallCandy.proto
 
 PROTO BallCandy [
-  field SFVec3f translation 0 0 0
+  field SFVec3f translation 0 0 0.0162
   field SFRotation rotation 0 0 1 0
   field SFString name "ball candy"
   field SFColor color 0.9 0.1 0.1
