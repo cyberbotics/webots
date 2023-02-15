@@ -38,7 +38,8 @@ Released on ??
     - Fixed retrieval of sibling devices from [`BallJoint.device3`](balljoint.md) list. Previously, the devices retrieved were from the `device` list instead ([#5839](https://github.com/cyberbotics/webots/pull/5839)).
     - Fixed crash during PROTO regeneration triggered by nested PROTO in parameter ([#5724](https://github.com/cyberbotics/webots/pull/5724)).
     - Fixed wrong warning message about parent "worlds" folder displayed when saving a world ([#5843](https://github.com/cyberbotics/webots/pull/5843)).
-    - Fixed the issue of Webots occasionally loading the incorrect libController. ([#5885](https://github.com/cyberbotics/webots/pull/5885)).
+    - Fixed the issue of Webots occasionally loading the incorrect libController ([#5885](https://github.com/cyberbotics/webots/pull/5885)).
+    - Fixed the incorrect parent link of SliderJoints when exporting to URDF ([#5899](https://github.com/cyberbotics/webots/pull/5899)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
