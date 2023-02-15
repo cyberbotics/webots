@@ -66,7 +66,7 @@ bool Communication::initialize(const char *ip, int port) {
   address.sin_port = htons(port);
   struct hostent *server = gethostbyname(ip);
   if (server)
-    memcpy((char *)&address.sin_addr.s_addr, (char *)server->h_addr, server->h_length);
+    memcpy(reinterpret_cast<char *>(&address.sin_addr.s_addr), reinterpret_cast<char *>(server->h_addr), server->h_length);
   else {
     cerr << "Cannot resolve server name: " << ip << endl;
     return false;
@@ -99,7 +99,7 @@ bool Communication::sendPacket(const Packet *packet) {
   int n = 0;
   int size = packet->size();
   do {
-    int s = send(mSocket, (const char *)(packet->getBufferFromPos(n)), size - n, 0);
+    int s = send(mSocket, reinterpret_cast<const char *>(packet->getBufferFromPos(n)), size - n, 0);
     if (s == -1) {
       cerr << "Error sending data to socket" << endl;
       return false;
@@ -113,7 +113,7 @@ bool Communication::receivePacket(Packet *packet) {
   unsigned char buffer[5];
   int n = 0;
   do {  // read until the initial 'W' message
-    n = recv(mSocket, (char *)buffer, 1, 0);
+    n = recv(mSocket, reinterpret_cast<char *>(buffer), 1, 0);
     if (n == -1) {
       cerr << "Error received packet" << endl;
       return false;

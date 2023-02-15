@@ -44,9 +44,9 @@ public:
   void step();
   void stepEnd() {
     if (mFunctions[STEP_END])
-      (*((void (*)())mFunctions[STEP_END]))();
+      (*(reinterpret_cast<void (*)()>(mFunctions[STEP_END])))();
   }
-  void cleanup() { (*((void (*)())mFunctions[CLEANUP]))(); }
+  void cleanup() { (*(reinterpret_cast<void (*)()>(mFunctions[CLEANUP])))(); }
 
   // for communication between Emitter and dWebotsReceive()
   void connectReceiver(const WbReceiver *receiver);

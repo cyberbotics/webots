@@ -78,17 +78,17 @@ QList<WbProject *> *WbProject::extraProjects() {
     QSet<QString> projectPaths;
 
     if (!WbPreferences::instance()->value("General/extraProjectPath").toString().isEmpty()) {
-      foreach (const QString &path, WbPreferences::instance()
-                                      ->value("General/extraProjectPath")
-                                      .toString()
-                                      .split(QDir::listSeparator(), Qt::SkipEmptyParts))
-        projectPaths << path;
+      foreach (const QString &pathString, WbPreferences::instance()
+                                            ->value("General/extraProjectPath")
+                                            .toString()
+                                            .split(QDir::listSeparator(), Qt::SkipEmptyParts))
+        projectPaths << pathString;
     }
 
     if (!qEnvironmentVariable("WEBOTS_EXTRA_PROJECT_PATH").isEmpty()) {
-      foreach (const QString &path,
+      foreach (const QString &pathString,
                qEnvironmentVariable("WEBOTS_EXTRA_PROJECT_PATH").split(QDir::listSeparator(), Qt::SkipEmptyParts))
-        projectPaths << path;
+        projectPaths << pathString;
     }
 
     foreach (const QString &projectPath, projectPaths)

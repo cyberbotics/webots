@@ -11,6 +11,7 @@ Released on ??
     - Improved plot representation in default robot window when a NaN value is received from a device ([#5680](https://github.com/cyberbotics/webots/pull/5680)).
     - Improved default selected tab in Field Editor when nodes are selected ([#5726](https://github.com/cyberbotics/webots/pull/5726)).
   - Bug Fixes
+    - Fix the behavior of the [Connector](connector.md) after a reset to return to the controller the correct status ([#5889](https://github.com/cyberbotics/webots/pull/5889))
     - Fixed redirection of stdout/stderr for Python controllers on Windows ([#5807](https://github.com/cyberbotics/webots/pull/5807)).
     - Fixed crash in Python API when a robot controller was using several cameras with different resolutions ([#5705](https://github.com/cyberbotics/webots/pull/5705)).
     - Fixed Python API `Supervisor.setSimulationMode` which was failing ([#5603](https://github.com/cyberbotics/webots/pull/5603)).
@@ -37,6 +38,8 @@ Released on ??
     - Fixed retrieval of sibling devices from [`BallJoint.device3`](balljoint.md) list. Previously, the devices retrieved were from the `device` list instead ([#5839](https://github.com/cyberbotics/webots/pull/5839)).
     - Fixed crash during PROTO regeneration triggered by nested PROTO in parameter ([#5724](https://github.com/cyberbotics/webots/pull/5724)).
     - Fixed wrong warning message about parent "worlds" folder displayed when saving a world ([#5843](https://github.com/cyberbotics/webots/pull/5843)).
+    - Fixed the issue of Webots occasionally loading the incorrect libController ([#5885](https://github.com/cyberbotics/webots/pull/5885)).
+    - Fixed the incorrect parent link of SliderJoints when exporting to URDF ([#5899](https://github.com/cyberbotics/webots/pull/5899)).
 
 ## Webots R2023a
 Released on November 29th, 2022.

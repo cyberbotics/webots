@@ -122,6 +122,7 @@ void WbBuildEditor::updateBuildButtons() {
 // find the directory just above the compilationDirectories list
 const QDir WbBuildEditor::compileDir() const {
   static QStringList compilationDirectories;
+  // cppcheck-suppress knownConditionTrueFalse
   if (compilationDirectories.size() == 0) {
     compilationDirectories << "controllers";
     compilationDirectories << "libraries";
@@ -386,8 +387,8 @@ void WbBuildEditor::make(const QString &target) {
   mProcess = new QProcess(this);
   connect(mProcess, &QProcess::readyReadStandardOutput, this, &WbBuildEditor::readStdout);
   connect(mProcess, &QProcess::readyReadStandardError, this, &WbBuildEditor::readStderr);
-  void (QProcess::*processFinished)(int, QProcess::ExitStatus) = &QProcess::finished;
-  connect(mProcess, processFinished, this, &WbBuildEditor::processFinished);
+  void (QProcess::*processFinishedSignal)(int, QProcess::ExitStatus) = &QProcess::finished;
+  connect(mProcess, processFinishedSignal, this, &WbBuildEditor::processFinished);
 
   // we should clear environment variables which are used by the Makefile system as they may conflict with it
   QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
