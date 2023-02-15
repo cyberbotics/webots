@@ -2443,13 +2443,13 @@ The following table summarizes the behavior of different reset functions:
 <table>
   <thead>
     <tr>
-      <th style="border-color:black"></th>
-      <th style="border-color:black"><strong>Reload</strong></th>
-      <th style="border-color:black"><strong>Reset from user interface</strong></th>
-      <th style="border-color:black"><strong>Reset from Supervisor</strong></th>
-      <th style="border-color:black"><strong>Load node&#39;s state from Supervisor</strong></th>
-      <th style="border-color:black"><strong>Reset physics</strong></th>
-      <th style="border-color:black"><strong>Reset node&#39;s physics</strong></th>
+      <th style="border-color:grey"></th>
+      <th style="border-color:grey"><strong>Reload</strong></th>
+      <th style="border-color:grey"><strong>Reset from user interface</strong></th>
+      <th style="border-color:grey"><strong>Reset from Supervisor</strong></th>
+      <th style="border-color:grey"><strong>Load node&#39;s state from Supervisor</strong></th>
+      <th style="border-color:grey"><strong>Reset physics</strong></th>
+      <th style="border-color:grey"><strong>Reset node&#39;s physics</strong></th>
     </tr>
   </thead>
   <tbody>
