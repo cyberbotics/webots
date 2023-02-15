@@ -71,6 +71,7 @@ void WbDoubleSpinBox::paste() {
   newText.insert(le->cursorPosition(), mClipboard->stringValue());
   // check if valid value
   bool ok;
+  // cppcheck-suppress ignoredReturnValue
   newText.toDouble(&ok);
 
   if (ok)

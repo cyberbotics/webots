@@ -206,7 +206,7 @@ void WbMuscle::updateEndPoint(WbBaseNode *node) {
       disconnect(mEndPoint, &WbSolid::translationOrRotationChangedByUser, this, &WbMuscle::updateEndPointPosition);
     }
     mEndPoint = solid;
-    if (solid) {
+    if (mEndPoint) {
       // listen to solid endPoint position change
       connect(mEndPoint->translationFieldValue(), &WbSFVector3::changedByOde, this, &WbMuscle::stretch, Qt::UniqueConnection);
       // listen to joint force percentage

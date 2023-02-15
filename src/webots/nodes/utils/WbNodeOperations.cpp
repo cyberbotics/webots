@@ -296,8 +296,6 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
   if (dynamic_cast<WbSolid *>(node))
     WbWorld::instance()->awake();
 
-  const QString nodeModelName = node->modelName();  // save the node model name prior to it being deleted
-
   bool dictionaryNeedsUpdate = node->hasAreferredDefNodeDescendant();
   WbField *parentField = node->parentField();
   assert(parentField);
@@ -370,8 +368,8 @@ void WbNodeOperations::purgeUnusedExternProtoDeclarations() {
   WbProtoManager::instance()->purgeUnusedExternProtoDeclarations(modelNames);
 }
 
-void WbNodeOperations::updateExternProtoDeclarations(WbField *field) {
-  if (field->isDefault())
+void WbNodeOperations::updateExternProtoDeclarations(WbField *modifiedField) {
+  if (modifiedField->isDefault())
     return;  // WbNodeOperations::purgeUnusedExternProtoDeclarations() will be called
 
   WbNode *modifiedNode = static_cast<WbNode *>(sender());

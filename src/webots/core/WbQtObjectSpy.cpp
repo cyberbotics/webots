@@ -36,7 +36,7 @@ void WbQtObjectSpy::beginSignalSpy() {
     const QMetaMethod &method = mMetaObject->method(i);
     if (method.methodType() == QMetaMethod::Signal) {
       QString signalSignature = QString("2%1").arg(method.signature());
-      mSignalSpies << new QSignalSpy(mObject, signalSignature.toAscii().data());
+      mSignalSpies << new QSignalSpy(mObject, signalSignature.toLatin1().data());
     }
   }
 }
