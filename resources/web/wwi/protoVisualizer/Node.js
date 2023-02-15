@@ -371,7 +371,9 @@ export default class Node {
 
           tokenizer.skipToken('}');
           nextToken = tokenizer.peekToken(); // we need to update the nextToken as it has to point after the restrictions
-        } else if (nextToken.isIdentifier()) {
+        }
+
+        if (nextToken.isIdentifier()) {
           const parameterName = nextToken.word();
           const parameterType = token.fieldTypeFromVrml();
           const isRegenerator = rawBody.search('fields.' + parameterName + '.') !== -1;
