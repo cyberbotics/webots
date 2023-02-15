@@ -272,7 +272,7 @@ void Serial::write(const char *packet, int size) {
 
 char *Serial::readLine() {
   int size = 1024;
-  char *buffer = (char *)malloc(size);
+  char *buffer = static_cast<char *>(malloc(size));
   if (!buffer)
     return NULL;
 
@@ -282,7 +282,7 @@ char *Serial::readLine() {
   do {
     if (pos == size) {
       size += 1024;
-      buffer = (char *)realloc(buffer, size);
+      buffer = static_cast<char *>(realloc(buffer, size));
       if (!buffer) {
         fprintf(stderr, "Error reading from serial port: not enough memory.\n");
         exit(EXIT_FAILURE);

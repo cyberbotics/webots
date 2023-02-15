@@ -1126,12 +1126,12 @@ void WbController::prepareTcpStream(WbDataStream &stream) {
 }
 
 int WbController::streamSizeManagement(WbDataStream &stream) {
-  int size = stream.length();
+  unsigned int size = stream.length();
   if (!mTcpSocket) {
     size += sizeof(int);
     QByteArray baSize;
     for (int i = 0; i != sizeof(size); ++i) {
-      baSize.append((char)((size & (0xFF << (i * 8))) >> (i * 8)));
+      baSize.append((char)((size & (0xFFu << (i * 8))) >> (i * 8)));
     }
     stream.prepend(baSize);
   } else {

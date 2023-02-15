@@ -125,7 +125,7 @@ void Ros::launchRos(int argc, char **argv) {
 
   for (int i = 1; i < argc; ++i) {
     const char masterUri[] = "--ROS_MASTER_URI=";
-    const char name[] = "--name=";
+    const char nameOption[] = "--name=";
     if (strncmp(argv[i], masterUri, sizeof(masterUri) - 1) == 0) {
       char address[64];
       strncpy(address, argv[i] + sizeof(masterUri) - 1, strlen(argv[i]) - strlen(masterUri) + 1);
@@ -135,9 +135,9 @@ void Ros::launchRos(int argc, char **argv) {
       setenv("ROS_MASTER_URI", address, 0);
 #endif
       rosMasterUriSet = true;
-    } else if (strncmp(argv[i], name, sizeof(name) - 1) == 0) {
+    } else if (strncmp(argv[i], nameOption, sizeof(nameOption) - 1) == 0) {
       char robot_name[64];
-      strncpy(robot_name, argv[i] + sizeof(name) - 1, strlen(argv[i]) - strlen(name) + 1);
+      strncpy(robot_name, argv[i] + sizeof(nameOption) - 1, strlen(argv[i]) - strlen(nameOption) + 1);
       mRobotName = std::string(robot_name);
       mRosNameSpace = std::string(robot_name);
     } else if (strcmp(argv[i], "--clock") == 0)

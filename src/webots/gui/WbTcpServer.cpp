@@ -162,9 +162,9 @@ void WbTcpServer::destroy() {
   if (mWebSocketServer)
     mWebSocketServer->close();
 
-  foreach (QWebSocket *client, mWebSocketClients) {
-    disconnect(client, &QWebSocket::textMessageReceived, this, &WbTcpServer::processTextMessage);
-    disconnect(client, &QWebSocket::disconnected, this, &WbTcpServer::socketDisconnected);
+  foreach (QWebSocket *c, mWebSocketClients) {
+    disconnect(c, &QWebSocket::textMessageReceived, this, &WbTcpServer::processTextMessage);
+    disconnect(c, &QWebSocket::disconnected, this, &WbTcpServer::socketDisconnected);
   };
   qDeleteAll(mWebSocketClients);
   mWebSocketClients.clear();
@@ -177,13 +177,13 @@ void WbTcpServer::destroy() {
 }
 
 void WbTcpServer::closeClient(const QString &clientID) {
-  foreach (QWebSocket *client, mWebSocketClients) {
-    if (clientToId(client) == clientID) {
-      disconnect(client, &QWebSocket::textMessageReceived, this, &WbTcpServer::processTextMessage);
-      disconnect(client, &QWebSocket::disconnected, this, &WbTcpServer::socketDisconnected);
-      emit sendRobotWindowClientID(clientToId(client), NULL, "disconnected");
-      mWebSocketClients.removeAll(client);
-      client->deleteLater();
+  foreach (QWebSocket *c, mWebSocketClients) {
+    if (clientToId(c) == clientID) {
+      disconnect(c, &QWebSocket::textMessageReceived, this, &WbTcpServer::processTextMessage);
+      disconnect(c, &QWebSocket::disconnected, this, &WbTcpServer::socketDisconnected);
+      emit sendRobotWindowClientID(clientToId(c), NULL, "disconnected");
+      mWebSocketClients.removeAll(c);
+      c->deleteLater();
     }
   }
 }
@@ -447,14 +447,14 @@ void WbTcpServer::processTextMessage(QString message) {
 }
 
 void WbTcpServer::socketDisconnected() {
-  QWebSocket *client = qobject_cast<QWebSocket *>(sender());
-  if (client) {
-    emit sendRobotWindowClientID(clientToId(client), NULL, "disconnected");
-    mWebSocketClients.removeAll(client);
-    client->deleteLater();
+  QWebSocket *c = qobject_cast<QWebSocket *>(sender());
+  if (c) {
+    emit sendRobotWindowClientID(clientToId(c), NULL, "disconnected");
+    mWebSocketClients.removeAll(c);
+    c->deleteLater();
     if (mStream)
       WbLog::info(tr("Streaming server: Client disconnected [%1] (remains %2 client(s)).")
-                    .arg(clientToId(client))
+                    .arg(clientToId(c))
                     .arg(mWebSocketClients.size()));
   }
 }
@@ -463,8 +463,8 @@ void WbTcpServer::sendUpdatePackageToClients() {
   if (mWebSocketClients.size() > 0) {
     const qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
     if (mLastUpdateTime < 0.0 || currentTime - mLastUpdateTime >= 1000.0 / WbWorld::instance()->worldInfo()->fps()) {
-      foreach (QWebSocket *client, mWebSocketClients)
-        pauseClientIfNeeded(client);
+      foreach (QWebSocket *c, mWebSocketClients)
+        pauseClientIfNeeded(c);
       mLastUpdateTime = currentTime;
     }
   }
@@ -518,8 +518,8 @@ void WbTcpServer::sendToClients(const QString &message) {
   if (mWebSocketClients.isEmpty() || !mClientsReadyToReceiveMessages) {
     return;
   }
-  foreach (QWebSocket *client, mWebSocketClients)
-    client->sendTextMessage(mMessageToClients);
+  foreach (QWebSocket *c, mWebSocketClients)
+    c->sendTextMessage(mMessageToClients);
   mMessageToClients = "";
 }
 
@@ -529,8 +529,8 @@ void WbTcpServer::connectNewRobot(const WbRobot *robot) {
 
 bool WbTcpServer::prepareWorld() {
   try {
-    foreach (QWebSocket *client, mWebSocketClients)
-      sendWorldToClient(client);
+    foreach (QWebSocket *c, mWebSocketClients)
+      sendWorldToClient(c);
   } catch (const QString &e) {
     WbLog::error(tr("Error when reloading world: %1.").arg(e));
     destroy();
@@ -557,8 +557,8 @@ void WbTcpServer::deleteWorld() {
   mWorldReady = false;
   if (mWebSocketServer == NULL)
     return;
-  foreach (QWebSocket *client, mWebSocketClients)
-    client->sendTextMessage("delete world");
+  foreach (QWebSocket *c, mWebSocketClients)
+    c->sendTextMessage("delete world");
 }
 
 void WbTcpServer::resetSimulation() {
@@ -570,9 +570,9 @@ void WbTcpServer::resetSimulation() {
 }
 
 void WbTcpServer::setWorldLoadingProgress(const int progress) {
-  foreach (QWebSocket *client, mWebSocketClients) {
-    client->sendTextMessage("loading:" + mCurrentWorldLoadingStatus + ":" + QString::number(progress));
-    client->flush();
+  foreach (QWebSocket *c, mWebSocketClients) {
+    c->sendTextMessage("loading:" + mCurrentWorldLoadingStatus + ":" + QString::number(progress));
+    c->flush();
   }
 }
 
@@ -592,8 +592,8 @@ void WbTcpServer::propagateNodeAddition(WbNode *node) {
     connectNewRobot(robot);
     if (mWebSocketClients.isEmpty())
       return;
-    foreach (QWebSocket *client, mWebSocketClients)
-      sendRobotWindowInformation(client, robot);
+    foreach (QWebSocket *c, mWebSocketClients)
+      sendRobotWindowInformation(c, robot);
   }
 }
 
@@ -617,8 +617,8 @@ void WbTcpServer::propagateSimulationStateChange() const {
   QString message = simulationStateString();
   if (message.isEmpty())
     return;
-  foreach (QWebSocket *client, mWebSocketClients)
-    client->sendTextMessage(message);
+  foreach (QWebSocket *c, mWebSocketClients)
+    c->sendTextMessage(message);
 }
 
 void WbTcpServer::pauseClientIfNeeded(QWebSocket *client) {
@@ -668,9 +668,9 @@ void WbTcpServer::sendRobotWindowInformation(QWebSocket *client, const WbRobot *
 
 void WbTcpServer::propagateNodeDeletion(WbNode *node) {
   const WbNode *def = static_cast<const WbBaseNode *>(node)->getFirstFinalizedProtoInstance();
-  foreach (QWebSocket *client, mWebSocketClients) {
+  foreach (QWebSocket *c, mWebSocketClients) {
     const WbRobot *robot = dynamic_cast<const WbRobot *>(def);
     if (robot)
-      sendRobotWindowInformation(client, robot, true);
+      sendRobotWindowInformation(c, robot, true);
   }
 }

@@ -486,7 +486,7 @@ QString TransferWidget::getCurrentLibraryPath() {
     path = path.replace('\\', '/');
 #else
     Dl_info dl_info;
-    dladdr((void *)foo, &dl_info);
+    dladdr(reinterpret_cast<void *>(foo), &dl_info);
     path = dl_info.dli_fname;
 #endif
     path = path.mid(0, path.lastIndexOf('/') + 1);

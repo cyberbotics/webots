@@ -732,15 +732,15 @@ WbLanguage::WbLanguage(int code, const QString &name, const QString &defaultFile
 WbLanguage::~WbLanguage() {
 }
 
-void WbLanguage::addKeywords(QString words) {
+void WbLanguage::addKeywords(const QString &words) {
   mKeywords += words.split(" ");
 }
 
-void WbLanguage::addApiWords(QString words) {
+void WbLanguage::addApiWords(const QString &words) {
   mApiWords += words.split(" ");
 }
 
-void WbLanguage::addPreprocessorWords(QString words) {
+void WbLanguage::addPreprocessorWords(const QString &words) {
   mPreprocessorWords += words.split(" ");
 }
 
