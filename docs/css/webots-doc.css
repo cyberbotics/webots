@@ -463,6 +463,7 @@ body {
   width: 100%;
 }
 .webots-doc #view table th {
+  padding: 6px;
   border-width: 1px;
   border-style: solid;
   border-color: #ddd;
