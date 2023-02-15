@@ -1,9 +1,9 @@
 #VRML_SIM R2023b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
-# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/doc-add-robots/projects/robots/universal_robots/protos/UR10e.proto
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/universal_robots/protos/UR10e.proto
 # An Universal Robots UR10e robotic arm.
-# More information here: [URe](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/doc-add-robots/projects/robots/universal_robots/protos/UR3e.proto)
+# More information here: [URe](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/universal_robots/protos/UR3e.proto)
 # template language: javascript
 
 EXTERNPROTO "webots://projects/appearances/protos/OldSteel.proto"
