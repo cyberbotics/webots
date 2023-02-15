@@ -29,7 +29,7 @@ public:
   int size() const { return mSize; }
   int maxSize() const { return mMaxSize; }
   void append(const unsigned char *data, int size);
-  void append(const char *data, int size) { append((const unsigned char *)data, size); }
+  void append(const char *data, int size) { append(reinterpret_cast<const unsigned char *>(data), size); }
   void appendInt(int value);
   int readIntAt(int pos) const;
   const unsigned char *getBufferFromPos(int pos) const;

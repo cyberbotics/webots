@@ -236,7 +236,7 @@ void WbReceiver::writeAnswer(WbDataStream &stream) {
       stream << (double)emitterDir[2];
       stream << (double)packet->signalStrength();
       stream << (int)packet->dataSize();
-      stream.writeRawData((const char *)packet->data(), packet->dataSize());
+      stream.writeRawData(static_cast<const char *>(packet->data()), packet->dataSize());
       delete packet;
     }
     mReadyQueue.clear();
@@ -259,9 +259,9 @@ void WbReceiver::handleMessage(QDataStream &stream) {
       return;
     }
     case C_RECEIVER_SET_CHANNEL: {
-      int channel;
-      stream >> channel;
-      mChannel->setValue(channel);
+      int receiverChannel;
+      stream >> receiverChannel;
+      mChannel->setValue(receiverChannel);
       return;
     }
     default:
@@ -485,7 +485,7 @@ void WbReceiver::transmitPacket(WbDataPacket *packet) {
 }
 
 void WbReceiver::receiveData(int channel, const void *data, int size) {
-  mWaitingQueue.append(new WbDataPacket(NULL, channel, (const char *)data, size));
+  mWaitingQueue.append(new WbDataPacket(NULL, channel, static_cast<const char *>(data), size));
 }
 
 void WbReceiver::transmitData(int channel, const void *data, int size) {

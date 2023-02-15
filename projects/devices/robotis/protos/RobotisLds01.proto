@@ -148,7 +148,7 @@ PROTO RobotisLds01 [
         name "screw3"
         screwRadius 0.0015
         screwLength 0.02
-        enablePhysics IS physics
+        enablePhysics IS enablePhysics
       }
     ]
     name IS name
