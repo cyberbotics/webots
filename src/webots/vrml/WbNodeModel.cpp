@@ -72,8 +72,8 @@ WbNodeModel *WbNodeModel::readModel(const QString &fileName) {
 void WbNodeModel::readAllModels() {
   QString path = WbStandardPaths::resourcesPath() + "nodes/";
   QStringList list = QDir(path, "*.wrl").entryList();
-  foreach (QString name, list) {
-    WbNodeModel *model = readModel(path + name);
+  foreach (QString modelName, list) {
+    WbNodeModel *model = readModel(path + modelName);
     if (model)
       cModels.insert(model->name(), model);
   }

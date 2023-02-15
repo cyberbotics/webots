@@ -11,7 +11,7 @@
 
 using namespace webotsQtUtils;
 
-GenericWindow::GenericWindow(QStringList hiddenDevices) : MainWindow(), mMotionEditor(NULL) {
+GenericWindow::GenericWindow(const QStringList &hiddenDevices) : MainWindow(), mMotionEditor(NULL) {
   setStyleSheet("QWidget#borderedWidget { "
                 "  border: 2px groove darkGray; "
                 "  border-radius: 8px; "

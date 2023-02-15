@@ -1749,7 +1749,7 @@ void WbMainWindow::uploadStatus() {
     WbMessageBox::critical(tr("Upload failed: Upload status could not be modified."));
 }
 
-bool WbMainWindow::uploadFileExists(QString fileName) {
+bool WbMainWindow::uploadFileExists(const QString &fileName) {
   int maxIterations = 10;
   while (!QFileInfo(WbStandardPaths::webotsTmpPath() + fileName).exists() && maxIterations) {
     QThread::msleep(100);
@@ -1866,9 +1866,9 @@ void WbMainWindow::showOpenGlInfo() {
   QString info;
   info += tr("Host name: ") + QHostInfo::localHostName() + "\n";
   info += tr("System: ") + WbSysInfo::sysInfo() + "\n";
-  info += tr("OpenGL vendor: ") + (const char *)gl.glGetString(GL_VENDOR) + "\n";
-  info += tr("OpenGL renderer: ") + (const char *)gl.glGetString(GL_RENDERER) + "\n";
-  info += tr("OpenGL version: ") + (const char *)gl.glGetString(GL_VERSION) + "\n";
+  info += tr("OpenGL vendor: ") + reinterpret_cast<const char *>(gl.glGetString(GL_VENDOR)) + "\n";
+  info += tr("OpenGL renderer: ") + reinterpret_cast<const char *>(gl.glGetString(GL_RENDERER)) + "\n";
+  info += tr("OpenGL version: ") + reinterpret_cast<const char *>(gl.glGetString(GL_VERSION)) + "\n";
   info += tr("Available GPU memory: ");
   int gpu_memory = wr_gl_state_get_gpu_memory();
   if (gpu_memory > 0)
@@ -2295,7 +2295,8 @@ void WbMainWindow::updateOverlayMenu() {
         action->setCheckable(true);
         action->setChecked(device->isOverlayEnabled());
         action->setEnabled(!device->isWindowActive());
-        action->setProperty("renderingDevice", QVariant::fromValue((void *)device));
+        action->setProperty("renderingDevice",
+                            QVariant::fromValue(static_cast<void *>(const_cast<WbRenderingDevice *>(device))));
         connect(action, &QAction::toggled, mSimulationView->view3D(), &WbView3D::setShowRenderingDevice);
         connect(device, &WbRenderingDevice::overlayVisibilityChanged, action, &QAction::setChecked);
         connect(device, &WbRenderingDevice::overlayStatusChanged, action, &QAction::setEnabled);

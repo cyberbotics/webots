@@ -189,7 +189,7 @@ void WbAbstractCamera::initializeImageMemoryMappedFile() {
   delete mImageMemoryMappedFile;
   mImageMemoryMappedFile = initializeMemoryMappedFile();
   if (mImageMemoryMappedFile)
-    mImageData = (unsigned char *)mImageMemoryMappedFile->data();
+    mImageData = static_cast<unsigned char *>(mImageMemoryMappedFile->data());
 }
 
 WbMemoryMappedFile *WbAbstractCamera::initializeMemoryMappedFile(const QString &id) {

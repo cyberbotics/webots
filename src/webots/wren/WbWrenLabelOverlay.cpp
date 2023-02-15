@@ -185,11 +185,11 @@ void WbWrenLabelOverlay::createTexture() {
 }
 
 void WbWrenLabelOverlay::updateTextureSize() {
-  int width, height;
-  wr_font_get_bounding_box(mWrenFont, mText.toUtf8().constData(), &width, &height);
+  int fontWidth, fontHeight;
+  wr_font_get_bounding_box(mWrenFont, mText.toUtf8().constData(), &fontWidth, &fontHeight);
 
-  width += 2.0f * (height / (float)(mLinesCount)) * HORIZONTAL_MARGIN;
-  wr_texture_set_size(WR_TEXTURE(mTexture), width, height);
+  fontWidth += 2.0f * (fontHeight / (float)(mLinesCount)) * HORIZONTAL_MARGIN;
+  wr_texture_set_size(WR_TEXTURE(mTexture), fontWidth, fontHeight);
 }
 
 void WbWrenLabelOverlay::deleteOverlay() {
@@ -217,9 +217,9 @@ void WbWrenLabelOverlay::updateOverlayDimensions() {
   if (!mTexture)
     return;
 
-  int width = wr_texture_get_width(WR_TEXTURE(mTexture));
-  int height = wr_texture_get_height(WR_TEXTURE(mTexture));
-  float ratio = width / (float)(height);
+  int textureWidth = wr_texture_get_width(WR_TEXTURE(mTexture));
+  int textureHeight = wr_texture_get_height(WR_TEXTURE(mTexture));
+  float ratio = textureWidth / (float)(textureHeight);
 
   WrViewport *viewport = wr_scene_get_viewport(wr_scene_get_instance());
   int viewportHeight = wr_viewport_get_height(viewport);
