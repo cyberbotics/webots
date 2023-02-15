@@ -51,16 +51,16 @@
 
 #define MOTOR_RATIO 0.00628
 
-static bool socket_init() {
 #ifdef _WIN32 /* initialize the socket API */
+static bool socket_init() {
   WSADATA info;
   if (WSAStartup(MAKEWORD(1, 1), &info) != 0) {
     fprintf(stderr, "Cannot initialize Winsock.\n");
     return false;
   }
-#endif
   return true;
 }
+#endif
 
 static bool socket_set_non_blocking(int fd) {
   if (fd < 0)
@@ -122,8 +122,10 @@ static bool socket_cleanup() {
 static int create_socket_server(int port) {
   int sfd, rc;
   struct sockaddr_in address;
+#ifdef _WIN32
   if (!socket_init())
     return -1;
+#endif
   sfd = socket(AF_INET, SOCK_STREAM, 0);
   if (sfd == -1) {
     fprintf(stderr, "Cannot create socket.\n");

@@ -935,9 +935,8 @@ void WbConnector::solidHasMoved(WbSolid *solid) {
   if (connector)
     connector->hasMoved();
   else {
-    const QVector<WbSolid *> &solidChildren = solid->solidChildren();
-    foreach (WbSolid *solid, solidChildren)
-      solidHasMoved(solid);
+    foreach (WbSolid *s, solid->solidChildren())
+      solidHasMoved(s);
   }
 }
 
