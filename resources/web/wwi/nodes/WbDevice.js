@@ -55,8 +55,9 @@ export default class WbDevice extends WbSolid {
         currentNode = parent;
       }
     }
-    const radiusScale = currentNode._boundingSphere.radius;
 
+    currentNode.recomputeBoundingSphere();
+    const radiusScale = currentNode.boundingSphere().radius;
     this.#transform = _wr_transform_new();
     this.#axesTransform = _wr_transform_new();
 

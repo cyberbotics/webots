@@ -2,6 +2,7 @@ import WbBaseNode from './WbBaseNode.js';
 import WbSlot from './WbSlot.js';
 import WbSolid from './WbSolid.js';
 import WbWorld from './WbWorld.js';
+import WbBoundingSphere from './utils/WbBoundingSphere.js';
 
 export default class WbJoint extends WbBaseNode {
   #endPoint;
@@ -43,6 +44,12 @@ export default class WbJoint extends WbBaseNode {
   boundingSphere() {
     const solid = this.solidEndPoint();
     return solid?.boundingSphere();
+  }
+
+  recomputeBoundingSphere() {
+    const solid = this.solidEndPoint();
+    solid.recomputeBoundingSphere();
+    WbBoundingSphere.addSubBoundingSphereToParentNode(this);
   }
 
   createWrenObjects() {

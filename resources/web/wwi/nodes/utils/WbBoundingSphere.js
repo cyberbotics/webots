@@ -1,5 +1,6 @@
 import WbVector3 from './WbVector3.js';
 import {findUpperTransform} from './node_utilities.js';
+import WbWorld from '../WbWorld.js';
 
 export default class WbBoundingSphere {
   #center;
@@ -45,6 +46,21 @@ export default class WbBoundingSphere {
     this.boundSpaceDirty = true;
     this.parentCoordinatesDirty = true;
     this.parentUpdateNotification();
+  }
+
+  static addSubBoundingSphereToParentNode(node) {
+    let parentId = node.parent;
+    while (parentId) {
+      const parent = WbWorld.instance.nodes.get(parentId);
+      if (!parent)
+        return;
+
+      if (parent.boundingSphere()) {
+        parent.boundingSphere().addSubBoundingSphere(node.boundingSphere());
+        return;
+      }
+      parentId = parent.parent;
+    }
   }
 
   centerInParentCoordinates() {
