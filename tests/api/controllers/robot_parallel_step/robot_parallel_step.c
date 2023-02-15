@@ -1,5 +1,3 @@
-#include <unistd.h>
-
 #include <webots/camera.h>
 #include <webots/compass.h>
 #include <webots/distance_sensor.h>
@@ -9,6 +7,8 @@
 
 #include "../../../lib/ts_assertion.h"
 #include "../../../lib/ts_utils.h"
+
+#include <unistd.h>
 
 int main(int argc, char **argv) {
   const double *values = NULL;
