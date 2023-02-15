@@ -100,7 +100,7 @@ class Car(Supervisor):
         return self.type
 
     def getWheelbase(self):
-        return self.wheel_base
+        return self.wheelbase
 
     def getWheelEncoder(self, wheel_index):
         return self.api.wbu_car_get_wheel_encoder(wheel_index)
@@ -174,5 +174,5 @@ class Car(Supervisor):
         return self.api.wbu_car_get_type()
 
     @property
-    def wheel_base(self) -> float:
+    def wheelbase(self) -> float:
         return self.api.wbu_car_get_wheelbase()
