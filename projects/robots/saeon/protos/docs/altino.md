@@ -1,7 +1,7 @@
 The "ALTINO System" is a robot platform designed for education.
 It is a four-wheeled robot based on an Ackermann vehicle frame.
 It contains many sensors including infrared sensors, a compass and an accelerometer.
-More information on the [constructor website](https://www.saeon-altino.com).
+More information on the [constructor website](https://www.saeon.com.au/altino.html).
 
 ### Altino PROTO
 
