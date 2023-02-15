@@ -137,10 +137,7 @@ class TestCppCheck(unittest.TestCase):
         command += sources
         self.run_cppcheck(command)
 
-    # Temporarily ignored to simulate behavior before PR #5862.
-    # Before that PR, this would incorrectly pass because cppcheck would exit with an error before producing a report.
-    # That will be addressed in a separate PR.
-    def temporarily_ignored_test_projects_with_cppcheck(self):
+    def test_projects_with_cppcheck(self):
         """Test projects with Cppcheck."""
         sourceDirs = [
             'projects/default',
@@ -168,7 +165,6 @@ class TestCppCheck(unittest.TestCase):
         skippedfiles = [
             'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h'
         ]
-
         command = 'cppcheck --platform=native --enable=warning,style,performance,portability --inconclusive --force -q'
         command += ' --library=qt --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm -UKROS_COMPILATION'
         command += ' --suppress=strdupCalled --suppress=ctuOneDefinitionRuleViolation --suppress=unknownMacro'
