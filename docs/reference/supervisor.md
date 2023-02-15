@@ -2487,8 +2487,8 @@ The following table summarizes the behavior of different reset functions:
     </tr>
     <tr>
       <td><strong>Resets physics plugin</strong></td>
-      <td colspan=3>Yes</td>
-      <td colspan=3>No</td>
+      <td style="text-align:center;" colspan=3>Yes</td>
+      <td style="text-align:center;" colspan=3>No</td>
     </tr>
     <tr>
       <td><strong>Resets all fields</strong></td>
@@ -2530,7 +2530,7 @@ The following table summarizes the behavior of different reset functions:
     <tr>
       <td><strong><a href="joint.md">Joint</a>/<a href="motor.md">Motor</a></strong></td>
       <td style="text-align:center;">Resets</td>
-      <td style="text-align:center;" colspan=2>Resets the position, velocity, acceleration, available torque, and available force</td>
+      <td colspan=2>Resets the position, velocity, acceleration, available torque, and available force</td>
       <td>Loads the position, resets the velocity, acceleration, available torque, and available force</td>
       <td style="text-align:center;" colspan=2>N/A</td>
     </tr>
