@@ -772,8 +772,6 @@ int main(int argc, char **argv) {
     python_config_environment();
     size_t current_size = 0;
     char **new_argv = NULL;
-    new_argv = add_single_argument(new_argv, &current_size, "python3");
-    new_argv = add_single_argument(new_argv, &current_size, "-u");
 #ifdef _WIN32
     // Add quotation marks to the controller string if it contains whitespaces
     char *controller_formated = NULL;
@@ -783,8 +781,12 @@ int main(int argc, char **argv) {
       sprintf(controller_formated, "\"%s\"", controller);
     } else
       controller_formated = strdup(controller);
+    new_argv = add_single_argument(new_argv, &current_size, "python");
+    new_argv = add_single_argument(new_argv, &current_size, "-u");
     new_argv = add_single_argument(new_argv, &current_size, controller_formated);
 #else
+    new_argv = add_single_argument(new_argv, &current_size, "python3");
+    new_argv = add_single_argument(new_argv, &current_size, "-u");
     new_argv = add_single_argument(new_argv, &current_size, controller);
 #endif
     new_argv = add_controller_arguments(new_argv, argv, &current_size);
