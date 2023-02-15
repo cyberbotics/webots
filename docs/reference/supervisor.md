@@ -2513,8 +2513,7 @@ The following table summarizes the behavior of different reset functions:
           href="material.md">Material</a> node of the first <a href="shape.md">Shape</a> child node</td>
       <td>Loads the <code>battery</code> field and resets the emissiveColor field of the <a
           href="material.md">Material</a> node of the first <a href="shape.md">Shape</a> child node</td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td colspan=2>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="display.md">Display</a></strong></td>
