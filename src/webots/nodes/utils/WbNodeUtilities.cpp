@@ -136,7 +136,7 @@ namespace {
 
     // No robot can be inserted in helix of propellers.
     if (WbNodeUtilities::isRobotTypeName(nodeName) && WbNodeUtilities::isDescendantOfPropeller(node))
-        return false;
+      return false;
 
     if (dynamic_cast<const WbSlot *>(node) && (fieldName == "endPoint")) {  // add something in the endPoint field of a slot
       if (dynamic_cast<const WbSlot *>(node->parentNode())) {  // pair of slots, we can add everything that is allowed in the
