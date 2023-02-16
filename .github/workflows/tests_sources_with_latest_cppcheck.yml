@@ -1,4 +1,4 @@
-name: Test Sources
+name: Test Sources with Latest Cppcheck
 
 on:
   schedule:
