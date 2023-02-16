@@ -325,7 +325,7 @@ namespace {
     }
 
     if (fieldName == "endPoint") {
-      if (WbNodeUtilities::isSolidButRobotTypeName(nodeName) || nodeName == "SolidReference")
+      if (WbNodeUtilities::isSolidTypeName(nodeName) || nodeName == "SolidReference")
         return true;
       else if (nodeName == "Slot")
         return true;
