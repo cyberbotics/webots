@@ -792,9 +792,8 @@ bool WbNodeUtilities::isDescendantOfPropeller(const WbNode *node) {
     return true;
 
   WbNode *n = node->parentNode();
-  WbField *field = node->parentField(true);
-  while (n && !n->isWorldRoot() && field) {
-    WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(field->parentNode());
+  while (n && !n->isWorldRoot()) {
+    WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(n);
 
     if (!baseNode)
       return false;
@@ -802,7 +801,6 @@ bool WbNodeUtilities::isDescendantOfPropeller(const WbNode *node) {
     if (baseNode->nodeType() == WB_NODE_PROPELLER)
       return true;
 
-    field = n->parentField(true);
     n = n->parentNode();
   }
 
