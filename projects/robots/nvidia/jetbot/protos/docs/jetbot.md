@@ -31,7 +31,7 @@ JetBot {
 
 - `chassis`: Defines if the robot has a chassis.
 - `chassis_color`:  Defines the color of the robot's chassis.
-- `cameraSlot`:  Extends the robot with a camera on the front. For example the [JetBotRaspberryPiCamera](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/doc-add-robots/projects/robots/nvidia/jetbot/protos/JetBotRaspberryPiCamera.proto)
+- `cameraSlot`:  Extends the robot with a camera on the front. For example the [JetBotRaspberryPiCamera](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/nvidia/jetbot/protos/JetBotRaspberryPiCamera.proto)
 - `extensionSlot`: Extends the robot with new nodes.
 
 ### Sample
