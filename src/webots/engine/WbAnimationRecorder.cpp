@@ -72,10 +72,10 @@ WbAnimationCommand::WbAnimationCommand(const WbNode *n, const QStringList &field
                      .arg(ROUND(sfRotation->angle(), 0.0001));
           mLastRotation = WbRotation(ROUND(sfRotation->x(), 0.001), ROUND(sfRotation->y(), 0.001),
                                      ROUND(sfRotation->z(), 0.001), ROUND(sfRotation->angle(), 0.001));
-        } else if (sfString && (field->name().compare("name") == 0 || field->name().compare("fogType") == 0))
-          state += field->value()->toString();
-        else if (mfInt && (field->name().compare("coordIndex") == 0 || field->name().compare("normalIndex") == 0 ||
-                           field->name().compare("texCoordIndex") == 0)) {
+        } else if (sfString && (fieldName.compare("name") == 0 || fieldName.compare("fogType") == 0))
+          state += f->value()->toString();
+        else if (mfInt && (fieldName.compare("coordIndex") == 0 || fieldName.compare("normalIndex") == 0 ||
+                           fieldName.compare("texCoordIndex") == 0)) {
           const int size = mfInt->size();
           QString intArray = QString("[");
 
@@ -87,7 +87,7 @@ WbAnimationCommand::WbAnimationCommand(const WbNode *n, const QStringList &field
 
           intArray.append("]");
           state += intArray;
-        } else if (mfString and field->name().compare("url") == 0) {
+        } else if (mfString and fieldName.compare("url") == 0) {
           QStringList urls = mfString->value();
           QString urlArray = urls.join("\",\"");
           urlArray.prepend("[\"");
