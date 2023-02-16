@@ -1599,7 +1599,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
 
   parametersDefMap.clear();
 
-  return createProtoInstanceFromParameters(proto, parameters, worldPath);
+  return createProtoInstanceFromParameters(p, parameters, worldPath);
   ;
 }
 
