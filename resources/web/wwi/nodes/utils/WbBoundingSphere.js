@@ -48,21 +48,6 @@ export default class WbBoundingSphere {
     this.parentUpdateNotification();
   }
 
-  static addSubBoundingSphereToParentNode(node) {
-    let parentId = node.parent;
-    while (parentId) {
-      const parent = WbWorld.instance.nodes.get(parentId);
-      if (!parent)
-        return;
-
-      if (parent.boundingSphere()) {
-        parent.boundingSphere().addSubBoundingSphere(node.boundingSphere());
-        return;
-      }
-      parentId = parent.parent;
-    }
-  }
-
   centerInParentCoordinates() {
     if (this.boundSpaceDirty)
       this.recomputeIfNeeded();
