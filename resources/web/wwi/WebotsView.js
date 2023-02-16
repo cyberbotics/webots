@@ -401,7 +401,7 @@ export default class WebotsView extends HTMLElement {
         this.toolbar.protoParameterWindowInitializeSizeAndPosition();
         const topProtoNode = WbWorld.instance.root.children[WbWorld.instance.root.children.length - 1];
         const needRobot = await this.#queryNeedRobot(proto);
-        if (topProtoNode instanceof WbDevice || needRobot)
+        if (topProtoNode instanceof WbDevice || needRobot === '1')
           this.#repositionProto(topProtoNode);
 
         WbWorld.instance.viewpoint.moveViewpointToObject(topProtoNode);
@@ -434,11 +434,11 @@ export default class WebotsView extends HTMLElement {
   #repositionProto(proto) {
     const boundingSphere = proto.boundingSphere();
     if (typeof boundingSphere === 'undefined')
-      return
+      return;
 
     boundingSphere.recomputeIfNeeded(false);
     if (boundingSphere.isEmpty())
-      return
+      return;
 
     const results = boundingSphere.computeSphereInGlobalCoordinates();
     const boundingSphereCenter = results[0];
