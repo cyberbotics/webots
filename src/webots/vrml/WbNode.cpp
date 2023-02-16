@@ -1196,7 +1196,9 @@ void WbNode::addExternProtoFromFile(const WbProtoModel *proto, WbWriter &writer)
 }
 
 void WbNode::writeExport(WbWriter &writer) const {
-  assert(!(writer.isX3d() && isProtoParameterNode()));
+  if(!mIsProtoParameterNode)
+    isProtoParameterNode();
+  assert(!(writer.isX3d() && mIsProtoParameterNode[0]));
   if (exportNodeHeader(writer))
     return;
   if (writer.isUrdf()) {
