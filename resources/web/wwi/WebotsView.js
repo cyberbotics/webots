@@ -421,8 +421,7 @@ export default class WebotsView extends HTMLElement {
     dbUrl = new URL(dbUrl).hostname;
 
     if (protoUrl.includes('raw.githubusercontent.com')) {
-      protoUrl = protoUrl.replace('raw.githubusercontent.com', 'github.com');
-      protoUrl = protoUrl.split('/');
+      protoUrl = protoUrl.replace('raw.githubusercontent.com', 'github.com').split('/');
       protoUrl.splice(5, 0, 'blob');
       protoUrl = protoUrl.join('/');
     }
