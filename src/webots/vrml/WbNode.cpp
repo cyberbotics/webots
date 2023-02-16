@@ -988,7 +988,7 @@ QList<std::pair<QString, WbMFString *>> WbNode::listTextureFiles() const {
         list << n->listTextureFiles();
       }
     } else if (imageTexture && f->value()->type() == WB_MF_STRING && f->name() == "url") {
-      const WbNode *proto = protoAncestor();
+      const WbNode *p = protoAncestor();
       QString protoPath;
       if (p)
         protoPath = p->proto()->path();
