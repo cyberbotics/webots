@@ -425,7 +425,7 @@ export default class WebotsView extends HTMLElement {
       protoUrl.splice(5, 0, 'blob');
       protoUrl = protoUrl.join('/');
     }
-    return fetch('https://' + dbUrl + '/ajax/proto/needsRobotAncestor.php', {method: 'post', body: JSON.stringify({url: protoUrl})})
+    return fetch('https://' + dbUrl + '/ajax/proto/needs_robot_ancestor.php', {method: 'post', body: JSON.stringify({url: protoUrl})})
       .then(result => result.json())
       .then(result => result ? result.needs_robot_ancestor : false);
   }
