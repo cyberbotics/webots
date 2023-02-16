@@ -1487,7 +1487,7 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
     int currentParameterIndex = 0;
     bool fieldOrderWarning = true;
     while (tokenizer->peekWord() != "}") {
-      const QString parameterName = tokenizer->nextWord();
+      QString parameterName = tokenizer->nextWord();
       WbFieldModel *parameterModel = NULL;
       const bool hidden = parameterName == "hidden";
       if (hidden) {
