@@ -4,6 +4,8 @@ import ProtoManager from './ProtoManager.js';
 import {webots} from './webots.js';
 import {changeGtaoLevel} from './nodes/wb_preferences.js';
 import WbWorld from './nodes/WbWorld.js';
+import WbDevice from './nodes/WbDevice.js';
+import WbVector3 from './nodes/utils/WbVector3.js';
 
 /* The following member variables can be set by the application:
 
@@ -390,7 +392,7 @@ export default class WebotsView extends HTMLElement {
         this._view = new webots.View(this, isMobileDevice);
       this.protoManager = new ProtoManager(this._view);
       this.protoManager.loadProto(proto);
-      this._view.onready = () => {
+      this._view.onready = async() => {
         this.toolbar = new Toolbar(this._view, 'proto', this);
         if (typeof this.onready === 'function')
           this.onready();
@@ -398,6 +400,10 @@ export default class WebotsView extends HTMLElement {
         this.resize();
         this.toolbar.protoParameterWindowInitializeSizeAndPosition();
         const topProtoNode = WbWorld.instance.root.children[WbWorld.instance.root.children.length - 1];
+        const needRobot = await this.#queryNeedRobot(proto);
+        if (topProtoNode instanceof WbDevice || needRobot)
+          this.#repositionProto(topProtoNode);
+
         WbWorld.instance.viewpoint.moveViewpointToObject(topProtoNode);
         WbWorld.instance.viewpoint.defaultPosition = WbWorld.instance.viewpoint.position;
         this._view.x3dScene.render();
@@ -406,6 +412,40 @@ export default class WebotsView extends HTMLElement {
       this.#hasProto = true;
       this.#closeWhenDOMElementRemoved();
     }
+  }
+
+  #queryNeedRobot(protoUrl) {
+    let dbUrl = window.location.href;
+    if (!dbUrl.includes('webots.cloud'))
+      dbUrl = 'https://testing.webots.cloud/';
+    dbUrl = new URL(dbUrl).hostname;
+
+    if (protoUrl.includes('raw.githubusercontent.com')) {
+      protoUrl = protoUrl.replace('raw.githubusercontent.com', 'github.com');
+      protoUrl = protoUrl.split('/');
+      protoUrl.splice(5, 0, 'blob');
+      protoUrl = protoUrl.join('/');
+    }
+    return fetch('https://' + dbUrl + '/ajax/proto/needsRobotAncestor.php', {method: 'post', body: JSON.stringify({url: protoUrl})})
+      .then(result => result.json())
+      .then(result => result ? result.needs_robot_ancestor : false);
+  }
+
+  #repositionProto(proto) {
+    const boundingSphere = proto.boundingSphere();
+    if (typeof boundingSphere === 'undefined')
+      return
+
+    boundingSphere.recomputeIfNeeded(false);
+    if (boundingSphere.isEmpty())
+      return
+
+    const results = boundingSphere.computeSphereInGlobalCoordinates();
+    const boundingSphereCenter = results[0];
+    let radius = results[1];
+
+    if (proto.translation)
+      proto.translation = new WbVector3(proto.translation.x, proto.translation.y, boundingSphereCenter.z + radius);
   }
 
   hasProto() {
