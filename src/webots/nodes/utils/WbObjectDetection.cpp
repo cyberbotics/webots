@@ -279,7 +279,7 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
       const double size = 2 * boundingSphere->radius() * std::max(std::max(scale.x(), scale.y()), scale.z());
       objectSize.setXyz(size, size, size);
       // correct the object center
-      objectPosition += scale * boundingSphere->center();
+      objectPosition = transform->matrix() * boundingSphere->center();
     } else {
       double height = 0;
       double radius = 0;
