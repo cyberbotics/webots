@@ -353,6 +353,17 @@ static void robot_send_request(unsigned int step_duration) {
 
 // rebuild the device list
 static void robot_configure(WbRequest *r) {
+  free(robot.device[0]->name);
+  robot.device[0]->name = request_read_string(r);
+
+  WEBOTS_VERSION = request_read_string(r);
+  if (strlen(WEBOTS_VERSION) && (strlen(WEBOTS_VERSION) != strlen(LIBCONTROLLER_VERSION) ||
+                                 strncmp(WEBOTS_VERSION, LIBCONTROLLER_VERSION, strlen(WEBOTS_VERSION))))
+    fprintf(stderr,
+            "Warning: Webots [%s] and libController [%s] versions are not the same for Robot '%s'! Different versions can lead "
+            "to undefined behavior.\n",
+            WEBOTS_VERSION, LIBCONTROLLER_VERSION, robot.device[0]->name);
+
   // delete all the devices except the robot
   WbDeviceTag tag;
   for (tag = 1; tag < robot.n_device; tag++)
@@ -371,8 +382,6 @@ static void robot_configure(WbRequest *r) {
   robot.device[0] = d;  // restore pointer to root device
   robot.device[0]->node = request_read_uint16(r);
   simulation_time = request_read_double(r);
-  free(robot.device[0]->name);
-  robot.device[0]->name = request_read_string(r);
 
   // printf("robot.is_supervisor = %d\n", robot.is_supervisor);
   // printf("robot.synchronization = %d\n", robot.synchronization);
@@ -393,13 +402,6 @@ static void robot_configure(WbRequest *r) {
   init_devices_from_tag(r, 1);
 
   robot.configure = 1;
-  WEBOTS_VERSION = request_read_string(r);
-  if (strlen(WEBOTS_VERSION) && (strlen(WEBOTS_VERSION) != strlen(LIBCONTROLLER_VERSION) ||
-                                 strncmp(WEBOTS_VERSION, LIBCONTROLLER_VERSION, strlen(WEBOTS_VERSION))))
-    fprintf(stderr,
-            "Warning: Webots [%s] and libController [%s] versions are not the same for Robot '%s'! Different versions can lead "
-            "to undefined behavior.\n",
-            WEBOTS_VERSION, LIBCONTROLLER_VERSION, robot.device[0]->name);
   robot.basic_time_step = request_read_double(r);
   robot.project_path = request_read_string(r);
   robot.world_path = request_read_string(r);
