@@ -2,7 +2,6 @@ import WbBaseNode from './WbBaseNode.js';
 import WbSlot from './WbSlot.js';
 import WbSolid from './WbSolid.js';
 import WbWorld from './WbWorld.js';
-import WbBoundingSphere from './utils/WbBoundingSphere.js';
 
 export default class WbJoint extends WbBaseNode {
   #endPoint;
