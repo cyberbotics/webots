@@ -417,7 +417,7 @@ export default class WebotsView extends HTMLElement {
   #queryNeedRobot(protoUrl) {
     let dbUrl = window.location.href;
     if (!dbUrl.includes('webots.cloud'))
-      dbUrl = 'https://testing.webots.cloud/';
+      dbUrl = 'https://webots.cloud/';
     dbUrl = new URL(dbUrl).hostname;
 
     if (protoUrl.includes('raw.githubusercontent.com')) {
