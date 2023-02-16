@@ -329,7 +329,9 @@ void WbView3D::refresh() {
 
   const WbSimulationState *const sim = WbSimulationState::instance();
   mPhysicsRefresh = true;
-  if (sim->isPaused())
+  if (mScreenshotRequested)
+    renderNow();
+  else if (sim->isPaused())
     renderLater();
   else if (WbVideoRecorder::instance()->isRecording()) {
     const double time = WbSimulationState::instance()->time();
