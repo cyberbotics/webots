@@ -33,10 +33,9 @@ string IPR::motorName(int motorIndex) {
       return "wrist";
     case ROTATIONAL_WRIST_MOTOR:
       return "rotational_wrist";
-    case RIGHT_GRIPPER_MOTOR:
-      return "right_gripper";
-    case LEFT_GRIPPER_MOTOR:
-      return "left_gripper";
+    case GRIPPER_MOTOR:
+      return "gripper::right";
+
     default:
       assert(false);
       return "";
@@ -172,7 +171,7 @@ void IPR::moveToInitPosition() {
 }
 
 void IPR::moveToPosition(const double *motorPositions, bool moveGripper) {
-  int motorCount = moveGripper ? MOTOR_NUMBER : RIGHT_GRIPPER_MOTOR;
+  int motorCount = moveGripper ? MOTOR_NUMBER : GRIPPER_MOTOR;
   for (int i = 0; i < motorCount; ++i)
     setMotorPosition(i, motorPositions[i]);
 
@@ -184,33 +183,24 @@ void IPR::moveToPosition(const double *motorPositions, bool moveGripper) {
 }
 
 void IPR::openGripper(double position) {
-  setMotorPosition(RIGHT_GRIPPER_MOTOR, position);
-  setMotorPosition(LEFT_GRIPPER_MOTOR, 0 - position);
+  setMotorPosition(GRIPPER_MOTOR, position);
 
-  while (!positionReached(RIGHT_GRIPPER_MOTOR, position))
-    step(mTimeStep);
-
-  while (!positionReached(LEFT_GRIPPER_MOTOR, 0 - position))
+  while (!positionReached(GRIPPER_MOTOR, position))
     step(mTimeStep);
 }
 
 void IPR::closeGripper() {
-  setMotorPosition(RIGHT_GRIPPER_MOTOR, 0.0);
-  setMotorPosition(LEFT_GRIPPER_MOTOR, 0.0);
+  setMotorPosition(GRIPPER_MOTOR, 0.0);
 
   // wait until it is closed as much as possible
-  double previousRightGripperPosition = INFINITY;
-  double previousLeftGripperPosition = INFINITY;
+  double previousGripperPosition = INFINITY;
   while (true) {
-    const double currentRightGripperPosition = motorPosition(RIGHT_GRIPPER_MOTOR);
-    const double currentLeftGripperPosition = motorPosition(LEFT_GRIPPER_MOTOR);
+    const double currentGripperPosition = motorPosition(GRIPPER_MOTOR);
 
-    if ((fabs(currentRightGripperPosition - previousRightGripperPosition) <= POSITION_TOLERANCE) &&
-        (fabs(currentLeftGripperPosition - previousLeftGripperPosition) <= POSITION_TOLERANCE))
+    if (fabs(currentGripperPosition - previousGripperPosition) <= POSITION_TOLERANCE)
       break;
 
-    previousRightGripperPosition = currentRightGripperPosition;
-    previousLeftGripperPosition = currentLeftGripperPosition;
+    previousGripperPosition = currentGripperPosition;
 
     step(mTimeStep);
   }
@@ -259,13 +249,13 @@ void IPR::dropCube(const double *dropPosition) {
   setMotorPosition(BASE_MOTOR, dropPosition[BASE_MOTOR]);
 
   // set motors position objectives
-  for (int i = FOREARM_MOTOR; i < RIGHT_GRIPPER_MOTOR; ++i)
+  for (int i = FOREARM_MOTOR; i < GRIPPER_MOTOR; ++i)
     setMotorPosition(i, dropPosition[i]);
 
   while (!positionReached(BASE_MOTOR, dropPosition[BASE_MOTOR]))
     step(mTimeStep);
   // check if position reached
-  for (int i = FOREARM_MOTOR; i < RIGHT_GRIPPER_MOTOR; ++i) {
+  for (int i = FOREARM_MOTOR; i < GRIPPER_MOTOR; ++i) {
     while (!positionReached(i, dropPosition[i]))
       step(mTimeStep);
   }

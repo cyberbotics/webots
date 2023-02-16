@@ -62,12 +62,13 @@ public:
 
   uint64_t computeHash() const override;
 
+  QStringList fieldsToSynchronizeWithX3D() const override;
+
 signals:
   void validIndexedFaceSetInserted();
 
 protected:
   bool areSizeFieldsVisibleAndNotRegenerator() const override;
-  void exportNodeContents(WbWriter &writer) const override;
   bool exportNodeHeader(WbWriter &writer) const override;
 
 private:

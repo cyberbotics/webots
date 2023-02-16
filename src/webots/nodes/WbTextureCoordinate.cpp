@@ -33,3 +33,9 @@ WbTextureCoordinate::WbTextureCoordinate(const WbNode &other) : WbBaseNode(other
 
 WbTextureCoordinate::~WbTextureCoordinate() {
 }
+
+QStringList WbTextureCoordinate::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "point";
+  return fields;
+}

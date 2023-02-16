@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/pr2
@@ -1942,7 +1942,7 @@ PROTO Pr2 [
                                                                             }
                                                                             device [
                                                                               RotationalMotor {
-                                                                                name "r_gripper_l_finger_joint"
+                                                                                name "r_finger_gripper_motor::l_finger"
                                                                                 maxVelocity 0.5
                                                                                 maxPosition 0.548
                                                                                 maxTorque 1000.0
@@ -1984,7 +1984,7 @@ PROTO Pr2 [
                                                                                   }
                                                                                   device [
                                                                                     RotationalMotor {
-                                                                                      name "r_gripper_l_finger_tip_joint"
+                                                                                      name "r_finger_gripper_motor::l_finger_tip"
                                                                                       maxVelocity 0.5
                                                                                       maxPosition 0.548
                                                                                       maxTorque 1000.0
@@ -2038,7 +2038,7 @@ PROTO Pr2 [
                                                                             }
                                                                             device [
                                                                               RotationalMotor {
-                                                                                name "r_gripper_r_finger_joint"
+                                                                                name "r_finger_gripper_motor::r_finger"
                                                                                 maxVelocity 0.5
                                                                                 maxPosition 0.548
                                                                                 maxTorque 1000.0
@@ -2094,7 +2094,7 @@ PROTO Pr2 [
                                                                                   }
                                                                                   device [
                                                                                     RotationalMotor {
-                                                                                      name "r_gripper_r_finger_tip_joint"
+                                                                                      name "r_finger_gripper_motor::r_finger_tip"
                                                                                       maxVelocity 0.5
                                                                                       maxPosition 0.548
                                                                                       maxTorque 1000.0
@@ -2824,7 +2824,7 @@ PROTO Pr2 [
                                                                             }
                                                                             device [
                                                                               RotationalMotor {
-                                                                                name "l_gripper_l_finger_joint"
+                                                                                name "l_finger_gripper_motor::l_finger"
                                                                                 maxVelocity 0.5
                                                                                 maxPosition 0.548
                                                                                 maxTorque 1000.0
@@ -2866,7 +2866,7 @@ PROTO Pr2 [
                                                                                   }
                                                                                   device [
                                                                                     RotationalMotor {
-                                                                                      name "l_gripper_l_finger_tip_joint"
+                                                                                      name "l_finger_gripper_motor::l_finger_tip"
                                                                                       maxVelocity 0.5
                                                                                       maxPosition 0.548
                                                                                       maxTorque 1000.0
@@ -2920,7 +2920,7 @@ PROTO Pr2 [
                                                                             }
                                                                             device [
                                                                               RotationalMotor {
-                                                                                name "l_gripper_r_finger_joint"
+                                                                                name "l_finger_gripper_motor::r_finger"
                                                                                 maxVelocity 0.5
                                                                                 maxPosition 0.548
                                                                                 maxTorque 1000.0
@@ -2976,7 +2976,7 @@ PROTO Pr2 [
                                                                                   }
                                                                                   device [
                                                                                     RotationalMotor {
-                                                                                      name "l_gripper_r_finger_tip_joint"
+                                                                                      name "l_finger_gripper_motor::r_finger_tip"
                                                                                       maxVelocity 0.5
                                                                                       maxPosition 0.548
                                                                                       maxTorque 1000.0

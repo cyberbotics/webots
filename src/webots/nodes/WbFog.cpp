@@ -154,3 +154,11 @@ void WbFog::applyChangesToWren() {
   wr_scene_set_fog(wr_scene_get_instance(), fogType, WR_SCENE_FOG_DEPTH_TYPE_POINT, color, density, 0.0f,
                    mVisibilityRange->value());
 }
+
+QStringList WbFog::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "color"
+         << "fogType"
+         << "visibilityRange";
+  return fields;
+}

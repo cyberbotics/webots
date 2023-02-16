@@ -234,3 +234,11 @@ void WbPointLight::applyBillboardVisibilityToWren() {
 double WbPointLight::computeAttenuation(double distance) const {
   return 1.0 / (mAttenuation->x() + mAttenuation->y() * distance + mAttenuation->z() * distance * distance);
 }
+
+QStringList WbPointLight::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "attenuation"
+         << "location"
+         << "radius" << WbLight::fieldsToSynchronizeWithX3D();
+  return fields;
+}

@@ -182,6 +182,12 @@ void WbBox::updateScale() {
   wr_transform_set_scale(wrenNode(), scale);
 }
 
+QStringList WbBox::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "size";
+  return fields;
+}
+
 /////////////////
 // ODE objects //
 /////////////////

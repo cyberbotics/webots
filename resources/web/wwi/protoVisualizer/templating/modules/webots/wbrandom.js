@@ -2,7 +2,7 @@
  * content: random number generation function
  */
 
-import * as wbutility from 'wbutility.js';
+import * as wbutility from './wbutility.js';
 
 let seedValue = 0;
 

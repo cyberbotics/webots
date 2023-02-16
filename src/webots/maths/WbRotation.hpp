@@ -147,8 +147,8 @@ private:
 inline void WbRotation::normalizeAxis() {
   if (!isValid()) {
     mX = 0.0;
-    mY = 1.0;
-    mZ = 0.0;
+    mY = 0.0;
+    mZ = 1.0;
     return;
   }
   double invl = 1.0 / sqrt(mX * mX + mY * mY + mZ * mZ);

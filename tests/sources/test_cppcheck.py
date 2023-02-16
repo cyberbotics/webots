@@ -92,6 +92,7 @@ class TestCppCheck(unittest.TestCase):
             'src/wren',
             'src/controller/c',
             'src/controller/cpp',
+            'src/controller/launcher',
             'resources/projects'
         ]
         skippedDirs = [

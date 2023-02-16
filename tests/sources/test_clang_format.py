@@ -59,6 +59,7 @@ class TestClangFormat(unittest.TestCase):
             'include/wren',
             'src/controller/c',
             'src/controller/cpp',
+            'src/controller/launcher',
             'src/license/sign',
             'src/webots',
             'src/wren'

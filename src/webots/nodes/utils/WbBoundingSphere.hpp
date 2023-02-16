@@ -125,7 +125,6 @@ private:
 
   // Cached values
   bool mBoundSpaceDirty;  // center and radius update required
-  bool mGeomSphereDirty;
   // to speed-up recomputation
   bool mParentCoordinatesDirty;
   WbVector3 mCenterInParentCoordinates;

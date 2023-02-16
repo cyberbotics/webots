@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Physics-based model of the Pioneer gripper (Adept Mobile Robotics)
@@ -29,7 +29,7 @@ DEF GRIPPER_BASE Solid {
               axis -1 0 0
             }
             device LinearMotor {
-              name "left finger motor"
+              name "finger motor::left"
               maxPosition 0.1
             }
             endPoint DEF LEFT_FINGER Solid {
@@ -84,7 +84,7 @@ DEF GRIPPER_BASE Solid {
               axis 1 0 0
             }
             device LinearMotor {
-              name "right finger motor"
+              name "finger motor::right"
               maxPosition 0.1
             }
             endPoint DEF RIGHT_FINGER Solid {

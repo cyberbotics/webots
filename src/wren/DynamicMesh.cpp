@@ -394,8 +394,16 @@ namespace wren {
     if (mIndicesDirty && mIndices.size() > 0) {
       // Indices buffer is set to GL_STATIC_DRAW as we expect the mesh topology not to change
       glBufferData(GL_ELEMENT_ARRAY_BUFFER, mIndices.size() * sizeof(unsigned int), NULL, GL_STATIC_DRAW);
+
+      // Emscripten only accept the GL_MAP_INVALIDATE_BUFFER_BIT option
+#ifdef __EMSCRIPTEN__
+      void *data = glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, mIndices.size() * sizeof(unsigned int),
+                                    GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+#else
       void *data = glMapBufferRange(GL_ELEMENT_ARRAY_BUFFER, 0, mIndices.size() * sizeof(unsigned int),
                                     GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
+#endif
+
       memcpy(data, &mIndices[0], mIndices.size() * sizeof(unsigned int));
       glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
       mIndicesDirty = false;
@@ -413,8 +421,15 @@ namespace wren {
     if (mCoordsDirty && mCoords.size() > 0) {
       glBindBuffer(GL_ARRAY_BUFFER, mGlNameBufferCoords);
       glBufferData(GL_ARRAY_BUFFER, mCoords.size() * sizeof(glm::vec3), NULL, GL_STREAM_DRAW);
+
+      // Emscripten only accept the GL_MAP_INVALIDATE_BUFFER_BIT option
+#ifdef __EMSCRIPTEN__
+      void *data = glMapBufferRange(GL_ARRAY_BUFFER, 0, mCoords.size() * sizeof(glm::vec3),
+                                    GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+#else
       void *data =
         glMapBufferRange(GL_ARRAY_BUFFER, 0, mCoords.size() * sizeof(glm::vec3), GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
+#endif
       memcpy(data, &mCoords[0], mCoords.size() * sizeof(glm::vec3));
       glUnmapBuffer(GL_ARRAY_BUFFER);
       mCoordsDirty = false;
@@ -425,8 +440,14 @@ namespace wren {
 
       glBindBuffer(GL_ARRAY_BUFFER, mGlNameBufferNormals);
       glBufferData(GL_ARRAY_BUFFER, mNormals.size() * sizeof(glm::vec3), NULL, GL_STREAM_DRAW);
+      // Emscripten only accept the GL_MAP_INVALIDATE_BUFFER_BIT option
+#ifdef __EMSCRIPTEN__
+      void *data = glMapBufferRange(GL_ARRAY_BUFFER, 0, mNormals.size() * sizeof(glm::vec3),
+                                    GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+#else
       void *data =
         glMapBufferRange(GL_ARRAY_BUFFER, 0, mNormals.size() * sizeof(glm::vec3), GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
+#endif
       memcpy(data, &mNormals[0], mNormals.size() * sizeof(glm::vec3));
       glUnmapBuffer(GL_ARRAY_BUFFER);
       mNormalsDirty = false;
@@ -437,8 +458,13 @@ namespace wren {
 
       glBindBuffer(GL_ARRAY_BUFFER, mGlNameBufferTexCoords);
       glBufferData(GL_ARRAY_BUFFER, mTexCoords.size() * sizeof(glm::vec2), NULL, GL_STREAM_DRAW);
+#ifdef __EMSCRIPTEN__
+      void *data = glMapBufferRange(GL_ARRAY_BUFFER, 0, mTexCoords.size() * sizeof(glm::vec2),
+                                    GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+#else
       void *data = glMapBufferRange(GL_ARRAY_BUFFER, 0, mTexCoords.size() * sizeof(glm::vec2),
                                     GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
+#endif
       memcpy(data, &mTexCoords[0], mTexCoords.size() * sizeof(glm::vec2));
       glUnmapBuffer(GL_ARRAY_BUFFER);
       mTexCoordsDirty = false;
@@ -449,8 +475,13 @@ namespace wren {
 
       glBindBuffer(GL_ARRAY_BUFFER, mGlNameBufferColors);
       glBufferData(GL_ARRAY_BUFFER, mColors.size() * sizeof(glm::vec3), NULL, GL_STREAM_DRAW);
+#ifdef __EMSCRIPTEN__
+      void *data = glMapBufferRange(GL_ARRAY_BUFFER, 0, mColors.size() * sizeof(glm::vec3),
+                                    GL_MAP_WRITE_BIT | GL_MAP_INVALIDATE_BUFFER_BIT);
+#else
       void *data =
         glMapBufferRange(GL_ARRAY_BUFFER, 0, mColors.size() * sizeof(glm::vec3), GL_MAP_WRITE_BIT | GL_MAP_UNSYNCHRONIZED_BIT);
+#endif
       memcpy(data, &mColors[0], mColors.size() * sizeof(glm::vec3));
       glUnmapBuffer(GL_ARRAY_BUFFER);
       mColorsDirty = false;

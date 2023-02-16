@@ -423,3 +423,12 @@ void WbMesh::exportNodeFields(WbWriter &writer) const {
     writer << " name='" << dirtyName.replace("&", "&amp;", Qt::CaseInsensitive) << "'";
   }
 }
+
+QStringList WbMesh::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "url"
+         << "ccw"
+         << "name"
+         << "materialIndex";
+  return fields;
+}

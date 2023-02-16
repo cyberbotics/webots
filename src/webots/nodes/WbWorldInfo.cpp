@@ -395,6 +395,7 @@ void WbWorldInfo::exportNodeFields(WbWriter &writer) const {
 
     writer << " basicTimeStep=\'" << mBasicTimeStep->value() << "\'";
     writer << " coordinateSystem=\'" << mCoordinateSystem->value() << "\'";
+    writer << " lineScale=\'" << mLineScale->value() << "\'";
   } else
     WbBaseNode::exportNodeFields(writer);
 }

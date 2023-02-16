@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # This is a proto file for Franka Emika's Panda arm.
@@ -13,7 +13,7 @@ PROTO Panda [
   field  SFString    name               "panda"       # Is `Solid.name`.
   field  SFString    controller         "<generic>"   # Is `Robot.controller`.
   field  MFString    controllerArgs     []            # Is `Robot.controllerArgs`.
-  field SFString     window             "<generic>"   # Is `Robot.window`.
+  field  SFString    window             "<generic>"   # Is `Robot.window`.
   field  SFString    customData         ""            # Is `Robot.customData`.
   field  SFBool      supervisor         FALSE         # Is `Robot.supervisor`.
   field  SFBool      synchronization    TRUE          # Is `Robot.synchronization`.
