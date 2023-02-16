@@ -46,12 +46,6 @@ export default class WbJoint extends WbBaseNode {
     return solid?.boundingSphere();
   }
 
-  recomputeBoundingSphere() {
-    const solid = this.solidEndPoint();
-    solid.recomputeBoundingSphere();
-    WbBoundingSphere.addSubBoundingSphereToParentNode(this);
-  }
-
   createWrenObjects() {
     super.createWrenObjects();
 
