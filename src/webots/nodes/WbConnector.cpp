@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -742,6 +742,7 @@ void WbConnector::reset(const QString &id) {
   if (mPeer)
     detachFromPeer();
   mStartup = true;
+  mNeedToReconfigure = true;
 }
 
 void WbConnector::save(const QString &id) {
@@ -934,9 +935,8 @@ void WbConnector::solidHasMoved(WbSolid *solid) {
   if (connector)
     connector->hasMoved();
   else {
-    const QVector<WbSolid *> &solidChildren = solid->solidChildren();
-    foreach (WbSolid *solid, solidChildren)
-      solidHasMoved(solid);
+    foreach (WbSolid *s, solid->solidChildren())
+      solidHasMoved(s);
   }
 }
 

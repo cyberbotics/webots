@@ -1,4 +1,4 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -210,7 +210,7 @@ def process_object(supervisor, category, nodeString, objectDirectory, protoPath,
     elif distance < 10:
         cameraNear.setSFFloat(0.5)
     else:
-        cameraNear.setSFFloat(1)
+        cameraNear.setSFFloat(1.0)
     supervisor.step(timeStep)
 
     take_original_screenshot(camera, objectDirectory)
@@ -218,7 +218,7 @@ def process_object(supervisor, category, nodeString, objectDirectory, protoPath,
     supervisor.getFromDef('FLOOR_MATERIAL').getField('diffuseColor').setSFColor(background)
     lightIntensityField = supervisor.getFromDef('LIGHT').getField('intensity')
     lightIntensity = lightIntensityField.getSFFloat()
-    lightIntensityField.setSFFloat(0)
+    lightIntensityField.setSFFloat(0.0)
     supervisor.step(10 * timeStep)
     pixel = camera.getImageArray()[0][0]
     shadowColor = [pixel[0], pixel[1], pixel[2]]

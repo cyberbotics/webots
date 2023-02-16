@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -114,7 +114,7 @@ protected:
   WbMemoryMappedFile *initializeMemoryMappedFile(const QString &id = "");
   virtual void computeValue();
   void copyImageToMemoryMappedFile(WbWrenCamera *camera, unsigned char *data);
-  void editChunkMetadata(WbDataStream &stream, int img_size);
+  void editChunkMetadata(WbDataStream &stream, int newImageSize);
 
   virtual bool antiAliasing() const { return false; }
 

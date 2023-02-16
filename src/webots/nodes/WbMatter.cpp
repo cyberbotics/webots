@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -221,7 +221,10 @@ void WbMatter::createScaleManipulator() {
 ////////////////////////////
 
 bool WbMatter::isBoundingObjectFinalizationCompleted(WbBaseNode *node) {
-  if (node && node->isPostFinalizedCalled())
+  if (!node)
+    return false;
+
+  if (node->isPostFinalizedCalled())
     return true;
 
   connect(node, &WbBaseNode::finalizationCompleted, this, &WbMatter::boundingObjectFinalizationCompleted);

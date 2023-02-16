@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -410,8 +410,8 @@ int WbTreeItem::makeInvalid() {
   mNode = NULL;
 
   int count = 1;
-  foreach (WbTreeItem *child, mChildren)
-    count += child->makeInvalid();
+  foreach (WbTreeItem *c, mChildren)
+    count += c->makeInvalid();
 
   return count;
 }
@@ -442,8 +442,8 @@ void WbTreeItem::sfnodeChanged() {
 
   // delete previous children items
   int count = 0;
-  foreach (WbTreeItem *child, mChildren)
-    count += child->makeInvalid();
+  foreach (WbTreeItem *c, mChildren)
+    count += c->makeInvalid();
   if (count)
     emit childrenNeedDeletion(0, count);
 

@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -380,7 +380,7 @@ private:
 
   // setup flags mechanism mechanism
   void setupDescendantAndNestedProtoFlags(bool isTopNode, bool isTopParameterDescendant, bool isInsertedFromSceneTree);
-  static void setupDescendantAndNestedProtoFlags(QVector<WbField *> fields, bool isTopParameterDescendant);
+  static void setupDescendantAndNestedProtoFlags(QVector<WbField *> fieldsList, bool isTopParameterDescendant);
 
   // for proto parameter node instances only
   WbNode *mProtoParameterNode;

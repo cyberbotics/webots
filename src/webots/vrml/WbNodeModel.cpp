@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -72,8 +72,8 @@ WbNodeModel *WbNodeModel::readModel(const QString &fileName) {
 void WbNodeModel::readAllModels() {
   QString path = WbStandardPaths::resourcesPath() + "nodes/";
   QStringList list = QDir(path, "*.wrl").entryList();
-  foreach (QString name, list) {
-    WbNodeModel *model = readModel(path + name);
+  foreach (QString modelName, list) {
+    WbNodeModel *model = readModel(path + modelName);
     if (model)
       cModels.insert(model->name(), model);
   }

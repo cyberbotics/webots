@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -232,18 +232,18 @@ WbSoundClip *WbSoundEngine::sound(const QString &url, const QString &extension, 
   }
 
   init();
-  foreach (WbSoundClip *sound, gSounds) {
-    if (sound->filename() == url && sound->side() == side && sound->balance() == balance)
-      return sound;
+  foreach (WbSoundClip *s, gSounds) {
+    if (s->filename() == url && s->side() == side && s->balance() == balance)
+      return s;
   }
-  WbSoundClip *sound = new WbSoundClip;
+  WbSoundClip *soundClip = new WbSoundClip;
   try {
-    sound->load(url, extension, device, balance, side);
-    gSounds << sound;
-    return sound;
+    soundClip->load(url, extension, device, balance, side);
+    gSounds << soundClip;
+    return soundClip;
   } catch (const QString &e) {
     WbLog::warning(QObject::tr("Could not open '%1' sound file: %2").arg(url).arg(e));
-    delete sound;
+    delete soundClip;
     return NULL;
   }
 }
@@ -280,14 +280,14 @@ WbSoundClip *WbSoundEngine::soundFromText(const QString &text, const QString &en
   }
   WbWaveFile wave(buffer, size, gTextToSpeech->generatedChannelNumber(), gTextToSpeech->generatedBitsPerSample(),
                   gTextToSpeech->generatedRate());
-  WbSoundClip *sound = new WbSoundClip();
+  WbSoundClip *soundClip = new WbSoundClip();
   try {
-    sound->load(&wave);
-    gSounds << sound;
-    return sound;
+    soundClip->load(&wave);
+    gSounds << soundClip;
+    return soundClip;
   } catch (const QString &e) {
     WbLog::warning(QObject::tr("Could not open generated sound from '%1'.").arg(text));
-    delete sound;
+    delete soundClip;
     return NULL;
   }
 }

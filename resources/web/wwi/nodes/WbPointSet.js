@@ -1,6 +1,6 @@
 import {arrayXPointerFloat} from './utils/utils.js';
 import WbGeometry from './WbGeometry.js';
-import WbWrenShaders from './../wren/WbWrenShaders.js';
+import WbWrenShaders from '../wren/WbWrenShaders.js';
 
 export default class WbPointSet extends WbGeometry {
   constructor(id, coord, color) {

@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -82,9 +82,9 @@ private:
 
   WbLanguage(int code, const QString &name, const QString &defaultFileSuffix, const QString &commentPrefix, bool isCompilable);
   ~WbLanguage();
-  void addKeywords(QString words);
-  void addApiWords(QString words);
-  void addPreprocessorWords(QString words);
+  void addKeywords(const QString &words);
+  void addApiWords(const QString &words);
+  void addPreprocessorWords(const QString &words);
 
   static void cleanup();
 };

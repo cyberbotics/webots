@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -321,12 +321,14 @@ void WbSkin::updateMaterial() {
   assert(appearance);
   if (appearance) {
     const int materialIndex = mMaterialNames.indexOf(appearance->name());
-    if (materialIndex >= 0 && appearance->areWrenObjectsInitialized())
-      mMaterials[materialIndex] = appearance->modifyWrenMaterial(mMaterials[materialIndex]);
-    else
-      mMaterials[materialIndex] = WbAppearance::fillWrenDefaultMaterial(mMaterials[materialIndex]);
+    if (materialIndex >= 0) {
+      if (appearance->areWrenObjectsInitialized())
+        mMaterials[materialIndex] = appearance->modifyWrenMaterial(mMaterials[materialIndex]);
+      else
+        mMaterials[materialIndex] = WbAppearance::fillWrenDefaultMaterial(mMaterials[materialIndex]);
 
-    wr_renderable_set_material(mRenderables[materialIndex], mMaterials[materialIndex], NULL);
+      wr_renderable_set_material(mRenderables[materialIndex], mMaterials[materialIndex], NULL);
+    }
   }
 }
 

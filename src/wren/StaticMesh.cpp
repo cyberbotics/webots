@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -1924,8 +1924,10 @@ namespace wren {
     if (!mCacheData->mNumUsers) {
       if (mCacheData->mGlNameVertexArrayObject) {
         release();
+        releaseShadowVolume();
 
         glDeleteVertexArrays(1, &mCacheData->mGlNameVertexArrayObject);
+        glDeleteVertexArrays(1, &mCacheData->mGlNameVertexArrayObjectShadow);
         glDeleteBuffers(1, &mCacheData->mGlNameBufferCoords);
         glDeleteBuffers(1, &mCacheData->mGlNameBufferIndices);
         glDeleteBuffers(1, &mCacheData->mGlNameBufferShadowCoords);

@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -149,7 +149,7 @@ void DeviceManager::clear() {
   mTofSensor = NULL;
 }
 
-void DeviceManager::apply(int simulationTime) {
+const void DeviceManager::apply(int simulationTime) const {
   vector<Device *>::const_iterator it;
 
   // check if some sensors need to be requested

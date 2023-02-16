@@ -1,17 +1,17 @@
 #VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# Tractor Rear Wheel
+# Tractor rear wheel.
 # template language: javascript
 
 PROTO TractorRearWheel [
-  field SFString name           "tractor rear wheel"
-  field SFFloat  tireRadius     0.6
-  field SFFloat  width          0.37
-  field SFInt32  subdivision    24
-  field SFBool   wheelSide      FALSE
-  field SFNode   physics        Physics { density -1 mass 60 }
-  field SFBool   boundingObject TRUE
+  field SFString name           "tractor rear wheel"            # Identifies the wheel.
+  field SFFloat  tireRadius     0.6                             # Defines the outer radius of the wheel.
+  field SFFloat  width          0.37                            # Defines the thickness of the wheel.
+  field SFInt32  subdivision    24                              # Defines the number of subdivisions for the cylinder approximation.
+  field SFBool   wheelSide      FALSE                           # Defines whether the wheel is positioned on the right or on the left of the tractor.
+  field SFNode   physics        Physics { density -1 mass 60 }  # Physics node of the wheel defining all the physical characteristics.
+  field SFBool   boundingObject TRUE                            # Defines whether the wheel should have a bounding object.
 ]
 {
   Slot {
@@ -82,7 +82,7 @@ PROTO TractorRearWheel [
       ]
       name IS name
       model "tractor rear wheel"
-      %< if (fields.boundingObject.value) { >%   
+      %< if (fields.boundingObject.value) { >%
 
       boundingObject Group {
         children [

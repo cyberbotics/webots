@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -61,6 +61,7 @@ namespace WbMathsUtilities {
   inline double clampedAsin(double value);
 };  // namespace WbMathsUtilities
 
+// Normalize angle to be within +/-pi of lastSpot.
 inline double WbMathsUtilities::normalizeAngle(double angle, double lastSpot = 0.0) {
   static const double INV_TWO_PI = 0.5 / M_PI;
   double d = angle - lastSpot;

@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ IPRCollaboration::~IPRCollaboration() {
 void IPRCollaboration::waitForSignal(CollaborationState stateSignal) {
   while (true) {
     if (mReceiver->getQueueLength() > 0) {
-      const int *state = (const int *)mReceiver->getData();
+      const int *state = static_cast<const int *>(mReceiver->getData());
       if (state[0] == stateSignal) {
         mReceiver->nextPacket();
         break;

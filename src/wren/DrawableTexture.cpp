@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,7 +27,8 @@
 namespace wren {
 
   void DrawableTexture::clear() {
-    for (int i = 0; i < width() * height(); ++i)
+    const int size = width() * height();
+    for (int i = 0; i < size; ++i)
       mData[i] = mClearColor;
 
     mDirty = true;

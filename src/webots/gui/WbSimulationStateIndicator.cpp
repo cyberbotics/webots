@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -118,7 +118,7 @@ void WbSimulationStateIndicator::update() {
     int m = fmod(floor(time / 60000.0), 60.0);  // minutes
     int s = fmod(floor(time / 1000.0), 60.0);   // seconds
     int ms = fmod(time, 1000.0);                // milliseconds
-    str = QString::asprintf("%u:%02u:%02u:%03u", h, m, s, ms);
+    str = QString::asprintf("%d:%02d:%02d:%03d", h, m, s, ms);
 
     if (mTimeLabel->text() != str)
       mTimeLabel->setText(str);

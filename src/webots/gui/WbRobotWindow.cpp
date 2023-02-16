@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -57,6 +57,7 @@ void WbRobotWindow::setClientID(const QString &clientID, const QString &robotNam
 
 bool WbRobotWindow::openOnWebBrowser(const QString &url, const QString &program, const bool newBrowserWindow) {
   QString systemProgram;
+  // cppcheck-suppress unassignedVariable
   QStringList arguments;
 
 #ifdef _WIN32

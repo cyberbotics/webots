@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ RosEmitter::~RosEmitter() {
 }
 
 bool RosEmitter::sendCallback(webots_ros::set_string::Request &req, webots_ros::set_string::Response &res) {
-  mEmitter->send((void *)req.value.c_str(), req.value.size());
+  mEmitter->send(static_cast<void *>(const_cast<char *>(req.value.c_str())), req.value.size());
   res.success = true;
   return true;
 }

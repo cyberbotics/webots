@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -325,7 +325,7 @@ void WbSliderJoint::writeExport(WbWriter &writer) const {
 
     writer.increaseIndent();
     writer.indent();
-    writer << QString("<parent link=\"%1\"/>\n").arg(parentNode()->urdfName());
+    writer << QString("<parent link=\"%1\"/>\n").arg(parentRoot->urdfName());
     writer.indent();
     writer << QString("<child link=\"%1\"/>\n").arg(solidEndPoint()->urdfName());
     writer.indent();

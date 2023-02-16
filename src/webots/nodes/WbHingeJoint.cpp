@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -372,19 +372,18 @@ void WbHingeJoint::prePhysicsStep(double ms) {
 void WbHingeJoint::postPhysicsStep() {
   assert(mJoint);
   WbRotationalMotor *const rm = rotationalMotor();
-  if (rm && rm->isPIDPositionControl()) {  // if controlling in position we update position using directly the angle feedback
-    double angle = dJointGetHingeAngle(mJoint);
-    if (!mIsReverseJoint)
-      angle = -angle;
-    mPosition = WbMathsUtilities::normalizeAngle(angle + mOdePositionOffset, mPosition);
-  } else {
-    // if not controlling in position we use the angle rate feedback to update position (because at high speed angle feedback is
-    // under-estimated)
-    double angleRate = dJointGetHingeAngleRate(mJoint);
-    if (mIsReverseJoint)
-      angleRate = -angleRate;
-    mPosition -= angleRate * mTimeStep / 1000.0;
-  }
+
+  // First update the position roughly based on the angular rate of the joint so that it is within pi radians...
+  double angleRate = dJointGetHingeAngleRate(mJoint);
+  if (mIsReverseJoint)
+    angleRate = -angleRate;
+  mPosition -= angleRate * mTimeStep / 1000.0;
+  // ...then refine the update to correspond to the actual measured angle (which is normalized to [-pi,pi]
+  double angle = dJointGetHingeAngle(mJoint);
+  if (!mIsReverseJoint)
+    angle = -angle;
+  mPosition = WbMathsUtilities::normalizeAngle(angle + mOdePositionOffset, mPosition);
+
   WbJointParameters *const p = parameters();
   if (p)
     p->setPositionFromOde(mPosition);

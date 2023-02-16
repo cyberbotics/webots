@@ -1,4 +1,4 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ try:
 except ImportError:
     sys.exit(
         'Please make sure you have all dependencies installed. '
-        'Run: "pip3 install numpy gym stable_baselines3"'
+        'Run: "pip3 install numpy gym==0.21 stable_baselines3"'
     )
 
 

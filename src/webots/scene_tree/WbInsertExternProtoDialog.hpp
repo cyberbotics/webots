@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,9 +27,9 @@ class QPushButton;
 
 class WbInsertExternProtoDialog : public QDialog {
   Q_OBJECT
+
 public:
   explicit WbInsertExternProtoDialog(QWidget *parent = NULL);
-  virtual ~WbInsertExternProtoDialog();
 
 public slots:
   void accept() override;
@@ -39,13 +39,16 @@ private slots:
   void updateSelection();
 
 private:
-  bool mRetrievalTriggered;
+  // cppcheck 2.10 seems to give a series of false positives here that we want to silence:
+  // cppcheck-suppress unsafeClassCanLeak
   QTreeWidget *mTree;
+  // cppcheck-suppress unsafeClassCanLeak
   QLineEdit *mSearchBar;
-
+  // cppcheck-suppress unsafeClassCanLeak
   QPushButton *mInsertButton;
+  // cppcheck-suppress unsafeClassCanLeak
   QPushButton *mCancelButton;
-
+  bool mRetrievalTriggered;
   QString mProto;
   QString mPath;
 };

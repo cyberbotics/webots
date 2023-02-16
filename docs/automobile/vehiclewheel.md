@@ -57,6 +57,6 @@ Some sample instances of wheels are provided (see for example `BmwX5Wheel.proto`
 
 %figure "Example of modeling of a BMW X5 wheel using the VehicleWheel PROTO"
 
-![BmwX5Wheel.png](images/BmwX5Wheel.png)
+![BmwX5Wheel.png](images/bmw/BmwX5Wheel.png)
 
 %end

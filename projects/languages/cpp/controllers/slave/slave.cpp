@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -83,7 +83,7 @@ void Slave::run() {
   while (step(timeStep) != -1) {
     // Read sensors, particularly the order of the supervisor
     if (receiver->getQueueLength() > 0) {
-      string message((const char *)receiver->getData());
+      string message(static_cast<const char *>(receiver->getData()));
       receiver->nextPacket();
 
       cout << "I should " << AnsiCodes::RED_FOREGROUND << message << AnsiCodes::RESET << "!" << endl;

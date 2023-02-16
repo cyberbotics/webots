@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -153,7 +153,7 @@ void WbMultimediaStreamingServer::processLimiterTimeout() {
     return;
   }
   if (mSentImagesCount == 0) {
-    if (WbSimulationState::instance()->isPaused() && mFullResolutionOnPause != 2 && mLimiter->resolutionFactor() > 1) {
+    if (WbSimulationState::instance()->isPaused() && mLimiter->resolutionFactor() > 1) {
       // nothing sent since a while
       // send one image in full resolution
       mFullResolutionOnPause = 2;
@@ -201,11 +201,11 @@ void WbMultimediaStreamingServer::sendLastImage(QTcpSocket *client) {
     clients << client;
   else
     clients = mTcpClients;
-  foreach (QTcpSocket *client, clients) {
-    client->write(boundaryString);
-    client->write(mSceneImage);
-    client->write(QByteArray("\r\n"));
-    client->flush();
+  foreach (QTcpSocket *c, clients) {
+    c->write(boundaryString);
+    c->write(mSceneImage);
+    c->write(QByteArray("\r\n"));
+    c->flush();
   }
 }
 

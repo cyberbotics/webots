@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -446,9 +446,10 @@ void WbNewProtoWizard::updateNodeTree() {
     WbProtoManager::instance()->generateProtoInfoMap(categories[i]);
     QMapIterator<QString, WbProtoInfo *> it(WbProtoManager::instance()->protoInfoMap(categories[i]));
     while (it.hasNext()) {
-      const QString &protoName = it.next().key();
-      if (protoName.contains(regexp) && !it.value()->tags().contains("hidden") && !it.value()->tags().contains("deprecated"))
-        items[i]->addChild(new QTreeWidgetItem(items[i], QStringList(protoName)));
+      const QString &protoNameString = it.next().key();
+      if (protoNameString.contains(regexp) && !it.value()->tags().contains("hidden") &&
+          !it.value()->tags().contains("deprecated"))
+        items[i]->addChild(new QTreeWidgetItem(items[i], QStringList(protoNameString)));
     }
   }
 

@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ void ::webots::Camera::enable(int samplingPeriod) {
   disable();
   ::Robot::LinuxCamera::GetInstance()->Initialize(0);
   ::Robot::LinuxCamera::GetInstance()->SetCameraSettings(::Robot::CameraSettings());
-  mImage = (unsigned char *)malloc(4 * getWidth() * getHeight());
+  mImage = static_cast<unsigned char *>(malloc(4 * getWidth() * getHeight()));
 
   int error = 0;
 

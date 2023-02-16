@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -80,8 +80,8 @@ void WbPaintTexture::cleanup() {
 }
 
 void WbPaintTexture::clearAllTextures() {
-  foreach (WbPaintTexture *const paintTexture, gPaintTextures)
-    paintTexture->clearTexture();
+  foreach (WbPaintTexture *const pt, gPaintTextures)
+    pt->clearTexture();
   gEvaporationTextures.clear();
 }
 

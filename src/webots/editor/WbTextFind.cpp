@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -153,8 +153,8 @@ void WbTextFind::replaceAll(const QString &before, const QString &after, FindFla
       newPosCursor.movePosition(QTextCursor::NextCharacter);
       found = doc->find(beforeRegularExpression, newPosCursor, docFindFlags);
     }
-    if (first)
-      first = false;
+
+    first = false;
 
     cursor.setPosition(found.selectionStart());
     cursor.setPosition(found.selectionEnd(), QTextCursor::KeepAnchor);

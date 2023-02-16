@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -37,6 +37,7 @@ WbToken::WbToken(const QString &word, int line, int column) : mLine(line), mColu
   else if (NUMERIC_CHARS.contains(w0)) {
     // does this look like a double point number
     bool ok;
+    // cppcheck-suppress ignoredReturnValue
     word.toDouble(&ok);
     mType = ok ? NUMERIC : INVALID;
   } else if (isKeyword(word))

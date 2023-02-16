@@ -1,4 +1,4 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ while robot.step(timeStep) != -1:
         # Read the position sensors:
         base_arm_pos_value = base_arm_pos.getValue()
         led.set(ledStatus)
-        ledStatus = not(ledStatus)
+        ledStatus = not ledStatus
         t = robot.getTime()
 
     arm.setPosition(0.14)

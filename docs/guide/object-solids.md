@@ -25,6 +25,7 @@ SolidBox {
   SFNode     physics               NULL
   SFBool     enableBoundingObject  TRUE
   SFBool     castShadows           TRUE
+  MFColor    recognitionColors     []
 }
 ```
 

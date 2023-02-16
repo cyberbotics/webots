@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -103,8 +103,8 @@ int main(int argc, char *argv[]) {
     const double *gyro;
     const unsigned char *image;
 
-    char *receiveBuffer = (char *)malloc(1024);
-    char *sendBuffer = (char *)malloc(350000);
+    char *receiveBuffer = static_cast<char *>(malloc(1024));
+    char *sendBuffer = static_cast<char *>(malloc(350000));
     receiveBuffer[0] = '\0';
     sendBuffer[0] = '\0';
 

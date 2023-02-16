@@ -7,7 +7,7 @@ export default class FloatingWindow {
     this.floatingWindow.className = 'floating-window';
     this.floatingWindow.id = name;
     this.floatingWindow.style.visibility = 'hidden';
-    this.floatingWindow.style.zIndex = '1';
+    this.floatingWindow.style.zIndex = '3';
     parentNode.appendChild(this.floatingWindow);
 
     this.floatingWindowHeader = document.createElement('div');
@@ -53,9 +53,9 @@ export default class FloatingWindow {
 
   bringToFront() {
     document.querySelectorAll('.floating-window').forEach((window) => {
-      window.style.zIndex = '1';
+      window.style.zIndex = '3';
     });
-    this.floatingWindow.style.zIndex = '2';
+    this.floatingWindow.style.zIndex = '4';
   }
 
   getId() {

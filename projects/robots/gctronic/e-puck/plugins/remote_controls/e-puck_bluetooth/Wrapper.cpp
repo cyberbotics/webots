@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -198,7 +198,7 @@ void *Wrapper::findAvailablePorts(void *) {
     // no ports found
     return NULL;
 
-  char *port = (char *)malloc(count);
+  char *port = static_cast<char *>(malloc(count));
   int n = 0;
   for (int i = 0; i < size; i++) {
     int l = comPorts->at(i).length();

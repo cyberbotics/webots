@@ -1,4 +1,4 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ class BlinkingLED:
 
     def toggle(self):
         self.led_device.set(self.on)
-        self.on = not(self.on)
+        self.on = not self.on
 
 
 supervisor = Supervisor()

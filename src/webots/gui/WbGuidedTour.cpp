@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -172,10 +172,9 @@ void WbGuidedTour::setTitleText(const QString &title) {
 static QString formatInfo(const WbMFString &info) {
   QString outputText;
   QString item;
-  QString lowerCaseItem;
   for (int i = 0; i < info.size(); i++) {
     item = info.item(i);
-    lowerCaseItem = item.toLower();
+    const QString lowerCaseItem = item.toLower();
     if (!lowerCaseItem.startsWith("date")) {
       if (item.contains("Author", Qt::CaseInsensitive)) {
         item.replace(QString("Author"), QString("Credits"), Qt::CaseInsensitive);

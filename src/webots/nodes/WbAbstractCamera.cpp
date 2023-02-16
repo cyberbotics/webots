@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -189,7 +189,7 @@ void WbAbstractCamera::initializeImageMemoryMappedFile() {
   delete mImageMemoryMappedFile;
   mImageMemoryMappedFile = initializeMemoryMappedFile();
   if (mImageMemoryMappedFile)
-    mImageData = (unsigned char *)mImageMemoryMappedFile->data();
+    mImageData = static_cast<unsigned char *>(mImageMemoryMappedFile->data());
 }
 
 WbMemoryMappedFile *WbAbstractCamera::initializeMemoryMappedFile(const QString &id) {

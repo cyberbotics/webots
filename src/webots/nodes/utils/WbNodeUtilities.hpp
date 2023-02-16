@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -47,14 +47,6 @@ namespace WbNodeUtilities {
   // find the closest WbTransform ancestor
   WbTransform *findUpperTransform(const WbNode *node);
 
-  // find the closest template ancestor in which the modified node is contained in template field
-  // which requires a template instance regeneration
-  WbNode *findUpperTemplateNeedingRegeneration(WbNode *modifiedNode);
-
-  // find the closest template ancestor of given field in which the modified field is contained
-  // in template field which requires a template instance regeneration
-  WbNode *findUpperTemplateNeedingRegenerationFromField(WbField *modifiedField, WbNode *parentNode);
-
   // find the closest WbSolid ancestor
   WbSolid *findUpperSolid(const WbNode *node);
 
@@ -66,7 +58,7 @@ namespace WbNodeUtilities {
   WbNode *findUpperNodeByType(const WbNode *node, int nodeType, int searchDegrees = 0);
 
   // return if this node contains descendant nodes of the specified types
-  bool hasDescendantNodesOfType(const WbNode *node, QList<int> nodeTypes);
+  bool hasDescendantNodesOfType(const WbNode *node, const QList<int> &nodeTypes);
 
   // return all the descendant nodes fulfilling the specified type condition
   // typeCondition is a function that checks the type of the node
@@ -180,7 +172,7 @@ namespace WbNodeUtilities {
   // can srcNode be transformed
   // hasDeviceDescendant expected values: {-1: not computed, 0: doesn't have device descendants, 1: has device descendants)
   enum Answer { SUITABLE, UNSUITABLE, LOOSING_INFO };
-  Answer isSuitableForTransform(const WbNode *srcNode, const QString &destModelName, int *hasDeviceDescendant);
+  Answer isSuitableForTransform(const WbNode *srcNode, const QString &destModelName, int *hasDeviceDescendantFlag);
 
   // check if type of two Slot nodes is compatible
   bool isSlotTypeMatch(const QString &firstType, const QString &secondType, QString &errorMessage);

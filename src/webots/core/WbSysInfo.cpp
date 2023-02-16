@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -100,6 +100,7 @@ void WbSysInfo::openGlLineWidthRange(double &min, double &max) {
 
 const QString &WbSysInfo::sysInfo() {
   static QString sysInfo;
+  // cppcheck-suppress knownConditionTrueFalse
   if (!sysInfo.isEmpty())
     return sysInfo;
 
@@ -172,6 +173,7 @@ const QString &WbSysInfo::platformShortName() {
 
 const QString &WbSysInfo::processor() {
   static QString processor;
+  // cppcheck-suppress knownConditionTrueFalse
   if (!processor.isEmpty())
     return processor;
 #ifdef _WIN32

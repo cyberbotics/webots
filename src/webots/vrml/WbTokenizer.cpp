@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -79,6 +79,8 @@ WbToken *WbTokenizer::lastToken() const {
 }
 
 const QString &WbTokenizer::lastWord() const {
+  // cppcheck-suppress unassignedVariable
+  // cppcheck-suppress variableScope
   static QString emptyWord;
   if (lastToken())
     return lastToken()->word();

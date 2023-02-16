@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -642,9 +642,8 @@ void WbSimulationView::writeScreenshot() {
   const QImage &image = mView3D->grabWindowBufferNow();
   disconnect(mView3D, &WbView3D::screenshotReady, this, &WbSimulationView::writeScreenshot);
 
-  QString filename;
   while (!mScreenshotFileNameList.isEmpty() && !mScreenshotQualityList.isEmpty()) {
-    filename = mScreenshotFileNameList.takeFirst();
+    const QString filename = mScreenshotFileNameList.takeFirst();
     if (!image.save(filename, 0, mScreenshotQualityList.takeFirst()))
       WbLog::error(QString("Error while writing file: %1").arg(filename));
     else if (mIsScreenshotRequestedFromGui && mIsDecorationVisible)
@@ -951,36 +950,36 @@ void WbSimulationView::updatePlayButtons() {
 
   WbActionManager *manager = WbActionManager::instance();
 
-  QAction *pause = manager->action(WbAction::PAUSE);
-  QAction *realtime = manager->action(WbAction::REAL_TIME);
-  QAction *fast = manager->action(WbAction::FAST);
+  QAction *pauseMode = manager->action(WbAction::PAUSE);
+  QAction *realtimeMode = manager->action(WbAction::REAL_TIME);
+  QAction *fastMode = manager->action(WbAction::FAST);
 
-  mToolBar->removeAction(pause);
-  mToolBar->removeAction(realtime);
-  mToolBar->removeAction(fast);
+  mToolBar->removeAction(pauseMode);
+  mToolBar->removeAction(realtimeMode);
+  mToolBar->removeAction(fastMode);
 
   QList<QAction *> actions;
 
   switch (WbSimulationState::instance()->mode()) {
     case WbSimulationState::REALTIME:
-      actions << pause << fast;
+      actions << pauseMode << fastMode;
       break;
 
     case WbSimulationState::FAST:
-      actions << realtime << pause;
+      actions << realtimeMode << pauseMode;
       break;
 
     default:  // PAUSE
-      actions << realtime << fast;
+      actions << realtimeMode << fastMode;
       break;
   }
 
   mToolBar->insertActions(mPlayAnchor, actions);
 
   // setObjectName (used by the stylesheet)
-  QWidget *pauseWidget = mToolBar->widgetForAction(pause);
-  QWidget *realTimeWidget = mToolBar->widgetForAction(realtime);
-  QWidget *fastWidget = mToolBar->widgetForAction(fast);
+  QWidget *pauseWidget = mToolBar->widgetForAction(pauseMode);
+  QWidget *realTimeWidget = mToolBar->widgetForAction(realtimeMode);
+  QWidget *fastWidget = mToolBar->widgetForAction(fastMode);
   if (fastWidget)
     fastWidget->setObjectName("menuButton");
   if (realTimeWidget)

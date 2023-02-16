@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -364,9 +364,9 @@ void WbProtoManager::retrieveLocalProtoDependencies() {
     dependencies << it.next();
   // extra projects
   foreach (const WbProject *project, *WbProject::extraProjects()) {
-    QDirIterator it(project->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
-    while (it.hasNext())
-      dependencies << it.next();
+    QDirIterator i(project->protosPath(), QStringList() << "*.proto", QDir::Files, QDirIterator::Subdirectories);
+    while (i.hasNext())
+      dependencies << i.next();
   }
 
   // create an empty root and populate its children with the dependencies to be downloaded

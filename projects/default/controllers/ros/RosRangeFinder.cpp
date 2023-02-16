@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -51,7 +51,7 @@ void RosRangeFinder::createCameraInfoPublisher() {
 // get image from the RangeFinder and publish it
 void RosRangeFinder::publishValue(ros::Publisher publisher) {
   const char *rangeImageVector;
-  rangeImageVector = (const char *)(void *)mRangeFinder->getRangeImage();
+  rangeImageVector = static_cast<const char *>(static_cast<void *>(const_cast<float *>(mRangeFinder->getRangeImage())));
   sensor_msgs::Image image;
   image.header.stamp = ros::Time::now();
   image.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();

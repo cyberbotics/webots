@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -123,9 +123,9 @@ class TestCppCheck(unittest.TestCase):
             'src/webots/widgets',
             'src/webots/wren'
         ]
-        command = 'cppcheck --enable=warning,style,performance,portability --inconclusive --force -q'
-        command += ' -j %s' % str(multiprocessing.cpu_count())
-        command += ' --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm --suppress=uninitMemberVar '
+        command = 'cppcheck --platform=native --enable=warning,style,performance,portability --inconclusive --force -q'
+        command += ' --library=qt -j %s' % str(multiprocessing.cpu_count())
+        command += ' --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm --suppress=uninitMemberVar'
         command += ' --suppress=noCopyConstructor --suppress=noOperatorEq --suppress=strdupCalled --suppress=unknownMacro'
         # command += ' --xml '  # Uncomment this line to get more information on the errors
         command += ' --output-file=\"' + self.reportFilename + '\"'
@@ -165,11 +165,11 @@ class TestCppCheck(unittest.TestCase):
         skippedfiles = [
             'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h'
         ]
-        command = 'cppcheck --enable=warning,style,performance,portability --inconclusive --force -q '
-        command += '--inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm -UKROS_COMPILATION '
-        command += '--suppress=strdupCalled --suppress=ctuOneDefinitionRuleViolation --suppress=unknownMacro'
-        # command += '--xml '  # Uncomment this line to get more information on the errors
-        command += '--std=c++03 --output-file=\"' + self.reportFilename + '\"'
+        command = 'cppcheck --platform=native --enable=warning,style,performance,portability --inconclusive --force -q'
+        command += ' --library=qt --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm -UKROS_COMPILATION'
+        command += ' --suppress=strdupCalled --suppress=ctuOneDefinitionRuleViolation --suppress=unknownMacro'
+        # command += ' --xml'  # Uncomment this line to get more information on the errors
+        command += ' --std=c++03 --output-file=\"' + self.reportFilename + '\"'
         sources = self.add_source_files(sourceDirs, skippedDirs, skippedfiles)
         if not sources:
             return

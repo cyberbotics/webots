@@ -240,5 +240,8 @@ PROTO Fox [
         }
       ]
     }
+    recognitionColors [
+      0.992 0.376 0.086
+    ]
   }
 }

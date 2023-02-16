@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -342,9 +342,8 @@ void WbProtoHighlighter::highlightBlock(const QString &text) {
 
   int blockOffset = 0;
   QString currentText(text);
-  QString pattern;
   while (!currentText.isEmpty()) {
-    pattern = mIsTemplateBlock ? mTemplateEndPattern : mTemplateStartPattern;
+    const QString pattern = mIsTemplateBlock ? mTemplateEndPattern : mTemplateStartPattern;
     const int patternIndex = currentText.indexOf(pattern);
     if (patternIndex < 0)
       break;

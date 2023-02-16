@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -199,7 +199,7 @@ void WbCharger::prePhysicsStep(double ms) {
     } else
       currentEnergy -= e;  // transfer
 
-    if (mDone == false && mRobot->battery().size() > 2) {  // else energy is wasted
+    if (mDone == false) {  // else energy is wasted
       double robotCurrentEnergy = mRobot->currentEnergy();
       // special case:
       //   if the current energy of the robot is already bigger that its max energy

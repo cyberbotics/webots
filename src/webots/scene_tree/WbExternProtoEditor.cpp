@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -111,7 +111,7 @@ void WbExternProtoEditor::insertImportableExternProto() {
 void WbExternProtoEditor::removeImportableExternProto() {
   const QPushButton *const caller = qobject_cast<QPushButton *>(sender());
   const int index = caller ? mLayout->indexOf(caller) : -1;
-  if (index != -1 && index > 1) {
+  if (index > 1) {
     assert(mLayout->itemAt(index - 1)->widget());  // must be preceeded by a QLabel widget
     const QLabel *label = qobject_cast<QLabel *>(mLayout->itemAt(index - 1)->widget());
     if (label) {

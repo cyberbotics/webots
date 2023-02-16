@@ -1,4 +1,4 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -206,7 +206,7 @@ void WbMuscle::updateEndPoint(WbBaseNode *node) {
       disconnect(mEndPoint, &WbSolid::translationOrRotationChangedByUser, this, &WbMuscle::updateEndPointPosition);
     }
     mEndPoint = solid;
-    if (solid) {
+    if (mEndPoint) {
       // listen to solid endPoint position change
       connect(mEndPoint->translationFieldValue(), &WbSFVector3::changedByOde, this, &WbMuscle::stretch, Qt::UniqueConnection);
       // listen to joint force percentage
