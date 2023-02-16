@@ -1196,7 +1196,7 @@ void WbNode::addExternProtoFromFile(const WbProtoModel *proto, WbWriter &writer)
 }
 
 void WbNode::writeExport(WbWriter &writer) const {
-  if(!mIsProtoParameterNode)
+  if (!mIsProtoParameterNode)
     isProtoParameterNode();
   assert(!(writer.isX3d() && mIsProtoParameterNode[0]));
   if (exportNodeHeader(writer))
@@ -1360,13 +1360,13 @@ void WbNode::redirectInternalFields(WbField *param, bool finalize) {
   if (mIsRedirectedToParameterNode)
     return;
   mIsRedirectedToParameterNode = true;
-  const QList<WbField *> parameters = param ? QList<WbField *>() << param : mParameters;
-  foreach (WbField *parameter, parameters) {
+  const QList<WbField *> parametersList = param ? QList<WbField *>() << param : mParameters;
+  foreach (WbField *parameter, parametersList) {
     QList<WbField *> internalFields = parameter->internalFields();
     while (!internalFields.isEmpty()) {
-      WbField *field = internalFields.takeFirst();
-      redirectInternalFields(field, parameter, finalize);
-      internalFields << field->internalFields();
+      WbField *f = internalFields.takeFirst();
+      redirectInternalFields(f, parameter, finalize);
+      internalFields << f->internalFields();
     }
   }
 }
@@ -1401,9 +1401,10 @@ void WbNode::redirectInternalFields(WbField *field, WbField *parameter, bool fin
 }
 
 void WbNode::redirectInternalFields(WbNode *instance, WbNode *parameterNode, bool finalize) {
-  if (instance->mIsRedirectedToParameterNode)
+  if (instance && instance->mIsRedirectedToParameterNode)
     return;
-  instance->mIsRedirectedToParameterNode = true;
+  if (instance)
+    instance->mIsRedirectedToParameterNode = true;
   assert(instance && parameterNode);
 
   QListIterator<WbField *> referenceIt(parameterNode->fieldsOrParameters());
