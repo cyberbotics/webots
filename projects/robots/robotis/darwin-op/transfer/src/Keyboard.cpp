@@ -25,7 +25,7 @@ using namespace webots;
 using namespace std;
 
 void *Keyboard::KeyboardTimerProc(void *param) {
-  ((Keyboard *)param)->mKeyboardInterface->startListenKeyboard();
+  (static_cast<Keyboard *>(param))->mKeyboardInterface->startListenKeyboard();
   return NULL;
 }
 

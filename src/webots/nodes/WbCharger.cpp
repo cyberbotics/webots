@@ -199,20 +199,18 @@ void WbCharger::prePhysicsStep(double ms) {
     } else
       newEnergy = currentEnergy - e;  // transfer
 
-    if (mRobot->battery().size() > 2) {  // else energy is wasted
-      double robotCurrentEnergy = mRobot->currentEnergy();
-      // special case:
-      //   if the current energy of the robot is already bigger that its max energy
-      //   the robot battery cannot be filled
-      if (robotCurrentEnergy >= mRobot->maxEnergy())
-        newEnergy = currentEnergy;  // no energy is transferred
-      else {
-        robotCurrentEnergy += e;
-        if (robotCurrentEnergy > mRobot->maxEnergy())
-          robotCurrentEnergy = mRobot->maxEnergy();
-      }
-      mRobot->setCurrentEnergy(robotCurrentEnergy);
+    double robotCurrentEnergy = mRobot->currentEnergy();
+    // special case:
+    //   if the current energy of the robot is already bigger that its max energy
+    //   the robot battery cannot be filled
+    if (robotCurrentEnergy >= mRobot->maxEnergy())
+      newEnergy = currentEnergy;  // no energy is transferred
+    else {
+      robotCurrentEnergy += e;
+      if (robotCurrentEnergy > mRobot->maxEnergy())
+        robotCurrentEnergy = mRobot->maxEnergy();
     }
+    mRobot->setCurrentEnergy(robotCurrentEnergy);
   }
 
   // store value in battery

@@ -114,8 +114,8 @@ bool WbObjectDetection::doesChildrenHaveBoundingObject(const WbSolid *solid) {
   if (solid->boundingObject())
     return true;
   else {
-    foreach (WbSolid *solidChildren, solid->solidChildren()) {
-      if (doesChildrenHaveBoundingObject(solidChildren))
+    foreach (WbSolid *sc, solid->solidChildren()) {
+      if (doesChildrenHaveBoundingObject(sc))
         return true;
     }
   }
@@ -343,8 +343,8 @@ bool WbObjectDetection::recursivelyCheckIfWithinBounds(WbSolid *solid, bool boun
       mergeBounds(mObjectSize, mObjectRelativePosition, newObjectSize, newObjectRelativePosition);
   } else
     initialized = isWithinBounds(frustumPlanes, solid->boundingObject(), mObjectSize, mObjectRelativePosition, solid);
-  foreach (WbSolid *solid, solid->solidChildren())
-    initialized = recursivelyCheckIfWithinBounds(solid, initialized, frustumPlanes);
+  foreach (WbSolid *s, solid->solidChildren())
+    initialized = recursivelyCheckIfWithinBounds(s, initialized, frustumPlanes);
   return initialized;
 }
 

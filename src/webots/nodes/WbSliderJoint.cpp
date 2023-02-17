@@ -325,7 +325,7 @@ void WbSliderJoint::writeExport(WbWriter &writer) const {
 
     writer.increaseIndent();
     writer.indent();
-    writer << QString("<parent link=\"%1\"/>\n").arg(parentNode()->urdfName());
+    writer << QString("<parent link=\"%1\"/>\n").arg(parentRoot->urdfName());
     writer.indent();
     writer << QString("<child link=\"%1\"/>\n").arg(solidEndPoint()->urdfName());
     writer.indent();

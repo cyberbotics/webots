@@ -205,16 +205,16 @@ void Motion::parse() {
   // get the list of motor devices used in the motion
   QStringList usedMotorNamesList(firstLineTokens);
   QList<Motor *> usedMotorList;
-  foreach (const QString &name, usedMotorNamesList) {
+  foreach (const QString &motorName, usedMotorNamesList) {
     bool ok = false;
     foreach (Motor *motor, MotionGlobalSettings::availableMotorList()) {
-      if (motor->name() == name) {
+      if (motor->name() == motorName) {
         ok = true;
         usedMotorList << motor;
       }
     }
     if (!ok)
-      throw tr("The motor \"%1\" found in the motion file doesn't exist on this Robot").arg(name);
+      throw tr("The motor \"%1\" found in the motion file doesn't exist on this Robot").arg(motorName);
   }
 
   // point of no return accoriding to the error tolerance
@@ -329,7 +329,7 @@ void Motion::newPoseAt(int index) {
 }
 
 void Motion::duplicatePoseAt(int index) {
-  if (index >= 0 && index <= mPoses.count()) {
+  if (index >= 0 && index < mPoses.count()) {
     Pose *originalPose = mPoses.at(index);
     Pose *newPose = new Pose(*originalPose);
     QString originalName = originalPose->name();
