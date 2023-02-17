@@ -753,15 +753,7 @@ bool WbNodeUtilities::isDescendantOfBillboard(const WbNode *node) {
   if (node == NULL)
     return false;
 
-  const WbBaseNode *initialNode = dynamic_cast<const WbBaseNode *>(node);
-
-  if (!initialNode)
-    return false;
-
-  if (initialNode->nodeType() == WB_NODE_BILLBOARD)
-    return true;
-
-  WbNode *n = node->parentNode();
+  WbNode *n = const_cast<WbNode *>(node);
   while (n && !n->isWorldRoot()) {
     WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(n);
 
@@ -781,17 +773,9 @@ bool WbNodeUtilities::isDescendantOfPropeller(const WbNode *node) {
   if (node == NULL)
     return false;
 
-  const WbBaseNode *initialNode = dynamic_cast<const WbBaseNode *>(node);
-
-  if (!initialNode)
-    return false;
-
-  if (initialNode->nodeType() == WB_NODE_PROPELLER)
-    return true;
-
-  WbNode *n = node->parentNode();
+  WbNode *n = const_cast<WbNode *>(node);
   while (n && !n->isWorldRoot()) {
-    WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(n);
+    const WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(n);
 
     if (!baseNode)
       return false;
