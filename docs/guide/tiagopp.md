@@ -27,8 +27,8 @@ Tiagopp {
   SFBool      synchronization       TRUE
   SFBool      selfCollision         FALSE
   MFNode      lidarSlot             []
-  MFNode      endEffectorRightSlot  TiagoGripper { name "right" }
-  MFNode      endEffectorLeftSlot   TiagoGripper { name "left" }
+  SFNode      endEffectorRightSlot  TiagoGripper { name "right" }
+  SFNode      endEffectorLeftSlot   TiagoGripper { name "left" }
 }
 ```
 > **File location**: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiagopp/protos/Tiagopp.proto]({{ url.github_tree }}/projects/robots/pal_robotics/tiagopp/protos/Tiagopp.proto)"
