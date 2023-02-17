@@ -76,7 +76,7 @@ The simulation model is mounted with the following sensors and actuators:
 #### Motion Manager
 
 The ROBOTIS OP3 can use the MotionManager.
-Please refer to [this documentation](robotis-op2.md#motion-manager).
+Please refer to [this documentation](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/robotis/darwin-op/protos/RobotisOp2.proto).
 
 ### Samples
 
