@@ -23,14 +23,14 @@ Tiagopp {
   SFBool      synchronization       TRUE
   SFBool      selfCollision         FALSE
   MFNode      lidarSlot             []
-  MFNode      endEffectorRightSlot  TiagoGripper { name "right" }
-  MFNode      endEffectorLeftSlot   TiagoGripper { name "left" }
+  SFNode      endEffectorRightSlot  TiagoGripper { name "right" }
+  SFNode      endEffectorLeftSlot   TiagoGripper { name "left" }
 }
 ```
 #### Tiagopp Field Summary
 
-- `endEffectorRightSlot`: Extends the right arm with new nodes (such as the `TiagoRightHey5` for example).
-- `endEffectorLeftSlot`: Extends the left arm with new nodes (such as the `TiagoLeftHey5` for example).
+- `endEffectorRightSlot`: Extends the right arm with a new node (such as the `TiagoRightHey5` for example).
+- `endEffectorLeftSlot`: Extends the left arm with a new node (such as the `TiagoLeftHey5` for example).
 
 ### Sample
 
