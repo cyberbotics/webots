@@ -319,7 +319,7 @@ void WbField::redirectTo(WbField *parameter, bool skipCopy) {
     // skip self and duplicated redirection
     return;
 
-  if (mParameter && mParameter != parameter) {
+  if (mParameter) {
     // remove previous connections
     WbMFNode *mfnode = dynamic_cast<WbMFNode *>(mParameter->value());
     if (mfnode) {

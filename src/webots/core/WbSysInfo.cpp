@@ -100,6 +100,7 @@ void WbSysInfo::openGlLineWidthRange(double &min, double &max) {
 
 const QString &WbSysInfo::sysInfo() {
   static QString sysInfo;
+  // cppcheck-suppress knownConditionTrueFalse
   if (!sysInfo.isEmpty())
     return sysInfo;
 
@@ -172,6 +173,7 @@ const QString &WbSysInfo::platformShortName() {
 
 const QString &WbSysInfo::processor() {
   static QString processor;
+  // cppcheck-suppress knownConditionTrueFalse
   if (!processor.isEmpty())
     return processor;
 #ifdef _WIN32

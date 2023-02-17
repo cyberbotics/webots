@@ -61,7 +61,7 @@ void WbProtoTreeItem::parseItem() {
   while (it.hasNext()) {
     const QRegularExpressionMatch match = it.next();
     if (match.hasMatch()) {
-      const bool isImportable = !match.captured(1).isEmpty();
+      const bool hasImportableKeyword = !match.captured(1).isEmpty();
       const QString subProto = match.captured(2);
       const QString subProtoUrl = WbUrl::combinePaths(subProto, mUrl);
       if (subProtoUrl.isEmpty())
@@ -100,7 +100,7 @@ void WbProtoTreeItem::parseItem() {
         continue;
       }
 
-      WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this, isImportable);
+      WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this, hasImportableKeyword);
       mChildren.append(child);
     }
   }

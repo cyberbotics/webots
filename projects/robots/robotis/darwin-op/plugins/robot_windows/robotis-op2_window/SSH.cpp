@@ -300,7 +300,7 @@ int SSH::sendFile(const QString &source, const QString &target) {
   rewind(file);
 
   // Allocate memory to contain the whole file:
-  char *buffer = (char *)malloc(length);
+  char *buffer = static_cast<char *>(malloc(length));
 
   // Copy the file into the buffer
   int size = fread(buffer, 1, length, file);

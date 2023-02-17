@@ -42,7 +42,7 @@ public:
   void render();
 
 private:
-  void setupTexture(QString text, int fontSize);
+  void setupTexture(const QString &text, int fontSize);
 
   bool mIsVisible;
   int mTextureWidth;

@@ -82,9 +82,9 @@ private:
 
   WbLanguage(int code, const QString &name, const QString &defaultFileSuffix, const QString &commentPrefix, bool isCompilable);
   ~WbLanguage();
-  void addKeywords(QString words);
-  void addApiWords(QString words);
-  void addPreprocessorWords(QString words);
+  void addKeywords(const QString &words);
+  void addApiWords(const QString &words);
+  void addPreprocessorWords(const QString &words);
 
   static void cleanup();
 };
