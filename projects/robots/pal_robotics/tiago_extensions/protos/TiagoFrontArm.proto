@@ -12,7 +12,7 @@ PROTO TiagoFrontArm [
   field  SFVec3f     translation      0 0 0
   field  SFRotation  rotation         0 0 1 0
   field  SFString    name             "TIAGo front arm"
-  field  MFNode      endEffectorSlot  []                  # Extends the arm with an end-effector (such as the TiagoGripper or the TiagoLeftHey5 for example).
+  field  SFNode      endEffectorSlot  NULL                  # Extends the arm with an end-effector (such as the TiagoGripper or the TiagoLeftHey5 for example).
 ]
 {
   Slot {
@@ -330,7 +330,12 @@ PROTO TiagoFrontArm [
                                                     children [
                                                       Transform {
                                                         rotation 0 0 1 -1.5708
-                                                        children IS endEffectorSlot
+                                                        children [
+                                                          Slot {
+                                                            type "tiago hand"
+                                                            endPoint IS endEffectorSlot
+                                                          }
+                                                        ]
                                                       }
                                                       Transform {
                                                         rotation 0.5774 0.5774 -0.5774 2.0944

@@ -11,7 +11,7 @@ PROTO TiagoBody [
   field  SFRotation  rotation      0 0 1 0
   field  MFNode      cameraSlot    []              # Extends the robot with a camera at head level.
   field  SFNode      rightArmSlot  NULL            # Extends the robot with a right arm (such as the TiagoRightArm for example).
-  field  SFNode      frontArmSlot  NULL            # Extends the robot with a front arm (such as the TiagoLeftArm for example).
+  field  SFNode      frontArmSlot  NULL            # Extends the robot with a front arm (such as the TiagoFrontArm for example).
   field  SFNode      leftArmSlot   NULL            # Extends the robot with a left arm (such as the TiagoLeftArm for example).
 ]
 {
