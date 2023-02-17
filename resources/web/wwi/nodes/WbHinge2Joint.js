@@ -128,6 +128,10 @@ export default class WbHinge2Joint extends WbHingeJoint {
   }
 
   #computeEndPointSolidPositionFromParameters(rotation) {
+    // case where there was not endPoint when the joint was created but one was added later.
+    if (typeof this._endPointZeroRotation === 'undefined')
+      this._updateEndPointZeroTranslationAndRotation();
+
     const q = new WbQuaternion();
     const axis = this.axis();
     q.fromAxisAngle(axis.x, axis.y, axis.z, this.position);
