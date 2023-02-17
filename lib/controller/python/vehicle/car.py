@@ -12,13 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from controller import Supervisor
+from vehicle import Driver
 import ctypes
 import os
 import sys
 
 
-class Car(Supervisor):
+class Car(Driver):
     # types
     TRACTION = 0
     PROPULSION = 1
