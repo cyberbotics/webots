@@ -24,8 +24,8 @@ PROTO Tiagopp [
   field  SFBool      synchronization       TRUE
   field  SFBool      selfCollision         FALSE                          # Enables/disables the detection of collisions within the robot.
   field  MFNode      cameraSlot            []                             # Extends the robot with a camera at head level.
-  field  MFNode      endEffectorRightSlot  TiagoGripper { name "right" }  # Extends the robot with a right end-effector (such as the TiagoRightHey5 for example).
-  field  MFNode      endEffectorLeftSlot   TiagoGripper { name "left" }   # Extends the robot with a left end-effector (such as the TiagoLeftHey5 for example).
+  field  SFNode      endEffectorRightSlot  TiagoGripper { name "right" }  # Extends the robot with a right end-effector (such as the TiagoRightHey5 for example).
+  field  SFNode      endEffectorLeftSlot   TiagoGripper { name "left" }   # Extends the robot with a left end-effector (such as the TiagoLeftHey5 for example).
   field  MFNode      lidarSlot             HokuyoUrg04lxug01{}            # Extends the robot with a lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
 ]
 {
@@ -44,16 +44,12 @@ PROTO Tiagopp [
     bodySlot [
       TiagoBody {
         cameraSlot IS cameraSlot
-        rightArmSlot [
-          TiagoRightArm {
-            endEffectorSlot IS endEffectorRightSlot
-          }
-        ]
-        leftArmSlot [
-          TiagoLeftArm {
-            endEffectorSlot IS endEffectorLeftSlot
-          }
-        ]
+        rightArmSlot TiagoRightArm {
+          endEffectorSlot IS endEffectorRightSlot
+        }
+        leftArmSlot TiagoLeftArm {
+          endEffectorSlot IS endEffectorLeftSlot
+        }
       }
     ]
     lidarSlot IS lidarSlot

@@ -41,14 +41,9 @@ PROTO TiagoSteel [
     bodySlot [
       TiagoBody {
         cameraSlot IS cameraSlot
-        frontArmSlot [
-          TiagoFrontArm {
-            endEffectorSlot [
-              TiagoGripper {
-              }
-            ]
-          }
-        ]
+        frontArmSlot TiagoFrontArm {
+          endEffectorSlot TiagoGripper {}
+        }
       }
     ]
     lidarSlot IS lidarSlot

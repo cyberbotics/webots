@@ -41,14 +41,9 @@ PROTO TiagoTitanium [
     bodySlot [
       TiagoBody {
         cameraSlot IS cameraSlot
-        frontArmSlot [
-          TiagoFrontArm {
-            endEffectorSlot [
-              TiagoRightHey5 {
-              }
-            ]
-          }
-        ]
+        frontArmSlot TiagoFrontArm {
+          endEffectorSlot TiagoRightHey5 {}
+        }
       }
     ]
     lidarSlot IS lidarSlot
