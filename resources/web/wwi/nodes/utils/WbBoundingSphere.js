@@ -1,6 +1,5 @@
 import WbVector3 from './WbVector3.js';
 import {findUpperTransform} from './node_utilities.js';
-import WbWorld from '../WbWorld.js';
 
 export default class WbBoundingSphere {
   #center;
