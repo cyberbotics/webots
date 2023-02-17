@@ -21,7 +21,7 @@ PointLight {
   ambientIntensity 1
   intensity 10
 }
-DEF Test Robot {
+DEF TEST Robot {
   children [
     Camera {
     }

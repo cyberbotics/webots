@@ -7,10 +7,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#define FILE_NAME_PNG "image.png"
-#define FILE_NAME_JPG "image.jpg"
-
-bool file_exists(const char *filename) {
+static bool file_exists(const char *filename) {
   FILE *file = fopen(filename, "r");
   if (file) {
     fclose(file);
@@ -37,9 +34,8 @@ static void test_exported_image_correct(const char *color_def, const unsigned ch
   ts_assert_boolean_not_equal(file_exists(file_name_jpg), "Impossible to remove the JPG file");
 
   // Turn to face the requested direction
-  WbFieldRef rotation_field = wb_supervisor_node_get_field(wb_supervisor_node_get_from_def("Test"), "rotation");
-  double rotation[4] = {0.0, 0.0, 1.0, 0.0};
-  rotation[3] = angle_radians;
+  WbFieldRef rotation_field = wb_supervisor_node_get_field(wb_supervisor_node_get_from_def("TEST"), "rotation");
+  double rotation[4] = {0.0, 0.0, 1.0, angle_radians};
   wb_supervisor_field_set_sf_rotation(rotation_field, rotation);
 
   wb_robot_step(time_step);
