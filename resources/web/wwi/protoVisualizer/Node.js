@@ -258,8 +258,13 @@ export default class Node {
 
   toJS(isFirstNode = false) {
     let jsFields = '';
-    for (const [parameterName, parameter] of this.parameters)
-      jsFields += `${parameterName}: {value: ${parameter.value.toJS()}, defaultValue: ${parameter.defaultValue.toJS()}}, `;
+    if (this.isProto) {
+      for (const [parameterName, parameter] of this.parameters)
+        jsFields += `${parameterName}: {value: ${parameter.value.toJS()}, defaultValue: ${parameter.defaultValue.toJS()}}, `;
+    } else {
+      for (const [fieldName, field] of this.fields)
+        jsFields += `${fieldName}: {value: ${field.value.toJS()}, defaultValue: ${field.defaultValue.toJS()}}, `;
+    }
 
     if (isFirstNode)
       return jsFields.slice(0, -2);
@@ -366,7 +371,9 @@ export default class Node {
 
           tokenizer.skipToken('}');
           nextToken = tokenizer.peekToken(); // we need to update the nextToken as it has to point after the restrictions
-        } else if (nextToken.isIdentifier()) {
+        }
+
+        if (nextToken.isIdentifier()) {
           const parameterName = nextToken.word();
           const parameterType = token.fieldTypeFromVrml();
           const isRegenerator = rawBody.search('fields.' + parameterName + '.') !== -1;

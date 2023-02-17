@@ -13,6 +13,8 @@ export default class WbJoint extends WbBaseNode {
   }
 
   set endPoint(endPoint) {
+    this._endPointZeroRotation = undefined;
+    this._endPointZeroTranslation = undefined;
     this.#endPoint = endPoint;
   }
 
