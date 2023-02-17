@@ -54,8 +54,8 @@ WbVideoRecorderDialog::WbVideoRecorderDialog(QWidget *parent, const QSize &curre
   tryToAddResolution(WbResolution(3840, 2160, "4K UHD"), fullScreen);
   tryToAddResolution(WbResolution(fullScreen.width(), fullScreen.height(), ""), fullScreen);
 
-  foreach (WbResolution resolution, mAvailableResolutions)
-    mResolutionList.addItem(resolution.toString());
+  foreach (WbResolution r, mAvailableResolutions)
+    mResolutionList.addItem(r.toString());
 
   // quality
   mQualitySpinBox = new WbIntSpinBox(this);
@@ -99,14 +99,14 @@ WbVideoRecorderDialog::WbVideoRecorderDialog(QWidget *parent, const QSize &curre
   mainLayout->setSizeConstraint(QLayout::SetFixedSize);
 
   // set default values
-  int quality, resolutionIndex;
-  double acceleration;
-  bool caption;
-  WbPreferences::instance()->moviePreferences(resolutionIndex, quality, acceleration, caption);
+  int qualityValue, resolutionIndex;
+  double accelerationValue;
+  bool captionValue;
+  WbPreferences::instance()->moviePreferences(resolutionIndex, qualityValue, accelerationValue, captionValue);
   mResolutionList.setCurrentRow(resolutionIndex);
-  mQualitySpinBox->setValue(quality);
-  mAccelerationSpinBox->setValue(acceleration);
-  mCaptionCheckBox->setChecked(caption);
+  mQualitySpinBox->setValue(qualityValue);
+  mAccelerationSpinBox->setValue(accelerationValue);
+  mCaptionCheckBox->setChecked(captionValue);
 }
 
 WbVideoRecorderDialog::~WbVideoRecorderDialog() {

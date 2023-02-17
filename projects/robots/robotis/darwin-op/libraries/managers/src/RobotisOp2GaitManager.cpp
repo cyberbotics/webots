@@ -72,7 +72,7 @@ RobotisOp2GaitManager::RobotisOp2GaitManager(webots::Robot *robot, const std::st
 
 #ifdef CROSSCOMPILATION
   RobotisOp2MotionTimerManager::MotionTimerInit();
-  MotionManager::GetInstance()->AddModule((MotionModule *)mWalking);
+  MotionManager::GetInstance()->AddModule(dynamic_cast<MotionModule *>(mWalking));
 #endif
 }
 

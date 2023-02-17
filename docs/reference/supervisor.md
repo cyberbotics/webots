@@ -2557,6 +2557,13 @@ The following table summarizes the behavior of different reset functions:
       <td>N/A</td>
     </tr>
     <tr>
+      <td><strong><a href="connector.md">Connector</a></strong></td>
+      <td>Resets</td>
+      <td colspan=3>Resets the <code>isLocked</code> field</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    <tr>
       <td><strong><a href="display.md">Display</a></strong></td>
       <td>Resets</td>
       <td>Clears</td>
