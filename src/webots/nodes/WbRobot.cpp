@@ -15,6 +15,7 @@
 #include "WbRobot.hpp"
 
 #include "WbAbstractCamera.hpp"
+#include "WbApplicationInfo.hpp"
 #include "WbBinaryIncubator.hpp"
 #include "WbControllerPlugin.hpp"
 #include "WbDataStream.hpp"
@@ -763,14 +764,15 @@ void WbRobot::writeConfigure(WbDataStream &stream) {
   mBatterySensor->connectToRobotSignal(this);
   stream << (short unsigned int)0;
   stream << (unsigned char)C_CONFIGURE;
+  QByteArray n = name().toUtf8();
+  stream.writeRawData(n.constData(), n.size() + 1);
+  n = WbApplicationInfo::version().toString().toUtf8();
+  stream.writeRawData(n.constData(), n.size() + 1);
   stream << (unsigned char)(mSupervisorUtilities ? 1 : 0);
   stream << (unsigned char)(synchronization() ? 1 : 0);
   stream << (short int)(1 + deviceCount());
   stream << (short int)nodeType();
   stream << (double)0.001 * WbSimulationState::instance()->time();
-
-  QByteArray n = name().toUtf8();
-  stream.writeRawData(n.constData(), n.size() + 1);
 
   writeDeviceConfigure(mDevices, stream);
 
