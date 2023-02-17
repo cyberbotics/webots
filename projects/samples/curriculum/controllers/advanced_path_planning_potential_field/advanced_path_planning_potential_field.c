@@ -239,10 +239,6 @@ static float distance_to_obstacle(float x, float y, float *vec_x, float *vec_y) 
   for (i = 0; i < OBSTACLE_SIZE; i++) {
     inObstacle = 1;
 
-    int ip = i + 1;
-    if (ip > OBSTACLE_SIZE)
-      ip = 1;
-
     float d = distance_to_segment(x, y, obstacle[i][0], obstacle[i][1], obstacle[(i + 1) % OBSTACLE_SIZE][0],
                                   obstacle[(i + 1) % OBSTACLE_SIZE][1], &cand_x, &cand_y);
 

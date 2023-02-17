@@ -37,6 +37,7 @@ WbToken::WbToken(const QString &word, int line, int column) : mLine(line), mColu
   else if (NUMERIC_CHARS.contains(w0)) {
     // does this look like a double point number
     bool ok;
+    // cppcheck-suppress ignoredReturnValue
     word.toDouble(&ok);
     mType = ok ? NUMERIC : INVALID;
   } else if (isKeyword(word))
