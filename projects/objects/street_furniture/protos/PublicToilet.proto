@@ -18,7 +18,7 @@ PROTO PublicToilet [
   field SFBool      backDisplayLight    FALSE                            # Defines whether the back display should have emissive color.
   field MFNode      frontDisplay        [                                # Defines the content of the front display.
     AdvertisingBoard {
-      translation 0 0.1 0
+      translation 0 0.1 -0.55
       frontTexture ["webots://projects/default/worlds/textures/webots_billboard.jpg"]
       backTexture []
       displayBackLight FALSE

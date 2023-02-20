@@ -86,6 +86,8 @@ PROTO AdvertisingBoard [
     // add an elevation parameter when there is a pole to adjust coordinate system
     if (poleNumber !== 0)
       displayElevation = poleHeight - 0.6 * displayHeight - 0.2;
+    else
+      displayElevation = displayHeight / 2 + 0.1
   >%
   Solid {
     translation IS translation
