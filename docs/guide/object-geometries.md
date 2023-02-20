@@ -72,7 +72,7 @@ Rectangle {
 > **File location**: "[WEBOTS\_HOME/projects/objects/geometries/protos/Rectangle.proto]({{ url.github_tree }}/projects/objects/geometries/protos/Rectangle.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Rectangle Field Summary
 
