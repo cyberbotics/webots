@@ -221,7 +221,10 @@ void WbMatter::createScaleManipulator() {
 ////////////////////////////
 
 bool WbMatter::isBoundingObjectFinalizationCompleted(WbBaseNode *node) {
-  if (node && node->isPostFinalizedCalled())
+  if (!node)
+    return false;
+
+  if (node->isPostFinalizedCalled())
     return true;
 
   connect(node, &WbBaseNode::finalizationCompleted, this, &WbMatter::boundingObjectFinalizationCompleted);

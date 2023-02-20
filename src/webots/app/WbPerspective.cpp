@@ -226,11 +226,11 @@ bool WbPerspective::load(bool reloading) {
 }
 
 bool WbPerspective::save() const {
-  QFile file(fileName());
-  if (!file.open(QIODevice::WriteOnly))
+  QFile outputFile(fileName());
+  if (!outputFile.open(QIODevice::WriteOnly))
     return false;
 
-  QTextStream out(&file);
+  QTextStream out(&outputFile);
   out << "Webots Project File version " << WbApplicationInfo::version().toString(false) << "\n";
   assert(!mState.isEmpty());
   out << "perspectives: " << mState.toHex() << "\n";
@@ -283,7 +283,7 @@ bool WbPerspective::save() const {
   for (it = mRenderingDevicesPerspectiveList.constBegin(); it != mRenderingDevicesPerspectiveList.constEnd(); ++it)
     out << "renderingDevicePerspectives: " << it.key() << ";" << it.value().join(";") << "\n";
 
-  file.close();
+  outputFile.close();
 
 #ifdef _WIN32
   // set hidden attribute to WBPROJ file

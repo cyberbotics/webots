@@ -402,7 +402,7 @@ export default class WebotsView extends HTMLElement {
         const topProtoNode = WbWorld.instance.root.children[WbWorld.instance.root.children.length - 1];
         const needRobot = await this.#queryNeedRobot(proto);
         if (topProtoNode instanceof WbDevice || needRobot === '1')
-          this.#repositionProto(topProtoNode);
+          this.#repositionFloor(topProtoNode, WbWorld.instance.root.children[WbWorld.instance.root.children.length - 2]);
 
         WbWorld.instance.viewpoint.moveViewpointToObject(topProtoNode);
         WbWorld.instance.viewpoint.defaultPosition = WbWorld.instance.viewpoint.position;
@@ -425,12 +425,12 @@ export default class WebotsView extends HTMLElement {
       protoUrl.splice(5, 0, 'blob');
       protoUrl = protoUrl.join('/');
     }
-    return fetch('https://' + dbUrl + '/ajax/proto/needsRobotAncestor.php', {method: 'post', body: JSON.stringify({url: protoUrl})})
+    return fetch('https://' + dbUrl + '/ajax/proto/needs_robot_ancestor.php', {method: 'post', body: JSON.stringify({url: protoUrl})})
       .then(result => result.json())
       .then(result => result ? result.needs_robot_ancestor : false);
   }
 
-  #repositionProto(proto) {
+  #repositionFloor(proto, floor) {
     const boundingSphere = proto.boundingSphere();
     if (typeof boundingSphere === 'undefined')
       return;
@@ -441,10 +441,10 @@ export default class WebotsView extends HTMLElement {
 
     const results = boundingSphere.computeSphereInGlobalCoordinates();
     const boundingSphereCenter = results[0];
-    let radius = results[1];
+    const radius = results[1];
 
-    if (proto.translation)
-      proto.translation = new WbVector3(proto.translation.x, proto.translation.y, boundingSphereCenter.z + radius);
+    if (floor.translation)
+      floor.translation = new WbVector3(0, 0, boundingSphereCenter.z - radius);
   }
 
   hasProto() {

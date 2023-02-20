@@ -407,7 +407,7 @@ private:
   void addExternProtoFromFile(const WbProtoModel *proto, WbWriter &writer) const;
 
   bool setProtoParameterNode(WbNode *node);
-  static void redirectInternalFields(WbField *field, WbField *parameter, bool finzalize = false);
+  static void redirectInternalFields(WbField *field, WbField *parameter, bool finalize = false);
 };
 
 #endif
