@@ -417,7 +417,7 @@ bool WbGuiApplication::setup() {
 #ifdef __linux__
   // popup a warning message if the preferences file is not writable
   prefs->checkIsWritable();
-  if (WbSysInfo::isRootUser())
+  if (WbSysInfo::isRootUser() && WbSysInfo::environmentVariable("CI").isEmpty())
     WbLog::warning("It is not recommended to run Webots as root.");
 
   if (prefs->value("Internal/firstLaunch", true).toBool()) {
