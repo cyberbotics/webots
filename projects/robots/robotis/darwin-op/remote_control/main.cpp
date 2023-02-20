@@ -103,8 +103,8 @@ int main(int argc, char *argv[]) {
     const double *gyro;
     const unsigned char *image;
 
-    char *receiveBuffer = (char *)malloc(1024);
-    char *sendBuffer = (char *)malloc(350000);
+    char *receiveBuffer = static_cast<char *>(malloc(1024));
+    char *sendBuffer = static_cast<char *>(malloc(350000));
     receiveBuffer[0] = '\0';
     sendBuffer[0] = '\0';
 
