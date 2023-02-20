@@ -92,15 +92,15 @@ void WbIndexedFaceSet::postFinalize() {
 void WbIndexedFaceSet::reset(const QString &id) {
   WbTriangleMeshGeometry::reset(id);
 
-  WbNode *const coord = mCoord->value();
-  if (coord)
-    coord->reset(id);
-  WbNode *const normal = mNormal->value();
-  if (normal)
-    normal->reset(id);
-  WbNode *const texCoord = mTexCoord->value();
-  if (texCoord)
-    texCoord->reset(id);
+  WbNode *const coordNode = mCoord->value();
+  if (coordNode)
+    coordNode->reset(id);
+  WbNode *const normalNode = mNormal->value();
+  if (normalNode)
+    normalNode->reset(id);
+  WbNode *const texCoordNode = mTexCoord->value();
+  if (texCoordNode)
+    texCoordNode->reset(id);
 }
 
 void WbIndexedFaceSet::updateTriangleMesh(bool issueWarnings) {

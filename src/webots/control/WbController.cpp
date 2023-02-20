@@ -436,7 +436,7 @@ void WbController::setProcessEnvironment() {
   // Add the Webots lib path to be able to load (at least) libController
   QString ldLibraryPath = WbStandardPaths::controllerLibPath();
   ldLibraryPath.chop(1);
-  addToPathEnvironmentVariable(env, ldEnvironmentVariable, ldLibraryPath, false);
+  addToPathEnvironmentVariable(env, ldEnvironmentVariable, ldLibraryPath, false, true);
   // Remove paths needed by Webots only
 #ifdef _WIN32
   const QString msys64 = QDir::toNativeSeparators(WbStandardPaths::webotsMsys64Path());
@@ -1128,12 +1128,12 @@ void WbController::prepareTcpStream(WbDataStream &stream) {
 }
 
 int WbController::streamSizeManagement(WbDataStream &stream) {
-  int size = stream.length();
+  unsigned int size = stream.length();
   if (!mTcpSocket) {
     size += sizeof(int);
     QByteArray baSize;
     for (int i = 0; i != sizeof(size); ++i) {
-      baSize.append((char)((size & (0xFF << (i * 8))) >> (i * 8)));
+      baSize.append((char)((size & (0xFFu << (i * 8))) >> (i * 8)));
     }
     stream.prepend(baSize);
   } else {

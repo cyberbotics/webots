@@ -80,8 +80,8 @@ void WbPaintTexture::cleanup() {
 }
 
 void WbPaintTexture::clearAllTextures() {
-  foreach (WbPaintTexture *const paintTexture, gPaintTextures)
-    paintTexture->clearTexture();
+  foreach (WbPaintTexture *const pt, gPaintTextures)
+    pt->clearTexture();
   gEvaporationTextures.clear();
 }
 

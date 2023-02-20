@@ -63,7 +63,7 @@ WbIniParser::WbIniParser(const QString &filename) {
   file.close();
 }
 
-void WbIniParser::setValue(int index, QString newValue) {
+void WbIniParser::setValue(int index, const QString &newValue) {
   mValues[index] = newValue;
 }
 
