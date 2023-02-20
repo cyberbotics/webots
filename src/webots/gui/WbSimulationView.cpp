@@ -685,6 +685,7 @@ void WbSimulationView::takeScreenshotAndSaveAs(const QString &fileName, int qual
   connect(mView3D, &WbView3D::screenshotReady, this, &WbSimulationView::writeScreenshot);
   showRenderingIfNecessary();
   mView3D->requestScreenshot();
+  mView3D->refresh();
 
   if (mIsScreenshotRequestedFromGui) {
     WbSimulationState::instance()->resumeSimulation();
