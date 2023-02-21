@@ -3,7 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/microsoft/protos/Kinect.proto
 # Microsoft Kinect.
-# It contains a RangeFinder device called "<cameraName> + ' range'" and a Camera device called "<cameraName> + ' color'".
+# It contains a RangeFinder device called "`cameraName` + ' range'" and a Camera device called "`cameraName` + ' color'".
 # template language: javascript
 
 PROTO Kinect [
@@ -15,7 +15,7 @@ PROTO Kinect [
   field SFFloat    maxRange      3.5          # Defines the `maxRange` field of the `RangeFinder`.
   field SFFloat    colorNoise    0.0          # Defines the `noise` field of the `Camera`.
   field SFFloat    rangeNoise    0.0          # Defines the `noise` field of the `RangeFinder`.
-  field SFString   cameraName    "kinect"     # Defines the name of the `RangeFinder` and `Camera` nodes. The `RangeFinder` is named "<cameraName> + ' range'" and the `Camera`: "<cameraName> + ' color'".
+  field SFString   cameraName    "kinect"     # Defines the name of the `RangeFinder` and `Camera` nodes. The `RangeFinder` is named "`cameraName` + ' range'" and the `Camera`: "`cameraName` + ' color'".
   field SFString   tiltMotorName "tilt motor" # Defines the name of the foot tilt `RotationalMotor` (when the `foot` field is enabled).
   field SFBool     foot          TRUE         # Defines whether the articulated foot is present.
 ]
