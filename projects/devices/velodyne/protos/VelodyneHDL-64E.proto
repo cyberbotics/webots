@@ -60,8 +60,8 @@ PROTO VelodyneHDL-64E [
         ]
       }
       Transform {
-        translation 0.105 0 -0.162
-        rotation 0.707109 0.707105 0 -3.141589
+        translation 0.102 0 -0.162
+        rotation 0.577 0.577 0.577 2.09
         children [
           Shape {
             appearance PBRAppearance {
