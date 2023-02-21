@@ -90,6 +90,7 @@ class TestLicense(unittest.TestCase):
         directories = [
             'src/controller/c',
             'src/controller/cpp',
+            'src/controller/launcher',
             'src/webots',
             'src/wren',
             'projects',

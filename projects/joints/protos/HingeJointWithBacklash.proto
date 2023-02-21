@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # This extension of the hinge joint allows to model the effect of backlash.
@@ -10,7 +10,7 @@ PROTO HingeJointWithBacklash [
   field SFFloat                                gearMass          0.1    # Defines the gear mass, [0, inf).
   field MFNode                                 device            [ ]    # {RotationalMotor, PositionSensor, Brake}.
   field MFNode{PositionSensor{}}               outputSensor      [ ]    # {PositionSensor}.
-  field MFNode{Group{}, Transform{}, Shape{}}  startPoint        NULL   # {Group, Transform, or Shape}.
+  field MFNode{Group{}, Transform{}, Shape{}}  startPoint        [ ]    # {Group, Transform, or Shape}.
   field SFNode                                 endPoint          NULL   # {Solid, SolidReference, or Slot}.
 ]
 {
