@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,6 +26,7 @@
 #include "WbSoundClip.hpp"
 #include "WbSoundSource.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbSysInfo.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWaveFile.hpp"
 #include "WbWorld.hpp"
@@ -105,7 +106,8 @@ static void init() {
     gDevice = QString(defaultDeviceName);
   } catch (const QString &e) {
     WbLog::toggle(stderr);
-    WbLog::warning(QObject::tr("Cannot initialize the sound engine: %1").arg(e));
+    if (WbSysInfo::environmentVariable("CI").isEmpty())
+      WbLog::warning(QObject::tr("Cannot initialize the sound engine: %1").arg(e));
     return;
   }
   WbLog::toggle(stderr);
