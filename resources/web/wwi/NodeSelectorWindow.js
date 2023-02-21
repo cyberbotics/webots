@@ -338,16 +338,11 @@ export default class NodeSelectorWindow {
     let parentNode = this.parameter.aliasLinks[0].node;
     let name = this.parameter.aliasLinks[0].name;
     while (parentNode.isProto) {
-      let found = false;
-      for (const parameter of parentNode.parameters) {
-        if (parameter[0] === name) {
-          found = true;
-          parentNode = parameter[1].aliasLinks[0].node;
-          name = parameter[1].aliasLinks[0].name;
-          break;
-        }
-      }
-      if (!found) {
+      const parameter = parentNode.parameters.get(name);
+      if (typeof parameter !== 'undefined') {
+        parentNode = parameter.aliasLinks[0].node;
+        name = parameter.aliasLinks[0].name;
+      } else {
         console.error('Not able to find slot type.');
         break;
       }
