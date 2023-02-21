@@ -484,15 +484,14 @@ export default class WbTriangleMesh {
     const minBound = new WbVector3(this.#min[0], this.#min[1], this.#min[2]);
     const maxBound = new WbVector3(this.#max[0], this.#max[1], this.#max[2]);
     const size = maxBound.sub(minBound);
-
     // compute size and find longest and second-longest dimensions for default mapping
     let longestDimension = -1;
     let secondLongestDimension = -1;
     for (let i = 0; i < 3; ++i) {
-      if (longestDimension < 0 || size[i] > size[longestDimension]) {
+      if (longestDimension < 0 || size.get(i) > size.get(longestDimension)) {
         secondLongestDimension = longestDimension;
         longestDimension = i;
-      } else if (secondLongestDimension < 0 || size[i] > size[secondLongestDimension])
+      } else if (secondLongestDimension < 0 || size.get(i) > size.get(secondLongestDimension))
         secondLongestDimension = i;
     }
 
