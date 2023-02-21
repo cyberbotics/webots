@@ -130,6 +130,8 @@ export default class Node {
             const p = tokenizer.proto.parameters.get(alias);
             fieldValue.value = p.value;
             p.addAliasLink(fieldValue);
+            if (fieldValue instanceof Parameter && !p.isTemplateRegenerator)
+              p.isTemplateRegenerator = fieldValue.isTemplateRegenerator;
           } else
             fieldValue.value.setValueFromTokenizer(tokenizer);
         }
