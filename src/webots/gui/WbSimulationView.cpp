@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -685,6 +685,7 @@ void WbSimulationView::takeScreenshotAndSaveAs(const QString &fileName, int qual
   connect(mView3D, &WbView3D::screenshotReady, this, &WbSimulationView::writeScreenshot);
   showRenderingIfNecessary();
   mView3D->requestScreenshot();
+  mView3D->refresh();
 
   if (mIsScreenshotRequestedFromGui) {
     WbSimulationState::instance()->resumeSimulation();

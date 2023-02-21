@@ -1,6 +1,6 @@
 #VRML_SIM R2023b utf8
 # license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0.
+# license url: https://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://www.cyberbotics.com/doc/guide/distancesensor-sensors
 # This is a PROTO file for Webots of the infrared sensor GP2Y0A02YK0F from Sharp.
 # Effective range: 20 to 150 cm, datasheet: https://www.sparkfun.com/datasheets/Sensors/Infrared/gp2y0a02yk_e.pdf

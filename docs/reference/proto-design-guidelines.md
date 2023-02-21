@@ -141,7 +141,7 @@ Here is a simple example of a good PROTO declaration (the implementation is not 
 ```
 #VRML_SIM R2023b utf8
 # license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0
+# license url: https://www.apache.org/licenses/LICENSE-2.0
 # A color pencil
 
 PROTO ColorPencil [
