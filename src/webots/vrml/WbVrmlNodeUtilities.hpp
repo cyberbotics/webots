@@ -78,6 +78,10 @@ namespace WbVrmlNodeUtilities {
   bool hasASubsequentUseOrDefNode(const WbNode *defNode, const QString &defName, const QString &previousDefName,
                                   bool &useOverlap, bool &defOverlap);
 
+  // has this node a referred DEF node descendant, i.e. a descendant with positive use count
+  // which is moreover referred outside the subtree below node
+  bool hasAreferredDefNodeDescendant(const WbNode *node, const WbNode *root = NULL);
+
   ///////////
   // Other //
   ///////////

@@ -388,6 +388,17 @@ bool WbElevationGrid::areSizeFieldsVisibleAndNotRegenerator() const {
          !WbNodeUtilities::isTemplateRegeneratorField(ySpacingField);
 }
 
+QStringList WbElevationGrid::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "height"
+         << "xDimension"
+         << "xSpacing"
+         << "yDimension"
+         << "ySpacing"
+         << "thickness";
+  return fields;
+}
+
 /////////////////
 // ODE objects //
 /////////////////
