@@ -110,7 +110,6 @@ export default class Parser {
   }
 
   async parse(text, renderer, finalize = true, parentNode, callback) {
-    console.log(text)
     webots.currentView.progress.setProgressBar('same', 'Parsing...', 0, 'Parsing object...');
     let xml = null;
     if (window.DOMParser) {
@@ -316,20 +315,12 @@ export default class Parser {
               parentNode.geometry?.delete();
               parentNode.geometry = result;
             } else if (parentNode instanceof WbSolid || parentNode instanceof WbTransform || parentNode instanceof WbGroup) {
-              console.log('LOAD IN DEFAULT')
               // Bounding object
               parentNode.boundingObject?.delete();
               if (parentNode instanceof WbSolid)
                 parentNode.boundingObject = result;
               else
                 parentNode.children.push(result);
-
-              console.log('box', result)
-              console.log('parent', parentNode)
-              //parentNode.unfinalize();
-              //parentNode.finalize()
-            } else {
-              throw new Error('UNHANDLED CASE')
             }
           }
         } else if (node.tagName === 'PBRAppearance') {
@@ -784,7 +775,6 @@ export default class Parser {
 
     const isPropeller = getNodeAttribute(node, 'type', '').toLowerCase() === 'propeller' || node.tagName === 'Propeller';
     const isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
-    console.log('PARSING GROUP', isBoundingObject)
 
     const group = new WbGroup(id, isPropeller);
     WbWorld.instance.nodes.set(group.id, group);

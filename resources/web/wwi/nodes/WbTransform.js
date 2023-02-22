@@ -152,7 +152,6 @@ export default class WbTransform extends WbGroup {
       return;
 
     const firstChild = this.children[0];
-    console.log('first child', firstChild.nodeType)
     if (firstChild.nodeType === WbNodeType.WB_NODE_SHAPE)
       return firstChild.geometry;
 

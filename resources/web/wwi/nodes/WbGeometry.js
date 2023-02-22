@@ -65,7 +65,6 @@ export default class WbGeometry extends WbBaseNode {
           const index = parent.children.indexOf(this);
           console.assert(index !== -1, 'The parent node should have this node as a child for it to be deleted.');
           parent.children.splice(index, 1);
-          console.log('-------------- after del', parent.children)
         }
       }
     }
@@ -230,9 +229,6 @@ export default class WbGeometry extends WbBaseNode {
       return false;
 
     const upperTransform = this.#upperTransform();
-    //console.log('>>>>>>>>>>', upperTransform)
-    //console.log('>>>>>>>>>>', typeof upperTransform !== 'undefined' , upperTransform.isInBoundingObject() , upperTransform.geometry() !== this)
-
     if (typeof upperTransform !== 'undefined' && upperTransform.isInBoundingObject() && upperTransform.geometry() !== this)
       return false;
 

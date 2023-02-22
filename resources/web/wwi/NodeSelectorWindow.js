@@ -224,13 +224,13 @@ export default class NodeSelectorWindow {
 
     compatibleProtoNodes.sort();
 
-    const olb = document.createElement('ol');
+    const baseNodeItems = document.createElement('ol');
     for (const name of compatibleBaseNodes) {
       const item = this.#createNodeButton(name, true);
-      olb.appendChild(item);
+      baseNodeItems.appendChild(item);
     }
 
-    nodeList.appendChild(olb);
+    nodeList.appendChild(baseNodeItems);
 
     if (compatibleBaseNodes.length > 0 && compatibleProtoNodes.length > 0) {
       const hr = document.createElement('hr');
@@ -238,16 +238,16 @@ export default class NodeSelectorWindow {
       nodeList.appendChild(hr);
     }
 
-    const olp = document.createElement('ol');
+    const protoItems = document.createElement('ol');
     for (const name of compatibleProtoNodes) {
       const item = this.#createNodeButton(name);
-      olp.appendChild(item);
+      protoItems.appendChild(item);
     }
 
-    nodeList.appendChild(olp);
+    nodeList.appendChild(protoItems);
 
     // select first item by default, if any
-    if (olb.children.length === 0 && olp.children.length === 0) {
+    if (baseNodeItems.children.length === 0 && protoItems.children.length === 0) {
       if (typeof this.selection !== 'undefined')
         this.selection.style.backgroundColor = '';
       this.selection = undefined;
@@ -255,34 +255,34 @@ export default class NodeSelectorWindow {
       // select the node corresponding to the current value if one is present
       if (this.parameter.type === VRML.SFNode) {
         if (this.parameter.value.value === null) {
-          if (olb.children.length > 0)
-            this.selection = olb.children[0];
+          if (baseNodeItems.children.length > 0)
+            this.selection = baseNodeItems.children[0];
           else
-            this.selection = olp.children[0];
+            this.selection = protoItems.children[0];
         } else {
           let index = compatibleBaseNodes.indexOf(this.parameter.value.value.name);
           if (index === -1) {
             index = compatibleProtoNodes.indexOf(this.parameter.value.value.name);
             if (index !== -1)
-              this.selection = olp.children[index];
+              this.selection = protoItems.children[index];
           } else
-            this.selection = olb.children[index];
+            this.selection = baseNodeItems.children[index];
         }
       } else if (this.parameter.type === VRML.MFNode) {
         if (this.parameter.value.value.length === 0) {
-          if (olb.children.length > 0)
-            this.selection = olb.children[0];
+          if (baseNodeItems.children.length > 0)
+            this.selection = baseNodeItems.children[0];
           else
-            this.selection = olp.children[0];
+            this.selection = protoItems.children[0];
         } else {
           const name = this.parameter.value.value[0].value.name;
           let index = compatibleBaseNodes.indexOf(name);
           if (index === -1) {
             index = compatibleProtoNodes.indexOf(name);
             if (index !== -1)
-              this.selection = olp.children[index];
+              this.selection = protoItems.children[index];
           } else
-            this.selection = olb.children[index];
+            this.selection = baseNodeItems.children[index];
         }
       }
 
@@ -490,13 +490,10 @@ export default class NodeSelectorWindow {
 
     let node = parentNode;
     let parentField = node?.parentField;
-    console.log(fieldName, node.name, node.parentField);
     if (typeof parentField === 'undefined')
       throw new Error('The parent field should be defined when attempting a node insertion.');
 
-    console.log('check', node?.name, 'parentField', parentField?.name, parentField.node.name)
     while (typeof node !== 'undefined' && typeof parentField !== 'undefined') {
-      console.log('check', node.name, 'parentField', parentField.name, parentField.node.name)
       while (parentField instanceof Parameter && parentField.aliasLinks.length > 0)
         parentField = parentField.aliasLinks[0];
 

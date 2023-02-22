@@ -252,10 +252,6 @@ export default class Node {
     if (this.isProto)
       return this.baseType.toX3d(parameter);
 
-    console.log('tox3d of : ', this.name, this.isRoot);
-    //if (!this.isRoot && typeof parameterName === 'undefined')
-    //  throw new Error('Only the root node can be converted to x3d without a parameter reference.');
-
     const nodeElement = this.xml.createElement(this.name);
 
     if (typeof parameter !== 'undefined') {
@@ -264,11 +260,10 @@ export default class Node {
       while (p instanceof Parameter && p.aliasLinks.length > 0)
         p = p.aliasLinks[0];
 
-      console.log('>>>> !! ', parameter.name, p.name)
-
-      if (this.name === 'ImageTexture' || (this.name === 'Group' && p.name === 'boundingObject') || (this.name === 'Transform' && p.name === 'boundingObject') )
+      if (this.name === 'ImageTexture' || (p.name === 'boundingObject' && ['Group', 'Transform'].includes(this.name)))
         nodeElement.setAttribute('role', p.name);
     }
+
     if (this.refId > this.ids.length - 1)
       throw new Error('Something has gone wrong, the refId is bigger the number of available ids.');
     const id = this.ids[this.refId++];

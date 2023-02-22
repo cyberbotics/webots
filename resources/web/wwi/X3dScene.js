@@ -42,7 +42,7 @@ import WbSpotLight from './nodes/WbSpotLight.js';
 import WbDirectionalLight from './nodes/WbDirectionalLight.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
 import WbConnector from './nodes/WbConnector.js';
-import WbShape from './nodes/WbShape.js';
+import {findUpperShape} from './nodes/utils/node_utilities.js';
 
 export default class X3dScene {
   #nextRenderingTime;
@@ -174,7 +174,6 @@ export default class X3dScene {
   }
 
   async loadObject(x3dObject, parentId, callback) {
-    console.log('LOAD OBJECT', parentId);
     let parentNode;
     if (typeof parentId !== 'undefined')
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
@@ -188,30 +187,12 @@ export default class X3dScene {
     if (typeof node === 'undefined')
       return; // can happen for nodes that have no webotsjs counterpart, like Physics
 
-    function findUpperShape(node) {
-      if (typeof node === 'undefined')
-        return undefined;
-
-      let n = WbWorld.instance.nodes.get(node.parent);
-      while (typeof n !== 'undefined') {
-        if (n instanceof WbShape)
-          return n;
-
-        n = WbWorld.instance.nodes.get(n.parent);
-      }
-
-      return undefined;
-    }
-
     const shapeAncestor = findUpperShape(node);
     if (typeof shapeAncestor !== 'undefined') {
       shapeAncestor.unfinalize();
       shapeAncestor.finalize();
-      console.log('FINAL SHAPE', node.id)
-    } else {
-      console.log('FINAL', node.id)
+    } else
       node.finalize();
-    }
   }
 
   applyUpdate(update) {
