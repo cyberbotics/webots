@@ -362,7 +362,6 @@ export class SFNode extends SingleValue {
       url = tokenizer.nextWord();
 
     this.value = new Node(url, tokenizer);
-    console.log('====', this.value.name, parameter)
     this.value.parentField = parameter;
 
     if (!this.value.isProto)

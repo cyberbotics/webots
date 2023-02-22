@@ -158,8 +158,6 @@ export default class Field {
       }
 
       // delete existing nodes
-      console.log('DEL', idsToDelete)
-
       for (const id of idsToDelete)
         view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
 
@@ -167,7 +165,6 @@ export default class Field {
       this.value.setValueFromJavaScript(v);
 
       if (v !== null) {
-        console.log('>>> setting parentField of node', this.value.value.name, 'to', this.name);
         this.value.value.parentField = this;
         // insert the new node on the webotsjs side
         for (const parent of parentIds) {

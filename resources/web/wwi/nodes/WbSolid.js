@@ -21,7 +21,6 @@ export default class WbSolid extends WbTransform {
   }
 
   createWrenObjects() {
-    console.log('WbSolid: createWrenObjects')
     super.createWrenObjects(true);
 
     this.boundingObject?.createWrenObjects();

@@ -391,7 +391,6 @@ export default class NodeSelectorWindow {
     const parentNode = p.node;
 
     const isInBoundingObject = this.isInBoundingObject(fieldName, parentNode);
-    console.log('isInBoundingObject: ', fieldName, parentNode.name, '?', isInBoundingObject)
 
     if (fieldName === 'appearance')
       baseType = ['Appearance', 'PBRAppearance'];
