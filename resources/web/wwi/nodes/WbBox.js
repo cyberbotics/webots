@@ -61,9 +61,8 @@ export default class WbBox extends WbGeometry {
   }
 
   updateLineScale() {
-    console.log('>>> valid BO?', this._isAValidBoundingObject())
-    //if (!this._isAValidBoundingObject())
-    //  return;
+    if (!this._isAValidBoundingObject())
+      return;
 
     const offset = Math.min(this.#size.x, Math.min(this.#size.y, this.#size.z)) * _wr_config_get_line_scale() /
       WbGeometry.LINE_SCALE_FACTOR;
@@ -74,7 +73,6 @@ export default class WbBox extends WbGeometry {
     if (!this.#sanitizeFields())
       return;
 
-    console.log('WbBox', this.isInBoundingObject(), this.#size)
     if (this.isInBoundingObject())
       this.updateLineScale();
     else

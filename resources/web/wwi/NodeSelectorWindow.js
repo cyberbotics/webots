@@ -1,4 +1,3 @@
-import WbWorld from './nodes/WbWorld.js';
 import {FieldModel} from './protoVisualizer/FieldModel.js';
 import Parameter from './protoVisualizer/Parameter.js';
 import { VRML } from './protoVisualizer/vrml_type.js';
@@ -441,18 +440,23 @@ export default class NodeSelectorWindow {
   }
 
   getSlotType() {
-    let parentNode = this.parameter.aliasLinks[0].node;
-    let name = this.parameter.aliasLinks[0].name;
-    while (parentNode.isProto) {
-      const parameter = parentNode.parameters.get(name);
-      if (typeof parameter !== 'undefined') {
-        parentNode = parameter.aliasLinks[0].node;
-        name = parameter.aliasLinks[0].name;
-      } else {
-        console.error('Not able to find slot type.');
-        break;
+    let parentNode;
+    if (this.parameter instanceof Parameter) {
+      parentNode = this.parameter.aliasLinks[0].node;
+      let name = this.parameter.aliasLinks[0].name;
+      while (parentNode.isProto) {
+        const parameter = parentNode.parameters.get(name);
+        if (typeof parameter !== 'undefined') {
+          parentNode = parameter.aliasLinks[0].node;
+          name = parameter.aliasLinks[0].name;
+        } else {
+          console.error('Not able to find slot type.');
+          break;
+        }
       }
-    }
+    } else
+      parentNode = this.parameter.node;
+
     let slotType = parentNode.fields.get('type').value.value.replaceAll('"', '');
 
     if (slotType.endsWith('+'))
