@@ -126,7 +126,8 @@ if __name__ == '__main__':
         with open(file, 'r') as f:
             contents = f.read()
             data[node_name]['description'] = encode_description(contents)
-            data[node_name]['icon'] = f'https://raw.githubusercontent.com/cyberbotics/webots/released/resources/nodes/icons/{node_name}.png'
+            data[node_name]['icon'] = 'https://raw.githubusercontent.com/cyberbotics/webots/released/resources/nodes'\
+                                      f'/icons/{node_name}.png'
 
             data[node_name]['fields'] = {}
             for (vrml_type, type, field_name, default_value) in re.findall(pattern, contents):
