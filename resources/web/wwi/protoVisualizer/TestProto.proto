@@ -1,20 +1,18 @@
 #VRML_SIM R2023b utf8
 
-EXTERNPROTO "CustomBO.proto"
-
-PROTO Nao [
-  field SFNode bo NULL
-  field SFNode app NULL
-  field SFNode geo NULL
+PROTO SolidWithAShape [
+  field SFNode solid_bounding_object NULL
+  field SFNode shape_appearance NULL
+  field SFNode shape_geometry NULL
 ]
 {
-  Robot {
+  Solid {
     children [
       Shape {
-        appearance IS app
-        geometry IS geo
+        appearance IS shape_appearance
+        geometry IS shape_geometry
       }
     ]
-    boundingObject IS bo
+    boundingObject IS solid_bounding_object
   }
 }

@@ -11,6 +11,7 @@ import {VRML} from './vrml_type.js';
 
 export default class Node {
   static cProtoModels = new Map();
+  #parentField;
 
   constructor(url, parameterTokenizer, isRoot = false) {
     this.url = url;
@@ -74,6 +75,16 @@ export default class Node {
     if (this.isRoot)
       this.assignId(); // navigates through the base-nodes of the structure, and fills the "this.ids" list
   };
+
+  get parentField() {
+    return this.#parentField;
+  }
+
+  set parentField(parent) {
+    this.#parentField = parent;
+    if (typeof this.baseType !== 'undefined')
+      this.baseType.parentField = parent;
+  }
 
   generateInternalFields() {
     // set field values based on field model
