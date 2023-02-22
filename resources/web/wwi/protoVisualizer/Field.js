@@ -71,7 +71,7 @@ export default class Field {
     if (this.type !== VRML.MFNode)
       throw new Error('Item insertion is possible only for MFNodes.');
 
-    this.value.insertNode(v, index);
+    this.value.insertNode(v, index, this);
 
     for (const link of this.linksToNotify()) {
       // insert the new node on the webotsjs side

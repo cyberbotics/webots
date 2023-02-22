@@ -862,9 +862,10 @@ export class MFNode extends MultipleValue {
     });
   }
 
-  insertNode(node, index) {
+  insertNode(node, index, parameter) {
     const sfnode = new SFNode();
     sfnode.setValueFromJavaScript(node);
+    sfnode.value.parentField = parameter;
     this.value.splice(index, 0, sfnode);
   }
 

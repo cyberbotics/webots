@@ -490,14 +490,20 @@ export default class NodeSelectorWindow {
 
     let node = parentNode;
     let parentField = node?.parentField;
+    if (typeof parentField === 'undefined')
+      throw new Error('The parent field should be defined when attempting a node insertion.');
+
+    console.log('check', node?.name, 'parentField', parentField?.name, parentField.node.name)
     while (typeof node !== 'undefined' && typeof parentField !== 'undefined') {
+      console.log('check', node.name, 'parentField', parentField.name, parentField.node.name)
       while (parentField instanceof Parameter && parentField.aliasLinks.length > 0)
         parentField = parentField.aliasLinks[0];
 
       if (parentField.name === 'boundingObject')
         return true;
 
-      node = node?.parentField?.node;
+      node = node.parentField.node;
+      parentField = node?.parentField;
     }
 
     return false;
