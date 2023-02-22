@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -75,14 +75,14 @@ void State::fromString(const QString &string) {
   QString name = tokens[2].replace("\\n", "\n");
   int posX = tokens[3].toDouble();
   int posY = tokens[4].toDouble();
-  bool isInitial = static_cast<bool>(tokens[5].toInt());
+  bool isInitialBool = static_cast<bool>(tokens[5].toInt());
 
   if (sChar.size() != 1 || sChar[0] != 'S')
     throw tr("Corrupted State (first parameter isn't an S)");
 
   setPosition(QPointF(posX, posY));
   setName(name);
-  setInitial(isInitial);
+  setInitial(isInitialBool);
   setUniqueId(id);
   computeCurrentGlobalId(id);
 

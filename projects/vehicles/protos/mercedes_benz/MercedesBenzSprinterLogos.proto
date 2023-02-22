@@ -1,6 +1,6 @@
 #VRML_SIM R2023b utf8
 # license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0
+# license url: https://www.apache.org/licenses/LICENSE-2.0
 # tags: hidden
 
 EXTERNPROTO "webots://projects/appearances/protos/RoughPolymer.proto"

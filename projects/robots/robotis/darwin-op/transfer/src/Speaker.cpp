@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -93,7 +93,7 @@ void Speaker::speak(const std::string &text, double volume) {
       break;
     case 0: {
       fprintf(stderr, "Speaker: Saying \"%s\" ...\n", text.c_str());
-      char *buffer = (char *)malloc(strlen(text.c_str()) + 3);
+      char *buffer = static_cast<char *>(malloc(strlen(text.c_str()) + 3));
       sprintf(buffer, "\"%s\"", text.c_str());
       execl("/usr/bin/espeak", "espeak", buffer, "-v", mLanguage.c_str(), (char *)NULL);
       free(buffer);
@@ -119,7 +119,7 @@ void Speaker::speak(const char *text, const char *voice, int speed) {
       break;
     case 0: {
       fprintf(stderr, "Speaker: Saying \"%s\" ...\n", text);
-      char *buffer = (char *)malloc(strlen(text) + 3);
+      char *buffer = static_cast<char *>(malloc(strlen(text) + 3));
       sprintf(buffer, "\"%s\"", text);
       execl("/usr/bin/espeak", "espeak", buffer, "-v", voice, "-s", speedBuffer, (char *)NULL);
       free(buffer);

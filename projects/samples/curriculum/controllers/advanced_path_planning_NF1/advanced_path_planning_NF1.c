@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -263,10 +263,6 @@ static float distance_to_obstacle(float x, float y, float *vec_x, float *vec_y) 
 
   // for each segment of the obstacle
   for (i = 0; i < OBSTACLE_SIZE; i++) {
-    int ip = i + 1;
-    if (ip > OBSTACLE_SIZE)
-      ip = 1;
-
     float d = distance_to_segment(x, y, obstacle[i][0], obstacle[i][1], obstacle[(i + 1) % OBSTACLE_SIZE][0],
                                   obstacle[(i + 1) % OBSTACLE_SIZE][1], &cand_x, &cand_y);
 

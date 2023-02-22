@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -92,15 +92,15 @@ void WbIndexedFaceSet::postFinalize() {
 void WbIndexedFaceSet::reset(const QString &id) {
   WbTriangleMeshGeometry::reset(id);
 
-  WbNode *const coord = mCoord->value();
-  if (coord)
-    coord->reset(id);
-  WbNode *const normal = mNormal->value();
-  if (normal)
-    normal->reset(id);
-  WbNode *const texCoord = mTexCoord->value();
-  if (texCoord)
-    texCoord->reset(id);
+  WbNode *const coordNode = mCoord->value();
+  if (coordNode)
+    coordNode->reset(id);
+  WbNode *const normalNode = mNormal->value();
+  if (normalNode)
+    normalNode->reset(id);
+  WbNode *const texCoordNode = mTexCoord->value();
+  if (texCoordNode)
+    texCoordNode->reset(id);
 }
 
 void WbIndexedFaceSet::updateTriangleMesh(bool issueWarnings) {

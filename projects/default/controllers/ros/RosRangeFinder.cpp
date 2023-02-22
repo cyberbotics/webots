@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -51,7 +51,7 @@ void RosRangeFinder::createCameraInfoPublisher() {
 // get image from the RangeFinder and publish it
 void RosRangeFinder::publishValue(ros::Publisher publisher) {
   const char *rangeImageVector;
-  rangeImageVector = (const char *)(void *)mRangeFinder->getRangeImage();
+  rangeImageVector = static_cast<const char *>(static_cast<void *>(const_cast<float *>(mRangeFinder->getRangeImage())));
   sensor_msgs::Image image;
   image.header.stamp = ros::Time::now();
   image.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();

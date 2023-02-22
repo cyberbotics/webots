@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,20 +38,20 @@ WbAnimationCommand::WbAnimationCommand(const WbNode *n, const QStringList &field
   mChangedFromStart(false) {
   QString state;
   for (int i = 0; i < fields.size(); ++i) {
-    WbField *field = mNode->findField(fields[i], true);
-    if (field) {
-      connect(field, &WbField::valueChanged, this, &WbAnimationCommand::updateValue);
-      connect(field, &WbField::valueChangedByOde, this, &WbAnimationCommand::updateValue);
-      connect(field, &WbField::valueChangedByWebots, this, &WbAnimationCommand::updateValue);
-      mFields[field->name()] = field;
+    WbField *f = mNode->findField(fields[i], true);
+    if (f) {
+      connect(f, &WbField::valueChanged, this, &WbAnimationCommand::updateValue);
+      connect(f, &WbField::valueChangedByOde, this, &WbAnimationCommand::updateValue);
+      connect(f, &WbField::valueChangedByWebots, this, &WbAnimationCommand::updateValue);
+      mFields[f->name()] = f;
 
       if (saveInitialValue) {
-        const WbSFVector3 *sfVector3 = dynamic_cast<WbSFVector3 *>(field->value());
-        const WbSFRotation *sfRotation = dynamic_cast<WbSFRotation *>(field->value());
-        const WbSFString *sfString = dynamic_cast<WbSFString *>(field->value());
-        const WbMFString *mfString = dynamic_cast<WbMFString *>(field->value());
-        const WbMFInt *mfInt = dynamic_cast<WbMFInt *>(field->value());
-        const QString &fieldName = field->name();
+        const WbSFVector3 *sfVector3 = dynamic_cast<WbSFVector3 *>(f->value());
+        const WbSFRotation *sfRotation = dynamic_cast<WbSFRotation *>(f->value());
+        const WbSFString *sfString = dynamic_cast<WbSFString *>(f->value());
+        const WbMFString *mfString = dynamic_cast<WbMFString *>(f->value());
+        const WbMFInt *mfInt = dynamic_cast<WbMFInt *>(f->value());
+        const QString &fieldName = f->name();
         if (!state.isEmpty())
           state += ",";
         state += "\"" + fieldName + "\":\"";
@@ -72,10 +72,10 @@ WbAnimationCommand::WbAnimationCommand(const WbNode *n, const QStringList &field
                      .arg(ROUND(sfRotation->angle(), 0.0001));
           mLastRotation = WbRotation(ROUND(sfRotation->x(), 0.001), ROUND(sfRotation->y(), 0.001),
                                      ROUND(sfRotation->z(), 0.001), ROUND(sfRotation->angle(), 0.001));
-        } else if (sfString && (field->name().compare("name") == 0 || field->name().compare("fogType") == 0))
-          state += field->value()->toString();
-        else if (mfInt && (field->name().compare("coordIndex") == 0 || field->name().compare("normalIndex") == 0 ||
-                           field->name().compare("texCoordIndex") == 0)) {
+        } else if (sfString && (fieldName.compare("name") == 0 || fieldName.compare("fogType") == 0))
+          state += f->value()->toString();
+        else if (mfInt && (fieldName.compare("coordIndex") == 0 || fieldName.compare("normalIndex") == 0 ||
+                           fieldName.compare("texCoordIndex") == 0)) {
           const int size = mfInt->size();
           QString intArray = QString("[");
 
@@ -87,14 +87,14 @@ WbAnimationCommand::WbAnimationCommand(const WbNode *n, const QStringList &field
 
           intArray.append("]");
           state += intArray;
-        } else if (mfString and field->name().compare("url") == 0) {
+        } else if (mfString and fieldName.compare("url") == 0) {
           QStringList urls = mfString->value();
           QString urlArray = urls.join("\",\"");
           urlArray.prepend("[\"");
           urlArray.append("\"]");
           state += urlArray;
         } else  // generic case
-          state += field->value()->toString(WbPrecision::FLOAT_MAX);
+          state += f->value()->toString(WbPrecision::FLOAT_MAX);
         state += "\"";
       }
     }
@@ -109,9 +109,9 @@ void WbAnimationCommand::resetChanges() {
 }
 
 void WbAnimationCommand::updateValue() {
-  const WbField *field = dynamic_cast<WbField *>(sender());
-  if (field) {
-    markFieldDirty(field);
+  const WbField *f = dynamic_cast<WbField *>(sender());
+  if (f) {
+    markFieldDirty(f);
     emit changed(this);
   }
 }

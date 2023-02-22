@@ -34,7 +34,7 @@ MercedesBenzSprinter {
 > **File location**: "[WEBOTS\_HOME/projects/vehicles/protos/mercedes\_benz/MercedesBenzSprinter.proto]({{ url.github_tree }}/projects/vehicles/protos/mercedes_benz/MercedesBenzSprinter.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### MercedesBenzSprinter Field Summary
 
@@ -83,7 +83,7 @@ MercedesBenzSprinterSimple {
 > **File location**: "[WEBOTS\_HOME/projects/vehicles/protos/mercedes\_benz/MercedesBenzSprinterSimple.proto]({{ url.github_tree }}/projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterSimple.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### MercedesBenzSprinterSimple Field Summary
 

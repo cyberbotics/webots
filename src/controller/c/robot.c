@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -74,6 +74,10 @@
 #define WEBOTS_EXIT_NOW 1
 #define WEBOTS_EXIT_LATER 2
 
+#ifndef LIBCONTROLLER_VERSION
+#error "Missing declaration of LIBCONTROLLER_VERSION preprocessor macro in the Makefile."
+#endif
+
 typedef struct {
   WbDevice **device;  // array of devices
   double battery_value;
@@ -119,6 +123,7 @@ typedef struct {
   WbSimulationMode simulation_mode;  // WB_SUPERVISOR_SIMULATION_MODE_FAST, etc.
 } WbRobot;
 
+static char *WEBOTS_VERSION;
 static bool robot_init_was_done = false;
 static WbRobot robot;
 static WbMutexRef robot_step_mutex;
@@ -348,6 +353,17 @@ static void robot_send_request(unsigned int step_duration) {
 
 // rebuild the device list
 static void robot_configure(WbRequest *r) {
+  free(robot.device[0]->name);
+  robot.device[0]->name = request_read_string(r);
+
+  WEBOTS_VERSION = request_read_string(r);
+  if (strlen(WEBOTS_VERSION) && (strlen(WEBOTS_VERSION) != strlen(LIBCONTROLLER_VERSION) ||
+                                 strncmp(WEBOTS_VERSION, LIBCONTROLLER_VERSION, strlen(WEBOTS_VERSION))))
+    fprintf(stderr,
+            "Warning: Webots [%s] and libController [%s] versions are not the same for Robot '%s'! Different versions can lead "
+            "to undefined behavior.\n",
+            WEBOTS_VERSION, LIBCONTROLLER_VERSION, robot.device[0]->name);
+
   // delete all the devices except the robot
   WbDeviceTag tag;
   for (tag = 1; tag < robot.n_device; tag++)
@@ -366,8 +382,6 @@ static void robot_configure(WbRequest *r) {
   robot.device[0] = d;  // restore pointer to root device
   robot.device[0]->node = request_read_uint16(r);
   simulation_time = request_read_double(r);
-  free(robot.device[0]->name);
-  robot.device[0]->name = request_read_string(r);
 
   // printf("robot.is_supervisor = %d\n", robot.is_supervisor);
   // printf("robot.synchronization = %d\n", robot.synchronization);
