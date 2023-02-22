@@ -21,7 +21,7 @@ export default class WbPointLight extends WbLight {
   }
 
   get nodeType() {
-    return WbNodeType.WB_NODE_PLANE;
+    return WbNodeType.WB_NODE_POINT_LIGHT;
   }
 
   get attenuation() {

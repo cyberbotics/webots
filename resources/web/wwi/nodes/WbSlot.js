@@ -2,11 +2,16 @@ import WbBaseNode from './WbBaseNode.js';
 import WbSolid from './WbSolid.js';
 import WbWorld from './WbWorld.js';
 import {getAnId} from './utils/id_provider.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbSlot extends WbBaseNode {
   constructor(id, type) {
     super(id);
     this.type = type;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_SLOT;
   }
 
   boundingSphere() {

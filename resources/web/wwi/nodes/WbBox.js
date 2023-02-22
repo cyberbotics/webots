@@ -11,6 +11,10 @@ export default class WbBox extends WbGeometry {
     this.#size = size;
   }
 
+  get nodeType() {
+    return WbNodeType.WB_NODE_BOX;
+  }
+
   get size() {
     return this.#size;
   }
@@ -22,10 +26,6 @@ export default class WbBox extends WbGeometry {
       if (typeof this.onChange === 'function')
         this.onChange();
     }
-  }
-
-  get nodeType() {
-    return WbNodeType.WB_NODE_BOX;
   }
 
   clone(customID) {

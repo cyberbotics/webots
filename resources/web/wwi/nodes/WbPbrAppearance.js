@@ -7,6 +7,7 @@ import WbWorld from './WbWorld.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import {getAnId} from './utils/id_provider.js';
 import {resetIfNegative, resetIfNotInRangeWithIncludedBounds} from './utils/WbFieldChecker.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbPbrAppearance extends WbAbstractAppearance {
   #baseColor;
@@ -44,6 +45,10 @@ export default class WbPbrAppearance extends WbAbstractAppearance {
     this.#emissiveColor = emissiveColor;
     this.emissiveColorMap = emissiveColorMap;
     this.#emissiveIntensity = emissiveIntensity;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_PBR_APPEARANCE;
   }
 
   get baseColor() {

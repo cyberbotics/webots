@@ -2,6 +2,7 @@ import WbMatrix4 from './utils/WbMatrix4.js';
 import WbVector4 from './utils/WbVector4.js';
 import WbTriangleMeshGeometry from './WbTriangleMeshGeometry.js';
 import WbWorld from './WbWorld.js';
+import {WbNodeType} from './wb_node_type.js';
 
 import MeshLoader from '../MeshLoader.js';
 
@@ -20,6 +21,10 @@ export default class WbMesh extends WbTriangleMeshGeometry {
     this.#materialIndex = materialIndex;
     if (this.#url)
       this.#isCollada = this.#url.endsWith('.dae');
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_MESH;
   }
 
   get url() {

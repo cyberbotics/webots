@@ -3,6 +3,7 @@ import WbQuaternion from './utils/WbQuaternion.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbVector4 from './utils/WbVector4.js';
 import {isZeroAngle} from './utils/math_utilities.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbBallJoint extends WbHinge2Joint {
   #device3;
@@ -11,6 +12,10 @@ export default class WbBallJoint extends WbHinge2Joint {
   constructor(id) {
     super(id);
     this.#device3 = [];
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_BALL_JOINT;
   }
 
   get device3() {
