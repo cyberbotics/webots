@@ -3,7 +3,7 @@
 EXTERNPROTO "CustomBO.proto"
 
 PROTO Nao [
-  field SFNode boundingObject NULL
+  field SFNode bo NULL
 ]
 {
   Robot {
@@ -15,6 +15,6 @@ PROTO Nao [
         geometry Box {size 1 1 1 }
       }
     ]
-    boundingObject IS boundingObject
+    boundingObject IS bo
   }
 }

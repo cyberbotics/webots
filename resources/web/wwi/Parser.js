@@ -327,8 +327,8 @@ export default class Parser {
               //result.isInBoundingObject();
               console.log('box', result)
               console.log('parent', parentNode instanceof WbSolid, parentNode)
-              parentNode.unfinalize();
-              parentNode.finalize()
+              //parentNode.unfinalize();
+              //parentNode.finalize()
             } else {
               throw new Error('UNHANDLED CASE')
             }

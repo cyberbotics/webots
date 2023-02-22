@@ -174,14 +174,14 @@ export default class X3dScene {
   }
 
   async loadObject(x3dObject, parentId, callback) {
-    console.log('LOAD OBJECT')
+    console.log('LOAD OBJECT', parentId);
     let parentNode;
     if (typeof parentId !== 'undefined')
       parentNode = WbWorld.instance.nodes.get('n' + parentId);
 
     const parser = new Parser(webots.currentView.prefix);
     parser.prefix = webots.currentView.prefix;
-    console.log('load', x3dObject, 'TO', parentNode.id)
+    console.log('load', x3dObject, 'TO', parentNode);
     await parser.parse(x3dObject, this.renderer, false, parentNode, callback);
 
     const node = WbWorld.instance.nodes.get(parser.rootNodeId);

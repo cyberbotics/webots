@@ -13,6 +13,7 @@ export default class Node {
   static cProtoModels = new Map();
 
   constructor(url, parameterTokenizer, isRoot = false) {
+    console.log('CREATE', url, 'ISROOT', isRoot)
     this.url = url;
     this.isProto = this.url.toLowerCase().endsWith('.proto');
     this.name = this.isProto ? this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '') : url;
@@ -120,9 +121,9 @@ export default class Node {
     if (this.isDerived) {
       console.assert(this.externProto.has(this.model['baseType']));
       const baseTypeUrl = this.externProto.get(this.model['baseType']);
-      this.baseType = new Node(baseTypeUrl, tokenizer);
+      this.baseType = new Node(baseTypeUrl, tokenizer, this.isRoot);
     } else {
-      this.baseType = new Node(this.model['baseType']);
+      this.baseType = new Node(this.model['baseType'], undefined, this.isRoot);
       this.baseType.configureFromTokenizer(tokenizer, 'fields'); // base-nodes don't have parameters
     }
   }
@@ -238,9 +239,14 @@ export default class Node {
     if (this.isProto)
       return this.baseType.toX3d(parameterName);
 
+    console.log('tox3d of : ', this.name, this.isRoot)
+    if (!this.isRoot && typeof parameterName === 'undefined')
+      throw new Error('Only the root node can be converted to x3d without a parameter reference.');
+
     const nodeElement = this.xml.createElement(this.name);
 
-    console.log('>>>> ', parameterName, this.name)
+    console.log('>>>> !! ', parameterName, this.name)
+
     if (this.name === 'ImageTexture' || (this.name === 'Group' && parameterName === 'boundingObject') || (this.name === 'Transform' && parameterName === 'boundingObject') )
       nodeElement.setAttribute('role', parameterName);
 
