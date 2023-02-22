@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -674,7 +674,7 @@ void WbSceneTree::transform(const QString &modelName) {
   // reassign pointer in parent
   WbField *parentField = mSelectedItem->parent()->field();
   WbNode *upperTemplate =
-    WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(parentField, currentNode->parentNode());
+    WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(parentField, currentNode->parentNode());
   bool isInsideATemplateRegenerator = upperTemplate && upperTemplate != currentNode;
   if (mSelectedItem->isSFNode()) {
     WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(mSelectedItem->field()->value());
@@ -761,7 +761,7 @@ void WbSceneTree::convertProtoToBaseNode(bool rootOnly) {
     }
 
     const bool skipTemplateRegeneration =
-      WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(parentField, parentNode);
+      WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(parentField, parentNode);
     if (skipTemplateRegeneration)
       // PROTO will be regenerated after importing the converted node
       parentField->blockSignals(true);
@@ -1415,10 +1415,6 @@ void WbSceneTree::applyNodeRegeneration(WbNode *node) {
   updateSelection();
 
   setUpdatesEnabled(true);
-
-  // TODO: this shouldn't be done in the scene tree
-  // The best way to fix this would be to move WbDictionary in another module (vrml?)
-  WbNodeOperations::instance()->updateDictionary(false, dynamic_cast<WbBaseNode *>(node));
 
   if (mFocusWidgetBeforeNodeRegeneration) {
     mFocusWidgetBeforeNodeRegeneration->setFocus();

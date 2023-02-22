@@ -4,7 +4,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -91,8 +91,8 @@ class Motor(Device):
     def getMultiplier(self) -> float:
         return self.multiplier
 
-    def enableForceFeedback(self):
-        wb.wb_motor_enable_force_feedback(self._tag)
+    def enableForceFeedback(self, sampling_period: int):
+        wb.wb_motor_enable_force_feedback(self._tag, sampling_period)
 
     def disableForceFeedback(self):
         wb.wb_motor_disable_force_feedback(self._tag)

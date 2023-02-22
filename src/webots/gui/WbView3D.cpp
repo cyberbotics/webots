@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -329,7 +329,9 @@ void WbView3D::refresh() {
 
   const WbSimulationState *const sim = WbSimulationState::instance();
   mPhysicsRefresh = true;
-  if (sim->isPaused())
+  if (mScreenshotRequested)
+    renderNow();
+  else if (sim->isPaused())
     renderLater();
   else if (WbVideoRecorder::instance()->isRecording()) {
     const double time = WbSimulationState::instance()->time();
@@ -2536,8 +2538,16 @@ void WbView3D::updateVirtualRealityHeadsetOverlay() {
 }
 
 void WbView3D::handleWorldModificationFromSupervisor() {
-  // refresh only if simulation is paused (or stepped)
+  // even if the simulation is running in no-rendering mode the pending updates need to be executed in order to process
+  // supervisor deletions, or Webots might run out of memory
+  if (!WbSimulationState::instance()->isRendering()) {
+    WbWrenOpenGlContext::makeWrenCurrent();
+    wr_scene_apply_pending_updates(wr_scene_get_instance());
+    WbWrenOpenGlContext::doneWren();
+  }
+
   const WbSimulationState *const sim = WbSimulationState::instance();
+  // refresh only if simulation is paused or stepped
   if (sim->isPaused())
     refresh();
 }

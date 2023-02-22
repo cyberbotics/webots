@@ -4,7 +4,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,10 +23,10 @@ import threading
 class Command(object):
     """Launch a system command."""
 
-    def __init__(self, cmd, ansiEscape=False):
+    def __init__(self, argList, ansiEscape=False):
         """Constructor."""
         self.ansiEscape = ansiEscape
-        self.cmd = cmd.split()
+        self.cmd = argList
         self.resetAttributes()
         self.mainProcessMutex = threading.Lock()
 
@@ -102,16 +102,10 @@ class Command(object):
                         print(line[:-1])
                         if sys.platform == 'win32':
                             sys.stdout.flush()
-
-        def outputListenerTarget():
-            size = 0
-            while self.isRunningFlag:
-                if size != len(self.output):
-                    if self.expectedString in self.output:
+                    if self.expectedString and self.expectedString in line:
                         self.expectedStringFound = True
                         self.terminate(force=True)
                         return
-                    size = len(self.output)
 
         self.resetAttributes()
 
@@ -127,11 +121,6 @@ class Command(object):
             self.outputWriterThread = threading.Thread(
                 target=outputWriterTarget)
             self.outputWriterThread.start()
-
-            if expectedString:
-                self.outputListenerThread = threading.Thread(
-                    target=outputListenerTarget)
-                self.outputListenerThread.start()
 
             self.mainThread = threading.Thread(target=mainTarget)
             self.mainThread.start()

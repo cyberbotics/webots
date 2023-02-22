@@ -8,10 +8,10 @@ EXTERNPROTO "TruckRearLight.proto"
 EXTERNPROTO "TruckTankMesh.proto"
 
 PROTO TruckTankSimple [
-  field SFString   name                 "truck tank"
-  field SFColor    color                0.66 0.66 0.66
-  field SFRotation rotation             0 0 1 0
-  field SFBool     wheelBoundingObject  FALSE
+  field SFString   name                 "truck tank"           # Identifies the truck tank.
+  field SFColor    color                0.66 0.66 0.66         # Defines the color of the truck tank.
+  field SFRotation rotation             0 0 1 0                # Defines the rotation of the truck tank w.r.t the truck cabin. Only the rotation in Z should be used (Javascript is not used for efficiency reasons).
+  field SFBool     wheelBoundingObject  FALSE                  # Defines whether the wheels should have a bounding object.
   hiddenField SFVec3f angularVelocity    0 0 0
   hiddenField SFVec3f frontRightWheelAngularVelocity    0 0 0
   hiddenField SFVec3f frontLeftWheelAngularVelocity     0 0 0
@@ -26,7 +26,7 @@ PROTO TruckTankSimple [
     endPoint Solid {
       angularVelocity IS angularVelocity
       translation 1.35 0 0
-      rotation IS rotation # Only the rotation in Y should be used (Lua is not used for efficiency reasons)
+      rotation IS rotation # Only the rotation in Z should be used (Javascript is not used for efficiency reasons)
       children [
         DEF FRONT_RIGHT_WHEEL Solid {
           angularVelocity IS frontRightWheelAngularVelocity

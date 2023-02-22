@@ -4,7 +4,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -103,13 +103,13 @@ class Building(WebotsObject):
                     building.green = float((building.color & 0x00FF00) >> 8) / 255.0
                     building.blue = float(building.color & 0x0000FF) / 255.0
                 else:
-                    try:
+                    if 'building:colour' in tags:
                         building.color = tags['building:colour']
                         red, green, blue = name_to_rgb(building.color, spec='css3')
                         building.red = float(red) / 255.0
                         building.green = float(green) / 255.0
                         building.blue = float(blue) / 255.0
-                    except:
+                    else:
                         building.color = ""
             if 'roof:colour' in tags:
                 if tags['roof:colour'].startswith("#"):
@@ -118,13 +118,13 @@ class Building(WebotsObject):
                     building.roofGreen = float((building.roofColor & 0x00FF00) >> 8) / 255.0
                     building.roofBlue = float(building.roofColor & 0x0000FF) / 255.0
                 else:
-                    try:
+                    if 'roof:colour' in tags:
                         building.roofColor = tags['roof:colour']
                         roofRed, roofGreen, roofBlue = name_to_rgb(building.roofColor, spec='css3')
                         building.roofRed = float(roofRed) / 255.0
                         building.roofGreen = float(roofGreen) / 255.0
                         building.roofBlue = float(roofBlue) / 255.0
-                    except:
+                    else:
                         building.roofColor = ""
             if 'name' in tags:
                 building.name = tags['name']

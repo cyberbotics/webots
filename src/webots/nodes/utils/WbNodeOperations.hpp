@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -52,7 +52,7 @@ public:
   void notifyNodeDeleted(WbNode *node);
   void notifyNodeRegenerated();
 
-  void updateDictionary(bool load, WbBaseNode *protoRoot);  // called after every modification of the Scene Tree
+  bool updateDictionary(bool load, WbBaseNode *protoRoot);  // called after every modification of the Scene Tree
 
   bool areNodesAboutToBeInserted() { return mNodesAreAboutToBeInserted; }
   bool isSkipUpdates() { return mSkipUpdates; }

@@ -26,4 +26,4 @@ By default, only one console is available, but it might be useful to use more th
 A new console can be opened from the `Tools` menu or from the context menu of an already existing console.
 
 Each console is independent and can have its own filter and name (it can be renamed from the context menu).
-By default, the consoles are tabbed together, however, it is possible to arrange them as you which and even to move them in a dedicated window.
+By default, the consoles are tabbed together, however, it is possible to arrange them as you wish and even to move them in a dedicated window.

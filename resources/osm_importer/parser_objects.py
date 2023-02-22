@@ -5,7 +5,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,7 +30,7 @@ from webots_objects.tree import Tree
 import sys
 try:
     from lxml import etree
-except:
+except Exception:
     sys.exit("Error: lxml python module not installed. You can install it using pip: 'pip install lxml'")
 
 
@@ -61,7 +61,7 @@ class Parser(object):
         try:
             countryTags = tree.xpath("//tag[@k='addr:country']")
             self.country = sorted(countryTags, key=lambda x: countryTags.count(x.attrib['v']))[-1].attrib['v']
-        except:
+        except Exception:
             pass
         if self.country is None:
             print('Warning: Failed to determine the country.')

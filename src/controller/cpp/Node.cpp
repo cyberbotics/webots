@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -131,20 +131,12 @@ const double *Node::getPose(const Node *fromNode) const {
   return wb_supervisor_node_get_pose(nodeRef, fromNode->nodeRef);
 }
 
-void Node::enableContactPointsTracking(int samplingPeriod) const {
-  wb_supervisor_node_enable_contact_point_tracking(nodeRef, samplingPeriod, false);
-}
-
-void Node::disableContactPointsTracking() const {
-  wb_supervisor_node_disable_contact_point_tracking(nodeRef, false);
-}
-
 void Node::enableContactPointsTracking(int samplingPeriod, bool includeDescendants) const {
-  wb_supervisor_node_enable_contact_point_tracking(nodeRef, samplingPeriod, false);
+  wb_supervisor_node_enable_contact_points_tracking(nodeRef, samplingPeriod, false);
 }
 
 void Node::disableContactPointsTracking(bool includeDescendants) const {
-  wb_supervisor_node_disable_contact_point_tracking(nodeRef, false);
+  wb_supervisor_node_disable_contact_points_tracking(nodeRef);
 }
 
 ContactPoint *Node::getContactPoints(bool includeDescendants, int *size) const {

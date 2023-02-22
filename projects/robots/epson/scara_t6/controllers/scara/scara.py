@@ -4,7 +4,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -40,7 +40,7 @@ while robot.step(timeStep) != -1:
         # Read the position sensors:
         base_arm_pos_value = base_arm_pos.getValue()
         led.set(ledStatus)
-        ledStatus = not(ledStatus)
+        ledStatus = not ledStatus
         t = robot.getTime()
 
     arm.setPosition(0.14)

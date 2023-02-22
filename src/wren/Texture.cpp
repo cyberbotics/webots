@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -149,13 +149,13 @@ namespace wren {
   void Texture::release() { glstate::releaseTexture(glName(), mTextureUnit); }
 
   void Texture::cleanupGl() {
-    if (glName()) {
+    unsigned int name = glName();
+    if (name) {
       // Reset parameters to default state before freeing OpenGL name
-      glstate::clearTextureParams(glName());
+      glstate::clearTextureParams(name);
 
       release();
 
-      unsigned int name = glName();
       glDeleteTextures(1, &name);
 
       setTextureUnit(-1);

@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -266,8 +266,6 @@ bool WbWorld::saveAs(const QString &fileName) {
 
   mFileName = fileName;
   WbUrl::setWorldFileName(mFileName);
-  bool isValidProject = true;
-  const QString newProjectPath = WbProject::projectPathFromWorldFile(mFileName, isValidProject);
 
   mIsModified = false;
   mIsModifiedFromSceneTree = false;
@@ -504,8 +502,7 @@ void WbWorld::createX3DMetaFile(const QString &filename) const {
         deviceObject.insert("minPosition", motor->minPosition());
         deviceObject.insert("maxPosition", motor->maxPosition());
       } else {  // case: other WbDevice nodes.
-        const WbBaseNode *parent =
-          jointDevice ? dynamic_cast<const WbBaseNode *>(deviceBaseNode->parentNode()) : deviceBaseNode;
+        const WbBaseNode *parent = jointDevice ? dynamic_cast<const WbBaseNode *>(jointDevice->parentNode()) : deviceBaseNode;
         // Retrieve closest exported Transform parent, and compute its translation offset.
         WbMatrix4 m;
         while (parent) {

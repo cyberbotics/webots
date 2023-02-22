@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -241,7 +241,7 @@ void ConsoleEdit::addContextMenuFilterItem(const QString &name, QMenu *menu, con
   if (!toolTip.isEmpty())
     action->setToolTip(toolTip);
   if (isControllerAction)
-    action->setProperty("isControllerAction", true);
+    action->setProperty("isControllerAction", QVariant(true));
   action->setCheckable(true);
   action->setChecked(console->getEnabledFilters().contains(name));
   menu->addAction(action);
@@ -427,9 +427,10 @@ void WbConsole::clear(bool reset) {
 
 void WbConsole::rename() {
   bool ok = false;
-  const QString name = QInputDialog::getText(this, tr("Console Name"), tr("New name:"), QLineEdit::Normal, mConsoleName, &ok);
-  if (ok && !name.isEmpty()) {
-    mConsoleName = name;
+  const QString nameString =
+    QInputDialog::getText(this, tr("Console Name"), tr("New name:"), QLineEdit::Normal, mConsoleName, &ok);
+  if (ok && !nameString.isEmpty()) {
+    mConsoleName = nameString;
     updateTitle();
   }
 }

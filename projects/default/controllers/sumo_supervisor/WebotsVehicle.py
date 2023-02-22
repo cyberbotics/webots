@@ -4,7 +4,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -104,15 +104,15 @@ class WebotsVehicle:
             try:
                 traci.vehicle.add(vehID=self.name, routeID=traci.route.getIDList()[0])
                 traci.vehicle.setColor(self.name, (0, 255, 0))
-            except:
+            except Exception:
                 pass
         try:
             traci.vehicle.setSpeed(self.name, speed)
-        except:
+        except Exception:
             pass
         try:
             traci.vehicle.moveToXY(vehID=self.name, edgeID='', lane=0, x=self.currentPosition[0], y=self.currentPosition[1],
                                    angle=180 * self.angle / math.pi, keepRoute=0)
-        except:
+        except Exception:
             pass
         self.previousPosition = self.currentPosition

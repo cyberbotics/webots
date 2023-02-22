@@ -226,5 +226,9 @@ PROTO Deer [
         }
       ]
     }
+
+    recognitionColors [
+      0.415 0.364 0.302
+    ]
   }
 }

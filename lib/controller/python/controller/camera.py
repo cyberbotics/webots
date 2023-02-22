@@ -4,7 +4,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -62,8 +62,6 @@ class CameraRecognitionObject(ctypes.Structure):
 
 
 class Camera(Sensor):
-    wb.wb_camera_get_image.restype = ctypes.POINTER(ctypes.c_ubyte)
-    wb.wb_camera_recognition_get_segmentation_image.restype = ctypes.POINTER(ctypes.c_ubyte)
     wb.wb_camera_get_fov.restype = ctypes.c_double
     wb.wb_camera_get_exposure.restype = ctypes.c_double
     wb.wb_camera_get_focal_distance.restype = ctypes.c_double
@@ -95,7 +93,7 @@ class Camera(Sensor):
         return self.height
 
     def getImage(self) -> bytes:
-        return bytes(self.image[:self.width * self.height * 4])
+        return self.image
 
     def getImageArray(self) -> List[List[List[int]]]:
         array = []
@@ -158,12 +156,16 @@ class Camera(Sensor):
         self.fov = f
 
     @property
-    def image(self):
-        return wb.wb_camera_get_image(self._tag)
+    def image(self) -> bytes:
+        wb.wb_camera_get_image.restype = ctypes.POINTER(ctypes.c_ubyte * (4 * self.width * self.height))
+        return bytes(wb.wb_camera_get_image(self._tag).contents)
 
     @property
-    def segmentation_image(self):
-        return wb.wb_camera_recognition_get_segmentation_image(self._tag)
+    def segmentation_image(self) -> bytes:
+        wb.wb_camera_recognition_get_segmentation_image.restype = ctypes.POINTER(
+            ctypes.c_ubyte * (4 * self.width * self.height)
+        )
+        return bytes(wb.wb_camera_recognition_get_segmentation_image(self._tag).contents)
 
     @property
     def exposure(self) -> float:
@@ -254,7 +256,7 @@ class Camera(Sensor):
         return wb.wb_camera_recognition_is_segmentation_enabled(self._tag) != 0
 
     def getRecognitionSegmentationImage(self) -> bytes:
-        return bytes(self.segmentation_image[:self.width * self.height * 4])
+        return self.segmentation_image
 
     def getRecognitionSegmentationImageArray(self) -> List[List[List[int]]]:
         array = []

@@ -6,7 +6,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -71,21 +71,22 @@ class HeadersGenerator:
             text_in = StringIO()
             text_out = StringIO()
             accum = text_in
-            for l in text.split('\n'):
-                l = l.split('#')[0].strip()  # strip comments
-                if "geometry_msgs/" in l or "std_msgs/" in l or "sensor_msgs/" in l or "Header" in l or 'webots_ros/' in l:
-                    message = l.split(' ')[0]
+            for line in text.split('\n'):
+                line = line.split('#')[0].strip()  # strip comments
+                if "geometry_msgs/" in line or "std_msgs/" in line or "sensor_msgs/" in line or "Header" in line \
+                   or 'webots_ros/' in line:
+                    message = line.split(' ')[0]
                     # replace message by its corresponding MD5
                     # the fact that it is an array is not relevant for the computation of the MD5
                     clean_message = message.replace("[]", "")
                     if clean_message in self.predefinedMD5:
-                        l = l.replace(message, self.predefinedMD5[clean_message])
+                        line = line.replace(message, self.predefinedMD5[clean_message])
                     else:
                         print('Error: undefined MD5 for: ' + message)
-                if l.startswith('---'):  # lenient, by request
+                if line.startswith('---'):  # lenient, by request
                     accum = text_out
                 else:
-                    accum.write(l + '\n')
+                    accum.write(line + '\n')
         m.update(text_in.getvalue().encode('utf-8').strip())
         m.update(text_out.getvalue().encode('utf-8').strip())
         return m.hexdigest()

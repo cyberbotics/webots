@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -72,7 +72,7 @@ bool Communication::initialize(const string &ip) {
   address.sin_port = htons(SOCKET_PORT);
   server = gethostbyname(ip.c_str());
   if (server)
-    memcpy((char *)&address.sin_addr.s_addr, (char *)server->h_addr, server->h_length);
+    memcpy(reinterpret_cast<char *>(&address.sin_addr.s_addr), reinterpret_cast<char *>(server->h_addr), server->h_length);
   else {
     fprintf(stderr, "Cannot resolve server name: %s\n", ip.c_str());
     cleanup();

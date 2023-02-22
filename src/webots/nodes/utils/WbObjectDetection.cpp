@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -115,8 +115,8 @@ bool WbObjectDetection::doesChildrenHaveBoundingObject(const WbSolid *solid) {
   if (solid->boundingObject())
     return true;
   else {
-    foreach (WbSolid *solidChildren, solid->solidChildren()) {
-      if (doesChildrenHaveBoundingObject(solidChildren))
+    foreach (WbSolid *sc, solid->solidChildren()) {
+      if (doesChildrenHaveBoundingObject(sc))
         return true;
     }
   }
@@ -279,7 +279,7 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
       const double size = 2 * boundingSphere->radius() * std::max(std::max(scale.x(), scale.y()), scale.z());
       objectSize.setXyz(size, size, size);
       // correct the object center
-      objectPosition += boundingSphere->center();
+      objectPosition = transform->matrix() * boundingSphere->center();
     } else {
       double height = 0;
       double radius = 0;
@@ -350,9 +350,9 @@ bool WbObjectDetection::recursivelyComputeBounds(WbSolid *solid, bool boundsInit
   } else
     initialized = computeBounds(devicePosition, deviceRotation, deviceInverseRotation, frustumPlanes, solid->boundingObject(),
                                 mObjectSize, mObjectRelativePosition, solid);
-  foreach (WbSolid *solid, solid->solidChildren())
+  foreach (WbSolid *s, solid->solidChildren())
     initialized =
-      recursivelyComputeBounds(solid, initialized, devicePosition, deviceRotation, deviceInverseRotation, frustumPlanes);
+      recursivelyComputeBounds(s, initialized, devicePosition, deviceRotation, deviceInverseRotation, frustumPlanes);
   return initialized;
 }
 

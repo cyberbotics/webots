@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,6 +14,7 @@
 
 #include "WbJointDevice.hpp"
 
+#include "WbBallJoint.hpp"
 #include "WbField.hpp"
 #include "WbHinge2Joint.hpp"
 #include "WbJoint.hpp"
@@ -75,6 +76,25 @@ WbTrack *WbJointDevice::track() const {
 WbLogicalDevice *WbJointDevice::getSiblingDeviceByType(int nodeType) const {
   WbJoint *j = joint();
   if (j) {
+    WbBallJoint *ballJoint = dynamic_cast<WbBallJoint *>(j);
+    if (ballJoint) {
+      // special case for nodes in devices3 field
+      bool isDevice3 = false;
+      for (int i = 0; i < ballJoint->devices3Number(); ++i) {
+        if (this == ballJoint->device3(i)) {
+          isDevice3 = true;
+          break;
+        }
+      }
+      if (isDevice3) {
+        for (int i = 0; i < ballJoint->devices3Number(); ++i) {
+          WbLogicalDevice *device3 = ballJoint->device3(i);
+          if (device3 && device3->nodeType() == nodeType)
+            return device3;
+        }
+        return NULL;
+      }
+    }
     WbHinge2Joint *hinge2 = dynamic_cast<WbHinge2Joint *>(j);
     if (hinge2) {
       // special case for nodes in devices2 field

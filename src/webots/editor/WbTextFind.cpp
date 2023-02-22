@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -153,8 +153,8 @@ void WbTextFind::replaceAll(const QString &before, const QString &after, FindFla
       newPosCursor.movePosition(QTextCursor::NextCharacter);
       found = doc->find(beforeRegularExpression, newPosCursor, docFindFlags);
     }
-    if (first)
-      first = false;
+
+    first = false;
 
     cursor.setPosition(found.selectionStart());
     cursor.setPosition(found.selectionEnd(), QTextCursor::KeepAnchor);

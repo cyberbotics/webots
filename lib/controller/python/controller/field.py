@@ -4,7 +4,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -78,6 +78,8 @@ class Field:
                 self._ref = ctypes.c_void_p(wb.wb_supervisor_node_get_field_by_index(node._ref, index))
         if self._ref:
             self.type = wb.wb_supervisor_field_get_type(self._ref)
+        else:
+            self.type = None
 
     def getName(self) -> str:
         return self.name
@@ -92,10 +94,10 @@ class Field:
         return self.count
 
     def enableSFTracking(self, samplingPeriod: int):
-        wb.wb_supervisor_field_enable_sf_tracking(samplingPeriod)
+        wb.wb_supervisor_field_enable_sf_tracking(self._ref, samplingPeriod)
 
     def disableSFTracking(self):
-        wb.wb_supervisor_field_disable_sf_tracking()
+        wb.wb_supervisor_field_disable_sf_tracking(self._ref)
 
     def getSFBool(self) -> bool:
         return self.value
@@ -240,15 +242,6 @@ class Field:
 
     def importSFNodeFromString(self, nodeString: str):
         wb.wb_supervisor_field_import_sf_node_from_string(self._ref, str.encode(nodeString))
-
-    def virtualRealityHeadsetIsUsed(self):
-        return wb.wb_supervisor_virtual_reality_headset_is_used() != 0
-
-    def virtualRealityHeadsetGetPosition(self) -> typing.List[float]:
-        return wb.wb_supervisor_virtual_reality_headset_get_position()
-
-    def virtualRealityHeadsetGetOrientation(self) -> typing.List[float]:
-        return wb.wb_supervisor_virtual_reality_headset_get_orientation()
 
     @property
     def name(self) -> str:

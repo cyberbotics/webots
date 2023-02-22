@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -199,7 +199,7 @@ void WbCharger::prePhysicsStep(double ms) {
     } else
       currentEnergy -= e;  // transfer
 
-    if (mDone == false && mRobot->battery().size() > 2) {  // else energy is wasted
+    if (mDone == false) {  // else energy is wasted
       double robotCurrentEnergy = mRobot->currentEnergy();
       // special case:
       //   if the current energy of the robot is already bigger that its max energy

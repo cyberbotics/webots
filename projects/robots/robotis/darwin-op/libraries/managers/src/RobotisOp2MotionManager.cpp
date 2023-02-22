@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -122,7 +122,7 @@ RobotisOp2MotionManager::RobotisOp2MotionManager(webots::Robot *robot, const std
   mAction = Action::GetInstance();
 
   const char *path = wbu_system_short_path(filename.c_str());
-  if (mAction->LoadFile((char *)path) == false) {
+  if (mAction->LoadFile(const_cast<char *>(path)) == false) {
     cerr << "RobotisOp2MotionManager: Cannot load the motion from " << filename << endl;
     mCorrectlyInitialized = false;
     mAction = NULL;
@@ -130,7 +130,7 @@ RobotisOp2MotionManager::RobotisOp2MotionManager(webots::Robot *robot, const std
   }
 
 #ifdef CROSSCOMPILATION
-  MotionManager::GetInstance()->AddModule((MotionModule *)mAction);
+  MotionManager::GetInstance()->AddModule(dynamic_cast<MotionModule *>(mAction));
 #endif
 }
 
@@ -300,7 +300,7 @@ void RobotisOp2MotionManager::step(int duration) {
 #else
 
 void *RobotisOp2MotionManager::MotionThread(void *param) {
-  RobotisOp2MotionManager *instance = ((RobotisOp2MotionManager *)param);
+  RobotisOp2MotionManager *instance = (dynamic_cast<RobotisOp2MotionManager *>(param));
   instance->mMotionPlaying = true;
   while (Action::GetInstance()->IsRunning())
     usleep(instance->mBasicTimeStep * 1000);

@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -301,6 +301,33 @@ bool WbVrmlNodeUtilities::existsVisibleProtoNodeNamed(const QString &modelName, 
     }
   }
   return false;
+}
+
+WbNode *WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(WbField *modifiedField, WbNode *parentNode) {
+  if (parentNode == NULL || modifiedField == NULL)
+    return NULL;
+
+  if (parentNode->isTemplate() && modifiedField->isTemplateRegenerator())
+    return parentNode;
+
+  return findUpperTemplateNeedingRegeneration(parentNode);
+}
+
+WbNode *WbVrmlNodeUtilities::findUpperTemplateNeedingRegeneration(WbNode *modifiedNode) {
+  if (modifiedNode == NULL)
+    return NULL;
+
+  WbField *field = modifiedNode->parentField();
+  WbNode *node = modifiedNode->parentNode();
+  while (node && field && !node->isWorldRoot()) {
+    if (node->isTemplate() && field->isTemplateRegenerator())
+      return node;
+
+    field = node->parentField();
+    node = node->parentNode();
+  }
+
+  return NULL;
 }
 
 bool WbVrmlNodeUtilities::hasAUseNodeAncestor(const WbNode *node) {

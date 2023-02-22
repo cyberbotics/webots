@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,7 +33,7 @@ bool RobotisOp2VisionManager::getBallCenter(double &x, double &y, const unsigned
   Point2D pos;
 
   // Put the image in mBuffer
-  mBuffer->m_BGRAFrame->m_ImageData = (unsigned char *)image;
+  mBuffer->m_BGRAFrame->m_ImageData = const_cast<unsigned char *>(image);
   // Convert the image from BGRA format to HSV format
   ImgProcess::BGRAtoHSV(mBuffer);
   // Extract position of the ball from HSV verson of the image

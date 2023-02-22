@@ -12,22 +12,23 @@ The simulation server creates and starts a Webots instance with the desired simu
 
 These are the configuration parameters for the simulation server:
 ```
-# server:              fully qualilified domain name of simulation server
-# ssl:                 for https/wss URL (true by default)
-# port:                local port on which the server is listening
-# portRewrite:         port rewritten in the URL by apache (true by default)
-# docker:              launch webots inside a docker (false by default)
-# allowedRepositories: list of allowed GitHub simulation repositories
-# blockedRepositories: list of blocked GitHub simulation repositories
-# shareIdleTime:       maximum load for running non-allowed repositories (50% by default)
-# notify:              webservices to be notified about the server status (https://webots.cloud by default)
-# projectsDir:         directory in which projects are located
-# webotsHome:          directory in which Webots is installed (WEBOTS_HOME)
-# maxConnections:      maximum number of simultaneous Webots instances
-# logDir:              directory where the log files are written
-# monitorLogEnabled:   store monitor data in a file (true by default)
-# debug:               output debug information to stdout (false by default)
-# timeout:             number of seconds after which a simulation is automatically closed (two hours by default, minimum six minutes)
+# server:                 fully qualilified domain name of simulation server
+# ssl:                    for https/wss URL (true by default)
+# port:                   local port on which the server is listening
+# portRewrite:            port rewritten in the URL by apache (true by default)
+# docker:                 launch webots inside a docker (false by default)
+# allowedRepositories:    list of allowed GitHub simulation repositories
+# blockedRepositories:    list of blocked GitHub simulation repositories
+# persistantDockerImages: list of Docker images that shouldn't be removed from the cache
+# shareIdleTime:          maximum load for running non-allowed repositories (50% by default)
+# notify:                 webservices to be notified about the server status (https://webots.cloud by default)
+# projectsDir:            directory in which projects are located
+# webotsHome:             directory in which Webots is installed (WEBOTS_HOME)
+# maxConnections:         maximum number of simultaneous Webots instances
+# logDir:                 directory where the log files are written
+# monitorLogEnabled:      store monitor data in a file (true by default)
+# debug:                  output debug information to stdout (false by default)
+# timeout:                number of seconds after which a simulation is automatically closed (two hours by default, minimum six minutes)
 ```
 
 HTTP request handlers:

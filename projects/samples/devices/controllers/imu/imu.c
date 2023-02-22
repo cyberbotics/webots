@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,7 +32,7 @@
 #define NB_STEPS 100
 
 // source: https://ahrs.readthedocs.io/en/latest/filters/angular.html
-double *integrate_gyro(double *current_value, const double *gyro_values, double sample_time) {
+double *integrate_gyro(const double *current_value, const double *gyro_values, double sample_time) {
   // compute rotation matrix from sample time and gyro rates
   const double identity_matrix[4][4] = {{1.0, 0.0, 0.0, 0.0}, {0.0, 1.0, 0.0, 0.0}, {0.0, 0.0, 1.0, 0.0}, {0.0, 0.0, 0.0, 1.0}};
   const double gyro_matrix[4][4] = {{0.0, -gyro_values[0], -gyro_values[1], -gyro_values[2]},
@@ -112,7 +112,7 @@ double yaw_from_compass(double roll, double pitch, const double *compass_values)
   return yaw;
 }
 
-double mean_error(const double *ground_truth, double *estimation) {
+double mean_error(const double *ground_truth, const double *estimation) {
   const double mean_error =
     (fabs(ground_truth[0] - estimation[0]) + fabs(ground_truth[1] - estimation[1]) + fabs(ground_truth[2] - estimation[2])) / 3;
   return mean_error;

@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -61,15 +61,16 @@ static MemoryChunk *get_memory_chunk(int address, char order) {
     if (address == m->address)
       return m;
 
-    m->next = (MemoryChunk *)malloc(sizeof(MemoryChunk));
+    m->next = static_cast<MemoryChunk *>(malloc(sizeof(MemoryChunk)));
     m = m->next;
   } else {
-    gMemoryChunk = (MemoryChunk *)malloc(sizeof(MemoryChunk));
+    gMemoryChunk = static_cast<MemoryChunk *>(malloc(sizeof(MemoryChunk)));
     m = gMemoryChunk;
   }
 
   m->address = address;
-  m->data = (unsigned char *)malloc(0x10010);  // the hex file sometimes goes over 0xffff addresses with a maximum of 0x10
+  m->data =
+    static_cast<unsigned char *>(malloc(0x10010));  // the hex file sometimes goes over 0xffff addresses with a maximum of 0x10
   memset(m->data, 0xff, 0x10000);
   m->len = 0;
   m->order = 0;
@@ -222,7 +223,7 @@ static void create_packets() {
   for (m = gMemoryChunk; m; m = m->next)
     n++;
 
-  m_array = (MemoryChunk **)malloc(n * sizeof(MemoryChunk *));
+  m_array = static_cast<MemoryChunk **>(malloc(n * sizeof(MemoryChunk *)));
   i = 0;
   for (j = 0; j < 3; j++)
     for (m = gMemoryChunk; m; m = m->next)
@@ -233,11 +234,11 @@ static void create_packets() {
     int addr = 0;
     while (addr < m_array[i]->len) {
       if (p == NULL) {
-        p = (Packet *)malloc(sizeof(Packet));
+        p = static_cast<Packet *>(malloc(sizeof(Packet)));
         gNumberOfPackets = 1;
         gPacket = p;
       } else {
-        p->next = (Packet *)malloc(sizeof(Packet));
+        p->next = static_cast<Packet *>(malloc(sizeof(Packet)));
         gNumberOfPackets++;
         p = p->next;
       }
@@ -347,7 +348,7 @@ static int send_packets(Serial *serial) {
       return -6;  // canceled by the user
 
     gUpdateProgressFunction(1, globalProgress);
-    serial->write((const char *)p->data, 101);
+    serial->write(reinterpret_cast<const char *>(p->data), 101);
     serial->read(buffer, 1, 1);
 
     switch (buffer[0]) {

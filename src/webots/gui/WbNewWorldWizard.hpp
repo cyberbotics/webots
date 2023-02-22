@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,13 +39,13 @@ public:
   QString fileName() const;
 
 protected:
-  virtual const int introId() { return 1; }
-  virtual const int worldId() { return 2; }
-  virtual const int conclusionId() { return 3; }
-  virtual const QString title() { return tr("Create a Webots world file"); }
-  virtual const QString introTitle() { return tr("New world creation"); }
-  virtual const QString introText() { return tr("This wizard will help you creating a new world file."); }
-  virtual const QString conclusionText() { return tr("The following file will be created:"); }
+  virtual const int introId() const { return 1; }
+  virtual const int worldId() const { return 2; }
+  virtual const int conclusionId() const { return 3; }
+  virtual const QString title() const { return tr("Create a Webots world file"); }
+  virtual const QString introTitle() const { return tr("New world creation"); }
+  virtual const QString introText() const { return tr("This wizard will help you creating a new world file."); }
+  virtual const QString conclusionText() const { return tr("The following file will be created:"); }
   virtual void updateUI();
   void updateWorldUI();
   bool validateWorldPage();
