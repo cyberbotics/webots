@@ -77,7 +77,7 @@ export default class Field {
       // insert the new node on the webotsjs side
       for (const id of link.node.getBaseNodeIds()) {
         v.assignId();
-        const x3d = new XMLSerializer().serializeToString(v.toX3d());
+        const x3d = new XMLSerializer().serializeToString(v.toX3d(this));
         console.log('insert', x3d, ' TO ', id)
         view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', id.replace('n', ''));
       }
@@ -132,7 +132,7 @@ export default class Field {
         // need to be distinguishable, so each "IS" needs to notify webotsjs and provide a unique variant of the x3d
         // (with unique ids) for each node
         this.node.assignId();
-        const x3d = new XMLSerializer().serializeToString(this.node.toX3d(this.name));
+        const x3d = new XMLSerializer().serializeToString(this.node.toX3d(this));
         view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', id.replace('n', ''));
       }
 
@@ -172,7 +172,7 @@ export default class Field {
         // insert the new node on the webotsjs side
         for (const parent of parentIds) {
           v.assignId();
-          const x3d = new XMLSerializer().serializeToString(v.toX3d(this.name));
+          const x3d = new XMLSerializer().serializeToString(v.toX3d(this));
           view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', parent.replace('n', ''));
         }
       }

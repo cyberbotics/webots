@@ -11,6 +11,8 @@ import WbWrenShaders from '../wren/WbWrenShaders.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 import Selector from '../Selector.js';
 import {findUpperTransform, nodeIsInBoundingObject} from './utils/node_utilities.js';
+import WbGroup from './WbGroup.js';
+import WbTransform from './WbTransform.js';
 
 export default class WbGeometry extends WbBaseNode {
   #boundingObjectFirstTimeSearch;
@@ -56,8 +58,16 @@ export default class WbGeometry extends WbBaseNode {
       if (typeof parent !== 'undefined')
         parent.geometry = undefined;
 
-      if (parent instanceof WbSolid && this.isInBoundingObject())
-        parent.boundingObject = undefined;
+      if (this.isInBoundingObject()) {
+        if (parent instanceof WbSolid)
+          parent.boundingObject = undefined;
+        else if (parent instanceof WbTransform || parent instanceof WbGroup) {
+          const index = parent.children.indexOf(this);
+          console.assert(index !== -1, 'The parent node should have this node as a child for it to be deleted.');
+          parent.children.splice(index, 1);
+          console.log('-------------- after del', parent.children)
+        }
+      }
     }
 
     if (this.wrenObjectsCreatedCalled)
@@ -220,8 +230,8 @@ export default class WbGeometry extends WbBaseNode {
       return false;
 
     const upperTransform = this.#upperTransform();
-    console.log('>>>>>>>>>>', upperTransform)
-    console.log('>>>>>>>>>>', typeof upperTransform !== 'undefined' , upperTransform.isInBoundingObject() , upperTransform.geometry() !== this)
+    //console.log('>>>>>>>>>>', upperTransform)
+    //console.log('>>>>>>>>>>', typeof upperTransform !== 'undefined' , upperTransform.isInBoundingObject() , upperTransform.geometry() !== this)
 
     if (typeof upperTransform !== 'undefined' && upperTransform.isInBoundingObject() && upperTransform.geometry() !== this)
       return false;

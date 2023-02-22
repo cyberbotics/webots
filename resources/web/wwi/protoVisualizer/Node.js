@@ -13,7 +13,6 @@ export default class Node {
   static cProtoModels = new Map();
 
   constructor(url, parameterTokenizer, isRoot = false) {
-    console.log('CREATE', url, 'ISROOT', isRoot)
     this.url = url;
     this.isProto = this.url.toLowerCase().endsWith('.proto');
     this.name = this.isProto ? this.url.slice(this.url.lastIndexOf('/') + 1).replace('.proto', '') : url;
@@ -122,9 +121,9 @@ export default class Node {
     if (this.isDerived) {
       console.assert(this.externProto.has(this.model['baseType']));
       const baseTypeUrl = this.externProto.get(this.model['baseType']);
-      this.baseType = new Node(baseTypeUrl, tokenizer, this.isRoot);
+      this.baseType = new Node(baseTypeUrl, tokenizer);
     } else {
-      this.baseType = new Node(this.model['baseType'], undefined, this.isRoot);
+      this.baseType = new Node(this.model['baseType']);
       this.baseType.configureFromTokenizer(tokenizer, 'fields'); // base-nodes don't have parameters
     }
   }
@@ -233,26 +232,32 @@ export default class Node {
     }
   }
 
-  toX3d(parameterName) {
+  toX3d(parameter) {
     if (this.isRoot)
       this.resetRefs(); // resets the instance counters
 
     this.xml = document.implementation.createDocument('', '', null);
 
     if (this.isProto)
-      return this.baseType.toX3d(parameterName);
+      return this.baseType.toX3d(parameter);
 
-    console.log('tox3d of : ', this.name, this.isRoot)
-    if (!this.isRoot && typeof parameterName === 'undefined')
-      throw new Error('Only the root node can be converted to x3d without a parameter reference.');
+    console.log('tox3d of : ', this.name, this.isRoot);
+    //if (!this.isRoot && typeof parameterName === 'undefined')
+    //  throw new Error('Only the root node can be converted to x3d without a parameter reference.');
 
     const nodeElement = this.xml.createElement(this.name);
 
-    console.log('>>>> !! ', parameterName, this.name)
+    if (typeof parameter !== 'undefined') {
+      // follow IS chain down to basenode
+      let p = parameter;
+      while (p instanceof Parameter && p.aliasLinks.length > 0)
+        p = p.aliasLinks[0];
 
-    if (this.name === 'ImageTexture' || (this.name === 'Group' && parameterName === 'boundingObject') || (this.name === 'Transform' && parameterName === 'boundingObject') )
-      nodeElement.setAttribute('role', parameterName);
+      console.log('>>>> !! ', parameter.name, p.name)
 
+      if (this.name === 'ImageTexture' || (this.name === 'Group' && p.name === 'boundingObject') || (this.name === 'Transform' && p.name === 'boundingObject') )
+        nodeElement.setAttribute('role', p.name);
+    }
     if (this.refId > this.ids.length - 1)
       throw new Error('Something has gone wrong, the refId is bigger the number of available ids.');
     const id = this.ids[this.refId++];
