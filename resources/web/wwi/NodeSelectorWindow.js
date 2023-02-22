@@ -490,6 +490,7 @@ export default class NodeSelectorWindow {
 
     let node = parentNode;
     let parentField = node?.parentField;
+    console.log(fieldName, node.name, node.parentField);
     if (typeof parentField === 'undefined')
       throw new Error('The parent field should be defined when attempting a node insertion.');
 

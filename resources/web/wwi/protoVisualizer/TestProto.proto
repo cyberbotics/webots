@@ -4,15 +4,15 @@ EXTERNPROTO "CustomBO.proto"
 
 PROTO Nao [
   field SFNode bo NULL
+  field SFNode app NULL
+  field SFNode geo NULL
 ]
 {
   Robot {
     children [
       Shape {
-        appearance PBRAppearance {
-          baseColor 0 0 0
-        }
-        geometry Box {size 1 1 1 }
+        appearance IS app
+        geometry IS geo
       }
     ]
     boundingObject IS bo

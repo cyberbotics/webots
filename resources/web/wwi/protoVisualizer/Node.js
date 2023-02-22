@@ -150,7 +150,7 @@ export default class Node {
             if (fieldValue instanceof Parameter && !p.isTemplateRegenerator)
               p.isTemplateRegenerator = fieldValue.isTemplateRegenerator;
           } else
-            fieldValue.value.setValueFromTokenizer(tokenizer);
+            fieldValue.value.setValueFromTokenizer(tokenizer, fieldValue);
         }
       }
     }

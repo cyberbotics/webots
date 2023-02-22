@@ -1251,7 +1251,6 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   async #sfnodeOnChange(parameter, url) {
-    console.log('creating node', url)
     const node = await Node.createNode(url);
     parameter.setValueFromJavaScript(this.#view, node);
     this.#refreshParameterRow(parameter);

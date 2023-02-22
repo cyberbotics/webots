@@ -8,10 +8,10 @@ import Tokenizer from './Tokenizer.js';
 
 class SingleValue {
   #value;
-  constructor(v) {
+  constructor(v, parameter) {
     if (typeof v !== 'undefined') {
       if (v instanceof Tokenizer)
-        this.setValueFromTokenizer(v);
+        this.setValueFromTokenizer(v, parameter);
       else
         this.setValueFromModel(v);
     }
@@ -334,7 +334,7 @@ export class SFRotation extends SingleValue {
 }
 
 export class SFNode extends SingleValue {
-  setValueFromTokenizer(tokenizer) {
+  setValueFromTokenizer(tokenizer, parameter) {
     if (tokenizer.peekWord() === 'USE') {
       this.isUse = true;
       tokenizer.skipToken('USE');
@@ -362,6 +362,8 @@ export class SFNode extends SingleValue {
       url = tokenizer.nextWord();
 
     this.value = new Node(url, tokenizer);
+    console.log('====', this.value.name, parameter)
+    this.value.parentField = parameter;
 
     if (!this.value.isProto)
       this.value.configureFromTokenizer(tokenizer, 'fields');
@@ -833,7 +835,7 @@ export class MFRotation extends MultipleValue {
 }
 
 export class MFNode extends MultipleValue {
-  setValueFromTokenizer(tokenizer) {
+  setValueFromTokenizer(tokenizer, parameter) {
     // If we reach this function it means that the MFNode does not have the default value.
     // Thus we should reset the value because it could already contains the default one.
     this.value = [];
@@ -841,7 +843,7 @@ export class MFNode extends MultipleValue {
       tokenizer.skipToken('[');
 
       while (tokenizer.peekWord() !== ']')
-        this.insert(new SFNode(tokenizer));
+        this.insert(new SFNode(tokenizer, parameter));
 
       tokenizer.skipToken(']');
     } else
