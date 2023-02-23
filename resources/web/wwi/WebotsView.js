@@ -375,14 +375,14 @@ export default class WebotsView extends HTMLElement {
     this.innerHTML = null;
   }
 
-  loadProto(proto, isMobileDevice, thumbnail) {
+  loadProto(proto, isMobileDevice, thumbnail, moveFloor) {
     if (typeof proto === 'undefined') {
       console.error('No proto file defined');
       return;
     }
 
     if (!this.initializationComplete)
-      setTimeout(() => this.loadProto(proto, isMobileDevice, thumbnail), 500);
+      setTimeout(() => this.loadProto(proto, isMobileDevice, thumbnail, moveFloor), 500);
     else {
       // terminate the previous activity if any
       this.close();
@@ -400,8 +400,7 @@ export default class WebotsView extends HTMLElement {
         this.resize();
         this.toolbar.protoParameterWindowInitializeSizeAndPosition();
         const topProtoNode = WbWorld.instance.root.children[WbWorld.instance.root.children.length - 1];
-        const needRobot = await this.#queryNeedRobot(proto);
-        if (topProtoNode instanceof WbDevice || needRobot === '1')
+        if (topProtoNode instanceof WbDevice || moveFloor === '1')
           this.#repositionFloor(topProtoNode, WbWorld.instance.root.children[WbWorld.instance.root.children.length - 2]);
 
         WbWorld.instance.viewpoint.moveViewpointToObject(topProtoNode);
@@ -412,22 +411,6 @@ export default class WebotsView extends HTMLElement {
       this.#hasProto = true;
       this.#closeWhenDOMElementRemoved();
     }
-  }
-
-  #queryNeedRobot(protoUrl) {
-    let dbUrl = window.location.href;
-    if (!dbUrl.includes('webots.cloud'))
-      dbUrl = 'https://webots.cloud/';
-    dbUrl = new URL(dbUrl).hostname;
-
-    if (protoUrl.includes('raw.githubusercontent.com')) {
-      protoUrl = protoUrl.replace('raw.githubusercontent.com', 'github.com').split('/');
-      protoUrl.splice(5, 0, 'blob');
-      protoUrl = protoUrl.join('/');
-    }
-    return fetch('https://' + dbUrl + '/ajax/proto/needs_robot_ancestor.php', {method: 'post', body: JSON.stringify({url: protoUrl})})
-      .then(result => result.json())
-      .then(result => result ? result.needs_robot_ancestor : false);
   }
 
   #repositionFloor(proto, floor) {
