@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,7 +36,7 @@ RosEmitter::~RosEmitter() {
 }
 
 bool RosEmitter::sendCallback(webots_ros::set_string::Request &req, webots_ros::set_string::Response &res) {
-  mEmitter->send((void *)req.value.c_str(), req.value.size());
+  mEmitter->send(static_cast<void *>(const_cast<char *>(req.value.c_str())), req.value.size());
   res.success = true;
   return true;
 }

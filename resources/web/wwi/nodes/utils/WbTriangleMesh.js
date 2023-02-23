@@ -489,10 +489,10 @@ export default class WbTriangleMesh {
     let longestDimension = -1;
     let secondLongestDimension = -1;
     for (let i = 0; i < 3; ++i) {
-      if (longestDimension < 0 || size[i] > size[longestDimension]) {
+      if (longestDimension < 0 || size.get(i) > size.get(longestDimension)) {
         secondLongestDimension = longestDimension;
         longestDimension = i;
-      } else if (secondLongestDimension < 0 || size[i] > size[secondLongestDimension])
+      } else if (secondLongestDimension < 0 || size.get(i) > size.get(secondLongestDimension))
         secondLongestDimension = i;
     }
 

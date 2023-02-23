@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -74,7 +74,7 @@ void display_commands() {
 void process_image(const unsigned char *image, int length) {
   /* Matrix which contains the BGRA image from Webots' camera */
   Mat img = Mat(Size(width, height), CV_8UC4);
-  img.data = (uchar *)image;
+  img.data = const_cast<uchar *>(image);
 
   /* Matrix which contains the HSV version of the previous image */
   Mat hsv = Mat(Size(width, height), CV_8UC3);
@@ -197,7 +197,7 @@ int main() {
   int length = 4 * width * height * sizeof(unsigned char);
   WbDeviceTag processed_image_display = wb_robot_get_device("proc_im_display");
   WbImageRef processed_image_ref = NULL;
-  processed_image = (unsigned char *)malloc(length);
+  processed_image = static_cast<unsigned char *>(malloc(length));
 
   wb_keyboard_enable(timestep);
 

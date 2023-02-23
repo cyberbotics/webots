@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -170,9 +170,9 @@ void WbSimulationCluster::collideKinematicRobots(WbKinematicDifferentialWheels *
   double depth = fabs(contact[0].geom.depth * (normal2D.length() / normal3D.length()));
 
   // record contact points for graphical and sound rendering
-  WbWorld *const world = WbWorld::instance();
+  WbWorld *const w = WbWorld::instance();
   const WbOdeContact odeContact(contact[0].geom, NULL);
-  world->appendOdeContact(odeContact);
+  w->appendOdeContact(odeContact);
 
   // move robots to prevent robots beeing one inside the other
   WbVector2 displacement = WbVector2(normal2D[0] * depth, normal2D[1] * depth);
@@ -469,9 +469,9 @@ void WbSimulationCluster::handleCollisionIfSpace(void *data, dGeomID o1, dGeomID
     dSpaceCollide2(o1, o2, data, odeNearCallback);
     // collide all geoms internal to the mContext->space()(s)
     if (dGeomIsSpace(o1))
-      dSpaceCollide((dSpaceID)o1, data, odeNearCallback);
+      dSpaceCollide(reinterpret_cast<dSpaceID>(o1), data, odeNearCallback);
     if (dGeomIsSpace(o2))
-      dSpaceCollide((dSpaceID)o2, data, odeNearCallback);
+      dSpaceCollide(reinterpret_cast<dSpaceID>(o2), data, odeNearCallback);
   }
 }
 

@@ -335,7 +335,18 @@ export default class NodeSelectorWindow {
   }
 
   getSlotType() {
-    const parentNode = this.parameter.aliasLinks[0].node;
+    let parentNode = this.parameter.aliasLinks[0].node;
+    let name = this.parameter.aliasLinks[0].name;
+    while (parentNode.isProto) {
+      const parameter = parentNode.parameters.get(name);
+      if (typeof parameter !== 'undefined') {
+        parentNode = parameter.aliasLinks[0].node;
+        name = parameter.aliasLinks[0].name;
+      } else {
+        console.error('Not able to find slot type.');
+        break;
+      }
+    }
     let slotType = parentNode.fields.get('type').value.value.replaceAll('"', '');
 
     if (slotType.endsWith('+'))

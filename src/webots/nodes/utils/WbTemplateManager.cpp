@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -298,9 +298,9 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
     // so for parent PROTO instances both fields and parameters needs to be checked
     const QList<WbField *> parentFields = (parent->isProtoInstance() ? parent->parameters() : QList<WbField *>())
                                           << parent->fields();
-    foreach (WbField *const parentField, parentFields) {
-      if (parentField->type() == WB_SF_NODE) {
-        WbSFNode *sfnode = static_cast<WbSFNode *>(parentField->value());
+    foreach (WbField *const pf, parentFields) {
+      if (pf->type() == WB_SF_NODE) {
+        WbSFNode *sfnode = static_cast<WbSFNode *>(pf->value());
         if (sfnode->value() == node) {
           if (ancestorTemplateRegeneration)
             sfnode->blockSignals(true);
@@ -314,8 +314,8 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
           }
           break;
         }
-      } else if (parentField->type() == WB_MF_NODE) {
-        WbMFNode *mfnode = static_cast<WbMFNode *>(parentField->value());
+      } else if (pf->type() == WB_MF_NODE) {
+        WbMFNode *mfnode = static_cast<WbMFNode *>(pf->value());
         bool found = false;
         for (int i = 0; i < mfnode->size(); ++i) {
           WbNode *n = mfnode->item(i);

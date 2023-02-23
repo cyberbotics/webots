@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -708,7 +708,7 @@ bool RosSupervisor::nodeSetVelocityCallback(webots_ros::node_set_velocity::Reque
   velocity[3] = req.velocity.angular.x;
   velocity[4] = req.velocity.angular.y;
   velocity[5] = req.velocity.angular.z;
-  node->setVelocity((const double *)velocity);
+  node->setVelocity(static_cast<const double *>(velocity));
   res.success = 1;
   return true;
 }
@@ -723,7 +723,7 @@ bool RosSupervisor::nodeAddForceCallback(webots_ros::node_add_force_or_torque::R
   force[0] = req.force.x;
   force[1] = req.force.y;
   force[2] = req.force.z;
-  node->addForce((const double *)force, req.relative);
+  node->addForce(static_cast<const double *>(force), req.relative);
   res.success = 1;
   return true;
 }
@@ -742,7 +742,7 @@ bool RosSupervisor::nodeAddForceWithOffsetCallback(webots_ros::node_add_force_wi
   offset[0] = req.offset.x;
   offset[1] = req.offset.y;
   offset[2] = req.offset.z;
-  node->addForceWithOffset((const double *)force, (const double *)offset, req.relative);
+  node->addForceWithOffset(static_cast<const double *>(force), static_cast<const double *>(offset), req.relative);
   res.success = 1;
   return true;
 }
@@ -757,7 +757,7 @@ bool RosSupervisor::nodeAddTorqueCallback(webots_ros::node_add_force_or_torque::
   torque[0] = req.force.x;
   torque[1] = req.force.y;
   torque[2] = req.force.z;
-  node->addTorque((const double *)torque, req.relative);
+  node->addTorque(static_cast<const double *>(torque), req.relative);
   res.success = 1;
   return true;
 }

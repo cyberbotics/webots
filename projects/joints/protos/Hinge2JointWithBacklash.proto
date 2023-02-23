@@ -1,7 +1,9 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/joints/protos/Hinge2JointWithBacklash.proto
 # This extension of the hinge2joint allows to model the effect of backlash.
+# tags: no3dview
 # template language: javascript
 
 PROTO Hinge2JointWithBacklash [
@@ -15,8 +17,8 @@ PROTO Hinge2JointWithBacklash [
   field MFNode                                 device2           [ ]    # {RotationalMotor, PositionSensor, Brake}.
   field MFNode{PositionSensor{}}               outputSensor      [ ]    # {PositionSensor}.
   field MFNode{PositionSensor{}}               outputSensor2     [ ]    # {PositionSensor}.
-  field MFNode{Group{}, Transform{}, Shape{}}  startPoint        NULL   # {Group, Transform, or Shape}.
-  field MFNode{Group{}, Transform{}, Shape{}}  startPoint2       NULL   # {Group, Transform, or Shape}.
+  field MFNode{Group{}, Transform{}, Shape{}}  startPoint        [ ]    # {Group, Transform, or Shape}.
+  field MFNode{Group{}, Transform{}, Shape{}}  startPoint2       [ ]    # {Group, Transform, or Shape}.
   field SFNode                                 endPoint          NULL   # {Solid, SolidReference, or Slot}.
 ]
 {

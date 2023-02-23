@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -53,12 +53,7 @@ WbAddInertiaMatrixDialog::WbAddInertiaMatrixDialog(bool validBoudingObject, QWid
   mGroupBox = new QGroupBox(this);
   mGroupBox->setObjectName("dialogInfoGroupBox");
   mGroupBox->setFlat(false);
-  /*
-  mPixmapLabel = new QLabel(this);
-  mPixmapLabel->setObjectName("nodePixmapLabel");
-  mPixmapLabel->setMinimumSize(128, 128);
-  mPixmapLabel->setMaximumSize(mPixmapLabel->minimumSize());
-  */
+
   QPushButton *cancelButton = new QPushButton(tr("Cancel"), this);
   mAddButton = new QPushButton(tr("Add"), this);
   connect(cancelButton, &QPushButton::pressed, this, &WbAddInertiaMatrixDialog::reject);
@@ -88,9 +83,6 @@ WbAddInertiaMatrixDialog::WbAddInertiaMatrixDialog(bool validBoudingObject, QWid
   setMinimumSize(500, 390);
 
   connect(mTree, &QTreeWidget::itemSelectionChanged, this, &WbAddInertiaMatrixDialog::updateItemInfo);
-}
-
-WbAddInertiaMatrixDialog::~WbAddInertiaMatrixDialog() {
 }
 
 int WbAddInertiaMatrixDialog::inertiaMatrixType() const {

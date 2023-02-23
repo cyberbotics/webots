@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -732,15 +732,15 @@ WbLanguage::WbLanguage(int code, const QString &name, const QString &defaultFile
 WbLanguage::~WbLanguage() {
 }
 
-void WbLanguage::addKeywords(QString words) {
+void WbLanguage::addKeywords(const QString &words) {
   mKeywords += words.split(" ");
 }
 
-void WbLanguage::addApiWords(QString words) {
+void WbLanguage::addApiWords(const QString &words) {
   mApiWords += words.split(" ");
 }
 
-void WbLanguage::addPreprocessorWords(QString words) {
+void WbLanguage::addPreprocessorWords(const QString &words) {
   mPreprocessorWords += words.split(" ");
 }
 

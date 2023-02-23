@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -141,7 +141,7 @@ void WbPhysicsPlugin::receiveData(const void *data, int size) {
   if (mResetReceiverBufferFlag)
     resetReceiverBufferSize();
 
-  mReceiverBuffer.append((const char *)data, size);
+  mReceiverBuffer.append(static_cast<const char *>(data), size);
 }
 
 void WbPhysicsPlugin::resetReceiverBufferSize() {
@@ -172,7 +172,7 @@ bool WbPhysicsPlugin::load() {
     return false;
   } else {
     // cast function
-    PhysicsSpecialInitFunc physics_special_init = (PhysicsSpecialInitFunc)mFunctions[SPECIAL_INIT];
+    PhysicsSpecialInitFunc physics_special_init = reinterpret_cast<PhysicsSpecialInitFunc>(mFunctions[SPECIAL_INIT]);
 
     // invoke function
     (*physics_special_init)(&dWebotsGetGeomFromDEF, &dWebotsGetBodyFromDEF, &dWebotsGetContactJointGroup, &dWebotsSend,
@@ -202,7 +202,7 @@ void WbPhysicsPlugin::init() {
     WbLog::error(tr("Can't change directory to: '%1'.").arg(newDir));
 
   // invoke plugin's webots_physics_init() function
-  (*((void (*)())mFunctions[INIT]))();
+  (*(reinterpret_cast<void (*)()>(mFunctions[INIT])))();
 
   // restore current directory
   if (!QDir::setCurrent(oldDir))
@@ -212,14 +212,14 @@ void WbPhysicsPlugin::init() {
 }
 
 int WbPhysicsPlugin::collide(dGeomID g1, dGeomID g2) {
-  return mFunctions[COLLIDE] ? (*((int (*)(dGeomID, dGeomID))mFunctions[COLLIDE]))(g1, g2) : 0;
+  return mFunctions[COLLIDE] ? (*(reinterpret_cast<int (*)(dGeomID, dGeomID)>(mFunctions[COLLIDE])))(g1, g2) : 0;
 };
 
 void WbPhysicsPlugin::step() {
   if (mResetReceiverBufferFlag)
     resetReceiverBufferSize();
 
-  (*((void (*)())mFunctions[STEP]))();
+  (*(reinterpret_cast<void (*)()>(mFunctions[STEP])))();
 }
 
 const WbSolid *WbPhysicsPlugin::findSolidByDef(const QString &def) const {

@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -86,22 +86,25 @@ namespace {
   QList<WbNode *> getNodeChildrenAndBoundingForBackwardCompatibility(WbNode *node) {
     // Make a list of children to be rotated (children, TrackWheel children, bounding object with the group node ignored).
     QList<WbNode *> children = getNodeChildrenForBackwardCompatibility(node);
+    QList<WbNode *> newChildren;
     WbNode *boundingObject = static_cast<WbSolid *>(node)->boundingObject();
-    for (WbNode *child : children)
-      if (dynamic_cast<WbTrackWheel *>(child)) {
-        children += getNodeChildrenForBackwardCompatibility(child);
-        children.removeOne(child);
-      }
+    for (WbNode *child : children) {
+      if (dynamic_cast<WbTrackWheel *>(child))
+        newChildren += getNodeChildrenForBackwardCompatibility(child);
+      else
+        newChildren += child;
+    }
+
     if (!dynamic_cast<WbTransform *>(boundingObject) && !dynamic_cast<WbGeometry *>(boundingObject) &&
         !dynamic_cast<WbShape *>(boundingObject) && dynamic_cast<WbGroup *>(boundingObject))
-      children += boundingObject->subNodes(false, false);
+      newChildren += boundingObject->subNodes(false, false);
     else if (boundingObject)
-      children.append(boundingObject);
+      newChildren.append(boundingObject);
 
     // Insert the USE nodes in the beginning.
-    sortNodeListForBackwardCompatibility(children);
+    sortNodeListForBackwardCompatibility(newChildren);
 
-    return children;
+    return newChildren;
   }
 
   void sortNodeListForBackwardCompatibility(QList<WbNode *> &children) {
@@ -133,6 +136,10 @@ namespace {
                        .arg(node->nodeModelName());
       return false;
     }
+
+    // No robot can be inserted in helix of propellers.
+    if (WbNodeUtilities::isRobotTypeName(nodeName) && WbNodeUtilities::isDescendantOfPropeller(node))
+      return false;
 
     if (dynamic_cast<const WbSlot *>(node) && (fieldName == "endPoint")) {  // add something in the endPoint field of a slot
       if (dynamic_cast<const WbSlot *>(node->parentNode())) {  // pair of slots, we can add everything that is allowed in the
@@ -325,16 +332,16 @@ namespace {
     }
 
     if (fieldName == "endPoint") {
-      if (WbNodeUtilities::isSolidButRobotTypeName(nodeName) || nodeName == "SolidReference")
+      if (WbNodeUtilities::isSolidTypeName(nodeName) || nodeName == "SolidReference")
         return true;
       else if (nodeName == "Slot")
         return true;
 
     } else if (fieldName == "rotatingHead") {
-      if (WbNodeUtilities::isSolidButRobotTypeName(nodeName))
+      if (WbNodeUtilities::isSolidTypeName(nodeName))
         return true;
     } else if (fieldName.endsWith("Helix")) {
-      if (WbNodeUtilities::isSolidButRobotTypeName(nodeName))
+      if (WbNodeUtilities::isSolidTypeName(nodeName))
         return true;
 
     } else if (fieldName == "device") {
@@ -587,7 +594,7 @@ WbNode *WbNodeUtilities::findUpperNodeByType(const WbNode *node, int nodeType, i
   return NULL;
 }
 
-bool WbNodeUtilities::hasDescendantNodesOfType(const WbNode *node, QList<int> nodeTypes) {
+bool WbNodeUtilities::hasDescendantNodesOfType(const WbNode *node, const QList<int> &nodeTypes) {
   QList<WbNode *> subNodes = node->subNodes(true);
   if (subNodes.isEmpty())
     return false;
@@ -749,18 +756,9 @@ bool WbNodeUtilities::isDescendantOfBillboard(const WbNode *node) {
   if (node == NULL)
     return false;
 
-  const WbBaseNode *initialNode = dynamic_cast<const WbBaseNode *>(node);
-
-  if (!initialNode)
-    return false;
-
-  if (initialNode->nodeType() == WB_NODE_BILLBOARD)
-    return true;
-
-  WbNode *n = node->parentNode();
-  WbField *field = node->parentField(true);
-  while (n && !n->isWorldRoot() && field) {
-    WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(field->parentNode());
+  WbNode *n = const_cast<WbNode *>(node);
+  while (n && !n->isWorldRoot()) {
+    WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(n);
 
     if (!baseNode)
       return false;
@@ -768,7 +766,26 @@ bool WbNodeUtilities::isDescendantOfBillboard(const WbNode *node) {
     if (baseNode->nodeType() == WB_NODE_BILLBOARD)
       return true;
 
-    field = n->parentField(true);
+    n = n->parentNode();
+  }
+
+  return false;
+}
+
+bool WbNodeUtilities::isDescendantOfPropeller(const WbNode *node) {
+  if (node == NULL)
+    return false;
+
+  WbNode *n = const_cast<WbNode *>(node);
+  while (n && !n->isWorldRoot()) {
+    const WbBaseNode *baseNode = dynamic_cast<WbBaseNode *>(n);
+
+    if (!baseNode)
+      return false;
+
+    if (baseNode->nodeType() == WB_NODE_PROPELLER)
+      return true;
+
     n = n->parentNode();
   }
 
@@ -1266,19 +1283,12 @@ bool WbNodeUtilities::isSolidDeviceTypeName(const QString &modelName) {
   return false;
 }
 
-bool WbNodeUtilities::isSolidButRobotTypeName(const QString &modelName) {
+bool WbNodeUtilities::isSolidTypeName(const QString &modelName) {
   if (modelName == "Solid")
     return true;
   if (modelName == "Charger")
     return true;
   if (WbNodeUtilities::isSolidDeviceTypeName(modelName))
-    return true;
-
-  return false;
-}
-
-bool WbNodeUtilities::isSolidTypeName(const QString &modelName) {
-  if (isSolidButRobotTypeName(modelName))
     return true;
   if (isRobotTypeName(modelName))
     return true;

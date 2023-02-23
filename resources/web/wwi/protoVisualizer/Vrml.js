@@ -122,6 +122,13 @@ export class SFString extends SingleValue {
   type() {
     return VRML.SFString;
   }
+
+  toJS() {
+    let v = this.value;
+    if (!v.startsWith('"') && !v.endsWith('"'))
+      this.value = '"' + v + '"';
+    return this.value;
+  }
 }
 
 export class SFVec2f extends SingleValue {
