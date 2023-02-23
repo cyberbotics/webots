@@ -3,7 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/joints/protos/Hinge2JointWithBacklash.proto
 # This extension of the hinge2joint allows to model the effect of backlash.
-# tags: no3dview
+# tags: no3dView
 # template language: javascript
 
 PROTO Hinge2JointWithBacklash [

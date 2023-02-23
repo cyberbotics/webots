@@ -7,7 +7,7 @@
 # A Servo can be used to simulate a rotational or a linear motion.
 # Spring and damping behavior can be specified.
 # For loading performance reasons, it is suggested to use the joint and motor nodes directly instead of this node.
-# tags: no3dview
+# tags: no3dView
 # template language: javascript
 
 PROTO Servo [
