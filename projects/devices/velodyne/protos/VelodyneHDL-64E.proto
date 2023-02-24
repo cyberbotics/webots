@@ -1,7 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#velodyne-hdl-64e
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/velodyne/protos/VelodyneHDL-64E.proto
 # Velodyne HDL-64E sensor model based on the Lidar PROTO.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
@@ -60,8 +60,8 @@ PROTO VelodyneHDL-64E [
         ]
       }
       Transform {
-        translation 0.105 0 -0.162
-        rotation 0.707109 0.707105 0 -3.141589
+        translation 0.102 0 -0.162
+        rotation 0.577 0.577 0.577 2.09
         children [
           Shape {
             appearance PBRAppearance {
