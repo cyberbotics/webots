@@ -23,7 +23,7 @@ PROTO Laptop [
       HingeJoint {
         jointParameters HingeJointParameters {
           anchor -0.0546 0.0 0.0142
-          axis 0 1 0
+          axis 0 -1 0
           minStop -2.105
           maxStop 0.01
           staticFriction 0.8
