@@ -2,6 +2,7 @@ import {FieldModel} from './protoVisualizer/FieldModel.js';
 import Parameter from './protoVisualizer/Parameter.js';
 import { VRML } from './protoVisualizer/vrml_type.js';
 
+
 class NodeInfo {
   #url;
   #baseType;
@@ -40,6 +41,10 @@ class NodeInfo {
 
 export default class NodeSelectorWindow {
   #rootProto;
+  #devices = ['Accelerometer', 'Altimeter', 'Camera', 'Compass', 'Connector', 'Display',
+    'DistanceSensor', 'Emitter', 'GPS', 'Gyro', 'InertialUnit', 'LED', 'Lidar', 'LightSensor', 'Pen', 'Radar',
+    'RangeFinder', 'Receiver', 'Speaker', 'TouchSensor'];
+
   constructor(parentNode, rootProto) {
     this.#rootProto = rootProto;
 
@@ -405,11 +410,8 @@ export default class NodeSelectorWindow {
       } else {
         baseType = ['Group', 'Transform', 'Shape', 'CadShape', 'Solid', 'Robot', 'PointLight', 'SpotLight', 'Propeller',
           'Charger'];
-        if (this.isRobotDescendant()) {
-          baseType = baseType.concat(['Accelerometer', 'Altimeter', 'Camera', 'Compass', 'Connector', 'Display',
-            'DistanceSensor', 'Emitter', 'GPS', 'Gyro', 'InertialUnit', 'LED', 'Lidar', 'LightSensor', 'Pen', 'Radar',
-            'RangeFinder', 'Receiver', 'Speaker', 'TouchSensor']);
-        }
+        if (this.isRobotDescendant())
+          baseType = baseType.concat(this.#devices);
       }
     } else if (['baseColorMap', 'roughnessMap', 'metalnessMap', 'normalMap', 'occlusionMap',
       'emissiveColorMap', 'texture'].includes(fieldName))
@@ -437,6 +439,8 @@ export default class NodeSelectorWindow {
       baseType = ['LensFlare'];
     else if (fieldName === 'material')
       baseType = ['Material'];
+    else if (fieldName === 'rotatingHead')
+      baseType = ['Solid', 'Robot', 'Charger', 'Track'].concat(this.#devices);
 
     return baseType;
   }
@@ -495,8 +499,6 @@ export default class NodeSelectorWindow {
 
     let node = parentNode;
     let parentField = node?.parentField;
-    if (typeof parentField === 'undefined')
-      throw new Error('The parent field should be defined when attempting a node insertion.');
 
     while (typeof node !== 'undefined' && typeof parentField !== 'undefined') {
       while (parentField instanceof Parameter && parentField.aliasLinks.length > 0)

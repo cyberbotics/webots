@@ -653,7 +653,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         parameter.removeNode(this.#view, i);
 
       const protoModel = parameter.node.model;
-      const parameterModel = protoModel['parameters'][parameter.name]['defaultValue'];
+      const parameterModel = protoModel[parameter.node.isProto ? 'parameters' : 'fields'][parameter.name]['defaultValue'];
       const mfnode = vrmlFactory(VRML.MFNode, parameterModel, true);
       const resetButtonRow = this.#getRow(resetButton);
       // two times because of the `add` button and plus one for the first `add` button.

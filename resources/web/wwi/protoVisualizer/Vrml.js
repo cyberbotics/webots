@@ -901,47 +901,48 @@ export class MFNode extends MultipleValue {
   }
 }
 
-export function vrmlFactory(type, tokenizer, rewind) {
-  if (rewind)
-    tokenizer.rewind(); // ensures the tokenizer starts from the beginning every time
+export function vrmlFactory(type, tokenizerOrModel, rewind) {
+  if (rewind && tokenizerOrModel instanceof Tokenizer)
+    // PROTO parameters are initialized from a tokenizer (from cProtoModels), base node fields from a JSON (FieldModel)
+    tokenizerOrModel.rewind(); // ensures the tokenizer starts from the beginning every time
 
   switch (type) {
     case VRML.SFBool:
-      return new SFBool(tokenizer);
+      return new SFBool(tokenizerOrModel);
     case VRML.SFInt32:
-      return new SFInt32(tokenizer);
+      return new SFInt32(tokenizerOrModel);
     case VRML.SFFloat:
-      return new SFFloat(tokenizer);
+      return new SFFloat(tokenizerOrModel);
     case VRML.SFString:
-      return new SFString(tokenizer);
+      return new SFString(tokenizerOrModel);
     case VRML.SFVec2f:
-      return new SFVec2f(tokenizer);
+      return new SFVec2f(tokenizerOrModel);
     case VRML.SFVec3f:
-      return new SFVec3f(tokenizer);
+      return new SFVec3f(tokenizerOrModel);
     case VRML.SFColor:
-      return new SFColor(tokenizer);
+      return new SFColor(tokenizerOrModel);
     case VRML.SFRotation:
-      return new SFRotation(tokenizer);
+      return new SFRotation(tokenizerOrModel);
     case VRML.SFNode:
-      return new SFNode(tokenizer);
+      return new SFNode(tokenizerOrModel);
     case VRML.MFBool:
-      return new MFBool(tokenizer);
+      return new MFBool(tokenizerOrModel);
     case VRML.MFInt32:
-      return new MFInt32(tokenizer);
+      return new MFInt32(tokenizerOrModel);
     case VRML.MFFloat:
-      return new MFFloat(tokenizer);
+      return new MFFloat(tokenizerOrModel);
     case VRML.MFString:
-      return new MFString(tokenizer);
+      return new MFString(tokenizerOrModel);
     case VRML.MFVec2f:
-      return new MFVec2f(tokenizer);
+      return new MFVec2f(tokenizerOrModel);
     case VRML.MFVec3f:
-      return new MFVec3f(tokenizer);
+      return new MFVec3f(tokenizerOrModel);
     case VRML.MFColor:
-      return new MFColor(tokenizer);
+      return new MFColor(tokenizerOrModel);
     case VRML.MFRotation:
-      return new MFRotation(tokenizer);
+      return new MFRotation(tokenizerOrModel);
     case VRML.MFNode:
-      return new MFNode(tokenizer);
+      return new MFNode(tokenizerOrModel);
     default:
       throw new Error('Unknown VRML type: ', type);
   }
