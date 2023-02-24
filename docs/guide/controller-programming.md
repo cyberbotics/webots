@@ -1028,7 +1028,8 @@ end
 In the ".wbt" file, it is possible to specify arguments that are passed to a controller when it starts.
 They are specified in the `controllerArgs` field of the [Robot](../reference/robot.md) node, and they are passed as parameters of the `main` function.
 For example, this can be used to specify parameters that vary for each robot's controller.
-Note that using MATLAB, the controller arguments retrieval is not supported.
+Note that the implementation will differ significantly across the different languages. 
+If using MATLAB, you must implement the controller as a [function](https://www.mathworks.com/help/matlab/matlab_prog/scripts-and-functions.html) with [`varargin`](https://www.mathworks.com/help/matlab/ref/varargin.html) to achieve similar results. 
 
 For example if we have:
 
@@ -1108,6 +1109,20 @@ public class Arguments {
       System.out.format("argv[%d]=%s\n",i, args[i]);
   }
 }
+```
+%tab-end
+
+%tab "MATLAB"
+```MATLAB
+function demo(varargin)
+
+% 'mfilename' returns the name of the controller
+wb_console_print(['argv[0]=', mfilename], WB_STDOUT);
+
+% 'varargin' contains the additional arguments
+for i=1:nargin 
+    wb_console_print(sprintf('argv[%d]=%s\n', i, varargin{i}), WB_STDOUT);
+end
 ```
 %tab-end
 %end

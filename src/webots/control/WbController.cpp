@@ -590,6 +590,7 @@ void WbController::setProcessEnvironment() {
     // these variables are read by lib/matlab/launcher.m
     env.insert("WEBOTS_PROJECT", WbProject::current()->current()->path().toUtf8());
     env.insert("WEBOTS_CONTROLLER_NAME", name().toUtf8());
+    env.insert("WEBOTS_CONTROLLER_ARGS", mRobot->controllerArgs().join(";").toUtf8());
     env.insert("WEBOTS_VERSION", WbApplicationInfo::version().toString().toUtf8());
   }
   env.insert("WEBOTS_INSTANCE_PATH", WbStandardPaths::webotsTmpPath());
