@@ -412,7 +412,7 @@ export default class NodeSelectorWindow {
         }
       }
     } else if (['baseColorMap', 'roughnessMap', 'metalnessMap', 'normalMap', 'occlusionMap',
-      'emissiveColorMap'].includes(fieldName))
+      'emissiveColorMap', 'texture'].includes(fieldName))
       baseType = ['ImageTexture'];
     else if (fieldName === 'textureTransform')
       baseType = ['TextureTransform'];
@@ -435,6 +435,8 @@ export default class NodeSelectorWindow {
       baseType = ['Recognition'];
     else if (fieldName === 'lensFlare')
       baseType = ['LensFlare'];
+    else if (fieldName === 'material')
+      baseType = ['Material'];
 
     return baseType;
   }
