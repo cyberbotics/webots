@@ -199,7 +199,7 @@ export default class NodeSelectorWindow {
       if (!this.doFieldRestrictionsAllowNode(name))
         continue;
 
-      // don't display PROTO nodes which have been filtered-out by the user's "filter" widget
+      // don't display base nodes nodes which have been filtered-out by the user's "filter" widget
       if (!info.url.toLowerCase().includes(filterInput.value) && !info.baseType.toLowerCase().includes(filterInput.value))
         continue;
 
