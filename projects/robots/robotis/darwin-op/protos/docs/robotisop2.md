@@ -90,7 +90,7 @@ RobotisOp2 {
 
 #### RobotisOp2Hinge2 Variant
 
-A variant of this [PROTO](https://cyberbotics.com/doc/reference/proto) where the joints of the ankles, hips and neck have been modeled using [Hinge2Joint](https://cyberbotics.com/doc/reference/hinge2joint) instead of [HingeJoint](https://cyberbotics.com/doc/reference/hingejoint) nodes is also available.
+A variant of this [PROTO](https://cyberbotics.com/doc/reference/proto) where the joints of the ankles, hips and neck have been modeled using [Hinge2Joint](https://cyberbotics.com/doc/reference/hinge2joint) instead of [HingeJoint](https://cyberbotics.com/doc/reference/hingejoint) nodes is also available. You can see it [here](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/robotis/darwin-op/protos/RobotisOp2Hinge2.proto).
 
 This variant is more computationally efficient while still modeling the robot with great accuracy.
 
