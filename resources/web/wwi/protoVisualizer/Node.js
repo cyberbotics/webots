@@ -125,6 +125,11 @@ export default class Node {
     if (this.isTemplate)
       protoBody = this.regenerateBodyVrml(protoBody);
 
+    const re = /"(?:[^"]*)\.(jpe?g|png|hdr|obj|stl|dae)"/g;
+    let result;
+    while ((result = re.exec(protoBody)) !== null)
+      protoBody = protoBody.replace(result[0], '"' + combinePaths(result[0].slice(1, -1), this.url) + '"');
+
     // configure non-default fields from tokenizer
     const tokenizer = new Tokenizer(protoBody, this, this.externProto);
     tokenizer.tokenize();

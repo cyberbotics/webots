@@ -125,6 +125,7 @@ export default class Field {
       this.node.createBaseType(); // regenerate the base type
 
       this.node.resetRefs(); // reset the instance counters
+      const promises = [];
       // insert the new node on the webotsjs side
       for (const id of parentIds) {
         // note: there must be as many id assignments as there are parents, this is because on the webotsjs side the instances
@@ -132,10 +133,10 @@ export default class Field {
         // (with unique ids) for each node
         this.node.assignId();
         const x3d = new XMLSerializer().serializeToString(this.node.toX3d(this));
-        view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', id.replace('n', ''));
+        promises.push(view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', id.replace('n', '')));
       }
 
-      view.x3dScene.render();
+      Promise.all(promises).then(() => view.x3dScene.render());
       return;
     }
 
