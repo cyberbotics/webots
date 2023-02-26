@@ -36,6 +36,7 @@ To test MATLAB in Webots, start Webots and open the "WEBOTS\_HOME/projects/langu
 Webots automatically starts MATLAB when it detects an m-file in a controller directory.
 Note that the m-file must be named after its directory in order to be identified as a controller file by Webots.
 So, for example, if the directory is named "my\_controller", then the controller m-file must be named "my\_controller/my\_controller.m".
+Additionally, the m-file should have the necessary `function` declaration on the first line, matching the controller name.
 
 No special initialization code is necessary in the controller m-file.
 In fact Webots calls an intermediate "launcher.m" file that sets up the Webots controller environment and then calls the controller m-file.
