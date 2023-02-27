@@ -43,7 +43,7 @@ For that purpose, the name of the license should be specified in the `license:` 
 #### Tags
 
 If needed, the `tags:` comment should be properly specified.
-It currently supports three possible options: `deprecated`, `hidden` and `nonDeterministic` which may be used simultaneously separated with a coma:
+It currently supports four possible options: `deprecated`, `hidden`, `nonDeterministic` amd `no3dView` which may be used simultaneously separated with a coma:
 - `deprecated` means this PROTO should not be used any more in new simulations, but is kept for backwards compatibility. When using a deprecated PROTO, Webots will display a warning message about it.
 - `hidden` tells Webots not to display this PROTO in the Add Node dialog when the user wants to insert a new PROTO.
 Hidden PROTO nodes are typically used as sub-PROTO nodes, that is they are used from another PROTO file, but not directly from a world file.
