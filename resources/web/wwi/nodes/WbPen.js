@@ -2,6 +2,7 @@ import WbDevice from './WbDevice.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import {arrayXPointerFloat} from './utils/utils.js';
+import {WbNodeType} from './wb_node_type.js';
 
 // This class is used to retrieve the type of device
 export default class WbPen extends WbDevice {
@@ -13,6 +14,10 @@ export default class WbPen extends WbDevice {
   constructor(id, translation, scale, rotation, name, write) {
     super(id, translation, scale, rotation, name);
     this.#write = write;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_PEN;
   }
 
   get write() {

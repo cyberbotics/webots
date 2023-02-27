@@ -4,6 +4,7 @@ import ImageLoader from '../ImageLoader.js';
 import WbAppearance from './WbAppearance.js';
 import WbBaseNode from './WbBaseNode.js';
 import WbWorld from './WbWorld.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbImageTexture extends WbBaseNode {
   #filtering;
@@ -24,6 +25,10 @@ export default class WbImageTexture extends WbBaseNode {
 
     this.#wrenTextureIndex = 0;
     this.#usedFiltering = 0;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_IMAGE_TEXTURE;
   }
 
   get isTransparent() {
@@ -148,6 +153,9 @@ export default class WbImageTexture extends WbBaseNode {
   }
 
   updateUrl() {
+    if (typeof this.#url === 'undefined')
+      return;
+
     // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
     this.#url = this.#url.replaceAll('\\', '/');
 

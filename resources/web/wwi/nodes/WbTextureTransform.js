@@ -1,5 +1,6 @@
 import WbBaseNode from './WbBaseNode.js';
 import WbWorld from './WbWorld.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbTextureTransform extends WbBaseNode {
   #center;
@@ -13,6 +14,10 @@ export default class WbTextureTransform extends WbBaseNode {
     this.#rotation = rotation;
     this.#scale = scale;
     this.#translation = translation;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_TEXTURE_TRANSFORM;
   }
 
   get center() {
