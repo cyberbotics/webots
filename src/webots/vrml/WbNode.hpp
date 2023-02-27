@@ -361,7 +361,6 @@ private:
   QList<WbField *> mParameters;
   QByteArray mProtoInstanceTemplateContent;
   bool mRegenerationRequired;
-  bool mIsTemplateRegeneratorDescendant;
 
   // for proto parameter nodes only
   bool mIsNestedProtoNode;
