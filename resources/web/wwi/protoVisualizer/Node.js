@@ -295,9 +295,10 @@ export default class Node {
 
   regenerateBodyVrml(protoBody) {
     const fieldsEncoding = this.toJS(true); // make current proto parameters in a format compliant to template engine
-    const templateEngine = new TemplateEngine(Math.abs(getAnId().replace('n', '')), this.model['version']);
+    if (typeof this.templateEngine === 'undefined')
+      this.templateEngine = new TemplateEngine(this.model['version']);
 
-    return templateEngine.generateVrml(fieldsEncoding, protoBody);
+    return this.templateEngine.generateVrml(fieldsEncoding, protoBody);
   };
 
   toJS(isFirstNode = false) {

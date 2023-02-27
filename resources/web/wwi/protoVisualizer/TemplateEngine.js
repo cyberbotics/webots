@@ -6,7 +6,8 @@ import * as wbvector2 from './templating/modules/webots/wbvector2.js';
 import * as wbvector3 from './templating/modules/webots/wbvector3.js';
 
 export default class TemplateEngine {
-  constructor(id, version) {
+  constructor(version) {
+    this.id = Date.now();
     this.minimalTemplate = `
     function render(text) {
       return text;
@@ -32,7 +33,7 @@ export default class TemplateEngine {
       webots_home: '',
       temporary_files_path: '',
       os: 'linux',
-      id: ${id},
+      id: ${this.id},
       coordinate_system: 'ENU'
     }
     `;
