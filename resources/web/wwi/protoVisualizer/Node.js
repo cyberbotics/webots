@@ -4,13 +4,14 @@ import {getAnId} from '../nodes/utils/id_provider.js';
 import TemplateEngine from './TemplateEngine.js';
 import Tokenizer from './Tokenizer.js';
 import {vrmlFactory} from './Vrml.js';
-import {isBaseNode, FieldModel} from './FieldModel.js';
+import {FieldModel} from './FieldModel.js';
 import {Parameter} from './Parameter.js';
 import Field from './Field.js';
-import { VRML } from './vrml_type.js';
+import {VRML} from './vrml_type.js';
 
 export default class Node {
   static cProtoModels = new Map();
+  #parentField;
 
   constructor(url, parameterTokenizer, isRoot = false) {
     this.url = url;
@@ -45,10 +46,18 @@ export default class Node {
         const hidden = parameterModel['hidden'];
         const defaultValue = vrmlFactory(parameterType, initializer, true);
         const value = vrmlFactory(parameterType, initializer, true);
-
         const parameter = new Parameter(this, parameterName, parameterType, defaultValue, value, restrictions,
           isTemplateRegenerator, hidden);
         this.parameters.set(parameterName, parameter);
+
+        if (parameterType === VRML.SFNode && parameter.value.value !== null)
+          parameter.value.value.parentField = parameter;
+        else if (parameterType === VRML.MFNode) {
+          for (const item of parameter.value.value) {
+            if (item instanceof Node)
+              item.parentField = parameter;
+          }
+        }
       }
 
       // configure the parameters based on the VRML provided in the PROTO body (typically, in a derived PROTO context,
@@ -67,13 +76,32 @@ export default class Node {
       this.assignId(); // navigates through the base-nodes of the structure, and fills the "this.ids" list
   };
 
+  get parentField() {
+    return this.#parentField;
+  }
+
+  set parentField(parent) {
+    this.#parentField = parent;
+    if (typeof this.baseType !== 'undefined')
+      this.baseType.parentField = parent;
+  }
+
   generateInternalFields() {
     // set field values based on field model
-    for (const fieldName of Object.keys(this.model)) {
-      const type = this.model[fieldName]['type'];
-      const value = vrmlFactory(type, this.model[fieldName]['defaultValue'], false);
-      const defaultValue = vrmlFactory(type, this.model[fieldName]['defaultValue'], false);
+    for (const fieldName of Object.keys(this.model['fields'])) {
+      const type = this.model['fields'][fieldName]['type'];
+      const value = vrmlFactory(type, this.model['fields'][fieldName]['defaultValue'], false);
+      const defaultValue = vrmlFactory(type, this.model['fields'][fieldName]['defaultValue'], false);
       const field = new Field(this, fieldName, type, defaultValue, value);
+
+      if (type === VRML.SFNode && field.value.value !== null)
+        field.value.value.parentField = field;
+      else if (type === VRML.MFNode) {
+        for (const item of field.value.value) {
+          if (item instanceof Node)
+            item.parentField = field;
+        }
+      }
       this.fields.set(fieldName, field);
     }
   }
@@ -135,10 +163,8 @@ export default class Node {
             const p = tokenizer.proto.parameters.get(alias);
             fieldValue.value = p.value;
             p.addAliasLink(fieldValue);
-            if (fieldValue instanceof Parameter && !p.isTemplateRegenerator)
-              p.isTemplateRegenerator = fieldValue.isTemplateRegenerator;
           } else
-            fieldValue.value.setValueFromTokenizer(tokenizer);
+            fieldValue.value.setValueFromTokenizer(tokenizer, fieldValue);
         }
       }
     }
@@ -147,14 +173,14 @@ export default class Node {
   }
 
   printStructure(depth = 0) { // for debugging purposes
-    const index = '--'.repeat(depth);
+    const indent = '--'.repeat(depth);
     if (this.isProto)
       return this.baseType.printStructure(depth);
 
-    console.log(index + this.name, this.ids);
+    console.log(indent + this.name, this.ids);
 
     for (const [fieldName, field] of this.fields) {
-      console.log(index + fieldName);
+      console.log(indent + fieldName);
       if (field.type === VRML.SFNode && field.value.value !== null)
         field.value.value.printStructure(depth + 1);
       else if (field.type === VRML.MFNode) {
@@ -220,16 +246,27 @@ export default class Node {
     }
   }
 
-  toX3d(isUse) {
+  toX3d(parameter) {
     if (this.isRoot)
       this.resetRefs(); // resets the instance counters
 
     this.xml = document.implementation.createDocument('', '', null);
 
     if (this.isProto)
-      return this.baseType.toX3d();
+      return this.baseType.toX3d(parameter);
 
     const nodeElement = this.xml.createElement(this.name);
+
+    if (typeof parameter !== 'undefined') {
+      // follow IS chain down to basenode
+      let p = parameter;
+      while (p instanceof Parameter && p.aliasLinks.length > 0)
+        p = p.aliasLinks[0];
+
+      if (this.name === 'ImageTexture' || (p.name === 'boundingObject' && ['Group', 'Transform'].includes(this.name)))
+        nodeElement.setAttribute('role', p.name);
+    }
+
     if (this.refId > this.ids.length - 1)
       throw new Error('Something has gone wrong, the refId is bigger the number of available ids.');
     const id = this.ids[this.refId++];
@@ -279,6 +316,10 @@ export default class Node {
     return `{node_name: '${this.name}', fields: {${jsFields.slice(0, -2)}}}`;
   }
 
+  fieldsOrParameters() {
+    return this.isProto ? this.parameters : this.fields;
+  }
+
   static async prepareProtoDependencies(protoUrl) {
     return new Promise((resolve, reject) => {
       const xmlhttp = new XMLHttpRequest();
@@ -316,7 +357,8 @@ export default class Node {
   }
 
   static async createNode(url, tokenizer, isRoot) {
-    await Node.prepareProtoDependencies(url);
+    if (!isBaseNode(url))
+      await Node.prepareProtoDependencies(url);
     return new Node(url, tokenizer, isRoot);
   }
 
@@ -430,4 +472,8 @@ function combinePaths(url, parentUrl) {
   return newUrl;
 }
 
-export { Node };
+function isBaseNode(nodeName) {
+  return typeof FieldModel[nodeName] !== 'undefined';
+}
+
+export { Node, isBaseNode };

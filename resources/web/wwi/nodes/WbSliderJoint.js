@@ -1,5 +1,6 @@
 import WbJoint from './WbJoint.js';
 import WbVector3 from './utils/WbVector3.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbSliderJoint extends WbJoint {
   #device;
@@ -7,6 +8,10 @@ export default class WbSliderJoint extends WbJoint {
   constructor(id) {
     super(id);
     this.#device = [];
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_SLIDER_JOINT;
   }
 
   get device() {
