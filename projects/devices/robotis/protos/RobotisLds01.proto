@@ -1,7 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#lds-01
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/robotis/protos/RobotisLds01.proto
 # Model of the Robotis LDS-01 Laser Distance Sensor
 # Reference: http://www.robotis.us/360-laser-distance-sensor-lds-01-lidar/
 # template language: javascript
@@ -148,7 +148,7 @@ PROTO RobotisLds01 [
         name "screw3"
         screwRadius 0.0015
         screwLength 0.02
-        enablePhysics IS physics
+        enablePhysics IS enablePhysics
       }
     ]
     name IS name

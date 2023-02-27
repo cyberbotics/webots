@@ -2,6 +2,7 @@ import WbDevice from './WbDevice.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 import {arrayXPointerFloat} from './utils/utils.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbRadar extends WbDevice {
   #horizontalFieldOfView;
@@ -20,6 +21,10 @@ export default class WbRadar extends WbDevice {
     this.#maxRange = maxRange;
     this.#minRange = minRange;
     this._isFrustumEnabled = false;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_RADAR;
   }
 
   get horizontalFieldOfView() {

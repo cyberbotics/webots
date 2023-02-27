@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -61,7 +61,7 @@ void WbProtoTreeItem::parseItem() {
   while (it.hasNext()) {
     const QRegularExpressionMatch match = it.next();
     if (match.hasMatch()) {
-      const bool isImportable = !match.captured(1).isEmpty();
+      const bool hasImportableKeyword = !match.captured(1).isEmpty();
       const QString subProto = match.captured(2);
       const QString subProtoUrl = WbUrl::combinePaths(subProto, mUrl);
       if (subProtoUrl.isEmpty())
@@ -100,7 +100,7 @@ void WbProtoTreeItem::parseItem() {
         continue;
       }
 
-      WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this, isImportable);
+      WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this, hasImportableKeyword);
       mChildren.append(child);
     }
   }

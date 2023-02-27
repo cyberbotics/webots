@@ -2,6 +2,7 @@ import {findUpperTransform} from './utils/node_utilities.js';
 import {resetVector3IfNegative, resetIfNegative, resetIfNotInRangeWithIncludedBounds} from './utils/WbFieldChecker.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbLight from './WbLight.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbSpotLight extends WbLight {
   #attenuation;
@@ -23,6 +24,10 @@ export default class WbSpotLight extends WbLight {
 
     if (typeof parent !== 'undefined')
       this.parent = parent.id;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_SPOT_LIGHT;
   }
 
   get attenuation() {

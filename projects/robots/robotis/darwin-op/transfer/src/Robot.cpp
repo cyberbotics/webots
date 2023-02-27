@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -63,7 +63,7 @@ webots::Robot::Robot() {
   for (motorIt = Motor::mNamesToIDs.begin(); motorIt != Motor::mNamesToIDs.end(); ++motorIt) {
     ::Robot::MotionStatus::m_CurrentJoints.SetEnable((*motorIt).second, 0);
     ::Robot::MotionStatus::m_CurrentJoints.SetValue((*motorIt).second,
-                                                    ((Motor *)mDevices[(*motorIt).first])->getGoalPosition());
+                                                    (dynamic_cast<Motor *>(mDevices[(*motorIt).first]))->getGoalPosition());
   }
 
   // Make each motors go to the start position slowly
@@ -145,19 +145,19 @@ int webots::Robot::step(int duration) {
   values[0] = mCM730->m_BulkReadData[::Robot::CM730::ID_CM].ReadWord(::Robot::CM730::P_GYRO_X_L);
   values[1] = mCM730->m_BulkReadData[::Robot::CM730::ID_CM].ReadWord(::Robot::CM730::P_GYRO_Y_L);
   values[2] = mCM730->m_BulkReadData[::Robot::CM730::ID_CM].ReadWord(::Robot::CM730::P_GYRO_Z_L);
-  ((Gyro *)mDevices["Gyro"])->setValues(values);
+  (dynamic_cast<Gyro *>(mDevices["Gyro"]))->setValues(values);
 
   // Accelerometer
   values[0] = mCM730->m_BulkReadData[::Robot::CM730::ID_CM].ReadWord(::Robot::CM730::P_ACCEL_X_L);
   values[1] = mCM730->m_BulkReadData[::Robot::CM730::ID_CM].ReadWord(::Robot::CM730::P_ACCEL_Y_L);
   values[2] = mCM730->m_BulkReadData[::Robot::CM730::ID_CM].ReadWord(::Robot::CM730::P_ACCEL_Z_L);
-  ((Accelerometer *)mDevices["Accelerometer"])->setValues(values);
+  (dynamic_cast<Accelerometer *>(mDevices["Accelerometer"]))->setValues(values);
   // Led states
   values[0] = mCM730->m_BulkReadData[::Robot::CM730::ID_CM].ReadWord(::Robot::CM730::P_LED_HEAD_L);
   values[1] = mCM730->m_BulkReadData[::Robot::CM730::ID_CM].ReadWord(::Robot::CM730::P_LED_EYE_L);
   values[2] = mCM730->m_BulkReadData[::Robot::CM730::ID_CM].ReadByte(::Robot::CM730::P_LED_PANNEL);
-  ((LED *)mDevices["HeadLed"])->setColor(values[0]);
-  ((LED *)mDevices["EyeLed"])->setColor(values[1]);
+  (dynamic_cast<LED *>(mDevices["HeadLed"]))->setColor(values[0]);
+  (dynamic_cast<LED *>(mDevices["EyeLed"]))->setColor(values[1]);
   LED::setBackPanel(values[2]);
 
   // push button state (TODO: check with real robot that the masks are correct)

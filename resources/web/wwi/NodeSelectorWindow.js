@@ -1,16 +1,21 @@
+import {FieldModel} from './protoVisualizer/FieldModel.js';
 import Parameter from './protoVisualizer/Parameter.js';
 import { VRML } from './protoVisualizer/vrml_type.js';
 
-class ProtoInfo {
+
+class NodeInfo {
   #url;
   #baseType;
   #license;
   #description;
-  constructor(url, baseType, license, description) {
+  #icon;
+  constructor(url, baseType, license, description, icon) {
     this.#url = url;
     this.#baseType = baseType;
     this.#license = license;
     this.#description = description;
+    this.#license = license;
+    this.#icon = icon;
   }
 
   get url() {
@@ -28,10 +33,18 @@ class ProtoInfo {
   get description() {
     return this.#description;
   }
+
+  get icon() {
+    return this.#icon;
+  }
 }
 
 export default class NodeSelectorWindow {
   #rootProto;
+  #devices = ['Accelerometer', 'Altimeter', 'Camera', 'Compass', 'Connector', 'Display',
+    'DistanceSensor', 'Emitter', 'GPS', 'Gyro', 'InertialUnit', 'LED', 'Lidar', 'LightSensor', 'Pen', 'Radar',
+    'RangeFinder', 'Receiver', 'Speaker', 'TouchSensor'];
+
   constructor(parentNode, rootProto) {
     this.#rootProto = rootProto;
 
@@ -115,7 +128,7 @@ export default class NodeSelectorWindow {
       if (typeof this.selection === 'undefined')
         return;
 
-      this.insertNode(this.selection.innerText);
+      this.insertNode(this.selection.innerText, this.selection.baseNode ? this.baseNodes : this.protoNodes);
     };
 
     const cancelButton = document.createElement('button');
@@ -150,7 +163,7 @@ export default class NodeSelectorWindow {
     return fetch('https://' + url + '/ajax/proto/insertable.php', {method: 'post', body: JSON.stringify(content)})
       .then(result => result.json())
       .then(json => {
-        this.nodes = new Map();
+        this.protoNodes = new Map();
         for (const proto of json) {
           let url = proto.url;
           url = url.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
@@ -159,9 +172,21 @@ export default class NodeSelectorWindow {
           let description = proto.description;
           if (typeof description !== 'undefined')
             description = description.replaceAll('\\n', '<br>');
-          const protoInfo = new ProtoInfo(url, baseType, license, description);
           const protoName = url.split('/').pop().replace('.proto', '');
-          this.nodes.set(protoName, protoInfo);
+          const icon = url.slice(0, url.lastIndexOf('/') + 1) + 'icons/' + protoName + '.png';
+          const nodeInfo = new NodeInfo(url, baseType, license, description, icon);
+          this.protoNodes.set(protoName, nodeInfo);
+        }
+
+        // add base nodes
+        this.baseNodes = new Map();
+        for (const baseType of content.base_types) {
+          if (Object.keys(FieldModel).includes(baseType)) {
+            const description = FieldModel[baseType]['description'].replaceAll('\\n', '<br>');
+            const icon = FieldModel[baseType]['icon'];
+            const license = 'Apache License 2.0';
+            this.baseNodes.set(baseType, new NodeInfo(baseType, baseType, license, description, icon));
+          }
         }
       });
   }
@@ -173,8 +198,23 @@ export default class NodeSelectorWindow {
     const nodeList = document.getElementById('node-list');
     nodeList.innerHTML = '';
 
-    const compatibleNodes = [];
-    for (const [name, info] of this.nodes) {
+    const compatibleBaseNodes = [];
+    for (const [name, info] of this.baseNodes) {
+      // filter nodes based on restrictions
+      if (!this.doFieldRestrictionsAllowNode(name))
+        continue;
+
+      // don't display base nodes nodes which have been filtered-out by the user's "filter" widget
+      if (!info.url.toLowerCase().includes(filterInput.value) && !info.baseType.toLowerCase().includes(filterInput.value))
+        continue;
+
+      compatibleBaseNodes.push(name);
+    }
+
+    compatibleBaseNodes.sort();
+
+    const compatibleProtoNodes = [];
+    for (const [name, info] of this.protoNodes) {
       // filter nodes based on restrictions
       if (!this.doFieldRestrictionsAllowNode(name))
         continue;
@@ -183,43 +223,87 @@ export default class NodeSelectorWindow {
       if (!info.url.toLowerCase().includes(filterInput.value) && !info.baseType.toLowerCase().includes(filterInput.value))
         continue;
 
-      compatibleNodes.push(name);
+      compatibleProtoNodes.push(name);
     }
 
-    compatibleNodes.sort();
+    compatibleProtoNodes.sort();
 
-    const ol = document.createElement('ol');
-    for (const name of compatibleNodes) {
+    const baseNodeItems = document.createElement('ol');
+    for (const name of compatibleBaseNodes) {
+      const item = this.#createNodeButton(name, true);
+      baseNodeItems.appendChild(item);
+    }
+
+    nodeList.appendChild(baseNodeItems);
+
+    if (compatibleBaseNodes.length > 0 && compatibleProtoNodes.length > 0) {
+      const hr = document.createElement('hr');
+      hr.style.width = '100%';
+      nodeList.appendChild(hr);
+    }
+
+    const protoItems = document.createElement('ol');
+    for (const name of compatibleProtoNodes) {
       const item = this.#createNodeButton(name);
-      ol.appendChild(item);
+      protoItems.appendChild(item);
     }
 
-    nodeList.appendChild(ol);
+    nodeList.appendChild(protoItems);
 
     // select first item by default, if any
-    if (ol.children.length === 0) {
+    if (baseNodeItems.children.length === 0 && protoItems.children.length === 0) {
       if (typeof this.selection !== 'undefined')
         this.selection.style.backgroundColor = '';
       this.selection = undefined;
     } else {
-      if (this.parameter.value.value === null || !compatibleNodes.includes(this.parameter.value.value.name))
-        this.selection = ol.children[0]; // select the first item if the parameter doesn't currently contain anything
-      else
-        this.selection = ol.children[compatibleNodes.indexOf(this.parameter.value.value.name)];
+      // select the node corresponding to the current value if one is present
+      if (this.parameter.type === VRML.SFNode) {
+        if (this.parameter.value.value === null) {
+          if (baseNodeItems.children.length > 0)
+            this.selection = baseNodeItems.children[0];
+          else
+            this.selection = protoItems.children[0];
+        } else {
+          let index = compatibleBaseNodes.indexOf(this.parameter.value.value.name);
+          if (index === -1) {
+            index = compatibleProtoNodes.indexOf(this.parameter.value.value.name);
+            if (index !== -1)
+              this.selection = protoItems.children[index];
+          } else
+            this.selection = baseNodeItems.children[index];
+        }
+      } else if (this.parameter.type === VRML.MFNode) {
+        if (this.parameter.value.value.length === 0) {
+          if (baseNodeItems.children.length > 0)
+            this.selection = baseNodeItems.children[0];
+          else
+            this.selection = protoItems.children[0];
+        } else {
+          const name = this.parameter.value.value[0].value.name;
+          let index = compatibleBaseNodes.indexOf(name);
+          if (index === -1) {
+            index = compatibleProtoNodes.indexOf(name);
+            if (index !== -1)
+              this.selection = protoItems.children[index];
+          } else
+            this.selection = baseNodeItems.children[index];
+        }
+      }
 
-      this.selection.style.backgroundColor = '#007acc';
+      if (typeof this.selection !== 'undefined')
+        this.selection.style.backgroundColor = '#007acc';
     }
 
     // populate node info
     this.populateNodeInfo(this.selection?.innerText);
   }
 
-  #createNodeButton(name) {
+  #createNodeButton(name, baseNode = false) {
     const item = document.createElement('li');
     const button = document.createElement('button');
     button.style.width = '100%';
     button.style.textAlign = 'left';
-    button.innerText = name;
+    button.innerHTML = baseNode ? name.italics() : name;
     item.appendChild(button);
 
     button.onclick = (item) => {
@@ -237,14 +321,14 @@ export default class NodeSelectorWindow {
     return item;
   }
 
-  populateNodeInfo(protoName) {
+  populateNodeInfo(nodeName) {
     const nodeImage = document.getElementById('node-image');
     const line = document.getElementById('line');
     const description = document.getElementById('node-description');
     const license = document.getElementById('node-license');
     const warning = document.getElementById('node-warning');
 
-    if (typeof protoName === 'undefined') {
+    if (typeof nodeName === 'undefined') {
       nodeImage.style.display = 'none';
       line.style.display = 'none';
       description.style.display = 'none';
@@ -257,9 +341,8 @@ export default class NodeSelectorWindow {
       license.style.display = 'block';
       warning.style.display = 'none';
 
-      const info = this.nodes.get(protoName);
-      const url = info.url;
-      nodeImage.src = url.slice(0, url.lastIndexOf('/') + 1) + 'icons/' + protoName + '.png';
+      const info = this.baseNodes.has(nodeName) ? this.baseNodes.get(nodeName) : this.protoNodes.get(nodeName);
+      nodeImage.src = info.icon;
       nodeImage.onerror = () => {
         nodeImage.onerror = undefined;
         nodeImage.src = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023a/resources/images/missing_proto_icon.png';
@@ -270,11 +353,11 @@ export default class NodeSelectorWindow {
     }
   }
 
-  insertNode(protoName) {
-    if (typeof protoName === 'undefined')
+  insertNode(nodeName) {
+    if (typeof nodeName === 'undefined')
       throw new Error('It should not be possible to insert an undefined node.');
 
-    const info = this.nodes.get(protoName);
+    const info = this.baseNodes.has(nodeName) ? this.baseNodes.get(nodeName) : this.protoNodes.get(nodeName);
     if (this.parameter.type === VRML.SFNode)
       this.callback(this.parameter, info.url);
     else
@@ -303,9 +386,6 @@ export default class NodeSelectorWindow {
     if (typeof this.parameter === 'undefined')
       throw new Error('The parameter is expected to be defined prior to checking node compatibility.');
 
-    if (this.parameter.aliasLinks.length <= 0)
-      throw new Error('The parameter has no IS.');
-
     let baseType = [];
     // get the field name linked to the parameter (full-depth)
     let p = this.parameter;
@@ -313,6 +393,8 @@ export default class NodeSelectorWindow {
       p = p.aliasLinks[0];
     const fieldName = p.name;
     const parentNode = p.node;
+
+    const isInBoundingObject = this.isInBoundingObject(fieldName, parentNode);
 
     if (fieldName === 'appearance')
       baseType = ['Appearance', 'PBRAppearance'];
@@ -322,20 +404,65 @@ export default class NodeSelectorWindow {
     } else if (fieldName === 'endPoint' && parentNode.name === 'Slot')
       baseType = ['Slot'];
     else if (fieldName === 'endPoint' || fieldName === 'children') {
-      baseType = ['Group', 'Transform', 'Shape', 'CadShape', 'Solid', 'Robot', 'PointLight', 'SpotLight', 'Propeller',
-        'Charger'];
-      if (this.isRobotDescendant()) {
-        baseType = baseType.concat(['Accelerometer', 'Altimeter', 'Camera', 'Compass', 'Connector', 'Display',
-          'DistanceSensor', 'Emitter', 'GPS', 'Gyro', 'InertialUnit', 'LED', 'Lidar', 'LightSensor', 'Pen', 'Radar',
-          'RangeFinder', 'Receiver', 'Speaker', 'TouchSensor']);
+      if (fieldName === 'children' && isInBoundingObject) {
+        baseType = ['Box', 'Capsule', 'Cylinder', 'ElevationGrid', 'IndexedFaceSet', 'Mesh', 'Plane', 'Shape',
+          'Sphere', 'Transform'];
+      } else {
+        baseType = ['Group', 'Transform', 'Shape', 'CadShape', 'Solid', 'Robot', 'PointLight', 'SpotLight', 'Propeller',
+          'Charger'];
+        if (this.isRobotDescendant())
+          baseType = baseType.concat(this.#devices);
       }
-    }
+    } else if (['baseColorMap', 'roughnessMap', 'metalnessMap', 'normalMap', 'occlusionMap',
+      'emissiveColorMap', 'texture'].includes(fieldName))
+      baseType = ['ImageTexture'];
+    else if (fieldName === 'textureTransform')
+      baseType = ['TextureTransform'];
+    else if (fieldName === 'boundingObject') {
+      baseType = ['Box', 'Capsule', 'Cylinder', 'ElevationGrid', 'Group', 'IndexedFaceSet',  'Mesh', 'Plane', 'Shape',
+        'Sphere', 'Transform'];
+    } else if (fieldName === 'physics')
+      baseType = ['Physics'];
+    else if (fieldName === 'immersionProperties')
+      baseType = ['ImmersionProperties'];
+    else if (fieldName === 'damping')
+      baseType = ['Damping'];
+    else if (fieldName === 'lens')
+      baseType = ['Lens'];
+    else if (fieldName === 'focus')
+      baseType = ['Focus'];
+    else if (fieldName === 'zoom')
+      baseType = ['Zoom'];
+    else if (fieldName === 'recognition')
+      baseType = ['Recognition'];
+    else if (fieldName === 'lensFlare')
+      baseType = ['LensFlare'];
+    else if (fieldName === 'material')
+      baseType = ['Material'];
+    else if (fieldName === 'rotatingHead')
+      baseType = ['Solid', 'Robot', 'Charger', 'Track'].concat(this.#devices);
 
     return baseType;
   }
 
   getSlotType() {
-    const parentNode = this.parameter.aliasLinks[0].node;
+    let parentNode;
+    if (this.parameter instanceof Parameter) {
+      parentNode = this.parameter.aliasLinks[0].node;
+      let name = this.parameter.aliasLinks[0].name;
+      while (parentNode.isProto) {
+        const parameter = parentNode.parameters.get(name);
+        if (typeof parameter !== 'undefined') {
+          parentNode = parameter.aliasLinks[0].node;
+          name = parameter.aliasLinks[0].name;
+        } else {
+          console.error('Not able to find slot type.');
+          break;
+        }
+      }
+    } else
+      parentNode = this.parameter.node;
+
     let slotType = parentNode.fields.get('type').value.value.replaceAll('"', '');
 
     if (slotType.endsWith('+'))
@@ -351,9 +478,6 @@ export default class NodeSelectorWindow {
     const filterInput = document.getElementById('filter');
     filterInput.value = '';
 
-    if (!(parameter instanceof Parameter))
-      throw new Error('Cannot display node selector unless a parameter is provided.');
-
     this.parameter = parameter;
     this.element = element;
     this.callback = callback;
@@ -367,6 +491,27 @@ export default class NodeSelectorWindow {
 
   isRobotDescendant() {
     return this.#rootProto.getBaseNode().name === 'Robot';
+  }
+
+  isInBoundingObject(fieldName, parentNode) {
+    if (fieldName === 'boundingObject')
+      return true;
+
+    let node = parentNode;
+    let parentField = node?.parentField;
+
+    while (typeof node !== 'undefined' && typeof parentField !== 'undefined') {
+      while (parentField instanceof Parameter && parentField.aliasLinks.length > 0)
+        parentField = parentField.aliasLinks[0];
+
+      if (parentField.name === 'boundingObject')
+        return true;
+
+      node = node.parentField.node;
+      parentField = node?.parentField;
+    }
+
+    return false;
   }
 
   hide() {

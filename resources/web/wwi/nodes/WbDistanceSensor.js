@@ -4,6 +4,7 @@ import WbWrenShaders from '../wren/WbWrenShaders.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 import {arrayXPointerFloat} from './utils/utils.js';
 import WbVector3 from './utils/WbVector3.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbDistanceSensor extends WbDevice {
   #aperture;
@@ -44,6 +45,10 @@ export default class WbDistanceSensor extends WbDevice {
         [5 * SIXTH, 1]],
       [[0, 0], [0, 0.5], [THIRD, 0.5], [-THIRD, 0.5], [0, 1], [SIXTH, 1], [2 * SIXTH, 1], [3 * SIXTH, 1], [4 * SIXTH, 1],
         [5 * SIXTH, 1]]];
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_DISTANCE_SENSOR;
   }
 
   get aperture() {

@@ -2,6 +2,7 @@ import WbGeometry from './WbGeometry.js';
 import {resetIfNegative, resetIfNonPositive} from './utils/WbFieldChecker.js';
 import {arrayXPointerFloat} from './utils/utils.js';
 import WbVector3 from './utils/WbVector3.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbElevationGrid extends WbGeometry {
   #height;
@@ -18,6 +19,10 @@ export default class WbElevationGrid extends WbGeometry {
     this.#yDimension = yDimension;
     this.#ySpacing = ySpacing;
     this.#thickness = thickness;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_ELEVATION_GRID;
   }
 
   get height() {

@@ -4,13 +4,14 @@ import {getAnId} from '../nodes/utils/id_provider.js';
 import TemplateEngine from './TemplateEngine.js';
 import Tokenizer from './Tokenizer.js';
 import {vrmlFactory} from './Vrml.js';
-import {isBaseNode, FieldModel} from './FieldModel.js';
+import {FieldModel} from './FieldModel.js';
 import {Parameter} from './Parameter.js';
 import Field from './Field.js';
-import { VRML } from './vrml_type.js';
+import {VRML} from './vrml_type.js';
 
 export default class Node {
   static cProtoModels = new Map();
+  #parentField;
 
   constructor(url, parameterTokenizer, isRoot = false) {
     this.url = url;
@@ -42,12 +43,21 @@ export default class Node {
         const isTemplateRegenerator = parameterModel['isTemplateRegenerator'];
         const restrictions = parameterModel['restrictions'];
         const initializer = parameterModel['defaultValue'];
+        const hidden = parameterModel['hidden'];
         const defaultValue = vrmlFactory(parameterType, initializer, true);
         const value = vrmlFactory(parameterType, initializer, true);
-
         const parameter = new Parameter(this, parameterName, parameterType, defaultValue, value, restrictions,
-          isTemplateRegenerator);
+          isTemplateRegenerator, hidden);
         this.parameters.set(parameterName, parameter);
+
+        if (parameterType === VRML.SFNode && parameter.value.value !== null)
+          parameter.value.value.parentField = parameter;
+        else if (parameterType === VRML.MFNode) {
+          for (const item of parameter.value.value) {
+            if (item instanceof Node)
+              item.parentField = parameter;
+          }
+        }
       }
 
       // configure the parameters based on the VRML provided in the PROTO body (typically, in a derived PROTO context,
@@ -66,13 +76,32 @@ export default class Node {
       this.assignId(); // navigates through the base-nodes of the structure, and fills the "this.ids" list
   };
 
+  get parentField() {
+    return this.#parentField;
+  }
+
+  set parentField(parent) {
+    this.#parentField = parent;
+    if (typeof this.baseType !== 'undefined')
+      this.baseType.parentField = parent;
+  }
+
   generateInternalFields() {
     // set field values based on field model
-    for (const fieldName of Object.keys(this.model)) {
-      const type = this.model[fieldName]['type'];
-      const value = vrmlFactory(type, this.model[fieldName]['defaultValue'], false);
-      const defaultValue = vrmlFactory(type, this.model[fieldName]['defaultValue'], false);
+    for (const fieldName of Object.keys(this.model['fields'])) {
+      const type = this.model['fields'][fieldName]['type'];
+      const value = vrmlFactory(type, this.model['fields'][fieldName]['defaultValue'], false);
+      const defaultValue = vrmlFactory(type, this.model['fields'][fieldName]['defaultValue'], false);
       const field = new Field(this, fieldName, type, defaultValue, value);
+
+      if (type === VRML.SFNode && field.value.value !== null)
+        field.value.value.parentField = field;
+      else if (type === VRML.MFNode) {
+        for (const item of field.value.value) {
+          if (item instanceof Node)
+            item.parentField = field;
+        }
+      }
       this.fields.set(fieldName, field);
     }
   }
@@ -95,6 +124,11 @@ export default class Node {
 
     if (this.isTemplate)
       protoBody = this.regenerateBodyVrml(protoBody);
+
+    const re = /"(?:[^"]*)\.(jpe?g|png|hdr|obj|stl|dae)"/g;
+    let result;
+    while ((result = re.exec(protoBody)) !== null)
+      protoBody = protoBody.replace(result[0], '"' + combinePaths(result[0].slice(1, -1), this.url) + '"');
 
     // configure non-default fields from tokenizer
     const tokenizer = new Tokenizer(protoBody, this, this.externProto);
@@ -129,8 +163,10 @@ export default class Node {
             const p = tokenizer.proto.parameters.get(alias);
             fieldValue.value = p.value;
             p.addAliasLink(fieldValue);
+            if (fieldValue instanceof Parameter && !p.isTemplateRegenerator)
+              p.isTemplateRegenerator = fieldValue.isTemplateRegenerator;
           } else
-            fieldValue.value.setValueFromTokenizer(tokenizer);
+            fieldValue.value.setValueFromTokenizer(tokenizer, fieldValue);
         }
       }
     }
@@ -212,16 +248,27 @@ export default class Node {
     }
   }
 
-  toX3d(isUse) {
+  toX3d(parameter) {
     if (this.isRoot)
       this.resetRefs(); // resets the instance counters
 
     this.xml = document.implementation.createDocument('', '', null);
 
     if (this.isProto)
-      return this.baseType.toX3d();
+      return this.baseType.toX3d(parameter);
 
     const nodeElement = this.xml.createElement(this.name);
+
+    if (typeof parameter !== 'undefined') {
+      // follow IS chain down to basenode
+      let p = parameter;
+      while (p instanceof Parameter && p.aliasLinks.length > 0)
+        p = p.aliasLinks[0];
+
+      if (this.name === 'ImageTexture' || (p.name === 'boundingObject' && ['Group', 'Transform'].includes(this.name)))
+        nodeElement.setAttribute('role', p.name);
+    }
+
     if (this.refId > this.ids.length - 1)
       throw new Error('Something has gone wrong, the refId is bigger the number of available ids.');
     const id = this.ids[this.refId++];
@@ -257,13 +304,22 @@ export default class Node {
 
   toJS(isFirstNode = false) {
     let jsFields = '';
-    for (const [parameterName, parameter] of this.parameters)
-      jsFields += `${parameterName}: {value: ${parameter.value.toJS()}, defaultValue: ${parameter.defaultValue.toJS()}}, `;
+    if (this.isProto) {
+      for (const [parameterName, parameter] of this.parameters)
+        jsFields += `${parameterName}: {value: ${parameter.value.toJS()}, defaultValue: ${parameter.defaultValue.toJS()}}, `;
+    } else {
+      for (const [fieldName, field] of this.fields)
+        jsFields += `${fieldName}: {value: ${field.value.toJS()}, defaultValue: ${field.defaultValue.toJS()}}, `;
+    }
 
     if (isFirstNode)
       return jsFields.slice(0, -2);
 
     return `{node_name: '${this.name}', fields: {${jsFields.slice(0, -2)}}}`;
+  }
+
+  fieldsOrParameters() {
+    return this.isProto ? this.parameters : this.fields;
   }
 
   static async prepareProtoDependencies(protoUrl) {
@@ -303,7 +359,8 @@ export default class Node {
   }
 
   static async createNode(url, tokenizer, isRoot) {
-    await Node.prepareProtoDependencies(url);
+    if (!isBaseNode(url))
+      await Node.prepareProtoDependencies(url);
     return new Node(url, tokenizer, isRoot);
   }
 
@@ -344,12 +401,15 @@ export default class Node {
     model['baseType'] = rawBody.match(/\{\s*(?:%<[\s\S]*?(?:>%\s*))?(?:DEF\s+[^\s]+)?\s+([a-zA-Z0-9_\-+]+)\s*\{/)[1];
     model['parameters'] = {};
 
+    let hiddenField = false;
     while (!tokenizer.peekToken().isEof()) {
       const token = tokenizer.nextToken();
       let nextToken = tokenizer.peekToken();
-
       const restrictions = [];
-      if (token.isKeyword() && nextToken.isPunctuation()) {
+
+      if (token.isKeyword()) {
+        if (token.word() === 'hiddenField' || token.word() === 'deprecatedField')
+          hiddenField = true;
         if (nextToken.word() === '{') {
           // parse field restrictions
           tokenizer.skipToken('{');
@@ -363,20 +423,23 @@ export default class Node {
           tokenizer.skipToken('}');
           nextToken = tokenizer.peekToken(); // we need to update the nextToken as it has to point after the restrictions
         }
-      }
 
-      if (token.isKeyword() && nextToken.isIdentifier()) {
-        const parameterName = nextToken.word();
-        const parameterType = token.fieldTypeFromVrml();
-        const isRegenerator = rawBody.search('fields.' + parameterName + '.') !== -1;
-        tokenizer.nextToken(); // consume the token containing the parameter name
-        const defaultValue = tokenizer.spliceTokenizerByType(parameterType);
-        const parameter = {};
-        parameter['type'] = parameterType;
-        parameter['defaultValue'] = defaultValue;
-        parameter['isTemplateRegenerator'] = isRegenerator;
-        parameter['restrictions'] = restrictions;
-        model['parameters'][parameterName] = parameter;
+        if (nextToken.isIdentifier()) {
+          const parameterName = nextToken.word();
+          const parameterType = token.fieldTypeFromVrml();
+          const isRegenerator = rawBody.search('fields.' + parameterName + '.') !== -1;
+          tokenizer.nextToken(); // consume the token containing the parameter name
+          const defaultValue = tokenizer.spliceTokenizerByType(parameterType);
+          const parameter = {};
+          parameter['hidden'] = hiddenField;
+          if (hiddenField)
+            hiddenField = false;
+          parameter['type'] = parameterType;
+          parameter['defaultValue'] = defaultValue;
+          parameter['isTemplateRegenerator'] = isRegenerator;
+          parameter['restrictions'] = restrictions;
+          model['parameters'][parameterName] = parameter;
+        }
       }
     }
 
@@ -411,4 +474,8 @@ function combinePaths(url, parentUrl) {
   return newUrl;
 }
 
-export { Node };
+function isBaseNode(nodeName) {
+  return typeof FieldModel[nodeName] !== 'undefined';
+}
+
+export { Node, isBaseNode };

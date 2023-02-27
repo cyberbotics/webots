@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -89,40 +89,40 @@ WbTextEditor::~WbTextEditor() {
 }
 
 QToolBar *WbTextEditor::createToolBar() {
-  QToolBar *mToolBar = new QToolBar(this);
+  QToolBar *tb = new QToolBar(this);
   WbActionManager *actionManager = WbActionManager::instance();
 
   QAction *action = actionManager->action(WbAction::NEW_FILE);
-  mToolBar->addAction(action);
-  mToolBar->widgetForAction(action)->setObjectName("editorButton");
+  tb->addAction(action);
+  tb->widgetForAction(action)->setObjectName("editorButton");
 
   action = actionManager->action(WbAction::OPEN_FILE);
-  mToolBar->addAction(action);
-  mToolBar->widgetForAction(action)->setObjectName("editorButton");
+  tb->addAction(action);
+  tb->widgetForAction(action)->setObjectName("editorButton");
 
   action = actionManager->action(WbAction::SAVE_FILE);
-  mToolBar->addAction(action);
-  mToolBar->widgetForAction(action)->setObjectName("editorButton");
+  tb->addAction(action);
+  tb->widgetForAction(action)->setObjectName("editorButton");
 
   action = actionManager->action(WbAction::SAVE_FILE_AS);
-  mToolBar->addAction(action);
-  mToolBar->widgetForAction(action)->setObjectName("editorButton");
+  tb->addAction(action);
+  tb->widgetForAction(action)->setObjectName("editorButton");
 
   action = actionManager->action(WbAction::REVERT_FILE);
-  mToolBar->addAction(action);
-  mToolBar->widgetForAction(action)->setObjectName("editorButton");
+  tb->addAction(action);
+  tb->widgetForAction(action)->setObjectName("editorButton");
 
-  mToolBar->addSeparator();
+  tb->addSeparator();
 
   action = actionManager->action(WbAction::FIND);
-  mToolBar->addAction(action);
-  mToolBar->widgetForAction(action)->setObjectName("editorButton");
+  tb->addAction(action);
+  tb->widgetForAction(action)->setObjectName("editorButton");
 
   action = actionManager->action(WbAction::REPLACE);
-  mToolBar->addAction(action);
-  mToolBar->widgetForAction(action)->setObjectName("editorButton");
+  tb->addAction(action);
+  tb->widgetForAction(action)->setObjectName("editorButton");
 
-  return mToolBar;
+  return tb;
 }
 
 void WbTextEditor::connectActions() {
@@ -286,9 +286,9 @@ void WbTextEditor::handleUserCommand(WbAction::WbActionKind action) {
 }
 
 void WbTextEditor::newFile() {
-  WbTextBuffer *buffer = new WbTextBuffer(this);
-  connectBuffer(buffer);
-  mTabWidget->addTab(buffer, "New");
+  WbTextBuffer *textBuffer = new WbTextBuffer(this);
+  connectBuffer(textBuffer);
+  mTabWidget->addTab(textBuffer, "New");
   selectTab(mTabWidget->count() - 1);
   if (!isVisible())
     toggleViewAction()->trigger();
@@ -334,9 +334,9 @@ void WbTextEditor::openFileDialog() {
 
   // find a smart dir
   QString dir;
-  WbTextBuffer *buffer = currentBuffer();
-  if (buffer)
-    dir = buffer->path();
+  WbTextBuffer *textBuffer = currentBuffer();
+  if (textBuffer)
+    dir = textBuffer->path();
   else if (WbProject::current())
     dir = WbProject::current()->path();
   else
@@ -457,10 +457,10 @@ void WbTextEditor::deleteReplaceDialog() {
   mReplaceDialog = NULL;
 }
 
-void WbTextEditor::highlightSearchText(QRegularExpression regularExpression) {
-  WbTextBuffer *buffer = dynamic_cast<WbTextBuffer *>(mTabWidget->currentWidget());
-  if (buffer)
-    buffer->updateSearchTextHighlighting(regularExpression);
+void WbTextEditor::highlightSearchText(const QRegularExpression &regularExpression) {
+  WbTextBuffer *textBuffer = dynamic_cast<WbTextBuffer *>(mTabWidget->currentWidget());
+  if (textBuffer)
+    textBuffer->updateSearchTextHighlighting(regularExpression);
 }
 
 void WbTextEditor::goToLine() {
@@ -494,9 +494,9 @@ void WbTextEditor::printPreview() {
 
   if (!mPrinter)
     mPrinter = new QPrinter(QPrinter::HighResolution);
-  QPrintPreviewDialog preview(mPrinter, this);
-  connect(&preview, &QPrintPreviewDialog::paintRequested, this, &WbTextEditor::preview);
-  preview.exec();
+  QPrintPreviewDialog previewDialog(mPrinter, this);
+  connect(&previewDialog, &QPrintPreviewDialog::paintRequested, this, &WbTextEditor::preview);
+  previewDialog.exec();
 
   simulationState->resumeSimulation();
 }

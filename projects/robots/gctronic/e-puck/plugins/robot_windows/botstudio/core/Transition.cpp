@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -55,18 +55,18 @@ void Transition::fromString(const QString &string) {
   int startId = tokens[5].toInt();
   int endId = tokens[6].toInt();
 
-  State *startState = Model::instance()->automaton()->findStateById(startId);
-  State *endState = Model::instance()->automaton()->findStateById(endId);
+  State *startStateObject = Model::instance()->automaton()->findStateById(startId);
+  State *endStateObject = Model::instance()->automaton()->findStateById(endId);
 
   if (sChar.size() != 1 || sChar[0] != 'T')
     throw tr("Corrupted Transition (first parameter isn't a T)");
-  if (startState == NULL || endState == NULL)
+  if (startStateObject == NULL || endStateObject == NULL)
     throw tr("Corrupted transition (bad reference to state)");
 
   setPosition(QPointF(posX, posY));
   setName(name);
-  setStartState(startState);
-  setEndState(endState);
+  setStartState(startStateObject);
+  setEndState(endStateObject);
   setUniqueId(id);
   computeCurrentGlobalId(id);
 
@@ -105,16 +105,16 @@ void Transition::fromStringVersion3(const QString &string) {
   int startId = tokens[1].toInt();
   int endId = tokens[2].toInt();
 
-  State *startState = Model::instance()->automaton()->findStateById(startId);
-  State *endState = Model::instance()->automaton()->findStateById(endId);
+  State *startStateObject = Model::instance()->automaton()->findStateById(startId);
+  State *endStateObject = Model::instance()->automaton()->findStateById(endId);
 
-  if (startState == NULL || endState == NULL)
+  if (startStateObject == NULL || endStateObject == NULL)
     throw tr("Corrupted transition (bad reference to state)");
 
-  setPosition((startState->position() + endState->position()) / 2);
+  setPosition((startStateObject->position() + endStateObject->position()) / 2);
   setName(name);
-  setStartState(startState);
-  setEndState(endState);
+  setStartState(startStateObject);
+  setEndState(endStateObject);
 
   sensorCondition()->fromStringVersion3(tokenizer.remainingString());
 }

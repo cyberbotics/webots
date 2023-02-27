@@ -2,12 +2,17 @@ import WbGeometry from './WbGeometry.js';
 import {resetVector3IfNonPositive} from './utils/WbFieldChecker.js';
 import WbVector2 from './utils/WbVector2.js';
 import WbVector3 from './utils/WbVector3.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbBox extends WbGeometry {
   #size;
   constructor(id, size) {
     super(id);
     this.#size = size;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_BOX;
   }
 
   get size() {

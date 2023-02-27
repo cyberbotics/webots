@@ -3,12 +3,17 @@ import WbVector3 from './utils/WbVector3.js';
 import WbVector4 from './utils/WbVector4.js';
 import WbQuaternion from './utils/WbQuaternion.js';
 import {isZeroAngle} from './utils/math_utilities.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbHingeJoint extends WbJoint {
   #device;
   constructor(id) {
     super(id);
     this.#device = [];
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_HINGE_JOINT;
   }
 
   get device() {
@@ -58,6 +63,10 @@ export default class WbHingeJoint extends WbJoint {
   }
 
   #computeEndPointSolidPositionFromParameters(rotation) {
+    // case where there was not endPoint when the joint was created but one was added later.
+    if (typeof this._endPointZeroRotation === 'undefined')
+      this._updateEndPointZeroTranslationAndRotation();
+
     const axis = this.axis().normalized();
     const q = new WbQuaternion();
     q.fromAxisAngle(axis.x, axis.y, axis.z, this.position);

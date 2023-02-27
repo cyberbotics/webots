@@ -3,6 +3,7 @@ import {array3Pointer} from './utils/utils.js';
 import WbBaseNode from './WbBaseNode.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbWorld from './WbWorld.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbMaterial extends WbBaseNode {
   #ambientIntensity;
@@ -19,6 +20,10 @@ export default class WbMaterial extends WbBaseNode {
     this.#emissiveColor = emissiveColor;
     this.#shininess = shininess;
     this.#transparency = transparency;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_MATERIAL;
   }
 
   get ambientIntensity() {

@@ -54,7 +54,7 @@ void Graph2D::clear() {
 
 void Graph2D::addNewColor(const QColor &color) {
   bool found = false;
-  foreach (QColor *currentColor, mColors) {
+  foreach (const QColor *currentColor, mColors) {
     if (color == *currentColor) {
       found = true;
       break;

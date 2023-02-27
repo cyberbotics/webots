@@ -4,6 +4,8 @@ import ProtoManager from './ProtoManager.js';
 import {webots} from './webots.js';
 import {changeGtaoLevel} from './nodes/wb_preferences.js';
 import WbWorld from './nodes/WbWorld.js';
+import WbDevice from './nodes/WbDevice.js';
+import WbVector3 from './nodes/utils/WbVector3.js';
 
 /* The following member variables can be set by the application:
 
@@ -373,14 +375,14 @@ export default class WebotsView extends HTMLElement {
     this.innerHTML = null;
   }
 
-  loadProto(proto, isMobileDevice, thumbnail) {
+  loadProto(proto, isMobileDevice, thumbnail, moveFloor) {
     if (typeof proto === 'undefined') {
       console.error('No proto file defined');
       return;
     }
 
     if (!this.initializationComplete)
-      setTimeout(() => this.loadProto(proto, isMobileDevice, thumbnail), 500);
+      setTimeout(() => this.loadProto(proto, isMobileDevice, thumbnail, moveFloor), 500);
     else {
       // terminate the previous activity if any
       this.close();
@@ -390,7 +392,7 @@ export default class WebotsView extends HTMLElement {
         this._view = new webots.View(this, isMobileDevice);
       this.protoManager = new ProtoManager(this._view);
       this.protoManager.loadProto(proto);
-      this._view.onready = () => {
+      this._view.onready = async() => {
         this.toolbar = new Toolbar(this._view, 'proto', this);
         if (typeof this.onready === 'function')
           this.onready();
@@ -398,6 +400,9 @@ export default class WebotsView extends HTMLElement {
         this.resize();
         this.toolbar.protoParameterWindowInitializeSizeAndPosition();
         const topProtoNode = WbWorld.instance.root.children[WbWorld.instance.root.children.length - 1];
+        if (topProtoNode instanceof WbDevice || moveFloor === '1')
+          this.#repositionFloor(topProtoNode, WbWorld.instance.root.children[WbWorld.instance.root.children.length - 2]);
+
         WbWorld.instance.viewpoint.moveViewpointToObject(topProtoNode);
         WbWorld.instance.viewpoint.defaultPosition = WbWorld.instance.viewpoint.position;
         this._view.x3dScene.render();
@@ -406,6 +411,23 @@ export default class WebotsView extends HTMLElement {
       this.#hasProto = true;
       this.#closeWhenDOMElementRemoved();
     }
+  }
+
+  #repositionFloor(proto, floor) {
+    const boundingSphere = proto.boundingSphere();
+    if (typeof boundingSphere === 'undefined')
+      return;
+
+    boundingSphere.recomputeIfNeeded(false);
+    if (boundingSphere.isEmpty())
+      return;
+
+    const results = boundingSphere.computeSphereInGlobalCoordinates();
+    const boundingSphereCenter = results[0];
+    const radius = results[1];
+
+    if (floor.translation)
+      floor.translation = new WbVector3(0, 0, boundingSphereCenter.z - radius);
   }
 
   hasProto() {

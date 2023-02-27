@@ -1,6 +1,7 @@
 import WbWorld from './WbWorld.js';
 
 export default class WbBaseNode {
+  #nodeType;
   constructor(id) {
     this.id = id;
 
@@ -10,6 +11,8 @@ export default class WbBaseNode {
 
     this.useList = [];
   }
+
+  get nodeType() { return undefined; }
 
   createWrenObjects() {
     this.wrenObjectsCreatedCalled = true;

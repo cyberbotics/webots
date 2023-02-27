@@ -1,10 +1,15 @@
 import WbTransform from './WbTransform.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbSolid extends WbTransform {
   #name;
   constructor(id, translation, scale, rotation, name) {
     super(id, translation, scale, rotation);
     this.#name = name;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_SOLID;
   }
 
   get name() {

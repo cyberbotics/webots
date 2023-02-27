@@ -35,7 +35,6 @@ import WbPositionSensor from './nodes/WbPositionSensor.js';
 import NodeSelectorWindow from './NodeSelectorWindow.js';
 import {SFNode, MFNode, vrmlFactory} from './protoVisualizer/Vrml.js';
 import Node from './protoVisualizer/Node.js';
-import {isBaseNode} from './protoVisualizer/FieldModel.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #mfId;
@@ -63,8 +62,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     this.floatingWindowContent.appendChild(this.devices);
 
     this.#protoManager = protoManager;
-    this.proto = protoManager.proto;
-    this.headerText.innerHTML = this.proto.name;
+    this.node = protoManager.proto;
+    this.headerText.innerHTML = this.node.name;
     this.#view = view;
 
     this.#mfId = 0;
@@ -132,15 +131,17 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   populateProtoParameterWindow() {
     const contentDiv = document.getElementById('proto-parameter-content');
     if (contentDiv) {
-      this.headerText.innerHTML = this.proto.name;
+      this.headerText.innerHTML = this.node.name;
 
-      // populate the parameters based on the value of this.proto (i.e. current active proto)
+      // populate the parameters based on the value of this.node (i.e. current active node)
       contentDiv.innerHTML = '';
       this.#rowNumber = 1;
 
-      const keys = this.proto.parameters.keys();
+      const keys = this.node.fieldsOrParameters().keys();
       for (let key of keys) {
-        const parameter = this.proto.parameters.get(key);
+        const parameter = this.node.fieldsOrParameters().get(key);
+        if (parameter.hidden)
+          continue;
 
         if (parameter.restrictions.length > 0 && !this.unsupportedRestrictions.includes(parameter.type))
           this.#createRestrictedField(key, contentDiv);
@@ -170,7 +171,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         this.#rowNumber++;
       }
 
-      if (this.proto.isRoot) {
+      if (this.node.isRoot) {
         this.#createDownloadButton(contentDiv);
         this.backBuffer = [];
       } else
@@ -206,12 +207,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       } else {
         currentNodeButton.style.display = 'block';
         deleteNodeButton.style.display = 'block';
-        if (isBaseNode(parameter.value.value.name))
-          configureNodeButton.style.display = 'none';
-        else {
-          configureNodeButton.style.display = 'block';
-          configureNodeButton.title = 'Configure ' + parameter.value.value.name + ' node';
-        }
+        configureNodeButton.style.display = 'block';
+        configureNodeButton.title = 'Configure ' + parameter.value.value.name + ' node';
         currentNodeButton.innerHTML = parameter.value.value.name;
       }
     }
@@ -258,7 +255,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     backButton.innerHTML = 'Back';
     backButton.title = 'Return to the previous PROTO';
     backButton.onclick = () => {
-      this.proto = this.backBuffer.pop();
+      this.node = this.backBuffer.pop();
       this.populateProtoParameterWindow();
     };
     buttonContainer.appendChild(backButton);
@@ -301,7 +298,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #createFieldCommonPart(key, parent) {
-    const parameter = this.proto.parameters.get(key);
+    const parameter = this.node.fieldsOrParameters().get(key);
 
     const p = document.createElement('p');
     p.innerHTML = key + ': ';
@@ -312,7 +309,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.parameter = parameter;
     p.className = 'key-parameter';
 
-    if (this.proto.isRoot) {
+    if (this.node.isRoot) {
       const exportCheckbox = this.#createCheckbox(parent, key);
       p.checkbox = exportCheckbox;
     } else
@@ -442,8 +439,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         nodesToRemove[i].parentNode.removeChild(nodesToRemove[i]);
       }
 
-      const protoModel = parameter.node.model;
-      const parameterModel = protoModel['parameters'][parameter.name]['defaultValue'];
+      const nodeModel = parameter.node.model;
+      const parameterModel = nodeModel[parameter.node.isProto ? 'parameters' : 'fields'][parameter.name]['defaultValue'];
       parameter.value = vrmlFactory(parameter.type, parameterModel, true);
       const resetButtonRow = this.#getRow(resetButton);
       // two times because of the `add` button and plus one for the first `add` button.
@@ -477,12 +474,12 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
 
       let value;
       if (parameter.type === VRML.MFVec3f) {
-        value = {x: this.#sanitizeNumber(elements[i].childNodes[0].childNodes[1].value),
-          y: this.#sanitizeNumber(elements[i].childNodes[1].childNodes[1].value),
-          z: this.#sanitizeNumber(elements[i].childNodes[2].childNodes[1].value)};
+        value = {x: this.#sanitizeNumber(elements[i].childNodes[0].childNodes[0].value),
+          y: this.#sanitizeNumber(elements[i].childNodes[1].childNodes[0].value),
+          z: this.#sanitizeNumber(elements[i].childNodes[2].childNodes[0].value)};
       } else if (parameter.type === VRML.MFVec2f) {
-        value = {x: this.#sanitizeNumber(elements[i].childNodes[0].childNodes[1].value),
-          y: this.#sanitizeNumber(elements[i].childNodes[1].childNodes[1].value)};
+        value = {x: this.#sanitizeNumber(elements[i].childNodes[0].childNodes[0].value),
+          y: this.#sanitizeNumber(elements[i].childNodes[1].childNodes[0].value)};
       } else if (parameter.type === VRML.MFString)
         value = elements[i].childNodes[0].value;
       else if (parameter.type === VRML.MFFloat || parameter.type === VRML.MFInt32)
@@ -490,10 +487,10 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       else if (parameter.type === VRML.MFBool)
         value = elements[i].childNodes[0].checked;
       else if (parameter.type === VRML.MFRotation) {
-        value = {'x': this.#sanitizeNumber(elements[i].childNodes[0].childNodes[1].value),
-          'y': this.#sanitizeNumber(elements[i].childNodes[1].childNodes[1].value),
-          'z': this.#sanitizeNumber(elements[i].childNodes[2].childNodes[1].value),
-          'a': this.#sanitizeNumber(elements[i].childNodes[3].childNodes[1].value)};
+        value = {'x': this.#sanitizeNumber(elements[i].childNodes[0].childNodes[0].value),
+          'y': this.#sanitizeNumber(elements[i].childNodes[1].childNodes[0].value),
+          'z': this.#sanitizeNumber(elements[i].childNodes[2].childNodes[0].value),
+          'a': this.#sanitizeNumber(elements[i].childNodes[3].childNodes[0].value)};
       } else if (parameter.type === VRML.MFColor) {
         const hexValue = elements[i].childNodes[0].value;
         const red = parseInt(hexValue.substring(1, 3), 16) / 255;
@@ -643,21 +640,34 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     resetButton.onclick = () => {
       // delete all existing rows in the interface
       const nodes = document.getElementsByClassName('mf-id-' + currentMfId);
-      for (let i = nodes.length - 1; i >= 0; i--)
+      let maxRowNumber = 0;
+      for (let i = nodes.length - 1; i >= 0; i--) {
+        const rowNumber = this.#getRow(nodes[i]);
+        if (rowNumber > maxRowNumber)
+          maxRowNumber = rowNumber;
         nodes[i].parentNode.removeChild(nodes[i]);
+      }
 
       // delete all existing nodes in the parameter
       for (let i = parameter.value.value.length - 1; i >= 0; --i)
         parameter.removeNode(this.#view, i);
 
       const protoModel = parameter.node.model;
-      const parameterModel = protoModel['parameters'][parameter.name]['defaultValue'];
+      const parameterModel = protoModel[parameter.node.isProto ? 'parameters' : 'fields'][parameter.name]['defaultValue'];
       const mfnode = vrmlFactory(VRML.MFNode, parameterModel, true);
+      const resetButtonRow = this.#getRow(resetButton);
+      // two times because of the `add` button and plus one for the first `add` button.
+      const maxRowNumberNeeded = mfnode.value.length * 2 + 1 + resetButtonRow;
+
+      // Need to offset the following rows by the difference to keep the coherency.
+      if (maxRowNumber > maxRowNumberNeeded)
+        this.#offsetNegativelyRows(resetButtonRow, maxRowNumber - maxRowNumberNeeded);
+      else if (maxRowNumber < maxRowNumberNeeded)
+        this.#offsetPositivelyRows(resetButtonRow + 1, maxRowNumberNeeded - maxRowNumber);
 
       for (const [i, node] of mfnode.value.entries())
         parameter.insertNode(this.#view, node.value, i);
 
-      const resetButtonRow = this.#getRow(resetButton);
       this.#populateMFNode(resetButton, parent, parameter, resetButtonRow, currentMfId, false);
       this.#refreshParameterRow(parameter, currentMfId);
       hideShowButton.style.transform = '';
@@ -716,13 +726,13 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     configureNodeButton.id = 'configure-node-' + parameter.name;
     configureNodeButton.title = 'Edit node.';
     configureNodeButton.onclick = async() => {
-      this.backBuffer.push(this.proto);
+      this.backBuffer.push(this.node);
       // determine node being selected among the list of nodes of the MF
       const index = this.#rowToParameterIndex(p, mfId);
       if (typeof index === 'undefined')
         throw new Error('The PROTO node to be configured is not defined, this should never be the case.');
 
-      this.proto = parameter.value.value[index].value;
+      this.node = parameter.value.value[index].value;
       this.populateProtoParameterWindow();
     };
 
@@ -1014,7 +1024,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
   }
 
   #createRestrictedField(key, parent) {
-    const parameter = this.proto.parameters.get(key);
+    const parameter = this.node.fieldsOrParameters().get(key);
 
     const p = document.createElement('p');
     p.innerHTML = key + ': ';
@@ -1024,7 +1034,7 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
     p.style.gridColumn = '2 / 2';
     p.className = 'key-parameter';
 
-    if (this.proto.isRoot) {
+    if (this.node.isRoot) {
       const exportCheckbox = this.#createCheckbox(parent, key);
       p.checkbox = exportCheckbox;
     } else
@@ -1204,8 +1214,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       if (parameter.value.value === null)
         return;
 
-      this.backBuffer.push(this.proto);
-      this.proto = parameter.value.value;
+      this.backBuffer.push(this.node);
+      this.node = parameter.value.value;
       this.populateProtoParameterWindow();
     };
 
@@ -1226,9 +1236,9 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
         // this information is however only available on the parent PROTO side, hence why the parameter
         // model needs to be retrieved and used as initialization when creating the node instance (i.e. before
         // the internal body is created as these extra parameters might yield different results)
-        const protoModel = parameter.node.model;
-        const parameterModel = protoModel['parameters'][parameter.name]['defaultValue'];
-        const sfnode = vrmlFactory(VRML.SFNode, parameterModel, true);
+        const nodeModel = parameter.node.model;
+        const model = nodeModel[parameter.node.isProto ? 'parameters' : 'fields'][parameter.name]['defaultValue'];
+        const sfnode = vrmlFactory(VRML.SFNode, model, true);
         parameter.setValueFromJavaScript(this.#view, sfnode.value);
       }
       this.#refreshParameterRow(parameter);

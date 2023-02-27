@@ -2,6 +2,7 @@ import WbTriangleMeshGeometry from './WbTriangleMeshGeometry.js';
 
 import {getAnId} from './utils/id_provider.js';
 import {resetIfNegative} from './utils/WbFieldChecker.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbIndexedFaceSet extends WbTriangleMeshGeometry {
   #ccw;
@@ -27,6 +28,10 @@ export default class WbIndexedFaceSet extends WbTriangleMeshGeometry {
     this.#ccw = ccw;
     this.#creaseAngle = creaseAngle;
     this.#normalPerVertex = normalPerVertex;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_INDEXED_FACE_SET;
   }
 
   get ccw() {
