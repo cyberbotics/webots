@@ -242,8 +242,14 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
 
   } else {
     WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(field->value());
-    if (sfnode)
-      sfnode->setValue(newNode);
+    if (sfnode) {
+      if (isInsideATemplateRegenerator) {
+        sfnode->blockSignals(true);  // otherwise, the node regeneration is called too early
+        sfnode->setValue(newNode);
+        upperTemplate->regenerateNode();
+      } else
+        sfnode->setValue(newNode);
+    }
   }
   mNodesAreAboutToBeInserted = false;
 
