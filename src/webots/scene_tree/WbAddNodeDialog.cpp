@@ -321,13 +321,13 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
     // set icon path
     pixmapPath = "icons:" + fileInfo.baseName() + ".png";
   } else {
-    assert(variant > 0);
+    assert(nodeType == USE || variant > 0);
     // the node is a PROTO
     QMap<QString, WbProtoInfo *> list;
     if (variant == WbProtoManager::PROTO_WEBOTS)
       list = WbProtoManager::instance()->webotsProtoList();
     else
-      list = WbProtoManager::instance()->protoInfoMap(variant);
+      list = WbProtoManager::instance()->protoInfoMap(nodeType == USE ? WbProtoManager::PROTO_WORLD : variant);
 
     if (!list.contains(fileName)) {
       WbLog::error(tr("'%1' is not a known proto in category '%2'.\n").arg(fileName).arg(variant));
