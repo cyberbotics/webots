@@ -163,8 +163,6 @@ export default class Node {
             const p = tokenizer.proto.parameters.get(alias);
             fieldValue.value = p.value;
             p.addAliasLink(fieldValue);
-            if (fieldValue instanceof Parameter && !p.isTemplateRegenerator)
-              p.isTemplateRegenerator = fieldValue.isTemplateRegenerator;
           } else
             fieldValue.value.setValueFromTokenizer(tokenizer, fieldValue);
         }
@@ -175,14 +173,14 @@ export default class Node {
   }
 
   printStructure(depth = 0) { // for debugging purposes
-    const index = '--'.repeat(depth);
+    const indent = '--'.repeat(depth);
     if (this.isProto)
       return this.baseType.printStructure(depth);
 
-    console.log(index + this.name, this.ids);
+    console.log(indent + this.name, this.ids);
 
     for (const [fieldName, field] of this.fields) {
-      console.log(index + fieldName);
+      console.log(indent + fieldName);
       if (field.type === VRML.SFNode && field.value.value !== null)
         field.value.value.printStructure(depth + 1);
       else if (field.type === VRML.MFNode) {
