@@ -49,17 +49,12 @@ export default class Parameter extends Field {
   }
 
   set isTemplateRegenerator(value) {
-    console.log('SETTING', this.name, 'TO', value)
     this.#isTemplateRegenerator = value;
     if (this.#isTemplateRegenerator) {
-      // if this parameter was set as template regenerator after the creation of the parameter instance, it means a IS link was
-      // present in the body and therefore the information needs to be propagated upwards to all IS parameters in the chain
-      for (const item of this.#reverseAliasLinks) {
-        console.log('~~ ', this.name, 'is a regenerator, need to notify', item.name)
-        item.isTemplateRegenerator = this.isTemplateRegenerator
-        //console.log(this.name, '(', this.isTemplateRegenerator, ')',  'aliases', item.name, '(', item.isTemplateRegenerator, ')')
-        //item.isTemplateRegenerator = value;
-      }
+      // if this parameter was set as template regenerator after the creation of the parameter instance, it means an alias link
+      // has been created and therefore the information needs to be propagated upwards to all IS parameters in the chain
+      for (const item of this.#reverseAliasLinks)
+        item.isTemplateRegenerator = this.isTemplateRegenerator;
     }
   }
 
@@ -77,28 +72,16 @@ export default class Parameter extends Field {
 
   addAliasLink(parameter) {
     this.#aliasLinks.push(parameter);
-
-    if (parameter instanceof Parameter) {
+    if (parameter instanceof Parameter)
       parameter.reverseAliasLinks.push(this);
-      console.log('ADDING', parameter.name, 'AS ALIAS OF', this.name)
-      console.log('ADDING', this.name, 'AS REVERSE ALIAS OF', parameter.name)
-    }
-    //console.log('-- REVERSE ALIASES OF:', parameter.name, 'ARE: ')
-    //for (const item of parameter.#reverseAliasLinks)
-    //  console.log('---- ', item.name)
 
-    if (parameter.isTemplateRegenerator){
-      //console.log('--->', parameter.name, ' IS template regenerator, notify', this.name)
+    // trigger propagation of regeneration status up the IS chain
+    if (parameter.isTemplateRegenerator)
       this.isTemplateRegenerator = parameter.isTemplateRegenerator;
-    }
   }
 
   resetAliasLinks() {
-    console.log('CLEARING', this.name, this.#reverseAliasLinks)
     this.#aliasLinks = [];
-    //for (const item of this.#reverseAliasLinks) {
-    //  item.
-    //}
   }
 
   printParameterLinks(depth = 1) {
