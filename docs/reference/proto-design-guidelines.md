@@ -49,7 +49,7 @@ It currently supports four possible options: `deprecated`, `hidden`, `nonDetermi
 Hidden PROTO nodes are typically used as sub-PROTO nodes, that is they are used from another PROTO file, but not directly from a world file.
 - `nonDeterministic` tells Webots that this PROTO may yield a different result with each execution.
 This is typically the case if randomness is involved in the execution of the PROTO, which most commonly occurs if a time-based seed is used in the random process.
-- `no3dView` tells [webots.cloud](https://webots.cloud/proto) to not display the 3D view when displaying the page of this PROTO.
+- `no3dView` tells [webots.cloud](https://webots.cloud/proto) not to load the 3D view when displaying the page of this PROTO.
 
 #### Documentation
 
