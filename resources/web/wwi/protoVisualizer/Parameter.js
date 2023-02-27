@@ -84,14 +84,6 @@ export default class Parameter extends Field {
     this.#aliasLinks = [];
   }
 
-  printParameterLinks(depth = 1) {
-    const indent = '--'.repeat(depth);
-    for (const alias of this.#aliasLinks) {
-      console.log(indent + ' ' + alias.name, ', reverse: ', alias.reverseAliasLinks[0].name);
-      alias.printParameterLinks(depth + 1)
-    }
-  }
-
   linksToNotify() {
     let links = [];
     for (const link of this.aliasLinks) {
