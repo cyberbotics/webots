@@ -1,7 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/portal
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/a4/portal/protos/Portal.proto
 # Portal PICAXE-28X2 (A4 TECHNOLOGIE)
 # This small portal model is used for education with PICAXE programming tools
 
@@ -267,7 +267,7 @@ PROTO Portal [
                   }
                   device [
                     LinearMotor {
-                      name "gate"
+                      name "portal_motor::gate"
                       maxVelocity 0.05
                       maxPosition 0.3
                     }
@@ -314,14 +314,16 @@ PROTO Portal [
           }
           DEF GEAR_JOINT HingeJoint {
             jointParameters HingeJointParameters {
-              position 0
+              position 1.2
               axis 0 0 1
               anchor -0.0058 0.057 0.012
             }
             device [
               RotationalMotor {
-                name "gear"
-                maxVelocity 3.16
+                name "portal_motor::gear"
+                multiplier 40
+                maxVelocity 2
+                maxPosition 12
               }
               PositionSensor {
                 name "gear_sensor"

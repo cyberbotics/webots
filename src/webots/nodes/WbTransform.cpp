@@ -426,7 +426,8 @@ void WbTransform::exportBoundingObjectToX3D(WbWriter &writer) const {
 QStringList WbTransform::fieldsToSynchronizeWithX3D() const {
   QStringList fields;
   fields << "translation"
-         << "rotation";
+         << "rotation"
+         << "scale";
   return fields;
 }
 

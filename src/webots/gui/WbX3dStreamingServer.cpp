@@ -47,7 +47,7 @@ void WbX3dStreamingServer::start(int port) {
 }
 
 void WbX3dStreamingServer::stop() {
-  // Test that the animation recorder is instanciated.
+  // Test that the animation recorder is instantiated.
   // Otherwise, the instance() call can wrongly recreate an instance of the
   // animation recorder in the cleanup routines.
   if (WbAnimationRecorder::isInstantiated())
@@ -77,7 +77,7 @@ void WbX3dStreamingServer::processTextMessage(QString message) {
     mPauseTimeout = message.endsWith(";broadcast") ? -1 : 0;
     if (!WbWorld::instance()->isLoading()) {
       startX3dStreaming(client);
-      sendToClients();  // send possible bufferized messages
+      sendToClients();  // send possible buffered messages
     }
     // else streaming is started once the world loading is completed
     return;
