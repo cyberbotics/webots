@@ -5,6 +5,7 @@ import Field from './Field.js';
 
 export default class Parameter extends Field {
   #aliasLinks;
+  #reverseAliasLinks;
   #hidden;
   #isTemplateRegenerator;
   constructor(node, name, type, defaultValue, value, restrictions, isTemplateRegenerator, hidden) {
@@ -13,6 +14,7 @@ export default class Parameter extends Field {
     this.restrictions = restrictions;
     this.#isTemplateRegenerator = isTemplateRegenerator;
     this.#aliasLinks = []; // list of other parameters to notify whenever this instance changes
+    this.#reverseAliasLinks = []; // list of parameters that have this parameter as IS link
     this.#hidden = hidden;
   }
 
@@ -48,6 +50,12 @@ export default class Parameter extends Field {
 
   set isTemplateRegenerator(value) {
     this.#isTemplateRegenerator = value;
+    if (this.#isTemplateRegenerator) {
+      // if this parameter was set as template regenerator after the creation of the parameter instance, it means an alias link
+      // has been created and therefore the information needs to be propagated upwards to all IS parameters in the chain
+      for (const item of this.#reverseAliasLinks)
+        item.isTemplateRegenerator = this.isTemplateRegenerator;
+    }
   }
 
   get aliasLinks() {
@@ -58,8 +66,18 @@ export default class Parameter extends Field {
     this.#aliasLinks = newValue;
   }
 
+  get reverseAliasLinks() {
+    return this.#reverseAliasLinks;
+  }
+
   addAliasLink(parameter) {
     this.#aliasLinks.push(parameter);
+    if (parameter instanceof Parameter)
+      parameter.reverseAliasLinks.push(this);
+
+    // trigger propagation of regeneration status up the IS chain
+    if (parameter.isTemplateRegenerator)
+      this.isTemplateRegenerator = parameter.isTemplateRegenerator;
   }
 
   resetAliasLinks() {
