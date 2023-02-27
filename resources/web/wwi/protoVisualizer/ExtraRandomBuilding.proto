@@ -1,0 +1,19 @@
+#VRML_SIM R2023b utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# tags: nonDeterministic
+# A customizable building, the size and geometry can fully be defined.
+# The texture of the wall is selected randomly.
+# The roof shape can be either 'flat' or 'pyramidal' (in case of pyramidal roof it is possible to define the height).
+# template language: javascript
+
+EXTERNPROTO "RandomBuilding.proto"
+
+PROTO ExtraRandomBuilding [
+  field SFFloat     floorHeight3            0.05
+]
+{
+  RandomBuilding {
+    floorHeight2 IS floorHeight3
+  }
+}
