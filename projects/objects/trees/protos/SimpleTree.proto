@@ -35,7 +35,7 @@ PROTO SimpleTree [
 %<
   import * as wbgeometry from 'wbgeometry.js';
   import * as wbrandom from 'wbrandom.js';
-  wbrandom.seed(context.id)
+  wbrandom.seed(Date.now())
 
   const treeType = {
     'crab apple tree': 'crab_apple_tree.png',
@@ -111,7 +111,7 @@ Solid {
             %< for (let i = 0; i <= skip - 1; ++i) { >%
               %<= circle[i].x >% %<= circle[i].y >% %<= 0 >%
             %< } >%
-            
+
             # top cylinder
             %< for (let i = 0; i <= skip - 1; ++i) { >%
               %<= circle[i].x >% %<= circle[i].y >% %<= height >%
@@ -157,7 +157,7 @@ Solid {
   ]
   %< if (boundingObject) { >%
     boundingObject Transform {
-      translation 0 0 %<= height * 0.5 >% 
+      translation 0 0 %<= height * 0.5 >%
       children [
         Cylinder {
           height %<= height >%
