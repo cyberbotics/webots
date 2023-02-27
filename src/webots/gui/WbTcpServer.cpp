@@ -648,8 +648,6 @@ void WbTcpServer::sendWorldToClient(QWebSocket *client) {
 
   const QString &currentWorld = QDir(WbProject::current()->dir()).relativeFilePath(WbWorld::instance()->fileName());
   client->sendTextMessage("world:" + currentWorld + ':' + worlds);
-
-  client->sendTextMessage("scene load completed");
 }
 
 void WbTcpServer::sendRobotWindowInformation(QWebSocket *client, const WbRobot *robot, bool remove) {

@@ -404,7 +404,10 @@ void WbMultimediaStreamingServer::sendWorldToClient(QWebSocket *client) {
   const QJsonDocument infoDocument(infoObject);
   client->sendTextMessage("world info: " + infoDocument.toJson(QJsonDocument::Compact));
   WbTcpServer::sendWorldToClient(client);
+
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
   foreach (const WbRobot *robot, robots)
     WbTcpServer::sendRobotWindowInformation(client, robot);
+
+  client->sendTextMessage("scene load completed");
 }
