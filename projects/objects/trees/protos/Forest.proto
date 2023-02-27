@@ -41,7 +41,9 @@ PROTO Forest [
     import * as wbgeometry from 'wbgeometry.js';
     import * as wbrandom from 'wbrandom.js';
 
-    if (fields.randomSeed.value <= 0)
+    if (fields.randomSeed.value === 0)
+      wbrandom.seed(context.id);
+    else if (fields.randomSeed.value < 0)
       wbrandom.seed(Date.now());
     else
       wbrandom.seed(fields.randomSeed.value);

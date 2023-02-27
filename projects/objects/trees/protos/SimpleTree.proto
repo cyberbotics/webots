@@ -35,7 +35,7 @@ PROTO SimpleTree [
 %<
   import * as wbgeometry from 'wbgeometry.js';
   import * as wbrandom from 'wbrandom.js';
-  wbrandom.seed(Date.now())
+  wbrandom.seed(context.id)
 
   const treeType = {
     'crab apple tree': 'crab_apple_tree.png',

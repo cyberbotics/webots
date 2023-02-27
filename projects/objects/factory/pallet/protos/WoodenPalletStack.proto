@@ -20,12 +20,11 @@ PROTO WoodenPalletStack [
   field SFFloat    palletMass               0                      # Defines the mass of one pallet in kg. A value smaller or equal to 0 remove the physics of the stack.
   field SFBool     boundingObject           TRUE                   # Defines whether the bounding object should be enabled.
   field SFBool     locked                   FALSE                  # Is `Solid.locked`.
-  field SFInt32    randomSeed               0                      # Defines the random seed
 ]
 {
 %<
   import * as wbrandom from 'wbrandom.js';
-  wbrandom.seed(fields.randomSeed.value);
+  wbrandom.seed(context.id);
 
   let palletSize = fields.palletSize.value;
   if (palletSize.x <= 0 || palletSize.y <= 0 || palletSize.z <= 0) {

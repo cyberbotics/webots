@@ -29,12 +29,11 @@ PROTO RandomBuilding [
   field SFFloat     roofHeight             3                                  # Defines the height of the roof (used only in the case of pyramidal roof).
   field SFBool      enableBoundingObject   TRUE                               # Defines whether the building should have a bounding object or not.
   field SFBool      bottom                 FALSE                              # Defines whether the building should have a floor (visible from below) or not.
-  field SFInt32     randomSeed             0                                  # Defines the random seed
 ]
 {
   %<
     import * as wbrandom from 'wbrandom.js';
-    wbrandom.seed(fields.randomSeed.value);
+    wbrandom.seed(context.id);
 
     const wallTypes = [
       'glass building',
