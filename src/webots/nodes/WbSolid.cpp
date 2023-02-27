@@ -489,7 +489,7 @@ void WbSolid::postFinalize() {
 }
 
 void WbSolid::resolveNameClashIfNeeded(bool automaticallyChange, bool recursive, const QList<WbSolid *> &siblings,
-                                       QSet<const QString> *topSolidNameSet) const {
+                                       QSet<const QString> *topSolidNameSet) {
   const QString &warningText =
     tr("'name' field value should be unique: '%1' already used by a sibling Solid node.").arg(name());
 

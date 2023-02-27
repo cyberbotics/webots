@@ -34,15 +34,16 @@ public:
   static WbTemplateManager *instance();
 
   void clear();
-  void subscribe(WbNode *node, bool subscribedDescendant = false);
+  void subscribe(WbNode *node, bool subscribedDescendant);
 
   // when unblocked, all the templates which have required
   // a regeneration inbetween are regenerated
   void blockRegeneration(bool block);
 
   static bool isRegenerating() { return cRegeneratingNodeCount > 0; }
-
-  bool isNodeChangeTriggeringRegeneration(const WbNode *node) { return mNodesSubscribedForRegeneration.contains(node); }
+  static bool isNodeChangeTriggeringRegeneration(const WbNode *node) {
+    return WbTemplateManager::instance()->mNodesSubscribedForRegeneration.contains(node);
+  }
 
 signals:
   void preNodeRegeneration(WbNode *node, bool nested);

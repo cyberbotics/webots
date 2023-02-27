@@ -1135,7 +1135,7 @@ bool WbNodeUtilities::isTemplateRegeneratorField(const WbField *field) {
   const WbField *f = field;
   while (f != NULL) {
     if (f->isTemplateRegenerator() ||
-        (f->parentNode() && WbTemplateManager::instance()->isNodeChangeTriggeringRegeneration(f->parentNode())))
+        (f->parentNode() && WbTemplateManager::isNodeChangeTriggeringRegeneration(f->parentNode())))
       return true;
     f = f->parameter();
   }

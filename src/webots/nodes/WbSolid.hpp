@@ -228,7 +228,7 @@ public:
   QString computeUniqueName() const;
   WbSolid *findDescendantSolidFromUniqueName(QStringList &names) const;
   void resolveNameClashIfNeeded(bool automaticallyChange, bool recursive, const QList<WbSolid *> &siblings,
-                                QSet<const QString> *topSolidNameSet) const;
+                                QSet<const QString> *topSolidNameSet);
   static WbSolid *findSolidFromUniqueName(const QString &name);
   static QStringList splitUniqueNamesByEscapedPattern(const QString &text, const QString &pattern);
 

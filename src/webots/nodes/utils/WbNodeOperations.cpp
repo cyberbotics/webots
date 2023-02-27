@@ -245,8 +245,6 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
     if (sfnode)
       sfnode->setValue(newNode);
   }
-  if (parentNode && parentNode->isProtoInstance())
-    parentNode->redirectInternalFields(field);
   mNodesAreAboutToBeInserted = false;
 
   // in case of template the newNode/baseNode pointers are no more available here
@@ -254,6 +252,9 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
   // and the scene tree was updated
   if (isInsideATemplateRegenerator)
     return REGENERATION_REQUIRED;
+
+  if (parentNode && parentNode->isProtoInstance())
+    parentNode->redirectInternalFields(field);
 
   // update flag for PROTO nodes and their instances if any
   baseNode->updateNestedProtoFlag();
@@ -265,7 +266,7 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
   resolveSolidNameClashIfNeeded(newNode);
 
   if (subscribe && baseNode->isTemplate())
-    WbTemplateManager::instance()->subscribe(newNode);
+    WbTemplateManager::instance()->subscribe(newNode, WbTemplateManager::isNodeChangeTriggeringRegeneration(baseNode));
 
   updateDictionary(baseNode->isUseNode(), baseNode);
 
