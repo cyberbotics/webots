@@ -35,7 +35,6 @@ import WbPositionSensor from './nodes/WbPositionSensor.js';
 import NodeSelectorWindow from './NodeSelectorWindow.js';
 import {SFNode, MFNode, vrmlFactory} from './protoVisualizer/Vrml.js';
 import Node from './protoVisualizer/Node.js';
-import {isBaseNode} from './protoVisualizer/FieldModel.js';
 import WbPropeller from './nodes/WbPropeller.js';
 import WbVector4 from './nodes/utils/WbVector4.js';
 
