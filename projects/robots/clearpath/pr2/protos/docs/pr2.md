@@ -31,8 +31,8 @@ Pr2 {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/clearpath/pr2/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/clearpath/pr2/worlds]({{ url.github_tree }}/projects/robots/clearpath/pr2/worlds)".
 
-#### pr2.wbt
+#### [pr2.wbt]({{ url.github_tree }}/projects/robots/clearpath/pr2/worlds/pr2.wbt)
 
 ![pr2.wbt.png](images/pr2/pr2.wbt.thumbnail.jpg) This simulation shows a PR2 robot grabbing biscuit boxes from one table, and putting them on another table.

@@ -30,8 +30,8 @@ Moose {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/clearpath/moose/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/clearpath/moose/worlds]({{ url.github_tree }}/projects/robots/clearpath/moose/worlds)".
 
-#### moose\_demo.wbt
+#### [moose\_demo.wbt]({{ url.github_tree }}/projects/robots/clearpath/moose/worlds/moose\_demo.wbt)
 
 ![moose_demo.wbt.png](images/moose/moose_demo.wbt.thumbnail.jpg) This simulation shows a Moose robot following a predefined path on an uneven terrain. It carries a cardboard box.

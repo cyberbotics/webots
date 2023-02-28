@@ -67,7 +67,7 @@ Pioneer3at {
 
 ### Samples
 
-#### pioneer3at.wbt
+#### [pioneer3at.wbt]({{ url.github_tree }}/projects/robots/adept/pioneer3/worlds/pioneer3at.wbt)
 
 ![pioneer3at_avoidance.png](images/pioneer-3at/pioneer3at_avoidance.wbt.thumbnail.jpg) The "pioneer3at.wbt" world file is a simulation example of a simple obstacle avoidance behavior based on the use of a SICK LMS 291 [Lidar](https://cyberbotics.com/doc/reference/lidar) (see the "obstacle\_avoidance\_with\_lidar.c" controller file in the "WEBOTS\_HOME/projects/robots/adept/pioneer3/controller" directory).
 The [Lidar](https://cyberbotics.com/doc/reference/lidar) depth output is used to compute two stimuli in front of the robot.

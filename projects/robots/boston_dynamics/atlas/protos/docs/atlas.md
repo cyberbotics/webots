@@ -25,8 +25,8 @@ Atlas {
 
 ### Samples
 
-You will find the following sample in the folder: "WEBOTS\_HOME/projects/robots/boston_dynamics/atlas/worlds".
+You will find the following sample in the folder: "[WEBOTS\_HOME/projects/robots/boston_dynamics/atlas/worlds]({{ url.github_tree }}/projects/robots/boston_dynamics/atlas/worlds)".
 
-#### atlas.wbt
+#### [atlas.wbt]({{ url.github_tree }}/projects/robots/boston_dynamics/atlas/worlds/atlas.wbt)
 
 ![atlas.wbt.png](images/atlas/atlas.wbt.thumbnail.jpg) This simulation shows an Atlas robot in a simple environment. The robot is moving its right arm.

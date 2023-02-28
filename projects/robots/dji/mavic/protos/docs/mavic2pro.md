@@ -31,9 +31,9 @@ PROTO Mavic2Pro {
 
 ### Samples
 
-You will find the following sample in this folder: [WEBOTS\_HOME/projects/robots/dji/mavic/worlds](https://github.com/omichel/webots/tree/released/projects/robots/dji/mavic/worlds).
+You will find the following sample in this folder: [WEBOTS\_HOME/projects/robots/dji/mavic/worlds]({{ url.github_tree }}/projects/robots/dji/mavic/worlds).
 
-#### mavic\_2\_pro.wbt
+#### [mavic\_2\_pro.wbt]({{ url.github_tree }}/projects/robots/dji/mavic/worlds/mavic\_2\_pro.wbt)
 
 ![mavic_2_pro.wbt.png](images/mavic-2-pro/mavic_2_pro.wbt.thumbnail.jpg) This demonstration shows a DJI Mavic 2 PRO flying over a rural area.
 The `mavic2pro.c` controller allows you to control the drone, after it has taken off, with the keyboard of your computer.

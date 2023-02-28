@@ -30,9 +30,9 @@ Shrimp {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/bluebotics/shrimp/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/bluebotics/shrimp/worlds]({{ url.github_tree }}/projects/robots/bluebotics/shrimp/worlds)".
 
-#### shrimp.wbt
+#### [shrimp.wbt]({{ url.github_tree }}/projects/robots/bluebotics/shrimp/worlds/shrimp.wbt)
 
 ![shrimp.wbt.png](images/shrimp/shrimp.wbt.thumbnail.jpg) In this example the robot will first move on its own to the center of the world; then you may drive it yourself using the keyboard.
 Several obstacles are present in this world.
