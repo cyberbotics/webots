@@ -109,18 +109,6 @@ WbTreeItem::~WbTreeItem() {
   qDeleteAll(mChildren);
 }
 
-void WbTreeItem::updateChild(int index) {
-  if (mType == NODE) {
-    WbMFNode *mfnode = dynamic_cast<WbMFNode *>(sender());
-    if (mfnode && mfnode->item(index) != mNode) {
-      disconnect(mNode, &QObject::destroyed, this, &WbTreeItem::makeInvalid);
-      mNode = mfnode->item(index);
-      connect(mNode, &QObject::destroyed, this, &WbTreeItem::makeInvalid);
-    }
-  }
-  propagateDataChange();
-}
-
 void WbTreeItem::propagateDataChange() {
   if (gUpdatesEnabled)
     emit dataChanged();
@@ -435,6 +423,20 @@ void WbTreeItem::emitChildNeedsDeletion(int row) {
 
 void WbTreeItem::addChild(int row) {
   emit rowsInserted(row, 1);
+}
+
+void WbTreeItem::updateChild(int index) {
+  assert(mType == FIELD && index >= 0 && index < mChildren.size());
+  WbMFNode *mfnode = dynamic_cast<WbMFNode *>(sender());
+  if (mfnode) {
+    WbTreeItem *childItem = mChildren.at(index);
+    if (childItem->mNode != mfnode->item(index)) {
+      disconnect(childItem->mNode, &QObject::destroyed, childItem, &WbTreeItem::makeInvalid);
+      childItem->mNode = mfnode->item(index);
+      connect(childItem->mNode, &QObject::destroyed, childItem, &WbTreeItem::makeInvalid);
+    }
+    propagateDataChange();
+  }
 }
 
 void WbTreeItem::deleteChild(int row) {
