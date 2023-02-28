@@ -36,6 +36,6 @@ Tiagopp {
 
 You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiagopp/worlds]({{ url.github_tree }}/projects/robots/pal_robotics/tiagopp/worlds)".
 
-#### tiagopp.wbt
+#### [tiagopp.wbt]({{ url.github_tree }}/projects/robots/pal_robotics/tiagopp/worlds/tiagopp.wbt)
 
 ![tiagopp.wbt.png](images/tiagopp/tiagopp.wbt.thumbnail.jpg) This simulation shows a Tiagopp making hello with both arms in an industrial environment. It can also be controlled using the arrows on the keyboard.

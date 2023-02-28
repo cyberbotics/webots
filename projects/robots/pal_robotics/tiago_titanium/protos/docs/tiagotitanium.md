@@ -26,7 +26,7 @@ TiagoTitanium {
 
 You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_titanium/worlds]({{ url.github_tree }}/projects/robots/pal_robotics/tiago_titanium/worlds)".
 
-#### tiago\_titanium.wbt
+#### [tiago\_titanium.wbt]({{ url.github_tree }}/projects/robots/pal_robotics/tiago_titanium/worlds/tiago\_titanium.wbt)
 
 ![tiago_titanium.wbt.png](images/tiago_titanium/tiago_titanium.wbt.thumbnail.jpg) This simulation shows a Tiago Titanium making hello with the sign "Peace" with these fingers in an industrial environment.
 It can also be controlled using the arrows on the keyboard.

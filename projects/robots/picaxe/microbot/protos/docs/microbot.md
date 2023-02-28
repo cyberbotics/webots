@@ -28,8 +28,8 @@ Microbot {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/picaxe/microbot/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/picaxe/microbot/worlds]({{ url.github_tree }}/projects/robots/picaxe/microbot/worlds)".
 
-#### microbot\_pe.wbt
+#### [microbot\_pe.wbt]({{ url.github_tree }}/projects/robots/picaxe/microbot/worlds/microbot\_pe.wbt)
 
 ![microbot_pe.wbt.png](images/microbot/microbot_pe.wbt.thumbnail.jpg) This simulation shows a Microbot robot which follows a black line drawn on the ground.

@@ -27,6 +27,6 @@ PROTO Ned {
 You will find the following sample in this folder: [WEBOTS\_HOME/projects/robots/niryo/ned/worlds](https://github.com/cyberbotics/webots/tree/released/projects/robots/niryo/ned/worlds).
 
 
-#### ned.wbt
+#### [ned.wbt](https://github.com/cyberbotics/webots/tree/released/projects/robots/niryo/ned/worlds/ned.wbt)
 
 ![ned.wbt.png](images/ned/ned.wbt.thumbnail.jpg) This simulation shows Ned in a working environment. You can control the robot with your keyboard, launch a demo and run a pick and place operation. You can start from this simulation to create your own world, prototype industrial processes and edit controllers with Ned.

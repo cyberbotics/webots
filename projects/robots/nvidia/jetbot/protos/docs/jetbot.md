@@ -39,7 +39,7 @@ JetBot {
 You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/nvidia/jetbot/worlds]({{ url.github_tree }}/projects/robots/nvidia/jetbot/worlds)".
 An additional example using PyTorch CNN to perform collision avoidance is available [here](https://github.com/cyberbotics/webots-projects/tree/master/projects/nvidia-jetbot-collision-avoidance).
 
-#### jetbot.wbt
+#### [jetbot.wbt]({{ url.github_tree }}/projects/robots/nvidia/jetbot/worlds/jetbot.wbt)
 
 ![jetbot.wbt.png](images/jetbot/jetbot.wbt.thumbnail.jpg) In this example, you can see a JetBot robot performing basic motion.
 The `jetbot` C controller replicates the basic motion provided by the official ["Basic Motion"](https://github.com/NVIDIA-AI-IOT/jetbot/blob/master/notebooks/basic_motion/basic_motion.ipynb) Jupyter notebook.

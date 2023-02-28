@@ -31,6 +31,6 @@ TurtleBot3Burger {
 
 You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robotis/turtlebot/worlds]({{ url.github_tree }}/projects/robots/robotis/turtlebot/worlds)".
 
-#### turtlebot3\_burger.wbt
+#### [turtlebot3\_burger.wbt]({{ url.github_tree }}/projects/robots/robotis/turtlebot/worlds/turtlebot3\_burger.wbt)
 
 ![turtlebot3\_burger.wbt.jpg](images/turtlebot3burger/turtlebot3_burger.wbt.jpg) This simulation shows a TurtleBot3 Burger navigating in a circle arena avoiding obstacle using its `LDS-01` lidar sensor.

@@ -25,8 +25,8 @@ SurveyorSrv1 {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/surveyor/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/surveyor/worlds]({{ url.github_tree }}/projects/robots/surveyor/worlds)".
 
-#### srv-1.wbt
+#### [srv-1.wbt]({{ url.github_tree }}/projects/robots/surveyor/worlds/srv-1.wbt)
 
 ![srv-1.wbt.png](images/surveyor/srv-1.wbt.thumbnail.jpg) This simulation shows a Surveyor robot which moves in a square arena while avoiding obstacles.

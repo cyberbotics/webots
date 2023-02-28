@@ -31,8 +31,8 @@ Puma560 {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/unimation/puma/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/unimation/puma/worlds]({{ url.github_tree }}/projects/robots/unimation/puma/worlds)".
 
-#### puma560.wbt
+#### [puma560.wbt]({{ url.github_tree }}/projects/robots/unimation/puma/worlds/puma560.wbt)
 
 ![puma560.wbt.png](images/puma/puma560.wbt.thumbnail.jpg) This simulation shows the PUMA robot which moves to different targets.

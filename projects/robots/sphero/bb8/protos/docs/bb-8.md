@@ -59,9 +59,9 @@ BB-8 {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/sphero/bb8/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/sphero/bb8/worlds]({{ url.github_tree }}/projects/robots/sphero/bb8/worlds)".
 
-#### bb-8.wbt
+#### [bb-8.wbt]({{ url.github_tree }}/projects/robots/sphero/bb8/worlds/bb-8.wbt)
 
 ![bb-8.wbt.png](images/bb8/bb-8.wbt.thumbnail.jpg) This simulation shows the BB-8 moving on a sandy uneven terrain.
 When starting up, the robot moves randomly.

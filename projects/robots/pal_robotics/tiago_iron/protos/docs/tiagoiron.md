@@ -26,6 +26,6 @@ TiagoIron {
 
 You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_iron/worlds]({{ url.github_tree }}/projects/robots/pal_robotics/tiago_iron/worlds)".
 
-#### tiago\_iron.wbt
+#### [tiago\_iron.wbt]({{ url.github_tree }}/projects/robots/pal_robotics/tiago_iron/worlds/tiago\_iron.wbt)
 
 ![tiago_iron.wbt.png](images/tiago_iron/tiago_iron.wbt.thumbnail.jpg) This simulation shows a Tiago Iron moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar.

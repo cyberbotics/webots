@@ -34,6 +34,6 @@ TiagoBase {
 
 You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago\_base/worlds]({{ url.github_tree }}/projects/robots/pal_robotics/tiago_base/worlds)".
 
-#### tiago\_base.wbt
+#### [tiago\_base.wbt]({{ url.github_tree }}/projects/robots/pal_robotics/tiago_base/worlds/tiago\_base.wbt)
 
 ![tiago_base.wbt.png](images/tiago_base/tiago_base.wbt.thumbnail.jpg) This simulation shows a Tiago Base moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar.

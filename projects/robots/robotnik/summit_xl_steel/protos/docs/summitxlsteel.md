@@ -62,6 +62,6 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
   ]
 ```
 
-#### summit\_xl\_steel.wbt
+#### [summit\_xl\_steel.wbt]({{ url.github_tree }}/projects/robots/robotnik/summit_xl_steel/worlds/summit\_xl\_steel.wbt)
 
 ![summit_xl_steel.wbt.png](images/summit_xl_steel/summit_xl_steel.wbt.thumbnail.jpg) This simulation shows a Summit-XL Steel mounted with a `ConveyorPlatform` that can be controlled to move in an industrial environment using the keyboard.

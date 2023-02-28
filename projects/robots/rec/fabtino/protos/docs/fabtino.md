@@ -62,6 +62,6 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
   ]
 ```
 
-#### fabtino.wbt
+#### [fabtino.wbt]({{ url.github_tree }}/projects/robots/rec/fabtino/worlds/fabtino.wbt)
 
 ![fabtino.wbt.png](images/fabtino/fabtino.wbt.thumbnail.jpg) This simulation shows a Fabtino mounted with a `ConveyorPlatform` that can be controlled to move in an industrial environment using the keyboard.

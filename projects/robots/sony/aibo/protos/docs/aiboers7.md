@@ -102,9 +102,9 @@ AiboErs7 {
 ### Samples
 
 Here are listed the different example worlds based on the Aibo ERS7.
-The worlds and controllers can be accessed in the "WEBOTS\_HOME/projects/robots/sony/aibo" directory.
+The worlds and controllers can be accessed in the "[WEBOTS\_HOME/projects/robots/sony/aibo]({{ url.github_tree }}/projects/robots/sony/aibo)" directory.
 
-#### aibo\_ers7.wbt
+#### [aibo\_ers7.wbt]({{ url.github_tree }}/projects/robots/sony/aibo/worlds)
 
 ![aibo_ers7.wbt.png](images/aibo-ers7/aibo_ers7.wbt.thumbnail.jpg) In this example, you can see a silver Aibo ERS-7 robot walking on a textured soccer field.
 On this field you can also see its toys : a ball, a charger and a bone.

@@ -80,7 +80,7 @@ Please refer to [this documentation](https://webots.cloud/run?url=https://github
 
 ### Samples
 
-#### robotis\_op3.wbt
+#### [robotis\_op3.wbt]({{ url.github_tree }}/projects/robots/robotics/darwin-op/worlds/robotis\_op3.wbt)
 
 ![robotis_op3.wbt.png](images/robotis-op3/robotis_op3.wbt.thumbnail.jpg) In this example, the ROBOTIS OP3 robot plays successively motions loaded from the ROBOTIS OP3 motion file of the real robot.
 It demonstrates also the use of its loudspeaker.

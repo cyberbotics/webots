@@ -27,8 +27,8 @@ FireBird6 {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/nex/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/nex/worlds]({{ url.github_tree }}/projects/robots/nex/worlds)".
 
-#### fire\_bird\_6.wbt
+#### [fire\_bird\_6.wbt]({{ url.github_tree }}/projects/robots/nex/worlds/fire\_bird\_6.wbt)
 
 ![fire_bird_6.wbt.png](images/firebird6/fire_bird_6.wbt.thumbnail.jpg) The FireBird 6 moves inside a squared arena and avoid obstacles.

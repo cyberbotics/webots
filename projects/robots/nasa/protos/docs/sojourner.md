@@ -28,9 +28,9 @@ Sojourner {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/nasa/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/nasa/worlds]({{ url.github_tree }}/projects/robots/nasa/worlds)".
 
-#### sojourner.wbt
+#### [sojourner.wbt]({{ url.github_tree }}/projects/robots/nasa/worlds/sojourner.wbt)
 
 ![sojourner.wbt.png](images/sojourner/sojourner.wbt.thumbnail.jpg) This simulation shows the Sojourner model in a Mars-like environment.
 A large obstacle is placed in front of the robot so that it is possible to observe how the robot climbs over it.

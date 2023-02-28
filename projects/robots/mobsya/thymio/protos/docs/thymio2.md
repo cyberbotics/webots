@@ -93,21 +93,21 @@ To open the Thymio II window, select the "Show Robot Window" option in the robot
 
 ### Samples
 
-Various examples of the possible behaviors of the Thymio II are located here: "WEBOTS\_HOME/projects/robots/mobsya/thymio/worlds".
+Various examples of the possible behaviors of the Thymio II are located here: "[WEBOTS\_HOME/projects/robots/mobsya/thymio/worlds]({{ url.github_tree }}/projects/robots/mobsya/thymio/worlds)".
 The various accessible worlds are described below.
 
-#### thymio2.wbt
+#### [thymio2.wbt]({{ url.github_tree }}/projects/robots/mobsya/thymio/worlds/thymio2.wbt)
 
 ![thymio2.wbt.png](images/thymio2/thymio2.wbt.thumbnail.jpg) An example of the possible behaviors of the Thymio II.
 
-#### thymio2\_pen.wbt
+#### [thymio2\_pen.wbt]({{ url.github_tree }}/projects/robots/mobsya/thymio/worlds/thymio2\_pen.wbt)
 
 ![thymio2_pen.wbt.png](images/thymio2/thymio2_pen.wbt.thumbnail.jpg) You can easily add a pen in the simulated model by adding a `Thymio2Pen` node to the `Thymio2::bodySlot` field.
 This pen can draw on every 3D object.
 This is particularly useful to perform [these exercises](https://aseba.wikidot.com/en:thymiodrawing).
 
 
-#### thymio2\_ball.wbt
+#### [thymio2\_ball.wbt]({{ url.github_tree }}/projects/robots/mobsya/thymio/worlds/thymio2\_ball.wbt)
 
 ![thymio2_ball.wbt.png](images/thymio2/thymio2_ball.wbt.thumbnail.jpg) [These exercises](https://aseba.wikidot.com/en:thymioballeinverse) can be reproduced by adding a `Thymio2Ball` node in your world.
 The ball can be slightly moved by applying a force on it (`ALT + mouse left click`).

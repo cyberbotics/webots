@@ -25,8 +25,8 @@ QRIO {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/sony/qrio/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/sony/qrio/worlds]({{ url.github_tree }}/projects/robots/sony/qrio/worlds)".
 
-#### qrio.wbt
+#### [qrio.wbt]({{ url.github_tree }}/projects/robots/sony/qrio/worlds/qrio.wbt)
 
 ![qrio.wbt.png](images/qrio/qrio.wbt.thumbnail.jpg) In this example, the QRIO performs endless gymnastic movements.

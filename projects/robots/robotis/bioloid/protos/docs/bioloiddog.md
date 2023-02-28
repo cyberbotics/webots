@@ -39,9 +39,9 @@ BioloidDog {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/robotics/bioloid/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/robotics/bioloid/worlds]({{ url.github_tree }}/projects/robots/robotics/bioloid/worlds)".
 
-#### bioloid.wbt
+#### [bioloid.wbt]({{ url.github_tree }}/projects/robots/robotics/bioloid/worlds/bioloid.wbt)
 
 ![bioloid.wbt.png](images/bioloid/bioloid.wbt.thumbnail.jpg) In this example, the dog-like robot model walks on a flat floor.
 

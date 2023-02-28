@@ -789,7 +789,7 @@ sudo apt-get purge bluez-alsa
 
 ### Samples
 
-#### soccer.wbt
+#### [soccer.wbt]({{ url.github_tree }}/projects/robots/robotics/darwin-op/worlds/soccer.wbt)
 
 ![soccer.wbt.png](images/robotis-op2/soccer.wbt.thumbnail.jpg) This is a very complete example which used the three managers and almost all of the sensors.
 The controller is a very simple soccer player.
@@ -802,7 +802,7 @@ This example is also a good starting point for developing a more complicated con
 This example works in remote compilation.
 But we recommend you to test it on a soft ground and away from any source of danger (stairs, hot surface, etc.), because the robot will move a lot and it is not excluded that it will fall down from time to time.
 
-#### symmetry.wbt
+#### [symmetry.wbt]({{ url.github_tree }}/projects/robots/robotics/darwin-op/worlds/symmetry.wbt)
 
 ![symmetry.wbt.png](images/robotis-op2/symmetry.wbt.thumbnail.jpg) This example is very basic and explains the use of the motors.
 It starts by setting the motor force of the three motors of the right arm to zero in order to completely release this arm.
@@ -827,7 +827,7 @@ This example is well suited for the remote compilation and we recommended that y
 On recent Windows versions of MATLAB, the remote control and robot window of the ROBOTIS OP2 are not working because MATLAB is coming with a version of `libstdc++-6.dll` that is incompatible with the one coming with Webots.
 A simple workaround to fix the issue is to replace the `MATLAB_HOME\MATLAB_VERSION\bin\win64\libstdc++-6.dll` file by the one from `WEBOTS_HOME\msys64\mingw64\bin\libstdc++-6.dll` (make sure to backup the original file before replacing it).
 
-#### visual\_tracking.wbt
+#### [visual\_tracking.wbt]({{ url.github_tree }}/projects/robots/robotics/darwin-op/worlds/visual\_tracking.wbt)
 
 ![visual_tracking.wbt.png](images/robotis-op2/visual_tracking.wbt.thumbnail.jpg) This example illustrates the use of the camera (including the [Vision Manager](#vision-manager)) and the use of the RGB [LEDs](https://cyberbotics.com/doc/reference/led).
 
@@ -854,7 +854,7 @@ You can adjust the color of the ball by changing the value in the constructor of
 
 This example can also be used as a tool to tune the parameters of the [Vision Manager](#vision-manager) in order to fit your application.
 
-#### walk.wbt
+#### [walk.wbt]({{ url.github_tree }}/projects/robots/robotics/darwin-op/worlds/walk.wbt)
 
 ![walk.wbt.png](images/robotis-op2/walk.wbt.thumbnail.jpg) This example illustrates the use of the [Gait Manager](#gait-manager) and [Motion manager](#motion-manager), the use of the keyboard, and also the use of the accelerometer.
 
@@ -876,7 +876,7 @@ Otherwise, it is recommended to test this example with the remote control in ord
 
 This example can also be used to explore and test all the parameters of the gait.
 
-#### darwin-op\_hinge\_vs\_hinge2.wbt
+#### [darwin-op\_hinge\_vs\_hinge2.wbt]({{ url.github_tree }}/projects/robots/robotics/darwin-op/worlds/darwin-op\_hinge\_vs\_hinge2.wbt)
 
 ![darwin-op_hinge_vs_hinge2.wbt.png](images/robotis-op2/darwin-op_hinge_vs_hinge2.wbt.thumbnail.jpg) This example showcases the classic ROBOTIS OP2, which is modeled using [HingeJoint](https://cyberbotics.com/doc/reference/hingejoint) for all of its joints, side by side with the same robot where the ankles, hips and neck have been modeled using [Hinge2Joint](https://cyberbotics.com/doc/reference/hinge2joint) instead.
 

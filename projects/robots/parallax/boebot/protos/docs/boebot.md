@@ -25,9 +25,9 @@ BoeBot {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/parallax/boebot/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/parallax/boebot/worlds]({{ url.github_tree }}/projects/robots/parallax/boebot/worlds)".
 
-#### boebot.wbt
+#### [boebot.wbt]({{ url.github_tree }}/projects/robots/parallax/boebot/worlds/boebot.wbt)
 
 ![boebot.wbt.png](images/boebot/boebot.wbt.thumbnail.jpg) In this example, BoeBot moves inside an arena while avoiding the walls.
 When the robot detects an obstacle with one of its [DistanceSensors](https://cyberbotics.com/doc/reference/distancesensor), it turns the corresponding [LED](https://cyberbotics.com/doc/reference/led) on.
