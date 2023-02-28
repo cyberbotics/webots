@@ -109,7 +109,7 @@ The three [LEDs](https://cyberbotics.com/doc/reference/led) are switched on and 
 ![pioneer3dx_gripper.png](images/pioneer-3dx/pioneer3dx_gripper.wbt.thumbnail.jpg) The "pioneer3dx_gripper.wbt" world file is a simulation example where a gripper is used to move a ball (see the "pioneer3dx\_gripper.c" controller file).
 The `Pioneer3Gripper` PROTO is mounted on the `extensionSlot` of the `Pioneer3dx` PROTO node.
 
-#### [pioneer3dx\_matlab.wbt]({{ url.github_tree }}/projects/robots/adept/pioneer3/worlds/pioneer3dx\_matlab.wbt.wbt)
+#### [pioneer3dx\_matlab.wbt]({{ url.github_tree }}/projects/robots/adept/pioneer3/worlds/pioneer3dx\_matlab.wbt)
 
 ![pioneer3dx_matlab.png](images/pioneer-3dx/pioneer3dx_matlab.wbt.thumbnail.jpg) The "pioneer3dx_matlab.wbt" world file is a simulation example an obstacle avoidance behavior using a MATLAB controller (see the "pioneer3dx\_matlab.m" controller file).
 

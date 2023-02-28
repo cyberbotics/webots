@@ -39,6 +39,6 @@ ScaraT6 [
 
 You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/epson/scara_t6/worlds]({{ url.github_tree }}/projects/robots/epson/scara_t6/worlds)".
 
-#### [Industrial\_example.wbt]({{ url.github_tree }}/projects/robots/epson/scara_t6/worlds/Industrial\_example.wbt)
+#### [Industrial\_example.wbt]({{ url.github_tree }}/projects/robots/epson/scara_t6/worlds/industrial\_example.wbt)
 
 ![industrial_example.wbt.png](images/scara_t6/industrial_example.wbt.thumbnail.jpg) In this example, you can see the SCARA robot moving fruits from a track to baskets using a suction cup.
