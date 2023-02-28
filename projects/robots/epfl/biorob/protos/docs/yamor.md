@@ -24,9 +24,9 @@ Yamor {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/epfl/biorob/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/epfl/biorob/worlds]({{ url.github_tree }}/projects/robots/epfl/biorob/worlds)".
 
-#### yamor.wbt
+#### [yamor.wbt]({{ url.github_tree }}/projects/robots/epfl/biorob/worlds/yamor.wbt)
 
 ![yamor.wbt.png](images/yamor/yamor.wbt.thumbnail.jpg) In this example, eight Yamor robot "modules" attach to and detach from each other using [Connector](https://cyberbotics.com/doc/reference/connector) devices.
 Connector devices are used to simulate the mechanical connections of docking systems.

@@ -32,8 +32,8 @@ Elisa3 {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/gctronic/elisa/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/gctronic/elisa/worlds]({{ url.github_tree }}/projects/robots/gctronic/elisa/worlds)".
 
-#### elisa3.wbt
+#### [elisa3.wbt]({{ url.github_tree }}/projects/robots/gctronic/elisa/worlds/elisa3.wbt)
 
 ![elisa3.wbt.png](images/elisa3/elisa3.wbt.thumbnail.jpg) This simulation shows 10 Elisa robots moving randomly in a square arena with obstacles.

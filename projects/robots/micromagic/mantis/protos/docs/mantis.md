@@ -31,9 +31,9 @@ Mantis {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/micromagic/mantis/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/micromagic/mantis/worlds]({{ url.github_tree }}/projects/robots/micromagic/mantis/worlds)".
 
-#### mantis.wbt
+#### [mantis.wbt]({{ url.github_tree }}/projects/robots/micromagic/mantis/worlds/mantis.wbt)
 
 ![mantis.wbt.png](images/mantis/mantis.wbt.thumbnail.jpg) The Mantis robot moves forwards on an uneven field.
 Each Mantis motor is actuated by a simple sinusoidal function.

@@ -31,14 +31,14 @@ Khepera3 {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/k-team/khepera3/worlds":
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/k-team/khepera3/worlds]({{ url.github_tree }}/projects/robots/k-team/khepera3/worlds)":
 
-#### khepera3.wbt
+#### [khepera3.wbt]({{ url.github_tree }}/projects/robots/k-team/khepera3/worlds/khepera3.wbt)
 
 ![khepera3.wbt.png](images/khepera3/khepera3.wbt.thumbnail.jpg) In this example, you can see a Khepera III robot moving inside an arena while avoiding the walls.
 It uses a Braitenberg's vehicle algorithm to avoid obstacles.
 
-#### khepera3\_gripper.wbt
+#### [khepera3\_gripper.wbt]({{ url.github_tree }}/projects/robots/k-team/khepera3/worlds/khepera3\_gripper.wbt)
 
 ![khepera3_gripper.wbt.png](images/khepera3/khepera3_gripper.wbt.thumbnail.jpg) In this example, you can see a Khepera III robot mounted with a gripper.
 It grabs an orange stick, moves and leaves the stick.

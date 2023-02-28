@@ -28,9 +28,9 @@ Create {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/irobot/create/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/irobot/create/worlds]({{ url.github_tree }}/projects/robots/irobot/create/worlds)".
 
-#### create.wbt
+#### [create.wbt]({{ url.github_tree }}/projects/robots/irobot/create/worlds/create.wbt)
 
 ![create.wbt.png](images/create/create.wbt.thumbnail.jpg) This simulation shows the Create robot which cleans a small apartment.
 The robot moves straight ahead.

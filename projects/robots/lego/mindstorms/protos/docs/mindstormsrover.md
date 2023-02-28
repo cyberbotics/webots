@@ -24,9 +24,9 @@ MindstormsRover {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/lego/mindstorms/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/lego/mindstorms/worlds]({{ url.github_tree }}/projects/robots/lego/mindstorms/worlds)".
 
-#### rover.wbt
+#### [rover.wbt]({{ url.github_tree }}/projects/robots/lego/mindstorms/worlds/rover.wbt)
 
 ![rover.wbt.png](images/mindstorms/rover.wbt.thumbnail.jpg) In this example you can see the Mindstorms Rover robot following a black line drawn on the ground.
 In the middle of this line there is an obstacle which the robot navigates around after detecting a collision with it.

@@ -44,9 +44,9 @@ Khepera4 {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/k-team/khepera4/worlds":
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/k-team/khepera4/worlds]({{ url.github_tree }}/projects/robots/k-team/khepera4/worlds)":
 
-#### khepera4.wbt
+#### [khepera4.wbt]({{ url.github_tree }}/projects/robots/k-team/khepera4/worlds/khepera4.wbt)
 
 ![khepera4.wbt.png](images/khepera4/khepera4.wbt.thumbnail.jpg) This simulation shows a Khepera IV moving in a square arena.
 Its camera is enabled.

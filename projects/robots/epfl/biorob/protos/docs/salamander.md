@@ -24,9 +24,9 @@ Salamander {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/epfl/biorob/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/epfl/biorob/worlds]({{ url.github_tree }}/projects/robots/epfl/biorob/worlds)".
 
-#### salamander.wbt
+#### [salamander.wbt]({{ url.github_tree }}/projects/robots/epfl/biorob/worlds/salamander.wbt)
 
 ![salamander.wbt.png](images/salamander/salamander.wbt.thumbnail.jpg) A salamander-shaped robot walks down a slope and reaches a pool where it starts to swim.
 The controller uses two different types of locomotion: it walks on the ground and swims in the water.

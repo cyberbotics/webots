@@ -93,7 +93,7 @@ Pioneer3dx {
 ### Samples
 
 Here are listed the different example worlds based on the Pioneer 3-DX.
-The worlds and controllers can be accessed in the "WEBOTS\_HOME/projects/robots/adept/pioneer3" directory.
+The worlds and controllers can be accessed in the "[WEBOTS\_HOME/projects/robots/adept/pioneer3]({{ url.github_tree }}/projects/robots/adept/pioneer3)" directory.
 
 #### [pioneer3dx.wbt]({{ url.github_tree }}/projects/robots/adept/pioneer3/worlds/pioneer3dx.wbt)
 

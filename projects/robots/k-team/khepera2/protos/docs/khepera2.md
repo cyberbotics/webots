@@ -25,8 +25,8 @@ Khepera2 {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/k-team/khepera2/worlds":
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/k-team/khepera2/worlds]({{ url.github_tree }}/projects/robots/k-team/khepera2/worlds)":
 
-#### khepera2.wbt
+#### [khepera2.wbt]({{ url.github_tree }}/projects/robots/k-team/khepera2/worlds/khepera2.wbt)
 
 ![khepera2.wbt.png](images/khepera2/khepera2.wbt.thumbnail.jpg) In this example, you can see a Khepera II robot moving inside an arena while avoiding the walls.

@@ -25,8 +25,8 @@ Koala {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/k-team/koala/worlds":
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/k-team/koala/worlds]({{ url.github_tree }}/projects/robots/k-team/koala/worlds)":
 
-#### koala.wbt
+#### [koala.wbt]({{ url.github_tree }}/projects/robots/k-team/koala/worlds/koala.wbt)
 
 ![koala.wbt.png](images/koala/koala.wbt.thumbnail.jpg) This simulation shows a Koala avoiding obstacles in a square arena.

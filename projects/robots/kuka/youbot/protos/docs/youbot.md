@@ -33,7 +33,7 @@ Youbot {
 
 ### Samples
 
-You will find some samples in this folder: "WEBOTS\_HOME/projects/robots/kuka/youbot/worlds".
+You will find some samples in this folder: "[WEBOTS\_HOME/projects/robots/kuka/youbot/worlds]({{ url.github_tree }}/projects/robots/kuka/youbot/worlds)".
 
 > **Note:** For the mecanum wheels to behave correctly, the following [ContactProperties](https://cyberbotics.com/doc/reference/contactproperties) should be added in the `contactProperties` field of the [WorldInfo](https://cyberbotics.com/doc/reference/worldinfo) node:
 ```
@@ -62,17 +62,17 @@ You will find some samples in this folder: "WEBOTS\_HOME/projects/robots/kuka/yo
     }
   ]
 ```
-#### youbot.wbt
+#### [youbot.wbt]({{ url.github_tree }}/projects/robots/kuka/youbot/worlds/youbot.wbt)
 
 ![youbot.wbt.png](images/youbot/youbot.wbt.thumbnail.jpg) This simulation shows the youBot grabbing a box, releasing it on its plate, moving to a target, and leaving it on the ground.
 Once this automatic behavior is completed, you can move the robot and its arm using the computer keyboard (please refer to the instruction displayed in the Webots console).
 A small C library called "youbot\_control" (and located there: "WEBOTS\_HOME/projects/robots/kuka/youbot/libraries/youbot\_control") facilitate the robot control.
 
-#### youbot\_matlab.wbt
+#### [youbot\_matlab.wbt]({{ url.github_tree }}/projects/robots/kuka/youbot/worlds/youbot\_matlab.wbt)
 
 ![youbot.wbt.png](images/youbot/youbot.wbt.thumbnail.jpg) The same simulation as above, but with a controller written in MATLAB.
 
-#### tower\_of\_hanoi.wbt
+#### [tower\_of\_hanoi.wbt]({{ url.github_tree }}/projects/robots/kuka/youbot/worlds/tower\_of\_hanoi.wbt)
 
 ![tower_of_hanoi.wbt.png](images/youbot/tower_of_hanoi.wbt.thumbnail.jpg) In this simulation, the youBot is moving a pyramid of colored blocks from one position to another, using a temporary slot.
 This example is based on the [Tower of Hanoi](https://en.wikipedia.org/wiki/Tower_of_Hanoi) mathematical game.

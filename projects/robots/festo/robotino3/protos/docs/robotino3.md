@@ -56,6 +56,6 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
   ]
 ```
 
-#### robotino3.wbt
+#### [robotino3.wbt]({{ url.github_tree }}/projects/robots/festo/robotino3/worlds/robotino3.wbt)
 
 ![robotino3.wbt.png](images/robotino3/robotino3.wbt.thumbnail.jpg) This simulation shows a Robotino 3 moving in an industrial environment using a Braitenberg algorithm using the information received by its nine infrared sensors.

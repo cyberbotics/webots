@@ -29,9 +29,9 @@ GhostDog {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/epfl/biorob/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/epfl/biorob/worlds]({{ url.github_tree }}/projects/robots/epfl/biorob/worlds)".
 
-#### ghostdog.wbt
+#### [ghostdog.wbt]({{ url.github_tree }}/projects/robots/epfl/biorob/worlds/ghostdog.wbt)
 
 ![ghostdog.png](images/ghostdog/ghostdog.wbt.thumbnail.jpg) This example shows the GhostDog robot which gallops.
 The keyboard can be used to control the robot's direction and to change the amplitude of the galloping motion.

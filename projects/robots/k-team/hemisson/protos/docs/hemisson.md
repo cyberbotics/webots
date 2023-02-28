@@ -26,9 +26,9 @@ Hemisson {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/k-team/hemisson/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/k-team/hemisson/worlds]({{ url.github_tree }}/projects/robots/k-team/hemisson/worlds)".
 
-#### hemisson.wbt
+#### [hemisson.wbt]({{ url.github_tree }}/projects/robots/k-team/hemisson/worlds/hemisson.wbt)
 
 ![hemisson.wbt.png](images/hemisson/hemisson.wbt.thumbnail.jpg) This simulation shows an Hemisson robot which draws on the floor.
 The robot is moving randomly while avoiding obstacles.
