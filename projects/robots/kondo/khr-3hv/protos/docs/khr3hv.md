@@ -29,9 +29,9 @@ Khr3hv {
 
 ### Samples
 
-You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/kondo/khr-3hv/worlds]({{ url.github_tree }}/projects/robots/dji/mavic/worlds/kondo/khr-3hv)".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/kondo/khr-3hv/worlds]({{ url.github_tree }}/projects/robots/kondo/khr-3hv/worlds/kondo/khr-3hv)".
 
-#### [khr-3hv.wbt]({{ url.github_tree }}/projects/robots/dji/mavic/worlds/kondo/khr-3hv/khr-3hv.wbt)
+#### [khr-3hv.wbt]({{ url.github_tree }}/projects/robots/kondo/khr-3hv/worlds/kondo/khr-3hv/khr-3hv.wbt)
 
 ![khr-3hv.wbt.png](images/khr-3hv/khr-3hv.wbt.thumbnail.jpg) This simulation shows a KHR-3HV robot.
 You can play with its motors using the generic robot window.
