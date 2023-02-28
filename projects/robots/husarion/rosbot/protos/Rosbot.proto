@@ -15,7 +15,7 @@ EXTERNPROTO "webots://projects/devices/orbbec/protos/Astra.proto"
 PROTO Rosbot [
   field  SFVec3f     translation     0 0 0
   field  SFRotation  rotation        0 0 1 0
-  field  SFString    name            "Rosbot"  # Is `Robot.name`.
+  field  SFString    name            "rosbot"  # Is `Robot.name`.
   field  SFString    controller      "rosbot"  # Is `Robot.controller`.
   field  MFString    controllerArgs  []        # Is `Robot.controllerArgs`.
   field  SFString    customData      ""        # Is `Robot.customData`.
@@ -627,7 +627,7 @@ PROTO Rosbot [
       DistanceSensor {
         translation 0.100000 0.050000 0.053000
         rotation 0.000000 0.000000 1.000000 0.130000
-        name "range_left_front"
+        name "fl_range"
         redColorSensitivity 0
         lookupTable [ 0     0   0,
                       1     1   0,
@@ -637,7 +637,7 @@ PROTO Rosbot [
       DistanceSensor {
         translation 0.100000 -0.050000 0.053000
         rotation 0.000000 0.000000 1.000000 -0.130000
-        name "range_right_front"
+        name "fr_range"
         redColorSensitivity 0
         lookupTable [ 0     0   0,
                       2     2   0 ]
@@ -646,7 +646,7 @@ PROTO Rosbot [
       DistanceSensor {
         translation -0.100000 0.050000 0.0530000
         rotation 0.000000 0.000000 1.000000 3.010000
-        name "range_left_rear"
+        name "rl_range"
         redColorSensitivity 0
         lookupTable [ 0     0   0,
                       2     2   0 ]
@@ -655,7 +655,7 @@ PROTO Rosbot [
       DistanceSensor {
         translation -0.100000 -0.050000 0.053000
         rotation 0.000000 0.000000 1.000000 3.270000
-        name "range_right_rear"
+        name "rr_range"
         redColorSensitivity 0
         lookupTable [ 0     0   0,
                       2     2   0 ]

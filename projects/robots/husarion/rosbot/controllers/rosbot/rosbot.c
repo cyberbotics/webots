@@ -59,10 +59,10 @@ int main(int argc, char *argv[]) {
   wb_robot_init();
 
   /* get a handler to the motors and set target position to infinity (speed control). */
-  front_left_motor = wb_robot_get_device("front left wheel motor");
-  front_right_motor = wb_robot_get_device("front right wheel motor");
-  rear_left_motor = wb_robot_get_device("rear left wheel motor");
-  rear_right_motor = wb_robot_get_device("rear right wheel motor");
+  front_left_motor = wb_robot_get_device("fl_wheel_joint");
+  front_right_motor = wb_robot_get_device("fr_wheel_joint");
+  rear_left_motor = wb_robot_get_device("rl_wheel_joint");
+  rear_right_motor = wb_robot_get_device("rr_wheel_joint");
   wb_motor_set_position(front_left_motor, INFINITY);
   wb_motor_set_position(front_right_motor, INFINITY);
   wb_motor_set_position(rear_left_motor, INFINITY);
@@ -73,10 +73,10 @@ int main(int argc, char *argv[]) {
   wb_motor_set_velocity(rear_right_motor, 0.0);
 
   /* get a handler to the position sensors and enable them. */
-  front_left_position_sensor = wb_robot_get_device("front left wheel motor sensor");
-  front_right_position_sensor = wb_robot_get_device("front right wheel motor sensor");
-  rear_left_position_sensor = wb_robot_get_device("rear left wheel motor sensor");
-  rear_right_position_sensor = wb_robot_get_device("rear right wheel motor sensor");
+  front_left_position_sensor = wb_robot_get_device("fl_range");
+  front_right_position_sensor = wb_robot_get_device("fr_range");
+  rear_left_position_sensor = wb_robot_get_device("rl_range");
+  rear_right_position_sensor = wb_robot_get_device("rr_range");
   wb_position_sensor_enable(front_left_position_sensor, TIME_STEP);
   wb_position_sensor_enable(front_right_position_sensor, TIME_STEP);
   wb_position_sensor_enable(rear_left_position_sensor, TIME_STEP);
@@ -102,10 +102,10 @@ int main(int argc, char *argv[]) {
   wb_compass_enable(compass, TIME_STEP);
 
   /* get a handler to the distance sensors and enable them. */
-  distance_sensors[0] = wb_robot_get_device("rear left distance sensor");
-  distance_sensors[1] = wb_robot_get_device("front left distance sensor");
-  distance_sensors[2] = wb_robot_get_device("front right distance sensor");
-  distance_sensors[3] = wb_robot_get_device("rear right distance sensor");
+  distance_sensors[0] = wb_robot_get_device("fl_range");
+  distance_sensors[1] = wb_robot_get_device("rl_range");
+  distance_sensors[2] = wb_robot_get_device("fr_range");
+  distance_sensors[3] = wb_robot_get_device("rr_range");
   wb_distance_sensor_enable(distance_sensors[0], TIME_STEP);
   wb_distance_sensor_enable(distance_sensors[1], TIME_STEP);
   wb_distance_sensor_enable(distance_sensors[2], TIME_STEP);

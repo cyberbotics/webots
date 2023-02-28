@@ -10,8 +10,8 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/29265faa469a5f
 PROTO RosbotXl [
   field  SFVec3f     translation     0 0 0
   field  SFRotation  rotation        0 0 1 0
-  field  SFString    name            "rosbot_xl"  # Is `Robot.name`.
-  field  SFString    controller      "void"      # Is `Robot.controller`.
+  field  SFString    name            "rosbot_xl" # Is `Robot.name`.
+  field  SFString    controller      "rosbot_xl" # Is `Robot.controller`.
   field  MFString    controllerArgs  []          # Is `Robot.controllerArgs`.
   field  SFString    customData      ""          # Is `Robot.customData`.
   field  SFBool      supervisor      FALSE       # Is `Robot.supervisor`.
@@ -43,7 +43,7 @@ PROTO RosbotXl [
     boundingObject DEF body_colision Group {
       children [
         DEF MAIN_BODY_BOX Transform {
-          translation 0.000000 0.000000 0.061200
+          translation 0.000000 0.000000 0.048
           rotation 0.000000 0.000000 1.000000 0.000000
           children [
             Mesh {
