@@ -219,6 +219,12 @@ void WbX3dStreamingServer::sendWorldToClient(QWebSocket *client) {
   const QString &state = WbAnimationRecorder::instance()->computeUpdateData(true);
   if (!state.isEmpty())
     sendWorldStateToClient(client, state);
+
+  const QList<WbRobot *> &robots = WbWorld::instance()->robots();
+  foreach (const WbRobot *robot, robots)
+    WbTcpServer::sendRobotWindowInformation(client, robot);
+
+  client->sendTextMessage("scene load completed");
 }
 
 void WbX3dStreamingServer::sendWorldStateToClient(QWebSocket *client, const QString &state) const {
