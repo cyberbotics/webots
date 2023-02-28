@@ -12,7 +12,7 @@ Derived from [Robot](https://cyberbotics.com/doc/reference/robot).
 
 ```
 Moose {
-  SFVec3f    translation     0 0 0
+  SFVec3f    translation     0 0 0.38
   SFRotation rotation        0 1 0 1.5708
   SFString   name            "moose"
   SFString   controller      "<none>"

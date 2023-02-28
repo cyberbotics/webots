@@ -11,7 +11,7 @@ EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
 EXTERNPROTO "MooseWheel.proto"
 
 PROTO Moose [
-  field SFVec3f    translation     0 0 0         # Is `Transform.translation`.
+  field SFVec3f    translation     0 0 0.38      # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0       # Is `Transform.rotation`.
   field SFString   name            "moose"       # Is `Solid.name`.
   field SFString   controller      "<none>"      # Is `Robot.controller`.
