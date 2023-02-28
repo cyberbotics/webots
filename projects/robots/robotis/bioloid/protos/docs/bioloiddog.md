@@ -11,10 +11,6 @@ The physical dimensions, friction coefficients and mass distribution have been e
 
 %end
 
-### Movie Presentation
-
-![youtube video](https://www.youtube.com/watch?v=hMRYdd0Jlis)
-
 ### BioloidDog PROTO
 
 Derived from [Robot](https://cyberbotics.com/doc/reference/robot).
