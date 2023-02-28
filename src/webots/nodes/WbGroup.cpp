@@ -147,14 +147,6 @@ void WbGroup::addChild(WbNode *child) {
   mChildren->addItem(child);
 }
 
-bool WbGroup::removeChild(WbNode *node) {
-  if (mChildren->removeNode(node)) {
-    node->setParentNode(NULL);
-    return true;
-  } else
-    return false;
-}
-
 void WbGroup::clear() {
   WbMFNode::Iterator it(*mChildren);
   while (it.hasNext()) {

@@ -44,8 +44,8 @@ public:
   void clear() override;
   void insertDefaultItem(int index) override;
   WbVariant defaultNewVariant() const override { return WbVariant((WbNode *)NULL); }
-  void removeItem(int index) override;
-  bool removeNode(WbNode *node);
+  void removeItem(int index) override;  // remove without deleting the node instance
+  bool removeNode(WbNode *node);        // remove without deleting the node instance
   void writeItem(WbWriter &writer, int index) const override;
   WbVariant variantValue(int index) const override {
     assert(index >= 0 && index < size());
