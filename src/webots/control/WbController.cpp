@@ -313,6 +313,11 @@ void WbController::start() {
   file.write("");
   file.close();
 #endif
+  if (serverName.length() > 106) { // limit imposed by QLocalServer
+    WbLog::error(tr("Server name is too long, please shorten the robot name (server name = '%1').").arg(serverName));
+    return;
+  }
+
   // recover from a crash, when the previous server instance has not been cleaned up
   bool success = QLocalServer::removeServer(serverName);
   if (!success) {

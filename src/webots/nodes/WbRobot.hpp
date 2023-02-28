@@ -167,6 +167,8 @@ protected:
   void postPhysicsStep() override;
   virtual void writeConfigure(WbDataStream &);
 
+  void updateName() override;
+
   // export
   void exportNodeFields(WbWriter &writer) const override;
   const QString urdfName() const override;

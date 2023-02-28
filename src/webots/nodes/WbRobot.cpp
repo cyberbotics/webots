@@ -225,6 +225,7 @@ void WbRobot::preFinalize() {
     }
     parsingWarn(tr("Robot.controllerArgs data type changed from SFString to MFString in Webots R2020b. %1").arg(message));
   }
+  updateName();
   updateSupervisor();
   updateWindow();
   updateRemoteControl();
@@ -589,6 +590,14 @@ void WbRobot::setWaitingForWindow(bool waiting) {
 
 void WbRobot::updateData() {
   mDataNeedToWriteAnswer = true;
+}
+
+void WbRobot::updateName() {
+  if (name().contains(QRegularExpression(QStringLiteral("[^\\x{0000}-\\x{007F}]")))) {
+    WbLog::error(tr("Robot name contains non-ASCII characters, this is not supported. Resetting value to 'robot'."));
+    mName->setValue("robot");
+  }
+  WbSolid::updateName();
 }
 
 void WbRobot::updateSupervisor() {
