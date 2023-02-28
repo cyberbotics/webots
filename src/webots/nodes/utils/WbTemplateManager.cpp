@@ -113,7 +113,7 @@ void WbTemplateManager::subscribe(WbNode *node, bool subscribedDescendant) {
 void WbTemplateManager::unsubscribe(QObject *node) {
   const WbNode *n = static_cast<WbNode *>(node);
   if (n->isTemplate() && mTemplates.removeAll(n) > 0)
-    disconnect(static_cast<WbNode *>(node), &WbNode::regenerationRequired, this, &WbTemplateManager::nodeNeedRegeneration);
+    disconnect(n, &WbNode::regenerationRequired, this, &WbTemplateManager::nodeNeedRegeneration);
   mNodesSubscribedForRegeneration.remove(n);
 }
 
