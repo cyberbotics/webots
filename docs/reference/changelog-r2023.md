@@ -42,6 +42,7 @@ Released on ??
     - Fixed the incorrect parent link of SliderJoints when exporting to URDF ([#5899](https://github.com/cyberbotics/webots/pull/5899)).
     - Fixed computation of relative position for [Camera recognition objects](camera.md#camera-recognition-object) if they have a parent [Transform](transform.md) node ([#5905](https://github.com/cyberbotics/webots/pull/5905)).
     - Fixed [`wb_supervisor_export_image`](supervisor.md#wb_supervisor_export_image) not exporting until [`wb_robot_step`](robot.md#wb_robot_step) was called ([#5902](https://github.com/cyberbotics/webots/pull/5902)).
+    - Fixed node information shown in the Add Node dialog when selecting a PROTO USE node ([#5946](https://github.com/cyberbotics/webots/pull/5946)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
