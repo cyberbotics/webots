@@ -298,6 +298,11 @@ export default class Parser {
       case 'SolidReference':
       case 'Zoom':
       case 'ImmersionProperties':
+      case 'Damping':
+      case 'Lens':
+      case 'Focus':
+      case 'Recognition':
+      case 'LensFlare':
         // skip those nodes as they are not needed for web representation.
         break;
       default:
@@ -315,14 +320,10 @@ export default class Parser {
             } else if (parentNode instanceof WbSolid || parentNode instanceof WbTransform || parentNode instanceof WbGroup) {
               // Bounding object
               parentNode.boundingObject?.delete();
-              const shape = new WbShape(getAnId(), false, false, result);
-              shape.parent = parentNode.id;
-              WbWorld.instance.nodes.set(shape.id, shape);
-              result.parent = shape.id;
               if (parentNode instanceof WbSolid)
-                parentNode.boundingObject = shape;
+                parentNode.boundingObject = result;
               else
-                parentNode.children.push(shape);
+                parentNode.children.push(result);
             }
           }
         } else if (node.tagName === 'PBRAppearance') {
@@ -351,6 +352,21 @@ export default class Parser {
             if (typeof parentNode !== 'undefined' && parentNode instanceof WbAppearance) {
               parentNode.texture?.delete();
               parentNode.texture = result;
+            } else {
+              const role = getNodeAttribute(node, 'role', undefined);
+              result.role = role;
+              if (role === 'baseColorMap')
+                parentNode.baseColorMap = result;
+              else if (role === 'roughnessMap')
+                parentNode.roughnessMap = result;
+              else if (role === 'metalnessMap')
+                parentNode.metalnessMap = result;
+              else if (role === 'normalMap')
+                parentNode.normalMap = result;
+              else if (role === 'occlusionMap')
+                parentNode.occlusionMap = result;
+              else if (role === 'emissiveColorMap')
+                parentNode.emissiveColorMap = result;
             }
           }
         } else if (node.tagName === 'TextureTransform') {
@@ -1560,22 +1576,17 @@ export default class Parser {
     const t = getNodeAttribute(node, 'repeatT', 'true').toLowerCase() === 'true';
     const filtering = parseFloat(getNodeAttribute(node, 'filtering', '4'));
 
-    let imageTexture;
-    if (typeof url !== 'undefined' && url !== '') {
-      imageTexture = new WbImageTexture(id, url, s, t, filtering);
-      if (!this.#downloadingImage.has(url)) {
-        this.#downloadingImage.add(url);
-        // Load the texture in WREN
-        this.#promises.push(ImageLoader.loadImageTextureInWren(imageTexture, this.prefix, url));
-      }
+    const imageTexture = new WbImageTexture(id, url, s, t, filtering);
+    if (typeof url !== 'undefined' && !this.#downloadingImage.has(url)) {
+      this.#downloadingImage.add(url);
+      // Load the texture in WREN
+      this.#promises.push(ImageLoader.loadImageTextureInWren(imageTexture, this.prefix, url));
     }
 
-    if (typeof imageTexture !== 'undefined') {
-      if (typeof parentId !== 'undefined')
-        imageTexture.parent = parentId;
+    if (typeof parentId !== 'undefined')
+      imageTexture.parent = parentId;
 
-      WbWorld.instance.nodes.set(imageTexture.id, imageTexture);
-    }
+    WbWorld.instance.nodes.set(imageTexture.id, imageTexture);
 
     return imageTexture;
   }

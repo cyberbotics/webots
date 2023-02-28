@@ -1,12 +1,17 @@
 import WbBaseNode from './WbBaseNode.js';
 import WbWorld from './WbWorld.js';
 import {resetMultipleColorIfInvalid} from './utils/WbFieldChecker.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbColor extends WbBaseNode {
   #color;
   constructor(id, color) {
     super(id);
     this.#color = color;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_COLOR;
   }
 
   get color() {

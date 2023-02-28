@@ -2,6 +2,7 @@ import WbGeometry from './WbGeometry.js';
 
 import {arrayXPointerFloat} from './utils/utils.js';
 import {getAnId} from './utils/id_provider.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbIndexedLineSet extends WbGeometry {
   #coord;
@@ -12,6 +13,10 @@ export default class WbIndexedLineSet extends WbGeometry {
     this.#coordIndex = coordIndex;
 
     this._isShadedGeometryPickable = false;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_INDEXED_LINE_SET;
   }
 
   get coordIndex() {

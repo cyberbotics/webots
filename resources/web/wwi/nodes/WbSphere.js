@@ -1,6 +1,7 @@
 import WbGeometry from './WbGeometry.js';
 import {resetIfNotInRangeWithIncludedBounds, resetIfNonPositive} from './utils/WbFieldChecker.js';
 import WbVector3 from './utils/WbVector3.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbSphere extends WbGeometry {
   #ico;
@@ -11,6 +12,10 @@ export default class WbSphere extends WbGeometry {
     this.#radius = radius;
     this.#ico = ico;
     this.#subdivision = subdivision;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_SPHERE;
   }
 
   get ico() {

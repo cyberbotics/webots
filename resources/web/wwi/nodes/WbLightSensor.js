@@ -2,12 +2,18 @@ import WbDevice from './WbDevice.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import {arrayXPointerFloat} from './utils/utils.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbLightSensor extends WbDevice {
   #transform;
   #material;
   #mesh;
   #renderable;
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_LIGHT_SENSOR;
+  }
+
   createWrenObjects() {
     this.#transform = _wr_transform_new();
     this.#material = _wr_phong_material_new();

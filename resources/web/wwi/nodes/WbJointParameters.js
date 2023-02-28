@@ -1,5 +1,6 @@
 import WbBaseNode from './WbBaseNode.js';
 import WbWorld from './WbWorld.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbJointParameters extends WbBaseNode {
   #position;
@@ -12,6 +13,10 @@ export default class WbJointParameters extends WbBaseNode {
     this.#axis = axis;
     this.#minStop = minStop;
     this.#maxStop = maxStop;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_JOINT_PARAMETERS;
   }
 
   get position() {

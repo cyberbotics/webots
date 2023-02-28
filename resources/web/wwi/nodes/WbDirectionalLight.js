@@ -1,4 +1,5 @@
 import WbLight from './WbLight.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbDirectionalLight extends WbLight {
   #direction;
@@ -7,6 +8,10 @@ export default class WbDirectionalLight extends WbLight {
     super(id, on, color, intensity, castShadows, ambientIntensity);
 
     this.#direction = direction;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_DIRECTIONAL_LIGHT;
   }
 
   get direction() {

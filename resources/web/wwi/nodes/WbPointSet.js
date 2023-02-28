@@ -2,6 +2,7 @@ import WbGeometry from './WbGeometry.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import {arrayXPointerFloat} from './utils/utils.js';
 import {getAnId} from './utils/id_provider.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbPointSet extends WbGeometry {
   #color;
@@ -12,6 +13,10 @@ export default class WbPointSet extends WbGeometry {
     this.#color = color;
 
     this._isShadedGeometryPickable = false;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_POINT_SET;
   }
 
   clone(customID) {

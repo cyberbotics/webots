@@ -12,6 +12,7 @@ import WbWrenGtao from '../wren/WbWrenGtao.js';
 import WbWrenBloom from '../wren/WbWrenBloom.js';
 import WbWrenSmaa from '../wren/WbWrenSmaa.js';
 import {webots} from '../webots.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbViewpoint extends WbBaseNode {
   #defaultOrientation;
@@ -61,6 +62,10 @@ export default class WbViewpoint extends WbBaseNode {
     this.#wrenGtao = new WbWrenGtao();
     this.#wrenBloom = new WbWrenBloom();
     this.#wrenSmaa = new WbWrenSmaa();
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_VIEWPOINT;
   }
 
   get defaultPosition() {

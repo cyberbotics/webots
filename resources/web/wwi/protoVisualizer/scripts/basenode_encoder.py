@@ -101,6 +101,16 @@ def encode_value(type, value):
     return None
 
 
+def encode_description(contents):
+    description = ''
+    for line in contents.split('\n'):
+        if not line.startswith('#'):
+            break
+
+        description += line[1:].replace("'", '"').strip() + '\\n'
+    return description
+
+
 if __name__ == '__main__':
     files = list_files()
 
@@ -110,16 +120,20 @@ if __name__ == '__main__':
     data = {}
     for file in files:
         print(file)
-        nodeName = Path(file).stem
+        node_name = Path(file).stem
 
-        data[nodeName] = {}
+        data[node_name] = {}
         with open(file, 'r') as f:
             contents = f.read()
+            data[node_name]['description'] = encode_description(contents)
+            data[node_name]['icon'] = 'https://raw.githubusercontent.com/cyberbotics/webots/released/resources/nodes'\
+                                      f'/icons/{node_name}.png'
+
+            data[node_name]['fields'] = {}
             for (vrml_type, type, field_name, default_value) in re.findall(pattern, contents):
-                data[nodeName][field_name] = {}
-                data[nodeName][field_name]['type'] = 'VRML.' + type
-                data[nodeName][field_name]['defaultValue'] = encode_value(type, default_value)
-        # print(data)
+                data[node_name]['fields'][field_name] = {}
+                data[node_name]['fields'][field_name]['type'] = 'VRML.' + type
+                data[node_name]['fields'][field_name]['defaultValue'] = encode_value(type, default_value)
 
     json_str = json.dumps(data, indent=2)
 

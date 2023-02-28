@@ -1,14 +1,26 @@
 import WbBaseNode from './WbBaseNode.js';
 import WbCadShape from './WbCadShape.js';
 import WbLight from './WbLight.js';
+import WbSolid from './WbSolid.js';
 import WbWorld from './WbWorld.js';
 import WbBoundingSphere from './utils/WbBoundingSphere.js';
 import {getAnId} from './utils/id_provider.js';
+import {nodeIsInBoundingObject} from './utils/node_utilities.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbGroup extends WbBaseNode {
-  constructor(id) {
+  #boundingObjectFirstTimeSearch;
+  #isInBoundingObject;
+  constructor(id, isPropeller) {
     super(id);
     this.children = [];
+
+    this.#boundingObjectFirstTimeSearch = true;
+    this.#isInBoundingObject = false;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_GROUP;
   }
 
   boundingSphere() {
@@ -60,6 +72,9 @@ export default class WbGroup extends WbBaseNode {
           const index = parent.children.indexOf(this);
           parent.children.splice(index, 1);
         }
+
+        if (parent instanceof WbSolid && this.isInBoundingObject())
+          parent.boundingObject = undefined;
       }
     }
 
@@ -117,6 +132,16 @@ export default class WbGroup extends WbBaseNode {
 
       this._boundingSphere.addSubBoundingSphere(child.boundingSphere());
     });
+  }
+
+  isInBoundingObject() {
+    if (this.#boundingObjectFirstTimeSearch) {
+      this.#isInBoundingObject = nodeIsInBoundingObject(this);
+      if (this.wrenObjectsCreatedCalled)
+        this.#boundingObjectFirstTimeSearch = false;
+    }
+
+    return this.#isInBoundingObject;
   }
 
   updateBoundingObjectVisibility() {
