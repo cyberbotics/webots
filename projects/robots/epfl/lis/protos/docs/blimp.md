@@ -26,7 +26,7 @@ Blimp {
 
 You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/epfl/lis/worlds]({{ url.github_tree }}/projects/robots/epfl/lis/worlds)".
 
-### [blimp\_lis.wbt]({{ url.github_tree }}/projects/robots/epfl/lis/worlds/blimp\_lis.wbt)
+### [blimp.wbt]({{ url.github_tree }}/projects/robots/epfl/lis/worlds/blimp.wbt)
 
 ![blimp.png](images/blimp/blimp.wbt.thumbnail.jpg) This is an example of the flying blimp robot developed at the Laboratory of Intelligent Systems (LIS) at EPFL.
 You can use your keyboard, or a joystick to control the Blimp's motion across the room.
