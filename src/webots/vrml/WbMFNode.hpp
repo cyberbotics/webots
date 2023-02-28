@@ -56,7 +56,7 @@ public:
     assert(index >= 0 && index < size());
     return mVector[index];
   }
-  void setItem(int index, WbNode *node);
+  void setItem(int index, WbNode *node);  // replace node at index and deletes the previous node instance
   void addItem(WbNode *node);
   void insertItem(int index, WbNode *node);
   WbMFNode &operator=(const WbMFNode &other);

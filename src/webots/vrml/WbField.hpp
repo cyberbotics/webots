@@ -145,6 +145,7 @@ private slots:
   void parameterChanged();
   void parameterNodeInserted(int index);
   void parameterNodeRemoved(int index);
+  void parameterNodeChanged(int index);
   void fieldChanged();
   void fieldChangedByOde();
   void removeInternalField(QObject *field);

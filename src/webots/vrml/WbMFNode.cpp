@@ -98,12 +98,10 @@ void WbMFNode::setItem(int index, WbNode *node) {
   assert(node);
 
   if (mVector[index] != node) {
-    WbNode *const tmp = mVector[index];
-    mVector[index] = node;
+    mVector.replace(index, node);
     node->setInsertionCompleted();
     emit itemChanged(index);
     emit changed();
-    delete tmp;
   }
 }
 

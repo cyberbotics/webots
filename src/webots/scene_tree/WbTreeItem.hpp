@@ -92,6 +92,7 @@ private slots:
   void sfnodeChanged();
   void emitChildNeedsDeletion(int row);
   void addChild(int row);
+  void updateChild(int index);
 
 private:
   enum Type { ROOT, NODE, FIELD, ITEM, INVALID };

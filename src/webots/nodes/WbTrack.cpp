@@ -135,6 +135,7 @@ void WbTrack::postFinalize() {
     device->postFinalize();
   }
   connect(mDeviceField, &WbMFNode::changed, this, &WbTrack::updateDevices);
+  connect(mDeviceField, &WbMFNode::itemChanged, this, &WbTrack::addDevice);
   connect(mDeviceField, &WbMFNode::itemInserted, this, &WbTrack::addDevice);
 
   if (childCount() > 0) {

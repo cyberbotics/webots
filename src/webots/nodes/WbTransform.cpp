@@ -238,6 +238,7 @@ void WbTransform::setSleepMaterial() {
 ///////////////////////////////////////////////////////////////
 
 void WbTransform::listenToChildrenField() {
+  connect(childrenField(), &WbMFNode::itemChanged, this, &WbTransform::createOdeGeom, Qt::UniqueConnection);
   connect(childrenField(), &WbMFNode::itemInserted, this, &WbTransform::createOdeGeom, Qt::UniqueConnection);
   const WbGeometry *const g = geometry();
   if (g)

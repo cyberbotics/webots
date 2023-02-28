@@ -97,6 +97,7 @@ void WbGroup::postFinalize() {
 
   connect(mChildren, &WbMFNode::changed, this, &WbGroup::childrenChanged);
   connect(mChildren, &WbMFNode::itemInserted, this, &WbGroup::insertChildPrivate);
+  connect(mChildren, &WbMFNode::itemChanged, this, &WbGroup::insertChildPrivate);
   // if parent is a slot, it needs to be notified when a new node is inserted
   WbSlot *ps = dynamic_cast<WbSlot *>(parentNode());
   if (ps)

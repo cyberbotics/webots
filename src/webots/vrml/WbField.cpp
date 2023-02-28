@@ -333,6 +333,7 @@ void WbField::redirectTo(WbField *parameter) {
 
   WbMFNode *mfnode = dynamic_cast<WbMFNode *>(mParameter->value());
   if (mfnode) {
+    connect(mfnode, &WbMFNode::itemChanged, mParameter, &WbField::parameterNodeChanged, Qt::UniqueConnection);
     connect(mfnode, &WbMFNode::itemInserted, mParameter, &WbField::parameterNodeInserted, Qt::UniqueConnection);
     connect(mfnode, &WbMFNode::itemRemoved, mParameter, &WbField::parameterNodeRemoved, Qt::UniqueConnection);
 
@@ -403,6 +404,15 @@ void WbField::parameterNodeRemoved(int index) {
   foreach (WbField *const field, mInternalFields) {
     mfnode = dynamic_cast<WbMFNode *>(field->value());
     mfnode->removeItem(index);
+  }
+}
+
+void WbField::parameterNodeChanged(int index) {
+  WbMFNode *mfnode = dynamic_cast<WbMFNode *>(mValue);
+  WbNode *const node = mfnode->item(index);
+  foreach (WbField *const field, mInternalFields) {
+    mfnode = dynamic_cast<WbMFNode *>(field->value());
+    mfnode->setItem(index, node);
   }
 }
 

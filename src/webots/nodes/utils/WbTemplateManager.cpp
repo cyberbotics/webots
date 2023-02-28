@@ -360,21 +360,11 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
     else if (parentGroup) {
       int i = parentGroup->nodeIndex(node);
       assert(i != -1);
-
-      // TODO: The 3 following lines could be simplified by using WbGroup::setChild(),
-      //       but this function has to be fixed first (similar problem in WbSceneTree::transform
-      // remove currentNode
-      parentGroup->removeChild(node);
-      // insert just after currentNode
-      parentGroup->insertChild(i, newNode);
-      delete node;  // In the other cases the setter function will take care of deleting the node
+      parentGroup->setChild(i, newNode);
     } else if (parentSkin && parentSkin->appearanceField() && newAppearance) {
       int i = parentSkin->appearanceField()->nodeIndex(node);
       assert(i != -1);
-
-      // TODO: WbMFNode::setItem doesn't work here either. Fix this along with WbGroup::setChild()
-      parentSkin->appearanceField()->removeItem(i);
-      parentSkin->appearanceField()->insertItem(i, newAppearance);
+      parentSkin->appearanceField()->setItem(i, newAppearance);
     } else if (parentShape && newGeometry)
       parentShape->setGeometry(newGeometry);
     else if (parentShape && newAppearance)

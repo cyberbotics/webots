@@ -92,7 +92,7 @@ WbTreeItem::WbTreeItem(WbField *field) {
   }
 
   const WbMultipleValue *const multipleValue = static_cast<WbMultipleValue *>(value);
-  connect(multipleValue, &WbMultipleValue::itemChanged, this, &WbTreeItem::propagateDataChange);
+  connect(multipleValue, &WbMultipleValue::itemChanged, this, &WbTreeItem::updateChild);
   connect(multipleValue, &WbMultipleValue::itemRemoved, this, &WbTreeItem::emitChildNeedsDeletion);
   connect(multipleValue, &WbMultipleValue::itemInserted, this, &WbTreeItem::addChild);
 }
@@ -107,6 +107,18 @@ WbTreeItem::WbTreeItem(WbField *field, int index) {
 
 WbTreeItem::~WbTreeItem() {
   qDeleteAll(mChildren);
+}
+
+void WbTreeItem::updateChild(int index) {
+  if (mType == NODE) {
+    WbMFNode *mfnode = dynamic_cast<WbMFNode *>(sender());
+    if (mfnode && mfnode->item(index) != mNode) {
+      disconnect(mNode, &QObject::destroyed, this, &WbTreeItem::makeInvalid);
+      mNode = mfnode->item(index);
+      connect(mNode, &QObject::destroyed, this, &WbTreeItem::makeInvalid);
+    }
+  }
+  propagateDataChange();
 }
 
 void WbTreeItem::propagateDataChange() {
