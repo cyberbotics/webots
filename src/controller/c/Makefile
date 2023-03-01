@@ -54,7 +54,7 @@ ifeq ($(OSTYPE),linux)
 CFLAGS      = -fPIC -Wall -Wno-stringop-truncation -D LIBCONTROLLER_VERSION='$(LIBCONTROLLER_VERSION)'
 INCLUDE     = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include
 LD_FLAGS    = -shared -Wl,-soname,libController.so
-SHARED_LIBS = -lm -lpthread -ldl -lrt
+SHARED_LIBS = -lm -lpthread -ldl -lrt -lssl -lcrypto
 TARGET      = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.so
 endif
 

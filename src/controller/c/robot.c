@@ -26,6 +26,7 @@
 #include <dirent.h>  // struct dirent
 #include <fcntl.h>
 #include <locale.h>  // LC_NUMERIC
+#include <openssl/sha.h>
 #include <signal.h>  // signal
 #include <stdarg.h>
 #include <stdio.h>     // snprintf
@@ -1081,13 +1082,35 @@ static void wb_robot_cleanup_devices() {
   }
 }
 
+static char *encoded_robot_name(const char *robot_name) {
+  fprintf(stderr, "encoded_robot_name\n");
+  if (!robot_name)
+    return NULL;
+  fprintf(stderr, "RAW: %s\n", robot_name);
+
+  char *encoded_name = percent_encode(robot_name);
+  int length = strlen(encoded_name);
+  fprintf(stderr, "PERCENT ENC: %s %d\n", encoded_name, length);
+
+  if (strlen(encoded_name) > 80) {
+    unsigned char hash[SHA_DIGEST_LENGTH];
+    SHA1((unsigned char *)encoded_name, strlen(encoded_name), hash);
+    for (int i = 0; i < SHA_DIGEST_LENGTH; i++)
+      sprintf(encoded_name + i * 2, "%02x", hash[i]);
+
+    fprintf(stderr, "HASH %s %ld\n", encoded_name, strlen(encoded_name));
+  }
+
+  return encoded_name;
+}
+
 static char *compute_socket_filename() {
-  const char *WEBOTS_ROBOT_NAME = getenv("WEBOTS_ROBOT_NAME");
+  fprintf(stderr, "compute_socket_filename\n");
+  char *robot_name = encoded_robot_name(getenv("WEBOTS_ROBOT_NAME"));
+
   const char *WEBOTS_INSTANCE_PATH = wbu_system_webots_instance_path(true);
   char *socket_filename;
-  if (WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_INSTANCE_PATH && WEBOTS_INSTANCE_PATH[0]) {
-    // regular controller case
-    char *robot_name = percent_encode(WEBOTS_ROBOT_NAME);
+  if (robot_name && robot_name[0] && WEBOTS_INSTANCE_PATH && WEBOTS_INSTANCE_PATH[0]) {
 #ifndef _WIN32
     const int length = strlen(WEBOTS_INSTANCE_PATH) + strlen(robot_name) + 15;  // "%sintern/%s/socket"
     socket_filename = malloc(length);
@@ -1174,19 +1197,23 @@ static char *compute_socket_filename() {
   int length = strlen(TMP_DIR) + 24;  // TMPDIR + "/webots-12345678901/ipc"
   char *folder = malloc(length);
   snprintf(folder, length, "%s/webots-%d/ipc", TMP_DIR, number);
-  char *robot_name = strstr(&WEBOTS_CONTROLLER_URL[6], "/");
+  free(robot_name);
+  fprintf(stderr, "USE WEBOTS_CONTROLLER_URL: %s\n", WEBOTS_CONTROLLER_URL);
+  char *sub_string = strstr(&WEBOTS_CONTROLLER_URL[6], "/");
+  robot_name = encoded_robot_name(sub_string ? sub_string + 1 : NULL);
   if (robot_name) {
 #ifndef _WIN32
     // socket file name is like: folder + robot_name + "/extern"
-    length += strlen(robot_name + 1) + 8;
+    length += strlen(robot_name) + 8;
     socket_filename = malloc(length);
-    snprintf(socket_filename, length, "%s/%s/extern", folder, robot_name + 1);
+    snprintf(socket_filename, length, "%s/%s/extern", folder, robot_name);
 #else
     // socket file name is like: "\\.\\pipe\webots-XXX-robot_name"
-    length = 28 + strlen(robot_name + 1);
+    length = 28 + strlen(robot_name);
     socket_filename = malloc(length);
-    snprintf(socket_filename, length, "\\\\.\\pipe\\webots-%d-%s", number, robot_name + 1);
+    snprintf(socket_filename, length, "\\\\.\\pipe\\webots-%d-%s", number, robot_name);
 #endif
+    free(robot_name);
   } else {  // check if a single extern robot is present in the ipc folder
     DIR *dr = opendir(folder);
     if (dr == NULL) {  // the ipc folder was not yet created
@@ -1271,8 +1298,8 @@ static void compute_remote_info(char **host, int *port, char **robot_name) {
   sscanf(url_suffix, ":%d", port);
   const char *rn = strstr(url_suffix, "/");
   if (rn != NULL) {
-    *robot_name = malloc(strlen(rn) + 1);
-    strcpy(*robot_name, rn);
+    fprintf(stderr, "PROVIDED %s\n", rn + 1);
+    *robot_name = encoded_robot_name(rn + 1);  // skip '/' character
   } else
     *robot_name = NULL;
 }
@@ -1335,9 +1362,11 @@ int wb_robot_init() {  // API initialization
     if ((WEBOTS_CONTROLLER_URL != NULL) &&
         !(WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0]) &&
         strncmp(WEBOTS_CONTROLLER_URL, "tcp://", 6) == 0) {  // TCP URL given and not an intern controller
+      fprintf(stderr, "TCP connection %s %s\n", WEBOTS_ROBOT_NAME, WEBOTS_CONTROLLER_URL);
       char *host, *robot_name;
       int port = -1;
       compute_remote_info(&host, &port, &robot_name);
+      fprintf(stderr, "WILL USE ROBOT_NAME: >%s<\n", robot_name);
       char *error_message = malloc(ERROR_BUFFER_SIZE);
       success = scheduler_init_remote(host, port, robot_name, error_message);
       if (success) {

@@ -54,9 +54,11 @@
 #include "../../../include/controller/c/webots/supervisor.h"
 #include "../../controller/c/messages.h"
 
+#include <QtCore/QCryptographicHash>
 #include <QtCore/QDataStream>
 #include <QtCore/QStringList>
 #include <QtCore/QTimer>
+#include <QtCore/QUrl>
 
 #include <limits>
 
@@ -1076,6 +1078,15 @@ void WbRobot::dispatchAnswer(WbDataStream &stream, bool includeDevices) {
       }
     }
   }
+}
+
+QString WbRobot::encodedName() const {
+  const QString encodedName = QUrl::toPercentEncoding(name());
+  qDebug() << encodedName;
+  // QLocalServer has a limit of 106 characters for server names, limiting the robot name ensures some margin is left
+  if (encodedName.length() > 80)
+    return QString(QCryptographicHash::hash(encodedName.toUtf8(), QCryptographicHash::Sha1).toHex());
+  return encodedName;
 }
 
 void WbRobot::writeAnswer(WbDataStream &stream) {

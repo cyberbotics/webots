@@ -57,14 +57,17 @@ int scheduler_init_remote(const char *host, int port, const char *robot_name, ch
   scheduler_client = tcp_client_new(host, port, buffer);
   if (scheduler_client == -1)
     return false;
-
   const int length = robot_name ? strlen(robot_name) + 17 : 4;
+  // fprintf(stderr, ">%s< %ld\n", robot_name, strlen(robot_name));
   char *init_message = malloc(length);
+
   memcpy(init_message, "CTR", 3);
   if (robot_name) {  // send robot name
     memcpy(init_message + 3, "\nRobot-Name: ", 13);
-    memcpy(init_message + 16, &robot_name[1], strlen(robot_name));
+    memcpy(init_message + 16, robot_name, strlen(robot_name));
   }
+  init_message[length - 1] = '\0';
+  fprintf(stderr, "INIT MSG:\n\n%s\n\n", init_message);
   tcp_client_send(scheduler_client, init_message, strlen(init_message));
   free(init_message);
 
