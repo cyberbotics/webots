@@ -45,7 +45,7 @@ ifeq ($(OSTYPE),darwin)
 CFLAGS      = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -fpascal-strings -Wno-deprecated-declarations -I/Developer/Headers/FlatCarbon -Wall -fno-common -D LIBCONTROLLER_VERSION='$(LIBCONTROLLER_VERSION)'
 INCLUDE     = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include
 LD_FLAGS    = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -dynamiclib -install_name @rpath/Contents/lib/controller/libController.dylib -compatibility_version 1.0 -current_version 1.0.0
-SHARED_LIBS = -lz
+SHARED_LIBS = -lz -lssl -lcrypto
 TARGET      = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.dylib
 CC          = gcc
 endif
@@ -64,6 +64,7 @@ INCLUDE     = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/i
 LD_FLAGS    = -shared -mwindows --def Controller.def -lws2_32
 PLATFORM    = win32
 CC          = gcc
+SHARED_LIBS = -lssl -lcrypto
 TARGET      = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.lib
 endif
 
@@ -129,7 +130,7 @@ MINGW64_OBJECTS = $(addprefix $(OBJDIR)/, $(OBJECTS))
 $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll: $(MINGW64_OBJECTS) Controller.def
 	@echo "# linking  "$@
 	@echo "# linking  "$(WEBOTS_CONTROLLER_LIB_PATH)"/libController.a"
-	@$(CC) -o $@ $(addprefix $(OBJDIR)/, $(OBJECTS)) $(LD_FLAGS) -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libController.a
+	@$(CC) -o $@ $(addprefix $(OBJDIR)/, $(OBJECTS)) $(LD_FLAGS) -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libController.a $(SHARED_LIBS)
 
 $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.lib: $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll Controller.def
 ifeq ($(VISUAL_STUDIO_PATH),)
