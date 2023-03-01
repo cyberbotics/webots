@@ -4,6 +4,7 @@ import WbPbrAppearance from './WbPbrAppearance.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbWorld from './WbWorld.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbBackground extends WbBaseNode {
   #cubeArray;
@@ -21,6 +22,10 @@ export default class WbBackground extends WbBaseNode {
     super(id);
     this.skyColor = skyColor;
     this.luminosity = luminosity;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_BACKGROUND;
   }
 
   setCubeArray(cubeArray) {

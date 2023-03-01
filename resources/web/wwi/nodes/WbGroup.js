@@ -1,28 +1,26 @@
 import WbBaseNode from './WbBaseNode.js';
 import WbCadShape from './WbCadShape.js';
 import WbLight from './WbLight.js';
+import WbSolid from './WbSolid.js';
 import WbWorld from './WbWorld.js';
 import WbBoundingSphere from './utils/WbBoundingSphere.js';
 import {getAnId} from './utils/id_provider.js';
+import {nodeIsInBoundingObject} from './utils/node_utilities.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbGroup extends WbBaseNode {
-  #device;
+  #boundingObjectFirstTimeSearch;
+  #isInBoundingObject;
   constructor(id, isPropeller) {
     super(id);
     this.children = [];
 
-    this.isPropeller = isPropeller;
-    this.currentHelix = -1; // to switch between fast and slow helix
-    if (isPropeller)
-      this.#device = [];
+    this.#boundingObjectFirstTimeSearch = true;
+    this.#isInBoundingObject = false;
   }
 
-  get device() {
-    return this.#device;
-  }
-
-  set device(device) {
-    this.#device = device;
+  get nodeType() {
+    return WbNodeType.WB_NODE_GROUP;
   }
 
   boundingSphere() {
@@ -30,7 +28,7 @@ export default class WbGroup extends WbBaseNode {
   }
 
   clone(customID) {
-    const group = new WbGroup(customID, this.isPropeller);
+    const group = new WbGroup(customID);
     const length = this.children.length;
     for (let i = 0; i < length; i++) {
       const cloned = this.children[i].clone(getAnId());
@@ -74,6 +72,9 @@ export default class WbGroup extends WbBaseNode {
           const index = parent.children.indexOf(this);
           parent.children.splice(index, 1);
         }
+
+        if (parent instanceof WbSolid && this.isInBoundingObject())
+          parent.boundingObject = undefined;
       }
     }
 
@@ -119,14 +120,6 @@ export default class WbGroup extends WbBaseNode {
     });
 
     this.recomputeBoundingSphere();
-
-    if (this.isPropeller === true) {
-      if (typeof this.children[1] !== 'undefined')
-        this.currentHelix = this.children[1].id;
-      else if (typeof this.children[0] !== 'undefined')
-        this.currentHelix = this.children[0].id;
-      this.switchHelix(this.currentHelix, true);
-    }
   }
 
   recomputeBoundingSphere() {
@@ -141,16 +134,14 @@ export default class WbGroup extends WbBaseNode {
     });
   }
 
-  switchHelix(id, force) {
-    if (id !== this.currentHelix || force) {
-      this.currentHelix = id;
-      this.children.forEach(child => {
-        if (child.id === this.currentHelix)
-          _wr_node_set_visible(child.wrenNode, true);
-        else
-          _wr_node_set_visible(child.wrenNode, false);
-      });
+  isInBoundingObject() {
+    if (this.#boundingObjectFirstTimeSearch) {
+      this.#isInBoundingObject = nodeIsInBoundingObject(this);
+      if (this.wrenObjectsCreatedCalled)
+        this.#boundingObjectFirstTimeSearch = false;
     }
+
+    return this.#isInBoundingObject;
   }
 
   updateBoundingObjectVisibility() {

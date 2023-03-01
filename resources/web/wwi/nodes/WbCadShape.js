@@ -11,6 +11,7 @@ import WbVector3 from './utils/WbVector3.js';
 import WbVector4 from './utils/WbVector4.js';
 import WbWrenPicker from '../wren/WbWrenPicker.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
+import {WbNodeType} from './wb_node_type.js';
 
 import MeshLoader from '../MeshLoader.js';
 import ImageLoader from '../ImageLoader.js';
@@ -54,6 +55,10 @@ export default class WbCadShape extends WbBaseNode {
     this.#pbrAppearances = [];
 
     this.#promises = [];
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_CAD_SHAPE;
   }
 
   get ccw() {

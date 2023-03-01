@@ -2,7 +2,7 @@
 
 EXTERNPROTO "webots://projects/robots/universal_robots/protos/UR5e.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
-EXTERNPROTO "webots://projects/robots/pal_robotics/tiago++/protos/Tiago++.proto"
+EXTERNPROTO "webots://projects/robots/pal_robotics/tiagopp/protos/Tiagopp.proto"
 EXTERNPROTO "webots://projects/robots/fp_robotics/p-rob3/protos/P-Rob3.proto"
 EXTERNPROTO "webots://projects/robots/fp_robotics/p-rob3/protos/P-Grip.proto"
 EXTERNPROTO "webots://projects/robots/gctronic/e-puck/protos/E-puck.proto"
@@ -78,7 +78,7 @@ UR5e {
     }
   ]
 }
-Tiago++ {
+Tiagopp {
   translation -0.4 0.095 0
   rotation 0.7745972141184518 0.44721412362140484 0.44721212362085194 -1.823475307179586
   controller "robot_urdf"

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot name="TIAGo++" xmlns:xacro="http://ros.org/wiki/xacro">
+<robot name="TIAGopp" xmlns:xacro="http://ros.org/wiki/xacro">
   <link name="base_link">
     <visual>
       <origin xyz="0 0 0.06" rpy="0 0 0"/>

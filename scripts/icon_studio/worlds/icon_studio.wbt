@@ -302,7 +302,7 @@ IMPORTABLE EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/Ti
 IMPORTABLE EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsPivot.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsTwister.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsWheel.proto"
-IMPORTABLE EXTERNPROTO "webots://projects/robots/pal_robotics/tiago++/protos/Tiago++.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/robots/pal_robotics/tiagopp/protos/Tiagopp.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_iron/protos/TiagoIron.proto"
 IMPORTABLE EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_steel/protos/TiagoSteel.proto"

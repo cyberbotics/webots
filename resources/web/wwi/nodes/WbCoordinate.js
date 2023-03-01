@@ -1,11 +1,16 @@
 import WbBaseNode from './WbBaseNode.js';
 import WbWorld from './WbWorld.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbCoordinate extends WbBaseNode {
   #point;
   constructor(id, point) {
     super(id);
     this.#point = point;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_COORDINATE;
   }
 
   get point() {

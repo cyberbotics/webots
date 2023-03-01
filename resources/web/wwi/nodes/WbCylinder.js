@@ -1,6 +1,7 @@
 import WbGeometry from './WbGeometry.js';
 import {resetIfNotInRangeWithIncludedBounds, resetIfNonPositive} from './utils/WbFieldChecker.js';
 import WbVector3 from './utils/WbVector3.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbCylinder extends WbGeometry {
   #bottom;
@@ -17,6 +18,10 @@ export default class WbCylinder extends WbGeometry {
     this.#bottom = bottom;
     this.#side = side;
     this.#top = top;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_CYLINDER;
   }
 
   get bottom() {

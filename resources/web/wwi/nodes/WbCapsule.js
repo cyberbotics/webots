@@ -1,6 +1,7 @@
 import WbGeometry from './WbGeometry.js';
 import {resetIfNonPositive, resetIfNotInRangeWithIncludedBounds} from './utils/WbFieldChecker.js';
 import WbVector3 from './utils/WbVector3.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbCapsule extends WbGeometry {
   #bottom;
@@ -17,6 +18,10 @@ export default class WbCapsule extends WbGeometry {
     this.#bottom = bottom;
     this.#side = side;
     this.#top = top;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_CAPSULE;
   }
 
   get bottom() {

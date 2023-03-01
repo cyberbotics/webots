@@ -6,6 +6,7 @@ import WbWorld from './WbWorld.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import {getAnId} from './utils/id_provider.js';
 import {nodeIsInBoundingObject} from './utils/node_utilities.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbShape extends WbBaseNode {
   #boundingObjectFirstTimeSearch;
@@ -21,6 +22,10 @@ export default class WbShape extends WbBaseNode {
 
     this.appearance = appearance;
     this.geometry = geometry;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_SHAPE;
   }
 
   get appearance() {

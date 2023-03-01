@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<launch>
-  <arg name="auto-close" default="false" doc="Startup mode"/>
-  <env name="LD_LIBRARY_PATH" value="$(env LD_LIBRARY_PATH):$(env WEBOTS_HOME)/lib/controller"/>
-  <env name="PYTHONPATH" value="$(env PYTHONPATH):$(env WEBOTS_HOME)/lib/controller/python27" unless="$(eval '1' if env('ROS_DISTRO') == 'noetic' else '0')"/>
-  <env name="PYTHONPATH" value="$(env PYTHONPATH):$(env WEBOTS_HOME)/lib/controller/python38" if="$(eval '1' if env('ROS_DISTRO') == 'noetic' else '0')"/>
-  <node name="webots_universal_robots" pkg="ur_e_webots" type="universal_robots_ros.py" required="$(arg auto-close)"/>
-</launch>
