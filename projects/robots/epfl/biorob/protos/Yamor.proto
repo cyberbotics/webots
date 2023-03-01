@@ -1,11 +1,11 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/yamor
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/epfl/biorob/protos/Yamor.proto
 # The "Yamor" robot is a modular robot developed by the EPFL BioRob laboratory.
 
 PROTO Yamor [
-  field SFVec3f    translation     0 0 0       # Is `Transform.translation`.
+  field SFVec3f    translation     0 0 0.03    # Is `Transform.translation`.
   field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.
   field SFString   name            "Yamor"     # Is `Solid.name`.
   field SFString   controller      "yamor"     # Is `Robot.controller`.

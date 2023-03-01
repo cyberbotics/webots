@@ -22,7 +22,9 @@ PROTO TiagoGripper [
     else if (fields.name.value === 'right')
       side = 'right_hand_';
   >%
-    Solid {
+  Slot {
+    type "tiago hand"
+    endPoint Solid {
       translation IS translation
       rotation IS rotation
       children [
@@ -642,4 +644,5 @@ PROTO TiagoGripper [
         mass 1
       }
     }
+  }
 }

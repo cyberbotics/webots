@@ -29,8 +29,8 @@ Portal {
 
 ### Samples
 
-You will find the following sample in this folder: "WEBOTS\_HOME/projects/robots/a4/portal/worlds".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/a4/portal/worlds]({{ url.github_tree }}/projects/robots/a4/portal/worlds)".
 
-#### portal\_pe.wbt
+#### [portal\_pe.wbt]({{ url.github_tree }}/projects/robots/a4/portal/worlds/portal\_pe.wbt)
 
 ![portal_pe.wbt.png](images/portal/portal_pe.wbt.thumbnail.jpg) This simulation shows the portal model.

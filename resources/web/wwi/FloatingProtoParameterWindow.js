@@ -35,6 +35,8 @@ import WbPositionSensor from './nodes/WbPositionSensor.js';
 import NodeSelectorWindow from './NodeSelectorWindow.js';
 import {SFNode, MFNode, vrmlFactory} from './protoVisualizer/Vrml.js';
 import Node from './protoVisualizer/Node.js';
+import WbPropeller from './nodes/WbPropeller.js';
+import WbVector4 from './nodes/utils/WbVector4.js';
 
 export default class FloatingProtoParameterWindow extends FloatingWindow {
   #mfId;
@@ -673,6 +675,8 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
       hideShowButton.style.transform = '';
       hideShowButton.isHidden = true;
       hideShowButton.title = 'Show content';
+
+      addButton.style = 'none';
     };
 
     this.#rowNumber += this.#populateMFNode(resetButton, parent, parameter, this.#rowNumber, currentMfId);
@@ -1618,6 +1622,31 @@ export default class FloatingProtoParameterWindow extends FloatingWindow {
           });
           this.joints.appendChild(div);
         }
+      } else if (joint instanceof WbPropeller) {
+        numberOfJoint++;
+
+        let div = document.createElement('div');
+        div.className = 'proto-joint';
+
+        let helixName;
+        let helix;
+        if (joint.children.length > 1) {
+          helixName = joint.children[1].name; // slow helix
+          helix = joint.children[1];
+        } else if (joint.children.length === 1) {
+          helixName = joint.children[0].name;
+          helix = joint.children[0];
+        } else
+          helixName = 'propeller';
+
+        div.appendChild(this.#createJointInfo('Propeller: ', helixName, joint.device));
+        if (helix) {
+          this.#createSlider(undefined, joint.device, div, value => {
+            helix.rotation = new WbVector4(helix.rotation.x, helix.rotation.y, helix.rotation.z, value);
+            this.#view.x3dScene.render();
+          });
+        }
+        this.joints.appendChild(div);
       }
     }
 
