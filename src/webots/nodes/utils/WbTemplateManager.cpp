@@ -101,17 +101,20 @@ void WbTemplateManager::subscribe(WbNode *node, bool subscribedDescendant) {
   if (node->isTemplate() && !mTemplates.contains(node)) {
     subscribed = true;
     mTemplates << node;
-    connect(node, &QObject::destroyed, this, &WbTemplateManager::unsubscribe, Qt::UniqueConnection);
     connect(node, &WbNode::regenerateNodeRequest, this, &WbTemplateManager::regenerateNode, Qt::UniqueConnection);
     connect(node, &WbNode::regenerationRequired, this, &WbTemplateManager::nodeNeedRegeneration);
   }
-
+  if (subscribedDescendant)
+    mNodesSubscribedForRegeneration.insert(node);
   recursiveFieldSubscribeToRegenerateNode(node, subscribed, subscribedDescendant);
+  connect(node, &QObject::destroyed, this, &WbTemplateManager::unsubscribe, Qt::UniqueConnection);
 }
 
 void WbTemplateManager::unsubscribe(QObject *node) {
-  disconnect(static_cast<WbNode *>(node), &WbNode::regenerationRequired, this, &WbTemplateManager::nodeNeedRegeneration);
-  mTemplates.removeAll(static_cast<WbNode *>(node));
+  const WbNode *n = static_cast<WbNode *>(node);
+  if (n->isTemplate() && mTemplates.removeAll(n) > 0)
+    disconnect(n, &WbNode::regenerationRequired, this, &WbTemplateManager::nodeNeedRegeneration);
+  mNodesSubscribedForRegeneration.remove(n);
 }
 
 bool WbTemplateManager::nodeNeedsToSubscribe(WbNode *node) {
@@ -290,7 +293,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
 
   WbNodeUtilities::validateInsertedNode(parentField, newNode, parent, isInBoundingObject);
 
-  subscribe(newNode);
+  subscribe(newNode, mNodesSubscribedForRegeneration.contains(node));
 
   const bool ancestorTemplateRegeneration = upperTemplateNode != NULL;
   if (node->isProtoParameterNode()) {
