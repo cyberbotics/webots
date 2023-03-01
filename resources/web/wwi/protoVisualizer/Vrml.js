@@ -392,15 +392,7 @@ export class SFNode extends SingleValue {
     const nodeX3d = this.value.toX3d(parameterName);
 
     // handle exceptions
-    let name;
-    if (!this.value.isProto)
-      name = this.value.name;
-    else {
-      let baseType = this.value.baseType;
-      while (baseType.isProto)
-        baseType = baseType.baseType;
-      name = baseType.name;
-    }
+    const name = this.value.getBaseNode().name;
     if (this.value.name === 'ImageTexture')
       nodeX3d.setAttribute('role', parameterName);
     else if (['Shape', 'Group', 'Transform', 'Solid', 'Robot'].includes(name)) {
