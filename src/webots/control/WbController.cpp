@@ -245,9 +245,18 @@ bool WbController::isRunning() const {
 void WbController::start() {
   mRobot->setControllerStarted(true);
   if (mExtern) {
-    info(tr("waiting for local or remote connection on port %1 targeting robot named '%2'.")
-           .arg(QString::number(WbStandardPaths::webotsTmpPathId()))
-           .arg(mRobot->encodedName()));
+    QString message;
+    if (mRobot->encodedName() == mRobot->name())
+      message = tr("waiting for local or remote connection on port %1 targeting robot named '%2'.")
+                  .arg(QString::number(WbStandardPaths::webotsTmpPathId()))
+                  .arg(mRobot->name());
+    else
+      message = tr("waiting for local or remote connection on port %1 targeting robot named '%2' (%3).")
+                  .arg(QString::number(WbStandardPaths::webotsTmpPathId()))
+                  .arg(mRobot->encodedName())
+                  .arg(mRobot->name());
+
+    info(message);
     WbControlledWorld::instance()->externConnection(this, false);
     if (WbWorld::printExternUrls()) {
       const QString localUrl = "ipc://" + QString::number(WbStandardPaths::webotsTmpPathId()) + '/' + mRobot->encodedName();

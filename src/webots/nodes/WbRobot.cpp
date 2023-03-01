@@ -1082,9 +1082,10 @@ void WbRobot::dispatchAnswer(WbDataStream &stream, bool includeDevices) {
 
 QString WbRobot::encodedName() const {
   const QString encodedName = QUrl::toPercentEncoding(name());
-  qDebug() << encodedName;
-  // QLocalServer has a limit of 106 characters for server names, limiting the robot name ensures some margin is left
-  if (encodedName.length() > 80)
+  // the robot name is used to connect to the libController and in this process there are indirect limitations
+  // such as QLocalServer only accepting strings up to 106 characters for server names, for these reasons if the
+  // robot name is bigger than an arbitrary length, a hashed version is used instead.
+  if (encodedName.length() > 70)
     return QString(QCryptographicHash::hash(encodedName.toUtf8(), QCryptographicHash::Sha1).toHex());
   return encodedName;
 }

@@ -58,7 +58,6 @@ int scheduler_init_remote(const char *host, int port, const char *robot_name, ch
   if (scheduler_client == -1)
     return false;
   const int length = robot_name ? strlen(robot_name) + 17 : 4;
-  // fprintf(stderr, ">%s< %ld\n", robot_name, strlen(robot_name));
   char *init_message = malloc(length);
 
   memcpy(init_message, "CTR", 3);
@@ -67,7 +66,6 @@ int scheduler_init_remote(const char *host, int port, const char *robot_name, ch
     memcpy(init_message + 16, robot_name, strlen(robot_name));
   }
   init_message[length - 1] = '\0';
-  fprintf(stderr, "INIT MSG:\n\n%s\n\n", init_message);
   tcp_client_send(scheduler_client, init_message, strlen(init_message));
   free(init_message);
 

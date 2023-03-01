@@ -1082,32 +1082,27 @@ static void wb_robot_cleanup_devices() {
   }
 }
 
-static char *encoded_robot_name(const char *robot_name) {
-  fprintf(stderr, "encoded_robot_name\n");
+static char *encode_robot_name(const char *robot_name) {
   if (!robot_name)
     return NULL;
-  fprintf(stderr, "RAW: %s\n", robot_name);
 
   char *encoded_name = percent_encode(robot_name);
   int length = strlen(encoded_name);
-  fprintf(stderr, "PERCENT ENC: %s %d\n", encoded_name, length);
-
-  if (strlen(encoded_name) > 80) {
+  // the robot name is used to connect to the libController and in this process there are indirect limitations
+  // such as QLocalServer only accepting strings up to 106 characters for server names, for these reasons if the
+  // robot name is bigger than an arbitrary length, a hashed version is used instead.
+  if (length > 70) {
     unsigned char hash[SHA_DIGEST_LENGTH];
-    SHA1((unsigned char *)encoded_name, strlen(encoded_name), hash);
+    SHA1((unsigned char *)encoded_name, length, hash);
     for (int i = 0; i < SHA_DIGEST_LENGTH; i++)
       sprintf(encoded_name + i * 2, "%02x", hash[i]);
-
-    fprintf(stderr, "HASH %s %ld\n", encoded_name, strlen(encoded_name));
   }
 
   return encoded_name;
 }
 
 static char *compute_socket_filename() {
-  fprintf(stderr, "compute_socket_filename\n");
-  char *robot_name = encoded_robot_name(getenv("WEBOTS_ROBOT_NAME"));
-
+  char *robot_name = encode_robot_name(getenv("WEBOTS_ROBOT_NAME"));
   const char *WEBOTS_INSTANCE_PATH = wbu_system_webots_instance_path(true);
   char *socket_filename;
   if (robot_name && robot_name[0] && WEBOTS_INSTANCE_PATH && WEBOTS_INSTANCE_PATH[0]) {
@@ -1198,9 +1193,8 @@ static char *compute_socket_filename() {
   char *folder = malloc(length);
   snprintf(folder, length, "%s/webots-%d/ipc", TMP_DIR, number);
   free(robot_name);
-  fprintf(stderr, "USE WEBOTS_CONTROLLER_URL: %s\n", WEBOTS_CONTROLLER_URL);
   char *sub_string = strstr(&WEBOTS_CONTROLLER_URL[6], "/");
-  robot_name = encoded_robot_name(sub_string ? sub_string + 1 : NULL);
+  robot_name = encode_robot_name(sub_string ? sub_string + 1 : NULL);
   if (robot_name) {
 #ifndef _WIN32
     // socket file name is like: folder + robot_name + "/extern"
@@ -1297,11 +1291,7 @@ static void compute_remote_info(char **host, int *port, char **robot_name) {
   snprintf(*host, host_length, "%s", &WEBOTS_CONTROLLER_URL[6]);
   sscanf(url_suffix, ":%d", port);
   const char *rn = strstr(url_suffix, "/");
-  if (rn != NULL) {
-    fprintf(stderr, "PROVIDED %s\n", rn + 1);
-    *robot_name = encoded_robot_name(rn + 1);  // skip '/' character
-  } else
-    *robot_name = NULL;
+  *robot_name = rn != NULL ? encode_robot_name(rn + 1) : NULL;
 }
 
 int wb_robot_init() {  // API initialization
@@ -1362,11 +1352,9 @@ int wb_robot_init() {  // API initialization
     if ((WEBOTS_CONTROLLER_URL != NULL) &&
         !(WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0]) &&
         strncmp(WEBOTS_CONTROLLER_URL, "tcp://", 6) == 0) {  // TCP URL given and not an intern controller
-      fprintf(stderr, "TCP connection %s %s\n", WEBOTS_ROBOT_NAME, WEBOTS_CONTROLLER_URL);
       char *host, *robot_name;
       int port = -1;
       compute_remote_info(&host, &port, &robot_name);
-      fprintf(stderr, "WILL USE ROBOT_NAME: >%s<\n", robot_name);
       char *error_message = malloc(ERROR_BUFFER_SIZE);
       success = scheduler_init_remote(host, port, robot_name, error_message);
       if (success) {
