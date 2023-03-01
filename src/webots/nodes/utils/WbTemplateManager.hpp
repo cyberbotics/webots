@@ -22,6 +22,7 @@
 
 #include <QtCore/QList>
 #include <QtCore/QObject>
+#include <QtCore/QSet>
 
 class WbNode;
 class WbField;
@@ -33,13 +34,16 @@ public:
   static WbTemplateManager *instance();
 
   void clear();
-  void subscribe(WbNode *node, bool subscribedDescendant = false);
+  void subscribe(WbNode *node, bool subscribedDescendant);
 
   // when unblocked, all the templates which have required
   // a regeneration inbetween are regenerated
   void blockRegeneration(bool block);
 
   static bool isRegenerating() { return cRegeneratingNodeCount > 0; }
+  static bool isNodeChangeTriggeringRegeneration(const WbNode *node) {
+    return WbTemplateManager::instance()->mNodesSubscribedForRegeneration.contains(node);
+  }
 
 signals:
   void preNodeRegeneration(WbNode *node, bool nested);
@@ -66,6 +70,7 @@ private:
   void regenerateNodeFromField(WbNode *templateNode, WbField *field, bool isParameter);
 
   QList<WbNode *> mTemplates;
+  QSet<const WbNode *> mNodesSubscribedForRegeneration;
 
   bool mBlockRegeneration;
   bool mTemplatesNeedRegeneration;
