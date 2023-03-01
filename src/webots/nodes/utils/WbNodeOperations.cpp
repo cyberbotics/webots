@@ -272,7 +272,7 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
   resolveSolidNameClashIfNeeded(newNode);
 
   if (subscribe && baseNode->isTemplate())
-    WbTemplateManager::instance()->subscribe(newNode);
+    WbTemplateManager::instance()->subscribe(newNode, WbTemplateManager::isNodeChangeTriggeringRegeneration(baseNode));
 
   updateDictionary(baseNode->isUseNode(), baseNode);
 
@@ -280,6 +280,12 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
 }
 
 void WbNodeOperations::resolveSolidNameClashIfNeeded(WbNode *node) const {
+  const QList<WbNode *> instances = node->protoParameterNodeInstances();
+  if (!instances.isEmpty()) {
+    foreach (WbNode *n, instances)
+      resolveSolidNameClashIfNeeded(n);
+    return;
+  }
   QList<WbSolid *> solidNodes;
   WbSolid *solidNode = dynamic_cast<WbSolid *>(node);
   if (solidNode)
