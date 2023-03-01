@@ -444,8 +444,9 @@ void WbField::parameterNodeChanged(int index) {
   WbMFNode *mfnode = dynamic_cast<WbMFNode *>(mValue);
   WbNode *const node = mfnode->item(index);
   foreach (WbField *const field, mInternalFields) {
+    WbNode *instance = node->cloneAndReferenceProtoInstance();
     mfnode = dynamic_cast<WbMFNode *>(field->value());
-    mfnode->setItem(index, node);
+    mfnode->setItem(index, instance);
   }
 }
 

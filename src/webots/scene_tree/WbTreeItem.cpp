@@ -92,7 +92,8 @@ WbTreeItem::WbTreeItem(WbField *field) {
   }
 
   const WbMultipleValue *const multipleValue = static_cast<WbMultipleValue *>(value);
-  connect(multipleValue, &WbMultipleValue::itemChanged, this, &WbTreeItem::updateChild);
+  connect(multipleValue, &WbMultipleValue::itemChanged, this, &WbTreeItem::emitChildNeedsDeletion);
+  connect(multipleValue, &WbMultipleValue::itemChanged, this, &WbTreeItem::addChild); // slots are executed in the order they have been connected 
   connect(multipleValue, &WbMultipleValue::itemRemoved, this, &WbTreeItem::emitChildNeedsDeletion);
   connect(multipleValue, &WbMultipleValue::itemInserted, this, &WbTreeItem::addChild);
 }
@@ -423,20 +424,6 @@ void WbTreeItem::emitChildNeedsDeletion(int row) {
 
 void WbTreeItem::addChild(int row) {
   emit rowsInserted(row, 1);
-}
-
-void WbTreeItem::updateChild(int index) {
-  assert(mType == FIELD && index >= 0 && index < mChildren.size());
-  WbMFNode *mfnode = dynamic_cast<WbMFNode *>(sender());
-  if (mfnode) {
-    WbTreeItem *childItem = mChildren.at(index);
-    if (childItem->mNode != mfnode->item(index)) {
-      disconnect(childItem->mNode, &QObject::destroyed, childItem, &WbTreeItem::makeInvalid);
-      childItem->mNode = mfnode->item(index);
-      connect(childItem->mNode, &QObject::destroyed, childItem, &WbTreeItem::makeInvalid);
-    }
-    propagateDataChange();
-  }
 }
 
 void WbTreeItem::deleteChild(int row) {
