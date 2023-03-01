@@ -44,7 +44,7 @@ public:
   void clear() override;
   void insertDefaultItem(int index) override;
   WbVariant defaultNewVariant() const override { return WbVariant((WbNode *)NULL); }
-  void removeItem(int index) override;  // remove without deleting the node instance
+  void removeItem(int index) override;  // remove and delete the node instance
   bool removeNode(WbNode *node);        // remove without deleting the node instance
   void writeItem(WbWriter &writer, int index) const override;
   WbVariant variantValue(int index) const override {
@@ -56,7 +56,7 @@ public:
     assert(index >= 0 && index < size());
     return mVector[index];
   }
-  void setItem(int index, WbNode *node);  // replace node at index and deletes the previous node instance
+  void setItem(int index, WbNode *node);  // replace node at index and delete the previous node instance
   void addItem(WbNode *node);
   void insertItem(int index, WbNode *node);
   WbMFNode &operator=(const WbMFNode &other);
