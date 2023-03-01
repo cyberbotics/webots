@@ -171,7 +171,7 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
               sfNode->setValue(newUseNode);
             else if (mfNode) {
               mfNode->removeItem(index);
-              mfNode->insertItem(index, newUseNode);
+              mfNode->insertItem(index, newUseNode);  // TODO: replace by setItem(index, newUseNode) when it is fixed
             }
             regenerationRequired |= isTemplateRegenerator;
             while (parent) {
@@ -196,7 +196,7 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
             sfNode->setValue(newDefNode);
           else if (mfNode) {
             mfNode->removeItem(index);
-            mfNode->insertItem(index, newDefNode);
+            mfNode->insertItem(index, newDefNode);  // TODO: replace by setItem(index, newUseNode) when it is fixed
           }
           regenerationRequired |= isTemplateRegenerator;
           newDefNode->finalize();
