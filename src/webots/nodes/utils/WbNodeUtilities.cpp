@@ -54,6 +54,7 @@
 #include "WbSlot.hpp"
 #include "WbSolid.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbTemplateManager.hpp"
 #include "WbTokenizer.hpp"
 #include "WbTouchSensor.hpp"
 #include "WbTrack.hpp"
@@ -1133,7 +1134,8 @@ QList<WbNode *> WbNodeUtilities::findDescendantNodesOfType(WbNode *node, bool (&
 bool WbNodeUtilities::isTemplateRegeneratorField(const WbField *field) {
   const WbField *f = field;
   while (f != NULL) {
-    if (f->isTemplateRegenerator())
+    if (f->isTemplateRegenerator() ||
+        (f->parentNode() && WbTemplateManager::isNodeChangeTriggeringRegeneration(f->parentNode())))
       return true;
     f = f->parameter();
   }
