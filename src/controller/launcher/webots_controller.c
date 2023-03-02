@@ -55,6 +55,7 @@ static char *new_ld_path;
 static char *new_python_path;
 static char *webots_project;
 static char *webots_controller_name;
+static char *webots_controller_args;
 static char *webots_version;
 
 // Removes comments and trailing whitespace from a string.
@@ -818,7 +819,7 @@ int main(int argc, char **argv) {
     char *matlab_command = malloc(matlab_command_size);
     sprintf(matlab_command, "-sd %s%s", WEBOTS_HOME, launcher_path);
 
-    // Start MATLAB without display and execute matlab_command to start the launcher.m file
+    // Start MATLAB without display and run the launcher.m file
     size_t current_size = 0;
     char **new_argv = NULL;
     new_argv = add_single_argument(new_argv, &current_size, matlab_path);
@@ -830,8 +831,27 @@ int main(int argc, char **argv) {
     new_argv = add_single_argument(new_argv, &current_size, matlab_command);
     new_argv = add_single_argument(new_argv, &current_size, "-r");
     new_argv = add_single_argument(new_argv, &current_size, "launcher");
+    size_t controller_args_size = current_size;
     new_argv = add_controller_arguments(new_argv, argv, &current_size);
     new_argv = add_single_argument(new_argv, &current_size, NULL);
+
+    // Write controller args to environment variable
+    if (new_argv[controller_args_size] != NULL){
+      char *varargin;
+      varargin = realloc(NULL, strlen(new_argv[controller_args_size]) + 1);
+      strcpy(varargin, new_argv[controller_args_size]);
+      while (new_argv[++controller_args_size] != NULL){
+          varargin = realloc(varargin, strlen(varargin) + strlen(new_argv[controller_args_size]) + strlen(ENV_SEPARATOR) + 1);
+          strcat(varargin, ENV_SEPARATOR);
+          strcat(varargin, new_argv[controller_args_size]);
+      }
+      const size_t webots_controller_args_size = snprintf(NULL, 0, "WEBOTS_PROJECT=%s", varargin) + 1;
+      webots_controller_args = malloc(webots_controller_args_size);
+      sprintf(webots_controller_args, "WEBOTS_CONTROLLER_ARGS=%s", varargin);
+      putenv(webots_controller_args);
+      free(varargin);
+    }
+
 #ifdef _WIN32
     const char *const *windows_argv = (const char **)new_argv;
     _spawnvpe(_P_WAIT, windows_argv[0], windows_argv, NULL);

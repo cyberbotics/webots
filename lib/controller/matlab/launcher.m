@@ -169,7 +169,8 @@ try
   % also escape the char terminator "'" inside in an argument
   args = '';
   if ~isempty(WEBOTS_CONTROLLER_ARGS)
-      split_args = split(WEBOTS_CONTROLLER_ARGS,';');
+      if ispc, envsep = ';'; else, envsep = ':'; end
+      split_args = split(WEBOTS_CONTROLLER_ARGS, envsep);
       for i=1:length(split_args)
           args = [args,' ''', strrep(split_args{i},'''',''''''), ''''];
       end
