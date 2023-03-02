@@ -448,12 +448,12 @@ static void matlab_config_environment() {
   const size_t controller_size = strlen(current_path);
   const size_t project_path_size = controller_size - controller_folder_size;
   char *project_path = malloc(project_path_size + 1);
-  strncpy(project_path, controller, project_path_size);
+  strncpy(project_path, current_path, project_path_size);
   project_path[project_path_size] = '\0';
 
-  const size_t webots_project_size = snprintf(NULL, 0, "WEBOTS_PROJECT=%s%s", current_path, project_path) + 1;
+  const size_t webots_project_size = snprintf(NULL, 0, "WEBOTS_PROJECT=%s", project_path) + 1;
   webots_project = malloc(webots_project_size);
-  sprintf(webots_project, "WEBOTS_PROJECT=%s%s", current_path, project_path);
+  sprintf(webots_project, "WEBOTS_PROJECT=%s", project_path);
   putenv(webots_project);
   free(project_path);
 
@@ -807,23 +807,35 @@ int main(int argc, char **argv) {
       return -1;
 
 #ifdef _WIN32
-    const char *launcher_path = "\\lib\\controller\\matlab\\launcher.m";
+    const char *launcher_path = "\\lib\\controller\\matlab";
 #elif defined __APPLE__
-    const char *launcher_path = "/Contents/lib/controller/matlab/launcher.m";
+    const char *launcher_path = "/Contents/lib/controller/matlab";
 #elif defined __linux__
-    const char *launcher_path = "/lib/controller/matlab/launcher.m";
+    const char *launcher_path = "/lib/controller/matlab";
 #endif
     // matlab_command starts the launcher.m file contained in the lib controller
-    const size_t matlab_command_size = snprintf(NULL, 0, "\"run('%s%s'); exit;\"", WEBOTS_HOME, launcher_path) + 1;
+    const size_t matlab_command_size = snprintf(NULL, 0, "-sd %s%s", WEBOTS_HOME, launcher_path) + 1;
     char *matlab_command = malloc(matlab_command_size);
-    sprintf(matlab_command, "\"run('%s%s'); exit;\"", WEBOTS_HOME, launcher_path);
+    sprintf(matlab_command, "-sd %s%s", WEBOTS_HOME, launcher_path);
 
     // Start MATLAB without display and execute matlab_command to start the launcher.m file
+    size_t current_size = 0;
+    char **new_argv = NULL;
+    new_argv = add_single_argument(new_argv, &current_size, matlab_path);
+    new_argv = add_single_argument(new_argv, &current_size, "-nosplash");
+    new_argv = add_single_argument(new_argv, &current_size, "-nodesktop");
 #ifdef _WIN32
-    const char *const new_argv[] = {matlab_path, "-nodisplay", "-nosplash", "-nodesktop", "-r", matlab_command, NULL};
-    _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
+    new_argv = add_single_argument(new_argv, &current_size, "-minimize");
+#endif
+    new_argv = add_single_argument(new_argv, &current_size, matlab_command);
+    new_argv = add_single_argument(new_argv, &current_size, "-r");
+    new_argv = add_single_argument(new_argv, &current_size, "launcher");
+    new_argv = add_controller_arguments(new_argv, argv, &current_size);
+    new_argv = add_single_argument(new_argv, &current_size, NULL);
+#ifdef _WIN32
+    const char *const *windows_argv = (const char **)new_argv;
+    _spawnvpe(_P_WAIT, windows_argv[0], windows_argv, NULL);
 #else
-    char *new_argv[] = {matlab_path, "-nodisplay", "-nosplash", "-nodesktop", "-r", matlab_command, NULL};
     execvp(new_argv[0], new_argv);
 #endif
     free(matlab_command);
