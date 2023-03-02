@@ -28,7 +28,7 @@ PROTO Spoon [
     children [
       Shape {
         appearance PBRAppearance {
-          baseColor 0.75 0.75 0.75
+          baseColor IS color
           roughness 0.2
         }
         geometry IndexedFaceSet {
