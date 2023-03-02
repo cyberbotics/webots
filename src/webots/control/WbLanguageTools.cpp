@@ -226,13 +226,7 @@ QString WbLanguageTools::matlabCommand() {
 }
 
 const QStringList WbLanguageTools::matlabArguments() {
-  QStringList arguments("-nosplash");
-  arguments << "-nodesktop";
-#ifdef _WIN32
-  // minimize option is only supported on Windows
-  // http://www.mathworks.ch/ch/help/matlab/matlab_env/startup-options.html
-  arguments << "-minimize";
-#endif
+  QStringList arguments("");
 #ifdef __linux__
   arguments << (WbSysInfo::isPointerSize64bits() ? "-glnxa64" : "-glnx86");
 #endif

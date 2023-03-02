@@ -823,13 +823,8 @@ int main(int argc, char **argv) {
     size_t current_size = 0;
     char **new_argv = NULL;
     new_argv = add_single_argument(new_argv, &current_size, matlab_path);
-    new_argv = add_single_argument(new_argv, &current_size, "-nosplash");
-    new_argv = add_single_argument(new_argv, &current_size, "-nodesktop");
-#ifdef _WIN32
-    new_argv = add_single_argument(new_argv, &current_size, "-minimize");
-#endif
     new_argv = add_single_argument(new_argv, &current_size, matlab_command);
-    new_argv = add_single_argument(new_argv, &current_size, "-r");
+    new_argv = add_single_argument(new_argv, &current_size, "-batch");
     new_argv = add_single_argument(new_argv, &current_size, "launcher");
     size_t controller_args_size = current_size;
     new_argv = add_controller_arguments(new_argv, argv, &current_size);
