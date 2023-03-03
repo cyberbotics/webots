@@ -309,7 +309,7 @@ void WbController::start() {
   mIpcPath = WbStandardPaths::webotsTmpPath() + "ipc/" + mRobot->encodedName();
   QDir().mkpath(mIpcPath);
   const QString fileName = mIpcPath + '/' + (mExtern ? "extern" : "intern");
-#ifndef _WIN32
+#ifdef __APPLE__ || __linux__
   const QString &serverName = fileName;
   // FIXME: from Qt 6.4 onwards, QDir::mkdir can be used to set the permissions
   QProcess::execute("sh", QStringList() << "-c" << QString("chmod -R 777 %1").arg(mIpcPath));

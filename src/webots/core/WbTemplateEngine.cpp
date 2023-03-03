@@ -77,7 +77,7 @@ void WbTemplateEngine::initializeJavaScript() {
       QFileInfoList files = jsModulesPath.entryInfoList(filter, QDir::Files | QDir::NoSymLinks);
       foreach (const QFileInfo &file, files) {
         QFile::copy(file.absoluteFilePath(), WbStandardPaths::webotsTmpPath() + file.fileName());
-#ifndef _WIN32
+#ifdef __APPLE__ || __linux__
         QFile::setPermissions(WbStandardPaths::webotsTmpPath() + file.fileName(),
                               QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner | QFileDevice::ReadUser |
                                 QFileDevice::WriteUser | QFileDevice::ExeUser | QFileDevice::ReadGroup |

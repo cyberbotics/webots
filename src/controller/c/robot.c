@@ -1088,10 +1088,10 @@ static char *encode_robot_name(const char *robot_name) {
 
   char *encoded_name = percent_encode(robot_name);
   int length = strlen(encoded_name);
-  // the robot name is used to connect to the libController and in this process there are indirect limitations
-  // such as QLocalServer only accepting strings up to 106 characters for server names, for these reasons if the
-  // robot name is bigger than an arbitrary length, a hashed version is used instead.
-  if (length > 70) {
+  // the robot name is used to connect to the libController and in this process there are indirect
+  // limitations such as QLocalServer only accepting strings up to 106 characters for server names,
+  // for these reasons if the robot name is bigger than an arbitrary length, a hashed version is used instead
+  if (length > 70) {  // note: this threshold should be the same as in WbRobot.cpp
     char hash[21];
     char *output = malloc(41);
     SHA1(hash, encoded_name, length);

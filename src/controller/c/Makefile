@@ -129,7 +129,7 @@ MINGW64_OBJECTS = $(addprefix $(OBJDIR)/, $(OBJECTS))
 $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll: $(MINGW64_OBJECTS) Controller.def
 	@echo "# linking  "$@
 	@echo "# linking  "$(WEBOTS_CONTROLLER_LIB_PATH)"/libController.a"
-	@$(CC) -o $@ $(addprefix $(OBJDIR)/, $(OBJECTS)) $(LD_FLAGS) -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libController.a $(SHARED_LIBS)
+	@$(CC) -o $@ $(addprefix $(OBJDIR)/, $(OBJECTS)) $(LD_FLAGS) -Wl,--out-implib,$(WEBOTS_CONTROLLER_LIB_PATH)/libController.a
 
 $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.lib: $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll Controller.def
 ifeq ($(VISUAL_STUDIO_PATH),)
