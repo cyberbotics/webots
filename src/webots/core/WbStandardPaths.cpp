@@ -205,6 +205,11 @@ static void liveWebotsTmpPath() {
   if (file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
     QTextStream out(&file);
     out << QDateTime::currentSecsSinceEpoch();
+#ifndef _WIN32
+    file.setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner | QFileDevice::ReadUser |
+                        QFileDevice::WriteUser | QFileDevice::ExeUser | QFileDevice::ReadGroup | QFileDevice::WriteGroup |
+                        QFileDevice::ExeGroup | QFileDevice::ReadOther | QFileDevice::WriteOther | QFileDevice::ExeOther);
+#endif
     file.close();
   }
 }
@@ -250,8 +255,10 @@ bool WbStandardPaths::webotsTmpPathCreate(const int id) {
   if (!dir.exists() && !dir.mkpath("."))
     return false;
 
+#ifndef _WIN32
   // FIXME: from Qt 6.4 onwards, QDir::mkdir can be used to set the permissions
   QProcess::execute("sh", QStringList() << "-c" << QString("chmod 777 %1").arg(cWebotsTmpPath));
+#endif
 
   // write a new live.txt file in the webots tmp folder every hour to prevent any other webots process to delete it
   static QTimer timer;

@@ -75,8 +75,16 @@ void WbTemplateEngine::initializeJavaScript() {
     if (jsModulesPath.exists()) {
       QStringList filter("*.js");
       QFileInfoList files = jsModulesPath.entryInfoList(filter, QDir::Files | QDir::NoSymLinks);
-      foreach (const QFileInfo &file, files)
+      foreach (const QFileInfo &file, files) {
         QFile::copy(file.absoluteFilePath(), WbStandardPaths::webotsTmpPath() + file.fileName());
+#ifndef _WIN32
+        QFile::setPermissions(WbStandardPaths::webotsTmpPath() + file.fileName(),
+                              QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner | QFileDevice::ReadUser |
+                                QFileDevice::WriteUser | QFileDevice::ExeUser | QFileDevice::ReadGroup |
+                                QFileDevice::WriteGroup | QFileDevice::ExeGroup | QFileDevice::ReadOther |
+                                QFileDevice::WriteOther | QFileDevice::ExeOther);
+#endif
+      }
     }
   }
 
@@ -271,6 +279,11 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 
   QTextStream outputStream(&outputFile);
   outputStream << javaScriptTemplate;
+#ifndef _WIN32
+  outputFile.setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner | QFileDevice::ReadUser |
+                            QFileDevice::WriteUser | QFileDevice::ExeUser | QFileDevice::ReadGroup | QFileDevice::WriteGroup |
+                            QFileDevice::ExeGroup | QFileDevice::ReadOther | QFileDevice::WriteOther | QFileDevice::ExeOther);
+#endif;
   outputFile.close();
 
   // create engine and define global space
