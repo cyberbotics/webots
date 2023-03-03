@@ -283,7 +283,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   outputFile.setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner | QFileDevice::ReadUser |
                             QFileDevice::WriteUser | QFileDevice::ExeUser | QFileDevice::ReadGroup | QFileDevice::WriteGroup |
                             QFileDevice::ExeGroup | QFileDevice::ReadOther | QFileDevice::WriteOther | QFileDevice::ExeOther);
-#endif;
+#endif
   outputFile.close();
 
   // create engine and define global space
