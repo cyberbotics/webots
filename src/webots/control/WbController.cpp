@@ -309,6 +309,7 @@ void WbController::start() {
   mIpcPath = WbStandardPaths::webotsTmpPath() + "ipc/" + mRobot->encodedName();
   QDir().mkpath(mIpcPath);
   const QString fileName = mIpcPath + '/' + (mExtern ? "extern" : "intern");
+  qDebug() << mIpcPath;
 #ifndef _WIN32
   const QString &serverName = fileName;
 #else

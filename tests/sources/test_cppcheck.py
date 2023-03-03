@@ -155,9 +155,6 @@ class TestCppCheck(unittest.TestCase):
             'projects/default/libraries/vehicle/java',
             'projects/default/libraries/vehicle/python',
             'projects/robots/gctronic/e-puck/transfer',
-            'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba',
-            'projects/robots/mobsya/thymio/libraries/dashel',
-            'projects/robots/mobsya/thymio/libraries/dashel-src',
             'projects/robots/robotis/darwin-op/libraries/python',
             'projects/robots/robotis/darwin-op/libraries/robotis-op2/robotis',
             'projects/robots/robotis/darwin-op/remote_control/libjpeg-turbo',
@@ -165,6 +162,8 @@ class TestCppCheck(unittest.TestCase):
         ]
         skippedfiles = [
             'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h'
+            'src/controller/c/sha1.c',
+            'src/controller/c/sha1.h'
         ]
         command = 'cppcheck --platform=native --enable=warning,style,performance,portability --inconclusive --force -q'
         command += ' --library=qt --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm -UKROS_COMPILATION'
