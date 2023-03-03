@@ -354,7 +354,7 @@ bool WbTemplateEngine::generateLua(QHash<QString, QString> tags, const QString &
   tags["cpath"] = "";
 #endif
 #ifdef __APPLE__
-  // cppcheck-suppress unreadVariable
+  // cppcheck-suppress redundantAssignment
   tags["cpath"] = "package.cpath = package.cpath .. \";?.dylib\"";
 #endif
 
