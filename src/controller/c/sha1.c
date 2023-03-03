@@ -216,7 +216,10 @@ void SHA1Update(
         SHA1Transform(context->state, context->buffer);
         for (; i + 63 < len; i += 64)
         {
+            #pragma GCC diagnostic push
+            #pragma GCC diagnostic ignored "-Wstringop-overread"
             SHA1Transform(context->state, &data[i]);
+            #pragma GCC diagnostic pop
         }
         j = 0;
     }
@@ -239,28 +242,11 @@ void SHA1Final(
 
     unsigned char c;
 
-#if 0    /* untested "improvement" by DHR */
-    /* Convert context->count to a sequence of bytes
-     * in finalcount.  Second element first, but
-     * big-endian order within element.
-     * But we do it all backwards.
-     */
-    unsigned char *fcp = &finalcount[8];
-
-    for (i = 0; i < 2; i++)
-    {
-        uint32_t t = context->count[i];
-
-        int j;
-
-        for (j = 0; j < 4; t >>= 8, j++)
-            *--fcp = (unsigned char) t}
-#else
     for (i = 0; i < 8; i++)
     {
         finalcount[i] = (unsigned char) ((context->count[(i >= 4 ? 0 : 1)] >> ((3 - (i & 3)) * 8)) & 255);      /* Endian independent */
     }
-#endif
+
     c = 0200;
     SHA1Update(context, &c, 1);
     while ((context->count[0] & 504) != 448)
