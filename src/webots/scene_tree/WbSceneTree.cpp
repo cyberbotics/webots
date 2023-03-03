@@ -690,11 +690,7 @@ void WbSceneTree::transform(const QString &modelName) {
     int nodeIndex = mfnode->nodeIndex(currentNode);
     WbNodeOperations::instance()->notifyNodeDeleted(currentNode);
     WbTemplateManager::instance()->blockRegeneration(true);
-    // remove currentNode
-    mfnode->removeItem(nodeIndex);  // delete currentNode instance
-    // insert just after currentNode
-    mfnode->insertItem(nodeIndex, newNode);
-    // mfnode->setItem(nodeIndex, newNode); // TODO: make WbMFNode::setItem() work!
+    mfnode->setItem(nodeIndex, newNode);
   }
 
   newNode->validate();
