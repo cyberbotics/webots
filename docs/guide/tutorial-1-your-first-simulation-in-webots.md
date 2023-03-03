@@ -300,7 +300,7 @@ We will now associate new `epuck_go_forward` (or `EPuckGoForward`) controller to
 >Once the controller is associated with the robot, save the world.
 >Modify the program by getting the motor devices (`left_motor = wb_robot_get_device('left wheel motor')`) and by applying a motor command (`wb_motor_set_position(right_motor, 10.0)`):
 >```MATLAB
->controller epuck_go_forward
+>function epuck_go_forward
 >
 >TIME_STEP = 64;
 >

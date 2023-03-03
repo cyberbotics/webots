@@ -1037,7 +1037,7 @@ In the ".wbt" file, it is possible to specify arguments that are passed to a con
 They are specified in the `controllerArgs` field of the [Robot](../reference/robot.md) node, and they are passed as parameters of the `main` function.
 For example, this can be used to specify parameters that vary for each robot's controller.
 Note that the implementation will differ significantly across the different languages. 
-If using MATLAB, you should add the optional argument [`varargin`](https://www.mathworks.com/help/matlab/ref/varargin.html) to to the function declaration. 
+If using MATLAB, you should add the optional argument [`varargin`](https://www.mathworks.com/help/matlab/ref/varargin.html) to the function declaration. 
 
 For example if we have:
 
