@@ -26,7 +26,6 @@
 #include <dirent.h>  // struct dirent
 #include <fcntl.h>
 #include <locale.h>  // LC_NUMERIC
-#include <openssl/sha.h>
 #include <signal.h>  // signal
 #include <stdarg.h>
 #include <stdio.h>     // snprintf
@@ -62,6 +61,7 @@
 #include "robot_private.h"
 #include "robot_window_private.h"
 #include "scheduler.h"
+#include "sha1.h"
 #include "supervisor_private.h"
 #include "tcp_client.h"
 
@@ -1092,10 +1092,13 @@ static char *encode_robot_name(const char *robot_name) {
   // such as QLocalServer only accepting strings up to 106 characters for server names, for these reasons if the
   // robot name is bigger than an arbitrary length, a hashed version is used instead.
   if (length > 70) {
-    unsigned char hash[SHA_DIGEST_LENGTH];
-    SHA1((unsigned char *)encoded_name, length, hash);
-    for (int i = 0; i < SHA_DIGEST_LENGTH; i++)
-      sprintf(encoded_name + i * 2, "%02x", hash[i]);
+    char hash[21];
+    char *output = malloc(41);
+    SHA1(hash, encoded_name, length);
+    free(encoded_name);
+    for (size_t i = 0; i < 20; i++)
+      sprintf((output + (2 * i)), "%02x", hash[i] & 0xff);
+    return output;
   }
 
   return encoded_name;

@@ -45,7 +45,7 @@ ifeq ($(OSTYPE),darwin)
 CFLAGS      = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -fpascal-strings -Wno-deprecated-declarations -I/Developer/Headers/FlatCarbon -Wall -fno-common -D LIBCONTROLLER_VERSION='$(LIBCONTROLLER_VERSION)'
 INCLUDE     = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include
 LD_FLAGS    = -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION) -dynamiclib -install_name @rpath/Contents/lib/controller/libController.dylib -compatibility_version 1.0 -current_version 1.0.0
-SHARED_LIBS = -lz -lssl -lcrypto
+SHARED_LIBS = -lz
 TARGET      = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.dylib
 CC          = gcc
 endif
@@ -54,7 +54,7 @@ ifeq ($(OSTYPE),linux)
 CFLAGS      = -fPIC -Wall -Wno-stringop-truncation -D LIBCONTROLLER_VERSION='$(LIBCONTROLLER_VERSION)'
 INCLUDE     = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/include
 LD_FLAGS    = -shared -Wl,-soname,libController.so
-SHARED_LIBS = -lm -lpthread -ldl -lrt -lssl -lcrypto
+SHARED_LIBS = -lm -lpthread -ldl -lrt
 TARGET      = $(WEBOTS_CONTROLLER_LIB_PATH)/libController.so
 endif
 
@@ -64,7 +64,6 @@ INCLUDE     = -I$(WEBOTS_HOME_PATH)/include/controller/c -I$(WEBOTS_HOME_PATH)/i
 LD_FLAGS    = -shared -mwindows --def Controller.def -lws2_32
 PLATFORM    = win32
 CC          = gcc
-SHARED_LIBS = -lssl -lcrypto
 TARGET      = $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.dll $(WEBOTS_CONTROLLER_LIB_PATH)/Controller.lib
 endif
 
