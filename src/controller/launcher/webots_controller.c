@@ -690,6 +690,8 @@ static char **add_controller_arguments(char **argv, char **controller_argv, size
       char *varargin = malloc(varargin_size);
       snprintf(varargin, varargin_size, "%s%s", ENV_SEPARATOR, controller_argv[next_argument_index]);
       webots_controller_args = realloc(webots_controller_args, webots_controller_args_size + varargin_size);
+      if (!webots_controller_args)
+        exit(1);
       snprintf(webots_controller_args + webots_controller_args_size, varargin_size, "%s", varargin);
       webots_controller_args_size += varargin_size;
       free(varargin);
