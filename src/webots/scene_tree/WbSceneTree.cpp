@@ -462,7 +462,7 @@ void WbSceneTree::del(WbNode *nodeToDel) {
 
   bool dictionaryUpdated = false;
   if (node) {
-    dictionaryUpdated = node->hasAreferredDefNodeDescendant();
+    dictionaryUpdated = WbVrmlNodeUtilities::hasAreferredDefNodeDescendant(node);
     if (dictionaryUpdated &&
         WbMessageBox::question(
           tr("This node is a DEF node, or has a descendant DEF node, on which at least one external USE node depends. "
@@ -525,12 +525,12 @@ void WbSceneTree::reset() {
     WbMFNode *mfnode = dynamic_cast<WbMFNode *>(field->value());
     if (sfnode) {
       mRowsAreAboutToBeRemoved = sfnode->value();
-      containsReferredNode = sfnode->value() && sfnode->value()->hasAreferredDefNodeDescendant();
+      containsReferredNode = sfnode->value() && WbVrmlNodeUtilities::hasAreferredDefNodeDescendant(sfnode->value());
     } else if (mfnode) {
       mRowsAreAboutToBeRemoved = mfnode->size() > 0;
       WbMFIterator<WbMFNode, WbNode *> it(mfnode);
       while (it.hasNext()) {
-        if (it.next()->hasAreferredDefNodeDescendant()) {
+        if (WbVrmlNodeUtilities::hasAreferredDefNodeDescendant(it.next())) {
           containsReferredNode = true;
           break;
         }
@@ -683,8 +683,6 @@ void WbSceneTree::transform(const QString &modelName) {
     WbTemplateManager::instance()->blockRegeneration(true);
     mSelectedItem->del();  // remove previous item
     sfnode->setValue(newNode);
-    newNode->validate();
-    WbTemplateManager::instance()->blockRegeneration(false);
   } else {
     assert(mSelectedItem->parent()->isField());
     WbMFNode *mfnode = dynamic_cast<WbMFNode *>(parentField->value());
@@ -692,14 +690,13 @@ void WbSceneTree::transform(const QString &modelName) {
     int nodeIndex = mfnode->nodeIndex(currentNode);
     WbNodeOperations::instance()->notifyNodeDeleted(currentNode);
     WbTemplateManager::instance()->blockRegeneration(true);
-    // remove currentNode
-    mfnode->removeItem(nodeIndex);  // delete currentNode instance
-    // insert just after currentNode
-    mfnode->insertItem(nodeIndex, newNode);
-    // mfnode->setItem(nodeIndex, newNode); // TODO: make WbMFNode::setItem() work!
-    newNode->validate();
-    WbTemplateManager::instance()->blockRegeneration(false);
+    mfnode->setItem(nodeIndex, newNode);
   }
+
+  newNode->validate();
+  if (newNode->parentNode() && newNode->parentNode()->isProtoInstance())
+    newNode->parentNode()->redirectInternalFields(parentField);
+  WbTemplateManager::instance()->blockRegeneration(false);
 
   if (!isInsideATemplateRegenerator)
     static_cast<WbBaseNode *>(newNode)->finalize();

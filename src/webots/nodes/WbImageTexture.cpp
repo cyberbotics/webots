@@ -552,7 +552,6 @@ void WbImageTexture::exportNodeFields(WbWriter &writer) const {
   findField("filtering", true)->write(writer);
 
   if (writer.isX3d()) {
-    writer << " isTransparent=\'" << (mIsMainTextureTransparent ? "true" : "false") << "\'";
     if (!mRole.isEmpty())
       writer << " role=\'" << mRole << "\'";
   }
@@ -566,4 +565,13 @@ void WbImageTexture::exportShallowNode(const WbWriter &writer) const {
   // 'webots://' since this case would be converted to a remote one that targets the current branch
   if (!WbUrl::isWeb(mUrl->item(0)) && !WbUrl::isLocalUrl(mUrl->item(0)) && !WbWorld::isX3DStreaming())
     WbUrl::exportTexture(this, mUrl, 0, writer);
+}
+
+QStringList WbImageTexture::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "url"
+         << "repeatS"
+         << "repeatT"
+         << "filtering";
+  return fields;
 }
