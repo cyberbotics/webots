@@ -832,11 +832,10 @@ int main(int argc, char **argv) {
 
     // Write controller args to environment variable
     if (new_argv[controller_args_size] != NULL){
-      char *varargin;
-      varargin = realloc(NULL, strlen(new_argv[controller_args_size]) + 1);
-      strcpy(varargin, new_argv[controller_args_size]);
+      char *varargin = strdup(new_argv[controller_args_size]);
       while (new_argv[++controller_args_size] != NULL){
           varargin = realloc(varargin, strlen(varargin) + strlen(new_argv[controller_args_size]) + strlen(ENV_SEPARATOR) + 1);
+          if (!varargin) exit(1); // fix memleakOnRealloc
           strcat(varargin, ENV_SEPARATOR);
           strcat(varargin, new_argv[controller_args_size]);
       }

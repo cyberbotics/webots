@@ -46,14 +46,11 @@ These are readable source files; please report any problem, or possible improvem
 
 ### Display Information to Webots Console
 
-On Linux and macOS, the MATLAB output is redirected as is to the Webots console.
+The MATLAB output is redirected as is to the Webots console.
 This means you can use all the MATLAB display features including the `disp` and `display` (omitting the semicolon character at the end of a statement.).
 
-On Windows, the MATLAB output is not redirected to the Webots console.
-The `wb_console_print(text, stream)` function should be used to display some text in the Webots console.
+Additionally, the `wb_console_print(text, stream)` function could be used to display some text in the Webots console.
 The second argument (`stream`) can be either `WB_STDOUT` or `WB_STDERR` depending on which stream you would like to write.
-
-In order to create a cross-platform controller, it is recommended to use the `wb_console_print(text, stream)` on every OS.
 
 ### Compatibility Issues
 
