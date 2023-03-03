@@ -23,6 +23,7 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
+#include <QtCore/QProcess>
 #include <QtCore/QStandardPaths>
 #include <QtCore/QString>
 #include <QtCore/QTextStream>
@@ -248,6 +249,9 @@ bool WbStandardPaths::webotsTmpPathCreate(const int id) {
   QDir dir(cWebotsTmpPath);
   if (!dir.exists() && !dir.mkpath("."))
     return false;
+
+  // FIXME: from Qt 6.4 onwards, QDir::mkdir can be used to set the permissions
+  QProcess::execute(QString("chmod -R 777 %1").arg(cWebotsTmpPath));
 
   // write a new live.txt file in the webots tmp folder every hour to prevent any other webots process to delete it
   static QTimer timer;
