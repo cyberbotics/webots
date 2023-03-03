@@ -309,10 +309,8 @@ void WbController::start() {
   mIpcPath = WbStandardPaths::webotsTmpPath() + "ipc/" + mRobot->encodedName();
   QDir().mkpath(mIpcPath);
   const QString fileName = mIpcPath + '/' + (mExtern ? "extern" : "intern");
-#ifdef __APPLE__ || __linux__
+#ifndef _WIN32
   const QString &serverName = fileName;
-  // FIXME: from Qt 6.4 onwards, QDir::mkdir can be used to set the permissions
-  QProcess::execute("sh", QStringList() << "-c" << QString("chmod -R 777 %1").arg(mIpcPath));
 #else
   const QString serverName = "webots-" + QString::number(WbStandardPaths::webotsTmpPathId()) + "-" + mRobot->encodedName();
   // create an empty file, so that the controllers can see an extern controller is available here
@@ -323,6 +321,9 @@ void WbController::start() {
   }
   file.write("");
   file.close();
+
+  // FIXME: from Qt 6.4 onwards, QDir::mkdir can be used to set the permissions
+  QProcess::execute("sh", QStringList() << "-c" << QString("chmod -R 777 %1").arg(mIpcPath));
 #endif
   // recover from a crash, when the previous server instance has not been cleaned up
   bool success = QLocalServer::removeServer(serverName);
