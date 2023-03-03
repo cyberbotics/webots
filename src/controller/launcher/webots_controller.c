@@ -831,13 +831,14 @@ int main(int argc, char **argv) {
     new_argv = add_single_argument(new_argv, &current_size, NULL);
 
     // Write controller args to environment variable
-    if (new_argv[controller_args_size] != NULL){
+    if (new_argv[controller_args_size] != NULL) {
       char *varargin = strdup(new_argv[controller_args_size]);
-      while (new_argv[++controller_args_size] != NULL){
-          varargin = realloc(varargin, strlen(varargin) + strlen(new_argv[controller_args_size]) + strlen(ENV_SEPARATOR) + 1);
-          if (!varargin) exit(1); // fix memleakOnRealloc
-          strcat(varargin, ENV_SEPARATOR);
-          strcat(varargin, new_argv[controller_args_size]);
+      while (new_argv[++controller_args_size] != NULL) {
+        varargin = realloc(varargin, strlen(varargin) + strlen(new_argv[controller_args_size]) + strlen(ENV_SEPARATOR) + 1);
+        if (!varargin)
+          exit(1);  // fix memleakOnRealloc
+        strcat(varargin, ENV_SEPARATOR);
+        strcat(varargin, new_argv[controller_args_size]);
       }
       const size_t webots_controller_args_size = snprintf(NULL, 0, "WEBOTS_PROJECT=%s", varargin) + 1;
       webots_controller_args = malloc(webots_controller_args_size);
