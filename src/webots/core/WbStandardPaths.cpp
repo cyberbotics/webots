@@ -224,6 +224,8 @@ bool WbStandardPaths::webotsTmpPathCreate(const int id) {
   // console to C:\msys2\tmp whereas the libController uses the LOCALAPPDATA version, e.g., C:\Users\user\AppData\Local\Temp
   cWebotsTmpPath =
     QDir::fromNativeSeparators(WbSysInfo::environmentVariable("LOCALAPPDATA")) + QString("/Temp/webots-%1/").arg(id);
+#elif defined(__APPLE__)
+  cWebotsTmpPath = QString("/tmp/webots-%1/").arg(id);
 #else  // __linux__
   const QString WEBOTS_TMPDIR = WbSysInfo::environmentVariable("WEBOTS_TMPDIR");
   if (!WEBOTS_TMPDIR.isEmpty() && QDir(WEBOTS_TMPDIR).exists())
