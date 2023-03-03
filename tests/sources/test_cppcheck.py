@@ -124,6 +124,10 @@ class TestCppCheck(unittest.TestCase):
             'src/webots/widgets',
             'src/webots/wren'
         ]
+        skippedFiles = [
+            'src/controller/c/sha1.c',
+            'src/controller/c/sha1.h'
+        ]
         command = 'cppcheck --platform=native --enable=warning,style,performance,portability --inconclusive --force -q'
         command += ' --library=qt -j %s' % str(multiprocessing.cpu_count())
         command += ' --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm --suppress=uninitMemberVar'
@@ -132,7 +136,7 @@ class TestCppCheck(unittest.TestCase):
         command += ' --output-file=\"' + self.reportFilename + '\"'
         for include in includeDirs:
             command += ' -I\"' + include + '\"'
-        sources = self.add_source_files(sourceDirs, skippedDirs)
+        sources = self.add_source_files(sourceDirs, skippedDirs, skippedFiles)
         if not sources:
             return
         command += sources
@@ -162,8 +166,6 @@ class TestCppCheck(unittest.TestCase):
         ]
         skippedFiles = [
             'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h'
-            'src/controller/c/sha1.c',
-            'src/controller/c/sha1.h'
         ]
         command = 'cppcheck --platform=native --enable=warning,style,performance,portability --inconclusive --force -q'
         command += ' --library=qt --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm -UKROS_COMPILATION'
