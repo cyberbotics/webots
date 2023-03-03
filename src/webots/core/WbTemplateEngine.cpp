@@ -279,7 +279,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 
   QTextStream outputStream(&outputFile);
   outputStream << javaScriptTemplate;
-#ifndef _WIN32
+#if defined(__APPLE__) || defined(__linux__)
   outputFile.setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner | QFileDevice::ReadUser |
                             QFileDevice::WriteUser | QFileDevice::ExeUser | QFileDevice::ReadGroup | QFileDevice::WriteGroup |
                             QFileDevice::ExeGroup | QFileDevice::ReadOther | QFileDevice::WriteOther | QFileDevice::ExeOther);
