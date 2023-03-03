@@ -673,12 +673,33 @@ static char **add_single_argument(char **argv, size_t *current_size, char *str) 
 }
 
 // Add all controller arguments (given to the launcher) to the 'argv' array
-static char **add_controller_arguments(char **argv, char **controller_argv, size_t *current_size) {
-  while (nb_controller_arguments) {
-    argv = add_single_argument(argv, current_size, controller_argv[next_argument_index]);
+// For MATLAB, append them to WEBOTS_CONTROLLER_ARGS instead
+static char **add_controller_arguments(char **argv, char **controller_argv, size_t *current_size, bool is_matlab) {
+  size_t webots_controller_args_size;
+  if (is_matlab) {
+    webots_controller_args_size = snprintf(NULL, 0, "WEBOTS_CONTROLLER_ARGS=%s", controller_argv[next_argument_index]) + 1;
+    webots_controller_args = malloc(webots_controller_args_size);
+    snprintf(webots_controller_args, webots_controller_args_size, "WEBOTS_CONTROLLER_ARGS=%s",
+             controller_argv[next_argument_index]);
     nb_controller_arguments--;
     next_argument_index++;
   }
+  while (nb_controller_arguments) {
+    if (is_matlab) {
+      size_t varargin_size = snprintf(NULL, 0, "%s%s", ENV_SEPARATOR, controller_argv[next_argument_index]) + 1;
+      char *varargin = malloc(varargin_size);
+      snprintf(varargin, varargin_size, "%s%s", ENV_SEPARATOR, controller_argv[next_argument_index]);
+      webots_controller_args = realloc(webots_controller_args, webots_controller_args_size + varargin_size);
+      snprintf(webots_controller_args + webots_controller_args_size, varargin_size, "%s", varargin);
+      webots_controller_args_size += varargin_size;
+      free(varargin);
+    } else
+      argv = add_single_argument(argv, current_size, controller_argv[next_argument_index]);
+    nb_controller_arguments--;
+    next_argument_index++;
+  }
+  if (is_matlab)
+    putenv(webots_controller_args);
   return argv;
 }
 
@@ -759,7 +780,7 @@ int main(int argc, char **argv) {
     size_t current_size = 0;
     char **new_argv = NULL;
     new_argv = add_single_argument(new_argv, &current_size, controller);
-    new_argv = add_controller_arguments(new_argv, argv, &current_size);
+    new_argv = add_controller_arguments(new_argv, argv, &current_size, false);
     new_argv = add_single_argument(new_argv, &current_size, NULL);
 #ifdef _WIN32
     const char *const *windows_argv = (const char **)new_argv;
@@ -790,7 +811,7 @@ int main(int argc, char **argv) {
     new_argv = add_single_argument(new_argv, &current_size, "-u");
     new_argv = add_single_argument(new_argv, &current_size, controller);
 #endif
-    new_argv = add_controller_arguments(new_argv, argv, &current_size);
+    new_argv = add_controller_arguments(new_argv, argv, &current_size, false);
     new_argv = add_single_argument(new_argv, &current_size, NULL);
 #ifdef _WIN32
     const char *const *windows_argv = (const char **)new_argv;
@@ -826,26 +847,9 @@ int main(int argc, char **argv) {
     new_argv = add_single_argument(new_argv, &current_size, matlab_command);
     new_argv = add_single_argument(new_argv, &current_size, "-batch");
     new_argv = add_single_argument(new_argv, &current_size, "launcher");
-    size_t controller_args_size = current_size;
-    new_argv = add_controller_arguments(new_argv, argv, &current_size);
+    if (nb_controller_arguments)
+      new_argv = add_controller_arguments(new_argv, argv, &current_size, true);
     new_argv = add_single_argument(new_argv, &current_size, NULL);
-
-    // Write controller args to environment variable
-    if (new_argv[controller_args_size] != NULL) {
-      char *varargin = strdup(new_argv[controller_args_size]);
-      while (new_argv[++controller_args_size] != NULL) {
-        varargin = realloc(varargin, strlen(varargin) + strlen(new_argv[controller_args_size]) + strlen(ENV_SEPARATOR) + 1);
-        if (!varargin)
-          exit(1);  // fix memleakOnRealloc
-        strcat(varargin, ENV_SEPARATOR);
-        strcat(varargin, new_argv[controller_args_size]);
-      }
-      const size_t webots_controller_args_size = snprintf(NULL, 0, "WEBOTS_PROJECT=%s", varargin) + 1;
-      webots_controller_args = malloc(webots_controller_args_size);
-      sprintf(webots_controller_args, "WEBOTS_CONTROLLER_ARGS=%s", varargin);
-      putenv(webots_controller_args);
-      free(varargin);
-    }
 
 #ifdef _WIN32
     const char *const *windows_argv = (const char **)new_argv;
@@ -912,7 +916,7 @@ int main(int argc, char **argv) {
     new_argv = add_single_argument(new_argv, &current_size, classpath);
     new_argv = add_single_argument(new_argv, &current_size, java_library);
     new_argv = add_single_argument(new_argv, &current_size, controller_name + 1);
-    new_argv = add_controller_arguments(new_argv, argv, &current_size);
+    new_argv = add_controller_arguments(new_argv, argv, &current_size, false);
     new_argv = add_single_argument(new_argv, &current_size, NULL);
 #ifdef _WIN32
     const char *const *windows_argv = (const char **)new_argv;
