@@ -1574,6 +1574,11 @@ void WbSolid::updateDynamicSolidDescendantFlag() {
     us->updateDynamicSolidDescendantFlag();
 }
 
+void WbSolid::updateChildrenAfterJointEndPointChange(WbBaseNode *node) {
+  if (node)
+    updateChildren();
+}
+
 void WbSolid::updateChildren() {
   mSolidChildren.clear();
   mJointChildren.clear();
@@ -1585,6 +1590,9 @@ void WbSolid::updateChildren() {
     connect(solid, &WbSolid::destroyed, this, &WbSolid::refreshPhysicsRepresentation, Qt::UniqueConnection);
     connect(solid, &WbSolid::physicsPropertiesChanged, this, &WbSolid::refreshPhysicsRepresentation, Qt::UniqueConnection);
   }
+  foreach (WbBasicJoint *const jointChild, mJointChildren)
+    connect(jointChild, &WbBasicJoint::endPointChanged, this, &WbSolid::updateChildrenAfterJointEndPointChange,
+            Qt::UniqueConnection);
 }
 
 bool WbSolid::resetJointPositions(bool allParents) {
