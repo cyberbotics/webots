@@ -54,7 +54,7 @@ class TestCppCheck(unittest.TestCase):
             os.remove(self.reportFilename)
         os.chdir(curdir)
 
-    def add_source_files(self, sourceDirs, skippedDirs, skippedfiles=[]):
+    def add_source_files(self, sourceDirs, skippedDirs, skippedFiles=[]):
         command = ''
         modified_files = os.path.join(self.WEBOTS_HOME, 'tests', 'sources', 'modified_files.txt')
         if os.path.isfile(modified_files):
@@ -67,17 +67,17 @@ class TestCppCheck(unittest.TestCase):
                     for sourceDir in sourceDirs:
                         if line.startswith(sourceDir):
                             shouldSkip = False
-                            for skipped in skippedDirs + skippedfiles:
+                            for skipped in skippedDirs + skippedFiles:
                                 if line.startswith(skipped):
                                     shouldSkip = True
                                     break
                             if not shouldSkip:
                                 command += ' \"' + line + '\"'
                             continue
-            for source in skippedfiles:
+            for source in skippedFiles:
                 command += ' --suppress=\"*:' + source + '\"'
         else:
-            for source in skippedfiles:
+            for source in skippedFiles:
                 command += ' --suppress=\"*:' + source + '\"'
             for source in skippedDirs:
                 command += ' -i\"' + source + '\"'
@@ -160,7 +160,7 @@ class TestCppCheck(unittest.TestCase):
             'projects/robots/robotis/darwin-op/remote_control/libjpeg-turbo',
             'projects/vehicles/controllers/ros_automobile/include'
         ]
-        skippedfiles = [
+        skippedFiles = [
             'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h'
             'src/controller/c/sha1.c',
             'src/controller/c/sha1.h'
@@ -170,7 +170,7 @@ class TestCppCheck(unittest.TestCase):
         command += ' --suppress=strdupCalled --suppress=ctuOneDefinitionRuleViolation --suppress=unknownMacro'
         # command += ' --xml'  # Uncomment this line to get more information on the errors
         command += ' --std=c++03 --output-file=\"' + self.reportFilename + '\"'
-        sources = self.add_source_files(sourceDirs, skippedDirs, skippedfiles)
+        sources = self.add_source_files(sourceDirs, skippedDirs, skippedFiles)
         if not sources:
             return
         command += sources
