@@ -947,6 +947,7 @@ int main(int argc, char **argv) {
   free(webots_project);
   free(webots_controller_name);
   free(webots_version);
+  free(webots_controller_args);
 
   return 0;
 }
