@@ -455,6 +455,7 @@ private:
   void setGeomMatter(dGeomID g, WbBaseNode *node = NULL) override;
 
 private slots:
+  void updateChildrenAfterJointEndPointChange(WbBaseNode *node);
   void updatePhysics();
   void updateRadarCrossSection();
   void updateRecognitionColors();

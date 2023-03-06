@@ -42,7 +42,7 @@ PROTO LargeValve [
       HingeJoint {
         jointParameters HingeJointParameters {
           position -15.7079632679
-          anchor 0.115 0 0.1095
+          anchor 0.115 0 -0.0095
           dampingConstant 20
           staticFriction IS jointFriction
         }
