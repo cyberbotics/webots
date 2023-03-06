@@ -348,7 +348,7 @@ thread = threading.Thread(target=outputMonitor.monitorOutputFile, args=[finalMes
 thread.start()
 
 # Run a copy of Webots in the background to ensure doing so doesn't cause any tests to fail and start the empty project.
-backgroundWebots = subprocess.Popen([webotsFullPath, "--mode=pause", "--no-rendering", "--stdout", "--stderr",
+backgroundWebots = subprocess.Popen([webotsFullPath, "--mode=pause", "--no-rendering", "--minimize", "--stdout", "--stderr",
                                     webotsEmptyWorldPath], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 atexit.register(subprocess.Popen.terminate, self=backgroundWebots)
 # Wait until we can actually connect to it, trying 10 times.
