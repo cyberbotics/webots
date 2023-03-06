@@ -30,6 +30,7 @@
 WbObjectDetection::WbObjectDetection(WbSolid *device, WbSolid *object, bool needToCheckCollision, double maxRange) :
   mObjectRelativePosition(0.0, 0.0, 0.0),
   mObjectSize(0.0, 0.0, 0.0),
+  mUseBoundingSphereOnly(true),
   mObject(object),
   mMaxRange(maxRange),
   mCollisionDepth(0.0),
@@ -270,6 +271,7 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
     objectSize.setX(maxX - minX);
     objectSize.setY(maxY - minY);
     objectSize.setZ(maxZ - minZ);
+    mUseBoundingSphereOnly = false;
   } else if (useBoundingSphere ||
              (boundingObject && (nodeType == WB_NODE_SPHERE || nodeType == WB_NODE_CYLINDER || nodeType == WB_NODE_CAPSULE))) {
     double outsidePart[4] = {0.0, 0.0, 0.0, 0.0};
@@ -316,6 +318,7 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
         const double zRange =
           fabs(rotation(2, 2) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(2, 2) * rotation(2, 2)));
         objectSize = WbVector3(xRange, yRange, zRange);
+        mUseBoundingSphereOnly = false;
       }
     }
     // check distance between center and frustum planes

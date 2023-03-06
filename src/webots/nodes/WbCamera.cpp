@@ -775,18 +775,28 @@ bool WbCamera::computeObject(const WbVector3 &cameraPosition, const WbMatrix3 &c
   double minV = centerPosition.y();
   double maxU = centerPosition.x();
   double maxV = centerPosition.y();
-  const WbVector3 corners[8] = {
+  WbVector3 corners[8];
+  const int cornersSize = recognizedObject->objectSizeComputedFromBoundingSphere() ? 6 : 8;
+  if (recognizedObject->objectSizeComputedFromBoundingSphere()) {
+    corners[0] = WbVector3(objectSize.x(), 0, 0);
+    corners[1] = WbVector3(-objectSize.x(), 0, 0);
+    corners[2] = WbVector3(0, objectSize.y(), 0);
+    corners[3] = WbVector3(0, -objectSize.y(), 0);
+    corners[4] = WbVector3(0, 0, objectSize.z());
+    corners[5] = WbVector3(0, 0, -objectSize.z());
+  } else {
     // corners of the bounding box of the object in the camera referential
-    recognizedObject->objectRelativePosition() + 0.5 * WbVector3(objectSize.x(), objectSize.y(), objectSize.z()),
-    recognizedObject->objectRelativePosition() + 0.5 * WbVector3(-objectSize.x(), objectSize.y(), objectSize.z()),
-    recognizedObject->objectRelativePosition() + 0.5 * WbVector3(objectSize.x(), -objectSize.y(), objectSize.z()),
-    recognizedObject->objectRelativePosition() + 0.5 * WbVector3(-objectSize.x(), -objectSize.y(), objectSize.z()),
-    recognizedObject->objectRelativePosition() + 0.5 * WbVector3(objectSize.x(), objectSize.y(), -objectSize.z()),
-    recognizedObject->objectRelativePosition() + 0.5 * WbVector3(-objectSize.x(), objectSize.y(), -objectSize.z()),
-    recognizedObject->objectRelativePosition() + 0.5 * WbVector3(objectSize.x(), -objectSize.y(), -objectSize.z()),
-    recognizedObject->objectRelativePosition() + 0.5 * WbVector3(-objectSize.x(), -objectSize.y(), -objectSize.z())};
-  for (int i = 0; i < 8; ++i) {  // project each of the corners in the camera image
-    const WbVector2 &positionOnImage = projectOnImage(corners[i]);
+    corners[0] = WbVector3(objectSize.x(), objectSize.y(), objectSize.z());
+    corners[1] = WbVector3(-objectSize.x(), objectSize.y(), objectSize.z());
+    corners[2] = WbVector3(objectSize.x(), -objectSize.y(), objectSize.z());
+    corners[3] = WbVector3(-objectSize.x(), -objectSize.y(), objectSize.z());
+    corners[4] = WbVector3(objectSize.x(), objectSize.y(), -objectSize.z());
+    corners[5] = WbVector3(-objectSize.x(), objectSize.y(), -objectSize.z());
+    corners[6] = WbVector3(objectSize.x(), -objectSize.y(), -objectSize.z());
+    corners[7] = WbVector3(-objectSize.x(), -objectSize.y(), -objectSize.z());
+  }
+  for (int i = 0; i < cornersSize; ++i) {  // project each of the corners in the camera image
+    const WbVector2 &positionOnImage = projectOnImage(recognizedObject->objectRelativePosition() + 0.5 * corners[i]);
     if (positionOnImage.x() < minU)
       minU = positionOnImage.x();
     if (positionOnImage.y() < minV)
