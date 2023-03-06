@@ -63,3 +63,9 @@ void WbColor::copyValuesToArray(double array[][3]) const {
     array[i][2] = r.blue();
   }
 }
+
+QStringList WbColor::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "color";
+  return fields;
+}

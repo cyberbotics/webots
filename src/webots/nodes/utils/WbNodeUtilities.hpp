@@ -87,6 +87,9 @@ namespace WbNodeUtilities {
   // is this node located directly or indirectly under a Billboard
   bool isDescendantOfBillboard(const WbNode *node);
 
+  // is this node located directly or indirectly under a Propeller
+  bool isDescendantOfPropeller(const WbNode *node);
+
   // is this node located in the boundingObject field of a Solid
   // use checkNodeUse() to inspect USE nodes and PROTO parameter instances
   bool isInBoundingObject(const WbNode *node);
@@ -139,7 +142,6 @@ namespace WbNodeUtilities {
   bool isDeviceTypeName(const QString &modelName);
   bool isSolidDeviceTypeName(const QString &modelName);
   bool isSolidTypeName(const QString &modelName);
-  bool isSolidButRobotTypeName(const QString &modelName);
   bool isMatterTypeName(const QString &modelName);
   QString slotType(const WbNode *node);
 
