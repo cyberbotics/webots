@@ -41,7 +41,7 @@ PROTO SmallValve [
       HingeJoint {
         jointParameters HingeJointParameters {
           position -15.706
-          anchor 0 -0.0102 0
+          anchor 0 0 -0.0102
           staticFriction IS jointFriction
         }
         device [
