@@ -97,7 +97,8 @@ def setupWebots():
         webotsFullPath = os.path.normpath(webotsFullPath)
 
     if 'WEBOTS_HOME' in os.environ:
-        webotsEmptyWorldPath = os.path.join(os.path.normpath(os.environ['WEBOTS_HOME']), 'resources', 'projects', 'worlds', 'empty.wbt')
+        webotsEmptyWorldPath = os.path.join(os.path.normpath(os.environ['WEBOTS_HOME']), 'resources', 'projects', 'worlds',
+                                            'empty.wbt')
     else:
         webotsEmptyWorldPath = os.path.join(testsFolderPath, '..', 'resources', 'projects', 'worlds', 'empty.wbt')
 
