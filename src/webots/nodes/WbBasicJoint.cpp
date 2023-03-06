@@ -242,8 +242,8 @@ void WbBasicJoint::updateEndPoint() {
     if (s != NULL && isPostFinalizedCalled())
       WbBoundingSphere::addSubBoundingSphereToParentNode(this);
   } else {
-    connect(s, &WbBaseNode::finalizationCompleted, this, &WbBasicJoint::endPointChanged);
-    connect(s, &WbBaseNode::finalizationCompleted, this, &WbBasicJoint::updateBoundingSphere);
+    connect(s, &WbBaseNode::finalizationCompleted, this, &WbBasicJoint::endPointChanged, Qt::UniqueConnection);
+    connect(s, &WbBaseNode::finalizationCompleted, this, &WbBasicJoint::updateBoundingSphere, Qt::UniqueConnection);
   }
 }
 
