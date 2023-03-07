@@ -1,6 +1,5 @@
 # Blender v2.93.1 OBJ File: 'base_link_6.blend'
 # www.blender.org
-mtllib head_festo_logo.mtl
 o head_festo_logo
 v -0.111436 0.037099 0.243884
 v -0.111503 0.037067 0.241902

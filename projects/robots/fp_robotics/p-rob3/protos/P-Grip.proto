@@ -1,7 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Apache License 2.0
 # license url: https://www.apache.org/licenses/LICENSE-2.0
-# documentation url: https://www.cyberbotics.com/doc/guide/p-rob3
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/fp_robotics/p-rob3/protos/P-Grip.proto
 # A P-Grip gripper rom F&P Robotics
 
 EXTERNPROTO "webots://projects/appearances/protos/Leather.proto"
@@ -64,7 +64,7 @@ PROTO P-Grip [
         }
         device [
           RotationalMotor {
-            name "motor 7"
+            name "gripper::right"
             acceleration 17.4533
             controlPID 3 0 0
             maxVelocity 1.0472
@@ -72,7 +72,7 @@ PROTO P-Grip [
             maxTorque 5.44164
           }
           PositionSensor {
-            name "motor 7 sensor"
+            name "gripper::right sensor"
           }
         ]
         endPoint Solid {
@@ -220,7 +220,7 @@ PROTO P-Grip [
         }
         device [
           RotationalMotor {
-            name "motor 7 left"
+            name "gripper::left"
             acceleration 17.4533
             controlPID 3 0 0
             maxVelocity 1.0472
@@ -228,7 +228,7 @@ PROTO P-Grip [
             maxTorque 5.44164
           }
           PositionSensor {
-            name "motor 7 left sensor"
+            name "gripper::left sensor"
           }
         ]
         endPoint Solid {

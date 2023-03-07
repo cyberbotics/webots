@@ -10,9 +10,9 @@ PROTO TiagoBody [
   field  SFVec3f     translation   -0.054 0 0.193
   field  SFRotation  rotation      0 0 1 0
   field  MFNode      cameraSlot    []              # Extends the robot with a camera at head level.
-  field  MFNode      rightArmSlot  []              # Extends the robot with a right arm (such as the TiagoRightArm for example).
-  field  MFNode      frontArmSlot  []              # Extends the robot with a front arm (such as the TiagoLeftArm for example).
-  field  MFNode      leftArmSlot   []              # Extends the robot with a left arm (such as the TiagoLeftArm for example).
+  field  SFNode      rightArmSlot  NULL            # Extends the robot with a right arm (such as the TiagoRightArm for example).
+  field  SFNode      frontArmSlot  NULL            # Extends the robot with a front arm (such as the TiagoFrontArm for example).
+  field  SFNode      leftArmSlot   NULL            # Extends the robot with a left arm (such as the TiagoLeftArm for example).
 ]
 {
   Solid {
@@ -135,15 +135,30 @@ PROTO TiagoBody [
             DEF ARM_RIGHT_EXTENSION Transform {
               translation 0.05 0 0
               rotation 0 0 1 3.1416
-              children IS rightArmSlot
+              children [
+                Slot {
+                  type "tiago right arm"
+                  endPoint IS rightArmSlot
+                }
+              ]
             }
             DEF ARM_FRONT_EXTENSION Transform {
               translation -0.037 0.0388 0.0224
               rotation 0 0 1 -1.5708
-              children IS frontArmSlot
+              children [
+                Slot {
+                  type "tiago front arm"
+                  endPoint IS frontArmSlot
+                }
+              ]
             }
             DEF ARM_LEFT_EXTENSION Transform {
-              children IS leftArmSlot
+              children [
+                Slot {
+                  type "tiago left arm"
+                  endPoint IS leftArmSlot
+                }
+              ]
             }
             DEF INPUT_OUTPUT Shape {
               appearance PBRAppearance {
