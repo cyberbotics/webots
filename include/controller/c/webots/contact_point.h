@@ -20,6 +20,7 @@
 typedef struct {
   double point[3];
   int node_id;
+  int padding;  // this padding is anyhow added by the compiler, we make it explicit here
 } WbContactPoint;
 
 #endif
