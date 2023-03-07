@@ -15,7 +15,6 @@ import WbCylinder from './nodes/WbCylinder.js';
 import WbDistanceSensor from './nodes/WbDistanceSensor.js';
 import WbElevationGrid from './nodes/WbElevationGrid.js';
 import WbFog from './nodes/WbFog.js';
-import WbGroup from './nodes/WbGroup.js';
 import WbImageTexture from './nodes/WbImageTexture.js';
 import WbIndexedFaceSet from './nodes/WbIndexedFaceSet.js';
 import WbIndexedLineSet from './nodes/WbIndexedLineSet.js';
@@ -42,7 +41,8 @@ import WbSpotLight from './nodes/WbSpotLight.js';
 import WbDirectionalLight from './nodes/WbDirectionalLight.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
 import WbConnector from './nodes/WbConnector.js';
-import WbShape from './nodes/WbShape.js';
+import WbPropeller from './nodes/WbPropeller.js';
+import {findUpperShape} from './nodes/utils/node_utilities.js';
 
 export default class X3dScene {
   #nextRenderingTime;
@@ -183,13 +183,15 @@ export default class X3dScene {
     await parser.parse(x3dObject, this.renderer, false, parentNode, callback);
 
     const node = WbWorld.instance.nodes.get(parser.rootNodeId);
-    if (typeof node !== 'undefined') {
-      if (parentNode instanceof WbShape) {
-        parentNode.unfinalize();
-        parentNode.finalize();
-      } else
-        node.finalize();
-    }
+    if (typeof node === 'undefined')
+      return; // can happen for nodes that have no webotsjs counterpart, like Physics
+
+    const shapeAncestor = findUpperShape(node);
+    if (typeof shapeAncestor !== 'undefined') {
+      shapeAncestor.unfinalize();
+      shapeAncestor.finalize();
+    } else
+      node.finalize();
   }
 
   applyUpdate(update) {
@@ -475,8 +477,8 @@ export default class X3dScene {
 
     if (typeof object.parent !== 'undefined') {
       const parent = WbWorld.instance.nodes.get(object.parent);
-      if (typeof parent !== 'undefined' && parent instanceof WbGroup && parent.isPropeller &&
-        parent.currentHelix !== object.id && WbWorld.instance.readyForUpdates)
+      if (typeof parent !== 'undefined' && parent instanceof WbPropeller && parent.currentHelix !== object.id &&
+        WbWorld.instance.readyForUpdates)
         parent.switchHelix(object.id);
     }
   }

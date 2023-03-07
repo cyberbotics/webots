@@ -101,17 +101,20 @@ void WbTemplateManager::subscribe(WbNode *node, bool subscribedDescendant) {
   if (node->isTemplate() && !mTemplates.contains(node)) {
     subscribed = true;
     mTemplates << node;
-    connect(node, &QObject::destroyed, this, &WbTemplateManager::unsubscribe, Qt::UniqueConnection);
     connect(node, &WbNode::regenerateNodeRequest, this, &WbTemplateManager::regenerateNode, Qt::UniqueConnection);
     connect(node, &WbNode::regenerationRequired, this, &WbTemplateManager::nodeNeedRegeneration);
   }
-
+  if (subscribedDescendant)
+    mNodesSubscribedForRegeneration.insert(node);
   recursiveFieldSubscribeToRegenerateNode(node, subscribed, subscribedDescendant);
+  connect(node, &QObject::destroyed, this, &WbTemplateManager::unsubscribe, Qt::UniqueConnection);
 }
 
 void WbTemplateManager::unsubscribe(QObject *node) {
-  disconnect(static_cast<WbNode *>(node), &WbNode::regenerationRequired, this, &WbTemplateManager::nodeNeedRegeneration);
-  mTemplates.removeAll(static_cast<WbNode *>(node));
+  const WbNode *n = static_cast<WbNode *>(node);
+  if (n->isTemplate() && mTemplates.removeAll(n) > 0)
+    disconnect(n, &WbNode::regenerationRequired, this, &WbTemplateManager::nodeNeedRegeneration);
+  mNodesSubscribedForRegeneration.remove(n);
 }
 
 bool WbTemplateManager::nodeNeedsToSubscribe(WbNode *node) {
@@ -290,7 +293,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
 
   WbNodeUtilities::validateInsertedNode(parentField, newNode, parent, isInBoundingObject);
 
-  subscribe(newNode);
+  subscribe(newNode, mNodesSubscribedForRegeneration.contains(node));
 
   const bool ancestorTemplateRegeneration = upperTemplateNode != NULL;
   if (node->isProtoParameterNode()) {
@@ -362,21 +365,11 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
     else if (parentGroup) {
       int i = parentGroup->nodeIndex(node);
       assert(i != -1);
-
-      // TODO: The 3 following lines could be simplified by using WbGroup::setChild(),
-      //       but this function has to be fixed first (similar problem in WbSceneTree::transform
-      // remove currentNode
-      parentGroup->removeChild(node);
-      // insert just after currentNode
-      parentGroup->insertChild(i, newNode);
-      delete node;  // In the other cases the setter function will take care of deleting the node
+      parentGroup->setChild(i, newNode);
     } else if (parentSkin && parentSkin->appearanceField() && newAppearance) {
       int i = parentSkin->appearanceField()->nodeIndex(node);
       assert(i != -1);
-
-      // TODO: WbMFNode::setItem doesn't work here either. Fix this along with WbGroup::setChild()
-      parentSkin->appearanceField()->removeItem(i);
-      parentSkin->appearanceField()->insertItem(i, newAppearance);
+      parentSkin->appearanceField()->setItem(i, newAppearance);
     } else if (parentShape && newGeometry)
       parentShape->setGeometry(newGeometry);
     else if (parentShape && newAppearance)

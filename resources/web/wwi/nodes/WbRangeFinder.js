@@ -1,4 +1,5 @@
 import WbAbstractCamera from './WbAbstractCamera.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbRangeFinder extends WbAbstractCamera {
   #maxRange;
@@ -8,6 +9,10 @@ export default class WbRangeFinder extends WbAbstractCamera {
     this.#maxRange = maxRange;
     this.#minRange = minRange;
     this._charType = 'r';
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_RANGE_FINDER;
   }
 
   get maxRange() {

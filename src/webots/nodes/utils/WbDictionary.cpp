@@ -169,8 +169,10 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
             newUseNode->setUseName(useName);  // Deactivates the creation of children items triggered by insertion
             if (sfNode)
               sfNode->setValue(newUseNode);
-            else if (mfNode)
-              mfNode->setItem(index, newUseNode);
+            else if (mfNode) {
+              mfNode->removeItem(index);
+              mfNode->insertItem(index, newUseNode);  // TODO: replace by setItem(index, newUseNode) when it is fixed
+            }
             regenerationRequired |= isTemplateRegenerator;
             while (parent) {
               parent = parent->parentNode();
@@ -192,8 +194,10 @@ bool WbDictionary::updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNo
           newDefNode->setUseName(useName);  // Deactivates the creation of children items triggered by insertion
           if (sfNode)
             sfNode->setValue(newDefNode);
-          else if (mfNode)
-            mfNode->setItem(index, newDefNode);
+          else if (mfNode) {
+            mfNode->removeItem(index);
+            mfNode->insertItem(index, newDefNode);  // TODO: replace by setItem(index, newUseNode) when it is fixed
+          }
           regenerationRequired |= isTemplateRegenerator;
           newDefNode->finalize();
           node = newDefNode;

@@ -1,11 +1,16 @@
 import WbBaseNode from './WbBaseNode.js';
 import WbWorld from './WbWorld.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbNormal extends WbBaseNode {
   #vector;
   constructor(id, vector) {
     super(id);
     this.#vector = vector;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_NORMAL;
   }
 
   get vector() {

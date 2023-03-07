@@ -1,4 +1,5 @@
 import WbAbstractCamera from './WbAbstractCamera.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbCamera extends WbAbstractCamera {
   #near;
@@ -8,6 +9,10 @@ export default class WbCamera extends WbAbstractCamera {
     this.#near = near;
     this.#far = far;
     this._charType = 'c';
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_CAMERA;
   }
 
   get near() {

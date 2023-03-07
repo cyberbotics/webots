@@ -8,10 +8,10 @@ import Tokenizer from './Tokenizer.js';
 
 class SingleValue {
   #value;
-  constructor(v) {
+  constructor(v, parameter) {
     if (typeof v !== 'undefined') {
       if (v instanceof Tokenizer)
-        this.setValueFromTokenizer(v);
+        this.setValueFromTokenizer(v, parameter);
       else
         this.setValueFromModel(v);
     }
@@ -334,7 +334,7 @@ export class SFRotation extends SingleValue {
 }
 
 export class SFNode extends SingleValue {
-  setValueFromTokenizer(tokenizer) {
+  setValueFromTokenizer(tokenizer, parameter) {
     if (tokenizer.peekWord() === 'USE') {
       this.isUse = true;
       tokenizer.skipToken('USE');
@@ -362,6 +362,7 @@ export class SFNode extends SingleValue {
       url = tokenizer.nextWord();
 
     this.value = new Node(url, tokenizer);
+    this.value.parentField = parameter;
 
     if (!this.value.isProto)
       this.value.configureFromTokenizer(tokenizer, 'fields');
@@ -388,17 +389,18 @@ export class SFNode extends SingleValue {
     if (this.value === null)
       return;
 
-    const nodeX3d = this.value.toX3d(this.isUse, parameterName);
+    const nodeX3d = this.value.toX3d(parameterName);
 
     // handle exceptions
+    const name = this.value.getBaseNode().name;
     if (this.value.name === 'ImageTexture')
       nodeX3d.setAttribute('role', parameterName);
-    else if (['Shape', 'Group', 'Transform', 'Solid', 'Robot'].includes(this.value.name)) {
+    else if (['Shape', 'Group', 'Transform', 'Solid', 'Robot'].includes(name)) {
       if (parameterName === 'boundingObject')
         nodeX3d.setAttribute('role', 'boundingObject');
-    } else if (['BallJointParameters', 'JointParameters', 'HingeJointParameters'].includes(this.value.name))
+    } else if (['BallJointParameters', 'JointParameters', 'HingeJointParameters'].includes(name))
       nodeX3d.setAttribute('role', parameterName); // identifies which jointParameter slot the node belongs to
-    else if (['Brake', 'PositionSensor', 'RotationalMotor', 'LinearMotor'].includes(this.value.name))
+    else if (['Brake', 'PositionSensor', 'RotationalMotor', 'LinearMotor'].includes(name))
       nodeX3d.setAttribute('role', parameterName); // identifies which device slot the node belongs to
 
     if (typeof nodeX3d !== 'undefined')
@@ -450,6 +452,17 @@ export class SFNode extends SingleValue {
       if (!parameter.value.equals(otherParameter.value))
         return false;
       if (!parameter.defaultValue.equals(otherParameter.defaultValue))
+        return false;
+    }
+
+    for (const [fieldName, field] of this.value.fields) {
+      if (!other.value.fields.has(fieldName))
+        return false;
+
+      const otherField = other.value.fields.get(fieldName);
+      if (!field.value.equals(otherField.value))
+        return false;
+      if (!field.defaultValue.equals(otherField.defaultValue))
         return false;
     }
 
@@ -822,7 +835,7 @@ export class MFRotation extends MultipleValue {
 }
 
 export class MFNode extends MultipleValue {
-  setValueFromTokenizer(tokenizer) {
+  setValueFromTokenizer(tokenizer, parameter) {
     // If we reach this function it means that the MFNode does not have the default value.
     // Thus we should reset the value because it could already contains the default one.
     this.value = [];
@@ -830,7 +843,7 @@ export class MFNode extends MultipleValue {
       tokenizer.skipToken('[');
 
       while (tokenizer.peekWord() !== ']')
-        this.insert(new SFNode(tokenizer));
+        this.insert(new SFNode(tokenizer, parameter));
 
       tokenizer.skipToken(']');
     } else
@@ -851,9 +864,10 @@ export class MFNode extends MultipleValue {
     });
   }
 
-  insertNode(node, index) {
+  insertNode(node, index, parameter) {
     const sfnode = new SFNode();
     sfnode.setValueFromJavaScript(node);
+    sfnode.value.parentField = parameter;
     this.value.splice(index, 0, sfnode);
   }
 
@@ -888,47 +902,48 @@ export class MFNode extends MultipleValue {
   }
 }
 
-export function vrmlFactory(type, tokenizer, rewind) {
-  if (rewind)
-    tokenizer.rewind(); // ensures the tokenizer starts from the beginning every time
+export function vrmlFactory(type, tokenizerOrModel, rewind) {
+  if (rewind && tokenizerOrModel instanceof Tokenizer)
+    // PROTO parameters are initialized from a tokenizer (from cProtoModels), base node fields from a JSON (FieldModel)
+    tokenizerOrModel.rewind(); // ensures the tokenizer starts from the beginning every time
 
   switch (type) {
     case VRML.SFBool:
-      return new SFBool(tokenizer);
+      return new SFBool(tokenizerOrModel);
     case VRML.SFInt32:
-      return new SFInt32(tokenizer);
+      return new SFInt32(tokenizerOrModel);
     case VRML.SFFloat:
-      return new SFFloat(tokenizer);
+      return new SFFloat(tokenizerOrModel);
     case VRML.SFString:
-      return new SFString(tokenizer);
+      return new SFString(tokenizerOrModel);
     case VRML.SFVec2f:
-      return new SFVec2f(tokenizer);
+      return new SFVec2f(tokenizerOrModel);
     case VRML.SFVec3f:
-      return new SFVec3f(tokenizer);
+      return new SFVec3f(tokenizerOrModel);
     case VRML.SFColor:
-      return new SFColor(tokenizer);
+      return new SFColor(tokenizerOrModel);
     case VRML.SFRotation:
-      return new SFRotation(tokenizer);
+      return new SFRotation(tokenizerOrModel);
     case VRML.SFNode:
-      return new SFNode(tokenizer);
+      return new SFNode(tokenizerOrModel);
     case VRML.MFBool:
-      return new MFBool(tokenizer);
+      return new MFBool(tokenizerOrModel);
     case VRML.MFInt32:
-      return new MFInt32(tokenizer);
+      return new MFInt32(tokenizerOrModel);
     case VRML.MFFloat:
-      return new MFFloat(tokenizer);
+      return new MFFloat(tokenizerOrModel);
     case VRML.MFString:
-      return new MFString(tokenizer);
+      return new MFString(tokenizerOrModel);
     case VRML.MFVec2f:
-      return new MFVec2f(tokenizer);
+      return new MFVec2f(tokenizerOrModel);
     case VRML.MFVec3f:
-      return new MFVec3f(tokenizer);
+      return new MFVec3f(tokenizerOrModel);
     case VRML.MFColor:
-      return new MFColor(tokenizer);
+      return new MFColor(tokenizerOrModel);
     case VRML.MFRotation:
-      return new MFRotation(tokenizer);
+      return new MFRotation(tokenizerOrModel);
     case VRML.MFNode:
-      return new MFNode(tokenizer);
+      return new MFNode(tokenizerOrModel);
     default:
       throw new Error('Unknown VRML type: ', type);
   }

@@ -2,6 +2,7 @@ import WbAbstractCamera from './WbAbstractCamera.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 import {arrayXPointerFloat} from './utils/utils.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbLidar extends WbAbstractCamera {
   #frustumMaterial;
@@ -22,6 +23,10 @@ export default class WbLidar extends WbAbstractCamera {
     this.#numberOfLayers = numberOfLayers;
     this.#tiltAngle = tiltAngle;
     this.#verticalFieldOfView = verticalFieldOfView;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_LIDAR;
   }
 
   get horizontalResolution() {

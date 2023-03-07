@@ -2,6 +2,7 @@ import WbBaseNode from './WbBaseNode.js';
 import WbWorld from './WbWorld.js';
 
 import {resetIfNegative, resetColorIfInvalid} from './utils/WbFieldChecker.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbFog extends WbBaseNode {
   #color;
@@ -13,6 +14,10 @@ export default class WbFog extends WbBaseNode {
     this.#color = color;
     this.#visibilityRange = visibilityRange;
     this.#fogType = fogType;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_FOG;
   }
 
   get color() {

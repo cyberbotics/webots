@@ -8,6 +8,7 @@ import WbBeltPosition from './utils/WbBeltPosition.js';
 import WbPathSegment from './utils/WbPathSegment.js';
 import {getAnId} from './utils/id_provider.js';
 import {clampedAcos} from './utils/math_utilities.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbTrack extends WbSolid {
   #device;
@@ -21,6 +22,10 @@ export default class WbTrack extends WbSolid {
     this.#device = [];
     this.linearSpeed = 0;
     this.animationStepSize = 0;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_TRACK;
   }
 
   get device() {

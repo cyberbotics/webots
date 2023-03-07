@@ -5,6 +5,7 @@ import WbLight from './WbLight.js';
 import WbShape from './WbShape.js';
 import WbVector3 from './utils/WbVector3.js';
 import {clampValuesIfNeeded} from './utils/WbFieldChecker.js';
+import {WbNodeType} from './wb_node_type.js';
 
 // This class is used to retrieve the type of device
 export default class WbLed extends WbDevice {
@@ -20,6 +21,10 @@ export default class WbLed extends WbDevice {
     this.#pbrAppearances = [];
     this.#color = color;
     this.#value = 0;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_LED;
   }
 
   get value() {

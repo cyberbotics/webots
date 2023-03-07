@@ -1,6 +1,7 @@
 import {resetIfNegative, resetVector3IfNegative} from './utils/WbFieldChecker.js';
 import {findUpperTransform} from './utils/node_utilities.js';
 import WbVector3 from './utils/WbVector3.js';
+import {WbNodeType} from './wb_node_type.js';
 
 import WbLight from './WbLight.js';
 
@@ -17,6 +18,10 @@ export default class WbPointLight extends WbLight {
 
     if (typeof parent !== 'undefined')
       this.parent = parent.id;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_POINT_LIGHT;
   }
 
   get attenuation() {

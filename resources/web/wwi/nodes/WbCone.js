@@ -1,6 +1,7 @@
 import WbGeometry from './WbGeometry.js';
 import {resetIfNonPositive, resetIfNotInRangeWithIncludedBounds} from './utils/WbFieldChecker.js';
 import WbVector3 from './utils/WbVector3.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbCone extends WbGeometry {
   #bottom;
@@ -15,6 +16,10 @@ export default class WbCone extends WbGeometry {
     this.#subdivision = subdivision;
     this.#side = side;
     this.#bottom = bottom;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_CONE;
   }
 
   get bottom() {
