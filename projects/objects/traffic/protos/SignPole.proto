@@ -36,6 +36,7 @@ PROTO SignPole [
       Transform {
         translation 0 0 1.9
         children IS signBoards
+        color IS color
       }
       DEF POLE Solid {
         translation 0 0 %<= height * 0.5 >%
