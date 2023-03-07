@@ -7,8 +7,6 @@ on:
       - 'released'
   schedule:
     - cron:  '0 22 * * *'
-  merge_group:
-      types: [checks_requested]
 
 defaults:
   run:
