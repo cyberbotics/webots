@@ -884,6 +884,10 @@ void WbAbstractCamera::applyFrustumToWren() {
   else
     wr_renderable_set_visibility_flags(mRenderable, WbWrenRenderingContext::VF_CAMERA_FRUSTUMS);
 
+  const WbVector3 scale = absoluteScale();
+  const float inverseScale[3] = {1.0f / static_cast<float>(scale.x()), 1.0f / static_cast<float>(scale.y()),
+                                 1.0f / static_cast<float>(scale.z())};
+  wr_transform_set_scale(mTransform, inverseScale);
   wr_node_set_visible(WR_NODE(mTransform), true);
 }
 
@@ -898,11 +902,14 @@ void WbAbstractCamera::updateFrustumDisplay() {
   const float translation[3] = {n, 0.0f, 0.0f};
   // Axis-angle for roll(pi/2), pitch(-pi/2), and yaw(0)
   const float orientation[4] = {M_PI * 2.0f / 3.0f, sqrt(3.0f) / 3.0f, -sqrt(3.0f) / 3.0f, -sqrt(3.0f) / 3.0f};
-  const float scale[3] = {quadWidth, (quadWidth * height()) / width(), 1.0f};
+  const WbVector3 scale = absoluteScale();  // node scale doesn't apply to the frustum
+  const float displayScale[3] = {quadWidth / static_cast<float>(scale.x()),
+                                 (quadWidth * height()) / (width() * static_cast<float>(scale.y())),
+                                 1.0f / static_cast<float>(scale.z())};
 
   wr_transform_set_position(mFrustumDisplayTransform, translation);
   wr_transform_set_orientation(mFrustumDisplayTransform, orientation);
-  wr_transform_set_scale(mFrustumDisplayTransform, scale);
+  wr_transform_set_scale(mFrustumDisplayTransform, displayScale);
   wr_material_set_texture(mFrustumDisplayMaterial, mWrenCamera->getWrenTexture(), 0);
   wr_node_set_visible(WR_NODE(mFrustumDisplayTransform), true);
 }
