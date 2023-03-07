@@ -175,7 +175,7 @@ static bool get_matlab_path() {
   const char *matlab_version_wc = "R20";
 #ifdef _WIN32
   const char *matlab_directory = "C:\\Program Files\\MATLAB\\";
-  const char *matlab_exec_suffix = "\\bin\\win64\\MATLAB.exe";
+  const char *matlab_exec_suffix = "\\bin\\matlab.exe";
 #else  // __linux__
   const char *matlab_directory = "/usr/local/MATLAB/";
   const char *matlab_exec_suffix = "/bin/matlab";
@@ -838,9 +838,9 @@ int main(int argc, char **argv) {
     const char *launcher_path = "/lib/controller/matlab";
 #endif
     // matlab_command starts the launcher.m file contained in the lib controller
-    const size_t matlab_command_size = snprintf(NULL, 0, "-sd %s%s", WEBOTS_HOME, launcher_path) + 1;
+    const size_t matlab_command_size = snprintf(NULL, 0, "-sd \"%s%s\"", WEBOTS_HOME, launcher_path) + 1;
     char *matlab_command = malloc(matlab_command_size);
-    sprintf(matlab_command, "-sd %s%s", WEBOTS_HOME, launcher_path);
+    sprintf(matlab_command, "-sd \"%s%s\"", WEBOTS_HOME, launcher_path);
 
     // Start MATLAB without display and run the launcher.m file
     size_t current_size = 0;

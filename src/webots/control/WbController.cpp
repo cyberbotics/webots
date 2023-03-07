@@ -897,7 +897,6 @@ void WbController::startMatlab() {
   mArguments << "-sd" << WbStandardPaths::controllerLibPath() + "matlab"
              << "-batch"
              << "launcher";
-  mArguments << mRobot->controllerArgs();
 }
 
 void WbController::startBotstudio() {

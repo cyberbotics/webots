@@ -204,7 +204,7 @@ QString WbLanguageTools::matlabCommand() {
   const QString matlabVersionsWc = "R20???";
 #ifdef _WIN32
   const QString matlabPath = "C:\\Program Files\\MATLAB\\";
-  const QString matlabExecPath = "\\bin\\win64\\MATLAB.exe";
+  const QString matlabExecPath = "\\bin\\matlab.exe";
 #else  // __linux__
   const QString matlabPath = "/usr/local/MATLAB/";
   // cppcheck-suppress unreadVariable
