@@ -96,6 +96,12 @@ def setupWebots():
             sys.exit('Error: ' + webotsBinary + ' binary not found')
         webotsFullPath = os.path.normpath(webotsFullPath)
 
+    if 'WEBOTS_HOME' in os.environ:
+        webotsEmptyWorldPath = os.path.join(os.path.normpath(os.environ['WEBOTS_HOME']), 'resources', 'projects', 'worlds',
+                                            'empty.wbt')
+    else:
+        webotsEmptyWorldPath = os.path.join(testsFolderPath, '..', 'resources', 'projects', 'worlds', 'empty.wbt')
+
     command = Command([webotsFullPath, '--version'])
     command.run()
     if command.returncode != 0:
@@ -111,7 +117,7 @@ def setupWebots():
         raise RuntimeError('Error when getting the Webots information of the system')
     webotsSysInfo = command.output.split('\n')
 
-    return webotsFullPath, webotsVersion, webotsSysInfo
+    return webotsFullPath, webotsVersion, webotsSysInfo, webotsEmptyWorldPath
 
 
 def resetIndexFile(indexFilename):
@@ -333,7 +339,7 @@ if sys.platform == 'win32':
 
 if not args.nomake:
     executeMake()
-webotsFullPath, webotsVersion, webotsSysInfo = setupWebots()
+webotsFullPath, webotsVersion, webotsSysInfo, webotsEmptyWorldPath = setupWebots()
 resetOutputFile()
 
 finalMessage = 'Test suite complete'
@@ -341,11 +347,9 @@ outputMonitor = OutputMonitor()
 thread = threading.Thread(target=outputMonitor.monitorOutputFile, args=[finalMessage])
 thread.start()
 
-# Run a copy of webots in the background to ensure doing so doesn't cause any tests to fail.
-# Use WEBOTS_SAFE_MODE=true to ensure it always runs with the same (empty) project.
-backgroundWebots = subprocess.Popen([webotsFullPath, "--mode=pause", "--no-rendering", "--minimize", "--stdout", "--stderr"],
-                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
-                                    env=(os.environ | {"WEBOTS_SAFE_MODE": "true"}))
+# Run a copy of Webots in the background to ensure doing so doesn't cause any tests to fail and start the empty project.
+backgroundWebots = subprocess.Popen([webotsFullPath, "--mode=pause", "--no-rendering", "--minimize", "--stdout", "--stderr",
+                                    webotsEmptyWorldPath], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 atexit.register(subprocess.Popen.terminate, self=backgroundWebots)
 # Wait until we can actually connect to it, trying 10 times.
 with contextlib.closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as sock:
