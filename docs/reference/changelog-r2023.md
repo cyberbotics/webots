@@ -24,14 +24,16 @@ Released on ??
     - Improved plot representation in default robot window when a NaN value is received from a device ([#5680](https://github.com/cyberbotics/webots/pull/5680)).
     - Improved default selected tab in Field Editor when nodes are selected ([#5726](https://github.com/cyberbotics/webots/pull/5726)).
   - Bug Fixes
-    - Fix the behavior of the [Connector](connector.md) after a reset to return to the controller the correct status ([#5889](https://github.com/cyberbotics/webots/pull/5889))
+    - Fixed the behavior of the [Connector](connector.md) after a reset to return to the controller the correct status ([#5889](https://github.com/cyberbotics/webots/pull/5889))
     - Fixed redirection of stdout/stderr for Python controllers on Windows ([#5807](https://github.com/cyberbotics/webots/pull/5807)).
     - Fixed crash in Python API when a robot controller was using several cameras with different resolutions ([#5705](https://github.com/cyberbotics/webots/pull/5705)).
-    - Fixed Python API `Supervisor.setSimulationMode` which was failing ([#5603](https://github.com/cyberbotics/webots/pull/5603)).
-    - Fixed Python API `Node.enableContactPointsTracking` which was failing ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
-    - Fixed Python API field getters sometimes returning an invalid Field object ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
-    - Fixed Python API `Field.enableSFTracking` and `Field.disableSFTracking` which were failing ([#5640](https://github.com/cyberbotics/webots/pull/5640)).
-    - Fixed Python API `Motor.enableForceFeedback` where the `sampling_period` argument was missing ([#5797](https://github.com/cyberbotics/webots/pull/5797)).
+    - Fixed Python API:
+      - `Node.getContactPoints` was failing from the second point ([#5968](https://github.com/cyberbotics/webots/pull/5968)).
+      - `Supervisor.setSimulationMode` which was failing ([#5603](https://github.com/cyberbotics/webots/pull/5603)).
+      - `Node.enableContactPointsTracking` which was failing ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
+      - Field getters sometimes returning an invalid Field object ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
+      - `Field.enableSFTracking` and `Field.disableSFTracking` which were failing ([#5640](https://github.com/cyberbotics/webots/pull/5640)).
+      - `Motor.enableForceFeedback` where the `sampling_period` argument was missing ([#5797](https://github.com/cyberbotics/webots/pull/5797)).
     - Fixed crash resulting from requesting pose tracking of unsuitable nodes ([#5620](https://github.com/cyberbotics/webots/pull/5620)).
     - Fixed memory leaks, particularly when in no-rendering mode and spawning/deleting nodes ([#5639](https://github.com/cyberbotics/webots/pull/5639)).
     - Fixed crashes resulting from streaming pose, SF field values or contact points after deleting the tracked nodes ([#5638](https://github.com/cyberbotics/webots/pull/5638)).
