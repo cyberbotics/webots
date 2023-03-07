@@ -1,6 +1,5 @@
 # Blender v3.0.1 OBJ File: 'cable.blend'
 # www.blender.org
-mtllib cable.mtl
 o cable
 v 0.000949 0.017574 0.000000
 v -0.000053 -0.017600 -0.000000
