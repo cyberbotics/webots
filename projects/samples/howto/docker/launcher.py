@@ -61,7 +61,7 @@ controller_process = None
 while webots_process.poll() is None:
     line = webots_process.stdout.readline().rstrip()
     if line.startswith('simulation-webots-1  | '):  # output of the first docker container
-        line = line[12:]
+        line = line[23:]
         if line.startswith('ipc://'):
             name = line[line.rfind('/') + 1:]
             controller = controllers[name] if name in controllers else ''
