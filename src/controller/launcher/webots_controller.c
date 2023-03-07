@@ -492,6 +492,20 @@ static void matlab_config_environment() {
   webots_version = malloc(webots_version_size);
   sprintf(webots_version, "WEBOTS_VERSION=%s", version);
   putenv(webots_version);
+
+// Add libController to Path
+#ifdef _WIN32
+  const size_t new_path_size = snprintf(NULL, 0, "Path=%s\\lib\\controller;%s", WEBOTS_HOME, getenv("Path")) + 1;
+  new_path = malloc(new_path_size);
+  sprintf(new_path, "Path=%s\\lib\\controller;%s", WEBOTS_HOME, getenv("Path"));
+  putenv(new_path);
+#elif defined __APPLE__
+  const size_t new_ld_path_size =
+    snprintf(NULL, 0, "DYLD_LIBRARY_PATH=%s/Contents/lib/controller:%s", WEBOTS_HOME, getenv("DYLD_LIBRARY_PATH")) + 1;
+  new_ld_path = malloc(new_ld_path_size);
+  sprintf(new_ld_path, "DYLD_LIBRARY_PATH=%s/Contents/lib/controller:%s", WEBOTS_HOME, getenv("DYLD_LIBRARY_PATH"));
+  putenv(new_ld_path);
+#endif
 }
 
 // Replace all environment variables in the string ('$(ENV)' syntax) by its content
