@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WB_TRANSFORM_HPP
-#define WB_TRANSFORM_HPP
+#ifndef WB_POSE_HPP
+#define WB_POSE_HPP
 
 //
 // Description: a node that defines a 3D coordinate system transformation

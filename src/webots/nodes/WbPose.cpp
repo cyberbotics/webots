@@ -36,7 +36,7 @@ void WbPose::init() {
   }
 }
 
-WbPose::WbPose(WbTokenizer *tokenizer) : WbGroup("Transform", tokenizer), WbAbstractPose(this) {
+WbPose::WbPose(WbTokenizer *tokenizer) : WbGroup("Pose", tokenizer), WbAbstractPose(this) {
   init();
 }
 

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WB_ABSTRACT_TRANSFORM_HPP
-#define WB_ABSTRACT_TRANSFORM_HPP
+#ifndef WB_ABSTRACT_POSE_HPP
+#define WB_ABSTRACT_POSE_HPP
 
 //
 // Description: abstract node implementing 'translation', 'rotation', and

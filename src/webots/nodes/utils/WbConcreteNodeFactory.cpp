@@ -73,6 +73,7 @@
 #include "WbPlane.hpp"
 #include "WbPointLight.hpp"
 #include "WbPointSet.hpp"
+#include "WbPose.hpp"
 #include "WbPositionSensor.hpp"
 #include "WbPropeller.hpp"
 #include "WbProtoManager.hpp"
@@ -100,7 +101,7 @@
 #include "WbTouchSensor.hpp"
 #include "WbTrack.hpp"
 #include "WbTrackWheel.hpp"
-#include "WbPose.hpp"
+#include "WbTransform.hpp"
 #include "WbUrl.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
@@ -234,6 +235,8 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbPointSet(tokenizer);
   if (modelName == "PositionSensor")
     return new WbPositionSensor(tokenizer);
+  if (modelName == "Pose")
+    return new WbPose(tokenizer);
   if (modelName == "Propeller")
     return new WbPropeller(tokenizer);
   if (modelName == "Radar")
@@ -279,7 +282,7 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
   if (modelName == "TrackWheel")
     return new WbTrackWheel(tokenizer);
   if (modelName == "Transform")
-    return new WbPose(tokenizer);
+    return new WbTransform(tokenizer);
   if (modelName == "Viewpoint")
     return new WbViewpoint(tokenizer);
   if (modelName == "WorldInfo")
@@ -437,6 +440,8 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
     return new WbPointSet(original);
   if (modelName == "PositionSensor")
     return new WbPositionSensor(original);
+  if (modelName == "Pose")
+    return new WbPose(original);
   if (modelName == "Propeller")
     return new WbPropeller(original);
   if (modelName == "Radar")
@@ -482,7 +487,7 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
   if (modelName == "TrackWheel")
     return new WbTrackWheel(original);
   if (modelName == "Transform")
-    return new WbPose(original);
+    return new WbTransform(original);
   if (modelName == "Viewpoint")
     return new WbViewpoint(original);
   if (modelName == "WorldInfo")

@@ -234,7 +234,7 @@ namespace {
           return true;
         if (nodeName == "Group")
           return true;
-        if (nodeName == "Transform")
+        if (nodeName == "Transform") // TODO: fix node insertion rules
           return true;
         if (nodeName == "Billboard")
           return true;

@@ -446,6 +446,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbTouchSensor.cpp \
   WbTrack.cpp \
   WbTrackWheel.cpp \
+  WbTransform.cpp \
   WbTranslateRotateManipulator.cpp \
   WbTreeItem.cpp \
   WbTreeView.cpp \

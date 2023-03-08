@@ -689,6 +689,7 @@ static const char *C_API_CONSTANTS = "INFINITY "
                                      "WB_NODE_TOUCH_SENSOR "
                                      "WB_NODE_TRACK "
                                      "WB_NODE_TRACK_WHEEL "
+                                     "WB_NODE_TRANSFORM "
                                      "WB_NODE_VIEWPOINT "
                                      "WB_NODE_WORLD_INFO "
                                      "WB_NODE_ZOOM";
