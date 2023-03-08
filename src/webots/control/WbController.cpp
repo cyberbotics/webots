@@ -941,7 +941,7 @@ void WbController::startDocker() {
                                        "-v",   WbStandardPaths::webotsTmpPath() + ":" + WbStandardPaths::webotsTmpPath(),
                                        "-e",   "WEBOTS_INSTANCE_PATH=" + WbStandardPaths::webotsTmpPath(),
                                        "-e",   "WEBOTS_ROBOT_NAME=" + mRobot->name(),
-                                       image}; // the raw robot name is set, if needed libController will encode it
+                                       image};  // the raw robot name is set, if needed libController will encode it
   mArguments = dockerArguments + mRobot->controllerArgs();
 #endif
 }
