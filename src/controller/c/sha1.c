@@ -50,11 +50,7 @@ A million repetitions of "a"
 
 
 /* Hash a single 512-bit block. This is the core of the algorithm. */
-
-void SHA1Transform(
-    uint32_t state[5],
-    const unsigned char buffer[64]
-)
+void SHA1Transform(uint32_t state[5], const unsigned char buffer[64])
 {
     uint32_t a, b, c, d, e;
 
@@ -178,11 +174,7 @@ void SHA1Transform(
 
 
 /* SHA1Init - Initialize new context */
-
-void SHA1Init(
-    SHA1_CTX * context
-)
-{
+void SHA1Init(SHA1_CTX * context) {
     /* SHA1 initialization constants */
     context->state[0] = 0x67452301;
     context->state[1] = 0xEFCDAB89;
@@ -194,15 +186,8 @@ void SHA1Init(
 
 
 /* Run your data through this. */
-
-void SHA1Update(
-    SHA1_CTX * context,
-    const unsigned char *data,
-    uint32_t len
-)
-{
+void SHA1Update(SHA1_CTX * context, const unsigned char *data, uint32_t len) {
     uint32_t i;
-
     uint32_t j;
 
     j = context->count[0];
@@ -210,12 +195,10 @@ void SHA1Update(
         context->count[1]++;
     context->count[1] += (len >> 29);
     j = (j >> 3) & 63;
-    if ((j + len) > 63)
-    {
+    if ((j + len) > 63) {
         memcpy(&context->buffer[j], data, (i = 64 - j));
         SHA1Transform(context->state, context->buffer);
-        for (; i + 63 < len; i += 64)
-        {
+        for (; i + 63 < len; i += 64) {
             #ifndef __WIN32__
               #pragma GCC diagnostic push
               #pragma GCC diagnostic ignored "-Wstringop-overread"
@@ -224,8 +207,7 @@ void SHA1Update(
             #endif
         }
         j = 0;
-    }
-    else
+    } else
         i = 0;
     memcpy(&context->buffer[j], &data[i], len - i);
 }
@@ -233,45 +215,30 @@ void SHA1Update(
 
 /* Add padding and return the message digest. */
 
-void SHA1Final(
-    unsigned char digest[20],
-    SHA1_CTX * context
-)
-{
+void SHA1Final(unsigned char digest[20], SHA1_CTX * context) {
     unsigned i;
-
     unsigned char finalcount[8];
-
     unsigned char c;
 
     for (i = 0; i < 8; i++)
-    {
         finalcount[i] = (unsigned char) ((context->count[(i >= 4 ? 0 : 1)] >> ((3 - (i & 3)) * 8)) & 255);      /* Endian independent */
-    }
 
     c = 0200;
     SHA1Update(context, &c, 1);
-    while ((context->count[0] & 504) != 448)
-    {
+    while ((context->count[0] & 504) != 448) {
         c = 0000;
         SHA1Update(context, &c, 1);
     }
     SHA1Update(context, finalcount, 8); /* Should cause a SHA1Transform() */
-    for (i = 0; i < 20; i++)
-    {
-        digest[i] = (unsigned char)
-            ((context->state[i >> 2] >> ((3 - (i & 3)) * 8)) & 255);
+    for (i = 0; i < 20; i++) {
+        digest[i] = (unsigned char)((context->state[i >> 2] >> ((3 - (i & 3)) * 8)) & 255);
     }
     /* Wipe variables */
     memset(context, '\0', sizeof(*context));
     memset(&finalcount, '\0', sizeof(finalcount));
 }
 
-void SHA1(
-    char *hash_out,
-    const char *str,
-    uint32_t len)
-{
+void SHA1(char *hash_out, const char *str, uint32_t len) {
     SHA1_CTX ctx;
     unsigned int ii;
 
