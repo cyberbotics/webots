@@ -36,7 +36,7 @@ if sys.platform != 'linux':
     sys.exit('This script runs only on Linux, not on ' + sys.platform)
 
 controllers = {
-  "MyBot": "controllers/camera/camera"
+    "MyBot": "controllers/camera/camera"
 }
 port = 1234
 docker_image = 'cyberbotics/webots:R2023a-ubuntu20.04'  # this should correspond to the current version of Webots
