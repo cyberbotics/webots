@@ -48,7 +48,7 @@ PROTO ExitPanel [
         }
       }
       Transform {
-        translation 0 -0.003 -0.845
+        translation 0 0.006 -0.85
         rotation 0 1 0 1.5708
         children [
           DEF PANEL_BODY Shape {

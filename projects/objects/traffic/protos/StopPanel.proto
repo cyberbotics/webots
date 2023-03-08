@@ -48,7 +48,7 @@ PROTO StopPanel [
         }
       }
       Transform {
-        translation 0.016 0 -0.8
+        translation 0.016 -0.024 -0.801
         rotation 0 1 0 1.5708
         children [
           DEF PANEL_BODY Shape {
