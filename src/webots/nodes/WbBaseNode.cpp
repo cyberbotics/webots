@@ -181,7 +181,7 @@ WbNode::NodeUse WbBaseNode::nodeUse() const {
 
 WbPose *WbBaseNode::upperTransform() const {
   if (mUpperTransformFirstTimeSearch) {
-    mUpperTransform = WbNodeUtilities::findUpperTransform(this);
+    mUpperTransform = WbNodeUtilities::findUpperPose(this);
     if (areWrenObjectsInitialized())
       mUpperTransformFirstTimeSearch = false;
   }

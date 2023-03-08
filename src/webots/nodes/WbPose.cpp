@@ -433,14 +433,14 @@ QStringList WbPose::fieldsToSynchronizeWithX3D() const {
 }
 
 WbVector3 WbPose::translationFrom(const WbNode *fromNode) const {
-  const WbPose *parentNode = WbNodeUtilities::findUpperTransform(this);
+  const WbPose *parentNode = WbNodeUtilities::findUpperPose(this);
   const WbPose *childNode = this;
   QList<const WbPose *> transformList;
 
   transformList.append(childNode);
   while (parentNode != fromNode) {
     childNode = parentNode;
-    parentNode = WbNodeUtilities::findUpperTransform(parentNode);
+    parentNode = WbNodeUtilities::findUpperPose(parentNode);
     transformList.append(childNode);
     assert(parentNode);
   }
@@ -457,14 +457,14 @@ WbVector3 WbPose::translationFrom(const WbNode *fromNode) const {
 }
 
 WbMatrix3 WbPose::rotationMatrixFrom(const WbNode *fromNode) const {
-  const WbPose *parentNode = WbNodeUtilities::findUpperTransform(this);
+  const WbPose *parentNode = WbNodeUtilities::findUpperPose(this);
   const WbPose *childNode = this;
 
   QList<const WbPose *> transformList;
   transformList.append(childNode);
   while (parentNode != fromNode) {
     childNode = parentNode;
-    parentNode = WbNodeUtilities::findUpperTransform(parentNode);
+    parentNode = WbNodeUtilities::findUpperPose(parentNode);
     transformList.append(childNode);
     assert(parentNode);
   }

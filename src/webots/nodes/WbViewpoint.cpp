@@ -1286,7 +1286,7 @@ WbAbstractPose *WbViewpoint::computeSelectedObjectTransform() {
   assert(node);
   WbAbstractPose *transform = dynamic_cast<WbAbstractPose *>(node);
   if (!transform)
-    transform = WbNodeUtilities::findUpperTransform(node);
+    transform = WbNodeUtilities::findUpperPose(node);
   return transform;
 }
 

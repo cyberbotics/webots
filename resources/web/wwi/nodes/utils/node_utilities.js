@@ -3,7 +3,7 @@ import WbPose from '../WbPose.js';
 import WbWorld from '../WbWorld.js';
 import {WbNodeType} from '../wb_node_type.js';
 
-export function findUpperTransform(node) {
+export function findUpperPose(node) {
   if (typeof node === 'undefined')
     return undefined;
 

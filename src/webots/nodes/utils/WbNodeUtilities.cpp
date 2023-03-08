@@ -637,7 +637,7 @@ WbSolid *WbNodeUtilities::findUpperSolid(const WbNode *node) {
   return dynamic_cast<WbSolid *>(upperMatter);
 }
 
-WbPose *WbNodeUtilities::findUppermostTransform(const WbNode *node) {
+WbPose *WbNodeUtilities::findUppermostPose(const WbNode *node) {
   const WbNode *n = node;
   WbPose *uppermostTransform = NULL;
   while (n) {
@@ -691,7 +691,7 @@ WbSolid *WbNodeUtilities::findTopSolid(const WbNode *node) {
   return topSolid;
 }
 
-WbPose *WbNodeUtilities::findUpperTransform(const WbNode *node) {
+WbPose *WbNodeUtilities::findUpperPose(const WbNode *node) {
   if (node == NULL)
     return NULL;
 

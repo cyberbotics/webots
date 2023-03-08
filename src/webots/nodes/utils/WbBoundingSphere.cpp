@@ -244,7 +244,7 @@ void WbBoundingSphere::recomputeSphereInParentCoordinates() {
 void WbBoundingSphere::computeSphereInGlobalCoordinates(WbVector3 &center, double &radius) {
   const WbAbstractPose *upperTransform = dynamic_cast<const WbAbstractPose *>(mTransformOwner);
   if (upperTransform == NULL)
-    upperTransform = WbNodeUtilities::findUpperTransform(mOwner);
+    upperTransform = WbNodeUtilities::findUpperPose(mOwner);
   if (upperTransform) {
     const WbVector3 &scale = upperTransform->absoluteScale();
     radius = std::max(std::max(scale.x(), scale.y()), scale.z()) * mRadius;

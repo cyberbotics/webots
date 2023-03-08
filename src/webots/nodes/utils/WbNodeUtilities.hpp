@@ -45,7 +45,7 @@ namespace WbNodeUtilities {
   void fixBackwardCompatibility(WbNode *node);
 
   // find the closest WbPose ancestor
-  WbPose *findUpperTransform(const WbNode *node);
+  WbPose *findUpperPose(const WbNode *node);
 
   // find the closest WbSolid ancestor
   WbSolid *findUpperSolid(const WbNode *node);
@@ -66,7 +66,7 @@ namespace WbNodeUtilities {
   QList<WbNode *> findDescendantNodesOfType(WbNode *node, bool (&typeCondition)(WbBaseNode *), bool recursive);
 
   // find the uppermost WbPose ancestor (may be the node itself)
-  WbPose *findUppermostTransform(const WbNode *node);
+  WbPose *findUppermostPose(const WbNode *node);
 
   // find the uppermost WbSolid ancestor (may be the node itself)
   WbSolid *findUppermostSolid(const WbNode *node);

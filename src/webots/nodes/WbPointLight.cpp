@@ -177,7 +177,7 @@ void WbPointLight::checkAmbientAndAttenuationExclusivity() {
 }
 
 void WbPointLight::attachToUpperTransform() {
-  WbPose *upperTransform = WbNodeUtilities::findUpperTransform(this);
+  WbPose *upperTransform = WbNodeUtilities::findUpperPose(this);
   if (upperTransform)
     wr_transform_attach_child(upperTransform->wrenNode(), WR_NODE(mWrenLight));
 }

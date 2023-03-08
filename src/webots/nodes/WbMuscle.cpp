@@ -120,7 +120,7 @@ WbMuscle::~WbMuscle() {
 void WbMuscle::postFinalize() {
   WbBaseNode::postFinalize();
 
-  mParentTransform = WbNodeUtilities::findUpperTransform(this);
+  mParentTransform = WbNodeUtilities::findUpperPose(this);
   const WbJoint *joint = dynamic_cast<WbJoint *>(parentNode()->parentNode());
   updateEndPoint(joint->solidEndPoint());
   WbWrenVertexArrayFrameListener::instance()->subscribeMuscle(this);

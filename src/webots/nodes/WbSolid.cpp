@@ -2999,7 +2999,7 @@ bool WbSolid::exportNodeHeader(WbWriter &writer) const {
           const WbSphere *sphere = dynamic_cast<const WbSphere *>(node);
           const WbCapsule *capsule = dynamic_cast<const WbCapsule *>(node);
           if (box || cylinder || sphere || capsule) {
-            const WbPose *transform = WbNodeUtilities::findUpperTransform(node);
+            const WbPose *transform = WbNodeUtilities::findUpperPose(node);
             QList<std::pair<QString, WbVector3>> geometries;  // string of the geometry and its offset
 
             if (box) {

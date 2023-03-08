@@ -1,5 +1,5 @@
 import WbVector3 from './WbVector3.js';
-import {findUpperTransform} from './node_utilities.js';
+import {findUpperPose} from './node_utilities.js';
 
 export default class WbBoundingSphere {
   #center;
@@ -58,7 +58,7 @@ export default class WbBoundingSphere {
   computeSphereInGlobalCoordinates() {
     let radius;
     let center;
-    const upperTransform = !this.transformOwner ? findUpperTransform(this.#owner) : this.#owner;
+    const upperTransform = !this.transformOwner ? findUpperPose(this.#owner) : this.#owner;
 
     if (typeof upperTransform !== 'undefined') {
       const scale = upperTransform.absoluteScale();
