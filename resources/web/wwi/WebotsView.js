@@ -5,6 +5,8 @@ import {webots} from './webots.js';
 import {changeGtaoLevel} from './nodes/wb_preferences.js';
 import WbWorld from './nodes/WbWorld.js';
 import WbDevice from './nodes/WbDevice.js';
+import WbShape from './nodes/WbShape.js';
+import WbSlot from './nodes/WbSlot.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 
 /* The following member variables can be set by the application:
@@ -400,7 +402,8 @@ export default class WebotsView extends HTMLElement {
         this.resize();
         this.toolbar.protoParameterWindowInitializeSizeAndPosition();
         const topProtoNode = WbWorld.instance.root.children[WbWorld.instance.root.children.length - 1];
-        if (topProtoNode instanceof WbDevice || moveFloor === '1')
+        if (topProtoNode instanceof WbDevice || topProtoNode instanceof WbSlot || topProtoNode instanceof WbShape ||
+          moveFloor === '1')
           this.#repositionFloor(topProtoNode, WbWorld.instance.root.children[WbWorld.instance.root.children.length - 2]);
 
         WbWorld.instance.viewpoint.moveViewpointToObject(topProtoNode);

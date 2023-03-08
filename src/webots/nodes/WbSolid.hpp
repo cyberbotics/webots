@@ -457,6 +457,7 @@ private:
   bool mNameClashResolved;
 
 private slots:
+  void updateChildrenAfterJointEndPointChange(WbBaseNode *node);
   void updatePhysics();
   void updateRadarCrossSection();
   void updateRecognitionColors();
