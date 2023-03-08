@@ -216,10 +216,12 @@ void SHA1Update(
         SHA1Transform(context->state, context->buffer);
         for (; i + 63 < len; i += 64)
         {
-            #pragma GCC diagnostic push
-            #pragma GCC diagnostic ignored "-Wstringop-overread"
-            SHA1Transform(context->state, &data[i]);
-            #pragma GCC diagnostic pop
+            #ifndef __WIN32
+              #pragma GCC diagnostic push
+              #pragma GCC diagnostic ignored "-Wstringop-overread"
+              SHA1Transform(context->state, &data[i]);
+              #pragma GCC diagnostic pop
+            #endif
         }
         j = 0;
     }
