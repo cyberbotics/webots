@@ -441,7 +441,7 @@ void WbController::setProcessEnvironment() {
   QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
 
   // store a unique robot name for the controller
-  env.insert("WEBOTS_ROBOT_NAME", mRobot->encodedName());
+  env.insert("WEBOTS_ROBOT_NAME", mRobot->name());
 
   // Add the Webots lib path to be able to load (at least) libController
   QString ldLibraryPath = WbStandardPaths::controllerLibPath();
@@ -940,8 +940,8 @@ void WbController::startDocker() {
                                        "none",  // add "--cpu-shares", "512",
                                        "-v",   WbStandardPaths::webotsTmpPath() + ":" + WbStandardPaths::webotsTmpPath(),
                                        "-e",   "WEBOTS_INSTANCE_PATH=" + WbStandardPaths::webotsTmpPath(),
-                                       "-e",   "WEBOTS_ROBOT_NAME=" + mRobot->encodedName(),
-                                       image};
+                                       "-e",   "WEBOTS_ROBOT_NAME=" + mRobot->name(),
+                                       image}; // the raw robot name is set, if needed libController will encode it
   mArguments = dockerArguments + mRobot->controllerArgs();
 #endif
 }
