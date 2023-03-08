@@ -199,12 +199,14 @@ void SHA1Update(SHA1_CTX * context, const unsigned char *data, uint32_t len) {
         memcpy(&context->buffer[j], data, (i = 64 - j));
         SHA1Transform(context->state, context->buffer);
         for (; i + 63 < len; i += 64) {
-            #pragma GCC diagnostic push
-            #pragma GCC diagnostic ignored "-Wstringop-overread"
-            {
-            SHA1Transform(context->state, &data[i]);
-            }
-            #pragma GCC diagnostic pop
+            #ifdef _WIN32
+              #pragma GCC diagnostic push
+              #pragma GCC diagnostic ignored "-Wstringop-overread"
+              SHA1Transform(context->state, &data[i]);
+              #pragma GCC diagnostic pop
+            #else
+              SHA1Transform(context->state, &data[i]);
+            #endif
         }
         j = 0;
     } else
