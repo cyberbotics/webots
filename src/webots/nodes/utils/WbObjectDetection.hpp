@@ -51,9 +51,8 @@ public:
   bool computeObject(const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation, const WbMatrix3 &deviceInverseRotation,
                      const WbAffinePlane *frustumPlanes);
 
-  static WbAffinePlane *computeFrustumPlanes(const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation,
-                                             const double verticalFieldOfView, const double horizontalFieldOfView,
-                                             const double maxRange);
+  static WbAffinePlane *computeFrustumPlanes(const WbSolid *device, const double verticalFieldOfView,
+                                             const double horizontalFieldOfView, const double maxRange);
 
 protected:
   static void mergeBounds(WbVector3 &referenceObjectSize, WbVector3 &referenceObjectRelativePosition,

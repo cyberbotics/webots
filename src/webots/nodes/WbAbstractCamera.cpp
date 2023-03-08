@@ -760,14 +760,42 @@ static void drawRectangle(QVector<float> &vertices, QVector<float> &colors, cons
   }
 }
 
+void WbAbstractCamera::updateScaleOfFrustumVisualization() {
+  if (mTransform) {
+    const WbVector3 &scale = absoluteScale();
+    const float inverseScale[3] = {1.0f / static_cast<float>(scale.x()), 1.0f / static_cast<float>(scale.y()),
+                                   1.0f / static_cast<float>(scale.z())};
+    wr_transform_set_scale(mTransform, inverseScale);
+  }
+  if (mFrustumDisplayTransform)
+    updateFrustumDisplay();
+}
+
+void WbAbstractCamera::connectToScaleChangeNotifications(bool enabled) {
+  WbNode *ancestorNode = parentNode();
+  while (ancestorNode) {
+    WbTransform *transformNode = dynamic_cast<WbTransform *>(ancestorNode);
+    if (transformNode) {
+      if (enabled)
+        connect(transformNode, &WbTransform::scaleChanged, this, &WbAbstractCamera::updateScaleOfFrustumVisualization,
+                Qt::UniqueConnection);
+      else
+        disconnect(transformNode, &WbTransform::scaleChanged, this, &WbAbstractCamera::updateScaleOfFrustumVisualization);
+    }
+    ancestorNode = ancestorNode->parentNode();
+  }
+}
+
 void WbAbstractCamera::applyFrustumToWren() {
   wr_node_set_visible(WR_NODE(mTransform), false);
 
   wr_static_mesh_delete(mMesh);
   mMesh = NULL;
 
-  if (!isFrustumEnabled())
+  if (!isFrustumEnabled()) {
+    connectToScaleChangeNotifications(false);
     return;
+  }
 
   WbRgb frustumColorRgb;
   if (mSensor->isEnabled() && mSensor->isFirstValueReady())
@@ -884,10 +912,8 @@ void WbAbstractCamera::applyFrustumToWren() {
   else
     wr_renderable_set_visibility_flags(mRenderable, WbWrenRenderingContext::VF_CAMERA_FRUSTUMS);
 
-  const WbVector3 &scale = absoluteScale();
-  const float inverseScale[3] = {1.0f / static_cast<float>(scale.x()), 1.0f / static_cast<float>(scale.y()),
-                                 1.0f / static_cast<float>(scale.z())};
-  wr_transform_set_scale(mTransform, inverseScale);
+  updateScaleOfFrustumVisualization();
+  connectToScaleChangeNotifications(true);
   wr_node_set_visible(WR_NODE(mTransform), true);
 }
 

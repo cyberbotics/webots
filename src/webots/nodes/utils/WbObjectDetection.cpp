@@ -154,7 +154,9 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
     boundingObject = shape->geometry();
     return computeBounds(devicePosition, deviceRotation, deviceInverseRotation, frustumPlanes, boundingObject, objectSize,
                          objectRelativePosition);
-  } else if (nodeType == WB_NODE_GROUP || nodeType == WB_NODE_TRANSFORM) {
+  }
+
+  if (nodeType == WB_NODE_GROUP || nodeType == WB_NODE_TRANSFORM) {
     bool visible = false;
     const WbGroup *group = static_cast<const WbGroup *>(boundingObject);
     for (int i = 0; i < group->childCount(); ++i) {
@@ -371,17 +373,20 @@ bool WbObjectDetection::computeObject(const WbVector3 &devicePosition, const WbM
   return true;
 }
 
-WbAffinePlane *WbObjectDetection::computeFrustumPlanes(const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation,
-                                                       const double verticalFieldOfView, const double horizontalFieldOfView,
-                                                       const double maxRange) {
+WbAffinePlane *WbObjectDetection::computeFrustumPlanes(const WbSolid *device, const double verticalFieldOfView,
+                                                       const double horizontalFieldOfView, const double maxRange) {
+  const WbVector3 devicePosition = device->position();
+  const WbMatrix3 deviceRotation = device->rotationMatrix();
+  const WbMatrix4 &deviceMatrix = device->matrix();
+  const WbVector3 &scale = device->absoluteScale();
   // construct the 4 planes defining the sides of the frustum
-  const double z = maxRange * tan(verticalFieldOfView / 2.0);
+  const double z = maxRange * tan(verticalFieldOfView / 2.0);  // vertical field of view to check
   const double y = maxRange * tan(horizontalFieldOfView / 2.0);
   const double x = maxRange;
-  const WbVector3 topRightCorner = devicePosition + deviceRotation * WbVector3(x, -y, z);
-  const WbVector3 topLeftCorner = devicePosition + deviceRotation * WbVector3(x, y, z);
-  const WbVector3 bottomRightCorner = devicePosition + deviceRotation * WbVector3(x, -y, -z);
-  const WbVector3 bottomLeftCorner = devicePosition + deviceRotation * WbVector3(x, y, -z);
+  const WbVector3 topRightCorner = deviceMatrix * WbVector3(x, -y, z);
+  const WbVector3 topLeftCorner = deviceMatrix * WbVector3(x, y, z);
+  const WbVector3 bottomRightCorner = deviceMatrix * WbVector3(x, -y, -z);
+  const WbVector3 bottomLeftCorner = deviceMatrix * WbVector3(x, y, -z);
   WbAffinePlane *planes = new WbAffinePlane[PLANE_NUMBER];
   planes[RIGHT] = WbAffinePlane(devicePosition, topRightCorner, bottomRightCorner);       // right plane
   planes[BOTTOM] = WbAffinePlane(devicePosition, bottomRightCorner, bottomLeftCorner);    // bottom plane
