@@ -70,12 +70,7 @@ int main(int argc, char **argv) {
                              "wb_supervisor_node_get_pose() did not return the expected values.");
   wb_supervisor_node_remove(node_parent);
   wb_robot_step(2 * TIME_STEP);
-  #pragma GCC diagnostic push
-  #pragma GCC diagnostic ignored "-Wunused-variable"
-  {
-  const void *tracked_pose2 = wb_supervisor_node_get_pose(node, node_parent);
-  }
-  #pragma GCC diagnostic pop
+wb_supervisor_node_get_pose(node, node_parent);
   wb_supervisor_node_disable_pose_tracking(node, node_parent);
 
   ts_send_success();
