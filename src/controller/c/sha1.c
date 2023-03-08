@@ -204,6 +204,8 @@ void SHA1Update(SHA1_CTX * context, const unsigned char *data, uint32_t len) {
               #pragma GCC diagnostic ignored "-Wstringop-overread"
               SHA1Transform(context->state, &data[i]);
               #pragma GCC diagnostic pop
+            #else
+              SHA1Transform(context->state, &data[i]);
             #endif
         }
         j = 0;
