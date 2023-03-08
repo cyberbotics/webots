@@ -24,12 +24,12 @@
 #ifndef WB_TRACK_WHEEL_HPP
 #define WB_TRACK_WHEEL_HPP
 
+#include "WbPose.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFDouble.hpp"
 #include "WbSFVector2.hpp"
-#include "WbPose.hpp"
 
-class WbTrackWheel : public WbPose {
+class WbTrackWheel : public WbTransform {
   Q_OBJECT
 public:
   explicit WbTrackWheel(WbTokenizer *tokenizer = NULL);

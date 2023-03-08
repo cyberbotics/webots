@@ -48,9 +48,7 @@ WbPose::WbPose(const WbNode &other) : WbGroup(other), WbAbstractPose(this) {
   init();
 }
 
-WbPose::WbPose(const QString &modelName, WbTokenizer *tokenizer) :
-  WbGroup(modelName, tokenizer),
-  WbAbstractPose(this) {
+WbPose::WbPose(const QString &modelName, WbTokenizer *tokenizer) : WbGroup(modelName, tokenizer), WbAbstractPose(this) {
   init();
 }
 
@@ -80,8 +78,6 @@ void WbPose::save(const QString &id) {
 
 void WbPose::preFinalize() {
   WbGroup::preFinalize();
-
-  WbAbstractPose::checkScale(0, true);
 }
 
 void WbPose::postFinalize() {
@@ -93,7 +89,6 @@ void WbPose::postFinalize() {
     connect(this, &WbPose::translationOrRotationChangedByUser, this, &WbPose::notifyJerk);
   connect(mRotation, &WbSFRotation::changed, this, &WbPose::updateRotation);
   connect(mRotation, &WbSFRotation::changedByUser, this, &WbPose::translationOrRotationChangedByUser);
-  connect(mScale, SIGNAL(changed()), this, SLOT(updateScale()));
 }
 
 void WbPose::updateTranslation() {
@@ -127,23 +122,6 @@ void WbPose::updateTranslationAndRotation() {
 
   if (isInBoundingObject() && isAValidBoundingObject(true))
     applyToOdeGeomRotation();
-
-  if (mPoseChangedSignalEnabled)
-    emit poseChanged();
-
-  if (mHasNoSolidAncestor)
-    forwardJerk();
-}
-
-void WbPose::applyToScale() {
-  WbAbstractPose::applyToScale();
-
-  if (isInBoundingObject() && isAValidBoundingObject())
-    applyToOdeScale();
-}
-
-void WbPose::updateScale(bool warning) {
-  WbAbstractPose::updateScale(warning);
 
   if (mPoseChangedSignalEnabled)
     emit poseChanged();
@@ -187,30 +165,6 @@ void WbPose::createWrenObjects() {
 
   applyTranslationToWren();
   applyRotationToWren();
-  applyScaleToWren();
-}
-
-void WbPose::createScaleManipulator() {
-  const int constraint = constraintType();
-  mScaleManipulator = new WbScaleManipulator(uniqueId(), (WbScaleManipulator::ResizeConstraint)constraint);
-  if (constraint) {
-    connect(childrenField(), &WbMFNode::destroyed, mScaleManipulator, &WbScaleManipulator::hide);
-    connect(childrenField(), &WbMFNode::changed, this, &WbPose::updateConstrainedHandleMaterials);
-  }
-}
-
-int WbPose::constraintType() const {
-  static const int CONSTRAINT = WbWrenAbstractResizeManipulator::NO_CONSTRAINT;
-  const WbGeometry *const g = geometry();
-
-  if (g && (nodeUse() & WbNode::BOUNDING_OBJECT_USE))
-    return g->constraintType();
-  return CONSTRAINT;
-}
-
-void WbPose::setScaleNeedUpdate() {
-  WbAbstractPose::setScaleNeedUpdateFlag();
-  WbGroup::setScaleNeedUpdate();
 }
 
 void WbPose::setMatrixNeedUpdate() {
@@ -277,7 +231,7 @@ void WbPose::createOdeGeom(int index) {
     connect(s, &WbShape::geometryInShapeInserted, this, &WbPose::geometryInTransformInserted, Qt::UniqueConnection);
   }
 
-  checkScale(true, true);
+  // checkScale(true, true); // TODO: fix this and emission
 
   emit geometryInTransformInserted();
 }
@@ -378,10 +332,6 @@ void WbPose::applyToOdeMass(WbGeometry *g, dGeomID geom) {
     solid->correctOdeMass(odeMass, this);
 }
 
-void WbPose::applyToOdeScale() {
-  geometry()->applyToOdeData();
-}
-
 WbShape *WbPose::shape() const {
   if (childCount() == 0)
     return NULL;
@@ -427,8 +377,7 @@ void WbPose::exportBoundingObjectToX3D(WbWriter &writer) const {
 QStringList WbPose::fieldsToSynchronizeWithX3D() const {
   QStringList fields;
   fields << "translation"
-         << "rotation"
-         << "scale";
+         << "rotation";
   return fields;
 }
 

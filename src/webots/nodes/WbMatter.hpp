@@ -17,7 +17,7 @@
 
 #include "WbSFBool.hpp"
 #include "WbSFString.hpp"
-#include "WbPose.hpp"
+#include "WbTransform.hpp"
 
 class WbGeometry;
 
@@ -26,7 +26,7 @@ struct WrTransform;
 struct WrMaterial;
 struct WrStaticMesh;
 
-class WbMatter : public WbPose {
+class WbMatter : public WbTransform {
   Q_OBJECT
 
 public:

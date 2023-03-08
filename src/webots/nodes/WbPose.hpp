@@ -42,7 +42,6 @@ public:
   void createWrenObjects() override;
   void updateCollisionMaterial(bool isColliding = false, bool onSelection = false) override;
   void setSleepMaterial() override;
-  void setScaleNeedUpdate() override;
   void setMatrixNeedUpdate() override;
   void connectGeometryField(bool dynamic);
   void reset(const QString &id) override;
@@ -58,9 +57,6 @@ public:
 
   void save(const QString &id) override;
 
-  // Scaling
-  int constraintType() const override;
-
   // update of ODE data stored in geometry() for WbPose lying into a boundingObject
   void applyToOdeData(bool correctMass = true);
 
@@ -69,16 +65,6 @@ public:
   inline WbGeometry *geometry() const;
   bool isAValidBoundingObject(bool checkOde = false, bool warning = false) const override;
   bool isSuitableForInsertionInBoundingObject(bool warning = false) const override;
-
-  // resize/scale manipulator
-  bool hasResizeManipulator() const override { return WbAbstractPose::hasResizeManipulator(); }
-  void attachResizeManipulator() override { WbAbstractPose::attachResizeManipulator(); }
-  void detachResizeManipulator() const override { WbAbstractPose::detachResizeManipulator(); }
-  void updateResizeHandlesSize() override { WbAbstractPose::updateResizeHandlesSize(); }
-  void setResizeManipulatorDimensions() { WbAbstractPose::setResizeManipulatorDimensions(); }
-  void setUniformConstraintForResizeHandles(bool enabled) override {
-    WbAbstractPose::setUniformConstraintForResizeHandles(enabled);
-  }
 
   // translate-rotate manipulator
   void updateTranslateRotateHandlesSize() override { WbAbstractPose::updateTranslateRotateHandlesSize(); }
@@ -108,13 +94,6 @@ signals:
 protected:
   // this constructor is reserved for derived classes only
   WbPose(const QString &modelName, WbTokenizer *tokenizer);
-  void applyToScale() override;
-
-  void createScaleManipulator() override;
-
-protected slots:
-  virtual void updateScale(bool warning = true);
-  void updateConstrainedHandleMaterials();
 
 private:
   WbPose &operator=(const WbPose &);  // non copyable
@@ -130,7 +109,6 @@ private:
   void applyToOdeGeomRotation();
   void applyToOdeGeomPosition(bool correctMass = true);
   void applyToOdeMass(WbGeometry *g, dGeomID geom);
-  void applyToOdeScale();
   void destroyPreviousOdeGeoms();
   WbShape *shape() const;
 

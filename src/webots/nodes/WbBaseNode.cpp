@@ -179,14 +179,14 @@ WbNode::NodeUse WbBaseNode::nodeUse() const {
   return mNodeUse;
 }
 
-WbPose *WbBaseNode::upperTransform() const {
-  if (mUpperTransformFirstTimeSearch) {
-    mUpperTransform = WbNodeUtilities::findUpperPose(this);
+WbPose *WbBaseNode::upperPose() const {  // TODO: handle upperTransform -> upperPose
+  if (mUpperPoseFirstTimeSearch) {
+    mUpperPose = WbNodeUtilities::findUpperPose(this);
     if (areWrenObjectsInitialized())
-      mUpperTransformFirstTimeSearch = false;
+      mUpperPoseFirstTimeSearch = false;
   }
 
-  return mUpperTransform;
+  return mUpperPose;
 }
 
 WbSolid *WbBaseNode::upperSolid() const {

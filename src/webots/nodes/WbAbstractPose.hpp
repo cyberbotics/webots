@@ -16,9 +16,8 @@
 #define WB_ABSTRACT_POSE_HPP
 
 //
-// Description: abstract node implementing 'translation', 'rotation', and
-//              'scale' fields functionalities and keeping the WREN::SceneNode
-//              up-to-date
+// Description: abstract node implementing 'translation', 'rotation' fields
+//              functionalities and keeping the WREN::SceneNode up-to-date
 //
 // Inherited by: WbPose and WbSkin
 //
@@ -31,7 +30,6 @@
 #include "WbSFVector3.hpp"
 
 class WbBaseNode;
-class WbScaleManipulator;
 class WbTranslateRotateManipulator;
 
 class WbAbstractPose {
@@ -45,9 +43,6 @@ public:
   const WbRotation &rotation() const { return mRotation->value(); }
   WbSFVector3 *translationFieldValue() const { return mTranslation; }
   WbSFRotation *rotationFieldValue() const { return mRotation; }
-  const WbVector3 &scale() const { return mScale->value(); }
-  WbSFVector3 *scaleFieldValue() const { return mScale; }
-  bool absoluteScaleNeedUpdate() const { return mAbsoluteScaleNeedUpdate; }
 
   double translationStep() const { return mTranslationStep->value(); }
   double rotationStep() const { return mRotationStep->value(); }
@@ -69,9 +64,6 @@ public:
   void setRotation(const WbRotation &r);
   void setRotationFromOde(const WbRotation &r) { mRotation->setValueFromOde(r); }
   void setRotationAngle(double angle);
-  void setScale(double x, double y, double z) { mScale->setValue(x, y, z); };
-  void setScale(const WbVector3 &s) { mScale->setValue(s); }
-  void setScale(int coordinate, double s) { mScale->setComponent(coordinate, s); }
 
   // 4x4 transform matrices
   const WbMatrix4 &matrix() const;
@@ -81,27 +73,13 @@ public:
   WbVector3 zAxis() const { return matrix().zAxis(); }
 
   // scaling
-  virtual const WbVector3 &absoluteScale() const;
   bool isTopTransform() const;
-  virtual int constraintType() const = 0;
 
   // 3x3 absolute rotation matrix
-  WbMatrix3 rotationMatrix() const {
-    const WbVector3 &s = absoluteScale();
-    WbMatrix3 m = matrix().extracted3x3Matrix();
-    m.scale(1.0 / s.x(), 1.0 / s.y(), 1.0 / s.z());
-    return m;
-  }
+  WbMatrix3 rotationMatrix() const { return matrix().extracted3x3Matrix(); }
 
   // position in 'world' coordinates
   WbVector3 position() const { return matrix().translation(); }
-
-  // resize/scale manipulator
-  WbScaleManipulator *scaleManipulator() { return mScaleManipulator; }
-  bool isScaleManipulatorAttached() const;
-  void updateResizeHandlesSize();
-  void setResizeManipulatorDimensions();
-  void setUniformConstraintForResizeHandles(bool enabled);
 
   // translate-rotate manipulator
   WbTranslateRotateManipulator *translateRotateManipulator() const { return mTranslateRotateManipulator; }
@@ -114,10 +92,6 @@ public:
   bool canBeRotated() const;
   bool isTranslationFieldVisible() const;
   bool isRotationFieldVisible() const;
-
-  void attachResizeManipulator();
-  void detachResizeManipulator() const;
-  bool hasResizeManipulator() const;
 
   virtual void emitTranslationOrRotationChangedByUser() { assert(false); }
 
@@ -133,40 +107,17 @@ protected:
   WbSFDouble *mTranslationStep;
   WbSFDouble *mRotationStep;
 
-  void setScaleNeedUpdateFlag() const;
   void setMatrixNeedUpdateFlag() const;
   void updateRotation();
   void updateTranslation();
-  void updateScale(bool warning = false);
   void updateTranslationAndRotation();
-  void updateConstrainedHandleMaterials();
   void applyTranslationToWren();
   void applyRotationToWren();
-  void applyScaleToWren();
   void applyTranslationAndRotationToWren();
-
-  // A specific scale check is done in the WbSolid class
-  WbSFVector3 *mScale;
-  bool checkScale(int constraintType = 0, bool warning = false);
-  bool checkScaleZeroValues(WbVector3 &correctedScale) const;
-  bool checkScaleUniformity(WbVector3 &correctedScale, bool warning = false) const;
-  bool checkScaleUniformity(bool warning = false);
-  virtual bool checkScalingPhysicsConstraints(WbVector3 &correctedScale, int constraintType, bool warning = false) const;
-  virtual void applyToScale();
-  double mPreviousXscaleValue;
-  mutable WbVector3 mAbsoluteScale;
-
-  // WREN manipulators
-  WbScaleManipulator *mScaleManipulator;
-  virtual void createScaleManipulator();
-  void createScaleManipulatorIfNeeded();
-  bool mScaleManipulatorInitialized;
 
   WbTranslateRotateManipulator *mTranslateRotateManipulator;
   void createTranslateRotateManipulatorIfNeeded();
   bool mTranslateRotateManipulatorInitialized;
-
-  void showResizeManipulator(bool enabled);
 
   void inline setTranslationAndRotationFromOde(double tx, double ty, double tz, double rx, double ry, double rz, double angle);
 
@@ -182,21 +133,19 @@ private:
   void updateRotationFieldVisibility() const;
 
   void updateMatrix() const;
-  void updateAbsoluteScale() const;
   mutable WbMatrix4 *mMatrix;
   mutable WbMatrix4 mVrmlMatrix;
   mutable bool mMatrixNeedUpdate;
   mutable bool mVrmlMatrixNeedUpdate;
-  mutable bool mAbsoluteScaleNeedUpdate;
-  mutable bool mHasSearchedTopTransform;
-  mutable bool mIsTopTransform;
+  mutable bool mHasSearchedTopPose;
+  mutable bool mIsTopPose;
 
   // WREN objects and methods
   void deleteWrenObjects();
 };
 
-void inline WbAbstractPose::setTranslationAndRotationFromOde(double tx, double ty, double tz, double rx, double ry,
-                                                                  double rz, double angle) {
+void inline WbAbstractPose::setTranslationAndRotationFromOde(double tx, double ty, double tz, double rx, double ry, double rz,
+                                                             double angle) {
   mTranslation->setValueFromOde(tx, ty, tz);
   mRotation->setValueFromOde(rx, ry, rz, angle);
 }
