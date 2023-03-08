@@ -35,7 +35,7 @@ It takes less than 3 seconds on a fairly powerful server to get the robot moving
 
 ### With Docker
 
-You will have to install docker: `sudo apt install docker.io` and follow the [post-installation instructions](https://docs.docker.com/engine/install/linux-postinstall/): `sudo usermod -aG docker $USER` and `newgrp docker`.
+You will have to [install Docker Engine](https://docs.docker.com/engine/install/ubuntu/) and follow the [post-installation instructions](https://docs.docker.com/engine/install/linux-postinstall/): `sudo usermod -aG docker $USER` and `newgrp docker`.
 You will also have to install the NVIDIA docker drivers as documented [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
 Finally, you will have to install the [Compose plugin](https://docs.docker.com/compose/install/linux/) for docker: `sudo apt-get install docker-compose-plugin`
 
