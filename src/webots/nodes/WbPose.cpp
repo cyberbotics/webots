@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbTransform.hpp"
+#include "WbPose.hpp"
 
 #include "WbNodeUtilities.hpp"
 #include "WbOdeContext.hpp"
@@ -24,7 +24,7 @@
 #include <wren/node.h>
 #include <wren/transform.h>
 
-void WbTransform::init() {
+void WbPose::init() {
   mPoseChangedSignalEnabled = false;
 
   // store position
@@ -36,31 +36,31 @@ void WbTransform::init() {
   }
 }
 
-WbTransform::WbTransform(WbTokenizer *tokenizer) : WbGroup("Transform", tokenizer), WbAbstractTransform(this) {
+WbPose::WbPose(WbTokenizer *tokenizer) : WbGroup("Transform", tokenizer), WbAbstractPose(this) {
   init();
 }
 
-WbTransform::WbTransform(const WbTransform &other) : WbGroup(other), WbAbstractTransform(this) {
+WbPose::WbPose(const WbPose &other) : WbGroup(other), WbAbstractPose(this) {
   init();
 }
 
-WbTransform::WbTransform(const WbNode &other) : WbGroup(other), WbAbstractTransform(this) {
+WbPose::WbPose(const WbNode &other) : WbGroup(other), WbAbstractPose(this) {
   init();
 }
 
-WbTransform::WbTransform(const QString &modelName, WbTokenizer *tokenizer) :
+WbPose::WbPose(const QString &modelName, WbTokenizer *tokenizer) :
   WbGroup(modelName, tokenizer),
-  WbAbstractTransform(this) {
+  WbAbstractPose(this) {
   init();
 }
 
-WbTransform::~WbTransform() {
-  disconnect(childrenField(), &WbMFNode::changed, this, &WbTransform::updateConstrainedHandleMaterials);
+WbPose::~WbPose() {
+  disconnect(childrenField(), &WbMFNode::changed, this, &WbPose::updateConstrainedHandleMaterials);
   if (areWrenObjectsInitialized())
     wr_node_delete(WR_NODE(wrenNode()));
 }
 
-void WbTransform::reset(const QString &id) {
+void WbPose::reset(const QString &id) {
   WbGroup::reset(id);
   // note: for solids, the set of these parameters has to occur only if mJointParents.size() == 0 and it is handled in
   // WbSolid::reset, otherwise it breaks the reset of hinge based joints
@@ -70,7 +70,7 @@ void WbTransform::reset(const QString &id) {
   }
 }
 
-void WbTransform::save(const QString &id) {
+void WbPose::save(const QString &id) {
   WbGroup::save(id);
   if (nodeType() != WB_NODE_TRACK_WHEEL) {
     mSavedTranslations[id] = translation();
@@ -78,26 +78,26 @@ void WbTransform::save(const QString &id) {
   }
 }
 
-void WbTransform::preFinalize() {
+void WbPose::preFinalize() {
   WbGroup::preFinalize();
 
-  WbAbstractTransform::checkScale(0, true);
+  WbAbstractPose::checkScale(0, true);
 }
 
-void WbTransform::postFinalize() {
+void WbPose::postFinalize() {
   WbGroup::postFinalize();
 
-  connect(mTranslation, &WbSFVector3::changed, this, &WbTransform::updateTranslation);
-  connect(mTranslation, &WbSFVector3::changedByUser, this, &WbTransform::translationOrRotationChangedByUser);
+  connect(mTranslation, &WbSFVector3::changed, this, &WbPose::updateTranslation);
+  connect(mTranslation, &WbSFVector3::changedByUser, this, &WbPose::translationOrRotationChangedByUser);
   if (!isInBoundingObject())
-    connect(this, &WbTransform::translationOrRotationChangedByUser, this, &WbTransform::notifyJerk);
-  connect(mRotation, &WbSFRotation::changed, this, &WbTransform::updateRotation);
-  connect(mRotation, &WbSFRotation::changedByUser, this, &WbTransform::translationOrRotationChangedByUser);
+    connect(this, &WbPose::translationOrRotationChangedByUser, this, &WbPose::notifyJerk);
+  connect(mRotation, &WbSFRotation::changed, this, &WbPose::updateRotation);
+  connect(mRotation, &WbSFRotation::changedByUser, this, &WbPose::translationOrRotationChangedByUser);
   connect(mScale, SIGNAL(changed()), this, SLOT(updateScale()));
 }
 
-void WbTransform::updateTranslation() {
-  WbAbstractTransform::updateTranslation();
+void WbPose::updateTranslation() {
+  WbAbstractPose::updateTranslation();
 
   if (isInBoundingObject() && isAValidBoundingObject(true))
     applyToOdeGeomPosition();
@@ -109,8 +109,8 @@ void WbTransform::updateTranslation() {
     forwardJerk();
 }
 
-void WbTransform::updateRotation() {
-  WbAbstractTransform::updateRotation();
+void WbPose::updateRotation() {
+  WbAbstractPose::updateRotation();
 
   if (isInBoundingObject() && isAValidBoundingObject(true))
     applyToOdeGeomRotation();
@@ -122,8 +122,8 @@ void WbTransform::updateRotation() {
     forwardJerk();
 }
 
-void WbTransform::updateTranslationAndRotation() {
-  WbAbstractTransform::updateTranslationAndRotation();
+void WbPose::updateTranslationAndRotation() {
+  WbAbstractPose::updateTranslationAndRotation();
 
   if (isInBoundingObject() && isAValidBoundingObject(true))
     applyToOdeGeomRotation();
@@ -135,15 +135,15 @@ void WbTransform::updateTranslationAndRotation() {
     forwardJerk();
 }
 
-void WbTransform::applyToScale() {
-  WbAbstractTransform::applyToScale();
+void WbPose::applyToScale() {
+  WbAbstractPose::applyToScale();
 
   if (isInBoundingObject() && isAValidBoundingObject())
     applyToOdeScale();
 }
 
-void WbTransform::updateScale(bool warning) {
-  WbAbstractTransform::updateScale(warning);
+void WbPose::updateScale(bool warning) {
+  WbAbstractPose::updateScale(warning);
 
   if (mPoseChangedSignalEnabled)
     emit poseChanged();
@@ -152,17 +152,17 @@ void WbTransform::updateScale(bool warning) {
     forwardJerk();
 }
 
-void WbTransform::updateConstrainedHandleMaterials() {
-  WbAbstractTransform::updateConstrainedHandleMaterials();
+void WbPose::updateConstrainedHandleMaterials() {
+  WbAbstractPose::updateConstrainedHandleMaterials();
 }
 
-void WbTransform::notifyJerk() {
+void WbPose::notifyJerk() {
   WbSolid *s = upperSolid();
   if (s)
     s->notifyChildJerk(this);
 }
 
-void WbTransform::emitTranslationOrRotationChangedByUser() {
+void WbPose::emitTranslationOrRotationChangedByUser() {
   // supervisor = false, because this function is currently only called from the drag events.
   emit mTranslation->changedByUser(false);
   emit mRotation->changedByUser(false);
@@ -172,7 +172,7 @@ void WbTransform::emitTranslationOrRotationChangedByUser() {
 // Create WREN Objects //
 /////////////////////////
 
-void WbTransform::createWrenObjects() {
+void WbPose::createWrenObjects() {
   WbBaseNode::createWrenObjects();
 
   WrTransform *transform = wr_transform_new();
@@ -190,16 +190,16 @@ void WbTransform::createWrenObjects() {
   applyScaleToWren();
 }
 
-void WbTransform::createScaleManipulator() {
+void WbPose::createScaleManipulator() {
   const int constraint = constraintType();
   mScaleManipulator = new WbScaleManipulator(uniqueId(), (WbScaleManipulator::ResizeConstraint)constraint);
   if (constraint) {
     connect(childrenField(), &WbMFNode::destroyed, mScaleManipulator, &WbScaleManipulator::hide);
-    connect(childrenField(), &WbMFNode::changed, this, &WbTransform::updateConstrainedHandleMaterials);
+    connect(childrenField(), &WbMFNode::changed, this, &WbPose::updateConstrainedHandleMaterials);
   }
 }
 
-int WbTransform::constraintType() const {
+int WbPose::constraintType() const {
   static const int CONSTRAINT = WbWrenAbstractResizeManipulator::NO_CONSTRAINT;
   const WbGeometry *const g = geometry();
 
@@ -208,49 +208,49 @@ int WbTransform::constraintType() const {
   return CONSTRAINT;
 }
 
-void WbTransform::setScaleNeedUpdate() {
-  WbAbstractTransform::setScaleNeedUpdateFlag();
+void WbPose::setScaleNeedUpdate() {
+  WbAbstractPose::setScaleNeedUpdateFlag();
   WbGroup::setScaleNeedUpdate();
 }
 
-void WbTransform::setMatrixNeedUpdate() {
-  WbAbstractTransform::setMatrixNeedUpdateFlag();
+void WbPose::setMatrixNeedUpdate() {
+  WbAbstractPose::setMatrixNeedUpdateFlag();
   WbGroup::setMatrixNeedUpdate();
 }
 
 // WREN Material Methods
 
-// for WbTransform lying into a bounding object only
-void WbTransform::updateCollisionMaterial(bool isColliding, bool onSelection) {
+// for WbPose lying into a bounding object only
+void WbPose::updateCollisionMaterial(bool isColliding, bool onSelection) {
   WbGeometry *const g = geometry();
   if (g)
     g->updateCollisionMaterial(isColliding, onSelection);
 }
 
-void WbTransform::setSleepMaterial() {
+void WbPose::setSleepMaterial() {
   WbGeometry *const g = geometry();
   if (g)
     g->setSleepMaterial();
 }
 
 ///////////////////////////////////////////////////////////////
-//  ODE related methods for WbTransforms in boundingObjects  //
+//  ODE related methods for WbPoses in boundingObjects  //
 ///////////////////////////////////////////////////////////////
 
-void WbTransform::listenToChildrenField() {
-  connect(childrenField(), &WbMFNode::itemChanged, this, &WbTransform::createOdeGeom, Qt::UniqueConnection);
-  connect(childrenField(), &WbMFNode::itemInserted, this, &WbTransform::createOdeGeom, Qt::UniqueConnection);
+void WbPose::listenToChildrenField() {
+  connect(childrenField(), &WbMFNode::itemChanged, this, &WbPose::createOdeGeom, Qt::UniqueConnection);
+  connect(childrenField(), &WbMFNode::itemInserted, this, &WbPose::createOdeGeom, Qt::UniqueConnection);
   const WbGeometry *const g = geometry();
   if (g)
-    connect(g, &WbGeometry::destroyed, this, &WbTransform::createOdeGeomIfNeeded, Qt::UniqueConnection);
+    connect(g, &WbGeometry::destroyed, this, &WbPose::createOdeGeomIfNeeded, Qt::UniqueConnection);
   const WbShape *const s = shape();
   if (s) {
     s->connectGeometryField();
-    connect(s, &WbShape::geometryInShapeInserted, this, &WbTransform::geometryInTransformInserted, Qt::UniqueConnection);
+    connect(s, &WbShape::geometryInShapeInserted, this, &WbPose::geometryInTransformInserted, Qt::UniqueConnection);
   }
 }
 
-void WbTransform::createOdeGeomIfNeeded() {
+void WbPose::createOdeGeomIfNeeded() {
   if (isBeingDeleted())
     return;
 
@@ -263,7 +263,7 @@ void WbTransform::createOdeGeomIfNeeded() {
   }
 }
 
-void WbTransform::createOdeGeom(int index) {
+void WbPose::createOdeGeom(int index) {
   if (index > 0)
     return;
 
@@ -274,7 +274,7 @@ void WbTransform::createOdeGeom(int index) {
   const WbShape *const s = shape();
   if (s) {
     s->connectGeometryField();
-    connect(s, &WbShape::geometryInShapeInserted, this, &WbTransform::geometryInTransformInserted, Qt::UniqueConnection);
+    connect(s, &WbShape::geometryInShapeInserted, this, &WbPose::geometryInTransformInserted, Qt::UniqueConnection);
   }
 
   checkScale(true, true);
@@ -282,7 +282,7 @@ void WbTransform::createOdeGeom(int index) {
   emit geometryInTransformInserted();
 }
 
-void WbTransform::destroyPreviousOdeGeoms() {
+void WbPose::destroyPreviousOdeGeoms() {
   WbNode *const secondChild = child(1);
   const WbShape *const s = dynamic_cast<WbShape *>(secondChild);
   WbGeometry *g = NULL;
@@ -297,7 +297,7 @@ void WbTransform::destroyPreviousOdeGeoms() {
   }
 }
 
-bool WbTransform::isSuitableForInsertionInBoundingObject(bool warning) const {
+bool WbPose::isSuitableForInsertionInBoundingObject(bool warning) const {
   if (childCount() == 0)
     return true;
 
@@ -305,7 +305,7 @@ bool WbTransform::isSuitableForInsertionInBoundingObject(bool warning) const {
   return g ? g->isSuitableForInsertionInBoundingObject(warning) : true;
 }
 
-bool WbTransform::isAValidBoundingObject(bool checkOde, bool warning) const {
+bool WbPose::isAValidBoundingObject(bool checkOde, bool warning) const {
   assert(isInBoundingObject());
   const int cc = childCount();
 
@@ -335,8 +335,8 @@ bool WbTransform::isAValidBoundingObject(bool checkOde, bool warning) const {
   return true;
 }
 
-// Updates the ODE geometry: only for WbTransform lying into a bounding object
-void WbTransform::applyToOdeData(bool correctMass) {
+// Updates the ODE geometry: only for WbPose lying into a bounding object
+void WbPose::applyToOdeData(bool correctMass) {
   WbGeometry *const g = geometry();
   if (g) {
     applyToOdeGeomPosition(false);   // updates the position relative to the Solid parent
@@ -344,7 +344,7 @@ void WbTransform::applyToOdeData(bool correctMass) {
   }
 }
 
-void WbTransform::applyToOdeGeomPosition(bool correctMass) {
+void WbPose::applyToOdeGeomPosition(bool correctMass) {
   WbGeometry *const g = geometry();
 
   dGeomID geom = g->odeGeom();
@@ -357,7 +357,7 @@ void WbTransform::applyToOdeGeomPosition(bool correctMass) {
     applyToOdeMass(g, geom);
 }
 
-void WbTransform::applyToOdeGeomRotation() {
+void WbPose::applyToOdeGeomRotation() {
   WbGeometry *const g = geometry();
 
   dGeomID geom = g->odeGeom();
@@ -369,7 +369,7 @@ void WbTransform::applyToOdeGeomRotation() {
   applyToOdeMass(g, geom);
 }
 
-void WbTransform::applyToOdeMass(WbGeometry *g, dGeomID geom) {
+void WbPose::applyToOdeMass(WbGeometry *g, dGeomID geom) {
   const WbOdeGeomData *const odeGeomData = static_cast<WbOdeGeomData *>(dGeomGetData(geom));
   assert(odeGeomData);
   WbSolid *const solid = odeGeomData->solid();
@@ -378,11 +378,11 @@ void WbTransform::applyToOdeMass(WbGeometry *g, dGeomID geom) {
     solid->correctOdeMass(odeMass, this);
 }
 
-void WbTransform::applyToOdeScale() {
+void WbPose::applyToOdeScale() {
   geometry()->applyToOdeData();
 }
 
-WbShape *WbTransform::shape() const {
+WbShape *WbPose::shape() const {
   if (childCount() == 0)
     return NULL;
 
@@ -390,11 +390,11 @@ WbShape *WbTransform::shape() const {
 }
 
 ///////////////////////////////////////////////////////
-//  WREN methods related to WbTransform manipulators //
+//  WREN methods related to WbPose manipulators //
 ///////////////////////////////////////////////////////
 
-void WbTransform::showResizeManipulator(bool enabled) {
-  WbAbstractTransform::showResizeManipulator(enabled);
+void WbPose::showResizeManipulator(bool enabled) {
+  WbAbstractPose::showResizeManipulator(enabled);
   emit visibleHandlesChanged(enabled);
 }
 
@@ -402,7 +402,7 @@ void WbTransform::showResizeManipulator(bool enabled) {
 // Export //
 ////////////
 
-void WbTransform::exportBoundingObjectToX3D(WbWriter &writer) const {
+void WbPose::exportBoundingObjectToX3D(WbWriter &writer) const {
   assert(writer.isX3d());
 
   if (isUseNode() && defNode())
@@ -424,7 +424,7 @@ void WbTransform::exportBoundingObjectToX3D(WbWriter &writer) const {
   }
 }
 
-QStringList WbTransform::fieldsToSynchronizeWithX3D() const {
+QStringList WbPose::fieldsToSynchronizeWithX3D() const {
   QStringList fields;
   fields << "translation"
          << "rotation"
@@ -432,10 +432,10 @@ QStringList WbTransform::fieldsToSynchronizeWithX3D() const {
   return fields;
 }
 
-WbVector3 WbTransform::translationFrom(const WbNode *fromNode) const {
-  const WbTransform *parentNode = WbNodeUtilities::findUpperTransform(this);
-  const WbTransform *childNode = this;
-  QList<const WbTransform *> transformList;
+WbVector3 WbPose::translationFrom(const WbNode *fromNode) const {
+  const WbPose *parentNode = WbNodeUtilities::findUpperTransform(this);
+  const WbPose *childNode = this;
+  QList<const WbPose *> transformList;
 
   transformList.append(childNode);
   while (parentNode != fromNode) {
@@ -445,22 +445,22 @@ WbVector3 WbTransform::translationFrom(const WbNode *fromNode) const {
     assert(parentNode);
   }
 
-  WbTransform *previousTransform = const_cast<WbTransform *>(transformList.takeLast());
+  WbPose *previousTransform = const_cast<WbPose *>(transformList.takeLast());
   WbVector3 translationResult = previousTransform->translation();
   while (transformList.size() > 0) {
-    const WbTransform *transform = transformList.takeLast();
+    const WbPose *transform = transformList.takeLast();
     translationResult += previousTransform->rotation().toMatrix3() * transform->translation();
-    previousTransform = const_cast<WbTransform *>(transform);
+    previousTransform = const_cast<WbPose *>(transform);
   }
 
   return translationResult;
 }
 
-WbMatrix3 WbTransform::rotationMatrixFrom(const WbNode *fromNode) const {
-  const WbTransform *parentNode = WbNodeUtilities::findUpperTransform(this);
-  const WbTransform *childNode = this;
+WbMatrix3 WbPose::rotationMatrixFrom(const WbNode *fromNode) const {
+  const WbPose *parentNode = WbNodeUtilities::findUpperTransform(this);
+  const WbPose *childNode = this;
 
-  QList<const WbTransform *> transformList;
+  QList<const WbPose *> transformList;
   transformList.append(childNode);
   while (parentNode != fromNode) {
     childNode = parentNode;

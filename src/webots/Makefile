@@ -372,6 +372,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbPointSet.cpp \
   WbPositionSensor.cpp \
   WbPositionViewer.cpp \
+  WbPose.cpp \
   WbPreferences.cpp \
   WbPreferencesDialog.cpp \
   WbPropeller.cpp \
@@ -445,7 +446,6 @@ QT_SOURCES = WbAboutBox.cpp \
   WbTouchSensor.cpp \
   WbTrack.cpp \
   WbTrackWheel.cpp \
-  WbTransform.cpp \
   WbTranslateRotateManipulator.cpp \
   WbTreeItem.cpp \
   WbTreeView.cpp \
@@ -482,7 +482,7 @@ QT_SOURCES = WbAboutBox.cpp \
 # objects that don't inherit from QObject (alphabetical order)
 OTHER_SOURCES = \
   main.cpp \
-  WbAbstractTransform.cpp \
+  WbAbstractPose.cpp \
   WbAddItemCommand.cpp \
   WbAffinePlane.cpp \
   WbApplicationInfo.cpp \

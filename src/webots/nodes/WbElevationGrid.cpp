@@ -30,7 +30,7 @@
 #include "WbSFDouble.hpp"
 #include "WbSFInt.hpp"
 #include "WbSimulationState.hpp"
-#include "WbTransform.hpp"
+#include "WbPose.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 #include "WbWrenMeshBuffers.hpp"
 #include "WbWrenRenderingContext.hpp"
@@ -369,7 +369,7 @@ void WbElevationGrid::createResizeManipulator() {
 
 void WbElevationGrid::setResizeManipulatorDimensions() {
   WbVector3 scale(xSpacing(), ySpacing(), 1.0f);
-  WbTransform *transform = upperTransform();
+  WbPose *transform = upperTransform();
   if (transform)
     scale *= transform->absoluteScale();
 
@@ -539,7 +539,7 @@ double WbElevationGrid::computeLocalCollisionPoint(const WbRay &ray, WbVector3 &
   mHeight->copyItemsTo(data, size);
 
   WbRay localRay(ray);
-  WbTransform *transform = upperTransform();
+  WbPose *transform = upperTransform();
   if (transform) {
     localRay.setDirection(ray.direction() * transform->matrix());
     WbVector3 origin = transform->matrix().pseudoInversed(ray.origin());

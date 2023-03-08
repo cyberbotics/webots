@@ -27,7 +27,7 @@
 #include "WbSFBool.hpp"
 #include "WbSFInt.hpp"
 #include "WbSimulationState.hpp"
-#include "WbTransform.hpp"
+#include "WbPose.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 #include "WbWrenRenderingContext.hpp"
 
@@ -103,7 +103,7 @@ void WbCylinder::createWrenObjects() {
 void WbCylinder::setResizeManipulatorDimensions() {
   WbVector3 scale(mRadius->value(), mRadius->value(), mHeight->value());
 
-  WbTransform *transform = upperTransform();
+  WbPose *transform = upperTransform();
   if (transform)
     scale *= transform->absoluteScale();
 
@@ -447,7 +447,7 @@ double WbCylinder::computeDistance(const WbRay &ray) const {
 double WbCylinder::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, const WbRay &ray) const {
   WbVector3 direction(ray.direction());
   WbVector3 origin(ray.origin());
-  WbTransform *transform = upperTransform();
+  WbPose *transform = upperTransform();
   if (transform) {
     direction = ray.direction() * transform->matrix();
     direction.normalize();

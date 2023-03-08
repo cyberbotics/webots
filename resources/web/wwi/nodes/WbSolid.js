@@ -1,7 +1,7 @@
-import WbTransform from './WbTransform.js';
+import WbPose from './WbPose.js';
 import {WbNodeType} from './wb_node_type.js';
 
-export default class WbSolid extends WbTransform {
+export default class WbSolid extends WbPose {
   #name;
   constructor(id, translation, scale, rotation, name) {
     super(id, translation, scale, rotation);

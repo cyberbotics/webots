@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbAbstractTransform.hpp"
+#include "WbAbstractPose.hpp"
 
 #include "WbBaseNode.hpp"
 #include "WbBoundingSphere.hpp"
@@ -21,7 +21,7 @@
 #include "WbNodeUtilities.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSimulationState.hpp"
-#include "WbTransform.hpp"
+#include "WbPose.hpp"
 #include "WbTranslateRotateManipulator.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 
@@ -29,7 +29,7 @@
 
 #include <QtCore/QObject>
 
-void WbAbstractTransform::init(WbBaseNode *node) {
+void WbAbstractPose::init(WbBaseNode *node) {
   mBaseNode = node;
   assert(mBaseNode);
 
@@ -60,12 +60,12 @@ void WbAbstractTransform::init(WbBaseNode *node) {
   mCanBeRotated = false;
 }
 
-WbAbstractTransform::~WbAbstractTransform() {
+WbAbstractPose::~WbAbstractPose() {
   deleteWrenObjects();
   delete mMatrix;
 }
 
-void WbAbstractTransform::deleteWrenObjects() {
+void WbAbstractPose::deleteWrenObjects() {
   delete mScaleManipulator;
   mScaleManipulator = NULL;
 
@@ -74,7 +74,7 @@ void WbAbstractTransform::deleteWrenObjects() {
   mTranslateRotateManipulatorInitialized = false;
 }
 
-void WbAbstractTransform::updateTranslation() {
+void WbAbstractPose::updateTranslation() {
   mBaseNode->setMatrixNeedUpdate();
 
   if (mBaseNode->areWrenObjectsInitialized())
@@ -84,7 +84,7 @@ void WbAbstractTransform::updateTranslation() {
     mBaseNode->boundingSphere()->setOwnerMoved();
 }
 
-void WbAbstractTransform::updateRotation() {
+void WbAbstractPose::updateRotation() {
   mBaseNode->setMatrixNeedUpdate();
 
   if (mBaseNode->areWrenObjectsInitialized())
@@ -97,7 +97,7 @@ void WbAbstractTransform::updateRotation() {
     updateTranslateRotateHandlesSize();
 }
 
-void WbAbstractTransform::updateTranslationAndRotation() {
+void WbAbstractPose::updateTranslationAndRotation() {
   mBaseNode->setMatrixNeedUpdate();
 
   if (mBaseNode->areWrenObjectsInitialized())
@@ -110,7 +110,7 @@ void WbAbstractTransform::updateTranslationAndRotation() {
     updateTranslateRotateHandlesSize();
 }
 
-bool WbAbstractTransform::checkScaleZeroValues(WbVector3 &correctedScale) const {
+bool WbAbstractPose::checkScaleZeroValues(WbVector3 &correctedScale) const {
   const WbVector3 &s = mScale->value();
   const double x = s.x();
   const double y = s.y();
@@ -139,7 +139,7 @@ bool WbAbstractTransform::checkScaleZeroValues(WbVector3 &correctedScale) const 
   return b;
 }
 
-bool WbAbstractTransform::checkScalingPhysicsConstraints(WbVector3 &correctedScale, int constraintType, bool warning) const {
+bool WbAbstractPose::checkScalingPhysicsConstraints(WbVector3 &correctedScale, int constraintType, bool warning) const {
   bool b = false;
   if (constraintType == WbWrenAbstractResizeManipulator::UNIFORM)
     b = checkScaleUniformity(correctedScale);
@@ -157,7 +157,7 @@ bool WbAbstractTransform::checkScalingPhysicsConstraints(WbVector3 &correctedSca
   return b;
 }
 
-bool WbAbstractTransform::checkScaleUniformity(WbVector3 &correctedScale, bool warning) const {
+bool WbAbstractPose::checkScaleUniformity(WbVector3 &correctedScale, bool warning) const {
   const double x = correctedScale.x();
   const double y = correctedScale.y();
   const double z = correctedScale.z();
@@ -180,7 +180,7 @@ bool WbAbstractTransform::checkScaleUniformity(WbVector3 &correctedScale, bool w
   return b;
 }
 
-bool WbAbstractTransform::checkScaleUniformity(bool warning) {
+bool WbAbstractPose::checkScaleUniformity(bool warning) {
   WbVector3 correctedScale;
 
   if (checkScaleUniformity(correctedScale, warning)) {
@@ -191,7 +191,7 @@ bool WbAbstractTransform::checkScaleUniformity(bool warning) {
   return false;
 }
 
-bool WbAbstractTransform::checkScale(int constraintType, bool warning) {
+bool WbAbstractPose::checkScale(int constraintType, bool warning) {
   WbVector3 correctedScale;
   bool b = false;
 
@@ -217,7 +217,7 @@ bool WbAbstractTransform::checkScale(int constraintType, bool warning) {
   return b;
 }
 
-void WbAbstractTransform::applyToScale() {
+void WbAbstractPose::applyToScale() {
   mBaseNode->setMatrixNeedUpdate();
   mBaseNode->setScaleNeedUpdate();
 
@@ -234,7 +234,7 @@ void WbAbstractTransform::applyToScale() {
     updateTranslateRotateHandlesSize();
 }
 
-void WbAbstractTransform::updateScale(bool warning) {
+void WbAbstractPose::updateScale(bool warning) {
   const int constraint = constraintType();
   if (checkScale(constraint, warning))
     return;
@@ -242,7 +242,7 @@ void WbAbstractTransform::updateScale(bool warning) {
   applyToScale();
 }
 
-void WbAbstractTransform::updateTranslationFieldVisibility() const {
+void WbAbstractPose::updateTranslationFieldVisibility() const {
   if (mIsTranslationFieldVisibleReady)
     return;
   mIsTranslationFieldVisible = WbVrmlNodeUtilities::isVisible(mBaseNode->findField("translation", true));
@@ -251,7 +251,7 @@ void WbAbstractTransform::updateTranslationFieldVisibility() const {
   mIsTranslationFieldVisibleReady = true;
 }
 
-void WbAbstractTransform::updateRotationFieldVisibility() const {
+void WbAbstractPose::updateRotationFieldVisibility() const {
   if (mIsRotationFieldVisibleReady)
     return;
   mIsRotationFieldVisible = WbVrmlNodeUtilities::isVisible(mBaseNode->findField("rotation", true));
@@ -260,22 +260,22 @@ void WbAbstractTransform::updateRotationFieldVisibility() const {
   mIsRotationFieldVisibleReady = true;
 }
 
-bool WbAbstractTransform::isTranslationFieldVisible() const {
+bool WbAbstractPose::isTranslationFieldVisible() const {
   updateTranslationFieldVisibility();
   return mIsTranslationFieldVisible;
 }
 
-bool WbAbstractTransform::isRotationFieldVisible() const {
+bool WbAbstractPose::isRotationFieldVisible() const {
   updateRotationFieldVisibility();
   return mIsRotationFieldVisible;
 }
 
-bool WbAbstractTransform::canBeTranslated() const {
+bool WbAbstractPose::canBeTranslated() const {
   updateTranslationFieldVisibility();
   return mCanBeTranslated;
 }
 
-bool WbAbstractTransform::canBeRotated() const {
+bool WbAbstractPose::canBeRotated() const {
   updateRotationFieldVisibility();
   return mCanBeRotated;
 }
@@ -284,12 +284,12 @@ bool WbAbstractTransform::canBeRotated() const {
 // Create WREN Objects //
 /////////////////////////
 
-void WbAbstractTransform::createScaleManipulator() {
+void WbAbstractPose::createScaleManipulator() {
   const int constraint = constraintType();
   mScaleManipulator = new WbScaleManipulator(mBaseNode->uniqueId(), (WbScaleManipulator::ResizeConstraint)constraint);
 }
 
-void WbAbstractTransform::createScaleManipulatorIfNeeded() {
+void WbAbstractPose::createScaleManipulatorIfNeeded() {
   if (!mScaleManipulatorInitialized) {
     assert(hasResizeManipulator());  // otherwise the show resize manipulator option should be disabled
     mScaleManipulatorInitialized = true;
@@ -299,7 +299,7 @@ void WbAbstractTransform::createScaleManipulatorIfNeeded() {
   }
 }
 
-void WbAbstractTransform::createTranslateRotateManipulatorIfNeeded() {
+void WbAbstractPose::createTranslateRotateManipulatorIfNeeded() {
   if (!mTranslateRotateManipulatorInitialized) {
     mTranslateRotateManipulatorInitialized = true;
     if (!canBeTranslated() && !canBeRotated())
@@ -312,31 +312,31 @@ void WbAbstractTransform::createTranslateRotateManipulatorIfNeeded() {
   }
 }
 
-void WbAbstractTransform::updateConstrainedHandleMaterials() {
+void WbAbstractPose::updateConstrainedHandleMaterials() {
   mScaleManipulator->setResizeConstraint((WbScaleManipulator::ResizeConstraint)constraintType());
 }
 
 // Apply to WREN
 
-void WbAbstractTransform::applyTranslationToWren() {
+void WbAbstractPose::applyTranslationToWren() {
   float newTranslation[3];
   mTranslation->value().toFloatArray(newTranslation);
   wr_transform_set_position(mBaseNode->wrenNode(), newTranslation);
 }
 
-void WbAbstractTransform::applyRotationToWren() {
+void WbAbstractPose::applyRotationToWren() {
   float newRotation[4];
   mRotation->value().toFloatArray(newRotation);
   wr_transform_set_orientation(mBaseNode->wrenNode(), newRotation);
 }
 
-void WbAbstractTransform::applyScaleToWren() {
+void WbAbstractPose::applyScaleToWren() {
   float newScale[3];
   mScale->value().toFloatArray(newScale);
   wr_transform_set_scale(mBaseNode->wrenNode(), newScale);
 }
 
-void WbAbstractTransform::applyTranslationAndRotationToWren() {  // for performance optimization
+void WbAbstractPose::applyTranslationAndRotationToWren() {  // for performance optimization
   float newTranslation[3];
   mTranslation->value().toFloatArray(newTranslation);
   float newRotation[4];
@@ -346,7 +346,7 @@ void WbAbstractTransform::applyTranslationAndRotationToWren() {  // for performa
 
 // Matrix 4-by-4
 
-const WbMatrix4 &WbAbstractTransform::matrix() const {
+const WbMatrix4 &WbAbstractPose::matrix() const {
   // ensure that the matrix value is not used and computed before the node is finalized
   // because in some cases field values are only set after the node construction
   // (for example in case of PROTO instances)
@@ -361,25 +361,25 @@ const WbMatrix4 &WbAbstractTransform::matrix() const {
   return *mMatrix;
 }
 
-void WbAbstractTransform::updateMatrix() const {
+void WbAbstractPose::updateMatrix() const {
   assert(mMatrix);
 
   mMatrix->fromVrml(mTranslation->x(), mTranslation->y(), mTranslation->z(), mRotation->x(), mRotation->y(), mRotation->z(),
                     mRotation->angle(), mScale->x(), mScale->y(), mScale->z());
 
   // multiply with upper matrix if any
-  WbAbstractTransform *transform = mBaseNode->upperTransform();
+  WbAbstractPose *transform = mBaseNode->upperTransform();
   if (transform)
     *mMatrix = transform->matrix() * *mMatrix;
   mMatrixNeedUpdate = false;
 }
 
-void WbAbstractTransform::setMatrixNeedUpdateFlag() const {
+void WbAbstractPose::setMatrixNeedUpdateFlag() const {
   mMatrixNeedUpdate = true;
   mVrmlMatrixNeedUpdate = true;
 }
 
-const WbMatrix4 &WbAbstractTransform::vrmlMatrix() const {
+const WbMatrix4 &WbAbstractPose::vrmlMatrix() const {
   if (mVrmlMatrixNeedUpdate) {
     mVrmlMatrix.fromVrml(translation(), rotation(), scale());
     mVrmlMatrixNeedUpdate = false;
@@ -390,14 +390,14 @@ const WbMatrix4 &WbAbstractTransform::vrmlMatrix() const {
 
 // Absolute scale 3D-vector
 
-const WbVector3 &WbAbstractTransform::absoluteScale() const {
+const WbVector3 &WbAbstractPose::absoluteScale() const {
   if (mAbsoluteScaleNeedUpdate)
     updateAbsoluteScale();
 
   return mAbsoluteScale;
 }
 
-bool WbAbstractTransform::isTopTransform() const {
+bool WbAbstractPose::isTopTransform() const {
   if (!mHasSearchedTopTransform) {
     mIsTopTransform = mBaseNode->upperTransform() == NULL;
     mHasSearchedTopTransform = true;
@@ -405,17 +405,17 @@ bool WbAbstractTransform::isTopTransform() const {
   return mIsTopTransform;
 }
 
-void WbAbstractTransform::updateAbsoluteScale() const {
+void WbAbstractPose::updateAbsoluteScale() const {
   mAbsoluteScale = mScale->value();
   // multiply with upper transform scale if any
-  const WbTransform *const ut = mBaseNode->upperTransform();
+  const WbPose *const ut = mBaseNode->upperTransform();
   if (ut)
     mAbsoluteScale *= ut->absoluteScale();
 
   mAbsoluteScaleNeedUpdate = false;
 }
 
-void WbAbstractTransform::setScaleNeedUpdateFlag() const {
+void WbAbstractPose::setScaleNeedUpdateFlag() const {
   // optimisation: it's useless to call the function recursively if scalarScaleNeedUpdate is true,
   // because all the children's scalarNeedUpdate are already true.
   if (mAbsoluteScaleNeedUpdate)
@@ -426,45 +426,45 @@ void WbAbstractTransform::setScaleNeedUpdateFlag() const {
 
 // Position and orientation setters
 
-void WbAbstractTransform::setTranslationAndRotation(double tx, double ty, double tz, double rx, double ry, double rz,
+void WbAbstractPose::setTranslationAndRotation(double tx, double ty, double tz, double rx, double ry, double rz,
                                                     double angle) {
   mTranslation->setValue(tx, ty, tz);
   mRotation->setValue(rx, ry, rz, angle);
 }
 
-void WbAbstractTransform::setTranslationAndRotation(const WbVector3 &v, const WbRotation &r) {
+void WbAbstractPose::setTranslationAndRotation(const WbVector3 &v, const WbRotation &r) {
   mTranslation->setValue(v);
   mRotation->setValue(r);
 }
 
-void WbAbstractTransform::setTranslation(double tx, double ty, double tz) {
+void WbAbstractPose::setTranslation(double tx, double ty, double tz) {
   mTranslation->setValue(tx, ty, tz);
 }
 
-void WbAbstractTransform::rotate(const WbVector3 &v) {
+void WbAbstractPose::rotate(const WbVector3 &v) {
   WbMatrix3 rotation(v.normalized(), v.length());
   WbRotation newRotation = WbRotation(rotation * WbMatrix3(mRotation->value()));
   newRotation.normalize();
   setRotation(newRotation);
 }
 
-void WbAbstractTransform::setRotation(double x, double y, double z, double angle) {
+void WbAbstractPose::setRotation(double x, double y, double z, double angle) {
   mRotation->setValue(x, y, z, angle);
 }
 
-void WbAbstractTransform::setRotationAngle(double angle) {
+void WbAbstractPose::setRotationAngle(double angle) {
   mRotation->setAngle(angle);
 }
 
-void WbAbstractTransform::setRotation(const WbRotation &r) {
+void WbAbstractPose::setRotation(const WbRotation &r) {
   mRotation->setValue(r);
 }
 
 ///////////////////////////////////////////////////////
-//  WREN methods related to WbTransform manipulators //
+//  WREN methods related to WbPose manipulators //
 ///////////////////////////////////////////////////////
 
-void WbAbstractTransform::showResizeManipulator(bool enabled) {
+void WbAbstractPose::showResizeManipulator(bool enabled) {
   if (enabled) {
     detachTranslateRotateManipulator();
     attachResizeManipulator();
@@ -475,22 +475,22 @@ void WbAbstractTransform::showResizeManipulator(bool enabled) {
   }
 }
 
-void WbAbstractTransform::updateResizeHandlesSize() {
+void WbAbstractPose::updateResizeHandlesSize() {
   if (mScaleManipulator) {
     mScaleManipulator->updateHandleScale(absoluteScale().ptr());
     mScaleManipulator->computeHandleScaleFromViewportSize();
   }
 }
 
-void WbAbstractTransform::setResizeManipulatorDimensions() {
+void WbAbstractPose::setResizeManipulatorDimensions() {
   updateResizeHandlesSize();
 }
 
-bool WbAbstractTransform::isScaleManipulatorAttached() const {
+bool WbAbstractPose::isScaleManipulatorAttached() const {
   return mScaleManipulator ? mScaleManipulator->isAttached() : false;
 }
 
-void WbAbstractTransform::attachResizeManipulator() {
+void WbAbstractPose::attachResizeManipulator() {
   createScaleManipulatorIfNeeded();
 
   if (mScaleManipulator && !mScaleManipulator->isAttached()) {
@@ -499,17 +499,17 @@ void WbAbstractTransform::attachResizeManipulator() {
   }
 }
 
-void WbAbstractTransform::detachResizeManipulator() const {
+void WbAbstractPose::detachResizeManipulator() const {
   if (mScaleManipulator && mScaleManipulator->isAttached())
     mScaleManipulator->hide();
 }
 
-bool WbAbstractTransform::hasResizeManipulator() const {
+bool WbAbstractPose::hasResizeManipulator() const {
   const WbField *const sf = mBaseNode->findField("scale", true);
   return WbVrmlNodeUtilities::isVisible(sf) && !WbNodeUtilities::isTemplateRegeneratorField(sf);
 }
 
-void WbAbstractTransform::setUniformConstraintForResizeHandles(bool enabled) {
+void WbAbstractPose::setUniformConstraintForResizeHandles(bool enabled) {
   createScaleManipulatorIfNeeded();
 
   if (!mScaleManipulator || !mScaleManipulator->isAttached())
@@ -521,7 +521,7 @@ void WbAbstractTransform::setUniformConstraintForResizeHandles(bool enabled) {
     updateConstrainedHandleMaterials();
 }
 
-void WbAbstractTransform::attachTranslateRotateManipulator() {
+void WbAbstractPose::attachTranslateRotateManipulator() {
   createTranslateRotateManipulatorIfNeeded();
 
   if (mTranslateRotateManipulator) {
@@ -539,12 +539,12 @@ void WbAbstractTransform::attachTranslateRotateManipulator() {
   }
 }
 
-void WbAbstractTransform::detachTranslateRotateManipulator() {
+void WbAbstractPose::detachTranslateRotateManipulator() {
   if (mTranslateRotateManipulator && mTranslateRotateManipulator->isAttached())
     mTranslateRotateManipulator->hide();
 }
 
-void WbAbstractTransform::updateTranslateRotateHandlesSize() {
+void WbAbstractPose::updateTranslateRotateHandlesSize() {
   createTranslateRotateManipulatorIfNeeded();
   if (!mTranslateRotateManipulator)
     return;

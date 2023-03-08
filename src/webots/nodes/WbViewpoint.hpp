@@ -27,7 +27,7 @@ struct WrCamera;
 struct WrTexture;
 struct WrViewport;
 
-class WbAbstractTransform;
+class WbAbstractPose;
 class WbCoordinateSystem;
 class WbLensFlare;
 class WbRay;
@@ -295,10 +295,10 @@ private:
   // can be used for any generic animated viewpoint movement
   void moveTo(const WbVector3 &targetPosition, const WbRotation &targetRotation);
   void orbitTo(const WbVector3 &targetUnitVector, const WbRotation &targetRotation,
-               const WbAbstractTransform *selectedObject = NULL);
+               const WbAbstractPose *selectedObject = NULL);
 
-  static WbAbstractTransform *computeSelectedObjectTransform();
-  static WbRotation computeObjectViewRotation(const WbRotation &rotation, const WbAbstractTransform *selectedObject);
+  static WbAbstractPose *computeSelectedObjectTransform();
+  static WbRotation computeObjectViewRotation(const WbRotation &rotation, const WbAbstractPose *selectedObject);
 
 private slots:
   void updateFieldOfView();

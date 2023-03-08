@@ -69,7 +69,7 @@ import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbTouchSensor from './nodes/WbTouchSensor.js';
 import WbTrack from './nodes/WbTrack.js';
 import WbTrackWheel from './nodes/WbTrackWheel.js';
-import WbTransform from './nodes/WbTransform.js';
+import WbPose from './nodes/WbPose.js';
 import WbVector2 from './nodes/utils/WbVector2.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 import WbVector4 from './nodes/utils/WbVector4.js';
@@ -317,7 +317,7 @@ export default class Parser {
             if (parentNode instanceof WbShape) {
               parentNode.geometry?.delete();
               parentNode.geometry = result;
-            } else if (parentNode instanceof WbSolid || parentNode instanceof WbTransform || parentNode instanceof WbGroup) {
+            } else if (parentNode instanceof WbSolid || parentNode instanceof WbPose || parentNode instanceof WbGroup) {
               // Bounding object
               parentNode.boundingObject?.delete();
               if (parentNode instanceof WbSolid)
@@ -746,7 +746,7 @@ export default class Parser {
       if (!isBoundingObject)
         isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
 
-      newNode = new WbTransform(id, translation, scale, rotation);
+      newNode = new WbPose(id, translation, scale, rotation);
     }
 
     WbWorld.instance.nodes.set(newNode.id, newNode);

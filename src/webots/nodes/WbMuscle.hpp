@@ -84,7 +84,7 @@ private:
   WrDynamicMesh *mMesh;
   QImage *mQImage;
 
-  const WbTransform *mParentTransform;
+  const WbPose *mParentTransform;
   const WbSolid *mEndPoint;
   WbMatrix4 mMatrix;
   double mHeight;

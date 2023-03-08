@@ -2,11 +2,11 @@ import WbGroup from './WbGroup.js';
 import WbWorld from './WbWorld.js';
 
 import {getAnId} from './utils/id_provider.js';
-import {findUpperTransform} from './utils/node_utilities.js';
+import {findUpperPose} from './utils/node_utilities.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
 import {WbNodeType} from './wb_node_type.js';
 
-export default class WbTransform extends WbGroup {
+export default class WbPose extends WbGroup {
   #absoluteScale;
   #absoluteScaleNeedUpdate;
   #matrix;
@@ -33,7 +33,7 @@ export default class WbTransform extends WbGroup {
   }
 
   get nodeType() {
-    return WbNodeType.WB_NODE_TRANSFORM;
+    return WbNodeType.WB_NODE_POSE;
   }
 
   get translation() {
@@ -86,7 +86,7 @@ export default class WbTransform extends WbGroup {
   }
 
   clone(customID) {
-    const transform = new WbTransform(customID, this.#translation, this.#scale, this.#rotation);
+    const transform = new WbPose(customID, this.#translation, this.#scale, this.#rotation);
 
     const length = this.children.length;
     for (let i = 0; i < length; i++) {
@@ -210,7 +210,7 @@ export default class WbTransform extends WbGroup {
 
   #upperTransform() {
     if (this.#upperTransformFirstTimeSearch) {
-      this.upperTransform = findUpperTransform(this);
+      this.upperTransform = findUpperPose(this);
       if (this.wrenObjectsCreatedCalled)
         this.#upperTransformFirstTimeSearch = false;
     }

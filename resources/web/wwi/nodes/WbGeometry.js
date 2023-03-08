@@ -10,9 +10,9 @@ import WbWrenPicker from '../wren/WbWrenPicker.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 import Selector from '../Selector.js';
-import {findUpperTransform, nodeIsInBoundingObject} from './utils/node_utilities.js';
+import {findUpperPose, nodeIsInBoundingObject} from './utils/node_utilities.js';
 import WbGroup from './WbGroup.js';
-import WbTransform from './WbTransform.js';
+import WbPose from './WbPose.js';
 
 export default class WbGeometry extends WbBaseNode {
   #boundingObjectFirstTimeSearch;
@@ -61,7 +61,7 @@ export default class WbGeometry extends WbBaseNode {
       if (this.isInBoundingObject()) {
         if (parent instanceof WbSolid)
           parent.boundingObject = undefined;
-        else if (parent instanceof WbTransform || parent instanceof WbGroup) {
+        else if (parent instanceof WbPose || parent instanceof WbGroup) {
           const index = parent.children.indexOf(this);
           console.assert(index !== -1, 'The parent node should have this node as a child for it to be deleted.');
           parent.children.splice(index, 1);
@@ -117,7 +117,7 @@ export default class WbGeometry extends WbBaseNode {
 
   #upperTransform() {
     if (this.#upperTransformFirstTimeSearch) {
-      this.upperTransform = findUpperTransform(this);
+      this.upperTransform = findUpperPose(this);
       if (this.wrenObjectsCreatedCalled)
         this.#upperTransformFirstTimeSearch = false;
     }

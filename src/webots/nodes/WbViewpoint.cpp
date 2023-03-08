@@ -1281,16 +1281,16 @@ void WbViewpoint::bottomView() {
   orbitTo(WbVector3(0, 0, -1), WbRotation(0.5773, 0.5773, 0.5773, -2.0944));
 }
 
-WbAbstractTransform *WbViewpoint::computeSelectedObjectTransform() {
+WbAbstractPose *WbViewpoint::computeSelectedObjectTransform() {
   WbBaseNode *node = WbSelection::instance()->selectedNode();
   assert(node);
-  WbAbstractTransform *transform = dynamic_cast<WbAbstractTransform *>(node);
+  WbAbstractPose *transform = dynamic_cast<WbAbstractPose *>(node);
   if (!transform)
     transform = WbNodeUtilities::findUpperTransform(node);
   return transform;
 }
 
-WbRotation WbViewpoint::computeObjectViewRotation(const WbRotation &rotation, const WbAbstractTransform *selectedObject) {
+WbRotation WbViewpoint::computeObjectViewRotation(const WbRotation &rotation, const WbAbstractPose *selectedObject) {
   WbQuaternion q = rotation.toQuaternion();
   if (selectedObject)
     q = selectedObject->rotationMatrix().toQuaternion() * q;
@@ -1299,37 +1299,37 @@ WbRotation WbViewpoint::computeObjectViewRotation(const WbRotation &rotation, co
 }
 
 void WbViewpoint::objectFrontView() {
-  const WbAbstractTransform *transform = computeSelectedObjectTransform();
+  const WbAbstractPose *transform = computeSelectedObjectTransform();
   orbitTo(WbVector3(1, 0, 0), computeObjectViewRotation(WbRotation(0, 0, 1, -M_PI), transform), transform);
 }
 
 void WbViewpoint::objectBackView() {
-  const WbAbstractTransform *transform = computeSelectedObjectTransform();
+  const WbAbstractPose *transform = computeSelectedObjectTransform();
   orbitTo(WbVector3(-1, 0, 0), computeObjectViewRotation(WbRotation(0, 0, 1, 0), transform), transform);
 }
 
 void WbViewpoint::objectLeftView() {
-  const WbAbstractTransform *transform = computeSelectedObjectTransform();
+  const WbAbstractPose *transform = computeSelectedObjectTransform();
   orbitTo(WbVector3(0, 1, 0), computeObjectViewRotation(WbRotation(0, 0, 1, -M_PI_2), transform), transform);
 }
 
 void WbViewpoint::objectRightView() {
-  const WbAbstractTransform *transform = computeSelectedObjectTransform();
+  const WbAbstractPose *transform = computeSelectedObjectTransform();
   orbitTo(WbVector3(0, -1, 0), computeObjectViewRotation(WbRotation(0, 0, 1, M_PI_2), transform), transform);
 }
 
 void WbViewpoint::objectTopView() {
-  const WbAbstractTransform *transform = computeSelectedObjectTransform();
+  const WbAbstractPose *transform = computeSelectedObjectTransform();
   orbitTo(WbVector3(0, 0, 1), computeObjectViewRotation(WbRotation(-0.5773, 0.5773, 0.5773, 2.0944), transform), transform);
 }
 
 void WbViewpoint::objectBottomView() {
-  const WbAbstractTransform *transform = computeSelectedObjectTransform();
+  const WbAbstractPose *transform = computeSelectedObjectTransform();
   orbitTo(WbVector3(0, 0, -1), computeObjectViewRotation(WbRotation(0.5773, 0.5773, 0.5773, -2.0944), transform), transform);
 }
 
 void WbViewpoint::orbitTo(const WbVector3 &targetUnitVector, const WbRotation &targetRotation,
-                          const WbAbstractTransform *selectedObject) {
+                          const WbAbstractPose *selectedObject) {
   resetAnimations();
   lock();
 

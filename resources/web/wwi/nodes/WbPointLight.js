@@ -1,5 +1,5 @@
 import {resetIfNegative, resetVector3IfNegative} from './utils/WbFieldChecker.js';
-import {findUpperTransform} from './utils/node_utilities.js';
+import {findUpperPose} from './utils/node_utilities.js';
 import WbVector3 from './utils/WbVector3.js';
 import {WbNodeType} from './wb_node_type.js';
 
@@ -84,7 +84,7 @@ export default class WbPointLight extends WbLight {
   // Private functions
 
   #attachToUpperTransform() {
-    const upperTransform = findUpperTransform(this);
+    const upperTransform = findUpperPose(this);
 
     if (typeof upperTransform !== 'undefined')
       _wr_transform_attach_child(upperTransform.wrenNode, this.#wrenLight);

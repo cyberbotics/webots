@@ -14,7 +14,7 @@
 
 #include "WbDragScaleEvent.hpp"
 
-#include "WbAbstractTransform.hpp"
+#include "WbAbstractPose.hpp"
 #include "WbBox.hpp"
 #include "WbCapsule.hpp"
 #include "WbCone.hpp"
@@ -251,7 +251,7 @@ void WbRescaleIndexedFaceSetEvent::apply(const QPoint &currentMousePosition) {
 ////////////////////////////////////////////////////////////////////////////////////////
 
 WbDragScaleHandleEvent::WbDragScaleHandleEvent(const QPoint &initialMousePosition, WbViewpoint *viewpoint, int handleNumber,
-                                               WbAbstractTransform *selectedTransform) :
+                                               WbAbstractPose *selectedTransform) :
   WbDragView3DEvent(viewpoint),
   mTransform(selectedTransform),
   mHandleNumber(handleNumber),
@@ -339,7 +339,7 @@ void WbDragScaleHandleEvent::apply(const QPoint &currentMousePosition) {
 // uniform scale
 
 WbUniformScaleEvent::WbUniformScaleEvent(const QPoint &initialMousePosition, WbViewpoint *viewpoint, int handleNumber,
-                                         WbAbstractTransform *selectedTransform) :
+                                         WbAbstractPose *selectedTransform) :
   WbDragScaleHandleEvent(initialMousePosition, viewpoint, handleNumber, selectedTransform) {
 }
 

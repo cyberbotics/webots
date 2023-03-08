@@ -138,7 +138,7 @@ bool WbObjectDetection::isWithinBounds(const WbAffinePlane *frustumPlanes, const
   const WbBaseNode *referenceObject = boundingObject;
   if (useBoundingSphere)
     referenceObject = rootObject;
-  const WbTransform *transform = dynamic_cast<const WbTransform *>(referenceObject);
+  const WbPose *transform = dynamic_cast<const WbPose *>(referenceObject);
   if (!transform)
     transform = referenceObject->upperTransform();
   assert(transform);
@@ -149,7 +149,7 @@ bool WbObjectDetection::isWithinBounds(const WbAffinePlane *frustumPlanes, const
     const WbShape *shape = static_cast<const WbShape *>(boundingObject);
     boundingObject = shape->geometry();
     return isWithinBounds(frustumPlanes, boundingObject, objectSize, objectRelativePosition);
-  } else if (nodeType == WB_NODE_GROUP || nodeType == WB_NODE_TRANSFORM) {
+  } else if (nodeType == WB_NODE_GROUP || nodeType == WB_NODE_POSE) {
     bool visible = false;
     const WbGroup *group = static_cast<const WbGroup *>(boundingObject);
     for (int i = 0; i < group->childCount(); ++i) {

@@ -1,4 +1,4 @@
-import {findUpperTransform} from './utils/node_utilities.js';
+import {findUpperPose} from './utils/node_utilities.js';
 import {resetVector3IfNegative, resetIfNegative, resetIfNotInRangeWithIncludedBounds} from './utils/WbFieldChecker.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbLight from './WbLight.js';
@@ -163,7 +163,7 @@ export default class WbSpotLight extends WbLight {
   }
 
   #attachToUpperTransform() {
-    const upperTransform = findUpperTransform(this);
+    const upperTransform = findUpperPose(this);
 
     if (typeof upperTransform !== 'undefined')
       _wr_transform_attach_child(upperTransform.wrenNode, this.#wrenLight);

@@ -17,7 +17,7 @@
 #include "WbGuiRefreshOracle.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbSolid.hpp"
-#include "WbTransform.hpp"
+#include "WbPose.hpp"
 
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QLabel>

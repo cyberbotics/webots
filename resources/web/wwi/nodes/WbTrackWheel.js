@@ -1,8 +1,8 @@
-import WbTransform from './WbTransform.js';
+import WbPose from './WbPose.js';
 import WbWorld from './WbWorld.js';
 import {WbNodeType} from './wb_node_type.js';
 
-export default class WbTrackWheel extends WbTransform {
+export default class WbTrackWheel extends WbPose {
   constructor(id, translation, scale, rotation, radius, inner) {
     super(id, translation, scale, rotation);
     this.radius = radius;

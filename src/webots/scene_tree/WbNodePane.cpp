@@ -19,7 +19,7 @@
 #include "WbPhysicsViewer.hpp"
 #include "WbPositionViewer.hpp"
 #include "WbSolid.hpp"
-#include "WbTransform.hpp"
+#include "WbPose.hpp"
 #include "WbVelocityViewer.hpp"
 
 #include <QtWidgets/QHBoxLayout>
@@ -115,7 +115,7 @@ void WbNodePane::edit(bool copyOriginalValue) {
     mNodeEditor->edit(false);
     enableTab(NODE_TAB, mNodeEditor, true);
 
-    WbTransform *t = dynamic_cast<WbTransform *>(node);
+    WbPose *t = dynamic_cast<WbPose *>(node);
     WbSolid *s = dynamic_cast<WbSolid *>(node);
     mPhysicsViewer->show(s);
     mPositionViewer->show(t);

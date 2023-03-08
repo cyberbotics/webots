@@ -31,7 +31,7 @@ import WbSphere from './nodes/WbSphere.js';
 import WbTextureCoordinate from './nodes/WbTextureCoordinate.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbTrackWheel from './nodes/WbTrackWheel.js';
-import WbTransform from './nodes/WbTransform.js';
+import WbPose from './nodes/WbPose.js';
 import WbWorld from './nodes/WbWorld.js';
 
 import WbVector2 from './nodes/utils/WbVector2.js';
@@ -230,7 +230,7 @@ export default class X3dScene {
         continue;
 
       if (key === 'translation') {
-        if (object instanceof WbTransform)
+        if (object instanceof WbPose)
           object.translation = convertStringToVec3(update[key]);
         else if (object instanceof WbTextureTransform)
           object.translation = convertStringToVec2(update[key]);
@@ -245,7 +245,7 @@ export default class X3dScene {
             object.rotation = quaternion;
         }
       } else if (key === 'scale') {
-        if (object instanceof WbTransform)
+        if (object instanceof WbPose)
           object.scale = convertStringToVec3(update[key]);
         else if (object instanceof WbTextureTransform)
           object.scale = convertStringToVec2(update[key]);

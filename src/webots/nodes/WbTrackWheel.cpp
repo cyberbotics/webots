@@ -32,15 +32,15 @@ void WbTrackWheel::init() {
   mRotationStep = new WbSFDouble(0.1);
 }
 
-WbTrackWheel::WbTrackWheel(WbTokenizer *tokenizer) : WbTransform("TrackWheel", tokenizer) {
+WbTrackWheel::WbTrackWheel(WbTokenizer *tokenizer) : WbPose("TrackWheel", tokenizer) {
   init();
 }
 
-WbTrackWheel::WbTrackWheel(const WbTrackWheel &other) : WbTransform(other) {
+WbTrackWheel::WbTrackWheel(const WbTrackWheel &other) : WbPose(other) {
   init();
 }
 
-WbTrackWheel::WbTrackWheel(const WbNode &other) : WbTransform(other) {
+WbTrackWheel::WbTrackWheel(const WbNode &other) : WbPose(other) {
   init();
 }
 
@@ -48,14 +48,14 @@ WbTrackWheel::~WbTrackWheel() {
 }
 
 void WbTrackWheel::preFinalize() {
-  WbTransform::preFinalize();
+  WbPose::preFinalize();
 
   updatePosition();
   updateRadius();
 }
 
 void WbTrackWheel::postFinalize() {
-  WbTransform::postFinalize();
+  WbPose::postFinalize();
 
   connect(mPosition, &WbSFVector2::changed, this, &WbTrackWheel::updatePosition);
   connect(mRadius, &WbSFDouble::changed, this, &WbTrackWheel::updateRadius);
@@ -95,7 +95,7 @@ bool WbTrackWheel::shallExport() const {
 void WbTrackWheel::write(WbWriter &writer) const {
   if (writer.isUrdf())
     return;
-  WbTransform::write(writer);
+  WbPose::write(writer);
 }
 
 void WbTrackWheel::exportNodeFields(WbWriter &writer) const {
@@ -126,5 +126,5 @@ void WbTrackWheel::exportNodeFields(WbWriter &writer) const {
   if (writer.isX3d())
     writer << " type='trackWheel'";
 
-  WbTransform::exportNodeFields(writer);
+  WbPose::exportNodeFields(writer);
 }

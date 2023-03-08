@@ -24,7 +24,7 @@
 #include "WbSFBool.hpp"
 #include "WbSFInt.hpp"
 #include "WbSimulationState.hpp"
-#include "WbTransform.hpp"
+#include "WbPose.hpp"
 #include "WbVector2.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 
@@ -86,7 +86,7 @@ void WbCone::createWrenObjects() {
 void WbCone::setResizeManipulatorDimensions() {
   WbVector3 scale(mBottomRadius->value(), mBottomRadius->value(), mHeight->value());
 
-  WbTransform *transform = upperTransform();
+  WbPose *transform = upperTransform();
   if (transform)
     scale *= transform->absoluteScale();
 
@@ -327,7 +327,7 @@ double WbCone::computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) co
   WbVector3 direction(ray.direction());
   WbVector3 origin(ray.origin());
 
-  const WbTransform *const transform = upperTransform();
+  const WbPose *const transform = upperTransform();
   if (transform) {
     direction = ray.direction() * transform->matrix();
     direction.normalize();

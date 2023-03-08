@@ -1,5 +1,5 @@
 import WbSolid from '../WbSolid.js';
-import WbTransform from '../WbTransform.js';
+import WbPose from '../WbPose.js';
 import WbWorld from '../WbWorld.js';
 import {WbNodeType} from '../wb_node_type.js';
 
@@ -9,7 +9,7 @@ export function findUpperTransform(node) {
 
   let n = WbWorld.instance.nodes.get(node.parent);
   while (typeof n !== 'undefined') {
-    if (n instanceof WbTransform)
+    if (n instanceof WbPose)
       return n;
 
     n = WbWorld.instance.nodes.get(n.parent);

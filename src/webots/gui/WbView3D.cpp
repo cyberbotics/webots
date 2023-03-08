@@ -243,7 +243,7 @@ void WbView3D::setWireframe() {
   setRenderingMode(WR_VIEWPORT_POLYGON_MODE_LINE, true);
 }
 
-void WbView3D::onSelectionChanged(WbAbstractTransform *selectedAbstractTransform) {
+void WbView3D::onSelectionChanged(WbAbstractPose *selectedAbstractTransform) {
   assert(mWorld);
 
   if (mWorld->isCleaning())
@@ -1517,7 +1517,7 @@ void WbView3D::selectNode(const QMouseEvent *event) {
     return;
   }
 
-  const WbAbstractTransform *const selectedTransform = selection->selectedAbstractTransform();
+  const WbAbstractPose *const selectedTransform = selection->selectedAbstractTransform();
   WbMatter *visiblePickedMatter = WbNodeUtilities::findUpperVisibleMatter(mPickedMatter);
   WbMatter *selectedMatter = NULL;
   if (isContextMenuShortcut(event))
@@ -1901,7 +1901,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
   } else if (scaleHandle && resizeActive) {
     cleanupPhysicsDrags();
     WbBaseNode *pickedNode = WbSelection::instance()->selectedNode();
-    WbAbstractTransform *pickedTransform = dynamic_cast<WbAbstractTransform *>(pickedNode);
+    WbAbstractPose *pickedTransform = dynamic_cast<WbAbstractPose *>(pickedNode);
     assert(pickedTransform);
     if (dynamic_cast<WbSolid *>(pickedNode))
       selective = 0;
@@ -1924,7 +1924,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     if (pickedSolid)
       mDragTranslate = new WbDragTranslateAlongAxisSolidEvent(position, size(), viewpoint, handleNumber, pickedSolid);
     else {
-      WbAbstractTransform *pickedTransform = dynamic_cast<WbAbstractTransform *>(pickedNode);
+      WbAbstractPose *pickedTransform = dynamic_cast<WbAbstractPose *>(pickedNode);
       assert(pickedTransform);
       mDragTranslate = new WbDragTranslateAlongAxisEvent(position, size(), viewpoint, handleNumber, pickedTransform);
     }
@@ -1937,7 +1937,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     if (pickedSolid)
       mDragRotate = new WbDragRotateAroundAxisSolidEvent(position, size(), viewpoint, handleNumber, pickedSolid);
     else {
-      WbAbstractTransform *pickedTransform = dynamic_cast<WbAbstractTransform *>(pickedNode);
+      WbAbstractPose *pickedTransform = dynamic_cast<WbAbstractPose *>(pickedNode);
       assert(pickedTransform);
       mDragRotate = new WbDragRotateAroundAxisEvent(position, size(), viewpoint, handleNumber, pickedTransform);
     }
@@ -1958,7 +1958,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
       return;
 
     WbBaseNode *const selectedNode = dynamic_cast<WbBaseNode *>(selection->selectedAbstractTransform());
-    WbTransform *const uppermostTransform = WbNodeUtilities::findUppermostTransform(selectedNode);
+    WbPose *const uppermostTransform = WbNodeUtilities::findUppermostTransform(selectedNode);
     WbSolid *const uppermostSolid = WbNodeUtilities::findUppermostSolid(selectedNode);
     Qt::MouseButtons buttons = event->buttons();
     if (buttons == Qt::MiddleButton || buttons == (Qt::LeftButton | Qt::RightButton)) {

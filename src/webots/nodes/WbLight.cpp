@@ -23,7 +23,7 @@
 #include "WbSFBool.hpp"
 #include "WbSFColor.hpp"
 #include "WbSFDouble.hpp"
-#include "WbTransform.hpp"
+#include "WbPose.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenRenderingContext.hpp"
 

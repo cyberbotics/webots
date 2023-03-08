@@ -14,7 +14,7 @@
 
 #include "WbSelection.hpp"
 
-#include "WbAbstractTransform.hpp"
+#include "WbAbstractPose.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbSimulationWorld.hpp"
 #include "WbSolid.hpp"
@@ -46,7 +46,7 @@ void WbSelection::selectNodeFromSceneTree(WbBaseNode *node) {
   emit selectionChangedFromSceneTree(mSelectedAbstractTransform);
 }
 
-void WbSelection::selectTransformFromView3D(WbAbstractTransform *t, bool handlesDisabled) {
+void WbSelection::selectTransformFromView3D(WbAbstractPose *t, bool handlesDisabled) {
   WbBaseNode *node = t == NULL ? NULL : t->baseNode();
   if (mSelectedNode == node)
     return;
@@ -77,7 +77,7 @@ void WbSelection::selectNode(WbBaseNode *n, bool handlesDisabled) {
 
   mSelectedNode = n;
   if (transformChanged)
-    mSelectedAbstractTransform = mSelectedNode ? dynamic_cast<WbAbstractTransform *>(mSelectedNode) : NULL;
+    mSelectedAbstractTransform = mSelectedNode ? dynamic_cast<WbAbstractPose *>(mSelectedNode) : NULL;
   mResizeHandlesEnabledFromSceneTree = false;
 
   if (mSelectedNode) {
@@ -126,15 +126,15 @@ bool WbSelection::isObjectMotionAllowed() const {
     return false;
 
   WbBaseNode *topNode = mSelectedAbstractTransform->baseNode();
-  WbAbstractTransform *topTransform = NULL;
+  WbAbstractPose *topTransform = NULL;
   if (!topNode->isTopLevel()) {
     WbSolid *solid = WbNodeUtilities::findUppermostSolid(topNode);
     if (solid)
-      topTransform = dynamic_cast<WbAbstractTransform *>(topNode);
+      topTransform = dynamic_cast<WbAbstractPose *>(topNode);
     else
       return false;
   } else
-    topTransform = dynamic_cast<WbAbstractTransform *>(topNode);
+    topTransform = dynamic_cast<WbAbstractPose *>(topNode);
 
   return topTransform && !WbNodeUtilities::isNodeOrAncestorLocked(topNode) && topTransform->isTranslationFieldVisible();
 }
@@ -180,7 +180,7 @@ void WbSelection::restoreActiveManipulator() {
 
 bool WbSelection::showResizeManipulatorFromView3D(bool enabled) {
   // only Transform or Solid nodes can be selected from the 3D view
-  WbAbstractTransform *t = selectedAbstractTransform();
+  WbAbstractPose *t = selectedAbstractTransform();
   if (!t || mResizeHandlesEnabledFromSceneTree || !mSelectedNode || mSelectedNode->isUseNode() || !t->hasResizeManipulator() ||
       WbNodeUtilities::isNodeOrAncestorLocked(t->baseNode()))
     return false;

@@ -27,7 +27,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QPoint>
 
-class WbAbstractTransform;
+class WbAbstractPose;
 class WbCone;
 class WbCylinder;
 class WbGeometry;
@@ -102,13 +102,13 @@ public:
   void addActionInUndoStack() override;
 };
 
-// Drag changing the scale field of a WbTransform
+// Drag changing the scale field of a WbPose
 class WbDragScaleHandleEvent : public WbDragView3DEvent {
   Q_OBJECT;
 
 public:
   WbDragScaleHandleEvent(const QPoint &initialMousePosition, WbViewpoint *viewpoint, int handleNumber,
-                         WbAbstractTransform *selectedTransform);
+                         WbAbstractPose *selectedTransform);
   virtual ~WbDragScaleHandleEvent();
   void apply(const QPoint &currentMousePosition) override;
   virtual void addActionInUndoStack();
@@ -117,7 +117,7 @@ signals:
   void aborted();  // triggers drag destruction in WbView3D
 
 protected:
-  WbAbstractTransform *mTransform;
+  WbAbstractPose *mTransform;
   int mHandleNumber;
   WbScaleManipulator *mManipulator;
   WbVariant mInitialScale;
@@ -139,7 +139,7 @@ protected:
 class WbUniformScaleEvent : public WbDragScaleHandleEvent {
 public:
   WbUniformScaleEvent(const QPoint &initialMousePosition, WbViewpoint *viewpoint, int handleNumber,
-                      WbAbstractTransform *selectedTransform);
+                      WbAbstractPose *selectedTransform);
   void apply(const QPoint &currentMousePosition) override;
 };
 

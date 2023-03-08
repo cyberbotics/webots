@@ -3,7 +3,7 @@ import WbImageTexture from './WbImageTexture.js';
 import WbPbrAppearance from './WbPbrAppearance.js';
 import WbWorld from './WbWorld.js';
 import {getAnId} from './utils/id_provider.js';
-import {findUpperTransform} from './utils/node_utilities.js';
+import {findUpperPose} from './utils/node_utilities.js';
 import {arrayXPointerFloat, arrayXPointerInt} from './utils/utils.js';
 import WbBoundingSphere from './utils/WbBoundingSphere.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
@@ -496,7 +496,7 @@ export default class WbCadShape extends WbBaseNode {
 
   #upperTransform() {
     if (this.#upperTransformFirstTimeSearch) {
-      this.upperTransform = findUpperTransform(this);
+      this.upperTransform = findUpperPose(this);
       if (this.wrenObjectsCreatedCalled)
         this.#upperTransformFirstTimeSearch = false;
     }

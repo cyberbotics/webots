@@ -21,7 +21,7 @@
 
 #include <QtCore/QObject>
 
-class WbAbstractTransform;
+class WbAbstractPose;
 class WbBaseNode;
 class WbSolid;
 
@@ -36,7 +36,7 @@ public:
   virtual ~WbSelection();
 
   // the currently selected transform in the scene tree
-  WbAbstractTransform *selectedAbstractTransform() const { return mSelectedAbstractTransform; }
+  WbAbstractPose *selectedAbstractTransform() const { return mSelectedAbstractTransform; }
 
   // the currently selected solid in the scene tree
   WbSolid *selectedSolid() const;
@@ -68,7 +68,7 @@ public slots:
   void selectNodeFromSceneTree(WbBaseNode *node);
 
   // select another matter from the 3D view
-  void selectTransformFromView3D(WbAbstractTransform *t, bool handlesDisabled = false);
+  void selectTransformFromView3D(WbAbstractPose *t, bool handlesDisabled = false);
 
   // update handle size based on viewpoint camera distance
   void updateHandlesScale();
@@ -81,20 +81,20 @@ public slots:
 
 signals:
   // the selection has changed from the scene tree
-  void selectionChangedFromSceneTree(WbAbstractTransform *t);
+  void selectionChangedFromSceneTree(WbAbstractPose *t);
 
   // the selection has changed from the 3D view
-  void selectionChangedFromView3D(WbAbstractTransform *t);
+  void selectionChangedFromView3D(WbAbstractPose *t);
 
-  // the same WbAbstractTransform was selected from the 3D view
-  void selectionConfirmedFromView3D(WbAbstractTransform *t);
+  // the same WbAbstractPose was selected from the 3D view
+  void selectionConfirmedFromView3D(WbAbstractPose *t);
 
   // the visible handles of the selected node have changed
   void visibleHandlesChanged();
 
 private:
   static WbSelection *cInstance;
-  WbAbstractTransform *mSelectedAbstractTransform;
+  WbAbstractPose *mSelectedAbstractTransform;
   WbBaseNode *mSelectedNode;  // node selected in the scene tree
   bool mResizeHandlesEnabledFromSceneTree;
 

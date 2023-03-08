@@ -21,22 +21,22 @@
 // Inherited by: WbSolid
 //
 
-#include "WbAbstractTransform.hpp"
+#include "WbAbstractPose.hpp"
 #include "WbGroup.hpp"
 #include "WbShape.hpp"
 
-class WbTransform : public WbGroup, public WbAbstractTransform {
+class WbPose : public WbGroup, public WbAbstractPose {
   Q_OBJECT
 
 public:
   // constructors and destructor
-  explicit WbTransform(WbTokenizer *tokenizer = NULL);
-  WbTransform(const WbTransform &other);
-  explicit WbTransform(const WbNode &other);
-  virtual ~WbTransform();
+  explicit WbPose(WbTokenizer *tokenizer = NULL);
+  WbPose(const WbPose &other);
+  explicit WbPose(const WbNode &other);
+  virtual ~WbPose();
 
   // reimplemented functions
-  int nodeType() const override { return WB_NODE_TRANSFORM; }
+  int nodeType() const override { return WB_NODE_POSE; }
   void preFinalize() override;
   void postFinalize() override;
   void createWrenObjects() override;
@@ -61,7 +61,7 @@ public:
   // Scaling
   int constraintType() const override;
 
-  // update of ODE data stored in geometry() for WbTransform lying into a boundingObject
+  // update of ODE data stored in geometry() for WbPose lying into a boundingObject
   void applyToOdeData(bool correctMass = true);
 
   // for a Transform lying into a boundingObject
@@ -71,19 +71,19 @@ public:
   bool isSuitableForInsertionInBoundingObject(bool warning = false) const override;
 
   // resize/scale manipulator
-  bool hasResizeManipulator() const override { return WbAbstractTransform::hasResizeManipulator(); }
-  void attachResizeManipulator() override { WbAbstractTransform::attachResizeManipulator(); }
-  void detachResizeManipulator() const override { WbAbstractTransform::detachResizeManipulator(); }
-  void updateResizeHandlesSize() override { WbAbstractTransform::updateResizeHandlesSize(); }
-  void setResizeManipulatorDimensions() { WbAbstractTransform::setResizeManipulatorDimensions(); }
+  bool hasResizeManipulator() const override { return WbAbstractPose::hasResizeManipulator(); }
+  void attachResizeManipulator() override { WbAbstractPose::attachResizeManipulator(); }
+  void detachResizeManipulator() const override { WbAbstractPose::detachResizeManipulator(); }
+  void updateResizeHandlesSize() override { WbAbstractPose::updateResizeHandlesSize(); }
+  void setResizeManipulatorDimensions() { WbAbstractPose::setResizeManipulatorDimensions(); }
   void setUniformConstraintForResizeHandles(bool enabled) override {
-    WbAbstractTransform::setUniformConstraintForResizeHandles(enabled);
+    WbAbstractPose::setUniformConstraintForResizeHandles(enabled);
   }
 
   // translate-rotate manipulator
-  void updateTranslateRotateHandlesSize() override { WbAbstractTransform::updateTranslateRotateHandlesSize(); }
-  void attachTranslateRotateManipulator() override { WbAbstractTransform::attachTranslateRotateManipulator(); }
-  void detachTranslateRotateManipulator() override { WbAbstractTransform::detachTranslateRotateManipulator(); }
+  void updateTranslateRotateHandlesSize() override { WbAbstractPose::updateTranslateRotateHandlesSize(); }
+  void attachTranslateRotateManipulator() override { WbAbstractPose::attachTranslateRotateManipulator(); }
+  void detachTranslateRotateManipulator() override { WbAbstractPose::detachTranslateRotateManipulator(); }
 
   void enablePoseChangedSignal() const { mPoseChangedSignalEnabled = true; }
   void emitTranslationOrRotationChangedByUser() override;
@@ -107,7 +107,7 @@ signals:
 
 protected:
   // this constructor is reserved for derived classes only
-  WbTransform(const QString &modelName, WbTokenizer *tokenizer);
+  WbPose(const QString &modelName, WbTokenizer *tokenizer);
   void applyToScale() override;
 
   void createScaleManipulator() override;
@@ -117,8 +117,8 @@ protected slots:
   void updateConstrainedHandleMaterials();
 
 private:
-  WbTransform &operator=(const WbTransform &);  // non copyable
-  WbNode *clone() const override { return new WbTransform(*this); }
+  WbPose &operator=(const WbPose &);  // non copyable
+  WbNode *clone() const override { return new WbPose(*this); }
   void init();
 
   // Positions and orientations storage
@@ -140,7 +140,7 @@ private slots:
   void notifyJerk();
 };
 
-inline WbGeometry *WbTransform::geometry() const {
+inline WbGeometry *WbPose::geometry() const {
   if (childCount() == 0)
     return NULL;
 
