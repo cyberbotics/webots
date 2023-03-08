@@ -18,7 +18,7 @@ import sys
 
 
 controllers = {
-  "MyBot": "controllers/camera/camera"
+    "MyBot": "controllers/camera/camera"
 }
 port = 1235
 
