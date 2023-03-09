@@ -132,7 +132,7 @@ const double *Node::getPose(const Node *fromNode) const {
 }
 
 void Node::enableContactPointsTracking(int samplingPeriod, bool includeDescendants) const {
-  wb_supervisor_node_enable_contact_points_tracking(nodeRef, samplingPeriod, false);
+  wb_supervisor_node_enable_contact_points_tracking(nodeRef, samplingPeriod, includeDescendants);
 }
 
 void Node::disableContactPointsTracking(bool includeDescendants) const {
