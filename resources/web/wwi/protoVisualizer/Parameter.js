@@ -28,28 +28,23 @@ export default class Parameter extends Field {
 
     if (this.restrictions.length > 0) {
       if (newValue instanceof MFNode) {
-        if (newValue.value === null) {
-          super.value = newValue;
-          return;
-        } else {
-          let canBeInserted = true;
-          for (const value of newValue.value) {
-            let found = false;
-            for (const item of this.restrictions[0].value) {
-              if (item.equals(value)) {
-                found = true;
-                break;
-              }
-            }
-            if (found === false) {
-              canBeInserted = false;
+        let canBeInserted = true;
+        for (const value of newValue.value) {
+          let found = false;
+          for (const item of this.restrictions[0].value) {
+            if (item.equals(value)) {
+              found = true;
               break;
             }
           }
-          if (canBeInserted) {
-            super.value = newValue;
-            return;
+          if (found === false) {
+            canBeInserted = false;
+            break;
           }
+        }
+        if (canBeInserted) {
+          super.value = newValue;
+          return;
         }
       } else {
         for (const item of this.restrictions) {
