@@ -431,7 +431,7 @@ export class SFNode extends SingleValue {
     return this.value.toVrml();
   }
 
-  equals(other) {
+  equals(other, ignoreValue) {
     if (this.value === null && other.value === null)
       return true;
 
@@ -449,7 +449,7 @@ export class SFNode extends SingleValue {
         return false;
 
       const otherParameter = other.value.parameters.get(parameterName);
-      if (!parameter.value.equals(otherParameter.value))
+      if (!ignoreValue && !parameter.value.equals(otherParameter.value))
         return false;
       if (!parameter.defaultValue.equals(otherParameter.defaultValue))
         return false;
