@@ -4,8 +4,6 @@
 # This is a proto file for Webots for the RosbotXl
 EXTERNPROTO "webots://projects/devices/slamtec/protos/RpLidarA2.proto"
 EXTERNPROTO "webots://projects/devices/tdk/protos/Mpu-9250.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/29265faa469a5f86d67a1e2407f33059f63dc981/projects/appearances/protos/MattePaint.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/29265faa469a5f86d67a1e2407f33059f63dc981/projects/appearances/protos/GlossyPaint.proto"
 
 PROTO RosbotXl [
   field  SFVec3f     translation     0 0 0
