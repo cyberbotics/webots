@@ -45,7 +45,7 @@ PROTO RosbotXl [
           rotation 0.000000 0.000000 1.000000 0.000000
           children [
             Mesh {
-              url "meshes/body_colision.stl"
+              url "meshes/body_collision.stl"
             }
           ]
         }

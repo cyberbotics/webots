@@ -73,10 +73,10 @@ int main(int argc, char *argv[]) {
   wb_motor_set_velocity(rear_right_motor, 0.0);
 
   /* get a handler to the position sensors and enable them. */
-  front_left_position_sensor = wb_robot_get_device("fl_range");
-  front_right_position_sensor = wb_robot_get_device("fr_range");
-  rear_left_position_sensor = wb_robot_get_device("rl_range");
-  rear_right_position_sensor = wb_robot_get_device("rr_range");
+  front_left_position_sensor = wb_robot_get_device("front left wheel motor sensor");
+  front_right_position_sensor = wb_robot_get_device("front right wheel motor sensor");
+  rear_left_position_sensor = wb_robot_get_device("rear left wheel motor sensor");
+  rear_right_position_sensor = wb_robot_get_device("rear right wheel motor sensor");
   wb_position_sensor_enable(front_left_position_sensor, TIME_STEP);
   wb_position_sensor_enable(front_right_position_sensor, TIME_STEP);
   wb_position_sensor_enable(rear_left_position_sensor, TIME_STEP);
