@@ -1,6 +1,6 @@
 'use strict';
 
-import {SFNode, stringifyType} from './Vrml.js';
+import {SFNode, MFNode, stringifyType} from './Vrml.js';
 import Field from './Field.js';
 
 export default class Parameter extends Field {
@@ -27,10 +27,36 @@ export default class Parameter extends Field {
       throw new Error(`Type mismatch, setting ${stringifyType(newValue.type())} to ${stringifyType(this.type)} parameter.`);
 
     if (this.restrictions.length > 0) {
-      for (const item of this.restrictions) {
-        if ((newValue instanceof SFNode && newValue.value === null) || item.equals(newValue)) {
+      if (newValue instanceof MFNode) {
+        if (newValue.value === null) {
           super.value = newValue;
           return;
+        } else {
+          let canBeInserted = true;
+          for (const value of newValue.value) {
+            let found = false;
+            for (const item of this.restrictions[0].value) {
+              if (item.equals(value)) {
+                found = true;
+                break;
+              }
+            }
+            if (found === false) {
+              canBeInserted = false;
+              break;
+            }
+          }
+          if (canBeInserted) {
+            super.value = newValue;
+            return;
+          }
+        }
+      } else {
+        for (const item of this.restrictions) {
+          if ((newValue instanceof SFNode && newValue.value === null) || item.equals(newValue)) {
+            super.value = newValue;
+            return;
+          }
         }
       }
 
