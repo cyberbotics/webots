@@ -36,10 +36,10 @@ if sys.platform != 'linux':
     sys.exit('This script runs only on Linux, not on ' + sys.platform)
 
 controllers = {
-  "MyBot": "controllers/camera/camera"
+    "MyBot": "controllers/camera/camera"
 }
 port = 1234
-docker_image = 'cyberbotics/webots:R2023a'  # this should correspond to the current version of Webots
+docker_image = 'cyberbotics/webots:R2023a-ubuntu20.04'  # this should correspond to the current version of Webots
 
 subprocess.run(['xhost', '+local:root'])
 with open('simulation/.env', 'w+') as env_file:
@@ -48,20 +48,20 @@ with open('simulation/.env', 'w+') as env_file:
     env_file.write('ROBOT_NAME_1=MyBot\n')
     env_file.write('WORLD=/webots_project/worlds/camera.wbt\n')
 
-command = 'docker-compose -f simulation/docker-compose-webots.yml up --build --no-color'
+command = 'docker compose -f simulation/docker-compose-webots.yml up --build --no-color'
 try:
     webots_process = subprocess.Popen(command.split(),
                                       stdout=subprocess.PIPE,
                                       stderr=subprocess.STDOUT,
                                       bufsize=1, universal_newlines=True)
 except Exception:
-    print(f"error: Unable to start docker-compose: {command}")
+    print(f"error: Unable to start docker compose: {command}")
     quit()
 controller_process = None
 while webots_process.poll() is None:
     line = webots_process.stdout.readline().rstrip()
-    if line.startswith('webots_1  | '):  # output of the first docker container
-        line = line[12:]
+    if line.startswith('simulation-webots-1  | '):  # output of the first docker container
+        line = line[23:]
         if line.startswith('ipc://'):
             name = line[line.rfind('/') + 1:]
             controller = controllers[name] if name in controllers else ''
@@ -78,7 +78,7 @@ while webots_process.poll() is None:
                        f'-v tmp-{port}-{name}:/tmp/webots-{port}/ipc/{name} controller /webots_project/{controller}')
             subprocess.Popen(command.split())  # launch in the background
     elif line:
-        print(line)  # docker-compose output
+        print(line)  # docker compose output
     if controller_process:
         while controller_process.poll() is None:
             line = controller_process.stdout.readline().rstrip()

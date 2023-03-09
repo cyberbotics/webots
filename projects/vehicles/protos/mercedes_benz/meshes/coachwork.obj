@@ -1,6 +1,5 @@
 # Blender v2.93.1 OBJ File: ''
 # www.blender.org
-mtllib coachwork.mtl
 o coachwork_front_doors
 v 0.982100 0.993588 3.156850
 v 0.982378 0.984370 3.144300
