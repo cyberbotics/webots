@@ -1,10 +1,10 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,7 +29,7 @@ class WebotsObject(object):
     removalRadius = 0.0
 
     xOffset = 0
-    zOffset = 0
+    yOffset = 0
     elevation = None
 
     @classmethod
@@ -42,17 +42,17 @@ class WebotsObject(object):
         """Add intermediate point when crossing the grid of the ElevationGrid."""
         if len(refs) < offset or not refs[offset - 1] in OSMCoord.coordDictionnary or WebotsObject.elevation is None:
             return refs
-        previousXGridIndex, previousZGridIndex = \
+        previousXGridIndex, previousYGridIndex = \
             WebotsObject.elevation.get_grid_indexes(OSMCoord.coordDictionnary[refs[offset - 1]].x,
-                                                    OSMCoord.coordDictionnary[refs[offset - 1]].z)
+                                                    OSMCoord.coordDictionnary[refs[offset - 1]].y)
         newRefs = refs
         if offset >= len(refs):
             return newRefs
         for i in range(max(offset, 1), len(refs)):
             if not refs[i] in OSMCoord.coordDictionnary or not refs[i - 1] in OSMCoord.coordDictionnary:
                 continue
-            currentXGridIndex, currentZGridIndex = WebotsObject.elevation.get_grid_indexes(OSMCoord.coordDictionnary[refs[i]].x,
-                                                                                           OSMCoord.coordDictionnary[refs[i]].z)
+            currentXGridIndex, currentYGridIndex = WebotsObject.elevation.get_grid_indexes(OSMCoord.coordDictionnary[refs[i]].x,
+                                                                                           OSMCoord.coordDictionnary[refs[i]].y)
             if not previousXGridIndex == currentXGridIndex and currentXGridIndex > 0 and previousXGridIndex > 0:
                 d1x = math.fabs(WebotsObject.elevation.elevationArray[min(previousXGridIndex, currentXGridIndex)]['x'] -
                                 OSMCoord.coordDictionnary[refs[i]].x)
@@ -62,39 +62,39 @@ class WebotsObject(object):
                     # need to add an intermediate point if none of the points are already very close from the border
                     newCoordX = (d2x / (d1x + d2x)) * OSMCoord.coordDictionnary[refs[i]].x + \
                         (d1x / (d1x + d2x)) * OSMCoord.coordDictionnary[refs[i - 1]].x
-                    newCoordZ = (d2x / (d1x + d2x)) * OSMCoord.coordDictionnary[refs[i]].z + \
-                        (d1x / (d1x + d2x)) * OSMCoord.coordDictionnary[refs[i - 1]].z
-                    newOSMID = OSMCoord.add_new_coord_to_list(newCoordX, newCoordZ)
+                    newCoordY = (d2x / (d1x + d2x)) * OSMCoord.coordDictionnary[refs[i]].y + \
+                        (d1x / (d1x + d2x)) * OSMCoord.coordDictionnary[refs[i - 1]].y
+                    newOSMID = OSMCoord.add_new_coord_to_list(newCoordX, newCoordY)
                     newRefs.insert(i, newOSMID)
                     return cls.add_intermediate_point_where_needed(newRefs, i)
-            if not previousZGridIndex == currentZGridIndex and currentZGridIndex > 0 and previousZGridIndex > 0:
-                d1z = math.fabs(WebotsObject.elevation.elevationArray[max(previousZGridIndex, currentZGridIndex)]['z'] -
-                                OSMCoord.coordDictionnary[refs[i]].z)
-                d2z = math.fabs(WebotsObject.elevation.elevationArray[max(previousZGridIndex, currentZGridIndex)]['z'] -
-                                OSMCoord.coordDictionnary[refs[i - 1]].z)
-                if d1z > 0.01 and d2z > 0.01:
+            if not previousYGridIndex == currentYGridIndex and currentYGridIndex > 0 and previousYGridIndex > 0:
+                d1y = math.fabs(WebotsObject.elevation.elevationArray[max(previousYGridIndex, currentYGridIndex)]['y'] -
+                                OSMCoord.coordDictionnary[refs[i]].y)
+                d2y = math.fabs(WebotsObject.elevation.elevationArray[max(previousYGridIndex, currentYGridIndex)]['y'] -
+                                OSMCoord.coordDictionnary[refs[i - 1]].y)
+                if d1y > 0.01 and d2y > 0.01:
                     # need to add an intermediate point if none of the points are already very close from the border
-                    newCoordX = (d2z / (d1z + d2z)) * OSMCoord.coordDictionnary[refs[i]].x +\
-                        (d1z / (d1z + d2z)) * OSMCoord.coordDictionnary[refs[i - 1]].x
-                    newCoordZ = (d2z / (d1z + d2z)) * OSMCoord.coordDictionnary[refs[i]].z +\
-                        (d1z / (d1z + d2z)) * OSMCoord.coordDictionnary[refs[i - 1]].z
-                    newOSMID = OSMCoord.add_new_coord_to_list(newCoordX, newCoordZ)
+                    newCoordX = (d2y / (d1y + d2y)) * OSMCoord.coordDictionnary[refs[i]].x +\
+                        (d1y / (d1y + d2y)) * OSMCoord.coordDictionnary[refs[i - 1]].x
+                    newCoordy = (d2y / (d1y + d2y)) * OSMCoord.coordDictionnary[refs[i]].y +\
+                        (d1y / (d1y + d2y)) * OSMCoord.coordDictionnary[refs[i - 1]].y
+                    newOSMID = OSMCoord.add_new_coord_to_list(newCoordX, newCoordY)
                     newRefs.insert(i, newOSMID)
                     return cls.add_intermediate_point_where_needed(newRefs, i)
-            newCoordX, newCoordZ = get_intersection(OSMCoord.coordDictionnary[refs[i]].x,
-                                                    OSMCoord.coordDictionnary[refs[i]].z,
+            newCoordX, newCoordY = get_intersection(OSMCoord.coordDictionnary[refs[i]].x,
+                                                    OSMCoord.coordDictionnary[refs[i]].y,
                                                     OSMCoord.coordDictionnary[refs[i - 1]].x,
-                                                    OSMCoord.coordDictionnary[refs[i - 1]].z,
+                                                    OSMCoord.coordDictionnary[refs[i - 1]].y,
                                                     WebotsObject.elevation.elevationArray[currentXGridIndex]['x'],
-                                                    WebotsObject.elevation.elevationArray[currentZGridIndex]['z'],
+                                                    WebotsObject.elevation.elevationArray[currentYGridIndex]['y'],
                                                     WebotsObject.elevation.elevationArray[currentXGridIndex]['x'] +
                                                     WebotsObject.elevation.xStep,
-                                                    WebotsObject.elevation.elevationArray[currentZGridIndex]['z'] +
-                                                    WebotsObject.elevation.zStep)
-            if newCoordX is not None and newCoordZ is not None:  # add point if intersect the triangle
-                newOSMID = OSMCoord.add_new_coord_to_list(newCoordX, newCoordZ)
+                                                    WebotsObject.elevation.elevationArray[currentYGridIndex]['y'] +
+                                                    WebotsObject.elevation.yStep)
+            if newCoordX is not None and newCoordY is not None:  # add point if intersect the triangle
+                newOSMID = OSMCoord.add_new_coord_to_list(newCoordX, newCoordy)
                 newRefs.insert(i, newOSMID)
                 return cls.add_intermediate_point_where_needed(newRefs, i + 2)
             previousXGridIndex = currentXGridIndex
-            previousZGridIndex = currentZGridIndex
+            previousYGridIndex = currentYGridIndex
         return newRefs

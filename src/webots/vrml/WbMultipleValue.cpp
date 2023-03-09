@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,7 +16,7 @@
 
 #include "WbSingleValue.hpp"
 #include "WbTokenizer.hpp"
-#include "WbVrmlWriter.hpp"
+#include "WbWriter.hpp"
 
 #include <cassert>
 
@@ -34,7 +34,7 @@ void WbMultipleValue::read(WbTokenizer *tokenizer, const QString &worldPath) {
     readAndAddItem(tokenizer, worldPath);
 }
 
-void WbMultipleValue::write(WbVrmlWriter &writer) const {
+void WbMultipleValue::write(WbWriter &writer) const {
   writer.writeMFStart();
   for (int i = 0; i < size(); i++) {
     writer.writeMFSeparator(i == 0, smallSeparator(i));
@@ -56,7 +56,7 @@ QString WbMultipleValue::toString(WbPrecision::Level level) const {
 
 QString WbMultipleValue::itemToString(int index, WbPrecision::Level level) const {
   assert(index >= 0 && index < size());
-  return variantValue(index).toStringRepresentation(level);
+  return variantValue(index).toSimplifiedStringRepresentation(level);
 }
 
 bool WbMultipleValue::valueAtIndexEqualsSingleValue(int index, const WbValue *other) const {

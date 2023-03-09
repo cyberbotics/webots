@@ -1,4 +1,4 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
@@ -6,12 +6,15 @@
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
 
+EXTERNPROTO "AckermannVehicle.proto"
+
 PROTO SimpleVehicle [
-  field SFVec3f    translation                    0 0.4 0
-  field SFRotation rotation                       0 1 0 0.0
+  field SFVec3f    translation                    0 0 0.4
+  field SFRotation rotation                       0 0 1 0
   field SFString   name                           "vehicle"
-  field SFString   controller                     "void"
-  field MFString   controllerArgs                 [ ]
+  field SFString   controller                     "<generic>"
+  field MFString   controllerArgs                 []
+  field SFString   window                         "<generic>"
   field SFBool     supervisor                     FALSE
   field SFBool     synchronization                TRUE
   field SFFloat    trackFront                     1.7
@@ -23,7 +26,7 @@ PROTO SimpleVehicle [
   field SFFloat    suspensionRearDampingConstant  4000
   field SFFloat    minSteeringAngle              -0.5
   field SFFloat    maxSteeringAngle               0.5
-  field MFNode     sensorsSlot                    [ ]
+  field MFNode     sensorsSlot                    []
   field SFNode     boundingObject                 NULL
   field SFNode     physics                        NULL
 ]
@@ -37,8 +40,8 @@ PROTO SimpleVehicle [
         children IS sensorsSlot
       }
       Transform {
-        translation 0 0 %<= fields.wheelbase.value >%
-        rotation 0 0 1 1.5708
+        translation %<= fields.wheelbase.value >% 0 0
+        rotation 0.577351 0.577351 0.57735 -2.094393
         children [
           Shape {
             appearance PBRAppearance {
@@ -54,7 +57,7 @@ PROTO SimpleVehicle [
         ]
       }
       Transform {
-        rotation 0 0 1 1.5708
+        rotation 0.577351 0.577351 0.57735 -2.094393
         children [
           Shape {
             appearance PBRAppearance {
@@ -70,8 +73,8 @@ PROTO SimpleVehicle [
         ]
       }
       Transform {
-        translation 0 0 %<= fields.wheelbase.value/2 >%
-        rotation 1 0 0 1.5708
+        translation %<= fields.wheelbase.value/2 >% 0 0
+        rotation 0 1 0 -1.570795
         children [
           Shape {
             appearance PBRAppearance {
@@ -87,7 +90,8 @@ PROTO SimpleVehicle [
         ]
       }
       Transform {
-        translation 0 0 %<= fields.wheelbase.value >%
+        translation %<= fields.wheelbase.value >% 0 0
+        rotation -0.57735 -0.57735 0.57735 2.094395
         children [
           Shape {
             appearance PBRAppearance {
@@ -115,6 +119,7 @@ PROTO SimpleVehicle [
     name IS name
     controller IS controller
     controllerArgs IS controllerArgs
+    window IS window
     supervisor IS supervisor
     synchronization IS synchronization
     trackFront IS trackFront

@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,6 +23,18 @@ using namespace webots;
 Supervisor::~Supervisor() {
   Field::cleanup();
   Node::cleanup();
+}
+
+Supervisor *Supervisor::getSupervisorInstance() {
+  if (cInstance) {
+    if (!dynamic_cast<Supervisor *>(cInstance)) {
+      cerr << "A Robot instance is already present, it cannot be casted to Supervisor" << endl;
+      return NULL;
+    }
+    return static_cast<Supervisor *>(cInstance);
+  }
+  cInstance = new Supervisor();
+  return static_cast<Supervisor *>(cInstance);
 }
 
 void Supervisor::simulationQuit(int status) {

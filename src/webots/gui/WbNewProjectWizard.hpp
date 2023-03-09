@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,53 +19,41 @@
 // Description: Wizard for creating a new Webots project
 //
 
-#include <QtWidgets/QWizard>
+#include "WbNewWorldWizard.hpp"
 
 class WbLineEdit;
 class WbProject;
 
-class QLabel;
-class QCheckBox;
-
-class WbNewProjectWizard : public QWizard {
+class WbNewProjectWizard : public WbNewWorldWizard {
   Q_OBJECT
 
 public:
   explicit WbNewProjectWizard(QWidget *parent = NULL);
   virtual ~WbNewProjectWizard();
 
-  // check user inputs
   void accept() override;
   bool validateCurrentPage() override;
 
-  // new project was created correctly
-  bool isValidProject() const;
-
-  // path of the new created world file
-  QString newWorldFile() const;
-
 protected:
+  const int directoryId() const { return 2; }
+  virtual const int worldId() const override { return 3; }
+  virtual const int conclusionId() const override { return 4; }
+
+  const QString title() const override { return tr("Create a Webots project directory"); }
+  const QString introTitle() const override { return tr("New project creation"); }
+  const QString introText() const override { return tr("This wizard will help you creating a new project folder."); }
+  const QString conclusionText() const override { return tr("The following folders and files will be created:"); }
+  void updateUI() override;
+
 private slots:
   void chooseDirectory();
 
 private:
-  bool mIsValidProject;
-
   WbProject *mProject;
   WbLineEdit *mDirEdit;
-  WbLineEdit *mWorldEdit;
-  QCheckBox *mBackgroundCheckBox;
-  QCheckBox *mViewPointCheckBox;
-  QCheckBox *mDirectionalLightCheckBox;
-  QCheckBox *mArenaCheckBox;
-  QLabel *mFilesLabel;
 
-  void updateUI();
-  QString poposeNewProjectPath() const;
-  QWizardPage *createIntroPage();
+  QString proposeNewProjectPath() const;
   QWizardPage *createDirectoryPage();
-  QWizardPage *createWorldPage();
-  QWizardPage *createConclusionPage();
 };
 
 #endif

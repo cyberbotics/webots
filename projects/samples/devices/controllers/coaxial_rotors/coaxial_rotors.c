@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -64,7 +64,7 @@ int main() {
   char buffer[50];
 
   while (wb_robot_step(time_step) != -1) {
-    const double altitude = wb_gps_get_values(gps)[1];
+    const double altitude = wb_gps_get_values(gps)[2];
     const double yaw = wb_inertial_unit_get_roll_pitch_yaw(inertial_unit)[2];
     sprintf(buffer, "Altitude: %1.1f m", altitude);
     wb_supervisor_set_label(5, buffer, LABEL_X, LABEL_Y, 0.07, GREEN, 0, "Arial");

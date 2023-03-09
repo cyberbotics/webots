@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,7 +36,7 @@ namespace wren {
     };
 
     struct Sphere : public Primitive {
-      Sphere(const glm::vec3 &center = gVec3Zeros, float radius = 0.0f);
+      explicit Sphere(const glm::vec3 &center = gVec3Zeros, float radius = 0.0f);
 
       Sphere computeBoundingSphere() const override { return *this; }
 
@@ -45,7 +45,7 @@ namespace wren {
     };
 
     struct Plane : public Primitive {
-      Plane(const glm::vec3 &normal = gVec3UnitY, float negativeDistance = 0.0f);
+      explicit Plane(const glm::vec3 &normal = gVec3UnitY, float negativeDistance = 0.0f);
 
       void normalize() {
         const float divisor = 1.0f / glm::length(mNormal);
@@ -60,7 +60,7 @@ namespace wren {
     };
 
     struct Aabb : public Primitive {
-      Aabb(const glm::vec3 &min = gVec3Zeros, const glm::vec3 &max = gVec3Zeros);
+      explicit Aabb(const glm::vec3 &min = gVec3Zeros, const glm::vec3 &max = gVec3Zeros);
       explicit Aabb(const std::vector<glm::vec3> &vertices);
       explicit Aabb(const std::vector<Aabb> &aabbs);
 
@@ -85,7 +85,7 @@ namespace wren {
     };
 
     struct Ray : public Primitive {
-      Ray(const glm::vec3 &origin = gVec3Zeros, const glm::vec3 &direction = -gVec3UnitZ);
+      explicit Ray(const glm::vec3 &origin = gVec3Zeros, const glm::vec3 &direction = -gVec3UnitZ);
 
       Sphere computeBoundingSphere() const override { return gSphereInf; }
 
@@ -94,7 +94,7 @@ namespace wren {
     };
 
     struct Box : public Primitive {
-      Box(const glm::vec3 &center = gVec3Zeros, const glm::vec3 &extents = glm::vec3(0.5f));
+      explicit Box(const glm::vec3 &center = gVec3Zeros, const glm::vec3 &extents = glm::vec3(0.5f));
 
       Sphere computeBoundingSphere() const override { return Sphere(mCenter, glm::length(mExtents)); }
 
@@ -103,7 +103,7 @@ namespace wren {
     };
 
     struct Rectangle : public Primitive {
-      Rectangle(const glm::vec3 &center = gVec3Zeros, const glm::vec2 &extents = glm::vec2(0.5f, 0.5f));
+      explicit Rectangle(const glm::vec3 &center = gVec3Zeros, const glm::vec2 &extents = glm::vec2(0.5f, 0.5f));
 
       Sphere computeBoundingSphere() const override {
         return Sphere(mCenter, glm::length(glm::vec3(mExtents.x, 0.0f, mExtents.y)));
@@ -114,8 +114,8 @@ namespace wren {
     };
 
     struct Capsule : public Primitive {
-      Capsule(const glm::vec3 &center = gVec3Zeros, float radius = 0.5f, float height = 1.0f, bool hasSide = true,
-              bool hasTop = true, bool hasBottom = true);
+      explicit Capsule(const glm::vec3 &center = gVec3Zeros, float radius = 0.5f, float height = 1.0f, bool hasSide = true,
+                       bool hasTop = true, bool hasBottom = true);
 
       Sphere computeBoundingSphere() const override;
 
@@ -128,8 +128,8 @@ namespace wren {
     };
 
     struct Cone : public Primitive {
-      Cone(const glm::vec3 &center = gVec3Zeros, float radius = 1.0f, float height = 1.0f, bool hasSide = true,
-           bool hasBottom = true);
+      explicit Cone(const glm::vec3 &center = gVec3Zeros, float radius = 1.0f, float height = 1.0f, bool hasSide = true,
+                    bool hasBottom = true);
 
       Sphere computeBoundingSphere() const override;
 
@@ -141,8 +141,8 @@ namespace wren {
     };
 
     struct Cylinder : public Primitive {
-      Cylinder(const glm::vec3 &center = gVec3Zeros, float radius = 1.0f, float height = 1.0f, bool hasSide = true,
-               bool hasTop = true, bool hasBottom = true);
+      explicit Cylinder(const glm::vec3 &center = gVec3Zeros, float radius = 1.0f, float height = 1.0f, bool hasSide = true,
+                        bool hasTop = true, bool hasBottom = true);
 
       Sphere computeBoundingSphere() const override;
 

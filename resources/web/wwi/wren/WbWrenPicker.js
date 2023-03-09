@@ -1,51 +1,60 @@
-import {arrayXPointerInt, arrayXPointerFloat} from './../nodes/utils/utils.js';
-import WbVector3 from './../nodes/utils/WbVector3.js';
+import {arrayXPointerInt, arrayXPointerFloat} from '../nodes/utils/utils.js';
+import WbVector3 from '../nodes/utils/WbVector3.js';
 import WbWrenShaders from './WbWrenShaders.js';
 
 export default class WbWrenPicker {
+  #width;
+  #height;
+  #viewport;
+  #viewportDepth;
+  #frameBuffer;
+  #frameBufferDepth;
+  #outputTexture;
+  #outputTextureDepth;
   constructor() {
     this.selectedId = -1;
     this.coordinates = new WbVector3();
-    this._width = 0;
-    this._height = 0;
+    this.#width = 0;
+    this.#height = 0;
 
-    this._viewport = _wr_viewport_new();
-    this._viewportDepth = _wr_viewport_new();
+    this.#viewport = _wr_viewport_new();
+    this.#viewportDepth = _wr_viewport_new();
 
     const colorPointer = _wrjs_array4(0.0, 0.0, 0.0, 0.0);
-    _wr_viewport_set_clear_color_rgba(this._viewport, colorPointer);
+    _wr_viewport_set_clear_color_rgba(this.#viewport, colorPointer);
 
-    this._setup();
+    this.#setup();
   }
 
   pick(x, y) {
     const viewport = _wr_scene_get_viewport(_wr_scene_get_instance());
     // This fix a bug that occurs when switching between different worlds
-    _wr_viewport_set_camera(this._viewport, _wr_viewport_get_camera(viewport));
-    _wr_viewport_set_camera(this._viewportDepth, _wr_viewport_get_camera(viewport));
+    _wr_viewport_set_camera(this.#viewport, _wr_viewport_get_camera(viewport));
+    _wr_viewport_set_camera(this.#viewportDepth, _wr_viewport_get_camera(viewport));
 
     this.coordinates.setXyz(0.0, 0.0, 0.0);
     this.selectedId = -1;
 
     // Recreate framebuffer and textures if viewport's size has changed
-    if (this._hasSizeChanged()) {
-      this._cleanup();
-      this._setup();
+    if (this.#hasSizeChanged()) {
+      this.#cleanup();
+      this.#setup();
     }
 
     // Check if object was picked & decode ID
     const scene = _wr_scene_get_instance();
-    _wr_viewport_enable_skybox(this._viewport, false);
+    _wr_viewport_enable_skybox(this.#viewport, false);
     _wr_scene_enable_translucence(scene, false);
     _wr_scene_enable_depth_reset(scene, false);
-    Module.ccall('wr_scene_render_to_viewports', null, ['number', 'number', 'number', 'string', 'boolean'], [scene, 1, _wrjs_pointerOnInt(this._viewport), 'picking', true]);
+    Module.ccall('wr_scene_render_to_viewports', null, ['number', 'number', 'number', 'string', 'boolean'],
+      [scene, 1, _wrjs_pointerOnInt(this.#viewport), 'picking', true]);
     _wr_scene_enable_depth_reset(scene, true);
-    _wr_viewport_enable_skybox(this._viewport, true);
+    _wr_viewport_enable_skybox(this.#viewport, true);
     _wr_scene_enable_translucence(scene, true);
 
     let data = [];
     let dataPointer = arrayXPointerInt(data);
-    _wr_frame_buffer_copy_pixel(this._frameBuffer, 0, x, y, dataPointer, true);
+    _wr_frame_buffer_copy_pixel(this.#frameBuffer, 0, x, y, dataPointer, true);
     data[0] = Module.getValue(dataPointer, 'i8');
     data[1] = Module.getValue(dataPointer + 1, 'i8');
     data[2] = Module.getValue(dataPointer + 2, 'i8');
@@ -64,22 +73,23 @@ export default class WbWrenPicker {
     else
       this.selectedId = id - 1;
 
-    _wr_viewport_enable_skybox(this._viewportDepth, false);
+    _wr_viewport_enable_skybox(this.#viewportDepth, false);
     _wr_scene_enable_translucence(scene, false);
     _wr_scene_enable_depth_reset(scene, false);
-    Module.ccall('wr_scene_render_to_viewports', null, ['number', 'number', 'number', 'string', 'boolean'], [scene, 1, _wrjs_pointerOnIntBis(this._viewportDepth), 'depth', true]);
+    Module.ccall('wr_scene_render_to_viewports', null, ['number', 'number', 'number', 'string', 'boolean'],
+      [scene, 1, _wrjs_pointerOnIntBis(this.#viewportDepth), 'depth', true]);
     _wr_scene_enable_depth_reset(scene, true);
-    _wr_viewport_enable_skybox(this._viewportDepth, true);
+    _wr_viewport_enable_skybox(this.#viewportDepth, true);
     _wr_scene_enable_translucence(scene, true);
 
-    data = [0, 0, 0, 0];
+    data = [0];
     dataPointer = arrayXPointerFloat(data);
-    _wr_frame_buffer_copy_depth_pixel(this._frameBufferDepth, x, y, dataPointer, true);
+    _wr_frame_buffer_copy_depth_pixel(this.#frameBufferDepth, x, y, dataPointer, true);
 
     data[0] = Module.getValue(dataPointer, 'float');
     _free(dataPointer);
 
-    this.coordinates = new WbVector3(x, this._height - y - 1, data[0]);
+    this.coordinates = new WbVector3(x, this.#height - y - 1, data[0]);
     return true;
   }
 
@@ -135,63 +145,63 @@ export default class WbWrenPicker {
 
   // Private functions
 
-  _cleanup() {
-    if (typeof this._outputTexture !== 'undefined')
-      _wr_texture_delete(this._outputTexture);
-    if (typeof this._frameBuffer !== 'undefined')
-      _wr_frame_buffer_delete(this._frameBuffer);
-    if (typeof this._outputTextureDepth !== 'undefined')
-      _wr_texture_delete(this._outputTextureDepth);
-    if (typeof this._frameBufferDepth !== 'undefined')
-      _wr_frame_buffer_delete(this._frameBufferDepth);
+  #cleanup() {
+    if (typeof this.#outputTexture !== 'undefined')
+      _wr_texture_delete(this.#outputTexture);
+    if (typeof this.#frameBuffer !== 'undefined')
+      _wr_frame_buffer_delete(this.#frameBuffer);
+    if (typeof this.#outputTextureDepth !== 'undefined')
+      _wr_texture_delete(this.#outputTextureDepth);
+    if (typeof this.#frameBufferDepth !== 'undefined')
+      _wr_frame_buffer_delete(this.#frameBufferDepth);
   }
 
-  _hasSizeChanged() {
+  #hasSizeChanged() {
     const viewport = _wr_scene_get_viewport(_wr_scene_get_instance());
     const width = _wr_viewport_get_width(viewport);
     const height = _wr_viewport_get_height(viewport);
 
-    if (this._width !== width || this._height !== height) {
-      this._width = width;
-      this._height = height;
+    if (this.#width !== width || this.#height !== height) {
+      this.#width = width;
+      this.#height = height;
       return true;
     }
     return false;
   }
 
-  _setup() {
+  #setup() {
     const viewport = _wr_scene_get_viewport(_wr_scene_get_instance());
-    this._width = _wr_viewport_get_width(viewport);
-    this._height = _wr_viewport_get_height(viewport);
-    _wr_viewport_set_size(this._viewport, this._width, this._height);
+    this.#width = _wr_viewport_get_width(viewport);
+    this.#height = _wr_viewport_get_height(viewport);
+    _wr_viewport_set_size(this.#viewport, this.#width, this.#height);
 
-    this._frameBuffer = _wr_frame_buffer_new();
-    this._outputTexture = _wr_texture_rtt_new();
+    this.#frameBuffer = _wr_frame_buffer_new();
+    this.#outputTexture = _wr_texture_rtt_new();
 
-    _wr_frame_buffer_set_size(this._frameBuffer, this._width, this._height);
-    _wr_frame_buffer_enable_depth_buffer(this._frameBuffer, true);
+    _wr_frame_buffer_set_size(this.#frameBuffer, this.#width, this.#height);
+    _wr_frame_buffer_enable_depth_buffer(this.#frameBuffer, true);
 
-    _wr_frame_buffer_append_output_texture(this._frameBuffer, this._outputTexture);
-    _wr_frame_buffer_enable_copying(this._frameBuffer, 0, true);
-    _wr_frame_buffer_setup(this._frameBuffer);
+    _wr_frame_buffer_append_output_texture(this.#frameBuffer, this.#outputTexture);
+    _wr_frame_buffer_enable_copying(this.#frameBuffer, 0, true);
+    _wr_frame_buffer_setup(this.#frameBuffer);
 
-    _wr_viewport_set_frame_buffer(this._viewport, this._frameBuffer);
-    _wr_viewport_set_camera(this._viewport, _wr_viewport_get_camera(viewport));
+    _wr_viewport_set_frame_buffer(this.#viewport, this.#frameBuffer);
+    _wr_viewport_set_camera(this.#viewport, _wr_viewport_get_camera(viewport));
 
     // DEPTH
-    _wr_viewport_set_size(this._viewportDepth, this._width, this._height);
+    _wr_viewport_set_size(this.#viewportDepth, this.#width, this.#height);
 
-    this._frameBufferDepth = _wr_frame_buffer_new();
-    this._outputTextureDepth = _wr_texture_rtt_new();
-    _wr_texture_set_internal_format(this._outputTextureDepth, Enum.WR_TEXTURE_INTERNAL_FORMAT_RGBA16F);
+    this.#frameBufferDepth = _wr_frame_buffer_new();
+    this.#outputTextureDepth = _wr_texture_rtt_new();
+    _wr_texture_set_internal_format(this.#outputTextureDepth, Enum.WR_TEXTURE_INTERNAL_FORMAT_R32F);
 
-    _wr_frame_buffer_set_size(this._frameBufferDepth, this._width, this._height);
-    _wr_frame_buffer_enable_depth_buffer(this._frameBufferDepth, true);
+    _wr_frame_buffer_set_size(this.#frameBufferDepth, this.#width, this.#height);
+    _wr_frame_buffer_enable_depth_buffer(this.#frameBufferDepth, true);
 
-    _wr_frame_buffer_append_output_texture(this._frameBufferDepth, this._outputTextureDepth);
-    _wr_frame_buffer_setup(this._frameBufferDepth);
+    _wr_frame_buffer_append_output_texture(this.#frameBufferDepth, this.#outputTextureDepth);
+    _wr_frame_buffer_setup(this.#frameBufferDepth);
 
-    _wr_viewport_set_frame_buffer(this._viewportDepth, this._frameBufferDepth);
-    _wr_viewport_set_camera(this._viewportDepth, _wr_viewport_get_camera(viewport));
+    _wr_viewport_set_frame_buffer(this.#viewportDepth, this.#frameBufferDepth);
+    _wr_viewport_set_camera(this.#viewportDepth, _wr_viewport_get_camera(viewport));
   }
 }

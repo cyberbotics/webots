@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,6 +17,8 @@
 #include "WbSFNode.hpp"
 #include "WbTextureTransform.hpp"
 #include "WbVector2.hpp"
+
+#include <assimp/material.h>
 
 void WbAbstractAppearance::init() {
   mName = findSFString("name");
@@ -35,6 +37,22 @@ WbAbstractAppearance::WbAbstractAppearance(const WbAbstractAppearance &other) : 
 
 WbAbstractAppearance::WbAbstractAppearance(const WbNode &other) : WbBaseNode(other) {
   init();
+}
+
+WbAbstractAppearance::WbAbstractAppearance(const QString &modelName, const aiMaterial *material) : WbBaseNode(modelName) {
+  aiString nameString("PBRAppearance");
+  material->Get(AI_MATKEY_NAME, nameString);
+  mName = new WbSFString(QString(nameString.C_Str()));
+  mNameValue = mName->value();
+
+  mTextureTransform = new WbSFNode(NULL);
+}
+
+WbAbstractAppearance::~WbAbstractAppearance() {
+  if (mIsShallowNode) {
+    delete mName;
+    delete mTextureTransform;
+  }
 }
 
 void WbAbstractAppearance::preFinalize() {

@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -165,13 +165,13 @@ void wb_skin_set_bone_orientation(WbDeviceTag tag, int index, const double orien
     fprintf(stderr, "Error: %s() called with invalid values for the [x y z] orientation axis.\n", __FUNCTION__);
     return;
   }
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Skin *skin = skin_get_struct(tag);
   // Check if joint index is valid
   if (skin) {
     if (index < 0 || index >= skin->bone_count) {
       fprintf(stderr, "Error: The index of %s() is out of the bounds.\n", __FUNCTION__);
-      robot_mutex_unlock_step();
+      robot_mutex_unlock();
       return;
     }
     BoneRequest *request = malloc(sizeof(BoneRequest));
@@ -186,8 +186,8 @@ void wb_skin_set_bone_orientation(WbDeviceTag tag, int index, const double orien
     add_request(skin, request);
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  wb_robot_flush_unlocked();
-  robot_mutex_unlock_step();
+  wb_robot_flush_unlocked(__FUNCTION__);
+  robot_mutex_unlock();
 }
 
 void wb_skin_set_bone_position(WbDeviceTag tag, int index, const double position[3], bool absolute) {
@@ -199,13 +199,13 @@ void wb_skin_set_bone_position(WbDeviceTag tag, int index, const double position
     }
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Skin *skin = skin_get_struct(tag);
   // Check if joint index is valid
   if (skin) {
     if (index < 0 || index >= skin->bone_count) {
       fprintf(stderr, "Error: The index of %s() is out of the bounds.\n", __FUNCTION__);
-      robot_mutex_unlock_step();
+      robot_mutex_unlock();
       return;
     }
     BoneRequest *request = malloc(sizeof(BoneRequest));
@@ -219,37 +219,37 @@ void wb_skin_set_bone_position(WbDeviceTag tag, int index, const double position
     add_request(skin, request);
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  wb_robot_flush_unlocked();
-  robot_mutex_unlock_step();
+  wb_robot_flush_unlocked(__FUNCTION__);
+  robot_mutex_unlock();
 }
 
 int wb_skin_get_bone_count(WbDeviceTag tag) {
   int result = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Skin *skin = skin_get_struct(tag);
   if (skin)
     result = skin->bone_count;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 const char *wb_skin_get_bone_name(WbDeviceTag tag, int index) {
   char *result = NULL;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Skin *skin = skin_get_struct(tag);
   // Check if joint index is valid
   if (skin) {
     if (index < 0 || index >= skin->bone_count) {
-      robot_mutex_unlock_step();
+      robot_mutex_unlock();
       fprintf(stderr, "Error: The index of %s() is out of the bounds.\n", __FUNCTION__);
       return result;
     }
     result = skin->bone_names[index];
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
@@ -260,10 +260,10 @@ const double *wb_skin_get_bone_position(WbDeviceTag tag, int index, bool absolut
     return NULL;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   // Check if joint index is valid
   if (index < 0 || index >= skin->bone_count) {
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     fprintf(stderr, "Error: The index of %s() is out of the bounds.\n", __FUNCTION__);
     return NULL;
   }
@@ -274,9 +274,9 @@ const double *wb_skin_get_bone_position(WbDeviceTag tag, int index, bool absolut
   request->absolute = absolute;
   request->next = NULL;
   add_request(skin, request);
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
 
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return skin->bone_position;
 }
 
@@ -287,10 +287,10 @@ const double *wb_skin_get_bone_orientation(WbDeviceTag tag, int index, bool abso
     return NULL;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   // Check if joint index is valid
   if (index < 0 || index >= skin->bone_count) {
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     fprintf(stderr, "Error: The index of %s() is out of the bounds.\n", __FUNCTION__);
     return NULL;
   }
@@ -301,8 +301,8 @@ const double *wb_skin_get_bone_orientation(WbDeviceTag tag, int index, bool abso
   request->absolute = absolute;
   request->next = NULL;
   add_request(skin, request);
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(__FUNCTION__);
 
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return skin->bone_orientation;
 }

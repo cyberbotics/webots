@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -98,6 +98,7 @@ public:
 
   // resize/scale manipulator
   WbScaleManipulator *scaleManipulator() { return mScaleManipulator; }
+  bool isScaleManipulatorAttached() const;
   void updateResizeHandlesSize();
   void setResizeManipulatorDimensions();
   void setUniformConstraintForResizeHandles(bool enabled);
@@ -147,7 +148,7 @@ protected:
   // A specific scale check is done in the WbSolid class
   WbSFVector3 *mScale;
   bool checkScale(int constraintType = 0, bool warning = false);
-  bool checkScalePositivity(WbVector3 &correctedScale) const;
+  bool checkScaleZeroValues(WbVector3 &correctedScale) const;
   bool checkScaleUniformity(WbVector3 &correctedScale, bool warning = false) const;
   bool checkScaleUniformity(bool warning = false);
   virtual bool checkScalingPhysicsConstraints(WbVector3 &correctedScale, int constraintType, bool warning = false) const;

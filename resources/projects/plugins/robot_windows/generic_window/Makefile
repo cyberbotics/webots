@@ -1,10 +1,10 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,13 +28,13 @@ LIBRARIES = -L"$(QT_UTILS)" -lqt_utils
 
 null :=
 space := $(null) $(null)
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+WEBOTS_HOME_PATH?=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
 
 
 # Qt linking
 
-CFLAGS += -std=c++11
+CFLAGS += -std=c++17
 MOC_SOURCES = $(addprefix $(BUILD_DIR)/,$(notdir $(HPP_FILES_TO_MOC:.hpp=.moc.cpp)))
 MOC_DIRECTORIES = $(sort $(dir $(HPP_FILES_TO_MOC)))
 OBJECTS += $(addprefix $(BUILD_GOAL_DIR)/,$(notdir $(MOC_SOURCES:.cpp=.o)))
@@ -42,9 +42,9 @@ OBJECTS += $(addprefix $(BUILD_GOAL_DIR)/,$(notdir $(MOC_SOURCES:.cpp=.o)))
 ifeq ($(OSTYPE),windows)
  CFLAGS += -D_USE_MATH_DEFINES
  QT_INCLUDE_DIR = $(WEBOTS_HOME)/include/qt
- MOC = moc
+ MOC = /mingw64/share/qt6/bin/moc
  MOC_PLATFORM_FLAGS = -D_WIN32
- DYNAMIC_LIBRARIES += -L"$(WEBOTS_HOME)/msys64/mingw64/bin" -lQt5Core -lQt5Gui -lQt5Widgets
+ DYNAMIC_LIBRARIES += -L"$(WEBOTS_HOME)/msys64/mingw64/bin" -lQt6Core -lQt6Gui -lQt6Widgets
  INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore" -isystem "$(QT_INCLUDE_DIR)/QtGui" -isystem "$(QT_INCLUDE_DIR)/QtWidgets"
 endif
 
@@ -53,7 +53,7 @@ ifeq ($(OSTYPE),linux)
  QT_LIB_DIR = $(WEBOTS_HOME)/lib/webots
  MOC = "$(WEBOTS_HOME)/bin/qt/moc"
  MOC_PLATFORM_FLAGS = -D__linux__
- DYNAMIC_LIBRARIES += -L"$(QT_LIB_DIR)" -lQt5Core -lQt5Gui -lQt5Widgets
+ DYNAMIC_LIBRARIES += -L"$(QT_LIB_DIR)" -lQt6Core -lQt6Gui -lQt6Widgets
  INCLUDE += -isystem "$(QT_INCLUDE_DIR)/QtCore" -isystem "$(QT_INCLUDE_DIR)/QtGui" -isystem "$(QT_INCLUDE_DIR)/QtWidgets"
 endif
 

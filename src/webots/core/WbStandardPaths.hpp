@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -51,11 +51,19 @@ namespace WbStandardPaths {
   const QString &executableExtension();      // e.g. .exe or ''
 
   // file names
-  const QString &unnamedWorld();     // "unnamed.wbt"
   const QString &unnamedTextFile();  // "unnamed.txt"
 
-  // temporary directory
-  const QString &webotsTmpPath();  // e.g. /var/tmp/webots/ or /var/tmp/webots-<PID>/
-};                                 // namespace WbStandardPaths
+  // temporary directory, e.g. /tmp/webots-<id>/ where <id> corresponds to the TCP port
+  bool webotsTmpPathCreate(const int id);
+  int webotsTmpPathId();
+  const QString &webotsTmpPath();
+
+  // cached assets directory
+  const QString &cachedAssetsPath();
+
+  // other locations
+  const QString &vehicleLibraryPath();
+
+};  // namespace WbStandardPaths
 
 #endif

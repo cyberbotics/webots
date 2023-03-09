@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -74,7 +74,7 @@ WbDragHorizontalEvent::WbDragHorizontalEvent(const QPoint &initialPosition, WbVi
   mDragPlane = WbAffinePlane(mUpWorldVector, mSelectedTransform->position());
   mViewpoint->viewpointRay(initialPosition.x(), initialPosition.y(), mMouseRay);
   mIntersectionOutput = mMouseRay.intersects(mDragPlane);
-  mTranslationOffset = mInitialPosition - mMouseRay.point(mIntersectionOutput.second);
+  mTranslationOffset = mMouseRay.point(mIntersectionOutput.second);
   mViewpoint->lock();
 
   // event occurs only if the mouse ray is not parallel to the horizontal drag plane
@@ -101,8 +101,7 @@ void WbDragHorizontalEvent::apply(const QPoint &currentMousePosition) {
     mViewpoint->viewpointRay(currentMousePosition.x(), currentMousePosition.y(), mMouseRay);
     mDragPlane.redefine(mUpWorldVector, mSelectedTransform->position());
     mIntersectionOutput = mMouseRay.intersects(mDragPlane);
-    WbVector3 displacementFromInitialPosition =
-      mMouseRay.point(mIntersectionOutput.second) + mTranslationOffset - mInitialPosition;
+    WbVector3 displacementFromInitialPosition = mMouseRay.point(mIntersectionOutput.second) - mTranslationOffset;
     // remove any x or z scaling from parents (we shouldn't touch y as we're moving on the world horizontal plane)
     displacementFromInitialPosition.setX(displacementFromInitialPosition.x() / mScaleFromParents.x());
     displacementFromInitialPosition.setZ(displacementFromInitialPosition.z() / mScaleFromParents.z());
@@ -125,7 +124,7 @@ WbDragVerticalEvent::WbDragVerticalEvent(const QPoint &initialPosition, WbViewpo
   mDragPlane = WbAffinePlane(mNormal, mSelectedTransform->position());
   mViewpoint->viewpointRay(initialPosition.x(), initialPosition.y(), mMouseRay);
   mIntersectionOutput = mMouseRay.intersects(mDragPlane);
-  mTranslationOffset = -mIntersectionOutput.second * mMouseRay.direction().dot(mUpWorldVector);
+  mTranslationOffset = mMouseRay.point(mIntersectionOutput.second);
   mViewpoint->lock();
 }
 
@@ -137,10 +136,10 @@ void WbDragVerticalEvent::apply(const QPoint &currentMousePosition) {
   mViewpoint->viewpointRay(currentMousePosition.x(), currentMousePosition.y(), mMouseRay);
   mDragPlane.redefine(mNormal, mSelectedTransform->position());
   mIntersectionOutput = mMouseRay.intersects(mDragPlane);
-  const double verticalDrift = mIntersectionOutput.second * mMouseRay.direction().dot(mUpWorldVector) + mTranslationOffset;
+  const WbVector3 displacementFromInitialPosition(mMouseRay.point(mIntersectionOutput.second) - mTranslationOffset);
   // divide by any y-axis scaling so that the overall translation applied to the node is local and independent of parent scale
   mSelectedTransform->setTranslation(
-    (mInitialPosition + mUpWorldVector * verticalDrift / mScaleFromParents.y()).rounded(WbPrecision::GUI_MEDIUM));
+    (mInitialPosition + displacementFromInitialPosition * mUpWorldVector).rounded(WbPrecision::GUI_MEDIUM));
   mSelectedTransform->emitTranslationOrRotationChangedByUser();
 }
 
@@ -173,11 +172,12 @@ WbDragTranslateAlongAxisEvent::WbDragTranslateAlongAxisEvent(const QPoint &initi
   mTextOverlay->applyChangesToWren();
 
   WbMatrix4 matrix(mSelectedTransform->matrix());
-  const WbVector3 absoluteScale = matrix.scale();
-  matrix.scale(1.0f / absoluteScale.x(), 1.0f / absoluteScale.y(), 1.0f / absoluteScale.z());
+  const WbVector3 &scale = mSelectedTransform->scale();
+  matrix.scale(1.0f / scale.x(), 1.0f / scale.y(), 1.0f / scale.z());
 
   // local offset
-  WbVector3 attachedHandlePosition = matrix * (mManipulator->relativeHandlePosition(mHandleNumber) * mViewDistanceUnscaling);
+  const WbVector3 attachedHandlePosition(matrix *
+                                         (mManipulator->relativeHandlePosition(mHandleNumber) * mViewDistanceUnscaling));
   const double zEye = mViewpoint->zEye(attachedHandlePosition);
   WbVector3 mouse3dPosition = mViewpoint->pick(initialMousePosition.x(), initialMousePosition.y(), zEye);
   mouse3dPosition = matrix.pseudoInversed(mouse3dPosition);  // local position
@@ -215,8 +215,8 @@ void WbDragTranslateAlongAxisEvent::apply(const QPoint &currentMousePosition) {
   mViewDistanceUnscaling = mViewpoint->viewDistanceUnscaling(mSelectedTransform->position());
 
   WbMatrix4 matrix(mSelectedTransform->matrix());
-  const WbVector3 absoluteScale = matrix.scale();
-  matrix.scale(1.0f / absoluteScale.x(), 1.0f / absoluteScale.y(), 1.0f / absoluteScale.z());
+  const WbVector3 &scale = mSelectedTransform->scale();
+  matrix.scale(1.0f / scale.x(), 1.0f / scale.y(), 1.0f / scale.z());
 
   WbVector3 attachedHandlePosition = matrix * (mManipulator->relativeHandlePosition(mHandleNumber) * mViewDistanceUnscaling);
   const double zEye = mViewpoint->zEye(attachedHandlePosition);
@@ -224,12 +224,12 @@ void WbDragTranslateAlongAxisEvent::apply(const QPoint &currentMousePosition) {
   WbVector3 detachedHandlePosition = mViewpoint->pick(currentMousePosition.x(), currentMousePosition.y(), zEye);
   detachedHandlePosition = matrix.pseudoInversed(detachedHandlePosition);  // local position
 
-  WbVector3 difference = detachedHandlePosition - mHandleOffset;
+  const double difference = detachedHandlePosition[mCoordinate] - mHandleOffset[mCoordinate];
   WbVector3 translationOffset;
   if (mStepSize <= 0)
-    translationOffset[mCoordinate] = difference[mCoordinate];
+    translationOffset[mCoordinate] = difference;
   else
-    translationOffset[mCoordinate] = floor(difference[mCoordinate] / mStepSize) * mStepSize;
+    translationOffset[mCoordinate] = floor(difference / mStepSize) * mStepSize;
 
   if (translationOffset[mCoordinate] != 0) {
     // convert local translation to parent transform coordinate system
@@ -242,10 +242,10 @@ void WbDragTranslateAlongAxisEvent::apply(const QPoint &currentMousePosition) {
 
   // keep label near to drag detached handle
   WbVector2 objectScreenPosition;
-  WbVector2 mousePosition(currentMousePosition.x(), currentMousePosition.y());
+  const WbVector2 mousePosition(currentMousePosition.x(), currentMousePosition.y());
   mViewpoint->toPixels(matrix.translation(), objectScreenPosition);
 
-  WbVector2 mousePositionOnScreen = mousePosition - objectScreenPosition;
+  const WbVector2 mousePositionOnScreen(mousePosition - objectScreenPosition);
   WbVector2 labelPosition =
     objectScreenPosition +
     (mousePositionOnScreen.dot(mDirectionOnScreen) / mDirectionOnScreen.dot(mDirectionOnScreen)) * mDirectionOnScreen;
@@ -312,8 +312,10 @@ WbDragRotateAroundAxisEvent::WbDragRotateAroundAxisEvent(const QPoint &initialMo
   mCoordinate(mManipulator->coordinate(handleNumber)),
   mInitialQuaternionRotation(selectedTransform->rotation().toQuaternion()),
   mInitialMatrix(mSelectedTransform->matrix()),
+  mInitialPosition(mSelectedTransform->position()),
   mStepSize(selectedTransform->rotationStep()),
-  mPreviousAngle(0.0) {
+  mPreviousAngle(0.0),
+  mInitialAngle(NAN) {
   mManipulator->highlightAxis(mHandleNumber + 3);
   mManipulator->setActive(true);
 
@@ -323,6 +325,8 @@ WbDragRotateAroundAxisEvent::WbDragRotateAroundAxisEvent(const QPoint &initialMo
   WbVector4 scaledPos(mManipulator->relativeHandlePosition(mHandleNumber) * mViewDistanceUnscaling);
   WbVector4 handlePos = mInitialMatrix * scaledPos;
   mZEye = viewpoint->zEye(handlePos.toVector3());
+
+  viewpoint->toPixels(selectedTransform->position(), mObjectScreenPosition);
 
   // init translation offset label
   mTextOverlay = WbWrenLabelOverlay::createOrRetrieve(WbWrenLabelOverlay::dragCaptionOverlayId(),
@@ -346,15 +350,12 @@ WbDragRotateAroundAxisEvent::WbDragRotateAroundAxisEvent(const QPoint &initialMo
   // compute initial rotation offset
   WbVector3 mousePosition = mViewpoint->pick(initialMousePosition.x(), initialMousePosition.y(), mZEye);
   mousePosition = mInitialMatrix.pseudoInversed(mousePosition);  // local position
-  double x = mousePosition.dot(mManipulator->coordinateVector(mCoordinate + 1));
-  double y = mousePosition.dot(mManipulator->coordinateVector(mCoordinate + 2));
-  mInitialAngle = atan2(y, x);  // rotation angle
-
   mViewpoint->lock();
 }
 
 WbDragRotateAroundAxisEvent::~WbDragRotateAroundAxisEvent() {
   mManipulator->setActive(false);
+  mManipulator->showRotationLine(false);
   mManipulator->showNormal();
 
   // add rotation in undo stack
@@ -372,10 +373,28 @@ void WbDragRotateAroundAxisEvent::apply(const QPoint &currentMousePosition) {
   WbVector3 detachedHandlePosition = mViewpoint->pick(currentMousePosition.x(), currentMousePosition.y(), mZEye);
   detachedHandlePosition = mInitialMatrix.pseudoInversed(detachedHandlePosition);  // local position
 
-  // project point on affine plane orthogonal to the rotation axis
-  double x = detachedHandlePosition.dot(mManipulator->coordinateVector(mCoordinate + 1));
-  double y = detachedHandlePosition.dot(mManipulator->coordinateVector(mCoordinate + 2));
-  double angle = atan2(y, x) - mInitialAngle;  // rotation angle
+  // Depending on the rotation vector direction in respect to the pointview direction of rotation should adapted
+  const int sign = WbMatrix3(mInitialQuaternionRotation)
+                         .column(mCoordinate)
+                         .dot((mInitialPosition - mViewpoint->position()->value()).normalized()) > 0 ?
+                     1 :
+                     -1;
+  if (isnan(mInitialAngle)) {
+    const double distance = sqrt(pow(mObjectScreenPosition.x() - currentMousePosition.x(), 2) +
+                                 pow(mObjectScreenPosition.y() - currentMousePosition.y(), 2));
+    if (distance < 8)
+      return;
+    mInitialAngle =
+      sign * atan2(mObjectScreenPosition.y() - currentMousePosition.y(), mObjectScreenPosition.x() - currentMousePosition.x());
+  }
+  double angle =
+    sign * atan2(mObjectScreenPosition.y() - currentMousePosition.y(), mObjectScreenPosition.x() - currentMousePosition.x()) -
+    mInitialAngle;  // rotation angle
+
+  mManipulator->showRotationLine(true);
+  mManipulator->updateRotationLine(mViewpoint->pick(mObjectScreenPosition.x(), mObjectScreenPosition.y(), mZEye),
+                                   mViewpoint->pick(currentMousePosition.x(), currentMousePosition.y(), mZEye),
+                                   mViewpoint->orientation()->value(), mViewDistanceUnscaling);
 
   int stepCount = 0;
   if (mStepSize > 0) {

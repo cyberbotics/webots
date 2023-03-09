@@ -1,0 +1,112 @@
+#VRML_SIM R2023a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A barn.
+# Based on the model of linus1178 (https://sketchfab.com/linus1178).
+# template language: javascript
+
+PROTO Barn [
+  field SFVec3f    translation  0 0 0
+  field SFRotation rotation     0 0 1 0
+  field SFFloat    scale        1      # Defines the global scaling factor.
+  field SFString   name         "barn"
+]
+{
+  %<
+    let scale = fields.scale.value;
+    if (scale <= 0) {
+      scale = fields.scale.defaultValue;
+      console.error('\'scale\' must be strictly positive. Value reset to ' + scale + '.');
+    }
+  >%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    model "barn"
+    scale %<= scale >% %<= scale >% %<= scale >%
+    children [
+      Shape {
+        appearance PBRAppearance {
+          metalness 0
+          roughness 0.7
+          baseColorMap ImageTexture {
+            url "webots://projects/objects/buildings/protos/textures/barn_basecolor.png"
+          }
+        }
+        geometry Mesh {
+          url "webots://projects/objects/buildings/protos/meshes/barn.obj"
+        }
+      }
+    ]
+    boundingObject Group {
+      children [
+        Transform {
+          translation 0 0 2.85
+          children [
+            Box {
+              size 9 7.26 5.7
+            }
+          ]
+        }
+        Transform {
+          translation 0 3.57 5.86752
+          rotation 1 0 0 0.994455
+          children [
+            Box {
+              size 9.84 0.36 1.38
+            }
+          ]
+        }
+        Transform {
+          translation 0 -3.57 5.86752
+          rotation 1 0 0 -0.994455
+          children [
+            Box {
+              size 9.84 0.36 1.38
+            }
+          ]
+        }
+        Transform {
+          translation 0 -1.977759 7.27224
+          rotation 1 0 0 -0.77
+          children [
+            Box {
+              size 9.84 0.351 3
+            }
+          ]
+        }
+        Transform {
+          translation 0 1.977759 7.27224
+          rotation 1 0 0 0.77
+          children [
+            Box {
+              size 9.84 0.351 3
+            }
+          ]
+        }
+        Transform {
+          translation 0 0.448647 8.57271
+          rotation 1 0 0 1.08709
+          children [
+            Box {
+              size 9.84 0.351 1.2
+            }
+          ]
+        }
+        Transform {
+          translation 0 -0.448647 8.57271
+          rotation 1 0 0 -1.08709
+          children [
+            Box {
+              size 9.84 0.351 1.2
+            }
+          ]
+        }
+      ]
+    }
+    recognitionColors [
+      0.625 0.293 0.226
+    ]
+  }
+}

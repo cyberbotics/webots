@@ -1,0 +1,24 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "ProtoInParameter.proto"
+EXTERNPROTO "ProtoInParameter/CustomAppearanceWithParameter.proto"
+
+PROTO NestedProtoCase4 [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 0 1 0
+  field SFString   name        ""
+]
+{
+  Transform {
+    translation IS translation
+    rotation IS rotation
+    children [
+      ProtoInParameter {
+        name IS name
+        appearance CustomAppearanceWithParameter {
+          url "../../colors/blue_texture.jpg"
+        }
+      }
+    ]
+  }
+}

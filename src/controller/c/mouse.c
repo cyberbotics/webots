@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -84,10 +84,10 @@ void wb_mouse_enable(int sampling_period) {
     return;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   mouse.sampling_period = sampling_period;
   mouse.sampling_period_changed = true;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_mouse_disable() {
@@ -95,34 +95,34 @@ void wb_mouse_disable() {
 }
 
 int wb_mouse_get_sampling_period() {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   const int sampling_period = mouse.sampling_period;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return sampling_period;
 }
 
 void wb_mouse_enable_3d_position() {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   if (mouse.sampling_period == 0)
     fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_mouse_enable().\n", __FUNCTION__);
   else {
     mouse.enable_3d_position = true;
     mouse.enable_3d_position_changed = true;
   }
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_mouse_disable_3d_position() {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   mouse.enable_3d_position = false;
   mouse.enable_3d_position_changed = true;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 bool wb_mouse_is_3d_position_enabled() {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   const bool enabled = mouse.enable_3d_position;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return enabled;
 }
 

@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <webots/robot.h>
 #include <webots/supervisor.h>
-#define RED_CYLINDER_INDEX 9  // position of the red cylinder node with respect to root node children
+#define RED_CYLINDER_INDEX 5  // position of the red cylinder node with respect to root node children
 #define RED_CYLINDER_HALF_HEIGHT 0.25
 #define TOLERANCE 0.005
 
@@ -49,11 +49,10 @@ int main(int argc, char **argv) {
       // Computing the y-coordinate of the contact point with respect to solid's frame
       const double *cp = contact_points[n].point;
       const double delta[3] = {cp[0] - position[0], cp[1] - position[1], cp[2] - position[2]};
-      const double relative_cp_y = rotation[1] * delta[0] + rotation[4] * delta[1] + rotation[7] * delta[2];
-
-      if (fabs(relative_cp_y - RED_CYLINDER_HALF_HEIGHT) <= TOLERANCE)
+      const double relative_cp_z = rotation[2] * delta[0] + rotation[5] * delta[1] + rotation[8] * delta[2];
+      if (fabs(relative_cp_z - RED_CYLINDER_HALF_HEIGHT) <= TOLERANCE)
         ++u;
-      else if (fabs(relative_cp_y + RED_CYLINDER_HALF_HEIGHT) <= TOLERANCE)
+      else if (fabs(relative_cp_z + RED_CYLINDER_HALF_HEIGHT) <= TOLERANCE)
         ++l;
     }
 

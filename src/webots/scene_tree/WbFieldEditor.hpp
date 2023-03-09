@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,6 +24,7 @@
 
 #include "../../../include/controller/c/webots/supervisor.h"
 
+class WbExternProtoEditor;
 class WbField;
 class WbNode;
 class WbValueEditor;
@@ -40,6 +41,9 @@ public:
 
   // start editing this field
   void editField(WbNode *node, WbField *field, int item = -1);
+
+  // start editing the EXTERNPROTO panel
+  void editExternProto();
 
   // update displayed values
   void updateValue(bool copyOriginalValue = true);
@@ -58,6 +62,7 @@ public:
 
 signals:
   // emitted when the file has to be opened in text editor
+  // title can be used for example for showing human-readable file name in case of cached assets
   void editRequested(const QString &fileName);
   // emitted when the dictionary needs to be updated (e.g., a DEF name was changed)
   void dictionaryUpdateRequested();
@@ -68,6 +73,7 @@ protected:
 
 private:
   QMultiMap<WbFieldType, WbValueEditor *> mEditors;
+  WbExternProtoEditor *mExternProtoEditor;
   QStackedLayout *mStackedLayout;
   QWidget *mEmptyPane;
   WbField *mField;
@@ -87,6 +93,7 @@ private:
 private slots:
   void invalidateValue();
   void updateResetButton();
+  void refreshExternProtoEditor();
 };
 
 #endif

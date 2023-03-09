@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -373,7 +373,7 @@ void WbTransform::applyToOdeMass(WbGeometry *g, dGeomID geom) {
   assert(odeGeomData);
   WbSolid *const solid = odeGeomData->solid();
   const dMass *odeMass = g->odeMass();
-  if (solid->physics() && odeMass->mass > 0.0)
+  if (solid && solid->physics() && odeMass->mass > 0.0)
     solid->correctOdeMass(odeMass, this);
 }
 
@@ -401,28 +401,26 @@ void WbTransform::showResizeManipulator(bool enabled) {
 // Export //
 ////////////
 
-void WbTransform::exportBoundingObjectToX3D(WbVrmlWriter &writer) const {
+void WbTransform::exportBoundingObjectToX3D(WbWriter &writer) const {
   assert(writer.isX3d());
 
-  writer << QString("<Transform translation='%1' rotation='%2'>")
-              .arg(translation().toString(WbPrecision::DOUBLE_MAX))
-              .arg(rotation().toString(WbPrecision::DOUBLE_MAX));
+  if (isUseNode() && defNode())
+    writer << "<" << x3dName() << " role='boundingObject' USE=\'n" + QString::number(defNode()->uniqueId()) + "\'/>";
+  else {
+    writer << QString("<Transform translation='%1' rotation='%2' role='boundingObject'")
+                .arg(translation().toString(WbPrecision::DOUBLE_MAX))
+                .arg(rotation().toString(WbPrecision::DOUBLE_MAX))
+           << " id=\'n" << QString::number(uniqueId()) << "\'>";
+    ;
 
-  WbMFNode::Iterator it(children());
-  while (it.hasNext()) {
-    const WbNode *const childNode = static_cast<WbNode *>(it.next());
-    const WbGeometry *const childGeom = dynamic_cast<const WbGeometry *>(childNode);
+    WbMFNode::Iterator it(children());
+    while (it.hasNext()) {
+      const WbNode *const childNode = static_cast<WbNode *>(it.next());
+      childNode->write(writer);
+    }
 
-    if (childGeom)
-      writer << "<Shape>";
-
-    childNode->exportBoundingObjectToX3D(writer);
-
-    if (childGeom)
-      writer << "</Shape>";
+    writer << "</Transform>";
   }
-
-  writer << "</Transform>";
 }
 
 QStringList WbTransform::fieldsToSynchronizeWithX3D() const {

@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,7 +22,7 @@
 #include "WbMultipleValue.hpp"
 
 #include "WbPrecision.hpp"
-#include "WbVrmlWriter.hpp"
+#include "WbWriter.hpp"
 
 #include <QtCore/QVector>
 
@@ -42,7 +42,7 @@ public:
   void copyFrom(const WbValue *other) override;
   int size() const override { return mVector.size(); }
   void clear() override;
-  void writeItem(WbVrmlWriter &writer, int index) const override {
+  void writeItem(WbWriter &writer, int index) const override {
     assert(index >= 0 && index < size());
     writer << itemToString(index, writer.isWebots() ? WbPrecision::DOUBLE_MAX : WbPrecision::FLOAT_MAX);
   }

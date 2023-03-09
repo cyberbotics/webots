@@ -11,8 +11,8 @@ void wb_robot_window_init() {
 }
 
 void wb_robot_window_step(int time_step) {
-  const char *message = wb_robot_wwi_receive_text();
-  if (message) {
+  const char *message;
+  while ((message = wb_robot_wwi_receive_text())) {
     if (!wbu_generic_robot_window_handle_messages(message)) {
       // JavaScript -> C protocol description:
       //   [deviceName:commandTag[=commadState][,]]*

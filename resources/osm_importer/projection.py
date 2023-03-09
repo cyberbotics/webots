@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,7 +20,7 @@ import sys
 
 try:
     import pyproj
-except:
+except Exception:
     sys.exit("Error: pyproj python module not installed. You can install it using pip: 'pip install pyproj'")
 
 
@@ -49,8 +49,7 @@ class Projection(object):
         """Return a projected coordinate."""
         if Projection.projection is None:
             sys.stderr.write("Warning: Projection.project() called before Projection.initProjection()\n")
-        x, z = Projection.projection(long, lat)
-        return (-z, x)
+        return Projection.projection(long, lat)
 
     @staticmethod
     def initProjection(long0, lat0, projection):

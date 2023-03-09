@@ -21,7 +21,7 @@ Ball {
   SFColor    color           1.0 0.54 0.08
   SFFloat    radius          0.0325
   SFFloat    mass            0.055
-  MFVec3f    centerOfMass    [0 -0.0001 0]
+  MFVec3f    centerOfMass    [0 0 -0.0001]
   SFFloat    linearDamping   0.17
   SFFloat    angularDamping  0.33
   SFString   contactMaterial "default"
@@ -72,7 +72,7 @@ FifaSoccerBall {
 > **File location**: "[WEBOTS\_HOME/projects/objects/balls/protos/FifaSoccerBall.proto]({{ url.github_tree }}/projects/objects/balls/protos/FifaSoccerBall.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### FifaSoccerBall Field Summary
 
@@ -96,7 +96,7 @@ PingPongBall {
   SFRotation rotation            0 0 1 0
   SFString   name                "ping pong ball"
   MFNode     immersionProperties []
-  MFString   textureUrl          "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/balls/protos/textures/pingpong_logo.jpg"
+  MFString   textureUrl          "textures/pingpong_logo.jpg"
 }
 ```
 

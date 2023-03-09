@@ -44,9 +44,21 @@ int main(int argc, char **argv) {
   // Save output of `check_urdf` to file
   snprintf(command, 128, "check_urdf %s > result.txt 2> /dev/null", generated_filename);
   const int urdf_check_status = system(command);
+  if (system("sync result.txt") != 0)
+    ts_send_error_and_exit("Failed to sync result.txt");
   FILE *f_res = fopen("result.txt", "r");
-  fseek(f_res, 0L, SEEK_END);
-  const int file_size = ftell(f_res);
+  if (!f_res)
+    ts_send_error_and_exit("Cannot open result.txt file");
+  int file_size;
+  int counter = 0;
+  while (1) {
+    counter++;
+    fseek(f_res, 0L, SEEK_END);
+    file_size = ftell(f_res);
+    if (file_size || counter++ > 50)  // 5 seconds
+      break;
+    usleep(100000);  // sleep for 100 ms
+  };
   ts_assert_int_not_equal(file_size, 0, "check_urdf command is missing");
   if ((urdf_check_status >> 8) != 127 && file_size > 0) {
     // `check_urdf` command is available

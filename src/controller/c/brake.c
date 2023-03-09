@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -121,20 +121,20 @@ void wb_brake_set_damping_constant(WbDeviceTag tag, double damping_constant) {
     return;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   wb_brake_set_damping_constant_no_mutex(tag, damping_constant);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 WbJointType wb_brake_get_type(WbDeviceTag tag) {
   WbJointType type = WB_ROTATIONAL;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Brake *b = brake_get_struct(tag);
   if (b)
     type = b->type;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return type;
 }
 
@@ -145,12 +145,12 @@ static WbDeviceTag brake_get_associated_device(WbDeviceTag t, int device_type, c
     return 0;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   b->state |= C_BRAKE_GET_ASSOCIATED_DEVICE;
   b->requested_device_type = device_type;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(function_name);
   WbDeviceTag result = b->requested_device_tag;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 

@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -37,12 +37,9 @@ public:
     mKinematicDisplacementNumber++;
   }
 
-  const WbVector2 &kinematicDisplacement() const { return mKinematicDisplacement; }  // Only used by WbDifferentialWheels
-  int kinematicDisplacementNumber() const { return mKinematicDisplacementNumber; }   // Only used by WbDifferentialWheels
-
 private:
   WbKinematicDifferentialWheels(WbRobot *robot, double wheelsRadius, double axleLength, WbHingeJoint *leftJoint,
-                                WbHingeJoint *rightJoint, bool isWbDifferentialWheels = false);
+                                WbHingeJoint *rightJoint);
   static WbCylinder *getRecursivelyBigestCylinder(WbBaseNode *node);
   // kinematic displacement (kinematic collision model)
   WbVector2 mKinematicDisplacement;
@@ -51,7 +48,6 @@ private:
   double mAxleLength;
   WbHingeJoint *mWheelJoints[2];
   WbRobot *mRobot;
-  bool mIsWbDifferentialWheels;
 };
 
 #endif  // WB_KINEMATIC_DIFFERENTIAL_WHEELS_HPP

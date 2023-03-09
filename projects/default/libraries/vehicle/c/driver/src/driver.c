@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -85,6 +85,26 @@ static driver *instance = NULL;
 //        Utility functions          //
 //***********************************//
 
+bool wbu_driver_initialization_is_possible() {
+  // Parse vehicle caracteristics from the beginning of the data string
+  int read_int;
+  double read_double;
+  char read_char;
+  int i;
+
+  wb_robot_init();
+  const char *sub_data_string = wb_robot_get_custom_data();
+  i = sscanf(sub_data_string, "%lf %lf %lf %lf %lf %lf %lf %c %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %d %d", &read_double,
+             &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_char, &read_double,
+             &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_double,
+             &read_double, &read_int, &read_int);
+
+  if (i < 20)
+    return false;
+
+  return true;
+}
+
 static double kmh_to_rads(double kmh, double wheel_radius) {
   return kmh / 3.6 / wheel_radius;
 }
@@ -124,7 +144,7 @@ static double differential_ratio_central() {
 }
 
 static double compute_output_torque() {
-  // Compute available torque taking into acount the current gear ratio and engine model
+  // Compute available torque taking into account the current gear ratio and engine model
   double gear_ratio;
   if (instance->gear > 0)
     gear_ratio = instance->car->gear_ratio[instance->gear];
@@ -168,8 +188,8 @@ static double compute_output_torque() {
   if (real_rpm == instance->car->engine_max_rpm)  // maximum rotation speed of the motor, we don't want to increase it !
     output_torque = 0;
 
-  // Limit torque if maximum acceleration is reached (in order to not have big jump of wheels speed when one of them temporarly
-  // do not touch the ground)
+  // Limit torque if maximum acceleration is reached (in order to not have big jump of wheels speed when one of them temporarily
+  // does not touch the ground)
   if (fabs(instance->car->max_acceleration) > ACCELERATION_THRESHOLD)
     output_torque *= (ACCELERATION_THRESHOLD / fabs(instance->car->max_acceleration));
 
@@ -472,26 +492,6 @@ void wbu_driver_init() {
   }
 }
 
-bool wbu_driver_initialization_is_possible() {
-  // Parse vehicle caracteristics from the beginning of the data string
-  int read_int;
-  double read_double;
-  char read_char;
-  int i;
-
-  wb_robot_init();
-  const char *sub_data_string = wb_robot_get_custom_data();
-  i = sscanf(sub_data_string, "%lf %lf %lf %lf %lf %lf %lf %c %lf %lf %lf %lf %lf %lf %lf %lf %lf %lf %d %d", &read_double,
-             &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_char, &read_double,
-             &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_double, &read_double,
-             &read_double, &read_int, &read_int);
-
-  if (i < 20)
-    return false;
-
-  return true;
-}
-
 int wbu_driver_step() {
   if (!_wbu_car_check_initialisation("wbu_driver_init()", "wbu_driver_step()"))
     return 0;
@@ -588,7 +588,7 @@ void wbu_driver_set_steering_angle(double steering_angle) {
   wb_motor_set_position(instance->car->steering_motors[0], right_angle);  // right
   wb_motor_set_position(instance->car->steering_motors[1], left_angle);   // left
 
-  // the differential speeds need to be recomupte
+  // the differential speeds need to be recomputed
   if (instance->control_mode == SPEED)
     wbu_driver_set_cruising_speed(instance->cruising_speed);
 

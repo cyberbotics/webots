@@ -6,7 +6,7 @@ Derived from [Device](device.md) and [Solid](solid.md).
 Radar {
   SFFloat minRange               1       # [0, maxRange)
   SFFloat maxRange               50.0    # (minRange, inf)
-  SFFloat horizontalFieldOfView  0.78    # [0, 2*pi]
+  SFFloat horizontalFieldOfView  0.78    # [0, pi]
   SFFloat verticalFieldOfView    0.1     # [0, pi]
   SFFloat minAbsoluteRadialSpeed 0.0     # [0, inf)
   SFFloat minRadialSpeed         1       # [0, maxRadialSpeed]
@@ -25,6 +25,12 @@ Radar {
 ```
 
 ### Description
+
+%figure "Radar Coordinate System"
+
+![radar.png](images/radar.thumbnail.jpg)
+
+%end
 
 The [Radar](#radar) node is used to model a radar sensor.
 

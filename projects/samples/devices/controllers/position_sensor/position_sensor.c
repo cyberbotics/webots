@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -59,8 +59,7 @@ int main(int argc, char **argv) {
   while (wb_robot_step(time_step) != -1) {
     const double position = wb_position_sensor_get_value(position_sensor);
 
-    if (fabs(position) > 0.78)
-      // pole is fallen
+    if (fabs(position) > 0.7)  // pole has fallen
       break;
 
     // PID control
@@ -82,8 +81,10 @@ int main(int argc, char **argv) {
     previous_position = position;
   };
 
+  printf("Pole has fallen\n");
   wb_motor_set_velocity(left_motor, 0.0);
   wb_motor_set_velocity(right_motor, 0.0);
+  wb_robot_step(time_step);
 
   wb_robot_cleanup();
 

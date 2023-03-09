@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,7 +18,7 @@
 //
 // Description:
 //   WbParser allows to check (parse) the syntax of the various VRML-based file types used in Webots:
-//   e.g.: .wbt, .proto, .wbo and .wrl files
+//   e.g.: .wbt, .proto, imported object strings and .wrl files
 //   Error messages are reported to WbLog
 //
 
@@ -42,25 +42,26 @@ public:
 
   // check syntax, report errors to WbLog
   // return true if there were no errors
-  bool parseWorld(const QString &worldPath);   // parse a .wbt file
-  bool parseVrml(const QString &worldPath);    // parse a .wrl file before importing
-  bool parseObject(const QString &worldPath);  // parse a .wbo files
-  bool parseNodeModel();                       // parse a .wrl node model in resources/nodes
+  bool parseWorld(const QString &worldPath, bool (*updateProgress)(int));  // parse a .wbt file
+  bool parseObject(const QString &worldPath);                              // parse an imported object from string
+  bool parseNodeModel();                                                   // parse a .wrl node model in resources/nodes
 
   bool parseProtoInterface(const QString &worldPath);  // parse PROTO interface in original file
   bool parseProtoBody(const QString &worldPath);       // parse resulting PROTO after template generation
+  void skipExternProto();
 
   // skip PROTO definition in the specified tokenizer
   // this is useful to skip in file PROTO definition for VRML import
   // prerequisite: the tokenizer must point to the "PROTO" keyword
   static void skipProtoDefinition(WbTokenizer *tokenizer);
   static double legacyGravity();
+  // returns the list of all PROTO nodes invoked by a tokenized vrml string
+  QStringList protoNodeList();
 
 private:
   WbTokenizer *mTokenizer;
-  int mMode;
+  bool mProto;
 
-  enum { NONE, WBT, VRML, PROTO, WBO, WRL };
   void parseDoubles(int n);
   void parseInt();
   void parseBool();
@@ -73,6 +74,7 @@ private:
   void parseNode(const QString &worldPath);
   void parseExactWord(const QString &word);
   const QString &parseIdentifier(const QString &expected = "identifier");
+  const QString parseUrl();
   void parseEof();
   void parseFieldDeclaration(const QString &worldPath);
   void parseFieldAcceptedValues(WbFieldType type, const QString &worldPath);

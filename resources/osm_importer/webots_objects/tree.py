@@ -1,10 +1,10 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -45,7 +45,7 @@ class Tree(WebotsObject):
             if WebotsObject.removalRadius > 0.0:
                 # Check that the tree is inside the scope of a road,
                 # otherwise, remove it from the tree list.
-                if not Road.are_coords_close_to_some_road_waypoint([[tree.coord.x, tree.coord.z]], areOSMReferences=False):
+                if not Road.are_coords_close_to_some_road_waypoint([[tree.coord.x, tree.coord.y]], areOSMReferences=False):
                     Tree.list.remove(tree)
                     continue
 
@@ -56,7 +56,7 @@ class Tree(WebotsObject):
                 file.write(' type "%s"\n' % random.choice(Tree.broadLeavesTypes))
             else:
                 file.write('  type "random"\n')
-            file.write('  rotation 0 1 0 %.3f\n' % (random.random() * 2 * math.pi))
+            file.write('  rotation 0 0 1 %.3f\n' % (random.random() * 2 * math.pi))
             file.write('  translation %.2f %.2f %.2f\n' % (tree.coord.x, tree.coord.y, tree.coord.z))
             file.write('  name "tree(%d)"\n' % Tree.nameIndex)
             Tree.nameIndex += 1

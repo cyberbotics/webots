@@ -1,4 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -46,9 +50,14 @@ Solid {
   translation 0.0987654 0 0
   rotation 0 0 1 1.5708
   children [
-    Shape {
-      geometry DEF PLANE Plane {
-      }
+    DEF PLANE Transform {
+      rotation 1 0 0 -1.57079632679
+      children [
+        Shape {
+          geometry Plane {
+          }
+        }
+      ]
     }
   ]
   boundingObject USE PLANE

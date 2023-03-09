@@ -1,8 +1,8 @@
 {
   "devices": [
     {
-      "anchor": "0 0.0045 -0.02",
-      "axis": "0 0 -1",
+      "anchor": "0 0.02 0.0045",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left wheel motor",
@@ -11,8 +11,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0.0045 0.02",
-      "axis": "0 0 -1",
+      "anchor": "0 -0.02 0.0045",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right wheel motor",
@@ -21,6 +21,7 @@
       "type": "RotationalMotor"
     },
     {
+      "anchor": "0.024 0 0.011",
       "ledColors": [
         "0 1 0"
       ],
@@ -33,6 +34,7 @@
       "type": "LED"
     },
     {
+      "anchor": "0.017 -0.017 0.011",
       "ledColors": [
         "0 1 0"
       ],
@@ -45,6 +47,7 @@
       "type": "LED"
     },
     {
+      "anchor": "0 -0.024 0.011",
       "ledColors": [
         "0 1 0"
       ],
@@ -57,6 +60,7 @@
       "type": "LED"
     },
     {
+      "anchor": "-0.017 -0.017 0.011",
       "ledColors": [
         "0 1 0"
       ],
@@ -69,6 +73,7 @@
       "type": "LED"
     },
     {
+      "anchor": "-0.024 0 0.011",
       "ledColors": [
         "0 1 0"
       ],
@@ -81,6 +86,7 @@
       "type": "LED"
     },
     {
+      "anchor": "-0.017 0.017 0.011",
       "ledColors": [
         "0 1 0"
       ],
@@ -93,6 +99,7 @@
       "type": "LED"
     },
     {
+      "anchor": "0 0.024 0.011",
       "ledColors": [
         "0 1 0"
       ],
@@ -105,6 +112,7 @@
       "type": "LED"
     },
     {
+      "anchor": "0.017 0.017 0.011",
       "ledColors": [
         "0 1 0"
       ],
@@ -117,6 +125,7 @@
       "type": "LED"
     },
     {
+      "anchor": "0 0 0.0265",
       "ledColors": [],
       "ledGradual": true,
       "ledPBRAppearanceIDs": [
@@ -157,80 +166,83 @@
       "type": "DistanceSensor"
     },
     {
+      "anchor": "0 0.02 0.0045",
+      "axis": "0 1 0",
       "name": "left wheel sensor",
+      "position": 0,
       "transformID": "n21",
       "type": "PositionSensor"
     },
     {
       "name": "ls0",
       "transformID": "n10",
-      "transformOffset": "0.024 0.0139 0",
+      "transformOffset": "0.024 0 0.014",
       "type": "LightSensor"
     },
     {
       "name": "ls1",
       "transformID": "n10",
-      "transformOffset": "0.017 0.014 0.017",
+      "transformOffset": "0.017 -0.017 0.014",
       "type": "LightSensor"
     },
     {
       "name": "ls2",
       "transformID": "n10",
-      "transformOffset": "0 0.014 0.024",
+      "transformOffset": "0 -0.024 0.014",
       "type": "LightSensor"
     },
     {
       "name": "ls3",
       "transformID": "n10",
-      "transformOffset": "-0.017 0.014 0.017",
+      "transformOffset": "-0.017 -0.017 0.014",
       "type": "LightSensor"
     },
     {
       "name": "ls4",
       "transformID": "n10",
-      "transformOffset": "-0.024 0.014 0",
+      "transformOffset": "-0.024 0 0.014",
       "type": "LightSensor"
     },
     {
       "name": "ls5",
       "transformID": "n10",
-      "transformOffset": "-0.017 0.014 -0.017",
+      "transformOffset": "-0.017 0.017 0.014",
       "type": "LightSensor"
     },
     {
       "name": "ls6",
       "transformID": "n10",
-      "transformOffset": "0 0.014 -0.024",
+      "transformOffset": "0 0.024 0.014",
       "type": "LightSensor"
     },
     {
       "name": "ls7",
       "transformID": "n10",
-      "transformOffset": "0.017 0.014 -0.017",
+      "transformOffset": "0.017 0.017 0.014",
       "type": "LightSensor"
     },
     {
       "name": "lsfs0",
       "transformID": "n10",
-      "transformOffset": "0.009 0.009 0.022",
+      "transformOffset": "0.009 -0.022 0.009",
       "type": "LightSensor"
     },
     {
       "name": "lsfs1",
       "transformID": "n10",
-      "transformOffset": "0.022 0.009 0.009",
+      "transformOffset": "0.022 -0.009 0.009",
       "type": "LightSensor"
     },
     {
       "name": "lsfs2",
       "transformID": "n10",
-      "transformOffset": "0.022 0.009 -0.009",
+      "transformOffset": "0.022 0.009 0.009",
       "type": "LightSensor"
     },
     {
       "name": "lsfs3",
       "transformID": "n10",
-      "transformOffset": "0.009 0.009 -0.022",
+      "transformOffset": "0.009 0.022 0.009",
       "type": "LightSensor"
     },
     {
@@ -279,7 +291,10 @@
       "type": "Receiver"
     },
     {
+      "anchor": "0 -0.02 0.0045",
+      "axis": "0 1 0",
       "name": "right wheel sensor",
+      "position": 0,
       "transformID": "n45",
       "type": "PositionSensor"
     }

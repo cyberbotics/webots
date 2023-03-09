@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,11 +23,13 @@ class WbTextureTransform;
 
 struct WrMaterial;
 
+struct aiMaterial;
+
 class WbAbstractAppearance : public WbBaseNode {
   Q_OBJECT
 
 public:
-  virtual ~WbAbstractAppearance() {}
+  virtual ~WbAbstractAppearance();
 
   void preFinalize() override;
   void postFinalize() override;
@@ -49,6 +51,7 @@ protected:
   WbAbstractAppearance(const QString &modelName, WbTokenizer *tokenizer = NULL);
   WbAbstractAppearance(const WbAbstractAppearance &other);
   WbAbstractAppearance(const WbNode &other);
+  WbAbstractAppearance(const QString &modelName, const aiMaterial *material);
 
   WbSFNode *mTextureTransform;
 

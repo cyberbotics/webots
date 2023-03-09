@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,10 +15,13 @@
 #include "WbLog.hpp"
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <iostream>
+
 #include <QtCore/QCoreApplication>
 #include <QtCore/QMetaType>
 #include <QtCore/QUrl>
-#include <cstdlib>
 
 static WbLog *gInstance = NULL;
 
@@ -39,6 +42,17 @@ WbLog *WbLog::instance() {
   return gInstance;
 }
 
+static bool gStdoutRedirect = false;
+static bool gStderrRedirect = false;
+
+void WbLog::enableStdOutRedirectToTerminal() {
+  gStdoutRedirect = true;
+};
+
+void WbLog::enableStdErrRedirectToTerminal() {
+  gStderrRedirect = true;
+};
+
 void WbLog::debug(const QString &message, bool popup, Filter filter) {
   debug(message, filterName(filter), popup);
 }
@@ -56,21 +70,24 @@ void WbLog::error(const QString &message, bool popup, Filter filter) {
 }
 
 void WbLog::debug(const QString &message, const QString &name, bool popup) {
+  const char *header = "DEBUG: ";
   if (popup && instance()->mPopUpMessagesPostponed) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, name, DEBUG);
     return;
   }
 
-  fprintf(stderr, "DEBUG: %s\n", qPrintable(message));
-  fflush(stderr);
+  std::cerr << header << message.toUtf8().constData() << "\n" << std::flush;
   if (!instance()->mConsoleLogsPostponed &&
       instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &))) > 1)
-    instance()->emitLog(DEBUG, "DEBUG: " + message, popup, name);
+    instance()->emitLog(DEBUG, header + message, popup, name);
   else
-    instance()->enqueueMessage(instance()->mPendingConsoleMessages, "DEBUG: " + message, name, DEBUG);
+    instance()->enqueueMessage(instance()->mPendingConsoleMessages, header + message, name, DEBUG);
 }
 
 void WbLog::info(const QString &message, const QString &name, bool popup) {
+  const char *header = "INFO: ";
+  if (gStdoutRedirect)
+    std::cout << header << message.toUtf8().constData() << "\n" << std::flush;
   if (popup && instance()->mPopUpMessagesPostponed) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, name, INFO);
     return;
@@ -78,15 +95,15 @@ void WbLog::info(const QString &message, const QString &name, bool popup) {
 
   const int numberOfReceivers = instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &)));
   if (!instance()->mConsoleLogsPostponed && numberOfReceivers > 1)
-    instance()->emitLog(INFO, "INFO: " + message, popup, name);
-  else {
-    if (numberOfReceivers == 0)
-      printf("INFO: %s\n", qPrintable(message));
-    instance()->enqueueMessage(instance()->mPendingConsoleMessages, "INFO: " + message, name, INFO);
-  }
+    instance()->emitLog(INFO, header + message, popup, name);
+  else
+    instance()->enqueueMessage(instance()->mPendingConsoleMessages, header + message, name, INFO);
 }
 
 void WbLog::warning(const QString &message, const QString &name, bool popup) {
+  const char *header = "WARNING: ";
+  if (gStderrRedirect)
+    std::cerr << header << message.toUtf8().constData() << "\n" << std::flush;
   if (popup && instance()->mPopUpMessagesPostponed) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, name, WARNING);
     return;
@@ -94,34 +111,31 @@ void WbLog::warning(const QString &message, const QString &name, bool popup) {
 
   const int numberOfReceivers = instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &)));
   if (!instance()->mConsoleLogsPostponed && numberOfReceivers > 1)
-    instance()->emitLog(WARNING, "WARNING: " + message, popup, name);
-  else {
-    if (numberOfReceivers == 0)
-      fprintf(stderr, "WARNING: %s\n", qPrintable(message));
-    instance()->enqueueMessage(instance()->mPendingConsoleMessages, "WARNING: " + message, name, WARNING);
-  }
+    instance()->emitLog(WARNING, header + message, popup, name);
+  else
+    instance()->enqueueMessage(instance()->mPendingConsoleMessages, header + message, name, WARNING);
 }
 
 void WbLog::error(const QString &message, const QString &name, bool popup) {
+  const int numberOfReceivers = instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &)));
+  const char *header = "ERROR: ";
+  if (gStderrRedirect || numberOfReceivers == 0)
+    std::cerr << header << message.toUtf8().constData() << "\n" << std::flush;
   if (popup && instance()->mPopUpMessagesPostponed) {
     instance()->enqueueMessage(instance()->mPostponedPopUpMessageQueue, message, name, ERROR);
     return;
   }
 
-  const int numberOfReceivers = instance()->receivers(SIGNAL(logEmitted(WbLog::Level, const QString &, bool, const QString &)));
   if (!instance()->mConsoleLogsPostponed && numberOfReceivers > 1)
-    instance()->emitLog(ERROR, "ERROR: " + message, popup, name);
-  else {
-    if (numberOfReceivers == 0)
-      fprintf(stderr, "ERROR: %s\n", qPrintable(message));
-    instance()->enqueueMessage(instance()->mPendingConsoleMessages, "ERROR: " + message, name, ERROR);
-  }
+    instance()->emitLog(ERROR, header + message, popup, name);
+  else
+    instance()->enqueueMessage(instance()->mPendingConsoleMessages, header + message, name, ERROR);
 }
 
 void WbLog::fatal(const QString &message) {
-  fprintf(stderr, "FATAL: %s\n", qPrintable(message));
-  fflush(stderr);
-  instance()->emitLog(FATAL, "FATAL: " + message, true, QString());
+  const char *header = "FATAL: ";
+  std::cerr << header << message.toUtf8().constData() << "\n" << std::flush;
+  instance()->emitLog(FATAL, header + message, true, QString());
   ::exit(EXIT_FAILURE);
 }
 
@@ -175,10 +189,14 @@ void WbLog::appendStderr(const QString &message, Filter filter) {
 }
 
 void WbLog::appendStdout(const QString &message, const QString &name) {
+  if (gStdoutRedirect)
+    std::cout << message.toUtf8().constData() << std::flush;
   emit instance()->logEmitted(STDOUT, message, false, name);
 }
 
 void WbLog::appendStderr(const QString &message, const QString &name) {
+  if (gStderrRedirect)
+    std::cerr << message.toUtf8().constData() << std::flush;
   emit instance()->logEmitted(STDERR, message, false, name);
 }
 
@@ -234,4 +252,24 @@ void WbLog::showPendingConsoleMessages() {
   foreach (PostponedMessage msg, instance()->mPendingConsoleMessages)
     emit instance()->logEmitted(msg.level, msg.text, false, msg.name);
   instance()->mPendingConsoleMessages.clear();
+}
+
+void WbLog::toggle(FILE *std_stream) {
+#ifndef _WIN32  // this doesn't work on Windows
+  static int fd[3] = {0, 0, 0};
+  const int no = fileno(std_stream);
+  assert(no >= 1);  // it shouldn't be stdin
+  fflush(std_stream);
+  if (fd[no] == 0) {
+    static FILE *stream;  // to make cppcheck happy about resource leak
+    fd[no] = dup(no);
+    stream = freopen("/dev/null", "w", std_stream);
+    if (!stream)
+      fprintf(stderr, "Failed to mute %s.", (no == 1) ? "stdout" : "stderr");
+  } else {
+    dup2(fd[no], no);
+    close(fd[no]);
+    fd[no] = 0;
+  }
+#endif
 }

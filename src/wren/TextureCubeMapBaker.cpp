@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -98,11 +98,11 @@ namespace wren {
         // link vertex attributes
         glstate::bindVertexArrayObject(cubeVAO);
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), reinterpret_cast<void *>(0));
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(3 * sizeof(float)));
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), reinterpret_cast<void *>(3 * sizeof(float)));
         glEnableVertexAttribArray(2);
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(6 * sizeof(float)));
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), reinterpret_cast<void *>(6 * sizeof(float)));
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glstate::releaseVertexArrayObject(cubeVAO);
       }
@@ -128,9 +128,9 @@ namespace wren {
         glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
         glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
         glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void *>(0));
         glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void *>(3 * sizeof(float)));
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glstate::releaseVertexArrayObject(quadVAO);
       }
@@ -328,6 +328,7 @@ namespace wren {
       glstate::setStencilTest(false);
       glstate::setColorMask(true, true, true, true);
       glstate::setCullFace(false);
+      glstate::setPolygonMode(GL_FILL);
 
       unsigned int brdfTextureGlName = Texture::generateNewTexture();
 
@@ -363,10 +364,9 @@ namespace wren {
       glstate::releaseRenderBuffer(captureRBO);
       glDeleteFramebuffers(1, &captureFBO);
       glDeleteRenderbuffers(1, &captureRBO);
-      glstate::releaseFrameBuffer(captureFBO);
-      glstate::releaseRenderBuffer(captureRBO);
       brdfShader->release();
       glDeleteVertexArrays(1, &quadVAO);
+      glDeleteBuffers(1, &quadVBO);
       quadVAO = quadVBO = 0;
       return brdfTexture;
     }

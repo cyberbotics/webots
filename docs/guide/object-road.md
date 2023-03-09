@@ -19,7 +19,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Road {
          SFVec3f              translation               0 0 0
-         SFRotation           rotation                  0 1 0 0
+         SFRotation           rotation                  0 0 1 0
          SFString             name                      "road"
          SFString             id                        ""
          SFString             startJunction             ""
@@ -37,7 +37,7 @@ Road {
          SFBool               rightBarrier              FALSE
          SFBool               leftBarrier               FALSE
          SFBool               bottom                    FALSE
-         MFVec3f              wayPoints                 [ 0 0 0, 0 0 1 ]
+         MFVec3f              wayPoints                 [ 0 0 0, 1 0 0 ]
          MFFloat              roadTilt                  [ 0, 0]
          MFFloat              startingAngle             []
          MFFloat              endingAngle               []
@@ -154,7 +154,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 AddLaneRoadSegment {
          SFVec3f     translation               0 0 0
-         SFRotation  rotation                  0 1 0 0
+         SFRotation  rotation                  0 0 1 0
          SFString    name                      "road"
          SFString    id                        ""
          MFString    connectedRoadIDs          []
@@ -265,7 +265,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 AddLanesRoadSegment {
          SFVec3f     translation               0 0 0
-         SFRotation  rotation                  0 1 0 0
+         SFRotation  rotation                  0 0 1 0
          SFString    name                      "road"
          SFString    id                        ""
          MFString    connectedRoadIDs          []
@@ -377,7 +377,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 CrashBarrier {
   SFVec3f     translation             0 0 0
-  SFRotation  rotation                0 1 0 0
+  SFRotation  rotation                0 0 1 0
   SFString    name                    "crash barrier"
   SFFloat     poleGap                 2
   SFNode      poleAppearance          PBRAppearance { roughness 0.7 }
@@ -422,11 +422,11 @@ Derived from [Solid](../reference/solid.md).
 ```
 Crossroad {
   SFVec3f    translation      0 0 0
-  SFRotation rotation         0 1 0 0
+  SFRotation rotation         0 0 1 0
   SFString   name             "crossroad"
   SFString   id               ""
   SFFloat    speedLimit       -1.0
-  MFVec3f    shape            [ 0 0 0, 0 0 1, 1 0 0]
+  MFVec3f    shape            [ 0 0 0, 0 1 0, 1 0 0 ]
   MFString   connectedRoadIDs []
   SFBool     boundingObject   FALSE
   SFBool     bottom           FALSE
@@ -478,7 +478,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 CurvedRoadSegment {
          SFVec3f              translation               0 0 0
-         SFRotation           rotation                  0 1 0 0
+         SFRotation           rotation                  0 0 1 0
          SFString             name                      "road"
          SFString             id                        ""
          SFString             startJunction             ""
@@ -600,7 +600,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 HelicoidalRoadSegment {
          SFVec3f              translation               0 0 0
-         SFRotation           rotation                  0 1 0 0
+         SFRotation           rotation                  0 0 1 0
          SFString             name                      "road"
          SFString             id                        ""
          SFString             startJunction             ""
@@ -711,7 +711,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 LaneSeparation {
          SFVec3f     translation                 0 0 0
-         SFRotation  rotation                    0 1 0 0
+         SFRotation  rotation                    0 0 1 0
          SFString    name                        "road"
          SFString    id                          ""
          MFString    connectedRoadIDs            []
@@ -829,7 +829,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 RoadIntersection {
          SFVec3f              translation                    0 0 0
-         SFRotation           rotation                       0 1 0 0
+         SFRotation           rotation                       0 0 1 0
          SFString             name                           "road intersection"
          SFString             id                             ""
          MFString             connectedRoadIDs               []
@@ -839,8 +839,8 @@ RoadIntersection {
          SFBool               startRoads                     TRUE
          MFFloat              startRoadsLength               [5]
          SFInt32              startRoadsNumberOfLanes        2
-         MFString             startRoadsStartLine            [ "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/road/protos/textures/road_line_dashed.png",
-                                                               "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/road/protos/textures/road_line_triangle.png" ]
+         MFString             startRoadsStartLine            [ "textures/road_line_dashed.png",
+                                                               "textures/road_line_triangle.png" ]
          MFString             startRoadsEndLine              []
          MFNode               startRoadsLine                 [ RoadLine { } ]
          SFBool               startRoadBorder                TRUE
@@ -954,7 +954,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 RoadPillars {
   SFVec3f    translation        0 0 0
-  SFRotation rotation           0 1 0 0
+  SFRotation rotation           0 0 1 0
   SFString   name               "road pillar"
   SFFloat    height             5
   SFFloat    width              8
@@ -1008,7 +1008,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Roundabout {
          SFVec3f              translation              0 0 0
-         SFRotation           rotation                 0 1 0 0
+         SFRotation           rotation                 0 0 1 0
          SFString             name                     "roundabout"
          SFString             id                       ""
          MFString             connectedRoadIDs         []
@@ -1021,14 +1021,14 @@ Roundabout {
          SFFloat              innerRadius              4
          SFFloat              outerRadius              8
          SFBool               center                   TRUE
-         MFString             centerTexture            "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/grass.jpg"
+         MFString             centerTexture            "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/textures/grass.jpg"
          SFVec2f              centerTextureScale       4 4
          SFInt32              roadNumber               4
          MFFloat              startRoadsLength         [5]
          SFFloat              startRoadsWidth          7
          SFInt32              startRoadsNumberOfLanes  2
-         MFString             startRoadsStartLine      [ "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/road/protos/textures/road_line_dashed.png",
-                                                         "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/road/protos/textures/road_line_triangle.png" ]
+         MFString             startRoadsStartLine      [ "textures/road_line_dashed.png",
+                                                         "textures/road_line_triangle.png" ]
          MFString             startRoadsEndLine        []
          MFNode               startRoadsLine           [ RoadLine { } ]
          SFBool               roadBoundingObject       FALSE
@@ -1115,7 +1115,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 StraightRoadSegment {
          SFVec3f              translation               0 0 0
-         SFRotation           rotation                  0 1 0 0
+         SFRotation           rotation                  0 0 1 0
          SFString             name                      "road"
          SFString             id                        ""
          SFString             startJunction             ""
@@ -1220,4 +1220,3 @@ StraightRoadSegment {
 - `leftBarrierBoundingObject`: Defines whether the left crash barrier (if any) should have a bounding object.
 
 - `castShadows`: Defines whether the road should cast shadows.
-

@@ -7,7 +7,7 @@
       "minPosition": 0,
       "name": "back_left_wheel_joint",
       "position": 0,
-      "transformID": "n73",
+      "transformID": "n71",
       "type": "RotationalMotor"
     },
     {
@@ -17,7 +17,7 @@
       "minPosition": 0,
       "name": "back_right_wheel_joint",
       "position": 0,
-      "transformID": "n88",
+      "transformID": "n85",
       "type": "RotationalMotor"
     },
     {
@@ -27,7 +27,7 @@
       "minPosition": 0,
       "name": "front_left_wheel_joint",
       "position": 0,
-      "transformID": "n58",
+      "transformID": "n57",
       "type": "RotationalMotor"
     },
     {
@@ -42,37 +42,49 @@
     },
     {
       "name": "accelerometer",
-      "transformID": "n100",
+      "transformID": "n96",
       "type": "Accelerometer"
     },
     {
+      "anchor": "-0.2225 0.2045 0",
+      "axis": "0 1 0",
       "name": "back_left_wheel_joint_sensor",
-      "transformID": "n73",
+      "position": 0,
+      "transformID": "n71",
       "type": "PositionSensor"
     },
     {
+      "anchor": "-0.2225 -0.2045 0",
+      "axis": "0 1 0",
       "name": "back_right_wheel_joint_sensor",
-      "transformID": "n88",
+      "position": 0,
+      "transformID": "n85",
       "type": "PositionSensor"
     },
     {
       "name": "compass",
-      "transformID": "n100",
+      "transformID": "n96",
       "type": "Compass"
     },
     {
       "name": "depth_camera",
-      "transformID": "n107",
+      "transformID": "n103",
       "transformOffset": "0 0 0.015",
       "type": "RangeFinder"
     },
     {
+      "anchor": "0.2225 0.2045 0",
+      "axis": "0 1 0",
       "name": "front_left_wheel_joint_sensor",
-      "transformID": "n58",
+      "position": 0,
+      "transformID": "n57",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.2225 -0.2045 0",
+      "axis": "0 1 0",
       "name": "front_right_wheel_joint_sensor",
+      "position": 0,
       "transformID": "n43",
       "type": "PositionSensor"
     },
@@ -84,12 +96,12 @@
     },
     {
       "name": "gyro",
-      "transformID": "n100",
+      "transformID": "n96",
       "type": "Gyro"
     },
     {
       "name": "rgb_camera",
-      "transformID": "n107",
+      "transformID": "n103",
       "transformOffset": "0 0 0.015",
       "type": "Camera"
     }

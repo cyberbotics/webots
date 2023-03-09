@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -137,14 +137,14 @@ void wb_radar_enable(WbDeviceTag tag, int sampling_period) {
     return;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Radar *radar = radar_get_struct(tag);
   if (radar) {
     radar->sampling_period = sampling_period;
     radar->enable = true;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_radar_disable(WbDeviceTag tag) {
@@ -157,19 +157,19 @@ void wb_radar_disable(WbDeviceTag tag) {
 
 int wb_radar_get_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Radar *radar = radar_get_struct(tag);
   if (radar)
     sampling_period = radar->sampling_period;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return sampling_period;
 }
 
 int wb_radar_get_number_of_targets(WbDeviceTag tag) {
   int result = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Radar *radar = radar_get_struct(tag);
   if (radar) {
     if (radar->sampling_period == 0)
@@ -177,13 +177,13 @@ int wb_radar_get_number_of_targets(WbDeviceTag tag) {
     result = radar->target_number;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 const WbRadarTarget *wb_radar_get_targets(WbDeviceTag tag) {
   const WbRadarTarget *result = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Radar *radar = radar_get_struct(tag);
   if (radar) {
     if (radar->sampling_period == 0)
@@ -191,55 +191,55 @@ const WbRadarTarget *wb_radar_get_targets(WbDeviceTag tag) {
     result = radar->targets;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 double wb_radar_get_min_range(WbDeviceTag tag) {
   double result = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Radar *radar = radar_get_struct(tag);
   if (radar)
     result = radar->min_range;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 double wb_radar_get_max_range(WbDeviceTag tag) {
   double result = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Radar *radar = radar_get_struct(tag);
   if (radar)
     result = radar->max_range;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 double wb_radar_get_horizontal_fov(WbDeviceTag tag) {
   double result = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Radar *radar = radar_get_struct(tag);
   if (radar)
     result = radar->horizontal_fov;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 double wb_radar_get_vertical_fov(WbDeviceTag tag) {
   double result = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Radar *radar = radar_get_struct(tag);
   if (radar)
     result = radar->vertical_fov;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 

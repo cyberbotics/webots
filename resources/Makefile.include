@@ -1,10 +1,10 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -119,6 +119,10 @@ ifeq ($(OSTYPE),darwin)
    fi; \
  )
 
+ifndef NO_FAT_BINARY
+FAT_BINARY = 1
+endif
+
 endif
 
 ###-----------------------------------------------------------------------------
@@ -184,8 +188,9 @@ endif
 
 # the objects files result from the C or C++ sources
 SOURCES_DIRECTORIES = $(sort $(dir $(C_SOURCES) $(CXX_SOURCES)))
-OBJECTS = $(addprefix $(BUILD_GOAL_DIR)/,$(patsubst %.c,%.o, $(patsubst %.cc,%.o, $(patsubst %.c++,%.o, $(patsubst %.cpp,%.o, $(notdir $(C_SOURCES) $(CXX_SOURCES)))))))
+OBJECTS_LIST = $(patsubst %.c,%.o, $(patsubst %.cc,%.o, $(patsubst %.c++,%.o, $(patsubst %.cpp,%.o, $(notdir $(C_SOURCES) $(CXX_SOURCES))))))
 OBJECTS_EMCC = $(addprefix $(BUILD_GOAL_DIR_EMCC)/,$(patsubst %.c,%.o, $(patsubst %.cc,%.o, $(patsubst %.c++,%.o, $(patsubst %.cpp,%.o, $(notdir $(C_SOURCES) $(CXX_SOURCES)))))))
+
 # automatic flags settings
 ifeq ($(BUILD_TYPE),physics)
  USE_ODE = true
@@ -205,15 +210,23 @@ endif
 ifneq ($(C_SOURCES)$(CXX_SOURCES),)
  ifdef BUILD_EXECUTABLE
   MAIN_TARGET = $(NAME)$(EXE_EXTENSION)
+  X86_64_LINKER = -target x86_64-apple-macos11
+  ARM64_LINKER = -target arm64-apple-macos11
  else
   ifdef BUILD_STATIC_LIBRARY
    MAIN_TARGET ?= $(LIB_PREFIX)$(NAME)$(STATIC_LIB_EXTENSION)
   else
    MAIN_TARGET ?= $(LIB_PREFIX)$(NAME)$(SHARED_LIB_EXTENSION)
+   X86_64_LINKER = -target x86_64-apple-macos11
+   ARM64_LINKER = -target arm64-apple-macos11
   endif
  endif
 endif
-TARGETS += $(MAIN_TARGET) $(EXTRA_TARGETS)
+ifdef WREN
+ WREN_TARGET = wrenjs.js
+endif
+
+TARGETS += $(MAIN_TARGET) $(EXTRA_TARGETS) $(WREN_TARGET)
 
 # goal
 SUPPORTED_TARGETS = all release debug profile
@@ -243,8 +256,13 @@ endif
 BUILD_DIR = build
 BUILD_GOAL_DIR = $(BUILD_DIR)/$(GOAL)
 BUILD_GOAL_DIR_EMCC = $(BUILD_DIR)/$(GOAL_EMCC)
+
 ifdef GOAL
+ifdef FAT_BINARY
+ $(shell mkdir $(BUILD_DIR) $(BUILD_GOAL_DIR) $(BUILD_GOAL_DIR)/x86_64 $(BUILD_GOAL_DIR)/arm64 2> /dev/null)
+else
  $(shell mkdir $(BUILD_DIR) $(BUILD_GOAL_DIR) 2> /dev/null)
+endif
 endif
 
 ifdef GOAL_EMCC
@@ -253,6 +271,9 @@ endif
 
 # files to remove
 FILES_TO_REMOVE += $(MAIN_TARGET_COPY)
+ifdef TARGET_LIB_DIR
+ FILES_TO_REMOVE += $(TARGET_LIB_DIR)/$(MAIN_TARGET)
+endif
 
 WRENJS_DIR = $(WEBOTS_HOME_PATH)/resources/web/wwi
 ###-----------------------------------------------------------------------------
@@ -299,6 +320,10 @@ ifeq ($(OSTYPE),linux)
 endif
 
 ifeq ($(OSTYPE),darwin)
+ifdef NO_FAT_BINARY
+ WBCFLAGS += -target $(PROCESSOR)-apple-macos11
+ DYNAMIC_LINK_FLAGS += -target $(PROCESSOR)-apple-macos11
+endif
  WBCFLAGS += -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
  DYNAMIC_LINK_FLAGS += -mmacosx-version-min=$(MACOSX_MIN_SDK_VERSION)
 endif
@@ -312,10 +337,18 @@ ifdef USE_CXX
  ifndef EXCLUDE_CONTROLLERS
   DYNAMIC_LIBRARIES += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController
   ifdef USE_C_API
-   INCLUDE += -I"$(WEBOTS_HOME)/include/controller/c"
+   ifeq ($(OSTYPE),darwin)
+    INCLUDE += -I"$(WEBOTS_HOME)/Contents/include/controller/c"
+   else
+    INCLUDE += -I"$(WEBOTS_HOME)/include/controller/c"
+   endif
   else
    DYNAMIC_LIBRARIES += -lCppController
-   INCLUDE += -I"$(WEBOTS_HOME)/include/controller/cpp"
+   ifeq ($(OSTYPE),darwin)
+    INCLUDE += -I"$(WEBOTS_HOME)/Contents/include/controller/cpp"
+   else
+    INCLUDE += -I"$(WEBOTS_HOME)/include/controller/cpp"
+   endif
   endif
   ifeq ($(OSTYPE),windows)
    DYNAMIC_LINK_FLAGS += -Wl,--enable-auto-import
@@ -332,7 +365,11 @@ else
   LINKER = $(CC)
  endif
  ifndef EXCLUDE_CONTROLLERS
-  INCLUDE += -I"$(WEBOTS_HOME)/include/controller/c"
+  ifeq ($(OSTYPE),darwin)
+   INCLUDE += -I"$(WEBOTS_HOME)/Contents/include/controller/c"
+  else
+   INCLUDE += -I"$(WEBOTS_HOME)/include/controller/c"
+  endif
   DYNAMIC_LIBRARIES += -L"$(WEBOTS_CONTROLLER_LIB_PATH)" -lController
  endif
 endif
@@ -368,14 +405,20 @@ endif
 
 ifeq ($(OSTYPE),darwin)
  ifdef WEBOTS_LIBRARY
-  LFLAGS += -Xlinker -rpath -Xlinker @loader_path/.. -install_name @rpath/lib/controller/$(MAIN_TARGET)
+  INSTALL_NAME ?= @rpath/Contents/lib/controller/$(MAIN_TARGET)
+  LFLAGS += -Xlinker -rpath -Xlinker @loader_path/.. -install_name $(INSTALL_NAME)
  else
   CALLING_MAKEFILE_DIR := $(shell dirname "$(realpath $(firstword $(MAKEFILE_LIST)))")
   WEBOTS_RELATIVE_PATH = $(call computeRelativePath,"$(WEBOTS_HOME_PATH)","$(CALLING_MAKEFILE_DIR)")
   ifneq (,$(findstring ..,$(WEBOTS_RELATIVE_PATH)))
-   DYNAMIC_LINK_FLAGS += -Xlinker -rpath -Xlinker @loader_path/$(WEBOTS_RELATIVE_PATH)
+   ifeq ($(TREAT_WARNINGS_AS_ERRORS),1) # this variable is set only if we do a "make distrib"
+    DYNAMIC_LINK_FLAGS += -Xlinker -rpath -Xlinker @loader_path/$(WEBOTS_RELATIVE_PATH)../ # add an additional ../ for the Contents folder
+   else
+    DYNAMIC_LINK_FLAGS += -Xlinker -rpath -Xlinker @loader_path/$(WEBOTS_RELATIVE_PATH)
+   endif
    ifdef BUILD_SHARED_LIBRARY
-    DYNAMIC_LINK_FLAGS += -install_name @rpath$(subst $(WEBOTS_HOME_PATH),,$(CALLING_MAKEFILE_DIR))/$(MAIN_TARGET)
+    INSTALL_NAME ?= @rpath$(subst $(WEBOTS_HOME_PATH),,$(CALLING_MAKEFILE_DIR))/$(MAIN_TARGET)
+    DYNAMIC_LINK_FLAGS += -install_name $(INSTALL_NAME)
    endif
   endif
  endif
@@ -387,14 +430,18 @@ endif
 ###-----------------------------------------------------------------------------
 
 ifdef USE_ODE
- DYNAMIC_LIBRARIES += -L"$(WEBOTS_LIB_PATH)" -lode "$(WEBOTS_HOME)/resources/projects/plugins/physics/physics.o"
+ DYNAMIC_LIBRARIES += -L"$(WEBOTS_LIB_PATH)" -lode
  ifeq ($(GOAL),profile)
   DYNAMIC_LIBRARIES += -lstdc++
  endif
  ifeq ($(OSTYPE),darwin)
   DYNAMIC_LINK_FLAGS += -flat_namespace -undefined suppress
+  DYNAMIC_LIBRARIES += "$(WEBOTS_HOME)/Contents/Resources/projects/plugins/physics/physics.a"
+  INCLUDE += -I"$(WEBOTS_HOME)/Contents/include/ode" -I"$(WEBOTS_HOME)/Contents/include"
+ else
+  DYNAMIC_LIBRARIES += "$(WEBOTS_HOME)/resources/projects/plugins/physics/physics.o"
+  INCLUDE += -I"$(WEBOTS_HOME)/include/ode" -I"$(WEBOTS_HOME)/include"
  endif
- INCLUDE += -I"$(WEBOTS_HOME)/include/ode" -I"$(WEBOTS_HOME)/include"
 endif
 
 
@@ -424,7 +471,7 @@ vpath %.cpp $(SOURCES_DIRECTORIES)
 
 $(SUPPORTED_TARGETS): $(TARGETS)
 
-# we need to be able to execute a make clean inside subdirectories targets (defined as EXTRA_TARGET)
+# we need to be able to execute a make clean inside subdirectories targets (defined as EXTRA_TARGETS)
 clean: $(EXTRA_TARGETS)
 
 ### Begin ifdef MAIN_TARGET
@@ -433,15 +480,12 @@ ifdef MAIN_TARGET
 MAIN_TARGET_WINDOWS_LIB = $(MAIN_TARGET:.dll=.lib)
 ifdef WEBOTS_LIBRARY
 MAIN_TARGET_COPY = "$(subst $(space),\ ,$(WEBOTS_CONTROLLER_LIB_PATH))/$(MAIN_TARGET)"
-MAIN_TARGET_WINDOWS32_LIB = $(WEBOTS_HOME_PATH)/msys64/mingw32/lib/$(MAIN_TARGET_WINDOWS_LIB)
 MAIN_TARGET_WINDOWS64_LIB = $(WEBOTS_CONTROLLER_LIB_PATH)/$(MAIN_TARGET_WINDOWS_LIB)
 else
-MAIN_TARGET_COPY = $(MAIN_TARGET)
-MAIN_TARGET_WINDOWS32_LIB = $(MAIN_TARGET:.dll=.lib)
+MAIN_TARGET_COPY ?= $(MAIN_TARGET)
 MAIN_TARGET_WINDOWS64_LIB = $(MAIN_TARGET:.dll=.lib)
 endif
 ifeq ($(OSTYPE),windows)
-FILES_TO_REMOVE += $(MAIN_TARGET_WINDOWS32_LIB)
 FILES_TO_REMOVE += $(MAIN_TARGET_WINDOWS64_LIB)
 endif
 
@@ -459,43 +503,93 @@ else
  LFLAGS += $(DYNAMIC_LINK_FLAGS) -o
 endif
 
-$(MAIN_TARGET): $(BUILD_GOAL_DIR)/$(MAIN_TARGET)
-	@# In Webots context (WEBOTS_DISABLE_BINARY_COPY set), copy only if the target
-	@# does not exist yet, thus there cannot be error due to replacement.
-	@# Otherwise, Webots does the copy systematically before running the simulation.
-	@# Outside Webots context, always copy the target.
-	@if [ -z "${WEBOTS_DISABLE_BINARY_COPY}" ] || [ ! -e "$(MAIN_TARGET)" ]; then \
-		echo "# copying" $(notdir $(MAIN_TARGET)); \
-		rm -f $(MAIN_TARGET) > /dev/null 2>&1 ; \
-		cp $(BUILD_GOAL_DIR)/$(MAIN_TARGET) $(MAIN_TARGET_COPY) > /dev/null 2>&1 ; \
-	fi || :
+ifdef TARGET_LIB_DIR
+
+$(MAIN_TARGET): $(TARGET_LIB_DIR)/$(MAIN_TARGET)
 ifdef VS_DEF_NAME
 	@# Generate the .lib libraries to facilitate the integration with Visual Studio
 	@# if the .def file is existing.
 	@if [ -f $(VS_DEF_NAME) ]; then \
 		if [ -d "$(VISUAL_STUDIO_PATH)" ]; then \
-			PATH="$(VISUAL_STUDIO_PATH)/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64":$PATH lib /machine:X86 /def:$(VS_DEF_NAME) /out:out.lib > /dev/null; \
-			mv out.lib $(MAIN_TARGET_WINDOWS32_LIB); \
 			PATH="$(VISUAL_STUDIO_PATH)/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64":$PATH lib /machine:X64 /def:$(VS_DEF_NAME) /out:out.lib > /dev/null; \
 			mv out.lib $(MAIN_TARGET_WINDOWS64_LIB); \
 			rm -f *.exp; \
 		else \
-			echo "'VISUAL_STUDIO_PATH' environmental variable not set or Microsoft Visual Studio not installed, skipping $(NAME).lib"; \
+			$(ECHO) "\033[0;33m'VISUAL_STUDIO_PATH' environmental variable not set or Microsoft Visual Studio not installed, skipping $(NAME).lib\033[0m"; \
 		fi \
 	fi
+endif
+
+else
+
+$(MAIN_TARGET): $(BUILD_GOAL_DIR)/$(MAIN_TARGET)
+	@# Even when compiled from Webots with possibly the previous version of the binary
+	@# being executed, it is safe to delete it and copy the new version as a replacement.
+	@# This new version will be executed only when the process restarts.
+	@# Note: this binary may be an executable (e.g., a controller) or shared library (e.g., a physics plug-in).
+	@rm -f $(MAIN_TARGET) > /dev/null 2>&1 && echo "# copying to" $(MAIN_TARGET_COPY) && cp $(BUILD_GOAL_DIR)/$(MAIN_TARGET) $(MAIN_TARGET_COPY) > /dev/null 2>&1
+ifdef VS_DEF_NAME
+	@# Generate the .lib libraries to facilitate the integration with Visual Studio
+	@# if the .def file is existing.
+	@if [ -f $(VS_DEF_NAME) ]; then \
+		if [ -d "$(VISUAL_STUDIO_PATH)" ]; then \
+			PATH="$(VISUAL_STUDIO_PATH)/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64":$PATH lib /machine:X64 /def:$(VS_DEF_NAME) /out:out.lib > /dev/null; \
+			mv out.lib $(MAIN_TARGET_WINDOWS64_LIB); \
+			rm -f *.exp; \
+		else \
+			$(ECHO) "\033[0;33m'VISUAL_STUDIO_PATH' environmental variable not set or Microsoft Visual Studio not installed, skipping $(NAME).lib\033[0m"; \
+		fi \
+	fi
+endif
+
 endif
 
 ###-----------------------------------------------------------------------------
 ### Rule to make the executable file from C/C++ objects
 ###-----------------------------------------------------------------------------
+
+ifdef FAT_BINARY
+X86_64_OBJECTS = $(addprefix $(BUILD_GOAL_DIR)/x86_64/, $(OBJECTS_LIST))
+ARM64_OBJECTS = $(addprefix $(BUILD_GOAL_DIR)/arm64/, $(OBJECTS_LIST))
+
+$(BUILD_GOAL_DIR)/$(MAIN_TARGET): $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET) $(BUILD_GOAL_DIR)/arm64/$(MAIN_TARGET)
+	@echo "# creating fat" $(notdir $@)
+	$(SILENT)lipo -create -output $@ $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET) $(BUILD_GOAL_DIR)/arm64/$(MAIN_TARGET)
+
+$(TARGET_LIB_DIR)/$(MAIN_TARGET): $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET) $(BUILD_GOAL_DIR)/arm64/$(MAIN_TARGET)
+	@echo "# creating fat" $(notdir $@)
+	$(SILENT)lipo -create -output $@ $(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET) $(BUILD_GOAL_DIR)/arm64/$(MAIN_TARGET)
+
+$(BUILD_GOAL_DIR)/x86_64/$(MAIN_TARGET): $(X86_64_OBJECTS) $(LINK_DEPENDENCIES)
+	@echo "# linking" $(notdir $@) "(x86_64)"
+	$(SILENT)$(LINKER) $(X86_64_LINKER) $(LFLAGS) $@ $(X86_64_OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
+
+$(BUILD_GOAL_DIR)/arm64/$(MAIN_TARGET): $(ARM64_OBJECTS) $(LINK_DEPENDENCIES)
+	@echo "# linking" $(notdir $@) "(arm64)"
+	$(SILENT)$(LINKER) $(ARM64_LINKER) $(LFLAGS) $@ $(ARM64_OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
+
+else
+
+OBJECTS = $(addprefix $(BUILD_GOAL_DIR)/, $(OBJECTS_LIST))
 $(BUILD_GOAL_DIR)/$(MAIN_TARGET): $(OBJECTS) $(LINK_DEPENDENCIES)
-	@echo "# linking" $(OBJECTS) $(notdir $@)
+	@echo "# linking" $(notdir $@)
 	$(SILENT)$(LINKER) $(LFLAGS) $@ $(OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
-ifdef WREN
-	$(SILENT) emcc -O3 -s WASM=1 -s EXIT_RUNTIME=1 -s USE_WEBGL2=1 -s FULL_ES3=1 -s ALLOW_MEMORY_GROWTH=1 --preload-file ../../resources/wren/shaders $(OBJECTS_EMCC) -s EXPORTED_FUNCTIONS='[$(shell cat functions_to_export.txt)]' -s 'EXPORTED_RUNTIME_METHODS=["ccall", "getValue"]' $(LIBRARIES) -o $(WRENJS_DIR)/wrenjs.js
+
+$(TARGET_LIB_DIR)/$(MAIN_TARGET): $(OBJECTS) $(LINK_DEPENDENCIES)
+	@echo "# linking" $(notdir $@)
+	$(SILENT)$(LINKER) $(LFLAGS) $@ $(OBJECTS) $(LIBRARIES) $(AR_SUPPRESS_OUTPUT)
+
 endif
+
 endif
+
 ### End ifdef MAIN_TARGET
+
+ifdef WREN
+$(WREN_TARGET): $(OBJECTS_EMCC)
+	$(SILENT) emcc -O3 -s WASM=1 -s EXIT_RUNTIME=1 -s USE_WEBGL2=1 -s FULL_ES3=1 -s ALLOW_MEMORY_GROWTH=1 --preload-file ../../resources/wren/shaders@../../resources/wren/shaders $(OBJECTS_EMCC) -s EXPORTED_FUNCTIONS='[$(shell cat functions_to_export.txt)]' -s 'EXPORTED_RUNTIME_METHODS=["ccall", "getValue"]' -o wrenjs.js
+	$(SILENT) cp wrenjs.js wrenjs.wasm wrenjs.data $(WRENJS_DIR)/ > /dev/null 2>&1
+endif
 
 ###-----------------------------------------------------------------------------
 ### Rules to make automatic dependencies adapted from the GNU make info file
@@ -531,6 +625,14 @@ $(BUILD_GOAL_DIR)/%.o:%.c
 	@echo "# compiling" $(notdir $<)
 	$(SILENT)$(CC) -c $(WBCFLAGS) $(CFLAGS) $(INCLUDE) $< -o $@
 
+$(BUILD_GOAL_DIR)/x86_64/%.o:%.c
+	@echo "# compiling" $(notdir $<) "(x86_64)"
+	$(SILENT)$(CC) -c -target x86_64-apple-macos11 $(WBCFLAGS) $(CFLAGS) $(INCLUDE) $< -o $@
+
+$(BUILD_GOAL_DIR)/arm64/%.o:%.c
+	@echo "# compiling" $(notdir $<) "(arm64)"
+	$(SILENT)$(CC) -c -target arm64-apple-macos11 $(WBCFLAGS) $(CFLAGS) $(INCLUDE) $< -o $@
+
 $(BUILD_GOAL_DIR)/%.o:%.cc
 	@echo "# compiling" $(notdir $<)
 	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
@@ -539,18 +641,30 @@ $(BUILD_GOAL_DIR)/%.o:%.c++
 	@echo "# compiling" $(notdir $<)
 	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
 
-EMCC_FILE = $(BUILD_GOAL_DIR_EMCC)/$(notdir $@)
 $(BUILD_GOAL_DIR)/%.o:%.cpp
 	@echo "# compiling" $(notdir $<)
 	$(SILENT)$(CXX) -c $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
-ifdef WREN
-	$(SILENT)emcc -O3 -c $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $(EMCC_FILE)
-endif
+
+$(BUILD_GOAL_DIR)/x86_64/%.o:%.cpp
+	@echo "# compiling" $(notdir $<) "(x86_64)"
+	$(SILENT)$(CXX) -c -target x86_64-apple-macos11 $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
+
+$(BUILD_GOAL_DIR)/arm64/%.o:%.cpp
+	@echo "# compiling" $(notdir $<) "(arm64)"
+	$(SILENT)$(CXX) -c -target arm64-apple-macos11 $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $@
+
+$(BUILD_GOAL_DIR_EMCC)/%.o:%.cpp
+	@echo "# compiling with emcc " $(notdir $<)
+	$(SILENT)emcc -O3 -c $(WBCFLAGS) $(CFLAGS) $(CXXFLAGS) $(INCLUDE) $< -o $(@)
+
 ###-----------------------------------------------------------------------------
 ### How to clean up the directory
 ###-----------------------------------------------------------------------------
 clean:
 	$(SILENT)rm -fr $(FILES_TO_REMOVE) $(BUILD_DIR) > /dev/null 2>&1 || :
 	$(SILENT)rm -d $(EMPTY_DIRECTORIES_TO_REMOVE) > /dev/null 2>&1 || :
-	$(SILENT)rm $(WRENJS_DIR)/wrenjs.js $(WRENJS_DIR)/wrenjs.data $(WRENJS_DIR)/wrenjs.wasm > /dev/null 2>&1 || :
-	$(SILENT)rm -r $(WRENJS_DIR)/images/post_processing > /dev/null 2>&1 || :
+  ifdef WREN
+	 $(SILENT)rm $(WEBOTS_HOME_PATH)/src/wren/wrenjs.js $(WEBOTS_HOME_PATH)/src/wren/wrenjs.data $(WEBOTS_HOME_PATH)/src/wren/wrenjs.wasm  $(WEBOTS_HOME_PATH)/src/wren/functions_to_export.txt > /dev/null 2>&1 || :
+	 $(SILENT)rm $(WRENJS_DIR)/wrenjs.js $(WRENJS_DIR)/wrenjs.data $(WRENJS_DIR)/wrenjs.wasm > /dev/null 2>&1 || :
+  endif
+  $(SILENT)rm -r $(WRENJS_DIR)/images/post_processing > /dev/null 2>&1 || :

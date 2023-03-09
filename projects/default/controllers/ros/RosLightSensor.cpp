@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,8 +18,8 @@
 RosLightSensor::RosLightSensor(LightSensor *lightSensor, Ros *ros) : RosSensor(lightSensor->getName(), lightSensor, ros) {
   mLightSensor = lightSensor;
 
-  mLookupTableServer = RosDevice::rosAdvertiseService(
-    (ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosLightSensor::getLookupTable);
+  mLookupTableServer =
+    RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosLightSensor::getLookupTable);
 }
 
 RosLightSensor::~RosLightSensor() {
@@ -30,7 +30,7 @@ RosLightSensor::~RosLightSensor() {
 // creates a publisher for light sensor value with a {double} as message type
 ros::Publisher RosLightSensor::createPublisher() {
   sensor_msgs::Illuminance type;
-  std::string topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/value";
+  std::string topicName = RosDevice::fixedDeviceName() + "/value";
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 
@@ -38,7 +38,7 @@ ros::Publisher RosLightSensor::createPublisher() {
 void RosLightSensor::publishValue(ros::Publisher publisher) {
   sensor_msgs::Illuminance value;
   value.header.stamp = ros::Time::now();
-  value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+  value.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
   value.illuminance = mLightSensor->getValue();
   value.variance = 0.0;
   publisher.publish(value);

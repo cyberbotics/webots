@@ -5,8 +5,8 @@ import os
 import sys
 
 try:
-    includePath = os.environ.get("WEBOTS_HOME") + "/projects/samples/robotbenchmark/include"
-    includePath.replace('/', os.sep)
+    includePath = os.path.join(os.path.normpath(os.environ.get("WEBOTS_HOME")), 'projects', 'samples', 'robotbenchmark',
+                               'include')
     sys.path.append(includePath)
     from robotbenchmark import robotbenchmarkRecord
 except ImportError:
@@ -36,7 +36,7 @@ timestep = int(robot.getBasicTimeStep())
 
 targetNode = robot.getFromDef("TARGET")
 targetPosition = targetNode.getPosition()
-targetPosition[1] = 0.0350
+targetPosition[2] = 0.0350
 
 targetOrientation = targetNode.getOrientation()
 
@@ -50,11 +50,10 @@ notMovingStepCount = 0
 while robot.step(timestep) != -1:
     position = boxNode.getPosition()
     distance = round(math.sqrt(math.pow(targetPosition[0] - position[0], 2) +
-                               math.pow(targetPosition[2] - position[2], 2)), 4)
+                               math.pow(targetPosition[1] - position[1], 2)), 4)
     time = robot.getTime()
     robot.wwiSendText("update: " + str(time) + " {0:.4f}".format(distance))
-
-    if boxPicked and distance < 0.036 and position[1] < 0.156:
+    if boxPicked and distance < 0.036 and position[2] < 0.156:
         if distance == previousDistance:
             notMovingStepCount += 1
             if notMovingStepCount > 10:
@@ -62,7 +61,7 @@ while robot.step(timestep) != -1:
         else:
             notMovingStepCount = 0
         previousDistance = distance
-    elif not boxPicked and position[1] > 0.21:
+    elif not boxPicked and position[2] > 0.21:
         boxPicked = True
 
 robot.wwiSendText("stop")
@@ -70,12 +69,13 @@ robot.wwiSendText("stop")
 while robot.step(timestep) != -1:
     # wait for record message
     message = robot.wwiReceiveText()
-    if message:
+    while message:
         if message.startswith("record:"):
             record = robotbenchmarkRecord(message, "pick_and_place", -time)
             robot.wwiSendText(record)
             break
         elif message == "exit":
             break
+        message = robot.wwiReceiveText()
 
 robot.simulationSetMode(Supervisor.SIMULATION_MODE_PAUSE)

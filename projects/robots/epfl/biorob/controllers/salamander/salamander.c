@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -205,8 +205,7 @@ int main() {
       phase -= (double)CONTROL_STEP / 1000.0 * FREQUENCY * 2.0 * M_PI;
 
       /* get current elevation from gps */
-      double elevation = wb_gps_get_values(gps)[Y];
-
+      double elevation = wb_gps_get_values(gps)[Z];
       if (locomotion == SWIM && elevation > WATER_LEVEL - 0.003) {
         locomotion = WALK;
         phase = target_position[6];

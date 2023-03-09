@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,6 +21,8 @@
 #include "Automaton.hpp"
 #include "RobotFacade.hpp"
 #include "RobotObjectFactory.hpp"
+
+#include <QtCore/QRegularExpression>
 
 Model *Model::cInstance = NULL;
 
@@ -70,7 +72,7 @@ void Model::fromString(const QString &string) {
     throw tr("Header not readable");
 
   QString header = string.left(firstNewLineIndex);
-  QStringList headerList = header.split(QRegExp("[#. ]"), Qt::SkipEmptyParts);
+  QStringList headerList = header.split(QRegularExpression("[#. ]"), Qt::SkipEmptyParts);
   if (headerList.size() == 3 && headerList[0] == "botstudio") {
     int macro = headerList[1].toInt();
     int micro = headerList[2].toInt();

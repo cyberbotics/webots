@@ -14,12 +14,12 @@ At the end of the chapter, links to further robotics algorithms are given.
 ### New World and New Controller
 
 > **Hands on #1**: Save the previous world as `collision_avoidance.wbt`.
-Create a new C (or any other language) controller called `epuck_avoid_collision` (for C++ and Java call it `EPuckAvoidCollision` instead) using the wizard.
+Create a new C (or any other language) controller called `epuck_avoid_collision` (for C++ and Java call it `EPuckAvoidCollision` instead) from the **File / New / New Robot Controller...** menu item.
 Modify the `controller` field of the `E-puck` node in order to associate it to the new controller.
 
 %spoiler "**Reminder**: How to create a new controller?"
 
-Select `New Robot Controller...` from the `Wizards` menu Then, choose your programming language and the file name.
+Select the **File / New / New Robot Controller...** menu item and choose your programming language and the file name.
 
 %end
 

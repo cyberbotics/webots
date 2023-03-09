@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,6 +14,7 @@
 
 #include "WbTouchSensor.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbLookupTable.hpp"
 #include "WbMFVector3.hpp"
@@ -129,7 +130,7 @@ void WbTouchSensor::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbTouchSensor::writeAnswer(QDataStream &stream) {
+void WbTouchSensor::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << tag();
     if (mDeviceType != FORCE3D) {  // BUMPER or FORCE
@@ -146,7 +147,7 @@ void WbTouchSensor::writeAnswer(QDataStream &stream) {
     addConfigure(stream);
 }
 
-void WbTouchSensor::addConfigure(QDataStream &stream) {
+void WbTouchSensor::addConfigure(WbDataStream &stream) {
   stream << (short unsigned int)tag();
   stream << (unsigned char)C_CONFIGURE;
   stream << (int)mDeviceType;
@@ -178,14 +179,14 @@ void WbTouchSensor::computeValue() {
 
     WbVector3 f1(&mFeedback->f1[0]);  // create WbVector3 from ODE vector
 
-    // by convention, TouchSensor's z-axis is the sensitive axis
-    // the orientation of the z-axis can be read directly from the rotation matrix
-    WbVector3 zaxis = matrix().zAxis();
+    // by convention, TouchSensor's x-axis is the sensitive axis
+    // the orientation of the x-axis can be read directly from the rotation matrix
+    WbVector3 xaxis = matrix().xAxis();
 
-    // compute how much of the force is aligned with the TouchSensors's z-axis
-    // use dot product: |force| * cos(theta) = dot(zaxis, sum) / |zaxis|
-    // we know that: |zaxis| == 1.0 (approximatively), therefore it can be ignored
-    double force = zaxis.dot(f1);
+    // compute how much of the force is aligned with the TouchSensors's x-axis
+    // use dot product: |force| * cos(theta) = dot(xaxis, sum) / |xaxis|
+    // we know that: |xaxis| == 1.0 (approximatively), therefore it can be ignored
+    double force = xaxis.dot(f1);
 
     // ignore negative forces because they would represent a pull rather than a push on the sensor
     force = force < 0.0 ? -force : 0.0;
@@ -270,7 +271,7 @@ dJointID WbTouchSensor::createJoint(dBodyID body, dBodyID parentBody, dWorldID w
   return joint;
 }
 
-void WbTouchSensor::writeConfigure(QDataStream &stream) {
+void WbTouchSensor::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
   addConfigure(stream);
 }

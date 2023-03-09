@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,7 +20,7 @@
 #include "WbProject.hpp"
 #include "WbStandardPaths.hpp"
 
-#include <QtGui/QRegExpValidator>
+#include <QtGui/QRegularExpressionValidator>
 
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QLabel>
@@ -65,8 +65,17 @@ void WbNewPhysicsPluginWizard::updateUI() {
 bool WbNewPhysicsPluginWizard::validateCurrentPage() {
   updateUI();
 
-  if (currentId() == NAME)
-    return !mNameEdit->text().isEmpty();
+  if (currentId() == NAME) {
+    if (mNameEdit->text().isEmpty()) {
+      WbMessageBox::warning(tr("Please specify a physics plugin name."), this, tr("Invalid physics plugin name"));
+      return false;
+    }
+    if (QDir(WbProject::current()->physicsPluginsPath() + mNameEdit->text()).exists()) {
+      WbMessageBox::warning(tr("A physics plugin with this name already exists, please choose a different name."), this,
+                            tr("Invalid physics plugin name"));
+      return false;
+    }
+  }
 
   return true;
 }
@@ -140,7 +149,7 @@ QWizardPage *WbNewPhysicsPluginWizard::createNamePage() {
 
   QLabel *nameLabel = new QLabel(tr("Plugin name:"), page);
   mNameEdit = new WbLineEdit("my_physics", page);
-  mNameEdit->setValidator(new QRegExpValidator(QRegExp("[a-zA-Z0-9_-]*"), page));
+  mNameEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("[a-zA-Z0-9_-]*"), page));
   nameLabel->setBuddy(mNameEdit);
 
   QHBoxLayout *layout = new QHBoxLayout(page);

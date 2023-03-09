@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,9 +13,10 @@
 // limitations under the License.
 
 #include "WbRecentFilesList.hpp"
+
 #include "WbPreferences.hpp"
 
-#include <QtWidgets/QAction>
+#include <QtGui/QAction>
 #include <QtWidgets/QMenu>
 
 WbRecentFilesList::WbRecentFilesList(int size, QMenu *parent) : QObject(parent) {
@@ -110,16 +111,16 @@ void WbRecentFilesList::actionTriggered() {
 // escape all underscores so that they don't get interpreted as hotkeys by Unity
 QString WbRecentFilesList::escapedText(const QString &text) {
   if (qgetenv("XDG_CURRENT_DESKTOP") == "Unity") {
-    QString escapedText(text);
-    return escapedText.replace("_", "__");
+    QString escapedTextString(text);
+    return escapedTextString.replace("_", "__");
   }
   return text;
 }
 
 QString WbRecentFilesList::unescapedText(const QString &text) {
   if (qgetenv("XDG_CURRENT_DESKTOP") == "Unity") {
-    QString escapedText(text);
-    return escapedText.replace("__", "_");
+    QString escapedTextString(text);
+    return escapedTextString.replace("__", "_");
   }
   return text;
 }

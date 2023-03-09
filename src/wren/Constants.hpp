@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -59,9 +59,9 @@ namespace wren {
   extern const primitive::Sphere gSphereInf;
 
   // Max. active lights per frame (needs to be kept in sync with the shaders)
-  const int gMaxActiveDirectionalLights = 256;
-  const int gMaxActivePointLights = 256;
-  const int gMaxActiveSpotLights = 256;
+  const int gMaxActiveDirectionalLights = 48;
+  const int gMaxActivePointLights = 48;
+  const int gMaxActiveSpotLights = 48;
 
   // OpenGL constants
   const int gMaxShaderTextures = 13;        // conservative, OpenGL 3.3 specification requires at least 16

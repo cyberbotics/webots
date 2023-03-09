@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -121,19 +121,19 @@ void WbRotation::toFloatArray(float *rotation) const {
   rotation[3] = static_cast<float>(mZ);
 }
 
-WbVector3 WbRotation::right() const {
+WbVector3 WbRotation::direction() const {
   const double c = cos(mAngle), s = sin(mAngle), t = 1 - c;
   const double tTimesX = t * mX;
   return WbVector3(tTimesX * mX + c, tTimesX * mY + s * mZ, tTimesX * mZ - s * mY);
 }
 
-WbVector3 WbRotation::up() const {
+WbVector3 WbRotation::right() const {
   const double c = cos(mAngle), s = sin(mAngle), t = 1 - c;
   const double tTimesY = t * mY;
   return WbVector3(tTimesY * mX - s * mZ, tTimesY * mY + c, tTimesY * mZ + s * mX);
 }
 
-WbVector3 WbRotation::direction() const {
+WbVector3 WbRotation::up() const {
   const double c = cos(mAngle), s = sin(mAngle), t = 1 - c;
   const double tTimesZ = t * mZ;
   return WbVector3(tTimesZ * mX + s * mY, tTimesZ * mY - s * mX, tTimesZ * mZ + c);

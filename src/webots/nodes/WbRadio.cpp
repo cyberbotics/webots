@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,6 +14,7 @@
 
 #include "WbRadio.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbRadioPlugin.hpp"
 #include "WbSFInt.hpp"
 #include "WbSensor.hpp"
@@ -206,7 +207,7 @@ void WbRadio::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbRadio::writeConfigure(QDataStream &stream) {
+void WbRadio::writeConfigure(WbDataStream &stream) {
   stream << tag();
   stream << (unsigned char)C_CONFIGURE;
   QByteArray address = mAddress->value().toUtf8();
@@ -285,11 +286,11 @@ static struct WebotsRadioEvent *radio_event_duplicate(const struct WebotsRadioEv
   struct WebotsRadioEvent *copy = new struct WebotsRadioEvent;
   copy->type = orig->type;
   copy->data = new char[orig->data_size];
-  memcpy((void *)copy->data, orig->data, orig->data_size);
+  memcpy(static_cast<void *>(const_cast<char *>(copy->data)), orig->data, orig->data_size);
   copy->data_size = orig->data_size;
   int len = strlen(orig->from) + 1;
   copy->from = new char[len];
-  strncpy((char *)copy->from, orig->from, len);
+  strncpy(const_cast<char *>(copy->from), orig->from, len);
   copy->rssi = orig->rssi;
   return copy;
 }
@@ -307,7 +308,7 @@ void WbRadio::receiveCallback(const struct WebotsRadioEvent *event) {
   mReceivedEvents.append(copy);
 }
 
-void WbRadio::writeAnswer(QDataStream &stream) {
+void WbRadio::writeAnswer(WbDataStream &stream) {
   if (mNeedUpdateSetup) {
     writeConfigure(stream);
     mNeedUpdateSetup = false;

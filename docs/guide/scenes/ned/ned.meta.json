@@ -7,7 +7,7 @@
       "minPosition": -2.8,
       "name": "joint_1",
       "position": 0,
-      "transformID": "n83",
+      "transformID": "n61",
       "type": "RotationalMotor"
     },
     {
@@ -17,7 +17,7 @@
       "minPosition": -0.8,
       "name": "joint_2",
       "position": 0,
-      "transformID": "n101",
+      "transformID": "n77",
       "type": "RotationalMotor"
     },
     {
@@ -27,7 +27,7 @@
       "minPosition": -1.5,
       "name": "joint_3",
       "position": 0,
-      "transformID": "n129",
+      "transformID": "n102",
       "type": "RotationalMotor"
     },
     {
@@ -37,7 +37,7 @@
       "minPosition": -2,
       "name": "joint_4",
       "position": 0,
-      "transformID": "n150",
+      "transformID": "n121",
       "type": "RotationalMotor"
     },
     {
@@ -47,7 +47,7 @@
       "minPosition": -1.5,
       "name": "joint_5",
       "position": 0,
-      "transformID": "n178",
+      "transformID": "n146",
       "type": "RotationalMotor"
     },
     {
@@ -57,67 +57,87 @@
       "minPosition": -2.5,
       "name": "joint_6",
       "position": 0,
-      "transformID": "n197",
+      "transformID": "n163",
       "type": "RotationalMotor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 -4e-06 1",
       "maxPosition": 0.01,
       "minPosition": -0.01,
       "name": "joint_base_to_jaw_1",
       "position": 0,
-      "transformID": "n223",
+      "transformID": "n186",
       "type": "LinearMotor"
     },
     {
-      "anchor": "0 0 0",
       "axis": "0 4e-06 -1",
       "maxPosition": 0.01,
       "minPosition": -0.01,
       "name": "joint_base_to_jaw_2",
       "position": 0,
-      "transformID": "n238",
+      "transformID": "n200",
       "type": "LinearMotor"
     },
     {
+      "anchor": "0 0 0.1065",
+      "axis": "0 0 1",
       "name": "joint_1_sensor",
-      "transformID": "n83",
+      "position": 0,
+      "transformID": "n61",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0.065",
+      "axis": "-1 0 0.000796",
       "name": "joint_2_sensor",
-      "transformID": "n101",
+      "position": 0,
+      "transformID": "n77",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.221 0.012 0",
+      "axis": "0 0 1",
       "name": "joint_3_sensor",
-      "transformID": "n129",
+      "position": 0,
+      "transformID": "n102",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.032 0.042 0",
+      "axis": "-0.000796 1 1e-06",
       "name": "joint_4_sensor",
-      "transformID": "n150",
+      "position": 0,
+      "transformID": "n121",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 0 0.188",
+      "axis": "-1 0 1e-06",
       "name": "joint_5_sensor",
-      "transformID": "n178",
+      "position": 0,
+      "transformID": "n146",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.0197 0.00925 0",
+      "axis": "1 0 0.000796",
       "name": "joint_6_sensor",
-      "transformID": "n197",
+      "position": 0,
+      "transformID": "n163",
       "type": "PositionSensor"
     },
     {
+      "axis": "0 -4e-06 1",
       "name": "joint_base_to_jaw_1_sensor",
-      "transformID": "n223",
+      "position": 0,
+      "transformID": "n186",
       "type": "PositionSensor"
     },
     {
+      "axis": "0 4e-06 -1",
       "name": "joint_base_to_jaw_2_sensor",
-      "transformID": "n238",
+      "position": 0,
+      "transformID": "n200",
       "type": "PositionSensor"
     }
   ],

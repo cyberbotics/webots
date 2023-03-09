@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,7 +25,8 @@
 #include "WbWrenTextureOverlay.hpp"
 
 #include <QtGui/QOpenGLContext>
-#include <QtGui/QOpenGLShaderProgram>
+#include <QtOpenGL/QOpenGLShaderProgram>
+#include <QtOpenGL/QOpenGLVersionFunctionsFactory>
 
 static const char *gVertexShaderSource = "#version 330\n"
                                          "layout (location = 0) in vec4 posAttr;\n"
@@ -147,7 +148,7 @@ WbRenderingDeviceWindow::WbRenderingDeviceWindow(WbRenderingDevice *device) :
     windowHeight = textureHeight * newPixelSize;
   }
 
-  const WbRobot *const robotNode = dynamic_cast<const WbRobot *const>(WbNodeUtilities::findTopNode(mDevice));
+  const WbRobot *const robotNode = WbNodeUtilities::findRobotAncestor(mDevice);
   assert(robotNode);
   setTitle(robotNode->name() + ": " + mDevice->name());
   resize(windowWidth, windowHeight);
@@ -164,8 +165,7 @@ WbRenderingDeviceWindow::~WbRenderingDeviceWindow() {
   assert(success);
   if (!success)
     return;
-
-  QOpenGLFunctions_3_3_Core *f = mContext->versionFunctions<QOpenGLFunctions_3_3_Core>();
+  QOpenGLFunctions_3_3_Core *f = QOpenGLVersionFunctionsFactory::get<QOpenGLFunctions_3_3_Core>(mContext);
   f->glDeleteVertexArrays(1, &mVaoId);
   f->glDeleteBuffers(2, (GLuint *)&mVboId);
   mContext->doneCurrent();
@@ -197,7 +197,7 @@ void WbRenderingDeviceWindow::initialize() {
   if (!mDevice->hasBeenSetup())
     return;
 
-  QOpenGLFunctions_3_3_Core *f = mContext->versionFunctions<QOpenGLFunctions_3_3_Core>();
+  QOpenGLFunctions_3_3_Core *f = QOpenGLVersionFunctionsFactory::get<QOpenGLFunctions_3_3_Core>(mContext);
   if (mAbstractCamera == NULL) {
     GLint textureWidth = 0;
     GLint textureHeight = 0;
@@ -235,7 +235,7 @@ void WbRenderingDeviceWindow::initialize() {
 }
 
 void WbRenderingDeviceWindow::render() {
-  QOpenGLFunctions_3_3_Core *f = mContext->versionFunctions<QOpenGLFunctions_3_3_Core>();
+  QOpenGLFunctions_3_3_Core *f = QOpenGLVersionFunctionsFactory::get<QOpenGLFunctions_3_3_Core>(mContext);
 
   const int ratio = (int)devicePixelRatio();
   f->glViewport(0, 0, width() * ratio, height() * ratio);

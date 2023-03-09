@@ -12,6 +12,7 @@ Create a new empty text file in the `protos` folder of your project called `Four
 
 Any PROTO file should at least respect the following structure:
 ```
+#VRML_SIM {{ webots.version.major }} utf8
 PROTO protoName [
   protoFields
 ]
@@ -30,6 +31,7 @@ Finally, save the PROTO file.
   **Solution**: You should have something like this:
 
 ```
+  #VRML_SIM {{ webots.version.major }} utf8
   PROTO FourWheelsRobot [
 
   ]
@@ -64,7 +66,7 @@ This should be done in the PROTO interface part (part between the `[` and the `]
 > **Hands-on #4**: Edit your PROTO file in your text editor and add the definition of the `translation`, `rotation` and `bodyMass` field in the PROTO interface part:
 ```
   field SFVec3f    translation  0 0 0
-  field SFRotation rotation     0 1 0 0
+  field SFRotation rotation     0 0 1 0
   field SFFloat    bodyMass     1
 ```
 Your PROTO node has now two open fields but they are not linked to any internal field.
@@ -80,9 +82,10 @@ And the `mass` field of the [Physics](../reference/physics.md) node of the [Robo
 ```
 Save your PROTO file, it should now look like this:
 ```
+#VRML_SIM {{ webots.version.major }} utf8
 PROTO FourWheelsRobot [
   field SFVec3f    translation  0 0 0
-  field SFRotation rotation     0 1 0 0
+  field SFRotation rotation     0 0 1 0
   field SFFloat    bodyMass     1
 ]
 {

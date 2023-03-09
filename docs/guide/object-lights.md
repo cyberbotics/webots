@@ -2,7 +2,7 @@
 
 ## CeilingLight
 
-A ceiling light (0.19 x 0.8 x 0.19 m).
+A ceiling light (0.19 x 0.19 x 0.8 m).
 
 %figure
 
@@ -14,13 +14,13 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 CeilingLight {
-  SFVec3f    translation                0 2.4 0
-  SFRotation rotation                   0 1 0 0
+  SFVec3f    translation                0 0 2.4
+  SFRotation rotation                   0 0 1 0
   SFString   name                       "ceiling light"
   SFColor    bulbColor                  1 1 1
-  MFString   bulbTextureUrl             "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/lights/protos/textures/light_bulb.jpg"
+  MFString   bulbTextureUrl             "textures/light_bulb.jpg"
   SFColor    supportColor               1 1 1
-  MFString   supportTextureUrl          "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/lights/protos/textures/light_support_base_color.jpg"
+  MFString   supportTextureUrl          "textures/light_support_base_color.jpg"
   SFColor    pointLightColor            1 1 1
   SFFloat    pointLightIntensity        1
   SFFloat    pointLightRadius           100
@@ -68,8 +68,8 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 CeilingSpotLight {
-  SFVec3f    translation               0 1.0 0
-  SFRotation rotation                  0 1 0 0
+  SFVec3f    translation               0 0 1
+  SFRotation rotation                  0 0 1 0
   SFString   name                      "ceiling light"
   SFNode     supportAppearance         DamascusSteel { }
   SFColor    spotLightColor            1 1 1
@@ -110,8 +110,8 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 ConstructionLamp {
-  SFVec3f    translation               0 0.07 0
-  SFRotation rotation                  0 1 0 0
+  SFVec3f    translation               0 0 0.07
+  SFRotation rotation                  0 0 1 0
   SFString   name                      "construction lamp"
   SFNode     supportAppearance         MetalPipePaint { }
   SFColor    spotLightColor            1 1 1
@@ -154,7 +154,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 DoubleFluorescentLamp {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "double fuorescent lamp"
   SFFloat    intensity       10
 }
@@ -171,7 +171,7 @@ DoubleFluorescentLamp {
 
 ## FloorLight
 
-A floor light (0.19 x 1.6 x 0.19 m).
+A floor light (0.19 x 0.19 x 1.6 m).
 
 %figure
 
@@ -184,12 +184,12 @@ Derived from [Solid](../reference/solid.md).
 ```
 FloorLight {
   SFVec3f    translation                0 0 0
-  SFRotation rotation                   0 1 0 0
+  SFRotation rotation                   0 0 1 0
   SFString   name                       "floor light"
   SFColor    bulbColor                  1 1 1
-  MFString   bulbTextureUrl             "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/lights/protos/textures/light_bulb.jpg"
+  MFString   bulbTextureUrl             "textures/light_bulb.jpg"
   SFColor    supportColor               1 1 1
-  MFString   supportTextureUrl          "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/lights/protos/textures/light_support_base_color.jpg"
+  MFString   supportTextureUrl          "textures/light_support_base_color.jpg"
   SFColor    pointLightColor            1 1 1
   SFFloat    pointLightIntensity        1
   SFFloat    pointLightRadius           100

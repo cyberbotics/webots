@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,14 +19,12 @@
 
 RosBrake::RosBrake(Brake *brake, Ros *ros) : RosDevice(brake, ros) {
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
-  mSetDampingConstantServer = RosDevice::rosAdvertiseService(ros->name() + '/' + fixedDeviceName + "/set_damping_constant",
-                                                             &RosBrake::setDampingConstantCallback);
-  mGetTypeServer =
-    RosDevice::rosAdvertiseService(ros->name() + '/' + fixedDeviceName + "/get_type", &RosBrake::getTypeCallback);
-  mGetMotorNameServer =
-    RosDevice::rosAdvertiseService(ros->name() + '/' + fixedDeviceName + "/get_motor_name", &RosBrake::getMotorNameCallback);
-  mGetPositionSensorNameServer = RosDevice::rosAdvertiseService(
-    ros->name() + '/' + fixedDeviceName + "/get_position_sensor_name", &RosBrake::getPositionSensorNameCallback);
+  mSetDampingConstantServer =
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/set_damping_constant", &RosBrake::setDampingConstantCallback);
+  mGetTypeServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_type", &RosBrake::getTypeCallback);
+  mGetMotorNameServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_motor_name", &RosBrake::getMotorNameCallback);
+  mGetPositionSensorNameServer =
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_position_sensor_name", &RosBrake::getPositionSensorNameCallback);
   mBrake = brake;
 }
 

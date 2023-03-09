@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,17 +17,13 @@
 RosEmitter::RosEmitter(Emitter *emitter, Ros *ros) : RosDevice(emitter, ros) {
   mEmitter = emitter;
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
-  mSendServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/send", &RosEmitter::sendCallback);
-  mGetBufferSizeServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_buffer_size",
-                                                        &RosEmitter::getBufferSizeCallback);
-  mGetChannelServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_channel", &RosEmitter::getChannelCallback);
-  mGetRangeServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_range", &RosEmitter::getRangeCallback);
-  mSetChannelServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_channel", &RosEmitter::setChannelCallback);
-  mSetRangeServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_range", &RosEmitter::setRangeCallback);
+  mSendServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/send", &RosEmitter::sendCallback);
+  mGetBufferSizeServer =
+    RosDevice::rosAdvertiseService(fixedDeviceName + "/get_buffer_size", &RosEmitter::getBufferSizeCallback);
+  mGetChannelServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_channel", &RosEmitter::getChannelCallback);
+  mGetRangeServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_range", &RosEmitter::getRangeCallback);
+  mSetChannelServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_channel", &RosEmitter::setChannelCallback);
+  mSetRangeServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_range", &RosEmitter::setRangeCallback);
 }
 
 RosEmitter::~RosEmitter() {
@@ -40,7 +36,7 @@ RosEmitter::~RosEmitter() {
 }
 
 bool RosEmitter::sendCallback(webots_ros::set_string::Request &req, webots_ros::set_string::Response &res) {
-  mEmitter->send((void *)req.value.c_str(), req.value.size());
+  mEmitter->send(static_cast<void *>(const_cast<char *>(req.value.c_str())), req.value.size());
   res.success = true;
   return true;
 }

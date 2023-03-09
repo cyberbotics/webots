@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -52,11 +52,11 @@ class OSMCoord(OSMAbstractObject):
         coord.OSMID = osmid
         coord.long = long
         coord.lat = lat
-        coord.x, coord.z = Projection.project(coord.long, coord.lat)
+        coord.x, coord.y = Projection.project(coord.long, coord.lat)
         OSMCoord.coordDictionnary[osmid] = coord
 
     @staticmethod
-    def addFromXZ(osmid, x, z, y):
+    def addFromXY(osmid, x, y, z):
         """Add a new coordinate to the list from X Y."""
         coord = OSMCoord()
         coord.OSMID = osmid
@@ -66,25 +66,25 @@ class OSMCoord(OSMAbstractObject):
         OSMCoord.coordDictionnary[osmid] = coord
 
     @staticmethod
-    def add_new_coord_to_list(x, z, y=0):
+    def add_new_coord_to_list(x, y, z=0):
         """Add a new coordinate to the list from X Y and create s new OSMID."""
         while OSMCoord.newCoordOSMID in OSMCoord.coordDictionnary:
             OSMCoord.newCoordOSMID = OSMCoord.newCoordOSMID + 1
-        OSMCoord.addFromXZ(OSMCoord.newCoordOSMID, x, z, y)
+        OSMCoord.addFromXY(OSMCoord.newCoordOSMID, x, y, z)
         return OSMCoord.newCoordOSMID
 
     @staticmethod
     def center_coordinates(minlat, minlon, maxlat, maxlon):
         """Center the coordinate around (0,0) and returns the offsets between earth and local world coordinate."""
-        x1, z1 = Projection.project(minlon, minlat)
-        x2, z2 = Projection.project(maxlon, maxlat)
+        x1, y1 = Projection.project(minlon, minlat)
+        x2, y2 = Projection.project(maxlon, maxlat)
         xOffset = (x1 + x2) / 2
-        zOffset = (z1 + z2) / 2
+        yOffset = (y1 + y2) / 2
         for osmid in OSMCoord.coordDictionnary:
             # inverse X, because OSM and Webots X are inversed
-            OSMCoord.coordDictionnary[osmid].x = -OSMCoord.coordDictionnary[osmid].x + xOffset
-            OSMCoord.coordDictionnary[osmid].z = OSMCoord.coordDictionnary[osmid].z - zOffset
-        return xOffset, zOffset
+            OSMCoord.coordDictionnary[osmid].x = OSMCoord.coordDictionnary[osmid].x - xOffset
+            OSMCoord.coordDictionnary[osmid].y = OSMCoord.coordDictionnary[osmid].y - yOffset
+        return xOffset, yOffset
 
     @staticmethod
     def get_min_and_max_coord(refs):
@@ -93,18 +93,18 @@ class OSMCoord(OSMAbstractObject):
             return (0, 0, 0, 0)
         xMin = OSMCoord.coordDictionnary[refs[0]].x
         xMax = OSMCoord.coordDictionnary[refs[0]].x
-        zMin = OSMCoord.coordDictionnary[refs[0]].z
-        zMax = OSMCoord.coordDictionnary[refs[0]].z
+        yMin = OSMCoord.coordDictionnary[refs[0]].y
+        yMax = OSMCoord.coordDictionnary[refs[0]].y
         for ref in refs:
             if xMin < OSMCoord.coordDictionnary[ref].x:
                 xMin = OSMCoord.coordDictionnary[ref].x
             if xMax > OSMCoord.coordDictionnary[ref].x:
                 xMax = OSMCoord.coordDictionnary[ref].x
-            if zMin < OSMCoord.coordDictionnary[ref].z:
-                zMin = OSMCoord.coordDictionnary[ref].z
-            if zMax > OSMCoord.coordDictionnary[ref].z:
-                zMax = OSMCoord.coordDictionnary[ref].z
-        return (xMin, xMax, zMin, zMax)
+            if yMin < OSMCoord.coordDictionnary[ref].y:
+                yMin = OSMCoord.coordDictionnary[ref].y
+            if yMax > OSMCoord.coordDictionnary[ref].y:
+                yMax = OSMCoord.coordDictionnary[ref].y
+        return (xMin, xMax, yMin, yMax)
 
 
 class OSMNode(OSMCoord):
@@ -124,7 +124,7 @@ class OSMNode(OSMCoord):
         node.OSMID = osmid
         node.long = long
         node.lat = lat
-        node.x, node.z = Projection.project(node.long, node.lat)
+        node.x, node.y = Projection.project(node.long, node.lat)
         node.tags = tags
         OSMNode.nodeDictionnary[osmid] = node
 
@@ -186,11 +186,11 @@ class OSMMultipolygon(object):
             OSMMultipolygon.multipolygonList.append(multipolygon)
 
     @staticmethod
-    def sum_distances_to_coords(coordlist, x, z, threshold):
+    def sum_distances_to_coords(coordlist, x, y, threshold):
         """Return the sum of the distances to each point closer than the threshold."""
         total = 0
         for index in coordlist:
-            distance = length2D(coordlist[index].x - x, coordlist[index].z - z)
+            distance = length2D(coordlist[index].x - x, coordlist[index].y - y)
             if distance <= threshold:
                 total = total + distance
         return total
@@ -200,24 +200,24 @@ class OSMMultipolygon(object):
         """The point is used to close the polygon."""
         coordBegin = OSMCoord.coordDictionnary[self.ref[0]]
         coordEnd = OSMCoord.coordDictionnary[self.ref[-1]]
-        distance = length2D(coordBegin.x - coordEnd.x, coordBegin.z - coordEnd.z)
-        angle = math.atan2(coordBegin.z - coordEnd.z, coordBegin.x - coordEnd.x)
+        distance = length2D(coordBegin.x - coordEnd.x, coordBegin.y - coordEnd.y)
+        angle = math.atan2(coordBegin.y - coordEnd.y, coordBegin.x - coordEnd.x)
 
         # there is two possible 'optimal' intermediate points
         # we select the one that is the farthest from all the other coord (=>inside the lake)
         x1 = math.cos(math.pi / 2 + angle) * (distance / 2) + (coordBegin.x + coordEnd.x) / 2
-        z1 = math.sin(math.pi / 2 + angle) * (distance / 2) + (coordBegin.z + coordEnd.z) / 2
+        y1 = math.sin(math.pi / 2 + angle) * (distance / 2) + (coordBegin.y + coordEnd.y) / 2
         x2 = -math.cos(math.pi / 2 + angle) * (distance / 2) + (coordBegin.x + coordEnd.x) / 2
-        z2 = -math.sin(math.pi / 2 + angle) * (distance / 2) + (coordBegin.z + coordEnd.z) / 2
-        distanceSum1 = OSMMultipolygon.sum_distances_to_coords(OSMCoord.coordDictionnary, x1, z1, 2000)
-        distanceSum2 = OSMMultipolygon.sum_distances_to_coords(OSMCoord.coordDictionnary, x2, z2, 2000)
+        y2 = -math.sin(math.pi / 2 + angle) * (distance / 2) + (coordBegin.y + coordEnd.y) / 2
+        distanceSum1 = OSMMultipolygon.sum_distances_to_coords(OSMCoord.coordDictionnary, x1, y1, 2000)
+        distanceSum2 = OSMMultipolygon.sum_distances_to_coords(OSMCoord.coordDictionnary, x2, y2, 2000)
         if distanceSum1 < distanceSum2:
             x = x1
-            z = z1
+            y = y1
         else:
             x = x2
-            z = z2
-        self.ref.append(OSMCoord.add_new_coord_to_list(x, z))
+            y = y2
+        self.ref.append(OSMCoord.add_new_coord_to_list(x, y))
 
     @staticmethod
     def process(disableMultipolygonBuildings):

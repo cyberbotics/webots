@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -85,7 +85,6 @@ void JoystickInterface::init(webots::Driver *driver, const char *configFile) {
          << endl;
 
   QSettings settings(configFile, QSettings::IniFormat);
-  settings.setIniCodec("UTF-8");
   for (int i = 0; i < NAXIS; ++i)
     mAxesMap[axesNames[i]] = settings.value(QString("Axis/") + QString(axesNames[i]), -1).toInt();
   for (int i = 0; i < NAXIS; ++i) {

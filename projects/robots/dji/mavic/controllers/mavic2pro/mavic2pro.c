@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -110,11 +110,11 @@ int main(int argc, char **argv) {
     const double time = wb_robot_get_time();  // in seconds.
 
     // Retrieve robot position using the sensors.
-    const double roll = wb_inertial_unit_get_roll_pitch_yaw(imu)[0] + M_PI / 2.0;
+    const double roll = wb_inertial_unit_get_roll_pitch_yaw(imu)[0];
     const double pitch = wb_inertial_unit_get_roll_pitch_yaw(imu)[1];
-    const double altitude = wb_gps_get_values(gps)[1];
-    const double roll_acceleration = wb_gyro_get_values(gyro)[0];
-    const double pitch_acceleration = wb_gyro_get_values(gyro)[1];
+    const double altitude = wb_gps_get_values(gps)[2];
+    const double roll_velocity = wb_gyro_get_values(gyro)[0];
+    const double pitch_velocity = wb_gyro_get_values(gyro)[1];
 
     // Blink the front LEDs alternatively with a 1 second rate.
     const bool led_state = ((int)time) % 2;
@@ -122,8 +122,8 @@ int main(int argc, char **argv) {
     wb_led_set(front_right_led, !led_state);
 
     // Stabilize the Camera by actuating the camera motors according to the gyro feedback.
-    wb_motor_set_position(camera_roll_motor, -0.115 * roll_acceleration);
-    wb_motor_set_position(camera_pitch_motor, -0.1 * pitch_acceleration);
+    wb_motor_set_position(camera_roll_motor, -0.115 * roll_velocity);
+    wb_motor_set_position(camera_pitch_motor, -0.1 * pitch_velocity);
 
     // Transform the keyboard input to disturbances on the stabilization algorithm.
     double roll_disturbance = 0.0;
@@ -133,16 +133,16 @@ int main(int argc, char **argv) {
     while (key > 0) {
       switch (key) {
         case WB_KEYBOARD_UP:
-          pitch_disturbance = 2.0;
-          break;
-        case WB_KEYBOARD_DOWN:
           pitch_disturbance = -2.0;
           break;
+        case WB_KEYBOARD_DOWN:
+          pitch_disturbance = 2.0;
+          break;
         case WB_KEYBOARD_RIGHT:
-          yaw_disturbance = 1.3;
+          yaw_disturbance = -1.3;
           break;
         case WB_KEYBOARD_LEFT:
-          yaw_disturbance = -1.3;
+          yaw_disturbance = 1.3;
           break;
         case (WB_KEYBOARD_SHIFT + WB_KEYBOARD_RIGHT):
           roll_disturbance = -1.0;
@@ -163,17 +163,17 @@ int main(int argc, char **argv) {
     }
 
     // Compute the roll, pitch, yaw and vertical inputs.
-    const double roll_input = k_roll_p * CLAMP(roll, -1.0, 1.0) + roll_acceleration + roll_disturbance;
-    const double pitch_input = k_pitch_p * CLAMP(pitch, -1.0, 1.0) - pitch_acceleration + pitch_disturbance;
+    const double roll_input = k_roll_p * CLAMP(roll, -1.0, 1.0) + roll_velocity + roll_disturbance;
+    const double pitch_input = k_pitch_p * CLAMP(pitch, -1.0, 1.0) + pitch_velocity + pitch_disturbance;
     const double yaw_input = yaw_disturbance;
     const double clamped_difference_altitude = CLAMP(target_altitude - altitude + k_vertical_offset, -1.0, 1.0);
     const double vertical_input = k_vertical_p * pow(clamped_difference_altitude, 3.0);
 
     // Actuate the motors taking into consideration all the computed inputs.
-    const double front_left_motor_input = k_vertical_thrust + vertical_input - roll_input - pitch_input + yaw_input;
-    const double front_right_motor_input = k_vertical_thrust + vertical_input + roll_input - pitch_input - yaw_input;
-    const double rear_left_motor_input = k_vertical_thrust + vertical_input - roll_input + pitch_input - yaw_input;
-    const double rear_right_motor_input = k_vertical_thrust + vertical_input + roll_input + pitch_input + yaw_input;
+    const double front_left_motor_input = k_vertical_thrust + vertical_input - roll_input + pitch_input - yaw_input;
+    const double front_right_motor_input = k_vertical_thrust + vertical_input + roll_input + pitch_input + yaw_input;
+    const double rear_left_motor_input = k_vertical_thrust + vertical_input - roll_input - pitch_input + yaw_input;
+    const double rear_right_motor_input = k_vertical_thrust + vertical_input + roll_input - pitch_input - yaw_input;
     wb_motor_set_velocity(front_left_motor, front_left_motor_input);
     wb_motor_set_velocity(front_right_motor, -front_right_motor_input);
     wb_motor_set_velocity(rear_left_motor, -rear_left_motor_input);

@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,6 +28,7 @@ namespace WbContextMenuGenerator {
   static bool gAreNodeActionsEnabled = false;
   static bool gAreRobotActionsEnabled = false;
   static bool gAreProtoActionsEnabled = false;
+  static bool gAreExternProtoActionsEnabled = false;
   static QMenu *gRobotCameraMenu = NULL;
   static QMenu *gRobotRangeFinderMenu = NULL;
   static QMenu *gRobotDisplayMenu = NULL;
@@ -35,6 +36,7 @@ namespace WbContextMenuGenerator {
   void enableNodeActions(bool enabled) { gAreNodeActionsEnabled = enabled; }
   void enableRobotActions(bool enabled) { gAreRobotActionsEnabled = enabled; }
   void enableProtoActions(bool enabled) { gAreProtoActionsEnabled = enabled; }
+  void enableExternProtoActions(bool enabled) { gAreExternProtoActionsEnabled = enabled; }
   void setRobotCameraMenu(QMenu *menu) { gRobotCameraMenu = menu; }
   void setRobotRangeFinderMenu(QMenu *menu) { gRobotRangeFinderMenu = menu; }
   void setRobotDisplayMenu(QMenu *menu) { gRobotDisplayMenu = menu; }
@@ -48,33 +50,18 @@ namespace WbContextMenuGenerator {
       // find all basic nodes
       QStringList basicModels = WbNodeModel::baseModelNames();
 
+      // cache intensive searches results
+      int hasDeviceChildren = -1;
       // find all nodes suitable for transform
       foreach (const QString &modelName, basicModels) {
-        WbNodeUtilities::Answer answer = WbNodeUtilities::isSuitableForTransform(selectedNode, modelName);
-        if (answer != WbNodeUtilities::UNSUITABLE) {
+        const WbNodeUtilities::Answer answer =
+          WbNodeUtilities::isSuitableForTransform(selectedNode, modelName, &hasDeviceChildren);
+        if (answer != WbNodeUtilities::UNSUITABLE)
           suitableModels << modelName;
-        }
       }
     }
     return suitableModels;
   }
-
-#ifdef __linux__
-  void renameRobotOverlayActions(QMenu *menu, bool doubleUnderscoresRequired) {
-    foreach (QAction *action, menu->actions()) {
-      if (action->isSeparator())
-        continue;
-      else if (action->menu())
-        renameRobotOverlayActions(action->menu(), doubleUnderscoresRequired);
-      else {
-        if (doubleUnderscoresRequired)
-          action->setText(action->text().replace("_", "__"));
-        else
-          action->setText(action->text().replace("__", "_"));
-      }
-    }
-  }
-#endif
 
   void generateContextMenu(const QPoint &position, const WbNode *selectedNode) {
     QMenu contextMenu;
@@ -83,27 +70,25 @@ namespace WbContextMenuGenerator {
     contextMenu.addAction(WbActionManager::instance()->action(WbAction::COPY));
     contextMenu.addAction(WbActionManager::instance()->action(WbAction::PASTE));
     contextMenu.addAction(WbActionManager::instance()->action(WbAction::RESET_VALUE));
+    contextMenu.addAction(WbActionManager::instance()->action(WbAction::EDIT_FIELD));
     contextMenu.addSeparator();
     contextMenu.addAction(WbActionManager::instance()->action(WbAction::ADD_NEW));
     contextMenu.addAction(WbActionManager::instance()->action(WbAction::DEL));
     contextMenu.addSeparator();
     contextMenu.addAction(WbActionManager::instance()->action(WbAction::MOVE_VIEWPOINT_TO_OBJECT));
+    QMenu *viewMenu = contextMenu.addMenu(QObject::tr("Ali&gn View to Object"));
+    viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_FRONT_VIEW));
+    viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_BACK_VIEW));
+    viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_LEFT_VIEW));
+    viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_RIGHT_VIEW));
+    viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_TOP_VIEW));
+    viewMenu->addAction(WbActionManager::instance()->action(WbAction::OBJECT_BOTTOM_VIEW));
     contextMenu.addSeparator();
 
     // selection-dependent actions
     if (selectedNode) {
       // actions for robots
       if (gAreRobotActionsEnabled) {
-#ifdef __linux__
-        // fix for https://github.com/omichel/webots-dev/issues/7443, the context menu doesn't need the double underscore
-        // fix for menubars on Unity desktops (Ubuntu 16.04), so undo the workaround before opening the menu and redo it on menu
-        // close
-        if (qgetenv("XDG_CURRENT_DESKTOP") == "Unity") {
-          renameRobotOverlayActions(gRobotCameraMenu, false);
-          renameRobotOverlayActions(gRobotRangeFinderMenu, false);
-          renameRobotOverlayActions(gRobotDisplayMenu, false);
-        }
-#endif
         contextMenu.addAction(WbActionManager::instance()->action(WbAction::EDIT_CONTROLLER));
         contextMenu.addAction(WbActionManager::instance()->action(WbAction::SHOW_ROBOT_WINDOW));
         QMenu *subMenu = contextMenu.addMenu(QObject::tr("Overlays"));
@@ -129,8 +114,8 @@ namespace WbContextMenuGenerator {
         contextMenu.addSeparator();
 
         const WbBaseNode *selectedBaseNode = static_cast<const WbBaseNode *>(selectedNode);
-        if (!(selectedBaseNode->nodeType() == WB_NODE_WORLD_INFO || selectedBaseNode->nodeType() == WB_NODE_VIEWPOINT))
-          contextMenu.addAction(WbActionManager::instance()->action(WbAction::EXPORT_NODE));
+        if (selectedBaseNode->nodeType() == WB_NODE_ROBOT)
+          contextMenu.addAction(WbActionManager::instance()->action(WbAction::EXPORT_URDF));
 
         if (!gAreProtoActionsEnabled) {
           subMenu = contextMenu.addMenu(QObject::tr("Transform To..."));
@@ -149,7 +134,14 @@ namespace WbContextMenuGenerator {
 
       // actions for PROTO nodes
       if (gAreProtoActionsEnabled) {
-        contextMenu.addAction(WbActionManager::instance()->action(WbAction::SHOW_PROTO_SOURCE));
+        QAction *editProtoAction(WbActionManager::instance()->action(WbAction::EDIT_PROTO_SOURCE));
+        contextMenu.addAction(editProtoAction);
+        if (gAreExternProtoActionsEnabled) {
+          editProtoAction->setStatusTip(QObject::tr("Copy and edit the PROTO file in Text Editor."));
+          contextMenu.addAction(WbActionManager::instance()->action(WbAction::SHOW_PROTO_SOURCE));
+        } else
+          editProtoAction->setStatusTip(QObject::tr("Edit the PROTO file in Text Editor."));
+        editProtoAction->setToolTip(editProtoAction->statusTip());
 
         if (selectedNode->isTemplate())
           contextMenu.addAction(WbActionManager::instance()->action(WbAction::SHOW_PROTO_RESULT));
@@ -165,14 +157,5 @@ namespace WbContextMenuGenerator {
     WbActionManager::instance()->setFocusObject(&contextMenu);
     contextMenu.exec(position);
     WbActionManager::instance()->setFocusObject(focusObject);
-
-#ifdef __linux__
-    // see above comment, rename menu items again so everything works in the Overlays menu
-    if (qgetenv("XDG_CURRENT_DESKTOP") == "Unity" && gAreRobotActionsEnabled) {
-      renameRobotOverlayActions(gRobotCameraMenu, true);
-      renameRobotOverlayActions(gRobotRangeFinderMenu, true);
-      renameRobotOverlayActions(gRobotDisplayMenu, true);
-    }
-#endif
   }
 }  // namespace WbContextMenuGenerator

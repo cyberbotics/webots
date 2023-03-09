@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -73,21 +73,21 @@ const void WbSysInfo::initializeOpenGlInfo() {
 const QString &WbSysInfo::openGLRenderer() {
   static QString openGLRender;
   if (openGLRender.isEmpty())
-    openGLRender = (const char *)glGetString(GL_RENDERER);
+    openGLRender = reinterpret_cast<const char *>(glGetString(GL_RENDERER));
   return openGLRender;
 }
 
 const QString &WbSysInfo::openGLVendor() {
   static QString openGLVendor;
   if (openGLVendor.isEmpty())
-    openGLVendor = (const char *)glGetString(GL_VENDOR);
+    openGLVendor = reinterpret_cast<const char *>(glGetString(GL_VENDOR));
   return openGLVendor;
 }
 
 const QString &WbSysInfo::openGLVersion() {
   static QString openGLVersion;
   if (openGLVersion.isEmpty())
-    openGLVersion = (const char *)glGetString(GL_VERSION);
+    openGLVersion = reinterpret_cast<const char *>(glGetString(GL_VERSION));
   return openGLVersion;
 }
 
@@ -100,51 +100,17 @@ void WbSysInfo::openGlLineWidthRange(double &min, double &max) {
 
 const QString &WbSysInfo::sysInfo() {
   static QString sysInfo;
+  // cppcheck-suppress knownConditionTrueFalse
   if (!sysInfo.isEmpty())
     return sysInfo;
 
 #ifdef _WIN32
-  switch (QSysInfo::windowsVersion()) {
-    case QSysInfo::WV_XP:
-      sysInfo.append("Windows XP");
-      break;
-    case QSysInfo::WV_2003:
-      sysInfo.append("Windows 2003");
-      break;
-    case QSysInfo::WV_VISTA:
-      sysInfo.append("Windows Vista");
-      break;
-    case QSysInfo::WV_WINDOWS7:
-      sysInfo.append("Windows 7");
-      break;
-    case QSysInfo::WV_WINDOWS8:
-      sysInfo.append("Windows 8");
-      break;
-    case QSysInfo::WV_WINDOWS8_1:
-      sysInfo.append("Windows 8.1");
-      break;
-    case QSysInfo::WV_WINDOWS10:  // Or Windows 11
-    {
-      QString version("Windows 10");
-      QString kernelVersion = QSysInfo::kernelVersion();
-      QRegExp rx("[.]");
-      QStringList list = kernelVersion.split(rx, Qt::SkipEmptyParts);
-      if (list.size() == 3) {
-        const int buildNumber = list[2].toInt();
-        if (buildNumber >= 22000)
-          version = "Windows 11";
-      }
-      sysInfo.append(version);
-      break;
-    }
-    default:
-      sysInfo.append("Windows");
-      break;
-  }
+  sysInfo.append(QSysInfo::prettyProductName());
   sysInfo.append(" ");
 
   SYSTEM_INFO winSysInfo;
-  PGNSI pGetNativeSystemInfo = (PGNSI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetNativeSystemInfo");
+  PGNSI pGetNativeSystemInfo =
+    reinterpret_cast<PGNSI>(GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetNativeSystemInfo"));
   if (NULL != pGetNativeSystemInfo)
     pGetNativeSystemInfo(&winSysInfo);
   else
@@ -187,6 +153,7 @@ const QString &WbSysInfo::platformShortName() {
 #ifdef __linux__
   static QString platformShortName;
   if (platformShortName.isEmpty()) {
+    // cppcheck-suppress knownConditionTrueFalse
     if (WbSysInfo::isPointerSize64bits())
       platformShortName = "linux64";
     else
@@ -206,6 +173,7 @@ const QString &WbSysInfo::platformShortName() {
 
 const QString &WbSysInfo::processor() {
   static QString processor;
+  // cppcheck-suppress knownConditionTrueFalse
   if (!processor.isEmpty())
     return processor;
 #ifdef _WIN32
@@ -340,6 +308,7 @@ bool WbSysInfo::isRootUser() {
 #endif
 
 bool WbSysInfo::isPointerSize32bits() {
+  // cppcheck-suppress knownConditionTrueFalse
   return !WbSysInfo::isPointerSize64bits();
 }
 

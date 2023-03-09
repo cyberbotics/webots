@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,17 +14,22 @@
 
 #include "WbContactProperties.hpp"
 
+#include "WbDownloadManager.hpp"
 #include "WbDownloader.hpp"
 #include "WbFieldChecker.hpp"
+#include "WbNetwork.hpp"
 #include "WbSoundEngine.hpp"
 #include "WbUrl.hpp"
 #include "WbWorld.hpp"
+
+static const QString gUrlNames[3] = {"bumpSound", "rollSound", "slideSound"};
 
 void WbContactProperties::init() {
   mMaterial1 = findSFString("material1");
   mMaterial2 = findSFString("material2");
   mCoulombFriction = findMFDouble("coulombFriction");
   mFrictionRotation = findSFVector2("frictionRotation");
+  mRollingFriction = findSFVector3("rollingFriction");
   mBounce = findSFDouble("bounce");
   mBounceVelocity = findSFDouble("bounceVelocity");
   mForceDependentSlip = findMFDouble("forceDependentSlip");
@@ -37,7 +42,7 @@ void WbContactProperties::init() {
   mBumpSoundClip = NULL;
   mRollSoundClip = NULL;
   mSlideSoundClip = NULL;
-  for (size_t i = 0; i < sizeof(mDownloader) / sizeof(mDownloader[0]); i++)
+  for (int i = 0; i < 3; ++i)
     mDownloader[i] = NULL;
 }
 
@@ -57,10 +62,22 @@ WbContactProperties::~WbContactProperties() {
 }
 
 void WbContactProperties::downloadAsset(const QString &url, int index) {
-  if (!WbUrl::isWeb(url))
+  if (url.isEmpty())
     return;
-  mDownloader[index] = new WbDownloader(this);
-  mDownloader[index]->download(QUrl(url));
+
+  const QString &completeUrl = WbUrl::computePath(this, gUrlNames[index], url);
+  if (!WbUrl::isWeb(completeUrl) || WbNetwork::instance()->isCachedWithMapUpdate(completeUrl))
+    return;
+
+  delete mDownloader[index];
+  mDownloader[index] = WbDownloadManager::instance()->createDownloader(QUrl(completeUrl), this);
+  if (isPostFinalizedCalled()) {
+    void (WbContactProperties::*callback)(void);
+    callback = index == 0 ? &WbContactProperties::updateBumpSound :
+                            (index == 1 ? &WbContactProperties::updateRollSound : &WbContactProperties::updateSlideSound);
+    connect(mDownloader[index], &WbDownloader::complete, this, callback);
+  }
+  mDownloader[index]->download();
 }
 
 void WbContactProperties::downloadAssets() {
@@ -89,6 +106,7 @@ void WbContactProperties::postFinalize() {
   connect(mMaterial2, &WbSFString::changed, this, &WbContactProperties::valuesChanged);
   connect(mCoulombFriction, &WbSFDouble::changed, this, &WbContactProperties::updateCoulombFriction);
   connect(mFrictionRotation, &WbSFVector2::changed, this, &WbContactProperties::updateFrictionRotation);
+  connect(mRollingFriction, &WbSFVector3::changed, this, &WbContactProperties::updateRollingFriction);
   connect(mBounce, &WbSFDouble::changed, this, &WbContactProperties::updateBounce);
   connect(mBounceVelocity, &WbSFDouble::changed, this, &WbContactProperties::updateBounceVelocity);
   connect(mForceDependentSlip, &WbSFDouble::changed, this, &WbContactProperties::updateForceDependentSlip);
@@ -123,6 +141,20 @@ void WbContactProperties::updateCoulombFriction() {
 }
 
 void WbContactProperties::updateFrictionRotation() {
+  if (areOdeObjectsCreated())
+    emit valuesChanged();
+
+  emit needToEnableBodies();
+}
+
+void WbContactProperties::updateRollingFriction() {
+  const WbVector3 &rf = mRollingFriction->value();
+  if ((rf[0] != -1.0 && rf[0] < 0.0) || (rf[1] != -1.0 && rf[1] < 0.0) || (rf[2] != -1.0 && rf[2] < 0.0)) {
+    parsingWarn(tr("'rollingFriction' values must be positive or -1.0. Field value reset to 0 0 0."));
+    mRollingFriction->setValue(0, 0, 0);
+    return;
+  }
+
   if (areOdeObjectsCreated())
     emit valuesChanged();
 
@@ -182,25 +214,41 @@ void WbContactProperties::updateSoftErp() {
 }
 
 void WbContactProperties::loadSound(int index, const QString &sound, const QString &name, const WbSoundClip **clip) {
-  if (isPostFinalizedCalled() && WbUrl::isWeb(name) && mDownloader[index] == NULL) {
-    downloadAsset(name, index);
-    return;
-  }
-  WbSoundEngine::clearAllContactSoundSources();
   if (sound.isEmpty()) {
     *clip = NULL;
     return;
   }
-  if (!mDownloader[index]) {
-    *clip = WbSoundEngine::sound(WbUrl::computePath(this, name, sound));
-    return;
+
+  const QString completeUrl = WbUrl::computePath(this, gUrlNames[index], sound, true);
+  if (WbUrl::isWeb(completeUrl)) {
+    if (mDownloader[index] && !mDownloader[index]->error().isEmpty()) {
+      warn(mDownloader[index]->error());  // failure downloading or file does not exist (404)
+      *clip = NULL;
+      // downloader needs to be deleted in case the URL is switched back to something valid
+      delete mDownloader[index];
+      mDownloader[index] = NULL;
+      return;
+    }
+    if (!WbNetwork::instance()->isCachedWithMapUpdate(completeUrl)) {
+      downloadAsset(completeUrl, index);  // changed by supervisor
+      return;
+    }
   }
-  if (!mDownloader[index]->error().isEmpty())
-    warn(mDownloader[index]->error());
+
+  WbSoundEngine::clearAllContactSoundSources();
+  // determine extension from URL since for remotely defined assets the cached version doesn't retain this information
+  const QString extension = sound.mid(sound.lastIndexOf('.') + 1).toLower();
+
+  if (WbUrl::isWeb(completeUrl)) {
+    assert(WbNetwork::instance()->isCachedNoMapUpdate(completeUrl));  // by this point, the asset should be cached
+    *clip = WbSoundEngine::sound(WbNetwork::instance()->get(completeUrl), extension);
+  }
+  // completeUrl can contain missing_texture.png if the user inputs an invalid .png or .jpg file in the field. In this case,
+  // clip should be set to NULL
+  else if (!(completeUrl.isEmpty() || completeUrl == WbUrl::missingTexture()))
+    *clip = WbSoundEngine::sound(WbUrl::computePath(this, name, completeUrl, true), extension);
   else
-    *clip = WbSoundEngine::sound(sound, mDownloader[index]->device());
-  delete mDownloader[index];
-  mDownloader[index] = NULL;
+    *clip = NULL;
 }
 
 void WbContactProperties::updateBumpSound() {

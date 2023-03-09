@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -83,15 +83,15 @@ WrPostProcessingEffect *WbWrenPostProcessingEffects::lensFlare(float width, floa
 
   wr_post_processing_effect_set_drawing_index(lensFlareEffect, WbWrenRenderingContext::PP_LENS_FLARE);
 
-  WrPostProcessingEffectPass *passThrough = wr_post_processing_effect_pass_new();
-  wr_post_processing_effect_pass_set_name(passThrough, "LensFlarePassToBlend");
-  wr_post_processing_effect_pass_set_program(passThrough, WbWrenShaders::passThroughShader());
-  wr_post_processing_effect_pass_set_output_size(passThrough, width, height);
-  wr_post_processing_effect_pass_set_alpha_blending(passThrough, false);
-  wr_post_processing_effect_pass_set_input_texture_count(passThrough, 1);
-  wr_post_processing_effect_pass_set_output_texture_count(passThrough, 1);
-  wr_post_processing_effect_pass_set_output_texture_format(passThrough, 0, WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
-  wr_post_processing_effect_append_pass(lensFlareEffect, passThrough);
+  WrPostProcessingEffectPass *throughPass = wr_post_processing_effect_pass_new();
+  wr_post_processing_effect_pass_set_name(throughPass, "LensFlarePassToBlend");
+  wr_post_processing_effect_pass_set_program(throughPass, WbWrenShaders::passThroughShader());
+  wr_post_processing_effect_pass_set_output_size(throughPass, width, height);
+  wr_post_processing_effect_pass_set_alpha_blending(throughPass, false);
+  wr_post_processing_effect_pass_set_input_texture_count(throughPass, 1);
+  wr_post_processing_effect_pass_set_output_texture_count(throughPass, 1);
+  wr_post_processing_effect_pass_set_output_texture_format(throughPass, 0, WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
+  wr_post_processing_effect_append_pass(lensFlareEffect, throughPass);
 
   WrPostProcessingEffectPass *lensFlarePass = wr_post_processing_effect_pass_new();
   wr_post_processing_effect_pass_set_name(lensFlarePass, "LensFlare");
@@ -126,7 +126,7 @@ WrPostProcessingEffect *WbWrenPostProcessingEffects::lensFlare(float width, floa
   wr_post_processing_effect_connect(lensFlareEffect, blurPass, 0, blurPass, 1);
 
   wr_post_processing_effect_connect(lensFlareEffect, blurPass, 0, blendPass, 1);
-  wr_post_processing_effect_connect(lensFlareEffect, passThrough, 0, blendPass, 0);
+  wr_post_processing_effect_connect(lensFlareEffect, throughPass, 0, blendPass, 0);
 
   wr_post_processing_effect_set_result_program(lensFlareEffect, WbWrenShaders::passThroughShader());
 
@@ -237,6 +237,9 @@ WrPostProcessingEffect *WbWrenPostProcessingEffects::motionBlur(float width, flo
 
   wr_post_processing_effect_connect(motionBlur, pass, 0, pass, 1);
 
+  wr_post_processing_effect_pass_set_input_texture_wrap_mode(pass, 0, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+  wr_post_processing_effect_pass_set_input_texture_wrap_mode(pass, 1, WR_TEXTURE_WRAP_MODE_CLAMP_TO_EDGE);
+
   wr_post_processing_effect_set_result_program(motionBlur, WbWrenShaders::passThroughShader());
 
   return motionBlur;
@@ -323,15 +326,15 @@ WrPostProcessingEffect *WbWrenPostProcessingEffects::smaa(float width, float hei
   WrPostProcessingEffect *smaaEffect = wr_post_processing_effect_new();
   wr_post_processing_effect_set_drawing_index(smaaEffect, WbWrenRenderingContext::PP_SMAA);
 
-  WrPostProcessingEffectPass *passThrough = wr_post_processing_effect_pass_new();
-  wr_post_processing_effect_pass_set_name(passThrough, "LensFlarePassToBlend");
-  wr_post_processing_effect_pass_set_program(passThrough, WbWrenShaders::passThroughShader());
-  wr_post_processing_effect_pass_set_output_size(passThrough, width, height);
-  wr_post_processing_effect_pass_set_input_texture_count(passThrough, 1);
-  wr_post_processing_effect_pass_set_alpha_blending(passThrough, false);
-  wr_post_processing_effect_pass_set_output_texture_count(passThrough, 1);
-  wr_post_processing_effect_pass_set_output_texture_format(passThrough, 0, WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
-  wr_post_processing_effect_append_pass(smaaEffect, passThrough);
+  WrPostProcessingEffectPass *throughPass = wr_post_processing_effect_pass_new();
+  wr_post_processing_effect_pass_set_name(throughPass, "LensFlarePassToBlend");
+  wr_post_processing_effect_pass_set_program(throughPass, WbWrenShaders::passThroughShader());
+  wr_post_processing_effect_pass_set_output_size(throughPass, width, height);
+  wr_post_processing_effect_pass_set_input_texture_count(throughPass, 1);
+  wr_post_processing_effect_pass_set_alpha_blending(throughPass, false);
+  wr_post_processing_effect_pass_set_output_texture_count(throughPass, 1);
+  wr_post_processing_effect_pass_set_output_texture_format(throughPass, 0, WR_TEXTURE_INTERNAL_FORMAT_RGBA8);
+  wr_post_processing_effect_append_pass(smaaEffect, throughPass);
 
   WrPostProcessingEffectPass *edgeDetection = wr_post_processing_effect_pass_new();
   wr_post_processing_effect_pass_set_name(edgeDetection, "EdgeDetect");
@@ -373,7 +376,7 @@ WrPostProcessingEffect *WbWrenPostProcessingEffects::smaa(float width, float hei
   wr_post_processing_effect_pass_set_output_texture_format(finalBlend, 0, WR_TEXTURE_INTERNAL_FORMAT_RGB8);
   wr_post_processing_effect_append_pass(smaaEffect, finalBlend);
 
-  wr_post_processing_effect_connect(smaaEffect, passThrough, 0, finalBlend, 0);
+  wr_post_processing_effect_connect(smaaEffect, throughPass, 0, finalBlend, 0);
   wr_post_processing_effect_connect(smaaEffect, edgeDetection, 0, weightCalculation, 0);
   wr_post_processing_effect_connect(smaaEffect, weightCalculation, 0, finalBlend, 1);
 

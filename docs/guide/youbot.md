@@ -19,8 +19,8 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 Youbot {
-  SFVec3f    translation     0 0.12 0
-  SFRotation rotation        1 0 0 -1.5708
+  SFVec3f    translation     0 0 0.12
+  SFRotation rotation        0 0 1 0
   SFString   name            "youBot"
   SFString   controller      "youbot"
   MFString   controllerArgs  []

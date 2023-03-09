@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,7 +26,8 @@
 class WbApplication;
 class WbMainWindow;
 class WbSplashScreen;
-class WbStreamingServer;
+class WbTcpServer;
+class WbSingleTaskApplication;
 
 class WbGuiApplication : public QApplication {
   Q_OBJECT
@@ -37,14 +38,16 @@ public:
 
   int exec();
   void restart();
+  static void setWindowsDarkMode(QWidget *);
 
-  enum Task { NORMAL, SYSINFO, HELP, VERSION, UPDATE_PROTO_CACHE, UPDATE_WORLD, INVALID_LOGIN, FAILURE, QUIT, CONVERT };
+  enum Task { NORMAL, SYSINFO, HELP, VERSION, UPDATE_WORLD, INVALID_LOGIN, FAILURE, QUIT, CONVERT };
   WbApplication *application() const { return mApplication; };
 
 protected:
 #ifdef __APPLE__
-  virtual bool event(QEvent *event);
+  virtual bool event(QEvent *event) override;
 #endif
+  void timerEvent(QTimerEvent *event) override;
 
 private:
   WbApplication *mApplication;
@@ -55,14 +58,17 @@ private:
   WbSimulationState::Mode mStartupMode;
   WbMainWindow *mMainWindow;
   bool mShouldDoRendering;
+  QString mThemeLoaded;
+  char mStream;
+  int mHeartbeat;
 
   Task mTask;
   QStringList mTaskArguments;
 
-  WbStreamingServer *mStreamingServer;
+  WbTcpServer *mTcpServer;
 
+  void commandLineError(const QString &message, bool fatal = true);
   void parseArguments();
-  void parseStreamArguments(const QString &streamArguments);
   void showHelp();
   void showSysInfo();
   bool setup();
@@ -71,8 +77,8 @@ private:
   WbSimulationState::Mode startupModeFromPreferences() const;
   bool renderingFromPreferences() const;
   void loadInitialWorld();
-
-  void udpateStyleSheet();
+  void updateStyleSheet();
+  const WbSingleTaskApplication *taskExecutor();
 };
 
 #endif

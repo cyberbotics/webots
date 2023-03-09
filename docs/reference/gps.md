@@ -51,6 +51,7 @@ This field accepts any value in the interval (0.0, inf).
 #### `wb_gps_get_sampling_period`
 #### `wb_gps_get_values`
 #### `wb_gps_get_speed`
+#### `wb_gps_get_speed_vector`
 
 %tab-component "language"
 
@@ -63,7 +64,8 @@ void wb_gps_enable(WbDeviceTag tag, int sampling_period);
 void wb_gps_disable(WbDeviceTag tag);
 int wb_gps_get_sampling_period(WbDeviceTag tag);
 const double *wb_gps_get_values(WbDeviceTag tag);
-const double wb_gps_get_speed(WbDeviceTag tag);
+double wb_gps_get_speed(WbDeviceTag tag);
+const double *wb_gps_get_speed_vector(WbDeviceTag tag);
 ```
 
 %tab-end
@@ -79,7 +81,8 @@ namespace webots {
     virtual void disable();
     int getSamplingPeriod() const;
     const double *getValues() const;
-    const double getSpeed() const;
+    double getSpeed() const;
+    const double *getSpeedVector() const;
     // ...
   }
 }
@@ -98,6 +101,7 @@ class GPS (Device):
     def getSamplingPeriod(self):
     def getValues(self):
     def getSpeed(self):
+    def getSpeedVector(self):
     # ...
 ```
 
@@ -114,6 +118,7 @@ public class GPS extends Device {
   public int getSamplingPeriod();
   public double[] getValues();
   public double getSpeed();
+  public double[] getSpeedVector();
   // ...
 }
 ```
@@ -138,6 +143,7 @@ speed = wb_gps_get_speed(tag)
 | --- | --- | --- | --- |
 | `/<device_name>/values` | `topic` | [`sensor_msgs::NavSatFix`](http://docs.ros.org/api/sensor_msgs/html/msg/NavSatFix.html) for `WGS84` GPS coordinate system<br/><br/>or<br/><br/>[`geometry_msgs::PointStamped`](http://docs.ros.org/api/geometry_msgs/html/msg/PointStamped.html) for `local` GPS coordinate system | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>[`sensor_msgs/NavSatStatus`](http://docs.ros.org/api/sensor_msgs/html/msg/NavSatStatus.html) `status`<br/>`float64 latitude`<br/>`float64 longitude`<br/>`float64 altitude`<br/>`float64[9] position_covariance`<br/>`uint8 COVARIANCE_TYPE_UNKNOWN=0`<br/>`uint8 COVARIANCE_TYPE_APPROXIMATED=1`<br/>`uint8 COVARIANCE_TYPE_DIAGONAL_KNOWN=2`<br/>`uint8 COVARIANCE_TYPE_KNOWN=3`<br/>`uint8 position_covariance_type`<br/><br/>or<br/><br/>[`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 x`<br/>`float64 y`<br/>`float64 z`|
 | `/<device_name>/speed` | `topic` | webots_ros::Float64Stamped | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 data` |
+| `/<device_name>/speed_vector` | `topic` | [`geometry_msgs::PointStamped`](http://docs.ros.org/api/geometry_msgs/html/msg/PointStamped.html) | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`float64 x` <br/>`float64 y`<br/>`float64 z`|
 | `/<device_name>/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
 | `/<device_name>/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
 
@@ -164,6 +170,10 @@ This position can either be expressed in the cartesian coordinate system of Webo
 The `gpsReference` field of the [WorldInfo](worldinfo.md) node can be used to define the reference point of the GPS.
 
 The `wb_gps_get_speed` function returns the current [GPS](#gps) speed in meters per second.
+If there is no physics node on the parent node, the first returned value will be *NaN*.
+
+The `wb_gps_get_speed_vector` function returns the current [GPS](#gps) speed vector in meters per second.
+If there is no physics node on the parent node, the first returned vector will be *NaN*.
 
 > **Note** [C, C++]: The returned vector is a pointer to the internal values managed by the [GPS](#gps) node, therefore it is illegal to free this pointer.
 Furthermore, note that the pointed values are only valid until the next call to the `wb_robot_step` or `Robot::step` functions.

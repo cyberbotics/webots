@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,17 +27,16 @@
 #include "WbTextFind.hpp"
 #include "WbWorld.hpp"
 
+#include <QtGui/QAction>
 #include <QtGui/QTextBlock>
 #include <QtGui/QTextDocumentFragment>
 
-#include <QtWidgets/QAction>
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QLayout>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QStyle>
 
 #include <cassert>
-#include <iostream>
 
 #include <ode/ode.h>  // for message handlers
 
@@ -93,13 +92,13 @@ void ConsoleEdit::mouseDoubleClickEvent(QMouseEvent *event) {
   setExtraSelections(selections);
 }
 
-void ConsoleEdit::updateSearchTextHighlighting(QRegExp regExp) {
-  if (regExp.isEmpty())
+void ConsoleEdit::updateSearchTextHighlighting(QRegularExpression regularExpression) {
+  if (regularExpression.pattern().isEmpty())
     disconnect(this, &QPlainTextEdit::selectionChanged, this, &ConsoleEdit::resetSearchTextHighlighting);
 
-  mSyntaxHighlighter->setSearchTextRule(regExp);
+  mSyntaxHighlighter->setSearchTextRule(regularExpression);
 
-  if (!regExp.isEmpty())
+  if (!regularExpression.pattern().isEmpty())
     connect(this, &QPlainTextEdit::selectionChanged, this, &ConsoleEdit::resetSearchTextHighlighting, Qt::UniqueConnection);
 }
 
@@ -128,7 +127,7 @@ void ConsoleEdit::focusInEvent(QFocusEvent *event) {
   // update application actions
   WbActionManager *actionManager = WbActionManager::instance();
   actionManager->setFocusObject(this);
-  actionManager->enableTextEditActions(false);
+  actionManager->enableTextEditActions(false, true);
   actionManager->setEnabled(WbAction::COPY, textCursor().hasSelection());
   actionManager->setEnabled(WbAction::SELECT_ALL, true);
   actionManager->setEnabled(WbAction::FIND, true);
@@ -242,7 +241,7 @@ void ConsoleEdit::addContextMenuFilterItem(const QString &name, QMenu *menu, con
   if (!toolTip.isEmpty())
     action->setToolTip(toolTip);
   if (isControllerAction)
-    action->setProperty("isControllerAction", true);
+    action->setProperty("isControllerAction", QVariant(true));
   action->setCheckable(true);
   action->setChecked(console->getEnabledFilters().contains(name));
   menu->addAction(action);
@@ -333,17 +332,6 @@ void ConsoleEdit::showCustomContextMenu(const QPoint &pt) {
   delete clearAction;
   delete menu;
 }
-
-static bool gStdoutTee = false;
-static bool gStderrTee = false;
-
-void WbConsole::enableStdOutRedirectToTerminal() {
-  gStdoutTee = true;
-};
-
-void WbConsole::enableStdErrRedirectToTerminal() {
-  gStderrTee = true;
-};
 
 namespace {
   void odeErrorFunc(int errnum, const char *msg, va_list ap) {
@@ -439,9 +427,10 @@ void WbConsole::clear(bool reset) {
 
 void WbConsole::rename() {
   bool ok = false;
-  const QString name = QInputDialog::getText(this, tr("Console Name"), tr("New name:"), QLineEdit::Normal, mConsoleName, &ok);
-  if (ok && !name.isEmpty()) {
-    mConsoleName = name;
+  const QString nameString =
+    QInputDialog::getText(this, tr("Console Name"), tr("New name:"), QLineEdit::Normal, mConsoleName, &ok);
+  if (ok && !nameString.isEmpty()) {
+    mConsoleName = nameString;
     updateTitle();
   }
 }
@@ -734,41 +723,23 @@ void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup
   switch (level) {
     case WbLog::INFO:
     case WbLog::DEBUG:
-      if (gStdoutTee) {
-        std::cout << message.toUtf8().constData() << "\n";
-        std::cout.flush();
-      } else {
-        handlePossibleAnsiEscapeSequences(message, level);
-        if (popup)
-          WbMessageBox::info(message, this);
-      }
+      handlePossibleAnsiEscapeSequences(message, level);
+      if (popup)
+        WbMessageBox::info(message, this);
       break;
     case WbLog::WARNING:
     case WbLog::ERROR:
-      if (gStderrTee)
-        std::cerr << message.toUtf8().constData() << "\n";
-      else {
-        handlePossibleAnsiEscapeSequences(message, level);
-        if (popup)
-          WbMessageBox::warning(message, this);
-      }
+      handlePossibleAnsiEscapeSequences(message, level);
+      if (popup)
+        WbMessageBox::warning(message, this);
       break;
     case WbLog::STDOUT:
-      if (gStdoutTee) {
-        std::cout << message.toUtf8().constData();
-        std::cout.flush();
-      } else
-        handlePossibleAnsiEscapeSequences(message, level);
+      handlePossibleAnsiEscapeSequences(message, level);
       break;
     case WbLog::STDERR:
-      if (gStderrTee)
-        std::cerr << message.toUtf8().constData();
-      else
-        handlePossibleAnsiEscapeSequences(message, level);
+      handlePossibleAnsiEscapeSequences(message, level);
       break;
     case WbLog::FATAL:
-      if (gStderrTee)
-        std::cerr << message.toUtf8().constData();
       handlePossibleAnsiEscapeSequences(message, level);
       if (popup)
         WbMessageBox::critical(message, this);
@@ -778,30 +749,32 @@ void WbConsole::appendLog(WbLog::Level level, const QString &message, bool popup
   }
 }
 
-QRegExp **WbConsole::createErrorMatchingPatterns() const {
-  static QRegExp *exps[] = {
+QRegularExpression **WbConsole::createErrorMatchingPatterns() const {
+  static QRegularExpression *exps[] = {
     // gcc: "e-puck.c:7:20: error: stdio.h : No such file or directory"
     // gcc: "main.cc:7: error: 'WbMainWin' was not declared in this scope"
-    new QRegExp("(.+\\.\\w+):(\\d+):(\\d+):.*(?:\\w+):.*"), new QRegExp("(.+\\.\\w+):(\\d+):.*(?:\\w+):.*"),
+    new QRegularExpression("(.+\\.\\w+):(\\d+):(\\d+):.*(?:\\w+):.*"),
+    new QRegularExpression("(.+\\.\\w+):(\\d+):.*(?:\\w+):.*"),
 
     // javac: "Slave.java:35: illegal start of expression"
-    new QRegExp("(.*\\.java):(\\d+): .*"),
+    new QRegularExpression("(.*\\.java):(\\d+): .*"),
 
     // jvm: "[Driver]   at Driver.run(Driver.java:48)"
-    new QRegExp(".*at \\w+\\.\\w+\\((\\w+\\.java):(\\d+)\\)"),
+    new QRegularExpression(".*at \\w+\\.\\w+\\((\\w+\\.java):(\\d+)\\)"),
 
     // Python: "  File "/nao_python/nao_python.py", line 304, in printFootSensors"
-    new QRegExp(".*File \"(.+\\.py)\", line (\\d+).*"),
+    new QRegularExpression(".*File \"(.+\\.py)\", line (\\d+).*"),
 
     // Matlab: "Error in ==> /my_nice_file.m at 80"
     // Matlab: "[Rat] Error: File: /rat_controller_matlab.m Line: 134 Column: 20"
-    new QRegExp(".*Error in ==> (.+\\.m) at (\\d+)"), new QRegExp(".*Error: File: (.+\\.m) Line: (\\d+) Column: (\\d+)"),
+    new QRegularExpression(".*Error in ==> (.+\\.m) at (\\d+)"),
+    new QRegularExpression(".*Error: File: (.+\\.m) Line: (\\d+) Column: (\\d+)"),
 
     // Webots parser: "ERROR: '/home/yvan/develop/webots/resources/projects/default/worlds/empty.wbt':19:2: error: skipped
     // unknown 'blabla' field in PointLight node"
-    new QRegExp("ERROR: \'(.+\\.(?:wbt|wbo|proto|wrl))\':(\\d+):(\\d+): .*"),
-    new QRegExp("ERROR: \'(.+\\.(?:wbt|wbo|proto|wrl))\':(\\d+): .*"),
-    new QRegExp("ERROR: \'(.+\\.(?:wbt|wbo|proto|wrl))\': .*"),
+    new QRegularExpression("ERROR: \'(.+\\.(?:wbt|proto))\':(\\d+):(\\d+): .*"),
+    new QRegularExpression("ERROR: \'(.+\\.(?:wbt|proto))\':(\\d+): .*"),
+    new QRegularExpression("ERROR: \'(.+\\.(?:wbt|proto))\': .*"),
 
     // terminate list
     NULL};
@@ -814,17 +787,18 @@ void WbConsole::jumpToError(const QString &errorLine) {
   if (!editor)
     return;
   for (int i = 0; mErrorPatterns[i]; ++i) {
-    const QRegExp *const exp = mErrorPatterns[i];
-    if (exp->exactMatch(errorLine)) {
-      const QString fileName(exp->cap(1));  // first parentheses in regexp
+    const QRegularExpression *const exp = mErrorPatterns[i];
+    QRegularExpressionMatch match = exp->match(errorLine);
+    if (match.hasMatch()) {
+      const QString fileName(match.captured(1));  // first parentheses in regular expression
 
       int line = -1;
-      if (exp->captureCount() > 1)
-        line = exp->cap(2).toInt();  // second parentheses in regexp
+      if (match.lastCapturedIndex() > 1)
+        line = match.captured(2).toInt();  // second parentheses in regular expression
 
       int column = -1;
-      if (exp->captureCount() > 2)
-        column = exp->cap(3).toInt();  // third parentheses in regexp
+      if (match.lastCapturedIndex() > 2)
+        column = match.captured(3).toInt();  // third parentheses in regular expression
 
       // qDebug() << "WbConsole::jumpToError(): " << fileName << " " << line << " " << column;
       editor->jumpToError(fileName, line - 1, column - 1);

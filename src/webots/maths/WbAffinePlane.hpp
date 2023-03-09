@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -137,16 +137,16 @@ private:
 };
 
 inline void WbAffinePlane::normalize() {
-  double d = mA * mA + mB * mB + mC * mC;
-  if (d == 0.0) {
+  double length = mA * mA + mB * mB + mC * mC;
+  if (length == 0.0) {
     mA = 1.0;
     return;
   }
-  d = 1.0 / sqrt(d);
-  mA *= d;
-  mB *= d;
-  mC *= d;
-  mD *= d;
+  length = 1.0 / sqrt(length);
+  mA *= length;
+  mB *= length;
+  mC *= length;
+  mD *= length;
 }
 
 #endif

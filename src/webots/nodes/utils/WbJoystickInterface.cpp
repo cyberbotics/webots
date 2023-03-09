@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -79,10 +79,10 @@ void WbJoystickInterface::init() {
     return;
   }
 
-  int numberOfAxes = mJoystick->getNumberOfComponents(OIS::OIS_Axis);
-  int numberOfPovs = mJoystick->getNumberOfComponents(OIS::OIS_POV);
-  int numberOfButtons = mJoystick->getNumberOfComponents(OIS::OIS_Button);
-  mListener = new WbJoystickListener(numberOfAxes, numberOfButtons, numberOfPovs);
+  int nbAxes = mJoystick->getNumberOfComponents(OIS::OIS_Axis);
+  int nbPovs = mJoystick->getNumberOfComponents(OIS::OIS_POV);
+  int nbButtons = mJoystick->getNumberOfComponents(OIS::OIS_Button);
+  mListener = new WbJoystickListener(nbAxes, nbButtons, nbPovs);
   connect(mListener, &WbJoystickListener::changed, this, &WbJoystickInterface::changed);
   mJoystick->setEventCallback(mListener);
 
@@ -128,7 +128,7 @@ WbJoystickInterface::~WbJoystickInterface() {
   try {
     if (gInputManager && mJoystick)
       gInputManager->destroyInputObject(mJoystick);
-  } catch (OIS::Exception &e) {
+  } catch (const OIS::Exception &e) {
   }
   if (gInputManager && gCurrentNumberOfInterface == 0) {
     OIS::InputManager::destroyInputSystem(gInputManager);
@@ -170,7 +170,7 @@ void WbJoystickInterface::setForceFeedback() {
       mForceFeedback->modify(mEffect);
     else
       mForceFeedback->upload(mEffect);
-  } catch (OIS::Exception &e) {
+  } catch (const OIS::Exception &e) {
     mHasForceFeedback = false;
   }
 

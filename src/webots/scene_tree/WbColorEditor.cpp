@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,6 +18,7 @@
 #include "WbFieldDoubleSpinBox.hpp"
 #include "WbMFColor.hpp"
 #include "WbSFColor.hpp"
+#include "WbSimulationState.hpp"
 
 #include <QtWidgets/QColorDialog>
 #include <QtWidgets/QComboBox>
@@ -125,6 +126,7 @@ void WbColorEditor::takeKeyboardFocus() {
 }
 
 void WbColorEditor::openColorChooser() {
+  WbSimulationState::instance()->pauseSimulation();
   const int r = mRgb.redByte();
   const int g = mRgb.greenByte();
   const int b = mRgb.blueByte();
@@ -132,14 +134,17 @@ void WbColorEditor::openColorChooser() {
   QColor color(r, g, b);
   QColorDialog dialog(color, this);
   const int result = dialog.exec();
-  if (result == QDialog::Rejected)
+  if (result == QDialog::Rejected) {
+    WbSimulationState::instance()->resumeSimulation();
     return;
+  }
 
   color = dialog.currentColor();
   mRgb.setValue(color.redF(), color.greenF(), color.blueF());
 
   updateSpinBoxes();
   apply();
+  WbSimulationState::instance()->resumeSimulation();
 }
 
 void WbColorEditor::applyIfNeeded() {

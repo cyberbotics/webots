@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,6 +32,7 @@ class WbTextBuffer;
 class WbTextFind;
 
 class QPrinter;
+class QRegularExpression;
 class QTabWidget;
 class QToolBar;
 
@@ -48,7 +49,8 @@ public:
 
   // open a file
   // if the file is already open in a tab then select that tab
-  bool openFile(const QString &path);
+  // if title is not specified it will be computed from the file path
+  bool openFile(const QString &path, const QString &title = QString());
 
   // close all tabs, open the specified list of files and select the specified tab
   void openFiles(const QStringList &list, int selectedTab);
@@ -89,8 +91,6 @@ private slots:
   void deleteFindDialog();
   void goToLine();
   void toggleLineComment();
-  void duplicateSelection();
-  void transposeCurrentLine();
   void print();
   void printPreview();
   void modificationChanged(bool changed);
@@ -120,7 +120,7 @@ private:
   bool saveBuffer(WbTextBuffer *buffer, bool saveAs = false);
   void selectBuffer(WbTextBuffer *buffer);
   void closeBuffer(int tab, bool closeAnyway = false);
-  void highlightSearchText(QRegExp regExp);
+  void highlightSearchText(const QRegularExpression &regularExpression);
 };
 
 #endif

@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,9 +31,9 @@ public class Driver extends Supervisor {
   private Emitter emitter;
   private Field translationField;
   private Keyboard keyboard;
-  private double x = 0.1;
-  private double z = 0.3;
-  private double[] translation = {x, 0.0, z};
+  private double x = -0.3;
+  private double y = -0.1;
+  private double[] translation = {x, y, 0};
 
   public Driver() {
     emitter = getEmitter("emitter");
@@ -78,10 +78,10 @@ public class Driver extends Supervisor {
           break;
         case 'G':{
           double[] translationValues = translationField.getSFVec3f();
-          System.out.println("ROBOT1 is located at ("+translationValues[0]+","+translationValues[2]+")");
+          System.out.println("ROBOT1 is located at ("+translationValues[0]+","+translationValues[1]+")");
           break;}
         case 'R':
-          System.out.println("Teleport ROBOT1 at ("+x+","+z+")");
+          System.out.println("Teleport ROBOT1 at ("+x+","+y+")");
           translationField.setSFVec3f(translation);
           break;
         default:
@@ -105,8 +105,8 @@ public class Driver extends Supervisor {
                    " F for move forward\n"+
                    " S for stop\n"+
                    " T for turn\n" +
-                   " R for positioning ROBOT1 at (0.1,0.3)\n"+
-                   " G for knowing the (x,z) position of ROBOT1");
+                   " R for positioning ROBOT1 at (-0.3,-0.1)\n"+
+                   " G for knowing the (x,y) position of ROBOT1");
   }
 
   public static void main(String[] args) {

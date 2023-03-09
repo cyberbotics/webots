@@ -43,7 +43,7 @@ This field defines the maximum value that can be set using the `wb_emitter_set_r
 A value of -1 (the default) for `maxRange` is considered to be infinite.
 
 - `aperture` opening angle of the emission cone (in radians); for "infra-red" only.
-The cone's apex is located at the origin ([0 0 0]) of the emitter's coordinate system and the cone's axis coincides with the z-axis of the emitter coordinate system.
+The cone's apex is located at the origin ([0 0 0]) of the emitter's coordinate system and the cone's axis coincides with the x-axis of the emitter coordinate system.
 An "infra-red" emitter can only send data to receivers currently located within its emission cone.
 An `aperture` of -1 (the default) is considered to be infinite, meaning that the emitted signals are omni-directional.
 For "radio" and "serial" emitters, this field is ignored.

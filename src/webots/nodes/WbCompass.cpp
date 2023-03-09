@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,6 +14,7 @@
 
 #include "WbCompass.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbLookupTable.hpp"
 #include "WbMFVector3.hpp"
@@ -105,7 +106,7 @@ void WbCompass::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbCompass::writeAnswer(QDataStream &stream) {
+void WbCompass::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     stream << (short unsigned int)tag();
     stream << (unsigned char)C_COMPASS_DATA;
@@ -117,12 +118,12 @@ void WbCompass::writeAnswer(QDataStream &stream) {
     addConfigure(stream);
 }
 
-void WbCompass::writeConfigure(QDataStream &stream) {
+void WbCompass::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
   addConfigure(stream);
 }
 
-void WbCompass::addConfigure(QDataStream &stream) {
+void WbCompass::addConfigure(WbDataStream &stream) {
   stream << (short unsigned int)tag();
   stream << (unsigned char)C_CONFIGURE;
   stream << (int)mLookupTable->size();

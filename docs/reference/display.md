@@ -621,10 +621,7 @@ namespace webots {
 %tab "Python"
 
 ```python
-from controller import Display, ImageRef
-
-class ImageRef:
-    # ...
+from controller import Display
 
 class Display (Device):
     RGB, RGBA, ARGB, BGRA, ABGR
@@ -757,7 +754,7 @@ int main() {
   while(wb_robot_step(time_step) != -1) {
     const unsigned char *data = wb_camera_get_image(camera);
     if (data) {
-      WbImageRef ir = wb_display_image_new(display, width, height, data, WB_IMAGE_ARGB);
+      WbImageRef ir = wb_display_image_new(display, width, height, data, WB_IMAGE_BGRA);
       wb_display_image_paste(display, ir, 0, 0, false);
       wb_display_image_delete(display, ir);
     }
@@ -790,7 +787,7 @@ int main() {
   while (robot->step(timeStep) != -1) {
     const unsigned char *data = camera->getImage();
     if (data) {
-      ImageRef *ir = display->imageNew(width, height, data, Display::ARGB);
+      ImageRef *ir = display->imageNew(width, height, data, Display::BGRA);
       display->imagePaste(ir, 0, 0, false);
       display->imageDelete(ir);
     }
@@ -818,7 +815,7 @@ display = robot.getDisplay('display');
 while robot.step(32) != -1:
     data = camera.getImage()
     if data:
-        ir = display.imageNew(data, Display.ARGB, width, height)
+        ir = display.imageNew(data, Display.BGRA, width, height)
         display.imagePaste(ir, 0, 0, False)
         display.imageDelete(ir)
 ```
@@ -869,7 +866,7 @@ display = wb_robot_get_device("display");
 while wb_robot_step(time_step) ~= -1
   data = wb_camera_get_image(camera);
   if data
-    ir = wb_display_image_new(display, width, height, data, ARGB);
+    ir = wb_display_image_new(display, width, height, data, BGRA);
     wb_display_image_paste(display, ir, 0, 0, false);
     wb_display_image_delete(display, ir);
   end
@@ -878,4 +875,5 @@ end
 %tab-end
 %end
 
-> **Note**: The `wb_display_image_new` function can display the image returned by the [`wb_camera_get_image`](camera.md#wb_camera_get_image) function directly if the pixel format argument is set to ARGB.
+ **Note**: The Java `Display.imageNew` function can display the image returned by the `Camera.getImage` function directly if the pixel format argument is set to ARGB.
+In the other programming languages the pixel format should be set to BGRA.

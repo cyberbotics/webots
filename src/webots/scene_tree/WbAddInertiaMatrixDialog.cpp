@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -53,12 +53,7 @@ WbAddInertiaMatrixDialog::WbAddInertiaMatrixDialog(bool validBoudingObject, QWid
   mGroupBox = new QGroupBox(this);
   mGroupBox->setObjectName("dialogInfoGroupBox");
   mGroupBox->setFlat(false);
-  /*
-  mPixmapLabel = new QLabel(this);
-  mPixmapLabel->setObjectName("nodePixmapLabel");
-  mPixmapLabel->setMinimumSize(128, 128);
-  mPixmapLabel->setMaximumSize(mPixmapLabel->minimumSize());
-  */
+
   QPushButton *cancelButton = new QPushButton(tr("Cancel"), this);
   mAddButton = new QPushButton(tr("Add"), this);
   connect(cancelButton, &QPushButton::pressed, this, &WbAddInertiaMatrixDialog::reject);
@@ -90,9 +85,6 @@ WbAddInertiaMatrixDialog::WbAddInertiaMatrixDialog(bool validBoudingObject, QWid
   connect(mTree, &QTreeWidget::itemSelectionChanged, this, &WbAddInertiaMatrixDialog::updateItemInfo);
 }
 
-WbAddInertiaMatrixDialog::~WbAddInertiaMatrixDialog() {
-}
-
 int WbAddInertiaMatrixDialog::inertiaMatrixType() const {
   QTreeWidgetItem *selectedItem = mTree->selectedItems().at(0);
   const int index = mTree->indexOfTopLevelItem(selectedItem);
@@ -116,21 +108,20 @@ void WbAddInertiaMatrixDialog::updateItemInfo() {
   mGroupBox->setTitle(selectedInertiaMatrixText);
   switch (selectedItem->type()) {
     case IDENTITY_MATRIX:
-      static const QString strIdentity = QString(tr("Insert the identity matrix \n [ 1 1 1, 0 0 0]"));
-      static const QString strZero =
-        QString(tr("If no center of mass is currently specified, a zero 3D vector will be inserted."));
+      static const QString strIdentity = tr("Insert the identity matrix \n [ 1 1 1, 0 0 0]");
+      static const QString strZero = tr("If no center of mass is currently specified, a zero 3D vector will be inserted.");
       static const QString strOne =
-        QString(tr("The density will be set as -1 and if the mass is negative or zero, it will be set as 1."));
+        tr("The density will be set as -1 and if the mass is negative or zero, it will be set as 1.");
       static const QString textId = strIdentity + "\n\n" + strZero + "\n\n" + strOne;
       mInfoText->setPlainText(textId);
       break;
     case BOUNDING_OBJECT_BASED:
       static const QString strInertia =
-        QString(tr("The inertia matrix is computed using the solid bounding object and the frame obtained by translating "
-                   "solid's frame to bounding object's center of mass."));
-      static const QString strCoM = QString(tr("The center of mass will be set as the bounding object center of mass."));
-      static const QString strMass = QString(tr(
-        "If the density is currently specified, it will be set as -1 and the mass will be set as the bounding object mass."));
+        tr("The inertia matrix is computed using the solid bounding object and the frame obtained by translating "
+           "solid's frame to bounding object's center of mass.");
+      static const QString strCoM = tr("The center of mass will be set as the bounding object center of mass.");
+      static const QString strMass =
+        tr("If the density is currently specified, it will be set as -1 and the mass will be set as the bounding object mass.");
       static const QString textBo = strInertia + "\n\n" + strCoM + "\n\n" + strMass;
       mInfoText->setPlainText(textBo);
       break;

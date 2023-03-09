@@ -13,8 +13,8 @@ Derived from [Car](../automobile/car.md).
 
 ```
 Altino {
-  SFVec3f    translation     0 0.016 0
-  SFRotation rotation        0 1 0 1.5708
+  SFVec3f    translation     0 0 0.022
+  SFRotation rotation        0 0 1 0
   SFString   name            "vehicle"
   SFString   controller      "vehicle_driver_altino"
   MFString   controllerArgs  []

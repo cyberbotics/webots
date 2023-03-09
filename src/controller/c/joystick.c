@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -205,10 +205,10 @@ void wb_joystick_init() {
 // Public functions available from the keyboard API
 
 void wb_joystick_enable(int sampling_period) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   joystick.button_pointer = -1;  // need to enable or disable
   joystick.sampling_period = sampling_period;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_joystick_disable() {
@@ -217,9 +217,9 @@ void wb_joystick_disable() {
 
 int wb_joystick_get_sampling_period() {
   int sampling_period = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   sampling_period = joystick.sampling_period;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return sampling_period;
 }
 

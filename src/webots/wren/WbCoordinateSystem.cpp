@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -167,10 +167,11 @@ void WbCoordinateSystem::setVisible(bool b) {
 
 void WbCoordinateSystem::setOrientation(const WbQuaternion &quaternion) {
   float rotation[4];
-  WbRotation(quaternion).toFloatArray(rotation);
+  WbQuaternion adaptedQuaternion(WbQuaternion(0.5, -0.5, 0.5, 0.5) * quaternion);
+  WbRotation(adaptedQuaternion).toFloatArray(rotation);
   wr_transform_set_orientation(mTransform, rotation);
 
-  WbRotation(quaternion.conjugated()).toFloatArray(rotation);
+  WbRotation(adaptedQuaternion.conjugated()).toFloatArray(rotation);
   for (int i = 0; i < 3; ++i)
     wr_transform_set_orientation(mLabelsTransform[i], rotation);
 }

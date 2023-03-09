@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -37,6 +37,7 @@ WbToken::WbToken(const QString &word, int line, int column) : mLine(line), mColu
   else if (NUMERIC_CHARS.contains(w0)) {
     // does this look like a double point number
     bool ok;
+    // cppcheck-suppress ignoredReturnValue
     word.toDouble(&ok);
     mType = ok ? NUMERIC : INVALID;
   } else if (isKeyword(word))
@@ -106,7 +107,9 @@ bool WbToken::isKeyword(const QString &word) {
                << "deprecatedField";
     *gKeywords << "DEF"
                << "USE"
-               << "PROTO";
+               << "PROTO"
+               << "EXTERNPROTO"
+               << "IMPORTABLE";
     *gKeywords << "IS"
                << "TRUE"
                << "FALSE"
@@ -131,8 +134,7 @@ bool WbToken::isKeyword(const QString &word) {
                << "MFVec3f";
 
     // currently not used by Webots but reserved to enforce VRML interoperability:
-    *gKeywords << "EXTERNPROTO"
-               << "ROUTE"
+    *gKeywords << "ROUTE"
                << "TO"
                << "eventIn"
                << "eventOut"

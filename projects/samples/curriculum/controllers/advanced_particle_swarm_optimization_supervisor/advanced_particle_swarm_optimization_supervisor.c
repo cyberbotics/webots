@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -104,7 +104,7 @@ static void random_position(void) {
   int n = 0;
   for (; n < NB_ROBOTS; n++) {
     p[0] = (ARENA_SIZE * 0.8) * ((double)rand() / RAND_MAX) - ARENA_SIZE / 2.0;  // x coordinate
-    p[2] = (ARENA_SIZE * 0.8) * ((double)rand() / RAND_MAX) - ARENA_SIZE / 2.0;  // y coordinate
+    p[1] = (ARENA_SIZE * 0.8) * ((double)rand() / RAND_MAX) - ARENA_SIZE / 2.0;  // y coordinate
 
     wb_supervisor_field_set_sf_vec3f(trans_field[n], p);
   }

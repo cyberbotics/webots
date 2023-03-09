@@ -2,7 +2,7 @@
 
 ## BunchOfSunFlowers
 
-Five sun flowers into a pot (0.17 x 0.95 x 0.17 m).
+Five sun flowers into a pot (0.17 x 0.17 x 0.95 m).
 
 %figure
 
@@ -15,10 +15,10 @@ Derived from [Solid](../reference/solid.md).
 ```
 BunchOfSunFlowers {
   SFVec3f    translation            0 0 0
-  SFRotation rotation               0 1 0 0
+  SFRotation rotation               0 0 1 0
   SFString   name                   "bunch of sunflowers"
-  MFString   flowerTextureUrl       "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/plants/protos/textures/bunch_of_sun_flowers_flower.png"
-  MFString   leavesTextureUrl       "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/plants/protos/textures/bunch_of_sun_flowers_leaves.png"
+  MFString   flowerTextureUrl       "textures/bunch_of_sun_flowers_flower.png"
+  MFString   leavesTextureUrl       "textures/bunch_of_sun_flowers_leaves.png"
   SFNode     physics                NULL
 }
 ```
@@ -34,9 +34,35 @@ BunchOfSunFlowers {
 
 - `leavesTextureUrl`: Defines the textures used for the leaves.
 
+## FlowerPot
+
+A flower pot.
+
+%figure
+
+![FlowerPot](images/objects/plants/FlowerPot/model.png)
+
+%end
+
+Derived from [Solid](../reference/solid.md).
+
+```
+FlowerPot {
+  SFVec3f    translation          0 0 0
+  SFRotation rotation             0 0 1 0
+  SFString   name                 "flower pot"
+  SFNode     physics              NULL
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/objects/plants/protos/FlowerPot.proto]({{ url.github_tree }}/projects/objects/plants/protos/FlowerPot.proto)"
+
+> **License**: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+[More information.](https://cyberbotics.com/webots_assets_license)
+
 ## PottedTree
 
-A potted tree (0.3 x 1.3 x 0.3 m).
+A potted tree (0.3 x 0.3 x 1.3 m).
 
 %figure
 
@@ -49,12 +75,12 @@ Derived from [Solid](../reference/solid.md).
 ```
 PottedTree {
   SFVec3f    translation          0 0 0
-  SFRotation rotation             0 1 0 0
+  SFRotation rotation             0 0 1 0
   SFString   name                 "potted tree"
   SFColor    potAndTreeColor      1 1 1
-  MFString   potAndTreeTextureUrl "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/plants/protos/textures/potted_tree_pot_and_tree.jpg"
+  MFString   potAndTreeTextureUrl "textures/potted_tree_pot_and_tree.jpg"
   SFColor    leavesColor          1 1 1
-  MFString   leavesTextureUrl     "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/plants/protos/textures/potted_tree_leaves.png"
+  MFString   leavesTextureUrl     "textures/potted_tree_leaves.png"
   SFNode     physics              NULL
 }
 ```

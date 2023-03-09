@@ -1,0 +1,247 @@
+#VRML_SIM R2023a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A static fox.
+# Based on the model of AIUM2 (https://sketchfab.com/alfredonicolas).
+# template language: javascript
+
+PROTO Fox [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 0 1 0
+  field SFFloat    scale       1      # Defines the global scaling factor.
+  field SFString   name        "fox"
+  field SFColor    color        1 1 1  # Defines the color of the fox.
+]
+{
+  %<
+    let scale = fields.scale.value;
+    if (scale <= 0) {
+      scale = fields.scale.defaultValue;
+      console.error('\'scale\' must be strictly positive. Value reset to ' + scale + '.');
+    }
+  >%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    model "fox"
+    scale %<= scale >% %<= scale >% %<= scale >%
+    children [
+      Shape {
+        appearance PBRAppearance {
+          metalness 0
+          roughness 0.7
+          baseColor IS color
+          baseColorMap ImageTexture {
+            url "webots://projects/objects/animals/protos/fox/textures/fox_basecolor.jpg"
+          }
+          normalMap ImageTexture {
+            url "webots://projects/objects/animals/protos/fox/textures/fox_normal.jpg"
+          }
+          occlusionMap ImageTexture {
+            url "webots://projects/objects/animals/protos/fox/textures/fox_occlusion.jpg"
+          }
+        }
+        geometry Mesh {
+          url "webots://projects/objects/animals/protos/fox/meshes/fox.obj"
+        }
+      }
+    ]
+    boundingObject Group {
+      children [
+        DEF BODY Transform {
+          translation -0.02 0 0.23
+          rotation 0 1 0 -1.5707953071795862
+          children [
+            Capsule {
+              height 0.2
+              radius 0.078
+              subdivision 16
+            }
+          ]
+        }
+        DEF NECK Transform {
+          translation 0.19631 0 0.314548
+          rotation 0 1 0 0.891393
+          children [
+            Capsule {
+              height 0.05
+              radius 0.055
+              subdivision 16
+            }
+          ]
+        }
+        DEF MUZZLE Transform {
+          translation 0.281995 0 0.298069
+          rotation 0 -1 0 1.0472
+          children [
+            Capsule {
+              height 0.02
+              radius 0.022
+              subdivision 16
+            }
+          ]
+        }
+        DEF EAR_RIGHT Transform {
+          translation 0.208381 -0.0540388 0.394295
+          rotation 0.8913159935165675 0.11734399914643977 0.43793399681446815 0.584055
+          children [
+            Box {
+              size 0.023 0.045 0.07
+            }
+          ]
+        }
+        DEF EAR_LEFT Transform {
+          translation 0.208381 0.0540388 0.394295
+          rotation -0.8913159935165675 0.11734399914643977 0.43793399681446815 0.584055
+          children [
+            Box {
+              size 0.023 0.045 0.07
+            }
+          ]
+        }
+        DEF TAIL_END Transform {
+          translation -0.329659 0 0.0874118
+          rotation 0 1 0 1.309
+          children [
+            Capsule {
+              height 0.09
+              radius 0.04
+              subdivision 16
+            }
+          ]
+        }
+        DEF TAIL_BEGINNING Transform {
+          translation -0.238367 0 0.192397
+          rotation 0 1 0 0.470875
+          children [
+            Capsule {
+              height 0.09
+              radius 0.03
+              subdivision 16
+            }
+          ]
+        }
+        DEF FR_PAW Transform {
+          translation 0.115946 -0.05 0.01
+          children [
+            Box {
+              size 0.05 0.03 0.02
+            }
+          ]
+        }
+        DEF FR_ANKLE Transform {
+          translation 0.09 -0.0486019 0.07
+          rotation 0 -1 0 0.108503
+          children [
+            Cylinder {
+              height 0.1
+              radius 0.015
+            }
+          ]
+        }
+        DEF FR_THIGH Transform {
+          translation 0.0895888 -0.0486019 0.141435
+          rotation 0 1 0 0.290422
+          children [
+            Capsule {
+              height 0.02
+              radius 0.023
+              subdivision 16
+            }
+          ]
+        }
+        DEF FL_PAW Transform {
+          translation 0.0622442 0.05 0.01
+          children [
+            Box {
+              size 0.05 0.03 0.02
+            }
+          ]
+        }
+        DEF FL_ANKLE Transform {
+          translation 0.0481206 0.0486019 0.074321
+          rotation 0 1 0 0.0422499
+          children [
+            Cylinder {
+              height 0.11
+              radius 0.015
+            }
+          ]
+        }
+        DEF FL_THIGH Transform {
+          translation 0.06293 0.0483489 0.149833
+          rotation 0 1 0 0.537012
+          children [
+            Capsule {
+              height 0.02
+              radius 0.023
+              subdivision 16
+            }
+          ]
+        }
+        DEF BL_PAW Transform {
+          translation -0.199647 0.05 0.01
+          children [
+            Box {
+              size 0.05 0.03 0.02
+            }
+          ]
+        }
+        DEF BL_ANKLE Transform {
+          translation -0.226569 0.0486019 0.0697835
+          rotation 0 1 0 0.0422499
+          children [
+            Cylinder {
+              height 0.1
+              radius 0.015
+            }
+          ]
+        }
+        DEF BL_THIGH Transform {
+          translation -0.180064 0.0483489 0.142354
+          rotation 0 1 0 0.829181
+          children [
+            Capsule {
+              height 0.09
+              radius 0.023
+              subdivision 16
+            }
+          ]
+        }
+        DEF BR_PAW Transform {
+          translation -0.133393 -0.05 0.01
+          children [
+            Box {
+              size 0.05 0.03 0.02
+            }
+          ]
+        }
+        DEF BL_ANKLE Transform {
+          translation -0.165577 -0.0486019 0.0651084
+          rotation 0 -1 0 0.3238
+          children [
+            Cylinder {
+              height 0.09
+              radius 0.015
+            }
+          ]
+        }
+        DEF BL_THIGH Transform {
+          translation -0.146203 -0.0483489 0.141229
+          rotation 0 1 0 0.574751
+          children [
+            Capsule {
+              height 0.07
+              radius 0.023
+              subdivision 16
+            }
+          ]
+        }
+      ]
+    }
+    recognitionColors [
+      0.992 0.376 0.086
+    ]
+  }
+}

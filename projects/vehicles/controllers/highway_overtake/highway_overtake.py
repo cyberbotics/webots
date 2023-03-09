@@ -1,10 +1,10 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,7 +31,7 @@ sensorsNames = [
     "left"]
 sensors = {}
 
-lanePositions = [-10.6, -6.875, -3.2]
+lanePositions = [10.6, 6.875, 3.2]
 currentLane = 1
 overtakingSide = None
 maxSpeed = 80
@@ -40,9 +40,9 @@ safeOvertake = False
 
 def apply_PID(position, targetPosition):
     """Apply the PID controller and return the angle command."""
-    P = 0.05
-    I = 0.000015
-    D = 25
+    p_coefficient = 0.05
+    i_coefficient = 0.000015
+    d_coefficient = 25
     diff = position - targetPosition
     if apply_PID.previousDiff is None:
         apply_PID.previousDiff = diff
@@ -53,7 +53,7 @@ def apply_PID(position, targetPosition):
         apply_PID.integral = 0
     apply_PID.integral += diff
     # compute angle
-    angle = P * diff + I * apply_PID.integral + D * (diff - apply_PID.previousDiff)
+    angle = p_coefficient * diff + i_coefficient * apply_PID.integral + d_coefficient * (diff - apply_PID.previousDiff)
     apply_PID.previousDiff = diff
     return angle
 
@@ -63,7 +63,7 @@ apply_PID.previousDiff = None
 
 
 def get_filtered_speed(speed):
-    """Filter the speed ommand to avoid abrupt speed changes."""
+    """Filter the speed command to avoid abrupt speed changes."""
     get_filtered_speed.previousSpeeds.append(speed)
     if len(get_filtered_speed.previousSpeeds) > 100:  # keep only 80 values
         get_filtered_speed.previousSpeeds.pop(0)
@@ -147,9 +147,9 @@ while driver.step() != -1:
             currentLane -= 1
             overtakingSide = 'left'
     # adjust steering to stay in the middle of the current lane
-    position = gps.getValues()[0]
+    position = gps.getValues()[1]
     angle = max(min(apply_PID(position, lanePositions[currentLane]), 0.5), -0.5)
-    driver.setSteeringAngle(angle)
+    driver.setSteeringAngle(-angle)
     # check if overtaking is over
     if abs(position - lanePositions[currentLane]) < 1.5:  # the car is just in the lane
         overtakingSide = None

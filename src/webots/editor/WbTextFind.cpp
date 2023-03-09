@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,7 +14,6 @@
 
 #include "WbTextFind.hpp"
 
-#include <QtCore/QRegularExpression>
 #include <QtGui/QTextCursor>
 #include <QtGui/QTextDocument>
 #include <QtWidgets/QPlainTextEdit>
@@ -57,7 +56,7 @@ bool WbTextFind::findText(const QString &text, int position, FindFlags flags, bo
   if (mEditor == NULL)
     return true;
   if (text.isEmpty()) {
-    emit findStringChanged(QRegExp());
+    emit findStringChanged(QRegularExpression());
     cIsLastStringEmpty = true;
     return true;
   }
@@ -71,8 +70,8 @@ bool WbTextFind::findText(const QString &text, int position, FindFlags flags, bo
   if (flags & FIND_WHOLE_WORDS)
     findFlags |= QTextDocument::FindWholeWords;
 
-  QRegExp regExp = computeRegExp(text, flags);
-  emit findStringChanged(regExp);
+  QRegularExpression regularExpression = computeRegularExpression(text, flags);
+  emit findStringChanged(regularExpression);
   if (cIsLastStringEmpty || text != cFindStringList.first()) {
     addStringToList(text, cFindStringList);
     cIsLastStringEmpty = false;
@@ -82,7 +81,7 @@ bool WbTextFind::findText(const QString &text, int position, FindFlags flags, bo
   if (backwards)
     position -= text.length();
 
-  QTextCursor result = document->find(regExp, position, findFlags);
+  QTextCursor result = document->find(regularExpression, position, findFlags);
   if (result.isNull())
     return false;
 
@@ -98,7 +97,7 @@ void WbTextFind::replace(const QString &before, const QString &after, FindFlags 
     return;
   if (before.isEmpty()) {
     cIsLastStringEmpty = true;
-    emit findStringChanged(QRegExp());
+    emit findStringChanged(QRegularExpression());
     return;
   }
 
@@ -106,11 +105,12 @@ void WbTextFind::replace(const QString &before, const QString &after, FindFlags 
   addStringToList(after, cReplaceStringList);
 
   QTextCursor cursor = mEditor->textCursor();
-  QRegExp beforeRegExp = computeRegExp(before, findFlags);
-  if (beforeRegExp.exactMatch(cursor.selectedText())) {
+  QRegularExpression beforeRegularExpression = computeRegularExpression(before, findFlags);
+  QRegularExpressionMatch match = beforeRegularExpression.match(cursor.selectedText());
+  if (match.hasMatch()) {
     QString realAfter;
     if (findFlags & FIND_REGULAR_EXPRESSION)
-      realAfter = expandRegExpReplacement(after, beforeRegExp.capturedTexts());
+      realAfter = expandRegularExpressionReplacement(after, match.capturedTexts());
     else
       realAfter = after;
     cursor.insertText(realAfter);
@@ -122,7 +122,7 @@ void WbTextFind::replaceAll(const QString &before, const QString &after, FindFla
   if (mEditor == NULL)
     return;
   if (before.isEmpty()) {
-    emit findStringChanged(QRegExp());
+    emit findStringChanged(QRegularExpression());
     return;
   }
 
@@ -138,10 +138,10 @@ void WbTextFind::replaceAll(const QString &before, const QString &after, FindFla
     docFindFlags |= QTextDocument::FindCaseSensitively;
   if (findFlags & FIND_WHOLE_WORDS)
     docFindFlags |= QTextDocument::FindWholeWords;
-  QRegExp beforeRegExp = computeRegExp(before, findFlags);
+  QRegularExpression beforeRegularExpression = computeRegularExpression(before, findFlags);
 
   QTextDocument *doc = mEditor->document();
-  QTextCursor found = doc->find(beforeRegExp, cursor, docFindFlags);
+  QTextCursor found = doc->find(beforeRegularExpression, cursor, docFindFlags);
   bool first = true;
   while (!found.isNull()) {
     if (found == cursor && !first) {
@@ -151,28 +151,28 @@ void WbTextFind::replaceAll(const QString &before, const QString &after, FindFla
       // avoid endless loop of regular expressions
       QTextCursor newPosCursor = cursor;
       newPosCursor.movePosition(QTextCursor::NextCharacter);
-      found = doc->find(beforeRegExp, newPosCursor, docFindFlags);
+      found = doc->find(beforeRegularExpression, newPosCursor, docFindFlags);
     }
-    if (first)
-      first = false;
+
+    first = false;
 
     cursor.setPosition(found.selectionStart());
     cursor.setPosition(found.selectionEnd(), QTextCursor::KeepAnchor);
-    beforeRegExp.exactMatch(found.selectedText());
+    const QRegularExpressionMatch match = beforeRegularExpression.match(found.selectedText());
 
     QString realAfter;
     if (findFlags & FIND_REGULAR_EXPRESSION)
-      realAfter = expandRegExpReplacement(after, beforeRegExp.capturedTexts());
+      realAfter = expandRegularExpressionReplacement(after, match.capturedTexts());
     else
       realAfter = after;
     cursor.insertText(realAfter);
-    found = doc->find(beforeRegExp, cursor, docFindFlags);
+    found = doc->find(beforeRegularExpression, cursor, docFindFlags);
   }
 
   cursor.endEditBlock();
 }
 
-QString WbTextFind::expandRegExpReplacement(const QString &replaceText, const QStringList &capturedTexts) {
+QString WbTextFind::expandRegularExpressionReplacement(const QString &replaceText, const QStringList &capturedTexts) {
   // handles \1 \\ \& & \t \n
   QString result;
   const int numCaptures = capturedTexts.size() - 1;
@@ -208,13 +208,12 @@ QString WbTextFind::expandRegExpReplacement(const QString &replaceText, const QS
   return result;
 }
 
-QRegExp WbTextFind::computeRegExp(const QString &pattern, FindFlags flags) {
+QRegularExpression WbTextFind::computeRegularExpression(const QString &pattern, FindFlags flags) {
   QString expPattern = pattern;
   if ((flags & FIND_REGULAR_EXPRESSION) == 0)
     expPattern = QRegularExpression::escape(pattern);
   if (flags & FIND_WHOLE_WORDS)
     expPattern = "\\b" + expPattern + "\\b";
-  QRegExp regExp(expPattern);
-  regExp.setCaseSensitivity((flags & FIND_CASE_SENSITIVE) ? Qt::CaseSensitive : Qt::CaseInsensitive);
-  return regExp;
+  return QRegularExpression(expPattern, (flags & FIND_CASE_SENSITIVE) ? QRegularExpression::CaseInsensitiveOption :
+                                                                        QRegularExpression::NoPatternOption);
 }

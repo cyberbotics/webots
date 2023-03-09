@@ -146,16 +146,16 @@ img {
   background-color: #eee;
   text-align:center;
 }
-#uploadProgressBar[value]::-webkit-progress-value::before {
+#uploadProgressBar[value]::progress-value::before {
   position: relative;
   top: 0px;
 }
-.uploadProgressBarUpload[value]::-webkit-progress-value::before {
+.uploadProgressBarUpload[value]::progress-value::before {
   content: 'Uploading...';
 }
-.uploadProgressBarReset[value]::-webkit-progress-value::before {
+.uploadProgressBarReset[value]::progress-value::before {
   content: 'Press the reset button of the e-puck.';
 }
-.uploadProgressBarCompleted[value]::-webkit-progress-value::before {
+.uploadProgressBarCompleted[value]::progress-value::before {
   content: 'Upload completed.';
 }

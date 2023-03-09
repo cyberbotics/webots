@@ -5,19 +5,19 @@
 
 [Webots Guided Tour]
 
+projects/robots/clearpath/moose/worlds/moose_demo.wbt 20
+projects/robots/clearpath/pr2/worlds/pr2.wbt 38
 projects/robots/boston_dynamics/spot/worlds/spot.wbt 20
+projects/samples/rendering/worlds/animated_skin.wbt 30
 projects/robots/dji/mavic/worlds/mavic_2_pro.wbt 20
 projects/robots/robotis/darwin-op/worlds/robotis_op3.wbt 22
+projects/robots/irobot/create/worlds/create.wbt 30
 projects/robots/universal_robots/worlds/ure.wbt 20
 projects/vehicles/worlds/city.wbt 30
-projects/samples/rendering/worlds/animated_skin.wbt 30
 projects/robots/kinematics/tinkerbots/worlds/tinkerbots_demo.wbt 20
-projects/robots/clearpath/moose/worlds/moose_demo.wbt 20
 projects/robots/k-team/khepera3/worlds/khepera3_gripper.wbt 15
 projects/robots/kuka/youbot/worlds/youbot.wbt 30
 projects/robots/nasa/worlds/sojourner.wbt 45
-projects/robots/clearpath/pr2/worlds/pr2.wbt 38
-projects/robots/irobot/create/worlds/create.wbt 30
 projects/robots/adept/pioneer3/worlds/pioneer3at.wbt 14
 projects/robots/robotis/darwin-op/worlds/soccer.wbt 12
 projects/robots/softbank/nao/worlds/nao_room.wbt 20
@@ -70,6 +70,7 @@ projects/samples/devices/worlds/range_finder.wbt 20
 projects/samples/devices/worlds/receiver_noise.wbt 20
 projects/samples/devices/worlds/sick.wbt 20
 projects/samples/devices/worlds/sick_point_cloud.wbt 20
+projects/samples/devices/worlds/skin.wbt 20
 projects/samples/devices/worlds/speaker.wbt 20
 projects/samples/devices/worlds/speaker_text_to_speech.wbt 20
 projects/samples/devices/worlds/spherical_camera.wbt 20

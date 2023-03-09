@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -432,9 +432,7 @@ static void touch_sensor_configure(WbDeviceTag tag) {
 }
 
 void wbu_default_robot_window_configure() {
-  buffer_append("configure {\"type\":\"");
-  buffer_append(wb_node_get_name(wb_robot_get_type()));
-  buffer_append("\",\"name\":\"");
+  buffer_append("configure {\"name\":\"");
   buffer_append_escaped_string(wb_robot_get_name());
   buffer_append("\",\"model\":\"");
   buffer_append_escaped_string(wb_robot_get_model());

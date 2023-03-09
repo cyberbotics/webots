@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,9 +22,11 @@ import re
 
 from PIL import Image
 
+WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
 ignoredProtos = [
-    "projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba/clients/studio/plugins/ThymioVPL/UsageProfile.proto",
+    "projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba/aseba/clients/studio/plugins/ThymioVPL/UsageProfile.proto",
 ]
+ignoredProtosFull = [os.path.join(WEBOTS_HOME, os.path.normpath(file)) for file in ignoredProtos]
 
 
 class TestIcons(unittest.TestCase):
@@ -34,16 +36,10 @@ class TestIcons(unittest.TestCase):
         """Get all the PROTO files to be tested."""
         # 1. Get all the PROTO files from projects
         protos = []
-        for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME'] + os.sep + 'projects'):
+        for rootPath, dirNames, fileNames in os.walk(os.path.join(WEBOTS_HOME, 'projects')):
             for fileName in fnmatch.filter(fileNames, '*.proto'):
                 proto = os.path.join(rootPath, fileName)
-                shouldIgnore = False
-                for ignoredProto in ignoredProtos:
-                    path = os.environ['WEBOTS_HOME'] + os.sep + ignoredProto.replace('/', os.sep)
-                    if proto == path:
-                        shouldIgnore = True
-                        break
-                if not shouldIgnore:
+                if proto not in ignoredProtosFull:
                     protos.append(proto)
         # 2. filter-out the hidden PROTO files
         self.visibleProtos = []
@@ -62,7 +58,7 @@ class TestIcons(unittest.TestCase):
             protoPath = os.path.splitext(proto)[0]
             protoName = os.path.basename(protoPath)
             protoDirectory = os.path.dirname(proto)
-            icon = protoDirectory + os.sep + 'icons' + os.sep + protoName + '.png'
+            icon = os.path.join(protoDirectory, 'icons', protoName + '.png')
             self.assertTrue(
                 os.path.isfile(icon),
                 msg='missing icon: "%s"' % proto

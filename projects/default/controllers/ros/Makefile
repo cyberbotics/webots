@@ -1,10 +1,10 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,7 +19,7 @@
 
 null :=
 space := $(null) $(null)
-WEBOTS_HOME_PATH=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
+WEBOTS_HOME_PATH?=$(subst $(space),\ ,$(strip $(subst \,/,$(WEBOTS_HOME))))
 include $(WEBOTS_HOME_PATH)/resources/Makefile.os.include
 
 SERVICE_FILES = $(wildcard $(WEBOTS_HOME_PATH)/resources/webots_ros/srv/*.srv)
@@ -35,18 +35,14 @@ ifeq ($(OSTYPE),linux)
  CFLAGS = -std=c++11
 endif
 
-PYTHON_COMMAND ?= python
-ifeq (, $(shell which $(PYTHON_COMMAND) 2> /dev/null))
-release debug profile clean:
-	@echo "# \033[0;33mPython not installed, impossible to generate services/messages required by the ros controller, skipping ros controller\033[0m"
-else
+PYTHON_COMMAND ?= python3
 ifeq (, $(ROS_DISTRO))
 release debug profile clean:
-	@echo "# \033[0;33mROS not installed or 'ROS_DISTRO' not defined\033[0m"
+	@$(ECHO) "# \033[0;33mROS not installed or 'ROS_DISTRO' not defined\033[0m"
 else
 ifeq (2, $(ROS_VERSION))
 release debug profile clean:
-	@echo "# \033[0;33mROS_DISTRO should not be a ROS2 distribution\033[0m"
+	@$(ECHO) "# \033[0;33mROS_DISTRO should not be a ROS2 distribution\033[0m"
 else
 CXX_SOURCES = $(wildcard *.cpp)
 CXX_SOURCES += $(wildcard highlevel/*.cpp)
@@ -57,7 +53,7 @@ else
  ros: $(CXX_SOURCES:.cxx=.d)
 endif
 
-$(CXX_SOURCES:.cxx=.d): $(GENERATED_HEADERS) ROS_HEADERS include/templateHeader.h include/templateRequest.h include/templateResponse.h
+$(CXX_SOURCES:.cxx=.d): $(GENERATED_HEADERS) include/templateHeader.h include/templateRequest.h include/templateResponse.h
 
 $(GENERATED_HEADERS): $(SERVICE_HEADERS) $(MESSAGE_HEADERS)
 
@@ -68,10 +64,6 @@ include/messages/%.h: $(WEBOTS_HOME_PATH)/resources/webots_ros/msg/%.msg include
 include/services/%.h: $(WEBOTS_HOME_PATH)/resources/webots_ros/srv/%.srv include/templateHeader.h include/templateRequest.h include/templateResponse.h headersFromSRV.py headersGenerator.py
 	@echo "# generating service header" $(notdir $<)
 	$(SILENT)$(PYTHON_COMMAND) headersFromSRV.py $<
-
-ROS_HEADERS: $(GENERATED_HEADERS)
-	+@cp -f include/RecognitionObject.h include/webots_ros/RecognitionObject.h
-	+@cp -f include/RecognitionObjects.h include/webots_ros/RecognitionObjects.h
 
 INCLUDE = -isystem $(WEBOTS_HOME_PATH)/projects/default/controllers/ros/include -isystem /opt/ros/$(ROS_DISTRO)/include
 
@@ -105,6 +97,5 @@ FILES_TO_REMOVE += include/webots_ros include/messages include/services headersG
 ### Do not modify: this includes Webots global Makefile.include
 
 include $(WEBOTS_HOME_PATH)/resources/Makefile.include
-endif
 endif
 endif

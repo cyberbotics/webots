@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,15 +15,15 @@
 #ifndef WB_X3D_STREAMING_SERVER_HPP
 #define WB_X3D_STREAMING_SERVER_HPP
 
-#include "WbStreamingServer.hpp"
+#include "WbTcpServer.hpp"
 
 #include <QtCore/QHash>
 
-class WbX3dStreamingServer : public WbStreamingServer {
+class WbX3dStreamingServer : public WbTcpServer {
   Q_OBJECT
 
 public:
-  WbX3dStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit);
+  WbX3dStreamingServer();
   ~WbX3dStreamingServer();
 
 private slots:
@@ -33,11 +33,11 @@ private slots:
   void sendUpdatePackageToClients() override;
   void processTextMessage(QString) override;
 
-  void propagateNodeDeletion(WbNode *node);
+  void propagateNodeDeletion(WbNode *node) override;
 
 private:
   void create(int port) override;
-  void sendTcpRequestReply(const QString &requestedUrl, const QString &etag, QTcpSocket *socket) override;
+  void sendTcpRequestReply(const QString &url, const QString &etag, const QString &host, QTcpSocket *socket) override;
   bool prepareWorld() override;
   void deleteWorld() override;
   void sendWorldToClient(QWebSocket *client) override;
@@ -47,7 +47,6 @@ private:
   void sendWorldStateToClient(QWebSocket *client, const QString &state) const;
 
   QString mX3dWorld;
-  QHash<QString, QString> mX3dWorldTextures;
   double mX3dWorldGenerationTime;
 
   qint64 mLastUpdateTime;

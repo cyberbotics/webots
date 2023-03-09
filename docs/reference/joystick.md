@@ -348,7 +348,7 @@ axis_value = wb_joystick_get_axis_value(axis)
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
 | `/joystick/get_number_of_axes` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
-| `/joystick/axis<X>` | `topic` | webots_ros::Int8Stamped | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`int8 data` |
+| `/joystick/axis<X>` | `topic` | webots_ros::Int32Stamped | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`int32 data` |
 
 %tab-end
 
@@ -436,7 +436,7 @@ pov_value = wb_joystick_get_pov_value(pov)
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
-| `/joystick/pov<X>` | `topic` | `webots_ros::Int8Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`int8 data` |
+| `/joystick/pov<X>` | `topic` | `webots_ros::Int32Stamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`int32 data` |
 | `/joystick/get_number_of_povs` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
 
 %tab-end
@@ -519,7 +519,7 @@ button = wb_joystick_get_pressed_button()
 
 | name | service/topic | data type | data type definition |
 | --- | --- | --- | --- |
-| `/joystick/pressed_button` | `topic` | webots_ros::Int8Stamped | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`int8 data` |
+| `/joystick/pressed_button` | `topic` | webots_ros::Int32Stamped | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`int32 data` |
 
 %tab-end
 

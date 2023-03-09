@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,7 +33,7 @@ typedef struct {
   int width;
   int height;
   double camnear;
-  bool spherical;
+  bool planar;
   double fov;  // in degrees
   int mode;
   void *pdata;
@@ -42,7 +42,7 @@ typedef struct {
 
 void wb_abstract_camera_cleanup(WbDevice *d);
 
-void wb_abstract_camera_new(WbDevice *d, unsigned int id, int w, int h, double fov, double camnear, bool spherical);
+void wb_abstract_camera_new(WbDevice *d, unsigned int id, int w, int h, double fov, double camnear, bool planar);
 
 void wb_abstract_camera_write_request(WbDevice *d, WbRequest *r);
 bool wb_abstract_camera_handle_command(WbDevice *d, WbRequest *r, unsigned char command);
@@ -51,6 +51,8 @@ void abstract_camera_toggle_remote(WbDevice *d, WbRequest *r);
 
 void wbr_abstract_camera_set_image(WbDevice *d, const unsigned char *image);
 unsigned char *wbr_abstract_camera_get_image_buffer(WbDevice *d);
+
+void abstract_camera_allocate_image(WbDevice *d, int size);
 
 void wb_abstract_camera_enable(WbDevice *d, int sampling_period);
 int wb_abstract_camera_get_sampling_period(WbDevice *d);

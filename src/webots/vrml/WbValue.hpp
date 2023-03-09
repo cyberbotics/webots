@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,7 +29,7 @@
 #include "WbPrecision.hpp"
 
 class WbTokenizer;
-class WbVrmlWriter;
+class WbWriter;
 
 class WbValue : public QObject {
   Q_OBJECT
@@ -44,7 +44,7 @@ public:
   virtual void read(WbTokenizer *tokenizer, const QString &worldPath) = 0;
 
   // write the value
-  virtual void write(WbVrmlWriter &writer) const = 0;
+  virtual void write(WbWriter &writer) const = 0;
 
   // virtual comparison and assignment
   virtual bool equals(const WbValue *other) const = 0;

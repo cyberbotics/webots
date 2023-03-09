@@ -1,0 +1,282 @@
+#VRML_SIM R2023a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A static brown and white cow.
+# template language: javascript
+
+PROTO Cow [
+  field SFVec3f    translation  0 0 0
+  field SFRotation rotation     0 0 1 0
+  field SFFloat    scale        1       # Defines the global scaling factor.
+  field SFString   name         "cow"
+  field SFColor    color        1 1 1   # Defines the color of the cow.
+  field SFString{"braun", "black"}
+                   patchColor   "braun" # Define the cow type.
+]
+{
+  %<
+    let scale = fields.scale.value;
+    if (scale <= 0) {
+      scale = fields.scale.defaultValue;
+      console.error('\'scale\' must be strictly positive. Value reset to ' + scale + '.');
+    }
+  >%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    model "cow"
+    scale %<= scale >% %<= scale >% %<= scale >%
+    children [
+      Shape {
+        appearance PBRAppearance {
+          metalness 0
+          roughness 0.7
+          baseColor IS color
+          baseColorMap ImageTexture {
+            %< if (fields.patchColor.value === 'black' ) { >%
+            url "webots://projects/objects/animals/protos/cow/textures/cow_basecolor_black.jpg"
+            %< } else { >%
+            url "webots://projects/objects/animals/protos/cow/textures/cow_basecolor.jpg"
+            %< } >%
+          }
+          roughnessMap ImageTexture {
+            url "webots://projects/objects/animals/protos/cow/textures/cow_roughness.jpg"
+          }
+          normalMap ImageTexture {
+            url "webots://projects/objects/animals/protos/cow/textures/cow_normal.jpg"
+          }
+        }
+        geometry Mesh {
+          url "webots://projects/objects/animals/protos/cow/meshes/cow.obj"
+        }
+      }
+    ]
+    boundingObject Group {
+      children [
+        DEF UPPER_HEAD Transform {
+          translation 0.957841 0 1.01233
+          rotation 0 1 0 0.947178
+          children [
+            Box {
+              size 0.5 0.2 0.14
+            }
+          ]
+        }
+        DEF CHIN Transform {
+          translation 0.895388 0 0.896909
+          rotation 0 1 0 -1.3089953071795861
+          children [
+            Cylinder {
+              height 0.3
+              radius 0.1
+            }
+          ]
+        }
+        DEF LEFT_EAR Transform {
+          translation 0.752277 0.198589 1.18104
+          rotation 0.12956202320656862 0.9266301659738402 0.35294506321793706 0.754371
+          children [
+            Box {
+              size 0.05 0.21 0.11
+            }
+          ]
+        }
+        DEF RIGHT_EAR Transform {
+          translation 0.752277 -0.198589 1.18104
+          rotation -0.1295620032803994 0.9266301894353262 -0.35294500893626657 0.754371
+          children [
+            Box {
+              size 0.05 0.21 0.11
+            }
+          ]
+        }
+        DEF BACK Transform {
+          translation -0.140001 0 0.99
+          rotation 0 1 0 1.5708
+          children [
+            Cylinder {
+              height 1.8
+              radius 0.22
+            }
+          ]
+        }
+        DEF BACK Transform {
+          translation -0.380001 0 0.67
+          rotation 0 1 0 1.5708
+          children [
+            Cylinder {
+              height 1.3
+              radius 0.23
+            }
+          ]
+        }
+        DEF THROAT Transform {
+          translation 0.434438 0 0.64071
+          rotation 0 1 0 -0.785395307179586
+          children [
+            Box {
+              size 0.5 0.12 0.2
+            }
+          ]
+        }
+        DEF BELLY Transform {
+          translation -0.33 0 0.8
+          children [
+            Sphere {
+              radius 0.38
+            }
+          ]
+        }
+        DEF TAIL_END Transform {
+          translation -1.39729 0 0.520985
+          rotation 0 1 0 1.0472
+          children [
+            Capsule {
+              height 0.1
+              radius 0.03
+              subdivision 16
+            }
+          ]
+        }
+        DEF TAIL_MIDDLE Transform {
+          translation -1.24197 0 0.687904
+          rotation 0 1 0 0.597545
+          children [
+            Capsule {
+              height 0.3
+              radius 0.02
+              subdivision 16
+            }
+          ]
+        }
+        DEF TAIL_BEGINNING Transform {
+          translation -1.10662 0 0.937533
+          rotation 0 1 0 0.418158
+          children [
+            Capsule {
+              height 0.2
+              radius 0.02
+              subdivision 16
+            }
+          ]
+        }
+        DEF FR_LEG Transform {
+          translation 0.24 -0.17 0.1
+          children [
+            Cylinder {
+              height 0.2
+              radius 0.05
+            }
+          ]
+        }
+        DEF FR_JARRET Transform {
+          translation 0.200341 -0.17 0.347412
+          rotation 0 1 0 -0.261795307179586
+          children [
+            Cylinder {
+              height 0.3
+              radius 0.07
+            }
+          ]
+        }
+        DEF FL_LEG Transform {
+          translation 0.24 0.17 0.1
+          children [
+            Cylinder {
+              height 0.2
+              radius 0.05
+            }
+          ]
+        }
+        DEF FL_JARRET Transform {
+          translation 0.21 0.17 0.35
+          rotation 0 1 0 -0.261795307179586
+          children [
+            Cylinder {
+              height 0.3
+              radius 0.07
+            }
+          ]
+        }
+        DEF BL_LEG Transform {
+          translation -1.06 0.17 0.2
+          children [
+            Cylinder {
+              height 0.4
+              radius 0.05
+            }
+          ]
+        }
+        DEF BL_JARRET Transform {
+          translation -0.98482 0.16 0.495124
+          rotation 0 1 0 0.523599
+          children [
+            Cylinder {
+              height 0.3
+              radius 0.07
+            }
+          ]
+        }
+        DEF BR_LEG Transform {
+          translation -1.06 -0.17 0.2
+          children [
+            Cylinder {
+              height 0.4
+              radius 0.05
+            }
+          ]
+        }
+        DEF BR_JARRET Transform {
+          translation -0.98482 -0.16 0.495124
+          rotation 0 1 0 0.523599
+          children [
+            Cylinder {
+              height 0.3
+              radius 0.07
+            }
+          ]
+        }
+        DEF UDDER1 Transform {
+          translation -0.895 -0.0674118 0.409659
+          rotation 1 0 0 -0.261795307179586
+          children [
+            Box {
+              size 0.025 0.025 0.08
+            }
+          ]
+        }
+        DEF UDDER2 Transform {
+          translation -0.895 0.0674118 0.409659
+          rotation 0.7040566478257991 0.7040686478197966 0.09269075363541814 0.369707
+          children [
+            Box {
+              size 0.025 0.025 0.08
+            }
+          ]
+        }
+        DEF UDDER3 Transform {
+          translation -0.729084 0.0863346 0.413431
+          rotation 1 0 0 0.399326
+          children [
+            Box {
+              size 0.04 0.04 0.08
+            }
+          ]
+        }
+        DEF UDDER4 Transform {
+          translation -0.729084 -0.0838697 0.41239
+          rotation 1 0 0 -0.399326
+          children [
+            Box {
+              size 0.04 0.04 0.08
+            }
+          ]
+        }
+      ]
+    }
+    recognitionColors [
+      0.380 0.220 0.137
+    ]
+  }
+}

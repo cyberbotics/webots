@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,7 +38,7 @@
 #include "WbToken.hpp"
 #include "WbTokenizer.hpp"
 #include "WbValue.hpp"
-#include "WbVrmlWriter.hpp"
+#include "WbWriter.hpp"
 
 #include <cassert>
 
@@ -177,7 +177,7 @@ WbValue *WbFieldModel::createValueForVrmlType(const QString &type, WbTokenizer *
 }
 
 QList<WbVariant> WbFieldModel::getAcceptedValues(const QString &type, WbTokenizer *tokenizer, const QString &worldPath) {
-  QList<WbVariant> acceptedValues;
+  QList<WbVariant> values;
   while (tokenizer->nextWord() != '}') {
     tokenizer->ungetToken();
     const WbSingleValue *singleValue =
@@ -192,10 +192,10 @@ QList<WbVariant> WbFieldModel::getAcceptedValues(const QString &type, WbTokenize
       QObject::connect(&variant, &QObject::destroyed, copy, &QObject::deleteLater);
     }
 
-    acceptedValues << variant;
+    values << variant;
     delete singleValue;
   }
-  return acceptedValues;
+  return values;
 }
 
 bool WbFieldModel::isValueAccepted(const WbValue *value, int *refusedIndex) const {
@@ -261,7 +261,7 @@ bool WbFieldModel::isSingle() const {
   return dynamic_cast<WbSingleValue *>(mDefaultValue);
 }
 
-void WbFieldModel::write(WbVrmlWriter &writer) const {
+void WbFieldModel::write(WbWriter &writer) const {
   writer << "field " << mDefaultValue->vrmlTypeName() << " " << mName << " ";
   mDefaultValue->write(writer);
 }

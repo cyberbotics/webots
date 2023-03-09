@@ -16,14 +16,14 @@ int main(int argc, char **argv) {
 
   WbNodeRef node = wb_supervisor_node_get_self();
   WbFieldRef reverted_field = wb_supervisor_node_get_field(node, "isRegenerated");
-  bool is_regenerated = wb_supervisor_field_get_sf_bool(reverted_field);
+  const bool is_regenerated = wb_supervisor_field_get_sf_bool(reverted_field);
 
   node = wb_supervisor_node_get_from_def("VIEWPOINT");
   WbFieldRef position_field = wb_supervisor_node_get_field(node, "position");
   const double *positionBefore = wb_supervisor_field_get_sf_vec3f(position_field);
-  double expected_z = positionBefore[2];
+  const double expected_z = positionBefore[2];
 
-  wb_robot_step(4 * TIME_STEP);
+  wb_robot_step(8 * TIME_STEP);
 
   // check if viewpoint moved
   const char *message;

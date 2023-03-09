@@ -126,7 +126,7 @@ Then both robots rotate their handles simultaneously, hence the light robot gets
 Then the light robot gets passed over another time by the second heavy robot and so on...
 All the robots in this simulation use the same controller; the different behaviors are selected according to the robot's name.
 
-### [coupled\_motor.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/coupled_motor.wbt)
+### [coupled\_motors.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/coupled_motors.wbt)
 
 **Keywords**: [Motor](../reference/motor.md), coupled motor, multiplier
 
@@ -249,6 +249,15 @@ In a real scenario, this is analogous to having a large clearance in between the
 ![hokuyo.png](images/samples/hokuyo.thumbnail.jpg) This example shows how to use [Lidars](../reference/lidar.md) and plot their depth output on a [Display](../reference/display.md) device.
 Two `Hokuyo` [Lidars](../reference/lidar.md) are mounted on the `MyBot`.
 At each step, the lidars are updated, and their depth output are displayed in distinct [Displays](../reference/display.md).
+
+### [imu.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/imu.wbt)
+
+**Keywords**: [Accelerometer](../reference/accelerometer.md), [Gyro](../reference/gyro.md), [Compass](../reference/compass.md), [InertialUnit](../reference/inertialunit.md), IMU, roll/pitch/yaw angles
+
+![imu.png](images/samples/imu.thumbnail.jpg) This example demonstrates the difference between [InertialUnit](../reference/inertialunit.md) measurements and the fusion of multiple sensors of an IMU ([Accelerometer](../reference/accelerometer.md), [Gyro](../reference/gyro.md) and [Compass](../reference/compass.md)) to estimate the attitude (roll, pitch and yaw angles).
+The sensors are mounted on a 3 DOF (Degrees Of Freedom) arm which moves from one random target to another.
+After the 100th target is reached, the attitude is compared between the ground truth ([InertialUnit](../reference/inertialunit.md)), absolute estimation ([Accelerometer](../reference/accelerometer.md) and [Compass](../reference/compass.md)) and relative estimation ([Gyro](../reference/gyro.md)).
+The drift on relative estimation is clearly visible.
 
 ### [inertial\_unit.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/inertial_unit.wbt)
 
@@ -376,6 +385,13 @@ The lidar depth output is also plot into a [Display](../reference/display.md) de
 
 ![sick_point_cloud.png](images/samples/sick_point_cloud.thumbnail.jpg) Soda cans are transported on a conveyor belt.
 A static robot equipped with a Sick LD-MRS uses the Point Cloud API to count the number of cans in front of it.
+
+### [skin.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/skin.wbt)
+
+**Keywords**: [Skin](../reference/skin.md) animation
+
+![skin.png](images/samples/skin.thumbnail.jpg) In this example, a human rigged model is animated using the [Skin](../reference/skin.md) device.
+In this case the animation is purely graphical and just the left leg bone orientation and the root bone position are modified by the controller.
 
 ### [speaker.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/speaker.wbt)
 

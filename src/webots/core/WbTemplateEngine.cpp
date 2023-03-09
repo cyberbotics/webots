@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -140,7 +140,7 @@ const QString &WbTemplateEngine::closingToken() {
 }
 
 bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &logHeaderName, const QString &templateLanguage) {
-  bool result;
+  bool output;
 
   if (templateLanguage == "lua") {
     static bool firstLuaCall = true;
@@ -152,7 +152,7 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
     gOpeningToken = "%{";
     gClosingToken = "}%";
 
-    result = generateLua(tags, logHeaderName);
+    output = generateLua(tags, logHeaderName);
   } else {
     static bool firstJavaScriptCall = true;
     if (firstJavaScriptCall) {
@@ -163,10 +163,10 @@ bool WbTemplateEngine::generate(QHash<QString, QString> tags, const QString &log
     gOpeningToken = "%<";
     gClosingToken = ">%";
 
-    result = generateJavascript(tags, logHeaderName);
+    output = generateJavascript(tags, logHeaderName);
   }
 
-  return result;
+  return output;
 }
 
 bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QString &logHeaderName) {
@@ -235,18 +235,18 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   }
 
   // extract imports from javaScriptBody, if any
-  // QRegExp explanation: any statement of the form "import ... from '...' " that ends with a new line or semi-colon
+  // QRegularExpression explanation: any statement of the form "import ... from '...' " that ends with a new line or semi-colon
   QRegularExpression reImport("import(.*?from.*?'.*?')[;\n]");
   QRegularExpressionMatchIterator it = reImport.globalMatch(javaScriptBody);
   while (it.hasNext()) {
-    QRegularExpressionMatch match = it.next();
+    const QRegularExpressionMatch match = it.next();
     if (match.hasMatch()) {
-      QString statement = match.captured(0);
+      QString statement = match.captured();
       javaScriptBody.replace(statement, "");  // remove it from javaScriptBody
 
       if (statement.endsWith(";"))
         statement.append("\n");
-      else if (statement.endsWith("\n") && statement.at(statement.size() - 2) != ";")
+      else if (statement.endsWith("\n") && statement.at(statement.size() - 2) != QString(";"))
         statement.insert(statement.size() - 2, ";");
       else
         statement.append(";\n");
@@ -265,7 +265,7 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   // write to file (note: can't evaluate directly because the evaluator doesn't support importing of modules)
   QFile outputFile("jsTemplateFilled.js");
   if (!outputFile.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
-    mError = tr("Couldn't write jsTemplateFilled to disk.");
+    mError = tr("Couldn't write jsTemplateFilled in %1").arg(QDir::currentPath());
     return false;
   }
 
@@ -292,13 +292,13 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
   }
 
   QJSValue generateVrml = module.property("generateVrml");
-  QJSValue result = generateVrml.call();
-  if (result.isError()) {
-    mError = tr("failed to execute JavaScript template: %1").arg(result.property("message").toString());
+  QJSValue r = generateVrml.call();
+  if (r.isError()) {
+    mError = tr("failed to execute JavaScript template: %1").arg(r.property("message").toString());
     return false;
   }
 
-  mResult = result.toString().toUtf8();
+  mResult = r.toString().toUtf8();
 
   // display stream messages
   for (int i = 0; i < jsStdOut.property("length").toInt(); ++i)

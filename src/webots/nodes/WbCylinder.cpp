@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,6 +28,7 @@
 #include "WbSFInt.hpp"
 #include "WbSimulationState.hpp"
 #include "WbTransform.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWrenRenderingContext.hpp"
 
 #include <wren/config.h>
@@ -41,10 +42,6 @@
 #include <limits>
 
 void WbCylinder::init() {
-  // rotate cylinder by 90 degrees around the x-axis because ODE cylinders
-  // are z-aligned but Webots needs the Cylinders to be y-aligned
-  mIs90DegreesRotated = true;
-
   mBottom = findSFBool("bottom");
   mRadius = findSFDouble("radius");
   mHeight = findSFDouble("height");
@@ -53,7 +50,7 @@ void WbCylinder::init() {
   mTop = findSFBool("top");
   mSubdivision = findSFInt("subdivision");
 
-  mResizeConstraint = WbWrenAbstractResizeManipulator::X_EQUAL_Z;
+  mResizeConstraint = WbWrenAbstractResizeManipulator::X_EQUAL_Y;
 }
 
 WbCylinder::WbCylinder(WbTokenizer *tokenizer) : WbGeometry("Cylinder", tokenizer) {
@@ -93,7 +90,7 @@ void WbCylinder::createWrenObjects() {
   if (isInBoundingObject()) {
     connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this, &WbCylinder::updateLineScale);
 
-    if (mSubdivision->value() < MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION && !WbNodeUtilities::hasAUseNodeAncestor(this))
+    if (mSubdivision->value() < MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION && !WbVrmlNodeUtilities::hasAUseNodeAncestor(this))
       // silently reset the subdivision on node initialization
       mSubdivision->setValue(MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION);
   }
@@ -104,11 +101,11 @@ void WbCylinder::createWrenObjects() {
 }
 
 void WbCylinder::setResizeManipulatorDimensions() {
-  WbVector3 scale(mRadius->value(), mHeight->value(), mRadius->value());
+  WbVector3 scale(mRadius->value(), mRadius->value(), mHeight->value());
 
   WbTransform *transform = upperTransform();
   if (transform)
-    scale *= transform->matrix().scale();
+    scale *= transform->absoluteScale();
 
   if (isAValidBoundingObject())
     scale *= 1.0f + (wr_config_get_line_scale() / LINE_SCALE_FACTOR);
@@ -123,13 +120,13 @@ void WbCylinder::createResizeManipulator() {
 }
 
 bool WbCylinder::areSizeFieldsVisibleAndNotRegenerator() const {
-  const WbField *const height = findField("height", true);
-  const WbField *const radius = findField("radius", true);
-  return WbNodeUtilities::isVisible(height) && WbNodeUtilities::isVisible(radius) &&
-         !WbNodeUtilities::isTemplateRegeneratorField(height) && !WbNodeUtilities::isTemplateRegeneratorField(radius);
+  const WbField *const heightField = findField("height", true);
+  const WbField *const radiusField = findField("radius", true);
+  return WbVrmlNodeUtilities::isVisible(heightField) && WbVrmlNodeUtilities::isVisible(radiusField) &&
+         !WbNodeUtilities::isTemplateRegeneratorField(heightField) && !WbNodeUtilities::isTemplateRegeneratorField(radiusField);
 }
 
-void WbCylinder::exportNodeFields(WbVrmlWriter &writer) const {
+void WbCylinder::exportNodeFields(WbWriter &writer) const {
   WbGeometry::exportNodeFields(writer);
   if (writer.isX3d())
     writer << " subdivision=\'" << mSubdivision->value() << "\'";
@@ -139,7 +136,7 @@ bool WbCylinder::sanitizeFields() {
   if (WbFieldChecker::resetIntIfNotInRangeWithIncludedBounds(this, mSubdivision, 3, 1000, 3))
     return false;
   if (mSubdivision->value() < MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION && isInBoundingObject() &&
-      !WbNodeUtilities::hasAUseNodeAncestor(this)) {
+      !WbVrmlNodeUtilities::hasAUseNodeAncestor(this)) {
     parsingWarn(tr("'subdivision' value has no effect to physical 'boundingObject' geometry. "
                    "A minimum value of %2 is used for the representation.")
                   .arg(MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION));
@@ -300,14 +297,14 @@ void WbCylinder::updateLineScale() {
   float offset = wr_config_get_line_scale() / LINE_SCALE_FACTOR;
 
   float scale[] = {static_cast<float>(mRadius->value() * (1.0f + offset)),
-                   static_cast<float>(mHeight->value() * (1.0f + offset)),
-                   static_cast<float>(mRadius->value() * (1.0f + offset))};
+                   static_cast<float>(mRadius->value() * (1.0f + offset)),
+                   static_cast<float>(mHeight->value() * (1.0f + offset))};
   wr_transform_set_scale(wrenNode(), scale);
 }
 
 void WbCylinder::updateScale() {
-  float scale[] = {static_cast<float>(mRadius->value()), static_cast<float>(mHeight->value()),
-                   static_cast<float>(mRadius->value())};
+  float scale[] = {static_cast<float>(mRadius->value()), static_cast<float>(mRadius->value()),
+                   static_cast<float>(mHeight->value())};
   wr_transform_set_scale(wrenNode(), scale);
 }
 
@@ -349,11 +346,11 @@ void WbCylinder::applyToOdeData(bool correctSolidMass) {
 
 double WbCylinder::scaledRadius() const {
   const WbVector3 &scale = absoluteScale();
-  return fabs(mRadius->value() * std::max(scale.x(), scale.z()));
+  return fabs(mRadius->value() * std::max(scale.x(), scale.y()));
 }
 
 double WbCylinder::scaledHeight() const {
-  return fabs(mHeight->value() * absoluteScale().y());
+  return fabs(mHeight->value() * absoluteScale().z());
 }
 
 bool WbCylinder::isSuitableForInsertionInBoundingObject(bool warning) const {
@@ -391,13 +388,13 @@ bool WbCylinder::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCo
   double u, v;
   if (faceIndex > 0) {
     // top face or bottom face
-    if (collisionPoint.x() * collisionPoint.x() + collisionPoint.z() * collisionPoint.z() > r * r)
+    if (collisionPoint.x() * collisionPoint.x() + collisionPoint.y() * collisionPoint.y() > r * r)
       return false;
 
     u = (collisionPoint.x() + r) / (2 * r);
-    v = (collisionPoint.z() + r) / (2 * r);
+    v = (-collisionPoint.y() + r) / (2 * r);
 
-    if (collisionPoint.y() < 0) {
+    if (collisionPoint.z() < 0) {
       v = 1 - v;
     }
 
@@ -413,12 +410,12 @@ bool WbCylinder::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCo
     // body
     double theta = WbMathsUtilities::clampedAsin(-collisionPoint.x() / r);
     assert(!std::isnan(theta));
-    if (collisionPoint.z() > 0)
+    if (-collisionPoint.y() > 0)
       theta = M_PI - theta;
 
     theta = theta - floor(theta / (2 * M_PI)) * 2 * M_PI;
     u = theta / (2 * M_PI);
-    v = 1 - (collisionPoint.y() + h / 2) / h;
+    v = 1 - (collisionPoint.z() + h / 2) / h;
 
     if (textureCoordSet == 1) {
       u = u * 0.5;
@@ -447,17 +444,17 @@ double WbCylinder::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, 
     origin /= absoluteScale();
   }
 
-  double radius = scaledRadius();
-  double radius2 = radius * radius;
+  double r = scaledRadius();
+  double r2 = r * r;
   double h = scaledHeight();
   double d = std::numeric_limits<double>::infinity();
   faceIndex = -1;
 
   // distance from body
   if (mSide->value()) {
-    double a = direction.x() * direction.x() + direction.z() * direction.z();
-    double b = 2 * (origin.x() * direction.x() + origin.z() * direction.z());
-    double c = origin.x() * origin.x() + origin.z() * origin.z() - radius2;
+    double a = direction.x() * direction.x() + direction.y() * direction.y();
+    double b = 2 * (origin.x() * direction.x() + origin.y() * direction.y());
+    double c = origin.x() * origin.x() + origin.y() * origin.y() - r2;
     double discriminant = b * b - 4 * a * c;
 
     // if c < 0: ray origin is inside cylinder body
@@ -466,12 +463,12 @@ double WbCylinder::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, 
       discriminant = sqrt(discriminant);
       double t1 = (-b - discriminant) / (2 * a);
       double t2 = (-b + discriminant) / (2 * a);
-      double y1 = origin.y() + t1 * direction.y();
-      double y2 = origin.y() + t2 * direction.y();
-      if (t1 > 0 && y1 >= -h / 2 && y1 <= h / 2) {
+      double z1 = origin.z() + t1 * direction.z();
+      double z2 = origin.z() + t2 * direction.z();
+      if (t1 > 0 && z1 >= -h / 2 && z1 <= h / 2) {
         d = t1;
         faceIndex = 0;
-      } else if (t2 > 0 && y2 >= -h / 2 && y2 <= h / 2) {
+      } else if (t2 > 0 && z2 >= -h / 2 && z2 <= h / 2) {
         d = t2;
         faceIndex = 0;
       }
@@ -481,10 +478,10 @@ double WbCylinder::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, 
   // distance from top face
   if (mTop->value()) {
     std::pair<bool, double> intersection =
-      WbRay(origin, direction).intersects(WbAffinePlane(WbVector3(0, 1, 0), WbVector3(0, h / 2, 0)), true);
-    if (mTop->value() && intersection.first && intersection.second > 0 && intersection.second < d) {
+      WbRay(origin, direction).intersects(WbAffinePlane(WbVector3(0, 0, 1), WbVector3(0, 0, h / 2)), true);
+    if (intersection.first && intersection.second > 0 && intersection.second < d) {
       WbVector3 p = origin + intersection.second * direction;
-      if (p.x() * p.x() + p.z() * p.z() <= radius2) {
+      if (p.x() * p.x() + p.y() * p.y() <= r2) {
         d = intersection.second;
         faceIndex = 1;
       }
@@ -494,10 +491,10 @@ double WbCylinder::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, 
   // distance from bottom face
   if (mBottom->value()) {
     std::pair<bool, double> intersection =
-      WbRay(origin, direction).intersects(WbAffinePlane(WbVector3(0, -1, 0), WbVector3(0, -h / 2, 0)), true);
-    if (mBottom->value() && intersection.first && intersection.second > 0 && intersection.second < d) {
+      WbRay(origin, direction).intersects(WbAffinePlane(WbVector3(0, 0, -1), WbVector3(0, 0, -h / 2)), true);
+    if (intersection.first && intersection.second > 0 && intersection.second < d) {
       WbVector3 p = origin + intersection.second * direction;
-      if (p.x() * p.x() + p.z() * p.z() <= radius2) {
+      if (p.x() * p.x() + p.y() * p.y() <= r2) {
         d = intersection.second;
         faceIndex = 2;
       }
@@ -517,15 +514,15 @@ void WbCylinder::recomputeBoundingSphere() const {
   const bool side = mSide->value();
   const bool bottom = mBottom->value();
   const double halfHeight = scaledHeight() / 2.0;
-  const double radius = scaledRadius();
+  const double r = scaledRadius();
 
   if ((top + side + bottom) == 0)  // it is empty
     mBoundingSphere->empty();
   else if ((top + side + bottom) == 1 && !side) {  // just one disk
     const double center = top ? halfHeight : -halfHeight;
-    mBoundingSphere->set(WbVector3(0, center, 0), radius);
+    mBoundingSphere->set(WbVector3(0, center, 0), r);
   } else
-    mBoundingSphere->set(WbVector3(), WbVector3(radius, halfHeight, 0).length());
+    mBoundingSphere->set(WbVector3(), WbVector3(r, halfHeight, 0).length());
 }
 
 // if a cylinder has nothing to draw, then it shouldn't be exported to X3D
@@ -540,8 +537,8 @@ bool WbCylinder::shallExport() const {
 WbVector3 WbCylinder::computeFrictionDirection(const WbVector3 &normal) const {
   WbVector3 localNormal = normal * matrix().extracted3x3Matrix();
   // Find most probable face and return first friction direction in the local coordinate system
-  if ((fabs(localNormal[1]) > fabs(localNormal[0])) && (fabs(localNormal[1]) > fabs(localNormal[2])))  // top or bottom face
+  if ((fabs(localNormal[2]) > fabs(localNormal[0])) && (fabs(localNormal[2]) > fabs(localNormal[1])))  // top or bottom face
     return WbVector3(1, 0, 0);
   else  // side
-    return WbVector3(0, 1, 0);
+    return WbVector3(0, 0, 1);
 }

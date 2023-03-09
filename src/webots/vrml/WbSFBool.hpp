@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,7 +20,7 @@
 //
 
 #include "WbSingleValue.hpp"
-#include "WbVrmlWriter.hpp"
+#include "WbWriter.hpp"
 
 class WbSFBool : public WbSingleValue {
   Q_OBJECT
@@ -28,9 +28,10 @@ class WbSFBool : public WbSingleValue {
 public:
   WbSFBool(WbTokenizer *tokenizer, const QString &worldPath) { readSFBool(tokenizer, worldPath); }
   WbSFBool(const WbSFBool &other);
+  explicit WbSFBool(bool value) : mValue(value) {}
   virtual ~WbSFBool() {}
   void read(WbTokenizer *tokenizer, const QString &worldPath) override { readSFBool(tokenizer, worldPath); }
-  void write(WbVrmlWriter &writer) const override { writer << toString(WbPrecision::DOUBLE_MAX); }
+  void write(WbWriter &writer) const override { writer << toString(WbPrecision::DOUBLE_MAX); }
   WbValue *clone() const override { return new WbSFBool(*this); }
   bool equals(const WbValue *other) const override;
   void copyFrom(const WbValue *other) override;

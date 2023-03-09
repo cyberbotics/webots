@@ -17,10 +17,11 @@ export default class WbIndexedFaceSet extends WbTriangleMeshGeometry {
 
   clone(customID) {
     this.useList.push(customID);
-    return new WbIndexedFaceSet(customID, this.coordIndex, this.normalIndex, this.texCoordIndex, this.coord, this.texCoord, this.normal, this.ccw, this.normalPerVertex);
+    return new WbIndexedFaceSet(customID, this.coordIndex, this.normalIndex, this.texCoordIndex, this.coord, this.texCoord,
+      this.normal, this.ccw);
   }
 
   _updateTriangleMesh() {
-    this._triangleMesh.init(this.coord, this.coordIndex, this.normal, this.normalIndex, this.texCoord, this.texCoordIndex, this.ccw);
+    this._triangleMesh.init(this.coord, this.coordIndex, this.normal, this.normalIndex, this.texCoord, this.texCoordIndex);
   }
 }

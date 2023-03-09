@@ -110,7 +110,7 @@ If the same seed is used every time or if it is not specified (i.e using the def
 
 PROTO SimpleStairs [
   field SFVec3f    translation 0 0 0
-  field SFRotation rotation    0 1 0 0
+  field SFRotation rotation    0 0 1 0
   field SFString   name        "stairs"
   field SFInt32    nSteps      10
   field SFVec3f    stepSize    0.2 0.2 0.8

@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,15 +47,9 @@ public:
   bool isReadingBoundingObject() const { return mIsReadingBoundingObject; }
 
   // read nodes and place them in a list
-  // this function is suitable for reading all the nodes of a .wbt or .wbo file
+  // this function is suitable for reading all the nodes of a .wbt file
   // prerequisite: the syntax must have been checked with the WbParser
   QList<WbNode *> readNodes(WbTokenizer *tokenizer, const QString &worldPath);
-
-  // read nodes and place them in a list
-  // the stream may contain in file PROTO declaration as allowed with VRML
-  // if PROTO declaration are present, they will be placed in the current WbProtoList
-  // prerequisite: the syntax must have been checked with the WbParser::parseVrml()
-  QList<WbNode *> readVrml(WbTokenizer *tokenizer, const QString &worldPath);
 
   // read a single node, this is suitable for
   // 1. reading the root node of a .proto file
@@ -82,7 +76,7 @@ private:
   bool mIsReadingBoundingObject;
   bool mReadNodesCanceled;
 
-  WbNode *createNode(const QString &modelName, WbTokenizer *tokenizer, const QString &worldPath);
+  WbNode *createNode(const QString &modelName, WbTokenizer *tokenizer, const QString &worldPath, const QString &fileName);
 };
 
 #endif

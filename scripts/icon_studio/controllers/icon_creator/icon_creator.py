@@ -1,10 +1,10 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,6 +39,8 @@ LIGHTNESS = 1
 SATURATION = 2
 
 WHITE = [1, 1, 1]
+
+WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
 
 
 def get_options():
@@ -112,7 +114,7 @@ def take_screenshot(camera, category, directory, protoDirectory, protoName, opti
     # Save model.png (cropped) and icon.png (scaled down)
     pilImage.save(os.path.join(directory, 'model.png'))
 
-    pilImage.thumbnail((128, 128), Image.ANTIALIAS)
+    pilImage.thumbnail((128, 128), Image.Resampling.LANCZOS)
     iconImage = Image.new('RGBA', (128, 128))
     iconImage.paste(pilImage, (int((128 - pilImage.size[0]) / 2), int((128 - pilImage.size[1]) / 2),
                     int((128 - pilImage.size[0]) / 2) + pilImage.size[0], int((128 - pilImage.size[1]) / 2) + pilImage.size[1]))
@@ -120,41 +122,41 @@ def take_screenshot(camera, category, directory, protoDirectory, protoName, opti
 
     if not options.disableIconCopy:
         # copy icons in the appropriate directory
-        iconsFolder = os.environ['WEBOTS_HOME'] + os.sep + protoDirectory + os.sep + 'icons'
-        iconPath = iconsFolder + os.sep + protoName + '.png'
+        iconsFolder = os.path.join(WEBOTS_HOME, protoDirectory, 'icons')
+        iconPath = os.path.join(iconsFolder, protoName + '.png')
         if not os.path.exists(iconsFolder):
             os.makedirs(iconsFolder)
         if os.path.exists(iconPath):
             os.remove(iconPath)
-        shutil.copy2(directory + os.sep + 'icon.png', iconPath)
+        shutil.copy2(os.path.join(directory, 'icon.png'), iconPath)
 
         categoryFolder = os.path.basename(os.path.dirname(protoDirectory))
         # copy the models in the docs directory
-        modelFolder = os.path.join(os.environ['WEBOTS_HOME'], 'docs', 'guide', 'images', category, categoryFolder, protoName)
+        modelFolder = os.path.join(WEBOTS_HOME, 'docs', 'guide', 'images', category, categoryFolder, protoName)
         modelPath = os.path.join(modelFolder, 'model' + namePostfix + '.png')
         if category == categoryFolder:  # appearances
-            modelFolder = os.path.join(os.environ['WEBOTS_HOME'], 'docs', 'guide', 'images', category)
+            modelFolder = os.path.join(WEBOTS_HOME, 'docs', 'guide', 'images', category)
             modelPath = os.path.join(modelFolder, protoName + namePostfix + '.png')
         elif category == 'robots':
-            modelFolder = os.path.join(os.environ['WEBOTS_HOME'], 'docs', 'guide', 'images', category, categoryFolder)
+            modelFolder = os.path.join(WEBOTS_HOME, 'docs', 'guide', 'images', category, categoryFolder)
             modelPath = os.path.join(modelFolder, protoName + namePostfix + '.png')
         if not os.path.exists(modelFolder):
             os.makedirs(modelFolder)
         if os.path.exists(modelPath):
             os.remove(modelPath)
-        shutil.copy2(directory + os.sep + 'model.png', modelPath)
+        shutil.copy2(os.path.join(directory, 'model.png'), modelPath)
 
 
 def process_appearances(supervisor, parameters):
     """Import the appearances, take a screenshot and remove it."""
-    objectDirectory = '.' + os.sep + 'images' + os.sep + 'appearances' + os.sep + protoName
+    objectDirectory = os.path.join('images', 'appearances', protoName)
     if not os.path.exists(objectDirectory):
         os.makedirs(objectDirectory)
     else:
         sys.exit('Multiple definition of ' + protoName)
-    protoPath = rootPath + os.sep + protoName
-    protoPath = protoPath.replace(os.environ['WEBOTS_HOME'], '')
-    nodeString = 'Transform { translation 0 1 0 rotation 0 0 1 0.262 children [ '
+    protoPath = os.path.join(rootPath, protoName)
+    protoPath = protoPath.replace(WEBOTS_HOME + os.sep, '')
+    nodeString = 'Transform { translation 0 0 1 rotation -1 0 0 0.262 children [ '
     nodeString += 'Shape { '
     nodeString += 'geometry Sphere { subdivision 5 } '
     nodeString += 'castShadows FALSE '
@@ -200,7 +202,7 @@ def process_object(supervisor, category, nodeString, objectDirectory, protoPath,
     supervisorTranslation.setSFVec3f(position)
     supervisorRotation.setSFRotation(viewpointOrientation.getSFRotation())
     # compute distance to the object (assuming object is at the origin) to set a correct near value
-    distance = math.sqrt(math.pow(position[0], 2) + math.pow(position[0], 2) + math.pow(position[0], 2))
+    distance = math.sqrt(math.pow(position[1], 2) + math.pow(position[1], 2) + math.pow(position[1], 2))
     if distance < 1:
         cameraNear.setSFFloat(0.1)
     elif distance < 5:
@@ -208,7 +210,7 @@ def process_object(supervisor, category, nodeString, objectDirectory, protoPath,
     elif distance < 10:
         cameraNear.setSFFloat(0.5)
     else:
-        cameraNear.setSFFloat(1)
+        cameraNear.setSFFloat(1.0)
     supervisor.step(timeStep)
 
     take_original_screenshot(camera, objectDirectory)
@@ -216,7 +218,7 @@ def process_object(supervisor, category, nodeString, objectDirectory, protoPath,
     supervisor.getFromDef('FLOOR_MATERIAL').getField('diffuseColor').setSFColor(background)
     lightIntensityField = supervisor.getFromDef('LIGHT').getField('intensity')
     lightIntensity = lightIntensityField.getSFFloat()
-    lightIntensityField.setSFFloat(0)
+    lightIntensityField.setSFFloat(0.0)
     supervisor.step(10 * timeStep)
     pixel = camera.getImageArray()[0][0]
     shadowColor = [pixel[0], pixel[1], pixel[2]]
@@ -241,8 +243,8 @@ camera = controller.getDevice('camera')
 camera.enable(timeStep)
 options = get_options()
 
-if os.path.exists('.' + os.sep + 'images'):
-    shutil.rmtree('.' + os.sep + 'images')
+if os.path.exists('images'):
+    shutil.rmtree('images')
 
 # Get required fields
 rootChildrenfield = controller.getRoot().getField('children')
@@ -256,16 +258,12 @@ if options.singleShot:
     node = controller.getFromDef('OBJECTS')
     if node is None:
         sys.exit('No node "OBJECTS" found.')
-    take_original_screenshot(camera, '.' + os.sep + 'images')
-    take_screenshot(camera, 'objects', '.' + os.sep + 'images', os.path.dirname(controller.getWorldPath()), node.getTypeName(),
-                    None)
+    take_original_screenshot(camera, 'images')
+    take_screenshot(camera, 'objects', 'images', os.path.dirname(controller.getWorldPath()), node.getTypeName(), None)
 elif options.appearance:
     with open('appearances.json') as json_data:
         data = json.load(json_data)
-        appearanceFolder = os.path.join(os.environ['WEBOTS_HOME'], 'projects')
-        appearanceFolder = os.path.join(appearanceFolder, 'appearances')
-        appearanceFolder = os.path.join(appearanceFolder, 'protos')
-        for rootPath, dirNames, fileNames in os.walk(appearanceFolder):
+        for rootPath, dirNames, fileNames in os.walk(os.path.join(WEBOTS_HOME, 'projects', 'appearances', 'protos')):
             for fileName in fnmatch.filter(fileNames, '*.proto'):
                 protoName = fileName.split('.')[0]
                 if protoName not in data:
@@ -290,8 +288,7 @@ else:
             protoPath = key
             print('%s [%d%%]' % (protoName, 100.0 * itemCounter / (len(data) - 1)))
 
-            objectDirectory = '.' + os.sep + 'images' + os.sep + os.path.basename(os.path.dirname(os.path.dirname(key)))
-            objectDirectory += os.sep + protoName
+            objectDirectory = os.path.join('images', os.path.basename(os.path.dirname(os.path.dirname(key))), protoName)
             if not os.path.exists(objectDirectory):
                 os.makedirs(objectDirectory)
             else:

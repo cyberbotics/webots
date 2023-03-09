@@ -1,0 +1,56 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+IMPORTABLE EXTERNPROTO "webots://projects/robots/softbank/nao/protos/Nao.proto"
+IMPORTABLE EXTERNPROTO "webots://tests/protos/protos/DeclaredProto.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  position -22.547379638610273 -0.029663844872164113 2.901551289070885
+}
+Background {
+  skyColor [
+    0.933333 0.933333 0.92549
+  ]
+}
+Robot {
+  translation -1.5 0 0
+  children [
+    Camera {
+      name "camera0"
+      fieldOfView 0.25
+      far 1
+    }
+    Camera {
+      translation 0 0 2
+      name "camera1"
+      fieldOfView 0.25
+      far 1
+    }
+    Camera {
+      translation 0 0 4
+      name "camera2"
+      fieldOfView 0.25
+      far 1
+    }
+    Camera {
+      translation 0 0 6
+      name "camera3"
+      fieldOfView 0.25
+      far 1
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  name "TESTER"
+  controller "proto_import"
+  controllerArgs [
+    "declared"
+    "official"
+  ]
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

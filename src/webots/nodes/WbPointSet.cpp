@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -149,22 +149,22 @@ int WbPointSet::computeCoordsAndColorData(float *coordsData, float *colorData) {
   if (colorData) {
     WbMFColor::Iterator colorIt(color()->color());
     while (coordsIt.hasNext() && colorIt.hasNext()) {
-      WbVector3 coord = coordsIt.next();
-      WbRgb color = colorIt.next();
-      coordsData[3 * count] = coord.x();
-      coordsData[3 * count + 1] = coord.y();
-      coordsData[3 * count + 2] = coord.z();
-      colorData[3 * count] = color.red();
-      colorData[3 * count + 1] = color.green();
-      colorData[3 * count + 2] = color.blue();
+      WbVector3 v = coordsIt.next();
+      WbRgb c = colorIt.next();
+      coordsData[3 * count] = v.x();
+      coordsData[3 * count + 1] = v.y();
+      coordsData[3 * count + 2] = v.z();
+      colorData[3 * count] = c.red();
+      colorData[3 * count + 1] = c.green();
+      colorData[3 * count + 2] = c.blue();
       count++;
     }
   } else {
     while (coordsIt.hasNext()) {
-      WbVector3 coord = coordsIt.next();
-      coordsData[3 * count] = coord.x();
-      coordsData[3 * count + 1] = coord.y();
-      coordsData[3 * count + 2] = coord.z();
+      WbVector3 v = coordsIt.next();
+      coordsData[3 * count] = v.x();
+      coordsData[3 * count + 1] = v.y();
+      coordsData[3 * count + 2] = v.z();
       count++;
     }
   }

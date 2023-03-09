@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbBrake.hpp"
+#include "WbDataStream.hpp"
 
 #include <QtCore/QDataStream>
 #include <cassert>
@@ -45,7 +46,7 @@ void WbBrake::reset(const QString &id) {
   emit brakingChanged();
 }
 
-void WbBrake::writeConfigure(QDataStream &stream) {
+void WbBrake::writeConfigure(WbDataStream &stream) {
   stream << (unsigned short)tag();
   stream << (unsigned char)C_CONFIGURE;
   stream << (int)type();
@@ -73,7 +74,7 @@ void WbBrake::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbBrake::writeAnswer(QDataStream &stream) {
+void WbBrake::writeAnswer(WbDataStream &stream) {
   if (mRequestedDeviceTag != NULL) {
     stream << tag();
     stream << (unsigned char)C_BRAKE_GET_ASSOCIATED_DEVICE;

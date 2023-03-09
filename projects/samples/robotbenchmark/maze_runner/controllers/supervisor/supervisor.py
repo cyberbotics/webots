@@ -5,9 +5,8 @@ import os
 import sys
 
 try:
-    includePath = os.environ.get("WEBOTS_HOME") + "/projects/samples/robotbenchmark/include"
-    includePath.replace('/', os.sep)
-    sys.path.append(includePath)
+    sys.path.append(os.path.join(os.path.normpath(os.environ.get("WEBOTS_HOME")), 'projects', 'samples', 'robotbenchmark',
+                                 'include'))
     from robotbenchmark import robotbenchmarkRecord
 except ImportError:
     sys.stderr.write("Warning: 'robotbenchmark' module not found.\n")
@@ -15,11 +14,11 @@ except ImportError:
 
 
 def isPositionChanged(v1, v2):
-    return abs(v1[0] - v2[0]) > 0.001 or abs(v1[2] - v2[2]) > 0.001
+    return abs(v1[1] - v2[1]) > 0.001 or abs(v1[0] - v2[0]) > 0.001
 
 
 def isMazeEndReached(position):
-    return position[0] < 0.60 and position[0] > 0.45 and position[2] < 0.15 and position[2] > -0.15
+    return position[0] < 0.15 and position[0] > -0.15 and position[1] > -0.60 and position[1] < -0.45
 
 
 robot = Supervisor()
@@ -70,12 +69,13 @@ while robot.step(timestep) != -1:
             stopMessageSent = True
         else:
             message = robot.wwiReceiveText()
-            if message:
+            while message:
                 if message.startswith("record:"):
                     record = robotbenchmarkRecord(message, "maze_runner", -time)
                     robot.wwiSendText(record)
                     break
                 elif message == "exit":
                     break
+                message = robot.wwiReceiveText()
 
 robot.simulationSetMode(Supervisor.SIMULATION_MODE_PAUSE)

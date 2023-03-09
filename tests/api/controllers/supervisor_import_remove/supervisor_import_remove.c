@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
   ts_assert_int_equal(wb_supervisor_field_get_count(root_children_field), initial_root_children_count + 1,
                       "The number of children of the root node is not correct after the insertion of SPHERE2.");
 
-  wb_robot_step(TIME_STEP);
+  wb_robot_step(2 * TIME_STEP);
 
   // Try to remove root
   // this is an invalid action: nothing should be applied and Webots should not crash
@@ -130,9 +130,6 @@ int main(int argc, char **argv) {
   wb_supervisor_field_import_mf_node_from_string(import_children_field, -1,
                                                  "Shape { geometry DEF MY_GEOM Box { size 0.1 0.1 0.1 } }");
 
-  // test import of invalid file -> check that Webots doesn't crash
-  wb_supervisor_field_import_mf_node(import_children_field, -1, "NotExistingObject.wbo");
-
   wb_robot_step(TIME_STEP);
 
   root_children_count = wb_supervisor_field_get_count(root_children_field);
@@ -140,11 +137,6 @@ int main(int argc, char **argv) {
 
   ts_assert_int_equal(wb_supervisor_field_get_count(root_children_field), root_children_count + 2,
                       "The number of children of the root node should increase by two when importing two nodes.");
-
-  wb_supervisor_field_import_mf_node(root_children_field, -1, "vrml_import.wrl");
-
-  ts_assert_int_equal(wb_supervisor_field_get_count(root_children_field), root_children_count + 3,
-                      "The number of children of the root node should increase by 1 when importing the *.wrl file.");
 
   // test internal update of libController node_list on node delete
   wb_supervisor_field_import_mf_node_from_string(root_children_field, -1, "DEF SPHERE4 Solid {}");

@@ -22,6 +22,7 @@ Car {
   MFFloat    gearRatio                      [-12 10 7 5 2.5 1]
   SFFloat    hybridPowerSplitRatio          0.25
   SFFloat    hybridPowerSplitRPM            3000
+  SFString   window                         "automobile"
 }
 ```
 
@@ -106,19 +107,20 @@ For the three other sensor slots, the positions are different for each model (be
 
 | Model                | Front slot translation | Top slot translation | Rear slot translation |
 | -------------------- | ---------------------- | -------------------- | --------------------- |
-| BmwX5                | 0.0 0.45 3.85          | 0.0 1.45 1.0         | 0.0 0.3 -1.0          |
-| LincolnMKZ           | 0.0 0.142 3.944        | 0.0 1.16 1.11        | 0.0 0.33 -1.06        |
-| RangeRoverSportSVR   | 0.0 0.5 3.5            | 0.0 1.3 1.4          | 0.0 0.33 -1.06        |
-| CitroenCZero         | 0.0 0.05 3.075         | 0.0 1.35 1.075       | 0.0 0.3 -0.425        |
-| ToyotaPrius          | 0.0 0.40 3.635         | 0.0 1.30 1.1         | 0.0 0.3 -0.850        |
-| TeslaModel3          | 0.0 0.142 3.79         | 0.0 1.16 1.11        | 0.0 0.2 -1.05         |
-| MercedesBenzSprinter | 0.0 0.47 5.31          | 0.0 2.3 2.99         | 0.0 0.19 -1.62        |
+| [BmwX5](vehicle-bmw.md#bmwx5)                                         | 3.85 0 0.45   | 1 0 1.45     | -1 0 0.3     |
+| [LincolnMKZ](vehicle-lincoln.md#lincolnmkz)                           | 3.944 0 0.142 | 1.11 0 1.16  | -1.06 0 0.33 |
+| [RangeRoverSportSVR](vehicle-range-rover.md#rangeroversportsvr)       | 3.5 0 0.5     | 1.4 0 1.3    | -1.06 0 0.33 |
+| [CitroenCZero](vehicle-citroen.md#citroenczero)                       | 3.075 0 0.05  | 1.075 0 1.35 | -0.425 0 0.3 |
+| [ToyotaPrius](vehicle-toyota.md#toyotaprius)                          | 3.635 0 0.4   | 1.1 0 1.3    | -0.85 0 0.3  |
+| [TeslaModel3](vehicle-tesla.md#teslamodel3)                           | 3.79 0 0.142  | 1.11 0 1.16  | -1.05 0 0.2  |
+| [MercedesBenzSprinter](vehicle-mercedes-benz.md#mercedesbenzsprinter) | 5.31 0 0.47   | 2.99 0 2.3   | 0 0 1 3.1415 |
+
 
 %end
 
 ### Heavy-Weights
 
-Just like the car models presented above, two generic heavy-weights PROTO inherit from the `Car` PROTO: a bus and a truck.
+Just like the car models presented above, two generic heavy-weights PROTO models inherit from the `Car` PROTO: a bus and a truck.
 In the case of the truck, a trailer can be present or not.
 The latter is the `endPoint` of a [HingeJoint](../reference/hingejoint.md) allowing the trailer to freely rotate around its attachment point.
 There are currently two trailers to be used: a regular one and a tank shaped model.
@@ -137,10 +139,22 @@ The rest of the positions can be seen in the [following table](#positions-of-the
 
 | Model   | Front slot translation | Top slot translation | Rear slot translation |
 | ------- | ---------------------- | -------------------- | --------------------- |
-| Bus     | 0.0 0.2 11.5           | 0.0 5.3 2.5          | 0.0 1.0 -6.2          |
-| Truck   | 0.0 1.1 6.75           | 0.0 4.15 4.3         | 0.0 2.7 -7.3          |
+| [Bus](vehicle-generic.md#bus)    | 11.5 0 0.2 | 2.5 0 5.3  | -6.2 0 1           |
+| [Truck](vehicle-generic.md#truck)| 6.75 0 1.1 | 4.3 0 4.15 | -7.3 0 2.7         |
 
 %end
+
+### Agricultural Vehicles
+
+A [Tractor](vehicle-generic.md#tractor) PROTO model is also provided which inherits from the `Car` PROTO.
+
+%figure "Model of a Tractor using the `Car` PROTO"
+
+![Tractor.png](images/generic/Tractor.thumbnail.png)
+
+%end
+
+The [Tractor](vehicle-generic.md#tractor) PROTO model provides a `sensorSlot` at center of the vehicle.
 
 ### Simple Vehicles
 
@@ -155,13 +169,13 @@ They should be used to model parked vehicles (non-moving) or vehicles moved by a
 
 ```
  PROTO CarSimple {
-  SFVec3f    translation             0 0.4 0
-  SFRotation rotation                0 1 0 0
+  SFVec3f    translation             0 0 0.4
+  SFRotation rotation                0 0 1 0
   SFColor    color                   0.0 0.25 0.65
   MFColor    recognitionColors       [ 0.0 0.25 0.65, 0.1 0.1 0.1 ]
   MFString   plate                   "textures/plate.jpg"
   SFString   name                    "vehicle"
-  SFString   controller              ""
+  SFString   controller              "<none>"
   MFString   controllerArgs          []
   MFNode     sensorsSlot...          []
   SFBool     wheelBoundingObject     FALSE
@@ -196,13 +210,13 @@ The different simple versions of the car PROTO nodes represent the different mod
 
 #### TwoWheelerSimple
 
-Due to the presence of driver, the TwoWheelerSimple PROTO nodes have a slightly different organization.
-Similar to CarSimple, the TwoWheelerSimple PROTO displayed bellow is just a common structure for the different versions of the two wheelers.
+Due to the presence of driver, the TwoWheelerSimple PROTO node have a slightly different organization.
+Similar to CarSimple, the TwoWheelerSimple PROTO displayed below is just a common structure for the different versions of the two wheelers.
 
 ```
 PROTO TwoWheelerSimple {
-  field       SFVec3f    translation             0 0.25 0
-  field       SFRotation rotation                0 1 0 0
+  field       SFVec3f    translation             0 0 0.25
+  field       SFRotation rotation                0 0 1 0
   vrmlField   SFColor    primaryColor            0.43 0.11 0.1
   vrmlField   SFColor    secondaryColor          0.69 0.43 0.43
   field       MFColor    recognitionColors       [ 0.43 0.11 0.1, 0.69 0.43 0.43 ]
@@ -217,7 +231,7 @@ PROTO TwoWheelerSimple {
 - `secondaryColor`: Defines a secondary color to be chosen alongside the main one.
 - `driver`: Defines a `Slot` node for the two-wheeler driver.
 
-ScooterSimple and MotorbikeSimple are examples of actual TwoWheelerSimple PROTO that represent a scooter and a motorbike:
+[ScooterSimple](vehicle-generic.md#scootersimple) and [MotorbikeSimple](vehicle-generic.md#motorbikesimple) are examples of actual TwoWheelerSimple PROTO that represent a scooter and a motorbike:
 
 %figure "Models of ScooterSimple and MotorbikeSimple currently available"
 

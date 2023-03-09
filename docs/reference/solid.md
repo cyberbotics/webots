@@ -14,15 +14,13 @@ Solid {
   SFBool   locked              FALSE         # {TRUE, FALSE}
   SFFloat  radarCrossSection   0.0           # [0, 1]
   MFColor  recognitionColors   []            # any color
-  SFFloat  translationStep     0.01          # [0, inf)
-  SFFloat  rotationStep        0.261799387   # [0, inf)
   # hidden fields
   SFVec3f  linearVelocity      0 0 0         # any vector
   SFVec3f  angularVelocity     0 0 0         # any vector
 }
 ```
 
-Direct derived nodes: [Accelerometer](accelerometer.md), [Camera](camera.md), [Charger](charger.md), [Compass](compass.md), [Connector](connector.md), [Display](display.md), [DistanceSensor](distancesensor.md), [Emitter](emitter.md), [GPS](gps.md), [Gyro](gyro.md), [InertialUnit](inertialunit.md), [LED](led.md), [Lidar](lidar.md), [LightSensor](lightsensor.md), [Pen](pen.md), [Radar](radar.md), [RangeFinder](rangefinder.md), [Receiver](receiver.md), [Robot](robot.md), [TouchSensor](touchsensor.md), [Track](track.md).
+Direct derived nodes: [Accelerometer](accelerometer.md), [Altimeter](altimeter.md), [Camera](camera.md), [Charger](charger.md), [Compass](compass.md), [Connector](connector.md), [Display](display.md), [DistanceSensor](distancesensor.md), [Emitter](emitter.md), [GPS](gps.md), [Gyro](gyro.md), [InertialUnit](inertialunit.md), [LED](led.md), [Lidar](lidar.md), [LightSensor](lightsensor.md), [Pen](pen.md), [Radar](radar.md), [RangeFinder](rangefinder.md), [Receiver](receiver.md), [Robot](robot.md), [TouchSensor](touchsensor.md), [Track](track.md).
 
 ### Description
 
@@ -75,9 +73,6 @@ Typical values are 0.01 for a bird, 1 for a human, 100 for a car and 200 for a t
 
 - `recognitionColors`: if not empty, this [Solid](#solid) node may be recognized by any [Camera](camera.md) device with a [Recognition](recognition.md) node.
 The colors defined in this field are returned for this object if recognized by a camera, but they have no impact on the visual appearance of the [Solid](#solid) node.
-
-- `translationStep` and `rotationStep`: these fields specify the minimum step size that will be used by the translate and rotate handles appearing in the 3D window when selecting a top solid.
-Continuous increment is obtained by setting the step value to -1.
 
 ### Hidden Field Summary
 

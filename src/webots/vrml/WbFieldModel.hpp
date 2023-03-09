@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,7 +26,7 @@
 
 class WbTokenizer;
 class WbToken;
-class WbVrmlWriter;
+class WbWriter;
 
 class WbFieldModel {
 public:
@@ -38,7 +38,7 @@ public:
 
   // VRML export
   bool isVrml() const { return mIsVrml; }
-  void write(WbVrmlWriter &writer) const;
+  void write(WbWriter &writer) const;
 
   bool isDeprecated() const { return mIsDeprecated; }
 
@@ -94,8 +94,8 @@ private:
 
   mutable int mRefCount;
 
-  WbValue *createValueForVrmlType(const QString &type, WbTokenizer *tokenizer, const QString &worldPath);
-  QList<WbVariant> getAcceptedValues(const QString &type, WbTokenizer *tokenizer, const QString &worldPath);
+  static WbValue *createValueForVrmlType(const QString &type, WbTokenizer *tokenizer, const QString &worldPath);
+  static QList<WbVariant> getAcceptedValues(const QString &type, WbTokenizer *tokenizer, const QString &worldPath);
 };
 
 #endif

@@ -1,4 +1,5 @@
 import WbGeometry from './WbGeometry.js';
+import {resetIfNotInRangeWithIncludedBounds, resetIfNonPositive} from './utils/WbFieldChecker.js';
 
 export default class WbSphere extends WbGeometry {
   constructor(id, radius, ico, subdivision) {
@@ -14,8 +15,13 @@ export default class WbSphere extends WbGeometry {
   }
 
   createWrenObjects() {
+    if (this.wrenObjectsCreatedCalled)
+      return;
+
     super.createWrenObjects();
-    this._buildWrenMesh();
+
+    this.#sanitizeFields();
+    this.#buildWrenMesh();
   }
 
   delete() {
@@ -34,6 +40,9 @@ export default class WbSphere extends WbGeometry {
   }
 
   updateScale() {
+    if (!this.#sanitizeFields())
+      return;
+
     const scaledRadius = this.radius;
 
     _wr_transform_set_scale(this.wrenNode, _wrjs_array3(scaledRadius, scaledRadius, scaledRadius));
@@ -45,7 +54,7 @@ export default class WbSphere extends WbGeometry {
     return super._isAValidBoundingObject() && this.radius > 0;
   }
 
-  _buildWrenMesh() {
+  #buildWrenMesh() {
     super._deleteWrenRenderable();
 
     if (typeof this._wrenMesh !== 'undefined') {
@@ -55,8 +64,8 @@ export default class WbSphere extends WbGeometry {
 
     super._computeWrenRenderable();
 
-    const createOutlineMesh = super.isInBoundingObject();
-    this._wrenMesh = _wr_static_mesh_unit_sphere_new(this.subdivision, this.ico, false);
+    const createOutlineMesh = this.isInBoundingObject();
+    this._wrenMesh = _wr_static_mesh_unit_sphere_new(this.subdivision, this.ico, createOutlineMesh);
 
     // Restore pickable state
     super.setPickable(this.isPickable);
@@ -67,5 +76,22 @@ export default class WbSphere extends WbGeometry {
       this.updateLineScale();
     else
       this.updateScale();
+  }
+
+  #sanitizeFields() {
+    let newSubdivision;
+    if (this.ico)
+      newSubdivision = resetIfNotInRangeWithIncludedBounds(this.subdivision, 1, 5, 1);
+    else
+      newSubdivision = resetIfNotInRangeWithIncludedBounds(this.subdivision, 3, 32, 24);
+
+    if (newSubdivision !== false)
+      this.subdivision = newSubdivision;
+
+    const newRadius = resetIfNonPositive(this.radius, 1.0);
+    if (newRadius !== false)
+      this.radius = newRadius;
+
+    return newSubdivision === false && newRadius === false;
   }
 }

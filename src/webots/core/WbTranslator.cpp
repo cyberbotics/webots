@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -51,11 +51,14 @@ WbTranslator::WbTranslator() : mTranslator(NULL), mBasicTranslator(NULL) {
 
   if (!language.isEmpty()) {
     if (mSupportedLanguages.contains(language)) {
-      mTranslator->load("wb_" + language, WbStandardPaths::translationsPath());
-      mBasicTranslator->load("qt_" + language, WbStandardPaths::translationsPath());
+      if (!mTranslator->load("wb_" + language, WbStandardPaths::translationsPath()))
+        WbLog::warning(QObject::tr("Cannot load translator for wb_%1.").arg(language));
+      if (!mBasicTranslator->load("qt_" + language, WbStandardPaths::translationsPath()))
+        WbLog::warning(QObject::tr("Cannot load translator for qt_%1.").arg(language));
     } else {
       WbLog::warning(
-        QObject::tr("The language '%1' stored in preferences is not supported. Resetting to the language default (English)."),
+        QObject::tr("The language '%1' stored in preferences is not supported. Resetting to the language default (English).")
+          .arg(language),
         true);
       prefs->setValue("General/language", "");
     }

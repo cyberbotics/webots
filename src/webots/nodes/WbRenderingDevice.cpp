@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -40,18 +40,6 @@ void WbRenderingDevice::init() {
   // Fields initialization
   mWidth = findSFInt("width");
   mHeight = findSFInt("height");
-
-  // backward compatibility of the deprecated fields
-  mWindowPositionField = findSFVector2("windowPosition");
-  if (mWindowPositionField && mWindowPositionField->value() != WbVector2()) {
-    parsingWarn(tr("'windowPosition' is deprecated.") + "\n" +
-                tr("The position of the overlay will be automatically stored after moving it from the 3D view."));
-  }
-  mPixelSizeField = findSFDouble("pixelSize");
-  if (mPixelSizeField && mPixelSizeField->value() != 1.0) {
-    parsingWarn(tr("'pixelSize' is deprecated.") + "\n" +
-                tr("The size of the overlay will be automatically stored after resizing it from the 3D view."));
-  }
 }
 
 WbRenderingDevice::WbRenderingDevice(const QString &modelName, WbTokenizer *tokenizer) : WbSolidDevice(modelName, tokenizer) {
@@ -137,19 +125,6 @@ void WbRenderingDevice::updateHeight() {
     warn(tr("'height' has been modified. This modification will be taken into account after saving and reloading the world."));
 }
 
-// backward compatibility
-void WbRenderingDevice::applyWorldSettings() {
-  if (mPixelSizeField) {
-    mOverlay->resize(mPixelSizeField->value());
-    mPixelSizeField = NULL;
-  }
-  if (mWindowPositionField) {
-    WbVector2 position = mWindowPositionField->value();
-    mOverlay->updatePercentagePosition(position.x(), position.y());
-    mWindowPositionField = NULL;
-  }
-}
-
 void WbRenderingDevice::setPixelSize(double pixelSize) {
   if (mOverlay) {
     bool success = mOverlay->resize(pixelSize);
@@ -166,9 +141,6 @@ void WbRenderingDevice::moveWindow(int dx, int dy) {
 double WbRenderingDevice::pixelSize() const {
   if (mOverlay)
     return mOverlay->pixelSize();
-  else if (mPixelSizeField)
-    // backward compatibility
-    return mPixelSizeField->value();
   return 1.0;
 }
 
@@ -178,10 +150,10 @@ WbRenderingDevice *WbRenderingDevice::fromMousePosition(int x, int y) {
   int size = cRenderingDevices.size();
 
   for (int i = 0; i < size; i++) {
-    const WbWrenTextureOverlay *overlay = cRenderingDevices.at(i)->overlay();
-    if (overlay && overlay->isVisible()) {
-      int currentZorder = overlay->zOrder();
-      if (overlay->isInside(x, y) && currentZorder > maxZorder) {
+    const WbWrenTextureOverlay *textureOverlay = cRenderingDevices.at(i)->overlay();
+    if (textureOverlay && textureOverlay->isVisible()) {
+      int currentZorder = textureOverlay->zOrder();
+      if (textureOverlay->isInside(x, y) && currentZorder > maxZorder) {
         iMax = i;
         maxZorder = currentZorder;
       }

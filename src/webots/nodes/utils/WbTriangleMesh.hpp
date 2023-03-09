@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -38,8 +38,7 @@ public:
 
   // to be initialized from a WbIndexedFaceSet
   QString init(const WbMFVector3 *coord, const WbMFInt *coordIndex, const WbMFVector3 *normal, const WbMFInt *normalIndex,
-               const WbMFVector2 *texCoord, const WbMFInt *texCoordIndex, double creaseAngle, bool counterClockwise,
-               bool normalPerVertex);
+               const WbMFVector2 *texCoord, const WbMFInt *texCoordIndex, double creaseAngle, bool normalPerVertex);
   // to be initialized from a WbMesh
   QString init(const double *coord, const double *normal, const double *texCoord, const unsigned int *index,
                int numberOfVertices, int indexSize);
@@ -88,7 +87,6 @@ private:
   }
 
   void cleanupTmpArrays();
-  void reverseIndexOrder();
 
   bool mValid;
   bool mTextureCoordinatesValid;

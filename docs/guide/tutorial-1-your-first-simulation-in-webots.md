@@ -31,7 +31,7 @@ The world files must be stored directly in a directory called `worlds`.
 
 > **Hands-on #2**: Pause the current simulation by clicking on the `Pause` button ![](images/pause-button.png =26x26) of the 3D view (see the [user interface description](the-user-interface.md#simulation-menu) to find out the buttons).
 The simulation is paused if the virtual time counter on the main toolbar is stopped.
-Create a new project from the `Wizards` menu by selecting the `New Project Directory...` menu item and follow the instructions:
+Create a new project from the **File / New / New Project Directory...** menu item and follow the instructions:
 1. Name the project directory `my_first_simulation` instead of the proposed `my_project`.
 2. Name the world file `my_first_simulation.wbt` instead of the proposed `empty.wbt`.
 3. Click all the tick boxes, including the "Add a rectangle arena" which is not ticked by default.
@@ -74,14 +74,14 @@ In the open dialog box, choose `PROTO nodes (Webots Projects) / objects / factor
 A big box should appear in the middle of the arena.
 Double-click on it in the scene tree to open its fields.
 1. Change its `size` to `0.1 0.1 0.1` instead of `0.6 0.6 0.6`.
-2. Change its `translation` to `0 0.05 0` instead of `0 0.3 0`.
-Alternatively, you may use the green arrow that appears in the 3D view to adjust its `translation.y` field.
+2. Change its `translation` to `0 0 0.05` instead of `0 0 0.3`.
+Alternatively, you may use the blue arrow that appears in the 3D view to adjust its `translation.z` field.
 3. Now shift-click and drag the box in the 3D view and move it in some corner of the arena.
 4. Select the box and press <kbd>ctrl</kbd>-<kbd>C</kbd>, <kbd>ctrl</kbd>-<kbd>V</kbd> (Windows, Linux) or <kbd>⌘ command</kbd>-<kbd>C</kbd>, <kbd>⌘ command</kbd>-<kbd>V</kbd> (macOS) to copy and paste it.
 Shift-click and drag the new box to move it at some different location.
 Create a third box this way.
 5. Move the boxes, so that no box is at the center of the arena.
-You may also use the green rotation arrows to rotate the boxes along the vertical axis.
+You may also use the blue rotation arrows to rotate the boxes along the vertical axis.
 This can be done also by shift-click and drag with the right mouse button.
 Alternatively, you can change the angle of the `rotation` field of the `WoodenBox` nodes in the scene tree.
 6. Once you are satisfied with the result, save the world using the save button.
@@ -156,7 +156,7 @@ Note that the same controller can be used by several robots, but a robot can onl
 Each controller is executed in a separate child process usually spawned by Webots.
 Because they are independent processes, controllers don't share the same address space, and may run on different processor cores.
 
-> **Hands-on #8**: Create a new C (or any other language) controller called `epuck_go_forward` (for C++ and Java call it `EPuckGoForward` instead) using the `Wizards / New Robot Controller...` menu.
+> **Hands-on #8**: Create a new C (or any other language) controller called `epuck_go_forward` (for C++ and Java call it `EPuckGoForward` instead) using the **File / New / New Robot Controller...** menu item.
 This will create a new `epuck_go_forward` (or `EPuckGoForward`) directory in `my_first_simulation/controllers`.
 Select the option offering you to open the source file in the text editor.
 

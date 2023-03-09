@@ -1,0 +1,197 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+EXTERNPROTO "../protos/complex_cases/BasenodesInParameter.proto"
+EXTERNPROTO "../protos/complex_cases/ProtoInParameter.proto"
+EXTERNPROTO "../protos/complex_cases/ProtoInParameter/CustomAppearanceWithParameter.proto"
+EXTERNPROTO "../protos/complex_cases/ProtoInSlot.proto"
+EXTERNPROTO "../protos/complex_cases/NestedProtoCase1.proto"
+EXTERNPROTO "../protos/complex_cases/NestedProtoCase2.proto"
+EXTERNPROTO "../protos/complex_cases/NestedProtoCase3.proto"
+EXTERNPROTO "../protos/complex_cases/NestedProtoCase4.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  position -30 -5 3
+}
+Background {
+  skyColor [
+    0.933333 0.933333 0.92549
+  ]
+}
+BasenodesInParameter {
+  name "default BasenodesInParameter"
+}
+BasenodesInParameter {
+  translation 0 0 2
+  name "overwritten BasenodesInParameter"
+  appearance  PBRAppearance { baseColorMap ImageTexture { url "../colors/green_texture.jpg" } }
+}
+ProtoInParameter {
+  translation 0 -4 0
+  name "default ProtoInParameter"
+}
+ProtoInParameter {
+  translation 0 -4 2
+  appearance CustomAppearanceWithParameter { url "../colors/green_texture.jpg" }
+  name "overwritten ProtoInParameter"
+}
+ProtoInSlot {
+  translation 0 -8 0
+  name "ProtoInSlot case 1"
+  extensionSlot [
+    BasenodesInParameter {
+    }
+  ]
+}
+ProtoInSlot {
+  translation 0 -8 2
+  name "ProtoInSlot case 2"
+  extensionSlot [
+    BasenodesInParameter {
+      appearance  PBRAppearance { baseColorMap ImageTexture { url "../colors/green_texture.jpg" } }
+    }
+  ]
+}
+ProtoInSlot {
+  translation 0 -8 4
+  name "ProtoInSlot case 3"
+  extensionSlot [
+    ProtoInParameter {
+    }
+  ]
+}
+ProtoInSlot {
+  translation 0 -8 6
+  name "ProtoInSlot case 4"
+  extensionSlot [
+    ProtoInParameter {
+      appearance CustomAppearanceWithParameter { url "../colors/blue_texture.jpg" }
+    }
+  ]
+}
+NestedProtoCase1 {
+  translation 0 -12 0
+  name "case 1"
+}
+NestedProtoCase2 {
+  translation 0 -12 2
+  name "case 2"
+}
+NestedProtoCase3 {
+  translation 0 -12 4
+  name "case 3"
+}
+NestedProtoCase4 {
+  translation 0 -12 6
+  name "case 4"
+}
+Robot {
+  translation -3 0 0
+  children [
+    Camera {
+      translation 0 0 0
+      name "camera0"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 0 2
+      name "camera1"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 -4 0
+      name "camera2"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 -4 2
+      name "camera3"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 -8 0
+      name "camera4"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 -8 2
+      name "camera5"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 -8 4
+      name "camera6"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 -8 6
+      name "camera7"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 -12 0
+      name "camera8"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 -12 2
+      name "camera9"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 -12 4
+      name "camera10"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 -12 6
+      name "camera11"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "complex_relative_asset_resolution_checker"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

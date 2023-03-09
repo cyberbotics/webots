@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,13 +19,13 @@
 // Description: useful file operations for Webots
 //
 
-#include <QtCore/QPair>
 #include <QtCore/QString>
 
 namespace WbFileUtil {
 
   // copy file from 'sourcePath' to 'destPath' while replacing a string pattern
-  bool copyAndReplaceString(const QString &sourcePath, const QString &destinationPath, QList<QPair<QString, QString>> values);
+  bool copyAndReplaceString(const QString &sourcePath, const QString &destinationPath,
+                            QList<std::pair<QString, QString>> values);
   bool copyAndReplaceString(const QString &sourcePath, const QString &destinationPath, const QString &before,
                             const QString &after);
 
@@ -41,7 +41,7 @@ namespace WbFileUtil {
 
   // check if a file is located in the specified directory tree; both paths are absolute
   bool isLocatedInDirectory(const QString &file, const QString &directory);
-  bool isLocatedInInstallationDirectory(const QString &file);
+  bool isLocatedInInstallationDirectory(const QString &file, bool ignoreAllowModify = false);
 
   // search all the directories named directoryName in the root directory
   void searchDirectoryNameRecursively(QStringList &results, const QString &directoryName, const QString &root);
@@ -50,8 +50,7 @@ namespace WbFileUtil {
   // if it doesn't exists, check if it can be created (i.e. if parent directory is writable)
   bool isDirectoryWritable(const QString &path);
 
-  enum FileType { EXECUTABLE, CLASS, JAR, PYTHON, MATLAB, BOTSTUDIO, TEXT, UNKNOWN };
-  const QString &extension(FileType);
+  enum FileType { EXECUTABLE, CLASS, JAR, PYTHON, MATLAB, BOTSTUDIO, DOCKER, UNKNOWN };
 
   void revealInFileManager(const QString &file);
 };  // namespace WbFileUtil

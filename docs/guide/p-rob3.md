@@ -13,7 +13,7 @@ PROTO P-Rob3 [
   SFVec3f    translation     0 0 0
   SFRotation rotation        0 0 1 0
   SFString   name            "P-Rob3"
-  SFString   controller      "void"
+  SFString   controller      "<generic>"
   SFString   controllerArgs  ""
   SFBool     supervisor      FALSE
   SFBool     synchronization TRUE

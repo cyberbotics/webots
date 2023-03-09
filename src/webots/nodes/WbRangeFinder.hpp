@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,14 +47,14 @@ private:
   WbSFDouble *mResolution;
 
   // private functions
-  void addConfigureToStream(QDataStream &stream, bool reconfigure = false) override;
+  void addConfigureToStream(WbDataStream &stream, bool reconfigure = false) override;
 
   float *rangeFinderImage() const;
 
   WbRangeFinder &operator=(const WbRangeFinder &);  // non copyable
   WbNode *clone() const override { return new WbRangeFinder(*this); }
   void init();
-  void initializeImageSharedMemory() override;
+  void initializeImageMemoryMappedFile() override;
 
   int size() const override { return sizeof(float) * width() * height(); }
   double minRange() const override { return mMinRange->value(); }
@@ -71,6 +71,7 @@ private slots:
   void updateMinRange();
   void updateMaxRange();
   void updateResolution();
+  void updateOrientation();
   void applyCameraSettingsToWren() override;
   void updateFrustumDisplayIfNeeded(int optionalRendering) override;
 };

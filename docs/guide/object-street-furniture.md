@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Atm {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "ATM"
 }
 ```
@@ -40,7 +40,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Bench {
   SFVec3f    translation          0 0 0
-  SFRotation rotation             0 1 0 0
+  SFRotation rotation             0 0 1 0
   SFString   name                 "bench"
   SFColor    metalColor           1 1 1
   SFColor    woodColor            0.5 0.5 0.5
@@ -76,12 +76,12 @@ Derived from [Solid](../reference/solid.md).
 ```
 BusStop {
   SFVec3f     translation                 0 0 0
-  SFRotation  rotation                    0 1 0 0
+  SFRotation  rotation                    0 0 1 0
   SFString    name                        "bus stop"
   SFBool      bench                       TRUE
   SFNode      appearance                  PBRAppearance { baseColor 0.3 0.45 0.33  metalness 0 roughness 0.5 }
-  MFString    internalAdvertisingTexture  ["https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/street_furniture/protos/textures/cocacola_advertising.jpg"]
-  MFString    externalAdvertisingTexture  ["https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/objects/street_furniture/protos/textures/cocacola_advertising.jpg"]
+  MFString    internalAdvertisingTexture  "textures/cocacola_advertising.jpg"
+  MFString    externalAdvertisingTexture  "textures/cocacola_advertising.jpg"
   SFBool      advertisingLightOn          TRUE
 }
 ```
@@ -118,7 +118,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 ClothRecyclingContainer {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "cloth recycling container"
 }
 ```
@@ -143,7 +143,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 DrinkingFountain {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "drinking fountain"
 }
 ```
@@ -168,7 +168,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 ElectricalCabinet {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "electrical cabinet"
 }
 ```
@@ -193,7 +193,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 EmergencyPhone {
   SFVec3f    translation          0 0 0
-  SFRotation rotation             0 1 0 0
+  SFRotation rotation             0 0 1 0
   SFString   name                 "emergency phone"
   SFColor    poleColor            1 0.44 0
   MFColor    recognitionColors    [1 0.44 0]
@@ -227,7 +227,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Fence {
   SFVec3f      translation             0 0 0
-  SFRotation   rotation                0 1 0 0
+  SFRotation   rotation                0 0 1 0
   SFString     name                    "fence"
   SFString     model                   "fence"
   MFColor      recognitionColors       [0.8 0.8 0.8]
@@ -236,10 +236,10 @@ Fence {
   SFFloat      poleRadius              0.04
   SFString     poleShape               "cylinder"
   SFNode       poleAppearance          PBRAppearance {}
-  MFVec3f      path                    [0 0 0, 5 0 0]
+  MFVec3f      path                    [0 0 0, 0 5 0]
   SFInt32      subdivision             -1
   SFInt32      horizontalBarsNumber    2
-  MFVec2f      horizontalBarShape      [0.06 0.02, 0.06 -0.02, -0.06 -0.02, -0.06 0.02, 0.06 0.02]
+  MFVec2f      horizontalBarShape      [0.02 0.06, 0.02 -0.06, -0.02 -0.06, -0.02 0.06, 0.02 0.06]
   SFNode       horizontalBarAppearance PBRAppearance {}
   SFNode       boundingObject          NULL
   SFFloat      creaseAngle             0.3
@@ -290,7 +290,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 FireHydrant {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "fire hydrant"
   SFNode     appearance  PBRAppearance { baseColor 0.643 0 0 metalness 0 roughness 0.4 }
 }
@@ -320,7 +320,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Fountain {
   SFVec3f     translation            0 0 0
-  SFRotation  rotation               0 1 0 0
+  SFRotation  rotation               0 0 1 0
   SFString    name                   "fountain"
   SFFloat     height                 1.5
   SFFloat     radius                 1
@@ -356,7 +356,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 GlassRecyclingContainer {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "glass recycling container"
 }
 ```
@@ -381,7 +381,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 GuardShelter {
   SFVec3f    translation  0 0 0
-  SFRotation rotation     0 1 0 0
+  SFRotation rotation     0 0 1 0
   SFString   name         "guard shelter"
 }
 ```
@@ -406,7 +406,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 IceFreezerContainer {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "ice freezer container"
 }
 ```
@@ -431,7 +431,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 Mailbox {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "mailbox"
 }
 ```
@@ -456,7 +456,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 MetallicTrash {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "metallic trash"
   SFBool     enablePhysics  FALSE
 }
@@ -486,7 +486,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 NewsStand {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "news stand"
 }
 ```
@@ -511,7 +511,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 OldBench {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "old bench"
 }
 ```
@@ -536,7 +536,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 PhoneBooth {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "phone booth"
 }
 ```
@@ -561,7 +561,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 PublicBin {
   SFVec3f    translation          0 0 0
-  SFRotation rotation             0 1 0 0
+  SFRotation rotation             0 0 1 0
   SFString   name                 "public bin"
   SFColor    color                0.27 0.27 0.27
   MFColor    recognitionColors    [0.27 0.27 0.27]
@@ -592,17 +592,17 @@ Derived from [Solid](../reference/solid.md).
 ```
 PublicToilet {
   SFVec3f     translation         0 0 0
-  SFRotation  rotation            0 1 0 0
+  SFRotation  rotation            0 0 1 0
   SFString    name                "public toilet"
   SFFloat     height              3.2
-  SFFloat     length              3.5
-  SFFloat     width               2.1
-  MFString    backDisplayTexture  "https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/webots_billboard.jpg"
+  SFFloat     length              2.1
+  SFFloat     width               3.5
+  MFString    backDisplayTexture  "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/textures/webots_billboard.jpg"
   SFBool      backDisplayLight    FALSE
   MFNode      frontDisplay        [
     AdvertisingBoard {
       translation 0 0.1 0
-      frontTexture ["https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/webots_billboard.jpg"]
+      frontTexture ["https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/textures/webots_billboard.jpg"]
       backTexture []
       displayBackLight FALSE
       displayWidth 0.9
@@ -622,9 +622,9 @@ PublicToilet {
 
 - `height`: Defines the height of the toilet.
 
-- `length`: Defines the lenght of the toilet.
+- `length`: Defines the length of the toilet.
 
-- `width`: Defines the wdith of the toilet.
+- `width`: Defines the width of the toilet.
 
 - `backDisplayTexture`: Defines the texture used on the back display.
 
@@ -647,7 +647,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 SimpleBench {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "simple bench"
 }
 ```
@@ -672,7 +672,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 SmallKiosk {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "small kiosk"
 }
 ```
@@ -697,7 +697,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 SnackStand {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "snack stand"
   SFString   color       "red"
 }
@@ -727,7 +727,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 StoneBench {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "stone bench"
 }
 ```
@@ -752,7 +752,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 StoneFountain {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "stone fountain"
 }
 ```
@@ -777,7 +777,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 TrashBin {
   SFVec3f    translation          0 0 0
-  SFRotation rotation             0 1 0 0
+  SFRotation rotation             0 0 1 0
   SFString   name                 "trash bin"
   SFColor    coverColor           0.1 0.1 0.1
   SFColor    binColor             0.08 0.46 0
@@ -811,7 +811,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 TrashContainer {
   SFVec3f    translation    0 0 0
-  SFRotation rotation       0 1 0 0
+  SFRotation rotation       0 0 1 0
   SFString   name           "trash container"
   SFBool     enablePhysics  FALSE
 }
@@ -841,7 +841,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 UndergroundContainer {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "underground container"
 }
 ```
@@ -866,7 +866,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 UrbanFence {
   SFVec3f    translation           0 0 0
-  SFRotation rotation              0 1 0 0
+  SFRotation rotation              0 0 1 0
   SFString   name                  "urban fence"
   SFBool     enableBoundingObject  TRUE
 }
@@ -896,7 +896,7 @@ Derived from [Solid](../reference/solid.md).
 ```
 WorkTrashContainer {
   SFVec3f    translation 0 0 0
-  SFRotation rotation    0 1 0 0
+  SFRotation rotation    0 0 1 0
   SFString   name        "work trash container"
 }
 ```

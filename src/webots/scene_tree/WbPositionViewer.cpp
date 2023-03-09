@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -118,8 +118,8 @@ void WbPositionViewer::update() {
       WbRotation referenceRotation = WbRotation(transform->rotationMatrix());
       currentRotation.normalize();
       referenceRotation.normalize();
-      if (currentRotation == referenceRotation)  // if there is no orientation difference, return 0 1 0 0
-        rotation = WbRotation(0, 1, 0, 0);
+      if (currentRotation == referenceRotation)  // if there is no orientation difference, return 0 0 1 0
+        rotation = WbRotation(0, 0, 1, 0);
       else
         rotation = WbRotation(currentRotation.toQuaternion() * referenceRotation.toQuaternion().conjugated());
     }

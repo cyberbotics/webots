@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,7 +28,7 @@ class WbWrenAbstractResizeManipulator : public WbWrenAbstractManipulator {
   Q_OBJECT
 
 public:
-  enum ResizeConstraint { NO_CONSTRAINT, UNIFORM, X_EQUAL_Z };
+  enum ResizeConstraint { NO_CONSTRAINT, UNIFORM, X_EQUAL_Y };
 
   virtual ~WbWrenAbstractResizeManipulator();
 
@@ -57,9 +57,7 @@ public:
 protected:
   explicit WbWrenAbstractResizeManipulator(ResizeConstraint constraint);
 
-  // The order is changed to X, Z, Y to accomodate the fact that when the number of handles
-  // is less than three we want to use the X and Z axes.
-  enum { X, Z, Y };
+  enum { X, Y, Z };
 
   ResizeConstraint mConstraint;
   int mUniformMaterialIndex;

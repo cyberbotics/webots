@@ -1,0 +1,236 @@
+#VRML_SIM R2023a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# A static cat.
+# template language: javascript
+
+PROTO Cat [
+  field SFVec3f    translation  0 0 0
+  field SFRotation rotation     0 0 1 0
+  field SFFloat    scale        1      # Defines the global scaling factor.
+  field SFString   name         "cat"
+  field SFColor    color        1 1 1  # Defines the color of the cat.
+]
+{
+  %<
+    let scale = fields.scale.value;
+    if (scale <= 0) {
+      scale = fields.scale.defaultValue;
+      console.error('\'scale\' must be strictly positive. Value reset to ' + scale + '.');
+    }
+  >%
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    model "cat"
+    scale %<= scale >% %<= scale >% %<= scale >%
+    children [
+      Shape {
+        appearance PBRAppearance {
+          metalness 0
+          roughness 1
+          baseColor IS color
+          baseColorMap ImageTexture {
+            url "webots://projects/objects/animals/protos/cat/textures/cat_basecolor.jpg"
+          }
+        }
+        geometry Mesh {
+          url "webots://projects/objects/animals/protos/cat/meshes/cat.obj"
+        }
+      }
+    ]
+    boundingObject Group {
+      children [
+        DEF HEAD Transform {
+          translation 0.137829 0 0.27
+          children [
+            Sphere {
+              radius 0.05
+            }
+          ]
+        }
+        DEF RIGHT_EAR Transform {
+          translation 0.125731 0.0363713 0.313414
+          rotation 0.3005501474473838 0.12449106107427137 0.9456064639066072 -0.825725307179586
+          children [
+            Box {
+              size 0.03 0.02 0.05
+            }
+          ]
+        }
+        DEF LEFT_EAR Transform {
+          translation 0.125731 -0.0363713 0.313414
+          rotation 0.3005501474473838 0.12449106107427137 0.9456064639066072 0.825725
+          children [
+            Box {
+              size 0.03 0.02 0.05
+            }
+          ]
+        }
+        DEF MUZZLE Transform {
+          translation 0.172 0 0.268
+          rotation 0 -1 0 -1.5707953071795862
+          children [
+            Capsule {
+              height 0.01
+              radius 0.025
+              subdivision 16
+            }
+          ]
+        }
+        DEF NECK Transform {
+          translation 0.122 0 0.238
+          rotation 0 1 0 0.261798
+          children [
+            Capsule {
+              height 0.05
+              radius 0.044
+              subdivision 16
+            }
+          ]
+        }
+        DEF BODY Transform {
+          translation 0.00199996 0 0.174
+          rotation 0 1 0 1.5708
+          children [
+            Capsule {
+              height 0.2
+              radius 0.055
+              subdivision 16
+            }
+          ]
+        }
+        DEF UPPER_BODY Transform {
+          translation 0.00200012 0 0.205
+          rotation 0 1 0 1.5708
+          children [
+            Capsule {
+              height 0.21
+              radius 0.045
+              subdivision 16
+            }
+          ]
+        }
+        DEF TAIL Transform {
+          translation -0.278035 0 0.191833
+          rotation 0 1 0 1.4874
+          children [
+            Capsule {
+              height 0.12
+              radius 0.01
+              subdivision 16
+            }
+          ]
+        }
+        DEF TAIL_END Transform {
+          translation -0.16605 0 0.211085
+          rotation 0 1 0 1.20453
+          children [
+            Capsule {
+              height 0.07
+              radius 0.013
+              subdivision 16
+            }
+          ]
+        }
+        DEF PAW_FR Transform {
+          translation 0.094 0.037 0.01
+          children [
+            DEF PAW Cylinder {
+              height 0.02
+              radius 0.02
+            }
+          ]
+        }
+        DEF PAW_FL Transform {
+          translation 0.094 -0.037 0.01
+          children [
+            USE PAW
+          ]
+        }
+        DEF PAW_RR Transform {
+          translation -0.118 0.037 0.01
+          children [
+            USE PAW
+          ]
+        }
+        DEF PAW_RL Transform {
+          translation -0.118 -0.037 0.01
+          children [
+            USE PAW
+          ]
+        }
+        DEF ANKLE_FR Transform {
+          translation 0.08 0.035 0.04
+          children [
+            DEF ANKLE Cylinder {
+              height 0.04
+              radius 0.015
+            }
+          ]
+        }
+        DEF ANKLE_FL Transform {
+          translation 0.08 -0.035 0.04
+          children [
+            USE ANKLE
+          ]
+        }
+        DEF ANKLE_RL Transform {
+          translation -0.137027 -0.035 0.0497347
+          rotation 0 -1 0 0.130243
+          children [
+            DEF REAR_ANKLE Cylinder {
+              height 0.06
+              radius 0.013
+            }
+          ]
+        }
+        DEF ANKLE_RR Transform {
+          translation -0.137027 0.035 0.0497347
+          rotation 0 -1 0 0.130243
+          children [
+            USE REAR_ANKLE
+          ]
+        }
+        DEF LEG_FR Transform {
+          translation 0.0852234 0.0348154 0.0901915
+          rotation 0 1 0 0.1579
+          children [
+            DEF LEG Cylinder {
+              height 0.06
+              radius 0.0175
+            }
+          ]
+        }
+        DEF LEG_FL Transform {
+          translation 0.0852234 -0.0348154 0.0901915
+          rotation 0 1 0 0.1579
+          children [
+            USE LEG
+          ]
+        }
+        DEF LEG_RL Transform {
+          translation -0.12036 -0.0327918 0.101426
+          rotation 0 1 0 0.465376
+          children [
+            DEF REAR_LEG Cylinder {
+              height 0.07
+              radius 0.018
+            }
+          ]
+        }
+        DEF LEG_RR Transform {
+          translation -0.12036 0.0327918 0.101426
+          rotation 0 1 0 0.465376
+          children [
+            USE REAR_LEG
+          ]
+        }
+      ]
+    }
+    recognitionColors [
+      0.870 0.580 0
+    ]
+  }
+}

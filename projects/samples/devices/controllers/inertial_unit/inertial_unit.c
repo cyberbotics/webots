@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -41,7 +41,7 @@ int main(int argc, const char *argv[]) {
   for (i = 0; true; i++) {
     // choose a random target
     double yaw = rand() / (double)RAND_MAX * 2.0 * M_PI - M_PI;
-    double pitch = rand() / (double)RAND_MAX * 2.3 - 0.8;
+    double pitch = -(rand() / (double)RAND_MAX * 2.3 - 0.8);
     double roll = rand() / (double)RAND_MAX * 2.0 * M_PI - M_PI;
 
     printf("new target #%d: roll/pitch/yaw=%f %f %f\n", i, roll, pitch, yaw);

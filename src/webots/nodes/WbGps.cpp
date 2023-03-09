@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,12 +14,15 @@
 
 #include "WbGps.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbMathsUtilities.hpp"
 #include "WbRandom.hpp"
 #include "WbSFDouble.hpp"
 #include "WbSensor.hpp"
 #include "WbWorld.hpp"
+
+#include <ode/ode.h>
 
 #include "../../controller/c/messages.h"
 
@@ -30,8 +33,8 @@
 /* ------- WbUTMConverter ------- */
 
 class WbUTMConverter {
-  // This class is used to make convertion between latitude-longitude
-  // and North-East coordinate using a Universal Transverse Mercato projection
+  // This class is used to make conversion between latitude-longitude
+  // and North-East coordinate using a Universal Transverse Mercator projection
   // (https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system)
   // The WGS84 World Geodetic System was chosen for the parameter of the reference
   // ellipsoid because this model is widely used and it is the one used by GPS.
@@ -143,7 +146,7 @@ private:
   double mE0;  // East reference [m]
   double mK0;
   double mA;  // major radius of the ellipse [m]
-  double mF;  // flattenning of the ellipse
+  double mF;  // flattening of the ellipse
 
   // variables dependant of the reference coordinates
   bool mReferenceCoordinatesHasBeenSet;
@@ -160,7 +163,7 @@ private:
   double mEsq;
   double mE0sq;
 
-  // current coordinates (result of last converion)
+  // current coordinates (result of last conversion)
   double mNorth;
   double mEast;
   double mLatitude;
@@ -181,6 +184,8 @@ void WbGps::init() {
   mMeasuredSpeed = 0.0;
   mUTMConverter = NULL;
   mNeedToUpdateCoordinateSystem = false;
+  mPreviousPosition = WbVector3(NAN, NAN, NAN);
+  mMeasuredSpeed = 0.0;
 }
 
 WbGps::WbGps(WbTokenizer *tokenizer) : WbSolidDevice("GPS", tokenizer) {
@@ -307,8 +312,20 @@ bool WbGps::refreshSensorIfNeeded() {
     mMeasuredPosition[2] = altitude;
   }
 
+  dBodyID upperSolidBodyId = upperSolid()->bodyMerger();
+  if (upperSolidBodyId) {
+    dVector3 newVelocity;
+    const WbVector3 &p = position();
+    dBodyGetPointVel(upperSolidBodyId, p.x(), p.y(), p.z(), newVelocity);
+    mSpeedVector = WbVector3(newVelocity);
+  } else if (!mPreviousPosition.isNan())
+    // no physics node, compute it manually
+    mSpeedVector = (t - mPreviousPosition) * 1000.0 / mSensor->elapsedTime();
+  else
+    mSpeedVector = WbVector3(NAN, NAN, NAN);
+
   // compute current speed [m/s]
-  mMeasuredSpeed = (mPreviousPosition - t).length() * 1000.0 / mSensor->elapsedTime();
+  mMeasuredSpeed = mSpeedVector.length();
   mPreviousPosition = t;
   if (mSpeedNoise->value() > 0.0)
     mMeasuredSpeed *= 1.0 + mSpeedNoise->value() * WbRandom::nextGaussian();
@@ -321,8 +338,9 @@ bool WbGps::refreshSensorIfNeeded() {
 
 void WbGps::reset(const QString &id) {
   WbSolidDevice::reset(id);
-  mPreviousPosition = WbVector3();
+  mPreviousPosition = WbVector3(NAN, NAN, NAN);
   mMeasuredSpeed = 0.0;
+  mSpeedVector = WbVector3();
 }
 
 void WbGps::handleMessage(QDataStream &stream) {
@@ -340,7 +358,7 @@ void WbGps::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbGps::writeAnswer(QDataStream &stream) {
+void WbGps::writeAnswer(WbDataStream &stream) {
   if (mNeedToUpdateCoordinateSystem)
     addConfigureToStream(stream);
 
@@ -350,12 +368,14 @@ void WbGps::writeAnswer(QDataStream &stream) {
     for (int i = 0; i < 3; ++i)
       stream << (double)mMeasuredPosition[i];
     stream << (double)mMeasuredSpeed;
+    for (int i = 0; i < 3; ++i)
+      stream << (double)mSpeedVector[i];
 
     mSensor->resetPendingValue();
   }
 }
 
-void WbGps::addConfigureToStream(QDataStream &stream) {
+void WbGps::addConfigureToStream(WbDataStream &stream) {
   stream << (short unsigned int)tag();
   stream << (unsigned char)C_CONFIGURE;
   if (WbWorld::instance()->worldInfo()->gpsCoordinateSystem().compare("WGS84") == 0)
@@ -365,7 +385,7 @@ void WbGps::addConfigureToStream(QDataStream &stream) {
   mNeedToUpdateCoordinateSystem = false;
 }
 
-void WbGps::writeConfigure(QDataStream &stream) {
+void WbGps::writeConfigure(WbDataStream &stream) {
   mSensor->connectToRobotSignal(robot());
   addConfigureToStream(stream);
 }

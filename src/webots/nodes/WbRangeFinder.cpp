@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,6 +14,7 @@
 
 #include "WbRangeFinder.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbPreferences.hpp"
 #include "WbRgb.hpp"
@@ -32,6 +33,15 @@ void WbRangeFinder::init() {
   mMinRange = findSFDouble("minRange");
   mMaxRange = findSFDouble("maxRange");
   mResolution = findSFDouble("resolution");
+
+  // backward compatibility
+  WbSFBool *sphericalField = findSFBool("spherical");
+  if (sphericalField->value()) {  // Deprecated in Webots R2023
+    parsingWarn("Deprecated 'spherical' field, please use the 'projection' field instead.");
+    if (isPlanarProjection())
+      mProjection->setValue("cylindrical");
+    sphericalField->setValue(false);
+  }
 }
 
 WbRangeFinder::WbRangeFinder(WbTokenizer *tokenizer) : WbAbstractCamera("RangeFinder", tokenizer) {
@@ -67,13 +77,21 @@ void WbRangeFinder::postFinalize() {
   connect(mResolution, &WbSFDouble::changed, this, &WbRangeFinder::updateResolution);
 }
 
-void WbRangeFinder::initializeImageSharedMemory() {
-  WbAbstractCamera::initializeImageSharedMemory();
-  if (mImageShm) {
-    // initialize the shared memory with a black image
+void WbRangeFinder::updateOrientation() {
+  if (hasBeenSetup()) {
+    // FLU axis orientation
+    mWrenCamera->rotateRoll(M_PI_2);
+    mWrenCamera->rotateYaw(-M_PI_2);
+  }
+}
+
+void WbRangeFinder::initializeImageMemoryMappedFile() {
+  WbAbstractCamera::initializeImageMemoryMappedFile();
+  if (mImageMemoryMappedFile) {
+    // initialize the memory mapped file with a black image
     float *im = rangeFinderImage();
-    const int size = width() * height();
-    for (int i = 0; i < size; i++)
+    const int s = width() * height();
+    for (int i = 0; i < s; i++)
       im[i] = 0.0f;
   }
 }
@@ -85,7 +103,7 @@ QString WbRangeFinder::pixelInfo(int x, int y) const {
   return QString::asprintf("depth(%d,%d)=%f", x, y, color.red());
 }
 
-void WbRangeFinder::addConfigureToStream(QDataStream &stream, bool reconfigure) {
+void WbRangeFinder::addConfigureToStream(WbDataStream &stream, bool reconfigure) {
   WbAbstractCamera::addConfigureToStream(stream, reconfigure);
   stream << (double)mMaxRange->value();
 }
@@ -108,6 +126,9 @@ void WbRangeFinder::createWrenCamera() {
   WbAbstractCamera::createWrenCamera();
   applyMaxRangeToWren();
   applyResolutionToWren();
+
+  updateOrientation();
+  connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbRangeFinder::updateOrientation);
 }
 
 /////////////////////
@@ -157,7 +178,7 @@ void WbRangeFinder::updateMinRange() {
 
   if (areWrenObjectsInitialized()) {
     applyFrustumToWren();
-    if (!spherical() && hasBeenSetup())
+    if (isPlanarProjection() && hasBeenSetup())
       updateFrustumDisplay();
   }
 }

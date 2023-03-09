@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -85,25 +85,25 @@ static void distance_sensor_read_answer(WbDevice *d, WbRequest *r) {
 
 int wb_distance_sensor_get_lookup_table_size(WbDeviceTag tag) {
   int result = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   DistanceSensor *ds = distance_sensor_get_struct(tag);
   if (ds)
     result = ds->lookup_table_size;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 const double *wb_distance_sensor_get_lookup_table(WbDeviceTag tag) {
   double *result = NULL;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   DistanceSensor *ds = distance_sensor_get_struct(tag);
   if (ds)
     result = ds->lookup_table;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
@@ -154,25 +154,25 @@ void wb_distance_sensor_enable(WbDeviceTag tag, int sampling_period) {
     return;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   DistanceSensor *ds = distance_sensor_get_struct(tag);
   if (ds) {
     ds->sampling_period = sampling_period;
     ds->enable = true;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 int wb_distance_sensor_get_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   DistanceSensor *ds = distance_sensor_get_struct(tag);
   if (ds)
     sampling_period = ds->sampling_period;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return sampling_period;
 }
 
@@ -186,7 +186,7 @@ void wb_distance_sensor_disable(WbDeviceTag tag) {
 
 double wb_distance_sensor_get_value(WbDeviceTag tag) {
   double value = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   DistanceSensor *ds = distance_sensor_get_struct(tag);
   if (ds) {
     if (ds->sampling_period <= 0)
@@ -194,54 +194,54 @@ double wb_distance_sensor_get_value(WbDeviceTag tag) {
     value = ds->value;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return value;
 }
 
 double wb_distance_sensor_get_max_value(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   DistanceSensor *ds = distance_sensor_get_struct(tag);
   if (ds)
     result = ds->max_value;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 double wb_distance_sensor_get_min_value(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   DistanceSensor *ds = distance_sensor_get_struct(tag);
   if (ds)
     result = ds->min_value;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 double wb_distance_sensor_get_aperture(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   DistanceSensor *ds = distance_sensor_get_struct(tag);
   if (ds)
     result = ds->aperture;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 WbDistanceSensorType wb_distance_sensor_get_type(WbDeviceTag tag) {
   WbDistanceSensorType result = WB_DISTANCE_SENSOR_GENERIC;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   DistanceSensor *ds = distance_sensor_get_struct(tag);
   if (ds)
     result = ds->type;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }

@@ -88,12 +88,12 @@ Note that this field should always be TRUE for "active" connectors, otherwise un
 - `distanceTolerance`: the maximum distance [in meters] between two connectors which still allows them to lock successfully.
 The distance is measured between the origins of the coordinate systems of the connectors.
 
-- `axisTolerance`: the maximum angle [in radians] between the *z*-axes of two connectors at which they may successfully lock.
-Two [Connector](#connector) nodes can lock when their *z*-axes are parallel (within tolerance), but pointed in opposite directions.
+- `axisTolerance`: the maximum angle [in radians] between the *x*-axes of two connectors at which they may successfully lock.
+Two [Connector](#connector) nodes can lock when their *x*-axes are parallel (within tolerance), but pointed in opposite directions.
 
 - `rotationTolerance`: the tolerated angle difference with respect to each of the allowed docking rotations (see [this figure](#example-of-rotational-alignment-numberofrotations4-and-rotationaltolerance22-5-deg)).
 
-- `numberOfRotations`: specifies how many different docking rotations are allowed in a full 360 degree rotation around the [Connector](#connector)'s z-axis.
+- `numberOfRotations`: specifies how many different docking rotations are allowed in a full 360 degree rotation around the [Connector](#connector)'s x-axis.
 For example, modular robots' connectors are often 1-, 2- or 4-way dockable depending on mechanical and electrical interfaces.
 As illustrated in [this figure](#example-of-rotational-alignment-numberofrotations4-and-rotationaltolerance22-5-deg), if `numberOfRotations` is 4 then there will be 4 different docking positions (one every 90 degrees).
 If you don't wish to check the rotational alignment criterion this field should be set to zero.
@@ -107,30 +107,30 @@ If you don't wish to check the rotational alignment criterion this field should 
 > **Note**: For the `autoLock`, `distanceTolerance`, `axisTolerance`, `rotationTolerance` and `numberOfRotations` fields, the value of these fields in the other connector doesn't matter, each connector will check independently if it does satisfy the conditions or not.
 
 - `snap`: when TRUE: the two connectors do automatically snap (align, adjust, etc.) when they become docked.
-The alignment is threefold: 1) the two bodies are rotated such that their z-axes become parallel (but pointed in opposite directions), 2) the two bodies are rotated such that their y-axes match one of the possible rotational docking position, 3) the two bodies are shifted towards each other such that the origin of their coordinate system match.
+The alignment is threefold: 1) the two bodies are rotated such that their x-axes become parallel (but pointed in opposite directions), 2) the two bodies are rotated such that their z-axes match one of the possible rotational docking position, 3) the two bodies are shifted towards each other such that the origin of their coordinate system match.
 Note that when the `numberOfRotations` field is 0, step 2 is omitted, and therefore the rotational alignment remains free.
 As a result of steps 1 and 3, the connector surfaces always become superimposed.
 It is recommended to set the same `snap` value for both connectors.
 
 - `tensileStrength`: maximum tensile force in *newton* [N] that the docking mechanism can withstand before it breaks.
 This can be used to simulate the rupture of the docking mechanism.
-The tensile force corresponds to a force that pulls the two connectors apart (in the negative *z*-axes direction).
+The tensile force corresponds to a force that pulls the two connectors apart (in the negative *x*-axes direction).
 When the tensile force exceeds the tensile strength, the link breaks.
 Note that if both connectors are locked, the effective tensile strength corresponds to the sum of both connectors' `tensileStrength` fields.
 The default value -1 indicates an infinitely strong docking mechanism that does not break no matter how much force is applied (in case both connectors are locked, it is sufficient to set the `tensileStrength` field of one of the connectors to -1).
 
 - `shearStrength`: indicates the maximum shear force in *newtons* [N] that the docking mechanism can withstand before it breaks.
 This can be used to simulate the rupture of the docking mechanism.
-The `shearStrength` field specifies the ability of two connectors to withstand a force that would makes them slide against each other in opposite directions (in the *xy*-plane).
+The `shearStrength` field specifies the ability of two connectors to withstand a force that would makes them slide against each other in opposite directions (in the *yz*-plane).
 Note that if both connectors are locked, the effective shear strength corresponds to the sum of both connectors' `shearStrength` fields.
 The default value -1 indicates an infinitely strong docking mechanism that does not break no matter how much force is applied (in case both connectors are locked, it is sufficient to set the `shearStrength` field of one of the connectors to -1)..
 
 ### Connector Axis System
 
 A [Connector](#connector)'s axis system is displayed by Webots when the corresponding robot is selected or when *Display Axes* is checked in Webots *Preferences*.
-The z-axis is drawn as a 5 cm blue line, the y-axis (a potential docking rotation) is drawn as a 5 cm green line, and each additional potential docking rotation is displayed as a 4 cm black line.
-The bounding objects and graphical objects of a [Connector](#connector) should normally be designed such that the docking surface corresponds exactly to *xy*-plane of the local coordinate system.
-Furthermore, the [Connector](#connector)'s z-axis should be perpendicular to the docking surface and point outward from the robot body.
+The x-axis is drawn as a 5 cm red line, the z-axis (a potential docking rotation) is drawn as a 5 cm blue line, and each additional potential docking rotation is displayed as a 4 cm black line.
+The bounding objects and graphical objects of a [Connector](#connector) should normally be designed such that the docking surface corresponds exactly to the *yz*-plane of the local coordinate system.
+Furthermore, the [Connector](#connector)'s x-axis should be perpendicular to the docking surface and point outward from the robot body.
 Finally, the bounding objects should allow the superposition of the origin of the coordinate systems.
 If these design criteria are not met, the [Connector](#connector) nodes will not work properly and may be unable to connect.
 
@@ -266,8 +266,8 @@ The *presence* state is defined as the correct positioning of a compatible peer 
 The `wb_connector_is_locked` function returns the current *isLocked* state of this connector.
 
 Two connectors are in position if they are axis-aligned, rotation-aligned and near enough.
-To be axis-aligned, the angle between the *z*-axes of the two connectors must be smaller than the `axisTolerance` field.
-To be rotation-aligned, the angle between the y-axis of both connectors must be within `distanceTolerance` of one of the possible `numberOfRotations` subdivisions of 360 degrees.
+To be axis-aligned, the angle between the *x*-axes of the two connectors must be smaller than the `axisTolerance` field.
+To be rotation-aligned, the angle between the z-axis of both connectors must be within `distanceTolerance` of one of the possible `numberOfRotations` subdivisions of 360 degrees.
 Two connectors are near enough if the distance between them (measured between the origins of the coordinate systems) is smaller than `distanceTolerance`.
 
 Two connectors are compatible if both types are "symmetric" or if one is "active" and the other is "passive".
@@ -282,7 +282,7 @@ type_compatible  := both connectors are "symmetric" OR one connector
 model_compatible := both models strings are equal
 in_position      := near_enough AND axis_aligned AND rotation_aligned
 near_enough      := the distance between the connectors < tolerance
-axis_aligned     := the angle between the z-axes < tolerance
+axis_aligned     := the angle between the x-axes < tolerance
 rotation_aligned := the n-ways rotational angle is within tolerance
 ```
 

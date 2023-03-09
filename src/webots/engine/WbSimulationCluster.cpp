@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,6 +23,7 @@
 #include "WbImmersionProperties.hpp"
 #include "WbKinematicDifferentialWheels.hpp"
 #include "WbLightSensor.hpp"
+#include "WbLog.hpp"
 #include "WbOdeContact.hpp"
 #include "WbOdeContext.hpp"
 #include "WbOdeGeomData.hpp"
@@ -38,12 +39,17 @@
 #include "WbWorldInfo.hpp"
 
 #include <QtCore/QMutex>
+#include <QtCore/QMutexLocker>
 
 #include <ode/fluid_dynamics/ode_fluid_dynamics.h>
 #include <ode/ode_MT.h>
 
 #include <cassert>
 #include <limits>
+
+// The maximum number of contact joints to create. Note that the time to compute a physics timestep with the ODE
+// physics engine scales with the cube of the number of joints.
+#define MAX_CONTACT_JOINTS 10
 
 // "webots" where each character is replaced by its ascii hexadecimal number.
 const long long int WbSimulationCluster::WEBOTS_MAGIC_NUMBER = 0x7765626F7473LL;
@@ -159,14 +165,14 @@ void WbSimulationCluster::handleKinematicsCollisions() {
 void WbSimulationCluster::collideKinematicRobots(WbKinematicDifferentialWheels *robot, bool collideWithOtherRobot,
                                                  dContact *contact, bool body1) {
   // handle DifferentialWheels robots without physics
-  WbVector2 normal2D(contact[0].geom.normal[0], contact[0].geom.normal[2]);
-  WbVector3 normal3D(contact[0].geom.normal[0], contact[0].geom.normal[1], contact[0].geom.normal[2]);
+  WbVector2 normal2D(contact[0].geom.normal[0], contact[0].geom.normal[1]);
+  WbVector3 normal3D(contact[0].geom.normal[0], contact[0].geom.normal[2], contact[0].geom.normal[1]);
   double depth = fabs(contact[0].geom.depth * (normal2D.length() / normal3D.length()));
 
   // record contact points for graphical and sound rendering
-  WbWorld *const world = WbWorld::instance();
+  WbWorld *const w = WbWorld::instance();
   const WbOdeContact odeContact(contact[0].geom, NULL);
-  world->appendOdeContact(odeContact);
+  w->appendOdeContact(odeContact);
 
   // move robots to prevent robots beeing one inside the other
   WbVector2 displacement = WbVector2(normal2D[0] * depth, normal2D[1] * depth);
@@ -202,6 +208,7 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
   int frictionSize = 1;
   int fdsSize = 1;
   double mu[4] = {1.0, 0.0, 0.0, 0.0};
+  double rho[3] = {0.0, 0.0, 0.0};
   double bounce = 0.5;
   double bounce_vel = 0.01;
   double fds[4] = {0.0, 0.0, 0.0, 0.0};
@@ -230,6 +237,9 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
         if (mu[j] == -1.0)
           mu[j] = dInfinity;
       }
+      const WbVector3 rf = cp->rollingFriction();
+      for (j = 0; j < 3; ++j)
+        rho[j] = rf[j] == -1.0 ? dInfinity : rf[j];
       for (j = 0; (j < fdsSize) && (j < 4); ++j)
         fds[j] = cp->forceDependentSlip(j);
       // get friction direction only if needed
@@ -272,19 +282,19 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
       contact->fdir1[1] = globalFdirS1[1];
       contact->fdir1[2] = globalFdirS1[2];
     }
-  } else  // fully symetric contact (slip and friction)
+  } else  // fully symmetric contact (slip and friction)
     contact->surface.mode = (bounce != 0.0 ? dContactBounce : 0) | dContactApprox1 | dContactSoftCFM | dContactSoftERP;
 
-  // handle asymetric friction
-  if (frictionSize <= 1)  // symetric friction
+  // handle asymmetric friction
+  if (frictionSize <= 1)  // symmetric friction
     contact->surface.mu = mu[0];
-  else {  // asymetric friction
+  else {  // asymmetric friction
     // compute mu1 and mu2 (length of globalFdirS1 and globalFdirS2 is assumed to be 1)
     double vectorAngle = globalFdirS1.angle(globalFdirS2);
     double ratio1 = fabs(cos(vectorAngle));
     double ratio2 = fabs(sin(vectorAngle));
     double mu1, mu2;
-    if (frictionSize == 3) {  // second solid has symetric friction
+    if (frictionSize == 3) {  // second solid has symmetric friction
       mu1 = mu[0] + mu[2];
       mu2 = mu[1] + mu[2];
     } else if (frictionSize == 2) {  // both solids have asymetric friction (with same coefficients)
@@ -301,8 +311,19 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
     contact->surface.mu2 = mu2;
   }
 
+  // handle rolling friction
+  if (rho[0] > 0 || rho[1] > 0 || rho[2] > 0) {
+    contact->surface.mode = contact->surface.mode | dContactRolling;
+    if (rho[1] > 0 || rho[2] > 0)
+      contact->surface.mode = contact->surface.mode | dContactAxisDep;
+
+    contact->surface.rho = rho[0];
+    contact->surface.rho2 = rho[1];
+    contact->surface.rhoN = rho[2];
+  }
+
   // handle asymetric slip
-  if (fdsSize <= 1) {  // symetric slip
+  if (fdsSize <= 1) {  // symmetric slip
     contact->surface.slip1 = fds[0];
     contact->surface.slip2 = fds[0];
     contact->surface.mode = contact->surface.mode | (fds[0] != 0.0 ? dContactSlip1 | dContactSlip2 : 0);
@@ -312,7 +333,7 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
     double ratio1 = fabs(cos(vectorAngle));
     double ratio2 = fabs(sin(vectorAngle));
     double slip1 = 0, slip2 = 0;
-    if (fdsSize == 3) {  // second solid has symetric slip
+    if (fdsSize == 3) {  // second solid has symmetric slip
       slip1 = fds[0] + fds[2];
       slip2 = fds[1] + fds[2];
       contact->surface.mode = contact->surface.mode | (slip1 != 0.0 ? dContactSlip1 : 0) | (slip2 != 0.0 ? dContactSlip2 : 0);
@@ -361,9 +382,9 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
   if (t) {
     contactNormal.normalize();
     const WbMatrix4 m(t->matrix());
-    WbVector3 bodyYAxis(m(0, 1), m(1, 1), m(2, 1));
-    bodyYAxis.normalize();
-    double dotProduct = contactNormal.dot(bodyYAxis);
+    WbVector3 bodyZAxis(m(0, 2), m(1, 2), m(2, 2));
+    bodyZAxis.normalize();
+    double dotProduct = contactNormal.dot(bodyZAxis);
     if (dotProduct < -1)
       dotProduct = -1;
     else if (dotProduct > 1)
@@ -387,9 +408,9 @@ const WbContactProperties *WbSimulationCluster::fillSurfaceParameters(const WbSo
       contact->surface.mode = contact->surface.mode | dContactFDir1;
       WbVector3 forceDir(m(0, 0), m(1, 0), m(2, 0));
       forceDir.normalize();
-      contact->fdir1[0] = forceDir.x();
-      contact->fdir1[1] = forceDir.y();
-      contact->fdir1[2] = forceDir.z();
+      contact->fdir1[0] = forceDir.x() * (invertedSign ? -1 : 1);
+      contact->fdir1[1] = forceDir.y() * (invertedSign ? -1 : 1);
+      contact->fdir1[2] = forceDir.z() * (invertedSign ? -1 : 1);
     }
   }
   return contactProperties;
@@ -430,15 +451,34 @@ static bool needCollisionDetection(WbSolid *solid, bool isOtherRayGeom) {
   return false;
 }
 
+void WbSimulationCluster::appendCollisionedRobot(WbKinematicDifferentialWheels *robot) {
+  if (WbOdeContext::instance()->numberOfThreads() > 1) {
+    QMutexLocker<QMutex> lock(&mCollisionedRobotsMutex);
+    mCollisionedRobots.append(robot);
+  } else
+    mCollisionedRobots.append(robot);
+}
+
 void WbSimulationCluster::handleCollisionIfSpace(void *data, dGeomID o1, dGeomID o2) {
   if (dGeomIsSpace(o1) || dGeomIsSpace(o2)) {
     // colliding a mContext->space() with something
     dSpaceCollide2(o1, o2, data, odeNearCallback);
     // collide all geoms internal to the mContext->space()(s)
     if (dGeomIsSpace(o1))
-      dSpaceCollide((dSpaceID)o1, data, odeNearCallback);
+      dSpaceCollide(reinterpret_cast<dSpaceID>(o1), data, odeNearCallback);
     if (dGeomIsSpace(o2))
-      dSpaceCollide((dSpaceID)o2, data, odeNearCallback);
+      dSpaceCollide(reinterpret_cast<dSpaceID>(o2), data, odeNearCallback);
+  }
+}
+
+void WbSimulationCluster::warnMoreContactPointsThanContactJoints() {
+  static QMutex mutex;
+  QMutexLocker<QMutex> lock(&mutex);
+  static double lastWarningTime = -INFINITY;
+  const double currentSimulationTime = WbSimulationState::instance()->time();
+  if (currentSimulationTime > lastWarningTime + 1000.0) {
+    WbLog::warning(QObject::tr("Contact joints will only be created for the deepest contact points."), false, WbLog::ODE);
+    lastWarningTime = currentSimulationTime;
   }
 }
 
@@ -613,10 +653,32 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     }
   }
 
-  dContact contact[10];
-  const int n = dCollide(o1, o2, 10, &contact[0].geom, sizeof(dContact));
+  const int maxContactJoints = MAX_CONTACT_JOINTS;
+  thread_local QVector<dContact> contactVector;
+
+  int maxContactPoints = std::max<size_t>(100, contactVector.capacity());
+
+  int n;
+  dContact *contact;
+  while (true) {
+    contactVector.reserve(maxContactPoints);
+    contact = contactVector.data();
+    n = dCollide(o1, o2, maxContactPoints, &contact[0].geom, sizeof(dContact));
+    if (n < maxContactPoints)
+      break;
+    else
+      maxContactPoints *= 10;
+  }
+
   if (n == 0)
     return;
+
+  if (n > maxContactJoints) {
+    WbSimulationCluster::warnMoreContactPointsThanContactJoints();
+    std::nth_element(contact, contact + maxContactJoints, contact + n,
+                     [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
+    n = maxContactJoints;
+  }
 
   WbTouchSensor *const ts1 = dynamic_cast<WbTouchSensor *>(s1);
   if (ts1 && !isRayGeom2)
@@ -625,6 +687,36 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   WbTouchSensor *const ts2 = dynamic_cast<WbTouchSensor *>(s2);
   if (ts2 && !isRayGeom1)
     ts2->setTouching(true);
+
+  const WbPhysics *const p1 = s1->physics();
+  const WbPhysics *const p2 = s2->physics();
+
+  // kinematic mode
+  if (!p1 || !p2) {
+    WbRobot *const robot1 = dynamic_cast<WbRobot *>(s1);
+    WbRobot *const robot2 = dynamic_cast<WbRobot *>(s2);
+    // Ensure that the deepest contact point is first for calls to collideKinematicRobots() below.
+    std::nth_element(contact, contact, contact + n,
+                     [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
+    if (robot1 && !p1 && !isRayGeom2 && robot1->kinematicDifferentialWheels()) {
+      wg1->setColliding();
+      cl->appendCollisionedRobot(robot1->kinematicDifferentialWheels());
+      if (robot2 && !p2 && robot2->kinematicDifferentialWheels()) {
+        wg2->setColliding();
+        cl->appendCollisionedRobot(robot2->kinematicDifferentialWheels());
+        collideKinematicRobots(robot1->kinematicDifferentialWheels(), true, contact, true);
+        collideKinematicRobots(robot2->kinematicDifferentialWheels(), true, contact, false);
+      } else
+        collideKinematicRobots(robot1->kinematicDifferentialWheels(), false, contact, true);
+      return;
+    }
+    if (robot2 && !p2 && !isRayGeom1 && robot2->kinematicDifferentialWheels()) {
+      wg2->setColliding();
+      cl->appendCollisionedRobot(robot2->kinematicDifferentialWheels());
+      collideKinematicRobots(robot2->kinematicDifferentialWheels(), false, contact, false);
+      return;
+    }
+  }
 
   // Handles the case of ray geometry against a non-ray geometry, i.e. at least one body is null
   if (isRayGeom1) {
@@ -723,6 +815,11 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
       odeGeomData2->setLastChangeTime(0.0);
   }
 
+  if (b1 && odeGeomData1->enableForContactPoint())
+    dBodyEnable(b1);
+
+  if (b2 && odeGeomData2->enableForContactPoint())
+    dBodyEnable(b2);
   // no need to create contact joints for contacts between disable bodies and kinematic solids
   const bool b1Disabled = b1 && !dBodyIsEnabled(b1);
   const bool b2Disabled = b2 && !dBodyIsEnabled(b2);

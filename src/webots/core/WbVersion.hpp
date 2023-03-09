@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,7 +24,7 @@
 
 class WbVersion {
 public:
-  WbVersion(int major = 0, int minor = 0, int revision = 0, bool webots = false);
+  explicit WbVersion(int major = 0, int minor = 0, int revision = 0, bool webots = false);
   WbVersion(const WbVersion &other);
   virtual ~WbVersion() {}
 
@@ -33,11 +33,13 @@ public:
   void setRevision(int revision) { mRevision = revision; }
   // extract the version from a string using the given prefix and suffix to build the regular expression
   // e.g. pattern "#VRML_SIM V8.6 utf8" and prefix "^VRML(_...|) " and suffix "( utf8|)$""
-  bool fromString(const QString &text, const QString &prefix = "", const QString &suffix = "", int expressionCountInPrefix = 0);
+  bool fromString(const QString &text, const QString &prefix = "", const QString &suffix = "");
 
   int majorNumber() const { return mMajor; }
   int minorNumber() const { return mMinor; }
   int revisionNumber() const { return mRevision; }
+  const QString &commit() const { return mCommit; }
+
   // Write version in a verbose way
   // if revision is false, only major and minor information are included.
   // In general the string will have the form "8.6.3".

@@ -1,10 +1,10 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,25 +32,25 @@ class WebotsVehicle:
         # get position
         position = self.node.getPosition()
         matrix = self.node.getOrientation()
-        angle1 = math.acos(matrix[8])
-        angle2 = math.atan(-matrix[6] / (math.sqrt(math.pow(matrix[7], 2) + math.pow(matrix[8], 2))))
+        angle1 = math.asin(matrix[0])
+        angle2 = math.atan(-matrix[3] / abs(matrix[0]))
         if angle2 < 0:
-            angle1 = -angle1
+            angle1 = math.pi - angle1
         # compute position in sumo coordinate frame
-        position[0] = -position[0] + xOffset - 0.5 * self.vehicleLength * math.sin(angle1)
-        position[1] = position[1] - self.vehicleHeight
-        position[2] = position[2] + yOffset + 0.5 * self.vehicleLength * math.cos(angle1)
+        position[0] = position[0] - xOffset + 0.5 * self.vehicleLength * math.sin(angle1)
+        position[1] = position[1] - yOffset - 0.5 * self.vehicleLength * math.cos(angle1)
+        position[2] = position[2] - self.vehicleHeight
         return position
 
     def get_angle(self):
         """Get the angle of the vehicle in SUMO coordinate frame."""
         # get pitch angle
         matrix = self.node.getOrientation()
-        angle1 = math.acos(matrix[8])
-        angle2 = math.atan(-matrix[6] / (math.sqrt(math.pow(matrix[7], 2) + math.pow(matrix[8], 2))))
+        angle1 = math.asin(matrix[0])
+        angle2 = math.atan(-matrix[3] / abs(matrix[0]))
         angle = angle1
         if angle2 > 0:
-            angle = -angle1
+            angle = math.pi - angle1
         return angle
 
     def is_on_road(self, xOffset, yOffset, maxDistance, net):
@@ -61,7 +61,7 @@ class WebotsVehicle:
         self.angle = self.get_angle()
 
         # get all the edges in a radius of 5 meters from the vehicle position
-        edges = net.getNeighboringEdges(self.currentPosition[0], self.currentPosition[2], maxDistance, False)
+        edges = net.getNeighboringEdges(self.currentPosition[0], self.currentPosition[1], maxDistance, False)
         # remove edges starting by ':' (internal edge of SUMO)
         for i in range(len(edges) - 1, -1, -1):
             if (edges[i][0]).getID().startswith(":"):
@@ -79,7 +79,7 @@ class WebotsVehicle:
                 for tag in tags:
                     if tag.startswith('height'):
                         height = float(tag.split('height', 1)[1])
-                newDist = math.sqrt(math.pow(edges[i][1], 2) + math.pow(self.currentPosition[1] - height, 2))
+                newDist = math.sqrt(math.pow(edges[i][1], 2) + math.pow(self.currentPosition[2] - height, 2))
                 edges[i] = (edges[i][0], newDist)
 
             # sort edges by distances to get the closest one
@@ -96,23 +96,23 @@ class WebotsVehicle:
         self.angle = self.get_angle()
         # compute current speed and convert it to m/s
         speed = math.sqrt(math.pow(self.currentPosition[0] - self.previousPosition[0], 2) +
-                          math.pow(self.currentPosition[2] - self.previousPosition[2], 2))
+                          math.pow(self.currentPosition[1] - self.previousPosition[1], 2))
         self.previousPosition = self.currentPosition
         speed = speed / 0.2
         # if vehicle is not present in the network add it
         if self.name not in traci.vehicle.getIDList():
             try:
                 traci.vehicle.add(vehID=self.name, routeID=traci.route.getIDList()[0])
-                traci.vehicle.setColor(self.name, [0, 255, 0, 0])
-            except:
+                traci.vehicle.setColor(self.name, (0, 255, 0))
+            except Exception:
                 pass
         try:
             traci.vehicle.setSpeed(self.name, speed)
-        except:
+        except Exception:
             pass
         try:
-            traci.vehicle.moveToXY(vehID=self.name, edgeID='', lane=0, x=self.currentPosition[0], y=self.currentPosition[2],
+            traci.vehicle.moveToXY(vehID=self.name, edgeID='', lane=0, x=self.currentPosition[0], y=self.currentPosition[1],
                                    angle=180 * self.angle / math.pi, keepRoute=0)
-        except:
+        except Exception:
             pass
         self.previousPosition = self.currentPosition

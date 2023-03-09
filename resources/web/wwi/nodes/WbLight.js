@@ -1,6 +1,7 @@
 import WbBaseNode from './WbBaseNode.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbWorld from './WbWorld.js';
+import {resetColorIfInvalid} from './utils/WbFieldChecker.js';
 
 export default class WbLight extends WbBaseNode {
   constructor(id, on, color, intensity, castShadows, ambientIntensity) {
@@ -21,7 +22,7 @@ export default class WbLight extends WbBaseNode {
     this._applyLightIntensityToWren();
     this._applyLightVisibilityToWren();
     this._applyLightShadowsToWren();
-    this._applySceneAmbientColorToWren();
+    this.#applySceneAmbientColorToWren();
   }
 
   delete() {
@@ -38,7 +39,7 @@ export default class WbLight extends WbBaseNode {
 
     if (this.wrenObjectsCreatedCalled) {
       WbLight.lights.splice(this, 1);
-      this._applySceneAmbientColorToWren();
+      this.#applySceneAmbientColorToWren();
     }
 
     super.delete();
@@ -49,6 +50,22 @@ export default class WbLight extends WbBaseNode {
     WbLight.lights.push(this);
   }
 
+  updateColor() {
+    const newColor = resetColorIfInvalid(this.color);
+    if (newColor !== false) {
+      this.color = newColor;
+      return;
+    }
+
+    if (this.wrenObjectsCreatedCalled)
+      this._applyLightColorToWren();
+  }
+
+  updateOn() {
+    if (this.wrenObjectsCreatedCalled)
+      this._applyLightVisibilityToWren();
+  }
+
   // Private functions
 
   _applyLightColorToWren() {}
@@ -56,11 +73,11 @@ export default class WbLight extends WbBaseNode {
   _applyLightShadowsToWren() {}
   _applyLightVisibilityToWren() {}
 
-  _applySceneAmbientColorToWren() {
-    this._computeAmbientLight();
+  #applySceneAmbientColorToWren() {
+    this.#computeAmbientLight();
   }
 
-  _computeAmbientLight() {
+  #computeAmbientLight() {
     const rgb = new WbVector3(0.0, 0.0, 0.0);
 
     WbLight.lights.forEach(light => {

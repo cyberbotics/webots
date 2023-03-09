@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
 
   WbFieldRef root_children = wb_supervisor_node_get_field(wb_supervisor_node_get_root(), "children");
 
-  const int node_count = 9;
+  const int node_count = 10;
   ts_assert_int_equal(wb_supervisor_field_get_count(root_children), node_count, "Intial number of root nodes is wrong");
 
   wb_robot_step(5 * TIME_STEP);
@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
   const char *def_name = wb_supervisor_node_get_def(sphere2_node);
   ts_assert_string_equal(def_name, "SPHERE2", "Wrong DEF name for top node at index 5: found %s, expected SPHERE2.", def_name);
 
-  wb_robot_step(TIME_STEP);
+  wb_robot_step(2 * TIME_STEP);
 
   ts_assert_int_equal(wb_supervisor_field_get_count(root_children), node_count - 1,
                       "Wrong number of root nodes after removing SPHERE2.");

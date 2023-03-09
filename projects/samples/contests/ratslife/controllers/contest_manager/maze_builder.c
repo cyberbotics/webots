@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -42,11 +42,11 @@ static void place_object(const char *defName, double x, double y, double alpha) 
 
   double newTranslation[3];
   memcpy(newTranslation, translation, 3 * sizeof(double));
-  double newRotation[4] = {0.0, 1.0, 0.0, 0.0};
+  double newRotation[4] = {0, 0, 1.0, 0};
 
   newTranslation[CX] = x;
-  newTranslation[CZ] = y;
-  newRotation[ALPHA] = alpha;
+  newTranslation[CY] = y;
+  newRotation[ALPHA] = alpha + 1.5708;
 
   wb_supervisor_field_set_sf_vec3f(translation_field, newTranslation);
   wb_supervisor_field_set_sf_rotation(rotation_field, newRotation);

@@ -24,11 +24,11 @@ Asphalt {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Asphalt.proto]({{ url.github_tree }}/projects/appearances/protos/Asphalt.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Asphalt Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -59,7 +59,7 @@ BakelitePlastic {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/BakelitePlastic.proto]({{ url.github_tree }}/projects/appearances/protos/BakelitePlastic.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### BakelitePlastic Field Summary
 
@@ -92,11 +92,11 @@ BlanketFabric {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/BlanketFabric.proto]({{ url.github_tree }}/projects/appearances/protos/BlanketFabric.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### BlanketFabric Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -125,11 +125,11 @@ BrushedAluminium {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/BrushedAluminium.proto]({{ url.github_tree }}/projects/appearances/protos/BrushedAluminium.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### BrushedAluminium Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -158,11 +158,47 @@ BrushedSteel {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/BrushedSteel.proto]({{ url.github_tree }}/projects/appearances/protos/BrushedSteel.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### BrushedSteel Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
+
+## Cardboard
+
+A cardboard material containing several types that can make a box if combined.
+
+%figure
+
+![Cardboard](images/appearances/Cardboard.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+Cardboard {
+  SFColor  colorOverride    1 1 1
+  SFString type             "back"
+  SFNode   textureTransform NULL
+  SFFloat  IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Cardboard.proto]({{ url.github_tree }}/projects/appearances/protos/Cardboard.proto)"
+
+> **License**: Apache License 2.0
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
+
+### Cardboard Field Summary
+
+- `colorOverride`: Defines the color to be multiplied with the texture color.
+
+- `type`: Defines the cardboard face. This field accepts the following values: `"top"`, `"bottom"`, `"left"`, `"right"`, `"front"`, and `"back"`.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -195,11 +231,11 @@ CarpetFibers {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CarpetFibers.proto]({{ url.github_tree }}/projects/appearances/protos/CarpetFibers.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### CarpetFibers Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `type`: Defines the carpet type. This field accepts the following values: `"wooly"`, `"synthetic"`, and `"pattern"`.
 
@@ -230,11 +266,11 @@ CementTiles {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CementTiles.proto]({{ url.github_tree }}/projects/appearances/protos/CementTiles.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### CementTiles Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -262,7 +298,7 @@ Copper {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Copper.proto]({{ url.github_tree }}/projects/appearances/protos/Copper.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Copper Field Summary
 
@@ -293,11 +329,11 @@ CorrodedMetal {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CorrodedMetal.proto]({{ url.github_tree }}/projects/appearances/protos/CorrodedMetal.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### CorrodedMetal Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -326,11 +362,11 @@ CorrugatedMetal {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CorrugatedMetal.proto]({{ url.github_tree }}/projects/appearances/protos/CorrugatedMetal.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### CorrugatedMetal Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -359,11 +395,11 @@ CorrugatedPlates {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CorrugatedPlates.proto]({{ url.github_tree }}/projects/appearances/protos/CorrugatedPlates.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### CorrugatedPlates Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -392,11 +428,11 @@ CorrugatedPvc {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CorrugatedPvc.proto]({{ url.github_tree }}/projects/appearances/protos/CorrugatedPvc.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### CorrugatedPvc Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -425,11 +461,11 @@ DamascusSteel {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/DamascusSteel.proto]({{ url.github_tree }}/projects/appearances/protos/DamascusSteel.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### DamascusSteel Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -457,7 +493,7 @@ DryMud {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/DryMud.proto]({{ url.github_tree }}/projects/appearances/protos/DryMud.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### DryMud Field Summary
 
@@ -488,9 +524,42 @@ ElectricConduit {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ElectricConduit.proto]({{ url.github_tree }}/projects/appearances/protos/ElectricConduit.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### ElectricConduit Field Summary
+
+- `colorOverride`: Defines the color to be multiplied with the texture color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
+
+## Fabric
+
+An fabric material. The color can be overridden using the `colorOverride` field.
+
+%figure
+
+![Fabric](images/appearances/Fabric.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+Fabric {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform NULL
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Fabric.proto]({{ url.github_tree }}/projects/appearances/protos/Fabric.proto)"
+
+> **License**: Apache License 2.0
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
+
+### Fabric Field Summary
 
 - `colorOverride`: Defines the default color multiplied with the texture color.
 
@@ -521,11 +590,11 @@ FlexibleAluminiumDuct {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/FlexibleAluminiumDuct.proto]({{ url.github_tree }}/projects/appearances/protos/FlexibleAluminiumDuct.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### FlexibleAluminiumDuct Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -553,7 +622,7 @@ FormedConcrete {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/FormedConcrete.proto]({{ url.github_tree }}/projects/appearances/protos/FormedConcrete.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### FormedConcrete Field Summary
 
@@ -584,11 +653,11 @@ GalvanizedMetal {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/GalvanizedMetal.proto]({{ url.github_tree }}/projects/appearances/protos/GalvanizedMetal.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### GalvanizedMetal Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -617,7 +686,7 @@ GlossyPaint {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/GlossyPaint.proto]({{ url.github_tree }}/projects/appearances/protos/GlossyPaint.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### GlossyPaint Field Summary
 
@@ -655,11 +724,11 @@ Grass {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Grass.proto]({{ url.github_tree }}/projects/appearances/protos/Grass.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Grass Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `type`: Defines the grass type. This field accepts the following values: `"maintained"`, `"artificial"`, `"artificial_white"`, `"prickly"`, and `"mossy"`.
 
@@ -690,11 +759,11 @@ HammeredCopper {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/HammeredCopper.proto]({{ url.github_tree }}/projects/appearances/protos/HammeredCopper.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### HammeredCopper Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -728,11 +797,11 @@ Leather {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Leather.proto]({{ url.github_tree }}/projects/appearances/protos/Leather.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Leather Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `tone`: Defines the tone of the leather. This field accepts the following values: `"dark"` and `"light"`.
 
@@ -766,11 +835,11 @@ LedStrip {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/LedStrip.proto]({{ url.github_tree }}/projects/appearances/protos/LedStrip.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### LedStrip Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -801,11 +870,11 @@ Marble {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Marble.proto]({{ url.github_tree }}/projects/appearances/protos/Marble.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Marble Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -834,11 +903,11 @@ MarbleTiles {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/MarbleTiles.proto]({{ url.github_tree }}/projects/appearances/protos/MarbleTiles.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### MarbleTiles Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -867,7 +936,7 @@ MattePaint {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/MattePaint.proto]({{ url.github_tree }}/projects/appearances/protos/MattePaint.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### MattePaint Field Summary
 
@@ -899,7 +968,7 @@ MetalPipePaint {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/MetalPipePaint.proto]({{ url.github_tree }}/projects/appearances/protos/MetalPipePaint.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### MetalPipePaint Field Summary
 
@@ -929,7 +998,7 @@ MetalStainlessSteelCable {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/MetalStainlessSteelCable.proto]({{ url.github_tree }}/projects/appearances/protos/MetalStainlessSteelCable.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### MetalStainlessSteelCable Field Summary
 
@@ -960,11 +1029,11 @@ OldPlywood {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/OldPlywood.proto]({{ url.github_tree }}/projects/appearances/protos/OldPlywood.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### OldPlywood Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -993,11 +1062,11 @@ OldSteel {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/OldSteel.proto]({{ url.github_tree }}/projects/appearances/protos/OldSteel.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### OldSteel Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1026,11 +1095,11 @@ OsbWood {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/OsbWood.proto]({{ url.github_tree }}/projects/appearances/protos/OsbWood.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### OsbWood Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1059,11 +1128,11 @@ PaintedWood {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/PaintedWood.proto]({{ url.github_tree }}/projects/appearances/protos/PaintedWood.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### PaintedWood Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1098,13 +1167,13 @@ Parquetry {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Parquetry.proto]({{ url.github_tree }}/projects/appearances/protos/Parquetry.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Parquetry Field Summary
 
 - `type`: Defines the parquetry type. This field accepts the following values: `"chequered"`, `"dark strip"`, `"light strip"`, and `"mosaic"`.
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1140,13 +1209,13 @@ Pavement {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Pavement.proto]({{ url.github_tree }}/projects/appearances/protos/Pavement.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Pavement Field Summary
 
 - `type`: Defines the pavement type. This field accepts the following values: `"black stone"`, `"braun stone"`, `"braun square stone"`, `"grid"`, `"slate"`, and `"tiles"`.
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1174,7 +1243,7 @@ Pcb {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Pcb.proto]({{ url.github_tree }}/projects/appearances/protos/Pcb.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Pcb Field Summary
 
@@ -1205,11 +1274,11 @@ PerforatedMetal {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/PerforatedMetal.proto]({{ url.github_tree }}/projects/appearances/protos/PerforatedMetal.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### PerforatedMetal Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1238,11 +1307,11 @@ Plaster {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Plaster.proto]({{ url.github_tree }}/projects/appearances/protos/Plaster.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Plaster Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1274,11 +1343,11 @@ Plastic {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Plastic.proto]({{ url.github_tree }}/projects/appearances/protos/Plastic.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Plastic Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `type`: Defines the plastic type. This field accepts the following values: `"rough"` and `"padded"`.
 
@@ -1309,11 +1378,11 @@ PorcelainChevronTiles {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/PorcelainChevronTiles.proto]({{ url.github_tree }}/projects/appearances/protos/PorcelainChevronTiles.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### PorcelainChevronTiles Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1341,7 +1410,7 @@ RedBricks {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RedBricks.proto]({{ url.github_tree }}/projects/appearances/protos/RedBricks.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### RedBricks Field Summary
 
@@ -1366,7 +1435,7 @@ ReflectiveSurface {
   SFFloat metalness         0.5
   SFColor emissiveColor     0 0 0
   SFFloat emissiveIntensity 1
-  SFColor baseColorMap      1 1 1
+  SFColor colorOverride     1 1 1
   SFBool  useBaseColorMap   TRUE
   SFNode  textureTransform  NULL
   SFFloat IBLStrength       1
@@ -1376,9 +1445,11 @@ ReflectiveSurface {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ReflectiveSurface.proto]({{ url.github_tree }}/projects/appearances/protos/ReflectiveSurface.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### ReflectiveSurface Field Summary
+
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `useBaseColorMap`: Defines wheather the base color texture should be used or not.
 
@@ -1409,11 +1480,11 @@ RoughConcrete {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RoughConcrete.proto]({{ url.github_tree }}/projects/appearances/protos/RoughConcrete.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### RoughConcrete Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1442,11 +1513,11 @@ RoughOak {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RoughOak.proto]({{ url.github_tree }}/projects/appearances/protos/RoughOak.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### RoughOak Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1475,11 +1546,11 @@ RoughPine {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RoughPine.proto]({{ url.github_tree }}/projects/appearances/protos/RoughPine.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### RoughPine Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1508,7 +1579,7 @@ RoughPolymer {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RoughPolymer.proto]({{ url.github_tree }}/projects/appearances/protos/RoughPolymer.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### RoughPolymer Field Summary
 
@@ -1541,11 +1612,11 @@ Roughcast {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Roughcast.proto]({{ url.github_tree }}/projects/appearances/protos/Roughcast.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Roughcast Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1569,6 +1640,7 @@ Derived from [PBRAppearance](../reference/pbrappearance.md).
 ```
 Rubber {
   SFString  type              "flat"
+  SFColor   colorOverride     1 1 1
   SFNode    textureTransform  NULL
   SFFloat   IBLStrength       1
 }
@@ -1577,11 +1649,13 @@ Rubber {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Rubber.proto]({{ url.github_tree }}/projects/appearances/protos/Rubber.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Rubber Field Summary
 
 - `type`: Defines the rubber type. This field accepts the following values: `"flat"` and `"dotted"`.
+
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1612,13 +1686,13 @@ RustyMetal {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RustyMetal.proto]({{ url.github_tree }}/projects/appearances/protos/RustyMetal.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### RustyMetal Field Summary
 
 - `rustLevel`: Defines how much the metal is rusted. This field accepts the following values: `1` and `2`.
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1646,7 +1720,7 @@ Sand {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Sand.proto]({{ url.github_tree }}/projects/appearances/protos/Sand.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Sand Field Summary
 
@@ -1677,11 +1751,11 @@ SandyGround {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/SandyGround.proto]({{ url.github_tree }}/projects/appearances/protos/SandyGround.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### SandyGround Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1711,11 +1785,11 @@ ScratchedPaint {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ScratchedPaint.proto]({{ url.github_tree }}/projects/appearances/protos/ScratchedPaint.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### ScratchedPaint Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1746,15 +1820,48 @@ ScrewThread {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ScrewThread.proto]({{ url.github_tree }}/projects/appearances/protos/ScrewThread.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### ScrewThread Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
+
+## ScuffedPlastic
+
+A worn scuffed plastic material. The color can be selected using the `colorOverride` field.
+
+%figure
+
+![ScuffedPlastic](images/appearances/ScuffedPlastic.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+ScuffedPlastic {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform TextureTransform { scale 4 4 }
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ScuffedPlastic.proto]({{ url.github_tree }}/projects/appearances/protos/ScuffedPlastic.proto)"
+
+> **License**: Apache License 2.0
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
+
+### ScuffedPlastic Field Summary
+
+- `colorOverride`: Defines the plastic's color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 
 ## ShinyLeather
 
@@ -1779,7 +1886,7 @@ ShinyLeather {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ShinyLeather.proto]({{ url.github_tree }}/projects/appearances/protos/ShinyLeather.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### ShinyLeather Field Summary
 
@@ -1815,7 +1922,7 @@ Soil {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Soil.proto]({{ url.github_tree }}/projects/appearances/protos/Soil.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Soil Field Summary
 
@@ -1847,7 +1954,7 @@ SolarCell {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/SolarCell.proto]({{ url.github_tree }}/projects/appearances/protos/SolarCell.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### SolarCell Field Summary
 
@@ -1882,13 +1989,13 @@ ThreadMetalPlate {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ThreadMetalPlate.proto]({{ url.github_tree }}/projects/appearances/protos/ThreadMetalPlate.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### ThreadMetalPlate Field Summary
 
 - `type`: Defines the motif type on the material. This field accepts the following values: `"oval"` and `"square"`.
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1920,7 +2027,7 @@ TireRubber {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/TireRubber.proto]({{ url.github_tree }}/projects/appearances/protos/TireRubber.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### TireRubber Field Summary
 
@@ -1953,11 +2060,11 @@ VarnishedPine {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/VarnishedPine.proto]({{ url.github_tree }}/projects/appearances/protos/VarnishedPine.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### VarnishedPine Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
@@ -1986,13 +2093,46 @@ WireFence {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/WireFence.proto]({{ url.github_tree }}/projects/appearances/protos/WireFence.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### WireFence Field Summary
 
-- `colorOverride`: Defines the default color multiplied with the texture color.
+- `colorOverride`: Defines the color to be multiplied with the texture color.
 
 - `textureTransform`: Defines an optional 2d texture transform.
 
 - `IBLStrength`: Defines the strength of ambient lighting from the [Background](../reference/background.md) node.
+
+## WornBurlap
+
+A worn burlap material. The color can be selected using the `colorOverride` field.
+
+%figure
+
+![WornBurlap](images/appearances/WornBurlap.thumbnail.png)
+
+%end
+
+Derived from [PBRAppearance](../reference/pbrappearance.md).
+
+```
+WornBurlap {
+  SFColor colorOverride    1 1 1
+  SFNode  textureTransform TextureTransform { scale 4 4 }
+  SFFloat IBLStrength      1
+}
+```
+
+> **File location**: "[WEBOTS\_HOME/projects/appearances/protos/WornBurlap.proto]({{ url.github_tree }}/projects/appearances/protos/WornBurlap.proto)"
+
+> **License**: Apache License 2.0
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
+
+### WornBurlap Field Summary
+
+- `colorOverride`: Defines the burlap's color.
+
+- `textureTransform`: Defines an optional 2d texture transform.
+
+- `IBLStrength`: Defines the strength of ambient lighting from the Cubemap node.
 

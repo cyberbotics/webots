@@ -35,6 +35,6 @@ By default [Sphere](#sphere) nodes created in Webots are icosahedrons with `subd
 
 %end
 
-When a texture is applied to a sphere, the texture covers the entire surface, wrapping counterclockwise from the back of the sphere.
-The texture is applied using a UV mapping and it has a seam at the back where the *yz*-plane intersects the sphere.
+When a texture is applied to a sphere, the texture covers the entire surface, wrapping counterclockwise from the left of the sphere.
+The texture is applied using a UV mapping and it has a seam on the left side where the *yz*-plane intersects the sphere.
 [TextureTransform](texturetransform.md) affects the texture coordinates of the Sphere.

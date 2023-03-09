@@ -6,7 +6,7 @@
 %keyboard;
 
 % control step
-TIME_STEP=40;
+TIME_STEP = 40;
 
 % Laplacian edge detection matrix
 conv_matrix = [

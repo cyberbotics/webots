@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,7 +32,8 @@ void wb_gps_enable(WbDeviceTag tag, int sampling_period);
 void wb_gps_disable(WbDeviceTag tag);
 int wb_gps_get_sampling_period(WbDeviceTag tag);
 
-const double wb_gps_get_speed(WbDeviceTag tag);
+double wb_gps_get_speed(WbDeviceTag tag);
+const double *wb_gps_get_speed_vector(WbDeviceTag tag);
 const double *wb_gps_get_values(WbDeviceTag tag);
 
 const char *wb_gps_convert_to_degrees_minutes_seconds(double decimal_degrees);

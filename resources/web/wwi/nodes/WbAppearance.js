@@ -1,6 +1,6 @@
 import WbAbstractAppearance from './WbAbstractAppearance.js';
 import WbWorld from './WbWorld.js';
-import WbWrenShaders from './../wren/WbWrenShaders.js';
+import WbWrenShaders from '../wren/WbWrenShaders.js';
 import {getAnId} from './utils/utils.js';
 
 export default class WbAppearance extends WbAbstractAppearance {
@@ -10,7 +10,7 @@ export default class WbAppearance extends WbAbstractAppearance {
     this.texture = texture;
   }
 
-  async clone(customID) {
+  clone(customID) {
     let material, texture, transform;
     if (typeof this.material !== 'undefined') {
       material = this.material.clone(getAnId());
@@ -19,7 +19,7 @@ export default class WbAppearance extends WbAbstractAppearance {
     }
 
     if (typeof this.texture !== 'undefined') {
-      texture = await this.texture.clone(getAnId());
+      texture = this.texture.clone(getAnId());
       texture.parent = customID;
       WbWorld.instance.nodes.set(texture.id, texture);
     }
@@ -59,7 +59,7 @@ export default class WbAppearance extends WbAbstractAppearance {
       _wr_material_set_stencil_ambient_emissive_program(wrenMaterial, WbWrenShaders.phongStencilAmbientEmissiveShader());
       _wr_material_set_stencil_diffuse_specular_program(wrenMaterial, WbWrenShaders.phongStencilDiffuseSpecularShader());
 
-      this.material.modifyWrenMaterial(wrenMaterial, this.texture && this.texture._wrenTexture);
+      this.material.modifyWrenMaterial(wrenMaterial, this.texture && this.texture.wrenTexture);
     } else
       wrenMaterial = WbAppearance.fillWrenDefaultMaterial(wrenMaterial);
 

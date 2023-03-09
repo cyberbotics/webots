@@ -1,0 +1,16 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "./depth_3/InternalTexture.proto"
+
+PROTO NestedInternalTexture [
+  field SFString name ""
+]
+{
+  Solid {
+    name IS name
+    children[
+      InternalTexture {
+      }
+    ]
+  }
+}

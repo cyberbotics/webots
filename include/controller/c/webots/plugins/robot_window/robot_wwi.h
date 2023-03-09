@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,8 +26,8 @@ extern "C" {
 
 void wb_robot_wwi_send(const char *data, int size);
 const char *wb_robot_wwi_receive(int *size);
+const char *wb_robot_wwi_receive_text();
 #define wb_robot_wwi_send_text(t) wb_robot_wwi_send(t, strlen(t) + 1)
-#define wb_robot_wwi_receive_text() wb_robot_wwi_receive(NULL)
 
 #ifdef __cplusplus
 }

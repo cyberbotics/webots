@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,7 +47,7 @@ static void revolving_view(const double *robot_position, int rotation_direction,
   double angle = 0.0;
   double angle_step = 0.01;
   double new_position[3] = {0.0, 0.0, 0.0};
-  double orientation[4] = {0, 1, 0, 0}; // Front view
+  double orientation[4] = {0, 0, 1, 0}; // Front view
 
   // Get the Viewpoint node and get the "position" and "orientation" fields
   viewpoint = wb_supervisor_field_get_mf_node(children, 1);
@@ -66,16 +66,16 @@ static void revolving_view(const double *robot_position, int rotation_direction,
     }
 
     // Set new position to ViewPoint node
-    new_position[0] = robot_position[0] + radius * sin(angle);
+    new_position[1] = robot_position[1] + radius * sin(angle);
     if (vertical_direction == UP)
-      new_position[1] += height_step / (2 * M_PI / angle_step);
+      new_position[2] += height_step / (2 * M_PI / angle_step);
     else
-      new_position[1] -= height_step / (2 * M_PI / angle_step);
-    new_position[2] = robot_position[2] + radius * cos(angle);
+      new_position[2] -= height_step / (2 * M_PI / angle_step);
+    new_position[0] = robot_position[0] + radius * cos(angle);
     wb_supervisor_field_set_sf_vec3f(viewpoint_position, new_position);
 
     // Set new orientation to ViewPoint node
-    orientation[3] = angle;
+    orientation[3] = angle + 3.14159265359;
     wb_supervisor_field_set_sf_rotation(viewpoint_orientation, orientation);
 
     // Update the angle value

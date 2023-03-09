@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -106,14 +106,14 @@ void wb_connector_enable_presence(WbDeviceTag tag, int sampling_period) {
     return;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Connector *con = connector_get_struct(tag);
   if (con) {
     con->enable_presence = true;
     con->presence_sampling_period = sampling_period;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_connector_disable_presence(WbDeviceTag tag) {
@@ -126,41 +126,41 @@ void wb_connector_disable_presence(WbDeviceTag tag) {
 
 int wb_connector_get_presence_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Connector *con = connector_get_struct(tag);
   if (con)
     sampling_period = con->presence_sampling_period;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return sampling_period;
 }
 
 void wb_connector_lock(WbDeviceTag tag) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Connector *con = connector_get_struct(tag);
   if (con) {
     con->set_locked_state = true;
     con->is_locked = true;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_connector_unlock(WbDeviceTag tag) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Connector *con = connector_get_struct(tag);
   if (con) {
     con->set_locked_state = true;
     con->is_locked = false;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 int wb_connector_get_presence(WbDeviceTag tag) {
   int result = -1;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Connector *con = connector_get_struct(tag);
   if (con) {
     if (con->presence_sampling_period <= 0)
@@ -168,13 +168,13 @@ int wb_connector_get_presence(WbDeviceTag tag) {
     result = con->presence;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 bool wb_connector_is_locked(WbDeviceTag tag) {
   bool result;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Connector *con = connector_get_struct(tag);
   if (con)
     result = con->is_locked;
@@ -182,6 +182,6 @@ bool wb_connector_is_locked(WbDeviceTag tag) {
     result = false;
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
   }
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }

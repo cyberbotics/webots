@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -50,6 +50,8 @@ WbGuidedTour::WbGuidedTour(QWidget *parent) :
   QDialog(parent, Qt::Tool) {  // Qt::Tool allows to handle well the z-order. This is mainly advantageous on Mac
   mIndex = -1;
   mDeadline = DBL_MAX;
+  mReady = true;
+
   setAttribute(Qt::WA_DeleteOnClose, true);
 
   mTimer = new QTimer(this);
@@ -57,6 +59,7 @@ WbGuidedTour::WbGuidedTour(QWidget *parent) :
   mTimer->start(250);  // trigger every 250 milliseconds
 
   setWindowTitle(tr("Guided Tour - Webots"));
+  setWindowOpacity(0.95);
   setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
   QHBoxLayout *mainLayout = new QHBoxLayout(this);
@@ -116,6 +119,8 @@ WbGuidedTour::WbGuidedTour(QWidget *parent) :
 
   loadWorldList();
   updateGUI();
+  connect(WbApplication::instance(), &WbApplication::worldLoadCompleted, this, &WbGuidedTour::worldLoaded,
+          Qt::UniqueConnection);
 }
 
 WbGuidedTour::~WbGuidedTour() {
@@ -167,10 +172,9 @@ void WbGuidedTour::setTitleText(const QString &title) {
 static QString formatInfo(const WbMFString &info) {
   QString outputText;
   QString item;
-  QString lowerCaseItem;
   for (int i = 0; i < info.size(); i++) {
     item = info.item(i);
-    lowerCaseItem = item.toLower();
+    const QString lowerCaseItem = item.toLower();
     if (!lowerCaseItem.startsWith("date")) {
       if (item.contains("Author", Qt::CaseInsensitive)) {
         item.replace(QString("Author"), QString("Credits"), Qt::CaseInsensitive);
@@ -183,6 +187,10 @@ static QString formatInfo(const WbMFString &info) {
     }
   }
   return outputText;
+}
+
+void WbGuidedTour::worldLoaded() {
+  mReady = true;
 }
 
 void WbGuidedTour::updateGUI() {
@@ -200,10 +208,21 @@ void WbGuidedTour::updateGUI() {
     mInfoText->setPlainText(tr("Thanks for viewing the Webots Guided Tour.") + "\n\n" + tr("Press [Close] to terminate..."));
   } else {  // Normal case
     // Sets world's title
-    setTitleText(WbWorld::instance()->worldInfo()->title() + QString(" (%1/%2)").arg(mIndex + 1).arg(mFilenames.size()));
-    // Formats and displays all WorldInfo.info items
-    const WbMFString &info = WbWorld::instance()->worldInfo()->info();
-    mInfoText->setPlainText(formatInfo(info));
+    if (!WbWorld::instance()->fileName().endsWith(mFilenames[mIndex])) {
+      // New world still loading
+      // Reset title and info until correct info is available
+      const QString &title = mFilenames[mIndex].mid(mFilenames[mIndex].lastIndexOf("/") + 1);
+      setTitleText(title + QString(" (%1/%2)").arg(mIndex + 1).arg(mFilenames.size()));
+      mInfoText->setPlainText(tr("Loading..."));
+      connect(WbApplication::instance(), &WbApplication::worldLoadCompleted, this, &WbGuidedTour::updateGUI,
+              Qt::UniqueConnection);
+    } else {
+      disconnect(WbApplication::instance(), &WbApplication::worldLoadCompleted, this, &WbGuidedTour::updateGUI);
+      // Formats and displays all WorldInfo.info items
+      setTitleText(WbWorld::instance()->worldInfo()->title() + QString(" (%1/%2)").arg(mIndex + 1).arg(mFilenames.size()));
+      const WbMFString &info = WbWorld::instance()->worldInfo()->info();
+      mInfoText->setPlainText(formatInfo(info));
+    }
   }
   // Updates buttons
   mNextButton->setEnabled(mIndex < (mFilenames.size() - 1));
@@ -212,6 +231,8 @@ void WbGuidedTour::updateGUI() {
 }
 
 void WbGuidedTour::prev() {
+  if (!mReady)
+    return;
   mIndex--;
   selectCurrent();
   mAutoBox->setChecked(false);
@@ -220,6 +241,8 @@ void WbGuidedTour::prev() {
 }
 
 void WbGuidedTour::next() {
+  if (!mReady)
+    return;
   mIndex++;
   selectCurrent();
   mAutoBox->setChecked(false);
@@ -249,14 +272,14 @@ void WbGuidedTour::selectCurrent() {
 }
 
 void WbGuidedTour::shoot() {
-  // Called by mTimer every 2.5 seconds
-  if (WbSimulationState::instance()->time() >= mDeadline)
+  // Called by mTimer every 250 milliseconds
+  if (mReady && WbSimulationState::instance()->time() >= mDeadline)
     nextWorld();
 }
 
 void WbGuidedTour::setSimulationDeadline(bool autoChecked) {
   // On the first user-click
-  if (mIndex < 0) {
+  if (mIndex < 0 && mReady) {
     nextWorld();
     return;
   }
@@ -271,15 +294,20 @@ void WbGuidedTour::setSimulationDeadline(bool autoChecked) {
 void WbGuidedTour::loadWorld() {
   if (mIndex < 0 || mIndex >= mFilenames.size())
     return;
-  const QString &fn = WbStandardPaths::webotsHomePath() + mFilenames[mIndex];  // Gets filename
-  WbSimulationState::instance()->setMode(WbSimulationState::REALTIME);         // Sets simulation mode to RUN
-  emit worldLoaded(fn);                                                        // Load now!
+  const QString &fn = WbStandardPaths::webotsHomePath()
+#ifdef __APPLE__
+                      + "Contents/"
+#endif
+                      + mFilenames[mIndex];
+  assert(mReady);
+  mReady = false;
+  emit loadWorldRequest(fn);  // Load now!
   updateGUI();
 }
 
 void WbGuidedTour::selectWorld() {
-  // prevent selecting a new world if in the process of canceling the previous one or if invalid
-  if (mTree->selectedItems().size() < 1 || WbApplication::instance()->wasWorldLoadingCanceled())
+  // prevent selecting a new world if in the process of loading, canceling the previous one or if invalid
+  if (!mReady || mTree->selectedItems().size() < 1 || WbApplication::instance()->wasWorldLoadingCanceled())
     return;
   QTreeWidgetItem *item = mTree->selectedItems().at(0);
   mIndex = mWorlds.indexOf(item);

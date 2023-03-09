@@ -6,8 +6,8 @@ from square_path_metric import SquarePathMetric
 import os
 import sys
 try:
-    includePath = os.environ.get("WEBOTS_HOME") + "/projects/samples/robotbenchmark/include"
-    includePath.replace('/', os.sep)
+    includePath = os.path.join(os.path.normpath(os.environ.get("WEBOTS_HOME")), 'projects', 'samples', 'robotbenchmark',
+                               'include')
     sys.path.append(includePath)
     from robotbenchmark import robotbenchmarkRecord
 except ImportError:
@@ -41,7 +41,7 @@ while (supervisor.step(timestep) != -1 and
 
     # Recovers current time and position/orientation of the robot.
     pos = pioneer.getPosition()
-    pos2d = [pos[0], pos[2]]
+    pos2d = [pos[0], -pos[1]]
 
     orientation = pioneer.getOrientation()
     time = supervisor.getTime()
@@ -62,12 +62,13 @@ supervisor.wwiSendText('stop')
 # Wait for credentials sent by the robot window.
 while supervisor.step(timestep) != -1:
     message = supervisor.wwiReceiveText()
-    if message:
+    while message:
         if message.startswith("record:"):
             performance = metric.getPerformance()
             record = robotbenchmarkRecord(message, "square_path", performance)
             supervisor.wwiSendText(record)
         elif message == "exit":
             break
+        message = supervisor.wwiReceiveText()
 
 supervisor.simulationSetMode(Supervisor.SIMULATION_MODE_PAUSE)

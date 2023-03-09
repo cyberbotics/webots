@@ -1,9 +1,5 @@
 /*.iss
-/*.deb
-/*.mac
 /*.snap
 /*.spec
-/webots_distro
-/files.txt
-/files_projects.txt
-/DEBIAN
+/node_modules
+/package-lock.json

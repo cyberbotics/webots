@@ -98,27 +98,26 @@ The `wb_motor_set_velocity` and `wb_position_sensor_get_value` functions allow y
 
 %figure "Devices orientations"
 
-| Device | x (m)  | y (m) | z (m)  | Orientation (rad) |
-| ------ | ------ | ----- | ------ | ----------------- |
-| ps0    | 0.010  | 0.033 | -0.030 | 1.27              |
-| ps1    | 0.025  | 0.033 | -0.022 | 0.77              |
-| ps2    | 0.031  | 0.033 | 0.00   | 0.00              |
-| ps3    | 0.015  | 0.033 | 0.030  | 5.21              |
-| ps4    | -0.015 | 0.033 | 0.030  | 4.21              |
-| ps5    | -0.031 | 0.033 | 0.00   | 3.14159           |
-| ps6    | -0.025 | 0.033 | -0.022 | 2.37              |
-| ps7    | -0.010 | 0.033 | -0.030 | 1.87              |
-| camera | 0.000  | 0.028 | -0.030 | 4.71239           |
+| Device | x (m)  | y (m)  | z (m)  | Orientation (rad) |
+| ------ | ------ | -----  | ------ | ----------------- |
+| ps0    | 0.030  | -0.010 | 0.033  | 1.27              |
+| ps1    | 0.022  | -0.025 | 0.033  | 0.77              |
+| ps2    | 0.00   | -0.031 | 0.033  | 0.00              |
+| ps3    | -0.030 | -0.015 | 0.033  | 5.21              |
+| ps4    | -0.030 | 0.015  | 0.033  | 4.21              |
+| ps5    | 0.00   | 0.031  | 0.033  | 3.14159           |
+| ps6    | 0.022  | 0.025  | 0.033  | 2.37              |
+| ps7    | 0.030  | 0.010  | 0.033  | 1.87              |
+| camera | 0.030  | 0.000  | 0.028  | 4.71239           |
 
 %end
 
-The forward direction of the e-puck is given by the negative z-axis of the world coordinates.
-This is also the direction in which the camera eye is looking.
-The direction vector of the camera is pointing in the opposite direction, namely the direction of the positive z-axis.
-The axle's direction is given by the positive x-axis.
+The forward direction of the e-puck is given by the positive x-axis of the world coordinates.
+This is also the direction in which the camera eye and the direction vector of the camera are looking.
+The axle's direction is given by the positive y-axis.
 Proximity sensors, light sensors and [LEDs](../reference/led.md) are numbered clockwise.
 Their location and orientation are shown in [this figure](#sensors-leds-and-camera).
-The last column of the latter lists the angles between the negative x-axis and the direction of the devices, the plane *zOx* being oriented counter-clockwise.
+The last column of the latter lists the angles between the negative y-axis and the direction of the devices, the plane *xOy* being oriented counter-clockwise.
 Note that the proximity sensors and the light sensors are actually the same devices of the real robot used in a different mode, so their direction coincides.
 Proximity sensor responses are simulated in accordance to the lookup table in [this figure](#proximity-sensor-response-against-distance); this table is the outcome of calibrations performed on the real robot.
 
@@ -171,7 +170,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 E-puck {
   SFVec3f    translation                  0 0 0
-  SFRotation rotation                     0 1 0 0
+  SFRotation rotation                     0 0 1 0
   SFString   name                         "e-puck"
   SFString   controller                   "e-puck_avoid_obstacles"
   MFString   controllerArgs               []
@@ -183,7 +182,7 @@ E-puck {
   SFInt32    camera_width                 52
   SFInt32    camera_height                39
   SFBool     camera_antiAliasing          FALSE
-  SFRotation camera_rotation              1 0 0 0
+  SFRotation camera_rotation              0 0 1 0
   SFFloat    camera_noise                 0.0
   SFFloat    camera_motionBlur            0.0
   SFInt32    distance_sensor_numberOfRays 1
@@ -290,7 +289,10 @@ An algorithm is applied on the last line of the camera and returns a integer bet
 A condition can be set on this value to get a line follower behavior.
 
 An example of BotStudio can be found by opening the "WEBOTS\_HOME/projects/robots/gctronic/e-puck/world/e-puck\_botstudio.wbt" world file (see below).
-The BotStudio windows appears upon double clicking on the e-puck when the controller points on a *.bsg* file.
+The BotStudio window can be opened by selecting the "Show Robot Window" item in the e-puck [context menu](the-3d-window.md#context-menu) when the controller points on a *.bsg* file.
+
+BotStudio needs some additional Qt libraries to run, so it is necessary to add a [`runtime.ini` file](controller-programming.md#environment-variables) in the folder containing the BotStudio controller file.
+A sample `runtime.ini` specifiying the required libraries could be found at "[WEBOTS\_HOME/projects/robots/gctronic/e-puck/controllers/obstacle/runtime.ini]({{ url.github_tree }}/projects/robots/gctronic/e-puck/controllers/obstacle/runtime.ini)".
 
 #### Bluetooth Setup
 
@@ -430,7 +432,7 @@ This model was contributed by Jean-Christophe Zufferey from the EPFL, who sets u
 #### e-puck\_botstudio.wbt
 
 ![e-puck_botstudio.wbt.png](images/robots/epuck/e-puck_botstudio.wbt.thumbnail.jpg) The "e-puck\_botstudio\_example.wbt" is an example of a controller using the BotStudio visual programming language.
-The BotStudio windows appears upon double clicking on the e-puck allowing the user to see which command is executed.
+The BotStudio window appears by selecting the "Show Robot Window" item in the e-puck [context menu](the-3d-window.md#context-menu) allowing the user to see which command is executed.
 
 #### e-puck\_botstudio\_with\_floor\_sensors.wbt
 

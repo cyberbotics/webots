@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,22 +16,15 @@
 
 RosSpeaker::RosSpeaker(Speaker *speaker, Ros *ros) : RosDevice(speaker, ros) {
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
-  mStopServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/stop", &RosSpeaker::stopCallback);
-  mGetEngineServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_engine", &RosSpeaker::getEngineCallback);
-  mGetLanguageServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/get_language", &RosSpeaker::getLanguageCallback);
-  mSetEngineServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_engine", &RosSpeaker::setEngineCallback);
-  mSetLanguageServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/set_language", &RosSpeaker::setLanguageCallback);
-  mSpeakServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/speak", &RosSpeaker::speakCallback);
-  mPlayServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/play_sound", &RosSpeaker::playCallback);
-  mIsSpeakingServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/is_speaking", &RosSpeaker::isSpeakingCallback);
-  mIsPlayingServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + fixedDeviceName + "/is_sound_playing", &RosSpeaker::isPlayingCallback);
+  mStopServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/stop", &RosSpeaker::stopCallback);
+  mGetEngineServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_engine", &RosSpeaker::getEngineCallback);
+  mGetLanguageServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/get_language", &RosSpeaker::getLanguageCallback);
+  mSetEngineServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_engine", &RosSpeaker::setEngineCallback);
+  mSetLanguageServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/set_language", &RosSpeaker::setLanguageCallback);
+  mSpeakServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/speak", &RosSpeaker::speakCallback);
+  mPlayServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/play_sound", &RosSpeaker::playCallback);
+  mIsSpeakingServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/is_speaking", &RosSpeaker::isSpeakingCallback);
+  mIsPlayingServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/is_sound_playing", &RosSpeaker::isPlayingCallback);
   mSpeaker = speaker;
 }
 

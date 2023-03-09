@@ -1,0 +1,16 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "./depth_2/NestedExposedTextureWithParameter.proto"
+
+PROTO HighlyNestedExposedTextureWithOverwrittenParameter [
+]
+{
+  Transform {
+    children[
+      NestedExposedTextureWithParameter {
+        name "HighlyNestedExposedTextureWithOverwrittenParameter"
+        nested_url "../colors/cyan_texture.jpg"
+      }
+    ]
+  }
+}

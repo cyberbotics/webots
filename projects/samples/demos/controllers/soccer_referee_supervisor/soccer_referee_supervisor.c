@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -49,10 +49,10 @@ int main() {
   double time = 10 * 60;  // a match lasts for 10 minutes
   double ball_reset_timer = 0;
   double ball_initial_translation[3] = {0, 0, 0};
-  double robot_initial_translation[ROBOTS][3] = {{0.3, 0.03817, 0.2},  {0.3, 0.03817, -0.2},  {0.75, 0.03817, 0},
-                                                 {-0.3, 0.03817, 0.2}, {-0.3, 0.03817, -0.2}, {-0.75, 0.03817, 0}};
-  double robot_initial_rotation[ROBOTS][4] = {{0, 1, 0, 1.57}, {0, 1, 0, 1.57}, {0, 1, 0, 3.14},
-                                              {0, 1, 0, 1.57}, {0, 1, 0, 1.57}, {0, 1, 0, 3.14}};
+  double robot_initial_translation[ROBOTS][3] = {{0.3, -0.2, 0.03817},  {0.3, 0.2, 0.03817},  {0.75, 0, 0.03817},
+                                                 {-0.3, -0.2, 0.03817}, {-0.3, 0.2, 0.03817}, {-0.75, 0, 0.03817}};
+  double robot_initial_rotation[ROBOTS][4] = {{0, 0, 1, 1.57}, {0, 0, 1, 1.57}, {0, 0, 1, 3.14},
+                                              {0, 0, 1, 1.57}, {0, 0, 1, 1.57}, {0, 0, 1, -3.14}};
   double packet[ROBOTS * 3 + 2];
   char time_string[64];
   const double *robot_translation[ROBOTS], *robot_rotation[ROBOTS], *ball_translation;
@@ -87,15 +87,15 @@ int main() {
       robot_translation[i] = wb_supervisor_field_get_sf_vec3f(robot_translation_field[i]);
       // printf("coords for robot %d: %g %g %g\n",i,robot_translation[i][0],robot_translation[i][1],robot_translation[i][2]);
       packet[3 * i] = robot_translation[i][0];      // robot i: X
-      packet[3 * i + 1] = robot_translation[i][2];  // robot i: Z
+      packet[3 * i + 1] = robot_translation[i][1];  // robot i: Y
 
-      if (robot_rotation[i][1] > 0)                // robot i: rotation Ry axis
+      if (robot_rotation[i][2] > 0)                // robot i: rotation Rz axis
         packet[3 * i + 2] = robot_rotation[i][3];  // robot i: alpha
-      else                                         // Ry axis was inverted
+      else                                         // Rz axis was inverted
         packet[3 * i + 2] = -robot_rotation[i][3];
     }
     packet[3 * ROBOTS] = ball_translation[0];      // ball X
-    packet[3 * ROBOTS + 1] = ball_translation[2];  // ball Z
+    packet[3 * ROBOTS + 1] = ball_translation[1];  // ball Y
     wb_emitter_send(emitter, packet, sizeof(packet));
 
     // Adds TIME_STEP ms to the time

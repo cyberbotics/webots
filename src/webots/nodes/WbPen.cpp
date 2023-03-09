@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -119,7 +119,7 @@ void WbPen::prePhysicsStep(double ms) {
   if (mWrite->isTrue()) {
     // find shape/texture that intersects the ray
     const WbMatrix4 &m = matrix();
-    const WbVector3 globalDirection = m.sub3x3MatrixDot(WbVector3(0, -1, 0));
+    const WbVector3 globalDirection = m.sub3x3MatrixDot(WbVector3(0, 0, -1));
     const WbRay ray(m.translation(), globalDirection);
     double distance;
     const WbShape *shape = WbNodeUtilities::findIntersectingShape(ray, maxDistance, distance);
@@ -137,7 +137,7 @@ void WbPen::prePhysicsStep(double ms) {
 void WbPen::createWrenObjects() {
   WbSolidDevice::createWrenObjects();
 
-  const float coords[6] = {0.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f};
+  const float coords[6] = {0.0f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f};
   mTransform = wr_transform_new();
   mRenderable = wr_renderable_new();
   mMaterial = wr_phong_material_new();

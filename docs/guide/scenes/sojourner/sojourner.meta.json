@@ -11,8 +11,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "-0.108 0.015 0.2",
-      "axis": "0 0 1",
+      "anchor": "-0.108 -0.2 0.015",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": -1,
       "name": "BackLeftBogie",
@@ -41,8 +41,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "-0.108 0.015 -0.2",
-      "axis": "0 0 1",
+      "anchor": "-0.108 0.2 0.015",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": -1,
       "name": "BackRightBogie",
@@ -71,8 +71,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "-0.108 0.015 0.2",
-      "axis": "0 0 -1",
+      "anchor": "-0.108 -0.2 0.015",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "FrontLeftBogie",
@@ -101,8 +101,8 @@
       "type": "RotationalMotor"
     },
     {
-      "anchor": "-0.108 0.015 -0.2",
-      "axis": "0 0 -1",
+      "anchor": "-0.108 0.2 0.015",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "FrontRightBogie",

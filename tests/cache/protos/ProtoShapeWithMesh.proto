@@ -1,0 +1,14 @@
+#VRML_SIM R2023a utf8
+
+PROTO ProtoShapeWithMesh
+[
+  field MFString meshUrl []
+]
+{
+  Shape {
+    appearance PBRAppearance {}
+    geometry Mesh {
+      url IS meshUrl
+    }
+  }
+}

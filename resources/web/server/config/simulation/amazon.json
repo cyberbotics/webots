@@ -1,4 +1,0 @@
-{
-  "sslKey": "ssl/privkey.pem",
-  "sslCertificate": "ssl/cert.pem"
-}

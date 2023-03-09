@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -44,17 +44,17 @@ private:
   Field *translationField;
   Keyboard *keyboard;
   double x;
-  double z;
+  double y;
   double translation[3];
 };
 
 Driver::Driver() {
   timeStep = 128;
-  x = 0.1f;
-  z = 0.3f;
+  x = -0.3f;
+  y = -0.1f;
   translation[0] = x;
-  translation[1] = 0;
-  translation[2] = z;
+  translation[1] = y;
+  translation[2] = 0;
   emitter = getEmitter("emitter");
   Node *robot = getFromDef("ROBOT1");
   if (!robot)
@@ -94,11 +94,11 @@ void Driver::run() {
         break;
       case 'G': {
         const double *translationValues = translationField->getSFVec3f();
-        cout << "ROBOT1 is located at (" << translationValues[0] << "," << translationValues[2] << ")" << endl;
+        cout << "ROBOT1 is located at (" << translationValues[0] << "," << translationValues[1] << ")" << endl;
         break;
       }
       case 'R':
-        cout << "Teleport ROBOT1 at (" << x << "," << z << ")" << endl;
+        cout << "Teleport ROBOT1 at (" << x << "," << y << ")" << endl;
         translationField->setSFVec3f(translation);
         break;
       default:
@@ -121,8 +121,8 @@ void Driver::displayHelp() {
            " F for move forward\n"
            " S for stop\n"
            " T for turn\n"
-           " R for positioning ROBOT1 at (0.1,0.3)\n"
-           " G for knowing the (x,z) position of ROBOT1");
+           " R for positioning ROBOT1 at (-0.3,-0.1)\n"
+           " G for knowing the (x,y) position of ROBOT1");
   cout << s << endl;
 }
 

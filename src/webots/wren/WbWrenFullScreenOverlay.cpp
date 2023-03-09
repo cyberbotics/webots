@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -115,7 +115,7 @@ void WbWrenFullScreenOverlay::adjustSize() {
   wr_overlay_set_border_size(mOverlay, (1.0f - overlayWidth) / 2.0f, (1.0f - overlayHeight) / 2.0f);
 }
 
-void WbWrenFullScreenOverlay::setupTexture(QString text, int fontSize) {
+void WbWrenFullScreenOverlay::setupTexture(const QString &text, int fontSize) {
   // Prepare font
   WrFont *font = wr_font_new();
   wr_font_set_face(font, (WbStandardPaths::fontsPath() + "Ariali.ttf").toUtf8().constData());

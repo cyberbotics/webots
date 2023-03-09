@@ -1,0 +1,10 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "./ShapeWithFixedWebTexture.proto"
+
+PROTO NestedProto [
+]
+{
+  ShapeWithFixedWebTexture {
+  }
+}

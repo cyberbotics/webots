@@ -11,7 +11,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 Blimp {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "Blimp"
   SFString   controller      "blimp"
   MFString   controllerArgs  []

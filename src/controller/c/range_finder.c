@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -56,10 +56,10 @@ static void wb_range_finder_cleanup(WbDevice *d) {
 }
 
 static void wb_range_finder_new(WbDevice *d, unsigned int id, int w, int h, double fov, double camnear, double max_range,
-                                bool spherical) {
+                                bool planar) {
   RangeFinder *rf;
   wb_range_finder_cleanup(d);
-  wb_abstract_camera_new(d, id, w, h, fov, camnear, spherical);
+  wb_abstract_camera_new(d, id, w, h, fov, camnear, planar);
 
   rf = malloc(sizeof(RangeFinder));
   rf->max_range = max_range;
@@ -79,7 +79,7 @@ static void wb_range_finder_read_answer(WbDevice *d, WbRequest *r) {
   unsigned int uid;
   int width, height;
   double fov, camnear, max_range;
-  bool spherical;
+  bool planar;
 
   AbstractCamera *ac = d->pdata;
   RangeFinder *rf = NULL;
@@ -91,17 +91,17 @@ static void wb_range_finder_read_answer(WbDevice *d, WbRequest *r) {
       height = request_read_uint16(r);
       fov = request_read_double(r);
       camnear = request_read_double(r);
-      spherical = request_read_uchar(r);
+      planar = request_read_uchar(r);
       max_range = request_read_double(r);
 
-      // printf("new range_finder %u %d %d %lf %lf %lf %d\n", uid, width, height, fov, camnear, max_range, spherical);
-      wb_range_finder_new(d, uid, width, height, fov, camnear, max_range, spherical);
+      // printf("new range_finder %u %d %d %lf %lf %lf %d\n", uid, width, height, fov, camnear, max_range, planar);
+      wb_range_finder_new(d, uid, width, height, fov, camnear, max_range, planar);
       break;
     case C_CAMERA_RECONFIGURE:
       rf = ac->pdata;
       ac->fov = request_read_double(r);
       ac->camnear = request_read_double(r);
-      ac->spherical = request_read_uchar(r);
+      ac->planar = request_read_uchar(r);
       rf->max_range = request_read_double(r);
       break;
 
@@ -215,34 +215,34 @@ double wb_range_finder_get_min_range(WbDeviceTag tag) {
 
 double wb_range_finder_get_max_range(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   RangeFinder *rf = range_finder_get_struct(tag);
   if (rf)
     result = rf->max_range;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 const float *wb_range_finder_get_range_image(WbDeviceTag tag) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   AbstractCamera *ac = range_finder_get_abstract_camera_struct(tag);
 
   if (!ac) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return NULL;
   }
 
   if (wb_robot_get_mode() == WB_MODE_REMOTE_CONTROL) {
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return (const float *)(void *)ac->image->data;
   }
 
   if (ac->sampling_period <= 0)
     fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_range_finder_enable().\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 
   return (const float *)(void *)ac->image->data;
 }
@@ -261,19 +261,19 @@ int wb_range_finder_save_image(WbDeviceTag tag, const char *filename, int qualit
   double v;
   unsigned char g;
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   AbstractCamera *ac = range_finder_get_abstract_camera_struct(tag);
   RangeFinder *rf = range_finder_get_struct(tag);
 
   if (!ac) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return -1;
   }
 
   // make sure image is up to date before saving it
   if (!ac->image->data) {
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return -1;
   }
 
@@ -285,7 +285,7 @@ int wb_range_finder_save_image(WbDeviceTag tag, const char *filename, int qualit
   size = img.width * img.height;
   if (g_image_get_type(filename) == G_IMAGE_TIFF) {
     fprintf(stderr, "Error: %s(): .tiff image not supported anymore, use .hdr instead.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return -1;
   } else if (g_image_get_type(filename) == G_IMAGE_HDR) {
     img.data_format = G_IMAGE_DATA_FORMAT_F;
@@ -299,7 +299,7 @@ int wb_range_finder_save_image(WbDeviceTag tag, const char *filename, int qualit
 
   if (!img.data && !img.float_data) {
     fprintf(stderr, "Error: %s(): malloc failed.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return -1;
   }
 
@@ -330,6 +330,6 @@ int wb_range_finder_save_image(WbDeviceTag tag, const char *filename, int qualit
   else
     free(img.float_data);
 
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return ret;
 }

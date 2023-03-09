@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,22 +34,17 @@ public:
   static void cleanup();
 
   enum OperationResult { FAILURE = 0, SUCCESS, REGENERATION_REQUIRED };
+  enum ImportType { DEFAULT = 0, FROM_ADD_NEW, FROM_SUPERVISOR, FROM_PASTE };
 
-  // import a .wbo object in the specified node and field
+  // import an object in the specified node and field
   // if 'filename' is an empty string, import the node defined by 'nodeString' instead
-  OperationResult importNode(int nodeId, int fieldId, int itemIndex, const QString &filename, const QString &nodeString = "",
-                             bool fromSupervisor = false);
+  OperationResult importNode(int nodeId, int fieldId, int itemIndex, ImportType origin, const QString &nodeString = "");
   // return if imported node is going to be regenerated
-  OperationResult importNode(WbNode *parentNode, WbField *field, int itemIndex, const QString &filename,
-                             const QString &nodeString = "", bool avoidIntersections = false, bool fromSupervisor = false);
-
-  // import a .wrl file and append its nodes at the end of the current world
-  OperationResult importVrml(const QString &filename, bool fromSupervisor = false);
-  OperationResult importExternalModel(const QString &filename, bool importTextureCoordinates, bool importNormals,
-                                      bool importAppearances, bool importAsSolid, bool importBoundingObjects);
+  OperationResult importNode(WbNode *parentNode, WbField *field, int itemIndex, ImportType origin,
+                             const QString &nodeString = "", bool avoidIntersections = false);
 
   OperationResult initNewNode(WbNode *newNode, WbNode *parentNode, WbField *field, int newNodeIndex = -1,
-                              bool subscribe = false);
+                              bool subscribe = false, bool finalize = true);
 
   bool deleteNode(WbNode *node, bool fromSupervisor = false);
 
@@ -57,19 +52,23 @@ public:
   void notifyNodeDeleted(WbNode *node);
   void notifyNodeRegenerated();
 
-  void updateDictionary(bool load, WbBaseNode *protoRoot);  // called after every modification of the Scene Tree
+  bool updateDictionary(bool load, WbBaseNode *protoRoot);  // called after every modification of the Scene Tree
 
   bool areNodesAboutToBeInserted() { return mNodesAreAboutToBeInserted; }
   bool isSkipUpdates() { return mSkipUpdates; }
   bool isFromSupervisor() { return mFromSupervisor; }
 
-  static QString exportNodeToString(WbNode *node);
+  // EXTERNPROTO declarations
+  void purgeUnusedExternProtoDeclarations();
 
   void enableSolidNameClashCheckOnNodeRegeneration(bool enabled) const;
 
 public slots:
   void requestUpdateDictionary();
   void requestUpdateSceneDictionary(WbNode *node, bool fromUseToDef);
+
+  // add missing EXTERNPROTO declarations after modifying parameters
+  void updateExternProtoDeclarations(WbField *modifiedField);
 
 signals:
   void nodeAdded(WbNode *node);
@@ -83,6 +82,8 @@ private:
   bool mNodesAreAboutToBeInserted;
   bool mSkipUpdates;
   bool mFromSupervisor;
+
+  void setFromSupervisor(bool value);
 
 private slots:
   void resolveSolidNameClashIfNeeded(WbNode *node) const;

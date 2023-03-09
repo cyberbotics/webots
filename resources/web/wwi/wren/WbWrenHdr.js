@@ -1,9 +1,10 @@
-import {pointerOnFloat} from './../nodes/utils/utils.js';
+import {pointerOnFloat} from '../nodes/utils/utils.js';
 import WbWrenAbstractPostProcessingEffect from './WbWrenAbstractPostProcessingEffect.js';
 import WbWrenRenderingContext from './WbWrenRenderingContext.js';
 import WbWrenShaders from './WbWrenShaders.js';
 
 export default class WbWrenHdr extends WbWrenAbstractPostProcessingEffect {
+  #exposurePointer;
   constructor() {
     super();
     this.exposure = 1.0;
@@ -12,7 +13,7 @@ export default class WbWrenHdr extends WbWrenAbstractPostProcessingEffect {
   setExposure(exposure) {
     this.exposure = exposure;
 
-    this._applyParametersToWren();
+    this.#applyParametersToWren();
   }
 
   setup(viewport) {
@@ -29,9 +30,9 @@ export default class WbWrenHdr extends WbWrenAbstractPostProcessingEffect {
     const width = _wr_viewport_get_width(this._wrenViewport);
     const height = _wr_viewport_get_height(this._wrenViewport);
 
-    this._wrenPostProcessingEffect = this._hdrResolve(width, height);
+    this._wrenPostProcessingEffect = this.#hdrResolve(width, height);
 
-    this._applyParametersToWren();
+    this.#applyParametersToWren();
 
     _wr_viewport_add_post_processing_effect(this._wrenViewport, this._wrenPostProcessingEffect);
     _wr_post_processing_effect_setup(this._wrenPostProcessingEffect);
@@ -41,18 +42,19 @@ export default class WbWrenHdr extends WbWrenAbstractPostProcessingEffect {
 
   // Private functions
 
-  _applyParametersToWren() {
+  #applyParametersToWren() {
     if (!this._wrenPostProcessingEffect)
       return;
 
     const firstPass = _wr_post_processing_effect_get_first_pass(this._wrenPostProcessingEffect);
-    if (typeof this._exposurePointer !== 'undefined')
-      _free(this._exposurePointer);
-    this._exposurePointer = pointerOnFloat(this.exposure);
-    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'], [firstPass, 'exposure', this._exposurePointer]);
+    if (typeof this.#exposurePointer !== 'undefined')
+      _free(this.#exposurePointer);
+    this.#exposurePointer = pointerOnFloat(this.exposure);
+    Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'],
+      [firstPass, 'exposure', this.#exposurePointer]);
   }
 
-  _hdrResolve(width, height) {
+  #hdrResolve(width, height) {
     const hdrResolveEffect = _wr_post_processing_effect_new();
     _wr_post_processing_effect_set_drawing_index(hdrResolveEffect, WbWrenRenderingContext.PP_HDR);
 

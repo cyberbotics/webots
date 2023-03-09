@@ -1,0 +1,16 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "MiddleProtoWorldScope/MiddleProtoWorldScope.proto"
+
+PROTO UpperProtoWorldScope [
+  field SFVec3f translation 0 0 0
+  field MFString url_texture3 ""
+  field MFString url_mesh3    ""
+]
+{
+  MiddleProtoWorldScope {
+    translation IS translation
+    url_texture2 IS url_texture3
+    url_mesh2 IS url_mesh3
+  }
+}

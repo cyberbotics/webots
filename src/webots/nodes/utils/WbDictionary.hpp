@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,8 +36,12 @@ public:
   // Recompute all DEF-USE dependencies (but protos' dependencies) and update
   // them if needed according to the VRML rule:
   // a USE node refers to its closest previous DEF node if it exists (otherwise it is turned into a DEF node)
-  void update(bool load = false);
+  bool update(bool load = false);
   void updateProtosPrivateDef(WbBaseNode *&node);
+
+  // If dictionary update is called after PROTO regeneration, then store the upper template PROTO node to prevent infinite
+  // DEF/USE updates
+  void setRegeneratedNode(const WbNode *node);
 
   // Loop through current world and return all the available DEF nodes
   // that could be used in the specified field.
@@ -56,7 +60,8 @@ private:
   WbDictionary();
   ~WbDictionary();
 
-  bool updateDef(WbBaseNode *&node, WbSFNode *sfNode = NULL, WbMFNode *mfNode = NULL, int index = -1);
+  bool updateDef(WbBaseNode *&node, WbSFNode *sfNode, WbMFNode *mfNode, int index, bool isTemplateRegenerator,
+                 bool &regenerationRequired);
   void updateProtosDef(WbBaseNode *&node, WbSFNode *sfNode = NULL, WbMFNode *mfNode = NULL, int index = -1);
   void updateForInsertion(const WbNode *const node, bool suitableOnly, QList<WbNode *> &defNodes);
   void makeDefNodeAndUpdateDictionary(WbBaseNode *node, bool updateSceneDictionary);
@@ -72,14 +77,16 @@ private:
   QList<WbBaseNode *> mNestedProtos;
   QList<WbBaseNode *> mNestedUseNodes;
   bool mStopUpdate;
-  bool mLoad;  // true if the update occurs right after world is loaded
+  bool mLoad;                      // true if the update occurs right after world is loaded
+  bool mCurrentProtoRegeneration;  // true if the update occurs due to a PROTO regeneration
+  const WbNode *mCurrentProtoRegenerationNode;
   bool isSuitable(const WbNode *defNode, const QString &type) const;
   static bool checkChargerAndLedConstraints(WbNode *useNodeParent, const WbBaseNode *defNode, QString &deviceModelName,
                                             bool isFirstChild);
   static bool checkBoundingObjectConstraints(const WbBaseNode *defNode, QString &errorMessage);
 
   // List of DEF nodes visible in the scene tree
-  QList<QPair<WbNode *, QString>> mSceneDictionary;
+  QList<std::pair<WbNode *, QString>> mSceneDictionary;
 };
 
 #endif

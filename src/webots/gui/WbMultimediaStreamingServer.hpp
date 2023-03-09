@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WB_VIDEO_STREAMING_SERVER_HPP
-#define WB_VIDEO_STREAMING_SERVER_HPP
+#ifndef WB_MULTIMEDIA_STREAMING_SERVER_HPP
+#define WB_MULTIMEDIA_STREAMING_SERVER_HPP
 
-#include "WbStreamingServer.hpp"
+#include "WbTcpServer.hpp"
 #include "WbVector3.hpp"
 
 #include <QtCore/QElapsedTimer>
@@ -25,11 +25,11 @@ class WbMatter;
 class WbMultimediaStreamingLimiter;
 class WbView3D;
 
-class WbMultimediaStreamingServer : public WbStreamingServer {
+class WbMultimediaStreamingServer : public WbTcpServer {
   Q_OBJECT
 
 public:
-  WbMultimediaStreamingServer(bool monitorActivity, bool disableTextStreams, bool ssl, bool controllerEdit);
+  WbMultimediaStreamingServer();
   ~WbMultimediaStreamingServer();
   void sendImage(const QImage &image);
 
@@ -48,7 +48,7 @@ private slots:
 
 private:
   void start(int port) override;
-  void sendTcpRequestReply(const QString &requestedUrl, const QString &etag, QTcpSocket *socket) override;
+  void sendTcpRequestReply(const QString &requestedUrl, const QString &etag, const QString &host, QTcpSocket *socket) override;
   int bytesToWrite();
   void sendContextMenuInfo(const WbMatter *node);
   void sendLastImage(QTcpSocket *client = NULL);

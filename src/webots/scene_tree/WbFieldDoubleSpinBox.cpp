@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -66,12 +66,11 @@ void WbFieldDoubleSpinBox::stepBy(int steps) {
       value += pow(10, -mDecimals) * steps;
       break;
     case RADIANS: {
-      // angle in radians: change by pi/24 and snap to pi/24 if close by 1%
+      // angle in radians: change by pi/24 and snap to the nearest multiple of PI
       value += M_PI * steps / 24.0;
-      double intpart;
-      double decpart = modf(fabs(value) / M_PI, &intpart);
+      double decpart = fmod(fabs(value) / M_PI, 1.0);
       if (decpart < 0.01 || decpart > 0.99)
-        value = M_PI * intpart * (value >= 0 ? 1.0 : -1.0);
+        value = M_PI * round(value / M_PI);
       break;
     }
     case AXIS:

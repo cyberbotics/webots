@@ -1,4 +1,8 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+
 WorldInfo {
   coordinateSystem "NUE"
 }
@@ -17,7 +21,15 @@ PointLight {
 }
 Transform {
   translation 2 0 -2
-  rotation 1 0 0 1.57
+  children [
+    Shape {
+      geometry Plane {
+      }
+    }
+  ]
+}
+Transform {
+  translation 0 0.8 -0.75
   children [
     Shape {
       geometry Plane {
@@ -27,7 +39,6 @@ Transform {
 }
 Transform {
   translation 0 0 -2
-  rotation 1 0 0 1.57
   children [
     Shape {
       appearance Appearance {
@@ -41,8 +52,7 @@ Transform {
   ]
 }
 Transform {
-  translation -0.5 -1.37 -2.0000023
-  rotation 1 0 0 1.5708003
+  translation -0.5 -2.37 -2.0000023
   children [
     Shape {
       geometry ElevationGrid {
@@ -50,7 +60,7 @@ Transform {
           0, 0, 0, 0
         ]
         xDimension 2
-        zDimension 2
+        yDimension 2
       }
     }
   ]
@@ -58,7 +68,9 @@ Transform {
 Robot {
   children [
     RangeFinder {
+      rotation 0.577349 -0.577349 -0.577349 -2.0944
       fieldOfView 1.5708
+      minRange 1
       maxRange 3
       motionBlur 32
     }

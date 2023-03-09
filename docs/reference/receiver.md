@@ -34,7 +34,7 @@ Currently, there is no implementation difference between the "radio" and "serial
 
 - `aperture`: opening angle of the reception cone (in radians); for "infra-red" only.
 The receiver can only receive messages from emitters currently located within its reception cone.
-The cone's apex is located at the origin ([0 0 0]) of the receiver's coordinate system and the cone's axis coincides with the z-axis of the receiver coordinate system (see [this figure](emitter.md#illustration-of-aperture-and-range-for-infra-red-emitter-receiver) in [this section](emitter.md)).
+The cone's apex is located at the origin ([0 0 0]) of the receiver's coordinate system and the cone's axis coincides with the x-axis of the receiver coordinate system (see [this figure](emitter.md#illustration-of-aperture-and-range-for-infra-red-emitter-receiver) in [this section](emitter.md)).
 An `aperture` of -1 (the default) is considered to be infinite, meaning that a signal can be received from any direction.
 For "radio" receivers, the `aperture` field is ignored.
 
@@ -337,7 +337,11 @@ namespace webots {
 from controller import Receiver
 
 class Receiver (Device):
-    def getData(self):
+    def getBytes(self):
+    def getString(self):
+    def getFloats(self):
+    def getInts(self):
+    def getBools(self):
     def getDataSize(self):
     # ...
 ```
@@ -392,16 +396,7 @@ The `wb_receiver_get_data_size` function returns the number of data bytes presen
 The *data size* is always equal to the *size* argument of the corresponding `emitter_send_packet` function call.
 It is illegal to call the `wb_receiver_get_data_size` function when the queue is empty (i.e. when `wb_receiver_get_queue_length() == 0`).
 
-> **Note** [Python]: The `getData` function returns a string.
-Similarly to the `sendPacket` function of the [Emitter](emitter.md) device, using the functions of the struct module is recommended for sending primitive data types.
-Here is an example for getting the data:
-
-> ```python
-> import struct
-> #...
-> message=receiver.getData()
-> dataList=struct.unpack("chd",message)
-> ```
+> **Note** [Python]: In the Python API, instead of having a single function returning the data, multiple functions are defined that automatically convert the data to the expected return type (bytes, string, list of floats, list of integers, list of booleans).
 
 <!-- -->
 
@@ -540,9 +535,9 @@ It is illegal to call this function if the receiver's queue is empty (i.e. when 
 
 The `wb_receiver_get_emitter_direction` function also operates on the head packet in the receiver's queue.
 It returns a normalized (length=1) vector that indicates the direction of the emitter with respect to the receiver's coordinate system.
-The three vector components indicate the *x, y *, and *z*-directions of the emitter, respectively.
-For example, if the emitter was exactly in front of the receiver, then the vector would be [0 0 1].
-In the usual orientation used for 2D simulations (robots moving in the *xz*-plane and the *y *-axis oriented upwards), a positive *x *-component indicates that the emitter is located to the left of the receiver while a negative *x *-component indicates that the emitter is located to the right.
+The three vector components indicate the *x, y*, and *z*-directions of the emitter, respectively.
+For example, if the emitter was exactly in front of the receiver, then the vector would be [1 0 0].
+In the usual orientation used for 2D simulations (robots moving in the *xy*-plane and the *z*-axis oriented upwards), a positive *y*-component indicates that the emitter is located to the left of the receiver while a negative *y*-component indicates that the emitter is located to the right.
 If the packet is sent from a physics plugin, the returned values will be NaN (Not a Number).
 The returned vector is valid only until the next call to the `wb_receiver_next_packet` function.
 It is illegal to call this function if the receiver's queue is empty (i.e. when `wb_receiver_get_queue_length() == 0`).

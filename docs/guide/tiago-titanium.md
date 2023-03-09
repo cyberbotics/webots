@@ -13,8 +13,8 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 TiagoTitanium {
-  SFVec3f     translation      0 0 0
-  SFRotation  rotation         1 0 0 -1.5708
+  SFVec3f     translation      0 0 0.095
+  SFRotation  rotation         0 0 1 0
   SFString    name             "TIAGo Titanium"
   SFString    controller       "tiagoTitanium"
   MFString    controllerArgs   []

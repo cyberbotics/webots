@@ -32,20 +32,19 @@ void MotionWidget::setMotion(Motion *motion) {
   mMotion = motion;
   mMotion->blockPoseSelection(true);
 
-  if (mMotion) {
-    updateTitle();
-    setEnabled(true);
+  updateTitle();
+  setEnabled(true);
 
-    connect(mMotion, SIGNAL(destroyed()), this, SLOT(clearMotionPointer()));
-    connect(mMotion, SIGNAL(updated()), this, SLOT(updateTitle()));
-    connect(mMotion, SIGNAL(poseSelected(int)), this, SLOT(selectPoseFromModel(int)));
-    connect(mMotion, SIGNAL(poseUpdated(int)), this, SLOT(updatePoseFromModel(int)));
-    connect(mMotion, SIGNAL(poseInserted(int)), this, SLOT(insertPoseFromModel(int)));
-    connect(mMotion, SIGNAL(poseDeleted(int)), this, SLOT(deletePoseFromModel(int)));
+  connect(mMotion, SIGNAL(destroyed()), this, SLOT(clearMotionPointer()));
+  connect(mMotion, SIGNAL(updated()), this, SLOT(updateTitle()));
+  connect(mMotion, SIGNAL(poseSelected(int)), this, SLOT(selectPoseFromModel(int)));
+  connect(mMotion, SIGNAL(poseUpdated(int)), this, SLOT(updatePoseFromModel(int)));
+  connect(mMotion, SIGNAL(poseInserted(int)), this, SLOT(insertPoseFromModel(int)));
+  connect(mMotion, SIGNAL(poseDeleted(int)), this, SLOT(deletePoseFromModel(int)));
 
-    for (int i = 0; i < count(); i++)
-      insertPoseFromModel(i);
-  }
+  for (int i = 0; i < count(); i++)
+    insertPoseFromModel(i);
+
   mMotion->blockPoseSelection(false);
 }
 

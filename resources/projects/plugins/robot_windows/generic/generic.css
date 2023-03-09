@@ -1,5 +1,5 @@
 body {
-  width: 100%;
+  width: 99%;
   height: 100%;
   font-family: Arial, sans-serif;
 }
@@ -27,6 +27,8 @@ h2 {
   position: fixed;
   height: 100%;
   z-index: 2;
+  left: 0px;
+  top: 0px;
   color: white;
   background-color: #444;
 }
@@ -109,7 +111,7 @@ h2 {
   padding: 10px;
   margin: 10px;
   width: 350px;
-  height: 255px;
+  height: 265px;
   display: inline-block;
   overflow: hidden;
 }
@@ -131,7 +133,7 @@ h2 {
 .device-content {
   position: absolute;
   overflow: hidden;
-  top: 30px;
+  top: 40px;
   left: 10px;
   width: 350px;
   height: 240px;
@@ -248,12 +250,17 @@ h2 {
 .motor-slider::-webkit-slider-runnable-track {
   -webkit-appearance: slider-vertical;
 }
+.motor-slider-right {
+  right: auto;
+  left: 13px;
+}
 .view-selector {
   position: absolute;
   top: 5px;
   right: 20px;
   margin: 0px;
   padding: 0px;
+  appearance: menulist;
   -webkit-appearance: menulist;
 }
 .plot-canvas {
@@ -293,6 +300,7 @@ h2 {
 .plot-axis-label-y-min,
 .plot-axis-label-y-max {
   /* Fill the overall left part of the plot, use `justify-content` to align text. */
+  writing-mode: vertical-lr;
   -webkit-writing-mode: vertical-lr;
   top: 15px;
   left: -15px;

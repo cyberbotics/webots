@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,59 +15,29 @@
 #ifndef WB_ROBOT_WINDOW_HPP
 #define WB_ROBOT_WINDOW_HPP
 
-#include "WbDockWidget.hpp"
+#include <QtCore/QObject>
+
 #include "WbRobot.hpp"
 
-#ifndef _WIN32
-#define QWebView QWebEngineView
-class WbRobotWindowTransportLayer;
-#endif
-
-class QWebFrame;
-class QWebView;
-
-class WbRobotWindow : public WbDockWidget {
+class WbRobotWindow : public QObject {
   Q_OBJECT
-
 public:
-  explicit WbRobotWindow(WbRobot *, QWidget *parent = NULL);
-  virtual ~WbRobotWindow();
+  explicit WbRobotWindow(WbRobot *);
+
   WbRobot *robot() { return mRobot; }
-  const QString *name() { return &mRobot->window(); }
-  void show();
+  const QString getClientID() { return mClientID; }
+  void setupPage(int port);
 
 public slots:
-#ifdef _WIN32
-  void receiveFromJavascript(const QByteArray &);
-#endif
-  void sendToJavascript(const QByteArray &);
-  void setTitle(const QString &title, const QString &tabbedTitle = NULL);
-  void startControllerIfNeeded();
+  void setClientID(const QString &clientID, const QString &robotName, const QString &socketStatus);
+signals:
+  void socketOpened();
 
 private:
-  QString formatUrl(const QString &urlString);
-  QString linkTag(const QString &file);
-  QString scriptTag(const QString &file);
   WbRobot *mRobot;
-  QWebView *mWebView;
-#ifdef _WIN32
-  QWebFrame *mFrame;
-#else
-  void runJavaScript(const QString &message);
-  QStringList mWaitingSentMessages;
-  WbRobotWindowTransportLayer *mTransportLayer;
-#endif
-  int mResetCount;
-  bool mLoaded;
+  QString mClientID;
 
-  static QString escapeString(const QString &text);
-
-private slots:
-#if defined(__APPLE__) || defined(__linux__)
-  void notifyLoadCompleted();
-  void notifyAckReceived();
-#endif
-  void setupPage();
+  bool openOnWebBrowser(const QString &url, const QString &program, const bool newBrowserWindow);
 };
 
 #endif  // WB_ROBOT_WINDOW_HPP

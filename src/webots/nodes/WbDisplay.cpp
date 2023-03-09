@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,6 +16,7 @@
 
 #include "WbAppearance.hpp"
 #include "WbCamera.hpp"
+#include "WbDataStream.hpp"
 #include "WbDisplayFont.hpp"
 #include "WbImageTexture.hpp"
 #include "WbMFNode.hpp"
@@ -94,7 +95,7 @@ void WbDisplay::init() {
   QString error = mDisplayFont->error();
   if (!error.isEmpty())
     warn(error);
-  setFont((char *)"Lucida Console", 8);
+  setFont(const_cast<char *>("Lucida Console"), 8);
 }
 
 WbDisplay::WbDisplay(WbTokenizer *tokenizer) : WbRenderingDevice("Display", tokenizer) {
@@ -286,8 +287,8 @@ void WbDisplay::handleMessage(QDataStream &stream) {
       stream >> size;
       px = new int[size];
       py = new int[size];
-      stream.readRawData((char *)px, size * sizeof(int));
-      stream.readRawData((char *)py, size * sizeof(int));
+      stream.readRawData(reinterpret_cast<char *>(px), size * sizeof(int));
+      stream.readRawData(reinterpret_cast<char *>(py), size * sizeof(int));
       switch (command) {
         case C_DISPLAY_DRAW_PIXEL:
           drawPixel(px[0], py[0]);
@@ -384,7 +385,7 @@ void WbDisplay::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbDisplay::writeAnswer(QDataStream &stream) {
+void WbDisplay::writeAnswer(WbDataStream &stream) {
   if (mRequestImages) {
     mRequestImages = false;
 
@@ -396,14 +397,14 @@ void WbDisplay::writeAnswer(QDataStream &stream) {
 
     stream << (quint16)width();
     stream << (quint16)height();
-    stream.writeRawData((const char *)mImage, 4 * width() * height());
+    stream.writeRawData(reinterpret_cast<const char *>(mImage), 4 * width() * height());
 
     for (unsigned i = 0; i < number; i++) {
       WbDisplayImage *di = mImages.at(i);
       stream << (qint32)di->id();
       stream << (quint16)di->width();
       stream << (quint16)di->height();
-      stream.writeRawData((const char *)di->image(), 4 * di->width() * di->height());
+      stream.writeRawData(reinterpret_cast<const char *>(di->image()), 4 * di->width() * di->height());
     }
 
     stream << (qint32)mColor;
@@ -417,14 +418,14 @@ void WbDisplay::writeAnswer(QDataStream &stream) {
     stream << di->id();
     stream << di->width();
     stream << di->height();
-    stream.writeRawData((const char *)di->image(), 4 * di->width() * di->height());
+    stream.writeRawData(reinterpret_cast<const char *>(di->image()), 4 * di->width() * di->height());
 
     mSaveOrders.pop_back();
     delete di;
   }
 }
 
-void WbDisplay::writeConfigure(QDataStream &stream) {
+void WbDisplay::writeConfigure(WbDataStream &stream) {
   setup();
 
   stream << (short unsigned int)tag();
@@ -963,8 +964,8 @@ void WbDisplay::imagePaste(int id, int x, int y, bool blend) {
         int newPixel = subImageValues[offsetNewImage];
         unsigned char newAlpha = SHIFT(newPixel, 24);
         unsigned char oneMinusNewAlpha = 0xFF - newAlpha;
-        unsigned char alpha = qMin(0xFF, newAlpha + oldAlpha);
-        mImage[offsetMainImage] = alpha << 24;
+        unsigned char alphaValue = qMin(0xFF, newAlpha + oldAlpha);
+        mImage[offsetMainImage] = alphaValue << 24;
         for (int k = 0; k < 3; k++)
           mImage[offsetMainImage] +=
             (((oneMinusNewAlpha * SHIFT(oldPixel, 8 * k) + newAlpha * SHIFT(newPixel, 8 * k)) / 0xFF) << 8 * k);
@@ -1001,27 +1002,27 @@ void WbDisplay::imageLoad(int id, int w, int h, void *data, int format) {
   if (format == WB_IMAGE_BGRA)
     memcpy(clippedImage, data, nbPixel * 4);
   else if (format == WB_IMAGE_ARGB) {
-    const unsigned char *dataUC = (unsigned char *)data;
+    const unsigned char *dataUC = static_cast<unsigned char *>(data);
     for (int i = 0; i < nbPixel; i++) {
       const int offset = 4 * i;
       isTransparent = (dataUC[offset] & 0XFF) != 0xFF;
       clippedImage[i] = (dataUC[offset] << 24) | (dataUC[offset + 1] << 16) | (dataUC[offset + 2] << 8) | dataUC[offset + 3];
     }
   } else if (format == WB_IMAGE_RGB) {
-    const unsigned char *dataUC = (unsigned char *)data;
+    const unsigned char *dataUC = static_cast<unsigned char *>(data);
     for (int i = 0; i < nbPixel; i++) {
       const int offset = 3 * i;
       clippedImage[i] = 0xFF000000 | (dataUC[offset] << 16) | (dataUC[offset + 1] << 8) | dataUC[offset + 2];
     }
   } else if (format == WB_IMAGE_RGBA) {
-    const unsigned char *dataUC = (unsigned char *)data;
+    const unsigned char *dataUC = static_cast<unsigned char *>(data);
     for (int i = 0; i < nbPixel; i++) {
       const int offset = 4 * i;
       isTransparent = (dataUC[offset + 3] & 0xFF) != 0xFF;
       clippedImage[i] = (dataUC[offset + 3] << 24) | (dataUC[offset] << 16) | (dataUC[offset + 1] << 8) | dataUC[offset + 2];
     }
   } else if (format == WB_IMAGE_ABGR) {
-    const unsigned char *dataUC = (unsigned char *)data;
+    const unsigned char *dataUC = static_cast<unsigned char *>(data);
     for (int i = 0; i < nbPixel; i++) {
       const int offset = 4 * i;
       isTransparent = (dataUC[offset] & 0xFF) != 0xFF;
@@ -1031,6 +1032,7 @@ void WbDisplay::imageLoad(int id, int w, int h, void *data, int format) {
     assert(0);
 
   mImages.push_back(new WbDisplayImage(id, w, h, clippedImage, isTransparent));
+  // cppcheck-suppress memleak
 }
 
 void WbDisplay::imageDelete(int id) {
@@ -1070,7 +1072,6 @@ void WbDisplay::createWrenOverlay() {
   connect(mOverlay, &WbWrenTextureOverlay::textureUpdated, this, &WbRenderingDevice::textureUpdated);
   connect(mOverlay, &QObject::destroyed, this, &WbDisplay::removeExternalTextures);
 
-  applyWorldSettings();
   if (!previousSettings.isEmpty())
     mOverlay->restorePerspective(previousSettings, areOverlaysEnabled());
   else

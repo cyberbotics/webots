@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -168,14 +168,14 @@ void webots_physics_step() {
       } else {
         flying_force = 6;
 
-        if (position[1] < 0.001)
+        if (position[2] < 0.001)
           pause_counter--;
       }
       break;
     case TAKING_OFF:
       turning = 0;
 
-      if (position[1] > 0.01) {
+      if (position[2] > 0.01) {
         /* We give an opposite impulse to stop the robot. */
         flying_force -= FLYING_INCREMENT;
         next_state = SEARCH_OBSTACLE;
@@ -220,7 +220,7 @@ void webots_physics_step() {
       }
       break;
     case MOVE_DOWN:
-      if (position[1] <= 0.01) {
+      if (position[2] <= 0.01) {
         /* We have avoided one more obstacle. */
         inversing_direction_counter--;
         if (inversing_direction_counter == 0) {
@@ -239,11 +239,11 @@ void webots_physics_step() {
   state = next_state;
 
   /* We add the forces to our robot. */
-  dBodyAddRelForce(wings_body[0], 0, flying_force / 2, -turning);
-  dBodyAddRelForce(wings_body[1], 0, flying_force / 2, turning);
+  dBodyAddRelForce(wings_body[0], turning, 0, flying_force / 2);
+  dBodyAddRelForce(wings_body[1], -turning, 0, flying_force / 2);
 
   /* We place the ray in front of the robot. */
-  dGeomRaySet(ray_geom, position[0], position[1], position[2], -rotation[2], rotation[1], -rotation[0]);
+  dGeomRaySet(ray_geom, position[0], position[1], position[2], rotation[0], -rotation[1], rotation[2]);
 
   /*
    * We reset the ray collision detection one iteration after

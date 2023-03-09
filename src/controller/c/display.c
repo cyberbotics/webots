@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -295,7 +295,7 @@ static void wb_display_draw_primitive(WbDeviceTag tag, int primitive, const int 
   assert(x && y && size > 0);
   DisplayMessage *m = (DisplayMessage *)malloc(sizeof(DisplayMessage));
   DisplayPrimitiveMessage *p = (DisplayPrimitiveMessage *)malloc(sizeof(DisplayPrimitiveMessage));
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Display *d = wb_display_get_struct(tag);
   if (d && m && p) {
     m->message = primitive;
@@ -317,14 +317,14 @@ static void wb_display_draw_primitive(WbDeviceTag tag, int primitive, const int 
     free(m);
     free(p);
   }
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 // add a drawing property request into Display's messages
 static void wb_display_set_property(WbDeviceTag tag, int primitive, void *data, void *font_size, void *anti_aliasing) {
   DisplayMessage *m = (DisplayMessage *)malloc(sizeof(DisplayMessage));
   DisplayPropertyMessage *p = (DisplayPropertyMessage *)malloc(sizeof(DisplayPropertyMessage));
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Display *d = wb_display_get_struct(tag);
   if (d && m && p) {
     m->message = primitive;
@@ -353,7 +353,7 @@ static void wb_display_set_property(WbDeviceTag tag, int primitive, void *data, 
     free(m);
     free(p);
   }
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 static void display_toggle_remote(WbDevice *d, WbRequest *r) {
@@ -385,25 +385,25 @@ void wb_display_init(WbDevice *d) {
 
 int wb_display_get_height(WbDeviceTag tag) {
   int result = -1;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Display *d = wb_display_get_struct(tag);
   if (d)
     result = d->height;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 int wb_display_get_width(WbDeviceTag tag) {
   int result = -1;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Display *d = wb_display_get_struct(tag);
   if (d)
     result = d->width;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
@@ -451,59 +451,59 @@ void wb_display_set_font(WbDeviceTag tag, const char *font, int size, bool anti_
     fprintf(stderr, "Error: %s(): 'size' argument is negative or null.\n", __FUNCTION__);
     return;
   }
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Display *display = wb_display_get_struct(tag);
   if (!display) {
     fprintf(stderr, "Error: %s(): invalid display.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return;
   }
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   wb_display_set_property(tag, C_DISPLAY_SET_FONT, (char *)font, &size, &anti_aliasing);
 }
 
 void wb_display_attach_camera(WbDeviceTag tag, WbDeviceTag camera_tag) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Display *display = wb_display_get_struct(tag);
   WbDevice *camera = robot_get_device_with_node(camera_tag, WB_NODE_CAMERA, true);
   if (!display) {
     fprintf(stderr, "Error: %s(): invalid display.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return;
   }
   if (!camera) {
     fprintf(stderr, "Error: %s(): invalid camera.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return;
   }
   if (display->is_camera_attached) {
     fprintf(stderr, "Error: %s(): a camera is already attached to the display.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return;
   }
   display->camera_to_attach = camera_tag;
   display->is_camera_attached = true;
   display->camera_to_detach = false;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_display_detach_camera(WbDeviceTag tag) {
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Display *display = wb_display_get_struct(tag);
   if (display == NULL) {
     fprintf(stderr, "Error: %s(): invalid display.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return;
   }
   if (!display->is_camera_attached) {
     fprintf(stderr, "Error: %s(): no camera to detach.\n", __FUNCTION__);
-    robot_mutex_unlock_step();
+    robot_mutex_unlock();
     return;
   }
   display->camera_to_attach = 0;
   display->is_camera_attached = false;
   display->camera_to_detach = true;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_display_draw_pixel(WbDeviceTag tag, int x, int y) {
@@ -654,7 +654,7 @@ WbImageRef wb_display_image_copy(WbDeviceTag tag, int x, int y, int width, int h
   DisplayMessage *m = (DisplayMessage *)malloc(sizeof(DisplayMessage));
   DisplayImageMessage *i = (DisplayImageMessage *)malloc(sizeof(DisplayImageMessage));
   WbImageStruct *im = (WbImageStruct *)malloc(sizeof(WbImageStruct));
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
@@ -675,7 +675,7 @@ WbImageRef wb_display_image_copy(WbDeviceTag tag, int x, int y, int width, int h
     im->device_tag = tag;
     d->image_next_free_id++;
   }
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return im;
 }
 
@@ -690,7 +690,7 @@ void wb_display_image_paste(WbDeviceTag tag, WbImageRef ir, int x, int y, bool b
   }
   DisplayMessage *m = (DisplayMessage *)malloc(sizeof(DisplayMessage));
   DisplayImageMessage *i = (DisplayImageMessage *)malloc(sizeof(DisplayImageMessage));
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
@@ -705,7 +705,7 @@ void wb_display_image_paste(WbDeviceTag tag, WbImageRef ir, int x, int y, bool b
     m->image_message = i;
     message_enqueue(d, m);
   }
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 WbImageRef wb_display_image_new(WbDeviceTag tag, int width, int height, const void *data, int format) {
@@ -728,7 +728,7 @@ WbImageRef wb_display_image_new(WbDeviceTag tag, int width, int height, const vo
     return NULL;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   DisplayMessage *m = (DisplayMessage *)malloc(sizeof(DisplayMessage));
   DisplayImageMessage *i = (DisplayImageMessage *)malloc(sizeof(DisplayImageMessage));
   WbImageStruct *im = (WbImageStruct *)malloc(sizeof(WbImageStruct));
@@ -754,7 +754,7 @@ WbImageRef wb_display_image_new(WbDeviceTag tag, int width, int height, const vo
   im->id = d->image_next_free_id;
   im->device_tag = tag;
   d->image_next_free_id++;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return im;
 }
 
@@ -773,7 +773,7 @@ WbImageRef wb_display_image_load(WbDeviceTag tag, const char *filename) {
   DisplayMessage *m = (DisplayMessage *)malloc(sizeof(DisplayMessage));
   DisplayImageMessage *i = (DisplayImageMessage *)malloc(sizeof(DisplayImageMessage));
   WbImageStruct *im = (WbImageStruct *)malloc(sizeof(WbImageStruct));
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Display *d = wb_display_get_struct(tag);
   if (!d) {
     g_image_delete(gi);
@@ -808,7 +808,7 @@ WbImageRef wb_display_image_load(WbDeviceTag tag, const char *filename) {
     d->image_next_free_id++;
     free(gi);  // this should not delete the image data
   }
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return im;
 }
 
@@ -835,7 +835,7 @@ void wb_display_image_save(WbDeviceTag tag, WbImageRef ir, const char *filename)
   DisplayMessage *m = (DisplayMessage *)malloc(sizeof(DisplayMessage));
   DisplayImageMessage *i = (DisplayImageMessage *)malloc(sizeof(DisplayImageMessage));
   SaveOrder *o = (SaveOrder *)malloc(sizeof(SaveOrder));
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
@@ -855,8 +855,8 @@ void wb_display_image_save(WbDeviceTag tag, WbImageRef ir, const char *filename)
     message_enqueue(d, m);
     d->save_orders = o;
   }
-  wb_robot_flush_unlocked();
-  robot_mutex_unlock_step();
+  wb_robot_flush_unlocked(__FUNCTION__);
+  robot_mutex_unlock();
 }
 
 void wb_display_image_delete(WbDeviceTag tag, WbImageRef ir) {
@@ -870,7 +870,7 @@ void wb_display_image_delete(WbDeviceTag tag, WbImageRef ir) {
   }
   DisplayMessage *m = (DisplayMessage *)malloc(sizeof(DisplayMessage));
   DisplayImageMessage *i = (DisplayImageMessage *)malloc(sizeof(DisplayImageMessage));
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   Display *d = wb_display_get_struct(tag);
   if (!d) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
@@ -883,5 +883,5 @@ void wb_display_image_delete(WbDeviceTag tag, WbImageRef ir) {
     message_enqueue(d, m);
   }
   free(ir);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }

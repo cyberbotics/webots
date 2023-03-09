@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,12 +21,11 @@
 RosPositionSensor::RosPositionSensor(PositionSensor *positionSensor, Ros *ros) :
   RosSensor(positionSensor->getName(), positionSensor, ros) {
   mPositionSensor = positionSensor;
-  mTypeServer = RosDevice::rosAdvertiseService(ros->name() + '/' + RosDevice::fixedDeviceName() + "/get_type",
-                                               &RosPositionSensor::getTypeCallback);
-  mGetBrakeNameServer = RosDevice::rosAdvertiseService(ros->name() + '/' + RosDevice::fixedDeviceName() + "/get_brake_name",
-                                                       &RosPositionSensor::getBrakeNameCallback);
-  mGetMotorNameServer = RosDevice::rosAdvertiseService(ros->name() + '/' + RosDevice::fixedDeviceName() + "/get_motor_name",
-                                                       &RosPositionSensor::getMotorNameCallback);
+  mTypeServer = RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + "/get_type", &RosPositionSensor::getTypeCallback);
+  mGetBrakeNameServer =
+    RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + "/get_brake_name", &RosPositionSensor::getBrakeNameCallback);
+  mGetMotorNameServer =
+    RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + "/get_motor_name", &RosPositionSensor::getMotorNameCallback);
 }
 
 RosPositionSensor::~RosPositionSensor() {
@@ -37,7 +36,7 @@ RosPositionSensor::~RosPositionSensor() {
 // creates a publisher for position sensor value with a {double} as message type
 ros::Publisher RosPositionSensor::createPublisher() {
   webots_ros::Float64Stamped type;
-  std::string topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/value";
+  std::string topicName = RosDevice::fixedDeviceName() + "/value";
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 
@@ -45,7 +44,7 @@ ros::Publisher RosPositionSensor::createPublisher() {
 void RosPositionSensor::publishValue(ros::Publisher publisher) {
   webots_ros::Float64Stamped value;
   value.header.stamp = ros::Time::now();
-  value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+  value.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
   value.data = mPositionSensor->getValue();
   publisher.publish(value);
 }

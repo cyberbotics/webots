@@ -14,8 +14,8 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 Khr2hv {
-  SFVec3f    translation     0 0.215 0
-  SFRotation rotation        1 0 0 -1.5708
+  SFVec3f    translation     0 0 0.215
+  SFRotation rotation        0 0 1 0
   SFString   name            "KHR-2HV"
   SFString   controller      "khr-2hv_demo"
   MFString   controllerArgs  []

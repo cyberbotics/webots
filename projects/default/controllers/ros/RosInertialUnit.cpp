@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,8 +19,7 @@
 RosInertialUnit::RosInertialUnit(InertialUnit *inertialUnit, Ros *ros) : RosSensor(inertialUnit->getName(), inertialUnit, ros) {
   mInertialUnit = inertialUnit;
 
-  mNoiseServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_noise",
-                                                &RosInertialUnit::getNoise);
+  mNoiseServer = RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + '/' + "get_noise", &RosInertialUnit::getNoise);
 }
 
 RosInertialUnit::~RosInertialUnit() {
@@ -30,7 +29,7 @@ RosInertialUnit::~RosInertialUnit() {
 // creates a publisher for InertialUnit values with a sensor_msgs/Imu as message type
 ros::Publisher RosInertialUnit::createPublisher() {
   sensor_msgs::Imu type;
-  std::string topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/quaternion";
+  std::string topicName = RosDevice::fixedDeviceName() + "/quaternion";
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 
@@ -38,7 +37,7 @@ ros::Publisher RosInertialUnit::createPublisher() {
 void RosInertialUnit::publishValue(ros::Publisher publisher) {
   sensor_msgs::Imu value;
   value.header.stamp = ros::Time::now();
-  value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+  value.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
 
   // switch roll and pitch axes because the Webots and ROS coordinate systems are not equivalent
   // https://stackoverflow.com/questions/56074321/quaternion-calculation-in-rosinertialunit-cpp-of-webots-ros-default-controller?answertab=oldest#tab-top

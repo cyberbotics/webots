@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -86,12 +86,12 @@ void WbAppearance::postFinalize() {
 void WbAppearance::reset(const QString &id) {
   WbAbstractAppearance::reset(id);
 
-  WbNode *const material = mMaterial->value();
-  if (material)
-    material->reset(id);
-  WbNode *const texture = mTexture->value();
-  if (texture)
-    texture->reset(id);
+  WbNode *const m = mMaterial->value();
+  if (m)
+    m->reset(id);
+  WbNode *const t = mTexture->value();
+  if (t)
+    t->reset(id);
 }
 
 void WbAppearance::updateMaterial() {

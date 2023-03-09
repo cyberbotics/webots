@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -56,11 +56,13 @@ private:
     SOUND,
     TEXTURE_URL,
     HDR_TEXTURE_URL,
-    MESH_URL
+    MESH_URL,
+    CAD_URL,
+    SKIN_URL
   };
   StringType mStringType;
 
-  bool isWorldInfoPluginType(StringType type);
+  bool isWorldInfoPluginType(StringType type) const;
 
   // optional buttons below the string field
   QPushButton *mSelectButton, *mEditButton;
@@ -79,8 +81,6 @@ private:
   void updateWidgets();
 
   void selectFile(const QString &folder, const QString &title, const QString &types);
-  QString makeAbsoluteTexturePath(const QString &fileName) const;
-  QString makeRelativeTexturePath(const QString &fileName) const;
 
   // selection of a solid reference / a fluid name / a reference area
   bool selectItem();

@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,8 +19,8 @@ RosAccelerometer::RosAccelerometer(Accelerometer *accelerometer, Ros *ros) :
   RosSensor(accelerometer->getName(), accelerometer, ros) {
   mAccelerometer = accelerometer;
 
-  mLookupTableServer = RosDevice::rosAdvertiseService(
-    (ros->name()) + '/' + RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosAccelerometer::getLookupTable);
+  mLookupTableServer =
+    RosDevice::rosAdvertiseService(RosDevice::fixedDeviceName() + '/' + "get_lookup_table", &RosAccelerometer::getLookupTable);
 }
 
 RosAccelerometer::~RosAccelerometer() {
@@ -31,7 +31,7 @@ RosAccelerometer::~RosAccelerometer() {
 // creates a publisher for accelerometer values with a sensor_msgs/Imu as message type
 ros::Publisher RosAccelerometer::createPublisher() {
   sensor_msgs::Imu type;
-  std::string topicName = mRos->name() + '/' + RosDevice::fixedDeviceName() + "/values";
+  std::string topicName = RosDevice::fixedDeviceName() + "/values";
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 
@@ -39,7 +39,7 @@ ros::Publisher RosAccelerometer::createPublisher() {
 void RosAccelerometer::publishValue(ros::Publisher publisher) {
   sensor_msgs::Imu value;
   value.header.stamp = ros::Time::now();
-  value.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+  value.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
   value.orientation.x = 0.0;
   value.orientation.y = 0.0;
   value.orientation.z = 0.0;

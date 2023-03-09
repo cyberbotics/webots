@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,7 @@
 // Description: a class for highlighting the syntax of text documents
 //
 
+#include <QtCore/QRegularExpression>
 #include <QtGui/QSyntaxHighlighter>
 #include <QtGui/QTextCharFormat>
 
@@ -42,14 +43,14 @@ public:
   };
 
 public slots:
-  void setSearchTextRule(QRegExp regExp);
+  void setSearchTextRule(const QRegularExpression &regularExpression);
 
 protected:
   explicit WbSyntaxHighlighter(QTextDocument *parent);
   void highlightSearchText(const QString &text, int offset = 0);
   void highlightBlock(const QString &text) override;
 
-  QRegExp mSearchTextRule;
+  QRegularExpression mSearchTextRule;
   QTextCharFormat mSearchTextFormat;
 };
 
@@ -60,7 +61,7 @@ public:
 
 protected:
   struct HighlightingRule {
-    QRegExp pattern;
+    QRegularExpression pattern;
     QTextCharFormat format;
   };
 
@@ -79,22 +80,22 @@ protected:
   QTextCharFormat mCommentFormat;
   QTextCharFormat mQuotationFormat;
   QTextCharFormat mNumberFormat;
-  QRegExp mSingleCommentExpression;
+  QRegularExpression mSingleCommentExpression;
   int mSingleCommentRuleIndex;
 };
 
 // a highlighter specialized for languages with multiple line comments (/**/), e.g. C, C++ and Java
 class WbMultiLineCommentHighlighter : public WbLanguageHighlighter {
 public:
-  WbMultiLineCommentHighlighter(const WbLanguage *language, const QRegExp &commentStartExpression,
-                                const QRegExp &commentEndExpression, QTextDocument *parent);
+  WbMultiLineCommentHighlighter(const WbLanguage *language, const QRegularExpression &commentStartExpression,
+                                const QRegularExpression &commentEndExpression, QTextDocument *parent);
 
 protected:
   void highlightBlock(const QString &text) override;
   void highlightBlockSection(const QString &text, int offset);
 
-  QRegExp mCommentStartExpression;
-  QRegExp mCommentEndExpression;
+  QRegularExpression mCommentStartExpression;
+  QRegularExpression mCommentEndExpression;
   int mCommentStartDelimiterLength;
 };
 

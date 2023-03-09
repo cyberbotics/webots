@@ -14,8 +14,9 @@ InertialUnit {
 
 ### Description
 
-The [InertialUnit](#inertialunit) node simulates an *Inertial Measurement Unit* (IMU).
-The [InertialUnit](#inertialunit) computes and returns its *roll*, *pitch* and *yaw* angles with respect to a global coordinate system defined in the [WorldInfo](worldinfo.md) node.
+The [InertialUnit](#inertialunit) computes and returns its attitude (*roll*, *pitch* and *yaw* angles) with respect to a global coordinate system defined in the [WorldInfo](worldinfo.md) node.
+Note that the returned values correspond to the ground truth attitude of the device.
+No sensor fusion or complex calculations are performed in the background to obtain the output values.
 If you would like to measure an acceleration or an angular velocity, please use the [Accelerometer](accelerometer.md) or [Gyro](gyro.md) node instead.
 The *roll*, *pitch*, and *yaw* angles for ENU and NUE coordinate systems (the `coordinateSystem` field in the [WorldInfo](worldinfo.md) node) are depicted in the picture below.
 For the NUE coordinate system, convention is commonly referred to as the *x-z-y* extrinsic sequence; it corresponds to the composition of elemental rotations denoted by YZX.
@@ -35,7 +36,7 @@ The default is that all three axes are enabled (TRUE).
 
 %figure "Roll, pitch and yaw angles in Webots' Inertial Unit"
 
-![enu_nue.png](images/enu_nue.png)
+![enu_nue.png](images/enu_nue.thumbnail.jpg)
 
 %end
 

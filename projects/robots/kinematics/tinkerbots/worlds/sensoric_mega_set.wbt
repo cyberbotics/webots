@@ -1,11 +1,27 @@
-#VRML_SIM R2021b utf8
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Parquetry.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsBase.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsPivot.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsTwister.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsGrabber.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsFinger.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsDistanceSensor.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsLightSensor.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsCube.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsMotor.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsAxle.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsWheel.proto"
+EXTERNPROTO "webots://projects/robots/kinematics/tinkerbots/protos/TinkerbotsCubieTriangle.proto"
+
 WorldInfo {
   basicTimeStep 8
-  coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.9432722510932788 0.30510867828254074 0.13094332649699805 0.804787368223842
-  position 0.15298177541257071 0.5987375421277202 0.592078258445636
+  orientation -0.35627793228587784 0.06130358444971746 0.9323668299010405 2.823444965329219
+  position 0.5778900473187916 -0.17429044847914144 0.6085346779903718
   near 0.001
   exposure 2
   follow "the beast"
@@ -33,8 +49,8 @@ DEF GROUND Solid {
   boundingObject USE FLOOR
 }
 TinkerbotsBase {
-  translation 0 0.06 0
-  rotation 0 -1 0 2.63
+  translation 0 0 0.06
+  rotation 0 1 0 -1.5708
   name "the beast"
   upSlot TinkerbotsPivot {
     name "t1"

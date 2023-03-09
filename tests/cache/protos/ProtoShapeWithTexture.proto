@@ -1,0 +1,13 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://projects/objects/shapes/protos/TexturedBoxShape.proto"
+
+PROTO ProtoShapeWithTexture
+[
+  field MFString url []
+]
+{
+  TexturedBoxShape {
+    textureUrl IS url
+  }
+}

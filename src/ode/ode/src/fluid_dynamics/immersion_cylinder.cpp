@@ -116,9 +116,9 @@ void dGeomCylinderGetDiskPlane (dGeomID g, int diskSign, dVector4 plane)
    const dxCylinder *const c = (dxCylinder*) g;
    const dReal *const center = c->final_posr->pos;
    const dReal *const R = c->final_posr->R;
-   plane[0] =  -diskSign * R[2];
-   plane[1] =  -diskSign * R[6];
-   plane[2] =  -diskSign * R[10];
+   plane[0] =  diskSign * R[2];
+   plane[1] =  diskSign * R[6];
+   plane[2] =  diskSign * R[10];
    plane[3] = dCalcVectorDot3(plane, center) + 0.5 * diskSign * c->lz;
  }
 

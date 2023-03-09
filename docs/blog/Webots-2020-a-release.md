@@ -79,7 +79,7 @@ We are always collecting feedbacks form users, and in particular recently we rec
 
 So for this release we extended the [Supervisor API](../reference/supervisor.md) features to be able to:
   - Add a [force](../reference/supervisor.md#wb_supervisor_node_add_force) or a [torque](../reference/supervisor.md#wb_supervisor_node_add_torque) to a [Solid](../reference/solid.md) node.
-  - [Import](../reference/supervisor.md#wb_supervisor_field_import_sf_node) and [remove](../reference/supervisor.md#wb_supervisor_field_remove_sf) nodes in SFNode fields.
+  - Import and [remove](../reference/supervisor.md#wb_supervisor_field_remove_sf) nodes in SFNode fields.
   - [Reset](../reference/supervisor.md#wb_supervisor_simulation_reset) the simulation without restarting the robot controllers.
 
 ---
@@ -137,7 +137,6 @@ Webots R2020a contains a new complete apartment environment: check it [here](../
 On Linux, you can now also program your controllers with Python 3.8.
 
 Finally, after one year of open-source, we removed the license system and turned also the old Webots versions prior to R2019a free.
-Please check the [documentation](../guide/general-faq.md#can-i-still-use-a-webots-version-before-the-r2019a-release) for further details.
 Just note that old versions are no longer maintained.
 
 

@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -37,8 +37,12 @@ const double *GPS::getValues() const {
   return wb_gps_get_values(getTag());
 }
 
-const double GPS::getSpeed() const {
+double GPS::getSpeed() const {
   return wb_gps_get_speed(getTag());
+}
+
+const double *GPS::getSpeedVector() const {
+  return wb_gps_get_speed_vector(getTag());
 }
 
 const GPS::CoordinateSystem GPS::getCoordinateSystem() const {
@@ -48,6 +52,6 @@ const GPS::CoordinateSystem GPS::getCoordinateSystem() const {
 string GPS::convertToDegreesMinutesSeconds(double decimalDegree) {
   const char *coordinatesString = wb_gps_convert_to_degrees_minutes_seconds(decimalDegree);
   std::string coordinates = string(coordinatesString);
-  free((void *)coordinatesString);
+  free(static_cast<void *>(const_cast<char *>(coordinatesString)));
   return coordinates;
 }

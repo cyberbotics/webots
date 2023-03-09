@@ -28,7 +28,7 @@ The model has the following specifications:
 ```
 PROTO SharpGP2D120 {
   SFVec3f     translation  0 0 0
-  SFRotation  rotation     0 1 0 0
+  SFRotation  rotation     0 0 1 0
   SFString    name         "Sharp's IR sensor GP2D120"
   SFString    model        "GP2D120"
 }
@@ -64,7 +64,7 @@ The model has the following specifications:
 ```
 PROTO SharpGP2Y0A02YK0F {
   SFVec3f     translation  0 0 0
-  SFRotation  rotation     0 1 0 0
+  SFRotation  rotation     0 0 1 0
   SFString    name         "Sharp's IR sensor GP2Y0A02YK0F"
 }
 ```
@@ -99,7 +99,7 @@ The model has the following specifications:
 ```
 PROTO SharpGP2Y0A41SK0F {
   SFVec3f     translation  0 0 0
-  SFRotation  rotation     0 1 0 0
+  SFRotation  rotation     0 0 1 0
   SFString    name         "Sharp's IR sensor GP2Y0A41SK0F"
 }
 ```
@@ -135,7 +135,7 @@ The model has the following specifications:
 ```
 PROTO SharpGP2Y0A710K0F {
   SFVec3f     translation  0 0 0
-  SFRotation  rotation     0 1 0 0
+  SFRotation  rotation     0 0 1 0
   SFString    name         "Sharp's IR sensor GP2Y0A710K0F"
 }
 ```

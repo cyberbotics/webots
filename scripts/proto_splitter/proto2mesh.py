@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -90,12 +90,13 @@ class Mesh:
         else:
             self.texCoord = []
         if normal is not None:
-            if normalIndex is None:
-                raise Exception("ERROR: normal exist in mesh, but no normalIndex! Mesh name: ", name)
             self.type += 'n'
             self.normal = np.array(normal.replace(',', '').split(), dtype=float).reshape(-1, 3).tolist()
-            faces = normalIndex.replace(',', '').split('-1')
-            self.normalIndex = self.faces_to_coordIndex(faces)
+            if normalIndex is None:
+                self.normalIndex = copy.deepcopy(self.coordIndex)
+            else:
+                faces = normalIndex.replace(',', '').split('-1')
+                self.normalIndex = self.faces_to_coordIndex(faces)
             if len(self.normalIndex[-1]) == 0:
                 self.normalIndex.pop()
             if len(self.normalIndex) != self.n_faces:
@@ -238,7 +239,7 @@ class Mesh:
             file.write('v {} {} {}\n'.format(vertex[0], vertex[1], vertex[2]))
         # texture coordinates
         for vt in self.texCoord:
-            file.write('vt {} {}\n'.format(vt[0], round(1 - vt[1], 5)))
+            file.write('vt {} {}\n'.format(vt[0], vt[1]))
         # normal coordinates
         for vn in self.normal:
             file.write('vn {} {} {}\n'.format(vn[0], vn[1], vn[2]))
@@ -354,14 +355,14 @@ class proto2mesh:
                     # If the mesh has no name, we use a generic 'Mesh' name.
                     # This can occur, when the parent Solid has no name.
                     for k, v in meshes.items():
-                        if v.name is None:
+                        if v.name is None or '%<=' in v.name:
                             v.name = 'Mesh' + str(counter)
                             counter += 1
                     for mesh in meshes.values():
                         nc = str(len(mesh.coordIndex))
                         mesh.verbose = verbose
                         if verbose:
-                            print('  Processing mesh ' + mesh.name + '(' + str(count) +
+                            print('  Processing mesh ' + mesh.name + ' (' + str(count) +
                                   '/' + str(total) + ') n-verticies: ', nc, flush=True)
                         count += 1
                         if not self.disableMeshOptimization:
@@ -395,7 +396,7 @@ class proto2mesh:
                     defString = 'DEF ' + ln[ln.index('DEF') + 1] + ' '
                     name = ln[ln.index('DEF') + 1]
                 elif parentDefName is not None:
-                    name = parentDefName.split('_')[1]
+                    name = parentDefName[parentDefName.index('_') + 1:]
                 self.shapeLevel = 1
                 meshID += 1
                 while self.shapeLevel > 0:
@@ -493,11 +494,11 @@ class proto2mesh:
         try:
             self.f.close()
             os.remove(outFile)
-        except:
+        except OSError:
             pass
         try:
             os.remove(outFile + '_temp')
-        except:
+        except OSError:
             pass
         meshFolder = outFile.replace('.proto', '')
         if os.path.isdir(meshFolder):

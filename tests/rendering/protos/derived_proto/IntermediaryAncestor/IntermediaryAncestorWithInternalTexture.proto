@@ -1,0 +1,25 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "./LowestAncestor/SolidAncestor.proto"
+
+PROTO IntermediaryAncestorWithInternalTexture [
+  field SFVec3f  translation 0 0 0
+  field SFString name        ""
+]
+{
+  SolidAncestor {
+    translation IS translation
+    name IS name
+    children [
+      Shape {
+        appearance PBRAppearance {
+          baseColorMap ImageTexture {
+            url "../../../colors/orange_texture.jpg"
+          }
+        }
+        geometry Box {
+        }
+      }
+    ]
+  }
+}

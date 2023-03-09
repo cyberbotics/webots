@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,6 +23,7 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDir>
 #include <QtCore/QMap>
+#include <QtCore/QRegularExpression>
 #include <QtCore/QTextStream>
 
 QMap<QString, WbNodeModel *> WbNodeModel::cModels;
@@ -71,8 +72,8 @@ WbNodeModel *WbNodeModel::readModel(const QString &fileName) {
 void WbNodeModel::readAllModels() {
   QString path = WbStandardPaths::resourcesPath() + "nodes/";
   QStringList list = QDir(path, "*.wrl").entryList();
-  foreach (QString name, list) {
-    WbNodeModel *model = readModel(path + name);
+  foreach (QString modelName, list) {
+    WbNodeModel *model = readModel(path + modelName);
     if (model)
       cModels.insert(model->name(), model);
   }
@@ -132,7 +133,7 @@ bool WbNodeModel::fuzzyParseNode(const QString &fileName, QString &nodeInfo) {
   while (!stream.atEnd()) {
     line = stream.readLine();
     if (line.startsWith("#")) {
-      if (line.contains(QRegExp("#\\s*VRML(_...|) V(\\d+).(\\d+)")))
+      if (line.contains(QRegularExpression("#\\s*VRML(_...|) V(\\d+).(\\d+)")))
         continue;
       line = line.mid(1).trimmed();  // clean line
       if (!line.isEmpty())
@@ -145,4 +146,11 @@ bool WbNodeModel::fuzzyParseNode(const QString &fileName, QString &nodeInfo) {
 
   input.close();
   return true;
+}
+
+QStringList WbNodeModel::fieldNames() {
+  QStringList names;
+  foreach (WbFieldModel *fieldModel, mFieldModels)
+    names.append(fieldModel->name());
+  return names;
 }

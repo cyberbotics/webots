@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,8 +18,6 @@
 #include <QtCore/QList>
 #include "WbSimulationWorld.hpp"  // TODO: should we rename WbSimulationWorld to WbSimulatedWorld ?
 
-class QLocalServer;
-class QLocalSocket;
 class WbController;
 
 class WbControlledWorld : public WbSimulationWorld {
@@ -30,21 +28,21 @@ public:
   static WbControlledWorld *instance();
 
   // constructors and destructor
-  WbControlledWorld(WbProtoList *protos = NULL, WbTokenizer *tokenizer = NULL);
+  explicit WbControlledWorld(WbTokenizer *tokenizer = NULL);
   virtual ~WbControlledWorld();
 
-  void startControllers();
   void startController(WbRobot *robot);
-
+  void externConnection(WbController *controller, bool connect);
   QStringList activeControllersNames() const;
   bool needToWait(bool *waitForExternControllerStart = NULL);
-  void writePendingImmediateAnswer();
   bool isExecutingStep() const { return mIsExecutingStep; }
   void checkIfReadRequestCompleted();
-
   void reset(bool restartControllers) override;
 
   void step() override;
+
+  QList<WbController *> controllers() const { return mControllers; }
+  QList<WbController *> disconnectedExternControllers() const { return mDisconnectedExternControllers; }
 
 public slots:
   void deleteController(WbController *controller);
@@ -57,16 +55,19 @@ protected:
   void setUpControllerForNewRobot(WbRobot *robot) override;
 
 private:
-  void startControllerFromSocket(WbRobot *robot, QLocalSocket *socket);
   void updateRobotController(WbRobot *robot);
-  void handleRobotRemoval(WbBaseNode *node);
 
-  QLocalServer *mServer;
-  QList<WbController *> mControllers;
+#ifndef NDEBUG  // debug methods
+  bool controllerInOnlyOneList(WbController *controller) const;
+  bool controllerInNoList(WbController *controller) const;
+  bool showControllersLists(const QString &message) const;
+#endif
+
+  QList<WbController *> mControllers;         // currently running controllers (both intern and extern)
   QList<WbController *> mWaitingControllers;  // controllers inserted in previous step and waiting to be started in current step
-  QList<WbController *> mNewControllers;      // controllers inserted in current step mode and waiting next step to start
-  QList<WbController *> mTerminatingControllers;    // controllers waiting to be deleted
-  QList<WbRobot *> mRobotsWaitingExternController;  // robots with extern controller not started
+  QList<WbController *> mNewControllers;      // controllers inserted in current step and waiting next step to start
+  QList<WbController *> mTerminatingControllers;         // controllers waiting to be deleted
+  QList<WbController *> mDisconnectedExternControllers;  // extern controllers started but unconnected
   QList<double> mRequests;
   bool mNeedToYield;
   bool mFirstStep;
@@ -81,7 +82,6 @@ private:
   bool mHasWaitingStep;   // flag indicating if a new step execution has been requested
 
 private slots:
-  void addControllerConnection();
   void updateCurrentRobotController();
   void waitForRobotWindowIfNeededAndCompleteStep();
 };

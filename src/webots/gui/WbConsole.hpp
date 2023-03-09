@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,10 +23,10 @@
 #include "WbDockWidget.hpp"
 #include "WbLog.hpp"
 
+#include <QtCore/QRegularExpression>
 #include <QtWidgets/QPlainTextEdit>
 
 class QAction;
-class QRegExp;
 class WbFindReplaceDialog;
 class WbTextFind;
 class WbSyntaxHighlighter;
@@ -47,7 +47,7 @@ signals:
   void levelDisabled(const QString &level);
 
 public slots:
-  void updateSearchTextHighlighting(QRegExp regExp);
+  void updateSearchTextHighlighting(QRegularExpression regularExpression);
 
 protected:
   void keyPressEvent(QKeyEvent *event) override;
@@ -64,7 +64,7 @@ private:
 
 private slots:
   void showCustomContextMenu(const QPoint &pt);
-  void resetSearchTextHighlighting() { updateSearchTextHighlighting(QRegExp()); }
+  void resetSearchTextHighlighting() { updateSearchTextHighlighting(QRegularExpression()); }
   void handleFilterChange();
   void handleLevelChange();
 };
@@ -91,10 +91,6 @@ public:
 
   // parse compilation error line
   void jumpToError(const QString &errorLine);
-
-  // enable redirecting messages to the terminal
-  static void enableStdOutRedirectToTerminal();
-  static void enableStdErrRedirectToTerminal();
 
   const QString &errorColor() const { return mErrorColor; }
   const QString &infoColor() const { return mInfoColor; }
@@ -148,7 +144,7 @@ private:
   QString mAnsiBlack, mAnsiRed, mAnsiGreen, mAnsiYellow, mAnsiBlue, mAnsiMagenta, mAnsiCyan, mAnsiWhite;
   QStringList mEnabledFilters, mEnabledLevels;
   ConsoleEdit *mEditor;
-  QRegExp **mErrorPatterns;
+  QRegularExpression **mErrorPatterns;
   QString mForegroundColor;
   QString mBackgroundColor;
   QString mConsoleName;
@@ -160,7 +156,7 @@ private:
   QString htmlSpan(const QString &s, WbLog::Level level) const;
   void handleCRAndLF(const QString &msg);
   void handlePossibleAnsiEscapeSequences(const QString &msg, WbLog::Level);
-  QRegExp **createErrorMatchingPatterns() const;
+  QRegularExpression **createErrorMatchingPatterns() const;
   void updateTitle();
 
   void openFindDialog();

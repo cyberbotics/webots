@@ -13,7 +13,8 @@ layout(location = 1) out vec4 fragNormal;
 
 uniform sampler2D inputTextures[13];
 uniform samplerCube cubeTextures[1];
-uniform int wireframeRendering;
+uniform bool wireframeRendering;
+uniform bool reverseNormals;
 
 // Material parameters for this renderable
 layout(std140) uniform PbrMaterial {
@@ -102,7 +103,7 @@ vec3 getIBLContribution(IBLInfo iblInputs, vec3 n, vec3 reflection) {
 }
 
 void main() {
-  vec3 viewFragmentNormal = normalize(fragmentNormal);
+  vec3 viewFragmentNormal = normalize(reverseNormals ? -fragmentNormal : fragmentNormal);
   fragNormal = vec4(normalize(viewFragmentNormal), 1.0) * 0.5 + 0.5;
 
   // sample from normal map if one exists
@@ -175,12 +176,12 @@ void main() {
     color = mix(color, color * ao, material.roughnessMetalnessNormalMapFactorOcclusion.w);
   }
 
-  vec3 emissive = (wireframeRendering != 0) ? material.baseColorAndTransparency.rgb : material.emissiveColorAndIntensity.rgb;
+  vec3 emissive = wireframeRendering ? material.baseColorAndTransparency.rgb : material.emissiveColorAndIntensity.rgb;
 
   if (material.normalBrdfEmissiveBackgroundFlags.z > 0.0)
     emissive = texture(inputTextures[6], texUv).rgb;
 
-  if (wireframeRendering != 0)
+  if (wireframeRendering)
     emissive *= material.emissiveColorAndIntensity.w;
   color += emissive;
 

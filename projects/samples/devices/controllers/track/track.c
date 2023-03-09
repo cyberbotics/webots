@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,7 +19,7 @@
  *                tracked robot.
  *
  *                The Coulomb friction value set in the WorldInfo contactProperties
- *                has a big influence on the behvaviour of the robot and especially
+ *                has a big influence on the behavior of the robot and especially
  *                on the turning motion.
  */
 
@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(leftMotor, 0.1);
   wb_motor_set_velocity(rightMotor, 0.1);
 
-  int i = 700;
+  int i = 1400;
   while (wb_robot_step(timeStep) != -1 && i > 0) {
     --i;
   };
@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(leftMotor, -0.1);
   wb_motor_set_velocity(rightMotor, 0.1);
 
-  i = 500;
+  i = 1000;
   while (wb_robot_step(timeStep) != -1 && i > 0) {
     --i;
   };

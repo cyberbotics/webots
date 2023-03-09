@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,7 +15,7 @@
  */
 
 /*
- * Description:  An example of controller using a radar device.
+ * Description: An example of controller using a radar device.
  */
 
 #include <stdio.h>
@@ -39,6 +39,8 @@ int main() {
   /* get a handler to the distance sensors. */
   ds0 = wb_robot_get_device("ds0");
   ds1 = wb_robot_get_device("ds1");
+  wb_distance_sensor_enable(ds0, TIME_STEP);
+  wb_distance_sensor_enable(ds1, TIME_STEP);
 
   /* get the radar if this robot has one. */
   for (i = 0; i < wb_robot_get_number_of_devices(); ++i) {
@@ -49,9 +51,6 @@ int main() {
       break;
     }
   }
-
-  wb_distance_sensor_enable(ds0, TIME_STEP);
-  wb_distance_sensor_enable(ds1, TIME_STEP);
 
   /* get a handler to the motors and set target position to infinity (speed control). */
   left_motor = wb_robot_get_device("left wheel motor");

@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -71,11 +71,11 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
   // The WbTransform case must come before the WbGroup case
   const WbTransform *const transform = dynamic_cast<WbTransform *>(node);
   if (transform) {
-    WbGeometry *geometry = transform->geometry();
+    WbGeometry *g = transform->geometry();
 
     // Computes the total mass
-    if (geometry && geometry->odeGeom())
-      addMass(&m, geometry, density, warning);
+    if (g && g->odeGeom())
+      addMass(&m, g, density, warning);
     else
       // invalid geometry
       return;
@@ -92,7 +92,7 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
     dMassTranslate(&m, t.x(), t.y(), t.z());
     dMassAdd(mass, &m);
 
-    geometry->setOdeMass(&m);
+    g->setOdeMass(&m);
     return;
   }
 
@@ -135,7 +135,7 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
         cylinder->parsingWarn(QObject::tr("Use a positive radius and a positive height to allow proper mass settings") +
                               defaultValues);
     } else
-      dMassSetCylinder(&m, density, 2, radius, height);  // 2 -> y-axis
+      dMassSetCylinder(&m, density, 3, radius, height);  // 3 -> z-axis
     dMassAdd(mass, &m);
     cylinder->setOdeMass(&m);
     return;
@@ -151,7 +151,7 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
         capsule->parsingWarn(QObject::tr("Use a positive radius and a positive height to allow proper mass settings") +
                              defaultValues);
     } else
-      dMassSetCapsule(&m, density, 2, radius, height);  // 2 -> y-axis
+      dMassSetCapsule(&m, density, 3, radius, height);  // 3 -> z-axis
     dMassAdd(mass, &m);
     capsule->setOdeMass(&m);
     return;
@@ -234,9 +234,9 @@ bool WbSolidUtilities::checkBoundingObject(WbNode *const node) {
       return false;
     }
 
-    const WbGeometry *const geometry = dynamic_cast<WbGeometry *>(child);
+    const WbGeometry *const g = dynamic_cast<WbGeometry *>(child);
     // cppcheck-suppress knownConditionTrueFalse
-    if (geometry)
+    if (g)
       return true;
 
     const WbShape *const shape = dynamic_cast<WbShape *>(child);

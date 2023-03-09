@@ -1,0 +1,150 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
+EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
+EXTERNPROTO "../protos/derived_proto/UpperProtoLowerScope.proto"
+EXTERNPROTO "../protos/derived_proto/UpperProtoMiddleScope.proto"
+EXTERNPROTO "../protos/derived_proto/UpperProtoUpperScope.proto"
+EXTERNPROTO "../protos/derived_proto/UpperProtoWorldScope.proto"
+EXTERNPROTO "../protos/derived_proto/TextureInternalTopmostAncestor.proto"
+EXTERNPROTO "../protos/derived_proto/TextureInternalIntermediaryAncestor.proto"
+EXTERNPROTO "../protos/derived_proto/TextureInternalLowestAncestor.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  position -25 -4 3
+}
+Background {
+  skyColor [
+    0.933333 0.933333 0.92549
+  ]
+}
+UpperProtoLowerScope {
+}
+UpperProtoMiddleScope {
+  translation 0 0 2
+}
+UpperProtoUpperScope {
+  translation 0 0 4
+}
+UpperProtoWorldScope {
+  translation 0 0 6
+  url_texture3 "../colors/yellow_texture.jpg"
+  url_mesh3 "../meshes/mesh_width_8m.obj"
+}
+TextureInternalTopmostAncestor{
+  translation 0 -10 0
+  name "topmost internal"
+}
+TextureInternalIntermediaryAncestor {
+  translation 0 -10 2
+  name "intermediary internal"
+}
+TextureInternalLowestAncestor{
+  translation 0 -10 4
+  name "lowest internal"
+}
+Robot {
+  translation -3 0 0
+  children [
+    Camera {
+      translation 0 0 0
+      name "camera0"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 0 2
+      name "camera1"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 0 4
+      name "camera2"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation 0 0 6
+      name "camera3"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation  0 -10 0
+      name "camera4"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation  0 -10 2
+      name "camera5"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    Camera {
+      translation  0 -10 4
+      name "camera6"
+      fieldOfView 0.1
+      width 32
+      height 32
+      far 2
+    }
+    DistanceSensor {
+      translation 3 -5 0
+      rotation 0 0 1 1.5708
+      name "sensor0"
+      lookupTable [
+        0 0 0
+        10 1000 0
+      ]
+    }
+    DistanceSensor {
+      translation 3 -5 2
+      rotation 0 0 1 1.5708
+      name "sensor1"
+      lookupTable [
+        0 0 0
+        10 1000 0
+      ]
+    }
+    DistanceSensor {
+      translation 3 -5 4
+      rotation 0 0 1 1.5708
+      name "sensor2"
+      lookupTable [
+        0 0 0
+        10 1000 0
+      ]
+    }
+    DistanceSensor {
+      translation 3 -5 6
+      rotation 0 0 1 1.5708
+      name "sensor3"
+      lookupTable [
+        0 0 0
+        10 1000 0
+      ]
+    }
+    TestSuiteEmitter {
+    }
+  ]
+  controller "derived_proto_relative_asset_resolution"
+  supervisor TRUE
+}
+TestSuiteSupervisor {
+}

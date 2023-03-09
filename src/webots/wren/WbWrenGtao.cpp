@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,7 +34,7 @@ WbWrenGtao::WbWrenGtao() :
   mFov(0.78f),
   mRadius(2.0),
   mHalfResolution(false),
-  mFlipNormalY(0.0f),
+  mFlipNormalY(false),
   mFrameCounter(0) {
   mClipInfo[0] = mClipInfo[1] = mClipInfo[2] = mClipInfo[3] = 0.0f;
   mParams[0] = mParams[1] = mParams[2] = mParams[3] = 0.0f;
@@ -146,7 +146,7 @@ void WbWrenGtao::setQualityLevel(int qualityLevel) {
   applyParametersToWren();
 }
 
-void WbWrenGtao::setFlipNormalY(float flip) {
+void WbWrenGtao::setFlipNormalY(bool flip) {
   mFlipNormalY = flip;
 
   applyParametersToWren();

@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,6 +23,7 @@
 #include "WbSimulationState.hpp"
 #include "WbTransform.hpp"
 #include "WbTranslateRotateManipulator.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 
 #include <wren/transform.h>
 
@@ -109,7 +110,7 @@ void WbAbstractTransform::updateTranslationAndRotation() {
     updateTranslateRotateHandlesSize();
 }
 
-bool WbAbstractTransform::checkScalePositivity(WbVector3 &correctedScale) const {
+bool WbAbstractTransform::checkScaleZeroValues(WbVector3 &correctedScale) const {
   const WbVector3 &s = mScale->value();
   const double x = s.x();
   const double y = s.y();
@@ -117,36 +118,21 @@ bool WbAbstractTransform::checkScalePositivity(WbVector3 &correctedScale) const 
   correctedScale.setXyz(x, y, z);
   bool b = false;
 
-  if (x <= 0.0) {
-    if (x == 0.0) {
-      correctedScale.setX(1.0);
-      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: x is set to 1.0."));
-    } else {
-      correctedScale.setX(fabs(x));
-      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: x is set to abs(x)."));
-    }
+  if (x == 0.0) {
+    correctedScale.setX(1.0);
+    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: x is set to 1.0."));
     b = true;
   }
 
-  if (y <= 0.0) {
-    if (y == 0.0) {
-      correctedScale.setY(1.0);
-      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: y is set to 1.0."));
-    } else {
-      correctedScale.setY(fabs(y));
-      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: y is set to abs(y)."));
-    }
+  if (y == 0.0) {
+    correctedScale.setY(1.0);
+    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: y is set to 1.0."));
     b = true;
   }
 
-  if (z <= 0.0) {
-    if (z == 0.0) {
-      correctedScale.setZ(1.0);
-      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: z is set to 1.0."));
-    } else {
-      correctedScale.setZ(fabs(z));
-      mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be positive: z is set to abs(z)."));
-    }
+  if (z == 0.0) {
+    correctedScale.setZ(1.0);
+    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: z is set to 1.0."));
     b = true;
   }
 
@@ -157,15 +143,15 @@ bool WbAbstractTransform::checkScalingPhysicsConstraints(WbVector3 &correctedSca
   bool b = false;
   if (constraintType == WbWrenAbstractResizeManipulator::UNIFORM)
     b = checkScaleUniformity(correctedScale);
-  else if (constraintType == WbWrenAbstractResizeManipulator::X_EQUAL_Z && mScale->x() != mScale->z()) {
+  else if (constraintType == WbWrenAbstractResizeManipulator::X_EQUAL_Y && mScale->x() != mScale->y()) {
     if (mPreviousXscaleValue == mScale->x())
-      correctedScale.setX(mScale->z());
+      correctedScale.setX(mScale->y());
     else
-      correctedScale.setZ(mScale->x());
+      correctedScale.setY(mScale->x());
     b = true;
     if (warning)
       mBaseNode->parsingWarn(
-        QObject::tr("'scale' were changed so that x = z because of physics constraints inside a 'boundingObject'."));
+        QObject::tr("'scale' were changed so that x = y because of physics constraints inside a 'boundingObject'."));
   }
 
   return b;
@@ -209,7 +195,7 @@ bool WbAbstractTransform::checkScale(int constraintType, bool warning) {
   WbVector3 correctedScale;
   bool b = false;
 
-  if (checkScalePositivity(correctedScale))
+  if (checkScaleZeroValues(correctedScale))
     b = true;
 
   if (constraintType > 0 && checkScalingPhysicsConstraints(correctedScale, constraintType, warning))
@@ -259,7 +245,7 @@ void WbAbstractTransform::updateScale(bool warning) {
 void WbAbstractTransform::updateTranslationFieldVisibility() const {
   if (mIsTranslationFieldVisibleReady)
     return;
-  mIsTranslationFieldVisible = WbNodeUtilities::isVisible(mBaseNode->findField("translation", true));
+  mIsTranslationFieldVisible = WbVrmlNodeUtilities::isVisible(mBaseNode->findField("translation", true));
   mCanBeTranslated =
     !WbNodeUtilities::isTemplateRegeneratorField(mBaseNode->findField("translation", true)) && mIsTranslationFieldVisible;
   mIsTranslationFieldVisibleReady = true;
@@ -268,7 +254,7 @@ void WbAbstractTransform::updateTranslationFieldVisibility() const {
 void WbAbstractTransform::updateRotationFieldVisibility() const {
   if (mIsRotationFieldVisibleReady)
     return;
-  mIsRotationFieldVisible = WbNodeUtilities::isVisible(mBaseNode->findField("rotation", true));
+  mIsRotationFieldVisible = WbVrmlNodeUtilities::isVisible(mBaseNode->findField("rotation", true));
   mCanBeRotated =
     !WbNodeUtilities::isTemplateRegeneratorField(mBaseNode->findField("rotation", true)) && mIsRotationFieldVisible;
   mIsRotationFieldVisibleReady = true;
@@ -333,29 +319,29 @@ void WbAbstractTransform::updateConstrainedHandleMaterials() {
 // Apply to WREN
 
 void WbAbstractTransform::applyTranslationToWren() {
-  float translation[3];
-  mTranslation->value().toFloatArray(translation);
-  wr_transform_set_position(mBaseNode->wrenNode(), translation);
+  float newTranslation[3];
+  mTranslation->value().toFloatArray(newTranslation);
+  wr_transform_set_position(mBaseNode->wrenNode(), newTranslation);
 }
 
 void WbAbstractTransform::applyRotationToWren() {
-  float rotation[4];
-  mRotation->value().toFloatArray(rotation);
-  wr_transform_set_orientation(mBaseNode->wrenNode(), rotation);
+  float newRotation[4];
+  mRotation->value().toFloatArray(newRotation);
+  wr_transform_set_orientation(mBaseNode->wrenNode(), newRotation);
 }
 
 void WbAbstractTransform::applyScaleToWren() {
-  float scale[3];
-  mScale->value().toFloatArray(scale);
-  wr_transform_set_scale(mBaseNode->wrenNode(), scale);
+  float newScale[3];
+  mScale->value().toFloatArray(newScale);
+  wr_transform_set_scale(mBaseNode->wrenNode(), newScale);
 }
 
 void WbAbstractTransform::applyTranslationAndRotationToWren() {  // for performance optimization
-  float translation[3];
-  mTranslation->value().toFloatArray(translation);
-  float rotation[4];
-  mRotation->value().toFloatArray(rotation);
-  wr_transform_set_position_and_orientation(mBaseNode->wrenNode(), translation, rotation);
+  float newTranslation[3];
+  mTranslation->value().toFloatArray(newTranslation);
+  float newRotation[4];
+  mRotation->value().toFloatArray(newRotation);
+  wr_transform_set_position_and_orientation(mBaseNode->wrenNode(), newTranslation, newRotation);
 }
 
 // Matrix 4-by-4
@@ -491,13 +477,17 @@ void WbAbstractTransform::showResizeManipulator(bool enabled) {
 
 void WbAbstractTransform::updateResizeHandlesSize() {
   if (mScaleManipulator) {
-    mScaleManipulator->updateHandleScale(matrix().scale().ptr());
+    mScaleManipulator->updateHandleScale(absoluteScale().ptr());
     mScaleManipulator->computeHandleScaleFromViewportSize();
   }
 }
 
 void WbAbstractTransform::setResizeManipulatorDimensions() {
   updateResizeHandlesSize();
+}
+
+bool WbAbstractTransform::isScaleManipulatorAttached() const {
+  return mScaleManipulator ? mScaleManipulator->isAttached() : false;
 }
 
 void WbAbstractTransform::attachResizeManipulator() {
@@ -516,7 +506,7 @@ void WbAbstractTransform::detachResizeManipulator() const {
 
 bool WbAbstractTransform::hasResizeManipulator() const {
   const WbField *const sf = mBaseNode->findField("scale", true);
-  return WbNodeUtilities::isVisible(sf) && !WbNodeUtilities::isTemplateRegeneratorField(sf);
+  return WbVrmlNodeUtilities::isVisible(sf) && !WbNodeUtilities::isTemplateRegeneratorField(sf);
 }
 
 void WbAbstractTransform::setUniformConstraintForResizeHandles(bool enabled) {
@@ -561,6 +551,6 @@ void WbAbstractTransform::updateTranslateRotateHandlesSize() {
 
   mTranslateRotateManipulator->updateHandleScale(absoluteScale().ptr());
 
-  if (mTranslateRotateManipulator && !WbNodeUtilities::isNodeOrAncestorLocked(mBaseNode))
+  if (!WbNodeUtilities::isNodeOrAncestorLocked(mBaseNode))
     mTranslateRotateManipulator->computeHandleScaleFromViewportSize();
 }

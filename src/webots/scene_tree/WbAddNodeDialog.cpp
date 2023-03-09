@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,28 +15,39 @@
 #include "WbAddNodeDialog.hpp"
 
 #include "WbBaseNode.hpp"
+#include "WbClipboard.hpp"
 #include "WbDesktopServices.hpp"
 #include "WbDictionary.hpp"
 #include "WbField.hpp"
+#include "WbFileUtil.hpp"
 #include "WbLog.hpp"
 #include "WbMFNode.hpp"
+#include "WbMessageBox.hpp"
+#include "WbNetwork.hpp"
 #include "WbNode.hpp"
 #include "WbNodeModel.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
-#include "WbProtoCachedInfo.hpp"
-#include "WbProtoList.hpp"
+#include "WbProjectRelocationDialog.hpp"
+#include "WbProtoIcon.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbSFNode.hpp"
+#include "WbSimulationState.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbUrl.hpp"
+#include "WbVrmlNodeUtilities.hpp"
+#include "WbWorld.hpp"
 
+#include <QtCore/QRegularExpression>
 #include <QtWidgets/QDialogButtonBox>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
+#include <QtWidgets/QMessageBox>
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTreeWidget>
@@ -44,7 +55,7 @@
 
 #include <cassert>
 
-enum { NEW = 10001, USE = 10002, PROTO_WEBOTS = 10003, PROTO_EXTRA = 10004, PROTO_PROJECT = 10005 };
+enum Category { NEW = 20001, USE = 20002 };
 
 WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index, QWidget *parent) :
   QDialog(parent),
@@ -54,15 +65,12 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   mUsesItem(NULL),
   mNewNodeType(UNKNOWN),
   mDefNodeIndex(-1),
-  mActionType(CREATE),
-  mIsFolderItemSelected(true),
-  mIsAddingLocalProtos(false),
-  mIsAddingExtraProtos(false) {
+  mRetrievalTriggered(false) {
   assert(mCurrentNode && mField);
 
   // check if top node is a robot node
   const WbNode *const topNode =
-    field ? WbNodeUtilities::findTopNode(mCurrentNode) : WbNodeUtilities::findTopNode(mCurrentNode->parentNode());
+    field ? WbVrmlNodeUtilities::findTopNode(mCurrentNode) : WbVrmlNodeUtilities::findTopNode(mCurrentNode->parentNode());
   mHasRobotTopNode = topNode ? WbNodeUtilities::isRobotTypeName(topNode->nodeModelName()) : false;
 
   setWindowTitle(tr("Add a node"));
@@ -141,46 +149,69 @@ WbAddNodeDialog::WbAddNodeDialog(WbNode *currentNode, WbField *field, int index,
   QDialogButtonBox *const buttonBox = new QDialogButtonBox(this);
   buttonBox->addButton(mAddButton, QDialogButtonBox::AcceptRole);
 
-  QPushButton *const importButton = new QPushButton(tr("Import..."), this);
-  importButton->setEnabled(mField->isMultiple());
-  importButton->setFocusPolicy(Qt::ClickFocus);
-  connect(importButton, &QPushButton::pressed, this, &WbAddNodeDialog::import);
-  buttonBox->addButton(importButton, QDialogButtonBox::AcceptRole);
   buttonBox->addButton(cancelButton, QDialogButtonBox::RejectRole);
   buttonBox->setFocusPolicy(Qt::ClickFocus);
 
+  QHBoxLayout *buttonLayout = new QHBoxLayout();
+  buttonLayout->addWidget(buttonBox);
+
+  if (WbSimulationState::instance()->hasStarted()) {
+    QPixmap pixmap("coreIcons:warning.png");
+    QLabel *pixmapLabel = new QLabel(this);
+    pixmapLabel->setPixmap(pixmap.scaledToHeight(20, Qt::SmoothTransformation));
+    pixmapLabel->setToolTip(tr("The simulation has run!"));
+    buttonLayout->addWidget(pixmapLabel);
+  }
+
   rightPaneLayout->addLayout(filterLayout);
   rightPaneLayout->addWidget(mNodeInfoGroupBox);
-  rightPaneLayout->addWidget(buttonBox);
+  rightPaneLayout->addLayout(buttonLayout);
 
   mainLayout->addWidget(mTree);
   mainLayout->addLayout(rightPaneLayout);
 
-  // populate the tree with suitable nodes
-  buildTree();
-
   setMinimumSize(800, 500);
 
   connect(mTree, &QTreeWidget::itemSelectionChanged, this, &WbAddNodeDialog::updateItemInfo);
+
+  // retrieve PROTO dependencies of all locally available PROTO prior to generating the dialog
+  connect(WbProtoManager::instance(), &WbProtoManager::dependenciesAvailable, this, &WbAddNodeDialog::buildTree);
+  WbProtoManager::instance()->retrieveLocalProtoDependencies();
 }
 
-WbAddNodeDialog::~WbAddNodeDialog() {
+void WbAddNodeDialog::setPixmap(const QString &pixmapPath) {
+  QPixmap pixmap(pixmapPath);
+  if (!pixmap.isNull()) {
+    if (pixmap.size() != QSize(128, 128)) {
+      WbLog::warning(tr("The \"%1\" icon should have a dimension of 128x128 pixels.").arg(pixmapPath));
+      pixmap = pixmap.scaled(128, 128);
+    }
+    mPixmapLabel->show();
+    mPixmapLabel->setPixmap(pixmap);
+  }
+}
+
+void WbAddNodeDialog::updateIcon(const QString &path) {
+  setPixmap(path.isEmpty() ? WbUrl::missingProtoIcon() : path);
+
+  WbProtoIcon *protoIcon = dynamic_cast<WbProtoIcon *>(sender());
+  assert(protoIcon);
+  protoIcon->deleteLater();
 }
 
 QString WbAddNodeDialog::modelName() const {
   QString modelName(mTree->selectedItems().at(0)->text(MODEL_NAME));
-  if (mNewNodeType == PROTO || mNewNodeType == USE) {
-    // return only proto/use name without model name
-    return modelName.split(QRegExp("\\W+"))[0];
-  }
+  if (mNewNodeType == PROTO || mNewNodeType == USE)
+    return modelName.split(QRegularExpression("\\W+"))[0];  // return only proto/use name without model name
+
   return modelName;
 }
 
-QString WbAddNodeDialog::protoFilePath() const {
+QString WbAddNodeDialog::protoUrl() const {
   if (mNewNodeType != PROTO)
     return QString();
 
-  return mTree->selectedItems().at(0)->text(FILE_NAME);
+  return WbUrl::resolveUrl(mTree->selectedItems().at(0)->text(FILE_NAME));
 }
 
 WbNode *WbAddNodeDialog::defNode() const {
@@ -204,27 +235,34 @@ void WbAddNodeDialog::updateItemInfo() {
   mDocumentationLabel->hide();
   if (selectedItem->childCount() > 0 || topLevel == selectedItem) {
     // a folder is selected
-    mIsFolderItemSelected = true;
     mPixmapLabel->hide();
 
     switch (topLevel->type()) {
-      case NEW:
+      case Category::NEW:
         mInfoText->setPlainText(tr("This folder lists all Webots base nodes that are suitable to insert at (or below) the "
                                    "currently selected Scene Tree line."));
         break;
-      case USE:
+      case Category::USE:
         mInfoText->setPlainText(
           tr("This folder lists all suitable node that were defined (using DEF) above the current line of the Scene Tree."));
         break;
-      case PROTO_EXTRA:
-        mInfoText->setPlainText(tr("This folder lists all suitable PROTO nodes from the extra projects located in: '%1'.")
-                                  .arg(WbPreferences::instance()->value("General/extraProjectsPath").toString()));
+      case WbProtoManager::PROTO_WORLD: {
+        const QString &worldFile = WbWorld::instance()->fileName();
+        mInfoText->setPlainText(tr("This folder lists all suitable PROTO nodes from the world file: '%1'.").arg(worldFile));
         break;
-      case PROTO_PROJECT:
+      }
+      case WbProtoManager::PROTO_PROJECT:
         mInfoText->setPlainText(tr("This folder lists all suitable PROTO nodes from the local 'protos' directory: '%1'.")
                                   .arg(WbProject::current()->protosPath()));
         break;
-      case PROTO_WEBOTS:
+      case WbProtoManager::PROTO_EXTRA: {
+        QString title("This folder lists all suitable PROTO nodes from the preferences Extra project path and "
+                      "the 'WEBOTS_EXTRA_PROJECT_PATH' environment variable:\n");
+        foreach (const WbProject *project, *WbProject::extraProjects())
+          title.append(QString("- " + project->path() + "\n"));
+        mInfoText->setPlainText(title);
+      } break;
+      case WbProtoManager::PROTO_WEBOTS:
         mInfoText->setPlainText(tr("This folder lists all suitable PROTO nodes provided by Webots."));
         break;
       default:
@@ -232,33 +270,31 @@ void WbAddNodeDialog::updateItemInfo() {
         mInfoText->setPlainText(tr("No info available."));
         break;
     }
-
   } else {
     // a node is selected
-    mIsFolderItemSelected = false;
-
     // check if USE node
     switch (topLevel->type()) {
-      case USE: {
+      case Category::USE: {
         mNewNodeType = USE;
         QString boi(selectedItem->text(BOUNDING_OBJECT_INFO));
         validForInsertionInBoundingObject = boi.isEmpty();
-        showNodeInfo(selectedItem->text(FILE_NAME), USE, boi);
+        showNodeInfo(selectedItem->text(FILE_NAME), USE, -1, boi);
         mDefNodeIndex = mUsesItem->indexOfChild(const_cast<QTreeWidgetItem *>(selectedItem));
         assert(mDefNodeIndex < mDefNodes.size() && mDefNodeIndex >= 0);
         break;
       }
-      case PROTO_WEBOTS:
-      case PROTO_EXTRA:
-      case PROTO_PROJECT:
+      case WbProtoManager::PROTO_WORLD:
+      case WbProtoManager::PROTO_PROJECT:
+      case WbProtoManager::PROTO_EXTRA:
+      case WbProtoManager::PROTO_WEBOTS:
         mDefNodeIndex = -1;
         mNewNodeType = PROTO;
-        showNodeInfo(selectedItem->text(FILE_NAME), PROTO);
+        showNodeInfo(selectedItem->text(FILE_NAME), PROTO, topLevel->type());
         break;
       default:
         mDefNodeIndex = -1;
         mNewNodeType = BASIC;
-        showNodeInfo(selectedNode, BASIC);
+        showNodeInfo(selectedNode, BASIC, -1);
         break;
     }
   }
@@ -266,76 +302,57 @@ void WbAddNodeDialog::updateItemInfo() {
   mAddButton->setEnabled(!selectedItem->icon(0).isNull() && validForInsertionInBoundingObject);
 }
 
-void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeType, const QString &boundingObjectInfo) {
-  QString info, license, documentation;
+void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeType, int variant,
+                                   const QString &boundingObjectInfo) {
+  QString description;
   QString pixmapPath;
 
-  const QFileInfo fileInfo(nodeFileName);
-  const QString modelName = fileInfo.baseName();
-  if (nodeType != PROTO && WbNodeModel::isBaseModelName(modelName)) {
-    WbNodeModel *nodeModel = WbNodeModel::findModel(modelName);
+  QString path = nodeFileName;
+  if (WbFileUtil::isLocatedInDirectory(path, WbStandardPaths::cachedAssetsPath()))
+    path = WbNetwork::instance()->getUrlFromEphemeralCache(nodeFileName);
+
+  const QFileInfo fileInfo(path);
+  const QString fileName = fileInfo.baseName();
+  if (nodeType != PROTO && WbNodeModel::isBaseModelName(fileName)) {
+    WbNodeModel *nodeModel = WbNodeModel::findModel(fileName);
     assert(nodeModel);
-    info = nodeModel->info();
+    description = nodeModel->info();
 
     // set icon path
     pixmapPath = "icons:" + fileInfo.baseName() + ".png";
-
   } else {
-    WbProtoCachedInfo *protoCachedInfo = new WbProtoCachedInfo(nodeFileName);
-    bool success = protoCachedInfo->load();
-    if (success) {
-      info = protoCachedInfo->info();
-      documentation = protoCachedInfo->documentationUrl();
-      license = protoCachedInfo->license().simplified();
-      const QString licenseUrl = protoCachedInfo->licenseUrl().simplified();
-      if (!licenseUrl.isEmpty())
-        license += tr(" <a style='color: #5DADE2;' href='%1'>More information.</a>").arg(licenseUrl);
+    assert(nodeType == USE || variant > 0);
+    // the node is a PROTO
+    QMap<QString, WbProtoInfo *> list;
+    if (variant == WbProtoManager::PROTO_WEBOTS)
+      list = WbProtoManager::instance()->webotsProtoList();
+    else
+      list = WbProtoManager::instance()->protoInfoMap(nodeType == USE ? WbProtoManager::PROTO_WORLD : variant);
+
+    if (!list.contains(fileName)) {
+      WbLog::error(tr("'%1' is not a known proto in category '%2'.\n").arg(fileName).arg(variant));
+      return;
     }
-    delete protoCachedInfo;
+
+    const WbProtoInfo *info = list.value(fileName);
+    assert(info);
 
     // set documentation url
-    if (!documentation.isEmpty()) {
+    if (!info->documentationUrl().isEmpty()) {
       mDocumentationLabel->show();
-      mDocumentationLabel->setText(tr("Documentation: <a style='color: #5DADE2;' href='%1'>%1</a>").arg(documentation));
+      mDocumentationLabel->setText(
+        tr("Documentation: <a style='color: #5DADE2;' href='%1'>%1</a>").arg(info->documentationUrl()));
     }
 
     // set license
-    if (!license.isEmpty()) {
+    if (!info->license().isEmpty()) {
+      QString license =
+        info->license() + tr(" <a style='color: #5DADE2;' href='%1'>More information.</a>").arg(info->licenseUrl());
       mLicenseLabel->show();
       mLicenseLabel->setText(tr("License: ") + license);
     }
 
-    // set icon path
-    const QString iconPath(fileInfo.absolutePath() + "/icons");
-    if (QDir(iconPath).exists()) {
-#ifdef _WIN32
-      QStringList filenames = QDir(iconPath).entryList();
-      foreach (const QString filename, filenames) {
-        QString strippedFileName = filename.mid(0, filename.indexOf("."));
-        if (strippedFileName.compare(fileInfo.baseName(), Qt::CaseInsensitive) == 0 &&
-            strippedFileName.compare(fileInfo.baseName(), Qt::CaseSensitive) != 0) {
-          WbLog::warning(tr("The icon file '%1' does not exactly match the PROTO name. Expected '%2.png'")
-                           .arg(filename)
-                           .arg(fileInfo.baseName()));
-          break;
-        }
-      }
-#endif
-      pixmapPath = iconPath + "/" + fileInfo.baseName() + ".png";
-    }
-  }
-
-  mPixmapLabel->hide();
-  if (!pixmapPath.isEmpty()) {
-    QPixmap pixmap(pixmapPath);
-    if (!pixmap.isNull()) {
-      if (pixmap.size() != QSize(128, 128)) {
-        WbLog::warning(tr("The \"%1\" icon should have a dimension of 128x128 pixels.").arg(pixmapPath));
-        pixmap = pixmap.scaled(128, 128);
-      }
-      mPixmapLabel->show();
-      mPixmapLabel->setPixmap(pixmap);
-    }
+    description = info->description();
   }
 
   mInfoText->clear();
@@ -344,27 +361,38 @@ void WbAddNodeDialog::showNodeInfo(const QString &nodeFileName, NodeType nodeTyp
     mInfoText->appendHtml(tr("<font color=\"red\">WARNING: this node contains a Geometry with non-positive dimensions and "
                              "hence cannot be inserted in a bounding object.</font><br/>"));
 
-  if (info.isEmpty())
+  if (description.isEmpty())
     mInfoText->setPlainText(tr("No info available."));
   else {
     // replace carriage returns with spaces where appropriate:
     // "\n\n" => "\n\n": two consecutive carriage returns are preserved (new paragraph)
     // "\n-"  => "\n-": a carriage return followed by a "-" are preserved (bullet list)
     // "\n"   => " ": a single carriage return is transformed into a space (comment line wrap)
-    for (int i = 0; i < info.length(); i++) {
-      if (info[i] == '\n') {
-        if (i < (info.length() - 1)) {
-          if (info[i + 1] == '\n' || info[i + 1] == '-') {
+    for (int i = 0; i < description.length(); i++) {
+      if (description[i] == '\n') {
+        if (i < (description.length() - 1)) {
+          if (description[i + 1] == '\n' || description[i + 1] == '-') {
             i++;
             continue;
           }
         }
-        info[i] = ' ';
+        description[i] = ' ';
       }
     }
-    mInfoText->appendPlainText(info.trimmed());
+    mInfoText->appendPlainText(description.trimmed());
   }
   mInfoText->moveCursor(QTextCursor::Start);
+
+  mPixmapLabel->hide();
+  if (pixmapPath.isEmpty()) {
+    WbProtoIcon *icon = new WbProtoIcon(fileName, path, this);
+    if (icon->isReady()) {
+      setPixmap(icon->path());
+      delete icon;
+    } else
+      connect(icon, &WbProtoIcon::iconReady, this, &WbAddNodeDialog::updateIcon);
+  } else
+    setPixmap(pixmapPath);
 }
 
 bool WbAddNodeDialog::doFieldRestrictionsAllowNode(const QString &nodeName) const {
@@ -378,32 +406,37 @@ bool WbAddNodeDialog::doFieldRestrictionsAllowNode(const QString &nodeName) cons
 }
 
 void WbAddNodeDialog::buildTree() {
+  if (qobject_cast<WbProtoManager *>(sender()))
+    disconnect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this, &WbAddNodeDialog::buildTree);
+
   mTree->clear();
   mUsesItem = NULL;
   mDefNodes.clear();
-  mUniqueLocalProtoNames.clear();
-  mUniqueExtraProtoNames.clear();
 
-  // basic tree items
-  QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")), NEW);
-  QTreeWidgetItem *const wprotosItem = new QTreeWidgetItem(QStringList("PROTO nodes (Webots Projects)"), PROTO_WEBOTS);
+  QTreeWidgetItem *const nodesItem = new QTreeWidgetItem(QStringList(tr("Base nodes")), Category::NEW);
+  QTreeWidgetItem *const worldFileProtosItem =
+    new QTreeWidgetItem(QStringList("PROTO nodes (Current World File)"), WbProtoManager::PROTO_WORLD);
+  QTreeWidgetItem *const projectProtosItem =
+    new QTreeWidgetItem(QStringList("PROTO nodes (Current Project)"), WbProtoManager::PROTO_PROJECT);
+  QTreeWidgetItem *const extraProtosItem =
+    new QTreeWidgetItem(QStringList(tr("PROTO nodes (Extra Projects)")), WbProtoManager::PROTO_EXTRA);
+  QTreeWidgetItem *const webotsProtosItem =
+    new QTreeWidgetItem(QStringList("PROTO nodes (Webots Projects)"), WbProtoManager::PROTO_WEBOTS);
+  mUsesItem = new QTreeWidgetItem(QStringList("USE"), Category::USE);
 
-  QStringList basicNodes;
-  mUsesItem = new QTreeWidgetItem(QStringList("USE"), USE);
-  QTreeWidgetItem *lprotosItem = new QTreeWidgetItem(QStringList(tr("PROTO nodes (Current Project)")), PROTO_PROJECT);
-  QTreeWidgetItem *aprotosItem = WbPreferences::instance()->value("General/extraProjectsPath").toString().isEmpty() ?
-                                   NULL :
-                                   new QTreeWidgetItem(QStringList(tr("PROTO nodes (Extra Projects)")), PROTO_EXTRA);
-  basicNodes = WbNodeModel::baseModelNames();
-
+  const QStringList basicNodes = WbNodeModel::baseModelNames();
   QTreeWidgetItem *item = NULL;
+
+  const QRegularExpression regexp(
+    QRegularExpression::wildcardToRegularExpression(mFindLineEdit->text(), QRegularExpression::UnanchoredWildcardConversion),
+    QRegularExpression::CaseInsensitiveOption);
 
   // add valid basic nodes
   const WbNode::NodeUse nodeUse = static_cast<WbBaseNode *>(mCurrentNode)->nodeUse();
   foreach (const QString &basicNodeName, basicNodes) {
     QFileInfo fileInfo(basicNodeName);
     QString errorMessage;
-    if (fileInfo.baseName().contains(QRegExp(mFindLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard)) &&
+    if (fileInfo.baseName().contains(regexp) &&
         WbNodeUtilities::isAllowedToInsert(mField, fileInfo.baseName(), mCurrentNode, errorMessage, nodeUse, QString(),
                                            QStringList(fileInfo.baseName()))) {
       item = new QTreeWidgetItem(nodesItem, QStringList(fileInfo.baseName()));
@@ -424,22 +457,24 @@ void WbAddNodeDialog::buildTree() {
 
     // populates the DEF-USE dictionary with suitable definitions located above mCurrentNode
     mDefNodes = WbDictionary::instance()->computeDefForInsertion(mCurrentNode, mField, mIndex, true);
-    foreach (const WbNode *const defNode, mDefNodes) {
-      const QString &currentDefName = defNode->defName();
-      const QString &currentModelName = defNode->modelName();
+    foreach (const WbNode *const node, mDefNodes) {
+      const QString &currentDefName = node->defName();
+      const QString &currentModelName = node->modelName();
       const QString &currentFullDefName = currentDefName + " (" + currentModelName + ")";
-      if (!currentFullDefName.contains(QRegExp(mFindLineEdit->text(), Qt::CaseInsensitive, QRegExp::Wildcard)))
+      if (!currentFullDefName.contains(regexp))
         continue;
       if (mField->hasRestrictedValues() &&
-          (!doFieldRestrictionsAllowNode(currentModelName) && !doFieldRestrictionsAllowNode(defNode->nodeModelName())))
+          (!doFieldRestrictionsAllowNode(currentModelName) && !doFieldRestrictionsAllowNode(node->nodeModelName())))
         continue;
       QString nodeFilePath(currentModelName);
-      if (!WbNodeModel::isBaseModelName(currentModelName))
-        nodeFilePath = WbProtoList::current()->findModelPath(currentModelName);
-
+      if (!WbNodeModel::isBaseModelName(currentModelName)) {
+        nodeFilePath = WbProtoManager::instance()->externProtoUrl(node);
+        if (WbUrl::isWeb(nodeFilePath))
+          nodeFilePath = WbNetwork::instance()->get(nodeFilePath);
+      }
       QStringList strl(QStringList() << currentFullDefName << nodeFilePath);
 
-      if (boInfo && !(dynamic_cast<const WbBaseNode *const>(defNode))->isSuitableForInsertionInBoundingObject())
+      if (boInfo && !(dynamic_cast<const WbBaseNode *const>(node))->isSuitableForInsertionInBoundingObject())
         strl << INVALID_FOR_INSERTION_IN_BOUNDING_OBJECT;
 
       QTreeWidgetItem *const child = new QTreeWidgetItem(mUsesItem, strl);
@@ -448,50 +483,44 @@ void WbAddNodeDialog::buildTree() {
     }
   }
 
-  mUniqueLocalProtoNames.clear();
-  mUniqueExtraProtoNames.clear();
+  // when filtering, don't regenerate WbProtoInfo
+  const bool regenerate = qobject_cast<QLineEdit *>(sender()) ? false : true;
 
-  // add project PROTO
-  if (lprotosItem) {
-    mIsAddingLocalProtos = true;
-    addProtosFromDirectory(lprotosItem, WbProject::current()->path() + "/protos/", mFindLineEdit->text(),
-                           QDir(WbProject::current()->path() + "/protos/"));
-    mIsAddingLocalProtos = false;
-  }
-
-  // add extra PROTO
-  if (aprotosItem) {
-    mIsAddingExtraProtos = true;
-    const QString &extraProjectsPath = WbPreferences::instance()->value("General/extraProjectsPath").toString();
-    addProtosFromDirectory(aprotosItem, extraProjectsPath, mFindLineEdit->text(), QDir(extraProjectsPath));
-    mIsAddingExtraProtos = false;
-  }
-
+  // note: the dialog must be populated in this order so as to ensure the correct priority is enforced (ex: PROTO in current
+  // project shadows a similarly named PROTO in the extra projects path)
+  mUniqueLocalProto.clear();
+  // add World PROTO (i.e. referenced as EXTERNPROTO by the world file)
+  int nWorldFileProtosNodes = addProtosFromProtoList(worldFileProtosItem, WbProtoManager::PROTO_WORLD, regexp, regenerate);
+  // add Current Project PROTO (all PROTO locally available in the project location)
+  int nProjectProtosNodes = addProtosFromProtoList(projectProtosItem, WbProtoManager::PROTO_PROJECT, regexp, regenerate);
+  // add Extra PROTO (all PROTO available in the extra location)
+  int nExtraProtosNodes = addProtosFromProtoList(extraProtosItem, WbProtoManager::PROTO_EXTRA, regexp, regenerate);
   // add Webots PROTO
-  int nWProtosNodes = 0;
-  nWProtosNodes = addProtosFromDirectory(wprotosItem, WbStandardPaths::projectsPath(), mFindLineEdit->text(),
-                                         QDir(WbStandardPaths::projectsPath()));
-  mTree->addTopLevelItem(nodesItem);
-  if (mUsesItem)
+  int nWebotsProtosNodes = addProtosFromProtoList(webotsProtosItem, WbProtoManager::PROTO_WEBOTS, regexp, false);
+
+  if (nodesItem->childCount() > 0)
+    mTree->addTopLevelItem(nodesItem);
+  if (mUsesItem->childCount() > 0)
     mTree->addTopLevelItem(mUsesItem);
-  if (lprotosItem)
-    mTree->addTopLevelItem(lprotosItem);
-  if (aprotosItem)
-    mTree->addTopLevelItem(aprotosItem);
-  mTree->addTopLevelItem(wprotosItem);
+  if (worldFileProtosItem->childCount() > 0)
+    mTree->addTopLevelItem(worldFileProtosItem);
+  if (projectProtosItem->childCount() > 0)
+    mTree->addTopLevelItem(projectProtosItem);
+  if (extraProtosItem->childCount() > 0)
+    mTree->addTopLevelItem(extraProtosItem);
+  if (webotsProtosItem->childCount() > 0)
+    mTree->addTopLevelItem(webotsProtosItem);
 
   // initial selection
   const int nBasicNodes = nodesItem->childCount();
   const int nUseNodes = mUsesItem ? mUsesItem->childCount() : 0;
-  const int nLProtosNodes = lprotosItem ? lprotosItem->childCount() : 0;
-  const int nAProtosNodes = aprotosItem ? aprotosItem->childCount() : 0;
 
   // if everything can fit in the tree height then show all
-  if (nBasicNodes + nUseNodes + nLProtosNodes + nAProtosNodes + nWProtosNodes < 20)
+  if (nBasicNodes + nUseNodes + nWorldFileProtosNodes + nProjectProtosNodes + nExtraProtosNodes + nWebotsProtosNodes < 20)
     mTree->expandAll();
 
   // if no USE nor PROTO items
-  if (nBasicNodes && !nUseNodes && !nLProtosNodes && !nAProtosNodes && !nWProtosNodes)
+  if (nBasicNodes && !nUseNodes && !nWorldFileProtosNodes && !nProjectProtosNodes && !nExtraProtosNodes && !nWebotsProtosNodes)
     // then select first basic node
     mTree->setCurrentItem(nodesItem->child(0));
   else
@@ -500,150 +529,177 @@ void WbAddNodeDialog::buildTree() {
   updateItemInfo();
 }
 
-int WbAddNodeDialog::addProtosFromDirectory(QTreeWidgetItem *parentItem, const QString &dirPath, const QString &regex,
-                                            const QDir &rootDirectory, bool recurse, bool inProtos) {
-  QDir dir(dirPath);
-  if (!dir.exists() || !dir.isReadable()) {
-    // no protos node
-    return 0;
-  }
+int WbAddNodeDialog::addProtosFromProtoList(QTreeWidgetItem *parentItem, int type, const QRegularExpression &regexp,
+                                            bool regenerate) {
   int nAddedNodes = 0;
-  int nNodes = 0;
-  if (dirPath.endsWith("/protos/"))
-    inProtos = true;
-  if (inProtos) {
-    QStringList filter("*.proto");
-    // search in folder
-    const QStringList &protoFiles = dir.entryList(filter, QDir::Files, QDir::Name);
-    nAddedNodes += addProtos(parentItem, protoFiles, dir.absolutePath(), regex, rootDirectory);
-  }
-  // search in subfolders
-  QTreeWidgetItem *newFolderItem;
-  QStringList list(dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot));
-  const int size = list.size();
-  if (recurse)
-    for (int i = 0; i < size; ++i)
-      if (list[i] == "controllers" || list[i] == "worlds" || list[i] == "plugins" || list[i] == "protos") {
-        recurse = false;
-        break;
-      }
-  for (int i = 0; i < size; ++i) {
-    if (inProtos && (list[i] == "textures" || list[i] == "icons"))
-      continue;
-    if (list[i] == "worlds")
-      continue;
-    if (list[i] == "controllers")
-      continue;
-    if (list[i] == "plugins")
-      continue;
-    if (list[i] == "protos")
-      // do not add 'protos' item to the tree
-      newFolderItem = parentItem;
-    else {
-      newFolderItem = new QTreeWidgetItem(QStringList(list[i]));
-      parentItem->addChild(newFolderItem);
-    }
-    if (list[i] == "protos" || inProtos || recurse)
-      nNodes = addProtosFromDirectory(newFolderItem, dir.absolutePath() + "/" + list[i] + "/", regex, rootDirectory, recurse,
-                                      inProtos);
-    else
-      nNodes = 0;
-    if (nNodes == 0) {
-      if (parentItem != newFolderItem) {
-        parentItem->removeChild(newFolderItem);
-        delete newFolderItem;
-      }
-    } else
-      nAddedNodes += nNodes;
-  }
-  return nAddedNodes;
-}
-
-int WbAddNodeDialog::addProtos(QTreeWidgetItem *parentItem, const QStringList &protoList, const QString &dirPath,
-                               const QString &regex, const QDir &rootDirectory) {
-  QTreeWidgetItem *item;
-  int nAddedNodes = 0;
-
+  const QRegularExpression re(WbUrl::remoteWebotsAssetRegex(true));
   const WbNode::NodeUse nodeUse = static_cast<WbBaseNode *>(mCurrentNode)->nodeUse();
-  foreach (const QString protoFile, protoList) {
-    const QString protoFilePath(dirPath + "/" + protoFile);
-    WbProtoCachedInfo *protoCachedInfo = new WbProtoCachedInfo(protoFilePath);
-    bool success = protoCachedInfo->load();
-    if (!success || protoCachedInfo->isOutOfDate()) {
-      // (re)compute if not valid
-      delete protoCachedInfo;
-      protoCachedInfo = WbProtoCachedInfo::computeInfo(protoFilePath);
-      if (!protoCachedInfo)
-        // ignore invalid PROTO file
-        continue;
-    }
 
-    if (protoCachedInfo->baseType() == "UNKNOWN")
-      continue;
+  WbProtoManager::instance()->generateProtoInfoMap(type, regenerate);
+
+  // filter incompatible nodes
+  QStringList protoList;
+  QMapIterator<QString, WbProtoInfo *> it(WbProtoManager::instance()->protoInfoMap(type));
+  while (it.hasNext()) {
+    WbProtoInfo *info = it.next().value();
 
     // don't display PROTOs which contain a "hidden" or a "deprecated" tag
-    QStringList tags = protoCachedInfo->tags();
+    const QStringList tags = info->tags();
     if (tags.contains("deprecated", Qt::CaseInsensitive) || tags.contains("hidden", Qt::CaseInsensitive))
       continue;
 
     // don't display PROTO nodes which have been filtered-out by the user's "filter" widget.
-    if (!rootDirectory.relativeFilePath(protoFilePath).contains(QRegExp(regex, Qt::CaseInsensitive, QRegExp::Wildcard)) &&
-        !protoCachedInfo->baseType().contains(QRegExp(regex, Qt::CaseInsensitive, QRegExp::Wildcard)))
+    const QString &baseType = info->baseType();
+    QString path = info->url();
+    const QString cleanPath = path.replace("webots://", "").replace(re, "").replace(WbStandardPaths::webotsHomePath(), "");
+    if (!cleanPath.contains(regexp) && !baseType.contains(regexp))
       continue;
 
     // don't display non-Robot PROTO nodes containing devices (e.g. Kinect) about to be inserted outside a robot.
-    if (!mHasRobotTopNode && !WbNodeUtilities::isRobotTypeName(protoCachedInfo->baseType()) &&
-        protoCachedInfo->needsRobotAncestor())
+    if (!mHasRobotTopNode && !WbNodeUtilities::isRobotTypeName(baseType) && info->needsRobotAncestor())
       continue;
 
     QString errorMessage;
-    if (!WbNodeUtilities::isAllowedToInsert(mField, protoCachedInfo->baseType(), mCurrentNode, errorMessage, nodeUse,
-                                            protoCachedInfo->slotType(),
-                                            QStringList() << protoCachedInfo->baseType() << protoFile.chopped(6)))
+    const QString nodeName = it.key();
+    if (!WbNodeUtilities::isAllowedToInsert(mField, baseType, mCurrentNode, errorMessage, nodeUse, info->slotType(),
+                                            QStringList() << baseType << nodeName))
       continue;
 
-    const QFileInfo fileInfo(protoFile);
-    item = new QTreeWidgetItem(
-      QStringList(QStringList() << fileInfo.baseName() + " (" + protoCachedInfo->baseType() + ")" << protoFilePath));
-    item->setIcon(0, QIcon("enabledIcons:proto.png"));
-    parentItem->addChild(item);
-    ++nAddedNodes;
+    // keep track of unique local proto that may clash
+    if (!mUniqueLocalProto.contains(nodeName) && !WbUrl::isWeb(info->url()))
+      mUniqueLocalProto.insert(nodeName, info->url());
 
-    if (mUniqueLocalProtoNames.contains(fileInfo.baseName())) {
-      // disable item if PROTO model with same name already exists in local project
-      item->setDisabled(true);
-      item->setToolTip(
-        0,
-        tr("Node not available because another project PROTO model with the same name already exists in your local project."));
-    } else if (mUniqueExtraProtoNames.contains(fileInfo.baseName())) {
-      // disable item if PROTO model with same name already exists in extra projects
-      item->setDisabled(true);
-      item->setToolTip(0, tr("Node not available because another project PROTO model with the same name already exists in your "
-                             "extra projects."));
-    } else if (mIsAddingLocalProtos)
-      mUniqueLocalProtoNames.append(fileInfo.baseName());
-    else if (mIsAddingExtraProtos)
-      mUniqueExtraProtoNames.append(fileInfo.baseName());
+    protoList << cleanPath;
+  }
+
+  // sort the list so the items are organized alphabetically
+  protoList.sort(Qt::CaseInsensitive);
+
+  // populate tree
+  foreach (QString path, protoList) {
+    const QString protoName = QUrl(path).fileName().replace(".proto", "", Qt::CaseInsensitive);
+    QTreeWidgetItem *parent = parentItem;
+    // generate sub-items based on path (they are sorted already) only for WEBOTS_PROTO
+    if (type == WbProtoManager::PROTO_WEBOTS) {
+      QStringList categories = path.split('/', Qt::SkipEmptyParts);
+      categories.removeLast();
+      foreach (const QString &category, categories) {
+        if (category == "projects" || category == "protos")
+          continue;
+
+        bool exists = false;
+        for (int i = 0; i < parent->childCount(); ++i) {
+          if (parent->child(i)->text(0) == category) {
+            parent = parent->child(i);
+            exists = true;
+            break;
+          }
+        }
+        if (!exists) {
+          // create sub-folder
+          QTreeWidgetItem *subFolder = new QTreeWidgetItem(QStringList() << category);
+          parent->addChild(subFolder);
+          parent = subFolder;
+        }
+      }
+    }
+
+    // insert proto itself
+    const WbProtoInfo *info = WbProtoManager::instance()->protoInfo(protoName, type);
+    QTreeWidgetItem *protoItem =
+      new QTreeWidgetItem(QStringList() << QString("%1 (%2)").arg(protoName).arg(info->baseType()) << info->url());
+    protoItem->setIcon(0, QIcon("enabledIcons:proto.png"));
+    if (isDeclarationConflicting(protoName, info->url())) {
+      protoItem->setDisabled(true);
+      protoItem->setToolTip(
+        0, tr("PROTO node not available because another with the same name and different URL already exists.") +
+             QString("\nEXTERNPROTO \"%1\"").arg(WbProtoManager::instance()->formatExternProtoPath(info->url())));
+    } else
+      protoItem->setToolTip(0,
+                            QString("EXTERNPROTO \"%1\"").arg(WbProtoManager::instance()->formatExternProtoPath(info->url())));
+
+    parent->addChild(protoItem);
+    ++nAddedNodes;
   }
 
   return nAddedNodes;
 }
 
-void WbAddNodeDialog::import() {
-  static QString lastFolder = QDir::homePath();
-  QString fileName = QFileDialog::getOpenFileName(this, tr("Import Webots Object"), lastFolder, tr("Files (*.wbo *.WBO)"));
-  if (fileName.isEmpty())
-    return;
+bool WbAddNodeDialog::isDeclarationConflicting(const QString &protoName, const QString &url) {
+  // checks if the provided proto name / URL conflicts with the declared EXTERNPROTOs
+  foreach (const WbExternProto *declaration, WbProtoManager::instance()->externProto()) {
+    // the URL might differ, but they might point to the same object (ex: one is webots://, the other absolute)
+    if (declaration->name() != protoName || WbUrl::resolveUrl(declaration->url()) == WbUrl::resolveUrl(url))
+      continue;
 
-  lastFolder = QFileInfo(fileName).absolutePath();
-  mActionType = IMPORT;
-  mImportFileName = fileName;
-  accept();
+    return true;
+  }
+
+  return false;
 }
 
 void WbAddNodeDialog::checkAndAddSelectedItem() {
-  if (mIsFolderItemSelected)
+  if (!mAddButton->isEnabled())
     return;
 
   accept();
+}
+
+void WbAddNodeDialog::accept() {
+  if (mNewNodeType != PROTO) {
+    QDialog::accept();
+    return;
+  }
+
+  const QList<WbExternProto *> &clipboardBuffer = WbProtoManager::instance()->externProtoClipboardBuffer();
+  const QString protoName =
+    QUrl(mTree->selectedItems().at(0)->text(FILE_NAME)).fileName().replace(".proto", "", Qt::CaseInsensitive);
+
+  bool conflict = false;
+  foreach (const WbExternProto *proto, clipboardBuffer) {
+    if (proto && proto->name() == protoName && !mRetrievalTriggered) {
+      conflict = true;
+      break;
+    }
+  }
+
+  if (conflict) {
+    const QMessageBox::StandardButton clipboardBufferWarningDialog = WbMessageBox::warning(
+      "One or more PROTO nodes with the same name as the one you are about to insert is contained in the clipboard. Do "
+      "you want to continue? This operation will clear the clipboard.",
+      this, "Warning", QMessageBox::Cancel, QMessageBox::Ok | QMessageBox::Cancel);
+
+    if (clipboardBufferWarningDialog == QMessageBox::Ok) {
+      WbProtoManager::instance()->clearExternProtoClipboardBuffer();
+      WbClipboard::instance()->clear();
+    } else
+      return;
+  }
+
+  // Before inserting a PROTO, it is necessary to ensure it is available locally (both itself and all the sub-proto it depends
+  // on). This is not typically the case, so it must be assumed that nothing is available (the root proto might be available,
+  // but not necessarily all its subs, or vice-versa); then trigger the cascaded download and only when the retriever gives
+  // the go ahead the dialog's accept method can actually be executed entirely. In short, two passes are unavoidable for any
+  // inserted proto.
+  if (!mRetrievalTriggered) {
+    mSelectionPath = mTree->selectedItems().at(0)->text(FILE_NAME);  // selection may change during download, store it
+    connect(WbProtoManager::instance(), &WbProtoManager::retrievalCompleted, this, &WbAddNodeDialog::accept);
+    mRetrievalTriggered = true;  // the second time the accept function is called, no retrieval should occur
+    WbProtoManager::instance()->retrieveExternProto(mSelectionPath);
+    return;
+  }
+
+  // this point should only be reached after the retrieval and therefore from this point the PROTO must be available locally
+  if (WbUrl::isWeb(mSelectionPath) && !WbNetwork::instance()->isCachedWithMapUpdate(mSelectionPath)) {
+    WbLog::error(tr("Retrieval of PROTO '%1' was unsuccessful, the asset should be cached but it is not.")
+                   .arg(QUrl(mSelectionPath).fileName()));
+    QDialog::reject();
+    return;
+  }
+
+  // the insertion must be declared as EXTERNPROTO so that it is added to the world file when saving
+  WbProtoManager::instance()->declareExternProto(QUrl(mSelectionPath).fileName().replace(".proto", "", Qt::CaseInsensitive),
+                                                 mSelectionPath, false);
+
+  QDialog::accept();
 }

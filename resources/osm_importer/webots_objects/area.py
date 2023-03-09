@@ -1,10 +1,10 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -80,30 +80,30 @@ class Area(WebotsObject):
         for i in range(0, len(referenceList)):
             total = total + (OSMCoord.coordDictionnary[referenceList[i]].x -
                              OSMCoord.coordDictionnary[referenceList[i - 1]].x) * \
-                (OSMCoord.coordDictionnary[referenceList[i]].z +
-                 OSMCoord.coordDictionnary[referenceList[i - 1]].z)
+                (OSMCoord.coordDictionnary[referenceList[i]].y +
+                 OSMCoord.coordDictionnary[referenceList[i - 1]].y)
         if total >= 0:
             return True
         else:
             return False
 
     @staticmethod
-    def is_point_in_polygon(x, z, polygon):
+    def is_point_in_polygon(x, y, polygon):
         """Determine if a point is inside a given polygon or not."""
-        """Polygon is a list of (x,z) pairs."""
+        """Polygon is a list of (x,y) pairs."""
         n = len(polygon)
         inside = False
-        p1x, p1z = polygon[0]
+        p1x, p1y = polygon[0]
         for i in range(n + 1):
-            p2x, p2z = polygon[i % n]
-            if z > min(p1z, p2z):
-                if z <= max(p1z, p2z):
+            p2x, p2y = polygon[i % n]
+            if y > min(p1y, p2y):
+                if y <= max(p1y, p2y):
                     if x <= max(p1x, p2x):
-                        if p1z != p2z:
-                            xinters = (z - p1z) * (p2x - p1x) / (p2z - p1z) + p1x
+                        if p1y != p2y:
+                            xinters = (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x
                         if p1x == p2x or x <= xinters:
                             inside = not inside
-            p1x, p1z = p2x, p2z
+            p1x, p1y = p2x, p2y
         return inside
 
     @staticmethod
@@ -116,7 +116,8 @@ class Area(WebotsObject):
             file.write("DEF " + defName + " " + "Transform {\n")
         else:
             file.write("Transform {\n")
-        file.write("  translation %f 0 %f\n" % (OSMCoord.coordDictionnary[refs[0]].x, OSMCoord.coordDictionnary[refs[0]].z))
+        file.write("  translation %f %f 0\n" %
+                   (OSMCoord.coordDictionnary[refs[0]].x, OSMCoord.coordDictionnary[refs[0]].y))
         file.write("  children [\n")
         file.write("    Shape {\n")
         file.write("      appearance PBRAppearance {\n")
@@ -130,8 +131,8 @@ class Area(WebotsObject):
             file.write("            \"" + texture + "\"\n")
             file.write("          ]\n")
             file.write("        }\n")
-            xMin, xMax, zMin, zMax = OSMCoord.get_min_and_max_coord(refs)
-            scale = max(abs(round(xMax - xMin)), abs(round(zMax - zMin)))
+            xMin, xMax, yMin, yMax = OSMCoord.get_min_and_max_coord(refs)
+            scale = max(abs(round(xMax - xMin)), abs(round(yMax - yMin)))
             file.write("        textureTransform TextureTransform {\n")
             file.write("          scale %.2f %.2f\n" % (scale, scale))
             file.write("        }\n")
@@ -145,27 +146,27 @@ class Area(WebotsObject):
             height = 0
             for ref in refs:
                 if ref in OSMCoord.coordDictionnary:
-                    height = height + OSMCoord.coordDictionnary[ref].y
+                    height = height + OSMCoord.coordDictionnary[ref].z
             height = height / len(refs)
         for ref in refs:
             if ref in OSMCoord.coordDictionnary:
                 if drawFlat:
                     file.write("            %.2f %.2f %.2f,\n" % (OSMCoord.coordDictionnary[ref].x -
                                                                   OSMCoord.coordDictionnary[refs[0]].x,
-                                                                  height + verticalOffset,
-                                                                  OSMCoord.coordDictionnary[ref].z -
-                                                                  OSMCoord.coordDictionnary[refs[0]].z))
+                                                                  OSMCoord.coordDictionnary[ref].y -
+                                                                  OSMCoord.coordDictionnary[refs[0]].y,
+                                                                  height + verticalOffset))
                 else:
                     file.write("            %.2f %.2f %.2f,\n" % (OSMCoord.coordDictionnary[ref].x -
                                                                   OSMCoord.coordDictionnary[refs[0]].x,
-                                                                  OSMCoord.coordDictionnary[ref].y + verticalOffset,
-                                                                  OSMCoord.coordDictionnary[ref].z -
-                                                                  OSMCoord.coordDictionnary[refs[0]].z))
+                                                                  OSMCoord.coordDictionnary[ref].y -
+                                                                  OSMCoord.coordDictionnary[refs[0]].y,
+                                                                  OSMCoord.coordDictionnary[ref].z + verticalOffset,))
             else:
                 print("Warning: node " + str(ref) + " not referenced.")
         file.write("          ]\n")
         file.write("        }\n")
-        if Area.are_references_clockwise(refs) is False:
+        if Area.are_references_clockwise(refs) is True:
             file.write("        ccw FALSE\n")
         file.write("        coordIndex [\n")
         for i in range(0, len(refs)):
@@ -204,12 +205,14 @@ class Area(WebotsObject):
                 if file is not None:
                     file.write("Forest {\n")
                     file.write("  shape [\n")
-                    if Area.are_references_clockwise(area.ref) is False:
+                    if Area.are_references_clockwise(area.ref) is True:
                         for ref in area.ref:
-                            file.write("    %.2f %.2f, " % (OSMCoord.coordDictionnary[ref].x, OSMCoord.coordDictionnary[ref].z))
+                            file.write("    %.2f %.2f, " %
+                                       (OSMCoord.coordDictionnary[ref].x, -OSMCoord.coordDictionnary[ref].y))
                     else:
                         for ref in reversed(area.ref):
-                            file.write("    %.2f %.2f, " % (OSMCoord.coordDictionnary[ref].x, OSMCoord.coordDictionnary[ref].z))
+                            file.write("    %.2f %.2f, " %
+                                       (OSMCoord.coordDictionnary[ref].x, -OSMCoord.coordDictionnary[ref].y))
                     file.write("\n]\n")
                     if area.leafType == "needleleaved":
                         file.write(' type "%s"\n' % random.choice(Tree.needleLeavesTypes))
@@ -231,11 +234,11 @@ class Area(WebotsObject):
         """Generate the 'forest' file which contains the tree positions and is used by the 'Forest' PROTO."""
         treeNumber = 0
         polygon = []
-        xMin, xMax, zMin, zMax = OSMCoord.get_min_and_max_coord(self.ref)
+        xMin, xMax, yMin, yMax = OSMCoord.get_min_and_max_coord(self.ref)
         for ref in self.ref:
-            polygon.append([OSMCoord.coordDictionnary[ref].x, OSMCoord.coordDictionnary[ref].z])
+            polygon.append([OSMCoord.coordDictionnary[ref].x, OSMCoord.coordDictionnary[ref].y])
 
-        numberOfTree = int(round((xMax - xMin) * (zMax - zMin)) * self.density)
+        numberOfTree = int(round((xMax - xMin) * (yMax - yMin)) * self.density)
         if not os.path.exists(folder + '/forest'):
             os.makedirs(folder + '/forest')
         forestRelativePath = 'forest/' + str(self.OSMID) + '.forest'
@@ -243,13 +246,14 @@ class Area(WebotsObject):
         with open(forestPath, 'w') as file:
             for index in range(0, numberOfTree):
                 x = random.uniform(xMin, xMax)
-                z = random.uniform(zMin, zMax)
-                y = 0
+                y = random.uniform(yMin, yMax)
+                z = 0
                 if WebotsObject.elevation is not None:
-                    y = WebotsObject.elevation.interpolate_height(-x + WebotsObject.xOffset, z + WebotsObject.zOffset)
-                if Area.is_point_in_polygon(x, z, polygon) is True:
+                    z = WebotsObject.elevation.interpolate_height(
+                        x + WebotsObject.xOffset, y + WebotsObject.yOffset)
+                if Area.is_point_in_polygon(x, y, polygon) is True:
                     treeNumber = treeNumber + 1
-                    file.write("%.2f,%.2f,%.2f\n" % (x, y, z))
+                    file.write("%.2f,%.2f,%.2f\n" % (x, -y, z))
 
         if treeNumber > 0:
             return forestRelativePath

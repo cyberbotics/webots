@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,7 +20,7 @@
 //
 
 #include "WbMultipleValue.hpp"
-#include "WbVrmlWriter.hpp"
+#include "WbWriter.hpp"
 
 #include <QtCore/QStringList>
 
@@ -34,13 +34,14 @@ public:
 
   WbMFString(WbTokenizer *tokenizer, const QString &worldPath) { read(tokenizer, worldPath); }
   WbMFString(const WbMFString &other) : mValue(other.mValue) {}
+  explicit WbMFString(const QStringList &value) : mValue(value) {}
   virtual ~WbMFString() {}
   WbValue *clone() const override { return new WbMFString(*this); }
   bool equals(const WbValue *other) const override;
   void copyFrom(const WbValue *other) override;
   int size() const override { return mValue.size(); }
   void clear() override;
-  void writeItem(WbVrmlWriter &writer, int index) const override {
+  void writeItem(WbWriter &writer, int index) const override {
     assert(index >= 0 && index < size());
     writer.writeLiteralString(mValue[index]);
   }

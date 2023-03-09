@@ -17,4 +17,5 @@ export WEBOTS_ALLOW_MODIFY_INSTALLATION=1                 # If defined, you are 
 # These environment variables are necessaries to compile and run Webots #
 #########################################################################
 
-export WEBOTS_HOME=$HOME/webots          # Defines the path to Webots home.
+export WEBOTS_HOME=$HOME/webots                        # Defines the path to Webots home.
+export JAVA_HOME="$(/usr/libexec/java_home)"

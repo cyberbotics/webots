@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -121,14 +121,14 @@ void wb_position_sensor_enable(WbDeviceTag tag, int sampling_period) {
     return;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   PositionSensor *p = position_sensor_get_struct(tag);
   if (p) {
     p->enable = true;
     p->sampling_period = sampling_period;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_position_sensor_disable(WbDeviceTag tag) {
@@ -141,7 +141,7 @@ void wb_position_sensor_disable(WbDeviceTag tag) {
 
 double wb_position_sensor_get_value(WbDeviceTag tag) {
   double result = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   PositionSensor *p = position_sensor_get_struct(tag);
   if (p) {
     if (p->sampling_period <= 0)
@@ -149,31 +149,31 @@ double wb_position_sensor_get_value(WbDeviceTag tag) {
     result = p->position;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 int wb_position_sensor_get_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   PositionSensor *p = position_sensor_get_struct(tag);
   if (p) {
     sampling_period = p->sampling_period;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return sampling_period;
 }
 
 WbJointType wb_position_sensor_get_type(WbDeviceTag tag) {
   WbJointType type = WB_ROTATIONAL;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   PositionSensor *p = position_sensor_get_struct(tag);
   if (p) {
     type = p->type;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return type;
 }
 
@@ -184,11 +184,11 @@ static WbDeviceTag position_sensor_get_associated_device(WbDeviceTag tag, int de
     return 0;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   p->requested_device_type = device_type;
-  wb_robot_flush_unlocked();
+  wb_robot_flush_unlocked(function_name);
   WbDeviceTag result = p->requested_device_tag;
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 

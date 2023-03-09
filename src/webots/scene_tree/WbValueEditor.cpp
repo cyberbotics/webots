@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -62,10 +62,10 @@ void WbValueEditor::edit(WbNode *node, WbField *field, int index) {
   if (mField->singleType() != WB_SF_NODE && mField->hasRestrictedValues()) {
     if (mField->singleType() != WB_SF_STRING) {
       foreach (const WbVariant acceptedVariant, mField->acceptedValues())
-        mComboBox->addItem(acceptedVariant.toStringRepresentation());
+        mComboBox->addItem(acceptedVariant.toSimplifiedStringRepresentation());
     } else {  // In case of MF/SF_STRING we don't want to display the starting and ending '"'
       foreach (const WbVariant acceptedVariant, mField->acceptedValues())
-        mComboBox->addItem(acceptedVariant.toStringRepresentation().chopped(1).remove(0, 1));
+        mComboBox->addItem(acceptedVariant.toSimplifiedStringRepresentation().chopped(1).remove(0, 1));
     }
     connect(mComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(apply()), Qt::UniqueConnection);
     connect(field, &WbField::valueChanged, this, &WbValueEditor::updateComboBoxIndex, Qt::UniqueConnection);

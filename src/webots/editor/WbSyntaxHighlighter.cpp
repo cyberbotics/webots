@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -72,11 +72,11 @@ WbSyntaxHighlighter::WbSyntaxHighlighter(QTextDocument *parent) : QSyntaxHighlig
   mSearchTextFormat.setBackground(Qt::gray);
 }
 
-void WbSyntaxHighlighter::setSearchTextRule(QRegExp regExp) {
-  if (mSearchTextRule == regExp)
+void WbSyntaxHighlighter::setSearchTextRule(const QRegularExpression &regularExpression) {
+  if (mSearchTextRule == regularExpression)
     return;
 
-  mSearchTextRule = regExp;
+  mSearchTextRule = regularExpression;
   rehighlight();
 }
 
@@ -89,11 +89,9 @@ void WbSyntaxHighlighter::highlightSearchText(const QString &text, int offset) {
   if (mSearchTextRule.pattern().isEmpty())
     return;
 
-  int index = mSearchTextRule.indexIn(text);
-  while (index >= 0) {
-    setFormat(index + offset, mSearchTextRule.matchedLength(), mSearchTextFormat);
-    index = mSearchTextRule.indexIn(text, index + 1);
-  }
+  QRegularExpressionMatch match = mSearchTextRule.match(text);
+  for (int index = 0; index <= match.lastCapturedIndex(); ++index)
+    setFormat(match.capturedStart() + offset, match.capturedLength(), mSearchTextFormat);
 }
 
 WbLanguageHighlighter::WbLanguageHighlighter(const WbLanguage *language, QTextDocument *parentWidget) :
@@ -117,7 +115,7 @@ WbLanguageHighlighter::WbLanguageHighlighter(const WbLanguage *language, QTextDo
 void WbLanguageHighlighter::setDefaultRules(const WbLanguage *language, QVector<HighlightingRule> &highlightingRules) {
   // numbers
   HighlightingRule rule;
-  rule.pattern = QRegExp("\\b[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?[fFlL]?\\b");
+  rule.pattern = QRegularExpression("\\b[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?[fFlL]?\\b");
   rule.format = mNumberFormat;
   highlightingRules.append(rule);
 
@@ -126,17 +124,17 @@ void WbLanguageHighlighter::setDefaultRules(const WbLanguage *language, QVector<
   addWords(language->apiWords(), mApiFormat, highlightingRules);
 
   // double quotes: "abc"
-  rule.pattern = QRegExp("\"[^\"\\\\]*(?:\\\\.[^\"\\\\]*)*\"");
+  rule.pattern = QRegularExpression("\"[^\"\\\\]*(?:\\\\.[^\"\\\\]*)*\"");
   rule.format = mQuotationFormat;
   highlightingRules.append(rule);
 
   // single quotes: 'a'
-  rule.pattern = QRegExp("\'[^\']*\'");
+  rule.pattern = QRegularExpression("\'[^\']*\'");
   rule.format = mQuotationFormat;
   highlightingRules.append(rule);
 
   // single line comment
-  rule.pattern = QRegExp(language->commentPrefix() + "[^\n]*");
+  rule.pattern = QRegularExpression(language->commentPrefix() + "[^\n]*");
   rule.format = mCommentFormat;
   highlightingRules.append(rule);
 }
@@ -150,14 +148,10 @@ QList<WbSyntaxHighlighter::HighlightedSection> WbLanguageHighlighter::identifySe
   const QString &text, const QVector<HighlightingRule> &highlightingRules) {
   QList<HighlightedSection> sections;
   foreach (const HighlightingRule &rule, highlightingRules) {
-    QRegExp expression(rule.pattern);
-    int index = expression.indexIn(text);
-    while (index >= 0) {
-      sections.append(HighlightedSection(index, expression.matchedLength(), rule.format));
-      index = expression.indexIn(text, index + 1);
-    }
+    QRegularExpressionMatch match = QRegularExpression(rule.pattern).match(text);
+    for (int index = 0; index <= match.lastCapturedIndex(); ++index)
+      sections.append(HighlightedSection(match.capturedStart(index), match.capturedLength(index), rule.format));
   }
-
   return sections;
 }
 
@@ -186,14 +180,16 @@ void WbLanguageHighlighter::addWords(const QStringList &words, const QTextCharFo
     assert(!it.peekNext().isEmpty());
 
     HighlightingRule rule;
-    rule.pattern = QRegExp("\\b" + it.next() + "\\b");
+    rule.pattern = QRegularExpression("\\b" + it.next() + "\\b");
     rule.format = format;
     highlightingRules.append(rule);
   }
 }
 
-WbMultiLineCommentHighlighter::WbMultiLineCommentHighlighter(const WbLanguage *language, const QRegExp &commentStartExpression,
-                                                             const QRegExp &commentEndExpression, QTextDocument *parent) :
+WbMultiLineCommentHighlighter::WbMultiLineCommentHighlighter(const WbLanguage *language,
+                                                             const QRegularExpression &commentStartExpression,
+                                                             const QRegularExpression &commentEndExpression,
+                                                             QTextDocument *parent) :
   WbLanguageHighlighter(language, parent),
   mCommentStartExpression(commentStartExpression),
   mCommentEndExpression(commentEndExpression),
@@ -217,14 +213,17 @@ void WbMultiLineCommentHighlighter::highlightBlockSection(const QString &text, i
   bool isFirstCommentLine = false;
   if (previousBlockState() != 1) {
     isFirstCommentLine = true;
-    const int singleCommentIndex = mSingleCommentExpression.indexIn(text);
-    startIndex = mCommentStartExpression.indexIn(text);
+    QRegularExpressionMatch match = mSingleCommentExpression.match(text);
+    const int singleCommentIndex = match.capturedStart();
+    match = mCommentStartExpression.match(text);
+    startIndex = match.capturedStart();
     if (singleCommentIndex >= 0 && (startIndex < 0 || singleCommentIndex < startIndex)) {
       // single comment
       formattedSections.prepend(HighlightedSection(singleCommentIndex, text.size() - singleCommentIndex, mCommentFormat));
 
-      int singleCommentEnd = singleCommentIndex + mSingleCommentExpression.matchedLength();
-      startIndex = mCommentStartExpression.indexIn(text, singleCommentEnd);
+      int singleCommentEnd = singleCommentIndex + match.capturedLength();
+      match = mCommentStartExpression.match(text, singleCommentEnd);
+      startIndex = match.capturedStart();
     }
   }
 
@@ -232,7 +231,8 @@ void WbMultiLineCommentHighlighter::highlightBlockSection(const QString &text, i
     int searchIndex = startIndex;
     if (isFirstCommentLine)
       searchIndex += mCommentStartDelimiterLength;
-    int endIndex = mCommentEndExpression.indexIn(text, searchIndex);
+    QRegularExpressionMatch match = mCommentEndExpression.match(text, searchIndex);
+    int endIndex = match.capturedStart();
     if (endIndex == -1) {
       setCurrentBlockState(1);
       formattedSections.prepend(HighlightedSection(startIndex, text.length() - startIndex, mCommentFormat));
@@ -248,7 +248,7 @@ void WbMultiLineCommentHighlighter::highlightBlockSection(const QString &text, i
       continue;
     }
 
-    int commentLength = endIndex - startIndex + mCommentEndExpression.matchedLength();
+    int commentLength = endIndex - startIndex + match.capturedLength();
     if (commentLength > 0) {
       if (startIndex == 0 && previousBlockState() == 1) {
         startFormattingIndex = commentLength;
@@ -260,9 +260,10 @@ void WbMultiLineCommentHighlighter::highlightBlockSection(const QString &text, i
         continue;
       }
     }
-
-    int singleCommentIndex = mSingleCommentExpression.indexIn(text, startIndex + 1);
-    startIndex = mCommentStartExpression.indexIn(text, startIndex + 1);
+    match = mSingleCommentExpression.match(text, startIndex + 1);
+    int singleCommentIndex = match.capturedStart();
+    match = mCommentStartExpression.match(text, startIndex + 1);
+    startIndex = match.capturedStart();
     if (singleCommentIndex >= 0 && (startIndex < 0 || singleCommentIndex < startIndex)) {
       // single comment
       formattedSections.prepend(HighlightedSection(singleCommentIndex, text.size() - singleCommentIndex, mCommentFormat));
@@ -287,12 +288,12 @@ void WbMultiLineCommentHighlighter::highlightBlockSection(const QString &text, i
 }
 
 WbCHighlighter::WbCHighlighter(const WbLanguage *language, QTextDocument *parent) :
-  WbMultiLineCommentHighlighter(language, QRegExp("/\\*"), QRegExp("\\*/"), parent) {
+  WbMultiLineCommentHighlighter(language, QRegularExpression("/\\*"), QRegularExpression("\\*/"), parent) {
   // multiple line comments: /* abc */
   HighlightingRule rule;
   QStringListIterator it(language->preprocessorWords());
   while (it.hasNext()) {
-    rule.pattern = QRegExp(it.next() + "[^\\n]*");
+    rule.pattern = QRegularExpression(it.next() + "[^\\n]*");
     rule.format = mPreprocessorFormat;
     // insert at position so that it has lower priority than single line comment
     mHighlightingRules.insert(mSingleCommentRuleIndex, rule);
@@ -302,12 +303,12 @@ WbCHighlighter::WbCHighlighter(const WbLanguage *language, QTextDocument *parent
 }
 
 WbLuaHighlighter::WbLuaHighlighter(const WbLanguage *language, QTextDocument *parent) :
-  WbMultiLineCommentHighlighter(language, QRegExp("--\\[\\["), QRegExp("\\]\\]"), parent) {
+  WbMultiLineCommentHighlighter(language, QRegularExpression("--\\[\\["), QRegularExpression("\\]\\]"), parent) {
   mCommentStartDelimiterLength = 4;
 }
 
 WbPythonHighlighter::WbPythonHighlighter(const WbLanguage *language, QTextDocument *parent) :
-  WbMultiLineCommentHighlighter(language, QRegExp("\"\"\""), QRegExp("\"\"\""), parent) {
+  WbMultiLineCommentHighlighter(language, QRegularExpression("\"\"\""), QRegularExpression("\"\"\""), parent) {
   mCommentStartDelimiterLength = 3;
 }
 
@@ -320,10 +321,10 @@ WbProtoHighlighter::WbProtoHighlighter(const WbLanguage *language, QTextDocument
 
   // template start and end patterns
   HighlightingRule rule;
-  rule.pattern = QRegExp("%\\{");
+  rule.pattern = QRegularExpression("%\\{");
   rule.format = mPreprocessorFormat;
   mTemplatePatternHighlightingRules.append(rule);
-  rule.pattern = QRegExp("\\}%");
+  rule.pattern = QRegularExpression("\\}%");
   rule.format = mPreprocessorFormat;
   mTemplatePatternHighlightingRules.append(rule);
 }
@@ -341,9 +342,8 @@ void WbProtoHighlighter::highlightBlock(const QString &text) {
 
   int blockOffset = 0;
   QString currentText(text);
-  QString pattern;
   while (!currentText.isEmpty()) {
-    pattern = mIsTemplateBlock ? mTemplateEndPattern : mTemplateStartPattern;
+    const QString pattern = mIsTemplateBlock ? mTemplateEndPattern : mTemplateStartPattern;
     const int patternIndex = currentText.indexOf(pattern);
     if (patternIndex < 0)
       break;

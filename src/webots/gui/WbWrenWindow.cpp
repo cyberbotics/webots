@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -292,8 +292,8 @@ void WbWrenWindow::flipAndScaleDownImageBuffer(const unsigned char *source, unsi
   // - The `unsigned char *` to `int *` cast is possible assuming that a pixel is coded as four bytes (RGBA)
   //   aligned on an `int *` boundary.
   // - A preliminary `unsigned char *` to `void *` cast is required to by-pass "cast-align" clang warnings.
-  const uint32_t *src = (const uint32_t *)((void *)source);
-  uint32_t *dst = (uint32_t *)((void *)destination);
+  const uint32_t *src = static_cast<const uint32_t *>(static_cast<void *>(const_cast<unsigned char *>(source)));
+  uint32_t *dst = static_cast<uint32_t *>(static_cast<void *>(destination));
 
   for (int y = 0; y < h; y++) {
     for (int x = 0; x < w; x++)
@@ -358,7 +358,7 @@ void WbWrenWindow::processVideoPBO() {
   // Process previously copied pixels
   WrScene *scene = wr_scene_get_instance();
   wr_scene_bind_pixel_buffer(scene, mVideoPBOIds[mVideoPBOIndex]);
-  unsigned char *buffer = (unsigned char *)wr_scene_map_pixel_buffer(scene, GL_READ_ONLY);
+  unsigned char *buffer = static_cast<unsigned char *>(wr_scene_map_pixel_buffer(scene, GL_READ_ONLY));
   if (buffer) {
     emit videoImageReady(buffer);
     wr_scene_unmap_pixel_buffer(scene);

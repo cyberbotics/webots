@@ -1,5 +1,5 @@
 # The Cone node specifies a cone which is centered in the local
-# coordinate system and whose central axis is aligned with the local y-axis.
+# coordinate system and whose central axis is aligned with the local z-axis.
 
 Cone {
   vrmlField SFFloat bottomRadius 1

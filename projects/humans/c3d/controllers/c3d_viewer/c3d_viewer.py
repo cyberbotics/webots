@@ -1,10 +1,10 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,11 +23,11 @@ import os.path
 import sys
 import tempfile
 
-transforms3dVailable = True
+transforms3dAvailable = True
 try:
     import transforms3d
 except ImportError:
-    transforms3dVailable = False
+    transforms3dAvailable = False
 
 
 angleSignAndOrder = {
@@ -309,6 +309,7 @@ while supervisor.step(timestep) != -1:
             os.remove(file.name)
         else:
             print(message)
+
         message = supervisor.wwiReceiveText()
 
     # play the required frame (if needed)
@@ -336,28 +337,28 @@ while supervisor.step(timestep) != -1:
                         vec1[2] * vec3[0] - vec1[0] * vec3[2],
                         vec1[0] * vec3[1] - vec1[1] * vec3[0]]
                 grf['cylinderTranslation'].setSFVec3f([CenterOfPressureX + 0.5 * vec2[0],
-                                                       0.5 * vec2[1],
-                                                       CenterOfPressureY + 0.5 * vec2[2]])
+                                                       CenterOfPressureY + 0.5 * vec2[2],
+                                                       0.5 * vec2[1]])
                 grf['coneTranslation'].setSFVec3f([CenterOfPressureX + 0.5 * vec2[0],
-                                                   0.5 * (vec2[1] + len2),
-                                                   CenterOfPressureY + 0.5 * vec2[2]])
+                                                   CenterOfPressureY + 0.5 * vec2[2],
+                                                   0.5 * (vec2[1] + len2)])
                 if not (axis[0] == 0.0 and axis[1] == 0.0 and axis[2] == 0.0):
                     grf['rotation'].setSFRotation([axis[0], axis[1], axis[2], angle])
                 grf['height'].setSFFloat(max(0.001, len2))
             else:
-                grf['cylinderTranslation'].setSFVec3f([0, -1000, 0])
-                grf['coneTranslation'].setSFVec3f([0, -1000, 0])
+                grf['cylinderTranslation'].setSFVec3f([0, 0, -1000])
+                grf['coneTranslation'].setSFVec3f([0, 0, -1000])
         # update the markers visualization and graph and body angles
         for j in range(c3dfile.numberOfPoints):
             # get actual coordinates
-            y = points[j][2] * c3dfile.scale
             if c3dfile.inverseY:
-                y = -y
                 x = points[j][0] * c3dfile.scale
-                z = -points[j][1] * c3dfile.scale
+                y = -points[j][1] * c3dfile.scale
+                z = -points[j][2] * c3dfile.scale
             else:
                 x = points[j][1] * c3dfile.scale
-                z = -points[j][0] * c3dfile.scale
+                y = -points[j][0] * c3dfile.scale
+                z = points[j][2] * c3dfile.scale
             # update markers visualization
             label = c3dfile.labels[j]
             if c3dfile.pointRepresentations[label]['visible'] or c3dfile.pointRepresentations[label]['solid']:
@@ -371,10 +372,10 @@ while supervisor.step(timestep) != -1:
                     if categoryName in ['markers', 'virtual_markes']:
                         toSend += label + ':' + str(x) + ',' + str(y) + ',' + str(z) + ':'
                     else:
-                        toSend += label + ':' + str(points[j][0]) + ',' + str(points[j][2]) + ',' + str(points[j][1]) + ':'
+                        toSend += label + ':' + str(points[j][0]) + ',' + str(points[j][1]) + ',' + str(points[j][2]) + ':'
             # update body representation (if any)
             if label in c3dfile.bodyRotations and c3dfile.bodyTransparency < 1.0:
-                if transforms3dVailable:
+                if transforms3dAvailable:
                     rot = transforms3d.euler.euler2axangle(angleSignAndOrder[label][0][0] * points[j][0] * math.pi / 180.0,
                                                            angleSignAndOrder[label][0][1] * points[j][1] * math.pi / 180.0,
                                                            angleSignAndOrder[label][0][2] * points[j][2] * math.pi / 180.0,

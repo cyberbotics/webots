@@ -1,0 +1,17 @@
+#VRML_SIM R2023a utf8
+
+PROTO InternalTexture [
+  field SFVec3f default_size 2 2 2
+]
+{
+  Shape {
+    appearance PBRAppearance {
+      baseColorMap ImageTexture {
+        url "../../../colors/red_texture.jpg" # field is internal => path is relative to this PROTO
+      }
+    }
+    geometry Box {
+      size IS default_size
+    }
+  }
+}

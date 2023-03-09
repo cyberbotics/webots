@@ -1,0 +1,17 @@
+#VRML_SIM R2023a utf8
+
+PROTO Undeclaredroto [
+]
+{
+  Robot {
+    children [
+      Shape {
+        appearance PBRAppearance {
+          baseColor 1 0 0
+        }
+        geometry Box {
+        }
+      }
+    ]
+  }
+}

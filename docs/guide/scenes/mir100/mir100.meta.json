@@ -7,7 +7,7 @@
       "minPosition": 0,
       "name": "middle_left_wheel_joint",
       "position": 0,
-      "transformID": "n320",
+      "transformID": "n296",
       "type": "RotationalMotor"
     },
     {
@@ -17,27 +17,39 @@
       "minPosition": 0,
       "name": "middle_right_wheel_joint",
       "position": 0,
-      "transformID": "n342",
+      "transformID": "n318",
       "type": "RotationalMotor"
     },
     {
+      "anchor": "-0.270154 0.203 0.1565",
+      "axis": "0 0 1",
       "name": "back_left_caster_joint_sensor",
-      "transformID": "n422",
+      "position": 0,
+      "transformID": "n401",
       "type": "PositionSensor"
     },
     {
+      "anchor": "-0.0382 0 -0.094",
+      "axis": "0 1 0",
       "name": "back_left_wheel_joint_sensor",
-      "transformID": "n429",
+      "position": 0,
+      "transformID": "n408",
       "type": "PositionSensor"
     },
     {
+      "anchor": "-0.270154 -0.203 0.1565",
+      "axis": "0 0 1",
       "name": "back_right_caster_joint_sensor",
-      "transformID": "n452",
+      "position": 0,
+      "transformID": "n432",
       "type": "PositionSensor"
     },
     {
+      "anchor": "-0.0382 0 -0.094",
+      "axis": "0 1 0",
       "name": "back_right_wheel_joint_sensor",
-      "transformID": "n459",
+      "position": 0,
+      "transformID": "n439",
       "type": "PositionSensor"
     },
     {
@@ -53,37 +65,49 @@
     },
     {
       "name": "ds1",
-      "transformID": "n119",
+      "transformID": "n113",
       "type": "DistanceSensor"
     },
     {
       "name": "ds2",
-      "transformID": "n178",
+      "transformID": "n166",
       "type": "DistanceSensor"
     },
     {
       "name": "ds3",
-      "transformID": "n237",
+      "transformID": "n219",
       "type": "DistanceSensor"
     },
     {
+      "anchor": "0.341346 0.203 0.1565",
+      "axis": "0 0 1",
       "name": "front_left_caster_joint_sensor",
-      "transformID": "n362",
+      "position": 0,
+      "transformID": "n339",
       "type": "PositionSensor"
     },
     {
+      "anchor": "-0.0382 0 -0.094",
+      "axis": "0 1 0",
       "name": "front_left_wheel_joint_sensor",
-      "transformID": "n369",
+      "position": 0,
+      "transformID": "n346",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0.341346 -0.203 0.1565",
+      "axis": "0 0 1",
       "name": "front_right_caster_joint_sensor",
-      "transformID": "n392",
+      "position": 0,
+      "transformID": "n370",
       "type": "PositionSensor"
     },
     {
+      "anchor": "-0.0382 0 -0.094",
+      "axis": "0 1 0",
       "name": "front_right_wheel_joint_sensor",
-      "transformID": "n399",
+      "position": 0,
+      "transformID": "n377",
       "type": "PositionSensor"
     },
     {
@@ -102,13 +126,19 @@
       "type": "Gyro"
     },
     {
+      "anchor": "0 0.222604 0.0625",
+      "axis": "0 1 0",
       "name": "middle_left_wheel_joint_sensor",
-      "transformID": "n320",
+      "position": 0,
+      "transformID": "n296",
       "type": "PositionSensor"
     },
     {
+      "anchor": "0 -0.222604 0.0625",
+      "axis": "0 1 0",
       "name": "middle_right_wheel_joint_sensor",
-      "transformID": "n342",
+      "position": 0,
+      "transformID": "n318",
       "type": "PositionSensor"
     }
   ],

@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -77,8 +77,8 @@ GeneralInformationWidget::GeneralInformationWidget(QWidget *parent) : QWidget(pa
   mFrontWheelRadius = 0.0;
   mRearWheelRadius = 0.0;
   mGearNumber = 0;
-  mTransmissionType = QString(tr("unkown"));
-  mEngineType = QString(tr("unkown"));
+  mTransmissionType = tr("unkown");
+  mEngineType = tr("unkown");
 }
 
 GeneralInformationWidget::~GeneralInformationWidget() {
@@ -101,20 +101,20 @@ void GeneralInformationWidget::init() {
   mGearNumber = wbu_driver_get_gear_number();
 
   if (wbu_car_get_type() == WBU_CAR_TRACTION)
-    mTransmissionType = QString(tr("traction"));
+    mTransmissionType = tr("traction");
   else if (wbu_car_get_type() == WBU_CAR_PROPULSION)
-    mTransmissionType = QString(tr("propulsion"));
+    mTransmissionType = tr("propulsion");
   else if (wbu_car_get_type() == WBU_CAR_FOUR_BY_FOUR)
-    mTransmissionType = QString(tr("four by four"));
+    mTransmissionType = tr("four by four");
 
   if (wbu_car_get_engine_type() == WBU_CAR_COMBUSTION_ENGINE)
-    mEngineType = QString(tr("combustion"));
+    mEngineType = tr("combustion");
   else if (wbu_car_get_engine_type() == WBU_CAR_ELECTRIC_ENGINE)
-    mEngineType = QString(tr("electric"));
+    mEngineType = tr("electric");
   else if (wbu_car_get_engine_type() == WBU_CAR_PARALLEL_HYBRID_ENGINE)
-    mEngineType = QString(tr("parallel hybrid"));
+    mEngineType = tr("parallel hybrid");
   else if (wbu_car_get_engine_type() == WBU_CAR_POWER_SPLIT_HYBRID_ENGINE)
-    mEngineType = QString(tr("Epower-split hybrid"));
+    mEngineType = tr("Epower-split hybrid");
 
   mIsinitialized = true;
   mLastRefreshTimer.start();

@@ -1,25 +1,30 @@
-import {arrayXPointerFloat} from './utils/utils.js';
 import WbGeometry from './WbGeometry.js';
+import {resetIfNegative, resetIfNonPositive} from './utils/WbFieldChecker.js';
+import {arrayXPointerFloat} from './utils/utils.js';
 
 export default class WbElevationGrid extends WbGeometry {
-  constructor(id, height, xDimension, xSpacing, zDimension, zSpacing, thickness) {
+  constructor(id, height, xDimension, xSpacing, yDimension, ySpacing, thickness) {
     super(id);
     this.height = height;
     this.xDimension = xDimension;
     this.xSpacing = xSpacing;
-    this.zDimension = zDimension;
-    this.zSpacing = zSpacing;
+    this.yDimension = yDimension;
+    this.ySpacing = ySpacing;
     this.thickness = thickness;
   }
 
   clone(customID) {
     this.useList.push(customID);
-    return new WbElevationGrid(customID, this.height, this.xDimension, this.xSpacing, this.zDimension, this.zSpacing, this.thickness);
+    return new WbElevationGrid(customID, this.height, this.xDimension, this.xSpacing, this.yDimension, this.ySpacing,
+      this.thickness);
   }
 
   createWrenObjects() {
+    if (this.wrenObjectsCreatedCalled)
+      return;
+
     super.createWrenObjects();
-    this._buildWrenMesh();
+    this.#buildWrenMesh();
   }
 
   delete() {
@@ -29,24 +34,28 @@ export default class WbElevationGrid extends WbGeometry {
   }
 
   updateLineScale() {
-    if (this._isAValidBoundingObject())
+    if (!this._isAValidBoundingObject())
       return;
 
     const offset = _wr_config_get_line_scale() / WbGeometry.LINE_SCALE_FACTOR;
 
-    const scalePointer = _wrjs_array3(this.xSpacing, 1.0 + offset, this.zSpacing);
+    const scalePointer = _wrjs_array3(this.xSpacing, this.ySpacing, 1.0 + offset);
 
     _wr_transform_set_scale(this.wrenNode, scalePointer);
   }
 
   updateScale() {
-    const scalePointer = _wrjs_array3(this.xSpacing, 1.0, this.zSpacing);
+    const scalePointer = _wrjs_array3(this.xSpacing, this.ySpacing, 1.0);
     _wr_transform_set_scale(this.wrenNode, scalePointer);
   }
 
+  preFinalize() {
+    super.preFinalize();
+    this.#sanitizeFields();
+  }
   // Private functions
 
-  _buildWrenMesh() {
+  #buildWrenMesh() {
     super._deleteWrenRenderable();
 
     if (typeof this._wrenMesh !== 'undefined') {
@@ -54,10 +63,10 @@ export default class WbElevationGrid extends WbGeometry {
       this._wrenMesh = undefined;
     }
 
-    if (this.xDimension < 2 || this.zDimension < 2)
+    if (this.xDimension < 2 || this.yDimension < 2)
       return;
 
-    if (this.xSpacing === 0.0 || this.zSpacing === 0.0)
+    if (this.xSpacing === 0.0 || this.ySpacing === 0.0)
       return;
 
     super._computeWrenRenderable();
@@ -66,17 +75,18 @@ export default class WbElevationGrid extends WbGeometry {
     super.setPickable(this.pickable);
 
     // convert height values to float, pad with zeroes if necessary
-    const numValues = this.xDimension * this.zDimension;
-    const heightData = [];
+    const numValues = this.xDimension * this.yDimension;
+    const heightData = new Array(numValues).fill(0);
 
     const availableValues = Math.min(numValues, this.height.length);
     for (let i = 0; i < availableValues; ++i)
       heightData[i] = this.height[i];
 
-    const createOutlineMesh = super.isInBoundingObject();
+    const createOutlineMesh = this.isInBoundingObject();
 
     const heightDataPointer = arrayXPointerFloat(heightData);
-    this._wrenMesh = _wr_static_mesh_unit_elevation_grid_new(this.xDimension, this.zDimension, heightDataPointer, this.thickness, createOutlineMesh);
+    this._wrenMesh = _wr_static_mesh_unit_elevation_grid_new(this.xDimension, this.yDimension, heightDataPointer,
+      this.thickness, createOutlineMesh);
 
     _free(heightDataPointer);
 
@@ -89,14 +99,49 @@ export default class WbElevationGrid extends WbGeometry {
   }
 
   _isAValidBoundingObject() {
-    return this._isSuitableForInsertionInBoundingObject() && super._isAValidBoundingObject();
+    return this.#isSuitableForInsertionInBoundingObject() && super._isAValidBoundingObject();
   }
 
-  _isSuitableForInsertionInBoundingObject() {
-    const invalidDimensions = this.xDimension < 2 || this.zDimension < 2;
-    const invalidSpacings = this.xSpacing <= 0.0 || this.zSpacing < 0.0;
+  #isSuitableForInsertionInBoundingObject() {
+    const invalidDimensions = this.xDimension < 2 || this.yDimension < 2;
+    const invalidSpacings = this.xSpacing <= 0.0 || this.ySpacing < 0.0;
     const invalid = invalidDimensions || invalidSpacings;
 
     return !invalid;
+  }
+
+  #sanitizeFields() {
+    const newTickness = resetIfNegative(this.thickness, 0.0);
+    if (newTickness !== false)
+      this.thickness = newTickness;
+
+    const newXDimension = resetIfNegative(this.xDimension, 0);
+    if (newXDimension !== false)
+      this.xDimension = newXDimension;
+
+    const newXSpacing = resetIfNonPositive(this.xSpacing, 1.0);
+    if (newXSpacing !== false)
+      this.xSpacing = newXSpacing;
+
+    const newYDimension = resetIfNegative(this.yDimension, 0);
+    if (newYDimension !== false)
+      this.yDimension = newYDimension;
+
+    const newYSpacing = resetIfNonPositive(this.ySpacing, 1.0);
+    if (newYSpacing !== false)
+      this.ySpacing = newYSpacing;
+
+    this.#checkHeight();
+
+    return newTickness === false && newXDimension === false && newXSpacing === false && newYDimension === false &&
+     newYSpacing === false;
+  }
+
+  #checkHeight() {
+    const xdyd = this.xDimension * this.yDimension;
+
+    const extra = this.height.length - xdyd;
+    if (extra > 0)
+      console.warn('"height" contains ' + extra + ' ignored extra value(s).');
   }
 }

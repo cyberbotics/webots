@@ -1,4 +1,4 @@
-import {arrayXPointer} from './../nodes/utils/utils.js';
+import {arrayXPointer} from '../nodes/utils/utils.js';
 import WbWrenShaders from './WbWrenShaders.js';
 import WbWrenRenderingContext from './WbWrenRenderingContext.js';
 
@@ -49,7 +49,8 @@ export default class WbWrenPostProcessingEffects {
       blurPasses[i] = blurPass;
 
       const downsamplePass = _wr_post_processing_effect_pass_new();
-      Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [downsamplePass, 'downsamplePass' + i]);
+      Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'],
+        [downsamplePass, 'downsamplePass' + i]);
       _wr_post_processing_effect_pass_set_program(downsamplePass, WbWrenShaders.passThroughShader());
       _wr_post_processing_effect_pass_set_output_size(downsamplePass, width / (2 << i), height / (2 << i));
       _wr_post_processing_effect_pass_set_input_texture_count(downsamplePass, 1);
@@ -123,7 +124,8 @@ export default class WbWrenPostProcessingEffects {
 
     if (halfRes) {
       depthDownsamplePassThrough = _wr_post_processing_effect_pass_new();
-      Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [depthDownsamplePassThrough, 'depthDownsamplePassThrough']);
+      Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'],
+        [depthDownsamplePassThrough, 'depthDownsamplePassThrough']);
       _wr_post_processing_effect_pass_set_program(depthDownsamplePassThrough, WbWrenShaders.passThroughShader());
       _wr_post_processing_effect_pass_set_output_size(depthDownsamplePassThrough, width / 2, height / 2);
       _wr_post_processing_effect_pass_set_input_texture_count(depthDownsamplePassThrough, 1);
@@ -131,11 +133,13 @@ export default class WbWrenPostProcessingEffects {
       _wr_post_processing_effect_pass_set_input_texture(depthDownsamplePassThrough, 0, depthTexture);
       _wr_post_processing_effect_pass_set_input_texture_interpolation(depthDownsamplePassThrough, 0, false);
       _wr_post_processing_effect_pass_set_output_texture_count(depthDownsamplePassThrough, 1);
-      _wr_post_processing_effect_pass_set_output_texture_format(depthDownsamplePassThrough, 0, Enum.WR_TEXTURE_INTERNAL_FORMAT_R32F);
+      _wr_post_processing_effect_pass_set_output_texture_format(depthDownsamplePassThrough, 0,
+        Enum.WR_TEXTURE_INTERNAL_FORMAT_R32F);
       _wr_post_processing_effect_append_pass(gtaoEffect, depthDownsamplePassThrough);
 
       normalDownsamplePassThrough = _wr_post_processing_effect_pass_new();
-      Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [normalDownsamplePassThrough, 'normalDownsamplePassThrough']);
+      Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'],
+        [normalDownsamplePassThrough, 'normalDownsamplePassThrough']);
       _wr_post_processing_effect_pass_set_program(normalDownsamplePassThrough, WbWrenShaders.passThroughShader());
       _wr_post_processing_effect_pass_set_alpha_blending(normalDownsamplePassThrough, false);
       _wr_post_processing_effect_pass_set_output_size(normalDownsamplePassThrough, width / 2, height / 2);
@@ -303,7 +307,8 @@ export default class WbWrenPostProcessingEffects {
     _wr_post_processing_effect_append_pass(smaaEffect, edgeDetection);
 
     const weightCalculation = _wr_post_processing_effect_pass_new();
-    Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'], [weightCalculation, 'WeightCalculation']);
+    Module.ccall('wr_post_processing_effect_pass_set_name', null, ['number', 'string'],
+      [weightCalculation, 'WeightCalculation']);
     _wr_post_processing_effect_pass_set_program(weightCalculation, WbWrenShaders.smaaBlendingWeightCalculationShader());
     _wr_post_processing_effect_pass_set_output_size(weightCalculation, width, height);
     _wr_post_processing_effect_pass_set_input_texture_count(weightCalculation, 3);

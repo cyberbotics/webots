@@ -17,20 +17,24 @@ else
 fi
 
 # Get the name of the github repository and write it to a file if correct
-repo=$(git config --get remote.origin.url 2>&1)
+url=$(git config --get remote.origin.url 2>&1)
 
-if [[ $repo == git@github.com* ]]
+if [[ $url == git@github.com* ]]
 then
-	echo "$repo" | $(cut -c 16- | rev | cut -c 5- | rev > $WEBOTS_HOME/resources/repo.txt)
-elif [[ $repo == https://github.com* ]]
+	echo "$url" | $(cut -c 16- | rev | cut -c 5- | rev > $WEBOTS_HOME/resources/repo.txt)
+elif [[ $url == https://github.com* ]]
 then
-	echo "$repo" | $(cut -c 20- | rev | cut -c 5- | rev > $WEBOTS_HOME/resources/repo.txt)
+	echo "$url" | $(cut -c 20- | rev | cut -c 5- | rev > $WEBOTS_HOME/resources/repo.txt)
+elif [[ $url == https://*@github.com* ]]
+then
+	repo=$(echo $url | cut -d/ -f4)/$(echo $url | cut -d/ -f5 | cut -d. -f1)
+	echo "$repo" > $WEBOTS_HOME/resources/repo.txt
 else
-	echo "cyberbotics/webots" > $WEBOTS_HOME/resources/repo.txt
+	echo "Unsupported repository URL: $url"
 fi
 
 # Get the name of the github commit and write it to a file if correct
-commit=$(git rev-parse --short HEAD 2> /dev/null | sed "s/\(.*\)/\1/")
+commit=$(git rev-parse HEAD 2> /dev/null | sed "s/\(.*\)/\1/")
 
 if [[ $commit != "" ]]
 then

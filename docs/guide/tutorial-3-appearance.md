@@ -70,7 +70,7 @@ The aim of this subsection is to apply a locally available texture to the ball.
 A texture on a rolling object can help to appreciate its movement.
 
 > **Hands-on #4**: add a locally available texture to the ball.
-1. Download the texture available [here](https://raw.githubusercontent.com/cyberbotics/webots/R2021b/projects/default/worlds/textures/red_brick_wall.jpg) and save it to your disk.
+1. Download the texture available [here]({{ url.github_raw }}/projects/default/worlds/textures/red_brick_wall.jpg) and save it to your disk.
 2. Remove the previously added node from the `appearance` field and add a [PBRAppearance](../reference/pbrappearance.md) node instead.
 2. Add an [ImageTexture](../reference/imagetexture.md) node to the `baseColorMap` field of the [PBRAppearance](../reference/pbrappearance.md) node.
 3. Add an item to the [ImageTexture](../reference/imagetexture.md)'s `url` field using the `Add` button.
@@ -111,4 +111,4 @@ To compare your world with the solution, go to your files and find the folder na
 In this tutorial, you have learned how to set up a good looking environment using the [PBRAppearance](../reference/pbrappearance.md) node and the light nodes.
 
 You can go further on this topic by reading the detailed description of these nodes in the `Reference Manual`.
-This [section](modeling.md#how-to-get-a-realisitc-and-efficient-rendering) will give you a method to efficiently setup these nodes.
+This [FAQ](https://github.com/cyberbotics/webots/discussions/5411) will give you a method to efficiently setup these nodes.

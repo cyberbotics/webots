@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -109,9 +109,7 @@ int Wrapper::robotStep(int step) {
       continue;
     }
     inputPacket.decode(beginStepTime, outputPacket);
-
-    if (cSuccess)
-      break;
+    break;
   }
   if (!cSuccess)
     return 0;
@@ -200,7 +198,7 @@ void *Wrapper::findAvailablePorts(void *) {
     // no ports found
     return NULL;
 
-  char *port = (char *)malloc(count);
+  char *port = static_cast<char *>(malloc(count));
   int n = 0;
   for (int i = 0; i < size; i++) {
     int l = comPorts->at(i).length();

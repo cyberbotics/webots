@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -41,15 +41,15 @@ def zipdir(path, zip):
             zip.write(os.path.join(root, file))
 
 
-scriptdir = os.path.dirname(os.path.realpath(__file__)) + os.sep
-dstdir = scriptdir + 'xc16' + os.sep
+scriptdir = os.path.dirname(os.path.realpath(__file__))
+dstdir = os.path.join(scriptdir, 'xc16')
 
 if platform.system() == 'Darwin':
-    srcdir = '/Applications/microchip/xc16/v' + xc16_version + '/'
+    srcdir = os.path.join(os.sep, 'Applications', 'microchip', 'xc16', 'v' + xc16_version)
 elif platform.system() == 'Linux':
-    srcdir = '/opt/microchip/xc16/v' + xc16_version + '/'
+    srcdir = os.path.join(os.sep, 'opt', 'microchip', 'xc16', 'v' + xc16_version)
 elif platform.system() == 'Windows':
-    srcdir = os.environ["PROGRAMFILES"] + '\\Microchip\\xc16\\v' + xc16_version + '\\'
+    srcdir = os.path.join(os.environ["PROGRAMFILES"], 'Microchip', 'xc16', 'v' + xc16_version)
 else:
     raise RuntimeError('Unsupported platform')
 
@@ -86,19 +86,18 @@ sys.stdout.flush()
 for f in files:
     if platform.system() != 'Windows':
         f = f.replace('.exe', '')
-    f = f.replace('/', os.sep)
-    dirpath = os.path.dirname(f) + os.sep
-    dstfile = dstdir + f
-    dstdirpath = os.path.dirname(dstfile) + os.sep
+    f = os.path.normpath(f)
+    dstfile = os.path.join(dstdir, f)
+    dstdirpath = os.path.dirname(dstfile)
     mkdir_p(dstdirpath)
 
-    absolutepaths = glob.glob(srcdir + f)
+    absolutepaths = glob.glob(os.path.join(srcdir, f))
     if not absolutepaths:
-        raise RuntimeError('Could not find ' + srcdir + f)
+        raise RuntimeError('Could not find ' + os.path.join(srcdir, f))
     for path in absolutepaths:
         basename = os.path.basename(path)
         try:
-            shutil.copy(path, dstdirpath + basename)
+            shutil.copy(path, os.path.join(dstdirpath, basename))
         except IOError as e:
             raise RuntimeError("Unable to copy file. %s" % e)
 

@@ -1,0 +1,16 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "./LowestAncestor/SolidAncestor.proto"
+
+PROTO IntermediaryAncestor [
+  field SFVec3f  translation 0 0 0
+  field SFString name        ""
+  field MFNode   children    []
+]
+{
+  SolidAncestor {
+    translation IS translation
+    name IS name
+    children IS children
+  }
+}

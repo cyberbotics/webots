@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,14 +14,16 @@
 
 #include "WbSpeaker.hpp"
 
+#include "WbDataStream.hpp"
 #include "WbNodeUtilities.hpp"
-#include "WbProtoList.hpp"
+#include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRobot.hpp"
 #include "WbSimulationState.hpp"
 #include "WbSoundClip.hpp"
 #include "WbSoundEngine.hpp"
 #include "WbSoundSource.hpp"
+#include "WbStandardPaths.hpp"
 
 #include "../../controller/c/messages.h"
 
@@ -63,7 +65,7 @@ WbSpeaker::~WbSpeaker() {
 
 void WbSpeaker::postFinalize() {
   WbSolidDevice::postFinalize();
-  WbRobot *robot = const_cast<WbRobot *>(static_cast<const WbRobot *>(WbNodeUtilities::findTopNode(this)));
+  WbRobot *robot = WbNodeUtilities::findRobotAncestor(this);
   if (robot)
     mControllerDir = robot->controllerDir();
 }
@@ -143,7 +145,7 @@ void WbSpeaker::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbSpeaker::writeAnswer(QDataStream &stream) {
+void WbSpeaker::writeAnswer(WbDataStream &stream) {
   foreach (const WbSoundSource *source, mPlayingSoundSourcesMap) {
     if (!source->isPlaying()) {
       if (mPlayingSoundSourcesMap.key(source) == TEXT_TO_SPEECH_KEY) {
@@ -177,8 +179,7 @@ void WbSpeaker::playText(const char *text, double volume) {
   WbSoundSource *source = mSoundSourcesMap.value(TEXT_TO_SPEECH_KEY, NULL);
   if (source) {
     source->stop();
-    // cd to the controller directory (because some tags in the text
-    // may refeer to file relatively to the controller)
+    // cd to the controller directory (because some tags in the text may refeer to file relatively to the controller)
     QDir initialDir = QDir::current();
     if (!QDir::setCurrent(mControllerDir))
       this->warn(tr("Cannot change directory to: '%1'").arg(mControllerDir));
@@ -202,44 +203,25 @@ void WbSpeaker::playSound(const char *file, double volume, double pitch, double 
     key += "_right";
 
   if (!mSoundSourcesMap.contains(key)) {  // this sound was never played
-    QString path = "";
-    if (QFile::exists(mControllerDir + filename))  // check if path is relative to the controller
-      path = mControllerDir;
-    else {  // check if path is relative to the PROTO (or any ancestor PROTO)
-      WbRobot *robot = const_cast<WbRobot *>(static_cast<const WbRobot *>(WbNodeUtilities::findTopNode(this)));
-      if (robot && robot->isProtoInstance()) {
-        WbProtoModel *protoModel = robot->proto();
-        do {
-          if (!protoModel->path().isEmpty()) {
-            path = protoModel->path();
-            if (QFile::exists(path + filename))
-              break;
-          }
-          protoModel = WbProtoList::current()->findModel(protoModel->ancestorProtoName(), "");
-        } while (protoModel);
-      }
-    }
+    QString path;
+    // check if the path is absolute
+    if (QDir::isAbsolutePath(filename))
+      path = filename;
+    // check if the path is relative to the controller
+    if (path.isEmpty() && QFile::exists(mControllerDir + filename))
+      path = mControllerDir + filename;
+    // check default location for vehicle sounds
+    if (path.isEmpty() && QFile::exists(WbStandardPaths::vehicleLibraryPath() + filename))
+      path = WbStandardPaths::vehicleLibraryPath() + filename;
+    if (path.isEmpty())
+      this->warn(
+        tr("Sound file '%1' not found. The sound file should be defined relatively to the controller, or absolutely.\n")
+          .arg(filename));
 
-    if (!QFile::exists(path + filename)) {  // sound file not found relatively to the PROTOs or controller
-      if (!QFile::exists(filename)) {       // check if path is absolute
-        this->warn(tr("Sound file '%1' not found. The sound file should be defined relatively to the controller, the PROTO or "
-                      "absolutely.\n")
-                     .arg(filename));
-        return;
-      }
-      path = "";
-    }
     WbSoundSource *source = WbSoundEngine::createSource();
     updateSoundSource(source);
-    // cd to the path directory if required
-    QDir initialDir = QDir::current();
-    if (!path.isEmpty()) {
-      if (!QDir::setCurrent(path))
-        this->warn(tr("Cannot change directory to: '%1'").arg(path));
-    }
-    WbSoundClip *soundClip = WbSoundEngine::sound(filename, NULL, balance, side);
-    if (!path.isEmpty())
-      QDir::setCurrent(initialDir.path());
+    const QString extension = filename.mid(filename.lastIndexOf('.') + 1).toLower();
+    WbSoundClip *soundClip = WbSoundEngine::sound(path, extension, NULL, balance, side);
     if (!soundClip) {
       this->warn(tr("Impossible to play '%1'. Make sure the file format is supported (8 or 16 bits, mono or stereo wave).\n")
                    .arg(filename));

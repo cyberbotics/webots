@@ -1,10 +1,10 @@
-# Copyright 1996-2021 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -67,7 +67,7 @@ class Pedestrian (Supervisor):
         options, args = opt_parser.parse_args()
         if not options.trajectory or len(options.trajectory.split(',')) < 2:
             print("You should specify the trajectory using the '--trajectory' option.")
-            print("The trajectory shoulld have at least 2 points.")
+            print("The trajectory should have at least 2 points.")
             return
         if options.speed and options.speed > 0:
             self.speed = options.speed
@@ -92,11 +92,11 @@ class Pedestrian (Supervisor):
         self.waypoints_distance = []
         for i in range(0, self.number_of_waypoints):
             x = self.waypoints[i][0] - self.waypoints[(i + 1) % self.number_of_waypoints][0]
-            z = self.waypoints[i][1] - self.waypoints[(i + 1) % self.number_of_waypoints][1]
+            y = self.waypoints[i][1] - self.waypoints[(i + 1) % self.number_of_waypoints][1]
             if i == 0:
-                self.waypoints_distance.append(math.sqrt(x * x + z * z))
+                self.waypoints_distance.append(math.sqrt(x * x + y * y))
             else:
-                self.waypoints_distance.append(self.waypoints_distance[i - 1] + math.sqrt(x * x + z * z))
+                self.waypoints_distance.append(self.waypoints_distance[i - 1] + math.sqrt(x * x + y * y))
         while not self.step(self.time_step) == -1:
             time = self.getTime()
 
@@ -132,12 +132,12 @@ class Pedestrian (Supervisor):
                     (self.waypoints_distance[i] - self.waypoints_distance[i - 1])
             x = distance_ratio * self.waypoints[(i + 1) % self.number_of_waypoints][0] + \
                 (1 - distance_ratio) * self.waypoints[i][0]
-            z = distance_ratio * self.waypoints[(i + 1) % self.number_of_waypoints][1] + \
+            y = distance_ratio * self.waypoints[(i + 1) % self.number_of_waypoints][1] + \
                 (1 - distance_ratio) * self.waypoints[i][1]
-            root_translation = [x, self.ROOT_HEIGHT + self.current_height_offset, z]
-            angle = math.atan2(self.waypoints[(i + 1) % self.number_of_waypoints][0] - self.waypoints[i][0],
-                               self.waypoints[(i + 1) % self.number_of_waypoints][1] - self.waypoints[i][1])
-            rotation = [0, 1, 0, angle]
+            root_translation = [x, y, self.ROOT_HEIGHT + self.current_height_offset]
+            angle = math.atan2(self.waypoints[(i + 1) % self.number_of_waypoints][1] - self.waypoints[i][1],
+                               self.waypoints[(i + 1) % self.number_of_waypoints][0] - self.waypoints[i][0])
+            rotation = [0, 0, 1, angle]
 
             self.root_translation_field.setSFVec3f(root_translation)
             self.root_rotation_field.setSFRotation(rotation)

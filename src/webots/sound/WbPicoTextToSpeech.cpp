@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -103,7 +103,7 @@ static void releaseSgResource() {
 static void releaseVoices() {
   if (gPicoSystem) {
     for (int i = 0; i < N_LANGUAGES; ++i)
-      pico_releaseVoiceDefinition(gPicoSystem, (pico_Char *)gLanguages[i]);
+      pico_releaseVoiceDefinition(gPicoSystem, reinterpret_cast<pico_Char *>(const_cast<char *>(gLanguages[i])));
   }
 }
 
@@ -128,7 +128,7 @@ static void createEngine(int languageIndex) {
   assert(languageIndex < N_LANGUAGES);
   int ret = 0;
   pico_Retstring outMessage;
-  if ((ret = pico_newEngine(gPicoSystem, (const pico_Char *)gLanguages[languageIndex], &gPicoEngine))) {
+  if ((ret = pico_newEngine(gPicoSystem, reinterpret_cast<const pico_Char *>(gLanguages[languageIndex]), &gPicoEngine))) {
     pico_getSystemStatusMessage(gPicoSystem, ret, outMessage);
     gError = QString("Cannot create a new pico engine (%1): %2").arg(ret).arg(outMessage);
     releaseEngine();
@@ -143,7 +143,7 @@ static void init() {
   int ret = 0;
 
   gPicoMemArea = new char[PICO_MEM_SIZE];
-  if ((ret = pico_initialize((void *)gPicoMemArea, PICO_MEM_SIZE, &gPicoSystem))) {
+  if ((ret = pico_initialize(static_cast<void *>(gPicoMemArea), PICO_MEM_SIZE, &gPicoSystem))) {
     pico_getSystemStatusMessage(gPicoSystem, ret, outMessage);
     gError = QString("Cannot initialize pico (%1): %2").arg(ret).arg(outMessage);
     terminate();
@@ -153,8 +153,8 @@ static void init() {
   // Load the text analysis Lingware resource file.
   for (int i = 0; i < N_LANGUAGES; ++i) {
     gPicoTaFileNames[i] = new pico_Char[PICO_MAX_DATAPATH_NAME_SIZE + PICO_MAX_FILE_NAME_SIZE];
-    strcpy((char *)gPicoTaFileNames[i], WbStandardPaths::resourcesPicoPath().toStdString().c_str());
-    strcat((char *)gPicoTaFileNames[i], (const char *)gPicoTaLingwares[i]);
+    strcpy(reinterpret_cast<char *>(gPicoTaFileNames[i]), WbStandardPaths::resourcesPicoPath().toStdString().c_str());
+    strcat(reinterpret_cast<char *>(gPicoTaFileNames[i]), static_cast<const char *>(gPicoTaLingwares[i]));
     if ((ret = pico_loadResource(gPicoSystem, gPicoTaFileNames[i], &gPicoTaResources[i]))) {
       pico_getSystemStatusMessage(gPicoSystem, ret, outMessage);
       gError = QString("Cannot load text analysis resource file (%1): %2").arg(ret).arg(outMessage);
@@ -164,8 +164,8 @@ static void init() {
 
     // Load the signal generation Lingware resource file.
     gPicoSgFileNames[i] = new pico_Char[PICO_MAX_DATAPATH_NAME_SIZE + PICO_MAX_FILE_NAME_SIZE];
-    strcpy((char *)gPicoSgFileNames[i], WbStandardPaths::resourcesPicoPath().toStdString().c_str());
-    strcat((char *)gPicoSgFileNames[i], (const char *)gPicoSgLingwares[i]);
+    strcpy(reinterpret_cast<char *>(gPicoSgFileNames[i]), WbStandardPaths::resourcesPicoPath().toStdString().c_str());
+    strcat(reinterpret_cast<char *>(gPicoSgFileNames[i]), static_cast<const char *>(gPicoSgLingwares[i]));
     if ((ret = pico_loadResource(gPicoSystem, gPicoSgFileNames[i], &gPicoSgResources[i]))) {
       pico_getSystemStatusMessage(gPicoSystem, ret, outMessage);
       gError = QString("Cannot load signal generation Lingware resource file (%1): %2").arg(ret).arg(outMessage);
@@ -175,7 +175,7 @@ static void init() {
 
     // Get the text analysis resource name.
     gPicoTaResourceNames[i] = new pico_Char[PICO_MAX_RESOURCE_NAME_SIZE];
-    if ((ret = pico_getResourceName(gPicoSystem, gPicoTaResources[i], (char *)gPicoTaResourceNames[i]))) {
+    if ((ret = pico_getResourceName(gPicoSystem, gPicoTaResources[i], reinterpret_cast<char *>(gPicoTaResourceNames[i])))) {
       pico_getSystemStatusMessage(gPicoSystem, ret, outMessage);
       gError = QString("Cannot get the text analysis resource name (%1): %2").arg(ret).arg(outMessage);
       cleanup();
@@ -184,7 +184,7 @@ static void init() {
 
     // Get the signal generation resource name.
     gPicoSgResourceNames[i] = new pico_Char[PICO_MAX_RESOURCE_NAME_SIZE];
-    if ((ret = pico_getResourceName(gPicoSystem, gPicoSgResources[i], (char *)gPicoSgResourceNames[i]))) {
+    if ((ret = pico_getResourceName(gPicoSystem, gPicoSgResources[i], reinterpret_cast<char *>(gPicoSgResourceNames[i])))) {
       pico_getSystemStatusMessage(gPicoSystem, ret, outMessage);
       gError = QString("Cannot get the signal generation resource name (%1): %2").arg(ret).arg(outMessage);
       cleanup();
@@ -192,7 +192,7 @@ static void init() {
     }
 
     // Create a voice definition.
-    if ((ret = pico_createVoiceDefinition(gPicoSystem, (const pico_Char *)gLanguages[i]))) {
+    if ((ret = pico_createVoiceDefinition(gPicoSystem, reinterpret_cast<const pico_Char *>(gLanguages[i])))) {
       pico_getSystemStatusMessage(gPicoSystem, ret, outMessage);
       gError = QString("Cannot create voice definition (%1): %2").arg(ret).arg(outMessage);
       cleanup();
@@ -200,7 +200,8 @@ static void init() {
     }
 
     // Add the text analysis resource to the voice.
-    if ((ret = pico_addResourceToVoiceDefinition(gPicoSystem, (const pico_Char *)gLanguages[i], gPicoTaResourceNames[i]))) {
+    if ((ret = pico_addResourceToVoiceDefinition(gPicoSystem, reinterpret_cast<const pico_Char *>(gLanguages[i]),
+                                                 gPicoTaResourceNames[i]))) {
       pico_getSystemStatusMessage(gPicoSystem, ret, outMessage);
       gError = QString("Cannot add the text analysis resource to the voice (%1): %2").arg(ret).arg(outMessage);
       cleanup();
@@ -208,7 +209,8 @@ static void init() {
     }
 
     // Add the signal generation resource to the voice.
-    if ((ret = pico_addResourceToVoiceDefinition(gPicoSystem, (const pico_Char *)gLanguages[i], gPicoSgResourceNames[i]))) {
+    if ((ret = pico_addResourceToVoiceDefinition(gPicoSystem, reinterpret_cast<const pico_Char *>(gLanguages[i]),
+                                                 gPicoSgResourceNames[i]))) {
       pico_getSystemStatusMessage(gPicoSystem, ret, outMessage);
       gError = QString("Cannot add the signal generation resource to the voice (%1): %2").arg(ret).arg(outMessage);
       cleanup();
@@ -325,7 +327,7 @@ qint16 *WbPicoTextToSpeech::generateBufferFromText(const QString &text, int *siz
   int status;
   QString t = toSsml(text);
   const QByteArray textUtf8 = t.toUtf8();  // seems vital: may be related to deep copy (see #4471)
-  const pico_Char *remainingTextToSent = (const pico_Char *)(textUtf8.constData());
+  const pico_Char *remainingTextToSent = reinterpret_cast<const pico_Char *>((textUtf8.constData()));
   pico_Int16 bytesSent, bytesReceived, outDataType, remainingText = textUtf8.size() + 1;
   pico_Retstring outMessage;
 
@@ -348,14 +350,14 @@ qint16 *WbPicoTextToSpeech::generateBufferFromText(const QString &text, int *siz
       while (bufferIndex + PICO_BLOCK_SIZE > bufferSize) {
         bufferSize += 1024 * 1024;  // 1 MB
         qint16 *previousBuffer = buffer;
-        buffer = (qint16 *)realloc(buffer, bufferSize);
+        buffer = static_cast<qint16 *>(realloc(buffer, bufferSize));
         if (!buffer) {  // re-allocation failed, this is required otherwise CppCheck raises an error
           free(previousBuffer);
           gError = QString("Cannot re-allocate buffer.");
           return NULL;
         }
       }
-      char *bufferPointer = ((char *)buffer) + bufferIndex;
+      char *bufferPointer = (reinterpret_cast<char *>(buffer)) + bufferIndex;
       status = pico_getData(gPicoEngine, bufferPointer, PICO_BLOCK_SIZE, &bytesReceived, &outDataType);
       if (status != PICO_STEP_BUSY && status != PICO_STEP_IDLE) {
         free(buffer);
@@ -369,7 +371,7 @@ qint16 *WbPicoTextToSpeech::generateBufferFromText(const QString &text, int *siz
   }
   gError.clear();
   *size = bufferIndex / sizeof(qint16);
-  buffer = (qint16 *)realloc(buffer, bufferIndex);  // reduce the size of the buffer to the minimum
+  buffer = static_cast<qint16 *>(realloc(buffer, bufferIndex));  // reduce the size of the buffer to the minimum
   return buffer;
 }
 

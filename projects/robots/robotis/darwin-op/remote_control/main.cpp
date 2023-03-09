@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -103,8 +103,8 @@ int main(int argc, char *argv[]) {
     const double *gyro;
     const unsigned char *image;
 
-    char *receiveBuffer = (char *)malloc(1024);
-    char *sendBuffer = (char *)malloc(350000);
+    char *receiveBuffer = static_cast<char *>(malloc(1024));
+    char *sendBuffer = static_cast<char *>(malloc(350000));
     receiveBuffer[0] = '\0';
     sendBuffer[0] = '\0';
 

@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,14 +19,12 @@
 RosRadar::RosRadar(Radar *radar, Ros *ros) : RosSensor(radar->getName(), radar, ros) {
   mRadar = radar;
   std::string deviceNameFixed = RosDevice::fixedDeviceName();
-  mGetMaxRangeServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + "/get_max_range", &RosRadar::getMaxRangeCallback);
-  mGetMinRangeServer =
-    RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + "/get_min_range", &RosRadar::getMinRangeCallback);
-  mGetVerticalFovServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + "/get_vertical_fov",
-                                                         &RosRadar::getVerticalFovCallback);
-  mGetHorizontalFovServer = RosDevice::rosAdvertiseService((ros->name()) + '/' + deviceNameFixed + "/get_horizontal_fov",
-                                                           &RosRadar::getHorizontalFovCallback);
+  mGetMaxRangeServer = RosDevice::rosAdvertiseService(deviceNameFixed + "/get_max_range", &RosRadar::getMaxRangeCallback);
+  mGetMinRangeServer = RosDevice::rosAdvertiseService(deviceNameFixed + "/get_min_range", &RosRadar::getMinRangeCallback);
+  mGetVerticalFovServer =
+    RosDevice::rosAdvertiseService(deviceNameFixed + "/get_vertical_fov", &RosRadar::getVerticalFovCallback);
+  mGetHorizontalFovServer =
+    RosDevice::rosAdvertiseService(deviceNameFixed + "/get_horizontal_fov", &RosRadar::getHorizontalFovCallback);
 }
 
 RosRadar::~RosRadar() {
@@ -38,11 +36,10 @@ RosRadar::~RosRadar() {
 ros::Publisher RosRadar::createPublisher() {
   std::string deviceNameFixed = RosDevice::fixedDeviceName();
   webots_ros::Int8Stamped targetsNumberType;
-  mTargetsNumberPublisher =
-    RosDevice::rosAdvertiseTopic(mRos->name() + '/' + deviceNameFixed + "/number_of_targets", targetsNumberType);
+  mTargetsNumberPublisher = RosDevice::rosAdvertiseTopic(deviceNameFixed + "/number_of_targets", targetsNumberType);
 
   webots_ros::RadarTarget type;
-  std::string topicName = mRos->name() + '/' + deviceNameFixed + "/targets";
+  std::string topicName = deviceNameFixed + "/targets";
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 
@@ -51,13 +48,13 @@ void RosRadar::publishValue(ros::Publisher publisher) {
   int target_number = mRadar->getNumberOfTargets();
   webots_ros::Int8Stamped targetsNumber;
   targetsNumber.header.stamp = ros::Time::now();
-  targetsNumber.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+  targetsNumber.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
   targetsNumber.data = target_number;
   mTargetsNumberPublisher.publish(targetsNumber);
 
   webots_ros::RadarTarget target;
   target.header.stamp = ros::Time::now();
-  target.header.frame_id = mRos->name() + '/' + RosDevice::fixedDeviceName();
+  target.header.frame_id = mFrameIdPrefix + RosDevice::fixedDeviceName();
   const WbRadarTarget *targets = mRadar->getTargets();
   for (int i = 0; i < target_number; ++i) {
     target.distance = targets[i].distance;

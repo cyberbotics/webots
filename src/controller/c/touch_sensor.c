@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2021 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -80,25 +80,25 @@ static void touch_sensor_read_answer(WbDevice *d, WbRequest *r) {
 
 int wb_touch_sensor_get_lookup_table_size(WbDeviceTag tag) {
   int result = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   TouchSensor *dev = touch_sensor_get_struct(tag);
   if (dev)
     result = dev->lookup_table_size;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
 const double *wb_touch_sensor_get_lookup_table(WbDeviceTag tag) {
   double *result = NULL;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   TouchSensor *dev = touch_sensor_get_struct(tag);
   if (dev)
     result = dev->lookup_table;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }
 
@@ -169,14 +169,14 @@ void wb_touch_sensor_enable(WbDeviceTag tag, int sampling_period) {
     return;
   }
 
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   TouchSensor *ts = touch_sensor_get_struct(tag);
   if (ts) {
     ts->sampling_period = sampling_period;
     ts->enable = true;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
 }
 
 void wb_touch_sensor_disable(WbDeviceTag tag) {
@@ -189,13 +189,13 @@ void wb_touch_sensor_disable(WbDeviceTag tag) {
 
 int wb_touch_sensor_get_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   TouchSensor *ts = touch_sensor_get_struct(tag);
   if (ts)
     sampling_period = ts->sampling_period;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return sampling_period;
 }
 
@@ -203,7 +203,7 @@ double wb_touch_sensor_get_value(WbDeviceTag tag) {
   TouchSensor *ts = touch_sensor_get_struct(tag);
 
   double value = NAN;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   if (ts) {
     if (ts->type != WB_TOUCH_SENSOR_BUMPER && ts->type != WB_TOUCH_SENSOR_FORCE) {
       fprintf(stderr, "Error: %s() must be used with a TouchSensor of type \"bumper\" or \"force\"\n", __FUNCTION__);
@@ -215,14 +215,14 @@ double wb_touch_sensor_get_value(WbDeviceTag tag) {
     }
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return value;
 }
 
 const double *wb_touch_sensor_get_values(WbDeviceTag tag) {
   TouchSensor *ts = touch_sensor_get_struct(tag);
   double *values = NULL;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   if (ts) {
     if (ts->type != WB_TOUCH_SENSOR_FORCE3D) {
       fprintf(stderr, "Error: %s() must be used with a TouchSensor of type \"force-3d\"\n", __FUNCTION__);
@@ -234,18 +234,18 @@ const double *wb_touch_sensor_get_values(WbDeviceTag tag) {
     }
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return values;
 }
 
 WbTouchSensorType wb_touch_sensor_get_type(WbDeviceTag tag) {
   WbTouchSensorType result = WB_TOUCH_SENSOR_BUMPER;
-  robot_mutex_lock_step();
+  robot_mutex_lock();
   TouchSensor *ts = touch_sensor_get_struct(tag);
   if (ts)
     result = ts->type;
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
-  robot_mutex_unlock_step();
+  robot_mutex_unlock();
   return result;
 }

@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include "WbSimulationState.hpp"
+
 #include <cassert>
 
 WbSimulationState *WbSimulationState::cInstance = NULL;
@@ -47,20 +48,16 @@ void WbSimulationState::setRendering(bool show) {
 }
 
 void WbSimulationState::pauseSimulation() {
-  if (gResumeMode != NONE) {
-    // already paused
+  if (gResumeMode != NONE)  // already paused
     return;
-  }
 
   gResumeMode = mMode;
   setMode(PAUSE);
 }
 
 void WbSimulationState::resumeSimulation() {
-  if (gResumeMode == NONE) {
-    // nothing to resume
+  if (gResumeMode == NONE)  // nothing to resume
     return;
-  }
 
   setMode(gResumeMode);
   gResumeMode = NONE;

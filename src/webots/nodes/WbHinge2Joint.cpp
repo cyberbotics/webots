@@ -1,10 +1,10 @@
-// Copyright 1996-2021 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -423,14 +423,12 @@ void WbHinge2Joint::postPhysicsStep() {
   assert(mJoint);
   WbRotationalMotor *const rm = rotationalMotor();
   WbRotationalMotor *const rm2 = rotationalMotor2();
-  if (rm && rm->isPIDPositionControl()) {
-    // if controlling in position we update position using directly the angle feedback
-    mPosition = WbMathsUtilities::normalizeAngle(-dJointGetHinge2Angle1(mJoint) + mOdePositionOffset, mPosition);
-  } else {
-    // if not controlling in position we use the angle rate feedback to update position (because at high speed angle feedback is
-    // under-estimated)
-    mPosition -= dJointGetHinge2Angle1Rate(mJoint) * mTimeStep / 1000.0;
-  }
+
+  // First update the position roughly based on the angular rate of the joint so that it is within pi radians...
+  mPosition -= dJointGetHinge2Angle1Rate(mJoint) * mTimeStep / 1000.0;
+  // ...then refine the update to correspond to the actual measured angle (which is normalized to [-pi,pi])
+  mPosition = WbMathsUtilities::normalizeAngle(-dJointGetHinge2Angle1(mJoint) + mOdePositionOffset, mPosition);
+
   WbJointParameters *const p = parameters();
   if (p)
     p->setPositionFromOde(mPosition);
@@ -438,10 +436,10 @@ void WbHinge2Joint::postPhysicsStep() {
     // dynamic position or velocity control
     emit updateMuscleStretch(rm->computeFeedback() / rm->maxForceOrTorque(), false, 1);
 
-  if (rm2 && rm2->isPIDPositionControl())
-    mPosition2 = WbMathsUtilities::normalizeAngle(dJointGetHinge2Angle2(mJoint) + mOdePositionOffset2, mPosition2);
-  else
-    mPosition2 -= dJointGetHinge2Angle2Rate(mJoint) * mTimeStep / 1000.0;
+  // First update the position roughly based on the angular rate of the joint so that it is within pi radians...
+  mPosition2 += dJointGetHinge2Angle2Rate(mJoint) * mTimeStep / 1000.0;
+  // ...then refine the update to correspond to the actual measured angle (which is normalized to [-pi,pi])
+  mPosition2 = WbMathsUtilities::normalizeAngle(dJointGetHinge2Angle2(mJoint) + mOdePositionOffset2, mPosition2);
   WbJointParameters *const p2 = parameters2();
   if (p2)
     p2->setPositionFromOde(mPosition2);
@@ -699,7 +697,7 @@ QVector<WbLogicalDevice *> WbHinge2Joint::devices() const {
 //////////
 
 void WbHinge2Joint::createWrenObjects() {
-  WbJoint::createWrenObjects();
+  WbHingeJoint::createWrenObjects();
 
   // create Wren objects for Muscle devices
   for (int i = 0; i < devices2Number(); ++i) {
@@ -737,7 +735,7 @@ void WbHinge2Joint::updateJointAxisRepresentation() {
   wr_renderable_set_mesh(mRenderable, WR_MESH(mMesh));
 }
 
-void WbHinge2Joint::writeExport(WbVrmlWriter &writer) const {
+void WbHinge2Joint::writeExport(WbWriter &writer) const {
   if (writer.isUrdf() && solidEndPoint()) {
     warn(tr("Exporting 'Hinge2Joint' nodes to URDF is currently not supported"));
     return;

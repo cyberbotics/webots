@@ -7,7 +7,7 @@
       "minPosition": 0,
       "name": "left_wheel_hinge",
       "position": -2.166075283053669e-09,
-      "transformID": "n669",
+      "transformID": "n672",
       "type": "RotationalMotor"
     },
     {
@@ -17,20 +17,20 @@
       "minPosition": 0,
       "name": "right_wheel_hinge",
       "position": -2.1895041033680007e-09,
-      "transformID": "n679",
+      "transformID": "n682",
       "type": "RotationalMotor"
     },
     {
       "name": "camera",
-      "transformID": "n709",
+      "transformID": "n713",
       "type": "Camera"
     },
     {
       "name": "display",
-      "transformID": "n625",
+      "transformID": "n626",
       "type": "Display"
     }
   ],
   "name": "jetbot",
-  "robotID": "n33"
+  "robotID": "n34"
 }

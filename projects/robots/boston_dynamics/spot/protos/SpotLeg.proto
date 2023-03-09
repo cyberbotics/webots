@@ -1,0 +1,615 @@
+#VRML_SIM R2023a utf8
+# tags: hidden
+# template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Plastic.proto"
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+
+PROTO SpotLeg [
+  field SFVec3f     translation  0 0 0    # Is `Transform.translation`.
+  field SFRotation  rotation     0 0 1 0  # Is `Transform.rotation`.
+  field SFString    name         "leg"    # Is `Solid.name`.
+  field SFBool      left         FALSE    # Define if right or left leg.
+]
+{
+  %<
+    const legName = fields.name.value;
+    const scale = fields.left.value ? '1 1 1' : '-1 1 1';
+    const sign = fields.left.value ? -1 : 1;
+  >%
+  Transform {
+    translation IS translation
+    rotation IS rotation
+    children [
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0 0 1
+          anchor %<=sign * 0.0528>% 0.0006 0
+        }
+        device [
+          PositionSensor {
+            name %<= '"' + legName + ' shoulder abduction sensor"' >%
+          }
+          RotationalMotor {
+            name %<= '"' + legName + ' shoulder abduction motor"' >%
+            minPosition -0.6
+            maxPosition 0.5
+            maxTorque 50
+          }
+        ]
+        endPoint DEF SHOULDER Solid {
+          translation %<=sign * 0.0528>% 0.0006 0
+          children [
+            DEF SHOULDER_ROTATION_JOINT HingeJoint {
+              jointParameters HingeJointParameters {
+                anchor 0 -0.00053 0
+              }
+              device [
+                PositionSensor {
+                  name %<= '"' + legName + ' shoulder rotation sensor"' >%
+                }
+                RotationalMotor {
+                  name %<= '"' + legName + ' shoulder rotation motor"' >%
+                  minPosition -1.7
+                  maxPosition 1.7
+                  maxTorque 50
+                }
+              ]
+              endPoint DEF UPPERARM Solid {
+                translation 0 -0.00053 0
+                children [
+                  HingeJoint {
+                    jointParameters HingeJointParameters {
+                      anchor %<=sign * 0.1172>% -0.29077 0.2083
+                    }
+                    device [
+                      RotationalMotor {
+                        name %<= '"' + legName + ' piston motor"' >%
+                      }
+                    ]
+                    endPoint DEF TENDON Solid {
+                      translation %<=sign * -0.0528>% -1.17737 1.4317
+                      rotation 1 0 0 -0.5235996938995747
+                      children [
+                        Transform {
+                          scale %<=scale>%
+                          children Shape {
+                            appearance DEF METAL_PART BrushedAluminium {
+                              textureTransform TextureTransform {
+                                scale 20 20
+                              }
+                            }
+                            geometry Mesh {
+                              ccw IS left
+                              url "meshes/tendon.obj"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                  DEF ELBOW_JOINT HingeJoint {
+                    jointParameters HingeJointParameters {
+                      anchor %<=sign * 0.1122>% -0.319729 0.182338
+                    }
+                    device [
+                      PositionSensor {
+                        name %<= '"' + legName + ' elbow sensor"' >%
+                      }
+                      RotationalMotor {
+                        name %<= '"' + legName + ' elbow motor"' >%
+                        minPosition -0.45
+                        maxPosition 1.6
+                        maxTorque 50
+                      }
+                    ]
+                    endPoint DEF FOREARM Solid {
+                      translation %<=sign * 0.1122>% -0.319729 0.182338
+                      children [
+                        Transform {
+                          translation %<=sign * -0.165>% -1.342041 0.640962
+                          scale %<=scale>%
+                          children [
+                            DEF FOREARM_SH Shape {
+                              appearance DEF GRAY_PART Plastic {
+                                colorOverride 0.0862745 0.0862745 0.0862745
+                                textureTransform TextureTransform {
+                                  scale 20 20
+                                }
+                              }
+                              geometry Mesh {
+                                ccw IS left
+                                url "meshes/forearm_sh.obj"
+                              }
+                            }
+                            DEF FOOT Shape {
+                              appearance USE GRAY_PART
+                              geometry Mesh {
+                                ccw IS left
+                                url "meshes/foot.obj"
+                              }
+                            }
+                            DEF FOOT_RUBBER Shape {
+                              appearance Plastic {
+                                colorOverride 0.0980392 0.0980392 0.0980392
+                                type "padded"
+                                textureTransform TextureTransform {
+                                  center 0.032 0
+                                  scale 14 24
+                                }
+                              }
+                              geometry Mesh {
+                                ccw IS left
+                                url "meshes/foot_rubber.obj"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                      name %<= '"' + legName + ' forearm"' >%
+                      boundingObject DEF FOREARM_BO Group {
+                        children [
+                          Transform {
+                            translation %<=sign * 0.001038>% -0.271321 -0.225038
+                            rotation -0.577349 -0.577352 0.577350 2.0944
+                            children [
+                              Cylinder {
+                                height 0.039623
+                                radius 0.035094
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation %<=sign * 0.001038>% -0.227421 -0.230239
+                            rotation -1 0 0 0.947675
+                            children [
+                              Box {
+                                size 0.037736 0.006038 0.041509
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation %<=sign * 0.001038>% -0.232272 -0.198255
+                            rotation 1 0 0 -0.0931852938995747
+                            children [
+                              Box {
+                                size 0.037736 0.045283 0.006792
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation %<=sign * 0.001038>% -0.205751 -0.206348
+                            rotation 1 0 0 0.616815
+                            children [
+                              Box {
+                                size 0.025283 0.022642 0.020755
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation %<=sign * 0.001038>% -0.168611 -0.18111
+                            rotation 1 0 0 -2.513185307179586
+                            children [
+                              Box {
+                                size 0.019245 0.071698 0.017358
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation %<=sign * 0.001038>% -0.125111 -0.148236
+                            rotation -1 0 0 -0.6636253071795863
+                            children [
+                              Box {
+                                size 0.021887 0.037736 0.018491
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation %<=sign * 0.001038>% -0.100861 -0.126163
+                            rotation -1 0 0 -0.7604153071795858
+                            children [
+                              Box {
+                                size 0.026415 0.030189 0.021132
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation %<=sign * 0.001038>% -0.084241 -0.106843
+                            rotation 1 0 0 0.867225
+                            children [
+                              Box {
+                                size 0.032453 0.022642 0.024528
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation %<=sign * 0.001038>% -0.068551 -0.08661
+                            rotation 1 0 0 0.907225
+                            children [
+                              Box {
+                                size 0.037736 0.033962 0.026415
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation %<=sign * 0.001038>% -0.049721 -0.059227
+                            rotation 1 0 0 0.933245
+                            children [
+                              Cylinder {
+                                height 0.030566
+                                radius 0.024528
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation %<=sign * 0.001038>% -0.034991 -0.038166
+                            rotation 1 0 0 0.937225
+                            children [
+                              Box {
+                                size 0.038113 0.022642 0.032075
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation %<=sign * 0.001038>% -0.022931 -0.021744
+                            rotation 1 0 0 0.937225
+                            children [
+                              Box {
+                                size 0.031321 0.018868 0.03283
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation %<=sign * 0.001038>% -0.010711 -0.006332
+                            rotation -1 0 0 -0.8340353071795858
+                            children [
+                              Box {
+                                size 0.027925 0.018868 0.03283
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation %<=sign * 0.001038>% 0.004299 0.006862
+                            rotation -1 0 0 -0.6808453071795864
+                            children [
+                              Box {
+                                size 0.027547 0.018868 0.034717
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation %<=sign * 0.001038>% 0.021259 0.019851
+                            rotation -1 0 0 -0.604465307179586
+                            children [
+                              Box {
+                                size 0.020377 0.026415 0.03434
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation %<=sign * 0.001038>% 0.019179 -0.009531
+                            rotation 1 0 0 0.494895
+                            children [
+                              Box {
+                                size 0.010189 0.05283 0.00717
+                              }
+                            ]
+                          }
+                          Transform {
+                            translation %<=sign * 0.001038>% 0.037459 0.024742
+                            rotation 0.577350 0.577352 -0.577350 -2.094399
+                            children [
+                              Cylinder {
+                                height 0.019736
+                                radius 0.021887
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                      physics Physics {
+                        density -1
+                        mass 0.137150943
+                        centerOfMass [
+                          %<=sign * 0.0010379999999999999>% -0.12989919535771882 -0.12095184442508211
+                        ]
+                        inertiaMatrix [
+                          0.014652279026458286 0.026034033109202114 0.011480093961576602
+                          %<=sign * 6.107196767681762e-05>% 0.012746451515841613 %<=sign * -6.558985205280841e-05>%
+                        ]
+                      }
+                    }
+                  }
+                  Transform {
+                    translation %<=sign * -0.0528>% -1.66177 0.8233
+                    scale %<=scale>%
+                    children [
+                      DEF COVER_LEG Shape {
+                        appearance DEF YELLOW_COVER MattePaint {
+                          baseColor 0.847059 0.666667 0
+                        }
+                        geometry Mesh {
+                          ccw IS left
+                          url "meshes/cover_leg.obj"
+                        }
+                      }
+                      DEF COVER_MOTOR Shape {
+                        appearance DEF BLACK_PART MattePaint {
+                          baseColor 0 0 0
+                        }
+                        geometry Mesh {
+                          ccw IS left
+                          url "meshes/cover_motor.obj"
+                        }
+                      }
+                      DEF UPPERARM_SH Shape {
+                        appearance USE GRAY_PART
+                        geometry Mesh {
+                          ccw IS left
+                          url "meshes/upperarm_sh.obj"
+                        }
+                      }
+                      DEF UPPERARM_INSIDE Shape {
+                        appearance DEF METAL_PART BrushedAluminium {
+                          textureTransform TextureTransform {
+                            scale 20 20
+                          }
+                        }
+                        geometry Mesh {
+                          ccw IS left
+                          url "meshes/upperarm_inside.obj"
+                        }
+                      }
+                      DEF COVER_ELBOW Shape {
+                        appearance USE METAL_PART
+                        geometry Mesh {
+                          ccw IS left
+                          url "meshes/cover_elbow.obj"
+                        }
+                      }
+                    ]
+                  }
+                ]
+                name %<= '"' + legName + ' upperarm"' >%
+                boundingObject DEF UPPERARM_BO Group {
+                  children [
+                    Transform {
+                      translation %<=sign * 0.117011>% -0.32073 0.1829
+                      rotation 0.577350 0.577352 -0.577350 -2.094399
+                      children [
+                        Cylinder {
+                          height 0.060377
+                          radius 0.02717
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation %<=sign * 0.117011>% -0.25867 0.180358
+                      rotation -0.02498960817355977 0.024989508173527065 0.9993753268740314 1.57142
+                      children [
+                        Box {
+                          size 0.09434 0.060377 0.053208
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation %<=sign * 0.149087>% -0.023654 0.007772
+                      rotation 1 0 0 -0.6563753071795864
+                      children [
+                        Box {
+                          size 0.016226 0.177358 0.071698
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation %<=sign * 0.14944>% -0.001095 0.048195
+                      rotation -0.8708125987213743 0.4653767855500056 -0.1584609269797163 0.745474
+                      children [
+                        Box {
+                          size 0.004528 0.173585 0.015094
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation %<=sign * 0.143963>% -0.142325 0.149419
+                      rotation -0.8073442439173019 0.5785731748002897 -0.11596703503631382 0.7821
+                      children [
+                        Box {
+                          size 0.004528 0.173585 0.015094
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation %<=sign * 0.143376>% -0.16295 0.113632
+                      rotation -0.9969148110595092 0.025671095134680254 0.07417448594206484 0.648238
+                      children [
+                        Box {
+                          size 0.016226 0.173585 0.071698
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation %<=sign * 0.113992>% -0.21476 0.154045
+                      rotation 1 0 0 -0.6563753071795864
+                      children [
+                        Box {
+                          size 0.054717 0.098113 0.064151
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation %<=sign * 0.113238>% -0.119427 0.086296
+                      rotation 1 0 0 -2.227175
+                      children [
+                        Cylinder {
+                          height 0.150943
+                          radius 0.028679
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation %<=sign * 0.113238>% -0.04459 0.028636
+                      rotation 1 0 0 -2.227175
+                      children [
+                        Cylinder {
+                          height 0.041509
+                          radius 0.037736
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation %<=sign * 0.113738>% -0.02284 -0.046726
+                      rotation 1 0 0 -0.6563753071795864
+                      children [
+                        Box {
+                          size 0.061509 0.069811 0.011321
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation %<=sign * 0.073615>% -0.00019 -0.000689
+                      rotation 0.577350 0.577352 -0.577350 -2.094399
+                      children [
+                        Cylinder {
+                          height 0.037736
+                          radius 0.04
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation %<=sign * 0.115879>% 0.008331 -0.011344
+                      rotation 1 0 0 -2.227175
+                      children [
+                        Cylinder {
+                          height 0.086792
+                          radius 0.033962
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation %<=sign * 0.12154>% 0.053961 -0.047932
+                      rotation 1 0 0 -0.6563753071795864
+                      children [
+                        Box {
+                          size 0.064151 0.003774 0.071698
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation %<=sign * 0.12003>% 0.073308 -0.006499
+                      rotation 1 0 0 0.0136247
+                      children [
+                        Box {
+                          size 0.060377 0.007547 0.022642
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation %<=sign * 0.117011>% -0.13635 0.154336
+                      rotation 1 0 0 0.99
+                      children [
+                        Box {
+                          size 0.049057 0.005283 0.169811
+                        }
+                      ]
+                    }
+                    Transform {
+                      translation %<=sign * 0.083111>% -0.31378 0.182934
+                      rotation -0.03814818654281376 0.03814838654274321 -0.9985436477529064 -1.572255307179586
+                      children [
+                        Box {
+                          size 0.044 0.008 0.0387
+                        }
+                      ]
+                    }
+                  ]
+                }
+                physics Physics {
+                  density -1
+                  mass 0.934886792
+                  centerOfMass [
+                    %<=sign * 0.11714932354424774>% -0.12276425577719878 0.08285389390894864
+                  ]
+                  inertiaMatrix [
+                    0.1012996403729267 0.09841956052568711 0.06647528278171203
+                    %<=sign * -0.02395093549986319>% -0.04470786622876792 %<=sign * -0.03546126467713879>%
+                  ]
+                }
+              }
+            }
+            Transform {
+              translation %<=sign * -0.0528>% -1.6623 0.8233
+              scale %<=scale>%
+              children [
+                DEF MOTOR_SUPPORT Shape {
+                  appearance USE BLACK_PART
+                  geometry Mesh {
+                    ccw IS left
+                    url "meshes/motor_support.obj"
+                  }
+                }
+                DEF MOTOR Shape {
+                  appearance USE GRAY_PART
+                  geometry Mesh {
+                    ccw IS left
+                    url "meshes/motor.obj"
+                  }
+                }
+                DEF MOTOR_RING Shape {
+                  appearance USE METAL_PART
+                  geometry Mesh {
+                    ccw IS left
+                    url "meshes/motor_ring.obj"
+                  }
+                }
+              ]
+            }
+          ]
+          name %<= '"' + legName + ' shoulder"' >%
+          boundingObject DEF SHOULDER_BO Group {
+            children [
+              Transform {
+                translation %<=sign * -0.004874>% 0.000873 -0.000643
+                children [
+                  Box {
+                    size 0.086792 0.124528 0.120755
+                  }
+                ]
+              }
+              Transform {
+                translation %<=sign * 0.006447>% 0.000873 -0.000643
+                children [
+                  Box {
+                    size 0.098113 0.098113 0.098113
+                  }
+                ]
+              }
+              Transform {
+                translation %<=sign * 0.058145>% 0.000873 -0.000643
+                rotation 0.577350 0.577352 -0.577350 -2.094399
+                children [
+                  Cylinder {
+                    height 0.006038
+                    radius 0.047925
+                  }
+                ]
+              }
+            ]
+          }
+          physics Physics {
+            density -1
+            mass 2.131962264
+            centerOfMass [
+              0.000643 %<=sign * -0.000985966468486107>% 0.000873
+            ]
+            inertiaMatrix [
+              0.0042655393382746935 0.004840458991120049 0.004164087201524784
+              %<=sign * 1.4537990385136328e-06>% -1.2872309568206006e-06 %<=sign * 1.9737366790868247e-06>%
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

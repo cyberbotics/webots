@@ -12,7 +12,7 @@ Derived from [Robot](../reference/robot.md).
 ```
 Khepera1 {
   SFVec3f    translation     0 0 0
-  SFRotation rotation        0 1 0 0
+  SFRotation rotation        0 0 1 0
   SFString   name            "Khepera"
   SFString   controller      "braitenberg"
   MFString   controllerArgs  []
