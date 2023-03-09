@@ -16,7 +16,6 @@ PROTO RosbotXl [
   field  SFBool      synchronization TRUE        # Is `Robot.synchronization`.
   field  SFBool      selfCollision   FALSE       # Is `Robot.selfCollision`.
   field  MFNode      lidarSlot       [ RpLidarA2 { name "laser" } ] # Extends the robot with a RpLidar A2 lidar.
-
 ]
 {
   Robot {
