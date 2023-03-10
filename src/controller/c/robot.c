@@ -1105,7 +1105,7 @@ static char *encode_robot_name(const char *robot_name) {
 }
 
 static char *compute_socket_filename() {
-  char *robot_name = encode_robot_name(getenv("WEBOTS_ROBOT_NAME"));
+  char *robot_name = encode_robot_name(wbu_system_getenv("WEBOTS_ROBOT_NAME"));
   const char *WEBOTS_INSTANCE_PATH = wbu_system_webots_instance_path(true);
   char *socket_filename;
   if (robot_name && robot_name[0] && WEBOTS_INSTANCE_PATH && WEBOTS_INSTANCE_PATH[0]) {
@@ -1133,7 +1133,7 @@ static char *compute_socket_filename() {
   // extern controller case
   // parse WEBOTS_CONTROLLER_URL to extract protocol, host, port and robot name
   const char *TMP_DIR = wbu_system_tmpdir();
-  char *WEBOTS_CONTROLLER_URL = getenv("WEBOTS_CONTROLLER_URL");
+  char *WEBOTS_CONTROLLER_URL = (char *)wbu_system_getenv("WEBOTS_CONTROLLER_URL");
   if (WEBOTS_CONTROLLER_URL == NULL || WEBOTS_CONTROLLER_URL[0] == 0 || strstr(WEBOTS_CONTROLLER_URL, "://") == NULL) {
     // either the WEBOTS_CONTROLLER_URL is not defined, empty or contains only a robot name
     // default to the most recent /tmp/webots-* folder
@@ -1279,7 +1279,7 @@ static char *compute_socket_filename() {
 }
 
 static void compute_remote_info(char **host, int *port, char **robot_name) {
-  const char *WEBOTS_CONTROLLER_URL = getenv("WEBOTS_CONTROLLER_URL");
+  const char *WEBOTS_CONTROLLER_URL = wbu_system_getenv("WEBOTS_CONTROLLER_URL");
   const char *url_suffix = strstr(&WEBOTS_CONTROLLER_URL[6], ":");
 
   if (url_suffix == NULL) {  // assuming only the IP address was provided
@@ -1349,8 +1349,8 @@ int wb_robot_init() {  // API initialization
   int retry = 0;
   while (true) {
     bool success;
-    const char *WEBOTS_CONTROLLER_URL = getenv("WEBOTS_CONTROLLER_URL");
-    const char *WEBOTS_ROBOT_NAME = getenv("WEBOTS_ROBOT_NAME");
+    const char *WEBOTS_CONTROLLER_URL = wbu_system_getenv("WEBOTS_CONTROLLER_URL");
+    const char *WEBOTS_ROBOT_NAME = wbu_system_getenv("WEBOTS_ROBOT_NAME");
     const char *WEBOTS_TMP_PATH = wbu_system_webots_instance_path(true);
     if ((WEBOTS_CONTROLLER_URL != NULL) &&
         !(WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0]) &&
