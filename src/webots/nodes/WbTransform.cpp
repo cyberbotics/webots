@@ -12,11 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbResizeManipulator.hpp"
 #include "WbTransform.hpp"
 
+#include "WbBoundingSphere.hpp"
+#include "WbNodeUtilities.hpp"
+#include "WbResizeManipulator.hpp"
+#include "WbSimulationState.hpp"
+#include "WbTranslateRotateManipulator.hpp"
+#include "WbVrmlNodeUtilities.hpp"
+
 void WbTransform::init() {
-  mScale = node->findSFVector3("scale");
+  mScale = findSFVector3("scale");
 
   mAbsoluteScaleNeedUpdate = true;
   mPreviousXscaleValue = 1.0;
@@ -38,6 +44,7 @@ WbTransform::WbTransform(const WbNode &other) : WbPose(other) {
 }
 
 WbTransform::~WbTransform() {
+  disconnect(childrenField(), &WbMFNode::changed, this, &WbTransform::updateConstrainedHandleMaterials);
 }
 
 void WbTransform::preFinalize() {
@@ -60,14 +67,32 @@ void WbTransform::deleteWrenObjects() {
 }
 
 void WbTransform::applyToScale() {
-  WbAbstractPose::applyToScale();
+  mBaseNode->setMatrixNeedUpdate();
+  mBaseNode->setScaleNeedUpdate();
 
+  if (mBaseNode->areWrenObjectsInitialized())
+    applyScaleToWren();
+
+  if (mBaseNode->boundingSphere() && !mBaseNode->isInBoundingObject() && WbSimulationState::instance()->isRayTracingEnabled())
+    mBaseNode->boundingSphere()->setOwnerSizeChanged();
+
+  if (mScaleManipulator && mScaleManipulator->isAttached())
+    setResizeManipulatorDimensions();
+
+  if (mTranslateRotateManipulator && mTranslateRotateManipulator->isAttached())
+    updateTranslateRotateHandlesSize();
+
+  // TODO: needed? transform can't be in BO -> cleanup
   if (isInBoundingObject() && isAValidBoundingObject())
     applyToOdeScale();
 }
 
 void WbTransform::updateScale(bool warning) {
-  WbAbstractPose::updateScale(warning);
+  const int constraint = constraintType();
+  if (checkScale(constraint, warning))
+    return;
+
+  applyToScale();
 
   if (mPoseChangedSignalEnabled)
     emit poseChanged();
@@ -210,31 +235,6 @@ bool WbTransform::checkScaleUniformity(bool warning) {
   }
 
   return false;
-}
-
-void WbTransform::applyToScale() {
-  mBaseNode->setMatrixNeedUpdate();
-  mBaseNode->setScaleNeedUpdate();
-
-  if (mBaseNode->areWrenObjectsInitialized())
-    applyScaleToWren();
-
-  if (mBaseNode->boundingSphere() && !mBaseNode->isInBoundingObject() && WbSimulationState::instance()->isRayTracingEnabled())
-    mBaseNode->boundingSphere()->setOwnerSizeChanged();
-
-  if (mScaleManipulator && mScaleManipulator->isAttached())
-    setResizeManipulatorDimensions();
-
-  if (mTranslateRotateManipulator && mTranslateRotateManipulator->isAttached())
-    updateTranslateRotateHandlesSize();
-}
-
-void WbTransform::updateScale(bool warning) {
-  const int constraint = constraintType();
-  if (checkScale(constraint, warning))
-    return;
-
-  applyToScale();
 }
 
 // Absolute scale 3D-vector

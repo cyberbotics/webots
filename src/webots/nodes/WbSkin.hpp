@@ -55,19 +55,19 @@ public:
   void reset(const QString &id) override;
   void updateSegmentationColor(const WbRgb &color) override { setSegmentationColor(color); }
 
-  void setScaleNeedUpdate() override { WbAbstractPose::setScaleNeedUpdateFlag(); }
+  // void setScaleNeedUpdate() override { WbAbstractPose::setScaleNeedUpdateFlag(); }
   void setMatrixNeedUpdate() override { WbAbstractPose::setMatrixNeedUpdateFlag(); }
-  int constraintType() const override;
+  int constraintType() const;
 
   // resize/scale manipulator
-  bool hasResizeManipulator() const override { return true; }
-  void attachResizeManipulator() override { WbAbstractPose::attachResizeManipulator(); }
-  void detachResizeManipulator() const override { WbAbstractPose::detachResizeManipulator(); }
-  void updateResizeHandlesSize() override { WbAbstractPose::updateResizeHandlesSize(); }
-  virtual void setResizeManipulatorDimensions() { WbAbstractPose::setResizeManipulatorDimensions(); }
-  void setUniformConstraintForResizeHandles(bool enabled) override {
-    WbAbstractPose::setUniformConstraintForResizeHandles(enabled);
-  }
+  // bool hasResizeManipulator() const override { return true; }
+  // void attachResizeManipulator() override { WbAbstractPose::attachResizeManipulator(); }
+  // void detachResizeManipulator() const override { WbAbstractPose::detachResizeManipulator(); }
+  // void updateResizeHandlesSize() override { WbAbstractPose::updateResizeHandlesSize(); }
+  // virtual void setResizeManipulatorDimensions() { WbAbstractPose::setResizeManipulatorDimensions(); }
+  // void setUniformConstraintForResizeHandles(bool enabled) override {
+  //  WbAbstractPose::setUniformConstraintForResizeHandles(enabled);
+  //}
 
   // translate-rotate manipulator
   void updateTranslateRotateHandlesSize() override { WbAbstractPose::updateTranslateRotateHandlesSize(); }
@@ -133,21 +133,21 @@ private:
 
   QString modelPath() const;
   void updateModel();
-  void applyToScale() override;
+  // void applyToScale();
 
   void setSegmentationColor(const WbRgb &color);
 
 private slots:
   virtual void updateTranslation();
   virtual void updateRotation();
-  virtual void updateScale(bool warning = false);
+  // virtual void updateScale(bool warning = false);
   void updateModelUrl();
   void updateAppearance();
   void updateMaterial();
   void updateAppearanceName(const QString &newName, const QString &prevName);
   void updateBones();
   void updateCastShadows();
-  void showResizeManipulator(bool enabled) override;
+  // void showResizeManipulator(bool enabled);
   void updateOptionalRendering(int option);
   void downloadUpdate();
 };

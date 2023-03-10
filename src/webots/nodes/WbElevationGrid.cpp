@@ -31,6 +31,7 @@
 #include "WbSFDouble.hpp"
 #include "WbSFInt.hpp"
 #include "WbSimulationState.hpp"
+#include "WbTransform.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 #include "WbWrenMeshBuffers.hpp"
 #include "WbWrenRenderingContext.hpp"
@@ -371,7 +372,7 @@ void WbElevationGrid::setResizeManipulatorDimensions() {
   WbVector3 scale(xSpacing(), ySpacing(), 1.0f);
   const WbTransform *const ut = dynamic_cast<const WbTransform *const>(upperPose());
   if (ut)
-    scale *= ut->absoluteScale();
+    scale *= ut->absoluteScale();  // TODO: do geometries still need absoluteScale?
 
   if (isAValidBoundingObject())
     scale *= WbVector3(1.0f, 1.0f, 1.0f + (wr_config_get_line_scale() / LINE_SCALE_FACTOR));

@@ -28,6 +28,7 @@
 #include "WbSFBool.hpp"
 #include "WbSFInt.hpp"
 #include "WbSimulationState.hpp"
+#include "WbTransform.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 #include "WbWrenRenderingContext.hpp"
 

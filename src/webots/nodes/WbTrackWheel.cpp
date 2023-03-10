@@ -27,7 +27,6 @@ void WbTrackWheel::init() {
   // define Transform fields
   mTranslation = new WbSFVector3(WbVector3());
   mRotation = findSFRotation("rotation");
-  mScale = new WbSFVector3(WbVector3(1, 1, 1));
   mTranslationStep = new WbSFDouble(0.1);
   mRotationStep = new WbSFDouble(0.1);
 }
@@ -76,8 +75,8 @@ void WbTrackWheel::updateRadius() {
     emit changed();
 }
 
-void WbTrackWheel::rotate(double travelledDistance) {
-  double angle = travelledDistance / radius();
+void WbTrackWheel::rotate(double traveledDistance) {
+  double angle = traveledDistance / radius();
   if (mInner->value())
     angle = -angle;
 

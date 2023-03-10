@@ -24,6 +24,7 @@
 #include "WbResizeManipulator.hpp"
 #include "WbSFVector2.hpp"
 #include "WbSimulationState.hpp"
+#include "WbTransform.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 #include "WbWrenAbstractResizeManipulator.hpp"
 #include "WbWrenRenderingContext.hpp"

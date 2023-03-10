@@ -36,7 +36,7 @@ public:
   virtual ~WbSelection();
 
   // the currently selected transform in the scene tree
-  WbAbstractPose *selectedAbstractTransform() const { return mSelectedAbstractTransform; }
+  WbAbstractPose *selectedAbstractPose() const { return mSelectedAbstractPose; }
 
   // the currently selected solid in the scene tree
   WbSolid *selectedSolid() const;
@@ -61,7 +61,7 @@ public:
 
   // the currently selected transform was reselected from the View 3D (we need to make sure the selection switches to the node
   // if a field is selected)
-  void confirmSelectedTransformFromView3D() { emit selectionConfirmedFromView3D(mSelectedAbstractTransform); }
+  void confirmSelectedAbstractPoseFromView3D() { emit selectionConfirmedFromView3D(mSelectedAbstractPose); }
 
 public slots:
   // select another node from the scene tree
@@ -76,7 +76,7 @@ public slots:
   // re-activate previously disabled manipulator
   void restoreActiveManipulator();
 
-  // update the bounging object material of the selected matter
+  // update the bounding object material of the selected matter
   void propagateBoundingObjectMaterialUpdate();
 
 signals:
@@ -94,7 +94,7 @@ signals:
 
 private:
   static WbSelection *cInstance;
-  WbAbstractPose *mSelectedAbstractTransform;
+  WbAbstractPose *mSelectedAbstractPose;
   WbBaseNode *mSelectedNode;  // node selected in the scene tree
   bool mResizeHandlesEnabledFromSceneTree;
 

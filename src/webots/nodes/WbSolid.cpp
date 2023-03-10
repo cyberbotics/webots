@@ -93,7 +93,6 @@ void WbSolid::init() {
   mGlobalVolume = 0.0;
   mGlobalCenterOfMass = WbVector3();
   mCenterOfMass = WbVector3();
-  mScaledCenterOfMass = WbVector3();
 
   // Flags
   mWasSleeping = false;
@@ -321,7 +320,6 @@ void WbSolid::preFinalize() {
     }
   }
 
-  checkScaleAtLoad(true);
   if (nodeType() != WB_NODE_TOUCH_SENSOR && mBoundingObject->value() && mPhysics->value() == NULL &&
       mJointParents.size() == 0 && upperSolid() && upperSolid()->physics())
     parsingWarn(tr("As 'physics' is set to NULL, collisions will have no effect"));
@@ -959,9 +957,9 @@ void WbSolid::adjustOdeMass(bool mergeMass) {
 
       // set mass displayed in the Solid's mass tab
       dMassSetParameters(mMassAroundCoM, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0);
-      mMassAroundCoM->c[0] = mScaledCenterOfMass.x();
-      mMassAroundCoM->c[1] = mScaledCenterOfMass.y();
-      mMassAroundCoM->c[2] = mScaledCenterOfMass.z();
+      mMassAroundCoM->c[0] = mCenterOfMass.x();
+      mMassAroundCoM->c[1] = mCenterOfMass.y();
+      mMassAroundCoM->c[2] = mCenterOfMass.z();
       updateTopSolidGlobalMass();
       emit massPropertiesChanged();
     }
@@ -988,7 +986,7 @@ void WbSolid::adjustOdeMass(bool mergeMass) {
     // Translate the mass to solid's origin
     if (p->centerOfMass().size() == 1) {
       dVector3 t;
-      dSubtractVectors3(t, scaledCenterOfMass().ptr(), mReferenceMass->c);
+      dSubtractVectors3(t, centerOfMass().ptr(), mReferenceMass->c);
       dMassTranslate(mOdeMass, t[0], t[1], t[2]);
     }
   }
@@ -1342,11 +1340,11 @@ void WbSolid::setOdeInertiaMatrix() {
   const WbMFVector3 &inertia = p->inertiaMatrix();
   const WbVector3 &v0 = inertia.item(0);
   const WbVector3 &v1 = inertia.item(1);
-  dMassSetParameters(mOdeMass, s3 * p->mass(), 0.0, 0.0, 0.0, v0.x(), v0.y(), v0.z(), v1.x(), v1.y(), v1.z());
+  dMassSetParameters(mOdeMass, p->mass(), 0.0, 0.0, 0.0, v0.x(), v0.y(), v0.z(), v1.x(), v1.y(), v1.z());
 
   memcpy(mMassAroundCoM, mOdeMass, sizeof(dMass));
   updateCenterOfMass();
-  const WbVector3 &com = scaledCenterOfMass();
+  const WbVector3 &com = centerOfMass();
   dMassTranslate(mOdeMass, com.x(), com.y(), com.z());  // translates inertia matrix to solid frame's origin
   emit massPropertiesChanged();
 }
@@ -1391,12 +1389,11 @@ void WbSolid::setInertiaMatrixFromBoundingObject() {
   p->setDensity(-1.0, true);
 
   const double *const I = mReferenceMass->I;
-  s5 *= s3;
-  p->setInertiaMatrix(I[0] * s5, I[5] * s5, I[10] * s5, I[1] * s5, I[2] * s5, I[6] * s5, true);
+  p->setInertiaMatrix(I[0], I[5], I[10], I[1], I[2], I[6], true);
   p->checkInertiaMatrix(false);
 
   const double *const c = mReferenceMass->c;
-  p->setCenterOfMass(c[0] * s, c[1] * s, c[2] * s, true);
+  p->setCenterOfMass(c[0], c[1], c[2], true);
   p->parsingInfo(tr("Bounding object's center of mass inserted."));
 
   p->updateMode();
@@ -1797,7 +1794,7 @@ void WbSolid::createOdeMass(bool reset) {
     // Translate the mass to solid's origin
     if (p->centerOfMass().size() == 1) {
       dVector3 t;
-      dSubtractVectors3(t, scaledCenterOfMass().ptr(), mReferenceMass->c);
+      dSubtractVectors3(t, centerOfMass().ptr(), mReferenceMass->c);
       dMassTranslate(mOdeMass, t[0], t[1], t[2]);
     }
 
@@ -1893,7 +1890,7 @@ void WbSolid::applyPhysicsTransform() {
   const WbPose *const up = upperPose();
   if (up) {
     const WbMatrix4 &upm = up->matrix();
-    const WbVector3 &prel = utm.pseudoInversed(WbVector3(result));
+    const WbVector3 &prel = upm.pseudoInversed(WbVector3(result));
     result[0] = prel[0];
     result[1] = prel[1];
     result[2] = prel[2];

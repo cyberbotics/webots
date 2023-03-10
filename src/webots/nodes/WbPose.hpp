@@ -84,7 +84,6 @@ public slots:
   virtual void updateRotation();
   virtual void updateTranslation();
   virtual void updateTranslationAndRotation();
-  void showResizeManipulator(bool enabled) override;
 
 signals:
   void geometryInTransformInserted();
@@ -95,6 +94,8 @@ protected:
   // this constructor is reserved for derived classes only
   WbPose(const QString &modelName, WbTokenizer *tokenizer);
 
+  mutable bool mPoseChangedSignalEnabled;
+
 private:
   WbPose &operator=(const WbPose &);  // non copyable
   WbNode *clone() const override { return new WbPose(*this); }
@@ -103,8 +104,6 @@ private:
   // Positions and orientations storage
   QMap<QString, WbVector3> mSavedTranslations;
   QMap<QString, WbRotation> mSavedRotations;
-
-  mutable bool mPoseChangedSignalEnabled;
 
   void applyToOdeGeomRotation();
   void applyToOdeGeomPosition(bool correctMass = true);

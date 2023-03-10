@@ -15,9 +15,8 @@
 #ifndef WB_TRANSFORM_HPP
 #define WB_TRANSFORM_HPP
 
-#include "WbPose.hpp"
 #include "WbMatrix3.hpp"
-
+#include "WbPose.hpp"
 
 class WbBaseNode;
 class WbScaleManipulator;
@@ -34,6 +33,8 @@ public:
 
   // reimplemented functions
   int nodeType() const override { return WB_NODE_TRANSFORM; }
+  void preFinalize() override;
+  void postFinalize() override;
 
   void setScaleNeedUpdate();
   void createWrenObjects() override;
@@ -64,6 +65,7 @@ public:
   void attachResizeManipulator();
   void detachResizeManipulator() const;
   bool hasResizeManipulator() const;
+  void showResizeManipulator(bool enabled);
 
 protected:
   bool checkScale(int constraintType = 0, bool warning = false);
@@ -86,11 +88,10 @@ protected:
   virtual void createScaleManipulator();
   void createScaleManipulatorIfNeeded();
   bool mScaleManipulatorInitialized;
-  void showResizeManipulator(bool enabled);
 
 protected slots:
   void updateConstrainedHandleMaterials();
-  virtual void updateScale(bool warning = false);
+  void updateScale(bool warning = false);
 
 private:
   WbTransform &operator=(const WbTransform &);  // non copyable

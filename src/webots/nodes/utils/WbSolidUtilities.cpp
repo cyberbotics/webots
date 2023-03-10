@@ -88,9 +88,6 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
 
     // Translates the inertia matrix
     WbVector3 t = pose->translation();
-    const WbTransform *const ut = dynamic_cast<const WbTransform *const>(pose->upperPose());
-    if (ut)
-      t *= ut->absoluteScale().x();
     dMassTranslate(&m, t.x(), t.y(), t.z());
     dMassAdd(mass, &m);
 

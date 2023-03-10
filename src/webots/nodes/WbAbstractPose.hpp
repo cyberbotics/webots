@@ -72,8 +72,7 @@ public:
   WbVector3 yAxis() const { return matrix().yAxis(); }
   WbVector3 zAxis() const { return matrix().zAxis(); }
 
-  // scaling
-  bool isTopTransform() const;
+  bool isTopPose() const;
 
   // 3x3 absolute rotation matrix
   virtual WbMatrix3 rotationMatrix() const { return matrix().extracted3x3Matrix(); }
@@ -121,8 +120,11 @@ protected:
 
   void inline setTranslationAndRotationFromOde(double tx, double ty, double tz, double rx, double ry, double rz, double angle);
 
-private:
+  // WREN objects and methods
+  virtual void deleteWrenObjects();
   WbBaseNode *mBaseNode;
+
+private:
   mutable bool mIsTranslationFieldVisible;
   mutable bool mIsRotationFieldVisible;
   mutable bool mIsTranslationFieldVisibleReady;
@@ -139,9 +141,6 @@ private:
   mutable bool mVrmlMatrixNeedUpdate;
   mutable bool mHasSearchedTopPose;
   mutable bool mIsTopPose;
-
-  // WREN objects and methods
-  virtual void deleteWrenObjects();
 };
 
 void inline WbAbstractPose::setTranslationAndRotationFromOde(double tx, double ty, double tz, double rx, double ry, double rz,

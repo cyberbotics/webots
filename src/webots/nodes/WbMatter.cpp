@@ -290,8 +290,7 @@ dGeomID WbMatter::createOdeGeomFromPose(dSpaceID space, WbPose *pose) {
   assert(space);
 
   // Listens to insertion/deletion in the children field of the WbPose
-  connect(pose, &WbPose::geometryInTransformInserted, this, &WbMatter::createOdeGeomFromInsertedTransformItem,
-          Qt::UniqueConnection);
+  connect(pose, &WbPose::geometryInTransformInserted, this, &WbMatter::createOdeGeomFromInsertedPoseItem, Qt::UniqueConnection);
   pose->listenToChildrenField();
 
   const int n = pose->childCount();
@@ -362,11 +361,11 @@ void WbMatter::createOdeGeomFromInsertedShapeItem() {
   assert(dynamic_cast<WbShape *>(sender()));
   WbShape *const shape = static_cast<WbShape *>(sender());
   WbGeometry *const geometry = shape->geometry();
-  const WbPose *const pose = shape->upperPose();
+  WbPose *const pose = shape->upperPose();
 
   dGeomID insertedGeom;
   if (pose && pose->isInBoundingObject()) {
-    insertedGeom = createOdeGeomFromTransform(upperSpace(), transform);
+    insertedGeom = createOdeGeomFromPose(upperSpace(), pose);
     if (insertedGeom)
       setGeomMatter(insertedGeom);
   } else {  // no Pose in the boundingObject is a parent of this Shape

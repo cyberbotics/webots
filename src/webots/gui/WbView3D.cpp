@@ -15,6 +15,7 @@
 #include "WbView3D.hpp"
 
 #include "WbAbstractDragEvent.hpp"
+#include "WbAbstractPose.hpp"
 #include "WbActionManager.hpp"
 #include "WbBox.hpp"
 #include "WbCamera.hpp"
@@ -40,6 +41,7 @@
 #include "WbPerformanceLog.hpp"
 #include "WbPerspective.hpp"
 #include "WbPlane.hpp"
+#include "WbPose.hpp"
 #include "WbPreferences.hpp"
 #include "WbRenderingDevice.hpp"
 #include "WbRenderingDeviceWindowFactory.hpp"
@@ -54,6 +56,7 @@
 #include "WbSupervisorUtilities.hpp"
 #include "WbSysInfo.hpp"
 #include "WbTouchSensor.hpp"
+#include "WbTransform.hpp"
 #include "WbTranslateRotateManipulator.hpp"
 #include "WbVersion.hpp"
 #include "WbVideoRecorder.hpp"
@@ -243,13 +246,13 @@ void WbView3D::setWireframe() {
   setRenderingMode(WR_VIEWPORT_POLYGON_MODE_LINE, true);
 }
 
-void WbView3D::onSelectionChanged(WbTransform *selectedTransform) {
+void WbView3D::onSelectionChanged(WbAbstractPose *selectedPose) {
   assert(mWorld);
 
   if (mWorld->isCleaning())
     return;
 
-  WbSolid *const selectedSolid = dynamic_cast<WbSolid *>(selectedTransform);
+  WbSolid *const selectedSolid = dynamic_cast<WbSolid *>(selectedPose);
   WbViewpoint *const viewpoint = mWorld->viewpoint();
 
   if (selectedSolid) {
@@ -1105,7 +1108,7 @@ void WbView3D::setWorld(WbSimulationWorld *w) {
   mAspectRatio = ((double)width()) / height();
   viewpoint->updateAspectRatio(mAspectRatio);
   updateWrenViewportDimensions();
-  onSelectionChanged(WbSelection::instance()->selectedTransform());
+  onSelectionChanged(WbSelection::instance()->selectedAbstractPose());
 
   WbWrenOpenGlContext::doneWren();
 
@@ -1517,25 +1520,25 @@ void WbView3D::selectNode(const QMouseEvent *event) {
     return;
   }
 
-  const WbTransform *const selectedTransform = selection->selectedTransform();
+  const WbAbstractPose *const selectedAbstractPose = selection->selectedAbstractPose();
   WbMatter *visiblePickedMatter = WbNodeUtilities::findUpperVisibleMatter(mPickedMatter);
   WbMatter *selectedMatter = NULL;
   if (isContextMenuShortcut(event))
     selectedMatter = visiblePickedMatter;
   else {
     const WbMatter *const previousTopMatter =
-      selectedTransform != NULL ? WbNodeUtilities::findUppermostMatter(selectedTransform->baseNode()) : NULL;
+      selectedAbstractPose != NULL ? WbNodeUtilities::findUppermostMatter(selectedAbstractPose->baseNode()) : NULL;
     WbMatter *topMatter = WbNodeUtilities::findUppermostMatter(visiblePickedMatter);
     if (topMatter == NULL)
       topMatter = visiblePickedMatter;
     const int alt = event->modifiers() & Qt::AltModifier;
-    if (visiblePickedMatter == selectedTransform) {
+    if (visiblePickedMatter == selectedAbstractPose) {
       if (alt)
         // do not change selection when starting force or torque drag
         return;
       if (topMatter == visiblePickedMatter) {
         // do not change selection if the picked node is already selected and it doesn't have any Matter ancestor
-        selection->confirmSelectedTransformFromView3D();
+        selection->confirmSelectedAbstractPoseFromView3D();
         return;
       }
       selectedMatter = topMatter;
@@ -1924,9 +1927,9 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     if (pickedSolid)
       mDragTranslate = new WbDragTranslateAlongAxisSolidEvent(position, size(), viewpoint, handleNumber, pickedSolid);
     else {
-      WbTransform *pickedTransform = dynamic_cast<WbTransform *>(pickedNode);
-      assert(pickedTransform);
-      mDragTranslate = new WbDragTranslateAlongAxisEvent(position, size(), viewpoint, handleNumber, pickedTransform);
+      WbPose *pickedPose = dynamic_cast<WbPose *>(pickedNode);
+      assert(pickedPose);
+      mDragTranslate = new WbDragTranslateAlongAxisEvent(position, size(), viewpoint, handleNumber, pickedPose);
     }
     return;
   } else if (rotateHandle) {
@@ -1937,9 +1940,9 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     if (pickedSolid)
       mDragRotate = new WbDragRotateAroundAxisSolidEvent(position, size(), viewpoint, handleNumber, pickedSolid);
     else {
-      WbTransform *pickedTransform = dynamic_cast<WbTransform *>(pickedNode);
-      assert(pickedTransform);
-      mDragRotate = new WbDragRotateAroundAxisEvent(position, size(), viewpoint, handleNumber, pickedTransform);
+      WbPose *pickedPose = dynamic_cast<WbPose *>(pickedNode);
+      assert(pickedPose);
+      mDragRotate = new WbDragRotateAroundAxisEvent(position, size(), viewpoint, handleNumber, pickedPose);
     }
     return;
   }
@@ -1957,7 +1960,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     if (!selection->isObjectMotionAllowed())
       return;
 
-    WbBaseNode *const selectedNode = dynamic_cast<WbBaseNode *>(selection->selectedTransform());
+    WbBaseNode *const selectedNode = dynamic_cast<WbBaseNode *>(selection->selectedAbstractPose());
     WbPose *const uppermostPose = WbNodeUtilities::findUppermostPose(selectedNode);
     WbSolid *const uppermostSolid = WbNodeUtilities::findUppermostSolid(selectedNode);
     Qt::MouseButtons buttons = event->buttons();
@@ -1977,7 +1980,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
       if (uppermostSolid) {
         if (uppermostSolid->canBeRotated())
           mDragVerticalAxisRotate = new WbDragRotateAroundWorldVerticalAxisSolidEvent(position, viewpoint, uppermostSolid);
-      } else if (uppermostPose > canBeRotated())
+      } else if (uppermostPose->canBeRotated())
         mDragVerticalAxisRotate = new WbDragRotateAroundWorldVerticalAxisEvent(position, viewpoint, uppermostPose);
     }
   } else if (alt) {
@@ -2305,7 +2308,7 @@ void WbView3D::wheelEvent(QWheelEvent *event) {
       return;
     }
     // SHIFT and WHEEL MOUSE -> lift the selected solid in the 3D View
-    WbBaseNode *const selectedNode = dynamic_cast<WbBaseNode *>(WbSelection::instance()->selectedTransform());
+    WbBaseNode *const selectedNode = dynamic_cast<WbBaseNode *>(WbSelection::instance()->selectedAbstractPose());
     WbSolid *const uppermostSolid = WbNodeUtilities::findUppermostSolid(selectedNode);
     if (!uppermostSolid || uppermostSolid->isLocked() || !uppermostSolid->canBeTranslated())
       return;

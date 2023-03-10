@@ -516,8 +516,7 @@ void WbTrack::updateAnimatedGeometries() {
   double stepSize = 0;
   mBeltPositions.reserve(numGeometries);
   BeltPosition beltPosition = mFirstGeometryPosition;
-  const double s = absoluteScale().x();
-  const WbMatrix4 invMatrix = matrix().inversedTransform(s, s, s);
+  const WbMatrix4 invMatrix = matrix().inversedTransform(1.0, 1.0, 1.0);
 
   for (int i = 0; i < numGeometries; ++i) {
     beltPosition = computeNextGeometryPosition(beltPosition, stepSize);

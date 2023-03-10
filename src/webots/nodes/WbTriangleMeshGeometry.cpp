@@ -23,6 +23,7 @@
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSimulationState.hpp"
+#include "WbTransform.hpp"
 #include "WbTriangleMesh.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenMeshBuffers.hpp"
@@ -129,9 +130,11 @@ void WbTriangleMeshGeometry::createWrenObjects() {
 void WbTriangleMeshGeometry::setResizeManipulatorDimensions() {
   WbVector3 scale(1.0f, 1.0f, 1.0f);
 
-  const WbTransform *const ut = dynamic_cast<const WbTransform *const>(mBaseNode->upperPose());
+  const WbTransform *const ut = dynamic_cast<const WbTransform *const>(upperPose());
   if (ut)
     scale *= ut->absoluteScale();
+  else
+    return;
 
   resizeManipulator()->updateHandleScale(scale.ptr());
   updateResizeHandlesSize();

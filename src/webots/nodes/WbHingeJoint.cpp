@@ -256,14 +256,6 @@ void WbHingeJoint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID par
     return;
   }
 
-  // Handles scale
-  const WbTransform *const ut = dynamic_cast<const WbTransform *const>(upperPose());
-  const double scale = ut ? ut->absoluteScale().x() : 1.0;
-  double s4 = scale * scale;
-  s4 *= scale;
-  s *= s4;
-  d *= s4;
-
   const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
   double cfm, erp;
   WbOdeUtilities::convertSpringAndDampingConstants(s, d, wi->basicTimeStep() * 0.001, cfm, erp);
@@ -303,11 +295,8 @@ void WbHingeJoint::applyToOdeSuspension() {
   if (hp == NULL)
     return;
 
-  const WbSolid *const solid = solidEndPoint();
-  double s2 = solid == NULL ? 1.0 : solid->absoluteScale().x();
-  s2 *= s2;
-  const double s = s2 * hp->suspensionSpringConstant();
-  const double d = s2 * hp->suspensionDampingConstant();
+  const double s = hp->suspensionSpringConstant();
+  const double d = hp->suspensionDampingConstant();
   const WbWorldInfo *const wi = WbWorld::instance()->worldInfo();
   double erp = 0.2, cfm = 0.0;
   if (s == 0.0 && d == 0.0) {
@@ -342,11 +331,7 @@ void WbHingeJoint::prePhysicsStep(double ms) {
       // ODE motor torque (user velocity/position control)
       const double currentVelocity = rm ? rm->computeCurrentDynamicVelocity(ms, mPosition) : 0.0;
       const double fMax = qMax(p ? p->staticFriction() : 0.0, rm ? rm->torque() : 0.0);
-      const WbTransform *const ut = dynamic_cast<const WbTransform *const>(upperPose());
-      const double s = ut ? ut->absoluteScale().x() : 1.0;
-      double s4 = s * s;
-      s4 *= s4;
-      dJointSetHingeParam(mJoint, dParamFMax, s * s4 * fMax);
+      dJointSetHingeParam(mJoint, dParamFMax, fMax);
       dJointSetHingeParam(mJoint, dParamVel, currentVelocity);
     }
     // eventually add spring and damping forces

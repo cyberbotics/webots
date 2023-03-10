@@ -169,7 +169,7 @@ private:
 private slots:
   virtual void updateBoundingObject() = 0;
   virtual void createOdeGeomFromInsertedGroupItem(WbBaseNode *node) = 0;
-  void createOdeGeomFromInsertedTransformItem();
+  void createOdeGeomFromInsertedPoseItem();
   void createOdeGeomFromInsertedShapeItem();
   void insertValidGeometryInBoundingObject();
   void updateManipulatorVisibility();

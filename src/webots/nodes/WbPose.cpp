@@ -53,7 +53,6 @@ WbPose::WbPose(const QString &modelName, WbTokenizer *tokenizer) : WbGroup(model
 }
 
 WbPose::~WbPose() {
-  disconnect(childrenField(), &WbMFNode::changed, this, &WbPose::updateConstrainedHandleMaterials);
   if (areWrenObjectsInitialized())
     wr_node_delete(WR_NODE(wrenNode()));
 }
@@ -128,10 +127,6 @@ void WbPose::updateTranslationAndRotation() {
 
   if (mHasNoSolidAncestor)
     forwardJerk();
-}
-
-void WbPose::updateConstrainedHandleMaterials() {
-  WbAbstractPose::updateConstrainedHandleMaterials();
 }
 
 void WbPose::notifyJerk() {
@@ -337,15 +332,6 @@ WbShape *WbPose::shape() const {
     return NULL;
 
   return dynamic_cast<WbShape *>(child(0));
-}
-
-///////////////////////////////////////////////////////
-//  WREN methods related to WbPose manipulators //
-///////////////////////////////////////////////////////
-
-void WbPose::showResizeManipulator(bool enabled) {
-  WbAbstractPose::showResizeManipulator(enabled);
-  emit visibleHandlesChanged(enabled);
 }
 
 ////////////

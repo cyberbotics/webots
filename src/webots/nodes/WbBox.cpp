@@ -21,10 +21,11 @@
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbOdeGeomData.hpp"
+#include "WbPose.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSimulationState.hpp"
-#include "WbPose.hpp"
+#include "WbTransform.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenAbstractResizeManipulator.hpp"
@@ -90,7 +91,7 @@ void WbBox::createWrenObjects() {
 
 void WbBox::setResizeManipulatorDimensions() {
   WbVector3 scale = size().abs();
-  const WbTransform *transform = dynamic_cast<WbTransform *>(upperPose());
+  const WbTransform *const transform = dynamic_cast<const WbTransform *const>(upperPose());
   if (transform)
     scale *= transform->absoluteScale();
 

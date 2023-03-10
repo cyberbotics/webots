@@ -29,7 +29,7 @@
 #include "WbSFDouble.hpp"
 #include "WbSFVector2.hpp"
 
-class WbTrackWheel : public WbTransform {
+class WbTrackWheel : public WbPose {
   Q_OBJECT
 public:
   explicit WbTrackWheel(WbTokenizer *tokenizer = NULL);
@@ -49,7 +49,7 @@ public:
   double radius() const { return mRadius->value(); }
   bool inner() const { return mInner->value(); }
 
-  void rotate(double travelledDistance);
+  void rotate(double traveledDistance);
 
 signals:
   void changed();

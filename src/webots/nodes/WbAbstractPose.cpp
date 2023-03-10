@@ -227,6 +227,7 @@ bool WbAbstractPose::isTopPose() const {
     mIsTopPose = mBaseNode->upperPose() == NULL;
     mHasSearchedTopPose = true;
   }
+
   return mIsTopPose;
 }
 
