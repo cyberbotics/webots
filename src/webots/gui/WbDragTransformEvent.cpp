@@ -304,23 +304,24 @@ const double WbDragRotateAroundAxisEvent::RAD_TO_DEG = 180.0 / M_PI;
 
 // WbDragRotateAroundAxisEvent functions
 WbDragRotateAroundAxisEvent::WbDragRotateAroundAxisEvent(const QPoint &initialMousePosition, const QSize &widgetSize,
-                                                         WbViewpoint *viewpoint, int handleNumber,
-                                                         WbAbstractPose *selectedTransform) :
+                                                         WbViewpoint *viewpoint, int handleNumber, WbPose *selectedPose) :
   WbDragTransformEvent(viewpoint, selectedTransform),
   mManipulator(selectedTransform->translateRotateManipulator()),
   mHandleNumber(handleNumber),
   mCoordinate(mManipulator->coordinate(handleNumber)),
   mInitialQuaternionRotation(selectedTransform->rotation().toQuaternion()),
-  mInitialMatrix(mSelectedTransform->matrix()),
-  mInitialPosition(mSelectedTransform->position()),
-  mStepSize(selectedTransform->rotationStep()),
+  mInitialMatrix(mSelectedPose->matrix()),
+  mInitialPosition(mSelectedPose->position()),
+  mStepSize(selectedPose->rotationStep()),
   mPreviousAngle(0.0),
   mInitialAngle(NAN) {
   mManipulator->highlightAxis(mHandleNumber + 3);
   mManipulator->setActive(true);
 
-  const WbVector3 absoluteScale = mInitialMatrix.scale();
-  mInitialMatrix.scale(1.0f / absoluteScale.x(), 1.0f / absoluteScale.y(), 1.0f / absoluteScale.z());
+  const WbTransform *const ut = dynamic_cast<const WbTransform *const>(selectedPose);
+
+  if (ut)
+    mInitialMatrix.scale(1.0f / ut->scale().x(), 1.0f / ut->scale().y(), 1.0f / ut->scale().z());
 
   WbVector4 scaledPos(mManipulator->relativeHandlePosition(mHandleNumber) * mViewDistanceUnscaling);
   WbVector4 handlePos = mInitialMatrix * scaledPos;

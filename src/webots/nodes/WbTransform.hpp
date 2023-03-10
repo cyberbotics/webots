@@ -16,6 +16,8 @@
 #define WB_TRANSFORM_HPP
 
 #include "WbPose.hpp"
+#include "WbMatrix3.hpp"
+
 
 class WbBaseNode;
 class WbScaleManipulator;
@@ -48,7 +50,7 @@ public:
 
   // scaling
   virtual const WbVector3 &absoluteScale() const;
-  int constraintType() const;
+  virtual int constraintType() const;
 
   // 3x3 absolute rotation matrix
   WbMatrix3 rotationMatrix() const override;
@@ -73,7 +75,7 @@ protected:
   bool checkScaleZeroValues(WbVector3 &correctedScale) const;
   bool checkScaleUniformity(WbVector3 &correctedScale, bool warning = false) const;
   bool checkScaleUniformity(bool warning = false);
-  bool checkScalingPhysicsConstraints(WbVector3 &correctedScale, int constraintType, bool warning = false) const;
+  virtual bool checkScalingPhysicsConstraints(WbVector3 &correctedScale, int constraintType, bool warning = false) const;
   double mPreviousXscaleValue;
   mutable WbVector3 mAbsoluteScale;
 
@@ -81,14 +83,14 @@ protected:
 
   // WREN manipulators
   WbScaleManipulator *mScaleManipulator;
-  void createScaleManipulator();
+  virtual void createScaleManipulator();
   void createScaleManipulatorIfNeeded();
   bool mScaleManipulatorInitialized;
   void showResizeManipulator(bool enabled);
 
 protected slots:
   void updateConstrainedHandleMaterials();
-  void updateScale(bool warning = false);
+  virtual void updateScale(bool warning = false);
 
 private:
   WbTransform &operator=(const WbTransform &);  // non copyable

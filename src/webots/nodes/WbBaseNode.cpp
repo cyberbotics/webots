@@ -35,11 +35,11 @@ void WbBaseNode::init() {
   mOdeObjectsCreatedCalled = false;
   mWrenNode = NULL;
   mIsInBoundingObject = false;
-  mUpperTransform = NULL;
+  mUpperPose = NULL;
   mUpperSolid = NULL;
   mTopSolid = NULL;
   mBoundingObjectFirstTimeSearch = true;
-  mUpperTransformFirstTimeSearch = true;
+  mUpperPoseFirstTimeSearch = true;
   mUpperSolidFirstTimeSearch = true;
   mTopSolidFirstTimeSearch = true;
   mFinalizationCanceled = false;

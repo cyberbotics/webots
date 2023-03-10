@@ -76,7 +76,7 @@ public:
   bool isTopTransform() const;
 
   // 3x3 absolute rotation matrix
-  WbMatrix3 rotationMatrix() const { return matrix().extracted3x3Matrix(); }
+  virtual WbMatrix3 rotationMatrix() const { return matrix().extracted3x3Matrix(); }
 
   // position in 'world' coordinates
   WbVector3 position() const { return matrix().translation(); }
@@ -141,7 +141,7 @@ private:
   mutable bool mIsTopPose;
 
   // WREN objects and methods
-  void deleteWrenObjects();
+  virtual void deleteWrenObjects();
 };
 
 void inline WbAbstractPose::setTranslationAndRotationFromOde(double tx, double ty, double tz, double rx, double ry, double rz,

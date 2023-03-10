@@ -138,12 +138,12 @@ bool WbObjectDetection::isWithinBounds(const WbAffinePlane *frustumPlanes, const
   const WbBaseNode *referenceObject = boundingObject;
   if (useBoundingSphere)
     referenceObject = rootObject;
-  const WbPose *transform = dynamic_cast<const WbPose *>(referenceObject);
-  if (!transform)
-    transform = referenceObject->upperTransform();
-  assert(transform);
-  WbMatrix3 objectRotation = transform->rotationMatrix();
-  WbVector3 objectPosition = transform->position();
+  const WbPose *pose = dynamic_cast<const WbPose *>(referenceObject);
+  if (!pose)
+    pose = referenceObject->upperPose();
+  assert(pose);
+  WbMatrix3 objectRotation = pose->rotationMatrix();
+  WbVector3 objectPosition = pose->position();
 
   if (nodeType == WB_NODE_SHAPE) {
     const WbShape *shape = static_cast<const WbShape *>(boundingObject);

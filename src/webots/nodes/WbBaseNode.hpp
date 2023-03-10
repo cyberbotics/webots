@@ -182,8 +182,8 @@ private:
   //         -> migrate the search/cache code into not const functions called when setting the parent
   mutable bool mIsInBoundingObject;
   mutable bool mBoundingObjectFirstTimeSearch;
-  mutable WbPose *mUpperTransform;
-  mutable bool mUpperTransformFirstTimeSearch;
+  mutable WbPose *mUpperPose;
+  mutable bool mUpperPoseFirstTimeSearch;
   mutable WbSolid *mUpperSolid;
   mutable bool mUpperSolidFirstTimeSearch;
   mutable WbSolid *mTopSolid;

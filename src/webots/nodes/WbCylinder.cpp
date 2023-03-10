@@ -22,12 +22,12 @@
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbOdeGeomData.hpp"
+#include "WbPose.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFInt.hpp"
 #include "WbSimulationState.hpp"
-#include "WbPose.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 #include "WbWrenRenderingContext.hpp"
 
@@ -103,9 +103,9 @@ void WbCylinder::createWrenObjects() {
 void WbCylinder::setResizeManipulatorDimensions() {
   WbVector3 scale(mRadius->value(), mRadius->value(), mHeight->value());
 
-  WbPose *transform = upperTransform();
-  if (transform)
-    scale *= transform->absoluteScale();
+  const WbTransform *const ut = dynamic_cast<const WbTransform *const>(upperPose());
+  if (ut)
+    scale *= ut->absoluteScale();
 
   if (isAValidBoundingObject())
     scale *= 1.0f + (wr_config_get_line_scale() / LINE_SCALE_FACTOR);
@@ -447,11 +447,11 @@ double WbCylinder::computeDistance(const WbRay &ray) const {
 double WbCylinder::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, const WbRay &ray) const {
   WbVector3 direction(ray.direction());
   WbVector3 origin(ray.origin());
-  WbPose *transform = upperTransform();
-  if (transform) {
-    direction = ray.direction() * transform->matrix();
+  const WbTransform *const ut = dynamic_cast<const WbTransform *const>(upperPose());
+  if (ut) {
+    direction = ray.direction() * ut->matrix();
     direction.normalize();
-    origin = transform->matrix().pseudoInversed(ray.origin());
+    origin = ut->matrix().pseudoInversed(ray.origin());
     origin /= absoluteScale();
   }
 

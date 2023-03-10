@@ -1973,18 +1973,19 @@ void WbSolid::applyPhysicsTransform() {
     dBodyGetRelPointPos(b, -com.x(), -com.y(), -com.z(), result);
   assert(!std::isnan(result[0]));
   // printf("new body pos = %f, %f, %f (apply phy.)\n", result[0], result[1], result[2]);
-  const WbPose *const ut = upperTransform();
-  if (ut) {
-    const double invUtScale = 1.0 / ut->absoluteScale().x();
+  const WbPose *const up = upperPose();
+  if (up) {
+    const WbTransform *const ut = dynamic_cast<const WbTransform *const>(up);
+    const double invUtScale = ut ? 1.0 / ut->absoluteScale().x() : 1.0;
     const double scaleFactor = invUtScale * invUtScale;
-    const WbMatrix4 &utm = ut->matrix();
+    const WbMatrix4 &upm = up->matrix();
     const WbVector3 &prel = utm.pseudoInversed(WbVector3(result));
     result[0] = scaleFactor * prel[0];
     result[1] = scaleFactor * prel[1];
     result[2] = scaleFactor * prel[2];
     // printf("result = %f, %f, %f (apply phy.))\n", result[0], result[1], result[2]);
     // find rotation difference between upper transform and solid child
-    const WbQuaternion &q = utm.extractedQuaternion(invUtScale);
+    const WbQuaternion &q = upm.extractedQuaternion(invUtScale);
     dQMultiply1(qr, q.ptr(), dBodyGetQuaternion(b));
   }
 

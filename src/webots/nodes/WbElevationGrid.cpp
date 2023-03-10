@@ -23,6 +23,7 @@
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbOdeGeomData.hpp"
+#include "WbPose.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbRgb.hpp"
@@ -30,7 +31,6 @@
 #include "WbSFDouble.hpp"
 #include "WbSFInt.hpp"
 #include "WbSimulationState.hpp"
-#include "WbPose.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 #include "WbWrenMeshBuffers.hpp"
 #include "WbWrenRenderingContext.hpp"
@@ -369,9 +369,9 @@ void WbElevationGrid::createResizeManipulator() {
 
 void WbElevationGrid::setResizeManipulatorDimensions() {
   WbVector3 scale(xSpacing(), ySpacing(), 1.0f);
-  WbPose *transform = upperTransform();
-  if (transform)
-    scale *= transform->absoluteScale();
+  const WbTransform *const ut = dynamic_cast<const WbTransform *const>(upperPose());
+  if (ut)
+    scale *= ut->absoluteScale();
 
   if (isAValidBoundingObject())
     scale *= WbVector3(1.0f, 1.0f, 1.0f + (wr_config_get_line_scale() / LINE_SCALE_FACTOR));
@@ -539,10 +539,10 @@ double WbElevationGrid::computeLocalCollisionPoint(const WbRay &ray, WbVector3 &
   mHeight->copyItemsTo(data, size);
 
   WbRay localRay(ray);
-  WbPose *transform = upperTransform();
-  if (transform) {
-    localRay.setDirection(ray.direction() * transform->matrix());
-    WbVector3 origin = transform->matrix().pseudoInversed(ray.origin());
+  const WbTransform *const ut = dynamic_cast<const WbTransform *const>(upperPose());
+  if (ut) {
+    localRay.setDirection(ray.direction() * ut->matrix());
+    WbVector3 origin = ut->matrix().pseudoInversed(ray.origin());
     origin /= absoluteScale();
     localRay.setOrigin(origin);
     localRay.normalize();

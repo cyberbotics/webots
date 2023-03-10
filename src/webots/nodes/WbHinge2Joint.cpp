@@ -178,7 +178,7 @@ void WbHinge2Joint::applyToOdeAxis() {
 
   updateOdePositionOffset();
 
-  const WbMatrix4 &m4 = upperTransform()->matrix();
+  const WbMatrix4 &m4 = upperPose()->matrix();
   // compute orientation of rotation axis
   const WbVector3 &a1 = m4.sub3x3MatrixDot(axis());
   WbVector3 a2;
@@ -278,7 +278,8 @@ void WbHinge2Joint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID pa
   }
 
   // Handles scale
-  const double scale = upperTransform()->absoluteScale().x();
+  const WbTransform *const ut = dynamic_cast<const WbTransform *const>(upperPose());
+  const double scale = ut ? ut->absoluteScale().x() : 1.0;
   double s4 = scale * scale;
   s4 *= scale;
   s *= s4;
@@ -305,7 +306,7 @@ void WbHinge2Joint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID pa
   dJointSetAMotorMode(mSpringAndDamperMotor, dAMotorUser);
 
   // Axis dependent settings
-  const WbMatrix4 &m4 = upperTransform()->matrix();
+  const WbMatrix4 &m4 = upperPose()->matrix();
   if (mSpringAndDampingConstantsAxis1On) {
     const double clamped = WbMathsUtilities::normalizeAngle(mOdePositionOffset);
     const WbVector3 &a1 = m4.sub3x3MatrixDot(axis());
@@ -346,7 +347,8 @@ void WbHinge2Joint::prePhysicsStep(double ms) {
   WbJointParameters *const p2 = parameters2();
 
   if (isEnabled()) {
-    const double s = upperTransform()->absoluteScale().x();
+    const WbTransform *const ut = dynamic_cast<const WbTransform *const>(upperPose());
+    const double s = ut ? ut->absoluteScale().x() : 1.0;
     double s5 = s * s;
     s5 *= s5 * s;
 

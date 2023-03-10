@@ -186,7 +186,7 @@ void WbHingeJoint::applyToOdeStopCfm() {
 void WbHingeJoint::applyToOdeAxis() {
   updateOdePositionOffset();
 
-  const WbMatrix4 &m4 = upperTransform()->matrix();
+  const WbMatrix4 &m4 = upperPose()->matrix();
   WbVector3 a = m4.sub3x3MatrixDot(axis());
   if (mIsReverseJoint)
     a = -a;  // the axis should be inverted when the upper solid has no physics node
@@ -200,7 +200,7 @@ void WbHingeJoint::applyToOdeSuspensionAxis() {
   const WbHingeJointParameters *const hp = hingeJointParameters();
   if (hp == NULL)
     return;
-  const WbMatrix4 &m4 = upperTransform()->matrix();
+  const WbMatrix4 &m4 = upperPose()->matrix();
   WbVector3 a = m4.sub3x3MatrixDot(hp->suspensionAxis());
   if (mIsReverseJoint)
     a = -a;  // the axis should be inverted when the upper solid has no physics node
@@ -216,7 +216,7 @@ void WbHingeJoint::applyToOdeAnchor() {
 
   updateOdePositionOffset();
 
-  const WbMatrix4 &m4 = upperTransform()->matrix();
+  const WbMatrix4 &m4 = upperPose()->matrix();
   const WbVector3 &t = m4 * anchor();
   if (nodeType() == WB_NODE_HINGE_2_JOINT)
     dJointSetHinge2Anchor(mJoint, t.x(), t.y(), t.z());
@@ -257,7 +257,8 @@ void WbHingeJoint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID par
   }
 
   // Handles scale
-  const double scale = upperTransform()->absoluteScale().x();
+  const WbTransform *const ut = dynamic_cast<const WbTransform *const>(upperPose());
+  const double scale = ut ? ut->absoluteScale().x() : 1.0;
   double s4 = scale * scale;
   s4 *= scale;
   s *= s4;
@@ -277,7 +278,7 @@ void WbHingeJoint::applyToOdeSpringAndDampingConstants(dBodyID body, dBodyID par
   dJointSetAMotorMode(mSpringAndDamperMotor, dAMotorUser);
 
   // Axis setting
-  const WbMatrix4 &m4 = upperTransform()->matrix();
+  const WbMatrix4 &m4 = upperPose()->matrix();
   WbVector3 a = m4.sub3x3MatrixDot(axis());
   if (mIsReverseJoint)
     a = -a;
@@ -341,7 +342,8 @@ void WbHingeJoint::prePhysicsStep(double ms) {
       // ODE motor torque (user velocity/position control)
       const double currentVelocity = rm ? rm->computeCurrentDynamicVelocity(ms, mPosition) : 0.0;
       const double fMax = qMax(p ? p->staticFriction() : 0.0, rm ? rm->torque() : 0.0);
-      const double s = upperTransform()->absoluteScale().x();
+      const WbTransform *const ut = dynamic_cast<const WbTransform *const>(upperPose());
+      const double s = ut ? ut->absoluteScale().x() : 1.0;
       double s4 = s * s;
       s4 *= s4;
       dJointSetHingeParam(mJoint, dParamFMax, s * s4 * fMax);

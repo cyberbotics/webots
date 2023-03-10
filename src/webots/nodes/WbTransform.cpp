@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbTransform.hpp"
 #include "WbResizeManipulator.hpp"
+#include "WbTransform.hpp"
 
 void WbTransform::init() {
   mScale = node->findSFVector3("scale");
@@ -124,7 +124,7 @@ QStringList WbTransform::fieldsToSynchronizeWithX3D() const {
 void WbTransform::updateAbsoluteScale() const {
   mAbsoluteScale = mScale->value();
   // multiply with upper transform scale if any
-  const WbPose *const ut = mBaseNode->upperTransform();
+  const WbTransform *const ut = dynamic_cast<const WbTransform *const>(mBaseNode->upperPose());
   if (ut)
     mAbsoluteScale *= ut->absoluteScale();
 

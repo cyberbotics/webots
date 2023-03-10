@@ -20,8 +20,8 @@
 #include "WbElevationGrid.hpp"
 #include "WbIndexedFaceSet.hpp"
 #include "WbMesh.hpp"
-#include "WbSphere.hpp"
 #include "WbPose.hpp"
+#include "WbSphere.hpp"
 
 #include <ode/ode.h>
 
@@ -69,9 +69,9 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
   dMassSetZero(&m);
 
   // The WbPose case must come before the WbGroup case
-  const WbPose *const transform = dynamic_cast<WbPose *>(node);
-  if (transform) {
-    WbGeometry *g = transform->geometry();
+  const WbPose *const pose = dynamic_cast<WbPose *>(node);
+  if (pose) {
+    WbGeometry *g = pose->geometry();
 
     // Computes the total mass
     if (g && g->odeGeom())
@@ -81,14 +81,16 @@ void WbSolidUtilities::addMass(dMass *const mass, WbNode *const node, double den
       return;
 
     // Rotates the inertia matrix
-    const WbRotation &r = transform->rotation();
+    const WbRotation &r = pose->rotation();
     dMatrix3 m3;
     dRFromAxisAndAngle(m3, r.x(), r.y(), r.z(), r.angle());
     dMassRotate(&m, m3);
 
     // Translates the inertia matrix
-    WbVector3 t = transform->translation();
-    t *= transform->upperTransform()->absoluteScale().x();
+    WbVector3 t = pose->translation();
+    const WbTransform *const ut = dynamic_cast<const WbTransform *const>(pose->upperPose());
+    if (ut)
+      t *= ut->absoluteScale().x();
     dMassTranslate(&m, t.x(), t.y(), t.z());
     dMassAdd(mass, &m);
 

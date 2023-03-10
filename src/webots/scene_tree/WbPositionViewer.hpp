@@ -47,7 +47,7 @@ public slots:
 private:
   void updateRelativeToComboBox();
 
-  WbPose *mTransform;
+  WbPose *mPose;
   bool mIsSelected;
 
   // relative to boxes

@@ -19,10 +19,10 @@
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbOdeGeomData.hpp"
+#include "WbPose.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSimulationState.hpp"
-#include "WbPose.hpp"
 #include "WbTriangleMesh.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenMeshBuffers.hpp"
@@ -129,9 +129,9 @@ void WbTriangleMeshGeometry::createWrenObjects() {
 void WbTriangleMeshGeometry::setResizeManipulatorDimensions() {
   WbVector3 scale(1.0f, 1.0f, 1.0f);
 
-  WbPose *transform = upperTransform();
-  if (transform)
-    scale *= transform->absoluteScale();
+  const WbTransform *const ut = dynamic_cast<const WbTransform *const>(mBaseNode->upperPose());
+  if (ut)
+    scale *= ut->absoluteScale();
 
   resizeManipulator()->updateHandleScale(scale.ptr());
   updateResizeHandlesSize();
@@ -387,9 +387,9 @@ bool WbTriangleMeshGeometry::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, i
   WbVector3 v1(mTriangleMesh->vertex(t, 1, 0), mTriangleMesh->vertex(t, 1, 1), mTriangleMesh->vertex(t, 1, 2));
   WbVector3 v2(mTriangleMesh->vertex(t, 2, 0), mTriangleMesh->vertex(t, 2, 1), mTriangleMesh->vertex(t, 2, 2));
 
-  const WbPose *const transform = upperTransform();
-  if (transform) {
-    const WbMatrix4 &m = transform->matrix();
+  const WbPose *const up = upperPose();
+  if (up) {
+    const WbMatrix4 &m = up->matrix();
     v0 = m * v0;
     v1 = m * v1;
     v2 = m * v2;
@@ -423,10 +423,10 @@ double WbTriangleMeshGeometry::computeLocalCollisionPoint(WbVector3 &point, int 
     return false;
 
   WbRay localRay(ray);
-  WbPose *transform = upperTransform();
-  if (transform) {
-    localRay.setDirection(ray.direction() * transform->matrix());
-    WbVector3 origin = transform->matrix().pseudoInversed(ray.origin());
+  const WbPose *const up = upperPose();
+  if (up) {
+    localRay.setDirection(ray.direction() * up->matrix());
+    WbVector3 origin = up->matrix().pseudoInversed(ray.origin());
     origin /= absoluteScale();
     localRay.setOrigin(origin);
     localRay.normalize();

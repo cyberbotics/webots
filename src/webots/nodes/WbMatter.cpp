@@ -356,10 +356,10 @@ dGeomID WbMatter::createOdeGeomFromTransform(dSpaceID space, WbPose *transform) 
 
 void WbMatter::createOdeGeomFromInsertedTransformItem() {
   assert(dynamic_cast<WbPose *>(sender()));
-  WbPose *const transform = static_cast<WbPose *>(sender());
-  dGeomID g = createOdeGeomFromTransform(upperSpace(), transform);
+  WbPose *const pose = static_cast<WbPose *>(sender());
+  dGeomID g = createOdeGeomFromTransform(upperSpace(), pose);
   if (g) {
-    setGeomMatter(g, transform);
+    setGeomMatter(g, pose);
     if (isInsertedOdeGeomPositionUpdateRequired())
       updateOdeGeomPosition(g);
   }
@@ -369,14 +369,14 @@ void WbMatter::createOdeGeomFromInsertedShapeItem() {
   assert(dynamic_cast<WbShape *>(sender()));
   WbShape *const shape = static_cast<WbShape *>(sender());
   WbGeometry *const geometry = shape->geometry();
-  WbPose *transform = shape->upperTransform();
+  const WbPose *const pose = shape->upperPose();
 
   dGeomID insertedGeom;
-  if (transform && transform->isInBoundingObject()) {
+  if (pose && pose->isInBoundingObject()) {
     insertedGeom = createOdeGeomFromTransform(upperSpace(), transform);
     if (insertedGeom)
       setGeomMatter(insertedGeom);
-  } else {  // no Transform in the boundingObject is a parent of this Shape
+  } else {  // no Pose in the boundingObject is a parent of this Shape
     WbIndexedFaceSet *const ifs = dynamic_cast<WbIndexedFaceSet *>(geometry);
     if (ifs)
       connect(ifs, &WbIndexedFaceSet::validIndexedFaceSetInserted, shape, &WbShape::geometryInShapeInserted,
@@ -586,18 +586,18 @@ void WbMatter::updateOdePlaceableGeomPosition(dGeomID g) {
   WbGeometry *geom = odeGeomData->geometry();
   assert(geom);
 
-  WbPose *transform = geom->upperTransform();
-  if (transform == NULL)
+  const WbPose *const up = geom->upperPose();
+  if (!up)
     return;
 
   // translates the ODE dGeom
-  geom->setOdePosition(transform->position());
+  geom->setOdePosition(up->position());
 
   // const double *pos = dGeomGetPosition(g);
   // WbMathsUtilities::printVector3("geom position", pos);
 
   // rotates the ODE dGeom
-  geom->setOdeRotation(transform->rotationMatrix());
+  geom->setOdeRotation(up->rotationMatrix());
 }
 
 void WbMatter::updateOdePlanePosition(dGeomID plane) {

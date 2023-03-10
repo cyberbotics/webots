@@ -79,8 +79,8 @@ private:
   void applyBillboardVisibilityToWren();
   void checkAmbientAndAttenuationExclusivity();
 
-  void attachToUpperTransform();
-  void detachFromUpperTransform();
+  void attachToUpperPose();
+  void detachFromUpperPose();
 
 private slots:
   void updateAttenuation();
