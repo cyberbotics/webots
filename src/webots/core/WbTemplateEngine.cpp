@@ -53,11 +53,9 @@ void WbTemplateEngine::copyModuleToTemporaryFile(QString modulePath) {
     filters << "*.lua";
 #ifdef _WIN32
     filters << "*.dll";
-#endif
-#ifdef __linux__
+#elif defined(__linux__)
     filters << "*.so";
-#endif
-#ifdef __APPLE__
+#else  // __APPLE__
     filters << "*.dylib";
 #endif
     QFileInfoList files = luaModulesPath.entryInfoList(filters, QDir::Files | QDir::NoSymLinks);
@@ -349,12 +347,9 @@ bool WbTemplateEngine::generateLua(QHash<QString, QString> tags, const QString &
 // Update 'package.cpath' variable to be able to load '*.dll' and '*.dylib'
 #ifdef _WIN32
   tags["cpath"] = "package.cpath = package.cpath .. \";?.dll\"";
-#endif
-#ifdef __linux__
+#elif defined(__linux__)
   tags["cpath"] = "";
-#endif
-#ifdef __APPLE__
-  // cppcheck-suppress redundantAssignment
+#else  // __APPLE__
   tags["cpath"] = "package.cpath = package.cpath .. \";?.dylib\"";
 #endif
 

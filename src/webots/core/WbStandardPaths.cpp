@@ -257,10 +257,10 @@ bool WbStandardPaths::webotsTmpPathCreate(const int id) {
   if (!dir.exists() && !dir.mkpath("."))
     return false;
 
-#if defined(__APPLE__) || defined(__linux__)
-  // FIXME: from Qt 6.4 onwards, QDir::mkdir can be used to set the permissions
-  QProcess::execute("sh", QStringList() << "-c" << QString("chmod 777 %1").arg(cWebotsTmpPath));
-#endif
+  QFile(cWebotsTmpPath)
+    .setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner | QFileDevice::ReadUser |
+                    QFileDevice::WriteUser | QFileDevice::ExeUser | QFileDevice::ReadGroup | QFileDevice::WriteGroup |
+                    QFileDevice::ExeGroup | QFileDevice::ReadOther | QFileDevice::WriteOther | QFileDevice::ExeOther);
 
   // write a new live.txt file in the webots tmp folder every hour to prevent any other webots process to delete it
   static QTimer timer;
