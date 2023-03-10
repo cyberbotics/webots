@@ -38,6 +38,8 @@
 
 #include <ode/ode.h>
 
+#include <QtCore/QDebug>
+
 void WbBox::init() {
   mSize = findSFVector3("size");
 }
@@ -377,18 +379,19 @@ double WbBox::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, const
     origin /= absoluteScale();
     localRay.setOrigin(origin);
     localRay.normalize();
+    qDebug() << "origin " << origin.toString() << absoluteScale().toString();
   }
 
   WbVector3 halfSize = scaledSize() * 0.5;
   double tmin, tmax;
   std::pair<bool, double> result = localRay.intersects(-halfSize, halfSize, tmin, tmax);
 
+  qDebug() << "inersection:" << result.first << tmin << tmax << halfSize.toString();
   if (result.first && tmin >= 0) {
     // collision detected and ray origin not inside the box
     point = localRay.origin() + result.second * localRay.direction();
     return result.second;
   }
-
   return -1;
 }
 
