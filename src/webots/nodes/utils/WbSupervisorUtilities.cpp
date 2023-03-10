@@ -1283,7 +1283,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       int trackingInfoIndex = -1;
       for (int i = 0; i < mTrackedContactPoints.size(); i++) {
-        if (mTrackedContactPoints[i].solid == solid && mTrackedContactPoints[i].includeDescendants == includeDescendants) {
+        if (mTrackedContactPoints[i].solid == solid) {
           trackingInfoIndex = i;
           break;
         }
@@ -1300,6 +1300,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           mTrackedContactPoints.append(trackedContactPoint);
           connect(solid, &WbSolid::destroyed, this, &WbSupervisorUtilities::removeTrackedContactPoints);
         } else {
+          mTrackedContactPoints[trackingInfoIndex].includeDescendants = includeDescendants;
           mTrackedContactPoints[trackingInfoIndex].samplingPeriod = samplingPeriod;
           mTrackedContactPoints[trackingInfoIndex].lastUpdate = -INFINITY;
         }

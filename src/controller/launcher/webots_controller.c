@@ -316,8 +316,6 @@ static bool parse_options(int nb_arguments, char **arguments) {
   // Write WEBOTS_CONTROLLER_URL in function of given options
   const char *robot_separator = robot_name ? "/" : "";
   char *robot_name_string = robot_name ? robot_name : "";
-  if (strchr(robot_name_string, ' '))
-    replace_substring(&robot_name_string, " ", "%20");  // Replace any space in robot name by '%20'
   if (strncmp(protocol, "tcp", 3) == 0) {
     if (!ip_address) {
       fprintf(stderr, "Specify the IP address of the Webots machine to connect to with '--ip-address=' option.\n");
