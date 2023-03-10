@@ -212,10 +212,6 @@ void WbMatter::createWrenObjects() {
   wr_node_set_visible(WR_NODE(mMatterCenterTransform), isSelected());
 }
 
-void WbMatter::createScaleManipulator() {
-  mScaleManipulator = new WbScaleManipulator(uniqueId(), WbScaleManipulator::UNIFORM);
-}
-
 ////////////////////////////
 //   Create ODE Objects   //
 ////////////////////////////
@@ -290,26 +286,25 @@ dGeomID WbMatter::createOdeGeomFromGeometry(dSpaceID space, WbGeometry *geometry
   return geom;
 }
 
-dGeomID WbMatter::createOdeGeomFromTransform(dSpaceID space, WbPose *transform) {
+dGeomID WbMatter::createOdeGeomFromPose(dSpaceID space, WbPose *pose) {
   assert(space);
 
   // Listens to insertion/deletion in the children field of the WbPose
-  connect(transform, &WbPose::geometryInTransformInserted, this, &WbMatter::createOdeGeomFromInsertedTransformItem,
+  connect(pose, &WbPose::geometryInTransformInserted, this, &WbMatter::createOdeGeomFromInsertedTransformItem,
           Qt::UniqueConnection);
-  transform->listenToChildrenField();
+  pose->listenToChildrenField();
 
-  const int n = transform->childCount();
+  const int n = pose->childCount();
   if (n == 0) {
     parsingInfo(tr("A child to the Transform placed in 'boundingObject' is expected."));
     return NULL;
   }
 
   if (n != 1)
-    transform->parsingWarn(
-      tr("A Transform node inside a 'boundingObject' can only contain one child. Remaining children are ignored."));
+    pose->parsingWarn(tr("A Pose node inside a 'boundingObject' can only contain one child. Remaining children are ignored."));
 
-  WbBaseNode *const transformChild = transform->child(0);
-  const WbShape *const shape = dynamic_cast<WbShape *>(transformChild);
+  WbBaseNode *const poseChild = pose->child(0);
+  const WbShape *const shape = dynamic_cast<WbShape *>(poseChild);
   if (shape) {
     const WbIndexedFaceSet *const ifs = dynamic_cast<WbIndexedFaceSet *>(shape->geometry());
     if (ifs)
@@ -321,26 +316,24 @@ dGeomID WbMatter::createOdeGeomFromTransform(dSpaceID space, WbPose *transform) 
     connect(shape, &WbShape::geometryInShapeInserted, this, &WbMatter::createOdeGeomFromInsertedShapeItem,
             Qt::UniqueConnection);
     shape->connectGeometryField();
-  } else if (dynamic_cast<WbGeometry *>(transformChild) == NULL) {
-    transform->parsingWarn(
-      tr("A Transform node inside a 'boundingObject' can only contain one Shape or one Geometry node. The child "
-         "node is ignored."));
+  } else if (dynamic_cast<WbGeometry *>(poseChild) == NULL) {
+    pose->parsingWarn(tr("A Pose node inside a 'boundingObject' can only contain one Shape or one Geometry node. The child "
+                         "node is ignored."));
   }
 
-  WbGeometry *const geometry = transform->geometry();
+  WbGeometry *const geometry = pose->geometry();
   if (geometry == NULL)
     return NULL;
 
   const WbIndexedFaceSet *const ifs = dynamic_cast<WbIndexedFaceSet *>(geometry);
   // cppcheck-suppress knownConditionTrueFalse
   if (ifs)
-    connect(ifs, &WbIndexedFaceSet::validIndexedFaceSetInserted, transform, &WbPose::geometryInTransformInserted,
+    connect(ifs, &WbIndexedFaceSet::validIndexedFaceSetInserted, pose, &WbPose::geometryInTransformInserted,
             Qt::UniqueConnection);
 
   const WbElevationGrid *const eg = dynamic_cast<WbElevationGrid *>(geometry);
-  if (eg)
-    connect(eg, &WbElevationGrid::validElevationGridInserted, transform, &WbPose::geometryInTransformInserted,
-            Qt::UniqueConnection);
+  if (eg)  // TODO: rename slot?
+    connect(eg, &WbElevationGrid::validElevationGridInserted, pose, &WbPose::geometryInTransformInserted, Qt::UniqueConnection);
 
   dGeomID geom = createOdeGeomFromGeometry(space, geometry, false);
   if (geom == NULL)
@@ -354,10 +347,10 @@ dGeomID WbMatter::createOdeGeomFromTransform(dSpaceID space, WbPose *transform) 
   return geom;
 }
 
-void WbMatter::createOdeGeomFromInsertedTransformItem() {
+void WbMatter::createOdeGeomFromInsertedPoseItem() {
   assert(dynamic_cast<WbPose *>(sender()));
   WbPose *const pose = static_cast<WbPose *>(sender());
-  dGeomID g = createOdeGeomFromTransform(upperSpace(), pose);
+  dGeomID g = createOdeGeomFromPose(upperSpace(), pose);
   if (g) {
     setGeomMatter(g, pose);
     if (isInsertedOdeGeomPositionUpdateRequired())
@@ -417,9 +410,9 @@ dGeomID WbMatter::createOdeGeomFromGroup(dSpaceID space, WbGroup *group) {  // g
   WbMFNode::Iterator it(group->children());
   while (it.hasNext()) {
     WbNode *const node = it.next();
-    WbPose *const transform = dynamic_cast<WbPose *>(node);
-    if (transform)
-      createOdeGeomFromTransform(simpleSpace, transform);
+    WbPose *const pose = dynamic_cast<WbPose *>(node);
+    if (pose)
+      createOdeGeomFromPose(simpleSpace, pose);
     else {
       const WbShape *const shape = dynamic_cast<WbShape *>(node);
       if (shape) {
@@ -460,10 +453,10 @@ dGeomID WbMatter::createOdeGeomFromNode(dSpaceID space, WbBaseNode *node) {
   if (!node)
     return NULL;
 
-  WbPose *const transform = dynamic_cast<WbPose *>(node);
+  WbPose *const pose = dynamic_cast<WbPose *>(node);
   // cppcheck-suppress knownConditionTrueFalse
-  if (transform)
-    return createOdeGeomFromTransform(space, transform);
+  if (pose)
+    return createOdeGeomFromPose(space, pose);
 
   WbGroup *const group = dynamic_cast<WbGroup *>(node);
   if (group)
@@ -541,42 +534,6 @@ void WbMatter::updateName() {
     mName->blockSignals(false);
   }
   emit matterNameChanged();
-}
-
-int WbMatter::constraintType() const {
-  return WbWrenAbstractResizeManipulator::UNIFORM;
-}
-
-bool WbMatter::checkScaleAtLoad(bool warning) {
-  const WbVector3 &s = scale();
-  bool b = false;
-
-  if (s.x() != s.y()) {
-    mScale->setY(s.x());
-    b = true;
-  }
-
-  if (s.y() != s.z()) {
-    mScale->setZ(s.y());
-    b = true;
-  }
-
-  if (b && warning)
-    parsingWarn(tr("The 'scale' field components of a Solid must be the same: y and z are reset to x."));
-
-  return b;
-}
-
-bool WbMatter::checkScalingPhysicsConstraints(WbVector3 &correctedScale, int constraintType, bool warning) const {
-  return WbPose::checkScaleUniformity(correctedScale, warning);
-}
-
-void WbMatter::setScaleNeedUpdate() {
-  WbPose::setScaleNeedUpdate();
-
-  WbBaseNode *const bo = boundingObject();
-  if (bo)
-    bo->setScaleNeedUpdate();
 }
 
 // Places ODE dGeoms through their absolute coordinates
@@ -662,42 +619,6 @@ void WbMatter::applyMatterCenterToWren() {
     const float lineScale = wr_config_get_line_scale() * WbWrenRenderingContext::SOLID_LINE_SCALE_FACTOR;
     const float scale[3] = {lineScale, lineScale, lineScale};
     wr_transform_set_scale(mMatterCenterTransform, scale);
-  }
-}
-
-void WbMatter::propagateScale() {
-  // Sets new masses and new CoMs from top to bottom
-  WbBaseNode *const bo = boundingObject();
-  const WbGroup *group = dynamic_cast<WbGroup *>(bo);
-  WbGeometry *g = NULL;
-  if (group == NULL) {
-    g = WbSolidUtilities::geometry(bo);
-    if (g)
-      g->applyToOdeData(false);
-  } else {
-    WbPose *transform = dynamic_cast<WbPose *>(bo);
-    if (transform) {
-      g = transform->geometry();
-      if (g)
-        g->applyToOdeData(false);
-    } else {
-      const WbMFNode &children = group->children();
-      WbMFNode::Iterator it(children);
-      while (it.hasNext()) {
-        WbNode *const node = it.next();
-        transform = dynamic_cast<WbPose *>(node);
-        if (transform) {
-          g = transform->geometry();
-          if (g)
-            transform->applyToOdeData(false);
-        } else {
-          g = WbSolidUtilities::geometry(node);
-          if (g) {
-            g->applyToOdeData(false);
-          }
-        }
-      }
-    }
   }
 }
 

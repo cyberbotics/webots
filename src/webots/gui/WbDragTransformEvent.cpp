@@ -50,9 +50,10 @@ WbTranslateEvent::WbTranslateEvent(WbViewpoint *viewpoint, WbAbstractPose *selec
   mInitialPosition(selectedTransform->translation()),
   mUpWorldVector(WbWorld::instance()->worldInfo()->upVector()),
   mMouseRay() {
-  WbVector3 computedScaleFromParents = mSelectedTransform->absoluteScale();
-  computedScaleFromParents /= mSelectedTransform->scale();
-  mScaleFromParents = computedScaleFromParents;
+  // TODO: restore
+  // WbVector3 computedScaleFromParents = mSelectedTransform->absoluteScale();
+  // computedScaleFromParents /= mSelectedTransform->scale();
+  // mScaleFromParents = computedScaleFromParents;
 }
 
 WbTranslateEvent::~WbTranslateEvent() {
@@ -103,8 +104,9 @@ void WbDragHorizontalEvent::apply(const QPoint &currentMousePosition) {
     mIntersectionOutput = mMouseRay.intersects(mDragPlane);
     WbVector3 displacementFromInitialPosition = mMouseRay.point(mIntersectionOutput.second) - mTranslationOffset;
     // remove any x or z scaling from parents (we shouldn't touch y as we're moving on the world horizontal plane)
-    displacementFromInitialPosition.setX(displacementFromInitialPosition.x() / mScaleFromParents.x());
-    displacementFromInitialPosition.setZ(displacementFromInitialPosition.z() / mScaleFromParents.z());
+    // TODO: restore
+    // displacementFromInitialPosition.setX(displacementFromInitialPosition.x() / mScaleFromParents.x());
+    // displacementFromInitialPosition.setZ(displacementFromInitialPosition.z() / mScaleFromParents.z());
 
     // express the displacement in the coordinate frame of the Solid (in case it has some parent Transform(s)).
     if (!mSelectedTransform->isTopTransform())
@@ -172,8 +174,9 @@ WbDragTranslateAlongAxisEvent::WbDragTranslateAlongAxisEvent(const QPoint &initi
   mTextOverlay->applyChangesToWren();
 
   WbMatrix4 matrix(mSelectedTransform->matrix());
-  const WbVector3 &scale = mSelectedTransform->scale();
-  matrix.scale(1.0f / scale.x(), 1.0f / scale.y(), 1.0f / scale.z());
+  // TODO: restore
+  // const WbVector3 &scale = mSelectedTransform->scale();
+  // matrix.scale(1.0f / scale.x(), 1.0f / scale.y(), 1.0f / scale.z());
 
   // local offset
   const WbVector3 attachedHandlePosition(matrix *
@@ -215,8 +218,9 @@ void WbDragTranslateAlongAxisEvent::apply(const QPoint &currentMousePosition) {
   mViewDistanceUnscaling = mViewpoint->viewDistanceUnscaling(mSelectedTransform->position());
 
   WbMatrix4 matrix(mSelectedTransform->matrix());
-  const WbVector3 &scale = mSelectedTransform->scale();
-  matrix.scale(1.0f / scale.x(), 1.0f / scale.y(), 1.0f / scale.z());
+  // TODO: restore
+  // const WbVector3 &scale = mSelectedTransform->scale();
+  // matrix.scale(1.0f / scale.x(), 1.0f / scale.y(), 1.0f / scale.z());
 
   WbVector3 attachedHandlePosition = matrix * (mManipulator->relativeHandlePosition(mHandleNumber) * mViewDistanceUnscaling);
   const double zEye = mViewpoint->zEye(attachedHandlePosition);
@@ -319,7 +323,6 @@ WbDragRotateAroundAxisEvent::WbDragRotateAroundAxisEvent(const QPoint &initialMo
   mManipulator->setActive(true);
 
   const WbTransform *const ut = dynamic_cast<const WbTransform *const>(selectedPose);
-
   if (ut)
     mInitialMatrix.scale(1.0f / ut->scale().x(), 1.0f / ut->scale().y(), 1.0f / ut->scale().z());
 

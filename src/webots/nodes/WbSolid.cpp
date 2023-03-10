@@ -974,13 +974,10 @@ void WbSolid::adjustOdeMass(bool mergeMass) {
     memcpy(mOdeMass, mReferenceMass, sizeof(dMass));
     const WbPhysics *const p = physics();
     const double fieldMass = p->mass();
-    const bool fieldMassIsPositive = fieldMass > 0.0;
-    const double s = absoluteScale().x();
 
-    if (fieldMassIsPositive) {
-      const double s2 = s * s;
-      dMassAdjust(mOdeMass, s * s2 * fieldMass);
-    } else {
+    if (fieldMass > 0.0)
+      dMassAdjust(mOdeMass, fieldMass);
+    else {
       const double fieldDensity = p->density();
       if (fieldDensity >= 0.0)
         dMassAdjust(mOdeMass, (currentMass * fieldDensity) / 1000.0);
@@ -1249,34 +1246,6 @@ void WbSolid::updateRotation() {
     emit positionChangedArtificially();
 }
 
-// Scale
-
-void WbSolid::updateScale(bool warning) {
-  const int constraint = constraintType();
-  if (checkScale(constraint, warning))
-    return;
-
-  WbMatter::applyToScale();
-
-  if (WbOdeContext::instance() && boundingObject())
-    applyToOdeScale();
-
-  if (isDynamic())
-    applyMassCenterToWren();
-}
-
-void WbSolid::setScaleNeedUpdate() {
-  WbMatter::setScaleNeedUpdate();
-
-  foreach (WbBasicJoint *const j, mJointChildren) {
-    if (j->solidReference())
-      continue;
-    WbSolid *const s = j->solidEndPoint();
-    if (s)
-      s->setScaleNeedUpdate();
-  }
-}
-
 // Creates and updates, or destroys, the ODE dBody according to the existence of a WbPhysics node
 void WbSolid::updatePhysics() {
   assert(areOdeObjectsCreated());
@@ -1373,13 +1342,7 @@ void WbSolid::setOdeInertiaMatrix() {
   const WbMFVector3 &inertia = p->inertiaMatrix();
   const WbVector3 &v0 = inertia.item(0);
   const WbVector3 &v1 = inertia.item(1);
-  const double s = absoluteScale().x();
-  double s3 = s * s;
-  double s5 = s3;
-  s3 *= s;
-  s5 *= s3;
-  dMassSetParameters(mOdeMass, s3 * p->mass(), 0.0, 0.0, 0.0, s5 * v0.x(), s5 * v0.y(), s5 * v0.z(), s5 * v1.x(), s5 * v1.y(),
-                     s5 * v1.z());
+  dMassSetParameters(mOdeMass, s3 * p->mass(), 0.0, 0.0, 0.0, v0.x(), v0.y(), v0.z(), v1.x(), v1.y(), v1.z());
 
   memcpy(mMassAroundCoM, mOdeMass, sizeof(dMass));
   updateCenterOfMass();
@@ -1418,15 +1381,10 @@ void WbSolid::setInertiaMatrixFromBoundingObject() {
   const WbField *const parameter = findField("physics", true)->parameter();
   WbPhysics *const p = parameter ? static_cast<WbPhysics *>(static_cast<WbSFNode *>(parameter->value())->value()) : physics();
 
-  const double s = 1.0 / absoluteScale().x();
-  double s3 = s * s;
-  double s5 = s3;
-  s3 *= s;
-
   if (p->mass() < 0.0) {
     double boundingObjectMass = mReferenceMass->mass;
     boundingObjectMass *= 0.001 * p->density();
-    p->setMass(boundingObjectMass * s3, true);
+    p->setMass(boundingObjectMass, true);
     p->parsingInfo(tr("'mass' set as bounding object's mass based on 'density'."));
   }
 
@@ -1691,25 +1649,16 @@ void WbSolid::updateCenterOfMass() {
   const int mode = p->mode();
 
   mCenterOfMass.setXyz(0.0, 0.0, 0.0);
-  mScaledCenterOfMass.setXyz(0.0, 0.0, 0.0);
 
   switch (mode) {
     case WbPhysics::CUSTOM_INERTIA_MATRIX:
       mCenterOfMass = p->centerOfMass().item(0);
-      mScaledCenterOfMass = mCenterOfMass;
-      mScaledCenterOfMass *= absoluteScale().x();
       break;
     case WbPhysics::BOUNDING_OBJECT_BASED: {
       if (p->centerOfMass().size() == 1) {
         mCenterOfMass = p->centerOfMass().item(0);
-        mScaledCenterOfMass = mCenterOfMass;
-        mScaledCenterOfMass *= absoluteScale().x();
-      } else if (mBoundingObject->value() != NULL) {
-        mScaledCenterOfMass.setXyz(mReferenceMass->c[0], mReferenceMass->c[1], mReferenceMass->c[2]);
-        mCenterOfMass = mScaledCenterOfMass;
-        const double s = 1.0 / absoluteScale().x();
-        mCenterOfMass *= s;
-      }
+      } else if (mBoundingObject->value() != NULL)
+        mCenterOfMass.setXyz(mReferenceMass->c[0], mReferenceMass->c[1], mReferenceMass->c[2]);
       break;
     }
     default:
@@ -1794,7 +1743,7 @@ void WbSolid::setDefaultMassSettings(bool applyCenterOfMassTranslation, bool war
   }
 
   if (applyCenterOfMassTranslation)
-    dMassTranslate(mOdeMass, mScaledCenterOfMass.x(), mScaledCenterOfMass.y(), mScaledCenterOfMass.z());
+    dMassTranslate(mOdeMass, mCenterOfMass.x(), mCenterOfMass.y(), mCenterOfMass.z());
 }
 
 // Compute the mass and the inertia around solid frame's origin
@@ -1832,13 +1781,11 @@ void WbSolid::createOdeMass(bool reset) {
 
     const double fieldDensity = p->density();
     const double fieldMass = p->mass();
-    const double s = absoluteScale().x();
 
     // Sets the actual total mass
     double actualMass = mOdeMass->mass;
     if (fieldMass > 0.0) {
-      const double s2 = s * s;
-      actualMass = s * s2 * fieldMass;
+      actualMass = fieldMass;
     } else if (fieldDensity != 1000.0)
       actualMass *= 0.001 * fieldDensity;
 
@@ -1885,36 +1832,6 @@ void WbSolid::applyToOdeMass() {
 
   createOdeMass();
   mSolidMerger->mergeMass(this);
-}
-
-void WbSolid::propagateScale() {
-  // Sets new masses and new CoMs from top to bottom
-  WbMatter::propagateScale();
-
-  adjustOdeMass(false);  // rescale the ODE dMass in keeping with Webots density or mass value
-
-  if (mSolidMerger == NULL)
-    updateOdeGeomPosition();
-
-  foreach (WbSolid *const solid, mSolidChildren)
-    solid->propagateScale();
-
-  // Merges new masses and sets new geom and body positions, from bottom to top
-  if (isSolidMerger()) {
-    mSolidMerger->updateMasses();
-    mSolidMerger->setGeomAndBodyPositions();
-    mSolidMerger->setOdeDamping();
-  }
-
-  if (mSolidMerger)
-    applyMassCenterToWren();
-  else
-    WbWorld::instance()->awake();
-}
-
-void WbSolid::applyToOdeScale() {
-  propagateScale();
-  resetJoints();
 }
 
 void WbSolid::updateTransformForPhysicsStep() {
@@ -1965,7 +1882,7 @@ void WbSolid::applyPhysicsTransform() {
   }
 
   // find Solid merger's frame center in world coordinates
-  const WbVector3 &com = mSolidMerger->scaledCenterOfMass();
+  const WbVector3 &com = mSolidMerger->centerOfMass();
   if (com.isNull())
     dBodyCopyPosition(b, result);
   else
@@ -1975,17 +1892,14 @@ void WbSolid::applyPhysicsTransform() {
   // printf("new body pos = %f, %f, %f (apply phy.)\n", result[0], result[1], result[2]);
   const WbPose *const up = upperPose();
   if (up) {
-    const WbTransform *const ut = dynamic_cast<const WbTransform *const>(up);
-    const double invUtScale = ut ? 1.0 / ut->absoluteScale().x() : 1.0;
-    const double scaleFactor = invUtScale * invUtScale;
     const WbMatrix4 &upm = up->matrix();
     const WbVector3 &prel = utm.pseudoInversed(WbVector3(result));
-    result[0] = scaleFactor * prel[0];
-    result[1] = scaleFactor * prel[1];
-    result[2] = scaleFactor * prel[2];
+    result[0] = prel[0];
+    result[1] = prel[1];
+    result[2] = prel[2];
     // printf("result = %f, %f, %f (apply phy.))\n", result[0], result[1], result[2]);
     // find rotation difference between upper transform and solid child
-    const WbQuaternion &q = upm.extractedQuaternion(invUtScale);
+    const WbQuaternion &q = upm.extractedQuaternion();
     dQMultiply1(qr, q.ptr(), dBodyGetQuaternion(b));
   }
 

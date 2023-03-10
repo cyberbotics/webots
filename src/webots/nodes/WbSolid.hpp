@@ -69,7 +69,6 @@ public:
   virtual void prePhysicsStep(double ms);
   virtual void postPhysicsStep();
 
-  void setScaleNeedUpdate() override;
   void createOdeObjects() override;
 
   // field accessors
@@ -105,7 +104,6 @@ public:
   }
   void updateCenterOfMass();  // update the center of mass according to the Physics node specification
   const WbVector3 &centerOfMass() const { return mCenterOfMass; }
-  const WbVector3 &scaledCenterOfMass() const { return mScaledCenterOfMass; }
   dMass *referenceMass() const { return mReferenceMass; }
   // returns inertia and CoM relative to solid center in the local frame coordinates
   dMass *odeMass() const { return mOdeMass; }
@@ -213,7 +211,7 @@ public:
                                         int &counter) const override;
 
   // Threshold to handle mass round off errors after resize / rescale events
-  static const double MASS_ZERO_THRESHOLD;
+  static const double MASS_ZERO_THRESHOLD;  // TODO: can be removed?
 
   WbBasicJoint *jointParent() const;
 
@@ -270,9 +268,6 @@ protected:
   void applyChangesToWren() override;
   void applyMassCenterToWren();
 
-  // Scale
-  void propagateScale() override;  // overriden in WbDistanceSensor
-
   // Solid merger, i.e. solid ancestor (possibly the solid itself) that owns the mass, body and dGeoms of this solid..
   virtual void setSolidMerger();
   // Non NULL only if this solid is dynamic and is not related to its dynamic parent by a joint
@@ -289,7 +284,6 @@ protected:
 protected slots:
   void updateTranslation() override;
   void updateRotation() override;
-  void updateScale(bool warning = false) override;
   void updateLineScale() override;
   virtual void updateIsLinearVelocityNull();
   virtual void updateIsAngularVelocityNull();
@@ -354,7 +348,6 @@ private:
   dMass *mReferenceMass;   // the mass of the solid when the density is uniformly set to 1000 kg/m^3
   bool mUseInertiaMatrix;  // indicates that the WbSolid uses the latest valid inertia matrix field for ODE physics computation
   WbVector3 mCenterOfMass;
-  WbVector3 mScaledCenterOfMass;
 
   // ODE mass adjustments
   void createOdeMass(bool reset = true);
@@ -428,8 +421,6 @@ private:
 
   void setOdeInertiaMatrix();
   void createOdeGeoms() override;
-  // rescale all the ODE dGeoms lying inside the Bounding Object when the WbSolid's scale field has changed
-  void applyToOdeScale() override;
 
   // WREN objects
   WrTransform *mCenterOfMassTransform;

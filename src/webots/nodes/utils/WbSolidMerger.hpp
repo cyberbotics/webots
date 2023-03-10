@@ -39,7 +39,6 @@ public:
   dSpaceID reservedSpace();
   void removeExtraSpace();
   const WbVector3 &centerOfMass() const { return mCenterOfMass; }
-  const WbVector3 &scaledCenterOfMass() const { return mScaledCenterOfMass; }
   const WbVector3 &absoluteCenterOfMass() const { return mAbsoluteCenterOfMass; }
   const QMap<WbSolid *, dMass *> &mergedSolids() const;
   void appendSolid(WbSolid *solid);
@@ -64,7 +63,6 @@ private:
   WbSolid *mSolid;
   dSpaceID mSpace;
   WbVector3 mCenterOfMass;
-  WbVector3 mScaledCenterOfMass;
   WbVector3 mAbsoluteCenterOfMass;
   void updateCenterOfMass();
   dMass *mOdeMass;
