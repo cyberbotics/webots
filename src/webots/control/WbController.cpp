@@ -253,8 +253,8 @@ void WbController::start() {
     else
       message = tr("waiting for local or remote connection on port %1 targeting robot named '%2' (%3).")
                   .arg(QString::number(WbStandardPaths::webotsTmpPathId()))
-                  .arg(mRobot->encodedName())
-                  .arg(mRobot->name());
+                  .arg(mRobot->name())
+                  .arg(mRobot->encodedName());
 
     info(message);
     WbControlledWorld::instance()->externConnection(this, false);
