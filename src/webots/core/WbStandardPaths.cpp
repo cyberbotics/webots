@@ -257,6 +257,7 @@ bool WbStandardPaths::webotsTmpPathCreate(const int id) {
   if (!dir.exists() && !dir.mkpath("."))
     return false;
 
+  // FIXME: from Qt6.4 onwards, this can be done directly with mkdir
   QFile(cWebotsTmpPath)
     .setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner | QFileDevice::ReadUser |
                     QFileDevice::WriteUser | QFileDevice::ExeUser | QFileDevice::ReadGroup | QFileDevice::WriteGroup |
