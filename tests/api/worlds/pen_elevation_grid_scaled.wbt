@@ -21,7 +21,7 @@ PointLight {
   ambientIntensity 1
   intensity 0
 }
-DEF BOARD Solid {
+DEF BOARD Transform {
   translation -0.04 0.026 -0.03
   rotation 0.2232300697931779 0.9716012890998137 0.07848102292728752 2.61799
   scale 0.5 0.5 0.5
@@ -64,7 +64,6 @@ DEF BOARD Solid {
       ]
     }
   ]
-  locked TRUE
 }
 DEF WRITER Robot {
   children [

@@ -19,7 +19,7 @@ PointLight {
   ambientIntensity 1
   intensity 0
 }
-DEF BOARD Solid {
+DEF BOARD Transform {
   translation -0.06 0.32 -0.027
   rotation 0.19611607190538263 0.6933752542240035 0.6933752542240035 -0.5236
   scale 0.2 0.2 0.2
