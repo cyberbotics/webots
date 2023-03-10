@@ -247,7 +247,7 @@ void WbController::start() {
   if (mExtern) {
     QString message;
     if (mRobot->encodedName() == mRobot->name())
-      message = tr("waiting for local or remote connection on port %1 targeting robot named '%2'.")
+      message = tr("Waiting for local or remote connection on port %1 targeting robot named '%2'.")
                   .arg(QString::number(WbStandardPaths::webotsTmpPathId()))
                   .arg(mRobot->name());
     else
