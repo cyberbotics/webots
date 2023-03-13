@@ -2,6 +2,7 @@
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # This is a proto file for Webots for the RosbotXl
+
 EXTERNPROTO "webots://projects/devices/slamtec/protos/RpLidarA2.proto"
 EXTERNPROTO "webots://projects/devices/tdk/protos/Mpu-9250.proto"
 
