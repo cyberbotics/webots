@@ -65,7 +65,7 @@ public:
   WbBoundingSphere(const WbBaseNode *owner, const WbVector3 &center, double radius);
   virtual ~WbBoundingSphere();
 
-  double radius();
+  double scaledRadius();
   const WbVector3 &center();
 
   void computeSphereInGlobalCoordinates(WbVector3 &center, double &radius);
@@ -145,6 +145,7 @@ private:
   // setOwner doesn't work correctly if called from the 'node' constructors
   // because of dynamic_cast
   void setOwner(const WbBaseNode *owner);
+  // double radius();
 };
 
 #endif  // WB_BOUNDING_SPHERE_HPP
