@@ -700,7 +700,8 @@ void WbCamera::computeObjects(bool finalSetup, bool needCollisionDetection) {
   const WbMatrix3 cameraRotation = rotationMatrix();
   const WbMatrix3 cameraInverseRotation = cameraRotation.transposed();
   const double horizontalFieldOfView = fieldOfView();
-  const double verticalFieldOfView = (horizontalFieldOfView * height()) / width();
+  const double verticalFieldOfView =
+    WbWrenCamera::computeFieldOfViewY(horizontalFieldOfView, (double)width() / (double)height());
   const WbAffinePlane *frustumPlanes = WbObjectDetection::computeFrustumPlanes(
     cameraPosition, cameraRotation, verticalFieldOfView, horizontalFieldOfView, recognition()->maxRange());
 
