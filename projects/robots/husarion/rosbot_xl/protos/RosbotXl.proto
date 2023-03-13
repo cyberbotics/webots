@@ -246,6 +246,7 @@ PROTO RosbotXl [
         translation -0.136900 -0.041900 0.037000
         rotation 1.000000 0.000000 0.000000 3.14159
         name "imu"
+        includeInertialUnit TRUE
       }
     ]
   }

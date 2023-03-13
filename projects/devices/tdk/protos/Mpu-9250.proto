@@ -11,6 +11,7 @@ PROTO Mpu-9250 [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0
   field SFString   name        "MPU-9250"
+  field SFBool includeInertialUnit FALSE
 ]
 {
   Solid {
@@ -34,9 +35,11 @@ PROTO Mpu-9250 [
       Compass {
         name %<= '"' + fields.name.value + ' compass"' >%
       }
-      InertialUnit {
-        name %<= '"' + fields.name.value + ' inertial_unit"' >%
-      }
+      %< if (fields.includeInertialUnit.value) { >%
+        InertialUnit {
+          name %<= '"' + fields.name.value + ' inertial_unit"' >%
+        }
+      %< } >%
     ]
     name IS name
     physics Physics {
