@@ -129,7 +129,6 @@ protected:
   virtual void applyFieldOfViewToWren();
   void applyMotionBlurToWren();
   void applyNoiseToWren();
-  void updateScaleOfFrustumVisualization();
 
   // WREN data
   WbWrenCamera *mWrenCamera;
@@ -188,7 +187,6 @@ protected slots:
   void removeInvisibleNodeFromList(QObject *node);
 
   virtual void updateFrustumDisplayIfNeeded(int optionalRendering) {}
-  void connectToScaleChangeNotifications(bool enabled);
 
 private:
   WbAbstractCamera &operator=(const WbAbstractCamera &);  // non copyable
