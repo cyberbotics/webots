@@ -1,11 +1,9 @@
-#VRML_SIM R2023a utf8
-
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
 EXTERNPROTO "webots://projects/appearances/protos/CarpetFibers.proto"
 EXTERNPROTO "webots://projects/robots/husarion/rosbot_xl/protos/RosbotXl.proto"
-EXTERNPROTO "webots://projects/objects/husarion_world/protos/HusarionWorld.proto"
 
 WorldInfo {
   info [
