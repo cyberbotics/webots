@@ -380,11 +380,13 @@ void WbCone::recomputeBoundingSphere() const {
   const double h = mHeight->value();
   const double halfHeight = h / 2.0;
 
-  if (!side || h <= r)  // consider it as disk
-    mBoundingSphere->set(WbVector3(0, -halfHeight, 0), r);
+  if (!side && !mBottom->value())  // it is empty
+    mBoundingSphere->empty();
+  else if (!side || h <= r)  // consider it as disk
+    mBoundingSphere->set(WbVector3(0, 0, -halfHeight), r);
   else {
     const double newRadius = halfHeight + r * r / (2 * h);
-    mBoundingSphere->set(WbVector3(0, halfHeight - newRadius, 0), newRadius);
+    mBoundingSphere->set(WbVector3(0, 0, halfHeight - newRadius), newRadius);
   }
 }
 
