@@ -32,7 +32,7 @@ export default class Parameter extends Field {
         for (const value of newValue.value) {
           let found = false;
           for (const item of this.restrictions[0].value) {
-            if (item.equals(value, true)) {
+            if (item.url === value.url) {
               found = true;
               break;
             }
@@ -48,7 +48,7 @@ export default class Parameter extends Field {
         }
       } else {
         for (const item of this.restrictions) {
-          if ((newValue instanceof SFNode && newValue.value === null) || item.equals(newValue, true)) {
+          if ((newValue instanceof SFNode && newValue.value === null) || item.url === newValue.url) {
             super.value = newValue;
             return;
           }
