@@ -2876,7 +2876,7 @@ void wb_supervisor_node_enable_contact_points_tracking(WbNodeRef node, int sampl
   node->contact_points[descendants].last_update = -DBL_MAX;
   node->contact_points[descendants].sampling_period = sampling_period;
   wb_robot_flush_unlocked(__FUNCTION__);
-  pose_change_tracking_requested = false;
+  contact_point_change_tracking_requested = false;
   robot_mutex_unlock();
 }
 
@@ -2908,7 +2908,7 @@ void wb_supervisor_node_disable_contact_points_tracking(WbNodeRef node) {
   contact_point_change_tracking.enable = false;
   contact_point_change_tracking.include_descendants = false;
   wb_robot_flush_unlocked(__FUNCTION__);
-  pose_change_tracking_requested = false;
+  contact_point_change_tracking_requested = false;
   robot_mutex_unlock();
 }
 
