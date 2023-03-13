@@ -376,8 +376,8 @@ double WbCone::computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) co
 void WbCone::recomputeBoundingSphere() const {
   assert(mBoundingSphere);
   const bool side = mSide->value();
-  const double r = scaledBottomRadius();
-  const double h = scaledHeight();
+  const double r = mBottomRadius->value();
+  const double h = mHeight->value();
   const double halfHeight = h / 2.0;
 
   if (!side || h <= r)  // consider it as disk
