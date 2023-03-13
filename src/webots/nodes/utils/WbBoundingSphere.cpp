@@ -92,10 +92,10 @@ void WbBoundingSphere::setOwner(const WbBaseNode *owner) {
 double WbBoundingSphere::scaledRadius() {
   if (mBoundSpaceDirty)
     recomputeIfNeeded();
-  double radius;
-  WbVector3 center;
-  computeSphereInGlobalCoordinates(center, radius);
-  return radius;
+  double globalRadius;
+  WbVector3 globalCenter;
+  computeSphereInGlobalCoordinates(globalCenter, globalRadius);
+  return globalRadius;
 }
 
 double WbBoundingSphere::radiusInParentCoordinates() {
