@@ -121,12 +121,12 @@ class TestWorldsWarnings(unittest.TestCase):
         )
 
         if worldsWithNonCachedAssets:
-            print('Worlds with non-cached assets:')
+            print('\nThe following worlds reference non-cached assets:')
             for world in worldsWithNonCachedAssets:
                 print('- ' + world)
 
         if not crashedWorlds or not problematicWorlds or not worldsWithNonCachedAssets:
-            sys.exit(1)
+            self.fail('Problematic worlds have been found.')
 
 
 if __name__ == '__main__':
