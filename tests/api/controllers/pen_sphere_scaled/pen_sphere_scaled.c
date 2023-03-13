@@ -89,11 +89,11 @@ int main(int argc, char **argv) {
   ts_assert_boolean_equal(numColorPixels <= 70,
                           "The number of pixels painted after the first step should be lower than 70 not %d", numColorPixels);
 
-  color = getPixelColor(8, 48);
+  color = getPixelColor(10, 49);
   ts_assert_color_in_delta(
     color.r, color.g, color.b, 206, 171, 58, 15,
-    "Pixel (8, 48) should be painted with color [r=%d, g=%d, b=%d] not [r=%d, g=%d, b=%d] after first paint call", 206, 171, 58,
-    color.r, color.g, color.b);
+    "Pixel (10, 49) should be painted with color [r=%d, g=%d, b=%d] not [r=%d, g=%d, b=%d] after first paint call", 206, 171,
+    58, color.r, color.g, color.b);
 
   wb_robot_step(TIME_STEP);
 

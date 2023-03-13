@@ -65,7 +65,7 @@ public:
   WbBoundingSphere(const WbBaseNode *owner, const WbVector3 &center, double radius);
   virtual ~WbBoundingSphere();
 
-  double radius();
+  double scaledRadius();
   const WbVector3 &center();
 
   void computeSphereInGlobalCoordinates(WbVector3 &center, double &radius);
