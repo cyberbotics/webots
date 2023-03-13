@@ -92,8 +92,8 @@ int main(int argc, char **argv) {
   color = getPixelColor(10, 49);
   ts_assert_color_in_delta(
     color.r, color.g, color.b, 206, 171, 58, 15,
-    "Pixel (10, 49) should be painted with color [r=%d, g=%d, b=%d] not [r=%d, g=%d, b=%d] after first paint call", 206, 171, 58,
-    color.r, color.g, color.b);
+    "Pixel (10, 49) should be painted with color [r=%d, g=%d, b=%d] not [r=%d, g=%d, b=%d] after first paint call", 206, 171,
+    58, color.r, color.g, color.b);
 
   wb_robot_step(TIME_STEP);
 
