@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.6509950532663705 0.7142800584445397 0.25692302102221326 0.757545
-  position 0.179682 0.501632 0.219582
+  orientation -0.2850200000020124 0.8048083994200814 0.5206217819317008 2.4466831964533053
+  position 0.47659436596420557 0.42799444010717785 0.4892916206766945
 }
 Background {
   skyColor [
@@ -102,7 +102,7 @@ DEF WRITER Robot {
         ]
         inkColor 0.980392 0.541176 0.0392157
         inkDensity 1
-        leadSize 0.035
+        leadSize 0.01
       }
     }
     Solid {

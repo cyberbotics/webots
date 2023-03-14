@@ -271,8 +271,7 @@ bool WbObjectDetection::isWithinBounds(const WbAffinePlane *frustumPlanes, const
     double outsidePart[4] = {0.0, 0.0, 0.0, 0.0};
     if (useBoundingSphere) {
       WbBoundingSphere *boundingSphere = rootObject->boundingSphere();
-      const WbVector3 &scale = transform->absoluteScale();
-      const double size = 2 * boundingSphere->radius() * std::max(std::max(scale.x(), scale.y()), scale.z());
+      const double size = 2 * boundingSphere->scaledRadius();
       objectSize.setXyz(size, size, size);
       // correct the object center
       objectPosition = transform->matrix() * boundingSphere->center();
