@@ -237,7 +237,7 @@ void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
   if (robotNameIndex) {  // robot name is given
     const QString robotName = tokens[robotNameIndex];
     foreach (WbRobot *const robot, robots) {
-      if (QUrl::toPercentEncoding(robot->name()) == robotName && robot->isControllerExtern()) {
+      if (robot->encodedName() == robotName && robot->isControllerExtern()) {
         foreach (WbController *const controller, availableControllers) {
           if (controller->robot() == robot) {
             if (controller->setTcpSocket(socket)) {
