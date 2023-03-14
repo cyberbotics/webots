@@ -128,7 +128,7 @@ class TestWorldsWarnings(unittest.TestCase):
             for world in worldsWithNonCachedAssets:
                 print('- ' + world)
 
-        if not crashedWorlds or not problematicWorlds or not worldsWithNonCachedAssets:
+        if crashedWorlds or problematicWorlds or worldsWithNonCachedAssets:
             self.fail('Problematic worlds have been found.')
 
 
