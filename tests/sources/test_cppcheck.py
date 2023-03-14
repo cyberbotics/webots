@@ -54,7 +54,7 @@ class TestCppCheck(unittest.TestCase):
             os.remove(self.reportFilename)
         os.chdir(curdir)
 
-    def add_source_files(self, sourceDirs, skippedDirs, skippedfiles=[]):
+    def add_source_files(self, sourceDirs, skippedDirs, skippedFiles=[]):
         command = ''
         modified_files = os.path.join(self.WEBOTS_HOME, 'tests', 'sources', 'modified_files.txt')
         if os.path.isfile(modified_files):
@@ -67,17 +67,17 @@ class TestCppCheck(unittest.TestCase):
                     for sourceDir in sourceDirs:
                         if line.startswith(sourceDir):
                             shouldSkip = False
-                            for skipped in skippedDirs + skippedfiles:
+                            for skipped in skippedDirs + skippedFiles:
                                 if line.startswith(skipped):
                                     shouldSkip = True
                                     break
                             if not shouldSkip:
                                 command += ' \"' + line + '\"'
                             continue
-            for source in skippedfiles:
+            for source in skippedFiles:
                 command += ' --suppress=\"*:' + source + '\"'
         else:
-            for source in skippedfiles:
+            for source in skippedFiles:
                 command += ' --suppress=\"*:' + source + '\"'
             for source in skippedDirs:
                 command += ' -i\"' + source + '\"'
@@ -124,6 +124,10 @@ class TestCppCheck(unittest.TestCase):
             'src/webots/widgets',
             'src/webots/wren'
         ]
+        skippedFiles = [
+            'src/controller/c/sha1.c',
+            'src/controller/c/sha1.h'
+        ]
         command = 'cppcheck --platform=native --enable=warning,style,performance,portability --inconclusive --force -q'
         command += ' --library=qt -j %s' % str(multiprocessing.cpu_count())
         command += ' --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm --suppress=uninitMemberVar'
@@ -132,7 +136,7 @@ class TestCppCheck(unittest.TestCase):
         command += ' --output-file=\"' + self.reportFilename + '\"'
         for include in includeDirs:
             command += ' -I\"' + include + '\"'
-        sources = self.add_source_files(sourceDirs, skippedDirs)
+        sources = self.add_source_files(sourceDirs, skippedDirs, skippedFiles)
         if not sources:
             return
         command += sources
@@ -155,15 +159,12 @@ class TestCppCheck(unittest.TestCase):
             'projects/default/libraries/vehicle/java',
             'projects/default/libraries/vehicle/python',
             'projects/robots/gctronic/e-puck/transfer',
-            'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba',
-            'projects/robots/mobsya/thymio/libraries/dashel',
-            'projects/robots/mobsya/thymio/libraries/dashel-src',
             'projects/robots/robotis/darwin-op/libraries/python',
             'projects/robots/robotis/darwin-op/libraries/robotis-op2/robotis',
             'projects/robots/robotis/darwin-op/remote_control/libjpeg-turbo',
             'projects/vehicles/controllers/ros_automobile/include'
         ]
-        skippedfiles = [
+        skippedFiles = [
             'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h'
         ]
         command = 'cppcheck --platform=native --enable=warning,style,performance,portability --inconclusive --force -q'
@@ -171,7 +172,7 @@ class TestCppCheck(unittest.TestCase):
         command += ' --suppress=strdupCalled --suppress=ctuOneDefinitionRuleViolation --suppress=unknownMacro'
         # command += ' --xml'  # Uncomment this line to get more information on the errors
         command += ' --std=c++03 --output-file=\"' + self.reportFilename + '\"'
-        sources = self.add_source_files(sourceDirs, skippedDirs, skippedfiles)
+        sources = self.add_source_files(sourceDirs, skippedDirs, skippedFiles)
         if not sources:
             return
         command += sources

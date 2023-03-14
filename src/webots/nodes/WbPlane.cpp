@@ -343,7 +343,7 @@ bool WbPlane::computeCollisionPoint(WbVector3 &point, const WbRay &ray) const {
 
 void WbPlane::recomputeBoundingSphere() const {
   assert(mBoundingSphere);
-  mBoundingSphere->set(WbVector3(), scaledSize().length() / 2.0);
+  mBoundingSphere->set(WbVector3(), mSize->value().length() / 2.0);
 }
 
 ////////////////////////

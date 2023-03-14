@@ -704,7 +704,7 @@ void WbCamera::computeRecognizedObjects(bool finalSetup, bool needCollisionDetec
       continue;
     // We should discard targets as soon as possible to improve performance.
     if ((cameraPosition - object->position() - object->boundingSphere()->center()).length() >
-        (recognition()->maxRange() + object->boundingSphere()->radius()))
+        (recognition()->maxRange() + object->boundingSphere()->scaledRadius()))
       continue;
     // create target
     WbRecognizedObject *generatedObject =

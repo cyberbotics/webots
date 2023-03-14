@@ -493,8 +493,8 @@ void WbCapsule::recomputeBoundingSphere() const {
   const bool top = mTop->value();
   const bool side = mSide->value();
   const bool bottom = mBottom->value();
-  const double halfHeight = scaledHeight() / 2.0;
-  const double r = scaledRadius();
+  const double halfHeight = mHeight->value() / 2.0;
+  const double r = mRadius->value();
 
   if (!top && !side && !bottom) {  // it is empty
     mBoundingSphere->empty();
