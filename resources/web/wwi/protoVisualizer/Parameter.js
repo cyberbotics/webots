@@ -126,43 +126,28 @@ export default class Parameter extends Field {
     if (this.triggerParentRegeneration) {
       if (this.value instanceof MFNode) {
         for (const item of this.value.value) {
-          if (item.value.isProto === true) {
-            for (const parameter of item.value.parameters) {
-              parameter[1].triggerParentRegeneration = true;
-              parameter[1].setParentRegenerationFlag();
-            }
-          }
+          if (item.value.isProto === true)
+            this.recursivelySetParentRegenerationFlag(item.value.parameters);
         }
-      } else if (this.value instanceof SFNode) {
+      } else if (this.value instanceof SFNode && this.value.value) {
         const node = this.value.value;
-        if (node.isProto === true) {
-          for (const parameter of node.parameters) {
-            parameter[1].triggerParentRegeneration = true;
-            parameter[1].setParentRegenerationFlag();
-          }
-        }
+        if (node.isProto === true)
+          this.recursivelySetParentRegenerationFlag(node.parameters);
       }
     }
   }
 
   insertNode(view, v, index) {
-    if (this.triggerParentRegeneration && v.isProto) {
-      for (const parameter of v.parameters) {
-        parameter[1].triggerParentRegeneration = true;
-        parameter[1].setParentRegenerationFlag();
-      }
-    }
+    if (this.triggerParentRegeneration && v.isProto)
+      this.recursivelySetParentRegenerationFlag(v.parameters);
 
     super.insertNode(view, v, index);
   }
 
   setValueFromJavaScript(view, v) {
-    if (v instanceof Node && this.triggerParentRegeneration && v.isProto) {
-      for (const parameter of v.parameters) {
-        parameter[1].triggerParentRegeneration = true;
-        parameter[1].setParentRegenerationFlag();
-      }
-    }
+    if (v instanceof Node && this.triggerParentRegeneration && v.isProto)
+      this.recursivelySetParentRegenerationFlag(v.parameters);
+
     super.setValueFromJavaScript(view, v);
 
     if (this.triggerParentRegeneration)
@@ -179,6 +164,13 @@ export default class Parameter extends Field {
         newField.regenerateParent(view);
     } else
       this.regenerate(view);
+  }
+
+  recursivelySetParentRegenerationFlag(parameters) {
+    for (const parameter of parameters) {
+      parameter[1].triggerParentRegeneration = true;
+      parameter[1].setParentRegenerationFlag();
+    }
   }
 }
 
