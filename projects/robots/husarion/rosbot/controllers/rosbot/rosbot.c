@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
   wb_range_finder_enable(camera_depth, TIME_STEP);
 
   /* get a handler to the RpLidarA2 and enable it. */
-  lidar = wb_robot_get_device("lidar");
+  lidar = wb_robot_get_device("laser");
   wb_lidar_enable(lidar, TIME_STEP);
   wb_lidar_enable_point_cloud(lidar);
 
