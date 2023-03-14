@@ -104,9 +104,12 @@ class TestWorldsWarnings(unittest.TestCase):
             if errors and self.crashError in str(errors):
                 crashedWorlds.append(self.worlds[i])
 
-            # url.wbt is an exception as it contains non-cached assets on purpose
-            if os.path.basename(self.worlds[i]) == 'url.wbt':
+            # url.wbt and camera.wbt are exceptional as they contain non-cached assets on purpose, adapt cache size accordingly
+            worldName = os.path.basename(self.worlds[i])
+            if worldName == 'url.wbt':
                 cacheSizeBefore += 22
+            if worldName == 'camera.wbt':
+                cacheSizeBefore += 26
 
             cacheSizeAfter = len(os.listdir(CACHE_DIR))
             if cacheSizeAfter - cacheSizeBefore > 0:
