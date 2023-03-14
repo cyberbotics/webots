@@ -704,8 +704,8 @@ static char **add_controller_arguments(char **argv, char **controller_argv, size
       webots_controller_args = realloc(webots_controller_args, webots_controller_args_size + varargin_size);
       if (!webots_controller_args)
         exit(1);
-      snprintf(webots_controller_args + webots_controller_args_size, varargin_size, "%s", varargin);
-      webots_controller_args_size += varargin_size;
+      snprintf(webots_controller_args + webots_controller_args_size - 1, varargin_size, "%s", varargin);
+      webots_controller_args_size += (varargin_size - 1);
       free(varargin);
     } else
       argv = add_single_argument(argv, current_size, controller_argv[next_argument_index]);
