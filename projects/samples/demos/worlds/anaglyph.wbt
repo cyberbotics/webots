@@ -201,7 +201,7 @@ Create {
             height 128
           }
         ]
-        boundingObject Transform {
+        boundingObject Pose {
           translation 0 0 -0.0075
           children [
             Box {

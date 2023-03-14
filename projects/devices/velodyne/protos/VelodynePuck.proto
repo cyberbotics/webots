@@ -101,7 +101,7 @@ PROTO VelodynePuck [
     ]
     name IS name
     model "Velodyne Puck"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 -0.00165 0
       children [
         Cylinder {

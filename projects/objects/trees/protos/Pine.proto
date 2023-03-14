@@ -86,7 +86,7 @@ PROTO Pine [
       }
     ]
     %< if (fields.enableBoundingObject.value) { >%
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 2.5
       children [
         Cylinder {

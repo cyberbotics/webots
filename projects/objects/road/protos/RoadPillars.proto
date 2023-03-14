@@ -111,7 +111,7 @@ PROTO RoadPillars [
     name IS name
     model "road pillar"
     %< if (boundingObject) { >%
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0 %<= height * 0.5 - width * Math.abs(Math.sin(tilt)) * 0.25 >%
         rotation 0 0 1 1.5708
         children [

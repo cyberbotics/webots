@@ -354,7 +354,7 @@ PROTO TiagoFrontArm [
                                                       }
                                                     ]
                                                     name "wrist_ft_tool_link"
-                                                    boundingObject Transform {
+                                                    boundingObject Pose {
                                                       rotation 0 1 0 1.57
                                                       children [
                                                         Cylinder {
@@ -370,7 +370,7 @@ PROTO TiagoFrontArm [
                                                   }
                                                 ]
                                                 name "arm_7_link"
-                                                boundingObject Transform {
+                                                boundingObject Pose {
                                                   rotation 0 0 1 1.5708
                                                   children [
                                                     Cylinder {
@@ -388,7 +388,7 @@ PROTO TiagoFrontArm [
                                             }
                                           ]
                                           name "arm_6_link"
-                                          boundingObject Transform {
+                                          boundingObject Pose {
                                             translation 0.0409 0 0
                                             rotation 0 1 0 1.5708
                                             children [

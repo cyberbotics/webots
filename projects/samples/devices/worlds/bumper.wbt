@@ -320,7 +320,7 @@ Robot {
     }
   ]
   name "mybot"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 0.0415
     rotation 0 0 1 1.570796
     children [

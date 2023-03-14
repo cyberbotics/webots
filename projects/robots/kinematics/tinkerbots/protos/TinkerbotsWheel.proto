@@ -70,7 +70,7 @@ PROTO TinkerbotsWheel [
       ]
       name IS name
       contactMaterial "tinkerbots wheel"
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0.0085 0
         rotation 1 0 0 1.5708
         children [

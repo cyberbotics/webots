@@ -109,7 +109,7 @@ Car {
   recognitionColors [
     %<= fields.color.value.r >% %<= fields.color.value.g >% %<= fields.color.value.b >%
   ]
-  boundingObject Transform {
+  boundingObject Pose {
     translation 1.4625 0 1.35
     children [
       Box {

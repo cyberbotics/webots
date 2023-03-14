@@ -43,7 +43,7 @@ PROTO CyberboticsTower [
           url [
             "textures/glass_building_roughness.png"
           ]
-        }        
+        }
       }
       geometry IndexedFaceSet {
         coord Coordinate {
@@ -67,7 +67,7 @@ PROTO CyberboticsTower [
   ]
   name IS name
   model "Cyberbotics tower"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0.13 0 23.48
     rotation 0.57735 -0.57735 -0.57735 2.094395
     children [

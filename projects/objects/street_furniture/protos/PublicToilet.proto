@@ -83,7 +83,7 @@ PROTO PublicToilet [
             ]
           }
         ]
-        boundingObject Transform {
+        boundingObject Pose {
           translation 0 0 %<= height / 2 >%
           children [
             Box {

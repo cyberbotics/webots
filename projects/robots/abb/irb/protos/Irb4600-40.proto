@@ -193,7 +193,7 @@ PROTO Irb4600-40 [
                                             }
                                           }
                                         ]
-                                        boundingObject Transform {
+                                        boundingObject Pose {
                                           translation -0.025004 0.002215 -0.000958
                                           children [
                                             Box {
@@ -207,7 +207,7 @@ PROTO Irb4600-40 [
                                       }
                                     }
                                   ]
-                                  boundingObject Transform {
+                                  boundingObject Pose {
                                     translation 0 -0.0015 0
                                     children [
                                       Box {
@@ -221,7 +221,7 @@ PROTO Irb4600-40 [
                                 }
                               }
                             ]
-                            boundingObject Transform {
+                            boundingObject Pose {
                               translation 0.511874 0.003021 0
                               children [
                                 Box {
@@ -235,7 +235,7 @@ PROTO Irb4600-40 [
                           }
                         }
                       ]
-                      boundingObject Transform {
+                      boundingObject Pose {
                         translation 0.085806 0.199325 0.094072
                         children [
                           Box {
@@ -249,7 +249,7 @@ PROTO Irb4600-40 [
                     }
                   }
                 ]
-                boundingObject Transform {
+                boundingObject Pose {
                   translation -0.003447 -0.061473 0.529095
                   children [
                     Box {
@@ -263,7 +263,7 @@ PROTO Irb4600-40 [
               }
             }
           ]
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0.046699 0.049037 0.270246
             children [
               Box {
@@ -277,7 +277,7 @@ PROTO Irb4600-40 [
         }
       }
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       translation -0.063119 0 0.106497
       children [
         Box {

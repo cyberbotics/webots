@@ -248,7 +248,7 @@ DEF GRIPPER_BASE Solid {
             ]
           }
         ]
-        boundingObject Transform {
+        boundingObject Pose {
           translation 0 0.0015 -0.019
           children [
             Shape {
@@ -341,7 +341,7 @@ DEF GRIPPER_BASE Solid {
   ]
   name IS name
   model "Pioneer3 gripper"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0.019 0 0
     children [
       Box {

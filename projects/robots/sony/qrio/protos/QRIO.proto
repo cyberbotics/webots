@@ -492,7 +492,7 @@ PROTO QRIO [
                     }
                   }
                 ]
-                boundingObject Transform {
+                boundingObject Pose {
                   translation 0 0 -0.016
                   children [
                     Shape {
@@ -700,7 +700,7 @@ PROTO QRIO [
                     }
                   }
                 ]
-                boundingObject Transform {
+                boundingObject Pose {
                   translation 0 0 -0.039
                   children [
                     Shape {
@@ -790,7 +790,7 @@ PROTO QRIO [
                   }
                 ]
                 name "right arm"
-                boundingObject Transform {
+                boundingObject Pose {
                   translation 0 0 -0.039
                   children [
                     Shape {
@@ -955,7 +955,7 @@ PROTO QRIO [
             }
           ]
           name "head"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 0 0.08
             children [
               Shape {
@@ -1025,7 +1025,7 @@ PROTO QRIO [
       }
     ]
     description "Sony's biped robot modeled by Stephane Mojon and Olivier Michel"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.01
       children [
         Shape {

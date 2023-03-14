@@ -248,7 +248,7 @@ Robot {
                                         }
                                       }
                                     ]
-                                    boundingObject Transform {
+                                    boundingObject Pose {
                                       translation 0 0 0.045
                                       children [
                                         Box {
@@ -306,7 +306,7 @@ Robot {
                             }
                           }
                         ]
-                        boundingObject Transform {
+                        boundingObject Pose {
                           translation 0 0.0225 0.065
                           children [
                             Box {
@@ -328,7 +328,7 @@ Robot {
                       }
                     }
                   ]
-                  boundingObject Transform {
+                  boundingObject Pose {
                     translation 0 -0.03 0.078
                     children [
                       Box {
@@ -350,7 +350,7 @@ Robot {
                 }
               }
             ]
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0.032 0.023 0.07
               rotation 1 0 0 -1.5708
               children [
@@ -375,7 +375,7 @@ Robot {
         }
       ]
       name "arm"
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0 0.04
         children [
           Cylinder {
@@ -601,7 +601,7 @@ Robot {
                                         }
                                       }
                                     ]
-                                    boundingObject Transform {
+                                    boundingObject Pose {
                                       translation 0 0 0.045
                                       children [
                                         Box {
@@ -659,7 +659,7 @@ Robot {
                             }
                           }
                         ]
-                        boundingObject Transform {
+                        boundingObject Pose {
                           translation 0 0.0225 0.065
                           children [
                             Box {
@@ -681,7 +681,7 @@ Robot {
                       }
                     }
                   ]
-                  boundingObject Transform {
+                  boundingObject Pose {
                     translation 0 -0.03 0.078
                     children [
                       Box {
@@ -703,7 +703,7 @@ Robot {
                 }
               }
             ]
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0.032 0.023 0.07
               rotation 1 0 0 -1.5708
               children [
@@ -728,7 +728,7 @@ Robot {
         }
       ]
       name "front arm"
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0 0.04
         children [
           Cylinder {

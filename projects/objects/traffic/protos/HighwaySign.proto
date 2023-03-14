@@ -61,7 +61,7 @@ PROTO HighwaySign [
     ]
     name IS name
     model "highway sign"
-    boundingObject Transform {
+    boundingObject Pose {
       translation %<= thickness * 0.5 >% 0 0
       children [
         Shape {

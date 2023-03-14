@@ -481,7 +481,7 @@ PROTO Sojourner [
                     }
                   }
                 ]
-                boundingObject Transform {
+                boundingObject Pose {
                   translation 0.08 0 0
                   children [
                     Box {
@@ -721,7 +721,7 @@ PROTO Sojourner [
             }
           ]
           name "FrontLeftBogie"
-          boundingObject Transform {
+          boundingObject Pose {
             translation -0.06 -0.05 0.015
             rotation 0 0 1 0.7
             children [
@@ -865,7 +865,7 @@ PROTO Sojourner [
                         }
                       ]
                       name "BackRightArm"
-                      boundingObject Transform {
+                      boundingObject Pose {
                         translation 0.01 -0.03 0.05
                         children [
                           Box {
@@ -985,7 +985,7 @@ PROTO Sojourner [
                     ]
                   }
                 ]
-                boundingObject Transform {
+                boundingObject Pose {
                   translation 0.08 0 0
                   children [
                     Box {
@@ -1209,7 +1209,7 @@ PROTO Sojourner [
                     ]
                   }
                 ]
-                boundingObject Transform {
+                boundingObject Pose {
                   translation 0 -0.03 0.05
                   children [
                     Box {
@@ -1225,7 +1225,7 @@ PROTO Sojourner [
             }
           ]
           name "FrontRightBogie"
-          boundingObject Transform {
+          boundingObject Pose {
             translation -0.06 -0.05 -0.015
             rotation 0 0 1 0.7
             children [

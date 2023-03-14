@@ -200,7 +200,7 @@ Solid {
   ]
   name IS name
   model "carpet"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 0.01
     children [
       Box {

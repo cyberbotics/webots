@@ -137,7 +137,7 @@ PROTO ToyotaPriusSimple [
     name IS name
     controller IS controller
     controllerArgs IS controllerArgs
-    boundingObject Transform {
+    boundingObject Pose {
       translation 1.4 0 0.6
       rotation 0.57735 0.57735 0.57735 2.094395
       children [

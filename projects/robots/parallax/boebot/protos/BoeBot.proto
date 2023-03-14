@@ -603,7 +603,7 @@ PROTO BoeBot [
             }
           ]
           name "right wheel"
-          boundingObject Transform {
+          boundingObject Pose {
             rotation -1 0 0 1.57
             children [
               DEF wheel_cylinder Cylinder {
@@ -728,7 +728,7 @@ PROTO BoeBot [
             }
           ]
           name "left wheel"
-          boundingObject Transform {
+          boundingObject Pose {
             rotation -1 0 0 1.57
             children [
               USE wheel_cylinder

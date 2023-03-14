@@ -73,7 +73,7 @@ PROTO ExitPanel [
     ]
     name IS name
     model "exit panel"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0.065 0 0
       rotation -0.57735 0.57735 0.57735 -2.09441
       children [

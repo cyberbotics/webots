@@ -746,7 +746,7 @@ PROTO UR5e [
     supervisor IS supervisor
     synchronization IS synchronization
     selfCollision IS selfCollision
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.05
       children [
         Cylinder {

@@ -118,7 +118,7 @@ DEF GROUND Solid {
     }
   ]
   name "solid(1)"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 2.5 0
     rotation 0 0 1 1.5708
     children [
@@ -200,7 +200,7 @@ DEF CONVEYOR Solid {
     }
   ]
   name "solid(2)"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 -0.6 0.075
     children [
       Box {
@@ -309,7 +309,7 @@ DEF TURRET Solid {
       }
     }
   ]
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0.275 0
     children [
       Box {

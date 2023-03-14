@@ -203,7 +203,7 @@ PROTO TinkerbotsTwister [
                 }
               }
             ]
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0 0 0.0275
               children [
                 Cylinder {
@@ -221,7 +221,7 @@ PROTO TinkerbotsTwister [
       ]
       name IS name
       contactMaterial "tinkerbots"
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0 0.0075
         children [
           Cylinder {

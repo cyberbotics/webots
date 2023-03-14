@@ -521,7 +521,7 @@ PROTO P-Rob3 [
                                           }
                                         ]
                                         name "link_6_top"
-                                        boundingObject Transform {
+                                        boundingObject Pose {
                                           translation 0 0 0.007
                                           children [
                                             Cylinder {

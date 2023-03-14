@@ -84,7 +84,7 @@ DEF PLATFORM Solid {
       }
     }
   ]
-  boundingObject Transform {
+  boundingObject Pose {
     children [
       Plane {
       }

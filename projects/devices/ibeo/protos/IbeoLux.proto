@@ -53,7 +53,7 @@ PROTO IbeoLux [
     horizontalResolution 680
     fieldOfView %<= fieldOfView >%
     verticalFieldOfView 0.056
-    boundingObject Transform {
+    boundingObject Pose {
       translation -0.024 0 0
       rotation %<= newOrientationString >%
       children [

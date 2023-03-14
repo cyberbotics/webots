@@ -333,7 +333,7 @@ PROTO JetBot [
           ]
           name "left wheel"
           contactMaterial "jetbot wheel"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0.00401 0 0
             rotation -0.57735 0.57735 0.57735 -2.094395
             children [
@@ -369,7 +369,7 @@ PROTO JetBot [
           ]
           name "right wheel"
           contactMaterial "jetbot wheel"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0.00401 0 0
             rotation -0.57735 0.57735 0.57735 -2.094395
             children [

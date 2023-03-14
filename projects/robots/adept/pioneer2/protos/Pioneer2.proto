@@ -386,7 +386,7 @@ PROTO Pioneer2 [
       }
     ]
     description "designed by Activmedia Robotics"
-    boundingObject Transform {
+    boundingObject Pose {
       translation -0.0447 0 0.13
       rotation 0 0 1 -1.570796
       children [

@@ -1564,7 +1564,7 @@ PROTO Nao [
           ]
           name "head"
           contactMaterial IS contactMaterial
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 0 0.055
             rotation 1 0 0 -1.5708
             children [
@@ -2109,7 +2109,7 @@ PROTO Nao [
           ]
           name "RShoulder"
           contactMaterial IS contactMaterial
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0.027 -0.005 0
             rotation 0.623805 0.552662 -0.552660 -2.026117
             children [
@@ -2649,7 +2649,7 @@ PROTO Nao [
           ]
           name "LShoulder"
           contactMaterial IS contactMaterial
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0.027 0.005 0
             rotation 0.623805 -0.552662 0.552660 -2.026117
             children [

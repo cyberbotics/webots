@@ -84,7 +84,7 @@ PROTO ExteriorWheel [
       ]
       name IS name
       contactMaterial "ExteriorWheelMat"
-      boundingObject Transform {
+      boundingObject Pose {
         rotation 1 0 0 -1.5708
         children [
           Cylinder {

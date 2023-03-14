@@ -82,7 +82,7 @@ PROTO NXTFeeder [
     ]
     name IS name
     model "LEGO NXT feeder"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.025
       rotation 0.57735 0.57735 0.57735 2.094395
       children [

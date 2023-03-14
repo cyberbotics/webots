@@ -71,7 +71,7 @@ Transform {
             ]
             name %<= '"wheel' + fields.number.value + '_link"' >%
             contactMaterial "WheelMat"
-            boundingObject Transform {
+            boundingObject Pose {
               rotation 1 0 0 -1.57079632679
               children [
                 Cylinder {

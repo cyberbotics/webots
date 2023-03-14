@@ -101,7 +101,7 @@ PROTO TinkerbotsCubieBoxWithCrossSlots [
       ]
       name IS name
       contactMaterial "tinkerbots cubie"
-      boundingObject Transform {
+      boundingObject Pose {
         translation -0.01 0 0.015
         children [
           Box {

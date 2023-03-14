@@ -341,7 +341,7 @@ DEF BASE Solid {
                       }
                     ]
                     name "left_external_finger"
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation -0.0347 0.0665 -0.0475
                       rotation 0 1 0 0.77
                       children [
@@ -396,7 +396,7 @@ DEF BASE Solid {
                       }
                     ]
                     name "left_internal_finger"
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation -0.0197 0.0665 -0.0475
                       rotation 0 1 0 0.77
                       children [
@@ -505,7 +505,7 @@ DEF BASE Solid {
                       }
                     ]
                     name "right_external_finger"
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation 0.0347 0.0665 -0.0475
                       rotation 0 1 0 -0.77
                       children [
@@ -550,7 +550,7 @@ DEF BASE Solid {
                       }
                     ]
                     name "right_internal_finger"
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation 0.0197 0.0665 -0.0475
                       rotation 0 1 0 -0.77
                       children [
@@ -564,7 +564,7 @@ DEF BASE Solid {
                 }
               ]
               name "gripper_head"
-              boundingObject Transform {
+              boundingObject Pose {
                 translation 0 0.074 -0.018
                 children [
                   Box {

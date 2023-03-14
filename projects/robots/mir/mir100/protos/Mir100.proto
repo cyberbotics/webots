@@ -457,7 +457,7 @@ PROTO Mir100 [
             }
           ]
           name "fl_caster_rotation_link"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 0 -0.028
             children [
               DEF SWIVEL Cylinder {
@@ -539,7 +539,7 @@ PROTO Mir100 [
             }
           ]
           name "fr_caster_rotation_link"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 0 -0.028
             children [
               USE SWIVEL
@@ -618,7 +618,7 @@ PROTO Mir100 [
             }
           ]
           name "bl_caster_rotation_link"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 0 -0.028
             children [
               USE SWIVEL
@@ -697,7 +697,7 @@ PROTO Mir100 [
             }
           ]
           name "br_caster_rotation_link"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 0 -0.028
             children [
               USE SWIVEL

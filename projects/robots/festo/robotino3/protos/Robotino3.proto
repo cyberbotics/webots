@@ -749,7 +749,7 @@ PROTO Robotino3 [
       }
       ]} # end transform & rotate whole body
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.153
       children [
         Cylinder {

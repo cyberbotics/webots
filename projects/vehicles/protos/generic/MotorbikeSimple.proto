@@ -83,7 +83,7 @@ PROTO MotorbikeSimple [
     name IS name
     model "MotorbikeSimple"
     radarCrossSection 10
-    boundingObject Transform { # changing the bounding box to fit the driver if present
+    boundingObject Pose { # changing the bounding box to fit the driver if present
       %< if (fields.driver.value) { >%
         translation 0.79 0 0.55
         rotation 0.57735 0.57735 0.57735 2.094395

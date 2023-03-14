@@ -88,7 +88,7 @@ Solid {
   name IS name
   model "wooden pallet stack"
   %< if (fields.boundingObject.value) { >%
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 %<= palletSize.z * palletNumber * 0.5 >%
     children
     [

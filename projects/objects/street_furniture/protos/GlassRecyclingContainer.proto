@@ -67,7 +67,7 @@ PROTO GlassRecyclingContainer [
         }
       }
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.75
       rotation 0 -1 0 -3.141592
       children [

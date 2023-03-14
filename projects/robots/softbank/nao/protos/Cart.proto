@@ -327,7 +327,7 @@ Solid {
         }
       ]
       name "front wheels"
-      boundingObject Transform {
+      boundingObject Pose {
         rotation 1 0 0 -1.5708
         children [
           USE TIE_ROD

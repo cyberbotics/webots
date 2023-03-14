@@ -108,7 +108,7 @@ PROTO Hemisson [
             }
           ]
           name "left wheel"
-          boundingObject Transform {
+          boundingObject Pose {
             rotation 1 0 0 4.712389
             children [
               Cylinder {
@@ -195,7 +195,7 @@ PROTO Hemisson [
             }
           ]
           name "right wheel"
-          boundingObject Transform {
+          boundingObject Pose {
             rotation 1 0 0 4.712389
             children [
               Cylinder {

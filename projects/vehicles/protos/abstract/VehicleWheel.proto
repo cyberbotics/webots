@@ -419,7 +419,7 @@ PROTO VehicleWheel [
       model "vehicle wheel"
       %< if (fields.boundingObject.value) { >%
         contactMaterial IS contactMaterial
-        boundingObject Transform {
+        boundingObject Pose {
           rotation 0 1 0 1.570796
           children [
             Cylinder {

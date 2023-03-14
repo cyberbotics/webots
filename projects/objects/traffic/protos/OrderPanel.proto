@@ -58,7 +58,7 @@ PROTO OrderPanel [
     ]
     name IS name
     model "order panel"
-    boundingObject Transform {
+    boundingObject Pose {
       rotation -0.57735 -0.57735 -0.57735 -2.09439
       children [
         Cylinder {

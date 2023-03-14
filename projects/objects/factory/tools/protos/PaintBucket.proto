@@ -1076,8 +1076,7 @@ PROTO PaintBucket [
                         ]
                       }
                     ]
-                    boundingObject Transform {
-                      translation 0 0 0
+                    boundingObject Pose {
                       rotation 1 0 0 1.57
                       children [
                         Capsule {

@@ -300,12 +300,8 @@ PROTO Portal [
                       }
                     ]
                     name "gate"
-                    boundingObject Transform {
-                      children [
-                        Box {
-                          size 0.02 0.115 0.29
-                        }
-                      ]
+                    boundingObject Box {
+                      size 0.02 0.115 0.29
                     }
                   }
                 }
@@ -468,7 +464,7 @@ PROTO Portal [
               }
             ]
             name "open"
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0 0 0.015
               children [
                 Box {
@@ -568,7 +564,7 @@ PROTO Portal [
               }
             ]
             name "closed"
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0 0 0.015
               children [
                 Box {

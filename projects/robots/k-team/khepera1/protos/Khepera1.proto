@@ -404,7 +404,7 @@ PROTO Khepera1 [
     model "Khepera"
     description "A mini mobile robot by K-Team SA"
     contactMaterial "khepera"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.012
       rotation 0 0 1 -1.570796
       children [

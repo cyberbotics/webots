@@ -59,7 +59,7 @@ PROTO TinkerbotsCubieTriangle [
       ]
       name IS name
       contactMaterial "tinkerbots cubie"
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0.002 0 0.013
         rotation 0 1 0 0.80
         children [

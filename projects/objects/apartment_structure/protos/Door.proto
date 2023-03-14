@@ -166,7 +166,7 @@ PROTO Door [
                 children IS doorSlot
               }
             ]
-            boundingObject Transform {
+            boundingObject Pose {
               translation %<= 0.5 * size.x + frameSize.x + 0.5 * doorThickness >% 0 %<= 0.5 * frameHeight >%
               children [
                 Box {

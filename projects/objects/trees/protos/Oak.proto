@@ -110,7 +110,7 @@ PROTO Oak [
       }
     ]
     %< if (fields.enableBoundingObject.value) { >%
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 2.25
       children [
         Cylinder {

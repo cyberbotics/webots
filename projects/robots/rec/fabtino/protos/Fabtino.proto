@@ -107,7 +107,7 @@ PROTO Fabtino [
           ]
           name "wheel_fr"
           contactMaterial "InteriorWheelMat"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 -0.0172 0
             rotation 1 0 0 1.5708
             children [
@@ -162,7 +162,7 @@ PROTO Fabtino [
           ]
           name "wheel_br"
           contactMaterial "ExteriorWheelMat"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 -0.015 0
             rotation 1 0 0 1.5708
             children [
@@ -206,7 +206,7 @@ PROTO Fabtino [
           ]
           name "wheel_fl"
           contactMaterial "ExteriorWheelMat"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 0.015 0
             rotation 1 0 0 1.5708
             children [
@@ -250,7 +250,7 @@ PROTO Fabtino [
           ]
           name "wheel_bl"
           contactMaterial "InteriorWheelMat"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 0.0172 0
             rotation 1 0 0 1.5708
             children [

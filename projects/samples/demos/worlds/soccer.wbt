@@ -435,7 +435,7 @@ DEF B1 Robot {
           }
         ]
         name "left wheel"
-        boundingObject Transform {
+        boundingObject Pose {
           rotation 0 0 1 1.57
           children [
             USE WHEEL_SHAPE
@@ -481,7 +481,7 @@ DEF B1 Robot {
           }
         ]
         name "right wheel"
-        boundingObject Transform {
+        boundingObject Pose {
           rotation 0 0 1 1.57
           children [
             Shape {
@@ -562,7 +562,7 @@ DEF B2 Robot {
           }
         ]
         name "left wheel"
-        boundingObject Transform {
+        boundingObject Pose {
           rotation 0 0 1 1.57
           children [
             USE WHEEL_SHAPE
@@ -608,7 +608,7 @@ DEF B2 Robot {
           }
         ]
         name "right wheel"
-        boundingObject Transform {
+        boundingObject Pose {
           rotation 0 0 1 1.57
           children [
             Shape {
@@ -686,7 +686,7 @@ DEF B3 Robot {
           }
         ]
         name "left wheel"
-        boundingObject Transform {
+        boundingObject Pose {
           rotation 0 0 1 1.57
           children [
             USE WHEEL_SHAPE
@@ -732,7 +732,7 @@ DEF B3 Robot {
           }
         ]
         name "right wheel"
-        boundingObject Transform {
+        boundingObject Pose {
           rotation 0 0 1 1.57
           children [
             Shape {
@@ -810,7 +810,7 @@ DEF Y1 Robot {
           }
         ]
         name "left wheel"
-        boundingObject Transform {
+        boundingObject Pose {
           rotation 0 0 1 1.57
           children [
             USE WHEEL_SHAPE
@@ -856,7 +856,7 @@ DEF Y1 Robot {
           }
         ]
         name "right wheel"
-        boundingObject Transform {
+        boundingObject Pose {
           rotation 0 0 1 1.57
           children [
             Shape {
@@ -934,7 +934,7 @@ DEF Y2 Robot {
           }
         ]
         name "left wheel"
-        boundingObject Transform {
+        boundingObject Pose {
           rotation 0 0 1 1.57
           children [
             USE WHEEL_SHAPE
@@ -980,7 +980,7 @@ DEF Y2 Robot {
           }
         ]
         name "right wheel"
-        boundingObject Transform {
+        boundingObject Pose {
           rotation 0 0 1 1.57
           children [
             Shape {
@@ -1058,7 +1058,7 @@ DEF Y3 Robot {
           }
         ]
         name "left wheel"
-        boundingObject Transform {
+        boundingObject Pose {
           rotation 0 0 1 1.57
           children [
             USE WHEEL_SHAPE
@@ -1104,7 +1104,7 @@ DEF Y3 Robot {
           }
         ]
         name "right wheel"
-        boundingObject Transform {
+        boundingObject Pose {
           rotation 0 0 1 1.57
           children [
             Shape {

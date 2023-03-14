@@ -1194,7 +1194,7 @@ PROTO IprHd6ms90 [
                                             rotation 0 0 1 -0.192
                                             name "ts0"
                                             contactMaterial "gripper"
-                                            boundingObject Transform {
+                                            boundingObject Pose {
                                               translation 0.013 0.01 0
                                               children [
                                                 DEF BOUNDING_FINGER_BASE Shape {
@@ -1220,7 +1220,7 @@ PROTO IprHd6ms90 [
                                             translation 0 0.0837 0
                                             name "ts1"
                                             contactMaterial "gripper"
-                                            boundingObject Transform {
+                                            boundingObject Pose {
                                               translation 0.0085 0 0
                                               children [
                                                 DEF BOUNDING_FINGER_END Shape {
@@ -1390,7 +1390,7 @@ PROTO IprHd6ms90 [
                                             rotation 0 0 1 3.3335
                                             name "ts2"
                                             contactMaterial "gripper"
-                                            boundingObject Transform {
+                                            boundingObject Pose {
                                               translation 0.011 -0.01 0
                                               children [
                                                 USE BOUNDING_FINGER_BASE
@@ -1413,7 +1413,7 @@ PROTO IprHd6ms90 [
                                             rotation 0 -1 0 3.1415
                                             name "ts3"
                                             contactMaterial "gripper"
-                                            boundingObject Transform {
+                                            boundingObject Pose {
                                               translation 0.0085 0 0
                                               children [
                                                 USE BOUNDING_FINGER_END

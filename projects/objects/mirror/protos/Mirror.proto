@@ -161,7 +161,7 @@ PROTO Mirror [
     ]
     name IS name
     model "mirror"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 %<= height * 0.5 + frameThickness >% 0
       children [
         Box {

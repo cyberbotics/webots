@@ -500,7 +500,7 @@ PROTO SquarePathPioneer3dx [
                     }
                   }
                 ]
-                boundingObject Transform {
+                boundingObject Pose {
                   rotation 1 0 0 1.5708
                   children [
                     Cylinder {
@@ -550,7 +550,7 @@ PROTO SquarePathPioneer3dx [
             }
           ]
           name "caster wheel"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 0 -0.032
             rotation -0.702525 0.702525 0.11366 -2.915244
             children [

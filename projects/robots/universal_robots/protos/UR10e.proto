@@ -756,7 +756,7 @@ PROTO UR10e [
     ]
     name IS name
     model "UR10e"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.05
       rotation 1 0 0 3.141593
       children [

@@ -423,7 +423,7 @@ PROTO Khepera2 [
       }
     ]
     model "Khepera II"
-    boundingObject Transform {
+    boundingObject Pose
       translation 0 0 0.019
       rotation 0 0 1 -1.570796
       children [

@@ -141,7 +141,7 @@ PROTO CitroenCZeroSimple [
     controller IS controller
     controllerArgs IS controllerArgs
     model "Citroen C-Zero"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 1.25 0 0.5
       children [
         Box {

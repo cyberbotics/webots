@@ -380,7 +380,7 @@ PROTO SummitXlSteel [
               }
             ]
             name "front_rgbd_camera_link"
-            boundingObject Transform {
+            boundingObject Pose {
               translation -0.02 0 0.015
               children [
                 Box {

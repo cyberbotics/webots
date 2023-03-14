@@ -265,7 +265,7 @@ PROTO Panda [
                                               }
                                             ]
                                             name "panda_link6"
-                                            boundingObject Transform {
+                                            boundingObject Pose {
                                               translation 0.09 -0.015 0
                                               rotation 1 0 0 1.5708
                                               children [
@@ -326,7 +326,7 @@ PROTO Panda [
                                   }
                                 ]
                                 name "panda_link4"
-                                boundingObject Transform {
+                                boundingObject Pose {
                                   translation -0.08 0.115 0
                                   rotation 1 0 0 -1.5707953071795862
                                   children [
@@ -350,7 +350,7 @@ PROTO Panda [
                             }
                           ]
                           name "panda_link3"
-                          boundingObject Transform {
+                          boundingObject Pose {
                             translation 0.0825 0 0
                             rotation 1 0 0 -1.5708
                             children [

@@ -568,7 +568,7 @@ Robot {
   ]
   name IS name
   model "NEX Robotics Fire Bird 6"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 -0.007
     rotation 0 0 1 0.39283
     children [

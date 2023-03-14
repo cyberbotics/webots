@@ -618,7 +618,7 @@ PROTO Darwin-opHinge2 [
                       gradual TRUE
                     }
                   ]
-                  boundingObject Transform {
+                  boundingObject Pose {
                     translation 0 0.022 -0.012
                     children [
                       Capsule {
@@ -641,7 +641,7 @@ PROTO Darwin-opHinge2 [
               }
             ]
             name "neck"
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0 -0.009 0
               children [
                 Box {
@@ -1030,7 +1030,7 @@ PROTO Darwin-opHinge2 [
                         ]
                       }
                     ]
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation 0.00018215 -0.01821478  0.05539123
                       rotation 0.99995774 0.00499983 -0.00771525 -1.1500385768840036
                       children [
@@ -1438,7 +1438,7 @@ PROTO Darwin-opHinge2 [
                         ]
                       }
                     ]
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation -0.00036429 -0.01821204 0.05539123
                       rotation 0.99983097 -0.00999864 0.01542892 -1.1501542996834406
                       children [
@@ -1652,7 +1652,7 @@ PROTO Darwin-opHinge2 [
                                 ]
                               }
                             ]
-                            boundingObject Transform {
+                            boundingObject Pose {
                               translation 0.0075 -0.073 -0.016
                               children [
                                 Box {
@@ -1707,7 +1707,7 @@ PROTO Darwin-opHinge2 [
                 }
             ]
             name "shoulderL"
-            boundingObject Transform {
+            boundingObject Pose {
               translation -0.009 -0.0065 0
               rotation 0 0 1 -0.785398
               children [
@@ -1898,7 +1898,7 @@ PROTO Darwin-opHinge2 [
                                 ]
                               }
                             ]
-                            boundingObject Transform {
+                            boundingObject Pose {
                               translation -0.0075 -0.073 -0.016
                               children [
                                 Box {
@@ -1953,7 +1953,7 @@ PROTO Darwin-opHinge2 [
                 }
             ]
             name "shoulderR"
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0.009 -0.0065 0
               rotation 0 0 1 0.785398
               children [

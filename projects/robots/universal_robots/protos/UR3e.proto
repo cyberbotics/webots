@@ -758,7 +758,7 @@ PROTO UR3e [
     supervisor IS supervisor
     synchronization IS synchronization
     selfCollision IS selfCollision
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.045
       rotation 1 0 0 3.141593
       children [

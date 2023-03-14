@@ -154,7 +154,7 @@ PROTO Robotiq3fGripper [
                               }
                             ]
                             name "finger_1_link_3"
-                            boundingObject Transform {
+                            boundingObject Pose {
                               translation 0.0180036 0.00913251 0
                               rotation 0 0 1 0.5202587712816532
                               children [
@@ -193,7 +193,7 @@ PROTO Robotiq3fGripper [
                         }
                       ]
                       name "finger_1_link_2"
-                      boundingObject Transform {
+                      boundingObject Pose {
                         translation 0.02694 -0.00895 0
                         rotation 0 0 1 6.270629385640825
                         children [
@@ -233,7 +233,7 @@ PROTO Robotiq3fGripper [
                   }
                 ]
                 name "finger_1_link_1"
-                boundingObject Transform {
+                boundingObject Pose {
                   translation 0.0123158 -0.02039 0
                   rotation 0 0 -1 0.4673706143591722
                   children [
@@ -272,7 +272,7 @@ PROTO Robotiq3fGripper [
             }
           ]
           name "finger_1_link_0"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0.007 0.006 0
             children [
               Box {
@@ -375,7 +375,7 @@ PROTO Robotiq3fGripper [
                               USE SHAPE3
                             ]
                             name "finger_2_link_3"
-                            boundingObject Transform {
+                            boundingObject Pose {
                               translation 0.018 0.00913 0
                               rotation 0 0 1 0.5202587712816532
                               children [
@@ -396,7 +396,7 @@ PROTO Robotiq3fGripper [
                         USE SHAPE2
                       ]
                       name "finger_2_link_2"
-                      boundingObject Transform {
+                      boundingObject Pose {
                         translation 0.02694 -0.00895 0
                         rotation 0 0 1 6.270629385640825
                         children [
@@ -417,7 +417,7 @@ PROTO Robotiq3fGripper [
                   USE SHAPE1
                 ]
                 name "finger_2_link_1"
-                boundingObject Transform {
+                boundingObject Pose {
                   translation 0.012315 -0.02039 0
                   rotation 0 0 -1 0.4673706143591722
                   children [
@@ -438,7 +438,7 @@ PROTO Robotiq3fGripper [
             USE SHAPE0
           ]
           name "finger_2_link_0"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0.007 0.006 0
             children [
               Box {
@@ -524,7 +524,7 @@ PROTO Robotiq3fGripper [
                             USE SHAPE3
                           ]
                           name "finger_middle_link_3"
-                          boundingObject Transform {
+                          boundingObject Pose {
                             translation 0.018 0.00913 0
                             rotation 0 0 1 0.5202587712816532
                             children [
@@ -545,7 +545,7 @@ PROTO Robotiq3fGripper [
                       USE SHAPE2
                     ]
                     name "finger_middle_link_2"
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation 0.02694 -0.008952 0
                       rotation 0 0 1 6.270629385640825
                       children [
@@ -566,7 +566,7 @@ PROTO Robotiq3fGripper [
                 USE SHAPE1
               ]
               name "finger_middle_link_1"
-              boundingObject Transform {
+              boundingObject Pose {
                 translation 0.01231 -0.02039 0
                 rotation 0 0 -1 0.4673706143591722
                 children [

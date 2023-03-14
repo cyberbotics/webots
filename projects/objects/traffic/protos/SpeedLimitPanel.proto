@@ -72,7 +72,7 @@ PROTO SpeedLimitPanel [
     ]
     name IS name
     model "speed limit panel"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0.03 -0.01 0
       children [
         Box {

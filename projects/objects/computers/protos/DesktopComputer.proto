@@ -120,7 +120,7 @@ PROTO DesktopComputer [
     ]
     name IS name
     model "desktop computer"
-    boundingObject Transform {
+    boundingObject Pose {
       rotation -0.5774 0.5773 0.5774 -2.0944
       translation 0 0 0.179
       children [

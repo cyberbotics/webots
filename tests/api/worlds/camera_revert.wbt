@@ -247,7 +247,7 @@ Robot {
     TestSuiteEmitter {
     }
   ]
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0.0415 0
     rotation 1 0 0 -1.57079632679
     children [

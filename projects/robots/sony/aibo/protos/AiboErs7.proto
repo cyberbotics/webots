@@ -1453,7 +1453,7 @@ PROTO AiboErs7 [
                             ]
                             name "left ear"
                             description "Left ear"
-                            boundingObject Transform {
+                            boundingObject Pose {
                               translation -0.007 -0.026 0.0008
                               rotation 0 -0.937862 -0.347009 0.13
                               children [
@@ -1737,7 +1737,7 @@ PROTO AiboErs7 [
                             ]
                             name "right ear"
                             description "Right ear"
-                            boundingObject Transform {
+                            boundingObject Pose {
                               translation 0.007 -0.026 0.0008
                               rotation 0 0.937862 0.347009 0.13
                               children [
@@ -2512,7 +2512,7 @@ PROTO AiboErs7 [
                   }
                 ]
                 description "Right front legJ2"
-                boundingObject Transform {
+                boundingObject Pose {
                   translation -0.0001 -0.006 -0.021
                   children [
                     DEF BXFORELEG_J2 Box {
@@ -2532,7 +2532,7 @@ PROTO AiboErs7 [
           ]
           name "right front leg"
           description "Right front legJ1"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 -0.049 0
             rotation 1 0 0 -1.57
             children [
@@ -3004,7 +3004,7 @@ PROTO AiboErs7 [
                   }
                 ]
                 description "Right rear legJ2"
-                boundingObject Transform {
+                boundingObject Pose {
                   translation 0 -0.006 -0.021
                   children [
                     DEF BXHINDLEG_J2 Box {
@@ -3024,7 +3024,7 @@ PROTO AiboErs7 [
           ]
           name "right rear leg"
           description "Right rear legJ1"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 -0.049 0
             rotation 1 0 0 1.57
             children [
@@ -3460,7 +3460,7 @@ PROTO AiboErs7 [
                   }
                 ]
                 description "Left front legJ2"
-                boundingObject Transform {
+                boundingObject Pose {
                   translation -0.0001 0.006 -0.021
                   children [
                     USE BXFORELEG_J2
@@ -3472,7 +3472,7 @@ PROTO AiboErs7 [
           ]
           name "left front leg"
           description "Left front legJ1"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 0.049 0
             rotation 1 0 0 1.57
             children [
@@ -3914,7 +3914,7 @@ PROTO AiboErs7 [
                   }
                 ]
                 description "Left rear legJ2"
-                boundingObject Transform {
+                boundingObject Pose {
                   translation 0 0.006 -0.021
                   children [
                     USE BXHINDLEG_J2
@@ -3926,7 +3926,7 @@ PROTO AiboErs7 [
           ]
           name "left rear leg"
           description "Left rear legJ1"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 0.049 0
             rotation 1 0 0 -1.57
             children [

@@ -133,7 +133,7 @@ PROTO Clock [
       }
     ]
     name IS name
-    boundingObject Transform {
+    boundingObject Pose {
       rotation 0.57734898 0.57735092 -0.57735091 4.1887883
       children [
         Cylinder {

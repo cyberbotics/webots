@@ -152,7 +152,7 @@ DEF VEHICLE Robot {
     TestSuiteEmitter {
     }
   ]
-  boundingObject Transform {
+  boundingObject Pose {
     translation -1.64 0 0
     children [
       Box {
@@ -204,7 +204,7 @@ DEF CAR Car {
       type "infra-red"
     }
   ]
-  boundingObject Transform {
+  boundingObject Pose {
     translation 1.93 0 1
     children [
       Box {

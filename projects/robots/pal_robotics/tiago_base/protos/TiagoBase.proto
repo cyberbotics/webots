@@ -140,7 +140,7 @@ PROTO TiagoBase [
           }
         ]
         name "base_cover_link"
-        boundingObject Transform {
+        boundingObject Pose {
           translation 0 0 0.043
           children [
             Cylinder {
@@ -280,7 +280,7 @@ PROTO TiagoBase [
             }
           ]
           name "wheel_right_link"
-          boundingObject Transform {
+          boundingObject Pose {
             children [
               Cylinder {
                 height 0.04
@@ -376,7 +376,7 @@ PROTO TiagoBase [
             }
           ]
           name "wheel_left_link"
-          boundingObject Transform {
+          boundingObject Pose {
             children [
               Cylinder {
                 height 0.04

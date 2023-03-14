@@ -204,7 +204,7 @@ PROTO TinkerbotsPivot [
                 }
               }
             ]
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0 0 0.03
               children [
                 Box {
@@ -221,7 +221,7 @@ PROTO TinkerbotsPivot [
       ]
       name IS name
       contactMaterial "tinkerbots"
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0 0.01
         children [
           Box {

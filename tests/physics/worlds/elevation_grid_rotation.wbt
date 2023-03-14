@@ -65,7 +65,7 @@ DEF ELEVATION_GRID Solid {
       ]
     }
   ]
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 50
     rotation 1 0 0 -1.5708
     children [

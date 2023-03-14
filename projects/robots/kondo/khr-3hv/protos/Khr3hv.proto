@@ -117,7 +117,7 @@ PROTO Khr3hv [
             }
           ]
           name "Head"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0.0045 0 0.049
             children [
               Box {
@@ -393,7 +393,7 @@ PROTO Khr3hv [
                           }
                         }
                       ]
-                      boundingObject Transform {
+                      boundingObject Pose {
                         translation -0.018 0 -0.024
                         children [
                           Box {
@@ -450,7 +450,7 @@ PROTO Khr3hv [
             }
           ]
           name "LeftShoulder"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 0.035 0
             children [
               Box {
@@ -694,7 +694,7 @@ PROTO Khr3hv [
                           }
                         }
                       ]
-                      boundingObject Transform {
+                      boundingObject Pose {
                         translation -0.018 0 -0.024
                         children [
                           Box {
@@ -751,7 +751,7 @@ PROTO Khr3hv [
             }
           ]
           name "RightShoulder"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 -0.035 0
             children [
               Box {
@@ -1096,7 +1096,7 @@ PROTO Khr3hv [
                                                   }
                                                 }
                                               ]
-                                              boundingObject Transform {
+                                              boundingObject Pose {
                                                 translation 0 0.053 -0.0365
                                                 children [
                                                   Box {
@@ -1255,7 +1255,7 @@ PROTO Khr3hv [
                   }
                 ]
                 name "LeftFemur"
-                boundingObject Transform {
+                boundingObject Pose {
                   translation 0 -0.003 -0.031
                   children [
                     Box {
@@ -1504,7 +1504,7 @@ PROTO Khr3hv [
                                                   }
                                                 }
                                               ]
-                                              boundingObject Transform {
+                                              boundingObject Pose {
                                                 translation 0 -0.053 -0.0365
                                                 children [
                                                   Box {
@@ -1663,7 +1663,7 @@ PROTO Khr3hv [
                   }
                 ]
                 name "RightFemur"
-                boundingObject Transform {
+                boundingObject Pose {
                   translation 0 -0.003 -0.031
                   children [
                     Box {
@@ -1682,7 +1682,7 @@ PROTO Khr3hv [
             }
           ]
           name "Waist"
-          boundingObject Transform {
+          boundingObject Pose {
             translation -0.0055 0 -0.044
             children [
               Box {

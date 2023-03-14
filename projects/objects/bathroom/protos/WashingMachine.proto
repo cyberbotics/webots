@@ -162,13 +162,8 @@ PROTO WashingMachine [
         ]
       }
     ]
-    boundingObject Transform {
-      translation 0 0 0
-      children [
-        Box {
-          size 1 1.1 1.5
-        }
-      ]
+    boundingObject Box {
+      size 1 1.1 1.5
     }
   }
 }

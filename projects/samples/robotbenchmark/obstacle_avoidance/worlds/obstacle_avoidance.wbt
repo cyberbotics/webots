@@ -1055,7 +1055,7 @@ DEF CARPET Solid {
     }
   ]
   name "solid(10)"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 -0.003
     children [
       Cylinder {

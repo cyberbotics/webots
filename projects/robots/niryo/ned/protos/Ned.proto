@@ -420,7 +420,7 @@ PROTO Ned [
                                                     }
                                                   ]
                                                   name "jaw_1"
-                                                  boundingObject Transform {
+                                                  boundingObject Pose {
                                                     translation -0.007 0.0064 0.0386
                                                     rotation 0 1 0 0
                                                     children [
@@ -470,7 +470,7 @@ PROTO Ned [
                                                     }
                                                   ]
                                                   name "jaw_2"
-                                                  boundingObject Transform {
+                                                  boundingObject Pose {
                                                     translation -0.007 -0.0064 0.0386
                                                     children [
                                                       Box {

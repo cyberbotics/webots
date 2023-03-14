@@ -139,7 +139,7 @@ Robot {
                           }
                         ]
                       %< if (fields.enableBoundingObject.value) { >%
-                        boundingObject Transform {
+                        boundingObject Pose {
                           translation -0.02 0.253 -0.44
                           rotation -0.577351 -0.577351 -0.577349 -2.094397
                           children [
@@ -155,7 +155,7 @@ Robot {
                     %< } >%
                   ]
                 %< if (fields.enableBoundingObject.value) { >%
-                  boundingObject Transform {
+                  boundingObject Pose {
                     translation -0.04 0.254 -0.23
                     children [
                       Capsule {
@@ -260,7 +260,7 @@ Robot {
                           }
                         ]
                       %< if (fields.enableBoundingObject.value) { >%
-                        boundingObject Transform {
+                        boundingObject Pose {
                           translation 0.02 -0.253 -0.44
                           rotation -0.577351 -0.577351 -0.577349 -2.094397
                           children [
@@ -276,7 +276,7 @@ Robot {
                     %< } >%
                   ]
                 %< if (fields.enableBoundingObject.value) { >%
-                  boundingObject Transform {
+                  boundingObject Pose {
                     translation -0.025 -0.254 -0.23
                     children [
                       Capsule {
@@ -380,7 +380,7 @@ Robot {
                           }
                         ]
                       %< if (fields.enableBoundingObject.value) { >%
-                        boundingObject Transform {
+                        boundingObject Pose {
                           translation 0 0.115 -1.21
                           rotation -0.577351 -0.577351 -0.577349 -2.094397
                           children [
@@ -396,7 +396,7 @@ Robot {
                     %< } >%
                   ]
                 %< if (fields.enableBoundingObject.value) { >%
-                  boundingObject Transform {
+                  boundingObject Pose {
                     translation -0.056 0.116 -0.965
                     rotation 1 0 0 0.1
                     children [
@@ -414,7 +414,7 @@ Robot {
             ]
             name "left leg"
           %< if (fields.enableBoundingObject.value) { >%
-            boundingObject Transform {
+            boundingObject Pose {
               translation -0.033 0.116 -0.5
               rotation 1 0 0 1.5708
               children [
@@ -479,7 +479,7 @@ Robot {
                           }
                         ]
                       %< if (fields.enableBoundingObject.value) { >%
-                        boundingObject Transform {
+                        boundingObject Pose {
                           translation 0.031 -0.115 -1.21
                           rotation -0.577351 -0.577351 -0.577349 -2.094397
                           children [
@@ -495,10 +495,9 @@ Robot {
                     %< } >%
                   ]
                 %< if (fields.enableBoundingObject.value) { >%
-                  boundingObject Transform {
+                  boundingObject Pose {
                     translation -0.044 -0.116 -0.965
                     rotation 1 0 0 0.1
-
                     children [
                       Capsule {
                         height 0.335
@@ -514,7 +513,7 @@ Robot {
             ]
             name "right leg"
           %< if (fields.enableBoundingObject.value) { >%
-            boundingObject Transform {
+            boundingObject Pose {
               translation -0.033 -0.116 -0.5
               rotation 1 0 0 1.5708
               children [
@@ -546,7 +545,7 @@ Robot {
             ]
             name "head"
           %< if (fields.enableBoundingObject.value) { >%
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0.04 0 0.436
               rotation 0 1 0 -0.5236
               children [

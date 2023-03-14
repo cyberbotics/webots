@@ -98,7 +98,7 @@ PROTO ConstructionLamp [
         castShadows IS spotLightCastShadows
       }
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0.006 0.001 0
       children [
         Box {

@@ -115,7 +115,7 @@ PROTO EmergencyButton [
     ]
     name IS name
     model "emergency button"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0.0112 0 0
       rotation 0 1 0 1.5707963220000003
       children [

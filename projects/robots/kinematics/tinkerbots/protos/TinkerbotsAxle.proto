@@ -104,7 +104,7 @@ PROTO TinkerbotsAxle [
       ]
       name IS name
       contactMaterial "tinkerbots axle"
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0 %<= 0.5 * l >%
         children [
           Box {

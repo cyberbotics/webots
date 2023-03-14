@@ -407,7 +407,7 @@ PROTO Darwin-op [
                         gradual TRUE
                       }
                     ]
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation 0 0.022 -0.012
                       children [
                         Capsule {
@@ -430,7 +430,7 @@ PROTO Darwin-op [
                 }
             ]
             name "neck"
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0 -0.009 0
               children [
                 Box {
@@ -756,7 +756,7 @@ PROTO Darwin-op [
                                                         ]
                                                       }
                                                     ]
-                                                    boundingObject Transform {
+                                                    boundingObject Pose {
                                                       translation 0.011 -0.027 -0.001
                                                       children [
                                                         Box {
@@ -777,7 +777,7 @@ PROTO Darwin-op [
                                                   }
                                                 }
                                             ]
-                                            boundingObject Transform {
+                                            boundingObject Pose {
                                               translation 0 0.01 -0.0205
                                               children [
                                                 Box {
@@ -832,7 +832,7 @@ PROTO Darwin-op [
                                   }
                                 }
                             ]
-                            boundingObject Transform {
+                            boundingObject Pose {
                               translation 0 -0.058 0.006
                               children [
                                 Box {
@@ -853,7 +853,7 @@ PROTO Darwin-op [
                           }
                         }
                     ]
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation 0 -0.0105 -0.023
                       children [
                         Box {
@@ -875,7 +875,7 @@ PROTO Darwin-op [
                 }
             ]
             name "pelvYL"
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0 0.017 0.001
               children [
                 Box {
@@ -1197,7 +1197,7 @@ PROTO Darwin-op [
                                                         ]
                                                       }
                                                     ]
-                                                    boundingObject Transform {
+                                                    boundingObject Pose {
                                                       translation -0.011 -0.027 -0.001
                                                       children [
                                                         Box {
@@ -1218,7 +1218,7 @@ PROTO Darwin-op [
                                                   }
                                                 }
                                             ]
-                                            boundingObject Transform {
+                                            boundingObject Pose {
                                               translation 0 0.01 -0.0205
                                               children [
                                                 Box {
@@ -1273,7 +1273,7 @@ PROTO Darwin-op [
                                   }
                                 }
                             ]
-                            boundingObject Transform {
+                            boundingObject Pose {
                               translation 0 -0.058 0.006
                               children [
                                 Box {
@@ -1294,7 +1294,7 @@ PROTO Darwin-op [
                           }
                         }
                     ]
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation 0 -0.0105 -0.023
                       children [
                         Box {
@@ -1316,7 +1316,7 @@ PROTO Darwin-op [
                 }
             ]
             name "pelvYR"
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0 0.017 0.001
               children [
                 Box {
@@ -1506,7 +1506,7 @@ PROTO Darwin-op [
                                 ]
                               }
                             ]
-                            boundingObject Transform {
+                            boundingObject Pose {
                               translation 0.0075 -0.073 -0.016
                               children [
                                 Box {
@@ -1561,7 +1561,7 @@ PROTO Darwin-op [
                 }
             ]
             name "shoulderL"
-            boundingObject Transform {
+            boundingObject Pose {
               translation -0.009 -0.0065 0
               rotation 0 0 1 -0.785398
               children [
@@ -1752,7 +1752,7 @@ PROTO Darwin-op [
                                 ]
                               }
                             ]
-                            boundingObject Transform {
+                            boundingObject Pose {
                               translation -0.0075 -0.073 -0.016
                               children [
                                 Box {
@@ -1807,7 +1807,7 @@ PROTO Darwin-op [
                 }
             ]
             name "shoulderR"
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0.009 -0.0065 0
               rotation 0 0 1 0.785398
               children [

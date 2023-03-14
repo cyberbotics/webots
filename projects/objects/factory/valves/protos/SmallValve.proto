@@ -188,7 +188,7 @@ PROTO SmallValve [
               }
             }
           ]
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0.0492 0 -0.0102
             rotation 0 1 0 1.5707963
             children [

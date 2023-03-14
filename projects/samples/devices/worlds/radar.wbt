@@ -265,7 +265,7 @@ DEF MyBot1 Robot {
     }
   ]
   name "MyBot1"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 0.0415
     children [
       USE BODY
@@ -449,7 +449,7 @@ DEF MyBot2 Robot {
     }
   ]
   name "MyBot2"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 0.0415
     children [
       USE BODY
@@ -633,7 +633,7 @@ DEF MyBot3 Robot {
     }
   ]
   name "MyBot3"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 0.0415
     children [
       USE BODY
@@ -817,7 +817,7 @@ DEF MyBot4 Robot {
     }
   ]
   name "MyBot4"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 0.0415
     children [
       USE BODY

@@ -110,7 +110,7 @@ PROTO ParkingMeter [
         }
       }
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0.06 0.8
       children [
         Box {

@@ -113,7 +113,7 @@ PROTO PhoneBooth [
         }
       }
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 1.4
       children [
         Box {

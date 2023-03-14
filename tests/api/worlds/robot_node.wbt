@@ -39,7 +39,7 @@ DEF FLOOR Solid {
       ]
     }
   ]
-  boundingObject Transform {
+  boundingObject Pose {
     children [
       Plane {
       }

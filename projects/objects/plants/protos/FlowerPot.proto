@@ -71,7 +71,7 @@ PROTO FlowerPot [
         ]
       }
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.0425
       children [
         Cylinder {

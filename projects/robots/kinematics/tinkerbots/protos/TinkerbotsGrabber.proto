@@ -134,7 +134,7 @@ PROTO TinkerbotsGrabber [
                 }
               }
             ]
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0.016 0 0.036
               rotation 0 1 0 0.0655
               children [
@@ -195,7 +195,7 @@ PROTO TinkerbotsGrabber [
                 }
               }
             ]
-            boundingObject Transform {
+            boundingObject Pose {
               translation -0.008 0.01385 0.036
               rotation -0.0436056 0.0251757 0.998732 2.09549
               children [
@@ -256,7 +256,7 @@ PROTO TinkerbotsGrabber [
                 }
               }
             ]
-            boundingObject Transform {
+            boundingObject Pose {
               translation -0.008 -0.01385 0.036
               rotation -0.0436056 -0.0251757 0.998732 4.1877
               children [
@@ -274,7 +274,7 @@ PROTO TinkerbotsGrabber [
       ]
       name IS name
       contactMaterial "tinkerbots"
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0 0.02
         children [
           Cylinder {

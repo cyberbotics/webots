@@ -397,7 +397,7 @@ DEF DYNAMIC_ROBOT Robot {
     }
   ]
   name "dynamic robot"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 -0.03
     children [
       Sphere {

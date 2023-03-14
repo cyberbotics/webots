@@ -86,7 +86,7 @@ PROTO BigSassafras [
       }
     ]
     %< if (fields.enableBoundingObject.value) { >%
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 5
       children [
         Cylinder {

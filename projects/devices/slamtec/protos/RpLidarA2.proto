@@ -45,7 +45,7 @@ PROTO RpLidarA2 [
         ]
       }
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0.000000 0.000000 -0.011000
       children [
         Cylinder {

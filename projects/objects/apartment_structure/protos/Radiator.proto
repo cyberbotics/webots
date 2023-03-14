@@ -194,7 +194,7 @@ PROTO Radiator [
     name IS name
     model "radiator"
     %< if (fields.enableBoundingObject.value) { >%
-    boundingObject Transform {
+    boundingObject Pose {
       translation -0.02 %<= 0.03 * (numberOfFins - 2) >% 0
       children [
         Box {

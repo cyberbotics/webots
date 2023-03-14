@@ -113,8 +113,8 @@ PROTO DivergentIndicator [
     ]
     name IS name
     model "divergent indicator"
-    boundingObject Transform {
-      translation 0 0 %<= height * 0.5 >% 
+    boundingObject Pose {
+      translation 0 0 %<= height * 0.5 >%
       children [
         Shape {
           geometry Cylinder {

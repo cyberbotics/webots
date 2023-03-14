@@ -73,7 +73,7 @@ PROTO PicketFence [
       %< } >%
     ]
     %< if (fields.enableBoundingObject.value) { >%
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 %<= -0.85 * numberOfSegments >% 0.55
       children [
         Box {

@@ -256,7 +256,7 @@ DEF OMNI_WHEELS Robot {
                 ]
               }
             ]
-            boundingObject Transform {
+            boundingObject Pose {
               translation -0.02 0 0
               rotation 0 -1 0 1.5708
               children [
@@ -454,7 +454,7 @@ DEF OMNI_WHEELS Robot {
               }
               USE WHEEL_TRANS
             ]
-            boundingObject Transform {
+            boundingObject Pose {
               translation -0.02 0 0
               rotation 0 -1 0 1.5708
               children [
@@ -650,7 +650,7 @@ DEF OMNI_WHEELS Robot {
               }
               USE WHEEL_TRANS
             ]
-            boundingObject Transform {
+            boundingObject Pose {
               translation -0.02 0 0
               rotation 0 -1 0 1.5708
               children [

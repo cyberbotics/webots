@@ -38,7 +38,7 @@ PROTO TinkerbotsBrickAdapter [
       ]
       name IS name
       contactMaterial "tinkerbots cubie"
-      boundingObject Transform {
+      boundingObject Pose {
         translation -0.01 0.01 0.008
         children [
           Box {

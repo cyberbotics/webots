@@ -89,7 +89,7 @@ PROTO IntermodalOfficeContainer [
         }
       }
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 1.3
       children [
         Box {

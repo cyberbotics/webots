@@ -1015,7 +1015,7 @@ PROTO Shrimp [
             }
           ]
           name "upper fork"
-          boundingObject Transform {
+          boundingObject Pose {
             children [
               Shape {
                 geometry Box {

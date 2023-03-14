@@ -199,7 +199,7 @@ DEF GRIPPER Robot {
                       }
                     ]
                     name "left_gripper"
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation 0.0075 -0.0175 -0.001
                       rotation 0 0 1 -1.570795
                       children [
@@ -348,7 +348,7 @@ DEF GRIPPER Robot {
                       }
                     ]
                     name "right_gripper"
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation 0.0175 -0.0075 -0.001
                       children [
                         Box {
@@ -413,7 +413,7 @@ DEF GRIPPER Robot {
             }
           }
         ]
-        boundingObject Transform {
+        boundingObject Pose {
           children [
             Box {
               size 0.02 0.08 0.012

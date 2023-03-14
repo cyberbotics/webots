@@ -1517,7 +1517,7 @@ DEF EXERCISES_BOARD Robot {
         }
       ]
       name "robot(2)"
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0.036 0.001 -0.018
         children [
           Box {
@@ -1680,7 +1680,7 @@ DEF EXERCISES_BOARD Robot {
               }
             }
           ]
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 -0.03 0
             rotation 1 0 0 1.5708
             children [
@@ -1950,7 +1950,7 @@ DEF ELECTRIC_PLUG Solid {
     }
   ]
   name "plug"
-  boundingObject Transform {
+  boundingObject Pose {
     translation -0.01 0 0
     children [
       Sphere {

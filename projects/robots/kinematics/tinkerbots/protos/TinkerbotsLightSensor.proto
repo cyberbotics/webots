@@ -310,7 +310,7 @@ PROTO TinkerbotsLightSensor [
       ]
       name IS name
       contactMaterial "tinkerbots"
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0 0.02
         children [
           Box {

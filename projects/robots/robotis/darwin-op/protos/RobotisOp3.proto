@@ -167,7 +167,7 @@ PROTO RobotisOp3 [
                   1.51e-06 4.3e-06 4.12e-06 0.0 1e-08 0.0
                 ]
               }
-              boundingObject Transform {
+              boundingObject Pose {
                 translation -0.001500 0.000000 -0.015500
                 children [
                   Box {
@@ -259,7 +259,7 @@ PROTO RobotisOp3 [
                         4.661e-05 0.00012523 0.00010857 -1.01e-06 -1.31e-06 -6e-08
                       ]
                     }
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation 0.003875 0.002200 -0.012000
                       children [
                         Box {
@@ -317,7 +317,7 @@ PROTO RobotisOp3 [
                               0.00010499 9.613e-05 2.493e-05 -1e-08 -7.1e-07 3.53e-06
                             ]
                           }
-                          boundingObject Transform {
+                          boundingObject Pose {
                             translation 0.000425 -0.018800 -0.059450
                             children [
                               Box {
@@ -399,7 +399,7 @@ PROTO RobotisOp3 [
                                     3.715e-05 2.751e-05 1.511e-05 0.0 0.0 0.0
                                   ]
                                 }
-                                boundingObject Transform {
+                                boundingObject Pose {
                                   translation 0.000000 -0.020000 -0.055000
                                   children [
                                     Box {
@@ -493,7 +493,7 @@ PROTO RobotisOp3 [
                                           4.661e-05 0.00012523 0.00010857 -1.01e-06 1.31e-06 6e-08
                                         ]
                                       }
-                                      boundingObject Transform {
+                                      boundingObject Pose {
                                         translation -0.020600 -0.016800 0.012000
                                         children [
                                           Box {
@@ -556,7 +556,7 @@ PROTO RobotisOp3 [
                                                 4.034e-05 7.874e-05 0.00011579 -1.9e-07 1.2e-07 1.01e-06
                                               ]
                                             }
-                                            boundingObject Transform {
+                                            boundingObject Pose {
                                               translation 0.024000 0.012500 -0.0265
                                               children [
                                                 Box {
@@ -666,7 +666,7 @@ PROTO RobotisOp3 [
                   1.51e-06 4.3e-06 4.12e-06 0.0 1e-08 0.0
                 ]
               }
-              boundingObject Transform {
+              boundingObject Pose {
                 translation -0.001500 0.000000 -0.015500
                 children [
                   Box {
@@ -758,7 +758,7 @@ PROTO RobotisOp3 [
                         4.661e-05 0.00012523 0.00010857 1.01e-06 -1.31e-06 6e-08
                       ]
                     }
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation 0.003875 -0.002200 -0.012000
                       children [
                         Box {
@@ -816,7 +816,7 @@ PROTO RobotisOp3 [
                               0.00010499 9.613e-05 2.493e-05 1e-08 -7.1e-07 -3.53e-06
                             ]
                           }
-                          boundingObject Transform {
+                          boundingObject Pose {
                             translation 0.000425 0.018800 -0.059450
                             children [
                               Box {
@@ -900,7 +900,7 @@ PROTO RobotisOp3 [
                                     3.715e-05 2.751e-05 1.511e-05 0.0 0.0 0.0
                                   ]
                                 }
-                                boundingObject Transform {
+                                boundingObject Pose {
                                   translation 0.000000 0.020000 -0.055000
                                   children [
                                     Box {
@@ -996,7 +996,7 @@ PROTO RobotisOp3 [
                                           4.661e-05 0.00012523 0.00010857 1.01e-06 1.31e-06 -6e-08
                                         ]
                                       }
-                                      boundingObject Transform {
+                                      boundingObject Pose {
                                         translation -0.020225 0.016800 0.012000
                                         children [
                                           Box {
@@ -1060,7 +1060,7 @@ PROTO RobotisOp3 [
                                                 4.034e-05 7.874e-05 0.00011579 1.9e-07 1.2e-07 -1.01e-06
                                               ]
                                             }
-                                            boundingObject Transform {
+                                            boundingObject Pose {
                                               translation 0.024000 -0.012500 -0.0265
                                               children [
                                                 Box {
@@ -1170,7 +1170,7 @@ PROTO RobotisOp3 [
                   1.65e-06 3.87e-06 3.97e-06 0.0 0.0 3.1e-07
                 ]
               }
-              boundingObject Transform {
+              boundingObject Pose {
                 translation 0.000000 0.015500 -0.003750
                 children [
                   Box {
@@ -1253,7 +1253,7 @@ PROTO RobotisOp3 [
                         0.00022804 3.042e-05 0.00023474 -1e-08 3e-08 5.9e-07
                       ]
                     }
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation -0.016800 0.045200 0.000700
                       children [
                         Box {
@@ -1316,7 +1316,7 @@ PROTO RobotisOp3 [
                               6.196e-05 1.231e-05 6.854e-05 0.0 0.0 -3.72e-06
                             ]
                           }
-                          boundingObject Transform {
+                          boundingObject Pose {
                               translation -0.019000 0.072005 0.000000
                             children [
                               Box {
@@ -1397,7 +1397,7 @@ PROTO RobotisOp3 [
                   1.65e-06 3.87e-06 3.97e-06 0.0 0.0 -3.1e-07
                 ]
               }
-              boundingObject Transform {
+              boundingObject Pose {
                 translation 0.000000 -0.015500 -0.003750
                 children [
                   Box {
@@ -1479,7 +1479,7 @@ PROTO RobotisOp3 [
                         0.00022804 3.042e-05 0.00023474 1e-08 3e-08 -5.9e-07
                       ]
                     }
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation -0.016800 -0.045200 0.000700
                       children [
                         Box {
@@ -1543,7 +1543,7 @@ PROTO RobotisOp3 [
                               6.196e-05 1.231e-05 6.854e-05 0.0 0.0 3.72e-06
                             ]
                           }
-                          boundingObject Transform {
+                          boundingObject Pose {
                             translation -0.019000 -0.072005 0.000000
                             children [
                               Box {
@@ -1625,7 +1625,7 @@ PROTO RobotisOp3 [
                   3.97e-06 1.65e-06 3.87e-06 0.0 -3.1e-07 0.0
                 ]
               }
-              boundingObject Transform {
+              boundingObject Pose {
                 translation 0.003750 0.000000 0.015500
                 children [
                   Box {
@@ -1706,7 +1706,7 @@ PROTO RobotisOp3 [
                         0.00010612 8.721e-05 4.529e-05 1.1e-07 -9.1e-06 8.4e-07
                       ]
                     }
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation 0.006000 -0.019000 0.027750
                       children [
                         Box {

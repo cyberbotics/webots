@@ -73,7 +73,7 @@ PROTO CautionPanel [
     ]
     name IS name
     model "caution panel"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0.045 0 0.008
       rotation 0.357408 -0.862854 -0.357410 1.717779
       children [

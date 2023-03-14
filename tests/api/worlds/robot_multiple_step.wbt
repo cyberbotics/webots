@@ -92,7 +92,7 @@ DEF ROBOT Robot {
     TestSuiteEmitter {
     }
   ]
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 -0.004 0
     children [
       Box {

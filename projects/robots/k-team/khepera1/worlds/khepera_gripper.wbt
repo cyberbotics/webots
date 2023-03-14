@@ -145,7 +145,7 @@ Khepera1 {
               ]
               name "right grip"
               contactMaterial "gripper"
-              boundingObject Transform {
+              boundingObject Pose {
                 translation 0.015 0 0.003
                 children [
                   Box {
@@ -206,7 +206,7 @@ Khepera1 {
               ]
               name "left grip"
               contactMaterial "gripper"
-              boundingObject Transform {
+              boundingObject Pose {
                 translation -0.015 0 0.003
                 children [
                   Box {
@@ -261,7 +261,7 @@ Khepera1 {
             }
           }
         ]
-        boundingObject Transform {
+        boundingObject Pose {
           translation 0 0 -0.021
           children [
             Box {

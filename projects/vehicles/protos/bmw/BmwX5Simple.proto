@@ -154,7 +154,7 @@ PROTO BmwX5Simple [
     controllerArgs IS controllerArgs
     model "BMW X5"
     radarCrossSection 100
-    boundingObject Transform {
+    boundingObject Pose {
       translation 1.35 0 0.7
       children [
         Box {

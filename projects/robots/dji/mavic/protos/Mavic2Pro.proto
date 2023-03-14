@@ -514,7 +514,7 @@ Robot {
                       }
                     ]
                     name "camera roll"
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation -0.00915058 -1.86265e-08 -0.000983764
                       children [
                         Box {
@@ -530,7 +530,7 @@ Robot {
                 }
               ]
               name "camera pitch"
-              boundingObject Transform {
+              boundingObject Pose {
                 translation -0.00248347 0.00776876 0.00183829
                 children [
                   Box {
@@ -546,7 +546,7 @@ Robot {
           }
         ]
         name "camera yaw"
-        boundingObject Transform {
+        boundingObject Pose {
           translation -1.86265e-09 -0.00304481 -0.0140589
           children [
             Box {
@@ -579,7 +579,7 @@ Robot {
         }
       ]
       name "front right led"
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0.060348 -0.163659 -0.00760072
         children [
           Box {
@@ -612,7 +612,7 @@ Robot {
         }
       ]
       name "front left led"
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0.060348 0.163919 -0.00760069
         children [
           Box {
