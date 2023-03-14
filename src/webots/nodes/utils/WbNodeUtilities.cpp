@@ -234,7 +234,7 @@ namespace {
           return true;
         if (nodeName == "Group")
           return true;
-        if (nodeName == "Transform")  // TODO: fix node insertion rules
+        if (nodeName == "Pose")
           return true;
         if (nodeName == "Billboard")
           return true;
@@ -451,7 +451,7 @@ namespace {
       if (fieldName == "children") {
         if (nodeName == "Group")
           return true;
-        if (nodeName == "Transform")
+        if (nodeName == "Pose")
           return true;
         if (nodeName == "Shape")
           return true;
@@ -527,7 +527,7 @@ namespace {
           return true;
         if (nodeName == "Group")
           return true;
-        if (nodeName == "Transform")
+        if (nodeName == "Pose")
           return true;
         if (WbNodeUtilities::isCollisionDetectedGeometryTypeName(nodeName))
           return true;
@@ -535,7 +535,7 @@ namespace {
       } else if (childrenField) {
         if (nodeName == "Shape")
           return true;
-        if ((nodeName == "Transform") && (parentModelName != "Transform"))
+        if ((nodeName == "Pose") && (parentModelName != "Pose"))
           return true;
         // if the node is also used outside a boundingObject geometries cannot be inserted directly in the children field
         if (!(nodeUse & WbNode::STRUCTURE_USE) && WbNodeUtilities::isCollisionDetectedGeometryTypeName(nodeName))
@@ -546,6 +546,7 @@ namespace {
           return true;
       }
 
+      qDebug() << fieldName << nodeName;
       if (WbNodeUtilities::isGeometryTypeName(nodeName)) {
         errorMessage = QObject::tr("%1 geometry node cannot be used in bounding object.").arg(nodeName);
       } else {
@@ -1485,6 +1486,7 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
   if (srcModelName == destModelName)
     return UNSUITABLE;
 
+  // TODO: fix node transformation rules
   WbNode::NodeUse nodeUse = WbNodeUtilities::checkNodeUse(srcNode);
   if (nodeUse & WbNode::BOUNDING_OBJECT_USE) {
     if (srcModelName == "Group" && destModelName == "Transform")
