@@ -212,7 +212,7 @@ void WbPaintTexture::paint(const WbRay &ray, float leadSize, const WbRgb &color,
 
   WbBoundingSphere *bs = mShape->geometry()->boundingSphere();
   bs->recomputeIfNeeded();
-  int size = static_cast<int>(leadSize * mOriginalTextureSize.x() / bs->radius());
+  int size = static_cast<int>(leadSize * mOriginalTextureSize.x() / bs->scaledRadius());
   if (size < 1)
     size = 1;
 
@@ -306,7 +306,7 @@ WbVector2 WbPaintTexture::computeDefaultTextureSize() {
 
   // Compute size based on bounding sphere radius
   // If the sphere radius is greater than 10 (arbitrary value), then we use the max size
-  const float sphereRadius = maxScale * mShape->geometry()->boundingSphere()->radius();
+  const float sphereRadius = maxScale * mShape->geometry()->boundingSphere()->scaledRadius();
   const WbVector2 size =
     sphereRadius > 10.0 ? MAX_TEXTURE_SIZE : MIN_TEXTURE_SIZE + (MAX_TEXTURE_SIZE - MIN_TEXTURE_SIZE) * sphereRadius / 10.0;
 
