@@ -187,11 +187,11 @@ export default class Field {
     this.node.resetIds();
 
     // update the parameter value (note: all IS instances refer to the parameter itself, so they don't need to change)
-    if (typeof v === 'undefined')
+    if (typeof v === 'undefined' && typeof index !== 'undefined')
       this.value.removeNode(index);
     else if (typeof index !== 'undefined')
       this.value.insertNode(v, index, this);
-    else
+    else if (typeof v !== 'undefined')
       this.value.setValueFromJavaScript(v);
 
     this.node.createBaseType(); // regenerate the base type

@@ -2,6 +2,7 @@
 
 import {SFNode, MFNode, stringifyType} from './Vrml.js';
 import Field from './Field.js';
+import Node from './Node.js';
 
 export default class Parameter extends Field {
   #aliasLinks;
@@ -13,9 +14,12 @@ export default class Parameter extends Field {
 
     this.restrictions = restrictions;
     this.#isTemplateRegenerator = isTemplateRegenerator;
+    this.triggerParentRegeneration = isTemplateRegenerator;
     this.#aliasLinks = []; // list of other parameters to notify whenever this instance changes
     this.#reverseAliasLinks = []; // list of parameters that have this parameter as IS link
     this.#hidden = hidden;
+
+    this.setParentRegenerationFlag();
   }
 
   get value() {
@@ -116,6 +120,65 @@ export default class Parameter extends Field {
     }
 
     return links;
+  }
+
+  setParentRegenerationFlag() {
+    if (this.triggerParentRegeneration) {
+      if (this.value instanceof MFNode) {
+        for (const item of this.value.value) {
+          if (item.value.isProto === true) {
+            for (const parameter of item.value.parameters) {
+              parameter[1].triggerParentRegeneration = true;
+              parameter[1].setParentRegenerationFlag();
+            }
+          }
+        }
+      } else if (this.value instanceof SFNode) {
+        const node = this.value.value;
+        if (node.isProto === true) {
+          for (const parameter of node.parameters) {
+            parameter[1].triggerParentRegeneration = true;
+            parameter[1].setParentRegenerationFlag();
+          }
+        }
+      }
+    }
+  }
+
+  insertNode(view, v, index) {
+    if (this.triggerParentRegeneration && v.isProto) {
+      for (const parameter of v.parameters) {
+        parameter[1].triggerParentRegeneration = true;
+        parameter[1].setParentRegenerationFlag();
+      }
+    }
+
+    super.insertNode(view, v, index);
+  }
+
+  setValueFromJavaScript(view, v) {
+    if (v instanceof Node && this.triggerParentRegeneration && v.isProto) {
+      for (const parameter of v.parameters) {
+        parameter[1].triggerParentRegeneration = true;
+        parameter[1].setParentRegenerationFlag();
+      }
+    }
+    super.setValueFromJavaScript(view, v);
+
+    if (this.triggerParentRegeneration)
+      this.regenerateParent(view);
+  }
+
+  regenerateParent(view) {
+    if (this.triggerParentRegeneration) {
+      const node = this.node;
+      const newField = node.parentField;
+      if (typeof newField === 'undefined')
+        this.regenerate(view);
+      else
+        newField.regenerateParent(view);
+    } else
+      this.regenerate(view);
   }
 }
 
