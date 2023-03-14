@@ -53,7 +53,7 @@ PROTO TrafficCone [
     model "traffic cone"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.015
           rotation 1 0 0 1.5708
           children [
@@ -62,7 +62,7 @@ PROTO TrafficCone [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 -0.005 0.22
           children [
             Capsule {
@@ -71,7 +71,7 @@ PROTO TrafficCone [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 -0.005 0.27
           children [
             Capsule {
@@ -80,7 +80,7 @@ PROTO TrafficCone [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 -0.005 0.161
           children [
             Capsule {

@@ -33,7 +33,7 @@ PROTO RubberDuck [
     scale %<= scale >% %<= scale >% %<= scale >%
     recognitionColors [ 0.87451 0.756863 0.113725 ]
     children [
-      DEF BEAK Transform {
+      DEF BEAK Pose {
         translation 0.0394 0 0.05868
         children [
           Shape {
@@ -48,21 +48,17 @@ PROTO RubberDuck [
           }
         ]
       }
-      DEF BODY Transform {
-        children [
-          DEF GEOM Shape {
-            appearance PBRAppearance {
-              baseColor 1 0.8 0
-              metalness 0
-              roughness 0.7
-            }
-            geometry Mesh {
-              url "RubberDuck/meshes/body.obj"
-            }
-          }
-        ]
+      DEF GEOM Shape {
+        appearance PBRAppearance {
+          baseColor 1 0.8 0
+          metalness 0
+          roughness 0.7
+        }
+        geometry Mesh {
+          url "RubberDuck/meshes/body.obj"
+        }
       }
-      DEF EYE Transform {
+      DEF EYE Pose {
         translation 0.026677002 0.012248128 0.069200846
         rotation -0.181173 0.491896 0.851596 -1.18424
         children [
@@ -82,7 +78,7 @@ PROTO RubberDuck [
           }
         ]
       }
-      DEF EYE Transform {
+      DEF EYE Pose {
         translation 0.026708849 -0.012243724 0.069238147
         rotation -0.230567 0.188914 0.954542 -2.20978
         children [
@@ -95,7 +91,7 @@ PROTO RubberDuck [
     immersionProperties IS immersionProperties
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 -0.018
           children [
             Box {
@@ -103,7 +99,7 @@ PROTO RubberDuck [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.037 0 0.06
           children [
             Box {
@@ -111,7 +107,7 @@ PROTO RubberDuck [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.01 0 0.059
           children [
             Sphere {
@@ -119,7 +115,7 @@ PROTO RubberDuck [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.042 0 0.013
           rotation -0.065264 -0.065264 0.995732 1.575074
           children [
@@ -129,7 +125,7 @@ PROTO RubberDuck [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.005
           rotation -0.577351 -0.577351 -0.577349 -2.094397
           children [
@@ -139,7 +135,7 @@ PROTO RubberDuck [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.013 0 0.034
           children [
             Cylinder {
@@ -148,7 +144,7 @@ PROTO RubberDuck [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.02 0
           rotation -0.577351 -0.577351 -0.577349 -2.094397
           children [
@@ -158,7 +154,7 @@ PROTO RubberDuck [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.02 0
           rotation -0.577351 -0.577351 -0.577349 -2.094397
           children [

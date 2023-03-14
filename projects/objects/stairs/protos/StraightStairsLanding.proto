@@ -54,7 +54,7 @@ PROTO StraightStairsLanding [
     translation IS translation
     rotation IS rotation
     children [
-      DEF LANDING_SHAPE Transform {
+      DEF LANDING_SHAPE Pose {
         translation 0 0 %<= height >%
         children [
           Shape {
@@ -65,8 +65,8 @@ PROTO StraightStairsLanding [
           }
         ]
       }
-      Transform {
-        translation 0 0 %<= height >% 
+      Pose {
+        translation 0 0 %<= height >%
         children IS rail
       }
       %< if (fields.stringerRight.value) { >%

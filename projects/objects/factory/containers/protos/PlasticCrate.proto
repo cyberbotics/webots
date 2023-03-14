@@ -54,7 +54,7 @@ PROTO PlasticCrate [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 %<= 0.5 * thickness.z >%
           children [
             Box {
@@ -62,7 +62,7 @@ PROTO PlasticCrate [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 %<= 0.5 * (fields.size.value.y - thickness.y) >% %<= 0.5 * fields.size.value.z + 0.5 * thickness.z >%
           children [
             Box {
@@ -70,7 +70,7 @@ PROTO PlasticCrate [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 %<= -0.5 * (fields.size.value.y - thickness.y) >% %<= 0.5 * fields.size.value.z + 0.5 * thickness.z >%
           children [
             Box {
@@ -78,7 +78,7 @@ PROTO PlasticCrate [
             }
           ]
         }
-        Transform {
+        Pose {
           translation %<= 0.5 * (fields.size.value.x - thickness.x) >% 0 %<= 0.5 * fields.size.value.z + 0.5 * thickness.z >%
           children [
             Box {
@@ -86,7 +86,7 @@ PROTO PlasticCrate [
             }
           ]
         }
-        Transform {
+        Pose {
           translation %<= -0.5 * (fields.size.value.x - thickness.x) >% 0 %<= 0.5 * fields.size.value.z + 0.5 * thickness.z >%
           children [
             Box {

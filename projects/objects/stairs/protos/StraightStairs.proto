@@ -227,7 +227,7 @@ PROTO StraightStairs [
         delta = {x: 0.0, z: stepRise * 0.5};
         for (let n = 1; n <= nSteps; ++n) {
       >%
-          Transform {
+          Pose {
             translation %<= delta.x >% 0.0 %<= delta.z + stepRise * 0.5 - stepSize.z * 0.5 >%
             children [
               Box {
