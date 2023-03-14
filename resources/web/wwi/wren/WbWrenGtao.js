@@ -1,4 +1,4 @@
-import {arrayXPointerFloat, pointerOnFloat} from './../nodes/utils/utils.js';
+import {arrayXPointerFloat, pointerOnFloat} from '../nodes/utils/utils.js';
 import WbWrenAbstractPostProcessingEffect from './WbWrenAbstractPostProcessingEffect.js';
 import WbWrenPostProcessingEffects from './WbWrenPostProcessingEffects.js';
 

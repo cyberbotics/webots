@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -227,7 +227,7 @@ public:
   // Functions to compute unique name, find a Solid based on the unique name and resolve name clashes
   QString computeUniqueName() const;
   WbSolid *findDescendantSolidFromUniqueName(QStringList &names) const;
-  void resolveNameClashIfNeeded(bool automaticallyChange, bool recursive, const QList<WbSolid *> siblings,
+  void resolveNameClashIfNeeded(bool automaticallyChange, bool recursive, const QList<WbSolid *> &siblings,
                                 QSet<const QString> *topSolidNameSet) const;
   static WbSolid *findSolidFromUniqueName(const QString &name);
   static QStringList splitUniqueNamesByEscapedPattern(const QString &text, const QString &pattern);
@@ -455,6 +455,7 @@ private:
   void setGeomMatter(dGeomID g, WbBaseNode *node = NULL) override;
 
 private slots:
+  void updateChildrenAfterJointEndPointChange(WbBaseNode *node);
   void updatePhysics();
   void updateRadarCrossSection();
   void updateRecognitionColors();
