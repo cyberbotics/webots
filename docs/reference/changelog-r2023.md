@@ -61,6 +61,7 @@ Released on ??
     - Fixed node information shown in the Add Node dialog when selecting a PROTO USE node ([#5946](https://github.com/cyberbotics/webots/pull/5946)).
     - Fixed bug causing Webots to hang when requesting multiple poses while pose-tracking multiple nodes ([#5952](https://github.com/cyberbotics/webots/pull/5952)).
     - Fixed physics state updates of [Solid](solid.md) nodes added to a descendant [`Joint.endPoint`](joint.md) during simulation ([#5961](https://github.com/cyberbotics/webots/pull/5961)).
+    - Fixed unwanted altitude change when reaching a target waypoint in `mavic2pro_patrol.c` ([#5981](https://github.com/cyberbotics/webots/pull/5981)).
 
 ## Webots R2023a
 Released on November 29th, 2022.

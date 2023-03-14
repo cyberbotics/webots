@@ -87,10 +87,11 @@ public:
 
   // 3x3 absolute rotation matrix
   WbMatrix3 rotationMatrix() const {
-    const WbVector3 &s = absoluteScale();
-    WbMatrix3 m = matrix().extracted3x3Matrix();
-    m.scale(1.0 / s.x(), 1.0 / s.y(), 1.0 / s.z());
-    return m;
+    const WbMatrix4 &m = matrix();
+    const WbVector3 &s = m.scale();
+    WbMatrix3 rm = m.extracted3x3Matrix();
+    rm.scale(1.0 / s.x(), 1.0 / s.y(), 1.0 / s.z());
+    return rm;
   }
 
   // position in 'world' coordinates
