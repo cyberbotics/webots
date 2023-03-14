@@ -10,7 +10,7 @@ PROTO RosbotXl [
   field  SFVec3f     translation     0 0 0
   field  SFRotation  rotation        0 0 1 0
   field  SFString    name            "rosbot_xl" # Is `Robot.name`.
-  field  SFString    controller      "rosbot_xl" # Is `Robot.controller`.
+  field  SFString    controller      "<generic>" # Is `Robot.controller`.
   field  MFString    controllerArgs  []          # Is `Robot.controllerArgs`.
   field  SFString    customData      ""          # Is `Robot.customData`.
   field  SFBool      supervisor      FALSE       # Is `Robot.supervisor`.
@@ -38,7 +38,7 @@ PROTO RosbotXl [
         -2.000608e-04 -9.754257e-04 -2.603326e-04
       ]
     }
-    boundingObject DEF body_colision Group {
+    boundingObject DEF body_collision Group {
       children [
         DEF MAIN_BODY_BOX Transform {
           translation 0.000000 0.000000 0.048
