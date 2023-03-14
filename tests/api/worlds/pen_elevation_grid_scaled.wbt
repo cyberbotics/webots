@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.31379387992343294 0.9325656397724499 0.17847892995645037 1.01127
-  position 0.416098 0.440285 0.289016
+  orientation -0.4415404126511018 0.8135793454418827 0.378326198757438 2.346924267735301
+  position 0.13671664751099566 0.3006814284817198 0.41561456957524157
   follow "pen"
   followSmoothness 0
 }
@@ -117,7 +117,7 @@ DEF WRITER Robot {
         ]
         inkColor 0.980392 0.541176 0.0392157
         inkDensity 1
-        leadSize 0.02
+        leadSize 0.01
       }
     }
     Solid {
