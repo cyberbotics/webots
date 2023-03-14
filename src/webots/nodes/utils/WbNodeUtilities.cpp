@@ -236,6 +236,8 @@ namespace {
           return true;
         if (nodeName == "Pose")
           return true;
+        if (nodeName == "Transform")
+          return true;
         if (nodeName == "Billboard")
           return true;
         if (nodeName == "Shape")
@@ -453,6 +455,8 @@ namespace {
           return true;
         if (nodeName == "Pose")
           return true;
+        if (nodeName == "Transform")
+          return true;
         if (nodeName == "Shape")
           return true;
         if (nodeName == "CadShape")
@@ -546,7 +550,6 @@ namespace {
           return true;
       }
 
-      qDebug() << fieldName << nodeName;
       if (WbNodeUtilities::isGeometryTypeName(nodeName)) {
         errorMessage = QObject::tr("%1 geometry node cannot be used in bounding object.").arg(nodeName);
       } else {

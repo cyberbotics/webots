@@ -7,7 +7,7 @@ PROTO ProtoNestedInternal_2 [
   field SFVec3f boxSize 1 1 1
 ]
 {
-  Transform {
+  Pose {
     children [
       SlotContainer {
         slot [

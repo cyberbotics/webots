@@ -54,7 +54,7 @@ TexturedBackgroundLight {
 }
 Solid {
   children [
-    Transform {
+    Pose {
       translation -5.92 -4.45461 0.883074
       rotation -1 0 0 0.6109999999999997
       children [

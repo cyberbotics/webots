@@ -369,7 +369,7 @@ PROTO TiagoRightArm [
                                                     translation 0 0 0.012725
                                                     rotation -0.5774 -0.5774 -0.5774 2.0944
                                                     children [
-                                                      Transform {
+                                                      Pose {
                                                         rotation 0 0 -1 1.5708
                                                         children [
                                                           Slot {
@@ -450,7 +450,7 @@ PROTO TiagoRightArm [
                                     name "arm_right_5_link"
                                     boundingObject Group {
                                       children [
-                                        Transform {
+                                        Pose {
                                           translation 0 0 0.04
                                           children [
                                             Cylinder {
@@ -459,7 +459,7 @@ PROTO TiagoRightArm [
                                             }
                                           ]
                                         }
-                                        Transform {
+                                        Pose {
                                           translation 0 0 0.099
                                           children [
                                             Cylinder {
@@ -468,7 +468,7 @@ PROTO TiagoRightArm [
                                             }
                                           ]
                                         }
-                                        Transform {
+                                        Pose {
                                           translation 0 0 0.156
                                           children [
                                             Cylinder {
@@ -489,7 +489,7 @@ PROTO TiagoRightArm [
                               name "arm_right_4_link"
                               boundingObject Group {
                                 children [
-                                  Transform {
+                                  Pose {
                                     translation 0 0.001 -0.002
                                     children [
                                       Cylinder {
@@ -498,7 +498,7 @@ PROTO TiagoRightArm [
                                       }
                                     ]
                                   }
-                                  Transform {
+                                  Pose {
                                     translation 0.093 0.019 0.027
                                     rotation 0 -1 0 1.5708
                                     children [
@@ -520,7 +520,7 @@ PROTO TiagoRightArm [
                         name "arm_right_3_link"
                         boundingObject Group {
                           children [
-                            Transform {
+                            Pose {
                               translation 0 0 -0.106
                               children [
                                 Cylinder {
@@ -529,7 +529,7 @@ PROTO TiagoRightArm [
                                 }
                               ]
                             }
-                            Transform {
+                            Pose {
                               translation 0.0169 0.03 -0.221
                               rotation 1 0 0 -1.5708
                               children [
@@ -552,7 +552,7 @@ PROTO TiagoRightArm [
                   name "arm_right_2_link"
                   boundingObject Group {
                     children [
-                      Transform {
+                      Pose {
                         translation -0.056 0 -0.002
                         rotation 0 1 0 -1.5708
                         children [
@@ -562,7 +562,7 @@ PROTO TiagoRightArm [
                           }
                         ]
                       }
-                      Transform {
+                      Pose {
                         translation 0 0 0.028
                         children [
                           Cylinder {
@@ -583,7 +583,7 @@ PROTO TiagoRightArm [
             name "TIAGo_right_arm"
             boundingObject Group {
               children [
-                Transform {
+                Pose {
                   translation 0 0 0.013
                   children [
                     Cylinder {
@@ -592,7 +592,7 @@ PROTO TiagoRightArm [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation -0.033 0.001 0.012
                   children [
                     Box {
@@ -600,7 +600,7 @@ PROTO TiagoRightArm [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation -0.072 0.029 -0.012
                   children [
                     Box {
@@ -608,7 +608,7 @@ PROTO TiagoRightArm [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation -0.125 0.053 -0.031
                   rotation 1 0 0 -1.5708
                   children [
@@ -630,7 +630,7 @@ PROTO TiagoRightArm [
       name "Right shoulder"
       boundingObject Group {
         children [
-          DEF SHOULDER_RIGHT_SH1 Transform {
+          DEF SHOULDER_RIGHT_SH1 Pose {
             translation 0.026 -0.14 -0.232
             rotation 0 0 1 1.5708
             children [
@@ -639,7 +639,7 @@ PROTO TiagoRightArm [
               }
             ]
           }
-          DEF SHOULDER_RIGHT_SH2 Transform {
+          DEF SHOULDER_RIGHT_SH2 Pose {
             translation 0.0256 -0.1917 -0.2641
             rotation -0.129432138924676 0.129421993300392 0.983105929726566 1.587844223950545
             children [
@@ -650,7 +650,7 @@ PROTO TiagoRightArm [
             ]
             translationStep 0.001
           }
-          DEF SHOULDER_RIGHT_SH3 Transform {
+          DEF SHOULDER_RIGHT_SH3 Pose {
             translation 0.026 -0.189 -0.221
             children [
               Cylinder {

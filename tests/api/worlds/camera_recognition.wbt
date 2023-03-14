@@ -264,7 +264,7 @@ Solid {
   translation -3.49351 0.0982299 -1.05761
   rotation -0.6457879227325559 -0.5398879322844559 -0.5398879322844559 4.91351
   children [
-    DEF CAPSULE Transform {
+    DEF CAPSULE Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {

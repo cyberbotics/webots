@@ -43,7 +43,7 @@ PROTO Yamor [
               size 0.06 0.054 0.0482
             }
           }
-          DEF CYLINDER_TRANS Transform {
+          DEF CYLINDER_TRANS Pose {
             translation 0.03 0 0
             children [
               Shape {
@@ -61,7 +61,7 @@ PROTO Yamor [
         translation -0.03 0 0
         rotation 0 0 1 -3.1415926535
         children [
-          DEF ROUND_SHAPE Transform {
+          DEF ROUND_SHAPE Pose {
             rotation 0 1 0 1.5708
             children [
               Shape {
@@ -100,7 +100,7 @@ PROTO Yamor [
         endPoint Solid {
           translation 0.03 0 0
           children [
-            DEF GRAY_BOX_TRANS Transform {
+            DEF GRAY_BOX_TRANS Pose {
               translation 0.0135 0 0
               children [
                 Shape {

@@ -27,7 +27,7 @@ PROTO UR5e [
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         translation -0.0467 0.047 0.0252
         rotation 1 0 0 -3.1415923071795864
         children [
@@ -45,7 +45,7 @@ PROTO UR5e [
                   }
                 ]
               }
-              DEF CYLINDER Transform {
+              DEF CYLINDER Pose {
                 translation 0 0 0.02
                 children [
                   Shape {
@@ -66,21 +66,21 @@ PROTO UR5e [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.0467 -0.047 0.0252
         rotation 1 0 0 -3.1415923071795864
         children [
           USE SCREW
         ]
       }
-      Transform {
+      Pose {
         translation 0.0464 -0.047 0.0252
         rotation 1 0 0 -3.1415923071795864
         children [
           USE SCREW
         ]
       }
-      Transform {
+      Pose {
         translation 0.0464 0.047 0.0252
         rotation 1 0 0 -3.1415923071795864
         children [
@@ -501,7 +501,7 @@ PROTO UR5e [
                                               url "UR5e/meshes/wrist_3_link_0.obj"
                                             }
                                           }
-                                          Transform {
+                                          Pose {
                                             translation 0 0.1 0
                                             children IS toolSlot
                                           }
@@ -509,7 +509,7 @@ PROTO UR5e [
                                         name "wrist_3_link"
                                         boundingObject Group {
                                           children [
-                                            Transform {
+                                            Pose {
                                               translation 0 0.07 0
                                               rotation 1 0 0 -1.57079632679
                                               children [
@@ -519,7 +519,7 @@ PROTO UR5e [
                                                 }
                                               ]
                                             }
-                                            Transform {
+                                            Pose {
                                               translation 0 0.09 0
                                               rotation 1 0 0 -1.57079632679
                                               children [
@@ -544,7 +544,7 @@ PROTO UR5e [
                                   name "wrist_2_link"
                                   boundingObject Group {
                                     children [
-                                      Transform {
+                                      Pose {
                                         translation 0 -0.001 0.0995
                                         rotation 1 0 0 -1.57079632679
                                         children [
@@ -554,7 +554,7 @@ PROTO UR5e [
                                           }
                                         ]
                                       }
-                                      Transform {
+                                      Pose {
                                         translation 0 -0.001 0.0676
                                         children [
                                           Cylinder {
@@ -578,7 +578,7 @@ PROTO UR5e [
                             name "wrist_1_link"
                             boundingObject Group {
                               children [
-                                Transform {
+                                Pose {
                                   translation 0 0.089 0
                                   rotation 1 0 0 -1.57079632679
                                   children [
@@ -588,7 +588,7 @@ PROTO UR5e [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0 0.126 0
                                   children [
                                     Cylinder {
@@ -612,7 +612,7 @@ PROTO UR5e [
                       name "forearm_link"
                       boundingObject Group {
                         children [
-                          Transform {
+                          Pose {
                             translation 0 0 0.207
                             children [
                               Cylinder {
@@ -621,7 +621,7 @@ PROTO UR5e [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation 0 -0.001 0.39
                             rotation 1 0 0 -1.57079632679
                             children [
@@ -631,7 +631,7 @@ PROTO UR5e [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation 0 0.06 0
                             rotation 1 0 0 1.57079632679
                             children [
@@ -641,7 +641,7 @@ PROTO UR5e [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation 0 0 0.07
                             children [
                               Capsule {
@@ -665,7 +665,7 @@ PROTO UR5e [
                 name "upper_arm_link"
                 boundingObject Group {
                   children [
-                    Transform {
+                    Pose {
                       translation 0 0 0.22
                       children [
                         Cylinder {
@@ -674,7 +674,7 @@ PROTO UR5e [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       rotation 1 0 0 -1.57079632679
                       children [
                         Cylinder {
@@ -683,7 +683,7 @@ PROTO UR5e [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0 -0.005 0.424
                       rotation 1 0 0 -1.57079632679
                       children [
@@ -708,7 +708,7 @@ PROTO UR5e [
           name "shoulder_link"
           boundingObject Group {
             children [
-              Transform {
+              Pose {
                 children [
                   Cylinder {
                     height 0.135
@@ -716,7 +716,7 @@ PROTO UR5e [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0.03 0
                 rotation 1 0 0 -1.57079632679
                 children [

@@ -49,10 +49,10 @@ Robot {
     }
     TestSuiteEmitter {
     }
-    DEF IMPORT_TEST Transform {
+    DEF IMPORT_TEST Pose {
       translation -0.34 0 0
     }
-    Transform {
+    Pose {
       translation 0.2 0 0
       children [
         USE IMPORT_TEST

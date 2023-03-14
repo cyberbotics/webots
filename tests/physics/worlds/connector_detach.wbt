@@ -27,7 +27,7 @@ DEF ACTIVE_ROBOT Robot {
   children [
     TestSuiteEmitter {
     }
-    DEF LIGHT_BODY Transform {
+    DEF LIGHT_BODY Pose {
       translation 0 0.0415 0
       rotation 1 0 0 -1.5708
       children [
@@ -56,7 +56,7 @@ DEF ACTIVE_ROBOT Robot {
         children [
           DEF CONNECTOR_SHAPE Group {
             children [
-              Transform {
+              Pose {
                 translation 0.049 0.025 0
                 children [
                   DEF SIDE_PART Shape {
@@ -72,13 +72,13 @@ DEF ACTIVE_ROBOT Robot {
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.049 0.025 0
                 children [
                   USE SIDE_PART
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0.05 0
                 children [
                   Shape {
@@ -111,7 +111,7 @@ DEF ACTIVE_ROBOT Robot {
     }
   ]
   name "MyBot 1"
-  boundingObject DEF MYBOT_BOUNDING Transform {
+  boundingObject DEF MYBOT_BOUNDING Pose {
     translation 0 0.0415 0
     rotation 1 0 0 -1.5708
     children [
@@ -129,7 +129,7 @@ DEF PASSIVE_ROBOT Solid {
   translation -0.0081323259 0 0.0038990259
   rotation 0 1 0 -1.57
   children [
-    DEF MAIN_BODY Transform {
+    DEF MAIN_BODY Pose {
       translation 0 0.0415 0
       rotation 1 0 0 -1.5708
       children [
@@ -154,7 +154,7 @@ DEF PASSIVE_ROBOT Solid {
         children [
           DEF CONNECTOR_SHAPE Group {
             children [
-              Transform {
+              Pose {
                 translation 0.049 0.025 0
                 children [
                   DEF SIDE_PART Shape {
@@ -170,13 +170,13 @@ DEF PASSIVE_ROBOT Solid {
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.049 0.025 0
                 children [
                   USE SIDE_PART
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0.05 0
                 children [
                   Shape {

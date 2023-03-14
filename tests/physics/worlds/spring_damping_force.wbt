@@ -57,7 +57,7 @@ DEF SLIDER_JOINT_1 Solid {
               radius 0.05
             }
           }
-          Transform {
+          Pose {
             translation -0.28 0 0
             children [
               Shape {
@@ -115,7 +115,7 @@ DEF SLIDER_JOINT_2 Solid {
               radius 0.05
             }
           }
-          Transform {
+          Pose {
             translation -0.28 0 0
             children [
               Shape {
@@ -177,7 +177,7 @@ DEF HINGE_JOINT_3 Solid {
               radius 0.05
             }
           }
-          Transform {
+          Pose {
             translation -0.28 0 0
             children [
               Shape {
@@ -236,7 +236,7 @@ DEF HINGE_JOINT_4 Solid {
               radius 0.05
             }
           }
-          Transform {
+          Pose {
             translation -0.28 0 0
             children [
               Shape {
@@ -296,7 +296,7 @@ DEF BALL_JOINT_5 Solid {
               radius 0.05
             }
           }
-          Transform {
+          Pose {
             translation -0.28 0 0
             children [
               Shape {
@@ -354,7 +354,7 @@ DEF BALL_JOINT_6 Solid {
               radius 0.05
             }
           }
-          Transform {
+          Pose {
             translation -0.28 0 0
             children [
               Shape {

@@ -33,7 +33,7 @@ Shape {
     size 0.1 0.1 0.1
   }
 }
-DEF TEST Transform {
+DEF TEST Pose {
   translation 0.3 0 0
 }
 Transform {

@@ -304,7 +304,7 @@ PROTO TiagoLeftArm [
                                                 translation 0.055 0 0
                                                 rotation 0.5774 0.5774 0.5774 2.0944
                                                 children [
-                                                  Transform {
+                                                  Pose {
                                                     rotation 1 0 0 1.570796
                                                     children [
                                                       DEF ARM_LEFT_7_SH1 Shape {
@@ -325,7 +325,7 @@ PROTO TiagoLeftArm [
                                                     translation 0 0 0.012725
                                                     rotation -0.5774 -0.5774 -0.5774 2.0944
                                                     children [
-                                                      Transform {
+                                                      Pose {
                                                         rotation 0 0 1 -1.5708
                                                         children [
                                                           Slot {
@@ -334,7 +334,7 @@ PROTO TiagoLeftArm [
                                                           }
                                                         ]
                                                       }
-                                                      Transform {
+                                                      Pose {
                                                         rotation 0.5774 0.5774 -0.5774 2.0944
                                                         children [
                                                           Shape {
@@ -404,7 +404,7 @@ PROTO TiagoLeftArm [
                                     name "arm_left_5_link"
                                     boundingObject Group {
                                       children [
-                                        Transform {
+                                        Pose {
                                           translation 0 0 0.04
                                           children [
                                             Cylinder {
@@ -413,7 +413,7 @@ PROTO TiagoLeftArm [
                                             }
                                           ]
                                         }
-                                        Transform {
+                                        Pose {
                                           translation 0 0 0.099
                                           children [
                                             Cylinder {
@@ -422,7 +422,7 @@ PROTO TiagoLeftArm [
                                             }
                                           ]
                                         }
-                                        Transform {
+                                        Pose {
                                           translation 0 0 0.156
                                           children [
                                             Cylinder {
@@ -443,7 +443,7 @@ PROTO TiagoLeftArm [
                               name "arm_left_4_link"
                               boundingObject Group {
                                 children [
-                                  Transform {
+                                  Pose {
                                     translation 0 0.001 -0.002
                                     children [
                                       Cylinder {
@@ -452,7 +452,7 @@ PROTO TiagoLeftArm [
                                       }
                                     ]
                                   }
-                                  Transform {
+                                  Pose {
                                     translation -0.093 0.019 0.027
                                     rotation 0 1 0 -1.5708
                                     children [
@@ -474,7 +474,7 @@ PROTO TiagoLeftArm [
                         name "arm_left_3_link"
                         boundingObject Group {
                           children [
-                            Transform {
+                            Pose {
                               translation 0 0 -0.106
                               children [
                                 Cylinder {
@@ -483,7 +483,7 @@ PROTO TiagoLeftArm [
                                 }
                               ]
                             }
-                            Transform {
+                            Pose {
                               translation -0.0169 0.03 -0.221
                               rotation 1 0 0 -1.5708
                               children [
@@ -506,7 +506,7 @@ PROTO TiagoLeftArm [
                   name "arm_left_2_link"
                   boundingObject Group {
                     children [
-                      Transform {
+                      Pose {
                         translation 0.056 0 -0.002
                         rotation 0 1 0 1.5708
                         children [
@@ -516,7 +516,7 @@ PROTO TiagoLeftArm [
                           }
                         ]
                       }
-                      Transform {
+                      Pose {
                         translation 0 0 0.028
                         children [
                           Cylinder {
@@ -537,7 +537,7 @@ PROTO TiagoLeftArm [
             name "TIAGo_left_arm"
             boundingObject Group {
               children [
-                Transform {
+                Pose {
                   translation 0 0 0.013
                   children [
                     Cylinder {
@@ -546,7 +546,7 @@ PROTO TiagoLeftArm [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation 0.033 0.001 0.012
                   children [
                     Box {
@@ -554,7 +554,7 @@ PROTO TiagoLeftArm [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation 0.072 0.029 -0.012
                   children [
                     Box {
@@ -562,7 +562,7 @@ PROTO TiagoLeftArm [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation 0.125 0.053 -0.031
                   rotation 1 0 0 -1.5708
                   children [
@@ -584,7 +584,7 @@ PROTO TiagoLeftArm [
       name "Left shoulder"
       boundingObject Group {
         children [
-          DEF SHOULDER_LEFT_SH1 Transform {
+          DEF SHOULDER_LEFT_SH1 Pose {
             translation 0.026 0.14 -0.232
             rotation 0 0 1 1.5708
             children [
@@ -593,7 +593,7 @@ PROTO TiagoLeftArm [
               }
             ]
           }
-          DEF SHOULDER_LEFT_SH2 Transform {
+          DEF SHOULDER_LEFT_SH2 Pose {
             translation 0.0256 0.1868 -0.2661
             rotation 0.129458216086738 -0.129443776708339 0.983099628196004 1.587825628968736
             children [
@@ -604,7 +604,7 @@ PROTO TiagoLeftArm [
             ]
             translationStep 0.001
           }
-          DEF SHOULDER_LEFT_SH3 Transform {
+          DEF SHOULDER_LEFT_SH3 Pose {
             translation 0.026 0.19 -0.221
             children [
               Cylinder {

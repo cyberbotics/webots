@@ -50,7 +50,7 @@ DEF ROBOT1 Robot {
       rotation 1 0 0 -1.5707953071795862
       scale 0.5 0.5 0.5
       children [
-        Transform {
+        Pose {
           translation 0 0.005 0
           rotation -0.5773488553723224 -0.5773509760969792 -0.577350976096979 -2.094397223120449
           children [
@@ -94,7 +94,7 @@ DEF ROBOT1 Robot {
           position -0.3 0
           radius 0.115
           children [
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance Appearance {
@@ -119,7 +119,7 @@ DEF ROBOT1 Robot {
           position 0.33 0
           radius 0.115
           children [
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance Appearance {
@@ -180,7 +180,7 @@ DEF ROBOT1 Robot {
       rotation 1 0 0 -1.5707953071795862
       scale 0.5 0.5 0.5
       children [
-        Transform {
+        Pose {
           translation 0 0.005 0
           rotation -0.5773488553723224 -0.5773509760969792 -0.577350976096979 -2.094397223120449
           children [

@@ -76,7 +76,7 @@ Robot {
   ]
   controller "normals"
 }
-DEF NORMAL_PER_VERTEX Transform {
+DEF NORMAL_PER_VERTEX Pose {
   translation 0 0.5 -3
   children [
     Shape {
@@ -109,7 +109,7 @@ DEF NORMAL_PER_VERTEX Transform {
     }
   ]
 }
-DEF CREASE_ANGLE Transform {
+DEF CREASE_ANGLE Pose {
   translation 0 -0.5 -3
   children [
     Shape {
@@ -132,7 +132,7 @@ DEF CREASE_ANGLE Transform {
     }
   ]
 }
-DEF NORMAL_PER_VERTEX_FLAT Transform {
+DEF NORMAL_PER_VERTEX_FLAT Pose {
   translation 0 0.5 0
   children [
     Shape {
@@ -162,7 +162,7 @@ DEF NORMAL_PER_VERTEX_FLAT Transform {
     }
   ]
 }
-DEF NORMAL_PER_FACE_FLAT Transform {
+DEF NORMAL_PER_FACE_FLAT Pose {
   translation 0 -0.5 0
   children [
     Shape {
@@ -193,7 +193,7 @@ DEF NORMAL_PER_FACE_FLAT Transform {
     }
   ]
 }
-DEF NO_NORMAL Transform {
+DEF NO_NORMAL Pose {
   translation 0 -1.5 0
   children [
     Shape {
@@ -215,14 +215,14 @@ DEF NO_NORMAL Transform {
     }
   ]
 }
-DEF NORMAL_PER_VERTEX Transform {
+DEF NORMAL_PER_VERTEX Pose {
   translation 0 0.5 3
   children [
     IndexedFaceSetWithNormals {
     }
   ]
 }
-DEF NORMAL_PER_FACE Transform {
+DEF NORMAL_PER_FACE Pose {
   translation 0 -0.5 3
   children [
     Shape {

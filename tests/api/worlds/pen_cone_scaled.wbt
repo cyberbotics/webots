@@ -24,7 +24,7 @@ DEF BOARD Transform {
   rotation 0.5688797850655958 0.8224206892726625 0 1.5708
   scale 2 2 2
   children [
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {

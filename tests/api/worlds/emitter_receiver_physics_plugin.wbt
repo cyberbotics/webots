@@ -18,7 +18,7 @@ Background {
 }
 DEF FLOOR Solid {
   children [
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {
@@ -60,10 +60,10 @@ DEF ROBOT_RADIO Robot {
     DEF EMITTER_RADIO Emitter {
       translation 0 0.11 0
       children [
-        Transform {
+        Pose {
           translation 0 -0.035 0
           children [
-            Transform {
+            Pose {
               rotation 1 0 0 -1.57079632679
               children [
                 Shape {
@@ -74,7 +74,7 @@ DEF ROBOT_RADIO Robot {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0 0.03 0
               children [
                 Shape {
@@ -98,10 +98,10 @@ DEF ROBOT_RADIO Robot {
     DEF EMITTER_INFRA-RED Emitter {
       translation 0 0.11 0
       children [
-        Transform {
+        Pose {
           translation 0 -0.035 0
           children [
-            Transform {
+            Pose {
               rotation 1 0 0 -1.57079632679
               children [
                 Shape {
@@ -112,7 +112,7 @@ DEF ROBOT_RADIO Robot {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0 0.03 0
               children [
                 Shape {
@@ -136,10 +136,10 @@ DEF ROBOT_RADIO Robot {
     DEF EMITTER_INFRA-RED_REDUCED Emitter {
       translation 0 0.11 0
       children [
-        Transform {
+        Pose {
           translation 0 -0.035 0
           children [
-            Transform {
+            Pose {
               rotation 1 0 0 -1.57079632679
               children [
                 Shape {
@@ -150,7 +150,7 @@ DEF ROBOT_RADIO Robot {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0 0.03 0
               children [
                 Shape {

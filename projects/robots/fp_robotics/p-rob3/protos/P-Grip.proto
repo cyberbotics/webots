@@ -79,7 +79,7 @@ PROTO P-Grip [
           translation 0 0 0.058
           rotation 1 0 0 0.343
           children [
-            DEF FINGER_SHAPE Transform {
+            DEF FINGER_SHAPE Pose {
               translation -0.0007002 0.0360533 -0.0141252
               rotation 0.5871667893278232 0.5572018000790946 0.5871637893288996 2.12488
               children [
@@ -143,7 +143,7 @@ PROTO P-Grip [
           contactMaterial "p-grip finger"
           boundingObject DEF FINGER_BO Group {
             children [
-              DEF FINGER_BOX_0 Transform {
+              DEF FINGER_BOX_0 Pose {
                 translation 0 0.0437334 0.0442707
                 rotation 1 0 0 -0.2879853071795866
                 children [
@@ -152,7 +152,7 @@ PROTO P-Grip [
                   }
                 ]
               }
-              DEF FINGER_BOX_1 Transform {
+              DEF FINGER_BOX_1 Pose {
                 translation 0 0.0561311 0.0865105
                 rotation 1 0 0 -0.3926996938995747
                 children [
@@ -161,7 +161,7 @@ PROTO P-Grip [
                   }
                 ]
               }
-              DEF FINGER_BOX_2 Transform {
+              DEF FINGER_BOX_2 Pose {
                 translation 0 0.0566597 0.105248
                 rotation 1 0 0 0.261798
                 children [
@@ -170,7 +170,7 @@ PROTO P-Grip [
                   }
                 ]
               }
-              DEF FINGER_BOX_3 Transform {
+              DEF FINGER_BOX_3 Pose {
                 translation 0 0.048226 0.127972
                 rotation -1 0 0 0.314166
                 children [
@@ -179,7 +179,7 @@ PROTO P-Grip [
                   }
                 ]
               }
-              DEF FINGER_BOX_4 Transform {
+              DEF FINGER_BOX_4 Pose {
                 translation 0 0.058726 0.127073
                 rotation 1 0 0 0.62831
                 children [
@@ -188,7 +188,7 @@ PROTO P-Grip [
                   }
                 ]
               }
-              DEF FINGER_BOX_5 Transform {
+              DEF FINGER_BOX_5 Pose {
                 translation 0 0.052619 0.121813
                 rotation 1 0 0 1.23045
                 children [
@@ -197,7 +197,7 @@ PROTO P-Grip [
                   }
                 ]
               }
-              DEF FINGER_BOX_6 Transform {
+              DEF FINGER_BOX_6 Pose {
                 translation 0 0.0673743 0.108562
                 rotation -1 0 0 -0.23558530717958615
                 children [
@@ -279,7 +279,7 @@ PROTO P-Grip [
     model IS model
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.026
           children [
             Sphere {
@@ -288,7 +288,7 @@ PROTO P-Grip [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 1.34683e-07 -0.014
           children [
             Cylinder {
