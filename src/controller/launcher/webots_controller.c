@@ -435,10 +435,16 @@ static void python_config_environment() {
 /*
 This function sets the environment variable for MATLAB controllers execution.
 
--It sets WEBOTS_PROJECT environment variable to the path of the project folder.
--Sets WEBOTS_CONTROLLER_NAME environment variable to the name of the controller.
--Determines Webots version from version.txt file contained in the Webots installation, and sets WEBOTS_VERSION environment
-variable to this version.
+- It sets WEBOTS_PROJECT environment variable to the path of the project folder.
+- It sets WEBOTS_CONTROLLER_NAME environment variable to the name of the controller.
+- It sets WEBOTS_CONTROLLER_ARGS environment variable to contain a list of all controller arguments.
+- It determines the Webots version from version.txt file contained in the Webots installation, and sets
+  WEBOTS_VERSION environment variable to this version.
+
+The function also includes the controller library directory in the relevant OS-specific environment variable:
+- For Windows it adds "WEBOTS_HOME\lib\controller;" to the Path environment variable.
+- For Linux, it adds "WEBOTS_HOME/lib/controller:" to LD_LIBRARY_PATH.
+- For macOS it adds "WEBOTS_HOME/Contents/lib/controller:" to DYLD_LIBRARY_PATH.
 */
 static void matlab_config_environment() {
   // Add project folder to WEBOTS_PROJECT env variable
@@ -491,19 +497,22 @@ static void matlab_config_environment() {
   sprintf(webots_version, "WEBOTS_VERSION=%s", version);
   putenv(webots_version);
 
-// Add libController to Path
+  // Add libController to Path
 #ifdef _WIN32
-  const size_t new_path_size = snprintf(NULL, 0, "Path=%s\\lib\\controller;%s", WEBOTS_HOME, getenv("Path")) + 1;
-  new_path = malloc(new_path_size);
-  sprintf(new_path, "Path=%s\\lib\\controller;%s", WEBOTS_HOME, getenv("Path"));
-  putenv(new_path);
+  const char *lib_controller = "\\lib\\controller;";
+  const char *path_env_variable = "Path";
+#elif defined __linux__
+  const char *lib_controller = "/lib/controller:";
+  const char *path_env_variable = "LD_LIBRARY_PATH";
 #elif defined __APPLE__
-  const size_t new_ld_path_size =
-    snprintf(NULL, 0, "DYLD_LIBRARY_PATH=%s/Contents/lib/controller:%s", WEBOTS_HOME, getenv("DYLD_LIBRARY_PATH")) + 1;
-  new_ld_path = malloc(new_ld_path_size);
-  sprintf(new_ld_path, "DYLD_LIBRARY_PATH=%s/Contents/lib/controller:%s", WEBOTS_HOME, getenv("DYLD_LIBRARY_PATH"));
-  putenv(new_ld_path);
+  const char *lib_controller = "/Contents/lib/controller:";
+  const char *path_env_variable = "DYLD_LIBRARY_PATH";
 #endif
+  const size_t new_path_size =
+    snprintf(NULL, 0, "%s=%s%s%s", path_env_variable, WEBOTS_HOME, lib_controller, getenv(path_env_variable)) + 1;
+  new_path = malloc(new_path_size);
+  sprintf(new_path, "%s=%s%s%s", path_env_variable, WEBOTS_HOME, lib_controller, getenv(path_env_variable));
+  putenv(new_path);
 }
 
 // Replace all environment variables in the string ('$(ENV)' syntax) by its content
