@@ -296,7 +296,7 @@ Robot {
     }
     DEF SMILE Transform {
       translation 0.036 0 0.025
-      rotation 0 0 1 -0.5007953071795859
+      rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
         Shape {
           appearance PBRAppearance {
