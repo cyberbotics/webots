@@ -42,6 +42,8 @@
 #include <cmath>
 #include <limits>
 
+#include <QtCore/QDebug>
+
 void WbCylinder::init() {
   mBottom = findSFBool("bottom");
   mRadius = findSFDouble("radius");
@@ -448,11 +450,11 @@ double WbCylinder::computeDistance(const WbRay &ray) const {
 double WbCylinder::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, const WbRay &ray) const {
   WbVector3 direction(ray.direction());
   WbVector3 origin(ray.origin());
-  const WbTransform *const ut = dynamic_cast<const WbTransform *const>(upperPose());
-  if (ut) {
-    direction = ray.direction() * ut->matrix();
+  const WbPose *const up = upperPose();
+  if (up) {
+    direction = ray.direction() * up->matrix();
     direction.normalize();
-    origin = ut->matrix().pseudoInversed(ray.origin());
+    origin = up->matrix().pseudoInversed(ray.origin());
     origin /= absoluteScale();
   }
 

@@ -540,10 +540,10 @@ double WbElevationGrid::computeLocalCollisionPoint(const WbRay &ray, WbVector3 &
   mHeight->copyItemsTo(data, size);
 
   WbRay localRay(ray);
-  const WbTransform *const ut = dynamic_cast<const WbTransform *const>(upperPose());
-  if (ut) {
-    localRay.setDirection(ray.direction() * ut->matrix());
-    WbVector3 origin = ut->matrix().pseudoInversed(ray.origin());
+  const WbPose *const up = upperPose();
+  if (up) {
+    localRay.setDirection(ray.direction() * up->matrix());
+    WbVector3 origin = up->matrix().pseudoInversed(ray.origin());
     origin /= absoluteScale();
     localRay.setOrigin(origin);
     localRay.normalize();

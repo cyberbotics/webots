@@ -42,6 +42,8 @@
 
 #include <cmath>
 
+#include <QtCore/QDebug>
+
 void WbSphere::init() {
   mRadius = findSFDouble("radius");
   mSubdivision = findSFInt("subdivision");

@@ -372,7 +372,7 @@ double WbBox::computeDistance(const WbRay &ray) const {
 
 double WbBox::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, const WbRay &ray) const {
   WbRay localRay(ray);
-  const WbPose *pose = upperPose();
+  const WbPose *const pose = upperPose();
   if (pose) {
     localRay.setDirection(ray.direction() * pose->matrix());
     WbVector3 origin = pose->matrix().pseudoInversed(ray.origin());
