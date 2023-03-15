@@ -339,7 +339,6 @@ export default class WbCadShape extends WbBaseNode {
       sphere[3] = Module.getValue(spherePointer + 12, 'float');
 
       const center = new WbVector3(sphere[0], sphere[1], sphere[2]);
-      radius = radius / Math.max(Math.max(scale.x, scale.y), scale.z);
       this.#boundingSphere.set(center, sphere[3]);
     }
   }
