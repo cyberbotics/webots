@@ -70,7 +70,7 @@ export default class WbSphere extends WbGeometry {
   }
 
   recomputeBoundingSphere() {
-    this._boundingSphere.set(new WbVector3(), this.scaledRadius());
+    this._boundingSphere.set(new WbVector3(), this.#radius);
   }
 
   scaledRadius() {
