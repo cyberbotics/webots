@@ -554,15 +554,12 @@ void WbCadShape::recomputeBoundingSphere() const {
   assert(mBoundingSphere);
   mBoundingSphere->empty();
 
-  const WbVector3 &scale = absoluteScale();
   for (WrStaticMesh *mesh : mWrenMeshes) {
     float sphere[4];
     wr_static_mesh_get_bounding_sphere(mesh, sphere);
 
     const WbVector3 center(sphere[0], sphere[1], sphere[2]);
-    double radius = sphere[3];
-    radius = radius / std::max(std::max(scale.x(), scale.y()), scale.z());
-    const WbBoundingSphere meshBoundingSphere(NULL, center, radius);
+    const WbBoundingSphere meshBoundingSphere(NULL, center, sphere[3]);
     mBoundingSphere->enclose(&meshBoundingSphere);
   }
 }
