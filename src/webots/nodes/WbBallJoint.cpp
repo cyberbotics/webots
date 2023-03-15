@@ -444,6 +444,7 @@ void WbBallJoint::postFinalize() {
   if (p3 && !p3->isPostFinalizedCalled())
     p3->postFinalize();
 
+  connect(mDevice3, &WbMFNode::itemChanged, this, &WbBallJoint::addDevice3);
   connect(mDevice3, &WbMFNode::itemInserted, this, &WbBallJoint::addDevice3);
   connect(mParameters3, &WbSFNode::changed, this, &WbBallJoint::updateParameters);
   if (p)

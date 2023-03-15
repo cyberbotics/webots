@@ -159,11 +159,6 @@ resources/images/splash_images/
 resources/images/splash_images/*.jpg
 resources/images/themes/
 resources/images/themes/*.png
-resources/javascript/
-resources/javascript/jsTemplate.js
-resources/javascript/modules/
-resources/javascript/modules/webots/
-resources/javascript/modules/webots/*.js
 resources/lua/
 resources/lua/liluat/
 resources/lua/modules/
@@ -254,6 +249,14 @@ resources/web/streaming_viewer/style.css
 resources/web/templates/
 resources/web/templates/x3d_playback.html
 resources/web/templates/x3d_playback.css
+resources/web/wwi/
+resources/web/wwi/protoVisualizer/
+resources/web/wwi/protoVisualizer/*.js
+resources/web/wwi/protoVisualizer/templating/
+resources/web/wwi/protoVisualizer/templating/jsTemplate.js
+resources/web/wwi/protoVisualizer/templating/modules/
+resources/web/wwi/protoVisualizer/templating/modules/webots/
+resources/web/wwi/protoVisualizer/templating/modules/webots/*.js
 resources/wren/
 resources/wren/meshes/
 resources/wren/meshes/*.obj
@@ -293,6 +296,7 @@ src/controller/matlab/
 src/controller/matlab/mgenerate.py
 
 webots [exe,linux] # on Windows, we create a shortcut in setup.iss, on macOS, we create it in mac_distro.py
+webots-controller [linux]
 bin/webots-bin [linux]
 bin/qt.conf [linux]
 
@@ -468,6 +472,7 @@ Contents/Frameworks/QtXml.framework/Versions/A/Resources/Info.plist [mac]
 Contents/Info.plist [mac]
 Contents/MacOS/ [mac]
 Contents/MacOS/webots [exe,mac]
+Contents/MacOS/webots-controller [exe,mac]
 Contents/Resources/ [mac]
 Contents/Resources/qt.conf [mac]
 Contents/Resources/webots.rsrc [mac]
