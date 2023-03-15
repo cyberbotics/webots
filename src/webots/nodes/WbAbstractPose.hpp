@@ -123,6 +123,8 @@ protected:
   // WREN objects and methods
   virtual void deleteWrenObjects();
   WbBaseNode *mBaseNode;
+  mutable WbMatrix4 *mMatrix;
+  mutable bool mMatrixNeedUpdate;
 
 private:
   mutable bool mIsTranslationFieldVisible;
@@ -134,10 +136,8 @@ private:
   void updateTranslationFieldVisibility() const;
   void updateRotationFieldVisibility() const;
 
-  void updateMatrix() const;
-  mutable WbMatrix4 *mMatrix;
+  virtual void updateMatrix() const;
   mutable WbMatrix4 mVrmlMatrix;
-  mutable bool mMatrixNeedUpdate;
   mutable bool mVrmlMatrixNeedUpdate;
   mutable bool mHasSearchedTopPose;
   mutable bool mIsTopPose;

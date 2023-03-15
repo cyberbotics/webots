@@ -38,6 +38,8 @@
 #include <ode/ode.h>
 #include <cmath>
 
+#include <QtCore/QDebug>
+
 void WbCapsule::init() {
   mBottom = findSFBool("bottom");
   mRadius = findSFDouble("radius");
@@ -431,9 +433,10 @@ double WbCapsule::computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray)
   WbVector3 origin(ray.origin());
   const WbPose *const up = upperPose();
   if (up) {
-    direction = ray.direction() * up->matrix();
+    const WbTransform *const ut = dynamic_cast<const WbTransform *const>(up);
+    direction = ray.direction() * (ut ? ut->matrix() : up->matrix());
     direction.normalize();
-    origin = up->matrix().pseudoInversed(ray.origin());
+    origin = ut ? ut->matrix().pseudoInversed(ray.origin()) : up->matrix().pseudoInversed(ray.origin());
     origin /= absoluteScale();
   }
 

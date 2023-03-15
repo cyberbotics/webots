@@ -21,6 +21,7 @@
 #include "WbNodeUtilities.hpp"
 #include "WbPose.hpp"
 #include "WbSimulationState.hpp"
+#include "WbTransform.hpp"
 #include "WbTranslateRotateManipulator.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 
@@ -202,9 +203,11 @@ void WbAbstractPose::updateMatrix() const {
                     mRotation->angle(), 1, 1, 1);
 
   // multiply with upper matrix if any
-  WbAbstractPose *pose = mBaseNode->upperPose();
-  if (pose)
-    *mMatrix = pose->matrix() * *mMatrix;
+  const WbPose *pose = mBaseNode->upperPose();
+  if (pose) {
+    const WbTransform *const transform = dynamic_cast<const WbTransform *const>(pose);
+    *mMatrix = transform ? transform->matrix() * *mMatrix : pose->matrix() * *mMatrix;
+  }
   mMatrixNeedUpdate = false;
 }
 

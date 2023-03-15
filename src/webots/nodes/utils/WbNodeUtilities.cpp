@@ -1176,7 +1176,6 @@ const WbShape *WbNodeUtilities::findIntersectingShape(const WbRay &ray, double m
     if (bs == NULL)
       continue;
     WbBoundingSphere::IntersectingShape res = bs->computeIntersection(ray, timeStep);
-    qDebug() << "A" << res.shape << (res.distance < distance) << (res.distance > minDistance);
     if (res.shape != NULL && res.distance < distance && res.distance > minDistance) {
       distance = res.distance;
       shape = res.shape;

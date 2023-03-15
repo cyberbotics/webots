@@ -101,6 +101,7 @@ private:
   void applyToOdeScale();
 
   void updateAbsoluteScale() const;
+  void updateMatrix() const override;
 
   mutable bool mAbsoluteScaleNeedUpdate;
 

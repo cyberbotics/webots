@@ -356,6 +356,21 @@ bool WbTransform::hasResizeManipulator() const {
   return WbVrmlNodeUtilities::isVisible(sf) && !WbNodeUtilities::isTemplateRegeneratorField(sf);
 }
 
+void WbTransform::updateMatrix() const {
+  assert(mMatrix);
+
+  mMatrix->fromVrml(mTranslation->x(), mTranslation->y(), mTranslation->z(), mRotation->x(), mRotation->y(), mRotation->z(),
+                    mRotation->angle(), mScale->x(), mScale->y(), mScale->z());
+
+  // multiply with upper matrix if any
+  const WbPose *pose = mBaseNode->upperPose();
+  if (pose) {
+    const WbTransform *transform = dynamic_cast<const WbTransform *>(pose);
+    *mMatrix = transform ? transform->matrix() * *mMatrix : pose->matrix() * *mMatrix;
+  }
+  mMatrixNeedUpdate = false;
+}
+
 void WbTransform::setUniformConstraintForResizeHandles(bool enabled) {
   createScaleManipulatorIfNeeded();
 
