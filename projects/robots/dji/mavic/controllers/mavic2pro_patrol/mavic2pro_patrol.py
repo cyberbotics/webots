@@ -110,7 +110,6 @@ class Mavic (Robot):
             if verbose_target:
                 print("Target reached! New target: ",
                       self.target_position[0:2])
-                self.target_altitude = 0
 
         # This will be in ]-pi;pi]
         self.target_position[2] = np.arctan2(
