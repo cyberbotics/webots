@@ -1895,7 +1895,7 @@ void WbSolid::applyPhysicsTransform() {
     result[1] = prel[1];
     result[2] = prel[2];
     // printf("result = %f, %f, %f (apply phy.))\n", result[0], result[1], result[2]);
-    // find rotation difference between upper transform and solid child
+    // find rotation difference between upper pose and solid child
     const WbQuaternion &q = upm.extractedQuaternion();
     dQMultiply1(qr, q.ptr(), dBodyGetQuaternion(b));
   }
