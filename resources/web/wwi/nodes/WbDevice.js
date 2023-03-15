@@ -57,7 +57,7 @@ export default class WbDevice extends WbSolid {
     }
 
     currentNode.postFinalize();
-    let boundingSphere = currentNode.boundingSphere();
+    const boundingSphere = currentNode.boundingSphere();
     boundingSphere.recomputeIfNeeded();
     const radiusScale = boundingSphere.computeSphereInGlobalCoordinates()[1];
     this.#transform = _wr_transform_new();
