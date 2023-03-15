@@ -23,6 +23,7 @@
 class WbAffinePlane;
 class WbBaseNode;
 class WbSolid;
+class WbOdeGeomData;
 
 class WbObjectDetection {
 public:
@@ -33,14 +34,15 @@ public:
 
   bool hasCollided() const;
   WbSolid *device() const { return mDevice; }
-  dGeomID geom() const { return mGeom; }
+  const QList<dGeomID> &geoms() const { return mRayGeoms; }
+  bool contains(dGeomID rayGeom) const { return mRayGeoms.contains(rayGeom); }
   WbSolid *object() const { return mObject; }
   const WbVector3 &objectSize() const { return mObjectSize; }
   const WbVector3 &objectRelativePosition() const { return mObjectRelativePosition; }
 
-  void setCollided(double depth);
+  void setCollided(dGeomID geom, double depth);
 
-  void deleteRay();
+  void deleteRays();
 
   // Recomputes ray position and direction and returns if the current ray is valid or can be removed.
   bool recomputeRayDirection(const WbAffinePlane *frustumPlanes);
@@ -51,6 +53,9 @@ public:
   // Computes the frustum plane for the given device ray.
   static WbAffinePlane *computeFrustumPlanes(const WbSolid *device, const double verticalFieldOfView,
                                              const double horizontalFieldOfView, const double maxRange);
+
+  // Return corners of the bounding box/sphere of the object
+  QList<WbVector3> computeCorners() const;
 
 private:
   static void mergeBounds(WbVector3 &referenceObjectSize, WbVector3 &referenceObjectRelativePosition,
@@ -72,13 +77,19 @@ private:
   bool recursivelyCheckIfWithinBounds(WbSolid *solid, bool boundsInitialized, const WbAffinePlane *frustumPlanes);
   virtual double distance() = 0;
 
+  void createRays(const WbVector3 &devicePosition, const QList<WbVector3> &directions, const WbVector3 &offset);
+  void updateRayDirection();
+
   WbSolid *mDevice;
+  WbSolid *mObject;
   WbVector3 mObjectRelativePosition;
   WbVector3 mObjectSize;
-  WbSolid *mObject;
+  bool mNeedToCheckCollision;
+  bool mUseBoundingSphereOnly;  // used by WbCamera recognition functionality to compute a more tight fitting bounding box
   double mMaxRange;
-  double mCollisionDepth;  // the geom collision depth
-  dGeomID mGeom;           // geom that checks collision of this packet
+  WbOdeGeomData *mOdeGeomData;
+  QList<double> mRaysCollisionDepth;  // rays collision depth
+  QList<dGeomID> mRayGeoms;           // rays that checks collision of this packet
 };
 
 #endif

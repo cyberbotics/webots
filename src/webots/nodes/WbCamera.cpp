@@ -415,7 +415,7 @@ void WbCamera::prePhysicsStep(double ms) {
   } else if (mNeedToDeleteRecognizedObjectsRays) {
     // we can destroy the ray because we don't need it anymore
     foreach (WbRecognizedObject *recognizedObject, mRecognizedObjects)
-      recognizedObject->deleteRay();
+      recognizedObject->deleteRays();
     mNeedToDeleteRecognizedObjectsRays = false;
   }
 
@@ -425,9 +425,11 @@ void WbCamera::prePhysicsStep(double ms) {
     computeRecognizedObjects(false, true);
     mNeedToDeleteRecognizedObjectsRays = true;
 
-    if (!mRecognizedObjects.isEmpty())
-      // camera or object could move during physics step
-      subscribeToRaysUpdate(mRecognizedObjects[0]->geom());
+    if (!mRecognizedObjects.isEmpty()) {
+      const QList<dGeomID> &rays = mRecognizedObjects[0]->geoms();
+      if (!rays.isEmpty())
+        subscribeToRaysUpdate(rays.first());
+    }
   }
 }
 
@@ -482,10 +484,10 @@ void WbCamera::updateRaysSetupIfNeeded() {
 void WbCamera::rayCollisionCallback(dGeomID geom, WbSolid *collidingSolid, double depth) {
   foreach (WbRecognizedObject *recognizedObject, mRecognizedObjects) {
     // check if this object is the one that collides
-    if (recognizedObject->geom() == geom) {
+    if (recognizedObject->contains(geom)) {
       // make sure the colliding solid is not the target itself (or a sub-part)
       if (recognizedObject->object() != collidingSolid && !recognizedObject->object()->solidChildren().contains(collidingSolid))
-        recognizedObject->setCollided(depth);
+        recognizedObject->setCollided(geom, depth);
       return;
     }
   }
@@ -753,24 +755,13 @@ bool WbCamera::setRecognizedObjectProperties(WbRecognizedObject *recognizedObjec
   recognizedObject->setModel(recognizedObject->object()->model());
 
   // compute position and size in the camera image
-  const WbVector3 objectSize = recognizedObject->objectSize();
-  const WbVector2 centerPosition = projectOnImage(recognizedObject->objectRelativePosition());
-  double minU = centerPosition.x();
-  double minV = centerPosition.y();
-  double maxU = centerPosition.x();
-  double maxV = centerPosition.y();
-  const WbVector3 corners[8] = {
-    // corners of the bounding box of the object in the camera referential
-    recognizedObject->objectRelativePosition() + 0.5 * WbVector3(objectSize.x(), objectSize.y(), objectSize.z()),
-    recognizedObject->objectRelativePosition() + 0.5 * WbVector3(-objectSize.x(), objectSize.y(), objectSize.z()),
-    recognizedObject->objectRelativePosition() + 0.5 * WbVector3(objectSize.x(), -objectSize.y(), objectSize.z()),
-    recognizedObject->objectRelativePosition() + 0.5 * WbVector3(-objectSize.x(), -objectSize.y(), objectSize.z()),
-    recognizedObject->objectRelativePosition() + 0.5 * WbVector3(objectSize.x(), objectSize.y(), -objectSize.z()),
-    recognizedObject->objectRelativePosition() + 0.5 * WbVector3(-objectSize.x(), objectSize.y(), -objectSize.z()),
-    recognizedObject->objectRelativePosition() + 0.5 * WbVector3(objectSize.x(), -objectSize.y(), -objectSize.z()),
-    recognizedObject->objectRelativePosition() + 0.5 * WbVector3(-objectSize.x(), -objectSize.y(), -objectSize.z())};
-  for (int i = 0; i < 8; ++i) {  // project each of the corners in the camera image
-    const WbVector2 &positionOnImage = projectOnImage(corners[i]);
+  double minU = width();
+  double minV = height();
+  double maxU = 0;
+  double maxV = 0;
+  QListIterator<WbVector3> cornerIt(recognizedObject->computeCorners());
+  while (cornerIt.hasNext()) {  // project each of the corners in the camera image
+    const WbVector2 &positionOnImage = projectOnImage(recognizedObject->objectRelativePosition() + cornerIt.next());
     if (positionOnImage.x() < minU)
       minU = positionOnImage.x();
     if (positionOnImage.y() < minV)

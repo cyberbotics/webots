@@ -29,62 +29,86 @@
 
 WbObjectDetection::WbObjectDetection(WbSolid *device, WbSolid *object, bool needToCheckCollision, double maxRange) :
   mDevice(device),
+  mObject(object),
   mObjectRelativePosition(0.0, 0.0, 0.0),
   mObjectSize(0.0, 0.0, 0.0),
-  mObject(object),
+  mNeedToCheckCollision(needToCheckCollision),
+  mUseBoundingSphereOnly(true),
   mMaxRange(maxRange),
-  mCollisionDepth(0.0),
-  mGeom(NULL) {
-  if (needToCheckCollision) {
-    assert(device);
-
-    // setup ray geom for ODE collision detection
-    const WbVector3 devicePosition = mDevice->position();
-    const WbVector3 direction = object->position() - devicePosition;
-    mGeom = dCreateRay(WbOdeContext::instance()->space(), direction.length());
-    dGeomSetDynamicFlag(mGeom);
-    dGeomRaySet(mGeom, devicePosition.x(), devicePosition.y(), devicePosition.z(), direction.x(), direction.y(), direction.z());
-    dGeomRaySetLength(mGeom, direction.length());
-
-    // set device as callback data in case there is a collision
-    dGeomSetData(mGeom, new WbOdeGeomData(mDevice));
-  }
-};
+  mOdeGeomData(NULL){};
 
 WbObjectDetection::~WbObjectDetection() {
-  deleteRay();
+  deleteRays();
 }
 
 bool WbObjectDetection::hasCollided() const {
-  return mCollisionDepth > 0.5 * mObjectSize.x();
+  assert(!mRaysCollisionDepth.isEmpty());
+  for (int i = 0; i < mRaysCollisionDepth.size(); i++) {
+    if (mRaysCollisionDepth[i] <= 0.5 * mObjectSize[int(0.5 * i)])
+      return false;
+  }
+  return true;
 }
 
-void WbObjectDetection::deleteRay() {
-  if (mGeom) {
-    WbOdeGeomData *odeGeomData = static_cast<WbOdeGeomData *>(dGeomGetData(mGeom));
-    delete odeGeomData;
-    dGeomDestroy(mGeom);
-    mGeom = NULL;
+void WbObjectDetection::createRays(const WbVector3 &origin, const QList<WbVector3> &directions, const WbVector3 &offset) {
+  if (!mOdeGeomData)
+    mOdeGeomData = new WbOdeGeomData(mDevice);
+
+  QListIterator<WbVector3> it(directions);
+  while (it.hasNext()) {
+    WbVector3 dir = it.next() + offset;
+    dGeomID geom = dCreateRay(WbOdeContext::instance()->space(), dir.length());
+    dGeomSetDynamicFlag(geom);
+    dGeomRaySet(geom, origin.x(), origin.y(), origin.z(), dir.x(), dir.y(), dir.z());
+    dGeomRaySetLength(geom, dir.length());
+
+    // set device as callback data in case there is a collision
+    dGeomSetData(geom, mOdeGeomData);
+    mRayGeoms << geom;
+    mRaysCollisionDepth << 0.0;
+    return;
   }
 }
 
-void WbObjectDetection::setCollided(double depth) {
-  const double d = dGeomRayGetLength(mGeom) - depth;
-  if (mCollisionDepth < d)
-    mCollisionDepth = d;
+void WbObjectDetection::deleteRays() {
+  delete mOdeGeomData;
+  mOdeGeomData = NULL;
+  for (int i = 0; i < mRayGeoms.size(); i++)
+    dGeomDestroy(mRayGeoms[i]);
+  mRayGeoms.clear();
+  mRaysCollisionDepth.clear();
+}
+
+void WbObjectDetection::setCollided(dGeomID rayGeom, double depth) {
+  const int index = mRayGeoms.indexOf(rayGeom);
+  assert(index >= 0);
+  const double d = dGeomRayGetLength(rayGeom) - depth;
+  if (mRaysCollisionDepth[index] < d)
+    mRaysCollisionDepth[index] = d;
+}
+
+void WbObjectDetection::updateRayDirection() {
+  const WbVector3 &devicePosition = mDevice->position();
+  const WbVector3 offset = mObject->position() - devicePosition;
+  QList<WbVector3> directions = computeCorners();
+  if (directions.size() != mRayGeoms.size()) {
+    deleteRays();
+    createRays(devicePosition, directions, offset);
+  } else {
+    for (int i = 0; i < 1; ++i) {
+      const WbVector3 dir = directions[i] + offset;
+      dGeomRaySet(mRayGeoms[i], devicePosition.x(), devicePosition.y(), devicePosition.z(), dir.x(), dir.y(), dir.z());
+      dGeomRaySetLength(mRayGeoms[i], dir.length());
+    }
+  }
 }
 
 bool WbObjectDetection::recomputeRayDirection(const WbAffinePlane *frustumPlanes) {
-  assert(mGeom);
   mObject->updateTransformForPhysicsStep();
   if (!isContainedInFrustum(frustumPlanes))
     return false;
 
-  // recompute ray properties
-  const WbVector3 devicePosition = mDevice->position();
-  const WbVector3 direction = mObject->position() - devicePosition;
-  dGeomRaySet(mGeom, devicePosition.x(), devicePosition.y(), devicePosition.z(), direction.x(), direction.y(), direction.z());
-  dGeomRaySetLength(mGeom, direction.length());
+  updateRayDirection();
   return true;
 }
 
@@ -266,6 +290,7 @@ bool WbObjectDetection::isWithinBounds(const WbAffinePlane *frustumPlanes, const
     objectSize.setX(maxX - minX);
     objectSize.setY(maxY - minY);
     objectSize.setZ(maxZ - minZ);
+    mUseBoundingSphereOnly = false;
   } else if (useBoundingSphere ||
              (boundingObject && (nodeType == WB_NODE_SPHERE || nodeType == WB_NODE_CYLINDER || nodeType == WB_NODE_CAPSULE))) {
     double outsidePart[4] = {0.0, 0.0, 0.0, 0.0};
@@ -311,6 +336,7 @@ bool WbObjectDetection::isWithinBounds(const WbAffinePlane *frustumPlanes, const
         const double zRange =
           fabs(rotation(2, 2) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(2, 2) * rotation(2, 2)));
         objectSize = WbVector3(xRange, yRange, zRange);
+        mUseBoundingSphereOnly = false;
       }
     }
     // check distance between center and frustum planes
@@ -349,12 +375,15 @@ bool WbObjectDetection::recursivelyCheckIfWithinBounds(WbSolid *solid, bool boun
 
 bool WbObjectDetection::isContainedInFrustum(const WbAffinePlane *frustumPlanes) {
   assert(mObject);
+  const bool useBoundingSphereOnly = mUseBoundingSphereOnly;
   if (!recursivelyCheckIfWithinBounds(mObject, false, frustumPlanes))
     return false;
   // check distance
   if (distance() > (mMaxRange + mObjectSize.x() / 2.0))
     return false;
 
+  if (mNeedToCheckCollision && (mRayGeoms.isEmpty() || useBoundingSphereOnly != mUseBoundingSphereOnly))
+    updateRayDirection();
   return true;
 }
 
@@ -379,4 +408,28 @@ WbAffinePlane *WbObjectDetection::computeFrustumPlanes(const WbSolid *device, co
   for (int i = 0; i < PLANE_NUMBER; ++i)
     planes[i].normalize();
   return planes;
+}
+
+QList<WbVector3> WbObjectDetection::computeCorners() const {
+  QList<WbVector3> points;
+  points << (WbVector3(0, 0, 0));  // center
+  WbVector3 size = 0.5 * mObjectSize;
+  if (mUseBoundingSphereOnly) {  // 7 rays for bounding sphere
+    points << (WbVector3(size.x(), 0, 0));
+    points << (WbVector3(-size.x(), 0, 0));
+    points << (WbVector3(0, size.y(), 0));
+    points << (WbVector3(0, -size.y(), 0));
+    points << (WbVector3(0, 0, size.z()));
+    points << (WbVector3(0, 0, -size.z()));
+  } else {  // 9 rays for bounding box
+    points << (WbVector3(size.x(), size.y(), size.z()));
+    points << (WbVector3(-size.x(), size.y(), size.z()));
+    points << (WbVector3(size.x(), -size.y(), size.z()));
+    points << (WbVector3(-size.x(), -size.y(), size.z()));
+    points << (WbVector3(size.x(), size.y(), -size.z()));
+    points << (WbVector3(-size.x(), size.y(), -size.z()));
+    points << (WbVector3(size.x(), -size.y(), -size.z()));
+    points << (WbVector3(-size.x(), -size.y(), -size.z()));
+  }
+  return points;
 }

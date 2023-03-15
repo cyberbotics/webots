@@ -302,9 +302,12 @@ void WbRadar::prePhysicsStep(double ms) {
     // create rays
     computeTargets(false, true);
 
-    if (!mRadarTargets.isEmpty())
+    if (!mRadarTargets.isEmpty()) {
       // radar or targets could move during physics step
-      subscribeToRaysUpdate(mRadarTargets[0]->geom());
+      const QList<dGeomID> &rays = mRadarTargets[0]->geoms();
+      if (!rays.isEmpty())
+        subscribeToRaysUpdate(rays.first());
+    }
   }
 }
 
@@ -343,10 +346,10 @@ void WbRadar::updateRaysSetupIfNeeded() {
 void WbRadar::rayCollisionCallback(dGeomID geom, WbSolid *collidingSolid, double depth) {
   foreach (WbRadarTarget *target, mRadarTargets) {
     // check if this target is the one that collides
-    if (target->geom() == geom) {
+    if (target->contains(geom)) {
       // make sure the colliding solid is not the target itself
       if (target->object() != collidingSolid && !target->object()->solidChildren().contains(collidingSolid))
-        target->setCollided(depth);
+        target->setCollided(geom, depth);
       return;
     }
   }
