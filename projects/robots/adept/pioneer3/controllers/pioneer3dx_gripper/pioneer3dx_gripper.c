@@ -28,7 +28,7 @@
 #define GRIPPER_MOTOR_MAX_SPEED 0.1
 
 static WbDeviceTag wheel_motors[3];
-static WbDeviceTag gripper_motors[3];
+static WbDeviceTag gripper_motors[2];
 static int time_step = 0;
 
 static void initialize() {
@@ -38,8 +38,7 @@ static void initialize() {
   time_step = wb_robot_get_basic_time_step();
 
   gripper_motors[0] = wb_robot_get_device("lift motor");
-  gripper_motors[1] = wb_robot_get_device("left finger motor");
-  gripper_motors[2] = wb_robot_get_device("right finger motor");
+  gripper_motors[1] = wb_robot_get_device("finger motor::left");
   wheel_motors[0] = wb_robot_get_device("left wheel");
   wheel_motors[1] = wb_robot_get_device("right wheel");
   // Specify velocity control mode
@@ -65,9 +64,7 @@ void lift(double position) {
 
 void moveFingers(double position) {
   wb_motor_set_velocity(gripper_motors[1], GRIPPER_MOTOR_MAX_SPEED);
-  wb_motor_set_velocity(gripper_motors[2], GRIPPER_MOTOR_MAX_SPEED);
   wb_motor_set_position(gripper_motors[1], position);
-  wb_motor_set_position(gripper_motors[2], position);
 }
 
 void moveForwards(double speed) {

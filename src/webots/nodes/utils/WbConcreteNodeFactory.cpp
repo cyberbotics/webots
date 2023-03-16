@@ -307,7 +307,7 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
   WbNode *protoInstance =
     WbNode::createProtoInstance(model, tokenizer, WbWorld::instance() ? WbWorld::instance()->fileName() : "");
   if (protoInstance)
-    WbTemplateManager::instance()->subscribe(protoInstance);
+    WbTemplateManager::instance()->subscribe(protoInstance, false);
 
   WbNodeUtilities::fixBackwardCompatibility(protoInstance);
 
