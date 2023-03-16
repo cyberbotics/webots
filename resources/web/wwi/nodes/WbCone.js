@@ -94,15 +94,15 @@ export default class WbCone extends WbGeometry {
   }
 
   recomputeBoundingSphere() {
-    const r = this.scaledBottomRadius();
-    const h = this.scaledHeight();
+    const r = this.#bottomRadius;
+    const h = this.#height;
     const halfHeight = h / 2.0;
 
     if (!this.#side || h <= r) // consider it as disk
-      this._boundingSphere.set(new WbVector3(0, -halfHeight, 0), r);
+      this._boundingSphere.set(new WbVector3(0, 0, -halfHeight), r);
     else {
       const newRadius = halfHeight + r * r / (2 * h);
-      this._boundingSphere.set(new WbVector3(0, halfHeight - newRadius, 0), newRadius);
+      this._boundingSphere.set(new WbVector3(0, 0, halfHeight - newRadius), newRadius);
     }
   }
 
