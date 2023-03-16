@@ -109,14 +109,14 @@ export default class WbCylinder extends WbGeometry {
   }
 
   recomputeBoundingSphere() {
-    const halfHeight = this.scaledHeight() / 2;
-    const r = this.scaledRadius();
+    const halfHeight = this.#height / 2;
+    const r = this.#radius;
 
     if (this.#top + this.#side + this.#bottom === 0) // it is empty
       this._boundingSphere.empty();
     else if (this.#top + this.#side + this.#bottom === 1 && !this.#side) { // just one disk
       const center = this.#top ? halfHeight : -halfHeight;
-      this._boundingSphere.set(new WbVector3(0, center, 0), r);
+      this._boundingSphere.set(new WbVector3(0, 0, center), r);
     } else
       this._boundingSphere.set(new WbVector3(), new WbVector3(r, halfHeight, 0).length());
   }

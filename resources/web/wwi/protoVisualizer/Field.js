@@ -71,6 +71,11 @@ export default class Field {
     if (this.type !== VRML.MFNode)
       throw new Error('Item insertion is possible only for MFNodes.');
 
+    if (this.isTemplateRegenerator) {
+      this.regenerate(view, v, index);
+      return;
+    }
+
     this.value.insertNode(v, index, this);
 
     for (const link of this.linksToNotify()) {
@@ -88,6 +93,11 @@ export default class Field {
   removeNode(view, index) {
     if (this.type !== VRML.MFNode)
       throw new Error('Item insertion is possible only for MFNodes.');
+
+    if (this.isTemplateRegenerator) {
+      this.regenerate(view, undefined, index);
+      return;
+    }
 
     const links = this.linksToNotify();
     const idsToDelete = new Set();
@@ -110,33 +120,7 @@ export default class Field {
 
   setValueFromJavaScript(view, v) {
     if (this.isTemplateRegenerator) {
-      const parentIds = new Set();
-      for (const id of this.node.getBaseNodeIds()) {
-        const jsNode = WbWorld.instance.nodes.get(id);
-        parentIds.add(jsNode.parent);
-        view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
-      }
-
-      // now that the nodes have been deleted on the webotsjs side, the corresponding ids need to be cleared in the structure
-      this.node.resetIds();
-
-      // update the parameter value (note: all IS instances refer to the parameter itself, so they don't need to change)
-      this.value.setValueFromJavaScript(v);
-      this.node.createBaseType(); // regenerate the base type
-
-      this.node.resetRefs(); // reset the instance counters
-      const promises = [];
-      // insert the new node on the webotsjs side
-      for (const id of parentIds) {
-        // note: there must be as many id assignments as there are parents, this is because on the webotsjs side the instances
-        // need to be distinguishable, so each "IS" needs to notify webotsjs and provide a unique variant of the x3d
-        // (with unique ids) for each node
-        this.node.assignId();
-        const x3d = new XMLSerializer().serializeToString(this.node.toX3d(this));
-        promises.push(view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', id.replace('n', '')));
-      }
-
-      Promise.all(promises).then(() => view.x3dScene.render());
+      this.regenerate(view, v);
       return;
     }
 
@@ -189,6 +173,42 @@ export default class Field {
     }
 
     view.x3dScene.render();
+  }
+
+  regenerate(view, v, index) {
+    const parentIds = new Set();
+    for (const id of this.node.getBaseNodeIds()) {
+      const jsNode = WbWorld.instance.nodes.get(id);
+      parentIds.add(jsNode.parent);
+      view.x3dScene.processServerMessage(`delete: ${id.replace('n', '')}`);
+    }
+
+    // now that the nodes have been deleted on the webotsjs side, the corresponding ids need to be cleared in the structure
+    this.node.resetIds();
+
+    // update the parameter value (note: all IS instances refer to the parameter itself, so they don't need to change)
+    if (typeof v === 'undefined' && typeof index !== 'undefined')
+      this.value.removeNode(index);
+    else if (typeof index !== 'undefined')
+      this.value.insertNode(v, index, this);
+    else if (typeof v !== 'undefined')
+      this.value.setValueFromJavaScript(v);
+
+    this.node.createBaseType(); // regenerate the base type
+
+    this.node.resetRefs(); // reset the instance counters
+    const promises = [];
+    // insert the new node on the webotsjs side
+    for (const id of parentIds) {
+      // note: there must be as many id assignments as there are parents, this is because on the webotsjs side the instances
+      // need to be distinguishable, so each "IS" needs to notify webotsjs and provide a unique variant of the x3d
+      // (with unique ids) for each node
+      this.node.assignId();
+      const x3d = new XMLSerializer().serializeToString(this.node.toX3d(this));
+      promises.push(view.x3dScene.loadObject('<nodes>' + x3d + '</nodes>', id.replace('n', '')));
+    }
+
+    Promise.all(promises).then(() => view.x3dScene.render());
   }
 
   linksToNotify() {
