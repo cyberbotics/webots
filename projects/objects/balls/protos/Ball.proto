@@ -1,11 +1,12 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/balls/protos/Ball.proto
 # The Ball's size, mass and color correspond to the soccer ball used in the Robocup SPL.
 # You can change the centerOfMass to [0 0 0] to avoid the random rolling effect.
 
 PROTO Ball [
-  field SFVec3f    translation     0 0 0
+  field SFVec3f    translation     0 0 0.1625
   field SFRotation rotation        0 0 1 0
   field SFString   name            "ball"
   field SFColor    color           1.0 0.54 0.08  # Defines the color of the ball.

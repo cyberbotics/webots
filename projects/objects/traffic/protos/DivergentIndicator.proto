@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/traffic/protos/DivergentIndicator.proto
 # A divergent indicator block.
 # template language: javascript
 
@@ -114,7 +115,7 @@ PROTO DivergentIndicator [
     name IS name
     model "divergent indicator"
     boundingObject Transform {
-      translation 0 0 %<= height * 0.5 >% 
+      translation 0 0 %<= height * 0.5 >%
       children [
         Shape {
           geometry Cylinder {

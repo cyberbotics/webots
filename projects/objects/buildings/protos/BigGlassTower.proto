@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/buildings/protos/BigGlassTower.proto
 # A big glass tower.
 
 PROTO BigGlassTower [
@@ -26,7 +27,7 @@ PROTO BigGlassTower [
             url [
               "textures/transparent_highrise_roughness.png"
             ]
-          }          
+          }
         }
         geometry IndexedFaceSet {
           coord Coordinate {
