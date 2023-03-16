@@ -53,11 +53,9 @@ void WbTemplateEngine::copyModuleToTemporaryFile(QString modulePath) {
     filters << "*.lua";
 #ifdef _WIN32
     filters << "*.dll";
-#endif
-#ifdef __linux__
+#elif defined(__linux__)
     filters << "*.so";
-#endif
-#ifdef __APPLE__
+#else  // __APPLE__
     filters << "*.dylib";
 #endif
     QFileInfoList files = luaModulesPath.entryInfoList(filters, QDir::Files | QDir::NoSymLinks);
@@ -75,8 +73,16 @@ void WbTemplateEngine::initializeJavaScript() {
     if (jsModulesPath.exists()) {
       QStringList filter("*.js");
       QFileInfoList files = jsModulesPath.entryInfoList(filter, QDir::Files | QDir::NoSymLinks);
-      foreach (const QFileInfo &file, files)
+      foreach (const QFileInfo &file, files) {
         QFile::copy(file.absoluteFilePath(), WbStandardPaths::webotsTmpPath() + file.fileName());
+#if defined(__APPLE__) || defined(__linux__)
+        QFile::setPermissions(WbStandardPaths::webotsTmpPath() + file.fileName(),
+                              QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner | QFileDevice::ReadUser |
+                                QFileDevice::WriteUser | QFileDevice::ExeUser | QFileDevice::ReadGroup |
+                                QFileDevice::WriteGroup | QFileDevice::ExeGroup | QFileDevice::ReadOther |
+                                QFileDevice::WriteOther | QFileDevice::ExeOther);
+#endif
+      }
     }
   }
 
@@ -271,6 +277,11 @@ bool WbTemplateEngine::generateJavascript(QHash<QString, QString> tags, const QS
 
   QTextStream outputStream(&outputFile);
   outputStream << javaScriptTemplate;
+#if defined(__APPLE__) || defined(__linux__)
+  outputFile.setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner | QFileDevice::ReadUser |
+                            QFileDevice::WriteUser | QFileDevice::ExeUser | QFileDevice::ReadGroup | QFileDevice::WriteGroup |
+                            QFileDevice::ExeGroup | QFileDevice::ReadOther | QFileDevice::WriteOther | QFileDevice::ExeOther);
+#endif
   outputFile.close();
 
   // create engine and define global space
@@ -336,11 +347,9 @@ bool WbTemplateEngine::generateLua(QHash<QString, QString> tags, const QString &
 // Update 'package.cpath' variable to be able to load '*.dll' and '*.dylib'
 #ifdef _WIN32
   tags["cpath"] = "package.cpath = package.cpath .. \";?.dll\"";
-#endif
-#ifdef __linux__
+#elif defined(__linux__)
   tags["cpath"] = "";
-#endif
-#ifdef __APPLE__
+#else  // __APPLE__
   tags["cpath"] = "package.cpath = package.cpath .. \";?.dylib\"";
 #endif
 

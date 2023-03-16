@@ -23,6 +23,7 @@ Released on ??
     - Disable `Select..` button in SFString editor if the field has restricted values ([5663](https://github.com/cyberbotics/webots/pull/5663)).
     - Improved plot representation in default robot window when a NaN value is received from a device ([#5680](https://github.com/cyberbotics/webots/pull/5680)).
     - Improved default selected tab in Field Editor when nodes are selected ([#5726](https://github.com/cyberbotics/webots/pull/5726)).
+    - Improved handling of non-ASCII robot names and possible crashes resulting from long names ([#5959](https://github.com/cyberbotics/webots/pull/5959)).
   - Bug Fixes
     - Fixed the behavior of the [Connector](connector.md) after a reset to return to the controller the correct status ([#5889](https://github.com/cyberbotics/webots/pull/5889))
     - Fixed redirection of stdout/stderr for Python controllers on Windows ([#5807](https://github.com/cyberbotics/webots/pull/5807)).
@@ -60,6 +61,7 @@ Released on ??
     - Fixed node information shown in the Add Node dialog when selecting a PROTO USE node ([#5946](https://github.com/cyberbotics/webots/pull/5946)).
     - Fixed bug causing Webots to hang when requesting multiple poses while pose-tracking multiple nodes ([#5952](https://github.com/cyberbotics/webots/pull/5952)).
     - Fixed physics state updates of [Solid](solid.md) nodes added to a descendant [`Joint.endPoint`](joint.md) during simulation ([#5961](https://github.com/cyberbotics/webots/pull/5961)).
+    - Fixed unwanted altitude change when reaching a target waypoint in `mavic2pro_patrol.c` ([#5981](https://github.com/cyberbotics/webots/pull/5981)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
