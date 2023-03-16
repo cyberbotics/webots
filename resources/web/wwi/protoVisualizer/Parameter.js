@@ -100,6 +100,11 @@ export default class Parameter extends Field {
     if (parameter instanceof Parameter)
       parameter.reverseAliasLinks.push(this);
 
+    if (parameter.triggerParentRegeneration && !this.triggerParentRegeneration) {
+      this.triggerParentRegeneration = true;
+      this.setParentRegenerationFlag();
+    }
+
     // trigger propagation of regeneration status up the IS chain
     if (parameter.isTemplateRegenerator)
       this.isTemplateRegenerator = parameter.isTemplateRegenerator;
