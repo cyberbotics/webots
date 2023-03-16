@@ -191,13 +191,15 @@ jobs:
         git config --global user.name ${GITHUB_ACTOR}
         git config --global user.email ${GITHUB_ACTOR}@github.com
         export LIBGL_ALWAYS_SOFTWARE=true
-        #export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
+        export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         #export WEBOTS_ALLOW_MODIFY_INSTALLATION=true
-        xvfb-run --auto-servernum python scripts/packaging/update_urls.py $(git log -1 --format='%H')
-        echo "Updated urls with commit $(git log -1 --format='%H')"
-        git add -u && git commit -m "Fake-commit the updated urls so that no diff exists prior to running the test"
+        #xvfb-run --auto-servernum python scripts/packaging/update_urls.py $(git log -1 --format='%H')
+        #echo "Updated urls with commit $(git log -1 --format='%H')"
+        #git add -u && git commit -m "Fake-commit the updated urls so that no diff exists prior to running the test"
         export WEBOTS_HOME=$PWD/artifact/webots
+        git status
         xvfb-run --auto-servernum python tests/test_worlds.py
+        git status
         echo "test 1"
         git diff
         echo "test 2"
