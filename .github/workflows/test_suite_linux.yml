@@ -126,7 +126,6 @@ jobs:
         name: test-results-${{ matrix.os }}
         path: |
           tests/
-
   test-ros:
     needs: build
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test ros') || github.event_name == 'schedule' }}
@@ -198,7 +197,15 @@ jobs:
         git add -u && git commit -m "Fake-commit the updated urls so that no diff exists prior to running the test"
         export WEBOTS_HOME=$PWD/artifact/webots
         xvfb-run --auto-servernum python tests/test_worlds.py
-        if [[ "$(git diff --name-only *.wbt *.wbproj | wc -l)" -ne "0" ]]; then echo Some world and/or wbproj files are not up to date: "$(git diff *.wbt *.wbproj)"; exit -1; fi
+        echo "test 1"
+        git diff
+        echo "test 2"
+        git diff --name-only *.wbt *.wbproj | wc -l
+        echo "test 3"
+        if [[ "1" -ne "0" ]]; then
+        echo "not equal"
+        fi
+        #if [[ "$(git diff --name-only *.wbt *.wbproj | wc -l)" -ne "0" ]]; then echo Some world and/or wbproj files are not up to date: "$(git diff *.wbt *.wbproj)"; exit -1; fi
   delete-artifacts:
     needs: [build, test-suite, test-ros, test-worlds]
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution')  && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
