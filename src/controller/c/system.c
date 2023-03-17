@@ -120,11 +120,11 @@ const char *wbu_system_tmpdir() {
         char *path = malloc(len);
         snprintf(path, len, "%s/snap/webots/common/tmp", HOME);
         tmpdir = path;
-        return tmpdir;
       }
     }
   }
-  tmpdir = "/tmp";
+  if (tmpdir == NULL)
+    tmpdir = "/tmp";
 #elif defined(__APPLE__)
   tmpdir = getenv("TMPDIR");
   if (tmpdir == NULL || tmpdir[0] == '\0') {
