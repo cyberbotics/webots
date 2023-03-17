@@ -96,7 +96,7 @@ const char *wbu_system_webots_instance_path(bool refresh) {
   return NULL;
 }
 
-// compute the path to the tmp directory from WEBOTS_HOME
+// compute the path to the tmp directory
 // extern controllers only
 const char *wbu_system_tmpdir() {
   static char *tmpdir = NULL;
@@ -109,6 +109,7 @@ const char *wbu_system_tmpdir() {
   tmpdir = malloc(len);
   snprintf(tmpdir, len, "%s\\Temp", LOCALAPPDATA);
 #elif defined(__linux__)
+  // choose between snap or default tmp path
   const char *WEBOTS_HOME = getenv("WEBOTS_HOME");
   if (WEBOTS_HOME && WEBOTS_HOME[0]) {
     // if WEBOTS_HOME environment variable contains snap path, use snap tmp folder
