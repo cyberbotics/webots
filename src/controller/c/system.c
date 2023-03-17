@@ -84,6 +84,20 @@ const char *wbu_system_short_path(const char *path) {
 #endif
 }
 
+// path to the 'webots-%d' folder computed by Webots instance
+// intern controllers only
+const char *wbu_system_webots_instance_path(bool refresh) {
+  static const char *WEBOTS_INSTANCE_PATH = NULL;
+  if (WEBOTS_INSTANCE_PATH && !refresh)
+    return WEBOTS_INSTANCE_PATH;
+  WEBOTS_INSTANCE_PATH = getenv("WEBOTS_INSTANCE_PATH");
+  if (WEBOTS_INSTANCE_PATH && WEBOTS_INSTANCE_PATH[0])
+    return WEBOTS_INSTANCE_PATH;
+  return NULL;
+}
+
+// compute the path to the tmp directory from WEBOTS_HOME
+// extern controllers only
 const char *wbu_system_tmpdir() {
   static char *tmpdir = NULL;
   if (tmpdir)
@@ -130,14 +144,4 @@ const char *wbu_system_tmpdir() {
   }
 #endif
   return tmpdir;
-}
-
-const char *wbu_system_webots_instance_path(bool refresh) {
-  static const char *WEBOTS_INSTANCE_PATH = NULL;
-  if (WEBOTS_INSTANCE_PATH && !refresh)
-    return WEBOTS_INSTANCE_PATH;
-  WEBOTS_INSTANCE_PATH = getenv("WEBOTS_INSTANCE_PATH");
-  if (WEBOTS_INSTANCE_PATH && WEBOTS_INSTANCE_PATH[0])
-    return WEBOTS_INSTANCE_PATH;
-  return NULL;
 }
