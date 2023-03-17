@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# exit when any command fails
+set -e
+
 # Usage: msys64_installer.sh [--all]
 # Options:
 # --all: install all the optional dependencies

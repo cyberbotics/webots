@@ -89,5 +89,8 @@ PROTO Rabbit [
         }
       ]
     }
+    recognitionColors [
+      0.827 0.827 0.827
+    ]
   }
 }

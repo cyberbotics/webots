@@ -408,6 +408,16 @@ int main(int argc, char **argv) {
   vector3_modified = wb_supervisor_field_get_sf_vec3f(field);
   ts_assert_doubles_equal(3, vector3_modified, vector3_expected, "Delayed 'wb_supervisor_field_set_sf_vec3f' failed");
 
+  // test that removing a tracked node doesn't cause a crash
+  wb_robot_step(TIME_STEP);
+  field = wb_supervisor_node_get_field(box, "translation");
+  wb_supervisor_field_enable_sf_tracking(field, TIME_STEP);
+  wb_robot_step(2 * TIME_STEP);
+  wb_supervisor_node_remove(box);
+  wb_robot_step(2 * TIME_STEP);
+  wb_supervisor_field_get_sf_vec3f(field);
+  wb_supervisor_field_disable_sf_tracking(field);
+
   // test internal SFFloat was read-only (wb_supervisor_field_set_sf_float failed)
   // field reference is invalid after regeneration
   int internal_field_type = wb_supervisor_field_get_type(internal_field);

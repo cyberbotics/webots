@@ -68,14 +68,6 @@ jobs:
         export LIBGL_ALWAYS_SOFTWARE=true
         export ROS_DISTRO=${{ matrix.ROS_DISTRO }}
         xvfb-run --auto-servernum make distrib -j4
-    - name: Prepare Webots Controller Deployment
-      if: ${{ (github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'deploy libcontroller')) && matrix.os == 'ubuntu-20.04' }}
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.WEBOTS_CONTROLLER_DEPLOY_KEY }}
-    - name: Deploy Webots Controller
-      if: ${{ (github.event_name == 'schedule' || contains(github.event.pull_request.labels.*.name, 'deploy libcontroller')) && matrix.os == 'ubuntu-20.04' }}
-      run: scripts/packaging/sync_controller_lib.sh
     - name: Create/Update GitHub release
       if: ${{ matrix.os == 'ubuntu-20.04' && (github.event_name == 'push' || github.event_name == 'schedule') }}
       run: |
@@ -128,6 +120,13 @@ jobs:
         export TESTS_HOME=$PWD # required by cache group in the test suite
         export BRANCH_HASH=$(git log -1 --format='%H')
         xvfb-run --auto-servernum python tests/test_suite.py
+    - uses: actions/upload-artifact@v2
+      if: failure()
+      with:
+        name: test-results-${{ matrix.os }}
+        path: |
+          tests/
+      
   test-ros:
     needs: build
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test ros') || github.event_name == 'schedule' }}

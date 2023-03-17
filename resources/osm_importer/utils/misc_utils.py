@@ -1,10 +1,10 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -80,9 +80,9 @@ def print_header(options, file, minlat, minlon, maxlat, maxlon, elevation=None):
     file.write("  lineScale " + str(round(max(xSize, zSize) / 200.0)) + "\n")
     file.write("}\n")
     file.write("Viewpoint {\n")
-    file.write("  orientation -0.443 0 0.896 3.14102\n")
+    file.write("  orientation -0.3922 0.3922 0.8321 1.7536\n")
     position = round(xSize * math.cos(0.785) * 1.5 + zSize * math.cos(0.785) * 1.5)
-    file.write("  position " + str(position * 0.75) + " 0 " + str(position) + "\n")
+    file.write("  position 0 " + str(-position * 0.85) + " " + str(position) + "\n")
     file.write("  near 3\n")
     file.write("}\n")
     file.write("TexturedBackground {\n")

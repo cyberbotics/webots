@@ -2,10 +2,10 @@
 import unittest
 
 import os
-import pep8
+import pycodestyle
 
 
-class CustomReport(pep8.StandardReport):
+class CustomReport(pycodestyle.StandardReport):
     """Collect report, and overload the string operator."""
 
     results = []
@@ -44,7 +44,7 @@ class TestCodeFormat(unittest.TestCase):
     def test_pep8_conformance(self):
         """Test that the tests are PEP8 compliant."""
         script_directory = os.path.dirname(os.path.realpath(__file__))
-        checker = pep8.StyleGuide(
+        checker = pycodestyle.StyleGuide(
             quiet=True,
             paths=[script_directory],
             reporter=CustomReport

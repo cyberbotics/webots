@@ -100,7 +100,7 @@ export default class Animation {
         }
 
         if (i === 0) {
-          const poses = this.data.frames[0].poses; // No need to check the labels because they are defined in the second frames.
+          const poses = this.data.frames[0].poses;
           if (poses) {
             for (let j = 0; j < poses.length; j++) {
               const currentIdFields = allPoses.has(poses[j].id) ? allPoses.get(poses[j].id) : new Map();
@@ -112,6 +112,13 @@ export default class Animation {
                   currentIdFields.set(field, {'id': poses[j].id, [field]: poses[j][field]});
               }
               allPoses.set(poses[j].id, currentIdFields);
+            }
+          }
+          // add an empty, transparent label for labels that are initialized later.
+          if (allLabels.size !== this.#labelsIds.length) {
+            for (const labelId of this.#labelsIds) {
+              if (!allLabels.has(labelId))
+                allLabels.set(labelId, {'id': labelId, 'rgba': '0,0,0,0', 'size': 0, 'x': 0, 'y': 0, 'text': ''});
             }
           }
         } else { // Check the previous keyFrame to get missing updates

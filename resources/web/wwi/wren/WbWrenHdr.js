@@ -1,4 +1,4 @@
-import {pointerOnFloat} from './../nodes/utils/utils.js';
+import {pointerOnFloat} from '../nodes/utils/utils.js';
 import WbWrenAbstractPostProcessingEffect from './WbWrenAbstractPostProcessingEffect.js';
 import WbWrenRenderingContext from './WbWrenRenderingContext.js';
 import WbWrenShaders from './WbWrenShaders.js';

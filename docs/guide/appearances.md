@@ -24,7 +24,7 @@ Asphalt {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Asphalt.proto]({{ url.github_tree }}/projects/appearances/protos/Asphalt.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Asphalt Field Summary
 
@@ -59,7 +59,7 @@ BakelitePlastic {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/BakelitePlastic.proto]({{ url.github_tree }}/projects/appearances/protos/BakelitePlastic.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### BakelitePlastic Field Summary
 
@@ -92,7 +92,7 @@ BlanketFabric {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/BlanketFabric.proto]({{ url.github_tree }}/projects/appearances/protos/BlanketFabric.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### BlanketFabric Field Summary
 
@@ -125,7 +125,7 @@ BrushedAluminium {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/BrushedAluminium.proto]({{ url.github_tree }}/projects/appearances/protos/BrushedAluminium.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### BrushedAluminium Field Summary
 
@@ -158,7 +158,7 @@ BrushedSteel {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/BrushedSteel.proto]({{ url.github_tree }}/projects/appearances/protos/BrushedSteel.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### BrushedSteel Field Summary
 
@@ -192,7 +192,7 @@ Cardboard {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Cardboard.proto]({{ url.github_tree }}/projects/appearances/protos/Cardboard.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Cardboard Field Summary
 
@@ -231,7 +231,7 @@ CarpetFibers {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CarpetFibers.proto]({{ url.github_tree }}/projects/appearances/protos/CarpetFibers.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### CarpetFibers Field Summary
 
@@ -266,7 +266,7 @@ CementTiles {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CementTiles.proto]({{ url.github_tree }}/projects/appearances/protos/CementTiles.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### CementTiles Field Summary
 
@@ -298,7 +298,7 @@ Copper {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Copper.proto]({{ url.github_tree }}/projects/appearances/protos/Copper.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Copper Field Summary
 
@@ -329,7 +329,7 @@ CorrodedMetal {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CorrodedMetal.proto]({{ url.github_tree }}/projects/appearances/protos/CorrodedMetal.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### CorrodedMetal Field Summary
 
@@ -362,7 +362,7 @@ CorrugatedMetal {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CorrugatedMetal.proto]({{ url.github_tree }}/projects/appearances/protos/CorrugatedMetal.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### CorrugatedMetal Field Summary
 
@@ -395,7 +395,7 @@ CorrugatedPlates {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CorrugatedPlates.proto]({{ url.github_tree }}/projects/appearances/protos/CorrugatedPlates.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### CorrugatedPlates Field Summary
 
@@ -428,7 +428,7 @@ CorrugatedPvc {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/CorrugatedPvc.proto]({{ url.github_tree }}/projects/appearances/protos/CorrugatedPvc.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### CorrugatedPvc Field Summary
 
@@ -461,7 +461,7 @@ DamascusSteel {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/DamascusSteel.proto]({{ url.github_tree }}/projects/appearances/protos/DamascusSteel.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### DamascusSteel Field Summary
 
@@ -493,7 +493,7 @@ DryMud {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/DryMud.proto]({{ url.github_tree }}/projects/appearances/protos/DryMud.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### DryMud Field Summary
 
@@ -524,7 +524,7 @@ ElectricConduit {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ElectricConduit.proto]({{ url.github_tree }}/projects/appearances/protos/ElectricConduit.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### ElectricConduit Field Summary
 
@@ -557,7 +557,7 @@ Fabric {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Fabric.proto]({{ url.github_tree }}/projects/appearances/protos/Fabric.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Fabric Field Summary
 
@@ -590,7 +590,7 @@ FlexibleAluminiumDuct {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/FlexibleAluminiumDuct.proto]({{ url.github_tree }}/projects/appearances/protos/FlexibleAluminiumDuct.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### FlexibleAluminiumDuct Field Summary
 
@@ -622,7 +622,7 @@ FormedConcrete {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/FormedConcrete.proto]({{ url.github_tree }}/projects/appearances/protos/FormedConcrete.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### FormedConcrete Field Summary
 
@@ -653,7 +653,7 @@ GalvanizedMetal {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/GalvanizedMetal.proto]({{ url.github_tree }}/projects/appearances/protos/GalvanizedMetal.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### GalvanizedMetal Field Summary
 
@@ -686,7 +686,7 @@ GlossyPaint {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/GlossyPaint.proto]({{ url.github_tree }}/projects/appearances/protos/GlossyPaint.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### GlossyPaint Field Summary
 
@@ -724,7 +724,7 @@ Grass {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Grass.proto]({{ url.github_tree }}/projects/appearances/protos/Grass.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Grass Field Summary
 
@@ -759,7 +759,7 @@ HammeredCopper {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/HammeredCopper.proto]({{ url.github_tree }}/projects/appearances/protos/HammeredCopper.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### HammeredCopper Field Summary
 
@@ -797,7 +797,7 @@ Leather {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Leather.proto]({{ url.github_tree }}/projects/appearances/protos/Leather.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Leather Field Summary
 
@@ -835,7 +835,7 @@ LedStrip {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/LedStrip.proto]({{ url.github_tree }}/projects/appearances/protos/LedStrip.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### LedStrip Field Summary
 
@@ -870,7 +870,7 @@ Marble {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Marble.proto]({{ url.github_tree }}/projects/appearances/protos/Marble.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Marble Field Summary
 
@@ -903,7 +903,7 @@ MarbleTiles {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/MarbleTiles.proto]({{ url.github_tree }}/projects/appearances/protos/MarbleTiles.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### MarbleTiles Field Summary
 
@@ -936,7 +936,7 @@ MattePaint {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/MattePaint.proto]({{ url.github_tree }}/projects/appearances/protos/MattePaint.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### MattePaint Field Summary
 
@@ -968,7 +968,7 @@ MetalPipePaint {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/MetalPipePaint.proto]({{ url.github_tree }}/projects/appearances/protos/MetalPipePaint.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### MetalPipePaint Field Summary
 
@@ -998,7 +998,7 @@ MetalStainlessSteelCable {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/MetalStainlessSteelCable.proto]({{ url.github_tree }}/projects/appearances/protos/MetalStainlessSteelCable.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### MetalStainlessSteelCable Field Summary
 
@@ -1029,7 +1029,7 @@ OldPlywood {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/OldPlywood.proto]({{ url.github_tree }}/projects/appearances/protos/OldPlywood.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### OldPlywood Field Summary
 
@@ -1062,7 +1062,7 @@ OldSteel {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/OldSteel.proto]({{ url.github_tree }}/projects/appearances/protos/OldSteel.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### OldSteel Field Summary
 
@@ -1095,7 +1095,7 @@ OsbWood {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/OsbWood.proto]({{ url.github_tree }}/projects/appearances/protos/OsbWood.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### OsbWood Field Summary
 
@@ -1128,7 +1128,7 @@ PaintedWood {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/PaintedWood.proto]({{ url.github_tree }}/projects/appearances/protos/PaintedWood.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### PaintedWood Field Summary
 
@@ -1167,7 +1167,7 @@ Parquetry {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Parquetry.proto]({{ url.github_tree }}/projects/appearances/protos/Parquetry.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Parquetry Field Summary
 
@@ -1209,7 +1209,7 @@ Pavement {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Pavement.proto]({{ url.github_tree }}/projects/appearances/protos/Pavement.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Pavement Field Summary
 
@@ -1243,7 +1243,7 @@ Pcb {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Pcb.proto]({{ url.github_tree }}/projects/appearances/protos/Pcb.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Pcb Field Summary
 
@@ -1274,7 +1274,7 @@ PerforatedMetal {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/PerforatedMetal.proto]({{ url.github_tree }}/projects/appearances/protos/PerforatedMetal.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### PerforatedMetal Field Summary
 
@@ -1307,7 +1307,7 @@ Plaster {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Plaster.proto]({{ url.github_tree }}/projects/appearances/protos/Plaster.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Plaster Field Summary
 
@@ -1343,7 +1343,7 @@ Plastic {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Plastic.proto]({{ url.github_tree }}/projects/appearances/protos/Plastic.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Plastic Field Summary
 
@@ -1378,7 +1378,7 @@ PorcelainChevronTiles {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/PorcelainChevronTiles.proto]({{ url.github_tree }}/projects/appearances/protos/PorcelainChevronTiles.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### PorcelainChevronTiles Field Summary
 
@@ -1410,7 +1410,7 @@ RedBricks {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RedBricks.proto]({{ url.github_tree }}/projects/appearances/protos/RedBricks.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### RedBricks Field Summary
 
@@ -1445,7 +1445,7 @@ ReflectiveSurface {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ReflectiveSurface.proto]({{ url.github_tree }}/projects/appearances/protos/ReflectiveSurface.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### ReflectiveSurface Field Summary
 
@@ -1480,7 +1480,7 @@ RoughConcrete {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RoughConcrete.proto]({{ url.github_tree }}/projects/appearances/protos/RoughConcrete.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### RoughConcrete Field Summary
 
@@ -1513,7 +1513,7 @@ RoughOak {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RoughOak.proto]({{ url.github_tree }}/projects/appearances/protos/RoughOak.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### RoughOak Field Summary
 
@@ -1546,7 +1546,7 @@ RoughPine {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RoughPine.proto]({{ url.github_tree }}/projects/appearances/protos/RoughPine.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### RoughPine Field Summary
 
@@ -1579,7 +1579,7 @@ RoughPolymer {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RoughPolymer.proto]({{ url.github_tree }}/projects/appearances/protos/RoughPolymer.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### RoughPolymer Field Summary
 
@@ -1612,7 +1612,7 @@ Roughcast {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Roughcast.proto]({{ url.github_tree }}/projects/appearances/protos/Roughcast.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Roughcast Field Summary
 
@@ -1649,7 +1649,7 @@ Rubber {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Rubber.proto]({{ url.github_tree }}/projects/appearances/protos/Rubber.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Rubber Field Summary
 
@@ -1686,7 +1686,7 @@ RustyMetal {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/RustyMetal.proto]({{ url.github_tree }}/projects/appearances/protos/RustyMetal.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### RustyMetal Field Summary
 
@@ -1720,7 +1720,7 @@ Sand {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Sand.proto]({{ url.github_tree }}/projects/appearances/protos/Sand.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Sand Field Summary
 
@@ -1751,7 +1751,7 @@ SandyGround {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/SandyGround.proto]({{ url.github_tree }}/projects/appearances/protos/SandyGround.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### SandyGround Field Summary
 
@@ -1785,7 +1785,7 @@ ScratchedPaint {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ScratchedPaint.proto]({{ url.github_tree }}/projects/appearances/protos/ScratchedPaint.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### ScratchedPaint Field Summary
 
@@ -1820,7 +1820,7 @@ ScrewThread {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ScrewThread.proto]({{ url.github_tree }}/projects/appearances/protos/ScrewThread.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### ScrewThread Field Summary
 
@@ -1853,7 +1853,7 @@ ScuffedPlastic {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ScuffedPlastic.proto]({{ url.github_tree }}/projects/appearances/protos/ScuffedPlastic.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### ScuffedPlastic Field Summary
 
@@ -1886,7 +1886,7 @@ ShinyLeather {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ShinyLeather.proto]({{ url.github_tree }}/projects/appearances/protos/ShinyLeather.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### ShinyLeather Field Summary
 
@@ -1922,7 +1922,7 @@ Soil {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/Soil.proto]({{ url.github_tree }}/projects/appearances/protos/Soil.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### Soil Field Summary
 
@@ -1954,7 +1954,7 @@ SolarCell {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/SolarCell.proto]({{ url.github_tree }}/projects/appearances/protos/SolarCell.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### SolarCell Field Summary
 
@@ -1989,7 +1989,7 @@ ThreadMetalPlate {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/ThreadMetalPlate.proto]({{ url.github_tree }}/projects/appearances/protos/ThreadMetalPlate.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### ThreadMetalPlate Field Summary
 
@@ -2027,7 +2027,7 @@ TireRubber {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/TireRubber.proto]({{ url.github_tree }}/projects/appearances/protos/TireRubber.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### TireRubber Field Summary
 
@@ -2060,7 +2060,7 @@ VarnishedPine {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/VarnishedPine.proto]({{ url.github_tree }}/projects/appearances/protos/VarnishedPine.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### VarnishedPine Field Summary
 
@@ -2093,7 +2093,7 @@ WireFence {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/WireFence.proto]({{ url.github_tree }}/projects/appearances/protos/WireFence.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### WireFence Field Summary
 
@@ -2126,7 +2126,7 @@ WornBurlap {
 > **File location**: "[WEBOTS\_HOME/projects/appearances/protos/WornBurlap.proto]({{ url.github_tree }}/projects/appearances/protos/WornBurlap.proto)"
 
 > **License**: Apache License 2.0
-[More information.](http://www.apache.org/licenses/LICENSE-2.0)
+[More information.](https://www.apache.org/licenses/LICENSE-2.0)
 
 ### WornBurlap Field Summary
 

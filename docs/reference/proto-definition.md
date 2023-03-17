@@ -16,7 +16,7 @@ Possibly followed by comments, such as:
 
 ```
 # license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0
+# license url: https://www.apache.org/licenses/LICENSE-2.0
 # This is the description of the sample PROTO node.
 ```
 

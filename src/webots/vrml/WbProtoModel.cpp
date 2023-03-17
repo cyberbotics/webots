@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -54,11 +54,12 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
   mInfo.clear();
   const QString &tokenizerInfo = tokenizer->info();
   if (!tokenizerInfo.isEmpty() && !tokenizerInfo.trimmed().isEmpty()) {
-    const QStringList info = tokenizerInfo.split("\n");  // # comments
-    for (int i = 0; i < info.size(); ++i) {
-      if (!info.at(i).startsWith("tags:") && !info.at(i).startsWith("license:") && !info.at(i).startsWith("license url:") &&
-          !info.at(i).startsWith("documentation url:") && !info.at(i).startsWith("template language:"))
-        mInfo += info.at(i) + "\n";
+    const QStringList headerInfo = tokenizerInfo.split("\n");  // # comments
+    for (int i = 0; i < headerInfo.size(); ++i) {
+      if (!headerInfo.at(i).startsWith("tags:") && !headerInfo.at(i).startsWith("license:") &&
+          !headerInfo.at(i).startsWith("license url:") && !headerInfo.at(i).startsWith("documentation url:") &&
+          !headerInfo.at(i).startsWith("template language:"))
+        mInfo += headerInfo.at(i) + "\n";
     }
     mInfo.chop(1);
   }
@@ -234,7 +235,6 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
       readBaseType = false;
 
       if (mDerived) {
-        QString protoInfo, baseNodeType;
         bool error = false;
         try {
           baseTypeList.append(mName);
@@ -246,9 +246,9 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
             QStringList derivedParameterNames = parameterNames();
             QStringList baseParameterNames = baseProtoModel->parameterNames();
             baseTypeSlotType = baseProtoModel->slotType();
-            foreach (QString name, derivedParameterNames) {
-              if (baseParameterNames.contains(name))
-                sharedParameterNames.append(name);
+            foreach (QString derivedName, derivedParameterNames) {
+              if (baseParameterNames.contains(derivedName))
+                sharedParameterNames.append(derivedName);
             }
           } else
             error = true;
@@ -538,37 +538,37 @@ QStringList WbProtoModel::documentationBookAndPage(bool isRobot, bool skipProtoT
   QStringList bookAndPage;
   if (isRobot) {
     // check for robot doc
-    const QString &name = mName.toLower();
+    const QString &nodeName = mName.toLower();
 
-    const QString page("guide/" + name + ".md");
+    const QString page("guide/" + nodeName + ".md");
     if (checkIfDocumentationPageExist(page)) {
-      bookAndPage << "guide" << name;
+      bookAndPage << "guide" << nodeName;
       return bookAndPage;
     }
   } else {
     // check for object doc
     const QDir &objectsDir(WbStandardPaths::projectsPath() + "objects");
     QDir dir(projectPath());
-    QString name = dir.dirName().replace('_', '-');
+    QString directoryName = dir.dirName().replace('_', '-');
     while (!dir.isRoot()) {
       if (dir == objectsDir) {
-        const QString page("guide/object-" + name + ".md");
+        const QString page("guide/object-" + directoryName + ".md");
         if (checkIfDocumentationPageExist(page)) {
           bookAndPage << "guide"
-                      << "object-" + name;
+                      << "object-" + directoryName;
           return bookAndPage;
         }
         break;
       }
-      name = dir.dirName().replace('_', '-');
+      directoryName = dir.dirName().replace('_', '-');
       if (!dir.cdUp())
         break;
     }
   }
   if (!skipProtoTag) {
-    const QString &documentationUrl = mDocumentationUrl;
-    if (!documentationUrl.isEmpty()) {
-      const QStringList &splittedPath = documentationUrl.split("doc/");
+    const QString &rawDocumentationUrl = mDocumentationUrl;
+    if (!rawDocumentationUrl.isEmpty()) {
+      const QStringList &splittedPath = rawDocumentationUrl.split("doc/");
       if (splittedPath.size() == 2) {
         const QString file(splittedPath[1].split('#')[0]);
         const QString page(file + ".md");

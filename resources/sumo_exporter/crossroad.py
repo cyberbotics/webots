@@ -24,25 +24,20 @@ class Crossroad(object):
 
     def init_from_wbt_string(self, wbtString):
         """Extract info from the wbtString matching the node."""
-        try:
-            self.id = re.findall(r'id\s*"([^"]*)"', wbtString)[0]
-        except:
-            pass
-        try:
-            self.translation = [float(x) for x in re.findall(r'translation\s*(%s\s*%s\s*%s)' %
-                                                             (floatRE, floatRE, floatRE), wbtString)[0].split()]
-        except:
-            pass
-        try:
-            self.rotation = [float(x) for x in re.findall(r'rotation\s*(%s\s*%s\s*%s\s*%s)' %
-                                                          (floatRE, floatRE, floatRE, floatRE), wbtString)[0].split()]
-        except:
-            self.rotation = [0.0, 0.0, 1.0, 0.0]
-        try:
-            self.connectedRoadIDs = [x.replace('"', '') for x in re.findall(r'connectedRoadIDs\s*\[([^\]]*)\]',
-                                                                            wbtString)[0].split()]
-        except:
-            pass
+
+        id = re.findall(r'id\s*"([^"]*)"', wbtString)
+        self.id = id[0] if id else self.id
+
+        translation = re.findall(r'translation\s*(%s\s*%s\s*%s)' % (floatRE, floatRE, floatRE), wbtString)
+        self.translation = [float(x) for x in translation[0].split()] if translation else self.translation
+
+        rotation = re.findall(r'rotation\s*(%s\s*%s\s*%s\s*%s)' % (floatRE, floatRE, floatRE, floatRE), wbtString)
+        self.rotation = [float(x) for x in rotation[0].split()] if rotation else [0.0, 0.0, 1.0, 0]
+
+        connectedRoadIDs = re.findall(r'connectedRoadIDs\s*\[([^\]]*)\]', wbtString)
+        if connectedRoadIDs:
+            self.connectedRoadIDs = [x.replace('"', '') for x in connectedRoadIDs[0].split()]
+
         if self.crossroadType == "Crossroad":
             try:
                 self.shape = grouper(3, [float(x) for x in re.findall(r'shape\s*\[([^\]]*)\]', wbtString)[0].split()])
@@ -53,20 +48,17 @@ class Crossroad(object):
                     y = math.cos(correction_angle) * shape[1] + math.sin(correction_angle) * shape[0]
                     z = shape[2]
                     self.shape[i] = [x, y, z]
-            except:
+            except Exception:
                 pass
         elif self.crossroadType == "RoadIntersection":
-            roadNumber = 4
             self.shape = []
-            try:
-                roadNumber = int(re.findall(r'roadNumber\s*(%s)' % intRE, wbtString)[0])
-            except:
-                roadNumber = 4
-            roadsWidth = 7.0
-            try:
-                roadsWidth = float(re.findall(r'roadsWidth\s*(%s)' % floatRE, wbtString)[0])
-            except:
-                roadsWidth = 7.0
+
+            roadNumber = re.findall(r'roadNumber\s*(%s)' % intRE, wbtString)
+            roadNumber = int(roadNumber[0]) if roadNumber else 4
+
+            roadsWidth = re.findall(r'roadsWidth\s*(%s)' % floatRE, wbtString)
+            roadsWidth = float(roadsWidth[0]) if roadsWidth else 7.0
+
             outerRadius = roadsWidth / (2 * math.sin(math.pi / roadNumber))
             angle = -self.rotation[3]
             if self.rotation[2] > 0:
