@@ -102,7 +102,6 @@ const char *wbu_system_tmpdir() {
   static char *tmpdir = NULL;
   if (tmpdir)
     return tmpdir;
-
 #ifdef _WIN32
   const char *LOCALAPPDATA = getenv("LOCALAPPDATA");
   assert(LOCALAPPDATA && LOCALAPPDATA[0]);
@@ -133,6 +132,5 @@ const char *wbu_system_tmpdir() {
     exit(EXIT_FAILURE);
   }
 #endif
-
   return tmpdir;
 }
