@@ -38,6 +38,7 @@ PROTO VehicleWheel [
 {
   %<
     import * as wbgeometry from 'wbgeometry.js';
+
     // parameter checking
     let subdivision = fields.subdivision.value;
     if (subdivision > 200)
