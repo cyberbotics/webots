@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/shapes/protos/TexturedBoxShape.proto
 # Box with customizable texture mapping on selected faces.
 # If the boolean value associated with a face (`frontFace`, `leftFace`, etc.) is FALSE, then the uniform color specified in `faceColor` field will be applied instead of the texture.
 # This is an extension of the TexturedBox geometry PROTO.

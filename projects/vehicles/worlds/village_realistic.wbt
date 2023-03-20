@@ -484,7 +484,7 @@ HighwayPole {
   length 10
   rightHorizontalSigns [
     AdvertisingBoard {
-      translation 0 -2.5 0
+      translation 0 -2.5 -1.1
       frontTexture [
         "webots://projects/vehicles/worlds/textures/dead_end_road.jpg"
       ]
@@ -506,7 +506,7 @@ HighwayPole {
   length 10
   rightHorizontalSigns [
     AdvertisingBoard {
-      translation 0 -2.5 0
+      translation 0 -2.5 -1.1
       frontTexture [
         "webots://projects/vehicles/worlds/textures/dead_end_road.jpg"
       ]
@@ -520,8 +520,8 @@ HighwayPole {
   rightVerticalSigns []
 }
 AdvertisingBoard {
-  translation 365.42847 -612.52463 3.04
-  rotation 0 0 1 1.3089969464102065
+  translation 365.428 -612.525 1.26
+  rotation 0 0 1 1.309
   frontTexture []
   backTexture [
     "webots://projects/objects/advertising_board/protos/textures/fanta_billboard.jpg"
@@ -531,7 +531,7 @@ AdvertisingBoard {
   displayHeight 3.3
 }
 AdvertisingBoard {
-  translation 120.32993 -606.99137 2.23
+  translation 120.33 -606.991 0.58
   rotation 0 0 1 2.033185253589793
   name "advertising board(1)"
   frontTexture [

@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/kitchen/components/protos/Sink.proto
 # A customizable worktop.
 # template language: javascript
 
@@ -8,7 +9,7 @@ EXTERNPROTO "webots://projects/appearances/protos/Marble.proto"
 EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
 
 PROTO Worktop [
-  field SFVec3f    translation  0 0 0.71
+  field SFVec3f    translation  0 0 0.03
   field SFRotation rotation     0 0 1 0
   field SFString   name         "worktop"
   field SFVec3f    size         0.7 0.44 0.06  # Defines the size of the worktop.
