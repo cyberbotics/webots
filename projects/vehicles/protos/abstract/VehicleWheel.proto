@@ -38,7 +38,6 @@ PROTO VehicleWheel [
 {
   %<
     import * as wbgeometry from 'wbgeometry.js';
-
     // parameter checking
     let subdivision = fields.subdivision.value;
     if (subdivision > 200)
@@ -304,7 +303,7 @@ PROTO VehicleWheel [
                     >%
                     # Top part
                     ## Center
-                    %<= -rimBeamThickness / 2.5 - rimBeamOffset/2 >% 0 0
+                    0 %<= -rimBeamThickness / 2.5 - rimBeamOffset/2 >% 0
                     %< for (let i = 0; i < centralCircles[0].length; ++i) { >%
                       %<= centralCircles[0][i].y >% %<= -rimBeamThickness * 0.5 - rimBeamOffset/2 >% %<= centralCircles[0][i].x >%
                     %< } >%
