@@ -34,7 +34,7 @@ DEF FRONT_TARGET Solid {
     }
   ]
   boundingObject Sphere {
-    radius 0.1
+    radius 0.307454
   }
   radarCrossSection 3
 }
