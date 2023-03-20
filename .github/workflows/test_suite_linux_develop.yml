@@ -171,6 +171,7 @@ jobs:
     - name: Extract Webots and Cache
       run: |
         tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
+        cp -R artifact/ untouched-artifact/
         mkdir -p ~/.cache/Cyberbotics/Webots/
         unzip -q artifact/assets-*.zip -d ~/.cache/Cyberbotics/Webots/assets
     - name: Set up Python 3.9
@@ -179,16 +180,12 @@ jobs:
         python-version: 3.9
     - name: Update World, Check Warnings and Validate Cache
       run: |
-        git config --global user.name ${GITHUB_ACTOR}
-        git config --global user.email ${GITHUB_ACTOR}@github.com
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
-        xvfb-run --auto-servernum python scripts/packaging/update_urls.py $(git log -1 --format='%H')
-        git add . && git commit -m "Fake-commit the artifact so that no diff exists prior to running the test"
         export WEBOTS_HOME=$PWD/artifact/webots
-        apt install -y wget && wget https://raw.githubusercontent.com/cyberbotics/webots/$(git log -1 --format='%H')/tests/test_worlds.py
+        sudo apt install -y wget && wget https://raw.githubusercontent.com/cyberbotics/webots/$(git log -1 --format='%H')/tests/test_worlds.py
         xvfb-run --auto-servernum python3 test_worlds.py
-        if [[ "$(git diff --name-only *.wbt *.wbproj | wc -l)" -ne "0" ]]; then echo Some world and/or wbproj files are not up to date: "$(git diff *.wbt *.wbproj)"; exit 1; fi
+        if [[ "$(diff -qr artifact/ untouched-artifact/ | wc -l)" -ne "0" ]]; then echo Some world and/or wbproj files are not up to date: "$(diff -qr artifact/ untouched-artifact/)"; exit 1; fi
   delete-artifacts:
     needs: [build, test-suite, test-ros, test-worlds]
     if: ${{ always() && !contains(github.event.pull_request.labels.*.name, 'test distribution')  && !contains(github.event.pull_request.labels.*.name, 'test webots build') }}
