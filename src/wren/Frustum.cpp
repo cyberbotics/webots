@@ -19,7 +19,9 @@
 
 namespace wren {
 
-  Frustum::Frustum(const glm::mat4 &matrix) { recomputeFromMatrix(matrix); }
+  Frustum::Frustum(const glm::mat4 &matrix) {
+    recomputeFromMatrix(matrix);
+  }
 
   void Frustum::recomputeFromMatrix(const glm::dmat4 &matrix) {
     // compute frustum in view space using the Gribb-Hartmann method (normals pointing inside)

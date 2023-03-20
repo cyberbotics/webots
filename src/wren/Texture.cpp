@@ -146,7 +146,9 @@ namespace wren {
     glstate::setTextureInterpolation(glName(), mTextureUnit, params.mIsInterpolationEnabled, params.mAreMipMapsEnabled);
   }
 
-  void Texture::release() { glstate::releaseTexture(glName(), mTextureUnit); }
+  void Texture::release() {
+    glstate::releaseTexture(glName(), mTextureUnit);
+  }
 
   void Texture::cleanupGl() {
     unsigned int name = glName();
@@ -170,7 +172,8 @@ namespace wren {
     mHeight(0),
     mHaveMipMapsBeenGenerated(false),
     mIsTranslucent(false),
-    mMaterialsUsingThisTexture() {}
+    mMaterialsUsingThisTexture() {
+  }
 
   Texture::~Texture() {
     for (auto &material : mMaterialsUsingThisTexture)

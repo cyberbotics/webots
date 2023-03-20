@@ -29,7 +29,9 @@ namespace wren {
     setRequireAction(GlUser::GL_ACTION_PREPARE);
   }
 
-  UniformBuffer::~UniformBuffer() { release(); }
+  UniformBuffer::~UniformBuffer() {
+    release();
+  }
 
   void UniformBuffer::writeValue(const void *data) const {
     bind();
@@ -37,9 +39,13 @@ namespace wren {
     glBufferData(GL_UNIFORM_BUFFER, mSize, data, GL_DYNAMIC_DRAW);
   }
 
-  void UniformBuffer::bind() const { glstate::bindUniformBuffer(mGlName, mBinding); }
+  void UniformBuffer::bind() const {
+    glstate::bindUniformBuffer(mGlName, mBinding);
+  }
 
-  void UniformBuffer::release() const { glstate::releaseUniformBuffer(mGlName, mBinding); }
+  void UniformBuffer::release() const {
+    glstate::releaseUniformBuffer(mGlName, mBinding);
+  }
 
   void UniformBuffer::prepareGl() {
     assert(!mGlName);
