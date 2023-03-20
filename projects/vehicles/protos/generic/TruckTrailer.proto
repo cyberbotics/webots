@@ -57,7 +57,7 @@ PROTO TruckTrailer [
           children [
             HingeJoint {
               jointParameters HingeJointParameters {
-                axis -1 0 0
+                axis 0 -1 0
                 suspensionAxis 1 0 0
                 suspensionSpringConstant 1e+06
                 suspensionDampingConstant 10000
@@ -82,7 +82,7 @@ PROTO TruckTrailer [
           children [
             HingeJoint {
               jointParameters HingeJointParameters {
-                axis 1 0 0
+                axis 0 1 0
                 suspensionAxis 1 0 0
                 suspensionSpringConstant 1e+06
                 suspensionDampingConstant 10000
