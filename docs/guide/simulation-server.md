@@ -80,9 +80,9 @@ If you are installing the simulation server on the same machine as the session s
 6. Install Python dependencies: `pip install pynvml requests psutil tornado distro`.
 7. Install git and subversion: `sudo apt-get install git subversion`. They are used by the simulation server to checkout the code of the projects.
 8. Choose one:
-    - Install Docker if you want to run Webots and the controllers safely in a Docker (recommended): `sudo apt install docker.io` and follow the [post-installation instructions](https://docs.docker.com/engine/install/linux-postinstall/): `sudo usermod -aG docker $USER` and `newgrp docker`. You will also have to install the NVIDIA Docker drivers as documented [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
+    - [Install Docker Engine](https://docs.docker.com/engine/install/ubuntu/) if you want to run Webots and the controllers safely in Docker (recommended) and follow the [post-installation instructions](https://docs.docker.com/engine/install/linux-postinstall/): `sudo usermod -aG docker $USER` and `newgrp docker`. You will also have to install the NVIDIA Docker drivers as documented [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
     - Or [install Webots](https://github.com/cyberbotics/webots/releases/latest) if you do not want to run the Webots instances in Docker (not recommended as it might compromise the security of your server and would make it more difficult to handle different versions of Webots). In this configuration, only the simulations from the repositories explicitly declared in `allowedRepositories` are allowed to run.
-9. Install docker-compose if you want to run Webots simulation in dockers: `pip install docker-compose`
+9. Install the [Compose plugin](https://docs.docker.com/compose/install/linux/) for docker if you want to run Webots simulation in Docker: `sudo apt-get install docker-compose-plugin`
 10. Clone the [webots-server](https://github.com/cyberbotics/webots-server) repository in `~/webots-server`
 11. Optional: make the NVIDIA accelerated X server work also headless (with no screen connected):
     - `sudo nvidia-xconfig --allow-empty-initial-configuration`

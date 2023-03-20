@@ -24,7 +24,6 @@ Please [contact us](https://cyberbotics.com/#contact) if you would like to see y
 | ![icon.png](images/robots/ghostdog/icon.png)         | [GhostDog](ghostdog.md)                   | EPFL / BioRob        | *Dog-like robot*                  |
 | ![icon.png](images/robots/hemisson/icon.png)         | [Hemisson](hemisson.md)                   | K-Team               | *Two-wheeled robot*               |
 | ![icon.png](images/robots/hoap2/icon.png)            | [HOAP-2](hoap2.md)                        | Fujitsu              | *Small size humanoid*             |
-| ![icon.png](images/robots/icub/icon.png)             | [iCub](icub.md)                           | RobotCup             | *Human-size humanoid*             |
 | ![icon.png](images/robots/ipr/icon.png)              | [IPR](ipr.md)                             | Neuronics            | *Robotics arm*                    |
 | ![icon.png](images/robots/irb4600-40/icon.png)       | [IRB 4600/40](irb4600-40.md)              | ABB                  | *Robotics arm*                    |
 | ![icon.png](images/robots/jetbot/icon.png)           | [JetBot](jetbot.md)                       | NVIDIA               | *Two-wheeled robot*               |
@@ -67,7 +66,7 @@ Please [contact us](https://cyberbotics.com/#contact) if you would like to see y
 | ![icon.png](images/robots/tiago_iron/icon.png)       | [TIAGo Iron](tiago-iron.md)               | PAL Robotics         | *Two-wheeled human-like robot*    |
 | ![icon.png](images/robots/tiago_steel/icon.png)      | [TIAGo Steel](tiago-steel.md)             | PAL Robotics         | *Two-wheeled human-like robot*    |
 | ![icon.png](images/robots/tiago_titanium/icon.png)   | [TIAGo Titanium](tiago-titanium.md)       | PAL Robotics         | *Two-wheeled human-like robot*    |
-| ![icon.png](images/robots/tiago++/icon.png)          | [TIAGo++ ](tiagopp.md)                    | PAL Robotics         | *Two-wheeled human-like robot*    |
+| ![icon.png](images/robots/tiagopp/icon.png)          | [TIAGopp ](tiagopp.md)                    | PAL Robotics         | *Two-wheeled human-like robot*    |
 | ![icon.png](images/robots/thymio2/icon.png)          | [Thymio II](thymio2.md)                   | Mobsya               | *Two-wheeled robot*               |
 | ![icon.png](images/robots/tinkerbots/icon.png)       | [Tinkerbots](tinkerbots.md)               | Kinematics GMBH      | *Robotics kit*                    |
 | ![icon.png](images/robots/turtlebot3burger/icon.png) | [Turtlebot3 Burger](turtlebot3-burger.md) | Robotis              | *Two-wheeled robot*               |

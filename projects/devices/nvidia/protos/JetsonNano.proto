@@ -1,7 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/single-board-computers#nvidia-jetson-nano
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/nvidia/protos/JetsonNano.proto
 # NVIDIA Jetson Nano embedded module.
 # This is a graphical model that can be extended with solid parts, devices and physics properties.
 
@@ -33,7 +33,7 @@ PROTO JetsonNano [
                 appearance Pcb {
                 }
                 geometry Box {
-                  size 0.079 0.0012 0.1 
+                  size 0.079 0.0012 0.1
                 }
               }
             ]
@@ -710,7 +710,7 @@ PROTO JetsonNano [
                 appearance BrushedAluminium {
                 }
                 geometry TexturedBox {
-                  size 0.0034 0.008 0.0073 
+                  size 0.0034 0.008 0.0073
                   mapping "default"
                   bottom FALSE
                 }
@@ -737,7 +737,7 @@ PROTO JetsonNano [
                   }
                 }
                 geometry TexturedBox {
-                  size 0.0034 0.008 0.0073 
+                  size 0.0034 0.008 0.0073
                   mapping "default"
                   front FALSE
                   back FALSE
