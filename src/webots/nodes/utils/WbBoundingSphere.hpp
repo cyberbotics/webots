@@ -48,7 +48,7 @@ class WbBoundingSphere;
 class WbShape;
 class WbSkin;
 
-class WbAbstractPose;
+class WbPose;
 class WbBaseNode;
 class WbGeometry;
 class WbRay;
@@ -121,7 +121,7 @@ private:
   const WbBaseNode *mOwner;
   const WbGeometry *mGeomOwner;
   const WbSkin *mSkinOwner;
-  const WbAbstractPose *mPoseOwner;
+  const WbPose *mPoseOwner;
 
   // Cached values
   bool mBoundSpaceDirty;  // center and radius update required

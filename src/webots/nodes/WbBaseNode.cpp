@@ -36,10 +36,12 @@ void WbBaseNode::init() {
   mWrenNode = NULL;
   mIsInBoundingObject = false;
   mUpperPose = NULL;
+  mUpperTransform = NULL;
   mUpperSolid = NULL;
   mTopSolid = NULL;
   mBoundingObjectFirstTimeSearch = true;
   mUpperPoseFirstTimeSearch = true;
+  mUpperTransformFirstTimeSearch = true;
   mUpperSolidFirstTimeSearch = true;
   mTopSolidFirstTimeSearch = true;
   mFinalizationCanceled = false;
@@ -179,7 +181,17 @@ WbNode::NodeUse WbBaseNode::nodeUse() const {
   return mNodeUse;
 }
 
-WbPose *WbBaseNode::upperPose() const {  // TODO: handle upperTransform -> upperPose
+WbTransform *WbBaseNode::upperTransform() const {
+  if (mUpperTransformFirstTimeSearch) {
+    mUpperTransform = WbNodeUtilities::findUpperTransform(this);
+    if (areWrenObjectsInitialized())
+      mUpperTransformFirstTimeSearch = false;
+  }
+
+  return mUpperTransform;
+}
+
+WbPose *WbBaseNode::upperPose() const {  // TODO: still needed?
   if (mUpperPoseFirstTimeSearch) {
     mUpperPose = WbNodeUtilities::findUpperPose(this);
     if (areWrenObjectsInitialized())

@@ -85,7 +85,7 @@ WbBoundingSphere::~WbBoundingSphere() {
 
 void WbBoundingSphere::setOwner(const WbBaseNode *owner) {
   mOwner = owner;
-  mPoseOwner = dynamic_cast<const WbAbstractPose *>(mOwner);
+  mPoseOwner = dynamic_cast<const WbPose *>(mOwner);
   mGeomOwner = dynamic_cast<const WbGeometry *>(mOwner);
   mSkinOwner = dynamic_cast<const WbSkin *>(mOwner);
 }
@@ -249,12 +249,11 @@ void WbBoundingSphere::recomputeSphereInParentCoordinates() {
 }
 
 void WbBoundingSphere::computeSphereInGlobalCoordinates(WbVector3 &center, double &radius) {
-  const WbAbstractPose *upperPose = dynamic_cast<const WbAbstractPose *>(mPoseOwner);
+  const WbPose *upperPose = dynamic_cast<const WbPose *>(mPoseOwner);
   if (upperPose == NULL)
     upperPose = WbNodeUtilities::findUpperPose(mOwner);
   if (upperPose) {
-    const WbTransform *const t = dynamic_cast<const WbTransform *const>(upperPose);
-    const WbVector3 &scale = t ? t->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
+    const WbVector3 &scale = upperPose->absoluteScale();
     radius = std::max(std::max(scale.x(), scale.y()), scale.z()) * mRadius;
     center = upperPose->matrix() * mCenter;
   } else {

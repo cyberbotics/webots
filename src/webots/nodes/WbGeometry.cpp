@@ -492,9 +492,7 @@ WbBaseNode *WbGeometry::transformedGeometry() {  // returns an upper WbPose lyin
 
 const WbVector3 WbGeometry::absoluteScale() const {
   const WbPose *const up = upperPose();
-  const WbTransform *const ut = dynamic_cast<const WbTransform *const>(up);
-  return ut ? ut->absoluteScale() :
-              up->matrix().scale();  // should instead implement absoluteScale method in WbPose too, to avoid rounding errors?
+  return up ? up->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
 }
 
 WbVector3 WbGeometry::absolutePosition() const {

@@ -21,10 +21,11 @@
 #include "WbTranslateRotateManipulator.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 
+#include <QtCore/QDebug>
+
 void WbTransform::init() {
   mScale = findSFVector3("scale");
 
-  mAbsoluteScaleNeedUpdate = true;
   mPreviousXscaleValue = 1.0;
 
   mScaleManipulator = NULL;
@@ -149,9 +150,9 @@ QStringList WbTransform::fieldsToSynchronizeWithX3D() const {
 void WbTransform::updateAbsoluteScale() const {
   mAbsoluteScale = mScale->value();
   // multiply with upper transform scale if any
-  const WbTransform *const ut = dynamic_cast<const WbTransform *const>(mBaseNode->upperPose());
-  if (ut)
-    mAbsoluteScale *= ut->absoluteScale();
+  const WbPose *const up = mBaseNode->upperPose();
+  if (up)
+    mAbsoluteScale *= up->absoluteScale();
 
   mAbsoluteScaleNeedUpdate = false;
 }
@@ -252,6 +253,15 @@ WbMatrix3 WbTransform::rotationMatrix() const {
   WbMatrix3 rm = m.extracted3x3Matrix();
   rm.scale(1.0 / s.x(), 1.0 / s.y(), 1.0 / s.z());
   return rm;
+}
+
+const WbMatrix4 &WbTransform::vrmlMatrix() const {
+  if (mVrmlMatrixNeedUpdate) {
+    mVrmlMatrix.fromVrml(translation(), rotation(), scale());
+    mVrmlMatrixNeedUpdate = false;
+  }
+
+  return mVrmlMatrix;
 }
 
 /////////////////////////

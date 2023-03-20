@@ -67,12 +67,15 @@ public:
 
   // 4x4 transform matrices
   const WbMatrix4 &matrix() const;
-  const WbMatrix4 &vrmlMatrix() const;
+  virtual const WbMatrix4 &vrmlMatrix() const;
   WbVector3 xAxis() const { return matrix().xAxis(); }
   WbVector3 yAxis() const { return matrix().yAxis(); }
   WbVector3 zAxis() const { return matrix().zAxis(); }
 
   bool isTopPose() const;
+
+  virtual const WbVector3 &absoluteScale() const;
+  bool absoluteScaleNeedUpdate() const { return mAbsoluteScaleNeedUpdate; }
 
   // 3x3 absolute rotation matrix
   virtual WbMatrix3 rotationMatrix() const { return matrix().extracted3x3Matrix(); }
@@ -125,6 +128,10 @@ protected:
   WbBaseNode *mBaseNode;
   mutable WbMatrix4 *mMatrix;
   mutable bool mMatrixNeedUpdate;
+  mutable WbVector3 mAbsoluteScale;
+  mutable bool mAbsoluteScaleNeedUpdate;
+  mutable WbMatrix4 mVrmlMatrix;
+  mutable bool mVrmlMatrixNeedUpdate;
 
 private:
   mutable bool mIsTranslationFieldVisible;
@@ -136,9 +143,9 @@ private:
   void updateTranslationFieldVisibility() const;
   void updateRotationFieldVisibility() const;
 
+  virtual void updateAbsoluteScale() const;
+
   virtual void updateMatrix() const;
-  mutable WbMatrix4 mVrmlMatrix;
-  mutable bool mVrmlMatrixNeedUpdate;
   mutable bool mHasSearchedTopPose;
   mutable bool mIsTopPose;
 };

@@ -43,18 +43,18 @@ public:
 
   const WbVector3 &scale() const { return mScale->value(); }
   WbSFVector3 *scaleFieldValue() const { return mScale; }
-  bool absoluteScaleNeedUpdate() const { return mAbsoluteScaleNeedUpdate; }
 
   void setScale(double x, double y, double z) { mScale->setValue(x, y, z); };
   void setScale(const WbVector3 &s) { mScale->setValue(s); }
   void setScale(int coordinate, double s) { mScale->setComponent(coordinate, s); }
 
   // scaling
-  virtual const WbVector3 &absoluteScale() const;
+  const WbVector3 &absoluteScale() const override;
   virtual int constraintType() const;
 
   // 3x3 absolute rotation matrix
   WbMatrix3 rotationMatrix() const override;
+  const WbMatrix4 &vrmlMatrix() const override;
 
   // resize/scale manipulator
   WbScaleManipulator *scaleManipulator() { return mScaleManipulator; }
@@ -100,10 +100,8 @@ private:
 
   void applyToOdeScale();
 
-  void updateAbsoluteScale() const;
+  void updateAbsoluteScale() const override;
   void updateMatrix() const override;
-
-  mutable bool mAbsoluteScaleNeedUpdate;
 
   // WREN objects and methods
   void deleteWrenObjects() override;

@@ -124,7 +124,6 @@ void WbPen::prePhysicsStep(double ms) {
     const WbRay ray(m.translation(), globalDirection);
     double distance;
     const WbShape *shape = WbNodeUtilities::findIntersectingShape(ray, maxDistance, distance);
-
     if (shape && WbPaintTexture::isPaintable(shape)) {
       if (!mLastPaintTexture || shape != mLastPaintTexture->shape())
         mLastPaintTexture = WbPaintTexture::paintTexture(shape);

@@ -27,6 +27,7 @@
 
 #include <wren/transform.h>
 
+#include <QtCore/QDebug>
 #include <QtCore/QObject>
 
 void WbAbstractPose::init(WbBaseNode *node) {
@@ -53,6 +54,8 @@ void WbAbstractPose::init(WbBaseNode *node) {
   mIsRotationFieldVisibleReady = false;
   mCanBeTranslated = false;
   mCanBeRotated = false;
+
+  mAbsoluteScaleNeedUpdate = true;
 }
 
 WbAbstractPose::~WbAbstractPose() {
@@ -200,7 +203,7 @@ void WbAbstractPose::updateMatrix() const {
   assert(mMatrix);
 
   mMatrix->fromVrml(mTranslation->x(), mTranslation->y(), mTranslation->z(), mRotation->x(), mRotation->y(), mRotation->z(),
-                    mRotation->angle(), 1, 1, 1);
+                    mRotation->angle(), 1.0, 1.0, 1.0);
 
   // multiply with upper matrix if any
   const WbPose *pose = mBaseNode->upperPose();
@@ -232,6 +235,24 @@ bool WbAbstractPose::isTopPose() const {
   }
 
   return mIsTopPose;
+}
+
+void WbAbstractPose::updateAbsoluteScale() const {
+  mAbsoluteScale = WbVector3(1.0, 1.0, 1.0);
+
+  // multiply with upper transform scale if any
+  const WbPose *const up = mBaseNode->upperPose();
+  if (up)
+    mAbsoluteScale *= up->absoluteScale();
+
+  mAbsoluteScaleNeedUpdate = false;
+}
+
+const WbVector3 &WbAbstractPose::absoluteScale() const {
+  if (mAbsoluteScaleNeedUpdate)
+    updateAbsoluteScale();
+
+  return mAbsoluteScale;
 }
 
 // Position and orientation setters

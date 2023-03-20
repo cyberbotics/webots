@@ -33,6 +33,7 @@ class WbRobot;
 class WbShape;
 class WbSolid;
 class WbPose;
+class WbTransform;
 
 class QString;
 
@@ -43,6 +44,9 @@ namespace WbNodeUtilities {
   //////////////////////////
 
   void fixBackwardCompatibility(WbNode *node);
+
+  // find the closest WbTransform ancestor
+  WbTransform *findUpperTransform(const WbNode *node);
 
   // find the closest WbPose ancestor
   WbPose *findUpperPose(const WbNode *node);

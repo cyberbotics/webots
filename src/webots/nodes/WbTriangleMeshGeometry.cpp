@@ -34,6 +34,8 @@
 
 #include <ode/ode.h>
 
+#include <QtCore/QDebug>
+
 WbTriangleMeshMap WbTriangleMeshGeometry::cTriangleMeshMap;
 
 void WbTriangleMeshGeometry::init() {
@@ -130,9 +132,9 @@ void WbTriangleMeshGeometry::createWrenObjects() {
 void WbTriangleMeshGeometry::setResizeManipulatorDimensions() {
   WbVector3 scale(1.0f, 1.0f, 1.0f);
 
-  const WbTransform *const ut = dynamic_cast<const WbTransform *const>(upperPose());
-  if (ut)
-    scale *= ut->absoluteScale();
+  const WbPose *const up = upperPose();
+  if (up)
+    scale *= up->absoluteScale();
   else
     return;
 

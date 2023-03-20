@@ -106,7 +106,7 @@ void WbCylinder::createWrenObjects() {
 void WbCylinder::setResizeManipulatorDimensions() {
   WbVector3 scale(mRadius->value(), mRadius->value(), mHeight->value());
 
-  const WbTransform *const ut = dynamic_cast<const WbTransform *const>(upperPose());
+  const WbTransform *const ut = upperTransform();
   if (ut)
     scale *= ut->absoluteScale();
 
@@ -452,10 +452,9 @@ double WbCylinder::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, 
   WbVector3 origin(ray.origin());
   const WbPose *const up = upperPose();
   if (up) {
-    const WbTransform *const ut = dynamic_cast<const WbTransform *const>(up);
-    direction = ray.direction() * (ut ? ut->matrix() : up->matrix());
+    direction = ray.direction() * up->matrix();
     direction.normalize();
-    origin = ut ? ut->matrix().pseudoInversed(ray.origin()) : up->matrix().pseudoInversed(ray.origin());
+    origin = up->matrix().pseudoInversed(ray.origin());
     origin /= absoluteScale();
   }
 

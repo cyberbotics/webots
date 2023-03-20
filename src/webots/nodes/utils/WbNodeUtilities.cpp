@@ -59,11 +59,13 @@
 #include "WbTouchSensor.hpp"
 #include "WbTrack.hpp"
 #include "WbTrackWheel.hpp"
+#include "WbTransform.hpp"
 #include "WbVersion.hpp"
 #include "WbViewpoint.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 #include "WbWorld.hpp"
 
+#include <QtCore/QDebug>
 #include <QtCore/QQueue>
 #include <QtCore/QStack>
 #include <QtCore/QStringList>
@@ -695,15 +697,30 @@ WbSolid *WbNodeUtilities::findTopSolid(const WbNode *node) {
   return topSolid;
 }
 
+WbTransform *WbNodeUtilities::findUpperTransform(const WbNode *node) {
+  if (node == NULL)
+    return NULL;
+
+  WbNode *n = node->parentNode();
+  while (n) {
+    WbTransform *const transform = dynamic_cast<WbTransform *>(n);
+    if (transform)
+      return transform;
+    else
+      n = n->parentNode();
+  }
+  return NULL;
+}
+
 WbPose *WbNodeUtilities::findUpperPose(const WbNode *node) {
   if (node == NULL)
     return NULL;
 
   WbNode *n = node->parentNode();
   while (n) {
-    WbPose *const transform = dynamic_cast<WbPose *>(n);
-    if (transform)
-      return transform;
+    WbPose *const pose = dynamic_cast<WbPose *>(n);
+    if (pose)
+      return pose;
     else
       n = n->parentNode();
   }
