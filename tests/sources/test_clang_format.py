@@ -38,8 +38,6 @@ class TestClangFormat(unittest.TestCase):
 
     def test_clang_format_is_correctly_installed(self):
         """Test ClangFormat is correctly installed."""
-        print(subprocess.check_output(['clang-format', '--version']))
-        print(shutil.which('clang-format'))
         self.assertTrue(
             shutil.which('clang-format') is not None,
             msg='ClangFormat is not installed on this computer.'
