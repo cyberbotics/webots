@@ -23,6 +23,7 @@
 class WbBoundingSphere;
 class WbDownloader;
 class WbMFNode;
+class WbScaleManipulator;
 
 struct WrDynamicMesh;
 struct WrMaterial;
@@ -55,19 +56,9 @@ public:
   void reset(const QString &id) override;
   void updateSegmentationColor(const WbRgb &color) override { setSegmentationColor(color); }
 
-  // void setScaleNeedUpdate() override { WbAbstractPose::setScaleNeedUpdateFlag(); }
+  void setScaleNeedUpdate();
   void setMatrixNeedUpdate() override { WbAbstractPose::setMatrixNeedUpdateFlag(); }
   int constraintType() const;
-
-  // resize/scale manipulator
-  // bool hasResizeManipulator() const override { return true; }
-  // void attachResizeManipulator() override { WbAbstractPose::attachResizeManipulator(); }
-  // void detachResizeManipulator() const override { WbAbstractPose::detachResizeManipulator(); }
-  // void updateResizeHandlesSize() override { WbAbstractPose::updateResizeHandlesSize(); }
-  // virtual void setResizeManipulatorDimensions() { WbAbstractPose::setResizeManipulatorDimensions(); }
-  // void setUniformConstraintForResizeHandles(bool enabled) override {
-  //  WbAbstractPose::setUniformConstraintForResizeHandles(enabled);
-  //}
 
   // translate-rotate manipulator
   void updateTranslateRotateHandlesSize() override { WbAbstractPose::updateTranslateRotateHandlesSize(); }
@@ -119,6 +110,21 @@ private:
   WbRotation *mBoneOrientationRequest;
   bool mBonesWarningPrinted;
 
+  WbSFVector3 *mScale;
+  bool mScaleManipulatorInitialized;
+  double mPreviousXscaleValue;
+  WbScaleManipulator *mScaleManipulator;
+
+  // WREN manipulators
+  virtual void createScaleManipulator();
+  void createScaleManipulatorIfNeeded();
+
+  bool checkScale(int constraintType = 0, bool warning = false);
+  bool checkScaleZeroValues(WbVector3 &correctedScale) const;
+  bool checkScaleUniformity(WbVector3 &correctedScale, bool warning = false) const;
+  bool checkScaleUniformity(bool warning = false);
+  bool checkScalingPhysicsConstraints(WbVector3 &correctedScale, int constraintType, bool warning = false) const;
+
   // Ray tracing
   mutable WbBoundingSphere *mBoundingSphere;
 
@@ -133,14 +139,27 @@ private:
 
   QString modelPath() const;
   void updateModel();
-  // void applyToScale();
+  void applyToScale();
+  void applyScaleToWren();
 
   void setSegmentationColor(const WbRgb &color);
+
+  // resize/scale manipulator
+  // bool hasResizeManipulator() const override { return true; }
+  // void attachResizeManipulator() override { WbAbstractPose::attachResizeManipulator(); }
+  // void detachResizeManipulator() const override { WbAbstractPose::detachResizeManipulator(); }
+  void updateResizeHandlesSize();
+  void setResizeManipulatorDimensions();
+  // void setUniformConstraintForResizeHandles(bool enabled) override {
+  //  WbAbstractPose::setUniformConstraintForResizeHandles(enabled);
+  //}
+
+  void updateAbsoluteScale() const override;
 
 private slots:
   virtual void updateTranslation();
   virtual void updateRotation();
-  // virtual void updateScale(bool warning = false);
+  virtual void updateScale(bool warning = false);
   void updateModelUrl();
   void updateAppearance();
   void updateMaterial();
