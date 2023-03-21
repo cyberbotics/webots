@@ -100,6 +100,7 @@ class TestWorldsWarnings(unittest.TestCase):
             if i == 0:
                 continue
             if errors and not all((any(message in error for message in self.skippedMessages) for error in errors.splitlines())):
+                print(errors)
                 problematicWorlds.append(self.worlds[i])
             if errors and self.crashError in str(errors):
                 crashedWorlds.append(self.worlds[i])
