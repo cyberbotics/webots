@@ -105,6 +105,7 @@ public:
   void rotatePitch(float angle);
 
   static float computeFieldOfViewY(double fovX, double aspectRatio);
+  float sphericalFieldOfViewY() const { return mSphericalFieldOfViewY; }
 
 signals:
   void cameraInitialized();
