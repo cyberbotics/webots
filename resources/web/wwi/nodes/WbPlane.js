@@ -58,7 +58,7 @@ export default class WbPlane extends WbGeometry {
   }
 
   recomputeBoundingSphere() {
-    this._boundingSphere.set(new WbVector3(), this.scaledSize().length() / 2);
+    this._boundingSphere.set(new WbVector3(), this.#size.length() / 2);
   }
 
   scaledSize() {

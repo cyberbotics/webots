@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/street_furniture/protos/PublicToilet.proto
 # Resizable public toilet with two different displays.
 # template language: javascript
 
@@ -18,7 +19,7 @@ PROTO PublicToilet [
   field SFBool      backDisplayLight    FALSE                            # Defines whether the back display should have emissive color.
   field MFNode      frontDisplay        [                                # Defines the content of the front display.
     AdvertisingBoard {
-      translation 0 0.1 0
+      translation 0 0.1 -0.55
       frontTexture ["webots://projects/default/worlds/textures/webots_billboard.jpg"]
       backTexture []
       displayBackLight FALSE

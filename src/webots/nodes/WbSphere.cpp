@@ -324,7 +324,7 @@ bool WbSphere::computeCollisionPoint(WbVector3 &point, const WbRay &ray) const {
 
 void WbSphere::recomputeBoundingSphere() const {
   assert(mBoundingSphere);
-  mBoundingSphere->set(WbVector3(), mRadius->value());
+  mBoundingSphere->set(WbVector3(), radius());
 }
 
 ////////////////////////

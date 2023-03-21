@@ -1,13 +1,14 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/apartment_structure/protos/WallPlug.proto
 # An electrical wall plug with optional bounding object.
 # template language: javascript
 
 EXTERNPROTO "webots://projects/bounding_objects/protos/PipeBoundingObject.proto"
 
 PROTO WallPlug [
-  field SFVec3f    translation            0 0 0
+  field SFVec3f    translation            0 0 0.04
   field SFRotation rotation               0 0 1 0
   field SFString   name                   "wall plug"
   field SFColor    mainColor              1 1 1        # Defines the main color of the plug.

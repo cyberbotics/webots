@@ -33,6 +33,7 @@ Robot {
         }
       ]
       endPoint Gear {
+        translation 0 0 0
         appearance PBRAppearance {
           baseColor 0.8 0 0
           roughness 0.5

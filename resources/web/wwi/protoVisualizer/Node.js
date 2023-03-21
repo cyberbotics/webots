@@ -54,8 +54,8 @@ export default class Node {
           parameter.value.value.parentField = parameter;
         else if (parameterType === VRML.MFNode) {
           for (const item of parameter.value.value) {
-            if (item instanceof Node)
-              item.parentField = parameter;
+            if (item.value instanceof Node)
+              item.value.parentField = parameter;
           }
         }
       }
@@ -98,8 +98,8 @@ export default class Node {
         field.value.value.parentField = field;
       else if (type === VRML.MFNode) {
         for (const item of field.value.value) {
-          if (item instanceof Node)
-            item.parentField = field;
+          if (item.value instanceof Node)
+            item.value.parentField = field;
         }
       }
       this.fields.set(fieldName, field);

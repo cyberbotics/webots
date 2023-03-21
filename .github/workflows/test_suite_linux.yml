@@ -72,6 +72,7 @@ jobs:
       if: ${{ matrix.os == 'ubuntu-20.04' && (github.event_name == 'push' || github.event_name == 'schedule') }}
       run: |
         sudo python -m pip install requests PyGithub
+        pip install pyopenssl --upgrade
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=$(git log -1 --format='%H') --tag=${{ github.ref }}
     - uses: actions/upload-artifact@v2
       if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test ros') || contains(github.event.pull_request.labels.*.name, 'test worlds') }}
@@ -126,7 +127,7 @@ jobs:
         name: test-results-${{ matrix.os }}
         path: |
           tests/
-      
+
   test-ros:
     needs: build
     if: ${{ contains(github.event.pull_request.labels.*.name, 'test ros') || github.event_name == 'schedule' }}

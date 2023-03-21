@@ -55,7 +55,7 @@ COPY . $PROJECT_PATH
 
 #### YAML File
 
-A file named `webots.yml` must be included at the root level of a repository to determine publishing permissions, the type of project, as well as if an IDE should be present.
+A file named `webots.yml` must be included at the root level of a project to determine publishing permissions, the type of project, as well as if an IDE should be present.
 A typical example of a `webots.yml` file is the following:
 ```yaml
 publish: true

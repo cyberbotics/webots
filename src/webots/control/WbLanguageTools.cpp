@@ -204,7 +204,7 @@ QString WbLanguageTools::matlabCommand() {
   const QString matlabVersionsWc = "R20???";
 #ifdef _WIN32
   const QString matlabPath = "C:\\Program Files\\MATLAB\\";
-  const QString matlabExecPath = "\\bin\\win64\\MATLAB.exe";
+  const QString matlabExecPath = "\\bin\\matlab.exe";
 #else  // __linux__
   const QString matlabPath = "/usr/local/MATLAB/";
   // cppcheck-suppress unreadVariable
@@ -226,13 +226,7 @@ QString WbLanguageTools::matlabCommand() {
 }
 
 const QStringList WbLanguageTools::matlabArguments() {
-  QStringList arguments("-nosplash");
-  arguments << "-nodesktop";
-#ifdef _WIN32
-  // minimize option is only supported on Windows
-  // http://www.mathworks.ch/ch/help/matlab/matlab_env/startup-options.html
-  arguments << "-minimize";
-#endif
+  QStringList arguments("");
 #ifdef __linux__
   arguments << (WbSysInfo::isPointerSize64bits() ? "-glnxa64" : "-glnx86");
 #endif

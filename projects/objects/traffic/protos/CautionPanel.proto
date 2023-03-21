@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/traffic/protos/CautionPanel.proto
 # Traffic panel: Caution panel.
 
 EXTERNPROTO "webots://projects/objects/geometries/protos/Extrusion.proto"
@@ -47,7 +48,7 @@ PROTO CautionPanel [
         }
       }
       Transform {
-        translation 0.005 -0.008 -0.75
+        translation 0.005 0.01 -0.73
         rotation 0 1 0 1.5708
         children [
           DEF PANEL_BODY Shape {

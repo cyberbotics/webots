@@ -329,7 +329,6 @@ export default class WbCadShape extends WbBaseNode {
   #recomputeBoundingSphere() {
     this.#boundingSphere.empty();
 
-    const scale = this.absoluteScale();
     for (let i = 0; i < this.#wrenMeshes.length; i++) {
       let sphere = [0, 0, 0, 0];
       const spherePointer = arrayXPointerFloat(sphere);
@@ -340,9 +339,7 @@ export default class WbCadShape extends WbBaseNode {
       sphere[3] = Module.getValue(spherePointer + 12, 'float');
 
       const center = new WbVector3(sphere[0], sphere[1], sphere[2]);
-      let radius = sphere[3];
-      radius = radius / Math.max(Math.max(scale.x, scale.y), scale.z);
-      this.#boundingSphere.set(center, radius);
+      this.#boundingSphere.set(center, sphere[3]);
     }
   }
 

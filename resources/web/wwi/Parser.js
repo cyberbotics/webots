@@ -1223,9 +1223,9 @@ export default class Parser {
 
   #parseCone(node, id) {
     this.#updateParserProgress(node);
-    const bottomRadius = getNodeAttribute(node, 'bottomRadius', '1');
-    const height = getNodeAttribute(node, 'height', '2');
-    const subdivision = getNodeAttribute(node, 'subdivision', '32');
+    const bottomRadius = parseFloat(getNodeAttribute(node, 'bottomRadius', '1'));
+    const height = parseFloat(getNodeAttribute(node, 'height', '2'));
+    const subdivision = parseInt(getNodeAttribute(node, 'subdivision', '32'));
     const side = getNodeAttribute(node, 'side', 'true').toLowerCase() === 'true';
     const bottom = getNodeAttribute(node, 'bottom', 'true').toLowerCase() === 'true';
 
@@ -1238,9 +1238,9 @@ export default class Parser {
 
   #parseCylinder(node, id) {
     this.#updateParserProgress(node);
-    const radius = getNodeAttribute(node, 'radius', '1');
-    const height = getNodeAttribute(node, 'height', '2');
-    const subdivision = getNodeAttribute(node, 'subdivision', '32');
+    const radius = parseFloat(getNodeAttribute(node, 'radius', '1'));
+    const height = parseFloat(getNodeAttribute(node, 'height', '2'));
+    const subdivision = parseInt(getNodeAttribute(node, 'subdivision', '32'));
     const bottom = getNodeAttribute(node, 'bottom', 'true').toLowerCase() === 'true';
     const side = getNodeAttribute(node, 'side', 'true').toLowerCase() === 'true';
     const top = getNodeAttribute(node, 'top', 'true').toLowerCase() === 'true';
@@ -1265,9 +1265,9 @@ export default class Parser {
 
   #parseCapsule(node, id) {
     this.#updateParserProgress(node);
-    const radius = getNodeAttribute(node, 'radius', '1');
-    const height = getNodeAttribute(node, 'height', '2');
-    const subdivision = getNodeAttribute(node, 'subdivision', '32');
+    const radius = parseFloat(getNodeAttribute(node, 'radius', '1'));
+    const height = parseFloat(getNodeAttribute(node, 'height', '2'));
+    const subdivision = parseInt(getNodeAttribute(node, 'subdivision', '32'));
     const bottom = getNodeAttribute(node, 'bottom', 'true').toLowerCase() === 'true';
     const side = getNodeAttribute(node, 'side', 'true').toLowerCase() === 'true';
     const top = getNodeAttribute(node, 'top', 'true').toLowerCase() === 'true';
