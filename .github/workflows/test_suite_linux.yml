@@ -175,6 +175,9 @@ jobs:
       with:
         name: build-ubuntu-20.04
         path: artifact
+    - name: Get branch name
+      id: branch-name
+      uses: tj-actions/branch-names@v5.1
     - name: Extract Webots and Cache
       run: |
         tar xjf artifact/webots-*-x86-64*.tar.bz2 -C artifact
@@ -190,7 +193,7 @@ jobs:
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=$PWD/artifact/webots
-        sudo apt install -y wget && wget https://raw.githubusercontent.com/cyberbotics/webots/$(git log -1 --format='%H')/tests/test_worlds.py
+        sudo apt install -y wget && wget https://raw.githubusercontent.com/cyberbotics/webots/${{ steps.branch-name.outputs.current_branch }}/tests/test_worlds.py
         xvfb-run --auto-servernum python3 test_worlds.py
         if [[ "$(diff -qr artifact/ untouched-artifact/ | wc -l)" -ne "0" ]]; then echo Some world and/or wbproj files are not up to date: "$(diff -qr artifact/ untouched-artifact/)"; exit 1; fi
   delete-artifacts:
