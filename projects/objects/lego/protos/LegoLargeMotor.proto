@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/lego/protos/LegoLargeMotor.proto
 # LEGO Mindstorm EV3 large motor. Part id: 6009430.
 
 PROTO LegoLargeMotor [
@@ -129,7 +130,7 @@ PROTO LegoLargeMotor [
             }
           ]
         }
-        Transform { 
+        Transform {
           translation 0.022 -0.0025 0.0376
           rotation 0.862856 -0.357407 0.357407 1.717772
           children [

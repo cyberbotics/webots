@@ -1,7 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/doc-add-objects/projects/objects/factory/containers/protos/MetalStorageBox.proto
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/factory/containers/protos/MetalStorageBox.proto
 # A metal storage box.
 # template language: javascript
 
