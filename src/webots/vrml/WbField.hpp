@@ -66,7 +66,7 @@ public:
   // optional redirection to a proto parameter
   void setAlias(const QString &alias) { mAlias = alias; }
   const QString &alias() const { return mAlias; }
-  void redirectTo(WbField *parameter);
+  void redirectTo(WbField *parameter, bool skipCopy = false);
   WbField *parameter() const { return mParameter; }
   const QList<WbField *> &internalFields() const { return mInternalFields; }
   bool isParameter() const { return mInternalFields.size() != 0; }
@@ -145,6 +145,7 @@ private slots:
   void parameterChanged();
   void parameterNodeInserted(int index);
   void parameterNodeRemoved(int index);
+  void parameterNodeChanged(int index);
   void fieldChanged();
   void fieldChangedByOde();
   void removeInternalField(QObject *field);

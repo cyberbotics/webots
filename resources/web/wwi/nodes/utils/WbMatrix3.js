@@ -1,6 +1,6 @@
 import WbVector3 from './WbVector3.js';
 import WbVector4 from './WbVector4.js';
-import {clampedAcos} from './utils.js';
+import {clampedAcos} from './math_utilities.js';
 import {DOUBLE_EQUALITY_TOLERANCE} from './constants.js';
 
 export default class WbMatrix3 {
