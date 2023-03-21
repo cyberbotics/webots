@@ -31,7 +31,7 @@ PROTO RosbotXl [
     selfCollision IS selfCollision
     physics Physics {
       density -1
-      mass 3.500000
+      mass 3.5
       centerOfMass [ -0.016319 -0.004036 0.028190 ]
       inertiaMatrix [
         2.540425e-02 2.874642e-02 4.622710e-02
@@ -41,8 +41,7 @@ PROTO RosbotXl [
     boundingObject DEF body_collision Group {
       children [
         DEF MAIN_BODY_BOX Transform {
-          translation 0.000000 0.000000 0.048
-          rotation 0.000000 0.000000 1.000000 0.000000
+          translation 0 0 0.048
           children [
             Mesh {
               url "meshes/body_collision.stl"
@@ -53,8 +52,7 @@ PROTO RosbotXl [
     }
     children [
       DEF MAIN_BODY Transform {
-        translation 0.000000 0.000000 0.048000
-        rotation 0.000000 0.000000 1.000000 0.000000
+        translation 0 0 0.048
         children [
           CadShape {
               url "meshes/body.dae"
@@ -64,28 +62,25 @@ PROTO RosbotXl [
 
       HingeJoint {
         jointParameters HingeJointParameters {
-          axis 0.000000 1.000000 0.000000
-          anchor 0.085000 0.135000 0.048000
-          dampingConstant 5.0
-          staticFriction 1.0
+          axis 0 1 0
+          anchor 0.085 0.135 0.048
+          dampingConstant 5
+          staticFriction 1
         }
         device [
           RotationalMotor {
             name "fl_wheel_joint"
-            maxVelocity 26.0
-            maxTorque 100.0
+            maxVelocity 26
+            maxTorque 100
           }
           PositionSensor {
             name "front left wheel motor sensor"
           }
         ]
         endPoint Solid {
-          translation 0.085000 0.135000 0.048000
-          rotation 0.000000 0.000000 1.000000 0.000000
+          translation 0.085 0.135 0.048
           children [
             Transform {
-              translation 0.000000 0.000000 0.000000
-              rotation 0.000000 0.000000 1.000000 0.000000
               children [
                 DEF WHEEL_SHAPE_B CadShape {
                   url "meshes/mecanum_b.dae"
@@ -95,8 +90,7 @@ PROTO RosbotXl [
           ]
           name "front left wheel"
           boundingObject DEF LEFT_WHEEL_CYLINDER Transform {
-            translation 0.000000 0.000000 0.000000
-            rotation 1.000000 0.000000 0.000000 -1.570800
+            rotation 1 0 0 -1.5708
             children [
               DEF WHEEL_CYLINDER Cylinder {
                 radius 0.05
@@ -106,39 +100,37 @@ PROTO RosbotXl [
           }
           physics DEF WHEEL_PHYSICS Physics {
             density -1
-            mass 0.051000
-            centerOfMass [ 0.000000 0.000000 0.000000 ]
+            mass 0.051
+            centerOfMass [ 0 0 0 ]
             inertiaMatrix [
               3.954000e-05 7.116000e-05 4.032000e-05
-              0.000000e+00 0.000000e+00 0.000000e+00
+              0 0 0
             ]
           }
         }
       }
       HingeJoint {
         jointParameters HingeJointParameters {
-          axis 0.000000 1.000000 0.000000
-          anchor 0.085000 -0.135000 0.048000
-          dampingConstant 5.0
-          staticFriction 1.0
+          axis 0 1 0
+          anchor 0.085 -0.135 0.048
+          dampingConstant 5
+          staticFriction 1
         }
         device [
           RotationalMotor {
             name "fr_wheel_joint"
-            maxVelocity 26.0
-            maxTorque 100.0
+            maxVelocity 26
+            maxTorque 100
           }
           PositionSensor {
             name "front right wheel motor sensor"
           }
         ]
         endPoint Solid {
-          translation 0.085000 -0.135000 0.048000
-          rotation 0.000000 0.000000 1.000000 0.000000
+          translation 0.085 -0.135 0.048
           children [
             Transform {
-              translation 0.000000 0.000000 0.000000
-              rotation 0.000000 0.000000 1.000000 3.141592
+              rotation 0 0 1 3.141592
               children [
                 DEF WHEEL_SHAPE_A CadShape {
                   url "meshes/mecanum_a.dae"
@@ -148,8 +140,7 @@ PROTO RosbotXl [
           ]
           name "front right wheel"
           boundingObject DEF RIGHT_WHEEL_CYLINDER Transform {
-            translation 0.000000 0.000000 0.000000
-            rotation 1.000000 0.000000 0.000000 -1.570800
+            rotation 1 0 0 -1.5708
             children [
               USE WHEEL_CYLINDER
             ]
@@ -160,28 +151,25 @@ PROTO RosbotXl [
 
       HingeJoint {
         jointParameters HingeJointParameters {
-          axis 0.000000 1.000000 0.000000
-          anchor -0.085000 0.135000 0.048000
-          dampingConstant 5.0
-          staticFriction 1.0
+          axis 0 1 0
+          anchor -0.085 0.135 0.048
+          dampingConstant 5
+          staticFriction 1
         }
         device [
           RotationalMotor {
             name "rl_wheel_joint"
-            maxVelocity 26.0
-            maxTorque 100.0
+            maxVelocity 26
+            maxTorque 100
           }
           PositionSensor {
             name "rear left wheel motor sensor"
           }
         ]
         endPoint Solid {
-          translation -0.085000 0.135000 0.048000
-          rotation 0.000000 0.000000 1.000000 0.000000
+          translation -0.085 0.135 0.048
           children [
             Transform {
-              translation 0.000000 0.000000 0.000000
-              rotation 0.000000 0.000000 1.000000 0.000000
               children [
                 USE WHEEL_SHAPE_A
               ]
@@ -189,8 +177,7 @@ PROTO RosbotXl [
           ]
           name "rear left wheel"
           boundingObject DEF LEFT_WHEEL_CYLINDER Transform {
-            translation 0.000000 0.000000 0.000000
-            rotation 1.000000 0.000000 0.000000 -1.570800
+            rotation 1 0 0 -1.5708
             children [
               USE WHEEL_CYLINDER
             ]
@@ -201,28 +188,26 @@ PROTO RosbotXl [
 
       HingeJoint {
         jointParameters HingeJointParameters {
-          axis 0.000000 1.000000 0.000000
-          anchor -0.085000 -0.135000 0.048000
-          dampingConstant 5.0
-          staticFriction 1.0
+          axis 0 1 0
+          anchor -0.085 -0.135 0.048
+          dampingConstant 5
+          staticFriction 1
         }
         device [
           RotationalMotor {
             name "rr_wheel_joint"
-            maxVelocity 26.0
-            maxTorque 100.0
+            maxVelocity 26
+            maxTorque 100
           }
           PositionSensor {
             name "rear right wheel motor sensor"
           }
         ]
         endPoint Solid {
-          translation -0.085000 -0.135000 0.048000
-          rotation 0.000000 0.000000 1.000000 0.000000
+          translation -0.085 -0.135 0.048
           children [
             Transform {
-              translation 0.000000 0.000000 0.000000
-              rotation 0.000000 0.000000 1.000000 3.141592
+              rotation 0 0 1 3.141592
               children [
                 USE WHEEL_SHAPE_B
               ]
@@ -230,8 +215,7 @@ PROTO RosbotXl [
           ]
           name "rear right wheel"
           boundingObject DEF RIGHT_WHEEL_CYLINDER Transform {
-            translation 0.000000 0.000000 0.000000
-            rotation 1.000000 0.000000 0.000000 -1.570800
+            rotation 1 0 0 -1.5708
             children [
               USE WHEEL_CYLINDER
             ]
@@ -240,12 +224,12 @@ PROTO RosbotXl [
         }
       }
       DEF LIDAR_SLOT Transform {
-        translation 0.000000 0.000000 0.13145
+        translation 0 0 0.13145
         children IS lidarSlot
       }
       Mpu-9250 {
-        translation -0.136900 -0.041900 0.037000
-        rotation 1.000000 0.000000 0.000000 3.14159
+        translation -0.1369 -0.0419 0.037
+        rotation 1 0 0 3.14159
         name "imu"
         includeInertialUnit TRUE
       }
