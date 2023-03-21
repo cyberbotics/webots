@@ -183,7 +183,7 @@ jobs:
         python-version: 3.9
     - name: Update World, Check Warnings and Validate Cache
       run: |
-        wget https://raw.githubusercontent.com/cyberbotics/webots/${{ steps.branch-name.outputs.current_branch }}/scripts/install/linux_runtime_dependencies.sh && sudo linux_runtime_dependencies.sh
+        wget https://raw.githubusercontent.com/cyberbotics/webots/${{ steps.branch-name.outputs.current_branch }}/scripts/install/linux_runtime_dependencies.sh && sudo sh linux_runtime_dependencies.sh
         export LIBGL_ALWAYS_SOFTWARE=true
         export WEBOTS_DISABLE_SAVE_SCREEN_PERSPECTIVE_ON_CLOSE=true
         export WEBOTS_HOME=$PWD/artifact/webots
