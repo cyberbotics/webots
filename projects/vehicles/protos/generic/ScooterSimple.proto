@@ -32,7 +32,6 @@ PROTO ScooterSimple [
     recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid lua PROTO regeneration when colors change.
     children [
       Transform {
-        rotation 0.5773502063 0.5773502063 0.577350395 2.0943949137
         children [
           DEF DRIVER Slot {
             type "scooter driver"
@@ -52,7 +51,7 @@ PROTO ScooterSimple [
           }
           DEF FRONT_WHEEL Solid {
             angularVelocity IS frontWheelAngularVelocity
-            translation 0 0 1.484
+            translation 1.484 0 0
             children [
               Slot {
                 type "vehicle wheel"
