@@ -80,12 +80,8 @@ PROTO RosbotXl [
         endPoint Solid {
           translation 0.085 0.135 0.048
           children [
-            Transform {
-              children [
-                DEF WHEEL_SHAPE_B CadShape {
-                  url "meshes/mecanum_b.dae"
-                }
-              ]
+            DEF WHEEL_SHAPE_B CadShape {
+              url "meshes/mecanum_b.dae"
             }
           ]
           name "front left wheel"
