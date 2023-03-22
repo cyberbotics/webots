@@ -6,14 +6,14 @@ import WbWorld from './WbWorld.js';
 
 import WbBeltPosition from './utils/WbBeltPosition.js';
 import WbPathSegment from './utils/WbPathSegment.js';
-import {getAnId} from './utils/id_provider.js';
-import {clampedAcos} from './utils/math_utilities.js';
-import {WbNodeType} from './wb_node_type.js';
+import { getAnId } from './utils/id_provider.js';
+import { clampedAcos } from './utils/math_utilities.js';
+import { WbNodeType } from './wb_node_type.js';
 
 export default class WbTrack extends WbSolid {
   #device;
-  constructor(id, translation, scale, rotation, geometriesCount) {
-    super(id, translation, scale, rotation);
+  constructor(id, translation, rotation, geometriesCount) {
+    super(id, translation, rotation);
     this.geometriesCount = geometriesCount;
     this.pathList = [];
     this.wheelsList = [];

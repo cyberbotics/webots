@@ -172,7 +172,7 @@ PROTO Puma560 [
                   Pose {
                     rotation 0 0 1 1.5708
                     children [
-                      DEF UNIMATE_LOGO Pose {
+                      DEF UNIMATE_LOGO Transform {
                         translation -0.05 0.135 -0.079
                         rotation 1 0 0 -1.5708
                         scale 6 1 4
@@ -198,7 +198,7 @@ PROTO Puma560 [
                           }
                         ]
                       }
-                      DEF PUMA_LOGO Pose {
+                      DEF PUMA_LOGO Transform {
                         translation 0.1355 0.135 0
                         rotation 1 0 0 -1.5708
                         scale 6 1 4

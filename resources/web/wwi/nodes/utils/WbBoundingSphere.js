@@ -1,5 +1,5 @@
 import WbVector3 from './WbVector3.js';
-import {findUpperPose} from './node_utilities.js';
+import { findUpperPose } from './node_utilities.js';
 
 export default class WbBoundingSphere {
   #center;
@@ -58,12 +58,12 @@ export default class WbBoundingSphere {
   computeSphereInGlobalCoordinates() {
     let radius;
     let center;
-    const upperTransform = !this.transformOwner ? findUpperPose(this.#owner) : this.#owner;
+    const upperPose = !this.poseOwner ? findUpperPose(this.#owner) : this.#owner;
 
-    if (typeof upperTransform !== 'undefined') {
-      const scale = upperTransform.absoluteScale();
+    if (typeof upperPose !== 'undefined') {
+      const scale = upperPose.absoluteScale();
       radius = Math.max(Math.max(scale.x, scale.y), scale.z) * this.#radius;
-      center = upperTransform.matrix().mulByVec3(this.#center);
+      center = upperPose.matrix().mulByVec3(this.#center);
     } else {
       radius = this.#radius;
       center = this.#center;
@@ -172,7 +172,7 @@ export default class WbBoundingSphere {
     if (!this.parentCoordinatesDirty)
       return;
 
-    if (this.transformOwner) {
+    if (this.poseOwner) {
       const scale = this.#owner.scale;
       this.#radiusInParentCoordinates = Math.max(Math.max(scale.x, scale.y), scale.z) * this.#radius;
       this.#centerInParentCoordinates = this.#owner.vrmlMatrix().mulByVec3(this.#center);

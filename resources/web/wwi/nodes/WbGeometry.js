@@ -10,15 +10,15 @@ import WbWrenPicker from '../wren/WbWrenPicker.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 import Selector from '../Selector.js';
-import {findUpperPose, nodeIsInBoundingObject} from './utils/node_utilities.js';
+import { findUpperPose, nodeIsInBoundingObject } from './utils/node_utilities.js';
 import WbGroup from './WbGroup.js';
 import WbPose from './WbPose.js';
 
 export default class WbGeometry extends WbBaseNode {
   #boundingObjectFirstTimeSearch;
   #isInBoundingObject;
-  #upperTransformFirstTimeSearch;
-  #wrenScaleTransform;
+  #upperPoseFirstTimeSearch;
+  #wrenScalePose;
   constructor(id) {
     super(id);
 
@@ -28,13 +28,13 @@ export default class WbGeometry extends WbBaseNode {
     this.#boundingObjectFirstTimeSearch = true;
     this.#isInBoundingObject = false;
 
-    this.#upperTransformFirstTimeSearch = true;
-    this.upperTransform = false;
+    this.#upperPoseFirstTimeSearch = true;
+    this.upperPose = false;
   }
 
   absoluteScale() {
-    const ut = this.#upperTransform();
-    return ut ? ut.absoluteScale() : new WbVector3(1, 1, 1);
+    const up = this.#upperPose();
+    return up ? up.absoluteScale() : new WbVector3(1, 1, 1);
   }
 
   boundingSphere() {
@@ -93,7 +93,7 @@ export default class WbGeometry extends WbBaseNode {
     this.recomputeBoundingSphere();
   }
 
-  recomputeBoundingSphere() {}
+  recomputeBoundingSphere() { }
 
   setPickable(pickable) {
     if (typeof this._wrenRenderable === 'undefined' || this.isInBoundingObject())
@@ -115,14 +115,14 @@ export default class WbGeometry extends WbBaseNode {
     this.#applyVisibilityFlagToWren(this.#isSelected());
   }
 
-  #upperTransform() {
-    if (this.#upperTransformFirstTimeSearch) {
-      this.upperTransform = findUpperPose(this);
+  #upperPose() {
+    if (this.#upperPoseFirstTimeSearch) {
+      this.upperPose = findUpperPose(this);
       if (this.wrenObjectsCreatedCalled)
-        this.#upperTransformFirstTimeSearch = false;
+        this.#upperPoseFirstTimeSearch = false;
     }
 
-    return this.upperTransform;
+    return this.upperPose;
   }
 
   // Private functions
@@ -228,8 +228,8 @@ export default class WbGeometry extends WbBaseNode {
     if (!this.isInBoundingObject())
       return false;
 
-    const upperTransform = this.#upperTransform();
-    if (typeof upperTransform !== 'undefined' && upperTransform.isInBoundingObject() && upperTransform.geometry() !== this)
+    const upperPose = this.#upperPose();
+    if (typeof upperPose !== 'undefined' && upperPose.isInBoundingObject() && upperPose.geometry() !== this)
       return false;
 
     return true;

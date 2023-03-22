@@ -1,10 +1,11 @@
 import WbGroup from './WbGroup.js';
 import WbWorld from './WbWorld.js';
 
-import {getAnId} from './utils/id_provider.js';
-import {findUpperPose} from './utils/node_utilities.js';
+import { getAnId } from './utils/id_provider.js';
+import { findUpperPose } from './utils/node_utilities.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
-import {WbNodeType} from './wb_node_type.js';
+import { WbNodeType } from './wb_node_type.js';
+import WbVector3 from './utils/WbVector3.js';
 
 export default class WbPose extends WbGroup {
   #absoluteScale;
@@ -13,20 +14,18 @@ export default class WbPose extends WbGroup {
   #matrixNeedUpdate;
   #previousTranslation;
   #rotation;
-  #scale;
   #translation;
-  #upperTransformFirstTimeSearch;
+  #upperPoseFirstTimeSearch;
   #vrmlMatrix;
   #vrmlMatrixNeedUpdate;
-  constructor(id, translation, scale, rotation) {
+  constructor(id, translation, rotation) {
     super(id);
     this.#translation = translation;
-    this.#scale = scale;
     this.#rotation = rotation;
     this.#rotation.normalizeRotation();
 
     this.#absoluteScaleNeedUpdate = true;
-    this.#upperTransformFirstTimeSearch = true;
+    this.#upperPoseFirstTimeSearch = true;
     this.#vrmlMatrix = new WbMatrix4();
     this.#vrmlMatrixNeedUpdate = true;
     this.#matrixNeedUpdate = true;
@@ -45,16 +44,6 @@ export default class WbPose extends WbGroup {
     this.#translation = newTranslation;
 
     this.#updateTranslation();
-  }
-
-  get scale() {
-    return this.#scale;
-  }
-
-  set scale(newScale) {
-    this.#scale = newScale;
-
-    this.#updateScale();
   }
 
   get rotation() {
@@ -76,17 +65,17 @@ export default class WbPose extends WbGroup {
   }
 
   #updateAbsoluteScale() {
-    this.#absoluteScale = this.#scale;
-    // multiply with upper transform scale if any
-    const ut = this.#upperTransform();
-    if (typeof ut !== 'undefined')
-      this.#absoluteScale = this.#absoluteScale.mulByVector(ut.absoluteScale());
+    this.#absoluteScale = new WbVector3(1.0, 1.0, 1.0);
+    // multiply with upper pose scale if any
+    const up = this.#upperPose();
+    if (typeof up !== 'undefined')
+      this.#absoluteScale = this.#absoluteScale.mulByVector(up.absoluteScale());
 
     this.#absoluteScaleNeedUpdate = false;
   }
 
   clone(customID) {
-    const transform = new WbPose(customID, this.#translation, this.#scale, this.#rotation);
+    const transform = new WbPose(customID, this.#translation, this.#rotation);
 
     const length = this.children.length;
     for (let i = 0; i < length; i++) {
@@ -113,7 +102,6 @@ export default class WbPose extends WbGroup {
 
     this.#applyTranslationToWren();
     this.#applyRotationToWren();
-    this.#applyScaleToWren();
   }
 
   delete(isBoundingObject) {
@@ -135,12 +123,12 @@ export default class WbPose extends WbGroup {
 
   recomputeBoundingSphere() {
     super.recomputeBoundingSphere();
-    this._boundingSphere.transformOwner = true;
+    this._boundingSphere.poseOwner = true;
   }
 
   vrmlMatrix() {
     if (this.#vrmlMatrixNeedUpdate) {
-      this.#vrmlMatrix.fromVrml(this.#translation, this.#rotation, this.#scale);
+      this.#vrmlMatrix.fromVrml(this.#translation, this.#rotation, WbVector3(1.0, 1.0, 1.0));
       this.#vrmlMatrixNeedUpdate = false;
     }
 
@@ -163,23 +151,18 @@ export default class WbPose extends WbGroup {
     _wr_transform_set_orientation(this.wrenNode, rotation);
   }
 
-  #applyScaleToWren() {
-    const scale = _wrjs_array3(this.#scale.x, this.#scale.y, this.#scale.z);
-    _wr_transform_set_scale(this.wrenNode, scale);
-  }
-
   #applyTranslationToWren() {
     const translation = _wrjs_array3(this.#translation.x, this.#translation.y, this.#translation.z);
     _wr_transform_set_position(this.wrenNode, translation);
   }
 
   #updateMatrix() {
-    this.#matrix.fromVrml(this.#translation, this.#rotation, this.#scale);
+    this.#matrix.fromVrml(this.#translation, this.#rotation, WbVector3(1.0, 1.0, 1.0));
 
     // multiply with upper matrix if any
-    const transform = this.#upperTransform();
-    if (typeof transform !== 'undefined')
-      this.#matrix = transform.matrix().mul(this.#matrix);
+    const pose = this.#upperPose();
+    if (typeof pose !== 'undefined')
+      this.#matrix = pose.matrix().mul(this.#matrix);
     this.#matrixNeedUpdate = false;
   }
 
@@ -201,20 +184,13 @@ export default class WbPose extends WbGroup {
     this.#matrixNeedUpdate = true;
   }
 
-  #updateScale() {
-    if (this.wrenObjectsCreatedCalled)
-      this.#applyScaleToWren();
-
-    this.#matrixNeedUpdate = true;
-  }
-
-  #upperTransform() {
-    if (this.#upperTransformFirstTimeSearch) {
-      this.upperTransform = findUpperPose(this);
+  #upperPose() {
+    if (this.#upperPoseFirstTimeSearch) {
+      this.upperPose = findUpperPose(this);
       if (this.wrenObjectsCreatedCalled)
-        this.#upperTransformFirstTimeSearch = false;
+        this.#upperPoseFirstTimeSearch = false;
     }
 
-    return this.upperTransform;
+    return this.upperPose;
   }
 }

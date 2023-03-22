@@ -20,7 +20,7 @@ Solid {
   name IS name
   model "KUKA box"
   children [
-    Pose {
+    Transform {
       scale IS size
       children [
         Shape {

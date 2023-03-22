@@ -90,7 +90,7 @@ WorldInfo {
 }
 DEF VIEWPOINT Viewpoint {
   orientation 0.19164996383925656 0.30721420386093523 -0.9321425450576233 1.1864089281314691
-  position -3.6749527677384393 12.591222530056148 5.486760472905883
+  position -4.2407508535180884 13.767502928852702 6.050430572228659
   ambientOcclusionRadius 1
 }
 TexturedBackground {
@@ -261,7 +261,7 @@ Solid {
       }
     }
   ]
-  name "solid(7)"
+  name "solid(28)"
 }
 Solid {
   translation 3.34 11.13 3.4692821714666238
@@ -4417,7 +4417,7 @@ Solid {
   ]
   name "solid(23)"
 }
-Solid {
+Transform {
   translation -0.0054975 -5.41272 0
   rotation 0 0 1 -1.5707953071795862
   scale 0.8 0.8 0.8
@@ -4434,6 +4434,7 @@ Solid {
         }
       ]
       boundingObject USE SHAPE
+      name "solid(25)"
     }
     Solid {
       translation 0.03 0.29 0.75
@@ -4603,7 +4604,7 @@ Solid {
           }
         }
       ]
-      name "solid(6)"
+      name "solid(24)"
       boundingObject USE SHAPE
     }
     Solid {
@@ -4618,7 +4619,7 @@ Solid {
           }
         }
       ]
-      name "solid(8)"
+      name "solid(35)"
       boundingObject USE SHAPE
     }
     Solid {
@@ -4633,7 +4634,7 @@ Solid {
           }
         }
       ]
-      name "solid(7)"
+      name "solid(29)"
       boundingObject USE SHAPE
     }
     Solid {
@@ -4662,7 +4663,7 @@ Solid {
           }
         }
       ]
-      name "solid(4)"
+      name "solid(33)"
       boundingObject USE SHAPE
     }
     Solid {
@@ -4676,7 +4677,7 @@ Solid {
           }
         }
       ]
-      name "solid(1)"
+      name "solid(30)"
       boundingObject USE SHAPE
     }
     Solid {
@@ -4690,7 +4691,7 @@ Solid {
           }
         }
       ]
-      name "solid(2)"
+      name "solid(31)"
       boundingObject USE SHAPE
     }
     Solid {
@@ -4704,7 +4705,7 @@ Solid {
           }
         }
       ]
-      name "solid(3)"
+      name "solid(36)"
       boundingObject USE SHAPE
     }
     Solid {
@@ -4718,11 +4719,10 @@ Solid {
           }
         }
       ]
-      name "solid(5)"
+      name "solid(32)"
       boundingObject USE SHAPE
     }
   ]
-  name "solid(9)"
 }
 DEF POLE Solid {
   translation -0.25845 -11.07188 2.38

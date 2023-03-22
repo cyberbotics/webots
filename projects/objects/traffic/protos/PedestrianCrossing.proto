@@ -29,7 +29,7 @@ PROTO PedestrianCrossing [
     rotation IS rotation
     recognitionColors [ 0.96 0.82 0.05 ]
     children [
-      DEF ZEBRA_TRANS Pose {
+      DEF ZEBRA_TRANS Transform {
         translation 0 -0.1 0
         rotation -0.577350 0.577352 -0.577350 -2.094399
         scale IS scale

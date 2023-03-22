@@ -3972,6 +3972,7 @@ Transform {
   scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
+      name "LargeResidentialTower(1)"
     }
   ]
 }
@@ -3981,6 +3982,7 @@ Transform {
   scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
+      name "LargeResidentialTower(2)"
     }
   ]
 }
@@ -3992,6 +3994,7 @@ Transform {
     LargeResidentialTower {
       rotation 0 0 1 6.283185307179586
       numberOfFloors 6
+      name "LargeResidentialTower(3)"
     }
   ]
 }
@@ -4003,6 +4006,7 @@ Transform {
     LargeResidentialTower {
       rotation 0 0 1 6.283185307179586
       numberOfFloors 6
+      name "LargeResidentialTower(4)"
     }
   ]
 }
@@ -4014,6 +4018,7 @@ Transform {
     LargeResidentialTower {
       rotation 0 0 -1 5.759586533179586
       numberOfFloors 5
+      name "LargeResidentialTower(5)"
     }
   ]
 }
@@ -4025,6 +4030,7 @@ Transform {
     LargeResidentialTower {
       rotation 0 0 -1 5.759586533179586
       numberOfFloors 5
+      name "LargeResidentialTower(6)"
     }
   ]
 }
@@ -4036,6 +4042,7 @@ Transform {
     LargeResidentialTower {
       rotation 0 0 1 0.5235987548204127
       numberOfFloors 3
+      name "LargeResidentialTower(7)"
     }
   ]
 }
@@ -4047,6 +4054,7 @@ Transform {
     LargeResidentialTower {
       rotation 0 0 -1 5.2359877591795865
       numberOfFloors 3
+      name "LargeResidentialTower(8)"
     }
   ]
 }
@@ -4057,6 +4065,7 @@ Transform {
   children [
     LargeResidentialTower {
       rotation 0 0 -1 5.2359877591795865
+      name "LargeResidentialTower(9)"
     }
   ]
 }
@@ -4067,6 +4076,7 @@ Transform {
   children [
     LargeResidentialTower {
       rotation 0 0 -1 5.2359877591795865
+      name "LargeResidentialTower(10)"
     }
   ]
 }
@@ -4078,6 +4088,7 @@ Transform {
     LargeResidentialTower {
       rotation 0 0 -1 5.2359877591795865
       numberOfFloors 6
+      name "LargeResidentialTower(11)"
     }
   ]
 }
@@ -4089,6 +4100,7 @@ Transform {
     LargeResidentialTower {
       rotation 0 0 1 0.7853981418204125
       numberOfFloors 6
+      name "LargeResidentialTower(12)"
     }
   ]
 }
@@ -4098,6 +4110,7 @@ Transform {
   scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
+      name "LargeResidentialTower(13)"
     }
   ]
 }
@@ -4107,6 +4120,7 @@ Transform {
   scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
+      name "LargeResidentialTower(14)"
     }
   ]
 }
@@ -4116,6 +4130,7 @@ Transform {
   scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
+      name "LargeResidentialTower(15)"
     }
   ]
 }
@@ -4125,6 +4140,7 @@ Transform {
   scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
+      name "LargeResidentialTower(16)"
     }
   ]
 }

@@ -2006,7 +2006,7 @@ CeilingSpotLight {
   spotLightIntensity 5
   spotLightRadius 3
 }
-DEF TREES Pose {
+DEF TREES Transform {
   scale 1 1 0.6
   children [
     Cypress {

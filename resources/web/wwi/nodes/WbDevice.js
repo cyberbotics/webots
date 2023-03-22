@@ -2,7 +2,7 @@ import WbSolid from './WbSolid.js';
 import WbWorld from './WbWorld.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
-import {arrayXPointerFloat} from './utils/utils.js';
+import { arrayXPointerFloat } from './utils/utils.js';
 
 export default class WbDevice extends WbSolid {
   #axisMesh;
@@ -10,8 +10,8 @@ export default class WbDevice extends WbSolid {
   #axesTransform;
   #material;
   #transform;
-  constructor(id, translation, scale, rotation, name) {
-    super(id, translation, scale, rotation, name);
+  constructor(id, translation, rotation, name) {
+    super(id, translation, rotation, name);
 
     this.#material = [];
     this.#axisMesh = [];
