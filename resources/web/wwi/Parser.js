@@ -70,7 +70,7 @@ import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbTouchSensor from './nodes/WbTouchSensor.js';
 import WbTrack from './nodes/WbTrack.js';
 import WbTrackWheel from './nodes/WbTrackWheel.js';
-import WbPose from './nodes/WbPose.js';
+import WbTransform from './nodes/WbTransform.js';
 import WbVector2 from './nodes/utils/WbVector2.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 import WbVector4 from './nodes/utils/WbVector4.js';

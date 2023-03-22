@@ -56,23 +56,6 @@ export default class WbTransform extends WbPose {
     this.#applyScaleToWren();
   }
 
-  delete(isBoundingObject) {
-    if (this.wrenObjectsCreatedCalled)
-      _wr_node_delete(this.wrenNode);
-
-    super.delete(isBoundingObject);
-  }
-
-  matrix() {
-    if (typeof this.#matrix === 'undefined') {
-      this.#matrix = new WbMatrix4();
-      this.#updateMatrix();
-    } else if (this.#matrixNeedUpdate)
-      this.#updateMatrix();
-
-    return this.#matrix;
-  }
-
   #applyScaleToWren() {
     const scale = _wrjs_array3(this.#scale.x, this.#scale.y, this.#scale.z);
     _wr_transform_set_scale(this.wrenNode, scale);
@@ -82,6 +65,6 @@ export default class WbTransform extends WbPose {
     if (this.wrenObjectsCreatedCalled)
       this.#applyScaleToWren();
 
-    this.#matrixNeedUpdate = true;
+    this._matrixNeedUpdate = true;
   }
 }

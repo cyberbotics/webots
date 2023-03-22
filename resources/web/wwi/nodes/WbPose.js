@@ -9,7 +9,6 @@ import WbVector3 from './utils/WbVector3.js';
 
 export default class WbPose extends WbGroup {
   #matrix;
-  #matrixNeedUpdate;
   #previousTranslation;
   #rotation;
   #translation;
@@ -26,7 +25,7 @@ export default class WbPose extends WbGroup {
     this.#upperPoseFirstTimeSearch = true;
     this.#vrmlMatrix = new WbMatrix4();
     this.#vrmlMatrixNeedUpdate = true;
-    this.#matrixNeedUpdate = true;
+    this._matrixNeedUpdate = true;
   }
 
   get nodeType() {
@@ -113,7 +112,7 @@ export default class WbPose extends WbGroup {
     if (typeof this.#matrix === 'undefined') {
       this.#matrix = new WbMatrix4();
       this.#updateMatrix();
-    } else if (this.#matrixNeedUpdate)
+    } else if (this._matrixNeedUpdate)
       this.#updateMatrix();
 
     return this.#matrix;
@@ -126,7 +125,7 @@ export default class WbPose extends WbGroup {
 
   vrmlMatrix() {
     if (this.#vrmlMatrixNeedUpdate) {
-      this.#vrmlMatrix.fromVrml(this.#translation, this.#rotation, WbVector3(1.0, 1.0, 1.0));
+      this.#vrmlMatrix.fromVrml(this.#translation, this.#rotation, new WbVector3(1.0, 1.0, 1.0));
       this.#vrmlMatrixNeedUpdate = false;
     }
 
@@ -155,13 +154,13 @@ export default class WbPose extends WbGroup {
   }
 
   #updateMatrix() {
-    this.#matrix.fromVrml(this.#translation, this.#rotation, WbVector3(1.0, 1.0, 1.0));
+    this.#matrix.fromVrml(this.#translation, this.#rotation, new WbVector3(1.0, 1.0, 1.0));
 
     // multiply with upper matrix if any
     const pose = this.#upperPose();
     if (typeof pose !== 'undefined')
       this.#matrix = pose.matrix().mul(this.#matrix);
-    this.#matrixNeedUpdate = false;
+    this._matrixNeedUpdate = false;
   }
 
   #updateTranslation() {
@@ -172,14 +171,14 @@ export default class WbPose extends WbGroup {
     if (this.wrenObjectsCreatedCalled)
       this.#applyTranslationToWren();
 
-    this.#matrixNeedUpdate = true;
+    this._matrixNeedUpdate = true;
   }
 
   #updateRotation() {
     if (this.wrenObjectsCreatedCalled)
       this.#applyRotationToWren();
 
-    this.#matrixNeedUpdate = true;
+    this._matrixNeedUpdate = true;
   }
 
   #upperPose() {

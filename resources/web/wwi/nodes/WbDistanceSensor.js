@@ -2,9 +2,9 @@ import WbLookupTable from './WbLookupTable.js';
 import WbDevice from './WbDevice.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
-import {arrayXPointerFloat} from './utils/utils.js';
+import { arrayXPointerFloat } from './utils/utils.js';
 import WbVector3 from './utils/WbVector3.js';
-import {WbNodeType} from './wb_node_type.js';
+import { WbNodeType } from './wb_node_type.js';
 
 export default class WbDistanceSensor extends WbDevice {
   #aperture;
@@ -19,8 +19,8 @@ export default class WbDistanceSensor extends WbDevice {
   #rays;
   #renderable;
   #transform;
-  constructor(id, translation, scale, rotation, name, numberOfRays, aperture, lookupTable) {
-    super(id, translation, scale, rotation, name);
+  constructor(id, translation, rotation, name, numberOfRays, aperture, lookupTable) {
+    super(id, translation, rotation, name);
     this.#aperture = aperture;
     this.#lookupTable = lookupTable;
     this.#numberOfRays = numberOfRays;
@@ -42,9 +42,9 @@ export default class WbDistanceSensor extends WbDevice {
       [[0, 0], [0, 1], [SIXTH, 1], [2 * SIXTH, 1], [3 * SIXTH, 1], [4 * SIXTH, 1], [5 * SIXTH, 1]],
       [[0, 0], [0, 1], [SEVENTH, 1], [2 * SEVENTH, 1], [3 * SEVENTH, 1], [4 * SEVENTH, 1], [5 * SEVENTH, 1], [6 * SEVENTH, 1]],
       [[0, 0.3], [THIRD, 0.3], [-THIRD, 0.3], [0, 1], [SIXTH, 1], [2 * SIXTH, 1], [3 * SIXTH, 1], [4 * SIXTH, 1],
-        [5 * SIXTH, 1]],
+      [5 * SIXTH, 1]],
       [[0, 0], [0, 0.5], [THIRD, 0.5], [-THIRD, 0.5], [0, 1], [SIXTH, 1], [2 * SIXTH, 1], [3 * SIXTH, 1], [4 * SIXTH, 1],
-        [5 * SIXTH, 1]]];
+      [5 * SIXTH, 1]]];
   }
 
   get nodeType() {

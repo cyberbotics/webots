@@ -18,7 +18,7 @@ export default class WbGeometry extends WbBaseNode {
   #boundingObjectFirstTimeSearch;
   #isInBoundingObject;
   #upperPoseFirstTimeSearch;
-  #wrenScalePose;
+  #wrenScaleTransform;
   constructor(id) {
     super(id);
 

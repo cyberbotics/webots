@@ -34,7 +34,6 @@ import WbSphere from './nodes/WbSphere.js';
 import WbTextureCoordinate from './nodes/WbTextureCoordinate.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbTrackWheel from './nodes/WbTrackWheel.js';
-import WbPose from './nodes/WbPose.js';
 import WbWorld from './nodes/WbWorld.js';
 
 import WbVector2 from './nodes/utils/WbVector2.js';
