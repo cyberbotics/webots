@@ -223,7 +223,7 @@ DEF ENVIRONMENT Solid {
             }
           }
         }
-        Transform {
+        Pose {
           rotation -1 0 0 1.5707963267948966
           children [
             DEF PLANT_GROUND Shape {
@@ -280,7 +280,7 @@ DEF ENVIRONMENT Solid {
             }
           }
         }
-        Transform {
+        Pose {
           rotation -1 0 0 1.5707963267948966
           children [
             USE PLANT_GROUND
@@ -318,7 +318,7 @@ DEF ENVIRONMENT Solid {
             }
           }
         }
-        Transform {
+        Pose {
           rotation -1 0 0 1.5707963267948966
           children [
             USE PLANT_GROUND
@@ -464,7 +464,7 @@ DEF ENVIRONMENT Solid {
   ]
   boundingObject Group {
     children [
-      DEF ROAD1 Transform {
+      DEF ROAD1 Pose {
         translation 64.38 0.05 -2
         children [
           Box {
@@ -472,7 +472,7 @@ DEF ENVIRONMENT Solid {
           }
         ]
       }
-      DEF ROAD_SIGNS1 Transform {
+      DEF ROAD_SIGNS1 Pose {
         translation 34.18 0.05 -2.0000129
         children [
           DEF ROAD_SIGNS_BO Box {
@@ -480,7 +480,7 @@ DEF ENVIRONMENT Solid {
           }
         ]
       }
-      DEF ROAD2 Transform {
+      DEF ROAD2 Pose {
         translation 30.38 0.05 -28.5
         rotation 0 1 0 1.5707997
         children [
@@ -489,14 +489,14 @@ DEF ENVIRONMENT Solid {
           }
         ]
       }
-      DEF ROAD_SIGNS2 Transform {
+      DEF ROAD_SIGNS2 Pose {
         translation 30.38 0.05 -5.8
         rotation 0 1 0 1.5708003
         children [
           USE ROAD_SIGNS_BO
         ]
       }
-      DEF ROAD3 Transform {
+      DEF ROAD3 Pose {
         translation 30.379987 0.05 24.5
         rotation 0 1 0 1.5707997
         children [
@@ -505,14 +505,14 @@ DEF ENVIRONMENT Solid {
           }
         ]
       }
-      DEF ROAD_SIGNS3 Transform {
+      DEF ROAD_SIGNS3 Pose {
         translation 30.38 0.05 1.8
         rotation 0 1 0 -1.5708
         children [
           USE ROAD_SIGNS_BO
         ]
       }
-      DEF ROAD4 Transform {
+      DEF ROAD4 Pose {
         translation -23.62 0.05 -2
         children [
           Box {
@@ -520,14 +520,14 @@ DEF ENVIRONMENT Solid {
           }
         ]
       }
-      DEF ROAD_SIGNS4 Transform {
+      DEF ROAD_SIGNS4 Pose {
         translation 26.58 0.05 -2
         rotation 0 1 0 3.1415927
         children [
           USE ROAD_SIGNS_BO
         ]
       }
-      DEF INTERSECTION Transform {
+      DEF INTERSECTION Pose {
         translation 30.38 0.05 -2
         children [
           Box {
@@ -542,7 +542,7 @@ DEF START Solid {
   translation -0.01 0.6 0
   rotation 1 0 0 1.5707963267948966
   children [
-    Transform {
+    Pose {
       translation 0 0.52 1.2
       rotation -1 0 0 1.5707963267948966
       children [
@@ -567,14 +567,14 @@ DEF START Solid {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0 0.53 -1.2
       rotation -1 0 0 1.5707963267948966
       children [
         USE POLE_SHAPE
       ]
     }
-    Transform {
+    Pose {
       translation 0 1 0
       children [
         Shape {
@@ -586,7 +586,7 @@ DEF START Solid {
         }
       ]
     }
-    DEF START_PANEL Transform {
+    DEF START_PANEL Pose {
       translation 0 0.84 0
       rotation 0.6215149473343795 0.4769049595882678 0.6215149473343795 -2.251585307179586
       children [
@@ -604,7 +604,7 @@ DEF START Solid {
         }
       ]
     }
-    DEF GROUND_LINE Transform {
+    DEF GROUND_LINE Pose {
       translation 0 0.031 0
       rotation 0 1 0 3.1415927
       children [
@@ -627,21 +627,21 @@ DEF FINISH Solid {
   translation 15 0.6 0
   rotation 1 0 0 1.5707963267948966
   children [
-    Transform {
+    Pose {
       translation 0 0.52 1.2
       rotation -1 0 0 1.5707963267948966
       children [
         USE POLE_SHAPE
       ]
     }
-    Transform {
+    Pose {
       translation 0 0.53 -1.2
       rotation -1 0 0 1.5707963267948966
       children [
         USE POLE_SHAPE
       ]
     }
-    Transform {
+    Pose {
       translation 0 1 0
       children [
         Shape {
@@ -653,7 +653,7 @@ DEF FINISH Solid {
         }
       ]
     }
-    DEF FINISH_PANEL Transform {
+    DEF FINISH_PANEL Pose {
       translation 0 0.84 0
       rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.0944
       children [
@@ -671,7 +671,7 @@ DEF FINISH Solid {
         }
       ]
     }
-    DEF GROUND_LINE Transform {
+    DEF GROUND_LINE Pose {
       translation 0 0.031 0
       rotation 0 1 0 3.1415927
       children [

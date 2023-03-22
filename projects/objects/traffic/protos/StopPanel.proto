@@ -47,7 +47,7 @@ PROTO StopPanel [
           ]
         }
       }
-      Transform {
+      Pose {
         translation 0.016 -0.024 -0.801
         rotation 0 1 0 1.5708
         children [

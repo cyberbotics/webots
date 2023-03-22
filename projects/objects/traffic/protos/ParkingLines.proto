@@ -18,11 +18,11 @@ PROTO ParkingLines [
     const width  = fields.numberOfCarParks.value * fields.carParkWidth.value;
     const length = fields.carParkLength.value;
   >%
-  Transform {
+  Pose {
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         translation %<= 0.5 * width >% %<= 0.5 * length >% 0
         children [
           Shape {

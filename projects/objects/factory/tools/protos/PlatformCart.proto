@@ -20,7 +20,7 @@ PROTO PlatformCart [
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         translation 0 0 0.09
         children [
           Shape {

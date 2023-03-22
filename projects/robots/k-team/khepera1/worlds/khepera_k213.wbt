@@ -283,7 +283,7 @@ Khepera1 {
       translation 0 0.013 0.04
       rotation 1 0 0 0
       children [
-        DEF K213_GREEN_CYLINDER Transform {
+        DEF K213_GREEN_CYLINDER Pose {
           translation 0 -0.013 0
           children [
             Shape {
@@ -299,7 +299,7 @@ Khepera1 {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.014 0.01
           children [
             Shape {

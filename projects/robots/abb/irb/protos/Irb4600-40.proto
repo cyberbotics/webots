@@ -180,7 +180,7 @@ PROTO Irb4600-40 [
                                       endPoint Solid {
                                         translation 0.125 0 0
                                         children [
-                                          Transform {
+                                          Pose {
                                             translation 0.06 0 0
                                             rotation 0.5773502691896257 0.5773502691896257 0.5773502691896257 2.094399693899575
                                             children IS handSlot

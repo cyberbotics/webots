@@ -36,7 +36,7 @@ Robot {
     DEF ELISA3_REFLECTIVE_SOLID Solid {
       translation 0 0 0.0135
       children [
-        Transform {
+        Pose {
           children [
             Shape {
               appearance PBRAppearance {
@@ -77,7 +77,7 @@ Robot {
         children [
           DEF WHEEL_TRANSFORM Group {
             children [
-              Transform {
+              Pose {
                 rotation 1 0 0 1.57
                 children Shape {
                   appearance PBRAppearance {
@@ -91,7 +91,7 @@ Robot {
                   }
                 }
               }
-              Transform {
+              Pose {
                 rotation 1 0 0 1.57
                 children Shape {
                   appearance PBRAppearance {
@@ -139,14 +139,14 @@ Robot {
       }
     }
 
-    DEF ELISA3_ROBOT Transform {
+    DEF ELISA3_ROBOT Pose {
       translation -0.04 0.04 0.01
       rotation 0.577657 -0.577197 -0.577197 2.093935
       children [
         DEF ELISA3_BATTERY_FRONT Solid {
           translation 0.04 -0.003 -0.05
           children [
-            DEF BATTERY_TRANSFORM Transform {
+            DEF BATTERY_TRANSFORM Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -174,7 +174,7 @@ Robot {
           translation 0.04 0.0 -0.04
           rotation 1 0 0 1.5708
           children [
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -196,7 +196,7 @@ Robot {
         }
         DEF ELISA3_IR_EMITTER_FRONT_RIGHT Solid {
           children [
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -223,7 +223,7 @@ Robot {
         } #end ir emitter front right
         DEF ELISA3_IR_EMITTER_BACK Solid {
           children [
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -250,7 +250,7 @@ Robot {
         } #end ir emitter back
         DEF ELISA3_IR_EMITTER_FRONT_LEFT Solid {
           children [
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -277,7 +277,7 @@ Robot {
         } #end ir emitter front left
         DEF ELISA3_SWITCH Solid {
           children [
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -304,7 +304,7 @@ Robot {
         } #end switch
         DEF ELISA3_RGB_LED Solid {
           children [
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -331,7 +331,7 @@ Robot {
         } #end rgb led
         DEF ELISA3_DIFFUSER Solid {
           children [
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -359,7 +359,7 @@ Robot {
         DEF ELISA3_LED_SUPPORT_FRONT Solid {
         translation 0.04 -0.0072 -0.0615
           children [
-            DEF ELISA3_LED_SUPPORT_TRANSFORM Transform {
+            DEF ELISA3_LED_SUPPORT_TRANSFORM Pose {
               rotation 1 0 0 1.5708
               children [
                 Shape {
@@ -373,7 +373,7 @@ Robot {
                     subdivision 20
                   }
                 }
-                Transform {
+                Pose {
                   translation 0 0 0.0009
                   children [
                     Shape {
@@ -388,7 +388,7 @@ Robot {
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation -0.0005 0 -0.004
                   children [
                     Shape {
@@ -403,7 +403,7 @@ Robot {
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation 0.0005 0 -0.004
                   children [
                     Shape {
@@ -432,7 +432,7 @@ Robot {
         }
         DEF ELISA3_ACCELEROMETER Solid {
           children [
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -460,7 +460,7 @@ Robot {
 
         DEF ELISA3_CHARGE_CONTACT_RIGHT Solid {
           children [
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -488,7 +488,7 @@ Robot {
 
         DEF ELISA3_CHARGE_CONTACT_LEFT Solid {
           children [
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -857,7 +857,7 @@ Robot {
   description "Miniature Arduino robot by GCtronic"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0 0 0.016
         children [
           Cylinder {

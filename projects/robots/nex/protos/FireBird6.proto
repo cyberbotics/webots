@@ -23,7 +23,7 @@ Robot {
   translation IS translation
   rotation IS rotation
   children [
-    Transform {
+    Pose {
       translation 0 0 0.095
       children [
         Shape {
@@ -103,7 +103,7 @@ Robot {
       translation 0 0.15 0.05
       rotation -0.576888 -0.577577 -0.577585 -2.095094
       children [
-        Transform {
+        Pose {
           translation -0.007 0 0
           rotation 0 1 0 1.57143
           children [
@@ -127,7 +127,7 @@ Robot {
       translation 0.1 0.1 0.05
       rotation 0.862576 0.357741 0.357748 1.718102
       children [
-        Transform {
+        Pose {
           translation 0.003 0 0
           rotation 0 1 0 1.57143
           children [
@@ -145,7 +145,7 @@ Robot {
       translation 0.15 -0.0 0.05
       rotation 1 0.000298 0.000302 1.570807
       children [
-        Transform {
+        Pose {
           translation -0.007 0 0
           rotation 0 1 0 1.57143
           children [
@@ -163,7 +163,7 @@ Robot {
       translation 0.1 -0.1 0.05
       rotation 0.862951 -0.357293 -0.357293 1.717675
       children [
-        Transform {
+        Pose {
           translation 0.003 0 0
           rotation 0 1 0 1.57143
           children [
@@ -181,7 +181,7 @@ Robot {
       translation 0 -0.15 0.05
       rotation -0.577352 0.577348 0.577352 -2.094405
       children [
-        Transform {
+        Pose {
           translation -0.007 0 0
           rotation 0 1 0 1.57143
           children [
@@ -199,7 +199,7 @@ Robot {
       translation -0.1 -0.1 0.05
       rotation 0.280975 -0.678618 -0.678624 2.593777
       children [
-        Transform {
+        Pose {
           translation 0.003 0 0
           rotation 0 1 0 1.57143
           children [
@@ -217,7 +217,7 @@ Robot {
       translation -0.15 0 0.05
       rotation 0.000213 0.707103 0.70711 3.141161
       children [
-        Transform {
+        Pose {
           translation -0.007 0 0
           rotation 0 1 0 1.57143
           children [
@@ -235,7 +235,7 @@ Robot {
       translation -0.1 0.1 0.05
       rotation 0.281418 0.678525 0.678533 2.592948
       children [
-        Transform {
+        Pose {
           translation 0.003 0 0
           rotation 0 1 0 1.57143
           children [
@@ -349,7 +349,7 @@ Robot {
       ]
       type "infra-red"
     }
-    DEF FB6_Robot Transform {
+    DEF FB6_Robot Pose {
       translation 0 0 -0.007
       rotation 0 0 1 0.3927
       children [
@@ -370,7 +370,7 @@ Robot {
     DEF FB6_Castor Solid {
       translation -0.14 0.0 -0.115
       children [
-        Transform {
+        Pose {
           translation 0 0 0.005
           children [
             Shape {
@@ -444,7 +444,7 @@ Robot {
               }
             ]
           }
-          DEF FB6_WHEEL_SHAPE_Inner Transform {
+          DEF FB6_WHEEL_SHAPE_Inner Pose {
             rotation 0 1 0 1.5708
             children [
               Shape {
@@ -464,7 +464,7 @@ Robot {
           }
         ]
         name "right wheel"
-        boundingObject DEF FB6_Wheel_Bound Transform {
+        boundingObject DEF FB6_Wheel_Bound Pose {
           rotation 0 1 0 1.5708
           children [
             Cylinder {
@@ -501,7 +501,7 @@ Robot {
         translation 0.07 0.15 -0.08
         rotation -0.577352 0.577348 0.577352 -2.094405
         children [
-          DEF FB6_WHEEL_SHAPE_Inner Transform {
+          DEF FB6_WHEEL_SHAPE_Inner Pose {
             rotation 0 1 0 1.5708
             children [
               Shape {
@@ -549,7 +549,7 @@ Robot {
         physics USE FB6_WHEEL_PHY
       }
     }
-    Transform {
+    Pose {
       translation 0.07 0 -0.0797
       rotation 1 0 0 1.5708
       children [

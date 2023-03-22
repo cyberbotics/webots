@@ -31,59 +31,63 @@ PROTO RubberDuck [
   Solid {
     translation IS translation
     rotation IS rotation
-    scale %<= scale >% %<= scale >% %<= scale >%
     recognitionColors [ 0.87451 0.756863 0.113725 ]
     children [
-      DEF BEAK Pose {
-        translation 0.0394 0 0.05868
+      Transform {
+        scale %<= scale >% %<= scale >% %<= scale >%
         children [
-          Shape {
+          DEF BEAK Pose {
+            translation 0.0394 0 0.05868
+            children [
+              Shape {
+                appearance PBRAppearance {
+                  baseColor 0.901961 0.431373 0.109804
+                  metalness 0
+                  roughness 0.7
+                }
+                geometry Mesh {
+                  url "RubberDuck/meshes/beak.obj"
+                }
+              }
+            ]
+          }
+          DEF GEOM Shape {
             appearance PBRAppearance {
-              baseColor 0.901961 0.431373 0.109804
+              baseColor 1 0.8 0
               metalness 0
               roughness 0.7
             }
             geometry Mesh {
-              url "RubberDuck/meshes/beak.obj"
+              url "RubberDuck/meshes/body.obj"
             }
           }
-        ]
-      }
-      DEF GEOM Shape {
-        appearance PBRAppearance {
-          baseColor 1 0.8 0
-          metalness 0
-          roughness 0.7
-        }
-        geometry Mesh {
-          url "RubberDuck/meshes/body.obj"
-        }
-      }
-      DEF EYE Pose {
-        translation 0.026677002 0.012248128 0.069200846
-        rotation -0.181173 0.491896 0.851596 -1.18424
-        children [
-          DEF EYE_GEOM Shape {
-            appearance PBRAppearance {
-              baseColorMap ImageTexture {
-                url [
-                  "RubberDuck/textures/eye.jpg"
-                ]
+          DEF EYE Pose {
+            translation 0.026677002 0.012248128 0.069200846
+            rotation -0.181173 0.491896 0.851596 -1.18424
+            children [
+              DEF EYE_GEOM Shape {
+                appearance PBRAppearance {
+                  baseColorMap ImageTexture {
+                    url [
+                      "RubberDuck/textures/eye.jpg"
+                    ]
+                  }
+                  metalness 0
+                  roughness 0.4
+                }
+                geometry Mesh {
+                  url "RubberDuck/meshes/eye.obj"
+                }
               }
-              metalness 0
-              roughness 0.4
-            }
-            geometry Mesh {
-              url "RubberDuck/meshes/eye.obj"
-            }
+            ]
           }
-        ]
-      }
-      DEF EYE Pose {
-        translation 0.026708849 -0.012243724 0.069238147
-        rotation -0.230567 0.188914 0.954542 -2.20978
-        children [
-          USE EYE_GEOM
+          DEF EYE Pose {
+            translation 0.026708849 -0.012243724 0.069238147
+            rotation -0.230567 0.188914 0.954542 -2.20978
+            children [
+              USE EYE_GEOM
+            ]
+          }
         ]
       }
     ]

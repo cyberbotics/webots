@@ -72,7 +72,7 @@ PROTO PicketFenceWithDoor [
     %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0.8700000000000002 0.55
           children [
             Box {
@@ -80,7 +80,7 @@ PROTO PicketFenceWithDoor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 3.689999999999992 0.55
           children [
             Box {
@@ -88,7 +88,7 @@ PROTO PicketFenceWithDoor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.3975640202570147 2.0529991572942476 0.55
           rotation 0 0 1 0.85
           children [

@@ -49,7 +49,7 @@ PROTO FireHydrant [
     model "fire hydrant"
     boundingObject Group {
       children [
-        DEF BODY Transform {
+        DEF BODY Pose {
           translation 0 0 0.3185
           rotation 0 0 1 -1.570796
           children [
@@ -59,7 +59,7 @@ PROTO FireHydrant [
             }
           ]
         }
-        DEF TOP_SPHERE Transform {
+        DEF TOP_SPHERE Pose {
           translation 0 0 0.6794
           children [
             Sphere {
@@ -68,7 +68,7 @@ PROTO FireHydrant [
             }
           ]
         }
-        DEF TUBE_1 Transform {
+        DEF TUBE_1 Pose {
           translation -0.136 0 0.44
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -78,7 +78,7 @@ PROTO FireHydrant [
             }
           ]
         }
-        DEF HEX_1 Transform {
+        DEF HEX_1 Pose {
           translation -0.177 0.003 0.4395
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -89,7 +89,7 @@ PROTO FireHydrant [
             }
           ]
         }
-        DEF TUBE_2 Transform {
+        DEF TUBE_2 Pose {
           translation 0 -0.147 0.44
           rotation 0.577351 0.577351 0.577349 -2.094397
           children [
@@ -99,14 +99,14 @@ PROTO FireHydrant [
             }
           ]
         }
-        DEF HEX_2 Transform {
+        DEF HEX_2 Pose {
           translation 0.1785 -0.0007 0.438
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
             USE HEX_CYL
           ]
         }
-        DEF TUBE_3 Transform {
+        DEF TUBE_3 Pose {
           translation 0.137 0 0.44
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -116,7 +116,7 @@ PROTO FireHydrant [
             }
           ]
         }
-        DEF HEX_3 Transform {
+        DEF HEX_3 Pose {
           translation -0.001 -0.198 0.4389
           rotation -0.774597 -0.447214 -0.447212 1.823479
           children [

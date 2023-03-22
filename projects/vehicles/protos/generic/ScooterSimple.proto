@@ -31,7 +31,7 @@ PROTO ScooterSimple [
     rotation IS rotation
     recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid lua PROTO regeneration when colors change.
     children [
-      Transform {
+      Pose {
         children [
           DEF DRIVER Slot {
             type "scooter driver"

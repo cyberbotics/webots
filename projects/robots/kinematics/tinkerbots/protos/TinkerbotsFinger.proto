@@ -40,7 +40,7 @@ PROTO TinkerbotsFinger [
       contactMaterial "tinkerbots finger"
       boundingObject Group {
         children [
-          Transform {
+          Pose {
             translation 0 0 0.0125
             children [
               Box {
@@ -48,7 +48,7 @@ PROTO TinkerbotsFinger [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 -0.005 0.02858
             rotation 1 0 0 0.523
             children [

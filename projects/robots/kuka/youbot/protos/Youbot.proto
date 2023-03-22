@@ -190,7 +190,7 @@ Robot {
                                           name "finger::left"
                                           boundingObject DEF FINGER_BO Group {
                                             children [
-                                              Transform {
+                                              Pose {
                                                 translation 0 -0.031 0.015
                                                 children [
                                                   Box {
@@ -198,7 +198,7 @@ Robot {
                                                   }
                                                 ]
                                               }
-                                              Transform {
+                                              Pose {
                                                 translation 0 -0.007 0.01
                                                 children [
                                                   Box {
@@ -272,7 +272,7 @@ Robot {
                               ]
                               boundingObject Group {
                                 children [
-                                  Transform {
+                                  Pose {
                                     translation 0 0 0.056
                                     children [
                                       Box {
@@ -280,7 +280,7 @@ Robot {
                                       }
                                     ]
                                   }
-                                  Transform {
+                                  Pose {
                                     translation 0 -0.024 0.003
                                     rotation 1 0 0 -1.5708
                                     children [
@@ -543,7 +543,7 @@ Robot {
                                           name "front finger::left"
                                           boundingObject DEF FINGER_BO Group {
                                             children [
-                                              Transform {
+                                              Pose {
                                                 translation 0 -0.031 0.015
                                                 children [
                                                   Box {
@@ -551,7 +551,7 @@ Robot {
                                                   }
                                                 ]
                                               }
-                                              Transform {
+                                              Pose {
                                                 translation 0 -0.007 0.01
                                                 children [
                                                   Box {
@@ -625,7 +625,7 @@ Robot {
                               ]
                               boundingObject Group {
                                 children [
-                                  Transform {
+                                  Pose {
                                     translation 0 0 0.056
                                     children [
                                       Box {
@@ -633,7 +633,7 @@ Robot {
                                       }
                                     ]
                                   }
-                                  Transform {
+                                  Pose {
                                     translation 0 -0.024 0.003
                                     rotation 1 0 0 -1.5708
                                     children [
@@ -784,7 +784,7 @@ Robot {
       name "plate"
       boundingObject Group {
         children [
-          Transform {
+          Pose {
             translation 0.008 0 0.045
             children [
               Box {
@@ -792,7 +792,7 @@ Robot {
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.015 0.112 0.045
             rotation 0 0 1 -0.13
             children [
@@ -801,7 +801,7 @@ Robot {
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.015 -0.112 0.045
             rotation 0 0 1 0.13
             children [
@@ -810,7 +810,7 @@ Robot {
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0.076 0.084 0.045
             rotation 0 0 1 0.81
             children [
@@ -819,7 +819,7 @@ Robot {
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0.076 -0.084 0.045
             rotation 0 0 1 -0.81
             children [
@@ -840,7 +840,7 @@ Robot {
   description "KUKA youBot"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0 0 -0.045
         children [
           Box {
@@ -848,7 +848,7 @@ Robot {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 -0.045
         children [
           Box {

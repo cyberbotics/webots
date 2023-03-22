@@ -53,7 +53,7 @@ PROTO BB-8 [
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         translation 0 0 %<= bodyRadius >%
         children IS bodySlot
       }
@@ -65,7 +65,7 @@ PROTO BB-8 [
         translation 0 0 %<= bodyRadius >%
         name "counterweight gyro"
       }
-      DEF ORB_WEIGHT Transform {
+      DEF ORB_WEIGHT Pose {
         translation 0 0 %<= 0.5 * bodyRadius >%
         children [
           Shape {

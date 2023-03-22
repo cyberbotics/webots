@@ -50,7 +50,7 @@ BB-8 {
     }
   ]
 }
-DEF SECOND_SUN Transform {
+DEF SECOND_SUN Pose {
   translation -700 150 150
   children [
     Shape {

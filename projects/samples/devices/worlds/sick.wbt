@@ -456,7 +456,7 @@ Robot {
             endPoint Solid {
               rotation -0.707104781184338 0 0.7071087811831002 3.141585
               children [
-                DEF WHEEL_TRANSFORM Transform {
+                DEF WHEEL_TRANSFORM Pose {
                   children [
                     Shape {
                       appearance PBRAppearance {

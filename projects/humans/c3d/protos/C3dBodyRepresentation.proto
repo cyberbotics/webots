@@ -4,7 +4,6 @@
 PROTO C3dBodyRepresentation [
   field SFVec3f     translation        0 0 0
   field SFRotation  rotation           0 0 1 -1.5708
-  field SFVec3f     scale              1 1 1
   field SFFloat     transparency       0.1
   field SFRotation  RShoulderRotation  0 0 1 0
   field SFRotation  RElbowRotation     0 0 1 0
@@ -24,7 +23,6 @@ PROTO C3dBodyRepresentation [
   Solid {
     translation IS translation
     rotation IS rotation
-    scale IS scale
     children [
       Shape {
         appearance DEF SHIRT_APPEARANCE PBRAppearance {
@@ -64,7 +62,7 @@ PROTO C3dBodyRepresentation [
           creaseAngle 0.8
         }
       }
-      Transform {
+      Pose {
         translation -0.00450003 0.0373324 0.376196
         rotation 0 0.707107 0.707107 3.141593
         children [
@@ -84,10 +82,10 @@ PROTO C3dBodyRepresentation [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.2217 0 0.2061
         rotation 0 0.707107 0.707107 3.1415927
-        children Transform {
+        children Pose {
           rotation IS RShoulderRotation
           children [
             Shape {
@@ -104,7 +102,7 @@ PROTO C3dBodyRepresentation [
                 creaseAngle 0.8
               }
             }
-            Transform {
+            Pose {
               translation -0.03333 -0.29194 -0.0353881
               rotation IS RElbowRotation
               children [
@@ -122,7 +120,7 @@ PROTO C3dBodyRepresentation [
                     creaseAngle 0.8
                   }
                 }
-                Transform {
+                Pose {
                   translation -0.000735283 -0.277409 0.0339052
                   rotation IS RWristRotation
                   children Shape {
@@ -145,10 +143,10 @@ PROTO C3dBodyRepresentation [
           ]
         }
       }
-      Transform {
+      Pose {
         translation -0.2217 0 0.2061
         rotation 0 0.707107 0.707107 3.1415927
-        children Transform {
+        children Pose {
           rotation IS LShoulderRotation
           children [
             Shape {
@@ -165,7 +163,7 @@ PROTO C3dBodyRepresentation [
                 creaseAngle 0.8
               }
             }
-            Transform {
+            Pose {
               translation 0.0333287 -0.29194 -0.0353881
               rotation IS LElbowRotation
               children [
@@ -183,7 +181,7 @@ PROTO C3dBodyRepresentation [
                     creaseAngle 0.8
                   }
                 }
-                Transform {
+                Pose {
                   translation 0.000740021 -0.277409 0.0339052
                   rotation IS LWristRotation
                   children Shape {
@@ -206,13 +204,13 @@ PROTO C3dBodyRepresentation [
           ]
         }
       }
-      Transform {
+      Pose {
         translation 0 0 -0.3101
         rotation 0 0.707107 0.707107 3.1415927
-        children Transform {
+        children Pose {
           rotation IS LPelvisRotation
           children [
-            Transform {
+            Pose {
               translation 0.111088 0 -0.0377621
               rotation IS LHipRotation
               children [
@@ -235,7 +233,7 @@ PROTO C3dBodyRepresentation [
                     creaseAngle 0.8
                   }
                 }
-                Transform {
+                Pose {
                   translation 0.00558221 -0.468162 -0.0165692
                   rotation IS LKneeRotation
                   children [
@@ -253,7 +251,7 @@ PROTO C3dBodyRepresentation [
                         creaseAngle 0.8
                       }
                     }
-                    Transform {
+                    Pose {
                       translation -0.00487334 -0.378221 -0.0314485
                       rotation IS LAnkleRotation
                       children Shape {
@@ -280,7 +278,7 @@ PROTO C3dBodyRepresentation [
                 }
               ]
             }
-            Transform {
+            Pose {
               translation -0.11109 0 -0.0377621
               rotation IS RHipRotation
               children [
@@ -298,7 +296,7 @@ PROTO C3dBodyRepresentation [
                     creaseAngle 0.8
                   }
                 }
-                Transform {
+                Pose {
                   translation -0.0055836 -0.468162 -0.0165692
                   rotation IS RKneeRotation
                   children [
@@ -316,7 +314,7 @@ PROTO C3dBodyRepresentation [
                         creaseAngle 0.8
                       }
                     }
-                    Transform {
+                    Pose {
                       translation 0.00487367 -0.378221 -0.0314485
                       rotation IS RAnkleRotation
                       children Shape {

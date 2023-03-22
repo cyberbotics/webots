@@ -60,7 +60,7 @@ PROTO Panel [
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         translation 0 %<= halfSizeY >% %<= halfSizeZ >%
         children [
           Shape {

@@ -725,11 +725,11 @@ PROTO Nao [
         rotation 1 0 0 1.5708
         yAxis FALSE
       }
-      DEF US1 Transform {
+      DEF US1 Pose {
         translation 0.0537 -0.0341 0.0698
         rotation 0.0781175 -0.443112 -0.893056 0.389797
         children [
-          DEF SONAR_SHAPE Transform {
+          DEF SONAR_SHAPE Pose {
             rotation 0 1 0 1.5708
             children [
               Shape {
@@ -760,7 +760,7 @@ PROTO Nao [
         numberOfRays 6
         aperture 1.04
       }
-      DEF US3 Transform {
+      DEF US3 Pose {
         translation 0.0537 0.0341 0.0698
         rotation -0.0781175 -0.443112 0.893056 0.389797
         children [
@@ -816,11 +816,11 @@ PROTO Nao [
         endPoint Solid {
           translation 0 0 0.1265
           children [
-            DEF HEAD_SLOT Transform {
+            DEF HEAD_SLOT Pose {
               translation 0 0 0.05353
               children IS headSlot
             }
-            DEF NECK Transform {
+            DEF NECK Pose {
               rotation 0 0 1 -0.785395
               children [
                 Shape {
@@ -1639,7 +1639,7 @@ PROTO Nao [
         endPoint Solid {
           translation 0 -0.098 0.1
           children [
-            Transform {
+            Pose {
               translation 0.005 0 0
               rotation 0 0 1 -0.15
               children [
@@ -2184,7 +2184,7 @@ PROTO Nao [
         endPoint Solid {
           translation 0 0.098 0.1
           children [
-            Transform {
+            Pose {
               translation 0.005 0 0
               rotation 0 0 1 0.15
               children [
@@ -2998,7 +2998,7 @@ PROTO Nao [
               }
               endPoint Solid {
                 children [
-                  DEF HIP_ROLL_CYL_TRANS Transform {
+                  DEF HIP_ROLL_CYL_TRANS Pose {
                     translation -0.019 0 0
                     rotation 0 0 1 1.5708
                     children [
@@ -3811,7 +3811,7 @@ PROTO Nao [
                                       }
                                       endPoint Solid {
                                         children [
-                                          DEF RIGHT_FOOT_SLOT Transform {
+                                          DEF RIGHT_FOOT_SLOT Pose {
                                             translation 0.0254 -0.00332 -0.03241
                                             children IS rightFootSlot
                                           }
@@ -4088,7 +4088,7 @@ PROTO Nao [
                                           DEF RFOOT_RBUMPER TouchSensor {
                                             translation 0.09 -0.022 -0.023
                                             name "RFoot/Bumper/Right"
-                                            children Transform {
+                                            children Pose {
                                               translation -0.09 0.022 0.023
                                               children Shape {
                                                 appearance USE SECONDARY_SKIN_APP
@@ -4109,7 +4109,7 @@ PROTO Nao [
                                                 }
                                               }
                                             }
-                                            boundingObject DEF BUMPER_BO Transform {
+                                            boundingObject DEF BUMPER_BO Pose {
                                               translation 0.0075 0 0
                                               children [
                                                 Box {
@@ -4123,7 +4123,7 @@ PROTO Nao [
                                           DEF RFOOT_LBUMPER TouchSensor {
                                             translation 0.09 0.012 -0.023
                                             name "RFoot/Bumper/Left"
-                                            children Transform {
+                                            children Pose {
                                               translation -0.09 -0.012 0.023
                                               children Shape {
                                                 appearance USE SECONDARY_SKIN_APP
@@ -4152,7 +4152,7 @@ PROTO Nao [
                                         contactMaterial IS footContactMaterial
                                         boundingObject Group {
                                           children [
-                                            Transform {
+                                            Pose {
                                               translation 0.015 -0.007 -0.033
                                               children [
                                                 DEF SOLE Box {
@@ -4160,7 +4160,7 @@ PROTO Nao [
                                                 }
                                               ]
                                             }
-                                            DEF HEEL Transform {
+                                            DEF HEEL Pose {
                                               translation -0.048 0 -0.0245
                                               rotation 1 0 0 -1.57
                                               children [
@@ -4171,7 +4171,7 @@ PROTO Nao [
                                                 }
                                               ]
                                             }
-                                            Transform {
+                                            Pose {
                                               translation 0.065 -0.005 -0.027
                                               rotation 0 1 0 0
                                               children [
@@ -4251,7 +4251,7 @@ PROTO Nao [
                             contactMaterial IS contactMaterial
                             boundingObject Group {
                               children [
-                                DEF TIBIA_HIGH Transform {
+                                DEF TIBIA_HIGH Pose {
                                   translation 0.01 0 -0.033
                                   rotation 0 1 0 0.462
                                   children [
@@ -4260,7 +4260,7 @@ PROTO Nao [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0 -0.003 -0.09
                                   rotation -1 0 0 -1.57
                                   children [
@@ -4307,7 +4307,7 @@ PROTO Nao [
                       contactMaterial IS contactMaterial
                       boundingObject DEF FEMUR_BO Group {
                         children [
-                          Transform {
+                          Pose {
                             translation -0.009 0 -0.015
                             rotation 0.7745972141192264 -0.44721312362157567 0.44721312362157567 1.82348
                             children [
@@ -4318,7 +4318,7 @@ PROTO Nao [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation 0.008 0 -0.0662612
                             rotation 0 1 0 5.9
                             children [
@@ -4365,7 +4365,7 @@ PROTO Nao [
                 contactMaterial IS contactMaterial
                 boundingObject DEF HIP_ROLL_BO Group {
                   children [
-                    Transform {
+                    Pose {
                       translation -0.017 0 0.004
                       children [
                         Box {
@@ -4373,7 +4373,7 @@ PROTO Nao [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation -0.018 0 0
                       children [
                         Box {
@@ -5343,7 +5343,7 @@ PROTO Nao [
                                       }
                                       endPoint Solid {
                                         children [
-                                          DEF LEFT_FOOT_SLOT Transform {
+                                          DEF LEFT_FOOT_SLOT Pose {
                                             translation 0.0254 0.00332 -0.03241
                                             children IS leftFootSlot
                                           }
@@ -5614,7 +5614,7 @@ PROTO Nao [
                                           DEF LFOOT_LBUMPER TouchSensor {
                                             translation 0.09 0.022 -0.023
                                             name "LFoot/Bumper/Left"
-                                            children Transform {
+                                            children Pose {
                                               translation -0.09 -0.022 0.023
                                               children Shape {
                                                 appearance USE SECONDARY_SKIN_APP
@@ -5642,7 +5642,7 @@ PROTO Nao [
                                           DEF LFOOT_RBUMPER TouchSensor {
                                             translation 0.09 -0.012 -0.023
                                             name "LFoot/Bumper/Right"
-                                            children Transform {
+                                            children Pose {
                                               translation -0.09 0.012 0.023
                                               children Shape {
                                                 appearance USE SECONDARY_SKIN_APP
@@ -5671,14 +5671,14 @@ PROTO Nao [
                                         contactMaterial IS footContactMaterial
                                         boundingObject Group {
                                           children [
-                                            Transform {
+                                            Pose {
                                               translation 0.015 0.007 -0.033
                                               children [
                                                 USE SOLE
                                               ]
                                             }
                                             USE HEEL
-                                            Transform {
+                                            Pose {
                                               translation 0.065 0.005 -0.027
                                               rotation 0 1 0 0
                                               children [
@@ -5755,7 +5755,7 @@ PROTO Nao [
                             boundingObject Group {
                               children [
                                 USE TIBIA_HIGH
-                                Transform {
+                                Pose {
                                   translation 0 0.003 -0.09
                                   rotation -1 0 0 -1.57
                                   children [
@@ -5896,7 +5896,7 @@ PROTO Nao [
           }
         }
       }
-      DEF ARMS_AXIS Transform {
+      DEF ARMS_AXIS Pose {
         translation 0 0 0.1
         rotation 1 0 0 1.5708
         children [
@@ -5915,7 +5915,7 @@ PROTO Nao [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 -0.02
           children [
             Sphere {
@@ -5923,7 +5923,7 @@ PROTO Nao [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.055
           children [
             Capsule {

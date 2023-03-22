@@ -25,25 +25,29 @@ PROTO Dog [
     rotation IS rotation
     name IS name
     model "dog"
-    scale %<= scale >% %<= scale >% %<= scale >%
     children [
-      Shape {
-        appearance PBRAppearance {
-          metalness 0
-          roughness 0.7
-          baseColor IS color
-          baseColorMap ImageTexture {
-            url "webots://projects/objects/animals/protos/dog/textures/dog_basecolor.jpg"
+      Transform {
+        scale %<= scale >% %<= scale >% %<= scale >%
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              roughness 0.7
+              baseColor IS color
+              baseColorMap ImageTexture {
+                url "webots://projects/objects/animals/protos/dog/textures/dog_basecolor.jpg"
+              }
+            }
+            geometry Mesh {
+              url "webots://projects/objects/animals/protos/dog/meshes/dog.obj"
+            }
           }
-        }
-        geometry Mesh {
-          url "webots://projects/objects/animals/protos/dog/meshes/dog.obj"
-        }
+        ]
       }
     ]
     boundingObject Group {
       children [
-        DEF BODY Transform {
+        DEF BODY Pose {
           translation 0.036 0 0.387
           rotation 0 1 0 -1.5707953071795862
           children [
@@ -54,7 +58,7 @@ PROTO Dog [
             }
           ]
         }
-        DEF BR_LEG Transform {
+        DEF BR_LEG Pose {
           translation -0.23 -0.075 0.15
           children [
             DEF LEG Cylinder {
@@ -63,7 +67,7 @@ PROTO Dog [
             }
           ]
         }
-        DEF FL_LEG Transform {
+        DEF FL_LEG Pose {
           translation 0.23 0.08 0.15
           children [
             Cylinder {
@@ -72,7 +76,7 @@ PROTO Dog [
             }
           ]
         }
-        DEF FR_LEG Transform {
+        DEF FR_LEG Pose {
           translation 0.23 -0.08 0.15
           children [
             Cylinder {
@@ -81,13 +85,13 @@ PROTO Dog [
             }
           ]
         }
-        DEF BL_LEG Transform {
+        DEF BL_LEG Pose {
           translation -0.23 0.075 0.15
           children [
             USE LEG
           ]
         }
-        DEF TAIL Transform {
+        DEF TAIL Pose {
           translation -0.398873 0 0.43
           rotation 0 1 0 1.36607
           children [
@@ -98,7 +102,7 @@ PROTO Dog [
             }
           ]
         }
-        DEF NECK Transform {
+        DEF NECK Pose {
           translation 0.32768 0 0.5667
           rotation 0 1 0 0.523599
           children [
@@ -109,7 +113,7 @@ PROTO Dog [
             }
           ]
         }
-        DEF MUZZLE Transform {
+        DEF MUZZLE Pose {
           translation 0.46 0 0.61
           rotation 0 1 0 -1.5707953071795862
           children [
@@ -120,7 +124,7 @@ PROTO Dog [
             }
           ]
         }
-        DEF EAR_LEFT Transform {
+        DEF EAR_LEFT Pose {
           translation 0.315 0.100341 0.603
           rotation -0.7040620978698309 0.7040630978699699 0.09269151288480479 -0.3697053071795864
           children [
@@ -129,7 +133,7 @@ PROTO Dog [
             }
           ]
         }
-        DEF EAR_RIGHT Transform {
+        DEF EAR_RIGHT Pose {
           translation 0.315 -0.100341 0.603
           rotation 0.7040620485144065 0.7040631463844521 0.09269151927184703 -0.3697053071795864
           children [

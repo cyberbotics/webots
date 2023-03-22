@@ -67,7 +67,7 @@ PROTO CabinetDoor [
                 mass %<= mass >%
               }
             }
-            Transform {
+            Pose {
               translation 0 %<= -rightSided * 0.4 * size.y >% 0
               rotation 1 0 0 1.57
               children [

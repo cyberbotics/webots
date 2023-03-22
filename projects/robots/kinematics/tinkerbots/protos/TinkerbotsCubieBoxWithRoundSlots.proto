@@ -23,7 +23,7 @@ PROTO TinkerbotsCubieBoxWithRoundSlots [
       translation IS translation
       rotation IS rotation
       children [
-        Transform {
+        Pose {
           translation -0.01 0 0.02
           children [
             Slot {
@@ -32,7 +32,7 @@ PROTO TinkerbotsCubieBoxWithRoundSlots [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.005 0 0.015
           rotation 0 1 0 1.57
           children [
@@ -42,7 +42,7 @@ PROTO TinkerbotsCubieBoxWithRoundSlots [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.025 0 0.015
           rotation 0 1 0 -1.57
           children [

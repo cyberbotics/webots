@@ -107,7 +107,7 @@ PROTO TinkerbotsGrabber [
           endPoint Solid {
             name %<= '"' + fields.name.value + ' finger A"' >%
             children [
-              Transform {
+              Pose {
                 translation  0.0156 0 0.0354
                 rotation 0.03273 -0.03273 0.99893 -1.57186
                 children [
@@ -168,7 +168,7 @@ PROTO TinkerbotsGrabber [
           endPoint Solid {
             name %<= '"' + fields.name.value + ' finger B"' >%
             children [
-              Transform {
+              Pose {
                 translation -0.0078 0.01351 0.0354
                 rotation 0.160676 0.043053 -0.986068 -0.53655
                 children [
@@ -229,7 +229,7 @@ PROTO TinkerbotsGrabber [
           endPoint Solid {
             name %<= '"' + fields.name.value + ' finger C"' >%
             children [
-              Transform {
+              Pose {
                 translation -0.0078 -0.01351 0.0354
                 rotation -0.011687 -0.0436163 0.998982 2.61851
                 children [

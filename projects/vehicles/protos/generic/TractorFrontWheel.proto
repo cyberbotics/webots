@@ -83,7 +83,7 @@ PROTO TractorFrontWheel [
       %< if (fields.boundingObject.value) { >%
       boundingObject Group {
         children [
-          Transform {
+          Pose {
             translation 0.04 0 0
             rotation 0 1 0 1.5708
             children [

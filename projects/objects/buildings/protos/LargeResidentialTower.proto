@@ -50,7 +50,7 @@ PROTO LargeResidentialTower [
     %< if (fields.enableBoundingObject.value) { >%
       boundingObject Group {
         children [
-          Transform {
+          Pose {
             translation -1.71 4.79 %<= 1.963 + 1.384 * addedFloors >%
             children [
               Box {
@@ -58,7 +58,7 @@ PROTO LargeResidentialTower [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 1.24 0.37 %<= 1.963 + 1.384 * addedFloors >%
             children [
               Box {
@@ -66,7 +66,7 @@ PROTO LargeResidentialTower [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 4.28 -8.58 %<= 1.963 + 1.384 * addedFloors >%
             children [
               Box {

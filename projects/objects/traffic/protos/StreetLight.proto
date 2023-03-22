@@ -132,7 +132,7 @@ PROTO StreetLight [
     model "street light"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.2
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
@@ -141,7 +141,7 @@ PROTO StreetLight [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 3.8
           rotation 0 0 1 -1.5708
           children [
@@ -151,7 +151,7 @@ PROTO StreetLight [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 3.1 0 7.21
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
@@ -160,7 +160,7 @@ PROTO StreetLight [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 1.54 0 7.21
           rotation 0.577346 -0.577354 0.577351 -2.094388
           children [
@@ -170,7 +170,7 @@ PROTO StreetLight [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.97 0 6.52
           rotation 0.418629 -0.418640 0.805909 -1.784923
           children [

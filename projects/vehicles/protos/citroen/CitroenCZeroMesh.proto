@@ -4664,7 +4664,7 @@ PROTO CitroenCZeroMesh [
           ]
         }
       }
-      DEF FRONT_PLATE Transform {
+      DEF FRONT_PLATE Pose {
         children [
           Shape {
             appearance DEF PLATE_APPEARANCE PBRAppearance {
@@ -4737,7 +4737,7 @@ PROTO CitroenCZeroMesh [
           }
         ]
       }
-      DEF REAR_PLATE Transform {
+      DEF REAR_PLATE Pose {
         children [
           Shape {
             appearance USE PLATE_APPEARANCE
@@ -4804,7 +4804,7 @@ PROTO CitroenCZeroMesh [
           }
         ]
       }
-      DEF REAR_LOGO Transform {
+      DEF REAR_LOGO Pose {
         children [
           Shape {
             appearance PBRAppearance {
@@ -4926,7 +4926,7 @@ PROTO CitroenCZeroMesh [
           }
         ]
       }
-      DEF FRONT_LOGO Transform {
+      DEF FRONT_LOGO Pose {
         children [
           Shape {
             appearance PBRAppearance {

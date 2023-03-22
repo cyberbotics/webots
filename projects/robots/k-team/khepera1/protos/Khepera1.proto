@@ -72,7 +72,7 @@ PROTO Khepera1 [
           translation 0 0.026 0.0075
           rotation 0.65025 -0.65025 0.392872 -2.392899
           children [
-            DEF WHEEL Transform {
+            DEF WHEEL Pose {
               rotation 0.577387 -0.577332 0.577332 -2.094339
               children [
                 Shape {
@@ -125,7 +125,7 @@ PROTO Khepera1 [
           %< } >%
         }
       }
-      Transform {
+      Pose {
         translation 0 0 0.02
         rotation 0 0 1 -1.570796
         children [

@@ -16,7 +16,7 @@ Solid {
   children [
     DEF LOLLIPOP_SHAPE Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.076
           children [
             Shape {
@@ -32,7 +32,7 @@ Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.038
           children [
             Shape {

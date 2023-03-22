@@ -41,7 +41,7 @@ DEF FLAG Solid {
   translation -1.2932 -0.108 0.3813
   rotation 0 0 1 0.294
   children [
-    Transform {
+    Pose {
       translation 0 0.25 0.25
       children [
         Shape {

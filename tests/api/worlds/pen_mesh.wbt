@@ -91,7 +91,7 @@ DEF WRITER Robot {
             translation 0 0 0.031
             rotation 1 0 0 1.5708
             children [
-              DEF BODY Transform {
+              DEF BODY Pose {
                 rotation 1 0 0 -1.57079632679
                 children [
                   Shape {
@@ -121,7 +121,7 @@ DEF WRITER Robot {
           translation 0.0103622 0.270768 -0.0676753
           rotation -0.15143645398649866 0.7228594690484919 0.674196698605776 2.6785969974991106
           children [
-            Transform {
+            Pose {
               rotation 1 0 0 -1.57079632679
               children [
                 Shape {

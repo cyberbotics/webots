@@ -93,7 +93,7 @@ PROTO PublicToilet [
           ]
         }
       }
-      DEF TEXT Transform {
+      DEF TEXT Pose {
         translation %<= 0.392 * length >% %<= 0.168 * width >% %<=  0.828 * height >%
         rotation 0.57735 0.57735 0.577351 2.094398
         children [
@@ -111,11 +111,11 @@ PROTO PublicToilet [
           }
         ]
       }
-      DEF FRONT_DISPLAY Transform {
+      DEF FRONT_DISPLAY Pose {
         translation %<= 0.51 * length >% %<= - 0.22 * width >% %<=  0.437 * height >%
         children IS frontDisplay
       }
-      DEF BACK_DISPLAY Transform {
+      DEF BACK_DISPLAY Pose {
         translation %<= - 0.498 * length >% %<= 0.015 * width >% %<=  0.437 * height >%
         rotation -0.57735 0.57735 0.57735 -2.094395
         children [

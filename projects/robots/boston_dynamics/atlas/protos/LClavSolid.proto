@@ -22,7 +22,7 @@ Solid {
   name "LClav"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0 0.0744 0.03657
         rotation  -0.0004 1 0.0004 1.5708
         children [
@@ -32,7 +32,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0.012 0.012
         rotation 1 0 0 -0.5244
         children [

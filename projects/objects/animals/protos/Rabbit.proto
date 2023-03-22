@@ -26,31 +26,35 @@ PROTO Rabbit [
     rotation IS rotation
     name IS name
     model "rabbit"
-    scale %<= scale >% %<= scale >% %<= scale >%
     children [
-      Shape {
-        appearance PBRAppearance {
-          metalness 0
-          roughness 0.7
-          baseColor IS color
-          baseColorMap ImageTexture {
-            url "webots://projects/objects/animals/protos/rabbit/textures/rabbit_basecolor.jpg"
+      Transform {
+        scale %<= scale >% %<= scale >% %<= scale >%
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              roughness 0.7
+              baseColor IS color
+              baseColorMap ImageTexture {
+                url "webots://projects/objects/animals/protos/rabbit/textures/rabbit_basecolor.jpg"
+              }
+              roughnessMap ImageTexture {
+                url "webots://projects/objects/animals/protos/rabbit/textures/rabbit_roughness.png"
+              }
+              normalMap ImageTexture {
+                url "webots://projects/objects/animals/protos/rabbit/textures/rabbit_normal.jpg"
+              }
+            }
+            geometry Mesh {
+              url "webots://projects/objects/animals/protos/rabbit/meshes/rabbit.obj"
+            }
           }
-          roughnessMap ImageTexture {
-            url "webots://projects/objects/animals/protos/rabbit/textures/rabbit_roughness.png"
-          }
-          normalMap ImageTexture {
-            url "webots://projects/objects/animals/protos/rabbit/textures/rabbit_normal.jpg"
-          }
-        }
-        geometry Mesh {
-          url "webots://projects/objects/animals/protos/rabbit/meshes/rabbit.obj"
-        }
+        ]
       }
     ]
     boundingObject Group {
       children [
-        DEF BODY Transform {
+        DEF BODY Pose {
           translation 0.0625781 -0.00315575 0.0779992
           rotation 0.8159772156431865 0.038849710267045645 -0.576777152428353 -3.124545307179586
           children [
@@ -61,7 +65,7 @@ PROTO Rabbit [
             }
           ]
         }
-        DEF PAWS Transform {
+        DEF PAWS Pose {
           translation 0.055 0 0.025
           rotation 0 1 0 4.692820414042842e-06
           children [
@@ -70,7 +74,7 @@ PROTO Rabbit [
             }
           ]
         }
-        DEF EAR_RIGHT Transform {
+        DEF EAR_RIGHT Pose {
           translation 0.132218 -0.0205047 0.201716
           rotation 0.7040630978699699 0.09269151288480479 0.7040620978698309 0.36971
           children [
@@ -79,7 +83,7 @@ PROTO Rabbit [
             }
           ]
         }
-        DEF EAR_LEFT Transform {
+        DEF EAR_LEFT Pose {
           translation 0.122706 0.0229659 0.201058
           rotation -0.7040630978699699 -0.09269151288480479 -0.7040620978698309 0.36971
           children [

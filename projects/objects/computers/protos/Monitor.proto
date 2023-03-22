@@ -74,7 +74,7 @@ PROTO Monitor [
     model "monitor"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           rotation 0.57731 -0.57741 -0.57734 2.09446
           translation 0 0 0.225
           children [
@@ -83,7 +83,7 @@ PROTO Monitor [
             }
           ]
         }
-        Transform {
+        Pose {
           rotation 0.57731 -0.57741 -0.57734 2.09446
           translation 0.013 0 0.011
           children [
@@ -92,7 +92,7 @@ PROTO Monitor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.029 0 0.086
           rotation -0.70385 0.70385 0.09589 -2.95036
           children [

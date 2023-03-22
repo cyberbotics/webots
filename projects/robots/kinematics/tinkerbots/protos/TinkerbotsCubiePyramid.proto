@@ -22,7 +22,7 @@ PROTO TinkerbotsCubiePyramid [
       translation IS translation
       rotation IS rotation
       children [
-        Transform {
+        Pose {
           translation 0.0005 0 0.011
           rotation 0 1 0 1.05
           children [
@@ -32,7 +32,7 @@ PROTO TinkerbotsCubiePyramid [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.0005 0 0.011
           rotation 0 1 0 -1.05
           children [

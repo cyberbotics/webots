@@ -130,7 +130,7 @@ PROTO Robotiq3fGripper [
                           endPoint Solid {
                             translation 0.039 0 0
                             children [
-                              DEF SHAPE3 Transform {
+                              DEF SHAPE3 Pose {
                                 rotation 0 0 1 0.52
                                 children [
                                   Shape {
@@ -172,7 +172,7 @@ PROTO Robotiq3fGripper [
                             }
                           }
                         }
-                        DEF SHAPE2 Transform {
+                        DEF SHAPE2 Pose {
                           translation 0.039 0 0.0075
                           children [
                             Shape {
@@ -211,7 +211,7 @@ PROTO Robotiq3fGripper [
                       }
                     }
                   }
-                  DEF SHAPE1 Transform {
+                  DEF SHAPE1 Pose {
                     translation 0.05 -0.028 0
                     rotation 0 0 -1 0.52
                     children [
@@ -251,7 +251,7 @@ PROTO Robotiq3fGripper [
                 }
               }
             }
-            DEF SHAPE0 Transform {
+            DEF SHAPE0 Pose {
               translation 0.02 0 0
               children [
                 Shape {
@@ -455,7 +455,7 @@ PROTO Robotiq3fGripper [
           }
         }
       }
-      Transform {
+      Pose {
         translation 0.0455 0.0214 0
         rotation 0 0 1 1.57
         children [
@@ -591,7 +591,7 @@ PROTO Robotiq3fGripper [
     name IS name
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 -0.029 0
           children [
             Cylinder {
@@ -600,7 +600,7 @@ PROTO Robotiq3fGripper [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.005 0
           children [
             Box {

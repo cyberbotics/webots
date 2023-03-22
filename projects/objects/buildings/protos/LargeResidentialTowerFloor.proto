@@ -8,7 +8,7 @@ PROTO LargeResidentialTowerFloor [
   field SFRotation rotation    0 0 1 0
 ]
 {
-  Transform {
+  Pose {
     translation IS translation
     rotation IS rotation
     children [

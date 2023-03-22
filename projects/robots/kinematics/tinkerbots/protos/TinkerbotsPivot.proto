@@ -107,7 +107,7 @@ PROTO TinkerbotsPivot [
           ]
           endPoint Solid {
             children [
-              Transform {
+              Pose {
                 translation 0 0 0.04
                 children [
                   Slot {
@@ -116,7 +116,7 @@ PROTO TinkerbotsPivot [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.01 0.01 0.035
                 rotation 0 0 1 3.1415
                 children [
@@ -126,7 +126,7 @@ PROTO TinkerbotsPivot [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.01 0.01 0.035
                 rotation 0 0 1 1.5708
                 children [
@@ -136,7 +136,7 @@ PROTO TinkerbotsPivot [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.01 -0.01 0.035
                 children [
                   Slot {
@@ -145,7 +145,7 @@ PROTO TinkerbotsPivot [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.01 -0.01 0.035
                 rotation 0 0 1 -1.5708
                 children [

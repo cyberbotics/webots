@@ -32,11 +32,11 @@ PROTO Moose [
     window IS window
     synchronization IS synchronization
     children [
-      Transform {
+      Pose {
         translation 0 0 0.4
         children IS bodySlot
       }
-      DEF MOOSE_BODY_SHAPE Transform {
+      DEF MOOSE_BODY_SHAPE Pose {
         translation 0 0 -0.06
         rotation -0.577349 -0.577351 -0.577351 -2.094397
         children [
@@ -155,7 +155,7 @@ PROTO Moose [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.95 -0.6 -0.06
         rotation 0 0 1 -1.5708
         children [
@@ -182,7 +182,7 @@ PROTO Moose [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.27 -0.6 -0.06
         rotation 0 0 1 -1.5708
         children [
@@ -209,7 +209,7 @@ PROTO Moose [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.42 -0.6 -0.06
         rotation 0 0 1 -1.5708
         children [
@@ -236,7 +236,7 @@ PROTO Moose [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -1.1 -0.6 -0.06
         rotation 0 0 1 -1.5708
         children [
@@ -263,7 +263,7 @@ PROTO Moose [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.95 0.6 -0.06
         rotation 0 0 1 1.5708
         children [
@@ -290,7 +290,7 @@ PROTO Moose [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.27 0.6 -0.06
         rotation 0 0 1 1.5708
         children [
@@ -317,7 +317,7 @@ PROTO Moose [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.42 0.6 -0.06
         rotation 0 0 1 1.5708
         children [
@@ -344,7 +344,7 @@ PROTO Moose [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -1.1 0.6 -0.06
         rotation 0 0 1 1.5708
         children [
@@ -374,7 +374,7 @@ PROTO Moose [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.15
           rotation 1 0 0 1.570796
           children [
@@ -383,7 +383,7 @@ PROTO Moose [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -1.31 0 0.56
           rotation 1 0 0 1.570796
           children [
@@ -392,7 +392,7 @@ PROTO Moose [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -1.29 0.53 0.49
           rotation 1 0 0 1.570796
           children [
@@ -401,7 +401,7 @@ PROTO Moose [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -1.29 -0.53 0.49
           rotation 1 0 0 1.570796
           children [
@@ -410,7 +410,7 @@ PROTO Moose [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 1.25 -0.53 0.49
           rotation 1 0 0 1.570796
           children [
@@ -419,7 +419,7 @@ PROTO Moose [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 1.25 0.53 0.49
           rotation 1 0 0 1.570796
           children [

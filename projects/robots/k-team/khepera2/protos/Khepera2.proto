@@ -48,7 +48,7 @@ PROTO Khepera2 [
           creaseAngle 5
         }
       }
-      Transform {
+      Pose {
         translation 0 0 0.02
         rotation 0 0 1 -1.570796
         children [
@@ -85,7 +85,7 @@ PROTO Khepera2 [
           translation 0 0.026 0.0075
           rotation -0.695223 0.695223 -0.182562 2.780445
           children [
-            DEF WHEEL Transform {
+            DEF WHEEL Pose {
               rotation 0.577387 -0.577332 0.577332 -2.094339
               children [
                 Shape {
@@ -120,7 +120,7 @@ PROTO Khepera2 [
           translation 0 -0.026 0.0075
           rotation -0.635308 0.635308 0.439053 -2.314167
           children [
-            DEF WHEEL Transform {
+            DEF WHEEL Pose {
               rotation 0.577387 -0.577332 0.577332 -2.094339
               children [
                 Shape {

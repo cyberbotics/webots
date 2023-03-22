@@ -307,7 +307,7 @@ PROTO TiagoFrontArm [
                                                 translation 0.055 0 0
                                                 rotation 0.5774 0.5774 0.5774 2.0944
                                                 children [
-                                                  Transform {
+                                                  Pose {
                                                     rotation 1 0 0 1.570796
                                                     children [
                                                       DEF ARM_7_SH1 Shape {
@@ -328,7 +328,7 @@ PROTO TiagoFrontArm [
                                                     translation 0 0 0.012725
                                                     rotation -0.5774 -0.5774 -0.5774 2.0944
                                                     children [
-                                                      Transform {
+                                                      Pose {
                                                         rotation 0 0 1 -1.5708
                                                         children [
                                                           Slot {
@@ -337,7 +337,7 @@ PROTO TiagoFrontArm [
                                                           }
                                                         ]
                                                       }
-                                                      Transform {
+                                                      Pose {
                                                         rotation 0.5774 0.5774 -0.5774 2.0944
                                                         children [
                                                           Shape {
@@ -408,7 +408,7 @@ PROTO TiagoFrontArm [
                                     name "arm_5_link"
                                     boundingObject Group {
                                       children [
-                                        Transform {
+                                        Pose {
                                           translation 0 0 0.04
                                           rotation 0 0 1 1.57
                                           children [
@@ -418,7 +418,7 @@ PROTO TiagoFrontArm [
                                             }
                                           ]
                                         }
-                                        Transform {
+                                        Pose {
                                           translation 0 0 0.099
                                           rotation 0 0 1 1.57
                                           children [
@@ -428,7 +428,7 @@ PROTO TiagoFrontArm [
                                             }
                                           ]
                                         }
-                                        Transform {
+                                        Pose {
                                           translation 0 0 0.156
                                           rotation 0 0 1 1.57
                                           children [
@@ -450,7 +450,7 @@ PROTO TiagoFrontArm [
                               name "arm_4_link"
                               boundingObject Group {
                                 children [
-                                  Transform {
+                                  Pose {
                                     translation 0 0.001 -0.002
                                     rotation 0 0 1 1.5708
                                     children [
@@ -460,7 +460,7 @@ PROTO TiagoFrontArm [
                                       }
                                     ]
                                   }
-                                  Transform {
+                                  Pose {
                                     translation -0.093 0.019 0.027
                                     rotation 0 1 0 1.5708
                                     children [
@@ -482,7 +482,7 @@ PROTO TiagoFrontArm [
                         name "arm_3_link"
                         boundingObject Group {
                           children [
-                            Transform {
+                            Pose {
                               translation 0 0 -0.106
                               rotation 0 0 1 -1.5708
                               children [
@@ -492,7 +492,7 @@ PROTO TiagoFrontArm [
                                 }
                               ]
                             }
-                            Transform {
+                            Pose {
                               translation -0.0169 0.03 -0.221
                               rotation 1 0 0 1.5708
                               children [
@@ -515,7 +515,7 @@ PROTO TiagoFrontArm [
                   name "arm_2_link"
                   boundingObject Group {
                     children [
-                      Transform {
+                      Pose {
                         translation 0.056 0 -0.002
                         rotation 0 1 0 -1.5708
                         children [
@@ -525,7 +525,7 @@ PROTO TiagoFrontArm [
                           }
                         ]
                       }
-                      Transform {
+                      Pose {
                         translation 0 0 0.028
                         rotation 0 0 1 -1.5708
                         children [
@@ -547,7 +547,7 @@ PROTO TiagoFrontArm [
             name "TIAGo front arm"
             boundingObject Group {
               children [
-                Transform {
+                Pose {
                   translation 0 0 0.013
                   rotation 0 0 1 1.5708
                   children [
@@ -557,7 +557,7 @@ PROTO TiagoFrontArm [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation 0.033 0.001 0.012
                   children [
                     Box {
@@ -565,7 +565,7 @@ PROTO TiagoFrontArm [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation 0.072 0.029 -0.012
                   children [
                     Box {
@@ -573,7 +573,7 @@ PROTO TiagoFrontArm [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation 0.125 0.053 -0.031
                   rotation 1 0 0 1.5708
                   children [
@@ -595,7 +595,7 @@ PROTO TiagoFrontArm [
       name "Left shoulder"
       boundingObject Group {
         children [
-          DEF SHOULDER_SH1 Transform {
+          DEF SHOULDER_SH1 Pose {
             translation 0.026 0.14 -0.232
             rotation 0 0 1 1.5708
             children [
@@ -604,7 +604,7 @@ PROTO TiagoFrontArm [
               }
             ]
           }
-          DEF SHOULDER_SH2 Transform {
+          DEF SHOULDER_SH2 Pose {
             translation 0.0256 0.1868 -0.2661
             rotation 1 0 0 0.261799
             children [
@@ -615,7 +615,7 @@ PROTO TiagoFrontArm [
             ]
             translationStep 0.001
           }
-          DEF SHOULDER_SH3 Transform {
+          DEF SHOULDER_SH3 Pose {
             translation 0.026 0.19 -0.221
             rotation 0 0 1 -1.5708
             children [

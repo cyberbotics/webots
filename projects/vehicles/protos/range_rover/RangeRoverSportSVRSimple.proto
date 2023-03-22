@@ -46,20 +46,20 @@ PROTO RangeRoverSportSVRSimple [
     rotation IS rotation
     recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid lua PROTO regeneration when colors change.
     children [
-      Transform {
+      Pose {
         translation 3.5 0 0.5
         children IS sensorsSlotFront
       }
-      Transform {
+      Pose {
         translation -1.06 0 0.33
         rotation 0 0 1 3.1415
         children IS sensorsSlotRear
       }
-      Transform {
+      Pose {
         translation 1.4 0 1.3
         children IS sensorsSlotTop
       }
-      Transform {
+      Pose {
         children IS sensorsSlotCenter
       }
       DEF FRONT_RIGHT_WHEEL Solid {
@@ -334,7 +334,7 @@ PROTO RangeRoverSportSVRSimple [
             rotation 0 1 0 3.1416
             scale 0.8 0.8 1
             children [
-              Transform {
+              Pose {
                 rotation 1 0 0 -0.19
                 children [
                   Shape {
@@ -388,7 +388,7 @@ PROTO RangeRoverSportSVRSimple [
     model "Range Rover SVR"
     boundingObject Group {
       children [
-        DEF LOWER_BOX Transform {
+        DEF LOWER_BOX Pose {
           translation 1.25 0 0.35
           rotation -0.581161 -0.581161 -0.569652 -2.10598
           children [
@@ -397,7 +397,7 @@ PROTO RangeRoverSportSVRSimple [
             }
           ]
         }
-        DEF CENTRAL_BOX Transform {
+        DEF CENTRAL_BOX Pose {
           translation 0.6 0 0.85
           children [
             Box {

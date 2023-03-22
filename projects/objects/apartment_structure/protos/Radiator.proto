@@ -73,7 +73,7 @@ PROTO Radiator [
           creaseAngle 0.5
         }
       }
-      DEF HANDLE Transform {
+      DEF HANDLE Pose {
         translation 0.062 -0.07 0.25
         rotation 0 1 0 1.5708
         children [
@@ -136,14 +136,14 @@ PROTO Radiator [
         }
       }
       %< for (let i = 1; i <= numberOfFins - 1; ++i) { >%
-        Transform {
+        Pose {
           translation 0 %<= 0.06 * i >% 0
           children [
             USE SLIDE
           ]
         }
       %< } >%
-      DEF UPPER_CONNECTOR Transform {
+      DEF UPPER_CONNECTOR Pose {
         translation 0 -0.0147 0.25
         children [
           DEF CONNECTOR Shape {
@@ -170,20 +170,20 @@ PROTO Radiator [
           }
         ]
       }
-      DEF LOWER_CONNECTOR Transform {
+      DEF LOWER_CONNECTOR Pose {
         translation 0 -0.0147 -0.25
         children [
           USE CONNECTOR
         ]
       }
-      DEF UPPER_END_CONNECTOR Transform {
+      DEF UPPER_END_CONNECTOR Pose {
         translation 0 %<= 0.057 + 0.06 * (numberOfFins - 1) >% 0.25
         rotation 0 0 1 3.141592644
         children [
           USE CONNECTOR
         ]
       }
-      DEF LOWER_END_CONNECTOR Transform {
+      DEF LOWER_END_CONNECTOR Pose {
         translation 0 %<= 0.057 + 0.06 * (numberOfFins - 1) >% -0.25
         rotation 0 0 1 3.141592644
         children [

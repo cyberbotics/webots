@@ -22,7 +22,7 @@ Solid {
   name "RLleg"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation -0.00345 -0.00295 -0.1913
         children [
           Box {

@@ -62,10 +62,10 @@ PROTO Khr3hv [
           creaseAngle 1
         }
       }
-      DEF KHR3HV_Accelerometer Transform {
+      DEF KHR3HV_Accelerometer Pose {
         translation -0.1666 0.069 0.0
       }
-      DEF KHR3HV_Gyro Transform {
+      DEF KHR3HV_Gyro Pose {
         translation -0.1666 0.069 -0.048
       }
       DEF KHR3HV_Head HingeJoint {
@@ -348,7 +348,7 @@ PROTO Khr3hv [
                             ]
                             boundingObject Group {
                               children [
-                                Transform {
+                                Pose {
                                   translation 0 0 -0.018
                                   children [
                                     Box {
@@ -356,7 +356,7 @@ PROTO Khr3hv [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0.002 0 -0.093
                                   children [
                                     Box {
@@ -364,7 +364,7 @@ PROTO Khr3hv [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0.006 -0.0035 -0.157
                                   children [
                                     Box {
@@ -372,7 +372,7 @@ PROTO Khr3hv [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0 0.002 -0.188
                                   rotation -0.357409 -0.862853 -0.357411 -1.71778
                                   children [
@@ -413,7 +413,7 @@ PROTO Khr3hv [
                 ]
                 boundingObject Group {
                   children [
-                    Transform {
+                    Pose {
                       translation 0.0005 0 -0.0225
                       children [
                         Box {
@@ -421,7 +421,7 @@ PROTO Khr3hv [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation -0.0235 -0.0005 -0.0965
                       children [
                         Box {
@@ -429,7 +429,7 @@ PROTO Khr3hv [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation -0.0225 -0.0005 -0.1375
                       children [
                         Box {
@@ -649,7 +649,7 @@ PROTO Khr3hv [
                             ]
                             boundingObject Group {
                               children [
-                                Transform {
+                                Pose {
                                   translation 0 0 -0.018
                                   children [
                                     Box {
@@ -657,7 +657,7 @@ PROTO Khr3hv [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0.002 0 -0.093
                                   children [
                                     Box {
@@ -665,7 +665,7 @@ PROTO Khr3hv [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0.006 0.0035 -0.157
                                   children [
                                     Box {
@@ -673,7 +673,7 @@ PROTO Khr3hv [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0 -0.002 -0.188
                                   rotation 0.6786 0.281082 0.678598 2.593575
                                   children [
@@ -714,7 +714,7 @@ PROTO Khr3hv [
                 ]
                 boundingObject Group {
                   children [
-                    Transform {
+                    Pose {
                       translation 0.0005 0 -0.0225
                       children [
                         Box {
@@ -722,7 +722,7 @@ PROTO Khr3hv [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation -0.0235 0.0005 -0.0965
                       children [
                         Box {
@@ -730,7 +730,7 @@ PROTO Khr3hv [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation -0.0225 0.0005 -0.1375
                       children [
                         Box {
@@ -1116,7 +1116,7 @@ PROTO Khr3hv [
                                         ]
                                         boundingObject Group {
                                           children [
-                                            Transform {
+                                            Pose {
                                               translation 0 0 -0.074
                                               children [
                                                 Box {
@@ -1124,7 +1124,7 @@ PROTO Khr3hv [
                                                 }
                                               ]
                                             }
-                                            Transform {
+                                            Pose {
                                               translation 0 0 -0.014
                                               children [
                                                 Box {
@@ -1146,7 +1146,7 @@ PROTO Khr3hv [
                                   ]
                                   boundingObject Group {
                                     children [
-                                      Transform {
+                                      Pose {
                                         translation 0.0085 0 -0.016
                                         rotation 0.454459 0.454452 0.76612 1.834125
                                         children [
@@ -1155,7 +1155,7 @@ PROTO Khr3hv [
                                           }
                                         ]
                                       }
-                                      Transform {
+                                      Pose {
                                         translation 0.008 0.0 -0.108
                                         rotation -0.63513 -0.635128 -0.43957 -2.313314
                                         children [
@@ -1164,7 +1164,7 @@ PROTO Khr3hv [
                                           }
                                         ]
                                       }
-                                      Transform {
+                                      Pose {
                                         translation 0.023 0 -0.056
                                         children [
                                           Box {
@@ -1186,7 +1186,7 @@ PROTO Khr3hv [
                             ]
                             boundingObject Group {
                               children [
-                                Transform {
+                                Pose {
                                   translation 0.0015 0 -0.022
                                   children [
                                     Box {
@@ -1194,7 +1194,7 @@ PROTO Khr3hv [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0.012 0.0 -0.108
                                   rotation 0.654047 0.654046 0.380062 2.415205
                                   children [
@@ -1203,7 +1203,7 @@ PROTO Khr3hv [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0.006 0 -0.074
                                   rotation -0.697151 -0.697152 -0.167211 -2.810252
                                   children [
@@ -1226,7 +1226,7 @@ PROTO Khr3hv [
                       ]
                       boundingObject Group {
                         children [
-                          Transform {
+                          Pose {
                             translation 0 0.0225 -0.0005
                             children [
                               Box {
@@ -1234,7 +1234,7 @@ PROTO Khr3hv [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation 0 0.0225 -0.06
                             children [
                               Box {
@@ -1524,7 +1524,7 @@ PROTO Khr3hv [
                                         ]
                                         boundingObject Group {
                                           children [
-                                            Transform {
+                                            Pose {
                                               translation 0 0 -0.074
                                               children [
                                                 Box {
@@ -1532,7 +1532,7 @@ PROTO Khr3hv [
                                                 }
                                               ]
                                             }
-                                            Transform {
+                                            Pose {
                                               translation 0 0 -0.014
                                               children [
                                                 Box {
@@ -1554,7 +1554,7 @@ PROTO Khr3hv [
                                   ]
                                   boundingObject Group {
                                     children [
-                                      Transform {
+                                      Pose {
                                         translation 0.0085 0 -0.016
                                         rotation 0.454459 0.454452 0.76612 1.834125
                                         children [
@@ -1563,7 +1563,7 @@ PROTO Khr3hv [
                                           }
                                         ]
                                       }
-                                      Transform {
+                                      Pose {
                                         translation 0.008 0.0 -0.108
                                         rotation -0.63513 -0.635128 -0.43957 -2.313314
                                         children [
@@ -1572,7 +1572,7 @@ PROTO Khr3hv [
                                           }
                                         ]
                                       }
-                                      Transform {
+                                      Pose {
                                         translation 0.023 0 -0.056
                                         children [
                                           Box {
@@ -1594,7 +1594,7 @@ PROTO Khr3hv [
                             ]
                             boundingObject Group {
                               children [
-                                Transform {
+                                Pose {
                                   translation 0.0015 0 -0.022
                                   children [
                                     Box {
@@ -1602,7 +1602,7 @@ PROTO Khr3hv [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0.012 0.0 -0.108
                                   rotation 0.654047 0.654046 0.380062 2.415205
                                   children [
@@ -1611,7 +1611,7 @@ PROTO Khr3hv [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0.006 0 -0.074
                                   rotation -0.697151 -0.697152 -0.167211 -2.810252
                                   children [
@@ -1634,7 +1634,7 @@ PROTO Khr3hv [
                       ]
                       boundingObject Group {
                         children [
-                          Transform {
+                          Pose {
                             translation 0 -0.0225 -0.0005
                             children [
                               Box {
@@ -1642,7 +1642,7 @@ PROTO Khr3hv [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation 0 -0.0225 -0.06
                             children [
                               Box {
@@ -1702,7 +1702,7 @@ PROTO Khr3hv [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.0095 0 -0.0335
           children [
             Box {
@@ -1710,7 +1710,7 @@ PROTO Khr3hv [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.1385 0 -0.024
           children [
             Box {

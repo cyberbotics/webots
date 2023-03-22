@@ -32,7 +32,7 @@ PROTO PicketFence [
     ]
     children [
       %< for (let i = 0; i <= numberOfSegments - 1; ++i) { >%
-        Transform {
+        Pose {
           translation 0 %<= -1.7 * i >% 0
           children [
             Shape {

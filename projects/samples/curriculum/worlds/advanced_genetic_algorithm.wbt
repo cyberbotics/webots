@@ -60,7 +60,7 @@ DEF FLOOR Solid {
         ]
       }
     }
-    Transform {
+    Pose {
       children [
         Shape {
           appearance PBRAppearance {

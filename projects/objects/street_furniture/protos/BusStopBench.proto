@@ -38,7 +38,7 @@ PROTO BusStopBench [
         model "bus stop bench"
         boundingObject Group {
           children [
-            DEF BENCH_HORIZONTAL Transform {
+            DEF BENCH_HORIZONTAL Pose {
               translation -1.19 -1.85 -1.04
               children [
                 Box {
@@ -46,7 +46,7 @@ PROTO BusStopBench [
                 }
               ]
             }
-            DEF BENCH_HORIZONTAL Transform {
+            DEF BENCH_HORIZONTAL Pose {
               translation -1.19 -1.46 -1.38
               rotation 1 0 0 -0.15
               children [
@@ -74,7 +74,7 @@ PROTO BusStopBench [
           creaseAngle 0.5
         }
       }
-      DEF BENCH_HOLDER2 Transform {
+      DEF BENCH_HOLDER2 Pose {
         translation -4.8 0 0
         children [
           USE BENCH_HOLDER

@@ -28,7 +28,7 @@ PROTO Scout [
     supervisor IS supervisor
     synchronization IS synchronization
     children [
-      Transform {
+      Pose {
         rotation 0 0.7071067811865477 -0.7071067811865477 3.1415926536
         children [
           DEF L_HIP_YAW HingeJoint {
@@ -57,7 +57,7 @@ PROTO Scout [
                     radius 0.01
                   }
                 }
-                DEF L_HIP_YAW_SHAPE Transform {
+                DEF L_HIP_YAW_SHAPE Pose {
                   translation 0 -0.008 0.041
                   rotation -1 0 0 1.57
                   children [
@@ -89,7 +89,7 @@ PROTO Scout [
                     rotation 0 -1 0 1.57
                     children [
                       USE JOINT
-                      DEF L_HIP_ROLL_SHAPE Transform {
+                      DEF L_HIP_ROLL_SHAPE Pose {
                         translation 0 0.01 0
                         rotation -1 0 0 1.57
                         children [
@@ -122,7 +122,7 @@ PROTO Scout [
                           rotation -1 0 0 1.57
                           children [
                             USE JOINT
-                            DEF L_FEMUR_SHAPE_1 Transform {
+                            DEF L_FEMUR_SHAPE_1 Pose {
                               translation 0 0.013 0
                               rotation -1 0 0 1.57
                               children [
@@ -138,7 +138,7 @@ PROTO Scout [
                                 }
                               ]
                             }
-                            DEF L_FEMUR_SHAPE Transform {
+                            DEF L_FEMUR_SHAPE Pose {
                               translation 0 0.07 0
                               rotation -1 0 0 1.57
                               children [
@@ -154,7 +154,7 @@ PROTO Scout [
                                 }
                               ]
                             }
-                            DEF L_FEMUR_SHAPE2 Transform {
+                            DEF L_FEMUR_SHAPE2 Pose {
                               translation 0 0.05 0
                               rotation -1 0 0 1.57
                               children [
@@ -182,7 +182,7 @@ PROTO Scout [
                                 translation 0 0.083 0
                                 children [
                                   USE JOINT
-                                  DEF L_TIBIA_2 Transform {
+                                  DEF L_TIBIA_2 Pose {
                                     translation 0 0.02 0
                                     rotation -1 0 0 1.57
                                     children [
@@ -195,7 +195,7 @@ PROTO Scout [
                                       }
                                     ]
                                   }
-                                  DEF L_TIBIA Transform {
+                                  DEF L_TIBIA Pose {
                                     translation 0.033 0.025 0
                                     rotation 0 -1 0 1.57
                                     children [
@@ -208,11 +208,11 @@ PROTO Scout [
                                       }
                                     ]
                                   }
-                                  DEF L_ANKLE_SERVO Transform {
+                                  DEF L_ANKLE_SERVO Pose {
                                     translation 0.071 0.007 0
                                     rotation -1 0 0 1.57
                                     children [
-                                      DEF L_ANKLE_PITCH_SERVO_SHAPE Transform {
+                                      DEF L_ANKLE_PITCH_SERVO_SHAPE Pose {
                                         rotation 0 -1 0 0.785
                                         children [
                                           DEF RX28 Shape {
@@ -244,7 +244,7 @@ PROTO Scout [
                                       translation 0.08 0 0
                                       children [
                                         USE JOINT
-                                        DEF L_ANKLE_BEAM Transform {
+                                        DEF L_ANKLE_BEAM Pose {
                                           translation 0 -0.02 0
                                           rotation -1 0 0 1.57
                                           children [
@@ -273,7 +273,7 @@ PROTO Scout [
                                             rotation -1 0 0 1.57
                                             children [
                                               USE JOINT
-                                              DEF L_ANKLE_ROLL_SHAPE Transform {
+                                              DEF L_ANKLE_ROLL_SHAPE Pose {
                                                 translation 0.013 0 0
                                                 rotation 0 -1 0 1.57
                                                 children [
@@ -289,7 +289,7 @@ PROTO Scout [
                                                   }
                                                 ]
                                               }
-                                              DEF FOOT_SHAPE Transform {
+                                              DEF FOOT_SHAPE Pose {
                                                 translation 0.047 0 0
                                                 rotation 0 -1 0 1.57
                                                 children [
@@ -302,7 +302,7 @@ PROTO Scout [
                                                   }
                                                 ]
                                               }
-                                              DEF FOOT_CONE Transform {
+                                              DEF FOOT_CONE Pose {
                                                 translation 0.02 0 0
                                                 rotation 0 -1 0 1.57
                                                 children [
@@ -391,7 +391,7 @@ PROTO Scout [
                     radius 0.01
                   }
                 }
-                DEF R_HIP_YAW_SHAPE Transform {
+                DEF R_HIP_YAW_SHAPE Pose {
                   translation 0 0.008 0.041
                   rotation -1 0 0 1.57
                   children [
@@ -423,7 +423,7 @@ PROTO Scout [
                     rotation 0 -1 0 1.57
                     children [
                       USE JOINT
-                      DEF R_HIP_ROLL_SHAPE Transform {
+                      DEF R_HIP_ROLL_SHAPE Pose {
                         translation 0 -0.01 0
                         rotation -1 0 0 1.57
                         children [
@@ -452,7 +452,7 @@ PROTO Scout [
                           rotation -1 0 0 1.57
                           children [
                             USE JOINT
-                            DEF R_FEMUR_SHAPE_1 Transform {
+                            DEF R_FEMUR_SHAPE_1 Pose {
                               translation 0 0.013 0
                               rotation -1 0 0 1.57
                               children [
@@ -468,7 +468,7 @@ PROTO Scout [
                                 }
                               ]
                             }
-                            DEF R_FEMUR_SHAPE Transform {
+                            DEF R_FEMUR_SHAPE Pose {
                               translation 0 0.07 0
                               rotation -1 0 0 1.57
                               children [
@@ -484,7 +484,7 @@ PROTO Scout [
                                 }
                               ]
                             }
-                            DEF R_FEMUR_SHAPE2 Transform {
+                            DEF R_FEMUR_SHAPE2 Pose {
                               translation 0 0.05 0
                               rotation -1 0 0 1.57
                               children [
@@ -512,7 +512,7 @@ PROTO Scout [
                                 translation 0 0.083 0
                                 children [
                                   USE JOINT
-                                  DEF R_TIBIA_2 Transform {
+                                  DEF R_TIBIA_2 Pose {
                                     translation 0 0.02 0
                                     rotation -1 0 0 1.57
                                     children [
@@ -525,7 +525,7 @@ PROTO Scout [
                                       }
                                     ]
                                   }
-                                  DEF R_TIBIA Transform {
+                                  DEF R_TIBIA Pose {
                                     translation 0.033 0.025 0
                                     rotation 0 -1 0 1.57
                                     children [
@@ -538,11 +538,11 @@ PROTO Scout [
                                       }
                                     ]
                                   }
-                                  DEF R_ANKLE_SERVO Transform {
+                                  DEF R_ANKLE_SERVO Pose {
                                     translation 0.071 0.007 0
                                     rotation -1 0 0 1.57
                                     children [
-                                      DEF R_ANKLE_PITCH_SERVO_SHAPE Transform {
+                                      DEF R_ANKLE_PITCH_SERVO_SHAPE Pose {
                                         rotation 0 -1 0 0.785
                                         children [
                                           DEF RX28 Shape {
@@ -574,7 +574,7 @@ PROTO Scout [
                                       translation 0.08 0 0
                                       children [
                                         USE JOINT
-                                        DEF R_ANKLE_BEAM Transform {
+                                        DEF R_ANKLE_BEAM Pose {
                                           translation 0 -0.02 0
                                           rotation -1 0 0 1.57
                                           children [
@@ -603,7 +603,7 @@ PROTO Scout [
                                             rotation -1 0 0 1.57
                                             children [
                                               USE JOINT
-                                              DEF R_ANKLE_ROLL_SHAPE Transform {
+                                              DEF R_ANKLE_ROLL_SHAPE Pose {
                                                 translation 0.013 0 0
                                                 rotation 0 -1 0 1.57
                                                 children [
@@ -619,7 +619,7 @@ PROTO Scout [
                                                   }
                                                 ]
                                               }
-                                              DEF FOOT_SHAPE Transform {
+                                              DEF FOOT_SHAPE Pose {
                                                 translation 0.047 0 0
                                                 rotation 0 -1 0 1.57
                                                 children [
@@ -632,7 +632,7 @@ PROTO Scout [
                                                   }
                                                 ]
                                               }
-                                              DEF FOOT_CONE Transform {
+                                              DEF FOOT_CONE Pose {
                                                 translation 0.02 0 0
                                                 rotation 0 -1 0 1.57
                                                 children [
@@ -698,7 +698,7 @@ PROTO Scout [
       }
       DEF BODY_GRP Group {
         children [
-          Transform {
+          Pose {
             translation -0.05 0 0.02
             children [
               Shape {
@@ -709,7 +709,7 @@ PROTO Scout [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.015 0 0.02
             rotation 0 -1 0 1.57
             children [
@@ -726,7 +726,7 @@ PROTO Scout [
               }
             ]
           }
-          DEF CANNON1 Transform {
+          DEF CANNON1 Pose {
             translation 0.02 0.06 0.06
             rotation 0 -1 0 1.57
             children [
@@ -743,14 +743,14 @@ PROTO Scout [
               }
             ]
           }
-          DEF CANNON2 Transform {
+          DEF CANNON2 Pose {
             translation 0.02 -0.06 0.06
             rotation 0 -1 0 1.57
             children [
               USE CANNON
             ]
           }
-          DEF BODY_SIDES Transform {
+          DEF BODY_SIDES Pose {
             translation 0 0 0.06
             rotation 1 0 0 1.5708
             children [
@@ -767,7 +767,7 @@ PROTO Scout [
               }
             ]
           }
-          DEF BODY_SHAPE Transform {
+          DEF BODY_SHAPE Pose {
             translation 0 0 0.06
             children [
               DEF BODY Shape {
@@ -783,7 +783,7 @@ PROTO Scout [
               }
             ]
           }
-          DEF L_YAW Transform {
+          DEF L_YAW Pose {
             translation 0 0.032 0
             children [
               DEF RX28 Shape {
@@ -798,7 +798,7 @@ PROTO Scout [
               }
             ]
           }
-          DEF R_YAW Transform {
+          DEF R_YAW Pose {
             translation 0 -0.032 0
             children [
               USE RX28

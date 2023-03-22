@@ -486,7 +486,7 @@ PROTO TiagoGripper [
           endPoint DEF RIGHT_GRIPPER Solid {
             rotation 0 0 -1 0
             children [
-              Transform {
+              Pose {
                 children [
                   DEF GRIPPER_SHAPE Group {
                     children [

@@ -15,7 +15,7 @@ PROTO RoCKInER02 [
     children [
       DEF ER02_SHAPE Group {
         children [
-          Transform {
+          Pose {
             translation 0 0 0.01
             rotation 0.57735 -0.57735 -0.57735 2.094395
             children [
@@ -31,7 +31,7 @@ PROTO RoCKInER02 [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 -0.09 0.1
             rotation 0.57735 -0.57735 -0.57735 2.094395
             children [
@@ -43,7 +43,7 @@ PROTO RoCKInER02 [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 0.09 0.1
             rotation 0.57735 -0.57735 -0.57735 2.094395
             children [
@@ -55,7 +55,7 @@ PROTO RoCKInER02 [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0.14 0 0.1
             rotation -1 0 0 -1.570796
             children [
@@ -67,7 +67,7 @@ PROTO RoCKInER02 [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.14 0 0.1
             rotation -1 0 0 -1.570796
             children [

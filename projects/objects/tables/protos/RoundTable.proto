@@ -538,7 +538,7 @@ Solid {
   model "round table"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0 0 0.75
         children [
           Cylinder {
@@ -547,7 +547,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.045
         children [
           Box {
@@ -555,7 +555,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.4
         children [
           Box {
@@ -563,7 +563,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.015
         children [
           Box {

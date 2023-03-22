@@ -82,7 +82,7 @@ PROTO QRIO [
                     endPoint Solid {
                       translation -0.013 0.048 -0.032
                       children [
-                        DEF HIP Transform {
+                        DEF HIP Pose {
                           children [
                             Shape {
                               appearance PBRAppearance {
@@ -131,7 +131,7 @@ PROTO QRIO [
                                         radius 0.04
                                       }
                                     }
-                                    DEF UPPER_LEG Transform {
+                                    DEF UPPER_LEG Pose {
                                       translation 0 0.011 -0.056
                                       children [
                                         Shape {
@@ -165,7 +165,7 @@ PROTO QRIO [
                                       endPoint Solid {
                                         translation 0 0 -0.116
                                         children [
-                                          DEF LOWER_LEG Transform {
+                                          DEF LOWER_LEG Pose {
                                             translation 0.006 0.002 -0.056
                                             children [
                                               Shape {
@@ -186,7 +186,7 @@ PROTO QRIO [
                                               }
                                             ]
                                           }
-                                          DEF KNEE_CYLINDER Transform {
+                                          DEF KNEE_CYLINDER Pose {
                                             rotation 0 0.706825 0.707388 3.141593
                                             children [
                                               Shape {
@@ -226,7 +226,7 @@ PROTO QRIO [
                                                   ]
                                                   endPoint Solid {
                                                     children [
-                                                      DEF FOOT_SENSOR Transform {
+                                                      DEF FOOT_SENSOR Pose {
                                                         translation 0.01 0 -0.048
                                                         children [
                                                           Shape {
@@ -242,7 +242,7 @@ PROTO QRIO [
                                                         ]
                                                       }
                                                       USE FOOT_BOWL
-                                                      DEF FOOT Transform {
+                                                      DEF FOOT Pose {
                                                         translation 0.01 0 -0.007
                                                         children [
                                                           Shape {
@@ -266,7 +266,7 @@ PROTO QRIO [
                                                       }
                                                     ]
                                                     contactMaterial "foot"
-                                                    boundingObject DEF FOOT_BB Transform {
+                                                    boundingObject DEF FOOT_BB Pose {
                                                       translation 0.01 0 -0.0435
                                                       children [
                                                         Box {
@@ -289,7 +289,7 @@ PROTO QRIO [
                                             }
                                           }
                                         ]
-                                        boundingObject DEF LOWER_LEG_BO Transform {
+                                        boundingObject DEF LOWER_LEG_BO Pose {
                                           translation 0 0 -0.06
                                           children [
                                             Box {
@@ -303,7 +303,7 @@ PROTO QRIO [
                                       }
                                     }
                                   ]
-                                  boundingObject DEF UPPER_LEG_BO Transform {
+                                  boundingObject DEF UPPER_LEG_BO Pose {
                                     translation 0 0 -0.052
                                     children [
                                       Shape {
@@ -331,7 +331,7 @@ PROTO QRIO [
                         }
                       ]
                       name "left leg"
-                      boundingObject DEF HIP_BO Transform {
+                      boundingObject DEF HIP_BO Pose {
                         translation 0 0 -0.012
                         children [
                           Shape {
@@ -429,7 +429,7 @@ PROTO QRIO [
                                                   ]
                                                   endPoint Solid {
                                                     children [
-                                                      DEF FOOT_SENSOR Transform {
+                                                      DEF FOOT_SENSOR Pose {
                                                         translation 0.01 0 -0.048
                                                         children [
                                                           Shape {
@@ -543,7 +543,7 @@ PROTO QRIO [
               ]
               endPoint Solid {
                 children [
-                  DEF SHOULDER Transform {
+                  DEF SHOULDER Pose {
                     rotation 0 0 1 -1.5708
                     children [
                       DEF SHOULDER_WHITE_SHAPE Shape {
@@ -583,7 +583,7 @@ PROTO QRIO [
                       }
                     ]
                   }
-                  DEF UPPER_ARM Transform {
+                  DEF UPPER_ARM Pose {
                     translation 0 0 -0.07
                     children [
                       Shape {
@@ -618,7 +618,7 @@ PROTO QRIO [
                     endPoint Solid {
                       translation 0.012 0 -0.082
                       children [
-                        DEF ELBOW_CYLINDER Transform {
+                        DEF ELBOW_CYLINDER Pose {
                           rotation 1 0 0 1.57
                           children [
                             Shape {
@@ -634,7 +634,7 @@ PROTO QRIO [
                             }
                           ]
                         }
-                        DEF LOWER_ARM Transform {
+                        DEF LOWER_ARM Pose {
                           translation -0.012 0 -0.047
                           rotation 0 0 1 -1.57
                           children [
@@ -657,7 +657,7 @@ PROTO QRIO [
                             }
                           ]
                         }
-                        Transform {
+                        Pose {
                           translation -0.012 0 -0.142
                           children [
                             DEF HAND_SHAPE Shape {
@@ -680,7 +680,7 @@ PROTO QRIO [
                           ]
                         }
                       ]
-                      boundingObject DEF LOWER_ARM_BO Transform {
+                      boundingObject DEF LOWER_ARM_BO Pose {
                         translation 0 0 -0.06
                         children [
                           Shape {
@@ -751,7 +751,7 @@ PROTO QRIO [
               ]
               endPoint Solid {
                 children [
-                  Transform {
+                  Pose {
                     rotation 0 0 1 1.57
                     children [
                       USE SHOULDER_WHITE_SHAPE
@@ -774,7 +774,7 @@ PROTO QRIO [
                       children [
                         USE ELBOW_CYLINDER
                         USE LOWER_ARM
-                        Transform {
+                        Pose {
                           translation -0.012 0 -0.142
                           rotation 0 0 1 3.1415
                           children [
@@ -915,7 +915,7 @@ PROTO QRIO [
                 0 1 0
               ]
             }
-            Transform {
+            Pose {
               translation 0 0 0.07
               children [
                 Shape {
@@ -938,7 +938,7 @@ PROTO QRIO [
                 }
               ]
             }
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -1000,7 +1000,7 @@ PROTO QRIO [
           0 1 0
         ]
       }
-      Transform {
+      Pose {
         translation -0.015 0 0.02
         rotation 0 0 1 -1.57
         children [

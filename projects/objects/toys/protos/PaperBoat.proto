@@ -31,19 +31,23 @@ PROTO PaperBoat [
   Solid {
     translation IS translation
     rotation IS rotation
-    scale %<= scale >% %<= scale >% %<= scale >%
     children [
-      DEF GEOM Shape {
-        appearance PBRAppearance {
-          baseColorMap ImageTexture {
-            url IS textureUrl
+      Transform {
+        scale %<= scale >% %<= scale >% %<= scale >%
+        children [
+          DEF GEOM Shape {
+            appearance PBRAppearance {
+              baseColorMap ImageTexture {
+                url IS textureUrl
+              }
+              metalness 0
+              roughness 1
+            }
+            geometry Mesh {
+              url "PaperBoat/meshes/geom.obj"
+            }
           }
-          metalness 0
-          roughness 1
-        }
-        geometry Mesh {
-          url "PaperBoat/meshes/geom.obj"
-        }
+        ]
       }
     ]
     name IS name
@@ -51,7 +55,7 @@ PROTO PaperBoat [
     immersionProperties IS immersionProperties
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.01
           children [
             Box {
@@ -59,7 +63,7 @@ PROTO PaperBoat [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.034
           rotation 0 1 0 1.5707997
           children [
@@ -69,7 +73,7 @@ PROTO PaperBoat [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.0308 0.038
           rotation -0.659864 0.659862 -0.359392 -2.45157
           children [
@@ -78,7 +82,7 @@ PROTO PaperBoat [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.032 0.038
           rotation 0.454451 -0.45445 0.766126 1.83411
           children [
@@ -87,7 +91,7 @@ PROTO PaperBoat [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.086
           rotation 0 0.5 0 0.78540031
           children [
@@ -96,7 +100,7 @@ PROTO PaperBoat [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.184 0 0.052
           rotation 0 1 0 5.754342
           children [
@@ -106,7 +110,7 @@ PROTO PaperBoat [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.184 0 0.052
           rotation 0 1 0 -5.75434
           children [

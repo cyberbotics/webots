@@ -31,7 +31,7 @@ PROTO ToyotaPriusWheel [
     wheelSide IS wheelSide
     contactMaterial "ToyotaPriusWheels"
     logoSlot [
-      Transform {
+      Pose {
         translation 0 0.025 0
         rotation 1 0 0 1.5708
         children [

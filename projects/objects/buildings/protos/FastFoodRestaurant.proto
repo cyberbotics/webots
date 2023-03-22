@@ -89,11 +89,11 @@ PROTO FastFoodRestaurant [
       recognitionColors [ 0.57 0.68 0.8 ]
     %< } >%
     children [
-    Transform {
+    Pose {
       translation 0 %<= -frontTransform >% 0
       rotation 1 0 0 1.570796
       children [
-        DEF LEFT_INNER_WALL Transform {
+        DEF LEFT_INNER_WALL Pose {
           translation %<= halfLength - 1 >% 1.4 %<= 3.4 - planeOffset - depthFightingOffset >%
           rotation 0 1 0 -3.141591
           children [
@@ -116,7 +116,7 @@ PROTO FastFoodRestaurant [
             }
           ]
         }
-        DEF RIGHT_INNER_WALL Transform {
+        DEF RIGHT_INNER_WALL Pose {
           %< if (numberOfSides === 1) { >%
               translation %<= halfLength - 1 >% 1.4 %<= -3.4 + planeOffset + depthFightingOffset >%
           %< } else if (numberOfSides === 2) { >%
@@ -126,7 +126,7 @@ PROTO FastFoodRestaurant [
           children USE INNER_WALL
         }
         %< for (let i = 1; i <= numberOfSides; ++i) { >%
-            DEF %<= 'BACK_' + i >% Transform {
+            DEF %<= 'BACK_' + i >% Pose {
               %< if (numberOfSides === 1 || (numberOfSides === 2 && i === 1)) { >%
                   translation %<= halfLength - 2 + planeOffset + depthFightingOffset >% 1.4 0
                   rotation 0 1 0 1.570797
@@ -161,7 +161,7 @@ PROTO FastFoodRestaurant [
                 frontAdjust = -0.4;
               }
             >%
-            DEF %<= 'FRONT_' + i >% Transform {
+            DEF %<= 'FRONT_' + i >% Pose {
               %< if (numberOfSides === 1 || (numberOfSides === 2 && i === 1)) { >%
                   translation %<= halfLength + planeOffset >% %<= frontPlaneY >% %<= frontAdjust - subwayFrontAdjust >%
                   rotation 0 1 0 1.570797
@@ -193,7 +193,7 @@ PROTO FastFoodRestaurant [
                 }
               ]
             }
-            DEF %<= 'REVERSE_FRONT_' + i >% Transform {
+            DEF %<= 'REVERSE_FRONT_' + i >% Pose {
               %< if (i === 1) { >%
                 translation %<= halfLength + planeOffset >% %<= frontPlaneY >% %<= frontAdjust - subwayFrontAdjust >%
                 rotation 0 -1.0 0 1.570795
@@ -215,7 +215,7 @@ PROTO FastFoodRestaurant [
                 }
               ]
             }
-            DEF %<= 'ROOF_' + i >% Transform {
+            DEF %<= 'ROOF_' + i >% Pose {
               %< if (numberOfSides === 1 || (numberOfSides === 2 && i === 1)) { >%
                   translation %<= halfLength - 1 >% %<= 2.8 - planeOffset >% 0
                   rotation 0 0.707107 -0.707107 -3.141591
@@ -248,7 +248,7 @@ PROTO FastFoodRestaurant [
                 }
               ]
             }
-            DEF %<= 'FLOOR_' + i >% Transform {
+            DEF %<= 'FLOOR_' + i >% Pose {
               %< if (numberOfSides === 1 || (numberOfSides === 2 && i === 1)) { >%
                   translation %<= halfLength - 1 >% %<= depthFightingOffset >% 0
                   rotation 1 0 0 -1.570796
@@ -278,7 +278,7 @@ PROTO FastFoodRestaurant [
         %< } >%
       ]
     }
-      DEF LEFT_SIDE Transform {
+      DEF LEFT_SIDE Pose {
         %< if (numberOfSides === 1) { >%
             translation 0 %<= -(width * 0.25) - ( 3.4 * 0.5 ) >% 1.4
             rotation 0 0 1 1.570796
@@ -315,7 +315,7 @@ PROTO FastFoodRestaurant [
             ]
         %< } >%
       }
-      DEF RIGHT_SIDE Transform {
+      DEF RIGHT_SIDE Pose {
         %< if (numberOfSides === 1) { >%
             translation 0 %<= (width * 0.25) + ( 3.4 * 0.5 ) >% 1.4
             children USE SIDE_WALL
@@ -332,7 +332,7 @@ PROTO FastFoodRestaurant [
         %< } >%
         rotation 0 0 1 1.570796
       }
-      DEF TOP_SIDE Transform {
+      DEF TOP_SIDE Pose {
         translation 0 0 %<= height * 0.5 + 1.4 >%
         rotation 0 0 1 1.5708
         children [
@@ -356,7 +356,7 @@ PROTO FastFoodRestaurant [
           }
         ]
       }
-      DEF BACK_SIDE Transform {
+      DEF BACK_SIDE Pose {
         %< if (numberOfSides === 1) { >%
             translation -1 0 1.4
         %< } else if (numberOfSides === 2) { >%
@@ -382,7 +382,7 @@ PROTO FastFoodRestaurant [
           }
         ]
       }
-      DEF TOP_WALL Transform {
+      DEF TOP_WALL Pose {
         translation 0 0 %<= height >%
         children [
           Shape {

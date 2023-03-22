@@ -25,24 +25,28 @@ PROTO Barn [
     rotation IS rotation
     name IS name
     model "barn"
-    scale %<= scale >% %<= scale >% %<= scale >%
     children [
-      Shape {
-        appearance PBRAppearance {
-          metalness 0
-          roughness 0.7
-          baseColorMap ImageTexture {
-            url "webots://projects/objects/buildings/protos/textures/barn_basecolor.png"
+      Transform {
+        scale %<= scale >% %<= scale >% %<= scale >%
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              roughness 0.7
+              baseColorMap ImageTexture {
+                url "webots://projects/objects/buildings/protos/textures/barn_basecolor.png"
+              }
+            }
+            geometry Mesh {
+              url "webots://projects/objects/buildings/protos/meshes/barn.obj"
+            }
           }
-        }
-        geometry Mesh {
-          url "webots://projects/objects/buildings/protos/meshes/barn.obj"
-        }
+        ]
       }
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 2.85
           children [
             Box {
@@ -50,7 +54,7 @@ PROTO Barn [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 3.57 5.86752
           rotation 1 0 0 0.994455
           children [
@@ -59,7 +63,7 @@ PROTO Barn [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -3.57 5.86752
           rotation 1 0 0 -0.994455
           children [
@@ -68,7 +72,7 @@ PROTO Barn [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -1.977759 7.27224
           rotation 1 0 0 -0.77
           children [
@@ -77,7 +81,7 @@ PROTO Barn [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 1.977759 7.27224
           rotation 1 0 0 0.77
           children [
@@ -86,7 +90,7 @@ PROTO Barn [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.448647 8.57271
           rotation 1 0 0 1.08709
           children [
@@ -95,7 +99,7 @@ PROTO Barn [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.448647 8.57271
           rotation 1 0 0 -1.08709
           children [

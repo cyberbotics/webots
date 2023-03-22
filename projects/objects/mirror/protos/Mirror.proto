@@ -99,7 +99,7 @@ PROTO Mirror [
         width %<= cameraWidth >%
         height %<= cameraHeight >%
       }
-      DEF BACK Transform {
+      DEF BACK Pose {
         translation 0 %<= height * 0.5 + frameThickness >% 0
         rotation 0 1 0 -3.14159
         children [
@@ -115,7 +115,7 @@ PROTO Mirror [
           }
         ]
       }
-      DEF UPPER_FRAME Transform {
+      DEF UPPER_FRAME Pose {
         translation 0 %<= height + 1.5 * frameThickness >% 0
         children [
           Shape {
@@ -126,7 +126,7 @@ PROTO Mirror [
           }
         ]
       }
-      DEF LOWER_FRAME Transform {
+      DEF LOWER_FRAME Pose {
         translation 0 %<= frameThickness * 0.5 >% 0
         children [
           Shape {
@@ -137,7 +137,7 @@ PROTO Mirror [
           }
         ]
       }
-      DEF RIGHT_FRAME Transform {
+      DEF RIGHT_FRAME Pose {
         translation %<= 0.5 * (width + frameThickness) >% %<= height * 0.5 + frameThickness >% 0
         children [
           Shape {
@@ -148,7 +148,7 @@ PROTO Mirror [
           }
         ]
       }
-      DEF LEFT_FRAME Transform {
+      DEF LEFT_FRAME Pose {
         translation %<= - 0.5 * (width + frameThickness) >% %<= height * 0.5 + frameThickness >% 0
         children [
           Shape {

@@ -45,7 +45,7 @@ Solid {
         creaseAngle 1.4
       }
     }
-    Transform {
+    Pose {
       translation 0 0 0.3
       children [
         Shape {
@@ -67,7 +67,7 @@ Solid {
   model "water bottle"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0 0 0.292
         children [
           Shape {
@@ -78,7 +78,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.245
         children [
           Shape {
@@ -88,7 +88,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.122
         children [
           Shape {

@@ -610,7 +610,7 @@ BmwX5 {
     Camera {
       translation 0.72 0 -0.05
       children [
-        Transform {
+        Pose {
           translation -0.05 0 0
           rotation 0 -1 0 1.5708
           children [
@@ -657,7 +657,7 @@ DEF STONES Solid {
   children [
     DEF STONES_GROUP Group {
       children [
-        Transform {
+        Pose {
           translation 0 2 -0.6
           children [
             Shape {
@@ -673,7 +673,7 @@ DEF STONES Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.5 -3.5 -0.3
           children [
             Shape {
@@ -685,7 +685,7 @@ DEF STONES Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 4 2 -0.15
           children [
             Shape {
@@ -697,7 +697,7 @@ DEF STONES Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 6 -1 0
           children [
             Shape {
@@ -709,7 +709,7 @@ DEF STONES Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 9 0 0.15
           children [
             Shape {
@@ -721,7 +721,7 @@ DEF STONES Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 5.5 -5 0.2
           children [
             Shape {
@@ -733,7 +733,7 @@ DEF STONES Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.05
           children [
             Shape {
@@ -745,7 +745,7 @@ DEF STONES Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 10 5 0
           children [
             Shape {
@@ -757,7 +757,7 @@ DEF STONES Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 1 6 0.3
           children [
             Shape {
@@ -769,7 +769,7 @@ DEF STONES Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 13 -4 0
           children [
             Shape {
@@ -781,7 +781,7 @@ DEF STONES Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 13.5 1.5 0.4
           children [
             Shape {

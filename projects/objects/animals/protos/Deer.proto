@@ -26,28 +26,32 @@ PROTO Deer [
     rotation IS rotation
     name IS name
     model "deer"
-    scale %<= scale >% %<= scale >% %<= scale >%
     children [
-      Shape {
-        appearance PBRAppearance {
-          metalness 0
-          roughness 0.7
-          baseColor IS color
-          baseColorMap ImageTexture {
-            url "webots://projects/objects/animals/protos/deer/textures/deer_basecolor.jpg"
+      Transform {
+        scale %<= scale >% %<= scale >% %<= scale >%
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              roughness 0.7
+              baseColor IS color
+              baseColorMap ImageTexture {
+                url "webots://projects/objects/animals/protos/deer/textures/deer_basecolor.jpg"
+              }
+              normalMap ImageTexture {
+                url "webots://projects/objects/animals/protos/deer/textures/deer_normal.jpg"
+              }
+            }
+            geometry Mesh {
+              url "webots://projects/objects/animals/protos/deer/meshes/deer.obj"
+            }
           }
-          normalMap ImageTexture {
-            url "webots://projects/objects/animals/protos/deer/textures/deer_normal.jpg"
-          }
-        }
-        geometry Mesh {
-          url "webots://projects/objects/animals/protos/deer/meshes/deer.obj"
-        }
+        ]
       }
     ]
     boundingObject Group {
       children [
-        DEF MUZZLE Transform {
+        DEF MUZZLE Pose {
           translation 0.856573 0 1.13678
           rotation 0 1 0 1.76974
           children [
@@ -58,7 +62,7 @@ PROTO Deer [
             }
           ]
         }
-        DEF HEAD Transform {
+        DEF HEAD Pose {
           translation 0.7 0 1.185
           children [
             Sphere {
@@ -66,7 +70,7 @@ PROTO Deer [
             }
           ]
         }
-        DEF THROAT Transform {
+        DEF THROAT Pose {
           translation 0.592772 0 0.960106
           rotation 0 1 0 0.40149
           children [
@@ -76,7 +80,7 @@ PROTO Deer [
             }
           ]
         }
-        DEF EAR_LEFT Transform {
+        DEF EAR_LEFT Pose {
           translation 0.68 0.13488 1.29141
           rotation 1 0 0 0.698493
           children [
@@ -85,7 +89,7 @@ PROTO Deer [
             }
           ]
         }
-        DEF EAR_RIGHT Transform {
+        DEF EAR_RIGHT Pose {
           translation 0.68 -0.13488 1.29141
           rotation 1 0 0 -0.698493
           children [
@@ -94,7 +98,7 @@ PROTO Deer [
             }
           ]
         }
-        DEF BODY Transform {
+        DEF BODY Pose {
           translation 0.04 0 0.762
           rotation 0 1 0 1.5708
           children [
@@ -105,7 +109,7 @@ PROTO Deer [
             }
           ]
         }
-        DEF TAIL Transform {
+        DEF TAIL Pose {
           translation -0.54 0 0.769
           children [
             Box {
@@ -113,7 +117,7 @@ PROTO Deer [
             }
           ]
         }
-        DEF FL_HIP Transform {
+        DEF FL_HIP Pose {
           translation 0.38 0.09 0.55
           children [
             Sphere {
@@ -121,7 +125,7 @@ PROTO Deer [
             }
           ]
         }
-        DEF FL_LEG Transform {
+        DEF FL_LEG Pose {
           translation 0.3765 0.103 0.29
           children [
             Cylinder {
@@ -130,7 +134,7 @@ PROTO Deer [
             }
           ]
         }
-        DEF FR_PAW Transform {
+        DEF FR_PAW Pose {
           translation 0.40536 -0.11 0.045
           children [
             Cylinder {
@@ -139,7 +143,7 @@ PROTO Deer [
             }
           ]
         }
-        DEF FR_HIP Transform {
+        DEF FR_HIP Pose {
           translation 0.38 -0.09 0.55
           children [
             Sphere {
@@ -147,7 +151,7 @@ PROTO Deer [
             }
           ]
         }
-        DEF FR_LEG Transform {
+        DEF FR_LEG Pose {
           translation 0.3765 -0.103 0.29
           children [
             Cylinder {
@@ -156,7 +160,7 @@ PROTO Deer [
             }
           ]
         }
-        DEF FR_PAW Transform {
+        DEF FR_PAW Pose {
           translation 0.40536 0.11 0.045
           children [
             Cylinder {
@@ -165,7 +169,7 @@ PROTO Deer [
             }
           ]
         }
-        DEF BR_PAW Transform {
+        DEF BR_PAW Pose {
           translation -0.34 0.085 0.045
           children [
             Cylinder {
@@ -174,7 +178,7 @@ PROTO Deer [
             }
           ]
         }
-        DEF BR_LEG Transform {
+        DEF BR_LEG Pose {
           translation -0.389916 0.0867239 0.214074
           rotation 0 -1 0 0.0983495
           children [
@@ -184,7 +188,7 @@ PROTO Deer [
             }
           ]
         }
-        DEF BR_HIP Transform {
+        DEF BR_HIP Pose {
           translation -0.355 -0.098 0.46598
           rotation 0 1 0 0.523599
           children [
@@ -195,7 +199,7 @@ PROTO Deer [
             }
           ]
         }
-        DEF BL_PAW Transform {
+        DEF BL_PAW Pose {
           translation -0.34 -0.085 0.045
           children [
             Cylinder {
@@ -204,7 +208,7 @@ PROTO Deer [
             }
           ]
         }
-        DEF BL_LEG Transform {
+        DEF BL_LEG Pose {
           translation -0.389916 -0.0867239 0.214074
           rotation 0 -1 0 0.0983495
           children [
@@ -214,7 +218,7 @@ PROTO Deer [
             }
           ]
         }
-        DEF BL_HIP Transform {
+        DEF BL_HIP Pose {
           translation -0.355 0.098 0.46598
           rotation 0 1 0 0.523599
           children [

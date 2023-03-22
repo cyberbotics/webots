@@ -46,7 +46,7 @@ Solid {
         }
         %< } >%
         %< if (fields.internalAdvertisingTexture.value[0] !== 'undefined') { >%
-          DEF INTERNAL_ADVERTISING Transform {
+          DEF INTERNAL_ADVERTISING Pose {
             translation 3.7 0.33 0.02
             rotation 1 0 0 -1.570796
             children [
@@ -70,7 +70,7 @@ Solid {
           }
         %< } >%
         %< if (fields.externalAdvertisingTexture.value[0] !== 'undefined') { >%
-          DEF EXTERNAL_ADVERTISING Transform {
+          DEF EXTERNAL_ADVERTISING Pose {
             translation 4.07 0.33 0.02
             rotation 1 0 0 -1.570796
             children [
@@ -100,7 +100,7 @@ Solid {
   model "bus stop"
   boundingObject Group {
     children [
-      DEF ROOF Transform {
+      DEF ROOF Pose {
         translation -0.136 0 3.03
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
@@ -109,7 +109,7 @@ Solid {
           }
         ]
       }
-      DEF RIGHT Transform {
+      DEF RIGHT Pose {
         translation -0.08 3.104 1.5
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
@@ -118,7 +118,7 @@ Solid {
           }
         ]
       }
-      DEF LEFT Transform {
+      DEF LEFT Pose {
         translation -0.736 -3.136 1.5
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
@@ -127,7 +127,7 @@ Solid {
           }
         ]
       }
-      DEF REAR Transform {
+      DEF REAR Pose {
         translation -1.256 0 1.6
         rotation 0.57735 0.57735 0.57735 2.094395
         children [

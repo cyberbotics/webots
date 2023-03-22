@@ -22,7 +22,7 @@ PROTO VelodynePuck [
     translation IS translation
     rotation IS rotation
     children [
-      DEF BOTTOM Transform {
+      DEF BOTTOM Pose {
         translation 0 0 -0.0286
         children [
           Shape {
@@ -38,7 +38,7 @@ PROTO VelodynePuck [
           }
         ]
       }
-      DEF LOGO Transform {
+      DEF LOGO Pose {
         translation 0 0 -0.0286
         rotation 0 0 1 1.5708
         children [
@@ -68,7 +68,7 @@ PROTO VelodynePuck [
           }
         ]
       }
-      DEF GLASS Transform {
+      DEF GLASS Pose {
         translation 0 0.0004 0
         children [
           Shape {
@@ -85,7 +85,7 @@ PROTO VelodynePuck [
           }
         ]
       }
-      DEF TOP Transform {
+      DEF TOP Pose {
         translation 0 0 0.0274
         children [
           Shape {

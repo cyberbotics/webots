@@ -33,7 +33,7 @@ PROTO Crossroad [
     rotation IS rotation
     %< if (nShape > 0) { >%
       children [
-        Transform {
+        Pose {
           rotation 0.707107 -0.707107 0 3.14157
           children [
             Shape {

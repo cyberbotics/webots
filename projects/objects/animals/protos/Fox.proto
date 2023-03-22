@@ -26,31 +26,35 @@ PROTO Fox [
     rotation IS rotation
     name IS name
     model "fox"
-    scale %<= scale >% %<= scale >% %<= scale >%
     children [
-      Shape {
-        appearance PBRAppearance {
-          metalness 0
-          roughness 0.7
-          baseColor IS color
-          baseColorMap ImageTexture {
-            url "webots://projects/objects/animals/protos/fox/textures/fox_basecolor.jpg"
+      Transform {
+        scale %<= scale >% %<= scale >% %<= scale >%
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              roughness 0.7
+              baseColor IS color
+              baseColorMap ImageTexture {
+                url "webots://projects/objects/animals/protos/fox/textures/fox_basecolor.jpg"
+              }
+              normalMap ImageTexture {
+                url "webots://projects/objects/animals/protos/fox/textures/fox_normal.jpg"
+              }
+              occlusionMap ImageTexture {
+                url "webots://projects/objects/animals/protos/fox/textures/fox_occlusion.jpg"
+              }
+            }
+            geometry Mesh {
+              url "webots://projects/objects/animals/protos/fox/meshes/fox.obj"
+            }
           }
-          normalMap ImageTexture {
-            url "webots://projects/objects/animals/protos/fox/textures/fox_normal.jpg"
-          }
-          occlusionMap ImageTexture {
-            url "webots://projects/objects/animals/protos/fox/textures/fox_occlusion.jpg"
-          }
-        }
-        geometry Mesh {
-          url "webots://projects/objects/animals/protos/fox/meshes/fox.obj"
-        }
+        ]
       }
     ]
     boundingObject Group {
       children [
-        DEF BODY Transform {
+        DEF BODY Pose {
           translation -0.02 0 0.23
           rotation 0 1 0 -1.5707953071795862
           children [
@@ -61,7 +65,7 @@ PROTO Fox [
             }
           ]
         }
-        DEF NECK Transform {
+        DEF NECK Pose {
           translation 0.19631 0 0.314548
           rotation 0 1 0 0.891393
           children [
@@ -72,7 +76,7 @@ PROTO Fox [
             }
           ]
         }
-        DEF MUZZLE Transform {
+        DEF MUZZLE Pose {
           translation 0.281995 0 0.298069
           rotation 0 -1 0 1.0472
           children [
@@ -83,7 +87,7 @@ PROTO Fox [
             }
           ]
         }
-        DEF EAR_RIGHT Transform {
+        DEF EAR_RIGHT Pose {
           translation 0.208381 -0.0540388 0.394295
           rotation 0.8913159935165675 0.11734399914643977 0.43793399681446815 0.584055
           children [
@@ -92,7 +96,7 @@ PROTO Fox [
             }
           ]
         }
-        DEF EAR_LEFT Transform {
+        DEF EAR_LEFT Pose {
           translation 0.208381 0.0540388 0.394295
           rotation -0.8913159935165675 0.11734399914643977 0.43793399681446815 0.584055
           children [
@@ -101,7 +105,7 @@ PROTO Fox [
             }
           ]
         }
-        DEF TAIL_END Transform {
+        DEF TAIL_END Pose {
           translation -0.329659 0 0.0874118
           rotation 0 1 0 1.309
           children [
@@ -112,7 +116,7 @@ PROTO Fox [
             }
           ]
         }
-        DEF TAIL_BEGINNING Transform {
+        DEF TAIL_BEGINNING Pose {
           translation -0.238367 0 0.192397
           rotation 0 1 0 0.470875
           children [
@@ -123,7 +127,7 @@ PROTO Fox [
             }
           ]
         }
-        DEF FR_PAW Transform {
+        DEF FR_PAW Pose {
           translation 0.115946 -0.05 0.01
           children [
             Box {
@@ -131,7 +135,7 @@ PROTO Fox [
             }
           ]
         }
-        DEF FR_ANKLE Transform {
+        DEF FR_ANKLE Pose {
           translation 0.09 -0.0486019 0.07
           rotation 0 -1 0 0.108503
           children [
@@ -141,7 +145,7 @@ PROTO Fox [
             }
           ]
         }
-        DEF FR_THIGH Transform {
+        DEF FR_THIGH Pose {
           translation 0.0895888 -0.0486019 0.141435
           rotation 0 1 0 0.290422
           children [
@@ -152,7 +156,7 @@ PROTO Fox [
             }
           ]
         }
-        DEF FL_PAW Transform {
+        DEF FL_PAW Pose {
           translation 0.0622442 0.05 0.01
           children [
             Box {
@@ -160,7 +164,7 @@ PROTO Fox [
             }
           ]
         }
-        DEF FL_ANKLE Transform {
+        DEF FL_ANKLE Pose {
           translation 0.0481206 0.0486019 0.074321
           rotation 0 1 0 0.0422499
           children [
@@ -170,7 +174,7 @@ PROTO Fox [
             }
           ]
         }
-        DEF FL_THIGH Transform {
+        DEF FL_THIGH Pose {
           translation 0.06293 0.0483489 0.149833
           rotation 0 1 0 0.537012
           children [
@@ -181,7 +185,7 @@ PROTO Fox [
             }
           ]
         }
-        DEF BL_PAW Transform {
+        DEF BL_PAW Pose {
           translation -0.199647 0.05 0.01
           children [
             Box {
@@ -189,7 +193,7 @@ PROTO Fox [
             }
           ]
         }
-        DEF BL_ANKLE Transform {
+        DEF BL_ANKLE Pose {
           translation -0.226569 0.0486019 0.0697835
           rotation 0 1 0 0.0422499
           children [
@@ -199,7 +203,7 @@ PROTO Fox [
             }
           ]
         }
-        DEF BL_THIGH Transform {
+        DEF BL_THIGH Pose {
           translation -0.180064 0.0483489 0.142354
           rotation 0 1 0 0.829181
           children [
@@ -210,7 +214,7 @@ PROTO Fox [
             }
           ]
         }
-        DEF BR_PAW Transform {
+        DEF BR_PAW Pose {
           translation -0.133393 -0.05 0.01
           children [
             Box {
@@ -218,7 +222,7 @@ PROTO Fox [
             }
           ]
         }
-        DEF BL_ANKLE Transform {
+        DEF BL_ANKLE Pose {
           translation -0.165577 -0.0486019 0.0651084
           rotation 0 -1 0 0.3238
           children [
@@ -228,7 +232,7 @@ PROTO Fox [
             }
           ]
         }
-        DEF BL_THIGH Transform {
+        DEF BL_THIGH Pose {
           translation -0.146203 -0.0483489 0.141229
           rotation 0 1 0 0.574751
           children [

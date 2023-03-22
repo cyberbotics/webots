@@ -1,7 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: 
+# documentation url:
 # Resizable sign with front texture option.
 # template language: javascript
 
@@ -43,7 +43,7 @@ PROTO HighwaySign [
     rotation IS rotation
     recognitionColors IS recognitionColors
     children [
-      DEF SIGN_BOARD Transform {
+      DEF SIGN_BOARD Pose {
         translation %<= thickness * 0.5 >% 0 0
         children [
           TexturedBoxShape {

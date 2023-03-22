@@ -54,7 +54,7 @@ PROTO Hotel [
     model "hotel"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 12.5
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -63,7 +63,7 @@ PROTO Hotel [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 32.25
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -72,7 +72,7 @@ PROTO Hotel [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 44.1
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -81,7 +81,7 @@ PROTO Hotel [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 56.9
           rotation 0.707107 -0.707107 0 3.141592
           children [

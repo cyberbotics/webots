@@ -16,7 +16,7 @@ PROTO Robotino3Wheel [
 Transform {
   rotation 0 0 1 %<= (fields.number.value * 2 / 3 + 0.5) * Math.PI >%
   children [
-    Transform {
+    Pose {
       translation 0 0.1826 0.05915
       children [
         DEF %<= 'WHEEL_' + fields.number.value >% HingeJoint {

@@ -77,7 +77,7 @@ PROTO Chair [
     model "chair"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.45
           children [
             Box {
@@ -85,7 +85,7 @@ PROTO Chair [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.22 0.22 0.2
           children [
             Box {
@@ -93,7 +93,7 @@ PROTO Chair [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.22 0.22 0.2
           children [
             Box {
@@ -101,7 +101,7 @@ PROTO Chair [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.22 -0.22 0.2
           children [
             Box {
@@ -109,7 +109,7 @@ PROTO Chair [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.22 -0.22 0.2
           children [
             Box {
@@ -117,7 +117,7 @@ PROTO Chair [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.237 0 0.75
           rotation 0 1 0 -0.07
           children [

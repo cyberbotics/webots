@@ -14,18 +14,22 @@ PROTO Curtain [
   Solid {
     translation IS translation
     rotation IS rotation
-    scale 0.000792147 0.000792147 0.000792147
     name IS name
     children [
-      Shape {
-        appearance PBRAppearance {
-          baseColor IS baseColor
-          roughness 1
-          metalness 0
-        }
-        geometry Mesh {
-          url "meshes/curtain.obj"
-        }
+      Transform {
+        scale 0.000792147 0.000792147 0.000792147
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor IS baseColor
+              roughness 1
+              metalness 0
+            }
+            geometry Mesh {
+              url "meshes/curtain.obj"
+            }
+          }
+        ]
       }
     ]
   }

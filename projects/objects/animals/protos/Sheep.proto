@@ -26,28 +26,32 @@ PROTO Sheep [
     rotation IS rotation
     name IS name
     model "sheep"
-    scale %<= scale >% %<= scale >% %<= scale >%
     children [
-      Shape {
-        appearance PBRAppearance {
-          metalness 0
-          roughness 0.7
-          baseColor IS color
-          baseColorMap ImageTexture {
-            url "webots://projects/objects/animals/protos/sheep/textures/sheep_basecolor.jpg"
+      Transform {
+        scale %<= scale >% %<= scale >% %<= scale >%
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              roughness 0.7
+              baseColor IS color
+              baseColorMap ImageTexture {
+                url "webots://projects/objects/animals/protos/sheep/textures/sheep_basecolor.jpg"
+              }
+              normalMap ImageTexture {
+                url "webots://projects/objects/animals/protos/sheep/textures/sheep_normal.jpg"
+              }
+            }
+            geometry Mesh {
+              url "webots://projects/objects/animals/protos/sheep/meshes/sheep.obj"
+            }
           }
-          normalMap ImageTexture {
-            url "webots://projects/objects/animals/protos/sheep/textures/sheep_normal.jpg"
-          }
-        }
-        geometry Mesh {
-          url "webots://projects/objects/animals/protos/sheep/meshes/sheep.obj"
-        }
+        ]
       }
     ]
     boundingObject Group {
       children [
-        DEF BODY Transform {
+        DEF BODY Pose {
           translation 0.03 0 0.410166
           rotation 0 1 0 -1.5707953071795862
           children [
@@ -58,7 +62,7 @@ PROTO Sheep [
             }
           ]
         }
-        DEF RR_LEG Transform {
+        DEF RR_LEG Pose {
           translation -0.212727 -0.07 0.149296
           children [
             Cylinder {
@@ -67,7 +71,7 @@ PROTO Sheep [
             }
           ]
         }
-        DEF RL_LEG Transform {
+        DEF RL_LEG Pose {
           translation -0.212727 0.07 0.149296
           children [
             Cylinder {
@@ -76,7 +80,7 @@ PROTO Sheep [
             }
           ]
         }
-        DEF FL_LEG Transform {
+        DEF FL_LEG Pose {
           translation 0.220341 0.07 0.147412
           rotation 0 1 0 -0.261795307179586
           children [
@@ -86,7 +90,7 @@ PROTO Sheep [
             }
           ]
         }
-        DEF FR_LEG Transform {
+        DEF FR_LEG Pose {
           translation 0.220341 -0.07 0.147412
           rotation 0 1 0 -0.261795307179586
           children [
@@ -96,7 +100,7 @@ PROTO Sheep [
             }
           ]
         }
-        DEF TAIL Transform {
+        DEF TAIL Pose {
           translation -0.338214 0 0.466734
           rotation 0 1 0 0.785399
           children [
@@ -107,7 +111,7 @@ PROTO Sheep [
             }
           ]
         }
-        DEF HEAD Transform {
+        DEF HEAD Pose {
           translation 0.41598 0 0.545
           rotation 0 1 0 1.0472
           children [
@@ -118,7 +122,7 @@ PROTO Sheep [
             }
           ]
         }
-        DEF MUZZLE Transform {
+        DEF MUZZLE Pose {
           translation 0.522244 0 0.521205
           rotation 0 1 0 2.0944
           children [
@@ -129,7 +133,7 @@ PROTO Sheep [
             }
           ]
         }
-        DEF EAR_LEFT Transform {
+        DEF EAR_LEFT Pose {
           translation 0.448923 0.11 0.585451
           rotation 0 1 0 0.523599
           children [
@@ -138,7 +142,7 @@ PROTO Sheep [
             }
           ]
         }
-        DEF EAR_RIGHT Transform {
+        DEF EAR_RIGHT Pose {
           translation 0.448923 -0.11 0.585451
           rotation 0 1 0 0.523599
           children [

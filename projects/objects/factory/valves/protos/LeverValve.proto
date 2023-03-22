@@ -262,7 +262,7 @@ PROTO LeverValve [
           ]
           boundingObject Group {
             children [
-              Transform {
+              Pose {
                 translation 0.2081 0 0.1884
                 rotation 0 1 0 0.034
                 children [
@@ -271,7 +271,7 @@ PROTO LeverValve [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.217 0 0.3561
                 rotation 0 0 1 0.034
                 children [
@@ -280,7 +280,7 @@ PROTO LeverValve [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.182 0 -0.0194
                 rotation 0 1 0 1.5708
                 children [
@@ -318,7 +318,7 @@ PROTO LeverValve [
     model "lever valve"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.04 0 -0.02
           children [
             Shape {

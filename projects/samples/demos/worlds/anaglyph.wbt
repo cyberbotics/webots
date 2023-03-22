@@ -30,7 +30,7 @@ DEF GROUND Solid {
   children [
     DEF GROUND_SHAPE Group {
       children [
-        Transform {
+        Pose {
           translation -8 -8 0
           children [
             Shape {
@@ -213,7 +213,7 @@ Create {
         }
       }
     }
-    Transform {
+    Pose {
       translation -0.05 0 0.1
       children [
         Shape {

@@ -67,7 +67,7 @@ PROTO IbeoLux [
       mass 1
     }
     children [
-      Transform {
+      Pose {
         translation -0.023 -0.07 0.014
         rotation %<= newOrientationString >%
         children [
@@ -91,7 +91,7 @@ PROTO IbeoLux [
               creaseAngle 1
             }
           }
-          Transform {
+          Pose {
           translation -0.1047 0.0183 -0.0275
           rotation 0 -0.998234 0.0594087 3.14159
             children [

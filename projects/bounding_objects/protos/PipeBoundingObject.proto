@@ -76,7 +76,7 @@ PROTO PipeBoundingObject [
             // add small offset to boxes z translation to reduce constraints on the top and bottom face due to co-planarity
             offset = wbrandom.real(-1.0, 1.0) * fields.accuracy.value;
         >%
-        Transform {
+        Pose {
           translation %<= ax >% %<= ay >% %<= az + offset >%
           rotation 0 0 1 %<= angle >%
           children [

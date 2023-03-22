@@ -7,7 +7,7 @@ PROTO SmallResidentialTowerFloor [
   field SFVec3f translation 0 0 0
 ]
 {
-  Transform {
+  Pose {
     translation IS translation
     children [
       Shape {

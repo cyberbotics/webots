@@ -17,11 +17,11 @@ PROTO JetBotRaspberryPiCamera [
   field SFFloat            far                   1.0                      # Is `Camera.far`.
 ]
 {
-  Transform {
+  Pose {
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         rotation 1 0 0 -1.5708
         children [
           DEF BOARD TexturedBoxShape {
@@ -32,7 +32,7 @@ PROTO JetBotRaspberryPiCamera [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.003 0 -0.0015
         children [
           Shape {
@@ -50,11 +50,11 @@ PROTO JetBotRaspberryPiCamera [
       Camera {
         translation 0.0005 0 0.0013
         children [
-          Transform {
+          Pose {
             translation 0.003 0 0
             rotation 0 1 0 1.5708
             children [
-              Transform {
+              Pose {
                 translation 0 0 0.0036
                 children [
                   Shape {

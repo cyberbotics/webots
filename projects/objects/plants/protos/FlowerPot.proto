@@ -16,7 +16,7 @@ PROTO FlowerPot [
     rotation IS rotation
     name IS name
     children [
-      Transform {
+      Pose {
         translation -0.01 0 0
         rotation 0 0 1 1.5708
         children [

@@ -16,7 +16,7 @@ PROTO WashingMachine [
     name IS name
     scale 0.7 0.7 0.7
     children [
-      DEF OBJECT_TRANSFORM Transform {
+      DEF OBJECT_TRANSFORM Pose {
         translation 0.436183 0.169173 0.527203
         children [
           Shape {
@@ -39,7 +39,7 @@ PROTO WashingMachine [
           }
         ]
       }
-      DEF OBJECT_001_TRANSFORM Transform {
+      DEF OBJECT_001_TRANSFORM Pose {
         translation 0.436183 0.169173 0.527203
         children [
           Shape {
@@ -62,7 +62,7 @@ PROTO WashingMachine [
           }
         ]
       }
-      DEF OBJECT_002_TRANSFORM Transform {
+      DEF OBJECT_002_TRANSFORM Pose {
         translation 0.436183 0.169173 0.527203
         children [
           Shape {
@@ -81,7 +81,7 @@ PROTO WashingMachine [
           }
         ]
       }
-      DEF OBJECT_003_TRANSFORM Transform {
+      DEF OBJECT_003_TRANSFORM Pose {
         translation -0.487565 -0.069038 -0.783406
         children [
           Shape {
@@ -100,7 +100,7 @@ PROTO WashingMachine [
           }
         ]
       }
-      DEF OBJECT_004_TRANSFORM Transform {
+      DEF OBJECT_004_TRANSFORM Pose {
         translation 0.436183 0.169173 0.527203
         children [
           Shape {
@@ -137,7 +137,7 @@ PROTO WashingMachine [
           }
         ]
       }
-      DEF OBJECT_005_TRANSFORM Transform {
+      DEF OBJECT_005_TRANSFORM Pose {
         translation 0.436183 0.169173 0.527203
         rotation 1 0 0 0
         children [

@@ -43,7 +43,7 @@ Solid {
   model "armchair"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0 0 0.275
         children [
           Box {
@@ -51,7 +51,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.35 0.4 0.05
         children [
           Box {
@@ -59,7 +59,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.35 -0.4 0.05
         children [
           Box {
@@ -67,7 +67,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.35 0.4 0.05
         children [
           Box {
@@ -75,7 +75,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.35 -0.4 0.05
         children [
           Box {
@@ -83,7 +83,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0.45 0.4
         children [
           Box {
@@ -91,7 +91,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 -0.45 0.4
         children [
           Box {
@@ -99,7 +99,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.45 0 0.575
         children [
           Box {
@@ -107,7 +107,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.305 0 0.6
         rotation 0 1 0 -0.29
         children [

@@ -30,7 +30,7 @@ PROTO Crazyflie [
     model "Bitcraze's Crazyflie"
     translation 0 0 0.015
     children [
-      DEF BODY Transform {
+      DEF BODY Pose {
         translation 0 0 -0.015
         children [
           Group {
@@ -43,7 +43,7 @@ PROTO Crazyflie [
           }
         ]
       }
-      DEF MULTIRANGER Transform {
+      DEF MULTIRANGER Pose {
         translation 0 0 0.01
         children [
           DistanceSensor {

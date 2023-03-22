@@ -209,7 +209,7 @@ PROTO SmallValve [
     model "small valve"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.018 0 -0.0102
           children [
             Box {

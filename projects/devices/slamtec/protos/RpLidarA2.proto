@@ -17,7 +17,7 @@ PROTO RpLidarA2 [
     rotation IS rotation
     name IS name
     children [
-      Transform {
+      Pose {
         translation 0.000000 0.000000 -0.031000
         children [
           Shape {
@@ -30,7 +30,7 @@ PROTO RpLidarA2 [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.000000 0.000000 -0.012000
         children [
           Shape {

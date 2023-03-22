@@ -18,7 +18,7 @@ PROTO OrderPanel [
     rotation IS rotation
     recognitionColors IS recognitionColors
     children [
-      DEF DISPLAY_PLANE Transform {
+      DEF DISPLAY_PLANE Pose {
         rotation -0.57735 -0.57735 -0.57735 -2.09439
         children [
           Shape {
@@ -39,7 +39,7 @@ PROTO OrderPanel [
           }
         ]
       }
-      DEF PANEL_BODY Transform {
+      DEF PANEL_BODY Pose {
         rotation -0.57735 -0.57735 -0.57735 -2.09439
         children [
           Shape {

@@ -47,7 +47,7 @@ PROTO CautionPanel [
           ]
         }
       }
-      Transform {
+      Pose {
         translation 0.005 0.01 -0.73
         rotation 0 1 0 1.5708
         children [

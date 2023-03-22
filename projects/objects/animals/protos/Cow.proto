@@ -27,35 +27,39 @@ PROTO Cow [
     rotation IS rotation
     name IS name
     model "cow"
-    scale %<= scale >% %<= scale >% %<= scale >%
     children [
-      Shape {
-        appearance PBRAppearance {
-          metalness 0
-          roughness 0.7
-          baseColor IS color
-          baseColorMap ImageTexture {
-            %< if (fields.patchColor.value === 'black' ) { >%
-            url "webots://projects/objects/animals/protos/cow/textures/cow_basecolor_black.jpg"
-            %< } else { >%
-            url "webots://projects/objects/animals/protos/cow/textures/cow_basecolor.jpg"
-            %< } >%
+      Transform {
+        scale %<= scale >% %<= scale >% %<= scale >%
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              roughness 0.7
+              baseColor IS color
+              baseColorMap ImageTexture {
+                %< if (fields.patchColor.value === 'black' ) { >%
+                url "webots://projects/objects/animals/protos/cow/textures/cow_basecolor_black.jpg"
+                %< } else { >%
+                url "webots://projects/objects/animals/protos/cow/textures/cow_basecolor.jpg"
+                %< } >%
+              }
+              roughnessMap ImageTexture {
+                url "webots://projects/objects/animals/protos/cow/textures/cow_roughness.jpg"
+              }
+              normalMap ImageTexture {
+                url "webots://projects/objects/animals/protos/cow/textures/cow_normal.jpg"
+              }
+            }
+            geometry Mesh {
+              url "webots://projects/objects/animals/protos/cow/meshes/cow.obj"
+            }
           }
-          roughnessMap ImageTexture {
-            url "webots://projects/objects/animals/protos/cow/textures/cow_roughness.jpg"
-          }
-          normalMap ImageTexture {
-            url "webots://projects/objects/animals/protos/cow/textures/cow_normal.jpg"
-          }
-        }
-        geometry Mesh {
-          url "webots://projects/objects/animals/protos/cow/meshes/cow.obj"
-        }
+        ]
       }
     ]
     boundingObject Group {
       children [
-        DEF UPPER_HEAD Transform {
+        DEF UPPER_HEAD Pose {
           translation 0.957841 0 1.01233
           rotation 0 1 0 0.947178
           children [
@@ -64,7 +68,7 @@ PROTO Cow [
             }
           ]
         }
-        DEF CHIN Transform {
+        DEF CHIN Pose {
           translation 0.895388 0 0.896909
           rotation 0 1 0 -1.3089953071795861
           children [
@@ -74,7 +78,7 @@ PROTO Cow [
             }
           ]
         }
-        DEF LEFT_EAR Transform {
+        DEF LEFT_EAR Pose {
           translation 0.752277 0.198589 1.18104
           rotation 0.12956202320656862 0.9266301659738402 0.35294506321793706 0.754371
           children [
@@ -83,7 +87,7 @@ PROTO Cow [
             }
           ]
         }
-        DEF RIGHT_EAR Transform {
+        DEF RIGHT_EAR Pose {
           translation 0.752277 -0.198589 1.18104
           rotation -0.1295620032803994 0.9266301894353262 -0.35294500893626657 0.754371
           children [
@@ -92,7 +96,7 @@ PROTO Cow [
             }
           ]
         }
-        DEF BACK Transform {
+        DEF BACK Pose {
           translation -0.140001 0 0.99
           rotation 0 1 0 1.5708
           children [
@@ -102,7 +106,7 @@ PROTO Cow [
             }
           ]
         }
-        DEF BACK Transform {
+        DEF BACK Pose {
           translation -0.380001 0 0.67
           rotation 0 1 0 1.5708
           children [
@@ -112,7 +116,7 @@ PROTO Cow [
             }
           ]
         }
-        DEF THROAT Transform {
+        DEF THROAT Pose {
           translation 0.434438 0 0.64071
           rotation 0 1 0 -0.785395307179586
           children [
@@ -121,7 +125,7 @@ PROTO Cow [
             }
           ]
         }
-        DEF BELLY Transform {
+        DEF BELLY Pose {
           translation -0.33 0 0.8
           children [
             Sphere {
@@ -129,7 +133,7 @@ PROTO Cow [
             }
           ]
         }
-        DEF TAIL_END Transform {
+        DEF TAIL_END Pose {
           translation -1.39729 0 0.520985
           rotation 0 1 0 1.0472
           children [
@@ -140,7 +144,7 @@ PROTO Cow [
             }
           ]
         }
-        DEF TAIL_MIDDLE Transform {
+        DEF TAIL_MIDDLE Pose {
           translation -1.24197 0 0.687904
           rotation 0 1 0 0.597545
           children [
@@ -151,7 +155,7 @@ PROTO Cow [
             }
           ]
         }
-        DEF TAIL_BEGINNING Transform {
+        DEF TAIL_BEGINNING Pose {
           translation -1.10662 0 0.937533
           rotation 0 1 0 0.418158
           children [
@@ -162,7 +166,7 @@ PROTO Cow [
             }
           ]
         }
-        DEF FR_LEG Transform {
+        DEF FR_LEG Pose {
           translation 0.24 -0.17 0.1
           children [
             Cylinder {
@@ -171,7 +175,7 @@ PROTO Cow [
             }
           ]
         }
-        DEF FR_JARRET Transform {
+        DEF FR_JARRET Pose {
           translation 0.200341 -0.17 0.347412
           rotation 0 1 0 -0.261795307179586
           children [
@@ -181,7 +185,7 @@ PROTO Cow [
             }
           ]
         }
-        DEF FL_LEG Transform {
+        DEF FL_LEG Pose {
           translation 0.24 0.17 0.1
           children [
             Cylinder {
@@ -190,7 +194,7 @@ PROTO Cow [
             }
           ]
         }
-        DEF FL_JARRET Transform {
+        DEF FL_JARRET Pose {
           translation 0.21 0.17 0.35
           rotation 0 1 0 -0.261795307179586
           children [
@@ -200,7 +204,7 @@ PROTO Cow [
             }
           ]
         }
-        DEF BL_LEG Transform {
+        DEF BL_LEG Pose {
           translation -1.06 0.17 0.2
           children [
             Cylinder {
@@ -209,7 +213,7 @@ PROTO Cow [
             }
           ]
         }
-        DEF BL_JARRET Transform {
+        DEF BL_JARRET Pose {
           translation -0.98482 0.16 0.495124
           rotation 0 1 0 0.523599
           children [
@@ -219,7 +223,7 @@ PROTO Cow [
             }
           ]
         }
-        DEF BR_LEG Transform {
+        DEF BR_LEG Pose {
           translation -1.06 -0.17 0.2
           children [
             Cylinder {
@@ -228,7 +232,7 @@ PROTO Cow [
             }
           ]
         }
-        DEF BR_JARRET Transform {
+        DEF BR_JARRET Pose {
           translation -0.98482 -0.16 0.495124
           rotation 0 1 0 0.523599
           children [
@@ -238,7 +242,7 @@ PROTO Cow [
             }
           ]
         }
-        DEF UDDER1 Transform {
+        DEF UDDER1 Pose {
           translation -0.895 -0.0674118 0.409659
           rotation 1 0 0 -0.261795307179586
           children [
@@ -247,7 +251,7 @@ PROTO Cow [
             }
           ]
         }
-        DEF UDDER2 Transform {
+        DEF UDDER2 Pose {
           translation -0.895 0.0674118 0.409659
           rotation 0.7040566478257991 0.7040686478197966 0.09269075363541814 0.369707
           children [
@@ -256,7 +260,7 @@ PROTO Cow [
             }
           ]
         }
-        DEF UDDER3 Transform {
+        DEF UDDER3 Pose {
           translation -0.729084 0.0863346 0.413431
           rotation 1 0 0 0.399326
           children [
@@ -265,7 +269,7 @@ PROTO Cow [
             }
           ]
         }
-        DEF UDDER4 Transform {
+        DEF UDDER4 Pose {
           translation -0.729084 -0.0838697 0.41239
           rotation 1 0 0 -0.399326
           children [

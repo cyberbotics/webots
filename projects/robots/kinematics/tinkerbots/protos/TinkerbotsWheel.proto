@@ -17,7 +17,7 @@ PROTO TinkerbotsWheel [
       translation IS translation
       rotation IS rotation
       children [
-        Transform {
+        Pose {
           translation 0 0.0085 0
           children [
             Shape {

@@ -54,7 +54,7 @@ IprHd6ms180 {
   tableSlot [
     DEF TABLE Solid {
       children [
-        DEF PLANE Transform {
+        DEF PLANE Pose {
           translation -0.01 0.08 -0.01
           children [
             Shape {
@@ -69,7 +69,7 @@ IprHd6ms180 {
             }
           ]
         }
-        DEF LEG1 Transform {
+        DEF LEG1 Pose {
           translation -0.4 -0.15 -0.31
           children [
             DEF LEG Shape {
@@ -80,19 +80,19 @@ IprHd6ms180 {
             }
           ]
         }
-        DEF LEG2 Transform {
+        DEF LEG2 Pose {
           translation -0.4 0.31 -0.31
           children [
             USE LEG
           ]
         }
-        DEF LEG3 Transform {
+        DEF LEG3 Pose {
           translation 0.4 -0.15 -0.31
           children [
             USE LEG
           ]
         }
-        DEF LEG4 Transform {
+        DEF LEG4 Pose {
           translation 0.4 0.31 -0.31
           children [
             USE LEG

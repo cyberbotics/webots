@@ -26,7 +26,7 @@ PROTO ModernHouse [
       ]
     %< } >%
     children [
-      Transform {
+      Pose {
         translation 0 0 -0.76
         rotation -0.577352 0.577348 0.577352 -2.094405
         children [
@@ -91,7 +91,7 @@ PROTO ModernHouse [
               creaseAngle 0.5
             }
           }
-          DEF ROOF Transform {
+          DEF ROOF Pose {
             children [
               Shape {
                 appearance DEF ROOF_APP PBRAppearance {
@@ -196,20 +196,20 @@ PROTO ModernHouse [
               }
             ]
           }
-          DEF GLASS_DOOR2 Transform {
+          DEF GLASS_DOOR2 Pose {
             translation -1.43 0 0
             children [
               USE GLASS_DOOR
             ]
           }
-          DEF GLASS_DOOR3 Transform {
+          DEF GLASS_DOOR3 Pose {
             translation 6.31 0 -4.81
             rotation 0 1 0 3.14159
             children [
               USE GLASS_DOOR
             ]
           }
-          DEF GLASS_DOOR4 Transform {
+          DEF GLASS_DOOR4 Pose {
             translation 4.88 0 -4.81
             rotation 0 1 0 3.14159
             children [
@@ -372,14 +372,14 @@ PROTO ModernHouse [
               }
             ]
           }
-          DEF WINDOW_DOWN_1 Transform {
+          DEF WINDOW_DOWN_1 Pose {
             translation 3.96 0.001 -0.75
             rotation 0 1 0 3.14159
             children [
               USE WINDOW_DOWN
             ]
           }
-          DEF WINDOW_DOWN_2 Transform {
+          DEF WINDOW_DOWN_2 Pose {
             translation 3.96 0.001 -7.79
             rotation 0 1 0 3.14159
             children [
@@ -452,14 +452,14 @@ PROTO ModernHouse [
               USE SMALL_WINDOW_UP
             ]
           }
-          DEF SMALL_WINDOW_UP_3 Transform {
+          DEF SMALL_WINDOW_UP_3 Pose {
             translation 10.94 0 -4.3
             rotation 0 1 0 1.5708
             children [
               USE SMALL_WINDOW_UP
             ]
           }
-          DEF SMALL_WINDOW_DOWN Transform {
+          DEF SMALL_WINDOW_DOWN Pose {
             translation 10.16 -3.2 -5.15
             rotation 0.57735 -0.57735 0.57735 2.0944
             children [
@@ -474,7 +474,7 @@ PROTO ModernHouse [
     %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.5 0.37 1.8
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
@@ -483,7 +483,7 @@ PROTO ModernHouse [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.2 -5.48 1.8999
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
@@ -492,7 +492,7 @@ PROTO ModernHouse [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -4.8 -8.71 1.8999
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
@@ -501,7 +501,7 @@ PROTO ModernHouse [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 7.71 -1.86 1.9
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
@@ -510,7 +510,7 @@ PROTO ModernHouse [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 10.75 -6.6501 1.9
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
@@ -519,7 +519,7 @@ PROTO ModernHouse [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 10.75 2.7199 1.9001
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
@@ -528,7 +528,7 @@ PROTO ModernHouse [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 4.44 -4.32 1.9
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
@@ -537,7 +537,7 @@ PROTO ModernHouse [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 2.58 -3.2201 6.74
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
