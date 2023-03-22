@@ -157,11 +157,11 @@ PROTO Moose [
       }
       Transform {
         translation 0.95 -0.6 -0.06
-        rotation 0 0 1 -1.5708
+        rotation 0 0 1 3.14159
         children [
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis -1 0 0
+              axis 0 -1 0
               suspensionSpringConstant 100000
               suspensionDampingConstant 100000
               suspensionAxis 0 0 1
@@ -184,11 +184,11 @@ PROTO Moose [
       }
       Transform {
         translation 0.27 -0.6 -0.06
-        rotation 0 0 1 -1.5708
+        rotation 0 0 1 3.14159
         children [
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis -1 0 0
+              axis 0 -1 0
               suspensionSpringConstant 100000
               suspensionDampingConstant 100000
               suspensionAxis 0 0 1
@@ -211,11 +211,11 @@ PROTO Moose [
       }
       Transform {
         translation -0.42 -0.6 -0.06
-        rotation 0 0 1 -1.5708
+        rotation 0 0 1 3.14159
         children [
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis -1 0 0
+              axis 0 -1 0
               suspensionSpringConstant 100000
               suspensionDampingConstant 100000
               suspensionAxis 0 0 1
@@ -238,11 +238,11 @@ PROTO Moose [
       }
       Transform {
         translation -1.1 -0.6 -0.06
-        rotation 0 0 1 -1.5708
+        rotation 0 0 1 3.14159
         children [
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis -1 0 0
+              axis 0 -1 0
               suspensionSpringConstant 100000
               suspensionDampingConstant 100000
               suspensionAxis 0 0 1
@@ -265,11 +265,10 @@ PROTO Moose [
       }
       Transform {
         translation 0.95 0.6 -0.06
-        rotation 0 0 1 1.5708
         children [
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis 1 0 0
+              axis 0 1 0
               suspensionSpringConstant 100000
               suspensionDampingConstant 100000
               suspensionAxis 0 0 1
@@ -292,11 +291,10 @@ PROTO Moose [
       }
       Transform {
         translation 0.27 0.6 -0.06
-        rotation 0 0 1 1.5708
         children [
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis 1 0 0
+              axis 0 1 0
               suspensionSpringConstant 100000
               suspensionDampingConstant 100000
               suspensionAxis 0 0 1
@@ -319,11 +317,10 @@ PROTO Moose [
       }
       Transform {
         translation -0.42 0.6 -0.06
-        rotation 0 0 1 1.5708
         children [
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis 1 0 0
+              axis 0 1 0
               suspensionSpringConstant 100000
               suspensionDampingConstant 100000
               suspensionAxis 0 0 1
@@ -346,11 +343,10 @@ PROTO Moose [
       }
       Transform {
         translation -1.1 0.6 -0.06
-        rotation 0 0 1 1.5708
         children [
           HingeJoint {
             jointParameters HingeJointParameters {
-              axis 1 0 0
+              axis 0 1 0
               suspensionSpringConstant 100000
               suspensionDampingConstant 100000
               suspensionAxis 0 0 1
