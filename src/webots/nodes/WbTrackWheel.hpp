@@ -17,9 +17,8 @@
 //
 
 // Implemented node class representing a wheel of the WbTrack node
-//   special WbPose node where 'translation', 'rotation, 'scale',
-//   'translationStep' and 'rotationStep' fields are not open to the user
-//    but defined internally
+//   special WbPose node where 'translation', 'rotation, 'translationStep'
+//   and 'rotationStep' fields are not open to the user but defined internally
 
 #ifndef WB_TRACK_WHEEL_HPP
 #define WB_TRACK_WHEEL_HPP

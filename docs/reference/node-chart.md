@@ -86,7 +86,7 @@ graph LR
         Solid --> Charger[[Charger](charger.md)]
         Solid --> Robot[[Robot](robot.md)]
       Transform --> Fluid[[Fluid](fluid.md)]
-      Transform --> TrackWheel[[TrackWheel](trackwheel.md)]
+    Pose --> TrackWheel[[TrackWheel](trackwheel.md)]
 
   JointDevice -.-> Motor([Motor](motor.md))
     Motor -.-> LinearMotor[[LinearMotor](linearmotor.md)]

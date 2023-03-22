@@ -4,9 +4,9 @@
 
 'use strict';
 
-import {getGETQueryValue, getGETQueriesMatchingRegularExpression} from './request_methods.js';
-import {webots} from './webots.js';
-import {setupModalWindow, renderGraphs, highlightCode, updateModalEvents} from './proto_viewer.js';
+import { getGETQueryValue, getGETQueriesMatchingRegularExpression } from './request_methods.js';
+import { webots } from './webots.js';
+import { setupModalWindow, renderGraphs, highlightCode, updateModalEvents } from './proto_viewer.js';
 
 import WbImageTexture from './nodes/WbImageTexture.js';
 import WbPbrAppearance from './nodes/WbPbrAppearance.js';
@@ -16,8 +16,8 @@ import WbPose from './nodes/WbPose.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 import WbVector4 from './nodes/utils/WbVector4.js';
 import WbWorld from './nodes/WbWorld.js';
-import {quaternionToVec4, vec4ToQuaternion} from './nodes/utils/utils.js';
-import {getAnId} from './nodes/utils/id_provider.js';
+import { quaternionToVec4, vec4ToQuaternion } from './nodes/utils/utils.js';
+import { getAnId } from './nodes/utils/id_provider.js';
 import WebotsView from './WebotsView.js';
 import ImageLoader from './ImageLoader.js';
 import MeshLoader from './MeshLoader.js';
@@ -29,13 +29,13 @@ let imageTexture;
 let sizeOfMarker;
 
 if (typeof String.prototype.startsWith !== 'function') {
-  String.prototype.startsWith = function(prefix) {
+  String.prototype.startsWith = function (prefix) {
     return this.slice(0, prefix.length) === prefix;
   };
 }
 
 if (typeof String.prototype.endsWith !== 'function') {
-  String.prototype.endsWith = function(suffix) {
+  String.prototype.endsWith = function (suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
   };
 }
@@ -261,7 +261,7 @@ function addDynamicAnchorEvent(el) {
   if (el.classList.contains('dynamicAnchor'))
     return;
   el.addEventListener('click',
-    function(event) {
+    function (event) {
       if (event.ctrlKey)
         return;
       let node = event.target;
@@ -282,7 +282,7 @@ function addDynamicLoadEvent(el) {
   if (el.classList.contains('dynamicLoad'))
     return;
   el.addEventListener('click',
-    function(event) {
+    function (event) {
       if (event.ctrlKey)
         return;
       aClick(event.target);
@@ -354,18 +354,18 @@ function addContributionBanner() {
 
   // append contribution sticker to primary doc element
   document.querySelector('#center').innerHTML += '<div style="top:' + displacement + '" class="contribution-banner">' +
-                                                 'Found an error?' +
-                                                 '<a target="_blank" class="contribution-banner-url" href="https://github.com/cyberbotics/webots/tree/released/docs"> ' +
-                                                 'Contribute on GitHub!' +
-                                                 '<span class=github-logo />' +
-                                                 '</a>' +
-                                                 '<p id="contribution-close">X</p>' +
-                                                 '</div>';
+    'Found an error?' +
+    '<a target="_blank" class="contribution-banner-url" href="https://github.com/cyberbotics/webots/tree/released/docs"> ' +
+    'Contribute on GitHub!' +
+    '<span class=github-logo />' +
+    '</a>' +
+    '<p id="contribution-close">X</p>' +
+    '</div>';
   updateContributionBannerUrl();
 
   const contributionBanner = document.querySelector('.contribution-banner');
 
-  document.querySelector('#contribution-close').onclick = function() {
+  document.querySelector('#contribution-close').onclick = function () {
     contributionBanner.parentNode.removeChild(contributionBanner);
   };
 }
@@ -460,7 +460,7 @@ function createIndex(view) {
   ul.setAttribute('id', 'index');
   headings[0].parentNode.insertBefore(ul, headings[1]);
 
-  headings.forEach(function(heading, i) {
+  headings.forEach(function (heading, i) {
     if (i === 0) // Skip the first heading.
       return;
 
@@ -493,7 +493,7 @@ function getWebotsVersion() {
     return localSetup.branch;
   // Get the Webots version from the showdown wbVariables extension
   const version = '{{ webots.version.full }}';
-  const converter = new showdown.Converter({extensions: ['wbVariables']});
+  const converter = new showdown.Converter({ extensions: ['wbVariables'] });
   const html = converter.makeHtml(version);
   const tmp = document.createElement('div');
   tmp.innerHTML = html;
@@ -528,11 +528,13 @@ function populateViewDiv(mdContent) {
   // markdown to html
   window.mermaidGraphCounter = 0;
   window.mermaidGraphs = {};
-  const converter = new showdown.Converter({tables: 'True',
+  const converter = new showdown.Converter({
+    tables: 'True',
     extensions: [
       'wbTabComponent', 'wbRobotComponent', 'wbSpoiler', 'wbChart', 'wbVariables', 'wbAPI', 'wbFigure', 'wbAnchors',
       'wbIllustratedSection', 'youtube'
-    ]});
+    ]
+  });
   const html = converter.makeHtml(mdContent);
 
   // console.log('HTML content: \n\n')
@@ -572,7 +574,7 @@ function updateBrowserUrl() {
   const url = forgeUrl(localSetup.book, localSetup.page, localSetup.tabs, localSetup.anchor);
   if (history.pushState) {
     try {
-      history.pushState({state: 'new'}, null, url);
+      history.pushState({ state: 'new' }, null, url);
     } catch (err) {
     }
   }
@@ -583,7 +585,7 @@ function updateBrowserUrl() {
 }
 
 // Make in order that the back button is working correctly
-window.onpopstate = function(event) {
+window.onpopstate = function (event) {
   setupUrl(document.location.href);
   getMDFile();
 };
@@ -661,7 +663,7 @@ function toggleRobotComponentFullScreen(robot) {
 
     if (element.requestFullscreen) {
       element.requestFullscreen();
-      document.addEventListener('fullscreenchange', function() {
+      document.addEventListener('fullscreenchange', function () {
         updateRobotComponentDimension(robot);
       });
     }
@@ -812,7 +814,7 @@ function highlightX3DElement(deviceElement) {
         anchor = new WbVector3();
         insertInParent = false;
       }
-      pointer = new WbPose(getAnId(), anchor, new WbVector3(1, 1, 1), new WbVector4());
+      pointer = new WbPose(getAnId(), anchor, new WbVector4());
       pointer.children.push(shape);
       WbWorld.instance.nodes.set(pointer.id, pointer);
       shape.parent = pointer.id;
@@ -887,7 +889,7 @@ function createRobotComponent(view) {
     // Load the robot meta JSON file.
     fetch(computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.meta.json')
       .then(response => response.json())
-      .then(function(data) {
+      .then(function (data) {
         // Populate the device component from the JSON file.
         let deviceComponent = view.querySelector('#' + robotName + '-device-component');
         let categories = {};
@@ -1295,7 +1297,7 @@ function populateMenu(menu) {
   for (let i = 0; i < lis.length; i++) {
     const li = lis[i];
     li.addEventListener('click',
-      function(event) {
+      function (event) {
         const as = event.target.querySelectorAll('a');
         if (as.length > 0)
           aClick(as[0]);
@@ -1508,13 +1510,13 @@ function releaseHandle() {
   handle.container.style.userSelect = 'auto';
 }
 
-window.onscroll = function() {
+window.onscroll = function () {
   if (!isCyberboticsUrl)
     return;
   updateMenuScrollbar();
 };
 
-window.mermaidAPI.initialize({startOnLoad: false});
+window.mermaidAPI.initialize({ startOnLoad: false });
 initializeHandle();
 
 if (!isCyberboticsUrl) {
