@@ -31,7 +31,6 @@ PROTO TruckTankSimple [
         DEF FRONT_RIGHT_WHEEL Solid {
           angularVelocity IS frontRightWheelAngularVelocity
           translation -5.45 -1 0
-          rotation 0 0 1 1.5708
           children [
             Slot {
               type "vehicle wheel"
@@ -45,7 +44,7 @@ PROTO TruckTankSimple [
         DEF FRONT_LEFT_WHEEL Solid {
           angularVelocity IS frontLeftWheelAngularVelocity
           translation -5.45 1 0
-          rotation 0 0 1 -1.5708
+          rotation 0 0 1 3.14159
           children [
             Slot {
               type "vehicle wheel"
@@ -59,7 +58,6 @@ PROTO TruckTankSimple [
         DEF CENTER_RIGHT_WHEEL Solid {
           angularVelocity IS centerRightWheelAngularVelocity
           translation -6.55 -1 0
-          rotation 0 0 1 1.5708
           children [
             Slot {
               type "vehicle wheel"
@@ -73,7 +71,7 @@ PROTO TruckTankSimple [
         DEF CENTER_LEFT_WHEEL Solid {
           angularVelocity IS centerLeftWheelAngularVelocity
           translation -6.55 1 0
-          rotation 0 0 1 -1.5708
+          rotation 0 0 1 3.14159
           children [
             Slot {
               type "vehicle wheel"
@@ -87,7 +85,6 @@ PROTO TruckTankSimple [
         DEF REAR_RIGHT_WHEEL Solid {
           angularVelocity IS rearRightWheelAngularVelocity
           translation -7.65 -1 0
-          rotation 0 0 1 1.5708
           children [
             Slot {
               type "vehicle wheel"
@@ -101,7 +98,7 @@ PROTO TruckTankSimple [
         DEF REAR_LEFT_WHEEL Solid {
           angularVelocity IS rearLeftWheelAngularVelocity
           translation -7.65 1 0
-          rotation 0 0 1 -1.5708
+          rotation 0 0 1 3.14159
           children [
             Slot {
               type "vehicle wheel"
@@ -112,15 +109,10 @@ PROTO TruckTankSimple [
           ]
           name "rear left wheel"
         }
-        Transform{
-          rotation 0.57735 0.57735 0.57735 2.094395
-          children[
-            TruckRearLight {
-            }
-            TruckTankMesh {
-              color IS color
-            }
-          ]
+        TruckRearLight {
+        }
+        TruckTankMesh {
+          color IS color
         }
       ]
       name IS name
