@@ -1,6 +1,6 @@
 ## Transform
 
-Derived from [Group](group.md).
+Derived from [Pose](pose.md).
 
 ```
 Transform {
