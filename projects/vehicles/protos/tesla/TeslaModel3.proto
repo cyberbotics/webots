@@ -55,7 +55,7 @@ PROTO TeslaModel3 [
     wheelsDampingConstant 3
     gearRatio [-6.3 9]
     wheelFrontLeft TeslaModel3Wheel {
-      rotation 0 1 0 -1.570796
+      rotation 1 0 0 1.570796
       name "front left wheel"
       physics DEF WHEEL_PHYSICS Physics {
         density -1
@@ -63,17 +63,17 @@ PROTO TeslaModel3 [
       }
     }
     wheelFrontRight TeslaModel3Wheel {
-      rotation 0 1 0 -1.570796
+      rotation 1 0 0 1.570796
       name "front right wheel"
       physics USE WHEEL_PHYSICS
     }
     wheelRearLeft DEF REAR_WHEEL TeslaModel3Wheel {
-      rotation 0 1 0 -1.570796
+      rotation 1 0 0 1.570796
       name "rear left wheel"
       physics USE WHEEL_PHYSICS
     }
     wheelRearRight TeslaModel3Wheel {
-      rotation 0 1 0 -1.570796
+      rotation 1 0 0 1.570796
       name "rear right wheel"
       physics USE WHEEL_PHYSICS
     }

@@ -159,21 +159,21 @@ PROTO VehicleWheel [
                       let pointBuffer = '';
                       // top inner
                       for (let i = 0; i < circles[0].length; ++i)
-                        pointBuffer += `${thickness * 0.5} ${-circles[0][i].x} ${circles[0][i].y}\n`;
+                        pointBuffer += `${circles[0][i].y} ${-thickness * 0.5} ${circles[0][i].x}\n`;
 
                       for (let i = 0; i <= edgeSubdivision; ++i) {
                         for (let j = 0; j < circles[i+1].length; ++j)
-                          pointBuffer += `${thickness * 0.5 * (1 - curvatureFactor * (1 - Math.cos(beta * i)))} ${-circles[i+1][j].x} ${circles[i+1][j].y}\n`;
+                          pointBuffer += `${circles[i+1][j].y} ${-thickness * 0.5 * (1 - curvatureFactor * (1 - Math.cos(beta * i)))} ${circles[i+1][j].x}\n`;
                       }
 
                       for (let i = 0; i <= edgeSubdivision; ++i) {
                         for (let j = 0; j < circles[(edgeSubdivision - i) + 1].length; ++j)
-                          pointBuffer += `${- thickness * 0.5 * (1 - curvatureFactor * (1 - Math.sin(beta * i)))} ${-circles[(edgeSubdivision - i) + 1][j].x} ${circles[(edgeSubdivision - i) + 1][j].y}\n`;
+                          pointBuffer += `${circles[(edgeSubdivision - i) + 1][j].y} ${thickness * 0.5 * (1 - curvatureFactor * (1 - Math.sin(beta * i)))} ${circles[(edgeSubdivision - i) + 1][j].x}\n`;
                       }
 
                       // bottom inner
                       for (let i = 0; i < circles[0].length; ++i)
-                        pointBuffer += `${- thickness * 0.5} ${-circles[0][i].x} ${circles[0][i].y}\n`;
+                        pointBuffer += `${circles[0][i].y} ${thickness * 0.5} ${circles[0][i].x}\n`;
 
                     >%
                     %<= pointBuffer >%
@@ -253,19 +253,19 @@ PROTO VehicleWheel [
                       let rimCoordBuffer = '';
                       // top outer
                       for (let i = 0; i < rimOuterCircle.length; ++i)
-                        rimCoordBuffer += `${-thickness * 0.5} ${rimOuterCircle[i].x} ${rimOuterCircle[i].y}\n`;
+                        rimCoordBuffer += `${rimOuterCircle[i].y} ${-thickness * 0.5} ${rimOuterCircle[i].x}\n`;
 
                       // top inner
                       for (let i = 0; i < rimInnerCircle.length; ++i)
-                        rimCoordBuffer += `${-thickness * 0.5} ${rimInnerCircle[i].x} ${rimInnerCircle[i].y}\n`;
+                        rimCoordBuffer += `${rimInnerCircle[i].y} ${-thickness * 0.5} ${rimInnerCircle[i].x}\n`;
 
                       // bottom inner
                       for (let i = 0; i < rimInnerCircle.length; ++i)
-                        rimCoordBuffer += `${thickness * 0.5} ${rimInnerCircle[i].x} ${rimInnerCircle[i].y}\n`;
+                        rimCoordBuffer += `${rimInnerCircle[i].y} ${thickness * 0.5} ${rimInnerCircle[i].x}\n`;
 
                       // bottom outer
                       for (let i = 0; i < rimOuterCircle.length; ++i)
-                        rimCoordBuffer += `${thickness * 0.5} ${rimOuterCircle[i].x} ${rimOuterCircle[i].y}\n`;
+                        rimCoordBuffer += `${rimOuterCircle[i].y} ${thickness * 0.5} ${rimOuterCircle[i].x}\n`;
 
                     >%
                     %<= rimCoordBuffer >%
@@ -313,44 +313,44 @@ PROTO VehicleWheel [
                       // Top part
                       let rimBeamCoordBuffer = '';
                       // Center
-                      rimBeamCoordBuffer += `${-rimBeamThickness / 2.5 - rimBeamOffset/2} 0 0\n`;
+                      rimBeamCoordBuffer += `0 ${-rimBeamThickness / 2.5 - rimBeamOffset/2} 0\n`;
                       for (let i = 0; i < centralCircles[0].length; ++i)
-                        rimBeamCoordBuffer += `${-rimBeamThickness * 0.5 - rimBeamOffset/2} ${centralCircles[0][i].x} ${centralCircles[0][i].y}\n`;
+                        rimBeamCoordBuffer += `${centralCircles[0][i].y} ${-rimBeamThickness * 0.5 - rimBeamOffset/2} ${centralCircles[0][i].x}\n`;
 
                       // Between beams
                       for (let i = 0; i < centralCircles[1].length; ++i)
-                        rimBeamCoordBuffer += `${-rimBeamThickness / 2.5 - rimBeamOffset/2} ${centralCircles[1][i].x} ${centralCircles[1][i].y}\n`;
+                        rimBeamCoordBuffer += `${centralCircles[1][i].y} ${-rimBeamThickness / 2.5 - rimBeamOffset/2} ${centralCircles[1][i].x}\n`;
 
                       for (let i = 0; i < centralCircles[2].length; ++i)
-                        rimBeamCoordBuffer += `${-rimBeamThickness / 2.5 - rimBeamOffset/2} ${centralCircles[2][i].x} ${centralCircles[2][i].y}\n`;
+                        rimBeamCoordBuffer += `${centralCircles[2][i].y} ${-rimBeamThickness / 2.5 - rimBeamOffset/2} ${centralCircles[2][i].x}\n`;
 
                       // Beams
                       for (let i = 0; i < centralCircles[3].length; ++i)
-                        rimBeamCoordBuffer += `${-rimBeamThickness * 0.5 - rimBeamOffset/2} ${centralCircles[3][i].x} ${centralCircles[3][i].y}\n`;
+                        rimBeamCoordBuffer += `${centralCircles[3][i].y} ${-rimBeamThickness * 0.5 - rimBeamOffset/2} ${centralCircles[3][i].x}\n`;
 
                       for (let i = 0; i < centralCircles[4].length; ++i)
-                        rimBeamCoordBuffer += `${-rimBeamThickness / 2.5 - rimBeamOffset/2} ${centralCircles[4][i].x} ${centralCircles[4][i].y}\n`;
+                        rimBeamCoordBuffer += ` ${centralCircles[4][i].y} ${-rimBeamThickness / 2.5 - rimBeamOffset/2} ${centralCircles[4][i].x}\n`;
 
                       for (let i = 0; i < centralCircles[5].length; ++i)
-                        rimBeamCoordBuffer += `${-rimBeamThickness / 2.5 - rimBeamOffset/2} ${centralCircles[5][i].x} ${centralCircles[5][i].y}\n`;
+                        rimBeamCoordBuffer += `${centralCircles[5][i].y} ${-rimBeamThickness / 2.5 - rimBeamOffset/2} ${centralCircles[5][i].x}\n`;
 
                       // side
                       // Between beams
                       for (let i = 0; i < centralCircles[1].length; ++i)
-                        rimBeamCoordBuffer += `${rimBeamThickness * 0.5 - rimBeamOffset/2} ${centralCircles[1][i].x} ${centralCircles[1][i].y}\n`;
+                        rimBeamCoordBuffer += `${centralCircles[1][i].y} ${rimBeamThickness * 0.5 - rimBeamOffset/2} ${centralCircles[1][i].x}\n`;
 
                       for (let i = 0; i < centralCircles[2].length; ++i)
-                        rimBeamCoordBuffer += `${rimBeamThickness * 0.5 - rimBeamOffset/2} ${centralCircles[2][i].x} ${centralCircles[2][i].y}\n`;
+                        rimBeamCoordBuffer += `${centralCircles[2][i].y} ${rimBeamThickness * 0.5 - rimBeamOffset/2} ${centralCircles[2][i].x}\n`;
 
                       // Beams
                       for (let i = 0; i < centralCircles[4].length; ++i)
-                        rimBeamCoordBuffer += `${rimBeamThickness * 0.5 - rimBeamOffset/2} ${centralCircles[4][i].x} ${centralCircles[4][i].y}\n`;
+                        rimBeamCoordBuffer += `${centralCircles[4][i].y} ${rimBeamThickness * 0.5 - rimBeamOffset/2} ${centralCircles[4][i].x}\n`;
 
                       for (let i = 0; i < centralCircles[5].length; ++i)
-                        rimBeamCoordBuffer += `${rimBeamThickness * 0.5 - rimBeamOffset/2} ${centralCircles[5][i].x} ${centralCircles[5][i].y}\n`;
+                        rimBeamCoordBuffer += `${centralCircles[5][i].y} ${rimBeamThickness * 0.5 - rimBeamOffset/2} ${centralCircles[5][i].x}\n`;
 
                       // bottom
-                      rimBeamCoordBuffer += `${rimBeamThickness * 0.5 - rimBeamOffset/2} 0 0\n`;
+                      rimBeamCoordBuffer += `0 ${rimBeamThickness * 0.5 - rimBeamOffset/2} 0\n`;
 
                     >%
                     %<= rimBeamCoordBuffer >%
@@ -420,7 +420,7 @@ PROTO VehicleWheel [
       %< if (fields.boundingObject.value) { >%
         contactMaterial IS contactMaterial
         boundingObject Transform {
-          rotation 0 1 0 1.570796
+          rotation 1 0 0 1.570796
           children [
             Cylinder {
               height %<= thickness >%
