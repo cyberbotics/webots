@@ -1,10 +1,10 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # A pergola.
 
 PROTO Pergolas [
-  field SFVec3f    translation 0 0 0
+  field SFVec3f    translation 0 0 0.23
   field SFRotation rotation    0 0 1 0
   field SFString   name        "pergola"
 ]
