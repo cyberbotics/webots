@@ -193,8 +193,12 @@ namespace {
     if (childrenField) {
       const bool isInsertingTopLevel = node->isWorldRoot();
 
+      const bool isTransformOrTransformDescendant =
+        node->modelName() == "Transform" || WbNodeUtilities::findUpperTransform(node);
+
       // A robot cannot be a bounding object
-      if (!boundingObjectCase && WbNodeUtilities::isRobotTypeName(nodeName) && !WbNodeUtilities::isDescendantOfBillboard(node))
+      if (!boundingObjectCase && !isTransformOrTransformDescendant && WbNodeUtilities::isRobotTypeName(nodeName) &&
+          !WbNodeUtilities::isDescendantOfBillboard(node))
         return true;
 
       // top level nodes
@@ -465,8 +469,16 @@ namespace {
           return true;
 
         if (WbNodeUtilities::isDescendantOfBillboard(node))
-          // only Group, Transform and Shape allowed
+          // only Group, Pose, Transform and Shape allowed
           return false;
+
+        // if the node itself is a transform or it has a transform ancestor exists, prohibit the insertion of Solids,
+        // Robots, Devices, Propellers & Lights
+        if (node->modelName() == "Transform" || WbNodeUtilities::findUpperTransform(node)) {
+          if (nodeName == "PointLight" || nodeName == "SpotLight" || nodeName == "DirectionalLight" ||
+              WbNodeUtilities::isSolidTypeName(nodeName) || nodeName == "Propeller")
+            return false;
+        }
 
         if (nodeName == "Solid")
           return true;

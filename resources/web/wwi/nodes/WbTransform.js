@@ -27,13 +27,13 @@ export default class WbTransform extends WbPose {
   }
 
   #updateAbsoluteScale() {
-    this.absoluteScale = this.#scale;
+    this._absoluteScale = this.#scale;
     // multiply with upper transform scale if any
     const up = this.upperPose();
     if (typeof up !== 'undefined')
-      this.absoluteScale = this.#absoluteScale.mulByVector(up.absoluteScale());
+      this._absoluteScale = this._absoluteScale.mulByVector(up.absoluteScale());
 
-    this.#absoluteScaleNeedUpdate = false;
+    this._absoluteScaleNeedUpdate = false;
   }
 
   clone(customID) {

@@ -8,8 +8,6 @@ import { WbNodeType } from './wb_node_type.js';
 import WbVector3 from './utils/WbVector3.js';
 
 export default class WbPose extends WbGroup {
-  #absoluteScale;
-  #absoluteScaleNeedUpdate;
   #matrix;
   #matrixNeedUpdate;
   #previousTranslation;
@@ -24,7 +22,7 @@ export default class WbPose extends WbGroup {
     this.#rotation = rotation;
     this.#rotation.normalizeRotation();
 
-    this.#absoluteScaleNeedUpdate = true;
+    this._absoluteScaleNeedUpdate = true;
     this.#upperPoseFirstTimeSearch = true;
     this.#vrmlMatrix = new WbMatrix4();
     this.#vrmlMatrixNeedUpdate = true;
@@ -58,20 +56,20 @@ export default class WbPose extends WbGroup {
   }
 
   absoluteScale() {
-    if (this.#absoluteScaleNeedUpdate)
+    if (this._absoluteScaleNeedUpdate)
       this.#updateAbsoluteScale();
 
-    return this.#absoluteScale;
+    return this._absoluteScale;
   }
 
   #updateAbsoluteScale() {
-    this.#absoluteScale = new WbVector3(1.0, 1.0, 1.0);
+    this._absoluteScale = new WbVector3(1.0, 1.0, 1.0);
     // multiply with upper pose scale if any
     const up = this.#upperPose();
     if (typeof up !== 'undefined')
-      this.#absoluteScale = this.#absoluteScale.mulByVector(up.absoluteScale());
+      this._absoluteScale = this._absoluteScale.mulByVector(up.absoluteScale());
 
-    this.#absoluteScaleNeedUpdate = false;
+    this._absoluteScaleNeedUpdate = false;
   }
 
   clone(customID) {
