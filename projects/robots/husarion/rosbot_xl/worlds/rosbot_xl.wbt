@@ -1,0 +1,71 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "webots://projects/appearances/protos/CarpetFibers.proto"
+EXTERNPROTO "webots://projects/robots/husarion/rosbot_xl/protos/RosbotXl.proto"
+
+WorldInfo {
+  info [
+    "ROSbot XL robot (Husarion)."
+    "The ROSbot XL on the Husarion World"
+  ]
+  title "ROSbot XL"
+  lineScale 0.15
+}
+Viewpoint {
+  orientation 0.247297 -0.168564 -0.954165 -1.93179
+  position 6.40263 -11.291 6.82282
+  follow "Rosbot"
+}
+TexturedBackground {
+  texture "empty_office"
+  luminosity 1.6
+  skybox FALSE
+  skyColor [
+    0.5 0.5 0.5
+  ]
+}
+Floor {
+  translation 0 -4.3 0
+  size 40 40
+  tileSize 1 1
+  appearance CarpetFibers {
+    colorOverride 0.6 0.6 0.6
+  }
+}
+Solid {
+  scale 10 10 10
+  translation -26.6 16.8 0.0
+  children [
+    DEF BORDER Shape {
+      geometry Mesh {
+        url "meshes/husarion_world.dae"
+        materialIndex 0
+      }
+      appearance PBRAppearance {
+        baseColor 0.6307572 0.005605392 0.02415763
+      }
+    }
+    DEF LOGO Shape {
+      geometry Mesh {
+        url "meshes/husarion_world.dae"
+        materialIndex 1
+      }
+      appearance PBRAppearance {
+        baseColor 1 1 1
+      }
+    }
+  ]
+  boundingObject Group{
+    children[
+      USE LOGO
+      USE BORDER
+    ]
+  }
+}
+RosbotXl {
+  translation 3 -2 0
+  controller "<extern>"
+  name "rosbot_xl"
+}
