@@ -4,7 +4,7 @@
 # documentation url: https://www.cyberbotics.com/doc/automobile/ackermannvehicle
 # Generic model of an Ackerman vehicle. Positions and joints of the wheels are set automatically
 # using 'trackFont', 'trackRear' and 'wheelbase' fields
-# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# This model was sponsored by the [CTI project RO2IVSim](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
 
 EXTERNPROTO "VehicleWheel.proto"
