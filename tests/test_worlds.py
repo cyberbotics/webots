@@ -80,8 +80,6 @@ class TestWorldsWarnings(unittest.TestCase):
         cacheSizeBefore = len(os.listdir(CACHE_DIR))
         for i in range(len(self.worlds)):
             print('Testing: %d/%d: %s' % (i + 1, len(self.worlds), self.worlds[i]))
-            if i > 0 and not self.worlds[i].endswith("rosbot_xl.wbt"):
-                continue
             self.process = Popen([
                 self.webotsFullPath,
                 self.worlds[i],
@@ -102,10 +100,8 @@ class TestWorldsWarnings(unittest.TestCase):
             if i == 0:
                 continue
             if errors and not all((any(message in error for message in self.skippedMessages) for error in errors.splitlines())):
-                print(errors)
                 problematicWorlds.append(self.worlds[i])
             if errors and self.crashError in str(errors):
-                print(errors)
                 crashedWorlds.append(self.worlds[i])
 
             # url.wbt and camera.wbt are exceptional as they contain non-cached assets on purpose, adapt cache size accordingly
