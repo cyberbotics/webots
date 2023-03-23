@@ -44,7 +44,7 @@ Solid {
       }
       geometry Mesh {
         url [
-          "meshes/husarion_world.dae"
+          "webots://projects/robots/husarion/rosbot_xl/worlds/meshes/husarion_world.dae"
         ]
         materialIndex 0
       }
@@ -54,7 +54,7 @@ Solid {
       }
       geometry Mesh {
         url [
-          "meshes/husarion_world.dae"
+          "webots://projects/robots/husarion/rosbot_xl/worlds/meshes/husarion_world.dae"
         ]
         materialIndex 1
       }
