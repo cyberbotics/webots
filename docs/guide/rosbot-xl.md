@@ -1,6 +1,6 @@
 ## Husarion's ROSbot XL
 
-%robot rosbot images/robots/rosbot\_xl/model.png
+%robot rosbot images/robots/rosbot_xl/model.thumbnail.png
 
 The ROSbot XL by [Husarion](https://husarion.com/) is a universal, ROS2-native autonomous mobile robot platform dedicated for R&D, rapid prototyping and custom robot development for indoor use cases.
 It is equipped with a LIDAR and an IMU.
@@ -85,7 +85,7 @@ You will find the following sample in the folder: "[$WEBOTS\_HOME/projects/robot
 
 #### [rosbot\_xl.wbt]({{ url.github_tree }}/projects/robots/husarion/rosbot\_xl/worlds/rosbot\_xl.wbt)
 
-![rosbot\_xl.png](images/robots/rosbot\_xl/rosbot\_xl.wbt.thumbnail.jpg)
+![rosbot\_xl.png](images/robots/rosbot_xl/rosbot_xl.wbt.thumbnail.jpg)
 
-The "[rosbot\_xl.wbt]({{ url.github_tree }}/projects/robots/husarion/rosbot_xl/worlds/rosbot_xl.wbt)" shows the ROSbot XL in a simple environment.
+The "[rosbot\_xl.wbt]({{ url.github_tree }}/projects/robots/husarion/rosbot\_xl/worlds/rosbot\_xl.wbt)" shows the ROSbot XL in a simple environment.
 The default controller is set to `<extern>` as this robot is meant to be controlled using ROS2.
