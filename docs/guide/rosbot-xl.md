@@ -20,10 +20,10 @@ More information on specifications is available at the following link: [ROSbot X
 
 %end
 
-The ROSbot motors are [RotationalMotor](../reference/rotationalmotor.md) nodes, each associated with a [PositionSensor](../reference/positionsensor.md).
+The ROSbot XL motors are [RotationalMotor](../reference/rotationalmotor.md) nodes, each associated with a [PositionSensor](../reference/positionsensor.md).
 They are named the following way:
 
-%figure "ROSbot wheel names"
+%figure "ROSbot XL wheel names"
 
 | Wheel                | Motor name     | Position sensor name           |
 | -------------------- | ---------------| ------------------------------ |
@@ -54,12 +54,12 @@ The [RpLidar A2](lidar-sensors.md#slamtec-rplidar-a2) rotational lidar is fixed 
 It is named "laser".
 It can be removed to place another sensor.
 
-### Rosbot PROTO
+### Rosbot XL PROTO
 
 Derived from [Robot](../reference/robot.md).
 
 ```
-Rosbot {
+RosbotXl {
   SFVec3f    translation     0 0 0
   SFRotation rotation        0 0 1 0
   SFString   name            "rosbot_xl"
