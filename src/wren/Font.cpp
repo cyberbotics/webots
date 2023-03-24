@@ -120,7 +120,9 @@ namespace wren {
       mError = WR_FONT_ERROR_FONT_SIZE;
   }
 
-  unsigned int Font::verticalSpace() const { return mFace->size->metrics.height >> 6; }
+  unsigned int Font::verticalSpace() const {
+    return mFace->size->metrics.height >> 6;
+  }
 
   void Font::getBoundingBox(const char *text, int *width, int *height) {
     *height = 0;

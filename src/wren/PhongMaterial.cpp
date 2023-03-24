@@ -175,7 +175,9 @@ namespace wren {
     mMaterialStructure->data = reinterpret_cast<void *>(this);
   }
 
-  PhongMaterial::~PhongMaterial() { delete mMaterialStructure; }
+  PhongMaterial::~PhongMaterial() {
+    delete mMaterialStructure;
+  }
 
   void PhongMaterial::init() {
     GlslLayout::PhongMaterial material;

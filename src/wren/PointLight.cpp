@@ -20,7 +20,9 @@
 
 namespace wren {
 
-  PointLight::PointLight() { Scene::instance()->addLight(this); }
+  PointLight::PointLight() {
+    Scene::instance()->addLight(this);
+  }
 
   PointLight::~PointLight() {
     Scene::instance()->removeLight(this);
