@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # tags: hidden
 # template language: javascript
 
@@ -592,12 +592,12 @@ Solid {
   boundingObject Group {
     children [
       Transform {
-        translation 0.03 0.003 0.005
+        translation 0.05 -0.001 0
         rotation -0.527663 0.600656 -0.600654 2.170531
         children [
-          DEF WHIRST_BO Capsule {
+          DEF WRIST_BO Capsule {
             height 0.025
-            radius 0.022
+            radius 0.021
           }
         ]
       }
