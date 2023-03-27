@@ -65,6 +65,7 @@ Thumbs.db
 /.clang-format
 /msys64
 /webots
+/webots-controller
 /webots.lnk
 /webots_debug_output.txt
 /util

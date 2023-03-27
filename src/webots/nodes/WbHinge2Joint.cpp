@@ -95,6 +95,7 @@ void WbHinge2Joint::postFinalize() {
   if (p2 && !p2->isPostFinalizedCalled())
     p2->postFinalize();
 
+  connect(mDevice2, &WbMFNode::itemChanged, this, &WbHinge2Joint::addDevice2);
   connect(mDevice2, &WbMFNode::itemInserted, this, &WbHinge2Joint::addDevice2);
   connect(mParameters2, &WbSFNode::changed, this, &WbHinge2Joint::updateParameters);
   if (brake2())
