@@ -741,7 +741,7 @@ WbVector2 computeLensDistortion(WbLens *lens, const WbVector2 &p) {
   const float r2 = relativeUv.length2();
   const float d1 = rc.x() * r2 + rc.y() * r2 * r2;
   return WbVector2(p.x() + d1 + tc.y() * r2 + 2 * p.x() * p.x() + 2 * tc.x() * p.x(),
-                   p.y() + d1 + tc.x() * r2 + 2 * p.y() * p.y() + 2 * tc.y() * p.x() * p.y()); 
+                   p.y() + d1 + tc.x() * r2 + 2 * p.y() * p.y() + 2 * tc.y() * p.x() * p.y());
 }
 
 WbVector2 WbCamera::projectOnImage(const WbVector3 &position) {
@@ -921,17 +921,6 @@ void WbCamera::createWrenCamera() {
 
   WbAbstractCamera::createWrenCamera();
 
-  if (mSegmentationCamera)
-    delete mSegmentationCamera;
-  if (recognition() && recognition()->segmentation()) {
-    mSegmentationCamera = new WbWrenCamera(wrenNode(), width(), height(), nearValue(), minRange(), recognition()->maxRange(),
-                                           fieldOfView(), 's', false, mProjection->value());
-    connect(mSensor, &WbSensor::stateChanged, this, &WbCamera::updateOverlayMaskTexture);
-  } else {
-    mSegmentationCamera = NULL;
-    disconnect(mSensor, &WbSensor::stateChanged, this, &WbCamera::updateOverlayMaskTexture);
-  }
-
   applyFocalSettingsToWren();
   applyFarToWren();
   updateExposure();
@@ -942,11 +931,6 @@ void WbCamera::createWrenCamera() {
   updateCameraOrientation();
   connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbCamera::updateLensFlare);
   connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbCamera::updateCameraOrientation);
-
-  if (mSegmentationCamera) {
-    updateSegmentationCameraOrientation();
-    connect(mSegmentationCamera, &WbWrenCamera::cameraInitialized, this, &WbCamera::updateSegmentationCameraOrientation);
-  }
 }
 
 void WbCamera::createWrenOverlay() {
@@ -984,10 +968,11 @@ void WbCamera::updateTextureUpdateNotifications(bool enabled) {
 }
 
 void WbCamera::setup() {
-  WbAbstractCamera::setup();
   createSegmentationCamera();
   if (mSegmentationMemoryMappedFile || (recognition() && recognition()->segmentation()))
     initializeSegmentationMemoryMappedFile();
+
+  WbAbstractCamera::setup();
 
   if (!isPlanarProjection())
     return;
@@ -1257,4 +1242,17 @@ void WbCamera::applyFieldOfViewToWren() {
   WbAbstractCamera::applyFieldOfViewToWren();
   if (mSegmentationCamera)
     mSegmentationCamera->setFieldOfView(mFieldOfView->value());
+}
+
+void WbCamera::applyLensToWren() {
+  WbAbstractCamera::applyLensToWren();
+  if (mSegmentationCamera && hasBeenSetup()) {
+    if (lens()) {
+      mSegmentationCamera->enableLensDistortion();
+      mSegmentationCamera->setLensDistortionCenter(lens()->center());
+      mSegmentationCamera->setRadialLensDistortionCoefficients(lens()->radialCoefficients());
+      mSegmentationCamera->setTangentialLensDistortionCoefficients(lens()->tangentialCoefficients());
+    } else
+      mSegmentationCamera->disableLensDistortion();
+  }
 }

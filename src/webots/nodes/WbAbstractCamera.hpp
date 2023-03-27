@@ -183,7 +183,7 @@ protected slots:
   void updateMotionBlur();
   void updateNoise();
   void updateLens();
-  void applyLensToWren();
+  virtual void applyLensToWren();
   void removeInvisibleNodeFromList(QObject *node);
 
   virtual void updateFrustumDisplayIfNeeded(int optionalRendering) {}

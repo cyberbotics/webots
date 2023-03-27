@@ -230,7 +230,8 @@ void WbAbstractCamera::setup() {
     connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbAbstractCamera::updateFrustumDisplay);
     connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::optionalRenderingChanged, this,
             &WbAbstractCamera::updateFrustumDisplayIfNeeded);
-  }
+  } else
+    applyFrustumToWren();
 }
 
 bool WbAbstractCamera::needToRender() const {
@@ -858,7 +859,7 @@ void WbAbstractCamera::applyFrustumToWren() {
     for (int k = 0; k < 4; ++k) {
       const float helper = cosf(angleY[k]);
       // get x, y and z from the spherical coordinates
-      float y = 0.0f;
+      float y;
       if (angleY[k] > M_PI_4 || angleY[k] < -M_PI_4)
         y = f * cosf(angleY[k] + M_PI_2) * sinf(angleX[k]);
       else

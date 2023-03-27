@@ -150,6 +150,7 @@ private slots:
   void applyNearToWren() override;
   void applyFieldOfViewToWren() override;
   void applyCameraSettingsToWren() override;
+  void applyLensToWren() override;
   void updateFrustumDisplayIfNeeded(int optionalRendering) override;
   void updateOverlayMaskTexture();
 };
