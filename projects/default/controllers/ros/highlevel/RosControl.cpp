@@ -36,5 +36,7 @@ namespace highlevel {
     mLastUpdate = ros::Time::now();
   }
 
-  void RosControl::write() { mWebotsHW->write(); }
+  void RosControl::write() {
+    mWebotsHW->write();
+  }
 }  // namespace highlevel

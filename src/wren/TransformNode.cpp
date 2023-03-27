@@ -102,7 +102,8 @@ namespace wren {
     mScaleAbsolute(glm::vec3(1.0)),
     mPositionRelative(gVec3Zeros),
     mOrientationRelative(),
-    mScaleRelative(glm::vec3(1.0)) {}
+    mScaleRelative(glm::vec3(1.0)) {
+  }
 
   TransformNode::TransformNode(TransformNode *source) :
     Node(source),

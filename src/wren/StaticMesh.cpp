@@ -1694,7 +1694,9 @@ namespace wren {
     glstate::bindVertexArrayObject(mCacheData->mGlNameVertexArrayObjectShadow);
   }
 
-  void StaticMesh::releaseShadowVolume() { glstate::releaseVertexArrayObject(mCacheData->mGlNameVertexArrayObjectShadow); }
+  void StaticMesh::releaseShadowVolume() {
+    glstate::releaseVertexArrayObject(mCacheData->mGlNameVertexArrayObjectShadow);
+  }
 
   void StaticMesh::render(unsigned int drawingMode) {
     assert(mCacheData && mCacheData->mNumUsers > 0);
@@ -1706,7 +1708,9 @@ namespace wren {
       glFlush();
   }
 
-  size_t StaticMesh::sortingId() const { return static_cast<size_t>(mCacheData->id()); }
+  size_t StaticMesh::sortingId() const {
+    return static_cast<size_t>(mCacheData->id());
+  }
 
   primitive::Aabb StaticMesh::recomputeAabb(const glm::vec3 &scale) {
     assert(mCacheData);
@@ -1732,7 +1736,8 @@ namespace wren {
     mCacheData->mAabb = primitive::Aabb(coords());
   }
 
-  StaticMesh::StaticMesh() : mIsCachePersistent(false), mCacheData(NULL) {}
+  StaticMesh::StaticMesh() : mIsCachePersistent(false), mCacheData(NULL) {
+  }
 
   static void createOrCompleteEdge(size_t triangleIndex, unsigned int vertexIndex0, unsigned int vertexIndex1,
                                    std::unordered_map<std::pair<size_t, size_t>, Mesh::Edge> &edgeMap,

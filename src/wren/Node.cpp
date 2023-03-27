@@ -58,7 +58,8 @@ namespace wren {
       mParent->setBoundingVolumeDirty();
   }
 
-  Node::Node() : mIsVisible(true), mIsAabbDirty(true), mIsBoundingSphereDirty(true), mParent(NULL) {}
+  Node::Node() : mIsVisible(true), mIsAabbDirty(true), mIsBoundingSphereDirty(true), mParent(NULL) {
+  }
 
   Node::Node(Node *source) :
     mIsVisible(source->mIsVisible),
@@ -66,7 +67,8 @@ namespace wren {
     mIsBoundingSphereDirty(source->mIsBoundingSphereDirty),
     mAabb(source->mAabb),
     mBoundingSphere(source->mBoundingSphere),
-    mParent(source->mParent) {}
+    mParent(source->mParent) {
+  }
 
   void Node::recomputeAabb() const {
     mAabb = primitive::Aabb(glm::vec3(0.0f), glm::vec3(0.0f));
