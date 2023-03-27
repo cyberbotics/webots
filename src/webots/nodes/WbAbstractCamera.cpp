@@ -98,7 +98,7 @@ WbAbstractCamera::WbAbstractCamera(const QString &modelName, WbTokenizer *tokeni
   init();
 }
 
-WbAbstractCamera::WbAbstractCamera(const WbAbstractCamera &other) : WbRenderingDevice(other) {
+WbAbstractCamera::WbAbstractCamera(const WbAbstractCamera &other) : WbRenderingDevice(other), mInvisibleNodes() {
   init();
 }
 

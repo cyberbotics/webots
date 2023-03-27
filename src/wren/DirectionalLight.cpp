@@ -31,7 +31,9 @@ namespace wren {
       entry.second->notifyLightDirty(this);
   }
 
-  DirectionalLight::DirectionalLight() : mDirection(gVec3UnitZ) { Scene::instance()->addLight(this); }
+  DirectionalLight::DirectionalLight() : mDirection(gVec3UnitZ) {
+    Scene::instance()->addLight(this);
+  }
 
   DirectionalLight::~DirectionalLight() {
     Scene::instance()->removeLight(this);

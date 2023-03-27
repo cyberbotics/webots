@@ -38,11 +38,17 @@
 namespace wren {
 
 #ifndef WREN_DEBUG
-  inline void PhongMaterial::printCacheContents() {}
-  inline void PbrMaterial::printCacheContents() {}
-  inline void StaticMesh::printCacheContents() {}
-  inline void Texture2d::printCacheContents() {}
-  inline void PostProcessingEffect::printPasses() const { assert(this); }
+  inline void PhongMaterial::printCacheContents() {
+  }
+  inline void PbrMaterial::printCacheContents() {
+  }
+  inline void StaticMesh::printCacheContents() {
+  }
+  inline void Texture2d::printCacheContents() {
+  }
+  inline void PostProcessingEffect::printPasses() const {
+    assert(this);
+  }
 #else
   inline void PhongMaterial::printCacheContents() {
     std::cerr << "PhongMaterial cache, number of entries: " << PhongMaterial::cCache.size() << std::endl;
@@ -99,17 +105,28 @@ namespace wren {
 #define DEBUGONE(x) \
   do {              \
   } while (0)
-    inline void printVec2(const glm::vec2 &vec, const std::string &name) {}
-    inline void printVec3(const glm::vec3 &vec, const std::string &name) {}
-    inline void printVec4(const glm::vec4 &vec, const std::string &name) {}
-    inline void printQuat(const glm::quat &quat, const std::string &name) {}
-    inline void printMat4(const glm::mat4 &mat, const std::string &name) {}
-    inline void printSphere(const primitive::Sphere &sphere, const std::string &name) {}
-    inline void printRay(const primitive::Ray &ray, const std::string &name) {}
-    inline void printPlane(const primitive::Plane &plane, const std::string &name) {}
-    inline void printAabb(const primitive::Aabb &aabb, const std::string &name) {}
-    inline void printCacheContents() {}
-    inline void printSceneTree() {}
+    inline void printVec2(const glm::vec2 &vec, const std::string &name) {
+    }
+    inline void printVec3(const glm::vec3 &vec, const std::string &name) {
+    }
+    inline void printVec4(const glm::vec4 &vec, const std::string &name) {
+    }
+    inline void printQuat(const glm::quat &quat, const std::string &name) {
+    }
+    inline void printMat4(const glm::mat4 &mat, const std::string &name) {
+    }
+    inline void printSphere(const primitive::Sphere &sphere, const std::string &name) {
+    }
+    inline void printRay(const primitive::Ray &ray, const std::string &name) {
+    }
+    inline void printPlane(const primitive::Plane &plane, const std::string &name) {
+    }
+    inline void printAabb(const primitive::Aabb &aabb, const std::string &name) {
+    }
+    inline void printCacheContents() {
+    }
+    inline void printSceneTree() {
+    }
 #else
 #define DEBUG(x)                 \
   do {                           \

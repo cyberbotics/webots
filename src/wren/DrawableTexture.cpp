@@ -129,7 +129,9 @@ namespace wren {
     mColor = 0xFFFFFFFF;  // white
   }
 
-  DrawableTexture::~DrawableTexture() { delete[] mData; }
+  DrawableTexture::~DrawableTexture() {
+    delete[] mData;
+  }
 
   void DrawableTexture::updateDirtyRect(int x, int y) {
     if (x < mDirtyMinX)
