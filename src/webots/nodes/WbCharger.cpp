@@ -104,8 +104,10 @@ void WbCharger::updateMaterialsAndLights(double batteryRatio) {
     WbPbrAppearance *appearance = dynamic_cast<WbPbrAppearance *>(visualElement->node);
     WbLight *light = dynamic_cast<WbLight *>(visualElement->node);
     const WbRgb color(cr, cg, cb);
+#ifndef NDEBUG
     const bool clampNeeded = WbRgb(cr, cg, cb).clampValuesIfNeeded();
     assert(!clampNeeded);
+#endif
     if (material)
       material->setEmissiveColor(color);
     else if (appearance)
