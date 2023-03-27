@@ -109,6 +109,7 @@ private:
   bool refreshRecognitionSensorIfNeeded();
   void removeOccludedRecognizedObjects();
   WbVector2 projectOnImage(const WbVector3 &position);
+  WbVector2 applyCameraDistortionToImageCoordinate(const WbVector2 &uv);  // uv coordinates expected in range [0, 1]
   void computeObjects(bool finalSetup, bool needCollisionDetection);
   bool computeObject(const WbVector3 &cameraPosition, const WbMatrix3 &cameraRotation, const WbMatrix3 &cameraInverseRotation,
                      const WbAffinePlane *frustumPlanes, WbRecognizedObject *recognizedObject, bool fromRayUpdate);

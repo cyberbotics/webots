@@ -734,14 +734,24 @@ void WbCamera::computeObjects(bool finalSetup, bool needCollisionDetection) {
   delete[] frustumPlanes;
 }
 
-WbVector2 computeLensDistortion(WbLens *lens, const WbVector2 &p) {
-  const WbVector2 &rc = lens->radialCoefficients();
-  const WbVector2 &tc = lens->tangentialCoefficients();
-  const WbVector2 relativeUv = p - lens->center();
+WbVector2 WbCamera::applyCameraDistortionToImageCoordinate(const WbVector2 &uv) {
+  if (!lens())
+    return uv;
+  WbVector2 distortedUv(uv);
+  const WbVector2 &rc = lens()->radialCoefficients();
+  const WbVector2 &tc = lens()->tangentialCoefficients();
+  const bool hasRadialDistortion = rc.x() != 0 || rc.y() != 0;
+  const bool hasTangentialDistortion = tc.x() != 0 || tc.y() != 0;
+  const WbVector2 relativeUv = uv - lens()->center();
   const float r2 = relativeUv.length2();
-  const float d1 = rc.x() * r2 + rc.y() * r2 * r2;
-  return WbVector2(p.x() + d1 + tc.y() * r2 + 2 * p.x() * p.x() + 2 * tc.x() * p.x(),
-                   p.y() + d1 + tc.x() * r2 + 2 * p.y() * p.y() + 2 * tc.y() * p.x() * p.y());
+  if (hasRadialDistortion)
+    distortedUv += (rc.x() * r2 + rc.y() * r2 * r2) * relativeUv;
+  if (hasTangentialDistortion) {
+    distortedUv +=
+      WbVector2(2 * tc.x() * relativeUv.x() * relativeUv.y() + tc.y() * (r2 + 2 * relativeUv.x() * relativeUv.x()),
+                tc.x() * (r2 + 2 * relativeUv.y() * relativeUv.y() + 2 * tc.y() * relativeUv.x() * relativeUv.y()));
+  }
+  return distortedUv;
 }
 
 WbVector2 WbCamera::projectOnImage(const WbVector3 &position) {
@@ -750,50 +760,32 @@ WbVector2 WbCamera::projectOnImage(const WbVector3 &position) {
   const double fovX = fieldOfView();
   const double fovY = isPlanarProjection() ? WbWrenCamera::computeFieldOfViewY(fovX, (double)width() / (double)height()) :
                                              mWrenCamera->sphericalFieldOfViewY();
-  int u, v;
-  if (mProjection->value() == "planar") {
+  WbVector2 uv;  // uv coordinates in range [-0.5, 0.5]
+  if (mProjection->value() == "planar" || mProjection->value() == "cylindrical") {
     const double theta1 = -atan2(position.y(), fabs(position.x()));
     const double theta2 = atan2(position.z(), fabs(position.x()));
-    u = (double)w * (0.5 + 0.5 * tan(theta1) / tan(0.5 * fovX));
-    v = (double)h * (0.5 - 0.5 * tan(theta2) / tan(0.5 * fovY));
-  } else if (mProjection->value() == "spherical") {
-    WbVector3 p = position.normalized();
-    const double roll = atan(-p.z() / p.y());
-    const double b = tan(-roll);
-    v = acos(p.x()) / fovX / sqrt(1 + 1 / (b * b));
-    if (p.z() > 0.0)
-      v = -v;
-    u = w * (v / tan(-roll) + 0.5);
-    v = h * (v + 0.5);
+    if (mProjection->value() == "planar")
+      uv.setX(0.5 * tan(theta1) / tan(0.5 * fovX));
+    else
+      uv.setX(theta1 * fovX);
+    uv.setY(-0.5 * tan(theta2) / tan(0.5 * fovY));
   } else {
-    assert(mProjection->value() == "cylindrical");
-    const double theta1 = -atan2(position.y(), fabs(position.x()));
-    const double theta2 = atan2(position.z(), fabs(position.x()));
-    u = (double)w * (0.5 - theta1 * fovX);
-    v = (double)h * (0.5 - 0.5 * tan(theta2) / tan(0.5 * fovY));
+    assert(mProjection->value() == "spherical");
+    const WbVector3 p = position.normalized();
+    const double b = p.z() / p.y();
+    uv.setY(acos(p.x()) / (fovX * sqrt(1 + 1 / (b * b))));
+    if (p.z() > 0.0)
+      uv.setY(-uv.y());
+    uv.setX(uv.y() / b);
   }
 
-  u = qMax(0, qMin(u, w - 1));
-  v = qMax(0, qMin(v, h - 1));
+  // convert uv to range [0, 1]
+  uv.setX(qMax(0.0, qMin(0.5 + uv.x(), 1.0)));
+  uv.setY(qMax(0.0, qMin(0.5 + uv.y(), 1.0)));
+  uv = applyCameraDistortionToImageCoordinate(uv);
 
-  WbLens *cameraLens = lens();
-  if (cameraLens) {
-    WbVector2 uv(u,v);
-    WbVector2 finalUv = computeLensDistortion(cameraLens, uv);
-    /*if (finalUv.x() < 0)
-      uv.setX(0);
-    else if (finalUv.x() > 1)
-      uv.setX(1);
-    if(finalUv.y() < 0)
-      uv.setY(0);
-    else if (uv.y() > 1)
-      uv.setY(1);
-        qDebug() << "finalUv" << finalUv.toString();
-    if (uv.x() != u || uv.y() != v)
-      finalUv = computeLensDistortion(cameraLens, uv);*/
-    return finalUv;
-  }
-  return WbVector2(u, v);
+  // return uv coordinates in range [0, width/height]
+  return WbVector2((int)(w * uv.x()), (int)(h * uv.y()));
 }
 
 bool WbCamera::computeObject(const WbVector3 &cameraPosition, const WbMatrix3 &cameraRotation,
