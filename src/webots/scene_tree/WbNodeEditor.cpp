@@ -130,16 +130,6 @@ void WbNodeEditor::edit(bool copyOriginalValue) {
         const WbGeometry *g = dynamic_cast<const WbGeometry *>(baseNode);
         if (g)
           mShowResizeHandlesCheckBox->setChecked(g->isResizeManipulatorAttached());
-        else {
-          const WbTransform *t = dynamic_cast<const WbTransform *>(baseNode);
-          if (t)
-            mShowResizeHandlesCheckBox->setChecked(t->isScaleManipulatorAttached());
-          else {
-            const WbSkin *s = dynamic_cast<const WbSkin *>(baseNode);
-            assert(s);  // only WbSkin, WbTransform and WbGeometry instances have a resize manipulator
-            mShowResizeHandlesCheckBox->setChecked(s->isScaleManipulatorAttached());
-          }
-        }
       }
     }
   }

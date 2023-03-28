@@ -19,7 +19,6 @@
 #include "WbPose.hpp"
 
 class WbBaseNode;
-class WbScaleManipulator;
 
 class WbTransform : public WbPose {
   Q_OBJECT
@@ -29,7 +28,6 @@ public:
   explicit WbTransform(WbTokenizer *tokenizer = NULL);
   WbTransform(const WbTransform &other);
   explicit WbTransform(const WbNode &other);
-  virtual ~WbTransform();
 
   // reimplemented functions
   int nodeType() const override { return WB_NODE_TRANSFORM; }
@@ -50,47 +48,24 @@ public:
 
   // scaling
   const WbVector3 &absoluteScale() const override;
-  virtual int constraintType() const;
 
   // 3x3 absolute rotation matrix
   WbMatrix3 rotationMatrix() const override;
   const WbMatrix4 &vrmlMatrix() const override;
 
-  // resize/scale manipulator
-  WbScaleManipulator *scaleManipulator() { return mScaleManipulator; }
-  bool isScaleManipulatorAttached() const;
-  void updateResizeHandlesSize();
-  void setResizeManipulatorDimensions();
-  void setUniformConstraintForResizeHandles(bool enabled);
-  void attachResizeManipulator();
-  void detachResizeManipulator() const;
-  bool hasResizeManipulator() const;
-  void showResizeManipulator(bool enabled);
-
 protected:
-  bool checkScale(int constraintType = 0, bool warning = false);
   void applyToScale();
   void applyScaleToWren();
 
   // A specific scale check is done in the WbSolid class
   WbSFVector3 *mScale;
-  bool checkScaleZeroValues(WbVector3 &correctedScale) const;
-  bool checkScaleUniformity(WbVector3 &correctedScale, bool warning = false) const;
-  bool checkScaleUniformity(bool warning = false);
-  virtual bool checkScalingPhysicsConstraints(WbVector3 &correctedScale, int constraintType, bool warning = false) const;
   double mPreviousXscaleValue;
+  void sanitizeScale();
   mutable WbVector3 mAbsoluteScale;
 
   void setScaleNeedUpdateFlag() const;
 
-  // WREN manipulators
-  WbScaleManipulator *mScaleManipulator;
-  virtual void createScaleManipulator();
-  void createScaleManipulatorIfNeeded();
-  bool mScaleManipulatorInitialized;
-
 protected slots:
-  void updateConstrainedHandleMaterials();
   void updateScale(bool warning = false);
 
 private:

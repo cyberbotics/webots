@@ -58,10 +58,8 @@ public:
 
   void setScaleNeedUpdate();
   void setMatrixNeedUpdate() override { WbAbstractPose::setMatrixNeedUpdateFlag(); }
-  int constraintType() const;
 
   // translate-rotate manipulator
-  bool isScaleManipulatorAttached() const;
   void updateTranslateRotateHandlesSize() override { WbAbstractPose::updateTranslateRotateHandlesSize(); }
   void attachTranslateRotateManipulator() override { WbAbstractPose::attachTranslateRotateManipulator(); }
   void detachTranslateRotateManipulator() override { WbAbstractPose::detachTranslateRotateManipulator(); }
@@ -112,19 +110,10 @@ private:
   bool mBonesWarningPrinted;
 
   WbSFVector3 *mScale;
-  bool mScaleManipulatorInitialized;
   double mPreviousXscaleValue;
-  WbScaleManipulator *mScaleManipulator;
 
   // WREN manipulators
-  virtual void createScaleManipulator();
-  void createScaleManipulatorIfNeeded();
-
-  bool checkScale(int constraintType = 0, bool warning = false);
-  bool checkScaleZeroValues(WbVector3 &correctedScale) const;
-  bool checkScaleUniformity(WbVector3 &correctedScale, bool warning = false) const;
-  bool checkScaleUniformity(bool warning = false);
-  bool checkScalingPhysicsConstraints(WbVector3 &correctedScale, int constraintType, bool warning = false) const;
+  void sanitizeScale();
 
   // Ray tracing
   mutable WbBoundingSphere *mBoundingSphere;
@@ -145,15 +134,6 @@ private:
 
   void setSegmentationColor(const WbRgb &color);
 
-  // resize/scale manipulator
-  bool hasResizeManipulator() const override { return true; }
-  void attachResizeManipulator() override;
-  void detachResizeManipulator() const override;
-  void updateResizeHandlesSize();
-  void setResizeManipulatorDimensions();
-  void setUniformConstraintForResizeHandles(bool enabled) override;
-  void updateConstrainedHandleMaterials();
-
   void updateAbsoluteScale() const override;
 
 private slots:
@@ -166,7 +146,6 @@ private slots:
   void updateAppearanceName(const QString &newName, const QString &prevName);
   void updateBones();
   void updateCastShadows();
-  void showResizeManipulator(bool enabled);
   void updateOptionalRendering(int option);
   void downloadUpdate();
 };

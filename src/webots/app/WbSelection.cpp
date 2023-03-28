@@ -155,12 +155,9 @@ void WbSelection::updateHandlesScale() {
 }
 
 void WbSelection::showResizeManipulatorFromSceneTree(bool enabled) {
-  WbTransform *t = dynamic_cast<WbTransform *>(mSelectedNode);
-  if (t) {
-    t->showResizeManipulator(enabled);
-    mResizeHandlesEnabledFromSceneTree = enabled;
-    emit visibleHandlesChanged();
-  }
+  mSelectedNode->showResizeManipulator(enabled);
+  mResizeHandlesEnabledFromSceneTree = enabled;
+  emit visibleHandlesChanged();
 }
 
 void WbSelection::disableActiveManipulator() {

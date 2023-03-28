@@ -102,6 +102,7 @@ public:
   void addActionInUndoStack() override;
 };
 
+/*
 // Drag changing the scale field of a WbPose
 class WbDragScaleHandleEvent : public WbDragView3DEvent {
   Q_OBJECT;
@@ -142,5 +143,6 @@ public:
                       WbTransform *selectedTransform);
   void apply(const QPoint &currentMousePosition) override;
 };
+*/
 
 #endif

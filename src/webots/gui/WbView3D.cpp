@@ -112,7 +112,6 @@ WbView3D::WbView3D() :
   mDragKinematics(NULL),
   mDragOverlay(NULL),
   mDragResize(NULL),
-  mDragScale(NULL),
   mDragTranslate(NULL),
   mDragVerticalAxisRotate(NULL),
   mDragRotate(NULL),
@@ -1770,12 +1769,6 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     return;
   }
 
-  if (mDragScale) {
-    mDragScale->apply(position);
-    renderLater();
-    return;
-  }
-
   if (mDragTranslate) {
     mDragTranslate->apply(position);
     renderLater();
@@ -1830,7 +1823,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
 
   // Translate, rotate, resize events come right after overlays
   const int translateHandle = mPicker->pickedTranslateHandle(), rotateHandle = mPicker->pickedRotateHandle(),
-            resizeHandle = mPicker->pickedResizeHandle(), scaleHandle = mPicker->pickedScaleHandle();
+            resizeHandle = mPicker->pickedResizeHandle();
 
   // Creates a new drag event according to keys (SHIFT, ALT) and buttons (LEFT, MIDDLE, RIGHT)
   const int shift = event->modifiers() & Qt::ShiftModifier;
@@ -1899,22 +1892,6 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
         break;
     }
     connect(mDragResize, &WbDragResizeHandleEvent::aborted, this, &WbView3D::abortResizeDrag);
-    return;
-  } else if (scaleHandle && resizeActive) {
-    cleanupPhysicsDrags();
-    WbBaseNode *pickedNode = WbSelection::instance()->selectedNode();
-    WbTransform *pickedTransform = dynamic_cast<WbTransform *>(pickedNode);
-    assert(pickedTransform);
-    if (dynamic_cast<WbSolid *>(pickedNode))
-      selective = 0;
-    const int handleNumber = scaleHandle - 1;
-
-    if (selective)
-      mDragScale = new WbDragScaleHandleEvent(position, viewpoint, handleNumber, pickedTransform);
-    else
-      mDragScale = new WbUniformScaleEvent(position, viewpoint, handleNumber, pickedTransform);
-
-    connect(mDragScale, &WbDragScaleHandleEvent::aborted, this, &WbView3D::abortScaleDrag);
     return;
   }
 
@@ -2124,7 +2101,7 @@ void WbView3D::mouseReleaseEvent(QMouseEvent *event) {
 
   setCursor(mLastMouseCursor);
 
-  const bool wasNotInAnEvent = !mDragOverlay && !mDragKinematics && !mDragResize && !mDragScale && !mDragTranslate &&
+  const bool wasNotInAnEvent = !mDragOverlay && !mDragKinematics && !mDragResize && !mDragTranslate &&
                                !mDragVerticalAxisRotate && !mDragRotate && !mDragForce && !mDragTorque && !mTouchSensor;
 
   delete mDragOverlay;
@@ -2137,14 +2114,6 @@ void WbView3D::mouseReleaseEvent(QMouseEvent *event) {
     mDragResize->addActionInUndoStack();
     delete mDragResize;
     mDragResize = NULL;
-    if (mResizeHandlesDisabled)
-      WbSelection::instance()->showResizeManipulatorFromView3D(false);
-  }
-
-  if (mDragScale) {
-    mDragScale->addActionInUndoStack();
-    delete mDragScale;
-    mDragScale = NULL;
     if (mResizeHandlesDisabled)
       WbSelection::instance()->showResizeManipulatorFromView3D(false);
   }
@@ -2265,7 +2234,7 @@ void WbView3D::enableResizeManipulator(bool enabled) {
   if (enabled && WbSelection::instance()->showResizeManipulatorFromView3D(true))
     mResizeHandlesDisabled = false;
   else {
-    if (mDragResize || mDragScale)
+    if (mDragResize)
       mResizeHandlesDisabled = true;
     else
       WbSelection::instance()->showResizeManipulatorFromView3D(false);
@@ -2381,9 +2350,6 @@ void WbView3D::cleanupDrags() {
   delete mDragResize;
   mDragResize = NULL;
 
-  delete mDragScale;
-  mDragScale = NULL;
-
   delete mDragTranslate;
   mDragTranslate = NULL;
 
@@ -2407,15 +2373,6 @@ void WbView3D::abortResizeDrag() {
   mDragResize = NULL;
   WbSelection::instance()->selectPoseFromView3D(NULL);
   WbLog::warning(tr("The dimensions of the resized object exceeds world numeric bounds, mouse drag aborted"));
-  if (mResizeHandlesDisabled)
-    WbSelection::instance()->showResizeManipulatorFromView3D(false);
-}
-
-void WbView3D::abortScaleDrag() {
-  delete mDragScale;
-  mDragScale = NULL;
-  WbSelection::instance()->selectPoseFromView3D(NULL);
-  WbLog::warning(tr("The dimensions of the rescaled object exceeds world numeric bounds, mouse drag aborted"));
   if (mResizeHandlesDisabled)
     WbSelection::instance()->showResizeManipulatorFromView3D(false);
 }

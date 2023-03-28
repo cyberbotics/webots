@@ -16,7 +16,6 @@
 
 #include "WbBoundingSphere.hpp"
 #include "WbNodeUtilities.hpp"
-#include "WbResizeManipulator.hpp"
 #include "WbSimulationState.hpp"
 #include "WbTranslateRotateManipulator.hpp"
 #include "WbVrmlNodeUtilities.hpp"
@@ -27,9 +26,6 @@ void WbTransform::init() {
   mScale = findSFVector3("scale");
 
   mPreviousXscaleValue = 1.0;
-
-  mScaleManipulator = NULL;
-  mScaleManipulatorInitialized = false;
 }
 
 WbTransform::WbTransform(WbTokenizer *tokenizer) : WbPose("Transform", tokenizer) {
@@ -44,14 +40,10 @@ WbTransform::WbTransform(const WbNode &other) : WbPose(other) {
   init();
 }
 
-WbTransform::~WbTransform() {
-  disconnect(childrenField(), &WbMFNode::changed, this, &WbTransform::updateConstrainedHandleMaterials);
-}
-
 void WbTransform::preFinalize() {
   WbPose::preFinalize();
 
-  checkScale(0, true);
+  sanitizeScale();
 }
 
 void WbTransform::postFinalize() {
@@ -62,9 +54,6 @@ void WbTransform::postFinalize() {
 
 void WbTransform::deleteWrenObjects() {
   WbPose::deleteWrenObjects();
-
-  delete mScaleManipulator;
-  mScaleManipulator = NULL;
 }
 
 void WbTransform::applyToScale() {
@@ -77,9 +66,6 @@ void WbTransform::applyToScale() {
   if (mBaseNode->boundingSphere() && !mBaseNode->isInBoundingObject() && WbSimulationState::instance()->isRayTracingEnabled())
     mBaseNode->boundingSphere()->setOwnerSizeChanged();
 
-  if (mScaleManipulator && mScaleManipulator->isAttached())
-    setResizeManipulatorDimensions();
-
   if (mTranslateRotateManipulator && mTranslateRotateManipulator->isAttached())
     updateTranslateRotateHandlesSize();
 
@@ -89,9 +75,7 @@ void WbTransform::applyToScale() {
 }
 
 void WbTransform::updateScale(bool warning) {
-  const int constraint = constraintType();
-  if (checkScale(constraint, warning))
-    return;
+  sanitizeScale();
 
   applyToScale();
 
@@ -102,39 +86,30 @@ void WbTransform::updateScale(bool warning) {
     forwardJerk();
 }
 
-bool WbTransform::checkScale(int constraintType, bool warning) {
-  WbVector3 correctedScale;
-  bool b = false;
+void WbTransform::sanitizeScale() {
+  WbVector3 scale = mScale->value();
+  bool invalid = false;
 
-  if (checkScaleZeroValues(correctedScale))
-    b = true;
-
-  if (constraintType > 0 && checkScalingPhysicsConstraints(correctedScale, constraintType, warning))
-    b = true;
-
-  if (!mScale->value().almostEquals(WbVector3(1, 1, 1)) &&
-      WbNodeUtilities::hasARobotDescendant(dynamic_cast<const WbNode *>(this))) {
-    correctedScale.setXyz(1, 1, 1);
-    b = true;
-    if (warning)
-      mBaseNode->parsingWarn(QObject::tr("'scale' cannot be changed if a descendant Robot node is present."));
+  if (scale.x() == 0.0) {
+    scale.setX(1.0);
+    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: x is set to 1.0."));
+    invalid = true;
   }
 
-  if (b)
-    mScale->setValue(correctedScale);
+  if (scale.y() == 0.0) {
+    scale.setY(1.0);
+    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: y is set to 1.0."));
+    invalid = true;
+  }
 
-  mPreviousXscaleValue = mScale->x();
+  if (scale.z() == 0.0) {
+    scale.setZ(1.0);
+    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: z is set to 1.0."));
+    invalid = true;
+  }
 
-  return b;
-}
-
-int WbTransform::constraintType() const {
-  static const int CONSTRAINT = WbWrenAbstractResizeManipulator::NO_CONSTRAINT;
-  const WbGeometry *const g = geometry();
-
-  if (g && (nodeUse() & WbNode::BOUNDING_OBJECT_USE))
-    return g->constraintType();
-  return CONSTRAINT;
+  if (invalid)
+    mScale->setValue(scale);
 }
 
 void WbTransform::applyToOdeScale() {
@@ -155,87 +130,6 @@ void WbTransform::updateAbsoluteScale() const {
     mAbsoluteScale *= up->absoluteScale();
 
   mAbsoluteScaleNeedUpdate = false;
-}
-
-bool WbTransform::checkScaleZeroValues(WbVector3 &correctedScale) const {
-  const WbVector3 &s = mScale->value();
-  const double x = s.x();
-  const double y = s.y();
-  const double z = s.z();
-  correctedScale.setXyz(x, y, z);
-  bool b = false;
-
-  if (x == 0.0) {
-    correctedScale.setX(1.0);
-    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: x is set to 1.0."));
-    b = true;
-  }
-
-  if (y == 0.0) {
-    correctedScale.setY(1.0);
-    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: y is set to 1.0."));
-    b = true;
-  }
-
-  if (z == 0.0) {
-    correctedScale.setZ(1.0);
-    mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: z is set to 1.0."));
-    b = true;
-  }
-
-  return b;
-}
-
-bool WbTransform::checkScalingPhysicsConstraints(WbVector3 &correctedScale, int constraintType, bool warning) const {
-  bool b = false;
-  if (constraintType == WbWrenAbstractResizeManipulator::UNIFORM)
-    b = checkScaleUniformity(correctedScale);
-  else if (constraintType == WbWrenAbstractResizeManipulator::X_EQUAL_Y && mScale->x() != mScale->y()) {
-    if (mPreviousXscaleValue == mScale->x())
-      correctedScale.setX(mScale->y());
-    else
-      correctedScale.setY(mScale->x());
-    b = true;
-    if (warning)
-      mBaseNode->parsingWarn(
-        QObject::tr("'scale' were changed so that x = y because of physics constraints inside a 'boundingObject'."));
-  }
-
-  return b;
-}
-
-bool WbTransform::checkScaleUniformity(WbVector3 &correctedScale, bool warning) const {
-  const double x = correctedScale.x();
-  const double y = correctedScale.y();
-  const double z = correctedScale.z();
-  bool b = false;
-
-  if (x != y) {
-    if (x == z)
-      correctedScale.setXyz(y, y, y);
-    else
-      correctedScale.setXyz(x, x, x);
-    b = true;
-  } else if (y != z) {
-    correctedScale.setXyz(z, z, z);
-    b = true;
-  }
-
-  if (b && warning)
-    mBaseNode->parsingWarn(QObject::tr("'scale' was made uniform because of physics constraints inside a 'boundingObject'."));
-
-  return b;
-}
-
-bool WbTransform::checkScaleUniformity(bool warning) {
-  WbVector3 correctedScale;
-
-  if (checkScaleUniformity(correctedScale, warning)) {
-    mScale->setValue(correctedScale);
-    return true;
-  }
-
-  return false;
 }
 
 // Absolute scale 3D-vector
@@ -274,32 +168,9 @@ void WbTransform::createWrenObjects() {
   applyScaleToWren();
 }
 
-void WbTransform::createScaleManipulator() {
-  const int constraint = constraintType();
-  mScaleManipulator = new WbScaleManipulator(uniqueId(), (WbScaleManipulator::ResizeConstraint)constraint);
-  if (constraint) {
-    connect(childrenField(), &WbMFNode::destroyed, mScaleManipulator, &WbScaleManipulator::hide);
-    connect(childrenField(), &WbMFNode::changed, this, &WbTransform::updateConstrainedHandleMaterials);
-  }
-}
-
-void WbTransform::createScaleManipulatorIfNeeded() {
-  if (!mScaleManipulatorInitialized) {
-    assert(hasResizeManipulator());  // otherwise the show resize manipulator option should be disabled
-    mScaleManipulatorInitialized = true;
-    createScaleManipulator();
-    if (mScaleManipulator)
-      mScaleManipulator->attachTo(baseNode()->wrenNode());
-  }
-}
-
 void WbTransform::setScaleNeedUpdate() {
   setScaleNeedUpdateFlag();
   WbGroup::setScaleNeedUpdate();
-}
-
-void WbTransform::updateConstrainedHandleMaterials() {
-  mScaleManipulator->setResizeConstraint((WbScaleManipulator::ResizeConstraint)constraintType());
 }
 
 void WbTransform::applyScaleToWren() {
@@ -321,51 +192,6 @@ void WbTransform::setScaleNeedUpdateFlag() const {
   mAbsoluteScaleNeedUpdate = true;
 }
 
-void WbTransform::showResizeManipulator(bool enabled) {
-  if (enabled) {
-    detachTranslateRotateManipulator();
-    attachResizeManipulator();
-    setUniformConstraintForResizeHandles(false);
-  } else {
-    detachResizeManipulator();
-    attachTranslateRotateManipulator();
-  }
-}
-
-void WbTransform::updateResizeHandlesSize() {
-  if (mScaleManipulator) {
-    mScaleManipulator->updateHandleScale(absoluteScale().ptr());
-    mScaleManipulator->computeHandleScaleFromViewportSize();
-  }
-}
-
-void WbTransform::setResizeManipulatorDimensions() {
-  updateResizeHandlesSize();
-}
-
-bool WbTransform::isScaleManipulatorAttached() const {
-  return mScaleManipulator ? mScaleManipulator->isAttached() : false;
-}
-
-void WbTransform::attachResizeManipulator() {
-  createScaleManipulatorIfNeeded();
-
-  if (mScaleManipulator && !mScaleManipulator->isAttached()) {
-    setResizeManipulatorDimensions();
-    mScaleManipulator->show();
-  }
-}
-
-void WbTransform::detachResizeManipulator() const {
-  if (mScaleManipulator && mScaleManipulator->isAttached())
-    mScaleManipulator->hide();
-}
-
-bool WbTransform::hasResizeManipulator() const {
-  const WbField *const sf = mBaseNode->findField("scale", true);
-  return WbVrmlNodeUtilities::isVisible(sf) && !WbNodeUtilities::isTemplateRegeneratorField(sf);
-}
-
 void WbTransform::updateMatrix() const {
   assert(mMatrix);
 
@@ -379,16 +205,4 @@ void WbTransform::updateMatrix() const {
     *mMatrix = transform ? transform->matrix() * *mMatrix : pose->matrix() * *mMatrix;
   }
   mMatrixNeedUpdate = false;
-}
-
-void WbTransform::setUniformConstraintForResizeHandles(bool enabled) {
-  createScaleManipulatorIfNeeded();
-
-  if (!mScaleManipulator || !mScaleManipulator->isAttached())
-    return;
-
-  if (enabled)
-    mScaleManipulator->setResizeConstraint(WbScaleManipulator::UNIFORM);
-  else
-    updateConstrainedHandleMaterials();
 }

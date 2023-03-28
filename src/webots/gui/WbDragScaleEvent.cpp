@@ -250,6 +250,9 @@ void WbRescaleIndexedFaceSetEvent::apply(const QPoint &currentMousePosition) {
 // Moves a scale handle by dragging the mouse and changes the scale field accordingly //
 ////////////////////////////////////////////////////////////////////////////////////////
 
+// TODO: the remaining methods should be moved elsewhere?
+
+/*
 WbDragScaleHandleEvent::WbDragScaleHandleEvent(const QPoint &initialMousePosition, WbViewpoint *viewpoint, int handleNumber,
                                                WbTransform *selectedTransform) :
   WbDragView3DEvent(viewpoint),
@@ -350,3 +353,4 @@ void WbUniformScaleEvent::apply(const QPoint &currentMousePosition) {
   mTransform->setScale(s.rounded(WbPrecision::GUI_MEDIUM));
   mManipulator->updateHandleDimensions(mTotalScale, mViewDistanceUnscaling);
 }
+*/

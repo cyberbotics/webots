@@ -276,7 +276,6 @@ QT_SOURCES = WbAboutBox.cpp \
   WbDownloadManager.cpp \
   WbDownloader.cpp \
   WbDragResizeEvent.cpp \
-  WbDragScaleEvent.cpp \
   WbDragSolidEvent.cpp \
   WbDragTransformEvent.cpp \
   WbElevationGrid.cpp \
@@ -503,6 +502,7 @@ OTHER_SOURCES = \
   WbDisplayFont.cpp \
   WbDragOverlayEvent.cpp \
   WbDragViewpointEvent.cpp \
+  WbDragScaleEvent.cpp \
   WbEditCommand.cpp \
   WbFieldModel.cpp \
   WbFileUtil.cpp \

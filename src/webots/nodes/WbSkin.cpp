@@ -26,7 +26,6 @@
 #include "WbNodeUtilities.hpp"
 #include "WbProject.hpp"
 #include "WbProtoModel.hpp"
-#include "WbResizeManipulator.hpp"
 #include "WbSFRotation.hpp"
 #include "WbSFVector3.hpp"
 #include "WbSimulationState.hpp"
@@ -71,8 +70,6 @@ void WbSkin::init() {
 
   mBoundingSphere = NULL;
 
-  mScaleManipulator = NULL;
-  mScaleManipulatorInitialized = false;
   mPreviousXscaleValue = 1.0;
 
   mName = findSFString("name");
@@ -147,114 +144,33 @@ void WbSkin::preFinalize() {
     appearance->preFinalize();
   }
 
-  WbSkin::checkScale();
+  WbSkin::sanitizeScale();
 }
 
-bool WbSkin::checkScale(int constraintType, bool warning) {
-  WbVector3 correctedScale;
-  bool b = false;
+void WbSkin::sanitizeScale() {
+  WbVector3 scale = mScale->value();
+  bool invalid = false;
 
-  if (checkScaleZeroValues(correctedScale))
-    b = true;
-
-  if (constraintType > 0 && checkScalingPhysicsConstraints(correctedScale, constraintType, warning))
-    b = true;
-
-  if (!mScale->value().almostEquals(WbVector3(1, 1, 1)) &&
-      WbNodeUtilities::hasARobotDescendant(dynamic_cast<const WbNode *>(this))) {
-    correctedScale.setXyz(1, 1, 1);
-    b = true;
-    if (warning)
-      mBaseNode->parsingWarn(QObject::tr("'scale' cannot be changed if a descendant Robot node is present."));
-  }
-
-  if (b)
-    mScale->setValue(correctedScale);
-
-  mPreviousXscaleValue = mScale->x();
-
-  return b;
-}
-
-bool WbSkin::checkScaleZeroValues(WbVector3 &correctedScale) const {
-  const WbVector3 &s = mScale->value();
-  const double x = s.x();
-  const double y = s.y();
-  const double z = s.z();
-  correctedScale.setXyz(x, y, z);
-  bool b = false;
-
-  if (x == 0.0) {
-    correctedScale.setX(1.0);
+  if (scale.x() == 0.0) {
+    scale.setX(1.0);
     mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: x is set to 1.0."));
-    b = true;
+    invalid = true;
   }
 
-  if (y == 0.0) {
-    correctedScale.setY(1.0);
+  if (scale.y() == 0.0) {
+    scale.setY(1.0);
     mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: y is set to 1.0."));
-    b = true;
+    invalid = true;
   }
 
-  if (z == 0.0) {
-    correctedScale.setZ(1.0);
+  if (scale.z() == 0.0) {
+    scale.setZ(1.0);
     mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: z is set to 1.0."));
-    b = true;
+    invalid = true;
   }
 
-  return b;
-}
-
-bool WbSkin::checkScalingPhysicsConstraints(WbVector3 &correctedScale, int constraintType, bool warning) const {
-  bool b = false;
-  if (constraintType == WbWrenAbstractResizeManipulator::UNIFORM)
-    b = checkScaleUniformity(correctedScale);
-  else if (constraintType == WbWrenAbstractResizeManipulator::X_EQUAL_Y && mScale->x() != mScale->y()) {
-    if (mPreviousXscaleValue == mScale->x())
-      correctedScale.setX(mScale->y());
-    else
-      correctedScale.setY(mScale->x());
-    b = true;
-    if (warning)
-      mBaseNode->parsingWarn(
-        QObject::tr("'scale' were changed so that x = y because of physics constraints inside a 'boundingObject'."));
-  }
-
-  return b;
-}
-
-bool WbSkin::checkScaleUniformity(WbVector3 &correctedScale, bool warning) const {
-  const double x = correctedScale.x();
-  const double y = correctedScale.y();
-  const double z = correctedScale.z();
-  bool b = false;
-
-  if (x != y) {
-    if (x == z)
-      correctedScale.setXyz(y, y, y);
-    else
-      correctedScale.setXyz(x, x, x);
-    b = true;
-  } else if (y != z) {
-    correctedScale.setXyz(z, z, z);
-    b = true;
-  }
-
-  if (b && warning)
-    mBaseNode->parsingWarn(QObject::tr("'scale' was made uniform because of physics constraints inside a 'boundingObject'."));
-
-  return b;
-}
-
-bool WbSkin::checkScaleUniformity(bool warning) {
-  WbVector3 correctedScale;
-
-  if (checkScaleUniformity(correctedScale, warning)) {
-    mScale->setValue(correctedScale);
-    return true;
-  }
-
-  return false;
+  if (invalid)
+    mScale->setValue(scale);
 }
 
 void WbSkin::postFinalize() {
@@ -307,9 +223,7 @@ void WbSkin::updateRotation() {
 }
 
 void WbSkin::updateScale(bool warning) {
-  const int constraint = constraintType();
-  if (checkScale(constraint, warning))
-    return;
+  sanitizeScale();
 
   applyToScale();
 
@@ -327,9 +241,6 @@ void WbSkin::applyToScale() {
   if (mBaseNode->boundingSphere() && !mBaseNode->isInBoundingObject() && WbSimulationState::instance()->isRayTracingEnabled())
     mBaseNode->boundingSphere()->setOwnerSizeChanged();
 
-  if (mScaleManipulator && mScaleManipulator->isAttached())
-    setResizeManipulatorDimensions();
-
   if (mTranslateRotateManipulator && mTranslateRotateManipulator->isAttached())
     updateTranslateRotateHandlesSize();
 }
@@ -338,11 +249,6 @@ void WbSkin::applyScaleToWren() {
   float newScale[3];
   mScale->value().toFloatArray(newScale);
   wr_transform_set_scale(mBaseNode->wrenNode(), newScale);
-}
-
-int WbSkin::constraintType() const {
-  static const int CONSTRAINT = WbWrenAbstractResizeManipulator::NO_CONSTRAINT;
-  return CONSTRAINT;
 }
 
 void WbSkin::setScaleNeedUpdate() {
@@ -360,75 +266,6 @@ void WbSkin::updateAbsoluteScale() const {
     mAbsoluteScale *= up->absoluteScale();
 
   mAbsoluteScaleNeedUpdate = false;
-}
-
-void WbSkin::setResizeManipulatorDimensions() {
-  updateResizeHandlesSize();
-}
-
-void WbSkin::updateResizeHandlesSize() {
-  if (mScaleManipulator) {
-    mScaleManipulator->updateHandleScale(absoluteScale().ptr());
-    mScaleManipulator->computeHandleScaleFromViewportSize();
-  }
-}
-
-void WbSkin::createScaleManipulator() {
-  const int constraint = constraintType();
-  mScaleManipulator = new WbScaleManipulator(mBaseNode->uniqueId(), (WbScaleManipulator::ResizeConstraint)constraint);
-}
-
-void WbSkin::showResizeManipulator(bool enabled) {
-  if (isProtoInstance()) {
-    WbBaseNode::showResizeManipulator(enabled);
-    return;
-  }
-
-  emit visibleHandlesChanged(enabled);
-}
-
-void WbSkin::attachResizeManipulator() {
-  createScaleManipulatorIfNeeded();
-
-  if (mScaleManipulator && !mScaleManipulator->isAttached()) {
-    setResizeManipulatorDimensions();
-    mScaleManipulator->show();
-  }
-}
-
-void WbSkin::detachResizeManipulator() const {
-  if (mScaleManipulator && mScaleManipulator->isAttached())
-    mScaleManipulator->hide();
-}
-
-void WbSkin::setUniformConstraintForResizeHandles(bool enabled) {
-  createScaleManipulatorIfNeeded();
-
-  if (!mScaleManipulator || !mScaleManipulator->isAttached())
-    return;
-
-  if (enabled)
-    mScaleManipulator->setResizeConstraint(WbScaleManipulator::UNIFORM);
-  else
-    updateConstrainedHandleMaterials();
-}
-
-void WbSkin::updateConstrainedHandleMaterials() {
-  mScaleManipulator->setResizeConstraint((WbScaleManipulator::ResizeConstraint)constraintType());
-}
-
-void WbSkin::createScaleManipulatorIfNeeded() {
-  if (!mScaleManipulatorInitialized) {
-    assert(hasResizeManipulator());  // otherwise the show resize manipulator option should be disabled
-    mScaleManipulatorInitialized = true;
-    createScaleManipulator();
-    if (mScaleManipulator)
-      mScaleManipulator->attachTo(baseNode()->wrenNode());
-  }
-}
-
-bool WbSkin::isScaleManipulatorAttached() const {
-  return mScaleManipulator ? mScaleManipulator->isAttached() : false;
 }
 
 QString WbSkin::modelPath() const {

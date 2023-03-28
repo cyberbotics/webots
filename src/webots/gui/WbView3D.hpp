@@ -177,7 +177,6 @@ private:
   WbDragKinematicsEvent *mDragKinematics;
   WbDragOverlayEvent *mDragOverlay;
   WbDragResizeHandleEvent *mDragResize;
-  WbDragScaleHandleEvent *mDragScale;
   WbDragTranslateAlongAxisEvent *mDragTranslate;
   WbDragRotateAroundWorldVerticalAxisEvent *mDragVerticalAxisRotate;
   WbDragRotateAroundAxisEvent *mDragRotate;
@@ -204,7 +203,6 @@ private:
 private slots:
   void abortPhysicsDrag();
   void abortResizeDrag();
-  void abortScaleDrag();
   void abortOverlayDrag();
   void followNone(bool checked);
   void followTracking(bool checked);
