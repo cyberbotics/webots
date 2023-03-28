@@ -86,7 +86,7 @@ public slots:
   virtual void updateTranslationAndRotation();
 
 signals:
-  void geometryInTransformInserted();
+  void geometryInPoseInserted();
   void poseChanged();
   void translationOrRotationChangedByUser();
 

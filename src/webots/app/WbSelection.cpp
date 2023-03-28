@@ -46,8 +46,8 @@ void WbSelection::selectNodeFromSceneTree(WbBaseNode *node) {
   emit selectionChangedFromSceneTree(mSelectedAbstractPose);
 }
 
-void WbSelection::selectTransformFromView3D(WbAbstractPose *t, bool handlesDisabled) {
-  WbBaseNode *node = t == NULL ? NULL : t->baseNode();
+void WbSelection::selectPoseFromView3D(WbAbstractPose *p, bool handlesDisabled) {
+  WbBaseNode *node = p == NULL ? NULL : p->baseNode();
   if (mSelectedNode == node)
     return;
   selectNode(node, handlesDisabled);
@@ -147,7 +147,8 @@ void WbSelection::clear() {
 }
 
 void WbSelection::updateHandlesScale() {
-  if (mResizeHandlesEnabledFromSceneTree && mSelectedNode)
+  const WbTransform *t = dynamic_cast<const WbTransform *>(mSelectedNode);
+  if (t && mResizeHandlesEnabledFromSceneTree && mSelectedNode)
     mSelectedNode->updateResizeHandlesSize();
   if (mSelectedAbstractPose)
     mSelectedAbstractPose->updateTranslateRotateHandlesSize();

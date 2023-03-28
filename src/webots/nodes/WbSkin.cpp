@@ -378,19 +378,58 @@ void WbSkin::createScaleManipulator() {
   mScaleManipulator = new WbScaleManipulator(mBaseNode->uniqueId(), (WbScaleManipulator::ResizeConstraint)constraint);
 }
 
-// TODO: restore this
-/*
 void WbSkin::showResizeManipulator(bool enabled) {
   if (isProtoInstance()) {
     WbBaseNode::showResizeManipulator(enabled);
     return;
   }
 
-  WbAbstractPose::showResizeManipulator(enabled);
-
   emit visibleHandlesChanged(enabled);
 }
-*/
+
+void WbSkin::attachResizeManipulator() {
+  createScaleManipulatorIfNeeded();
+
+  if (mScaleManipulator && !mScaleManipulator->isAttached()) {
+    setResizeManipulatorDimensions();
+    mScaleManipulator->show();
+  }
+}
+
+void WbSkin::detachResizeManipulator() const {
+  if (mScaleManipulator && mScaleManipulator->isAttached())
+    mScaleManipulator->hide();
+}
+
+void WbSkin::setUniformConstraintForResizeHandles(bool enabled) {
+  createScaleManipulatorIfNeeded();
+
+  if (!mScaleManipulator || !mScaleManipulator->isAttached())
+    return;
+
+  if (enabled)
+    mScaleManipulator->setResizeConstraint(WbScaleManipulator::UNIFORM);
+  else
+    updateConstrainedHandleMaterials();
+}
+
+void WbSkin::updateConstrainedHandleMaterials() {
+  mScaleManipulator->setResizeConstraint((WbScaleManipulator::ResizeConstraint)constraintType());
+}
+
+void WbSkin::createScaleManipulatorIfNeeded() {
+  if (!mScaleManipulatorInitialized) {
+    assert(hasResizeManipulator());  // otherwise the show resize manipulator option should be disabled
+    mScaleManipulatorInitialized = true;
+    createScaleManipulator();
+    if (mScaleManipulator)
+      mScaleManipulator->attachTo(baseNode()->wrenNode());
+  }
+}
+
+bool WbSkin::isScaleManipulatorAttached() const {
+  return mScaleManipulator ? mScaleManipulator->isAttached() : false;
+}
 
 QString WbSkin::modelPath() const {
   if (mModelUrl->value().isEmpty())
@@ -1146,7 +1185,7 @@ void WbSkin::recomputeBoundingSphere() const {
     WbVector3 center(meshBoundingSphereList[index], meshBoundingSphereList[index + 1], meshBoundingSphereList[index + 2]);
     double radius = meshBoundingSphereList[index + 3];
     if (convertToLocal) {
-      const WbVector3 &scale = WbVector3(1.0, 1.0, 1.0);  // TODO:restore this // absoluteScale();
+      const WbVector3 &scale = absoluteScale();
       radius = radius / std::max(std::max(scale.x(), scale.y()), scale.z());
       center = m * center;
     }

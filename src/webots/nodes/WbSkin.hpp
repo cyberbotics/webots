@@ -61,6 +61,7 @@ public:
   int constraintType() const;
 
   // translate-rotate manipulator
+  bool isScaleManipulatorAttached() const;
   void updateTranslateRotateHandlesSize() override { WbAbstractPose::updateTranslateRotateHandlesSize(); }
   void attachTranslateRotateManipulator() override { WbAbstractPose::attachTranslateRotateManipulator(); }
   void detachTranslateRotateManipulator() override { WbAbstractPose::detachTranslateRotateManipulator(); }
@@ -145,14 +146,13 @@ private:
   void setSegmentationColor(const WbRgb &color);
 
   // resize/scale manipulator
-  // bool hasResizeManipulator() const override { return true; }
-  // void attachResizeManipulator() override { WbAbstractPose::attachResizeManipulator(); }
-  // void detachResizeManipulator() const override { WbAbstractPose::detachResizeManipulator(); }
+  bool hasResizeManipulator() const override { return true; }
+  void attachResizeManipulator() override;
+  void detachResizeManipulator() const override;
   void updateResizeHandlesSize();
   void setResizeManipulatorDimensions();
-  // void setUniformConstraintForResizeHandles(bool enabled) override {
-  //  WbAbstractPose::setUniformConstraintForResizeHandles(enabled);
-  //}
+  void setUniformConstraintForResizeHandles(bool enabled) override;
+  void updateConstrainedHandleMaterials();
 
   void updateAbsoluteScale() const override;
 
@@ -166,7 +166,7 @@ private slots:
   void updateAppearanceName(const QString &newName, const QString &prevName);
   void updateBones();
   void updateCastShadows();
-  // void showResizeManipulator(bool enabled);
+  void showResizeManipulator(bool enabled);
   void updateOptionalRendering(int option);
   void downloadUpdate();
 };

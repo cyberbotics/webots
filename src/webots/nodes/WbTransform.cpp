@@ -84,8 +84,8 @@ void WbTransform::applyToScale() {
     updateTranslateRotateHandlesSize();
 
   // TODO: needed? transform can't be in BO -> cleanup
-  if (isInBoundingObject() && isAValidBoundingObject())
-    applyToOdeScale();
+  // if (isInBoundingObject() && isAValidBoundingObject())
+  //  applyToOdeScale();
 }
 
 void WbTransform::updateScale(bool warning) {

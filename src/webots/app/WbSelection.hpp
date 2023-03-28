@@ -68,7 +68,7 @@ public slots:
   void selectNodeFromSceneTree(WbBaseNode *node);
 
   // select another matter from the 3D view
-  void selectTransformFromView3D(WbAbstractPose *t, bool handlesDisabled = false);
+  void selectPoseFromView3D(WbAbstractPose *p, bool handlesDisabled = false);
 
   // update handle size based on viewpoint camera distance
   void updateHandlesScale();

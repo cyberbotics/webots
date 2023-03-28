@@ -1509,7 +1509,7 @@ void WbView3D::selectNode(const QMouseEvent *event) {
   // exception in case of context menu shortcut where the selected Matter node is always used
   WbSelection *const selection = WbSelection::instance();
   if (!mPickedMatter) {
-    selection->selectTransformFromView3D(
+    selection->selectPoseFromView3D(
       NULL, mDisabledUserInteractionsMap.value(WbAction::DISABLE_OBJECT_MOVE, false));  // sending NULL allows to unselect
     if (isContextMenuShortcut(event) && event->type() == QEvent::MouseButtonRelease) {
       if (mIsRemoteMouseEvent || mDisabledUserInteractionsMap.value(WbAction::DISABLE_3D_VIEW_CONTEXT_MENU, false))
@@ -1548,8 +1548,7 @@ void WbView3D::selectNode(const QMouseEvent *event) {
       selectedMatter = topMatter;
   }
 
-  selection->selectTransformFromView3D(selectedMatter,
-                                       mDisabledUserInteractionsMap.value(WbAction::DISABLE_OBJECT_MOVE, false));
+  selection->selectPoseFromView3D(selectedMatter, mDisabledUserInteractionsMap.value(WbAction::DISABLE_OBJECT_MOVE, false));
 
   if (WbSysInfo::environmentVariable("WEBOTS_DEBUG").isEmpty())
     WbVisualBoundingSphere::instance()->show(selectedMatter);
@@ -1927,7 +1926,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     if (pickedSolid)
       mDragTranslate = new WbDragTranslateAlongAxisSolidEvent(position, size(), viewpoint, handleNumber, pickedSolid);
     else {
-      WbPose *pickedPose = dynamic_cast<WbPose *>(pickedNode);
+      WbAbstractPose *pickedPose = dynamic_cast<WbAbstractPose *>(pickedNode);
       assert(pickedPose);
       mDragTranslate = new WbDragTranslateAlongAxisEvent(position, size(), viewpoint, handleNumber, pickedPose);
     }
@@ -1940,7 +1939,7 @@ void WbView3D::mouseMoveEvent(QMouseEvent *event) {
     if (pickedSolid)
       mDragRotate = new WbDragRotateAroundAxisSolidEvent(position, size(), viewpoint, handleNumber, pickedSolid);
     else {
-      WbPose *pickedPose = dynamic_cast<WbPose *>(pickedNode);
+      WbAbstractPose *pickedPose = dynamic_cast<WbAbstractPose *>(pickedNode);
       assert(pickedPose);
       mDragRotate = new WbDragRotateAroundAxisEvent(position, size(), viewpoint, handleNumber, pickedPose);
     }
@@ -2399,14 +2398,14 @@ void WbView3D::cleanupDrags() {
 
 void WbView3D::abortPhysicsDrag() {
   cleanupPhysicsDrags();
-  WbSelection::instance()->selectTransformFromView3D(NULL);
+  WbSelection::instance()->selectPoseFromView3D(NULL);
   WbLog::warning(tr("Solid out of world numeric bounds, mouse drag aborted"));
 }
 
 void WbView3D::abortResizeDrag() {
   delete mDragResize;
   mDragResize = NULL;
-  WbSelection::instance()->selectTransformFromView3D(NULL);
+  WbSelection::instance()->selectPoseFromView3D(NULL);
   WbLog::warning(tr("The dimensions of the resized object exceeds world numeric bounds, mouse drag aborted"));
   if (mResizeHandlesDisabled)
     WbSelection::instance()->showResizeManipulatorFromView3D(false);
@@ -2415,7 +2414,7 @@ void WbView3D::abortResizeDrag() {
 void WbView3D::abortScaleDrag() {
   delete mDragScale;
   mDragScale = NULL;
-  WbSelection::instance()->selectTransformFromView3D(NULL);
+  WbSelection::instance()->selectPoseFromView3D(NULL);
   WbLog::warning(tr("The dimensions of the rescaled object exceeds world numeric bounds, mouse drag aborted"));
   if (mResizeHandlesDisabled)
     WbSelection::instance()->showResizeManipulatorFromView3D(false);

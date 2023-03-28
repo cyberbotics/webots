@@ -28,6 +28,7 @@
 #include "WbProtoManager.hpp"
 #include "WbSFNode.hpp"
 #include "WbSelection.hpp"
+#include "WbSkin.hpp"
 #include "WbToken.hpp"
 #include "WbTransform.hpp"
 #include "WbViewpoint.hpp"
@@ -131,8 +132,13 @@ void WbNodeEditor::edit(bool copyOriginalValue) {
           mShowResizeHandlesCheckBox->setChecked(g->isResizeManipulatorAttached());
         else {
           const WbTransform *t = dynamic_cast<const WbTransform *>(baseNode);
-          assert(t);  // only WbAbstractPose and WbGeometry instances have a resize manipulator
-          mShowResizeHandlesCheckBox->setChecked(t->isScaleManipulatorAttached());
+          if (t)
+            mShowResizeHandlesCheckBox->setChecked(t->isScaleManipulatorAttached());
+          else {
+            const WbSkin *s = dynamic_cast<const WbSkin *>(baseNode);
+            assert(s);  // only WbSkin, WbTransform and WbGeometry instances have a resize manipulator
+            mShowResizeHandlesCheckBox->setChecked(s->isScaleManipulatorAttached());
+          }
         }
       }
     }

@@ -17,7 +17,6 @@
 #include "WbNodeUtilities.hpp"
 #include "WbOdeContext.hpp"
 #include "WbOdeGeomData.hpp"
-#include "WbResizeManipulator.hpp"
 #include "WbSolid.hpp"
 #include "WbWrenRenderingContext.hpp"
 
@@ -195,7 +194,7 @@ void WbPose::listenToChildrenField() {
   const WbShape *const s = shape();
   if (s) {
     s->connectGeometryField();
-    connect(s, &WbShape::geometryInShapeInserted, this, &WbPose::geometryInTransformInserted, Qt::UniqueConnection);
+    connect(s, &WbShape::geometryInShapeInserted, this, &WbPose::geometryInPoseInserted, Qt::UniqueConnection);
   }
 }
 
@@ -223,12 +222,10 @@ void WbPose::createOdeGeom(int index) {
   const WbShape *const s = shape();
   if (s) {
     s->connectGeometryField();
-    connect(s, &WbShape::geometryInShapeInserted, this, &WbPose::geometryInTransformInserted, Qt::UniqueConnection);
+    connect(s, &WbShape::geometryInShapeInserted, this, &WbPose::geometryInPoseInserted, Qt::UniqueConnection);
   }
 
-  // checkScale(true, true); // TODO: fix this and emission
-
-  emit geometryInTransformInserted();
+  emit geometryInPoseInserted();
 }
 
 void WbPose::destroyPreviousOdeGeoms() {

@@ -290,7 +290,7 @@ dGeomID WbMatter::createOdeGeomFromPose(dSpaceID space, WbPose *pose) {
   assert(space);
 
   // Listens to insertion/deletion in the children field of the WbPose
-  connect(pose, &WbPose::geometryInTransformInserted, this, &WbMatter::createOdeGeomFromInsertedPoseItem, Qt::UniqueConnection);
+  connect(pose, &WbPose::geometryInPoseInserted, this, &WbMatter::createOdeGeomFromInsertedPoseItem, Qt::UniqueConnection);
   pose->listenToChildrenField();
 
   const int n = pose->childCount();
@@ -327,12 +327,11 @@ dGeomID WbMatter::createOdeGeomFromPose(dSpaceID space, WbPose *pose) {
   const WbIndexedFaceSet *const ifs = dynamic_cast<WbIndexedFaceSet *>(geometry);
   // cppcheck-suppress knownConditionTrueFalse
   if (ifs)
-    connect(ifs, &WbIndexedFaceSet::validIndexedFaceSetInserted, pose, &WbPose::geometryInTransformInserted,
-            Qt::UniqueConnection);
+    connect(ifs, &WbIndexedFaceSet::validIndexedFaceSetInserted, pose, &WbPose::geometryInPoseInserted, Qt::UniqueConnection);
 
   const WbElevationGrid *const eg = dynamic_cast<WbElevationGrid *>(geometry);
   if (eg)  // TODO: rename slot?
-    connect(eg, &WbElevationGrid::validElevationGridInserted, pose, &WbPose::geometryInTransformInserted, Qt::UniqueConnection);
+    connect(eg, &WbElevationGrid::validElevationGridInserted, pose, &WbPose::geometryInPoseInserted, Qt::UniqueConnection);
 
   dGeomID geom = createOdeGeomFromGeometry(space, geometry, false);
   if (geom == NULL)
