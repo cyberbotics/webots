@@ -25,7 +25,6 @@
 #include "WbResizeAndTranslateCommand.hpp"
 #include "WbResizeCommand.hpp"
 #include "WbResizeManipulator.hpp"
-#include "WbTransform.hpp"
 #include "WbUndoStack.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWrenRenderingContext.hpp"

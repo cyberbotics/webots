@@ -217,10 +217,6 @@ WbDragForceEvent::WbDragForceEvent(const QSize &widgetSize, WbViewpoint *viewpoi
   mRepresentation = new WbForceRepresentation();
   mOrigin = viewpoint->rotationCenter();
   mRelativeOrigin = selectedSolid->matrix().pseudoInversed(mOrigin);
-  // TODO: restore
-  // double s = selectedSolid->absoluteScale().x();
-  // s *= s;
-  // mRelativeOrigin /= s;
   mEnd = mOrigin;
   mDragPlane = WbAffinePlane(viewpoint->orientation()->value().direction(), mOrigin);
   mScalingFactor = WbWorld::instance()->worldInfo()->dragForceScale() * selectedSolid->mass();
