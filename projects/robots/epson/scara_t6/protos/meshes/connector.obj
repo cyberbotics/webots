@@ -1,6 +1,5 @@
 # Blender v3.0.1 OBJ File: 'bulb.blend'
 # www.blender.org
-mtllib connector.mtl
 o base.003
 v -0.101400 0.036130 0.196750
 v -0.101400 0.036643 0.196279
