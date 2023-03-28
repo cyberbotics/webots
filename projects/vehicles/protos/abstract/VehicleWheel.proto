@@ -8,7 +8,7 @@
 # The subdivision and size of the round edges of the tire can be set with the parameters 'curvatureFactor' and 'edgeSubdivision'.
 # The size, shape and position of the rim can be set with the parameters 'rimRadius' 'rimBeamNumber' 'rimBeamWidth' 'rimBeamThickness' 'rimBeamOffset'.
 # Finally the size of the central part of the rim can be set with the parameters 'centralInnerRadius' and 'centralOuterRadius'.
-# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# This model was sponsored by the [CTI project RO2IVSim](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
 
 EXTERNPROTO "GenericTireAppearance.proto"

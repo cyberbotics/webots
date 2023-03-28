@@ -26,7 +26,9 @@
 
 namespace wren {
   namespace JSHelper {
-    bool isTextureFilterAnisotropicOn() { return extension_texture_filter_anisotropic_on; }
+    bool isTextureFilterAnisotropicOn() {
+      return extension_texture_filter_anisotropic_on;
+    }
 
     void initContext(int width, int height) {
       EmscriptenWebGLContextAttributes attr;
