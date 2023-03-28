@@ -330,10 +330,9 @@ double WbCone::computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) co
 
   const WbPose *const up = upperPose();
   if (up) {
-    const WbTransform *const ut = dynamic_cast<const WbTransform *const>(up);
-    direction = ray.direction() * (ut ? ut->matrix() : up->matrix());
+    direction = ray.direction() * up->matrix();
     direction.normalize();
-    origin = ut ? ut->matrix().pseudoInversed(ray.origin()) : up->matrix().pseudoInversed(ray.origin());
+    origin = up->matrix().pseudoInversed(ray.origin());
     origin /= absoluteScale();
   }
 

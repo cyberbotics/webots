@@ -284,8 +284,6 @@ bool WbSphere::pickUVCoordinate(WbVector2 &uv, const WbRay &ray, int textureCoor
   WbVector3 pointOnTexture(collisionPoint);
   const WbPose *const up = upperPose();
   if (up) {
-    const WbTransform *const ut = dynamic_cast<const WbTransform *const>(up);  // TODO: any better way of doing this?
-    pointOnTexture = ut ? ut->matrix().pseudoInversed(collisionPoint) : up->matrix().pseudoInversed(collisionPoint);
     pointOnTexture = up->matrix().pseudoInversed(collisionPoint);
     pointOnTexture /= absoluteScale();
   }

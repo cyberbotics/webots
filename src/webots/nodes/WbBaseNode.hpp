@@ -29,8 +29,7 @@
 #include "WbRgb.hpp"
 #include "WbVector3.hpp"
 
-class WbPose;  // TODO: remove this dependency: a class should not have a dependency on its subclass
-class WbTransform;
+class WbPose;   // TODO: remove this dependency: a class should not have a dependency on its subclass
 class WbSolid;  // TODO: remove this dependency: a class should not have a dependency on its subclass
 class WbBoundingSphere;
 
@@ -106,7 +105,6 @@ public:
   WbSolid *upperSolid() const;
   WbSolid *topSolid() const;
   WbPose *upperPose() const;
-  WbTransform *upperTransform() const;
 
   // Cached function that can change if new USE nodes are added
   // return if this node or any of its instances is used in boundingObject
@@ -187,8 +185,6 @@ private:
   mutable bool mBoundingObjectFirstTimeSearch;
   mutable WbPose *mUpperPose;
   mutable bool mUpperPoseFirstTimeSearch;
-  mutable WbTransform *mUpperTransform;
-  mutable bool mUpperTransformFirstTimeSearch;
   mutable WbSolid *mUpperSolid;
   mutable bool mUpperSolidFirstTimeSearch;
   mutable WbSolid *mTopSolid;

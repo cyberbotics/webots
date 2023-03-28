@@ -106,7 +106,7 @@ void WbCylinder::createWrenObjects() {
 void WbCylinder::setResizeManipulatorDimensions() {
   WbVector3 scale(mRadius->value(), mRadius->value(), mHeight->value());
 
-  const WbTransform *const ut = upperTransform();
+  const WbTransform *const ut = dynamic_cast<const WbTransform *const>(upperPose());
   if (ut)
     scale *= ut->absoluteScale();
 
