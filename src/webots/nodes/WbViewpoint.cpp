@@ -1281,13 +1281,13 @@ void WbViewpoint::bottomView() {
   orbitTo(WbVector3(0, 0, -1), WbRotation(0.5773, 0.5773, 0.5773, -2.0944));
 }
 
-WbAbstractPose *WbViewpoint::computeSelectedObjectTransform() {
+WbAbstractPose *WbViewpoint::computeSelectedObjectPose() {
   WbBaseNode *node = WbSelection::instance()->selectedNode();
   assert(node);
-  WbAbstractPose *transform = dynamic_cast<WbAbstractPose *>(node);
-  if (!transform)
-    transform = WbNodeUtilities::findUpperPose(node);
-  return transform;
+  WbAbstractPose *pose = dynamic_cast<WbAbstractPose *>(node);
+  if (!pose)
+    pose = WbNodeUtilities::findUpperPose(node);
+  return pose;
 }
 
 WbRotation WbViewpoint::computeObjectViewRotation(const WbRotation &rotation, const WbAbstractPose *selectedObject) {
@@ -1299,33 +1299,33 @@ WbRotation WbViewpoint::computeObjectViewRotation(const WbRotation &rotation, co
 }
 
 void WbViewpoint::objectFrontView() {
-  const WbAbstractPose *transform = computeSelectedObjectTransform();
-  orbitTo(WbVector3(1, 0, 0), computeObjectViewRotation(WbRotation(0, 0, 1, -M_PI), transform), transform);
+  const WbAbstractPose *pose = computeSelectedObjectPose();
+  orbitTo(WbVector3(1, 0, 0), computeObjectViewRotation(WbRotation(0, 0, 1, -M_PI), pose), pose);
 }
 
 void WbViewpoint::objectBackView() {
-  const WbAbstractPose *transform = computeSelectedObjectTransform();
-  orbitTo(WbVector3(-1, 0, 0), computeObjectViewRotation(WbRotation(0, 0, 1, 0), transform), transform);
+  const WbAbstractPose *pose = computeSelectedObjectPose();
+  orbitTo(WbVector3(-1, 0, 0), computeObjectViewRotation(WbRotation(0, 0, 1, 0), pose), pose);
 }
 
 void WbViewpoint::objectLeftView() {
-  const WbAbstractPose *transform = computeSelectedObjectTransform();
-  orbitTo(WbVector3(0, 1, 0), computeObjectViewRotation(WbRotation(0, 0, 1, -M_PI_2), transform), transform);
+  const WbAbstractPose *pose = computeSelectedObjectPose();
+  orbitTo(WbVector3(0, 1, 0), computeObjectViewRotation(WbRotation(0, 0, 1, -M_PI_2), pose), pose);
 }
 
 void WbViewpoint::objectRightView() {
-  const WbAbstractPose *transform = computeSelectedObjectTransform();
-  orbitTo(WbVector3(0, -1, 0), computeObjectViewRotation(WbRotation(0, 0, 1, M_PI_2), transform), transform);
+  const WbAbstractPose *pose = computeSelectedObjectPose();
+  orbitTo(WbVector3(0, -1, 0), computeObjectViewRotation(WbRotation(0, 0, 1, M_PI_2), pose), pose);
 }
 
 void WbViewpoint::objectTopView() {
-  const WbAbstractPose *transform = computeSelectedObjectTransform();
-  orbitTo(WbVector3(0, 0, 1), computeObjectViewRotation(WbRotation(-0.5773, 0.5773, 0.5773, 2.0944), transform), transform);
+  const WbAbstractPose *pose = computeSelectedObjectPose();
+  orbitTo(WbVector3(0, 0, 1), computeObjectViewRotation(WbRotation(-0.5773, 0.5773, 0.5773, 2.0944), pose), pose);
 }
 
 void WbViewpoint::objectBottomView() {
-  const WbAbstractPose *transform = computeSelectedObjectTransform();
-  orbitTo(WbVector3(0, 0, -1), computeObjectViewRotation(WbRotation(0.5773, 0.5773, 0.5773, -2.0944), transform), transform);
+  const WbAbstractPose *pose = computeSelectedObjectPose();
+  orbitTo(WbVector3(0, 0, -1), computeObjectViewRotation(WbRotation(0.5773, 0.5773, 0.5773, -2.0944), pose), pose);
 }
 
 void WbViewpoint::orbitTo(const WbVector3 &targetUnitVector, const WbRotation &targetRotation,

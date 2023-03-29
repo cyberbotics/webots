@@ -541,13 +541,10 @@ void WbTrack::updateAnimatedGeometries() {
       WbMatrix4 geomMatrix = geom->matrix() * invMatrix;
 
       geomMatrix.translation().toFloatArray(p);
-      // float scale[3];
-      // geomMatrix.scale().toFloatArray(scale);
       WbRotation(geomMatrix.extracted3x3Matrix()).toFloatArray(r);
 
       WrTransform *meshTransform = wr_transform_new();
       wr_transform_set_position(meshTransform, p);
-      // wr_transform_set_scale(meshTransform, scale);
       wr_transform_set_orientation(meshTransform, r);
 
       WrRenderable *renderable = wr_renderable_new();

@@ -28,7 +28,6 @@
 #include "WbSFInt.hpp"
 #include "WbSimulationState.hpp"
 #include "WbTokenizer.hpp"
-#include "WbTransform.hpp"
 #include "WbVersion.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 #include "WbWrenRenderingContext.hpp"
@@ -41,8 +40,6 @@
 #include <ode/ode.h>
 
 #include <cmath>
-
-#include <QtCore/QDebug>
 
 void WbSphere::init() {
   mRadius = findSFDouble("radius");
@@ -91,9 +88,10 @@ void WbSphere::createWrenObjects() {
 
 void WbSphere::setResizeManipulatorDimensions() {
   WbVector3 scale(radius(), radius(), radius());
-  const WbTransform *const ut = dynamic_cast<const WbTransform *const>(upperPose());
-  if (ut)
-    scale *= ut->absoluteScale();
+
+  const WbPose *const up = upperPose();
+  if (up)
+    scale *= up->absoluteScale();
 
   if (isAValidBoundingObject())
     scale *= 1.0f + (wr_config_get_line_scale() / LINE_SCALE_FACTOR);

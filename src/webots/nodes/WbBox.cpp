@@ -93,9 +93,9 @@ void WbBox::createWrenObjects() {
 
 void WbBox::setResizeManipulatorDimensions() {
   WbVector3 scale = size().abs();
-  const WbTransform *const transform = dynamic_cast<const WbTransform *const>(upperPose());
-  if (transform)
-    scale *= transform->absoluteScale();
+  const WbPose *const pose = upperPose();
+  if (pose)
+    scale *= pose->absoluteScale();
 
   if (isAValidBoundingObject())
     scale *= 1.0f + (wr_config_get_line_scale() / LINE_SCALE_FACTOR);
@@ -390,6 +390,7 @@ double WbBox::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, const
     point = localRay.origin() + result.second * localRay.direction();
     return result.second;
   }
+
   return -1;
 }
 

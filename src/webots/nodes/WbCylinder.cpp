@@ -28,7 +28,6 @@
 #include "WbSFBool.hpp"
 #include "WbSFInt.hpp"
 #include "WbSimulationState.hpp"
-#include "WbTransform.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 #include "WbWrenRenderingContext.hpp"
 
@@ -41,8 +40,6 @@
 
 #include <cmath>
 #include <limits>
-
-#include <QtCore/QDebug>
 
 void WbCylinder::init() {
   mBottom = findSFBool("bottom");
@@ -106,9 +103,9 @@ void WbCylinder::createWrenObjects() {
 void WbCylinder::setResizeManipulatorDimensions() {
   WbVector3 scale(mRadius->value(), mRadius->value(), mHeight->value());
 
-  const WbTransform *const ut = dynamic_cast<const WbTransform *const>(upperPose());
-  if (ut)
-    scale *= ut->absoluteScale();
+  const WbPose *const up = upperPose();
+  if (up)
+    scale *= up->absoluteScale();
 
   if (isAValidBoundingObject())
     scale *= 1.0f + (wr_config_get_line_scale() / LINE_SCALE_FACTOR);

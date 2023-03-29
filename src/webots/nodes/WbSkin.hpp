@@ -59,11 +59,6 @@ public:
   void setScaleNeedUpdate();
   void setMatrixNeedUpdate() override { WbAbstractPose::setMatrixNeedUpdateFlag(); }
 
-  // translate-rotate manipulator
-  void updateTranslateRotateHandlesSize() override { WbAbstractPose::updateTranslateRotateHandlesSize(); }
-  void attachTranslateRotateManipulator() override { WbAbstractPose::attachTranslateRotateManipulator(); }
-  void detachTranslateRotateManipulator() override { WbAbstractPose::detachTranslateRotateManipulator(); }
-
   void emitTranslationOrRotationChangedByUser() override {}
 
   // ray tracing

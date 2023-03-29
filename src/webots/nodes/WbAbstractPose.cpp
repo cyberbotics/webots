@@ -322,8 +322,8 @@ void WbAbstractPose::updateTranslateRotateHandlesSize() {
   if (!mTranslateRotateManipulator)
     return;
 
-  // mTranslateRotateManipulator->updateHandleScale(absoluteScale().ptr()); // TODO: fix this
+  mTranslateRotateManipulator->updateHandleScale(absoluteScale().ptr());
 
-  // if (!WbNodeUtilities::isNodeOrAncestorLocked(mBaseNode))
-  //   mTranslateRotateManipulator->computeHandleScaleFromViewportSize();
+  if (!WbNodeUtilities::isNodeOrAncestorLocked(mBaseNode))
+    mTranslateRotateManipulator->computeHandleScaleFromViewportSize();
 }

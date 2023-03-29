@@ -25,7 +25,6 @@
 #include "WbSimulationState.hpp"
 #include "WbSlot.hpp"
 #include "WbSolid.hpp"
-#include "WbTransform.hpp"  // TODO: ensure all includes are needed after scale cleanup
 #include "WbVector4.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenMeshBuffers.hpp"

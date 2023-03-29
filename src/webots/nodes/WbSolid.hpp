@@ -210,8 +210,8 @@ public:
   void collectHiddenKinematicParameters(WbHiddenKinematicParameters::HiddenKinematicParametersMap &map,
                                         int &counter) const override;
 
-  // Threshold to handle mass round off errors after resize / rescale events
-  static const double MASS_ZERO_THRESHOLD;  // TODO: can be removed?
+  // Threshold to handle mass round off errors after resize events
+  static const double MASS_ZERO_THRESHOLD;
 
   WbBasicJoint *jointParent() const;
 
@@ -323,7 +323,6 @@ private:
   bool mResetPhysicsInStep;  // used to completely reset physics when the solid is also moved in the same step
   void setGeomAndBodyPositions();
   void applyPhysicsTransform();
-  void computePlaneParams(WbPose *transform, WbVector3 &n, double &d) const;
   void resetJoints();  // reset joint to any linked solid to this one or to one of its descendants
   void setBodiesAndJointsToParents();
   void setJointChildrenWithReferencedEndpoint();

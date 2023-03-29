@@ -32,8 +32,6 @@
 #include <wren/material.h>
 #include <wren/texture.h>
 
-#include <QtCore/QDebug>
-
 static QList<WbPaintTexture *> gPaintTextures;
 static QList<WbPaintTexture *> gEvaporationTextures;
 

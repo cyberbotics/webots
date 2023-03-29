@@ -66,11 +66,6 @@ public:
   bool isAValidBoundingObject(bool checkOde = false, bool warning = false) const override;
   bool isSuitableForInsertionInBoundingObject(bool warning = false) const override;
 
-  // translate-rotate manipulator
-  void updateTranslateRotateHandlesSize() override { WbAbstractPose::updateTranslateRotateHandlesSize(); }
-  void attachTranslateRotateManipulator() override { WbAbstractPose::attachTranslateRotateManipulator(); }
-  void detachTranslateRotateManipulator() override { WbAbstractPose::detachTranslateRotateManipulator(); }
-
   void enablePoseChangedSignal() const { mPoseChangedSignalEnabled = true; }
   void emitTranslationOrRotationChangedByUser() override;
   WbVector3 translationFrom(const WbNode *fromNode) const;

@@ -28,7 +28,6 @@
 #include "WbProtoManager.hpp"
 #include "WbSFNode.hpp"
 #include "WbSelection.hpp"
-#include "WbSkin.hpp"
 #include "WbToken.hpp"
 #include "WbTransform.hpp"
 #include "WbViewpoint.hpp"

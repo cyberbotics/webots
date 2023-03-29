@@ -787,8 +787,7 @@ bool WbSkin::createSkeletonFromWebotsNodes() {
     if (parentWrenNode) {
       // Attach bone representation
       const WbVector3 &offset = solid->translation();
-      const WbVector3 &scale = WbVector3(1.0, 1.0, 1.0);  // TODO: restore this // solid->scale();
-      const float length = (offset * scale).length();
+      const float length = offset.length();
       const float boneScale[3] = {length, length, length};
 
       // compute orientation (default bone representation pointing in z-axis)

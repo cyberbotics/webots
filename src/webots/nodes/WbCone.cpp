@@ -25,7 +25,6 @@
 #include "WbSFBool.hpp"
 #include "WbSFInt.hpp"
 #include "WbSimulationState.hpp"
-#include "WbTransform.hpp"
 #include "WbVector2.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 
@@ -87,9 +86,9 @@ void WbCone::createWrenObjects() {
 void WbCone::setResizeManipulatorDimensions() {
   WbVector3 scale(mBottomRadius->value(), mBottomRadius->value(), mHeight->value());
 
-  const WbTransform *const ut = dynamic_cast<const WbTransform *const>(upperPose());
-  if (ut)
-    scale *= ut->absoluteScale();
+  const WbPose *const up = upperPose();
+  if (up)
+    scale *= up->absoluteScale();
 
   resizeManipulator()->updateHandleScale(scale.ptr());
   updateResizeHandlesSize();

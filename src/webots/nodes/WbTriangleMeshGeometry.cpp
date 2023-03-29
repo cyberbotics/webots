@@ -23,7 +23,6 @@
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSimulationState.hpp"
-#include "WbTransform.hpp"
 #include "WbTriangleMesh.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenMeshBuffers.hpp"
@@ -33,8 +32,6 @@
 #include <wren/node.h>
 
 #include <ode/ode.h>
-
-#include <QtCore/QDebug>
 
 WbTriangleMeshMap WbTriangleMeshGeometry::cTriangleMeshMap;
 

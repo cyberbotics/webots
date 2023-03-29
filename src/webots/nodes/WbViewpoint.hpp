@@ -297,7 +297,7 @@ private:
   void orbitTo(const WbVector3 &targetUnitVector, const WbRotation &targetRotation,
                const WbAbstractPose *selectedObject = NULL);
 
-  static WbAbstractPose *computeSelectedObjectTransform();
+  static WbAbstractPose *computeSelectedObjectPose();
   static WbRotation computeObjectViewRotation(const WbRotation &rotation, const WbAbstractPose *selectedObject);
 
 private slots:

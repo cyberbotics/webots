@@ -15,12 +15,8 @@
 #include "WbTransform.hpp"
 
 #include "WbBoundingSphere.hpp"
-#include "WbNodeUtilities.hpp"
 #include "WbSimulationState.hpp"
 #include "WbTranslateRotateManipulator.hpp"
-#include "WbVrmlNodeUtilities.hpp"
-
-#include <QtCore/QDebug>
 
 void WbTransform::init() {
   mScale = findSFVector3("scale");
@@ -63,15 +59,11 @@ void WbTransform::applyToScale() {
   if (mBaseNode->areWrenObjectsInitialized())
     applyScaleToWren();
 
-  if (mBaseNode->boundingSphere() && !mBaseNode->isInBoundingObject() && WbSimulationState::instance()->isRayTracingEnabled())
+  if (mBaseNode->boundingSphere() && WbSimulationState::instance()->isRayTracingEnabled())
     mBaseNode->boundingSphere()->setOwnerSizeChanged();
 
   if (mTranslateRotateManipulator && mTranslateRotateManipulator->isAttached())
     updateTranslateRotateHandlesSize();
-
-  // TODO: needed? transform can't be in BO -> cleanup
-  // if (isInBoundingObject() && isAValidBoundingObject())
-  //  applyToOdeScale();
 }
 
 void WbTransform::updateScale(bool warning) {

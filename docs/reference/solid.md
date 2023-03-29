@@ -31,11 +31,6 @@ In the 3D window, [Solid](#solid) nodes can be manipulated (dragged, lifted, rot
 
 ### Field Summary
 
-Note that in the [Solid](#solid) node, the `scale` field inherited from the [Transform](transform.md) must always remain uniform, i.e., of the form `x x x` where `x` is any positive real number.
-This ensures that all primitive geometries will remain suitable for ODE collision detection.
-Whenever a scale coordinate is changed, the two other ones are automatically changed to this new value.
-If a scale coordinate is assigned a non-positive value, it is automatically changed to 1.
-
 - `name`: name of the solid.
 In derived device classes this corresponds to the device name argument used by the `wb_robot_get_device` function.
 Note that the name cannot contain the colon character '`:`' and should preferably identify the solid uniquely, please refer to the [Unique Solid name](#unique-solid-name) section for further details.

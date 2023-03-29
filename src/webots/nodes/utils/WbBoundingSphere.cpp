@@ -26,8 +26,6 @@
 
 #include <cassert>
 
-#include <QtCore/QDebug>
-
 bool gUpdatesEnabled = false;
 bool gRayTracingEnabled = false;
 

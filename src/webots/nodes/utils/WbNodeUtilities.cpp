@@ -65,7 +65,6 @@
 #include "WbVrmlNodeUtilities.hpp"
 #include "WbWorld.hpp"
 
-#include <QtCore/QDebug>
 #include <QtCore/QQueue>
 #include <QtCore/QStack>
 #include <QtCore/QStringList>
@@ -582,9 +581,7 @@ namespace {
     return false;
   }
 
-  bool isSolidNode(WbBaseNode *node) {
-    return dynamic_cast<WbSolid *>(node);
-  }
+  bool isSolidNode(WbBaseNode *node) { return dynamic_cast<WbSolid *>(node); }
 
   bool doesFieldRestrictionAcceptNode(const WbField *const field, const QStringList &nodeNames) {
     assert(field->hasRestrictedValues());
