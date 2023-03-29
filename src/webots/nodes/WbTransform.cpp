@@ -48,10 +48,6 @@ void WbTransform::postFinalize() {
   connect(mScale, SIGNAL(changed()), this, SLOT(updateScale()));
 }
 
-void WbTransform::deleteWrenObjects() {
-  WbPose::deleteWrenObjects();
-}
-
 void WbTransform::applyToScale() {
   mBaseNode->setMatrixNeedUpdate();
   mBaseNode->setScaleNeedUpdate();

@@ -76,9 +76,6 @@ private:
 
   void updateAbsoluteScale() const override;
   void updateMatrix() const override;
-
-  // WREN objects and methods
-  void deleteWrenObjects() override;
 };
 
 #endif
