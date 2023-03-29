@@ -59,7 +59,7 @@
 class WbRecognizedObject : public WbObjectDetection {
 public:
   WbRecognizedObject(WbCamera *camera, WbSolid *object, bool needToCheckCollision, double maxRange) :
-    WbObjectDetection(camera, object, needToCheckCollision, maxRange) {
+    WbObjectDetection(camera, object, needToCheckCollision, maxRange, camera->fieldOfView()) {
     mId = object->uniqueId();
     mModel = "";
     mRelativeOrientation = WbRotation(0.0, 1.0, 0.0, 0.0);
@@ -468,9 +468,12 @@ void WbCamera::updateRaysSetupIfNeeded() {
   const WbMatrix3 cameraInverseRotation = cameraRotation.transposed();
   const double horizontalFieldOfView = fieldOfView();
   const double verticalFieldOfView =
-    WbWrenCamera::computeFieldOfViewY(horizontalFieldOfView, (double)width() / (double)height());
+    (isPlanarProjection() || horizontalFieldOfView > M_PI) ?
+      WbWrenCamera::computeFieldOfViewY(horizontalFieldOfView, (double)width() / (double)height()) :
+      mWrenCamera->sphericalFieldOfViewY();
   const WbAffinePlane *frustumPlanes = WbObjectDetection::computeFrustumPlanes(
-    cameraPosition, cameraRotation, verticalFieldOfView, horizontalFieldOfView, recognition()->maxRange());
+    cameraPosition, cameraRotation, verticalFieldOfView, horizontalFieldOfView, recognition()->maxRange(),
+    isPlanarProjection());
   foreach (WbRecognizedObject *recognizedObject, mRecognizedObjects) {
     recognizedObject->object()->updateTransformForPhysicsStep();
     bool valid =
@@ -702,10 +705,11 @@ void WbCamera::computeObjects(bool finalSetup, bool needCollisionDetection) {
   const WbMatrix3 cameraInverseRotation = cameraRotation.transposed();
   const double horizontalFieldOfView = fieldOfView();
   const double verticalFieldOfView =
-    isPlanarProjection() ? WbWrenCamera::computeFieldOfViewY(horizontalFieldOfView, (double)width() / (double)height()) :
-                           mWrenCamera->sphericalFieldOfViewY();
+    (isPlanarProjection() || horizontalFieldOfView > M_PI) ?
+      WbWrenCamera::computeFieldOfViewY(horizontalFieldOfView, (double)width() / (double)height()) :
+      mWrenCamera->sphericalFieldOfViewY();
   const WbAffinePlane *frustumPlanes = WbObjectDetection::computeFrustumPlanes(
-    cameraPosition, cameraRotation, verticalFieldOfView, horizontalFieldOfView, recognition()->maxRange());
+    cameraPosition, cameraRotation, verticalFieldOfView, horizontalFieldOfView, recognition()->maxRange(), isPlanarProjection());
 
   // loop for each possible target to check if it is visible
   const QList<WbSolid *> objects = WbWorld::instance()->cameraRecognitionObjects();
@@ -755,13 +759,10 @@ WbVector2 WbCamera::applyCameraDistortionToImageCoordinate(const WbVector2 &uv) 
 }
 
 WbVector2 WbCamera::projectOnImage(const WbVector3 &position) {
-  const int w = width();
-  const int h = height();
   const double fovX = fieldOfView();
-  const double fovY = isPlanarProjection() ? WbWrenCamera::computeFieldOfViewY(fovX, (double)width() / (double)height()) :
-                                             mWrenCamera->sphericalFieldOfViewY();
   WbVector2 uv;  // uv coordinates in range [-0.5, 0.5]
-  if (mProjection->value() == "planar" || mProjection->value() == "cylindrical") {
+  if (mProjection->value() == "planar") {
+    const double fovY = WbWrenCamera::computeFieldOfViewY(fovX, (double)width() / (double)height());
     const double theta1 = -atan2(position.y(), fabs(position.x()));
     const double theta2 = atan2(position.z(), fabs(position.x()));
     if (mProjection->value() == "planar")
@@ -769,14 +770,23 @@ WbVector2 WbCamera::projectOnImage(const WbVector3 &position) {
     else
       uv.setX(theta1 * fovX);
     uv.setY(-0.5 * tan(theta2) / tan(0.5 * fovY));
-  } else {
-    assert(mProjection->value() == "spherical");
+  } else if (mProjection->value() == "spherical") {
     const WbVector3 p = position.normalized();
     const double b = p.z() / p.y();
     uv.setY(acos(p.x()) / (fovX * sqrt(1 + 1 / (b * b))));
     if (p.z() > 0.0)
       uv.setY(-uv.y());
     uv.setX(uv.y() / b);
+  } else {
+    assert(mProjection->value() == "cylindrical");
+    const double fovY = mWrenCamera->sphericalFieldOfViewY();
+    const double fovYCorrectionCoefficient = mWrenCamera->sphericalFovYCorrectionCoefficient();
+    const WbVector3 normP = position.normalized();
+    const double theta = acos(normP.z());
+    uv.setX(-acos(normP.x() / sin(theta)) / fovX);
+    uv.setY((theta - M_PI_2) * fovYCorrectionCoefficient / fovY);
+    if (normP.y() < 0.0)
+      uv.setX(-uv.x());
   }
 
   // convert uv to range [0, 1]
@@ -785,7 +795,7 @@ WbVector2 WbCamera::projectOnImage(const WbVector3 &position) {
   uv = applyCameraDistortionToImageCoordinate(uv);
 
   // return uv coordinates in range [0, width/height]
-  return WbVector2((int)(w * uv.x()), (int)(h * uv.y()));
+  return WbVector2((int)(width() * uv.x()), (int)(height() * uv.y()));
 }
 
 bool WbCamera::computeObject(const WbVector3 &cameraPosition, const WbMatrix3 &cameraRotation,

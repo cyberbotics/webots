@@ -106,6 +106,7 @@ public:
 
   static float computeFieldOfViewY(double fovX, double aspectRatio);
   float sphericalFieldOfViewY() const { return mSphericalFieldOfViewY; }
+  float sphericalFovYCorrectionCoefficient() const { return mSphericalFovYCorrectionCoefficient; }
 
 signals:
   void cameraInitialized();

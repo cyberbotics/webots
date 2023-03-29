@@ -27,14 +27,17 @@
 #include "WbSolid.hpp"
 #include "WbSphere.hpp"
 
-WbObjectDetection::WbObjectDetection(WbSolid *device, WbSolid *object, bool needToCheckCollision, double maxRange) :
+WbObjectDetection::WbObjectDetection(WbSolid *device, WbSolid *object, bool needToCheckCollision, double maxRange,
+                                     double horizontalFieldOfView) :
   mObjectRelativePosition(0.0, 0.0, 0.0),
   mObjectSize(0.0, 0.0, 0.0),
   mUseBoundingSphereOnly(true),
   mObject(object),
   mMaxRange(maxRange),
   mCollisionDepth(0.0),
-  mGeom(NULL) {
+  mGeom(NULL),
+  mHorizontalFieldOfView(horizontalFieldOfView),
+  mIsOmniDirectional(mHorizontalFieldOfView > M_PI) {
   if (needToCheckCollision) {
     assert(device);
 
@@ -215,27 +218,62 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
       default:
         assert(false);
     }
+
     // Remove points not in the frustum
     QVector<WbVector3> pointsInFrustum;
     int pointsInside = 0;
     bool isOnePointOutsidePlane[4] = {false, false, false, false};
     bool isOnePointOnCorrectSide[4] = {false, false, false, false};
     for (int i = 0; i < points.size(); ++i) {
-      if (frustumPlanes[PARALLEL].distance(points[i]) > 0) {  // object is in front of the device
-        bool inside = true;
-        for (int j = 0; j < 4; ++j) {
-          if (frustumPlanes[j].distance(points[i]) < 0) {
-            points[i] = devicePosition + frustumPlanes[j].vectorProjection(points[i] - devicePosition);
-            inside = false;
+      bool inside;
+      if (mIsOmniDirectional) {
+        if (frustumPlanes[PARALLEL].distance(points[i]) > 0) {
+          // object is in front of the omnidirectional device
+          inside = true;
+          for (int j = 0; j < 4; ++j)
+            isOnePointOnCorrectSide[j] = true;
+        } else {
+          // object is at the back of the omnidirectional device
+          inside = false;
+          double minDistance = 0.0;
+          int minIndex = -1;
+          for (int j = 0; j < PARALLEL; ++j) {
+            const double d = frustumPlanes[j].distance(objectPosition);
+            if (d < 0) {
+              inside = true;
+              break;
+            } else if (minIndex < 0 || d < minDistance) {
+              minDistance = d;
+              minIndex = j;
+            }
+          }
+          if (inside) {
+            for (int j = 0; j <= PARALLEL; ++j)
+              isOnePointOnCorrectSide[j] = true;
+          } else {
+            for (int j = 0; j <= PARALLEL; ++j)
+              isOnePointOutsidePlane[j] = true;
+            points[i] = devicePosition - frustumPlanes[minIndex].vectorProjection(objectPosition);
+          }
+        }
+      } else if (frustumPlanes[PARALLEL].distance(points[i]) > 0) {  // object is in front of the planar device
+        inside = true;
+        for (int j = 0; j < PARALLEL; ++j) {
+          if (frustumPlanes[j].distance(objectPosition) < 0) {
+            points[i] = devicePosition - frustumPlanes[j].vectorProjection(objectPosition);
             isOnePointOutsidePlane[j] = true;
+            inside = false;
           } else
             isOnePointOnCorrectSide[j] = true;
         }
-        if (inside)
-          pointsInside++;
-        pointsInFrustum.append(points[i]);
-      }
+      } else
+        continue;  // discard points at the back of the planar device
+
+      if (inside)
+        pointsInside++;
+      pointsInFrustum.append(points[i]);
     }
+
     // no points in front of the device
     if (pointsInFrustum.size() == 0)
       return false;
@@ -321,21 +359,39 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
       }
     }
     // check distance between center and frustum planes
-    // Note: this sort of detection is only adapted for a field of view smaller than PI. If a larger FoV is desirable, the logic
-    // should be changed by having two separate frustums, more details here: https://github.com/cyberbotics/webots/pull/3960
-    for (int j = 0; j < 4; ++j) {
-      const double d = frustumPlanes[j].distance(objectPosition);
-      const int objectAxis = j % 2 + 1;
-      if (d < -objectSize[objectAxis] / 2.0)  // the object is completely outside
-        return false;
-      else if (d < objectSize[objectAxis] / 2.0)  // a part of the object is outside
-        outsidePart[j] = objectSize[objectAxis] / 2.0 - d;
+    if (!mIsOmniDirectional || (objectPosition - devicePosition).x() < 0.0) {
+      // if spherical/cylindrical frustum, then object check only if objects are in the back of the device
+      bool inside = false;
+      for (int j = 0; j < PARALLEL; ++j) {
+        const double d = frustumPlanes[j].distance(objectPosition);
+        const double halfObjectSize = objectSize[j % 2 + 1] / 2.0;
+        if (mIsOmniDirectional) {
+          if (d < -halfObjectSize) {  // object is completely inside
+            inside = true;
+            break;
+          }
+          if (d < halfObjectSize)
+            outsidePart[j] = halfObjectSize - d;
+        } else {
+          if (d < -halfObjectSize)  // object is completely outside
+            return false;
+          if (d < halfObjectSize)  // a part of the object is outside
+            outsidePart[j] = halfObjectSize - d;
+          inside = true;
+        }
+      }
+
+      if (!inside)
+        return false;  // object not visible in case of omnidirectional device
     }
-    objectSize.setY(objectSize.y() - outsidePart[RIGHT] - outsidePart[LEFT]);
-    objectSize.setZ(objectSize.z() - outsidePart[BOTTOM] - outsidePart[TOP]);
+
     objectRelativePosition = deviceInverseRotation * (objectPosition - devicePosition);
-    objectRelativePosition +=
-      0.5 * WbVector3(0, outsidePart[RIGHT] - outsidePart[LEFT], outsidePart[BOTTOM] - outsidePart[TOP]);
+    if (!mIsOmniDirectional) {
+      objectSize.setY(objectSize.y() - outsidePart[RIGHT] - outsidePart[LEFT]);
+      objectSize.setZ(objectSize.z() - outsidePart[BOTTOM] - outsidePart[TOP]);
+      objectRelativePosition +=
+        0.5 * WbVector3(0, outsidePart[RIGHT] - outsidePart[LEFT], outsidePart[BOTTOM] - outsidePart[TOP]);
+    }
   }
   return true;
 }
@@ -371,12 +427,30 @@ bool WbObjectDetection::computeObject(const WbVector3 &devicePosition, const WbM
 }
 
 WbAffinePlane *WbObjectDetection::computeFrustumPlanes(const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation,
-                                                       const double verticalFieldOfView, const double horizontalFieldOfView,
-                                                       const double maxRange) {
+                                                       double verticalFieldOfView, double horizontalFieldOfView,
+                                                       double maxRange, bool isPlanarProjection) {
   // construct the 4 planes defining the sides of the frustum
-  const double z = maxRange * tan(verticalFieldOfView / 2.0);
-  const double y = maxRange * tan(horizontalFieldOfView / 2.0);
-  const double x = maxRange;
+  const float halfFovX = horizontalFieldOfView / 2.0;
+  const float halfFovY = verticalFieldOfView / 2.0;
+  double x, y, z;
+  if (isPlanarProjection || halfFovX < M_PI_2) {
+    x = maxRange;
+    y = maxRange * tan(halfFovX);
+    z = maxRange * tan(halfFovY);
+  } else {
+    const float angleY[4] = {-halfFovY, -halfFovY, halfFovY, halfFovY};
+    const float angleX[4] = {halfFovX, -halfFovX, -halfFovX, halfFovX};
+    for (int k = 0; k < 4; ++k) {
+      const float helper = cosf(angleY[k]);
+      // get x, y and z from the spherical coordinates
+      if (angleY[k] > M_PI_4 || angleY[k] < -M_PI_4)
+        y = maxRange * cosf(angleY[k] + M_PI_2) * sinf(angleX[k]);
+      else
+        y = maxRange * helper * sinf(angleX[k]);
+      z = maxRange * sinf(angleY[k]);
+      x = maxRange * helper * cosf(angleX[k]);
+    }
+  }
   const WbVector3 topRightCorner = devicePosition + deviceRotation * WbVector3(x, -y, z);
   const WbVector3 topLeftCorner = devicePosition + deviceRotation * WbVector3(x, y, z);
   const WbVector3 bottomRightCorner = devicePosition + deviceRotation * WbVector3(x, -y, -z);
