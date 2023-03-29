@@ -411,7 +411,7 @@ PROTO SummitXlSteel [
         translation -0.365 -0.167 0.302
         name "gps"
       }
-      Transform{
+      Pose {
         translation 0 0 0.39062
         children IS bodySlot
       }

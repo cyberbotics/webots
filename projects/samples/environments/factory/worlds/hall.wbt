@@ -105,7 +105,7 @@ Floor {
     color "braun"
   }
 }
-Transform {
+Pose {
   translation 4.985 3.2 0
   children [
     Shape {
@@ -342,13 +342,13 @@ Monitor {
   translation 3.89076 2.6615 0.71
   name "monitor(1)"
 }
-Transform {
+Pose {
   translation 3.89076 1.4715 0.71
-  scale 1.5 1.5 1.5
   children [
     Monitor {
       translation 0 0.18 0
       name "monitor(2)"
+      scale 1.5
     }
   ]
 }
@@ -2385,7 +2385,7 @@ WoodenBox {
   name "wooden box(1)"
   mass 12
 }
-Transform {
+Pose {
   translation -3.4777 -9.9217 2.43
   rotation 0 0 1 0.785398161
   children [
@@ -2424,7 +2424,7 @@ TruckSimple {
   trailer TruckTankSimple {
   }
 }
-Transform {
+Pose {
   translation -7.98 6.2 0
   children [
     Shape {
@@ -3854,7 +3854,7 @@ Wall {
     }
   }
 }
-Transform {
+Pose {
   translation 0.98534 -12.89547 1.47
   rotation 0 -0.7071067761007915 -0.7071067862723036 3.1415926332467694
   children [
@@ -3877,7 +3877,7 @@ Transform {
     }
   ]
 }
-Transform {
+Pose {
   translation 0.98534 -11.87547 1.47
   rotation 0 -0.7071067761007915 -0.7071067862723036 3.1415926332467694
   children [
@@ -4417,20 +4417,24 @@ Solid {
   ]
   name "solid(23)"
 }
-Transform {
+Pose {
   translation -0.0054975 -5.41272 0
   rotation 0 0 1 -1.5707953071795862
-  scale 0.8 0.8 0.8
   children [
     Solid {
       translation 0.03 0.27 0.03
       children [
-        DEF SHAPE Shape {
-          appearance BrushedAluminium {
-          }
-          geometry Box {
-            size 1.8 0.05 0.015
-          }
+        Transform {
+          scale 0.8 0.8 0.8
+          children [
+            DEF SHAPE Shape {
+              appearance BrushedAluminium {
+              }
+              geometry Box {
+                size 1.8 0.05 0.015
+              }
+            }
+          ]
         }
       ]
       boundingObject USE SHAPE
@@ -4439,12 +4443,17 @@ Transform {
     Solid {
       translation 0.03 0.29 0.75
       children [
-        DEF SHAPE Shape {
-          appearance BrushedAluminium {
-          }
-          geometry Box {
-            size 1.8 0.01 0.015
-          }
+        Transform {
+          scale 0.8 0.8 0.8
+          children [
+            DEF SHAPE Shape {
+              appearance BrushedAluminium {
+              }
+              geometry Box {
+                size 1.8 0.01 0.015
+              }
+            }
+          ]
         }
       ]
       name "solid(18)"
@@ -4454,12 +4463,17 @@ Transform {
       translation -0.28 0 0.75
       rotation 0 0 1 1.5708
       children [
-        DEF SHAPE Shape {
-          appearance BrushedAluminium {
-          }
-          geometry Box {
-            size 0.572 0.01 0.015
-          }
+        Transform {
+          scale 0.8 0.8 0.8
+          children [
+            DEF SHAPE Shape {
+              appearance BrushedAluminium {
+              }
+              geometry Box {
+                size 0.572 0.01 0.015
+              }
+            }
+          ]
         }
       ]
       name "solid(20)"
@@ -4469,12 +4483,17 @@ Transform {
       translation 0.49 0 0.75
       rotation 0 0 1 1.5708
       children [
-        DEF SHAPE Shape {
-          appearance BrushedAluminium {
-          }
-          geometry Box {
-            size 0.572 0.01 0.015
-          }
+        Transform {
+          scale 0.8 0.8 0.8
+          children [
+            DEF SHAPE Shape {
+              appearance BrushedAluminium {
+              }
+              geometry Box {
+                size 0.572 0.01 0.015
+              }
+            }
+          ]
         }
       ]
       name "solid(21)"
@@ -4483,12 +4502,17 @@ Transform {
     Solid {
       translation -0.805 0.27 0.011
       children [
-        DEF SHAPE Shape {
-          appearance BrushedAluminium {
-          }
-          geometry Box {
-            size 0.2 0.05 0.023
-          }
+        Transform {
+          scale 0.8 0.8 0.8
+          children [
+            DEF SHAPE Shape {
+              appearance BrushedAluminium {
+              }
+              geometry Box {
+                size 0.2 0.05 0.023
+              }
+            }
+          ]
         }
       ]
       name "solid(10)"
@@ -4497,12 +4521,17 @@ Transform {
     Solid {
       translation -0.88 0.27 0.645
       children [
-        DEF SHAPE Shape {
-          appearance BrushedAluminium {
-          }
-          geometry Box {
-            size 0.05 0.05 1.22
-          }
+        Transform {
+          scale 0.8 0.8 0.8
+          children [
+            DEF SHAPE Shape {
+              appearance BrushedAluminium {
+              }
+              geometry Box {
+                size 0.05 0.05 1.22
+              }
+            }
+          ]
         }
       ]
       name "solid(14)"
@@ -4511,12 +4540,17 @@ Transform {
     Solid {
       translation 0.95 0.27 0.645
       children [
-        DEF SHAPE Shape {
-          appearance BrushedAluminium {
-          }
-          geometry Box {
-            size 0.05 0.05 1.22
-          }
+        Transform {
+          scale 0.8 0.8 0.8
+          children [
+            DEF SHAPE Shape {
+              appearance BrushedAluminium {
+              }
+              geometry Box {
+                size 0.05 0.05 1.22
+              }
+            }
+          ]
         }
       ]
       name "solid(17)"
@@ -4525,12 +4559,17 @@ Transform {
     Solid {
       translation -0.88 -0.27 0.645
       children [
-        DEF SHAPE Shape {
-          appearance BrushedAluminium {
-          }
-          geometry Box {
-            size 0.05 0.05 1.22
-          }
+        Transform {
+          scale 0.8 0.8 0.8
+          children [
+            DEF SHAPE Shape {
+              appearance BrushedAluminium {
+              }
+              geometry Box {
+                size 0.05 0.05 1.22
+              }
+            }
+          ]
         }
       ]
       name "solid(15)"
@@ -4539,12 +4578,17 @@ Transform {
     Solid {
       translation 0.95 -0.27 0.645
       children [
-        DEF SHAPE Shape {
-          appearance BrushedAluminium {
-          }
-          geometry Box {
-            size 0.05 0.05 1.22
-          }
+        Transform {
+          scale 0.8 0.8 0.8
+          children [
+            DEF SHAPE Shape {
+              appearance BrushedAluminium {
+              }
+              geometry Box {
+                size 0.05 0.05 1.22
+              }
+            }
+          ]
         }
       ]
       name "solid(16)"
@@ -4553,12 +4597,17 @@ Transform {
     Solid {
       translation 0.875 0.27 0.011
       children [
-        DEF SHAPE Shape {
-          appearance BrushedAluminium {
-          }
-          geometry Box {
-            size 0.2 0.05 0.023
-          }
+        Transform {
+          scale 0.8 0.8 0.8
+          children [
+            DEF SHAPE Shape {
+              appearance BrushedAluminium {
+              }
+              geometry Box {
+                size 0.2 0.05 0.023
+              }
+            }
+          ]
         }
       ]
       name "solid(12)"
@@ -4567,12 +4616,17 @@ Transform {
     Solid {
       translation 0.875 -0.27 0.011
       children [
-        DEF SHAPE Shape {
-          appearance BrushedAluminium {
-          }
-          geometry Box {
-            size 0.2 0.05 0.023
-          }
+        Transform {
+          scale 0.8 0.8 0.8
+          children [
+            DEF SHAPE Shape {
+              appearance BrushedAluminium {
+              }
+              geometry Box {
+                size 0.2 0.05 0.023
+              }
+            }
+          ]
         }
       ]
       name "solid(13)"
@@ -4581,12 +4635,17 @@ Transform {
     Solid {
       translation -0.805 -0.27 0.011
       children [
-        DEF SHAPE Shape {
-          appearance BrushedAluminium {
-          }
-          geometry Box {
-            size 0.2 0.05 0.023
-          }
+        Transform {
+          scale 0.8 0.8 0.8
+          children [
+            DEF SHAPE Shape {
+              appearance BrushedAluminium {
+              }
+              geometry Box {
+                size 0.2 0.05 0.023
+              }
+            }
+          ]
         }
       ]
       name "solid(11)"
@@ -4596,12 +4655,17 @@ Transform {
       translation -0.88 0 0.03
       rotation 0 0 1 -1.5707953071795862
       children [
-        DEF SHAPE Shape {
-          appearance BrushedAluminium {
-          }
-          geometry Box {
-            size 0.59 0.05 0.0151
-          }
+        Transform {
+          scale 0.8 0.8 0.8
+          children [
+            DEF SHAPE Shape {
+              appearance BrushedAluminium {
+              }
+              geometry Box {
+                size 0.59 0.05 0.0151
+              }
+            }
+          ]
         }
       ]
       name "solid(24)"
@@ -4611,12 +4675,17 @@ Transform {
       translation -0.88 0 1.26
       rotation 0 0 1 -1.5707953071795862
       children [
-        DEF SHAPE Shape {
-          appearance BrushedAluminium {
-          }
-          geometry Box {
-            size 0.59 0.05 0.0151
-          }
+        Transform {
+          scale 0.8 0.8 0.8
+          children [
+            DEF SHAPE Shape {
+              appearance BrushedAluminium {
+              }
+              geometry Box {
+                size 0.59 0.05 0.0151
+              }
+            }
+          ]
         }
       ]
       name "solid(35)"
@@ -4626,12 +4695,17 @@ Transform {
       translation 0.95 0 0.03
       rotation 0 0 1 -1.5707953071795862
       children [
-        DEF SHAPE Shape {
-          appearance BrushedAluminium {
-          }
-          geometry Box {
-            size 0.59 0.05 0.0151
-          }
+        Transform {
+          scale 0.8 0.8 0.8
+          children [
+            DEF SHAPE Shape {
+              appearance BrushedAluminium {
+              }
+              geometry Box {
+                size 0.59 0.05 0.0151
+              }
+            }
+          ]
         }
       ]
       name "solid(29)"
@@ -4641,12 +4715,17 @@ Transform {
       translation 0.95 0 1.26
       rotation 0 0 1 -1.5707953071795862
       children [
-        DEF SHAPE Shape {
-          appearance BrushedAluminium {
-          }
-          geometry Box {
-            size 0.59 0.05 0.0151
-          }
+        Transform {
+          scale 0.8 0.8 0.8
+          children [
+            DEF SHAPE Shape {
+              appearance BrushedAluminium {
+              }
+              geometry Box {
+                size 0.59 0.05 0.0151
+              }
+            }
+          ]
         }
       ]
       name "solid(9)"
@@ -4655,12 +4734,17 @@ Transform {
     Solid {
       translation 0.03 0.27 1.26
       children [
-        DEF SHAPE Shape {
-          appearance BrushedAluminium {
-          }
-          geometry Box {
-            size 1.8 0.05 0.015
-          }
+        Transform {
+          scale 0.8 0.8 0.8
+          children [
+            DEF SHAPE Shape {
+              appearance BrushedAluminium {
+              }
+              geometry Box {
+                size 1.8 0.05 0.015
+              }
+            }
+          ]
         }
       ]
       name "solid(33)"
@@ -4669,12 +4753,17 @@ Transform {
     Solid {
       translation 0.03 0.09 0.03
       children [
-        DEF SHAPE Shape {
-          appearance BrushedAluminium {
-          }
-          geometry Box {
-            size 1.8 0.05 0.015
-          }
+        Transform {
+          scale 0.8 0.8 0.8
+          children [
+            DEF SHAPE Shape {
+              appearance BrushedAluminium {
+              }
+              geometry Box {
+                size 1.8 0.05 0.015
+              }
+            }
+          ]
         }
       ]
       name "solid(30)"
@@ -4683,12 +4772,17 @@ Transform {
     Solid {
       translation 0.03 -0.09 0.03
       children [
-        DEF SHAPE Shape {
-          appearance BrushedAluminium {
-          }
-          geometry Box {
-            size 1.8 0.05 0.015
-          }
+        Transform {
+          scale 0.8 0.8 0.8
+          children [
+            DEF SHAPE Shape {
+              appearance BrushedAluminium {
+              }
+              geometry Box {
+                size 1.8 0.05 0.015
+              }
+            }
+          ]
         }
       ]
       name "solid(31)"
@@ -4697,12 +4791,17 @@ Transform {
     Solid {
       translation 0.03 -0.27 0.03
       children [
-        DEF SHAPE Shape {
-          appearance BrushedAluminium {
-          }
-          geometry Box {
-            size 1.8 0.05 0.015
-          }
+        Transform {
+          scale 0.8 0.8 0.8
+          children [
+            DEF SHAPE Shape {
+              appearance BrushedAluminium {
+              }
+              geometry Box {
+                size 1.8 0.05 0.015
+              }
+            }
+          ]
         }
       ]
       name "solid(36)"
@@ -4711,12 +4810,17 @@ Transform {
     Solid {
       translation 0.03 -0.27 1.26
       children [
-        DEF SHAPE Shape {
-          appearance BrushedAluminium {
-          }
-          geometry Box {
-            size 1.8 0.05 0.015
-          }
+        Transform {
+          scale 0.8 0.8 0.8
+          children [
+            DEF SHAPE Shape {
+              appearance BrushedAluminium {
+              }
+              geometry Box {
+                size 1.8 0.05 0.015
+              }
+            }
+          ]
         }
       ]
       name "solid(32)"

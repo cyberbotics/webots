@@ -1490,40 +1490,40 @@ FloorLight {
   name "floor light(1)"
   pointLightRadius 2
 }
-Transform {
+Pose {
   translation -9.51375 -11.8794 0.4
-  scale 0.4 0.4 0.4
   children [
     FloorLight {
-      translation -0.214575 1.45231 0
+      translation -0.08583 0.580924 0
       name "floor light(2)"
       bulbColor 0.937255 0.16078399999999998 0.16078399999999998
+      scale 0.4
       pointLightColor 1 0.5799949999999999 0.5799949999999999
       pointLightIntensity 0.7
       pointLightRadius 3
     }
   ]
 }
-Transform {
+Pose {
   translation -2.73375 -12.6994 0.4
-  scale 0.4 0.4 0.4
   children [
     FloorLight {
-      translation 0 -0.2 0
+      translation 0 -0.08 0
       name "floor light(4)"
+      scale 0.4
       pointLightIntensity 0.7
       pointLightRadius 3
     }
   ]
 }
-Transform {
+Pose {
   translation -9.51375 -9.6494 0.4
-  scale 0.4 0.4 0.4
   children [
     FloorLight {
-      translation 0 1.31 0
+      translation 0 0.524 0
       name "floor light(3)"
       bulbColor 0.937255 0.16078399999999998 0.16078399999999998
+      scale 0.4
       pointLightColor 1 0.5799949999999999 0.5799949999999999
       pointLightIntensity 0.7
       pointLightRadius 3
@@ -2006,58 +2006,66 @@ CeilingSpotLight {
   spotLightIntensity 5
   spotLightRadius 3
 }
-DEF TREES Transform {
-  scale 1 1 0.6
+DEF TREES Group {
   children [
     Cypress {
       translation -12.53 -4.26 0
       rotation 0 0 1 -0.5235983071795864
+      scale 0.6
       enableBoundingObject FALSE
     }
     Cypress {
       translation -12.53 -4.76 0
       name "cypress tree(1)"
+      scale 0.6
       enableBoundingObject FALSE
     }
     Cypress {
       translation -12.53 -5.279999999999999 0
       rotation 0 0 1 0.7853979999999999
       name "cypress tree(2)"
+      scale 0.6
       enableBoundingObject FALSE
     }
     Cypress {
       translation -12.53 -5.85 0
       rotation 0 0 1 -0.26179930717958655
       name "cypress tree(3)"
+      scale 0.6
       enableBoundingObject FALSE
     }
     Cypress {
       translation -12.53 -6.37 0
       rotation 0 0 1 -1.0471973071795864
       name "cypress tree(4)"
+      scale 0.6
       enableBoundingObject FALSE
     }
     Cypress {
       translation -12.53 -6.85 0
       rotation 0 0 1 1.308997
       name "cypress tree(5)"
+      scale 0.6
       enableBoundingObject FALSE
     }
     Cypress {
       translation -12.53 -7.319999999999999 0
       rotation 0 0 1 -0.7853983071795865
       name "cypress tree(6)"
+      scale 0.6
       enableBoundingObject FALSE
     }
     Cypress {
       translation -12.53 -7.9799999999999995 0
       rotation 0 0 1 0.5235989999999999
       name "cypress tree(7)"
+      scale 0.6
       enableBoundingObject FALSE
     }
     Cypress {
       translation -12.53 -8.5 0
       name "cypress tree(8)"
+      scale 0.6
       enableBoundingObject FALSE
     }
   ]

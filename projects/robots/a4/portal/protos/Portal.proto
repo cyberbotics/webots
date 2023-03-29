@@ -474,7 +474,7 @@ PROTO Portal [
           Pose {
             translation 0.24 0.028 -0.007
             children [
-              DEF PCB Pose {
+              DEF PCB Group {
                 children [
                   Pose {
                     translation 0.0225 -0.0123 -0.004
