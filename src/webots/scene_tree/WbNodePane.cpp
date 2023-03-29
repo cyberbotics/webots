@@ -17,9 +17,9 @@
 #include "WbField.hpp"
 #include "WbNodeEditor.hpp"
 #include "WbPhysicsViewer.hpp"
+#include "WbPose.hpp"
 #include "WbPositionViewer.hpp"
 #include "WbSolid.hpp"
-#include "WbPose.hpp"
 #include "WbVelocityViewer.hpp"
 
 #include <QtWidgets/QHBoxLayout>

@@ -34,7 +34,7 @@ public:
   void preFinalize() override;
   void postFinalize() override;
 
-  void setScaleNeedUpdate();
+  void setScaleNeedUpdate() override;
   void createWrenObjects() override;
 
   QStringList fieldsToSynchronizeWithX3D() const override;
@@ -61,7 +61,6 @@ protected:
   WbSFVector3 *mScale;
   double mPreviousXscaleValue;
   void sanitizeScale();
-  mutable WbVector3 mAbsoluteScale;
 
   void setScaleNeedUpdateFlag() const;
 

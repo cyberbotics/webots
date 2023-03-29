@@ -56,7 +56,7 @@ public:
   void reset(const QString &id) override;
   void updateSegmentationColor(const WbRgb &color) override { setSegmentationColor(color); }
 
-  void setScaleNeedUpdate();
+  void setScaleNeedUpdate() override;
   void setMatrixNeedUpdate() override { WbAbstractPose::setMatrixNeedUpdateFlag(); }
 
   void emitTranslationOrRotationChangedByUser() override {}

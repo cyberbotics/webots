@@ -101,7 +101,7 @@ protected:
   void init(WbBaseNode *node);
 
   // all constructors are reserved for derived classes only
-  WbAbstractPose(WbBaseNode *node) { init(node); }
+  explicit WbAbstractPose(WbBaseNode *node) { init(node); }
 
   // in WbTrackWheel fields are created instead of loading them
   WbSFVector3 *mTranslation;
@@ -124,7 +124,7 @@ protected:
   void inline setTranslationAndRotationFromOde(double tx, double ty, double tz, double rx, double ry, double rz, double angle);
 
   // WREN objects and methods
-  virtual void deleteWrenObjects();
+  void deleteWrenObjects();
   WbBaseNode *mBaseNode;
   mutable WbMatrix4 *mMatrix;
   mutable bool mMatrixNeedUpdate;
