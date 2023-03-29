@@ -32,23 +32,29 @@ Solid {
     ]
   %< } >%
   children [
-    Transform {
+    Pose {
       translation 0 0 1.572
       rotation 0.57735 0.57735 0.57735 2.094395
-      scale 0.8 0.6 0.8
       children [
-        BusStopMesh {
-          appearance IS appearance
+        Transform {
+          scale 0.8 0.6 0.8
+          children [
+            BusStopMesh {
+              appearance IS appearance
+            }
+          ]
         }
         %< if (bench) { >%
         BusStopBench {
+          scale 0.8 0.6 0.8
           appearance IS appearance
         }
         %< } >%
         %< if (fields.internalAdvertisingTexture.value[0] !== 'undefined') { >%
-          DEF INTERNAL_ADVERTISING Pose {
-            translation 3.7 0.33 0.02
+          DEF INTERNAL_ADVERTISING Transform {
+            translation 2.96 0.198 00.016
             rotation 1 0 0 -1.570796
+            scale 0.8 0.6 0.8
             children [
               Shape {
                 appearance PBRAppearance {
@@ -70,9 +76,10 @@ Solid {
           }
         %< } >%
         %< if (fields.externalAdvertisingTexture.value[0] !== 'undefined') { >%
-          DEF EXTERNAL_ADVERTISING Pose {
-            translation 4.07 0.33 0.02
+          DEF EXTERNAL_ADVERTISING Transform {
+            translation 3.256 0.198 0.016
             rotation 1 0 0 -1.570796
+            scale 0.8 0.6 0.8
             children [
               Shape {
                 appearance PBRAppearance {

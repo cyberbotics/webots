@@ -929,7 +929,7 @@ PedestrianCrossing {
   name "pedestrian crossing(3)"
   size 14 4.5
 }
-Transform {
+Pose {
   translation -149.25481823412758 22.02941512899757 0.03
   rotation 0 0 1 -0.3507953071795864
   children [
@@ -953,7 +953,7 @@ Transform {
     }
   ]
 }
-Transform {
+Pose {
   translation -147.32696558441623 27.297762513234968 0.03
   rotation 0 0 -1 -2.7907953071795863
   children [
@@ -984,7 +984,7 @@ PedestrianCrossing {
   size 9 3
   enableBoundingObject FALSE
 }
-Transform {
+Pose {
   translation -157.02614807225504 137.28270376314492 0.03
   rotation 0 0 -1 2.61799
   children [
@@ -1008,7 +1008,7 @@ Transform {
     }
   ]
 }
-Transform {
+Pose {
   translation -154.8661481322172 133.54147398417712 0.03
   rotation 0 0 1 0.523599
   children [
@@ -1045,7 +1045,7 @@ PedestrianCrossing {
   size 9 3
   enableBoundingObject FALSE
 }
-Transform {
+Pose {
   translation -60.75442752733078 103.86391565268548 0.030000000000000002
   rotation 0 0 1 -1.2707953071795863
   children [
@@ -1069,7 +1069,7 @@ Transform {
     }
   ]
 }
-Transform {
+Pose {
   translation -56.67284742982963 105.15116017903867 0.030000000000000002
   rotation 0 0 -1 -1.8892053071795862
   children [
@@ -3966,181 +3966,173 @@ DEF PLAY_AREA Solid {
   ]
   name "play area"
 }
-Transform {
+LargeResidentialTower {
   translation -400.71847245991796 -171.3632233557707 0
   rotation 0 0 -1 6.021385939359171
-  scale 1.5 1.5 1.5
-  children [
-    LargeResidentialTower {
-      name "LargeResidentialTower(1)"
-    }
-  ]
+  name "LargeResidentialTower(1)"
+  scale 1.5
 }
-Transform {
+LargeResidentialTower {
   translation 131.1970578644882 102.70683421710193 0
   rotation 0 0 -1 6.021385939359171
-  scale 1.5 1.5 1.5
-  children [
-    LargeResidentialTower {
-      name "LargeResidentialTower(2)"
-    }
-  ]
+  name "LargeResidentialTower(2)"
+  scale 1.5
 }
-Transform {
+Pose {
   translation 185.00436163282163 108.99507038543886 0
   rotation 0 0 -1 5.235987778359173
-  scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
       rotation 0 0 1 6.283185307179586
-      numberOfFloors 6
       name "LargeResidentialTower(3)"
+      scale 1.5
+      numberOfFloors 6
     }
   ]
 }
-Transform {
+Pose {
   translation -389.33883670582753 -230.63426449720103 0
   rotation 0 0 -1 0.261799425359172
-  scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
       rotation 0 0 1 6.283185307179586
-      numberOfFloors 6
       name "LargeResidentialTower(4)"
+      scale 1.5
+      numberOfFloors 6
     }
   ]
 }
-Transform {
+Pose {
   translation -367.4069901455794 -260.4620749560929 0
   rotation 0 0 -1 5.235987778359173
-  scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
       rotation 0 0 -1 5.759586533179586
-      numberOfFloors 5
       name "LargeResidentialTower(5)"
+      scale 1.5
+      numberOfFloors 5
     }
   ]
 }
-Transform {
+Pose {
   translation 222.1946245412187 98.922813945356 0
   rotation 0 0 -1 5.235987778359173
-  scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
       rotation 0 0 -1 5.759586533179586
-      numberOfFloors 5
       name "LargeResidentialTower(6)"
+      scale 1.5
+      numberOfFloors 5
     }
   ]
 }
-Transform {
+Pose {
   translation -277.09143744270017 -273.35253545799316 0
   rotation 0 0 1 1.3089968966408263
-  scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
       rotation 0 0 1 0.5235987548204127
-      numberOfFloors 3
       name "LargeResidentialTower(7)"
+      scale 1.5
+      numberOfFloors 3
     }
   ]
 }
-Transform {
+Pose {
   translation 304.94755765527304 158.47904750226257 0
   rotation 0 0 1 1.3089968966408263
-  scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
       rotation 0 0 -1 5.2359877591795865
-      numberOfFloors 3
       name "LargeResidentialTower(8)"
+      scale 1.5
+      numberOfFloors 3
     }
   ]
 }
-Transform {
+Pose {
   translation -312.29549856102045 -277.1962354655826 0
   rotation 0 0 -1 2.6179939083591734
-  scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
       rotation 0 0 -1 5.2359877591795865
       name "LargeResidentialTower(9)"
+      scale 1.5
     }
   ]
 }
-Transform {
+Pose {
   translation 283.7656778259336 133.93753566104644 0
   rotation 0 0 -1 4.712389004359173
-  scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
       rotation 0 0 -1 5.2359877591795865
       name "LargeResidentialTower(10)"
+      scale 1.5
     }
   ]
 }
-Transform {
+Pose {
   translation 258.2466832436322 109.36312532669966 0
   rotation 0 0 -1 2.3561945213591735
-  scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
       rotation 0 0 -1 5.2359877591795865
-      numberOfFloors 6
       name "LargeResidentialTower(11)"
+      scale 1.5
+      numberOfFloors 6
     }
   ]
 }
-Transform {
+Pose {
   translation -339.00741617611516 -275.0680981900928 0
   rotation 0 0 -1 0.7853981993591734
-  scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
       rotation 0 0 1 0.7853981418204125
-      numberOfFloors 6
       name "LargeResidentialTower(12)"
+      scale 1.5
+      numberOfFloors 6
     }
   ]
 }
-Transform {
+Pose {
   translation -408.41594628022665 -143.46425155112206 0
   rotation 0 0 1 1.832595709
-  scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
       name "LargeResidentialTower(13)"
+      scale 1.5
     }
   ]
 }
-Transform {
+Pose {
   translation 100.82608241723368 110.23943283977299 0
   rotation 0 0 1 1.832595709
-  scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
       name "LargeResidentialTower(14)"
+      scale 1.5
     }
   ]
 }
-Transform {
+Pose {
   translation -398.87602645731187 -201.83826866346698 0
   rotation 0 0 1 1.832595709
-  scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
       name "LargeResidentialTower(15)"
+      scale 1.5
     }
   ]
 }
-Transform {
+Pose {
   translation 160.63700064758143 124.0733761821126 0
   rotation 0 0 1 1.832595709
-  scale 1.5 1.5 1.5
   children [
     LargeResidentialTower {
       name "LargeResidentialTower(16)"
+      scale 1.5
     }
   ]
 }

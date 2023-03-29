@@ -36,28 +36,32 @@ Floor {
 }
 Solid {
   translation -26.6 16.8 0
-  scale 10 10 10
   children [
-    DEF BORDER Shape {
-      appearance PBRAppearance {
-        baseColor 0.6307572 0.005605392 0.02415763
-      }
-      geometry Mesh {
-        url [
-          "webots://projects/robots/husarion/rosbot_xl/worlds/meshes/husarion_world.dae"
-        ]
-        materialIndex 0
-      }
-    }
-    DEF LOGO Shape {
-      appearance PBRAppearance {
-      }
-      geometry Mesh {
-        url [
-          "webots://projects/robots/husarion/rosbot_xl/worlds/meshes/husarion_world.dae"
-        ]
-        materialIndex 1
-      }
+    Transform {
+      scale 10 10 10
+      children [
+        DEF BORDER Shape {
+          appearance PBRAppearance {
+            baseColor 0.6307572 0.005605392 0.02415763
+          }
+          geometry Mesh {
+            url [
+              "webots://projects/robots/husarion/rosbot_xl/worlds/meshes/husarion_world.dae"
+            ]
+            materialIndex 0
+          }
+        }
+        DEF LOGO Shape {
+          appearance PBRAppearance {
+          }
+          geometry Mesh {
+            url [
+              "webots://projects/robots/husarion/rosbot_xl/worlds/meshes/husarion_world.dae"
+            ]
+            materialIndex 1
+          }
+        }
+      ]
     }
   ]
   boundingObject Group {

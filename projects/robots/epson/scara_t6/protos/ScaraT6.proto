@@ -322,7 +322,7 @@ PROTO ScaraT6 [
               ]
               name "cable_solid"
             }
-            Transform{
+            Pose {
               translation 0.363 0 0.256
               children [
                 DEF LINK2_HINGEJOINT HingeJoint {

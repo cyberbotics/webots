@@ -179,7 +179,7 @@ Table {
     colorOverride 0.333 0.341 0.325
   }
 }
-Transform {
+Pose {
   translation 0.650001 2.8 0.715
   children [
     Bolt {
@@ -242,7 +242,7 @@ Transform {
     }
   ]
 }
-Transform {
+Pose {
   translation 0.660001 2.66 0.704
   rotation 0 1 0 -1.5707953071795862
   children [
@@ -294,7 +294,7 @@ Transform {
     }
   ]
 }
-Transform {
+Pose {
   translation 0 2.75 0.73
   children [
     SolidBox {
@@ -824,7 +824,7 @@ PlasticCrate {
   name "plastic crate(2)"
   size 0.5 0.5 0.2
 }
-Transform {
+Group {
   children [
     Cabinet {
       rotation 0 0 1 1.5708
