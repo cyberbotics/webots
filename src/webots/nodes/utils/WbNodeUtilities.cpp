@@ -1516,12 +1516,11 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
   if (srcModelName == destModelName)
     return UNSUITABLE;
 
-  // TODO: fix node transformation rules
   WbNode::NodeUse nodeUse = WbNodeUtilities::checkNodeUse(srcNode);
   if (nodeUse & WbNode::BOUNDING_OBJECT_USE) {
-    if (srcModelName == "Group" && destModelName == "Transform")
+    if (srcModelName == "Group" && destModelName == "Pose")
       return SUITABLE;
-    if (srcModelName == "Transform" && destModelName == "Group")
+    if (srcModelName == "Pose" && destModelName == "Group")
       return LOOSING_INFO;
 
     return UNSUITABLE;
