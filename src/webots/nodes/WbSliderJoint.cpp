@@ -219,8 +219,6 @@ void WbSliderJoint::updateParameters() {
 }
 
 void WbSliderJoint::prePhysicsStep(double ms) {
-  WbSolid *const solid = solidEndPoint();
-  assert(solid);
   WbJointParameters *const p = parameters();
   WbLinearMotor *const lm = linearMotor();
 
@@ -262,8 +260,7 @@ void WbSliderJoint::prePhysicsStep(double ms) {
 }
 
 void WbSliderJoint::postPhysicsStep() {
-  const WbSolid *const solid = solidEndPoint();
-  assert(mJoint && solid);
+  assert(mJoint);
   mPosition = dJointGetSliderPosition(mJoint) + mOdePositionOffset;
   WbJointParameters *const p = parameters();
   if (p)
