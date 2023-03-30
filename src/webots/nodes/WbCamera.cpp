@@ -471,9 +471,9 @@ void WbCamera::updateRaysSetupIfNeeded() {
     (isPlanarProjection() || horizontalFieldOfView > M_PI) ?
       WbWrenCamera::computeFieldOfViewY(horizontalFieldOfView, (double)width() / (double)height()) :
       mWrenCamera->sphericalFieldOfViewY();
-  const WbAffinePlane *frustumPlanes = WbObjectDetection::computeFrustumPlanes(
-    cameraPosition, cameraRotation, verticalFieldOfView, horizontalFieldOfView, recognition()->maxRange(),
-    isPlanarProjection());
+  const WbAffinePlane *frustumPlanes =
+    WbObjectDetection::computeFrustumPlanes(cameraPosition, cameraRotation, verticalFieldOfView, horizontalFieldOfView,
+                                            recognition()->maxRange(), isPlanarProjection());
   foreach (WbRecognizedObject *recognizedObject, mRecognizedObjects) {
     recognizedObject->object()->updateTransformForPhysicsStep();
     bool valid =
@@ -708,8 +708,9 @@ void WbCamera::computeObjects(bool finalSetup, bool needCollisionDetection) {
     (isPlanarProjection() || horizontalFieldOfView > M_PI) ?
       WbWrenCamera::computeFieldOfViewY(horizontalFieldOfView, (double)width() / (double)height()) :
       mWrenCamera->sphericalFieldOfViewY();
-  const WbAffinePlane *frustumPlanes = WbObjectDetection::computeFrustumPlanes(
-    cameraPosition, cameraRotation, verticalFieldOfView, horizontalFieldOfView, recognition()->maxRange(), isPlanarProjection());
+  const WbAffinePlane *frustumPlanes =
+    WbObjectDetection::computeFrustumPlanes(cameraPosition, cameraRotation, verticalFieldOfView, horizontalFieldOfView,
+                                            recognition()->maxRange(), isPlanarProjection());
 
   // loop for each possible target to check if it is visible
   const QList<WbSolid *> objects = WbWorld::instance()->cameraRecognitionObjects();
