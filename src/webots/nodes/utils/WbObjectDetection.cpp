@@ -371,10 +371,9 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
             inside = true;
             break;
           }
-          if (d < halfObjectSize) {  // a part of the object is outside
+          if (d < halfObjectSize)  // a part of the object is outside
             outsidePart[j] = halfObjectSize - d;
-            inside = true;
-          }
+
         } else {
           if (d < -halfObjectSize)  // object is completely outside
             return false;
