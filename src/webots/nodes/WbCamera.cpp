@@ -924,6 +924,18 @@ void WbCamera::createWrenCamera() {
 
   WbAbstractCamera::createWrenCamera();
 
+  if (mSegmentationCamera)
+    delete mSegmentationCamera;
+  if (recognition() && recognition()->segmentation()) {
+    mSegmentationCamera = new WbWrenCamera(wrenNode(), width(), height(), nearValue(), minRange(), recognition()->maxRange(),
+                                           fieldOfView(), 's', false, mProjection->value());
+    connect(mSensor, &WbSensor::stateChanged, this, &WbCamera::updateOverlayMaskTexture);
+  } else {
+    mSegmentationCamera = NULL;
+    disconnect(mSensor, &WbSensor::stateChanged, this, &WbCamera::updateOverlayMaskTexture);
+  }
+
+  applyCameraSettings();
   applyFocalSettingsToWren();
   applyFarToWren();
   updateExposure();
@@ -934,6 +946,11 @@ void WbCamera::createWrenCamera() {
   updateCameraOrientation();
   connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbCamera::updateLensFlare);
   connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbCamera::updateCameraOrientation);
+
+  if (mSegmentationCamera) {
+    updateSegmentationCameraOrientation();
+    connect(mSegmentationCamera, &WbWrenCamera::cameraInitialized, this, &WbCamera::updateSegmentationCameraOrientation);
+  }
 }
 
 void WbCamera::createWrenOverlay() {
@@ -971,11 +988,10 @@ void WbCamera::updateTextureUpdateNotifications(bool enabled) {
 }
 
 void WbCamera::setup() {
+  WbAbstractCamera::setup();
   createSegmentationCamera();
   if (mSegmentationMemoryMappedFile || (recognition() && recognition()->segmentation()))
     initializeSegmentationMemoryMappedFile();
-
-  WbAbstractCamera::setup();
 
   if (!isPlanarProjection())
     return;

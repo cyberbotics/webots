@@ -120,6 +120,8 @@ protected:
 
   virtual int size() const = 0;
 
+  void applyCameraSettings();
+
   // Wren methods
   virtual void createWrenCamera();
   void createWrenOverlay() override;
