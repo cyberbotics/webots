@@ -18,7 +18,6 @@
 // Purpose:  Webots API for loading and playing .motion files
 //-----------------------------------------------------------
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -456,8 +455,8 @@ void wbu_motion_delete(WbMotionRef motion) {
     return;
   // dequeue self
   if (!motion_dequeue(motion)) {
-    if (cleanup_done)  // the Python API calls first motion_cleanup and then tries to delete motion files.
-      assert(!head);  // no new motion should have been created after the cleanup.
+    if (cleanup_done)              // the Python API calls first motion_cleanup and then tries to delete motion files.
+      ROBOT_ASSERT(head == NULL);  // no new motion should have been created after the cleanup.
     else
       fprintf(stderr, "Error: %s(): attempt to delete an invalid 'motion'.\n", __FUNCTION__);
     return;
