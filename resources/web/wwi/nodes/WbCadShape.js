@@ -32,7 +32,7 @@ export default class WbCadShape extends WbBaseNode {
   #wrenTransforms;
   constructor(id, url, ccw, castShadows, isPickable, prefix) {
     super(id);
-    if (url.endsWith('.obj') || url.endsWith('.dae'))
+    if (url.toLowerCase().endsWith('.obj') || url.toLowerCase().endsWith('.dae'))
       this.#url = url;
 
     if (typeof this.#url === 'undefined') { // no '.dae' or '.obj' was provided
