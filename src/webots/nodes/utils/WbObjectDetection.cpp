@@ -355,12 +355,13 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
         const double zRange =
           fabs(rotation(2, 2) * height) + 2 * radius * sqrt(qMax(0.0, 1.0 - rotation(2, 2) * rotation(2, 2)));
         objectSize = WbVector3(xRange, yRange, zRange);
+
         mUseBoundingSphereOnly = false;
       }
     }
     // check distance between center and frustum planes
-    if (!mIsOmniDirectional || (objectPosition - devicePosition).x() < 0.0) {
-      // if spherical/cylindrical frustum, then object check only if objects are in the back of the device
+    if (!mIsOmniDirectional || frustumPlanes[PARALLEL].distance(objectPosition) < 0.0) {
+      // if omnidirectional frustum, then check only if objects are in the back of the device
       bool inside = false;
       for (int j = 0; j < PARALLEL; ++j) {
         const double d = frustumPlanes[j].distance(objectPosition);
@@ -370,8 +371,10 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
             inside = true;
             break;
           }
-          if (d < halfObjectSize)
+          if (d < halfObjectSize) {  // a part of the object is outside
             outsidePart[j] = halfObjectSize - d;
+            inside = true;
+          }
         } else {
           if (d < -halfObjectSize)  // object is completely outside
             return false;
@@ -438,6 +441,7 @@ WbAffinePlane *WbObjectDetection::computeFrustumPlanes(const WbVector3 &devicePo
     y = maxRange * tan(halfFovX);
     z = maxRange * tan(halfFovY);
   } else {
+    // omnidirectional sensor with horizontal FOV > PI
     const float angleY[4] = {-halfFovY, -halfFovY, halfFovY, halfFovY};
     const float angleX[4] = {halfFovX, -halfFovX, -halfFovX, halfFovX};
     for (int k = 0; k < 4; ++k) {
@@ -456,11 +460,11 @@ WbAffinePlane *WbObjectDetection::computeFrustumPlanes(const WbVector3 &devicePo
   const WbVector3 bottomRightCorner = devicePosition + deviceRotation * WbVector3(x, -y, -z);
   const WbVector3 bottomLeftCorner = devicePosition + deviceRotation * WbVector3(x, y, -z);
   WbAffinePlane *planes = new WbAffinePlane[PLANE_NUMBER];
-  planes[RIGHT] = WbAffinePlane(devicePosition, topRightCorner, bottomRightCorner);       // right plane
-  planes[BOTTOM] = WbAffinePlane(devicePosition, bottomRightCorner, bottomLeftCorner);    // bottom plane
-  planes[LEFT] = WbAffinePlane(devicePosition, bottomLeftCorner, topLeftCorner);          // left plane
-  planes[TOP] = WbAffinePlane(devicePosition, topLeftCorner, topRightCorner);             // top plane
-  planes[PARALLEL] = WbAffinePlane(deviceRotation * WbVector3(x, 0, 0), devicePosition);  // device plane
+  planes[RIGHT] = WbAffinePlane(devicePosition, topRightCorner, bottomRightCorner);              // right plane
+  planes[BOTTOM] = WbAffinePlane(devicePosition, bottomRightCorner, bottomLeftCorner);           // bottom plane
+  planes[LEFT] = WbAffinePlane(devicePosition, bottomLeftCorner, topLeftCorner);                 // left plane
+  planes[TOP] = WbAffinePlane(devicePosition, topLeftCorner, topRightCorner);                    // top plane
+  planes[PARALLEL] = WbAffinePlane(deviceRotation * WbVector3(maxRange, 0, 0), devicePosition);  // device plane
   for (int i = 0; i < PLANE_NUMBER; ++i)
     planes[i].normalize();
   return planes;
