@@ -455,9 +455,9 @@ void wbu_motion_delete(WbMotionRef motion) {
     return;
   // dequeue self
   if (!motion_dequeue(motion)) {
-    if (cleanup_done)              // the Python API calls first motion_cleanup and then tries to delete motion files.
+    if (cleanup_done) {            // the Python API calls first motion_cleanup and then tries to delete motion files.
       ROBOT_ASSERT(head == NULL);  // no new motion should have been created after the cleanup.
-    else
+    } else
       fprintf(stderr, "Error: %s(): attempt to delete an invalid 'motion'.\n", __FUNCTION__);
     return;
   }
