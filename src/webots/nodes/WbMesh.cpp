@@ -36,6 +36,8 @@
 #include <QtCore/QFile>
 #include <QtCore/QIODevice>
 
+#include <iostream>
+
 void WbMesh::init() {
   mUrl = findMFString("url");
   mCcw = findSFBool("ccw");
@@ -72,12 +74,13 @@ void WbMesh::downloadAssets() {
 
   delete mDownloader;
   mDownloader = WbDownloadManager::instance()->createDownloader(QUrl(completeUrl), this);
-  if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
-    connect(mDownloader, &WbDownloader::complete, this, &WbMesh::downloadUpdate);
+  connect(mDownloader, &WbDownloader::complete, this, &WbMesh::downloadUpdate);
   mDownloader->download();
+  std::cout << "Download asset" << '\n';
 }
 
 void WbMesh::downloadUpdate() {
+  std::cout << "download update" << '\n';
   updateUrl();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
   const WbNode *ancestor = WbVrmlNodeUtilities::findTopNode(this);
@@ -139,8 +142,10 @@ void WbMesh::updateTriangleMesh(bool issueWarnings) {
 
   if (WbUrl::isWeb(filePath)) {
     if (!WbNetwork::instance()->isCachedWithMapUpdate(filePath)) {
-      if (mDownloader == NULL)  // never attempted to download it, try now
+      if (mDownloader == NULL) {  // never attempted to download it, try now
+        std::cout << "updateTriangleMesh" << '\n';
         downloadAssets();
+      }
       return;
     }
 
@@ -334,9 +339,8 @@ void WbMesh::updateUrl() {
         if (mDownloader && mDownloader->hasFinished()) {
           delete mDownloader;
           mDownloader = NULL;
-        }
-
-        downloadAssets();  // URL was changed from the scene tree or supervisor
+        } else if (!mDownloader)
+          downloadAssets();  // URL was changed from the scene tree or supervisor
         return;
       }
     }
