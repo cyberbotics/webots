@@ -248,10 +248,10 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
             }
           }
           if (inside) {
-            for (int j = 0; j <= PARALLEL; ++j)
+            for (int j = 0; j < PARALLEL; ++j)
               isOnePointOnCorrectSide[j] = true;
           } else {
-            for (int j = 0; j <= PARALLEL; ++j)
+            for (int j = 0; j < PARALLEL; ++j)
               isOnePointOutsidePlane[j] = true;
             points[i] = devicePosition - frustumPlanes[minIndex].vectorProjection(objectPosition);
           }
