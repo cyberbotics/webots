@@ -50,6 +50,8 @@ Released on ??
     - Fixed physics state updates of [Solid](solid.md) nodes added to a descendant [`Joint.endPoint`](joint.md) during simulation ([#5961](https://github.com/cyberbotics/webots/pull/5961)).
     - Fixed unwanted altitude change when reaching a target waypoint in `mavic2pro_patrol.c` ([#5981](https://github.com/cyberbotics/webots/pull/5981)).
     - Fixed the extern controller connection to a target Webots instance when a snap one is running. ([#6002](https://github.com/cyberbotics/webots/pull/6002)).
+    - Fixed various issues related to the camera's [Recognition](recognition.md) functionality including image annotations in case of spherical and cylindrical projections ([#5967](https://github.com/cyberbotics/webots/pull/5967)).
+    - Fixed [Camera](camera.md) segmentation image if a [Lens](lens.md) is defined. ([#5967](https://github.com/cyberbotics/webots/pull/5967)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
