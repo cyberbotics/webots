@@ -238,7 +238,7 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
           double minDistance = 0.0;
           int minIndex = -1;
           for (int j = 0; j < PARALLEL; ++j) {
-            const double d = frustumPlanes[j].distance(objectPosition);
+            const double d = frustumPlanes[j].distance(points[i]);
             if (d < 0) {
               inside = true;
               break;
@@ -253,14 +253,14 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
           } else {
             for (int j = 0; j < PARALLEL; ++j)
               isOnePointOutsidePlane[j] = true;
-            points[i] = devicePosition - frustumPlanes[minIndex].vectorProjection(objectPosition);
+            points[i] = devicePosition - frustumPlanes[minIndex].vectorProjection(points[i] - devicePosition);
           }
         }
       } else if (frustumPlanes[PARALLEL].distance(points[i]) > 0) {  // object is in front of the planar device
         inside = true;
         for (int j = 0; j < PARALLEL; ++j) {
-          if (frustumPlanes[j].distance(objectPosition) < 0) {
-            points[i] = devicePosition - frustumPlanes[j].vectorProjection(objectPosition);
+          if (frustumPlanes[j].distance(points[i]) < 0) {
+            points[i] = devicePosition - frustumPlanes[j].vectorProjection(points[i] - devicePosition);
             isOnePointOutsidePlane[j] = true;
             inside = false;
           } else
