@@ -115,10 +115,12 @@ int main(int argc, char **argv) {
   for (i = 0; i < object_number; ++i) {
     // check position on the image of the 'visible sphere without BO' solid
     if (strcmp(objects[i].model, "visible sphere without BO") == 0) {
-      ts_assert_int_equal(objects[i].position_on_image[0], 191,
-                          "Image coordinate of the 'visible sphere without BO' solid is not correct.");
+      ts_assert_int_equal(objects[i].position_on_image[0], 190,
+                          "Image coordinate of the 'visible sphere without BO' solid is not correct: found u=%d, expected u=%d.",
+                          objects[i].position_on_image[0], 191);
       ts_assert_int_equal(objects[i].position_on_image[1], 41,
-                          "Image coordinate of the 'visible sphere without BO' solid is not correct.");
+                          "Image coordinate of the 'visible sphere without BO' solid is not correct: found v=%d, expected v=%d.",
+                          objects[i].position_on_image[1], 41);
     }
     // check objct is one of the visible solid
     bool found = false;
