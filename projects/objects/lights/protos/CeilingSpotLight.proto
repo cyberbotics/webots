@@ -38,6 +38,7 @@ PROTO CeilingSpotLight [
         castShadows IS spotLightCastShadows
       }
       SolidPipe {
+        translation 0 0 0
         height 0.08
         radius 0.05
         thickness 0.01
