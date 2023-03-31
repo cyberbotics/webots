@@ -420,7 +420,7 @@ PROTO VehicleWheel [
       %< if (fields.boundingObject.value) { >%
         contactMaterial IS contactMaterial
         boundingObject Pose {
-          rotation 0 1 0 1.570796
+          rotation 1 0 0 1.570796
           children [
             Cylinder {
               height %<= thickness >%
