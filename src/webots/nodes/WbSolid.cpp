@@ -2862,8 +2862,7 @@ void WbSolid::enable(bool enabled, bool ode) {
   }
 }
 
-void WbSolid::exportUrdfShape(WbWriter &writer, const QString &geometry, const WbPose *transform,
-                              const WbVector3 &offset) const {
+void WbSolid::exportUrdfShape(WbWriter &writer, const QString &geometry, const WbPose *pose, const WbVector3 &offset) const {
   const QStringList element = QStringList() << "visual"
                                             << "collision";
   for (int j = 0; j < element.size(); ++j) {
@@ -2871,11 +2870,11 @@ void WbSolid::exportUrdfShape(WbWriter &writer, const QString &geometry, const W
     writer.indent();
     writer << QString("<%1>\n").arg(element[j]);
     writer.increaseIndent();
-    if (transform != this || !offset.isNull()) {
-      WbVector3 translation = transform->translation() + offset;
-      WbRotation rotation = transform->rotation();
+    if (pose != this || !offset.isNull()) {
+      WbVector3 translation = pose->translation() + offset;
+      WbRotation rotation = pose->rotation();
       writer.indent();
-      if (transform == this) {
+      if (pose == this) {
         rotation = WbRotation(0.0, 1.0, 0.0, 0.0);
         translation = offset;
       }
@@ -2911,7 +2910,7 @@ bool WbSolid::exportNodeHeader(WbWriter &writer) const {
           const WbSphere *sphere = dynamic_cast<const WbSphere *>(node);
           const WbCapsule *capsule = dynamic_cast<const WbCapsule *>(node);
           if (box || cylinder || sphere || capsule) {
-            const WbPose *transform = WbNodeUtilities::findUpperPose(node);
+            const WbPose *pose = WbNodeUtilities::findUpperPose(node);
             QList<std::pair<QString, WbVector3>> geometries;  // string of the geometry and its offset
 
             if (box) {
@@ -2928,13 +2927,13 @@ bool WbSolid::exportNodeHeader(WbWriter &writer) const {
               geometries << pair;
               pair.first = QString("<sphere radius=\"%1\"/>\n").arg(capsule->radius());
               pair.second = WbVector3(0.0, 0.5 * capsule->height(), 0.0);
-              if (transform)
-                pair.second = transform->rotation().toMatrix3() * pair.second;
+              if (pose)
+                pair.second = pose->rotation().toMatrix3() * pair.second;
               geometries << pair;
               pair.first = QString("<sphere radius=\"%1\"/>\n").arg(capsule->radius());
               pair.second = WbVector3(0.0, -0.5 * capsule->height(), 0.0);
-              if (transform)
-                pair.second = transform->rotation().toMatrix3() * pair.second;
+              if (pose)
+                pair.second = pose->rotation().toMatrix3() * pair.second;
               geometries << pair;
             } else if (sphere) {
               std::pair<QString, WbVector3> pair;
@@ -2943,7 +2942,7 @@ bool WbSolid::exportNodeHeader(WbWriter &writer) const {
             } else
               assert(false);
             for (int j = 0; j < geometries.size(); ++j)
-              exportUrdfShape(writer, geometries[j].first, transform, geometries[j].second + writer.jointOffset());
+              exportUrdfShape(writer, geometries[j].first, pose, geometries[j].second + writer.jointOffset());
           }
         }
       }

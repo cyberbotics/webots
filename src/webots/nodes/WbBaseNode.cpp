@@ -282,9 +282,9 @@ void WbBaseNode::exportUrdfJoint(WbWriter &writer) const {
   assert(upperLinkRoot);
 
   if (dynamic_cast<const WbPose *>(this) && dynamic_cast<const WbPose *>(upperLinkRoot)) {
-    const WbPose *const upperLinkRootTransform = static_cast<const WbPose *>(this);
-    translation = upperLinkRootTransform->translationFrom(upperLinkRoot);
-    eulerRotation = urdfRotation(upperLinkRootTransform->rotationMatrixFrom(upperLinkRoot));
+    const WbPose *const upperLinkRootPose = static_cast<const WbPose *>(this);
+    translation = upperLinkRootPose->translationFrom(upperLinkRoot);
+    eulerRotation = urdfRotation(upperLinkRootPose->rotationMatrixFrom(upperLinkRoot));
   }
 
   translation += writer.jointOffset();

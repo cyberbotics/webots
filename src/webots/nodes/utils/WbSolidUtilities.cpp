@@ -223,13 +223,13 @@ bool WbSolidUtilities::checkBoundingObject(WbNode *const node) {
   if (node == NULL)
     return false;
 
-  const WbPose *const transform = dynamic_cast<WbPose *>(node);
+  const WbPose *const pose = dynamic_cast<WbPose *>(node);
   // cppcheck-suppress knownConditionTrueFalse
-  if (transform) {
-    WbNode *child = transform->child(0);
+  if (pose) {
+    WbNode *child = pose->child(0);
     if (child == NULL) {
       node->parsingWarn(
-        QObject::tr("Invalid 'boundingObject' (a Transform has no 'geometry'): the inertia matrix cannot be calculated."));
+        QObject::tr("Invalid 'boundingObject' (a Pose has no 'geometry'): the inertia matrix cannot be calculated."));
       return false;
     }
 
@@ -240,9 +240,8 @@ bool WbSolidUtilities::checkBoundingObject(WbNode *const node) {
 
     const WbShape *const shape = dynamic_cast<WbShape *>(child);
     if (shape == NULL || shape->geometry() == NULL) {
-      node->parsingWarn(
-        QObject::tr("Invalid 'boundingObject' (a Transform, or a Shape within a Transform, has no 'geometry'): the "
-                    "inertia matrix cannot be calculated."));
+      node->parsingWarn(QObject::tr("Invalid 'boundingObject' (a Pose, or a Shape within a Pose, has no 'geometry'): the "
+                                    "inertia matrix cannot be calculated."));
       return false;
     }
   }

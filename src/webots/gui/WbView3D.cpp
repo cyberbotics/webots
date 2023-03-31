@@ -56,7 +56,6 @@
 #include "WbSupervisorUtilities.hpp"
 #include "WbSysInfo.hpp"
 #include "WbTouchSensor.hpp"
-#include "WbTransform.hpp"
 #include "WbTranslateRotateManipulator.hpp"
 #include "WbVersion.hpp"
 #include "WbVideoRecorder.hpp"

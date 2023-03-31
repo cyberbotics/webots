@@ -292,7 +292,7 @@ private:
   WbSolid &operator=(const WbSolid &);  // non copyable
   void init();
 
-  void exportUrdfShape(WbWriter &writer, const QString &geometry, const WbPose *transform, const WbVector3 &offset) const;
+  void exportUrdfShape(WbWriter &writer, const QString &geometry, const WbPose *pose, const WbVector3 &offset) const;
 
   // list of finalized solids
   static QList<const WbSolid *> cSolids;

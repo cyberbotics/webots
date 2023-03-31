@@ -253,10 +253,10 @@ dGeomID WbMatter::odeGeom() const {
 
   WbGeometry *g = NULL;
 
-  const WbPose *const t = dynamic_cast<WbPose *>(bo);
+  const WbPose *const p = dynamic_cast<WbPose *>(bo);
   // cppcheck-suppress knownConditionTrueFalse
-  if (t)
-    g = t->geometry();
+  if (p)
+    g = p->geometry();
   else {
     const WbShape *const s = dynamic_cast<WbShape *>(bo);
     g = s ? s->geometry() : dynamic_cast<WbGeometry *>(bo);
