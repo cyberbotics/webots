@@ -308,6 +308,7 @@ PROTO Mir100 [
                   }
                 }
                 SolidTorus {
+                  translation 0 0 0
                   majorRadius 0.0465
                   minorRadius 0.016
                   enableBoundingObject FALSE
@@ -362,6 +363,7 @@ PROTO Mir100 [
               children [
                 USE RIM
                 SolidTorus {
+                  translation 0 0 0
                   majorRadius 0.0465
                   minorRadius 0.016
                   enableBoundingObject FALSE
@@ -431,6 +433,7 @@ PROTO Mir100 [
                     children [
                       USE RIM
                       SolidTorus {
+                        translation 0 0 0
                         majorRadius 0.0465
                         minorRadius 0.016
                         enableBoundingObject FALSE
@@ -513,6 +516,7 @@ PROTO Mir100 [
                     children [
                       USE RIM
                       SolidTorus {
+                        translation 0 0 0
                         majorRadius 0.0465
                         minorRadius 0.016
                         enableBoundingObject FALSE
@@ -592,6 +596,7 @@ PROTO Mir100 [
                     children [
                       USE RIM
                       SolidTorus {
+                        translation 0 0 0
                         majorRadius 0.0465
                         minorRadius 0.016
                         enableBoundingObject FALSE
@@ -671,6 +676,7 @@ PROTO Mir100 [
                     children [
                       USE RIM
                       SolidTorus {
+                        translation 0 0 0
                         majorRadius 0.0465
                         minorRadius 0.016
                         enableBoundingObject FALSE
