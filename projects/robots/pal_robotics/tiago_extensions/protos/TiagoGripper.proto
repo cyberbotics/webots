@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Apache License 2.0.
 # license url: https://www.apache.org/licenses/LICENSE-2.0
 # Parallel gripper end-effector for the TIAGo robot from PAL Robotics.
@@ -22,7 +22,9 @@ PROTO TiagoGripper [
     else if (fields.name.value === 'right')
       side = 'right_hand_';
   >%
-    Solid {
+  Slot {
+    type "tiago hand"
+    endPoint Solid {
       translation IS translation
       rotation IS rotation
       children [
@@ -362,13 +364,13 @@ PROTO TiagoGripper [
           }
           device [
             LinearMotor {
-              name %<= '"' + side + 'gripper_left_finger_joint"' >%
+              name %<= '"' + side + 'gripper_finger_joint::left"' >%
               maxVelocity 0.05
               maxPosition 0.045
               maxForce 16
             }
             PositionSensor {
-              name %<= '"' + side + 'gripper_left_finger_joint_sensor"' >%
+              name %<= '"' + side + 'gripper_finger_joint::left_sensor"' >%
             }
           ]
           endPoint DEF LEFT_GRIPPER Solid {
@@ -472,13 +474,13 @@ PROTO TiagoGripper [
           }
           device [
             LinearMotor {
-              name %<= '"' + side + 'gripper_right_finger_joint"' >%
+              name %<= '"' + side + 'gripper_finger_joint::right"' >%
               maxVelocity 0.05
               maxPosition 0.045
               maxForce 16
             }
             PositionSensor {
-              name %<= '"' + side + 'gripper_right_finger_joint_sensor"' >%
+              name %<= '"' + side + 'gripper_finger_joint::right_sensor"' >%
             }
           ]
           endPoint DEF RIGHT_GRIPPER Solid {
@@ -642,4 +644,5 @@ PROTO TiagoGripper [
         mass 1
       }
     }
+  }
 }
