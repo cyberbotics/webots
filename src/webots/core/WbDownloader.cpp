@@ -29,6 +29,10 @@ WbDownloader::WbDownloader(const QUrl &url, const WbDownloader *existingDownload
 
 WbDownloader::~WbDownloader() {
   if (mNetworkReply) {
+    if (mExistingDownload)
+      disconnect(mExistingDownload->networkReply(), &QNetworkReply::finished, this, &WbDownloader::finished);
+    disconnect(mNetworkReply, &QNetworkReply::finished, this, &WbDownloader::finished);
+    mNetworkReply->abort();
     mNetworkReply->deleteLater();
 
     // properties used by WbDownloadManager
