@@ -32,7 +32,7 @@ export default class WbCadShape extends WbBaseNode {
   #wrenTransforms;
   constructor(id, url, ccw, castShadows, isPickable, prefix) {
     super(id);
-    if (url.endsWith('.obj') || url.endsWith('.dae'))
+    if (url.toLowerCase().endsWith('.obj') || url.toLowerCase().endsWith('.dae'))
       this.#url = url;
 
     if (typeof this.#url === 'undefined') { // no '.dae' or '.obj' was provided
@@ -40,7 +40,7 @@ export default class WbCadShape extends WbBaseNode {
       return;
     }
 
-    this.#isCollada = this.#url.endsWith('.dae');
+    this.#isCollada = this.#url.toLowerCase().endsWith('.dae');
 
     this.prefix = prefix;
 
@@ -96,7 +96,7 @@ export default class WbCadShape extends WbBaseNode {
   }
 
   set url(newUrl) {
-    if (newUrl.endsWith('.obj') || newUrl.endsWith('.dae'))
+    if (newUrl.toLowerCase().endsWith('.obj') || newUrl.toLowerCase().endsWith('.dae'))
       this.#url = newUrl;
     else
       console.error('Unknown file provided to CadShape node: ' + newUrl);
@@ -477,7 +477,7 @@ export default class WbCadShape extends WbBaseNode {
 
   #updateUrl() {
     if (this.#url)
-      this.#isCollada = this.#url.endsWith('.dae');
+      this.#isCollada = this.#url.toLowerCase().endsWith('.dae');
 
     MeshLoader.loadMeshData(WbWorld.instance.prefix, this.#url).then(meshContent => {
       this.scene = meshContent[0];
