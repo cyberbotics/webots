@@ -10,11 +10,15 @@
 PROTO SimpleTwoFloorsHouse [
   field SFVec3f    translation           0 0 0
   field SFRotation rotation              0 0 1 0
+  field SFFloat    scale                 1
   field SFString   name                  "simple two-storey house"
   field SFBool     enableBoundingObject  TRUE                                                                # Defines whether to enable the bounding object.
   field SFNode     appearance            PBRAppearance { baseColor 0.63 0.71 0.63 metalness 0 roughness 1 }  # Defines the house appearance.
 ]
 {
+  %<
+    const scale = fields.scale.value;
+  >%
   Solid {
     translation IS translation
     rotation IS rotation
@@ -26,7 +30,7 @@ PROTO SimpleTwoFloorsHouse [
     %< } >%
     children [
       Transform {
-        scale 2 2 2
+        scale %<= scale * 2 >% %<= scale * 2 >% %<= scale * 2 >%
         children [
           DEF DOOR Shape {
             appearance PBRAppearance {
@@ -269,20 +273,20 @@ PROTO SimpleTwoFloorsHouse [
     boundingObject Group {
       children [
         Pose {
-          translation 0 1.2 2.5
+          translation 0 %<= scale * 1.2 >% %<= scale * 2.5 >%
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
             Box {
-              size 6.3 5 7.1
+              size %<= scale * 6.3 >% %<= scale * 5 >% %<= scale * 7.1 >%
             }
           ]
         }
         Pose {
-          translation 0.56 -2.8 1.52
+          translation %<= scale * 0.56 >% %<= scale * -2.8 >% %<= scale * 1.52 >%
           rotation 0.577351 -0.577351 -0.577348 2.094398
           children [
             Box {
-              size 2.7 3 2.5
+              size %<= scale * 2.7 >% %<= scale * 3 >% %<= scale * 2.5 >%
             }
           ]
         }

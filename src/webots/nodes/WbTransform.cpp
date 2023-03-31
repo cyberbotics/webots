@@ -75,29 +75,29 @@ void WbTransform::updateScale(bool warning) {
 }
 
 void WbTransform::sanitizeScale() {
-  WbVector3 scale = mScale->value();
+  WbVector3 sanitizedScale = mScale->value();
   bool invalid = false;
 
-  if (scale.x() == 0.0) {
-    scale.setX(1.0);
+  if (sanitizedScale.x() == 0.0) {
+    sanitizedScale.setX(1.0);
     mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: x is set to 1.0."));
     invalid = true;
   }
 
-  if (scale.y() == 0.0) {
-    scale.setY(1.0);
+  if (sanitizedScale.y() == 0.0) {
+    sanitizedScale.setY(1.0);
     mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: y is set to 1.0."));
     invalid = true;
   }
 
-  if (scale.z() == 0.0) {
-    scale.setZ(1.0);
+  if (sanitizedScale.z() == 0.0) {
+    sanitizedScale.setZ(1.0);
     mBaseNode->parsingWarn(QObject::tr("All 'scale' coordinates must be non-zero: z is set to 1.0."));
     invalid = true;
   }
 
   if (invalid)
-    mScale->setValue(scale);
+    mScale->setValue(sanitizedScale);
 }
 
 void WbTransform::applyToOdeScale() {

@@ -14,6 +14,7 @@ PROTO BungalowStyleHouse [
   field SFVec3f translation         0 0 0
   field SFRotation rotation         0 0 1 0
   field SFString name               "bungalow style house"
+  field SFFloat scale               1
   field SFBool fence                TRUE                                                                # Defines whether the house has a fence or not.
   field SFBool floor                TRUE                                                                # Defines whether the house is built on a wooden base layer or not.
   field SFBool chimney              TRUE                                                                # Defines whether the house has a chimney or not.
@@ -23,6 +24,9 @@ PROTO BungalowStyleHouse [
   field SFNode fenceAppearance      RoughPine { textureTransform TextureTransform { scale 10 10 } }     # Defines the appearance of the fence.
 ]
 {
+  %<
+    const scale = fields.scale.value;
+  >%
   Solid {
     %< if (fields.appearance.value !== undefined && fields.appearance.value.fields.baseColor !== undefined) { >%
       %< let color = fields.appearance.value.fields.baseColor.value; >%
@@ -35,12 +39,12 @@ PROTO BungalowStyleHouse [
     children [
       Solid {
         %< if (fields.floor.value) { >%
-          translation 0 0 0.33
+          translation 0 0 %<= scale * 0.33 >%
         %< } >%
         rotation -0.577351 -0.577351 -0.577349 -2.094397
         children [
           Transform {
-            scale 2.5 2.5 2.5
+            scale %<= scale * 2.5 >% %<= scale * 2.5 >% %<= scale * 2.5 >%
             children [
               %< if (fields.chimney.value) { >%
               DEF CHIMNEY Group {
@@ -285,96 +289,96 @@ PROTO BungalowStyleHouse [
         boundingObject Group {
           children [
             DEF MAIN Pose {
-              translation 0.4 2 0
+              translation %<= scale * 0.4 >% %<= scale * 2 >% 0
               children [
                 DEF MAIN Box {
-                  size 5 3.9 4.8
+                  size %<= scale * 5 >% %<= scale * 3.9 >% %<= scale * 4.8 >%
                 }
               ]
             }
             %< if (fields.floor.value) { >%
             DEF FLOOR Pose {
-              translation 0.5 -0.15 0
+              translation %<= scale * 0.5 >% %<= scale * -0.15 >% 0
               children [
                 Box {
-                  size 4.9 0.3 6.9
+                  size %<= scale * 4.9 >% %<= scale * 0.3 >% %<= scale * 6.9 >%
                 }
               ]
             }
             DEF FLOOR_RAMP1 Pose {
-              translation 0.2 -0.26 -3.65
+              translation %<= scale * 0.2 >% %<= scale * -0.26 >% %<= scale * -3.65 >%
               rotation 1 0 0 -0.5236
               children [
                 Box {
-                  size 1.2 0.3 0.6
+                  size %<= scale * 1.2 >% %<= scale * 0.3 >% %<= scale * 0.6 >%
                 }
               ]
             }
             DEF FLOOR_RAMP2 Pose {
-              translation 3.2 -0.24 0.18
+              translation %<= scale * 3.2 >% %<= scale * -0.24 >% %<= scale * 0.18 >%
               rotation 0 0 1 -0.5236
               children [
                 Box {
-                  size 0.7 0.3 0.6
+                  size %<= scale * 0.7 >% %<= scale * 0.3 >% %<= scale * 0.6 >%
                 }
               ]
             }
             DEF FLOOR_RAMP3 Pose {
-              translation 0.2 -0.26 3.74
+              translation %<= scale * 0.2 >% %<= scale * -0.26 >% %<= scale * 3.74 >%
               rotation 1 0 0 0.5236
               children [
                 Box {
-                  size 1.2 0.3 0.7
+                  size %<= scale * 1.2 >% %<= scale * 0.3 >% %<= scale * 0.7 >%
                 }
               ]
             }
             %< } >%
             %< if (fields.fence.value) { >%
             DEF FENCE1 Pose {
-              translation -1.78 0.29 0
+              translation %<= scale * -1.78 >% %<= scale * 0.29 >% 0
               children [
                 Box {
-                  size 0.1 0.4 6.9
+                  size %<= scale * 0.1 >% %<= scale * 0.4 >% %<= scale * 6.9 >%
                 }
               ]
             }
             DEF FENCE2 Pose {
-              translation 2.91 0.29 0
+              translation %<= scale * 2.91 >% %<= scale * 0.29 >% 0
               children [
                 Box {
-                  size 0.1 0.4 6.9
+                  size %<= scale * 0.1 >% %<= scale * 0.4 >% %<= scale * 6.9 >%
                 }
               ]
             }
             DEF FENCE3 Pose {
-              translation 1.82 0.29 -3.4
+              translation %<= scale * 1.82 >% %<= scale * 0.29 >% %<= scale * -3.4 >%
               children [
                 Box {
-                  size 2.2 0.4 0.1
+                  size %<= scale * 2.2 >% %<= scale * 0.4 >% %<= scale * 0.1 >%
                 }
               ]
             }
             DEF FENCE4 Pose {
-              translation -1.06 0.29 -3.4
+              translation %<= scale * -1.06 >% %<= scale * 0.29 >% %<= scale * -3.4 >%
               children [
                 Box {
-                  size 1.4 0.4 0.1
+                  size %<= scale * 1.4 >% %<= scale * 0.4 >% %<= scale * 0.1 >%
                 }
               ]
             }
             DEF FENCE5 Pose {
-              translation 1.82 0.29 3.5
+              translation %<= scale * 1.82 >% %<= scale * 0.29 >% %<= scale * 3.5 >%
               children [
                 Box {
-                  size 2.2 0.4 0.1
+                  size %<= scale * 2.2 >% %<= scale * 0.4 >% %<= scale * 0.1 >%
                 }
               ]
             }
             DEF FENCE6 Pose {
-              translation -1.06 0.29 3.5
+              translation %<= scale * -1.06 >% %<= scale * 0.29 >% %<= scale * 3.5 >%
               children [
                 Box {
-                  size 1.4 0.4 0.1
+                  size %<= scale * 1.4 >% %<= scale * 0.4 >% %<= scale * 0.1 >%
                 }
               ]
             }

@@ -13,6 +13,7 @@ EXTERNPROTO "BusStopBench.proto"
 PROTO BusStop [
   field SFVec3f     translation                 0 0 0
   field SFRotation  rotation                    0 0 1 0
+  field SFFloat     scale                       1
   field SFString    name                        "bus stop"
   field SFBool      bench                       TRUE                                                                  # Defines whether the bust stop should include a bench.
   field SFNode      appearance                  PBRAppearance { baseColor 0.3 0.45 0.33  metalness 0 roughness 0.5 }  # Defines the appearance of the bench.
@@ -21,7 +22,10 @@ PROTO BusStop [
   field SFBool      advertisingLightOn          TRUE                                                                  # Defines whether the advertising should have an emissive color.
 ]
 {
-%< const bench = fields.bench.value; >%
+%<
+  const bench = fields.bench.value;
+  const scale = fields.scale.value;
+>%
 Solid {
   translation IS translation
   rotation IS rotation
@@ -33,11 +37,11 @@ Solid {
   %< } >%
   children [
     Pose {
-      translation 0 0 1.572
+      translation 0 0 %<= scale * 1.572 >%
       rotation 0.57735 0.57735 0.57735 2.094395
       children [
         Transform {
-          scale 0.8 0.6 0.8
+          scale %<= scale * 0.8 >% %<= scale * 0.6 >% %<= scale * 0.8 >%
           children [
             BusStopMesh {
               appearance IS appearance
@@ -46,15 +50,15 @@ Solid {
         }
         %< if (bench) { >%
         BusStopBench {
-          scale 0.8 0.6 0.8
+          scale %<= scale * 0.8 >% %<= scale * 0.6 >% %<= scale * 0.8 >%
           appearance IS appearance
         }
         %< } >%
         %< if (fields.internalAdvertisingTexture.value[0] !== 'undefined') { >%
           DEF INTERNAL_ADVERTISING Transform {
-            translation 2.96 0.198 00.016
+            translation  %<= scale * 2.96 >% %<= scale * 0.198 >% %<= scale * 0.016 >%
             rotation 1 0 0 -1.570796
-            scale 0.8 0.6 0.8
+            scale %<= scale * 0.8 >% %<= scale * 0.6 >% %<= scale * 0.8 >%
             children [
               Shape {
                 appearance PBRAppearance {
@@ -77,9 +81,9 @@ Solid {
         %< } >%
         %< if (fields.externalAdvertisingTexture.value[0] !== 'undefined') { >%
           DEF EXTERNAL_ADVERTISING Transform {
-            translation 3.256 0.198 0.016
+            translation %<= scale * 3.256 >% %<= scale * 0.198 >% %<= scale * 0.016 >%
             rotation 1 0 0 -1.570796
-            scale 0.8 0.6 0.8
+            scale %<= scale * 0.8 >% %<= scale * 0.6 >% %<= scale * 0.8 >%
             children [
               Shape {
                 appearance PBRAppearance {
@@ -108,38 +112,38 @@ Solid {
   boundingObject Group {
     children [
       DEF ROOF Pose {
-        translation -0.136 0 3.03
+        translation %<= scale * -0.136 >% 0 %<= scale * 3.03 >%
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
           Box {
-            size 7.04 0.06 3.36
+            size %<= scale * 7.04 >% %<= scale * 0.06 >% %<= scale * 3.36 >%
           }
         ]
       }
       DEF RIGHT Pose {
-        translation -0.08 3.104 1.5
+        translation %<= scale * -0.08 >% %<= scale * 3.104 >% %<= scale * 1.5 >%
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
           Box {
-            size 0.32 3 2.72
+            size %<= scale * 0.32 >% %<= scale * 3 >% %<= scale * 2.72 >%
           }
         ]
       }
       DEF LEFT Pose {
-        translation -0.736 -3.136 1.5
+        translation %<= scale * -0.736 >% %<= scale * -3.136 >% %<= scale * 1.5 >%
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
           Box {
-            size 0.2 3 1.36
+            size %<= scale * 0.2 >% %<= scale * 3 >% %<= scale * 1.36 >%
           }
         ]
       }
       DEF REAR Pose {
-        translation -1.256 0 1.6
+        translation %<= scale * -1.256 >% 0 %<= scale * 1.6 >%
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
           Box {
-            size 6.16 2.88 0.24
+            size %<= scale * 6.16 >% %<= scale * 2.88 >% %<= scale * 0.24 >%
           }
         ]
       }
