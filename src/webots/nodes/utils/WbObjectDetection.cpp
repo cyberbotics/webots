@@ -371,8 +371,6 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
             inside = true;
             break;
           }
-          // do not recompute the object size and position if partly outside in case of omnidirectional device
-          // given that it doesn't see to be currently needed
         } else {
           if (d < -halfObjectSize)  // object is completely outside
             return false;
@@ -387,7 +385,9 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
     }
 
     objectRelativePosition = deviceInverseRotation * (objectPosition - devicePosition);
-    if (!mIsOmniDirectional) {
+    if (!mIsOmniDirectional && mHorizontalFieldOfView <= M_PI_2) {
+      // do not recompute the object size and position if partly outside in case of fovX > PI
+      // (a more complete computation will be needed and currently it seems to work quite well as-is)
       objectSize.setY(objectSize.y() - outsidePart[RIGHT] - outsidePart[LEFT]);
       objectSize.setZ(objectSize.z() - outsidePart[BOTTOM] - outsidePart[TOP]);
       objectRelativePosition +=
