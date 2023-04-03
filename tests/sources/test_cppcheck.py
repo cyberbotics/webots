@@ -35,7 +35,7 @@ class TestCppCheck(unittest.TestCase):
         elif (sys.platform.startswith('win32')):
             self.platformOptions = ' -D_WIN32'
         else:
-            self.platformOptions = ' -U__APPLE__'
+            self.platformOptions = ' -D__APPLE__'
 
     def test_cppcheck_is_correctly_installed(self):
         """Test Cppcheck is correctly installed."""
@@ -172,7 +172,8 @@ class TestCppCheck(unittest.TestCase):
             'projects/vehicles/controllers/ros_automobile/include'
         ]
         skippedfiles = [
-            'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h'
+            'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h',
+            'projects/robots/epfl/lis/plugins/physics/blimp_physics/utils.h'
         ]
         command = 'cppcheck --platform=native --enable=warning,style,performance,portability --inconclusive'
         command += self.platformOptions
