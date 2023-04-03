@@ -131,7 +131,7 @@ class TestCppCheck(unittest.TestCase):
             'src/webots/wren'
         ]
         skippedfiles = [] if sys.platform.startswith('win32') else ['src/webots/core/WbWindowsRegistry.hpp']
-        command = 'cppcheck --platform=native --enable=warning,style,performance,portability --inconclusive'
+        command = 'cppcheck --platform=native --enable=warning,style,performance,portability --inconclusive -q'
         command += self.platformOptions
         command += ' --library=qt -j %s' % str(multiprocessing.cpu_count())
         command += ' --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm --suppress=uninitMemberVar'
@@ -175,7 +175,7 @@ class TestCppCheck(unittest.TestCase):
             'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h',
             'projects/robots/epfl/lis/plugins/physics/blimp_physics/utils.h'
         ]
-        command = 'cppcheck --platform=native --enable=warning,style,performance,portability --inconclusive'
+        command = 'cppcheck --platform=native --enable=warning,style,performance,portability --inconclusive -q'
         command += self.platformOptions
         command += ' --library=qt --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm -UKROS_COMPILATION'
         command += ' --suppress=strdupCalled --suppress=ctuOneDefinitionRuleViolation --suppress=unknownMacro'
