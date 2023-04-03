@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.16452106074462747 0.18016668196009245 0.9697797622568506 2.642255643140313
-  position 3.581794560429464 -1.5468990478885964 1.6910140575496344
+  orientation -0.3074938875608354 0.2750310715566039 0.910936561342858 2.8786438900116975
+  position 2.6344856848646105 0.6855002675947949 3.8564265835256384
 }
 Background {
   skyColor [
@@ -299,6 +299,32 @@ Robot {
       recognition DEF RECOGNITION Recognition {
         maxRange 5
         occlusion FALSE
+        segmentation TRUE
+      }
+    }
+    Camera {
+      translation 0 -0.9 -2.72
+      rotation -0.5773502691896256 0.5773502691896261 0.5773502691896256 2.09439
+      name "spherical"
+      fieldOfView 6.28
+      width 256
+      height 256
+      projection "spherical"
+      recognition Recognition {
+        maxRange 5
+        segmentation TRUE
+      }
+    }
+    Camera {
+      translation 0 -0.9 -2.72
+      rotation -0.5773502691896256 0.5773502691896261 0.5773502691896256 2.09439
+      name "cylindrical"
+      fieldOfView 3
+      width 256
+      height 256
+      projection "cylindrical"
+      recognition Recognition {
+        maxRange 5
         segmentation TRUE
       }
     }
