@@ -336,7 +336,9 @@ void WbMesh::updateUrl() {
           mDownloader = NULL;
         }
 
-        downloadAssets();  // URL was changed from the scene tree or supervisor
+        if (!mDownloader || mDownloader->url().toString() != mUrl->item(0))
+          downloadAssets();  // URL was changed from the scene tree or supervisor
+
         return;
       }
     }
