@@ -440,6 +440,11 @@ void WbCamera::postPhysicsStep() {
   // possible inconsistencies in other clusters
   qDeleteAll(mInvalidRecognizedObjects);
   mInvalidRecognizedObjects.clear();
+
+  if (!isControllerRunning() && recognition())
+    // update recognized objects info displayed from the overlay in case occlusion is FALSE
+    // (otherwise updated in the WbCamera::writeAnswer method)
+    refreshRecognitionSensorIfNeeded();
 }
 
 void WbCamera::reset(const QString &id) {
