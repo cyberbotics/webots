@@ -38,7 +38,7 @@ jobs:
         python: [3.9]
         include:
           - os: ubuntu-22.04
-            DEPENDENCIES_INSTALLATION: "wget https://github.com/danmar/cppcheck/archive/refs/tags/2.10.tar.gz; tar -xf 2.10.tar.gz -C ~/; cd ~/cppcheck-2.10; mkdir build; cd build; cmake ..; cmake --build .; export PATH=$PATH:~/cppcheck-2.10"
+            DEPENDENCIES_INSTALLATION: "wget https://github.com/danmar/cppcheck/archive/refs/tags/2.10.tar.gz; tar -xf 2.10.tar.gz -C ~/; cd ~/cppcheck-2.10; mkdir build; cd build; cmake ..; cmake --build .; export PATH=~/cppcheck-2.10:$PATH"
           - os: macos-11
             DEPENDENCIES_INSTALLATION: "brew tap-new --no-git $USER/local-cppcheck; brew extract --version=2.10 cppcheck $USER/local-cppcheck; brew install cppcheck@2.10; brew tap-new --no-git $USER/local-clang-format; brew extract --version=14.0.0 clang-format $USER/local-clang-format; brew install clang-format@14.0.0"
           - os: windows-2019
@@ -68,6 +68,7 @@ jobs:
       run: |
         export WEBOTS_HOME=$PWD
         ${{ matrix.DEPENDENCIES_INSTALLATION }}
+        echo $PATH
         cd $WEBOTS_HOME
         cp dependencies/.clang-format-9 .clang-format
         pip install -r tests/sources/requirements.txt
