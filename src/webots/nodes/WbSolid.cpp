@@ -1397,8 +1397,10 @@ void WbSolid::setInertiaMatrixFromBoundingObject() {
   dMass dmass;
   dMassSetZero(&dmass);
 
+  const double refDensity = 1000.0;
+
   // Adds the masses of all the primitives lying in the bounding object
-  WbSolidUtilities::addMass(&dmass, boundingObject(), 1000.0);
+  WbSolidUtilities::addMass(&dmass, boundingObject(), refDensity);
   memcpy(mReferenceMass, &dmass, sizeof(dMass));
 
   // Computes the inertia matrix around the center of mass of the bounding object
@@ -1408,17 +1410,26 @@ void WbSolid::setInertiaMatrixFromBoundingObject() {
   const WbField *const parameter = findField("physics", true)->parameter();
   WbPhysics *const p = parameter ? static_cast<WbPhysics *>(static_cast<WbSFNode *>(parameter->value())->value()) : physics();
 
-  const double s = 1.0 / absoluteScale().x();
+  const double actualDensity = p->density();
+  const double actualMass = p->mass();
+  const double s0 = absoluteScale().x();
+  const double s = 1.0 / s0;
   double s3 = s * s;
   double s5 = s3;
   s3 *= s;
 
-  if (p->mass() < 0.0) {
-    double boundingObjectMass = mReferenceMass->mass;
-    boundingObjectMass *= 0.001 * p->density();
+  // Sets the actual total mass to mReferenceMass
+  double boundingObjectMass = mReferenceMass->mass;
+  if (actualMass > 0.0) {
+    boundingObjectMass = s0 * s0 * s0 * actualMass;
+  } else {   
+    boundingObjectMass *= actualDensity / refDensity;
     p->setMass(boundingObjectMass * s3, true);
     p->parsingInfo(tr("'mass' set as bounding object's mass based on 'density'."));
   }
+
+  // Adjust the total according to mass and density fields
+  dMassAdjust(mReferenceMass, boundingObjectMass);
 
   p->setDensity(-1.0, true);
 
@@ -1809,7 +1820,7 @@ void WbSolid::createOdeMass(bool reset) {
     mUseInertiaMatrix = false;
     // We rule out the case of a boundingObject with no Geometry inside
     if (mReferenceMass->mass <= 0.0)
-      setDefaultMassSettings(false);
+        setDefaultMassSettings(false);
     else {
       // Uses the density or the mass of the Physics node together with the geometries
       // in the boundingObject to compute the inertia matrix of the solid.
