@@ -371,9 +371,8 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
             inside = true;
             break;
           }
-          if (d < halfObjectSize)  // a part of the object is outside
-            outsidePart[j] = halfObjectSize - d;
-
+          // do not recompute the object size and position if partly outside in case of omnidirectional device
+          // given that it doesn't see to be currently needed
         } else {
           if (d < -halfObjectSize)  // object is completely outside
             return false;
