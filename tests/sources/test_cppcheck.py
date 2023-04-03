@@ -19,6 +19,7 @@ import unittest
 import os
 import multiprocessing
 import shutil
+import sys
 
 
 class TestCppCheck(unittest.TestCase):
@@ -29,6 +30,12 @@ class TestCppCheck(unittest.TestCase):
         self.WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
         self.reportFilename = os.path.join(self.WEBOTS_HOME, 'tests', 'cppcheck_report.txt')
         self.extensions = ['c', 'h', 'cpp', 'hpp', 'cc', 'hh', 'c++', 'h++']
+        if (sys.platform.startswith('linux')):
+            self.platformOptions = ' -U_WIN32 -U__APPLE__'
+        elif (sys.platform.startswith('win32')):
+            self.platformOptions = ' -U__linux__ -U__APPLE__'
+        else:
+            self.platformOptions = ' -U__linux__ -U_WIN32'
 
     def test_cppcheck_is_correctly_installed(self):
         """Test Cppcheck is correctly installed."""
@@ -124,6 +131,7 @@ class TestCppCheck(unittest.TestCase):
             'src/webots/wren'
         ]
         command = 'cppcheck --platform=native --enable=warning,style,performance,portability --inconclusive --force'
+        command += self.platformOptions
         command += ' --library=qt -j %s' % str(multiprocessing.cpu_count())
         command += ' --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm --suppress=uninitMemberVar'
         command += ' --suppress=noCopyConstructor --suppress=noOperatorEq --suppress=strdupCalled --suppress=unknownMacro'
@@ -166,6 +174,7 @@ class TestCppCheck(unittest.TestCase):
             'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h'
         ]
         command = 'cppcheck --platform=native --enable=warning,style,performance,portability --inconclusive --force'
+        command += self.platformOptions
         command += ' --library=qt --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm -UKROS_COMPILATION'
         command += ' --suppress=strdupCalled --suppress=ctuOneDefinitionRuleViolation --suppress=unknownMacro'
         # command += ' --xml'  # Uncomment this line to get more information on the errors
