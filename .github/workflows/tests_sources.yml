@@ -69,6 +69,7 @@ jobs:
         export WEBOTS_HOME=$PWD
         ${{ matrix.DEPENDENCIES_INSTALLATION }}
         echo $PATH
+        ls ~/cppcheck-2.10
         cd $WEBOTS_HOME
         cp dependencies/.clang-format-9 .clang-format
         pip install -r tests/sources/requirements.txt
