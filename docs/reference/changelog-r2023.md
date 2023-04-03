@@ -12,7 +12,7 @@ Released on ??
     - Improved default selected tab in Field Editor when nodes are selected ([#5726](https://github.com/cyberbotics/webots/pull/5726)).
     - Change the Windows version of SUMO to 1.13 to match the one used on Linux and MacOS and avoid a potiental Log4J vulnerability ([#6010](https://github.com/cyberbotics/webots/pull/6010)).
   - Bug Fixes
-    - Fixed the clean-up of the motion API which was firing warnings in Python ([#6029](https://github.com/cyberbotics/webots/pull/6029)). 
+    - Fixed the clean-up of the motion API which was firing warnings in Python ([#6029](https://github.com/cyberbotics/webots/pull/6029)).
     - Fixed the behavior of the [Connector](connector.md) after a reset to return to the controller the correct status ([#5889](https://github.com/cyberbotics/webots/pull/5889))
     - Fixed redirection of stdout/stderr for Python controllers on Windows ([#5807](https://github.com/cyberbotics/webots/pull/5807)).
     - Fixed crash in Python API when a robot controller was using several cameras with different resolutions ([#5705](https://github.com/cyberbotics/webots/pull/5705)).
@@ -55,6 +55,7 @@ Released on ??
     - Fixed various issues related to the camera's [Recognition](recognition.md) functionality including image annotations in case of spherical and cylindrical projections ([#5967](https://github.com/cyberbotics/webots/pull/5967)).
     - Fixed [Camera](camera.md) segmentation image if a [Lens](lens.md) is defined. ([#5967](https://github.com/cyberbotics/webots/pull/5967)).
     - Fixed the extern controller connection to a target Webots instance when a snap one is running ([#6002](https://github.com/cyberbotics/webots/pull/6002)).
+    - Fixed the double downloading of meshes ([#6034](https://github.com/cyberbotics/webots/pull/6034)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
