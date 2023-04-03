@@ -54,6 +54,7 @@ Released on ??
     - Fixed the extern controller connection to a target Webots instance when a snap one is running. ([#6002](https://github.com/cyberbotics/webots/pull/6002)).
     - Fixed various issues related to the camera's [Recognition](recognition.md) functionality including image annotations in case of spherical and cylindrical projections ([#5967](https://github.com/cyberbotics/webots/pull/5967)).
     - Fixed [Camera](camera.md) segmentation image if a [Lens](lens.md) is defined. ([#5967](https://github.com/cyberbotics/webots/pull/5967)).
+    - Fixed detected object information not available when moving the mouse over the [Camera](camera.md) overlay after the controller termination if [Recognition.occlusion](recognition.md) is set to FALSE. ([#5967](https://github.com/cyberbotics/webots/pull/5967)).
     - Fixed the extern controller connection to a target Webots instance when a snap one is running ([#6002](https://github.com/cyberbotics/webots/pull/6002)).
     - Fixed the double downloading of meshes ([#6034](https://github.com/cyberbotics/webots/pull/6034)).
 
