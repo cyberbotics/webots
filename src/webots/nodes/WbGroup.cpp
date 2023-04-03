@@ -97,6 +97,7 @@ void WbGroup::postFinalize() {
 
   connect(mChildren, &WbMFNode::changed, this, &WbGroup::childrenChanged);
   connect(mChildren, &WbMFNode::itemInserted, this, &WbGroup::insertChildPrivate);
+  connect(mChildren, &WbMFNode::itemChanged, this, &WbGroup::insertChildPrivate);
   // if parent is a slot, it needs to be notified when a new node is inserted
   WbSlot *ps = dynamic_cast<WbSlot *>(parentNode());
   if (ps)
@@ -144,14 +145,6 @@ void WbGroup::setChild(int index, WbNode *child) {
 void WbGroup::addChild(WbNode *child) {
   child->setParentNode(this);
   mChildren->addItem(child);
-}
-
-bool WbGroup::removeChild(WbNode *node) {
-  if (mChildren->removeNode(node)) {
-    node->setParentNode(NULL);
-    return true;
-  } else
-    return false;
 }
 
 void WbGroup::clear() {
