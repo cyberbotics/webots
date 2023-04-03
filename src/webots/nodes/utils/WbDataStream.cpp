@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,20 +25,17 @@ WbDataStream &WbDataStream::operator<<(qint8 n) {
 }
 
 WbDataStream &WbDataStream::operator<<(qint16 n) {
-  for (int i = 0; i != sizeof(n); ++i)
-    append((char)((n & (0xFF << (i * 8))) >> (i * 8)));
+  *this << quint8(n) << quint8(n >> 8);
   return *this;
 }
 
 WbDataStream &WbDataStream::operator<<(qint32 n) {
-  for (int i = 0; i != sizeof(n); ++i)
-    append((char)((n & (0xFF << (i * 8))) >> (i * 8)));
+  *this << quint16(n) << quint16(n >> 16);
   return *this;
 }
 
 WbDataStream &WbDataStream::operator<<(qint64 n) {
-  for (int i = 0; i != sizeof(n); ++i)
-    append((char)((n & (0xFF << (i * 8))) >> (i * 8)));
+  *this << quint32(n) << quint32(n >> 32);
   return *this;
 }
 

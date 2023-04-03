@@ -4,7 +4,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -46,6 +46,53 @@ from .touch_sensor import TouchSensor
 from .joystick import Joystick
 from .keyboard import Keyboard
 from .mouse import Mouse
+
+
+if sys.platform == 'win32':
+    import atexit
+    import os
+    import threading
+
+    class StdStreamRedirect:
+        def __init__(self, stream):
+            r, w = os.pipe()
+            r, w = os.fdopen(r, 'r', encoding='utf-8'), os.fdopen(w, 'w', buffering=1, encoding='utf-8')
+            self._r = r
+            self._w = w
+            if stream == 1:  # stdout
+                sys.stdout = self._w
+            elif stream == 2:  # stderr
+                sys.stderr = self._w
+            self._stream = stream
+            self._thread = threading.Thread(target=self._handler)
+            self._thread.start()
+
+        def __del__(self):
+            self._w.close()
+            self._thread.join()
+            self._r.close()
+
+        def _handler(self):
+            libc = ctypes.CDLL('msvcrt')
+            while not self._w.closed:
+                try:
+                    while True:
+                        line = self._r.readline()
+                        if len(line) == 0:
+                            break
+                        encoded = line.encode('utf-8')
+                        libc._write(self._stream, encoded, len(encoded), 0)
+                except Exception:
+                    break
+
+    def _delete_object(object):
+        del object
+    if 'WEBOTS_STDOUT_REDIRECT' in os.environ and os.environ['WEBOTS_STDOUT_REDIRECT']:
+        _stdout_redirect = StdStreamRedirect(1)
+        atexit.register(_delete_object, _stdout_redirect)
+    if 'WEBOTS_STDERR_REDIRECT' in os.environ and os.environ['WEBOTS_STDERR_REDIRECT']:
+        _stderr_redirect = StdStreamRedirect(2)
+        atexit.register(_delete_object, _stderr_redirect)
 
 
 class Robot:

@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,7 +20,6 @@
 // using the solid's bounding object
 //
 
-#include <QtCore/QMap>
 #include <QtWidgets/QDialog>
 
 class QTreeWidget;
@@ -34,7 +33,6 @@ class WbAddInertiaMatrixDialog : public QDialog {
 
 public:
   explicit WbAddInertiaMatrixDialog(bool validBoudingObject, QWidget *parent = NULL);
-  virtual ~WbAddInertiaMatrixDialog();
   enum MatrixType { IDENTITY_MATRIX, BOUNDING_OBJECT_BASED };
   int inertiaMatrixType() const;
 

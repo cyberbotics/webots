@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -146,7 +146,9 @@ namespace wren {
     glstate::setTextureInterpolation(glName(), mTextureUnit, params.mIsInterpolationEnabled, params.mAreMipMapsEnabled);
   }
 
-  void Texture::release() { glstate::releaseTexture(glName(), mTextureUnit); }
+  void Texture::release() {
+    glstate::releaseTexture(glName(), mTextureUnit);
+  }
 
   void Texture::cleanupGl() {
     unsigned int name = glName();
@@ -170,7 +172,8 @@ namespace wren {
     mHeight(0),
     mHaveMipMapsBeenGenerated(false),
     mIsTranslucent(false),
-    mMaterialsUsingThisTexture() {}
+    mMaterialsUsingThisTexture() {
+  }
 
   Texture::~Texture() {
     for (auto &material : mMaterialsUsingThisTexture)

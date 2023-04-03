@@ -28,7 +28,5 @@ TexturedBackgroundLight {
 CircleArena {
 }
 Thymio2 {
-  controller "thymio2_demo"
-  controllerArgs []
   window "thymio2"
 }

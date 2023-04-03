@@ -73,6 +73,8 @@ Robot {
           ]
           endPoint Solid {
             children [
+              InertialUnit {
+              }
               DEF THICK_CYLINDER Transform {
                 translation 0 0.05 0
                 children [

@@ -2446,211 +2446,167 @@ The following table summarizes the behavior of different reset functions:
 <table>
   <thead>
     <tr>
-      <th></th>
-      <th><strong>Reload</strong></th>
-      <th><strong>Reset from user interface</strong></th>
-      <th><strong>Reset from Supervisor</strong></th>
-      <th><strong>Load node&#39;s state from Supervisor</strong></th>
-      <th><strong>Reset physics</strong></th>
-      <th><strong>Reset node&#39;s physics</strong></th>
+      <th style="border-color:#aaa"></th>
+      <th style="border-color:#aaa"><strong>Reload</strong></th>
+      <th style="border-color:#aaa"><strong>Reset from user interface</strong></th>
+      <th style="border-color:#aaa"><strong>Reset from Supervisor</strong></th>
+      <th style="border-color:#aaa"><strong>Load node&#39;s state from Supervisor</strong></th>
+      <th style="border-color:#aaa"><strong>Reset physics</strong></th>
+      <th style="border-color:#aaa"><strong>Reset node&#39;s physics</strong></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><strong>Resets simulation time</strong></td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
+      <td colspan=3 style="background-color:#efe;text-align:center;vertical-align:middle">Yes</td>
+      <td colspan=3 style="background-color:#fee;text-align:center;vertical-align:middle">No</td>
     </tr>
     <tr>
       <td><strong>Removes nodes</strong></td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
+      <td colspan=3 style="background-color:#efe;text-align:center;vertical-align:middle">Yes</td>
+      <td colspan=3 style="background-color:#fee;text-align:center;vertical-align:middle">No</td>
     </tr>
     <tr>
       <td><strong>Restarts controller</strong></td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
+      <td colspan=2 style="background-color:#efe;text-align:center;vertical-align:middle">Yes</td>
+      <td colspan=4 style="background-color:#fee;text-align:center;vertical-align:middle">No</td>
     </tr>
     <tr>
       <td><strong>Stops sounds</strong></td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
+      <td colspan=3 style="background-color:#efe;text-align:center;vertical-align:middle">Yes</td>
+      <td colspan=3 style="background-color:#fee;text-align:center;vertical-align:middle">No</td>
     </tr>
     <tr>
       <td><strong>Resets random seeds</strong></td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
+      <td colspan=3 style="background-color:#efe;text-align:center;vertical-align:middle">Yes</td>
+      <td colspan=3 style="background-color:#fee;text-align:center;vertical-align:middle">No</td>
     </tr>
     <tr>
       <td><strong>Resets physics</strong></td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>Yes (scoped)</td>
-      <td>Yes</td>
-      <td>Yes (scoped)</td>
+      <td colspan=3 style="background-color:#efe;text-align:center;vertical-align:middle">Yes</td>
+      <td style="background-color:#ffe;text-align:center;vertical-align:middle">Yes (scoped)</td>
+      <td style="background-color:#efe;text-align:center;vertical-align:middle">Yes</td>
+      <td style="background-color:#ffe;text-align:center;vertical-align:middle">Yes (scoped)</td>
     </tr>
     <tr>
       <td><strong>Resets physics plugin</strong></td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>Yes</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
+      <td style="background-color:#efe;text-align:center;vertical-align:middle" colspan=3>Yes</td>
+      <td style="background-color:#fee;text-align:center;vertical-align:middle" colspan=3>No</td>
     </tr>
     <tr>
       <td><strong>Resets all fields</strong></td>
-      <td>Yes</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
+      <td style="background-color:#efe;text-align:center;vertical-align:middle">Yes</td>
+      <td style="background-color:#fee;text-align:center;vertical-align:middle" colspan=5>No</td>
     </tr>
     <tr>
       <td><strong>Adds removed nodes</strong></td>
-      <td>Yes</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
-      <td>No</td>
+      <td style="background-color:#efe;text-align:center;vertical-align:middle">Yes</td>
+      <td style="background-color:#fee;text-align:center;vertical-align:middle" colspan=5>No</td>
     </tr>
     <tr>
       <td><strong><a href="brake.md">Brake</a></strong></td>
-      <td>Resets</td>
-      <td>Releases</td>
-      <td>Releases</td>
-      <td>Releases</td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
+      <td style="text-align:center;vertical-align:middle" colspan=3>Releases</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="charger.md">Charger</a></strong></td>
-      <td>Resets</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
       <td colspan=2>Resets the <code>battery</code> field and the <code>emissiveColor</code> field of the <a
           href="material.md">Material</a> node of the first <a href="shape.md">Shape</a> child node</td>
       <td>Loads the <code>battery</code> field and resets the emissiveColor field of the <a
           href="material.md">Material</a> node of the first <a href="shape.md">Shape</a> child node</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
+    </tr>
+    <tr>
+      <td><strong><a href="connector.md">Connector</a></strong></td>
+      <td>Resets</td>
+      <td colspan=3>Resets the <code>isLocked</code> field</td>
       <td>N/A</td>
       <td>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="display.md">Display</a></strong></td>
-      <td>Resets</td>
-      <td>Clears</td>
-      <td>Clears</td>
-      <td>Clears</td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
+      <td style="text-align:center;vertical-align:middle" colspan=3>Clears</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="emitter.md">Emitter</a>/<a href="receiver.md">Receiver</a></strong></td>
-      <td>Resets</td>
-      <td colspan=3>Clears the message queue</td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
+      <td style="text-align:center;vertical-align:middle" colspan=3>Clears the message queue</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="joint.md">Joint</a>/<a href="motor.md">Motor</a></strong></td>
-      <td>Resets</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
       <td colspan=2>Resets the position, velocity, acceleration, available torque, and available force</td>
       <td>Loads the position, resets the velocity, acceleration, available torque, and available force</td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="led.md">LED</a></strong></td>
-      <td>Resets</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
       <td colspan=3>If the first child is a Light node, it resets the <code>color</code> field and it switches the LED off.
         If the first child is a <a href="shape.md">Shape</a> node, it resets the <code>emissiveColor</code>
         field of its <a href="material.md">Material</a> node.</td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="lidar.md">Lidar</a></strong></td>
-      <td>Resets</td>
-      <td colspan=3>Resets the position of the rotating head</td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
+      <td style="text-align:center;vertical-align:middle" colspan=3>Resets the position of the rotating head</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="pen.md">Pen</a></strong></td>
-      <td>Resets</td>
-      <td colspan=3>Cleans the painted textures</td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
+      <td style="text-align:center;vertical-align:middle" colspan=3>Cleans the painted textures</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="propeller.md">Propeller</a></strong></td>
-      <td>Resets</td>
-      <td colspan=3>Resets the slow helix and it&#39;s initial position</td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
+      <td style="text-align:center;vertical-align:middle" colspan=3>Resets the slow helix and it&#39;s initial position</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="robot.md">Robot</a></strong></td>
-      <td>Resets</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
       <td colspan=2>Resets the <code>battery</code> field, removes all the supervisor labels, resets the nodes visibility,
         and restarts the controller</td>
       <td>Loads the <code>battery</code> field, removes all the supervisor labels, and resets the nodes visibility
       </td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="solid.md">Solid</a></strong></td>
-      <td>Resets</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
       <td colspan=2>Resets the <code>translation</code> and <code>rotation</code> fields, and the physics</td>
       <td>Loads the <code>translation</code> and <code>rotation</code> fields, and resets the physics</td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="track.md">Track</a></strong></td>
-      <td>Resets</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
       <td colspan=2>Resets the motor position and the <code>translation</code> field of the textureTransform node of the <a
           href="appearance.md">Appearance</a> node of the first <a href="shape.md">Shape</a> children node
       </td>
       <td>Loads the motor position and the <code>translation</code> field of the textureTransform node of the <a
           href="appearance.md">Appearance</a> node of the first <a href="shape.md">Shape</a> children node
       </td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
     <tr>
       <td><strong><a href="viewpoint.md">Viewpoint</a></strong></td>
-      <td>Resets</td>
+      <td style="text-align:center;vertical-align:middle">Resets</td>
       <td colspan=2>Resets <code>orientation</code>, <code>position</code>, <code>near</code>, <code>far</code>, and
         <code>fieldOfView</code> fields
       </td>
       <td>Loads <code>orientation</code>, <code>position</code>, <code>near</code>, <code>far</code>, and
         <code>fieldOfView</code> fields
       </td>
-      <td>N/A</td>
-      <td>N/A</td>
+      <td style="background-color:#eee;text-align:center;vertical-align:middle" colspan=2>N/A</td>
     </tr>
   </tbody>
 </table>

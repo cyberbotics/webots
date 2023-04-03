@@ -95,11 +95,10 @@ PROTO Truck [
       }
       Transform {
         translation %<= fields.kingPinDistance.value >% 0 0
-        rotation 0.57735 0.57735 0.57735 2.094395
         children [
           DEF TRAILER_JOINT HingeJoint {
             jointParameters HingeJointParameters {
-              axis 0 10 0
+              axis 0 0 1
               minStop -1.3
               maxStop 1.3
               dampingConstant 10000

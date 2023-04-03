@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -80,8 +80,8 @@ void WbPaintTexture::cleanup() {
 }
 
 void WbPaintTexture::clearAllTextures() {
-  foreach (WbPaintTexture *const paintTexture, gPaintTextures)
-    paintTexture->clearTexture();
+  foreach (WbPaintTexture *const pt, gPaintTextures)
+    pt->clearTexture();
   gEvaporationTextures.clear();
 }
 
@@ -212,7 +212,7 @@ void WbPaintTexture::paint(const WbRay &ray, float leadSize, const WbRgb &color,
 
   WbBoundingSphere *bs = mShape->geometry()->boundingSphere();
   bs->recomputeIfNeeded();
-  int size = static_cast<int>(leadSize * mOriginalTextureSize.x() / bs->radius());
+  int size = static_cast<int>(leadSize * mOriginalTextureSize.x() / bs->scaledRadius());
   if (size < 1)
     size = 1;
 
@@ -306,7 +306,7 @@ WbVector2 WbPaintTexture::computeDefaultTextureSize() {
 
   // Compute size based on bounding sphere radius
   // If the sphere radius is greater than 10 (arbitrary value), then we use the max size
-  const float sphereRadius = maxScale * mShape->geometry()->boundingSphere()->radius();
+  const float sphereRadius = maxScale * mShape->geometry()->boundingSphere()->scaledRadius();
   const WbVector2 size =
     sphereRadius > 10.0 ? MAX_TEXTURE_SIZE : MIN_TEXTURE_SIZE + (MAX_TEXTURE_SIZE - MIN_TEXTURE_SIZE) * sphereRadius / 10.0;
 

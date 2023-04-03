@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -137,7 +137,7 @@ static void save_bmp_image(const char *filename, const unsigned char *image, int
 
 int Wrapper::robotStep(int step) {
 #ifdef LOG_COMMUNICATION_TIME
-  static clock_t start = 0, end = 0;
+  static clock_t startTime = 0, endTime = 0;
   int cpu_time_used;
 #endif
 
@@ -151,20 +151,20 @@ int Wrapper::robotStep(int step) {
   EPuckCommandPacket commandPacket;
   int command = commandPacket.apply(beginStepTime);
 #ifdef LOG_COMMUNICATION_TIME
-  start = clock();
+  startTime = clock();
 #endif
   cSuccess = cCommunication->send(commandPacket.data(), EPUCK_COMMAND_PACKET_SIZE);
 #ifdef LOG_COMMUNICATION_TIME
-  end = clock();
-  cpu_time_used = (end - start) * 1000 / CLOCKS_PER_SEC;
+  endTime = clock();
+  cpu_time_used = (endTime - startTime) * 1000 / CLOCKS_PER_SEC;
   log("Took %d ms to send 0x%02x command (%d bytes) \n", cpu_time_used, command, EPUCK_COMMAND_PACKET_SIZE);
 #endif
   if (!cSuccess) {
     log("Failed to send packet to the e-puck.\n");
     return 0;
   }
-  unsigned char *image = (unsigned char *)malloc(IMAGE_SIZE);
-  unsigned char *sensor_data = (unsigned char *)malloc(SENSOR_DATA_SIZE);
+  unsigned char *image = static_cast<unsigned char *>(malloc(IMAGE_SIZE));
+  unsigned char *sensor_data = static_cast<unsigned char *>(malloc(SENSOR_DATA_SIZE));
   int got_camera_image = 0;
   int got_sensor_data = 0;
   bool all_read = false;
@@ -181,12 +181,12 @@ int Wrapper::robotStep(int step) {
       break;
 
 #ifdef LOG_COMMUNICATION_TIME
-    start = clock();
+    startTime = clock();
 #endif
-    int n = cCommunication->receive((char *)&header, 1, true);
+    int n = cCommunication->receive(reinterpret_cast<char *>(&header), 1, true);
 #ifdef LOG_COMMUNICATION_TIME
-    end = clock();
-    cpu_time_used = (end - start) * 1000 / CLOCKS_PER_SEC;
+    endTime = clock();
+    cpu_time_used = (endTime - startTime) * 1000 / CLOCKS_PER_SEC;
     log("Took %d ms to receive 0x%02x header (%d byte)\n", cpu_time_used, header, n);
 #endif
     if (n == 0)
@@ -207,16 +207,16 @@ int Wrapper::robotStep(int step) {
       // log("received %d header\n", header);
       if (header == 0x01) {  // camera image
 #ifdef LOG_COMMUNICATION_TIME
-        start = clock();
+        startTime = clock();
 #endif
-        n = cCommunication->receive((char *)image, IMAGE_SIZE, true);
+        n = cCommunication->receive(reinterpret_cast<char *>(image), IMAGE_SIZE, true);
         if (n == -1) {
           log("Failed to receive camera image.\n");
           exit(1);
         }
 #ifdef LOG_COMMUNICATION_TIME
-        end = clock();
-        cpu_time_used = (end - start) * 1000 / CLOCKS_PER_SEC;
+        endTime = clock();
+        cpu_time_used = (endTime - startTime) * 1000 / CLOCKS_PER_SEC;
         log("Took %d ms to receive image (%d bytes)\n", cpu_time_used, n);
 #endif
 #ifdef SAVE_CAMERA_IMAGES
@@ -224,7 +224,7 @@ int Wrapper::robotStep(int step) {
         static int image_counter = 0;
         char filename[32];
         sprintf(filename, "image%03d.png", image_counter);
-        unsigned char *rgb888 = (unsigned char *)malloc(160 * 120 * 3);
+        unsigned char *rgb888 = static_cast<unsigned char *>(malloc(160 * 120 * 3));
         rgb565_to_brg888(image, rgb888, 160, 120);
         save_bmp_image(filename, rgb888, 160, 120);
         free(rgb888);
@@ -233,16 +233,16 @@ int Wrapper::robotStep(int step) {
         got_camera_image++;
       } else if (header == 0x02) {  // sensor data
 #ifdef LOG_COMMUNICATION_TIME
-        start = clock();
+        startTime = clock();
 #endif
-        n = cCommunication->receive((char *)sensor_data, SENSOR_DATA_SIZE, true);
+        n = cCommunication->receive(reinterpret_cast<char *>(sensor_data), SENSOR_DATA_SIZE, true);
         if (n == -1) {
           log("Failed to receive sensor data,\n");
           exit(1);
         }
 #ifdef LOG_COMMUNICATION_TIME
-        end = clock();
-        cpu_time_used = (end - start) * 1000 / CLOCKS_PER_SEC;
+        endTime = clock();
+        cpu_time_used = (endTime - startTime) * 1000 / CLOCKS_PER_SEC;
         log("Took %d ms to receive sensor data (%d bytes)\n", cpu_time_used, n);
 #endif
         got_sensor_data++;
@@ -258,9 +258,9 @@ int Wrapper::robotStep(int step) {
   } while (true);
   Camera *camera = DeviceManager::instance()->camera();
   if (camera->isEnabled()) {
-    unsigned char *bgraImage = (unsigned char *)malloc(160 * 120 * 4);
-    if (camera->rawToBgraImage(bgraImage, (const unsigned char *)image)) {
-      wbr_camera_set_image(camera->tag(), (const unsigned char *)bgraImage);
+    unsigned char *bgraImage = static_cast<unsigned char *>(malloc(160 * 120 * 4));
+    if (camera->rawToBgraImage(bgraImage, static_cast<const unsigned char *>(image))) {
+      wbr_camera_set_image(camera->tag(), static_cast<const unsigned char *>(bgraImage));
       // log("Got camera image (size = %d)\n", IMAGE_SIZE);
     } else
       log("Cannot rawToBgraImage\n");
@@ -342,14 +342,14 @@ void Wrapper::stopActuators() {
   unsigned char command[21] = {0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x20};
   do {
     unsigned char header;
-    cCommunication->send((const char *)command, sizeof(command));
-    cCommunication->receive((char *)&header, 1, true);
+    cCommunication->send(reinterpret_cast<const char *>(command), sizeof(command));
+    cCommunication->receive(reinterpret_cast<char *>(&header), 1, true);
     if (header == 0x01) {
-      char *image = (char *)malloc(IMAGE_SIZE);
+      char *image = static_cast<char *>(malloc(IMAGE_SIZE));
       cCommunication->receive(image, IMAGE_SIZE, true);
       free(image);
     } else if (header == 0x02) {
-      char *sensor_data = (char *)malloc(SENSOR_DATA_SIZE);
+      char *sensor_data = static_cast<char *>(malloc(SENSOR_DATA_SIZE));
       cCommunication->receive(sensor_data, SENSOR_DATA_SIZE, true);
       free(sensor_data);
     } else if (header == 0x03)

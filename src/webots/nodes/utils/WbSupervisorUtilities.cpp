@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -913,16 +913,18 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
     }
     case C_SUPERVISOR_NODE_GET_CONTACT_POINTS: {
       unsigned int id;
-      unsigned char includeDescendants;
+      unsigned char includeDescendantsChar;
 
       stream >> id;
-      stream >> includeDescendants;
+      stream >> includeDescendantsChar;
+
+      const bool includeDescendants = includeDescendantsChar == 1;
 
       WbNode *const node = getProtoParameterNodeInstance(id, "wb_supervisor_node_get_number_of_contact_points()");
       WbSolid *const solid = dynamic_cast<WbSolid *>(node);
       mNodeGetContactPoints = solid;
       mNodeIdGetContactPoints = id;
-      mGetContactPointsIncludeDescendants = includeDescendants == 1;
+      mGetContactPointsIncludeDescendants = includeDescendants;
       if (!solid)
         mRobot->warn(
           tr("wb_supervisor_node_get_number_of_contact_points() and wb_supervisor_node_get_contact_point() can exclusively "
@@ -1254,12 +1256,13 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
     }
     case C_SUPERVISOR_CONTACT_POINTS_CHANGE_TRACKING_STATE: {
       unsigned int nodeId;
-      unsigned char includeDescendants;
+      unsigned char includeDescendantsChar;
       unsigned char enable;
       unsigned int samplingPeriod;
 
       stream >> nodeId;
-      stream >> includeDescendants;
+      stream >> includeDescendantsChar;
+      const bool includeDescendants = includeDescendantsChar == 1;
       stream >> enable;
       if (enable)
         stream >> samplingPeriod;
@@ -1280,7 +1283,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
 
       int trackingInfoIndex = -1;
       for (int i = 0; i < mTrackedContactPoints.size(); i++) {
-        if (mTrackedContactPoints[i].solid == solid && mTrackedContactPoints[i].includeDescendants == includeDescendants) {
+        if (mTrackedContactPoints[i].solid == solid) {
           trackingInfoIndex = i;
           break;
         }
@@ -1292,9 +1295,12 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
           trackedContactPoint.solid = solid;
           trackedContactPoint.solidId = nodeId;
           trackedContactPoint.includeDescendants = includeDescendants;
+          trackedContactPoint.samplingPeriod = 0;
+          trackedContactPoint.lastUpdate = 0;
           mTrackedContactPoints.append(trackedContactPoint);
           connect(solid, &WbSolid::destroyed, this, &WbSupervisorUtilities::removeTrackedContactPoints);
         } else {
+          mTrackedContactPoints[trackingInfoIndex].includeDescendants = includeDescendants;
           mTrackedContactPoints[trackingInfoIndex].samplingPeriod = samplingPeriod;
           mTrackedContactPoints[trackingInfoIndex].lastUpdate = -INFINITY;
         }
@@ -1869,7 +1875,7 @@ void WbSupervisorUtilities::pushContactPointsToStream(WbDataStream &stream, WbSo
   stream << (short unsigned int)0;
   stream << (unsigned char)C_SUPERVISOR_NODE_GET_CONTACT_POINTS;
   stream << (int)solidId;
-  stream << (unsigned char)includeDescendants;
+  stream << (unsigned char)(includeDescendants ? 1 : 0);
   stream << (int)size;
   for (int i = 0; i < size; ++i) {
     const WbVector3 &v = contactPoints.at(i);

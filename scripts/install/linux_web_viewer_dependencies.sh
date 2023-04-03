@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# exit when any command fails on CI
+if [[ ! -z "$CI" ]]; then
+       set -e
+fi
+
 if [[ $EUID -ne 0 ]]; then
        echo "This script must be run as root"
        exit 1
@@ -15,7 +20,6 @@ git clone https://github.com/emscripten-core/emsdk.git dependencies/emsdk
 
 USER=$(env | grep SUDO_USER | cut -d '=' -f 2-)
 
-git pull
 ./dependencies/emsdk/emsdk install latest
 ./dependencies/emsdk/emsdk activate latest
 chown -R $USER dependencies/emsdk

@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -513,14 +513,14 @@ void WbCylinder::recomputeBoundingSphere() const {
   const bool top = mTop->value();
   const bool side = mSide->value();
   const bool bottom = mBottom->value();
-  const double halfHeight = scaledHeight() / 2.0;
-  const double r = scaledRadius();
+  const double halfHeight = mHeight->value() / 2.0;
+  const double r = mRadius->value();
 
   if ((top + side + bottom) == 0)  // it is empty
     mBoundingSphere->empty();
   else if ((top + side + bottom) == 1 && !side) {  // just one disk
     const double center = top ? halfHeight : -halfHeight;
-    mBoundingSphere->set(WbVector3(0, center, 0), r);
+    mBoundingSphere->set(WbVector3(0, 0, center), r);
   } else
     mBoundingSphere->set(WbVector3(), WbVector3(r, halfHeight, 0).length());
 }

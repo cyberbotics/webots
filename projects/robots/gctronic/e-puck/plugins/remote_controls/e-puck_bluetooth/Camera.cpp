@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -90,10 +90,10 @@ void Camera::computeZoom() {
 }
 
 bool Camera::rawToBgraImage(unsigned char *bgraImage, const unsigned char *rawImage, int mode, int wh1, int wh2) const {
-  int width = wh1;
-  int height = wh2;
+  int w = wh1;
+  int h = wh2;
 
-  if (mode != 1 || this->width() != width || this->height() != height) {
+  if (mode != 1 || this->width() != w || this->height() != h) {
     cerr << "The received image doesn't match with the initialization sent" << endl;
     return false;
   }
@@ -102,9 +102,9 @@ bool Camera::rawToBgraImage(unsigned char *bgraImage, const unsigned char *rawIm
   int counter = 0;
   unsigned char red, green, blue;
 
-  for (int j = 0; j < height; j++) {
-    for (int i = 0; i < width; i++) {
-      index = 4 * (i + j * width);
+  for (int j = 0; j < h; j++) {
+    for (int i = 0; i < w; i++) {
+      index = 4 * (i + j * w);
 
       red = rawImage[counter] & 0xf8;
       green = (rawImage[counter++] << 5);

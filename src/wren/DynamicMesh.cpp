@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -117,7 +117,9 @@ namespace wren {
     updateGlShadow();
   }
 
-  void DynamicMesh::releaseShadowVolume() { glstate::releaseVertexArrayObject(mGlNameVertexArrayObjectShadow); }
+  void DynamicMesh::releaseShadowVolume() {
+    glstate::releaseVertexArrayObject(mGlNameVertexArrayObjectShadow);
+  }
 
   void DynamicMesh::render(unsigned int drawingMode) {
     bind();
@@ -146,7 +148,9 @@ namespace wren {
       mColors.clear();
   }
 
-  size_t DynamicMesh::sortingId() const { return mMeshId.id(); }
+  size_t DynamicMesh::sortingId() const {
+    return mMeshId.id();
+  }
 
   primitive::Aabb DynamicMesh::recomputeAabb(const glm::vec3 &scale) {
     if (!mCoords.size())

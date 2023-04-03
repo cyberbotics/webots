@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,7 +27,8 @@
 namespace wren {
 
   void DrawableTexture::clear() {
-    for (int i = 0; i < width() * height(); ++i)
+    const int size = width() * height();
+    for (int i = 0; i < size; ++i)
       mData[i] = mClearColor;
 
     mDirty = true;
@@ -128,7 +129,9 @@ namespace wren {
     mColor = 0xFFFFFFFF;  // white
   }
 
-  DrawableTexture::~DrawableTexture() { delete[] mData; }
+  DrawableTexture::~DrawableTexture() {
+    delete[] mData;
+  }
 
   void DrawableTexture::updateDirtyRect(int x, int y) {
     if (x < mDirtyMinX)

@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,17 +30,26 @@ namespace wren {
       0x4242424242424242ull,
     };
 
-    uint64_t sipHash13c(const char *bytes, const size_t size) { return highwayhash::SipHash13(SIPHASH_KEY, bytes, size); }
+    uint64_t sipHash13c(const char *bytes, const size_t size) {
+      return highwayhash::SipHash13(SIPHASH_KEY, bytes, size);
+    }
 
-    Key::Key() : mHash(0) {}
+    Key::Key() : mHash(0) {
+    }
 
-    Key::Key(const uint64_t hashValue) { mHash = hashValue; }
+    Key::Key(const uint64_t hashValue) {
+      mHash = hashValue;
+    }
 
-    bool Key::operator==(const Key &other) const { return mHash == other.mHash; }
+    bool Key::operator==(const Key &other) const {
+      return mHash == other.mHash;
+    }
 
-    PhongMaterialData::PhongMaterialData(const GlslLayout::PhongMaterial &material) : mNumUsers(1), mMaterial(material) {}
+    PhongMaterialData::PhongMaterialData(const GlslLayout::PhongMaterial &material) : mNumUsers(1), mMaterial(material) {
+    }
 
-    PbrMaterialData::PbrMaterialData(const GlslLayout::PbrMaterial &material) : mNumUsers(1), mMaterial(material) {}
+    PbrMaterialData::PbrMaterialData(const GlslLayout::PbrMaterial &material) : mNumUsers(1), mMaterial(material) {
+    }
 
     MeshData::MeshData() :
       mNumUsers(1),
@@ -56,7 +65,8 @@ namespace wren {
       mIndexCount(0),
       mVertexCount(0),
       mIsCachePersistent(false),
-      mSupportShadows(true) {}
+      mSupportShadows(true) {
+    }
 
     Texture2dData::Texture2dData(const Texture2d &texture) :
       mNumUsers(1),
@@ -64,14 +74,17 @@ namespace wren {
       mWidth(texture.width()),
       mHeight(texture.height()),
       mIsTranslucent(texture.isTranslucent()),
-      mIsCachePersistent(texture.isCachePersistent()) {}
+      mIsCachePersistent(texture.isCachePersistent()) {
+    }
 
   }  // namespace cache
 }  // namespace wren
 
 namespace std {
 
-  size_t hash<wren::cache::Key>::operator()(const wren::cache::Key &key) const { return key.mHash; }
+  size_t hash<wren::cache::Key>::operator()(const wren::cache::Key &key) const {
+    return key.mHash;
+  }
 
   size_t hash<glm::vec3>::operator()(const glm::vec3 &key) const {
     static constexpr size_t bitcount = 8 * sizeof(size_t);

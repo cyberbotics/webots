@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -81,7 +81,20 @@ WbSkin::WbSkin(WbTokenizer *tokenizer) : WbBaseNode("Skin", tokenizer), WbAbstra
   init();
 }
 
-WbSkin::WbSkin(const WbSkin &other) : WbBaseNode(other), WbAbstractTransform(this), WbDevice(other) {
+WbSkin::WbSkin(const WbSkin &other) :
+  WbBaseNode(other),
+  WbAbstractTransform(this),
+  WbDevice(other),
+  mInitialSkeletonOrientation(),
+  mInitialSkeletonPosition(),
+  mRenderables(),
+  mMaterialNames(),
+  mMaterials(),
+  mSegmentationMaterials(),
+  mEncodeDepthMaterials(),
+  mMeshes(),
+  mBoneTransforms(),
+  mBonesMap() {
   init();
 }
 
@@ -321,12 +334,14 @@ void WbSkin::updateMaterial() {
   assert(appearance);
   if (appearance) {
     const int materialIndex = mMaterialNames.indexOf(appearance->name());
-    if (materialIndex >= 0 && appearance->areWrenObjectsInitialized())
-      mMaterials[materialIndex] = appearance->modifyWrenMaterial(mMaterials[materialIndex]);
-    else
-      mMaterials[materialIndex] = WbAppearance::fillWrenDefaultMaterial(mMaterials[materialIndex]);
+    if (materialIndex >= 0) {
+      if (appearance->areWrenObjectsInitialized())
+        mMaterials[materialIndex] = appearance->modifyWrenMaterial(mMaterials[materialIndex]);
+      else
+        mMaterials[materialIndex] = WbAppearance::fillWrenDefaultMaterial(mMaterials[materialIndex]);
 
-    wr_renderable_set_material(mRenderables[materialIndex], mMaterials[materialIndex], NULL);
+      wr_renderable_set_material(mRenderables[materialIndex], mMaterials[materialIndex], NULL);
+    }
   }
 }
 

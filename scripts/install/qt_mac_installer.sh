@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# exit when any command fails
+set -e
+
 if [[ -z "${WEBOTS_HOME}" ]]; then
   echo "WEBOTS_HOME is not defined."
   exit 1

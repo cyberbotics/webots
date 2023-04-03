@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,8 +32,12 @@ namespace WbMathsUtilities {
   bool isPowerOf2(unsigned int n);
   unsigned int nextPowerOf2(unsigned int n);
   int round(double n);
-  inline double discretize(double value, double resolution) { return ((int)(value / resolution + 0.5)) * resolution; }
-  inline double discretize(float value, float resolution) { return ((int)(value / resolution + 0.5f)) * resolution; }
+  inline double discretize(double value, double resolution) {
+    return ((int)(value / resolution + 0.5)) * resolution;
+  }
+  inline double discretize(float value, float resolution) {
+    return ((int)(value / resolution + 0.5f)) * resolution;
+  }
 
   // performs two Graham scan and returns the indices of points in the convex hull
   int twoStepsConvexHull(const QVector<WbVector2> &points, QVector<int> &hullIndices);
@@ -61,6 +65,7 @@ namespace WbMathsUtilities {
   inline double clampedAsin(double value);
 };  // namespace WbMathsUtilities
 
+// Normalize angle to be within +/-pi of lastSpot.
 inline double WbMathsUtilities::normalizeAngle(double angle, double lastSpot = 0.0) {
   static const double INV_TWO_PI = 0.5 / M_PI;
   double d = angle - lastSpot;

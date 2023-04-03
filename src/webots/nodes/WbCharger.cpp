@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -59,7 +59,7 @@ WbCharger::WbCharger(WbTokenizer *tokenizer) : WbSolid("Charger", tokenizer) {
   init();
 }
 
-WbCharger::WbCharger(const WbCharger &other) : WbSolid(other) {
+WbCharger::WbCharger(const WbCharger &other) : WbSolid(other), mVisualElements() {
   init();
 }
 
@@ -104,7 +104,10 @@ void WbCharger::updateMaterialsAndLights(double batteryRatio) {
     WbPbrAppearance *appearance = dynamic_cast<WbPbrAppearance *>(visualElement->node);
     WbLight *light = dynamic_cast<WbLight *>(visualElement->node);
     const WbRgb color(cr, cg, cb);
-    assert(!WbRgb(cr, cg, cb).clampValuesIfNeeded());
+#ifndef NDEBUG
+    const bool clampNeeded = WbRgb(cr, cg, cb).clampValuesIfNeeded();
+    assert(!clampNeeded);
+#endif
     if (material)
       material->setEmissiveColor(color);
     else if (appearance)
@@ -199,7 +202,7 @@ void WbCharger::prePhysicsStep(double ms) {
     } else
       currentEnergy -= e;  // transfer
 
-    if (mDone == false && mRobot->battery().size() > 2) {  // else energy is wasted
+    if (mDone == false) {  // else energy is wasted
       double robotCurrentEnergy = mRobot->currentEnergy();
       // special case:
       //   if the current energy of the robot is already bigger that its max energy

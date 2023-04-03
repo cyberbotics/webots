@@ -69,7 +69,7 @@ PROTO RandomBuilding [
     name IS name
     floorHeight IS floorHeight
     floorNumber IS floorNumber
-    startingFloor IS startingFloor§
+    startingFloor IS startingFloor
     corners IS corners
     groundFloor IS groundFloor
     groundFloorScale IS groundFloorScale

@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -376,15 +376,17 @@ double WbCone::computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) co
 void WbCone::recomputeBoundingSphere() const {
   assert(mBoundingSphere);
   const bool side = mSide->value();
-  const double r = scaledBottomRadius();
-  const double h = scaledHeight();
+  const double r = mBottomRadius->value();
+  const double h = mHeight->value();
   const double halfHeight = h / 2.0;
 
-  if (!side || h <= r)  // consider it as disk
-    mBoundingSphere->set(WbVector3(0, -halfHeight, 0), r);
+  if (!side && !mBottom->value())  // it is empty
+    mBoundingSphere->empty();
+  else if (!side || h <= r)  // consider it as disk
+    mBoundingSphere->set(WbVector3(0, 0, -halfHeight), r);
   else {
     const double newRadius = halfHeight + r * r / (2 * h);
-    mBoundingSphere->set(WbVector3(0, halfHeight - newRadius, 0), newRadius);
+    mBoundingSphere->set(WbVector3(0, 0, halfHeight - newRadius), newRadius);
   }
 }
 

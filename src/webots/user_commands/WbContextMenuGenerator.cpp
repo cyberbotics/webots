@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,13 +33,27 @@ namespace WbContextMenuGenerator {
   static QMenu *gRobotRangeFinderMenu = NULL;
   static QMenu *gRobotDisplayMenu = NULL;
 
-  void enableNodeActions(bool enabled) { gAreNodeActionsEnabled = enabled; }
-  void enableRobotActions(bool enabled) { gAreRobotActionsEnabled = enabled; }
-  void enableProtoActions(bool enabled) { gAreProtoActionsEnabled = enabled; }
-  void enableExternProtoActions(bool enabled) { gAreExternProtoActionsEnabled = enabled; }
-  void setRobotCameraMenu(QMenu *menu) { gRobotCameraMenu = menu; }
-  void setRobotRangeFinderMenu(QMenu *menu) { gRobotRangeFinderMenu = menu; }
-  void setRobotDisplayMenu(QMenu *menu) { gRobotDisplayMenu = menu; }
+  void enableNodeActions(bool enabled) {
+    gAreNodeActionsEnabled = enabled;
+  }
+  void enableRobotActions(bool enabled) {
+    gAreRobotActionsEnabled = enabled;
+  }
+  void enableProtoActions(bool enabled) {
+    gAreProtoActionsEnabled = enabled;
+  }
+  void enableExternProtoActions(bool enabled) {
+    gAreExternProtoActionsEnabled = enabled;
+  }
+  void setRobotCameraMenu(QMenu *menu) {
+    gRobotCameraMenu = menu;
+  }
+  void setRobotRangeFinderMenu(QMenu *menu) {
+    gRobotRangeFinderMenu = menu;
+  }
+  void setRobotDisplayMenu(QMenu *menu) {
+    gRobotDisplayMenu = menu;
+  }
 
   const QStringList fillTransformToItems(const WbNode *selectedNode) {
     // populate transform combo box

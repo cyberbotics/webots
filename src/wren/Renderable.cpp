@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -61,7 +61,9 @@ namespace wren {
     updateShadowVolumeCaster();
   }
 
-  const glm::mat4 &Renderable::parentMatrix() const { return mParent->matrix(); }
+  const glm::mat4 &Renderable::parentMatrix() const {
+    return mParent->matrix();
+  }
 
   Material *Renderable::optionalMaterial(const std::string &name) const {
     const auto it = mOptionalMaterials.find(name);
@@ -71,7 +73,9 @@ namespace wren {
       return it->second;
   }
 
-  bool Renderable::zSortedRendering() const { return mZSortedRendering || mDefaultMaterial->isTranslucent(); }
+  bool Renderable::zSortedRendering() const {
+    return mZSortedRendering || mDefaultMaterial->isTranslucent();
+  }
 
   void Renderable::render(const ShaderProgram *program) {
     if (!mEffectiveMaterial)
@@ -202,9 +206,12 @@ namespace wren {
     mZSortedRendering(false),
     mFaceCulling(true),
     mInvertFrontFace(false),
-    mPointSize(-1.0f) {}
+    mPointSize(-1.0f) {
+  }
 
-  Renderable::~Renderable() { delete mShadowVolumeCaster; }
+  Renderable::~Renderable() {
+    delete mShadowVolumeCaster;
+  }
 
   void Renderable::setupAndRender(const ShaderProgram *program) {
     // Few Renderables use premultiplied alpha, if this is the case then

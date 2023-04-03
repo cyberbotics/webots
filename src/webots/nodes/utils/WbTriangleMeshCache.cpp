@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,18 +33,28 @@ namespace WbTriangleMeshCache {
     0x4242424242424242ull,
   };
 
-  uint64_t sipHash13c(const char *bytes, const int size) { return highwayhash::SipHash13(SIPHASH_KEY, bytes, size); }
-  TriangleMeshInfo::TriangleMeshInfo() : mTriangleMesh(NULL), mNumUsers(0) {}
-  TriangleMeshInfo::TriangleMeshInfo(WbTriangleMesh *triangleMesh) : mTriangleMesh(triangleMesh), mNumUsers(1) {}
+  uint64_t sipHash13c(const char *bytes, const int size) {
+    return highwayhash::SipHash13(SIPHASH_KEY, bytes, size);
+  }
+  TriangleMeshInfo::TriangleMeshInfo() : mTriangleMesh(NULL), mNumUsers(0) {
+  }
+  TriangleMeshInfo::TriangleMeshInfo(WbTriangleMesh *triangleMesh) : mTriangleMesh(triangleMesh), mNumUsers(1) {
+  }
 
-  TriangleMeshGeometryKey::TriangleMeshGeometryKey() { mHash = 0; }
-  TriangleMeshGeometryKey::TriangleMeshGeometryKey(WbTriangleMeshGeometry *triangleMeshGeometry) { set(triangleMeshGeometry); }
+  TriangleMeshGeometryKey::TriangleMeshGeometryKey() {
+    mHash = 0;
+  }
+  TriangleMeshGeometryKey::TriangleMeshGeometryKey(WbTriangleMeshGeometry *triangleMeshGeometry) {
+    set(triangleMeshGeometry);
+  }
 
   void TriangleMeshGeometryKey::set(WbTriangleMeshGeometry *triangleMeshGeometry) {
     mHash = triangleMeshGeometry->computeHash();
   }
 
-  bool TriangleMeshGeometryKey::operator==(const TriangleMeshGeometryKey &rhs) const { return mHash == rhs.mHash; }
+  bool TriangleMeshGeometryKey::operator==(const TriangleMeshGeometryKey &rhs) const {
+    return mHash == rhs.mHash;
+  }
 
   std::size_t TriangleMeshGeometryKeyHasher::operator()(const TriangleMeshGeometryKey &k) const {
     assert(sizeof(size_t) == sizeof(uint64_t));

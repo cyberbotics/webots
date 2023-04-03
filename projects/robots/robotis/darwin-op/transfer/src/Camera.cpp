@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,7 +39,7 @@ void ::webots::Camera::enable(int samplingPeriod) {
   disable();
   ::Robot::LinuxCamera::GetInstance()->Initialize(0);
   ::Robot::LinuxCamera::GetInstance()->SetCameraSettings(::Robot::CameraSettings());
-  mImage = (unsigned char *)malloc(4 * getWidth() * getHeight());
+  mImage = static_cast<unsigned char *>(malloc(4 * getWidth() * getHeight()));
 
   int error = 0;
 

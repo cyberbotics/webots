@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -220,14 +220,14 @@ private:
   WbTcpServer *mTcpServer;
   bool mSaveLocally;
 
-  bool uploadFileExists(QString fileName);
+  bool uploadFileExists(const QString &fileName);
   char mUploadType;
 
 private slots:
   void showOnlineDocumentation(const QString &book, const QString &page = "index");
   void updateProjectPath(const QString &oldPath, const QString &newPath);
   void simulationQuit(int exitStatus);
-  void openFileInTextEditor(const QString &filePath, bool modify = true, bool isRobot = false);
+  void openFileInTextEditor(const QString &fileName, bool modify = true, bool isRobot = false);
 
   void maximizeDock();
   void minimizeDock();

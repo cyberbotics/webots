@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -119,7 +119,9 @@ namespace wren {
     }
   }
 
-  void Scene::bindPixelBuffer(int buffer) { glBindBuffer(GL_PIXEL_PACK_BUFFER, buffer); }
+  void Scene::bindPixelBuffer(int buffer) {
+    glBindBuffer(GL_PIXEL_PACK_BUFFER, buffer);
+  }
 
   void *Scene::mapPixelBuffer(unsigned int accessMode) {
 #ifdef __EMSCRIPTEN__
@@ -128,7 +130,9 @@ namespace wren {
     return glMapBuffer(GL_PIXEL_PACK_BUFFER, accessMode);
 #endif
   }
-  void Scene::unMapPixelBuffer() { glUnmapBuffer(GL_PIXEL_PACK_BUFFER); }
+  void Scene::unMapPixelBuffer() {
+    glUnmapBuffer(GL_PIXEL_PACK_BUFFER);
+  }
 
   void Scene::terminateFrameCapture() {
     glDeleteBuffers(mPixelBufferCount, mPixelBufferIds);
@@ -213,8 +217,12 @@ namespace wren {
     }
   }
 
-  int Scene::computeNodeCount() const { return 1 + mRoot->computeChildCount(); }
-  void Scene::printSceneTree() { debug::printSceneTree(); }
+  int Scene::computeNodeCount() const {
+    return 1 + mRoot->computeChildCount();
+  }
+  void Scene::printSceneTree() {
+    debug::printSceneTree();
+  }
 
   void Scene::render(bool culling) {
     assert(glstate::isInitialized());

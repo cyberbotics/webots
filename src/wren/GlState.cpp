@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -170,11 +170,17 @@ namespace wren {
       cIsGlInitialized = true;
     }  // namespace glstate
 
-    bool isInitialized() { return cIsGlInitialized; }
+    bool isInitialized() {
+      return cIsGlInitialized;
+    }
 
-    bool isContextActive() { return cIsGlContextActive; }
+    bool isContextActive() {
+      return cIsGlContextActive;
+    }
 
-    void setContextActive(bool active) { cIsGlContextActive = active; }
+    void setContextActive(bool active) {
+      cIsGlContextActive = active;
+    }
 
     void setDefaultState() {
       setDepthTest(true);
@@ -732,35 +738,65 @@ namespace wren {
         cActivePbrMaterial = 0;
     }
 
-    unsigned int boundReadFrameBuffer() { return cBoundReadFrameBuffer; }
+    unsigned int boundReadFrameBuffer() {
+      return cBoundReadFrameBuffer;
+    }
 
-    unsigned int boundDrawFrameBuffer() { return cBoundDrawFrameBuffer; }
+    unsigned int boundDrawFrameBuffer() {
+      return cBoundDrawFrameBuffer;
+    }
 
-    unsigned int boundPixelPackBuffer() { return cBoundPixelPackBuffer; }
+    unsigned int boundPixelPackBuffer() {
+      return cBoundPixelPackBuffer;
+    }
 
-    unsigned int blendSrcFactor() { return cBlendSrcFactor; }
+    unsigned int blendSrcFactor() {
+      return cBlendSrcFactor;
+    }
 
-    unsigned int blendDestFactor() { return cBlendDestFactor; }
+    unsigned int blendDestFactor() {
+      return cBlendDestFactor;
+    }
 
-    const char *vendor() { return cVendor; }
+    const char *vendor() {
+      return cVendor;
+    }
 
-    const char *renderer() { return cRenderer; }
+    const char *renderer() {
+      return cRenderer;
+    }
 
-    const char *version() { return cVersion; }
+    const char *version() {
+      return cVersion;
+    }
 
-    const char *glslVersion() { return cGlslVersion; }
+    const char *glslVersion() {
+      return cGlslVersion;
+    }
 
-    int gpuMemory() { return cGpuMemory; }
+    int gpuMemory() {
+      return cGpuMemory;
+    }
 
-    int maxCombinedTextureUnits() { return cMaxCombinedTextureUnits; }
+    int maxCombinedTextureUnits() {
+      return cMaxCombinedTextureUnits;
+    }
 
-    int maxFrameBufferDrawBuffers() { return cMaxFrameBufferDrawBuffers; }
+    int maxFrameBufferDrawBuffers() {
+      return cMaxFrameBufferDrawBuffers;
+    }
 
-    float maxTextureAnisotropy() { return cMaxTextureAnisotropy; }
+    float maxTextureAnisotropy() {
+      return cMaxTextureAnisotropy;
+    }
 
-    unsigned int activeProgram() { return cActiveProgram; }
+    unsigned int activeProgram() {
+      return cActiveProgram;
+    }
 
-    unsigned int getFrontFace() { return cFrontFace; }
+    unsigned int getFrontFace() {
+      return cFrontFace;
+    }
 
     const UniformBuffer *uniformBuffer(WrGlslLayoutUniformBuffer buffer) {
       assert(buffer >= 0 && buffer < WR_GLSL_LAYOUT_UNIFORM_BUFFER_COUNT);

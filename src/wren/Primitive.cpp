@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,9 +23,11 @@
 namespace wren {
   namespace primitive {
 
-    Plane::Plane(const glm::vec3 &normal, float negativeDistance) : mNormal(normal), mNegativeDistance(negativeDistance) {}
+    Plane::Plane(const glm::vec3 &normal, float negativeDistance) : mNormal(normal), mNegativeDistance(negativeDistance) {
+    }
 
-    Aabb::Aabb(const glm::vec3 &min, const glm::vec3 &max) : mBounds{min, max} {}
+    Aabb::Aabb(const glm::vec3 &min, const glm::vec3 &max) : mBounds{min, max} {
+    }
 
     Aabb::Aabb(const std::vector<glm::vec3> &vertices) {
       assert(vertices.size());
@@ -48,7 +50,9 @@ namespace wren {
       }
     }
 
-    Aabb::Aabb(const std::vector<Aabb> &aabbs) { this->extend(aabbs); }
+    Aabb::Aabb(const std::vector<Aabb> &aabbs) {
+      this->extend(aabbs);
+    }
 
     void Aabb::extend(const glm::vec3 &vertex) {
       if (vertex.x < mBounds[0].x)
@@ -114,15 +118,20 @@ namespace wren {
       return vertices;
     }
 
-    Sphere::Sphere(const glm::vec3 &center, float radius) : mCenter(center), mRadius(radius) {}
+    Sphere::Sphere(const glm::vec3 &center, float radius) : mCenter(center), mRadius(radius) {
+    }
 
-    Point::Point(const glm::vec3 &position) : mPosition(position) {}
+    Point::Point(const glm::vec3 &position) : mPosition(position) {
+    }
 
-    Ray::Ray(const glm::vec3 &origin, const glm::vec3 &direction) : mOrigin(origin), mDirection(direction) {}
+    Ray::Ray(const glm::vec3 &origin, const glm::vec3 &direction) : mOrigin(origin), mDirection(direction) {
+    }
 
-    Box::Box(const glm::vec3 &center, const glm::vec3 &extents) : mCenter(center), mExtents(extents) {}
+    Box::Box(const glm::vec3 &center, const glm::vec3 &extents) : mCenter(center), mExtents(extents) {
+    }
 
-    Rectangle::Rectangle(const glm::vec3 &center, const glm::vec2 &extents) : mCenter(center), mExtents(extents) {}
+    Rectangle::Rectangle(const glm::vec3 &center, const glm::vec2 &extents) : mCenter(center), mExtents(extents) {
+    }
 
     Capsule::Capsule(const glm::vec3 &center, float radius, float height, bool hasSide, bool hasTop, bool hasBottom) :
       mCenter(center),
@@ -130,14 +139,16 @@ namespace wren {
       mHalfHeight(0.5f * height),
       mHasSide(hasSide),
       mHasTop(hasTop),
-      mHasBottom(hasBottom) {}
+      mHasBottom(hasBottom) {
+    }
 
     Cone::Cone(const glm::vec3 &center, float radius, float height, bool hasSide, bool hasBottom) :
       mCenter(center),
       mRadius(radius),
       mHalfHeight(0.5f * height),
       mHasSide(hasSide),
-      mHasBottom(hasBottom) {}
+      mHasBottom(hasBottom) {
+    }
 
     Cylinder::Cylinder(const glm::vec3 &center, float radius, float height, bool hasSide, bool hasTop, bool hasBottom) :
       mCenter(center),
@@ -145,9 +156,11 @@ namespace wren {
       mHalfHeight(0.5f * height),
       mHasSide(hasSide),
       mHasTop(hasTop),
-      mHasBottom(hasBottom) {}
+      mHasBottom(hasBottom) {
+    }
 
-    TriangleMesh::TriangleMesh(const glm::vec3 &position) : mPosition(position) {}
+    TriangleMesh::TriangleMesh(const glm::vec3 &position) : mPosition(position) {
+    }
 
     Sphere Capsule::computeBoundingSphere() const {
       Sphere sphere(mCenter, 0.0f);
@@ -213,7 +226,9 @@ namespace wren {
       }
     }
 
-    Sphere TriangleMesh::computeBoundingSphere() const { return computeBoundingSphereFromVertices(mVertices); }
+    Sphere TriangleMesh::computeBoundingSphere() const {
+      return computeBoundingSphereFromVertices(mVertices);
+    }
 
     bool isPointAbovePlane(const Plane &plane, const glm::vec3 &point) {
       const float distance =

@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,6 +39,7 @@
 #include "WbWorldInfo.hpp"
 
 #include <QtCore/QMutex>
+#include <QtCore/QMutexLocker>
 
 #include <ode/fluid_dynamics/ode_fluid_dynamics.h>
 #include <ode/ode_MT.h>
@@ -49,11 +50,6 @@
 // The maximum number of contact joints to create. Note that the time to compute a physics timestep with the ODE
 // physics engine scales with the cube of the number of joints.
 #define MAX_CONTACT_JOINTS 10
-
-// The maximum number of contact points to look for when colliding 2 geometries. A larger number decreases the
-// chances that contact points in important areas won't be considered. Of the (at most) MAX_CONTACTS points that
-// might be found, joints will only be created for the deepest MAX_CONTACT_JOINTS points.
-#define MAX_CONTACTS 100
 
 // "webots" where each character is replaced by its ascii hexadecimal number.
 const long long int WbSimulationCluster::WEBOTS_MAGIC_NUMBER = 0x7765626F7473LL;
@@ -174,9 +170,9 @@ void WbSimulationCluster::collideKinematicRobots(WbKinematicDifferentialWheels *
   double depth = fabs(contact[0].geom.depth * (normal2D.length() / normal3D.length()));
 
   // record contact points for graphical and sound rendering
-  WbWorld *const world = WbWorld::instance();
+  WbWorld *const w = WbWorld::instance();
   const WbOdeContact odeContact(contact[0].geom, NULL);
-  world->appendOdeContact(odeContact);
+  w->appendOdeContact(odeContact);
 
   // move robots to prevent robots beeing one inside the other
   WbVector2 displacement = WbVector2(normal2D[0] * depth, normal2D[1] * depth);
@@ -455,15 +451,34 @@ static bool needCollisionDetection(WbSolid *solid, bool isOtherRayGeom) {
   return false;
 }
 
+void WbSimulationCluster::appendCollisionedRobot(WbKinematicDifferentialWheels *robot) {
+  if (WbOdeContext::instance()->numberOfThreads() > 1) {
+    QMutexLocker<QMutex> lock(&mCollisionedRobotsMutex);
+    mCollisionedRobots.append(robot);
+  } else
+    mCollisionedRobots.append(robot);
+}
+
 void WbSimulationCluster::handleCollisionIfSpace(void *data, dGeomID o1, dGeomID o2) {
   if (dGeomIsSpace(o1) || dGeomIsSpace(o2)) {
     // colliding a mContext->space() with something
     dSpaceCollide2(o1, o2, data, odeNearCallback);
     // collide all geoms internal to the mContext->space()(s)
     if (dGeomIsSpace(o1))
-      dSpaceCollide((dSpaceID)o1, data, odeNearCallback);
+      dSpaceCollide(reinterpret_cast<dSpaceID>(o1), data, odeNearCallback);
     if (dGeomIsSpace(o2))
-      dSpaceCollide((dSpaceID)o2, data, odeNearCallback);
+      dSpaceCollide(reinterpret_cast<dSpaceID>(o2), data, odeNearCallback);
+  }
+}
+
+void WbSimulationCluster::warnMoreContactPointsThanContactJoints() {
+  static QMutex mutex;
+  QMutexLocker<QMutex> lock(&mutex);
+  static double lastWarningTime = -INFINITY;
+  const double currentSimulationTime = WbSimulationState::instance()->time();
+  if (currentSimulationTime > lastWarningTime + 1000.0) {
+    WbLog::warning(QObject::tr("Contact joints will only be created for the deepest contact points."), false, WbLog::ODE);
+    lastWarningTime = currentSimulationTime;
   }
 }
 
@@ -638,20 +653,31 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     }
   }
 
-  dContact contact[MAX_CONTACTS];
-  int n = dCollide(o1, o2, MAX_CONTACTS, &contact[0].geom, sizeof(dContact));
+  const int maxContactJoints = MAX_CONTACT_JOINTS;
+  thread_local QVector<dContact> contactVector;
+
+  int maxContactPoints = std::max<size_t>(100, contactVector.capacity());
+
+  int n;
+  dContact *contact;
+  while (true) {
+    contactVector.reserve(maxContactPoints);
+    contact = contactVector.data();
+    n = dCollide(o1, o2, maxContactPoints, &contact[0].geom, sizeof(dContact));
+    if (n < maxContactPoints)
+      break;
+    else
+      maxContactPoints *= 10;
+  }
+
   if (n == 0)
     return;
 
-  if (n == MAX_CONTACTS)
-    WbLog::warning(QObject::tr("%1 contact points found so others might be ignored.").arg(MAX_CONTACTS), false, WbLog::ODE);
-
-  if (n > MAX_CONTACT_JOINTS) {
-    WbLog::warning(
-      QObject::tr("%1 contact points found but only the %2 deepest are used.").arg(MAX_CONTACTS).arg(MAX_CONTACT_JOINTS), false,
-      WbLog::ODE);
-    std::sort(contact, contact + n, [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
-    n = MAX_CONTACT_JOINTS;
+  if (n > maxContactJoints) {
+    WbSimulationCluster::warnMoreContactPointsThanContactJoints();
+    std::nth_element(contact, contact + maxContactJoints, contact + n,
+                     [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
+    n = maxContactJoints;
   }
 
   WbTouchSensor *const ts1 = dynamic_cast<WbTouchSensor *>(s1);
@@ -669,13 +695,15 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   if (!p1 || !p2) {
     WbRobot *const robot1 = dynamic_cast<WbRobot *>(s1);
     WbRobot *const robot2 = dynamic_cast<WbRobot *>(s2);
+    // Ensure that the deepest contact point is first for calls to collideKinematicRobots() below.
+    std::nth_element(contact, contact, contact + n,
+                     [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
     if (robot1 && !p1 && !isRayGeom2 && robot1->kinematicDifferentialWheels()) {
       wg1->setColliding();
-      cl->mCollisionedRobots.append(robot1->kinematicDifferentialWheels());
+      cl->appendCollisionedRobot(robot1->kinematicDifferentialWheels());
       if (robot2 && !p2 && robot2->kinematicDifferentialWheels()) {
-        dCollide(o1, o2, MAX_CONTACTS, &contact[0].geom, sizeof(dContact));  // we want only one contact point
         wg2->setColliding();
-        cl->mCollisionedRobots.append(robot2->kinematicDifferentialWheels());
+        cl->appendCollisionedRobot(robot2->kinematicDifferentialWheels());
         collideKinematicRobots(robot1->kinematicDifferentialWheels(), true, contact, true);
         collideKinematicRobots(robot2->kinematicDifferentialWheels(), true, contact, false);
       } else
@@ -683,9 +711,8 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
       return;
     }
     if (robot2 && !p2 && !isRayGeom1 && robot2->kinematicDifferentialWheels()) {
-      dCollide(o1, o2, MAX_CONTACTS, &contact[0].geom, sizeof(dContact));
       wg2->setColliding();
-      cl->mCollisionedRobots.append(robot2->kinematicDifferentialWheels());
+      cl->appendCollisionedRobot(robot2->kinematicDifferentialWheels());
       collideKinematicRobots(robot2->kinematicDifferentialWheels(), false, contact, false);
       return;
     }

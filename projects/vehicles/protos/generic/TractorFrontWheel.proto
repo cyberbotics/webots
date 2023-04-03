@@ -17,6 +17,7 @@ PROTO TractorFrontWheel [
   Slot {
     type "vehicle wheel"
     endPoint Solid {
+      rotation 0 0 1 1.5708
       children [
         Transform{
           translation 0.041 0 0

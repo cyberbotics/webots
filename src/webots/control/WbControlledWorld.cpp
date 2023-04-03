@@ -4,7 +4,7 @@
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -256,8 +256,7 @@ void WbControlledWorld::step() {
     justStartedControllers.clear();
   }
 
-  if (mFirstStep)
-    mFirstStep = false;
+  mFirstStep = false;
 
   if (mRetryEnabled) {
     mRetryEnabled = false;
@@ -471,12 +470,12 @@ void WbControlledWorld::waitForRobotWindowIfNeededAndCompleteStep() {
 }
 
 #ifndef NDEBUG
-bool WbControlledWorld::controllerInOnlyOneList(WbController *controller) {
+bool WbControlledWorld::controllerInOnlyOneList(WbController *controller) const {
   return mControllers.count(controller) + mNewControllers.count(controller) + mWaitingControllers.count(controller) +
            mTerminatingControllers.count(controller) + mDisconnectedExternControllers.count(controller) ==
          1;
 }
-bool WbControlledWorld::controllerInNoList(WbController *controller) {
+bool WbControlledWorld::controllerInNoList(WbController *controller) const {
   if (mControllers.contains(controller))
     qDebug() << "in mControllers";
   if (mNewControllers.contains(controller))
@@ -491,7 +490,7 @@ bool WbControlledWorld::controllerInNoList(WbController *controller) {
            mTerminatingControllers.count(controller) + mDisconnectedExternControllers.count(controller) ==
          0;
 }
-bool WbControlledWorld::showControllersLists(const QString &message) {
+bool WbControlledWorld::showControllersLists(const QString &message) const {
   /*
   QString output;
   if (mControllers.count())
