@@ -50,6 +50,7 @@ static const double UNDEFINED_POSITION = -9999999.9;
 static WbMotionRef head = NULL;
 static const char *HEADER = "#WEBOTS_MOTION";
 static const char *VERSION = "V1.0";
+static int cleanup_done = 0;
 
 // string to time conversion
 // acceptable input format: [[Minutes:]Seconds:]:Milliseconds
@@ -382,6 +383,7 @@ void motion_cleanup() {
     wbu_motion_delete(head);
 
   ROBOT_ASSERT(head == NULL);
+  cleanup_done = 1;
 }
 
 // Webots API functions below
@@ -451,10 +453,12 @@ WbMotionRef wbu_motion_new(const char *filename) {
 void wbu_motion_delete(WbMotionRef motion) {
   if (!motion)
     return;
-
   // dequeue self
   if (!motion_dequeue(motion)) {
-    fprintf(stderr, "Error: %s(): attempt to delete an invalid 'motion'.\n", __FUNCTION__);
+    if (cleanup_done) {            // the Python API calls first motion_cleanup and then tries to delete motion files.
+      ROBOT_ASSERT(head == NULL);  // no new motion should have been created after the cleanup.
+    } else
+      fprintf(stderr, "Error: %s(): attempt to delete an invalid 'motion'.\n", __FUNCTION__);
     return;
   }
 
