@@ -140,8 +140,12 @@ This duration is specified in milliseconds and it must be a multiple of the valu
 %tab-end
 
 %tab "MATLAB"
-> **Hands on #2**: At the beginning of the controller file, define a variable that defines the duration of each physics step.
-This macro will be used as argument to the `Robot::step` function, and it will also be used to enable the devices.
+> **Hands on #2**: At the beginning of the controller file, add the `function` declaration (the name of the class should match exactly the name of the file).
+>```MATLAB
+> function epuck_avoid_collision
+>```
+Just after the function declaration define a variable that defines the duration of each physics step.
+This macro will be used as argument to the `wb_robot_step` function, and it will also be used to enable the devices.
 This duration is specified in milliseconds and it must be a multiple of the value in the `basicTimeStep` field of the [WorldInfo](../reference/worldinfo.md) node.
 > ```MATLAB
 > TIME_STEP = 64;
@@ -232,7 +236,7 @@ The Webots API has to be initialized using the `wb_robot_init` function and it h
 %tab-end
 
 %tab "MATLAB"
-> **Hands on #3**: In Matlab there is no main function, the program starts it's execution from the start of the file:
+> **Hands on #3**: In Matlab, the "main" function is the function definition at the start of the file:
 >```MATLAB
 > % initialize devices
 > % feedback loop: step simulation until receiving an exit event
@@ -896,6 +900,8 @@ public class EPuckAvoidCollision {
 
 %tab "MATLAB"
 ```MATLAB
+function epuck_avoid_collision
+
 % time in [ms] of a simulation step
 TIME_STEP = 64;
 

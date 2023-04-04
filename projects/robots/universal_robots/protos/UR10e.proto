@@ -1,8 +1,9 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Apache License 2.0
 # license url: https://www.apache.org/licenses/LICENSE-2.0
-# documentation url: https://www.cyberbotics.com/doc/guide/universal_robots
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/universal_robots/protos/UR10e.proto
 # An Universal Robots UR10e robotic arm.
+# More information here: [URe](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/universal_robots/protos/UR3e.proto)
 # template language: javascript
 
 EXTERNPROTO "webots://projects/appearances/protos/OldSteel.proto"
@@ -19,7 +20,7 @@ PROTO UR10e [
   field SFBool     synchronization TRUE         # Is `Robot.synchronization`.
   field SFBool     selfCollision   TRUE         # Is `Robot.selfCollision`.
   field MFNode     toolSlot        []           # Extend the robot with new nodes at the end of the arm.
-  field SFBool     staticBase      TRUE         # Defines if the robot base should ba pinned to the static environment.
+  field SFBool     staticBase      TRUE         # Defines if the robot base should be pinned to the static environment.
 ]
 {
   Robot {

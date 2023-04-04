@@ -90,6 +90,7 @@ void WbJoint::postFinalize() {
       device(i)->postFinalize();
   }
 
+  connect(mDevice, &WbMFNode::itemChanged, this, &WbJoint::addDevice);
   connect(mDevice, &WbMFNode::itemInserted, this, &WbJoint::addDevice);
   if (brake())
     connect(brake(), &WbBrake::brakingChanged, this, &WbJoint::updateSpringAndDampingConstants, Qt::UniqueConnection);

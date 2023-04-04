@@ -266,6 +266,12 @@ void WbIndexedLineSet::recomputeBoundingSphere() const {
   }
 }
 
+QStringList WbIndexedLineSet::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "coordIndex";
+  return fields;
+}
+
 ////////////////////////
 // Friction Direction //
 ////////////////////////

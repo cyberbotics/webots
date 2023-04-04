@@ -26,7 +26,7 @@
       "minPosition": -1.18944,
       "name": "LAnklePitch",
       "position": 0,
-      "transformID": "n655",
+      "transformID": "n669",
       "type": "RotationalMotor"
     },
     {
@@ -36,7 +36,7 @@
       "minPosition": -0.39788,
       "name": "LAnkleRoll",
       "position": 0,
-      "transformID": "n664",
+      "transformID": "n678",
       "type": "RotationalMotor"
     },
     {
@@ -66,7 +66,7 @@
       "minPosition": -1.77378,
       "name": "LHipPitch",
       "position": 0,
-      "transformID": "n625",
+      "transformID": "n639",
       "type": "RotationalMotor"
     },
     {
@@ -76,7 +76,7 @@
       "minPosition": -0.379435,
       "name": "LHipRoll",
       "position": 0,
-      "transformID": "n612",
+      "transformID": "n626",
       "type": "RotationalMotor"
     },
     {
@@ -86,7 +86,7 @@
       "minPosition": -1.14529,
       "name": "LHipYawPitch",
       "position": 0,
-      "transformID": "n599",
+      "transformID": "n613",
       "type": "RotationalMotor"
     },
     {
@@ -96,7 +96,7 @@
       "minPosition": -0.0923279,
       "name": "LKneePitch",
       "position": 0,
-      "transformID": "n638",
+      "transformID": "n652",
       "type": "RotationalMotor"
     },
     {
@@ -461,10 +461,10 @@
       "ledColors": [],
       "ledGradual": true,
       "ledPBRAppearanceIDs": [
-        "n679"
+        "n693"
       ],
       "name": "LFoot/Led",
-      "transformID": "n677",
+      "transformID": "n691",
       "type": "LED"
     },
     {
@@ -538,7 +538,7 @@
       "axis": "0 1 0",
       "name": "LAnklePitchS",
       "position": 0,
-      "transformID": "n655",
+      "transformID": "n669",
       "type": "PositionSensor"
     },
     {
@@ -546,7 +546,7 @@
       "axis": "1 0 0",
       "name": "LAnkleRollS",
       "position": 0,
-      "transformID": "n664",
+      "transformID": "n678",
       "type": "PositionSensor"
     },
     {
@@ -567,17 +567,17 @@
     },
     {
       "name": "LFoot/Bumper/Left",
-      "transformID": "n682",
+      "transformID": "n696",
       "type": "TouchSensor"
     },
     {
       "name": "LFoot/Bumper/Right",
-      "transformID": "n690",
+      "transformID": "n704",
       "type": "TouchSensor"
     },
     {
       "name": "LFsr",
-      "transformID": "n664",
+      "transformID": "n678",
       "transformOffset": "0.02 0.007 -0.041",
       "type": "TouchSensor"
     },
@@ -586,7 +586,7 @@
       "axis": "0 1 0",
       "name": "LHipPitchS",
       "position": 0,
-      "transformID": "n625",
+      "transformID": "n639",
       "type": "PositionSensor"
     },
     {
@@ -594,7 +594,7 @@
       "axis": "1 0 0",
       "name": "LHipRollS",
       "position": 0,
-      "transformID": "n612",
+      "transformID": "n626",
       "type": "PositionSensor"
     },
     {
@@ -602,7 +602,7 @@
       "axis": "0 0.707107 -0.707107",
       "name": "LHipYawPitchS",
       "position": 0,
-      "transformID": "n599",
+      "transformID": "n613",
       "type": "PositionSensor"
     },
     {
@@ -610,7 +610,7 @@
       "axis": "0 1 0",
       "name": "LKneePitchS",
       "position": 0,
-      "transformID": "n638",
+      "transformID": "n652",
       "type": "PositionSensor"
     },
     {
