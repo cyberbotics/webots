@@ -77,7 +77,7 @@ private:
   bool recursivelyCheckIfWithinBounds(WbSolid *solid, bool boundsInitialized, const WbAffinePlane *frustumPlanes);
   virtual double distance() = 0;
 
-  void createRays(const WbVector3 &devicePosition, const QList<WbVector3> &directions, const WbVector3 &offset);
+  void createRays(const WbVector3 &origin, const QList<WbVector3> &directions, const WbVector3 &offset);
   void updateRayDirection();
 
   WbSolid *mDevice;
