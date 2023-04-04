@@ -55,13 +55,7 @@ void WbWrenPicker::setPickable(WrRenderable *renderable, int uniqueId, bool pick
   wr_phong_material_set_linear_diffuse(material, encodedId + 3);
 }
 
-WbWrenPicker::WbWrenPicker() :
-  mCoordinates(),
-  mSelectedId(-1),
-  mPickedTranslation(0),
-  mPickedRotation(0),
-  mPickedScale(0),
-  mPickedResize(0) {
+WbWrenPicker::WbWrenPicker() : mSelectedId(-1), mPickedTranslation(0), mPickedRotation(0), mPickedScale(0), mPickedResize(0) {
   mViewport = wr_viewport_new();
 
   const float color[4] = {0.0f, 0.0f, 0.0f, 0.0f};

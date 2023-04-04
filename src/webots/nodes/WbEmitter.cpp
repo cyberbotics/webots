@@ -47,7 +47,7 @@ WbEmitter::WbEmitter(WbTokenizer *tokenizer) : WbSolidDevice("Emitter", tokenize
   init();
 }
 
-WbEmitter::WbEmitter(const WbEmitter &other) : WbSolidDevice(other), mQueue() {
+WbEmitter::WbEmitter(const WbEmitter &other) : WbSolidDevice(other) {
   init();
 }
 

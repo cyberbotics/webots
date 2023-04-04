@@ -29,8 +29,7 @@ WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, bo
   mImportable(importable),
   mIsReady(false),
   mDownloader(NULL),
-  mName(QUrl(url).fileName().replace(".proto", "", Qt::CaseInsensitive)),
-  mError() {
+  mName(QUrl(url).fileName().replace(".proto", "", Qt::CaseInsensitive)) {
 }
 
 WbProtoTreeItem::~WbProtoTreeItem() {
