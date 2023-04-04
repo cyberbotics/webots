@@ -41,8 +41,6 @@ WbBuildEditor *WbBuildEditor::instance() {
 
 WbBuildEditor::WbBuildEditor(QWidget *parent, const QString &toolBarAlign) :
   WbTextEditor(parent, toolBarAlign),
-  mTargetModificationTimeBeforeMake(),
-  mTargetFile(),
   mIsCleaning(false) {
   gInstance = this;
   mProcess = NULL;
