@@ -88,9 +88,9 @@ void WbMesh::downloadUpdate() {
     group->recomputeBoundingSphere();
 
   if (isInBoundingObject()) {
-    WbMatter *ancestor = WbNodeUtilities::findBoundingObjectAncestor(this);
-    if (ancestor)
-      ancestor->updateBoundingObject();
+    WbMatter *boundingObjectAncestor = WbNodeUtilities::findBoundingObjectAncestor(this);
+    if (boundingObjectAncestor)
+      boundingObjectAncestor->updateBoundingObject();
   }
 }
 
