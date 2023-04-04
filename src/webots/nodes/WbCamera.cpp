@@ -314,8 +314,8 @@ void WbCamera::updateRecognizedObjectsOverlay(double screenX, double screenY, do
               .arg(WbPrecision::doubleToString(object->relativeOrientation().z(), WbPrecision::GUI_LOW))
               .arg(WbPrecision::doubleToString(object->relativeOrientation().angle(), WbPrecision::GUI_LOW));
     text += tr("\nSize: %1 %2")
-              .arg(WbPrecision::doubleToString(object->objectSize().x(), WbPrecision::GUI_LOW))
-              .arg(WbPrecision::doubleToString(object->objectSize().y(), WbPrecision::GUI_LOW));
+              .arg(WbPrecision::doubleToString(object->objectSize().y(), WbPrecision::GUI_LOW))
+              .arg(WbPrecision::doubleToString(object->objectSize().z(), WbPrecision::GUI_LOW));
     text += tr("\nPosition on the image: %1 %2").arg(object->positionOnImage().x()).arg(object->positionOnImage().y());
     text += tr("\nSize on the image: %1 %2").arg(object->pixelSize().x()).arg(object->pixelSize().y());
     for (int i = 0; i < object->colors().size(); ++i)
@@ -422,7 +422,7 @@ void WbCamera::prePhysicsStep(double ms) {
   if (isPowerOn() && mRecognitionSensor->isEnabled() && mRecognitionSensor->needToRefreshInMs(ms) && recognition() &&
       recognition()->occlusion()) {
     // create rays
-    computeRecognizedObjects(false, true);
+    computeRecognizedObjects(true);
     mNeedToDeleteRecognizedObjectsRays = true;
 
     if (!mRecognizedObjects.isEmpty()) {
@@ -577,8 +577,8 @@ void WbCamera::writeAnswer(WbDataStream &stream) {
         stream << (double)recognizedObject->relativeOrientation().z();
         stream << (double)recognizedObject->relativeOrientation().angle();
         // size
-        stream << (double)recognizedObject->objectSize().x();
         stream << (double)recognizedObject->objectSize().y();
+        stream << (double)recognizedObject->objectSize().z();
         // position on the image
         stream << (int)recognizedObject->positionOnImage().x();
         stream << (int)recognizedObject->positionOnImage().y();
@@ -690,7 +690,7 @@ void WbCamera::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbCamera::computeRecognizedObjects(bool finalSetup, bool needCollisionDetection) {
+void WbCamera::computeRecognizedObjects(bool needCollisionDetection) {
   // compute the camera referential
   const WbVector3 cameraPosition = position();
   const double horizontalFieldOfView = fieldOfView();
@@ -711,11 +711,9 @@ void WbCamera::computeRecognizedObjects(bool finalSetup, bool needCollisionDetec
     // create target
     WbRecognizedObject *generatedObject =
       new WbRecognizedObject(this, object, needCollisionDetection, recognition()->maxRange());
-    if (finalSetup) {
-      if (!generatedObject->isContainedInFrustum(frustumPlanes) || !setRecognizedObjectProperties(generatedObject)) {
-        delete generatedObject;
-        continue;
-      }
+    if (!generatedObject->isContainedInFrustum(frustumPlanes) || !setRecognizedObjectProperties(generatedObject)) {
+      delete generatedObject;
+      continue;
     }
     mRecognizedObjects.append(generatedObject);
   }
@@ -788,7 +786,7 @@ bool WbCamera::refreshRecognitionSensorIfNeeded() {
   if (!recognition()->occlusion())
     // no need of ODE ray collision detection
     // rays can be created at the end of the step when all the body positions are up-to-date
-    computeRecognizedObjects(true, false);
+    computeRecognizedObjects(false);
 
   // post process objects
   if (recognition()->occlusion())

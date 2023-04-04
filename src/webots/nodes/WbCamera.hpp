@@ -109,7 +109,7 @@ private:
   bool refreshRecognitionSensorIfNeeded();
   void removeOccludedRecognizedObjects();
   WbVector2 projectOnImage(const WbVector3 &position);
-  void computeRecognizedObjects(bool finalSetup, bool needCollisionDetection);
+  void computeRecognizedObjects(bool needCollisionDetection);
   bool setRecognizedObjectProperties(WbRecognizedObject *recognizedObject);
   void updateRaysSetupIfNeeded() override;
   short mRecognitionRefreshRate;

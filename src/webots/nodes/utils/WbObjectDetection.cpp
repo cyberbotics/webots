@@ -66,7 +66,6 @@ void WbObjectDetection::createRays(const WbVector3 &origin, const QList<WbVector
     dGeomSetData(geom, mOdeGeomData);
     mRayGeoms << geom;
     mRaysCollisionDepth << 0.0;
-    return;
   }
 }
 
@@ -412,7 +411,6 @@ WbAffinePlane *WbObjectDetection::computeFrustumPlanes(const WbSolid *device, co
 
 QList<WbVector3> WbObjectDetection::computeCorners() const {
   QList<WbVector3> points;
-  points << (WbVector3(0, 0, 0));  // center
   WbVector3 size = 0.5 * mObjectSize;
   if (mUseBoundingSphereOnly) {  // 7 rays for bounding sphere
     points << (WbVector3(size.x(), 0, 0));
