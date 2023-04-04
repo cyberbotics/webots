@@ -130,6 +130,7 @@
     - [Robotis OP2](robotis-op2.md)
     - [Robotis OP3](robotis-op3.md)
     - [ROSbot](rosbot.md)
+    - [ROSbot XL](rosbot-xl.md)
     - [Salamander](salamander.md)
     - [Scara T6](scara-epson-t6.md)
     - [Shrimp](shrimp.md)

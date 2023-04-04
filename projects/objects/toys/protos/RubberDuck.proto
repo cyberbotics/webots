@@ -1,15 +1,16 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url:
 # A rubber yellow duck (7.42 x 10.66 x 10.13 cm).
 # template language: javascript
 
 PROTO RubberDuck [
-  field SFVec3f    translation         0 0 0
+  field SFVec3f    translation         0 0 0.02
   field SFRotation rotation            0 0 1 0
   field SFString   name                "rubber duck"
   field SFFloat    scale               1                          # Defines the global scaling factor.
-  field SFColor    bodyColor           0.87451 0.756863 0.113725  # Defines the color of the rubber duck.
+  field SFColor    bodyColor           1 0.8 0                    # Defines the color of the rubber duck.
   field SFFloat    density             400                        # Defines density of the rubber duck in kg / m^3.
   field MFNode     immersionProperties [                          # Is `Solid.immersionProperties`.
       ImmersionProperties {
@@ -52,7 +53,7 @@ PROTO RubberDuck [
         children [
           DEF GEOM Shape {
             appearance PBRAppearance {
-              baseColor 1 0.8 0
+              baseColor IS bodyColor
               metalness 0
               roughness 0.7
             }

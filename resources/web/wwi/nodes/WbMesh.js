@@ -20,7 +20,7 @@ export default class WbMesh extends WbTriangleMeshGeometry {
     this.#name = name;
     this.#materialIndex = materialIndex;
     if (this.#url)
-      this.#isCollada = this.#url.endsWith('.dae');
+      this.#isCollada = this.#url.toLowerCase().endsWith('.dae');
   }
 
   get nodeType() {
@@ -182,7 +182,7 @@ export default class WbMesh extends WbTriangleMeshGeometry {
 
   #updateUrl() {
     if (this.#url) {
-      this.#isCollada = this.#url.endsWith('.dae');
+      this.#isCollada = this.#url.toLowerCase().endsWith('.dae');
 
       MeshLoader.loadMeshData(WbWorld.instance.prefix, this.#url).then(meshContent => {
         this.scene = meshContent[0];

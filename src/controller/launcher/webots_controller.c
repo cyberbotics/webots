@@ -55,6 +55,7 @@ static char *new_ld_path;
 static char *new_python_path;
 static char *webots_project;
 static char *webots_controller_name;
+static char *webots_controller_args;
 static char *webots_version;
 
 // Removes comments and trailing whitespace from a string.
@@ -174,7 +175,7 @@ static bool get_matlab_path() {
   const char *matlab_version_wc = "R20";
 #ifdef _WIN32
   const char *matlab_directory = "C:\\Program Files\\MATLAB\\";
-  const char *matlab_exec_suffix = "\\bin\\win64\\MATLAB.exe";
+  const char *matlab_exec_suffix = "\\bin\\matlab.exe";
 #else  // __linux__
   const char *matlab_directory = "/usr/local/MATLAB/";
   const char *matlab_exec_suffix = "/bin/matlab";
@@ -434,10 +435,16 @@ static void python_config_environment() {
 /*
 This function sets the environment variable for MATLAB controllers execution.
 
--It sets WEBOTS_PROJECT environment variable to the path of the project folder.
--Sets WEBOTS_CONTROLLER_NAME environment variable to the name of the controller.
--Determines Webots version from version.txt file contained in the Webots installation, and sets WEBOTS_VERSION environment
-variable to this version.
+- It sets WEBOTS_PROJECT environment variable to the path of the project folder.
+- It sets WEBOTS_CONTROLLER_NAME environment variable to the name of the controller.
+- It sets WEBOTS_CONTROLLER_ARGS environment variable to contain a list of all controller arguments.
+- It determines the Webots version from version.txt file contained in the Webots installation, and sets
+  WEBOTS_VERSION environment variable to this version.
+
+The function also includes the controller library directory in the relevant OS-specific environment variable:
+- For Windows it adds "WEBOTS_HOME\lib\controller;" to the Path environment variable.
+- For Linux, it adds "WEBOTS_HOME/lib/controller:" to LD_LIBRARY_PATH.
+- For macOS it adds "WEBOTS_HOME/Contents/lib/controller:" to DYLD_LIBRARY_PATH.
 */
 static void matlab_config_environment() {
   // Add project folder to WEBOTS_PROJECT env variable
@@ -446,12 +453,12 @@ static void matlab_config_environment() {
   const size_t controller_size = strlen(current_path);
   const size_t project_path_size = controller_size - controller_folder_size;
   char *project_path = malloc(project_path_size + 1);
-  strncpy(project_path, controller, project_path_size);
+  strncpy(project_path, current_path, project_path_size);
   project_path[project_path_size] = '\0';
 
-  const size_t webots_project_size = snprintf(NULL, 0, "WEBOTS_PROJECT=%s%s", current_path, project_path) + 1;
+  const size_t webots_project_size = snprintf(NULL, 0, "WEBOTS_PROJECT=%s", project_path) + 1;
   webots_project = malloc(webots_project_size);
-  sprintf(webots_project, "WEBOTS_PROJECT=%s%s", current_path, project_path);
+  sprintf(webots_project, "WEBOTS_PROJECT=%s", project_path);
   putenv(webots_project);
   free(project_path);
 
@@ -489,6 +496,23 @@ static void matlab_config_environment() {
   webots_version = malloc(webots_version_size);
   sprintf(webots_version, "WEBOTS_VERSION=%s", version);
   putenv(webots_version);
+
+  // Add libController to Path
+#ifdef _WIN32
+  const char *lib_controller = "\\lib\\controller;";
+  const char *path_env_variable = "Path";
+#elif defined __linux__
+  const char *lib_controller = "/lib/controller:";
+  const char *path_env_variable = "LD_LIBRARY_PATH";
+#elif defined __APPLE__
+  const char *lib_controller = "/Contents/lib/controller:";
+  const char *path_env_variable = "DYLD_LIBRARY_PATH";
+#endif
+  const size_t new_path_size =
+    snprintf(NULL, 0, "%s=%s%s%s", path_env_variable, WEBOTS_HOME, lib_controller, getenv(path_env_variable)) + 1;
+  new_path = malloc(new_path_size);
+  sprintf(new_path, "%s=%s%s%s", path_env_variable, WEBOTS_HOME, lib_controller, getenv(path_env_variable));
+  putenv(new_path);
 }
 
 // Replace all environment variables in the string ('$(ENV)' syntax) by its content
@@ -670,12 +694,35 @@ static char **add_single_argument(char **argv, size_t *current_size, char *str) 
 }
 
 // Add all controller arguments (given to the launcher) to the 'argv' array
-static char **add_controller_arguments(char **argv, char **controller_argv, size_t *current_size) {
-  while (nb_controller_arguments) {
-    argv = add_single_argument(argv, current_size, controller_argv[next_argument_index]);
+// For MATLAB, append them to WEBOTS_CONTROLLER_ARGS instead
+static char **add_controller_arguments(char **argv, char **controller_argv, size_t *current_size, bool is_matlab) {
+  size_t webots_controller_args_size;
+  if (is_matlab) {
+    webots_controller_args_size = snprintf(NULL, 0, "WEBOTS_CONTROLLER_ARGS=%s", controller_argv[next_argument_index]) + 1;
+    webots_controller_args = malloc(webots_controller_args_size);
+    snprintf(webots_controller_args, webots_controller_args_size, "WEBOTS_CONTROLLER_ARGS=%s",
+             controller_argv[next_argument_index]);
     nb_controller_arguments--;
     next_argument_index++;
   }
+  while (nb_controller_arguments) {
+    if (is_matlab) {
+      size_t varargin_size = snprintf(NULL, 0, "%s%s", ENV_SEPARATOR, controller_argv[next_argument_index]) + 1;
+      char *varargin = malloc(varargin_size);
+      snprintf(varargin, varargin_size, "%s%s", ENV_SEPARATOR, controller_argv[next_argument_index]);
+      webots_controller_args = realloc(webots_controller_args, webots_controller_args_size + varargin_size);
+      if (!webots_controller_args)
+        exit(1);
+      snprintf(webots_controller_args + webots_controller_args_size - 1, varargin_size, "%s", varargin);
+      webots_controller_args_size += (varargin_size - 1);
+      free(varargin);
+    } else
+      argv = add_single_argument(argv, current_size, controller_argv[next_argument_index]);
+    nb_controller_arguments--;
+    next_argument_index++;
+  }
+  if (is_matlab)
+    putenv(webots_controller_args);
   return argv;
 }
 
@@ -756,7 +803,7 @@ int main(int argc, char **argv) {
     size_t current_size = 0;
     char **new_argv = NULL;
     new_argv = add_single_argument(new_argv, &current_size, controller);
-    new_argv = add_controller_arguments(new_argv, argv, &current_size);
+    new_argv = add_controller_arguments(new_argv, argv, &current_size, false);
     new_argv = add_single_argument(new_argv, &current_size, NULL);
 #ifdef _WIN32
     const char *const *windows_argv = (const char **)new_argv;
@@ -787,7 +834,7 @@ int main(int argc, char **argv) {
     new_argv = add_single_argument(new_argv, &current_size, "-u");
     new_argv = add_single_argument(new_argv, &current_size, controller);
 #endif
-    new_argv = add_controller_arguments(new_argv, argv, &current_size);
+    new_argv = add_controller_arguments(new_argv, argv, &current_size, false);
     new_argv = add_single_argument(new_argv, &current_size, NULL);
 #ifdef _WIN32
     const char *const *windows_argv = (const char **)new_argv;
@@ -805,23 +852,32 @@ int main(int argc, char **argv) {
       return -1;
 
 #ifdef _WIN32
-    const char *launcher_path = "\\lib\\controller\\matlab\\launcher.m";
+    const char *launcher_path = "\\lib\\controller\\matlab";
 #elif defined __APPLE__
-    const char *launcher_path = "/Contents/lib/controller/matlab/launcher.m";
+    const char *launcher_path = "/Contents/lib/controller/matlab";
 #elif defined __linux__
-    const char *launcher_path = "/lib/controller/matlab/launcher.m";
+    const char *launcher_path = "/lib/controller/matlab";
 #endif
     // matlab_command starts the launcher.m file contained in the lib controller
-    const size_t matlab_command_size = snprintf(NULL, 0, "\"run('%s%s'); exit;\"", WEBOTS_HOME, launcher_path) + 1;
+    const size_t matlab_command_size = snprintf(NULL, 0, "-sd \"%s%s\"", WEBOTS_HOME, launcher_path) + 1;
     char *matlab_command = malloc(matlab_command_size);
-    sprintf(matlab_command, "\"run('%s%s'); exit;\"", WEBOTS_HOME, launcher_path);
+    sprintf(matlab_command, "-sd \"%s%s\"", WEBOTS_HOME, launcher_path);
 
-    // Start MATLAB without display and execute matlab_command to start the launcher.m file
+    // Start MATLAB without display and run the launcher.m file
+    size_t current_size = 0;
+    char **new_argv = NULL;
+    new_argv = add_single_argument(new_argv, &current_size, matlab_path);
+    new_argv = add_single_argument(new_argv, &current_size, matlab_command);
+    new_argv = add_single_argument(new_argv, &current_size, "-batch");
+    new_argv = add_single_argument(new_argv, &current_size, "launcher");
+    if (nb_controller_arguments)
+      new_argv = add_controller_arguments(new_argv, argv, &current_size, true);
+    new_argv = add_single_argument(new_argv, &current_size, NULL);
+
 #ifdef _WIN32
-    const char *const new_argv[] = {matlab_path, "-nodisplay", "-nosplash", "-nodesktop", "-r", matlab_command, NULL};
-    _spawnvpe(_P_WAIT, new_argv[0], new_argv, NULL);
+    const char *const *windows_argv = (const char **)new_argv;
+    _spawnvpe(_P_WAIT, windows_argv[0], windows_argv, NULL);
 #else
-    char *new_argv[] = {matlab_path, "-nodisplay", "-nosplash", "-nodesktop", "-r", matlab_command, NULL};
     execvp(new_argv[0], new_argv);
 #endif
     free(matlab_command);
@@ -883,7 +939,7 @@ int main(int argc, char **argv) {
     new_argv = add_single_argument(new_argv, &current_size, classpath);
     new_argv = add_single_argument(new_argv, &current_size, java_library);
     new_argv = add_single_argument(new_argv, &current_size, controller_name + 1);
-    new_argv = add_controller_arguments(new_argv, argv, &current_size);
+    new_argv = add_controller_arguments(new_argv, argv, &current_size, false);
     new_argv = add_single_argument(new_argv, &current_size, NULL);
 #ifdef _WIN32
     const char *const *windows_argv = (const char **)new_argv;
@@ -914,6 +970,7 @@ int main(int argc, char **argv) {
   free(webots_project);
   free(webots_controller_name);
   free(webots_version);
+  free(webots_controller_args);
 
   return 0;
 }

@@ -109,8 +109,8 @@ export default class WbCapsule extends WbGeometry {
   }
 
   recomputeBoundingSphere() {
-    const halfHeight = this.scaledHeight() / 2;
-    const r = this.scaledRadius();
+    const halfHeight = this.#height / 2;
+    const r = this.#radius;
 
     if (!this.#top && !this.#side && !this.#bottom) { // it is empty
       this._boundingSphere.empty();

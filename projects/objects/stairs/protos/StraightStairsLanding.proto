@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/stairs/protos/StraightStairsLanding.proto
 # Generic and customizable landing model for straight stairs.
 # template language: javascript
 
@@ -66,7 +67,7 @@ PROTO StraightStairsLanding [
         ]
       }
       Transform {
-        translation 0 0 %<= height >% 
+        translation 0 0 %<= height >%
         children IS rail
       }
       %< if (fields.stringerRight.value) { >%

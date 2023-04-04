@@ -28,7 +28,8 @@ namespace wren {
     mScale(glm::vec3(1.0)),
     mPosition(gVec3Zeros),
     mCenter(gVec3Zeros),
-    mRotation(0.0f) {}
+    mRotation(0.0f) {
+  }
 
   TextureTransform::~TextureTransform() {
     for (auto &material : mMaterialsUsingThisInstance)

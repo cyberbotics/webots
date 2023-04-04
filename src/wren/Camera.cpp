@@ -52,7 +52,9 @@ namespace wren {
     glstate::uniformBuffer(WR_GLSL_LAYOUT_UNIFORM_BUFFER_CAMERA_TRANSFORMS)->writeValue(&mMatrices);
   }
 
-  bool Camera::isAabbVisible(const primitive::Aabb &aabb) const { return mFrustum.isInside(aabb); }
+  bool Camera::isAabbVisible(const primitive::Aabb &aabb) const {
+    return mFrustum.isInside(aabb);
+  }
 
   bool Camera::isBoundingSphereVisible(const primitive::Sphere &boundingSphere) const {
     return mFrustum.isInside(boundingSphere);

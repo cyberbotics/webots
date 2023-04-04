@@ -5,12 +5,14 @@ Released on ??
   - New Features
     - Added a new launcher to simplify the start of extern controllers ([#5629](https://github.com/cyberbotics/webots/pull/5629)).
     - Added a warning when Webots and controller library versions are different ([#5896](https://github.com/cyberbotics/webots/pull/5896)).
+    - Added model of the [Husarion](https://husarion.com/)'s ROSbot XL robot and a sample world ([#5973](https://github.com/cyberbotics/webots/pull/5973)).
   - Cleanup
     - Deprecated the C and MATLAB API functions `wb_supervisor_node_enable/disable_contact_point_tracking` in favor of `wb_supervisor_node_enable/disable_contact_points_tracking` to be more consistent with other APIs ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
   - Enhancements
     - Improved the robots' grippers such that they use coupled motors ([#5694](https://github.com/cyberbotics/webots/pull/5694)).
     - Improved the [Charger](charger.md) behavior ([#5771](https://github.com/cyberbotics/webots/pull/5771)).
     - Added `maxContactJoints` field to `ContactProperties` node to give users control over the tradeoff between collision accuracy and performance ([#5769](https://github.com/cyberbotics/webots/pull/5769)).
+    - Improved MATLAB controllers to support input arguments ([#5943](https://github.com/cyberbotics/webots/pull/5943)).
 
 ## Webots R2023a Revision 1
 Released on ??
@@ -24,7 +26,9 @@ Released on ??
     - Improved plot representation in default robot window when a NaN value is received from a device ([#5680](https://github.com/cyberbotics/webots/pull/5680)).
     - Improved default selected tab in Field Editor when nodes are selected ([#5726](https://github.com/cyberbotics/webots/pull/5726)).
     - Improved handling of non-ASCII robot names and possible crashes resulting from long names ([#5959](https://github.com/cyberbotics/webots/pull/5959)).
+    - Change the Windows version of SUMO to 1.13 to match the one used on Linux and MacOS and avoid a potiental Log4J vulnerability ([#6010](https://github.com/cyberbotics/webots/pull/6010)).
   - Bug Fixes
+    - Fixed the clean-up of the motion API which was firing warnings in Python ([#6029](https://github.com/cyberbotics/webots/pull/6029)).
     - Fixed the behavior of the [Connector](connector.md) after a reset to return to the controller the correct status ([#5889](https://github.com/cyberbotics/webots/pull/5889))
     - Fixed redirection of stdout/stderr for Python controllers on Windows ([#5807](https://github.com/cyberbotics/webots/pull/5807)).
     - Fixed crash in Python API when a robot controller was using several cameras with different resolutions ([#5705](https://github.com/cyberbotics/webots/pull/5705)).
@@ -35,6 +39,7 @@ Released on ??
       - Field getters sometimes returning an invalid Field object ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
       - `Field.enableSFTracking` and `Field.disableSFTracking` which were failing ([#5640](https://github.com/cyberbotics/webots/pull/5640)).
       - `Motor.enableForceFeedback` where the `sampling_period` argument was missing ([#5797](https://github.com/cyberbotics/webots/pull/5797)).
+      - `Motor.setAcceleration` was missing the device tag parameter ([#6036](https://github.com/cyberbotics/webots/pull/6036)).
     - Fixed crash resulting from requesting pose tracking of unsuitable nodes ([#5620](https://github.com/cyberbotics/webots/pull/5620)).
     - Fixed memory leaks, particularly when in no-rendering mode and spawning/deleting nodes ([#5639](https://github.com/cyberbotics/webots/pull/5639)).
     - Fixed crashes resulting from streaming pose, SF field values or contact points after deleting the tracked nodes ([#5638](https://github.com/cyberbotics/webots/pull/5638)).
@@ -62,6 +67,8 @@ Released on ??
     - Fixed bug causing Webots to hang when requesting multiple poses while pose-tracking multiple nodes ([#5952](https://github.com/cyberbotics/webots/pull/5952)).
     - Fixed physics state updates of [Solid](solid.md) nodes added to a descendant [`Joint.endPoint`](joint.md) during simulation ([#5961](https://github.com/cyberbotics/webots/pull/5961)).
     - Fixed unwanted altitude change when reaching a target waypoint in `mavic2pro_patrol.c` ([#5981](https://github.com/cyberbotics/webots/pull/5981)).
+    - Fixed the extern controller connection to a target Webots instance when a snap one is running ([#6002](https://github.com/cyberbotics/webots/pull/6002)).
+    - Fixed the double downloading of meshes ([#6034](https://github.com/cyberbotics/webots/pull/6034)).
 
 ## Webots R2023a
 Released on November 29th, 2022.

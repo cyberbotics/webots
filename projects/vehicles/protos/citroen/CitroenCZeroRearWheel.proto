@@ -1,10 +1,11 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/citroen/CitroenCZeroRearWheel.proto
 # Model of the Citroën C-Zero rear wheels using the generic VehicleWheel PROTO including physic properties and textures.
 # The contactMaterial is "CitroenCZeroWheels".
 # Size: 175/55/R15.
-# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# This model was sponsored by the [CTI project RO2IVSim](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"
 
@@ -35,8 +36,8 @@ PROTO CitroenCZeroRearWheel [
     boundingObject IS boundingObject
     logoSlot [
       Transform{
-        translation 0.006 0 0
-        rotation -0.707 0 0.707 -3.14
+        translation 0 0.011 0
+        rotation 1 0 0 1.5708
         children [
           Shape {
             appearance PBRAppearance {

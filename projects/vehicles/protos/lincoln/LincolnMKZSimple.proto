@@ -64,7 +64,6 @@ PROTO LincolnMKZSimple [
       DEF FRONT_RIGHT_WHEEL Solid {
         angularVelocity IS frontRightWheelAngularVelocity
         translation 2.94 -0.82 0
-        rotation 0 0 1 1.57
         children [
           Slot {
             type "vehicle wheel"
@@ -88,7 +87,7 @@ PROTO LincolnMKZSimple [
       DEF FRONT_LEFT_WHEEL Solid {
         angularVelocity IS frontLeftWheelAngularVelocity
         translation 2.94 0.82 0
-        rotation 0 0 1 -1.5708
+        rotation 0 0 1 -3.14159
         children [
           Slot {
             type "vehicle wheel"
@@ -111,7 +110,6 @@ PROTO LincolnMKZSimple [
       DEF REAR_RIGHT_WHEEL Solid {
         angularVelocity IS rearRightWheelAngularVelocity
         translation 0 -0.82 0
-        rotation 0 0 1 1.5708
         children [
           Slot {
             type "vehicle wheel"
@@ -134,7 +132,7 @@ PROTO LincolnMKZSimple [
       DEF REAR_LEFT_WHEEL Solid {
         angularVelocity IS rearLeftWheelAngularVelocity
         translation 0 0.82 0
-        rotation 0 0 1 -1.5708
+        rotation 0 0 1 -3.14159
         children [
           Slot {
             type "vehicle wheel"

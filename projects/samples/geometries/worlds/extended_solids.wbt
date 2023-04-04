@@ -32,7 +32,7 @@ SolidBox {
   }
 }
 SolidPipe {
-  translation 0 0 1
+  translation 0 0 0
   rotation 0.5773489358556708 0.5773509358554485 0.5773509358554485 -2.094395307179586
   subdivision 48
   physics Physics {
