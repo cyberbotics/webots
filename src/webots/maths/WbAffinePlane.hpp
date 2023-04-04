@@ -69,7 +69,7 @@ public:
   double distance(const WbVector3 &v) const { return mA * v.x() + mB * v.y() + mC * v.z() - mD; }
 
   // project a vector on this plane, returns the project vector
-  WbVector3 vectorProjection(const WbVector3 &v) const { return v - normal() * v.dot(normal()); }
+  WbVector3 vectorProjection(const WbVector3 &v) const { return v + normal() * v.dot(normal()); }
 
 private:
   double mA, mB, mC, mD;

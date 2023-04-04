@@ -220,7 +220,8 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
     }
 
     // Remove points not in the frustum
-    QVector<WbVector3> pointsInFrustum;
+    QList<WbVector3> pointsInFrustum;
+    QList<WbVector3> pointsAtBack;
     int pointsInside = 0;
     bool isOnePointOutsidePlane[4] = {false, false, false, false};
     bool isOnePointOnCorrectSide[4] = {false, false, false, false};
@@ -266,8 +267,10 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
           } else
             isOnePointOnCorrectSide[j] = true;
         }
-      } else
-        continue;  // discard points at the back of the planar device
+      } else {
+        pointsAtBack.append(points[i]);
+        continue;  // use points at the back of the planar device only partly inside the frustum
+      }
 
       if (inside)
         pointsInside++;
@@ -291,6 +294,8 @@ bool WbObjectDetection::computeBounds(const WbVector3 &devicePosition, const WbM
     // move the points in the device referential
     for (int i = 0; i < pointsInFrustum.size(); ++i)
       pointsInFrustum[i] = deviceInverseRotation * (pointsInFrustum[i] - devicePosition);
+    // add points at the back of the device to ensure the whole object is detected
+    pointsInFrustum << pointsAtBack;
     double minX = pointsInFrustum[0].x();
     double maxX = minX;
     double minY = pointsInFrustum[0].y();
@@ -463,7 +468,5 @@ WbAffinePlane *WbObjectDetection::computeFrustumPlanes(const WbVector3 &devicePo
   planes[LEFT] = WbAffinePlane(devicePosition, bottomLeftCorner, topLeftCorner);                 // left plane
   planes[TOP] = WbAffinePlane(devicePosition, topLeftCorner, topRightCorner);                    // top plane
   planes[PARALLEL] = WbAffinePlane(deviceRotation * WbVector3(maxRange, 0, 0), devicePosition);  // device plane
-  for (int i = 0; i < PLANE_NUMBER; ++i)
-    planes[i].normalize();
   return planes;
 }
