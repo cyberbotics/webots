@@ -117,7 +117,7 @@ WbReceiver::WbReceiver(WbTokenizer *tokenizer) : WbSolidDevice("Receiver", token
   init();
 }
 
-WbReceiver::WbReceiver(const WbReceiver &other) : WbSolidDevice(other), mTransmissionList(), mWaitingQueue(), mReadyQueue() {
+WbReceiver::WbReceiver(const WbReceiver &other) : WbSolidDevice(other) {
   init();
 }
 

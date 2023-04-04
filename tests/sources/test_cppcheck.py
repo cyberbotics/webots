@@ -19,6 +19,7 @@ import unittest
 import os
 import multiprocessing
 import shutil
+import sys
 
 
 class TestCppCheck(unittest.TestCase):
@@ -29,6 +30,12 @@ class TestCppCheck(unittest.TestCase):
         self.WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
         self.reportFilename = os.path.join(self.WEBOTS_HOME, 'tests', 'cppcheck_report.txt')
         self.extensions = ['c', 'h', 'cpp', 'hpp', 'cc', 'hh', 'c++', 'h++']
+        if (sys.platform.startswith('linux')):
+            self.platformOptions = ' -D__linux__'
+        elif (sys.platform.startswith('win32')):
+            self.platformOptions = ' -D_WIN32'
+        else:
+            self.platformOptions = ' -D__APPLE__'
 
     def test_cppcheck_is_correctly_installed(self):
         """Test Cppcheck is correctly installed."""
@@ -95,7 +102,9 @@ class TestCppCheck(unittest.TestCase):
             'resources/projects'
         ]
         skippedDirs = [
+            'src/webots/build',
             'src/webots/external',
+            'resources/projects/libraries/qt_utils/build',
             'include/opencv2',
             'include/qt'
         ]
@@ -123,7 +132,9 @@ class TestCppCheck(unittest.TestCase):
             'src/webots/widgets',
             'src/webots/wren'
         ]
-        command = 'cppcheck --platform=native --enable=warning,style,performance,portability --inconclusive --force -q'
+        skippedfiles = [] if sys.platform.startswith('win32') else ['src/webots/core/WbWindowsRegistry.hpp']
+        command = 'cppcheck --platform=native --enable=warning,style,performance,portability --inconclusive -q'
+        command += self.platformOptions
         command += ' --library=qt -j %s' % str(multiprocessing.cpu_count())
         command += ' --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm --suppress=uninitMemberVar'
         command += ' --suppress=noCopyConstructor --suppress=noOperatorEq --suppress=strdupCalled --suppress=unknownMacro'
@@ -131,7 +142,7 @@ class TestCppCheck(unittest.TestCase):
         command += ' --output-file=\"' + self.reportFilename + '\"'
         for include in includeDirs:
             command += ' -I\"' + include + '\"'
-        sources = self.add_source_files(sourceDirs, skippedDirs)
+        sources = self.add_source_files(sourceDirs, skippedDirs, skippedfiles)
         if not sources:
             return
         command += sources
@@ -160,12 +171,18 @@ class TestCppCheck(unittest.TestCase):
             'projects/robots/robotis/darwin-op/libraries/python',
             'projects/robots/robotis/darwin-op/libraries/robotis-op2/robotis',
             'projects/robots/robotis/darwin-op/remote_control/libjpeg-turbo',
-            'projects/vehicles/controllers/ros_automobile/include'
+            'projects/vehicles/controllers/ros_automobile/include',
+            'projects/robots/gctronic/e-puck/plugins/robot_windows/botstudio/build',
+            'projects/robots/nex/plugins/robot_windows/fire_bird_6_window/build',
+            'projects/robots/robotis/darwin-op/plugins/robot_windows/robotis-op2_window/build',
+            'projects/vehicles/plugins/robot_windows/automobile_window/build'
         ]
         skippedfiles = [
-            'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h'
+            'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h',
+            'projects/robots/epfl/lis/plugins/physics/blimp_physics/utils.h'
         ]
-        command = 'cppcheck --platform=native --enable=warning,style,performance,portability --inconclusive --force -q'
+        command = 'cppcheck --platform=native --enable=warning,style,performance,portability --inconclusive -q'
+        command += self.platformOptions
         command += ' --library=qt --inline-suppr --suppress=invalidPointerCast --suppress=useStlAlgorithm -UKROS_COMPILATION'
         command += ' --suppress=strdupCalled --suppress=ctuOneDefinitionRuleViolation --suppress=unknownMacro'
         # command += ' --xml'  # Uncomment this line to get more information on the errors
