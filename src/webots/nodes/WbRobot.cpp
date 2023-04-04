@@ -376,11 +376,15 @@ void WbRobot::clearDevices() {
 }
 
 void WbRobot::updateControllerStatusInDevices() {
+  if (isBeingDeleted())
+    return;
   foreach (WbDevice *const d, mDevices)
     d->setIsControllerRunning(mControllerStarted && !mControllerTerminated);
 }
 
 void WbRobot::updateDevicesAfterDestruction() {
+  if (isBeingDeleted())
+    return;
   clearDevices();
   addDevices(this);
   updateControllerStatusInDevices();
