@@ -19,8 +19,10 @@
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbGroup.hpp"
+#include "WbMatter.hpp"
 #include "WbMFString.hpp"
 #include "WbNetwork.hpp"
+#include "WbNodeUtilities.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbTriangleMesh.hpp"
 #include "WbUrl.hpp"
@@ -84,6 +86,12 @@ void WbMesh::downloadUpdate() {
   WbGroup *group = dynamic_cast<WbGroup *>(const_cast<WbNode *>(ancestor));
   if (group)
     group->recomputeBoundingSphere();
+
+  if (isInBoundingObject()) {
+    WbMatter *ancestor = WbNodeUtilities::findBoundingObjectAncestor(this);
+    if (ancestor)
+      ancestor->updateBoundingObject();
+  }
 }
 
 void WbMesh::preFinalize() {
