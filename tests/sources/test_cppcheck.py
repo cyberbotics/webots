@@ -104,6 +104,7 @@ class TestCppCheck(unittest.TestCase):
         skippedDirs = [
             'src/webots/build',
             'src/webots/external',
+            'resources/projects/libraries/qt_utils/build',
             'include/opencv2',
             'include/qt'
         ]
@@ -170,7 +171,11 @@ class TestCppCheck(unittest.TestCase):
             'projects/robots/robotis/darwin-op/libraries/python',
             'projects/robots/robotis/darwin-op/libraries/robotis-op2/robotis',
             'projects/robots/robotis/darwin-op/remote_control/libjpeg-turbo',
-            'projects/vehicles/controllers/ros_automobile/include'
+            'projects/vehicles/controllers/ros_automobile/include',
+            'projects/robots/gctronic/e-puck/plugins/robot_windows/botstudio/build',
+            'projects/robots/nex/plugins/robot_windows/fire_bird_6_window/build',
+            'projects/robots/robotis/darwin-op/plugins/robot_windows/robotis-op2_window/build',
+            'projects/vehicles/plugins/robot_windows/automobile_window/build'
         ]
         skippedfiles = [
             'projects/robots/robotis/darwin-op/plugins/remote_controls/robotis-op2_tcpip/stb_image.h',
