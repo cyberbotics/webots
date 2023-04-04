@@ -113,7 +113,6 @@ void WbWrenLabelOverlay::applyChangesToWren() {
 
 WbWrenLabelOverlay::WbWrenLabelOverlay(int id, const QString &font) :
   mId(id),
-  mText(),
   mFontName(font),
   mX(0.0f),
   mY(0.0f),

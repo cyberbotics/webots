@@ -104,11 +104,7 @@ WbRadar::WbRadar(WbTokenizer *tokenizer) : WbSolidDevice("Radar", tokenizer) {
   init();
 }
 
-WbRadar::WbRadar(const WbRadar &other) :
-  WbSolidDevice(other),
-  mRadarTargets(),
-  mInvalidRadarTargets(),
-  mRadarTargetsPreviousTranslations() {
+WbRadar::WbRadar(const WbRadar &other) : WbSolidDevice(other) {
   init();
 }
 

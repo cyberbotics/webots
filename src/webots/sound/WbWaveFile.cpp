@@ -55,7 +55,6 @@ WbWaveFile::WbWaveFile(const QString &filename, QIODevice *device) :
 }
 
 WbWaveFile::WbWaveFile(qint16 *buffer, int bufferSize, int channelNumber, int bitsPerSample, int rate) :
-  mFilename(),
   mDevice(NULL),
   mBuffer(buffer),
   mBufferSize(bufferSize),
