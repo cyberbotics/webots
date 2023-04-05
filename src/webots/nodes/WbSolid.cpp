@@ -1397,8 +1397,6 @@ void WbSolid::setInertiaMatrixFromBoundingObject() {
   dMass dmass;
   dMassSetZero(&dmass);
 
-  const double refDensity = 1000.0;
-
   // Adds the masses of all the primitives lying in the bounding object
   WbSolidUtilities::addMass(&dmass, boundingObject(), referenceDensity);
   memcpy(mReferenceMass, &dmass, sizeof(dMass));
