@@ -1816,7 +1816,7 @@ void WbSolid::createOdeMass(bool reset) {
     mUseInertiaMatrix = false;
     // We rule out the case of a boundingObject with no Geometry inside
     if (mReferenceMass->mass <= 0.0)
-        setDefaultMassSettings(false);
+      setDefaultMassSettings(false);
     else {
       // Uses the density or the mass of the Physics node together with the geometries
       // in the boundingObject to compute the inertia matrix of the solid.
