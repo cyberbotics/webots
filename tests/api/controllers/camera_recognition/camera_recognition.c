@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
   wb_camera_recognition_enable(camera_spherical, TIME_STEP);
 
   WbDeviceTag camera_cylindrical = wb_robot_get_device("cylindrical");
-  wb_camera_enable(camera_cylindrical, TIME_STEP);
+  wb_camera_enable(came ra_cylindrical, TIME_STEP);
   wb_camera_recognition_enable(camera_cylindrical, TIME_STEP);
 
   // check number of object recognized
@@ -49,9 +49,8 @@ int main(int argc, char **argv) {
                       10, object_number);
 
   object_number = wb_camera_recognition_get_number_of_objects(camera_cylindrical);
-  ts_assert_int_equal(object_number, 8,
-                      "The cylindrical camera should initially see %d objects and not %d (with occlusion).", 8,
-                      object_number);
+  ts_assert_int_equal(object_number, 8, "The cylindrical camera should initially see %d objects and not %d (with occlusion).",
+                      8, object_number);
 
   // enable occlusion
   WbNodeRef recognition_node = wb_supervisor_node_get_from_def("RECOGNITION");
