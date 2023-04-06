@@ -1251,8 +1251,10 @@ void WbCamera::applyFocalSettingsToWren() {
 
 void WbCamera::applyFarToWren() {
   mWrenCamera->setFar(mFar->value());
-  if (mSegmentationCamera)
+  if (mSegmentationCamera) {
     mSegmentationCamera->setFar(mFar->value());
+    updateOverlayMaskTexture();
+  }
 }
 
 void WbCamera::applyCameraSettingsToWren() {
@@ -1262,14 +1264,18 @@ void WbCamera::applyCameraSettingsToWren() {
 
 void WbCamera::applyNearToWren() {
   WbAbstractCamera::applyNearToWren();
-  if (mSegmentationCamera)
+  if (mSegmentationCamera) {
     mSegmentationCamera->setNear(nearValue());
+    updateOverlayMaskTexture();
+  }
 }
 
 void WbCamera::applyFieldOfViewToWren() {
   WbAbstractCamera::applyFieldOfViewToWren();
-  if (mSegmentationCamera)
+  if (mSegmentationCamera) {
     mSegmentationCamera->setFieldOfView(mFieldOfView->value());
+    updateOverlayMaskTexture();
+  }
 }
 
 void WbCamera::applyLensToWren() {
@@ -1283,5 +1289,6 @@ void WbCamera::applyLensToWren() {
       mSegmentationCamera->setTangentialLensDistortionCoefficients(l->tangentialCoefficients());
     } else
       mSegmentationCamera->disableLensDistortion();
+    updateOverlayMaskTexture();
   }
 }
