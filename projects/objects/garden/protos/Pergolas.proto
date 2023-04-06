@@ -4,7 +4,7 @@
 # A pergola.
 
 PROTO Pergolas [
-  field SFVec3f    translation 0 0 0
+  field SFVec3f    translation 0 0 0.23
   field SFRotation rotation    0 0 1 0
   field SFString   name        "pergola"
 ]

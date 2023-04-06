@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # A configurable standard ceiling.
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/apartment_structure/protos/Ceiling.proto
 
 EXTERNPROTO "webots://projects/appearances/protos/Roughcast.proto"
 

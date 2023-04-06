@@ -5,12 +5,14 @@ Released on ??
   - New Features
     - Added a new launcher to simplify the start of extern controllers ([#5629](https://github.com/cyberbotics/webots/pull/5629)).
     - Added a warning when Webots and controller library versions are different ([#5896](https://github.com/cyberbotics/webots/pull/5896)).
+    - Added model of the [Husarion](https://husarion.com/)'s ROSbot XL robot and a sample world ([#5973](https://github.com/cyberbotics/webots/pull/5973)).
   - Cleanup
     - Deprecated the C and MATLAB API functions `wb_supervisor_node_enable/disable_contact_point_tracking` in favor of `wb_supervisor_node_enable/disable_contact_points_tracking` to be more consistent with other APIs ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
   - Enhancements
     - Improved the robots' grippers such that they use coupled motors ([#5694](https://github.com/cyberbotics/webots/pull/5694)).
     - Improved the [Charger](charger.md) behavior ([#5771](https://github.com/cyberbotics/webots/pull/5771)).
     - Added `maxContactJoints` field to `ContactProperties` node to give users control over the tradeoff between collision accuracy and performance ([#5769](https://github.com/cyberbotics/webots/pull/5769)).
+    - Improved MATLAB controllers to support input arguments ([#5943](https://github.com/cyberbotics/webots/pull/5943)).
 
 ## Webots R2023a Revision 1
 Released on ??

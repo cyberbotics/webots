@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/traffic/protos/SpeedLimitPanel.proto
 # Traffic panel: Speed limit panel (5mph to 80mph) or one way panel.
 
 EXTERNPROTO "webots://projects/objects/geometries/protos/Extrusion.proto"
@@ -47,7 +48,7 @@ PROTO SpeedLimitPanel [
         }
       }
       Transform {
-        translation 0 0 -0.89
+        translation 0 -0.0185 -0.899
         rotation 0 1 0 1.5708
         children [
           DEF PANEL_BODY Shape {

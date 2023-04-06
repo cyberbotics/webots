@@ -26,7 +26,7 @@ To better keep track of it, change its `name` field to `supervisor`.
 9. Much like a normal robot, the behavior of a supervisor is defined by a controller.
 Add a controller using the **File / New / New Robot Controller...** menu item, selecting the programming language you prefer.
 For this tutorial, Python is the choice, but the code will be provided for all other options.
-Set `supervisor_controller` as the name of the controller and click finish.
+Set `supervisor_controller` as the name of the controller and click finish (for C++ and Java call it `SupervisorController` instead).
 10. Expand once more the [Robot](../reference/robot.md) node, press the `controller` field and click the `Select` button in order to attribute the controller you just created to the supervisor.
 11. Save the world.
 
@@ -158,7 +158,7 @@ import com.cyberbotics.webots.controller.Supervisor;
 import com.cyberbotics.webots.controller.Node;
 import com.cyberbotics.webots.controller.Field;
 
-public class supervisor_controller {
+public class SupervisorController {
 
   public static void main(String[] args) {
 
@@ -184,6 +184,8 @@ public class supervisor_controller {
 Replace the contents of your controller with the following and save it.
 
 ```matlab
+function supervisor_controller
+
 TIME_STEP = 32;
 
 % [CODE PLACEHOLDER 1]
@@ -987,7 +989,7 @@ import com.cyberbotics.webots.controller.Supervisor;
 import com.cyberbotics.webots.controller.Node;
 import com.cyberbotics.webots.controller.Field;
 
-public class supervisor_controller {
+public class SupervisorController {
 
   public static void main(String[] args) {
 
@@ -1038,6 +1040,8 @@ public class supervisor_controller {
 %tab "MATLAB"
 
 ```matlab
+function supervisor_controller
+
 TIME_STEP = 32;
 
 % [CODE PLACEHOLDER 1]

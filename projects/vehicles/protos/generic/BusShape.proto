@@ -3,7 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
 # The original blender model was made by SONGKRO (http://www.blendswap.com/blends/view/46384)
-# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# This model was sponsored by the [CTI project RO2IVSim](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
 EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
 

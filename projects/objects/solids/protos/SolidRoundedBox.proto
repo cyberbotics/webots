@@ -1,12 +1,13 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/solids/protos/SolidRoundedBox.proto
 # A box object with rounded corners and edges implemented at the Solid-node level.
 # The box has similar properties as the VRML Box node in term of axis and fields.
 # template language: javascript
 
 PROTO SolidRoundedBox [
-  field SFVec3f    translation           0 0 0
+  field SFVec3f    translation           0 0 1
   field SFRotation rotation              0 0 1 0
   field SFString   name                  "rounded box"
   field SFVec3f    size                  2 2 2                                                                                                          # Defines the size of the box.

@@ -58,10 +58,11 @@ PROTO RpLidarA2 [
       density -1
       mass 0.2
     }
-    fieldOfView 1.57
-    horizontalResolution 800
+    fieldOfView 6.283184
+    horizontalResolution 400
     numberOfLayers 1
     near 0.05
+    defaultFrequency 12
     minRange 0.200000
     maxRange 12.000000
     noise 0.000833

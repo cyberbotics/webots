@@ -1,13 +1,14 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/bathroom/protos/BathroomSink.proto
 # A small sink for bathrooms.
 
 EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
 EXTERNPROTO "webots://projects/appearances/protos/MarbleTiles.proto"
 
 PROTO BathroomSink [
-  field SFVec3f    translation       0 0 0
+  field SFVec3f    translation       0 0 0.05
   field SFRotation rotation          0 0 1 0
   field SFString   name              "sink"
   field SFNode     upperAppearance   VarnishedPine { }  # Defines the appearance of the upper plate.
@@ -142,7 +143,7 @@ PROTO BathroomSink [
           translation 0.176 0.005 0.0095
           children [
             Box {
-              size 0.35 0.7 0.105 
+              size 0.35 0.7 0.105
             }
           ]
         }

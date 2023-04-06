@@ -339,7 +339,7 @@ void WbTemplateManager::regenerateNode(WbNode *node, bool restarted) {
           }
         }
         if (found) {
-          if (parent && parent->isProtoInstance())
+          if (parent->isProtoInstance())
             parent->redirectInternalFields(parentField);
           break;
         }
