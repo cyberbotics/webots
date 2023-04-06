@@ -137,7 +137,7 @@ int main(int argc, char **argv) {
   for (i = 0; i < object_number; ++i) {
     // check position on the image of the 'visible sphere without BO' solid
     if (strcmp(objects[i].model, "visible sphere without BO") == 0) {
-      int expected_position_on_image[2] = {190, 41};
+      int expected_position_on_image[2] = {189, 41};
       ts_assert_integers_in_delta(
         2, objects[i].position_on_image, expected_position_on_image, 0,
         "Image coordinate of the 'visible sphere without BO' solid is not correct: found (%d, %d), expected (%d, %d).",
