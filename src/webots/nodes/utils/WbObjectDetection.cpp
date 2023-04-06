@@ -36,7 +36,9 @@ WbObjectDetection::WbObjectDetection(WbSolid *device, WbSolid *object, bool need
   mNeedToCheckCollision(needToCheckCollision),
   mUseBoundingSphereOnly(true),
   mMaxRange(maxRange),
-  mOdeGeomData(NULL){};
+  mOdeGeomData(NULL),
+  mHorizontalFieldOfView(horizontalFieldOfView),
+  mIsOmniDirectional(mHorizontalFieldOfView > M_PI){};
 
 WbObjectDetection::~WbObjectDetection() {
   deleteRays();
@@ -57,8 +59,8 @@ void WbObjectDetection::createRays(const WbVector3 &origin, const QList<WbVector
 
   QListIterator<WbVector3> it(directions);
   while (it.hasNext()) {
-    WbVector3 dir = it.next() + offset;
-    dGeomID geom = dCreateRay(WbOdeContext::instance()->space(), dir.length());
+    const WbVector3 dir = it.next() + offset;
+    const dGeomID geom = dCreateRay(WbOdeContext::instance()->space(), dir.length());
     dGeomSetDynamicFlag(geom);
     dGeomRaySet(geom, origin.x(), origin.y(), origin.z(), dir.x(), dir.y(), dir.z());
     dGeomRaySetLength(geom, dir.length());
@@ -90,7 +92,7 @@ void WbObjectDetection::setCollided(dGeomID rayGeom, double depth) {
 void WbObjectDetection::updateRayDirection() {
   const WbVector3 &devicePosition = mDevice->position();
   const WbVector3 offset = mObject->position() - devicePosition;
-  QList<WbVector3> directions = computeCorners();
+  const QList<WbVector3> directions = computeCorners();
   if (directions.size() != mRayGeoms.size()) {
     deleteRays();
     createRays(devicePosition, directions, offset);
@@ -104,6 +106,9 @@ void WbObjectDetection::updateRayDirection() {
 }
 
 bool WbObjectDetection::recomputeRayDirection(const WbAffinePlane *frustumPlanes) {
+  if (!mNeedToCheckCollision)
+    return true;
+
   mObject->updateTransformForPhysicsStep();
   if (!isContainedInFrustum(frustumPlanes))
     return false;
@@ -114,18 +119,18 @@ bool WbObjectDetection::recomputeRayDirection(const WbAffinePlane *frustumPlanes
 
 void WbObjectDetection::mergeBounds(WbVector3 &referenceObjectSize, WbVector3 &referenceObjectRelativePosition,
                                     const WbVector3 &addedObjectSize, const WbVector3 &addedObjectRelativePosition) {
-  double minX = qMin(referenceObjectRelativePosition.x() - 0.5 * referenceObjectSize.x(),
-                     addedObjectRelativePosition.x() - 0.5 * addedObjectSize.x());
-  double minY = qMin(referenceObjectRelativePosition.y() - 0.5 * referenceObjectSize.y(),
-                     addedObjectRelativePosition.y() - 0.5 * addedObjectSize.y());
-  double minZ = qMin(referenceObjectRelativePosition.z() - 0.5 * referenceObjectSize.z(),
-                     addedObjectRelativePosition.z() - 0.5 * addedObjectSize.z());
-  double maxX = qMax(referenceObjectRelativePosition.x() + 0.5 * referenceObjectSize.x(),
-                     addedObjectRelativePosition.x() + 0.5 * addedObjectSize.x());
-  double maxY = qMax(referenceObjectRelativePosition.y() + 0.5 * referenceObjectSize.y(),
-                     addedObjectRelativePosition.y() + 0.5 * addedObjectSize.y());
-  double maxZ = qMax(referenceObjectRelativePosition.z() + 0.5 * referenceObjectSize.z(),
-                     addedObjectRelativePosition.z() + 0.5 * addedObjectSize.z());
+  const double minX = qMin(referenceObjectRelativePosition.x() - 0.5 * referenceObjectSize.x(),
+                           addedObjectRelativePosition.x() - 0.5 * addedObjectSize.x());
+  const double minY = qMin(referenceObjectRelativePosition.y() - 0.5 * referenceObjectSize.y(),
+                           addedObjectRelativePosition.y() - 0.5 * addedObjectSize.y());
+  const double minZ = qMin(referenceObjectRelativePosition.z() - 0.5 * referenceObjectSize.z(),
+                           addedObjectRelativePosition.z() - 0.5 * addedObjectSize.z());
+  const double maxX = qMax(referenceObjectRelativePosition.x() + 0.5 * referenceObjectSize.x(),
+                           addedObjectRelativePosition.x() + 0.5 * addedObjectSize.x());
+  const double maxY = qMax(referenceObjectRelativePosition.y() + 0.5 * referenceObjectSize.y(),
+                           addedObjectRelativePosition.y() + 0.5 * addedObjectSize.y());
+  const double maxZ = qMax(referenceObjectRelativePosition.z() + 0.5 * referenceObjectSize.z(),
+                           addedObjectRelativePosition.z() + 0.5 * addedObjectSize.z());
   referenceObjectSize.setX(maxX - minX);
   referenceObjectSize.setY(maxY - minY);
   referenceObjectSize.setZ(maxZ - minZ);
@@ -166,7 +171,7 @@ bool WbObjectDetection::isWithinBounds(const WbAffinePlane *frustumPlanes, const
   if (!transform)
     transform = referenceObject->upperTransform();
   assert(transform);
-  WbMatrix3 objectRotation = transform->rotationMatrix();
+  const WbMatrix3 objectRotation = transform->rotationMatrix();
   WbVector3 objectPosition = transform->position();
 
   if (nodeType == WB_NODE_SHAPE) {
@@ -198,7 +203,7 @@ bool WbObjectDetection::isWithinBounds(const WbAffinePlane *frustumPlanes, const
     switch (nodeType) {
       case WB_NODE_BOX: {
         const WbBox *box = static_cast<const WbBox *>(boundingObject);
-        WbVector3 size = 0.5 * box->scaledSize();
+        const WbVector3 size = 0.5 * box->scaledSize();
         points.append(objectRotation * WbVector3(size.x(), size.y(), size.z()) + objectPosition);
         points.append(objectRotation * WbVector3(size.x(), size.y(), -size.z()) + objectPosition);
         points.append(objectRotation * WbVector3(size.x(), -size.y(), size.z()) + objectPosition);
@@ -219,10 +224,10 @@ bool WbObjectDetection::isWithinBounds(const WbAffinePlane *frustumPlanes, const
       }
       case WB_NODE_ELEVATION_GRID: {
         const WbElevationGrid *elevationGrid = static_cast<const WbElevationGrid *>(boundingObject);
-        double xSpacing = elevationGrid->xSpacing();
-        double ySpacing = elevationGrid->ySpacing();
-        int xDimension = elevationGrid->xDimension();
-        int yDimension = elevationGrid->yDimension();
+        const double xSpacing = elevationGrid->xSpacing();
+        const double ySpacing = elevationGrid->ySpacing();
+        const int xDimension = elevationGrid->xDimension();
+        const int yDimension = elevationGrid->yDimension();
         for (int i = 0; i < xDimension; ++i) {
           for (int j = 0; j < yDimension; ++j)
             points.append(objectRotation * (WbVector3(xSpacing * i, elevationGrid->height(i + j * xDimension), ySpacing * j) *
@@ -441,7 +446,8 @@ bool WbObjectDetection::isContainedInFrustum(const WbAffinePlane *frustumPlanes)
 }
 
 WbAffinePlane *WbObjectDetection::computeFrustumPlanes(const WbSolid *device, const double verticalFieldOfView,
-                                                       const double horizontalFieldOfView, const double maxRange, bool isPlanarProjection) {
+                                                       const double horizontalFieldOfView, const double maxRange,
+                                                       bool isPlanarProjection) {
   const WbVector3 devicePosition = device->position();
   const WbMatrix3 deviceRotation = device->rotationMatrix();
   // construct the 4 planes defining the sides of the frustum
@@ -485,22 +491,22 @@ WbAffinePlane *WbObjectDetection::computeFrustumPlanes(const WbSolid *device, co
 QList<WbVector3> WbObjectDetection::computeCorners() const {
   QList<WbVector3> points;
   WbVector3 size = 0.5 * mObjectSize;
-  if (mUseBoundingSphereOnly) {  // 7 rays for bounding sphere
-    points << (WbVector3(size.x(), 0, 0));
-    points << (WbVector3(-size.x(), 0, 0));
-    points << (WbVector3(0, size.y(), 0));
-    points << (WbVector3(0, -size.y(), 0));
-    points << (WbVector3(0, 0, size.z()));
-    points << (WbVector3(0, 0, -size.z()));
-  } else {  // 9 rays for bounding box
-    points << (WbVector3(size.x(), size.y(), size.z()));
-    points << (WbVector3(-size.x(), size.y(), size.z()));
-    points << (WbVector3(size.x(), -size.y(), size.z()));
-    points << (WbVector3(-size.x(), -size.y(), size.z()));
-    points << (WbVector3(size.x(), size.y(), -size.z()));
-    points << (WbVector3(-size.x(), size.y(), -size.z()));
-    points << (WbVector3(size.x(), -size.y(), -size.z()));
-    points << (WbVector3(-size.x(), -size.y(), -size.z()));
+  if (mUseBoundingSphereOnly) {  // 6 rays for bounding sphere
+    points << WbVector3(size.x(), 0, 0);
+    points << WbVector3(-size.x(), 0, 0);
+    points << WbVector3(0, size.y(), 0);
+    points << WbVector3(0, -size.y(), 0);
+    points << WbVector3(0, 0, size.z());
+    points << WbVector3(0, 0, -size.z());
+  } else {  // 8 rays for bounding box
+    points << WbVector3(size.x(), size.y(), size.z());
+    points << WbVector3(-size.x(), size.y(), size.z());
+    points << WbVector3(size.x(), -size.y(), size.z());
+    points << WbVector3(-size.x(), -size.y(), size.z());
+    points << WbVector3(size.x(), size.y(), -size.z());
+    points << WbVector3(-size.x(), size.y(), -size.z());
+    points << WbVector3(size.x(), -size.y(), -size.z());
+    points << WbVector3(-size.x(), -size.y(), -size.z());
   }
   return points;
 }

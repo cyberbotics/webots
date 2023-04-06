@@ -82,6 +82,7 @@ public:
   void setPositionOnImage(const WbVector2 &positionOnImage) { mPositionOnImage = positionOnImage; }
   void setPixelSize(const WbVector2 &pixelSize) { mPixelSize = pixelSize; }
   void addColor(WbRgb colors) { mColors.append(colors); }
+  void clearColors() { mColors.clear(); }
 
 protected:
   double distance() override { return fabs(objectRelativePosition().x()); }
@@ -800,6 +801,7 @@ bool WbCamera::setRecognizedObjectProperties(WbRecognizedObject *recognizedObjec
   recognizedObject->setRelativeOrientation(relativeRotation);
 
   // set the objects colors
+  recognizedObject->clearColors();
   for (int j = 0; j < recognizedObject->object()->recognitionColorSize(); ++j)
     recognizedObject->addColor(recognizedObject->object()->recognitionColor(j));
 
@@ -811,7 +813,10 @@ bool WbCamera::setRecognizedObjectProperties(WbRecognizedObject *recognizedObjec
   double minV = height();
   double maxU = 0;
   double maxV = 0;
-  QListIterator<WbVector3> cornerIt(recognizedObject->computeCorners());
+  QList<WbVector3> corners = recognizedObject->computeCorners();
+  if (!isPlanarProjection())
+    corners << WbVector3(0, 0, 0);  // add center to better localize deformed objects
+  QListIterator<WbVector3> cornerIt(corners);
   while (cornerIt.hasNext()) {  // project each of the corners in the camera image
     const WbVector2 &positionOnImage = projectOnImage(recognizedObject->objectRelativePosition() + cornerIt.next());
     if (positionOnImage.x() < minU)
