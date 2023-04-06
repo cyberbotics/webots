@@ -2406,6 +2406,7 @@ DEF TREE Pose {
   rotation 0 0 1 1.8584073176408265
   children [
     SolidPipe {
+      translation 0 0 0
       height 0.2
       appearance PBRAppearance {
         baseColorMap ImageTexture {
@@ -2439,6 +2440,7 @@ DEF TREE Pose {
   rotation 0 0 1 2.6438054786408265
   children [
     SolidPipe {
+      translation 0 0 0
       name "pipe(1)"
       height 0.2
       appearance PBRAppearance {
@@ -2474,6 +2476,7 @@ DEF TREE Pose {
   rotation 0 0 1 5.785398122640827
   children [
     SolidPipe {
+      translation 0 0 0
       name "pipe(2)"
       height 0.2
       appearance PBRAppearance {
@@ -2509,6 +2512,7 @@ DEF TREE Pose {
   rotation 0 0 1 3.6910030266408267
   children [
     SolidPipe {
+      translation 0 0 0
       name "pipe(3)"
       height 0.2
       appearance PBRAppearance {
@@ -2544,6 +2548,7 @@ DEF TREE Pose {
   rotation 0 0 -1 6.257373717718359
   children [
     SolidPipe {
+      translation 0 0 0
       name "pipe(4)"
       height 0.2
       appearance PBRAppearance {
@@ -2579,6 +2584,7 @@ DEF TREE Pose {
   rotation 0 0 1 3.1674042526408264
   children [
     SolidPipe {
+      translation 0 0 0
       name "pipe(5)"
       height 0.2
       appearance PBRAppearance {
@@ -2614,6 +2620,7 @@ DEF TREE Pose {
   rotation 0 0 -1 5.9955743307183464
   children [
     SolidPipe {
+      translation 0 0 0
       name "pipe(6)"
       height 0.2
       appearance PBRAppearance {

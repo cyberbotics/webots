@@ -39,12 +39,14 @@ DEF WITHOUT_BACKLASH Robot {
   translation 0.1 0 0
   children [
     SolidRoundedBox {
+      translation 0 0 0
       size 0.2 0.2 0.01
       borderRadius 0.005
       appearance GalvanizedMetal {
       }
     }
     SolidTorus {
+      translation 0 0 0
       majorRadius 0.03
       minorRadius 0.02
       appearance BrushedAluminium {
@@ -247,12 +249,14 @@ DEF WITH_BACKLASH Robot {
   rotation 0 0 1 -1.570795
   children [
     SolidRoundedBox {
+      translation 0 0 0
       size 0.2 0.2 0.01
       borderRadius 0.005
       appearance GalvanizedMetal {
       }
     }
     SolidTorus {
+      translation 0 0 0
       majorRadius 0.03
       minorRadius 0.02
       appearance BrushedAluminium {
