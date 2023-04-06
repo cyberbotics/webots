@@ -805,7 +805,7 @@ WbVector2 WbCamera::projectOnImage(const WbVector3 &position) {
   uv = applyCameraDistortionToImageCoordinate(uv);
 
   // return uv coordinates in range [0, width/height]
-  return WbVector2((int)(width() * uv.x()), (int)(height() * uv.y()));
+  return WbVector2((int)((width() - 1) * uv.x()), (int)((height() - 1) * uv.y()));
 }
 
 bool WbCamera::computeObject(const WbVector3 &cameraPosition, const WbMatrix3 &cameraRotation,
@@ -1275,11 +1275,12 @@ void WbCamera::applyFieldOfViewToWren() {
 void WbCamera::applyLensToWren() {
   WbAbstractCamera::applyLensToWren();
   if (mSegmentationCamera && hasBeenSetup()) {
-    if (lens()) {
+    const WbLens *l = lens();
+    if (l) {
       mSegmentationCamera->enableLensDistortion();
-      mSegmentationCamera->setLensDistortionCenter(lens()->center());
-      mSegmentationCamera->setRadialLensDistortionCoefficients(lens()->radialCoefficients());
-      mSegmentationCamera->setTangentialLensDistortionCoefficients(lens()->tangentialCoefficients());
+      mSegmentationCamera->setLensDistortionCenter(l->center());
+      mSegmentationCamera->setRadialLensDistortionCoefficients(l->radialCoefficients());
+      mSegmentationCamera->setTangentialLensDistortionCoefficients(l->tangentialCoefficients());
     } else
       mSegmentationCamera->disableLensDistortion();
   }
