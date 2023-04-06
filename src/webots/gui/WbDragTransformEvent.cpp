@@ -48,8 +48,7 @@ WbDragTransformEvent::~WbDragTransformEvent() {
 WbTranslateEvent::WbTranslateEvent(WbViewpoint *viewpoint, WbAbstractTransform *selectedTransform) :
   WbDragTransformEvent(viewpoint, selectedTransform),
   mInitialPosition(selectedTransform->translation()),
-  mUpWorldVector(WbWorld::instance()->worldInfo()->upVector()),
-  mMouseRay() {
+  mUpWorldVector(WbWorld::instance()->worldInfo()->upVector()) {
   WbVector3 computedScaleFromParents = mSelectedTransform->absoluteScale();
   computedScaleFromParents /= mSelectedTransform->scale();
   mScaleFromParents = computedScaleFromParents;

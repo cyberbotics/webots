@@ -162,18 +162,7 @@ WbRobot::WbRobot(WbTokenizer *tokenizer) : WbSolid("Robot", tokenizer) {
   init();
 }
 
-WbRobot::WbRobot(const WbRobot &other) :
-  WbSolid(other),
-  mControllerDir(),
-  mAbsoluteWindowFilename(),
-  mAbsoluteRemoteControlFilename(),
-  mKeyboardLastValue(),
-  mUserInputEventReferenceTime(),
-  mDevices(),
-  mRenderingDevices(),
-  mActiveCameras(),
-  mNewlyAddedDevices(),
-  mPressedKeys() {
+WbRobot::WbRobot(const WbRobot &other) : WbSolid(other) {
   init();
 }
 
@@ -390,11 +379,15 @@ void WbRobot::clearDevices() {
 }
 
 void WbRobot::updateControllerStatusInDevices() {
+  if (isBeingDeleted())
+    return;
   foreach (WbDevice *const d, mDevices)
     d->setIsControllerRunning(mControllerStarted && !mControllerTerminated);
 }
 
 void WbRobot::updateDevicesAfterDestruction() {
+  if (isBeingDeleted())
+    return;
   clearDevices();
   addDevices(this);
   updateControllerStatusInDevices();

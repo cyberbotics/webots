@@ -58,7 +58,7 @@ WbCharger::WbCharger(WbTokenizer *tokenizer) : WbSolid("Charger", tokenizer) {
   init();
 }
 
-WbCharger::WbCharger(const WbCharger &other) : WbSolid(other), mVisualElements() {
+WbCharger::WbCharger(const WbCharger &other) : WbSolid(other) {
   init();
 }
 

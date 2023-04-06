@@ -38,7 +38,7 @@ WbLed::WbLed(WbTokenizer *tokenizer) : WbSolidDevice("LED", tokenizer) {
   init();
 }
 
-WbLed::WbLed(const WbLed &other) : WbSolidDevice(other), mMaterials(), mPbrAppearances(), mLights() {
+WbLed::WbLed(const WbLed &other) : WbSolidDevice(other) {
   init();
 }
 

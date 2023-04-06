@@ -69,14 +69,7 @@ WbTrack::WbTrack(WbTokenizer *tokenizer) : WbSolid("Track", tokenizer) {
   init();
 }
 
-WbTrack::WbTrack(const WbTrack &other) :
-  WbSolid(other),
-  mWheelsList(),
-  mPathList(),
-  mAnimatedObjectList(),
-  mBeltElements(),
-  mBeltPositions(),
-  mWrenNodes() {
+WbTrack::WbTrack(const WbTrack &other) : WbSolid(other) {
   init();
 }
 

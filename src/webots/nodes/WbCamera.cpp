@@ -754,14 +754,18 @@ WbVector2 WbCamera::projectOnImage(const WbVector3 &position) {
   const double fovX = fieldOfView();
   WbVector2 uv;  // uv coordinates in range [-0.5, 0.5]
   if (mProjection->value() == "planar") {
-    const double fovY = WbWrenCamera::computeFieldOfViewY(fovX, (double)width() / (double)height());
-    const double theta1 = -atan2(position.y(), fabs(position.x()));
-    const double theta2 = atan2(position.z(), fabs(position.x()));
-    if (mProjection->value() == "planar")
-      uv.setX(0.5 * tan(theta1) / tan(0.5 * fovX));
-    else
-      uv.setX(theta1 * fovX);
-    uv.setY(-0.5 * tan(theta2) / tan(0.5 * fovY));
+    if (position.x() < 0)
+      uv.setXy(position.y() > 0 ? -0.5 : 0.5, position.z() > 0 ? -0.5 : 0.5);
+    else {
+      const double fovY = WbWrenCamera::computeFieldOfViewY(fovX, (double)width() / (double)height());
+      const double theta1 = -atan2(position.y(), fabs(position.x()));
+      const double theta2 = atan2(position.z(), fabs(position.x()));
+      if (mProjection->value() == "planar")
+        uv.setX(0.5 * tan(theta1) / tan(0.5 * fovX));
+      else
+        uv.setX(theta1 * fovX);
+      uv.setY(-0.5 * tan(theta2) / tan(0.5 * fovY));
+    }
   } else if (mProjection->value() == "spherical") {
     const WbVector3 p = position.normalized();
     const double b = p.z() / p.y();
