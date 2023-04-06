@@ -165,7 +165,8 @@ namespace wren {
     mOutputWidth(0),
     mOutputHeight(0),
     mClearBeforeDraw(false),
-    mUseAlphaBlending(true) {}
+    mUseAlphaBlending(true) {
+  }
 
   PostProcessingEffect::Pass::~Pass() {
     if (mFrameBuffer) {
@@ -267,7 +268,8 @@ namespace wren {
     mInputFrameBuffer(NULL),
     mResultFrameBuffer(NULL),
     mMesh(StaticMesh::createQuad()),
-    mDrawingIndex(0) {}
+    mDrawingIndex(0) {
+  }
 
   PostProcessingEffect::~PostProcessingEffect() {
     for (Pass *p : mPasses)

@@ -29,7 +29,7 @@ class WbObjectDetection {
 public:
   enum FrustumPlane { LEFT = 0, BOTTOM, RIGHT, TOP, PARALLEL, PLANE_NUMBER };
 
-  WbObjectDetection(WbSolid *device, WbSolid *object, bool needToCheckCollision, double maxRange);
+  WbObjectDetection(WbSolid *device, WbSolid *object, bool needToCheckCollision, double maxRange, double horizontalFieldOfView);
   virtual ~WbObjectDetection();
 
   bool hasCollided() const;
@@ -52,7 +52,8 @@ public:
 
   // Computes the frustum plane for the given device ray.
   static WbAffinePlane *computeFrustumPlanes(const WbSolid *device, const double verticalFieldOfView,
-                                             const double horizontalFieldOfView, const double maxRange);
+                                             const double horizontalFieldOfView, const double maxRange,
+                                             bool isPlanarProjection);
 
   // Return corners of the bounding box/sphere of the object
   QList<WbVector3> computeCorners() const;
@@ -90,6 +91,8 @@ private:
   WbOdeGeomData *mOdeGeomData;
   QList<double> mRaysCollisionDepth;  // rays collision depth
   QList<dGeomID> mRayGeoms;           // rays that checks collision of this packet
+  double mHorizontalFieldOfView;
+  bool mIsOmniDirectional;  // is sensor omnidirectional (horizontal FOV < PI/2)
 };
 
 #endif

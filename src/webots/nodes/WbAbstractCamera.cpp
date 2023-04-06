@@ -98,7 +98,7 @@ WbAbstractCamera::WbAbstractCamera(const QString &modelName, WbTokenizer *tokeni
   init();
 }
 
-WbAbstractCamera::WbAbstractCamera(const WbAbstractCamera &other) : WbRenderingDevice(other) {
+WbAbstractCamera::WbAbstractCamera(const WbAbstractCamera &other) : WbRenderingDevice(other), mInvisibleNodes() {
   init();
 }
 
@@ -508,6 +508,9 @@ void WbAbstractCamera::createWrenCamera() {
   bool enableAntiAliasing = antiAliasing() && !WbPreferences::instance()->value("OpenGL/disableAntiAliasing", true).toBool();
   mWrenCamera = new WbWrenCamera(wrenNode(), width(), height(), nearValue(), minRange(), maxRange(), fieldOfView(), mCharType,
                                  enableAntiAliasing, mProjection->value());
+}
+
+void WbAbstractCamera::applyCameraSettings() {
   updateBackground();
 
   connect(mWrenCamera, &WbWrenCamera::cameraInitialized, this, &WbAbstractCamera::applyCameraSettingsToWren);
@@ -795,7 +798,6 @@ void WbAbstractCamera::applyFrustumToWren() {
   const float w = width();
   const float h = height();
   const float fovX = mFieldOfView->value();
-  const float fovY = WbWrenCamera::computeFieldOfViewY(fovX, w / h);  // fovX -> fovY
   const float t = tanf(fovX / 2.0f);
   const float dw1 = n * t;
   const float dh1 = dw1 * h / w;
@@ -853,12 +855,13 @@ void WbAbstractCamera::applyFrustumToWren() {
   const float zero[3] = {0.0f, 0.0f, 0.0f};
   // Creation of the external outline of the frustum (4 lines)
   if (!isPlanarProjection()) {
+    const float fovY = WbWrenCamera::computeFieldOfViewY(fovX, w / h);  // fovX -> fovY
     const float angleY[4] = {-fovY / 2.0f, -fovY / 2.0f, fovY / 2.0f, fovY / 2.0f};
     const float angleX[4] = {fovX / 2.0f, -fovX / 2.0f, -fovX / 2.0f, fovX / 2.0f};
     for (int k = 0; k < 4; ++k) {
       const float helper = cosf(angleY[k]);
       // get x, y and z from the spherical coordinates
-      float y = 0.0f;
+      float y;
       if (angleY[k] > M_PI_4 || angleY[k] < -M_PI_4)
         y = f * cosf(angleY[k] + M_PI_2) * sinf(angleX[k]);
       else

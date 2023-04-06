@@ -108,6 +108,7 @@ void WbRobot::init() {
 
   mNeedToWriteUrdf = false;
   mControllerStarted = false;
+  mControllerTerminated = false;
   mNeedToRestartController = false;
   mConfigureRequest = true;
   mSimulationModeRequested = false;
@@ -161,7 +162,18 @@ WbRobot::WbRobot(WbTokenizer *tokenizer) : WbSolid("Robot", tokenizer) {
   init();
 }
 
-WbRobot::WbRobot(const WbRobot &other) : WbSolid(other) {
+WbRobot::WbRobot(const WbRobot &other) :
+  WbSolid(other),
+  mControllerDir(),
+  mAbsoluteWindowFilename(),
+  mAbsoluteRemoteControlFilename(),
+  mKeyboardLastValue(),
+  mUserInputEventReferenceTime(),
+  mDevices(),
+  mRenderingDevices(),
+  mActiveCameras(),
+  mNewlyAddedDevices(),
+  mPressedKeys() {
   init();
 }
 
@@ -377,14 +389,21 @@ void WbRobot::clearDevices() {
   mActiveCameras.clear();
 }
 
+void WbRobot::updateControllerStatusInDevices() {
+  foreach (WbDevice *const d, mDevices)
+    d->setIsControllerRunning(mControllerStarted && !mControllerTerminated);
+}
+
 void WbRobot::updateDevicesAfterDestruction() {
   clearDevices();
   addDevices(this);
+  updateControllerStatusInDevices();
 }
 
 void WbRobot::updateDevicesAfterInsertion() {
   clearDevices();
   addDevices(this);
+  updateControllerStatusInDevices();
   assignDeviceTags(false);
 }
 
@@ -981,6 +1000,9 @@ void WbRobot::handleMessage(QDataStream &stream) {
     }
     case C_ROBOT_CLIENT_EXIT_NOTIFY:
       emit controllerExited();
+      // notify devices that controller has terminated
+      mControllerTerminated = true;
+      updateControllerStatusInDevices();
       return;
     case C_ROBOT_REMOTE_ON:
       emit toggleRemoteMode(true);

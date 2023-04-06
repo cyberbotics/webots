@@ -36,7 +36,8 @@ namespace wren {
     return copy;
   }
 
-  TextureRtt::TextureRtt() : mGlName(0), mInitializeData(false) {}
+  TextureRtt::TextureRtt() : mGlName(0), mInitializeData(false) {
+  }
 
   void TextureRtt::prepareGl() {
     mGlName = generateNewTexture();

@@ -69,7 +69,9 @@ namespace wren {
       glTexParameterf(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAX_ANISOTROPY_EXT, params.mAnisotropy);
   }
 
-  void TextureCubeMap::release() { glstate::releaseTextureCubeMap(mGlName, mTextureUnit); }
+  void TextureCubeMap::release() {
+    glstate::releaseTextureCubeMap(mGlName, mTextureUnit);
+  }
 
   void TextureCubeMap::prepareGl() {
     assert(mWidth);
