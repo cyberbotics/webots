@@ -83,7 +83,7 @@ public:
   void addColor(WbRgb colors) { mColors.append(colors); }
 
 protected:
-  double distance() override { return fabs(objectRelativePosition().z()); }
+  double distance() override { return fabs(objectRelativePosition().x()); }
 
   int mId;
   QString mModel;
