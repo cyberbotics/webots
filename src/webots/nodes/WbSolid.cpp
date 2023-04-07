@@ -78,6 +78,7 @@ using namespace WbSolidUtilities;
 using namespace std;
 
 const double WbSolid::MASS_ZERO_THRESHOLD = 1e-10;
+const double REFERENCE_DENSITY = 1000.0;
 
 QList<const WbSolid *> WbSolid::cSolids;
 
@@ -973,7 +974,7 @@ void WbSolid::adjustOdeMass(bool mergeMass) {
     } else {
       const double fieldDensity = p->density();
       if (fieldDensity >= 0.0)
-        dMassAdjust(mOdeMass, (currentMass * fieldDensity) / referenceDensity);
+        dMassAdjust(mOdeMass, (currentMass * fieldDensity) / REFERENCE_DENSITY);
     }
 
     memcpy(mMassAroundCoM, mOdeMass, sizeof(dMass));
@@ -1398,7 +1399,7 @@ void WbSolid::setInertiaMatrixFromBoundingObject() {
   dMassSetZero(&dmass);
 
   // Adds the masses of all the primitives lying in the bounding object
-  WbSolidUtilities::addMass(&dmass, boundingObject(), referenceDensity);
+  WbSolidUtilities::addMass(&dmass, boundingObject(), REFERENCE_DENSITY);
   memcpy(mReferenceMass, &dmass, sizeof(dMass));
 
   // Computes the inertia matrix around the center of mass of the bounding object
@@ -1419,7 +1420,7 @@ void WbSolid::setInertiaMatrixFromBoundingObject() {
   if (p->mass() > 0.0)
     boundingObjectMass = s0 * s0 * s0 * p->mass();
   else {
-    boundingObjectMass *= p->density() / referenceDensity;
+    boundingObjectMass *= p->density() / REFERENCE_DENSITY;
     p->setMass(boundingObjectMass * s3, true);
     p->parsingInfo(tr("'mass' set as bounding object's mass based on 'density'."));
   }
@@ -1807,7 +1808,7 @@ void WbSolid::createOdeMass(bool reset) {
   const WbPhysics *const p = physics();
   const bool customMass = p->mode() == WbPhysics::CUSTOM_INERTIA_MATRIX;
   // needed for average density and average damping
-  WbSolidUtilities::addMass(mReferenceMass, boundingObject(), referenceDensity, !customMass);
+  WbSolidUtilities::addMass(mReferenceMass, boundingObject(), REFERENCE_DENSITY, !customMass);
 
   // Checks whether there is a valid inertia matrix, and uses it if so
   if (customMass)
@@ -1836,8 +1837,9 @@ void WbSolid::createOdeMass(bool reset) {
     if (fieldMass > 0.0) {
       const double s2 = s * s;
       actualMass = s * s2 * fieldMass;
-    } else if (fieldDensity != referenceDensity)
-      actualMass *= fieldDensity / referenceDensity;
+    }
+    else if (fieldDensity != REFERENCE_DENSITY)
+      actualMass *= fieldDensity / REFERENCE_DENSITY;
 
     // Adjust the total according to mass and density fields
     dMassAdjust(mOdeMass, actualMass);

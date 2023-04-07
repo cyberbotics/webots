@@ -355,7 +355,6 @@ private:
   bool mUseInertiaMatrix;  // indicates that the WbSolid uses the latest valid inertia matrix field for ODE physics computation
   WbVector3 mCenterOfMass;
   WbVector3 mScaledCenterOfMass;
-  const double referenceDensity = 1000.0;
 
   // ODE mass adjustments
   void createOdeMass(bool reset = true);
