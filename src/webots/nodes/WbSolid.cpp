@@ -1837,8 +1837,7 @@ void WbSolid::createOdeMass(bool reset) {
     if (fieldMass > 0.0) {
       const double s2 = s * s;
       actualMass = s * s2 * fieldMass;
-    }
-    else if (fieldDensity != REFERENCE_DENSITY)
+    } else if (fieldDensity != REFERENCE_DENSITY)
       actualMass *= fieldDensity / REFERENCE_DENSITY;
 
     // Adjust the total according to mass and density fields
