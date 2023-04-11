@@ -28,7 +28,7 @@
 #include "WbSphere.hpp"
 
 WbObjectDetection::WbObjectDetection(WbSolid *device, WbSolid *object, bool needToCheckCollision, double maxRange,
-                                     double horizontalFieldOfView) :
+                                     double horizontalFieldOfView, int accuracy) :
   mDevice(device),
   mObject(object),
   mObjectRelativePosition(0.0, 0.0, 0.0),
@@ -38,7 +38,15 @@ WbObjectDetection::WbObjectDetection(WbSolid *device, WbSolid *object, bool need
   mMaxRange(maxRange),
   mOdeGeomData(NULL),
   mHorizontalFieldOfView(horizontalFieldOfView),
-  mIsOmniDirectional(mHorizontalFieldOfView > M_PI){};
+  mIsOmniDirectional(mHorizontalFieldOfView > M_PI),
+  mAccuracy(accuracy) {
+  if (mNeedToCheckCollision && mAccuracy == ONE_RAY) {
+    const WbVector3 devicePosition = mDevice->position();
+    const WbVector3 direction = object->position() - devicePosition;
+    createRays(devicePosition, QList<WbVector3>() << WbVector3(), direction);
+  }
+  assert(mAccuracy == ONE_RAY || mAccuracy == MULTIPLE_RAYS);
+};
 
 WbObjectDetection::~WbObjectDetection() {
   deleteRays();
@@ -82,7 +90,7 @@ void WbObjectDetection::deleteRays() {
 }
 
 void WbObjectDetection::setCollided(dGeomID rayGeom, double depth) {
-  const int index = mRayGeoms.indexOf(rayGeom);
+  const int index = mAccuracy == ONE_RAY ? 0 : mRayGeoms.indexOf(rayGeom);
   assert(index >= 0);
   const double d = dGeomRayGetLength(rayGeom) - depth;
   if (mRaysCollisionDepth[index] < d)
@@ -92,12 +100,16 @@ void WbObjectDetection::setCollided(dGeomID rayGeom, double depth) {
 void WbObjectDetection::updateRayDirection() {
   const WbVector3 &devicePosition = mDevice->position();
   const WbVector3 offset = mObject->position() - devicePosition;
-  const QList<WbVector3> directions = computeCorners();
+  QList<WbVector3> directions;
+  if (mAccuracy == ONE_RAY)
+    directions << WbVector3();
+  else
+    directions << computeCorners();
   if (directions.size() != mRayGeoms.size()) {
     deleteRays();
     createRays(devicePosition, directions, offset);
   } else {
-    for (int i = 0; i < 1; ++i) {
+    for (int i = 0; i < mRayGeoms.size(); ++i) {
       const WbVector3 dir = directions[i] + offset;
       dGeomRaySet(mRayGeoms[i], devicePosition.x(), devicePosition.y(), devicePosition.z(), dir.x(), dir.y(), dir.z());
       dGeomRaySetLength(mRayGeoms[i], dir.length());

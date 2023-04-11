@@ -39,6 +39,7 @@ public:
   double maxRange() const { return mMaxRange->value(); }
   int maxObjects() const { return mMaxObjects->value(); }
   bool occlusion() const { return mOcclusion->value(); }
+  int occlusionAccuracy() const { return mOcclusionAccuracy->value(); }
   const WbRgb frameColor() const { return mFrameColor->value(); }
   int frameThickness() const { return mFrameThickness->value(); }
   bool segmentation() const { return mSegmentation->value(); }
@@ -57,6 +58,7 @@ private:
   WbSFDouble *mMaxRange;
   WbSFInt *mMaxObjects;
   WbSFBool *mOcclusion;
+  WbSFInt *mOcclusionAccuracy;
   WbSFColor *mFrameColor;
   WbSFInt *mFrameThickness;
   WbSFBool *mSegmentation;

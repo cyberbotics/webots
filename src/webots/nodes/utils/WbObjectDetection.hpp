@@ -28,8 +28,13 @@ class WbOdeGeomData;
 class WbObjectDetection {
 public:
   enum FrustumPlane { LEFT = 0, BOTTOM, RIGHT, TOP, PARALLEL, PLANE_NUMBER };
+  // Occlusion accurary:
+  // - ONE_RAY =  only one ray pointing at the center
+  // - MULTIPLE_RAYS =  multiple rays pointing at the BBOX or BS corners (created once object size is determined)
+  enum OcclusionAccuracy { ONE_RAY = 1, MULTIPLE_RAYS = 2 };
 
-  WbObjectDetection(WbSolid *device, WbSolid *object, bool needToCheckCollision, double maxRange, double horizontalFieldOfView);
+  WbObjectDetection(WbSolid *device, WbSolid *object, bool needToCheckCollision, double maxRange, double horizontalFieldOfView,
+                    int accuracy);
   virtual ~WbObjectDetection();
 
   bool hasCollided() const;
@@ -93,6 +98,7 @@ private:
   QList<dGeomID> mRayGeoms;           // rays that checks collision of this packet
   double mHorizontalFieldOfView;
   bool mIsOmniDirectional;  // is sensor omnidirectional (horizontal FOV < PI/2)
+  int mAccuracy;
 };
 
 #endif

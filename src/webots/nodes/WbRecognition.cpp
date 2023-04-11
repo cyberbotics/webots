@@ -20,6 +20,7 @@ void WbRecognition::init() {
   mMaxRange = findSFDouble("maxRange");
   mMaxObjects = findSFInt("maxObjects");
   mOcclusion = findSFBool("occlusion");
+  mOcclusionAccuracy = findSFInt("occlusionAccuracy");
   mFrameColor = findSFColor("frameColor");
   mFrameThickness = findSFInt("frameThickness");
   mSegmentation = findSFBool("segmentation");

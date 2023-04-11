@@ -58,8 +58,8 @@
 
 class WbRecognizedObject : public WbObjectDetection {
 public:
-  WbRecognizedObject(WbCamera *camera, WbSolid *object, bool needToCheckCollision, double maxRange) :
-    WbObjectDetection(camera, object, needToCheckCollision, maxRange, camera->fieldOfView()) {
+  WbRecognizedObject(WbCamera *camera, WbSolid *object, bool needToCheckCollision, double maxRange, int occlusionAccuracy) :
+    WbObjectDetection(camera, object, needToCheckCollision, maxRange, camera->fieldOfView(), occlusionAccuracy) {
     mId = object->uniqueId();
     mModel = "";
     mRelativeOrientation = WbRotation(0.0, 1.0, 0.0, 0.0);
@@ -718,8 +718,8 @@ void WbCamera::computeRecognizedObjects(bool needCollisionDetection) {
         (recognition()->maxRange() + object->boundingSphere()->scaledRadius()))
       continue;
     // create target
-    WbRecognizedObject *generatedObject =
-      new WbRecognizedObject(this, object, needCollisionDetection, recognition()->maxRange());
+    WbRecognizedObject *generatedObject = new WbRecognizedObject(this, object, needCollisionDetection,
+                                                                 recognition()->maxRange(), recognition()->occlusionAccuracy());
     if (!generatedObject->isContainedInFrustum(frustumPlanes) || !setRecognizedObjectProperties(generatedObject)) {
       delete generatedObject;
       continue;
