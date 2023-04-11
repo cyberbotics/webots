@@ -23,6 +23,7 @@
 #include <QtCore/QCoreApplication>
 #include <QtCore/QDateTime>
 #include <QtCore/QDir>
+#include <QtCore/QProcess>
 #include <QtCore/QStandardPaths>
 #include <QtCore/QString>
 #include <QtCore/QTextStream>
@@ -204,6 +205,11 @@ static void liveWebotsTmpPath() {
   if (file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
     QTextStream out(&file);
     out << QDateTime::currentSecsSinceEpoch();
+#if defined(__APPLE__) || defined(__linux__)
+    file.setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner | QFileDevice::ReadUser |
+                        QFileDevice::WriteUser | QFileDevice::ExeUser | QFileDevice::ReadGroup | QFileDevice::WriteGroup |
+                        QFileDevice::ExeGroup | QFileDevice::ReadOther | QFileDevice::WriteOther | QFileDevice::ExeOther);
+#endif
     file.close();
   }
 }
@@ -219,13 +225,7 @@ bool WbStandardPaths::webotsTmpPathCreate(const int id) {
   cWebotsTmpPath =
     QDir::fromNativeSeparators(WbSysInfo::environmentVariable("LOCALAPPDATA")) + QString("/Temp/webots-%1/").arg(id);
 #elif defined(__APPLE__)
-  const QString TMPDIR = WbSysInfo::environmentVariable("TMPDIR");
-  if (TMPDIR.isEmpty())
-    WbLog::error(QObject::tr("TMPDIR is not set: cannot run Webots."));
-  else if (!QDir(TMPDIR).exists())
-    WbLog::error(QObject::tr("TMPDIR '%1' doesn't exist: cannot run Webots.").arg(TMPDIR));
-  else
-    cWebotsTmpPath = QString("%1/webots-%2/").arg(TMPDIR).arg(id);
+  cWebotsTmpPath = QString("/tmp/webots-%1/").arg(id);
 #else  // __linux__
   const QString WEBOTS_TMPDIR = WbSysInfo::environmentVariable("WEBOTS_TMPDIR");
   if (!WEBOTS_TMPDIR.isEmpty() && QDir(WEBOTS_TMPDIR).exists())
@@ -256,6 +256,12 @@ bool WbStandardPaths::webotsTmpPathCreate(const int id) {
   QDir dir(cWebotsTmpPath);
   if (!dir.exists() && !dir.mkpath("."))
     return false;
+
+  // FIXME: from Qt6.4 onwards, this can be done directly with mkdir
+  QFile(cWebotsTmpPath)
+    .setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner | QFileDevice::ReadUser |
+                    QFileDevice::WriteUser | QFileDevice::ExeUser | QFileDevice::ReadGroup | QFileDevice::WriteGroup |
+                    QFileDevice::ExeGroup | QFileDevice::ReadOther | QFileDevice::WriteOther | QFileDevice::ExeOther);
 
   // write a new live.txt file in the webots tmp folder every hour to prevent any other webots process to delete it
   static QTimer timer;
