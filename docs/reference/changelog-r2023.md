@@ -53,6 +53,7 @@ Released on ??
     - Fixed unwanted altitude change when reaching a target waypoint in `mavic2pro_patrol.c` ([#5981](https://github.com/cyberbotics/webots/pull/5981)).
     - Fixed the extern controller connection to a target Webots instance when a snap one is running ([#6002](https://github.com/cyberbotics/webots/pull/6002)).
     - Fixed the double downloading of meshes ([#6034](https://github.com/cyberbotics/webots/pull/6034)).
+    - Fixed generation of moment of inertia matrix based on bounding box ([#6048](https://github.com/cyberbotics/webots/pull/6048)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
