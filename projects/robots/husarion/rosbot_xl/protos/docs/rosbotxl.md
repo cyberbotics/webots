@@ -16,7 +16,7 @@ More information on specifications is available at the following link: [ROSbot X
 
 %end
 
-The ROSbot XL motors are [RotationalMotor](../reference/rotationalmotor.md) nodes, each associated with a [PositionSensor](../reference/positionsensor.md).
+The ROSbot XL motors are [RotationalMotor](https://cyberbotics.com/doc/reference/rotationalmotor) nodes, each associated with a [PositionSensor](https://cyberbotics.com/doc/reference/positionsensor).
 They are named the following way:
 
 %figure "ROSbot XL wheel names"
@@ -33,7 +33,7 @@ They are named the following way:
 The `wb_set_motor_position` and `wb_set_motor_velocity` functions allow the user to control the rotation of the wheels.
 `wb_position_sensor_get_value` allows the user to get the value of the position sensor.
 
-The [MPU-9250](imu-sensors.md#mpu-9250) IMU allows to get acceleration, angular rate and heading values.
+The [MPU-9250](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/develop/projects/devices/tdk/protos/Mpu-9250.proto) IMU allows to get acceleration, angular rate and heading values.
 The following table shows the names to access the different components of the IMU:
 
 %figure "IMU components names"
@@ -46,7 +46,7 @@ The following table shows the names to access the different components of the IM
 
 %end
 
-The [RpLidar A2](lidar-sensors.md#slamtec-rplidar-a2) rotational lidar is fixed on the ROSbot.
+The [RpLidar A2](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/develop/projects/devices/slamtec/protos/RpLidarA2.proto) rotational lidar is fixed on the ROSbot.
 It is named "laser".
 It can be removed to place another sensor.
 
