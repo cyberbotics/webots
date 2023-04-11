@@ -32,15 +32,13 @@ class TestCppCheck(unittest.TestCase):
         self.extensions = ['c', 'h', 'cpp', 'hpp', 'cc', 'hh', 'c++', 'h++']
         if (sys.platform.startswith('linux')):
             self.platformOptions = ' -D__linux__'
-            version_path = os.path.join(self.WEBOTS_HOME, 'resources', 'version.txt')
         elif (sys.platform.startswith('win32')):
             self.platformOptions = ' -D_WIN32'
-            version_path = os.path.join(self.WEBOTS_HOME, 'resources', 'version.txt')
         else:
             self.platformOptions = ' -D__APPLE__'
-            version_path = os.path.join(self.WEBOTS_HOME, 'Contents', 'Resources', 'version.txt')
-        with open(version_path, "r") as versionFile:
-            version = versionFile.read().strip()
+
+        with open(os.path.join(self.WEBOTS_HOME, 'resources', 'version.txt'), 'r') as file:
+            version = file.readlines()[0].strip()
             self.platformOptions += ' -DLIBCONTROLLER_VERSION=' + version
 
     def test_cppcheck_is_correctly_installed(self):
