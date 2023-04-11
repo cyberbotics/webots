@@ -137,7 +137,7 @@ class TestCppCheck(unittest.TestCase):
             'src/controller/c/sha1.c',
             'src/controller/c/sha1.h'
         ]
-        if sys.platform.startswith('win32'):
+        if not sys.platform.startswith('win32'):
             skippedFiles.append('src/webots/core/WbWindowsRegistry.hpp')
         command = 'cppcheck --platform=native --enable=warning,style,performance,portability --inconclusive -q'
         command += self.platformOptions
