@@ -83,7 +83,7 @@ WbMotor::WbMotor(const QString &modelName, WbTokenizer *tokenizer) : WbJointDevi
   init();
 }
 
-WbMotor::WbMotor(const WbMotor &other) : WbJointDevice(other), mChangedAssociatedDevices() {
+WbMotor::WbMotor(const WbMotor &other) : WbJointDevice(other) {
   init();
 }
 
