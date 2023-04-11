@@ -54,6 +54,7 @@ Released on ??
     - Fixed the extern controller connection to a target Webots instance when a snap one is running ([#6002](https://github.com/cyberbotics/webots/pull/6002)).
     - Fixed the double downloading of meshes ([#6034](https://github.com/cyberbotics/webots/pull/6034)).
     - Fixed generation of moment of inertia matrix based on bounding box ([#6048](https://github.com/cyberbotics/webots/pull/6048)).
+    - Fixed the loading of remote mesh bounding objects ([#6047](https://github.com/cyberbotics/webots/pull/6047)).
 
 ## Webots R2023a
 Released on November 29th, 2022.

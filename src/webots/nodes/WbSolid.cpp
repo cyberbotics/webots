@@ -260,6 +260,12 @@ void WbSolid::validateProtoNode() {
   }
 }
 
+void WbSolid::downloadAssets() {
+  WbGroup::downloadAssets();
+  if (boundingObject())
+    boundingObject()->downloadAssets();
+}
+
 void WbSolid::preFinalize() {
   mHasNoSolidAncestor = false;
 
