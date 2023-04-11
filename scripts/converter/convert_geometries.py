@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,7 +34,7 @@ def rotation(value, r):
     return [WebotsParser.str(v[0]), WebotsParser.str(v[1]), WebotsParser.str(v[2]), WebotsParser.str(theta)]
 
 
-def createNewTransform():
+def createNewTransform(coordinateSystem):
     if coordinateSystem == 'ENU':
         return {'fields': [{'name': 'Geometrics_conversion', 'value': 'Geometrics_conversion',
                                     'type': 'SFString'}, {'name': 'rotation', 'value': ['1', '0', '0', '1.57079632679'],
@@ -49,7 +49,7 @@ def createNewTransform():
                 'type': 'node', 'name': 'Transform'}
 
 
-def convert_children(node, parent):
+def convert_children(node, parent, coordinateSystem):
     if 'USE' in node:
         return
     if node['name'] in 'Shape':
@@ -75,7 +75,7 @@ def convert_children(node, parent):
                     isDef = True
                     node.pop('DEF')
 
-                newTransform = createNewTransform()
+                newTransform = createNewTransform(coordinateSystem)
                 for param in newTransform['fields']:
                     if param['name'] in 'children':
                         param['value'] = [node]
@@ -86,7 +86,7 @@ def convert_children(node, parent):
                 parent[position] = newTransform
     # Case of boundingObject
     elif node['name'] in ['Cylinder', 'Capsule', 'ElevationGrid', 'Plane']:
-        newTransform = createNewTransform()
+        newTransform = createNewTransform(coordinateSystem)
         for param in newTransform['fields']:
             if param['name'] in 'children':
                 param['value'] = [node]
@@ -105,11 +105,11 @@ def convert_children(node, parent):
             break
         elif field['name'] in 'children':
             for child in field['value']:
-                convert_children(child, field['value'])
+                convert_children(child, field['value'], coordinateSystem)
         elif field['name'] in 'endPoint':
-            convert_children(field['value'], field['value'])
+            convert_children(field['value'], field['value'], coordinateSystem)
         elif field['name'] in 'boundingObject':
-            convert_children(field['value'], node)
+            convert_children(field['value'], node, coordinateSystem)
 
 
 def cleanTransform(node):
@@ -175,7 +175,6 @@ def mergeTransform(parent, child):
 def convert_to_enu(filename):
     world = WebotsParser()
     world.load(filename)
-    global coordinateSystem
     print("Add transforms")
     for node in world.content['root']:
         if node['name'] == 'WorldInfo':
@@ -183,7 +182,7 @@ def convert_to_enu(filename):
                 if field['name'] in 'coordinateSystem':
                     coordinateSystem = field['value']
         else:
-            convert_children(node, world.content['root'])
+            convert_children(node, world.content['root'], coordinateSystem)
 
     print("Merge transforms")
     for node in world.content['root']:

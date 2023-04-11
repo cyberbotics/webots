@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2022 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,7 +35,7 @@
 #define WEIGHT_FORCE 16.3465011
 #define TARGET_ALTITUDE 2.0
 #define LABEL_X 0.05
-#define LABEL_Z 0.02
+#define LABEL_Y 0.02
 #define BLUE 0x0000FF
 
 int main() {
@@ -59,9 +59,9 @@ int main() {
     const double altitude = wb_gps_get_values(gps)[2];
     const double yaw = wb_inertial_unit_get_roll_pitch_yaw(inertial_unit)[2];
     sprintf(buffer, "Yaw: %1.1f rad", yaw);
-    wb_supervisor_set_label(3, buffer, LABEL_X, LABEL_Z, 0.07, BLUE, 0, "Arial");
+    wb_supervisor_set_label(3, buffer, LABEL_X, LABEL_Y, 0.07, BLUE, 0, "Arial");
     sprintf(buffer, "Altitude: %1.1f m", altitude);
-    wb_supervisor_set_label(2, buffer, LABEL_X, LABEL_Z + 0.03, 0.07, BLUE, 0, "Arial");
+    wb_supervisor_set_label(2, buffer, LABEL_X, LABEL_Y + 0.03, 0.07, BLUE, 0, "Arial");
     const double ratio = 1.0 - altitude / TARGET_ALTITUDE;
     wb_motor_set_velocity(motor, HELIX_VELOCITY + ratio);
   }

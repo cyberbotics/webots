@@ -1,5 +1,5 @@
 # The Cylinder node specifies a cylinder centered at (0,0,0) in the local coordinate
-# system and with a central axis oriented along the local y-axis.
+# system and with a central axis oriented along the local z-axis.
 
 Cylinder {
   vrmlField SFBool  bottom      TRUE

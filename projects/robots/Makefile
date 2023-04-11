@@ -1,10 +1,10 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,7 +14,6 @@
 
 LIBRARIES=robotis/darwin-op/libraries.Makefile \
 	neuronics/ipr/libraries.Makefile \
-	mobsya/thymio/libraries.Makefile \
 	kuka/youbot/libraries.Makefile
 
 CONTROLLERS=\
@@ -36,6 +35,7 @@ CONTROLLERS=\
   fujitsu/hoap2/controllers.Makefile \
   gctronic/e-puck/controllers.Makefile \
   gctronic/elisa/controllers.Makefile \
+  husarion/rosbot/controllers.Makefile \
   irobot/create/controllers.Makefile \
   kinematics/tinkerbots/controllers.Makefile \
   k-team/hemisson/controllers.Makefile \
@@ -94,8 +94,6 @@ release debug profile clean: $(TARGETS)
 robotis/darwin-op/controllers.Makefile robotis/darwin-op/plugins/robot_windows.Makefile: robotis/darwin-op/libraries.Makefile
 
 neuronics/ipr/controllers.Makefile: neuronics/ipr/libraries.Makefile
-
-mobsya/thymio/controllers.Makefile: mobsya/thymio/libraries.Makefile
 
 kuka/youbot/controllers.Makefile: kuka/youbot/libraries.Makefile
 

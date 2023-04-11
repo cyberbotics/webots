@@ -376,7 +376,7 @@ HighwayPole {
   SFColor     color                 0.258824 0.258824 0.258824
   SFFloat     curveRadius           0.4
   MFNode      rightHorizontalSigns  [ HighwaySign { name "vertical sign" } ]
-  MFNode      rightVerticalSigns    [ HighwaySign { name "horizontal sign" height 2.1 length 3.2 texture "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/traffic/protos/textures/highway_sign_la_ciotat.jpg" } ]
+  MFNode      rightVerticalSigns    [ HighwaySign { name "horizontal sign" height 2.1 length 3.2 texture "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/traffic/protos/textures/highway_sign_la_ciotat.jpg" } ]
   MFNode      leftHorizontalSigns   [ ]
   MFNode      leftVerticalSigns     [ ]
 }
@@ -432,7 +432,7 @@ HighwaySign {
   SFFloat     length             4.5
   SFFloat     thickness          0.2
   SFColor     color              0.258824 0.258824 0.258824
-  MFString    texture            "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/traffic/protos/textures/highway_sign_bordeaux.jpg"
+  MFString    texture            "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/traffic/protos/textures/highway_sign_bordeaux.jpg"
   MFColor     recognitionColors  [ 0.08 0.22 0.75, 0.26 0.26 0.26 ]
 }
 ```

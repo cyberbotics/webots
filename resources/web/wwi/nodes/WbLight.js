@@ -22,7 +22,7 @@ export default class WbLight extends WbBaseNode {
     this._applyLightIntensityToWren();
     this._applyLightVisibilityToWren();
     this._applyLightShadowsToWren();
-    this._applySceneAmbientColorToWren();
+    this.#applySceneAmbientColorToWren();
   }
 
   delete() {
@@ -39,7 +39,7 @@ export default class WbLight extends WbBaseNode {
 
     if (this.wrenObjectsCreatedCalled) {
       WbLight.lights.splice(this, 1);
-      this._applySceneAmbientColorToWren();
+      this.#applySceneAmbientColorToWren();
     }
 
     super.delete();
@@ -73,11 +73,11 @@ export default class WbLight extends WbBaseNode {
   _applyLightShadowsToWren() {}
   _applyLightVisibilityToWren() {}
 
-  _applySceneAmbientColorToWren() {
-    this._computeAmbientLight();
+  #applySceneAmbientColorToWren() {
+    this.#computeAmbientLight();
   }
 
-  _computeAmbientLight() {
+  #computeAmbientLight() {
     const rgb = new WbVector3(0.0, 0.0, 0.0);
 
     WbLight.lights.forEach(light => {

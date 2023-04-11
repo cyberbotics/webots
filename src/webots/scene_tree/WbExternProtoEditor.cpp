@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,8 +16,10 @@
 
 #include "WbActionManager.hpp"
 #include "WbApplication.hpp"
+#include "WbGroup.hpp"
 #include "WbInsertExternProtoDialog.hpp"
 #include "WbProtoManager.hpp"
+#include "WbWorld.hpp"
 
 #include <QtCore/QEvent>
 #include <QtGui/QAction>
@@ -109,12 +111,13 @@ void WbExternProtoEditor::insertImportableExternProto() {
 void WbExternProtoEditor::removeImportableExternProto() {
   const QPushButton *const caller = qobject_cast<QPushButton *>(sender());
   const int index = caller ? mLayout->indexOf(caller) : -1;
-  if (index != -1 && index > 1) {
+  if (index > 1) {
     assert(mLayout->itemAt(index - 1)->widget());  // must be preceeded by a QLabel widget
     const QLabel *label = qobject_cast<QLabel *>(mLayout->itemAt(index - 1)->widget());
     if (label) {
       const QString proto = label->text();
-      WbProtoManager::instance()->removeImportableExternProto(proto);
+      assert(WbWorld::instance());
+      WbProtoManager::instance()->removeImportableExternProto(proto, WbWorld::instance()->root());
       updateContents();  // regenerate panel
       emit changed(true);
     }

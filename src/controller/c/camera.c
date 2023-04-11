@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2022 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -71,10 +71,10 @@ static void wb_camera_cleanup(WbDevice *d) {
 
 static void wb_camera_new(WbDevice *d, unsigned int id, int w, int h, double fov, double min_fov, double max_fov,
                           double exposure, double focal_length, double focal_distance, double min_focal_distance,
-                          double max_focal_distance, double camnear, bool spherical, bool has_recognition, bool segmentation) {
+                          double max_focal_distance, double camnear, bool planar, bool has_recognition, bool segmentation) {
   Camera *c;
   wb_camera_cleanup(d);
-  wb_abstract_camera_new(d, id, w, h, fov, camnear, spherical);
+  wb_abstract_camera_new(d, id, w, h, fov, camnear, planar);
 
   c = malloc(sizeof(Camera));
   c->min_fov = min_fov;
@@ -87,6 +87,7 @@ static void wb_camera_new(WbDevice *d, unsigned int id, int w, int h, double fov
   c->has_recognition = has_recognition;
   c->set_focal_distance = false;
   c->set_fov = false;
+  c->set_exposure = false;
   c->enable_recognition = false;
   c->recognition_sampling_period = 0;
   c->recognized_object_number = 0;
@@ -143,7 +144,7 @@ static void wb_camera_read_answer(WbDevice *d, WbRequest *r) {
   unsigned int uid;
   int width, height;
   double fov, min_fov, max_fov, camnear, exposure, focal_length, focal_distance, min_focal_distance, max_focal_distance;
-  bool spherical, has_recognition, segmentation;
+  bool planar, has_recognition, segmentation;
 
   AbstractCamera *ac = d->pdata;
   Camera *c = NULL;
@@ -155,7 +156,7 @@ static void wb_camera_read_answer(WbDevice *d, WbRequest *r) {
       height = request_read_uint16(r);
       fov = request_read_double(r);
       camnear = request_read_double(r);
-      spherical = request_read_uchar(r);
+      planar = request_read_uchar(r);
       min_fov = request_read_double(r);
       max_fov = request_read_double(r);
       has_recognition = request_read_uchar(r) != 0;
@@ -166,15 +167,15 @@ static void wb_camera_read_answer(WbDevice *d, WbRequest *r) {
       min_focal_distance = request_read_double(r);
       max_focal_distance = request_read_double(r);
 
-      // printf("new camera %u %d %d %lf %lf %d\n", uid, width, height, fov, camnear, spherical);
+      // printf("new camera %u %d %d %lf %lf %d\n", uid, width, height, fov, camnear, planar);
       wb_camera_new(d, uid, width, height, fov, min_fov, max_fov, exposure, focal_length, focal_distance, min_focal_distance,
-                    max_focal_distance, camnear, spherical, has_recognition, segmentation);
+                    max_focal_distance, camnear, planar, has_recognition, segmentation);
       break;
     case C_CAMERA_RECONFIGURE:
       c = ac->pdata;
       ac->fov = request_read_double(r);
       ac->camnear = request_read_double(r);
-      ac->spherical = request_read_uchar(r);
+      ac->planar = request_read_uchar(r);
       c->min_fov = request_read_double(r);
       c->max_fov = request_read_double(r);
       c->has_recognition = request_read_uchar(r) != 0;
@@ -428,10 +429,10 @@ void wb_camera_set_fov(WbDeviceTag tag, double fov) {
     robot_mutex_unlock();
     return;
   }
-  if (ac->spherical && (fov < 0.0 || fov > 2.0 * M_PI)) {
+  if (!ac->planar && (fov < 0.0 || fov > 2.0 * M_PI)) {
     fprintf(stderr, "Error: %s() called with 'fov' argument outside of the [0, 2.0*pi] range.\n", __FUNCTION__);
     in_range = false;
-  } else if (!ac->spherical && (fov < 0.0 || fov > M_PI)) {
+  } else if (ac->planar && (fov < 0.0 || fov > M_PI)) {
     fprintf(stderr, "Error: %s() called with 'fov' argument outside of the [0, pi] range.\n", __FUNCTION__);
     in_range = false;
   } else if (fov < c->min_fov || fov > c->max_fov) {
@@ -528,8 +529,8 @@ void wb_camera_set_focal_distance(WbDeviceTag tag, double focal_distance) {
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
     robot_mutex_unlock();
     return;
-  } else if (ac->spherical) {
-    fprintf(stderr, "Error: %s() can't be called on a spherical camera.\n", __FUNCTION__);
+  } else if (!ac->planar) {
+    fprintf(stderr, "Error: %s() can only be called on a planar camera.\n", __FUNCTION__);
     in_range = false;
   } else if (focal_distance < c->min_focal_distance || focal_distance > c->max_focal_distance) {
     fprintf(stderr, "Error: %s() out of focus range [%f, %f].\n", __FUNCTION__, c->min_focal_distance, c->max_focal_distance);

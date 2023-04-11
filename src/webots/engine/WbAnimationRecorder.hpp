@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QSet>
 
+#include "WbField.hpp"
 #include "WbRotation.hpp"
 #include "WbVector3.hpp"
 
@@ -34,28 +35,26 @@ public:
   WbAnimationCommand(const WbNode *n, const QStringList &fields, bool saveInitialValue);
 
   const WbNode *node() const { return mNode; }
-  QList<QString> fields() const { return mChangedValues.keys(); }
-  QString fieldValue(const QString &field) const { return mChangedValues[field]; }
+  QList<QString> allFields() const { return mFields.keys(); }
+  QList<QString> dirtyFields() const { return mChangedFields.keys(); }
+  WbField *field(const QString &field) const { return mFields[field]; }
+  const QString sanitizeField(const WbField *field);
 
   // Keep track of initial state that will be written to the animation file if the command changes during the animation
   const QString &initialState() const { return mInitialState; }
   bool isChangedFromStart() const { return mChangedFromStart; }
 
-  // the addArtificialFieldChange method should be used to add a X3D field change that has no matching WBT field,
-  // e.g., for example the "render" field.
-  void addArtificialFieldChange(const QString &fieldName, const QString &value);
-  void updateAllFieldValues();
   void resetChanges();
 
 signals:
   void changed(WbAnimationCommand *command);
 
 private:
-  void updateFieldValue(const WbField *field);
+  void markFieldDirty(const WbField *field) { mChangedFields[field->name()] = true; }
 
   const WbNode *mNode;
-  QList<WbField *> mFields;
-  QHash<QString, QString> mChangedValues;
+  QHash<QString, WbField *> mFields;
+  QHash<QString, bool> mChangedFields;
   WbVector3 mLastTranslation;
   WbRotation mLastRotation;
   QString mInitialState;
@@ -94,7 +93,6 @@ private slots:
   void updateCommandsAfterNodeDeletion(QObject *);
   void addChangedCommandToList(WbAnimationCommand *command);
   void addChangedLabelToList(const QString &label);
-  void handleNodeVisibilityChange(const WbNode *node, bool visibility);
 
 private:
   static WbAnimationRecorder *cInstance;
@@ -123,7 +121,6 @@ private:
 
   QList<WbAnimationCommand *> mCommands;
   QList<WbAnimationCommand *> mChangedCommands;
-  QList<WbAnimationCommand *> mArtificialCommands;
   QList<QString> mChangedLabels;
   QSet<QString> mLabelsIds;
 };

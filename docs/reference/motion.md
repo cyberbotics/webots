@@ -240,7 +240,7 @@ By default, the *loop mode* and *reverse mode* of motions are `false`.
 
 bool wbu_motion_is_over(WbMotionRef motion);
 int wbu_motion_get_duration(WbMotionRefmotion);
-int wbu_motion_get_time(WbMotionRef motion, bool loop);
+int wbu_motion_get_time(WbMotionRef motion);
 void wbu_motion_set_time(WbMotionRefmotion, int t);
 ```
 

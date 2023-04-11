@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -153,7 +153,7 @@ void WbMultimediaStreamingServer::processLimiterTimeout() {
     return;
   }
   if (mSentImagesCount == 0) {
-    if (WbSimulationState::instance()->isPaused() && mFullResolutionOnPause != 2 && mLimiter->resolutionFactor() > 1) {
+    if (WbSimulationState::instance()->isPaused() && mLimiter->resolutionFactor() > 1) {
       // nothing sent since a while
       // send one image in full resolution
       mFullResolutionOnPause = 2;
@@ -201,11 +201,11 @@ void WbMultimediaStreamingServer::sendLastImage(QTcpSocket *client) {
     clients << client;
   else
     clients = mTcpClients;
-  foreach (QTcpSocket *client, clients) {
-    client->write(boundaryString);
-    client->write(mSceneImage);
-    client->write(QByteArray("\r\n"));
-    client->flush();
+  foreach (QTcpSocket *c, clients) {
+    c->write(boundaryString);
+    c->write(mSceneImage);
+    c->write(QByteArray("\r\n"));
+    c->flush();
   }
 }
 
@@ -278,7 +278,7 @@ void WbMultimediaStreamingServer::processTextMessage(QString message) {
         } else
           type = QEvent::MouseMove;
       }
-      QMouseEvent event(type, point, buttonPressed, buttonsPressed, keyboardModifiers);
+      QMouseEvent event(type, point, QCursor::pos(), buttonPressed, buttonsPressed, keyboardModifiers);
       if (gView3D) {
         const WbMatter *contextMenuNode = gView3D->remoteMouseEvent(&event);
         if (contextMenuNode)

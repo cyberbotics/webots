@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 
 EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
@@ -73,6 +73,8 @@ Robot {
           ]
           endPoint Solid {
             children [
+              InertialUnit {
+              }
               DEF THICK_CYLINDER Transform {
                 translation 0 0.05 0
                 children [

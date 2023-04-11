@@ -7,7 +7,7 @@ export default class FloatingWindow {
     this.floatingWindow.className = 'floating-window';
     this.floatingWindow.id = name;
     this.floatingWindow.style.visibility = 'hidden';
-    this.floatingWindow.style.zIndex = '1';
+    this.floatingWindow.style.zIndex = '3';
     parentNode.appendChild(this.floatingWindow);
 
     this.floatingWindowHeader = document.createElement('div');
@@ -46,16 +46,16 @@ export default class FloatingWindow {
     this.frame.id = this.name + '-window';
     this.floatingWindowContent.appendChild(this.frame);
 
-    this._interactElement(this.floatingWindow);
+    this.#interactElement(this.floatingWindow);
 
     this.floatingWindow.addEventListener('mousedown', this.bringToFront.bind(this));
   }
 
   bringToFront() {
     document.querySelectorAll('.floating-window').forEach((window) => {
-      window.style.zIndex = '1';
+      window.style.zIndex = '3';
     });
-    this.floatingWindow.style.zIndex = '2';
+    this.floatingWindow.style.zIndex = '4';
   }
 
   getId() {
@@ -87,7 +87,7 @@ export default class FloatingWindow {
     return this.floatingWindow.style.visibility;
   }
 
-  _interactElement(fw) {
+  #interactElement(fw) {
     let posX, dX, top, height, maxTop, maxHeight, containerHeight, topOffset, bottomOffset;
     let posY, dY, left, width, maxLeft, maxWidth, containerWidth, leftOffset, rightOffset;
     let interactionType, direction;

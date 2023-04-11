@@ -692,7 +692,7 @@ In `CODE PLACEHOLDER 2` add:
 > const double *position = wb_supervisor_node_get_position(ball_node);
 > printf("Ball position: %f %f %f\n", position[0], position[1], position[2]);
 > ```
-Now that we can track it, let's change the color of the bool as soon as it collides.
+Now that we can track it, let's change the color of the ball as soon as it collides.
 Since the ball has a radius of 0.2, we can change the `color` field when the "Y" coordinate of the position is smaller than this value.
 > ```c
 > if (position[2] < 0.2) {

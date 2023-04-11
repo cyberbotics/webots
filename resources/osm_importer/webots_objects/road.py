@@ -1,10 +1,10 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -42,8 +42,8 @@ import re
 # vertical offset lifting the Roads and Crossroads in order to not be coplanar with the floor.
 vOffset = 0.01
 
-ROAD_LINE_DASHED_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/road/protos/textures/road_line_dashed.png'  # noqa: E501
-ROAD_LINE_TRIANGLE_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/road/protos/textures/road_line_triangle.png'  # noqa: E501
+ROAD_LINE_DASHED_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/road/protos/textures/road_line_dashed.png'  # noqa: E501
+ROAD_LINE_TRIANGLE_TEXTURE = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/road/protos/textures/road_line_triangle.png'  # noqa: E501
 
 
 class Road(WebotsObject):
@@ -439,16 +439,16 @@ class Road(WebotsObject):
             if not Road.noIntersectionRoadLines and not road.insideARoundAbout:
                 if road.startJunction is not None and len(road.startJunction.roads) > 2:
                     f.write('  startLine [\n')
-                    for l in range(road.forwardLanes):
+                    for lane in range(road.forwardLanes):
                         f.write(f'    "{ROAD_LINE_DASHED_TEXTURE}"\n')
-                    for l in range(road.backwardLanes):
+                    for lane in range(road.backwardLanes):
                         f.write(f'    "{ROAD_LINE_TRIANGLE_TEXTURE}"\n')
                     f.write('  ]\n')
                 if road.endJunction is not None and len(road.endJunction.roads) > 2:
                     f.write('  endLine [\n')
-                    for l in range(road.forwardLanes):
+                    for lane in range(road.forwardLanes):
                         f.write(f'    "{ROAD_LINE_TRIANGLE_TEXTURE}"\n')
-                    for l in range(road.backwardLanes):
+                    for lane in range(road.backwardLanes):
                         f.write(f'    "{ROAD_LINE_DASHED_TEXTURE}"\n')
                     f.write('  ]\n')
             f.write('  wayPoints [\n')

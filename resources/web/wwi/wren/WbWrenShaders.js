@@ -1,4 +1,4 @@
-import {arrayXPointer} from './../nodes/utils/utils.js';
+import {arrayXPointer} from '../nodes/utils/utils.js';
 
 export default class WbWrenShaders {
   static buildShader(shader, vertexShaderPath, fragmentShaderpath) {
@@ -152,7 +152,7 @@ export default class WbWrenShaders {
       _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO],
         Enum.WR_GLSL_LAYOUT_UNIFORM_TEXTURE1);
       _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO],
-        Enum.WR_GLSL_LAYOUT_UNIFORM_TEXTURE2);
+        Enum.WR_GLSL_LAYOUT_UNIFORM_GTAO);
       _wr_shader_program_use_uniform(WbWrenShaders.gShaders[WbWrenShaders.SHADER.SHADER_GTAO],
         Enum.WR_GLSL_LAYOUT_UNIFORM_VIEWPORT_SIZE);
 

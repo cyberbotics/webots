@@ -17,7 +17,7 @@ export default class SystemInfo {
   static isSafari() {
     // https://stackoverflow.com/questions/9847580/how-to-detect-safari-chrome-ie-firefox-and-opera-browser
     return /constructor/i.test(window.HTMLElement) ||
-      (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] ||
+      (function(p) { return p.toString() === '[object SafariRemoteNotification]'; })(!window['safari'] ||
         (typeof safari !== 'undefined' && window['safari'].pushNotification));
   }
 }

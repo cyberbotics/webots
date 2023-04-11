@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -196,13 +196,13 @@ public:
   WbNode *protoParameterNode() const { return mProtoParameterNode; }
 
   // list all the texture files used and the corresponding field
-  QList<QPair<QString, WbMFString *>> listTextureFiles() const;
+  QList<std::pair<QString, WbMFString *>> listTextureFiles() const;
 
   // write node and fields as text
   virtual void write(WbWriter &writer) const;
   static void enableDefNodeTrackInWrite(bool substituteInStream);
   static void disableDefNodeTrackInWrite();
-  static QList<QPair<WbNode *, int>> *externalUseNodesPositionsInWrite();
+  static QList<std::pair<WbNode *, int>> *externalUseNodesPositionsInWrite();
 
   // fields or proto parameters
   bool isDefault() const;  // true if all fields have default values
@@ -380,7 +380,7 @@ private:
 
   // setup flags mechanism mechanism
   void setupDescendantAndNestedProtoFlags(bool isTopNode, bool isTopParameterDescendant, bool isInsertedFromSceneTree);
-  static void setupDescendantAndNestedProtoFlags(QVector<WbField *> fields, bool isTopParameterDescendant);
+  static void setupDescendantAndNestedProtoFlags(QVector<WbField *> fieldsList, bool isTopParameterDescendant);
 
   // for proto parameter node instances only
   WbNode *mProtoParameterNode;

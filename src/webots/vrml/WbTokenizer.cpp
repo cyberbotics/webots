@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -79,6 +79,8 @@ WbToken *WbTokenizer::lastToken() const {
 }
 
 const QString &WbTokenizer::lastWord() const {
+  // cppcheck-suppress unassignedVariable
+  // cppcheck-suppress variableScope
   static QString emptyWord;
   if (lastToken())
     return lastToken()->word();
@@ -170,6 +172,9 @@ bool WbTokenizer::readFileInfo(bool headerRequired, bool displayWarning, const Q
       mInfo.append(splittedInfo[i].trimmed() + '\n');
     mInfo.chop(1);  // remove last '\n'
 
+    if (mFileType == MODEL)
+      return true;
+
     // do a forward compatibility test based on the file and webots versions without the maintenance id
     WbVersion forwardCompatiblityFileVersion = mFileVersion;
     forwardCompatiblityFileVersion.setRevision(0);
@@ -213,7 +218,9 @@ bool WbTokenizer::checkFileHeader() {
     case WORLD:
       return readFileInfo(true, true, "VRML_SIM");
     case PROTO:
-      return readFileInfo(false, true, "VRML_SIM", true);
+      return readFileInfo(true, true, "VRML_SIM", true);
+    case MODEL:
+      return readFileInfo(false, false, "VRML");
     default:
       return true;
   }
@@ -554,6 +561,8 @@ WbTokenizer::FileType WbTokenizer::fileTypeFromFileName(const QString &fileName)
     return WORLD;
   else if (name.endsWith(".proto", Qt::CaseInsensitive))
     return PROTO;
+  else if (name.endsWith(".wrl", Qt::CaseInsensitive))
+    return MODEL;
   else
     return UNKNOWN;
 }

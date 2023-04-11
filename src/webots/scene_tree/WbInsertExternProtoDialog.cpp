@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,13 +32,13 @@
 #include <QtWidgets/QTreeWidgetItem>
 #include <QtWidgets/QVBoxLayout>
 
-WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : mRetrievalTriggered(false) {
+WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : QDialog(parent), mRetrievalTriggered(false) {
   QVBoxLayout *const layout = new QVBoxLayout(this);
 
   mSearchBar = new QLineEdit(this);
   mSearchBar->setClearButtonEnabled(true);
 
-  mTree = new QTreeWidget();
+  mTree = new QTreeWidget(this);
   mTree->setHeaderHidden(true);
   connect(mTree, &QTreeWidget::doubleClicked, this, &WbInsertExternProtoDialog::accept);
 
@@ -65,9 +65,6 @@ WbInsertExternProtoDialog::WbInsertExternProtoDialog(QWidget *parent) : mRetriev
   connect(WbProtoManager::instance(), &WbProtoManager::dependenciesAvailable, this,
           &WbInsertExternProtoDialog::updateProtoTree);
   WbProtoManager::instance()->retrieveLocalProtoDependencies();
-}
-
-WbInsertExternProtoDialog::~WbInsertExternProtoDialog() {
 }
 
 void WbInsertExternProtoDialog::updateProtoTree() {
@@ -156,9 +153,9 @@ void WbInsertExternProtoDialog::accept() {
   if (mTree->selectedItems().size() == 0 || !mInsertButton->isEnabled())
     return;
 
-  const QList<WbExternProto *> cutBuffer = WbProtoManager::instance()->externProtoCutBuffer();
+  const QList<WbExternProto *> &clipboardBuffer = WbProtoManager::instance()->externProtoClipboardBuffer();
   bool conflict = false;
-  foreach (const WbExternProto *proto, cutBuffer) {
+  foreach (const WbExternProto *proto, clipboardBuffer) {
     if (proto && proto->name() == mTree->selectedItems().at(0)->text(0) && !mRetrievalTriggered) {
       conflict = true;
       break;
@@ -166,13 +163,13 @@ void WbInsertExternProtoDialog::accept() {
   }
 
   if (conflict) {
-    const QMessageBox::StandardButton cutBufferWarningDialog = WbMessageBox::warning(
+    const QMessageBox::StandardButton clipboardBufferWarningDialog = WbMessageBox::warning(
       "One or more PROTO nodes with the same name as the one you are about to insert is contained in the clipboard. Do "
       "you want to continue? This operation will clear the clipboard.",
       this, "Warning", QMessageBox::Cancel, QMessageBox::Ok | QMessageBox::Cancel);
 
-    if (cutBufferWarningDialog == QMessageBox::Ok) {
-      WbProtoManager::instance()->clearExternProtoCutBuffer();
+    if (clipboardBufferWarningDialog == QMessageBox::Ok) {
+      WbProtoManager::instance()->clearExternProtoClipboardBuffer();
       WbClipboard::instance()->clear();
     } else
       return;

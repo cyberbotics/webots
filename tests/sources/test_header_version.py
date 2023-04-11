@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,7 +20,7 @@ import os
 import fnmatch
 
 IGNORED_PROTOS = [
-    'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba/clients/studio/plugins/ThymioVPL/UsageProfile.proto',
+    'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba/aseba/clients/studio/plugins/ThymioVPL/UsageProfile.proto',
     'projects/samples/tutorials/protos/FourWheelsRobot.proto',
     'tests/protos/protos/Bc21bCameraProto.proto',
     'resources/templates/protos/template.proto'
@@ -42,37 +42,34 @@ class TestHeaderVersion(unittest.TestCase):
     """Unit test of the PROTO and world headers."""
 
     def setUp(self):
+        WEBOTS_HOME = os.path.normpath(os.environ['WEBOTS_HOME'])
+
         """Get all the PROTO files to be tested."""
-        ignoredWorldsFull = [os.environ['WEBOTS_HOME'] + os.sep + file.replace('/', os.sep) for file in IGNORED_WORLDS]
+        ignoredWorldsFull = [os.path.join(WEBOTS_HOME, os.path.normpath(file)) for file in IGNORED_WORLDS]
+        ignoredProtosFull = [os.path.join(WEBOTS_HOME, os.path.normpath(file)) for file in IGNORED_PROTOS]
 
         # 1. Get Webots version (without revision)
         self.version = None
-        with open(os.environ['WEBOTS_HOME'] + os.sep + 'resources' + os.sep + 'version.txt') as file:
+        with open(os.path.join(WEBOTS_HOME, 'resources', 'version.txt')) as file:
             content = file.read()
             self.version = content.splitlines()[0].strip().split()[0]
         # 2. Get all the PROTO files
         self.files = []
-        for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME']):
+        for rootPath, dirNames, fileNames in os.walk(WEBOTS_HOME):
             dirNames[:] = [d for d in dirNames if d not in SKIPPED_DIRECTORIES]
             for fileName in fnmatch.filter(fileNames, '*.proto'):
                 proto = os.path.join(rootPath, fileName)
-                shouldIgnore = False
-                for ignoredProto in IGNORED_PROTOS:
-                    path = os.environ['WEBOTS_HOME'] + os.sep + ignoredProto.replace('/', os.sep)
-                    if proto == path:
-                        shouldIgnore = True
-                        break
-                if not shouldIgnore:
+                if proto not in ignoredProtosFull:
                     self.files.append((proto, '#VRML_SIM %s utf8' % self.version))
         # 3. Get all the world files
-        for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME']):
+        for rootPath, dirNames, fileNames in os.walk(WEBOTS_HOME):
             dirNames[:] = [d for d in dirNames if d not in SKIPPED_DIRECTORIES]
             for fileName in fnmatch.filter(fileNames, '*.wbt'):
                 world = os.path.join(rootPath, fileName)
                 if world not in ignoredWorldsFull:
                     self.files.append((world, '#VRML_SIM %s utf8' % self.version))
         # 4. Get all the .wbproj files
-        for rootPath, dirNames, fileNames in os.walk(os.environ['WEBOTS_HOME']):
+        for rootPath, dirNames, fileNames in os.walk(WEBOTS_HOME):
             dirNames[:] = [d for d in dirNames if d not in SKIPPED_DIRECTORIES]
             for fileName in fnmatch.filter(fileNames, '*.wbproj'):
                 projFile = os.path.join(rootPath, fileName)

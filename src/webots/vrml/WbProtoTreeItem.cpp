@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,6 +14,7 @@
 
 #include "WbProtoTreeItem.hpp"
 
+#include "WbDownloadManager.hpp"
 #include "WbDownloader.hpp"
 #include "WbNetwork.hpp"
 #include "WbStandardPaths.hpp"
@@ -28,8 +29,7 @@ WbProtoTreeItem::WbProtoTreeItem(const QString &url, WbProtoTreeItem *parent, bo
   mImportable(importable),
   mIsReady(false),
   mDownloader(NULL),
-  mName(QUrl(url).fileName().replace(".proto", "", Qt::CaseInsensitive)),
-  mError() {
+  mName(QUrl(url).fileName().replace(".proto", "", Qt::CaseInsensitive)) {
 }
 
 WbProtoTreeItem::~WbProtoTreeItem() {
@@ -60,7 +60,7 @@ void WbProtoTreeItem::parseItem() {
   while (it.hasNext()) {
     const QRegularExpressionMatch match = it.next();
     if (match.hasMatch()) {
-      const bool isImportable = !match.captured(1).isEmpty();
+      const bool hasImportableKeyword = !match.captured(1).isEmpty();
       const QString subProto = match.captured(2);
       const QString subProtoUrl = WbUrl::combinePaths(subProto, mUrl);
       if (subProtoUrl.isEmpty())
@@ -99,7 +99,7 @@ void WbProtoTreeItem::parseItem() {
         continue;
       }
 
-      WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this, isImportable);
+      WbProtoTreeItem *child = new WbProtoTreeItem(subProtoUrl, this, hasImportableKeyword);
       mChildren.append(child);
     }
   }
@@ -136,9 +136,10 @@ void WbProtoTreeItem::download() {
 
   if (WbUrl::isWeb(mUrl)) {
     if (!WbNetwork::instance()->isCachedWithMapUpdate(mUrl)) {
-      mDownloader = new WbDownloader(this);
+      delete mDownloader;
+      mDownloader = WbDownloadManager::instance()->createDownloader(QUrl(mUrl), this);
       connect(mDownloader, &WbDownloader::complete, this, &WbProtoTreeItem::downloadUpdate);
-      mDownloader->download(QUrl(mUrl));
+      mDownloader->download();
       return;
     }
   }

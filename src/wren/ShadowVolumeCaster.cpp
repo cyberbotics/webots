@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -95,7 +95,9 @@ namespace wren {
     }
   }
 
-  void ShadowVolumeCaster::notifyLightRemoved(LightNode *light) { mShadowVolumes.erase(light); }
+  void ShadowVolumeCaster::notifyLightRemoved(LightNode *light) {
+    mShadowVolumes.erase(light);
+  }
 
   static glm::vec3 computeNormal(const Mesh *mesh, const unsigned int *indices) {
     const std::vector<glm::vec3> &coords = mesh->coords();

@@ -20,7 +20,7 @@ Solid {
 }
 ```
 
-Direct derived nodes: [Accelerometer](accelerometer.md), [Camera](camera.md), [Charger](charger.md), [Compass](compass.md), [Connector](connector.md), [Display](display.md), [DistanceSensor](distancesensor.md), [Emitter](emitter.md), [GPS](gps.md), [Gyro](gyro.md), [InertialUnit](inertialunit.md), [LED](led.md), [Lidar](lidar.md), [LightSensor](lightsensor.md), [Pen](pen.md), [Radar](radar.md), [RangeFinder](rangefinder.md), [Receiver](receiver.md), [Robot](robot.md), [TouchSensor](touchsensor.md), [Track](track.md).
+Direct derived nodes: [Accelerometer](accelerometer.md), [Altimeter](altimeter.md), [Camera](camera.md), [Charger](charger.md), [Compass](compass.md), [Connector](connector.md), [Display](display.md), [DistanceSensor](distancesensor.md), [Emitter](emitter.md), [GPS](gps.md), [Gyro](gyro.md), [InertialUnit](inertialunit.md), [LED](led.md), [Lidar](lidar.md), [LightSensor](lightsensor.md), [Pen](pen.md), [Radar](radar.md), [RangeFinder](rangefinder.md), [Receiver](receiver.md), [Robot](robot.md), [TouchSensor](touchsensor.md), [Track](track.md).
 
 ### Description
 

@@ -84,41 +84,11 @@ lib/controller/driver.lib [windows]
 
 lib/controller/generic_robot_window [dll,windows,linux]
 
-lib/controller/python37/ [windows,linux]
-lib/controller/python37/*.py [windows,linux]
-lib/controller/python37/_*.so [linux,mac]
-lib/controller/python37/_*.pyd [windows]
-
-lib/controller/python37_brew/ [mac]
-lib/controller/python37_brew/*.py [mac]
-lib/controller/python37_brew/_*.so [mac]
-
-lib/controller/python38/ [windows,linux]
-lib/controller/python38/*.py [windows,linux]
-lib/controller/python38/_*.so [linux,mac]
-lib/controller/python38/_*.pyd [windows]
-
-lib/controller/python38_brew/ [mac]
-lib/controller/python38_brew/*.py [mac]
-lib/controller/python38_brew/_*.so [mac]
-
-lib/controller/python39/ [windows,linux]
-lib/controller/python39/*.py [windows,linux]
-lib/controller/python39/_*.so [linux,mac]
-lib/controller/python39/_*.pyd [windows]
-
-lib/controller/python39_brew/ [mac]
-lib/controller/python39_brew/*.py [mac]
-lib/controller/python39_brew/_*.so [mac]
-
-lib/controller/python310/ [windows,linux]
-lib/controller/python310/*.py [windows,linux]
-lib/controller/python310/_*.so [linux,mac]
-lib/controller/python310/_*.pyd [windows]
-
-lib/controller/python310_brew/ [mac]
-lib/controller/python310_brew/*.py [mac]
-lib/controller/python310_brew/_*.so [mac]
+lib/controller/python/ [windows,linux]
+lib/controller/python/controller/ [windows,linux]
+lib/controller/python/controller/*.py [windows,linux]
+lib/controller/python/vehicle/ [windows,linux]
+lib/controller/python/vehicle/*.py [windows,linux]
 
 lib/controller/matlab/ [windows,linux]
 lib/controller/matlab/allincludes.h [windows,linux]
@@ -319,9 +289,6 @@ src/controller/java/Makefile
 src/controller/java/SWIG_generated_files/
 src/controller/java/SWIG_generated_files/*.java
 src/controller/java/SWIG_generated_files/*.cpp
-src/controller/python/
-src/controller/python/controller.i
-src/controller/python/Makefile
 src/controller/matlab/
 src/controller/matlab/mgenerate.py
 
@@ -354,37 +321,11 @@ Contents/lib/controller/driver [dll,mac]
 
 Contents/lib/controller/generic_robot_window [dll,mac]
 
-Contents/lib/controller/python37/ [mac]
-Contents/lib/controller/python37/*.py [mac]
-Contents/lib/controller/python37/_*.so [mac]
-
-Contents/lib/controller/python37_brew/ [mac]
-Contents/lib/controller/python37_brew/*.py [mac]
-Contents/lib/controller/python37_brew/_*.so [mac]
-
-Contents/lib/controller/python38/ [mac]
-Contents/lib/controller/python38/*.py [mac]
-Contents/lib/controller/python38/_*.so [mac]
-
-Contents/lib/controller/python38_brew/ [mac]
-Contents/lib/controller/python38_brew/*.py [mac]
-Contents/lib/controller/python38_brew/_*.so [mac]
-
-Contents/lib/controller/python39/ [mac]
-Contents/lib/controller/python39/*.py [mac]
-Contents/lib/controller/python39/_*.so [mac]
-
-Contents/lib/controller/python39_brew/ [mac]
-Contents/lib/controller/python39_brew/*.py [mac]
-Contents/lib/controller/python39_brew/_*.so [mac]
-
-Contents/lib/controller/python310/ [mac]
-Contents/lib/controller/python310/*.py [mac]
-Contents/lib/controller/python310/_*.so [mac]
-
-Contents/lib/controller/python310_brew/ [mac]
-Contents/lib/controller/python310_brew/*.py [mac]
-Contents/lib/controller/python310_brew/_*.so [mac]
+Contents/lib/controller/python/ [mac]
+Contents/lib/controller/python/controller/ [mac]
+Contents/lib/controller/python/controller/*.py [mac]
+Contents/lib/controller/python/vehicle/ [mac]
+Contents/lib/controller/python/vehicle/*.py [mac]
 
 Contents/lib/controller/matlab/ [mac]
 Contents/lib/controller/matlab/allincludes.h [mac]

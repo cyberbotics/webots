@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,6 +29,7 @@
 #include "WbTokenizer.hpp"
 #include "WbTransform.hpp"
 #include "WbVersion.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWrenRenderingContext.hpp"
 
 #include <wren/config.h>
@@ -105,7 +106,7 @@ void WbSphere::createResizeManipulator() {
 
 bool WbSphere::areSizeFieldsVisibleAndNotRegenerator() const {
   const WbField *const radiusField = findField("radius", true);
-  return WbNodeUtilities::isVisible(radiusField) && !WbNodeUtilities::isTemplateRegeneratorField(radiusField);
+  return WbVrmlNodeUtilities::isVisible(radiusField) && !WbNodeUtilities::isTemplateRegeneratorField(radiusField);
 }
 
 void WbSphere::exportNodeFields(WbWriter &writer) const {
@@ -310,7 +311,7 @@ bool WbSphere::computeCollisionPoint(WbVector3 &point, const WbRay &ray) const {
 
 void WbSphere::recomputeBoundingSphere() const {
   assert(mBoundingSphere);
-  mBoundingSphere->set(WbVector3(), scaledRadius());
+  mBoundingSphere->set(WbVector3(), radius());
 }
 
 ////////////////////////

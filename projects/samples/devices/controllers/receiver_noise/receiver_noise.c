@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2022 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -98,7 +98,7 @@ int main() {
       const double *gpsPosition = wb_gps_get_values(gps);
       /* print real position measured from the GPS */
       ANSI_CLEAR_CONSOLE();
-      printf("GPS position:     time = %.3lf   X = %.3lf Y = %.3lf\n", wb_robot_get_time(), gpsPosition[0], gpsPosition[1]);
+      printf("GPS position: time = %.3lf   X = %.3lf Y = %.3lf\n", wb_robot_get_time(), gpsPosition[0], gpsPosition[1]);
 
     } else {
       /* is there at least one packet in the receiver's queue ? */

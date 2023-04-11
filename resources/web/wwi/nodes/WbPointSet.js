@@ -1,6 +1,6 @@
 import {arrayXPointerFloat} from './utils/utils.js';
 import WbGeometry from './WbGeometry.js';
-import WbWrenShaders from './../wren/WbWrenShaders.js';
+import WbWrenShaders from '../wren/WbWrenShaders.js';
 
 export default class WbPointSet extends WbGeometry {
   constructor(id, coord, color) {
@@ -22,8 +22,8 @@ export default class WbPointSet extends WbGeometry {
 
     super.createWrenObjects();
     _wr_config_enable_point_size(true);
-    this._updateCoord();
-    this._buildWrenMesh();
+    this.#updateCoord();
+    this.#buildWrenMesh();
   }
 
   delete() {
@@ -46,7 +46,7 @@ export default class WbPointSet extends WbGeometry {
 
   // Private functions
 
-  _buildWrenMesh() {
+  #buildWrenMesh() {
     super._deleteWrenRenderable();
 
     if (typeof this._wrenMesh !== 'undefined') {
@@ -64,7 +64,7 @@ export default class WbPointSet extends WbGeometry {
     if (typeof this.color !== 'undefined')
       colorData = [];
 
-    const coordsCount = this._computeCoordsAndColorData(coordsData, colorData);
+    const coordsCount = this.#computeCoordsAndColorData(coordsData, colorData);
 
     const coordsDataPointer = arrayXPointerFloat(coordsData);
     const colorDataPointer = arrayXPointerFloat(colorData);
@@ -80,7 +80,7 @@ export default class WbPointSet extends WbGeometry {
     _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
   }
 
-  _computeCoordsAndColorData(coordsData, colorData) {
+  #computeCoordsAndColorData(coordsData, colorData) {
     if (typeof this.coord === 'undefined')
       return 0;
 
@@ -107,8 +107,8 @@ export default class WbPointSet extends WbGeometry {
     return count;
   }
 
-  _updateCoord() {
+  #updateCoord() {
     if (this.wrenObjectsCreatedCalled)
-      this._buildWrenMesh();
+      this.#buildWrenMesh();
   }
 }

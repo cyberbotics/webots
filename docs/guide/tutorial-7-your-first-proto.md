@@ -12,6 +12,7 @@ Create a new empty text file in the `protos` folder of your project called `Four
 
 Any PROTO file should at least respect the following structure:
 ```
+#VRML_SIM {{ webots.version.major }} utf8
 PROTO protoName [
   protoFields
 ]
@@ -30,6 +31,7 @@ Finally, save the PROTO file.
   **Solution**: You should have something like this:
 
 ```
+  #VRML_SIM {{ webots.version.major }} utf8
   PROTO FourWheelsRobot [
 
   ]
@@ -80,6 +82,7 @@ And the `mass` field of the [Physics](../reference/physics.md) node of the [Robo
 ```
 Save your PROTO file, it should now look like this:
 ```
+#VRML_SIM {{ webots.version.major }} utf8
 PROTO FourWheelsRobot [
   field SFVec3f    translation  0 0 0
   field SFRotation rotation     0 0 1 0

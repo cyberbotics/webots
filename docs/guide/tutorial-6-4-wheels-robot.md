@@ -89,6 +89,41 @@ graph TD
 %end
 %end
 
+### `HingeJoint`
+
+The initial position of the wheel is defined by the translation and the rotation fields of the [Solid](../reference/solid.md) node.
+
+The rotation origin (anchor) and the rotation axis (axis) are defined by the optional [HingeJointParameters](../reference/hingejointparameters.md) child of the [HingeJoint](../reference/hingejoint.md) node.
+
+%figure "Representation of a hinge joint"
+
+![hinge_joint.png](images/hinge_joint.png)
+
+%end
+
+The radius of the wheel is 0.04 and its thickness (height of the cylinder) is 0.02.
+For the first wheel, the [Solid](../reference/solid.md) translation should be defined to `(0.05, 0.06, 0)` in order to define the relative gap between the body and the wheel, and the rotation to `(1 0 0 1.5708)` for the wheel cylinder to be correctly oriented.
+The [HingeJointParameters](../reference/hingejointparameters.md) anchor should also be defined to `(0.05, 0.06, 0)` to define the rotation origin (relatively to the body).
+Finally, the [HingeJointParameters](../reference/hingejointparameters.md) axis should define the rotation axis.
+In our case it's along the y-axis (so `(0, 1, 0)`).
+
+> **Hands on #3**: Add a [HingeJointParameters](../reference/hingejointparameters.md) node, and enter the field values as described above.
+Some signs obviously have to be updated for other wheels.
+
+Now, let's implement the cylinder shape of the wheels.
+
+For each [HingeJoint](../reference/hingejoint.md), there are three fields in which nodes need to be added.
+- **jointParameters**: Add a [HingeJointParameters](../reference/hingejointparameters.md) and configure the anchor (0.05 -0.06 0) and axis (0 1 0) fields.
+  These values have to be modified according to the location of the wheel.
+- **device**: Add a [RotationalMotor](../reference/rotationalmotor.md) in order to be able to actuate the wheels. Change their `name` fields from `wheel1` to `wheel4` according to [this figure](#top-view-of-the-4-wheeled-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-device).
+  These labels will be used to reference the wheels from the controller.
+- **endPoint**: Add a [Solid](../reference/solid.md) node, then a [Shape](../reference/shape.md) node in the `children` field of the [Solid](../reference/solid.md), and finally, add a [Cylinder](../reference/cylinder.md) in the `geometry` field of the [Shape](../reference/shape.md) node.
+  The [Cylinder](../reference/cylinder.md) should have a `radius` of `0.04` and a `height` of `0.02`.
+Set the color of the wheels to green.
+
+> **Hands on #4**: Complete the missing nodes to get the same structure as the one depicted in [this figure](#low-level-representation-of-the-4-wheeled-robot).
+Don't forget the [Physics](../reference/physics.md) nodes.
+
 %figure "Low level representation of the 4 wheeled robot"
 %chart
 graph TD
@@ -113,41 +148,6 @@ graph TD
   class Shape1,USEBODY,Transform,USEWHEEL secondaryNode;
 %end
 %end
-
-### `HingeJoint`
-
-The initial position of the wheel is defined by the translation and the rotation fields of the [Solid](../reference/solid.md) node.
-
-The rotation origin (anchor) and the rotation axis (axis) are defined by the optional [HingeJointParameters](../reference/hingejointparameters.md) child of the [HingeJoint](../reference/hingejoint.md) node.
-
-%figure "Representation of a hinge joint"
-
-![hinge_joint.png](images/hinge_joint.png)
-
-%end
-
-The radius of the wheel is 0.04 and its thickness (height of the cylinder) is 0.02.
-For the first wheel, the [Solid](../reference/solid.md) translation should be defined to `(0.05, 0.06, 0)` in order to define the relative gap between the body and the wheel, and the rotation to `(1 0 0 1.5708)` for the wheel cylinder to be correctly oriented.
-The [HingeJointParameters](../reference/hingejointparameters.md) anchor should also be defined to `(0.05, 0.06, 0)` to define the rotation origin (relatively to the body).
-Finally, the [HingeJointParameters](../reference/hingejointparameters.md) axis should define the rotation axis.
-In our case it's along the y-axis (so `(0, 1, 0)`).
-
-> **Hands on #3**: Add a [HingeJointParameters](../reference/hingejointparameters.md) node, and enter the field values as described above.
-Some signs obviously have to be updated for other wheels.
-
-Now, let's implement the cylinder shape of the wheels.
-
-> **Hands on #4**: Complete the missing nodes to get the same structure as the one depicted in [this figure](#low-level-representation-of-the-4-wheeled-robot).
-Don't forget the [Physics](../reference/physics.md) nodes.
-
-For each [HingeJoint](../reference/hingejoint.md), there are three fields in which nodes need to be added.
-- **jointParameters**: Add a [HingeJointParameters](../reference/hingejointparameters.md) and configure the anchor (0.05 -0.06 0) and axis (0 1 0) fields.
-  These values have to be modified according to the location of the wheel.
-- **device**: Add a [RotationalMotor](../reference/rotationalmotor.md) in order to be able to actuate the wheels. Change their `name` fields from `wheel1` to `wheel4` according to [this figure](#top-view-of-the-4-wheeled-robot-the-grid-behind-the-robot-has-a-dimension-of-0-2-x-0-3-meters-the-text-labels-correspond-to-the-name-of-the-device).
-  These labels will be used to reference the wheels from the controller.
-- **endPoint**: Add a [Solid](../reference/solid.md) node, then a [Shape](../reference/shape.md) node in the `children` field of the [Solid](../reference/solid.md), and finally, add a [Cylinder](../reference/cylinder.md) in the `geometry` field of the [Shape](../reference/shape.md) node.
-  The [Cylinder](../reference/cylinder.md) should have a `radius` of `0.04` and a `height` of `0.02`.
-Set the color of the wheels to green.
 
 
 ### Sensors

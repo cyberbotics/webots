@@ -16,10 +16,6 @@ The state of a mouse is defined like this:
 
 ```c
 typedef struct {
-  // mouse buttons state
-  bool left;
-  bool middle;
-  bool right;
   // mouse 2D position in the 3D window
   double u;
   double v;
@@ -27,6 +23,10 @@ typedef struct {
   double x;
   double y;
   double z;
+  // mouse buttons state
+  bool left;
+  bool middle;
+  bool right;
 } WbMouseState;
 ```
 %tab-end
@@ -38,10 +38,6 @@ typedef struct {
 
 namespace webots {
   typedef struct {
-    // mouse buttons state
-    bool left;
-    bool middle;
-    bool right;
     // mouse 2D position in the 3D window
     double u;
     double v;
@@ -49,6 +45,10 @@ namespace webots {
     double x;
     double y;
     double z;
+    // mouse buttons state
+    bool left;
+    bool middle;
+    bool right;
   } MouseState;
 }
 ```
@@ -62,11 +62,11 @@ from controller import MouseState
 
 class MouseState:
     @property
-    left, middle, right  # mouse button state
-    @property
     u, v  # mouse 2D position in the 3D window
     @property
     x, y, z  # mouse 3D position
+    @property
+    left, middle, right  # mouse button state
 ```
 
 %tab-end
@@ -77,14 +77,14 @@ class MouseState:
 import com.cyberbotics.webots.controller.MouseState;
 
 public class MouseState {
-  public boolean getLeft();
-  public boolean getMiddle();
-  public boolean getRight();
   public double getU();
   public double getV();
   public double getX();
   public double getY();
   public double getZ();
+  public boolean getLeft();
+  public boolean getMiddle();
+  public boolean getRight();
 }
 ```
 
@@ -94,14 +94,14 @@ public class MouseState {
 
 ```MATLAB
 structs.WbMouseState.members = struct(
-  'left', 'int8',
-  'middle', 'int8',
-  'right', 'int8',
   'u', 'double',
   'v', 'double',
   'x', 'double',
   'y', 'double',
-  'z', 'double'
+  'z', 'double',
+  'left', 'int8',
+  'middle', 'int8',
+  'right', 'int8'
 );
 ```
 

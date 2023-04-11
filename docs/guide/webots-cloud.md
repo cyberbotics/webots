@@ -47,7 +47,7 @@ More information on what the Dockerfile should contain can be found in the [Dock
 
 For example:
 ```Dockerfile
-FROM cyberbotics/webots.cloud:R2022b-ubuntu20.04
+FROM cyberbotics/webots.cloud:R2023a-ubuntu20.04
 ARG PROJECT_PATH
 RUN mkdir -p $PROJECT_PATH
 COPY . $PROJECT_PATH
@@ -55,7 +55,7 @@ COPY . $PROJECT_PATH
 
 #### YAML File
 
-A file named `webots.yml` must be included at the root level of a repository to determine publishing permissions, the type of project, as well as if an IDE should be present.
+A file named `webots.yml` must be included at the root level of a project to determine publishing permissions, the type of project, as well as if an IDE should be present.
 A typical example of a `webots.yml` file is the following:
 ```yaml
 publish: true

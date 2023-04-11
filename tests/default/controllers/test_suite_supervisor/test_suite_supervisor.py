@@ -1,10 +1,10 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -257,10 +257,10 @@ class TestSuite (Supervisor):
             else:
                 # wait for controllers start or termination messages
                 while receiver.getQueueLength() > 0:
-                    data = receiver.getData()
-                    dataList = data.split(b" ")
-                    if dataList[0] == b"ts":
-                        if dataList[1] == b'1':
+                    data = receiver.getString()
+                    dataList = data.split(' ')
+                    if dataList[0] == 'ts':
+                        if dataList[1] == '1':
                             if dataList[2] not in running_controllers_pid:
                                 running_controllers_pid.append(dataList[2])
                                 test_started = True

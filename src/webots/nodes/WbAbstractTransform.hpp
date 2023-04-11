@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -87,10 +87,11 @@ public:
 
   // 3x3 absolute rotation matrix
   WbMatrix3 rotationMatrix() const {
-    const WbVector3 &s = absoluteScale();
-    WbMatrix3 m = matrix().extracted3x3Matrix();
-    m.scale(1.0 / s.x(), 1.0 / s.y(), 1.0 / s.z());
-    return m;
+    const WbMatrix4 &m = matrix();
+    const WbVector3 &s = m.scale();
+    WbMatrix3 rm = m.extracted3x3Matrix();
+    rm.scale(1.0 / s.x(), 1.0 / s.y(), 1.0 / s.z());
+    return rm;
   }
 
   // position in 'world' coordinates

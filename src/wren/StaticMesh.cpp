@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -1694,7 +1694,9 @@ namespace wren {
     glstate::bindVertexArrayObject(mCacheData->mGlNameVertexArrayObjectShadow);
   }
 
-  void StaticMesh::releaseShadowVolume() { glstate::releaseVertexArrayObject(mCacheData->mGlNameVertexArrayObjectShadow); }
+  void StaticMesh::releaseShadowVolume() {
+    glstate::releaseVertexArrayObject(mCacheData->mGlNameVertexArrayObjectShadow);
+  }
 
   void StaticMesh::render(unsigned int drawingMode) {
     assert(mCacheData && mCacheData->mNumUsers > 0);
@@ -1706,7 +1708,9 @@ namespace wren {
       glFlush();
   }
 
-  size_t StaticMesh::sortingId() const { return static_cast<size_t>(mCacheData->id()); }
+  size_t StaticMesh::sortingId() const {
+    return static_cast<size_t>(mCacheData->id());
+  }
 
   primitive::Aabb StaticMesh::recomputeAabb(const glm::vec3 &scale) {
     assert(mCacheData);
@@ -1732,7 +1736,8 @@ namespace wren {
     mCacheData->mAabb = primitive::Aabb(coords());
   }
 
-  StaticMesh::StaticMesh() : mIsCachePersistent(false), mCacheData(NULL) {}
+  StaticMesh::StaticMesh() : mIsCachePersistent(false), mCacheData(NULL) {
+  }
 
   static void createOrCompleteEdge(size_t triangleIndex, unsigned int vertexIndex0, unsigned int vertexIndex1,
                                    std::unordered_map<std::pair<size_t, size_t>, Mesh::Edge> &edgeMap,
@@ -1924,8 +1929,10 @@ namespace wren {
     if (!mCacheData->mNumUsers) {
       if (mCacheData->mGlNameVertexArrayObject) {
         release();
+        releaseShadowVolume();
 
         glDeleteVertexArrays(1, &mCacheData->mGlNameVertexArrayObject);
+        glDeleteVertexArrays(1, &mCacheData->mGlNameVertexArrayObjectShadow);
         glDeleteBuffers(1, &mCacheData->mGlNameBufferCoords);
         glDeleteBuffers(1, &mCacheData->mGlNameBufferIndices);
         glDeleteBuffers(1, &mCacheData->mGlNameBufferShadowCoords);

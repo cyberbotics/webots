@@ -12,9 +12,9 @@ ContactProperties {
   MFFloat  forceDependentSlip 0                                                                                                     # [0, inf)
   SFFloat  softERP            0.2                                                                                                   # [0, 1]
   SFFloat  softCFM            0.001                                                                                                 # (0, inf)
-  SFString bumpSound          "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/sounds/bump.wav" # any string
-  SFString rollSound          "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/sounds/roll.wav" # any string
-  SFString slideSound         "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/sounds/slide.wav"# any string
+  SFString bumpSound          "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/sounds/bump.wav" # any string
+  SFString rollSound          "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/sounds/roll.wav" # any string
+  SFString slideSound         "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/sounds/slide.wav"# any string
 }
 ```
 

@@ -1,10 +1,10 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,10 +47,10 @@ ifeq ($(OSTYPE),darwin)
 endif
 
 ifeq ($(OSTYPE),windows)
- SUMO_VERSION=1.10.0
+ SUMO_VERSION=1.13
  OS_TAG=windows
  SUMO_PACKAGE=sumo-$(SUMO_VERSION)-windows.zip
- SUMO_MD5SUM="2fd97eeb01fb11d4e95c3e95fd2bb4a3"
+ SUMO_MD5SUM="efb8b271f7b9e49310f62e68ee30efa3"
  PREVIOUS_SUMO_PACKAGE=$(filter-out $(SUMO_PACKAGE),$(wildcard sumo-*-windows.zip))
  EXTRACT=unzip -q
  # remove .zip

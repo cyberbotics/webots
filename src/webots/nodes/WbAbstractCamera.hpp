@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -68,7 +68,7 @@ public:
   // external window
   void enableExternalWindow(bool enabled) override;
   virtual bool isRangeFinder() { return false; }
-  bool spherical() const { return mSpherical->value(); }
+  bool isPlanarProjection() const { return mProjection->value() == "planar"; }
   virtual double minRange() const = 0;
   virtual double maxRange() const { return 1.0; }
   virtual double nearValue() const { return mNear->value(); }  // near is a reserved keyword on Windows
@@ -93,7 +93,7 @@ protected:
 
   // user accessible fields
   WbSFDouble *mFieldOfView;
-  WbSFBool *mSpherical;
+  WbSFString *mProjection;
   WbSFDouble *mNear;
   WbSFDouble *mMotionBlur;
   WbSFDouble *mNoise;
@@ -114,7 +114,7 @@ protected:
   WbMemoryMappedFile *initializeMemoryMappedFile(const QString &id = "");
   virtual void computeValue();
   void copyImageToMemoryMappedFile(WbWrenCamera *camera, unsigned char *data);
-  void editChunkMetadata(WbDataStream &stream, int img_size);
+  void editChunkMetadata(WbDataStream &stream, int newImageSize);
 
   virtual bool antiAliasing() const { return false; }
 
@@ -177,9 +177,9 @@ protected slots:
   virtual void applyFrustumToWren();
   virtual void updateOptionalRendering(int option);
   virtual void updateFieldOfView();
+  void updateProjection();
   void updateBackground();
   void updatePostProcessingEffect();
-  void updateSpherical();
   void updateMotionBlur();
   void updateNoise();
   void updateLens();

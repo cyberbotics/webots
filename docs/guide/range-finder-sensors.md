@@ -38,3 +38,30 @@ Kinect {
 - `cameraName`: Defines the name of the [RangeFinder](../reference/rangefinder.md) and [Camera](../reference/camera.md) nodes. The [RangeFinder](../reference/rangefinder.md) is named `<cameraName> + ' range'` and the [Camera](../reference/camera.md) `<cameraName> + ' color'`.
 - `tiltMotorName`: Defines the name of the foot tilt [RotationalMotor](../reference/rotationalmotor.md) (when the `foot` field is enabled).
 - `foot`: Defines whether the articulated foot is present.
+
+### Orbbec Astra
+
+%figure "Orbbec Astra model"
+
+![astra.png](images/sensors/astra.thumbnail.png)
+
+%end
+
+The [Orbbec Astra](https://shop.orbbec3d.com/Astra) is a motion sensing input device.
+It is modeled using a regular RGB [Camera](../reference/camera.md) and a [RangeFinder](../reference/rangefinder.md) device to retrieve the depth information in meters.
+
+Derived from [Solid](../reference/solid.md).
+Includes a [Camera](../reference/camera.md) and a [RangeFinder](../reference/rangefinder.md).
+
+```
+Astra {
+  SFVec3f    translation   0 0 0
+  SFRotation rotation      0 0 1 0
+  SFString   name          "Astra"
+  SFFloat    colorNoise    0.0
+  SFFloat    rangeNoise    0.0
+}
+```
+
+- `colorNoise`: Defines the `noise` field of the [Camera](../reference/camera.md).
+- `rangeNoise`: Defines the `noise` field of the [RangeFinder](../reference/rangefinder.md).

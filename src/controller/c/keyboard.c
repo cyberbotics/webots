@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2022 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -44,7 +44,16 @@ static void keyboard_read_value(WbRequest *r) {
   keyboard.key[max] = -1;
 }
 
-// Protected funtions available from other files of the client library
+// Protected constants and funtions available from other files of the client library
+
+const int wb_KEYBOARD_END = WB_KEYBOARD_END, wb_KEYBOARD_HOME = WB_KEYBOARD_HOME, wb_KEYBOARD_LEFT = WB_KEYBOARD_LEFT,
+          wb_KEYBOARD_UP = WB_KEYBOARD_UP, wb_KEYBOARD_RIGHT = WB_KEYBOARD_RIGHT, wb_KEYBOARD_DOWN = WB_KEYBOARD_DOWN,
+          wb_KEYBOARD_PAGEUP = WB_KEYBOARD_PAGEUP, wb_KEYBOARD_PAGEDOWN = WB_KEYBOARD_PAGEDOWN,
+          wb_KEYBOARD_NUMPAD_HOME = WB_KEYBOARD_NUMPAD_HOME, wb_KEYBOARD_NUMPAD_LEFT = WB_KEYBOARD_NUMPAD_LEFT,
+          wb_KEYBOARD_NUMPAD_UP = WB_KEYBOARD_NUMPAD_UP, wb_KEYBOARD_NUMPAD_RIGHT = WB_KEYBOARD_NUMPAD_RIGHT,
+          wb_KEYBOARD_NUMPAD_DOWN = WB_KEYBOARD_NUMPAD_DOWN, wb_KEYBOARD_NUMPAD_END = WB_KEYBOARD_NUMPAD_END,
+          wb_KEYBOARD_KEY = WB_KEYBOARD_KEY, wb_KEYBOARD_SHIFT = WB_KEYBOARD_SHIFT, wb_KEYBOARD_CONTROL = WB_KEYBOARD_CONTROL,
+          wb_KEYBOARD_ALT = WB_KEYBOARD_ALT;
 
 void keyboard_write_request(WbRequest *req) {
   if (keyboard.pointer == -1) {  // need to enable or disable

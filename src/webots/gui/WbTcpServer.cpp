@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -50,13 +50,16 @@ WbTcpServer::WbTcpServer(bool stream) :
   mPauseTimeout(-1),
   mWebSocketServer(NULL),
   mClientsReadyToReceiveMessages(false),
-  mStream(stream) {
+  mStream(stream),
+  mWorldReady(false) {
   connect(WbApplication::instance(), &WbApplication::postWorldLoaded, this, &WbTcpServer::newWorld);
   connect(WbApplication::instance(), &WbApplication::preWorldLoaded, this, &WbTcpServer::deleteWorld);
   connect(WbApplication::instance(), &WbApplication::worldLoadingHasProgressed, this, &WbTcpServer::setWorldLoadingProgress);
   connect(WbApplication::instance(), &WbApplication::worldLoadingStatusHasChanged, this, &WbTcpServer::setWorldLoadingStatus);
   connect(WbNodeOperations::instance(), &WbNodeOperations::nodeAdded, this, &WbTcpServer::propagateNodeAddition);
   connect(WbTemplateManager::instance(), &WbTemplateManager::postNodeRegeneration, this, &WbTcpServer::propagateNodeAddition);
+  connect(WbNodeOperations::instance(), &WbNodeOperations::nodeDeleted, this, &WbTcpServer::propagateNodeDeletion);
+  connect(WbTemplateManager::instance(), &WbTemplateManager::preNodeRegeneration, this, &WbTcpServer::propagateNodeDeletion);
 }
 
 WbTcpServer::~WbTcpServer() {
@@ -126,6 +129,18 @@ void WbTcpServer::create(int port) {
   // - a websocket on "/"
   // - texture images on the other urls. e.g. "/textures/dir/image.[jpg|png|hdr]"
 
+  // See if a server is already running on port by trying to connect to it.
+  // This is needed because in some environments QTcpServer::listen() uses a socket that is configured to reuse a port [1]
+  // and Qt does not provide a way to configure the socket before calling listen() [2].
+  // [1] https://doc.qt.io/qt-6/qabstractsocket.html#BindFlag-enum
+  // [2] https://stackoverflow.com/questions/47268023/how-to-set-so-reuseaddr-on-the-socket-used-by-qtcpserver
+  QTcpSocket socket;
+  socket.connectToHost("localhost", port);
+  if (socket.waitForConnected(100)) {
+    socket.disconnectFromHost();
+    throw tr("Port %1 is already in use").arg(port);
+  }
+
   // Reference to let live QTcpSocket and QWebSocketServer on the same port using `QWebSocketServer::handleConnection()`:
   // - https://bugreports.qt.io/browse/QTBUG-54276
   mWebSocketServer = new QWebSocketServer("Webots Streaming Server", QWebSocketServer::NonSecureMode, this);
@@ -147,9 +162,9 @@ void WbTcpServer::destroy() {
   if (mWebSocketServer)
     mWebSocketServer->close();
 
-  foreach (QWebSocket *client, mWebSocketClients) {
-    disconnect(client, &QWebSocket::textMessageReceived, this, &WbTcpServer::processTextMessage);
-    disconnect(client, &QWebSocket::disconnected, this, &WbTcpServer::socketDisconnected);
+  foreach (QWebSocket *c, mWebSocketClients) {
+    disconnect(c, &QWebSocket::textMessageReceived, this, &WbTcpServer::processTextMessage);
+    disconnect(c, &QWebSocket::disconnected, this, &WbTcpServer::socketDisconnected);
   };
   qDeleteAll(mWebSocketClients);
   mWebSocketClients.clear();
@@ -162,13 +177,13 @@ void WbTcpServer::destroy() {
 }
 
 void WbTcpServer::closeClient(const QString &clientID) {
-  foreach (QWebSocket *client, mWebSocketClients) {
-    if (clientToId(client) == clientID) {
-      disconnect(client, &QWebSocket::textMessageReceived, this, &WbTcpServer::processTextMessage);
-      disconnect(client, &QWebSocket::disconnected, this, &WbTcpServer::socketDisconnected);
-      emit sendRobotWindowClientID(clientToId(client), NULL, "disconnected");
-      mWebSocketClients.removeAll(client);
-      client->deleteLater();
+  foreach (QWebSocket *c, mWebSocketClients) {
+    if (clientToId(c) == clientID) {
+      disconnect(c, &QWebSocket::textMessageReceived, this, &WbTcpServer::processTextMessage);
+      disconnect(c, &QWebSocket::disconnected, this, &WbTcpServer::socketDisconnected);
+      emit sendRobotWindowClientID(clientToId(c), NULL, "disconnected");
+      mWebSocketClients.removeAll(c);
+      c->deleteLater();
     }
   }
 }
@@ -210,10 +225,14 @@ void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
   const QStringList tokens = QString(line).split(QRegularExpression("\\s+"));
   const int robotNameIndex = tokens.indexOf("Robot-Name:") + 1;
   QByteArray reply;
+  if (!mWorldReady) {
+    reply.append("PROCESSING");
+    socket->write(reply);
+    return;
+  }
 
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
-  const QList<WbController *> &availableControllers =
-    WbControlledWorld::instance()->externControllers() + WbControlledWorld::instance()->controllers();
+  const QList<WbController *> &availableControllers = WbControlledWorld::instance()->disconnectedExternControllers();
   if (robotNameIndex) {  // robot name is given
     const QString robotName = tokens[robotNameIndex];
     foreach (WbRobot *const robot, robots) {
@@ -428,14 +447,14 @@ void WbTcpServer::processTextMessage(QString message) {
 }
 
 void WbTcpServer::socketDisconnected() {
-  QWebSocket *client = qobject_cast<QWebSocket *>(sender());
-  if (client) {
-    emit sendRobotWindowClientID(clientToId(client), NULL, "disconnected");
-    mWebSocketClients.removeAll(client);
-    client->deleteLater();
+  QWebSocket *c = qobject_cast<QWebSocket *>(sender());
+  if (c) {
+    emit sendRobotWindowClientID(clientToId(c), NULL, "disconnected");
+    mWebSocketClients.removeAll(c);
+    c->deleteLater();
     if (mStream)
       WbLog::info(tr("Streaming server: Client disconnected [%1] (remains %2 client(s)).")
-                    .arg(clientToId(client))
+                    .arg(clientToId(c))
                     .arg(mWebSocketClients.size()));
   }
 }
@@ -444,8 +463,8 @@ void WbTcpServer::sendUpdatePackageToClients() {
   if (mWebSocketClients.size() > 0) {
     const qint64 currentTime = QDateTime::currentMSecsSinceEpoch();
     if (mLastUpdateTime < 0.0 || currentTime - mLastUpdateTime >= 1000.0 / WbWorld::instance()->worldInfo()->fps()) {
-      foreach (QWebSocket *client, mWebSocketClients)
-        pauseClientIfNeeded(client);
+      foreach (QWebSocket *c, mWebSocketClients)
+        pauseClientIfNeeded(c);
       mLastUpdateTime = currentTime;
     }
   }
@@ -499,8 +518,8 @@ void WbTcpServer::sendToClients(const QString &message) {
   if (mWebSocketClients.isEmpty() || !mClientsReadyToReceiveMessages) {
     return;
   }
-  foreach (QWebSocket *client, mWebSocketClients)
-    client->sendTextMessage(mMessageToClients);
+  foreach (QWebSocket *c, mWebSocketClients)
+    c->sendTextMessage(mMessageToClients);
   mMessageToClients = "";
 }
 
@@ -510,8 +529,8 @@ void WbTcpServer::connectNewRobot(const WbRobot *robot) {
 
 bool WbTcpServer::prepareWorld() {
   try {
-    foreach (QWebSocket *client, mWebSocketClients)
-      sendWorldToClient(client);
+    foreach (QWebSocket *c, mWebSocketClients)
+      sendWorldToClient(c);
   } catch (const QString &e) {
     WbLog::error(tr("Error when reloading world: %1.").arg(e));
     destroy();
@@ -530,13 +549,16 @@ void WbTcpServer::newWorld() {
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
   foreach (WbRobot *const robot, robots)
     connectNewRobot(robot);
+
+  mWorldReady = true;
 }
 
 void WbTcpServer::deleteWorld() {
+  mWorldReady = false;
   if (mWebSocketServer == NULL)
     return;
-  foreach (QWebSocket *client, mWebSocketClients)
-    client->sendTextMessage("delete world");
+  foreach (QWebSocket *c, mWebSocketClients)
+    c->sendTextMessage("delete world");
 }
 
 void WbTcpServer::resetSimulation() {
@@ -548,9 +570,9 @@ void WbTcpServer::resetSimulation() {
 }
 
 void WbTcpServer::setWorldLoadingProgress(const int progress) {
-  foreach (QWebSocket *client, mWebSocketClients) {
-    client->sendTextMessage("loading:" + mCurrentWorldLoadingStatus + ":" + QString::number(progress));
-    client->flush();
+  foreach (QWebSocket *c, mWebSocketClients) {
+    c->sendTextMessage("loading:" + mCurrentWorldLoadingStatus + ":" + QString::number(progress));
+    c->flush();
   }
 }
 
@@ -566,8 +588,13 @@ void WbTcpServer::propagateNodeAddition(WbNode *node) {
   }
 
   const WbRobot *robot = dynamic_cast<WbRobot *>(node);
-  if (robot)
+  if (robot) {
     connectNewRobot(robot);
+    if (mWebSocketClients.isEmpty())
+      return;
+    foreach (QWebSocket *c, mWebSocketClients)
+      sendRobotWindowInformation(c, robot);
+  }
 }
 
 QString WbTcpServer::simulationStateString(bool pauseTime) {
@@ -590,8 +617,8 @@ void WbTcpServer::propagateSimulationStateChange() const {
   QString message = simulationStateString();
   if (message.isEmpty())
     return;
-  foreach (QWebSocket *client, mWebSocketClients)
-    client->sendTextMessage(message);
+  foreach (QWebSocket *c, mWebSocketClients)
+    c->sendTextMessage(message);
 }
 
 void WbTcpServer::pauseClientIfNeeded(QWebSocket *client) {
@@ -620,14 +647,30 @@ void WbTcpServer::sendWorldToClient(QWebSocket *client) {
   client->sendTextMessage("world:" + currentWorld + ':' + worlds);
 
   const QList<WbRobot *> &robots = WbWorld::instance()->robots();
-  foreach (const WbRobot *robot, robots) {
-    if (!robot->window().isEmpty()) {
-      QJsonObject windowObject;
-      windowObject.insert("robot", robot->name());
-      windowObject.insert("window", robot->window());
-      const QJsonDocument windowDocument(windowObject);
-      client->sendTextMessage("robot window: " + windowDocument.toJson(QJsonDocument::Compact));
-    }
-  }
+  foreach (const WbRobot *robot, robots)
+    sendRobotWindowInformation(client, robot);
   client->sendTextMessage("scene load completed");
+}
+
+void WbTcpServer::sendRobotWindowInformation(QWebSocket *client, const WbRobot *robot, bool remove) {
+  if (!robot->window().isEmpty()) {
+    QJsonObject windowObject;
+    windowObject.insert("robot", robot->name());
+    windowObject.insert("window", robot->window());
+    if (remove)
+      windowObject.insert("remove", true);
+    if (WbWorld::instance()->worldInfo()->window() == robot->window())
+      windowObject.insert("main", true);
+    const QJsonDocument windowDocument(windowObject);
+    client->sendTextMessage("robot window: " + windowDocument.toJson(QJsonDocument::Compact));
+  }
+}
+
+void WbTcpServer::propagateNodeDeletion(WbNode *node) {
+  const WbNode *def = static_cast<const WbBaseNode *>(node)->getFirstFinalizedProtoInstance();
+  foreach (QWebSocket *c, mWebSocketClients) {
+    const WbRobot *robot = dynamic_cast<const WbRobot *>(def);
+    if (robot)
+      sendRobotWindowInformation(c, robot, true);
+  }
 }

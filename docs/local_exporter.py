@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -74,14 +74,14 @@ def download(url, target_file_path):
 
 if __name__ == "__main__":
     silent = '--silent' in sys.argv
-    script_directory = os.path.dirname(os.path.realpath(__file__)) + os.sep
+    script_directory = os.path.dirname(os.path.realpath(__file__))
 
-    with open(script_directory + 'index.template.html', 'r') as file:
+    with open(os.path.join(script_directory, 'index.template.html'), 'r') as file:
         content = file.read()
 
     dependencies = []
     for dependencies_file in ['dependencies.txt']:
-        with open(script_directory + dependencies_file, 'r') as f:
+        with open(os.path.join(script_directory, dependencies_file), 'r') as f:
             for line in f:
                 line = line.replace('\n', '')
                 if line and not line.startswith('#'):
@@ -107,17 +107,16 @@ if __name__ == "__main__":
     content = content.replace('%{ JS }%', jsString)
     content = content.replace('%{ CSS }%', cssString)
 
-    html_file_path = script_directory + 'index.html'
+    html_file_path = os.path.join(script_directory, 'index.html')
     with open(html_file_path, 'w') as file:
         file.write(content)
         os.chmod(html_file_path, 0o644)
 
-    dependencyDirectory = script_directory + 'dependencies'
+    dependencyDirectory = os.path.join(script_directory, 'dependencies')
     if os.path.exists(dependencyDirectory):
         shutil.rmtree(dependencyDirectory)
     for dependency in dependencies:
         for repository in repositories:
             if dependency.startswith(repository):
                 local_path = dependency[len(repository):]
-        path = dependencyDirectory + os.sep + local_path.replace("/", os.sep)
-        download(dependency, path)
+        download(dependency, os.path.join(dependencyDirectory, os.path.normpath(local_path)))

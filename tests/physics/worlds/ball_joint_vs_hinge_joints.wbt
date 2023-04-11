@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
@@ -73,9 +73,6 @@ DEF BALL_JOINT_ROBOT Robot {
         }
       ]
       device3 [
-        Brake {
-          name "brake 3"
-        }
         PositionSensor {
           name "position sensor 3"
         }

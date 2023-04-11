@@ -42,7 +42,7 @@ export function loadTextureData(prefix, url, isHdr, rotation) {
       url = prefix + url;
     else {
       // in simulations the asset is provided relative to the world, therefore the URL has to be resolved before requesting it
-      let worldsPath = webots.currentView.stream._view.currentWorld;
+      let worldsPath = webots.currentView.stream.view.currentWorld;
       worldsPath = worldsPath.substring(0, worldsPath.lastIndexOf('/')) + '/';
       url = prefix + worldsPath + url;
     }

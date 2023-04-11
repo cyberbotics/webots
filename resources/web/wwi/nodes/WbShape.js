@@ -3,7 +3,7 @@ import WbBaseNode from './WbBaseNode.js';
 import WbPbrAppearance from './WbPbrAppearance.js';
 import WbPointSet from './WbPointSet.js';
 import WbWorld from './WbWorld.js';
-import WbWrenShaders from './../wren/WbWrenShaders.js';
+import WbWrenShaders from '../wren/WbWrenShaders.js';
 import {getAnId} from './utils/utils.js';
 
 export default class WbShape extends WbBaseNode {
@@ -18,7 +18,7 @@ export default class WbShape extends WbBaseNode {
 
   applyMaterialToGeometry() {
     if (!this.wrenMaterial)
-      this._createWrenMaterial(Enum.WR_MATERIAL_PHONG);
+      this.#createWrenMaterial(Enum.WR_MATERIAL_PHONG);
 
     if (this.geometry) {
       if (this.appearance instanceof WbAppearance) {
@@ -27,7 +27,7 @@ export default class WbShape extends WbBaseNode {
         else
           this.wrenMaterial = WbAppearance.fillWrenDefaultMaterial(this.wrenMaterial);
       } else if ((this.appearance instanceof WbPbrAppearance) && !(this.geometry instanceof WbPointSet)) {
-        this._createWrenMaterial();
+        this.#createWrenMaterial();
         if (this.appearance.wrenObjectsCreatedCalled)
           this.wrenMaterial = this.appearance.modifyWrenMaterial(this.wrenMaterial);
       } else
@@ -153,7 +153,7 @@ export default class WbShape extends WbBaseNode {
 
   // Private functions
 
-  _createWrenMaterial(type) {
+  #createWrenMaterial(type) {
     const defaultColor = _wrjs_array3(1.0, 1.0, 1.0);
     if (typeof this.wrenMaterial !== 'undefined')
       _wr_material_delete(this.wrenMaterial);

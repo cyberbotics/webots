@@ -5,7 +5,7 @@ import re
 
 from re_definitions import floatRE, intRE
 from data_structures import grouper
-from math_utils import apply_spline_subdivison_to_path
+from math_utils import apply_spline_subdivision_to_path
 from shapely.geometry import LineString, MultiLineString
 from lxml import etree as ET
 
@@ -21,36 +21,27 @@ class Road(object):
         self.endJunction = None
         self.roadType = roadType
 
-        try:
-            self.id = re.findall(r'id\s*"([^"]*)"', wbtString)[0]
-        except:
-            self.id = ""
-        try:
-            self.width = float(re.findall(r'width\s*(%s)' % floatRE, wbtString)[0])
-        except:
-            self.width = 7
-        try:
-            self.speedLimit = float(re.findall(r'speedLimit\s*(%s)' % floatRE, wbtString)[0])
-        except:
-            self.speedLimit = 50.0 / 3.6  # 50 km/h
-        try:
-            self.translation = [float(x) for x in re.findall(r'translation\s*(%s\s*%s\s*%s)' %
-                                                             (floatRE, floatRE, floatRE), wbtString)[0].split()]
-        except:
-            self.translation = [0.0, 0.0, 0.0]
-        try:
-            self.rotation = [float(x) for x in re.findall(r'rotation\s*(%s\s*%s\s*%s\s*%s)' %
-                                                          (floatRE, floatRE, floatRE, floatRE), wbtString)[0].split()]
-        except:
-            self.rotation = [0.0, 0.0, 1.0, 0]
-        try:
-            self.startJunctionID = re.findall(r'startJunction\s*"([^"]*)"', wbtString)[0]
-        except:
-            self.startJunctionID = ""
-        try:
-            self.endJunctionID = re.findall(r'endJunction\s*"([^"]*)"', wbtString)[0]
-        except:
-            self.endJunctionID = ""
+        id = re.findall(r'id\s*"([^"]*)"', wbtString)
+        self.id = id[0] if id else ""
+
+        width = re.findall(r'width\s*(%s)' % floatRE, wbtString)
+        self.width = float(width[0]) if width else 7
+
+        speedLimit = re.findall(r'speedLimit\s*(%s)' % floatRE, wbtString)
+        self.speedLimit = float(speedLimit[0]) if speedLimit else 50.0 / 3.6  # 50 km/h
+
+        translation = re.findall(r'translation\s*(%s\s*%s\s*%s)' % (floatRE, floatRE, floatRE), wbtString)
+        self.translation = [float(x) for x in translation[0].split()] if translation else [0.0, 0.0, 0.0]
+
+        rotation = re.findall(r'rotation\s*(%s\s*%s\s*%s\s*%s)' % (floatRE, floatRE, floatRE, floatRE), wbtString)
+        self.rotation = [float(x) for x in rotation[0].split()] if rotation else [0.0, 0.0, 1.0, 0]
+
+        startJunctionID = re.findall(r'startJunction\s*"([^"]*)"', wbtString)
+        self.startJunctionID = startJunctionID[0] if startJunctionID else ""
+
+        endJunctionID = re.findall(r'endJunction\s*"([^"]*)"', wbtString)
+        self.endJunctionID = endJunctionID[0] if endJunctionID else ""
+
         if self.roadType == 'Road':
             try:
                 self.wayPoints = grouper(3, [float(x) for x in re.findall(r'wayPoints\s*\[([^\]]*)\]', wbtString)[0].split()])
@@ -61,53 +52,41 @@ class Road(object):
                     y = math.cos(correction_angle) * wayPoint[1] + math.sin(correction_angle) * wayPoint[0]
                     z = wayPoint[2]
                     self.wayPoints[i] = [x, y, z]
-            except:
+            except Exception:
                 self.wayPoints = []
-            splineSubdivision = 4
-            try:
-                splineSubdivision = int(re.findall(r'splineSubdivision\s*(%s)' % intRE, wbtString)[0])
-            except:
-                splineSubdivision = 4
+
+            splineSubdivision = re.findall(r'splineSubdivision\s*(%s)' % intRE, wbtString)
+            splineSubdivision = int(splineSubdivision[0]) if splineSubdivision else 4
             if splineSubdivision > 0:
-                self.wayPoints = apply_spline_subdivison_to_path(self.wayPoints, splineSubdivision)
+                self.wayPoints = apply_spline_subdivision_to_path(self.wayPoints, splineSubdivision)
         elif self.roadType == 'StraightRoadSegment':
-            length = 10.0
-            try:
-                length = float(re.findall(r'length\s*(%s)' % floatRE, wbtString)[0])
-            except:
-                length = 10.0
+            length = re.findall(r'length\s*(%s)' % floatRE, wbtString)
+            length = float(length[0]) if length else 10.0
             self.wayPoints = [[0, 0, 0], [0, length, 0]]
         elif self.roadType == 'CurvedRoadSegment':
             self.wayPoints = []
-            subdivision = 16
-            try:
-                subdivision = int(re.findall(r'subdivision\s*(%s)' % intRE, wbtString)[0])
-            except:
-                subdivision = 16
-            curvatureRadius = 10.0
-            try:
-                curvatureRadius = float(re.findall(r'curvatureRadius\s*(%s)' % floatRE, wbtString)[0])
-            except:
-                curvatureRadius = 10.0
-            totalAngle = 1.5708
-            try:
-                totalAngle = float(re.findall(r'totalAngle\s*(%s)' % floatRE, wbtString)[0])
-            except:
-                totalAngle = 1.5708
+
+            subdivision = re.findall(r'subdivision\s*(%s)' % intRE, wbtString)
+            subdivision = int(subdivision[0]) if subdivision else 16
+
+            curvatureRadius = re.findall(r'curvatureRadius\s*(%s)' % floatRE, wbtString)
+            curvatureRadius = float(curvatureRadius[0]) if curvatureRadius else 10.0
+
+            totalAngle = re.findall(r'totalAngle\s*(%s)' % floatRE, wbtString)
+            totalAngle = float(totalAngle[0]) if totalAngle else 1.5708
+
             for i in range(subdivision + 1):
                 x1 = curvatureRadius * math.cos(float(i) * totalAngle / float(subdivision))
                 y1 = curvatureRadius * math.sin(float(i) * totalAngle / float(subdivision))
                 self.wayPoints.append([x1, y1, 0])
         else:
             self.wayPoints = []
-        try:
-            self.lanes = int(re.findall(r'numberOfLanes\s*(%s)' % intRE, wbtString)[0])
-        except:
-            self.lanes = 2
-        try:
-            self.forwardLanes = int(re.findall(r'numberOfForwardLanes\s*(%s)' % intRE, wbtString)[0])
-        except:
-            self.forwardLanes = 1
+
+        lanes = re.findall(r'numberOfLanes\s*(%s)' % intRE, wbtString)
+        self.lanes = int(lanes[0]) if lanes else 2
+
+        forwardLanes = re.findall(r'numberOfForwardLanes\s*(%s)' % intRE, wbtString)[0]
+        self.forwardLanes = int(forwardLanes[0]) if forwardLanes else 1
 
         self.backwardLanes = self.lanes - self.forwardLanes
         self.oneWay = self.backwardLanes == 0
@@ -139,7 +118,7 @@ class Road(object):
 
         # The original path should be slightly shifted if the case where the
         # forwardLanes and backwardLanes are not matching.
-        originalCoords = [[x + self.translation[0],  y + self.translation[1]] for [x, y, z] in self.wayPoints]
+        originalCoords = [[x + self.translation[0], y + self.translation[1]] for [x, y, z] in self.wayPoints]
         originalLineString = LineString(originalCoords)
         if self.oneWay:
             originalLineString = originalLineString.parallel_offset(0.5 * laneWidth * self.forwardLanes, 'left')

@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2022 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -66,12 +66,12 @@ static void wb_lidar_cleanup(WbDevice *d) {
   wb_abstract_camera_cleanup(d);
 }
 
-static void wb_lidar_new(WbDevice *d, unsigned int id, int w, int h, double fov, double camnear, double max_range,
-                         bool spherical, int number_of_layers, double frequency, double min_frequency, double max_frequency,
+static void wb_lidar_new(WbDevice *d, unsigned int id, int w, int h, double fov, double camnear, double max_range, bool planar,
+                         int number_of_layers, double frequency, double min_frequency, double max_frequency,
                          double vertical_fov, int horizontal_resolution) {
   Lidar *l;
   wb_lidar_cleanup(d);
-  wb_abstract_camera_new(d, id, w, h, fov, camnear, spherical);
+  wb_abstract_camera_new(d, id, w, h, fov, camnear, planar);
 
   l = malloc(sizeof(Lidar));
   l->max_range = max_range;
@@ -116,7 +116,7 @@ static void wb_lidar_read_answer(WbDevice *d, WbRequest *r) {
   unsigned int uid;
   int width, height, number_of_layers, horizontal_resolution;
   double fov, camnear, max_range, frequency, min_frequency, max_frequency, vertical_fov;
-  bool spherical;
+  bool planar;
 
   AbstractCamera *ac = d->pdata;
   Lidar *l = NULL;
@@ -128,7 +128,7 @@ static void wb_lidar_read_answer(WbDevice *d, WbRequest *r) {
       height = request_read_uint16(r);
       fov = request_read_double(r);
       camnear = request_read_double(r);
-      spherical = request_read_uchar(r);
+      planar = request_read_uchar(r);
       max_range = request_read_double(r);
       number_of_layers = request_read_uint16(r);
       frequency = request_read_double(r);
@@ -137,15 +137,15 @@ static void wb_lidar_read_answer(WbDevice *d, WbRequest *r) {
       vertical_fov = request_read_double(r);
       horizontal_resolution = request_read_double(r);
 
-      // printf("new lidar %u %d %d %lf %lf %lf %d\n", uid, width, height, fov, camnear, max_range, spherical);
-      wb_lidar_new(d, uid, width, height, fov, camnear, max_range, spherical, number_of_layers, frequency, min_frequency,
+      // printf("new lidar %u %d %d %lf %lf %lf %d\n", uid, width, height, fov, camnear, max_range, planar);
+      wb_lidar_new(d, uid, width, height, fov, camnear, max_range, planar, number_of_layers, frequency, min_frequency,
                    max_frequency, vertical_fov, horizontal_resolution);
       break;
     case C_CAMERA_RECONFIGURE:
       l = ac->pdata;
       ac->fov = request_read_double(r);
       ac->camnear = request_read_double(r);
-      ac->spherical = request_read_uchar(r);
+      ac->planar = request_read_uchar(r);
       l->max_range = request_read_double(r);
       l->number_of_layers = request_read_uint16(r);
       l->frequency = request_read_double(r);

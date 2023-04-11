@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 
 EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
@@ -25,7 +25,7 @@ Robot {
       fieldOfView 6.28
       width 1000
       height 80
-      spherical TRUE
+      projection "cylindrical"
       minRange 4
       maxRange 10
     }

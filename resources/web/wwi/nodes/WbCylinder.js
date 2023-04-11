@@ -26,8 +26,8 @@ export default class WbCylinder extends WbGeometry {
     if (this.isInBoundingObject() && this.subdivision < WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION)
       this.subdivision = WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION;
 
-    this._sanitizeFields();
-    this._buildWrenMesh();
+    this.#sanitizeFields();
+    this.#buildWrenMesh();
   }
 
   delete() {
@@ -52,7 +52,7 @@ export default class WbCylinder extends WbGeometry {
 
   // Private functions
 
-  _sanitizeFields() {
+  #sanitizeFields() {
     const minSubdivision = this.isInBoundingObject() ? WbGeometry.MIN_BOUNDING_OBJECT_CIRCLE_SUBDIVISION : 3;
     const newSubdivision = resetIfNotInRangeWithIncludedBounds(this.subdivision, minSubdivision, 1000, minSubdivision);
     if (newSubdivision !== false)
@@ -69,7 +69,7 @@ export default class WbCylinder extends WbGeometry {
     return newSubdivision === false && newRadius === false && newHeight === false;
   }
 
-  _buildWrenMesh() {
+  #buildWrenMesh() {
     super._deleteWrenRenderable();
 
     if (typeof this._wrenMesh !== 'undefined') {
@@ -96,7 +96,7 @@ export default class WbCylinder extends WbGeometry {
     _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
   }
 
-  _isSuitableForInsertionInBoundingObject() {
+  #isSuitableForInsertionInBoundingObject() {
     const invalidRadius = this.radius <= 0.0;
     const invalidHeight = this.height <= 0.0;
 
@@ -104,6 +104,6 @@ export default class WbCylinder extends WbGeometry {
   }
 
   _isAValidBoundingObject() {
-    return super._isAValidBoundingObject() && this._isSuitableForInsertionInBoundingObject();
+    return super._isAValidBoundingObject() && this.#isSuitableForInsertionInBoundingObject();
   }
 }

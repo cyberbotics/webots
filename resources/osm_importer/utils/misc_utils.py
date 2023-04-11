@@ -1,10 +1,10 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,7 +19,7 @@ import re
 from projection import Projection
 
 
-PREFIX = 'https://raw.githubusercontent.com/cyberbotics/webots/R2022b/'
+PREFIX = 'https://raw.githubusercontent.com/cyberbotics/webots/R2023a/'
 GRASS_TEXTURE = f'{PREFIX}projects/default/worlds/textures/grass.jpg'
 
 
@@ -62,7 +62,7 @@ def extern_proto_declaration(options):
 def print_header(options, file, minlat, minlon, maxlat, maxlon, elevation=None):
     """Print the 'WorldInfo', 'Viewpoint', 'TexturedBackground', 'TexturedBackgroundLight' and 'Floor' nodes."""
     xSize, zSize = get_world_size(minlat=minlat, minlon=minlon, maxlat=maxlat, maxlon=maxlon)
-    file.write("#VRML_SIM R2022b utf8\n")
+    file.write("#VRML_SIM R2023a utf8\n")
     file.write(extern_proto_declaration(options))
     file.write("WorldInfo {\n")
     file.write("  info [\n")
@@ -80,9 +80,9 @@ def print_header(options, file, minlat, minlon, maxlat, maxlon, elevation=None):
     file.write("  lineScale " + str(round(max(xSize, zSize) / 200.0)) + "\n")
     file.write("}\n")
     file.write("Viewpoint {\n")
-    file.write("  orientation -0.443 0 0.896 3.14102\n")
+    file.write("  orientation -0.3922 0.3922 0.8321 1.7536\n")
     position = round(xSize * math.cos(0.785) * 1.5 + zSize * math.cos(0.785) * 1.5)
-    file.write("  position " + str(position * 0.75) + " 0 " + str(position) + "\n")
+    file.write("  position 0 " + str(-position * 0.85) + " " + str(position) + "\n")
     file.write("  near 3\n")
     file.write("}\n")
     file.write("TexturedBackground {\n")

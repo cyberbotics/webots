@@ -43,6 +43,12 @@ Please [contact us](https://cyberbotics.com/#contact) if you would like to see y
 | ![sharp_GP2Y0A41SK0F_icon.png](images/sensors/sharp_GP2Y0A41SK0F_icon.png) | [GP2Y0A41SK0F](distancesensor-sensors.md#sharp-gp2y0a41sk0f) | Sharp |
 | ![sharp_GP2Y0A710K0F_icon.png](images/sensors/sharp_GP2Y0A710K0F_icon.png) | [GP2Y0A710K0F](distancesensor-sensors.md#sharp-gp2y0a710k0f) | Sharp |
 
+#### IMU Sensors
+
+| Preview | Name |  Manufacturer |
+| :---: | --- | --- | --- |
+| ![mpu-9250.png](images/sensors/mpu-9250_icon.png) | [MPU-9250](imu-sensors.md#mpu-9250) | TDK |
+
 #### Lidar Sensors
 
 | Preview | Name |  Manufacturer |
@@ -55,6 +61,7 @@ Please [contact us](https://cyberbotics.com/#contact) if you would like to see y
 | ![sick_lms291_icon.png](images/sensors/sick_lms291_icon.png) | [LMS 291](lidar-sensors.md#sick-lms-291) | SICK |
 | ![sick_ld_mrs_icon.png](images/sensors/sick_ld_mrs_icon.png) | [LD-MRS](lidar-sensors.md#sick-ld-mrs) | SICK |
 | ![sick_s300_icon.png](images/sensors/sick_s300_icon.png) | [S300](lidar-sensors.md#sick-s300) | SICK |
+| ![rplidara2_icon.png](images/sensors/rplidara2_icon.png) | [RPLidar A2](lidar-sensors.md#slamtec-rplidar-a2) | Slamtec |
 | ![velodyne_vpl_16_icon.png](images/sensors/velodyne_vpl_16_icon.png) | [VLP Puck](lidar-sensors.md#velodyne-puck) | Velodyne |
 | ![velodyne_hdl_32e_icon.png](images/sensors/velodyne_hdl_32e_icon.png) | [HDL 32E](lidar-sensors.md#velodyne-hdl-32e) | Velodyne |
 | ![velodyne_hdl_64e_icon.png](images/sensors/velodyne_hdl_64e_icon.png) | [HDL 64E](lidar-sensors.md#velodyne-hdl-64e) | Velodyne |
@@ -71,3 +78,4 @@ Please [contact us](https://cyberbotics.com/#contact) if you would like to see y
 | Preview | Name |  Manufacturer |
 | :---: | --- | --- | --- |
 | ![kinect_icon.png](images/sensors/kinect_icon.png) | [Kinect](range-finder-sensors.md#microsoft-kinect) | Microsoft |
+| ![astra_icon.png](images/sensors/astra_icon.png) | [Astra](range-finder-sensors.md#orbbec-astra) | Orbbec |

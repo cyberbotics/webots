@@ -1,6 +1,6 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Apache License 2.0
-# license url: http://www.apache.org/licenses/LICENSE-2.0
+# license url: https://www.apache.org/licenses/LICENSE-2.0
 # This is a proto file for Franka Emika's Panda arm.
 # The PROTO has been generated from the officially provided xacro description of the robot, available at https://github.com/frankaemika/franka_ros.
 # template language: javascript
@@ -24,13 +24,6 @@ PROTO Panda [
   Robot {
     translation IS translation
     rotation IS rotation
-    controller IS controller
-    controllerArgs IS controllerArgs
-    window IS window
-    customData IS customData
-    supervisor IS supervisor
-    synchronization IS synchronization
-    selfCollision IS selfCollision
     name IS name
     children [
       Solid {
@@ -486,5 +479,12 @@ PROTO Panda [
         }
       }
     ]
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    selfCollision IS selfCollision
+    window IS window
   }
 }

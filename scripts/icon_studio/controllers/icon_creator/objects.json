@@ -1688,5 +1688,115 @@
     "background": [0.0, 0.0, 0.0],
     "fields": "  translation 0 0 0 rotation 0 0 1",
     "nodeString": " Robot { children [ PandaHand {} ] }"
-  }
+  },
+  "projects/vehicles/protos/generic/Bus.proto": {
+    "nodeString": "  Bus{ rotation 0 0 1 3.92699 }"
+  },
+  "projects/vehicles/protos/generic/BusSimple.proto": {
+    "nodeString": "  BusSimple{ rotation 0 0 1 3.92699 }"
+  },
+  "projects/vehicles/protos/generic/BusWheel.proto": {
+    "nodeString": "  Solid { translation 0 0 0.58 rotation 0 0 1 1.83 children [ Slot { endPoint BusWheel{ } } ] }"
+  },
+  "projects/vehicles/protos/generic/MotorbikeDriver.proto": {
+    "nodeString": "  Solid { translation 0 0 0.3 rotation 1 0 0 1.5682 children [ Slot { endPoint MotorbikeDriver{ } } ] }"
+  },
+  "projects/vehicles/protos/generic/MotorbikeSimple.proto": {
+    "nodeString": "  MotorbikeSimple{ rotation 0 0 1 3.79609 }"
+  },
+  "projects/vehicles/protos/generic/MotorbikeWheel.proto": {
+    "nodeString": "  Solid { translation 0 0 0.34 rotation 0 0 1 1.83 children [ Slot { endPoint MotorbikeWheel{ } } ] }"
+  },
+  "projects/vehicles/protos/generic/ScooterDriver.proto": {
+    "nodeString": "  Solid { translation 0 0 0.3 rotation 1 0 0 1.5682 children [ Slot { endPoint ScooterDriver{ } } ] }"
+  },
+  "projects/vehicles/protos/generic/ScooterSimple.proto": {
+    "nodeString": "  ScooterSimple{ rotation 0 0 1 3.79609 }"
+  },
+  "projects/vehicles/protos/generic/ScooterWheel.proto": {
+    "nodeString": "  Solid { translation 0 0 0.34 rotation 0 0 1 1.83 children [ Slot { endPoint ScooterWheel{ } } ] }"
+  },
+  "projects/vehicles/protos/generic/TractorFrontWheel.proto": {
+    "nodeString": "  Solid { translation 0 0 0.39 rotation 0 0 1 1.83 children [ Slot { endPoint TractorFrontWheel{ } } ] }"
+  },
+  "projects/vehicles/protos/generic/TractorRearWheel.proto": {
+    "nodeString": "  Solid { translation 0 0 0.6 rotation 0 0 1 1.83 children [ Slot { endPoint TractorRearWheel{ } } ] }"
+  },
+  "projects/vehicles/protos/generic/Tractor.proto": {
+    "nodeString": "  Tractor{ rotation 0.06492492307137904 0.030124210704781006 -0.9974353544433792 2.27471 }"
+  },
+  "projects/vehicles/protos/generic/Truck.proto": {
+    "nodeString": "  Truck{ rotation 0 0 1 3.92699 }"
+  },
+  "projects/vehicles/protos/generic/TruckSimple.proto": {
+    "nodeString": "  TruckSimple{ rotation 0 0 1 3.92699 }"
+  },
+  "projects/vehicles/protos/generic/TruckTank.proto": {
+    "nodeString": "  Robot { translation 0 0 0.5 rotation 0.8628565621288802 0.3574058186283875 0.35740681862788 1.71777 children [ Slot { endPoint TruckTank{ } } ] }"
+  },
+  "projects/vehicles/protos/generic/TruckTankSimple.proto": {
+    "nodeString": "  Robot { translation 0 0 0.5 rotation 0 0 1 -0.6545 children [ Slot { endPoint TruckTankSimple{ } } ] }"
+  },
+  "projects/vehicles/protos/generic/TruckTrailer.proto": {
+    "nodeString": "  Robot { translation 0 0 0.5 rotation 0.8628565621288802 0.3574058186283875 0.35740681862788 1.71777  children [ Slot { endPoint TruckTrailer{ } } ] }"
+  },
+  "projects/vehicles/protos/generic/TruckTrailerSimple.proto": {
+    "nodeString": "  Robot { translation 0 0 0.5 rotation 0 0 1 -0.6545 children [ Slot { endPoint TruckTrailerSimple{ } } ] }"
+  },
+  "projects/vehicles/protos/generic/TruckWheel.proto": {
+    "nodeString": "  Solid { translation 0 0 0.5 rotation 0 0 1 1.83 children [ Slot { endPoint TruckWheel{ } } ] }"
+  },
+  "projects/vehicles/protos/mercedes_benz/MercedesBenzSprinter.proto": {
+    "nodeString": "  MercedesBenzSprinter{ rotation 0 0 1 3.92699 }"
+  },
+  "projects/vehicles/protos/mercedes_benz/MercedesBenzSprinterSimple.proto": {
+    "nodeString": "  MercedesBenzSprinterSimple{ rotation 0 0 1 3.92699 }"
+  },
+  "projects/vehicles/protos/bmw/BmwX5.proto": {
+    "nodeString": "  BmwX5{ rotation 0 0 1 3.92699 }"
+  },
+  "projects/vehicles/protos/bmw/BmwX5Wheel.proto": {
+    "nodeString": "  Solid { translation 0 0 0.34 rotation 0.47789535294090224 0.6211344587275329 -0.6211344587275329 -2.249975307179586 children [ Slot { endPoint BmwX5Wheel{ } } ] }"
+  },
+  "projects/vehicles/protos/bmw/BmwX5Simple.proto": {
+    "nodeString": "  BmwX5Simple{ rotation 0 0 1 3.92699 }"
+  },
+  "projects/vehicles/protos/range_rover/RangeRoverSportSVR.proto": {
+    "nodeString": "  RangeRoverSportSVR{ rotation 0 0 1 3.92699 }"
+  },
+  "projects/vehicles/protos/range_rover/RangeRoverSportSVRSimple.proto": {
+    "nodeString": "  RangeRoverSportSVRSimple{ rotation 0 0 1 3.92699 }"
+  },
+  "projects/vehicles/protos/tesla/TeslaModel3.proto": {
+    "nodeString": "  TeslaModel3{ rotation 0 0 1 3.92699 }"
+  },
+  "projects/vehicles/protos/tesla/TeslaModel3Simple.proto": {
+    "nodeString": "  TeslaModel3Simple{ rotation 0 0 1 3.92699 }"
+  },
+  "projects/vehicles/protos/lincoln/LincolnMKZ.proto": {
+    "nodeString": "  LincolnMKZ{ rotation 0 0 1 3.92699 }"
+  },
+  "projects/vehicles/protos/lincoln/LincolnMKZSimple.proto": {
+    "nodeString": "  LincolnMKZSimple{ rotation 0 0 1 3.92699 }"
+  },
+  "projects/vehicles/protos/citroen/CitroenCZero.proto": {
+    "nodeString": "  CitroenCZero{ rotation 0 0 1 3.92699 }"
+  },
+  "projects/vehicles/protos/citroen/CitroenCZeroSimple.proto": {
+    "nodeString": "  CitroenCZeroSimple{ rotation 0 0 1 3.92699 }"
+  },
+  "projects/vehicles/protos/citroen/CitroenCZeroRearWheel.proto": {
+    "nodeString": "  Solid { translation 0 0 0.34 rotation 0.47789535294090224 0.6211344587275329 -0.6211344587275329 -2.249975307179586 children [ Slot { endPoint CitroenCZeroRearWheel{ } } ] }"
+  },
+  "projects/vehicles/protos/citroen/CitroenCZeroFrontWheel.proto": {
+    "nodeString": "  Solid { translation 0 0 0.34 rotation 0.47789535294090224 0.6211344587275329 -0.6211344587275329 -2.249975307179586 children [ Slot { endPoint CitroenCZeroFrontWheel{ } } ] }"
+  },
+  "projects/vehicles/protos/toyota/ToyotaPrius.proto": {
+    "nodeString": "  ToyotaPrius{ rotation 0 0 1 3.92699 }"
+  },
+  "projects/vehicles/protos/toyota/ToyotaPriusWheel.proto": {
+    "nodeString": "  Solid { translation 0 0 0.34 rotation 0.47789535294090224 0.6211344587275329 -0.6211344587275329 -2.249975307179586 children [ Slot { endPoint ToyotaPriusWheel{ } } ] }"
+  },
+  "projects/vehicles/protos/toyota/ToyotaPriusSimple.proto": {
+    "nodeString": "  ToyotaPriusSimple{ rotation 0 0 1 3.92699 }"
 }

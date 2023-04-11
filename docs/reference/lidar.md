@@ -4,22 +4,22 @@ Derived from [Device](device.md) and [Solid](solid.md).
 
 ```
 Lidar {
-  SFFloat  tiltAngle            0.0       # [-pi/2, pi/2]
-  SFInt32  horizontalResolution 512       # [0, inf)
-  SFFloat  fieldOfView          1.5708    # [0, 2*pi]
-  SFFloat  verticalFieldOfView  0.2       # [0, pi]
-  SFInt32  numberOfLayers       4         # [0, inf)
-  SFFloat  near                 0.01      # [0, inf)
-  SFFloat  minRange             0.01      # [near, inf)
-  SFFloat  maxRange             1.0       # [minRange, inf)
-  SFString type                 "fixed"   # {"fixed", "rotating"}
-  SFBool   spherical            TRUE      # {TRUE, FALSE}
-  SFFloat  noise                0.0       # [0, inf)
-  SFFloat  resolution           -1.0      # {-1, [0, inf)}
-  SFFloat  defaultFrequency     10        # [minFrequency, maxFrequency]
-  SFFloat  minFrequency         1         # [0, maxFrequency)
-  SFFloat  maxFrequency         25        # [minFrequency, inf)
-  SFNode   rotatingHead         NULL      # {Solid (or derived), PROTO}
+  SFFloat  tiltAngle            0.0           # [-pi/2, pi/2]
+  SFInt32  horizontalResolution 512           # [0, inf)
+  SFFloat  fieldOfView          1.5708        # [0, 2*pi]
+  SFFloat  verticalFieldOfView  0.2           # [0, pi]
+  SFInt32  numberOfLayers       4             # [0, inf)
+  SFFloat  near                 0.01          # [0, inf)
+  SFFloat  minRange             0.01          # [near, inf)
+  SFFloat  maxRange             1.0           # [minRange, inf)
+  SFString type                 "fixed"       # {"fixed", "rotating"}
+  SFString projection           "cylindrical" # {"planar", "cylindrical"}
+  SFFloat  noise                0.0           # [0, inf)
+  SFFloat  resolution           -1.0          # {-1, [0, inf)}
+  SFFloat  defaultFrequency     10            # [minFrequency, maxFrequency]
+  SFFloat  minFrequency         1             # [0, maxFrequency)
+  SFFloat  maxFrequency         25            # [minFrequency, inf)
+  SFNode   rotatingHead         NULL          # {Solid (or derived), PROTO}
 }
 ```
 
@@ -144,7 +144,7 @@ With lidar devices, all the points are not acquired at the exact same time but r
 - The `horizontalResolution` field defines the number of points returned by layers.
 
 - The `fieldOfView` field defines the horizontal field of view angle of the lidar.
-The value is limited to the range 0 to &pi; radians if the `spherical` field is set to FALSE, otherwise there is no upper limit.
+The value is limited to the range 0 to &pi; radians if the `projection` field is set to "planar", otherwise there is no upper limit.
 
 - The `verticalFieldOfView` field defines the vertical repartition of the layers (angle between first and last layer).
 
@@ -167,9 +167,10 @@ If the range value is bigger than the `maxRange` value then infinity is returned
 
 - The `type` field should either be 'fixed' or 'rotating', it defines if the lidar has a rotating or fixed head.
 
-- The `spherical` field switches between a planar or a spherical projection.
-It is highly recommended to use the spherical projection in case of fixed-head lidar.
-More information on spherical projections is provided in the [spherical projection](camera.md#spherical-projection) section of the [Camera](camera.md) node.
+- `projection`: switch between a planar or a cylindrical projection.
+It is highly recommended to use the cylindrical projection in case of fixed-head lidar.
+More information on cylindrical projections is provided in the [projections](camera.md#spherical-and-cylindrical-projections) section of the [Camera](camera.md) node.
+The "spherical" projection is not available for a lidar device.
 
 - If the `noise` field is greater than 0.0, a gaussian noise is added to each depth value of a lidar image.
 A value of 0.0 corresponds to no noise and thus saves computation time.
@@ -488,14 +489,17 @@ range = wb_lidar_get_layer_range_image(tag, layer)
 
 ##### Description
 
-*get the range image and range image associate with a specific layer*
+*get the range image and range image associated with a specific layer*
 
 The `wb_lidar_get_range_image` function allows the user to read the contents of the last range image grabbed by a lidar.
+It should not be called if the lidar was in point cloud mode during the most recent step.
 The range image is computed using the depth buffer produced by the OpenGL rendering.
 The range image is coded as an array of single precision floating point values corresponding to the range value of each pixel of the image.
 The precision of the lidar values decreases when the objects are located farther from the near clipping plane.
 Pixels are stored in scan lines running from left to right and from first to last layer.
 The memory chunk returned by this function shall not be freed, as it is managed by the lidar internally.
+The contents of the image are subject to change between a call to `wb_robot_step_begin` and the subsequent call to `wb_robot_step_end`.
+As a result, if you want to access the image during a step, you should copy it before the step begins and access the copy.
 The size in bytes of the range image can be computed as follows:
 
 ```
@@ -603,6 +607,7 @@ number_of_points = wb_lidar_get_number_of_points(tag)
 *get the points array, points array associate with a specific layer and total number of point*
 
 The `wb_lidar_get_point_cloud` function returns the pointer to the point cloud array, each point consists of a [`WbLidarPoint`](#wblidarpoint).
+It should not be called unless the lidar was in point cloud mode during the most recent step.
 The memory chunk returned by this function shall not be freed, as it is managed by the lidar internally.
 The size in bytes of the point cloud can be computed as follows:
 
@@ -611,6 +616,8 @@ size = lidar_number_of_points * sizeof(WbLidarPoint)
 ```
 
 Attempting to read outside the bounds of this memory chunk will cause an error.
+The contents of the point cloud are subject to change between a call to `wb_robot_step_begin` and the subsequent call to `wb_robot_step_end`.
+As a result, if you want to access the point cloud during a step, you should copy it before the step begins and access the copy.
 
 The `wb_lidar_get_layer_point_cloud` function is a convenient way of getting directly the sub point cloud associated with one layer.
 

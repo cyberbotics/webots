@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # Small Wheel-based valve. Handle can be moved in either direction by the angle (radians) in the "absolute stop" field.
@@ -41,7 +41,7 @@ PROTO SmallValve [
       HingeJoint {
         jointParameters HingeJointParameters {
           position -15.706
-          anchor 0 -0.0102 0
+          anchor 0 0 -0.0102
           staticFriction IS jointFriction
         }
         device [

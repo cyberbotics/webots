@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/surveyor
@@ -13,18 +13,18 @@ EXTERNPROTO "Thymio2DistanceSensor.proto"
 EXTERNPROTO "Thymio2LED.proto"
 
 PROTO Thymio2 [
-  field SFVec3f    translation     0 0 0           # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0         # Is `Transform.rotation`.
-  field SFString   name            "Thymio II"     # Is `Solid.name`.
-  field SFString   controller      "thymio2_aseba" # Is `Robot.controller`.
-  field MFString   controllerArgs  "port=33333"    # Is `Robot.controllerArgs`.
-  field SFString   window          "<generic>"     # Is `Robot.window`.
-  field SFString   customData      ""              # Is `Robot.customData`.
-  field SFBool     supervisor      FALSE           # Is `Robot.supervisor`.
-  field SFBool     synchronization TRUE            # Is `Robot.synchronization`.
-  field SFString   contactMaterial "thymio body"   # Defines the `Solid.contactMaterial` for the body.
-  field SFBool     castLight       TRUE            # Defines whether OpenGL lights are cerated for each LEDs.
-  field MFNode     bodySlot        []              # Extends the robot with new nodes in the body slot.
+  field SFVec3f    translation     0 0 0          # Is `Transform.translation`.
+  field SFRotation rotation        0 0 1 0        # Is `Transform.rotation`.
+  field SFString   name            "Thymio II"    # Is `Solid.name`.
+  field SFString   controller      "thymio2_demo" # Is `Robot.controller`.
+  field MFString   controllerArgs  []             # Is `Robot.controllerArgs`.
+  field SFString   window          "<generic>"    # Is `Robot.window`.
+  field SFString   customData      ""             # Is `Robot.customData`.
+  field SFBool     supervisor      FALSE          # Is `Robot.supervisor`.
+  field SFBool     synchronization TRUE           # Is `Robot.synchronization`.
+  field SFString   contactMaterial "thymio body"  # Defines the `Solid.contactMaterial` for the body.
+  field SFBool     castLight       TRUE           # Defines whether OpenGL lights are cerated for each LEDs.
+  field MFNode     bodySlot        []             # Extends the robot with new nodes in the body slot.
 ]
 {
   Robot {

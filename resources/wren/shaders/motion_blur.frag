@@ -12,7 +12,7 @@ in vec2 texUv;
 layout(location = 0) out vec4 result;
 
 uniform float intensity;
-uniform float firstRender;
+uniform bool firstRender;
 
 uniform sampler2D inputTextures[2];
 
@@ -26,7 +26,7 @@ void main() {
   if (isnan(abs(lastColor.r)) || isinf(lastColor.r))
     lastColor = vec4(FLT_MAX, FLT_MAX, FLT_MAX, 1.0);
 
-  if (firstRender == 1.0 || sceneColor.x == FLT_MAX || lastColor.x == FLT_MAX)
+  if (firstRender || sceneColor.x == FLT_MAX || lastColor.x == FLT_MAX)
     result = sceneColor;
   else
     result = mix(sceneColor, lastColor, intensity);

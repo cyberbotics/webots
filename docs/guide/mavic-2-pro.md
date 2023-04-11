@@ -39,6 +39,15 @@ PROTO Mavic2Pro {
 
 You will find the following sample in this folder: [WEBOTS\_HOME/projects/robots/dji/mavic/worlds](https://github.com/omichel/webots/tree/released/projects/robots/dji/mavic/worlds).
 
+
+> **Note:** For the sample drone controllers to work correctly and keep the altitude, the following [Damping](../reference/damping.md) node should be added in the `defaultDamping` field of the [WorldInfo](../reference/worldinfo.md) node:
+```
+  defaultDamping Damping {
+    linear 0.5
+    angular 0.5
+  }
+```
+
 #### mavic\_2\_pro.wbt
 
 ![mavic_2_pro.wbt.png](images/robots/mavic-2-pro/mavic_2_pro.wbt.thumbnail.jpg) This demonstration shows a DJI Mavic 2 PRO flying over a rural area.

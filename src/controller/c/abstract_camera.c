@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2022 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -39,7 +39,7 @@ void wb_abstract_camera_cleanup(WbDevice *d) {
   free(c);
 }
 
-void wb_abstract_camera_new(WbDevice *d, unsigned int id, int w, int h, double fov, double camnear, bool spherical) {
+void wb_abstract_camera_new(WbDevice *d, unsigned int id, int w, int h, double fov, double camnear, bool planar) {
   wb_abstract_camera_cleanup(d);
   AbstractCamera *c = malloc(sizeof(AbstractCamera));
   c->enable = false;
@@ -48,7 +48,7 @@ void wb_abstract_camera_new(WbDevice *d, unsigned int id, int w, int h, double f
   c->height = h;
   c->fov = fov;
   c->camnear = camnear;
-  c->spherical = spherical;
+  c->planar = planar;
   c->sampling_period = 0;
   c->image = image_new();
 

@@ -1,8 +1,9 @@
-import {pointerOnFloat} from './../nodes/utils/utils.js';
+import {pointerOnFloat} from '../nodes/utils/utils.js';
 import WbWrenAbstractPostProcessingEffect from './WbWrenAbstractPostProcessingEffect.js';
 import WbWrenPostProcessingEffects from './WbWrenPostProcessingEffects.js';
 
 export default class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {
+  #thresholdPointer;
   constructor() {
     super();
     this.threshold = 10.0;
@@ -11,7 +12,7 @@ export default class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {
   setThreshold(threshold) {
     this.threshold = threshold;
 
-    this._applyParametersToWren();
+    this.#applyParametersToWren();
   }
 
   setup(viewport) {
@@ -37,7 +38,7 @@ export default class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {
 
     this._wrenPostProcessingEffect = WbWrenPostProcessingEffects.bloom(width, height, Enum.WR_TEXTURE_INTERNAL_FORMAT_RGBA16F);
 
-    this._applyParametersToWren();
+    this.#applyParametersToWren();
 
     _wr_viewport_add_post_processing_effect(this._wrenViewport, this._wrenPostProcessingEffect);
     _wr_post_processing_effect_setup(this._wrenPostProcessingEffect);
@@ -47,15 +48,15 @@ export default class WbWrenBloom extends WbWrenAbstractPostProcessingEffect {
 
   // Private functions
 
-  _applyParametersToWren() {
+  #applyParametersToWren() {
     if (!this._wrenPostProcessingEffect)
       return;
     const pass = Module.ccall('wr_post_processing_effect_get_pass', 'number', ['number', 'string'],
       [this._wrenPostProcessingEffect, 'brightPassFilter']);
-    if (this._thresholdPointer !== 'undefined')
-      _free(this._thresholdPointer);
-    this._thresholdPointer = pointerOnFloat(this.threshold);
+    if (this.#thresholdPointer !== 'undefined')
+      _free(this.#thresholdPointer);
+    this.#thresholdPointer = pointerOnFloat(this.threshold);
     Module.ccall('wr_post_processing_effect_pass_set_program_parameter', null, ['number', 'string', 'number'],
-      [pass, 'threshold', this._thresholdPointer]);
+      [pass, 'threshold', this.#thresholdPointer]);
   }
 }

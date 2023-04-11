@@ -19,7 +19,7 @@ PACKAGES_CLEAN = $(addsuffix -clean, $(PACKAGES))
 
 .PHONY: release debug distrib profile clean cleanse $(PACKAGES) $(PACKAGES_CLEAN)
 
-release debug distrib profile: ../.clang-format $(PACKAGES) ../Contents/Resources ../Contents/include ../Contents/lib/controller/matlab ../Contents/projects
+release debug distrib profile: ../.clang-format $(PACKAGES) ../Contents/Resources ../Contents/include ../Contents/lib/controller/matlab ../Contents/lib/controller/python ../Contents/projects
 clean:
 cleanse: $(PACKAGES_CLEAN)
 	@rm -f ../.clang-format
@@ -46,6 +46,10 @@ cleanse: $(PACKAGES_CLEAN)
 ../Contents/lib/controller/matlab:
 	@mkdir -p ../Contents/lib/controller
 	@ln -s ../../../lib/controller/matlab $@
+
+../Contents/lib/controller/python:
+	@mkdir -p ../Contents/lib/controller
+	@ln -s ../../../lib/controller/python $@
 
 ../Contents/projects:
 	@ln -s ../projects $@

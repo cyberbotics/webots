@@ -1,10 +1,10 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -164,15 +164,15 @@ install:
 
 help:
 	@+echo
-	@+echo -e "\033[32;1mWebots Makefile targets:\033[0m"
+	@+$(ECHO) "\033[32;1mWebots Makefile targets:\033[0m"
 	@+echo
-	@+echo -e "\033[33;1mmake -j$(THREADS) release\033[0m\t# compile with maximum optimization (default)"
-	@+echo -e "\033[33;1mmake -j$(THREADS) debug\033[0m  \t# compile with gdb debugging symbols"
-	@+echo -e "\033[33;1mmake -j$(THREADS) profile\033[0m\t# compile with gprof profiling information"
-	@+echo -e "\033[33;1mmake -j$(THREADS) distrib\033[0m\t# compile in release mode & create distribution package"
-	@+echo -e "\033[33;1mmake -j$(THREADS) clean\033[0m  \t# clean-up the compilation output"
-	@+echo -e "\033[33;1mmake -j$(THREADS) cleanse\033[0m\t# deep clean-up (dependencies are also removed)"
-	@+echo -e "\033[33;1mmake help\033[0m\t\t# display this message and exit"
+	@+$(ECHO) "\033[33;1mmake -j$(THREADS) release\033[0m\t# compile with maximum optimization (default)"
+	@+$(ECHO) "\033[33;1mmake -j$(THREADS) debug\033[0m  \t# compile with gdb debugging symbols"
+	@+$(ECHO) "\033[33;1mmake -j$(THREADS) profile\033[0m\t# compile with gprof profiling information"
+	@+$(ECHO) "\033[33;1mmake -j$(THREADS) distrib\033[0m\t# compile in release mode & create distribution package"
+	@+$(ECHO) "\033[33;1mmake -j$(THREADS) clean\033[0m  \t# clean-up the compilation output"
+	@+$(ECHO) "\033[33;1mmake -j$(THREADS) cleanse\033[0m\t# deep clean-up (dependencies are also removed)"
+	@+$(ECHO) "\033[33;1mmake help\033[0m\t\t# display this message and exit"
 	@+echo
-	@+echo -e "\033[32;1mNote:\033[0m You seem to have a processor with $(NUMBER_OF_PROCESSORS) virtual cores,"
-	@+echo -e "      hence the \033[33;1m-j$(THREADS)\033[0m option to speed-up the compilation."
+	@+$(ECHO) "\033[32;1mNote:\033[0m You seem to have a processor with $(NUMBER_OF_PROCESSORS) virtual cores,"
+	@+$(ECHO) "      hence the \033[33;1m-j$(THREADS)\033[0m option to speed-up the compilation."

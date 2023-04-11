@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,6 +23,7 @@
 #include "WbSimulationState.hpp"
 #include "WbTransform.hpp"
 #include "WbTranslateRotateManipulator.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 
 #include <wren/transform.h>
 
@@ -244,7 +245,7 @@ void WbAbstractTransform::updateScale(bool warning) {
 void WbAbstractTransform::updateTranslationFieldVisibility() const {
   if (mIsTranslationFieldVisibleReady)
     return;
-  mIsTranslationFieldVisible = WbNodeUtilities::isVisible(mBaseNode->findField("translation", true));
+  mIsTranslationFieldVisible = WbVrmlNodeUtilities::isVisible(mBaseNode->findField("translation", true));
   mCanBeTranslated =
     !WbNodeUtilities::isTemplateRegeneratorField(mBaseNode->findField("translation", true)) && mIsTranslationFieldVisible;
   mIsTranslationFieldVisibleReady = true;
@@ -253,7 +254,7 @@ void WbAbstractTransform::updateTranslationFieldVisibility() const {
 void WbAbstractTransform::updateRotationFieldVisibility() const {
   if (mIsRotationFieldVisibleReady)
     return;
-  mIsRotationFieldVisible = WbNodeUtilities::isVisible(mBaseNode->findField("rotation", true));
+  mIsRotationFieldVisible = WbVrmlNodeUtilities::isVisible(mBaseNode->findField("rotation", true));
   mCanBeRotated =
     !WbNodeUtilities::isTemplateRegeneratorField(mBaseNode->findField("rotation", true)) && mIsRotationFieldVisible;
   mIsRotationFieldVisibleReady = true;
@@ -505,7 +506,7 @@ void WbAbstractTransform::detachResizeManipulator() const {
 
 bool WbAbstractTransform::hasResizeManipulator() const {
   const WbField *const sf = mBaseNode->findField("scale", true);
-  return WbNodeUtilities::isVisible(sf) && !WbNodeUtilities::isTemplateRegeneratorField(sf);
+  return WbVrmlNodeUtilities::isVisible(sf) && !WbNodeUtilities::isTemplateRegeneratorField(sf);
 }
 
 void WbAbstractTransform::setUniformConstraintForResizeHandles(bool enabled) {

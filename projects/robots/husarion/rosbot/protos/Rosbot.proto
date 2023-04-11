@@ -1,0 +1,720 @@
+#VRML_SIM R2023a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://cyberbotics.com/doc/guide/rosbot
+# A ROS powered 4x4 drive autonomous mobile robot platform equipped with various sensors.
+
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "webots://projects/appearances/protos/Rubber.proto"
+EXTERNPROTO "webots://projects/devices/tdk/protos/Mpu-9250.proto"
+EXTERNPROTO "webots://projects/devices/slamtec/protos/RpLidarA2.proto"
+EXTERNPROTO "webots://projects/devices/orbbec/protos/Astra.proto"
+
+PROTO Rosbot [
+  field  SFVec3f     translation     0 0 0
+  field  SFRotation  rotation        0 0 1 0
+  field  SFString    name            "Rosbot"  # Is `Robot.name`.
+  field  SFString    controller      "rosbot"  # Is `Robot.controller`.
+  field  MFString    controllerArgs  []        # Is `Robot.controllerArgs`.
+  field  SFString    customData      ""        # Is `Robot.customData`.
+  field  SFBool      supervisor      FALSE     # Is `Robot.supervisor`.
+  field  SFBool      synchronization TRUE      # Is `Robot.synchronization`.
+  field  SFBool      selfCollision   FALSE     # Is `Robot.selfCollision`.
+  field  MFNode      cameraSlot      [ Astra { name "camera" } ] # Extends the robot with an Astra RGBD camera.
+  field  MFNode      lidarSlot       [ RpLidarA2 { name "lidar" } ] # Extends the robot with a RpLidar A2 lidar.
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    selfCollision IS selfCollision
+    children [
+      DEF MAIN_BODY Transform {
+        translation 0.000000 0.000000 0.023000
+        rotation 0.000000 0.000000 1.000000 0.000000
+        children [
+          Shape {
+            appearance GlossyPaint {
+              baseColor 1.000000 1.000000 1.000000
+            }
+            geometry Mesh {
+              url "meshes/box.obj"
+            }
+          }
+        ]
+      }
+      DEF PORTS Transform {
+        translation 0.000000 0.000000 0.023000
+        rotation 0.000000 0.000000 1.000000 0.000000
+        children [
+          Shape {
+            appearance MattePaint {
+              baseColor 0.000000 0.000000 0.000000
+            }
+            geometry Mesh {
+              url "meshes/black_ports.obj"
+            }
+          }
+        ]
+      }
+      DEF METALLIC_CONNECTIONS Transform {
+        translation 0.000000 0.000000 0.023000
+        rotation 0.000000 0.000000 1.000000 0.000000
+        children [
+          Shape {
+            appearance BrushedAluminium {
+              colorOverride 0.7 0.7 0.7
+              textureTransform NULL
+              IBLStrength 1
+            }
+            geometry Mesh {
+              url "meshes/metallic_connections.obj"
+            }
+          }
+        ]
+      }
+      DEF ANTENNA Transform {
+        translation -0.099 0.05 0.1
+        rotation 0 1 0 -0.785395307179586
+        children [
+          Shape {
+            appearance MattePaint {
+              baseColor 0.000000 0.000000 0.000000
+            }
+            geometry Cylinder {
+              height 0.02
+              radius 0.005
+            }
+          }
+          Transform {
+            translation 0.023 0 0.032
+            rotation 0 1 0 0.785398
+            children [
+              Shape {
+                appearance MattePaint {
+                  baseColor 0.000000 0.000000 0.000000
+                }
+                geometry Capsule {
+                  bottom FALSE
+                  height 0.07
+                  radius 0.004
+                }
+              }
+            ]
+          }
+        ]
+      }
+      DEF LIDAR_CABLE Transform {
+        translation -0.034 0 0.1004
+        rotation 0 -1 0 -0.261795307179586
+        children [
+          Shape {
+            appearance MattePaint {
+              baseColor 0.000000 0.000000 0.000000
+            }
+            geometry Capsule {
+              height 0.01
+              radius 0.003              
+            }
+          }
+        ]
+      }
+      DEF SCREWS Group {
+        children [
+          DEF SCREW1 Transform {
+            translation 0.07 0.068 0.091
+            rotation 1 0 0 3.14159
+            children [
+              DEF BLACK_SCREW_SHAPE Shape {
+                appearance GlossyPaint {
+                  baseColor 0.000000 0.000000 0.000000
+                }
+                geometry Mesh {
+                  url "meshes/screw.obj"
+                }
+              }
+            ]
+          }
+          DEF SCREW2 Transform {
+            translation 0 0.068 0.091
+            rotation 1 0 0 3.14159
+            children [
+              USE BLACK_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW3 Transform {
+            translation -0.07 0.068 0.091
+            rotation 1 0 0 3.14159
+            children [
+              USE BLACK_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW4 Transform {
+            translation 0.07 -0.068 0.091
+            rotation 1 0 0 3.14159
+            children [
+              USE BLACK_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW5 Transform {
+            translation 0 -0.068 0.091
+            rotation 1 0 0 3.14159
+            children [
+              USE BLACK_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW6 Transform {
+            translation -0.07 -0.068 0.091
+            rotation 1 0 0 3.14159
+            children [
+              USE BLACK_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW7 Transform {
+            translation 0.089 -0.068 0.055
+            rotation 0.577349935856137 0.5773509358560258 -0.577349935856137 -2.094395307179586
+            children [
+              USE BLACK_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW8 Transform {
+            translation 0.089 -0.031 0.055
+            rotation 0.577349935856137 0.5773509358560258 -0.577349935856137 -2.094395307179586
+            children [
+              USE BLACK_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW9 Transform {
+            translation 0.089 0.068 0.055
+            rotation 0.577349935856137 0.5773509358560258 -0.577349935856137 -2.094395307179586
+            children [
+              USE BLACK_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW10 Transform {
+            translation 0.089 0.031 0.055
+            rotation 0.577349935856137 0.5773509358560258 -0.577349935856137 -2.094395307179586
+            children [
+              USE BLACK_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW11 Transform {
+            translation -0.083 0.035 0.0845
+            rotation 0.9238797538372345 5.077418647149253e-07 0.38268289803621075 3.14159
+            children [
+              USE BLACK_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW12 Transform {
+            translation -0.083 0.005 0.0845
+            rotation 0.9238797538372345 5.077418647149253e-07 0.38268289803621075 3.14159
+            children [
+              USE BLACK_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW13 Transform {
+            translation -0.083 -0.005 0.0845
+            rotation 0.9238797538372345 5.077418647149253e-07 0.38268289803621075 3.14159
+            children [
+              USE BLACK_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW14 Transform {
+            translation -0.083 -0.035 0.0845
+            rotation 0.9238797538372345 5.077418647149253e-07 0.38268289803621075 3.14159
+            children [
+              USE BLACK_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW15 Transform {
+            translation -0.089 0.0685 0.052
+            rotation 0 1 0 1.5708
+            children [
+              USE BLACK_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW16 Transform {
+            translation -0.089 0.0315 0.052
+            rotation 0 1 0 1.5708
+            children [
+              USE BLACK_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW17 Transform {
+            translation -0.089 -0.0685 0.052
+            rotation 0 1 0 1.5708
+            children [
+              USE BLACK_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW18 Transform {
+            translation -0.089 -0.0315 0.052
+            rotation 0 1 0 1.5708
+            children [
+              USE BLACK_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW19 Transform {
+            translation -0.089 -0.036 0.077
+            rotation 0 1 0 1.5708
+            children [
+              USE BLACK_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW20 Transform {
+            translation -0.089 -0.069 0.077
+            rotation 0 1 0 1.5708
+            children [
+              USE BLACK_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW21 Transform {
+            translation -0.089 0.0065 0.0735
+            rotation 0 1 0 1.5708
+            children [
+              USE BLACK_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW22 Transform {
+            translation -0.089 0.0365 0.072
+            rotation 0 1 0 1.5708
+            children [
+              DEF METAL_SCREW_SHAPE Shape {
+                appearance BrushedAluminium {
+                  colorOverride 1 1 1
+                  textureTransform NULL
+                  IBLStrength 1
+                }
+                geometry Mesh {
+                  url "meshes/screw.obj"
+                }
+              }
+            ]
+          }
+          DEF SCREW23 Transform {
+            translation -0.089 0.0635 0.072
+            rotation 0 1 0 1.5708
+            children [
+              USE METAL_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW24 Transform {
+            translation 0.008 0.0665 0.0915
+            rotation 0.5773489358556708 0.5773509358554485 -0.5773509358554485 2.0944
+            children [
+              USE METAL_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW25 Transform {
+            translation -0.008 0.0665 0.0915
+            rotation 0.5773489358556708 0.5773509358554485 -0.5773509358554485 2.0944
+            children [
+              USE METAL_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW26 Transform {
+            translation 0.008 -0.0665 0.0915
+            rotation -1 0 0 1.5708
+            children [
+              USE METAL_SCREW_SHAPE
+            ]
+          }
+          DEF SCREW27 Transform {
+            translation -0.008 -0.0665 0.0915
+            rotation -1 0 0 1.5708
+            children [
+              USE METAL_SCREW_SHAPE
+            ]
+          }
+        ]
+      }
+      DEF INTERIOR Transform {
+        translation 0 0 0.061
+        rotation 0 0 1 0
+        children [
+          Shape {
+            appearance MattePaint {
+              baseColor 0.000000 0.000000 0.000000
+            }
+            geometry Box {
+              size 0.15 0.14 0.07
+            }
+          }
+        ]
+      }
+      Solid {
+        translation 0.000000 0.000000 0.000000
+        rotation 0.000000 0.000000 1.000000 0.000000
+        children [
+          Transform {
+            translation 0.000000 0.000000 0.098000
+            rotation 0.000000 0.000000 1.000000 0.000000
+            children [
+              Shape {
+                appearance GlossyPaint {
+                  baseColor 0.800000 0.000000 0.000000
+                }
+                geometry Mesh {
+                  url "meshes/upper.obj"
+                }
+              }
+            ]
+          }
+        ]
+        name "top body"
+      }
+      DEF FL_WHEEL_AXIS Transform {
+        translation 0.053 0.092 0.041
+        rotation 1 0 0 -1.5707953071795862
+        children [
+          Shape {
+            appearance GlossyPaint {
+              baseColor 0.110000 0.110000 0.110000
+            }
+            geometry Cylinder {
+              height 0.037
+              radius 0.005
+            }
+          }
+        ]
+      }
+      DEF FR_WHEEL_AXIS Transform {
+        translation 0.053 -0.092 0.041
+        rotation 1 0 0 -1.5707953071795862
+        children [
+          Shape {
+            appearance GlossyPaint {
+              baseColor 0.110000 0.110000 0.110000
+            }
+            geometry Cylinder {
+              height 0.037
+              radius 0.005
+            }
+          }
+        ]
+      }
+      DEF RL_WHEEL_AXIS Transform {
+        translation -0.054 0.092 0.041
+        rotation 1 0 0 -1.5707953071795862
+        children [
+          Shape {
+            appearance GlossyPaint {
+              baseColor 0.110000 0.110000 0.110000
+            }
+            geometry Cylinder {
+              height 0.037
+              radius 0.005
+            }
+          }
+        ]
+      }
+      DEF RR_WHEEL_AXIS Transform {
+        translation -0.054 -0.092 0.041
+        rotation 1 0 0 -1.5707953071795862
+        children [
+          Shape {
+            appearance GlossyPaint {
+              baseColor 0.110000 0.110000 0.110000
+            }
+            geometry Cylinder {
+              height 0.037
+              radius 0.005
+            }
+          }
+        ]
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0.000000 1.000000 0.000000
+          anchor 0.050000 0.110000 0.043000
+          dampingConstant 5.0
+          staticFriction 1.0
+        }
+        device [
+          RotationalMotor {
+            name "front left wheel motor"
+            maxVelocity 26.0
+            maxTorque 100.0
+          }
+          PositionSensor {
+            name "front left wheel motor sensor"
+          }
+        ]
+        endPoint Solid {
+          translation 0.050000 0.110000 0.043000
+          rotation 0.000000 0.000000 1.000000 0.000000
+          children [
+            Transform {
+              translation 0.000000 0.000000 0.000000
+              rotation 0.000000 0.000000 1.000000 0.000000
+              children [
+                DEF RIM_AND_TIRE_SHAPES Group {
+                  children [
+                    DEF RIM_SHAPE Shape {
+                      appearance BrushedAluminium {
+                        colorOverride 1 1 1
+                        textureTransform NULL
+                        IBLStrength 1
+                      }
+                      geometry Mesh {
+                        url "meshes/wheel_rim.obj"
+                      }
+                    }
+                    DEF TIRE_SHAPE Shape {
+                      appearance Rubber {
+                        type "flat"
+                      }
+                      geometry Mesh {
+                        url "meshes/wheel_tire.obj"
+                      }
+                    }
+                  ]
+                }
+                
+              ]
+            }
+          ]
+          name "front left wheel"
+          boundingObject DEF LEFT_WHEEL_CYLINDER Transform {
+            translation 0.000000 -0.011500 0.000000
+            rotation 1.000000 0.000000 0.000000 -1.570800
+            children [
+              DEF WHEEL_CYLINDER Cylinder {
+                height 0.035
+                radius 0.043
+              }
+            ]
+          }
+          physics DEF WHEEL_PHYSICS Physics {
+            density -1
+            mass 0.500000
+          }
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0.000000 1.000000 0.000000
+          anchor 0.050000 -0.110000 0.043000
+          dampingConstant 5.0
+          staticFriction 1.0
+        }
+        device [
+          RotationalMotor {
+            name "front right wheel motor"
+            maxVelocity 26.0
+            maxTorque 100.0
+          }
+          PositionSensor {
+            name "front right wheel motor sensor"
+          }
+        ]
+        endPoint Solid {
+          translation 0.050000 -0.110000 0.043000
+          rotation 0.000000 0.000000 1.000000 0.000000
+          children [
+            Transform {
+              translation 0.000000 0.000000 0.000000
+              rotation 0.000000 0.000000 1.000000 3.141592
+              children [
+                USE RIM_AND_TIRE_SHAPES
+              ]
+            }
+          ]
+          name "front right wheel"
+          boundingObject DEF RIGHT_WHEEL_CYLINDER Transform {
+            translation 0.000000 0.011500 0.000000
+            rotation 1.000000 0.000000 0.000000 -1.570800
+            children [
+              USE WHEEL_CYLINDER
+            ]
+          }
+          physics USE WHEEL_PHYSICS
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0.000000 1.000000 0.000000
+          anchor -0.055000 0.110000 0.043000
+          dampingConstant 5.0
+          staticFriction 1.0
+        }
+        device [
+          RotationalMotor {
+            name "rear left wheel motor"
+            maxVelocity 26.0
+            maxTorque 100.0
+          }
+          PositionSensor {
+            name "rear left wheel motor sensor"
+          }
+        ]
+        endPoint Solid {
+          translation -0.055000 0.110000 0.043000
+          rotation 0.000000 0.000000 1.000000 0.000000
+          children [
+            Transform {
+              translation 0.000000 0.000000 0.000000
+              rotation 0.000000 0.000000 1.000000 0.000000
+              children [
+                USE RIM_AND_TIRE_SHAPES
+              ]
+            }
+          ]
+          name "rear left wheel"
+          boundingObject USE LEFT_WHEEL_CYLINDER
+          physics USE WHEEL_PHYSICS
+        }
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis 0.000000 1.000000 0.000000
+          anchor -0.055000 -0.110000 0.043000
+          dampingConstant 5.0
+          staticFriction 1.0
+        }
+        device [
+          RotationalMotor {
+            name "rear right wheel motor"
+            maxVelocity 26.0
+            maxTorque 100.0
+          }
+          PositionSensor {
+            name "rear right wheel motor sensor"
+          }
+        ]
+        endPoint Solid {
+          translation -0.055000 -0.110000 0.043000
+          rotation 0.000000 0.000000 1.000000 0.000000
+          children [
+            Transform {
+              translation 0.000000 0.000000 0.000000
+              rotation 0.000000 0.000000 1.000000 3.141592
+              children [
+                USE RIM_AND_TIRE_SHAPES
+              ]
+            }
+          ]
+          name "rear right wheel"
+          boundingObject USE RIGHT_WHEEL_CYLINDER
+          physics USE WHEEL_PHYSICS
+        }
+      }
+      Mpu-9250 {
+        translation 0.000000 0.000000 0.043000
+        rotation 0.000000 0.000000 1.000000 0.000000
+        name "imu"
+      }
+      DEF DISTANCE_SENSORS Transform {
+        translation 0.000000 0.000000 0.023000
+        rotation 0.000000 0.000000 1.000000 0.000000
+        children [
+          Shape {
+            appearance MattePaint {
+              baseColor 0.000000 0.000000 0.000000
+            }
+            geometry Mesh {
+              url "meshes/proximity_sensors.obj"
+            }
+          }
+        ]
+      }
+      DistanceSensor {
+        translation 0.100000 0.050000 0.053000
+        rotation 0.000000 0.000000 1.000000 0.130000
+        name "front left distance sensor"
+        redColorSensitivity 0
+        lookupTable [ 0     0   0,
+                      1     1   0,
+                      2     2   0 ]
+        type "infra-red"
+      }
+      DistanceSensor {
+        translation 0.100000 -0.050000 0.053000
+        rotation 0.000000 0.000000 1.000000 -0.130000
+        name "front right distance sensor"
+        redColorSensitivity 0
+        lookupTable [ 0     0   0,
+                      2     2   0 ]
+        type "infra-red"
+      }
+      DistanceSensor {
+        translation -0.100000 0.050000 0.0530000
+        rotation 0.000000 0.000000 1.000000 3.010000
+        name "rear left distance sensor"
+        redColorSensitivity 0
+        lookupTable [ 0     0   0,
+                      2     2   0 ]
+        type "infra-red"
+      }
+      DistanceSensor {
+        translation -0.100000 -0.050000 0.053000
+        rotation 0.000000 0.000000 1.000000 3.270000
+        name "rear right distance sensor"
+        redColorSensitivity 0
+        lookupTable [ 0     0   0,
+                      2     2   0 ]
+        type "infra-red"
+      }
+      DEF CAMERA_SLOT Transform {
+        translation -0.027 0 0.165 
+        children IS cameraSlot
+      }
+      DEF LIDAR_SLOT Transform {
+        translation 0.02 0 0.1
+        children IS lidarSlot
+      }
+    ]
+    name IS name
+    boundingObject Group {
+      children [
+        DEF MAIN_BODY_BOX Transform {
+          translation 0.000000 0.000000 0.061200
+          rotation 0.000000 0.000000 1.000000 0.000000
+          children [
+            Box {
+              size 0.200000 0.150000 0.077000
+            }
+          ]
+        }
+        DEF LEFT_SUPPORT_LEG_BOX Transform {
+          translation -0.048000 0.038000 0.133000
+          rotation 0.000000 0.000000 1.000000 0.000000
+          children [
+            Box {
+              size 0.040000 0.023000 0.065000
+            }
+          ]
+        }
+        DEF RIGHT_SUPPORT_LEG_BOX Transform {
+          translation -0.048000 -0.038000 0.133000
+          rotation 0.000000 0.000000 1.000000 0.000000
+          children [
+            Box {
+              size 0.040000 0.023000 0.065000
+            }
+          ]
+        }
+        DEF SUPPORT_PLATE_BOX Transform {
+          translation -0.048000 0.000000 0.163000
+          rotation 0.000000 0.000000 1.000000 0.000000
+          children [
+            Box {
+              size 0.040000 0.100000 0.001
+            }
+          ]
+        }
+      ]
+    }
+    physics Physics {
+      density -1
+      mass 0.450000
+    }
+  }
+}

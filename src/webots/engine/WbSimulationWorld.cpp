@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,7 +15,7 @@
 #include "WbSimulationWorld.hpp"
 
 #include "WbBoundingSphere.hpp"
-#include "WbDownloader.hpp"
+#include "WbDownloadManager.hpp"
 #include "WbLog.hpp"
 #include "WbMassChecker.hpp"
 #include "WbNodeOperations.hpp"
@@ -61,12 +61,12 @@ WbSimulationWorld::WbSimulationWorld(WbTokenizer *tokenizer) :
 
   emit worldLoadingStatusHasChanged(tr("Downloading assets"));
   emit worldLoadingHasProgressed(0);
-  WbDownloader::reset();
+  WbDownloadManager::instance()->reset();
   root()->downloadAssets();
-  int progress = WbDownloader::progress();
+  int progress = WbDownloadManager::instance()->progress();
   while (progress < 100) {
     QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents);
-    int newProgress = WbDownloader::progress();
+    int newProgress = WbDownloadManager::instance()->progress();
     if (newProgress != progress) {
       progress = newProgress;
       emit worldLoadingHasProgressed(progress);
@@ -406,7 +406,7 @@ void WbSimulationWorld::reset(bool restartControllers) {
     }
   }
   updateRandomSeed();
-  if (WbDownloader::progress() == 100)
+  if (WbDownloadManager::instance()->progress() == 100)
     WbSimulationState::instance()->resumeSimulation();
   if (mPhysicsPlugin)
     mPhysicsPlugin->init();

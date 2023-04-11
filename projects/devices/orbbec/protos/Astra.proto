@@ -1,0 +1,75 @@
+#VRML_SIM R2023a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/guide/camera-sensors#astra
+# Model of the Astra RGBD camera developed by Orbbec.
+# template language: javascript
+
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+
+PROTO Astra [
+  field SFVec3f    translation   0 0 0
+  field SFRotation rotation      0 0 1 0
+  field SFString   name          "Astra"
+  field SFFloat    colorNoise    0.0     # Defines the `noise` field of the `Camera`.
+  field SFFloat    rangeNoise    0.0     # Defines the `noise` field of the `RangeFinder`.
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    children [
+      Shape {
+        appearance MattePaint {
+          baseColor 0.000000 0.000000 0.000000
+        }
+        geometry Mesh {
+          url "meshes/astra.obj"
+        }
+      }
+      Camera {
+        translation 0.027000 0.011000 0.034000
+        name %<= '"' + fields.name.value + ' rgb"' >%
+        fieldOfView 1.04
+        width 640
+        height 480
+        noise IS colorNoise
+      }
+      RangeFinder {
+        translation 0.027000 0.037000 0.034000
+        name %<= '"' + fields.name.value + ' depth"' >%
+        fieldOfView 1.04
+        width 640
+        height 480
+        minRange 0.6
+        maxRange 8
+        noise IS rangeNoise
+      }
+    ]
+    name IS name
+    boundingObject Group {
+      children [
+        DEF MAIN_BODY_BOX Transform {
+          translation 0.006000 0.000000 0.034000
+          children [
+            Box {
+              size 0.040000 0.165000 0.029000
+            }
+          ]
+        }
+        DEF SUPPORT_BOX Transform {
+          translation -0.009000 0.000000 0.007000
+          children [
+            Box {
+              size 0.061000 0.060000 0.014000
+            }
+          ]
+        }
+      ]
+    }
+    physics Physics {
+      density -1
+      mass 0.19
+    }
+  }
+}

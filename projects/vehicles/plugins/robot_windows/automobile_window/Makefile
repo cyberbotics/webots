@@ -1,10 +1,10 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,6 +27,7 @@ HPP_FILES_TO_MOC = GeneralInformationWidget.hpp AbstractWidget.hpp
 USE_C_API = true
 
 NO_FAT_BINARY = 1
+PROCESSOR = x86_64
 QT_UTILS = $(WEBOTS_HOME)/resources/projects/libraries/qt_utils
 INCLUDE = -I"$(QT_UTILS)"
 LIBRARIES = -L"$(QT_UTILS)" -lqt_utils -ldriver -lcar
@@ -59,10 +60,11 @@ ifeq ($(OSTYPE),linux)
 endif
 
 ifeq ($(OSTYPE),darwin)
- WBCFLAGS += -Wno-unknown-pragmas
+ WBCFLAGS += -Wno-unknown-pragmas -target $(PROCESSOR)-apple-macos11
  FRAMEWORKS_DIR = $(WEBOTS_HOME)/Contents/Frameworks
  INCLUDE += -F"$(FRAMEWORKS_DIR)"
  FRAMEWORKS += -F"$(FRAMEWORKS_DIR)"
+ LD_FLAGS = -target $(PROCESSOR)-apple-macos11
  DYNAMIC_LIBRARIES += -bind_at_load $(FRAMEWORKS)
  MOC = "$(WEBOTS_HOME)/bin/qt/moc"
  MOC_PLATFORM_FLAGS = -D__APPLE__

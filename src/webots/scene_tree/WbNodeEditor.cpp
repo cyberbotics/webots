@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,6 +31,7 @@
 #include "WbSelection.hpp"
 #include "WbToken.hpp"
 #include "WbViewpoint.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWorldInfo.hpp"
 
 #include <QtCore/QDir>
@@ -220,7 +221,8 @@ void WbNodeEditor::apply() {
     // check if the new DEF name is not already used by subsequent USE nodes
     bool defOverlap = false;
     bool useOverlap = false;
-    dictionaryUpdateRequest = WbNodeUtilities::hasASubsequentUseOrDefNode(mNode, newDef, previousDef, useOverlap, defOverlap);
+    dictionaryUpdateRequest =
+      WbVrmlNodeUtilities::hasASubsequentUseOrDefNode(mNode, newDef, previousDef, useOverlap, defOverlap);
     if (dictionaryUpdateRequest) {
       mMessageBox = true;
       QString message;

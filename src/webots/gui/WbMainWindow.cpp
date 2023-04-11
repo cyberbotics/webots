@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -50,6 +50,7 @@
 #include "WbPreferencesDialog.hpp"
 #include "WbProject.hpp"
 #include "WbProjectRelocationDialog.hpp"
+#include "WbProtoIcon.hpp"
 #include "WbProtoManager.hpp"
 #include "WbRecentFilesList.hpp"
 #include "WbRenderingDevice.hpp"
@@ -1035,6 +1036,13 @@ void WbMainWindow::closeEvent(QCloseEvent *event) {
   if (WbApplication::instance())
     savePerspective(false, true);
 
+  // if there is a pending recording, stop it correctly
+  if (WbAnimationRecorder::instance()) {
+    // setting the gui flag to false to prevent the dialog box "exporting success" to pop-up
+    WbAnimationRecorder::instance()->setStartFromGuiFlag(false);
+    WbAnimationRecorder::instance()->stop();
+  }
+
   // the scene tree qt model should be cleaned first
   // otherwise some signals can be fired after the
   // QCoreApplication::exit() call
@@ -1466,6 +1474,24 @@ void WbMainWindow::saveWorldAs(bool skipSimulationHasRunWarning) {
     return;
   }
 
+  if (QFileInfo(fileName).dir().dirName() != "worlds") {
+    const QString warning = tr("The selected directory for saving the world file is not named \"worlds\".\n"
+                               "Thus it is not located in a valid Webots project.\n"
+                               "As a consequence, some project-related functionalities may not work.");
+    if (WbMessageBox::enabled()) {
+      QMessageBox msgBox(QMessageBox::Warning, tr("Save World File"), warning, QMessageBox::Cancel, this);
+      msgBox.addButton(
+        new QPushButton(QApplication::style()->standardIcon(QStyle::SP_DialogOkButton), tr("Save Anyway"), &msgBox),
+        QMessageBox::AcceptRole);
+      msgBox.setDefaultButton(QMessageBox::Cancel);
+      if (msgBox.exec() == QMessageBox::Cancel) {
+        simulationState->resumeSimulation();
+        return;
+      }
+    } else
+      WbLog::warning(warning);
+  }
+
   if (!fileName.endsWith(".wbt", Qt::CaseInsensitive))
     fileName.append(".wbt");
 
@@ -1723,7 +1749,7 @@ void WbMainWindow::uploadStatus() {
     WbMessageBox::critical(tr("Upload failed: Upload status could not be modified."));
 }
 
-bool WbMainWindow::uploadFileExists(QString fileName) {
+bool WbMainWindow::uploadFileExists(const QString &fileName) {
   int maxIterations = 10;
   while (!QFileInfo(WbStandardPaths::webotsTmpPath() + fileName).exists() && maxIterations) {
     QThread::msleep(100);
@@ -1769,7 +1795,7 @@ void WbMainWindow::show3DViewingInfo() {
        "To translate the camera in the x and y directions, you have to set the mouse pointer in the 3D scene, press the right "
        "mouse button and drag the mouse.<br/><br/>"
        "<strong>Zoom / Tilt:</strong><br/>"
-       "Set the mouse pointer in the 3D scene, then:\n"
+       "Set the mouse pointer in the 3D scene, then:<br/>"
        "- if you press both left and right mouse buttons (or the middle button) and drag the mouse vertically, the camera will "
        "zoom in or out.<br/>"
        "- if you press both left and right mouse buttons (or the middle button) and drag the mouse horizontally, the camera "
@@ -1797,11 +1823,11 @@ void WbMainWindow::show3DMovingInfo() {
 void WbMainWindow::show3DForceInfo() {
   static const QString infoLinux(
     tr("<strong>Force:</strong><br/> Place the mouse pointer where the force will apply and hold down the Alt key"
-       ", the Control key (Ctrl)"
-       " and the left mouse button together while dragging the mouse.<br/><br/> <strong>Torque:</strong><br/>"
+       " and the left mouse button together while dragging the mouse. In some window managers it might be necessary"
+       " to also hold the Control (ctrl) key together with the Alt key.<br/><br/> <strong>Torque:</strong><br/>"
        "Place the mouse pointer on the object and hold down the Alt key"
-       ", the Control key (Ctrl)"
-       " and the right mouse button together while dragging the mouse."));
+       " and the right mouse button together while dragging the mouse. In some window managers it might be necessary"
+       " to also hold the Control (ctrl) key together with the Alt key."));
 
   static const QString infoWindows(
     tr("<strong>Force:</strong><br/> Place the mouse pointer where the force will apply and hold down the Alt key"
@@ -1840,9 +1866,9 @@ void WbMainWindow::showOpenGlInfo() {
   QString info;
   info += tr("Host name: ") + QHostInfo::localHostName() + "\n";
   info += tr("System: ") + WbSysInfo::sysInfo() + "\n";
-  info += tr("OpenGL vendor: ") + (const char *)gl.glGetString(GL_VENDOR) + "\n";
-  info += tr("OpenGL renderer: ") + (const char *)gl.glGetString(GL_RENDERER) + "\n";
-  info += tr("OpenGL version: ") + (const char *)gl.glGetString(GL_VERSION) + "\n";
+  info += tr("OpenGL vendor: ") + reinterpret_cast<const char *>(gl.glGetString(GL_VENDOR)) + "\n";
+  info += tr("OpenGL renderer: ") + reinterpret_cast<const char *>(gl.glGetString(GL_RENDERER)) + "\n";
+  info += tr("OpenGL version: ") + reinterpret_cast<const char *>(gl.glGetString(GL_VERSION)) + "\n";
   info += tr("Available GPU memory: ");
   int gpu_memory = wr_gl_state_get_gpu_memory();
   if (gpu_memory > 0)
@@ -2157,6 +2183,7 @@ void WbMainWindow::showHtmlRobotWindow(WbRobot *robot, bool manualTrigger) {
       connect(robot, &WbBaseNode::isBeingDestroyed, this, [this, robot]() { deleteRobotWindow(robot); });
       connect(robot, &WbMatter::matterNameChanged, this, [this, robot]() { showHtmlRobotWindow(robot, false); });
       connect(robot, &WbRobot::controllerChanged, this, [this, robot]() { showHtmlRobotWindow(robot, false); });
+      connect(robot, &WbRobot::externControllerChanged, this, [this, robot]() { showHtmlRobotWindow(robot, false); });
       connect(robot, &WbRobot::windowChanged, this, [this, robot]() { deleteRobotWindow(robot); });
       connect(currentRobotWindow, &WbRobotWindow::socketOpened, this, &WbMainWindow::onSocketOpened);
     }
@@ -2268,7 +2295,8 @@ void WbMainWindow::updateOverlayMenu() {
         action->setCheckable(true);
         action->setChecked(device->isOverlayEnabled());
         action->setEnabled(!device->isWindowActive());
-        action->setProperty("renderingDevice", QVariant::fromValue((void *)device));
+        action->setProperty("renderingDevice",
+                            QVariant::fromValue(static_cast<void *>(const_cast<WbRenderingDevice *>(device))));
         connect(action, &QAction::toggled, mSimulationView->view3D(), &WbView3D::setShowRenderingDevice);
         connect(device, &WbRenderingDevice::overlayVisibilityChanged, action, &QAction::setChecked);
         connect(device, &WbRenderingDevice::overlayStatusChanged, action, &QAction::setEnabled);
@@ -2337,6 +2365,17 @@ void WbMainWindow::openFileInTextEditor(const QString &fileName, bool modify, bo
         WbLog::error(tr("Error during copy of extern PROTO file '%1' to '%2'.").arg(protoModelName).arg(fileToOpen));
         return;
       }
+
+      // copy icon
+      WbProtoIcon *protoIcon = new WbProtoIcon(protoModelName, fileName, this);
+      auto copyIcon = [protoIcon, destDir]() {
+        protoIcon->duplicate(destDir);
+        protoIcon->deleteLater();
+      };
+      if (protoIcon->isReady())
+        copyIcon();
+      else
+        connect(protoIcon, &WbProtoIcon::iconReady, copyIcon);
 
       // adjust all the urls referenced by the PROTO
       // note: this won't work well if a URL is forged with Javascript code

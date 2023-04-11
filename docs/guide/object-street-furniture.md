@@ -597,12 +597,12 @@ PublicToilet {
   SFFloat     height              3.2
   SFFloat     length              2.1
   SFFloat     width               3.5
-  MFString    backDisplayTexture  "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/webots_billboard.jpg"
+  MFString    backDisplayTexture  "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/textures/webots_billboard.jpg"
   SFBool      backDisplayLight    FALSE
   MFNode      frontDisplay        [
     AdvertisingBoard {
       translation 0 0.1 0
-      frontTexture ["https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/webots_billboard.jpg"]
+      frontTexture ["https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/textures/webots_billboard.jpg"]
       backTexture []
       displayBackLight FALSE
       displayWidth 0.9

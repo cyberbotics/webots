@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023a utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: nonDeterministic
@@ -69,7 +69,7 @@ PROTO RandomBuilding [
     name IS name
     floorHeight IS floorHeight
     floorNumber IS floorNumber
-    startingFloor IS startingFloor§
+    startingFloor IS startingFloor
     corners IS corners
     groundFloor IS groundFloor
     groundFloorScale IS groundFloorScale

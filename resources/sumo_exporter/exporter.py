@@ -27,9 +27,9 @@ if not os.path.isdir(options.output):
     sys.exit('Output directory does not exist. Please create it.')
 
 # Compute the output file paths.
-nodesFilePath = options.output + os.sep + 'sumo.nod.xml'
-edgesFilePath = options.output + os.sep + 'sumo.edg.xml'
-configFilePath = options.output + os.sep + 'sumo.sumocfg'
+nodesFilePath = os.path.join(options.output, 'sumo.nod.xml')
+edgesFilePath = os.path.join(options.output, 'sumo.edg.xml')
+configFilePath = os.path.join(options.output, 'sumo.sumocfg')
 
 # Check these files are not existing.
 if os.path.exists(nodesFilePath):

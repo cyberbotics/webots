@@ -1,6 +1,7 @@
 import WbLight from './WbLight.js';
 
 export default class WbDirectionalLight extends WbLight {
+  #wrenLight;
   constructor(id, on, color, direction, intensity, castShadows, ambientIntensity) {
     super(id, on, color, intensity, castShadows, ambientIntensity);
 
@@ -11,15 +12,15 @@ export default class WbDirectionalLight extends WbLight {
     if (this.wrenObjectsCreatedCalled)
       return;
 
-    this._wrenLight = _wr_directional_light_new();
+    this.#wrenLight = _wr_directional_light_new();
     super.createWrenObjects();
 
-    this._applyLightDirectionToWren();
+    this.#applyLightDirectionToWren();
   }
 
   delete() {
     if (this.wrenObjectsCreatedCalled)
-      _wr_node_delete(this._wrenLight);
+      _wr_node_delete(this.#wrenLight);
 
     super.delete();
   }
@@ -35,24 +36,24 @@ export default class WbDirectionalLight extends WbLight {
   _applyLightColorToWren() {
     const pointer = _wrjs_array3(this.color.x, this.color.y, this.color.z);
 
-    _wr_directional_light_set_color(this._wrenLight, pointer);
+    _wr_directional_light_set_color(this.#wrenLight, pointer);
   }
 
-  _applyLightDirectionToWren() {
+  #applyLightDirectionToWren() {
     const pointer = _wrjs_array3(this.direction.x, this.direction.y, this.direction.z);
-    _wr_directional_light_set_direction(this._wrenLight, pointer);
+    _wr_directional_light_set_direction(this.#wrenLight, pointer);
   }
 
   _applyLightIntensityToWren() {
-    _wr_directional_light_set_intensity(this._wrenLight, this.intensity);
+    _wr_directional_light_set_intensity(this.#wrenLight, this.intensity);
   }
 
   _applyLightShadowsToWren() {
-    _wr_directional_light_set_cast_shadows(this._wrenLight, this.castShadows);
+    _wr_directional_light_set_cast_shadows(this.#wrenLight, this.castShadows);
   }
 
   _applyLightVisibilityToWren() {
-    _wr_directional_light_set_on(this._wrenLight, this.on);
+    _wr_directional_light_set_on(this.#wrenLight, this.on);
 
     const maxCount = _wr_config_get_max_active_directional_light_count();
     const activeCount = _wr_scene_get_active_directional_light_count(_wr_scene_get_instance());

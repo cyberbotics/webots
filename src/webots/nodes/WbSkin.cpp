@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,7 @@
 #include "WbBasicJoint.hpp"
 #include "WbBoundingSphere.hpp"
 #include "WbDataStream.hpp"
+#include "WbDownloadManager.hpp"
 #include "WbDownloader.hpp"
 #include "WbMFNode.hpp"
 #include "WbNetwork.hpp"
@@ -113,11 +114,10 @@ void WbSkin::downloadAssets() {
     const QString &completeUrl = WbUrl::computePath(this, "modelUrl", url);
     if (WbUrl::isWeb(completeUrl)) {
       delete mDownloader;
-      mDownloader = new WbDownloader(this);
+      mDownloader = WbDownloadManager::instance()->createDownloader(QUrl(completeUrl), this);
       if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
         connect(mDownloader, &WbDownloader::complete, this, &WbSkin::downloadUpdate);
-
-      mDownloader->download(QUrl(completeUrl));
+      mDownloader->download();
     }
   }
 }
@@ -321,12 +321,14 @@ void WbSkin::updateMaterial() {
   assert(appearance);
   if (appearance) {
     const int materialIndex = mMaterialNames.indexOf(appearance->name());
-    if (materialIndex >= 0 && appearance->areWrenObjectsInitialized())
-      mMaterials[materialIndex] = appearance->modifyWrenMaterial(mMaterials[materialIndex]);
-    else
-      mMaterials[materialIndex] = WbAppearance::fillWrenDefaultMaterial(mMaterials[materialIndex]);
+    if (materialIndex >= 0) {
+      if (appearance->areWrenObjectsInitialized())
+        mMaterials[materialIndex] = appearance->modifyWrenMaterial(mMaterials[materialIndex]);
+      else
+        mMaterials[materialIndex] = WbAppearance::fillWrenDefaultMaterial(mMaterials[materialIndex]);
 
-    wr_renderable_set_material(mRenderables[materialIndex], mMaterials[materialIndex], NULL);
+      wr_renderable_set_material(mRenderables[materialIndex], mMaterials[materialIndex], NULL);
+    }
   }
 }
 
@@ -518,8 +520,7 @@ void WbSkin::createWrenSkeleton() {
     return;
   }
 
-  if (mDownloader != NULL)
-    delete mDownloader;
+  delete mDownloader;
   mDownloader = NULL;
 
   mRenderablesTransform = wr_transform_new();

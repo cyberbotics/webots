@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,6 +33,7 @@
 #include "WbSolid.hpp"
 #include "WbTemplateManager.hpp"
 #include "WbTokenizer.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWorld.hpp"
 
 #include <QtCore/QCoreApplication>
@@ -93,13 +94,6 @@ void WbNodeOperations::enableSolidNameClashCheckOnNodeRegeneration(bool enabled)
   else
     disconnect(WbTemplateManager::instance(), &WbTemplateManager::postNodeRegeneration, this,
                &WbNodeOperations::resolveSolidNameClashIfNeeded);
-}
-
-QString WbNodeOperations::exportNodeToString(WbNode *node) {
-  QString nodeString;
-  WbWriter writer(&nodeString, WbWorld::instance()->fileName());
-  node->write(writer);
-  return nodeString;
 }
 
 WbNodeOperations::OperationResult WbNodeOperations::importNode(int nodeId, int fieldId, int itemIndex, ImportType origin,
@@ -232,7 +226,7 @@ WbNodeOperations::OperationResult WbNodeOperations::initNewNode(WbNode *newNode,
   WbBaseNode *const baseNode = dynamic_cast<WbBaseNode *>(newNode);
   // set parent node
   newNode->setParentNode(parentNode);
-  WbNode *upperTemplate = WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(field, parentNode);
+  WbNode *upperTemplate = WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(field, parentNode);
   bool isInsideATemplateRegenerator = upperTemplate && (upperTemplate != baseNode);
 
   // insert in parent field
@@ -302,8 +296,6 @@ bool WbNodeOperations::deleteNode(WbNode *node, bool fromSupervisor) {
   if (dynamic_cast<WbSolid *>(node))
     WbWorld::instance()->awake();
 
-  const QString nodeModelName = node->modelName();  // save the node model name prior to it being deleted
-
   bool dictionaryNeedsUpdate = node->hasAreferredDefNodeDescendant();
   WbField *parentField = node->parentField();
   assert(parentField);
@@ -335,15 +327,16 @@ void WbNodeOperations::requestUpdateDictionary() {
   updateDictionary(false, NULL);
 }
 
-void WbNodeOperations::updateDictionary(bool load, WbBaseNode *protoRoot) {
+bool WbNodeOperations::updateDictionary(bool load, WbBaseNode *protoRoot) {
   mSkipUpdates = true;
   WbNode::setDictionaryUpdateFlag(true);
   WbDictionary *dictionary = WbDictionary::instance();
-  dictionary->update(load);  // update all DEF-USE dependencies
+  const bool regenerationRequired = dictionary->update(load);  // update all DEF-USE dependencies
   if (protoRoot && !protoRoot->isUseNode())
     dictionary->updateProtosPrivateDef(protoRoot);
   WbNode::setDictionaryUpdateFlag(false);
   mSkipUpdates = false;
+  return regenerationRequired;
 }
 
 void WbNodeOperations::requestUpdateSceneDictionary(WbNode *node, bool fromUseToDef) {
@@ -366,7 +359,7 @@ void WbNodeOperations::setFromSupervisor(bool value) {
 void WbNodeOperations::purgeUnusedExternProtoDeclarations() {
   assert(WbWorld::instance());
   // list all the PROTO model names used in the world file
-  QList<const WbNode *> protoList(WbNodeUtilities::protoNodesInWorldFile(WbWorld::instance()->root()));
+  QList<const WbNode *> protoList(WbVrmlNodeUtilities::protoNodesInWorldFile(WbWorld::instance()->root()));
   QSet<QString> modelNames;
   foreach (const WbNode *proto, protoList)
     modelNames.insert(proto->modelName());
@@ -375,8 +368,8 @@ void WbNodeOperations::purgeUnusedExternProtoDeclarations() {
   WbProtoManager::instance()->purgeUnusedExternProtoDeclarations(modelNames);
 }
 
-void WbNodeOperations::updateExternProtoDeclarations(WbField *field) {
-  if (field->isDefault())
+void WbNodeOperations::updateExternProtoDeclarations(WbField *modifiedField) {
+  if (modifiedField->isDefault())
     return;  // WbNodeOperations::purgeUnusedExternProtoDeclarations() will be called
 
   WbNode *modifiedNode = static_cast<WbNode *>(sender());
@@ -393,7 +386,7 @@ void WbNodeOperations::updateExternProtoDeclarations(WbField *field) {
   if (!topProto)
     return;
 
-  QList<const WbNode *> protoList(WbNodeUtilities::protoNodesInWorldFile(topProto));
+  QList<const WbNode *> protoList(WbVrmlNodeUtilities::protoNodesInWorldFile(topProto));
   foreach (const WbNode *proto, protoList) {
     const QString previousUrl(
       WbProtoManager::instance()->declareExternProto(proto->modelName(), proto->proto()->url(), false, false));

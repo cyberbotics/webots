@@ -1,10 +1,10 @@
-# Copyright 1996-2022 Cyberbotics Ltd.
+# Copyright 1996-2023 Cyberbotics Ltd.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#     https://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,8 +18,7 @@ According to the messages it receives, the robot change its
 behavior.
 """
 
-from controller import AnsiCodes
-from controller import Robot
+from controller import AnsiCodes, Robot
 from common import common_print
 
 
@@ -29,8 +28,7 @@ class Enumerate(object):
             setattr(self, name, number)
 
 
-class Slave (Robot):
-
+class Slave(Robot):
     Mode = Enumerate('STOP MOVE_FORWARD AVOIDOBSTACLES TURN')
     timeStep = 32
     maxSpeed = 10.0
@@ -62,7 +60,7 @@ class Slave (Robot):
         while True:
             # Read the supervisor order.
             if self.receiver.getQueueLength() > 0:
-                message = self.receiver.getData().decode('utf-8')
+                message = self.receiver.getString()
                 self.receiver.nextPacket()
                 print('I should ' + AnsiCodes.RED_FOREGROUND + message + AnsiCodes.RESET + '!')
                 if message == 'avoid obstacles':

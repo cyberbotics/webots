@@ -7,14 +7,8 @@ else
 WINDOWS_DRIVE=${1:1:1}:\\${1:3}
 export WEBOTS_HOME=${WINDOWS_DRIVE////\\}
 PATH="$1/msys64/mingw64/bin"
-if [ -v PYTHON310_HOME ]; then
-PATH+=":$PYTHON310_HOME:$PYTHON310_HOME/Scripts"
-elif [ -v PYTHON39_HOME ]; then
-PATH+=":$PYTHON39_HOME:$PYTHON39_HOME/Scripts"
-elif [ -v PYTHON38_HOME ]; then
-PATH+=":$PYTHON38_HOME:$PYTHON38_HOME/Scripts"
-elif [ -v PYTHON37_HOME ]; then
-PATH+=":$PYTHON37_HOME:$PYTHON37_HOME/Scripts"
+if [ -v PYTHON_HOME ]; then
+PATH+=":$PYTHON_HOME:$PYTHON_HOME/Scripts"
 fi
 PATH+=":/mingw64/bin:/usr/bin"
 if [ -v JAVA_HOME ]; then
@@ -25,5 +19,8 @@ if [ -v MATLAB_HOME ]; then
 PATH+=":$MATLAB_HOME/bin"
 fi
 export PATH=$PATH
-cd "$1"
+cd ~
+if [[ "$1" == *"$MSYS64_HOME"/home/"$USER/"* ]]; then
+cd ${1#$MSYS64_HOME"/home/"$USER/}
+fi
 fi

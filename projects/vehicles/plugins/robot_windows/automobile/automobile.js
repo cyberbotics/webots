@@ -1,4 +1,4 @@
-import RobotWindow from 'https://cyberbotics.com/wwi/R2022b/RobotWindow.js';
+import RobotWindow from 'https://cyberbotics.com/wwi/R2023a/RobotWindow.js';
 /* global DeviceWidget: false */
 /* global TimeplotWidget: false */
 /* global VehicleTimeplotWidget: false */

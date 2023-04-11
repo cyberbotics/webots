@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -113,7 +113,6 @@ void WbWrenLabelOverlay::applyChangesToWren() {
 
 WbWrenLabelOverlay::WbWrenLabelOverlay(int id, const QString &font) :
   mId(id),
-  mText(),
   mFontName(font),
   mX(0.0f),
   mY(0.0f),
@@ -185,11 +184,11 @@ void WbWrenLabelOverlay::createTexture() {
 }
 
 void WbWrenLabelOverlay::updateTextureSize() {
-  int width, height;
-  wr_font_get_bounding_box(mWrenFont, mText.toUtf8().constData(), &width, &height);
+  int fontWidth, fontHeight;
+  wr_font_get_bounding_box(mWrenFont, mText.toUtf8().constData(), &fontWidth, &fontHeight);
 
-  width += 2.0f * (height / (float)(mLinesCount)) * HORIZONTAL_MARGIN;
-  wr_texture_set_size(WR_TEXTURE(mTexture), width, height);
+  fontWidth += 2.0f * (fontHeight / (float)(mLinesCount)) * HORIZONTAL_MARGIN;
+  wr_texture_set_size(WR_TEXTURE(mTexture), fontWidth, fontHeight);
 }
 
 void WbWrenLabelOverlay::deleteOverlay() {
@@ -217,9 +216,9 @@ void WbWrenLabelOverlay::updateOverlayDimensions() {
   if (!mTexture)
     return;
 
-  int width = wr_texture_get_width(WR_TEXTURE(mTexture));
-  int height = wr_texture_get_height(WR_TEXTURE(mTexture));
-  float ratio = width / (float)(height);
+  int textureWidth = wr_texture_get_width(WR_TEXTURE(mTexture));
+  int textureHeight = wr_texture_get_height(WR_TEXTURE(mTexture));
+  float ratio = textureWidth / (float)(textureHeight);
 
   WrViewport *viewport = wr_scene_get_viewport(wr_scene_get_instance());
   int viewportHeight = wr_viewport_get_height(viewport);

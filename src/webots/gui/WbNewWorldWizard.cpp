@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -116,6 +116,11 @@ bool WbNewWorldWizard::validateWorldPage() {
     WbMessageBox::warning(tr("Please specify a world name."), this, tr("Invalid new world name"));
     return false;
   }
+  if (QFileInfo(mWorldEdit->text()).dir() != QDir()) {
+    // mWorldEdit->text() should not contain any directory
+    WbMessageBox::warning(tr("Please specify a world name and not a path."), this, tr("Invalid new world name"));
+    return false;
+  }
   return true;
 }
 
@@ -128,7 +133,7 @@ bool WbNewWorldWizard::validateCurrentPage() {
       path += ".wbt";
     if (QFile::exists(path)) {
       WbMessageBox::warning(tr("A world file with this name already exists, please choose a different name."), this,
-                            tr("Invalid world name"));
+                            tr("Invalid new world name"));
       return false;
     }
   }

@@ -21,10 +21,11 @@ SolidBox {
   SFString   name                  "box"
   SFVec3f    size                  2 2 2
   SFString   contactMaterial       "default"
-  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
+  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
   SFNode     physics               NULL
   SFBool     enableBoundingObject  TRUE
   SFBool     castShadows           TRUE
+  MFColor    recognitionColors     []
 }
 ```
 
@@ -69,7 +70,7 @@ SolidPipe {
   SFInt32    subdivision           24
   SFFloat    accuracy              0.0001
   SFString   contactMaterial       "default"
-  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
+  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
   SFNode     physics               NULL
   SFBool     enableBoundingObject  TRUE
 }
@@ -118,7 +119,7 @@ SolidRoundedBox {
   SFFloat    borderRadius          0.5
   SFInt32    subdivision           24
   SFString   contactMaterial       "default"
-  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
+  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
   SFNode     physics               NULL
   SFBool     enableBoundingObject  TRUE
 }
@@ -164,7 +165,7 @@ SolidTorus {
   SFFloat    minorRadius           1
   SFInt32    subdivision           24
   SFString   contactMaterial       "default"
-  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
+  SFNode     appearance            PBRAppearance { baseColorMap ImageTexture { url [ "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/textures/tagged_wall.jpg" ] } metalness 0 roughness 0.5 }
   SFNode     physics               NULL
   SFBool     enableBoundingObject  TRUE
 }

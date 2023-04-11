@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -72,7 +72,9 @@ namespace wren {
       uniform.second->uploadValue();
   }
 
-  void ShaderProgram::release() const { glstate::releaseProgram(mGlName); }
+  void ShaderProgram::release() const {
+    glstate::releaseProgram(mGlName);
+  }
 
   bool ShaderProgram::readFile(const std::string &path, std::string &contents) {
 #ifdef _WIN32                           // mbstowcs doesn't work properly on Windows
@@ -300,6 +302,9 @@ void wr_shader_program_set_custom_uniform_value(WrShaderProgram *program, const 
   std::string uniformName(name);
 
   switch (type) {
+    case WR_SHADER_PROGRAM_UNIFORM_TYPE_BOOL:
+      shaderProgram->setCustomUniformValue(uniformName, *(reinterpret_cast<const bool *>(value)));
+      break;
     case WR_SHADER_PROGRAM_UNIFORM_TYPE_FLOAT:
       shaderProgram->setCustomUniformValue(uniformName,
                                            *(reinterpret_cast<const float *>(reinterpret_cast<const void *>(value))));

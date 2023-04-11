@@ -111,4 +111,4 @@ To compare your world with the solution, go to your files and find the folder na
 In this tutorial, you have learned how to set up a good looking environment using the [PBRAppearance](../reference/pbrappearance.md) node and the light nodes.
 
 You can go further on this topic by reading the detailed description of these nodes in the `Reference Manual`.
-This [section](modeling.md#how-to-get-a-realisitc-and-efficient-rendering) will give you a method to efficiently setup these nodes.
+This [FAQ](https://github.com/cyberbotics/webots/discussions/5411) will give you a method to efficiently setup these nodes.

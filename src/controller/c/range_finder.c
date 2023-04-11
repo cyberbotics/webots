@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2022 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -56,10 +56,10 @@ static void wb_range_finder_cleanup(WbDevice *d) {
 }
 
 static void wb_range_finder_new(WbDevice *d, unsigned int id, int w, int h, double fov, double camnear, double max_range,
-                                bool spherical) {
+                                bool planar) {
   RangeFinder *rf;
   wb_range_finder_cleanup(d);
-  wb_abstract_camera_new(d, id, w, h, fov, camnear, spherical);
+  wb_abstract_camera_new(d, id, w, h, fov, camnear, planar);
 
   rf = malloc(sizeof(RangeFinder));
   rf->max_range = max_range;
@@ -79,7 +79,7 @@ static void wb_range_finder_read_answer(WbDevice *d, WbRequest *r) {
   unsigned int uid;
   int width, height;
   double fov, camnear, max_range;
-  bool spherical;
+  bool planar;
 
   AbstractCamera *ac = d->pdata;
   RangeFinder *rf = NULL;
@@ -91,17 +91,17 @@ static void wb_range_finder_read_answer(WbDevice *d, WbRequest *r) {
       height = request_read_uint16(r);
       fov = request_read_double(r);
       camnear = request_read_double(r);
-      spherical = request_read_uchar(r);
+      planar = request_read_uchar(r);
       max_range = request_read_double(r);
 
-      // printf("new range_finder %u %d %d %lf %lf %lf %d\n", uid, width, height, fov, camnear, max_range, spherical);
-      wb_range_finder_new(d, uid, width, height, fov, camnear, max_range, spherical);
+      // printf("new range_finder %u %d %d %lf %lf %lf %d\n", uid, width, height, fov, camnear, max_range, planar);
+      wb_range_finder_new(d, uid, width, height, fov, camnear, max_range, planar);
       break;
     case C_CAMERA_RECONFIGURE:
       rf = ac->pdata;
       ac->fov = request_read_double(r);
       ac->camnear = request_read_double(r);
-      ac->spherical = request_read_uchar(r);
+      ac->planar = request_read_uchar(r);
       rf->max_range = request_read_double(r);
       break;
 

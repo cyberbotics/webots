@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -42,9 +42,9 @@ public:
 
   // check syntax, report errors to WbLog
   // return true if there were no errors
-  bool parseWorld(const QString &worldPath);   // parse a .wbt file
-  bool parseObject(const QString &worldPath);  // parse an imported object from string
-  bool parseNodeModel();                       // parse a .wrl node model in resources/nodes
+  bool parseWorld(const QString &worldPath, bool (*updateProgress)(int));  // parse a .wbt file
+  bool parseObject(const QString &worldPath);                              // parse an imported object from string
+  bool parseNodeModel();                                                   // parse a .wrl node model in resources/nodes
 
   bool parseProtoInterface(const QString &worldPath);  // parse PROTO interface in original file
   bool parseProtoBody(const QString &worldPath);       // parse resulting PROTO after template generation

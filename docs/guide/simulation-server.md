@@ -12,22 +12,23 @@ The simulation server creates and starts a Webots instance with the desired simu
 
 These are the configuration parameters for the simulation server:
 ```
-# server:              fully qualilified domain name of simulation server
-# ssl:                 for https/wss URL (true by default)
-# port:                local port on which the server is listening
-# portRewrite:         port rewritten in the URL by apache (true by default)
-# docker:              launch webots inside a docker (false by default)
-# allowedRepositories: list of allowed GitHub simulation repositories
-# blockedRepositories: list of blocked GitHub simulation repositories
-# shareIdleTime:       maximum load for running non-allowed repositories (50% by default)
-# notify:              webservices to be notified about the server status (https://webots.cloud by default)
-# projectsDir:         directory in which projects are located
-# webotsHome:          directory in which Webots is installed (WEBOTS_HOME)
-# maxConnections:      maximum number of simultaneous Webots instances
-# logDir:              directory where the log files are written
-# monitorLogEnabled:   store monitor data in a file (true by default)
-# debug:               output debug information to stdout (false by default)
-# timeout:             number of seconds after which a simulation is automatically closed (two hours by default, minimum six minutes)
+# server:                 fully qualilified domain name of simulation server
+# ssl:                    for https/wss URL (true by default)
+# port:                   local port on which the server is listening
+# portRewrite:            port rewritten in the URL by apache (true by default)
+# docker:                 launch webots inside a docker (false by default)
+# allowedRepositories:    list of allowed GitHub simulation repositories
+# blockedRepositories:    list of blocked GitHub simulation repositories
+# persistantDockerImages: list of Docker images that shouldn't be removed from the cache
+# shareIdleTime:          maximum load for running non-allowed repositories (50% by default)
+# notify:                 webservices to be notified about the server status (https://webots.cloud by default)
+# projectsDir:            directory in which projects are located
+# webotsHome:             directory in which Webots is installed (WEBOTS_HOME)
+# maxConnections:         maximum number of simultaneous Webots instances
+# logDir:                 directory where the log files are written
+# monitorLogEnabled:      store monitor data in a file (true by default)
+# debug:                  output debug information to stdout (false by default)
+# timeout:                number of seconds after which a simulation is automatically closed (two hours by default, minimum six minutes)
 ```
 
 HTTP request handlers:
@@ -91,8 +92,8 @@ If you are installing the simulation server on the same machine as the session s
 1. Install the docker images of the Webots versions that you want to support.
 
     ```
-    docker pull cyberbotics/webots.cloud:R2022b-ubuntu20.04
-    docker pull cyberbotics/webots.cloud:R2022b-ubuntu20.04-numpy
+    docker pull cyberbotics/webots.cloud:R2023a-ubuntu20.04
+    docker pull cyberbotics/webots.cloud:R2023a-ubuntu20.04-numpy
     ```
 2. Configure the simulation server: create a file named `~/webots-server/config/simulation/simulation.json` with the following contents (to be adapted to your local setup):
 
@@ -100,19 +101,25 @@ If you are installing the simulation server on the same machine as the session s
     {
       "webotsHome": "/home/cyberbotics/webots",
       "port": 2000,
-      "fullyQualifiedDomainName": "cyberbotics1.epfl.ch",
-      "portRewrite": true,
       "logDir": "log/",
+      "server": "cyberbotics1.epfl.ch",
+      "docker": true,
       "debug": true
     }
     ```
 3. Configure Apache 2 on the session server machine to redirect traffic on the simulation machine:
     - If you are running the simulation server on the same machine as the session server, you can skip this step.
-    - Otherwise edit /etc/apache2/site-available/000-default-le-ssl.conf and modify the rewrite rules to direct the traffic to the various machines (session server and simulation servers):
+    - Otherwise edit /etc/apache2/sites-available/000-default-le-ssl.conf and modify the rewrite rules to direct the traffic to the various machines (session server and simulation servers):
 
     ```
+    RewriteCond %{HTTP:Upgrade} websocket [NC]
+    RewriteCond %{HTTP:Connection} upgrade [NC]
     RewriteRule ^/1999/(.*)$ "ws://localhost:$1/$2" [P,L]            # session server
+    RewriteCond %{HTTP:Upgrade} websocket [NC]
+    RewriteCond %{HTTP:Connection} upgrade [NC]
     RewriteRule ^/2(\d{3})/(.*)$ "ws://<IP address 2>:$1/$2" [P,L]   # simulation server server with ports in the range 2000-2999
+    RewriteCond %{HTTP:Upgrade} websocket [NC]
+    RewriteCond %{HTTP:Connection} upgrade [NC]
     RewriteRule ^/3(\d{3})/(.*)$ "ws://<IP address 3>:$1/$2" [P,L]   # other simulation server server with ports in the range 3000-3999
     ⋮
 

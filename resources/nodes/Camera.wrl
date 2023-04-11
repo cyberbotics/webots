@@ -20,32 +20,29 @@ Camera {
   field     MFColor    recognitionColors   []          # colors returned for this Solid by Cameras with a Recognition node
 
   #fields specific to the Camera node:
-  field     SFFloat    fieldOfView            0.785398 # range is (0,pi)
-  field     SFInt32    width                  64       # pixel width
-  field     SFInt32    height                 64       # pixel height
-  field     SFBool     spherical              FALSE    # to switch between a plane/sphere projection
-  field     SFFloat    near                   0.01     # OpenGL near clipping plane (meters)
-  field     SFFloat    far                    0.0      # OpenGL far clipping plane (meters)
-  field     SFFloat    exposure               1.0      # Photometric exposure level
-  field     SFBool     antiAliasing           FALSE    # enable anti-aliasing
-  field     SFFloat    ambientOcclusionRadius 0        # radius of ambient occlusion for this camera
-  field     SFFloat    bloomThreshold         -1.0     # threshold of above which pixels bloom for this camera
-  field     SFFloat    motionBlur             0.0      # response time of the image in milliseconds
-  field     SFFloat    noise                  0.0      # add a noise to the pixel values
-  field     SFString   noiseMaskUrl           ""       # user-defined noise texture
-  field     SFNode     lens                   NULL     # a Lens node
-  field     SFNode     focus                  NULL     # a Focus node if the camera has a controllable focus
-  field     SFNode     zoom                   NULL     # a Zoom node if the camera has a controllable zoom
-  field     SFNode     recognition            NULL     # a Recognition node if the Camera has recognition capability
-  field     SFNode     lensFlare              NULL     # a LensFlare node
+  field     SFFloat                                        fieldOfView            0.785398 # range is (0,pi)
+  field     SFInt32                                        width                  64       # pixel width
+  field     SFInt32                                        height                 64       # pixel height
+  field     SFString{"planar", "cylindrical", "spherical"} projection             "planar" # projection type
+  field     SFFloat                                        near                   0.01     # OpenGL near clipping plane (meters)
+  field     SFFloat                                        far                    0.0      # OpenGL far clipping plane (meters)
+  field     SFFloat                                        exposure               1.0      # Photometric exposure level
+  field     SFBool                                         antiAliasing           FALSE    # enable anti-aliasing
+  field     SFFloat                                        ambientOcclusionRadius 0        # radius of ambient occlusion for this camera
+  field     SFFloat                                        bloomThreshold         -1.0     # threshold of above which pixels bloom for this camera
+  field     SFFloat                                        motionBlur             0.0      # response time of the image in milliseconds
+  field     SFFloat                                        noise                  0.0      # add a noise to the pixel values
+  field     SFString                                       noiseMaskUrl           ""       # user-defined noise texture
+  field     SFNode                                         lens                   NULL     # a Lens node
+  field     SFNode                                         focus                  NULL     # a Focus node if the camera has a controllable focus
+  field     SFNode                                         zoom                   NULL     # a Zoom node if the camera has a controllable zoom
+  field     SFNode                                         recognition            NULL     # a Recognition node if the Camera has recognition capability
+  field     SFNode                                         lensFlare              NULL     # a LensFlare node
 
   # hidden fields
   hiddenField SFVec3f linearVelocity  0 0 0   # (m/s) Solid's initial linear velocity
   hiddenField SFVec3f angularVelocity 0 0 0   # (rad/s) Solid's initial angular velocity
 
   # deprecated fields
-  deprecatedField SFVec2f  windowPosition 0 0       # for displaying the camera image in the main Webots window
-  deprecatedField SFFloat  pixelSize      1.0       # size of the pixels displayed in the main Webots window (0.0 hides the camera image)
-  deprecatedField SFString type           "color"   # kept for displaying a warning in case of 'range-finder' type
-  deprecatedField SFFloat  colorNoise      0.0      # kept for converting in 'noise'
+  deprecatedField SFBool spherical    FALSE   # kept for converting to 'projection' field
 }

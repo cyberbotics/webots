@@ -1,0 +1,84 @@
+#VRML_SIM R2023a utf8
+# license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
+# license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#rplidar-a2
+# Model of the RpLidar A2 rotational lidar developed by Slamtec.
+
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+
+PROTO RpLidarA2 [
+  field SFVec3f    translation   0 0 0.031
+  field SFRotation rotation      0 0 1 0
+  field SFString   name          "RPlidar A2"
+]
+{
+  Lidar {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    children [
+      Transform {
+        translation 0.000000 0.000000 -0.031000
+        children [
+          Shape {
+            appearance MattePaint {
+              baseColor 0.000000 0.000000 0.000000
+            }
+            geometry Mesh {
+              url "meshes/rplidar_bottom.obj"
+            }
+          }
+        ]
+      }
+      Transform {
+        translation 0.000000 0.000000 -0.012000
+        children [
+          Shape {
+            appearance MattePaint {
+              baseColor 0.110000 0.110000 0.110000
+            }
+            geometry Cylinder {
+              height 0.005
+              radius 0.037
+            }
+          }
+        ]
+      }
+    ]
+    boundingObject Transform {
+      translation 0.000000 0.000000 -0.011000
+      children [
+        Cylinder {
+          height 0.04
+          radius 0.038
+        }
+      ]
+    }
+    physics Physics {
+      density -1
+      mass 0.2
+    }
+    fieldOfView 1.57
+    horizontalResolution 800
+    numberOfLayers 1
+    near 0.05
+    minRange 0.200000
+    maxRange 12.000000
+    noise 0.000833
+    resolution 0.010000
+    type "rotating"
+    rotatingHead Solid{
+      translation 0.000000 0.000000 -0.0314
+      children [
+        Shape {
+          appearance MattePaint {
+            baseColor 0.000000 0.000000 0.000000
+          }
+          geometry Mesh {
+            url "meshes/rplidar_top.obj"
+          }
+        }
+      ]
+    }
+  }
+}

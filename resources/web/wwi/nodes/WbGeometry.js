@@ -2,12 +2,13 @@ import WbBaseNode from './WbBaseNode.js';
 import WbWorld from './WbWorld.js';
 import {isDescendantOfBillboard} from './utils/utils.js';
 import WbWrenMeshBuffers from './utils/WbWrenMeshBuffers.js';
-import WbWrenPicker from './../wren/WbWrenPicker.js';
-import WbWrenShaders from './../wren/WbWrenShaders.js';
-import WbWrenRenderingContext from './../wren/WbWrenRenderingContext.js';
-import Selector from './../Selector.js';
+import WbWrenPicker from '../wren/WbWrenPicker.js';
+import WbWrenShaders from '../wren/WbWrenShaders.js';
+import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
+import Selector from '../Selector.js';
 
 export default class WbGeometry extends WbBaseNode {
+  #wrenScaleTransform;
   constructor(id) {
     super(id);
 
@@ -56,27 +57,27 @@ export default class WbGeometry extends WbBaseNode {
   }
 
   updateBoundingObjectVisibility() {
-    this._applyVisibilityFlagToWren(this._isSelected());
+    this.#applyVisibilityFlagToWren(this.#isSelected());
   }
 
   // Private functions
 
-  _applyVisibilityFlagToWren(selected) {
-    if (typeof this._wrenScaleTransform === 'undefined')
+  #applyVisibilityFlagToWren(selected) {
+    if (typeof this.#wrenScaleTransform === 'undefined')
       return;
 
     if (this.isInBoundingObject()) {
       if (selected) {
         _wr_renderable_set_visibility_flags(this._wrenRenderable, WbWrenRenderingContext.VF_INVISIBLE_FROM_CAMERA);
-        _wr_node_set_visible(this._wrenScaleTransform, true);
-      } else if (_wr_node_get_parent(this._wrenScaleTransform))
-        _wr_node_set_visible(this._wrenScaleTransform, false);
+        _wr_node_set_visible(this.#wrenScaleTransform, true);
+      } else if (_wr_node_get_parent(this.#wrenScaleTransform))
+        _wr_node_set_visible(this.#wrenScaleTransform, false);
     } else if (isDescendantOfBillboard(this)) {
       _wr_renderable_set_visibility_flags(this._wrenRenderable, WbWrenRenderingContext.VF_INVISIBLE_FROM_CAMERA);
-      _wr_node_set_visible(this._wrenScaleTransform, true);
+      _wr_node_set_visible(this.#wrenScaleTransform, true);
     } else {
       _wr_renderable_set_visibility_flags(this._wrenRenderable, WbWrenRenderingContext.VM_REGULAR);
-      _wr_node_set_visible(this._wrenScaleTransform, true);
+      _wr_node_set_visible(this.#wrenScaleTransform, true);
     }
   }
 
@@ -87,9 +88,9 @@ export default class WbGeometry extends WbBaseNode {
     if (!this.wrenObjectsCreatedCalled)
       super.createWrenObjects();
 
-    this._wrenScaleTransform = _wr_transform_new();
-    _wr_transform_attach_child(this.wrenNode, this._wrenScaleTransform);
-    this.wrenNode = this._wrenScaleTransform;
+    this.#wrenScaleTransform = _wr_transform_new();
+    _wr_transform_attach_child(this.wrenNode, this.#wrenScaleTransform);
+    this.wrenNode = this.#wrenScaleTransform;
 
     this._wrenRenderable = _wr_renderable_new();
     if (this.isInBoundingObject()) {
@@ -109,7 +110,7 @@ export default class WbGeometry extends WbBaseNode {
       _wr_renderable_set_receive_shadows(this._wrenRenderable, false);
     }
 
-    _wr_transform_attach_child(this._wrenScaleTransform, this._wrenRenderable);
+    _wr_transform_attach_child(this.#wrenScaleTransform, this._wrenRenderable);
 
     this.updateBoundingObjectVisibility();
 
@@ -134,9 +135,9 @@ export default class WbGeometry extends WbBaseNode {
       _wr_node_delete(this._wrenRenderable);
       this._wrenRenderable = undefined;
 
-      this.wrenNode = _wr_node_get_parent(this._wrenScaleTransform);
-      _wr_node_delete(this._wrenScaleTransform);
-      this._wrenScaleTransform = undefined;
+      this.wrenNode = _wr_node_get_parent(this.#wrenScaleTransform);
+      _wr_node_delete(this.#wrenScaleTransform);
+      this.#wrenScaleTransform = undefined;
     }
   }
 
@@ -151,7 +152,7 @@ export default class WbGeometry extends WbBaseNode {
     return true;
   }
 
-  _isSelected() {
+  #isSelected() {
     if (Selector.selectedId === this.id)
       return true;
     else if (typeof this.parent !== 'undefined')

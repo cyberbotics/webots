@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,7 +31,6 @@
 
 #include <QtCore/QFileInfo>
 #include <QtCore/QHash>
-#include <QtCore/QPair>
 #include <QtGui/QImageReader>
 
 static int cResizeIconSize = -1;
@@ -41,13 +40,13 @@ static int cBorderSizeVertical = 1;
 
 // Color values taken from textures in resources/ogre/textures
 static float cBorderColors[WbWrenTextureOverlay::OVERLAY_TYPE_COUNT][4] = {{1.0f, 0.0f, 1.0f, 1.0f},
-                                                                           {240.0f / 255.0f, 1.0f, 0.0f, 1.0f},
+                                                                           {1.0f, 0.815f, 0.0f, 1.0f},
                                                                            {0.0f, 1.0f, 1.0f, 1.0f}};
 
 // map storing status of overlay elements:
 // TRUE: overlay enabled
 // FALSE: overlay disabled, i.e. already open in an external window
-static QHash<WrOverlay *, QPair<WbWrenTextureOverlay *, bool>> cOverlayStatusMap;
+static QHash<WrOverlay *, std::pair<WbWrenTextureOverlay *, bool>> cOverlayStatusMap;
 
 ////////////////////////////////////////
 //  Constructor  and initializations  //
@@ -128,7 +127,7 @@ WbWrenTextureOverlay::WbWrenTextureOverlay(void *data, int width, int height, Te
   updateTexture();
   updatePercentagePosition(0.0, 0.0);
 
-  cOverlayStatusMap.insert(mWrenOverlay, QPair<WbWrenTextureOverlay *, bool>(this, true));
+  cOverlayStatusMap.insert(mWrenOverlay, std::pair<WbWrenTextureOverlay *, bool>(this, true));
   setVisible(false, true);
 
   WbWrenOpenGlContext::doneWren();
@@ -531,12 +530,12 @@ bool WbWrenTextureOverlay::isInsideCloseButton(int x, int y) const {
 //////////////////////////////////////////////////////
 
 void WbWrenTextureOverlay::updateOverlayDimensions() {
-  for (const QPair<WbWrenTextureOverlay *, bool> &p : cOverlayStatusMap)
+  for (const std::pair<WbWrenTextureOverlay *, bool> &p : cOverlayStatusMap)
     p.first->applyChangesToWren();
 }
 
 void WbWrenTextureOverlay::setElementsVisible(OverlayType type, bool visible) {
-  for (const QPair<WbWrenTextureOverlay *, bool> &p : cOverlayStatusMap) {
+  for (const std::pair<WbWrenTextureOverlay *, bool> &p : cOverlayStatusMap) {
     if (p.first->mOverlayType == type && p.second)  // skip explicitly closed overlays
       wr_overlay_set_visible(p.first->mWrenOverlay, visible);
   }

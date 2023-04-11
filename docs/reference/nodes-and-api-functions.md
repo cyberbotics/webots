@@ -3,6 +3,7 @@
 ## Sections
 
 - [Accelerometer](accelerometer.md)
+- [Altimeter](altimeter.md)
 - [Appearance](appearance.md)
 - [Background](background.md)
 - [BallJoint](balljoint.md)

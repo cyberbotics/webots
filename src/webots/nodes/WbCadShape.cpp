@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,6 +17,7 @@
 #include "WbApplicationInfo.hpp"
 #include "WbBackground.hpp"
 #include "WbBoundingSphere.hpp"
+#include "WbDownloadManager.hpp"
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbMFString.hpp"
@@ -92,14 +93,11 @@ void WbCadShape::downloadAssets() {
       (WbNetwork::instance()->isCachedWithMapUpdate(completeUrl) && areMaterialAssetsAvailable(completeUrl)))
     return;
 
-  if (mDownloader != NULL && mDownloader->hasFinished())
-    delete mDownloader;
-
-  mDownloader = new WbDownloader(this);
+  delete mDownloader;
+  mDownloader = WbDownloadManager::instance()->createDownloader(QUrl(completeUrl), this);
   if (!WbWorld::instance()->isLoading())  // URL changed from the scene tree or supervisor
     connect(mDownloader, &WbDownloader::complete, this, &WbCadShape::downloadUpdate);
-
-  mDownloader->download(QUrl(completeUrl));
+  mDownloader->download();
 }
 
 void WbCadShape::downloadUpdate() {
@@ -113,13 +111,13 @@ void WbCadShape::retrieveMaterials() {
   qDeleteAll(mMaterialDownloaders);
   mMaterialDownloaders.clear();
 
-  QStringList rawMaterials = objMaterialList(completeUrl);
+  const QStringList rawMaterials = objMaterialList(completeUrl);
   foreach (QString material, rawMaterials) {
     const QString newUrl = WbUrl::combinePaths(material, completeUrl);
     if (!newUrl.isEmpty()) {
       mObjMaterials.insert(material, newUrl);
       // prepare a downloader
-      WbDownloader *downloader = new WbDownloader();
+      WbDownloader *downloader = WbDownloadManager::instance()->createDownloader(QUrl(newUrl), this);
       connect(downloader, &WbDownloader::complete, this, &WbCadShape::materialDownloadTracker);
       mMaterialDownloaders.push_back(downloader);
     }
@@ -127,12 +125,8 @@ void WbCadShape::retrieveMaterials() {
 
   // start all downloads only when the vector is entirely populated (to avoid racing conditions)
   assert(mMaterialDownloaders.size() == mObjMaterials.size());
-  QMapIterator<QString, QString> it(mObjMaterials);
-  int i = 0;
-  while (it.hasNext()) {
-    it.next();
-    mMaterialDownloaders[i++]->download(QUrl(it.value()));
-  }
+  foreach (WbDownloader *downloader, mMaterialDownloaders)
+    downloader->download();
 }
 
 void WbCadShape::materialDownloadTracker() {
@@ -151,6 +145,11 @@ void WbCadShape::materialDownloadTracker() {
     updateUrl();
 }
 
+void WbCadShape::preFinalize() {
+  WbBaseNode::preFinalize();
+  updateUrl();
+}
+
 void WbCadShape::postFinalize() {
   WbBaseNode::postFinalize();
 
@@ -163,11 +162,7 @@ void WbCadShape::postFinalize() {
           &WbCadShape::createWrenObjects);
 
   mBoundingSphere = new WbBoundingSphere(this);
-
-  updateUrl();
-  updateCcw();
-  updateCastShadows();
-  updateIsPickable();
+  recomputeBoundingSphere();
 
   // apply segmentation color
   const WbSolid *solid = WbNodeUtilities::findUpperSolid(this);
@@ -183,12 +178,6 @@ void WbCadShape::postFinalize() {
 }
 
 void WbCadShape::updateUrl() {
-  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0, true);
-  if (completeUrl.isEmpty() || completeUrl == WbUrl::missingTexture()) {
-    deleteWrenObjects();
-    return;
-  }
-
   // we want to replace the windows backslash path separators (if any) with cross-platform forward slashes
   const int n = mUrl->size();
   for (int i = 0; i < n; i++) {
@@ -198,10 +187,18 @@ void WbCadShape::updateUrl() {
     mUrl->blockSignals(false);
   }
 
+  const QString &completeUrl = WbUrl::computePath(this, "url", mUrl, 0, true);
+  if (completeUrl.isEmpty() || completeUrl == WbUrl::missingTexture()) {
+    if (areWrenObjectsInitialized())
+      deleteWrenObjects();
+    return;
+  }
+
   if (WbUrl::isWeb(completeUrl)) {
     if (mDownloader && !mDownloader->error().isEmpty()) {
       warn(mDownloader->error());  // failure downloading or file does not exist (404)
-      deleteWrenObjects();
+      if (areWrenObjectsInitialized())
+        deleteWrenObjects();
       delete mDownloader;
       mDownloader = NULL;
       return;
@@ -224,9 +221,9 @@ void WbCadShape::updateUrl() {
     if (areMaterialAssetsAvailable(completeUrl)) {
       mObjMaterials.clear();
       // generate mapping between referenced files and cached files
-      QStringList rawMaterials = objMaterialList(completeUrl);
+      const QStringList rawMaterials = objMaterialList(completeUrl);
       foreach (QString material, rawMaterials) {
-        QString adjustedUrl = WbUrl::combinePaths(material, completeUrl);
+        const QString adjustedUrl = WbUrl::combinePaths(material, completeUrl);
         assert(WbNetwork::instance()->isCachedNoMapUpdate(adjustedUrl));
         if (!mObjMaterials.contains(material))
           mObjMaterials.insert(material, adjustedUrl);
@@ -237,7 +234,8 @@ void WbCadShape::updateUrl() {
     }
   }
 
-  createWrenObjects();
+  if (areWrenObjectsInitialized())
+    createWrenObjects();
 }
 
 bool WbCadShape::areMaterialAssetsAvailable(const QString &url) {
@@ -467,6 +465,9 @@ void WbCadShape::createWrenObjects() {
       pbrAppearance->postFinalize();
       connect(pbrAppearance, &WbPbrAppearance::changed, this, &WbCadShape::updateAppearance);
 
+      if (pbrAppearance->transparency() > 0.999)
+        warn(tr("Mesh '%1' created but it is fully transparent.").arg(mesh->mName.C_Str()));
+
       WrMaterial *wrenMaterial = wr_pbr_material_new();
       pbrAppearance->modifyWrenMaterial(wrenMaterial);
 
@@ -506,9 +507,6 @@ void WbCadShape::createWrenObjects() {
     mWrenEncodeDepthMaterials.push_back(depthMaterial);
     mWrenSegmentationMaterials.push_back(segmentationMaterial);
   }
-
-  if (mBoundingSphere)
-    recomputeBoundingSphere();
 }
 
 void WbCadShape::updateAppearance() {
@@ -556,15 +554,12 @@ void WbCadShape::recomputeBoundingSphere() const {
   assert(mBoundingSphere);
   mBoundingSphere->empty();
 
-  const WbVector3 &scale = absoluteScale();
   for (WrStaticMesh *mesh : mWrenMeshes) {
     float sphere[4];
     wr_static_mesh_get_bounding_sphere(mesh, sphere);
 
     const WbVector3 center(sphere[0], sphere[1], sphere[2]);
-    double radius = sphere[3];
-    radius = radius / std::max(std::max(scale.x(), scale.y()), scale.z());
-    const WbBoundingSphere meshBoundingSphere(NULL, center, radius);
+    const WbBoundingSphere meshBoundingSphere(NULL, center, sphere[3]);
     mBoundingSphere->enclose(&meshBoundingSphere);
   }
 }

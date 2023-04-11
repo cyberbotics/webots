@@ -1,11 +1,11 @@
 /*
- * Copyright 1996-2022 Cyberbotics Ltd.
+ * Copyright 1996-2023 Cyberbotics Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -223,7 +223,10 @@ static void motor_toggle_remote(WbDevice *d, WbRequest *r) {
     m->requests[C_MOTOR_SET_CONTROL_PID] = 1;
 }
 
-// Exported functions
+// Exported functions and variables
+
+const int wb_ROTATIONAL = WB_ROTATIONAL;
+const int wb_LINEAR = WB_LINEAR;
 
 void wb_motor_init(WbDevice *d) {
   d->read_answer = motor_read_answer;
