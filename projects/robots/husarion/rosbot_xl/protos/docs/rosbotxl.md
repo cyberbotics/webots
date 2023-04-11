@@ -1,4 +1,4 @@
-The ROSbot XL by [Husarion](https://husarion.com/) is a universal, ROS2-native autonomous mobile robot platform dedicated for R&D, rapid prototyping and custom robot development for indoor use cases.
+The ROSbot XL by [Husarion](https://husarion.com/) is a universal, ROS2-native autonomous mobile robot platform dedicated to R&D, rapid prototyping and custom robot development for indoor use cases.
 It is equipped with a LIDAR and an IMU.
 
 More information on specifications is available at the following link: [ROSbot XL - Specifications](https://husarion.com/manuals/rosbot-xl/#specification).
@@ -16,7 +16,7 @@ More information on specifications is available at the following link: [ROSbot X
 
 %end
 
-The ROSbot XL motors are [RotationalMotor](https://cyberbotics.com/doc/reference/rotationalmotor) nodes, each associated with a [PositionSensor](https://cyberbotics.com/doc/reference/positionsensor).
+The ROSbot XL motors are [RotationalMotor](https://cyberbotics.com/doc/reference/rotationalmotor) nodes, each motor is associated with a [PositionSensor](https://cyberbotics.com/doc/reference/positionsensor).
 They are named the following way:
 
 %figure "ROSbot XL wheel names"
@@ -33,7 +33,7 @@ They are named the following way:
 The `wb_set_motor_position` and `wb_set_motor_velocity` functions allow the user to control the rotation of the wheels.
 `wb_position_sensor_get_value` allows the user to get the value of the position sensor.
 
-The [MPU-9250](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/develop/projects/devices/tdk/protos/Mpu-9250.proto) IMU allows to get acceleration, angular rate and heading values.
+The [MPU-9250](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/develop/projects/devices/tdk/protos/Mpu-9250.proto) IMU allows the user to get acceleration, angular rate and heading values.
 The following table shows the names to access the different components of the IMU:
 
 %figure "IMU components names"
