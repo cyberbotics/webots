@@ -64,6 +64,8 @@ WbTreeItem::WbTreeItem(WbField *field) {
     const WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(value);
     if (sfnode) {
       connect(sfnode, &WbSFNode::changed, this, &WbTreeItem::sfnodeChanged);
+      if (sfnode->value())
+        connect(sfnode->value(), &WbNode::defUseNameChanged, this, &WbTreeItem::propagateDataChange, Qt::UniqueConnection);
     } else {
       // Main signal
       connect(singleValue, &WbSFNode::changed, this, &WbTreeItem::propagateDataChange);
@@ -134,6 +136,23 @@ QString WbTreeItem::data() const {
         const WbSFString *name = mNode->findSFString("name");
         if (name)
           fullName += " \"" + name->value() + "\"";
+        else {
+          WbSFNode *endPoint = mNode->findSFNode("endPoint");
+          if (endPoint && endPoint->value()) {
+            const QString endPointFullName = endPoint->value()->fullName();
+            if (!endPointFullName.startsWith("DEF ") && !endPointFullName.startsWith("USE ")) {
+              const WbSFString *endPointName = endPoint->value()->findSFString("name");
+              if (endPointName)
+                fullName += " \"" + endPointName->value() + "\"";
+              else {
+                const WbSFString *solidName = endPoint->value()->findSFString("solidName");
+                if (solidName)
+                  fullName += " \"" + solidName->value() + "\"";
+              }
+            } else
+              fullName += "  " + endPointFullName.mid(4);
+          }
+        }
       }
       return fullName;
     }
@@ -449,8 +468,10 @@ void WbTreeItem::sfnodeChanged() {
   if (count)
     emit childrenNeedDeletion(0, count);
 
-  if (nodeObject != NULL)
+  if (nodeObject) {
     emit rowsInserted(0, 1);
+    connect(sfnode->value(), &WbNode::defUseNameChanged, this, &WbTreeItem::propagateDataChange, Qt::UniqueConnection);
+  }
 }
 
 bool WbTreeItem::isSFNode() const {
