@@ -128,6 +128,7 @@ void WbTrack::postFinalize() {
     device->postFinalize();
   }
   connect(mDeviceField, &WbMFNode::changed, this, &WbTrack::updateDevices);
+  connect(mDeviceField, &WbMFNode::itemChanged, this, &WbTrack::addDevice);
   connect(mDeviceField, &WbMFNode::itemInserted, this, &WbTrack::addDevice);
 
   if (childCount() > 0) {
@@ -318,7 +319,6 @@ void WbTrack::updateTextureTransform() {
     mTextureTransform = mShape->abstractAppearance()->textureTransform();
     if (mTextureTransform) {
       mSavedTextureTransformTranslations[stateId()] = mTextureTransform->translation();
-      mTextureTransform->enableX3DTranslationUpdate(true);
       QList<WbNode *> useNodesList = WbVrmlNodeUtilities::findUseNodeAncestors(mTextureTransform);
       if (!useNodesList.isEmpty()) {
         mTextureTransform->parsingWarn(tr("Non-admissible TextureTransform USE node inside Track node."

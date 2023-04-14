@@ -1,7 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#hokuyo-urg-04lx
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/hokuyo/protos/HokuyoUrg04lx.proto
 # Model of Hokuyo URG-04LX (lidar device).
 # specs:
 #  - field of view: 240 [deg]

@@ -1,3 +1,5 @@
+function epuck_avoid_collision
+
 % time in [ms] of a simulation step
 TIME_STEP = 64;
 

@@ -1,6 +1,5 @@
 # Blender v3.0.1 OBJ File: 'base.blend'
 # www.blender.org
-mtllib base.mtl
 o base
 v 0.061051 -0.041839 0.214405
 v 0.059250 0.041883 0.214405
