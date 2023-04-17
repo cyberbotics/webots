@@ -64,10 +64,9 @@ Please [contact us](https://cyberbotics.com/#contact) if you would like to see y
 | ![icon.png](images/robots/summit_xl_steel/icon.png)  | [Summit-XL Steel](summit-xl-steel.md)     | Robotnik             | *Four-wheeled (mecanum) robot*    |
 | ![icon.png](images/robots/surveyor/icon.png)         | [Surveyor SRV-1](surveyor.md)             | Surveyor Corporation | *Robot with two tracks*           |
 | ![icon.png](images/robots/tiago_base/icon.png)       | [TIAGo Base](tiago-base.md)               | PAL Robotics         | *Two-wheeled robot*               |
-| ![icon.png](images/robots/tiago_iron/icon.png)       | [TIAGo Iron](tiago-iron.md)               | PAL Robotics         | *Two-wheeled human-like robot*    |
-| ![icon.png](images/robots/tiago_steel/icon.png)      | [TIAGo Steel](tiago-steel.md)             | PAL Robotics         | *Two-wheeled human-like robot*    |
-| ![icon.png](images/robots/tiago_titanium/icon.png)   | [TIAGo Titanium](tiago-titanium.md)       | PAL Robotics         | *Two-wheeled human-like robot*    |
-| ![icon.png](images/robots/tiagopp/icon.png)          | [TIAGopp ](tiagopp.md)                    | PAL Robotics         | *Two-wheeled human-like robot*    |
+| ![icon.png](images/robots/tiago_lite/icon.png)       | [TIAGo LITE](tiago-lite.md)               | PAL Robotics         | *Two-wheeled human-like robot*    |
+| ![icon.png](images/robots/tiago/icon.png)            | [TIAGo](tiago.md)                         | PAL Robotics         | *Two-wheeled human-like robot*    |
+| ![icon.png](images/robots/tiago++/icon.png)          | [TIAGo++](tiago++.md)                     | PAL Robotics         | *Two-wheeled human-like robot*    |
 | ![icon.png](images/robots/thymio2/icon.png)          | [Thymio II](thymio2.md)                   | Mobsya               | *Two-wheeled robot*               |
 | ![icon.png](images/robots/tinkerbots/icon.png)       | [Tinkerbots](tinkerbots.md)               | Kinematics GMBH      | *Robotics kit*                    |
 | ![icon.png](images/robots/turtlebot3burger/icon.png) | [Turtlebot3 Burger](turtlebot3-burger.md) | Robotis              | *Two-wheeled robot*               |

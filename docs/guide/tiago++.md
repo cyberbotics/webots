@@ -33,7 +33,7 @@ Tiago++ {
   MFNode      lidarSlot             HokuyoUrg04lxug01 {}
 }
 ```
-> **File location**: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiagopp/protos/Tiagopp.proto]({{ url.github_tree }}/projects/robots/pal_robotics/tiagopp/protos/Tiago++.proto)"
+> **File location**: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago++/protos/Tiago++.proto]({{ url.github_tree }}/projects/robots/pal_robotics/tiago++/protos/Tiago++.proto)"
 
 #### Tiago++ Field Summary
 
