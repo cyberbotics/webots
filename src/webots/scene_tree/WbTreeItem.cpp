@@ -92,7 +92,9 @@ WbTreeItem::WbTreeItem(WbField *field) {
   }
 
   const WbMultipleValue *const multipleValue = static_cast<WbMultipleValue *>(value);
-  connect(multipleValue, &WbMultipleValue::itemChanged, this, &WbTreeItem::propagateDataChange);
+  // slots are executed in the order they have been connected
+  connect(multipleValue, &WbMultipleValue::itemChanged, this, &WbTreeItem::emitChildNeedsDeletion);
+  connect(multipleValue, &WbMultipleValue::itemChanged, this, &WbTreeItem::addChild);
   connect(multipleValue, &WbMultipleValue::itemRemoved, this, &WbTreeItem::emitChildNeedsDeletion);
   connect(multipleValue, &WbMultipleValue::itemInserted, this, &WbTreeItem::addChild);
 }

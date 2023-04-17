@@ -94,7 +94,7 @@
       "axis": "0 1 0",
       "maxPosition": 0.025,
       "minPosition": 0,
-      "name": "finger1",
+      "name": "finger::left",
       "position": 0,
       "transformID": "n128",
       "type": "LinearMotor"
@@ -103,7 +103,7 @@
       "axis": "0 -1 0",
       "maxPosition": 0.025,
       "minPosition": 0,
-      "name": "finger2",
+      "name": "finger::right",
       "position": 0,
       "transformID": "n143",
       "type": "LinearMotor"
@@ -150,14 +150,14 @@
     },
     {
       "axis": "0 1 0",
-      "name": "finger1sensor",
+      "name": "finger::leftsensor",
       "position": 0,
       "transformID": "n128",
       "type": "PositionSensor"
     },
     {
       "axis": "0 -1 0",
-      "name": "finger2sensor",
+      "name": "finger::rightsensor",
       "position": 0,
       "transformID": "n143",
       "type": "PositionSensor"

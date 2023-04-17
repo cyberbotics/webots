@@ -1,6 +1,5 @@
 # Blender v3.0.1 OBJ File: ''
 # www.blender.org
-mtllib geom.mtl
 o geom.002
 v 0.163138 -0.011148 -0.000010
 v 0.102858 -0.052136 0.062664

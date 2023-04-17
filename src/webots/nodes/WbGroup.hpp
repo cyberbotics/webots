@@ -63,12 +63,7 @@ public:
   void insertChild(int index, WbNode *child);
 
   // set a child at the specified index
-  // TODO: this will be used instead of removeChild() + insertChild() once the problem with WbMFNode::setItem() is fixed
   void setChild(int index, WbNode *child);
-
-  // remove the child without deleteing it
-  // returns false if the was 'node' was not a child of this Group
-  bool removeChild(WbNode *node);
 
   // remove all children without deleting them
   void clear();

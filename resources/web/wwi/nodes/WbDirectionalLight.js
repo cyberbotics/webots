@@ -1,11 +1,27 @@
 import WbLight from './WbLight.js';
+import {WbNodeType} from './wb_node_type.js';
 
 export default class WbDirectionalLight extends WbLight {
+  #direction;
   #wrenLight;
   constructor(id, on, color, direction, intensity, castShadows, ambientIntensity) {
     super(id, on, color, intensity, castShadows, ambientIntensity);
 
-    this.direction = direction;
+    this.#direction = direction;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_DIRECTIONAL_LIGHT;
+  }
+
+  get direction() {
+    return this.#direction;
+  }
+
+  set direction(newDirection) {
+    this.#direction = newDirection;
+
+    this.#updateDirection();
   }
 
   createWrenObjects() {
@@ -27,7 +43,7 @@ export default class WbDirectionalLight extends WbLight {
 
   clone(customID) {
     this.useList.push(customID);
-    return new WbDirectionalLight(customID, this.on, this.color, this.direction, this.intensity, this.castShadows,
+    return new WbDirectionalLight(customID, this.on, this.color, this.#direction, this.intensity, this.castShadows,
       this.ambientIntensity);
   }
 
@@ -40,7 +56,7 @@ export default class WbDirectionalLight extends WbLight {
   }
 
   #applyLightDirectionToWren() {
-    const pointer = _wrjs_array3(this.direction.x, this.direction.y, this.direction.z);
+    const pointer = _wrjs_array3(this.#direction.x, this.#direction.y, this.#direction.z);
     _wr_directional_light_set_direction(this.#wrenLight, pointer);
   }
 
@@ -61,5 +77,10 @@ export default class WbDirectionalLight extends WbLight {
       console.log('Maximum number of directional lights ' + maxCount +
         ' has been reached, newly added lights won\'t be rendered.');
     }
+  }
+
+  #updateDirection() {
+    if (this.wrenObjectsCreatedCalled)
+      this.#applyLightDirectionToWren();
   }
 }

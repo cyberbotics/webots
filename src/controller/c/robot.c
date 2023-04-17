@@ -61,6 +61,7 @@
 #include "robot_private.h"
 #include "robot_window_private.h"
 #include "scheduler.h"
+#include "sha1.h"
 #include "supervisor_private.h"
 #include "tcp_client.h"
 
@@ -73,6 +74,10 @@
 #define WEBOTS_EXIT_FALSE 0
 #define WEBOTS_EXIT_NOW 1
 #define WEBOTS_EXIT_LATER 2
+
+#ifndef LIBCONTROLLER_VERSION
+#error "Missing declaration of LIBCONTROLLER_VERSION preprocessor macro in the Makefile."
+#endif
 
 typedef struct {
   WbDevice **device;  // array of devices
@@ -119,6 +124,7 @@ typedef struct {
   WbSimulationMode simulation_mode;  // WB_SUPERVISOR_SIMULATION_MODE_FAST, etc.
 } WbRobot;
 
+static char *WEBOTS_VERSION;
 static bool robot_init_was_done = false;
 static WbRobot robot;
 static WbMutexRef robot_step_mutex;
@@ -348,6 +354,17 @@ static void robot_send_request(unsigned int step_duration) {
 
 // rebuild the device list
 static void robot_configure(WbRequest *r) {
+  free(robot.device[0]->name);
+  robot.device[0]->name = request_read_string(r);
+
+  WEBOTS_VERSION = request_read_string(r);
+  if (strlen(WEBOTS_VERSION) && (strlen(WEBOTS_VERSION) != strlen(LIBCONTROLLER_VERSION) ||
+                                 strncmp(WEBOTS_VERSION, LIBCONTROLLER_VERSION, strlen(WEBOTS_VERSION))))
+    fprintf(stderr,
+            "Warning: Webots [%s] and libController [%s] versions are not the same for Robot '%s'! Different versions can lead "
+            "to undefined behavior.\n",
+            WEBOTS_VERSION, LIBCONTROLLER_VERSION, robot.device[0]->name);
+
   // delete all the devices except the robot
   WbDeviceTag tag;
   for (tag = 1; tag < robot.n_device; tag++)
@@ -366,8 +383,6 @@ static void robot_configure(WbRequest *r) {
   robot.device[0] = d;  // restore pointer to root device
   robot.device[0]->node = request_read_uint16(r);
   simulation_time = request_read_double(r);
-  free(robot.device[0]->name);
-  robot.device[0]->name = request_read_string(r);
 
   // printf("robot.is_supervisor = %d\n", robot.is_supervisor);
   // printf("robot.synchronization = %d\n", robot.synchronization);
@@ -1067,13 +1082,33 @@ static void wb_robot_cleanup_devices() {
   }
 }
 
+static char *encode_robot_name(const char *robot_name) {
+  if (!robot_name)
+    return NULL;
+
+  char *encoded_name = percent_encode(robot_name);
+  int length = strlen(encoded_name);
+  // the robot name is used to connect to the libController and in this process there are indirect
+  // limitations such as QLocalServer only accepting strings up to 106 characters for server names,
+  // for these reasons if the robot name is bigger than an arbitrary length, a hashed version is used instead
+  if (length > 70) {  // note: this threshold should be the same as in WbRobot.cpp
+    char hash[21];
+    char *output = malloc(41);
+    SHA1(hash, encoded_name, length);
+    free(encoded_name);
+    for (size_t i = 0; i < 20; i++)
+      sprintf((output + (2 * i)), "%02x", hash[i] & 0xff);
+    return output;
+  }
+
+  return encoded_name;
+}
+
 static char *compute_socket_filename() {
-  const char *WEBOTS_ROBOT_NAME = getenv("WEBOTS_ROBOT_NAME");
+  char *robot_name = encode_robot_name(wbu_system_getenv("WEBOTS_ROBOT_NAME"));
   const char *WEBOTS_INSTANCE_PATH = wbu_system_webots_instance_path(true);
   char *socket_filename;
-  if (WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_INSTANCE_PATH && WEBOTS_INSTANCE_PATH[0]) {
-    // regular controller case
-    char *robot_name = percent_encode(WEBOTS_ROBOT_NAME);
+  if (robot_name && robot_name[0] && WEBOTS_INSTANCE_PATH && WEBOTS_INSTANCE_PATH[0]) {
 #ifndef _WIN32
     const int length = strlen(WEBOTS_INSTANCE_PATH) + strlen(robot_name) + 15;  // "%sintern/%s/socket"
     socket_filename = malloc(length);
@@ -1098,7 +1133,7 @@ static char *compute_socket_filename() {
   // extern controller case
   // parse WEBOTS_CONTROLLER_URL to extract protocol, host, port and robot name
   const char *TMP_DIR = wbu_system_tmpdir();
-  char *WEBOTS_CONTROLLER_URL = getenv("WEBOTS_CONTROLLER_URL");
+  char *WEBOTS_CONTROLLER_URL = (char *)wbu_system_getenv("WEBOTS_CONTROLLER_URL");
   if (WEBOTS_CONTROLLER_URL == NULL || WEBOTS_CONTROLLER_URL[0] == 0 || strstr(WEBOTS_CONTROLLER_URL, "://") == NULL) {
     // either the WEBOTS_CONTROLLER_URL is not defined, empty or contains only a robot name
     // default to the most recent /tmp/webots-* folder
@@ -1160,19 +1195,22 @@ static char *compute_socket_filename() {
   int length = strlen(TMP_DIR) + 24;  // TMPDIR + "/webots-12345678901/ipc"
   char *folder = malloc(length);
   snprintf(folder, length, "%s/webots-%d/ipc", TMP_DIR, number);
-  char *robot_name = strstr(&WEBOTS_CONTROLLER_URL[6], "/");
+  free(robot_name);
+  char *sub_string = strstr(&WEBOTS_CONTROLLER_URL[6], "/");
+  robot_name = encode_robot_name(sub_string ? sub_string + 1 : NULL);
   if (robot_name) {
 #ifndef _WIN32
     // socket file name is like: folder + robot_name + "/extern"
-    length += strlen(robot_name + 1) + 8;
+    length += strlen(robot_name) + 8;
     socket_filename = malloc(length);
-    snprintf(socket_filename, length, "%s/%s/extern", folder, robot_name + 1);
+    snprintf(socket_filename, length, "%s/%s/extern", folder, robot_name);
 #else
     // socket file name is like: "\\.\\pipe\webots-XXX-robot_name"
-    length = 28 + strlen(robot_name + 1);
+    length = 28 + strlen(robot_name);
     socket_filename = malloc(length);
-    snprintf(socket_filename, length, "\\\\.\\pipe\\webots-%d-%s", number, robot_name + 1);
+    snprintf(socket_filename, length, "\\\\.\\pipe\\webots-%d-%s", number, robot_name);
 #endif
+    free(robot_name);
   } else {  // check if a single extern robot is present in the ipc folder
     DIR *dr = opendir(folder);
     if (dr == NULL) {  // the ipc folder was not yet created
@@ -1241,7 +1279,7 @@ static char *compute_socket_filename() {
 }
 
 static void compute_remote_info(char **host, int *port, char **robot_name) {
-  const char *WEBOTS_CONTROLLER_URL = getenv("WEBOTS_CONTROLLER_URL");
+  const char *WEBOTS_CONTROLLER_URL = wbu_system_getenv("WEBOTS_CONTROLLER_URL");
   const char *url_suffix = strstr(&WEBOTS_CONTROLLER_URL[6], ":");
 
   if (url_suffix == NULL) {  // assuming only the IP address was provided
@@ -1256,11 +1294,7 @@ static void compute_remote_info(char **host, int *port, char **robot_name) {
   snprintf(*host, host_length, "%s", &WEBOTS_CONTROLLER_URL[6]);
   sscanf(url_suffix, ":%d", port);
   const char *rn = strstr(url_suffix, "/");
-  if (rn != NULL) {
-    *robot_name = malloc(strlen(rn) + 1);
-    strcpy(*robot_name, rn);
-  } else
-    *robot_name = NULL;
+  *robot_name = rn != NULL ? encode_robot_name(rn + 1) : NULL;
 }
 
 int wb_robot_init() {  // API initialization
@@ -1315,8 +1349,8 @@ int wb_robot_init() {  // API initialization
   int retry = 0;
   while (true) {
     bool success;
-    const char *WEBOTS_CONTROLLER_URL = getenv("WEBOTS_CONTROLLER_URL");
-    const char *WEBOTS_ROBOT_NAME = getenv("WEBOTS_ROBOT_NAME");
+    const char *WEBOTS_CONTROLLER_URL = wbu_system_getenv("WEBOTS_CONTROLLER_URL");
+    const char *WEBOTS_ROBOT_NAME = wbu_system_getenv("WEBOTS_ROBOT_NAME");
     const char *WEBOTS_TMP_PATH = wbu_system_webots_instance_path(true);
     if ((WEBOTS_CONTROLLER_URL != NULL) &&
         !(WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0]) &&

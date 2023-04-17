@@ -6,11 +6,15 @@ The MATLAB functions and prototypes are described in Webots [Reference Manual](.
 Note that unlike with the C API, there are no `wb_robot_init` and `wb_robot_cleanup` functions in the MATLAB API.
 The necessary initialization and cleanup are automatically carried out respectively before entering and after leaving the controller code.
 
+You should implement your controller as a [function](https://www.mathworks.com/help/matlab/matlab_prog/scripts-and-functions.html) by adding the necessary `function` declaration followed by the name of the controller at the start of the file.
+
 If the MATLAB code uses graphics, it is necessary to call the `drawnow` command somewhere in the control loop in order to flush the graphics.
 
 Here is a simple MATLAB controller example:
 
 ```MATLAB
+function simple_example
+
 % uncomment the next two lines to use the MATLAB desktop
 %desktop;
 %keyboard;
