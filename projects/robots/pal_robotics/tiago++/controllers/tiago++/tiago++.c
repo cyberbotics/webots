@@ -22,8 +22,10 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <webots/camera.h>
 #include <webots/keyboard.h>
 #include <webots/motor.h>
+#include <webots/range_finder.h>
 #include <webots/robot.h>
 
 #define MAX_SPEED 7.0  // [rad/s]
@@ -66,6 +68,12 @@ int main(int argc, char **argv) {
   wb_robot_init();
 
   const int time_step = wb_robot_get_basic_time_step();
+  
+  // enable RGBD camera
+  WbDeviceTag rgb_camera = wb_robot_get_device("Astra rgb");
+  wb_camera_enable(rgb_camera, time_step);
+  WbDeviceTag depth_camera = wb_robot_get_device("Astra depth");
+  wb_range_finder_enable(depth_camera, time_step);
 
   // get devices
   // initialize the robot's information

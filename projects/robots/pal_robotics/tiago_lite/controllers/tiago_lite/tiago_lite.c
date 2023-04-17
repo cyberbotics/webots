@@ -24,8 +24,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <webots/camera.h>
 #include <webots/lidar.h>
 #include <webots/motor.h>
+#include <webots/range_finder.h>
 #include <webots/robot.h>
 
 #define MAX_SPEED 6.4
@@ -53,6 +55,12 @@ int main(int argc, char **argv) {
   WbDeviceTag urg04lx = wb_robot_get_device("Hokuyo URG-04LX-UG01");
   WbDeviceTag left_wheel = wb_robot_get_device("wheel_left_joint");
   WbDeviceTag right_wheel = wb_robot_get_device("wheel_right_joint");
+
+  // enable RGBD camera
+  WbDeviceTag rgb_camera = wb_robot_get_device("Astra rgb");
+  WbDeviceTag depth_camera = wb_robot_get_device("Astra depth");  
+  wb_camera_enable(rgb_camera, time_step);
+  wb_range_finder_enable(depth_camera, time_step);
 
   // init urg04lx
   wb_lidar_enable(urg04lx, time_step);

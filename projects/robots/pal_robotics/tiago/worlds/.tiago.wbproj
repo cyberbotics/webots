@@ -7,3 +7,5 @@ centralWidgetVisible: 1
 orthographicViewHeight: 1
 textFiles: 0 "controllers/tiago/tiago.c"
 consoles: Console:All:All
+renderingDevicePerspectives: TIAGo:Astra depth;1;0.5;0.2;0
+renderingDevicePerspectives: TIAGo:Astra rgb;1;0.5;0;0
