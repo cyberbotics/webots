@@ -68,7 +68,7 @@ int main(int argc, char **argv) {
   wb_robot_init();
 
   const int time_step = wb_robot_get_basic_time_step();
-  
+
   // enable RGBD camera
   WbDeviceTag rgb_camera = wb_robot_get_device("Astra rgb");
   wb_camera_enable(rgb_camera, time_step);

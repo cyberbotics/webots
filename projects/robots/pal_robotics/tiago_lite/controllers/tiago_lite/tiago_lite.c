@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
 
   // enable RGBD camera
   WbDeviceTag rgb_camera = wb_robot_get_device("Astra rgb");
-  WbDeviceTag depth_camera = wb_robot_get_device("Astra depth");  
+  WbDeviceTag depth_camera = wb_robot_get_device("Astra depth");
   wb_camera_enable(rgb_camera, time_step);
   wb_range_finder_enable(depth_camera, time_step);
 
