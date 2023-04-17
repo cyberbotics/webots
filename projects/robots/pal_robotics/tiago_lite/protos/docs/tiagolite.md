@@ -20,8 +20,8 @@ TiagoLite {
   SFBool      supervisor       FALSE
   SFBool      synchronization  TRUE
   SFBool      selfCollision    FALSE
-  MFNode      cameraSlot       []                    
-  MFNode      lidarSlot        HokuyoUrg04lxug01{}   
+  MFNode      cameraSlot       Astra { translation -0.028 -0.035 -0.009 rotation 1 0 0 -1.5708}
+  MFNode      lidarSlot        HokuyoUrg04lxug01 {}   
 }
 ```
 

@@ -12,15 +12,14 @@ TiagoBase {
   SFVec3f      translation      0 0 0.095
   SFRotation   rotation         0 0 1 0
   SFString     name             "TIAGo Base"
-  SFString     controller       "tiagoBase"
+  SFString     controller       "tiago_base"
   MFString     controllerArgs   []
   SFString     window          "<generic>"
   SFString     customData       ""
   SFBool       supervisor       FALSE
   SFBool       synchronization  TRUE
   SFBool       selfCollision    FALSE
-  SFString     model            "TIAGo Base"
-  SFString     description      "two-wheeled robot designed by PAL Robotics"
+  SFString     model            "PAL Robotics - TIAGo Base"
   MFNode       bodySlot         []
   MFNode       lidarSlot        []
 }

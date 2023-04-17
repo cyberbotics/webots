@@ -23,7 +23,7 @@ Tiago++ {
   SFBool      supervisor            FALSE
   SFBool      synchronization       TRUE
   SFBool      selfCollision         FALSE
-  MFNode      cameraSlot            []                             
+  MFNode      cameraSlot            Astra { translation -0.028 -0.035 -0.009 rotation 1 0 0 -1.5708}
   SFNode      endEffectorRightSlot  TiagoGripper { name "right" }
   SFNode      endEffectorLeftSlot   TiagoGripper { name "left" }
   MFNode      lidarSlot             HokuyoUrg04lxug01{}
