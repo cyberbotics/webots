@@ -761,6 +761,8 @@ WbVector2 WbCamera::applyCameraDistortionToImageCoordinate(const WbVector2 &uv) 
       WbVector2(2 * tc.x() * relativeUv.x() * relativeUv.y() + tc.y() * (r2 + 2 * relativeUv.x() * relativeUv.x()),
                 tc.x() * (r2 + 2 * relativeUv.y() * relativeUv.y() + 2 * tc.y() * relativeUv.x() * relativeUv.y()));
   }
+  distortedUv.setX(qMax(0.0, qMin(distortedUv.x(), 1.0)));
+  distortedUv.setY(qMax(0.0, qMin(distortedUv.y(), 1.0)));
   return distortedUv;
 }
 
