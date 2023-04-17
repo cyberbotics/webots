@@ -22,7 +22,7 @@ PROTO Tiago [
   field  SFBool      supervisor       FALSE
   field  SFBool      synchronization  TRUE
   field  SFBool      selfCollision    FALSE                 # Enables/disables the detection of collisions within the robot.
-  field  SFNode      endEffectorSlot  TiagoGripper {}       # Defines the robot end effector (TiagoGripper or TiagoRightHey5) 
+  field  SFNode      endEffectorSlot  TiagoGripper {}       # Defines the robot end effector. 
   field  MFNode      cameraSlot       []                    # Extends the robot with a camera at head level.
   field  MFNode      lidarSlot        HokuyoUrg04lxug01{}   # Extends the robot with a lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
 ]
