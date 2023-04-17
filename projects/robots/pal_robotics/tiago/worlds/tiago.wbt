@@ -5,7 +5,7 @@ EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLigh
 EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
 EXTERNPROTO "webots://projects/appearances/protos/ThreadMetalPlate.proto"
 EXTERNPROTO "webots://projects/appearances/protos/Roughcast.proto"
-EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_titanium/protos/TiagoTitanium.proto"
+EXTERNPROTO "webots://projects/robots/pal_robotics/tiago/protos/Tiago.proto"
 EXTERNPROTO "webots://projects/objects/factory/containers/protos/WoodenBox.proto"
 EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
 EXTERNPROTO "webots://projects/objects/factory/conveyors/protos/ConveyorBelt.proto"
@@ -28,14 +28,19 @@ EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficCone.proto"
 
 WorldInfo {
   info [
-    "This simulation shows a Tiago Titanium making hello with the sign 'Peace' with these fingers in an industrial environment. It can also be controlled using the arrows on the keyboard."
+    "This simulation shows a TIAGo making hello in an industrial environment. It can also been controlled using the keyboard arrows."
   ]
-  title "Simulation of PAL Robotics' TIAGo Titanium robot"
+  title "Simulation of PAL Robotics' TIAGo robot"
+  contactProperties [
+    ContactProperties {
+      softCFM 0.0002
+    }
+  ]
 }
 Viewpoint {
-  orientation -0.22921517477925005 0.7270715442788751 0.647168736227925 0.9066166494419753
-  position -14.950320686558108 -9.948665071582946 15.616015060573838
-  follow "TIAGo Titanium"
+  orientation -0.28559561547178314 0.5547995890966351 0.7814298179372848 1.1650236317342777
+  position -9.98739698000763 -12.425976754253815 13.876558656915025
+  follow "TIAGo Steel"
 }
 TexturedBackground {
   texture "factory"
@@ -77,7 +82,7 @@ DEF ROOF RectangleArena {
     }
   }
 }
-TiagoTitanium {
+Tiago {
   translation -4.416 1.063 0.095
 }
 WoodenBox {
@@ -204,12 +209,12 @@ WoodenPallet {
 }
 WoodenPallet {
   translation -3.11 -4 0
-  rotation 0 0 -1 -5.307179586466759e-06
+  rotation 0 0 1 1.5708
   name "wooden pallet(1)"
 }
 WoodenPallet {
   translation -3.112 -6 0
-  rotation 0 0 -1 -5.307179586466759e-06
+  rotation 0 0 1 1.5708
   name "wooden pallet(2)"
 }
 WoodenPallet {

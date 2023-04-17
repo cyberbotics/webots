@@ -5,7 +5,6 @@ EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLigh
 EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
 EXTERNPROTO "webots://projects/appearances/protos/ThreadMetalPlate.proto"
 EXTERNPROTO "webots://projects/appearances/protos/Roughcast.proto"
-EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_steel/protos/TiagoSteel.proto"
 EXTERNPROTO "webots://projects/objects/factory/containers/protos/WoodenBox.proto"
 EXTERNPROTO "webots://projects/objects/solids/protos/SolidBox.proto"
 EXTERNPROTO "webots://projects/objects/factory/conveyors/protos/ConveyorBelt.proto"
@@ -25,22 +24,18 @@ EXTERNPROTO "webots://projects/objects/stairs/protos/StraightStairsRail.proto"
 EXTERNPROTO "webots://projects/appearances/protos/Rubber.proto"
 EXTERNPROTO "webots://projects/objects/obstacles/protos/OilBarrel.proto"
 EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficCone.proto"
+EXTERNPROTO "webots://projects/robots/pal_robotics/tiago/protos/Tiago.proto"
+EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_extensions/protos/TiagoRightHey5.proto"
 
 WorldInfo {
   info [
-    "This simulation shows a Tiago Steel making hello in an industrial environment. It can also been controlled using the keyboard arrows."
+    "This simulation shows a TIAGo with Hey5 hand making hello with the sign 'Peace' with these fingers in an industrial environment. It can also be controlled using the arrows on the keyboard."
   ]
-  title "Simulation of PAL Robotics' TIAGo Steel robot"
-  contactProperties [
-    ContactProperties {
-      softCFM 0.0002
-    }
-  ]
+  title "Simulation of PAL Robotics' TIAGo robot with Hey5 hand"
 }
 Viewpoint {
-  orientation -0.28559561547178314 0.5547995890966351 0.7814298179372848 1.1650236317342777
-  position -9.98739698000763 -12.425976754253815 13.876558656915025
-  follow "TIAGo Steel"
+  orientation -0.17407774399250883 0.06961057226905713 0.982268449699395 2.393055293438646
+  position -1.6908084037430646 -1.836369346852304 1.8485309763876223
 }
 TexturedBackground {
   texture "factory"
@@ -82,8 +77,11 @@ DEF ROOF RectangleArena {
     }
   }
 }
-TiagoSteel {
+Tiago {
   translation -4.416 1.063 0.095
+  controller "tiago_hey5_hand"
+  endEffectorSlot TiagoRightHey5 {
+  }
 }
 WoodenBox {
   translation -6.2 7 0.405
@@ -209,12 +207,12 @@ WoodenPallet {
 }
 WoodenPallet {
   translation -3.11 -4 0
-  rotation 0 0 1 1.5708
+  rotation 0 0 -1 -5.307179586466759e-06
   name "wooden pallet(1)"
 }
 WoodenPallet {
   translation -3.112 -6 0
-  rotation 0 0 1 1.5708
+  rotation 0 0 -1 -5.307179586466759e-06
   name "wooden pallet(2)"
 }
 WoodenPallet {

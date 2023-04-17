@@ -1,27 +1,28 @@
 #VRML_SIM R2023b utf8
 # license: Apache License 2.0.
 # license url: https://www.apache.org/licenses/LICENSE-2.0
-# documentation url: # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/pal_robotics/tiago_titanium/protos/TiagoTitanium.proto
-# Titanium version of the TIAGo robot from PAL Robotics.
-# The robot is composed by the TIAGo base and a body with a front arm equipped with a Hey5 hand.
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/pal_robotics/tiago/protos/Tiago.proto
+# TIAGo robot from PAL Robotics.
+# The robot is composed by the TIAGo base and a body with the front arm.
 
 EXTERNPROTO "webots://projects/devices/hokuyo/protos/HokuyoUrg04lxug01.proto"
 EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto"
 EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_extensions/protos/TiagoBody.proto"
 EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_extensions/protos/TiagoFrontArm.proto"
-EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_extensions/protos/TiagoRightHey5.proto"
+EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_extensions/protos/TiagoGripper.proto"
 
-PROTO TiagoTitanium [
+PROTO Tiago [
   field  SFVec3f     translation      0 0 0.095
   field  SFRotation  rotation         0 0 1 0
-  field  SFString    name             "TIAGo Titanium"
-  field  SFString    controller       "tiago_titanium"
+  field  SFString    name             "TIAGo"
+  field  SFString    controller       "tiago"
   field  MFString    controllerArgs   []
   field  SFString    window           "<generic>"
   field  SFString    customData       ""
   field  SFBool      supervisor       FALSE
   field  SFBool      synchronization  TRUE
   field  SFBool      selfCollision    FALSE                 # Enables/disables the detection of collisions within the robot.
+  field  SFNode      endEffectorSlot  TiagoGripper {}       # Defines the robot end effector (TiagoGripper or TiagoRightHey5) 
   field  MFNode      cameraSlot       []                    # Extends the robot with a camera at head level.
   field  MFNode      lidarSlot        HokuyoUrg04lxug01{}   # Extends the robot with a lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
 ]
@@ -37,12 +38,12 @@ PROTO TiagoTitanium [
     synchronization IS synchronization
     selfCollision IS selfCollision
     name IS name
-    model "PAL Robotics - TIAGo Titanium"
+    model "PAL Robotics - TIAGo"
     bodySlot [
       TiagoBody {
         cameraSlot IS cameraSlot
         frontArmSlot TiagoFrontArm {
-          endEffectorSlot TiagoRightHey5 {}
+          endEffectorSlot IS endEffectorSlot
         }
       }
     ]
