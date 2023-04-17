@@ -12,7 +12,7 @@ EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_extensions/protos/Tiago
 EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_extensions/protos/TiagoRightArm.proto"
 EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_extensions/protos/TiagoLeftArm.proto"
 
-PROTO Tiagopp [
+PROTO Tiago++ [
   field  SFVec3f     translation           0 0 0.095
   field  SFRotation  rotation              0 0 1 0
   field  SFString    name                  "TIAGopp"

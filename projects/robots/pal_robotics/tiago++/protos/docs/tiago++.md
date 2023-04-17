@@ -1,22 +1,22 @@
-Designed by PAL Robotics, TIAGopp is a two-wheeled human-like robot with two articulated arms finished by parallel grippers as end-effector.
+Designed by PAL Robotics, TIAGo ++ is a two-wheeled human-like robot with two articulated arms finished by parallel grippers as end-effector.
 The model includes two articulated arms with 7-DoF to perform coordinated dual-arm actions.
 As the TIAGo model, this bi-manual version is completely ROS based, fully customizable and expandable with extra sensors and devices like end-effector (parallel gripper or Hey5 hand).
 
-More information on the TIAGopp robot can be found on their [website](http://blog.pal-robotics.com/tiago-bi-manual-robot-research/) or in the [technical specifications datasheet](http://pal-robotics.com/wp-content/uploads/2019/07/Datasheet_TIAGo_Complete.pdf).
+More information on the TIAGo ++ robot can be found on their [website](http://blog.pal-robotics.com/tiago-bi-manual-robot-research/) or in the [technical specifications datasheet](http://pal-robotics.com/wp-content/uploads/2019/07/Datasheet_TIAGo_Complete.pdf).
 
 ### Movie Presentation
 
 ![youtube video](https://www.youtube.com/watch?v=2KYpuaREQm0)
 
-### Tiagopp PROTO
+### Tiago++ PROTO
 
 Derived from [Robot](https://cyberbotics.com/doc/reference/robot).
 ```
-Tiagopp {
+Tiago++ {
   SFVec3f     translation           0 0 0.095
   SFRotation  rotation              0 0 1 0
-  SFString    name                  "TIAGopp"
-  SFString    controller            "tiagopp"
+  SFString    name                  "TIAGo ++"
+  SFString    controller            "tiago++"
   MFString    controllerArgs        []
   SFString    customData            ""
   SFBool      supervisor            FALSE
@@ -27,15 +27,16 @@ Tiagopp {
   SFNode      endEffectorLeftSlot   TiagoGripper { name "left" }
 }
 ```
-#### Tiagopp Field Summary
+#### Tiago++ Field Summary
 
 - `endEffectorRightSlot`: Extends the right arm with a new node (such as the `TiagoRightHey5` for example).
 - `endEffectorLeftSlot`: Extends the left arm with a new node (such as the `TiagoLeftHey5` for example).
 
 ### Sample
 
-You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiagopp/worlds]({{ url.github_tree }}/projects/robots/pal_robotics/tiagopp/worlds)".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago++/worlds]({{ url.github_tree }}/projects/robots/pal_robotics/tiago++/worlds)".
 
-#### [tiagopp.wbt]({{ url.github_tree }}/projects/robots/pal_robotics/tiagopp/worlds/tiagopp.wbt)
+#### [tiagopp.wbt]({{ url.github_tree }}/projects/robots/pal_robotics/tiago++/worlds/tiago++.wbt)
 
-![tiagopp.wbt.png](images/tiagopp/tiagopp.wbt.thumbnail.jpg) This simulation shows a Tiagopp making hello with both arms in an industrial environment. It can also be controlled using the arrows on the keyboard.
+![tiago++.wbt.png](images/tiago++/tiago++.wbt.thumbnail.jpg) This simulation shows a TIAGo ++ making hello with both arms in an industrial environment.
+It can also be controlled using the arrows on the keyboard.
