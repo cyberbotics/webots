@@ -18,6 +18,9 @@ WorldInfo {
   gravity 3.73
   basicTimeStep 16
   lineScale 0.2
+  contactProperties ContactProperties {
+    maxContactJoints 21
+  }
 }
 Viewpoint {
   fieldOfView 0.895398
@@ -108,7 +111,7 @@ Rock10cm {
 }
 Rock10cm {
   translation 0.1779 -0.3873 -0.1161
-  rotation 0 0 1 -1.8325953071795862
+  rotation 0 0 -1 1.0472
   name "rock 10 cm(2)"
   color 0.9 0.4 0.3
 }
