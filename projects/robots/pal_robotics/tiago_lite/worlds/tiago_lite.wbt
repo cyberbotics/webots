@@ -28,9 +28,9 @@ EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficCone.proto"
 
 WorldInfo {
   info [
-    "This simulation shows a Tiago Iron moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar."
+    "This simulation shows a TIAGo LITE moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar."
   ]
-  title "Simulation of PAL Robotics' TIAGo Iron robot"
+  title "Simulation of PAL Robotics' TIAGo LITE robot"
 }
 Viewpoint {
   orientation -0.24166220222916518 0.6412617249034345 0.7282738359900224 0.955050992992188
