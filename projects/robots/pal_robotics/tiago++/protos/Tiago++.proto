@@ -1,8 +1,8 @@
 #VRML_SIM R2023b utf8
 # license: Apache License 2.0.
 # license url: https://www.apache.org/licenses/LICENSE-2.0
-# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/pal_robotics/tiagopp/protos/Tiagopp.proto
-# TIAGopp robot from PAL Robotics.
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/pal_robotics/tiago++/protos/Tiago++.proto
+# TIAGo ++ robot from PAL Robotics.
 # The robot is composed by the TIAGo base and a body with two arms equipped with parallel grippers.
 
 EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_extensions/protos/TiagoGripper.proto"
@@ -15,8 +15,8 @@ EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_extensions/protos/Tiago
 PROTO Tiago++ [
   field  SFVec3f     translation           0 0 0.095
   field  SFRotation  rotation              0 0 1 0
-  field  SFString    name                  "TIAGopp"
-  field  SFString    controller            "tiagopp"
+  field  SFString    name                  "TIAGo ++"
+  field  SFString    controller            "tiago++"
   field  MFString    controllerArgs        []
   field  SFString    window                "<generic>"
   field  SFString    customData            ""
@@ -40,7 +40,7 @@ PROTO Tiago++ [
     synchronization IS synchronization
     selfCollision IS selfCollision
     name IS name
-    model "PAL Robotics - TIAGopp"
+    model "PAL Robotics - TIAGo++"
     bodySlot [
       TiagoBody {
         cameraSlot IS cameraSlot

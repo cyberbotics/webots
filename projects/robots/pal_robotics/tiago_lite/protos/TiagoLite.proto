@@ -2,7 +2,7 @@
 # license: Apache License 2.0.
 # license url: https://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/pal_robotics/tiago_iron/protos/TiagoIron.proto
-# Iron version of the TIAGo robot from PAL Robotics.
+# LITE version of the TIAGo robot from PAL Robotics.
 # The robot is composed by the TIAGo base and a body without arm.
 
 EXTERNPROTO "webots://projects/devices/hokuyo/protos/HokuyoUrg04lxug01.proto"
@@ -12,8 +12,8 @@ EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_extensions/protos/Tiago
 PROTO TiagoIron [
   field  SFVec3f     translation      0 0 0.095
   field  SFRotation  rotation         0 0 1 0
-  field  SFString    name             "TIAGo Iron"
-  field  SFString    controller       "tiago_iron"
+  field  SFString    name             "TIAGo LITE"
+  field  SFString    controller       "tiago_lite"
   field  MFString    controllerArgs   []
   field  SFString    window           "<generic>"
   field  SFString    customData       ""
@@ -35,7 +35,7 @@ PROTO TiagoIron [
     synchronization IS synchronization
     selfCollision IS selfCollision
     name IS name
-    model "PAL Robotics - TIAGo Iron"
+    model "PAL Robotics - TIAGo LITE"
     bodySlot [
       TiagoBody {
         cameraSlot IS cameraSlot

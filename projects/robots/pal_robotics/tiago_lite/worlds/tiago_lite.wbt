@@ -35,7 +35,7 @@ WorldInfo {
 Viewpoint {
   orientation -0.24166220222916518 0.6412617249034345 0.7282738359900224 0.955050992992188
   position -15.018412666542623 -12.12817104672759 15.741652757311323
-  follow "TIAGo Iron"
+  follow "TIAGo LITE"
   followSmoothness 0
 }
 TexturedBackground {

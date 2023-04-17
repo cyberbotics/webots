@@ -5,5 +5,5 @@ sceneTreePerspectives: 000000ff000000010000000300000016000000c0000000fc010000000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 4 "tiagopp.c" "../tiagopp/protos/Tiago++.proto" "../tiagopp/worlds/.tiagopp.wbproj" "../tiagopp/worlds/tiago++.wbt" "worlds/tiago++.wbt"
+textFiles: 0 "controllers/tiago++/tiago++.c"
 consoles: Console:All:All

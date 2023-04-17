@@ -40,7 +40,7 @@ WorldInfo {
 Viewpoint {
   orientation -0.28559561547178314 0.5547995890966351 0.7814298179372848 1.1650236317342777
   position -9.98739698000763 -12.425976754253815 13.876558656915025
-  follow "TIAGo Steel"
+  follow "TIAGo"
 }
 TexturedBackground {
   texture "factory"
