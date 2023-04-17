@@ -14,13 +14,22 @@ Tiago {
   SFString    name             "TIAGo"
   SFString    controller       "tiago"
   MFString    controllerArgs   []
+  SFString    window           "<generic>"
   SFString    customData       ""
   SFBool      supervisor       FALSE
   SFBool      synchronization  TRUE
   SFBool      selfCollision    FALSE
+  SFNode      endEffectorSlot  TiagoGripper {}
+  MFNode      cameraSlot       []
   MFNode      lidarSlot        []
 }
 ```
+
+#### Tiago Field Summary
+
+- `endEffectorSlot`:  Defines the robot end effector.
+- `cameraSlot`:  Extends the robot with a camera at head level.
+- `lidarSlot`: Extends the robot with a lidar.
 
 ### Sample
 

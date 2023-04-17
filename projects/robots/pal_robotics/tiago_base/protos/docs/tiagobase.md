@@ -14,6 +14,7 @@ TiagoBase {
   SFString     name             "TIAGo Base"
   SFString     controller       "tiagoBase"
   MFString     controllerArgs   []
+  SFString     window          "<generic>"
   SFString     customData       ""
   SFBool       supervisor       FALSE
   SFBool       synchronization  TRUE

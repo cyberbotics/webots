@@ -18,19 +18,24 @@ Tiago++ {
   SFString    name                  "TIAGo ++"
   SFString    controller            "tiago++"
   MFString    controllerArgs        []
+  SFString    window                "<generic>"
   SFString    customData            ""
   SFBool      supervisor            FALSE
   SFBool      synchronization       TRUE
   SFBool      selfCollision         FALSE
-  MFNode      lidarSlot             []
+  MFNode      cameraSlot            []                             
   SFNode      endEffectorRightSlot  TiagoGripper { name "right" }
   SFNode      endEffectorLeftSlot   TiagoGripper { name "left" }
+  MFNode      lidarSlot             HokuyoUrg04lxug01{}
 }
 ```
+
 #### Tiago++ Field Summary
 
+- `cameraSlot`: Extends the robot with a camera at head level.
 - `endEffectorRightSlot`: Extends the right arm with a new node (such as the `TiagoRightHey5` for example).
 - `endEffectorLeftSlot`: Extends the left arm with a new node (such as the `TiagoLeftHey5` for example).
+- `lidarSlot`: Extends the robot with a lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
 
 ### Sample
 

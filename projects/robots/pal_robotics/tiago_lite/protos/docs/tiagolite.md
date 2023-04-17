@@ -13,15 +13,23 @@ TiagoLite {
   SFVec3f     translation      0 0 0.095
   SFRotation  rotation         0 0 1 0
   SFString    name             "TIAGo LITE"
-  SFString    controller       "tiagoLite"
+  SFString    controller       "tiago_lite"
   MFString    controllerArgs   []
+  SFString    window           "<generic>"
   SFString    customData       ""
   SFBool      supervisor       FALSE
   SFBool      synchronization  TRUE
   SFBool      selfCollision    FALSE
-  MFNode      lidarSlot        []
+  MFNode      cameraSlot       []                    
+  MFNode      lidarSlot        HokuyoUrg04lxug01{}   
 }
 ```
+
+#### TiagoLite Field Summary
+
+- `cameraSlot`:  Extends the robot with a camera at head level.
+- `lidarSlot`: Extends the robot with a lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
+
 
 ### Sample
 
