@@ -24,7 +24,7 @@ Released on ??
       - `Field.enableSFTracking` and `Field.disableSFTracking` which were failing ([#5640](https://github.com/cyberbotics/webots/pull/5640)).
       - `Motor.enableForceFeedback` where the `sampling_period` argument was missing ([#5797](https://github.com/cyberbotics/webots/pull/5797)).
       - `Motor.setAcceleration` was missing the device tag parameter ([#6036](https://github.com/cyberbotics/webots/pull/6036)).
-      - `Lidar.getRangeImageArray` had a typo in its name ([#6074](https://github.com/cyberbotics/webots/issues/6074)).
+      - `Lidar.getRangeImageArray` had a typo in its name ([#6080](https://github.com/cyberbotics/webots/issues/6080)).
     - Fixed crash resulting from requesting pose tracking of unsuitable nodes ([#5620](https://github.com/cyberbotics/webots/pull/5620)).
     - Fixed memory leaks, particularly when in no-rendering mode and spawning/deleting nodes ([#5639](https://github.com/cyberbotics/webots/pull/5639)).
     - Fixed crashes resulting from streaming pose, SF field values or contact points after deleting the tracked nodes ([#5638](https://github.com/cyberbotics/webots/pull/5638)).
