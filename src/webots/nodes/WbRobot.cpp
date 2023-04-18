@@ -160,18 +160,7 @@ WbRobot::WbRobot(WbTokenizer *tokenizer) : WbSolid("Robot", tokenizer) {
   init();
 }
 
-WbRobot::WbRobot(const WbRobot &other) :
-  WbSolid(other),
-  mControllerDir(),
-  mAbsoluteWindowFilename(),
-  mAbsoluteRemoteControlFilename(),
-  mKeyboardLastValue(),
-  mUserInputEventReferenceTime(),
-  mDevices(),
-  mRenderingDevices(),
-  mActiveCameras(),
-  mNewlyAddedDevices(),
-  mPressedKeys() {
+WbRobot::WbRobot(const WbRobot &other) : WbSolid(other) {
   init();
 }
 

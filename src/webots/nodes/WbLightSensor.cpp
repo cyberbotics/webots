@@ -134,7 +134,7 @@ WbLightSensor::WbLightSensor(WbTokenizer *tokenizer) : WbSolidDevice("LightSenso
   init();
 }
 
-WbLightSensor::WbLightSensor(const WbLightSensor &other) : WbSolidDevice(other), mRayList() {
+WbLightSensor::WbLightSensor(const WbLightSensor &other) : WbSolidDevice(other) {
   init();
 }
 

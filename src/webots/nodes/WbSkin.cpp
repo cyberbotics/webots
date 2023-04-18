@@ -84,20 +84,7 @@ WbSkin::WbSkin(WbTokenizer *tokenizer) : WbBaseNode("Skin", tokenizer), WbAbstra
   init();
 }
 
-WbSkin::WbSkin(const WbSkin &other) :
-  WbBaseNode(other),
-  WbAbstractPose(this),
-  WbDevice(other),
-  mInitialSkeletonOrientation(),
-  mInitialSkeletonPosition(),
-  mRenderables(),
-  mMaterialNames(),
-  mMaterials(),
-  mSegmentationMaterials(),
-  mEncodeDepthMaterials(),
-  mMeshes(),
-  mBoneTransforms(),
-  mBonesMap() {
+WbSkin::WbSkin(const WbSkin &other) : WbBaseNode(other), WbAbstractPose(this), WbDevice(other) {
   init();
 }
 

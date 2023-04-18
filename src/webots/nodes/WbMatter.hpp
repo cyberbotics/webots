@@ -86,6 +86,7 @@ signals:
 public slots:
   // recursions through bounding objects for material updates
   virtual void propagateBoundingObjectMaterialUpdate(bool onSelection = false) = 0;
+  virtual void updateBoundingObject() = 0;
 
 protected:
   // Abstract class: constructors are reserved for derived classes only
@@ -167,7 +168,6 @@ private:
   static bool cShowMatterCenter;
 
 private slots:
-  virtual void updateBoundingObject() = 0;
   virtual void createOdeGeomFromInsertedGroupItem(WbBaseNode *node) = 0;
   void createOdeGeomFromInsertedPoseItem();
   void createOdeGeomFromInsertedShapeItem();

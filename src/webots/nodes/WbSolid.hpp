@@ -54,6 +54,7 @@ public:
 
   // reimplemented public functions
   int nodeType() const override { return WB_NODE_SOLID; }
+  void downloadAssets() override;
   void createWrenObjects() override;
   void preFinalize() override;
   void validateProtoNode() override;
@@ -243,6 +244,7 @@ public slots:
   void updateGraphicalGlobalCenterOfMass();
   void resetPhysicsIfRequired(bool changedFromSupervisor);
   virtual void updateChildren();
+  void updateBoundingObject() override;
 
 protected:
   // this constructor is reserved for derived classes only
@@ -451,7 +453,6 @@ private slots:
   void updatePhysics();
   void updateRadarCrossSection();
   void updateRecognitionColors();
-  void updateBoundingObject() override;
   void updateOdeMass();
   void applyToOdeMass();
   void updateOdeInertiaMatrix();

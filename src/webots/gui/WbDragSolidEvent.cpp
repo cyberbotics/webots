@@ -119,8 +119,6 @@ void WbDragRotateAroundAxisSolidEvent::apply(const QPoint &currentMousePosition)
 WbDragPhysicsEvent::WbDragPhysicsEvent(const QSize &widgetSize, WbViewpoint *viewpoint, WbSolid *selectedSolid) :
   WbDragView3DEvent(viewpoint),
   mSelectedSolid(selectedSolid),
-  mVector(),
-  mMouseRay(),
   mIsLocked(false),
   mWidgetSize(widgetSize),
   mViewDistanceScaling(1.0f) {

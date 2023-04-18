@@ -93,7 +93,6 @@ int WbView3D::cView3DNumber = 0;
 WbView3D::WbView3D() :
   WbWrenWindow(),
   mParentWidget(NULL),
-  mLastRefreshTimer(),
   mMousePressTimer(NULL),
   mAspectRatio(1.0),
   mDisabledRenderingOverlay(NULL),
