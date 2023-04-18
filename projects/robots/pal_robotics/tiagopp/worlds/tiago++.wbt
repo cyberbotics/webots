@@ -30,7 +30,7 @@ WorldInfo {
   info [
     "This simulation shows a TIAGo++ making hello with both arms in an industrial environment. It can also be controlled using the arrows on the keyboard."
   ]
-  title "Simulation of PAL Robotics' TIAGo ++ robot"
+  title "Simulation of PAL Robotics' TIAGo++ robot"
 }
 Viewpoint {
   orientation -0.04537836798484944 0.015059461718461582 0.9988563542030363 2.5014830680385063
