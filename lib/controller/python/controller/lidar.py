@@ -73,7 +73,7 @@ class Lidar(Sensor):
     def getRangeImage(self) -> List[float]:
         return self.range_image[:self.horizontal_resolution * self.number_of_layers]
 
-    def defRangeImageArray(self) -> List[List[float]]:
+    def getRangeImageArray(self) -> List[List[float]]:
         array = []
         for i in range(self.number_of_layers):
             array.append(self.getLayerRangeImage(i))
