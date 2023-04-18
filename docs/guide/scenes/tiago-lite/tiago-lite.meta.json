@@ -7,7 +7,7 @@
       "minPosition": -1.24,
       "name": "head_1_joint",
       "position": 0,
-      "transformID": "n805",
+      "transformID": "n1025",
       "type": "RotationalMotor"
     },
     {
@@ -17,7 +17,7 @@
       "minPosition": -0.98,
       "name": "head_2_joint",
       "position": 0,
-      "transformID": "n820",
+      "transformID": "n1041",
       "type": "RotationalMotor"
     },
     {
@@ -27,7 +27,7 @@
       "minPosition": 0,
       "name": "wheel_left_joint",
       "position": 0,
-      "transformID": "n309",
+      "transformID": "n391",
       "type": "RotationalMotor"
     },
     {
@@ -37,7 +37,7 @@
       "minPosition": 0,
       "name": "wheel_right_joint",
       "position": 0,
-      "transformID": "n280",
+      "transformID": "n362",
       "type": "RotationalMotor"
     },
     {
@@ -46,37 +46,49 @@
       "minPosition": 0,
       "name": "torso_lift_joint",
       "position": 0,
-      "transformID": "n780",
+      "transformID": "n996",
       "type": "LinearMotor"
     },
     {
       "name": "accelerometer",
-      "transformID": "n27",
+      "transformID": "n45",
       "type": "Accelerometer"
     },
     {
+      "name": "Astra depth",
+      "transformID": "n1194",
+      "transformOffset": "0.027 0.037 0.034",
+      "type": "RangeFinder"
+    },
+    {
+      "name": "Astra rgb",
+      "transformID": "n1194",
+      "transformOffset": "0.027 0.011 0.034",
+      "type": "Camera"
+    },
+    {
       "name": "base_cover_link",
-      "transformID": "n215",
+      "transformID": "n297",
       "type": "TouchSensor"
     },
     {
       "name": "base_sonar_01_link",
-      "transformID": "n258",
+      "transformID": "n340",
       "type": "DistanceSensor"
     },
     {
       "name": "base_sonar_02_link",
-      "transformID": "n240",
+      "transformID": "n322",
       "type": "DistanceSensor"
     },
     {
       "name": "base_sonar_03_link",
-      "transformID": "n222",
+      "transformID": "n304",
       "type": "DistanceSensor"
     },
     {
       "name": "gyro",
-      "transformID": "n27",
+      "transformID": "n45",
       "type": "Gyro"
     },
     {
@@ -84,7 +96,7 @@
       "axis": "0 0 1",
       "name": "head_1_joint_sensor",
       "position": 0,
-      "transformID": "n805",
+      "transformID": "n1025",
       "type": "PositionSensor"
     },
     {
@@ -92,24 +104,24 @@
       "axis": "0 -1 0",
       "name": "head_2_joint_sensor",
       "position": 0,
-      "transformID": "n820",
+      "transformID": "n1041",
       "type": "PositionSensor"
     },
     {
       "name": "Hokuyo URG-04LX-UG01",
-      "transformID": "n877",
+      "transformID": "n1161",
       "type": "Lidar"
     },
     {
       "name": "inertial unit",
-      "transformID": "n27",
+      "transformID": "n45",
       "type": "InertialUnit"
     },
     {
       "axis": "0 0 1",
       "name": "torso_lift_joint_sensor",
       "position": 0,
-      "transformID": "n780",
+      "transformID": "n996",
       "type": "PositionSensor"
     },
     {
@@ -117,7 +129,7 @@
       "axis": "0 1 0",
       "name": "wheel_left_joint_sensor",
       "position": 0,
-      "transformID": "n309",
+      "transformID": "n391",
       "type": "PositionSensor"
     },
     {
@@ -125,10 +137,10 @@
       "axis": "0 1 0",
       "name": "wheel_right_joint_sensor",
       "position": 0,
-      "transformID": "n280",
+      "transformID": "n362",
       "type": "PositionSensor"
     }
   ],
   "name": "tiago-lite",
-  "robotID": "n27"
+  "robotID": "n45"
 }
