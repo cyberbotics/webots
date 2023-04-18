@@ -2,7 +2,7 @@
 
 EXTERNPROTO "webots://projects/robots/universal_robots/protos/UR5e.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
-EXTERNPROTO "webots://projects/robots/pal_robotics/tiago++/protos/Tiago++.proto"
+EXTERNPROTO "webots://projects/robots/pal_robotics/tiagopp/protos/Tiago++.proto"
 EXTERNPROTO "webots://projects/robots/fp_robotics/p-rob3/protos/P-Rob3.proto"
 EXTERNPROTO "webots://projects/robots/fp_robotics/p-rob3/protos/P-Grip.proto"
 EXTERNPROTO "webots://projects/robots/gctronic/e-puck/protos/E-puck.proto"

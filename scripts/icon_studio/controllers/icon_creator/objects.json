@@ -1646,7 +1646,7 @@
     "fields": "  rotation -0.13052795126003722 -0.9914446297883028 -1.947439272813855e-06 3.14159",
     "nodeString": "  Robot { translation 0 0 0.027 rotation -0.13052795126003722 -0.9914446297883028 -1.947439272813855e-06 3.14159 children [ Slot { endPoint TinkerbotsWheel { } } ] }"
   },
-  "projects/robots/pal_robotics/tiago++/protos/Tiago++.proto": {
+  "projects/robots/pal_robotics/tiagopp/protos/Tiago++.proto": {
     "fields": "  rotation -0.230732 -0.109357 0.966852 -1.27752",
     "nodeString": "  Tiago++{ rotation -0.230732 -0.109357 0.966852 -1.27752 controller \"<generic>\" }"
   },

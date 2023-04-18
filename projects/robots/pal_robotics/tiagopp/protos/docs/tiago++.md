@@ -39,9 +39,9 @@ Tiago++ {
 
 ### Sample
 
-You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiago++/worlds]({{ url.github_tree }}/projects/robots/pal_robotics/tiago++/worlds)".
+You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiagopp/worlds]({{ url.github_tree }}/projects/robots/pal_robotics/tiagopp/worlds)".
 
-#### [tiago++.wbt]({{ url.github_tree }}/projects/robots/pal_robotics/tiago++/worlds/tiago++.wbt)
+#### [tiago++.wbt]({{ url.github_tree }}/projects/robots/pal_robotics/tiagopp/worlds/tiago++.wbt)
 
 ![tiago++.wbt.png](images/tiago++/tiago++.wbt.thumbnail.jpg) This simulation shows a TIAGo ++ making hello with both arms in an industrial environment.
 It can also be controlled using the arrows on the keyboard.

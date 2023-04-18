@@ -57,7 +57,7 @@ CONTROLLERS=\
   pal_robotics/tiago_base/controllers/tiago_base.Makefile \
   pal_robotics/tiago_lite/controllers/tiago_lite.Makefile \
   pal_robotics/tiago/controllers/tiago.Makefile \
-  pal_robotics/tiago++/controllers/tiago++.Makefile \
+  pal_robotics/tiagopp/controllers/tiago++.Makefile \
   parallax/boebot/controllers.Makefile \
   picaxe/microbot/controllers.Makefile \
   rec/fabtino/controllers.Makefile \
