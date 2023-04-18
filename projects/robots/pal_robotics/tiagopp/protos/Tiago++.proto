@@ -16,7 +16,7 @@ EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_extensions/protos/Tiago
 PROTO Tiago++ [
   field  SFVec3f     translation           0 0 0.095
   field  SFRotation  rotation              0 0 1 0
-  field  SFString    name                  "TIAGo ++"
+  field  SFString    name                  "TIAGo++"
   field  SFString    controller            "tiago++"
   field  MFString    controllerArgs        []
   field  SFString    window                "<generic>"
