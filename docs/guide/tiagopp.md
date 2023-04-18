@@ -1,4 +1,4 @@
-## PAL Robotics' TIAGo ++
+## PAL Robotics' TIAGo++
 
 %robot tiagopp images/robots/tiago++/model.thumbnail.png
 
