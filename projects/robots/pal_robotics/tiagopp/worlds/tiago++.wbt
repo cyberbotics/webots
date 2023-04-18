@@ -28,7 +28,7 @@ EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficCone.proto"
 
 WorldInfo {
   info [
-    "This simulation shows a TIAGo ++ making hello with both arms in an industrial environment. It can also be controlled using the arrows on the keyboard."
+    "This simulation shows a TIAGo++ making hello with both arms in an industrial environment. It can also be controlled using the arrows on the keyboard."
   ]
   title "Simulation of PAL Robotics' TIAGo ++ robot"
 }
