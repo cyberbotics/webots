@@ -13,6 +13,7 @@ Released on ??
     - Improved the [Charger](charger.md) behavior ([#5771](https://github.com/cyberbotics/webots/pull/5771)).
     - Added `maxContactJoints` field to `ContactProperties` node to give users control over the tradeoff between collision accuracy and performance ([#5769](https://github.com/cyberbotics/webots/pull/5769)).
     - Improved MATLAB controllers to support input arguments ([#5943](https://github.com/cyberbotics/webots/pull/5943)).
+    - Update names of TIAGo models and add default RGBD camera ([#6082](https://github.com/cyberbotics/webots/pull/6082)).
 
 ## Webots R2023a Revision 1
 Released on ??

@@ -141,7 +141,7 @@
     - [TIAGo Base](tiago-base.md)
     - [TIAGo LITE](tiago-lite.md)
     - [TIAGo](tiago.md)
-    - [TIAGo++](tiago++.md)
+    - [TIAGo++](tiagopp.md)
     - [Thymio II](thymio2.md)
     - [Tinkerbots](tinkerbots.md)
     - [TurtleBot3 Burger](turtlebot3-burger.md)

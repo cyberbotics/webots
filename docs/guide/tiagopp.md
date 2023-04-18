@@ -6,7 +6,7 @@ Designed by PAL Robotics, TIAGo ++ is a two-wheeled human-like robot with two ar
 The model includes two articulated arms with 7-DoF to perform coordinated dual-arm actions.
 As the TIAGo model, this bi-manual version is completely ROS based, fully customizable and expandable with extra sensors and devices like end-effector (parallel gripper or Hey5 hand).
 
-More information on the TIAGo ++ robot can be found on their [website](http://blog.pal-robotics.com/tiago-bi-manual-robot-research/) or in the [technical specifications datasheet](http://pal-robotics.com/wp-content/uploads/2019/07/Datasheet_TIAGo_Complete.pdf).
+More information on the TIAGo ++ robot can be found on their [website](http://blog.pal-robotics.com/tiago-bi-manual-robot-research/) or in the [technical specifications datasheet](https://pal-robotics.com/wp-content/uploads/2022/04/Datasheet_TIAGo.pdf).
 
 ### Movie Presentation
 

@@ -1,7 +1,7 @@
 Designed by PAL Robotics, TIAGo is a two-wheeled human-like robot with a torso, a head and one articulated arm finished by a parallel gripper as end-effector.
 It is completely ROS based, fully customizable and expandable with extra sensors and devices like other end-effector (Hey5 hand).
 
-More information on the TIAGo robot can be found on their [website](http://pal-robotics.com/robots/tiago/) or in the [technical specifications datasheet](http://pal-robotics.com/wp-content/uploads/2019/07/Datasheet_TIAGo_Complete.pdf).
+More information on the TIAGo robot can be found on their [website](http://pal-robotics.com/robots/tiago/) or in the [technical specifications datasheet](http://pal-robotics.com/wp-content/uploads/2019/06/TIAGo-Base_Datasheet.pdf).
 
 ### Tiago PROTO
 
