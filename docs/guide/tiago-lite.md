@@ -41,4 +41,4 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
 
 #### tiago\_lite.wbt
 
-![tiago_lite.wbt.png](images/robots/tiago_lite/tiago_lite.wbt.thumbnail.jpg) This simulation shows a TIAGo LITE moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar.
+![tiago_lite.wbt.png](images/robots/tiago_lite/tiago_lite.wbt.thumbnail.jpg) This simulation shows a TIAGo LITE moving in an industrial environment using a Braitenberg algorithm taking lidar measurements as input.
