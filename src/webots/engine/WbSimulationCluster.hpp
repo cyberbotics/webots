@@ -72,7 +72,7 @@ private:
   static void odeSensorRaysUpdate(int threadID);
   static const long long int WEBOTS_MAGIC_NUMBER;
   bool mSwapJointContactBuffer;
-  static void warnMoreContactPointsThanContactJoints();
+  static void warnMoreContactPointsThanContactJoints(const QString &material1, const QString &material2, int max, int n);
 };
 
 #endif
