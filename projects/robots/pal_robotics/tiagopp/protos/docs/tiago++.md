@@ -1,7 +1,3 @@
-## PAL Robotics' TIAGo++
-
-%robot tiagopp images/robots/tiago++/model.thumbnail.png
-
 Designed by PAL Robotics, TIAGo++ is a two-wheeled human-like robot with two articulated arms finished by parallel grippers as end-effector.
 The model includes two articulated arms with 7-DoF to perform coordinated dual-arm actions.
 As the TIAGo model, this bi-manual version is completely ROS based, fully customizable and expandable with extra sensors and devices like end-effector (parallel gripper or Hey5 hand).
@@ -14,7 +10,7 @@ More information on the TIAGo++ robot can be found on their [website](http://blo
 
 ### Tiago++ PROTO
 
-Derived from [Robot](../reference/robot.md).
+Derived from [Robot](https://cyberbotics.com/doc/reference/robot).
 ```
 Tiago++ {
   SFVec3f     translation           0 0 0.095
@@ -30,10 +26,9 @@ Tiago++ {
   MFNode      cameraSlot            Astra { translation -0.028 -0.035 -0.009 rotation 1 0 0 -1.5708}
   SFNode      endEffectorRightSlot  TiagoGripper { name "right" }
   SFNode      endEffectorLeftSlot   TiagoGripper { name "left" }
-  MFNode      lidarSlot             HokuyoUrg04lxug01 {}
+  MFNode      lidarSlot             HokuyoUrg04lxug01{}
 }
 ```
-> **File location**: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiagopp/protos/Tiago++.proto]({{ url.github_tree }}/projects/robots/pal_robotics/tiagopp/protos/Tiago++.proto)"
 
 #### Tiago++ Field Summary
 
@@ -46,7 +41,7 @@ Tiago++ {
 
 You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robots/pal\_robotics/tiagopp/worlds]({{ url.github_tree }}/projects/robots/pal_robotics/tiagopp/worlds)".
 
-#### tiago++.wbt
+#### [tiago++.wbt]({{ url.github_tree }}/projects/robots/pal_robotics/tiagopp/worlds/tiago++.wbt)
 
-![tiago++.wbt.png](images/robots/tiago++/tiago++.wbt.thumbnail.jpg) This simulation shows a TIAGo++ making hello with both arms in an industrial environment.
+![tiago++.wbt.png](images/tiago++/tiago++.wbt.thumbnail.jpg) This simulation shows a TIAGo++ making hello with both arms in an industrial environment.
 It can also be controlled using the arrows on the keyboard.

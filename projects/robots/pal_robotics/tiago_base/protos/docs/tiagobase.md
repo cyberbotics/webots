@@ -12,14 +12,14 @@ TiagoBase {
   SFVec3f      translation      0 0 0.095
   SFRotation   rotation         0 0 1 0
   SFString     name             "TIAGo Base"
-  SFString     controller       "tiagoBase"
+  SFString     controller       "tiago_base"
   MFString     controllerArgs   []
+  SFString     window          "<generic>"
   SFString     customData       ""
   SFBool       supervisor       FALSE
   SFBool       synchronization  TRUE
   SFBool       selfCollision    FALSE
-  SFString     model            "TIAGo Base"
-  SFString     description      "two-wheeled robot designed by PAL Robotics"
+  SFString     model            "PAL Robotics - TIAGo Base"
   MFNode       bodySlot         []
   MFNode       lidarSlot        []
 }
@@ -36,4 +36,4 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
 
 #### [tiago\_base.wbt]({{ url.github_tree }}/projects/robots/pal_robotics/tiago_base/worlds/tiago\_base.wbt)
 
-![tiago_base.wbt.png](images/tiago_base/tiago_base.wbt.thumbnail.jpg) This simulation shows a Tiago Base moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar.
+![tiago_base.wbt.png](images/tiago_base/tiago_base.wbt.thumbnail.jpg) This simulation shows a TIAGo Base moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar.
