@@ -19,7 +19,7 @@ Derived from [Robot](../reference/robot.md).
 Tiago++ {
   SFVec3f     translation           0 0 0.095
   SFRotation  rotation              0 0 1 0
-  SFString    name                  "TIAGo ++"
+  SFString    name                  "TIAGo++"
   SFString    controller            "tiago++"
   MFString    controllerArgs        []
   SFString    window                "<generic>"
