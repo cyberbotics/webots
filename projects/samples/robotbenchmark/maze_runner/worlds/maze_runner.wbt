@@ -242,7 +242,6 @@ DEF THYMIO2 Thymio2 {
   translation -0.279509 0.02923 0.610695
   rotation 0.0014800006661173696 0.9997794499798363 0.020949009428711335 -0.014665
   controller "move_in_maze"
-  controllerArgs []
 }
 MazeRunnerBenchmark {
 }

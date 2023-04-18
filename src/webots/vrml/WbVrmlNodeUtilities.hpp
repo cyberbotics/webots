@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -57,6 +57,14 @@ namespace WbVrmlNodeUtilities {
   // checks whether a node of specific model name exists in the node tree and returns true if it is visible
   // default fields that won't be written to the WBT file are skipped
   bool existsVisibleProtoNodeNamed(const QString &modelName, WbNode *root);
+
+  // find the closest template ancestor in which the modified node is contained in template field
+  // which requires a template instance regeneration
+  WbNode *findUpperTemplateNeedingRegeneration(WbNode *modifiedNode);
+
+  // find the closest template ancestor of given field in which the modified field is contained
+  // in template field which requires a template instance regeneration
+  WbNode *findUpperTemplateNeedingRegenerationFromField(WbField *modifiedField, WbNode *parentNode);
 
   //////////////////////////////
   // Non-permanent properties //

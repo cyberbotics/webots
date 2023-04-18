@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -86,22 +86,25 @@ namespace {
   QList<WbNode *> getNodeChildrenAndBoundingForBackwardCompatibility(WbNode *node) {
     // Make a list of children to be rotated (children, TrackWheel children, bounding object with the group node ignored).
     QList<WbNode *> children = getNodeChildrenForBackwardCompatibility(node);
+    QList<WbNode *> newChildren;
     WbNode *boundingObject = static_cast<WbSolid *>(node)->boundingObject();
-    for (WbNode *child : children)
-      if (dynamic_cast<WbTrackWheel *>(child)) {
-        children += getNodeChildrenForBackwardCompatibility(child);
-        children.removeOne(child);
-      }
+    for (WbNode *child : children) {
+      if (dynamic_cast<WbTrackWheel *>(child))
+        newChildren += getNodeChildrenForBackwardCompatibility(child);
+      else
+        newChildren += child;
+    }
+
     if (!dynamic_cast<WbTransform *>(boundingObject) && !dynamic_cast<WbGeometry *>(boundingObject) &&
         !dynamic_cast<WbShape *>(boundingObject) && dynamic_cast<WbGroup *>(boundingObject))
-      children += boundingObject->subNodes(false, false);
+      newChildren += boundingObject->subNodes(false, false);
     else if (boundingObject)
-      children.append(boundingObject);
+      newChildren.append(boundingObject);
 
     // Insert the USE nodes in the beginning.
-    sortNodeListForBackwardCompatibility(children);
+    sortNodeListForBackwardCompatibility(newChildren);
 
-    return children;
+    return newChildren;
   }
 
   void sortNodeListForBackwardCompatibility(QList<WbNode *> &children) {
@@ -556,7 +559,9 @@ namespace {
     return false;
   }
 
-  bool isSolidNode(WbBaseNode *node) { return dynamic_cast<WbSolid *>(node); }
+  bool isSolidNode(WbBaseNode *node) {
+    return dynamic_cast<WbSolid *>(node);
+  }
 
   bool doesFieldRestrictionAcceptNode(const WbField *const field, const QStringList &nodeNames) {
     assert(field->hasRestrictedValues());
@@ -587,7 +592,7 @@ WbNode *WbNodeUtilities::findUpperNodeByType(const WbNode *node, int nodeType, i
   return NULL;
 }
 
-bool WbNodeUtilities::hasDescendantNodesOfType(const WbNode *node, QList<int> nodeTypes) {
+bool WbNodeUtilities::hasDescendantNodesOfType(const WbNode *node, const QList<int> &nodeTypes) {
   QList<WbNode *> subNodes = node->subNodes(true);
   if (subNodes.isEmpty())
     return false;
@@ -695,33 +700,6 @@ WbTransform *WbNodeUtilities::findUpperTransform(const WbNode *node) {
     else
       n = n->parentNode();
   }
-  return NULL;
-}
-
-WbNode *WbNodeUtilities::findUpperTemplateNeedingRegenerationFromField(WbField *modifiedField, WbNode *parentNode) {
-  if (parentNode == NULL || modifiedField == NULL)
-    return NULL;
-
-  if (parentNode->isTemplate() && modifiedField->isTemplateRegenerator())
-    return parentNode;
-
-  return findUpperTemplateNeedingRegeneration(parentNode);
-}
-
-WbNode *WbNodeUtilities::findUpperTemplateNeedingRegeneration(WbNode *modifiedNode) {
-  if (modifiedNode == NULL)
-    return NULL;
-
-  WbField *field = modifiedNode->parentField();
-  WbNode *node = modifiedNode->parentNode();
-  while (node && field && !node->isWorldRoot()) {
-    if (node->isTemplate() && field->isTemplateRegenerator())
-      return node;
-
-    field = node->parentField();
-    node = node->parentNode();
-  }
-
   return NULL;
 }
 

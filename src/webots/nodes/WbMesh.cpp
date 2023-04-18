@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,7 +20,9 @@
 #include "WbField.hpp"
 #include "WbGroup.hpp"
 #include "WbMFString.hpp"
+#include "WbMatter.hpp"
 #include "WbNetwork.hpp"
+#include "WbNodeUtilities.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbTriangleMesh.hpp"
 #include "WbUrl.hpp"
@@ -84,6 +86,12 @@ void WbMesh::downloadUpdate() {
   WbGroup *group = dynamic_cast<WbGroup *>(const_cast<WbNode *>(ancestor));
   if (group)
     group->recomputeBoundingSphere();
+
+  if (isInBoundingObject()) {
+    WbMatter *boundingObjectAncestor = WbNodeUtilities::findBoundingObjectAncestor(this);
+    if (boundingObjectAncestor)
+      boundingObjectAncestor->updateBoundingObject();
+  }
 }
 
 void WbMesh::preFinalize() {
@@ -336,7 +344,9 @@ void WbMesh::updateUrl() {
           mDownloader = NULL;
         }
 
-        downloadAssets();  // URL was changed from the scene tree or supervisor
+        if (!mDownloader || mDownloader->url().toString() != mUrl->item(0))
+          downloadAssets();  // URL was changed from the scene tree or supervisor
+
         return;
       }
     }

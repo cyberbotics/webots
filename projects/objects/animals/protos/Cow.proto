@@ -275,5 +275,8 @@ PROTO Cow [
         }
       ]
     }
+    recognitionColors [
+      0.380 0.220 0.137
+    ]
   }
 }

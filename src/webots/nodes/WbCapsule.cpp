@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -482,8 +482,8 @@ void WbCapsule::recomputeBoundingSphere() const {
   const bool top = mTop->value();
   const bool side = mSide->value();
   const bool bottom = mBottom->value();
-  const double halfHeight = scaledHeight() / 2.0;
-  const double r = scaledRadius();
+  const double halfHeight = mHeight->value() / 2.0;
+  const double r = mRadius->value();
 
   if (!top && !side && !bottom) {  // it is empty
     mBoundingSphere->empty();

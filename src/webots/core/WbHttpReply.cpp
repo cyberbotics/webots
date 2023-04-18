@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -76,7 +76,6 @@ QByteArray WbHttpReply::forgeFileReply(const QString &fileName, const QString &e
 
 QString WbHttpReply::mimeType(const QString &url, bool generic) {
   const QString extension = url.mid(url.lastIndexOf('.') + 1).toLower();
-  QString type;
   if (extension == "png" || extension == "jpg" || extension == "jpeg" || extension == "ico")
     return QString("image/%1").arg(extension);
   else if (extension == "html" || extension == "css")

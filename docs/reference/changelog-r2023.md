@@ -1,7 +1,64 @@
 # Webots R2023 Change Log
 
+## Webots R2023a Revision 1
+Released on ??
+  - Enhancements
+    - Greatly improved the performance of the Python API `Camera.getImage` method ([#5610](https://github.com/cyberbotics/webots/pull/5610)).
+    - Added default [Solid](solid.md).`recognitionColors` value for [animals](../guide/object-animals.md) and [Barn](../guide/object-buildings.md#barn) PROTO models ([#5606](https://github.com/cyberbotics/webots/pull/5606)).
+    - Added `recognitionColors` field to [SolidBox](../guide/object-solids.md#solidbox) and Tractor PROTO models ([#5606](https://github.com/cyberbotics/webots/pull/5606)).
+    - Improved warnings when passing invalid arguments to [`wb_supervisor_node_enable_pose_tracking`/`wb_supervisor_node_disable_pose_tracking`](supervisor.md#wb_supervisor_node_enable_pose_tracking), [`wb_supervisor_node_enable_contact_points_tracking`/`wb_supervisor_node_disable_contact_points_tracking`](supervisor.md#wb_supervisor_node_enable_contact_points_tracking) and [`wb_supervisor_field_enable_sf_tracking`/`wb_supervisor_field_disable_sf_tracking`](supervisor.md#wb_supervisor_field_enable_sf_tracking) ([5638](https://github.com/cyberbotics/webots/pull/5638)).
+    - Disable `Select..` button in SFString editor if the field has restricted values ([5663](https://github.com/cyberbotics/webots/pull/5663)).
+    - Improved plot representation in default robot window when a NaN value is received from a device ([#5680](https://github.com/cyberbotics/webots/pull/5680)).
+    - Improved default selected tab in Field Editor when nodes are selected ([#5726](https://github.com/cyberbotics/webots/pull/5726)).
+    - Change the Windows version of SUMO to 1.13 to match the one used on Linux and MacOS and avoid a potiental Log4J vulnerability ([#6010](https://github.com/cyberbotics/webots/pull/6010)).
+  - Bug Fixes
+    - Fixed the clean-up of the motion API which was firing warnings in Python ([#6029](https://github.com/cyberbotics/webots/pull/6029)).
+    - Fixed the behavior of the [Connector](connector.md) after a reset to return to the controller the correct status ([#5889](https://github.com/cyberbotics/webots/pull/5889))
+    - Fixed redirection of stdout/stderr for Python controllers on Windows ([#5807](https://github.com/cyberbotics/webots/pull/5807)).
+    - Fixed crash in Python API when a robot controller was using several cameras with different resolutions ([#5705](https://github.com/cyberbotics/webots/pull/5705)).
+    - Fixed Python API:
+      - `Node.getContactPoints` was failing from the second point ([#5968](https://github.com/cyberbotics/webots/pull/5968)).
+      - `Supervisor.setSimulationMode` which was failing ([#5603](https://github.com/cyberbotics/webots/pull/5603)).
+      - `Node.enableContactPointsTracking` which was failing ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
+      - Field getters sometimes returning an invalid Field object ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
+      - `Field.enableSFTracking` and `Field.disableSFTracking` which were failing ([#5640](https://github.com/cyberbotics/webots/pull/5640)).
+      - `Motor.enableForceFeedback` where the `sampling_period` argument was missing ([#5797](https://github.com/cyberbotics/webots/pull/5797)).
+      - `Motor.setAcceleration` was missing the device tag parameter ([#6036](https://github.com/cyberbotics/webots/pull/6036)).
+      - `Lidar.getRangeImageArray` had a typo in its name ([#6080](https://github.com/cyberbotics/webots/issues/6080)).
+    - Fixed crash resulting from requesting pose tracking of unsuitable nodes ([#5620](https://github.com/cyberbotics/webots/pull/5620)).
+    - Fixed memory leaks, particularly when in no-rendering mode and spawning/deleting nodes ([#5639](https://github.com/cyberbotics/webots/pull/5639)).
+    - Fixed crashes resulting from streaming pose, SF field values or contact points after deleting the tracked nodes ([#5638](https://github.com/cyberbotics/webots/pull/5638)).
+    - Fixed invalid default NULL `from_node` argument in [`wb_supervisor_node_disable_pose_tracking`](supervisor.md#wb_supervisor_node_disable_pose_tracking) ([#5638](https://github.com/cyberbotics/webots/pull/5638)).
+    - Fixed BotStudio robot window loading errors ([#5651](https://github.com/cyberbotics/webots/pull/5651)).
+    - Lowered the connection retry delay for extern controllers ([#5656](https://github.com/cyberbotics/webots/pull/5656)).
+    - Fixed default translation of [RangeRoverSportSVRSimple](../automobile/vehicle-range-rover.md#rangeroversportsvrsimple) and [TruckSimple](../automobile/vehicle-generic.md#trucksimple) not converted to ENU ([#5653](https://github.com/cyberbotics/webots/pull/5653)).
+    - Fixed a crash when setting the `Robot.battery` after the simulation start ([#5669](https://github.com/cyberbotics/webots/pull/5669)).
+    - Fixed crashes resulting from converting to base nodes a PROTO containing DEF and USE nodes ([#5676](https://github.com/cyberbotics/webots/pull/5676)).
+    - Fixed crashes resulting from updating a DEF node whose USE node is contained in a PROTO field triggering the regeneration ([#5676](https://github.com/cyberbotics/webots/pull/5676)).
+    - Fixed crashes resulting from copy or DEF/USE update in [`Solid.boundingObject`](solid.md) field ([#5686](https://github.com/cyberbotics/webots/pull/5686)).
+    - Fixed silent ignoring of more that 10 contact points when detecting collisions. All contact points are now found and the deepest 10 are used. ([#5792](https://github.com/cyberbotics/webots/pull/5792)).
+    - Fixed performance issues when retrieving multiple times a node's field defined in a PROTO body using the [Supervisor API](supervisor.md) ([#5774](https://github.com/cyberbotics/webots/pull/5774)).
+    - Fixed failure to detect that a port was already in use on some platforms ([#5806](https://github.com/cyberbotics/webots/pull/5806)).
+    - Fixed thread-safety issue when robots collide. This was only an issue if physics multi-threading was enabled (which is not the default and rarely used) ([#5796](https://github.com/cyberbotics/webots/pull/5796)).
+    - Fixed inaccurate position reporting when using velocity control for HingeJoints, Hinge2Joints, and BallJoints ([#5834](https://github.com/cyberbotics/webots/pull/5834)).
+    - Fixed retrieval of sibling devices from [`BallJoint.device3`](balljoint.md) list. Previously, the devices retrieved were from the `device` list instead ([#5839](https://github.com/cyberbotics/webots/pull/5839)).
+    - Fixed crash during PROTO regeneration triggered by nested PROTO in parameter ([#5724](https://github.com/cyberbotics/webots/pull/5724)).
+    - Fixed wrong warning message about parent "worlds" folder displayed when saving a world ([#5843](https://github.com/cyberbotics/webots/pull/5843)).
+    - Fixed the issue of Webots occasionally loading the incorrect libController ([#5885](https://github.com/cyberbotics/webots/pull/5885)).
+    - Fixed the incorrect parent link of SliderJoints when exporting to URDF ([#5899](https://github.com/cyberbotics/webots/pull/5899)).
+    - Fixed computation of relative position for [Camera recognition objects](camera.md#camera-recognition-object) if they have a parent [Transform](transform.md) node ([#5905](https://github.com/cyberbotics/webots/pull/5905)).
+    - Fixed [`wb_supervisor_export_image`](supervisor.md#wb_supervisor_export_image) not exporting until [`wb_robot_step`](robot.md#wb_robot_step) was called ([#5902](https://github.com/cyberbotics/webots/pull/5902)).
+    - Fixed node information shown in the Add Node dialog when selecting a PROTO USE node ([#5946](https://github.com/cyberbotics/webots/pull/5946)).
+    - Fixed bug causing Webots to hang when requesting multiple poses while pose-tracking multiple nodes ([#5952](https://github.com/cyberbotics/webots/pull/5952)).
+    - Fixed physics state updates of [Solid](solid.md) nodes added to a descendant [`Joint.endPoint`](joint.md) during simulation ([#5961](https://github.com/cyberbotics/webots/pull/5961)).
+    - Fixed unwanted altitude change when reaching a target waypoint in `mavic2pro_patrol.c` ([#5981](https://github.com/cyberbotics/webots/pull/5981)).
+    - Fixed the extern controller connection to a target Webots instance when a snap one is running ([#6002](https://github.com/cyberbotics/webots/pull/6002)).
+    - Fixed the double downloading of meshes ([#6034](https://github.com/cyberbotics/webots/pull/6034)).
+    - Fixed generation of moment of inertia matrix based on bounding box ([#6048](https://github.com/cyberbotics/webots/pull/6048)).
+    - Fixed the loading of remote mesh bounding objects ([#6047](https://github.com/cyberbotics/webots/pull/6047)).
+
 ## Webots R2023a
-Released on November, 29th, 2022.
+Released on November 29th, 2022.
   - New Features
     - Added support for any current and upcoming version of Python for robot controllers ([#5297](https://github.com/cyberbotics/webots/pull/5297)).
     - **Added new `projection` field to [Camera](camera.md), [RangeFinder](rangefinder.md), and [Lidar](lidar.md) nodes. This field replaces the deprecated `spherical` field ([#5266](https://github.com/cyberbotics/webots/pull/5266)).**

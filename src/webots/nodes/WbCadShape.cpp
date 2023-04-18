@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -162,6 +162,7 @@ void WbCadShape::postFinalize() {
           &WbCadShape::createWrenObjects);
 
   mBoundingSphere = new WbBoundingSphere(this);
+  recomputeBoundingSphere();
 
   // apply segmentation color
   const WbSolid *solid = WbNodeUtilities::findUpperSolid(this);
@@ -506,9 +507,6 @@ void WbCadShape::createWrenObjects() {
     mWrenEncodeDepthMaterials.push_back(depthMaterial);
     mWrenSegmentationMaterials.push_back(segmentationMaterial);
   }
-
-  if (mBoundingSphere)
-    recomputeBoundingSphere();
 }
 
 void WbCadShape::updateAppearance() {
@@ -556,15 +554,12 @@ void WbCadShape::recomputeBoundingSphere() const {
   assert(mBoundingSphere);
   mBoundingSphere->empty();
 
-  const WbVector3 &scale = absoluteScale();
   for (WrStaticMesh *mesh : mWrenMeshes) {
     float sphere[4];
     wr_static_mesh_get_bounding_sphere(mesh, sphere);
 
     const WbVector3 center(sphere[0], sphere[1], sphere[2]);
-    double radius = sphere[3];
-    radius = radius / std::max(std::max(scale.x(), scale.y()), scale.z());
-    const WbBoundingSphere meshBoundingSphere(NULL, center, radius);
+    const WbBoundingSphere meshBoundingSphere(NULL, center, sphere[3]);
     mBoundingSphere->enclose(&meshBoundingSphere);
   }
 }

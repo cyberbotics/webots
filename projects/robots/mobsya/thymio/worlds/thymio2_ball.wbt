@@ -30,7 +30,6 @@ CircleArena {
 }
 Thymio2 {
   translation 0 0 1
-  controller "thymio2_demo"
   window "thymio2"
 }
 Thymio2Ball {

@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -89,6 +89,7 @@ signals:
 public slots:
   // recursions through bounding objects for material updates
   virtual void propagateBoundingObjectMaterialUpdate(bool onSelection = false) = 0;
+  virtual void updateBoundingObject() = 0;
 
 protected:
   // Abstract class: constructors are reserved for derived classes only
@@ -179,7 +180,6 @@ private:
   static bool cShowMatterCenter;
 
 private slots:
-  virtual void updateBoundingObject() = 0;
   virtual void createOdeGeomFromInsertedGroupItem(WbBaseNode *node) = 0;
   void createOdeGeomFromInsertedTransformItem();
   void createOdeGeomFromInsertedShapeItem();

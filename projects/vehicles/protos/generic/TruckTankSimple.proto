@@ -8,10 +8,10 @@ EXTERNPROTO "TruckRearLight.proto"
 EXTERNPROTO "TruckTankMesh.proto"
 
 PROTO TruckTankSimple [
-  field SFString   name                 "truck tank"
-  field SFColor    color                0.66 0.66 0.66
-  field SFRotation rotation             0 0 1 0
-  field SFBool     wheelBoundingObject  FALSE
+  field SFString   name                 "truck tank"           # Identifies the truck tank.
+  field SFColor    color                0.66 0.66 0.66         # Defines the color of the truck tank.
+  field SFRotation rotation             0 0 1 0                # Defines the rotation of the truck tank w.r.t the truck cabin. Only the rotation in Z should be used (Javascript is not used for efficiency reasons).
+  field SFBool     wheelBoundingObject  FALSE                  # Defines whether the wheels should have a bounding object.
   hiddenField SFVec3f angularVelocity    0 0 0
   hiddenField SFVec3f frontRightWheelAngularVelocity    0 0 0
   hiddenField SFVec3f frontLeftWheelAngularVelocity     0 0 0
@@ -26,12 +26,11 @@ PROTO TruckTankSimple [
     endPoint Solid {
       angularVelocity IS angularVelocity
       translation 1.35 0 0
-      rotation IS rotation # Only the rotation in Y should be used (Lua is not used for efficiency reasons)
+      rotation IS rotation # Only the rotation in Z should be used (Javascript is not used for efficiency reasons)
       children [
         DEF FRONT_RIGHT_WHEEL Solid {
           angularVelocity IS frontRightWheelAngularVelocity
           translation -5.45 -1 0
-          rotation 0 0 1 1.5708
           children [
             Slot {
               type "vehicle wheel"
@@ -45,7 +44,7 @@ PROTO TruckTankSimple [
         DEF FRONT_LEFT_WHEEL Solid {
           angularVelocity IS frontLeftWheelAngularVelocity
           translation -5.45 1 0
-          rotation 0 0 1 -1.5708
+          rotation 0 0 1 3.14159
           children [
             Slot {
               type "vehicle wheel"
@@ -59,7 +58,6 @@ PROTO TruckTankSimple [
         DEF CENTER_RIGHT_WHEEL Solid {
           angularVelocity IS centerRightWheelAngularVelocity
           translation -6.55 -1 0
-          rotation 0 0 1 1.5708
           children [
             Slot {
               type "vehicle wheel"
@@ -73,7 +71,7 @@ PROTO TruckTankSimple [
         DEF CENTER_LEFT_WHEEL Solid {
           angularVelocity IS centerLeftWheelAngularVelocity
           translation -6.55 1 0
-          rotation 0 0 1 -1.5708
+          rotation 0 0 1 3.14159
           children [
             Slot {
               type "vehicle wheel"
@@ -87,7 +85,6 @@ PROTO TruckTankSimple [
         DEF REAR_RIGHT_WHEEL Solid {
           angularVelocity IS rearRightWheelAngularVelocity
           translation -7.65 -1 0
-          rotation 0 0 1 1.5708
           children [
             Slot {
               type "vehicle wheel"
@@ -101,7 +98,7 @@ PROTO TruckTankSimple [
         DEF REAR_LEFT_WHEEL Solid {
           angularVelocity IS rearLeftWheelAngularVelocity
           translation -7.65 1 0
-          rotation 0 0 1 -1.5708
+          rotation 0 0 1 3.14159
           children [
             Slot {
               type "vehicle wheel"
@@ -112,15 +109,10 @@ PROTO TruckTankSimple [
           ]
           name "rear left wheel"
         }
-        Transform{
-          rotation 0.57735 0.57735 0.57735 2.094395
-          children[
-            TruckRearLight {
-            }
-            TruckTankMesh {
-              color IS color
-            }
-          ]
+        TruckRearLight {
+        }
+        TruckTankMesh {
+          color IS color
         }
       ]
       name IS name

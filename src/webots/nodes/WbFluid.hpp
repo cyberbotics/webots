@@ -1,10 +1,10 @@
-// Copyright 1996-2022 Cyberbotics Ltd.
+// Copyright 1996-2023 Cyberbotics Ltd.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,6 +47,7 @@ public:
 public slots:
   // recursions through solid children with bounding objects for material updates
   void propagateBoundingObjectMaterialUpdate(bool onSelection = false) override;
+  void updateBoundingObject() override;
 
 protected:
   // this constructor is reserved for derived classes only
@@ -81,7 +82,6 @@ private:
 
 private slots:
   void createOdeGeomFromInsertedGroupItem(WbBaseNode *node) override;
-  void updateBoundingObject() override;
   void updateStreamVelocity();
   void updateDensity();
   void updateViscosity();
