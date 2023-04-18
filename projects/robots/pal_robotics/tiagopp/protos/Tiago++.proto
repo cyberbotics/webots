@@ -2,7 +2,7 @@
 # license: Apache License 2.0.
 # license url: https://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/pal_robotics/tiagopp/protos/Tiago++.proto
-# TIAGo ++ robot from PAL Robotics.
+# TIAGo++ robot from PAL Robotics.
 # The robot is composed by the TIAGo base and a body with two arms equipped with parallel grippers.
 
 EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_extensions/protos/TiagoGripper.proto"
