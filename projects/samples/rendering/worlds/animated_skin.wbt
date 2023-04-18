@@ -43,6 +43,17 @@ WorldInfo {
       material2 "ping pong ball material"
       bounce 0.9
     }
+    ContactProperties {
+      material1 "body"
+      maxContactJoints 26
+    }
+    ContactProperties {
+      material1 "leg"
+      maxContactJoints 17
+    }
+    ContactProperties {
+      maxContactJoints 17
+    }
   ]
 }
 Viewpoint {
