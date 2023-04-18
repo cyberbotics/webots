@@ -475,13 +475,20 @@ void WbSimulationCluster::handleCollisionIfSpace(void *data, dGeomID o1, dGeomID
   }
 }
 
-void WbSimulationCluster::warnMoreContactPointsThanContactJoints() {
+void WbSimulationCluster::warnMoreContactPointsThanContactJoints(const QString &material1, const QString &material2, int max,
+                                                                 int n) {
   static QMutex mutex;
   QMutexLocker<QMutex> lock(&mutex);
   static double lastWarningTime = -INFINITY;
   const double currentSimulationTime = WbSimulationState::instance()->time();
   if (currentSimulationTime > lastWarningTime + 1000.0) {
-    WbLog::warning(QObject::tr("Contact joints will only be created for the deepest contact points."), false, WbLog::ODE);
+    WbLog::warning(QObject::tr("Contact joints between materials '%1' and '%2' will only be created for the %3 deepest contact "
+                               "points instead of all the %4 contact points.")
+                     .arg(material1)
+                     .arg(material2)
+                     .arg(max)
+                     .arg(n),
+                   false, WbLog::ODE);
     lastWarningTime = currentSimulationTime;
   }
 }
@@ -656,7 +663,6 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
       n = n->parentNode();
     }
   }
-
   const WbContactProperties *contactProperties = cl->findContactProperties(s1, s2);
   const int maxContactJoints = contactProperties ? contactProperties->maxContactJoints() : 10;
 
@@ -679,7 +685,8 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     return;
 
   if (n > maxContactJoints) {
-    WbSimulationCluster::warnMoreContactPointsThanContactJoints();
+    WbSimulationCluster::warnMoreContactPointsThanContactJoints(s1->contactMaterial(), s2->contactMaterial(), maxContactJoints,
+                                                                n);
     std::nth_element(contact, contact + maxContactJoints, contact + n,
                      [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
     n = maxContactJoints;
