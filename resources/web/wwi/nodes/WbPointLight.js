@@ -1,7 +1,7 @@
-import {resetIfNegative, resetVector3IfNegative} from './utils/WbFieldChecker.js';
-import {findUpperPose} from './utils/node_utilities.js';
+import { resetIfNegative, resetVector3IfNegative } from './utils/WbFieldChecker.js';
+import { findUpperPose } from './utils/node_utilities.js';
 import WbVector3 from './utils/WbVector3.js';
-import {WbNodeType} from './wb_node_type.js';
+import { WbNodeType } from './wb_node_type.js';
 
 import WbLight from './WbLight.js';
 
