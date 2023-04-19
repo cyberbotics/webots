@@ -53,7 +53,7 @@ PROTO RubberDuck [
           }
           DEF GEOM Shape {
             appearance PBRAppearance {
-              baseColor 1 0.8 0
+              baseColor IS bodyColor
               metalness 0
               roughness 0.7
             }
