@@ -37,8 +37,6 @@
 #include <ode/ode.h>
 #include <cmath>
 
-#include <QtCore/QDebug>
-
 void WbCapsule::init() {
   mBottom = findSFBool("bottom");
   mRadius = findSFDouble("radius");
