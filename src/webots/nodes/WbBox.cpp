@@ -38,8 +38,6 @@
 
 #include <ode/ode.h>
 
-#include <QtCore/QDebug>
-
 void WbBox::init() {
   mSize = findSFVector3("size");
 }

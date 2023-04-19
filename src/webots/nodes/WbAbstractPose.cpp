@@ -27,9 +27,6 @@
 
 #include <wren/transform.h>
 
-#include <QtCore/QDebug>
-#include <QtCore/QObject>
-
 void WbAbstractPose::init(WbBaseNode *node) {
   mBaseNode = node;
   assert(mBaseNode);
