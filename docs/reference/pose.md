@@ -1,5 +1,7 @@
 ## Pose
 
+Derived from [Group](group.md).
+
 ```
 Pose {
   SFVec3f    translation     0 0 0     # any vector
