@@ -1,0 +1,241 @@
+#VRML_SIM R2022b utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# Model of the robot TIAGo OMNI Base from PAL Robotics.
+# It is the TIAGo base robot that can be extended with different features to fullfil your requirement.
+
+EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+
+PROTO TiagoOmniBase [
+  field  SFVec3f     translation     0 0 0
+  field  SFRotation  rotation        0 0 1 0
+  field  SFString    name            "TIAGo OMNI Base"  
+  field  SFString    controller      "tiago_omni_base"       
+  field  MFString    controllerArgs  []              
+  field  SFString    window          "<generic>"
+  field  SFString    customData      ""            
+  field  SFBool      supervisor      FALSE           
+  field  SFBool      synchronization TRUE            
+  field  SFBool      selfCollision   FALSE 
+  field  SFString    model            "PAL Robotics - TIAGo OMNI Base"
+  field  MFNode      bodySlot        []               # Extends the robot with a body (such as the TiagoBody or fixed shelves, safety box, roller conveyor, boxes, lifter for example).
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    selfCollision IS selfCollision
+    children [
+      Accelerometer {
+      }
+      InertialUnit {
+      }
+      Gyro {
+      }
+      GPS {
+      }
+      DEF BASE_SHAPE Transform {
+        translation 0 0 0.0762
+        children [
+          Shape {
+            appearance GlossyPaint {
+              baseColor 0.823529 0.776471 0.776471
+              textureTransform TextureTransform {
+                scale 4 4
+              }
+              IBLStrength 1.8
+            }
+            geometry DEF base_link Mesh {
+              url "omni_meshes/base.stl"
+            }
+          }
+        ]
+      }
+      DEF REAR_LIDAR Transform {
+        translation -0.275120 0.182970 0.208640
+        rotation -0.382683 -0.923880 0.000000 3.141593
+        children [
+          DEF SICK_TIM51_SHAPE Shape {
+            appearance DEF DARK_GREY_MATERIAL GlossyPaint {
+              baseColor 0.5 0.5 0.5
+            }
+            geometry DEF sick_tim551 Mesh {
+              url "kage:/pmb2_description/meshes/sensors/sick_tim551.stl" # TODO
+            }
+          }
+          Lidar {
+            name "base_rear_laser"
+            fieldOfView 4.712389
+            horizontalResolution 818
+            numberOfLayers 1
+            minRange 0.05
+            maxRange 25
+            noise 0.0024
+            resolution 0.001
+          }
+        ]
+      }
+      DEF FRONT_LIDAR Transform {
+      translation 0.27512 -0.18297 0.20864
+      rotation -0.9238797538373538 0.38268289803626016 0 3.141593
+        children [
+          USE SICK_TIM51_SHAPE
+          Lidar {
+            name "base_front_laser"
+            horizontalResolution 818
+            fieldOfView 4.712389
+            numberOfLayers 1
+            minRange 0.05
+            maxRange 25
+            noise 0.0024
+            resolution 0.001
+          }
+        ]
+        name "base_front_laser_link"
+      }
+      DEF BASE_DOCK Transform {
+        translation 0.3535 0 0.1358
+        children [
+          Shape {
+            appearance GlossyPaint {
+              baseColor 0.25098 0.25098 0.25098
+            }
+            geometry Mesh {
+              url "omni_meshes/base_dock.stl"
+            }
+          }
+        ]
+      }
+      DEF BASE_RIGHT_ANTENNA Transform {
+        translation -0.2015 -0.13 0.2927
+        children [
+          DEF BASE_ANTENNA_SHAPE Shape {
+            appearance MattePaint {
+              baseColor 0.239216 0.219608 0.27451
+            }
+            geometry Mesh {
+              url "omni_meshes/base_antenna.stl"
+            }
+          }
+        ]
+      }
+      DEF BASE_LEFT_ANTENNA Transform {
+        translation -0.2015 0.13 0.2927
+        scale 1 -1 1
+        children [
+          USE BASE_ANTENNA_SHAPE
+        ]
+      }
+      TiagoOmniBaseWheel {
+        translation 0.244 -0.1725 0.0762
+        rotation 0 0 -1 1.570796
+      }
+      TiagoOmniBaseWheel {
+        translation 0.244 0.1725 0.0762
+        rotation 0 0 1 1.570796
+        name "wheel_front_left"
+      }
+      TiagoOmniBaseWheel {
+        translation -0.244 -0.1725 0.0762
+        rotation 0 0 -1 1.570796
+        name "wheel_rear_right"
+      }
+      TiagoOmniBaseWheel {
+        translation -0.244 0.1725 0.0762
+        rotation 0 0 1 1.570796
+        name "wheel_rear_left"
+      }
+      Transform {
+        translation -0.006 0 0.11
+        children IS bodySlot
+      }
+    ]
+    model IS model
+    boundingObject Group {
+      children [
+        Transform {
+          translation 0 0 0.26545
+          children [
+            Box {
+              size 0.717 0.497 0.0845
+            }
+          ]
+        }
+        Transform {
+          translation 0 0 0.2082
+          children [
+            Box {
+              size 0.58 0.39 0.03
+            }
+          ]
+        }
+        Transform {
+          translation 0 0 0.1097
+          children [
+            Box {
+              size 0.705 0.48 0.167
+            }
+          ]
+        }
+        DEF BASE_RIGHT_ANTENNA Transform {
+          translation -0.2015 -0.13 0.3118
+          children [
+            Cylinder {
+              height 0.02
+              radius 0.007
+            }
+          ]
+        }
+        DEF RIGHT_ANTENNA Transform {
+          translation -0.1323 -0.1508 0.3238
+          rotation -0.14539595746761758 -0.978631713722864 -0.14539595746761758 1.5924
+          children [
+            Cylinder {
+              height 0.154
+              radius 0.007
+            }
+          ]
+          translationStep 0.005
+          rotationStep 0.05
+        }
+        DEF BASE_LEFT_ANTENNA Transform {
+          translation -0.2015 0.13 0.3118
+          children [
+            Cylinder {
+              height 0.02
+              radius 0.007
+            }
+          ]
+        }
+        DEF LEFT_ANTENNA Transform {
+          translation -0.1323 0.1508 0.3238
+          rotation 0.14194899911629652 -0.9796429939012327 0.14195099911628406 1.59136
+          children [
+            Cylinder {
+              height 0.154
+              radius 0.007
+            }
+          ]
+        }
+      ]
+    }
+    physics Physics {
+      density -1
+      mass 34.047
+      centerOfMass [
+        0.002674 0.000275 0.086363
+      ]
+      inertiaMatrix [
+        0.22777 0.29991 0.46036
+        0.00035979 0.00015269 1.7872e-05
+      ]
+    }
+    name IS name
+    window IS window
+  }
+}
