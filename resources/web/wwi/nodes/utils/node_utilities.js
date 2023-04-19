@@ -1,7 +1,7 @@
 import WbSolid from '../WbSolid.js';
 import WbPose from '../WbPose.js';
 import WbWorld from '../WbWorld.js';
-import {WbNodeType} from '../wb_node_type.js';
+import { WbNodeType } from '../wb_node_type.js';
 
 export function findUpperPose(node) {
   if (typeof node === 'undefined')
