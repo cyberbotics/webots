@@ -1,8 +1,8 @@
-import {findUpperPose} from './utils/node_utilities.js';
-import {resetVector3IfNegative, resetIfNegative, resetIfNotInRangeWithIncludedBounds} from './utils/WbFieldChecker.js';
+import { findUpperPose } from './utils/node_utilities.js';
+import { resetVector3IfNegative, resetIfNegative, resetIfNotInRangeWithIncludedBounds } from './utils/WbFieldChecker.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbLight from './WbLight.js';
-import {WbNodeType} from './wb_node_type.js';
+import { WbNodeType } from './wb_node_type.js';
 
 export default class WbSpotLight extends WbLight {
   #attenuation;
@@ -208,7 +208,7 @@ export default class WbSpotLight extends WbLight {
 
     if (this.#beamWidth > this.#cutOffAngle) {
       console.warn("Invalid 'beamWidth' changed to " + this.#cutOffAngle +
-      ". The value should be less than or equal to 'cutOffAngle'.");
+        ". The value should be less than or equal to 'cutOffAngle'.");
       this.beamWidth = this.#cutOffAngle;
       return;
     }
