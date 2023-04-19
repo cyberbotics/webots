@@ -1,4 +1,7 @@
 import Stream from './Stream.js';
+import ImageLoader from './ImageLoader.js';
+import MeshLoader from './MeshLoader.js';
+import WbCadShape from './nodes/WbCadShape.js';
 
 export default class Server {
   #httpServerUrl;
@@ -83,6 +86,9 @@ export default class Server {
       if (typeof this.#view.x3dScene !== 'undefined')
         this.#view.prefix = this.#httpServerUrl + '/';
       this.#view.stream = new Stream(url, this.#view, this.#onready);
+      ImageLoader.stream = true;
+      MeshLoader.stream = true;
+      WbCadShape.stream = true;
       this.#view.stream.connect();
     } else if (message.indexOf('controller:') === 0 || message.indexOf('reset controller:') === 0) {
       // Need to keep it to avoid having an error message.

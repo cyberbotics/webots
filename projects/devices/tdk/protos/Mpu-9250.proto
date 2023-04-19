@@ -1,7 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/imu-sensors#mpu-9250
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/tdk/protos/Mpu-9250.proto
 # Model of the MPU-9250 Inertial Measurement Unit (IMU) developed by TDK InvenSense.
 # template language: javascript
 
@@ -11,6 +11,7 @@ PROTO Mpu-9250 [
   field SFVec3f    translation 0 0 0
   field SFRotation rotation    0 0 1 0
   field SFString   name        "MPU-9250"
+  field SFBool includeInertialUnit FALSE
 ]
 {
   Solid {
@@ -34,6 +35,11 @@ PROTO Mpu-9250 [
       Compass {
         name %<= '"' + fields.name.value + ' compass"' >%
       }
+      %< if (fields.includeInertialUnit.value) { >%
+        InertialUnit {
+          name %<= '"' + fields.name.value + ' inertial_unit"' >%
+        }
+      %< } >%
     ]
     name IS name
     physics Physics {
@@ -43,4 +49,3 @@ PROTO Mpu-9250 [
     boundingObject USE IMU_BOX
   }
 }
-
