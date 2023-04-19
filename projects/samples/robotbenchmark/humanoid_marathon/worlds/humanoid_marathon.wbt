@@ -157,14 +157,19 @@ DEF ENVIRONMENT Solid {
       translation 15.15 0 -6.615
       rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0943951023931953
       name "building(1)"
-      corners [3 3, 3 -3, -3 -3, -3 3]
+      corners [
+        3 3
+        3 -3
+        -3 -3
+        -3 3
+      ]
       roofHeight 1
     }
     FastFoodRestaurant {
       translation 4.869 0 3.402
       rotation -0.5771968951617173 0.5771968951617173 0.577656895078166 2.09394
-      brand "momo"
       scale 0.3
+      brand "momo"
     }
     BungalowStyleHouse {
       translation 14.547 0 4.944
@@ -360,12 +365,12 @@ DEF ENVIRONMENT Solid {
       advertisingLightOn FALSE
     }
     PedestrianCrossing {
-      translation 12.999 0.009 -0.6
+      translation 12.999 -0.16 -0.6
       rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       size 2.16 0.9
     }
     PedestrianCrossing {
-      translation -3.078 0.009 -0.6
+      translation -3.078 -0.16 -0.6
       rotation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.09
       name "pedestrian crossing(1)"
       size 2.16 0.9
