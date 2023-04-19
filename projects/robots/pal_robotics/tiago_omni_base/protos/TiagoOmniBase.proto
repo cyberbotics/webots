@@ -5,6 +5,8 @@
 # It is the TIAGo base robot that can be extended with different features to fullfil your requirement.
 
 EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
+EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_omni_base/protos/TiagoOmniBaseWheel.proto"
 
 PROTO TiagoOmniBase [
   field  SFVec3f     translation     0 0 0
@@ -51,7 +53,7 @@ PROTO TiagoOmniBase [
               IBLStrength 1.8
             }
             geometry DEF base_link Mesh {
-              url "omni_meshes/base.stl"
+              url "meshes/base.stl"
             }
           }
         ]
@@ -96,7 +98,6 @@ PROTO TiagoOmniBase [
             resolution 0.001
           }
         ]
-        name "base_front_laser_link"
       }
       DEF BASE_DOCK Transform {
         translation 0.3535 0 0.1358
@@ -106,7 +107,7 @@ PROTO TiagoOmniBase [
               baseColor 0.25098 0.25098 0.25098
             }
             geometry Mesh {
-              url "omni_meshes/base_dock.stl"
+              url "meshes/base_dock.stl"
             }
           }
         ]
@@ -119,7 +120,7 @@ PROTO TiagoOmniBase [
               baseColor 0.239216 0.219608 0.27451
             }
             geometry Mesh {
-              url "omni_meshes/base_antenna.stl"
+              url "meshes/base_antenna.stl"
             }
           }
         ]

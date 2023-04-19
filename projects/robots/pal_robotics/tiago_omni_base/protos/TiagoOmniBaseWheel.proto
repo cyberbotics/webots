@@ -20,10 +20,6 @@ PROTO TiagoOmniBaseWheel [
     const is_right = fields.name.value == "wheel_front_right" || fields.name.value == "wheel_rear_right";
     const front_string = is_front ? "front" : "rear";
     const right_string = is_right ? "right" : "left";
-    console.log("is_front " + is_front);
-    console.log("is_right " + is_right);
-    console.log("front_string " + front_string);
-    console.log("right_string " + right_string);
   >%
   Solid {
     translation IS translation
@@ -34,7 +30,7 @@ PROTO TiagoOmniBaseWheel [
           baseColor 0.79216 0.81961 0.93333
         }
         geometry Mesh {
-          url %<= '"omni_meshes/suspension_' + front_string + '.stl"' >%
+          url %<= '"meshes/suspension_' + front_string + '.stl"' >%
         }
       }
       HingeJoint {
@@ -74,7 +70,7 @@ PROTO TiagoOmniBaseWheel [
                     baseColor 0.5 0.5 0.5
                   }
                   geometry Mesh {
-                    url "omni_meshes/wheel.stl"
+                    url "meshes/wheel.stl"
                     %< if (!is_right) { >%
                       ccw FALSE
                     %< } >%
