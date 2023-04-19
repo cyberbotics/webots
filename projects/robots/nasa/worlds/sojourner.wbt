@@ -18,9 +18,11 @@ WorldInfo {
   gravity 3.73
   basicTimeStep 16
   lineScale 0.2
-  contactProperties ContactProperties {
-    maxContactJoints 21
-  }
+  contactProperties [
+    ContactProperties {
+      maxContactJoints 21
+    }
+  ]
 }
 Viewpoint {
   fieldOfView 0.895398
