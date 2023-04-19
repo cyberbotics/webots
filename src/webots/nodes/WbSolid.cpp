@@ -1389,7 +1389,6 @@ void WbSolid::setInertiaMatrixFromBoundingObject() {
   const double s0 = absoluteScale().x();
   const double s = 1.0 / s0;
   double s3 = s * s;
-  double s5 = s3;
   s3 *= s;
 
   // Sets the actual total mass to mReferenceMass
@@ -1799,12 +1798,13 @@ void WbSolid::createOdeMass(bool reset) {
     const double fieldMass = p->mass();
 
     // Sets the actual total mass
-    double actualMass = mOdeMass->mass;
-    if (fieldMass > 0.0) {
-      const double s2 = s * s;
-      actualMass = s * s2 * fieldMass;
-    } else if (fieldDensity != REFERENCE_DENSITY)
-      actualMass *= fieldDensity / REFERENCE_DENSITY;
+    double actualMass;
+    if (fieldMass > 0.0)
+      actualMass = fieldMass;
+    else if (fieldDensity != REFERENCE_DENSITY)
+      actualMass = mOdeMass->mass * fieldDensity / REFERENCE_DENSITY;
+    else
+      actualMass = mOdeMass->mass;
 
     // Adjust the total according to mass and density fields
     dMassAdjust(mOdeMass, actualMass);
