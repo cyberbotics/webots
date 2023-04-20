@@ -28,14 +28,15 @@ class WbObjectDetection {
 public:
   enum FrustumPlane { LEFT = 0, BOTTOM, RIGHT, TOP, PARALLEL, PLANE_NUMBER };
 
-  WbObjectDetection(WbSolid *device, WbSolid *object, bool needToCheckCollision, double maxRange);
+  WbObjectDetection(WbSolid *device, WbSolid *object, bool needToCheckCollision, double maxRange, double horizontalFieldOfView);
   virtual ~WbObjectDetection();
 
   bool hasCollided() const;
   dGeomID geom() const { return mGeom; }
   WbSolid *object() const { return mObject; }
-  WbVector3 objectSize() const { return mObjectSize; }
   WbVector3 objectRelativePosition() const { return mObjectRelativePosition; }
+  WbVector3 objectSize() const { return mObjectSize; }
+  bool objectSizeComputedFromBoundingSphere() const { return mUseBoundingSphereOnly; }
 
   void setCollided(double depth);
 
@@ -51,8 +52,8 @@ public:
                      const WbAffinePlane *frustumPlanes);
 
   static WbAffinePlane *computeFrustumPlanes(const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation,
-                                             const double verticalFieldOfView, const double horizontalFieldOfView,
-                                             const double maxRange);
+                                             double verticalFieldOfView, double horizontalFieldOfView, double maxRange,
+                                             bool isPlanarProjection);
 
 protected:
   static void mergeBounds(WbVector3 &referenceObjectSize, WbVector3 &referenceObjectRelativePosition,
@@ -81,10 +82,13 @@ protected:
 
   WbVector3 mObjectRelativePosition;
   WbVector3 mObjectSize;
+  bool mUseBoundingSphereOnly;  // used by WbCamera recognition functionality to compute a more tight fitting bounding box
   WbSolid *mObject;
   double mMaxRange;
   double mCollisionDepth;  // the geom collision depth
   dGeomID mGeom;           // geom that checks collision of this packet
+  double mHorizontalFieldOfView;
+  bool mIsOmniDirectional;  // is sensor omnidirectional (horizontal FOV < PI/2)
 };
 
 #endif
