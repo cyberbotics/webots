@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/generic/MotorbikeDriver.proto
+# keywords: vehicle/two wheels
 # The Motorbike driver is based on the pedestrian PROTO.
 
 PROTO MotorbikeDriver [

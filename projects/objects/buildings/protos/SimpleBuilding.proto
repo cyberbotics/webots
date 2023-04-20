@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# keywords: building/business
 # A customizable building, the size and geometry can fully be defined.
 # The texture of the wall and roof can be selected using the fields 'wallType' and 'roofType'.
 # template language: javascript

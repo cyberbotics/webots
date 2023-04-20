@@ -2,6 +2,7 @@
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/husarion/rosbot_xl/protos/RosbotXl.proto
+# keywords: robot/wheeled
 # This is a proto file for Webots for the RosbotXl
 
 EXTERNPROTO "webots://projects/devices/slamtec/protos/RpLidarA2.proto"

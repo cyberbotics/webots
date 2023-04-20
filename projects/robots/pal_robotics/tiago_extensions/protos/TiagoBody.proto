@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Apache License 2.0.
 # license url: https://www.apache.org/licenses/LICENSE-2.0
+# keywords: robot/extension
 # TIAGo robot's body from PAL Robotics.
 # The body can be extended with arms.
 

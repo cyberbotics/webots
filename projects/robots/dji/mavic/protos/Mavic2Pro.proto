@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/dji/mavic/protos/Mavic2Pro.proto
+# keywords: robot/flying
 # A quadcopter drone mounted with a motorized camera by the DJI company.
 
 EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"

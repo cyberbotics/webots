@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/bounding_objects/protos/TorusBoundingObject.proto
+# keywords: geometry
 # This bounding object with a torus shape is formed by a group of spheres.
 # template language: javascript
 

@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/robotis/protos/RobotisLds01.proto
+# keywords: sensor/lidar
 # Model of the Robotis LDS-01 Laser Distance Sensor
 # Reference: http://www.robotis.us/360-laser-distance-sensor-lds-01-lidar/
 # template language: javascript

@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Apache License 2.0.
 # license url: https://www.apache.org/licenses/LICENSE-2.0
+# keywords: robot/extension
 # This is a PROTO file for Webots for the robot TIAGo from PAL Robotics (Spain).
 # It is the robot's left arm that can be connected to the TIAGo body.
 

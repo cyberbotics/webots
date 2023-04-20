@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/gctronic/e-puck/protos/Pi-puck.proto
+# keywords: robot/extension
 # Raspberry pi extension for the e-puck robot model 2
 # To be inserted in the `turretSlot` of the E-puck node.
 

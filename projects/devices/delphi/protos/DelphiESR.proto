@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/delphi/protos/DelphiESR.proto
+# keywords: sensor/radar
 # Delphi ESR sensor model based on the Radar node.
 # In long range mode the radar can see target at up to 174m and has a field of view of 20degrees
 # Otherwise the radar can see target at up to 60m and has a field of view of 90degrees

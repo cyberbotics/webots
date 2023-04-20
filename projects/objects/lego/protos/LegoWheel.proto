@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/lego/protos/LegoWheel.proto
+# keywords: robot/extension
 # LEGO Mindstrom EV 3 wheel. Parts id: 4634091 & 6035364.
 
 PROTO LegoWheel [

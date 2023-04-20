@@ -2,7 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car
-# keywords: vehicle/farm, animal/farm, geometry, appearance/plastic
+# keywords: vehicle/farm
 # A simple tractor.
 
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/Car.proto"

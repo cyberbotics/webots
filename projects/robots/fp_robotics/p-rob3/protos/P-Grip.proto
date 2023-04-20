@@ -2,6 +2,7 @@
 # license: Apache License 2.0
 # license url: https://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/fp_robotics/p-rob3/protos/P-Grip.proto
+# keywords: robot/extension
 # A P-Grip gripper rom F&P Robotics
 
 EXTERNPROTO "webots://projects/appearances/protos/Leather.proto"

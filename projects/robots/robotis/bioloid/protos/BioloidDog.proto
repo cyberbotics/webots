@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/robotis/bioloid/protos/BioloidDog.proto
+# keywords: robot/walking
 # A dog-like robot using the ROBOTIS Bioloid kit.
 
 PROTO BioloidDog [

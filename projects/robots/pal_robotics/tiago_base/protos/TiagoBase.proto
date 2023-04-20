@@ -2,6 +2,7 @@
 # license: Apache License 2.0.
 # license url: https://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto
+# keywords: robot/wheeled
 # This is a PROTO file for Webots for the robot TIAGo from PAL Robotics (Spain).
 # It is the TIAGo base robot that can be extended with different features to fullfil your requirement.
 

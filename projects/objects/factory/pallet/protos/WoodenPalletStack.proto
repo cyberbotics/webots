@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/factory/pallet/protos/WoodenPalletStack.proto
 # tags: nonDeterministic
+# keywords: industrial/other
 # Simple and configurable wooden pallet stack.
 # template language: javascript
 

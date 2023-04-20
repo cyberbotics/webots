@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/lights/protos/FloorLight.proto
+# keywords: household/light
 # A floor light (0.19 x 0.19 x 1.6 m).
 
 PROTO FloorLight [

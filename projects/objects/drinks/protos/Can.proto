@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/drinks/protos/Can.proto
+# keywords: food/drink
 # A can (0.03175 x 0.03175 x 0.1222 m).
 
 PROTO Can [

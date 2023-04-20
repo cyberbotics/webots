@@ -2,6 +2,7 @@
 # license: Apache License 2.0
 # license url: https://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/samples/contests/robocup/protos/RobocupGoal.proto
+# keywords: sport/soccer field
 # Robocup Humanoid League 2021 soccer goal.
 # The color and size of the goal can be modified.
 # template language: javascript

@@ -2,6 +2,7 @@
 # license: Apache License 2.0
 # license url: https://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/robotis/turtlebot/protos/TurtleBot3Burger.proto
+# keywords: robot/wheeled
 # Burger model of the third version of the TurtleBot robot.
 
 EXTERNPROTO "webots://projects/devices/robotis/protos/RobotisLds01.proto"

@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/gctronic/elisa/protos/Elisa3DistanceSensor.proto
+# keywords: robot/extension
 # Distance sensor of the Elisa-3 mobile robot.
 
 PROTO Elisa3DistanceSensor [

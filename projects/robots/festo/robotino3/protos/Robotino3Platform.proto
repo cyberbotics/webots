@@ -2,6 +2,7 @@
 # license: Apache License 2.0
 # license url: https://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/festo/robotino3/protos/Robotino3Platform.proto
+# keywords: robot/extension
 # This is a PROTO file for Webots of a platform for the robot Robotino 3 from Festo.
 # It is a feature for Robotino 3 to fullfil your requirement.
 # Use it with the "bodySlot" field of the Robotino 3 robot.
