@@ -29,7 +29,7 @@ EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficCone.proto"
 
 WorldInfo {
   info [
-    "This simulation shows a Tiago Base moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar."
+    "This simulation shows a TIAGo Base moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar."
   ]
   title "Simulation of PAL Robotics' TIAGo Base robot"
 }

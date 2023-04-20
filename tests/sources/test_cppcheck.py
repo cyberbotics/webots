@@ -19,6 +19,7 @@ import unittest
 import os
 import multiprocessing
 import shutil
+import sys
 
 
 class TestCppCheck(unittest.TestCase):
@@ -35,6 +36,10 @@ class TestCppCheck(unittest.TestCase):
             self.platformOptions = ' -D_WIN32'
         else:
             self.platformOptions = ' -D__APPLE__'
+
+        with open(os.path.join(self.WEBOTS_HOME, 'resources', 'version.txt'), 'r') as file:
+            version = file.readlines()[0].strip()
+            self.platformOptions += ' -DLIBCONTROLLER_VERSION=' + version
 
     def test_cppcheck_is_correctly_installed(self):
         """Test Cppcheck is correctly installed."""
@@ -132,7 +137,12 @@ class TestCppCheck(unittest.TestCase):
             'src/webots/widgets',
             'src/webots/wren'
         ]
-        skippedfiles = [] if sys.platform.startswith('win32') else ['src/webots/core/WbWindowsRegistry.hpp']
+        skippedFiles = [
+            'src/controller/c/sha1.c',
+            'src/controller/c/sha1.h'
+        ]
+        if not sys.platform.startswith('win32'):
+            skippedFiles.append('src/webots/core/WbWindowsRegistry.hpp')
         command = 'cppcheck --platform=native --enable=warning,style,performance,portability --inconclusive -q'
         command += self.platformOptions
         command += ' --library=qt -j %s' % str(multiprocessing.cpu_count())
@@ -165,9 +175,6 @@ class TestCppCheck(unittest.TestCase):
             'projects/default/libraries/vehicle/java',
             'projects/default/libraries/vehicle/python',
             'projects/robots/gctronic/e-puck/transfer',
-            'projects/robots/mobsya/thymio/controllers/thymio2_aseba/aseba',
-            'projects/robots/mobsya/thymio/libraries/dashel',
-            'projects/robots/mobsya/thymio/libraries/dashel-src',
             'projects/robots/robotis/darwin-op/libraries/python',
             'projects/robots/robotis/darwin-op/libraries/robotis-op2/robotis',
             'projects/robots/robotis/darwin-op/remote_control/libjpeg-turbo',

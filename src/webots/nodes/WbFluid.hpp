@@ -47,6 +47,7 @@ public:
 public slots:
   // recursions through solid children with bounding objects for material updates
   void propagateBoundingObjectMaterialUpdate(bool onSelection = false) override;
+  void updateBoundingObject() override;
 
 protected:
   // this constructor is reserved for derived classes only
@@ -81,7 +82,6 @@ private:
 
 private slots:
   void createOdeGeomFromInsertedGroupItem(WbBaseNode *node) override;
-  void updateBoundingObject() override;
   void updateStreamVelocity();
   void updateDensity();
   void updateViscosity();
