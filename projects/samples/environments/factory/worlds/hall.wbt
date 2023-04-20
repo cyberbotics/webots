@@ -4438,8 +4438,8 @@ Pose {
           ]
         }
       ]
-      boundingObject USE SHAPE
       name "solid(25)"
+      boundingObject USE SHAPE
     }
     Solid {
       translation 0.03 0.29 0.75
