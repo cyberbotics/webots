@@ -78,7 +78,7 @@ DEF ROOF RectangleArena {
   }
 }
 Tiago {
-  translation -4.416 1.063 0.095
+  translation -4.416 1.063 0
   controller "tiago_hey5_hand"
   endEffectorSlot TiagoRightHey5 {
   }

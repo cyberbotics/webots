@@ -13,19 +13,20 @@ Derived from [Robot](../reference/robot.md).
 
 ```
 Tiago {
-  SFVec3f     translation      0 0 0.095
-  SFRotation  rotation         0 0 1 0
-  SFString    name             "TIAGo"
-  SFString    controller       "tiago"
-  MFString    controllerArgs   []
-  SFString    window           "<generic>"
-  SFString    customData       ""
-  SFBool      supervisor       FALSE
-  SFBool      synchronization  TRUE
-  SFBool      selfCollision    FALSE
-  SFNode      endEffectorSlot  TiagoGripper {}
-  MFNode      cameraSlot       Astra { translation -0.028 -0.035 -0.009 rotation 1 0 0 -1.5708}
-  MFNode      lidarSlot        HokuyoUrg04lxug01 {}
+  SFVec3f                translation      0 0 0
+  SFRotation             rotation         0 0 1 0
+  SFString               name             "TIAGo"
+  SFString               controller       "tiago"
+  MFString               controllerArgs   []
+  SFString               window           "<generic>"
+  SFString               customData       ""
+  SFBool                 supervisor       FALSE
+  SFBool                 synchronization  TRUE
+  SFBool                 selfCollision    FALSE
+  SFString{"PMB2, OMNI"} base             "PMB2"
+  SFNode                 endEffectorSlot  TiagoGripper {}
+  MFNode                 cameraSlot       Astra { translation -0.028 -0.035 -0.009 rotation 1 0 0 -1.5708}
+  MFNode                 lidarSlot        HokuyoUrg04lxug01 {}
 }
 ```
 
@@ -33,6 +34,7 @@ Tiago {
 
 #### Tiago Field Summary
 
+- `base`: Defines if the robot is using the TIAGo PMB2 or the OMNI base robot.
 - `endEffectorSlot`:  Defines the robot end effector.
 - `cameraSlot`:  Extends the robot with a camera at head level.
 - `lidarSlot`: Extends the robot with a lidar.

@@ -79,7 +79,7 @@ DEF ROOF RectangleArena {
   }
 }
 TiagoLite {
-  translation -4.416 1.063 0.095
+  translation -4.416 1.063 0
 }
 WoodenBox {
   translation -6.2 7 0.405

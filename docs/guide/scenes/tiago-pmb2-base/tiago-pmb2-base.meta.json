@@ -72,6 +72,6 @@
       "type": "PositionSensor"
     }
   ],
-  "name": "tiago-base",
+  "name": "tiago-pmb2-base",
   "robotID": "n10"
 }

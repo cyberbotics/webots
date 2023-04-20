@@ -63,7 +63,8 @@ Please [contact us](https://cyberbotics.com/#contact) if you would like to see y
 | ![icon.png](images/robots/spot/icon.png)             | [Spot](spot.md)                           | Boston Dynamics      | *Dog-like robot*                  |
 | ![icon.png](images/robots/summit_xl_steel/icon.png)  | [Summit-XL Steel](summit-xl-steel.md)     | Robotnik             | *Four-wheeled (mecanum) robot*    |
 | ![icon.png](images/robots/surveyor/icon.png)         | [Surveyor SRV-1](surveyor.md)             | Surveyor Corporation | *Robot with two tracks*           |
-| ![icon.png](images/robots/tiago_base/icon.png)       | [TIAGo Base](tiago-base.md)               | PAL Robotics         | *Two-wheeled robot*               |
+| ![icon.png](images/robots/tiago_pmb2_base/icon.png)  | [TIAGo PMB2 Base](tiago-pmb2-base.md)     | PAL Robotics         | *Two-wheeled robot*               |
+| ![icon.png](images/robots/tiago_omni_base/icon.png)  | [TIAGo OMNI Base](tiago-omni-base.md)     | PAL Robotics         | *Mecanum omnidirectional robot*   |
 | ![icon.png](images/robots/tiago_lite/icon.png)       | [TIAGo LITE](tiago-lite.md)               | PAL Robotics         | *Two-wheeled human-like robot*    |
 | ![icon.png](images/robots/tiago/icon.png)            | [TIAGo](tiago.md)                         | PAL Robotics         | *Two-wheeled human-like robot*    |
 | ![icon.png](images/robots/tiago++/icon.png)          | [TIAGo++](tiagopp.md)                     | PAL Robotics         | *Two-wheeled human-like robot*    |
