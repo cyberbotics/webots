@@ -55,6 +55,112 @@ This is typically the case if randomness is involved in the execution of the PRO
 
 The `documentation url:` comment can be used to link to the PROTO documentation. The link will be displayed in the add node dialog and openned from the node help menu.
 
+#### Keywords
+
+The `keywords:` should be added to classify the proto correctly on https://webots.cloud/proto.
+The available keywords are the following:
+```
+robot
+  - arm
+  - flying
+  - tracked
+  - walking
+  - wheeled
+  - other
+  - accessory
+  - extension
+sensor
+  - camera
+  - distance-sensor
+  - imu
+  - lidar
+  - radar
+  - range-finder
+appearance
+  - electronics
+  - fabric
+  - leather
+  - metal
+  - mineral
+  - other
+  - paint
+  - plastic
+  - rubber
+  - wood
+animal
+  - farm
+  - pet
+  - wild
+building
+  - business
+  - civil
+  - component
+  - farm
+  - hotel
+  - house
+  - industry
+  - residential
+  - shop
+exterior
+  - garden
+  - obstacle
+  - street furniture
+  - tree
+floor
+food
+  - drink
+  - grocery
+furniture
+  - bathroom
+  - bedroom
+  - chair
+  - kitchen
+  - laundry
+  - living room
+  - storage
+  - table
+geometry
+household
+  - electronics
+  - hospital
+  - kitchen
+  - light
+  - living room
+  - potted plant
+  - school
+  - toy
+industrial
+  - cart
+  - container
+  - conveyor
+  - ironmongery
+  - light
+  - plumbing
+  - safety
+  - tool
+  - other
+sport
+- ball
+  - soccer field
+traffic
+  - road
+  - sign
+vehicle
+  - car
+  - farm
+  - public
+  - truck
+  - two wheels
+  - wheel
+  - steering
+  - other
+```
+
+You should declare the keywords as follow:
+- If the proto goes in a category which has subcategories, you have to choose a subcategory. The syntax is then: `keywords:first level category/second level on`, for example: `keywords: robot/walking`.
+- If the proto goes in a category without subcategories, the syntax is : `keywords:first level category`, for example: `keywords: geometry`.
+- If the robot goes in several categories, the different categories are separated by a comma, for example: `keywords: vehicle/car, appearance/metal`.
+
 #### Description
 
 Finally, it is important to provide a short description about what the PROTO is about.
