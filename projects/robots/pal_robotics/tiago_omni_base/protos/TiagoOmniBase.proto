@@ -66,8 +66,8 @@ PROTO TiagoOmniBase [
             appearance DEF DARK_GREY_MATERIAL GlossyPaint {
               baseColor 0.5 0.5 0.5
             }
-            geometry DEF sick_tim551 Mesh {
-              url "kage:/pmb2_description/meshes/sensors/sick_tim551.stl" # TODO
+            geometry Mesh {
+              url "meshes/sick_tim551.stl"
             }
           }
           Lidar {

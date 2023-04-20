@@ -36,9 +36,9 @@ PROTO TiagoOmniBaseWheel [
       HingeJoint {
         jointParameters HingeJointParameters {
           %< if (!is_right) { >%
-          axis -1 0 0
-          %< } else { >%
           axis 1 0 0
+          %< } else { >%
+          axis -1 0 0
           %< } >%
           anchor 0.050675 0 0
         }
