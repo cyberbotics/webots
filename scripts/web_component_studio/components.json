@@ -532,9 +532,19 @@
       }
     },
     {
-      "name": "tiago-base",
-      "proto": "TiagoBase",
-      "translation": "0 0 0.095",
+      "name": "tiago-pmb2-base",
+      "proto": "TiagoPmb2Base",
+      "translation": "0 0 0",
+      "rotation": "0 0 1 -2.6179953071795863",
+      "viewpoint": {
+        "orientation": "-0.05174112343599112 0.1495564192934976 0.9873984674859938 1.0223519442502973",
+        "position": "-2.021874553064331 -2.3343968241335546 1.0525805235471775"
+      }
+    },
+    {
+      "name": "tiago-omni-base",
+      "proto": "TiagoOmniBase",
+      "translation": "0 0 0",
       "rotation": "0 0 1 -2.6179953071795863",
       "viewpoint": {
         "orientation": "-0.05174112343599112 0.1495564192934976 0.9873984674859938 1.0223519442502973",
