@@ -42,6 +42,7 @@ public:
   virtual const QString &deviceName() const = 0;
   virtual int deviceNodeType() const = 0;
   void setTag(WbDeviceTag tag) { mTag = tag; }
+  void setIsControllerRunning(bool isRunning) { mIsControllerRunning = isRunning; }
 
   // for sensors only
   virtual bool refreshSensorIfNeeded() { return false; }
@@ -51,12 +52,14 @@ protected:
   WbDevice();
   WbDevice(const WbDevice &other);
 
+  bool isControllerRunning() const { return mIsControllerRunning; }
   void *mWindow;  // robot window
 
 private:
   WbDeviceTag mTag;
   static const WbDeviceTag UNASSIGNED = 65535;  // maximum short int value
   bool mPowerOn;
+  bool mIsControllerRunning;
   WbDevice &operator=(const WbDevice &);  // non copyable
   void init();
 };
