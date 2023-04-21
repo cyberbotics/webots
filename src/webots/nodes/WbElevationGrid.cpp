@@ -557,7 +557,6 @@ double WbElevationGrid::computeLocalCollisionPoint(const WbRay &ray, WbVector3 &
 
       // first triangle: ABC
       WbAffinePlane plane(vertexA, vertexB, vertexC);
-      plane.normalize();
       std::pair<bool, double> result = localRay.intersects(plane, true);
       if (result.first && result.second > 0 && result.second < minDistance) {
         // check finite plane bounds
@@ -570,7 +569,6 @@ double WbElevationGrid::computeLocalCollisionPoint(const WbRay &ray, WbVector3 &
 
       // second triangle: BCD
       plane = WbAffinePlane(vertexD, vertexC, vertexB);
-      plane.normalize();
       result = localRay.intersects(plane, true);
 
       if (result.first && result.second > 0 && result.second < minDistance) {
