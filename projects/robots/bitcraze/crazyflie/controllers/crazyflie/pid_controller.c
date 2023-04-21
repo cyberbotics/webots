@@ -41,14 +41,16 @@ float constrain(float value, const float minVal, const float maxVal) {
 
 double pastAltitudeError, pastPitchError, pastRollError, pastYawRateError;
 double pastVxError, pastVyError;
+double altIntergrator;
 
 void init_pid_attitude_fixed_height_controller() {
-  pastAltitudeError = 0;
-  pastYawRateError = 0;
-  pastPitchError = 0;
-  pastRollError = 0;
-  pastVxError = 0;
-  pastVyError = 0;
+    pastAltitudeError = 0;
+    pastYawRateError = 0;
+    pastPitchError = 0;
+    pastRollError = 0;
+    pastVxError = 0;
+    pastVyError = 0;
+    altIntergrator = 0;
 }
 
 void pid_attitude_fixed_height_controller(actual_state_t actual_state, desired_state_t *desired_state, gains_pid_t gains_pid,
@@ -74,11 +76,14 @@ void pid_fixed_height_controller(actual_state_t actual_state, desired_state_t *d
   double altitudeDerivativeError = (altitudeError - pastAltitudeError) / dt;
   control_commands->altitude =
     gains_pid.kp_z * constrain(altitudeError, -1, 1) + gains_pid.kd_z * altitudeDerivativeError + gains_pid.ki_z;
-  pastAltitudeError = altitudeError;
+
+    altIntergrator += altitudeError*dt;
+    control_commands->altitude = gains_pid.kp_z * constrain(altitudeError, -1, 1) + gains_pid.kd_z*altitudeDerivativeError + gains_pid.ki_z*altIntergrator+48;
+    pastAltitudeError = altitudeError;
 }
 
 void motor_mixing(control_commands_t control_commands, motor_power_t *motorCommands) {
-  // Motor mixing
+    // Motor mixing
   motorCommands->m1 = control_commands.altitude - control_commands.roll + control_commands.pitch + control_commands.yaw;
   motorCommands->m2 = control_commands.altitude - control_commands.roll - control_commands.pitch - control_commands.yaw;
   motorCommands->m3 = control_commands.altitude + control_commands.roll - control_commands.pitch + control_commands.yaw;
@@ -87,7 +92,7 @@ void motor_mixing(control_commands_t control_commands, motor_power_t *motorComma
 
 void pid_attitude_controller(actual_state_t actual_state, desired_state_t *desired_state, gains_pid_t gains_pid, double dt,
                              control_commands_t *control_commands) {
-  // Calculate errors
+    // Calculate errors
   double pitchError = desired_state->pitch - actual_state.pitch;
   double pitchDerivativeError = (pitchError - pastPitchError) / dt;
   double rollError = desired_state->roll - actual_state.roll;
@@ -98,11 +103,11 @@ void pid_attitude_controller(actual_state_t actual_state, desired_state_t *desir
   control_commands->roll = gains_pid.kp_att_rp * constrain(rollError, -1, 1) + gains_pid.kd_att_rp * rollDerivativeError;
   control_commands->pitch = -gains_pid.kp_att_rp * constrain(pitchError, -1, 1) - gains_pid.kd_att_rp * pitchDerivativeError;
   control_commands->yaw = gains_pid.kp_att_y * constrain(yawRateError, -1, 1);
-
-  // Save error for the next round
+    
+    // Save error for the next round
   pastPitchError = pitchError;
   pastRollError = rollError;
-  pastYawRateError = yawRateError;
+    pastYawRateError = yawRateError;
 }
 
 void pid_horizontal_velocity_controller(actual_state_t actual_state, desired_state_t *desired_state, gains_pid_t gains_pid,
@@ -115,11 +120,11 @@ void pid_horizontal_velocity_controller(actual_state_t actual_state, desired_sta
   // PID control
   double pitchCommand = gains_pid.kp_vel_xy * constrain(vxError, -1, 1) + gains_pid.kd_vel_xy * vxDerivative;
   double rollCommand = -gains_pid.kp_vel_xy * constrain(vyError, -1, 1) - gains_pid.kd_vel_xy * vyDerivative;
-
+    
   desired_state->pitch = pitchCommand;
   desired_state->roll = rollCommand;
 
-  // Save error for the next round
-  pastVxError = vxError;
-  pastVyError = vyError;
+    // Save error for the next round
+    pastVxError = vxError;
+    pastVyError = vyError;
 }
