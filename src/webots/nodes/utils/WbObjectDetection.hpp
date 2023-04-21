@@ -50,8 +50,8 @@ public:
   bool isContainedInFrustum(const WbAffinePlane *frustumPlanes);
 
   // Computes the frustum plane for the given device ray.
-  static WbAffinePlane *computeFrustumPlanes(const WbSolid *device, double verticalFieldOfView,
-                                             double horizontalFieldOfView, double maxRange, bool isPlanarProjection);
+  static WbAffinePlane *computeFrustumPlanes(const WbSolid *device, double verticalFieldOfView, double horizontalFieldOfView,
+                                             double maxRange, bool isPlanarProjection);
 
 private:
   static void mergeBounds(WbVector3 &referenceObjectSize, WbVector3 &referenceObjectRelativePosition,
