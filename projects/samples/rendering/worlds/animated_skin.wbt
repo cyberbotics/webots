@@ -332,8 +332,8 @@ DEF APPLE Pose {
     Apple {
       translation 0.41890544 -0.51423568 0.11474117
       rotation -0.5199881374825417 -0.6776611791705899 -0.5199881374825417 -1.950441
-      mass 0.3
       scale 2
+      mass 0.3
       immersionProperties [
         ImmersionProperties {
           fluidName "fluid"
@@ -421,7 +421,6 @@ DEF ROCKS Group {
       rotation -0.35740699927911007 0.8628559982596194 -0.35740699927911007 1.717772
       children [
         Rock {
-          translation 0 0 0
           name "rock (9)"
           scale 60
           locked TRUE
@@ -432,7 +431,6 @@ DEF ROCKS Group {
       translation -41.859663 -22 1.03
       children [
         Rock {
-          translation 0 0 0
           name "rock (10)"
           scale 51
           locked TRUE
@@ -449,7 +447,6 @@ DEF ROCKS Group {
       translation 1.56 3.38 0.59
       children [
         Rock {
-          translation 0 0 0
           name "rock (12)"
           scale 4
           locked TRUE
@@ -461,7 +458,6 @@ DEF ROCKS Group {
       rotation -0.44721372362178063 -0.7745965212991105 -0.44721372362178063 -1.823477
       children [
         Rock {
-          translation 0 0 0
           name "rock (13)"
           scale 4
           locked TRUE
