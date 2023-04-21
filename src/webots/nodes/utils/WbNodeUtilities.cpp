@@ -1528,22 +1528,33 @@ WbNodeUtilities::Answer WbNodeUtilities::isSuitableForTransform(const WbNode *co
     return UNSUITABLE;
   }
 
-  if (srcModelName == "Group" || srcModelName == "Transform") {
-    if (destModelName == "Solid" || (srcModelName == "Group" && destModelName == "Transform"))
-      return SUITABLE;
-    if (srcModelName == "Transform" && destModelName == "Group")
-      return LOOSING_INFO;
+  if (srcModelName == "Group" || srcModelName == "Pose" || srcModelName == "Transform") {
+    Answer ok;
+    if (srcModelName == "Transform") {
+      const WbTransform *transform = dynamic_cast<const WbTransform *>(srcNode);
+      ok = transform && transform->scale() != WbVector3(1, 1, 1) ? LOOSING_INFO : SUITABLE;
+    } else
+      ok = SUITABLE;
+
+    if (destModelName == "Transform" || destModelName == "Pose" || destModelName == "Solid")
+      return ok;
+
+    if (destModelName == "Group") {
+      const WbPose *p = dynamic_cast<const WbPose *>(srcNode);
+      const bool pose = p && (p->translation() != WbVector3(0, 0, 0) || p->rotation().angle() != 0);
+      return pose ? LOOSING_INFO : ok;
+    }
 
     if (srcNode->isTopLevel())
-      return (destModelName == "Charger" || isRobotTypeName(destModelName)) ? SUITABLE : UNSUITABLE;
+      return (destModelName == "Charger" || isRobotTypeName(destModelName)) ? ok : UNSUITABLE;
 
     if (isSolidDeviceTypeName(destModelName))
-      return hasARobotAncestor(srcNode) ? SUITABLE : UNSUITABLE;
+      return hasARobotAncestor(srcNode) ? ok : UNSUITABLE;
 
     return UNSUITABLE;
   }
 
-  if (destModelName == "Group" || destModelName == "Transform") {
+  if (destModelName == "Group" || destModelName == "Pose" || destModelName == "Transform") {
     if (isSolidTypeName(srcModelName)) {
       bool hasDevices;
       if (hasDeviceDescendantFlag && *hasDeviceDescendantFlag >= 0)  // read cached value
