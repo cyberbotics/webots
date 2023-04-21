@@ -1417,7 +1417,7 @@ structs.WbCameraRecognitionObject.members = struct(
 
 The `id` represents the node id corresponding to the object, and it is possible to use this id directly in the [`wb_supervisor_node_get_from_id`](supervisor.md#wb_supervisor_node_get_from_def) supervisor function.
 The `position` and `orientation` are expressed relatively to the camera (the relative position is the one of the center of the object which can differ from its origin) and the units are meter and radian.
-The `size` represents the X and Y sizes in meters relatively to the camera (it is of course impossible to know the depth of the object).
+The `size` represents the Y and Z sizes in meters relatively to the camera (it is of course impossible to know the depth of the object along the [Camera](camera.md) X axis).
 The `position_on_image` and `size_on_image` can be used to determine the bounding box of the object in the camera image, the units are pixels.
 The `number_of_colors` and `colors` returns respectively the number of colors of the objects and pointer to the colors array, each color is represented by 3 doubles (R, G and B), therefore the size of the array is equal to 3 * `number_of_colors`.
 Finally `model` returns the `model` field of the [Solid](solid.md) node.

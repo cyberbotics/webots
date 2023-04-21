@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
@@ -42,6 +42,17 @@ WorldInfo {
     ContactProperties {
       material2 "ping pong ball material"
       bounce 0.9
+    }
+    ContactProperties {
+      material1 "body"
+      maxContactJoints 26
+    }
+    ContactProperties {
+      material1 "leg"
+      maxContactJoints 17
+    }
+    ContactProperties {
+      maxContactJoints 17
     }
   ]
 }
