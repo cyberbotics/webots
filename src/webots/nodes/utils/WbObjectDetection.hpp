@@ -52,8 +52,8 @@ public:
                      const WbAffinePlane *frustumPlanes);
 
   static WbAffinePlane *computeFrustumPlanes(const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation,
-                                             double verticalFieldOfView, double horizontalFieldOfView, double maxRange,
-                                             bool isPlanarProjection);
+                                             const double verticalFieldOfView, const double horizontalFieldOfView,
+                                             const double maxRange, bool isPlanarProjection);
 
 protected:
   static void mergeBounds(WbVector3 &referenceObjectSize, WbVector3 &referenceObjectRelativePosition,

@@ -433,8 +433,8 @@ bool WbObjectDetection::computeObject(const WbVector3 &devicePosition, const WbM
 }
 
 WbAffinePlane *WbObjectDetection::computeFrustumPlanes(const WbVector3 &devicePosition, const WbMatrix3 &deviceRotation,
-                                                       double verticalFieldOfView, double horizontalFieldOfView,
-                                                       double maxRange, bool isPlanarProjection) {
+                                                       const double verticalFieldOfView, const double horizontalFieldOfView,
+                                                       const double maxRange, bool isPlanarProjection) {
   // construct the 4 planes defining the sides of the frustum
   const float halfFovX = horizontalFieldOfView / 2.0;
   const float halfFovY = verticalFieldOfView / 2.0;
