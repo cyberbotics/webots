@@ -475,6 +475,7 @@ void WbLidar::createWrenCamera() {
   mIsActuallyRotating = mType->value().startsWith('r', Qt::CaseInsensitive);
 
   WbAbstractCamera::createWrenCamera();
+  applyCameraSettings();
   applyMaxRangeToWren();
   applyResolutionToWren();
   applyTiltAngleToWren();

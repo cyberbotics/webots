@@ -40,7 +40,7 @@
 class WbRadarTarget : public WbObjectDetection {
 public:
   WbRadarTarget(WbRadar *radar, WbSolid *solidTarget, bool needToCheckCollision, double maxRange) :
-    WbObjectDetection(radar, solidTarget, needToCheckCollision, maxRange) {
+    WbObjectDetection(radar, solidTarget, needToCheckCollision, maxRange, radar->horizontalFieldOfView()) {
     mTargetDistance = 0.0;
     mReceivedPower = 0.0;
     mSpeed = 0.0;
@@ -324,7 +324,7 @@ void WbRadar::updateRaysSetupIfNeeded() {
   WbVector3 radarAxis = radarRotation * WbVector3(1.0, 0.0, 0.0);
   WbAffinePlane radarPlane(radarRotation * WbVector3(0.0, 0.0, 1.0), radarAxis);
   WbAffinePlane *frustumPlanes = WbObjectDetection::computeFrustumPlanes(radarPosition, radarRotation, verticalFieldOfView(),
-                                                                         horizontalFieldOfView(), maxRange());
+                                                                         horizontalFieldOfView(), maxRange(), true);
   foreach (WbRadarTarget *target, mRadarTargets) {
     target->object()->updateTransformForPhysicsStep();
     bool valid = target->recomputeRayDirection(this, radarPosition, radarRotation, radarInverseRotation, frustumPlanes);
@@ -423,7 +423,7 @@ void WbRadar::computeTargets(bool finalSetup, bool needCollisionDetection) {
   WbVector3 radarAxis = radarRotation * WbVector3(1.0, 0.0, 0.0);
   WbAffinePlane radarPlane(radarRotation * WbVector3(0.0, 0.0, 1.0), radarAxis);
   WbAffinePlane *frustumPlanes = WbObjectDetection::computeFrustumPlanes(radarPosition, radarRotation, verticalFieldOfView(),
-                                                                         horizontalFieldOfView(), maxRange());
+                                                                         horizontalFieldOfView(), maxRange(), true);
 
   // loop for each possible target to check if it is visible
   QList<WbSolid *> targets = WbWorld::instance()->radarTargetSolids();

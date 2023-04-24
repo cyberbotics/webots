@@ -18,6 +18,7 @@ void WbDevice::init() {
   mTag = UNASSIGNED;
   mPowerOn = true;
   mWindow = 0;
+  mIsControllerRunning = false;
 }
 
 WbDevice::WbDevice() {
