@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
   wb_camera_recognition_enable(camera_spherical, TIME_STEP);
 
   WbDeviceTag camera_cylindrical = wb_robot_get_device("cylindrical");
-  wb_camera_enable(came ra_cylindrical, TIME_STEP);
+  wb_camera_enable(camera_cylindrical, TIME_STEP);
   wb_camera_recognition_enable(camera_cylindrical, TIME_STEP);
 
   // check number of object recognized

@@ -473,9 +473,13 @@ void WbCamera::updateRaysSetupIfNeeded() {
   // compute the camera frustum planes
   const double horizontalFieldOfView = fieldOfView();
   const double verticalFieldOfView =
-    WbWrenCamera::computeFieldOfViewY(horizontalFieldOfView, (double)width() / (double)height());
+    (isPlanarProjection() || horizontalFieldOfView > M_PI) ?
+      WbWrenCamera::computeFieldOfViewY(horizontalFieldOfView, (double)width() / (double)height()) :
+      mWrenCamera->sphericalFieldOfViewY();
   const WbAffinePlane *frustumPlanes = WbObjectDetection::computeFrustumPlanes(this, verticalFieldOfView, horizontalFieldOfView,
                                                                                recognition()->maxRange(), isPlanarProjection());
+
+  // update list of recognized objects
   foreach (WbRecognizedObject *recognizedObject, mRecognizedObjects) {
     recognizedObject->object()->updateTransformForPhysicsStep();
     if (!recognizedObject->recomputeRayDirection(frustumPlanes) || !setRecognizedObjectProperties(recognizedObject)) {
@@ -747,6 +751,8 @@ WbVector2 WbCamera::applyCameraDistortionToImageCoordinate(const WbVector2 &uv) 
       WbVector2(2 * tc.x() * relativeUv.x() * relativeUv.y() + tc.y() * (r2 + 2 * relativeUv.x() * relativeUv.x()),
                 tc.x() * (r2 + 2 * relativeUv.y() * relativeUv.y() + 2 * tc.y() * relativeUv.x() * relativeUv.y()));
   }
+  distortedUv.setX(qMax(0.0, qMin(distortedUv.x(), 1.0)));
+  distortedUv.setY(qMax(0.0, qMin(distortedUv.y(), 1.0)));
   return distortedUv;
 }
 
@@ -791,7 +797,7 @@ WbVector2 WbCamera::projectOnImage(const WbVector3 &position) {
   uv = applyCameraDistortionToImageCoordinate(uv);
 
   // return uv coordinates in range [0, width/height]
-  return WbVector2((int)(width() * uv.x()), (int)(height() * uv.y()));
+  return WbVector2((int)((width() - 1) * uv.x()), (int)((height() - 1) * uv.y()));
 }
 
 bool WbCamera::setRecognizedObjectProperties(WbRecognizedObject *recognizedObject) {
@@ -1214,8 +1220,10 @@ void WbCamera::applyFocalSettingsToWren() {
 
 void WbCamera::applyFarToWren() {
   mWrenCamera->setFar(mFar->value());
-  if (mSegmentationCamera)
+  if (mSegmentationCamera) {
     mSegmentationCamera->setFar(mFar->value());
+    updateOverlayMaskTexture();
+  }
 }
 
 void WbCamera::applyCameraSettingsToWren() {
@@ -1225,25 +1233,31 @@ void WbCamera::applyCameraSettingsToWren() {
 
 void WbCamera::applyNearToWren() {
   WbAbstractCamera::applyNearToWren();
-  if (mSegmentationCamera)
+  if (mSegmentationCamera) {
     mSegmentationCamera->setNear(nearValue());
+    updateOverlayMaskTexture();
+  }
 }
 
 void WbCamera::applyFieldOfViewToWren() {
   WbAbstractCamera::applyFieldOfViewToWren();
-  if (mSegmentationCamera)
+  if (mSegmentationCamera) {
     mSegmentationCamera->setFieldOfView(mFieldOfView->value());
+    updateOverlayMaskTexture();
+  }
 }
 
 void WbCamera::applyLensToWren() {
   WbAbstractCamera::applyLensToWren();
   if (mSegmentationCamera && hasBeenSetup()) {
-    if (lens()) {
+    const WbLens *l = lens();
+    if (l) {
       mSegmentationCamera->enableLensDistortion();
-      mSegmentationCamera->setLensDistortionCenter(lens()->center());
-      mSegmentationCamera->setRadialLensDistortionCoefficients(lens()->radialCoefficients());
-      mSegmentationCamera->setTangentialLensDistortionCoefficients(lens()->tangentialCoefficients());
+      mSegmentationCamera->setLensDistortionCenter(l->center());
+      mSegmentationCamera->setRadialLensDistortionCoefficients(l->radialCoefficients());
+      mSegmentationCamera->setTangentialLensDistortionCoefficients(l->tangentialCoefficients());
     } else
       mSegmentationCamera->disableLensDistortion();
+    updateOverlayMaskTexture();
   }
 }
