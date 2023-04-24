@@ -1,7 +1,7 @@
 # A Fluid node can be used to represent a collection of fluid volumes where hydrostatic and hydrodynamic forces apply.
 
 Fluid {
-  #fields that inherit from the Transform node:
+  #fields that inherit from the Pose node:
   vrmlField SFVec3f    translation     0 0 0
   vrmlField SFRotation rotation        0 0 1 0
   vrmlField MFNode     children        []        # shapes representing the fluid volume
