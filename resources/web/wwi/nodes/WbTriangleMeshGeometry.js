@@ -2,6 +2,7 @@ import {arrayXPointerFloat, arrayXPointerInt} from './utils/utils.js';
 import WbGeometry from './WbGeometry.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
 import WbTriangleMesh from './utils/WbTriangleMesh.js';
+import WbVector3 from './utils/WbVector3.js';
 import WbWrenMeshBuffers from './utils/WbWrenMeshBuffers.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
@@ -15,19 +16,19 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
 
     super.createWrenObjects();
 
-    this.#buildWrenMesh(false);
+    this._buildWrenMesh(false);
   }
 
   delete() {
+    super.delete();
+
     _wr_static_mesh_delete(this._wrenMesh);
 
     this._deleteWrenRenderable();
-
-    super.delete();
   }
 
   preFinalize() {
-    if (this.isPreFinalizeCalled)
+    if (this.isPreFinalizedCalled)
       return;
 
     super.preFinalize();
@@ -35,10 +36,57 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
     this.#createTriangleMesh();
   }
 
+  recomputeBoundingSphere() {
+    this._boundingSphere.empty();
+    if (typeof this._triangleMesh === 'undefined' || this._triangleMesh.numberOfTriangles === 0)
+      return;
+
+    // Ritter's bounding sphere approximation:
+    // 1. Pick a point x from P, search a point y in P, which has the largest distance from x;
+    // 2. Search a point z in P, which has the largest distance from y. set up an
+    //    initial sphere B, with its centre as the midpoint of y and z, the radius as
+    //    half of the distance between y and z;
+    // 3. If all points in P are within sphere B, then we get a bounding sphere.
+    //    Otherwise, let p be a point outside the sphere, construct a new sphere covering
+    //    both point p and previous sphere. Repeat this step until all points are covered.
+    // Note that steps 1. and 2. help in computing a better fitting (smaller) sphere by
+    // estimating the center of the final sphere and thus reducing the bias due to the enclosed
+    // vertices order.
+    const nbTriangles = this._triangleMesh.numberOfTriangles;
+    let p2 = new WbVector3(this._triangleMesh.vertex(0, 0, 0), this._triangleMesh.vertex(0, 0, 1),
+      this._triangleMesh.vertex(0, 0, 2));
+    let p1;
+    let maxDistance; // squared distance
+    for (let i = 0; i < 2; ++i) {
+      maxDistance = 0.0;
+      p1 = p2;
+      for (let t = 0; t < nbTriangles; ++t) {
+        for (let v = 0; v < 3; ++v) {
+          const point = new WbVector3(this._triangleMesh.vertex(t, v, 0), this._triangleMesh.vertex(t, v, 1),
+            this._triangleMesh.vertex(t, v, 2));
+          const d = p1.distance2(point);
+          if (d > maxDistance) {
+            maxDistance = d;
+            p2 = point;
+          }
+        }
+      }
+    }
+    this._boundingSphere.set(p2.add(p1).mul(0.5), Math.sqrt(maxDistance) * 0.5);
+
+    for (let t = 0; t < nbTriangles; ++t) {
+      for (let v = 0; v < 3; ++v) {
+        const point = new WbVector3(this._triangleMesh.vertex(t, v, 0), this._triangleMesh.vertex(t, v, 1),
+          this._triangleMesh.vertex(t, v, 2));
+        this._boundingSphere.enclose(point);
+      }
+    }
+  }
+
   // Private functions
 
-  _buildGeomIntoBuffers(buffers, m) {
-    if (!this._triangleMesh.isValid)
+  #buildGeomIntoBuffers(buffers, m, generateUserTexCoords) {
+    if (!this._triangleMesh.isValid || typeof buffers === 'undefined')
       return;
 
     const rm = m.extracted3x3Matrix();
@@ -77,9 +125,13 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
         for (let v = 0; v < 3; ++v) { // foreach vertex
           tBuf[i] = this._triangleMesh.textureCoordinate(t, v, 0);
           tBuf[i + 1] = this._triangleMesh.textureCoordinate(t, v, 1);
-
-          utBuf[i] = this._triangleMesh.textureCoordinate(t, v, 0);
-          utBuf[i + 1] = this._triangleMesh.textureCoordinate(t, v, 1);
+          if (generateUserTexCoords) {
+            utBuf[i] = this._triangleMesh.nonRecursiveTextureCoordinate(t, v, 0);
+            utBuf[i + 1] = this._triangleMesh.nonRecursiveTextureCoordinate(t, v, 1);
+          } else {
+            utBuf[i] = this._triangleMesh.textureCoordinate(t, v, 0);
+            utBuf[i + 1] = this._triangleMesh.textureCoordinate(t, v, 1);
+          }
 
           i += 2;
         }
@@ -100,7 +152,10 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
     buffers.vertexIndex = buffers.vertexIndex + this.#estimateVertexCount() * 3;
   }
 
-  #buildWrenMesh() {
+  _buildWrenMesh(updateTriangleMesh) {
+    if (updateTriangleMesh)
+      this.#createTriangleMesh();
+
     this._deleteWrenRenderable();
 
     if (typeof this._wrenMesh !== 'undefined') {
@@ -135,23 +190,25 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
     // Restore pickable state
     super.setPickable(this.isPickable);
 
-    const buffers = super._createMeshBuffers(this.#estimateVertexCount(), this._estimateIndexCount());
-    this._buildGeomIntoBuffers(buffers, new WbMatrix4());
-    const vertexBufferPointer = arrayXPointerFloat(buffers.vertexBuffer);
-    const normalBufferPointer = arrayXPointerFloat(buffers.normalBuffer);
-    const texCoordBufferPointer = arrayXPointerFloat(buffers.texCoordBuffer);
-    const unwrappedTexCoordsBufferPointer = arrayXPointerFloat(buffers.unwrappedTexCoordsBuffer);
-    const indexBufferPointer = arrayXPointerInt(buffers.indexBuffer);
-    this._wrenMesh = _wr_static_mesh_new(buffers.verticesCount, buffers.indicesCount, vertexBufferPointer, normalBufferPointer,
-      texCoordBufferPointer, unwrappedTexCoordsBufferPointer, indexBufferPointer, createOutlineMesh);
+    const buffers = super._createMeshBuffers(this.#estimateVertexCount(), this.#estimateIndexCount());
+    if (typeof buffers !== 'undefined') {
+      this.#buildGeomIntoBuffers(buffers, new WbMatrix4(), !this._triangleMesh.areTextureCoordinatesValid);
+      const vertexBufferPointer = arrayXPointerFloat(buffers.vertexBuffer);
+      const normalBufferPointer = arrayXPointerFloat(buffers.normalBuffer);
+      const texCoordBufferPointer = arrayXPointerFloat(buffers.texCoordBuffer);
+      const unwrappedTexCoordsBufferPointer = arrayXPointerFloat(buffers.unwrappedTexCoordsBuffer);
+      const indexBufferPointer = arrayXPointerInt(buffers.indexBuffer);
+      this._wrenMesh = _wr_static_mesh_new(buffers.verticesCount, buffers.indicesCount, vertexBufferPointer,
+        normalBufferPointer, texCoordBufferPointer, unwrappedTexCoordsBufferPointer, indexBufferPointer, createOutlineMesh);
 
-    _free(vertexBufferPointer);
-    _free(normalBufferPointer);
-    _free(texCoordBufferPointer);
-    _free(unwrappedTexCoordsBufferPointer);
-    _free(indexBufferPointer);
+      _free(vertexBufferPointer);
+      _free(normalBufferPointer);
+      _free(texCoordBufferPointer);
+      _free(unwrappedTexCoordsBufferPointer);
+      _free(indexBufferPointer);
 
-    buffers.clear();
+      buffers.clear();
+    }
 
     _wr_renderable_set_mesh(this._wrenRenderable, this._wrenMesh);
   }
@@ -175,7 +232,7 @@ export default class WbTriangleMeshGeometry extends WbGeometry {
     super._deleteWrenRenderable();
   }
 
-  _estimateIndexCount() {
+  #estimateIndexCount() {
     if (!this._triangleMesh.isValid)
       return;
 

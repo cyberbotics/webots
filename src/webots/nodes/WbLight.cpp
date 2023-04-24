@@ -234,6 +234,9 @@ void WbLight::exportNodeFields(WbWriter &writer) const {
 QStringList WbLight::fieldsToSynchronizeWithX3D() const {
   QStringList fields;
   fields << "color"
-         << "on";
+         << "on"
+         << "intensity"
+         << "ambientIntensity"
+         << "castShadows";
   return fields;
 }
