@@ -422,8 +422,9 @@ bool WbObjectDetection::isContainedInFrustum(const WbAffinePlane *frustumPlanes)
   return true;
 }
 
-WbAffinePlane *WbObjectDetection::computeFrustumPlanes(const WbSolid *device, double verticalFieldOfView,
-                                                       double horizontalFieldOfView, double maxRange, bool isPlanarProjection) {
+WbAffinePlane *WbObjectDetection::computeFrustumPlanes(const WbSolid *device, const double verticalFieldOfView,
+                                                       const double horizontalFieldOfView, const double maxRange,
+                                                       bool isPlanarProjection) {
   const WbVector3 devicePosition = device->position();
   const WbMatrix3 deviceRotation = device->rotationMatrix();
   // construct the 4 planes defining the sides of the frustum
