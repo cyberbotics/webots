@@ -3,7 +3,7 @@
 # In addition, Solid nodes can have an optional Physics node that allow them to be simulated with the physics engine.
 
 Solid {
-  #fields that inherit from the Transform node:
+  #fields that inherit from the Pose node:
   vrmlField SFVec3f    translation         0 0 0
   vrmlField SFRotation rotation            0 0 1 0
   vrmlField MFNode     children            []        # shape and solids fixed to that solid
