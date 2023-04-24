@@ -361,7 +361,8 @@ bool WbTriangleMeshGeometry::isSuitableForInsertionInBoundingObject(bool warning
 }
 
 bool WbTriangleMeshGeometry::isAValidBoundingObject(bool checkOde, bool warning) const {
-  return mTriangleMesh && mTriangleMesh->isValid() && WbGeometry::isAValidBoundingObject(checkOde, warning);
+  assert(mTriangleMesh);
+  return mTriangleMesh->isValid() && WbGeometry::isAValidBoundingObject(checkOde, warning);
 }
 /////////////////
 // Ray tracing //
