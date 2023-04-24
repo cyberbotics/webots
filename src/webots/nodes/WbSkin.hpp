@@ -23,7 +23,6 @@
 class WbBoundingSphere;
 class WbDownloader;
 class WbMFNode;
-class WbScaleManipulator;
 
 struct WrDynamicMesh;
 struct WrMaterial;
