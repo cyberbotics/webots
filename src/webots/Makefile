@@ -275,9 +275,9 @@ QT_SOURCES = WbAboutBox.cpp \
   WbDoubleSpinBox.cpp \
   WbDownloadManager.cpp \
   WbDownloader.cpp \
+  WbDragPoseEvent.cpp \
   WbDragResizeEvent.cpp \
   WbDragSolidEvent.cpp \
-  WbDragTransformEvent.cpp \
   WbElevationGrid.cpp \
   WbEmitter.cpp \
   WbExtendedStringEditor.cpp \
