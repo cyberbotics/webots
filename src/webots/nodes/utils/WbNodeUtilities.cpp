@@ -473,7 +473,7 @@ namespace {
 
         // if the node itself is a transform or it has a transform ancestor exists, prohibit the insertion of Solids,
         // Robots, Devices, Propellers & Lights
-        if (node->modelName() == "Transform" || WbNodeUtilities::findUpperTransform(node)) {
+        if (isTransformOrTransformDescendant) {
           if (nodeName == "PointLight" || nodeName == "SpotLight" || nodeName == "DirectionalLight" ||
               WbNodeUtilities::isSolidTypeName(nodeName) || nodeName == "Propeller")
             return false;
