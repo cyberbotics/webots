@@ -153,7 +153,7 @@ bool WbObjectDetection::isWithinBounds(const WbAffinePlane *frustumPlanes, const
     const WbShape *shape = static_cast<const WbShape *>(boundingObject);
     boundingObject = shape->geometry();
     return isWithinBounds(frustumPlanes, boundingObject, objectSize, objectRelativePosition);
-  } else if (nodeType == WB_NODE_GROUP || nodeType == WB_NODE_TRANSFORM || nodeType == WB_NODE_POSE) {
+  } else if (nodeType == WB_NODE_GROUP || nodeType == WB_NODE_POSE) {
     bool visible = false;
     const WbGroup *group = static_cast<const WbGroup *>(boundingObject);
     for (int i = 0; i < group->childCount(); ++i) {
