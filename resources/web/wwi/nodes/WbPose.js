@@ -56,12 +56,12 @@ export default class WbPose extends WbGroup {
 
   absoluteScale() {
     if (this._absoluteScaleNeedUpdate)
-      this.#updateAbsoluteScale();
+      this._updateAbsoluteScale();
 
     return this._absoluteScale;
   }
 
-  #updateAbsoluteScale() {
+  _updateAbsoluteScale() {
     this._absoluteScale = new WbVector3(1.0, 1.0, 1.0);
     // multiply with upper pose scale if any
     const up = this.#upperPose();

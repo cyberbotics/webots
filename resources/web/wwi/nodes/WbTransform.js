@@ -25,7 +25,7 @@ export default class WbTransform extends WbPose {
     this.#updateScale();
   }
 
-  #updateAbsoluteScale() {
+  _updateAbsoluteScale() {
     this._absoluteScale = this.#scale;
     // multiply with upper transform scale if any
     const up = this.upperPose();
