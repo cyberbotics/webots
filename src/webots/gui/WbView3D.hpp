@@ -33,7 +33,6 @@ class WbAbstractPose;
 class WbCamera;
 class WbDragKinematicsEvent;
 class WbDragForceEvent;
-class WbDragScaleHandleEvent;
 class WbDragTorqueEvent;
 class WbDragOverlayEvent;
 class WbDragResizeHandleEvent;
