@@ -1,6 +1,6 @@
 ## Fluid
 
-Derived from [Transform](transform.md).
+Derived from [Pose](pose.md).
 
 ```
 Fluid {
@@ -41,7 +41,7 @@ It defaults to viscosity of water at 20 degrees Celsius.
 - `streamVelocity`: fluid linear velocity, the flow being assumed laminar.
 The fluid linear velocity is taken into account for the drag and viscous resistance computations, see [ImmersionProperties](immersionproperties.md).
 
-- `boundingObject`: the bounding object specifies the geometrical primitives and their [Transform](transform.md) offset used for immersion detection.
+- `boundingObject`: the bounding object specifies the geometrical primitives and their [Pose](pose.md) offset used for immersion detection.
 If the `boundingObject` field is NULL, then no immersion detection is performed and that fluid will have no effect on immersed objects.
 A [Solid](solid.md) will undergo static or dynamic forces exerted by a [Fluid](#fluid) only if its `boundingObject` collides with the [Fluid](#fluid)'s `boundingObject`.
 The intersection volume with an individual primitive geometry is approximated by the intersection volume of this geometry with a tangent plane of equation *y = c, c > 0* in the geometry coordinate system.

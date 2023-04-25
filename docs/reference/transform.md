@@ -47,19 +47,6 @@ Note however that the length of the 3D vector *rx ry rz* must be normalized (i.e
 
 - The `scale` field specifies a possibly non-uniform scale.
 Only non-zero values are permitted; zero values are automatically reset to 1.
-Graphical objects support any non-zero, non-uniform scale whereas physical objects are subject to more restrictions.
-This is so because scaled geometries must remain admissible for the physics engine collision detection.
-Restrictions for `Geometries` placed inside `boundingObjects` are as follows: [Sphere](sphere.md)s and [Capsule](capsule.md)s only support uniform scale; the scale coordinates x and z of a `Transform` with a [Cylinder](cylinder.md) descendant must be the same.
-For the remaining `Geometries`, the scale is not restricted.
-The `scale` fields of a [Solid](solid.md) node and its derived nodes must be uniform, i.e., of the form *x x x* so as to comply with the physics engine.
-For such nodes a positive `scale` field initially set to *x y z* is automatically reset to *x x x*.
-The same holds for a `Transform` placed inside a `boundingObject` and with a `Sphere` or a `Capsule` descendant.
-In the case of a `Cylinder`, *x y z* will be reset to *x z x*.
-If some value changes within one of the previous constrained scale fields, the two others are actuated using the new value and the corresponding constraint rule.
-Scaling is forbidden if a `Robot` is a descendant of the `Transform`.
-In this case, *x y z* will be reset to *1 1 1* and a warning will be printed.
 
 - The `translationStep` and `rotationStep` fields defines the minimum step size used by the translation and rotation handles appearing in the 3D view when the object is selected.
 If they are set to 0, then the step is disabled and translation and rotation are continuous.
-
-> **Note**: If a `Transform` is named using the [DEF](def-and-use.md) keyword and later referenced inside a `boundingObject` with a USE statement, the constraint corresponding to its first `Geometry` descendant applies to the `scale` fields of the defining `Transform` and of all its further references.

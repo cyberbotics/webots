@@ -1,6 +1,6 @@
 ## Solid
 
-Derived from [Transform](transform.md).
+Derived from [Pose](pose.md).
 
 ```
 Solid {
@@ -96,7 +96,7 @@ Various combinations of primitives can be used in a `boundingObject`: it can con
 6. A [Plane](plane.md) node.
 7. A [Sphere](sphere.md) node.
 8. A [Shape](shape.md) node with one of the above nodes in its `geometry` field.
-9. A [Transform](transform.md) node with one of the above nodes in its `children` field.
+9. A [Pose](pose.md) node with one of the above nodes in its `children` field.
 10. A [Group](group.md) node with several `children`, each being one of the above.
 
 The `boundingObject`, together with the [Physics](physics.md) node, are used to compute the inertia matrix of the [Solid](#solid).
@@ -128,7 +128,7 @@ Robot {
     }
     Group {
       children [
-        Transform {
+        Pose {
           children [
             DEF D Solid { }
           ]
