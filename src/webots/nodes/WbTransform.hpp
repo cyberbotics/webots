@@ -15,6 +15,10 @@
 #ifndef WB_TRANSFORM_HPP
 #define WB_TRANSFORM_HPP
 
+//
+// Description: extends the Pose node by implementing a scaling factor
+//
+
 #include "WbMatrix3.hpp"
 #include "WbPose.hpp"
 

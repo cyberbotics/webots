@@ -509,7 +509,6 @@ void WbTrack::updateAnimatedGeometries() {
   double stepSize = 0;
   mBeltPositions.reserve(numGeometries);
   BeltPosition beltPosition = mFirstGeometryPosition;
-  const WbMatrix4 invMatrix = matrix().inversedTransform(1.0, 1.0, 1.0);
 
   for (int i = 0; i < numGeometries; ++i) {
     beltPosition = computeNextGeometryPosition(beltPosition, stepSize);
@@ -531,7 +530,7 @@ void WbTrack::updateAnimatedGeometries() {
     for (int j = 0; j < mAnimatedObjectList.size(); ++j) {
       WbGeometry *geom = mAnimatedObjectList[j]->geometry;
 
-      WbMatrix4 geomMatrix = geom->matrix() * invMatrix;
+      WbMatrix4 geomMatrix = geom->matrix() * matrix().pseudoInversed();
 
       geomMatrix.translation().toFloatArray(p);
       WbRotation(geomMatrix.extracted3x3Matrix()).toFloatArray(r);
