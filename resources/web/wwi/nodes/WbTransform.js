@@ -2,7 +2,6 @@ import WbPose from './WbPose.js';
 import WbWorld from './WbWorld.js';
 
 import { getAnId } from './utils/id_provider.js';
-import WbMatrix4 from './utils/WbMatrix4.js';
 import { WbNodeType } from './wb_node_type.js';
 
 export default class WbTransform extends WbPose {
@@ -49,6 +48,15 @@ export default class WbTransform extends WbPose {
 
     this.useList.push(customID);
     return transform;
+  }
+
+  vrmlMatrix() {
+    if (this._vrmlMatrixNeedUpdate) {
+      this._vrmlMatrix.fromVrml(this.translation, this.rotation, this.#scale);
+      this._vrmlMatrixNeedUpdate = false;
+    }
+
+    return this._vrmlMatrix;
   }
 
   createWrenObjects() {

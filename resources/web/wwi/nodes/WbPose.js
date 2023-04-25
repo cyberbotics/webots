@@ -13,8 +13,8 @@ export default class WbPose extends WbGroup {
   #rotation;
   #translation;
   #upperPoseFirstTimeSearch;
-  #vrmlMatrix;
-  #vrmlMatrixNeedUpdate;
+  _vrmlMatrix;
+  _vrmlMatrixNeedUpdate;
   constructor(id, translation, rotation) {
     super(id);
     this.#translation = translation;
@@ -23,8 +23,8 @@ export default class WbPose extends WbGroup {
 
     this._absoluteScaleNeedUpdate = true;
     this.#upperPoseFirstTimeSearch = true;
-    this.#vrmlMatrix = new WbMatrix4();
-    this.#vrmlMatrixNeedUpdate = true;
+    this._vrmlMatrix = new WbMatrix4();
+    this._vrmlMatrixNeedUpdate = true;
     this._matrixNeedUpdate = true;
   }
 
@@ -124,12 +124,12 @@ export default class WbPose extends WbGroup {
   }
 
   vrmlMatrix() {
-    if (this.#vrmlMatrixNeedUpdate) {
-      this.#vrmlMatrix.fromVrml(this.#translation, this.#rotation, new WbVector3(1.0, 1.0, 1.0));
-      this.#vrmlMatrixNeedUpdate = false;
+    if (this._vrmlMatrixNeedUpdate) {
+      this._vrmlMatrix.fromVrml(this.#translation, this.#rotation, new WbVector3(1.0, 1.0, 1.0));
+      this._vrmlMatrixNeedUpdate = false;
     }
 
-    return this.#vrmlMatrix;
+    return this._vrmlMatrix;
   }
 
   geometry() {
