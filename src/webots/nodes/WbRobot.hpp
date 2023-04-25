@@ -65,7 +65,10 @@ public:
   bool isControllerExtern() const { return controllerName() == "<extern>"; }
   bool isControllerStarted() const { return mControllerStarted; }
   void startController();
-  void setControllerStarted(bool started) { mControllerStarted = started; }
+  void setControllerStarted(bool started) {
+    mControllerStarted = started;
+    mControllerTerminated = false;
+  }
   const QString &controllerDir();
   bool isConfigureDone() const { return !mConfigureRequest; }
   void restartController();
@@ -199,6 +202,7 @@ private:
   bool mModelNeedToWriteAnswer;
   bool mPowerOn;
   bool mControllerStarted;
+  bool mControllerTerminated;
   bool mNeedToRestartController;
   bool mConfigureRequest;
   bool mSimulationModeRequested;
@@ -274,6 +278,7 @@ private:
   void writeDeviceConfigure(QList<WbDevice *> devices, WbDataStream &stream) const;
   QString searchDynamicLibraryAbsolutePath(const QString &key, const QString &pluginSubdirectory);
   void updateDevicesAfterInsertion();
+  void updateControllerStatusInDevices();
   void pinToStaticEnvironment(bool pin);
   double energyConsumption() const;
   void clearDevices();
