@@ -59,7 +59,7 @@ graph LR
   Group[[Group](group.md)] --> Pose[[Pose](pose.md)]
   Group --> Billboard[[Billboard](billboard.md)]
     Pose --> Transform[[Transform](transform.md)]
-      Transform --> Solid[[Solid](solid.md)]
+    Pose --> Solid[[Solid](solid.md)]
         Solid --> SolidDevice
           SolidDevice --> Accelerometer[[Accelerometer](accelerometer.md)]
           SolidDevice --> Altimeter[[Altimeter](altimeter.md)]
