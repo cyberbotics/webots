@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbDragTransformEvent.hpp"
+#include "WbDragPoseEvent.hpp"
 
 #include "WbAbstractPose.hpp"
 #include "WbEditCommand.hpp"
@@ -33,21 +33,19 @@
 
 #define DRAG_HORIZONTAL_MIN_COS 0.25
 
-// WbDragTransformEvent constructor
-WbDragTransformEvent::WbDragTransformEvent(WbViewpoint *viewpoint, WbAbstractPose *selectedPose) :
+WbDragPoseEvent::WbDragPoseEvent(WbViewpoint *viewpoint, WbAbstractPose *selectedPose) :
   WbDragKinematicsEvent(viewpoint),
   mSelectedPose(selectedPose) {
   mViewDistanceUnscaling = viewpoint->viewDistanceUnscaling(selectedPose->position());
 }
 
-WbDragTransformEvent::~WbDragTransformEvent() {
+WbDragPoseEvent::~WbDragPoseEvent() {
   if (dynamic_cast<WbPose *>(mViewpoint->followedSolid()) == mSelectedPose)
     mViewpoint->updateFollowSolidState();
 }
 
-// WbTranslateEvent constructor
 WbTranslateEvent::WbTranslateEvent(WbViewpoint *viewpoint, WbAbstractPose *selectedPose) :
-  WbDragTransformEvent(viewpoint, selectedPose),
+  WbDragPoseEvent(viewpoint, selectedPose),
   mInitialPosition(selectedPose->translation()),
   mUpWorldVector(WbWorld::instance()->worldInfo()->upVector()),
   mMouseRay() {
@@ -150,7 +148,7 @@ void WbDragVerticalEvent::apply(const QPoint &currentMousePosition) {
 WbDragTranslateAlongAxisEvent::WbDragTranslateAlongAxisEvent(const QPoint &initialMousePosition, const QSize &widgetSize,
                                                              WbViewpoint *viewpoint, int handleNumber,
                                                              WbAbstractPose *selectedPose) :
-  WbDragTransformEvent(viewpoint, selectedPose),
+  WbDragPoseEvent(viewpoint, selectedPose),
   mInitialMatterPosition(selectedPose->translation()),
   mTranslationOffset(0.0),
   mHandleNumber(handleNumber),
@@ -278,7 +276,7 @@ void WbDragTranslateAlongAxisEvent::apply(const QPoint &currentMousePosition) {
 WbDragRotateAroundWorldVerticalAxisEvent::WbDragRotateAroundWorldVerticalAxisEvent(const QPoint &initialMousePosition,
                                                                                    WbViewpoint *viewpoint,
                                                                                    WbAbstractPose *selectedPose) :
-  WbDragTransformEvent(viewpoint, selectedPose),
+  WbDragPoseEvent(viewpoint, selectedPose),
   mInitialQuaternionRotation(selectedPose->rotation().toQuaternion()),
   mPreviousAngle(0.0),
   mInitialMouseXPosition(initialMousePosition.x()),
@@ -314,7 +312,7 @@ const double WbDragRotateAroundAxisEvent::RAD_TO_DEG = 180.0 / M_PI;
 WbDragRotateAroundAxisEvent::WbDragRotateAroundAxisEvent(const QPoint &initialMousePosition, const QSize &widgetSize,
                                                          WbViewpoint *viewpoint, int handleNumber,
                                                          WbAbstractPose *selectedPose) :
-  WbDragTransformEvent(viewpoint, selectedPose),
+  WbDragPoseEvent(viewpoint, selectedPose),
   mManipulator(selectedPose->translateRotateManipulator()),
   mHandleNumber(handleNumber),
   mCoordinate(mManipulator->coordinate(handleNumber)),

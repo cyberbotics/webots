@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WB_DRAG_TRANSFORM_EVENT_HPP
-#define WB_DRAG_TRANSFORM_EVENT_HPP
+#ifndef WB_DRAG_POSE_EVENT_HPP
+#define WB_DRAG_POSE_EVENT_HPP
 
 //
-// Description: classes allowing to store data related with the transform mouse dragging
+// Description: classes allowing to store data related with the mouse dragging of a Pose node
 //
 
 #include "WbAbstractDragEvent.hpp"
@@ -35,11 +35,11 @@ class WbWrenLabelOverlay;
 class WbTranslateRotateManipulator;
 class WbViewpoint;
 
-// WbDragTransformEvent class (abstract) : change the position or the orientation of a Pose node
-class WbDragTransformEvent : public WbDragKinematicsEvent {
+// WbDragPoseEvent class (abstract) : change the position or the orientation of a Pose node
+class WbDragPoseEvent : public WbDragKinematicsEvent {
 public:
-  WbDragTransformEvent(WbViewpoint *viewpoint, WbAbstractPose *selectedPose);
-  virtual ~WbDragTransformEvent();
+  WbDragPoseEvent(WbViewpoint *viewpoint, WbAbstractPose *selectedPose);
+  virtual ~WbDragPoseEvent();
   void apply(const QPoint &currentMousePosition) override = 0;
 
 protected:
@@ -47,7 +47,7 @@ protected:
 };
 
 // another abstract layer:
-class WbTranslateEvent : public WbDragTransformEvent {
+class WbTranslateEvent : public WbDragPoseEvent {
 public:
   WbTranslateEvent(WbViewpoint *viewpoint, WbAbstractPose *selectedPose);
   virtual ~WbTranslateEvent();
@@ -90,7 +90,7 @@ private:
 };
 
 // WbDragTranslateAlongAxisEvent class
-class WbDragTranslateAlongAxisEvent : public WbDragTransformEvent {
+class WbDragTranslateAlongAxisEvent : public WbDragPoseEvent {
   Q_OBJECT;
 
 public:
@@ -115,7 +115,7 @@ protected:
   WbVector2 mDirectionOnScreen;
 };
 
-class WbDragRotateAroundWorldVerticalAxisEvent : public WbDragTransformEvent {
+class WbDragRotateAroundWorldVerticalAxisEvent : public WbDragPoseEvent {
   Q_OBJECT;
 
 public:
@@ -132,7 +132,7 @@ protected:
 };
 
 // WbDragRotateAroundAxisEvent class
-class WbDragRotateAroundAxisEvent : public WbDragTransformEvent {
+class WbDragRotateAroundAxisEvent : public WbDragPoseEvent {
   Q_OBJECT;
 
 public:
