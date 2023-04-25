@@ -45,8 +45,8 @@ int main(int argc, char **argv) {
                       VISIBLE_SOLID_NUMBER + 1, object_number);
 
   object_number = wb_camera_recognition_get_number_of_objects(camera_spherical);
-  ts_assert_int_equal(object_number, 9, "The spherical camera should initially see %d objects and not %d (with occlusion).",
-                      9, object_number);
+  ts_assert_int_equal(object_number, 9, "The spherical camera should initially see %d objects and not %d (with occlusion).", 9,
+                      object_number);
 
   object_number = wb_camera_recognition_get_number_of_objects(camera_cylindrical);
   ts_assert_int_equal(object_number, 7, "The cylindrical camera should initially see %d objects and not %d (with occlusion).",
