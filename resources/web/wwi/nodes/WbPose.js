@@ -72,18 +72,18 @@ export default class WbPose extends WbGroup {
   }
 
   clone(customID) {
-    const transform = new WbPose(customID, this.#translation, this.#rotation);
+    const pose = new WbPose(customID, this.#translation, this.#rotation);
 
     const length = this.children.length;
     for (let i = 0; i < length; i++) {
       const cloned = this.children[i].clone(getAnId());
       cloned.parent = customID;
       WbWorld.instance.nodes.set(cloned.id, cloned);
-      transform.children.push(cloned);
+      pose.children.push(cloned);
     }
 
     this.useList.push(customID);
-    return transform;
+    return pose;
   }
 
   createWrenObjects() {

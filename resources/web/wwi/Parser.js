@@ -786,7 +786,7 @@ export default class Parser {
     if (!isBoundingObject)
       isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
 
-    newNode = new WbTransform(id, translation, scale, rotation);
+    newNode = new WbTransform(id, translation, rotation, scale);
 
     WbWorld.instance.nodes.set(newNode.id, newNode);
 

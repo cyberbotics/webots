@@ -6,7 +6,7 @@ import { WbNodeType } from './wb_node_type.js';
 
 export default class WbTransform extends WbPose {
   #scale;
-  constructor(id, translation, scale, rotation) {
+  constructor(id, translation, rotation, scale) {
     super(id, translation, rotation);
     this.#scale = scale;
   }
