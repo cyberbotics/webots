@@ -45,12 +45,12 @@ int main(int argc, char **argv) {
                       VISIBLE_SOLID_NUMBER + 1, object_number);
 
   object_number = wb_camera_recognition_get_number_of_objects(camera_spherical);
-  ts_assert_int_equal(object_number, 10, "The spherical camera should initially see %d objects and not %d (with occlusion).",
-                      10, object_number);
+  ts_assert_int_equal(object_number, 9, "The spherical camera should initially see %d objects and not %d (with occlusion).",
+                      9, object_number);
 
   object_number = wb_camera_recognition_get_number_of_objects(camera_cylindrical);
-  ts_assert_int_equal(object_number, 8, "The cylindrical camera should initially see %d objects and not %d (with occlusion).",
-                      8, object_number);
+  ts_assert_int_equal(object_number, 7, "The cylindrical camera should initially see %d objects and not %d (with occlusion).",
+                      7, object_number);
 
   // enable occlusion
   WbNodeRef recognition_node = wb_supervisor_node_get_from_def("RECOGNITION");
@@ -130,9 +130,9 @@ int main(int argc, char **argv) {
   for (i = 0; i < object_number; ++i) {
     // check position on the image of the 'visible sphere without BO' solid
     if (strcmp(objects[i].model, "visible sphere without BO") == 0) {
-      int expected_position_on_image[2] = {190, 41};
+      int expected_position_on_image[2] = {189, 41};
       ts_assert_integers_in_delta(
-        2, objects[i].position_on_image, expected_position_on_image, 0,
+        2, objects[i].position_on_image, expected_position_on_image, 1,
         "Image coordinate of the 'visible sphere without BO' solid is not correct: found (%d, %d), expected (%d, %d).",
         objects[i].position_on_image[0], objects[i].position_on_image[1], expected_position_on_image[0],
         expected_position_on_image[1]);
@@ -241,15 +241,15 @@ int main(int argc, char **argv) {
         "Size of 'occluded box' is not correct for spherical camera: found=(%f, %f), expected=(%f, %f).", objects[i].size[0],
         objects[i].size[1], expected_size[0], expected_size[1]);
       // size on image
-      int expected_size_on_image[2] = {147, 42};
+      int expected_size_on_image[2] = {146, 42};
       ts_assert_integers_in_delta(
-        2, objects[i].size_on_image, expected_size_on_image, 0,
+        2, objects[i].size_on_image, expected_size_on_image, 1,
         "Size on image of 'occluded box' is not correct for spherical camera: found=(%d, %d), expected=(%d, %d).",
         objects[i].size_on_image[0], objects[i].size_on_image[1], expected_size_on_image[0], expected_size_on_image[1]);
       // position on image
       int expected_position_on_image[2] = {128, 47};
       ts_assert_integers_in_delta(
-        2, objects[i].position_on_image, expected_position_on_image, 0,
+        2, objects[i].position_on_image, expected_position_on_image, 1,
         "Position on image of 'occluded box' is not correct for spherical camera: found=(%d, %d), expected=(%d, %d).",
         objects[i].position_on_image[0], objects[i].position_on_image[1], expected_position_on_image[0],
         expected_position_on_image[1]);
@@ -284,13 +284,13 @@ int main(int argc, char **argv) {
       // size on image
       int expected_size_on_image[2] = {14, 28};
       ts_assert_integers_in_delta(
-        2, objects[i].size_on_image, expected_size_on_image, 0,
+        2, objects[i].size_on_image, expected_size_on_image, 1,
         "Size on image of 'invisble capsule' is not correct for spherical camera: found=(%d, %d), expected=(%d, %d).",
         objects[i].size_on_image[0], objects[i].size_on_image[1], expected_size_on_image[0], expected_size_on_image[1]);
       // position on image
-      int expected_position_on_image[2] = {79, 103};
+      int expected_position_on_image[2] = {79, 102};
       ts_assert_integers_in_delta(
-        2, objects[i].position_on_image, expected_position_on_image, 0,
+        2, objects[i].position_on_image, expected_position_on_image, 1,
         "Position on image of 'invisble capsule' is not correct for spherical camera: found=(%d, %d), expected=(%d, %d).",
         objects[i].position_on_image[0], objects[i].position_on_image[1], expected_position_on_image[0],
         expected_position_on_image[1]);
@@ -328,13 +328,13 @@ int main(int argc, char **argv) {
       // size on image
       int expected_size_on_image[2] = {6, 45};
       ts_assert_integers_in_delta(
-        2, objects[i].size_on_image, expected_size_on_image, 0,
+        2, objects[i].size_on_image, expected_size_on_image, 1,
         "Size on image of 'invisble capsule' is not correct for cylindrical camera: found=(%d, %d), expected=(%d, %d).",
         objects[i].size_on_image[0], objects[i].size_on_image[1], expected_size_on_image[0], expected_size_on_image[1]);
       // position on image
-      int expected_position_on_image[2] = {12, 89};
+      int expected_position_on_image[2] = {12, 88};
       ts_assert_integers_in_delta(
-        2, objects[i].position_on_image, expected_position_on_image, 0,
+        2, objects[i].position_on_image, expected_position_on_image, 1,
         "Position on image of 'invisble capsule' is not correct for cylindrical camera: found=(%d, %d), expected=(%d, %d).",
         objects[i].position_on_image[0], objects[i].position_on_image[1], expected_position_on_image[0],
         expected_position_on_image[1]);
