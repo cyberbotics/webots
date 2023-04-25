@@ -60,7 +60,7 @@ export default class WbTransform extends WbPose {
   }
 
   createWrenObjects() {
-    super.createWrenObjects(true);
+    super.createWrenObjects();
     this.#applyScaleToWren();
   }
 

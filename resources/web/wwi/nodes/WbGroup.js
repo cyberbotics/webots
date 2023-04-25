@@ -4,9 +4,9 @@ import WbLight from './WbLight.js';
 import WbSolid from './WbSolid.js';
 import WbWorld from './WbWorld.js';
 import WbBoundingSphere from './utils/WbBoundingSphere.js';
-import {getAnId} from './utils/id_provider.js';
-import {nodeIsInBoundingObject} from './utils/node_utilities.js';
-import {WbNodeType} from './wb_node_type.js';
+import { getAnId } from './utils/id_provider.js';
+import { nodeIsInBoundingObject } from './utils/node_utilities.js';
+import { WbNodeType } from './wb_node_type.js';
 
 export default class WbGroup extends WbBaseNode {
   #boundingObjectFirstTimeSearch;
@@ -41,10 +41,10 @@ export default class WbGroup extends WbBaseNode {
     return group;
   }
 
-  createWrenObjects(isTransform) {
+  createWrenObjects(isPose) {
     super.createWrenObjects();
 
-    if (!isTransform) {
+    if (!isPose) {
       this.children.forEach((child, i) => {
         if (typeof this.loadProgress !== 'undefined') {
           this.loadProgress++;
