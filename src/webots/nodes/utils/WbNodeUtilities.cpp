@@ -189,11 +189,10 @@ namespace {
     }
 
     const bool childrenField = fieldName == "children";
+    const bool isTransformOrTransformDescendant = node->modelName() == "Transform" || WbNodeUtilities::findUpperTransform(node);
+
     if (childrenField) {
       const bool isInsertingTopLevel = node->isWorldRoot();
-
-      const bool isTransformOrTransformDescendant =
-        node->modelName() == "Transform" || WbNodeUtilities::findUpperTransform(node);
 
       // A robot cannot be a bounding object
       if (!boundingObjectCase && !isTransformOrTransformDescendant && WbNodeUtilities::isRobotTypeName(nodeName) &&
