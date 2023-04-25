@@ -19,6 +19,15 @@ export default class WbGroup extends WbBaseNode {
     this.#isInBoundingObject = false;
   }
 
+  _updateProgress(message) {
+    if (typeof this.loadProgress !== 'undefined') {
+      this.loadProgress++;
+      const percentage = this.loadProgress * 100 / (3 * this.children.length);
+      const info = message + ' ' + child.id + ': ' + percentage.toFixed(0) + '%';
+      WbWorld.instance.currentView.progress.setProgressBar('block', 'same', percentage, info);
+    }
+  }
+
   get nodeType() {
     return WbNodeType.WB_NODE_GROUP;
   }
@@ -45,13 +54,8 @@ export default class WbGroup extends WbBaseNode {
     super.createWrenObjects();
 
     if (!isPose) {
-      this.children.forEach((child, i) => {
-        if (typeof this.loadProgress !== 'undefined') {
-          this.loadProgress++;
-          const percentage = this.loadProgress * 100 / (3 * this.children.length);
-          const info = 'Create WREN object ' + child.id + ': ' + percentage.toFixed(0) + '%';
-          WbWorld.instance.currentView.progress.setProgressBar('block', 'same', percentage, info);
-        }
+      this.children.forEach(child => {
+        this._updateProgress('Create WREN object');
         child.createWrenObjects();
       });
     }
@@ -96,12 +100,7 @@ export default class WbGroup extends WbBaseNode {
     }
 
     this.children.forEach((child, i) => {
-      if (typeof this.loadProgress !== 'undefined') {
-        this.loadProgress++;
-        const percentage = this.loadProgress * 100 / (3 * this.children.length);
-        const info = 'Pre-finalize node ' + child.id + ': ' + percentage.toFixed(0) + '%';
-        WbWorld.instance.currentView.progress.setProgressBar('block', 'same', percentage, info);
-      }
+      this._updateProgress('Pre-finalize node');
       child.preFinalize();
     });
   }
@@ -110,12 +109,7 @@ export default class WbGroup extends WbBaseNode {
     super.postFinalize();
 
     this.children.forEach((child, i) => {
-      if (typeof this.loadProgress !== 'undefined') {
-        this.loadProgress++;
-        const percentage = this.loadProgress * 100 / (3 * this.children.length);
-        const info = 'Post-finalize node ' + child.id + ': ' + percentage.toFixed(0) + '%';
-        WbWorld.instance.currentView.progress.setProgressBar('block', 'same', percentage, info);
-      }
+      this._updateProgress('Post-finalize node');
       child.postFinalize();
     });
 

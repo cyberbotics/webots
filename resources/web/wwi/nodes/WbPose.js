@@ -94,6 +94,7 @@ export default class WbPose extends WbGroup {
     this.wrenNode = transform;
 
     this.children.forEach(child => {
+      this._updateProgress('Create WREN object');
       child.createWrenObjects();
     });
 
