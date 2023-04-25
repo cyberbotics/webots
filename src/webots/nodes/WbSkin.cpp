@@ -188,7 +188,7 @@ void WbSkin::postFinalize() {
 
   connect(mTranslation, &WbSFVector3::changed, this, &WbSkin::updateTranslation);
   connect(mRotation, &WbSFRotation::changed, this, &WbSkin::updateRotation);
-  connect(mScale, SIGNAL(changed()), this, SLOT(updateScale()));
+  connect(mScale, &WbSFVector3::changed, this, &WbSkin::updateScale);
   connect(mModelUrl, &WbSFString::changed, this, &WbSkin::updateModelUrl);
   connect(mAppearanceField, &WbMFNode::changed, this, &WbSkin::updateAppearance, Qt::QueuedConnection);
   connect(mBonesField, &WbMFNode::changed, this, &WbSkin::updateBones);
@@ -222,7 +222,7 @@ void WbSkin::updateRotation() {
     wr_skeleton_update_offset(mSkeleton);
 }
 
-void WbSkin::updateScale(bool warning) {
+void WbSkin::updateScale() {
   sanitizeScale();
 
   applyToScale();

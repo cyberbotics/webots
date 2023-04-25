@@ -133,7 +133,7 @@ private:
 private slots:
   virtual void updateTranslation();
   virtual void updateRotation();
-  virtual void updateScale(bool warning = false);
+  virtual void updateScale();
   void updateModelUrl();
   void updateAppearance();
   void updateMaterial();
