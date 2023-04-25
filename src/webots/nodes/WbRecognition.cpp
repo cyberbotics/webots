@@ -45,8 +45,7 @@ void WbRecognition::preFinalize() {
   WbBaseNode::preFinalize();
 
   if (mOcclusionAccuracy->value() != 1 && mOcclusionAccuracy->value() != 2) {
-    parsingWarn(
-      tr("Invalid 'occlusionAccuracy' changed to 1. The value should be 1 or 2.");
+    parsingWarn(tr("Invalid 'occlusionAccuracy' changed to 1. The value should be 1 or 2."));
     mOcclusionAccuracy->setValue(1);
   }
   updateMaxRange();
