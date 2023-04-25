@@ -27,8 +27,8 @@
 #include "WbSolid.hpp"
 #include "WbSphere.hpp"
 
-WbObjectDetection::WbObjectDetection(WbSolid *device, WbSolid *object, bool needToCheckCollision, double maxRange,
-                                     double horizontalFieldOfView, int accuracy) :
+WbObjectDetection::WbObjectDetection(WbSolid *device, WbSolid *object, const bool needToCheckCollision, const double maxRange,
+                                     const double horizontalFieldOfView, const int accuracy) :
   mDevice(device),
   mObject(object),
   mObjectRelativePosition(0.0, 0.0, 0.0),
@@ -89,7 +89,7 @@ void WbObjectDetection::deleteRays() {
   mRaysCollisionDepth.clear();
 }
 
-void WbObjectDetection::setCollided(dGeomID rayGeom, double depth) {
+void WbObjectDetection::setCollided(const dGeomID rayGeom, const double depth) {
   const int index = mAccuracy == ONE_RAY ? 0 : mRayGeoms.indexOf(rayGeom);
   assert(index >= 0);
   const double d = dGeomRayGetLength(rayGeom) - depth;
@@ -434,7 +434,7 @@ bool WbObjectDetection::isWithinBounds(const WbAffinePlane *frustumPlanes, const
   return true;
 }
 
-bool WbObjectDetection::recursivelyCheckIfWithinBounds(WbSolid *solid, bool boundsInitialized,
+bool WbObjectDetection::recursivelyCheckIfWithinBounds(WbSolid *solid, const bool boundsInitialized,
                                                        const WbAffinePlane *frustumPlanes) {
   bool initialized = boundsInitialized;
   if (initialized) {
@@ -464,7 +464,7 @@ bool WbObjectDetection::isContainedInFrustum(const WbAffinePlane *frustumPlanes)
 
 WbAffinePlane *WbObjectDetection::computeFrustumPlanes(const WbSolid *device, const double verticalFieldOfView,
                                                        const double horizontalFieldOfView, const double maxRange,
-                                                       bool isPlanarProjection) {
+                                                       const bool isPlanarProjection) {
   const WbVector3 devicePosition = device->position();
   const WbMatrix3 deviceRotation = device->rotationMatrix();
   // construct the 4 planes defining the sides of the frustum

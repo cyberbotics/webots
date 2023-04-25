@@ -33,19 +33,19 @@ public:
   // - MULTIPLE_RAYS =  multiple rays pointing at the BBOX or BS corners (created once object size is determined)
   enum OcclusionAccuracy { ONE_RAY = 1, MULTIPLE_RAYS = 2 };
 
-  WbObjectDetection(WbSolid *device, WbSolid *object, bool needToCheckCollision, double maxRange, double horizontalFieldOfView,
-                    int accuracy);
+  WbObjectDetection(WbSolid *device, WbSolid *object, const bool needToCheckCollision, const double maxRange,
+                    const double horizontalFieldOfView, const int accuracy);
   virtual ~WbObjectDetection();
 
   bool hasCollided() const;
   WbSolid *device() const { return mDevice; }
   const QList<dGeomID> &geoms() const { return mRayGeoms; }
-  bool contains(dGeomID rayGeom) const { return mRayGeoms.contains(rayGeom); }
+  bool contains(const dGeomID rayGeom) const { return mRayGeoms.contains(rayGeom); }
   WbSolid *object() const { return mObject; }
   const WbVector3 &objectSize() const { return mObjectSize; }
   const WbVector3 &objectRelativePosition() const { return mObjectRelativePosition; }
 
-  void setCollided(dGeomID geom, double depth);
+  void setCollided(const dGeomID geom, const double depth);
 
   void deleteRays();
 
@@ -58,7 +58,7 @@ public:
   // Computes the frustum plane for the given device ray.
   static WbAffinePlane *computeFrustumPlanes(const WbSolid *device, const double verticalFieldOfView,
                                              const double horizontalFieldOfView, const double maxRange,
-                                             bool isPlanarProjection);
+                                             const bool isPlanarProjection);
 
   // Return corners of the bounding box/sphere of the object
   QList<WbVector3> computeCorners() const;
@@ -80,7 +80,7 @@ private:
   bool isWithinBounds(const WbAffinePlane *frustumPlanes, const WbBaseNode *boundingObject, WbVector3 &objectSize,
                       WbVector3 &objectRelativePosition, const WbBaseNode *rootObject = NULL);
   // Checks whether the object and its solid children are inside the `frustumPlanes` frustum.
-  bool recursivelyCheckIfWithinBounds(WbSolid *solid, bool boundsInitialized, const WbAffinePlane *frustumPlanes);
+  bool recursivelyCheckIfWithinBounds(WbSolid *solid, const bool boundsInitialized, const WbAffinePlane *frustumPlanes);
   virtual double distance() = 0;
 
   void createRays(const WbVector3 &origin, const QList<WbVector3> &directions, const WbVector3 &offset);

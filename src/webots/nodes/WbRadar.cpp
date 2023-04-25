@@ -39,7 +39,7 @@
 
 class WbRadarTarget : public WbObjectDetection {
 public:
-  WbRadarTarget(WbRadar *radar, WbSolid *solidTarget, bool needToCheckCollision, double maxRange) :
+  WbRadarTarget(WbRadar *radar, WbSolid *solidTarget, const bool needToCheckCollision, const double maxRange) :
     WbObjectDetection(radar, solidTarget, needToCheckCollision, maxRange, radar->horizontalFieldOfView(),
                       WbObjectDetection::ONE_RAY) {
     mTargetDistance = 0.0;

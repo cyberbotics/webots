@@ -58,7 +58,8 @@
 
 class WbRecognizedObject : public WbObjectDetection {
 public:
-  WbRecognizedObject(WbCamera *camera, WbSolid *object, bool needToCheckCollision, double maxRange, int occlusionAccuracy) :
+  WbRecognizedObject(WbCamera *camera, WbSolid *object, const bool needToCheckCollision, const double maxRange,
+                     const int occlusionAccuracy) :
     WbObjectDetection(camera, object, needToCheckCollision, maxRange, camera->fieldOfView(), occlusionAccuracy) {
     mId = object->uniqueId();
     mModel = "";
@@ -700,7 +701,7 @@ void WbCamera::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbCamera::computeRecognizedObjects(bool needCollisionDetection) {
+void WbCamera::computeRecognizedObjects(const bool needCollisionDetection) {
   // compute the camera referential
   const WbVector3 cameraPosition = position();
   const double horizontalFieldOfView = fieldOfView();
