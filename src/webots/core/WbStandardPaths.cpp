@@ -220,20 +220,19 @@ bool WbStandardPaths::webotsTmpPathCreate(const int id) {
   cWebotsTmpPath =
     QDir::fromNativeSeparators(WbSysInfo::environmentVariable("LOCALAPPDATA")) + QString("/Temp/webots-%1/").arg(id);
 #else
-    const QStringList homePath = QStandardPaths::standardLocations(QStandardPaths::HomeLocation);
-    const QString username = homePath.first().split(QDir::separator()).last();
+  const QStringList homePath = QStandardPaths::standardLocations(QStandardPaths::HomeLocation);
+  const QString username = homePath.first().split(QDir::separator()).last();
 #if defined(__APPLE__)
-    cWebotsTmpPath = QString("/tmp/webots/%1/%1/").arg(username).arg(id);
+  cWebotsTmpPath = QString("/tmp/webots/%1/%1/").arg(username).arg(id);
 #else  // __linux__
-    const QString WEBOTS_TMPDIR = WbSysInfo::environmentVariable("WEBOTS_TMPDIR");
-    if (!WEBOTS_TMPDIR.isEmpty() && QDir(WEBOTS_TMPDIR).exists())
-      cWebotsTmpPath = QString("%1/webots/%2/%3/").arg(WEBOTS_TMPDIR).arg(username).arg(id);
-    else {
-      cWebotsTmpPath = QString("/tmp/webots/%1/%2/").arg(username).arg(id);
-      WbLog::error(
-        QObject::tr("Webots has not been started regularly. Some features may not work. "
-                    "Please start Webots from its launcher."));
-    }
+  const QString WEBOTS_TMPDIR = WbSysInfo::environmentVariable("WEBOTS_TMPDIR");
+  if (!WEBOTS_TMPDIR.isEmpty() && QDir(WEBOTS_TMPDIR).exists())
+    cWebotsTmpPath = QString("%1/webots/%2/%3/").arg(WEBOTS_TMPDIR).arg(username).arg(id);
+  else {
+    cWebotsTmpPath = QString("/tmp/webots/%1/%2/").arg(username).arg(id);
+    WbLog::error(QObject::tr("Webots has not been started regularly. Some features may not work. "
+                             "Please start Webots from its launcher."));
+  }
 #endif
 #endif
   // cleanup old and unused tmp directories
