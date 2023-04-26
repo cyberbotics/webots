@@ -12,7 +12,7 @@ Transform {
 }
 ```
 
-Direct derived nodes: [Solid](solid.md).
+Direct derived nodes: none.
 
 ### Description
 
