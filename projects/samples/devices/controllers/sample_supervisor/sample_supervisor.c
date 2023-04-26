@@ -64,7 +64,7 @@ int main(int argc, char *argv[]) {
   wb_robot_step(2000);
   wb_supervisor_field_import_mf_node_from_string(
     root_children_field, -1,  // import at the end of the root children field
-    "Transform { children [ Shape { appearance PBRAppearance { } geometry Sphere { radius 0.1 subdivision 3 } } ] }");
+    "Pose { children [ Shape { appearance PBRAppearance { } geometry Sphere { radius 0.1 subdivision 3 } } ] }");
 
   // main simulation loop
   wb_supervisor_set_label(0, "Going to move the Sphere in 2 seconds (simulation time)...", 0.0, 0.0, 0.1, 0x00FF00, 0.1,
