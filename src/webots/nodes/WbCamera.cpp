@@ -822,7 +822,7 @@ bool WbCamera::computeObject(const WbVector3 &cameraPosition, const WbMatrix3 &c
 
   // compute object relative orientation
   WbRotation relativeRotation;
-  relativeRotation.fromMatrix3(recognizedObject->object()->rotationMatrix() * cameraInverseRotation);
+  relativeRotation.fromMatrix3(cameraInverseRotation * recognizedObject->object()->rotationMatrix());
   relativeRotation.normalize();
   recognizedObject->setRelativeOrientation(relativeRotation);
 
