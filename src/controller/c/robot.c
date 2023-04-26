@@ -1203,7 +1203,7 @@ static char *compute_socket_filename() {
       username = "default";
     }
   }
-  int length = strlen(TMP_DIR) + strlen(username) + 25; // TMP_DIR + '/webots/' + username + '/12345678901/ipc' 
+  int length = strlen(TMP_DIR) + strlen(username) + 25;  // TMP_DIR + '/webots/' + username + '/12345678901/ipc' 
 #endif
   char *folder = malloc(length);
 #ifdef _WIN32
