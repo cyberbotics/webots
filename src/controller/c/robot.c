@@ -1195,21 +1195,21 @@ static char *compute_socket_filename() {
 #ifdef _WIN32
   int length = strlen(TMP_DIR) + 24;  // TMP_DIR + "/webots-12345678901/ipc"
 #else
-  const char *USERNAME = wbu_system_getenv("USER");
-  if (USERNAME == NULL || USERNAME[0] == '\0') {
-    USERNAME = wbu_system_getenv("USERNAME");
-    if (USERNAME == NULL || USERNAME[0] == '\0') {
+  const char *username = wbu_system_getenv("USER");
+  if (username == NULL || username[0] == '\0') {
+    username = wbu_system_getenv("USERNAME");
+    if (username == NULL || username[0] == '\0') {
       fprintf(stderr, "Error: USER or USERNAME environment variable not set, falling back to 'default' username.");
       username = "default";
     }
   }
-  int length = strlen(TMP_DIR) + strlen(USERNAME) + 25; // TMP_DIR + '/webots/' + USERNAME + '/12345678901/ipc' 
+  int length = strlen(TMP_DIR) + strlen(username) + 25; // TMP_DIR + '/webots/' + username + '/12345678901/ipc' 
 #endif
   char *folder = malloc(length);
 #ifdef _WIN32
   snprintf(folder, length, "%s/webots-%d/ipc", TMP_DIR, number);
 #else
-  snprintf(folder, length, "%s/webots/%s/%d/ipc", TMP_DIR, USERNAME, number);
+  snprintf(folder, length, "%s/webots/%s/%d/ipc", TMP_DIR, username, number);
 #endif
   free(robot_name);
   char *sub_string = strstr(&WEBOTS_CONTROLLER_URL[6], "/");
