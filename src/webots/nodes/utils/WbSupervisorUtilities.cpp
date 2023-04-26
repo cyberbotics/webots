@@ -1349,7 +1349,7 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
         WbPose *const fromTransformNode = fromNode ? dynamic_cast<WbPose *>(fromNode) : NULL;
         if (fromNodeId && !fromTransformNode)
           mRobot->warn(
-            tr("Pose tracking can be exclusively used with Transform (or derived) 'from_node' argument, but '%1' (%2) is "
+            tr("Pose tracking can be exclusively used with Pose (or derived) 'from_node' argument, but '%1' (%2) is "
                "given. The absolute pose in global coordinates will be returned.")
               .arg(fromNode->usefulName())
               .arg(fromNode->modelName()));
