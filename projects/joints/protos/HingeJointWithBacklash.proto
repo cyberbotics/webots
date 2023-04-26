@@ -12,7 +12,7 @@ PROTO HingeJointWithBacklash [
   field SFFloat                                        gearMass          0.1    # Defines the gear mass, [0, inf).
   field MFNode                                         device            [ ]    # {RotationalMotor, PositionSensor, Brake}.
   field MFNode{PositionSensor{}}                       outputSensor      [ ]    # {PositionSensor}.
-  field MFNode{Group{}, Pose{}, Transform{}, Shape{}}  startPoint        [ ]    # {Group, Transform, or Shape}.
+  field MFNode{Group{}, Pose{}, Transform{}, Shape{}}  startPoint        [ ]    # {Group, Pose, Transform, or Shape}.
   field SFNode                                         endPoint          NULL   # {Solid, SolidReference, or Slot}.
 ]
 {

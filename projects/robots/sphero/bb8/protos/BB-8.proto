@@ -11,8 +11,8 @@ EXTERNPROTO "BB-8BodyShape.proto"
 EXTERNPROTO "BB-8HeadShape.proto"
 
 PROTO BB-8 [
-  field SFVec3f    translation     0 0 0       # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0       # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0     # Is `Pose.rotation`.
   field SFString   name            "BB-8"      # Is `Solid.name`.
   field SFString   controller      "bb-8"      # Is `Robot.controller`.
   field MFString   controllerArgs  []          # Is `Robot.controllerArgs`.

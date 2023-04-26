@@ -17,8 +17,8 @@ PROTO Hinge2JointWithBacklash [
   field MFNode                                         device2           [ ]    # {RotationalMotor, PositionSensor, Brake}.
   field MFNode{PositionSensor{}}                       outputSensor      [ ]    # {PositionSensor}.
   field MFNode{PositionSensor{}}                       outputSensor2     [ ]    # {PositionSensor}.
-  field MFNode{Group{}, Pose{}, Transform{}, Shape{}}  startPoint        [ ]    # {Group, Transform, or Shape}.
-  field MFNode{Group{}, Pose{}, Transform{}, Shape{}}  startPoint2       [ ]    # {Group, Transform, or Shape}.
+  field MFNode{Group{}, Pose{}, Transform{}, Shape{}}  startPoint        [ ]    # {Group, Pose, Transform, or Shape}.
+  field MFNode{Group{}, Pose{}, Transform{}, Shape{}}  startPoint2       [ ]    # {Group, Pose, Transform, or Shape}.
   field SFNode                                         endPoint          NULL   # {Solid, SolidReference, or Slot}.
 ]
 {

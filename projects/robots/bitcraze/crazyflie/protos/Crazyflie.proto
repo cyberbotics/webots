@@ -5,8 +5,8 @@
 # The "Crazyflie" is a robot developed by "Bitcraze": https://bitcraze.io
 
 PROTO Crazyflie [
-  field SFVec3f    translation     0 0 0.015   # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0.015   # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0     # Is `Pose.rotation`.
   field SFString   name            "Crazyflie" # Is `Solid.name`.
   field SFString   controller      "crazyflie" # Is `Robot.controller`.
   field MFString   controllerArgs  []          # Is `Robot.controllerArgs`.

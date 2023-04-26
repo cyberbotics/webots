@@ -2245,7 +2245,7 @@ BusStop {
   translation 232.169 -418.69 0
   rotation 0 0 1 0.033182653589793
 }
-Transform {
+Pose {
   translation 235.522 -419.954 0.005
   rotation 0 0 -1 -0.029205307179585915
   children [
@@ -2276,7 +2276,7 @@ BusSimple {
   color 0.87451 0.823529 0.172549
   name "vehicle(8)"
 }
-Transform {
+Pose {
   translation 334.983 -382.273 0.005
   rotation 0 0 -1 0.367401
   children [
@@ -2302,7 +2302,7 @@ BusStop {
   name "bus stop(2)"
   bench FALSE
 }
-Transform {
+Pose {
   translation 339.349 -537.645 0.005
   rotation 0 0 -1 -0.8792053071795864
   children [
@@ -2334,7 +2334,7 @@ BusSimple {
   color 0.87451 0.823529 0.172549
   name "vehicle(9)"
 }
-Transform {
+Pose {
   translation 281.79 -650.534 0.005
   rotation 0 0 -1 -1.3492053071795862
   children [
@@ -2359,7 +2359,7 @@ BusStop {
   rotation 0 0 1 0.283182653589793
   name "bus stop(4)"
 }
-Transform {
+Pose {
   translation 108.757 -602.452 0.005
   rotation 0 0 -1 -0.26079530717958654
   children [
@@ -2384,7 +2384,7 @@ BusStop {
   rotation 0 0 1 -2.6831873464102065
   name "bus stop(5)"
 }
-Transform {
+Pose {
   translation 183.693 -532.623 0.005
   rotation 0 0 1 -2.700795307179586
   children [
@@ -2409,7 +2409,7 @@ BusStop {
   rotation 0 0 1 -2.8831873464102076
   name "bus stop(6)"
 }
-Transform {
+Pose {
   translation 104.304 -570.124 0.005
   rotation 0 0 1 -2.9207953071795862
   children [
@@ -2434,7 +2434,7 @@ BusStop {
   rotation 0 0 1 0.4084026535897931
   name "bus stop(7)"
 }
-Transform {
+Pose {
   translation 174.589 -521.419 0.005
   rotation 0 0 -1 -0.4084053071795859
   children [

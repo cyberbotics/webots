@@ -4011,7 +4011,7 @@ SimpleTree {
   type "random"
   enableBoundingObject FALSE
 }
-Transform {
+Pose {
   translation 215.37 -101.44 -0.49
   children [
     Shape {

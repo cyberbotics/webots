@@ -80,7 +80,7 @@ Sheep {
   name "sheep(2)"
   color 0.596078 0.415686 0.266667
 }
-Transform {
+Pose {
   translation 50.51 -11.2 0.0025
   children [
     Shape {

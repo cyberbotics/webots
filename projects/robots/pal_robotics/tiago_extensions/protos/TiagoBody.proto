@@ -299,7 +299,7 @@ PROTO TiagoBody [
                           translation 0.107 0.0802 0
                           children IS cameraSlot
                         }
-                        DEF CAMERA_LEFT_CAP Transform {
+                        DEF CAMERA_LEFT_CAP Pose {
                           translation 0.1055 0.0802 -0.0732
                           rotation 0 1 0 1.57079
                           children [
@@ -321,7 +321,7 @@ PROTO TiagoBody [
 
                           ]
                         }
-                        DEF CAMERA_RIGHT_CAP Transform {
+                        DEF CAMERA_RIGHT_CAP Pose {
                           translation 0.1055 0.0802 0.0732
                           rotation 0 1 0 1.57079
                           children [

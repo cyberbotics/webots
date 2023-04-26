@@ -40,7 +40,7 @@ RectangleArena {
     metalness 0
   }
 }
-Transform {
+Pose {
   translation 0 0.14 0
   rotation 0 0 1 0.523599
   children [

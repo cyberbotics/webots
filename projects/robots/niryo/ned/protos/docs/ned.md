@@ -10,8 +10,8 @@ Derived from [Robot](https://cyberbotics.com/doc/reference/robot).
 
 ```
 PROTO Ned {
-  field  SFVec3f     translation     0 0 0     # Is `Transform.translation`.
-  field  SFRotation  rotation        0 0 1 0   # Is `Transform.rotation`.
+  field  SFVec3f     translation     0 0 0     # Is `Pose.translation`.
+  field  SFRotation  rotation        0 0 1 0   # Is `Pose.rotation`.
   field  SFString    name            "Ned"     # Is `Robot.name`.
   field  SFString    controller      "ned"     # Is `Robot.controller`.
   field  MFString    controllerArgs  []        # Is `Robot.controllerArgs`.

@@ -139,7 +139,7 @@ PROTO VehicleWheel [
         DEF WHEEL_SLOT Group {
           children IS logoSlot
         }
-        Transform{
+        Pose {
           %< if (fields.wheelSide.value) { >%
             rotation 0 0 1 3.141578
           %< } >%

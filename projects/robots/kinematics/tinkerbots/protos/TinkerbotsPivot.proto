@@ -9,8 +9,8 @@
 EXTERNPROTO "TinkerbotsLEDAppearance.proto"
 
 PROTO TinkerbotsPivot [
-  field SFVec3f    translation 0 0 0   # Is `Transform.translation`.
-  field SFRotation rotation    0 0 1 0 # Is `Transform.rotation`.
+  field SFVec3f    translation 0 0 0   # Is `Pose.translation`.
+  field SFRotation rotation    0 0 1 0 # Is `Pose.rotation`.
   field SFString   name        "pivot" # Is `Solid.name`.
   field SFNode     slot        NULL    # Type: "tinkerbots-".
   field SFNode     ASlot       NULL    # Type: "lego cross-".

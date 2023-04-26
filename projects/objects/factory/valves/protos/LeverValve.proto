@@ -326,17 +326,13 @@ PROTO LeverValve [
     ]
     name IS name
     model "lever valve"
-    boundingObject Group {
+    boundingObject Pose {
+      translation %<= fields.scale.value.x * -0.04 >% 0 %<= fields.scale.value.z * -0.02 >%
       children [
-        Pose {
-          translation %<= fields.scale.value.x * -0.04 >% 0 %<= fields.scale.value.z * -0.02 >%
-          children [
-            Shape {
-              geometry Box {
-                size %<= fields.scale.value.x * 0.35 >% %<= fields.scale.value.y * 0.29 >% %<= fields.scale.value.z * 0.3 >%
-              }
-            }
-          ]
+        Shape {
+          geometry Box {
+            size %<= fields.scale.value.x * 0.35 >% %<= fields.scale.value.y * 0.29 >% %<= fields.scale.value.z * 0.3 >%
+          }
         }
       ]
     }

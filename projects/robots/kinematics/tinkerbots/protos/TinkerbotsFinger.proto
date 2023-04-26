@@ -8,8 +8,8 @@
 EXTERNPROTO "TinkerbotsPlasticAppearance.proto"
 
 PROTO TinkerbotsFinger [
-  field SFVec3f    translation 0 0 0    # Is `Transform.translation`.
-  field SFRotation rotation    0 0 1 0  # Is `Transform.rotation`.
+  field SFVec3f    translation 0 0 0    # Is `Pose.translation`.
+  field SFRotation rotation    0 0 1 0  # Is `Pose.rotation`.
   field SFString   name        "finger" # Is `Solid.name`.
 ]
 {

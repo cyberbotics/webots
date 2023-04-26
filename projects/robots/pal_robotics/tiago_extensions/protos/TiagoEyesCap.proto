@@ -8,7 +8,7 @@ EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 PROTO TiagoEyesCap [
 ]
 {
-  Transform {
+  Pose {
     translation -0.107 -0.0802 0
     children [
       DEF EYES Shape {

@@ -4231,7 +4231,7 @@ SimpleTree {
   withSnow TRUE
   enableBoundingObject FALSE
 }
-Transform {
+Pose {
   translation 215.37 -101.44 -0.49
   children [
     Shape {
