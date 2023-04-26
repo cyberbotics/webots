@@ -11,8 +11,8 @@ EXTERNPROTO "webots://projects/objects/factory/tools/protos/CapScrew.proto"
 EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO P-Rob3 [
-  field SFVec3f    translation     0 0 0            # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0          # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0            # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0          # Is `Pose.rotation`.
   field SFString   name            "P-Rob3"         # Is `Solid.name`.
   field SFString   controller      "<generic>"      # Is `Robot.controller`.
   field MFString   controllerArgs  []               # Is `Robot.controllerArgs`.

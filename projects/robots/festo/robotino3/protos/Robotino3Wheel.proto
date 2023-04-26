@@ -13,7 +13,7 @@ PROTO Robotino3Wheel [
   field SFFloat number 0
 ]
 {
-Transform {
+Pose {
   rotation 0 0 1 %<= (fields.number.value * 2 / 3 + 0.5) * Math.PI >%
   children [
     Pose {

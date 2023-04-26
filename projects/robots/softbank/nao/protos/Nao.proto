@@ -12,8 +12,8 @@ EXTERNPROTO "NaoLeftWristH25Realistic.proto"
 EXTERNPROTO "NaoLeftWristH21.proto"
 
 PROTO Nao [
-  field SFVec3f                      translation           0 0 0.334             # Is `Transform.translation`.
-  field SFRotation                   rotation              0 0 1 0               # Is `Transform.rotation`.
+  field SFVec3f                      translation           0 0 0.334             # Is `Pose.translation`.
+  field SFRotation                   rotation              0 0 1 0               # Is `Pose.rotation`.
   field SFString                     name                  "NAO"                 # Is `Solid.name`.
   field SFString{"V3.3", "V4 (orange)", "V4 (blue)",
                  "V5 (red)", "V5 (blue)", "V5 (grey)"}

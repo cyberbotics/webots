@@ -8,8 +8,8 @@
 EXTERNPROTO "TinkerbotsPlasticAppearance.proto"
 
 PROTO TinkerbotsCubieBoxWithRoundSlots [
-  field SFVec3f    translation 0 0 0                        # Is `Transform.translation`.
-  field SFRotation rotation    0 0 1 0                      # Is `Transform.rotation`.
+  field SFVec3f    translation 0 0 0                        # Is `Pose.translation`.
+  field SFRotation rotation    0 0 1 0                      # Is `Pose.rotation`.
   field SFString   name        "box with round slots cubie" # Is `Solid.name`.
   field SFNode     upSlot      NULL                         # Type: "lego cross-".
   field SFNode     frontSlot   NULL                         # Type: "lego cross-".

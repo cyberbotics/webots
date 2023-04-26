@@ -9,8 +9,8 @@
 EXTERNPROTO "Elisa3DistanceSensor.proto"
 
 PROTO Elisa3 [
-  field SFVec3f    translation      0 0 0       # Is `Transform.translation`.
-  field SFRotation rotation         0 0 1 0     # Is `Transform.rotation`.
+  field SFVec3f    translation      0 0 0       # Is `Pose.translation`.
+  field SFRotation rotation         0 0 1 0     # Is `Pose.rotation`.
   field SFString   name             "Elisa-3"   # Is `Solid.name`.
   field SFString   controller       "elisa3"    # Is `Robot.controller`.
   field MFString   controllerArgs   []          # Is `Robot.controllerArgs`.

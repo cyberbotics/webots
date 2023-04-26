@@ -10,8 +10,8 @@ EXTERNPROTO "webots://projects/appearances/protos/OldSteel.proto"
 EXTERNPROTO "webots://projects/appearances/protos/ScrewThread.proto"
 
 PROTO UR10e [
-  field SFVec3f    translation     0 0 0        # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0      # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0        # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0      # Is `Pose.rotation`.
   field SFString   name            "UR10e"      # Is `Solid.name`.
   field SFString   controller      "<generic>"  # Is `Robot.controller`.
   field MFString   controllerArgs  []           # Is `Robot.controllerArgs`.
