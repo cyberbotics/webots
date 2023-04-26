@@ -306,21 +306,8 @@ void WbController::start() {
     }
   }
 
-  mIpcPath = WbStandardPaths::webotsTmpPath() + "ipc/";
-  QDir().mkdir(mIpcPath);
-
-  // FIXME: from Qt6.4 onwards, this can be done directly with mkdir
-  QFile(mIpcPath)
-    .setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner | QFileDevice::ReadUser |
-                    QFileDevice::WriteUser | QFileDevice::ExeUser | QFileDevice::ReadGroup | QFileDevice::WriteGroup |
-                    QFileDevice::ExeGroup | QFileDevice::ReadOther | QFileDevice::WriteOther | QFileDevice::ExeOther);
-  mIpcPath += mRobot->encodedName();
-  QDir().mkdir(mIpcPath);
-  // FIXME: from Qt6.4 onwards, this can be done directly with mkdir
-  QFile(mIpcPath)
-    .setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner | QFileDevice::ReadUser |
-                    QFileDevice::WriteUser | QFileDevice::ExeUser | QFileDevice::ReadGroup | QFileDevice::WriteGroup |
-                    QFileDevice::ExeGroup | QFileDevice::ReadOther | QFileDevice::WriteOther | QFileDevice::ExeOther);
+  mIpcPath = WbStandardPaths::webotsTmpPath() + "ipc/" + mRobot->encodedName();
+  QDir().mkpath(mIpcPath);
   const QString fileName = mIpcPath + '/' + (mExtern ? "extern" : "intern");
 #ifndef _WIN32
   const QString &serverName = fileName;
@@ -334,10 +321,6 @@ void WbController::start() {
   }
   file.write("");
   file.close();
-  QFile(fileName)
-    .setPermissions(QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner | QFileDevice::ReadUser |
-                    QFileDevice::WriteUser | QFileDevice::ExeUser | QFileDevice::ReadGroup | QFileDevice::WriteGroup |
-                    QFileDevice::ExeGroup | QFileDevice::ReadOther | QFileDevice::WriteOther | QFileDevice::ExeOther);
 #endif
   // recover from a crash, when the previous server instance has not been cleaned up
   bool success = QLocalServer::removeServer(serverName);
