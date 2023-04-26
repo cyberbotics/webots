@@ -1196,11 +1196,12 @@ static char *compute_socket_filename() {
   int length = strlen(TMP_DIR) + 24;  // TMP_DIR + "/webots-12345678901/ipc"
 #else
   const char *USERNAME = wbu_system_getenv("USER");
-  if (USERNAME == NULL || USERNAME[0] == '\0')
-    USERNAME = wbu_system_getenv("USERNAME");
   if (USERNAME == NULL || USERNAME[0] == '\0') {
-    fprintf(stderr, "Error: missing USER or USERNAME environment variable.");
-    exit(EXIT_FAILURE);
+    USERNAME = wbu_system_getenv("USERNAME");
+    if (USERNAME == NULL || USERNAME[0] == '\0') {
+      fprintf(stderr, "Error: missing USER or USERNAME environment variable.");
+      exit(EXIT_FAILURE);
+    }
   }
   int length = strlen(TMP_DIR) + strlen(USERNAME) + 25; // TMP_DIR + '/webots/' + USERNAME + '/12345678901/ipc' 
 #endif
