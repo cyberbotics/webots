@@ -99,7 +99,8 @@ if __name__ == '__main__':
     print("- Use the up, back, right and left button to move in the horizontal plane\n");
     print("- Use Q and E to rotate around yaw ");
     print("- Use W and S to go up and down\n ")
-    print("- Press A to toggle autonomous mode\n")
+    print("- Press A to start autonomous mode\n")
+    print("- Press D to disable autonomous mode\n")
 
     # Main loop:
     while robot.step(timestep) != -1:
@@ -156,9 +157,13 @@ if __name__ == '__main__':
             elif key == ord('S'):
                 height_diff_desired = - 0.1
             elif key == ord('A'):
-                autonomous_mode = not autonomous_mode
-                print("Autonomous mode: ", autonomous_mode)
-
+                if autonomous_mode is False:
+                    autonomous_mode = True
+                    print("Autonomous mode: ON")
+            elif key == ord('D'):
+                if autonomous_mode is True:
+                    autonomous_mode = False
+                    print("Autonomous mode: OFF")
             key = keyboard.getKey()
 
         height_desired += height_diff_desired * dt
