@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/floors/protos/Floor.proto"
@@ -1160,6 +1160,7 @@ Robot {
       }
     }
     SolidRoundedBox {
+      translation 0 0 0
       name "rounded box(1)"
       size 0.08 0.011 0.08
       borderRadius 0.005
@@ -4755,6 +4756,7 @@ Robot {
       }
     }
     SolidRoundedBox {
+      translation 0 0 0
       name "rounded box(1)"
       size 0.08 0.011 0.08
       borderRadius 0.005

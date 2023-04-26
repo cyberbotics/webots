@@ -1,6 +1,5 @@
 # Blender v3.0.1 OBJ File: 'arm.blend'
 # www.blender.org
-mtllib arm.mtl
 o base_arm
 v -0.001993 -0.033253 -0.040427
 v 0.001744 -0.033264 -0.040427

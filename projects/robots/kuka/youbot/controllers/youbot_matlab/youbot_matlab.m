@@ -1,4 +1,5 @@
 % Description: MATLAB controller example for Webots
+function youbot_matlab(varargin)
 
 % uncomment the next two lines if you want to use
 % MATLAB's desktop and interact with the controller
@@ -43,7 +44,9 @@ gripper_init
 
 % Short Demo
 passive_wait(2.2)
-automatic_behavior
+if ((nargin > 0) && strcmp(varargin{1},'demo'))
+  automatic_behavior
+end
 
 % Keyboard control
 previous_key = 0;

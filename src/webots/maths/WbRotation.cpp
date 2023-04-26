@@ -34,8 +34,8 @@ void WbRotation::fromQuaternion(const WbQuaternion &q) {
   if (mAngle < WbPrecision::DOUBLE_EQUALITY_TOLERANCE) {
     // if the angle is close to zero, then the direction of the axis is not important
     mX = 0.0;
-    mY = 1.0;
-    mZ = 0.0;
+    mY = 0.0;
+    mZ = 1.0;
     mAngle = 0.0;
     return;
   }
