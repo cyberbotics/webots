@@ -128,7 +128,7 @@ PROTO Window [
         name "glass"
         size %<= windowThickness >% %<= size.y - 2 * frameSize.y >% %<= windowHeight - 2 * frameSize.z >%
         appearance PBRAppearance {
-          baseColor IS windowColor
+          baseColor IS glassColor
           metalness 0
           transparency IS glassTransparency
         }
