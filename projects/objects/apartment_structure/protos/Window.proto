@@ -130,7 +130,7 @@ PROTO Window [
         appearance PBRAppearance {
           baseColor IS windowColor
           metalness 0
-          transparency IS windowTransparency
+          transparency IS glassTransparency
         }
         castShadows IS castShadows
       }
