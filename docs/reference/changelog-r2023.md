@@ -77,6 +77,7 @@ Released on ??
     - Fixed the double downloading of meshes ([#6034](https://github.com/cyberbotics/webots/pull/6034)).
     - Fixed generation of moment of inertia matrix based on bounding box ([#6048](https://github.com/cyberbotics/webots/pull/6048)).
     - Fixed the loading of remote mesh bounding objects ([#6047](https://github.com/cyberbotics/webots/pull/6047)).
+    - Fixed crash during conversion of PROTO to base nodes in case of Mesh nodes with invalid scale values ([#6088](https://github.com/cyberbotics/webots/pull/6088)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
