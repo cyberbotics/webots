@@ -106,25 +106,21 @@ PROTO RobotisLds01 [
               }
             ]
           }
-          Pose {
+          Transform {
             translation 0 -0.01 0
             rotation -1 0 0 1.5708
+            scale 0.001 0.001 0.001
             children [
-              Transform {
-                scale 0.001 0.001 0.001
-                children [
-                  Shape {
-                    appearance DEF MAIN_APPEARANCE RoughPolymer {
-                      baseColor 0 0 0
-                      textureTransform TextureTransform {
-                        scale 4 4
-                      }
-                    }
-                    geometry Mesh {
-                      url "meshes/base.obj"
-                    }
+              Shape {
+                appearance DEF MAIN_APPEARANCE RoughPolymer {
+                  baseColor 0 0 0
+                  textureTransform TextureTransform {
+                    scale 4 4
                   }
-                ]
+                }
+                geometry Mesh {
+                  url "meshes/base.obj"
+                }
               }
             ]
           }
