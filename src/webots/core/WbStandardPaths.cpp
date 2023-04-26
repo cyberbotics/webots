@@ -228,7 +228,7 @@ bool WbStandardPaths::webotsTmpPathCreate(const int id) {
     username = "default";
   }
 #if defined(__APPLE__)
-  cWebotsTmpPath = QString("/tmp/webots/%1/%1/").arg(username).arg(id);
+  cWebotsTmpPath = QString("/tmp/webots/%1/%2/").arg(username).arg(id);
 #else  // __linux__
   const QString WEBOTS_TMPDIR = WbSysInfo::environmentVariable("WEBOTS_TMPDIR");
   if (!WEBOTS_TMPDIR.isEmpty() && QDir(WEBOTS_TMPDIR).exists())
