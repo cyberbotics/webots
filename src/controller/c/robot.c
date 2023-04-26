@@ -1199,8 +1199,8 @@ static char *compute_socket_filename() {
   if (USERNAME == NULL || USERNAME[0] == '\0') {
     USERNAME = wbu_system_getenv("USERNAME");
     if (USERNAME == NULL || USERNAME[0] == '\0') {
-      fprintf(stderr, "Error: missing USER or USERNAME environment variable.");
-      exit(EXIT_FAILURE);
+      fprintf(stderr, "Error: USER or USERNAME environment variable not set, falling back to 'default' username.");
+      username = "default";
     }
   }
   int length = strlen(TMP_DIR) + strlen(USERNAME) + 25; // TMP_DIR + '/webots/' + USERNAME + '/12345678901/ipc' 
