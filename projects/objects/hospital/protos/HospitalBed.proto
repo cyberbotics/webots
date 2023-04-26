@@ -106,7 +106,7 @@ PROTO HospitalBed [
               ]
             }
           }
-          Solid {
+          DEF BOTTOM_FRAME Pose {
             translation 0.00222156 -0.0796652 -0.447789
             children [
               Shape {
@@ -179,9 +179,8 @@ PROTO HospitalBed [
                 }
               }
             ]
-            name "HospitalBedBottomFrame"
           }
-          Solid {
+          DEF BOTTOM_FRAME_2 Pose {
             translation 0.00222156 -0.0796652 -0.280171
             children [
               Shape {
@@ -208,9 +207,8 @@ PROTO HospitalBed [
                 }
               }
             ]
-            name "HospitalBedBottomFrame2"
           }
-          Solid {
+          DEF END_PLATE_1 Pose {
             translation 0.00454 2.34571 0.667322
             children [
               Shape {
@@ -237,9 +235,8 @@ PROTO HospitalBed [
                 }
               }
             ]
-            name "HospitalBedEndPlate1"
           }
-          Solid {
+          DEF END_PLATE_1_HOLDERS Pose {
             translation -0.612761 2.28772 -0.375954
             children [
               Shape {
@@ -266,9 +263,8 @@ PROTO HospitalBed [
                 }
               }
             ]
-            name "HospitalBedEndPlate1Holders"
           }
-          Solid {
+          DEF END_PLATE_2 Pose {
             translation 0.00454 -2.35397 0.667322
             children [
               Shape {
@@ -295,9 +291,8 @@ PROTO HospitalBed [
                 }
               }
             ]
-            name "HospitalBedEndPlate2"
           }
-          Solid {
+          DEF END_PLATE_2_HOLDERS Pose  {
             translation -0.612761 -2.29565 -0.375954
             children [
               Shape {
@@ -324,9 +319,8 @@ PROTO HospitalBed [
                 }
               }
             ]
-            name "HospitalBedEndPlate2Holders"
           }
-          Solid {
+          DEF GUARD_HOLDERS Pose {
             translation 1.05492 -1.78036 -0.155937
             children [
               Shape {
@@ -353,9 +347,8 @@ PROTO HospitalBed [
                 }
               }
             ]
-            name "HospitalBedGuardHolders"
           }
-          Solid {
+          DEF LEFT_SIDE_GUARD Pose {
             translation -1.02633 -1.78056 0.0721266
             children [
               Shape {
@@ -382,9 +375,8 @@ PROTO HospitalBed [
                 }
               }
             ]
-            name "HospitalBedLeftSideGuard"
           }
-          Solid {
+          DEF RIGHT_SIDE_GUARD Pose {
             translation 1.06 -0.0567289 -0.120031
             children [
               Shape {
@@ -411,9 +403,8 @@ PROTO HospitalBed [
                 }
               }
             ]
-            name "HospitalBedRightSideGuard"
           }
-          Solid {
+          DEF WHEEL_1 Pose {
             translation 0.885257 1.66744 -0.503587
             children [
               Shape {
@@ -516,9 +507,8 @@ PROTO HospitalBed [
                 }
               }
             ]
-            name "HospitalBedWheel1"
           }
-          Solid {
+          DEF WHEEL_2 Pose {
             translation -0.880814 1.66744 -0.503587
             children [
               Shape {
@@ -622,9 +612,8 @@ PROTO HospitalBed [
                 }
               }
             ]
-            name "HospitalBedWheel2"
           }
-          Solid {
+          DEF WHEEL_3 Pose {
             translation 0.885257 -1.82677 -0.503587
             children [
               Shape {
@@ -719,9 +708,8 @@ PROTO HospitalBed [
                 }
               }
             ]
-            name "HospitalBedWheel3"
           }
-          Solid {
+          DEF WHEEL_4 Pose {
             translation -0.880814 -1.82677 -0.503587
             children [
               Shape {
@@ -828,7 +816,6 @@ PROTO HospitalBed [
                 }
               }
             ]
-            name "HospitalBedWheel4"
           }
         ]
       }
@@ -836,35 +823,35 @@ PROTO HospitalBed [
     boundingObject Group {
       children [
         Pose {
-          translation 0 0 -0.18
+          translation 0 0 -0.084486
           children [
             Box {
-              size 2.1 4.7 0.8
+              size 0.98567 2.206 0.3755
             }
           ]
         }
         Pose {
-          translation 0.01 2.35 0.17
+          translation 0.00469366 1.103 0.07979
           children [
             Box {
-              size 1.82 0.06 1
+              size 0.85425 0.028162 0.469366
             }
           ]
         }
         Pose {
-          translation 0.01 -2.36 0.17
+          translation 0.00469366 -1.1077 0.07979
           children [
             Box {
-              size 1.82 0.06 1
+              size 0.85425 0.028162 0.469366
             }
           ]
         }
         Pose {
-          translation 0.01 -1.42307 0.355307
+          translation 0.00469366 -0.6665 0.1662493
           rotation -1 0 0 1.97588
           children [
             Box {
-              size 2.1 0.4 1.7
+              size 0.98567 0.18775 0.7979
             }
           ]
         }
