@@ -224,7 +224,7 @@ PROTO LincolnMKZSimple [
         ]
       }
       # vehicle shape
-      Transform{
+      Pose {
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
           DEF COACHWORK Shape {

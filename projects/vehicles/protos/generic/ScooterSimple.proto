@@ -14,8 +14,8 @@ EXTERNPROTO "ScooterLeftIndicator.proto"
 EXTERNPROTO "ScooterWheel.proto"
 
 PROTO ScooterSimple [
-  field       SFVec3f    translation                0 0 0.23                           # Is `Solid.translation`.
-  field       SFRotation rotation                   0 0 1 0                            # Is `Solid.rotation`.
+  field       SFVec3f    translation                0 0 0.23                           # Is `Pose.translation`.
+  field       SFRotation rotation                   0 0 1 0                            # Is `Pose.rotation`.
   field       SFColor    primaryColor               0.43 0.11 0.1                      # Defines the primary color of the scooter.
   field       SFColor    secondaryColor             0.69 0.43 0.43                     # Defines the secondary color of the scooter.
   field       MFColor    recognitionColors          [ 0.43 0.11 0.1, 0.69 0.43 0.43 ]  # Is `Solid.recognitionColors`.

@@ -116,35 +116,35 @@ PROTO BmwX5Simple [
         ]
         name "rear left wheel"
       }
-      Transform{
-      rotation 0.57735 0.57735 0.57735 2.094395
-      children [
-        BmwX5FrontLight {
-        }
-        BmwX5RightIndicator {
-        }
-        BmwX5LeftIndicator {
-        }
-        BmwX5AntiFogLight {
-        }
-        BmwX5RearLight {
-        }
-        BmwX5BrakingLight {
-        }
-        BmwX5BackwardsLight {
-        }
-        BmwX5RightWiper {
-        }
-        BmwX5LeftWiper {
-        }
-        BmwX5Mesh {
-          color IS color
-        }
-        BmwX5RightWingMirror {
-        }
-        BmwX5LeftWingMirror {
-        }
-      ]
+      Pose {
+        rotation 0.57735 0.57735 0.57735 2.094395
+        children [
+          BmwX5FrontLight {
+          }
+          BmwX5RightIndicator {
+          }
+          BmwX5LeftIndicator {
+          }
+          BmwX5AntiFogLight {
+          }
+          BmwX5RearLight {
+          }
+          BmwX5BrakingLight {
+          }
+          BmwX5BackwardsLight {
+          }
+          BmwX5RightWiper {
+          }
+          BmwX5LeftWiper {
+          }
+          BmwX5Mesh {
+            color IS color
+          }
+          BmwX5RightWingMirror {
+          }
+          BmwX5LeftWingMirror {
+          }
+        ]
       }
     ]
     name IS name

@@ -67,7 +67,7 @@ Car {
       rotation 0 0 1 3.14159
       children IS sensorsSlotRear
     }
-    Transform{
+    Pose {
       rotation 0.57735 0.57735 0.57735 2.094395
       children [
         BusShape {

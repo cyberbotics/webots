@@ -245,7 +245,7 @@ PROTO LincolnMKZ [
           }
         ]
         rear [
-          Transform{
+          Pose {
             rotation 0.57735 0.57735 0.57735 2.094395
             children [
               DEF TAIL_LIGHT Shape {
@@ -261,7 +261,7 @@ PROTO LincolnMKZ [
           }
         ]
         braking [
-          Transform{
+          Pose {
             rotation 0.57735 0.57735 0.57735 2.094395
             children [
               DEF BRAKING_LIGHTS Shape {
@@ -278,7 +278,7 @@ PROTO LincolnMKZ [
         ]
         antifogColor [ 0.3 0 0 ]
         antifog [
-          Transform{
+          Pose {
             rotation 0.57735 0.57735 0.57735 2.094395
             children [
               DEF ANTIFOG_LIGHTS Shape {
@@ -296,7 +296,7 @@ PROTO LincolnMKZ [
 
       }
       # vehicle shape
-      Transform{
+      Pose {
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
           DEF COACHWORK Shape {

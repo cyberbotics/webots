@@ -162,7 +162,7 @@ PROTO BmwX5 [
                   castShadows TRUE
                 }
               %< } >%
-              Transform{
+              Pose {
                 rotation 0.57735 0.57735 0.57735 2.094395
                 children [
                   BmwX5FrontLight {
@@ -173,7 +173,7 @@ PROTO BmwX5 [
           }
         ]
         rightIndicator [
-          Transform{
+          Pose {
             rotation 0.57735 0.57735 0.57735 2.094395
             children [
               BmwX5RightIndicator {
@@ -182,7 +182,7 @@ PROTO BmwX5 [
           }
         ]
         leftIndicator [
-          Transform{
+          Pose {
             rotation 0.57735 0.57735 0.57735 2.094395
             children [
               BmwX5LeftIndicator {
@@ -191,7 +191,7 @@ PROTO BmwX5 [
           }
         ]
         antifog [
-          Transform{
+           Pose {
             rotation 0.57735 0.57735 0.57735 2.094395
             children [
               BmwX5AntiFogLight {
@@ -200,7 +200,7 @@ PROTO BmwX5 [
           }
         ]
         rear [
-          Transform{
+          Pose {
             rotation 0.57735 0.57735 0.57735 2.094395
             children [
               BmwX5RearLight {
@@ -209,7 +209,7 @@ PROTO BmwX5 [
           }
         ]
         braking [
-          Transform{
+          Pose {
             rotation 0.57735 0.57735 0.57735 2.094395
             children [
               BmwX5BrakingLight {
@@ -218,7 +218,7 @@ PROTO BmwX5 [
           }
         ]
         backwards [
-          Transform{
+          Pose {
             rotation 0.57735 0.57735 0.57735 2.094395
             children [
               BmwX5BackwardsLight {
@@ -293,7 +293,7 @@ PROTO BmwX5 [
         ]
         endPoint Solid {
           children [
-            Transform{
+            Pose {
               rotation 0.57735 0.57735 0.57735 2.094395
               children [
                 BmwX5RightWiper{
@@ -322,7 +322,7 @@ PROTO BmwX5 [
         ]
         endPoint Solid {
           children [
-            Transform{
+            Pose {
               rotation 0.57735 0.57735 0.57735 2.094395
               children [
                 BmwX5LeftWiper{
@@ -337,7 +337,7 @@ PROTO BmwX5 [
         }
       }
       %< } >%
-      Transform{
+      Pose {
           rotation 0.57735 0.57735 0.57735 2.094395
           children [
             BmwX5Mesh {
@@ -347,7 +347,7 @@ PROTO BmwX5 [
           ]
       }
       %< if (innerWindowTransparency !== 1) { >%
-        Transform{
+        Pose {
            rotation 0.57735 0.57735 0.57735 2.094395
            children [
              BmwX5InnerWindow {
@@ -361,7 +361,7 @@ PROTO BmwX5 [
           DEF RIGHT_WING_DISPLAY Display {
             children [
       %< } >%
-      Transform{
+      Pose {
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
           BmwX5RightWingMirror {
@@ -379,7 +379,7 @@ PROTO BmwX5 [
           DEF LEFT_WING_DISPLAY Display {
             children [
       %< } >%
-      Transform{
+      Pose {
       rotation 0.57735 0.57735 0.57735 2.094395
         children [
           BmwX5LeftWingMirror {
@@ -395,7 +395,7 @@ PROTO BmwX5 [
       %< } >%
       # vehicle interior
       %< if (interior) { >%
-              Transform{
+              Pose {
                 rotation 0.57735 0.57735 0.57735 2.094395
                 children [
                   BmwX5Interior {
@@ -434,7 +434,7 @@ PROTO BmwX5 [
                 ]
                 endPoint Solid {
                   children [
-                    Transform{
+                    Pose {
                       rotation 0.57735 0.57735 0.57735 2.094395
                       children [
                         BmwX5CentralMirrorFrame {
@@ -446,7 +446,7 @@ PROTO BmwX5 [
                       DEF REAR_DISPLAY Display {
                         children [
                     %< } >%
-                    Transform{
+                    Pose {
                       rotation 0.57735 0.57735 0.57735 2.094395
                       children [
                         BmwX5CentralMirror {
@@ -465,7 +465,7 @@ PROTO BmwX5 [
                 }
               }
               %< if (completeInterior) { >%
-                Transform{
+                Pose {
                     rotation 0.57735 0.57735 0.57735 2.094395
                     children [
                       BmwX5RearInterior {
