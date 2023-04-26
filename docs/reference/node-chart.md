@@ -58,6 +58,7 @@ graph LR
 
   Group[[Group](group.md)] --> Pose[[Pose](pose.md)]
   Group --> Billboard[[Billboard](billboard.md)]
+  Group --> TrackWheel[[TrackWheel](trackwheel.md)]
     Pose --> Transform[[Transform](transform.md)]
     Pose --> Solid[[Solid](solid.md)]
         Solid --> SolidDevice
@@ -86,7 +87,6 @@ graph LR
         Solid --> Charger[[Charger](charger.md)]
         Solid --> Robot[[Robot](robot.md)]
     Pose --> Fluid[[Fluid](fluid.md)]
-    Pose --> TrackWheel[[TrackWheel](trackwheel.md)]
 
   JointDevice -.-> Motor([Motor](motor.md))
     Motor -.-> LinearMotor[[LinearMotor](linearmotor.md)]
