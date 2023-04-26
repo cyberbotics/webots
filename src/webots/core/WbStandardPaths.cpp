@@ -221,11 +221,12 @@ bool WbStandardPaths::webotsTmpPathCreate(const int id) {
     QDir::fromNativeSeparators(WbSysInfo::environmentVariable("LOCALAPPDATA")) + QString("/Temp/webots-%1/").arg(id);
 #else
   QString username = qgetenv("USER");
-  if (username.isEmpty())
-    username = qgetenv("USERNAME");
   if (username.isEmpty()) {
-    WbLog::error(QObject::tr("USER or USERNAME environment variable not set, falling back to 'default' username."));
-    username = "default";
+    username = qgetenv("USERNAME");
+    if (username.isEmpty()) {
+      WbLog::error(QObject::tr("USER or USERNAME environment variable not set, falling back to 'default' username."));
+      username = "default";
+    }
   }
 #if defined(__APPLE__)
   cWebotsTmpPath = QString("/tmp/webots/%1/%2/").arg(username).arg(id);
