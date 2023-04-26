@@ -36,8 +36,10 @@ EXTERNPROTO "webots://projects/robots/bitcraze/crazyflie/protos/Crazyflie.proto"
 
 WorldInfo {
   info [
-    "Sample of how the indoor objects can be placed"
+    "Bitcraze's Crazyflie drone with autonomoy."
+    "This simulation has the Crazyflie in an apartement with wall following'"
   ]
+  title "Crazyflie Apartment"
   basicTimeStep 16
 }
 Viewpoint {
