@@ -56,8 +56,12 @@ int main(int argc, char **argv) {
     expectedPosition[1] = 0.079743;
     expectedPosition[2] = -0.002273;
     wbu_motion_set_reverse(forwards, true);
-  } else
+  } else {
+    expectedPosition[0] = 0;
+    expectedPosition[1] = 0;
+    expectedPosition[2] = 0;
     ts_assert_boolean_equal(false, "Unexpected argument");
+  }
 
   wbu_motion_play(forwards);
 
