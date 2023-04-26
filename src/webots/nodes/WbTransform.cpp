@@ -120,8 +120,6 @@ void WbTransform::updateAbsoluteScale() const {
   mAbsoluteScaleNeedUpdate = false;
 }
 
-// Absolute scale 3D-vector
-
 const WbVector3 &WbTransform::absoluteScale() const {
   if (mAbsoluteScaleNeedUpdate)
     updateAbsoluteScale();
