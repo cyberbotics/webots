@@ -274,8 +274,8 @@ WbSupervisorUtilities::WbSupervisorUtilities(WbRobot *robot) : mRobot(robot) {
   connect(WbTemplateManager::instance(), &WbTemplateManager::postNodeRegeneration, this,
           &WbSupervisorUtilities::updateProtoRegeneratedFlag);
 
-  // Do not apply the change simulation mode during dealing with a controller message
-  // otherwise, conflicts can occur in case of multiple controllers
+  //  Do not apply the change simulation mode during dealing with a controller message
+  //  otherwise, conflicts can occur in case of multiple controllers
   connect(this, &WbSupervisorUtilities::changeSimulationModeRequested, this, &WbSupervisorUtilities::changeSimulationMode,
           Qt::QueuedConnection);
 }
@@ -1348,11 +1348,10 @@ void WbSupervisorUtilities::handleMessage(QDataStream &stream) {
       if (enable) {
         WbPose *const fromTransformNode = fromNode ? dynamic_cast<WbPose *>(fromNode) : NULL;
         if (fromNodeId && !fromTransformNode)
-          mRobot->warn(
-            tr("Pose tracking can be exclusively used with Transform (or derived) 'from_node' argument, but '%1' (%2) is "
-               "given. The absolute pose in global coordinates will be returned.")
-              .arg(fromNode->usefulName())
-              .arg(fromNode->modelName()));
+          mRobot->warn(tr("Pose tracking can be exclusively used with Pose (or derived) 'from_node' argument, but '%1' (%2) is "
+                          "given. The absolute pose in global coordinates will be returned.")
+                         .arg(fromNode->usefulName())
+                         .arg(fromNode->modelName()));
 
         if (index < 0) {
           WbTrackedPoseInfo trackedPose;
