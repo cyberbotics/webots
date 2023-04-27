@@ -6,3 +6,4 @@ RpLidarA2 {
   SFRotation rotation       0 0 1 0
   SFString   name           "RPlidar A2"
 }
+```
