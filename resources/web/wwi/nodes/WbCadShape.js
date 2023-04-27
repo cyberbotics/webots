@@ -24,7 +24,7 @@ export default class WbCadShape extends WbBaseNode {
   #isPickable;
   #pbrAppearances;
   #promises;
-  #upperTransformFirstTimeSearch;
+  #upperPoseFirstTimeSearch;
   #url;
   #wrenMaterials;
   #wrenMeshes;
@@ -110,7 +110,7 @@ export default class WbCadShape extends WbBaseNode {
   }
 
   absoluteScale() {
-    const ut = this.#upperTransform();
+    const ut = this.#upperPose();
     return ut ? ut.absoluteScale() : new WbVector3(1.0, 1.0, 1.0);
   }
 
@@ -491,13 +491,13 @@ export default class WbCadShape extends WbBaseNode {
     });
   }
 
-  #upperTransform() {
-    if (this.#upperTransformFirstTimeSearch) {
-      this.upperTransform = findUpperPose(this);
+  #upperPose() {
+    if (this.#upperPoseFirstTimeSearch) {
+      this.upperPose = findUpperPose(this);
       if (this.wrenObjectsCreatedCalled)
-        this.#upperTransformFirstTimeSearch = false;
+        this.#upperPoseFirstTimeSearch = false;
     }
 
-    return this.upperTransform;
+    return this.upperPose;
   }
 }
