@@ -2,13 +2,13 @@
 
 ```
 Recognition {
-  SFFloat  maxRange       100     # [0, inf)
-  SFInt32  maxObjects     -1      # {-1, [0, inf)}
-  SFBool   occlusion      TRUE    # {TRUE, FALSE}
-  SFInt32  occlusion      1       # {1, 2}
-  SFColor  frameColor     1 0 0   # any color
-  SFInt32  frameThickness 1       # [0, inf)
-  SFBool   segmentation   FALSE   # {TRUE, FALSE}
+  SFFloat  maxRange          100     # [0, inf)
+  SFInt32  maxObjects        -1      # {-1, [0, inf)}
+  SFBool   occlusion         TRUE    # {TRUE, FALSE}
+  SFInt32  occlusionAccuracy 1       # {1, 2}
+  SFColor  frameColor        1 0 0   # any color
+  SFInt32  frameThickness    1       # [0, inf)
+  SFBool   segmentation      FALSE   # {TRUE, FALSE}
 }
 ```
 
