@@ -102,7 +102,7 @@ export default class WbSpotLight extends WbLight {
 
     this.#wrenLight = _wr_spot_light_new();
     super.createWrenObjects();
-    this.#attachToUpperTransform();
+    this.#attachToUpperPose();
 
     this.#applyLightDirectionToWren();
     this.#applyLightBeamWidthAndCutOffAngleToWren();
@@ -112,7 +112,7 @@ export default class WbSpotLight extends WbLight {
 
   delete() {
     if (this.wrenObjectsCreatedCalled) {
-      this.#detachFromUpperTransform();
+      this.#detachFromUpperPose();
       _wr_node_delete(this.#wrenLight);
     }
 
@@ -162,14 +162,14 @@ export default class WbSpotLight extends WbLight {
     _wr_spot_light_set_position_relative(this.#wrenLight, pointer);
   }
 
-  #attachToUpperTransform() {
-    const upperTransform = findUpperPose(this);
+  #attachToUpperPose() {
+    const upperPose = findUpperPose(this);
 
-    if (typeof upperTransform !== 'undefined')
-      _wr_transform_attach_child(upperTransform.wrenNode, this.#wrenLight);
+    if (typeof upperPose !== 'undefined')
+      _wr_transform_attach_child(upperPose.wrenNode, this.#wrenLight);
   }
 
-  #detachFromUpperTransform() {
+  #detachFromUpperPose() {
     const node = this.#wrenLight;
     const parent = _wr_node_get_parent(node);
     if (typeof parent !== 'undefined')
