@@ -101,7 +101,7 @@ Robot {
                 appearance PBRAppearance {
                   baseColor 0.5 0.5 0.5
                   baseColorMap ImageTexture {
-                    url "Mavic2Pro/textures/mavic_fast_helix.png"
+                    url "webots://projects/default/protos/textures/fast_helix.png"
                   }
                   metalness 0
                   roughness 0
@@ -221,7 +221,7 @@ Robot {
                 appearance PBRAppearance {
                   baseColor 0.5 0.5 0.5
                   baseColorMap ImageTexture {
-                    url "Mavic2Pro/textures/mavic_fast_helix.png"
+                    url "webots://projects/default/protos/textures/fast_helix.png"
                   }
                   metalness 0
                   roughness 0
@@ -343,7 +343,7 @@ Robot {
                 appearance PBRAppearance {
                   baseColor 0.5 0.5 0.5
                   baseColorMap ImageTexture {
-                    url "Mavic2Pro/textures/mavic_fast_helix.png"
+                    url "webots://projects/default/protos/textures/fast_helix.png"
                   }
                   metalness 0
                   roughness 0
@@ -660,7 +660,7 @@ Robot {
                 appearance PBRAppearance {
                   baseColor 0.5 0.5 0.5
                   baseColorMap ImageTexture {
-                    url "Mavic2Pro/textures/mavic_fast_helix.png"
+                    url "webots://projects/default/protos/textures/fast_helix.png"
                   }
                   metalness 0
                   roughness 0

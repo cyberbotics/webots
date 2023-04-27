@@ -110,7 +110,7 @@ PROTO Crazyflie [
                 baseColor 0.1 0.1 0.1
                 baseColorMap ImageTexture {
                     url [
-                    "webots://projects/robots/dji/mavic/protos/Mavic2Pro/textures/mavic_fast_helix.png"
+                    "webots://projects/default/protos/textures/fast_helix.png"
                     ]
                 }
                 metalness 0
