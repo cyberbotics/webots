@@ -61,7 +61,7 @@ export default class WbGeometry extends WbBaseNode {
       if (this.isInBoundingObject()) {
         if (parent instanceof WbSolid)
           parent.boundingObject = undefined;
-        else if (parent instanceof WbPose || parent instanceof WbGroup) {
+        else if (parent instanceof WbGroup) {
           const index = parent.children.indexOf(this);
           console.assert(index !== -1, 'The parent node should have this node as a child for it to be deleted.');
           parent.children.splice(index, 1);
