@@ -4,6 +4,7 @@
 % Description:
 % Author:
 % Modifications:
+function template
 
 % uncomment the next two lines if you want to use
 % MATLAB's desktop to interact with the controller:

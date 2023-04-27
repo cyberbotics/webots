@@ -238,6 +238,7 @@ void WbTransform::setSleepMaterial() {
 ///////////////////////////////////////////////////////////////
 
 void WbTransform::listenToChildrenField() {
+  connect(childrenField(), &WbMFNode::itemChanged, this, &WbTransform::createOdeGeom, Qt::UniqueConnection);
   connect(childrenField(), &WbMFNode::itemInserted, this, &WbTransform::createOdeGeom, Qt::UniqueConnection);
   const WbGeometry *const g = geometry();
   if (g)
@@ -426,7 +427,8 @@ void WbTransform::exportBoundingObjectToX3D(WbWriter &writer) const {
 QStringList WbTransform::fieldsToSynchronizeWithX3D() const {
   QStringList fields;
   fields << "translation"
-         << "rotation";
+         << "rotation"
+         << "scale";
   return fields;
 }
 
