@@ -217,7 +217,7 @@ int main(int argc, char **argv) {
 
   // test spherical camera
   const double invisible_capsule_position[3] = {0.369, 1.650, 0.899};
-  const double invisible_capsule_orientation[4] = {-0.014153, 0.447164, -0.894340, 2.094391};
+  const double invisible_capsule_orientation[4] = {0.577350, -0.577350, -0.577350, 2.094390};
   const double invisible_capsule_size[2] = {0.1, 0.1};
   object_number = wb_camera_recognition_get_number_of_objects(camera_spherical);
   ts_assert_int_equal(object_number, 4,
@@ -235,7 +235,7 @@ int main(int argc, char **argv) {
         objects[i].position[0], objects[i].position[1], objects[i].position[2], expected_position[0], expected_position[1],
         expected_position[2]);
       // orientation
-      double expected_orientation[4] = {-0.014153, 0.447166, -0.894339, 2.094390};
+      double expected_orientation[4] = {0.577350, -0.577350, -0.577350, 2.094390};
       ts_assert_doubles_in_delta(
         4, objects[i].orientation, expected_orientation, 0.001,
         "Orientation of 'occluded box' is not correct for spherical camera: found=(%f, %f, %f, %f), expected=(%f, %f, %f, %f).",
