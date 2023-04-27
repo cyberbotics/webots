@@ -3,7 +3,7 @@
 #  | (  O  ) |     / __  / / __/ ___/ ___/ __ `/_  / / _ \
 #  | / ,..´  |    / /_/ / / /_/ /__/ /  / /_/ / / /_/  __/
 #     +.......   /_____/_/\__/\___/_/   \__,_/ /___/\___/
- 
+
 # MIT License
 
 # Copyright (c) 2022 Bitcraze
@@ -35,21 +35,21 @@ if __name__ == '__main__':
     robot = Robot()
     timestep = int(robot.getBasicTimeStep())
 
-    ## Initialize motors
-    m1_motor = robot.getDevice("m1_motor");
+    # Initialize motors
+    m1_motor = robot.getDevice("m1_motor")
     m1_motor.setPosition(float('inf'))
     m1_motor.setVelocity(-1)
-    m2_motor = robot.getDevice("m2_motor");
+    m2_motor = robot.getDevice("m2_motor")
     m2_motor.setPosition(float('inf'))
     m2_motor.setVelocity(1)
-    m3_motor = robot.getDevice("m3_motor");
+    m3_motor = robot.getDevice("m3_motor")
     m3_motor.setPosition(float('inf'))
     m3_motor.setVelocity(-1)
-    m4_motor = robot.getDevice("m4_motor");
+    m4_motor = robot.getDevice("m4_motor")
     m4_motor.setPosition(float('inf'))
     m4_motor.setVelocity(1)
 
-    ## Initialize Sensors
+    # Initialize Sensors
     imu = robot.getDevice("inertial unit")
     imu.enable(timestep)
     gps = robot.getDevice("gps")
@@ -67,11 +67,11 @@ if __name__ == '__main__':
     range_right = robot.getDevice("range_right")
     range_right.enable(timestep)
 
-    ## Get keyboard
+    # Get keyboard
     keyboard = Keyboard()
     keyboard.enable(timestep)
-        
-    ## Initialize variables
+
+    # Initialize variables
 
     past_x_global = 0
     past_y_global = 0
@@ -85,19 +85,19 @@ if __name__ == '__main__':
 
     height_desired = FLYING_ATTITUDE
 
-    wall_following = WallFollowing(angle_value_buffer= 0.01, ref_distance_from_wall = 0.5, max_forward_speed = 0.3, init_state = WallFollowing.StateWF.FORWARD)
+    wall_following = WallFollowing(angle_value_buffer=0.01, ref_distance_from_wall=0.5,
+                                   max_forward_speed=0.3, init_state=WallFollowing.StateWF.FORWARD)
 
     autonomous_mode = False
 
+    print("\n")
 
-    print("\n");
+    print("====== Controls =======\n\n")
 
-    print("====== Controls =======\n\n");
-
-    print(" The Crazyflie can be controlled from your keyboard!\n");
-    print(" All controllable movement is in body coordinates\n");
-    print("- Use the up, back, right and left button to move in the horizontal plane\n");
-    print("- Use Q and E to rotate around yaw ");
+    print(" The Crazyflie can be controlled from your keyboard!\n")
+    print(" All controllable movement is in body coordinates\n")
+    print("- Use the up, back, right and left button to move in the horizontal plane\n")
+    print("- Use Q and E to rotate around yaw ")
     print("- Use W and S to go up and down\n ")
     print("- Press A to start autonomous mode\n")
     print("- Press D to disable autonomous mode\n")
@@ -114,7 +114,7 @@ if __name__ == '__main__':
             past_time = robot.getTime()
             first_time = False
 
-        ## Get sensor data
+        # Get sensor data
         roll = imu.getRollPitchYaw()[0]
         pitch = imu.getRollPitchYaw()[1]
         yaw = imu.getRollPitchYaw()[2]
@@ -125,13 +125,13 @@ if __name__ == '__main__':
         v_y_global = (y_global - past_y_global)/dt
         altitude = gps.getValues()[2]
 
-        ## Get body fixed velocities
+        # Get body fixed velocities
         cosyaw = cos(yaw)
         sinyaw = sin(yaw)
         v_x = v_x_global * cosyaw + v_y_global * sinyaw
         v_y = - v_x_global * sinyaw + v_y_global * cosyaw
 
-        ## Initialize values
+        # Initialize values
         desired_state = [0, 0, 0, 0]
         forward_desired = 0
         sideways_desired = 0
@@ -139,7 +139,7 @@ if __name__ == '__main__':
         height_diff_desired = 0
 
         key = keyboard.getKey()
-        while key>0:
+        while key > 0:
             if key == Keyboard.UP:
                 forward_desired += 0.5
             elif key == Keyboard.DOWN:
@@ -149,7 +149,7 @@ if __name__ == '__main__':
             elif key == Keyboard.LEFT:
                 sideways_desired += 0.5
             elif key == ord('Q'):
-                yaw_desired =  + 1
+                yaw_desired = + 1
             elif key == ord('E'):
                 yaw_desired = - 1
             elif key == ord('W'):
@@ -168,31 +168,32 @@ if __name__ == '__main__':
 
         height_desired += height_diff_desired * dt
 
-        ## Example how to get sensor data
-        ## range_front_value = range_front.getValue();
-        ## cameraData = camera.getImage()
+        # Example how to get sensor data
+        # range_front_value = range_front.getValue();
+        # cameraData = camera.getImage()
         range_front_value = range_front.getValue()/1000
         range_right_value = range_right.getValue()/1000
 
-        direction  = 1
-        cmd_vel_x, cmd_vel_y, cmd_ang_w, state_wf = wall_following.wall_follower(range_front_value, range_right_value, yaw, direction, robot.getTime())
+        direction = 1
+        cmd_vel_x, cmd_vel_y, cmd_ang_w, state_wf = wall_following.wall_follower(
+            range_front_value, range_right_value, yaw, direction, robot.getTime())
 
         if autonomous_mode:
             sideways_desired = cmd_vel_y
             forward_desired = cmd_vel_x
             yaw_desired = cmd_ang_w
 
-        ## PID velocity controller with fixed height
+        # PID velocity controller with fixed height
         motor_power = PID_CF.pid(dt, forward_desired, sideways_desired,
-                                yaw_desired, height_desired,
-                                roll, pitch, yaw_rate,
-                                altitude, v_x, v_y)
+                                 yaw_desired, height_desired,
+                                 roll, pitch, yaw_rate,
+                                 altitude, v_x, v_y)
 
         m1_motor.setVelocity(-motor_power[0])
         m2_motor.setVelocity(motor_power[1])
         m3_motor.setVelocity(-motor_power[2])
         m4_motor.setVelocity(motor_power[3])
-        
+
         past_time = robot.getTime()
         past_x_global = x_global
         past_y_global = y_global

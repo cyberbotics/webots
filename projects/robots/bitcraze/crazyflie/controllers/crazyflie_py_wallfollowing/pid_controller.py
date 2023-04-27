@@ -12,10 +12,11 @@
 #
 # pid_controller.py
 # A simple PID controller for the Crazyflie
-#        
+#
 
 
 import numpy as np
+
 
 class pid_velocity_fixed_height_controller():
     def __init__(self):
@@ -31,7 +32,7 @@ class pid_velocity_fixed_height_controller():
             actual_alt, actual_vx, actual_vy):
         # Velocity PID control (converted from Crazyflie c code)
         gains = {"kp_att_y": 1, "kd_att_y": 0.5, "kp_att_rp": 0.5, "kd_att_rp": 0.1,
-                "kp_vel_xy": 2, "kd_vel_xy": 0.5, "kp_z": 10, "ki_z": 5, "kd_z": 5}
+                 "kp_vel_xy": 2, "kd_vel_xy": 0.5, "kp_z": 10, "ki_z": 5, "kd_z": 5}
 
         # Velocity PID control
         vx_error = desired_vx - actual_vx
@@ -47,7 +48,8 @@ class pid_velocity_fixed_height_controller():
         alt_error = desired_alt - actual_alt
         alt_deriv = (alt_error - self.past_alt_error) / dt
         self.alt_integrator += alt_error * dt
-        alt_command = gains["kp_z"] * alt_error + gains["kd_z"] * alt_deriv + gains["ki_z"] * np.clip(self.alt_integrator, -2, 2) + 48
+        alt_command = gains["kp_z"] * alt_error + gains["kd_z"] * alt_deriv + \
+            gains["ki_z"] * np.clip(self.alt_integrator, -2, 2) + 48
         self.past_alt_error = alt_error
 
         # Attitude PID control
@@ -63,10 +65,10 @@ class pid_velocity_fixed_height_controller():
         self.past_roll_error = roll_error
 
         # Motor mixing
-        m1 =  alt_command - roll_command + pitch_command + yaw_command
-        m2 =  alt_command - roll_command - pitch_command - yaw_command
-        m3 =  alt_command + roll_command - pitch_command + yaw_command
-        m4 =  alt_command + roll_command + pitch_command - yaw_command
+        m1 = alt_command - roll_command + pitch_command + yaw_command
+        m2 = alt_command - roll_command - pitch_command - yaw_command
+        m3 = alt_command + roll_command - pitch_command + yaw_command
+        m4 = alt_command + roll_command + pitch_command - yaw_command
 
         # Limit the motor command
         m1 = np.clip(m1, 0, 600)
