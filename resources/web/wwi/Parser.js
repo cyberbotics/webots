@@ -268,7 +268,7 @@ export default class Parser {
           console.error('This world already has a fog.');
         break;
       case 'Transform':
-        result = this.#parseTransform(node, parentNode, isBoundingObject);
+        result = this.#parseTransform(node, parentNode);
         break;
       case 'Robot':
       case 'Solid':
@@ -770,7 +770,7 @@ export default class Parser {
     return newNode;
   }
 
-  #parseTransform(node, parentNode, isBoundingObject) {
+  #parseTransform(node, parentNode) {
     this.#updateParserProgress(node);
     const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
@@ -783,20 +783,16 @@ export default class Parser {
     const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 0 1 0'));
 
     let newNode;
-    if (!isBoundingObject)
-      isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
 
     newNode = new WbTransform(id, translation, rotation, scale);
 
     WbWorld.instance.nodes.set(newNode.id, newNode);
 
-    this.#parseChildren(node, newNode, isBoundingObject);
+    this.#parseChildren(node, newNode, false);
 
     if (typeof parentNode !== 'undefined') {
       newNode.parent = parentNode.id;
-      if (isBoundingObject && parentNode instanceof WbSolid)
-        parentNode.boundingObject = newNode;
-      else if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
+      if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = newNode;
       else
         parentNode.children.push(newNode);
