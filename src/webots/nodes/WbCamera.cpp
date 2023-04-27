@@ -780,6 +780,8 @@ WbVector2 WbCamera::projectOnImage(const WbVector3 &position) {
     if (p.z() > 0.0)
       uv.setY(-uv.y());
     uv.setX(uv.y() / b);
+    if (fovX < M_PI_2)
+      uv.setX(uv.x() * M_PI_2 / fovX);
   } else {
     assert(mProjection->value() == "cylindrical");
     const double fovY = mWrenCamera->sphericalFieldOfViewY();
@@ -790,6 +792,8 @@ WbVector2 WbCamera::projectOnImage(const WbVector3 &position) {
     uv.setY((theta - M_PI_2) * fovYCorrectionCoefficient / fovY);
     if (normP.y() < 0.0)
       uv.setX(-uv.x());
+    if (fovX < M_PI_2)
+      uv.setX(uv.x() * M_PI_2 / fovX);
   }
 
   // convert uv to range [0, 1]
