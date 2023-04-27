@@ -58,7 +58,7 @@ WbProtoModel::WbProtoModel(WbTokenizer *tokenizer, const QString &worldPath, con
     for (int i = 0; i < headerInfo.size(); ++i) {
       if (!headerInfo.at(i).startsWith("tags:") && !headerInfo.at(i).startsWith("license:") &&
           !headerInfo.at(i).startsWith("license url:") && !headerInfo.at(i).startsWith("documentation url:") &&
-          !headerInfo.at(i).startsWith("template language:"))
+          !headerInfo.at(i).startsWith("template language:") && !headerInfo.at(i).startsWith("keywords:"))
         mInfo += headerInfo.at(i) + "\n";
     }
     mInfo.chop(1);

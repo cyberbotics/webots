@@ -63,7 +63,7 @@ class ProtoInfo:
                 break  # only parse header lines
 
             clean_line = line[1:].strip()
-            if clean_line.startswith('VRML_SIM') or re.search(r'template language\s*:', clean_line):
+            if clean_line.startswith('VRML_SIM') or re.search(r'template language\s*:', clean_line) or re.search(r'keywords\s*:', clean_line):
                 continue
             elif re.search(r'license\s*:', clean_line):
                 self.license = re.sub(r'license\s*:', '', clean_line).strip()
