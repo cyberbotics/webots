@@ -810,8 +810,8 @@ bool WbCamera::setRecognizedObjectProperties(WbRecognizedObject *recognizedObjec
 
   // compute object relative orientation
   WbRotation relativeRotation;
-  relativeRotation.fromMatrix3(recognizedObject->object()->rotationMatrix() *
-                               recognizedObject->device()->rotationMatrix().transposed());
+  relativeRotation.fromMatrix3(recognizedObject->device()->rotationMatrix().transposed() *
+                               recognizedObject->object()->rotationMatrix());
   relativeRotation.normalize();
   recognizedObject->setRelativeOrientation(relativeRotation);
 

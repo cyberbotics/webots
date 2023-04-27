@@ -15,6 +15,7 @@ Released on ??
     - Improved MATLAB controllers to support input arguments ([#5943](https://github.com/cyberbotics/webots/pull/5943)).
     - Updated names of TIAGo models and add default RGBD camera ([#6082](https://github.com/cyberbotics/webots/pull/6082)).
     - Addded `occlusionAccuracy` field to [Recognition](recognition.md) node to choose between two different levels of accuracy ([#6051](https://github.com/cyberbotics/webots/pull/6051)).
+    - Add parameters to change the glass color and opacity of the `Window.proto` ([#6106](https://github.com/cyberbotics/webots/pull/6106)).
 
 ## Webots R2023a Revision 1
 Released on ??
@@ -78,6 +79,8 @@ Released on ??
     - Fixed the double downloading of meshes ([#6034](https://github.com/cyberbotics/webots/pull/6034)).
     - Fixed generation of moment of inertia matrix based on bounding box ([#6048](https://github.com/cyberbotics/webots/pull/6048)).
     - Fixed the loading of remote mesh bounding objects ([#6047](https://github.com/cyberbotics/webots/pull/6047)).
+    - Fixed crash during conversion of PROTO to base nodes in case of Mesh nodes with invalid scale values ([#6088](https://github.com/cyberbotics/webots/pull/6088)).
+    - Fixed object's relative orientation returned by the [Recognition](recognition.md) functionality ([#6100](https://github.com/cyberbotics/webots/pull/6100)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
