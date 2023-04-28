@@ -1192,9 +1192,25 @@ static char *compute_socket_filename() {
     fprintf(stderr, "Error: invalid WEBOTS_CONTROLLER_URL: %s (missing or wrong port value)\n", WEBOTS_CONTROLLER_URL);
     exit(EXIT_FAILURE);
   }
-  int length = strlen(TMP_DIR) + 24;  // TMPDIR + "/webots-12345678901/ipc"
+#ifdef _WIN32
+  int length = strlen(TMP_DIR) + 24;  // TMP_DIR + "/webots-12345678901/ipc"
+#else
+  const char *username = wbu_system_getenv("USER");
+  if (username == NULL || username[0] == '\0') {
+    username = wbu_system_getenv("USERNAME");
+    if (username == NULL || username[0] == '\0') {
+      fprintf(stderr, "Error: USER or USERNAME environment variable not set, falling back to 'default' username.");
+      username = "default";
+    }
+  }
+  int length = strlen(TMP_DIR) + strlen(username) + 25;  // TMP_DIR + '/webots/' + username + '/12345678901/ipc'
+#endif
   char *folder = malloc(length);
+#ifdef _WIN32
   snprintf(folder, length, "%s/webots-%d/ipc", TMP_DIR, number);
+#else
+  snprintf(folder, length, "%s/webots/%s/%d/ipc", TMP_DIR, username, number);
+#endif
   free(robot_name);
   char *sub_string = strstr(&WEBOTS_CONTROLLER_URL[6], "/");
   robot_name = encode_robot_name(sub_string ? sub_string + 1 : NULL);
