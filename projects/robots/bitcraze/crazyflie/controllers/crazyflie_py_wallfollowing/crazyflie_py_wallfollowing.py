@@ -15,13 +15,7 @@
 
 
 from controller import Robot
-from controller import Motor
-from controller import InertialUnit
-from controller import GPS
-from controller import Gyro
 from controller import Keyboard
-from controller import Camera
-from controller import DistanceSensor
 
 from math import cos, sin
 
@@ -168,9 +162,7 @@ if __name__ == '__main__':
 
         height_desired += height_diff_desired * dt
 
-        # Example how to get sensor data
-        # range_front_value = range_front.getValue();
-        # cameraData = camera.getImage()
+        cameraData = camera.getImage()
         range_front_value = range_front.getValue()/1000
         range_right_value = range_right.getValue()/1000
 
