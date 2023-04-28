@@ -1365,6 +1365,7 @@ int wb_robot_init() {  // API initialization
   int retry = 0;
   while (true) {
     bool success;
+    bool is_simulation_loading = false;
     const char *WEBOTS_CONTROLLER_URL = wbu_system_getenv("WEBOTS_CONTROLLER_URL");
     const char *WEBOTS_ROBOT_NAME = wbu_system_getenv("WEBOTS_ROBOT_NAME");
     const char *WEBOTS_TMP_PATH = wbu_system_webots_instance_path(true);
@@ -1376,14 +1377,20 @@ int wb_robot_init() {  // API initialization
       compute_remote_info(&host, &port, &robot_name);
       char *error_message = malloc(ERROR_BUFFER_SIZE);
       success = scheduler_init_remote(host, port, robot_name, error_message);
+      is_simulation_loading = strncmp(error_message, "The Webots simulation world is not ready yet", 44) == 0;
       if (success) {
         free(host);
         free(robot_name);
         free(error_message);
         break;
       } else {
-        if (retry % 5 == 0 && retry != 50)
-          fprintf(stderr, "%s, retrying for another %d seconds...\n", error_message, 50 - retry);
+        if (retry % 5 == 0 && retry != 50) {
+          if (is_simulation_loading) {
+            retry -= 5;
+            fprintf(stderr, "%s, pending until loading is done...\n", error_message);
+          } else
+            fprintf(stderr, "%s, retrying for another %d seconds...\n", error_message, 50 - retry);
+        }
       }
 
       free(host);
