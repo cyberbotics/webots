@@ -158,36 +158,36 @@ int main(int argc, char **argv) {
     double height_diff_desired = 0;
 
     // Control altitude
-    int key = wb_keyboard_get_key();
-    while (key > 0) {
-      switch (key) {
-      case WB_KEYBOARD_UP:
-        forward_desired = +0.5;
-        break;
-      case WB_KEYBOARD_DOWN:
-        forward_desired = -0.5;
-        break;
-      case WB_KEYBOARD_RIGHT:
-        sideways_desired = -0.5;
-        break;
-      case WB_KEYBOARD_LEFT:
-        sideways_desired = +0.5;
-        break;
-      case 'Q':
-        yaw_desired = 1.0;
-        break;
-      case 'E':
-        yaw_desired = -1.0;
-        break;
-      case 'W':
-        height_diff_desired = 0.1;
-        break;
-      case 'S':
-        height_diff_desired = -0.1;
-        break;
+      int key = wb_keyboard_get_key();
+      while (key > 0) {
+        switch (key) {
+          case WB_KEYBOARD_UP:
+            forward_desired = +0.5;
+            break;
+          case WB_KEYBOARD_DOWN:
+            forward_desired = -0.5;
+            break;
+          case WB_KEYBOARD_RIGHT:
+            sideways_desired = -0.5;
+            break;
+          case WB_KEYBOARD_LEFT:
+            sideways_desired = +0.5;
+            break;
+          case 'Q':
+            yaw_desired = 1.0;
+            break;
+          case 'E':
+            yaw_desired = -1.0;
+            break;
+          case 'W':
+            height_diff_desired = 0.1;
+            break;
+          case 'S':
+            height_diff_desired = -0.1;
+            break;
+        }
+        key = wb_keyboard_get_key();
       }
-      key = wb_keyboard_get_key();
-    }
 
     height_desired += height_diff_desired * dt;
 
@@ -201,8 +201,7 @@ int main(int argc, char **argv) {
     desired_state.vy = sideways_desired;
     desired_state.vx = forward_desired;
     desired_state.altitude = height_desired;
-    pid_velocity_fixed_height_controller(actual_state, &desired_state,
-                                         gains_pid, dt, &motor_power);
+    pid_velocity_fixed_height_controller(actual_state, &desired_state, gains_pid, dt, &motor_power);
 
     // Setting motorspeed
     wb_motor_set_velocity(m1_motor, -motor_power.m1);
