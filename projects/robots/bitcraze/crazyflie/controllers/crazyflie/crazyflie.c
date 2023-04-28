@@ -113,6 +113,7 @@ int main(int argc, char **argv) {
   // Initialize struct for motor power
   motor_power_t motor_power;
 
+  printf(" Take off! \n");
   printf("\n");
 
   printf("====== Controls =======\n");
@@ -161,22 +162,22 @@ int main(int argc, char **argv) {
     int key = wb_keyboard_get_key();
     while (key > 0) {
       switch (key) {
-      case WB_KEYBOARD_UP:
+        case WB_KEYBOARD_UP:
         forward_desired = +0.5;
-        break;
-      case WB_KEYBOARD_DOWN:
+          break;
+        case WB_KEYBOARD_DOWN:
         forward_desired = -0.5;
-        break;
-      case WB_KEYBOARD_RIGHT:
+          break;
+        case WB_KEYBOARD_RIGHT:
         sideways_desired = -0.5;
-        break;
-      case WB_KEYBOARD_LEFT:
+          break;
+        case WB_KEYBOARD_LEFT:
         sideways_desired = +0.5;
-        break;
-      case 'Q':
+          break;
+        case 'Q':
         yaw_desired = 1.0;
-        break;
-      case 'E':
+          break;
+        case 'E':
         yaw_desired = -1.0;
         break;
       case 'W':
@@ -184,7 +185,7 @@ int main(int argc, char **argv) {
         break;
       case 'S':
         height_diff_desired = -0.1;
-        break;
+          break;
       }
       key = wb_keyboard_get_key();
     }
@@ -201,8 +202,7 @@ int main(int argc, char **argv) {
     desired_state.vy = sideways_desired;
     desired_state.vx = forward_desired;
     desired_state.altitude = height_desired;
-    pid_velocity_fixed_height_controller(actual_state, &desired_state,
-                                         gains_pid, dt, &motor_power);
+    pid_velocity_fixed_height_controller(actual_state, &desired_state, gains_pid, dt, &motor_power);
 
     // Setting motorspeed
     wb_motor_set_velocity(m1_motor, -motor_power.m1);
