@@ -119,7 +119,8 @@ int main(int argc, char **argv) {
 
   printf(" The Crazyflie can be controlled from your keyboard!\n");
   printf(" All controllable movement is in body coordinates\n");
-  printf("- Use the up, back, right and left button to move in the horizontal plane\n");
+  printf("- Use the up, back, right and left button to move in the horizontal "
+         "plane\n");
   printf("- Use Q and E to rotate around yaw\n ");
   printf("- Use W and S to go up and down\n");
 
@@ -160,36 +161,36 @@ int main(int argc, char **argv) {
     int key = wb_keyboard_get_key();
     while (key > 0) {
       switch (key) {
-        case WB_KEYBOARD_UP:
-          forward_desired = + 0.5;
-          break;
-        case WB_KEYBOARD_DOWN:
-          forward_desired = - 0.5;
-          break;
-        case WB_KEYBOARD_RIGHT:
-          sideways_desired = - 0.5;
-          break;
-        case WB_KEYBOARD_LEFT:
-          sideways_desired = + 0.5;
-          break;
-        case 'Q':
-          yaw_desired = 1.0;
-          break;
-        case 'E':
-          yaw_desired = - 1.0;
-          break;
-        case 'W':
-          height_diff_desired = 0.1;
-          break;
-        case 'S':
-          height_diff_desired = - 0.1;
-          break;
-        }
+      case WB_KEYBOARD_UP:
+        forward_desired = +0.5;
+        break;
+      case WB_KEYBOARD_DOWN:
+        forward_desired = -0.5;
+        break;
+      case WB_KEYBOARD_RIGHT:
+        sideways_desired = -0.5;
+        break;
+      case WB_KEYBOARD_LEFT:
+        sideways_desired = +0.5;
+        break;
+      case 'Q':
+        yaw_desired = 1.0;
+        break;
+      case 'E':
+        yaw_desired = -1.0;
+        break;
+      case 'W':
+        height_diff_desired = 0.1;
+        break;
+      case 'S':
+        height_diff_desired = -0.1;
+        break;
+      }
       key = wb_keyboard_get_key();
     }
 
     height_desired += height_diff_desired * dt;
-    
+
     // Example how to get sensor data
     // range_front_value = wb_distance_sensor_get_value(range_front));
     // const unsigned char *image = wb_camera_get_image(camera);
@@ -200,14 +201,15 @@ int main(int argc, char **argv) {
     desired_state.vy = sideways_desired;
     desired_state.vx = forward_desired;
     desired_state.altitude = height_desired;
-    pid_velocity_fixed_height_controller(actual_state, &desired_state, gains_pid, dt, &motor_power);
-    
+    pid_velocity_fixed_height_controller(actual_state, &desired_state,
+                                         gains_pid, dt, &motor_power);
+
     // Setting motorspeed
     wb_motor_set_velocity(m1_motor, -motor_power.m1);
     wb_motor_set_velocity(m2_motor, motor_power.m2);
     wb_motor_set_velocity(m3_motor, -motor_power.m3);
     wb_motor_set_velocity(m4_motor, motor_power.m4);
-    
+
     // Save past time for next time step
     past_time = wb_robot_get_time();
     past_x_global = x_global;
