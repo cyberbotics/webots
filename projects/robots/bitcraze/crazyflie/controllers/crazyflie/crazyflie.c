@@ -185,7 +185,7 @@ int main(int argc, char **argv) {
         case 'S':
           height_diff_desired = -0.1;
           break;
-        }
+      }
       key = wb_keyboard_get_key();
     }
 
