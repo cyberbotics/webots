@@ -158,36 +158,36 @@ int main(int argc, char **argv) {
     double height_diff_desired = 0;
 
     // Control altitude
-      int key = wb_keyboard_get_key();
-      while (key > 0) {
-        switch (key) {
-          case WB_KEYBOARD_UP:
-            forward_desired = +0.5;
-            break;
-          case WB_KEYBOARD_DOWN:
-            forward_desired = -0.5;
-            break;
-          case WB_KEYBOARD_RIGHT:
-            sideways_desired = -0.5;
-            break;
-          case WB_KEYBOARD_LEFT:
-            sideways_desired = +0.5;
-            break;
-          case 'Q':
-            yaw_desired = 1.0;
-            break;
-          case 'E':
-            yaw_desired = -1.0;
-            break;
-          case 'W':
-            height_diff_desired = 0.1;
-            break;
-          case 'S':
-            height_diff_desired = -0.1;
-            break;
+    int key = wb_keyboard_get_key();
+    while (key > 0) {
+      switch (key) {
+        case WB_KEYBOARD_UP:
+          forward_desired = +0.5;
+          break;
+        case WB_KEYBOARD_DOWN:
+          forward_desired = -0.5;
+          break;
+        case WB_KEYBOARD_RIGHT:
+          sideways_desired = -0.5;
+          break;
+        case WB_KEYBOARD_LEFT:
+          sideways_desired = +0.5;
+          break;
+        case 'Q':
+          yaw_desired = 1.0;
+          break;
+        case 'E':
+          yaw_desired = -1.0;
+          break;
+        case 'W':
+          height_diff_desired = 0.1;
+          break;
+        case 'S':
+          height_diff_desired = -0.1;
+          break;
         }
-        key = wb_keyboard_get_key();
-      }
+      key = wb_keyboard_get_key();
+    }
 
     height_desired += height_diff_desired * dt;
 
