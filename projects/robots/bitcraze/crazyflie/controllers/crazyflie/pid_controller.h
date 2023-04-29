@@ -80,7 +80,7 @@ void pid_attitude_fixed_height_controller(actual_state_t actual_state, desired_s
                                           double dt, motor_power_t *motorCommands);
 
 void pid_velocity_fixed_height_controller(actual_state_t actual_state, desired_state_t *desired_state, gains_pid_t gains_pid,
-                                            double dt, motor_power_t *motorCommands);
+                                          double dt, motor_power_t *motorCommands);
 
 void pid_fixed_height_controller(actual_state_t actual_state, desired_state_t *desired_state, gains_pid_t gains_pid, double dt,
                                  control_commands_t *control_commands);
