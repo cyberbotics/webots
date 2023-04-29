@@ -9,6 +9,7 @@ Released on ??
   - Cleanup
     - Deprecated the C and MATLAB API functions `wb_supervisor_node_enable/disable_contact_point_tracking` in favor of `wb_supervisor_node_enable/disable_contact_points_tracking` to be more consistent with other APIs ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
   - Enhancements
+    - Restructured the Webots temporary folder to avoid permission problems with multiple users on Linux and macOS ([#6103](https://github.com/cyberbotics/webots/pull/6103)).
     - Improved the robots' grippers such that they use coupled motors ([#5694](https://github.com/cyberbotics/webots/pull/5694)).
     - Improved the [Charger](charger.md) behavior ([#5771](https://github.com/cyberbotics/webots/pull/5771)).
     - Added `maxContactJoints` field to `ContactProperties` node to give users control over the tradeoff between collision accuracy and performance ([#5769](https://github.com/cyberbotics/webots/pull/5769)).
@@ -79,6 +80,7 @@ Released on ??
     - Fixed generation of moment of inertia matrix based on bounding box ([#6048](https://github.com/cyberbotics/webots/pull/6048)).
     - Fixed the loading of remote mesh bounding objects ([#6047](https://github.com/cyberbotics/webots/pull/6047)).
     - Fixed crash during conversion of PROTO to base nodes in case of Mesh nodes with invalid scale values ([#6088](https://github.com/cyberbotics/webots/pull/6088)).
+    - Fixed object's relative orientation returned by the [Recognition](recognition.md) functionality ([#6100](https://github.com/cyberbotics/webots/pull/6100)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
