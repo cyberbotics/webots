@@ -366,13 +366,13 @@ PROTO TiagoGripper [
           }
           device [
             LinearMotor {
-              name %<= '"' + side + 'gripper_finger_joint::left"' >%
+              name %<= '"' + side + 'gripper_left_finger_joint"' >%
               maxVelocity 0.05
               maxPosition 0.045
               maxForce 16
             }
             PositionSensor {
-              name %<= '"' + side + 'gripper_finger_joint::left_sensor"' >%
+              name %<= '"' + side + 'gripper_left_sensor_finger_joint"' >%
             }
           ]
           endPoint DEF LEFT_GRIPPER Solid {
@@ -476,13 +476,13 @@ PROTO TiagoGripper [
           }
           device [
             LinearMotor {
-              name %<= '"' + side + 'gripper_finger_joint::right"' >%
+              name %<= '"' + side + 'gripper_right_finger_joint"' >%
               maxVelocity 0.05
               maxPosition 0.045
               maxForce 16
             }
             PositionSensor {
-              name %<= '"' + side + 'gripper_finger_joint::right_sensor"' >%
+              name %<= '"' + side + 'gripper_right_sensor_finger_joint"' >%
             }
           ]
           endPoint DEF RIGHT_GRIPPER Solid {
