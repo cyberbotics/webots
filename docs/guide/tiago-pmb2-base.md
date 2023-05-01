@@ -43,4 +43,4 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
 
 #### tiago\_pmb2\_base.wbt
 
-![tiago_pmb2_base.wbt.png](images/robots/tiago_base/tiago_pmb2_base.wbt.png) This simulation shows a TIAGo PMB2 Base moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar.
+![tiago_pmb2_base.wbt.png](images/robots/tiago_pmb2_base/tiago_pmb2_base.wbt.png) This simulation shows a TIAGo PMB2 Base moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar.

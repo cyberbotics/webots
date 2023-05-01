@@ -43,4 +43,4 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
 
 #### tiago\_omni\_base.wbt
 
-![tiago_omni_base.wbt.png](images/robots/tiago_base/tiago_omni_base.wbt.png) This simulation shows a TIAGo OMNI Base moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar.
+![tiago_omni_base.wbt.png](images/robots/tiago_omni_base/tiago_omni_base.wbt.png) This simulation shows a TIAGo OMNI Base moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar.
