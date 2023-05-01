@@ -722,7 +722,7 @@ void WbCamera::computeRecognizedObjects() {
         (recognition()->maxRange() + object->boundingSphere()->scaledRadius()))
       continue;
     // create target
-    WbRecognizedObject *generatedObject = 
+    WbRecognizedObject *generatedObject =
       new WbRecognizedObject(this, object, recognition()->occlusion(), recognition()->maxRange());
     if (!generatedObject->isContainedInFrustum(frustumPlanes) || !setRecognizedObjectProperties(generatedObject)) {
       delete generatedObject;
