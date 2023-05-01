@@ -1,4 +1,4 @@
-#VRML_SIM R2022b utf8
+#VRML_SIM R2023b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/pal_robotics/tiago_omni_base/protos/TiagoOmniBase.proto
@@ -13,14 +13,14 @@ EXTERNPROTO "webots://projects/robots/pal_robotics/tiago_omni_base/protos/TiagoO
 PROTO TiagoOmniBase [
   field  SFVec3f     translation     0 0 0
   field  SFRotation  rotation        0 0 1 0
-  field  SFString    name            "TIAGo OMNI Base"  
-  field  SFString    controller      "tiago_omni_base"       
-  field  MFString    controllerArgs  []              
+  field  SFString    name            "TIAGo OMNI Base"
+  field  SFString    controller      "tiago_omni_base"
+  field  MFString    controllerArgs  []
   field  SFString    window          "<generic>"
-  field  SFString    customData      ""            
-  field  SFBool      supervisor      FALSE           
-  field  SFBool      synchronization TRUE            
-  field  SFBool      selfCollision   FALSE 
+  field  SFString    customData      ""
+  field  SFBool      supervisor      FALSE
+  field  SFBool      synchronization TRUE
+  field  SFBool      selfCollision   FALSE
   field  SFString    model            "PAL Robotics - TIAGo OMNI Base"
   field  MFNode      bodySlot        []  # Extends the robot with a body (such as the TiagoBody or fixed shelves, safety box, roller conveyor, boxes, lifter for example).
   field  MFNode      lidarSlot       []  # Extends the robot with a front lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
