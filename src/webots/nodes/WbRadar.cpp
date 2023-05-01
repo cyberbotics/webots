@@ -40,8 +40,8 @@
 class WbRadarTarget : public WbObjectDetection {
 public:
   WbRadarTarget(WbRadar *radar, WbSolid *solidTarget, const bool needToCheckCollision, const double maxRange) :
-    WbObjectDetection(radar, solidTarget, needToCheckCollision, maxRange, radar->horizontalFieldOfView(),
-                      WbObjectDetection::ONE_RAY) {
+    WbObjectDetection(radar, solidTarget, needToCheckCollision ? WbObjectDetection::ONE_RAY : WbObjectDetection::NONE, maxRange,
+                      radar->horizontalFieldOfView()) {
     mTargetDistance = 0.0;
     mReceivedPower = 0.0;
     mSpeed = 0.0;
@@ -524,9 +524,8 @@ bool WbRadar::refreshSensorIfNeeded() {
     // rays can be created at the end of the step when all the body positions
     // are up-to-date
     computeTargets(true, false);
-
-  // post process targets
-  if (mOcclusion->value())
+  else
+    // post process targets
     removeOccludedTargets();
 
   if (mCellDistance->value() > 0.0)

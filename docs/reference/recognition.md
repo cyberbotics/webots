@@ -4,8 +4,7 @@
 Recognition {
   SFFloat  maxRange          100     # [0, inf)
   SFInt32  maxObjects        -1      # {-1, [0, inf)}
-  SFBool   occlusion         TRUE    # {TRUE, FALSE}
-  SFInt32  occlusionAccuracy 1       # {1, 2}
+  SFInt32  occlusion         1       # {0, 1, 2}
   SFColor  frameColor        1 0 0   # any color
   SFInt32  frameThickness    1       # [0, inf)
   SFBool   segmentation      FALSE   # {TRUE, FALSE}
@@ -44,14 +43,12 @@ Objects farther than `maxRange` are not recognized.
 `-1` means no limit.
 If more objects are visible to the camera, only the `maxObjects` biggest ones (considering pixel size) are recognized.
 
-- The `occlusion` field defines if occlusions between the camera and the object should be checked.
+- The `occlusion` field defines if occlusions between the camera and the object should be checked and the accuracy that will be used.
+If the `occlusion` field is set to `0`, then the occlusion computation will be disabled.
 Disabling the occlusion can be useful to allow the camera to see through thin or transparent objects that may hide the object we are interested in, but it can lead to recognized objects that are not really visible to the camera.
-Additionally, it will slightly speed up the simulation.
-
-- The `occlusionAccuracy` field defines the accuracy of the occlusion computation.
-If the accuracy is set to `1`, only the center of the object is taken into account to compute if the object is visible or not.
+If the `occlusion` field is set to `1`, only the center of the object is taken into account to compute if the object is visible or not.
 Otherwise, if the accuracy is set to `2`, the outbound of the object is used to compute if the object is visible.
-Note that using the accuracy value `1` will speed up the simulation.
+Note the lower the `occlusion` field value is, the higher speed up the simulation achieves.
 
 - The `frameColor` field defines the color used to frame the objects recognized by the camera in its overlay.
 

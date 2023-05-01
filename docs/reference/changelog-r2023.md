@@ -15,7 +15,7 @@ Released on ??
     - Added `maxContactJoints` field to `ContactProperties` node to give users control over the tradeoff between collision accuracy and performance ([#5769](https://github.com/cyberbotics/webots/pull/5769)).
     - Improved MATLAB controllers to support input arguments ([#5943](https://github.com/cyberbotics/webots/pull/5943)).
     - Updated names of TIAGo models and add default RGBD camera ([#6082](https://github.com/cyberbotics/webots/pull/6082)).
-    - Addded `occlusionAccuracy` field to [Recognition](recognition.md) node to choose between two different levels of accuracy ([#6051](https://github.com/cyberbotics/webots/pull/6051)).
+    - **Changed type of the [`Recognition.occlusion`](recognition.md) field from `SFBool` to `SFInt` to choose between two different levels of accuracy ([#6051](https://github.com/cyberbotics/webots/pull/6051)).**
     - Add parameters to change the glass color and opacity of the `Window.proto` ([#6106](https://github.com/cyberbotics/webots/pull/6106)).
 
 ## Webots R2023a Revision 1

@@ -27,25 +27,24 @@
 #include "WbSolid.hpp"
 #include "WbSphere.hpp"
 
-WbObjectDetection::WbObjectDetection(WbSolid *device, WbSolid *object, const bool needToCheckCollision, const double maxRange,
-                                     const double horizontalFieldOfView, const int accuracy) :
+WbObjectDetection::WbObjectDetection(WbSolid *device, WbSolid *object, const int occlusion, const double maxRange,
+                                     const double horizontalFieldOfView) :
   mDevice(device),
   mObject(object),
   mObjectRelativePosition(0.0, 0.0, 0.0),
   mObjectSize(0.0, 0.0, 0.0),
-  mNeedToCheckCollision(needToCheckCollision),
   mUseBoundingSphereOnly(true),
   mMaxRange(maxRange),
   mOdeGeomData(NULL),
   mHorizontalFieldOfView(horizontalFieldOfView),
   mIsOmniDirectional(mHorizontalFieldOfView > M_PI),
-  mAccuracy(accuracy) {
-  if (mNeedToCheckCollision && mAccuracy == ONE_RAY) {
+  mOcclusion(occlusion) {
+  if (mOcclusion == ONE_RAY) {
     const WbVector3 devicePosition = mDevice->position();
     const WbVector3 direction = object->position() - devicePosition;
     createRays(devicePosition, QList<WbVector3>() << WbVector3(), direction);
   }
-  assert(mAccuracy == ONE_RAY || mAccuracy == MULTIPLE_RAYS);
+  assert(mOcclusion == NONE || mOcclusion == ONE_RAY || mOcclusion == MULTIPLE_RAYS);
 };
 
 WbObjectDetection::~WbObjectDetection() {
@@ -90,7 +89,7 @@ void WbObjectDetection::deleteRays() {
 }
 
 void WbObjectDetection::setCollided(const dGeomID rayGeom, const double depth) {
-  const int index = mAccuracy == ONE_RAY ? 0 : mRayGeoms.indexOf(rayGeom);
+  const int index = mOcclusion == ONE_RAY ? 0 : mRayGeoms.indexOf(rayGeom);
   assert(index >= 0);
   const double d = dGeomRayGetLength(rayGeom) - depth;
   if (mRaysCollisionDepth[index] < d)
@@ -101,7 +100,7 @@ void WbObjectDetection::updateRayDirection() {
   const WbVector3 &devicePosition = mDevice->position();
   const WbVector3 offset = mObject->position() - devicePosition;
   QList<WbVector3> directions;
-  if (mAccuracy == ONE_RAY)
+  if (mOcclusion == ONE_RAY)
     directions << WbVector3();
   else
     directions << computeCorners();
@@ -118,7 +117,7 @@ void WbObjectDetection::updateRayDirection() {
 }
 
 bool WbObjectDetection::recomputeRayDirection(const WbAffinePlane *frustumPlanes) {
-  if (!mNeedToCheckCollision)
+  if (mOcclusion == NONE)
     return true;
 
   mObject->updateTransformForPhysicsStep();
@@ -457,7 +456,7 @@ bool WbObjectDetection::isContainedInFrustum(const WbAffinePlane *frustumPlanes)
   if (distance() > (mMaxRange + mObjectSize.x() / 2.0))
     return false;
 
-  if (mNeedToCheckCollision && (mRayGeoms.isEmpty() || useBoundingSphereOnly != mUseBoundingSphereOnly))
+  if (mOcclusion != NONE && (mRayGeoms.isEmpty() || useBoundingSphereOnly != mUseBoundingSphereOnly))
     updateRayDirection();
   return true;
 }

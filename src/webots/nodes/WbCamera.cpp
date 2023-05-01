@@ -58,9 +58,8 @@
 
 class WbRecognizedObject : public WbObjectDetection {
 public:
-  WbRecognizedObject(WbCamera *camera, WbSolid *object, const bool needToCheckCollision, const double maxRange,
-                     const int occlusionAccuracy) :
-    WbObjectDetection(camera, object, needToCheckCollision, maxRange, camera->fieldOfView(), occlusionAccuracy) {
+  WbRecognizedObject(WbCamera *camera, WbSolid *object, const int occlusion, const double maxRange) :
+    WbObjectDetection(camera, object, occlusion, maxRange, camera->fieldOfView()) {
     mId = object->uniqueId();
     mModel = "";
     mRelativeOrientation = WbRotation(0.0, 1.0, 0.0, 0.0);
@@ -423,9 +422,9 @@ void WbCamera::prePhysicsStep(double ms) {
   }
 
   if (isPowerOn() && mRecognitionSensor->isEnabled() && mRecognitionSensor->needToRefreshInMs(ms) && recognition() &&
-      recognition()->occlusion()) {
+      recognition()->occlusion() > 0) {
     // create rays
-    computeRecognizedObjects(true);
+    computeRecognizedObjects();
     mNeedToDeleteRecognizedObjectsRays = true;
 
     if (!mRecognizedObjects.isEmpty()) {
@@ -701,7 +700,7 @@ void WbCamera::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbCamera::computeRecognizedObjects(const bool needCollisionDetection) {
+void WbCamera::computeRecognizedObjects() {
   // compute the camera referential
   const WbVector3 cameraPosition = position();
   const double horizontalFieldOfView = fieldOfView();
@@ -723,8 +722,8 @@ void WbCamera::computeRecognizedObjects(const bool needCollisionDetection) {
         (recognition()->maxRange() + object->boundingSphere()->scaledRadius()))
       continue;
     // create target
-    WbRecognizedObject *generatedObject = new WbRecognizedObject(this, object, needCollisionDetection,
-                                                                 recognition()->maxRange(), recognition()->occlusionAccuracy());
+    WbRecognizedObject *generatedObject = 
+      new WbRecognizedObject(this, object, recognition()->occlusion(), recognition()->maxRange());
     if (!generatedObject->isContainedInFrustum(frustumPlanes) || !setRecognizedObjectProperties(generatedObject)) {
       delete generatedObject;
       continue;
@@ -857,13 +856,12 @@ bool WbCamera::refreshRecognitionSensorIfNeeded() {
   if (!isPowerOn() || !mRecognitionSensor->needToRefresh())
     return false;
 
-  if (!recognition()->occlusion())
+  if (recognition()->occlusion() == 0)
     // no need of ODE ray collision detection
     // rays can be created at the end of the step when all the body positions are up-to-date
-    computeRecognizedObjects(false);
-
-  // post process objects
-  if (recognition()->occlusion())
+    computeRecognizedObjects();
+  else
+    // post process objects
     removeOccludedRecognizedObjects();
 
   // check the number of objects and keep only the biggest (in pixel size)

@@ -28,13 +28,15 @@ class WbOdeGeomData;
 class WbObjectDetection {
 public:
   enum FrustumPlane { LEFT = 0, BOTTOM, RIGHT, TOP, PARALLEL, PLANE_NUMBER };
-  // Occlusion accurary:
-  // - ONE_RAY =  only one ray pointing at the center
-  // - MULTIPLE_RAYS =  multiple rays pointing at the bounding box or bounding sphere corners (created once object size is determined)
-  enum OcclusionAccuracy { ONE_RAY = 1, MULTIPLE_RAYS = 2 };
+  // Occlusion:
+  // - NONE = occlusion ignored
+  // - ONE_RAY = only one ray pointing at the center
+  // - MULTIPLE_RAYS = multiple rays pointing at the bounding box or bounding sphere corners
+  //                    (created once object size is determined)
+  enum Occlusion { NONE = 0, ONE_RAY = 1, MULTIPLE_RAYS = 2 };
 
-  WbObjectDetection(WbSolid *device, WbSolid *object, const bool needToCheckCollision, const double maxRange,
-                    const double horizontalFieldOfView, const int accuracy);
+  WbObjectDetection(WbSolid *device, WbSolid *object, const int occlusion, const double maxRange,
+                    const double horizontalFieldOfView);
   virtual ~WbObjectDetection();
 
   bool hasCollided() const;
@@ -90,7 +92,6 @@ private:
   WbSolid *mObject;
   WbVector3 mObjectRelativePosition;
   WbVector3 mObjectSize;
-  bool mNeedToCheckCollision;
   bool mUseBoundingSphereOnly;  // used by WbCamera recognition functionality to compute a more tight fitting bounding box
   double mMaxRange;
   WbOdeGeomData *mOdeGeomData;
@@ -98,7 +99,7 @@ private:
   QList<dGeomID> mRayGeoms;           // rays that checks collision of this packet
   double mHorizontalFieldOfView;
   bool mIsOmniDirectional;  // is sensor omnidirectional (horizontal FOV < PI/2)
-  int mAccuracy;
+  int mOcclusion;
 };
 
 #endif
