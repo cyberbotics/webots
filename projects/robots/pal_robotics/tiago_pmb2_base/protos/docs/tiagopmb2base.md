@@ -29,7 +29,7 @@ TiagoPmb2Base {
 #### TiagoPmb2Base Field Summary
 
 - `bodySlot`:  Extends the robot with new nodes (such as the `TiagoBody` for example).
-- `lidarSlot`: Extends the robot with a lidar.
+- `lidarSlot`: Extends the robot with a front lidar sensor.
 
 ### Sample
 

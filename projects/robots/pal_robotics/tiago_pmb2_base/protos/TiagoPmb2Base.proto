@@ -2,6 +2,7 @@
 # license: Apache License 2.0.
 # license url: https://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/pal_robotics/tiago_pmb2_base/protos/TiagoPmb2Base.proto
+# keywords: robot/wheeled
 # This is a PROTO file for Webots for the robot TIAGo from PAL Robotics (Spain).
 # It is the TIAGo base robot that can be extended with different features to fullfil your requirement.
 
@@ -23,7 +24,7 @@ PROTO TiagoPmb2Base [
   field  SFBool      selfCollision    FALSE   # Enables/disables the detection of collisions within the robot.
   field  SFString    model            "PAL Robotics - TIAGo PMB-2 Base"
   field  MFNode      bodySlot         []      # Extends the robot with a body (such as the TiagoBody or fixed shelves, safety box, roller conveyor, boxes, lifter for example).
-  field  MFNode      lidarSlot        []      # Extends the robot with a lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
+  field  MFNode      lidarSlot        []      # Extends the robot with a front lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
 ]
 {
   Robot {

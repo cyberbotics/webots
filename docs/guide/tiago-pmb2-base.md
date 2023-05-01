@@ -1,6 +1,6 @@
 ## PAL Robotics' TIAGo PMB2 Base
 
-%robot tiago-pmb2-base images/robots/tiago_pmb2-base/model.thumbnail.png
+%robot tiago-pmb2-base images/robots/tiago_pmb2-base/model.png
 
 Designed by PAL Robotics, TIAGo PMB2 Base is a two-wheeled robot.
 The model is a modular mobile platform that automates deliveries in industrial environment.
@@ -35,7 +35,7 @@ TiagoPmb2Base {
 #### TiagoPmb2Base Field Summary
 
 - `bodySlot`:  Extends the robot with new nodes (such as the `TiagoBody` for example).
-- `lidarSlot`: Extends the robot with a lidar.
+- `lidarSlot`: Extends the robot with a front lidar sensor.
 
 ### Sample
 
@@ -43,4 +43,4 @@ You will find the following sample in this folder: "[WEBOTS\_HOME/projects/robot
 
 #### tiago\_pmb2\_base.wbt
 
-![tiago_pmb2_base.wbt.png](images/robots/tiago_base/tiago_pmb2_base.wbt.thumbnail.jpg) This simulation shows a TIAGo PMB2 Base moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar.
+![tiago_pmb2_base.wbt.png](images/robots/tiago_base/tiago_pmb2_base.wbt.png) This simulation shows a TIAGo PMB2 Base moving in an industrial environment using a Braitenberg algorithm using the information received by its lidar.

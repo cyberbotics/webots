@@ -1,8 +1,10 @@
 #VRML_SIM R2022b utf8
 # license: Apache License 2.0
 # license url: http://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/pal_robotics/tiago_omni_base/protos/TiagoOmniBase.proto
+# keywords: robot/wheeled
 # Model of the robot TIAGo OMNI Base from PAL Robotics.
-# It is the TIAGo base robot that can be extended with different features to fullfil your requirement.
+# The TIAGo base robot that can be extended with different features to fullfil your requirement.
 
 EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
@@ -20,7 +22,8 @@ PROTO TiagoOmniBase [
   field  SFBool      synchronization TRUE            
   field  SFBool      selfCollision   FALSE 
   field  SFString    model            "PAL Robotics - TIAGo OMNI Base"
-  field  MFNode      bodySlot        []               # Extends the robot with a body (such as the TiagoBody or fixed shelves, safety box, roller conveyor, boxes, lifter for example).
+  field  MFNode      bodySlot        []  # Extends the robot with a body (such as the TiagoBody or fixed shelves, safety box, roller conveyor, boxes, lifter for example).
+  field  MFNode      lidarSlot       []  # Extends the robot with a front lidar sensor (such as Sick TIM551 or Hokuyo URG 04LX_UG01 for example).
 ]
 {
   Robot {
@@ -72,8 +75,8 @@ PROTO TiagoOmniBase [
           }
           Lidar {
             name "base_rear_laser"
-            fieldOfView 4.712389
             horizontalResolution 818
+            fieldOfView 4.712389
             numberOfLayers 1
             minRange 0.05
             maxRange 25
@@ -85,19 +88,7 @@ PROTO TiagoOmniBase [
       DEF FRONT_LIDAR Transform {
       translation 0.27512 -0.18297 0.20864
       rotation -0.9238797538373538 0.38268289803626016 0 3.141593
-        children [
-          USE SICK_TIM51_SHAPE
-          Lidar {
-            name "base_front_laser"
-            horizontalResolution 818
-            fieldOfView 4.712389
-            numberOfLayers 1
-            minRange 0.05
-            maxRange 25
-            noise 0.0024
-            resolution 0.001
-          }
-        ]
+        children IS lidarSlot
       }
       DEF BASE_DOCK Transform {
         translation 0.3535 0 0.1358

@@ -57,8 +57,8 @@ WorldInfo {
   ]
 }
 Viewpoint {
-  orientation 0.17400449025208675 -0.07538215603436008 -0.9818553701659541 3.9459257598229183
-  position -2.125517825673709 -1.0337456043841753 1.498440957209974
+  orientation 0.20751120549208074 -0.11304365292794208 -0.9716790787744328 4.115251609826259
+  position 5.769000662444619 -10.400512526477433 7.163070369507875
   follow "TIAGo Base"
   followSmoothness 0
 }
@@ -104,6 +104,18 @@ DEF ROOF RectangleArena {
 }
 TiagoOmniBase {
   translation -4.416 1.063 0
+  lidarSlot [
+    Lidar {
+      name "base_front_laser"
+      horizontalResolution 818
+      fieldOfView 4.71
+      numberOfLayers 1
+      minRange 0.05
+      maxRange 25
+      noise 0.0024
+      resolution 0.001
+    }
+  ]
 }
 WoodenBox {
   translation -6.2 7 0.405
@@ -449,7 +461,7 @@ OilBarrel {
   name "oil barrel(10)"
 }
 OilBarrel {
-  translation 1.31 5.783 0.44
+  translation 1.90945 5.0704 0.44
   name "oil barrel(11)"
 }
 OilBarrel {
@@ -457,7 +469,7 @@ OilBarrel {
   name "oil barrel(12)"
 }
 OilBarrel {
-  translation -0.08 6.53 0.44
+  translation 0.724738 5.60404 0.44
   name "oil barrel(13)"
 }
 TrafficCone {
