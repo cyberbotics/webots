@@ -1195,6 +1195,7 @@ static char *compute_socket_filename() {
       }
     }
     closedir(dr);
+    free(WEBOTS_TMP_DIR);
     if (number == -1)
       return NULL;
     if (WEBOTS_CONTROLLER_URL && WEBOTS_CONTROLLER_URL[0]) {  // only the robot name was provided in WEBOTS_CONTROLLER_URL
