@@ -48,7 +48,7 @@ If more objects are visible to the camera, only the `maxObjects` biggest ones (c
 Disabling the occlusion can be useful to allow the camera to see through thin or transparent objects that may hide the object we are interested in, but it can lead to recognized objects that are not really visible to the camera.
 Additionally, it will slightly speed up the simulation.
 
-- The `occlusionAccuracy` fields defines the accuracy of the occlusion computation.
+- The `occlusionAccuracy` field defines the accuracy of the occlusion computation.
 If the accuracy is set to `1`, only the center of the object is taken into account to compute if the object is visible or not.
 Otherwise, if the accuracy is set to `2`, the outbound of the object is used to compute if the object is visible.
 Note that using the accuracy value `1` will speed up the simulation.
