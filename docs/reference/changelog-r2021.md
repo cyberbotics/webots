@@ -50,7 +50,7 @@ Released on July, 16th, 2021.
     - Converted several PROTO files to use [Mesh](mesh.md) nodes ([#2668](https://github.com/cyberbotics/webots/pull/2668)).
     - Added flag to [RobotisOp2](../guide/robotis-op2.md) that enables the modeling of backlash in the robot ([#2881](https://github.com/cyberbotics/webots/pull/2881)).
     - Added a version of the [RobotisOp2](../guide/robotis-op2.md) modeled using [Hinge2Joint](hinge2joint.md) on the ankles, hips, and neck ([#2861](https://github.com/cyberbotics/webots/pull/2861)).
-    - Made the [TIAGo](../guide/tiago-base.md) robot more sturdy by increasing the `suspensionSpringConstant` value ([#2876](https://github.com/cyberbotics/webots/pull/2876)).
+    - Made the [TIAGo](https://cyberbotics.com/doc/guide/tiago-base?version=R2021b) robot more sturdy by increasing the `suspensionSpringConstant` value ([#2876](https://github.com/cyberbotics/webots/pull/2876)).
     - Added a `stadium_dry` [background](../guide/object-backgrounds.md) with dry grass to allow Robocup players to distinguish the soccer field from the background ([#2874](https://github.com/cyberbotics/webots/pull/2874)).
     - Added conversion from PROTO to URDF from the Webots command line ([#2885](https://github.com/cyberbotics/webots/pull/2885)).
     - Rework of car meshes to have more realistic rear lights for Mercedes Benz, Lincoln, Citroen, BMW and Range Rover models ([#2615](https://github.com/cyberbotics/webots/pull/2615)).

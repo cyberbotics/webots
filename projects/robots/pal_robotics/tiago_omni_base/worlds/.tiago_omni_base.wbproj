@@ -5,7 +5,7 @@ sceneTreePerspectives: 000000ff000000010000000300000016000000c0000000fd010000000
 maximizedDockId: -1
 centralWidgetVisible: 1
 orthographicViewHeight: 1
-textFiles: 2 "protos/TiagoOmniBaseWheel.proto" "worlds/tiago_omni_base.wbt" "protos/TiagoOmniBase.proto" "../tiago/protos/Tiago.proto" "controllers/tiago_omni_base/tiago_omni_base.c"
+textFiles: 0 "controllers/tiago_omni_base/tiago_omni_base.c"
 consoles: Console:All:All
 renderingDevicePerspectives: TIAGo:Astra depth;1;1;0;0
 renderingDevicePerspectives: TIAGo:Astra rgb;1;1;0;0
