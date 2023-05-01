@@ -136,13 +136,13 @@ int main(int argc, char **argv) {
         const double v = 1.0 - lidar_values[i] / range_threshold;
         if (i < sector_range[0])
           right_obstacle += v;
-        else if (sector_range[0] <= i && i < sector_range[1])
+        else if (i < sector_range[1])
           front_right_obstacle += v;
-        else if (sector_range[1] <= i && i < sector_range[2])
+        else if (sector_range[2])
           front_obstacle += v;
-        else if (sector_range[2] <= i && i < sector_range[3])
+        else if (i < sector_range[3])
           front_left_obstacle += v;
-        else if (sector_range[3] <= i && i < sector_range[4] + 1)
+        else if (i < (sector_range[4] + 1))
           left_obstacle += v;
       }
     }
