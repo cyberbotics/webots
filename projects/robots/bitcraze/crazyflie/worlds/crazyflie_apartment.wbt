@@ -200,10 +200,6 @@ CeilingLight {
   name "ceiling light 2"
   pointLightIntensity 8
 }
-FloorLight {
-  translation -4.0043 -0.7456 0
-  pointLightIntensity 2
-}
 Fridge {
   translation -0.52 -0.5 0
   rotation 0 0 1 -1.5707953071795862
