@@ -1654,7 +1654,7 @@
     "nodeString": "  TiagoPmb2Base{ rotation 0 0 -1 1.57 controller \"<generic>\" }"
   },
   "projects/robots/pal_robotics/tiago_base/protos/TiagoOmniBase.proto": {
-    "nodeString": "  TiagoOmniBase{ rotation 0 0 -1 1.57 controller \"<generic>\" }"
+    "nodeString": "  TiagoOmniBase{ rotation 0 0 -1 0.78 controller \"<generic>\" }"
   },
   "projects/robots/pal_robotics/tiago_lite/protos/TiagoLite.proto": {
     "fields": "  rotation 0.001775990237163933 -0.01802608248670652 -0.9998359396465302 1.5711223019163478",

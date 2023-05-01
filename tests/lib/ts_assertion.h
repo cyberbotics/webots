@@ -55,6 +55,18 @@ void ts_assert_int_in_delta(int value, int expected, int delta, const char *erro
   TS_FINAL_CHECK();
 }
 
+void ts_assert_integers_in_delta(int size, const int *value, const int *expected, int delta, const char *error_message, ...) {
+  int i;
+  bool correct = true;
+  for (i = 0; i < size; i++) {
+    if (abs(value[i] - expected[i]) > delta) {
+      correct = false;
+      break;
+    }
+  }
+  TS_FINAL_CHECK();
+}
+
 void ts_assert_int_is_bigger(int value, int compared_value, const char *error_message, ...) {
   bool correct = (value > compared_value);
   TS_FINAL_CHECK();

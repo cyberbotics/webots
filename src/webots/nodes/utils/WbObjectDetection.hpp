@@ -28,7 +28,7 @@ class WbObjectDetection {
 public:
   enum FrustumPlane { LEFT = 0, BOTTOM, RIGHT, TOP, PARALLEL, PLANE_NUMBER };
 
-  WbObjectDetection(WbSolid *device, WbSolid *object, bool needToCheckCollision, double maxRange);
+  WbObjectDetection(WbSolid *device, WbSolid *object, bool needToCheckCollision, double maxRange, double horizontalFieldOfView);
   virtual ~WbObjectDetection();
 
   bool hasCollided() const;
@@ -37,6 +37,7 @@ public:
   WbSolid *object() const { return mObject; }
   const WbVector3 &objectSize() const { return mObjectSize; }
   const WbVector3 &objectRelativePosition() const { return mObjectRelativePosition; }
+  bool objectSizeComputedFromBoundingSphere() const { return mUseBoundingSphereOnly; }
 
   void setCollided(double depth);
 
@@ -50,7 +51,8 @@ public:
 
   // Computes the frustum plane for the given device ray.
   static WbAffinePlane *computeFrustumPlanes(const WbSolid *device, const double verticalFieldOfView,
-                                             const double horizontalFieldOfView, const double maxRange);
+                                             const double horizontalFieldOfView, const double maxRange,
+                                             bool isPlanarProjection);
 
 private:
   static void mergeBounds(WbVector3 &referenceObjectSize, WbVector3 &referenceObjectRelativePosition,
@@ -75,10 +77,13 @@ private:
   WbSolid *mDevice;
   WbVector3 mObjectRelativePosition;
   WbVector3 mObjectSize;
+  bool mUseBoundingSphereOnly;  // used by WbCamera recognition functionality to compute a more tight fitting bounding box
   WbSolid *mObject;
   double mMaxRange;
   double mCollisionDepth;  // the geom collision depth
   dGeomID mGeom;           // geom that checks collision of this packet
+  double mHorizontalFieldOfView;
+  bool mIsOmniDirectional;  // is sensor omnidirectional (horizontal FOV < PI/2)
 };
 
 #endif
