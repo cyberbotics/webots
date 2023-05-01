@@ -30,7 +30,7 @@ public:
   enum FrustumPlane { LEFT = 0, BOTTOM, RIGHT, TOP, PARALLEL, PLANE_NUMBER };
   // Occlusion accurary:
   // - ONE_RAY =  only one ray pointing at the center
-  // - MULTIPLE_RAYS =  multiple rays pointing at the BBOX or BS corners (created once object size is determined)
+  // - MULTIPLE_RAYS =  multiple rays pointing at the bounding box or bounding sphere corners (created once object size is determined)
   enum OcclusionAccuracy { ONE_RAY = 1, MULTIPLE_RAYS = 2 };
 
   WbObjectDetection(WbSolid *device, WbSolid *object, const bool needToCheckCollision, const double maxRange,
