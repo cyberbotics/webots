@@ -18,6 +18,8 @@ The [Recognition](#recognition) node provides a [Camera](camera.md) device with 
 When a [Camera](camera.md) device has a [Recognition](#recognition) node in its `recognition` field, it is able to recognize which objects are present in the camera image.
 Only [Solids](solid.md) whose `recognitionColors` field is not empty can be recognized by the camera.
 
+Defining the [Solid.boundingObject](solid.md) of the object might help computing a more precise and tight fitting recognized size.
+
 Additionally, the [Recognition](#recognition) also provides the `segmentation` functionality to generate segmentation ground truth images displaying the recognized objects.
 In the segmentation image, each pixel will be colored using the first item of the `recognitionColors` of the corresponding object rendered from the [Camera](camera.md) device.
 The segmentation image can be used as ground truth data, i.e. validated data, given that it will classify exactly the recognized objects.
@@ -29,6 +31,9 @@ The pixels corresponding to the cereal boxes, that have an empty `recognitionCol
 ![recognition_segmentation_image.png](images/recognition_segmentation_image.png)
 
 %end
+
+> **note**: A current known limitation of the object recognition functionality applies to large objects, like floors, that extend all around the device that might only be partially detected.
+
 
 ### Field Summary
 
