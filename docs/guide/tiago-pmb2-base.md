@@ -1,6 +1,6 @@
 ## PAL Robotics' TIAGo PMB2 Base
 
-%robot tiago-pmb2-base images/robots/tiago_pmb2-base/model.png
+%robot tiago-pmb2-base images/robots/tiago_pmb2_base/model.png
 
 Designed by PAL Robotics, TIAGo PMB2 Base is a two-wheeled robot.
 The model is a modular mobile platform that automates deliveries in industrial environment.

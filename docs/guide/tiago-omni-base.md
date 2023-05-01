@@ -1,6 +1,6 @@
 ## PAL Robotics' TIAGo OMNI Base
 
-%robot tiago-omni-base images/robots/tiago_omni-base/model.png
+%robot tiago-omni-base images/robots/tiago_omni_base/model.png
 
 Designed by PAL Robotics, TIAGo OMNI Base is a mecanum omnidirectional robot.
 The model is a modular mobile platform that automates deliveries in industrial environment.
