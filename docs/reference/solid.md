@@ -28,6 +28,8 @@ A [Solid](#solid) node represents an object with physical properties such as dim
 The [Solid](#solid) class is the base class for collision-detected objects.
 Robots and device classes are subclasses of the [Solid](#solid) class.
 In the 3D window, [Solid](#solid) nodes can be manipulated (dragged, lifted, rotated, etc) using the mouse.
+[Solid](#solid) node may be `children` of [Solid](#solid), [Pose](pose.md) and [Group](group.md) nodes.
+They cannot be `children` of a [Transform](transform.md) node.
 
 ### Field Summary
 
