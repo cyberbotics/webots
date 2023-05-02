@@ -259,7 +259,7 @@ namespace {
       if (nodeName == "Slot") {
         if (WbNodeUtilities::isDescendantOfBillboard(node))
           return false;
-        return true;
+        return !isTransformOrTransformDescendant;
       }
     }
 
@@ -343,7 +343,6 @@ namespace {
         return true;
       else if (nodeName == "Slot")
         return true;
-
     } else if (fieldName == "rotatingHead") {
       if (WbNodeUtilities::isSolidTypeName(nodeName))
         return true;
@@ -470,11 +469,11 @@ namespace {
           // only Group, Pose, Transform and Shape allowed
           return false;
 
-        // if the node itself is a transform or it has a transform ancestor exists, prohibit the insertion of Solids,
-        // Robots, Devices, Propellers & Lights
+        // if the node itself is a Transform or it has a Transform ancestor exists, prohibit the insertion of Solids,
+        // Robots, Devices, Propellers, Lights, and Joints
         if (isTransformOrTransformDescendant) {
           if (nodeName == "PointLight" || nodeName == "SpotLight" || nodeName == "DirectionalLight" ||
-              WbNodeUtilities::isSolidTypeName(nodeName) || nodeName == "Propeller")
+              WbNodeUtilities::isSolidTypeName(nodeName) || nodeName == "Propeller" || nodeName.endsWith("Joint"))
             return false;
         }
 
