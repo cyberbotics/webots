@@ -251,7 +251,9 @@ void WbBoundingSphere::computeSphereInGlobalCoordinates(WbVector3 &center, doubl
   if (upperPose == NULL)
     upperPose = WbNodeUtilities::findUpperPose(mOwner);
   if (upperPose) {
-    const WbTransform *const t = upperPose->upperTransform();
+    const WbTransform *t = dynamic_cast<const WbTransform *>(upperPose);
+    if (t == NULL)
+      t = upperPose->upperTransform();
     if (t) {
       const WbVector3 &scale = t->absoluteScale();
       radius = std::max(std::max(scale.x(), scale.y()), scale.z()) * mRadius;
