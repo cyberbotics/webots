@@ -1282,7 +1282,7 @@ static char *compute_socket_filename(char *error_buffer) {
 #endif
     free(robot_name);
   } else {  // check if a single extern robot is present in the ipc folder
-    DIR *dr = opendir(ipc_folder);
+    dr = opendir(ipc_folder);
     if (dr == NULL) {  // the ipc folder was not yet created
       free(ipc_folder);
       snprintf(error_buffer, ERROR_BUFFER_SIZE,
@@ -1425,11 +1425,12 @@ int wb_robot_init() {  // API initialization
   int retry = 0;
   while (true) {
     bool success;
-    bool is_simulation_loading = false;
+    bool is_simulation_loading;
     const char *WEBOTS_CONTROLLER_URL = wbu_system_getenv("WEBOTS_CONTROLLER_URL");
     const char *WEBOTS_ROBOT_NAME = wbu_system_getenv("WEBOTS_ROBOT_NAME");
     const char *WEBOTS_TMP_PATH = wbu_system_webots_instance_path(true);
     char *error_message = malloc(ERROR_BUFFER_SIZE);
+    char *socket_filename = NULL;
     if ((WEBOTS_CONTROLLER_URL != NULL) &&
         !(WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0]) &&
         strncmp(WEBOTS_CONTROLLER_URL, "tcp://", 6) == 0) {  // TCP URL given and not an intern controller
@@ -1443,19 +1444,11 @@ int wb_robot_init() {  // API initialization
         free(robot_name);
         free(error_message);
         break;
-      } else {
-        if (retry % 5 == 0 && retry != 50) {
-          if (is_simulation_loading) {
-            retry -= 5;
-            fprintf(stderr, "%s, pending until loading is done...\n", error_message);
-          } else
-            fprintf(stderr, "%s, retrying for another %d seconds...\n", error_message, 50 - retry);
-        }
       }
       free(host);
       free(robot_name);
     } else {  // Intern or IPC extern controller
-      char *socket_filename = compute_socket_filename(error_message);
+      socket_filename = compute_socket_filename(error_message);
       success = socket_filename ? scheduler_init_local(socket_filename) : false;
       is_simulation_loading = strncmp(error_message, "The Webots simulation world is not ready yet", 44) == 0;
       if (success) {
@@ -1463,19 +1456,19 @@ int wb_robot_init() {  // API initialization
         free(error_message);
         break;
       }
-      if (retry % 5 == 0 && retry != 50) {
-        if (is_simulation_loading) {
-          retry -= 5;
-          fprintf(stderr, "%s, pending until loading is done...\n", error_message);
-        } else if (socket_filename)
-          fprintf(
-            stderr,
-            "The specified robot is not in the list of robots with <extern> controllers, retrying for another %d seconds...\n",
-            50 - retry);
-        else
-          fprintf(stderr, "%s, retrying for another %d seconds...\n", error_message, 50 - retry);
-      }
-      free(socket_filename);
+    }
+    if (retry % 5 == 0 && retry != 50) {
+      if (is_simulation_loading) {
+        retry -= 5;
+        fprintf(stderr, "%s, pending until loading is done...\n", error_message);
+      } else if (socket_filename) {
+        free(socket_filename);
+        fprintf(
+          stderr,
+          "The specified robot is not in the list of robots with <extern> controllers, retrying for another %d seconds...\n",
+          50 - retry);
+      } else
+        fprintf(stderr, "%s, retrying for another %d seconds...\n", error_message, 50 - retry);
     }
     free(error_message);
     if (retry++ > 50) {
