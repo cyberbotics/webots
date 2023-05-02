@@ -26,6 +26,7 @@
 #include "WbSFBool.hpp"
 #include "WbSFInt.hpp"
 #include "WbSimulationState.hpp"
+#include "WbTransform.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 #include "WbWrenRenderingContext.hpp"
 
@@ -99,7 +100,7 @@ void WbCapsule::createWrenObjects() {
 void WbCapsule::setResizeManipulatorDimensions() {
   WbVector3 scale(1.0f, 1.0f, 1.0f);
 
-  const WbPose *const up = upperPose();
+  const WbTransform *const up = upperTransform();
   if (up)
     scale *= up->absoluteScale();
 

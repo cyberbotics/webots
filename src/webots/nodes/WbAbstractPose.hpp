@@ -74,9 +74,6 @@ public:
 
   bool isTopPose() const;
 
-  virtual const WbVector3 &absoluteScale() const;
-  bool absoluteScaleNeedUpdate() const { return mAbsoluteScaleNeedUpdate; }
-
   // 3x3 absolute rotation matrix
   virtual WbMatrix3 rotationMatrix() const { return matrix().extracted3x3Matrix(); }
 
@@ -128,8 +125,6 @@ protected:
   WbBaseNode *mBaseNode;
   mutable WbMatrix4 *mMatrix;
   mutable bool mMatrixNeedUpdate;
-  mutable WbVector3 mAbsoluteScale;
-  mutable bool mAbsoluteScaleNeedUpdate;
   mutable WbMatrix4 mVrmlMatrix;
   mutable bool mVrmlMatrixNeedUpdate;
 
@@ -142,8 +137,6 @@ private:
   mutable bool mCanBeRotated;
   void updateTranslationFieldVisibility() const;
   void updateRotationFieldVisibility() const;
-
-  virtual void updateAbsoluteScale() const;
 
   virtual void updateMatrix() const;
   mutable bool mHasSearchedTopPose;

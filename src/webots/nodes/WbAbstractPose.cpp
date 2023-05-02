@@ -51,8 +51,6 @@ void WbAbstractPose::init(WbBaseNode *node) {
   mIsRotationFieldVisibleReady = false;
   mCanBeTranslated = false;
   mCanBeRotated = false;
-
-  mAbsoluteScaleNeedUpdate = true;
 }
 
 WbAbstractPose::~WbAbstractPose() {
@@ -234,24 +232,6 @@ bool WbAbstractPose::isTopPose() const {
   return mIsTopPose;
 }
 
-void WbAbstractPose::updateAbsoluteScale() const {
-  mAbsoluteScale = WbVector3(1.0, 1.0, 1.0);
-
-  // multiply with upper transform scale if any
-  const WbPose *const up = mBaseNode->upperPose();
-  if (up)
-    mAbsoluteScale *= up->absoluteScale();
-
-  mAbsoluteScaleNeedUpdate = false;
-}
-
-const WbVector3 &WbAbstractPose::absoluteScale() const {
-  if (mAbsoluteScaleNeedUpdate)
-    updateAbsoluteScale();
-
-  return mAbsoluteScale;
-}
-
 // Position and orientation setters
 
 void WbAbstractPose::setTranslationAndRotation(double tx, double ty, double tz, double rx, double ry, double rz, double angle) {
@@ -318,8 +298,6 @@ void WbAbstractPose::updateTranslateRotateHandlesSize() {
   createTranslateRotateManipulatorIfNeeded();
   if (!mTranslateRotateManipulator)
     return;
-
-  mTranslateRotateManipulator->updateHandleScale(absoluteScale().ptr());
 
   if (!WbNodeUtilities::isNodeOrAncestorLocked(mBaseNode))
     mTranslateRotateManipulator->computeHandleScaleFromViewportSize();

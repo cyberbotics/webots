@@ -105,6 +105,8 @@ private:
 
   WbSFVector3 *mScale;
   double mPreviousXscaleValue;
+  mutable WbVector3 mAbsoluteScale;
+  mutable bool mAbsoluteScaleNeedUpdate;
 
   // WREN manipulators
   void sanitizeScale();
@@ -128,7 +130,8 @@ private:
 
   void setSegmentationColor(const WbRgb &color);
 
-  void updateAbsoluteScale() const override;
+  void updateAbsoluteScale() const;
+  const WbVector3 &absoluteScale() const;
 
 private slots:
   virtual void updateTranslation();

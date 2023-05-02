@@ -23,6 +23,7 @@
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSimulationState.hpp"
+#include "WbTransform.hpp"
 #include "WbTriangleMesh.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenMeshBuffers.hpp"
@@ -129,7 +130,7 @@ void WbTriangleMeshGeometry::createWrenObjects() {
 void WbTriangleMeshGeometry::setResizeManipulatorDimensions() {
   WbVector3 scale(1.0f, 1.0f, 1.0f);
 
-  const WbPose *const up = upperPose();
+  const WbTransform *const up = upperTransform();
   if (up)
     scale *= up->absoluteScale();
   else

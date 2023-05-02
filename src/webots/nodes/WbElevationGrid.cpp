@@ -31,6 +31,7 @@
 #include "WbSFDouble.hpp"
 #include "WbSFInt.hpp"
 #include "WbSimulationState.hpp"
+#include "WbTransform.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 #include "WbWrenMeshBuffers.hpp"
 #include "WbWrenRenderingContext.hpp"
@@ -370,7 +371,7 @@ void WbElevationGrid::createResizeManipulator() {
 void WbElevationGrid::setResizeManipulatorDimensions() {
   WbVector3 scale(xSpacing(), ySpacing(), 1.0f);
 
-  const WbPose *const up = upperPose();
+  const WbTransform *const up = upperTransform();
   if (up)
     scale *= up->absoluteScale();
 

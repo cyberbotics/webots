@@ -24,6 +24,7 @@
 #include "WbResizeManipulator.hpp"
 #include "WbSFVector2.hpp"
 #include "WbSimulationState.hpp"
+#include "WbTransform.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 #include "WbWrenAbstractResizeManipulator.hpp"
 #include "WbWrenRenderingContext.hpp"
@@ -134,7 +135,7 @@ void WbPlane::createResizeManipulator() {
 void WbPlane::setResizeManipulatorDimensions() {
   WbVector3 scale(size().x(), size().y(), 0.1f * std::min(mSize->value().x(), mSize->value().y()));
 
-  const WbPose *const up = upperPose();
+  const WbTransform *const up = upperTransform();
   if (up)
     scale *= up->absoluteScale();
 

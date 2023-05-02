@@ -22,6 +22,7 @@
 #include "WbSolid.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbTemplateManager.hpp"
+#include "WbTransform.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenOpenGlContext.hpp"
@@ -40,6 +41,7 @@ void WbBaseNode::init() {
   mTopSolid = NULL;
   mBoundingObjectFirstTimeSearch = true;
   mUpperPoseFirstTimeSearch = true;
+  mUpperTransformFirstTimeSearch = true;
   mUpperSolidFirstTimeSearch = true;
   mTopSolidFirstTimeSearch = true;
   mFinalizationCanceled = false;
@@ -187,6 +189,16 @@ WbPose *WbBaseNode::upperPose() const {
   }
 
   return mUpperPose;
+}
+
+WbTransform *WbBaseNode::upperTransform() const {
+  if (mUpperTransformFirstTimeSearch) {
+    mUpperTransform = WbNodeUtilities::findUpperTransform(this);
+    if (areWrenObjectsInitialized())
+      mUpperTransformFirstTimeSearch = false;
+  }
+
+  return mUpperTransform;
 }
 
 WbSolid *WbBaseNode::upperSolid() const {

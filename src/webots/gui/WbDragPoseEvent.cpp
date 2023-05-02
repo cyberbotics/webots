@@ -49,7 +49,16 @@ WbTranslateEvent::WbTranslateEvent(WbViewpoint *viewpoint, WbAbstractPose *selec
   mInitialPosition(selectedPose->translation()),
   mUpWorldVector(WbWorld::instance()->worldInfo()->upVector()),
   mMouseRay() {
-  WbVector3 computedScaleFromParents = mSelectedPose->absoluteScale();
+  WbVector3 computedScaleFromParents;
+  const WbPose *pose = dynamic_cast<const WbPose *>(mSelectedPose);
+  if (pose) {
+    const WbTransform *pt = pose->upperTransform();
+    if (pt)
+      computedScaleFromParents = pt->absoluteScale();
+    else
+      computedScaleFromParents = WbVector3(1, 1, 1);
+  } else
+    computedScaleFromParents = WbVector3(1, 1, 1);
   const WbTransform *t = dynamic_cast<const WbTransform *>(mSelectedPose);
   if (t)
     computedScaleFromParents /= t->scale();

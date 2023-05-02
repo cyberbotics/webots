@@ -91,9 +91,9 @@ void WbBox::createWrenObjects() {
 
 void WbBox::setResizeManipulatorDimensions() {
   WbVector3 scale = size().abs();
-  const WbPose *const pose = upperPose();
-  if (pose)
-    scale *= pose->absoluteScale();
+  const WbTransform *const transform = upperTransform();
+  if (transform)
+    scale *= transform->absoluteScale();
 
   if (isAValidBoundingObject())
     scale *= 1.0f + (wr_config_get_line_scale() / LINE_SCALE_FACTOR);

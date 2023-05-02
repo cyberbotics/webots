@@ -20,8 +20,8 @@
 
 void WbTransform::init() {
   mScale = findSFVector3("scale");
-
   mPreviousXscaleValue = 1.0;
+  mAbsoluteScaleNeedUpdate = true;
 }
 
 WbTransform::WbTransform(WbTokenizer *tokenizer) : WbPose("Transform", tokenizer) {
@@ -113,7 +113,7 @@ QStringList WbTransform::fieldsToSynchronizeWithX3D() const {
 void WbTransform::updateAbsoluteScale() const {
   mAbsoluteScale = mScale->value();
   // multiply with upper transform scale if any
-  const WbPose *const up = mBaseNode->upperPose();
+  const WbTransform *const up = mBaseNode->upperTransform();
   if (up)
     mAbsoluteScale *= up->absoluteScale();
 

@@ -51,7 +51,10 @@ public:
   void setScale(int coordinate, double s) { mScale->setComponent(coordinate, s); }
 
   // scaling
-  const WbVector3 &absoluteScale() const override;
+  const WbVector3 &absoluteScale() const;
+
+  mutable WbVector3 mAbsoluteScale;
+  mutable bool mAbsoluteScaleNeedUpdate;
 
   // 3x3 absolute rotation matrix
   WbMatrix3 rotationMatrix() const override;
@@ -78,7 +81,7 @@ private:
 
   void applyToOdeScale();
 
-  void updateAbsoluteScale() const override;
+  void updateAbsoluteScale() const;
   void updateMatrix() const override;
 };
 

@@ -31,6 +31,7 @@
 #include "WbSimulationState.hpp"
 #include "WbSolid.hpp"
 #include "WbSolidReference.hpp"
+#include "WbTransform.hpp"
 #include "WbTranslateRotateManipulator.hpp"
 #include "WbUrl.hpp"
 #include "WbViewpoint.hpp"
@@ -71,6 +72,7 @@ void WbSkin::init() {
   mBoundingSphere = NULL;
 
   mPreviousXscaleValue = 1.0;
+  mAbsoluteScaleNeedUpdate = true;
 
   mName = findSFString("name");
   mModelUrl = findSFString("modelUrl");
@@ -261,7 +263,7 @@ void WbSkin::setScaleNeedUpdate() {
 void WbSkin::updateAbsoluteScale() const {
   mAbsoluteScale = mScale->value();
   // multiply with upper transform scale if any
-  const WbPose *const up = mBaseNode->upperPose();
+  const WbTransform *const up = mBaseNode->upperTransform();
   if (up)
     mAbsoluteScale *= up->absoluteScale();
 
@@ -1030,4 +1032,11 @@ void WbSkin::recomputeBoundingSphere() const {
     index += 4;
   }
   delete[] meshBoundingSphereList;
+}
+
+const WbVector3 &WbSkin::absoluteScale() const {
+  if (mAbsoluteScaleNeedUpdate)
+    updateAbsoluteScale();
+
+  return mAbsoluteScale;
 }

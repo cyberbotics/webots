@@ -1386,18 +1386,13 @@ void WbSolid::setInertiaMatrixFromBoundingObject() {
   const WbField *const parameter = findField("physics", true)->parameter();
   WbPhysics *const p = parameter ? static_cast<WbPhysics *>(static_cast<WbSFNode *>(parameter->value())->value()) : physics();
 
-  const double s0 = absoluteScale().x();
-  const double s = 1.0 / s0;
-  double s3 = s * s;
-  s3 *= s;
-
   // Sets the actual total mass to mReferenceMass
   double boundingObjectMass = mReferenceMass->mass;
   if (p->mass() > 0.0)
-    boundingObjectMass = s0 * s0 * s0 * p->mass();
+    boundingObjectMass = p->mass();
   else {
     boundingObjectMass *= p->density() / REFERENCE_DENSITY;
-    p->setMass(boundingObjectMass * s3, true);
+    p->setMass(boundingObjectMass, true);
     p->parsingInfo(tr("'mass' set as bounding object's mass based on 'density'."));
   }
 
