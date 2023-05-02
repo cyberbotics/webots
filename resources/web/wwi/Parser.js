@@ -267,6 +267,9 @@ export default class Parser {
         else
           console.error('This world already has a fog.');
         break;
+      case 'Pose':
+        result = this.#parsePose(node, parentNode, isBoundingObject);
+        break;
       case 'Transform':
         result = this.#parseTransform(node, parentNode);
         break;
