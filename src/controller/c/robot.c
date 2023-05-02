@@ -1130,17 +1130,36 @@ static char *compute_socket_filename() {
     free(robot_name);
     return socket_filename;
   }
+
+#ifndef _WIN32
+  const char *username = wbu_system_getenv("USER");
+  if (username == NULL || username[0] == '\0') {
+    username = wbu_system_getenv("USERNAME");
+    if (username == NULL || username[0] == '\0') {
+      fprintf(stderr, "Error: USER or USERNAME environment variable not set, falling back to 'default' username.");
+      username = "default";
+    }
+  }
+#endif
+
   // extern controller case
   // parse WEBOTS_CONTROLLER_URL to extract protocol, host, port and robot name
   const char *TMP_DIR = wbu_system_tmpdir();
   char *WEBOTS_CONTROLLER_URL = (char *)wbu_system_getenv("WEBOTS_CONTROLLER_URL");
+  // either the WEBOTS_CONTROLLER_URL is not defined, empty or contains only a robot name
+  // default to the most recent /tmp/webots/username/* folder (/tmp/webots-* on Windows)
   if (WEBOTS_CONTROLLER_URL == NULL || WEBOTS_CONTROLLER_URL[0] == 0 || strstr(WEBOTS_CONTROLLER_URL, "://") == NULL) {
-    // either the WEBOTS_CONTROLLER_URL is not defined, empty or contains only a robot name
-    // default to the most recent /tmp/webots-* folder
-    const int TMP_DIR_LENGTH = strlen(TMP_DIR);
-    DIR *dr = opendir(TMP_DIR);
+#ifndef _WIN32
+    const int WEBOTS_TMP_DIR_length = strlen(TMP_DIR) + strlen(username) + 9;  // TMP_DIR + '/webots/' + username
+    char *WEBOTS_TMP_DIR = malloc(WEBOTS_TMP_DIR_length);
+    snprintf(WEBOTS_TMP_DIR, WEBOTS_TMP_DIR_length, "%s/webots/%s", TMP_DIR, username);
+#else
+    const int WEBOTS_TMP_DIR_length = strlen(TMP_DIR);
+    char *WEBOTS_TMP_DIR = strdup(TMP_DIR);
+#endif
+    DIR *dr = opendir(WEBOTS_TMP_DIR);
     if (dr == NULL) {
-      fprintf(stderr, "Error: cannot open directory %s\n", TMP_DIR);
+      fprintf(stderr, "Error: cannot open directory %s\n", WEBOTS_TMP_DIR);
       exit(EXIT_FAILURE);
     }
     struct stat filestat;
@@ -1148,10 +1167,14 @@ static char *compute_socket_filename() {
     int number = -1;
     struct dirent *de;
     while ((de = readdir(dr)) != NULL) {
+#ifndef _WIN32
+      if (strcmp(de->d_name, ".") && strcmp(de->d_name, "..")) {
+#else
       if (strcmp(de->d_name, ".") && strcmp(de->d_name, "..") && !strncmp(de->d_name, "webots-", 7)) {
-        const int length = TMP_DIR_LENGTH + strlen(de->d_name) + 2;
+#endif
+        const int length = WEBOTS_TMP_DIR_length + strlen(de->d_name) + 2;
         char *filename = malloc(length);
-        snprintf(filename, length, "%s/%s", TMP_DIR, de->d_name);
+        snprintf(filename, length, "%s/%s", WEBOTS_TMP_DIR, de->d_name);
         if (stat(filename, &filestat) == 0) {
 #ifdef _WIN32
           double ts = (double)filestat.st_mtime;
@@ -1161,13 +1184,18 @@ static char *compute_socket_filename() {
           // printf("ts = %.17lg\n", ts);
           if (ts > timestamp) {
             timestamp = ts;
+#ifndef _WIN32
+            sscanf(de->d_name, "%d", &number);
+#else
             sscanf(de->d_name, "webots-%d", &number);
+#endif
           }
         }
         free(filename);
       }
     }
     closedir(dr);
+    free(WEBOTS_TMP_DIR);
     if (number == -1)
       return NULL;
     if (WEBOTS_CONTROLLER_URL && WEBOTS_CONTROLLER_URL[0]) {  // only the robot name was provided in WEBOTS_CONTROLLER_URL
@@ -1195,14 +1223,6 @@ static char *compute_socket_filename() {
 #ifdef _WIN32
   int length = strlen(TMP_DIR) + 24;  // TMP_DIR + "/webots-12345678901/ipc"
 #else
-  const char *username = wbu_system_getenv("USER");
-  if (username == NULL || username[0] == '\0') {
-    username = wbu_system_getenv("USERNAME");
-    if (username == NULL || username[0] == '\0') {
-      fprintf(stderr, "Error: USER or USERNAME environment variable not set, falling back to 'default' username.");
-      username = "default";
-    }
-  }
   int length = strlen(TMP_DIR) + strlen(username) + 25;  // TMP_DIR + '/webots/' + username + '/12345678901/ipc'
 #endif
   char *folder = malloc(length);
