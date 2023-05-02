@@ -535,6 +535,9 @@ void WbVideoRecorder::createMpeg() {
     // close file
     ffmpegScript.close();
 
+    // change file properties
+    QFile::setPermissions(mScriptPath, QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner);
+
     // run script
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     env.insert("AV_LOG_FORCE_COLOR", "1");  // force output message to use ANSI Escape sequences
