@@ -52,179 +52,179 @@ PROTO Deer [
     boundingObject Group {
       children [
         DEF MUZZLE Pose {
-          translation 0.856573 0 1.13678
+          translation %<= scale * 0.856573 >% 0 %<= scale * 1.13678 >%
           rotation 0 1 0 1.76974
           children [
             Capsule {
-              height 0.1
-              radius 0.05
+              height %<= scale * 0.1 >%
+              radius %<= scale * 0.05 >%
               subdivision 16
             }
           ]
         }
         DEF HEAD Pose {
-          translation 0.7 0 1.185
+          translation %<= scale * 0.7 >% 0 %<= scale * 1.185 >%
           children [
             Sphere {
-              radius 0.093
+              radius %<= scale * 0.093 >%
             }
           ]
         }
         DEF THROAT Pose {
-          translation 0.592772 0 0.960106
+          translation %<= scale * 0.592772 >% 0 %<= scale * 0.960106 >%
           rotation 0 1 0 0.40149
           children [
             Cylinder {
-              height 0.4
-              radius 0.085
+              height %<= scale * 0.4 >%
+              radius %<= scale * 0.085 >%
             }
           ]
         }
         DEF EAR_LEFT Pose {
-          translation 0.68 0.13488 1.29141
+          translation %<= scale * 0.68 >% %<= scale * 0.13488 >% %<= scale * 1.29141 >%
           rotation 1 0 0 0.698493
           children [
             Box {
-              size 0.06 0.18 0.1
+              size %<= scale * 0.06>% %<= scale * 0.18 >% %<= scale * 0.1 >%
             }
           ]
         }
         DEF EAR_RIGHT Pose {
-          translation 0.68 -0.13488 1.29141
+          translation %<= scale * 0.68 >% %<= scale * -0.13488 >% %<= scale * 1.29141 >%
           rotation 1 0 0 -0.698493
           children [
             Box {
-              size 0.06 0.18 0.1
+              size %<= scale * 0.06>% %<= scale * 0.18 >% %<= scale * 0.1 >%
             }
           ]
         }
         DEF BODY Pose {
-          translation 0.04 0 0.762
+          translation %<= scale * 0.04 >% 0 %<= scale * 0.762 >%
           rotation 0 1 0 1.5708
           children [
             Capsule {
-              height 0.72
-              radius 0.18
+              height %<= scale * 0.72 >%
+              radius %<= scale * 0.18 >%
               subdivision 16
             }
           ]
         }
         DEF TAIL Pose {
-          translation -0.54 0 0.769
+          translation %<= scale * -0.54 >% 0 %<= scale * 0.769 >%
           children [
             Box {
-              size 0.07 0.1 0.18
+              size %<= scale * 0.07>% %<= scale * 0.1 >% %<= scale * 0.18 >%
             }
           ]
         }
         DEF FL_HIP Pose {
-          translation 0.38 0.09 0.55
+          translation %<= scale * 0.38 >% %<= scale * 0.09 >% %<= scale * 0.55 >%
           children [
             Sphere {
-              radius 0.08
+              radius %<= scale * 0.08 >%
             }
           ]
         }
         DEF FL_LEG Pose {
-          translation 0.3765 0.103 0.29
+          translation %<= scale * 0.3765 >% %<= scale * 0.103 >% %<= scale * 0.29 >%
           children [
             Cylinder {
-              height 0.4
-              radius 0.035
+              height %<= scale * 0.4 >%
+              radius %<= scale * 0.035 >%
             }
           ]
         }
         DEF FR_PAW Pose {
-          translation 0.40536 -0.11 0.045
+          translation %<= scale * 0.40536 >% %<= scale * -0.11 >% %<= scale * 0.045 >%
           children [
             Cylinder {
-              height 0.088
-              radius 0.05
+              height %<= scale * 0.088 >%
+              radius %<= scale * 0.05 >%
             }
           ]
         }
         DEF FR_HIP Pose {
-          translation 0.38 -0.09 0.55
+          translation %<= scale * 0.38 >% %<= scale * -0.09 >% %<= scale * 0.55 >%
           children [
             Sphere {
-              radius 0.08
+              radius %<= scale * 0.08 >%
             }
           ]
         }
         DEF FR_LEG Pose {
-          translation 0.3765 -0.103 0.29
+          translation %<= scale * 0.3765 >% %<= scale * -0.103 >% %<= scale * 0.29 >%
           children [
             Cylinder {
-              height 0.4
-              radius 0.035
+              height %<= scale * 0.4 >%
+              radius %<= scale * 0.035 >%
             }
           ]
         }
         DEF FR_PAW Pose {
-          translation 0.40536 0.11 0.045
+          translation %<= scale * 0.40536 >% %<= scale * 0.11 >% %<= scale * 0.045 >%
           children [
             Cylinder {
-              height 0.088
-              radius 0.05
+              height %<= scale * 0.088 >%
+              radius %<= scale * 0.05 >%
             }
           ]
         }
         DEF BR_PAW Pose {
-          translation -0.34 0.085 0.045
+          translation %<= scale * -0.34 >% %<= scale * 0.085 >% %<= scale * 0.045 >%
           children [
             Cylinder {
-              height 0.088
-              radius 0.04
+              height %<= scale * 0.088 >%
+              radius %<= scale * 0.04 >%
             }
           ]
         }
         DEF BR_LEG Pose {
-          translation -0.389916 0.0867239 0.214074
+          translation %<= scale * -0.389916 >% %<= scale * 0.0867239 >% %<= scale * 0.214074 >%
           rotation 0 -1 0 0.0983495
           children [
             Cylinder {
-              height 0.25
-              radius 0.03
+              height %<= scale * 0.25 >%
+              radius %<= scale * 0.03 >%
             }
           ]
         }
         DEF BR_HIP Pose {
-          translation -0.355 -0.098 0.46598
+          translation %<= scale * -0.355 >% %<= scale * -0.098 >% %<= scale * 0.46598 >%
           rotation 0 1 0 0.523599
           children [
             Capsule {
-              height 0.2
-              radius 0.045
+              height %<= scale * 0.2 >%
+              radius %<= scale * 0.045 >%
               subdivision 16
             }
           ]
         }
         DEF BL_PAW Pose {
-          translation -0.34 -0.085 0.045
+          translation %<= scale * -0.34 >% %<= scale * -0.085 >% %<= scale * 0.045 >%
           children [
             Cylinder {
-              height 0.088
-              radius 0.04
+              height %<= scale * 0.088 >%
+              radius %<= scale * 0.04 >%
             }
           ]
         }
         DEF BL_LEG Pose {
-          translation -0.389916 -0.0867239 0.214074
+          translation %<= scale * -0.389916 >% %<= scale * -0.0867239 >% %<= scale * 0.214074 >%
           rotation 0 -1 0 0.0983495
           children [
             Cylinder {
-              height 0.25
-              radius 0.03
+              height %<= scale * 0.25 >%
+              radius %<= scale * 0.03 >%
             }
           ]
         }
         DEF BL_HIP Pose {
-          translation -0.355 0.098 0.46598
+          translation %<= scale * -0.355 >% %<= scale * 0.098 >% %<= scale * 0.46598 >%
           rotation 0 1 0 0.523599
           children [
             Capsule {
-              height 0.2
-              radius 0.045
+              height %<= scale * 0.2 >%
+              radius %<= scale * 0.045 >%
               subdivision 16
             }
           ]
