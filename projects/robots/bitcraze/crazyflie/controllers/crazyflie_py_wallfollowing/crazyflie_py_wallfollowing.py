@@ -85,7 +85,7 @@ if __name__ == '__main__':
 
     height_desired = FLYING_ATTITUDE
 
-    wall_following = WallFollowing(angle_value_buffer=0.01, ref_distance_from_wall=0.5,
+    wall_following = WallFollowing(angle_value_buffer=0.01, reference_distance_from_wall=0.5,
                                    max_forward_speed=0.3, init_state=WallFollowing.StateWallFollowing.FORWARD)
 
     autonomous_mode = False
