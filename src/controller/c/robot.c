@@ -1159,8 +1159,9 @@ static char *compute_socket_filename(char *error_buffer) {
 #endif
     DIR *dr = opendir(WEBOTS_TMP_DIR);
     if (dr == NULL) {
-      fprintf(stderr, "Error: cannot open directory %s\n", WEBOTS_TMP_DIR);
-      exit(EXIT_FAILURE);
+      snprintf(error_buffer, ERROR_BUFFER_SIZE, "Cannot open directory %s", WEBOTS_TMP_DIR);
+      free(WEBOTS_TMP_DIR);
+      return NULL;
     }
     struct stat filestat;
     double timestamp = 0.0;
