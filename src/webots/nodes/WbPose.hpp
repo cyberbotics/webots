@@ -60,7 +60,7 @@ public:
   // update of ODE data stored in geometry() for WbPose lying into a boundingObject
   void applyToOdeData(bool correctMass = true);
 
-  // for a Transform lying into a boundingObject
+  // for a Pose lying into a boundingObject
   void listenToChildrenField();
   inline WbGeometry *geometry() const;
   bool isAValidBoundingObject(bool checkOde = false, bool warning = false) const override;

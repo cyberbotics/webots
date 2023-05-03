@@ -36,7 +36,7 @@ export default class WbTransform extends WbPose {
   }
 
   clone(customID) {
-    const transform = new WbTransform(customID, this.translation, this.#scale, this.rotation);
+    const transform = new WbTransform(customID, this.translation, this.rotation, this.#scale);
 
     const length = this.children.length;
     for (let i = 0; i < length; i++) {

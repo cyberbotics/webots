@@ -877,7 +877,7 @@ void WbTrack::exportAnimatedGeometriesMesh(WbWriter &writer) const {
     QString("0 1 0 %1").arg(WbPrecision::doubleToString(mBeltPositions[0].rotation, WbPrecision::DOUBLE_MAX));
 
   if (writer.isX3d())
-    writer << "<Transform role='animatedGeometry'>";
+    writer << "<Pose role='animatedGeometry'>";
   else {
     writer.indent();
     writer << "Transform {\n";

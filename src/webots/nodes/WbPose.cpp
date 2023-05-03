@@ -341,7 +341,7 @@ void WbPose::exportBoundingObjectToX3D(WbWriter &writer) const {
   if (isUseNode() && defNode())
     writer << "<" << x3dName() << " role='boundingObject' USE=\'n" + QString::number(defNode()->uniqueId()) + "\'/>";
   else {
-    writer << QString("<Transform translation='%1' rotation='%2' role='boundingObject'")
+    writer << QString("<Pose translation='%1' rotation='%2' role='boundingObject'")
                 .arg(translation().toString(WbPrecision::DOUBLE_MAX))
                 .arg(rotation().toString(WbPrecision::DOUBLE_MAX))
            << " id=\'n" << QString::number(uniqueId()) << "\'>";
@@ -353,7 +353,7 @@ void WbPose::exportBoundingObjectToX3D(WbWriter &writer) const {
       childNode->write(writer);
     }
 
-    writer << "</Transform>";
+    writer << "</Pose>";
   }
 }
 
