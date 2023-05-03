@@ -49,7 +49,7 @@ PROTO Servo [
     }
     const rotation = fields.rotation.value;
   >%
-  Pose {
+  Solid {
     translation IS translation
     rotation IS rotation
     children [

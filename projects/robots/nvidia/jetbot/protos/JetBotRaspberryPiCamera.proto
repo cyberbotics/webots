@@ -17,7 +17,7 @@ PROTO JetBotRaspberryPiCamera [
   field SFFloat            far                   1.0                      # Is `Camera.far`.
 ]
 {
-  Pose {
+  Solid {
     translation IS translation
     rotation IS rotation
     children [

@@ -22,6 +22,7 @@ EXTERNPROTO "webots://projects/objects/traffic/protos/SignPole.proto"
 EXTERNPROTO "webots://projects/objects/traffic/protos/DirectionPanel.proto"
 EXTERNPROTO "webots://projects/objects/traffic/protos/TrafficCone.proto"
 EXTERNPROTO "webots://projects/objects/shapes/protos/TexturedBoxShape.proto"
+EXTERNPROTO "webots://projects/objects/road/protos/RoadLine.proto"
 
 WorldInfo {
   title "Humanoid Marathon"
@@ -137,6 +138,11 @@ DEF ENVIRONMENT Solid {
       roadsWidth 2.16
       startRoadsLength [
         18.15, 13.65, 30.12, 13.65
+      ]
+      startRoadsLine [
+        RoadLine {
+          width 0.05
+        }
       ]
       startRoadBorder FALSE
       locked FALSE

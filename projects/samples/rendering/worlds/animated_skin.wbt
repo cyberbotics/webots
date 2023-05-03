@@ -247,7 +247,7 @@ PaperBoat {
   translation -1.9440913 -1.4548909 0.8842463
   rotation 0 0 1 -1.8325957
   scale 2
-  mass 0.15
+  mass 1.2
   immersionProperties [
     ImmersionProperties {
       fluidName "fluid"
@@ -326,23 +326,18 @@ WoodenBox {
     }
   ]
 }
-DEF APPLE Pose {
-  translation 0 0 0.5
-  children [
-    Apple {
-      translation 0.41890544 -0.51423568 0.11474117
-      rotation -0.5199881374825417 -0.6776611791705899 -0.5199881374825417 -1.950441
-      scale 2
-      mass 0.3
-      immersionProperties [
-        ImmersionProperties {
-          fluidName "fluid"
-          dragForceCoefficients 1 0 1
-          dragTorqueCoefficients 0.01 0 0
-          viscousResistanceForceCoefficient 0.1
-          viscousResistanceTorqueCoefficient 0.5
-        }
-      ]
+Apple {
+  translation 0.41890544 -0.51423568 0.51474117
+  rotation -0.5199881374825417 -0.6776611791705899 -0.5199881374825417 -1.950441
+  scale 2
+  mass 2.4
+  immersionProperties [
+    ImmersionProperties {
+      fluidName "fluid"
+      dragForceCoefficients 1 0 1
+      dragTorqueCoefficients 0.01 0 0
+      viscousResistanceForceCoefficient 0.1
+      viscousResistanceTorqueCoefficient 0.5
     }
   ]
 }

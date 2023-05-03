@@ -447,11 +447,11 @@ PROTO Road [
                     texCoord TextureCoordinate {
                       point [
                         %< for (let i = 0; i <= nbWayPoint - 1; ++i) { >%
-                          %<= 0 >% %<= distance[i] >%
+                          %<= 0 >% %<= distance[i] * 0.15 / lineWidth >%
                           %< if (typeof roadLines[j] !== 'undefined' && roadLines[j].fields.type.value === 'double') { >%
-                            %<= 2 >% %<= distance[i] >%
+                            %<= 2 >% %<= distance[i] * 0.15 / lineWidth >%
                           %< } else { >%
-                            %<= 1 >% %<= distance[i] >%
+                            %<= 1 >% %<= distance[i] * 0.15 / lineWidth >%
                           %< } >%
                         %< } >%
                       ]
