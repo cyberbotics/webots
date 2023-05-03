@@ -1256,7 +1256,7 @@ static char *compute_socket_filename(char *error_buffer) {
   FILE *loading_file = fopen(loading_file_path, "r");
   if (loading_file) {
     fclose(loading_file);
-    snprintf(error_buffer, ERROR_BUFFER_SIZE, "The Webots simulation world is not ready yet");
+    snprintf(error_buffer, ERROR_BUFFER_SIZE, "The Webots simulation world is not yet ready");
     free(webots_instance_folder);
     free(ipc_folder);
     free(loading_file_path);
