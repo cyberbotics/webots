@@ -119,7 +119,7 @@ int main(int argc, char **argv) {
 
   printf(" The Crazyflie can be controlled from your keyboard!\n");
   printf(" All controllable movement is in body coordinates\n");
-printf("- Use the up, back, right and left button to move in the horizontal plane\n");
+  printf("- Use the up, back, right and left button to move in the horizontal plane\n");
   printf("- Use Q and E to rotate around yaw\n ");
   printf("- Use W and S to go up and down\n");
 

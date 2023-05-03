@@ -12,7 +12,7 @@
 
 
 """
-file: crazyflie_py_wallfollowing.py 
+file: crazyflie_py_wallfollowing.py
 
 Controls the crazyflie and implements a wall following method in webots in Python
 
@@ -169,7 +169,7 @@ if __name__ == '__main__':
         height_desired += height_diff_desired * dt
 
         camera_data = camera.getImage()
-        
+
         # get range in meters
         range_front_value = range_front.getValue()/1000
         range_right_value = range_right.getValue()/1000
@@ -192,9 +192,9 @@ if __name__ == '__main__':
 
         # PID velocity controller with fixed height
         motor_power = PID_crazyflie.pid(dt, forward_desired, sideways_desired,
-                                 yaw_desired, height_desired,
-                                 roll, pitch, yaw_rate,
-                                 altitude, v_x, v_y)
+                                        yaw_desired, height_desired,
+                                        roll, pitch, yaw_rate,
+                                        altitude, v_x, v_y)
 
         m1_motor.setVelocity(-motor_power[0])
         m2_motor.setVelocity(motor_power[1])
