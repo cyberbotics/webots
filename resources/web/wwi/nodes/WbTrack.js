@@ -53,7 +53,7 @@ export default class WbTrack extends WbSolid {
     for (let i = 0; i < this.geometriesCount; ++i) {
       beltPosition = this.computeNextGeometryPosition(beltPosition, stepSize);
       this.beltPositions.push(beltPosition);
-      if (beltPosition.segmentIndex < 0) {
+      if (typeof beltPosition === 'undefined' || beltPosition.segmentIndex < 0) {
         // abort
         this.clearAnimatedGeometries();
         return;
@@ -196,18 +196,18 @@ export default class WbTrack extends WbSolid {
     super.preFinalize();
     this.computeBeltPath();
     this.updateAnimatedGeometries();
-    this.beltElements.forEach(beltElement => beltElement.preFinalize());
+    this.beltElements?.forEach(beltElement => beltElement.preFinalize());
   }
 
   createWrenObjects(isTransform) {
     super.createWrenObjects();
-    this.beltElements.forEach(beltElement => beltElement.createWrenObjects());
+    this.beltElements?.forEach(beltElement => beltElement.createWrenObjects());
   }
 
   postFinalize() {
     super.postFinalize();
     WbWorld.instance.tracks.add(this);
-    this.beltElements.forEach(beltElement => beltElement.postFinalize());
+    this.beltElements?.forEach(beltElement => beltElement.postFinalize());
   }
 
   initAnimatedGeometriesBeltPosition() {

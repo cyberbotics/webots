@@ -281,6 +281,7 @@ export default class Parser {
       case 'Display':
       case 'DistanceSensor':
       case 'Emitter':
+      case 'Fluid':
       case 'GPS':
       case 'Gyro':
       case 'InertialUnit':

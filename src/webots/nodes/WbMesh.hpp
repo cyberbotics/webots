@@ -49,11 +49,6 @@ public:
 protected:
   void exportNodeFields(WbWriter &writer) const override;
 
-  const QString &vrmlName() const override {
-    static const QString name("Mesh");
-    return name;
-  }
-
 private:
   // user accessible fields
   WbMFString *mUrl;
