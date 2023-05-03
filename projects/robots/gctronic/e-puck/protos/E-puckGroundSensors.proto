@@ -14,7 +14,7 @@ PROTO E-puckGroundSensors [
   field SFRotation rotation    0 0 1 0
 ]
 {
-  Pose {
+  Solid {
     translation IS translation
     rotation IS rotation
     children [
