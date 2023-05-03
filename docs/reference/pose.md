@@ -11,7 +11,7 @@ Pose {
 }
 ```
 
-Direct derived nodes: [Solid](solid.md), [Transform](transform.md).
+Direct derived nodes: [Solid](solid.md), [Transform](transform.md), [Fluid](fluid.md).
 
 ### Description
 
