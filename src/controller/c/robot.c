@@ -1198,7 +1198,7 @@ static char *compute_socket_filename(char *error_buffer) {
     free(WEBOTS_TMP_DIR);
     // No Webots instance has been started
     if (number == -1) {
-      snprintf(error_buffer, ERROR_BUFFER_SIZE, "Cannot connect to Webots instance");
+      snprintf(error_buffer, ERROR_BUFFER_SIZE, "Cannot find any instance of Webots");
       return NULL;
     }
     if (WEBOTS_CONTROLLER_URL && WEBOTS_CONTROLLER_URL[0]) {  // only the robot name was provided in WEBOTS_CONTROLLER_URL
