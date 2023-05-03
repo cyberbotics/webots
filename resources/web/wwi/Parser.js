@@ -641,7 +641,7 @@ export default class Parser {
     if (node.tagName === 'Track') {
       const geometriesCount = parseInt(getNodeAttribute(node, 'geometriesCount', '10'));
       newNode = new WbTrack(id, translation, rotation, geometriesCount);
-    } else if (node.tagName === 'Trackwheel') {
+    } else if (node.tagName === 'TrackWheel') {
       const radius = parseFloat(getNodeAttribute(node, 'radius', '0.1'));
       const inner = getNodeAttribute(node, 'inner', '0').toLowerCase() === '1';
 

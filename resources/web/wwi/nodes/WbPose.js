@@ -98,8 +98,8 @@ export default class WbPose extends WbGroup {
       child.createWrenObjects();
     });
 
-    this.#applyTranslationToWren();
-    this.#applyRotationToWren();
+    this.applyTranslationToWren();
+    this.applyRotationToWren();
   }
 
   delete(isBoundingObject) {
@@ -144,12 +144,12 @@ export default class WbPose extends WbGroup {
     return firstChild;
   }
 
-  #applyRotationToWren() {
+  applyRotationToWren() {
     const rotation = _wrjs_array4(this.#rotation.w, this.#rotation.x, this.#rotation.y, this.#rotation.z);
     _wr_transform_set_orientation(this.wrenNode, rotation);
   }
 
-  #applyTranslationToWren() {
+  applyTranslationToWren() {
     const translation = _wrjs_array3(this.#translation.x, this.#translation.y, this.#translation.z);
     _wr_transform_set_position(this.wrenNode, translation);
   }
@@ -170,14 +170,14 @@ export default class WbPose extends WbGroup {
       WbWorld.instance.viewpoint.setFollowedObjectDeltaPosition(this.#translation, this.#previousTranslation);
 
     if (this.wrenObjectsCreatedCalled)
-      this.#applyTranslationToWren();
+      this.applyTranslationToWren();
 
     this._matrixNeedUpdate = true;
   }
 
   #updateRotation() {
     if (this.wrenObjectsCreatedCalled)
-      this.#applyRotationToWren();
+      this.applyRotationToWren();
 
     this._matrixNeedUpdate = true;
   }
