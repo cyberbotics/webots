@@ -14,7 +14,7 @@ Direct derived nodes: none.
 
 The [Transform](#transform) node is a grouping node that defines a coordinate system for its `children` that is relative to the coordinate systems of its parent.
 The `children` list of a [Transform](#transform) node may only contain [Transform](#transform), [Pose](pose.md), [Group](group.md), [Shape](shape.md) or [CadShape](cadshape.md) nodes.
-It cannot contain any `Solid` or `Solid` derived nodes.
+It cannot contain any [Solid](solid.md) or `Solid` derived nodes.
 
 ### Field Summary
 
