@@ -1287,7 +1287,7 @@ static char *compute_socket_filename(char *error_buffer) {
     if (dr == NULL) {  // the ipc folder was not yet created
       free(ipc_folder);
       snprintf(error_buffer, ERROR_BUFFER_SIZE,
-               "The Webots simulation has not yet been started or there is no robot set with an <extern> controller");
+               "The Webots simulation has not yet started or there is no robot in the simulation");
       return NULL;
     }
     char **filenames = NULL;
@@ -1325,7 +1325,7 @@ static char *compute_socket_filename(char *error_buffer) {
     closedir(dr);
     if (count == 0) {
       snprintf(error_buffer, ERROR_BUFFER_SIZE,
-               "The Webots simulation has not yet been started or there is no robot set with an <extern> controller");
+               "The Webots simulation has not yet started or there is no robot with an <extern> controller");
       socket_filename = NULL;
     } else if (count > 1) {  // more than one extern controller in the current instance of Webots
       fprintf(stderr,
