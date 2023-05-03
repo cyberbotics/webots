@@ -633,25 +633,24 @@ export default class Parser {
 
     const id = this.#parseId(node);
 
-    const type = getNodeAttribute(node, 'type', '').toLowerCase();
     const translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
     const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 0 1 0'));
     let name = getNodeAttribute(node, 'name', '');
 
     let newNode;
-    if (type === 'track' || node.tagName === 'Track') {
+    if (node.tagName === 'Track') {
       const geometriesCount = parseInt(getNodeAttribute(node, 'geometriesCount', '10'));
       newNode = new WbTrack(id, translation, rotation, geometriesCount);
-    } else if (type === 'trackwheel' || node.tagName === 'Trackwheel') {
+    } else if (node.tagName === 'Trackwheel') {
       const radius = parseFloat(getNodeAttribute(node, 'radius', '0.1'));
       const inner = getNodeAttribute(node, 'inner', '0').toLowerCase() === '1';
 
       newNode = new WbTrackWheel(id, translation, rotation, radius, inner);
 
       parentNode.wheelsList.push(newNode);
-    } else if (node.tagName === 'Robot' || node.tagName === 'Solid' || type === 'solid' || type === 'robot') {
+    } else if (node.tagName === 'Robot' || node.tagName === 'Solid') {
       if (name === '') {
-        if (node.tagName === 'Robot' || type === 'robot')
+        if (node.tagName === 'Robot')
           name = 'robot';
         else
           name = 'solid';
