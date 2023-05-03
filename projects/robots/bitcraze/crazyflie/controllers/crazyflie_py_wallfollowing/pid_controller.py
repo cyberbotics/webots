@@ -10,10 +10,14 @@
 #
 #  Copyright (C) 2023 Bitcraze AB
 #
-# pid_controller.py
-# A simple PID controller for the Crazyflie
-#
 
+"""
+file: pid_controller.py
+
+A simple PID controller for the Crazyflie
+ported from pid_controller.c in the c-based controller of the Crazyflie
+in Webots
+"""
 
 import numpy as np
 

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+#
 #  ...........       ____  _ __
 #  |  ,-^-,  |      / __ )(_) /_______________ _____  ___
 #  | (  O  ) |     / __  / / __/ ___/ ___/ __ `/_  / / _ \
@@ -6,12 +8,16 @@
 
 # MIT License
 
-# Copyright (c) 2022 Bitcraze
+# Copyright (c) 2023 Bitcraze
 
-# @file crazyflie_controllers_py.py
-# Controls the crazyflie motors in webots in Python
 
-"""crazyflie_py_wallfollowing.py controller."""
+"""
+file: crazyflie_py_wallfollowing.py 
+
+Controls the crazyflie and implements a wall following method in webots in Python
+
+Author:   Kimberly McGuire (Bitcraze AB)
+"""
 
 
 from controller import Robot
@@ -80,7 +86,7 @@ if __name__ == '__main__':
     height_desired = FLYING_ATTITUDE
 
     wall_following = WallFollowing(angle_value_buffer=0.01, ref_distance_from_wall=0.5,
-                                   max_forward_speed=0.3, init_state=WallFollowing.StateWF.FORWARD)
+                                   max_forward_speed=0.3, init_state=WallFollowing.StateWallFollowing.FORWARD)
 
     autonomous_mode = False
 
@@ -163,12 +169,20 @@ if __name__ == '__main__':
         height_desired += height_diff_desired * dt
 
         cameraData = camera.getImage()
+        # get range in meters
         range_front_value = range_front.getValue()/1000
         range_right_value = range_right.getValue()/1000
+        range_left_value = range_left.getValue()/1000
 
-        direction = 1
+        # Choose a wall following direction
+        # if you choose direction left, use the right range value
+        # if you choose direction right, use the left range value
+        direction = WallFollowing.WallFollowingDirection.LEFT
+        range_side_value = range_right_value
+
+        # Get the velocity commands from the wall following state machine
         cmd_vel_x, cmd_vel_y, cmd_ang_w, state_wf = wall_following.wall_follower(
-            range_front_value, range_right_value, yaw, direction, robot.getTime())
+            range_front_value, range_side_value, yaw, direction, robot.getTime())
 
         if autonomous_mode:
             sideways_desired = cmd_vel_y
