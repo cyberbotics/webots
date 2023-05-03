@@ -12,7 +12,6 @@ import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
 import Selector from '../Selector.js';
 import { findUpperPose, nodeIsInBoundingObject } from './utils/node_utilities.js';
 import WbGroup from './WbGroup.js';
-import WbPose from './WbPose.js';
 
 export default class WbGeometry extends WbBaseNode {
   #boundingObjectFirstTimeSearch;
