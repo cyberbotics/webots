@@ -295,7 +295,7 @@ export default class Parser {
       case 'TouchSensor':
       case 'Track':
       case 'TrackWheel':
-    case 'Pose':
+      case 'Pose':
         result = this.#parsePose(node, parentNode, isBoundingObject);
         break;
       case 'Physics':
@@ -793,7 +793,7 @@ export default class Parser {
 
     if (typeof parentNode !== 'undefined') {
       newNode.parent = parentNode.id;
-      if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
+      if (parentNode instanceof WbSlot)
         parentNode.endPoint = newNode;
       else
         parentNode.children.push(newNode);

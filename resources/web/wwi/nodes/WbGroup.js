@@ -19,11 +19,11 @@ export default class WbGroup extends WbBaseNode {
     this.#isInBoundingObject = false;
   }
 
-  _updateProgress(message) {
+  _updateProgress(message, element) {
     if (typeof this.loadProgress !== 'undefined') {
       this.loadProgress++;
       const percentage = this.loadProgress * 100 / (3 * this.children.length);
-      const info = message + ' ' + child.id + ': ' + percentage.toFixed(0) + '%';
+      const info = message + ' ' + element.id + ': ' + percentage.toFixed(0) + '%';
       WbWorld.instance.currentView.progress.setProgressBar('block', 'same', percentage, info);
     }
   }
@@ -55,7 +55,7 @@ export default class WbGroup extends WbBaseNode {
 
     if (!isPose) {
       this.children.forEach(child => {
-        this._updateProgress('Create WREN object');
+        this._updateProgress('Create WREN object', child);
         child.createWrenObjects();
       });
     }
@@ -100,7 +100,7 @@ export default class WbGroup extends WbBaseNode {
     }
 
     this.children.forEach((child, i) => {
-      this._updateProgress('Pre-finalize node');
+      this._updateProgress('Pre-finalize node', child);
       child.preFinalize();
     });
   }
@@ -109,7 +109,7 @@ export default class WbGroup extends WbBaseNode {
     super.postFinalize();
 
     this.children.forEach((child, i) => {
-      this._updateProgress('Post-finalize node');
+      this._updateProgress('Post-finalize node', child);
       child.postFinalize();
     });
 
