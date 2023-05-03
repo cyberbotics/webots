@@ -259,7 +259,7 @@ namespace {
       if (nodeName == "Slot") {
         if (WbNodeUtilities::isDescendantOfBillboard(node))
           return false;
-        return !isTransformOrTransformDescendant;
+        return !isTransformOrTransformDescendant && !boundingObjectCase;
       }
     }
 
