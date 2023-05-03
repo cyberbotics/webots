@@ -247,7 +247,7 @@ PaperBoat {
   translation -1.9440913 -1.4548909 0.8842463
   rotation 0 0 1 -1.8325957
   scale 2
-  mass 0.4
+  mass 1.2
   immersionProperties [
     ImmersionProperties {
       fluidName "fluid"
