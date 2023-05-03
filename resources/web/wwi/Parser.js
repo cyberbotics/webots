@@ -295,6 +295,7 @@ export default class Parser {
       case 'TouchSensor':
       case 'Track':
       case 'TrackWheel':
+    case 'Pose':
         result = this.#parsePose(node, parentNode, isBoundingObject);
         break;
       case 'Physics':
