@@ -252,121 +252,119 @@ class WallFollowing():
             self.first_run = False
 
         # -------------- Handle state transitions ---------------- #
-        match self.state:
-            case self.StateWallFollowing.FORWARD:
-                if front_range < self.reference_distance_from_wall + self.ranger_value_buffer:
-                    self.state = self.state_transition(self.StateWallFollowing.TURN_TO_FIND_WALL)
-            case self.StateWallFollowing.HOVER:
-                print('hover')
-            case self.StateWallFollowing.TURN_TO_FIND_WALL:
-                # Turn until 45 degrees from wall such that the front and side range sensors
-                #   can detect the wall
-                side_range_check = side_range < (self.reference_distance_from_wall /
-                                                 math.cos(math.pi/4) + self.ranger_value_buffer)
-                front_range_check = front_range < (self.reference_distance_from_wall /
-                                                   math.cos(math.pi/4) + self.ranger_value_buffer)
-                if side_range_check and front_range_check:
-                    self.prev_heading = current_heading
-                    # Calculate the angle to the wall
-                    self.wall_angle = self.wall_following_direction_value * \
-                        (math.pi/2 - math.atan(front_range / side_range) + self.angle_value_buffer)
-                    self.state = self.state_transition(self.StateWallFollowing.TURN_TO_ALIGN_TO_WALL)
-                # If went too far in heading and lost the wall, go to find corner.
-                if side_range < self.reference_distance_from_wall + self.ranger_value_buffer and \
-                        front_range > self.reference_distance_from_wall + self.range_threshold_lost:
-                    self.around_corner_back_track = False
-                    self.prev_heading = current_heading
-                    self.state = self.state_transition(self.StateWallFollowing.FIND_CORNER)
-            case self.StateWallFollowing.TURN_TO_ALIGN_TO_WALL:
-                align_wall_check = self.value_is_close_to(
-                    self.wrap_to_pi(current_heading - self.prev_heading), self.wall_angle, self.angle_value_buffer)
-                if align_wall_check:
-                    self.state = self.state_transition(self.StateWallFollowing.FORWARD_ALONG_WALL)
-            case self.StateWallFollowing.FORWARD_ALONG_WALL:
-                # If side range is out of reach,
-                #    end of the wall is reached
-                if side_range > self.reference_distance_from_wall + self.range_threshold_lost:
-                    self.state = self.state_transition(self.StateWallFollowing.FIND_CORNER)
-                # If front range is small
-                #    then corner is reached
-                if front_range < self.reference_distance_from_wall + self.ranger_value_buffer:
-                    self.prev_heading = current_heading
-                    self.state = self.state_transition(self.StateWallFollowing.ROTATE_IN_CORNER)
-            case self.StateWallFollowing.ROTATE_AROUND_WALL:
-                if front_range < self.reference_distance_from_wall + self.ranger_value_buffer:
-                    self.state = self.state_transition(self.StateWallFollowing.TURN_TO_FIND_WALL)
-            case self.StateWallFollowing.ROTATE_IN_CORNER:
-                check_heading_corner = self.value_is_close_to(
-                    math.fabs(self.wrap_to_pi(current_heading-self.prev_heading)),
-                    self.in_corner_angle, self.angle_value_buffer)
-                if check_heading_corner:
-                    self.state = self.state_transition(self.StateWallFollowing.TURN_TO_FIND_WALL)
-            case self.StateWallFollowing.FIND_CORNER:
-                if side_range <= self.reference_distance_from_wall:
-                    self.state = self.state_transition(self.StateWallFollowing.ROTATE_AROUND_WALL)
-            case _:
-                self.state = self.state_transition(self.StateWallFollowing.HOVER)
+        if self.state == self.StateWallFollowing.FORWARD:
+            if front_range < self.reference_distance_from_wall + self.ranger_value_buffer:
+                self.state = self.state_transition(self.StateWallFollowing.TURN_TO_FIND_WALL)
+        elif self.state == self.StateWallFollowing.HOVER:
+            print('hover')
+        elif self.state == self.StateWallFollowing.TURN_TO_FIND_WALL:
+            # Turn until 45 degrees from wall such that the front and side range sensors
+            #   can detect the wall
+            side_range_check = side_range < (self.reference_distance_from_wall /
+                                             math.cos(math.pi/4) + self.ranger_value_buffer)
+            front_range_check = front_range < (self.reference_distance_from_wall /
+                                               math.cos(math.pi/4) + self.ranger_value_buffer)
+            if side_range_check and front_range_check:
+                self.prev_heading = current_heading
+                # Calculate the angle to the wall
+                self.wall_angle = self.wall_following_direction_value * \
+                    (math.pi/2 - math.atan(front_range / side_range) + self.angle_value_buffer)
+                self.state = self.state_transition(self.StateWallFollowing.TURN_TO_ALIGN_TO_WALL)
+            # If went too far in heading and lost the wall, go to find corner.
+            if side_range < self.reference_distance_from_wall + self.ranger_value_buffer and \
+                    front_range > self.reference_distance_from_wall + self.range_threshold_lost:
+                self.around_corner_back_track = False
+                self.prev_heading = current_heading
+                self.state = self.state_transition(self.StateWallFollowing.FIND_CORNER)
+        elif self.state == self.StateWallFollowing.TURN_TO_ALIGN_TO_WALL:
+            align_wall_check = self.value_is_close_to(
+                self.wrap_to_pi(current_heading - self.prev_heading), self.wall_angle, self.angle_value_buffer)
+            if align_wall_check:
+                self.state = self.state_transition(self.StateWallFollowing.FORWARD_ALONG_WALL)
+        elif self.state == self.StateWallFollowing.FORWARD_ALONG_WALL:
+            # If side range is out of reach,
+            #    end of the wall is reached
+            if side_range > self.reference_distance_from_wall + self.range_threshold_lost:
+                self.state = self.state_transition(self.StateWallFollowing.FIND_CORNER)
+            # If front range is small
+            #    then corner is reached
+            if front_range < self.reference_distance_from_wall + self.ranger_value_buffer:
+                self.prev_heading = current_heading
+                self.state = self.state_transition(self.StateWallFollowing.ROTATE_IN_CORNER)
+        elif self.state == self.StateWallFollowing.ROTATE_AROUND_WALL:
+            if front_range < self.reference_distance_from_wall + self.ranger_value_buffer:
+                self.state = self.state_transition(self.StateWallFollowing.TURN_TO_FIND_WALL)
+        elif self.state == self.StateWallFollowing.ROTATE_IN_CORNER:
+            check_heading_corner = self.value_is_close_to(
+                math.fabs(self.wrap_to_pi(current_heading-self.prev_heading)),
+                self.in_corner_angle, self.angle_value_buffer)
+            if check_heading_corner:
+                self.state = self.state_transition(self.StateWallFollowing.TURN_TO_FIND_WALL)
+        elif self.state == self.StateWallFollowing.FIND_CORNER:
+            if side_range <= self.reference_distance_from_wall:
+                self.state = self.state_transition(self.StateWallFollowing.ROTATE_AROUND_WALL)
+        else:
+            self.state = self.state_transition(self.StateWallFollowing.HOVER)
 
         # -------------- Handle state actions ---------------- #
         command_velocity_x_temp = 0.0
         command_velocity_y_temp = 0.0
         command_angle_rate_temp = 0.0
 
-        match self.state:
-            case self.StateWallFollowing.FORWARD:
-                command_velocity_x_temp = self.max_forward_speed
-                command_velocity_y_temp = 0.0
-                command_angle_rate_temp = 0.0
-            case self.StateWallFollowing.HOVER:
+        if self.state == self.StateWallFollowing.FORWARD:
+            command_velocity_x_temp = self.max_forward_speed
+            command_velocity_y_temp = 0.0
+            command_angle_rate_temp = 0.0
+        elif self.state == self.StateWallFollowing.HOVER:
+            command_velocity_x_temp, command_velocity_y_temp, command_angle_rate_temp = self.command_hover()
+        elif self.state == self.StateWallFollowing.TURN_TO_FIND_WALL:
+            command_velocity_x_temp, command_angle_rate_temp = self.command_turn(self.max_turn_rate)
+            command_velocity_y_temp = 0.0
+        elif self.state == self.StateWallFollowing.TURN_TO_ALIGN_TO_WALL:
+            if self.time_now - self.state_start_time < self.wait_for_measurement_seconds:
                 command_velocity_x_temp, command_velocity_y_temp, command_angle_rate_temp = self.command_hover()
-            case self.StateWallFollowing.TURN_TO_FIND_WALL:
+            else:
                 command_velocity_x_temp, command_angle_rate_temp = self.command_turn(self.max_turn_rate)
                 command_velocity_y_temp = 0.0
-            case self.StateWallFollowing.TURN_TO_ALIGN_TO_WALL:
-                if self.time_now - self.state_start_time < self.wait_for_measurement_seconds:
-                    command_velocity_x_temp, command_velocity_y_temp, command_angle_rate_temp = self.command_hover()
+        elif self.state == self.StateWallFollowing.FORWARD_ALONG_WALL:
+            command_velocity_x_temp, command_velocity_y_temp = self.command_forward_along_wall(side_range)
+            command_angle_rate_temp = 0.0
+        elif self.state == self.StateWallFollowing.ROTATE_AROUND_WALL:
+            # If first time around corner
+            #   first try to find the wall again
+            # if side range is larger than preffered distance from wall
+            if side_range > self.reference_distance_from_wall + self.range_threshold_lost:
+                # check if scanning already occured
+                if self.wrap_to_pi(math.fabs(current_heading - self.prev_heading)) > \
+                        self.in_corner_angle:
+                    self.around_corner_back_track = True
+                # turn and adjust distance to corner from that point
+                if self.around_corner_back_track:
+                    # rotate back if it already went into one direction
+                    command_velocity_y_temp, command_angle_rate_temp = self.command_turn(
+                        -1 * self.max_turn_rate)
+                    command_velocity_x_temp = 0.0
                 else:
-                    command_velocity_x_temp, command_angle_rate_temp = self.command_turn(self.max_turn_rate)
-                    command_velocity_y_temp = 0.0
-            case self.StateWallFollowing.FORWARD_ALONG_WALL:
-                command_velocity_x_temp, command_velocity_y_temp = self.command_forward_along_wall(side_range)
-                command_angle_rate_temp = 0.0
-            case self.StateWallFollowing.ROTATE_AROUND_WALL:
-                # If first time around corner
-                #   first try to find the wall again
-                # if side range is larger than preffered distance from wall
-                if side_range > self.reference_distance_from_wall + self.range_threshold_lost:
-                    # check if scanning already occured
-                    if self.wrap_to_pi(math.fabs(current_heading - self.prev_heading)) > \
-                            self.in_corner_angle:
-                        self.around_corner_back_track = True
-                    # turn and adjust distance to corner from that point
-                    if self.around_corner_back_track:
-                        # rotate back if it already went into one direction
-                        command_velocity_y_temp, command_angle_rate_temp = self.command_turn(
-                            -1 * self.max_turn_rate)
-                        command_velocity_x_temp = 0.0
-                    else:
-                        command_velocity_y_temp, command_angle_rate_temp = self.command_turn(
-                            self.max_turn_rate)
-                        command_velocity_x_temp = 0.0
-                else:
-                    # continue to turn around corner
-                    self.prev_heading = current_heading
-                    self.around_corner_back_track = False
-                    command_velocity_x_temp, command_velocity_y_temp, command_angle_rate_temp = \
-                        self.command_turn_around_corner_and_adjust(
-                            self.reference_distance_from_wall, side_range)
-            case self.StateWallFollowing.ROTATE_IN_CORNER:
-                command_velocity_x_temp, command_angle_rate_temp = self.command_turn(self.max_turn_rate)
-                command_velocity_y_temp = 0.0
-            case self.StateWallFollowing.FIND_CORNER:
-                command_velocity_y_temp, command_angle_rate_temp = self.command_align_corner(
-                    -1 * self.max_turn_rate, side_range, self.reference_distance_from_wall)
-                command_velocity_x_temp = 0.0
-            case _:
-                # state does not exist, so hover!
-                command_velocity_x_temp, command_velocity_y_temp, command_angle_rate_temp = self.command_hover()
+                    command_velocity_y_temp, command_angle_rate_temp = self.command_turn(
+                        self.max_turn_rate)
+                    command_velocity_x_temp = 0.0
+            else:
+                # continue to turn around corner
+                self.prev_heading = current_heading
+                self.around_corner_back_track = False
+                command_velocity_x_temp, command_velocity_y_temp, command_angle_rate_temp = \
+                    self.command_turn_around_corner_and_adjust(
+                        self.reference_distance_from_wall, side_range)
+        elif self.state == self.StateWallFollowing.ROTATE_IN_CORNER:
+            command_velocity_x_temp, command_angle_rate_temp = self.command_turn(self.max_turn_rate)
+            command_velocity_y_temp = 0.0
+        elif self.state == self.StateWallFollowing.FIND_CORNER:
+            command_velocity_y_temp, command_angle_rate_temp = self.command_align_corner(
+                -1 * self.max_turn_rate, side_range, self.reference_distance_from_wall)
+            command_velocity_x_temp = 0.0
+        else:
+            # state does not exist, so hover!
+            command_velocity_x_temp, command_velocity_y_temp, command_angle_rate_temp = self.command_hover()
 
         command_velocity_x = command_velocity_x_temp
         command_velocity_y = command_velocity_y_temp
