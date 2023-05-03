@@ -90,6 +90,7 @@ PROTO Crazyflie [
       Gyro {
       }
       InertialUnit {
+        name "inertial_unit"
       }
       DEF M1 Propeller {
         shaftAxis 0 0 1

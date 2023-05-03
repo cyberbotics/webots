@@ -50,7 +50,7 @@ if __name__ == '__main__':
     m4_motor.setVelocity(1)
 
     # Initialize Sensors
-    imu = robot.getDevice("inertial unit")
+    imu = robot.getDevice("inertial_unit")
     imu.enable(timestep)
     gps = robot.getDevice("gps")
     gps.enable(timestep)
@@ -79,7 +79,7 @@ if __name__ == '__main__':
     first_time = True
 
     # Crazyflie velocity PID controller
-    PID_CF = pid_velocity_fixed_height_controller()
+    PID_crazyflie = pid_velocity_fixed_height_controller()
     PID_update_last_time = robot.getTime()
     sensor_read_last_time = robot.getTime()
 
@@ -97,7 +97,7 @@ if __name__ == '__main__':
     print(" The Crazyflie can be controlled from your keyboard!\n")
     print(" All controllable movement is in body coordinates\n")
     print("- Use the up, back, right and left button to move in the horizontal plane\n")
-    print("- Use Q and E to rotate around yaw ")
+    print("- Use Q and E to rotate around yaw\n ")
     print("- Use W and S to go up and down\n ")
     print("- Press A to start autonomous mode\n")
     print("- Press D to disable autonomous mode\n")
@@ -126,10 +126,10 @@ if __name__ == '__main__':
         altitude = gps.getValues()[2]
 
         # Get body fixed velocities
-        cosyaw = cos(yaw)
-        sinyaw = sin(yaw)
-        v_x = v_x_global * cosyaw + v_y_global * sinyaw
-        v_y = - v_x_global * sinyaw + v_y_global * cosyaw
+        cos_yaw = cos(yaw)
+        sin_yaw = sin(yaw)
+        v_x = v_x_global * cos_yaw + v_y_global * sin_yaw
+        v_y = - v_x_global * sin_yaw + v_y_global * cos_yaw
 
         # Initialize values
         desired_state = [0, 0, 0, 0]
@@ -168,7 +168,8 @@ if __name__ == '__main__':
 
         height_desired += height_diff_desired * dt
 
-        cameraData = camera.getImage()
+        camera_data = camera.getImage()
+        
         # get range in meters
         range_front_value = range_front.getValue()/1000
         range_right_value = range_right.getValue()/1000
@@ -190,7 +191,7 @@ if __name__ == '__main__':
             yaw_desired = cmd_ang_w
 
         # PID velocity controller with fixed height
-        motor_power = PID_CF.pid(dt, forward_desired, sideways_desired,
+        motor_power = PID_crazyflie.pid(dt, forward_desired, sideways_desired,
                                  yaw_desired, height_desired,
                                  roll, pitch, yaw_rate,
                                  altitude, v_x, v_y)
