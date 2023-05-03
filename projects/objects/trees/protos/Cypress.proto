@@ -115,11 +115,11 @@ PROTO Cypress [
     ]
     %< if (fields.enableBoundingObject.value) { >%
     boundingObject Pose {
-      translation 0 0 2.125
+      translation 0 0 %<= fields.scale.value * 2.125 >%
       children [
         Cylinder {
-          height 4.25
-          radius 0.33
+          height %<= fields.scale.value * 4.25 >%
+          radius %<= fields.scale.value * 0.33 >%
         }
       ]
     }
