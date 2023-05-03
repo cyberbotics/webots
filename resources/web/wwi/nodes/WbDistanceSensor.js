@@ -42,9 +42,9 @@ export default class WbDistanceSensor extends WbDevice {
       [[0, 0], [0, 1], [SIXTH, 1], [2 * SIXTH, 1], [3 * SIXTH, 1], [4 * SIXTH, 1], [5 * SIXTH, 1]],
       [[0, 0], [0, 1], [SEVENTH, 1], [2 * SEVENTH, 1], [3 * SEVENTH, 1], [4 * SEVENTH, 1], [5 * SEVENTH, 1], [6 * SEVENTH, 1]],
       [[0, 0.3], [THIRD, 0.3], [-THIRD, 0.3], [0, 1], [SIXTH, 1], [2 * SIXTH, 1], [3 * SIXTH, 1], [4 * SIXTH, 1],
-      [5 * SIXTH, 1]],
+        [5 * SIXTH, 1]],
       [[0, 0], [0, 0.5], [THIRD, 0.5], [-THIRD, 0.5], [0, 1], [SIXTH, 1], [2 * SIXTH, 1], [3 * SIXTH, 1], [4 * SIXTH, 1],
-      [5 * SIXTH, 1]]];
+        [5 * SIXTH, 1]]];
   }
 
   get nodeType() {

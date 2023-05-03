@@ -14,9 +14,9 @@ export default class WbLidar extends WbAbstractCamera {
   #numberOfLayers;
   #tiltAngle;
   #verticalFieldOfView;
-  constructor(id, translation, scale, rotation, name, fieldOfView, maxRange, minRange, numberOfLayers, tiltAngle,
+  constructor(id, translation, rotation, name, fieldOfView, maxRange, minRange, numberOfLayers, tiltAngle,
     verticalFieldOfView, horizontalResolution) {
-    super(id, translation, scale, rotation, name, undefined, undefined, fieldOfView);
+    super(id, translation, rotation, name, undefined, undefined, fieldOfView);
     this.#horizontalResolution = horizontalResolution;
     this.#maxRange = maxRange;
     this.#minRange = minRange;

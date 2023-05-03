@@ -4,8 +4,8 @@ import {WbNodeType} from './wb_node_type.js';
 export default class WbRangeFinder extends WbAbstractCamera {
   #maxRange;
   #minRange;
-  constructor(id, translation, scale, rotation, name, height, width, fieldOfView, maxRange, minRange) {
-    super(id, translation, scale, rotation, name, height, width, fieldOfView);
+  constructor(id, translation, rotation, name, height, width, fieldOfView, maxRange, minRange) {
+    super(id, translation, rotation, name, height, width, fieldOfView);
     this.#maxRange = maxRange;
     this.#minRange = minRange;
     this._charType = 'r';
