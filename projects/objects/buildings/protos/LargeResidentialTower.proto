@@ -45,7 +45,7 @@ PROTO LargeResidentialTower [
             surroundingWall IS groundSurroundingWall
           }
           LargeResidentialTowerRoof {
-              translation 0 0 %<= 2.588 * (addedFloors - 1) >%
+            translation 0 0 %<= 2.588 * (addedFloors - 1) >%
           }
           %< for (let i = 0; i <= addedFloors - 1; ++i) { >%
             LargeResidentialTowerFloor {

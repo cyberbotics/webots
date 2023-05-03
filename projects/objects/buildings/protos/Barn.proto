@@ -47,64 +47,64 @@ PROTO Barn [
     boundingObject Group {
       children [
         Pose {
-          translation 0 0 2.85
+          translation 0 0 %<= scale * 2.85 >%
           children [
             Box {
-              size 9 7.26 5.7
+              size %<= scale * 9>% %<= scale * 7.26 >% %<= scale * 5.7 >%
             }
           ]
         }
         Pose {
-          translation 0 3.57 5.86752
+          translation 0 %<= scale * 3.57 >% %<= scale * 5.86752 >%
           rotation 1 0 0 0.994455
           children [
             Box {
-              size 9.84 0.36 1.38
+              size %<= scale * 9.84>% %<= scale * 0.36 >% %<= scale * 1.38 >%
             }
           ]
         }
         Pose {
-          translation 0 -3.57 5.86752
+          translation 0 %<= scale * -3.57 >% %<= scale * 5.86752 >%
           rotation 1 0 0 -0.994455
           children [
             Box {
-              size 9.84 0.36 1.38
+              size %<= scale * 9.84>% %<= scale * 0.36 >% %<= scale * 1.38 >%
             }
           ]
         }
         Pose {
-          translation 0 -1.977759 7.27224
+          translation 0 %<= scale * -1.977759 >% %<= scale * 7.27224 >%
           rotation 1 0 0 -0.77
           children [
             Box {
-              size 9.84 0.351 3
+              size %<= scale * 9.84>% %<= scale * 0.351 >% %<= scale * 3 >%
             }
           ]
         }
         Pose {
-          translation 0 1.977759 7.27224
+          translation 0 %<= scale * 1.977759 >% %<= scale * 7.27224 >%
           rotation 1 0 0 0.77
           children [
             Box {
-              size 9.84 0.351 3
+              size %<= scale * 9.84>% %<= scale * 0.351 >% %<= scale * 3 >%
             }
           ]
         }
         Pose {
-          translation 0 0.448647 8.57271
+          translation 0 %<= scale * 0.448647 >% %<= scale * 8.57271 >%
           rotation 1 0 0 1.08709
           children [
             Box {
-              size 9.84 0.351 1.2
+              size %<= scale * 9.84>% %<= scale * 0.351 >% %<= scale * 1.2 >%
             }
           ]
         }
         Pose {
-          translation 0 -0.448647 8.57271
+          translation 0 %<= scale * -0.448647 >% %<= scale * 8.57271 >%
           rotation 1 0 0 -1.08709
           children [
             Box {
-              size 9.84 0.351 1.2
+              size %<= scale * 9.84>% %<= scale * 0.351 >% %<= scale * 1.2 >%
             }
           ]
         }
