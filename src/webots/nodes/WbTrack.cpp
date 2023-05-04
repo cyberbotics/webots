@@ -895,7 +895,7 @@ void WbTrack::exportAnimatedGeometriesMesh(WbWriter &writer) const {
   node->write(writer);
 
   if (writer.isX3d())
-    writer << "</Transform>";
+    writer << "</Pose>";
   else {
     writer.indent();
     writer << "]\n";
