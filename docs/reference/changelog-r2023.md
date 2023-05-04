@@ -62,6 +62,7 @@ Released on ??
     - Fixed the loading of remote mesh bounding objects ([#6047](https://github.com/cyberbotics/webots/pull/6047)).
     - Fixed crash during conversion of PROTO to base nodes in case of Mesh nodes with invalid scale values ([#6088](https://github.com/cyberbotics/webots/pull/6088)).
     - Fixed object's relative orientation returned by the [Recognition](recognition.md) functionality ([#6100](https://github.com/cyberbotics/webots/pull/6100)).
+    - Fixed conversion of joints' axis in `pedal_racer.wbt` to FLU/ENU coordinate system ([#6115](https://github.com/cyberbotics/webots/pull/6115)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
