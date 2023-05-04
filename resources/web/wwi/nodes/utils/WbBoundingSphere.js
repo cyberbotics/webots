@@ -62,8 +62,15 @@ export default class WbBoundingSphere {
     const upperPose = !this.poseOwner ? findUpperPose(this.#owner) : this.#owner;
 
     if (typeof upperPose !== 'undefined') {
-      const scale = upperPose.absoluteScale();
-      radius = Math.max(Math.max(scale.x, scale.y), scale.z) * this.#radius;
+      let t = upperPose;
+      if (t.nodeType !== WbNodeType.WB_NODE_TRANSFORM) {
+        t = t.upperTransform();
+      }
+      if (t) {
+        const scale = t.absoluteScale();
+        radius = Math.max(Math.max(scale.x, scale.y), scale.z) * this.#radius;
+      } else
+        radius = this.#radius;
       center = upperPose.matrix().mulByVec3(this.#center);
     } else {
       radius = this.#radius;

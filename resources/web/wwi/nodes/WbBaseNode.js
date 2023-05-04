@@ -1,7 +1,9 @@
 import WbWorld from './WbWorld.js';
+import { findUpperTransform } from './utils/node_utilities.js';
 
 export default class WbBaseNode {
   #nodeType;
+  #upperTransformFirstTimeSearch;
   constructor(id) {
     this.id = id;
 
@@ -10,6 +12,8 @@ export default class WbBaseNode {
     this.isPostFinalizedCalled = false;
 
     this.useList = [];
+
+    this.#upperTransformFirstTimeSearch = true;
   }
 
   get nodeType() { return undefined; }
@@ -59,6 +63,16 @@ export default class WbBaseNode {
 
   postFinalize() {
     this.isPostFinalizedCalled = true;
+  }
+
+  upperTransform() {
+    if (this.#upperTransformFirstTimeSearch) {
+      this.upperTransform = findUpperTransform(this);
+      if (this.wrenObjectsCreatedCalled)
+        this.#upperTransformFirstTimeSearch = false;
+    }
+
+    return this.upperTransform;
   }
 
   boundingSphere() {}

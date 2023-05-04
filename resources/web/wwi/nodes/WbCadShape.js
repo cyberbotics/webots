@@ -3,7 +3,6 @@ import WbImageTexture from './WbImageTexture.js';
 import WbPbrAppearance from './WbPbrAppearance.js';
 import WbWorld from './WbWorld.js';
 import { getAnId } from './utils/id_provider.js';
-import { findUpperPose } from './utils/node_utilities.js';
 import { arrayXPointerFloat, arrayXPointerInt } from './utils/utils.js';
 import WbBoundingSphere from './utils/WbBoundingSphere.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
@@ -24,7 +23,6 @@ export default class WbCadShape extends WbBaseNode {
   #isPickable;
   #pbrAppearances;
   #promises;
-  #upperPoseFirstTimeSearch;
   #url;
   #wrenMaterials;
   #wrenMeshes;
@@ -110,7 +108,7 @@ export default class WbCadShape extends WbBaseNode {
   }
 
   absoluteScale() {
-    const ut = this.#upperPose();
+    const ut = this.upperTransform();
     return ut ? ut.absoluteScale() : new WbVector3(1.0, 1.0, 1.0);
   }
 
@@ -489,15 +487,5 @@ export default class WbCadShape extends WbBaseNode {
           this.createWrenObjects();
       }
     });
-  }
-
-  #upperPose() {
-    if (this.#upperPoseFirstTimeSearch) {
-      this.upperPose = findUpperPose(this);
-      if (this.wrenObjectsCreatedCalled)
-        this.#upperPoseFirstTimeSearch = false;
-    }
-
-    return this.upperPose;
   }
 }

@@ -18,6 +18,21 @@ export function findUpperPose(node) {
   return undefined;
 }
 
+export function findUpperTransform(node) {
+  if (typeof node === 'undefined')
+    return undefined;
+
+  let n = WbWorld.instance.nodes.get(node.parent);
+  while (typeof n !== 'undefined') {
+    if (n.nodeType === WbNodeType.WB_NODE_TRANSFORM)
+      return n;
+
+    n = WbWorld.instance.nodes.get(n.parent);
+  }
+
+  return undefined;
+}
+
 export function findUpperShape(node) {
   if (typeof node === 'undefined')
     return undefined;

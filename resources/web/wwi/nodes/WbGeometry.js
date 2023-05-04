@@ -32,7 +32,7 @@ export default class WbGeometry extends WbBaseNode {
   }
 
   absoluteScale() {
-    const up = this.#upperPose();
+    const up = this.upperTransform();
     return up ? up.absoluteScale() : new WbVector3(1, 1, 1);
   }
 
