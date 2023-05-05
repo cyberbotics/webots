@@ -41,7 +41,7 @@ float constrain(float value, const float minVal, const float maxVal) {
 
 double pastAltitudeError, pastPitchError, pastRollError, pastYawRateError;
 double pastVxError, pastVyError;
-double altitudeIntergrator;
+double altitudeIntegrator;
 
 void init_pid_attitude_fixed_height_controller() {
   pastAltitudeError = 0;
