@@ -77,9 +77,9 @@ void pid_fixed_height_controller(actual_state_t actual_state, desired_state_t *d
   control_commands->altitude =
     gains_pid.kp_z * constrain(altitudeError, -1, 1) + gains_pid.kd_z * altitudeDerivativeError + gains_pid.ki_z;
 
-  altitudeIntergrator += altitudeError * dt;
+  altitudeIntegrator += altitudeError * dt;
   control_commands->altitude = gains_pid.kp_z * constrain(altitudeError, -1, 1) + gains_pid.kd_z * altitudeDerivativeError +
-                               gains_pid.ki_z * altitudeIntergrator + 48;
+                               gains_pid.ki_z * altitudeIntegrator + 48;
   pastAltitudeError = altitudeError;
 }
 
