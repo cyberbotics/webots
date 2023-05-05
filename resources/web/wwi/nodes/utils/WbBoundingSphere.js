@@ -63,9 +63,8 @@ export default class WbBoundingSphere {
 
     if (typeof upperPose !== 'undefined') {
       let t = upperPose;
-      if (t.nodeType !== WbNodeType.WB_NODE_TRANSFORM) {
+      if (t.nodeType !== WbNodeType.WB_NODE_TRANSFORM)
         t = t.upperTransform();
-      }
       if (t) {
         const scale = t.absoluteScale();
         radius = Math.max(Math.max(scale.x, scale.y), scale.z) * this.#radius;
@@ -76,7 +75,6 @@ export default class WbBoundingSphere {
       radius = this.#radius;
       center = this.#center;
     }
-
     return [center, radius];
   }
 
@@ -180,8 +178,8 @@ export default class WbBoundingSphere {
     if (!this.parentCoordinatesDirty)
       return;
 
-    if (this.#owner.nodeType === WbNodeType.WB_NODE_TRANSFORM) {
-      const scale = this.#owner.scale;
+    if (this.poseOwner) {
+      const scale = this.#owner.nodeType === WbNodeType.WB_NODE_TRANSFORM ? this.#owner.scale : new WbVector3(1, 1, 1);
       this.#radiusInParentCoordinates = Math.max(Math.max(scale.x, scale.y), scale.z) * this.#radius;
       this.#centerInParentCoordinates = this.#owner.vrmlMatrix().mulByVec3(this.#center);
     } else {
