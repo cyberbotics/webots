@@ -171,9 +171,9 @@ if __name__ == '__main__':
         camera_data = camera.getImage()
 
         # get range in meters
-        range_front_value = range_front.getValue()/1000
-        range_right_value = range_right.getValue()/1000
-        range_left_value = range_left.getValue()/1000
+        range_front_value = range_front.getValue() / 1000
+        range_right_value = range_right.getValue() / 1000
+        range_left_value = range_left.getValue() / 1000
 
         # Choose a wall following direction
         # if you choose direction left, use the right range value
