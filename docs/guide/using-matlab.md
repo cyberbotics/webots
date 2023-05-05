@@ -36,6 +36,7 @@ To test MATLAB in Webots, start Webots and open the "WEBOTS\_HOME/projects/langu
 Webots automatically starts MATLAB when it detects an m-file in a controller directory.
 Note that the m-file must be named after its directory in order to be identified as a controller file by Webots.
 So, for example, if the directory is named "my\_controller", then the controller m-file must be named "my\_controller/my\_controller.m".
+Additionally, the m-file should have the necessary `function` declaration on the first line, matching the controller name.
 
 No special initialization code is necessary in the controller m-file.
 In fact Webots calls an intermediate "launcher.m" file that sets up the Webots controller environment and then calls the controller m-file.
@@ -45,14 +46,11 @@ These are readable source files; please report any problem, or possible improvem
 
 ### Display Information to Webots Console
 
-On Linux and macOS, the MATLAB output is redirected as is to the Webots console.
+The MATLAB output is redirected as is to the Webots console.
 This means you can use all the MATLAB display features including the `disp` and `display` (omitting the semicolon character at the end of a statement.).
 
-On Windows, the MATLAB output is not redirected to the Webots console.
-The `wb_console_print(text, stream)` function should be used to display some text in the Webots console.
+Additionally, the `wb_console_print(text, stream)` function could be used to display some text in the Webots console.
 The second argument (`stream`) can be either `WB_STDOUT` or `WB_STDERR` depending on which stream you would like to write.
-
-In order to create a cross-platform controller, it is recommended to use the `wb_console_print(text, stream)` on every OS.
 
 ### Compatibility Issues
 

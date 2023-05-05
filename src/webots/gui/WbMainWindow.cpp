@@ -1208,6 +1208,7 @@ void WbMainWindow::restorePerspective(bool reloading, bool firstLoad, bool loadi
       mRobotWindowClosed = false;
       foreach (WbRobot *robot, robots) {
         if (perspective->enabledRobotWindowNodeNames().contains(robot->computeUniqueName()))
+          // show robot window if it is in the perspective file
           showHtmlRobotWindow(robot, false);
       }
     }

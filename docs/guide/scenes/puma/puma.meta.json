@@ -64,7 +64,7 @@
       "axis": "0 1 0",
       "maxPosition": 0.01,
       "minPosition": -0.004,
-      "name": "joint_GripperL",
+      "name": "gripper::left",
       "position": 0,
       "transformID": "n124",
       "type": "LinearMotor"
@@ -73,7 +73,7 @@
       "axis": "0 -1 0",
       "maxPosition": 0.01,
       "minPosition": -0.004,
-      "name": "joint_GripperR",
+      "name": "gripper::right",
       "position": 0,
       "transformID": "n109",
       "type": "LinearMotor"

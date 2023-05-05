@@ -1,11 +1,13 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/develop/projects/devices/generic/protos/Servo.proto
 # A Servo represents a servomotor which adds one active degree of freedom (DOF) in a mechanical simulation.
 # The Servo 'children' move with respect to the Servo parent.
 # A Servo can be used to simulate a rotational or a linear motion.
 # Spring and damping behavior can be specified.
 # For loading performance reasons, it is suggested to use the joint and motor nodes directly instead of this node.
+# tags: no3dView
 # template language: javascript
 
 PROTO Servo [
