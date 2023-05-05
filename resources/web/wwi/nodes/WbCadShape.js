@@ -108,7 +108,7 @@ export default class WbCadShape extends WbBaseNode {
   }
 
   absoluteScale() {
-    const ut = this.upperTransform();
+    const ut = this.upperTransform;
     return ut ? ut.absoluteScale() : new WbVector3(1.0, 1.0, 1.0);
   }
 

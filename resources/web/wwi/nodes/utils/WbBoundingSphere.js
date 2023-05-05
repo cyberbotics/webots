@@ -64,7 +64,7 @@ export default class WbBoundingSphere {
     if (typeof upperPose !== 'undefined') {
       let t = upperPose;
       if (t.nodeType !== WbNodeType.WB_NODE_TRANSFORM)
-        t = t.upperTransform();
+        t = t.upperTransform;
       if (t) {
         const scale = t.absoluteScale();
         radius = Math.max(Math.max(scale.x, scale.y), scale.z) * this.#radius;
