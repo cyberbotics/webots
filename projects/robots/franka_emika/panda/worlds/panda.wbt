@@ -295,7 +295,7 @@ Pose {
   ]
 }
 Pose {
-  translation 0 2.75 0.73
+  translation 0 2.75 -0.27
   children [
     SolidBox {
       size 0.03 0.03 0.06
@@ -320,9 +320,6 @@ Pose {
           }
         }
       ]
-    }
-    Pose {
-      translation 0 0.1 0
     }
   ]
 }
