@@ -50,7 +50,7 @@ void init_pid_attitude_fixed_height_controller() {
   pastRollError = 0;
   pastVxError = 0;
   pastVyError = 0;
-  altitudeIntergrator = 0;
+  altitudeIntegrator = 0;
 }
 
 void pid_attitude_fixed_height_controller(actual_state_t actual_state, desired_state_t *desired_state, gains_pid_t gains_pid,
