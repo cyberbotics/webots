@@ -15,6 +15,7 @@
 #include "WbMesh.hpp"
 
 #include "WbApplication.hpp"
+#include "WbBoundingSphere.hpp"
 #include "WbDownloadManager.hpp"
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
@@ -82,16 +83,6 @@ void WbMesh::downloadAssets() {
 void WbMesh::downloadUpdate() {
   updateUrl();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
-  const WbNode *ancestor = WbVrmlNodeUtilities::findTopNode(this);
-  WbGroup *group = dynamic_cast<WbGroup *>(const_cast<WbNode *>(ancestor));
-  if (group)
-    group->recomputeBoundingSphere();
-
-  if (isInBoundingObject()) {
-    WbMatter *boundingObjectAncestor = WbNodeUtilities::findBoundingObjectAncestor(this);
-    if (boundingObjectAncestor)
-      boundingObjectAncestor->updateBoundingObject();
-  }
 }
 
 void WbMesh::preFinalize() {
@@ -360,6 +351,9 @@ void WbMesh::updateUrl() {
 
   if (isAValidBoundingObject())
     applyToOdeData();
+
+  if (mBoundingSphere && !isInBoundingObject())
+    mBoundingSphere->setOwnerSizeChanged();
 
   if (isPostFinalizedCalled())
     emit changed();
