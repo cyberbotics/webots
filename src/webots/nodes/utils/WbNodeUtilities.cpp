@@ -659,7 +659,7 @@ WbPose *WbNodeUtilities::findUppermostPose(const WbNode *node) {
   WbPose *uppermostPose = NULL;
   while (n) {
     const WbPose *pose = dynamic_cast<const WbPose *>(n);
-    if (transform)
+    if (pose)
       uppermostPose = const_cast<WbPose *>(pose);
     n = n->parentNode();
   };
@@ -991,8 +991,8 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
         if (childPose) {
           // Squash poses if possible.
           childPose->setRotation(WbRotation(rotationFix.transposed() * childPose->rotation().toMatrix3()));
-          childTransform->setTranslation(rotationFix.transposed() * childTransform->translation());
-          childTransform->save("__init__");
+          childPose->setTranslation(rotationFix.transposed() * childPose->translation());
+          childPose->save("__init__");
         } else {
           if (!getNodeChildrenForBackwardCompatibility(candidate).contains(child)) {
             // Child is a bounding object.
@@ -1007,8 +1007,8 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
             pose->setRotation(WbRotation(rotationFix.transposed()));
             pose->save("__init__");
             WbNode *newNode = child->cloneAndReferenceProtoInstance();
-            WbNodeOperations::instance()->initNewNode(transform, candidate, boundingObjectField, -1, false, false);
-            WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0, false, false);
+            WbNodeOperations::instance()->initNewNode(pose, candidate, boundingObjectField, -1, false, false);
+            WbNodeOperations::instance()->initNewNode(newNode, pose, pose->findField("children"), 0, false, false);
           } else {
             // Child is under the `children` field.
             child->info(message.arg("A2_2"));
@@ -1022,9 +1022,9 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
             pose->setRotation(WbRotation(rotationFix.transposed()));
             pose->save("__init__");
             WbNode *newNode = child->cloneAndReferenceProtoInstance();
-            WbNodeOperations::instance()->initNewNode(transform, candidate, childrenField, 0, false, false);
+            WbNodeOperations::instance()->initNewNode(pose, candidate, childrenField, 0, false, false);
             WbNodeOperations::instance()->deleteNode(child);
-            WbNodeOperations::instance()->initNewNode(newNode, transform, transform->findField("children"), 0, false, false);
+            WbNodeOperations::instance()->initNewNode(newNode, pose, pose->findField("children"), 0, false, false);
           }
         }
       }
@@ -1041,10 +1041,10 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
       if (parentPose && parentPose->subNodes(false, false).size() == 1) {
         // Squash poses if possible.
         candidate->info(message.arg("B1"));
-        if (dynamic_cast<WbTrackWheel *>(parentTransform->parentNode()))
+        if (dynamic_cast<WbTrackWheel *>(parentPose->parentNode()))
           continue;
-        parentTransform->setRotation(WbRotation(parentTransform->rotation().toMatrix3() * rotationFix));
-        parentTransform->save("__init__");
+        parentPose->setRotation(WbRotation(parentPose->rotation().toMatrix3() * rotationFix));
+        parentPose->save("__init__");
       } else
         candidate->warn("Conversion to a new Webots format was unsuccessful, please resolve it manually.");
     }
