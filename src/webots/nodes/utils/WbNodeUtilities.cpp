@@ -466,7 +466,7 @@ namespace {
           return true;
 
         if (WbNodeUtilities::isDescendantOfBillboard(node))
-          // only Group, Pose, Transform and Shape allowed
+          // only Group, Pose, Transform, Shape and CadShape allowed
           return false;
 
         // if the node itself is a Transform or it has a Transform ancestor exists, prohibit the insertion of Solids,
@@ -481,11 +481,11 @@ namespace {
           return true;
 
         if (WbVrmlNodeUtilities::isFieldDescendant(node, "animatedGeometry"))
-          // only Group, Transform, Shape and Slot allowed
+          // only Group, Pose, Transform, Shape, CadShape and Slot allowed
           return false;
 
         if ((parentModelName == "TrackWheel") || WbNodeUtilities::findUpperNodeByType(node, WB_NODE_TRACK_WHEEL))
-          // only Group, Transform, Shape and Slot allowed
+          // only Group, Pose, Transform, Shape, CadShape and Slot allowed
           return false;
 
         if (nodeName == "PointLight")
