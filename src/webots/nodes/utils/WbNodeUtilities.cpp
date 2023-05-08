@@ -988,9 +988,9 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
           continue;
 
         WbPose *childPose = dynamic_cast<WbPose *>(child);
-        if (childTransform) {
-          // Squash transforms if possible.
-          childTransform->setRotation(WbRotation(rotationFix.transposed() * childTransform->rotation().toMatrix3()));
+        if (childPose) {
+          // Squash poses if possible.
+          childPose->setRotation(WbRotation(rotationFix.transposed() * childPose->rotation().toMatrix3()));
           childTransform->setTranslation(rotationFix.transposed() * childTransform->translation());
           childTransform->save("__init__");
         } else {
