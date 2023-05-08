@@ -57,7 +57,7 @@ void WbSelection::selectPoseFromView3D(WbAbstractPose *p, bool handlesDisabled) 
 }
 
 void WbSelection::selectNode(WbBaseNode *n, bool handlesDisabled) {
-  const bool transformChanged =
+  const bool poseChanged =
     ((n == NULL) != (mSelectedAbstractPose == NULL)) || (n == NULL || n != mSelectedAbstractPose->baseNode());
   if (mSelectedNode) {
     // unselect previously selected node
@@ -68,7 +68,7 @@ void WbSelection::selectNode(WbBaseNode *n, bool handlesDisabled) {
       setUniformConstraintForResizeHandles(false);
       mSelectedNode->detachResizeManipulator();
 
-      if (mSelectedAbstractPose && transformChanged) {
+      if (mSelectedAbstractPose && poseChanged) {
         mSelectedAbstractPose->detachTranslateRotateManipulator();
         disconnect(mSelectedAbstractPose->baseNode(), &WbBaseNode::isBeingDestroyed, this, &WbSelection::clear);
       }
@@ -76,7 +76,7 @@ void WbSelection::selectNode(WbBaseNode *n, bool handlesDisabled) {
   }
 
   mSelectedNode = n;
-  if (transformChanged)
+  if (poseChanged)
     mSelectedAbstractPose = mSelectedNode ? dynamic_cast<WbAbstractPose *>(mSelectedNode) : NULL;
   mResizeHandlesEnabledFromSceneTree = false;
 
@@ -85,7 +85,7 @@ void WbSelection::selectNode(WbBaseNode *n, bool handlesDisabled) {
     connect(mSelectedNode, &WbBaseNode::destroyed, this, &WbSelection::clear, Qt::UniqueConnection);
     updateMatterSelection(true);
 
-    if (mSelectedAbstractPose && transformChanged) {
+    if (mSelectedAbstractPose && poseChanged) {
       connect(mSelectedNode, &WbBaseNode::isBeingDestroyed, this, &WbSelection::clear, Qt::UniqueConnection);
       if (!handlesDisabled && !mSelectedNode->isUseNode() &&
           !WbNodeUtilities::isNodeOrAncestorLocked(mSelectedAbstractPose->baseNode()))
