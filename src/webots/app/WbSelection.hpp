@@ -59,7 +59,7 @@ public:
 
   bool resizeManipulatorEnabledFromSceneTree() { return mResizeHandlesEnabledFromSceneTree; }
 
-  // the currently selected transform was reselected from the View 3D (we need to make sure the selection switches to the node
+  // the currently selected pose was reselected from the View 3D (we need to make sure the selection switches to the node
   // if a field is selected)
   void confirmSelectedAbstractPoseFromView3D() { emit selectionConfirmedFromView3D(mSelectedAbstractPose); }
 
