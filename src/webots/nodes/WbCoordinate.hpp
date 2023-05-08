@@ -43,6 +43,7 @@ public:
   }
   void rescaleAndTranslate(const WbVector3 &s, const WbVector3 &t) { mPoint->rescaleAndTranslate(s, t); }
   void translate(const WbVector3 &v) { mPoint->translate(v); }
+  QStringList fieldsToSynchronizeWithX3D() const override;
 
 private:
   // user accessible fields
