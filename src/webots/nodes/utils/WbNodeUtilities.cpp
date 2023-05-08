@@ -987,7 +987,7 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
         if (!getNodeChildrenAndBoundingForBackwardCompatibility(candidate).contains(child))
           continue;
 
-        WbPose *childTransform = dynamic_cast<WbPose *>(child);
+        WbPose *childPose = dynamic_cast<WbPose *>(child);
         if (childTransform) {
           // Squash transforms if possible.
           childTransform->setRotation(WbRotation(rotationFix.transposed() * childTransform->rotation().toMatrix3()));
