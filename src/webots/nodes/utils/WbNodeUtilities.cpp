@@ -1061,9 +1061,9 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
 
       subProto->info(message.arg("C"));
       const WbMatrix3 rotationFix(-M_PI_2, 0, M_PI_2);
-      WbPose *const subProtoTransform = static_cast<WbPose *>(subProto);
-      subProtoTransform->setRotation(WbRotation(subProtoTransform->rotation().toMatrix3() * rotationFix));
-      subProtoTransform->save("__init__");
+      WbPose *const subProtoPose = static_cast<WbPose *>(subProto);
+      subProtoPose->setRotation(WbRotation(subProtoPose->rotation().toMatrix3() * rotationFix));
+      subProtoPose->save("__init__");
     } else if (!node->isWorldRoot())
       fixBackwardCompatibility(subProto);
   }
