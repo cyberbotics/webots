@@ -656,7 +656,7 @@ WbSolid *WbNodeUtilities::findUpperSolid(const WbNode *node) {
 
 WbPose *WbNodeUtilities::findUppermostPose(const WbNode *node) {
   const WbNode *n = node;
-  WbPose *uppermostTransform = NULL;
+  WbPose *uppermostPose = NULL;
   while (n) {
     const WbPose *transform = dynamic_cast<const WbPose *>(n);
     if (transform)
