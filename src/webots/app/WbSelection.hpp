@@ -35,7 +35,7 @@ public:
   WbSelection();
   virtual ~WbSelection();
 
-  // the currently selected transform in the scene tree
+  // the currently selected pose in the scene tree
   WbAbstractPose *selectedAbstractPose() const { return mSelectedAbstractPose; }
 
   // the currently selected solid in the scene tree
