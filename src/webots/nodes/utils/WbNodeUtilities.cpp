@@ -658,7 +658,7 @@ WbPose *WbNodeUtilities::findUppermostPose(const WbNode *node) {
   const WbNode *n = node;
   WbPose *uppermostPose = NULL;
   while (n) {
-    const WbPose *transform = dynamic_cast<const WbPose *>(n);
+    const WbPose *pose = dynamic_cast<const WbPose *>(n);
     if (transform)
       uppermostTransform = const_cast<WbPose *>(transform);
     n = n->parentNode();
