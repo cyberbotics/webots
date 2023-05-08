@@ -1018,9 +1018,9 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
               candidate->warn("Conversion to a new Webots format was unsuccessful, please resolve it manually.");
               continue;
             }
-            WbPose *const transform = new WbPose();
-            transform->setRotation(WbRotation(rotationFix.transposed()));
-            transform->save("__init__");
+            WbPose *const pose = new WbPose();
+            pose->setRotation(WbRotation(rotationFix.transposed()));
+            pose->save("__init__");
             WbNode *newNode = child->cloneAndReferenceProtoInstance();
             WbNodeOperations::instance()->initNewNode(transform, candidate, childrenField, 0, false, false);
             WbNodeOperations::instance()->deleteNode(child);
