@@ -74,11 +74,11 @@ void WbPositionViewer::stopUpdating() {
   }
 }
 
-void WbPositionViewer::show(WbPose *transform) {
+void WbPositionViewer::show(WbPose *pose) {
   if (mPose)
     disconnect(mPose, &WbPose::destroyed, this, &WbPositionViewer::clean);
 
-  mPose = transform;
+  mPose = pose;
 
   updateRelativeToComboBox();
 

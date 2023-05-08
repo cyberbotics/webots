@@ -33,7 +33,7 @@ public:
   explicit WbPositionViewer(QWidget *parent = NULL);
   virtual ~WbPositionViewer();
 
-  void show(WbPose *transform);
+  void show(WbPose *pose);
 
   void stopUpdating();
   void setSelected(bool selected);
