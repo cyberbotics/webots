@@ -10,15 +10,15 @@ Derived from [Robot](https://cyberbotics.com/doc/reference/robot).
 
 ```
 PROTO Ned {
-  field  SFVec3f     translation     0 0 0     # Is `Pose.translation`.
-  field  SFRotation  rotation        0 0 1 0   # Is `Pose.rotation`.
-  field  SFString    name            "Ned"     # Is `Robot.name`.
-  field  SFString    controller      "ned"     # Is `Robot.controller`.
-  field  MFString    controllerArgs  []        # Is `Robot.controllerArgs`.
-  field  SFString    customData      ""        # Is `Robot.customData`.
-  field  SFBool      supervisor      FALSE     # Is `Robot.supervisor`.
-  field  SFBool      synchronization TRUE      # Is `Robot.synchronization`.
-  field  SFBool      selfCollision   FALSE     # Is `Robot.selfCollision`.
+  field  SFVec3f     translation     0 0 0
+  field  SFRotation  rotation        0 0 1 0
+  field  SFString    name            "Ned"
+  field  SFString    controller      "ned"
+  field  MFString    controllerArgs  []
+  field  SFString    customData      ""
+  field  SFBool      supervisor      FALSE
+  field  SFBool      synchronization TRUE
+  field  SFBool      selfCollision   FALSE
 }
 ```
 
