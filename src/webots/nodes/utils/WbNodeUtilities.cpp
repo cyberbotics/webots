@@ -663,7 +663,7 @@ WbPose *WbNodeUtilities::findUppermostPose(const WbNode *node) {
       uppermostPose = const_cast<WbPose *>(pose);
     n = n->parentNode();
   };
-  return uppermostTransform;
+  return uppermostPose;
 }
 
 WbSolid *WbNodeUtilities::findUppermostSolid(const WbNode *node) {
