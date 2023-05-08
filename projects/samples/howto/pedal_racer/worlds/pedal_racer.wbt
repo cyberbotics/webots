@@ -108,6 +108,7 @@ DEF PEDAL_RACER Solid {
     }
     DEF BACK_RIGHT_AXLE_HINGE HingeJoint {
       jointParameters HingeJointParameters {
+        axis 0 1 0
         anchor -0.11 -0.08 0.038
       }
       endPoint DEF BACK_AXLE Solid {
@@ -233,6 +234,7 @@ DEF PEDAL_RACER Solid {
           }
           DEF LEFT_PEDAL_HINGE HingeJoint {
             jointParameters HingeJointParameters {
+              axis 0 1 0
               anchor -0.11 0.08 -0.038
             }
             endPoint DEF LEFT_PEDAL Solid {
@@ -321,6 +323,7 @@ DEF PEDAL_RACER Solid {
                 }
                 DEF FRONT_AXLE_HINGE HingeJoint {
                   jointParameters HingeJointParameters {
+                    axis 0 1 0
                     anchor 0.11 0.08 -0.038
                   }
                   endPoint SolidReference {
@@ -388,6 +391,7 @@ DEF PEDAL_RACER Solid {
     }
     DEF FRONT_RIGHT_AXLE_HINGE HingeJoint {
       jointParameters HingeJointParameters {
+        axis 0 1 0
         anchor 0.11 -0.08 0.038
       }
       endPoint DEF FRONT_AXLE Solid {
