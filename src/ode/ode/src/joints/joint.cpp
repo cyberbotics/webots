@@ -497,7 +497,6 @@ void dxJointLimitMotor::init( dxWorld *world )
     stop_erp = world->global_erp;
     stop_cfm = world->global_cfm;
     bounce = 0;
-    previous_angle = 0;
     limit = 0;
     limit_err = 0;
 }
@@ -565,11 +564,6 @@ dReal dxJointLimitMotor::get( int num )
 
 int dxJointLimitMotor::testRotationalLimit( dReal angle )
 {
-    dReal delta_angle = angle - previous_angle;
-    if ( delta_angle > M_PI ) angle -= 2 * M_PI;
-    else if ( delta_angle < -M_PI ) angle += 2 * M_PI;
-    previous_angle = angle;
-
     if ( angle <= lostop )
     {
         limit = 1;
