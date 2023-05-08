@@ -47,6 +47,7 @@ void WbMesh::init() {
   mIsCollada = false;
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
   mDownloader = NULL;
+  mBoundingObjectNeedUpdate = false;
   setCcw(mCcw->value());
 }
 
@@ -81,6 +82,7 @@ void WbMesh::downloadAssets() {
 }
 
 void WbMesh::downloadUpdate() {
+  mBoundingObjectNeedUpdate = true;
   updateUrl();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
 }
@@ -349,8 +351,15 @@ void WbMesh::updateUrl() {
       emit wrenObjectsCreated();  // throw signal to update pickable state
   }
 
-  if (isAValidBoundingObject())
+  if (isAValidBoundingObject()) {
+    if (mBoundingObjectNeedUpdate) {
+      WbMatter *boundingObjectAncestor = WbNodeUtilities::findBoundingObjectAncestor(this);
+      if (boundingObjectAncestor && boundingObjectAncestor->odeGeom() == NULL)
+        boundingObjectAncestor->updateBoundingObject();
+      mBoundingObjectNeedUpdate = false;
+    }
     applyToOdeData();
+  }
 
   if (mBoundingSphere && !isInBoundingObject())
     mBoundingSphere->setOwnerSizeChanged();
