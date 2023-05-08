@@ -1037,9 +1037,9 @@ void WbNodeUtilities::fixBackwardCompatibility(WbNode *node) {
       WbNode *const parent = nodeToRotate->parentNode();
       assert(dynamic_cast<WbGroup *>(parent));
 
-      WbPose *const parentTransform = dynamic_cast<WbPose *>(parent);
-      if (parentTransform && parentTransform->subNodes(false, false).size() == 1) {
-        // Squash transforms if possible.
+      WbPose *const parentPose = dynamic_cast<WbPose *>(parent);
+      if (parentPose && parentPose->subNodes(false, false).size() == 1) {
+        // Squash poses if possible.
         candidate->info(message.arg("B1"));
         if (dynamic_cast<WbTrackWheel *>(parentTransform->parentNode()))
           continue;
