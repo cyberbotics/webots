@@ -250,7 +250,7 @@ bool WbTrack::findAndConnectAnimatedGeometries(bool connectSignals, QList<WbShap
 
     WbGroup *g = dynamic_cast<WbGroup *>(node);
     if (g) {
-      // group or transform nodes
+      // group, pose or transform nodes
       if (connectSignals) {
         connect(g, &WbGroup::finalizedChildAdded, this, &WbTrack::updateAnimatedGeometries, Qt::UniqueConnection);
         connect(g->childrenField(), &WbMFNode::itemRemoved, this, &WbTrack::updateAnimatedGeometries, Qt::UniqueConnection);

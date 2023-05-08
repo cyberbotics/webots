@@ -447,7 +447,8 @@ namespace {
       return nodeName == "Muscle";
 
     } else if (fieldName == "animatedGeometry" && parentModelName == "Track") {
-      return nodeName == "Shape" || nodeName == "Transform" || nodeName == "Group" || nodeName == "Slot";
+      return nodeName == "CadShape" || nodeName == "Shape" || nodeName == "Transform" || nodeName == "Pose" ||
+             nodeName == "Group" || nodeName == "Slot";
 
     } else if (fieldName == "bones" && parentModelName == "Skin") {
       return nodeName == "SolidReference";
