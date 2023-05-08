@@ -193,6 +193,7 @@ struct dxJointLimitMotor
     dReal normal_cfm;       // cfm to use when not at a stop
     dReal stop_erp, stop_cfm; // erp and cfm for when at joint limit
     dReal bounce;           // restitution factor
+    dReal previous_angle;   // joint angle at previous step for limit calculation
     // variables used between getInfo1() and getInfo2()
     int limit;          // 0=free, 1=at lo limit, 2=at hi limit
     dReal limit_err;    // if at limit, amount over limit
