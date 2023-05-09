@@ -64,7 +64,7 @@ int main(int argc, char **argv) {
   wb_motor_set_velocity(m4_motor, 1.0);
 
   // Initialize sensors
-  WbDeviceTag imu = wb_robot_get_device("inertial unit");
+  WbDeviceTag imu = wb_robot_get_device("inertial_unit");
   wb_inertial_unit_enable(imu, timestep);
   WbDeviceTag gps = wb_robot_get_device("gps");
   wb_gps_enable(gps, timestep);
