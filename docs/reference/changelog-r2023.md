@@ -17,6 +17,7 @@ Released on ??
     - Updated names of TIAGo models and add default RGBD camera ([#6082](https://github.com/cyberbotics/webots/pull/6082)).
     - **Changed type of the [`Recognition.occlusion`](recognition.md) field from `SFBool` to `SFInt32` to choose between two different levels of accuracy ([#6051](https://github.com/cyberbotics/webots/pull/6051)).**
     - Add parameters to change the glass color and opacity of the `Window.proto` ([#6106](https://github.com/cyberbotics/webots/pull/6106)).
+    - Stop extern controller timeout counter during Webots world loading ([#6111](https://github.com/cyberbotics/webots/pull/6111)).
 
 ## Webots R2023a Revision 1
 Released on ??
