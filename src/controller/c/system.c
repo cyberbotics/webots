@@ -126,11 +126,7 @@ const char *wbu_system_tmpdir() {
   if (tmpdir == NULL)
     tmpdir = "/tmp";
 #elif defined(__APPLE__)
-  tmpdir = getenv("TMPDIR");
-  if (tmpdir == NULL || tmpdir[0] == '\0') {
-    fprintf(stderr, "TMPDIR is not defined or empty.");
-    exit(EXIT_FAILURE);
-  }
+  tmpdir = "/tmp";
 #endif
   return tmpdir;
 }

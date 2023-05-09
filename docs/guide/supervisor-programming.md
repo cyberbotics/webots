@@ -147,6 +147,8 @@ public class SupervisorController {
 
 %tab "MATLAB"
 ```MATLAB
+function supervisor_controller
+
 TIME_STEP = 32;
 % do this once only
 robot_node = wb_supervisor_node_get_from_def('MY_ROBOT');
@@ -155,6 +157,7 @@ if robot_node == 0
   quit(1);
 end
 trans_field = wb_supervisor_node_get_field(robot_node, 'translation');
+
 while wb_robot_step(TIME_STEP) ~= -1
   % this is done repeatedly
   values = wb_supervisor_field_get_sf_vec3f(trans_field);
@@ -385,10 +388,14 @@ public class SupervisorController {
 
 %tab "MATLAB"
 ```MATLAB
+function supervisor_controller
+
 TIME_STEP = 32;
+
 % get handle to robot's translation field
 robot_node = wb_supervisor_node_get_from_def('MY_ROBOT');
 trans_field = wb_supervisor_node_get_field(robot_node, 'translation');
+
 for a = 0:25
   for b = 0:33
     % evaluate robot during 60 seconds (simulation time)
@@ -401,10 +408,12 @@ for a = 0:25
         quit(0);
       end
     end
+	
     % compute travelled distance
     values = wb_supervisor_field_get_sf_vec3f(trans_field);
     dist = sqrt((values(1) * values(1)) + (values(3) * values(3)));
     wb_console_print(sprintf('a=%g, b=%g -> dist=%g\n', a, b, dist), WB_STDOUT);
+	
     % reset robot position and physics
     INITIAL = [0, 0.5, 0];
     wb_supervisor_field_set_sf_vec3f(trans_field, INITIAL);
