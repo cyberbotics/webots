@@ -79,6 +79,7 @@ JAVA_FILES      = Accelerometer.java \
                   Speaker.java \
                   Supervisor.java \
                   TouchSensor.java \
+                  VacuumCup.java \
                   wrapper.java \
                   wrapperJNI.java
 LIBNAME         = JavaController

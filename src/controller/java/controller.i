@@ -56,6 +56,7 @@
 #include <webots/Speaker.hpp>
 #include <webots/Supervisor.hpp>
 #include <webots/TouchSensor.hpp>
+#include <webots/VacuumCup.hpp>
 #include <webots/utils/Motion.hpp>
 
 using namespace std;
@@ -816,6 +817,12 @@ namespace webots {
 %include <webots/TouchSensor.hpp>
 
 //----------------------------------------------------------------------------------------------
+//  VacuumCup
+//----------------------------------------------------------------------------------------------
+
+%include <webots/VacuumCup.hpp>
+
+//----------------------------------------------------------------------------------------------
 //  Robot
 //----------------------------------------------------------------------------------------------
 
@@ -846,6 +853,7 @@ namespace webots {
 %ignore webots::Robot::getSkin(const std::string &name);
 %ignore webots::Robot::getSpeaker(const std::string &name);
 %ignore webots::Robot::getTouchSensor(const std::string &name);
+%ignore webots::Robot::getVacuumCup(const std::string &name);
 %ignore webots::Robot::windowCustomFunction(void *arg);
 %ignore webots::Robot::wwiSend(const char *data, int size);
 %ignore webots::Robot::wwiReceive(int *size);
@@ -1142,6 +1150,17 @@ namespace webots {
     return (TouchSensor)getOrCreateDevice(tag);
   }
 
+  protected VacuumCup createVacuumCup(String name) {
+    return new VacuumCup(name);
+  }
+
+  public VacuumCup getVacuumCup(String name) {
+    int tag = getDeviceTagFromName(name);
+    if (!Device.hasType(tag, Node.VACUUM_CUP))
+      return null;
+    return (VacuumCup)getOrCreateDevice(tag);
+  }
+
   public Device getDeviceByIndex(int index) {
     return getOrCreateDevice(getDeviceTagFromIndex(index));
   }
@@ -1195,6 +1214,7 @@ namespace webots {
         case Node.SKIN:             devices[otherTag] = createSkin(name); break;
         case Node.SPEAKER:          devices[otherTag] = createSpeaker(name); break;
         case Node.TOUCH_SENSOR:     devices[otherTag] = createTouchSensor(name); break;
+        case Node.VACUUM_CUP:       devices[otherTag] = createVacuumCup(name); break;
         default:                    devices[otherTag] = null; break;
       }
     }

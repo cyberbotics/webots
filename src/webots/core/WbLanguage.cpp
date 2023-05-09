@@ -481,6 +481,13 @@ static const char *C_API_FUNCTIONS = "wb_accelerometer_enable "
                                      "wb_touch_sensor_get_value "
                                      "wb_touch_sensor_get_lookup_table_size "
                                      "wb_touch_sensor_get_lookup_table "
+                                     "wb_vacuum_cup_turn_on "
+                                     "wb_vacuum_cup_turn_off "
+                                     "wb_vacuum_cup_disable_presence "
+                                     "wb_vacuum_cup_enable_presence "
+                                     "wb_vacuum_cup_get_presence "
+                                     "wb_vacuum_cup_get_presence_sampling_period "
+                                     "wb_vacuum_cup_is_on "
                                      "wbu_car_cleanup "
                                      "wbu_car_enable_indicator_auto_disabling "
                                      "wbu_car_init "
@@ -689,6 +696,7 @@ static const char *C_API_CONSTANTS = "INFINITY "
                                      "WB_NODE_TRACK "
                                      "WB_NODE_TRACK_WHEEL "
                                      "WB_NODE_TRANSFORM "
+                                     "WB_NODE_VACUUM_CUP "
                                      "WB_NODE_VIEWPOINT "
                                      "WB_NODE_WORLD_INFO "
                                      "WB_NODE_ZOOM";
@@ -701,7 +709,7 @@ static const char *API_CLASSES =
   "CoordinateSystem Driver Display DistanceSensor Emitter EngineType Field GPS Gyro Keyboard "
   "InertialUnit ImageRef IndicatorState Joystick LED Lidar LidarPoint LightSensor LinearMotor Mode Motion Motor "
   "MouseState Node Pen PositionSensor Radar RadarTarget RangeFinder Receiver Robot RotationalMotor "
-  "SimulationMode Skin Speaker Supervisor TouchSensor Type UserInputEvent WiperMode WheelIndex";
+  "SimulationMode Skin Speaker Supervisor TouchSensor Type UserInputEvent VacuumCup WiperMode WheelIndex";
 
 static const char *WBT_OBJECTS =
   "Appearance Background BallJoint BallJointParameters Billboard Box "

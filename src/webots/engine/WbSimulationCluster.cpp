@@ -35,6 +35,7 @@
 #include "WbSolid.hpp"
 #include "WbTouchSensor.hpp"
 #include "WbTrack.hpp"
+#include "WbVacuumCup.hpp"
 #include "WbWorld.hpp"
 #include "WbWorldInfo.hpp"
 
@@ -684,11 +685,13 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   if (n == 0)
     return;
 
+  bool areContactPointsSorted = false;
   if (n > maxContactJoints) {
     WbSimulationCluster::warnMoreContactPointsThanContactJoints(s1->contactMaterial(), s2->contactMaterial(), maxContactJoints,
                                                                 n);
     std::nth_element(contact, contact + maxContactJoints, contact + n,
                      [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
+    areContactPointsSorted = true;
     n = maxContactJoints;
   }
 
@@ -700,6 +703,23 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   if (ts2 && !isRayGeom1)
     ts2->setTouching(true);
 
+  if (n > 3) {
+    WbVacuumCup *vc = dynamic_cast<WbVacuumCup *>(s1);
+    WbSolid *vcSolid;
+    if (vc)
+      vcSolid = isRayGeom2 ? NULL : s2;
+    else {
+      vc = dynamic_cast<WbVacuumCup *>(s2);
+      vcSolid = isRayGeom1 ? NULL : s1;
+    }
+    if (vc && vcSolid && vc->isWaitingForConnection()) {
+      if (!areContactPointsSorted)
+        std::nth_element(contact, contact, contact + n,
+                         [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
+      vc->addCollidedSolid(vcSolid, contact[0].geom.depth);
+    }
+  }
+
   const WbPhysics *const p1 = s1->physics();
   const WbPhysics *const p2 = s2->physics();
 
@@ -708,8 +728,9 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     WbRobot *const robot1 = dynamic_cast<WbRobot *>(s1);
     WbRobot *const robot2 = dynamic_cast<WbRobot *>(s2);
     // Ensure that the deepest contact point is first for calls to collideKinematicRobots() below.
-    std::nth_element(contact, contact, contact + n,
-                     [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
+    if (!areContactPointsSorted)
+      std::nth_element(contact, contact, contact + n,
+                       [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
     if (robot1 && !p1 && !isRayGeom2 && robot1->kinematicDifferentialWheels()) {
       wg1->setColliding();
       cl->appendCollisionedRobot(robot1->kinematicDifferentialWheels());

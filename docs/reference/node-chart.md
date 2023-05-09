@@ -81,6 +81,7 @@ graph LR
         SolidDevice --> Receiver[[Receiver](receiver.md)]
         SolidDevice --> Speaker[[Speaker](speaker.md)]
         SolidDevice --> TouchSensor[[TouchSensor](touchsensor.md)]
+        SolidDevice --> VacuumCup[[VacuumCup](vacuumcup.md)]
       Solid --> Track[[Track](track.md)]
       Solid --> Charger[[Charger](charger.md)]
       Solid --> Robot[[Robot](robot.md)]

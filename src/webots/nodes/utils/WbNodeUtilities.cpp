@@ -486,7 +486,7 @@ namespace {
         if (nodeName == "TrackWheel")
           return parentModelName == "Track";
 
-        if (nodeName == "Connector" || nodeName.endsWith("Joint")) {
+        if (nodeName == "Connector" || nodeName.endsWith("Joint") || nodeName == "VacuumCup") {
           if (WbNodeUtilities::isSolidTypeName(parentModelName) || WbNodeUtilities::findUpperSolid(node) != NULL)
             return true;
 
@@ -1274,7 +1274,8 @@ bool WbNodeUtilities::isSolidDeviceTypeName(const QString &modelName) {
                                                    << "Receiver"
                                                    << "Speaker"
                                                    << "TouchSensor"
-                                                   << "Track");
+                                                   << "Track"
+                                                   << "VacuumCup");
   if (solidDeviceTypeName.contains(modelName))
     return true;
 

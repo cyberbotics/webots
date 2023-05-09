@@ -44,6 +44,7 @@
 #include "RosSpeaker.hpp"
 #include "RosSupervisor.hpp"
 #include "RosTouchSensor.hpp"
+#include "RosVacuumCup.hpp"
 #include "highlevel/RosControl.hpp"
 
 #include <webots/Node.hpp>
@@ -398,6 +399,10 @@ void Ros::setRosDevices(const char **hiddenDevices, int numberHiddenDevices) {
         break;
       case Node::TOUCH_SENSOR:
         mSensorList.push_back(static_cast<RosSensor *>(new RosTouchSensor(dynamic_cast<TouchSensor *>(tempDevice), this)));
+        mDeviceList.push_back(static_cast<RosDevice *>(mSensorList.back()));
+        break;
+      case Node::VACUUM_CUP:
+        mSensorList.push_back(static_cast<RosSensor *>(new RosVacuumCup(dynamic_cast<VacuumCup *>(tempDevice), this)));
         mDeviceList.push_back(static_cast<RosDevice *>(mSensorList.back()));
         break;
     }

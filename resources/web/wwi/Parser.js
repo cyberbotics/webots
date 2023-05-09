@@ -70,6 +70,7 @@ import WbTouchSensor from './nodes/WbTouchSensor.js';
 import WbTrack from './nodes/WbTrack.js';
 import WbTrackWheel from './nodes/WbTrackWheel.js';
 import WbTransform from './nodes/WbTransform.js';
+import WbVacuumCup from './nodes/WbVacuumCup.js';
 import WbVector2 from './nodes/utils/WbVector2.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 import WbVector4 from './nodes/utils/WbVector4.js';
@@ -292,6 +293,7 @@ export default class Parser {
       case 'TouchSensor':
       case 'Track':
       case 'TrackWheel':
+      case 'VacuumCup':
         result = this.#parseTransform(node, parentNode, isBoundingObject);
         break;
       case 'Physics':
@@ -742,6 +744,8 @@ export default class Parser {
       newNode = new WbSpeaker(id, translation, scale, rotation, name === '' ? 'speaker' : name);
     else if (node.tagName === 'TouchSensor')
       newNode = new WbTouchSensor(id, translation, scale, rotation, name === '' ? 'touch sensor' : name);
+    else if (node.tagName === 'VacuumCup')
+      newNode = new WbVacuumCup(id, translation, scale, rotation, name === '' ? 'vacuum cup' : name);
     else {
       if (!isBoundingObject)
         isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';

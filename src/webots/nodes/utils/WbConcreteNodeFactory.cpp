@@ -102,6 +102,7 @@
 #include "WbTrackWheel.hpp"
 #include "WbTransform.hpp"
 #include "WbUrl.hpp"
+#include "WbVacuumCup.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 #include "WbWorldInfo.hpp"
@@ -280,6 +281,8 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbTrackWheel(tokenizer);
   if (modelName == "Transform")
     return new WbTransform(tokenizer);
+  if (modelName == "VacuumCup")
+    return new WbVacuumCup(tokenizer);
   if (modelName == "Viewpoint")
     return new WbViewpoint(tokenizer);
   if (modelName == "WorldInfo")

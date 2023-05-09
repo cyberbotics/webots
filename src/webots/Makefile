@@ -461,6 +461,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbVideoRecorder.cpp \
   WbVideoRecorderDialog.cpp \
   WbMultimediaStreamingServer.cpp \
+  WbVacuumCup.cpp \
   WbViewpoint.cpp \
   WbView3D.cpp \
   WbVisualBoundingSphere.cpp \

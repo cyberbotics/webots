@@ -43,7 +43,7 @@ export default class NodeSelectorWindow {
   #rootProto;
   #devices = ['Accelerometer', 'Altimeter', 'Camera', 'Compass', 'Connector', 'Display',
     'DistanceSensor', 'Emitter', 'GPS', 'Gyro', 'InertialUnit', 'LED', 'Lidar', 'LightSensor', 'Pen', 'Radar',
-    'RangeFinder', 'Receiver', 'Speaker', 'TouchSensor'];
+    'RangeFinder', 'Receiver', 'Speaker', 'TouchSensor', 'VacuumCup'];
 
   constructor(parentNode, rootProto) {
     this.#rootProto = rootProto;

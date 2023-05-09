@@ -49,6 +49,7 @@
 #include <webots/Skin.hpp>
 #include <webots/Speaker.hpp>
 #include <webots/TouchSensor.hpp>
+#include <webots/VacuumCup.hpp>
 
 #include <cassert>
 #include <cstdlib>
@@ -455,6 +456,17 @@ TouchSensor *Robot::createTouchSensor(const string &name) const {
   return new TouchSensor(name);
 }
 
+VacuumCup *Robot::getVacuumCup(const string &name) {
+  WbDeviceTag tag = wb_robot_get_device(name.c_str());
+  if (!Device::hasType(tag, WB_NODE_VACUUM_CUP))
+    return NULL;
+  return dynamic_cast<VacuumCup *>(getOrCreateDevice(tag));
+}
+
+VacuumCup *Robot::createVacuumCup(const string &name) const {
+  return new VacuumCup(name);
+}
+
 Device *Robot::getDeviceFromTag(int tag) {
   if (tag == 0)
     return NULL;
@@ -558,6 +570,9 @@ Device *Robot::getOrCreateDevice(int tag) {
         break;
       case WB_NODE_TOUCH_SENSOR:
         deviceList[otherTag] = createTouchSensor(name);
+        break;
+      case WB_NODE_VACUUM_CUP:
+        deviceList[otherTag] = createVacuumCup(name);
         break;
       default:
         deviceList[otherTag] = NULL;

@@ -1,0 +1,253 @@
+## Vacuum Cup
+
+Derived from [Device](device.md) and [Solid](solid.md).
+
+```
+VacuumCup {
+  SFBool   isOn              FALSE         # {TRUE, FALSE}
+  SFFloat  tensileStrength   -1            # {-1, [0, inf)}
+  SFFloat  shearStrength     -1            # {-1, [0, inf)}
+}
+```
+
+### Description
+
+[VacuumCup](#vacuumcup) node is used to simulate physical links created by vacuum suction.
+
+[VacuumCup](#vacuumcup) node can only connect to dynamic [Solid](solid.md) nodes.
+The physical connection can be created and destroyed at run time by the robot's controller.
+
+Both [VacuumCup](#vacuumcup) and the [Solid](solid.md) nodes (or any of their ancestor nodes) must define a [Physics](#physics) node.
+Then, the detection of the presence of an object to connect to is based on collision detection.
+
+### Field Summary
+
+- `isOn`: represents the state of the [VacuumCup](#vacuumcup).
+The state can be changed through the `wb_vacuum_cup_turn_on` and `wb_vacuum_cup_turn_off` API functions.
+The *on state* just means that the suction pump is active, but it does not indicates whether or not an actual physical link exists with an object.
+The actual physical link exists only if a valid [Solid](solid.md) object collided with the [VacuumCup](#vacuumcup) after the `wb_vacuum_cup_turn_on` function was called.
+
+  > **Note**:
+If the `VacuumCup` node is on in the .wbt file and a valid [Solid](solid.md) node is available, then the simulation will automatically connect to the [Solid](solid.md) object.
+You can take advantage of this feature to start your simulation with the desired mechanical configuration.
+
+- `tensileStrength`: maximum tensile force in *newton* [N] that the suction mechanism can withstand before it breaks.
+This can be used to simulate the rupture of the suction mechanism.
+The tensile force corresponds to a force that pulls the two objects apart (in the negative *x*-axes direction).
+When the tensile force exceeds the tensile strength, the link breaks.
+The default value -1 indicates an infinitely strong suction mechanism that does not break no matter how much force is applied.
+
+- `shearStrength`: indicates the maximum shear force in *newtons* [N] that the suction mechanism can withstand before it breaks.
+This can be used to simulate the rupture of the suction mechanism.
+The `shearStrength` field specifies the ability of the suction mechanism to withstand a force that would makes them slide against each other in opposite directions (in the *yz*-plane).
+The default value -1 indicates an infinitely strong suction mechanism that does not break no matter how much force is applied.
+
+
+### VaccumCup Functions
+
+#### `wb_vacuum_cup_enable_presence`
+#### `wb_vacuum_cup_disable_presence`
+#### `wb_vacuum_cup_get_presence_sampling_period`
+#### `wb_vacuum_cup_get_presence`
+
+%tab-component "language"
+
+%tab "C"
+
+```c
+#include <webots/vacuum_cup.h>
+
+void wb_vacuum_cup_enable_presence(WbDeviceTag tag, int sampling_period);
+void wb_vacuum_cup_disable_presence(WbDeviceTag tag);
+int wb_vacuum_cup_get_presence_sampling_period(WbDeviceTag tag);
+bool wb_vacuum_cup_get_presence(WbDeviceTag tag);
+```
+
+%tab-end
+
+%tab "C++"
+
+```cpp
+#include <webots/VacuumCup.hpp>
+
+namespace webots {
+  class VacuumCup : public Device {
+    virtual void enablePresence(int samplingPeriod);
+    virtual void disablePresence();
+    int getPresenceSamplingPeriod() const;
+    bool getPresence() const;
+    // ...
+  }
+}
+```
+
+%tab-end
+
+%tab "Python"
+
+```python
+from controller import VacuumCup
+
+class VacuumCup (Device):
+    def enablePresence(self, samplingPeriod):
+    def disablePresence(self):
+    def getPresenceSamplingPeriod(self):
+    def getPresence(self):
+    # ...
+```
+
+%tab-end
+
+%tab "Java"
+
+```java
+import com.cyberbotics.webots.controller.VacuumCup;
+
+public class VacuumCup extends Device {
+  public void enablePresence(int samplingPeriod);
+  public void disablePresence();
+  public int getPresenceSamplingPeriod();
+  public boolean getPresence();
+  // ...
+}
+```
+
+%tab-end
+
+%tab "MATLAB"
+
+```MATLAB
+wb_vacuum_cup_enable_presence(tag, sampling_period)
+wb_vacuum_cup_disable_presence(tag)
+period = wb_vacuum_cup_get_presence_sampling_period(tag)
+presence = wb_vacuum_cup_get_presence(tag)
+```
+
+%tab-end
+
+%tab "ROS"
+
+| name | service/topic | data type | data type definition |
+| --- | --- | --- | --- |
+| `/<device_name>/presence` | `topic` | `webots_ros::BoolStamped` | [`Header`](http://docs.ros.org/api/std_msgs/html/msg/Header.html) `header`<br/>`bool data` |
+| `/<device_name>/presence_sensor/enable` | `service` | [`webots_ros::set_int`](ros-api.md#common-services) | |
+| `/<device_name>/presence_sensor/get_sampling_period` | `service` | [`webots_ros::get_int`](ros-api.md#common-services) | |
+
+%tab-end
+
+%end
+
+##### Description
+
+*detect the presence of a connected object*
+
+The `wb_vacuum_cup_enable_presence` function starts querying the presence of a linked [Solid](solid.md) object.
+The `sampling_period` argument specifies the sampling period of the presence sensor.
+It is expressed in milliseconds.
+Note that it will be active only after the first sampling period elapsed.
+
+The `wb_vacuum_cup_disable_presence` function stops querying the presence sensor of a linked [Solid](solid.md) object.
+
+The `wb_vacuum_cup_get_presence_sampling_period` function returns the period at which the presence sensor of the linked [Solid](solid.md) object is queried.
+The `wb_vacuum_cup_get_presence` function returns the current *presence* state, it returns *TRUE* if a [Solid](solid.md) object is connected and *FALSE* otherwise.
+
+```
+
+---
+
+#### `wb_vacuum_cup_turn_on`
+#### `wb_vacuum_cup_turn_off`
+#### `wb_vacuum_cup_is_on`
+
+%tab-component "language"
+
+%tab "C"
+
+```c
+#include <webots/vacuum_cup.h>
+
+void wb_vacuum_cup_turn_on(WbDeviceTag tag);
+void wb_vacuum_cup_turn_off(WbDeviceTag tag);
+bool wb_vacuum_cup_is_on(WbDeviceTag tag);
+```
+
+%tab-end
+
+%tab "C++"
+
+```cpp
+#include <webots/VacuumCup.hpp>
+
+namespace webots {
+  class VacuumCup : public Device {
+    virtual void turnOn();
+    virtual void turnOff();
+    virtual bool isOn()
+    // ...
+  }
+}
+```
+
+%tab-end
+
+%tab "Python"
+
+```python
+from controller import VacuumCup
+
+class VacuumCup (Device):
+    def turnOn(self):
+    def turnOff(self):
+    def isOn(self):
+    # ...
+```
+
+%tab-end
+
+%tab "Java"
+
+```java
+import com.cyberbotics.webots.controller.VacuumCup;
+
+public class VacuumCup extends Device {
+  public void turnOn();
+  public void turnOff();
+  public boolean isOn();
+  // ...
+}
+```
+
+%tab-end
+
+%tab "MATLAB"
+
+```MATLAB
+wb_vacuum_cup_turn_on(tag)
+wb_vacuum_cup_turn_off(tag)
+on = wb_vacuum_cup_is_on(tag)
+```
+
+%tab-end
+
+%tab "ROS"
+
+| name | service/topic | data type | data type definition |
+| --- | --- | --- | --- |
+| `/<device_name>/turn_on` | `service` | [`webots_ros::set_bool`](ros-api.md#common-services) | |
+| `/<device_name>/is_on` | `service` | [`webots_ros::get_bool`](ros-api.md#common-services) | |
+
+%tab-end
+
+%end
+
+##### Description
+
+*create / destroy the physical connection wit a solid object*
+
+The `wb_vacuum_cup_turn_on` and `wb_vacuum_cup_turn_off` functions can be used to activate or deactivate the [VacuumCup](#vaccumcup) suction pump and changing the status of the `isOn` field.
+This will eventually create or destroy the physical connection with a [Solid](solid.md) object.
+
+If dynamic [Solid](solid.md) object collides with the [VacuumCup](#vacuumcup) while the device is on, a physical link will be created between the [VacuumCup](#vaccumcup) and the [Solid](solid.md) object.
+The two connected bodies will then keep a constant distance and orientation with respect to each other from this moment on.
+
+If the `wb_vacuum_cup_turn_off` function is invoked while there is a physical link between the [VacuumCup](#vaccumcup) and a [Solid](solid.md) object, the link will be destroyed.

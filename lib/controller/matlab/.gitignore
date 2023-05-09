@@ -346,6 +346,13 @@ wb_touch_sensor_enable.m
 wb_touch_sensor_get_sampling_period.m
 wb_touch_sensor_get_type.m
 wb_touch_sensor_get_value.m
+wb_vacuum_cup_disable_presence.m
+wb_vacuum_cup_enable_presence.m
+wb_vacuum_cup_get_presence.m
+wb_vacuum_cup_get_presence_sampling_period.m
+wb_vacuum_cup_is_on.m
+wb_vacuum_cup_turn_on.m
+wb_vacuum_cup_turn_off.m
 wbu_motion_delete.m
 wbu_motion_get_duration.m
 wbu_motion_get_time.m
@@ -501,6 +508,7 @@ WB_NODE_ROTATIONAL_MOTOR.m
 WB_NODE_SKIN.m
 WB_NODE_SPEAKER.m
 WB_NODE_TOUCH_SENSOR.m
+WB_NODE_VACUUM_CUP.m
 WB_NODE_BALL_JOINT.m
 WB_NODE_BALL_JOINT_PARAMETERS.m
 WB_NODE_CHARGER.m
