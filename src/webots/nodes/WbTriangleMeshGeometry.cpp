@@ -361,6 +361,7 @@ bool WbTriangleMeshGeometry::isSuitableForInsertionInBoundingObject(bool warning
 }
 
 bool WbTriangleMeshGeometry::isAValidBoundingObject(bool checkOde, bool warning) const {
+  assert(mTriangleMesh);
   return mTriangleMesh->isValid() && WbGeometry::isAValidBoundingObject(checkOde, warning);
 }
 /////////////////

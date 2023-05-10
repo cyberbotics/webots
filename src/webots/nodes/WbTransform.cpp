@@ -325,7 +325,7 @@ bool WbTransform::isAValidBoundingObject(bool checkOde, bool warning) const {
     return false;
   }
 
-  if (g->isAValidBoundingObject(checkOde, warning) == false)
+  if (!g->isPostFinalizedCalled() || !g->isAValidBoundingObject(checkOde, warning))
     return false;
 
   if (checkOde && g->odeGeom() == NULL)
