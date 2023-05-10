@@ -176,7 +176,7 @@ void WbGroup::deleteAllSolids() {
         g->deleteAllSolids();
     }
   }
-  foreach(WbSolid *s, solids)
+  foreach (WbSolid *s, solids)
     WbNodeOperations::instance()->deleteNode(s);
 }
 
