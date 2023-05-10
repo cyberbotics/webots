@@ -36,6 +36,7 @@ The following buttons are available in the field editor section:
 
 %end
 
+
     > **Note**:
 We recommend to use the Scene Tree to write Webots world files. However, because the nodes and fields are stored in a human readable form, it is also possible to edit world files with a regular text editor.
 Some search and replace operations may actually be easier that way.
