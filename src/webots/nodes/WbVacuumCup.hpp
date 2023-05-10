@@ -36,7 +36,6 @@ public:
   void handleMessage(QDataStream &stream) override;
   void writeAnswer(WbDataStream &stream) override;
   void writeConfigure(WbDataStream &) override;
-  // void createWrenObjects() override;
   void prePhysicsStep(double ms) override;
   void postPhysicsStep() override;
   bool refreshSensorIfNeeded() override;
@@ -61,19 +60,6 @@ private:
   QMap<QString, bool> mIsInitiallyOn;
   QList<std::pair<WbSolid *, const double>> mCollidedSolidList;  // list of Solid that collided with the deepest contact depth
 
-  /*WrTransform *mTransform;
-  WrTransform *mAxesTransform;
-  WrTransform *mRotationsTransform;
-
-  WrRenderable *mAxisRenderable[2];
-  WrRenderable *mRotationsRenderable;
-
-  WrMaterial *mMaterial[3];
-
-  WrStaticMesh *mAxisMesh[2];
-  WrStaticMesh *mRotationsMesh;
-  */
-
   WbVacuumCup &operator=(const WbVacuumCup &);  // non copyable
   WbNode *clone() const override { return new WbVacuumCup(*this); }
   void addConfigure(WbDataStream &);
@@ -81,6 +67,7 @@ private:
   void attachToSolid();
   void detachFromSolid();
   void createFixedJoint(WbSolid *other);
+  void destroyFixedJoint();
   void turnOn();
   void turnOff();
   void computeValue();
@@ -88,14 +75,11 @@ private:
   double getEffectiveTensileStrength() const;
   double getEffectiveShearStrength() const;
   void init();
-  void applyOptionalRenderingToWren();
-  void deleteWrenObjects();
 
 private slots:
   void updateIsOn();
   void updateTensileStrength();
   void updateShearStrength();
-  // void updateLineScale() override;
 };
 
 #endif

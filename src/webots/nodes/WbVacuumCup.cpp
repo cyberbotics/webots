@@ -234,6 +234,7 @@ void WbVacuumCup::createFixedJoint(WbSolid *other) {
   assert(b1 && b2);
 
   mSolid = other;
+  connect(mSolid, &WbSolid::destroyed, this, &WbVacuumCup::destroyFixedJoint);
 
   // create fixed joint
   mFixedJoint = dJointCreateFixed(dBodyGetWorld(b1), 0);
@@ -248,21 +249,27 @@ void WbVacuumCup::createFixedJoint(WbSolid *other) {
     dJointSetFeedback(mFixedJoint, new dJointFeedback);
 }
 
-void WbVacuumCup::detachFromSolid() {
-  assert(mSolid);
-
+void WbVacuumCup::destroyFixedJoint() {
   // destroy ODE fixed joint and remove feedback structure
   dJointFeedback *fb = dJointGetFeedback(mFixedJoint);
   delete fb;
   dJointDestroy(mFixedJoint);
   mFixedJoint = NULL;
+  mSolid = NULL;
+}
+
+void WbVacuumCup::detachFromSolid() {
+  assert(mSolid);
+  WbSolid *attachedSolid = mSolid;
+
+  disconnect(mSolid, &WbSolid::destroyed, this, &WbVacuumCup::destroyFixedJoint);
+  destroyFixedJoint();
 
   // detaching may cause some motion that wasn't possible when they were attached to each other
   // therefore we need to explicitely awake both of them in case they were idle
   // so that the physics engine can generate their motion accordingly
   awake();
-  mSolid->awake();
-  mSolid = NULL;
+  attachedSolid->awake();
 }
 
 double WbVacuumCup::getEffectiveTensileStrength() const {
@@ -391,7 +398,7 @@ void WbVacuumCup::handleMessage(QDataStream &stream) {
   stream >> command;
 
   switch (command) {
-    case C_CONNECTOR_GET_PRESENCE:
+    case C_VACUUM_CUP_GET_PRESENCE:
       stream >> refreshRate;
       mSensor->setRefreshRate(refreshRate);
       return;
@@ -455,131 +462,4 @@ void WbVacuumCup::addConfigure(WbDataStream &stream) {
   stream << (unsigned char)C_CONFIGURE;
   stream << (unsigned char)(mIsOn->value() ? 1 : 0);
   mNeedToReconfigure = false;
-}
-/*
-void WbVacuumCup::updateLineScale() {
-  /*if (areWrenObjectsInitialized()) {
-    const float ls = wr_config_get_line_scale();
-    const float scale[3] = {ls, ls, ls};
-    wr_transform_set_scale(mTransform, scale);
-  }
-}
-
-void WbVacuumCup::createWrenObjects() {
-  /*mTransform = wr_transform_new();
-  mAxesTransform = wr_transform_new();
-  mRotationsTransform = wr_transform_new();
-  // Connector axes: X = red, Z = blue, Y = black
-  const float colors[3][3] = {{1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 0.0f}};
-
-  for (int i = 0; i < 3; ++i) {
-    mMaterial[i] = wr_phong_material_new();
-    wr_phong_material_set_color(mMaterial[i], colors[i]);
-    wr_material_set_default_program(mMaterial[i], WbWrenShaders::lineSetShader());
-  }
-
-  // Axes (X & Z only)
-  const float axesCoordinates[2][6] = {{0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f}};
-
-  for (int i = 0; i < 2; ++i) {
-    mAxisMesh[i] = wr_static_mesh_line_set_new(2, axesCoordinates[i], NULL);
-
-    mAxisRenderable[i] = wr_renderable_new();
-    wr_renderable_set_cast_shadows(mAxisRenderable[i], false);
-    wr_renderable_set_receive_shadows(mAxisRenderable[i], false);
-    wr_renderable_set_visibility_flags(mAxisRenderable[i], WbWrenRenderingContext::VF_CONNECTOR_AXES);
-    wr_renderable_set_drawing_mode(mAxisRenderable[i], WR_RENDERABLE_DRAWING_MODE_LINES);
-    wr_renderable_set_mesh(mAxisRenderable[i], WR_MESH(mAxisMesh[i]));
-    wr_renderable_set_material(mAxisRenderable[i], mMaterial[i], NULL);
-
-    wr_transform_attach_child(mAxesTransform, WR_NODE(mAxisRenderable[i]));
-  }
-  wr_transform_attach_child(mTransform, WR_NODE(mAxesTransform));
-
-  // Rotation alignements (mesh is constructed in 'applyOptionalRenderingToWren')
-  mRotationsRenderable = wr_renderable_new();
-  wr_renderable_set_cast_shadows(mRotationsRenderable, false);
-  wr_renderable_set_receive_shadows(mRotationsRenderable, false);
-  wr_renderable_set_visibility_flags(mRotationsRenderable, WbWrenRenderingContext::VF_CONNECTOR_AXES);
-  wr_renderable_set_drawing_mode(mRotationsRenderable, WR_RENDERABLE_DRAWING_MODE_LINES);
-  wr_renderable_set_material(mRotationsRenderable, mMaterial[2], NULL);
-  mRotationsMesh = NULL;
-
-  wr_transform_attach_child(mRotationsTransform, WR_NODE(mRotationsRenderable));
-  wr_transform_attach_child(mTransform, WR_NODE(mRotationsTransform));
-
-  connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::optionalRenderingChanged, this,
-          &WbConnector::updateOptionalRendering);
-  connect(WbWrenRenderingContext::instance(), &WbWrenRenderingContext::lineScaleChanged, this, &WbConnector::updateLineScale);
-
-  WbSolidDevice::createWrenObjects();
-
-  wr_transform_attach_child(wrenNode(), WR_NODE(mTransform));
-  applyOptionalRenderingToWren();
-  updateOptionalRendering(WbWrenRenderingContext::VF_CONNECTOR_AXES);
-}
-
-void WbVacuumCup::updateOptionalRendering(int option) {
-  /*if (option == WbWrenRenderingContext::VF_CONNECTOR_AXES) {
-    if (WbWrenRenderingContext::instance()->isOptionalRenderingEnabled(option))
-      wr_node_set_visible(WR_NODE(mTransform), true);
-    else
-      wr_node_set_visible(WR_NODE(mTransform), false);
-  }
-}
-*/
-void WbVacuumCup::applyOptionalRenderingToWren() {
-  /*if (!areWrenObjectsInitialized())
-    return;
-
-  wr_static_mesh_delete(mRotationsMesh);
-  mRotationsMesh = NULL;
-
-  // draw rotational alignments in black
-  // the first aligmnent is the z-axis so we skip it
-  const int n = mNumberOfRotations->value();
-  if (n > 1) {
-    float *vertices = new float[(n - 1) * 3 * 2];
-    const float angleStep = 2.0f * M_PI / n;
-    for (int i = 1; i < n; ++i) {
-      const float angle = angleStep * i;
-      const float y = 0.4f * sin(angle);
-      const float z = 0.4f * cos(angle);
-
-      const int idx = (i - 1) * 6;
-      // Segment origin
-      vertices[idx] = 0.0f;
-      vertices[idx + 1] = 0.0f;
-      vertices[idx + 2] = 0.0f;
-
-      // Segment orientation
-      vertices[idx + 3] = 0.0f;
-      vertices[idx + 4] = y;
-      vertices[idx + 5] = z;
-    }
-
-    mRotationsMesh = wr_static_mesh_line_set_new((n - 1) * 2, vertices, NULL);
-    wr_renderable_set_mesh(mRotationsRenderable, WR_MESH(mRotationsMesh));
-    wr_node_set_visible(WR_NODE(mRotationsTransform), true);
-
-    delete[] vertices;
-  } else
-    wr_node_set_visible(WR_NODE(mRotationsTransform), false);
-
-  updateLineScale();*/
-}
-
-void WbVacuumCup::deleteWrenObjects() {
-  /*wr_node_delete(WR_NODE(mTransform));
-  wr_node_delete(WR_NODE(mAxesTransform));
-  wr_node_delete(WR_NODE(mAxisRenderable[0]));
-  wr_node_delete(WR_NODE(mAxisRenderable[1]));
-  wr_node_delete(WR_NODE(mRotationsTransform));
-  wr_node_delete(WR_NODE(mRotationsRenderable));
-  wr_static_mesh_delete(mAxisMesh[0]);
-  wr_static_mesh_delete(mAxisMesh[1]);
-  wr_static_mesh_delete(mRotationsMesh);
-
-  for (int i = 0; i < 3; ++i)
-    wr_material_delete(mMaterial[i]);*/
 }

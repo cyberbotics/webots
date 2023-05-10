@@ -73,7 +73,8 @@ CPPSRC = Accelerometer.cpp \
          Skin.cpp \
          Speaker.cpp \
          Supervisor.cpp \
-         TouchSensor.cpp
+         TouchSensor.cpp \
+         VacuumCup.cpp
 
 OBJECTS = $(CPPSRC:.cpp=.o)
 CPPOBJS = $(addprefix $(OBJDIR)/, $(OBJECTS))

@@ -67,7 +67,7 @@ static void vacuum_cup_read_answer(WbDevice *d, WbRequest *r) {
   VacuumCup *vc = d->pdata;
   switch (request_read_uchar(r)) {
     case C_VACUUM_CUP_GET_PRESENCE:
-      vc->presence = request_read_int16(r);
+      vc->presence = request_read_uchar(r) == 1;
       break;
     case C_CONFIGURE:
       vc->is_on = request_read_uchar(r);
