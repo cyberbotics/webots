@@ -650,6 +650,12 @@ void WbSceneTree::transform(const QString &modelName) {
   const QModelIndex currentModelIndex = mModel->itemToIndex(mSelectedItem);
   const bool isExpanded = mTreeView->isExpanded(currentModelIndex);
 
+  WbTreeItem *selectedItem = mSelectedItem;
+
+  WbGroup *group = dynamic_cast<WbGroup *>(currentNode);
+  if (group && modelName == "Transform")
+    group->deleteAllSolids();
+
   // create new node
   WbNode::setGlobalParentNode(currentNode->parentNode());
   WbNode *const newNode = WbConcreteNodeFactory::instance()->createNode(modelName, 0, currentNode->parentNode());
@@ -672,19 +678,19 @@ void WbSceneTree::transform(const QString &modelName) {
   WbNode::setGlobalParentNode(NULL);
 
   // reassign pointer in parent
-  WbField *parentField = mSelectedItem->parent()->field();
+  WbField *parentField = selectedItem->parent()->field();
   WbNode *upperTemplate =
     WbVrmlNodeUtilities::findUpperTemplateNeedingRegenerationFromField(parentField, currentNode->parentNode());
   bool isInsideATemplateRegenerator = upperTemplate && upperTemplate != currentNode;
-  if (mSelectedItem->isSFNode()) {
-    WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(mSelectedItem->field()->value());
+  if (selectedItem->isSFNode()) {
+    WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(selectedItem->field()->value());
     assert(sfnode);
     WbNodeOperations::instance()->notifyNodeDeleted(currentNode);
     WbTemplateManager::instance()->blockRegeneration(true);
-    mSelectedItem->del();  // remove previous item
+    selectedItem->del();  // remove previous item
     sfnode->setValue(newNode);
   } else {
-    assert(mSelectedItem->parent()->isField());
+    assert(selectedItem->parent()->isField());
     WbMFNode *mfnode = dynamic_cast<WbMFNode *>(parentField->value());
     assert(mfnode);
     int nodeIndex = mfnode->nodeIndex(currentNode);
