@@ -45,17 +45,17 @@ int main(int argc, char **argv) {
                       VISIBLE_SOLID_NUMBER + 1, object_number);
 
   object_number = wb_camera_recognition_get_number_of_objects(camera_spherical);
-  ts_assert_int_equal(object_number, 9, "The spherical camera should initially see %d objects and not %d (with occlusion).", 9,
+  ts_assert_int_equal(object_number, 10, "The spherical camera should initially see %d objects and not %d (with occlusion).", 9,
                       object_number);
 
   object_number = wb_camera_recognition_get_number_of_objects(camera_cylindrical);
-  ts_assert_int_equal(object_number, 7, "The cylindrical camera should initially see %d objects and not %d (with occlusion).",
+  ts_assert_int_equal(object_number, 8, "The cylindrical camera should initially see %d objects and not %d (with occlusion).",
                       7, object_number);
 
   // enable occlusion
   WbNodeRef recognition_node = wb_supervisor_node_get_from_def("RECOGNITION");
   WbFieldRef occlusion_field = wb_supervisor_node_get_field(recognition_node, "occlusion");
-  wb_supervisor_field_set_sf_bool(occlusion_field, true);
+  wb_supervisor_field_set_sf_int32(occlusion_field, 2);
 
   ts_assert_boolean_equal(wb_camera_recognition_has_segmentation(camera),
                           "The Recognition.segmentation field should be set to TRUE.");

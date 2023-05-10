@@ -298,7 +298,7 @@ Robot {
       height 256
       recognition DEF RECOGNITION Recognition {
         maxRange 5
-        occlusion FALSE
+        occlusion 0
         segmentation TRUE
       }
     }
@@ -312,6 +312,7 @@ Robot {
       projection "spherical"
       recognition Recognition {
         maxRange 5
+        occlusion 2
         segmentation TRUE
       }
     }
@@ -325,6 +326,7 @@ Robot {
       projection "cylindrical"
       recognition Recognition {
         maxRange 5
+        occlusion 2
         segmentation TRUE
       }
     }
