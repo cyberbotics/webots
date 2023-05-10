@@ -39,7 +39,6 @@ QMainWindow::separator {
 QWidget {
   color: black;
   background: #efefef;
-  border: none;
 }
 
 QMainWindow::separator:vertical {
@@ -179,6 +178,7 @@ QLabel#timeLabel {
 
 QLabel#separator {
   qproperty-alignment: 'AlignHCenter | AlignVCenter';
+  background-color: transparent;
 }
 
 QScrollArea#speedLabelContainer {
@@ -453,6 +453,17 @@ WbTreeView {
 
 #SceneTree {
   min-width: 280px;
+}
+
+/* scrollbar customization */
+
+QScrollBar {
+  background-color: #e6e6e6;
+}
+
+QScrollBar::handle{
+  border: 1px solid #ababab;
+  background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 white, stop: 1 #efefef);
 }
 
 /* progress bar */
