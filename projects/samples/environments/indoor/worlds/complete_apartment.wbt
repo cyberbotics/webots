@@ -116,7 +116,7 @@ DEF ROOF Group {
             }
           }
           geometry Plane {
-            size 13 10
+            size 10 13
           }
         }
       ]
@@ -132,7 +132,7 @@ DEF ROOF Group {
             }
           }
           geometry Plane {
-            size 3.4 2.6
+            size 2.6 3.4
           }
         }
       ]
