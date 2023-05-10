@@ -72,6 +72,9 @@ public:
 
   void createOdeObjects() override;
 
+  // remove and delete all solid children
+  void deleteAllSolids() override;
+
   // field accessors
   const QString &contactMaterial() const { return mContactMaterial->value(); }
   WbPhysics *physics() const;

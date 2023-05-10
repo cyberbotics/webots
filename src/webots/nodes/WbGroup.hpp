@@ -72,7 +72,7 @@ public:
   void deleteAllChildren();
 
   // remove and delete all solid children
-  void deleteAllSolids();
+  virtual void deleteAllSolids();
 
   // utility forward functions if the group/transform node has no solid ancestor
   // forward jerk notification to children

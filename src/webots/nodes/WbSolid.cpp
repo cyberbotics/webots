@@ -33,6 +33,7 @@
 #include "WbMatrix4.hpp"
 #include "WbMatter.hpp"
 #include "WbMotor.hpp"
+#include "WbNodeOperations.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbOdeContact.hpp"
 #include "WbOdeContext.hpp"
@@ -234,6 +235,12 @@ WbSolid::~WbSolid() {
   // disconnecting descendants
   foreach (WbSolid *const solid, mSolidChildren)
     disconnect(solid, &WbSolid::destroyed, this, 0);
+}
+
+void WbSolid::deleteAllSolids() {
+  foreach (WbSolid *const solid, mSolidChildren)
+    WbNodeOperations::instance()->deleteNode(solid);
+  mSolidChildren.clear();
 }
 
 void WbSolid::validateProtoNode() {
