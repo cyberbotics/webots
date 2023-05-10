@@ -27,12 +27,19 @@ WbMainWindow {
   qproperty-disabledIconPath: "icons/light";
   qproperty-coreIconPath: "icons/core";
   qproperty-toolBarAlign: "left";
+  background: #efefef;
 }
 
 QMainWindow::separator {
-  background: palette(window);
+  background: transparent;
   width: 6px;
   height: 6px;
+}
+
+QWidget {
+  color: black;
+  background: #efefef;
+  border: none;
 }
 
 QMainWindow::separator:vertical {
@@ -96,6 +103,30 @@ QSplitter::handle:vertical:hover {
 
 QSplitter::handle:pressed {
   background: rgb(200,200,240);
+}
+
+/* menus */
+QMenuBar {
+  border: 1px solid #d6d6d6;
+}
+
+QMenuBar::item {
+  background-color: transparent;
+}
+
+QMenuBar::item:selected {
+  background: #308cc6;
+  color: white;
+}
+
+QMenu::item:selected {
+  background: #308cc6;
+  color: white;
+}
+
+QMenu::item:disabled {
+  background: transparent;
+  color: #888;
 }
 
 /* network tab */
@@ -292,9 +323,29 @@ QScrollArea#editorPane {
   min-height: 250px;
 }
 
+#NodePane QWidget,
+#LoginTabs QWidget {
+  background: #fff;
+}
+
 QLabel#externProtoEditor {
   border: 1px solid darkgray;
   border-radius: 2px;
+}
+
+QPushButton#importableExternProto {
+  background: white;
+  border-style: double;
+  border-radius: 2px;
+  border-width: 1px;
+  border-color: #ababab;
+  margin: 2px 5px;
+  height: 20px;
+  background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 white, stop: 1 #efefef);
+}
+
+QPushButton#importableExternProto:pressed {
+  background-color: #dddddd;
 }
 
 /* solid editor */
@@ -325,6 +376,8 @@ WbTextBuffer {
 
   qproperty-gutterBackgroundColor: silver;
   qproperty-gutterForegroundColor: black;
+
+  background: white;
 }
 
 WbConsole {
@@ -383,6 +436,11 @@ QToolButton#colorToolButton:pressed {
 }
 
 /* scene tree */
+
+QTreeView {
+  background: white;
+  border: 1px solid #ababab;
+}
 
 WbTreeView {
   qproperty-defaultColor: black;
