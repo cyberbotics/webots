@@ -31,7 +31,7 @@ extern "C" {
 void wb_vacuum_cup_enable_presence(WbDeviceTag tag, int sampling_period);
 void wb_vacuum_cup_disable_presence(WbDeviceTag tag);
 int wb_vacuum_cup_get_presence_sampling_period(WbDeviceTag tag);
-int wb_vacuum_cup_get_presence(WbDeviceTag tag);
+bool wb_vacuum_cup_get_presence(WbDeviceTag tag);
 void wb_vacuum_cup_turn_on(WbDeviceTag tag);
 void wb_vacuum_cup_turn_off(WbDeviceTag tag);
 bool wb_vacuum_cup_is_on(WbDeviceTag tag);

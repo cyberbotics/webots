@@ -30,7 +30,7 @@ int VacuumCup::getPresenceSamplingPeriod() const {
   return wb_vacuum_cup_get_presence_sampling_period(getTag());
 }
 
-int VacuumCup::getPresence() const {
+bool VacuumCup::getPresence() const {
   return wb_vacuum_cup_get_presence(getTag());
 }
 

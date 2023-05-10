@@ -25,7 +25,7 @@ namespace webots {
     virtual void enablePresence(int samplingPeriod);
     virtual void disablePresence();
     int getPresenceSamplingPeriod() const;
-    int getPresence() const;
+    bool getPresence() const;
     bool isOn() const;
     virtual void turnOn();
     virtual void turnOff();

@@ -158,8 +158,8 @@ void wb_vacuum_cup_turn_off(WbDeviceTag tag) {
   robot_mutex_unlock();
 }
 
-int wb_vacuum_cup_get_presence(WbDeviceTag tag) {
-  int result = -1;
+bool wb_vacuum_cup_get_presence(WbDeviceTag tag) {
+  bool result = false;
   robot_mutex_lock();
   VacuumCup *vc = vacuum_cup_get_struct(tag);
   if (vc) {
