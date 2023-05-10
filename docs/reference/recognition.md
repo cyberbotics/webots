@@ -48,7 +48,7 @@ If the `occlusion` field is set to `0`, then the occlusion computation will be d
 Disabling the occlusion can be useful to allow the camera to see through thin or transparent objects that may hide the object we are interested in, but it can lead to recognized objects that are not really visible to the camera.
 If the `occlusion` field is set to `1`, only the center of the object is taken into account to compute if the object is visible or not.
 Otherwise, if the accuracy is set to `2`, the outbound of the object is used to compute if the object is visible.
-Note the lower the `occlusion` field value is, the higher speed up the simulation achieves.
+Note that increasing the `occlusion` field value decreases the simulation speed.
 
 - The `frameColor` field defines the color used to frame the objects recognized by the camera in its overlay.
 
