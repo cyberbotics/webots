@@ -12,20 +12,20 @@ VacuumCup {
 
 ### Description
 
-[VacuumCup](#vacuumcup) node is used to simulate physical links created by vacuum suction.
+[VacuumCup](#vacuum-cup) node is used to simulate physical links created by vacuum suction.
 
-[VacuumCup](#vacuumcup) node can only connect to dynamic [Solid](solid.md) nodes.
+[VacuumCup](#vacuum-cup) node can only connect to dynamic [Solid](solid.md) nodes.
 The physical connection can be created and destroyed at run time by the robot's controller.
 
-Both [VacuumCup](#vacuumcup) and the [Solid](solid.md) nodes (or any of their ancestor nodes) must define a [Physics](#physics) node.
+Both [VacuumCup](#vacuum-cup) and the [Solid](solid.md) nodes (or any of their ancestor nodes) must define a [Physics](physics.md) node.
 Then, the detection of the presence of an object to connect to is based on collision detection.
 
 ### Field Summary
 
-- `isOn`: represents the state of the [VacuumCup](#vacuumcup).
+- `isOn`: represents the state of the [VacuumCup](#vacuum-cup).
 The state can be changed through the `wb_vacuum_cup_turn_on` and `wb_vacuum_cup_turn_off` API functions.
 The *on state* just means that the suction pump is active, but it does not indicates whether or not an actual physical link exists with an object.
-The actual physical link exists only if a valid [Solid](solid.md) object collided with the [VacuumCup](#vacuumcup) after the `wb_vacuum_cup_turn_on` function was called.
+The actual physical link exists only if a valid [Solid](solid.md) object collided with the [VacuumCup](#vacuum-cup) after the `wb_vacuum_cup_turn_on` function was called.
 
   > **Note**:
 If the `VacuumCup` node is on in the .wbt file and a valid [Solid](solid.md) node is available, then the simulation will automatically connect to the [Solid](solid.md) object.
@@ -151,8 +151,6 @@ The `wb_vacuum_cup_disable_presence` function stops querying the presence sensor
 The `wb_vacuum_cup_get_presence_sampling_period` function returns the period at which the presence sensor of the linked [Solid](solid.md) object is queried.
 The `wb_vacuum_cup_get_presence` function returns the current *presence* state, it returns *TRUE* if a [Solid](solid.md) object is connected and *FALSE* otherwise.
 
-```
-
 ---
 
 #### `wb_vacuum_cup_turn_on`
@@ -244,10 +242,10 @@ on = wb_vacuum_cup_is_on(tag)
 
 *create / destroy the physical connection wit a solid object*
 
-The `wb_vacuum_cup_turn_on` and `wb_vacuum_cup_turn_off` functions can be used to activate or deactivate the [VacuumCup](#vaccumcup) suction pump and changing the status of the `isOn` field.
+The `wb_vacuum_cup_turn_on` and `wb_vacuum_cup_turn_off` functions can be used to activate or deactivate the [VacuumCup](#vacuum-cup) suction pump and changing the status of the `isOn` field.
 This will eventually create or destroy the physical connection with a [Solid](solid.md) object.
 
-If dynamic [Solid](solid.md) object collides with the [VacuumCup](#vacuumcup) while the device is on, a physical link will be created between the [VacuumCup](#vaccumcup) and the [Solid](solid.md) object.
+If dynamic [Solid](solid.md) object collides with the [VacuumCup](#vacuum-cup) while the device is on, a physical link will be created between the [VacuumCup](#vacuum-cup) and the [Solid](solid.md) object.
 The two connected bodies will then keep a constant distance and orientation with respect to each other from this moment on.
 
-If the `wb_vacuum_cup_turn_off` function is invoked while there is a physical link between the [VacuumCup](#vaccumcup) and a [Solid](solid.md) object, the link will be destroyed.
+If the `wb_vacuum_cup_turn_off` function is invoked while there is a physical link between the [VacuumCup](#vacuum-cup) and a [Solid](solid.md) object, the link will be destroyed.
