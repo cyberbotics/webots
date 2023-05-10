@@ -57,6 +57,7 @@ private:
   WbSFInt *mMaterialIndex;
   bool mIsCollada;
   WbDownloader *mDownloader;
+  bool mBoundingObjectNeedUpdate;
 
   WbMesh &operator=(const WbMesh &);  // non copyable
   WbNode *clone() const override { return new WbMesh(*this); }
