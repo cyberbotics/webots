@@ -119,6 +119,10 @@ QMenuBar::item:selected {
   color: white;
 }
 
+QMenu {
+  background: white;
+}
+
 QMenu::item:selected {
   background: #308cc6;
   color: white;
