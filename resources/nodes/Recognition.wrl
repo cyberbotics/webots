@@ -2,10 +2,10 @@
 # It should be added in the recognition field of a Camera node.
 
 Recognition {
-  field SFFloat    maxRange       100     # maximum distance at which objects are detected (m)
-  field SFInt32    maxObjects     -1      # maximum number of objects detected simultaneously
-  field SFBool     occlusion      TRUE    # should occlusions between the radar and the target be checked
-  field SFColor    frameColor     1 0 0   # color of the objects frame in the overlay
-  field SFInt32    frameThickness 1       # thickness of the objects frame in the overlay
-  field SFBool     segmentation   FALSE   # generate segmented ground truth camera image
+  field SFFloat    maxRange          100     # maximum distance at which objects are detected (m)
+  field SFInt32    maxObjects        -1      # maximum number of objects detected simultaneously
+  field SFInt32    occlusion         1       # defines if the occlusion is enabled and the method to use
+  field SFColor    frameColor        1 0 0   # color of the objects frame in the overlay
+  field SFInt32    frameThickness    1       # thickness of the objects frame in the overlay
+  field SFBool     segmentation      FALSE   # generate segmented ground truth camera image
 }
