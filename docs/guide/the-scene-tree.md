@@ -27,7 +27,6 @@ Keyboard focus can be returned to the Scene Tree by tabbing through all of the i
 For text fields, changes are applied by pressing the <kbd>enter</kbd> key.
 This is the same for numeric fields, but the up and down arrow keys can also be used to adjust values up and down, with changes immediately applied.
 For checkboxes, values are changed using the `Space` bar.
-Applied changes are immediately reflected in the 3D window.
 The following buttons are available in the field editor section:
 
 %figure "Webots node editor"
@@ -36,8 +35,10 @@ The following buttons are available in the field editor section:
 
 %end
 
+Applied changes are immediately reflected in the 3D window.
 
-    > **Note**: We recommend to use the Scene Tree to write Webots world files. However, because the nodes and fields are stored in a human readable form, it is also possible to edit world files with a regular text editor.
+    > **Note**:
+We recommend to use the Scene Tree to write Webots world files. However, because the nodes and fields are stored in a human readable form, it is also possible to edit world files with a regular text editor.
 Some search and replace operations may actually be easier that way.
 Please refer to Webots [Reference Manual](../reference/webots-world-files.md) for more info on the available nodes and the world file format.
 
