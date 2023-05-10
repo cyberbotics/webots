@@ -32,9 +32,8 @@ public:
     FOREARM_MOTOR = 2,
     WRIST_MOTOR = 3,
     ROTATIONAL_WRIST_MOTOR = 4,
-    RIGHT_GRIPPER_MOTOR = 5,
-    LEFT_GRIPPER_MOTOR = 6,
-    MOTOR_NUMBER = 7
+    GRIPPER_MOTOR = 5,
+    MOTOR_NUMBER = 6
   };
 
   static string motorName(int motorIndex);

@@ -61,6 +61,7 @@
 #include "robot_private.h"
 #include "robot_window_private.h"
 #include "scheduler.h"
+#include "sha1.h"
 #include "supervisor_private.h"
 #include "tcp_client.h"
 
@@ -73,6 +74,10 @@
 #define WEBOTS_EXIT_FALSE 0
 #define WEBOTS_EXIT_NOW 1
 #define WEBOTS_EXIT_LATER 2
+
+#ifndef LIBCONTROLLER_VERSION
+#error "Missing declaration of LIBCONTROLLER_VERSION preprocessor macro in the Makefile."
+#endif
 
 typedef struct {
   WbDevice **device;  // array of devices
@@ -119,6 +124,7 @@ typedef struct {
   WbSimulationMode simulation_mode;  // WB_SUPERVISOR_SIMULATION_MODE_FAST, etc.
 } WbRobot;
 
+static char *WEBOTS_VERSION;
 static bool robot_init_was_done = false;
 static WbRobot robot;
 static WbMutexRef robot_step_mutex;
@@ -348,6 +354,17 @@ static void robot_send_request(unsigned int step_duration) {
 
 // rebuild the device list
 static void robot_configure(WbRequest *r) {
+  free(robot.device[0]->name);
+  robot.device[0]->name = request_read_string(r);
+
+  WEBOTS_VERSION = request_read_string(r);
+  if (strlen(WEBOTS_VERSION) && (strlen(WEBOTS_VERSION) != strlen(LIBCONTROLLER_VERSION) ||
+                                 strncmp(WEBOTS_VERSION, LIBCONTROLLER_VERSION, strlen(WEBOTS_VERSION))))
+    fprintf(stderr,
+            "Warning: Webots [%s] and libController [%s] versions are not the same for Robot '%s'! Different versions can lead "
+            "to undefined behavior.\n",
+            WEBOTS_VERSION, LIBCONTROLLER_VERSION, robot.device[0]->name);
+
   // delete all the devices except the robot
   WbDeviceTag tag;
   for (tag = 1; tag < robot.n_device; tag++)
@@ -366,8 +383,6 @@ static void robot_configure(WbRequest *r) {
   robot.device[0] = d;  // restore pointer to root device
   robot.device[0]->node = request_read_uint16(r);
   simulation_time = request_read_double(r);
-  free(robot.device[0]->name);
-  robot.device[0]->name = request_read_string(r);
 
   // printf("robot.is_supervisor = %d\n", robot.is_supervisor);
   // printf("robot.synchronization = %d\n", robot.synchronization);
@@ -1067,13 +1082,33 @@ static void wb_robot_cleanup_devices() {
   }
 }
 
-static char *compute_socket_filename() {
-  const char *WEBOTS_ROBOT_NAME = getenv("WEBOTS_ROBOT_NAME");
+static char *encode_robot_name(const char *robot_name) {
+  if (!robot_name)
+    return NULL;
+
+  char *encoded_name = percent_encode(robot_name);
+  int length = strlen(encoded_name);
+  // the robot name is used to connect to the libController and in this process there are indirect
+  // limitations such as QLocalServer only accepting strings up to 106 characters for server names,
+  // for these reasons if the robot name is bigger than an arbitrary length, a hashed version is used instead
+  if (length > 70) {  // note: this threshold should be the same as in WbRobot.cpp
+    char hash[21];
+    char *output = malloc(41);
+    SHA1(hash, encoded_name, length);
+    free(encoded_name);
+    for (size_t i = 0; i < 20; i++)
+      sprintf((output + (2 * i)), "%02x", hash[i] & 0xff);
+    return output;
+  }
+
+  return encoded_name;
+}
+
+static char *compute_socket_filename(char *error_buffer) {
+  char *robot_name = encode_robot_name(wbu_system_getenv("WEBOTS_ROBOT_NAME"));
   const char *WEBOTS_INSTANCE_PATH = wbu_system_webots_instance_path(true);
   char *socket_filename;
-  if (WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_INSTANCE_PATH && WEBOTS_INSTANCE_PATH[0]) {
-    // regular controller case
-    char *robot_name = percent_encode(WEBOTS_ROBOT_NAME);
+  if (robot_name && robot_name[0] && WEBOTS_INSTANCE_PATH && WEBOTS_INSTANCE_PATH[0]) {
 #ifndef _WIN32
     const int length = strlen(WEBOTS_INSTANCE_PATH) + strlen(robot_name) + 15;  // "%sintern/%s/socket"
     socket_filename = malloc(length);
@@ -1095,28 +1130,52 @@ static char *compute_socket_filename() {
     free(robot_name);
     return socket_filename;
   }
+
+#ifndef _WIN32
+  const char *username = wbu_system_getenv("USER");
+  if (username == NULL || username[0] == '\0') {
+    username = wbu_system_getenv("USERNAME");
+    if (username == NULL || username[0] == '\0') {
+      fprintf(stderr, "Error: USER or USERNAME environment variable not set, falling back to 'default' username.");
+      username = "default";
+    }
+  }
+#endif
+
   // extern controller case
   // parse WEBOTS_CONTROLLER_URL to extract protocol, host, port and robot name
   const char *TMP_DIR = wbu_system_tmpdir();
-  char *WEBOTS_CONTROLLER_URL = getenv("WEBOTS_CONTROLLER_URL");
+  char *WEBOTS_CONTROLLER_URL = (char *)wbu_system_getenv("WEBOTS_CONTROLLER_URL");
+  // either the WEBOTS_CONTROLLER_URL is not defined, empty or contains only a robot name
+  // default to the most recent /tmp/webots/username/* folder (/tmp/webots-* on Windows)
   if (WEBOTS_CONTROLLER_URL == NULL || WEBOTS_CONTROLLER_URL[0] == 0 || strstr(WEBOTS_CONTROLLER_URL, "://") == NULL) {
-    // either the WEBOTS_CONTROLLER_URL is not defined, empty or contains only a robot name
-    // default to the most recent /tmp/webots-* folder
-    const int TMP_DIR_LENGTH = strlen(TMP_DIR);
-    DIR *dr = opendir(TMP_DIR);
+#ifndef _WIN32
+    const int WEBOTS_TMP_DIR_length = strlen(TMP_DIR) + strlen(username) + 9;  // TMP_DIR + '/webots/' + username
+    char *WEBOTS_TMP_DIR = malloc(WEBOTS_TMP_DIR_length);
+    snprintf(WEBOTS_TMP_DIR, WEBOTS_TMP_DIR_length, "%s/webots/%s", TMP_DIR, username);
+#else
+    const int WEBOTS_TMP_DIR_length = strlen(TMP_DIR);
+    char *WEBOTS_TMP_DIR = strdup(TMP_DIR);
+#endif
+    DIR *dr = opendir(WEBOTS_TMP_DIR);
     if (dr == NULL) {
-      fprintf(stderr, "Error: cannot open directory %s\n", TMP_DIR);
-      exit(EXIT_FAILURE);
+      snprintf(error_buffer, ERROR_BUFFER_SIZE, "Cannot open directory %s", WEBOTS_TMP_DIR);
+      free(WEBOTS_TMP_DIR);
+      return NULL;
     }
     struct stat filestat;
     double timestamp = 0.0;
     int number = -1;
     struct dirent *de;
     while ((de = readdir(dr)) != NULL) {
+#ifndef _WIN32
+      if (strcmp(de->d_name, ".") && strcmp(de->d_name, "..")) {
+#else
       if (strcmp(de->d_name, ".") && strcmp(de->d_name, "..") && !strncmp(de->d_name, "webots-", 7)) {
-        const int length = TMP_DIR_LENGTH + strlen(de->d_name) + 2;
+#endif
+        const int length = WEBOTS_TMP_DIR_length + strlen(de->d_name) + 2;
         char *filename = malloc(length);
-        snprintf(filename, length, "%s/%s", TMP_DIR, de->d_name);
+        snprintf(filename, length, "%s/%s", WEBOTS_TMP_DIR, de->d_name);
         if (stat(filename, &filestat) == 0) {
 #ifdef _WIN32
           double ts = (double)filestat.st_mtime;
@@ -1126,15 +1185,23 @@ static char *compute_socket_filename() {
           // printf("ts = %.17lg\n", ts);
           if (ts > timestamp) {
             timestamp = ts;
+#ifndef _WIN32
+            sscanf(de->d_name, "%d", &number);
+#else
             sscanf(de->d_name, "webots-%d", &number);
+#endif
           }
         }
         free(filename);
       }
     }
     closedir(dr);
-    if (number == -1)
+    free(WEBOTS_TMP_DIR);
+    // No Webots instance has been started
+    if (number == -1) {
+      snprintf(error_buffer, ERROR_BUFFER_SIZE, "Cannot find any instance of Webots");
       return NULL;
+    }
     if (WEBOTS_CONTROLLER_URL && WEBOTS_CONTROLLER_URL[0]) {  // only the robot name was provided in WEBOTS_CONTROLLER_URL
       const int length = 19 + strlen(WEBOTS_CONTROLLER_URL);
       char *tmp = malloc(length);
@@ -1157,26 +1224,70 @@ static char *compute_socket_filename() {
     fprintf(stderr, "Error: invalid WEBOTS_CONTROLLER_URL: %s (missing or wrong port value)\n", WEBOTS_CONTROLLER_URL);
     exit(EXIT_FAILURE);
   }
-  int length = strlen(TMP_DIR) + 24;  // TMPDIR + "/webots-12345678901/ipc"
-  char *folder = malloc(length);
-  snprintf(folder, length, "%s/webots-%d/ipc", TMP_DIR, number);
-  char *robot_name = strstr(&WEBOTS_CONTROLLER_URL[6], "/");
+#ifdef _WIN32
+  const int webots_instance_path_length = strlen(TMP_DIR) + 20;  // TMP_DIR + "/webots-12345678901"
+  const int ipc_path_length = webots_instance_path_length + 4;   // TMP_DIR + "/webots-12345678901/ipc"
+#else
+  const int webots_instance_path_length =
+    strlen(TMP_DIR) + strlen(username) + 21;                    // TMP_DIR + '/webots/' + username + '/12345678901'
+  const int ipc_path_length = webots_instance_path_length + 4;  // TMP_DIR + '/webots/' + username + '/12345678901/ipc'
+#endif
+  char *webots_instance_folder = malloc(webots_instance_path_length);
+  char *ipc_folder = malloc(ipc_path_length);
+#ifdef _WIN32
+  snprintf(webots_instance_folder, webots_instance_path_length, "%s/webots-%d", TMP_DIR, number);
+  snprintf(ipc_folder, ipc_path_length, "%s/ipc", webots_instance_folder);
+#else
+  snprintf(webots_instance_folder, webots_instance_path_length, "%s/webots/%s/%d", TMP_DIR, username, number);
+  snprintf(ipc_folder, ipc_path_length, "%s/ipc", webots_instance_folder);
+#endif
+
+  // check if the Webots instance has been started
+  DIR *dr = opendir(webots_instance_folder);
+  if (dr == NULL) {
+    snprintf(error_buffer, ERROR_BUFFER_SIZE, "Cannot connect to Webots instance");
+    free(webots_instance_folder);
+    free(ipc_folder);
+    return NULL;
+  }
+  closedir(dr);
+  // check if Webots is currently loading
+  char *loading_file_path = malloc(strlen(webots_instance_folder) + 9);  // webots_instance_folder + '/loading'
+  snprintf(loading_file_path, strlen(webots_instance_folder) + 9, "%s/loading", webots_instance_folder);
+  FILE *loading_file = fopen(loading_file_path, "r");
+  if (loading_file) {
+    fclose(loading_file);
+    snprintf(error_buffer, ERROR_BUFFER_SIZE, "The Webots simulation world is not yet ready");
+    free(webots_instance_folder);
+    free(ipc_folder);
+    free(loading_file_path);
+    return NULL;
+  }
+  free(webots_instance_folder);
+  free(loading_file_path);
+
+  free(robot_name);
+  char *sub_string = strstr(&WEBOTS_CONTROLLER_URL[6], "/");
+  robot_name = encode_robot_name(sub_string ? sub_string + 1 : NULL);
   if (robot_name) {
 #ifndef _WIN32
     // socket file name is like: folder + robot_name + "/extern"
-    length += strlen(robot_name + 1) + 8;
+    const int length = ipc_path_length + strlen(robot_name) + 8;
     socket_filename = malloc(length);
-    snprintf(socket_filename, length, "%s/%s/extern", folder, robot_name + 1);
+    snprintf(socket_filename, length, "%s/%s/extern", ipc_folder, robot_name);
 #else
     // socket file name is like: "\\.\\pipe\webots-XXX-robot_name"
-    length = 28 + strlen(robot_name + 1);
+    const int length = 28 + strlen(robot_name);
     socket_filename = malloc(length);
-    snprintf(socket_filename, length, "\\\\.\\pipe\\webots-%d-%s", number, robot_name + 1);
+    snprintf(socket_filename, length, "\\\\.\\pipe\\webots-%d-%s", number, robot_name);
 #endif
+    free(robot_name);
   } else {  // check if a single extern robot is present in the ipc folder
-    DIR *dr = opendir(folder);
+    dr = opendir(ipc_folder);
     if (dr == NULL) {  // the ipc folder was not yet created
-      free(folder);
+      free(ipc_folder);
+      snprintf(error_buffer, ERROR_BUFFER_SIZE,
+               "The Webots simulation has not yet started or there is no robot in the simulation");
       return NULL;
     }
     char **filenames = NULL;
@@ -1187,9 +1298,9 @@ static char *compute_socket_filename() {
         continue;
       bool found = false;
       // search the robot folder for a file named "extern"
-      const int l = length + strlen(de->d_name) + 1;
+      const int l = ipc_path_length + strlen(de->d_name) + 1;
       char *subfolder = malloc(l);
-      snprintf(subfolder, l, "%s/%s", folder, de->d_name);
+      snprintf(subfolder, l, "%s/%s", ipc_folder, de->d_name);
       DIR *d = opendir(subfolder);
       free(subfolder);
       if (d) {
@@ -1205,26 +1316,30 @@ static char *compute_socket_filename() {
         continue;
       char **r = realloc(filenames, (count + 1) * sizeof(char *));
       if (!r) {
-        fprintf(stderr, "Cannot allocate memory for listing \"%s\" folder.\n", folder);
+        fprintf(stderr, "Cannot allocate memory for listing \"%s\" folder.\n", ipc_folder);
         exit(EXIT_FAILURE);
       }
       filenames = r;
       filenames[count++] = strdup(de->d_name);
     }
     closedir(dr);
-    if (count == 0)
+    if (count == 0) {
+      snprintf(error_buffer, ERROR_BUFFER_SIZE,
+               "The Webots simulation has not yet started or there is no robot with an <extern> controller");
       socket_filename = NULL;
-    else if (count > 1) {  // more than one extern controller in the current instance of Webots
-      fprintf(stderr, "Webots instance %d has several extern controller robots.\n", number);
-      fprintf(stderr, "Please set the WEBOTS_CONTROLLER_URL environment variable to select one among:\n");
+    } else if (count > 1) {  // more than one extern controller in the current instance of Webots
+      fprintf(stderr,
+              "No robot name provided, Webots instance %d should have exactly one robot set with an <extern> controller.\n",
+              number);
+      fprintf(stderr, "Available robots with <extern> controllers are:\n");
       for (int i = 0; i < count; i++)
-        fprintf(stderr, "ipc://%d/%s\n", number, filenames[i]);
+        fprintf(stderr, " * %s\n", filenames[i]);
       exit(EXIT_FAILURE);
     } else {
 #ifndef _WIN32
-      const int l = length + strlen(filenames[0] + 1) + 8;  // folder + robot_name + "/extern"
+      const int l = ipc_path_length + strlen(filenames[0] + 1) + 8;  // folder + robot_name + "/extern"
       socket_filename = malloc(l);
-      snprintf(socket_filename, l, "%s/%s/extern", folder, filenames[0]);
+      snprintf(socket_filename, l, "%s/%s/extern", ipc_folder, filenames[0]);
 #else
       const int l = 28 + strlen(filenames[0] + 1);  // "\\.\pipe\webots-XXXX" + robot_name
       socket_filename = malloc(l);
@@ -1235,13 +1350,13 @@ static char *compute_socket_filename() {
       free(filenames[i]);
     free(filenames);
   }
-  free(folder);
+  free(ipc_folder);
   free(WEBOTS_CONTROLLER_URL);
   return socket_filename;
 }
 
 static void compute_remote_info(char **host, int *port, char **robot_name) {
-  const char *WEBOTS_CONTROLLER_URL = getenv("WEBOTS_CONTROLLER_URL");
+  const char *WEBOTS_CONTROLLER_URL = wbu_system_getenv("WEBOTS_CONTROLLER_URL");
   const char *url_suffix = strstr(&WEBOTS_CONTROLLER_URL[6], ":");
 
   if (url_suffix == NULL) {  // assuming only the IP address was provided
@@ -1256,11 +1371,7 @@ static void compute_remote_info(char **host, int *port, char **robot_name) {
   snprintf(*host, host_length, "%s", &WEBOTS_CONTROLLER_URL[6]);
   sscanf(url_suffix, ":%d", port);
   const char *rn = strstr(url_suffix, "/");
-  if (rn != NULL) {
-    *robot_name = malloc(strlen(rn) + 1);
-    strcpy(*robot_name, rn);
-  } else
-    *robot_name = NULL;
+  *robot_name = rn != NULL ? encode_robot_name(rn + 1) : NULL;
 }
 
 int wb_robot_init() {  // API initialization
@@ -1315,46 +1426,52 @@ int wb_robot_init() {  // API initialization
   int retry = 0;
   while (true) {
     bool success;
-    const char *WEBOTS_CONTROLLER_URL = getenv("WEBOTS_CONTROLLER_URL");
-    const char *WEBOTS_ROBOT_NAME = getenv("WEBOTS_ROBOT_NAME");
+    bool is_simulation_loading;
+    const char *WEBOTS_CONTROLLER_URL = wbu_system_getenv("WEBOTS_CONTROLLER_URL");
+    const char *WEBOTS_ROBOT_NAME = wbu_system_getenv("WEBOTS_ROBOT_NAME");
     const char *WEBOTS_TMP_PATH = wbu_system_webots_instance_path(true);
+    char *error_message = malloc(ERROR_BUFFER_SIZE);
+    char *socket_filename = NULL;
     if ((WEBOTS_CONTROLLER_URL != NULL) &&
         !(WEBOTS_ROBOT_NAME && WEBOTS_ROBOT_NAME[0] && WEBOTS_TMP_PATH && WEBOTS_TMP_PATH[0]) &&
         strncmp(WEBOTS_CONTROLLER_URL, "tcp://", 6) == 0) {  // TCP URL given and not an intern controller
       char *host, *robot_name;
       int port = -1;
       compute_remote_info(&host, &port, &robot_name);
-      char *error_message = malloc(ERROR_BUFFER_SIZE);
       success = scheduler_init_remote(host, port, robot_name, error_message);
+      is_simulation_loading = strncmp(error_message, "The Webots simulation world is not ready yet", 44) == 0;
       if (success) {
         free(host);
         free(robot_name);
         free(error_message);
         break;
-      } else {
-        if (retry % 5 == 0 && retry != 50)
-          fprintf(stderr, "%s, retrying for another %d seconds...\n", error_message, 50 - retry);
       }
-
       free(host);
       free(robot_name);
-      free(error_message);
     } else {  // Intern or IPC extern controller
-      char *socket_filename = compute_socket_filename();
+      socket_filename = compute_socket_filename(error_message);
       success = socket_filename ? scheduler_init_local(socket_filename) : false;
+      is_simulation_loading = strncmp(error_message, "The Webots simulation world is not ready yet", 44) == 0;
       if (success) {
         free(socket_filename);
+        free(error_message);
         break;
       }
-      if (retry % 5 == 0 && retry != 50) {
-        if (socket_filename)
-          fprintf(stderr, "Cannot connect to Webots instance on socket \"%s\", retrying for another %d seconds...\n",
-                  socket_filename, 50 - retry);
-        else
-          fprintf(stderr, "Cannot connect to Webots instance, retrying for another %d seconds...\n", 50 - retry);
-      }
-      free(socket_filename);
     }
+    if (retry % 5 == 0 && retry != 50) {
+      if (is_simulation_loading) {
+        retry -= 5;
+        fprintf(stderr, "%s, pending until loading is done...\n", error_message);
+      } else if (socket_filename) {
+        free(socket_filename);
+        fprintf(
+          stderr,
+          "The specified robot is not in the list of robots with <extern> controllers, retrying for another %d seconds...\n",
+          50 - retry);
+      } else
+        fprintf(stderr, "%s, retrying for another %d seconds...\n", error_message, 50 - retry);
+    }
+    free(error_message);
     if (retry++ > 50) {
       fprintf(stderr, "Giving up...\n");
       exit(EXIT_FAILURE);

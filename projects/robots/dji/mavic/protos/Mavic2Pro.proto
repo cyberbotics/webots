@@ -1,14 +1,14 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://cyberbotics.com/doc/guide/mavic-2-pro
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/dji/mavic/protos/Mavic2Pro.proto
 # A quadcopter drone mounted with a motorized camera by the DJI company.
 
 EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
 
 PROTO Mavic2Pro [
-  field SFVec3f    translation         0 0 0                               # Is `Transform.translation`.
+  field SFVec3f    translation         0 0 0.065                           # Is `Transform.translation`.
   field SFRotation rotation            0 0 1 0                             # Is `Transform.rotation`.
   field SFString   name                "Mavic 2 PRO"                       # Is `Solid.name`.
   field SFString   controller          "mavic2pro"                         # Is `Robot.controller`.
@@ -101,7 +101,7 @@ Robot {
                 appearance PBRAppearance {
                   baseColor 0.5 0.5 0.5
                   baseColorMap ImageTexture {
-                    url "Mavic2Pro/textures/mavic_fast_helix.png"
+                    url "webots://projects/default/protos/textures/fast_helix.png"
                   }
                   metalness 0
                   roughness 0
@@ -221,7 +221,7 @@ Robot {
                 appearance PBRAppearance {
                   baseColor 0.5 0.5 0.5
                   baseColorMap ImageTexture {
-                    url "Mavic2Pro/textures/mavic_fast_helix.png"
+                    url "webots://projects/default/protos/textures/fast_helix.png"
                   }
                   metalness 0
                   roughness 0
@@ -343,7 +343,7 @@ Robot {
                 appearance PBRAppearance {
                   baseColor 0.5 0.5 0.5
                   baseColorMap ImageTexture {
-                    url "Mavic2Pro/textures/mavic_fast_helix.png"
+                    url "webots://projects/default/protos/textures/fast_helix.png"
                   }
                   metalness 0
                   roughness 0
@@ -660,7 +660,7 @@ Robot {
                 appearance PBRAppearance {
                   baseColor 0.5 0.5 0.5
                   baseColorMap ImageTexture {
-                    url "Mavic2Pro/textures/mavic_fast_helix.png"
+                    url "webots://projects/default/protos/textures/fast_helix.png"
                   }
                   metalness 0
                   roughness 0

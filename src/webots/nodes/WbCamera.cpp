@@ -84,7 +84,7 @@ public:
   void addColor(WbRgb colors) { mColors.append(colors); }
 
 protected:
-  double distance() override { return fabs(mObjectRelativePosition.z()); }
+  double distance() override { return fabs(objectRelativePosition().z()); }
 
   int mId;
   QString mModel;
@@ -423,7 +423,7 @@ void WbCamera::prePhysicsStep(double ms) {
   if (isPowerOn() && mRecognitionSensor->isEnabled() && mRecognitionSensor->needToRefreshInMs(ms) && recognition() &&
       recognition()->occlusion()) {
     // create rays
-    computeObjects(false, true);
+    computeRecognizedObjects(false, true);
     mNeedToDeleteRecognizedObjectsRays = true;
 
     if (!mRecognizedObjects.isEmpty())
@@ -467,25 +467,19 @@ void WbCamera::reset(const QString &id) {
 void WbCamera::updateRaysSetupIfNeeded() {
   updateTransformForPhysicsStep();
 
-  // compute the camera position and rotation
-  const WbVector3 cameraPosition = matrix().translation();
-  const WbMatrix3 cameraRotation = rotationMatrix();
-  const WbMatrix3 cameraInverseRotation = cameraRotation.transposed();
+  // compute the camera frustum planes
   const double horizontalFieldOfView = fieldOfView();
   const double verticalFieldOfView =
     (isPlanarProjection() || horizontalFieldOfView > M_PI) ?
       WbWrenCamera::computeFieldOfViewY(horizontalFieldOfView, (double)width() / (double)height()) :
       mWrenCamera->sphericalFieldOfViewY();
-  const WbAffinePlane *frustumPlanes =
-    WbObjectDetection::computeFrustumPlanes(cameraPosition, cameraRotation, verticalFieldOfView, horizontalFieldOfView,
-                                            recognition()->maxRange(), isPlanarProjection());
+  const WbAffinePlane *frustumPlanes = WbObjectDetection::computeFrustumPlanes(this, verticalFieldOfView, horizontalFieldOfView,
+                                                                               recognition()->maxRange(), isPlanarProjection());
+
+  // update list of recognized objects
   foreach (WbRecognizedObject *recognizedObject, mRecognizedObjects) {
     recognizedObject->object()->updateTransformForPhysicsStep();
-    bool valid =
-      recognizedObject->recomputeRayDirection(this, cameraPosition, cameraRotation, cameraInverseRotation, frustumPlanes);
-    if (valid)
-      valid = computeObject(cameraPosition, cameraRotation, cameraInverseRotation, frustumPlanes, recognizedObject, true);
-    if (!valid) {
+    if (!recognizedObject->recomputeRayDirection(frustumPlanes) || !setRecognizedObjectProperties(recognizedObject)) {
       mRecognizedObjects.removeAll(recognizedObject);
       mInvalidRecognizedObjects.append(recognizedObject);
     }
@@ -703,19 +697,16 @@ void WbCamera::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbCamera::computeObjects(bool finalSetup, bool needCollisionDetection) {
+void WbCamera::computeRecognizedObjects(bool finalSetup, bool needCollisionDetection) {
   // compute the camera referential
-  const WbVector3 cameraPosition = matrix().translation();
-  const WbMatrix3 cameraRotation = rotationMatrix();
-  const WbMatrix3 cameraInverseRotation = cameraRotation.transposed();
+  const WbVector3 cameraPosition = position();
   const double horizontalFieldOfView = fieldOfView();
   const double verticalFieldOfView =
     (isPlanarProjection() || horizontalFieldOfView > M_PI) ?
       WbWrenCamera::computeFieldOfViewY(horizontalFieldOfView, (double)width() / (double)height()) :
       mWrenCamera->sphericalFieldOfViewY();
-  const WbAffinePlane *frustumPlanes =
-    WbObjectDetection::computeFrustumPlanes(cameraPosition, cameraRotation, verticalFieldOfView, horizontalFieldOfView,
-                                            recognition()->maxRange(), isPlanarProjection());
+  const WbAffinePlane *frustumPlanes = WbObjectDetection::computeFrustumPlanes(this, verticalFieldOfView, horizontalFieldOfView,
+                                                                               recognition()->maxRange(), isPlanarProjection());
 
   // loop for each possible target to check if it is visible
   const QList<WbSolid *> objects = WbWorld::instance()->cameraRecognitionObjects();
@@ -724,16 +715,14 @@ void WbCamera::computeObjects(bool finalSetup, bool needCollisionDetection) {
     if (object == this || robot() == object || robot()->solidChildren().contains(object))
       continue;
     // We should discard targets as soon as possible to improve performance.
-    if ((cameraPosition - object->matrix().translation() - object->boundingSphere()->center()).length() >
+    if ((cameraPosition - object->position() - object->boundingSphere()->center()).length() >
         (recognition()->maxRange() + object->boundingSphere()->scaledRadius()))
       continue;
     // create target
     WbRecognizedObject *generatedObject =
       new WbRecognizedObject(this, object, needCollisionDetection, recognition()->maxRange());
     if (finalSetup) {
-      const bool valid =
-        computeObject(cameraPosition, cameraRotation, cameraInverseRotation, frustumPlanes, generatedObject, false);
-      if (!valid) {
+      if (!generatedObject->isContainedInFrustum(frustumPlanes) || !setRecognizedObjectProperties(generatedObject)) {
         delete generatedObject;
         continue;
       }
@@ -810,19 +799,13 @@ WbVector2 WbCamera::projectOnImage(const WbVector3 &position) {
   return WbVector2((int)((width() - 1) * uv.x()), (int)((height() - 1) * uv.y()));
 }
 
-bool WbCamera::computeObject(const WbVector3 &cameraPosition, const WbMatrix3 &cameraRotation,
-                             const WbMatrix3 &cameraInverseRotation, const WbAffinePlane *frustumPlanes,
-                             WbRecognizedObject *recognizedObject, bool fromRayUpdate) {
+bool WbCamera::setRecognizedObjectProperties(WbRecognizedObject *recognizedObject) {
   assert(recognizedObject);
-
-  if (!fromRayUpdate) {
-    if (!recognizedObject->computeObject(cameraPosition, cameraRotation, cameraInverseRotation, frustumPlanes))
-      return false;
-  }
 
   // compute object relative orientation
   WbRotation relativeRotation;
-  relativeRotation.fromMatrix3(cameraInverseRotation * recognizedObject->object()->rotationMatrix());
+  relativeRotation.fromMatrix3(recognizedObject->device()->rotationMatrix().transposed() *
+                               recognizedObject->object()->rotationMatrix());
   relativeRotation.normalize();
   recognizedObject->setRelativeOrientation(relativeRotation);
 
@@ -888,7 +871,7 @@ bool WbCamera::refreshRecognitionSensorIfNeeded() {
   if (!recognition()->occlusion())
     // no need of ODE ray collision detection
     // rays can be created at the end of the step when all the body positions are up-to-date
-    computeObjects(true, false);
+    computeRecognizedObjects(true, false);
 
   // post process objects
   if (recognition()->occlusion())
