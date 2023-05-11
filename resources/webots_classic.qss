@@ -149,6 +149,17 @@ QGroupBox#networkGroupBox::title {
   background: transparent;
 }
 
+QLineEdit {
+  background: white;
+}
+QGroupBox#networkGroupBox QLabel {
+  background-color: #E1E1E1;
+}
+
+QGroupBox#networkGroupBox QCheckBox {
+  background-color: #E1E1E1;
+}
+
 /* 3D view tools */
 
 QFrame#simulationIndicatorFrame {
@@ -464,6 +475,22 @@ QScrollBar {
 QScrollBar::handle{
   border: 1px solid #ababab;
   background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 white, stop: 1 #efefef);
+}
+
+QScrollBar:horizontal {
+    margin: 0px 15px 0 15px;
+}
+
+QScrollBar::add-line:horizontal {
+    width: 15px;
+    subcontrol-position: right;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:horizontal {
+    width: 15px;
+    subcontrol-position: left;
+    subcontrol-origin: margin;
 }
 
 /* progress bar */
