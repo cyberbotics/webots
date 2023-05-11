@@ -40,7 +40,7 @@ static QString gCoordinateSystem;
 
 static QString escapeString(const QString &string) {
   QString escaped(string);
-  return escaped.replace("'", "//'");
+  return escaped.replace("'", "\\'");
 }
 
 WbProtoTemplateEngine::WbProtoTemplateEngine(const QString &templateContent) : WbTemplateEngine(templateContent) {
