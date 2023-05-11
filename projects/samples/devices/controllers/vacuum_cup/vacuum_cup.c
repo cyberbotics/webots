@@ -100,8 +100,8 @@ int main(int argc, const char *argv[]) {
       wb_vacuum_cup_turn_off(vaccum_cup);
     }
   }
-  
-wb_vacuum_cup_disable_presence(vaccum_cup);
+
+  wb_vacuum_cup_disable_presence(vaccum_cup);
 
   // cleanup webots resources
   wb_robot_cleanup();

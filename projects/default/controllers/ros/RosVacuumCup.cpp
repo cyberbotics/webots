@@ -16,7 +16,7 @@
 #include "webots_ros/BoolStamped.h"
 
 RosVacuumCup::RosVacuumCup(VacuumCup *vacuum_cup, Ros *ros) :
-  RosSensor(connector->getName() + "/presence_sensor", connector, ros) {
+  RosSensor(vacuum_cup->getName() + "/presence_sensor", vacuum_cup, ros) {
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
   mTurnOnServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/turn_on", &RosVacuumCup::turnOnCallback);
   mIsOnServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/is_on", &RosVacuumCup::isOnCallback);
@@ -35,7 +35,7 @@ ros::Publisher RosVacuumCup::createPublisher() {
   return RosDevice::rosAdvertiseTopic(topicName, type);
 }
 
-// get value from the connector and publish it
+// get value from the vacuum cup and publish it
 void RosVacuumCup::publishValue(ros::Publisher publisher) {
   webots_ros::BoolStamped value;
   value.header.stamp = ros::Time::now();

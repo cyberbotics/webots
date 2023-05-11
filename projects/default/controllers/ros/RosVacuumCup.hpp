@@ -25,20 +25,20 @@ using namespace webots;
 
 class RosVacuumCup : public RosSensor {
 public:
-  RosVacuumCup(Connector *connector, Ros *ros);
+  RosVacuumCup(VacuumCup *vacuumCup, Ros *ros);
   virtual ~RosVacuumCup();
 
   ros::Publisher createPublisher() override;
   void publishValue(ros::Publisher publisher) override;
-  void rosEnable(int samplingPeriod) override { mConnector->enablePresence(samplingPeriod); }
-  void rosDisable() override { mConnector->disablePresence(); }
-  int rosSamplingPeriod() override { return mConnector->getPresenceSamplingPeriod(); }
+  void rosEnable(int samplingPeriod) override { mVacuumCup->enablePresence(samplingPeriod); }
+  void rosDisable() override { mVacuumCup->disablePresence(); }
+  int rosSamplingPeriod() override { return mVacuumCup->getPresenceSamplingPeriod(); }
 
   bool turnOnCallback(webots_ros::set_bool::Request &req, webots_ros::set_bool::Response &res);
   bool isOnCallback(webots_ros::get_bool::Request &req, webots_ros::get_bool::Response &res);
 
 private:
-  void cleanup() { mConnector->disablePresence(); }
+  void cleanup() { mVacuumCup->disablePresence(); }
 
   VacuumCup *mVacuumCup;
   ros::ServiceServer mOnServer;
