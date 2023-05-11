@@ -1214,7 +1214,7 @@ namespace webots {
         case Node.SKIN:             devices[otherTag] = createSkin(name); break;
         case Node.SPEAKER:          devices[otherTag] = createSpeaker(name); break;
         case Node.TOUCH_SENSOR:     devices[otherTag] = createTouchSensor(name); break;
-        case Node.VACUUM_GRIPPER:       devices[otherTag] = createVacuumGripper(name); break;
+        case Node.VACUUM_GRIPPER:   devices[otherTag] = createVacuumGripper(name); break;
         default:                    devices[otherTag] = null; break;
       }
     }

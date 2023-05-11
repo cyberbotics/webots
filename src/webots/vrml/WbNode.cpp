@@ -2122,6 +2122,7 @@ QString WbNode::getUrdfPrefix() const {
   return robotAncestor ? robotAncestor->mUrdfPrefix : QString();
 }
 
+/*
 #include <QtCore/QDebug>
 void WbNode::printDebugNodeStructure(int level) {
   QString indent;
@@ -2171,3 +2172,4 @@ void WbNode::printDebugNodeFields(int level, bool printParameters) {
                     .arg(p->alias());
   }
 }
+*/
