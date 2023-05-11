@@ -64,6 +64,7 @@ Released on ??
     - Fixed object's relative orientation returned by the [Recognition](recognition.md) functionality ([#6100](https://github.com/cyberbotics/webots/pull/6100)).
     - Fixed conversion of joints' axis in `pedal_racer.wbt` to FLU/ENU coordinate system ([#6115](https://github.com/cyberbotics/webots/pull/6115)).
     - Fixed a bug in ODE that caused minStop and maxStop limits to be violated in HingeJoints ([#6118](https://github.com/cyberbotics/webots/pull/6118)).
+    - Fixed errors loading template PROTO if the system user name contains the `'` character ([#6131](https://github.com/cyberbotics/webots/pull/6131)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
