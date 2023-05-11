@@ -15,12 +15,12 @@
 #include "RosVacuumCup.hpp"
 #include "webots_ros/BoolStamped.h"
 
-RosVacuumCup::RosVacuumCup(VacuumCup *vacuum_cup, Ros *ros) :
-  RosSensor(vacuum_cup->getName() + "/presence_sensor", vacuum_cup, ros) {
+RosVacuumCup::RosVacuumCup(VacuumCup *vacuumCup, Ros *ros) :
+  RosSensor(vacuumCup->getName() + "/presence_sensor", vacuumCup, ros) {
   std::string fixedDeviceName = RosDevice::fixedDeviceName();
   mTurnOnServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/turn_on", &RosVacuumCup::turnOnCallback);
   mIsOnServer = RosDevice::rosAdvertiseService(fixedDeviceName + "/is_on", &RosVacuumCup::isOnCallback);
-  mVacuumCup = vacuum_cup;
+  mVacuumCup = vacuumCup;
 }
 
 RosVacuumCup::~RosVacuumCup() {
