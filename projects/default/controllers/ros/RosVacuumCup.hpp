@@ -41,7 +41,7 @@ private:
   void cleanup() { mVacuumCup->disablePresence(); }
 
   VacuumCup *mVacuumCup;
-  ros::ServiceServer mOnServer;
+  ros::ServiceServer mTurnOnServer;
   ros::ServiceServer mIsOnServer;
 };
 
