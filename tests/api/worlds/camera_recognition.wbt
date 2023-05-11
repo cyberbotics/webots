@@ -193,7 +193,7 @@ Solid {
   translation -3.7763137 0.23806185 -1.2091656
   rotation 0.5570847927878169 -0.04975668224899714 0.8289636941483792 2.51922
   children [
-    DEF CAPSULE Transform {
+    DEF CAPSULE Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {
@@ -231,7 +231,7 @@ Solid {
         size 0.9 0.1 0.1
       }
     }
-    DEF SHAPE2 Transform {
+    DEF SHAPE2 Pose {
       translation -0.4 -0.5 0
       rotation 0 0 1 1.5708003
       children [
@@ -264,7 +264,7 @@ Solid {
   translation -3.49351 0.0982299 -1.05761
   rotation -0.6457879227325559 -0.5398879322844559 -0.5398879322844559 4.91351
   children [
-    DEF CAPSULE Transform {
+    DEF CAPSULE Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {

@@ -100,7 +100,7 @@ PROTO CrashBarrier [
       %<= side * poleRadius >% 0
     ]
     %< if (fields.enableBoundingObject.value) { >%
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0 %<= 0.5 * height >%
         children [
           Extrusion {

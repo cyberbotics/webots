@@ -48,7 +48,7 @@ DEF FLOOR Solid {
 }
 DEF WALLS Solid {
   children [
-    Transform {
+    Pose {
       translation 0 10 2
       rotation -1 0 0 -1.57
       children [
@@ -64,7 +64,7 @@ DEF WALLS Solid {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0 -10 2
       rotation -1 0 0 1.57
       children [
@@ -79,7 +79,7 @@ DEF GATE_OUT Solid {
   children [
     DEF GATE Group {
       children [
-        Transform {
+        Pose {
           translation 0.501 -0.001 0.501
           children [
             DEF GATE_1 Shape {
@@ -94,13 +94,13 @@ DEF GATE_OUT Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.501 -0.001 0.501
           children [
             USE GATE_1
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 1
           children [
             DEF GATE_2 Shape {
@@ -115,7 +115,7 @@ DEF GATE_OUT Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.1
           children [
             USE GATE_2
@@ -135,7 +135,7 @@ DEF GATE_IN Solid {
 }
 DEF FOOTWALL Solid {
   children [
-    Transform {
+    Pose {
       translation -0.13 0 0.4
       children [
         DEF FOOTWALL_SHAPE Shape {
@@ -150,7 +150,7 @@ DEF FOOTWALL Solid {
         }
       ]
     }
-    Transform {
+    Pose {
       translation -0.47 0 0.4
       children [
         USE FOOTWALL_SHAPE
@@ -160,13 +160,13 @@ DEF FOOTWALL Solid {
   name "footwall"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation -0.13 0 0.4
         children [
           USE FOOTWALL_SHAPE
         ]
       }
-      Transform {
+      Pose {
         translation -0.47 0 0.4
         children [
           USE FOOTWALL_SHAPE
@@ -190,7 +190,7 @@ DEF OBJ_1 Solid {
             size 0.03 0.03 0.1
           }
         }
-        Transform {
+        Pose {
           translation 0 0 0.065
           children [
             Shape {
@@ -291,7 +291,7 @@ DEF SLOTS_1 Solid {
   children [
     DEF SLOTS Group {
       children [
-        Transform {
+        Pose {
           children [
             DEF SLOTS_GROUND Shape {
               appearance DEF SLOTS_COLOR PBRAppearance {
@@ -305,7 +305,7 @@ DEF SLOTS_1 Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.136 -0.001 0.031
           children [
             DEF ROWS Shape {
@@ -316,25 +316,25 @@ DEF SLOTS_1 Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.046 -0.001 0.031
           children [
             USE ROWS
           ]
         }
-        Transform {
+        Pose {
           translation 0.046 -0.001 0.031
           children [
             USE ROWS
           ]
         }
-        Transform {
+        Pose {
           translation 0.136 -0.001 0.031
           children [
             USE ROWS
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.18 0.03
           children [
             DEF COLUMNS Shape {
@@ -345,25 +345,25 @@ DEF SLOTS_1 Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.09 0.03
           children [
             USE COLUMNS
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.03
           children [
             USE COLUMNS
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.09 0.03
           children [
             USE COLUMNS
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.18 0.03
           children [
             USE COLUMNS
@@ -375,61 +375,61 @@ DEF SLOTS_1 Solid {
   name "slot 1"
   boundingObject DEF BOUNDING_SLOTS Group {
     children [
-      Transform {
+      Pose {
         translation 0 0.18 0.03
         children [
           USE COLUMNS
         ]
       }
-      Transform {
+      Pose {
         translation 0 0.09 0.03
         children [
           USE COLUMNS
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.03
         children [
           USE COLUMNS
         ]
       }
-      Transform {
+      Pose {
         translation 0 -0.09 0.03
         children [
           USE COLUMNS
         ]
       }
-      Transform {
+      Pose {
         translation 0 -0.18 0.03
         children [
           USE COLUMNS
         ]
       }
-      Transform {
+      Pose {
         translation -0.135 0 0.03
         children [
           USE ROWS
         ]
       }
-      Transform {
+      Pose {
         translation -0.045 0 0.03
         children [
           USE ROWS
         ]
       }
-      Transform {
+      Pose {
         translation 0.045 0 0.03
         children [
           USE ROWS
         ]
       }
-      Transform {
+      Pose {
         translation 0.135 0 0.03
         children [
           USE ROWS
         ]
       }
-      Transform {
+      Pose {
         children [
           USE SLOTS_GROUND
         ]
@@ -550,7 +550,7 @@ Robot {
   name "Belt"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation -0.5 70 0.3375
         rotation 0 0 1 -1.57
         children [
@@ -559,7 +559,7 @@ Robot {
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.5 -70 0.3375
         rotation 0 0 1 -1.57
         children [
@@ -594,7 +594,7 @@ IprHd6m90 {
   tableSlot [
     DEF TABLE Solid {
       children [
-        DEF PLANE Transform {
+        DEF PLANE Pose {
           translation 0.4 0 -0.027
           children [
             Shape {
@@ -609,7 +609,7 @@ IprHd6m90 {
             }
           ]
         }
-        DEF LEG1 Transform {
+        DEF LEG1 Pose {
           translation 0.05 -0.35 -0.342
           children [
             DEF LEG Shape {
@@ -620,19 +620,19 @@ IprHd6m90 {
             }
           ]
         }
-        DEF LEG2 Transform {
+        DEF LEG2 Pose {
           translation 0.05 0.35 -0.342
           children [
             USE LEG
           ]
         }
-        DEF LEG3 Transform {
+        DEF LEG3 Pose {
           translation 0.72 0.35 -0.342
           children [
             USE LEG
           ]
         }
-        DEF LEG4 Transform {
+        DEF LEG4 Pose {
           translation 0.72 -0.35 -0.342
           children [
             USE LEG

@@ -13,7 +13,7 @@ Viewpoint {
 DefaultDef {
   slot2 Group {
     children [
-      Transform {
+      Pose {
         children [
           USE BOX
         ]

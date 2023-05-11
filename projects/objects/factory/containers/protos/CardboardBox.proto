@@ -70,7 +70,7 @@ PROTO CardboardBox [
     translation IS translation
     rotation IS rotation
     children [
-      DEF BACK Transform {
+      DEF BACK Pose {
         translation %<= -(size.x / 2 - 0.00025) >% 0 0
         children [
           Shape {
@@ -83,7 +83,7 @@ PROTO CardboardBox [
           }
         ]
       }
-      DEF FRONT Transform {
+      DEF FRONT Pose {
         translation %<= size.x / 2 - 0.00025 >% 0 0
         children [
           Shape {
@@ -96,7 +96,7 @@ PROTO CardboardBox [
           }
         ]
       }
-      DEF RIGHT Transform {
+      DEF RIGHT Pose {
         translation 0 %<= -(size.y / 2 - 0.00025) >% 0
         children [
           Shape {
@@ -109,7 +109,7 @@ PROTO CardboardBox [
           }
         ]
       }
-      DEF LEFT Transform {
+      DEF LEFT Pose {
         translation 0 %<= size.y / 2 - 0.00025 >% 0
         children [
           Shape {
@@ -122,7 +122,7 @@ PROTO CardboardBox [
           }
         ]
       }
-      DEF BOTTOM Transform {
+      DEF BOTTOM Pose {
         translation 0 0 %<= -size.z / 2 + 0.00025 >%
         children [
           Shape {
@@ -135,7 +135,7 @@ PROTO CardboardBox [
           }
         ]
       }
-      DEF TOP Transform {
+      DEF TOP Pose {
         %<
           let position = {x:0, y:0, z:0}
           let angle = fields.lidAngle.value;
@@ -165,7 +165,7 @@ PROTO CardboardBox [
     %< } else { >%
     boundingObject Group {
       children [
-        DEF BACK Transform {
+        DEF BACK Pose {
           translation %<= -(size.x / 2 - 0.0005) >% 0 0
           children [
             Shape {
@@ -178,7 +178,7 @@ PROTO CardboardBox [
             }
           ]
         }
-        DEF FRONT Transform {
+        DEF FRONT Pose {
           translation %<= size.x / 2 - 0.0005 >% 0 0
           children [
             Shape {
@@ -191,7 +191,7 @@ PROTO CardboardBox [
             }
           ]
         }
-        DEF RIGHT Transform {
+        DEF RIGHT Pose {
           translation 0 %<= -(size.y / 2 - 0.0005) >% 0
           children [
             Shape {
@@ -204,7 +204,7 @@ PROTO CardboardBox [
             }
           ]
         }
-        DEF LEFT Transform {
+        DEF LEFT Pose {
           translation 0 %<= size.y / 2 - 0.0005 >% 0
           children [
             Shape {
@@ -218,7 +218,7 @@ PROTO CardboardBox [
           ]
           translationStep 0
         }
-        DEF BOTTOM Transform {
+        DEF BOTTOM Pose {
           translation 0 0 %<= -size.z / 2 + 0.0005 >%
           children [
             Shape {
@@ -231,7 +231,7 @@ PROTO CardboardBox [
             }
           ]
         }
-        DEF TOP Transform {
+        DEF TOP Pose {
           translation %<= position.x >% %<= position.y >% %<= position.z >%
           rotation 0 1 0 %<= -fields.lidAngle.value >%
           children [

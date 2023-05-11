@@ -26,7 +26,7 @@ PROTO Kinect [
     rotation IS rotation
     %< if (foot) { >%
     children [
-      Transform {
+      Pose {
         translation 0 0 0.025
         children [
           Shape {
@@ -156,7 +156,7 @@ PROTO Kinect [
     ]
     name IS name
     model "Microsoft Kinect"
-    boundingObject Transform {
+    boundingObject Pose {
       rotation -0.5774 0.5773 0.5774 -2.0944
       translation 0 0 0.013
       children [

@@ -22,7 +22,7 @@ Solid {
   name "RTalus"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         rotation -0.0004 1 0.0004 1.5708
         children [
           Cylinder {
@@ -31,7 +31,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         rotation 1 0 0 1.57
         children [
           Cylinder {

@@ -57,7 +57,7 @@ PROTO Desk [
     model "desk"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.7
           children [
             Box {
@@ -65,7 +65,7 @@ PROTO Desk [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.269 0.535 0.35
           rotation 0 1 0 0.152
           children [
@@ -76,7 +76,7 @@ PROTO Desk [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.269 0.535 0.35
           rotation 0 1 0 -0.152
           children [
@@ -87,7 +87,7 @@ PROTO Desk [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.269 -0.535 0.35
           rotation 0 1 0 0.152
           children [
@@ -98,7 +98,7 @@ PROTO Desk [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.269 -0.535 0.35
           rotation 0 1 0 -0.152
           children [

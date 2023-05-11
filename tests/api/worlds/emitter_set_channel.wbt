@@ -20,7 +20,7 @@ Background {
 }
 DEF FLOOR Solid {
   children [
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {
@@ -96,7 +96,7 @@ DEF RECEIVER2 Robot {
 DEF EMITTER Robot {
   translation -0.3 0.05 -0.3
   children [
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {

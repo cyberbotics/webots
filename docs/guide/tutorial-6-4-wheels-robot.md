@@ -145,7 +145,7 @@ graph TD
 
   style HingeJoint fill:#ffe4bf;
   class Robot highlightedNode;
-  class Shape1,USEBODY,Transform,USEWHEEL secondaryNode;
+  class Shape1,USEBODY,USEWHEEL secondaryNode;
 %end
 %end
 

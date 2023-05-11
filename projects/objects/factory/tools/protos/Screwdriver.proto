@@ -329,7 +329,7 @@ PROTO Screwdriver [
     contactMaterial IS contactMaterial
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.039 0 0
           rotation 0 1 0 1.57
           children [
@@ -340,7 +340,7 @@ PROTO Screwdriver [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.0585 0 0
           rotation 0 1 0 1.57
           children [

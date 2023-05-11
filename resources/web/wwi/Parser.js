@@ -1,4 +1,4 @@
-import {M_PI_4} from './nodes/utils/constants.js';
+import { M_PI_4 } from './nodes/utils/constants.js';
 import WbAbstractAppearance from './nodes/WbAbstractAppearance.js';
 import WbAccelerometer from './nodes/WbAccelerometer.js';
 import WbAltimeter from './nodes/WbAltimeter.js';
@@ -51,6 +51,7 @@ import WbPen from './nodes/WbPen.js';
 import WbPlane from './nodes/WbPlane.js';
 import WbPointLight from './nodes/WbPointLight.js';
 import WbPointSet from './nodes/WbPointSet.js';
+import WbPose from './nodes/WbPose.js';
 import WbPositionSensor from './nodes/WbPositionSensor.js';
 import WbRadar from './nodes/WbRadar.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
@@ -77,10 +78,10 @@ import WbViewpoint from './nodes/WbViewpoint.js';
 import WbWorld from './nodes/WbWorld.js';
 import WbWrenPostProcessingEffects from './wren/WbWrenPostProcessingEffects.js';
 
-import {getAnId} from './nodes/utils/id_provider.js';
+import { getAnId } from './nodes/utils/id_provider.js';
 
 import DefaultUrl from './DefaultUrl.js';
-import {webots} from './webots.js';
+import { webots } from './webots.js';
 import ImageLoader from './ImageLoader.js';
 import MeshLoader from './MeshLoader.js';
 import WbPropeller from './nodes/WbPropeller.js';
@@ -267,6 +268,8 @@ export default class Parser {
           console.error('This world already has a fog.');
         break;
       case 'Transform':
+        result = this.#parseTransform(node, parentNode);
+        break;
       case 'Robot':
       case 'Solid':
       case 'Accelerometer':
@@ -278,6 +281,7 @@ export default class Parser {
       case 'Display':
       case 'DistanceSensor':
       case 'Emitter':
+      case 'Fluid':
       case 'GPS':
       case 'Gyro':
       case 'InertialUnit':
@@ -292,7 +296,8 @@ export default class Parser {
       case 'TouchSensor':
       case 'Track':
       case 'TrackWheel':
-        result = this.#parseTransform(node, parentNode, isBoundingObject);
+      case 'Pose':
+        result = this.#parsePose(node, parentNode, isBoundingObject);
         break;
       case 'Physics':
       case 'SolidReference':
@@ -317,7 +322,7 @@ export default class Parser {
             if (parentNode instanceof WbShape) {
               parentNode.geometry?.delete();
               parentNode.geometry = result;
-            } else if (parentNode instanceof WbSolid || parentNode instanceof WbTransform || parentNode instanceof WbGroup) {
+            } else if (parentNode instanceof WbSolid || parentNode instanceof WbPose || parentNode instanceof WbGroup) {
               // Bounding object
               parentNode.boundingObject?.delete();
               if (parentNode instanceof WbSolid)
@@ -612,7 +617,7 @@ export default class Parser {
       if (isBoundingObject && (result instanceof WbShape || result instanceof WbGroup || result instanceof WbGeometry))
         parentNode.boundingObject = useNode;
       else if (result instanceof WbShape || result instanceof WbGroup || result instanceof WbLight ||
-         result instanceof WbCadShape)
+        result instanceof WbCadShape)
         parentNode.children.push(useNode);
     }
 
@@ -620,7 +625,7 @@ export default class Parser {
     return useNode;
   }
 
-  #parseTransform(node, parentNode, isBoundingObject) {
+  #parsePose(node, parentNode, isBoundingObject) {
     this.#updateParserProgress(node);
     const use = this.#checkUse(node, parentNode);
     if (typeof use !== 'undefined')
@@ -628,52 +633,50 @@ export default class Parser {
 
     const id = this.#parseId(node);
 
-    const type = getNodeAttribute(node, 'type', '').toLowerCase();
     const translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
-    const scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
     const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 0 1 0'));
     let name = getNodeAttribute(node, 'name', '');
 
     let newNode;
-    if (type === 'track' || node.tagName === 'Track') {
+    if (node.tagName === 'Track') {
       const geometriesCount = parseInt(getNodeAttribute(node, 'geometriesCount', '10'));
-      newNode = new WbTrack(id, translation, scale, rotation, geometriesCount);
-    } else if (type === 'trackwheel' || node.tagName === 'Trackwheel') {
+      newNode = new WbTrack(id, translation, rotation, geometriesCount);
+    } else if (node.tagName === 'TrackWheel') {
       const radius = parseFloat(getNodeAttribute(node, 'radius', '0.1'));
       const inner = getNodeAttribute(node, 'inner', '0').toLowerCase() === '1';
 
-      newNode = new WbTrackWheel(id, translation, scale, rotation, radius, inner);
+      newNode = new WbTrackWheel(id, translation, rotation, radius, inner);
 
       parentNode.wheelsList.push(newNode);
-    } else if (node.tagName === 'Robot' || node.tagName === 'Solid' || type === 'solid' || type === 'robot') {
+    } else if (node.tagName === 'Robot' || node.tagName === 'Solid') {
       if (name === '') {
-        if (node.tagName === 'Robot' || type === 'robot')
+        if (node.tagName === 'Robot')
           name = 'robot';
         else
           name = 'solid';
       }
-      newNode = new WbSolid(id, translation, scale, rotation, name);
+      newNode = new WbSolid(id, translation, rotation, name);
     } else if (node.tagName === 'Accelerometer')
-      newNode = new WbAccelerometer(id, translation, scale, rotation, name === '' ? 'accelerometer' : name);
+      newNode = new WbAccelerometer(id, translation, rotation, name === '' ? 'accelerometer' : name);
     else if (node.tagName === 'Altimeter')
-      newNode = new WbAltimeter(id, translation, scale, rotation, name === '' ? 'altimeter' : name);
+      newNode = new WbAltimeter(id, translation, rotation, name === '' ? 'altimeter' : name);
     else if (node.tagName === 'Camera') {
       const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', M_PI_4));
       const far = parseFloat(getNodeAttribute(node, 'far', '0'));
       const near = parseFloat(getNodeAttribute(node, 'near', '0.01'));
       const height = parseInt(getNodeAttribute(node, 'height', '64'));
       const width = parseInt(getNodeAttribute(node, 'width', '64'));
-      newNode = new WbCamera(id, translation, scale, rotation, name === '' ? 'camera' : name, height, width, fieldOfView, near,
+      newNode = new WbCamera(id, translation, rotation, name === '' ? 'camera' : name, height, width, fieldOfView, near,
         far);
     } else if (node.tagName === 'Charger')
-      newNode = new WbCharger(id, translation, scale, rotation, name === '' ? 'charger' : name);
+      newNode = new WbCharger(id, translation, rotation, name === '' ? 'charger' : name);
     else if (node.tagName === 'Compass')
-      newNode = new WbCompass(id, translation, scale, rotation, name === '' ? 'compass' : name);
+      newNode = new WbCompass(id, translation, rotation, name === '' ? 'compass' : name);
     else if (node.tagName === 'Connector') {
       const numberOfRotations = parseInt(getNodeAttribute(node, 'numberOfRotations', '4'));
-      newNode = new WbConnector(id, translation, scale, rotation, name === '' ? 'connector' : name, numberOfRotations);
+      newNode = new WbConnector(id, translation, rotation, name === '' ? 'connector' : name, numberOfRotations);
     } else if (node.tagName === 'Display')
-      newNode = new WbDisplay(id, translation, scale, rotation, name === '' ? 'display' : name);
+      newNode = new WbDisplay(id, translation, rotation, name === '' ? 'display' : name);
     else if (node.tagName === 'DistanceSensor') {
       const aperture = parseFloat(getNodeAttribute(node, 'aperture', 1.5708));
       const numberOfRays = parseInt(getNodeAttribute(node, 'numberOfRays', '1'));
@@ -683,16 +686,16 @@ export default class Parser {
         for (let i = 0; i < lookupTableArray.length; i = i + 3)
           lookupTable.push(new WbVector3(lookupTableArray[i], lookupTableArray[i + 1], lookupTableArray[i + 2]));
       }
-      newNode = new WbDistanceSensor(id, translation, scale, rotation, name === '' ? 'distance sensor' : name, numberOfRays,
+      newNode = new WbDistanceSensor(id, translation, rotation, name === '' ? 'distance sensor' : name, numberOfRays,
         aperture, lookupTable);
     } else if (node.tagName === 'Emitter')
-      newNode = new WbEmitter(id, translation, scale, rotation, name === '' ? 'emitter' : name);
+      newNode = new WbEmitter(id, translation, rotation, name === '' ? 'emitter' : name);
     else if (node.tagName === 'GPS')
-      newNode = new WbGps(id, translation, scale, rotation, name === '' ? 'gps' : name);
+      newNode = new WbGps(id, translation, rotation, name === '' ? 'gps' : name);
     else if (node.tagName === 'Gyro')
-      newNode = new WbGyro(id, translation, scale, rotation, name === '' ? 'gyro' : name);
+      newNode = new WbGyro(id, translation, rotation, name === '' ? 'gyro' : name);
     else if (node.tagName === 'InertialUnit')
-      newNode = new WbInertialUnit(id, translation, scale, rotation, name === '' ? 'inertial unit' : name);
+      newNode = new WbInertialUnit(id, translation, rotation, name === '' ? 'inertial unit' : name);
     else if (node.tagName === 'LED') {
       let tempColor = getNodeAttribute(node, 'color', '1 0 0');
       tempColor = convertStringToFloatArray(tempColor);
@@ -703,7 +706,7 @@ export default class Parser {
       } else
         console.error('Wrong number of colors in LED');
 
-      newNode = new WbLed(id, translation, scale, rotation, name === '' ? 'led' : name, color);
+      newNode = new WbLed(id, translation, rotation, name === '' ? 'led' : name, color);
     } else if (node.tagName === 'Lidar') {
       const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', Math.PI / 2));
       const horizontalResolution = parseInt(getNodeAttribute(node, 'horizontalResolution', '512'));
@@ -713,20 +716,20 @@ export default class Parser {
       const tiltAngle = parseFloat(getNodeAttribute(node, 'tiltAngle', '0'));
       const verticalFieldOfView = parseFloat(getNodeAttribute(node, 'verticalFieldOfView', '0.2'));
 
-      newNode = new WbLidar(id, translation, scale, rotation, name === '' ? 'lidar' : name, fieldOfView, maxRange, minRange,
+      newNode = new WbLidar(id, translation, rotation, name === '' ? 'lidar' : name, fieldOfView, maxRange, minRange,
         numberOfLayers, tiltAngle, verticalFieldOfView, horizontalResolution);
     } else if (node.tagName === 'LightSensor')
-      newNode = new WbLightSensor(id, translation, scale, rotation, name === '' ? 'light sensor' : name);
+      newNode = new WbLightSensor(id, translation, rotation, name === '' ? 'light sensor' : name);
     else if (node.tagName === 'Pen') {
       const write = getNodeAttribute(node, 'write', 'true').toLowerCase() === 'true';
-      newNode = new WbPen(id, translation, scale, rotation, name === '' ? 'pen' : name, write);
+      newNode = new WbPen(id, translation, rotation, name === '' ? 'pen' : name, write);
     } else if (node.tagName === 'Radar') {
       const horizontalFieldOfView = parseFloat(getNodeAttribute(node, 'horizontalFieldOfView', '0.78'));
       const verticalFieldOfView = parseFloat(getNodeAttribute(node, 'verticalFieldOfView', '0.1'));
       const maxRange = parseFloat(getNodeAttribute(node, 'maxRange', '50'));
       const minRange = parseFloat(getNodeAttribute(node, 'minRange', '1'));
 
-      newNode = new WbRadar(id, translation, scale, rotation, name === '' ? 'radar' : name, horizontalFieldOfView,
+      newNode = new WbRadar(id, translation, rotation, name === '' ? 'radar' : name, horizontalFieldOfView,
         verticalFieldOfView, maxRange, minRange);
     } else if (node.tagName === 'RangeFinder') {
       const height = parseInt(getNodeAttribute(node, 'height', '64'));
@@ -734,19 +737,19 @@ export default class Parser {
       const fieldOfView = parseFloat(getNodeAttribute(node, 'fieldOfView', M_PI_4));
       const maxRange = parseFloat(getNodeAttribute(node, 'maxRange', '1'));
       const minRange = parseFloat(getNodeAttribute(node, 'minRange', '0.01'));
-      newNode = new WbRangeFinder(id, translation, scale, rotation, name === '' ? 'range finder' : name, height, width,
+      newNode = new WbRangeFinder(id, translation, rotation, name === '' ? 'range finder' : name, height, width,
         fieldOfView, maxRange, minRange);
     } else if (node.tagName === 'Receiver')
-      newNode = new WbReceiver(id, translation, scale, rotation, name === '' ? 'receiver' : name);
+      newNode = new WbReceiver(id, translation, rotation, name === '' ? 'receiver' : name);
     else if (node.tagName === 'Speaker')
-      newNode = new WbSpeaker(id, translation, scale, rotation, name === '' ? 'speaker' : name);
+      newNode = new WbSpeaker(id, translation, rotation, name === '' ? 'speaker' : name);
     else if (node.tagName === 'TouchSensor')
-      newNode = new WbTouchSensor(id, translation, scale, rotation, name === '' ? 'touch sensor' : name);
+      newNode = new WbTouchSensor(id, translation, rotation, name === '' ? 'touch sensor' : name);
     else {
       if (!isBoundingObject)
         isBoundingObject = getNodeAttribute(node, 'role', undefined) === 'boundingObject';
 
-      newNode = new WbTransform(id, translation, scale, rotation);
+      newNode = new WbPose(id, translation, rotation);
     }
 
     WbWorld.instance.nodes.set(newNode.id, newNode);
@@ -760,6 +763,37 @@ export default class Parser {
       else if (isBoundingObject && parentNode instanceof WbSolid)
         parentNode.boundingObject = newNode;
       else if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
+        parentNode.endPoint = newNode;
+      else
+        parentNode.children.push(newNode);
+    }
+
+    return newNode;
+  }
+
+  #parseTransform(node, parentNode) {
+    this.#updateParserProgress(node);
+    const use = this.#checkUse(node, parentNode);
+    if (typeof use !== 'undefined')
+      return use;
+
+    const id = this.#parseId(node);
+
+    const translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
+    const scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
+    const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 0 1 0'));
+
+    let newNode;
+
+    newNode = new WbTransform(id, translation, rotation, scale);
+
+    WbWorld.instance.nodes.set(newNode.id, newNode);
+
+    this.#parseChildren(node, newNode, false);
+
+    if (typeof parentNode !== 'undefined') {
+      newNode.parent = parentNode.id;
+      if (parentNode instanceof WbSlot)
         parentNode.endPoint = newNode;
       else
         parentNode.children.push(newNode);
@@ -1744,4 +1778,4 @@ function _sanitizeHTML(text) {
   return element.innerHTML;
 }
 
-export {convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringToFloatArray};
+export { convertStringToVec2, convertStringToVec3, convertStringToQuaternion, convertStringToFloatArray };

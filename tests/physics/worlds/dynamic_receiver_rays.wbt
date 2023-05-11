@@ -40,11 +40,11 @@ DEF DYNAMIC_EMITTER Robot {
     Emitter {
       rotation 0.57735 0.57735 0.57735 -2.0944
       children [
-        Transform {
+        Pose {
           translation 0 0 0.05
           rotation 0 1 0 -3.14159
           children [
-            Transform {
+            Pose {
               translation 0 0 0.05
               rotation 0 -0.70711 0.70711 3.14159
               children [
@@ -69,11 +69,11 @@ DEF DYNAMIC_EMITTER Robot {
     Emitter {
       rotation 0.57735 0.57735 0.57735 -2.0944
       children [
-        Transform {
+        Pose {
           translation 0 0 0.05
           rotation 0 1 0 -3.14159
           children [
-            Transform {
+            Pose {
               translation 0 0 0.05
               rotation 0 -0.70711 0.70711 3.14159
               children [
@@ -115,11 +115,11 @@ DEF STATIC_EMITTER Robot {
     Emitter {
       rotation 0.57735 0.57735 0.57735 -2.0944
       children [
-        Transform {
+        Pose {
           translation 0 0 0.05
           rotation 0 1 0 -3.14159
           children [
-            Transform {
+            Pose {
               translation 0 0 0.05
               rotation 0 -0.70711 0.70711 3.14159
               children [
@@ -144,11 +144,11 @@ DEF STATIC_EMITTER Robot {
     Emitter {
       rotation 0.57735 0.57735 0.57735 -2.0944
       children [
-        Transform {
+        Pose {
           translation 0 3.67321e-08 0.05
           rotation 0 1 0 -3.14159
           children [
-            Transform {
+            Pose {
               translation 0 0 0.05
               rotation 0 -0.70711 0.70711 3.14159
               children [
@@ -200,7 +200,7 @@ DEF DYNAMIC_ROBOT Robot {
         translation 0 0.045 -0.03
         rotation 0 0 1 -1.5708
         children [
-          DEF WHEEL Transform {
+          DEF WHEEL Pose {
             rotation 0.57766 0.57720 -0.57720 -2.09394
             children [
               Shape {
@@ -243,7 +243,7 @@ DEF DYNAMIC_ROBOT Robot {
         translation 0 -0.045 -0.03
         rotation 0 0 1 -1.5708
         children [
-          DEF WHEEL Transform {
+          DEF WHEEL Pose {
             rotation 0.57766 0.57720 -0.57720 -2.09394
             children [
               Shape {
@@ -275,11 +275,11 @@ DEF DYNAMIC_ROBOT Robot {
       translation 0 0.02 0
       rotation 0 0 -1 -1.5708
       children [
-        Transform {
+        Pose {
           translation 0 0 0.05
           rotation 0 1 0 -3.14159
           children [
-            Transform {
+            Pose {
               translation 0 0 0.05
               rotation 0 -0.70711 0.70711 3.14159
               children [
@@ -305,11 +305,11 @@ DEF DYNAMIC_ROBOT Robot {
       translation 0 -0.02 0
       rotation 0 0 1 -1.5708
       children [
-        Transform {
+        Pose {
           translation 0 0 0.05
           rotation 0 1 0 -3.14159
           children [
-            Transform {
+            Pose {
               translation 0 0 0.05
               rotation 0 -0.70711 0.70711 3.14159
               children [
@@ -335,11 +335,11 @@ DEF DYNAMIC_ROBOT Robot {
       translation 0 0.02 0
       rotation 0 0 -1 -1.5708
       children [
-        Transform {
+        Pose {
           translation 0 0 0.05
           rotation 0 1 0 -3.14159
           children [
-            Transform {
+            Pose {
               translation 0 0 0.05
               rotation 0 -0.70711 0.70711 3.14159
               children [
@@ -366,11 +366,11 @@ DEF DYNAMIC_ROBOT Robot {
       translation 0 -0.02 0
       rotation 0 0 1 -1.5708
       children [
-        Transform {
+        Pose {
           translation 0 0 0.05
           rotation 0 1 0 -3.14159
           children [
-            Transform {
+            Pose {
               translation 0 0 0.05
               rotation 0 -0.70711 0.70711 3.14159
               children [
@@ -397,7 +397,7 @@ DEF DYNAMIC_ROBOT Robot {
     }
   ]
   name "dynamic robot"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 -0.03
     children [
       Sphere {

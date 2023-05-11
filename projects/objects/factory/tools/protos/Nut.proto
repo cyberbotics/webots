@@ -271,7 +271,7 @@ PROTO Nut [
     ]
     name IS name
     model "nut"
-    boundingObject Transform {
+    boundingObject Pose {
       rotation 0 1 0 1.5708
       children [
         Cylinder {

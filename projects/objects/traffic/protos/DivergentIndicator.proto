@@ -46,7 +46,7 @@ PROTO DivergentIndicator [
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         rotation 1 0 0 1.5708
         children [
           Shape {
@@ -114,7 +114,7 @@ PROTO DivergentIndicator [
     ]
     name IS name
     model "divergent indicator"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 %<= height * 0.5 >%
       children [
         Shape {

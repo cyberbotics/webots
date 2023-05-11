@@ -82,7 +82,7 @@ PROTO Pioneer2 [
           translation 0 0.1603 0.0825
           rotation -0.252684 0.252684 0.933971 -1.639053
           children [
-            DEF WHEEL Transform {
+            DEF WHEEL Pose {
               rotation 0.577657 0.577197 -0.577197 -2.093935
               children [
                 Shape {
@@ -160,7 +160,7 @@ PROTO Pioneer2 [
           ]
         }
       }
-      Transform {
+      Pose {
         translation -0.2147 0 0.0325
         rotation 0.577197 0.577197 0.577657 -2.093935
         children [
@@ -181,7 +181,7 @@ PROTO Pioneer2 [
         translation 0.164 0.027 0.209
         rotation 0 0 1 0.174203
         children [
-          DEF SONAR Transform {
+          DEF SONAR Pose {
             rotation 0.577657 0.577197 -0.577197 -2.093935
             children [
               Shape {
@@ -386,7 +386,7 @@ PROTO Pioneer2 [
       }
     ]
     description "designed by Activmedia Robotics"
-    boundingObject Transform {
+    boundingObject Pose {
       translation -0.0447 0 0.13
       rotation 0 0 1 -1.570796
       children [

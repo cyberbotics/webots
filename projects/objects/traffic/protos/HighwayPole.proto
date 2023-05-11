@@ -176,20 +176,20 @@ PROTO HighwayPole [
           splineSubdivision 0
         }
       }
-      DEF RIGHT_HORIZONTAL_SIGNS Transform {
+      DEF RIGHT_HORIZONTAL_SIGNS Pose {
         translation %<= 0.95 * halfThickness >% -3 %<= height + curveRadius >%
         children IS rightHorizontalSigns
       }
-      DEF RIGHT_VERTICAL_SIGNS Transform {
+      DEF RIGHT_VERTICAL_SIGNS Pose {
         translation %<= 0.95 * halfThickness >% 0 3
         children IS rightVerticalSigns
       }
-      DEF LEFT_HORIZONTAL_SIGNS Transform {
+      DEF LEFT_HORIZONTAL_SIGNS Pose {
         rotation 0 0 1 3.1415
         translation %<= - 0.95 * halfThickness >% -6 %<= height + curveRadius >%
         children IS leftHorizontalSigns
       }
-      DEF LEFT_VERTICAL_SIGNS Transform {
+      DEF LEFT_VERTICAL_SIGNS Pose {
         rotation 0 0 1 3.14159
         translation %<= - 0.95 * halfThickness >% %<= -(length + 2 * thickness + curveRadius) >% 3
         children IS leftVerticalSigns

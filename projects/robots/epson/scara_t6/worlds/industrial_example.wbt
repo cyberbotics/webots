@@ -78,7 +78,7 @@ WoodenChair {
   translation 2.921084 1.648051 0
   rotation 0 0 1 2.0944
 }
-Transform {
+Pose {
   translation 2.52024 2.10889 0.796
   rotation 0 0 1 -1.3089953071795861
   children [
@@ -195,7 +195,7 @@ Solid {
     }
   ]
 }
-Transform {
+Pose {
   translation 1.77 2.67 1.05
   rotation 1 0 0 1.5707996938995747
   children [
@@ -233,7 +233,7 @@ ScaraT6 {
   supervisor TRUE
   staticBase TRUE
   handSlot [
-    DEF VACCUM Transform {
+    DEF VACCUM Pose {
       children [
         Shape {
           appearance ElectricConduit {
@@ -318,7 +318,7 @@ PlasticCrate {
   color 0.827451 0.843137 0.811765
   mass 1
 }
-DEF WALL1 Transform {
+DEF WALL1 Pose {
   translation 0.75 2.5 1
   rotation 1 0 0 1.5708
   children [
@@ -331,14 +331,14 @@ DEF WALL1 Transform {
     }
   ]
 }
-DEF WALL2 Transform {
+DEF WALL2 Pose {
   translation 0.75 -2.5 1
   rotation 1 0 0 -1.5708
   children [
     USE wall_long
   ]
 }
-DEF WALL3 Transform {
+DEF WALL3 Pose {
   translation 4.5 0 1
   rotation -0.5773509358554485 0.5773489358556708 0.5773509358554485 -2.094395307179586
   children [
@@ -351,14 +351,14 @@ DEF WALL3 Transform {
     }
   ]
 }
-DEF WALL4 Transform {
+DEF WALL4 Pose {
   translation -3 0 1
   rotation 0.5773506025225371 0.5773496025232256 0.5773506025225371 2.0944
   children [
     USE wall_short
   ]
 }
-Transform {
+Pose {
   translation 4.5 -0.83 0.65
   children [
     Shape {

@@ -142,7 +142,7 @@ Robot {
   translation 0.15 0 0
   rotation 0 1 0 1
   children [
-    Transform {
+    Pose {
       translation 0 0.0415 0
       rotation 1 0 0 -1.5707
       children [
@@ -172,7 +172,7 @@ Robot {
         translation -0.045 0.025 0
         rotation 1 0 0 4.98467
         children [
-          DEF WHEEL Transform {
+          DEF WHEEL Pose {
             rotation 0 1 0 -1.57079632679
             children [
               Shape {
@@ -220,7 +220,7 @@ Robot {
       translation 0 0.0915 -0.04
       rotation -0.577349935856137 0.577349935856137 0.5773509358560258 2.09439
       children [
-        Transform {
+        Pose {
           translation -0.015 0 0
           rotation 0 1 0 1.5708
           children [
@@ -247,7 +247,7 @@ Robot {
     TestSuiteEmitter {
     }
   ]
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0.0415 0
     rotation 1 0 0 -1.57079632679
     children [

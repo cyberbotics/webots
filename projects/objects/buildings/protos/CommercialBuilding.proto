@@ -70,7 +70,7 @@ PROTO CommercialBuilding [
     model "commercial building"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 20.7
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -79,7 +79,7 @@ PROTO CommercialBuilding [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 5.45 0 45.2
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [

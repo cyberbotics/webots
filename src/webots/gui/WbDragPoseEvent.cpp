@@ -12,14 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbDragTransformEvent.hpp"
+#include "WbDragPoseEvent.hpp"
 
-#include "WbAbstractTransform.hpp"
+#include "WbAbstractPose.hpp"
 #include "WbEditCommand.hpp"
 #include "WbLog.hpp"
 #include "WbMathsUtilities.hpp"
 #include "WbSolid.hpp"
 #include "WbStandardPaths.hpp"
+#include "WbTransform.hpp"
 #include "WbTranslateRotateManipulator.hpp"
 #include "WbUndoStack.hpp"
 #include "WbViewpoint.hpp"
@@ -32,31 +33,42 @@
 
 #define DRAG_HORIZONTAL_MIN_COS 0.25
 
-// WbDragTransformEvent constructor
-WbDragTransformEvent::WbDragTransformEvent(WbViewpoint *viewpoint, WbAbstractTransform *selectedTransform) :
+WbDragPoseEvent::WbDragPoseEvent(WbViewpoint *viewpoint, WbAbstractPose *selectedPose) :
   WbDragKinematicsEvent(viewpoint),
-  mSelectedTransform(selectedTransform) {
-  mViewDistanceUnscaling = viewpoint->viewDistanceUnscaling(selectedTransform->position());
+  mSelectedPose(selectedPose) {
+  mViewDistanceUnscaling = viewpoint->viewDistanceUnscaling(selectedPose->position());
 }
 
-WbDragTransformEvent::~WbDragTransformEvent() {
-  if (dynamic_cast<WbTransform *>(mViewpoint->followedSolid()) == mSelectedTransform)
+WbDragPoseEvent::~WbDragPoseEvent() {
+  if (dynamic_cast<WbPose *>(mViewpoint->followedSolid()) == mSelectedPose)
     mViewpoint->updateFollowSolidState();
 }
 
-// WbTranslateEvent constructor
-WbTranslateEvent::WbTranslateEvent(WbViewpoint *viewpoint, WbAbstractTransform *selectedTransform) :
-  WbDragTransformEvent(viewpoint, selectedTransform),
-  mInitialPosition(selectedTransform->translation()),
-  mUpWorldVector(WbWorld::instance()->worldInfo()->upVector()) {
-  WbVector3 computedScaleFromParents = mSelectedTransform->absoluteScale();
-  computedScaleFromParents /= mSelectedTransform->scale();
+WbTranslateEvent::WbTranslateEvent(WbViewpoint *viewpoint, WbAbstractPose *selectedPose) :
+  WbDragPoseEvent(viewpoint, selectedPose),
+  mInitialPosition(selectedPose->translation()),
+  mUpWorldVector(WbWorld::instance()->worldInfo()->upVector()),
+  mMouseRay() {
+  WbVector3 computedScaleFromParents;
+  const WbPose *pose = dynamic_cast<const WbPose *>(mSelectedPose);
+  if (pose) {
+    const WbTransform *pt = pose->upperTransform();
+    if (pt)
+      computedScaleFromParents = pt->absoluteScale();
+    else
+      computedScaleFromParents = WbVector3(1, 1, 1);
+  } else
+    computedScaleFromParents = WbVector3(1, 1, 1);
+  const WbTransform *t = dynamic_cast<const WbTransform *>(mSelectedPose);
+  if (t)
+    computedScaleFromParents /= t->scale();
+
   mScaleFromParents = computedScaleFromParents;
 }
 
 WbTranslateEvent::~WbTranslateEvent() {
-  WbUndoStack::instance()->push(new WbEditCommand(mSelectedTransform->translationFieldValue(), WbVariant(mInitialPosition),
-                                                  WbVariant(mSelectedTransform->translationFieldValue()->variantValue())));
+  WbUndoStack::instance()->push(new WbEditCommand(mSelectedPose->translationFieldValue(), WbVariant(mInitialPosition),
+                                                  WbVariant(mSelectedPose->translationFieldValue()->variantValue())));
 }
 
 //
@@ -68,9 +80,9 @@ WbTranslateEvent::~WbTranslateEvent() {
 
 // WbDragHorizontalEvent functions
 WbDragHorizontalEvent::WbDragHorizontalEvent(const QPoint &initialPosition, WbViewpoint *viewpoint,
-                                             WbAbstractTransform *selectedTransform) :
-  WbTranslateEvent(viewpoint, selectedTransform) {
-  mDragPlane = WbAffinePlane(mUpWorldVector, mSelectedTransform->position());
+                                             WbAbstractPose *selectedPose) :
+  WbTranslateEvent(viewpoint, selectedPose) {
+  mDragPlane = WbAffinePlane(mUpWorldVector, mSelectedPose->position());
   mViewpoint->viewpointRay(initialPosition.x(), initialPosition.y(), mMouseRay);
   mIntersectionOutput = mMouseRay.intersects(mDragPlane);
   mTranslationOffset = mMouseRay.point(mIntersectionOutput.second);
@@ -82,9 +94,9 @@ WbDragHorizontalEvent::WbDragHorizontalEvent(const QPoint &initialPosition, WbVi
   if (abs(normalizedMouseRay.direction().dot(mUpWorldVector)) > DRAG_HORIZONTAL_MIN_COS) {
     mIsMouseRayValid = true;
 
-    // in case mSelectedTransform is not child of root (ex: Root --> Transform(s) --> mSelectedTransform = uppermostSolid)
-    if (!mSelectedTransform->isTopTransform())
-      mCoordinateTransform = WbRotation(mSelectedTransform->rotationMatrix()).toQuaternion().conjugated();
+    // in case mSelectedPose is not child of root (ex: Root --> Transform(s) --> mSelectedPose = uppermostSolid)
+    if (!mSelectedPose->isTopPose())
+      mCoordinateTransform = WbRotation(mSelectedPose->rotationMatrix()).toQuaternion().conjugated();
   } else {
     mIsMouseRayValid = false;
     WbLog::warning(tr("To drag this element, first rotate the view so that the horizontal plane is clearly visible."));
@@ -98,7 +110,7 @@ WbDragHorizontalEvent::~WbDragHorizontalEvent() {
 void WbDragHorizontalEvent::apply(const QPoint &currentMousePosition) {
   if (mIsMouseRayValid) {
     mViewpoint->viewpointRay(currentMousePosition.x(), currentMousePosition.y(), mMouseRay);
-    mDragPlane.redefine(mUpWorldVector, mSelectedTransform->position());
+    mDragPlane.redefine(mUpWorldVector, mSelectedPose->position());
     mIntersectionOutput = mMouseRay.intersects(mDragPlane);
     WbVector3 displacementFromInitialPosition = mMouseRay.point(mIntersectionOutput.second) - mTranslationOffset;
     // remove any x or z scaling from parents (we shouldn't touch y as we're moving on the world horizontal plane)
@@ -106,21 +118,20 @@ void WbDragHorizontalEvent::apply(const QPoint &currentMousePosition) {
     displacementFromInitialPosition.setZ(displacementFromInitialPosition.z() / mScaleFromParents.z());
 
     // express the displacement in the coordinate frame of the Solid (in case it has some parent Transform(s)).
-    if (!mSelectedTransform->isTopTransform())
+    if (!mSelectedPose->isTopPose())
       displacementFromInitialPosition = mCoordinateTransform * displacementFromInitialPosition;
 
-    mSelectedTransform->setTranslation((mInitialPosition + displacementFromInitialPosition).rounded(WbPrecision::GUI_MEDIUM));
-    mSelectedTransform->emitTranslationOrRotationChangedByUser();
+    mSelectedPose->setTranslation((mInitialPosition + displacementFromInitialPosition).rounded(WbPrecision::GUI_MEDIUM));
+    mSelectedPose->emitTranslationOrRotationChangedByUser();
   }
 }
 
 // WbDragVerticalEvent functions
-WbDragVerticalEvent::WbDragVerticalEvent(const QPoint &initialPosition, WbViewpoint *viewpoint,
-                                         WbAbstractTransform *selectedTransform) :
-  WbTranslateEvent(viewpoint, selectedTransform),
+WbDragVerticalEvent::WbDragVerticalEvent(const QPoint &initialPosition, WbViewpoint *viewpoint, WbAbstractPose *selectedPose) :
+  WbTranslateEvent(viewpoint, selectedPose),
   mNormal(viewpoint->orientation()->value().direction()) {
   // this event needs to use the actual position of the plane as we care about its depth from the Viewpoint
-  mDragPlane = WbAffinePlane(mNormal, mSelectedTransform->position());
+  mDragPlane = WbAffinePlane(mNormal, mSelectedPose->position());
   mViewpoint->viewpointRay(initialPosition.x(), initialPosition.y(), mMouseRay);
   mIntersectionOutput = mMouseRay.intersects(mDragPlane);
   mTranslationOffset = mMouseRay.point(mIntersectionOutput.second);
@@ -133,26 +144,26 @@ WbDragVerticalEvent::~WbDragVerticalEvent() {
 
 void WbDragVerticalEvent::apply(const QPoint &currentMousePosition) {
   mViewpoint->viewpointRay(currentMousePosition.x(), currentMousePosition.y(), mMouseRay);
-  mDragPlane.redefine(mNormal, mSelectedTransform->position());
+  mDragPlane.redefine(mNormal, mSelectedPose->position());
   mIntersectionOutput = mMouseRay.intersects(mDragPlane);
   const WbVector3 displacementFromInitialPosition(mMouseRay.point(mIntersectionOutput.second) - mTranslationOffset);
   // divide by any y-axis scaling so that the overall translation applied to the node is local and independent of parent scale
-  mSelectedTransform->setTranslation(
+  mSelectedPose->setTranslation(
     (mInitialPosition + displacementFromInitialPosition * mUpWorldVector).rounded(WbPrecision::GUI_MEDIUM));
-  mSelectedTransform->emitTranslationOrRotationChangedByUser();
+  mSelectedPose->emitTranslationOrRotationChangedByUser();
 }
 
 // WbDragTranslateAlongAxisEvent functions
 WbDragTranslateAlongAxisEvent::WbDragTranslateAlongAxisEvent(const QPoint &initialMousePosition, const QSize &widgetSize,
                                                              WbViewpoint *viewpoint, int handleNumber,
-                                                             WbAbstractTransform *selectedTransform) :
-  WbDragTransformEvent(viewpoint, selectedTransform),
-  mInitialMatterPosition(selectedTransform->translation()),
+                                                             WbAbstractPose *selectedPose) :
+  WbDragPoseEvent(viewpoint, selectedPose),
+  mInitialMatterPosition(selectedPose->translation()),
   mTranslationOffset(0.0),
   mHandleNumber(handleNumber),
-  mManipulator(selectedTransform->translateRotateManipulator()),
+  mManipulator(selectedPose->translateRotateManipulator()),
   mWidgetSizeFactor(1.0 / widgetSize.width(), 1.0 / widgetSize.height()),
-  mStepSize(selectedTransform->translationStep()) {
+  mStepSize(selectedPose->translationStep()) {
   mCoordinate = mManipulator->coordinate(mHandleNumber);
 
   mManipulator->highlightAxis(mHandleNumber);
@@ -170,9 +181,13 @@ WbDragTranslateAlongAxisEvent::WbDragTranslateAlongAxisEvent(const QPoint &initi
   mTextOverlay->setSize(0.1);
   mTextOverlay->applyChangesToWren();
 
-  WbMatrix4 matrix(mSelectedTransform->matrix());
-  const WbVector3 &scale = mSelectedTransform->scale();
-  matrix.scale(1.0f / scale.x(), 1.0f / scale.y(), 1.0f / scale.z());
+  WbMatrix4 matrix(mSelectedPose->matrix());
+
+  const WbTransform *t = dynamic_cast<const WbTransform *>(mSelectedPose);
+  if (t) {
+    const WbVector3 &scale = t->scale();
+    matrix.scale(1.0f / scale.x(), 1.0f / scale.y(), 1.0f / scale.z());
+  }
 
   // local offset
   const WbVector3 attachedHandlePosition(matrix *
@@ -200,9 +215,8 @@ WbDragTranslateAlongAxisEvent::~WbDragTranslateAlongAxisEvent() {
   mManipulator->showNormal();
 
   // add translation in undo stack
-  WbUndoStack::instance()->push(new WbEditCommand(mSelectedTransform->translationFieldValue(),
-                                                  WbVariant(mInitialMatterPosition),
-                                                  WbVariant(mSelectedTransform->translationFieldValue()->variantValue())));
+  WbUndoStack::instance()->push(new WbEditCommand(mSelectedPose->translationFieldValue(), WbVariant(mInitialMatterPosition),
+                                                  WbVariant(mSelectedPose->translationFieldValue()->variantValue())));
 
   // destroy translation offset label
   WbWrenLabelOverlay::removeLabel(WbWrenLabelOverlay::dragCaptionOverlayId());
@@ -211,11 +225,14 @@ WbDragTranslateAlongAxisEvent::~WbDragTranslateAlongAxisEvent() {
 }
 
 void WbDragTranslateAlongAxisEvent::apply(const QPoint &currentMousePosition) {
-  mViewDistanceUnscaling = mViewpoint->viewDistanceUnscaling(mSelectedTransform->position());
+  mViewDistanceUnscaling = mViewpoint->viewDistanceUnscaling(mSelectedPose->position());
 
-  WbMatrix4 matrix(mSelectedTransform->matrix());
-  const WbVector3 &scale = mSelectedTransform->scale();
-  matrix.scale(1.0f / scale.x(), 1.0f / scale.y(), 1.0f / scale.z());
+  WbMatrix4 matrix(mSelectedPose->matrix());
+  const WbTransform *t = dynamic_cast<const WbTransform *>(mSelectedPose);
+  if (t) {
+    const WbVector3 &scale = t->scale();
+    matrix.scale(1.0f / scale.x(), 1.0f / scale.y(), 1.0f / scale.z());
+  }
 
   WbVector3 attachedHandlePosition = matrix * (mManipulator->relativeHandlePosition(mHandleNumber) * mViewDistanceUnscaling);
   const double zEye = mViewpoint->zEye(attachedHandlePosition);
@@ -233,10 +250,9 @@ void WbDragTranslateAlongAxisEvent::apply(const QPoint &currentMousePosition) {
   if (translationOffset[mCoordinate] != 0) {
     // convert local translation to parent transform coordinate system
     mTranslationOffset += translationOffset[mCoordinate];
-    translationOffset = mSelectedTransform->rotation().toMatrix3() * translationOffset;
-    mSelectedTransform->setTranslation(
-      (mSelectedTransform->translation() + translationOffset).rounded(WbPrecision::GUI_MEDIUM));
-    mSelectedTransform->emitTranslationOrRotationChangedByUser();
+    translationOffset = mSelectedPose->rotation().toMatrix3() * translationOffset;
+    mSelectedPose->setTranslation((mSelectedPose->translation() + translationOffset).rounded(WbPrecision::GUI_MEDIUM));
+    mSelectedPose->emitTranslationOrRotationChangedByUser();
   }
 
   // keep label near to drag detached handle
@@ -268,9 +284,9 @@ void WbDragTranslateAlongAxisEvent::apply(const QPoint &currentMousePosition) {
 // WbDragRotateAroundWorldVerticalAxisEvent functions
 WbDragRotateAroundWorldVerticalAxisEvent::WbDragRotateAroundWorldVerticalAxisEvent(const QPoint &initialMousePosition,
                                                                                    WbViewpoint *viewpoint,
-                                                                                   WbAbstractTransform *selectedTransform) :
-  WbDragTransformEvent(viewpoint, selectedTransform),
-  mInitialQuaternionRotation(selectedTransform->rotation().toQuaternion()),
+                                                                                   WbAbstractPose *selectedPose) :
+  WbDragPoseEvent(viewpoint, selectedPose),
+  mInitialQuaternionRotation(selectedPose->rotation().toQuaternion()),
   mPreviousAngle(0.0),
   mInitialMouseXPosition(initialMousePosition.x()),
   mUpWorldVector(WbWorld::instance()->worldInfo()->upVector()) {
@@ -279,9 +295,9 @@ WbDragRotateAroundWorldVerticalAxisEvent::WbDragRotateAroundWorldVerticalAxisEve
 
 WbDragRotateAroundWorldVerticalAxisEvent::~WbDragRotateAroundWorldVerticalAxisEvent() {
   // add rotation in undo stack
-  WbUndoStack::instance()->push(new WbEditCommand(mSelectedTransform->rotationFieldValue(),
+  WbUndoStack::instance()->push(new WbEditCommand(mSelectedPose->rotationFieldValue(),
                                                   WbVariant(WbRotation(mInitialQuaternionRotation)),
-                                                  WbVariant(mSelectedTransform->rotationFieldValue()->variantValue())));
+                                                  WbVariant(mSelectedPose->rotationFieldValue()->variantValue())));
   mViewpoint->unlock();
 }
 
@@ -293,8 +309,8 @@ void WbDragRotateAroundWorldVerticalAxisEvent::apply(const QPoint &currentMouseP
   const double angle = 4 * M_PI * ((currentMousePosition.x() - mInitialMouseXPosition) / screen->geometry().width());
   // add our new rotation
   const WbQuaternion resultingRotation = WbQuaternion(mUpWorldVector, angle) * mInitialQuaternionRotation;
-  mSelectedTransform->setRotation(WbRotation(resultingRotation).rounded(WbPrecision::GUI_MEDIUM));
-  mSelectedTransform->emitTranslationOrRotationChangedByUser();
+  mSelectedPose->setRotation(WbRotation(resultingRotation).rounded(WbPrecision::GUI_MEDIUM));
+  mSelectedPose->emitTranslationOrRotationChangedByUser();
 
   mPreviousAngle = angle;
 }
@@ -304,28 +320,29 @@ const double WbDragRotateAroundAxisEvent::RAD_TO_DEG = 180.0 / M_PI;
 // WbDragRotateAroundAxisEvent functions
 WbDragRotateAroundAxisEvent::WbDragRotateAroundAxisEvent(const QPoint &initialMousePosition, const QSize &widgetSize,
                                                          WbViewpoint *viewpoint, int handleNumber,
-                                                         WbAbstractTransform *selectedTransform) :
-  WbDragTransformEvent(viewpoint, selectedTransform),
-  mManipulator(selectedTransform->translateRotateManipulator()),
+                                                         WbAbstractPose *selectedPose) :
+  WbDragPoseEvent(viewpoint, selectedPose),
+  mManipulator(selectedPose->translateRotateManipulator()),
   mHandleNumber(handleNumber),
   mCoordinate(mManipulator->coordinate(handleNumber)),
-  mInitialQuaternionRotation(selectedTransform->rotation().toQuaternion()),
-  mInitialMatrix(mSelectedTransform->matrix()),
-  mInitialPosition(mSelectedTransform->position()),
-  mStepSize(selectedTransform->rotationStep()),
+  mInitialQuaternionRotation(selectedPose->rotation().toQuaternion()),
+  mInitialMatrix(mSelectedPose->matrix()),
+  mInitialPosition(mSelectedPose->position()),
+  mStepSize(selectedPose->rotationStep()),
   mPreviousAngle(0.0),
   mInitialAngle(NAN) {
   mManipulator->highlightAxis(mHandleNumber + 3);
   mManipulator->setActive(true);
 
-  const WbVector3 absoluteScale = mInitialMatrix.scale();
-  mInitialMatrix.scale(1.0f / absoluteScale.x(), 1.0f / absoluteScale.y(), 1.0f / absoluteScale.z());
+  const WbTransform *const ut = dynamic_cast<const WbTransform *const>(selectedPose);
+  if (ut)
+    mInitialMatrix.scale(1.0f / ut->scale().x(), 1.0f / ut->scale().y(), 1.0f / ut->scale().z());
 
   WbVector4 scaledPos(mManipulator->relativeHandlePosition(mHandleNumber) * mViewDistanceUnscaling);
   WbVector4 handlePos = mInitialMatrix * scaledPos;
   mZEye = viewpoint->zEye(handlePos.toVector3());
 
-  viewpoint->toPixels(selectedTransform->position(), mObjectScreenPosition);
+  viewpoint->toPixels(selectedPose->position(), mObjectScreenPosition);
 
   // init translation offset label
   mTextOverlay = WbWrenLabelOverlay::createOrRetrieve(WbWrenLabelOverlay::dragCaptionOverlayId(),
@@ -358,9 +375,9 @@ WbDragRotateAroundAxisEvent::~WbDragRotateAroundAxisEvent() {
   mManipulator->showNormal();
 
   // add rotation in undo stack
-  WbUndoStack::instance()->push(new WbEditCommand(mSelectedTransform->rotationFieldValue(),
+  WbUndoStack::instance()->push(new WbEditCommand(mSelectedPose->rotationFieldValue(),
                                                   WbVariant(WbRotation(mInitialQuaternionRotation)),
-                                                  WbVariant(mSelectedTransform->rotationFieldValue()->variantValue())));
+                                                  WbVariant(mSelectedPose->rotationFieldValue()->variantValue())));
 
   // destroy translation offset label
   WbWrenLabelOverlay::removeLabel(WbWrenLabelOverlay::dragCaptionOverlayId());
@@ -406,8 +423,8 @@ void WbDragRotateAroundAxisEvent::apply(const QPoint &currentMousePosition) {
   // add new rotation
   WbQuaternion resultingRotation =
     mInitialQuaternionRotation * WbQuaternion(mManipulator->coordinateVector(mCoordinate), angle);
-  mSelectedTransform->setRotation(WbRotation(resultingRotation).rounded(WbPrecision::GUI_MEDIUM));
-  mSelectedTransform->emitTranslationOrRotationChangedByUser();
+  mSelectedPose->setRotation(WbRotation(resultingRotation).rounded(WbPrecision::GUI_MEDIUM));
+  mSelectedPose->emitTranslationOrRotationChangedByUser();
 
   // update label and handle rotation
   if (mStepFractionDenominator > 0)

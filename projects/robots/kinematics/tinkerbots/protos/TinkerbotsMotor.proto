@@ -10,8 +10,8 @@ EXTERNPROTO "TinkerbotsLEDAppearance.proto"
 EXTERNPROTO "TinkerbotsPlasticAppearance.proto"
 
 PROTO TinkerbotsMotor [
-  field SFVec3f    translation 0 0 0   # Is `Transform.translation`.
-  field SFRotation rotation    0 0 1 0 # Is `Transform.rotation`.
+  field SFVec3f    translation 0 0 0   # Is `Pose.translation`.
+  field SFRotation rotation    0 0 1 0 # Is `Pose.rotation`.
   field SFString   name        "motor" # Is `Solid.name`.
   field SFNode     upSlot      NULL    # Type: "tinkerbots-".
   field SFNode     upASlot     NULL    # Type: "lego cross-".
@@ -38,7 +38,7 @@ PROTO TinkerbotsMotor [
       translation IS translation
       rotation IS rotation
       children [
-        Transform {
+        Pose {
           translation 0 0 0.04
           children [
             Slot {
@@ -47,7 +47,7 @@ PROTO TinkerbotsMotor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 0.01 0.035
           rotation 0 0 1 3.1415
           children [
@@ -57,7 +57,7 @@ PROTO TinkerbotsMotor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.01 0.01 0.035
           rotation 0 0 1 1.5708
           children [
@@ -67,7 +67,7 @@ PROTO TinkerbotsMotor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.01 -0.01 0.035
           children [
             Slot {
@@ -76,7 +76,7 @@ PROTO TinkerbotsMotor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 -0.01 0.035
           rotation 0 0 1 -1.5708
           children [
@@ -86,7 +86,7 @@ PROTO TinkerbotsMotor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.02 0.02
           rotation 1 0 0 1.57
           children [
@@ -96,7 +96,7 @@ PROTO TinkerbotsMotor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.01 -0.015 0.03
           rotation -0.57735 0.57735 -0.577352 -2.0944
           children [
@@ -106,7 +106,7 @@ PROTO TinkerbotsMotor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.01 -0.015 0.01
           rotation 1 0 0 1.5708
           children [
@@ -116,7 +116,7 @@ PROTO TinkerbotsMotor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 -0.015 0.01
           rotation 0.57735 0.57735 -0.577352 2.0944
           children [
@@ -126,7 +126,7 @@ PROTO TinkerbotsMotor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 -0.015 0.03
           rotation 0 0.707107 -0.707107 -3.14159
           children [
@@ -136,7 +136,7 @@ PROTO TinkerbotsMotor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.02 0.02
           rotation 1 0 0 -1.57
           children [
@@ -146,7 +146,7 @@ PROTO TinkerbotsMotor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 0.015 0.03
           rotation 0.57735 0.57735 0.577352 -2.0944
           children [
@@ -156,7 +156,7 @@ PROTO TinkerbotsMotor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 0.015 0.01
           rotation 0 0.707107 0.707107 3.14159
           children [
@@ -166,7 +166,7 @@ PROTO TinkerbotsMotor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.01 0.015 0.01
           rotation 0.57735 -0.57735 -0.577352 -2.0944
           children [
@@ -176,7 +176,7 @@ PROTO TinkerbotsMotor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.01 0.015 0.03
           rotation -1 0 0 1.5708
           children [
@@ -268,7 +268,7 @@ PROTO TinkerbotsMotor [
           ]
           endPoint Solid {
             children [
-              Transform {
+              Pose {
                 translation -0.015 0 0.02
                 rotation -0.57735 0.577352 0.577352 -2.09485
                 children [
@@ -278,7 +278,7 @@ PROTO TinkerbotsMotor [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.015 0 0.02
                 rotation 0.57735 -0.577352 0.577352 -2.09485
                 children [
@@ -305,7 +305,7 @@ PROTO TinkerbotsMotor [
                 }
               }
             ]
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0 0 0.02
               children [
                 Sphere {
@@ -322,7 +322,7 @@ PROTO TinkerbotsMotor [
       ]
       name IS name
       contactMaterial "tinkerbots"
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0 0.02
         children [
           Box {

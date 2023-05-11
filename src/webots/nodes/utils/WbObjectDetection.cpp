@@ -178,18 +178,18 @@ bool WbObjectDetection::isWithinBounds(const WbAffinePlane *frustumPlanes, const
   const WbBaseNode *referenceObject = boundingObject;
   if (useBoundingSphere)
     referenceObject = rootObject;
-  const WbTransform *transform = dynamic_cast<const WbTransform *>(referenceObject);
-  if (!transform)
-    transform = referenceObject->upperTransform();
-  assert(transform);
-  const WbMatrix3 objectRotation = transform->rotationMatrix();
-  WbVector3 objectPosition = transform->position();
+  const WbPose *pose = dynamic_cast<const WbPose *>(referenceObject);
+  if (!pose)
+    pose = referenceObject->upperPose();
+  assert(pose);
+  const WbMatrix3 objectRotation = pose->rotationMatrix();
+  WbVector3 objectPosition = pose->position();
 
   if (nodeType == WB_NODE_SHAPE) {
     const WbShape *shape = static_cast<const WbShape *>(boundingObject);
     boundingObject = shape->geometry();
     return isWithinBounds(frustumPlanes, boundingObject, objectSize, objectRelativePosition);
-  } else if (nodeType == WB_NODE_GROUP || nodeType == WB_NODE_TRANSFORM) {
+  } else if (nodeType == WB_NODE_GROUP || nodeType == WB_NODE_POSE) {
     bool visible = false;
     const WbGroup *group = static_cast<const WbGroup *>(boundingObject);
     for (int i = 0; i < group->childCount(); ++i) {
@@ -229,7 +229,7 @@ bool WbObjectDetection::isWithinBounds(const WbAffinePlane *frustumPlanes, const
         const WbIndexedFaceSet *indexedFaceSet = static_cast<const WbIndexedFaceSet *>(boundingObject);
         const WbCoordinate *coordinates = indexedFaceSet->coord();
         for (int i = 0; i < coordinates->pointSize(); ++i) {
-          points.append(objectRotation * (coordinates->point(i) * mObject->absoluteScale()) + objectPosition);
+          points.append(objectRotation * coordinates->point(i) + objectPosition);
         }
         break;
       }
@@ -241,8 +241,7 @@ bool WbObjectDetection::isWithinBounds(const WbAffinePlane *frustumPlanes, const
         const int yDimension = elevationGrid->yDimension();
         for (int i = 0; i < xDimension; ++i) {
           for (int j = 0; j < yDimension; ++j)
-            points.append(objectRotation * (WbVector3(xSpacing * i, elevationGrid->height(i + j * xDimension), ySpacing * j) *
-                                            mObject->absoluteScale()) +
+            points.append(objectRotation * WbVector3(xSpacing * i, elevationGrid->height(i + j * xDimension), ySpacing * j) +
                           objectPosition);
         }
         break;
@@ -355,7 +354,7 @@ bool WbObjectDetection::isWithinBounds(const WbAffinePlane *frustumPlanes, const
       const double size = 2 * boundingSphere->scaledRadius();
       objectSize.setXyz(size, size, size);
       // correct the object center
-      objectPosition = transform->matrix() * boundingSphere->center();
+      objectPosition = pose->matrix() * boundingSphere->center();
     } else {
       double height = 0;
       double radius = 0;

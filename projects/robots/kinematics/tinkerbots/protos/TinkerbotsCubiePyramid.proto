@@ -8,8 +8,8 @@
 EXTERNPROTO "TinkerbotsPlasticAppearance.proto"
 
 PROTO TinkerbotsCubiePyramid [
-  field SFVec3f                    translation 0 0 0           # Is `Transform.translation`.
-  field SFRotation                 rotation    0 0 1 0         # Is `Transform.rotation`.
+  field SFVec3f                    translation 0 0 0           # Is `Pose.translation`.
+  field SFRotation                 rotation    0 0 1 0         # Is `Pose.rotation`.
   field SFString                   name        "pyramid cubie" # Is `Solid.name`.
   field SFString{"yellow", "blue"} color       "yellow"        # Cubie color.
   field SFNode                     frontSlot   NULL            # Type: "lego cross-".
@@ -22,7 +22,7 @@ PROTO TinkerbotsCubiePyramid [
       translation IS translation
       rotation IS rotation
       children [
-        Transform {
+        Pose {
           translation 0.0005 0 0.011
           rotation 0 1 0 1.05
           children [
@@ -32,7 +32,7 @@ PROTO TinkerbotsCubiePyramid [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.0005 0 0.011
           rotation 0 1 0 -1.05
           children [

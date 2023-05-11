@@ -70,8 +70,8 @@ PROTO GasCanister [
         ]
       }
     ]
-    boundingObject Transform {
-    translation 0 0 0.75
+    boundingObject Pose {
+      translation 0 0 0.75
       children [
         Cylinder {
           height 1.5

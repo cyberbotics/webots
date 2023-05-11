@@ -11,8 +11,8 @@ EXTERNPROTO "BB-8BodyShape.proto"
 EXTERNPROTO "BB-8HeadShape.proto"
 
 PROTO BB-8 [
-  field SFVec3f    translation     0 0 0       # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0       # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0     # Is `Pose.rotation`.
   field SFString   name            "BB-8"      # Is `Solid.name`.
   field SFString   controller      "bb-8"      # Is `Robot.controller`.
   field MFString   controllerArgs  []          # Is `Robot.controllerArgs`.
@@ -53,7 +53,7 @@ PROTO BB-8 [
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         translation 0 0 %<= bodyRadius >%
         children IS bodySlot
       }
@@ -65,7 +65,7 @@ PROTO BB-8 [
         translation 0 0 %<= bodyRadius >%
         name "counterweight gyro"
       }
-      DEF ORB_WEIGHT Transform {
+      DEF ORB_WEIGHT Pose {
         translation 0 0 %<= 0.5 * bodyRadius >%
         children [
           Shape {

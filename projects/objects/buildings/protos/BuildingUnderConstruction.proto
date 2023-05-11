@@ -51,7 +51,7 @@ PROTO BuildingUnderConstruction [
     ]
     name IS name
     model "building under construction"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 19.3
       rotation 0.57735 -0.57735 -0.57735 2.094395
       children [

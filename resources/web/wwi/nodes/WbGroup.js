@@ -4,9 +4,9 @@ import WbLight from './WbLight.js';
 import WbSolid from './WbSolid.js';
 import WbWorld from './WbWorld.js';
 import WbBoundingSphere from './utils/WbBoundingSphere.js';
-import {getAnId} from './utils/id_provider.js';
-import {nodeIsInBoundingObject} from './utils/node_utilities.js';
-import {WbNodeType} from './wb_node_type.js';
+import { getAnId } from './utils/id_provider.js';
+import { nodeIsInBoundingObject } from './utils/node_utilities.js';
+import { WbNodeType } from './wb_node_type.js';
 
 export default class WbGroup extends WbBaseNode {
   #boundingObjectFirstTimeSearch;
@@ -17,6 +17,15 @@ export default class WbGroup extends WbBaseNode {
 
     this.#boundingObjectFirstTimeSearch = true;
     this.#isInBoundingObject = false;
+  }
+
+  _updateProgress(message, element) {
+    if (typeof this.loadProgress !== 'undefined') {
+      this.loadProgress++;
+      const percentage = this.loadProgress * 100 / (3 * this.children.length);
+      const info = message + ' ' + element.id + ': ' + percentage.toFixed(0) + '%';
+      WbWorld.instance.currentView.progress.setProgressBar('block', 'same', percentage, info);
+    }
   }
 
   get nodeType() {
@@ -41,17 +50,12 @@ export default class WbGroup extends WbBaseNode {
     return group;
   }
 
-  createWrenObjects(isTransform) {
+  createWrenObjects(isPose) {
     super.createWrenObjects();
 
-    if (!isTransform) {
-      this.children.forEach((child, i) => {
-        if (typeof this.loadProgress !== 'undefined') {
-          this.loadProgress++;
-          const percentage = this.loadProgress * 100 / (3 * this.children.length);
-          const info = 'Create WREN object ' + child.id + ': ' + percentage.toFixed(0) + '%';
-          WbWorld.instance.currentView.progress.setProgressBar('block', 'same', percentage, info);
-        }
+    if (!isPose) {
+      this.children.forEach(child => {
+        this._updateProgress('Create WREN object', child);
         child.createWrenObjects();
       });
     }
@@ -96,12 +100,7 @@ export default class WbGroup extends WbBaseNode {
     }
 
     this.children.forEach((child, i) => {
-      if (typeof this.loadProgress !== 'undefined') {
-        this.loadProgress++;
-        const percentage = this.loadProgress * 100 / (3 * this.children.length);
-        const info = 'Pre-finalize node ' + child.id + ': ' + percentage.toFixed(0) + '%';
-        WbWorld.instance.currentView.progress.setProgressBar('block', 'same', percentage, info);
-      }
+      this._updateProgress('Pre-finalize node', child);
       child.preFinalize();
     });
   }
@@ -110,12 +109,7 @@ export default class WbGroup extends WbBaseNode {
     super.postFinalize();
 
     this.children.forEach((child, i) => {
-      if (typeof this.loadProgress !== 'undefined') {
-        this.loadProgress++;
-        const percentage = this.loadProgress * 100 / (3 * this.children.length);
-        const info = 'Post-finalize node ' + child.id + ': ' + percentage.toFixed(0) + '%';
-        WbWorld.instance.currentView.progress.setProgressBar('block', 'same', percentage, info);
-      }
+      this._updateProgress('Post-finalize node', child);
       child.postFinalize();
     });
 

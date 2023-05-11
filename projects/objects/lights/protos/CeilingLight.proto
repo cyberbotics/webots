@@ -321,7 +321,7 @@ Solid {
       }
       castShadows IS castShadows
     }
-    Transform {
+    Pose {
       translation 0 0 -0.55
       children [
         Shape {

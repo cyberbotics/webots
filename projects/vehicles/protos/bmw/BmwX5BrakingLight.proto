@@ -6,7 +6,7 @@
 PROTO BmwX5BrakingLight [
 ]
 {
-  Transform {
+  Pose {
     translation 0 0 1.4975
     rotation 0 1 0 3.14159
     children [

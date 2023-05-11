@@ -8,7 +8,7 @@ PROTO LargeResidentialTowerBase [
   field SFBool  surroundingWall  TRUE
 ]
 {
-  Transform {
+  Pose {
     translation 0 0 -0.18
     rotation -0.577352 0.577348 0.577352 -2.094405
     children [

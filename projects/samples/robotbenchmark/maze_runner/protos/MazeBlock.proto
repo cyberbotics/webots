@@ -17,7 +17,7 @@ PROTO MazeBlock [
     translation IS translation
     rotation IS rotation
     children [
-      DEF BOX Transform {
+      DEF BOX Pose {
         translation 0 0 0.0325
         children [
           Shape {

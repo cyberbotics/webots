@@ -27,7 +27,7 @@ Table {
 DEF GRIPPER Robot {
   translation 0.2 0.5 0
   children [
-    DEF BASE Transform {
+    DEF BASE Pose {
       translation 0.025 0 0
       rotation 0 0 1 -1.570795
       children [
@@ -47,7 +47,7 @@ DEF GRIPPER Robot {
         }
       ]
     }
-    DEF ROD Transform {
+    DEF ROD Pose {
       translation -0.025 0 0.08
       children [
         Shape {
@@ -72,7 +72,7 @@ DEF GRIPPER Robot {
       endPoint Solid {
         translation 0 0 0.01
         children [
-          Transform {
+          Pose {
             translation 0 0 -0.004
             rotation 0.577349935856137 0.5773509358560258 -0.577349935856137 -2.094395
             children [
@@ -88,7 +88,7 @@ DEF GRIPPER Robot {
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 0 0.006
             rotation 0.577349935856137 0.5773509358560258 -0.577349935856137 -2.094395
             children [
@@ -133,7 +133,7 @@ DEF GRIPPER Robot {
                   density 0
                   bodyBoundingObject FALSE
                 }
-                DEF LEFT_ACTUATED_LINKAGE Transform {
+                DEF LEFT_ACTUATED_LINKAGE Pose {
                   translation 0 0 0.001
                   rotation 0.8673832709970314 -0.35188510993965805 -0.35188510993965805 1.71259
                   children [
@@ -162,7 +162,7 @@ DEF GRIPPER Robot {
                     radius 0.0025
                   }
                 }
-                Transform {
+                Pose {
                   translation 0.02869 -0.02787 0
                   children [
                     USE LEFT_ACTUATED_AXLE
@@ -177,10 +177,10 @@ DEF GRIPPER Robot {
                     translation 0.02869 -0.02787 0
                     rotation 0 0 1 1.5708
                     children [
-                      Transform {
+                      Pose {
                         translation 0 0 -0.006
                         children [
-                          Transform {
+                          Pose {
                             rotation -0.5773502691896258 0.5773502691896258 -0.5773502691896258 2.0944
                             children [
                               Shape {
@@ -199,7 +199,7 @@ DEF GRIPPER Robot {
                       }
                     ]
                     name "left_gripper"
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation 0.0075 -0.0175 -0.001
                       rotation 0 0 1 -1.570795
                       children [
@@ -226,7 +226,7 @@ DEF GRIPPER Robot {
             endPoint Solid {
               translation 0 -0.023 0
               children [
-                DEF LEFT_PASSIVE_LINKAGE Transform {
+                DEF LEFT_PASSIVE_LINKAGE Pose {
                   translation 0 0 0.001
                   rotation 0.8673832709970314 -0.35188510993965805 -0.35188510993965805 1.712593
                   children [
@@ -240,7 +240,7 @@ DEF GRIPPER Robot {
                     radius 0.0025
                   }
                 }
-                Transform {
+                Pose {
                   translation 0.02869 -0.02787 0
                   children [
                     USE LEFT_PASSIVE_AXLE
@@ -277,7 +277,7 @@ DEF GRIPPER Robot {
             endPoint Solid {
               translation 0 0.008 0
               children [
-                Transform {
+                Pose {
                   rotation 0 0 1 -0.1309
                   children [
                     Gear {
@@ -297,7 +297,7 @@ DEF GRIPPER Robot {
                     }
                   ]
                 }
-                DEF RIGHT_ACTUATED_LINKAGE Transform {
+                DEF RIGHT_ACTUATED_LINKAGE Pose {
                   translation 0 0 0.001
                   rotation 0.8673809443796324 0.3518879774353601 0.3518879774353601 1.712596
                   children [
@@ -318,7 +318,7 @@ DEF GRIPPER Robot {
                     radius 0.0025
                   }
                 }
-                Transform {
+                Pose {
                   translation 0.02869 0.02787 0
                   children [
                     USE RIGHT_ACTUATED_AXLE
@@ -332,7 +332,7 @@ DEF GRIPPER Robot {
                   endPoint Solid {
                     translation 0.02869 0.02787 0
                     children [
-                      Transform {
+                      Pose {
                         translation 0 0 0.004
                         rotation -1 0 0 -1.570796
                         children [
@@ -348,7 +348,7 @@ DEF GRIPPER Robot {
                       }
                     ]
                     name "right_gripper"
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation 0.0175 -0.0075 -0.001
                       children [
                         Box {
@@ -375,7 +375,7 @@ DEF GRIPPER Robot {
             endPoint Solid {
               translation 0 0.023 0
               children [
-                DEF RIGHT_PASSIVE_LINKAGE Transform {
+                DEF RIGHT_PASSIVE_LINKAGE Pose {
                   translation 0 0 0.001
                   rotation 0.8673809443796324 0.3518879774353601 0.3518879774353601 1.712596
                   children [
@@ -389,7 +389,7 @@ DEF GRIPPER Robot {
                     radius 0.0025
                   }
                 }
-                Transform {
+                Pose {
                   translation 0.02869 0.02787 0
                   children [
                     USE RIGHT_PASSIVE_AXLE
@@ -413,7 +413,7 @@ DEF GRIPPER Robot {
             }
           }
         ]
-        boundingObject Transform {
+        boundingObject Pose {
           children [
             Box {
               size 0.02 0.08 0.012

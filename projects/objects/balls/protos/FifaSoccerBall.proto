@@ -27,7 +27,6 @@ PROTO FifaSoccerBall [
     children [
       Transform {
         scale %<= scale >% %<= scale >% %<= scale >%
-        translation 0 0 0
         children [
           Shape {
             appearance PBRAppearance {

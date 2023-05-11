@@ -42,7 +42,7 @@ PROTO CabinetHandle [
       children [
         DEF HANDLE Group {
           children [
-            Transform { # main handle
+            Pose { # main handle
               translation %<= 2.0 * handleRadius >% 0 0
               rotation 1 0 0 1.57
               children [
@@ -58,7 +58,7 @@ PROTO CabinetHandle [
                 }
               ]
             }
-            Transform { # right handle anchorage point
+            Pose { # right handle anchorage point
               rotation 0 1 0 1.57
               translation 0 %<= 0.35 * handleLength >% 0
               children [
@@ -71,7 +71,7 @@ PROTO CabinetHandle [
                 }
               ]
             }
-            Transform { # left handle anchorage point
+            Pose { # left handle anchorage point
               rotation 0 1 0 1.57
               translation 0 %<= - 0.35 * handleLength >% 0
               children [

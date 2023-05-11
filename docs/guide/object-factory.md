@@ -679,7 +679,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 ElectricalPlug {
-  SFVec3f    translation           0 0 0
+  SFVec3f    translation           0 0 0.02
   SFRotation rotation              0 0 1 0
   SFString   name                  "electrical plug"
   SFColor    color                 1 1 1

@@ -22,7 +22,7 @@ PROTO RFootSolid [
     name "RFoot"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0.048 0 -0.076119
           children [
             Box {

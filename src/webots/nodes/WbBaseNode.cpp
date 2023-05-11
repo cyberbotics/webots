@@ -22,6 +22,7 @@
 #include "WbSolid.hpp"
 #include "WbStandardPaths.hpp"
 #include "WbTemplateManager.hpp"
+#include "WbTransform.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
 #include "WbWrenOpenGlContext.hpp"
@@ -35,10 +36,11 @@ void WbBaseNode::init() {
   mOdeObjectsCreatedCalled = false;
   mWrenNode = NULL;
   mIsInBoundingObject = false;
-  mUpperTransform = NULL;
+  mUpperPose = NULL;
   mUpperSolid = NULL;
   mTopSolid = NULL;
   mBoundingObjectFirstTimeSearch = true;
+  mUpperPoseFirstTimeSearch = true;
   mUpperTransformFirstTimeSearch = true;
   mUpperSolidFirstTimeSearch = true;
   mTopSolidFirstTimeSearch = true;
@@ -179,6 +181,16 @@ WbNode::NodeUse WbBaseNode::nodeUse() const {
   return mNodeUse;
 }
 
+WbPose *WbBaseNode::upperPose() const {
+  if (mUpperPoseFirstTimeSearch) {
+    mUpperPose = WbNodeUtilities::findUpperPose(this);
+    if (areWrenObjectsInitialized())
+      mUpperPoseFirstTimeSearch = false;
+  }
+
+  return mUpperPose;
+}
+
 WbTransform *WbBaseNode::upperTransform() const {
   if (mUpperTransformFirstTimeSearch) {
     mUpperTransform = WbNodeUtilities::findUpperTransform(this);
@@ -281,10 +293,10 @@ void WbBaseNode::exportUrdfJoint(WbWriter &writer) const {
   const WbNode *const upperLinkRoot = findUrdfLinkRoot();
   assert(upperLinkRoot);
 
-  if (dynamic_cast<const WbTransform *>(this) && dynamic_cast<const WbTransform *>(upperLinkRoot)) {
-    const WbTransform *const upperLinkRootTransform = static_cast<const WbTransform *>(this);
-    translation = upperLinkRootTransform->translationFrom(upperLinkRoot);
-    eulerRotation = urdfRotation(upperLinkRootTransform->rotationMatrixFrom(upperLinkRoot));
+  if (dynamic_cast<const WbPose *>(this) && dynamic_cast<const WbPose *>(upperLinkRoot)) {
+    const WbPose *const upperLinkRootPose = static_cast<const WbPose *>(this);
+    translation = upperLinkRootPose->translationFrom(upperLinkRoot);
+    eulerRotation = urdfRotation(upperLinkRootPose->rotationMatrixFrom(upperLinkRoot));
   }
 
   translation += writer.jointOffset();

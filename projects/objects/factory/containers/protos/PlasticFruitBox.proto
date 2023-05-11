@@ -56,7 +56,7 @@ PROTO PlasticFruitBox [
     %< } >%
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.01319
           children [
             Box {
@@ -64,7 +64,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.486 0 0.13529
           children [
             Box {
@@ -72,7 +72,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.486 0 0.13529
           children [
             Box {
@@ -80,7 +80,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.3062 0.11809
           children [
             Box {
@@ -88,7 +88,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.3062 0.11809
           children [
             Box {
@@ -96,7 +96,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.3591 -0.3062 0.25459
           children [
             Box {
@@ -104,7 +104,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.3591 0.3062 0.25459
           children [
             Box {
@@ -112,7 +112,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.3591 0.3062 0.25459
           children [
             Box {
@@ -120,7 +120,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.3591 -0.3062 0.25459
           children [
             Box {
@@ -128,7 +128,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.25305 -0.3062 0.24618
           rotation 0 -1 0 0.377
           children [
@@ -137,7 +137,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.25305 0.3062 0.24618
           rotation 0 -1 0 0.377
           children [
@@ -146,7 +146,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.25305 0.3062 0.24618
           rotation 0 -1 0 -0.377
           children [
@@ -155,7 +155,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.25305 -0.3062 0.24618
           rotation 0 -1 0 -0.377
           children [
@@ -164,7 +164,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation  0.460249 -0.283 0.13529
           rotation 0 0 -1 0.83
           children [
@@ -173,7 +173,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.460249 0.283 0.13529
           rotation 0 0 1 0.83
           children [
@@ -182,7 +182,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.460249 0.283 0.13529
           rotation 0 0 1 -0.83
           children [
@@ -191,7 +191,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.460249 -0.283 0.13529
           rotation 0 0 1 0.83
           children [

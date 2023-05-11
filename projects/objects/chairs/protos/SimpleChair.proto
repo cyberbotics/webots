@@ -18,7 +18,7 @@ PROTO SimpleChair [
     translation IS translation
     rotation IS rotation
     children [
-      DEF CHAIRSEAT Transform {
+      DEF CHAIRSEAT Pose {
         translation -0.24625 0 0.9225
         children [
           Shape {
@@ -33,7 +33,7 @@ PROTO SimpleChair [
           }
         ]
       }
-      DEF CHAIRSEAT2 Transform {
+      DEF CHAIRSEAT2 Pose {
         translation 0 0 0.5575
         children [
           Shape {
@@ -44,7 +44,7 @@ PROTO SimpleChair [
           }
         ]
       }
-      DEF LEG1 Transform {
+      DEF LEG1 Pose {
         translation 0.2 0.25 0.26
         children [
           DEF LEG_SHAPE Shape {
@@ -59,19 +59,19 @@ PROTO SimpleChair [
           }
         ]
       }
-      DEF LEG2 Transform {
+      DEF LEG2 Pose {
         translation 0.2 -0.25 0.26
         children [
           USE LEG_SHAPE
         ]
       }
-      DEF LEG3 Transform {
+      DEF LEG3 Pose {
         translation -0.2225 0.2625 0.26
         children [
           USE LEG_SHAPE
         ]
       }
-      DEF LEG4 Transform {
+      DEF LEG4 Pose {
         translation -0.2225 -0.2625 0.26
         children [
           USE LEG_SHAPE

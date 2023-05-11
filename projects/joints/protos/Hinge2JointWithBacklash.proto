@@ -7,19 +7,19 @@
 # template language: javascript
 
 PROTO Hinge2JointWithBacklash [
-  field SFNode                                 jointParameters   HingeJointParameters {}
-  field SFNode                                 jointParameters2  JointParameters {}
-  field SFFloat                                backlash          0.01   # Defines the gear clearence for axis, [0, inf).
-  field SFFloat                                backlash2         0.01   # Defines the gear clearence for axis2, [0, inf).
-  field SFFloat                                gearMass          0.1    # Defines the gear mass for axis, [0, inf).
-  field SFFloat                                gearMass2         0.1    # Defines the gear mass for axis2, [0, inf).
-  field MFNode                                 device            [ ]    # {RotationalMotor, PositionSensor, Brake}.
-  field MFNode                                 device2           [ ]    # {RotationalMotor, PositionSensor, Brake}.
-  field MFNode{PositionSensor{}}               outputSensor      [ ]    # {PositionSensor}.
-  field MFNode{PositionSensor{}}               outputSensor2     [ ]    # {PositionSensor}.
-  field MFNode{Group{}, Transform{}, Shape{}}  startPoint        [ ]    # {Group, Transform, or Shape}.
-  field MFNode{Group{}, Transform{}, Shape{}}  startPoint2       [ ]    # {Group, Transform, or Shape}.
-  field SFNode                                 endPoint          NULL   # {Solid, SolidReference, or Slot}.
+  field SFNode                                         jointParameters   HingeJointParameters {}
+  field SFNode                                         jointParameters2  JointParameters {}
+  field SFFloat                                        backlash          0.01   # Defines the gear clearence for axis, [0, inf).
+  field SFFloat                                        backlash2         0.01   # Defines the gear clearence for axis2, [0, inf).
+  field SFFloat                                        gearMass          0.1    # Defines the gear mass for axis, [0, inf).
+  field SFFloat                                        gearMass2         0.1    # Defines the gear mass for axis2, [0, inf).
+  field MFNode                                         device            [ ]    # {RotationalMotor, PositionSensor, Brake}.
+  field MFNode                                         device2           [ ]    # {RotationalMotor, PositionSensor, Brake}.
+  field MFNode{PositionSensor{}}                       outputSensor      [ ]    # {PositionSensor}.
+  field MFNode{PositionSensor{}}                       outputSensor2     [ ]    # {PositionSensor}.
+  field MFNode{Group{}, Pose{}, Transform{}, Shape{}}  startPoint        [ ]    # {Group, Pose, Transform, or Shape}.
+  field MFNode{Group{}, Pose{}, Transform{}, Shape{}}  startPoint2       [ ]    # {Group, Pose, Transform, or Shape}.
+  field SFNode                                         endPoint          NULL   # {Solid, SolidReference, or Slot}.
 ]
 {
   %<

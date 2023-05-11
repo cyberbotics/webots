@@ -315,7 +315,7 @@ PROTO RobocupSoccerField [
         name "goal_away"
       }
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       children [
         Shape {
           geometry Plane {

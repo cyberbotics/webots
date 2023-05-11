@@ -3,8 +3,7 @@
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "webots://projects/appearances/protos/Grass.proto"
-EXTERNPROTO "webots://projects/objects/rocks/protos/Rock10cm.proto"
-EXTERNPROTO "webots://projects/objects/rocks/protos/Rock17cm.proto"
+EXTERNPROTO "webots://projects/objects/rocks/protos/Rock.proto"
 EXTERNPROTO "webots://projects/robots/irobot/create/protos/Create.proto"
 EXTERNPROTO "webots://projects/robots/kondo/khr-2hv/protos/Khr2hv.proto"
 
@@ -30,7 +29,7 @@ DEF GROUND Solid {
   children [
     DEF GROUND_SHAPE Group {
       children [
-        Transform {
+        Pose {
           translation -8 -8 0
           children [
             Shape {
@@ -66,28 +65,33 @@ DEF GROUND Solid {
   ]
   boundingObject USE GROUND_SHAPE
 }
-Rock10cm {
+Rock {
   translation -0.866326 -1.02326 0
   rotation 0 0 1 1.5708
 }
-Rock17cm {
+Rock {
   translation -0.212539 1.7806 -0.037219
   rotation 0 1 0 0.0980463
-  name "rock 17 cm(1)"
+  name "rock (1)"
+  type "flat"
 }
-Rock17cm {
+Rock {
   translation 0.814429 0.889895 0
   rotation 0 0 1 1.309
-  name "rock 17 cm(2)"
+  name "rock (2)"
+  type "flat"
 }
-Rock17cm {
+Rock {
   translation -2.2847 2.36097 0
   rotation -0.1325999849101226 0.1325999849101226 0.9822598882188313 -1.5886953071795862
-  name "rock 17 cm(3)"
+  name "rock (3)"
+  type "flat"
 }
-Rock17cm {
+Rock {
   translation -2.19116 0.215003 0
   rotation 0 0 1 1.5708
+  name "rock (4)"
+  type "flat"
 }
 Create {
   translation 0.818299 -0.848189 0.0699514
@@ -201,7 +205,7 @@ Create {
             height 128
           }
         ]
-        boundingObject Transform {
+        boundingObject Pose {
           translation 0 0 -0.0075
           children [
             Box {
@@ -213,7 +217,7 @@ Create {
         }
       }
     }
-    Transform {
+    Pose {
       translation -0.05 0 0.1
       children [
         Shape {

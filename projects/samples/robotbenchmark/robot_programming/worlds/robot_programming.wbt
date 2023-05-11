@@ -41,7 +41,7 @@ DEF THYMIO2 Thymio2 {
 }
 RobotProgrammingBenchmark {
 }
-Transform {
+Pose {
   translation -0.25 0 0
   children [
     Shape {

@@ -67,7 +67,7 @@ PROTO CabinetDoor [
                 mass %<= mass >%
               }
             }
-            Transform {
+            Pose {
               translation 0 %<= -rightSided * 0.4 * size.y >% 0
               rotation 1 0 0 1.57
               children [
@@ -81,7 +81,7 @@ PROTO CabinetDoor [
             density -1
             mass 0.01
           }
-          boundingObject Transform {
+          boundingObject Pose {
             translation %<= - 0.5 * thickness >% 0 0
             children [
               Sphere {

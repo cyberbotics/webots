@@ -6,7 +6,7 @@
 PROTO BmwX5FrontLight [
 ]
 {
-  Transform {
+  Pose {
     children [
       DEF FRONT_LIGHT_GLASS Shape {
         appearance PBRAppearance {

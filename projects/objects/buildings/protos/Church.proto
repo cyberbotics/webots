@@ -166,7 +166,7 @@ PROTO Church [
     %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 4.58 -2.06 8.0
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -175,7 +175,7 @@ PROTO Church [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.04 0.64 3.5
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [

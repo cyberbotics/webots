@@ -7,8 +7,8 @@ EXTERNPROTO "webots://projects/appearances/protos/Plastic.proto"
 EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
 
 PROTO SpotLeg [
-  field SFVec3f     translation  0 0 0    # Is `Transform.translation`.
-  field SFRotation  rotation     0 0 1 0  # Is `Transform.rotation`.
+  field SFVec3f     translation  0 0 0    # Is `Pose.translation`.
+  field SFRotation  rotation     0 0 1 0  # Is `Pose.rotation`.
   field SFString    name         "leg"    # Is `Solid.name`.
   field SFBool      left         FALSE    # Define if right or left leg.
 ]
@@ -18,7 +18,7 @@ PROTO SpotLeg [
     const scale = fields.left.value ? '1 1 1' : '-1 1 1';
     const sign = fields.left.value ? -1 : 1;
   >%
-  Transform {
+  Pose {
     translation IS translation
     rotation IS rotation
     children [
@@ -150,7 +150,7 @@ PROTO SpotLeg [
                       name %<= '"' + legName + ' forearm"' >%
                       boundingObject DEF FOREARM_BO Group {
                         children [
-                          Transform {
+                          Pose {
                             translation %<=sign * 0.001038>% -0.271321 -0.225038
                             rotation -0.577349 -0.577352 0.577350 2.0944
                             children [
@@ -160,7 +160,7 @@ PROTO SpotLeg [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation %<=sign * 0.001038>% -0.227421 -0.230239
                             rotation -1 0 0 0.947675
                             children [
@@ -169,7 +169,7 @@ PROTO SpotLeg [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation %<=sign * 0.001038>% -0.232272 -0.198255
                             rotation 1 0 0 -0.0931852938995747
                             children [
@@ -178,7 +178,7 @@ PROTO SpotLeg [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation %<=sign * 0.001038>% -0.205751 -0.206348
                             rotation 1 0 0 0.616815
                             children [
@@ -187,7 +187,7 @@ PROTO SpotLeg [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation %<=sign * 0.001038>% -0.168611 -0.18111
                             rotation 1 0 0 -2.513185307179586
                             children [
@@ -196,7 +196,7 @@ PROTO SpotLeg [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation %<=sign * 0.001038>% -0.125111 -0.148236
                             rotation -1 0 0 -0.6636253071795863
                             children [
@@ -205,7 +205,7 @@ PROTO SpotLeg [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation %<=sign * 0.001038>% -0.100861 -0.126163
                             rotation -1 0 0 -0.7604153071795858
                             children [
@@ -214,7 +214,7 @@ PROTO SpotLeg [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation %<=sign * 0.001038>% -0.084241 -0.106843
                             rotation 1 0 0 0.867225
                             children [
@@ -223,7 +223,7 @@ PROTO SpotLeg [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation %<=sign * 0.001038>% -0.068551 -0.08661
                             rotation 1 0 0 0.907225
                             children [
@@ -232,7 +232,7 @@ PROTO SpotLeg [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation %<=sign * 0.001038>% -0.049721 -0.059227
                             rotation 1 0 0 0.933245
                             children [
@@ -242,7 +242,7 @@ PROTO SpotLeg [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation %<=sign * 0.001038>% -0.034991 -0.038166
                             rotation 1 0 0 0.937225
                             children [
@@ -251,7 +251,7 @@ PROTO SpotLeg [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation %<=sign * 0.001038>% -0.022931 -0.021744
                             rotation 1 0 0 0.937225
                             children [
@@ -260,7 +260,7 @@ PROTO SpotLeg [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation %<=sign * 0.001038>% -0.010711 -0.006332
                             rotation -1 0 0 -0.8340353071795858
                             children [
@@ -269,7 +269,7 @@ PROTO SpotLeg [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation %<=sign * 0.001038>% 0.004299 0.006862
                             rotation -1 0 0 -0.6808453071795864
                             children [
@@ -278,7 +278,7 @@ PROTO SpotLeg [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation %<=sign * 0.001038>% 0.021259 0.019851
                             rotation -1 0 0 -0.604465307179586
                             children [
@@ -287,7 +287,7 @@ PROTO SpotLeg [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation %<=sign * 0.001038>% 0.019179 -0.009531
                             rotation 1 0 0 0.494895
                             children [
@@ -296,7 +296,7 @@ PROTO SpotLeg [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation %<=sign * 0.001038>% 0.037459 0.024742
                             rotation 0.577350 0.577352 -0.577350 -2.094399
                             children [
@@ -374,7 +374,7 @@ PROTO SpotLeg [
                 name %<= '"' + legName + ' upperarm"' >%
                 boundingObject DEF UPPERARM_BO Group {
                   children [
-                    Transform {
+                    Pose {
                       translation %<=sign * 0.117011>% -0.32073 0.1829
                       rotation 0.577350 0.577352 -0.577350 -2.094399
                       children [
@@ -384,7 +384,7 @@ PROTO SpotLeg [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation %<=sign * 0.117011>% -0.25867 0.180358
                       rotation -0.02498960817355977 0.024989508173527065 0.9993753268740314 1.57142
                       children [
@@ -393,7 +393,7 @@ PROTO SpotLeg [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation %<=sign * 0.149087>% -0.023654 0.007772
                       rotation 1 0 0 -0.6563753071795864
                       children [
@@ -402,7 +402,7 @@ PROTO SpotLeg [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation %<=sign * 0.14944>% -0.001095 0.048195
                       rotation -0.8708125987213743 0.4653767855500056 -0.1584609269797163 0.745474
                       children [
@@ -411,7 +411,7 @@ PROTO SpotLeg [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation %<=sign * 0.143963>% -0.142325 0.149419
                       rotation -0.8073442439173019 0.5785731748002897 -0.11596703503631382 0.7821
                       children [
@@ -420,7 +420,7 @@ PROTO SpotLeg [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation %<=sign * 0.143376>% -0.16295 0.113632
                       rotation -0.9969148110595092 0.025671095134680254 0.07417448594206484 0.648238
                       children [
@@ -429,7 +429,7 @@ PROTO SpotLeg [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation %<=sign * 0.113992>% -0.21476 0.154045
                       rotation 1 0 0 -0.6563753071795864
                       children [
@@ -438,7 +438,7 @@ PROTO SpotLeg [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation %<=sign * 0.113238>% -0.119427 0.086296
                       rotation 1 0 0 -2.227175
                       children [
@@ -448,7 +448,7 @@ PROTO SpotLeg [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation %<=sign * 0.113238>% -0.04459 0.028636
                       rotation 1 0 0 -2.227175
                       children [
@@ -458,7 +458,7 @@ PROTO SpotLeg [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation %<=sign * 0.113738>% -0.02284 -0.046726
                       rotation 1 0 0 -0.6563753071795864
                       children [
@@ -467,7 +467,7 @@ PROTO SpotLeg [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation %<=sign * 0.073615>% -0.00019 -0.000689
                       rotation 0.577350 0.577352 -0.577350 -2.094399
                       children [
@@ -477,7 +477,7 @@ PROTO SpotLeg [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation %<=sign * 0.115879>% 0.008331 -0.011344
                       rotation 1 0 0 -2.227175
                       children [
@@ -487,7 +487,7 @@ PROTO SpotLeg [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation %<=sign * 0.12154>% 0.053961 -0.047932
                       rotation 1 0 0 -0.6563753071795864
                       children [
@@ -496,7 +496,7 @@ PROTO SpotLeg [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation %<=sign * 0.12003>% 0.073308 -0.006499
                       rotation 1 0 0 0.0136247
                       children [
@@ -505,7 +505,7 @@ PROTO SpotLeg [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation %<=sign * 0.117011>% -0.13635 0.154336
                       rotation 1 0 0 0.99
                       children [
@@ -514,7 +514,7 @@ PROTO SpotLeg [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation %<=sign * 0.083111>% -0.31378 0.182934
                       rotation -0.03814818654281376 0.03814838654274321 -0.9985436477529064 -1.572255307179586
                       children [
@@ -569,7 +569,7 @@ PROTO SpotLeg [
           name %<= '"' + legName + ' shoulder"' >%
           boundingObject DEF SHOULDER_BO Group {
             children [
-              Transform {
+              Pose {
                 translation %<=sign * -0.004874>% 0.000873 -0.000643
                 children [
                   Box {
@@ -577,7 +577,7 @@ PROTO SpotLeg [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation %<=sign * 0.006447>% 0.000873 -0.000643
                 children [
                   Box {
@@ -585,7 +585,7 @@ PROTO SpotLeg [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation %<=sign * 0.058145>% 0.000873 -0.000643
                 rotation 0.577350 0.577352 -0.577350 -2.094399
                 children [

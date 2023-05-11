@@ -57,7 +57,7 @@ PROTO TrashBin [
     ]
     name IS name
     model "trash bin"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.58
       children [
         Box {

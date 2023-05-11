@@ -73,6 +73,7 @@
 #include "WbPlane.hpp"
 #include "WbPointLight.hpp"
 #include "WbPointSet.hpp"
+#include "WbPose.hpp"
 #include "WbPositionSensor.hpp"
 #include "WbPropeller.hpp"
 #include "WbProtoManager.hpp"
@@ -234,6 +235,8 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbPointSet(tokenizer);
   if (modelName == "PositionSensor")
     return new WbPositionSensor(tokenizer);
+  if (modelName == "Pose")
+    return new WbPose(tokenizer);
   if (modelName == "Propeller")
     return new WbPropeller(tokenizer);
   if (modelName == "Radar")
@@ -437,6 +440,8 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
     return new WbPointSet(original);
   if (modelName == "PositionSensor")
     return new WbPositionSensor(original);
+  if (modelName == "Pose")
+    return new WbPose(original);
   if (modelName == "Propeller")
     return new WbPropeller(original);
   if (modelName == "Radar")

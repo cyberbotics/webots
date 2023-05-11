@@ -6,7 +6,7 @@
 PROTO BmwX5LeftIndicator [
 ]
 {
-  Transform {
+  Pose {
     children [
       DEF LEFT_INDICATOR_GLASS Shape {
         appearance PBRAppearance {

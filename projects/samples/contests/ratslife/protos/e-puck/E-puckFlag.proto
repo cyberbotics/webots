@@ -7,7 +7,7 @@ PROTO E-puckFlag [
   field MFString image "textures/rat0.jpg"
 ]
 {
-DEF EPUCK_FLAG Transform {
+DEF EPUCK_FLAG Pose {
   translation 0.005 0 0.015
   rotation 1 0 0 0
   children [

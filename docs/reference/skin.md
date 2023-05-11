@@ -50,7 +50,7 @@ An example of purely graphical skin animation is provided in the "[skin\_animate
 - The `translation` field defines the translation from the parent coordinate system to the children's coordinate system.
 
 - The `rotation` field defines an arbitrary rotation of the children's coordinate system with respect to the parent coordinate system.
-Please refer to [Transform](transform.md) `rotation` field description for more information.
+Please refer to [Pose](pose.md) `rotation` field description for more information.
 
 - The `scale` field specifies a possibly non-uniform scale of the mesh.
 Only positive values are permitted; non-positive scale values are automatically reset to 1.

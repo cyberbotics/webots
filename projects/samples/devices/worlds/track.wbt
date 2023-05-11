@@ -47,13 +47,12 @@ DEF TRACKED_ROBOT Robot {
     }
     DEF LEFT_TRACK Track {
       translation 0 0.07 0
-      scale 0.5 0.5 0.5
       children [
         DEF WHEEL1_LEFT TrackWheel {
-          position -0.3 0.015
-          radius 0.092
+          position -0.15 0.0075
+          radius 0.046
           children [
-            DEF TRACK_WHEEL_BIG Transform {
+            DEF TRACK_WHEEL_BIG Pose {
               rotation -1 0 0 3.141589
               children [
                 Shape {
@@ -67,8 +66,8 @@ DEF TRACKED_ROBOT Robot {
                     metalness 0
                   }
                   geometry Cylinder {
-                    height 0.03
-                    radius 0.092
+                    height 0.015
+                    radius 0.046
                     subdivision 20
                   }
                 }
@@ -77,17 +76,17 @@ DEF TRACKED_ROBOT Robot {
           ]
         }
         DEF WHEEL2_LEFT TrackWheel {
-          position 0.288 0.015
-          radius 0.092
+          position 0.144 0.0075
+          radius 0.046
           children [
             USE TRACK_WHEEL_BIG
           ]
         }
         DEF WHEEL3_LEFT TrackWheel {
-          position 0.185 -0.088
-          radius 0.04
+          position 0.0925 -0.044
+          radius 0.02
           children [
-            DEF TRACK_WHEEL_SMALL Transform {
+            DEF TRACK_WHEEL_SMALL Pose {
               rotation -1 0 0 3.141589
               children [
                 Shape {
@@ -101,8 +100,8 @@ DEF TRACKED_ROBOT Robot {
                     metalness 0
                   }
                   geometry Cylinder {
-                    height 0.02
-                    radius 0.04
+                    height 0.01
+                    radius 0.02
                     subdivision 20
                   }
                 }
@@ -111,29 +110,29 @@ DEF TRACKED_ROBOT Robot {
           ]
         }
         DEF WHEEL4_LEFT TrackWheel {
-          position 0.09135 -0.088
-          radius 0.04
+          position 0.045675 -0.044
+          radius 0.02
           children [
             USE TRACK_WHEEL_SMALL
           ]
         }
         DEF WHEEL5_LEFT TrackWheel {
-          position -0.00245 -0.088
-          radius 0.04
+          position -0.001225 -0.044
+          radius 0.02
           children [
             USE TRACK_WHEEL_SMALL
           ]
         }
         DEF WHEEL6_LEFT TrackWheel {
-          position -0.09625 -0.088
-          radius 0.04
+          position -0.048125 -0.044
+          radius 0.02
           children [
             USE TRACK_WHEEL_SMALL
           ]
         }
         DEF WHEEL7_LEFT TrackWheel {
-          position -0.19 -0.088
-          radius 0.04
+          position -0.095 -0.044
+          radius 0.02
           children [
             USE TRACK_WHEEL_SMALL
           ]
@@ -143,50 +142,50 @@ DEF TRACKED_ROBOT Robot {
       contactMaterial "track material"
       boundingObject DEF TRACK_BO Group {
         children [
-          Transform {
-            translation 0 0 -0.009
+          Pose {
+            translation 0 0 -0.00045
             rotation 1 0 0 1.570796
             children [
               Box {
-                size 0.39 0.248 0.03
+                size 0.195 0.124 0.015
               }
             ]
           }
-          Transform {
-            translation 0.237434 0 -0.06918
+          Pose {
+            translation 0.118717 0 -0.03459
             rotation 0.9561247250869316 -0.20715394043734683 0.20715394043734683 1.615648
             children [
               Box {
-                size 0.13 0.08 0.03
+                size 0.065 0.04 0.015
               }
             ]
             translationStep 0.001
             rotationStep 0.00261799
           }
-          Transform {
-            translation -0.242803 0 -0.070833
+          Pose {
+            translation -0.1214015 0 -0.0354165
             rotation 0.959691189146035 0.19873703916918628 -0.19873703916918628 1.611928
             children [
               Box {
-                size 0.13 0.08 0.03
+                size 0.065 0.04 0.015
               }
             ]
             translationStep 0.001
             rotationStep 0.00261799
           }
-          Transform {
-            translation -0.302 0 0.017
+          Pose {
+            translation -0.151 0 0.0085
             rotation 1 0 0 1.5708
             children [
               DEF WHEEL_BO Cylinder {
-                height 0.03
-                radius 0.1
+                height 0.015
+                radius 0.05
                 subdivision 16
               }
             ]
           }
-          Transform {
-            translation 0.288 0 0.017
+          Pose {
+            translation 0.144 0 0.0085
             rotation 1 0 0 1.5708
             children [
               USE WHEEL_BO
@@ -210,10 +209,10 @@ DEF TRACKED_ROBOT Robot {
               metalness 0
             }
             geometry Box {
-              size 0.044 0.03 0.005
+              size 0.022 0.015 0.0025
             }
           }
-          Transform {
+          Pose {
             translation 0 0 0.003
             children [
               Shape {
@@ -223,7 +222,7 @@ DEF TRACKED_ROBOT Robot {
                   metalness 0
                 }
                 geometry Box {
-                  size 0.02 0.03 0.006
+                  size 0.01 0.015 0.003
                 }
               }
             ]
@@ -234,53 +233,52 @@ DEF TRACKED_ROBOT Robot {
     }
     DEF RIGHT_TRACK Track {
       translation 0 -0.07 0
-      scale 0.5 0.5 0.5
       children [
         DEF WHEEL1_RIGHT TrackWheel {
-          position -0.3 0.015
-          radius 0.092
+          position -0.15 0.0075
+          radius 0.046
           children [
             USE TRACK_WHEEL_BIG
           ]
         }
         DEF WHEEL2_RIGHT TrackWheel {
-          position 0.288 0.015
-          radius 0.092
+          position 0.144 0.0075
+          radius 0.046
           children [
             USE TRACK_WHEEL_BIG
           ]
         }
         DEF WHEEL3_RIGHT TrackWheel {
-          position 0.185 -0.088
-          radius 0.04
+          position 0.0925 -0.044
+          radius 0.02
           children [
             USE TRACK_WHEEL_SMALL
           ]
         }
         DEF WHEEL4_RIGHT TrackWheel {
-          position 0.09135 -0.088
-          radius 0.04
+          position 0.045675 -0.044
+          radius 0.02
           children [
             USE TRACK_WHEEL_SMALL
           ]
         }
         DEF WHEEL5_RIGHT TrackWheel {
-          position -0.00245 -0.088
-          radius 0.04
+          position -0.001225 -0.044
+          radius 0.02
           children [
             USE TRACK_WHEEL_SMALL
           ]
         }
         DEF WHEEL6_RIGHT TrackWheel {
-          position -0.09625 -0.088
-          radius 0.04
+          position -0.048125 -0.044
+          radius 0.02
           children [
             USE TRACK_WHEEL_SMALL
           ]
         }
         DEF WHEEL7_RIGHT TrackWheel {
-          position -0.19 -0.088
-          radius 0.04
+          position -0.095 -0.044
+          radius 0.02
           children [
             USE TRACK_WHEEL_SMALL
           ]

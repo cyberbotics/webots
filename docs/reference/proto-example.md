@@ -32,11 +32,11 @@ PROTO TwoColorChair [
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         translation 0.27 0 0
         children IS seatExtensionSlot
       }
-      Transform {
+      Pose {
         translation 0 0 -0.35
         children [
           Shape {
@@ -47,7 +47,7 @@ PROTO TwoColorChair [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.23 -0.25 -0.65
         children [
           DEF LEG_SHAPE Shape {
@@ -58,15 +58,15 @@ PROTO TwoColorChair [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.23 0.25 -0.65
         children [ USE LEG_SHAPE ]
       }
-      Transform {
+      Pose {
         translation -0.2 -0.25 -0.65
         children [ USE LEG_SHAPE ]
       }
-      Transform {
+      Pose {
         translation -0.2 0.25 -0.65
         children [ USE LEG_SHAPE ]
       }
@@ -135,7 +135,7 @@ DEF YELLOW_CHAIR TwoColorChair {
     size 0.6 0.6 0.1
   }
   seatExtensionSlot [
-    Transform {
+    Pose {
       translation -0.27 0.28 -0.014
       children [
         Shape {
@@ -157,7 +157,7 @@ DEF DAMACUS_SPHERE TwoColorChair {
   name "two-color chair(1)"
   legColor 0.678431 0.678431 0.678431
   seatExtensionSlot [
-    Transform {
+    Pose {
       translation -0.27 0 -0.29
       children [
         Shape {
@@ -181,7 +181,7 @@ DEF WOODEN_CHAIR TwoColorChair {
     size 0.6 0.6 0.1
   }
   seatExtensionSlot [
-    Transform {
+    Pose {
       translation -0.27 0.25 0.05
       children [
         Shape {

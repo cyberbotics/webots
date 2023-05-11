@@ -67,7 +67,7 @@ Irb4600-40 {
       translation 0 0 0.02
       rotation 0 1 0 3.14159
       children [
-        Transform {
+        Pose {
           translation 0 0 0.05
           children [
             Shape {
@@ -82,7 +82,7 @@ Irb4600-40 {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.04
           children [
             Shape {
@@ -117,10 +117,10 @@ Table {
   legAppearance GalvanizedMetal {
   }
 }
-DEF TABLE_WITH_PAPER_SHEET Transform {
+DEF TABLE_WITH_PAPER_SHEET Pose {
   translation -5.8 -1.1 0
   children [
-    DEF PAPER Transform {
+    DEF PAPER Pose {
       translation 0 0 0.741
       children [
         Shape {

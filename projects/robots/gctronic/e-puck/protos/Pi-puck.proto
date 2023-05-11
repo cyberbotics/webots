@@ -71,7 +71,7 @@ PROTO Pi-puck [
         color []
         gradual TRUE
       }
-      DEF CYLINDER_TRANSFORM Transform {
+      DEF CYLINDER_TRANSFORM Pose {
         translation 0 0.001 -0.0094
         rotation 1 0 0 -1.5708
         children [
@@ -229,7 +229,7 @@ PROTO Pi-puck [
           }
         ]
       }
-      DEF CONNECTOR Transform {
+      DEF CONNECTOR Pose {
         translation 0 0.004 -0.022
         children [
           Shape {
@@ -244,7 +244,7 @@ PROTO Pi-puck [
           }
         ]
       }
-      DEF SD_CARD Transform {
+      DEF SD_CARD Pose {
         translation -0.03 0.006 -0.012
         children [
           Shape {
@@ -259,7 +259,7 @@ PROTO Pi-puck [
           }
         ]
       }
-      DEF USB_0 Transform {
+      DEF USB_0 Pose {
         translation -0.022 0.006 0.005
         rotation 0 1 0 1.5708
         children [
@@ -272,7 +272,7 @@ PROTO Pi-puck [
           }
         ]
       }
-      DEF USB_2 Transform {
+      DEF USB_2 Pose {
         translation -0.01 0.006 0.005
         rotation 0 1 0 1.5708
         children [
@@ -285,7 +285,7 @@ PROTO Pi-puck [
           }
         ]
       }
-      DEF HDMI Transform {
+      DEF HDMI Pose {
         translation 0.02 0.006 0.005
         rotation 0 1 0 1.5708
         children [
@@ -324,7 +324,7 @@ PROTO Pi-puck [
         screwRadius 0.0008
         screwLength 0.005
       }
-      DEF USB_PLUG Transform {
+      DEF USB_PLUG Pose {
         translation 0 0.002 -0.042
         rotation 0.5773509358560258 0.577349935856137 0.577349935856137 2.09439
         children [
@@ -380,7 +380,7 @@ PROTO Pi-puck [
       }
     ]
     name "pi-puck"
-    boundingObject DEF CYLINDER_TRANSFORM Transform {
+    boundingObject DEF CYLINDER_TRANSFORM Pose {
       translation 0 0.001 -0.0094
       rotation 1 0 0 -1.5708
       children [

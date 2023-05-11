@@ -3,6 +3,7 @@
 ## Webots R2023b
 Released on ??
   - New Features
+    - Added a new [Pose](pose.md) node which inherits from [Group](group.md) and derives to [Transform](transform.md) and [Solid](solid.md) ([#5978](https://github.com/cyberbotics/webots/pull/5978)).
     - Added a new launcher to simplify the start of extern controllers ([#5629](https://github.com/cyberbotics/webots/pull/5629)).
     - Added a warning when Webots and controller library versions are different ([#5896](https://github.com/cyberbotics/webots/pull/5896)).
     - Added model of the [Husarion](https://husarion.com/)'s ROSbot XL robot and a sample world ([#5973](https://github.com/cyberbotics/webots/pull/5973)).

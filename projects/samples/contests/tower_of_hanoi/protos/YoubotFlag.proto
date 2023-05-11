@@ -20,7 +20,7 @@ Solid {
   children [
     DEF FLAG_SHAPE Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.015
           children [
             Shape {
@@ -34,7 +34,7 @@ Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.27
           children [
             Shape {
