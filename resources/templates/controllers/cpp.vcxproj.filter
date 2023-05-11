@@ -120,7 +120,7 @@
     <ClCompile Include="$(WEBOTS_HOME)\src\controller\cpp\TouchSensor.cpp">
       <Filter>Source Files\cpp</Filter>
     </ClCompile>
-    <ClCompile Include="$(WEBOTS_HOME)\src\controller\cpp\VacuumCup.cpp">
+    <ClCompile Include="$(WEBOTS_HOME)\src\controller\cpp\VacuumGripper.cpp">
       <Filter>Source Files\cpp</Filter>
     </ClCompile>
   </ItemGroup>

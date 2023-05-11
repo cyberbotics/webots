@@ -15,13 +15,13 @@
  */
 
 //***************************************************************************
-// this file is the API code for the VacuumCup device
+// this file is the API code for the VacuumGripper device
 //***************************************************************************
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <webots/nodes.h>
-#include <webots/vacuum_cup.h>
+#include <webots/vacuum_gripper.h>
 #include "device_private.h"
 #include "messages.h"
 #include "robot_private.h"
@@ -34,10 +34,10 @@ typedef struct {
   bool enable_presence;
   int presence_sampling_period;
   bool presence;
-} VacuumCup;
+} VacuumGripper;
 
-static VacuumCup *vacuum_cup_create() {
-  VacuumCup *vc = malloc(sizeof(VacuumCup));
+static VacuumGripper *vacuum_gripper_create() {
+  VacuumGripper *vc = malloc(sizeof(VacuumGripper));
   vc->toggle = false;
   vc->is_on = false;
   vc->enable_presence = false;
@@ -45,28 +45,28 @@ static VacuumCup *vacuum_cup_create() {
   return vc;
 }
 
-static VacuumCup *vacuum_cup_get_struct(WbDeviceTag t) {
-  WbDevice *d = robot_get_device_with_node(t, WB_NODE_VACUUM_CUP, true);
+static VacuumGripper *vacuum_gripper_get_struct(WbDeviceTag t) {
+  WbDevice *d = robot_get_device_with_node(t, WB_NODE_VACUUM_GRIPPER, true);
   return d ? d->pdata : NULL;
 }
 
-static void vacuum_cup_write_request(WbDevice *d, WbRequest *r) {
-  VacuumCup *vc = d->pdata;
+static void vacuum_gripper_write_request(WbDevice *d, WbRequest *r) {
+  VacuumGripper *vc = d->pdata;
   if (vc->enable_presence) {
-    request_write_uchar(r, C_VACUUM_CUP_GET_PRESENCE);
+    request_write_uchar(r, C_VACUUM_GRIPPER_GET_PRESENCE);
     request_write_uint16(r, vc->presence_sampling_period);
     vc->enable_presence = false;
   }
   if (vc->toggle) {
-    request_write_uchar(r, vc->is_on ? C_VACUUM_CUP_TURN_ON : C_VACUUM_CUP_TURN_OFF);
+    request_write_uchar(r, vc->is_on ? C_VACUUM_GRIPPER_TURN_ON : C_VACUUM_GRIPPER_TURN_OFF);
     vc->toggle = false;
   }
 }
 
-static void vacuum_cup_read_answer(WbDevice *d, WbRequest *r) {
-  VacuumCup *vc = d->pdata;
+static void vacuum_gripper_read_answer(WbDevice *d, WbRequest *r) {
+  VacuumGripper *vc = d->pdata;
   switch (request_read_uchar(r)) {
-    case C_VACUUM_CUP_GET_PRESENCE:
+    case C_VACUUM_GRIPPER_GET_PRESENCE:
       vc->presence = request_read_uchar(r) == 1;
       break;
     case C_CONFIGURE:
@@ -77,12 +77,12 @@ static void vacuum_cup_read_answer(WbDevice *d, WbRequest *r) {
   }
 }
 
-static void vacuum_cup_cleanup(WbDevice *d) {
+static void vacuum_gripper_cleanup(WbDevice *d) {
   free(d->pdata);
 }
 
-static void vacuum_cup_toggle_remote(WbDevice *d, WbRequest *r) {
-  VacuumCup *vc = d->pdata;
+static void vacuum_gripper_toggle_remote(WbDevice *d, WbRequest *r) {
+  VacuumGripper *vc = d->pdata;
   if (vc->presence_sampling_period != 0)
     vc->enable_presence = true;
   vc->toggle = true;
@@ -90,24 +90,24 @@ static void vacuum_cup_toggle_remote(WbDevice *d, WbRequest *r) {
 
 // Exported functions
 
-void wb_vacuum_cup_init(WbDevice *d) {
-  d->read_answer = vacuum_cup_read_answer;
-  d->write_request = vacuum_cup_write_request;
-  d->cleanup = vacuum_cup_cleanup;
-  d->pdata = vacuum_cup_create();
-  d->toggle_remote = vacuum_cup_toggle_remote;
+void wb_vacuum_gripper_init(WbDevice *d) {
+  d->read_answer = vacuum_gripper_read_answer;
+  d->write_request = vacuum_gripper_write_request;
+  d->cleanup = vacuum_gripper_cleanup;
+  d->pdata = vacuum_gripper_create();
+  d->toggle_remote = vacuum_gripper_toggle_remote;
 }
 
 // Public functions (available from the user API)
 
-void wb_vacuum_cup_enable_presence(WbDeviceTag tag, int sampling_period) {
+void wb_vacuum_gripper_enable_presence(WbDeviceTag tag, int sampling_period) {
   if (sampling_period < 0) {
     fprintf(stderr, "Error: %s() called with negative sampling period.\n", __FUNCTION__);
     return;
   }
 
   robot_mutex_lock();
-  VacuumCup *vc = vacuum_cup_get_struct(tag);
+  VacuumGripper *vc = vacuum_gripper_get_struct(tag);
   if (vc) {
     vc->enable_presence = true;
     vc->presence_sampling_period = sampling_period;
@@ -116,18 +116,18 @@ void wb_vacuum_cup_enable_presence(WbDeviceTag tag, int sampling_period) {
   robot_mutex_unlock();
 }
 
-void wb_vacuum_cup_disable_presence(WbDeviceTag tag) {
-  VacuumCup *vc = vacuum_cup_get_struct(tag);
+void wb_vacuum_gripper_disable_presence(WbDeviceTag tag) {
+  VacuumGripper *vc = vacuum_gripper_get_struct(tag);
   if (vc)
-    wb_vacuum_cup_enable_presence(tag, 0);
+    wb_vacuum_gripper_enable_presence(tag, 0);
   else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
 }
 
-int wb_vacuum_cup_get_presence_sampling_period(WbDeviceTag tag) {
+int wb_vacuum_gripper_get_presence_sampling_period(WbDeviceTag tag) {
   int sampling_period = 0;
   robot_mutex_lock();
-  VacuumCup *vc = vacuum_cup_get_struct(tag);
+  VacuumGripper *vc = vacuum_gripper_get_struct(tag);
   if (vc)
     sampling_period = vc->presence_sampling_period;
   else
@@ -136,9 +136,9 @@ int wb_vacuum_cup_get_presence_sampling_period(WbDeviceTag tag) {
   return sampling_period;
 }
 
-void wb_vacuum_cup_turn_on(WbDeviceTag tag) {
+void wb_vacuum_gripper_turn_on(WbDeviceTag tag) {
   robot_mutex_lock();
-  VacuumCup *vc = vacuum_cup_get_struct(tag);
+  VacuumGripper *vc = vacuum_gripper_get_struct(tag);
   if (vc) {
     vc->toggle = true;
     vc->is_on = true;
@@ -147,9 +147,9 @@ void wb_vacuum_cup_turn_on(WbDeviceTag tag) {
   robot_mutex_unlock();
 }
 
-void wb_vacuum_cup_turn_off(WbDeviceTag tag) {
+void wb_vacuum_gripper_turn_off(WbDeviceTag tag) {
   robot_mutex_lock();
-  VacuumCup *vc = vacuum_cup_get_struct(tag);
+  VacuumGripper *vc = vacuum_gripper_get_struct(tag);
   if (vc) {
     vc->toggle = true;
     vc->is_on = false;
@@ -158,13 +158,14 @@ void wb_vacuum_cup_turn_off(WbDeviceTag tag) {
   robot_mutex_unlock();
 }
 
-bool wb_vacuum_cup_get_presence(WbDeviceTag tag) {
+bool wb_vacuum_gripper_get_presence(WbDeviceTag tag) {
   bool result = false;
   robot_mutex_lock();
-  VacuumCup *vc = vacuum_cup_get_struct(tag);
+  VacuumGripper *vc = vacuum_gripper_get_struct(tag);
   if (vc) {
     if (vc->presence_sampling_period <= 0)
-      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_vacuum_cup_enable_presence().\n", __FUNCTION__);
+      fprintf(stderr, "Error: %s() called for a disabled device! Please use: wb_vacuum_gripper_enable_presence().\n",
+              __FUNCTION__);
     result = vc->presence;
   } else
     fprintf(stderr, "Error: %s(): invalid device tag.\n", __FUNCTION__);
@@ -172,10 +173,10 @@ bool wb_vacuum_cup_get_presence(WbDeviceTag tag) {
   return result;
 }
 
-bool wb_vacuum_cup_is_on(WbDeviceTag tag) {
+bool wb_vacuum_gripper_is_on(WbDeviceTag tag) {
   bool result;
   robot_mutex_lock();
-  VacuumCup *vc = vacuum_cup_get_struct(tag);
+  VacuumGripper *vc = vacuum_gripper_get_struct(tag);
   if (vc)
     result = vc->is_on;
   else {

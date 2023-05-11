@@ -35,7 +35,7 @@
 #include "WbSolid.hpp"
 #include "WbTouchSensor.hpp"
 #include "WbTrack.hpp"
-#include "WbVacuumCup.hpp"
+#include "WbVacuumGripper.hpp"
 #include "WbWorld.hpp"
 #include "WbWorldInfo.hpp"
 
@@ -704,12 +704,12 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
     ts2->setTouching(true);
 
   if (n > 3) {
-    WbVacuumCup *vc = dynamic_cast<WbVacuumCup *>(s1);
+    WbVacuumGripper *vc = dynamic_cast<WbVacuumGripper *>(s1);
     WbSolid *vcSolid;
     if (vc)
       vcSolid = isRayGeom2 ? NULL : s2;
     else {
-      vc = dynamic_cast<WbVacuumCup *>(s2);
+      vc = dynamic_cast<WbVacuumGripper *>(s2);
       vcSolid = isRayGeom1 ? NULL : s1;
     }
     if (vc && vcSolid && vc->isWaitingForConnection()) {

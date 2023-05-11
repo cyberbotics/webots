@@ -2122,7 +2122,6 @@ QString WbNode::getUrdfPrefix() const {
   return robotAncestor ? robotAncestor->mUrdfPrefix : QString();
 }
 
-/*
 #include <QtCore/QDebug>
 void WbNode::printDebugNodeStructure(int level) {
   QString indent;
@@ -2148,13 +2147,12 @@ void WbNode::printDebugNodeFields(int level, bool printParameters) {
   const QString type = printParameters ? "Parameter" : "Field";
   const QList<WbField *> fieldList = printParameters ? parameters() : fields();
   foreach (WbField *p, fieldList) {
-    qDebug() << QString("%1%2 %3 0x%4 (alias 0x%5)%6:")
+    qDebug() << QString("%1%2 %3 0x%4 (alias 0x%5):")
                   .arg(indent.toStdString().c_str())
                   .arg(type.toStdString().c_str())
                   .arg(p->name().toStdString().c_str())
                   .arg((quintptr)p, 0, 16)
-                  .arg((quintptr)p->parameter(), 0, 16)
-                  .arg(p->isDisabledParameter() ? " DISABLED" : "");
+                  .arg((quintptr)p->parameter(), 0, 16);
     if (p->type() == WB_SF_NODE) {
       WbNode *n = dynamic_cast<WbSFNode *>(p->value())->value();
       if (n)
@@ -2173,4 +2171,3 @@ void WbNode::printDebugNodeFields(int level, bool printParameters) {
                     .arg(p->alias());
   }
 }
-*/

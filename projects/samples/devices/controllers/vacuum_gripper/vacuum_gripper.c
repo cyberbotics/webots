@@ -15,13 +15,13 @@
  */
 
 /*
-   Description: Example demonstrating the use of the VacuumCup device to simulate a vacuum suction gripper.
+   Description: Example demonstrating the use of the VacuumGripper device to simulate a vacuum suction gripper.
 */
 
 #include <webots/inertial_unit.h>
 #include <webots/motor.h>
 #include <webots/robot.h>
-#include <webots/vacuum_cup.h>
+#include <webots/vacuum_gripper.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -57,7 +57,7 @@ int main(int argc, const char *argv[]) {
 
   time_step = wb_robot_get_basic_time_step();
 
-  WbDeviceTag vaccum_cup = wb_robot_get_device("vacuum cup");
+  WbDeviceTag vacuum_gripper = wb_robot_get_device("vacuum gripper");
 
   // move the robotic arm to random target positions
   WbDeviceTag inertial_unit = wb_robot_get_device("inertial unit");
@@ -72,15 +72,15 @@ int main(int argc, const char *argv[]) {
   wb_motor_set_position(yaw_motor, 0);
   wait_until_target_position(inertial_unit, 0, 0, 0, -1);
 
-  printf("Turn on vacuum cup\n");
-  wb_vacuum_cup_turn_on(vaccum_cup);
+  printf("Turn on vacuum gripper\n");
+  wb_vacuum_gripper_turn_on(vacuum_gripper);
 
-  wb_vacuum_cup_enable_presence(vaccum_cup, time_step);
+  wb_vacuum_gripper_enable_presence(vacuum_gripper, time_step);
 
   bool connected = false;
   for (int i = 0; i < NB_STEPS; i++) {
-    if (wb_vacuum_cup_get_presence(vaccum_cup) != connected) {
-      connected = wb_vacuum_cup_get_presence(vaccum_cup);
+    if (wb_vacuum_gripper_get_presence(vacuum_gripper) != connected) {
+      connected = wb_vacuum_gripper_get_presence(vacuum_gripper);
       printf("Object has been %s", connected ? "picked" : "released");
     }
 
@@ -96,12 +96,12 @@ int main(int argc, const char *argv[]) {
     wait_until_target_position(inertial_unit, roll_target, pitch_target, yaw_target, 100);
 
     if (i == 12) {
-      printf("Turn off vacuum cup\n");
-      wb_vacuum_cup_turn_off(vaccum_cup);
+      printf("Turn off vacuum gripper\n");
+      wb_vacuum_gripper_turn_off(vacuum_gripper);
     }
   }
 
-  wb_vacuum_cup_disable_presence(vaccum_cup);
+  wb_vacuum_gripper_disable_presence(vacuum_gripper);
 
   // cleanup webots resources
   wb_robot_cleanup();

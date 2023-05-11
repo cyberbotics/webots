@@ -2,7 +2,7 @@ import WbDevice from './WbDevice.js';
 import {WbNodeType} from './wb_node_type.js';
 
 // This class is used to retrieve the type of device
-export default class WbVacuumCup extends WbDevice {
+export default class WbVacuumGripper extends WbDevice {
   constructor(id, translation, scale, rotation, name) {
     super(id, translation, scale, rotation, name);
 
@@ -10,7 +10,7 @@ export default class WbVacuumCup extends WbDevice {
   }
 
   get nodeType() {
-    return WbNodeType.WB_NODE_VACUUM_CUP;
+    return WbNodeType.WB_NODE_VACUUM_GRIPPER;
   }
 
   applyOptionalRendering(enable) {

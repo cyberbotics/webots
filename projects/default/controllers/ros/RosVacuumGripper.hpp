@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef ROS_VACUUM_CUP_HPP
-#define ROS_VACUUM_CUP_HPP
+#ifndef ROS_VACUUM_GRIPPER_HPP
+#define ROS_VACUUM_GRIPPER_HPP
 
-#include <webots/VacuumCup.hpp>
+#include <webots/VacuumGripper.hpp>
 #include "RosSensor.hpp"
 
 #include <webots_ros/get_bool.h>
@@ -23,26 +23,26 @@
 
 using namespace webots;
 
-class RosVacuumCup : public RosSensor {
+class RosVacuumGripper : public RosSensor {
 public:
-  RosVacuumCup(VacuumCup *vacuumCup, Ros *ros);
-  virtual ~RosVacuumCup();
+  RosVacuumGripper(VacuumGripper *vacuumGripper, Ros *ros);
+  virtual ~RosVacuumGripper();
 
   ros::Publisher createPublisher() override;
   void publishValue(ros::Publisher publisher) override;
-  void rosEnable(int samplingPeriod) override { mVacuumCup->enablePresence(samplingPeriod); }
-  void rosDisable() override { mVacuumCup->disablePresence(); }
-  int rosSamplingPeriod() override { return mVacuumCup->getPresenceSamplingPeriod(); }
+  void rosEnable(int samplingPeriod) override { mVacuumGripper->enablePresence(samplingPeriod); }
+  void rosDisable() override { mVacuumGripper->disablePresence(); }
+  int rosSamplingPeriod() override { return mVacuumGripper->getPresenceSamplingPeriod(); }
 
   bool turnOnCallback(webots_ros::set_bool::Request &req, webots_ros::set_bool::Response &res);
   bool isOnCallback(webots_ros::get_bool::Request &req, webots_ros::get_bool::Response &res);
 
 private:
-  void cleanup() { mVacuumCup->disablePresence(); }
+  void cleanup() { mVacuumGripper->disablePresence(); }
 
-  VacuumCup *mVacuumCup;
+  VacuumGripper *mVacuumGripper;
   ros::ServiceServer mTurnOnServer;
   ros::ServiceServer mIsOnServer;
 };
 
-#endif  // ROS_VACUUM_CUP_HPP
+#endif  // ROS_VACUUM_GRIPPER_HPP

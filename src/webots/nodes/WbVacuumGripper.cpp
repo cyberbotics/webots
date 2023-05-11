@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "WbVacuumCup.hpp"
+#include "WbVacuumGripper.hpp"
 
 #include "WbDataStream.hpp"
 #include "WbSFDouble.hpp"
@@ -29,7 +29,7 @@
 
 static const double MAX_STRENGTH = DBL_MAX / 2.0;
 
-void WbVacuumCup::init() {
+void WbVacuumGripper::init() {
   // init member variables
   mFixedJoint = 0;
   mSolid = NULL;
@@ -44,19 +44,19 @@ void WbVacuumCup::init() {
   mIsInitiallyOn[stateId()] = mIsOn->value();
 }
 
-WbVacuumCup::WbVacuumCup(WbTokenizer *tokenizer) : WbSolidDevice("VacuumCup", tokenizer) {
+WbVacuumGripper::WbVacuumGripper(WbTokenizer *tokenizer) : WbSolidDevice("VacuumGripper", tokenizer) {
   init();
 }
 
-WbVacuumCup::WbVacuumCup(const WbVacuumCup &other) : WbSolidDevice(other) {
+WbVacuumGripper::WbVacuumGripper(const WbVacuumGripper &other) : WbSolidDevice(other) {
   init();
 }
 
-WbVacuumCup::WbVacuumCup(const WbNode &other) : WbSolidDevice(other) {
+WbVacuumGripper::WbVacuumGripper(const WbNode &other) : WbSolidDevice(other) {
   init();
 }
 
-WbVacuumCup::~WbVacuumCup() {
+WbVacuumGripper::~WbVacuumGripper() {
   // remove bonds (fixed joints)
   if (mSolid)
     detachFromSolid();
@@ -65,7 +65,7 @@ WbVacuumCup::~WbVacuumCup() {
   //   deleteWrenObjects();
 }
 
-void WbVacuumCup::preFinalize() {
+void WbVacuumGripper::preFinalize() {
   WbSolidDevice::preFinalize();
 
   mSensor = new WbSensor();
@@ -75,15 +75,15 @@ void WbVacuumCup::preFinalize() {
   updateShearStrength();
 }
 
-void WbVacuumCup::postFinalize() {
+void WbVacuumGripper::postFinalize() {
   WbSolidDevice::postFinalize();
 
-  connect(mIsOn, &WbSFBool::changed, this, &WbVacuumCup::updateIsOn);
-  connect(mTensileStrength, &WbSFDouble::changed, this, &WbVacuumCup::updateTensileStrength);
-  connect(mShearStrength, &WbSFDouble::changed, this, &WbVacuumCup::updateShearStrength);
+  connect(mIsOn, &WbSFBool::changed, this, &WbVacuumGripper::updateIsOn);
+  connect(mTensileStrength, &WbSFDouble::changed, this, &WbVacuumGripper::updateTensileStrength);
+  connect(mShearStrength, &WbSFDouble::changed, this, &WbVacuumGripper::updateShearStrength);
 }
 
-void WbVacuumCup::updateIsOn() {
+void WbVacuumGripper::updateIsOn() {
   if (mIsOn->isTrue())
     turnOn();
   else
@@ -92,14 +92,14 @@ void WbVacuumCup::updateIsOn() {
   mNeedToReconfigure = true;
 }
 
-void WbVacuumCup::updateTensileStrength() {
+void WbVacuumGripper::updateTensileStrength() {
   if (mTensileStrength->value() < 0.0 && mTensileStrength->value() != -1.0) {
     parsingWarn(tr("'tensileStrength' must be positive or -1 (infinite)."));
     mTensileStrength->setValue(-1.0);
   }
 }
 
-void WbVacuumCup::updateShearStrength() {
+void WbVacuumGripper::updateShearStrength() {
   if (mShearStrength->value() < 0.0 && mShearStrength->value() != -1.0) {
     parsingWarn(tr("'shearStrength' must be positive or -1 (infinite)."));
     mShearStrength->setValue(-1.0);
@@ -228,13 +228,13 @@ void WbConnector::snapNow(WbConnector *other) {
 }
 */
 
-void WbVacuumCup::createFixedJoint(WbSolid *other) {
+void WbVacuumGripper::createFixedJoint(WbSolid *other) {
   const dBodyID b1 = upperSolid()->bodyMerger();
   const dBodyID b2 = other->bodyMerger();
   assert(b1 && b2);
 
   mSolid = other;
-  connect(mSolid, &WbSolid::destroyed, this, &WbVacuumCup::destroyFixedJoint);
+  connect(mSolid, &WbSolid::destroyed, this, &WbVacuumGripper::destroyFixedJoint);
 
   // create fixed joint
   mFixedJoint = dJointCreateFixed(dBodyGetWorld(b1), 0);
@@ -249,7 +249,7 @@ void WbVacuumCup::createFixedJoint(WbSolid *other) {
     dJointSetFeedback(mFixedJoint, new dJointFeedback);
 }
 
-void WbVacuumCup::destroyFixedJoint() {
+void WbVacuumGripper::destroyFixedJoint() {
   // destroy ODE fixed joint and remove feedback structure
   dJointFeedback *fb = dJointGetFeedback(mFixedJoint);
   delete fb;
@@ -258,11 +258,11 @@ void WbVacuumCup::destroyFixedJoint() {
   mSolid = NULL;
 }
 
-void WbVacuumCup::detachFromSolid() {
+void WbVacuumGripper::detachFromSolid() {
   assert(mSolid);
   WbSolid *attachedSolid = mSolid;
 
-  disconnect(mSolid, &WbSolid::destroyed, this, &WbVacuumCup::destroyFixedJoint);
+  disconnect(mSolid, &WbSolid::destroyed, this, &WbVacuumGripper::destroyFixedJoint);
   destroyFixedJoint();
 
   // detaching may cause some motion that wasn't possible when they were attached to each other
@@ -272,7 +272,7 @@ void WbVacuumCup::detachFromSolid() {
   attachedSolid->awake();
 }
 
-double WbVacuumCup::getEffectiveTensileStrength() const {
+double WbVacuumGripper::getEffectiveTensileStrength() const {
   if (mIsOn->isFalse())
     return 0.0;
   else if (mTensileStrength->value() == -1.0)
@@ -281,7 +281,7 @@ double WbVacuumCup::getEffectiveTensileStrength() const {
     return mTensileStrength->value();
 }
 
-double WbVacuumCup::getEffectiveShearStrength() const {
+double WbVacuumGripper::getEffectiveShearStrength() const {
   if (mIsOn->isFalse())
     return 0.0;
   else if (mShearStrength->value() == -1.0)
@@ -291,7 +291,7 @@ double WbVacuumCup::getEffectiveShearStrength() const {
 }
 
 // check if the force exterted on the mFixedJoint exceeds the limit, if it does, detach the dBodies
-void WbVacuumCup::detachIfForceExceedStrength() {
+void WbVacuumGripper::detachIfForceExceedStrength() {
   assert(mSolid && mFixedJoint);
 
   dJointFeedback *fb = dJointGetFeedback(mFixedJoint);
@@ -324,7 +324,7 @@ void WbVacuumCup::detachIfForceExceedStrength() {
   }
 }
 
-void WbVacuumCup::prePhysicsStep(double ms) {
+void WbVacuumGripper::prePhysicsStep(double ms) {
   mCollidedSolidList.clear();
 
   if (mFixedJoint)
@@ -334,28 +334,28 @@ void WbVacuumCup::prePhysicsStep(double ms) {
   WbSolidDevice::prePhysicsStep(ms);
 }
 
-void WbVacuumCup::postPhysicsStep() {
+void WbVacuumGripper::postPhysicsStep() {
   WbSolidDevice::postPhysicsStep();
 
   if (isWaitingForConnection() && !mCollidedSolidList.isEmpty())
     attachToSolid();
 }
 
-bool WbVacuumCup::isWaitingForConnection() {
+bool WbVacuumGripper::isWaitingForConnection() {
   return mIsOn->isTrue() && !mSolid;
 }
 
-void WbVacuumCup::addCollidedSolid(WbSolid *solid, const double depth) {
+void WbVacuumGripper::addCollidedSolid(WbSolid *solid, const double depth) {
   assert(solid);
   if (mSolid)
     return;  // ignore if already connected to another object
   mCollidedSolidList << std::pair<WbSolid *, const double>(solid, depth);
 }
 
-void WbVacuumCup::attachToSolid() {
+void WbVacuumGripper::attachToSolid() {
   const dBodyID b1 = upperSolid()->bodyMerger();
   if (!b1) {
-    warn(tr("Vacuum cup is disabled because none of its parent nodes have Physics nodes."));
+    warn(tr("Vacuum gripper is disabled because none of its parent nodes have Physics nodes."));
     return;
   }
 
@@ -380,32 +380,32 @@ void WbVacuumCup::attachToSolid() {
     createFixedJoint(solid);
 }
 
-void WbVacuumCup::turnOn() {
+void WbVacuumGripper::turnOn() {
   mIsOn->setTrue();
   if (!mSolid)
     attachToSolid();
 }
 
-void WbVacuumCup::turnOff() {
+void WbVacuumGripper::turnOff() {
   mIsOn->setValue(false);
   if (mSolid)
     detachFromSolid();
 }
 
-void WbVacuumCup::handleMessage(QDataStream &stream) {
+void WbVacuumGripper::handleMessage(QDataStream &stream) {
   unsigned char command;
   short refreshRate;
   stream >> command;
 
   switch (command) {
-    case C_VACUUM_CUP_GET_PRESENCE:
+    case C_VACUUM_GRIPPER_GET_PRESENCE:
       stream >> refreshRate;
       mSensor->setRefreshRate(refreshRate);
       return;
-    case C_VACUUM_CUP_TURN_ON:
+    case C_VACUUM_GRIPPER_TURN_ON:
       turnOn();
       return;
-    case C_VACUUM_CUP_TURN_OFF:
+    case C_VACUUM_GRIPPER_TURN_OFF:
       turnOff();
       return;
     default:
@@ -413,11 +413,11 @@ void WbVacuumCup::handleMessage(QDataStream &stream) {
   }
 }
 
-void WbVacuumCup::computeValue() {
+void WbVacuumGripper::computeValue() {
   mValue = mSolid != NULL;
 }
 
-bool WbVacuumCup::refreshSensorIfNeeded() {
+bool WbVacuumGripper::refreshSensorIfNeeded() {
   if (isPowerOn() && mSensor->needToRefresh()) {
     computeValue();
     mSensor->updateTimer();
@@ -426,7 +426,7 @@ bool WbVacuumCup::refreshSensorIfNeeded() {
   return false;
 }
 
-void WbVacuumCup::reset(const QString &id) {
+void WbVacuumGripper::reset(const QString &id) {
   WbSolidDevice::reset(id);
   mIsOn->setValue(mIsInitiallyOn[id]);
   if (mSolid)
@@ -434,16 +434,16 @@ void WbVacuumCup::reset(const QString &id) {
   mNeedToReconfigure = true;
 }
 
-void WbVacuumCup::save(const QString &id) {
+void WbVacuumGripper::save(const QString &id) {
   WbSolidDevice::save(id);
   mIsInitiallyOn[id] = mIsOn->value();
 }
 
-void WbVacuumCup::writeAnswer(WbDataStream &stream) {
+void WbVacuumGripper::writeAnswer(WbDataStream &stream) {
   if (refreshSensorIfNeeded() || mSensor->hasPendingValue()) {
     computeValue();
     stream << (unsigned short int)tag();
-    stream << (unsigned char)C_VACUUM_CUP_GET_PRESENCE;  // return if an object is connected
+    stream << (unsigned char)C_VACUUM_GRIPPER_GET_PRESENCE;  // return if an object is connected
     stream << (unsigned char)(mValue ? 1 : 0);
     mSensor->resetPendingValue();
   }
@@ -452,12 +452,12 @@ void WbVacuumCup::writeAnswer(WbDataStream &stream) {
     addConfigure(stream);
 }
 
-void WbVacuumCup::writeConfigure(WbDataStream &) {
+void WbVacuumGripper::writeConfigure(WbDataStream &) {
   if (robot())
     mSensor->connectToRobotSignal(robot());
 }
 
-void WbVacuumCup::addConfigure(WbDataStream &stream) {
+void WbVacuumGripper::addConfigure(WbDataStream &stream) {
   stream << (short unsigned int)tag();
   stream << (unsigned char)C_CONFIGURE;
   stream << (unsigned char)(mIsOn->value() ? 1 : 0);

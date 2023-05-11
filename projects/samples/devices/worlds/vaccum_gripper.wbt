@@ -8,7 +8,7 @@ EXTERNPROTO "webots://projects/appearances/protos/Plastic.proto"
 
 WorldInfo {
   info [
-    "Example world demonstrating how to use the VacuumCup device to simulate a vacuum suction gripper."
+    "Example world demonstrating how to use the VacuumGripper device to simulate a vacuum suction gripper."
   ]
   title "Vacuum suction gripper"
 }
@@ -81,7 +81,7 @@ DEF ROBOT Robot {
                       controlPID 1.5 0 0
                     }
                   ]
-                  endPoint VacuumCup {
+                  endPoint VacuumGripper {
                     translation 0 -0.3 0
                     rotation 0.5167457898427649 0.6053820811185048 0.6053811398948641 4.095499540775012
                     children [
@@ -238,5 +238,5 @@ DEF ROBOT Robot {
     }
   ]
   boundingObject USE BASIS_GROUP
-  controller "vacuum_cup"
+  controller "vacuum_gripper"
 }

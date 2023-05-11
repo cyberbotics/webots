@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef VACUUM_CUP_HPP
-#define VACUUM_CUP_HPP
+#ifndef VACUUM_GRIPPER_HPP
+#define VACUUM_GRIPPER_HPP
 
 #include <webots/Device.hpp>
 
 namespace webots {
-  class VacuumCup : public Device {
+  class VacuumGripper : public Device {
   public:
-    explicit VacuumCup(const std::string &name) : Device(name) {}  // Use Robot::getVacuumCup() instead
-    virtual ~VacuumCup() {}
+    explicit VacuumGripper(const std::string &name) : Device(name) {}  // Use Robot::getVacuumGripper() instead
+    virtual ~VacuumGripper() {}
     virtual void enablePresence(int samplingPeriod);
     virtual void disablePresence();
     int getPresenceSamplingPeriod() const;
@@ -32,4 +32,4 @@ namespace webots {
   };
 }  // namespace webots
 
-#endif  // VACUUM_CUP_HPP
+#endif  // VACUUM_GRIPPER_HPP

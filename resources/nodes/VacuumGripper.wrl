@@ -1,13 +1,13 @@
-# VacuumCup nodes are used to simulate vacuum suction systems.
+# VacuumGripper nodes are used to simulate vacuum suction systems.
 # The physical connection with a Solid can be created and destroyed at run time by the robot controller program.
 
-VacuumCup {
+VacuumGripper {
   #fields that inherit from the Solid node:
   vrmlField SFVec3f    translation         0 0 0
   vrmlField SFRotation rotation            0 0 1 0
   vrmlField SFVec3f    scale               1 1 1
   vrmlField MFNode     children            []           # shape and solids fixed to that solid
-  field     SFString   name                "vacuum cup" # used by wb_robot_get_device()
+  field     SFString   name                "vacuum gripper" # used by wb_robot_get_device()
   field     SFString   model               ""           # generic name (eg: "chair")
   field     SFString   description         ""           # a short (1 line) of description
   field     SFString   contactMaterial     "default"    # see ContactProperties node
@@ -19,7 +19,7 @@ VacuumCup {
   field     SFFloat    rotationStep        0.261799387  # step size used by rotation manipulator (PI/12)
   field     SFFloat    radarCrossSection   0.0          # radar cross section of this solid
   field     MFColor    recognitionColors   []           # colors returned for this Solid by Cameras with a Recognition node
-  #fields specific to the VacuumCup node:
+  #fields specific to the VacuumGripper node:
   field     SFBool     isOn                FALSE        # current state
   field     SFFloat    tensileStrength    -1            # max pull force that the suction mechanism can withstand before breaking (Newtons)
   field     SFFloat    shearStrength      -1            # max shear force that the suction mechanism can withstand before breaking (Newtons)

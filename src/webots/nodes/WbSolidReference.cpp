@@ -54,6 +54,7 @@ void WbSolidReference::postFinalize() {
 
 void WbSolidReference::updateName() {
   WbSolid *const ts = topSolid();
+  //ts->printDebugNodeStructure();
   assert(ts);
   const QString &nameString = mName->value();
   const bool linkToStaticEnvironment = nameString == STATIC_ENVIRONMENT;

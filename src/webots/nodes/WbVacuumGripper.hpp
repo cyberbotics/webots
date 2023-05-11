@@ -12,25 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef WB_VACUUM_CUP_HPP
-#define WB_VACUUM_CUP_HPP
+#ifndef WB_VACUUM_GRIPPER_HPP
+#define WB_VACUUM_GRIPPER_HPP
 
 #include <WbSolidDevice.hpp>
 
 class WbSensor;
 
-class WbVacuumCup : public WbSolidDevice {
+class WbVacuumGripper : public WbSolidDevice {
   Q_OBJECT
 
 public:
   // constructors and destructor
-  explicit WbVacuumCup(WbTokenizer *tokenizer = NULL);
-  WbVacuumCup(const WbVacuumCup &other);
-  explicit WbVacuumCup(const WbNode &other);
-  virtual ~WbVacuumCup();
+  explicit WbVacuumGripper(WbTokenizer *tokenizer = NULL);
+  WbVacuumGripper(const WbVacuumGripper &other);
+  explicit WbVacuumGripper(const WbNode &other);
+  virtual ~WbVacuumGripper();
 
   // reimplemented public functions
-  int nodeType() const override { return WB_NODE_VACUUM_CUP; }
+  int nodeType() const override { return WB_NODE_VACUUM_GRIPPER; }
   void preFinalize() override;
   void postFinalize() override;
   void handleMessage(QDataStream &stream) override;
@@ -60,8 +60,8 @@ private:
   QMap<QString, bool> mIsInitiallyOn;
   QList<std::pair<WbSolid *, const double>> mCollidedSolidList;  // list of Solid that collided with the deepest contact depth
 
-  WbVacuumCup &operator=(const WbVacuumCup &);  // non copyable
-  WbNode *clone() const override { return new WbVacuumCup(*this); }
+  WbVacuumGripper &operator=(const WbVacuumGripper &);  // non copyable
+  WbNode *clone() const override { return new WbVacuumGripper(*this); }
   void addConfigure(WbDataStream &);
 
   void attachToSolid();

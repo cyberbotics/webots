@@ -49,7 +49,7 @@
 #include <webots/Skin.hpp>
 #include <webots/Speaker.hpp>
 #include <webots/TouchSensor.hpp>
-#include <webots/VacuumCup.hpp>
+#include <webots/VacuumGripper.hpp>
 
 #include <cassert>
 #include <cstdlib>
@@ -456,15 +456,15 @@ TouchSensor *Robot::createTouchSensor(const string &name) const {
   return new TouchSensor(name);
 }
 
-VacuumCup *Robot::getVacuumCup(const string &name) {
+VacuumGripper *Robot::getVacuumGripper(const string &name) {
   WbDeviceTag tag = wb_robot_get_device(name.c_str());
-  if (!Device::hasType(tag, WB_NODE_VACUUM_CUP))
+  if (!Device::hasType(tag, WB_NODE_VACUUM_GRIPPER))
     return NULL;
-  return dynamic_cast<VacuumCup *>(getOrCreateDevice(tag));
+  return dynamic_cast<VacuumGripper *>(getOrCreateDevice(tag));
 }
 
-VacuumCup *Robot::createVacuumCup(const string &name) const {
-  return new VacuumCup(name);
+VacuumGripper *Robot::createVacuumGripper(const string &name) const {
+  return new VacuumGripper(name);
 }
 
 Device *Robot::getDeviceFromTag(int tag) {
@@ -571,8 +571,8 @@ Device *Robot::getOrCreateDevice(int tag) {
       case WB_NODE_TOUCH_SENSOR:
         deviceList[otherTag] = createTouchSensor(name);
         break;
-      case WB_NODE_VACUUM_CUP:
-        deviceList[otherTag] = createVacuumCup(name);
+      case WB_NODE_VACUUM_GRIPPER:
+        deviceList[otherTag] = createVacuumGripper(name);
         break;
       default:
         deviceList[otherTag] = NULL;

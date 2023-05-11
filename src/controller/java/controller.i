@@ -56,7 +56,7 @@
 #include <webots/Speaker.hpp>
 #include <webots/Supervisor.hpp>
 #include <webots/TouchSensor.hpp>
-#include <webots/VacuumCup.hpp>
+#include <webots/VacuumGripper.hpp>
 #include <webots/utils/Motion.hpp>
 
 using namespace std;
@@ -817,10 +817,10 @@ namespace webots {
 %include <webots/TouchSensor.hpp>
 
 //----------------------------------------------------------------------------------------------
-//  VacuumCup
+//  VacuumGripper
 //----------------------------------------------------------------------------------------------
 
-%include <webots/VacuumCup.hpp>
+%include <webots/VacuumGripper.hpp>
 
 //----------------------------------------------------------------------------------------------
 //  Robot
@@ -853,7 +853,7 @@ namespace webots {
 %ignore webots::Robot::getSkin(const std::string &name);
 %ignore webots::Robot::getSpeaker(const std::string &name);
 %ignore webots::Robot::getTouchSensor(const std::string &name);
-%ignore webots::Robot::getVacuumCup(const std::string &name);
+%ignore webots::Robot::getVacuumGripper(const std::string &name);
 %ignore webots::Robot::windowCustomFunction(void *arg);
 %ignore webots::Robot::wwiSend(const char *data, int size);
 %ignore webots::Robot::wwiReceive(int *size);
@@ -1150,15 +1150,15 @@ namespace webots {
     return (TouchSensor)getOrCreateDevice(tag);
   }
 
-  protected VacuumCup createVacuumCup(String name) {
-    return new VacuumCup(name);
+  protected VacuumGripper createVacuumGripper(String name) {
+    return new VacuumGripper(name);
   }
 
-  public VacuumCup getVacuumCup(String name) {
+  public VacuumGripper getVacuumGripper(String name) {
     int tag = getDeviceTagFromName(name);
-    if (!Device.hasType(tag, Node.VACUUM_CUP))
+    if (!Device.hasType(tag, Node.VACUUM_GRIPPER))
       return null;
-    return (VacuumCup)getOrCreateDevice(tag);
+    return (VacuumGripper)getOrCreateDevice(tag);
   }
 
   public Device getDeviceByIndex(int index) {
@@ -1214,7 +1214,7 @@ namespace webots {
         case Node.SKIN:             devices[otherTag] = createSkin(name); break;
         case Node.SPEAKER:          devices[otherTag] = createSpeaker(name); break;
         case Node.TOUCH_SENSOR:     devices[otherTag] = createTouchSensor(name); break;
-        case Node.VACUUM_CUP:       devices[otherTag] = createVacuumCup(name); break;
+        case Node.VACUUM_GRIPPER:       devices[otherTag] = createVacuumGripper(name); break;
         default:                    devices[otherTag] = null; break;
       }
     }

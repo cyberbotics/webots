@@ -1627,9 +1627,9 @@ export const FieldModel = {
       }
     }
   },
-  'VacuumCup': {
-    'description': 'VacuumCup nodes are used to simulate vacuum suction systems.\\nThe physical connection with a Solid can be created and destroyed at run time by the robot controller program.\\n',
-    'icon': 'https://raw.githubusercontent.com/cyberbotics/webots/released/resources/nodes/icons/VacuumCup.png',
+  'VacuumGripper': {
+    'description': 'VacuumGripper nodes are used to simulate vacuum suction systems.\\nThe physical connection with a Solid can be created and destroyed at run time by the robot controller program.\\n',
+    'icon': 'https://raw.githubusercontent.com/cyberbotics/webots/released/resources/nodes/icons/VacuumGripper.png',
     'fields': {
       'translation': {
         'type': VRML.SFVec3f,
@@ -1662,7 +1662,7 @@ export const FieldModel = {
       },
       'name': {
         'type': VRML.SFString,
-        'defaultValue': 'vacuum cup'
+        'defaultValue': 'vacuum gripper'
       },
       'model': {
         'type': VRML.SFString,

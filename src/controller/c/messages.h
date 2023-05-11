@@ -280,10 +280,10 @@
 #define C_TOUCH_SENSOR_DATA 40
 #define C_TOUCH_SENSOR_DATA_3D 41
 
-// VacuumCup device
-#define C_VACUUM_CUP_GET_PRESENCE 1
-#define C_VACUUM_CUP_TURN_ON 2
-#define C_VACUUM_CUP_TURN_OFF 3
+// VacuumGripper device
+#define C_VACUUM_GRIPPER_GET_PRESENCE 1
+#define C_VACUUM_GRIPPER_TURN_ON 2
+#define C_VACUUM_GRIPPER_TURN_OFF 3
 
 // Speaker device
 // ctr -> sim

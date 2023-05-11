@@ -44,7 +44,7 @@ Robot {
               radius 0.018
             }
           }
-          VacuumCup {
+          VacuumGripper {
             translation 0 0 -0.08
             children [
               DEF CUP Shape {
@@ -66,7 +66,7 @@ Robot {
       }
     }
   ]
-  controller "vacuum_cup"
+  controller "vacuum_gripper"
   supervisor TRUE
 }
 DEF OBJECT Solid {
