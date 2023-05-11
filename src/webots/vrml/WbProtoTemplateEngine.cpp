@@ -38,7 +38,7 @@
 
 static QString gCoordinateSystem;
 
-QString escapeString(const QString &string) {
+static QString escapeString(const QString &string) {
   QString escaped(string);
   return escaped.replace("'", "//'");
 }
