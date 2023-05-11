@@ -634,11 +634,12 @@ void WbSceneTree::transform(const QString &modelName) {
   // check if loosing information
   const WbNodeUtilities::Answer answer = WbNodeUtilities::isSuitableForTransform(currentNode, modelName, NULL);
   if (answer == WbNodeUtilities::LOOSING_INFO) {
-    if (WbMessageBox::question(tr("Warning: Transforming a %1 into a %2 node will loose some information.")
-                                   .arg(currentNode->nodeModelName())
-                                   .arg(modelName) +
-                                 "\n" + tr("Do you still want to proceed?"),
-                               this) == QMessageBox::Cancel) {
+    const QString message = tr("Warning: Turning a %1 into a %2 will loose some information%3")
+                              .arg(currentNode->nodeModelName())
+                              .arg(modelName)
+                              .arg(modelName == "Transform" ? tr(", including possibly children.") : ".") +
+                            "\n" + tr("Do you still want to proceed?");
+    if (WbMessageBox::question(message, this) == QMessageBox::Cancel) {
       mFieldEditor->updateValue();
       return;
     }
