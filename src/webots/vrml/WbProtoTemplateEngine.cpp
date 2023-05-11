@@ -38,6 +38,11 @@
 
 static QString gCoordinateSystem;
 
+QString escapeString(const QString &string) {
+  QString escaped(string);
+  return escaped.replace("'", "//'");
+}
+
 WbProtoTemplateEngine::WbProtoTemplateEngine(const QString &templateContent) : WbTemplateEngine(templateContent) {
 }
 
@@ -70,11 +75,11 @@ bool WbProtoTemplateEngine::generate(const QString &logHeaderName, const QVector
 #ifdef __APPLE__
   tags["context"] = QString("os: 'mac', ");
 #endif
-  tags["context"] += QString("world: '%1', ").arg(worldPath);
-  tags["context"] += QString("proto: '%1', ").arg(protoPath);
-  tags["context"] += QString("webots_home: '%1', ").arg(WbStandardPaths::webotsHomePath());
-  tags["context"] += QString("project_path: '%1', ").arg(WbProject::current()->path());
-  tags["context"] += QString("temporary_files_path: '%1', ").arg(WbStandardPaths::webotsTmpPath());
+  tags["context"] += QString("world: '%1', ").arg(escapeString(worldPath));
+  tags["context"] += QString("proto: '%1', ").arg(escapeString(protoPath));
+  tags["context"] += QString("webots_home: '%1', ").arg(escapeString(WbStandardPaths::webotsHomePath()));
+  tags["context"] += QString("project_path: '%1', ").arg(escapeString(WbProject::current()->path()));
+  tags["context"] += QString("temporary_files_path: '%1', ").arg(escapeString(WbStandardPaths::webotsTmpPath()));
   tags["context"] += QString("id: '%1', ").arg(id);
   tags["context"] += QString("coordinate_system: '%1', ").arg(gCoordinateSystem);
   WbVersion version = WbApplicationInfo::version();
