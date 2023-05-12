@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/apartment_structure/protos/Door.proto
 # A cutomizable openable door.
 # template language: javascript
 
@@ -140,7 +141,7 @@ PROTO Door [
           Solid {
             translation 0.001 0 0 # small offset to not generates collisions
             children [
-              Transform { # door
+              Pose { # door
                 translation %<= 0.5 * size.x + frameSize.x + 0.5 * doorThickness >% 0 %<= 0.5 * frameHeight >%
                 children [
                   Shape {
@@ -152,7 +153,7 @@ PROTO Door [
                   }
                 ]
               }
-              Transform { # handle
+              Pose { # handle
                 translation %<= 0.5 * size.x + frameSize.x + 0.5 * doorThickness >% %<= - mirrorFactor * 0.4 * size.y >% %<= 0.5 * frameHeight >%
                 children [
                   Slot {
@@ -161,12 +162,12 @@ PROTO Door [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation %<= 0.5 * size.x + frameSize.x + 0.5 * doorThickness >% 0 %<= 0.5 * frameHeight >%
                 children IS doorSlot
               }
             ]
-            boundingObject Transform {
+            boundingObject Pose {
               translation %<= 0.5 * size.x + frameSize.x + 0.5 * doorThickness >% 0 %<= 0.5 * frameHeight >%
               children [
                 Box {

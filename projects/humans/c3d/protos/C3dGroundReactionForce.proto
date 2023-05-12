@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # tags: hidden
 
 PROTO C3dGroundReactionForce [
@@ -10,11 +10,11 @@ PROTO C3dGroundReactionForce [
   field SFFloat     height               0.2
 ]
 {
-  Transform {
+  Pose {
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         translation IS cylinderTranslation
         children [
           Shape {
@@ -30,7 +30,7 @@ PROTO C3dGroundReactionForce [
           }
         ]
       }
-      Transform {
+      Pose {
         translation IS coneTranslation
         children [
           Shape {

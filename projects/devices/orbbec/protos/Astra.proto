@@ -1,7 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/camera-sensors#astra
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/orbbec/protos/Astra.proto
 # Model of the Astra RGBD camera developed by Orbbec.
 # template language: javascript
 
@@ -49,7 +49,7 @@ PROTO Astra [
     name IS name
     boundingObject Group {
       children [
-        DEF MAIN_BODY_BOX Transform {
+        DEF MAIN_BODY_BOX Pose {
           translation 0.006000 0.000000 0.034000
           children [
             Box {
@@ -57,7 +57,7 @@ PROTO Astra [
             }
           ]
         }
-        DEF SUPPORT_BOX Transform {
+        DEF SUPPORT_BOX Pose {
           translation -0.009000 0.000000 0.007000
           children [
             Box {

@@ -44,13 +44,10 @@ public:
   // WbTriangleMesh management (see WbTriangleMeshCache.hpp)
   uint64_t computeHash() const override;
 
+  QStringList fieldsToSynchronizeWithX3D() const override;
+
 protected:
   void exportNodeFields(WbWriter &writer) const override;
-
-  const QString &vrmlName() const override {
-    static const QString name("Mesh");
-    return name;
-  }
 
 private:
   // user accessible fields

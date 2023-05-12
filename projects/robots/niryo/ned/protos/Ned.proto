@@ -1,7 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/ned
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/niryo/ned/protos/Ned.proto
 # A 6-axis collaborative robot based on open-source technologies designed for education, professional training and research.
 
 EXTERNPROTO "webots://projects/appearances/protos/Copper.proto"
@@ -9,8 +9,8 @@ EXTERNPROTO "webots://projects/appearances/protos/Plastic.proto"
 EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO Ned [
-  field SFVec3f     translation     0 0 0       # Is `Transform.translation`.
-  field SFRotation  rotation        0 0 1 0     # Is `Transform.rotation`.
+  field SFVec3f     translation     0 0 0       # Is `Pose.translation`.
+  field SFRotation  rotation        0 0 1 0     # Is `Pose.rotation`.
   field SFString    name            "Ned"       # Is `Robot.name`.
   field SFString    controller      "ned"       # Is `Robot.controller`.
   field MFString    controllerArgs  []          # Is `Robot.controllerArgs`.
@@ -32,7 +32,7 @@ PROTO Ned [
     synchronization IS synchronization
     selfCollision IS selfCollision
     children [
-      Transform {
+      Pose {
         rotation 0 0 1 3.14
         children [
           Shape {
@@ -45,7 +45,7 @@ PROTO Ned [
           }
         ]
       }
-      Transform {
+      Pose {
         rotation 0 0 1 3.14
         children [
           Shape {
@@ -58,7 +58,7 @@ PROTO Ned [
           }
         ]
       }
-      Transform {
+      Pose {
         rotation 0 0 1 3.14
         children [
           Shape {
@@ -71,7 +71,7 @@ PROTO Ned [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.0098 -0.089 0.0539
         children [
           Shape {
@@ -84,7 +84,7 @@ PROTO Ned [
           }
         ]
       }
-      Transform {
+      Pose {
         rotation 0 0 1 3.14
         children [
           Shape {
@@ -97,7 +97,7 @@ PROTO Ned [
           }
         ]
       }
-      Transform {
+      Pose {
         rotation 0 0 1 3.14
         children [
           Shape {
@@ -110,7 +110,7 @@ PROTO Ned [
           }
         ]
       }
-      Transform {
+      Pose {
         rotation 0 0 1 3.14
         children [
           Shape {
@@ -173,7 +173,7 @@ PROTO Ned [
                 translation 0 0 0.065
                 rotation 0 -1 0 1.57
                 children [
-                  Transform {
+                  Pose {
                     rotation 0 0 -1 1.57
                     children [
                       Shape {
@@ -184,7 +184,7 @@ PROTO Ned [
                       }
                     ]
                   }
-                  Transform {
+                  Pose {
                     rotation 0 0 -1 1.57
                     children [
                       Shape {
@@ -195,7 +195,7 @@ PROTO Ned [
                       }
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation 0.083 0 0
                     rotation 0 1 0 1.57
                     children [
@@ -229,7 +229,7 @@ PROTO Ned [
                     endPoint Solid {
                       translation 0.221 0.012 0
                       children [
-                        Transform {
+                        Pose {
                           rotation 0 0 -1 1.57
                           children [
                             Shape {
@@ -243,7 +243,7 @@ PROTO Ned [
                             }
                           ]
                         }
-                        Transform {
+                        Pose {
                           rotation 0 0 -1 1.57
                           children [
                             Shape {
@@ -274,7 +274,7 @@ PROTO Ned [
                             translation 0.032 0.042 0
                             rotation -0.5775032287046065 -0.5775032287046065 -0.5770442285228318 2.093475
                             children [
-                              Transform {
+                              Pose {
                                 translation 0 0 0.0698
                                 rotation 0 1 0 0
                                 children [
@@ -289,7 +289,7 @@ PROTO Ned [
                                   }
                                 ]
                               }
-                              Transform {
+                              Pose {
                                 translation 0 0 0.02
                                 rotation 0 1 0 0
                                 children [
@@ -301,7 +301,7 @@ PROTO Ned [
                                   }
                                 ]
                               }
-                              Transform {
+                              Pose {
                                 translation 0 0 0.02
                                 rotation 0 1 0 0
                                 children [
@@ -398,14 +398,14 @@ PROTO Ned [
                                                 }
                                                 device [
                                                   LinearMotor {
-                                                    name "joint_base_to_jaw_1"
+                                                    name "gripper::right"
                                                     maxVelocity 5
                                                     minPosition -0.01
                                                     maxPosition 0.01
                                                     maxForce 1
                                                   }
                                                   PositionSensor {
-                                                    name "joint_base_to_jaw_1_sensor"
+                                                    name "gripper::right_sensor"
                                                   }
                                                 ]
                                                 endPoint Solid {
@@ -420,7 +420,7 @@ PROTO Ned [
                                                     }
                                                   ]
                                                   name "jaw_1"
-                                                  boundingObject Transform {
+                                                  boundingObject Pose {
                                                     translation -0.007 0.0064 0.0386
                                                     rotation 0 1 0 0
                                                     children [
@@ -448,14 +448,14 @@ PROTO Ned [
                                                 }
                                                 device [
                                                   LinearMotor {
-                                                    name "joint_base_to_jaw_2"
+                                                    name "gripper::left"
                                                     maxVelocity 5
                                                     minPosition -0.01
                                                     maxPosition 0.01
                                                     maxForce 1
                                                   }
                                                   PositionSensor {
-                                                    name "joint_base_to_jaw_2_sensor"
+                                                    name "gripper::left_sensor"
                                                   }
                                                 ]
                                                 endPoint Solid {
@@ -470,7 +470,7 @@ PROTO Ned [
                                                     }
                                                   ]
                                                   name "jaw_2"
-                                                  boundingObject Transform {
+                                                  boundingObject Pose {
                                                     translation -0.007 -0.0064 0.0386
                                                     children [
                                                       Box {
@@ -495,7 +495,7 @@ PROTO Ned [
                                             name "base_gripper"
                                             boundingObject Group {
                                               children [
-                                                Transform {
+                                                Pose {
                                                   translation 0.0133212 -0.0230187 0
                                                   children [
                                                     Box {
@@ -503,7 +503,7 @@ PROTO Ned [
                                                     }
                                                   ]
                                                 }
-                                                Transform {
+                                                Pose {
                                                   translation -0.000465164 -0.0254394 0.00449635
                                                   children [
                                                     Box {
@@ -529,7 +529,7 @@ PROTO Ned [
                                         name "hand_link"
                                         boundingObject Group {
                                           children [
-                                            Transform {
+                                            Pose {
                                               translation 0 0 0.0125971
                                               children [
                                                 Cylinder {
@@ -538,7 +538,7 @@ PROTO Ned [
                                                 }
                                               ]
                                             }
-                                            Transform {
+                                            Pose {
                                               translation 0 0 -0.001
                                               children [
                                                 Cylinder {
@@ -547,7 +547,7 @@ PROTO Ned [
                                                 }
                                               ]
                                             }
-                                            Transform {
+                                            Pose {
                                               translation 0 0 -0.003
                                               children [
                                                 Cylinder {
@@ -575,7 +575,7 @@ PROTO Ned [
                                   name "wrist_link"
                                   boundingObject Group {
                                     children [
-                                      Transform {
+                                      Pose {
                                         translation -0.0192778 -0.000743199 0
                                         children [
                                           Box {
@@ -583,7 +583,7 @@ PROTO Ned [
                                           }
                                         ]
                                       }
-                                      Transform {
+                                      Pose {
                                         translation -0.00967641 0.000227924 0.0451439
                                         children [
                                           Box {
@@ -610,7 +610,7 @@ PROTO Ned [
                             name "forearm_link"
                             boundingObject Group {
                               children [
-                                Transform {
+                                Pose {
                                   translation 0 0 0.11796
                                   children [
                                     Box {
@@ -618,7 +618,7 @@ PROTO Ned [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0.0249332 0 0.165857
                                   children [
                                     Box {
@@ -626,7 +626,7 @@ PROTO Ned [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation -0.0249332 0 0.165857
                                   children [
                                     Box {
@@ -634,7 +634,7 @@ PROTO Ned [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0 0 0.1
                                   children [
                                     Cylinder {
@@ -643,7 +643,7 @@ PROTO Ned [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0 0 0.08
                                   children [
                                     Shape {
@@ -673,7 +673,7 @@ PROTO Ned [
                       name "elbow_link"
                       boundingObject Group {
                         children [
-                          Transform {
+                          Pose {
                             translation 0.0578779 -0.00895837 -2.32375e-05
                             children [
                               Box {
@@ -681,7 +681,7 @@ PROTO Ned [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation 0.0321718 0.039196 -2.32375e-05
                             children [
                               Box {
@@ -689,7 +689,7 @@ PROTO Ned [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation 0.0324062 0.08 0
                             rotation 1 0 0 1.5708
                             children [
@@ -718,7 +718,7 @@ PROTO Ned [
                 name "arm_link"
                 boundingObject Group {
                   children [
-                    Transform {
+                    Pose {
                       translation 0.16 0 0.0605486
                       children [
                         Box {
@@ -726,7 +726,7 @@ PROTO Ned [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0.16 0 0.0753145
                       children [
                         Box {
@@ -734,7 +734,7 @@ PROTO Ned [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0.133834 0.000240617 0.0582376
                       children [
                         Box {
@@ -742,7 +742,7 @@ PROTO Ned [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0.08 0 0
                       rotation 0 1 0 1.5708
                       children [
@@ -751,7 +751,7 @@ PROTO Ned [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0.221923 0.0118923 0
                       children [
                         Cylinder {
@@ -760,7 +760,7 @@ PROTO Ned [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0.11 0 4.89665e-14
                       rotation 0 1 0 1.5708
                       children [
@@ -770,7 +770,7 @@ PROTO Ned [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0.15 0 0
                       children [
                         Box {
@@ -797,7 +797,7 @@ PROTO Ned [
           name "shoulder_link"
           boundingObject Group {
             children [
-              Transform {
+              Pose {
                 translation 0 0 0.111566
                 children [
                   Cylinder {
@@ -806,7 +806,7 @@ PROTO Ned [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0 0.065
                 rotation 0 1 0 1.5708
                 children [
@@ -816,7 +816,7 @@ PROTO Ned [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.041 0 0
                 children [
                   Box {
@@ -824,7 +824,7 @@ PROTO Ned [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.041 0 0
                 children [
                   Box {
@@ -832,7 +832,7 @@ PROTO Ned [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0289963 -0.0765147 0.0281212
                 children [
                   Box {
@@ -840,7 +840,7 @@ PROTO Ned [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0289933 -0.0785292 0.0269699
                 children [
                   Box {
@@ -848,7 +848,7 @@ PROTO Ned [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0771342 -0.0765147 0.0281212
                 children [
                   Box {
@@ -875,7 +875,7 @@ PROTO Ned [
     name IS name
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0.09 0.09 0.003
           children [
             DEF BASE_BOTTOM_BIG_CYLINDER Cylinder {
@@ -884,25 +884,25 @@ PROTO Ned [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.09 0.09 0.003
           children [
             USE BASE_BOTTOM_BIG_CYLINDER
           ]
         }
-        Transform {
+        Pose {
           translation 0.09 -0.09 0.003
           children [
             USE BASE_BOTTOM_BIG_CYLINDER
           ]
         }
-        Transform {
+        Pose {
           translation -0.09 -0.09 0.003
           children [
             USE BASE_BOTTOM_BIG_CYLINDER
           ]
         }
-        Transform {
+        Pose {
           translation 0.09 0.09 0.008
           children [
             DEF BASE_BOTTOM_SMALL_CYLINDER Cylinder {
@@ -911,25 +911,25 @@ PROTO Ned [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.09 0.09 0.008
           children [
             USE BASE_BOTTOM_SMALL_CYLINDER
           ]
         }
-        Transform {
+        Pose {
           translation 0.09 -0.09 0.008
           children [
             USE BASE_BOTTOM_SMALL_CYLINDER
           ]
         }
-        Transform {
+        Pose {
           translation -0.09 -0.09 0.008
           children [
             USE BASE_BOTTOM_SMALL_CYLINDER
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.012
           rotation 0 1 0 0
           children [
@@ -938,7 +938,7 @@ PROTO Ned [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.0455 0.052
           rotation 0 1 0 0
           children [
@@ -947,7 +947,7 @@ PROTO Ned [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.04425 0.052
           rotation 0 1 0 0
           children [
@@ -956,7 +956,7 @@ PROTO Ned [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.0485 0.0485 0.052
           children [
             DEF BASE_BIG_CYLINDER Cylinder {
@@ -965,13 +965,13 @@ PROTO Ned [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.0485 0.0485 0.052
           children [
             USE BASE_BIG_CYLINDER
           ]
         }
-        Transform {
+        Pose {
           translation 0.068 -0.071 0.052
           children [
             DEF BASE_SMALL_CYLINDER Cylinder {
@@ -980,13 +980,13 @@ PROTO Ned [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.068 -0.071 0.052
           children [
             USE BASE_SMALL_CYLINDER
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.0095 0.052
           children [
             Box {
@@ -994,7 +994,7 @@ PROTO Ned [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.0975
           children [
             Cylinder {

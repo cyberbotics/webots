@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/generic/TruckTank.proto
 # A non-controllable truck tank model with physics properties.
 
 EXTERNPROTO "TruckRearLight.proto"
@@ -27,7 +28,7 @@ PROTO TruckTank [
         TruckTankMesh {
           color IS color
         }
-        DEF FRONT_RIGHT_WHEEL Transform {
+        DEF FRONT_RIGHT_WHEEL Pose {
           translation -5.45 -1 0
           children [
             HingeJoint {
@@ -50,7 +51,7 @@ PROTO TruckTank [
             }
           ]
         }
-        DEF FRONT_LEFT_WHEEL Transform {
+        DEF FRONT_LEFT_WHEEL Pose {
           translation -5.45 1 0
           rotation 0 0 1 3.14156
           children [
@@ -75,7 +76,7 @@ PROTO TruckTank [
             }
           ]
         }
-        DEF CENTER_RIGHT_WHEEL Transform {
+        DEF CENTER_RIGHT_WHEEL Pose {
           translation -6.55 -1 0
           children [
             HingeJoint {
@@ -98,7 +99,7 @@ PROTO TruckTank [
             }
           ]
         }
-        DEF CENTER_LEFT_WHEEL Transform {
+        DEF CENTER_LEFT_WHEEL Pose {
           translation -6.55 1 0
           rotation 0 0 1 3.14156
           children [
@@ -123,7 +124,7 @@ PROTO TruckTank [
             }
           ]
         }
-        DEF REAR_RIGHT_WHEEL Transform {
+        DEF REAR_RIGHT_WHEEL Pose {
           translation -7.65 -1 0
           children [
             HingeJoint {
@@ -146,7 +147,7 @@ PROTO TruckTank [
             }
           ]
         }
-        DEF REAR_LEFT_WHEEL Transform {
+        DEF REAR_LEFT_WHEEL Pose {
           translation -7.65 1 0
           rotation 0 0 1 3.14156
           children [
@@ -176,7 +177,7 @@ PROTO TruckTank [
       model "truck tank"
       boundingObject Group {
         children [
-          Transform {
+          Pose {
             translation -3.1 0 2.21
             children [
               Box {
@@ -184,7 +185,7 @@ PROTO TruckTank [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -6.33 0 0.27
             children [
               Box {

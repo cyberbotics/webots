@@ -1,7 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/camera-sensors#multisense-s21
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/multisense/protos/MultiSenseS21.proto
 # Model of MultiSense S21 stereoscopic camera.
 # template language: javascript
 
@@ -144,7 +144,7 @@ PROTO MultiSenseS21 [
     }
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           rotation -0.5774 0.5773 0.5774 -2.0944
           translation 0.032 0 0
           children [
@@ -153,7 +153,7 @@ PROTO MultiSenseS21 [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.097 -0.105 0
           rotation -0.5773492694698226 0.5773522686240381 -0.5773492694698233 2.0944011007146077
           children [
@@ -163,7 +163,7 @@ PROTO MultiSenseS21 [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.098 0.105 0
           rotation -0.5773492694698226 0.5773522686240381 -0.5773492694698233 2.0944011007146077
           children [

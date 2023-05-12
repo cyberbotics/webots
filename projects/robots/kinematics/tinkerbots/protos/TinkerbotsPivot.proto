@@ -1,15 +1,16 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/kinematics/tinkerbots/protos/TinkerbotsPivot.proto
 # Tinkerbots pivot block.
-# https://www.tinkerbots.com
+# More information on: [TinkerbotsBase](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/kinematics/tinkerbots/protos/TinkerbotsBase.proto)
 # template language: javascript
 
 EXTERNPROTO "TinkerbotsLEDAppearance.proto"
 
 PROTO TinkerbotsPivot [
-  field SFVec3f    translation 0 0 0   # Is `Transform.translation`.
-  field SFRotation rotation    0 0 1 0 # Is `Transform.rotation`.
+  field SFVec3f    translation 0 0 0   # Is `Pose.translation`.
+  field SFRotation rotation    0 0 1 0 # Is `Pose.rotation`.
   field SFString   name        "pivot" # Is `Solid.name`.
   field SFNode     slot        NULL    # Type: "tinkerbots-".
   field SFNode     ASlot       NULL    # Type: "lego cross-".
@@ -106,7 +107,7 @@ PROTO TinkerbotsPivot [
           ]
           endPoint Solid {
             children [
-              Transform {
+              Pose {
                 translation 0 0 0.04
                 children [
                   Slot {
@@ -115,7 +116,7 @@ PROTO TinkerbotsPivot [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.01 0.01 0.035
                 rotation 0 0 1 3.1415
                 children [
@@ -125,7 +126,7 @@ PROTO TinkerbotsPivot [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.01 0.01 0.035
                 rotation 0 0 1 1.5708
                 children [
@@ -135,7 +136,7 @@ PROTO TinkerbotsPivot [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.01 -0.01 0.035
                 children [
                   Slot {
@@ -144,7 +145,7 @@ PROTO TinkerbotsPivot [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.01 -0.01 0.035
                 rotation 0 0 1 -1.5708
                 children [
@@ -203,7 +204,7 @@ PROTO TinkerbotsPivot [
                 }
               }
             ]
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0 0 0.03
               children [
                 Box {
@@ -220,7 +221,7 @@ PROTO TinkerbotsPivot [
       ]
       name IS name
       contactMaterial "tinkerbots"
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0 0.01
         children [
           Box {

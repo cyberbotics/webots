@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/kitchen/oven/protos/Oven.proto
 # An oven (0.5 x 0.44 x 0.68 m) or a microwave (0.25 x 0.528 x 0.272 m).
 # template language: javascript
 
@@ -12,11 +13,11 @@ PROTO Oven [
   field SFString   type           "oven"  # Either "oven" or "microwave".
 ]
 
-{ 
-  %< 
-    let scale_oven = [1.0, 1.0, 1.0]; 
+{
+  %<
+    let scale_oven = [1.0, 1.0, 1.0];
     if (fields.type.value  == "microwave") {
-      scale_oven = [0.5, 1.2, 0.4]; 
+      scale_oven = [0.5, 1.2, 0.4];
     }
   >%
   Solid {
@@ -117,7 +118,7 @@ PROTO Oven [
           ]
           boundingObject Group {
             children [
-              Transform {
+              Pose {
                 translation %<= -0.025*scale_oven[0] >% 0 %<= 0.2218*scale_oven[2] >%
                 children [
                   Box {
@@ -125,7 +126,7 @@ PROTO Oven [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation %<= 0.02*scale_oven[0] >% 0 %<= 0.413*scale_oven[2] >%
                 children [
                   Box {
@@ -147,7 +148,7 @@ PROTO Oven [
     model "oven"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 %<= 0.087*scale_oven[2] >%
           children [
             Box {
@@ -155,7 +156,7 @@ PROTO Oven [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 %<= 0.6605*scale_oven[2] >%
           children [
             Box {
@@ -163,7 +164,7 @@ PROTO Oven [
             }
           ]
         }
-        Transform {
+        Pose {
           translation %<= -0.225*scale_oven[0] >% 0 %<= 0.4075*scale_oven[2] >%
           children [
             Box {
@@ -171,7 +172,7 @@ PROTO Oven [
             }
           ]
         }
-        Transform {
+        Pose {
           translation %<= 0.025*scale_oven[0] >% %<= 0.2075*scale_oven[1] >% %<= 0.4075*scale_oven[2] >%
           children [
             Box {
@@ -179,7 +180,7 @@ PROTO Oven [
             }
           ]
         }
-        Transform {
+        Pose {
           translation %<= 0.025*scale_oven[0] >% %<= -0.2075*scale_oven[1] >% %<= 0.4075*scale_oven[2] >%
           children [
             Box {

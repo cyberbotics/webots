@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/generic/TractorRearWheel.proto
 # Tractor rear wheel.
 # template language: javascript
 
@@ -19,7 +20,7 @@ PROTO TractorRearWheel [
     endPoint Solid {
       rotation 0 0 1 1.5708
       children [
-        Transform{
+        Pose {
           translation 0.041 0 0
           %< if (fields.wheelSide.value) { >%
             rotation 0 -1 0 1.5708
@@ -87,7 +88,7 @@ PROTO TractorRearWheel [
 
       boundingObject Group {
         children [
-          Transform {
+          Pose {
             translation 0.04 0 0
             rotation 0 1 0 1.5708
             children [

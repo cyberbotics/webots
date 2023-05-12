@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/buildings/protos/CommercialBuilding.proto
 # A commercial building.
 
 PROTO CommercialBuilding [
@@ -26,7 +27,7 @@ PROTO CommercialBuilding [
             url [
               "textures/orange_building_roughness.png"
             ]
-          }          
+          }
         }
         geometry IndexedFaceSet {
           coord Coordinate {
@@ -69,7 +70,7 @@ PROTO CommercialBuilding [
     model "commercial building"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 20.7
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -78,7 +79,7 @@ PROTO CommercialBuilding [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 5.45 0 45.2
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [

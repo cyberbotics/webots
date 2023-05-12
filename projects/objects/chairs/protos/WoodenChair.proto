@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/chairs/protos/WoodenChair.proto
 # A wooden chair (0.42 x 0.44 x 0.944 m).
 
 EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
@@ -48,7 +49,7 @@ PROTO WoodenChair [
     model "wooden chair"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           rotation 0.5774 0.5773 0.5773 2.0944
           translation 0.17 0.178 0.232
           children [
@@ -57,7 +58,7 @@ PROTO WoodenChair [
             }
           ]
         }
-        Transform {
+        Pose {
           rotation 0.5774 0.5773 0.5773 2.0944
           translation 0.17 -0.178 0.232
           children [
@@ -66,7 +67,7 @@ PROTO WoodenChair [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.185 -0.178 0.232
           rotation -0.5781 -0.5781 -0.5758 -2.0967
           children [
@@ -75,7 +76,7 @@ PROTO WoodenChair [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.185 0.178 0.232
           rotation -0.5781 -0.5781 -0.5758 -2.0967
           children [
@@ -84,7 +85,7 @@ PROTO WoodenChair [
             }
           ]
         }
-        Transform {
+        Pose {
           rotation 0.5774 0.5773 0.5773 2.0944
           translation 0 0 0.473
           children [
@@ -93,7 +94,7 @@ PROTO WoodenChair [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.205 0.178 0.714
           rotation 0.5613 0.5613 0.6081 2.0488
           children [
@@ -102,7 +103,7 @@ PROTO WoodenChair [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.205 -0.179 0.712
           rotation 0.5613 0.5613 0.6081 2.0488
           children [
@@ -111,7 +112,7 @@ PROTO WoodenChair [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.205 0 0.727
           rotation 0.5613 0.5613 0.6081 2.0488
           children [
@@ -120,7 +121,7 @@ PROTO WoodenChair [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.219 0 0.885
           rotation 0.5613 0.5613 0.6081 2.0488
           children [

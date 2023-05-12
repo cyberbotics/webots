@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/factory/containers/protos/PlasticFruitBox.proto
 # A plastic box.
 # template language: javascript
 
@@ -55,7 +56,7 @@ PROTO PlasticFruitBox [
     %< } >%
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.01319
           children [
             Box {
@@ -63,7 +64,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.486 0 0.13529
           children [
             Box {
@@ -71,7 +72,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.486 0 0.13529
           children [
             Box {
@@ -79,7 +80,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.3062 0.11809
           children [
             Box {
@@ -87,7 +88,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.3062 0.11809
           children [
             Box {
@@ -95,7 +96,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.3591 -0.3062 0.25459
           children [
             Box {
@@ -103,7 +104,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.3591 0.3062 0.25459
           children [
             Box {
@@ -111,7 +112,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.3591 0.3062 0.25459
           children [
             Box {
@@ -119,7 +120,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.3591 -0.3062 0.25459
           children [
             Box {
@@ -127,7 +128,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.25305 -0.3062 0.24618
           rotation 0 -1 0 0.377
           children [
@@ -136,7 +137,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.25305 0.3062 0.24618
           rotation 0 -1 0 0.377
           children [
@@ -145,7 +146,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.25305 0.3062 0.24618
           rotation 0 -1 0 -0.377
           children [
@@ -154,7 +155,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.25305 -0.3062 0.24618
           rotation 0 -1 0 -0.377
           children [
@@ -163,7 +164,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation  0.460249 -0.283 0.13529
           rotation 0 0 -1 0.83
           children [
@@ -172,7 +173,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.460249 0.283 0.13529
           rotation 0 0 1 0.83
           children [
@@ -181,7 +182,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.460249 0.283 0.13529
           rotation 0 0 1 -0.83
           children [
@@ -190,7 +191,7 @@ PROTO PlasticFruitBox [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.460249 -0.283 0.13529
           rotation 0 0 1 0.83
           children [

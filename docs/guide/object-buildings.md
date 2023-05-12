@@ -195,6 +195,7 @@ BungalowStyleHouse {
   SFVec3f translation         0 0 0
   SFRotation rotation         0 0 1 0
   SFString name               "bungalow style house"
+  SFFloat scale               1
   SFBool fence                TRUE
   SFBool floor                TRUE
   SFBool chimney              TRUE
@@ -240,7 +241,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Carwash {
-  SFVec3f    translation           0 0 0
+  SFVec3f    translation           0 0 0.45
   SFRotation rotation              0 0 1 0
   SFString   name                  "carwash"
   SFBool     enableBoundingObject  TRUE
@@ -386,6 +387,7 @@ FastFoodRestaurant {
   SFFloat     height        4
   SFFloat     length        10
   SFFloat     width         10
+  SFFloat     scale         1
   SFString    brand         "KFC"
   SFInt32     numberOfSides 1
 }
@@ -535,6 +537,7 @@ LargeResidentialTower {
   SFVec3f    translation            0 0 0
   SFRotation rotation               0 0 1 0
   SFString   name                   "residential tower"
+  SFFloat    scale                  1
   SFInt32    numberOfFloors         4
   SFBool     groundSurroundingWall  TRUE
   SFBool     enableBoundingObject   TRUE
@@ -966,6 +969,7 @@ Derived from [Solid](../reference/solid.md).
 SimpleTwoFloorsHouse {
   SFVec3f    translation           0 0 0
   SFRotation rotation              0 0 1 0
+  SFFloat    scale                 1
   SFString   name                  "simple two-storey house"
   SFBool     enableBoundingObject  TRUE
   SFNode     appearance            PBRAppearance { baseColor 0.63 0.71 0.63 metalness 0 roughness 1 }

@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/mir/mir100/protos/Mir100UltrasonicSensor.proto
 # Model of a generic ultrasonic sensor used for the MiR100 robot.
 # template language: javascript
 
@@ -27,7 +28,7 @@ PROTO Mir100UltrasonicSensor [
           size 0.001 0.05 0.0223
         }
       }
-      DEF LEFT_CYLINDER Transform {
+      DEF LEFT_CYLINDER Pose {
         translation 0.0057 0.0128 0
         rotation 0 1 0 1.5708
         children [
@@ -76,7 +77,7 @@ PROTO Mir100UltrasonicSensor [
           }
         ]
       }
-      DEF RIGHT_CYLINDER Transform {
+      DEF RIGHT_CYLINDER Pose {
         translation 0.0057 -0.0128 0
         rotation 0 1 0 1.5708
         children [
@@ -89,14 +90,14 @@ PROTO Mir100UltrasonicSensor [
     boundingObject Group {
       children [
         USE SENSOR_BASE
-        DEF LEFT_CYLINDER_BO Transform {
+        DEF LEFT_CYLINDER_BO Pose {
           translation 0.0057 0.0128 0
           rotation 0 1 0 1.5708
           children [
             USE SENSOR_CYLINDER_EXT
           ]
         }
-        DEF RIGHT_CYLINDER_BO Transform {
+        DEF RIGHT_CYLINDER_BO Pose {
           translation 0.0057 -0.0128 0
           rotation 0 1 0 1.5708
           children [

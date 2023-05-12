@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/factory/pallet/protos/WoodenPallet.proto
 # Simple and configurable wooden pallet.
 # template language: javascript
 
@@ -49,7 +50,7 @@ Solid {
     # Cubes
     %< for (let i = -1; i <= 1; ++i) { >%
       %< for (let j = -1; j <= 1; ++j) { >%
-        Transform {
+        Pose {
           translation %<= size.x * j * 0.45 >% %<= 0.45 * size.y * i >% %<= size.z * 0.45 >%
           children [
             Shape {
@@ -68,7 +69,7 @@ Solid {
     %< } >%
     # Length boards
     %< for (let i = -1; i <= 1; ++i) { >%
-      Transform {
+      Pose {
         translation 0 %<= size.y * i * 0.45 >% %<= 0.05 * size.z >%
         children [
           Shape {
@@ -86,7 +87,7 @@ Solid {
     %< } >%
     # width boards
     %< for (let i = -1; i <= 1; ++i) { >%
-      Transform {
+      Pose {
         translation %<= size.x * i * 0.45 >% 0 %<= 0.85 * size.z >%
         children [
           Shape {
@@ -104,7 +105,7 @@ Solid {
     %< } >%
     # Lath lathNumber
     %< for (let i = 0; i < lathNumber; ++i) { >%
-      Transform {
+      Pose {
         translation %<= 0 >% %<= (size.y - lathWidth) * (i / (lathNumber - 1) - 0.5) >% %<= 0.95 * size.z >%
         children [
           Shape {
@@ -127,7 +128,7 @@ Solid {
   boundingObject Group {
     children [
       %< for (let i = -1; i <= 1; ++i) { >%
-        Transform {
+        Pose {
           translation 0 %<= 0.45 * i * size.y >% %<= 0.4 * size.z >%
           children
           [
@@ -137,7 +138,7 @@ Solid {
           ]
         }
       %< } >%
-      Transform {
+      Pose {
         translation 0 0 %<= 0.9 * size.z >%
         children
         [

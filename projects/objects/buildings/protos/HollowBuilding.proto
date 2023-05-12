@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/buildings/protos/HollowBuilding.proto
 # A hollow building.
 
 PROTO HollowBuilding [
@@ -79,7 +80,7 @@ PROTO HollowBuilding [
     model "hollow building"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           rotation 1 0 0 1.570796
           translation 0 -12.45 15.5
           children [
@@ -88,7 +89,7 @@ PROTO HollowBuilding [
             }
           ]
         }
-        Transform {
+        Pose {
           rotation 1 0 0 1.570796
           translation 0 12.45 15.5
           children [
@@ -97,7 +98,7 @@ PROTO HollowBuilding [
             }
           ]
         }
-        Transform {
+        Pose {
           rotation 1 0 0 1.570796
           translation 12.45 0 15.5
           children [
@@ -106,7 +107,7 @@ PROTO HollowBuilding [
             }
           ]
         }
-        Transform {
+        Pose {
           rotation 1 0 0 1.570796
           translation -12.45 0 15.5
           children [

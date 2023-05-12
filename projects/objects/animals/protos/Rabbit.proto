@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/animals/protos/Rabbit.proto
 # A static rabbit.
 # Based on the model of Nyilonelycompany (https://sketchfab.com/Nyilonelycompany).
 # template language: javascript
@@ -25,65 +26,69 @@ PROTO Rabbit [
     rotation IS rotation
     name IS name
     model "rabbit"
-    scale %<= scale >% %<= scale >% %<= scale >%
     children [
-      Shape {
-        appearance PBRAppearance {
-          metalness 0
-          roughness 0.7
-          baseColor IS color
-          baseColorMap ImageTexture {
-            url "webots://projects/objects/animals/protos/rabbit/textures/rabbit_basecolor.jpg"
+      Transform {
+        scale %<= scale >% %<= scale >% %<= scale >%
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              roughness 0.7
+              baseColor IS color
+              baseColorMap ImageTexture {
+                url "webots://projects/objects/animals/protos/rabbit/textures/rabbit_basecolor.jpg"
+              }
+              roughnessMap ImageTexture {
+                url "webots://projects/objects/animals/protos/rabbit/textures/rabbit_roughness.png"
+              }
+              normalMap ImageTexture {
+                url "webots://projects/objects/animals/protos/rabbit/textures/rabbit_normal.jpg"
+              }
+            }
+            geometry Mesh {
+              url "webots://projects/objects/animals/protos/rabbit/meshes/rabbit.obj"
+            }
           }
-          roughnessMap ImageTexture {
-            url "webots://projects/objects/animals/protos/rabbit/textures/rabbit_roughness.png"
-          }
-          normalMap ImageTexture {
-            url "webots://projects/objects/animals/protos/rabbit/textures/rabbit_normal.jpg"
-          }
-        }
-        geometry Mesh {
-          url "webots://projects/objects/animals/protos/rabbit/meshes/rabbit.obj"
-        }
+        ]
       }
     ]
     boundingObject Group {
       children [
-        DEF BODY Transform {
-          translation 0.0625781 -0.00315575 0.0779992
+        DEF BODY Pose {
+          translation %<= scale * 0.0625781 >% %<= scale * -0.00315575 >% %<= scale * 0.0779992 >%
           rotation 0.8159772156431865 0.038849710267045645 -0.576777152428353 -3.124545307179586
           children [
             Capsule {
-              height 0.155
-              radius 0.05
+              height %<= scale * 0.155 >%
+              radius %<= scale * 0.05 >%
               subdivision 16
             }
           ]
         }
-        DEF PAWS Transform {
-          translation 0.055 0 0.025
+        DEF PAWS Pose {
+          translation %<= scale * 0.055 >% 0 %<= scale * 0.025 >%
           rotation 0 1 0 4.692820414042842e-06
           children [
             Box {
-              size 0.12 0.09 0.05
+              size %<= scale * 0.12>% %<= scale * 0.09 >% %<= scale * 0.05 >%
             }
           ]
         }
-        DEF EAR_RIGHT Transform {
-          translation 0.132218 -0.0205047 0.201716
+        DEF EAR_RIGHT Pose {
+          translation %<= scale * 0.132218 >% %<= scale * -0.0205047 >% %<= scale * 0.201716 >%
           rotation 0.7040630978699699 0.09269151288480479 0.7040620978698309 0.36971
           children [
             Box {
-              size 0.038 0.015 0.105
+              size %<= scale * 0.038>% %<= scale * 0.015 >% %<= scale * 0.105 >%
             }
           ]
         }
-        DEF EAR_LEFT Transform {
-          translation 0.122706 0.0229659 0.201058
+        DEF EAR_LEFT Pose {
+          translation %<= scale * 0.122706 >% %<= scale * 0.0229659 >% %<= scale * 0.201058 >%
           rotation -0.7040630978699699 -0.09269151288480479 -0.7040620978698309 0.36971
           children [
             Box {
-              size 0.038 0.015 0.105
+              size %<= scale * 0.038>% %<= scale * 0.015 >% %<= scale * 0.105 >%
             }
           ]
         }

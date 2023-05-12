@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: hidden
@@ -24,7 +24,7 @@ PROTO BusStopMesh [
           creaseAngle 0.5
         }
       }
-      DEF INNER_ROOF Transform {
+      DEF INNER_ROOF Pose {
         translation 0 2.43 0
         children [
           Shape {
@@ -50,7 +50,7 @@ PROTO BusStopMesh [
           creaseAngle 0.5
         }
       }
-      DEF REAR_GLASS Transform {
+      DEF REAR_GLASS Pose {
         translation 0 0.02 -1.68
         children [
           Shape {

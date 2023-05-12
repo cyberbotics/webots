@@ -300,6 +300,8 @@ We will now associate new `epuck_go_forward` (or `EPuckGoForward`) controller to
 >Once the controller is associated with the robot, save the world.
 >Modify the program by getting the motor devices (`left_motor = wb_robot_get_device('left wheel motor')`) and by applying a motor command (`wb_motor_set_position(right_motor, 10.0)`):
 >```MATLAB
+>function epuck_go_forward
+>
 >TIME_STEP = 64;
 >
 >% get the motor devices
@@ -465,6 +467,8 @@ In order to control the motors of the wheels in speed you need to set the target
 %tab "MATLAB"
 > **Hands on #10**: Modify the controller program as shown below, recompile it and run it:
 >```MATLAB
+>function epuck_go_forward
+>
 >TIME_STEP = 64;
 >
 >MAX_SPEED = 6.28;

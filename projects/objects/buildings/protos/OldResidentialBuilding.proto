@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/buildings/protos/OldResidentialBuilding.proto
 # An old residential building with optional boundingObject.
 # template language: javascript
 
@@ -296,7 +297,7 @@ PROTO OldResidentialBuilding [
       }
     ]
     %< if (fields.enableBoundingObject.value) { >%
-    boundingObject Transform {
+    boundingObject Pose {
       rotation 0.57735 -0.57735 -0.57735 2.094395
       translation 0.03 0.03 5.5
       children [

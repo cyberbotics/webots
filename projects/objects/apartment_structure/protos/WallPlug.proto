@@ -1,13 +1,14 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/apartment_structure/protos/WallPlug.proto
 # An electrical wall plug with optional bounding object.
 # template language: javascript
 
 EXTERNPROTO "webots://projects/bounding_objects/protos/PipeBoundingObject.proto"
 
 PROTO WallPlug [
-  field SFVec3f    translation            0 0 0
+  field SFVec3f    translation            0 0 0.04
   field SFRotation rotation               0 0 1 0
   field SFString   name                   "wall plug"
   field SFColor    mainColor              1 1 1        # Defines the main color of the plug.
@@ -90,7 +91,7 @@ PROTO WallPlug [
     %< if (fields.enableBoundingObject.value) { >%
       boundingObject Group {
         children [
-          Transform {
+          Pose {
             translation 0.0215 0 0
             children [
               Box {
@@ -98,7 +99,7 @@ PROTO WallPlug [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0.0271 -0.028 0
             children [
               DEF BOX Box {
@@ -106,20 +107,20 @@ PROTO WallPlug [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0.0271 0.028 0
             children [
               USE BOX
             ]
           }
-          Transform {
+          Pose {
             translation 0.0271 0 0.028
             rotation 1 0 0 1.5707963220000003
             children [
               USE BOX
             ]
           }
-          Transform {
+          Pose {
             translation 0.0271 0 -0.028
             rotation 1 0 0 1.5707963220000003
             children [

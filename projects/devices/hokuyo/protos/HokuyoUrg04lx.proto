@@ -1,7 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#hokuyo-urg-04lx
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/hokuyo/protos/HokuyoUrg04lx.proto
 # Model of Hokuyo URG-04LX (lidar device).
 # specs:
 #  - field of view: 240 [deg]
@@ -24,7 +24,7 @@ PROTO HokuyoUrg04lx [
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         rotation -0.5774 0.5773 0.5774 -2.0944
         translation 0 0 -0.052
         children [
@@ -98,7 +98,7 @@ PROTO HokuyoUrg04lx [
     ]
     name IS name
     model "Hokuyo URG-04LX"
-    boundingObject Transform {
+    boundingObject Pose {
       rotation -0.5774 0.5773 0.5774 -2.0944
       translation 0 0 -0.017
       children [

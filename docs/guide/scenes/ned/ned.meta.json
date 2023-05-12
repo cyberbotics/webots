@@ -61,22 +61,36 @@
       "type": "RotationalMotor"
     },
     {
+      "axis": "0 4e-06 -1",
+      "maxPosition": 0.01,
+      "minPosition": -0.01,
+      "name": "gripper::left",
+      "position": 0,
+      "transformID": "n200",
+      "type": "LinearMotor"
+    },
+    {
       "axis": "0 -4e-06 1",
       "maxPosition": 0.01,
       "minPosition": -0.01,
-      "name": "joint_base_to_jaw_1",
+      "name": "gripper::right",
       "position": 0,
       "transformID": "n186",
       "type": "LinearMotor"
     },
     {
       "axis": "0 4e-06 -1",
-      "maxPosition": 0.01,
-      "minPosition": -0.01,
-      "name": "joint_base_to_jaw_2",
+      "name": "gripper::left_sensor",
       "position": 0,
       "transformID": "n200",
-      "type": "LinearMotor"
+      "type": "PositionSensor"
+    },
+    {
+      "axis": "0 -4e-06 1",
+      "name": "gripper::right_sensor",
+      "position": 0,
+      "transformID": "n186",
+      "type": "PositionSensor"
     },
     {
       "anchor": "0 0 0.1065",
@@ -124,20 +138,6 @@
       "name": "joint_6_sensor",
       "position": 0,
       "transformID": "n163",
-      "type": "PositionSensor"
-    },
-    {
-      "axis": "0 -4e-06 1",
-      "name": "joint_base_to_jaw_1_sensor",
-      "position": 0,
-      "transformID": "n186",
-      "type": "PositionSensor"
-    },
-    {
-      "axis": "0 4e-06 -1",
-      "name": "joint_base_to_jaw_2_sensor",
-      "position": 0,
-      "transformID": "n200",
       "type": "PositionSensor"
     }
   ],

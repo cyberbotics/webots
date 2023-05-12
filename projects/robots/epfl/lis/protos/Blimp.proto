@@ -1,12 +1,12 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/blimp
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/epfl/lis/protos/Blimp.proto
 # The "Blimp" robot is a Zeppelin-like aerial robot developed by the EPFL LIS laboratory.
 
 PROTO Blimp [
-  field SFVec3f    translation     0 0 0       # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0.4     # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0     # Is `Pose.rotation`.
   field SFString   name            "Blimp"     # Is `Solid.name`.
   field SFString   controller      "blimp"     # Is `Robot.controller`.
   field MFString   controllerArgs  []          # Is `Robot.controllerArgs`.
@@ -48,9 +48,9 @@ PROTO Blimp [
           0.25 0 0
         ]
       }
-      DEF SUPPORT Transform {
+      DEF SUPPORT Pose {
         children [
-          DEF Support1 Transform {
+          DEF Support1 Pose {
             translation 0 0 -0.33
             rotation 0 1 0 1.5707
             children [
@@ -67,7 +67,7 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Support2 Transform {
+          DEF Support2 Pose {
             translation -0.49 0 -0.18
             children [
               Shape {
@@ -83,7 +83,7 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Support3 Transform {
+          DEF Support3 Pose {
             translation 0.01 0 -0.34
             children [
               Shape {
@@ -99,7 +99,7 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Support4 Transform {
+          DEF Support4 Pose {
             translation -0.49 0.005 -0.2
             rotation 1 0 0 1.57
             children [
@@ -116,7 +116,7 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Support5 Transform {
+          DEF Support5 Pose {
             translation 0.48 0.07 -0.18
             rotation 1 0 0 -0.25
             children [
@@ -133,7 +133,7 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Support6 Transform {
+          DEF Support6 Pose {
             translation 0.48 -0.07 -0.18
             rotation 1 0 0 0.25
             children [
@@ -150,7 +150,7 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Support7 Transform {
+          DEF Support7 Pose {
             translation 0.48 0 -0.33
             rotation 1 0 0 1.57
             children [
@@ -167,7 +167,7 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Support8 Transform {
+          DEF Support8 Pose {
             translation 0.48 0 -0.26
             rotation 1 0 0 1.57
             children [
@@ -184,7 +184,7 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Support9 Transform {
+          DEF Support9 Pose {
             translation 0.495 0 -0.26
             rotation 0 1 0 1.57
             children [
@@ -201,11 +201,11 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Support10 Transform {
+          DEF Support10 Pose {
             translation 0.3815 0 -0.366
             rotation 0 0 1 1.57
             children [
-              Transform {
+              Pose {
                 rotation 1 0 0 -0.2
                 children [
                   Shape {
@@ -223,7 +223,7 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Support11 Transform {
+          DEF Support11 Pose {
             translation 0.4 0 -0.4
             rotation 0 1 0 1.57
             children [
@@ -242,7 +242,7 @@ PROTO Blimp [
           }
         ]
       }
-      DEF PROCESSOR Transform {
+      DEF PROCESSOR Pose {
         translation 0.14 0 -0.337
         children [
           Shape {
@@ -256,7 +256,7 @@ PROTO Blimp [
           }
         ]
       }
-      DEF BATTERY Transform {
+      DEF BATTERY Pose {
         translation -0.18 0 -0.337
         children [
           Shape {
@@ -308,11 +308,11 @@ PROTO Blimp [
       }
       GPS {
       }
-      DEF MOTORS Transform {
+      DEF MOTORS Pose {
         children [
-          DEF Motor1 Transform {
+          DEF Motor1 Pose {
             children [
-              Transform {
+              Pose {
                 translation 0.51 0 -0.26
                 rotation 0 1 0 1.57
                 children [
@@ -332,9 +332,9 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Motor2 Transform {
+          DEF Motor2 Pose {
             children [
-              Transform {
+              Pose {
                 translation -0.49 0.01 -0.2
                 rotation 1 0 0 1.57
                 children [
@@ -354,9 +354,9 @@ PROTO Blimp [
               }
             ]
           }
-          DEF Motor3 Transform {
+          DEF Motor3 Pose {
             children [
-              DEF PROPELLER3 Transform {
+              DEF PROPELLER3 Pose {
                 translation 0.01 0 -0.355
                 children [
                   Shape {
@@ -383,7 +383,7 @@ PROTO Blimp [
     contactMaterial "blimp"
     boundingObject Group {
       children [
-        DEF ForwardSphere Transform {
+        DEF ForwardSphere Pose {
           translation 0.36 0 0
           children [
             Sphere {
@@ -391,14 +391,14 @@ PROTO Blimp [
             }
           ]
         }
-        DEF MiddleSphere Transform {
+        DEF MiddleSphere Pose {
           children [
             Sphere {
               radius 0.27
             }
           ]
         }
-        DEF BackwardSphere Transform {
+        DEF BackwardSphere Pose {
           translation -0.36 0 0
           children [
             Sphere {
@@ -406,7 +406,7 @@ PROTO Blimp [
             }
           ]
         }
-        DEF MiddleBox Transform {
+        DEF MiddleBox Pose {
           translation -0.1 0 -0.2
           children [
             Box {
@@ -414,7 +414,7 @@ PROTO Blimp [
             }
           ]
         }
-        DEF ForwardBox Transform {
+        DEF ForwardBox Pose {
           translation 0.38 0 -0.25
           children [
             Box {

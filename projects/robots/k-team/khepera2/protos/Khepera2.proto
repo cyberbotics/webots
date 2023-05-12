@@ -1,12 +1,12 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/khepera2
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/k-team/khepera2/protos/Khepera2.proto
 # The "Khepera II" robot is a two-wheeled robot produced by K-Team.
 
 PROTO Khepera2 [
-  field SFVec3f    translation     0 0 0         # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0       # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0         # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0       # Is `Pose.rotation`.
   field SFString   name            "Khepera II"  # Is `Solid.name`.
   field SFString   controller      "braitenberg" # Is `Robot.controller`.
   field MFString   controllerArgs  []            # Is `Robot.controllerArgs`.
@@ -48,7 +48,7 @@ PROTO Khepera2 [
           creaseAngle 5
         }
       }
-      Transform {
+      Pose {
         translation 0 0 0.02
         rotation 0 0 1 -1.570796
         children [
@@ -85,7 +85,7 @@ PROTO Khepera2 [
           translation 0 0.026 0.0075
           rotation -0.695223 0.695223 -0.182562 2.780445
           children [
-            DEF WHEEL Transform {
+            DEF WHEEL Pose {
               rotation 0.577387 -0.577332 0.577332 -2.094339
               children [
                 Shape {
@@ -120,7 +120,7 @@ PROTO Khepera2 [
           translation 0 -0.026 0.0075
           rotation -0.635308 0.635308 0.439053 -2.314167
           children [
-            DEF WHEEL Transform {
+            DEF WHEEL Pose {
               rotation 0.577387 -0.577332 0.577332 -2.094339
               children [
                 Shape {
@@ -423,7 +423,7 @@ PROTO Khepera2 [
       }
     ]
     model "Khepera II"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.019
       rotation 0 0 1 -1.570796
       children [

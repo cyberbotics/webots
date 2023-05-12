@@ -1,7 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#hokuyo-utm-30lx
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/hokuyo/protos/HokuyoUtm30lx.proto
 # Model of Hokuyo UTM-30LX (lidar device).
 # specs:
 #  - field of view: 270 [deg]
@@ -24,7 +24,7 @@ PROTO HokuyoUtm30lx [
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         rotation -0.5774 0.5773 0.5774 -2.0944
         translation 0 0 -0.055
         children [
@@ -69,7 +69,7 @@ PROTO HokuyoUtm30lx [
     ]
     name IS name
     model "Hokuyo UTM-30LX"
-    boundingObject Transform {
+    boundingObject Pose {
       rotation -0.5774 0.5773 0.5774 -2.0944
       translation 0 0 -0.011
       children [

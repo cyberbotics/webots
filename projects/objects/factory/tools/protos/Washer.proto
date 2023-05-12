@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/factory/tools/protos/Washer.proto
 # A washer with variable radius and thickness.
 # template language: javascript
 
@@ -65,19 +66,17 @@ PROTO Washer [
           }
         ]
       }
-      Solid {
-        rotation 0 1 0 1.5708
-        boundingObject PipeBoundingObject {
-          height %<= thickness >%
-          radius %<= 1.55 * innerRadius / 0.6 >%
-          thickness %<= 0.96 * innerRadius / 0.6 >%
-        }
-        %< if (fields.enablePhysics.value) { >%
-          physics Physics {
-            density 8050
-          }
-        %< } >%
-      }
     ]
+    boundingObject PipeBoundingObject {
+      rotation 0 1 0 1.5708
+      height %<= thickness >%
+      radius %<= 1.55 * innerRadius / 0.6 >%
+      thickness %<= 0.96 * innerRadius / 0.6 >%
+    }
+    %< if (fields.enablePhysics.value) { >%
+    physics Physics {
+      density 8050
+    }
+    %< } >%
   }
 }

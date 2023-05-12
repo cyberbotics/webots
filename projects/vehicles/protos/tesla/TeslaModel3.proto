@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/tesla/TeslaModel3.proto
 # Model of a Tesla model 3 car using the Car PROTO as a base.
 # The vehicle is modelled with realistic physics properties: motor torques, body mass, friction forces, suspensions, etc.
 # Weight, transmission and motor properties are calibrated according to the 'Long Range Battery AWD Performance' version.
@@ -78,7 +79,7 @@ PROTO TeslaModel3 [
       physics USE WHEEL_PHYSICS
     }
     extensionSlot [
-    Transform {
+    Pose {
       translation 1.39 0 -0.36
       rotation 0 -0.707107 -0.707107 -3.141588
       children [
@@ -91,18 +92,18 @@ PROTO TeslaModel3 [
                     attenuation 0 0 1
                     beamWidth 0.3
                     cutOffAngle 0.6
-                    direction -0.05 -1 -0.5
+                    direction -1 -0.5 -0.05
                     intensity 60
-                    location -0.72 -2.03 0.72
+                    location -2.03 0.72 -0.72
                     radius 40
                   }
                   SpotLight {
                     attenuation 0 0 1
                     beamWidth 0.3
                     cutOffAngle 0.6
-                    direction 0.05 -1 -0.5
+                    direction -1 -0.5 0.05
                     intensity 60
-                    location 0.72 -2.03 0.72
+                    location -2.03 0.72 0.72
                     radius 40
                   }
                   %< } >%
@@ -114,23 +115,23 @@ PROTO TeslaModel3 [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 3.79 0 0.142
         children IS sensorsSlotFront
       }
-      Transform {
+      Pose {
         translation -1.05 0 0.2
         rotation 0 0 1 3.1415
         children IS sensorsSlotRear
       }
-      Transform {
+      Pose {
         translation 1.11 0 1.16
         children IS sensorsSlotTop
       }
-      Transform {
+      Pose {
         children IS sensorsSlotCenter
       }
-      Transform {
+      Pose {
         translation 1.39 0 -0.36
         rotation 0 -0.707107 -0.707107 -3.141588
         children [
@@ -141,7 +142,7 @@ PROTO TeslaModel3 [
           }
           TeslaModel3Details {
           }
-          DEF FRONT_PLATE Transform {
+          DEF FRONT_PLATE Pose {
             translation -2.335 0.5199999997602552 7.192344581019582e-10
             rotation 0 1 0 -1.570796
             children [
@@ -159,7 +160,7 @@ PROTO TeslaModel3 [
               }
             ]
           }
-          DEF REAR_PLATE Transform {
+          DEF REAR_PLATE Pose {
             translation 2.299835640686857 0.773269651734629 7.434408060502636e-8
             rotation -0.129428 0.983106 0.129428 1.587834
             children [
@@ -188,7 +189,7 @@ PROTO TeslaModel3 [
     synchronization IS synchronization
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 1.37 0 0.21
           rotation 1 0 0 1.570796
           children [
@@ -197,7 +198,7 @@ PROTO TeslaModel3 [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.68 0 0.76
           rotation 1 0 0 1.570796
           children [

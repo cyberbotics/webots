@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Apache License 2.0
 # license url: https://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/festo/robotino3/protos/Robotino3HokuyoMountingSupport.proto
 # This is a PROTO file for Webots of a mounting support for the robot Robotino 3 from Festo and a Hokuyo's lidar.
 # It is a feature for Robotino 3 to fullfil your requirement.
 # Use it with the "topSlot" or "middleSlot" field of the Robotino 3 robot.
@@ -40,14 +41,14 @@ PROTO Robotino3HokuyoMountingSupport [
           creaseAngle 1
         }
       }
-      Transform {
+      Pose {
         translation -0.028 0.03 0.16
         children IS extensionSlot
       }
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.027 0.03 0.106
           children [
             Box {
@@ -55,7 +56,7 @@ PROTO Robotino3HokuyoMountingSupport [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.001 0.03 0.053
           children [
             Box {

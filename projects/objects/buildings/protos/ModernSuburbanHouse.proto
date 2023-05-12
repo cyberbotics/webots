@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/buildings/protos/ModernSuburbanHouse.proto
 # A modern suburban house with optional boundingObject.
 # template language: javascript
 
@@ -212,7 +213,7 @@ PROTO ModernSuburbanHouse [
     %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -2.23 -1.42 4.25
           rotation -0.57735 0.57735 0.57735 -2.094395
           children [
@@ -221,7 +222,7 @@ PROTO ModernSuburbanHouse [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.75 6.03 2.5
           rotation 0 -0.707107 -0.707107 -3.141593
           children [
@@ -230,7 +231,7 @@ PROTO ModernSuburbanHouse [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 -6.88 2.5
           rotation 0 -0.707107 -0.707107 -3.141593
           children [

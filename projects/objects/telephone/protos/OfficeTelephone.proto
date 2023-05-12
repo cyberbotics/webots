@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/telephone/protos/OfficeTelephone.proto
 # An office telephone with optional physics.
 # template language: javascript
 
@@ -126,7 +127,7 @@ PROTO OfficeTelephone [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.1347 0 0.034
           rotation -0.306423 -0.306423 0.901227 1.674608
           children [
@@ -135,7 +136,7 @@ PROTO OfficeTelephone [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.0746 0 0.0768
           rotation 0.404493 0.404493 0.820226 1.767687
           children [
@@ -144,7 +145,7 @@ PROTO OfficeTelephone [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.0461 -0.055 0.0979
           rotation 0.404493 0.404493 0.820226 1.767687
           children [

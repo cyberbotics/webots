@@ -1,7 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#velodyne-hdl-32e
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/velodyne/protos/VelodyneHDL-32E.proto
 # Velodyne HDL-32E sensor model based on the Lidar PROTO.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 # template language: javascript
@@ -17,7 +17,7 @@ PROTO VelodyneHDL-32E [
     translation IS translation
     rotation IS rotation
     children [
-      DEF LINK Transform {
+      DEF LINK Pose {
         translation 0 0 -0.0404
         children [
           Shape {
@@ -34,7 +34,7 @@ PROTO VelodyneHDL-32E [
           }
         ]
       }
-      DEF BASE Transform {
+      DEF BASE Pose {
         translation 0 0 -0.071
         children [
           Shape {
@@ -51,7 +51,7 @@ PROTO VelodyneHDL-32E [
           }
         ]
       }
-      DEF LOGO Transform {
+      DEF LOGO Pose {
         translation 0 0 -0.071
         rotation 0 0 1 1.5707
         children [
@@ -84,7 +84,7 @@ PROTO VelodyneHDL-32E [
     ]
     name IS name
     model "Velodyne HDL-32E"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 -0.071
       children [
         Cylinder {
@@ -153,7 +153,7 @@ PROTO VelodyneHDL-32E [
           }
         }
       ]
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0.101 0
         rotation 1 0 0 1.5707
         children [

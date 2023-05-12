@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/garden/protos/Swing.proto
 # A swing.
 
 PROTO Swing [
@@ -71,7 +72,7 @@ PROTO Swing [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.4054 -1.7254 1.2798
           rotation 0.693646 -0.720271 -0.00804458 2.79019
           children [
@@ -81,28 +82,28 @@ PROTO Swing [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.4053 -1.7255 1.2798
           rotation -0.0143503 0.251089 0.967858 -1.57701
           children [
             USE CYLINDER
           ]
         }
-        Transform {
+        Pose {
           translation 0.4053 1.7254 1.2798
           rotation 0.736177 -0.676435 0.0218833 -2.78295
           children [
             USE CYLINDER
           ]
         }
-        Transform {
+        Pose {
           translation -0.4053 1.7254 1.2798
           rotation 0.0188532 -0.24049 0.9704 -1.62585
           children [
             USE CYLINDER
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 2.53
           rotation 1 0 0 1.5708
           children [

@@ -1,7 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/mir100
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/mir/mir100/protos/Mir100.proto
 # Designed by Mobile Industrial Robotics (MIR), MiR100 is a six-wheeled robot (4 caster wheels and 2 regular ones at the
 # center). Used in industrial environments, it can carry a payload of up to 100kg.
 
@@ -11,8 +11,8 @@ EXTERNPROTO "webots://projects/appearances/protos/CorrodedMetal.proto"
 EXTERNPROTO "webots://projects/objects/solids/protos/SolidTorus.proto"
 
 PROTO Mir100 [
-  field  SFVec3f     translation      0 0 0               # Is `Transform.translation`.
-  field  SFRotation  rotation         0 0 1 0             # Is `Transform.rotation`.
+  field  SFVec3f     translation      0 0 0               # Is `Pose.translation`.
+  field  SFRotation  rotation         0 0 1 0             # Is `Pose.rotation`.
   field  SFString    name             "Mir100"            # Is `Robot.name`.
   field  SFString    controller       "keyboard_control"  # Is `Robot.controller`.
   field  MFString    controllerArgs   []                  # Is `Robot.controllerArgs`.
@@ -38,7 +38,7 @@ PROTO Mir100 [
     name IS name
     model  "Mobile Industrial Robots' MiR100"
     children [
-      Transform {
+      Pose {
         translation 0.037646 0 0
         children [
           Shape {
@@ -90,7 +90,7 @@ PROTO Mir100 [
           }
         ]
       }
-      DEF IMU Transform {
+      DEF IMU Pose {
         translation 0 0 0.25
         children [
           Accelerometer {
@@ -116,17 +116,17 @@ PROTO Mir100 [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.4288 0.2358 0.188
         rotation -0.92388 -0.382683 0 -3.14159
         children IS frontLidarSlot
       }
-      Transform {
+      Pose {
         translation -0.3548 -0.2352 0.188
         rotation 0.382683 -0.92388 0 -3.14159
         children IS backLidarSlot
       }
-      Transform {
+      Pose {
         translation 0.037646 0 0.349
         children IS bodySlot
       }
@@ -222,10 +222,10 @@ PROTO Mir100 [
         width 1280
         height 720
       }
-      Transform {
+      Pose {
         translation 0.03733 0.0005 0.2085
         children [
-          DEF LIGHT_FRONT Transform {
+          DEF LIGHT_FRONT Pose {
             translation 0.392 0 0
             children [
               DEF LIGHT_WIDTH_SHAPE Shape {
@@ -240,13 +240,13 @@ PROTO Mir100 [
               }
             ]
           }
-          DEF LIGHT_BACK Transform {
+          DEF LIGHT_BACK Pose {
             translation -0.392 0 0
             children [
               USE LIGHT_WIDTH_SHAPE
             ]
           }
-          DEF LIGHT_LEFT Transform {
+          DEF LIGHT_LEFT Pose {
             translation 0 0.2355 0
             children [
               DEF LIGHT_WIDTH_SHAPE Shape {
@@ -261,7 +261,7 @@ PROTO Mir100 [
               }
             ]
           }
-          DEF LIGHT_RIGHT Transform {
+          DEF LIGHT_RIGHT Pose {
             translation 0 -0.2355 0
             children [
               USE LIGHT_WIDTH_SHAPE
@@ -308,6 +308,7 @@ PROTO Mir100 [
                   }
                 }
                 SolidTorus {
+                  translation 0 0 0
                   majorRadius 0.0465
                   minorRadius 0.016
                   enableBoundingObject FALSE
@@ -362,6 +363,7 @@ PROTO Mir100 [
               children [
                 USE RIM
                 SolidTorus {
+                  translation 0 0 0
                   majorRadius 0.0465
                   minorRadius 0.016
                   enableBoundingObject FALSE
@@ -431,6 +433,7 @@ PROTO Mir100 [
                     children [
                       USE RIM
                       SolidTorus {
+                        translation 0 0 0
                         majorRadius 0.0465
                         minorRadius 0.016
                         enableBoundingObject FALSE
@@ -457,7 +460,7 @@ PROTO Mir100 [
             }
           ]
           name "fl_caster_rotation_link"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 0 -0.028
             children [
               DEF SWIVEL Cylinder {
@@ -513,6 +516,7 @@ PROTO Mir100 [
                     children [
                       USE RIM
                       SolidTorus {
+                        translation 0 0 0
                         majorRadius 0.0465
                         minorRadius 0.016
                         enableBoundingObject FALSE
@@ -539,7 +543,7 @@ PROTO Mir100 [
             }
           ]
           name "fr_caster_rotation_link"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 0 -0.028
             children [
               USE SWIVEL
@@ -592,6 +596,7 @@ PROTO Mir100 [
                     children [
                       USE RIM
                       SolidTorus {
+                        translation 0 0 0
                         majorRadius 0.0465
                         minorRadius 0.016
                         enableBoundingObject FALSE
@@ -618,7 +623,7 @@ PROTO Mir100 [
             }
           ]
           name "bl_caster_rotation_link"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 0 -0.028
             children [
               USE SWIVEL
@@ -671,6 +676,7 @@ PROTO Mir100 [
                     children [
                       USE RIM
                       SolidTorus {
+                        translation 0 0 0
                         majorRadius 0.0465
                         minorRadius 0.016
                         enableBoundingObject FALSE
@@ -697,7 +703,7 @@ PROTO Mir100 [
             }
           ]
           name "br_caster_rotation_link"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 0 -0.028
             children [
               USE SWIVEL
@@ -723,7 +729,7 @@ PROTO Mir100 [
     ]
     boundingObject Group {
       children [
-        DEF TOP Transform {
+        DEF TOP Pose {
           translation 0.0375 0.0005 0.334
           children [
             Box {
@@ -731,7 +737,7 @@ PROTO Mir100 [
             }
           ]
         }
-        DEF MIDDLE_CENTER Transform {
+        DEF MIDDLE_CENTER Pose {
           translation 0.0375 0.0005 0.262
           children [
             Box {
@@ -739,7 +745,7 @@ PROTO Mir100 [
             }
           ]
         }
-        DEF MIDDLE_RIGHT_SIDE Transform {
+        DEF MIDDLE_RIGHT_SIDE Pose {
           translation 0.0375 -0.25 0.262
           children [
             Box {
@@ -747,7 +753,7 @@ PROTO Mir100 [
             }
           ]
         }
-        DEF MIDDLE_LEFT_SIDE Transform {
+        DEF MIDDLE_LEFT_SIDE Pose {
           translation 0.0375 0.25 0.262
           children [
             Box {
@@ -755,7 +761,7 @@ PROTO Mir100 [
             }
           ]
         }
-        DEF CYL_BR Transform {
+        DEF CYL_BR Pose {
           translation -0.3555 -0.2353 0.262
           children [
             Cylinder {
@@ -764,7 +770,7 @@ PROTO Mir100 [
             }
           ]
         }
-        DEF CYL_FL Transform {
+        DEF CYL_FL Pose {
           translation 0.4306 0.2364 0.262
           children [
             Cylinder {
@@ -773,7 +779,7 @@ PROTO Mir100 [
             }
           ]
         }
-        DEF CYL_FR Transform {
+        DEF CYL_FR Pose {
           translation 0.415 -0.221 0.262
           children [
             Cylinder {
@@ -782,7 +788,7 @@ PROTO Mir100 [
             }
           ]
         }
-        DEF CYL_BL Transform {
+        DEF CYL_BL Pose {
           translation -0.341 0.222 0.262
           children [
             Cylinder {
@@ -791,7 +797,7 @@ PROTO Mir100 [
             }
           ]
         }
-        DEF MIDLOW Transform {
+        DEF MIDLOW Pose {
           translation 0.03733 0.0005 0.204
           children [
             Box {
@@ -799,7 +805,7 @@ PROTO Mir100 [
             }
           ]
         }
-        DEF LOW Transform {
+        DEF LOW Pose {
           translation 0.0374 0.0005 0.16
           children [
             Box {
@@ -807,7 +813,7 @@ PROTO Mir100 [
             }
           ]
         }
-        DEF BOTTOM_LEFT Transform {
+        DEF BOTTOM_LEFT Pose {
           translation 0.0374 0.2486 0.09425
           children [
             Box {
@@ -815,7 +821,7 @@ PROTO Mir100 [
             }
           ]
         }
-        DEF BOTTOM_RIGHT Transform {
+        DEF BOTTOM_RIGHT Pose {
           translation 0.0374 -0.2476 0.09425
           children [
             Box {
@@ -823,7 +829,7 @@ PROTO Mir100 [
             }
           ]
         }
-        DEF BOTTOM_CENTER Transform {
+        DEF BOTTOM_CENTER Pose {
           translation 0.0375 0.0005 0.094
           children [
             Box {

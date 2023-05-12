@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/buildings/protos/ResidentialBuilding.proto
 # A residential building.
 
 PROTO ResidentialBuilding [
@@ -50,7 +51,7 @@ PROTO ResidentialBuilding [
     ]
     name IS name
     model "residential building"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 10.1
       rotation 0.57735 -0.57735 -0.57735 2.094395
       children [

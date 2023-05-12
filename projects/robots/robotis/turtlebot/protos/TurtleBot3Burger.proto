@@ -1,7 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Apache License 2.0
 # license url: https://www.apache.org/licenses/LICENSE-2.0
-# documentation url: https://www.cyberbotics.com/doc/guide/turtlebot3burger
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/robotis/turtlebot/protos/TurtleBot3Burger.proto
 # Burger model of the third version of the TurtleBot robot.
 
 EXTERNPROTO "webots://projects/devices/robotis/protos/RobotisLds01.proto"
@@ -12,8 +12,8 @@ EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
 EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO TurtleBot3Burger [
-  field SFVec3f    translation     0 0 0                 # Is `Transform.translation`.
-  field SFRotation rotation        0 1 0 0               # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0                 # Is `Pose.translation`.
+  field SFRotation rotation        0 1 0 0               # Is `Pose.rotation`.
   field SFString   name            "TurtleBot3Burger"    # Is `Solid.name`.
   field SFString   controller      "<generic>"           # Is `Robot.controller`.
   field MFString   controllerArgs  []                    # Is `Robot.controllerArgs`.
@@ -33,7 +33,7 @@ PROTO TurtleBot3Burger [
     supervisor IS supervisor
     synchronization IS synchronization
     children [
-      Transform {
+      Pose {
         translation -0.03 0 0.153
         children IS extensionSlot
       }
@@ -57,7 +57,7 @@ PROTO TurtleBot3Burger [
           translation 0 -0.08 0.033
           rotation 0 -1 0 1.570796
           children [
-            DEF RIGHT_WHEEL Transform {
+            DEF RIGHT_WHEEL Pose {
               rotation 1 0 0 -1.5708003061004252
               children [
                 DEF WHEEL_SHAPE Group {
@@ -107,7 +107,7 @@ PROTO TurtleBot3Burger [
             }
           ]
           name "right wheel"
-          boundingObject Transform {
+          boundingObject Pose {
             rotation 1 0 0 -1.570796
             children [
               Cylinder {
@@ -145,7 +145,7 @@ PROTO TurtleBot3Burger [
           translation 0 0.08 0.033
           rotation 0.707105 0 0.707109 -3.141588
           children [
-            DEF RIGHT_WHEEL Transform {
+            DEF RIGHT_WHEEL Pose {
               rotation 1 0 0 -1.5708003061004252
               children [
                 USE WHEEL_SHAPE
@@ -153,7 +153,7 @@ PROTO TurtleBot3Burger [
             }
           ]
           name "left wheel"
-          boundingObject Transform {
+          boundingObject Pose {
             rotation 1 0 0 -1.570796
             children [
               Cylinder {
@@ -192,7 +192,7 @@ PROTO TurtleBot3Burger [
           }
         }
       }
-      DEF BODY Transform {
+      DEF BODY Pose {
         translation 0 0 0.01
         children [
           DEF MOTORS Shape {
@@ -229,19 +229,19 @@ PROTO TurtleBot3Burger [
               url "meshes/body_floor.obj"
             }
           }
-          DEF BODY_FLOOR_1 Transform {
+          DEF BODY_FLOOR_1 Pose {
             translation 0 0 0.0376
             children [
               USE BODY_FLOOR_0
             ]
           }
-          DEF BODY_FLOOR_2 Transform {
+          DEF BODY_FLOOR_2 Pose {
             translation 0 0 0.085
             children [
               USE BODY_FLOOR_0
             ]
           }
-          DEF BODY_FLOOR_3 Transform {
+          DEF BODY_FLOOR_3 Pose {
             translation 0 0 0.1325
             children [
               USE BODY_FLOOR_0
@@ -286,7 +286,7 @@ PROTO TurtleBot3Burger [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.032 0 0.08
           children [
             Box {
@@ -294,7 +294,7 @@ PROTO TurtleBot3Burger [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.032 0 0.08
           children [
             Box {

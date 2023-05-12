@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/road/protos/Road.proto
 # A fully customizable road, the number of lanes, the dimensions and the path of the road is configurable.
 # For each line separating two lanes it is possible to configure if this one is continuous or dashed.
 # B-Spline can be used in order to interpolate the path of the road and an optional border can be enable.
@@ -446,11 +447,11 @@ PROTO Road [
                     texCoord TextureCoordinate {
                       point [
                         %< for (let i = 0; i <= nbWayPoint - 1; ++i) { >%
-                          %<= 0 >% %<= distance[i] >%
+                          %<= 0 >% %<= distance[i] * 0.15 / lineWidth >%
                           %< if (typeof roadLines[j] !== 'undefined' && roadLines[j].fields.type.value === 'double') { >%
-                            %<= 2 >% %<= distance[i] >%
+                            %<= 2 >% %<= distance[i] * 0.15 / lineWidth >%
                           %< } else { >%
-                            %<= 1 >% %<= distance[i] >%
+                            %<= 1 >% %<= distance[i] * 0.15 / lineWidth >%
                           %< } >%
                         %< } >%
                       ]
@@ -787,7 +788,7 @@ PROTO Road [
       %< } >%
       # turn lanes (forward)
       %< if (nbWayPoint > 2 && fields.turnLanesForward.value !== '') { >%
-        Transform {
+        Pose {
           translation %<= wayPoints[nbWayPoint-1].y >% %<= wayPoints[nbWayPoint-1].z + heightOffset >% %<= wayPoints[nbWayPoint-1].x >%
           rotation 0 1 0 %<= Math.PI - angle[nbWayPoint - 1] >%
           children [
@@ -796,7 +797,7 @@ PROTO Road [
             let nTurnLanes = turnLanes.length;
           >%
           %< for (let i = 0; i < nTurnLanes; ++i) { >%
-            Transform {
+            Pose {
               translation %<= ((i - nTurnLanes - 1.0) / numberOfLanes + 0.5) * width >% 0 4
               children [
                 Shape {
@@ -852,7 +853,7 @@ PROTO Road [
       %< } >%
       # turn lanes (backward)
       %< if (nbWayPoint > 2 && fields.turnLanesBackward.value !== '') { >%
-        Transform {
+        Pose {
           translation %<= wayPoints[0].y >% %<= wayPoints[0].z + heightOffset >% %<= wayPoints[0].x >%
           rotation 0 1 0 %<= - angle[2] >%
           children [
@@ -861,7 +862,7 @@ PROTO Road [
             let nTurnLanes = turnLanes.length;
           >%
           %< for (let i = 0; i < nTurnLanes; ++i) { >%
-            Transform {
+            Pose {
               translation %<= ((i - nTurnLanes - 1.0) / numberOfLanes + 0.5) * width >% 0 4
               children [
                 Shape {

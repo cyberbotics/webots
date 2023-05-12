@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/lights/protos/DoubleFluorescentLamp.proto
 # A double fluorescent lamp.
 # It does not contain any actual Light node, it only uses emissive color.
 # template language: javascript
@@ -20,7 +21,7 @@ PROTO DoubleFluorescentLamp [
     name IS name
     model "double fuorescent lamp"
     children [
-      DEF CYLINDER_RIGHT Transform {
+      DEF CYLINDER_RIGHT Pose {
         translation 0.015 0 0.055
         rotation 1 0 0 4.712388966
         children [
@@ -40,14 +41,14 @@ PROTO DoubleFluorescentLamp [
           }
         ]
       }
-      DEF CYLINDER_LEFT Transform {
+      DEF CYLINDER_LEFT Pose {
         translation -0.015 0 0.055
         rotation 1 0 0 4.712388966
         children [
           USE LIGHT_SHAPE
         ]
       }
-      Transform {
+      Pose {
         translation -0.015 -0.5 0.055
         rotation 1 0 0 1.5708
         children [
@@ -61,28 +62,28 @@ PROTO DoubleFluorescentLamp [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.015 -0.5 0.055
         rotation 1 0 0 1.5708
         children [
           USE CONNECTOR
         ]
       }
-      Transform {
+      Pose {
         translation 0.015 0.5 0.055
         rotation 1 0 0 1.5708
         children [
           USE CONNECTOR
         ]
       }
-      Transform {
+      Pose {
         translation -0.015 0.5 0.055
         rotation 1 0 0 1.5708
         children [
           USE CONNECTOR
         ]
       }
-      DEF BASE Transform {
+      DEF BASE Pose {
         translation 0 0 0.02
         children [
           Shape {
@@ -94,7 +95,7 @@ PROTO DoubleFluorescentLamp [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0.5 0.04
         children [
           DEF BOX_CONNECTOR Shape {
@@ -106,7 +107,7 @@ PROTO DoubleFluorescentLamp [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 -0.5 0.04
         children [
           USE BOX_CONNECTOR

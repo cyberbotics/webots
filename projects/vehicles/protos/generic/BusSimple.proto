@@ -1,9 +1,9 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/car#simple-vehicles
 # Simple kinematic model of bus to be moved with a Supervisor.
-# This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
+# This model was sponsored by the [CTI project RO2IVSim](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
 EXTERNPROTO "BusShape.proto"
 EXTERNPROTO "BusWheel.proto"
@@ -37,23 +37,23 @@ PROTO BusSimple [
     model "bus"
     recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid javascript PROTO regeneration when colors change.
     children [
-      Transform {
+      Pose {
         children IS sensorsSlotCenter
       }
-      Transform {
+      Pose {
         translation 11.5 0 0.2
         children IS sensorsSlotFront
       }
-      Transform {
+      Pose {
         translation 2.5 0 5.3
         children IS sensorsSlotTop
       }
-      Transform {
+      Pose {
         translation -6.2 0 1
         rotation 0 0 1 3.14159
         children IS sensorsSlotRear
       }
-      Transform{
+      Pose {
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
           BusShape {
@@ -61,7 +61,7 @@ PROTO BusSimple [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 6.26 -0.9 0.56
         rotation 0 1 0 1.5708
         children [
@@ -78,7 +78,7 @@ PROTO BusSimple [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 6.26 0.9 0.56
         rotation 0 1 0 1.5708
         children [
@@ -143,7 +143,7 @@ PROTO BusSimple [
       }
     ]
     radarCrossSection 200
-    boundingObject Transform {
+    boundingObject Pose {
       translation 1.4625 0 1.35
       rotation 0.57735 0.57735 0.57735 2.094395
       children [

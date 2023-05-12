@@ -1,7 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/lidar-sensors#lds-01
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/robotis/protos/RobotisLds01.proto
 # Model of the Robotis LDS-01 Laser Distance Sensor
 # Reference: http://www.robotis.us/360-laser-distance-sensor-lds-01-lidar/
 # template language: javascript
@@ -21,7 +21,7 @@ PROTO RobotisLds01 [
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         rotation 0 0.707103 0.70711 3.141585
         children [
           HingeJoint {
@@ -37,18 +37,22 @@ PROTO RobotisLds01 [
             endPoint Solid {
               translation 0 -0.01 0
               rotation 1 0 0 -1.5708
-              scale 0.001 0.001 0.001
               children [
-                Shape {
-                  appearance DEF MAIN_APPEARANCE RoughPolymer {
-                    baseColor 0 0 0
-                    textureTransform TextureTransform {
-                      scale 4 4
+                Transform {
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance DEF MAIN_APPEARANCE RoughPolymer {
+                        baseColor 0 0 0
+                        textureTransform TextureTransform {
+                          scale 4 4
+                        }
+                      }
+                      geometry Mesh {
+                        url "meshes/turret.obj"
+                      }
                     }
-                  }
-                  geometry Mesh {
-                    url "meshes/turret.obj"
-                  }
+                  ]
                 }
               ]
               name "lower"
@@ -68,21 +72,25 @@ PROTO RobotisLds01 [
             endPoint Solid {
               translation 0 -0.01 0
               rotation 1 0 0 -1.5708
-              scale 0.001 0.001 0.001
               children [
-                Shape {
-                  appearance PBRAppearance {
-                    baseColor 0.886671 0.833646 0.78027
-                    metalness 0
-                  }
-                  geometry Mesh {
-                    url "meshes/wheel.obj"
-                  }
+                Transform {
+                  scale 0.001 0.001 0.001
+                  children [
+                    Shape {
+                      appearance PBRAppearance {
+                        baseColor 0.886671 0.833646 0.78027
+                        metalness 0
+                      }
+                      geometry Mesh {
+                        url "meshes/wheel.obj"
+                      }
+                    }
+                  ]
                 }
               ]
             }
           }
-          Transform {
+          Pose {
             translation 0 -0.01 0
             rotation 1 0 0 -1.5708
             children [
@@ -154,7 +162,7 @@ PROTO RobotisLds01 [
     name IS name
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0.014 0 -0.014
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
@@ -163,7 +171,7 @@ PROTO RobotisLds01 [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0
           children [
             Cylinder {

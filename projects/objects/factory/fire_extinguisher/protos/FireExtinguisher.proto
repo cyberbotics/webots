@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Attribution-NonCommercial 4.0 International (original model by 3DHaupt)
 # license url: https://creativecommons.org/licenses/by-nc/4.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/factory/fire_extinguisher/protos/FireExtinguisher.proto
 # A simple fire extinguisher with optional physics.
 # template language: javascript
 
@@ -60,7 +61,7 @@ PROTO FireExtinguisher [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.33
           children [
             Cylinder {
@@ -69,7 +70,7 @@ PROTO FireExtinguisher [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.702
           children [
             Cylinder {
@@ -78,7 +79,7 @@ PROTO FireExtinguisher [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.01 0.04 0.774
           rotation -0.511941 0.607417 0.607421 -2.195295
           children [
@@ -87,7 +88,7 @@ PROTO FireExtinguisher [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.013090547073102142 -0.1129 0.7123391880580812
           rotation -0.9903465033712286 0.08438277258311663 0.10996977289949737 -4.964806896107718
           children [
@@ -97,7 +98,7 @@ PROTO FireExtinguisher [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.026461480938162488 -0.1769687015932643 0.6834225026969497
           rotation 0.985788889348579 -0.08399443970539586 -0.14548264410393388 -1.0596371189819507
           children [
@@ -107,7 +108,7 @@ PROTO FireExtinguisher [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.039908023432223744 -0.2271398994494514 0.6407733671742094
           rotation 0.9498522651597846 -0.08093244880018712 -0.3020440582134196 -0.549901797604974
           children [
@@ -117,7 +118,7 @@ PROTO FireExtinguisher [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.04630254032885625 -0.259826810838509 0.57760747431299
           rotation -0.8373769912338924 0.07134895915428628 0.5419493524118963 -5.971298250353253
           children [
@@ -127,7 +128,7 @@ PROTO FireExtinguisher [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.046059459595696975 -0.2648794879372898 0.5136460106877495
           rotation -0.8373771917152164 0.07134897623635705 -0.5419490403950924 -0.3118872334923489
           children [
@@ -137,7 +138,7 @@ PROTO FireExtinguisher [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.04235247798295583 -0.24978266422585474 0.45829780221969
           rotation 0.9498523017241813 -0.08093245191566684 0.3020439423928131 -5.733283309179094
           children [
@@ -147,7 +148,7 @@ PROTO FireExtinguisher [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.036593055068650994 -0.20601213740879804 0.39098510120268065
           rotation -0.9760981123941126 0.08316873413151894 -0.20078704301724998 -0.7
           children [
@@ -157,7 +158,7 @@ PROTO FireExtinguisher [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.029694131260010054 -0.15125620133808831 0.3213709672017158
           rotation -0.9760981123941126 0.08316873413151894 -0.20078704301724998 -0.523599
           children [
@@ -167,7 +168,7 @@ PROTO FireExtinguisher [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.014447672681844418 -0.11730753198435491 0.19512631803998082
           children [
             Capsule {

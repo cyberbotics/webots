@@ -1,13 +1,13 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/hoap2
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/fujitsu/hoap2/protos/Hoap2.proto
 # Hoap 2 - Advanced humanoid robot manufactured by Fujitsu Automation
 # 50 cm high, 7 kg, 25 degrees of freedom
 
 PROTO Hoap2 [
-  field SFVec3f    translation         0 0 0.29       # Is `Transform.translation`.
-  field SFRotation rotation            0 0 1 0        # Is `Transform.rotation`.
+  field SFVec3f    translation         0 0 0.29       # Is `Pose.translation`.
+  field SFRotation rotation            0 0 1 0        # Is `Pose.rotation`.
   field SFString   name                "HOAP-2"       # Is `Solid.name`.
   field SFString   controller          "hoap2"        # Is `Robot.controller`.
   field MFString   controllerArgs      []             # Is `Robot.controllerArgs`.
@@ -45,7 +45,7 @@ PROTO Hoap2 [
         }
         endPoint Solid {
           children [
-            DEF BACK_BOX Transform {
+            DEF BACK_BOX Pose {
               translation -0.034 0 0
               children [
                 Shape {
@@ -58,7 +58,7 @@ PROTO Hoap2 [
                 }
               ]
             }
-            DEF LEFT_HIP_1 Transform {
+            DEF LEFT_HIP_1 Pose {
               translation -0.034 0.039 -0.0235
               children [
                 DEF HIP_1_SHAPE Shape {
@@ -69,7 +69,7 @@ PROTO Hoap2 [
                 }
               ]
             }
-            DEF RIGHT_HIP_1 Transform {
+            DEF RIGHT_HIP_1 Pose {
               translation -0.034 -0.039 -0.0235
               children [
                 USE HIP_1_SHAPE
@@ -131,7 +131,7 @@ PROTO Hoap2 [
                           }
                           endPoint Solid {
                             children [
-                              DEF HIP_2 Transform {
+                              DEF HIP_2 Pose {
                                 children [
                                   Shape {
                                     appearance USE BODY_APPEARANCE
@@ -141,7 +141,7 @@ PROTO Hoap2 [
                                   }
                                 ]
                               }
-                              DEF UPPER_LEG Transform {
+                              DEF UPPER_LEG Pose {
                                 translation 0.0122 0 -0.052
                                 children [
                                   Shape {
@@ -227,7 +227,7 @@ PROTO Hoap2 [
                                 endPoint Solid {
                                   translation 0 0 -0.1
                                   children [
-                                    DEF LOWER_LEG Transform {
+                                    DEF LOWER_LEG Pose {
                                       translation 0.0082 0 -0.05
                                       children [
                                         Shape {
@@ -285,7 +285,7 @@ PROTO Hoap2 [
                                         }
                                       ]
                                     }
-                                    DEF KNEE_CYLINDER Transform {
+                                    DEF KNEE_CYLINDER Pose {
                                       translation 0.0082 0 0
                                       rotation 1 0 0 1.57
                                       children [
@@ -368,7 +368,7 @@ PROTO Hoap2 [
                                                   }
                                                   type "force"
                                                 }
-                                                DEF ANKLE_CYLINDER Transform {
+                                                DEF ANKLE_CYLINDER Pose {
                                                   translation 0.0032 0 0
                                                   rotation 0 1 0 1.57
                                                   children [
@@ -381,7 +381,7 @@ PROTO Hoap2 [
                                                     }
                                                   ]
                                                 }
-                                                DEF FOOT_SHAPE Transform {
+                                                DEF FOOT_SHAPE Pose {
                                                   translation 0.0102 0 -0.007
                                                   children [
                                                     Shape {
@@ -512,7 +512,7 @@ PROTO Hoap2 [
                                                 }
                                               ]
                                               contactMaterial IS contactMaterial
-                                              boundingObject DEF FOOT_BO Transform {
+                                              boundingObject DEF FOOT_BO Pose {
                                                 translation 0.01 0 -0.015
                                                 children [
                                                   Box {
@@ -551,7 +551,7 @@ PROTO Hoap2 [
                                     }
                                   ]
                                   contactMaterial IS contactMaterial
-                                  boundingObject DEF LOWER_LEG_BO Transform {
+                                  boundingObject DEF LOWER_LEG_BO Pose {
                                     translation 0.008 0 -0.05
                                     children [
                                       Box {
@@ -573,7 +573,7 @@ PROTO Hoap2 [
                               }
                             ]
                             contactMaterial IS contactMaterial
-                            boundingObject DEF UPPER_LEG_BO Transform {
+                            boundingObject DEF UPPER_LEG_BO Pose {
                               translation 0.013 0 -0.045
                               children [
                                 Shape {
@@ -849,7 +849,7 @@ PROTO Hoap2 [
         endPoint Solid {
           translation -0.034 0.0995 0.09
           children [
-            DEF SHOULDER_BLACK_1_TRANS Transform {
+            DEF SHOULDER_BLACK_1_TRANS Pose {
               translation 0 0 -0.04
               children [
                 Shape {
@@ -861,7 +861,7 @@ PROTO Hoap2 [
                 }
               ]
             }
-            DEF LEFT_SHOULDER_BLACK_TRANS Transform {
+            DEF LEFT_SHOULDER_BLACK_TRANS Pose {
               translation 0 -0.05 0
               rotation 1 0 0 1.57
               children [
@@ -892,7 +892,7 @@ PROTO Hoap2 [
               }
               endPoint Solid {
                 children [
-                  DEF SHOULDER_TRANS Transform {
+                  DEF SHOULDER_TRANS Pose {
                     translation 0.0045 0 0.0285
                     rotation -0.577652 -0.577661 0.576737 2.095309
                     children [
@@ -918,7 +918,7 @@ PROTO Hoap2 [
                           ]
                         }
                       }
-                      Transform {
+                      Pose {
                         translation 0 0.0475 0
                         children [
                           Shape {
@@ -965,7 +965,7 @@ PROTO Hoap2 [
                     }
                     endPoint Solid {
                       children [
-                        DEF UPPER_ARM Transform {
+                        DEF UPPER_ARM Pose {
                           translation 0.0651 0.022 0
                           rotation 0.707106 0 -0.707107 -3.141589
                           children [
@@ -990,7 +990,7 @@ PROTO Hoap2 [
                                 ]
                               }
                             }
-                            Transform {
+                            Pose {
                               translation 0 0.0217 -0.0328
                               rotation 1 0 0 1.5708
                               children [
@@ -1025,7 +1025,7 @@ PROTO Hoap2 [
                           endPoint Solid {
                             translation 0.101 0 0
                             children [
-                              DEF LOWER_ARM_TRANS Transform {
+                              DEF LOWER_ARM_TRANS Pose {
                                 translation 0.0575 0 -0.0028
                                 children [
                                   Shape {
@@ -1034,7 +1034,7 @@ PROTO Hoap2 [
                                       size 0.0603 0.04356 0.032
                                     }
                                   }
-                                  Transform {
+                                  Pose {
                                     translation -0.045 0.0177 -0.0048
                                     children [
                                       Shape {
@@ -1045,7 +1045,7 @@ PROTO Hoap2 [
                                       }
                                     ]
                                   }
-                                  Transform {
+                                  Pose {
                                     translation -0.045 -0.0178 -0.0048
                                     children [
                                       Shape {
@@ -1056,7 +1056,7 @@ PROTO Hoap2 [
                                       }
                                     ]
                                   }
-                                  Transform {
+                                  Pose {
                                     translation -0.04 0 -0.0068
                                     rotation 1 0 0 1.57
                                     children [
@@ -1091,7 +1091,7 @@ PROTO Hoap2 [
                                 endPoint Solid {
                                   translation 0.1 0 0
                                   children [
-                                    DEF LEFT_HAND_TRANS Transform {
+                                    DEF LEFT_HAND_TRANS Pose {
                                       translation 0.018 0.0105 -0.002
                                       children [
                                         Shape {
@@ -1122,7 +1122,7 @@ PROTO Hoap2 [
                                             ]
                                           }
                                         }
-                                        Transform {
+                                        Pose {
                                           translation -0.0185 -0.0164 0
                                           children [
                                             Shape {
@@ -1157,7 +1157,7 @@ PROTO Hoap2 [
                                         }
                                       ]
                                     }
-                                    DEF LEFT_FINGER_TRANS Transform {
+                                    DEF LEFT_FINGER_TRANS Pose {
                                       translation 0.0071 -0.0165 0.005
                                       children [
                                         Shape {
@@ -1188,7 +1188,7 @@ PROTO Hoap2 [
                                         }
                                       ]
                                     }
-                                    DEF LEFT_FINGER_TRANS_2 Transform {
+                                    DEF LEFT_FINGER_TRANS_2 Pose {
                                       translation 0.0167 -0.0185 0.005
                                       children [
                                         Shape {
@@ -1226,7 +1226,7 @@ PROTO Hoap2 [
                                     }
                                   ]
                                   contactMaterial IS contactMaterial
-                                  boundingObject DEF FINGER_BO Transform {
+                                  boundingObject DEF FINGER_BO Pose {
                                     translation 0.015 0.01 0
                                     children [
                                       Shape {
@@ -1252,7 +1252,7 @@ PROTO Hoap2 [
                             contactMaterial IS contactMaterial
                             boundingObject DEF L_LOWER_ARM_BO Group {
                               children [
-                                Transform {
+                                Pose {
                                   translation 0.008 0 0.003
                                   children [
                                     Shape {
@@ -1262,7 +1262,7 @@ PROTO Hoap2 [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0.05 0 -0.003
                                   children [
                                     Shape {
@@ -1288,7 +1288,7 @@ PROTO Hoap2 [
                         }
                       ]
                       contactMaterial IS contactMaterial
-                      boundingObject DEF UPPER_ARM_BO Transform {
+                      boundingObject DEF UPPER_ARM_BO Pose {
                         translation 0.066 0 0
                         children [
                           Shape {
@@ -1312,7 +1312,7 @@ PROTO Hoap2 [
                   }
                 ]
                 contactMaterial IS contactMaterial
-                boundingObject DEF SHOULDER_BO Transform {
+                boundingObject DEF SHOULDER_BO Pose {
                   translation 0.0045 0 -0.021
                   children [
                     Shape {
@@ -1365,7 +1365,7 @@ PROTO Hoap2 [
           translation -0.034 -0.0995 0.09
           children [
             USE SHOULDER_BLACK_1_TRANS
-            DEF RIGHT_SHOULDER_BLACK_TRANS Transform {
+            DEF RIGHT_SHOULDER_BLACK_TRANS Pose {
               translation 0 0.05 0
               rotation 1 0 0 -1.57
               children [
@@ -1451,7 +1451,7 @@ PROTO Hoap2 [
                                 endPoint Solid {
                                   translation 0.1 0 0
                                   children [
-                                    DEF RIGHT_HAND_TRANS Transform {
+                                    DEF RIGHT_HAND_TRANS Pose {
                                       translation 0.018 -0.0105 -0.002
                                       children [
                                         Shape {
@@ -1482,7 +1482,7 @@ PROTO Hoap2 [
                                             ]
                                           }
                                         }
-                                        Transform {
+                                        Pose {
                                           translation -0.0185 0.0164 0
                                           children [
                                             Shape {
@@ -1517,7 +1517,7 @@ PROTO Hoap2 [
                                         }
                                       ]
                                     }
-                                    DEF RIGHT_FINGER_TRANS Transform {
+                                    DEF RIGHT_FINGER_TRANS Pose {
                                       translation 0.0071 0.0165 0.005
                                       children [
                                         Shape {
@@ -1548,7 +1548,7 @@ PROTO Hoap2 [
                                         }
                                       ]
                                     }
-                                    DEF RIGHT_FINGER_TRANS_2 Transform {
+                                    DEF RIGHT_FINGER_TRANS_2 Pose {
                                       translation 0.0167 0.0185 0.005
                                       children [
                                         Shape {
@@ -1586,7 +1586,7 @@ PROTO Hoap2 [
                                     }
                                   ]
                                   contactMaterial IS contactMaterial
-                                  boundingObject DEF FINGER_BO2 Transform {
+                                  boundingObject DEF FINGER_BO2 Pose {
                                     translation 0.015 -0.01 0
                                     children [
                                       Shape {
@@ -1603,7 +1603,7 @@ PROTO Hoap2 [
                             contactMaterial IS contactMaterial
                             boundingObject DEF R_LOWER_ARM_BO Group {
                               children [
-                                Transform {
+                                Pose {
                                   translation 0.008 0 0.003
                                   children [
                                     Shape {
@@ -1613,7 +1613,7 @@ PROTO Hoap2 [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0.05 0 -0.003
                                   children [
                                     Shape {
@@ -1677,7 +1677,7 @@ PROTO Hoap2 [
           }
         }
       }
-      DEF neck_cylinder_1 Transform {
+      DEF neck_cylinder_1 Pose {
         translation -0.044 -0.0 0.12
         children [
           Shape {
@@ -1709,7 +1709,7 @@ PROTO Hoap2 [
         endPoint Solid {
           translation -0.034 0 0.09
           children [
-            DEF neck_cylinder_2 Transform {
+            DEF neck_cylinder_2 Pose {
               translation 0 0 0.063
               rotation 0 1 0 0.3
               children [
@@ -1742,7 +1742,7 @@ PROTO Hoap2 [
               endPoint Solid {
                 translation 0.008 0 0.081
                 children [
-                  DEF BIG_EYE_TRANS Transform {
+                  DEF BIG_EYE_TRANS Pose {
                     translation 0.026 0 -0.005
                     children [
                       Shape {
@@ -1771,7 +1771,7 @@ PROTO Hoap2 [
                       }
                     ]
                   }
-                  DEF HEAD_TRANS Transform {
+                  DEF HEAD_TRANS Pose {
                     translation -0.006 0 -0.005
                     children [
                       Shape {
@@ -1833,7 +1833,7 @@ PROTO Hoap2 [
                   }
                 ]
                 contactMaterial IS contactMaterial
-                boundingObject DEF HEAD_BO Transform {
+                boundingObject DEF HEAD_BO Pose {
                   translation 0 0 -0.007
                   children [
                     Shape {
@@ -1870,7 +1870,7 @@ PROTO Hoap2 [
       }
       GPS {
       }
-      DEF FUJITSU_LOGO Transform {
+      DEF FUJITSU_LOGO Pose {
         translation 0.03 0.024 0.083
         children [
           Shape {
@@ -1890,7 +1890,7 @@ PROTO Hoap2 [
           }
         ]
       }
-      DEF BIRG_LOGO Transform {
+      DEF BIRG_LOGO Pose {
         translation 0.0199 0 0.0325
         children [
           Shape {
@@ -1912,7 +1912,7 @@ PROTO Hoap2 [
           }
         ]
       }
-      DEF BODY_TRANS Transform {
+      DEF BODY_TRANS Pose {
         translation -0.019 0 0.054
         children [
           Shape {
@@ -1943,7 +1943,7 @@ PROTO Hoap2 [
           }
         ]
       }
-      DEF BATTERY_TRANS Transform {
+      DEF BATTERY_TRANS Pose {
         translation -0.0994 0 0.0595
         children [
           Shape {
@@ -1977,7 +1977,7 @@ PROTO Hoap2 [
     contactMaterial IS contactMaterial
     boundingObject DEF BODY_BO Group {
       children [
-        Transform {
+        Pose {
           translation -0.021 0 0.056
           children [
             Shape {
@@ -1987,7 +1987,7 @@ PROTO Hoap2 [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.099 -0.0 0.09
           children [
             Shape {
@@ -1997,7 +1997,7 @@ PROTO Hoap2 [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.089 0 -0.005
           children [
             Shape {

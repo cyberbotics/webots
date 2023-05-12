@@ -137,7 +137,7 @@ for file, path in local_files.items():
 
     # update proto header
     contents = contents[n:]  # remove old header
-    header[0] = '#VRML_SIM R2023a utf8\n'
+    header[0] = '#VRML_SIM R2023b utf8\n'
     contents = header + contents
 
     # write to file

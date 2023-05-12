@@ -1,7 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/youbot
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/kuka/youbot/protos/Youbot.proto
 # The KUKA youBot is a powerful, educational robot that is especially designed for research and education in mobile manipulation, which counts as a key technology for professional service robotics. It consists of an omnidirectional platform, a five degree-of-freedom robot arm and a two-finger gripper.
 # template language: javascript
 
@@ -18,8 +18,8 @@ EXTERNPROTO "ExteriorWheel.proto"
 EXTERNPROTO "PlateMesh.proto"
 
 PROTO Youbot [
-  field SFVec3f           translation     0 0 0.12      # Is `Transform.translation`.
-  field SFRotation        rotation        0 0 1 0       # Is `Transform.rotation`.
+  field SFVec3f           translation     0 0 0.12      # Is `Pose.translation`.
+  field SFRotation        rotation        0 0 1 0       # Is `Pose.rotation`.
   field SFString          name            "youBot"      # Is `Solid.name`.
   field SFString          controller      "youbot"      # Is `Robot.controller`.
   field MFString          controllerArgs  []            # Is `Robot.controllerArgs`.
@@ -172,12 +172,12 @@ Robot {
                                         }
                                         device [
                                           LinearMotor {
-                                            name "finger1"
+                                            name "finger::left"
                                             maxPosition 0.025
                                             maxForce 100
                                           }
                                           PositionSensor {
-                                            name "finger1sensor"
+                                            name "finger::leftsensor"
                                           }
                                         ]
                                         endPoint Solid {
@@ -187,10 +187,10 @@ Robot {
                                             FingerMesh {
                                             }
                                           ]
-                                          name "finger1"
+                                          name "finger::left"
                                           boundingObject DEF FINGER_BO Group {
                                             children [
-                                              Transform {
+                                              Pose {
                                                 translation 0 -0.031 0.015
                                                 children [
                                                   Box {
@@ -198,7 +198,7 @@ Robot {
                                                   }
                                                 ]
                                               }
-                                              Transform {
+                                              Pose {
                                                 translation 0 -0.007 0.01
                                                 children [
                                                   Box {
@@ -227,12 +227,12 @@ Robot {
                                         }
                                         device [
                                           LinearMotor {
-                                            name "finger2"
+                                            name "finger::right"
                                             maxPosition 0.025
                                             maxForce 100
                                           }
                                           PositionSensor {
-                                            name "finger2sensor"
+                                            name "finger::rightsensor"
                                           }
                                         ]
                                         endPoint Solid {
@@ -242,13 +242,13 @@ Robot {
                                             FingerMesh {
                                             }
                                           ]
-                                          name "finger2"
+                                          name "finger::right"
                                           boundingObject USE FINGER_BO
                                           physics USE FINGER_PH
                                         }
                                       }
                                     ]
-                                    boundingObject Transform {
+                                    boundingObject Pose {
                                       translation 0 0 0.045
                                       children [
                                         Box {
@@ -272,7 +272,7 @@ Robot {
                               ]
                               boundingObject Group {
                                 children [
-                                  Transform {
+                                  Pose {
                                     translation 0 0 0.056
                                     children [
                                       Box {
@@ -280,7 +280,7 @@ Robot {
                                       }
                                     ]
                                   }
-                                  Transform {
+                                  Pose {
                                     translation 0 -0.024 0.003
                                     rotation 1 0 0 -1.5708
                                     children [
@@ -306,7 +306,7 @@ Robot {
                             }
                           }
                         ]
-                        boundingObject Transform {
+                        boundingObject Pose {
                           translation 0 0.0225 0.065
                           children [
                             Box {
@@ -328,7 +328,7 @@ Robot {
                       }
                     }
                   ]
-                  boundingObject Transform {
+                  boundingObject Pose {
                     translation 0 -0.03 0.078
                     children [
                       Box {
@@ -350,7 +350,7 @@ Robot {
                 }
               }
             ]
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0.032 0.023 0.07
               rotation 1 0 0 -1.5708
               children [
@@ -375,7 +375,7 @@ Robot {
         }
       ]
       name "arm"
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0 0.04
         children [
           Cylinder {
@@ -525,12 +525,12 @@ Robot {
                                         }
                                         device [
                                           LinearMotor {
-                                            name "front finger1"
+                                            name "front finger::left"
                                             maxPosition 0.025
                                             maxForce 100
                                           }
                                           PositionSensor {
-                                            name "front finger1sensor"
+                                            name "front finger::leftsensor"
                                           }
                                         ]
                                         endPoint Solid {
@@ -540,10 +540,10 @@ Robot {
                                             FingerMesh {
                                             }
                                           ]
-                                          name "front finger1"
+                                          name "front finger::left"
                                           boundingObject DEF FINGER_BO Group {
                                             children [
-                                              Transform {
+                                              Pose {
                                                 translation 0 -0.031 0.015
                                                 children [
                                                   Box {
@@ -551,7 +551,7 @@ Robot {
                                                   }
                                                 ]
                                               }
-                                              Transform {
+                                              Pose {
                                                 translation 0 -0.007 0.01
                                                 children [
                                                   Box {
@@ -580,12 +580,12 @@ Robot {
                                         }
                                         device [
                                           LinearMotor {
-                                            name "front finger2"
+                                            name "front finger::right"
                                             maxPosition 0.025
                                             maxForce 100
                                           }
                                           PositionSensor {
-                                            name "front finger2sensor"
+                                            name "front finger::rightsensor"
                                           }
                                         ]
                                         endPoint Solid {
@@ -595,13 +595,13 @@ Robot {
                                             FingerMesh {
                                             }
                                           ]
-                                          name "front finger2"
+                                          name "front finger::right"
                                           boundingObject USE FINGER_BO
                                           physics USE FINGER_PH
                                         }
                                       }
                                     ]
-                                    boundingObject Transform {
+                                    boundingObject Pose {
                                       translation 0 0 0.045
                                       children [
                                         Box {
@@ -625,7 +625,7 @@ Robot {
                               ]
                               boundingObject Group {
                                 children [
-                                  Transform {
+                                  Pose {
                                     translation 0 0 0.056
                                     children [
                                       Box {
@@ -633,7 +633,7 @@ Robot {
                                       }
                                     ]
                                   }
-                                  Transform {
+                                  Pose {
                                     translation 0 -0.024 0.003
                                     rotation 1 0 0 -1.5708
                                     children [
@@ -659,7 +659,7 @@ Robot {
                             }
                           }
                         ]
-                        boundingObject Transform {
+                        boundingObject Pose {
                           translation 0 0.0225 0.065
                           children [
                             Box {
@@ -681,7 +681,7 @@ Robot {
                       }
                     }
                   ]
-                  boundingObject Transform {
+                  boundingObject Pose {
                     translation 0 -0.03 0.078
                     children [
                       Box {
@@ -703,7 +703,7 @@ Robot {
                 }
               }
             ]
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0.032 0.023 0.07
               rotation 1 0 0 -1.5708
               children [
@@ -728,7 +728,7 @@ Robot {
         }
       ]
       name "front arm"
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0 0.04
         children [
           Cylinder {
@@ -784,7 +784,7 @@ Robot {
       name "plate"
       boundingObject Group {
         children [
-          Transform {
+          Pose {
             translation 0.008 0 0.045
             children [
               Box {
@@ -792,7 +792,7 @@ Robot {
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.015 0.112 0.045
             rotation 0 0 1 -0.13
             children [
@@ -801,7 +801,7 @@ Robot {
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.015 -0.112 0.045
             rotation 0 0 1 0.13
             children [
@@ -810,7 +810,7 @@ Robot {
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0.076 0.084 0.045
             rotation 0 0 1 0.81
             children [
@@ -819,7 +819,7 @@ Robot {
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0.076 -0.084 0.045
             rotation 0 0 1 -0.81
             children [
@@ -840,7 +840,7 @@ Robot {
   description "KUKA youBot"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0 0 -0.045
         children [
           Box {
@@ -848,7 +848,7 @@ Robot {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 -0.045
         children [
           Box {
