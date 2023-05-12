@@ -16,7 +16,7 @@
 
 """Convert Transforms with no scale or the default one into Poses"""
 
-# usage: put the script in the root folder of the project you want to convert and run it.
+# usage: copy this script and `webots_parser.py` in the root folder of the project you want to convert and run it.
 from webots_parser import WebotsParser
 from pathlib import Path
 
@@ -52,6 +52,8 @@ def convert_children(node):
             node['name'] = 'Pose'
 
     for field in node['fields']:
+        if field['type'] == 'IS':
+            continue
         if field['name'] in 'children':
             for child in field['value']:
                 convert_children(child)
