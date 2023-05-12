@@ -18,6 +18,7 @@
 #include "WbMFNode.hpp"
 #include "WbNode.hpp"
 #include "WbSFNode.hpp"
+#include "WbTokenizer.hpp"
 #include "WbWriter.hpp"
 
 #include <QtCore/QQueue>
@@ -480,4 +481,41 @@ QString WbVrmlNodeUtilities::exportNodeToString(WbNode *node) {
   WbWriter writer(&nodeString, ".wbt");
   node->write(writer);
   return nodeString;
+}
+
+// Return true if we can convert the Transform to a Pose.
+bool WbVrmlNodeUtilities::transformBackwardCompatibility(WbTokenizer *tokenizer) {
+  if (tokenizer) {
+    int initalIndex = tokenizer->pos();
+    bool inChildren = false;
+    int bracketCount = 0;
+    while (tokenizer->hasMoreTokens()) {
+      QString token = tokenizer->nextWord();
+      if (inChildren) {
+        if (token == "[")
+          bracketCount++;
+        else if (token == "]") {
+          bracketCount--;
+          if (bracketCount == 0)
+            inChildren = false;
+        }
+      } else if (token == "children") {
+        inChildren = true;
+      } else if (!inChildren && token == "scale") {
+        for (int i = 0; i < 3; i++) {
+          if (tokenizer->nextWord() != '1') {
+            tokenizer->seek(initalIndex);
+            return false;
+          }
+        }
+        // We have identified that the scale is the default one.
+        break;
+        // End of the Transform
+      } else if (token == "}" && !inChildren)
+        break;
+    }
+    tokenizer->seek(initalIndex);
+  }
+
+  return true;
 }
