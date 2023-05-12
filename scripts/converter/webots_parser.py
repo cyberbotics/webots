@@ -30,6 +30,7 @@ class WebotsParser:
     def load(self, filename):
         with open(filename, 'r') as self.file:
             self.content['header'] = []
+            self.content['externprotos'] = []
             self.line_count = 0
 
             self.content['header'] = []
@@ -40,6 +41,9 @@ class WebotsParser:
                 if line.startswith('#') or not line.strip():
                     self.line_count += 1
                     self.content['header'].append(line.strip())
+                elif line.startswith('EXTERNPROTO') or line.startswith('IMPORTABLE EXTERNPROTO'):
+                    self.line_count += 1
+                    self.content['externprotos'].append(line.strip())
                 else:
                     self.file.seek(revert_position)
                     self.line_count = revert_line_count
