@@ -49,10 +49,45 @@ WbNode *WbNodeReader::createNode(const QString &modelName, WbTokenizer *tokenize
   if (mMode == NORMAL)
     return WbNodeFactory::instance()->createNode(WbNodeModel::compatibleNodeName(modelName), tokenizer);
 
-  WbNodeModel *const model = WbNodeModel::findModel(modelName);
-  if (model)
-    return new WbNode(modelName, worldPath, tokenizer);
+  if (modelName == "Transform") {
+    if (tokenizer) {
+      int initalIndex = tokenizer->pos();
+      bool inChildren = false;
+      int bracketCount = 0;
+      while (tokenizer->hasMoreTokens()) {
+        QString token = tokenizer->nextWord();
+        if (inChildren) {
+          if (token == "[")
+            bracketCount++;
+          else if (token == "]") {
+            bracketCount--;
+            if (bracketCount == 0)
+              inChildren = false;
+          }
+        } else if (token == "children") {
+          inChildren = true;
+        } else if (!inChildren && token == "scale") {
+          for (int i = 0; i < 3; i++) {
+            if (tokenizer->nextWord() != '1') {
+              tokenizer->seek(initalIndex);
+              return new WbNode("Transform", worldPath, tokenizer);
+            }
+          }
+          // We have identified that the scale is the default one.
+          break;
+          // End of the Transform
+        } else if (token == "}" && !inChildren)
+          break;
+      }
+      tokenizer->seek(initalIndex);
+    }
 
+    return new WbNode("Pose", worldPath, tokenizer);
+  } else {
+    WbNodeModel *const model = WbNodeModel::findModel(modelName);
+    if (model)
+      return new WbNode(modelName, worldPath, tokenizer);
+  }
   WbProtoModel *const proto = WbProtoManager::instance()->findModel(modelName, worldPath, fileName);
   if (proto)
     return WbNode::createProtoInstance(proto, tokenizer, worldPath);
