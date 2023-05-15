@@ -64,6 +64,8 @@ class WebotsParser:
         with open(filename, 'w', newline='\n') as self.file:
             for header_line in self.content['header']:
                 self.file.write(header_line + '\n')
+            for externproto_line in self.content['externprotos']:
+                self.file.write(externproto_line + '\n')
             for node in self.content['root']:
                 if node['type'] == 'node':
                     self._write_node(node)
