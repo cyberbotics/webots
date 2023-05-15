@@ -62,7 +62,7 @@ PROTO SharpGP2Y0A710K0F [
         }
       }
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       translation -0.0114 -0.0189 0
       children [
         Box {

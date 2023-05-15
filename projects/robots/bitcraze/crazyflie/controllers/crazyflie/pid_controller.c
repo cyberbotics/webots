@@ -41,6 +41,7 @@ float constrain(float value, const float minVal, const float maxVal) {
 
 double pastAltitudeError, pastPitchError, pastRollError, pastYawRateError;
 double pastVxError, pastVyError;
+double altitudeIntegrator;
 
 void init_pid_attitude_fixed_height_controller() {
   pastAltitudeError = 0;
@@ -49,6 +50,7 @@ void init_pid_attitude_fixed_height_controller() {
   pastRollError = 0;
   pastVxError = 0;
   pastVyError = 0;
+  altitudeIntegrator = 0;
 }
 
 void pid_attitude_fixed_height_controller(actual_state_t actual_state, desired_state_t *desired_state, gains_pid_t gains_pid,
@@ -74,6 +76,10 @@ void pid_fixed_height_controller(actual_state_t actual_state, desired_state_t *d
   double altitudeDerivativeError = (altitudeError - pastAltitudeError) / dt;
   control_commands->altitude =
     gains_pid.kp_z * constrain(altitudeError, -1, 1) + gains_pid.kd_z * altitudeDerivativeError + gains_pid.ki_z;
+
+  altitudeIntegrator += altitudeError * dt;
+  control_commands->altitude = gains_pid.kp_z * constrain(altitudeError, -1, 1) + gains_pid.kd_z * altitudeDerivativeError +
+                               gains_pid.ki_z * altitudeIntegrator + 48;
   pastAltitudeError = altitudeError;
 }
 

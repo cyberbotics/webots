@@ -5,8 +5,8 @@
 # A dog-like robot using the ROBOTIS Bioloid kit.
 
 PROTO BioloidDog [
-  field SFVec3f    translation     0 0 0.09      # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0       # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0.09      # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0       # Is `Pose.rotation`.
   field SFString   name            "BioloidDog"  # Is `Solid.name`.
   field SFString   controller      "bioloid_dog" # Is `Robot.controller`.
   field MFString   controllerArgs  []            # Is `Robot.controllerArgs`.
@@ -36,7 +36,7 @@ PROTO BioloidDog [
       DEF emitter Emitter {
         range 999
       }
-      DEF CM5_TRANS Transform {
+      DEF CM5_TRANS Pose {
         rotation 0 0 1 1.5708
         children [
           DEF CM5_SHAPE Shape {
@@ -59,7 +59,7 @@ PROTO BioloidDog [
           }
         ]
       }
-      DEF CM5UNIT_TRANS Transform {
+      DEF CM5UNIT_TRANS Pose {
         translation 0 0 0.0105
         children [
           DEF CM5UNIT_SHAPE Shape {
@@ -74,7 +74,7 @@ PROTO BioloidDog [
           }
         ]
       }
-      DEF F3_FRONT_LEFT_1_TRANS Transform {
+      DEF F3_FRONT_LEFT_1_TRANS Pose {
         translation 0.033 0.04 0
         rotation 0 0.000225 1 1.571023
         children [
@@ -92,7 +92,7 @@ PROTO BioloidDog [
               creaseAngle 1
             }
           }
-          DEF F3_FRONT_LEFT_2_TRANS Transform {
+          DEF F3_FRONT_LEFT_2_TRANS Pose {
             translation 0.008 -0.0088 0
             rotation -0.7071067811865477 0 0.7071067811865477 3.14159
             children [
@@ -101,7 +101,7 @@ PROTO BioloidDog [
           }
         ]
       }
-      DEF AX12_FRONT_LEFT_1_TRANS Transform {
+      DEF AX12_FRONT_LEFT_1_TRANS Pose {
         translation 0.0565 0.048 0.001
         children [
           DEF AX12_SHAPE Shape {
@@ -143,7 +143,7 @@ PROTO BioloidDog [
         endPoint Solid {
           translation 0.0565 0.086 0.0135
           children [
-            DEF F1_FRONT_LEFT_1_TRANS Transform {
+            DEF F1_FRONT_LEFT_1_TRANS Pose {
               translation 0 0 -0.0064
               rotation 0 0 1 3.14159
               children [
@@ -182,20 +182,20 @@ PROTO BioloidDog [
               endPoint Solid {
                 translation 0 0.006 -0.014485
                 children [
-                  DEF AX12_FRONT_LEFT_2_TRANS Transform {
+                  DEF AX12_FRONT_LEFT_2_TRANS Pose {
                     translation 0 0.0135 0
                     rotation -0.5773502691896257 -0.5773502691896257 0.5773502691896257 -2.094
                     children [
                       USE AX12_SHAPE
                     ]
                   }
-                  DEF F3_FRONT_LEFT_3_TRANS Transform {
+                  DEF F3_FRONT_LEFT_3_TRANS Pose {
                     translation 0 0.046 0
                     children [
                       DEF F3_CROSSED_GRP Group {
                         children [
                           USE F3_SHAPE
-                          DEF F3_CROSSED1_TRANS Transform {
+                          DEF F3_CROSSED1_TRANS Pose {
                             translation 0 -0.0088 0
                             rotation -0.7071067811865477 0 0.7071067811865477 3.14159
                             children [
@@ -204,7 +204,7 @@ PROTO BioloidDog [
                           }
                         ]
                       }
-                      DEF AX12_FRONT_LEFT_3_TRANS Transform {
+                      DEF AX12_FRONT_LEFT_3_TRANS Pose {
                         translation 0 0.0235 0
                         rotation 0 0.707105, 0.707108 3.14159
                         children [
@@ -231,7 +231,7 @@ PROTO BioloidDog [
                     endPoint Solid {
                       translation 0 0.083 0
                       children [
-                        DEF F2_TRANS Transform {
+                        DEF F2_TRANS Pose {
                           translation 0 0.0075 0
                           rotation 0 1 0 1.5708
                           children [
@@ -251,7 +251,7 @@ PROTO BioloidDog [
                             }
                           ]
                         }
-                        DEF CRUTCH_FRONT_LEFT Transform {
+                        DEF CRUTCH_FRONT_LEFT Pose {
                           translation 0 0.0267 0
                           rotation 1 0 0 1.5708
                           children [
@@ -266,7 +266,7 @@ PROTO BioloidDog [
                                 radius 0.008
                               }
                             }
-                            DEF CRUTCH_TRANS Transform {
+                            DEF CRUTCH_TRANS Pose {
                               translation 0 0 -0.0292
                               children [
                                 DEF CRUTCH_SHAPE Shape {
@@ -278,7 +278,7 @@ PROTO BioloidDog [
                                 }
                               ]
                             }
-                            DEF CRUTCH_PLASTIC_TOP_TRANS Transform {
+                            DEF CRUTCH_PLASTIC_TOP_TRANS Pose {
                               translation 0 0 -0.0515
                               rotation 1 0 0 1.5708
                               children [
@@ -298,7 +298,7 @@ PROTO BioloidDog [
                                 }
                               ]
                             }
-                            DEF CRUTCH_PLASTIC_BOTTOM_TRANS Transform {
+                            DEF CRUTCH_PLASTIC_BOTTOM_TRANS Pose {
                               translation 0 0 -0.0605
                               children [
                                 DEF CRUTCH_PLASTIC_BOTTOM_SHAPE Shape {
@@ -323,7 +323,7 @@ PROTO BioloidDog [
                       contactMaterial "rubber"
                       boundingObject DEF CRUTCH_FRONT_LEFT_BOUND_GRP Group {
                         children [
-                          DEF F2_BOUND_TRANS Transform {
+                          DEF F2_BOUND_TRANS Pose {
                             translation 0 0.0075 0
                             children [
                               DEF F2_BOX Box {
@@ -331,7 +331,7 @@ PROTO BioloidDog [
                               }
                             ]
                           }
-                          DEF CRUTCH_FRONT_LEFT_BOUND_TRANS Transform {
+                          DEF CRUTCH_FRONT_LEFT_BOUND_TRANS Pose {
                             translation 0 0.056 0
                             rotation 1 0 0 1.5708
                             children [
@@ -355,7 +355,7 @@ PROTO BioloidDog [
                 ]
                 boundingObject DEF LEG_FRONT_LEFT_BOUND_GRP Group {
                   children [
-                    DEF AX12_FRONT_LEFT_2_BOUND_TRANS Transform {
+                    DEF AX12_FRONT_LEFT_2_BOUND_TRANS Pose {
                       translation 0 0.0135 0
                       children [
                         DEF AX12_BOX Box {
@@ -363,7 +363,7 @@ PROTO BioloidDog [
                         }
                       ]
                     }
-                    DEF AX12_FRONT_LEFT_3_BOUND_TRANS Transform {
+                    DEF AX12_FRONT_LEFT_3_BOUND_TRANS Pose {
                       translation 0 0.0695 0
                       rotation 0 1 0 1.5708
                       children [
@@ -383,7 +383,7 @@ PROTO BioloidDog [
             }
           ]
           name "front left leg"
-          boundingObject DEF F1_LEFT_LEG_1_BOUND_TRANS Transform {
+          boundingObject DEF F1_LEFT_LEG_1_BOUND_TRANS Pose {
             translation 0 0 -0.006435
             children [
               DEF F1_BOX Box {
@@ -400,12 +400,12 @@ PROTO BioloidDog [
           }
         }
       }
-      DEF F3_NECK1_TRANS Transform {
+      DEF F3_NECK1_TRANS Pose {
         translation 0.033 0 0
         rotation 0.707025 -0.707188 -0.000162 -3.141588
         children [
           USE F3_CROSSED_GRP
-          DEF AX12_NECK1_TRANS Transform {
+          DEF AX12_NECK1_TRANS Pose {
             translation 0 -0.0325 0
             rotation 0.577348 -0.577353 0.577349 2.094393
             children [
@@ -434,7 +434,7 @@ PROTO BioloidDog [
         endPoint Solid {
           translation 0.079 0 0
           children [
-            DEF F2_NECK1_TRANS Transform {
+            DEF F2_NECK1_TRANS Pose {
               translation 0.0075 0 0
               rotation 0 0 1 -1.5708
               children [
@@ -459,14 +459,14 @@ PROTO BioloidDog [
               endPoint Solid {
                 translation 0.047 0 0
                 children [
-                  DEF AX12_NECK2_TRANS Transform {
+                  DEF AX12_NECK2_TRANS Pose {
                     translation 0 0 0.0135
                     rotation 0.7071067811865477 -0.7071067811865477 0 3.14159
                     children [
                       USE AX12_SHAPE
                     ]
                   }
-                  DEF F6_NECK2_LEFT_TRANS Transform {
+                  DEF F6_NECK2_LEFT_TRANS Pose {
                     translation 0.0015 0.014 0.0225
                     rotation 1 0 0 1.5708
                     children [
@@ -487,19 +487,19 @@ PROTO BioloidDog [
                       }
                     ]
                   }
-                  DEF F6_NECK2_RIGHT_TRANS Transform {
+                  DEF F6_NECK2_RIGHT_TRANS Pose {
                     translation 0.0015 -0.0141 0.0225
                     rotation 1 0 0 -1.5708
                     children [
                       USE F6_SHAPE
                     ]
                   }
-                  DEF F2_NECK2_CENTER_TRANS Transform {
+                  DEF F2_NECK2_CENTER_TRANS Pose {
                     translation 0.0155 0 0.0225
                     rotation 0 0 1 -1.5708
                     children [
                       USE F2_SHAPE
-                      DEF BRACKET_NECK2_CENTER_TRANS Transform {
+                      DEF BRACKET_NECK2_CENTER_TRANS Pose {
                         translation 0 0.033 0
                         rotation -0.707108 0 0.707105 3.141593
                         children [
@@ -517,19 +517,19 @@ PROTO BioloidDog [
                               creaseAngle 1
                             }
                           }
-                          DEF F1_NECK2_CENTER_TRANS Transform {
+                          DEF F1_NECK2_CENTER_TRANS Pose {
                             translation 0.0085 -0.0104 0
                             rotation -0.5773502691896257 0.5773502691896257 0.5773502691896257 2.094
                             children [
                               USE F1_SHAPE
-                              DEF BRACKET_NECK2_LEFT_EAR_TRANS Transform {
+                              DEF BRACKET_NECK2_LEFT_EAR_TRANS Pose {
                                 translation -0.0365 -0.0065 -0.012
                                 rotation 0 0.7071067811865477 -0.7071067811865477 3.14159
                                 children [
                                   USE BRACKET_SHAPE
                                 ]
                               }
-                              DEF BRACKET_NECK2_RIGHT_EAR_TRANS Transform {
+                              DEF BRACKET_NECK2_RIGHT_EAR_TRANS Pose {
                                 translation 0.0365 -0.0065 -0.012
                                 rotation -1 0 0 1.5708
                                 children [
@@ -564,7 +564,7 @@ PROTO BioloidDog [
                           translation 0.008 0 -0.097
                           rotation 0 1 0 1.5708
                           children [
-                            Transform {
+                            Pose {
                               translation -0.003 0 0
                               rotation 0 1 0 -1.5708
                               children [
@@ -656,18 +656,18 @@ PROTO BioloidDog [
                           ]
                           type "infra-red"
                         }
-                        DEF AX12_HEAD_TRANS Transform {
+                        DEF AX12_HEAD_TRANS Pose {
                           translation 0 0 -0.0135
                           children [
                             USE AX12_SHAPE
                           ]
                         }
-                        DEF F3_HEAD_TRANS Transform {
+                        DEF F3_HEAD_TRANS Pose {
                           translation 0 0 -0.046
                           rotation 0.577348 -0.577351 0.577352 -2.094393
                           children [
                             USE F3_CROSSED_GRP
-                            DEF AX12_HEAD_2_TRANS Transform {
+                            DEF AX12_HEAD_2_TRANS Pose {
                               translation 0 0.0235 0
                               rotation 0 0.707105 0.707108 3.14159
                               children [
@@ -679,14 +679,14 @@ PROTO BioloidDog [
                       ]
                       boundingObject DEF HEAD_BOUND_GRP Group {
                         children [
-                          DEF AX12_HEAD_1_BOUND_TRANS Transform {
+                          DEF AX12_HEAD_1_BOUND_TRANS Pose {
                             rotation -0.577351 -0.577351 -0.577349 -2.094397
                             translation 0 0 -0.0135
                             children [
                               USE AX12_BOX
                             ]
                           }
-                          DEF AX12_HEAD_2_BOUND_TRANS Transform {
+                          DEF AX12_HEAD_2_BOUND_TRANS Pose {
                             translation 0 0 -0.0695
                             rotation 0 0.707107 0.707107 -3.14159
                             children [
@@ -708,14 +708,14 @@ PROTO BioloidDog [
                 name "neck"
                 boundingObject Group {
                   children [
-                    DEF AX12_NECK2_BOUND_TRANS Transform {
+                    DEF AX12_NECK2_BOUND_TRANS Pose {
                       translation 0 0 0.0135
                       rotation 0 0.7071067811865477 0.7071067811865477 3.14159
                       children [
                         USE AX12_BOX
                       ]
                     }
-                    DEF LEFT_EAR_BOUND_TRANS Transform {
+                    DEF LEFT_EAR_BOUND_TRANS Pose {
                       translation 0.0839 0.0365 0.0075
                       children [
                         DEF BRACKET_BOX Box {
@@ -723,7 +723,7 @@ PROTO BioloidDog [
                         }
                       ]
                     }
-                    DEF RIGHT_EAR_BOUND_TRANS Transform {
+                    DEF RIGHT_EAR_BOUND_TRANS Pose {
                       translation 0.0839 -0.0365 0.0075
                       children [
                         USE BRACKET_BOX
@@ -741,7 +741,7 @@ PROTO BioloidDog [
               }
             }
           ]
-          boundingObject DEF F2_NECK1_BOUND_TRANS Transform {
+          boundingObject DEF F2_NECK1_BOUND_TRANS Pose {
             translation 0.0075 0 0
             rotation -0.577353 0.577347 0.577351 2.094393
             children [
@@ -757,13 +757,13 @@ PROTO BioloidDog [
           }
         }
       }
-      DEF F3_FRONT_RIGHT_1_TRANS Transform {
+      DEF F3_FRONT_RIGHT_1_TRANS Pose {
         rotation 1 0 0 3.14159
         children [
           USE F3_FRONT_LEFT_1_TRANS
         ]
       }
-      DEF AX12_FRONT_RIGHT_1_TRANS Transform {
+      DEF AX12_FRONT_RIGHT_1_TRANS Pose {
         translation 0.055 -0.048 0.001
         rotation 0 0 1 3.14159
         children [
@@ -788,7 +788,7 @@ PROTO BioloidDog [
         endPoint Solid {
           translation 0.0565 -0.086 0.0135
           children [
-            DEF F1_FRONT_RIGHT_1_TRANS Transform {
+            DEF F1_FRONT_RIGHT_1_TRANS Pose {
               translation 0 0 -0.0064
               children [
                 USE F1_SHAPE
@@ -813,18 +813,18 @@ PROTO BioloidDog [
                 translation 0 -0.006 -0.0145
                 rotation 1 0 0 3.14159
                 children [
-                  DEF AX12_FRONT_RIGHT_2_TRANS Transform {
+                  DEF AX12_FRONT_RIGHT_2_TRANS Pose {
                     translation 0 0.0135 0
                       rotation -0.577351 -0.577349 0.577351 -2.094397
                     children [
                       USE AX12_SHAPE
                     ]
                   }
-                  DEF F3_FRONT_RIGHT_3_TRANS Transform {
+                  DEF F3_FRONT_RIGHT_3_TRANS Pose {
                     translation 0 0.046 0
                     children [
                       USE F3_CROSSED_GRP
-                      DEF AX12_FRONT_RIGHT_3_TRANS Transform {
+                      DEF AX12_FRONT_RIGHT_3_TRANS Pose {
                         translation 0 0.0235 0
                         rotation 1 0 0 -1.5708
                         children [
@@ -851,7 +851,7 @@ PROTO BioloidDog [
                     endPoint Solid {
                       translation 0 0.083 0
                       children [
-                        DEF F2_TRANS Transform {
+                        DEF F2_TRANS Pose {
                           translation 0 0.0075 0
                           rotation 0 1 0 1.5708
                           children [
@@ -894,17 +894,17 @@ PROTO BioloidDog [
           }
         }
       }
-      DEF F3_PELVIS_LEFT_1_TRANS Transform {
+      DEF F3_PELVIS_LEFT_1_TRANS Pose {
         translation -0.033 0.032 0
         rotation 0 0 1 -1.571026
         children [
           USE F3_SHAPE
-          DEF BRACKET_PELVIS_LEFT_1_TRANS Transform {
+          DEF BRACKET_PELVIS_LEFT_1_TRANS Pose {
             translation 0 -0.0195 0
             rotation 0 -1 0 3.14159
             children [
               USE BRACKET_SHAPE
-              DEF F6_PELVIS_LEFT_1_TRANS Transform {
+              DEF F6_PELVIS_LEFT_1_TRANS Pose {
                 translation -0.017 -0.0105 0
                 rotation 0.577441 0.577304 -0.577306 -2.094264
                 children [
@@ -915,7 +915,7 @@ PROTO BioloidDog [
           }
         ]
       }
-      DEF AX12_PELVIS Transform {
+      DEF AX12_PELVIS Pose {
         translation -0.0645 0 0
         rotation -0.7071067811865477 0.7071067811865477 0 3.14159
         children [
@@ -940,7 +940,7 @@ PROTO BioloidDog [
         endPoint Solid {
           translation -0.0875 0 -0.0135
           children [
-            DEF PELVIS_1_TRANS Transform {
+            DEF PELVIS_1_TRANS Pose {
               rotation 0 0 1 1.571023
               children [
                 DEF SPACER_SHAPE Shape {
@@ -958,28 +958,28 @@ PROTO BioloidDog [
                     creaseAngle 1
                   }
                 }
-                DEF F3_PELVIS_LEFT_1 Transform {
+                DEF F3_PELVIS_LEFT_1 Pose {
                   translation 0.024 0.0065 0
                   rotation 0 1 0 -1.5708
                   children [
                     USE F3_SHAPE
                   ]
                 }
-                DEF AX12_BACK_LEFT_1 Transform {
+                DEF AX12_BACK_LEFT_1 Pose {
                   translation 0.024 0.021 0
                   rotation 0 0 -1 1.5708
                   children [
                     USE AX12_SHAPE
                   ]
                 }
-                DEF F3_PELVIS_RIGHT_1 Transform {
+                DEF F3_PELVIS_RIGHT_1 Pose {
                   translation -0.024 0.0065 0
                   rotation 0 1 0 -1.5708
                   children [
                     USE F3_SHAPE
                   ]
                 }
-                DEF AX12_BACK_RIGHT_1 Transform {
+                DEF AX12_BACK_RIGHT_1 Pose {
                   translation -0.024 0.021 0
                   rotation 0 0 1 1.5708
                   children [
@@ -988,19 +988,19 @@ PROTO BioloidDog [
                 }
               ]
             }
-            DEF PELVIS_2_TRANS Transform {
+            DEF PELVIS_2_TRANS Pose {
               translation -0.042 0 0
               rotation 0.707025 -0.707188 -0.000162 -3.141588
               children [
                 USE SPACER_SHAPE
-                DEF F6_PELVIS_LEFT_1 Transform {
+                DEF F6_PELVIS_LEFT_1 Pose {
                   translation -0.0225 -0.0065 0
                   rotation 1 0 0 1.570799
                   children [
                     USE F6_SHAPE
                   ]
                 }
-                DEF F6_PELVIS_RIGHT_1 Transform {
+                DEF F6_PELVIS_RIGHT_1 Pose {
                   translation 0.0225 -0.0065 0
                   rotation 0 0.707107 -0.707107 -3.141591
                   children [
@@ -1027,7 +1027,7 @@ PROTO BioloidDog [
               endPoint Solid {
                 translation -0.021 0.062 0.0135
                 children [
-                  DEF F1_BACK_LEFT_1_TRANS Transform {
+                  DEF F1_BACK_LEFT_1_TRANS Pose {
                     translation 0 0 -0.0064
                     rotation 0 0 1 3.14159
                     children [
@@ -1052,18 +1052,18 @@ PROTO BioloidDog [
                     endPoint Solid {
                       translation 0 0.006 -0.0145
                       children [
-                        DEF AX12_BACK_LEFT_2_TRANS Transform {
+                        DEF AX12_BACK_LEFT_2_TRANS Pose {
                           translation 0 0.0135 0
                           rotation -0.577395 -0.577261 0.577395 -2.094527
                           children [
                             USE AX12_SHAPE
                           ]
                         }
-                        DEF F3_BACK_LEFT_3_TRANS Transform {
+                        DEF F3_BACK_LEFT_3_TRANS Pose {
                           translation 0 0.046 0
                           children [
                             USE F3_CROSSED_GRP
-                            DEF AX12_BACK_LEFT_3_TRANS Transform {
+                            DEF AX12_BACK_LEFT_3_TRANS Pose {
                               translation 0 0.0235 0
                               rotation 1 0 0 -1.5708
                               children [
@@ -1090,14 +1090,14 @@ PROTO BioloidDog [
                           endPoint Solid {
                             translation 0 0.083 0
                             children [
-                              DEF F1_TRANS Transform {
+                              DEF F1_TRANS Pose {
                                 translation -0.008 0.0075 0
                                 rotation 0 1 0 -1.5708
                                 children [
                                   USE F1_SHAPE
                                 ]
                               }
-                              DEF CRUTCH_BACK_LEFT Transform {
+                              DEF CRUTCH_BACK_LEFT Pose {
                                 translation -0.0145 0 0
                                 children [
                                   USE CRUTCH_FRONT_LEFT
@@ -1107,7 +1107,7 @@ PROTO BioloidDog [
                             contactMaterial "rubber"
                             boundingObject DEF CRUTCH_BACK_LEFT_BOUND_GRP Group {
                               children [
-                                DEF F1_BOUND_TRANS Transform {
+                                DEF F1_BOUND_TRANS Pose {
                                   translation -0.008 0.0075 0
                                   children [
                                     DEF F1_BOX Box {
@@ -1115,7 +1115,7 @@ PROTO BioloidDog [
                                     }
                                   ]
                                 }
-                                DEF CRUTCH_BACK_LEFT_BOUND_TRANS Transform {
+                                DEF CRUTCH_BACK_LEFT_BOUND_TRANS Pose {
                                   translation -0.0145 0.056 0
                                   rotation 1 0 0 1.5708
                                   children [
@@ -1174,7 +1174,7 @@ PROTO BioloidDog [
               endPoint Solid {
                 translation -0.021 -0.062 0.0135
                 children [
-                  DEF F1_BACK_RIGHT_1_TRANS Transform {
+                  DEF F1_BACK_RIGHT_1_TRANS Pose {
                     translation 0 0 -0.0064
                     children [
                       USE F1_SHAPE
@@ -1199,19 +1199,19 @@ PROTO BioloidDog [
                       translation 0 -0.006 -0.0145
                       rotation -1 0 0 -3.14159
                       children [
-                        DEF AX12_BACK_RIGHT_2_TRANS Transform {
+                        DEF AX12_BACK_RIGHT_2_TRANS Pose {
                           translation 0 0.0135 0
                           rotation -0.577347 -0.577353 0.57735 -2.094402
                           children [
                             USE AX12_SHAPE
                           ]
                         }
-                        DEF F3_BACK_RIGHT_3_TRANS Transform {
+                        DEF F3_BACK_RIGHT_3_TRANS Pose {
                           translation 0 0.046 0
                           rotation 0 -1.0 0 3.141591
                           children [
                             USE F3_CROSSED_GRP
-                            DEF AX12_BACK_RIGHT_3_TRANS Transform {
+                            DEF AX12_BACK_RIGHT_3_TRANS Pose {
                               translation 0 0.0235 0
                               rotation 0 0.707109 0.707104 3.141593
                               children [
@@ -1238,7 +1238,7 @@ PROTO BioloidDog [
                           endPoint Solid {
                             translation 0 0.083 0
                             children [
-                              DEF F1_TRANS Transform {
+                              DEF F1_TRANS Pose {
                                 translation -0.008 0.0075 0
                                 rotation 0 -1 0 1.5708
                                 children [
@@ -1283,7 +1283,7 @@ PROTO BioloidDog [
             }
           ]
           name "pelvis"
-          boundingObject DEF BACK_BOUND_TRANS Transform {
+          boundingObject DEF BACK_BOUND_TRANS Pose {
             translation -0.021 0 0
             children [
               DEF BACK_BOX Box {
@@ -1300,7 +1300,7 @@ PROTO BioloidDog [
           }
         }
       }
-      DEF F3_PELVIS_RIGHT_1_TRANS Transform {
+      DEF F3_PELVIS_RIGHT_1_TRANS Pose {
         rotation 1 0 0 3.14159
         children [
           USE F3_PELVIS_LEFT_1_TRANS
@@ -1309,14 +1309,14 @@ PROTO BioloidDog [
     ]
     boundingObject DEF BODY_BOUND_GRP Group {
       children [
-        DEF CM5_BOUND_TRANS Transform {
+        DEF CM5_BOUND_TRANS Pose {
           children [
             DEF CM5_BOX Box {
               size 0.069 0.101 0.032
             }
           ]
         }
-        DEF CM5UNIT_BOUND_TRANS Transform {
+        DEF CM5UNIT_BOUND_TRANS Pose {
           translation 0 0 0.0242
           children [
             DEF CM5_BOX Box {
@@ -1324,28 +1324,28 @@ PROTO BioloidDog [
             }
           ]
         }
-        DEF AX12_FRONT_LEFT_1_BOUND_TRANS Transform {
+        DEF AX12_FRONT_LEFT_1_BOUND_TRANS Pose {
           translation 0.0565 0.048 0.001
           rotation -0.577351 -0.577351 -0.577349 -2.094397
           children [
             USE AX12_BOX
           ]
         }
-        DEF AX12_NECK1_BOUND_TRANS Transform {
+        DEF AX12_NECK1_BOUND_TRANS Pose {
           translation 0.0655 0 0
           rotation 0 0 1 1.5708
           children [
             USE AX12_BOX
           ]
         }
-        DEF AX12_FRONT_RIGHT_1_BOUND_TRANS Transform {
+        DEF AX12_FRONT_RIGHT_1_BOUND_TRANS Pose {
           translation 0.055 -0.048 0.001
           rotation -0.577351 -0.577351 -0.577349 -2.094397
           children [
             USE AX12_BOX
           ]
         }
-        DEF AX12_PELVIS_BOUND_TRANS Transform {
+        DEF AX12_PELVIS_BOUND_TRANS Pose {
           translation -0.0645 0 0
           rotation 1 0 0 1.5708
           children [

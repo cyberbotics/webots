@@ -118,7 +118,7 @@ PROTO Oven [
           ]
           boundingObject Group {
             children [
-              Transform {
+              Pose {
                 translation %<= -0.025*scale_oven[0] >% 0 %<= 0.2218*scale_oven[2] >%
                 children [
                   Box {
@@ -126,7 +126,7 @@ PROTO Oven [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation %<= 0.02*scale_oven[0] >% 0 %<= 0.413*scale_oven[2] >%
                 children [
                   Box {
@@ -148,7 +148,7 @@ PROTO Oven [
     model "oven"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 %<= 0.087*scale_oven[2] >%
           children [
             Box {
@@ -156,7 +156,7 @@ PROTO Oven [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 %<= 0.6605*scale_oven[2] >%
           children [
             Box {
@@ -164,7 +164,7 @@ PROTO Oven [
             }
           ]
         }
-        Transform {
+        Pose {
           translation %<= -0.225*scale_oven[0] >% 0 %<= 0.4075*scale_oven[2] >%
           children [
             Box {
@@ -172,7 +172,7 @@ PROTO Oven [
             }
           ]
         }
-        Transform {
+        Pose {
           translation %<= 0.025*scale_oven[0] >% %<= 0.2075*scale_oven[1] >% %<= 0.4075*scale_oven[2] >%
           children [
             Box {
@@ -180,7 +180,7 @@ PROTO Oven [
             }
           ]
         }
-        Transform {
+        Pose {
           translation %<= 0.025*scale_oven[0] >% %<= -0.2075*scale_oven[1] >% %<= 0.4075*scale_oven[2] >%
           children [
             Box {

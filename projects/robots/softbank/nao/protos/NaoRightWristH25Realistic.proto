@@ -57,11 +57,11 @@ Solid {
               translation 0.069 -0.013 -0.005
               rotation 0 -1 0 -0.96
               children [
-                DEF HAND_SLOT Transform {
+                DEF HAND_SLOT Pose {
                   rotation 0 -1 0 0.96
                   children IS handSlot
                 }
-                DEF PHALANX_TRANS Transform {
+                DEF PHALANX_TRANS Pose {
                   translation 0.006 0 0
                   rotation -0.577350 -0.577352 0.577350 2.094399
                   children [
@@ -643,7 +643,7 @@ Solid {
         contactMaterial IS contactMaterial
         boundingObject DEF HAND_BO Group {
           children [
-            Transform {
+            Pose {
               translation 0.057 0 0.014
               rotation 0 1 0 -0.15
               children [
@@ -653,7 +653,7 @@ Solid {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0.04 0 0
               rotation 0 1 0 -0.7
               children [
@@ -837,7 +837,7 @@ Solid {
   name IS name
   model "Nao right wrist H25"
   contactMaterial IS contactMaterial
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0.045 -0.001 0
     rotation -0.527663 -0.600656 0.600654 2.170531
     children [

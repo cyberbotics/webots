@@ -17,7 +17,7 @@ Background {
 }
 DEF FLOOR Solid {
   children [
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {
@@ -33,7 +33,7 @@ DEF BOARD Solid {
   translation 0 0.005 0
   rotation 1 0 0 0
   children [
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {
@@ -105,7 +105,7 @@ DEF ROBOT Robot {
       translation 0 -0.008 0.08
       rotation 0.7071057811840316 -0.7071077811834126 0 3.14159
       children [
-        Transform {
+        Pose {
           rotation 1 0 0 -1.57079632679
           children [
             Shape {
@@ -124,7 +124,7 @@ DEF ROBOT Robot {
       translation 0 -0.008 -0.08
       rotation 0.7071057811840316 -0.7071077811834126 0 3.14159
       children [
-        Transform {
+        Pose {
           rotation 1 0 0 -1.57079632679
           children [
             Shape {

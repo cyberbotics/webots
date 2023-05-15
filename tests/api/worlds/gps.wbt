@@ -21,7 +21,7 @@ PointLight {
 }
 Solid {
   children [
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {
@@ -46,7 +46,7 @@ DEF ROBOT Robot {
       translation -0.05 0 0
       rotation 0 0 1 3.1415
       children [
-        DEF SENSOR_TRANSFROM Transform {
+        DEF SENSOR_POSE Pose {
           rotation 0 0 1 1.57
           children [
             Shape {

@@ -106,7 +106,7 @@ void WbInsertExternProtoDialog::updateProtoTree() {
     WbProtoManager::instance()->generateProtoInfoMap(categories[i]);
     QMapIterator<QString, WbProtoInfo *> it(WbProtoManager::instance()->protoInfoMap(categories[i]));
     while (it.hasNext()) {
-      const QString &protoName = it.next().key();
+      const QString protoName = it.next().key();
       const QString &protoUrl = it.value()->url();
 
       // list only items that aren't in the panel already

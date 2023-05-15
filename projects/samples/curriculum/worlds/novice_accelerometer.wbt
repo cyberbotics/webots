@@ -40,7 +40,7 @@ RectangleArena {
 }
 DEF SPRINGBOARDUP Solid {
   children [
-    DEF SPRINGBOARDUPSHAPE Transform {
+    DEF SPRINGBOARDUPSHAPE Pose {
       translation 0 -0.2 0.19795
       children [
         Shape {
@@ -63,7 +63,7 @@ DEF SPRINGBOARDDOWN Solid {
   translation 5.3072e-07 0.2 0
   rotation 0 0 1 3.14159
   children [
-    DEF SPRINGBOARDDOWNSHAPE Transform {
+    DEF SPRINGBOARDDOWNSHAPE Pose {
       translation 0 0.1 0.095
       rotation 1 0 0 0.47
       children [

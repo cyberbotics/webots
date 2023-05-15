@@ -36,7 +36,6 @@
 #include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRenderingDevice.hpp"
-#include "WbResizeManipulator.hpp"
 #include "WbSensor.hpp"
 #include "WbSimulationState.hpp"
 #include "WbSkin.hpp"
@@ -250,9 +249,6 @@ void WbRobot::postFinalize() {
   connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbRobot::updateSimulationMode);
   connect(mBattery, &WbMFDouble::itemInserted, this, [this]() { this->updateBattery(true); });
   connect(mBattery, &WbMFDouble::itemRemoved, this, [this]() { this->updateBattery(false); });
-
-  if (absoluteScale() != WbVector3(1.0, 1.0, 1.0))
-    parsingWarn(tr("This Robot node is scaled: this is discouraged as it could compromise the correct physical behavior."));
 }
 
 void WbRobot::reset(const QString &id) {

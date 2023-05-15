@@ -36,7 +36,7 @@ DEF PENDULUM_ROBOT Robot {
         }
       ]
       startPoint [
-        Transform {
+        Pose {
           children [
             Shape {
               appearance PBRAppearance {
@@ -54,19 +54,15 @@ DEF PENDULUM_ROBOT Robot {
         translation 0 -0.2 0
         rotation 0 0 1 0
         children [
-          DEF PENDULUM_BAR Transform {
-            children [
-              Shape {
-                appearance PBRAppearance {
-                  baseColor 0.203922 0.396078 0.643137
-                }
-                geometry Box {
-                  size 0.02 0.4 0.02
-                }
-              }
-            ]
+          DEF PENDULUM_BAR Shape {
+            appearance PBRAppearance {
+              baseColor 0.203922 0.396078 0.643137
+            }
+            geometry Box {
+              size 0.02 0.4 0.02
+            }
           }
-          DEF PENDULUM_BOB Transform {
+          DEF PENDULUM_BOB Pose {
             translation 0 -0.2 0
             children [
               Shape {

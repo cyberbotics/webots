@@ -26,6 +26,7 @@
 #include "WbPbrAppearance.hpp"
 #include "WbRgb.hpp"
 #include "WbSolid.hpp"
+#include "WbTransform.hpp"
 #include "WbUrl.hpp"
 #include "WbViewpoint.hpp"
 #include "WbWorld.hpp"
@@ -561,8 +562,8 @@ void WbCadShape::recomputeBoundingSphere() const {
 }
 
 const WbVector3 WbCadShape::absoluteScale() const {
-  const WbTransform *const ut = upperTransform();
-  return ut ? ut->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
+  const WbTransform *const up = upperTransform();
+  return up ? up->absoluteScale() : WbVector3(1.0, 1.0, 1.0);
 }
 
 void WbCadShape::exportNodeFields(WbWriter &writer) const {

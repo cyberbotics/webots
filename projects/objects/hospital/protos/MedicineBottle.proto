@@ -16,7 +16,7 @@ PROTO MedicineBottle [
     rotation IS rotation
     name IS name
     children [
-      Transform {
+      Pose {
         translation 0 0 -0.002
         children [
           Shape {
@@ -122,7 +122,7 @@ PROTO MedicineBottle [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.006
           children [
             Cylinder {
@@ -131,7 +131,7 @@ PROTO MedicineBottle [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.062
           children [
             Cylinder {

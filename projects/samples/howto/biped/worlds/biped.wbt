@@ -59,7 +59,7 @@ DEF BIPED Robot {
         translation -0.061 0 -0.0275
         rotation -1 0 0 0
         children [
-          DEF THIGH_BB Transform {
+          DEF THIGH_BB Pose {
             translation 0 0 -0.025
             children [
               Shape {
@@ -88,7 +88,7 @@ DEF BIPED Robot {
               translation -0.021 0 -0.05
               rotation -1 0 0 0
               children [
-                DEF KNEE_BB Transform {
+                DEF KNEE_BB Pose {
                   translation 0 0 -0.025
                   children [
                     Shape {
@@ -117,7 +117,7 @@ DEF BIPED Robot {
                     translation 0.036 0 -0.075
                     rotation -1 0 0 0
                     children [
-                      DEF ANKLE_BB Transform {
+                      DEF ANKLE_BB Pose {
                         children [
                           Shape {
                             appearance PBRAppearance {

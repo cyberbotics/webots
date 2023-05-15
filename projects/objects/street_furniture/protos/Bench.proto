@@ -63,7 +63,7 @@ PROTO Bench [
     model "bench"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0.09 0 0.27
           rotation 0.57735 0.57735 0.57735 2.094395
           children [
@@ -72,7 +72,7 @@ PROTO Bench [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.2 0 0.85
           rotation 0.57735 0.57735 0.57735 2.094395
           children [

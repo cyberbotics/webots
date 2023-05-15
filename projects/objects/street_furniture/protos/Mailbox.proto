@@ -68,7 +68,7 @@ PROTO Mailbox [
         }
       }
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.6
       children [
         Box {

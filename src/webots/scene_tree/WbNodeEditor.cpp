@@ -14,7 +14,6 @@
 
 #include "WbNodeEditor.hpp"
 
-#include "WbAbstractTransform.hpp"
 #include "WbBaseNode.hpp"
 #include "WbField.hpp"
 #include "WbFieldLineEdit.hpp"
@@ -30,6 +29,7 @@
 #include "WbSFNode.hpp"
 #include "WbSelection.hpp"
 #include "WbToken.hpp"
+#include "WbTransform.hpp"
 #include "WbViewpoint.hpp"
 #include "WbVrmlNodeUtilities.hpp"
 #include "WbWorldInfo.hpp"
@@ -129,11 +129,6 @@ void WbNodeEditor::edit(bool copyOriginalValue) {
         const WbGeometry *g = dynamic_cast<const WbGeometry *>(baseNode);
         if (g)
           mShowResizeHandlesCheckBox->setChecked(g->isResizeManipulatorAttached());
-        else {
-          const WbAbstractTransform *t = dynamic_cast<const WbAbstractTransform *>(baseNode);
-          assert(t);  // only WbAbstractTransform and WbGeometry instances have a resize manipulator
-          mShowResizeHandlesCheckBox->setChecked(t->isScaleManipulatorAttached());
-        }
       }
     }
   }

@@ -31,7 +31,7 @@ PointLight {
 }
 SolidSlot {
   slot [
-    Transform {
+    Pose {
       rotation 0.7071067811865476 0.7071067811865476 0 1.57
       children [
         Shape {

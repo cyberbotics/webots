@@ -44,7 +44,7 @@ PROTO TiagoOmniBase [
       }
       GPS {
       }
-      DEF BASE_SHAPE Transform {
+      DEF BASE_SHAPE Pose {
         translation 0 0 0.0762
         children [
           Shape {
@@ -61,7 +61,7 @@ PROTO TiagoOmniBase [
           }
         ]
       }
-      DEF REAR_LIDAR Transform {
+      DEF REAR_LIDAR Pose {
         translation -0.275120 0.182970 0.208640
         rotation -0.382683 -0.923880 0.000000 3.141593
         children [
@@ -85,12 +85,12 @@ PROTO TiagoOmniBase [
           }
         ]
       }
-      DEF FRONT_LIDAR Transform {
-      translation 0.27512 -0.18297 0.20864
-      rotation -0.9238797538373538 0.38268289803626016 0 3.141593
+      DEF FRONT_LIDAR Pose {
+        translation 0.27512 -0.18297 0.20864
+        rotation -0.9238797538373538 0.38268289803626016 0 3.141593
         children IS lidarSlot
       }
-      DEF BASE_DOCK Transform {
+      DEF BASE_DOCK Pose {
         translation 0.3535 0 0.1358
         children [
           Shape {
@@ -103,7 +103,7 @@ PROTO TiagoOmniBase [
           }
         ]
       }
-      DEF BASE_RIGHT_ANTENNA Transform {
+      DEF BASE_RIGHT_ANTENNA Pose {
         translation -0.2015 -0.13 0.2927
         children [
           DEF BASE_ANTENNA_SHAPE Shape {
@@ -142,7 +142,7 @@ PROTO TiagoOmniBase [
         rotation 0 0 1 1.570796
         name "wheel_rear_left"
       }
-      Transform {
+      Pose {
         translation -0.006 0 0.11
         children IS bodySlot
       }
@@ -150,7 +150,7 @@ PROTO TiagoOmniBase [
     model IS model
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.26545
           children [
             Box {
@@ -158,7 +158,7 @@ PROTO TiagoOmniBase [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.2082
           children [
             Box {
@@ -166,7 +166,7 @@ PROTO TiagoOmniBase [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.1097
           children [
             Box {
@@ -174,7 +174,7 @@ PROTO TiagoOmniBase [
             }
           ]
         }
-        DEF BASE_RIGHT_ANTENNA Transform {
+        DEF BASE_RIGHT_ANTENNA Pose {
           translation -0.2015 -0.13 0.3118
           children [
             Cylinder {
@@ -183,7 +183,7 @@ PROTO TiagoOmniBase [
             }
           ]
         }
-        DEF RIGHT_ANTENNA Transform {
+        DEF RIGHT_ANTENNA Pose {
           translation -0.1323 -0.1508 0.3238
           rotation -0.14539595746761758 -0.978631713722864 -0.14539595746761758 1.5924
           children [
@@ -195,7 +195,7 @@ PROTO TiagoOmniBase [
           translationStep 0.005
           rotationStep 0.05
         }
-        DEF BASE_LEFT_ANTENNA Transform {
+        DEF BASE_LEFT_ANTENNA Pose {
           translation -0.2015 0.13 0.3118
           children [
             Cylinder {
@@ -204,7 +204,7 @@ PROTO TiagoOmniBase [
             }
           ]
         }
-        DEF LEFT_ANTENNA Transform {
+        DEF LEFT_ANTENNA Pose {
           translation -0.1323 0.1508 0.3238
           rotation 0.14194899911629652 -0.9796429939012327 0.14195099911628406 1.59136
           children [

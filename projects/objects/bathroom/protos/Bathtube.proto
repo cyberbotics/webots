@@ -67,7 +67,7 @@ PROTO Bathtube [
           creaseAngle 0.3
         }
       }
-      Transform {
+      Pose {
         translation -0.39071999999999996 0.029279999999999997 0.43
         rotation 0 0 1 0.5235989999999999
         children [
@@ -99,7 +99,7 @@ PROTO Bathtube [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.03 0.01 0.37
           children [
             Box {
@@ -107,7 +107,7 @@ PROTO Bathtube [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 0 0.13
           children [
             Box {

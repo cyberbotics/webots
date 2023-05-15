@@ -8,7 +8,7 @@ PROTO DefaultDef [
 {
   Group {
     children [
-      Transform {
+      Pose {
       translation 0.3 0 0
         children [
           Shape {
@@ -16,7 +16,7 @@ PROTO DefaultDef [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.6 0 0
         children [
           Shape {
@@ -24,7 +24,7 @@ PROTO DefaultDef [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.9 0 0
         children [
           Shape {

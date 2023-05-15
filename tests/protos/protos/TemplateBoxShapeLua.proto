@@ -6,7 +6,7 @@ PROTO TemplateBoxShapeLua [
   field SFFloat ySize 0.1
 ]
 {
-  Transform {
+  Pose {
     translation IS translation
     children [
       Shape {

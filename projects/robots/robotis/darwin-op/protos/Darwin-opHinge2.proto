@@ -16,8 +16,8 @@ EXTERNPROTO "webots://projects/joints/protos/Hinge2JointWithBacklash.proto"
 EXTERNPROTO "webots://projects/joints/protos/HingeJointWithBacklash.proto"
 
 PROTO Darwin-opHinge2 [
-  field SFVec3f    translation      0 0 0.227                  # Is `Transform.translation`.
-  field SFRotation rotation         0 0 1 0                    # Is `Transform.rotation`.
+  field SFVec3f    translation      0 0 0.227                  # Is `Pose.translation`.
+  field SFRotation rotation         0 0 1 0                    # Is `Pose.rotation`.
   field SFString   name             "DARwIn-OP Hinge2"         # Is `Solid.name`.
   field SFString   controller       "motion_player"            # Is `Robot.controller`.
   field MFString   controllerArgs   []                         # Is `Robot.controllerArgs`.
@@ -66,7 +66,7 @@ PROTO Darwin-opHinge2 [
       DEF BODY_SLOT Group {
         children IS bodySlot
       }
-      Transform {
+      Pose {
         rotation 0.5774 0.5773 0.5773 2.0944
         children [
           DEF JERSEY_SLOT Slot {
@@ -75,7 +75,7 @@ PROTO Darwin-opHinge2 [
           }
         ]
       }
-      Transform {
+      Pose {
         rotation 0.5774 0.5773 0.5773 2.0944
         children [
           DEF DBodyShape Shape {
@@ -252,7 +252,7 @@ PROTO Darwin-opHinge2 [
             dampingConstant 0.002
             staticFriction 0.025
           }
-          startPoint Transform {
+          startPoint Pose {
             rotation 0.5774 0.5773 0.5773 2.0944
             translation 0 0 0.051
             children [
@@ -278,11 +278,11 @@ PROTO Darwin-opHinge2 [
           endPoint Solid {
             rotation 0.5774 0.5773 0.5773 2.0944
             children [
-              Transform {
+              Pose {
                 translation 0 0.051 0
                 rotation -1 0 0 -0.5954
                 children [
-                  DEF HEAD_SLOT Transform {
+                  DEF HEAD_SLOT Pose {
                     translation 0 0.022 -0.012
                     children IS headSlot
                   }
@@ -406,7 +406,7 @@ PROTO Darwin-opHinge2 [
             ]
             boundingObject Group {
               children [
-                Transform { # Head
+                Pose { # Head
                   translation 0 0.07594441 0.00240339
                   rotation 1 0 0 0.5954
                   children [
@@ -416,7 +416,7 @@ PROTO Darwin-opHinge2 [
                     }
                   ]
                 }
-                Transform { # Neck
+                Pose { # Neck
                   translation 0 0.042 0
                   children [
                     Box {
@@ -498,7 +498,7 @@ PROTO Darwin-opHinge2 [
                 endPoint Solid {
                   rotation -1 0 0 -0.5954
                   children [
-                    DEF HEAD_SLOT Transform {
+                    DEF HEAD_SLOT Pose {
                       translation 0 0.022 -0.012
                       children IS headSlot
                     }
@@ -618,7 +618,7 @@ PROTO Darwin-opHinge2 [
                       gradual TRUE
                     }
                   ]
-                  boundingObject Transform {
+                  boundingObject Pose {
                     translation 0 0.022 -0.012
                     children [
                       Capsule {
@@ -641,7 +641,7 @@ PROTO Darwin-opHinge2 [
               }
             ]
             name "neck"
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0 -0.009 0
               children [
                 Box {
@@ -708,7 +708,7 @@ PROTO Darwin-opHinge2 [
                   creaseAngle 0.2
                 }
               }
-              Transform {
+              Pose {
                 rotation 0 0 -1 -0.01
                 children [
                   DEF DPelvLShape Shape { # Motors
@@ -781,7 +781,7 @@ PROTO Darwin-opHinge2 [
                   }
                   endPoint Solid {
                     children [
-                      Transform {
+                      Pose {
                         rotation 0.99995774 0.00499983 -0.00771525 -1.1500385768840036
                         children [
                           DEF DLegUpperLShape Group {
@@ -929,7 +929,7 @@ PROTO Darwin-opHinge2 [
                                               creaseAngle 0.2
                                             }
                                           }
-                                          Transform { # Foot
+                                          Pose { # Foot
                                             rotation 0 0 1 -0.02
                                             children [
                                               DEF LEFT_FOOT_SLOT Group {
@@ -968,7 +968,7 @@ PROTO Darwin-opHinge2 [
                                         ]
                                         boundingObject Group {
                                           children [
-                                            Transform { # Motors
+                                            Pose { # Motors
                                               translation 0 0.01 -0.0205
                                               children [
                                                 Box {
@@ -976,7 +976,7 @@ PROTO Darwin-opHinge2 [
                                                 }
                                               ]
                                             }
-                                            Transform { # Foot
+                                            Pose { # Foot
                                               translation 0.01045784 -0.02721459 -0.001
                                               rotation 0 0 1 -0.02
                                               children [
@@ -996,7 +996,7 @@ PROTO Darwin-opHinge2 [
                                 ]
                                 boundingObject Group {
                                   children [
-                                    Transform {
+                                    Pose {
                                       translation 0 -0.058 -0.001
                                       children [
                                         Box {
@@ -1004,7 +1004,7 @@ PROTO Darwin-opHinge2 [
                                         }
                                       ]
                                     }
-                                    Transform {
+                                    Pose {
                                       translation 0 -0.02 0.016
                                       rotation 1 0 0 0.04
                                       children [
@@ -1030,7 +1030,7 @@ PROTO Darwin-opHinge2 [
                         ]
                       }
                     ]
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation 0.00018215 -0.01821478  0.05539123
                       rotation 0.99995774 0.00499983 -0.00771525 -1.1500385768840036
                       children [
@@ -1049,7 +1049,7 @@ PROTO Darwin-opHinge2 [
             name "pelvYL"
             boundingObject Group {
               children [
-                Transform {
+                Pose {
                   translation 0 0.017 0.001
                   children [
                     Box {
@@ -1057,7 +1057,7 @@ PROTO Darwin-opHinge2 [
                     }
                   ]
                 }
-                Transform { # Motors
+                Pose { # Motors
                   translation 0.000105 -0.01049948 -0.023
                   rotation 0 0 1 0.01
                   children [
@@ -1120,7 +1120,7 @@ PROTO Darwin-opHinge2 [
                   creaseAngle 0.2
                 }
               }
-              Transform {
+              Pose {
                 rotation 0 0 -1 0.02
                 children [
                   DEF DPelvRShape Shape {
@@ -1189,7 +1189,7 @@ PROTO Darwin-opHinge2 [
                   }
                   endPoint Solid {
                     children [
-                      Transform {
+                      Pose {
                         rotation 0.99983097 -0.00999864 0.01542892 -1.1501542996834406
                         children [
                           DEF DLegUpperRShape Group {
@@ -1337,7 +1337,7 @@ PROTO Darwin-opHinge2 [
                                               creaseAngle 0.2
                                             }
                                           }
-                                          Transform { # Foot
+                                          Pose { # Foot
                                             rotation 0 0 1 0.05
                                             children [
                                               DEF RIGHT_FOOT_SLOT Group {
@@ -1376,7 +1376,7 @@ PROTO Darwin-opHinge2 [
                                         ]
                                         boundingObject Group {
                                           children [
-                                            Transform { # Motors
+                                            Pose { # Motors
                                               translation 0 0.01 -0.0205
                                               children [
                                                 Box {
@@ -1384,7 +1384,7 @@ PROTO Darwin-opHinge2 [
                                                 }
                                               ]
                                             }
-                                            Transform { # Foot
+                                            Pose { # Foot
                                               translation -0.00963682 -0.02751603 -0.001
                                               rotation 0 0 1 0.05
                                               children [
@@ -1404,7 +1404,7 @@ PROTO Darwin-opHinge2 [
                                 ]
                                 boundingObject Group {
                                   children [
-                                    Transform {
+                                    Pose {
                                       translation 0 -0.058 -0.001
                                       children [
                                         Box {
@@ -1412,7 +1412,7 @@ PROTO Darwin-opHinge2 [
                                         }
                                       ]
                                     }
-                                    Transform {
+                                    Pose {
                                       translation 0 -0.02 0.016
                                       rotation 1 0 0 0.04
                                       children [
@@ -1438,7 +1438,7 @@ PROTO Darwin-opHinge2 [
                         ]
                       }
                     ]
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation -0.00036429 -0.01821204 0.05539123
                       rotation 0.99983097 -0.00999864 0.01542892 -1.1501542996834406
                       children [
@@ -1457,7 +1457,7 @@ PROTO Darwin-opHinge2 [
             name "pelvYR"
             boundingObject Group {
               children [
-                Transform {
+                Pose {
                   translation 0 0.017 0.001
                   children [
                     Box {
@@ -1465,7 +1465,7 @@ PROTO Darwin-opHinge2 [
                     }
                   ]
                 }
-                Transform { # Motors
+                Pose { # Motors
                   translation -0.00020999 -0.0104979  -0.023
                   rotation 0 0 1 -0.02
                   children [
@@ -1652,7 +1652,7 @@ PROTO Darwin-opHinge2 [
                                 ]
                               }
                             ]
-                            boundingObject Transform {
+                            boundingObject Pose {
                               translation 0.0075 -0.073 -0.016
                               children [
                                 Box {
@@ -1675,7 +1675,7 @@ PROTO Darwin-opHinge2 [
                     ]
                     boundingObject Group {
                       children [
-                        Transform {
+                        Pose {
                           translation 0 -0.019 0
                           children [
                             Box {
@@ -1683,7 +1683,7 @@ PROTO Darwin-opHinge2 [
                             }
                           ]
                         }
-                        Transform {
+                        Pose {
                           translation 0 -0.06 0.003
                           children [
                             Box {
@@ -1707,7 +1707,7 @@ PROTO Darwin-opHinge2 [
                 }
             ]
             name "shoulderL"
-            boundingObject Transform {
+            boundingObject Pose {
               translation -0.009 -0.0065 0
               rotation 0 0 1 -0.785398
               children [
@@ -1898,7 +1898,7 @@ PROTO Darwin-opHinge2 [
                                 ]
                               }
                             ]
-                            boundingObject Transform {
+                            boundingObject Pose {
                               translation -0.0075 -0.073 -0.016
                               children [
                                 Box {
@@ -1921,7 +1921,7 @@ PROTO Darwin-opHinge2 [
                     ]
                     boundingObject Group {
                       children [
-                        Transform {
+                        Pose {
                           translation 0 -0.019 0
                           children [
                             Box {
@@ -1929,7 +1929,7 @@ PROTO Darwin-opHinge2 [
                             }
                           ]
                         }
-                        Transform {
+                        Pose {
                           translation 0 -0.06 0.003
                           children [
                             Box {
@@ -1953,7 +1953,7 @@ PROTO Darwin-opHinge2 [
                 }
             ]
             name "shoulderR"
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0.009 -0.0065 0
               rotation 0 0 1 0.785398
               children [
@@ -1974,7 +1974,7 @@ PROTO Darwin-opHinge2 [
             }
           }
         }
-      DEF DHeadBackLED Transform {
+      DEF DHeadBackLED Pose {
         rotation 0.5774 0.5773 0.5773 2.0944
         %< if (has_jersey) { >%
           translation -0.056 -0.01 -0.01
@@ -1995,7 +1995,7 @@ PROTO Darwin-opHinge2 [
           }
         ]
       }
-      DEF DEyeBackLED Transform {
+      DEF DEyeBackLED Pose {
         rotation 0.5774 0.5773 0.5773 2.0944
         %< if (has_jersey) { >%
           translation -0.056 -0.015 -0.01
@@ -2019,7 +2019,7 @@ PROTO Darwin-opHinge2 [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           rotation 0.5774 0.5773 0.5773 2.0944
           translation -0.025 0 -0.059
           children [
@@ -2028,7 +2028,7 @@ PROTO Darwin-opHinge2 [
             }
           ]
         }
-        Transform {
+        Pose {
           rotation 0.5774 0.5773 0.5773 2.0944
           translation -0.038 0 -0.029
           children [
@@ -2037,7 +2037,7 @@ PROTO Darwin-opHinge2 [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.027 0 -0.006
           rotation 0.5957 0.5957 0.5389 2.1531
           children [
@@ -2046,7 +2046,7 @@ PROTO Darwin-opHinge2 [
             }
           ]
         }
-        Transform {
+        Pose {
           rotation 0.5774 0.5773 0.5773 2.0944
           translation 0.028 0 -0.042
           children [

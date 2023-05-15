@@ -60,7 +60,7 @@ DEF FLOOR Solid {
         ]
       }
     }
-    Transform {
+    Pose {
       children [
         Shape {
           appearance PBRAppearance {
@@ -77,7 +77,7 @@ DEF FLOOR Solid {
   ]
   name "ground"
   contactMaterial "floor"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 -1
     children [
       Box {

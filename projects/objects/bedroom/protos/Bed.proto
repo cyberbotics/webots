@@ -62,7 +62,7 @@ PROTO Bed [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.45
           children [
             Box {
@@ -70,7 +70,7 @@ PROTO Bed [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 1.01 0 0.42
           children [
             Box {
@@ -78,7 +78,7 @@ PROTO Bed [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -1.01 0 0.63
           children [
             Box {
@@ -86,7 +86,7 @@ PROTO Bed [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.71 0 0.79
           children [
             Box {

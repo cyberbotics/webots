@@ -64,7 +64,7 @@ DEF HEXAPOD Robot {
               radius 0.02
             }
           }
-          DEF FEMUR_TRANS Transform {
+          DEF FEMUR_TRANS Pose {
             translation 0 0.06 0
             children [
               DEF FEMUR_SHAPE Shape {
@@ -79,7 +79,7 @@ DEF HEXAPOD Robot {
               }
             ]
           }
-          DEF KNEE_TRANS Transform {
+          DEF KNEE_TRANS Pose {
             translation 0 0.11 0
             children [
               DEF KNEE_SHAPE Shape {
@@ -113,7 +113,7 @@ DEF HEXAPOD Robot {
               translation 0 0.11 -0.03
               rotation 1 0 0 1.5708
               children [
-                DEF TIBIA_TRANS Transform {
+                DEF TIBIA_TRANS Pose {
                   rotation 1 0 0 1.5708
                   children [
                     DEF TIBIA_SHAPE Shape {
@@ -252,13 +252,13 @@ DEF HEXAPOD Robot {
         translation 0.2 -0.05 0
         children [
           USE HIP_SHAPE
-          DEF RIGHT_FEMUR_TRANS Transform {
+          DEF RIGHT_FEMUR_TRANS Pose {
             translation 0 -0.06 0
             children [
               USE FEMUR_SHAPE
             ]
           }
-          DEF RIGHT_KNEE_TRANS Transform {
+          DEF RIGHT_KNEE_TRANS Pose {
             translation 0 -0.11 0
             children [
               USE KNEE_SHAPE

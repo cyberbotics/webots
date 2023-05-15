@@ -24,7 +24,7 @@ DirectionalLight {
 }
 DEF FLOOR Solid {
   children [
-    DEF FLOOR_SHAPE Transform {
+    DEF FLOOR_SHAPE Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {

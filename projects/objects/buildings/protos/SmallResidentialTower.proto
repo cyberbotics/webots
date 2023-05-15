@@ -42,7 +42,7 @@ PROTO SmallResidentialTower [
       %< } >%
     ]
     %< if (fields.enableBoundingObject.value) { >%
-      boundingObject Transform {
+      boundingObject Pose {
         translation -0.28 0 %<= 3.088 + 1.287 * addedFloors >%
         children [
           Box {

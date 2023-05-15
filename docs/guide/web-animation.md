@@ -94,8 +94,8 @@ The animation file contains only modifications over the following fields:
 - `Material.diffuseColor`
 - `Material.emissiveColor`
 - `TextureTransform.translation` (only for the [Track](../reference/track.md) node)
-- `Transform.rotation`
-- `Transform.translation`
+- `Pose.rotation`
+- `Pose.translation`
 - `Light.color`
 - `Light.on`
 

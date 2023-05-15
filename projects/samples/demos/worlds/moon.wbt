@@ -53,7 +53,7 @@ DEF GROUND Shape {
     ]
   }
 }
-DEF EARTH Transform {
+DEF EARTH Pose {
   translation -3000 -3000 600
   rotation 0.8628597956588616 0.357398915361335 0.35740591535967725 1.717776
   children [

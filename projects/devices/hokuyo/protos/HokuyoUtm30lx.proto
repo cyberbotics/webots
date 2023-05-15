@@ -24,7 +24,7 @@ PROTO HokuyoUtm30lx [
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         rotation -0.5774 0.5773 0.5774 -2.0944
         translation 0 0 -0.055
         children [
@@ -69,7 +69,7 @@ PROTO HokuyoUtm30lx [
     ]
     name IS name
     model "Hokuyo UTM-30LX"
-    boundingObject Transform {
+    boundingObject Pose {
       rotation -0.5774 0.5773 0.5774 -2.0944
       translation 0 0 -0.011
       children [

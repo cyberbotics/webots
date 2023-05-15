@@ -58,7 +58,7 @@ DEF GYROBOT Robot {
             ]
             endPoint Gyro {
               children [
-                DEF RED_CYL Transform {
+                DEF RED_CYL Pose {
                   rotation -0.5773488553887604 -0.5773509760887603 0.5773509760887603 2.0943972231
                   children [
                     Shape {
@@ -75,7 +75,7 @@ DEF GYROBOT Robot {
                     }
                   ]
                 }
-                DEF GREEN_CYL Transform {
+                DEF GREEN_CYL Pose {
                   rotation 1 0 0 -1.57079
                   children [
                     Shape {
@@ -92,7 +92,7 @@ DEF GYROBOT Robot {
                     }
                   ]
                 }
-                DEF BLUE_CYL Transform {
+                DEF BLUE_CYL Pose {
                   children [
                     Shape {
                       appearance PBRAppearance {

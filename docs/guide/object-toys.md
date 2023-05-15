@@ -57,11 +57,11 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 RubberDuck {
-  SFVec3f    translation         0 0 0
+  SFVec3f    translation         0 0 0.02
   SFRotation rotation            0 0 1 0
   SFString   name                "rubber duck"
   SFFloat    scale               1
-  SFColor    bodyColor           0.87451 0.756863 0.113725
+  SFColor    bodyColor           1 0.8 0
   SFFloat    density             400
   MFNode     immersionProperties [
       ImmersionProperties {

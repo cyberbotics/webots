@@ -93,7 +93,7 @@ PROTO Museum [
     model "museum"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 8.7
           rotation 0 0.707107 0.707107 -3.141593
           children [
@@ -102,7 +102,7 @@ PROTO Museum [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 9.65 5.6 3.4
           rotation 0 -1.0 0 -3.141592
           children [
@@ -112,7 +112,7 @@ PROTO Museum [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 9.65 -5.57 3.4
           rotation 0 -1.0 0 -3.141592
           children [
@@ -122,7 +122,7 @@ PROTO Museum [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 8.0 0 8.3
           rotation 0 0.707107 0.707107 -3.141593
           children [

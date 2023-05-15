@@ -71,7 +71,7 @@ Robot {
                 translation 0 0 0.1
                 name "tZ offset"
               }
-              Transform {
+              Pose {
                 rotation 1 0 0 -1.57
                 children [
                   Shape {
@@ -85,7 +85,7 @@ Robot {
                 ]
               }
             ]
-            boundingObject Transform {
+            boundingObject Pose {
               rotation 1 0 0 -1.57
               children [
                 Cylinder {
@@ -99,7 +99,7 @@ Robot {
           }
           DEF AXIS Group {
             children [
-              Transform {
+              Pose {
                 translation 0 0.063 0
                 children [
                   Shape {
@@ -115,7 +115,7 @@ Robot {
                 ]
                 rotation 1 0 0 -1.57
               }
-              Transform {
+              Pose {
                 translation 0 0.063 0
                 children [
                   Shape {
@@ -141,7 +141,7 @@ Robot {
     }
     DEF BASIS_GROUP Group {
       children [
-        Transform {
+        Pose {
           translation 0 0.02 0
           children [
             Shape {
@@ -157,7 +157,7 @@ Robot {
           ]
           rotation 1 0 0 -1.57
         }
-        Transform {
+        Pose {
           translation 0 0.04 0
           children [
             Shape {

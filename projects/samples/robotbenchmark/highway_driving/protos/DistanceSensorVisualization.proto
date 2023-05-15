@@ -20,7 +20,7 @@ PROTO DistanceSensorVisualization [
     const range = fields.range.value;
     const subdivision = fields.subdivision.value;
   >%
-  Transform {
+  Pose {
     translation IS translation
     rotation IS rotation
     children [

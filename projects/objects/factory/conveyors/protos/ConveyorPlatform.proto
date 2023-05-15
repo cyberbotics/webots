@@ -71,7 +71,7 @@ PROTO ConveyorPlatform [
         boundingObject Group {
           children [
             USE conveyor_belt_BO
-            DEF belt_1 Transform {
+            DEF belt_1 Pose {
               translation 0 -0.04 0
               children [
                 Shape {
@@ -81,7 +81,7 @@ PROTO ConveyorPlatform [
                 }
               ]
             }
-            DEF belt_2 Transform {
+            DEF belt_2 Pose {
               translation 0 0.14 0
               children [
                 Shape {
@@ -419,7 +419,7 @@ PROTO ConveyorPlatform [
     ]
     boundingObject Group {
       children [
-        DEF control_box_0 Transform {
+        DEF control_box_0 Pose {
           translation 0 0.217 0.075
           children [
             Shape {
@@ -429,7 +429,7 @@ PROTO ConveyorPlatform [
             }
           ]
         }
-        DEF control_box_1 Transform {
+        DEF control_box_1 Pose {
           translation 0 0.28 0.275
           children [
             Shape {
@@ -439,7 +439,7 @@ PROTO ConveyorPlatform [
             }
           ]
         }
-        DEF control_box_2 Transform {
+        DEF control_box_2 Pose {
           translation 0 0.365 0.215
           children [
             Shape {
@@ -449,7 +449,7 @@ PROTO ConveyorPlatform [
             }
           ]
         }
-        DEF control_box_3 Transform {
+        DEF control_box_3 Pose {
           translation 0 0.28 0.38
           children [
             Shape {
@@ -459,7 +459,7 @@ PROTO ConveyorPlatform [
             }
           ]
         }
-        DEF control_box_4 Transform {
+        DEF control_box_4 Pose {
           translation 0 0.28 0.41
           children [
             Shape {
@@ -470,7 +470,7 @@ PROTO ConveyorPlatform [
             }
           ]
         }
-        DEF guide_1 Transform {
+        DEF guide_1 Pose {
           translation 0 0.13 0.14
           children [
             Shape {
@@ -480,7 +480,7 @@ PROTO ConveyorPlatform [
             }
           ]
         }
-        DEF guide_2 Transform {
+        DEF guide_2 Pose {
           translation 0 0.13 0.065
           children [
             Shape {
@@ -490,7 +490,7 @@ PROTO ConveyorPlatform [
             }
           ]
         }
-        DEF guide_3 Transform {
+        DEF guide_3 Pose {
           translation 0 -0.23 0.14
           children [
             Shape {
@@ -500,7 +500,7 @@ PROTO ConveyorPlatform [
             }
           ]
         }
-        DEF guide_4 Transform {
+        DEF guide_4 Pose {
           translation 0 -0.23 0.065
           children [
             Shape {
@@ -510,7 +510,7 @@ PROTO ConveyorPlatform [
             }
           ]
         }
-        DEF guide_support_1 Transform {
+        DEF guide_support_1 Pose {
           translation 0.175 0.145 0.1
           children [
             Shape {
@@ -520,7 +520,7 @@ PROTO ConveyorPlatform [
             }
           ]
         }
-        DEF guide_support_2 Transform {
+        DEF guide_support_2 Pose {
           translation -0.175 0.145 0.1
           children [
             Shape {
@@ -530,7 +530,7 @@ PROTO ConveyorPlatform [
             }
           ]
         }
-        DEF guide_support_3 Transform {
+        DEF guide_support_3 Pose {
           translation 0.175 -0.245 0.1
           children [
             Shape {
@@ -540,7 +540,7 @@ PROTO ConveyorPlatform [
             }
           ]
         }
-        DEF guide_support_4 Transform {
+        DEF guide_support_4 Pose {
           translation -0.175 -0.245 0.1
           children [
             Shape {
@@ -550,7 +550,7 @@ PROTO ConveyorPlatform [
             }
           ]
         }
-        DEF middle_structure Transform {
+        DEF middle_structure Pose {
           translation 0 -0.124 0
           children [
             Shape {
@@ -560,7 +560,7 @@ PROTO ConveyorPlatform [
             }
           ]
         }
-        DEF structure_1 Transform {
+        DEF structure_1 Pose {
           translation -0.175 -0.05 0
           children [
             Shape {
@@ -570,7 +570,7 @@ PROTO ConveyorPlatform [
             }
           ]
         }
-        DEF structure_2 Transform {
+        DEF structure_2 Pose {
           translation 0.175 -0.05 0
           children [
             Shape {
@@ -580,7 +580,7 @@ PROTO ConveyorPlatform [
             }
           ]
         }
-        DEF support Transform {
+        DEF support Pose {
           translation 0 -0.05 -0.055
           children [
             Shape {
@@ -591,7 +591,7 @@ PROTO ConveyorPlatform [
             }
           ]
         }
-        DEF light_column Transform {
+        DEF light_column Pose {
           translation 0 -0.41 0.25
           children [
             Shape {

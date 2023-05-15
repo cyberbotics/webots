@@ -44,20 +44,20 @@ PROTO BmwX5Simple [
     rotation IS rotation
     recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid lua PROTO regeneration when colors change.
     children [
-      Transform {
+      Pose {
         translation -1 0 0.3
         rotation 0 0 1 3.14159
         children IS sensorsSlotRear
       }
-      Transform {
+      Pose {
         translation 3.85 0 0.45
         children IS sensorsSlotFront
       }
-      Transform {
+      Pose {
         translation 1 0 1.45
         children IS sensorsSlotTop
       }
-      Transform {
+      Pose {
         children IS sensorsSlotCenter
       }
       DEF FRONT_RIGHT_WHEEL Solid {
@@ -116,35 +116,35 @@ PROTO BmwX5Simple [
         ]
         name "rear left wheel"
       }
-      Transform{
-      rotation 0.57735 0.57735 0.57735 2.094395
-      children [
-        BmwX5FrontLight {
-        }
-        BmwX5RightIndicator {
-        }
-        BmwX5LeftIndicator {
-        }
-        BmwX5AntiFogLight {
-        }
-        BmwX5RearLight {
-        }
-        BmwX5BrakingLight {
-        }
-        BmwX5BackwardsLight {
-        }
-        BmwX5RightWiper {
-        }
-        BmwX5LeftWiper {
-        }
-        BmwX5Mesh {
-          color IS color
-        }
-        BmwX5RightWingMirror {
-        }
-        BmwX5LeftWingMirror {
-        }
-      ]
+      Pose {
+        rotation 0.57735 0.57735 0.57735 2.094395
+        children [
+          BmwX5FrontLight {
+          }
+          BmwX5RightIndicator {
+          }
+          BmwX5LeftIndicator {
+          }
+          BmwX5AntiFogLight {
+          }
+          BmwX5RearLight {
+          }
+          BmwX5BrakingLight {
+          }
+          BmwX5BackwardsLight {
+          }
+          BmwX5RightWiper {
+          }
+          BmwX5LeftWiper {
+          }
+          BmwX5Mesh {
+            color IS color
+          }
+          BmwX5RightWingMirror {
+          }
+          BmwX5LeftWingMirror {
+          }
+        ]
       }
     ]
     name IS name
@@ -152,7 +152,7 @@ PROTO BmwX5Simple [
     controllerArgs IS controllerArgs
     model "BMW X5"
     radarCrossSection 100
-    boundingObject Transform {
+    boundingObject Pose {
       translation 1.35 0 0.7
       children [
         Box {

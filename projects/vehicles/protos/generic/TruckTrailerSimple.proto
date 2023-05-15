@@ -108,7 +108,7 @@ PROTO TruckTrailerSimple [
           ]
           name "rear left wheel"
         }
-        Transform {
+        Pose {
           children[
             TruckRearLight {
             }
@@ -122,7 +122,7 @@ PROTO TruckTrailerSimple [
       model "truck trailer"
       boundingObject Group {
         children [
-          Transform {
+          Pose {
             translation -3.1 0 2.21
             children [
               Box {
@@ -130,7 +130,7 @@ PROTO TruckTrailerSimple [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -6.33 0 0.27
             children [
               Box {

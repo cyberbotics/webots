@@ -43,7 +43,7 @@ DEF STAIRS Solid {
   children [
     DEF STAIRS Group {
       children [
-        Transform {
+        Pose {
           translation 0 0.05 0
           children [
             Shape {
@@ -58,7 +58,7 @@ DEF STAIRS Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.16 0
           children [
             Shape {
@@ -69,7 +69,7 @@ DEF STAIRS Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.295 0
           children [
             Shape {
@@ -80,7 +80,7 @@ DEF STAIRS Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.09 -3.9
           children [
             Shape {
@@ -103,7 +103,7 @@ DEF RAMP Solid {
   children [
     DEF RAMPE Group {
       children [
-        Transform {
+        Pose {
           translation 0 1 0.001
           rotation 0 0 1 0.5236
           children [
@@ -115,7 +115,7 @@ DEF RAMP Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation -1.7 0.25 0
           rotation 0 0 1 0.3
           children [
@@ -127,7 +127,7 @@ DEF RAMP Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 1.51 1.49 0
           children [
             Shape {
@@ -138,7 +138,7 @@ DEF RAMP Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 3.1 0.7 0.001
           rotation 0 0 1 -0.7
           children [
@@ -162,7 +162,7 @@ DEF CAPS Solid {
   children [
     DEF BUMPS Group {
       children [
-        Transform {
+        Pose {
           children [
             Shape {
               appearance USE OBJECTS_APPEARANCE
@@ -173,7 +173,7 @@ DEF CAPS Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.4 0 0
           children [
             Shape {
@@ -185,7 +185,7 @@ DEF CAPS Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation -1.3 0 0
           children [
             Shape {
@@ -197,7 +197,7 @@ DEF CAPS Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation -2.2 0 0.05
           children [
             Shape {
@@ -221,7 +221,7 @@ DEF SPHERES Solid {
   children [
     DEF BALLS Group {
       children [
-        Transform {
+        Pose {
           translation -0.2 -0.06 0
           children [
             Shape {
@@ -233,7 +233,7 @@ DEF SPHERES Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.35 -0.03 -0.05
           children [
             Shape {
@@ -245,7 +245,7 @@ DEF SPHERES Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.2 -0.015 -0.4
           children [
             Shape {
@@ -257,7 +257,7 @@ DEF SPHERES Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.1 0 -0.6
           children [
             Shape {
@@ -269,7 +269,7 @@ DEF SPHERES Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.015 -0.9
           children [
             Shape {
@@ -281,7 +281,7 @@ DEF SPHERES Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.5 0.02 -0.55
           children [
             Shape {
@@ -293,7 +293,7 @@ DEF SPHERES Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.005 0
           children [
             Shape {
@@ -305,7 +305,7 @@ DEF SPHERES Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.5 0 -1
           children [
             Shape {
@@ -317,7 +317,7 @@ DEF SPHERES Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.6 0.03 -0.15
           children [
             Shape {
@@ -329,7 +329,7 @@ DEF SPHERES Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.4 0 -1.3
           children [
             Shape {
@@ -341,7 +341,7 @@ DEF SPHERES Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.15 0.04 -1.35
           children [
             Shape {

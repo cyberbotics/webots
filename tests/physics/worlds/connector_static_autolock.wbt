@@ -27,7 +27,7 @@ DEF ACTIVE_ROBOT Robot {
   children [
     TestSuiteEmitter {
     }
-    DEF BODY Transform {
+    DEF BODY Pose {
       translation 0 0.25 -0.25
       children [
         Shape {
@@ -56,7 +56,7 @@ DEF ACTIVE_ROBOT Robot {
 DEF SOLID Solid {
   translation 0.247 0.2 0
   children [
-    DEF BODY Transform {
+    DEF BODY Pose {
       children [
         Shape {
           appearance PBRAppearance {

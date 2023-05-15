@@ -89,7 +89,7 @@ DEF MYBOT Robot {
       width 14
       height 14
     }
-    Transform {
+    Pose {
       translation 0 0.0415 0
       rotation 1 0 0 -1.57079632679
       children [
@@ -124,7 +124,7 @@ DEF MYBOT Robot {
         translation -0.045 0.025 0
         rotation -1 0 0 0
         children [
-          DEF WHEEL Transform {
+          DEF WHEEL Pose {
             rotation 0 1 0 -1.57
             children [
               Shape {
@@ -175,7 +175,7 @@ DEF MYBOT Robot {
     }
   ]
   name "MyBot"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0.0415 0
     rotation 1 0 0 -1.57079632679
     children [

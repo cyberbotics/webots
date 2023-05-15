@@ -22,7 +22,7 @@ PROTO RectangularPanel [
     rotation IS rotation
     recognitionColors IS recognitionColors
     children [
-      Transform {
+      Pose {
         translation 0.015 0 0
         rotation 0.577366 0.577358 0.577328 2.094321
         children [

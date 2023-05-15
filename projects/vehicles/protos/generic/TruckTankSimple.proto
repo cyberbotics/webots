@@ -120,7 +120,7 @@ PROTO TruckTankSimple [
       model "truck tank"
       boundingObject Group {
         children [
-          Transform {
+          Pose {
             translation -3.1 0 2.21
             children [
               Box {
@@ -128,7 +128,7 @@ PROTO TruckTankSimple [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -6.33 0 0.27
             children [
               Box {

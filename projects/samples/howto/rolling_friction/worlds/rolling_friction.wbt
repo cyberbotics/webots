@@ -96,7 +96,7 @@ TexturedBackground {
 }
 TexturedBackgroundLight {
 }
-DEF RHO Transform {
+DEF RHO Pose {
   translation 10 27 1
   rotation 0 0 -1 1.57
   children [
@@ -387,7 +387,7 @@ DEF RHO Transform {
     }
   ]
 }
-DEF RHO_2 Transform {
+DEF RHO_2 Pose {
   translation -20 0 0
   children [
     Solid {
@@ -553,7 +553,7 @@ DEF RHO_2 Transform {
     }
   ]
 }
-DEF RHO_N Transform {
+DEF RHO_N Pose {
   translation -2 10 1
   children [
     Solid {

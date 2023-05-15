@@ -55,7 +55,7 @@ PROTO Sink [
     model "sink"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.029 0.145 0.099
           rotation 0.1414 0.9769 0.1599 4.27485
           children [
@@ -66,7 +66,7 @@ PROTO Sink [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.109 0.18 0.063
           children [
             Shape {
@@ -76,7 +76,7 @@ PROTO Sink [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.27 0 -0.004
           children [
             Shape {
@@ -86,7 +86,7 @@ PROTO Sink [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.07 0 -0.004
           children [
             Shape {
@@ -96,7 +96,7 @@ PROTO Sink [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.1 0.198 -0.004
           children [
             Shape {
@@ -106,7 +106,7 @@ PROTO Sink [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.1 -0.198 -0.004
           children [
             Shape {
@@ -116,7 +116,7 @@ PROTO Sink [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.1 0 -0.037
           children [
             Shape {

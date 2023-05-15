@@ -14,8 +14,8 @@ export default class WbConnector extends WbDevice {
   #rotationsRenderable;
   #rotationsTransform;
   #transform;
-  constructor(id, translation, scale, rotation, name, numberOfRotations) {
-    super(id, translation, scale, rotation, name);
+  constructor(id, translation, rotation, name, numberOfRotations) {
+    super(id, translation, rotation, name);
     this.#numberOfRotations = numberOfRotations;
     this.#material = [];
     this.#axisMesh = [];

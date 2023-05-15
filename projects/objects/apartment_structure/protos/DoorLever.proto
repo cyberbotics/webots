@@ -61,7 +61,7 @@ PROTO DoorLever [
       translation IS translation
       rotation IS rotation
       children [
-        DEF HANDLE_SUPPORT Transform { # handle support
+        DEF HANDLE_SUPPORT Pose { # handle support
           rotation 0 1 0 1.57
           children [
             Shape {
@@ -92,7 +92,7 @@ PROTO DoorLever [
           endPoint Solid {
             children [
       %< } >%
-              DEF HANDLE_AXIS Transform { # handle axis
+              DEF HANDLE_AXIS Pose { # handle axis
                 rotation 0 1 0 1.57
                 children [
                   Shape {
@@ -105,7 +105,7 @@ PROTO DoorLever [
                   }
                 ]
               }
-              DEF BACK_HANDLE Transform { # back handle
+              DEF BACK_HANDLE Pose { # back handle
                 translation %<= -handlePositionX >% %<= mirrorFactor * handlePositionY >% 0
                 rotation 1 0 0 1.57
                 children [
@@ -119,7 +119,7 @@ PROTO DoorLever [
                   }
                 ]
               }
-              DEF FRONT_HANDLE Transform { # front handle
+              DEF FRONT_HANDLE Pose { # front handle
                 translation %<= handlePositionX >% %<= mirrorFactor * handlePositionY >% 0
                 rotation 1 0 0 1.57
                 children [

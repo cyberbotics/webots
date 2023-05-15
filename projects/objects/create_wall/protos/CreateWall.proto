@@ -71,7 +71,7 @@ Robot {
   name IS name
   model "iRobot Wall"
   description "IRobot Wall"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 0.05
     rotation 1 0 0 1.5708
     children [

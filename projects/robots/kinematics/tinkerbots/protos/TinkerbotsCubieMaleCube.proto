@@ -8,8 +8,8 @@
 EXTERNPROTO "TinkerbotsPlasticAppearance.proto"
 
 PROTO TinkerbotsCubieMaleCube [
-  field SFVec3f    translation 0 0 0             # Is `Transform.translation`.
-  field SFRotation rotation    0 0 1 0           # Is `Transform.rotation`.
+  field SFVec3f    translation 0 0 0             # Is `Pose.translation`.
+  field SFRotation rotation    0 0 1 0           # Is `Pose.rotation`.
   field SFString   name        "male cube cubie" # Is `Solid.name`.
   field SFNode     upSlot      NULL              # Type: "lego cross-".
   field SFNode     frontSlot   NULL              # Type: "lego cross-".
@@ -24,7 +24,7 @@ PROTO TinkerbotsCubieMaleCube [
       translation IS translation
       rotation IS rotation
       children [
-        Transform {
+        Pose {
           translation 0 0 0.02
           children [
             Slot {
@@ -33,7 +33,7 @@ PROTO TinkerbotsCubieMaleCube [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.005 0 0.015
           rotation 0 1 0 1.57
           children [
@@ -43,7 +43,7 @@ PROTO TinkerbotsCubieMaleCube [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.005 0 0.015
           rotation 0 1 0 -1.57
           children [
@@ -53,7 +53,7 @@ PROTO TinkerbotsCubieMaleCube [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.01 0.015
           rotation 1 0 0 3.1415
           children [
@@ -63,7 +63,7 @@ PROTO TinkerbotsCubieMaleCube [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.005 0.015
           rotation 1 0 0 1.57
           children [
@@ -101,7 +101,7 @@ PROTO TinkerbotsCubieMaleCube [
       ]
       name IS name
       contactMaterial "tinkerbots cubie"
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0 0.015
         children [
           Box {

@@ -41,7 +41,7 @@ PROTO SmsUmrr-0a31 [
       SmsUmrrShape {
       }
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       rotation -0.5774 0.5773 0.5774 -2.0944
       translation -0.015 0 0
       children [

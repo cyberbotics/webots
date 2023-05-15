@@ -120,7 +120,7 @@ PROTO Fence [
           if (horizontalBarsNumber > 1)
             horizontalBarsHeight = height * ((j / (horizontalBarsNumber - 1)) * 0.8 + 0.1);
         >%
-        Transform {
+        Pose {
           translation 0 0 %<= horizontalBarsHeight >%
           children [
             %< if (j === 0) { >%

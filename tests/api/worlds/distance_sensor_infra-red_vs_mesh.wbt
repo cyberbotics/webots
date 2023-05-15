@@ -17,7 +17,7 @@ TexturedBackground {
 }
 TexturedBackgroundLight {
 }
-DEF MESH Transform {
+DEF MESH Pose {
   translation -0.972322 -0.75 -0.476789
   rotation 0 1 0 1.5708
   children [
@@ -33,7 +33,7 @@ DEF MESH Transform {
     }
   ]
 }
-DEF MESH Transform {
+DEF MESH Pose {
   translation 0.763081 -0.75 0.204459
   rotation 0 -1 0 1.8325953071795864
   children [
@@ -55,7 +55,7 @@ Robot {
   children [
     DistanceSensor {
       children [
-        DEF DS_SHAPE Transform {
+        DEF DS_SHAPE Pose {
           translation -0.026 0 0
           rotation 0 1 0 1.5708
           children [
@@ -81,7 +81,7 @@ Robot {
       translation -0.11 0 -5.30718e-08
       rotation 0 1 0 3.14159
       children [
-        DEF DS_SHAPE Transform {
+        DEF DS_SHAPE Pose {
           translation -0.026 0 0
           rotation 0 1 0 1.5708
           children [

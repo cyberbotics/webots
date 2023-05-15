@@ -116,7 +116,7 @@ DEF TATAMI Solid {
     }
   ]
   name "ground"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 -0.1
     children [
       Box {

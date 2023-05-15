@@ -17,7 +17,7 @@ Solid {
   children [
     DEF KEYHOLE_GROUP Group {
       children [
-        DEF BOX_UP Transform {
+        DEF BOX_UP Pose {
           translation 0 0 0.02875
           children [
             Shape {
@@ -31,7 +31,7 @@ Solid {
             }
           ]
         }
-        DEF BOX_DOWN Transform {
+        DEF BOX_DOWN Pose {
           translation 0 0 -0.02875
           children [
             Shape {
@@ -42,7 +42,7 @@ Solid {
             }
           ]
         }
-        DEF BOX_LEFT Transform {
+        DEF BOX_LEFT Pose {
           translation 0 -0.02875 0
           children [
             Shape {
@@ -53,7 +53,7 @@ Solid {
             }
           ]
         }
-        DEF BOX_RIGHT Transform {
+        DEF BOX_RIGHT Pose {
           translation 0 0.02875 0
           children [
             Shape {

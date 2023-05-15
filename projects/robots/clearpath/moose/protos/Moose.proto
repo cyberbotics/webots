@@ -11,8 +11,8 @@ EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
 EXTERNPROTO "MooseWheel.proto"
 
 PROTO Moose [
-  field SFVec3f    translation     0 0 0.38      # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0       # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0.38      # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0       # Is `Pose.rotation`.
   field SFString   name            "moose"       # Is `Solid.name`.
   field SFString   controller      "<none>"      # Is `Robot.controller`.
   field MFString   controllerArgs  []            # Is `Robot.controllerArgs`.
@@ -32,11 +32,11 @@ PROTO Moose [
     window IS window
     synchronization IS synchronization
     children [
-      Transform {
+      Pose {
         translation 0 0 0.4
         children IS bodySlot
       }
-      DEF MOOSE_BODY_SHAPE Transform {
+      DEF MOOSE_BODY_SHAPE Pose {
         translation 0 0 -0.06
         rotation -0.577349 -0.577351 -0.577351 -2.094397
         children [
@@ -155,7 +155,7 @@ PROTO Moose [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.95 -0.6 -0.06
         rotation 0 0 1 3.14159
         children [
@@ -182,7 +182,7 @@ PROTO Moose [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.27 -0.6 -0.06
         rotation 0 0 1 3.14159
         children [
@@ -209,7 +209,7 @@ PROTO Moose [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.42 -0.6 -0.06
         rotation 0 0 1 3.14159
         children [
@@ -236,7 +236,7 @@ PROTO Moose [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -1.1 -0.6 -0.06
         rotation 0 0 1 3.14159
         children [
@@ -263,7 +263,7 @@ PROTO Moose [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.95 0.6 -0.06
         children [
           HingeJoint {
@@ -289,7 +289,7 @@ PROTO Moose [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.27 0.6 -0.06
         children [
           HingeJoint {
@@ -315,7 +315,7 @@ PROTO Moose [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.42 0.6 -0.06
         children [
           HingeJoint {
@@ -341,7 +341,7 @@ PROTO Moose [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -1.1 0.6 -0.06
         children [
           HingeJoint {
@@ -370,7 +370,7 @@ PROTO Moose [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.15
           rotation 1 0 0 1.570796
           children [
@@ -379,7 +379,7 @@ PROTO Moose [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -1.31 0 0.56
           rotation 1 0 0 1.570796
           children [
@@ -388,7 +388,7 @@ PROTO Moose [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -1.29 0.53 0.49
           rotation 1 0 0 1.570796
           children [
@@ -397,7 +397,7 @@ PROTO Moose [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -1.29 -0.53 0.49
           rotation 1 0 0 1.570796
           children [
@@ -406,7 +406,7 @@ PROTO Moose [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 1.25 -0.53 0.49
           rotation 1 0 0 1.570796
           children [
@@ -415,7 +415,7 @@ PROTO Moose [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 1.25 0.53 0.49
           rotation 1 0 0 1.570796
           children [

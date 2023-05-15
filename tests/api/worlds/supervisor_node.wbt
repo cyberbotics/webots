@@ -26,7 +26,7 @@ PointLight {
 DEF FLOOR Solid {
   translation -0.5 0 0.5
   children [
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {
@@ -40,7 +40,7 @@ DEF FLOOR Solid {
       ]
     }
   ]
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0.5 0 -0.5
     children [
       Plane {
@@ -95,7 +95,7 @@ DEF Test Robot {
 DEF CAPSULE Solid {
   translation 0.3 0.2 0.1
   children [
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57079632679
       children [
         DEF CAPSULE_SHAPE Shape {
@@ -118,7 +118,7 @@ DEF CONE Solid {
   translation 0.00810817 0.1 0.371074
   rotation 0.7662608905622442 0.5746959179216474 0.2873479589608237 1.5708
   children [
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57079632679
       children [
         DEF CONE_SHAPE Shape {

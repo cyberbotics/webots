@@ -102,7 +102,7 @@ PROTO TiagoOmniBaseWheel [
       }
     ]
     name %<= '"suspension_' + front_string + '_' + right_string + '_link"' >%
-    boundingObject DEF SUSPENSION_BO Transform {
+    boundingObject DEF SUSPENSION_BO Pose {
     translation -0.02 0 -0.007
       children [
         Box {
