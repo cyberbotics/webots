@@ -37,7 +37,7 @@ OUTPUT_FILE = os.path.join(WEBOTS_HOME, 'resources', 'web', 'wwi', 'protoVisuali
 def list_files():
     files = []
     for root_path, _, file_names in os.walk(os.environ['WEBOTS_HOME']):
-        for file in file_names:
+        for file in sorted(file_names):
             if file.endswith('.wrl') and file not in SKIPPED_FILES:
                 files.append(os.path.join(root_path, file))
     return files
