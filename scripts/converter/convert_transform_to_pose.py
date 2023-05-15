@@ -22,6 +22,7 @@ from pathlib import Path
 
 import sys
 
+
 def convert_to_enu(filename):
     file = WebotsParser()
     try:

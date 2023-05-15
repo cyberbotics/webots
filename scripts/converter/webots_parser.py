@@ -196,7 +196,7 @@ class WebotsParser:
             node['name'] = words[0]
 
         lastWord = words[len(words) - 1]
-        if  lastWord == '}' or lastWord == '{}':
+        if lastWord == '}' or lastWord == '{}':
             return node
         for line in self.file:
             line = self._prepare_line(line)
