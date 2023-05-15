@@ -674,6 +674,7 @@ static const char *C_API_CONSTANTS = "INFINITY "
                                      "WB_NODE_POINT_LIGHT "
                                      "WB_NODE_POINT_SET "
                                      "WB_NODE_POSITION_SENSOR "
+                                     "WB_NODE_POSE "
                                      "WB_NODE_PROPELLER "
                                      "WB_NODE_RADAR "
                                      "WB_NODE_RANGE_FINDER "
@@ -717,7 +718,7 @@ static const char *WBT_OBJECTS =
   "DirectionalLight ElevationGrid Fluid Focus Fog Group HingeJoint "
   "HingeJointParameters Hinge2Joint ImageTexture ImmersionProperties "
   "IndexedFaceSet IndexedLineSet JointParameters Lens LensFlare Material Mesh Normal PBRAppearance "
-  "Physics Plane PointLight Propeller Recognition Shape SliderJoint Slot Solid SolidReference "
+  "Physics Plane PointLight Pose Propeller Recognition Shape SliderJoint Slot Solid SolidReference "
   "Sphere SpotLight TextureCoordinate TextureTransform Track TrackWheel "
   "Transform Viewpoint WorldInfo Zoom";
 

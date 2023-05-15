@@ -20,7 +20,7 @@ PROTO TemplateRobot [
       Group {
         children IS slot
       }
-      DEF INTERNAL Transform {
+      DEF INTERNAL Pose {
       }
     ]
   }

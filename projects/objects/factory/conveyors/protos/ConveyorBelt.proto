@@ -166,7 +166,7 @@ PROTO ConveyorBelt [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation %<= 0.5 * (size.x + borderThickness) >% 0 %<= 0.5 * (size.z + borderHeight) >%
           children [
             Box {
@@ -174,7 +174,7 @@ PROTO ConveyorBelt [
             }
           ]
         }
-        Transform {
+        Pose {
           translation %<= -0.5 * (size.x + borderThickness) >% 0 %<= 0.5 * (size.z + borderHeight) >%
           children [
             Box {
@@ -182,7 +182,7 @@ PROTO ConveyorBelt [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 %<= -0.5 * (size.y + borderThickness) >% %<= 0.5 * (size.z + borderHeight) >%
           children [
             Box {
@@ -190,7 +190,7 @@ PROTO ConveyorBelt [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 %<= 0.5 * (size.y + borderThickness) >% %<= 0.5 * (size.z + borderHeight) >%
           children [
             Box {

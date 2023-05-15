@@ -424,7 +424,7 @@ RectangleArena {
     }
   }
 }
-Transform {
+Pose {
   translation 1.77 6.5 1.05
   children [
     Shape {

@@ -75,7 +75,7 @@ DEF ROPE Solid {
             endPoint DEF ROPE_ELEMENT_1 Solid {
               translation 0 0 -0.1
               children [
-                DEF ROPE_ELEMENT Transform {
+                DEF ROPE_ELEMENT Pose {
                   translation 0 0 0.05
                   children [
                     Shape {
@@ -190,7 +190,7 @@ DEF ROPE Solid {
     }
     DEF SUPPORT_GROUP Group {
       children [
-        Transform {
+        Pose {
           translation 0 0.35 0.05
           children [
             Shape {
@@ -205,7 +205,7 @@ DEF ROPE Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.35 0.05
           children [
             Shape {
@@ -220,7 +220,7 @@ DEF ROPE Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.35 0.5
           children [
             Shape {
@@ -235,7 +235,7 @@ DEF ROPE Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.35 0.5
           children [
             Shape {
@@ -246,7 +246,7 @@ DEF ROPE Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 1.05
           children [
             Shape {

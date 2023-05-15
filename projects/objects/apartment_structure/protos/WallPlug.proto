@@ -91,7 +91,7 @@ PROTO WallPlug [
     %< if (fields.enableBoundingObject.value) { >%
       boundingObject Group {
         children [
-          Transform {
+          Pose {
             translation 0.0215 0 0
             children [
               Box {
@@ -99,7 +99,7 @@ PROTO WallPlug [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0.0271 -0.028 0
             children [
               DEF BOX Box {
@@ -107,20 +107,20 @@ PROTO WallPlug [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0.0271 0.028 0
             children [
               USE BOX
             ]
           }
-          Transform {
+          Pose {
             translation 0.0271 0 0.028
             rotation 1 0 0 1.5707963220000003
             children [
               USE BOX
             ]
           }
-          Transform {
+          Pose {
             translation 0.0271 0 -0.028
             rotation 1 0 0 1.5707963220000003
             children [

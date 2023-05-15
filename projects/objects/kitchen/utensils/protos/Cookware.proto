@@ -55,7 +55,7 @@ PROTO Cookware [
     model "cookware"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.1485 0 0.0495
           rotation 0 -1 0 -0.035
           children [
@@ -66,7 +66,7 @@ PROTO Cookware [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.0045
           children [
             Shape {
@@ -93,7 +93,7 @@ PROTO Cookware [
             az = 0.04;
             angle = gamma + 0.5 * Math.PI;
           >%
-            Transform {
+            Pose {
               translation %<= ax >% %<= ay >% %<= az >%
               rotation 0 0 -1 %<= angle >%
               children [

@@ -64,7 +64,7 @@ PROTO SharpGP2Y0A02YK0F [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.0073 -0.0102 0
           children [
             Box {
@@ -72,7 +72,7 @@ PROTO SharpGP2Y0A02YK0F [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.0181 -0.0102 0
           children [
             Box {

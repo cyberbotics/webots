@@ -19,7 +19,7 @@ PROTO SquareManhole [
     name IS name
     model "manhole"
     children [
-      Transform {
+      Pose {
         rotation 0 0 1 1.57
         children [
           Shape {

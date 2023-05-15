@@ -537,7 +537,7 @@ Parking lines for several consecutive cars.
 
 %end
 
-Derived from [Transform](../reference/transform.md).
+Derived from [Pose](../reference/pose.md).
 
 ```
 ParkingLines {
@@ -713,7 +713,7 @@ SignPole {
   SFString    name          "sign pole"
   SFFloat     height        2.2
   SFFloat     radius        0.02
-  SFColor     color         0.258824 0.258824 0.258824
+  SFColor     color         0.8 0.8 0.8
   MFNode      signBoards    [ DirectionPanel {} ]
 }
 ```
@@ -896,6 +896,7 @@ Derived from [Solid](../reference/solid.md).
 StreetLight {
   SFVec3f    translation   0 0 0
   SFRotation rotation      0 0 1 0
+  SFFloat    scale         1
   SFString   name          "street light"
   SFFloat    beamWidth     1.1
   SFColor    color         1 1 1
@@ -947,6 +948,7 @@ Derived from [Solid](../reference/solid.md).
 TrafficCone {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 0 1 0
+  SFFloat    scale       1
   SFString   name        "traffic cone"
   SFNode     physics     NULL
 }

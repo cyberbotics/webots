@@ -50,7 +50,7 @@ Solid {
   translation 0.0987654 0 0
   rotation 0 0 1 1.5708
   children [
-    DEF PLANE Transform {
+    DEF PLANE Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {

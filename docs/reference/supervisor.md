@@ -321,6 +321,7 @@ typedef enum {
   WB_NODE_PLANE,
   WB_NODE_POINT_LIGHT,
   WB_NODE_POINT_SET,
+  WB_NODE_POSE,
   WB_NODE_SHAPE,
   WB_NODE_SPHERE,
   WB_NODE_SPOT_LIGHT,
@@ -405,7 +406,7 @@ namespace webots {
       APPEARANCE, BACKGROUND, BILLBOARD, BOX, CAPSULE, COLOR, CONE, COORDINATE,
       CYLINDER, DIRECTIONAL_LIGHT, ELEVATION_GRID, FOG, GROUP, IMAGE_TEXTURE,
       INDEXED_FACE_SET, INDEXED_LINE_SET, MATERIAL, MESH, MUSCLE, NORMAL, PBR_APPEARANCE,
-      PLANE, POINT_LIGHT, POINT_SET, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
+      PLANE, POINT_LIGHT, POINT_SET, POSE, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
       TEXTURE_TRANSFORM, TRANSFORM, VIEWPOINT,
       // robots
       ROBOT,
@@ -443,7 +444,7 @@ class Node:
     APPEARANCE, BACKGROUND, BILLBOARD, BOX, CAPSULE, COLOR, CONE, COORDINATE,
     CYLINDER, DIRECTIONAL_LIGHT, ELEVATION_GRID, FOG, GROUP, IMAGE_TEXTURE,
     INDEXED_FACE_SET, INDEXED_LINE_SET, MATERIAL, MESH, MUSCLE, NORMAL, PBR_APPEARANCE,
-    PLANE, POINT_LIGHT, POINT_SET, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
+    PLANE, POINT_LIGHT, POINT_SET, POSE, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
     TEXTURE_TRANSFORM, TRANSFORM, VIEWPOINT,
     # robots
     ROBOT,
@@ -479,7 +480,7 @@ public class Node {
     APPEARANCE, BACKGROUND, BILLBOARD, BOX, CAPSULE, COLOR, CONE, COORDINATE,
     CYLINDER, DIRECTIONAL_LIGHT, ELEVATION_GRID, FOG, GROUP, IMAGE_TEXTURE,
     INDEXED_FACE_SET, INDEXED_LINE_SET, MATERIAL, MESH, MUSCLE, NORMAL, PBR_APPEARANCE,
-    PLANE, POINT_LIGHT, POINT_SET, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
+    PLANE, POINT_LIGHT, POINT_SET, POSE, SHAPE, SPHERE, SPOT_LIGHT, TEXTURE_COORDINATE,
     TEXTURE_TRANSFORM, TRANSFORM, VIEWPOINT,
     // robots
     ROBOT,
@@ -514,7 +515,7 @@ WB_NODE_COLOR, WB_NODE_CONE, WB_NODE_COORDINATE,
 WB_NODE_CYLINDER, WB_NODE_DIRECTIONAL_LIGHT, WB_NODE_ELEVATION_GRID, WB_NODE_FOG,
 WB_NODE_GROUP, WB_NODE_IMAGE_TEXTURE, WB_NODE_INDEXED_FACE_SET, WB_NODE_INDEXED_LINE_SET,
 WB_NODE_MATERIAL, WB_NODE_MESH, WB_NODE_MUSCLE, WB_NODE_NORMAL,
-WB_NODE_PBR_APPEARANCE, WB_NODE_PLANE, WB_NODE_POINT_LIGHT, WB_NODE_POINT_SET,
+WB_NODE_PBR_APPEARANCE, WB_NODE_PLANE, WB_NODE_POINT_LIGHT, WB_NODE_POINT_SET, WB_NODE_POSE,
 WB_NODE_SHAPE, WB_NODE_SPHERE, WB_NODE_SPOT_LIGHT, WB_NODE_TEXTURE_COORDINATE,
 WB_NODE_TEXTURE_TRANSFORM, WB_NODE_TRANSFORM, WB_NODE_VIEWPOINT,
 % robots
@@ -975,11 +976,11 @@ wb_supervisor_node_disable_pose_tracking(node, from_node)
 *get the global (world) position/orientation of a node*
 
 The `wb_supervisor_node_get_position` function returns the position of a node expressed in the global (world) coordinate system.
-The `node` argument must be a [Transform](transform.md) node (or a derived node), otherwise the function will print a warning message and return 3 `NaN` (Not a Number) values.
+The `node` argument must be a [Pose](pose.md) node (or a derived node), otherwise the function will print a warning message and return 3 `NaN` (Not a Number) values.
 This function returns a vector containing exactly 3 values.
 
 The `wb_supervisor_node_get_orientation` function returns a matrix that represents the rotation of the node in the global (world) coordinate system.
-The `node` argument must be a [Transform](transform.md) node (or a derived node), otherwise the function will print a warning message and return 9 `NaN` (Not a Number) values.
+The `node` argument must be a [Pose](pose.md) node (or a derived node), otherwise the function will print a warning message and return 9 `NaN` (Not a Number) values.
 This function returns a matrix containing exactly 9 values that shall be interpreted as a 3 x 3 orthogonal rotation matrix:
 
 ```
@@ -1021,7 +1022,7 @@ The matrix is composed of a rotation matrix `R` and a translation vector `T`.
 The `wb_supervisor_node_enable_pose_tracking` function forces Webots to stream poses to the controller.
 It improves the performance as the controller by default uses a request-response pattern to get pose data.
 The `sampling_period` argument determines how often the pose data should be sent to the controller.
-Both the `node` argument (or the node instance for C++, Python and Java) and the `from_node` argument must be a [Transform](transform.md) node (or a derived node).
+Both the `node` argument (or the node instance for C++, Python and Java) and the `from_node` argument must be a [Pose](pose.md) node (or a derived node).
 If the `from_node` argument is null or it is invalid, it returns the it returns the absolute pose of the node in the global coordinate system.
 
 The `wb_supervisor_node_disable_pose_tracking` function disables pose data tracking.

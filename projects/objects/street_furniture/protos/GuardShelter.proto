@@ -116,7 +116,7 @@ PROTO GuardShelter [
         }
       }
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 -0.11 1.25
       children [
         Box {

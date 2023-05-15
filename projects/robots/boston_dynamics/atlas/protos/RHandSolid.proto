@@ -22,7 +22,7 @@ Solid {
   name "RHand"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0 -0.0526955 0.0
         rotation 1 0 0 1.5708
         children [
@@ -32,7 +32,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.034375 -0.002643 0
         rotation -0.0004 1 0.0004 1.5708
         children [
@@ -42,7 +42,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.0365945 -0.002643 0
         rotation -0.0004 1 0.0004 1.5708
         children [

@@ -9,8 +9,8 @@
 EXTERNPROTO "TinkerbotsLEDAppearance.proto"
 
 PROTO TinkerbotsDistanceSensor [
-  field SFVec3f    translation  0 0 0             # Is `Transform.translation`.
-  field SFRotation rotation     0 0 1 0           # Is `Transform.rotation`.
+  field SFVec3f    translation  0 0 0             # Is `Pose.translation`.
+  field SFRotation rotation     0 0 1 0           # Is `Pose.rotation`.
   field SFString   name         "distance sensor" # Is `Solid.name`.
   field SFInt32    numberOfRays 1                 # Is `DistanceSensor.numberOfRays`.
   field SFFloat    aperture     1.5708            # Is `DistanceSensor.aperture`.
@@ -67,7 +67,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.04
           children [
             Slot {
@@ -76,7 +76,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 0.01 0.035
           rotation 0 0 1 3.1415
           children [
@@ -86,7 +86,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.01 0.01 0.035
           rotation 0 0 1 1.5708
           children [
@@ -96,7 +96,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.01 -0.01 0.035
           children [
             Slot {
@@ -105,7 +105,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 -0.01 0.035
           rotation 0 0 1 -1.5708
           children [
@@ -115,7 +115,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.02 0.02
           rotation 1 0 0 1.57
           children [
@@ -125,7 +125,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.01 -0.015 0.03
           rotation 0.57735 -0.57735 0.577352 2.0944
           children [
@@ -135,7 +135,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.01 -0.015 0.01
           rotation 1 0 0 1.57081
           children [
@@ -145,7 +145,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 -0.015 0.01
           rotation 0.57735 0.57735 -0.577352 2.0944
           children [
@@ -155,7 +155,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 -0.015 0.03
           rotation 0 -0.707105 0.707108 3.14153
           children [
@@ -165,7 +165,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.02 0.02
           rotation 1 0 0 -1.57
           children [
@@ -175,7 +175,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 0.015 0.03
           rotation 0.57735 0.57735 0.577352 -2.0944
           children [
@@ -185,7 +185,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 0.015 0.01
           rotation 0 0.707105 0.707108 3.14153
           children [
@@ -195,7 +195,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.01 0.015 0.01
           rotation -0.57735 0.57735 0.577352 2.0944
           children [
@@ -205,7 +205,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.01 0.015 0.03
           rotation 1 0 0 -1.5708
           children [
@@ -215,7 +215,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.02 0 0.02
           rotation 0 1 0 -1.57
           children [
@@ -225,7 +225,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.015 -0.01 0.03
           rotation 0 1 0 -1.5708
           children [
@@ -235,7 +235,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.015 -0.01 0.01
           rotation -0.57735 0.57735 0.577352 -2.0944
           children [
@@ -245,7 +245,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.015 0.01 0.01
           rotation -0.707105 0 0.707108 3.14153
           children [
@@ -255,7 +255,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.015 0.01 0.03
           rotation 0.57735 0.57735 -0.577352 -2.0944
           children [
@@ -316,7 +316,7 @@ PROTO TinkerbotsDistanceSensor [
       ]
       name IS name
       contactMaterial "tinkerbots"
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0 0.02
         children [
           Box {

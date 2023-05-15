@@ -184,7 +184,7 @@
       "axis": "-1 0 0",
       "maxPosition": 0.045,
       "minPosition": 0,
-      "name": "left_hand_gripper_finger_joint::left",
+      "name": "left_hand_gripper_left_finger_joint",
       "position": 0,
       "transformID": "n59135",
       "type": "LinearMotor"
@@ -193,7 +193,7 @@
       "axis": "1 0 0",
       "maxPosition": 0.045,
       "minPosition": 0,
-      "name": "left_hand_gripper_finger_joint::right",
+      "name": "left_hand_gripper_right_finger_joint",
       "position": 0,
       "transformID": "n59170",
       "type": "LinearMotor"
@@ -202,7 +202,7 @@
       "axis": "-1 0 0",
       "maxPosition": 0.045,
       "minPosition": 0,
-      "name": "right_hand_gripper_finger_joint::left",
+      "name": "right_hand_gripper_left_finger_joint",
       "position": 0,
       "transformID": "n56779",
       "type": "LinearMotor"
@@ -211,7 +211,7 @@
       "axis": "1 0 0",
       "maxPosition": 0.045,
       "minPosition": 0,
-      "name": "right_hand_gripper_finger_joint::right",
+      "name": "right_hand_gripper_right_finger_joint",
       "position": 0,
       "transformID": "n56814",
       "type": "LinearMotor"
@@ -407,28 +407,28 @@
     },
     {
       "axis": "-1 0 0",
-      "name": "left_hand_gripper_finger_joint::left_sensor",
+      "name": "left_hand_gripper_left_sensor_finger_joint",
       "position": 0,
       "transformID": "n59135",
       "type": "PositionSensor"
     },
     {
       "axis": "1 0 0",
-      "name": "left_hand_gripper_finger_joint::right_sensor",
+      "name": "left_hand_gripper_right_sensor_finger_joint",
       "position": 0,
       "transformID": "n59170",
       "type": "PositionSensor"
     },
     {
       "axis": "-1 0 0",
-      "name": "right_hand_gripper_finger_joint::left_sensor",
+      "name": "right_hand_gripper_left_sensor_finger_joint",
       "position": 0,
       "transformID": "n56779",
       "type": "PositionSensor"
     },
     {
       "axis": "1 0 0",
-      "name": "right_hand_gripper_finger_joint::right_sensor",
+      "name": "right_hand_gripper_right_sensor_finger_joint",
       "position": 0,
       "transformID": "n56814",
       "type": "PositionSensor"

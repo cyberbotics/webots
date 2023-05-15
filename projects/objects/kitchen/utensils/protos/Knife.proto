@@ -37,7 +37,7 @@ PROTO Knife [
     model "knife"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0.073 -0.001 -0.004
           rotation 0 0 1 0.01
           children [
@@ -46,7 +46,7 @@ PROTO Knife [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.036 0 -0.003
           rotation 0 1 0 0.01
           children [

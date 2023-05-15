@@ -51,7 +51,7 @@ PROTO ResidentialBuilding [
     ]
     name IS name
     model "residential building"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 10.1
       rotation 0.57735 -0.57735 -0.57735 2.094395
       children [

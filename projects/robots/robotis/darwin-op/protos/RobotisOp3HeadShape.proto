@@ -10,7 +10,7 @@ PROTO RobotisOp3HeadShape [
 {
   Group {
     children [
-      Transform {
+      Pose {
         translation 0 -0.0023 0
         children [
           MX430ServoShape {}

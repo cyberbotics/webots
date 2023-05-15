@@ -5,8 +5,8 @@
 # The "Koala" robot is a six-wheeled indoor robot produced by K-Team.
 
 PROTO Koala [
-  field SFVec3f    translation     0 0 0       # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0       # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0     # Is `Pose.rotation`.
   field SFString   name            "Koala"     # Is `Solid.name`.
   field SFString   controller      "koala"     # Is `Robot.controller`.
   field MFString   controllerArgs  []          # Is `Robot.controllerArgs`.
@@ -114,7 +114,7 @@ PROTO Koala [
         translation 0.09 0.1425 0.0425
         rotation -0.577352 0.577348 0.577352 -2.094405
         children [
-          DEF LeftWheel Transform {
+          DEF LeftWheel Pose {
             rotation 0 1 0 -1.57
             children [
               Shape {
@@ -128,7 +128,7 @@ PROTO Koala [
                   radius 0.0425
                 }
               }
-              Transform {
+              Pose {
                 translation 0 0 0.02
                 children [
                   Shape {
@@ -157,7 +157,7 @@ PROTO Koala [
           }
         ]
         name "wheel(1)"
-        boundingObject DEF WHEEL_BOUNDING_OBJECT Transform {
+        boundingObject DEF WHEEL_BOUNDING_OBJECT Pose {
           rotation 0 1 0 1.57
           children [
             Cylinder {
@@ -203,7 +203,7 @@ PROTO Koala [
         translation 0.09 -0.1425 0.0425
         rotation -0.577352 0.577348 0.577352 -2.094405
         children [
-          DEF RightWheel Transform {
+          DEF RightWheel Pose {
             rotation 0 -1 0 1.57
             children [
               Shape {
@@ -217,7 +217,7 @@ PROTO Koala [
                   radius 0.0425
                 }
               }
-              Transform {
+              Pose {
                 translation 0 0 -0.02
                 children [
                   Shape {
@@ -280,7 +280,7 @@ PROTO Koala [
         name "wheel(6)"
         boundingObject USE WHEEL_BOUNDING_OBJECT
       }
-      Transform {
+      Pose {
         translation 0 -0.1075 0.045
         children [
           Shape {
@@ -291,7 +291,7 @@ PROTO Koala [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0.1075 0.045
         children [
           Shape {
@@ -524,7 +524,7 @@ PROTO Koala [
     description "designed by Edo Franzi, Francesco Mondada (K-Team SA)"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0.025 -0.0 0.105
           children [
             Box {
@@ -532,7 +532,7 @@ PROTO Koala [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 -0.0 0.105
           children [
             Box {
@@ -540,7 +540,7 @@ PROTO Koala [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.105 -0.07 0.105
           children [
             Cylinder {
@@ -549,7 +549,7 @@ PROTO Koala [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.105 0.07 0.105
           children [
             Cylinder {

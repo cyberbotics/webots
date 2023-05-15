@@ -213,7 +213,7 @@ PROTO SmallManor [
     %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 5
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -222,7 +222,7 @@ PROTO SmallManor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -4.35 0 5.0
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -231,7 +231,7 @@ PROTO SmallManor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 4.94 0.58 5.0
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [

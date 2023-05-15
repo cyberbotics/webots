@@ -275,10 +275,9 @@ QT_SOURCES = WbAboutBox.cpp \
   WbDoubleSpinBox.cpp \
   WbDownloadManager.cpp \
   WbDownloader.cpp \
+  WbDragPoseEvent.cpp \
   WbDragResizeEvent.cpp \
-  WbDragScaleEvent.cpp \
   WbDragSolidEvent.cpp \
-  WbDragTransformEvent.cpp \
   WbElevationGrid.cpp \
   WbEmitter.cpp \
   WbExtendedStringEditor.cpp \
@@ -372,6 +371,7 @@ QT_SOURCES = WbAboutBox.cpp \
   WbPointSet.cpp \
   WbPositionSensor.cpp \
   WbPositionViewer.cpp \
+  WbPose.cpp \
   WbPreferences.cpp \
   WbPreferencesDialog.cpp \
   WbPropeller.cpp \
@@ -483,7 +483,7 @@ QT_SOURCES = WbAboutBox.cpp \
 # objects that don't inherit from QObject (alphabetical order)
 OTHER_SOURCES = \
   main.cpp \
-  WbAbstractTransform.cpp \
+  WbAbstractPose.cpp \
   WbAddItemCommand.cpp \
   WbAffinePlane.cpp \
   WbApplicationInfo.cpp \
@@ -503,6 +503,7 @@ OTHER_SOURCES = \
   WbDisplayFont.cpp \
   WbDragOverlayEvent.cpp \
   WbDragViewpointEvent.cpp \
+  WbDragScaleEvent.cpp \
   WbEditCommand.cpp \
   WbFieldModel.cpp \
   WbFileUtil.cpp \

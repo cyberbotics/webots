@@ -3,6 +3,7 @@
 ## Webots R2023b
 Released on ??
   - New Features
+    - Added a new [Pose](pose.md) node which inherits from [Group](group.md) and derives to [Transform](transform.md) and [Solid](solid.md) ([#5978](https://github.com/cyberbotics/webots/pull/5978)).
     - Added a new launcher to simplify the start of extern controllers ([#5629](https://github.com/cyberbotics/webots/pull/5629)).
     - Added a warning when Webots and controller library versions are different ([#5896](https://github.com/cyberbotics/webots/pull/5896)).
     - Added model of the [Husarion](https://husarion.com/)'s ROSbot XL robot and a sample world ([#5973](https://github.com/cyberbotics/webots/pull/5973)).
@@ -14,7 +15,8 @@ Released on ??
     - Improved the [Charger](charger.md) behavior ([#5771](https://github.com/cyberbotics/webots/pull/5771)).
     - Added `maxContactJoints` field to `ContactProperties` node to give users control over the tradeoff between collision accuracy and performance ([#5769](https://github.com/cyberbotics/webots/pull/5769)).
     - Improved MATLAB controllers to support input arguments ([#5943](https://github.com/cyberbotics/webots/pull/5943)).
-    - Update names of TIAGo models and add default RGBD camera ([#6082](https://github.com/cyberbotics/webots/pull/6082)).
+    - Updated names of TIAGo models and add default RGBD camera ([#6082](https://github.com/cyberbotics/webots/pull/6082)).
+    - **Changed type of the [`Recognition.occlusion`](recognition.md) field from `SFBool` to `SFInt32` to choose between two different levels of accuracy ([#6051](https://github.com/cyberbotics/webots/pull/6051)).**
     - Add parameters to change the glass color and opacity of the `Window.proto` ([#6106](https://github.com/cyberbotics/webots/pull/6106)).
     - Stop extern controller timeout counter during Webots world loading ([#6111](https://github.com/cyberbotics/webots/pull/6111)).
 
@@ -84,6 +86,7 @@ Released on ??
     - Fixed object's relative orientation returned by the [Recognition](recognition.md) functionality ([#6100](https://github.com/cyberbotics/webots/pull/6100)).
     - Fixed conversion of joints' axis in `pedal_racer.wbt` to FLU/ENU coordinate system ([#6115](https://github.com/cyberbotics/webots/pull/6115)).
     - Fixed a bug in ODE that caused minStop and maxStop limits to be violated in HingeJoints ([#6118](https://github.com/cyberbotics/webots/pull/6118)).
+    - Fixed errors loading template PROTO if the system user name contains the `'` character ([#6131](https://github.com/cyberbotics/webots/pull/6131)).
 
 ## Webots R2023a
 Released on November 29th, 2022.

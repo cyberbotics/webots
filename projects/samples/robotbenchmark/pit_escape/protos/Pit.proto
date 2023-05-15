@@ -89,7 +89,7 @@ PROTO Pit [
     translation IS translation
     rotation IS rotation
     children [
-      DEF PIT_ELEVATION_GRID Transform {
+      DEF PIT_ELEVATION_GRID Pose {
         translation %<= - fields.size.value.x * 0.5 >% %<= - fields.size.value.y * 0.5 >% 0
         children [
           Shape {

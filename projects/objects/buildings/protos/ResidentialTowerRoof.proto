@@ -7,7 +7,7 @@ PROTO ResidentialTowerRoof [
   field SFVec3f translation 0 -0.007 0
 ]
 {
-  Transform {
+  Pose {
     translation IS translation
     children [
       Shape {
@@ -263,7 +263,7 @@ PROTO ResidentialTowerRoof [
           ]
         }
       }
-      Transform {
+      Pose {
         translation -0.226 0 12.1
         rotation 0.57735 -0.57735 -0.57735 2.094395
         children [

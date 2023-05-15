@@ -33,7 +33,7 @@ Robot {
       width 180
       height 180
     }
-    Transform {
+    Pose {
       children [
         Shape {
           appearance PBRAppearance {

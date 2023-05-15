@@ -66,19 +66,17 @@ PROTO Washer [
           }
         ]
       }
-      Solid {
-        rotation 0 1 0 1.5708
-        boundingObject PipeBoundingObject {
-          height %<= thickness >%
-          radius %<= 1.55 * innerRadius / 0.6 >%
-          thickness %<= 0.96 * innerRadius / 0.6 >%
-        }
-        %< if (fields.enablePhysics.value) { >%
-          physics Physics {
-            density 8050
-          }
-        %< } >%
-      }
     ]
+    boundingObject PipeBoundingObject {
+      rotation 0 1 0 1.5708
+      height %<= thickness >%
+      radius %<= 1.55 * innerRadius / 0.6 >%
+      thickness %<= 0.96 * innerRadius / 0.6 >%
+    }
+    %< if (fields.enablePhysics.value) { >%
+    physics Physics {
+      density 8050
+    }
+    %< } >%
   }
 }

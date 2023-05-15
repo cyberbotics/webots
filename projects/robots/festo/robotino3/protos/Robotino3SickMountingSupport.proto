@@ -41,7 +41,7 @@ PROTO Robotino3SickMountingSupport [
           creaseAngle 1
         }
       }
-      Transform {
+      Pose {
         translation -0.059 -0.0791 0.003
         rotation 0 1 0 3.14159
         children IS extensionSlot
@@ -49,7 +49,7 @@ PROTO Robotino3SickMountingSupport [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.053 -0.1024 -0.03
           children [
             Box {
@@ -57,7 +57,7 @@ PROTO Robotino3SickMountingSupport [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.053 -0.1024 -0.03
           children [
             Box {
@@ -65,7 +65,7 @@ PROTO Robotino3SickMountingSupport [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.0733 -0.05 0.01
           children [
             Box {
@@ -73,7 +73,7 @@ PROTO Robotino3SickMountingSupport [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.0736 -0.05 0.01
           children [
             Box {
@@ -81,7 +81,7 @@ PROTO Robotino3SickMountingSupport [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.05 -0.001
           children [
             Box {
@@ -89,7 +89,7 @@ PROTO Robotino3SickMountingSupport [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.106 -0.0012
           children [
             Box {
@@ -97,7 +97,7 @@ PROTO Robotino3SickMountingSupport [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.1308 0.009
           children [
             Box {

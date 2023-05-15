@@ -13,8 +13,8 @@ export default class WbRadar extends WbDevice {
   #renderable;
   #transform;
   #verticalFieldOfView;
-  constructor(id, translation, scale, rotation, name, horizontalFieldOfView, verticalFieldOfView, maxRange, minRange) {
-    super(id, translation, scale, rotation, name);
+  constructor(id, translation, rotation, name, horizontalFieldOfView, verticalFieldOfView, maxRange, minRange) {
+    super(id, translation, rotation, name);
 
     this.#horizontalFieldOfView = horizontalFieldOfView;
     this.#verticalFieldOfView = verticalFieldOfView;

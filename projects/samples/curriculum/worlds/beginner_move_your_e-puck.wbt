@@ -112,7 +112,7 @@ DEF WALL Solid {
   name "wall"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0 -0.89 0.025
         children [
           DEF WALL_SHAPE Shape {
@@ -123,20 +123,20 @@ DEF WALL Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0.89 0.025
         children [
           USE WALL_SHAPE
         ]
       }
-      Transform {
+      Pose {
         translation -0.89 0 0.025
         rotation 0 0 1 1.57
         children [
           USE WALL_SHAPE
         ]
       }
-      Transform {
+      Pose {
         translation 0.89 0 0.025
         rotation 0 0 1 1.57
         children [

@@ -50,7 +50,7 @@ Solid {
         ]
       }
     }
-    DEF NORTH Transform {
+    DEF NORTH Pose {
       translation -0.375 2 1
       rotation 0.577354 -0.577352 0.577344 2.094401
       children [
@@ -66,7 +66,7 @@ Solid {
         }
       ]
     }
-    DEF SOUTH Transform {
+    DEF SOUTH Pose {
       translation 0 -2 1
       rotation -0.577349 0.577347 0.577355 2.094397
       children [
@@ -78,7 +78,7 @@ Solid {
         }
       ]
     }
-    DEF EAST Transform {
+    DEF EAST Pose {
       translation 2 -0.375 1
       rotation 0.577348 0.577356 -0.577347 -2.094393
       children [
@@ -90,7 +90,7 @@ Solid {
         }
       ]
     }
-    DEF WEST Transform {
+    DEF WEST Pose {
       translation -2 0 1
       rotation 0.577351 0.577347 0.577351 2.094405
       children [
@@ -102,7 +102,7 @@ Solid {
         }
       ]
     }
-    DEF WARDROBE Transform {
+    DEF WARDROBE Pose {
       translation 1.625 1.625 1
       rotation 0.86283 -0.357434 -0.357441 1.71781
       children [
@@ -130,13 +130,13 @@ Solid {
         "textures/living_room_door.jpg"
       ]
     }
-    DEF SOUTH_DOOR_HANDLE Transform {
+    DEF SOUTH_DOOR_HANDLE Pose {
       translation 1.82 -1.99 0.9
       rotation 0 1 0 1.5708
       children [
         DEF DOOR_HANDLE Group {
           children [
-            Transform {
+            Pose {
               translation 0 0.01 0
               rotation 1 0 0 -1.5708
               children [
@@ -150,7 +150,7 @@ Solid {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0 0.04 0
               rotation 1 0 0 -1.5708
               children [
@@ -164,7 +164,7 @@ Solid {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0 0.07 -0.05
               children [
                 Shape {
@@ -187,7 +187,7 @@ Solid {
         "textures/entree_door.jpg"
       ]
     }
-    DEF WEST_DOOR_HANDLE Transform {
+    DEF WEST_DOOR_HANDLE Pose {
       translation -1.99 0.67 0.9
       rotation -0.577349 -0.577353 0.577348 -2.094403
       children [
@@ -199,7 +199,7 @@ Solid {
   model "Nao room"
   boundingObject Group {
     children [
-      DEF FLOOR Transform {
+      DEF FLOOR Pose {
         rotation 0 0 1 1.5708
         children [
           Plane {
@@ -207,7 +207,7 @@ Solid {
           }
         ]
       }
-      DEF CEIL Transform {
+      DEF CEIL Pose {
         translation 0 0 2
         rotation 0.707106 0.707108 0 -3.14158
         children [
@@ -216,7 +216,7 @@ Solid {
           }
         ]
       }
-      DEF NORTH Transform {
+      DEF NORTH Pose {
         translation -0.375 2 1
         rotation 0.577354 -0.577352 0.577344 2.094401
         children [
@@ -225,7 +225,7 @@ Solid {
           }
         ]
       }
-      DEF SOUTH Transform {
+      DEF SOUTH Pose {
         translation 0 -2 1
         rotation -0.577349 0.577347 0.577355 2.094397
         children [
@@ -234,7 +234,7 @@ Solid {
           }
         ]
       }
-      DEF EAST Transform {
+      DEF EAST Pose {
         translation 2 -0.375 1
         rotation -0.577347 -0.577355 0.577349 2.094391
         children [
@@ -243,7 +243,7 @@ Solid {
           }
         ]
       }
-      DEF WEST Transform {
+      DEF WEST Pose {
         translation -2 0 1
         rotation 0.577351 0.577347 0.577351 2.094405
         children [
@@ -252,7 +252,7 @@ Solid {
           }
         ]
       }
-      DEF WARDROBE Transform {
+      DEF WARDROBE Pose {
         translation 1.625 1.625 1
         rotation 0.281052 0.678604 -0.678606 -2.593626
         children [

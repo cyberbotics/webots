@@ -46,7 +46,7 @@ PROTO Fridge [
         endPoint Solid {
           translation 0.36 0.34 1.55
           children [
-            Transform {
+            Pose {
               translation 0.078 -0.57 -0.19
               children [
                 Shape {
@@ -92,7 +92,7 @@ PROTO Fridge [
           name "upper fridge door"
           boundingObject Group {
             children [
-              Transform {
+              Pose {
                 translation 0.028 -0.34 0
                 children [
                   Box {
@@ -100,7 +100,7 @@ PROTO Fridge [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.04 -0.335 0
                 children [
                   Box {
@@ -108,7 +108,7 @@ PROTO Fridge [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.068 -0.57 -0.19
                 children [
                   Box {
@@ -138,7 +138,7 @@ PROTO Fridge [
         endPoint Solid {
           translation 0.36 0.34 0.65
           children [
-            Transform {
+            Pose {
               translation 0.078 -0.57 0.54
               children [
                 Shape {
@@ -184,7 +184,7 @@ PROTO Fridge [
           name "lower fridge door"
           boundingObject Group {
             children [
-              Transform {
+              Pose {
                 translation 0.028 -0.34 0
                 children [
                   Box {
@@ -192,7 +192,7 @@ PROTO Fridge [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.04 -0.335 0
                 children [
                   Box {
@@ -200,7 +200,7 @@ PROTO Fridge [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.068 -0.57  0.54
                 children [
                   Box {
@@ -224,7 +224,7 @@ PROTO Fridge [
     model "fridge"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.325 0 0.9
           children [
             Box {
@@ -232,7 +232,7 @@ PROTO Fridge [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.325 0.9
           children [
             Box {
@@ -240,7 +240,7 @@ PROTO Fridge [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.325 0.9
           children [
             Box {
@@ -248,7 +248,7 @@ PROTO Fridge [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.025
           children [
             Box {
@@ -256,7 +256,7 @@ PROTO Fridge [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 1.775
           children [
             Box {
@@ -264,7 +264,7 @@ PROTO Fridge [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.025 0 1.3
           children [
             Box {
@@ -272,7 +272,7 @@ PROTO Fridge [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.05 0 1.55
           children [
             Box {
@@ -280,7 +280,7 @@ PROTO Fridge [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.05 0 1.01
           children [
             Box {
@@ -288,7 +288,7 @@ PROTO Fridge [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.05 0 0.77
           children [
             Box {
@@ -296,7 +296,7 @@ PROTO Fridge [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.05 0 0.53
           children [
             Box {
@@ -304,7 +304,7 @@ PROTO Fridge [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.05 0 0.29
           children [
             Box {

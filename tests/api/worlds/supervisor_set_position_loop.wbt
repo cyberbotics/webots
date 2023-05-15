@@ -45,7 +45,7 @@ Robot {
       children [
         DEF TS_WALLS_GEOMETRY Group {
           children [
-            Transform {
+            Pose {
               translation 0 0.26 0.26
               children [
                 Shape {
@@ -60,7 +60,7 @@ Robot {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0 0.26 -0.26
               children [
                 Shape {
@@ -71,7 +71,7 @@ Robot {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0.26 0.26 0
               children [
                 Shape {
@@ -82,7 +82,7 @@ Robot {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation -0.26 0.26 0
               children [
                 Shape {

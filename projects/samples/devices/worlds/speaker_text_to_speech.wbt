@@ -24,7 +24,7 @@ Robot {
   translation 0.15 0 0
   rotation 0 0 1 2.35619
   children [
-    Transform {
+    Pose {
       translation 0 0 0.0415
       rotation 0 0 1 1.570796
       children [
@@ -59,7 +59,7 @@ Robot {
         translation 0 0.045 0.025
         rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589218
         children [
-          DEF WHEEL Transform {
+          DEF WHEEL Pose {
             rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
@@ -109,13 +109,13 @@ Robot {
         physics USE PHYSICS_WHEEL
       }
     }
-    Transform {
+    Pose {
       translation 0.0385 -0.02 0.063
       rotation -0.726828171413359 -0.4856551145357015 -0.48565411453546564 -1.884582
       children [
         DEF UNUSED_EYE Group {
           children [
-            Transform {
+            Pose {
               translation 0 0 1e-05
               rotation 0 0 1 0.8
               children [
@@ -131,7 +131,7 @@ Robot {
                 }
               ]
             }
-            Transform {
+            Pose {
               rotation 0 0 1 -0.8
               children [
                 Shape {
@@ -150,14 +150,14 @@ Robot {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0.0385 0.02 0.063
       rotation -0.7268306455324123 0.4856527631523045 0.4856527631523045 -1.884578
       children [
         USE UNUSED_EYE
       ]
     }
-    DEF SMILE Transform {
+    DEF SMILE Pose {
       translation 0.036 0 0.025
       rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
@@ -213,7 +213,7 @@ Robot {
     }
   ]
   name "mybot"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 0.0415
     rotation 0 0 1 1.570796
     children [

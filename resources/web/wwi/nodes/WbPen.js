@@ -11,8 +11,8 @@ export default class WbPen extends WbDevice {
   #renderable;
   #transform;
   #write;
-  constructor(id, translation, scale, rotation, name, write) {
-    super(id, translation, scale, rotation, name);
+  constructor(id, translation, rotation, name, write) {
+    super(id, translation, rotation, name);
     this.#write = write;
   }
 

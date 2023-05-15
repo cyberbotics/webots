@@ -297,7 +297,7 @@ PROTO OldResidentialBuilding [
       }
     ]
     %< if (fields.enableBoundingObject.value) { >%
-    boundingObject Transform {
+    boundingObject Pose {
       rotation 0.57735 -0.57735 -0.57735 2.094395
       translation 0.03 0.03 5.5
       children [

@@ -6,14 +6,14 @@ import WbWorld from './WbWorld.js';
 
 import WbBeltPosition from './utils/WbBeltPosition.js';
 import WbPathSegment from './utils/WbPathSegment.js';
-import {getAnId} from './utils/id_provider.js';
-import {clampedAcos} from './utils/math_utilities.js';
-import {WbNodeType} from './wb_node_type.js';
+import { getAnId } from './utils/id_provider.js';
+import { clampedAcos } from './utils/math_utilities.js';
+import { WbNodeType } from './wb_node_type.js';
 
 export default class WbTrack extends WbSolid {
   #device;
-  constructor(id, translation, scale, rotation, geometriesCount) {
-    super(id, translation, scale, rotation);
+  constructor(id, translation, rotation, geometriesCount) {
+    super(id, translation, rotation);
     this.geometriesCount = geometriesCount;
     this.pathList = [];
     this.wheelsList = [];
@@ -53,7 +53,7 @@ export default class WbTrack extends WbSolid {
     for (let i = 0; i < this.geometriesCount; ++i) {
       beltPosition = this.computeNextGeometryPosition(beltPosition, stepSize);
       this.beltPositions.push(beltPosition);
-      if (beltPosition.segmentIndex < 0) {
+      if (typeof beltPosition === 'undefined' || beltPosition.segmentIndex < 0) {
         // abort
         this.clearAnimatedGeometries();
         return;
@@ -196,18 +196,18 @@ export default class WbTrack extends WbSolid {
     super.preFinalize();
     this.computeBeltPath();
     this.updateAnimatedGeometries();
-    this.beltElements.forEach(beltElement => beltElement.preFinalize());
+    this.beltElements?.forEach(beltElement => beltElement.preFinalize());
   }
 
   createWrenObjects(isTransform) {
     super.createWrenObjects();
-    this.beltElements.forEach(beltElement => beltElement.createWrenObjects());
+    this.beltElements?.forEach(beltElement => beltElement.createWrenObjects());
   }
 
   postFinalize() {
     super.postFinalize();
     WbWorld.instance.tracks.add(this);
-    this.beltElements.forEach(beltElement => beltElement.postFinalize());
+    this.beltElements?.forEach(beltElement => beltElement.postFinalize());
   }
 
   initAnimatedGeometriesBeltPosition() {

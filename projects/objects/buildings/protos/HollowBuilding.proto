@@ -80,7 +80,7 @@ PROTO HollowBuilding [
     model "hollow building"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           rotation 1 0 0 1.570796
           translation 0 -12.45 15.5
           children [
@@ -89,7 +89,7 @@ PROTO HollowBuilding [
             }
           ]
         }
-        Transform {
+        Pose {
           rotation 1 0 0 1.570796
           translation 0 12.45 15.5
           children [
@@ -98,7 +98,7 @@ PROTO HollowBuilding [
             }
           ]
         }
-        Transform {
+        Pose {
           rotation 1 0 0 1.570796
           translation 12.45 0 15.5
           children [
@@ -107,7 +107,7 @@ PROTO HollowBuilding [
             }
           ]
         }
-        Transform {
+        Pose {
           rotation 1 0 0 1.570796
           translation -12.45 0 15.5
           children [

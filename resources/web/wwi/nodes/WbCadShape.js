@@ -2,16 +2,15 @@ import WbBaseNode from './WbBaseNode.js';
 import WbImageTexture from './WbImageTexture.js';
 import WbPbrAppearance from './WbPbrAppearance.js';
 import WbWorld from './WbWorld.js';
-import {getAnId} from './utils/id_provider.js';
-import {findUpperTransform} from './utils/node_utilities.js';
-import {arrayXPointerFloat, arrayXPointerInt} from './utils/utils.js';
+import { getAnId } from './utils/id_provider.js';
+import { arrayXPointerFloat, arrayXPointerInt } from './utils/utils.js';
 import WbBoundingSphere from './utils/WbBoundingSphere.js';
 import WbMatrix4 from './utils/WbMatrix4.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbVector4 from './utils/WbVector4.js';
 import WbWrenPicker from '../wren/WbWrenPicker.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
-import {WbNodeType} from './wb_node_type.js';
+import { WbNodeType } from './wb_node_type.js';
 
 import MeshLoader from '../MeshLoader.js';
 import ImageLoader from '../ImageLoader.js';
@@ -24,7 +23,6 @@ export default class WbCadShape extends WbBaseNode {
   #isPickable;
   #pbrAppearances;
   #promises;
-  #upperTransformFirstTimeSearch;
   #url;
   #wrenMaterials;
   #wrenMeshes;
@@ -110,7 +108,7 @@ export default class WbCadShape extends WbBaseNode {
   }
 
   absoluteScale() {
-    const ut = this.#upperTransform();
+    const ut = this.upperTransform;
     return ut ? ut.absoluteScale() : new WbVector3(1.0, 1.0, 1.0);
   }
 
@@ -489,15 +487,5 @@ export default class WbCadShape extends WbBaseNode {
           this.createWrenObjects();
       }
     });
-  }
-
-  #upperTransform() {
-    if (this.#upperTransformFirstTimeSearch) {
-      this.upperTransform = findUpperTransform(this);
-      if (this.wrenObjectsCreatedCalled)
-        this.#upperTransformFirstTimeSearch = false;
-    }
-
-    return this.upperTransform;
   }
 }

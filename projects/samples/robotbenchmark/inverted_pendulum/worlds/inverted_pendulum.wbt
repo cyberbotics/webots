@@ -88,7 +88,7 @@ E-puck {
   controller "inverted_pendulum"
   window ""
   turretSlot [
-    Transform {
+    Pose {
       translation 0.01 0 0
       rotation -1 0 0 1.5707997
       children [
@@ -125,7 +125,7 @@ E-puck {
         translation 0.013998333000000002 8.673617379884035e-19 0.07990002100000006
         rotation 0 0.9999999999999999 0 1.6207999999999998
         children [
-          DEF POLE Transform {
+          DEF POLE Pose {
             translation 0.04 0 0
             rotation 0 -1 0 1.5707997
             children [
@@ -149,7 +149,7 @@ E-puck {
               }
             ]
           }
-          DEF BALL Transform {
+          DEF BALL Pose {
             rotation 0 -1 0 4.712389
             children [
               Shape {

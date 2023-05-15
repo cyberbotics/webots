@@ -90,7 +90,7 @@ PROTO SolidRoundedBox [
             }
           %< } >%
           %< if (innerSize.x > 0) { >%
-            Transform {
+            Pose {
               translation 0 %<= 0.5 * innerSize.y >% %<= 0.5 * innerSize.z >%
               rotation 0.57735 0.57735 0.57735 2.09394
               children [
@@ -104,7 +104,7 @@ PROTO SolidRoundedBox [
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0 %<= -0.5 * size.y + borderRadius >% %<= 0.5 * innerSize.z >%
               rotation 0.57735 0.57735 0.57735 2.09394
               children [
@@ -118,7 +118,7 @@ PROTO SolidRoundedBox [
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0 %<= 0.5 * innerSize.y >% %<= - 0.5 * innerSize.z >%
               rotation 0.57735 0.57735 0.57735 2.09394
               children [
@@ -132,7 +132,7 @@ PROTO SolidRoundedBox [
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0 %<= - 0.5 * innerSize.y >% %<= - 0.5 * innerSize.z >%
               rotation 0.57735 0.57735 0.57735 2.09394
               children [
@@ -148,7 +148,7 @@ PROTO SolidRoundedBox [
             }
           %< } >%
           %< if (innerSize.z > 0) { >%
-            Transform {
+            Pose {
               translation %<= 0.5 * innerSize.x >% %<= 0.5 * innerSize.y >% 0
               rotation 0 0 1 1.5708
               children [
@@ -162,7 +162,7 @@ PROTO SolidRoundedBox [
                 }
               ]
             }
-            Transform {
+            Pose {
               translation %<= 0.5 * innerSize.x >% %<= - 0.5 * innerSize.y >% 0
               rotation 0 0 1 1.5708
               children [
@@ -176,7 +176,7 @@ PROTO SolidRoundedBox [
                 }
               ]
             }
-            Transform {
+            Pose {
               translation %<= - 0.5 * innerSize.x >% %<= - 0.5 * innerSize.y >% 0
               rotation 0 0 1 1.5708
               children [
@@ -190,7 +190,7 @@ PROTO SolidRoundedBox [
                 }
               ]
             }
-            Transform {
+            Pose {
               translation %<= - 0.5 * innerSize.x >% %<= 0.5 * innerSize.y >% 0
               rotation 0 0 1 1.5708
               children [
@@ -206,7 +206,7 @@ PROTO SolidRoundedBox [
             }
           %< } >%
           %< if (innerSize.y > 0) { >%
-            Transform {
+            Pose {
               translation %<= 0.5 * innerSize.x >% 0 %<= 0.5 * innerSize.z >%
               rotation 0.57735 -0.57735 0.57735 2.09394
               children [
@@ -220,7 +220,7 @@ PROTO SolidRoundedBox [
                 }
               ]
             }
-            Transform {
+            Pose {
               translation %<= 0.5 * innerSize.x >% 0 %<= - 0.5 * innerSize.z >%
               rotation 0.57735 -0.57735 0.57735 2.09394
               children [
@@ -234,7 +234,7 @@ PROTO SolidRoundedBox [
                 }
               ]
             }
-            Transform {
+            Pose {
               translation %<= - 0.5 * innerSize.x >% 0 %<= - 0.5 * innerSize.z >%
               rotation 0.57735 -0.57735 0.57735 2.09394
               children [
@@ -248,7 +248,7 @@ PROTO SolidRoundedBox [
                 }
               ]
             }
-            Transform {
+            Pose {
               translation %<= - 0.5 * innerSize.x >% 0 %<= 0.5 * innerSize.z >%
               rotation 0.57735 -0.57735 0.57735 2.09394
               children [

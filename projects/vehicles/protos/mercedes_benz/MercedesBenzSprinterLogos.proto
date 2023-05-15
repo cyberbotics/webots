@@ -10,7 +10,7 @@ PROTO MercedesBenzSprinterLogos [
 {
   Group {
     children [
-      DEF FRONT_LOGO Transform {
+      DEF FRONT_LOGO Pose {
         translation 0 0 0.015
         children [
           DEF FRONT_LOGO_SUPPORT Shape {

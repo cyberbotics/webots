@@ -21,7 +21,7 @@ PROTO Khepera3_DistanceSensor [
     children [
       Group {
         children [
-          Transform {
+          Pose {
             translation 0 0 -0.002
             children [
               Shape {
@@ -35,7 +35,7 @@ PROTO Khepera3_DistanceSensor [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 0 0.002
             children [
               Shape {
@@ -48,7 +48,7 @@ PROTO Khepera3_DistanceSensor [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.0025 0 0
             children [
               Shape {

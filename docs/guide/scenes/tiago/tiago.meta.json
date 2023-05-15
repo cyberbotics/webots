@@ -114,7 +114,7 @@
       "axis": "-1 0 0",
       "maxPosition": 0.045,
       "minPosition": 0,
-      "name": "gripper_finger_joint::left",
+      "name": "gripper_left_finger_joint",
       "position": 0,
       "transformID": "n30068",
       "type": "LinearMotor"
@@ -123,7 +123,7 @@
       "axis": "1 0 0",
       "maxPosition": 0.045,
       "minPosition": 0,
-      "name": "gripper_finger_joint::right",
+      "name": "gripper_right_finger_joint",
       "position": 0,
       "transformID": "n30103",
       "type": "LinearMotor"
@@ -232,14 +232,14 @@
     },
     {
       "axis": "-1 0 0",
-      "name": "gripper_finger_joint::left_sensor",
+      "name": "gripper_left_sensor_finger_joint",
       "position": 0,
       "transformID": "n30068",
       "type": "PositionSensor"
     },
     {
       "axis": "1 0 0",
-      "name": "gripper_finger_joint::right_sensor",
+      "name": "gripper_right_sensor_finger_joint",
       "position": 0,
       "transformID": "n30103",
       "type": "PositionSensor"

@@ -933,23 +933,14 @@
     "fields": "  translation 0 0 0.01 rotation 0.0 0.0 1.0 1.87",
     "nodeString": "  RobotstadiumSoccerField{ translation 0 0 0.01 rotation 0.0 0.0 1.0 1.87 }"
   },
-  "projects/objects/rocks/protos/Rock10cm": {
+  "projects/objects/rocks/protos/Rock": {
     "background": [
       0.0,
       0.0,
       0.0
     ],
     "fields": "  rotation 0.0 0.0 1.0 0.3",
-    "nodeString": "  Rock10cm{ rotation 0.0 0.0 1.0 0.3 }"
-  },
-  "projects/objects/rocks/protos/Rock17cm": {
-    "background": [
-      0.0,
-      0.0,
-      0.0
-    ],
-    "fields": "  rotation 0.0 0.0 1.0 0.3",
-    "nodeString": "  Rock17cm{ rotation 0.0 0.0 1.0 0.3 }"
+    "nodeString": "  Rock{ rotation 0.0 0.0 1.0 0.3 }"
   },
   "projects/objects/school_furniture/protos/Blackboard": {
     "background": [

@@ -1,8 +1,8 @@
-import {findUpperTransform} from './utils/node_utilities.js';
-import {resetVector3IfNegative, resetIfNegative, resetIfNotInRangeWithIncludedBounds} from './utils/WbFieldChecker.js';
+import { findUpperPose } from './utils/node_utilities.js';
+import { resetVector3IfNegative, resetIfNegative, resetIfNotInRangeWithIncludedBounds } from './utils/WbFieldChecker.js';
 import WbVector3 from './utils/WbVector3.js';
 import WbLight from './WbLight.js';
-import {WbNodeType} from './wb_node_type.js';
+import { WbNodeType } from './wb_node_type.js';
 
 export default class WbSpotLight extends WbLight {
   #attenuation;
@@ -102,7 +102,7 @@ export default class WbSpotLight extends WbLight {
 
     this.#wrenLight = _wr_spot_light_new();
     super.createWrenObjects();
-    this.#attachToUpperTransform();
+    this.#attachToUpperPose();
 
     this.#applyLightDirectionToWren();
     this.#applyLightBeamWidthAndCutOffAngleToWren();
@@ -112,7 +112,7 @@ export default class WbSpotLight extends WbLight {
 
   delete() {
     if (this.wrenObjectsCreatedCalled) {
-      this.#detachFromUpperTransform();
+      this.#detachFromUpperPose();
       _wr_node_delete(this.#wrenLight);
     }
 
@@ -162,14 +162,14 @@ export default class WbSpotLight extends WbLight {
     _wr_spot_light_set_position_relative(this.#wrenLight, pointer);
   }
 
-  #attachToUpperTransform() {
-    const upperTransform = findUpperTransform(this);
+  #attachToUpperPose() {
+    const upperPose = findUpperPose(this);
 
-    if (typeof upperTransform !== 'undefined')
-      _wr_transform_attach_child(upperTransform.wrenNode, this.#wrenLight);
+    if (typeof upperPose !== 'undefined')
+      _wr_transform_attach_child(upperPose.wrenNode, this.#wrenLight);
   }
 
-  #detachFromUpperTransform() {
+  #detachFromUpperPose() {
     const node = this.#wrenLight;
     const parent = _wr_node_get_parent(node);
     if (typeof parent !== 'undefined')
@@ -208,7 +208,7 @@ export default class WbSpotLight extends WbLight {
 
     if (this.#beamWidth > this.#cutOffAngle) {
       console.warn("Invalid 'beamWidth' changed to " + this.#cutOffAngle +
-      ". The value should be less than or equal to 'cutOffAngle'.");
+        ". The value should be less than or equal to 'cutOffAngle'.");
       this.beamWidth = this.#cutOffAngle;
       return;
     }

@@ -17,7 +17,7 @@ HingeJointWithBacklash [
   SFFloat      gearMass          0.1    # [0, inf)
   MFNode       device            [ ]    # {RotationalMotor, PositionSensor, Brake}
   MFNode       outputSensor      [ ]    # {PositionSensor}
-  MFNode       startPoint        NULL   # {Group, Transform, or Shape}
+  MFNode       startPoint        NULL   # {Group, Pose, Transform, Shape or CadShape}
   SFNode       endPoint          NULL   # {Solid, SolidReference, or Slot}
 ]
 ```
@@ -40,7 +40,9 @@ If no motor is specified, the joint is a passive joint.
 
 > **Note**: what this sensor returns is the current position of the output axis in the range [-backlash/2, backlash/2]. When either limit is reached, the axis will begin to move.
 
-- `startPoint`: this field optionally specifies the shape of the object attached to the axis at the input of the joint. It must be either a [Transform](../reference/transform.md), a [Group](../reference/group.md) or a [Shape](../reference/shape.md).
+- `startPoint`: this field optionally specifies the shape of the object attached to the axis at the input of the joint.
+It must be either a [Group](../reference/group.md), a [Pose](../reference/pose.md), a [Transform](../reference/transform.md), a [Shape](../reference/shape.md) or a [CadShape](../reference/cadshape.md).
+
 This object doesn't affect the joint in any way but can be useful in order to better visualize the effect of the backlash.
 
 - `endPoint`: this field specifies which [Solid](../reference/solid.md) is subject to the joint constraints. It must be either a [Solid](../reference/solid.md) child, or a reference to an existing [Solid](../reference/solid.md), i.e. a [SolidReference](../reference/solidreference.md).
