@@ -31,7 +31,8 @@ int main(int argc, char **argv) {
   ts_assert_boolean_equal(!wb_vacuum_gripper_is_on(vacuum_gripper), "Vacuum gripper should not be on at start.");
   ts_assert_boolean_equal(!wb_vacuum_gripper_get_presence(vacuum_gripper),
                           "Vacuum gripper should not be connected to objects when turned off.");
-  ts_assert_int_equal(wb_vacuum_gripper_get_presence_sampling_period(vacuum_gripper), TIME_STEP, "Vacuum gripper wrong sampling period.");
+  ts_assert_int_equal(wb_vacuum_gripper_get_presence_sampling_period(vacuum_gripper), TIME_STEP,
+                      "Vacuum gripper wrong sampling period.");
 
   const double *p1 = wb_supervisor_node_get_position(object);
   ts_assert_vec3_in_delta(p1[0], p1[1], p1[2], p0[0], p0[1], p0[2], 0.002, "Object shouldn't move before vacumm cup is on.");
@@ -46,7 +47,8 @@ int main(int argc, char **argv) {
   wb_robot_step(TIME_STEP);
 
   ts_assert_boolean_equal(wb_vacuum_gripper_is_on(vacuum_gripper), "Vacuum gripper should be turned on.");
-  ts_assert_boolean_equal(wb_vacuum_gripper_get_presence(vacuum_gripper), "Vacuum gripper should be connected to object when is on.");
+  ts_assert_boolean_equal(wb_vacuum_gripper_get_presence(vacuum_gripper),
+                          "Vacuum gripper should be connected to object when is on.");
 
   // lift end effector
   wb_motor_set_position(motor, JOINT_STEP);
@@ -60,7 +62,8 @@ int main(int argc, char **argv) {
 
   wb_robot_step(TIME_STEP);
   ts_assert_boolean_equal(!wb_vacuum_gripper_is_on(vacuum_gripper), "Vacuum gripper should be off after turning it off.");
-  ts_assert_boolean_equal(!wb_vacuum_gripper_get_presence(vacuum_gripper), "Vacuum gripper should release the object when is turned off.");
+  ts_assert_boolean_equal(!wb_vacuum_gripper_get_presence(vacuum_gripper),
+                          "Vacuum gripper should release the object when is turned off.");
 
   wb_robot_step(30 * TIME_STEP);
 
