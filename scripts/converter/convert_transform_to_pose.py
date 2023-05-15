@@ -16,24 +16,26 @@
 
 """Convert Transforms with no scale or the default one into Poses"""
 
-# usage: copy this script and `webots_parser.py` in the root folder of the project you want to convert and run it.
+# usage: python convert_transform_to_pose.py /path/to/your/webots/project
 from webots_parser import WebotsParser
 from pathlib import Path
 
+import sys
 
 def convert_to_enu(filename):
-    world = WebotsParser()
-    world.load(filename)
-
-    print('Scan for transforms')
-    if filename.endswith('.proto'):
-        convert_children(world.content['root'][0]['root'][0])
-    else:
-        for node in world.content['root']:
-            convert_children(node)
-
-    world.save(filename)
-    print('Conversion done')
+    file = WebotsParser()
+    try:
+        file.load(filename)
+        print('Scan for transforms')
+        if filename.endswith('.proto'):
+            convert_children(file.content['root'][0]['root'][0])
+        else:
+            for node in file.content['root']:
+                convert_children(node)
+        file.save(filename)
+        print('Conversion done')
+    except Exception as e:
+        print("Failed to convert " + filename + ": " + str(e))
 
 
 def convert_children(node):
@@ -66,14 +68,19 @@ def convert_children(node):
 
 
 if __name__ == "__main__":
-    files = []
-    files.extend(Path('./protos').rglob('*.proto'))
-    files.extend(Path('./worlds').rglob('*.wbt'))
+    try:
+        path = sys.argv[1]
 
-    local_files = {}
-    for file in files:
-        local_files[file.stem] = file.resolve()
+        files = []
+        files.extend(Path(path + '/protos').rglob('*.proto'))
+        files.extend(Path(path + '/worlds').rglob('*.wbt'))
 
-    for file, path in local_files.items():
-        print('Loading ' + str(path))
-        convert_to_enu(str(path))
+        local_files = {}
+        for file in files:
+            local_files[file.stem] = file.resolve()
+
+        for file, path in local_files.items():
+            print('Loading ' + str(path))
+            convert_to_enu(str(path))
+    except IndexError:
+        print("Argument missing: path to the webots project to convert.")

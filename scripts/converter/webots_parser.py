@@ -192,6 +192,10 @@ class WebotsParser:
             return node
         else:
             node['name'] = words[0]
+
+        lastWord = words[len(words) - 1]
+        if  lastWord == '}' or lastWord == '{}':
+            return node
         for line in self.file:
             line = self._prepare_line(line)
             self.line_count += 1
@@ -244,7 +248,7 @@ class WebotsParser:
         return node
 
     def _prepare_line(self, line):
-        if '%<' in line or '>%' in line:
+        if '%<' in line or '>%' in line or '%{' in line or '}%' in line:
             raise Exception(
                 f'JavaScript fragment found at line {self.line_count}. This script cannot handle JavaScript fragments.')
         return line.split('#')[0].strip()
