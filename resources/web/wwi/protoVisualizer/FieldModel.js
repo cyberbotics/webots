@@ -22,14 +22,6 @@ export const FieldModel = {
           'a': 0.0
         }
       },
-      'scale': {
-        'type': VRML.SFVec3f,
-        'defaultValue': {
-          'x': 1.0,
-          'y': 1.0,
-          'z': 1.0
-        }
-      },
       'children': {
         'type': VRML.MFNode,
         'defaultValue': []
@@ -139,14 +131,6 @@ export const FieldModel = {
           'y': 0.0,
           'z': 1.0,
           'a': 0.0
-        }
-      },
-      'scale': {
-        'type': VRML.SFVec3f,
-        'defaultValue': {
-          'x': 1.0,
-          'y': 1.0,
-          'z': 1.0
         }
       },
       'children': {
@@ -478,14 +462,6 @@ export const FieldModel = {
           'a': 0.0
         }
       },
-      'scale': {
-        'type': VRML.SFVec3f,
-        'defaultValue': {
-          'x': 1.0,
-          'y': 1.0,
-          'z': 1.0
-        }
-      },
       'children': {
         'type': VRML.MFNode,
         'defaultValue': []
@@ -679,14 +655,6 @@ export const FieldModel = {
           'a': 0.0
         }
       },
-      'scale': {
-        'type': VRML.SFVec3f,
-        'defaultValue': {
-          'x': 1.0,
-          'y': 1.0,
-          'z': 1.0
-        }
-      },
       'children': {
         'type': VRML.MFNode,
         'defaultValue': []
@@ -806,14 +774,6 @@ export const FieldModel = {
           'y': 0.0,
           'z': 1.0,
           'a': 0.0
-        }
-      },
-      'scale': {
-        'type': VRML.SFVec3f,
-        'defaultValue': {
-          'x': 1.0,
-          'y': 1.0,
-          'z': 1.0
         }
       },
       'children': {
@@ -951,14 +911,6 @@ export const FieldModel = {
           'y': 0.0,
           'z': 1.0,
           'a': 0.0
-        }
-      },
-      'scale': {
-        'type': VRML.SFVec3f,
-        'defaultValue': {
-          'x': 1.0,
-          'y': 1.0,
-          'z': 1.0
         }
       },
       'children': {
@@ -1265,14 +1217,6 @@ export const FieldModel = {
           'a': 0.0
         }
       },
-      'scale': {
-        'type': VRML.SFVec3f,
-        'defaultValue': {
-          'x': 1.0,
-          'y': 1.0,
-          'z': 1.0
-        }
-      },
       'children': {
         'type': VRML.MFNode,
         'defaultValue': []
@@ -1381,14 +1325,6 @@ export const FieldModel = {
           'y': 0.0,
           'z': 1.0,
           'a': 0.0
-        }
-      },
-      'scale': {
-        'type': VRML.SFVec3f,
-        'defaultValue': {
-          'x': 1.0,
-          'y': 1.0,
-          'z': 1.0
         }
       },
       'children': {
@@ -1545,14 +1481,6 @@ export const FieldModel = {
           'y': 0.0,
           'z': 1.0,
           'a': 0.0
-        }
-      },
-      'scale': {
-        'type': VRML.SFVec3f,
-        'defaultValue': {
-          'x': 1.0,
-          'y': 1.0,
-          'z': 1.0
         }
       },
       'children': {
@@ -1789,14 +1717,6 @@ export const FieldModel = {
           'a': 0.0
         }
       },
-      'scale': {
-        'type': VRML.SFVec3f,
-        'defaultValue': {
-          'x': 1.0,
-          'y': 1.0,
-          'z': 1.0
-        }
-      },
       'children': {
         'type': VRML.MFNode,
         'defaultValue': []
@@ -1916,14 +1836,6 @@ export const FieldModel = {
           'y': 0.0,
           'z': 1.0,
           'a': 0.0
-        }
-      },
-      'scale': {
-        'type': VRML.SFVec3f,
-        'defaultValue': {
-          'x': 1.0,
-          'y': 1.0,
-          'z': 1.0
         }
       },
       'children': {
@@ -2341,14 +2253,6 @@ export const FieldModel = {
           'a': 0.0
         }
       },
-      'scale': {
-        'type': VRML.SFVec3f,
-        'defaultValue': {
-          'x': 1.0,
-          'y': 1.0,
-          'z': 1.0
-        }
-      },
       'children': {
         'type': VRML.MFNode,
         'defaultValue': []
@@ -2500,14 +2404,6 @@ export const FieldModel = {
           'y': 0.0,
           'z': 1.0,
           'a': 0.0
-        }
-      },
-      'scale': {
-        'type': VRML.SFVec3f,
-        'defaultValue': {
-          'x': 1.0,
-          'y': 1.0,
-          'z': 1.0
         }
       },
       'children': {
@@ -2680,14 +2576,6 @@ export const FieldModel = {
           'a': 0.0
         }
       },
-      'scale': {
-        'type': VRML.SFVec3f,
-        'defaultValue': {
-          'x': 1.0,
-          'y': 1.0,
-          'z': 1.0
-        }
-      },
       'children': {
         'type': VRML.MFNode,
         'defaultValue': []
@@ -2837,14 +2725,6 @@ export const FieldModel = {
           'y': 0.0,
           'z': 1.0,
           'a': 0.0
-        }
-      },
-      'scale': {
-        'type': VRML.SFVec3f,
-        'defaultValue': {
-          'x': 1.0,
-          'y': 1.0,
-          'z': 1.0
         }
       },
       'children': {
@@ -3087,14 +2967,6 @@ export const FieldModel = {
           'a': 0.0
         }
       },
-      'scale': {
-        'type': VRML.SFVec3f,
-        'defaultValue': {
-          'x': 1.0,
-          'y': 1.0,
-          'z': 1.0
-        }
-      },
       'children': {
         'type': VRML.MFNode,
         'defaultValue': []
@@ -3326,14 +3198,6 @@ export const FieldModel = {
           'y': 0.0,
           'z': 1.0,
           'a': 0.0
-        }
-      },
-      'scale': {
-        'type': VRML.SFVec3f,
-        'defaultValue': {
-          'x': 1.0,
-          'y': 1.0,
-          'z': 1.0
         }
       },
       'children': {
@@ -3659,14 +3523,6 @@ export const FieldModel = {
           'a': 0.0
         }
       },
-      'scale': {
-        'type': VRML.SFVec3f,
-        'defaultValue': {
-          'x': 1.0,
-          'y': 1.0,
-          'z': 1.0
-        }
-      },
       'children': {
         'type': VRML.MFNode,
         'defaultValue': []
@@ -3826,14 +3682,6 @@ export const FieldModel = {
           'a': 0.0
         }
       },
-      'scale': {
-        'type': VRML.SFVec3f,
-        'defaultValue': {
-          'x': 1.0,
-          'y': 1.0,
-          'z': 1.0
-        }
-      },
       'children': {
         'type': VRML.MFNode,
         'defaultValue': []
@@ -3959,14 +3807,6 @@ export const FieldModel = {
           'y': 0.0,
           'z': 1.0,
           'a': 0.0
-        }
-      },
-      'scale': {
-        'type': VRML.SFVec3f,
-        'defaultValue': {
-          'x': 1.0,
-          'y': 1.0,
-          'z': 1.0
         }
       },
       'children': {
@@ -4102,14 +3942,6 @@ export const FieldModel = {
           'y': 0.0,
           'z': 1.0,
           'a': 0.0
-        }
-      },
-      'scale': {
-        'type': VRML.SFVec3f,
-        'defaultValue': {
-          'x': 1.0,
-          'y': 1.0,
-          'z': 1.0
         }
       },
       'children': {
@@ -4676,14 +4508,6 @@ export const FieldModel = {
           'a': 0.0
         }
       },
-      'scale': {
-        'type': VRML.SFVec3f,
-        'defaultValue': {
-          'x': 1.0,
-          'y': 1.0,
-          'z': 1.0
-        }
-      },
       'children': {
         'type': VRML.MFNode,
         'defaultValue': []
@@ -4898,14 +4722,6 @@ export const FieldModel = {
           'y': 0.0,
           'z': 1.0,
           'a': 0.0
-        }
-      },
-      'scale': {
-        'type': VRML.SFVec3f,
-        'defaultValue': {
-          'x': 1.0,
-          'y': 1.0,
-          'z': 1.0
         }
       },
       'children': {
