@@ -487,36 +487,36 @@ QString WbVrmlNodeUtilities::exportNodeToString(WbNode *node) {
 bool WbVrmlNodeUtilities::transformBackwardCompatibility(WbTokenizer *tokenizer) {
   if (!tokenizer)
     return true;
-    const int initalIndex = tokenizer->pos();
-    bool inChildren = false;
-    int bracketCount = 0;
-    while (tokenizer->hasMoreTokens()) {
-      const QString token = tokenizer->nextWord();
-      if (inChildren) {
-        if (token == "[")
-          bracketCount++;
-        else if (token == "]") {
-          bracketCount--;
-          if (bracketCount == 0)
-            inChildren = false;
+
+  const int initalIndex = tokenizer->pos();
+  bool inChildren = false;
+  int bracketCount = 0;
+  while (tokenizer->hasMoreTokens()) {
+    const QString token = tokenizer->nextWord();
+    if (inChildren) {
+      if (token == "[")
+        bracketCount++;
+      else if (token == "]") {
+        bracketCount--;
+        if (bracketCount == 0)
+          inChildren = false;
+      }
+    } else if (token == "children") {
+      inChildren = true;
+    } else if (token == "scale") {
+      for (int i = 0; i < 3; i++) {
+        if (tokenizer->nextWord().toFloat() != '1') {
+          tokenizer->seek(initalIndex);
+          return false;
         }
-      } else if (token == "children") {
-        inChildren = true;
-      } else if (token == "scale") {
-        for (int i = 0; i < 3; i++) {
-          if (tokenizer->nextWord() != '1') {
-            tokenizer->seek(initalIndex);
-            return false;
-          }
-        }
-        // We have identified that the scale is the default one.
-        break;
-        // End of the Transform
-      } else if (token == "}")
-        break;
-    }
-    tokenizer->seek(initalIndex);
+      }
+      // We have identified that the scale is the default one.
+      break;
+      // End of the Transform
+    } else if (token == "}")
+      break;
   }
+  tokenizer->seek(initalIndex);
 
   return true;
 }

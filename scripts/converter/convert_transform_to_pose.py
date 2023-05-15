@@ -82,6 +82,6 @@ if __name__ == "__main__":
 
         for file, path in local_files.items():
             print('Loading ' + str(path))
-            convert_to_enu(str(path))
+            convert_to_pose(str(path))
     except IndexError:
         print("Argument missing: path to the webots project to convert.")
