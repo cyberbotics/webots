@@ -435,7 +435,7 @@ PROTO TiagoPmb2Base [
                   }
                 ]
                 name "caster_front_right_2_link"
-                boundingObject DEF SMALL_WHEEL_BO Transform {
+                boundingObject DEF SMALL_WHEEL_BO Pose {
                   children [
                     Cylinder {
                       height 0.015
