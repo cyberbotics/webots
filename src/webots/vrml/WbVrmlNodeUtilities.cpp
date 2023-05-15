@@ -501,7 +501,7 @@ bool WbVrmlNodeUtilities::transformBackwardCompatibility(WbTokenizer *tokenizer)
         }
       } else if (token == "children") {
         inChildren = true;
-      } else if (!inChildren && token == "scale") {
+      } else if (token == "scale") {
         for (int i = 0; i < 3; i++) {
           if (tokenizer->nextWord() != '1') {
             tokenizer->seek(initalIndex);
@@ -511,7 +511,7 @@ bool WbVrmlNodeUtilities::transformBackwardCompatibility(WbTokenizer *tokenizer)
         // We have identified that the scale is the default one.
         break;
         // End of the Transform
-      } else if (token == "}" && !inChildren)
+      } else if (token == "}")
         break;
     }
     tokenizer->seek(initalIndex);
