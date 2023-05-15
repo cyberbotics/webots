@@ -20,6 +20,7 @@
 from webots_parser import WebotsParser
 from pathlib import Path
 
+
 def convert_to_enu(filename):
     world = WebotsParser()
     world.load(filename)
@@ -33,6 +34,7 @@ def convert_to_enu(filename):
 
     world.save(filename)
     print('Conversion done')
+
 
 def convert_children(node):
     if 'USE' in node:
@@ -61,6 +63,7 @@ def convert_children(node):
             convert_children(field['value'])
         elif field['name'] in 'boundingObject':
             convert_children(field['value'])
+
 
 if __name__ == "__main__":
     files = []
