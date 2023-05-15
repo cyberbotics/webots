@@ -23,7 +23,7 @@ from pathlib import Path
 import sys
 
 
-def convert_to_enu(filename):
+def convert_to_pose(filename):
     file = WebotsParser()
     try:
         file.load(filename)
