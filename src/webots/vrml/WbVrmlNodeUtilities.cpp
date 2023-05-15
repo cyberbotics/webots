@@ -485,7 +485,8 @@ QString WbVrmlNodeUtilities::exportNodeToString(WbNode *node) {
 
 // Return true if we can convert the Transform to a Pose.
 bool WbVrmlNodeUtilities::transformBackwardCompatibility(WbTokenizer *tokenizer) {
-  if (tokenizer) {
+  if (!tokenizer)
+    return true;
     const int initalIndex = tokenizer->pos();
     bool inChildren = false;
     int bracketCount = 0;
