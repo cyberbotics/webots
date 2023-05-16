@@ -1344,6 +1344,11 @@ bool WbNode::operator==(const WbNode &other) const {
   const int size = fieldsList.size();
 
   // It is possible to have two nodes with the same name but not the same fields because of remote protos.
+  // e.g. for the Door.proto, we have the DoorLever.proto that is the default parameter of the `doorHandle` field.
+  // But we can define a local DoorLever.proto and we can declare it as an EXTERNPROTO in the world file,
+  // then put it in the `doorHandle` field of the door. So when Webots will check if the `doorHandle` has the default value,
+  // it will compare the actual value of the doorHandle that is the local DoorLever.proto declared in the world and
+  // the default value, which is another DoorLever.proto, defined in the proto file.
   if (size != otherFieldsList.size())
     return false;
 
