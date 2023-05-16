@@ -54,8 +54,7 @@ WbNode *WbNodeReader::createNode(const QString &modelName, WbTokenizer *tokenize
     return WbVrmlNodeUtilities::transformBackwardCompatibility(tokenizer) ? new WbNode("Pose", worldPath, tokenizer) :
                                                                             new WbNode("Transform", worldPath, tokenizer);
   else {
-    WbNodeModel *const model = WbNodeModel::findModel(modelName);
-    if (model)
+    if (WbNodeModel::findModel(modelName))
       return new WbNode(modelName, worldPath, tokenizer);
   }
   WbProtoModel *const proto = WbProtoManager::instance()->findModel(modelName, worldPath, fileName);
