@@ -1342,7 +1342,11 @@ bool WbNode::operator==(const WbNode &other) const {
   const QVector<WbField *> fieldsList = fieldsOrParameters();
   const QVector<WbField *> otherFieldsList = other.fieldsOrParameters();
   const int size = fieldsList.size();
-  assert(size == otherFieldsList.size());
+
+  // It is possible to have two nodes with the same name but not the same fields because of remote protos.
+  if (size != otherFieldsList.size())
+    return false;
+
   for (int i = 0; i < size; ++i) {
     const WbField *const f1 = fieldsList[i];
     const WbField *const f2 = otherFieldsList[i];
