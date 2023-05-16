@@ -4,7 +4,6 @@ EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.pro
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
 EXTERNPROTO "webots://projects/objects/factory/containers/protos/CardboardBox.proto"
-EXTERNPROTO "webots://projects/appearances/protos/Plastic.proto"
 
 WorldInfo {
   info [
@@ -91,7 +90,7 @@ DEF ROBOT Robot {
                       }
                       DEF ROLL_GROUP Group {
                         children [
-                          Transform {
+                          Pose {
                             translation 0 0 -0.02
                             rotation 0 0 1 1.5708
                             children [
@@ -115,11 +114,13 @@ DEF ROBOT Robot {
                     boundingObject USE ROLL_GROUP
                     physics Physics {
                     }
+                    tensileStrength 65
+                    shearStrength 162
                   }
                 }
                 DEF PITCH_GROUP Group {
                   children [
-                    Transform {
+                    Pose {
                       rotation 0 1 0 1.5708
                       children [
                         Shape {
@@ -132,7 +133,7 @@ DEF ROBOT Robot {
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0 -0.15 0
                       children [
                         Shape {
@@ -147,7 +148,7 @@ DEF ROBOT Robot {
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0 -0.3 0
                       rotation -0.5773509358554485 0.5773489358556708 -0.5773509358554485 -2.094395
                       children [
@@ -171,7 +172,7 @@ DEF ROBOT Robot {
           }
           DEF YAW_GROUP Group {
             children [
-              Transform {
+              Pose {
                 translation 0 0 0.18
                 children [
                   Shape {
@@ -184,7 +185,7 @@ DEF ROBOT Robot {
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0 0.33
                 rotation 1 0 0 -1.570795
                 children [
@@ -208,7 +209,7 @@ DEF ROBOT Robot {
     }
     DEF BASIS_GROUP Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.02
           children [
             Shape {
@@ -221,7 +222,7 @@ DEF ROBOT Robot {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.04
           children [
             Shape {

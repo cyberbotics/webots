@@ -86,7 +86,7 @@ int main(int argc, const char *argv[]) {
 
     // choose a random target (based on seed)
     const double yaw_target = i == 0 ? 0 : rand() / (double)RAND_MAX * 2.0 * M_PI - M_PI;
-    const double pitch_target = i == 0 ? 0 : rand() / (double)RAND_MAX * 1.8 - 0.9;
+    const double pitch_target = i == 0 ? 0 : rand() / (double)RAND_MAX * 1.4 - 0.7;
     const double roll_target = i == 0 ? 0 : rand() / (double)RAND_MAX * 2.0 * M_PI - M_PI;
 
     // start moving arm to target
