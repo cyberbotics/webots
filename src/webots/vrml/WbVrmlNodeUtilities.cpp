@@ -505,7 +505,7 @@ bool WbVrmlNodeUtilities::transformBackwardCompatibility(WbTokenizer *tokenizer)
       inChildren = true;
     } else if (token == "scale") {
       for (int i = 0; i < 3; i++) {
-        if (tokenizer->nextWord().toFloat() != 1) {
+        if (tokenizer->nextWord().toFloat() != 1.0f) {
           tokenizer->seek(initalIndex);
           return false;
         }
