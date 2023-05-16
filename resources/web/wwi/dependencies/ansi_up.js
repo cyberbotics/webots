@@ -427,7 +427,6 @@ function rgxG(tmplObj) {
     var txt2 = regexText.replace(wsrgx, '');
     return new RegExp(txt2, 'g');
 }
-//# sourceMappingURL=ansi_up.js.map
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = AnsiUp;
 }));
