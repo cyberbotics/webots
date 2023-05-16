@@ -15,6 +15,7 @@
 #ifndef WB_VACUUM_GRIPPER_HPP
 #define WB_VACUUM_GRIPPER_HPP
 
+#include <WbSFInt.hpp>
 #include <WbSolidDevice.hpp>
 
 class WbSensor;
@@ -43,6 +44,7 @@ public:
   void save(const QString &id) override;
 
   bool isWaitingForConnection();
+  int contactPoints() const { return mContactPoints->value(); }
   void addCollidedSolid(WbSolid *solid, const double depth);
 
 private:
@@ -50,6 +52,7 @@ private:
   WbSFBool *mIsOn;               // current state
   WbSFDouble *mTensileStrength;  // max pull force that the connector can withstand without breaking (Newtons)
   WbSFDouble *mShearStrength;    // max shear force that the connector can withstand without breaking (Newtons)
+  WbSFInt *mContactPoints;       // minimum number of contact points required to connect with a Solid
 
   // other stuff
   dJointID mFixedJoint;  // ODE joint that does the connection
@@ -80,6 +83,7 @@ private slots:
   void updateIsOn();
   void updateTensileStrength();
   void updateShearStrength();
+  void updateContactPoints();
 };
 
 #endif

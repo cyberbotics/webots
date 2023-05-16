@@ -15,6 +15,7 @@
 #include "WbVacuumGripper.hpp"
 
 #include "WbDataStream.hpp"
+#include "WbFieldChecker.hpp"
 #include "WbSFDouble.hpp"
 #include "WbSensor.hpp"
 
@@ -40,6 +41,7 @@ void WbVacuumGripper::init() {
   mIsOn = findSFBool("isOn");
   mTensileStrength = findSFDouble("tensileStrength");
   mShearStrength = findSFDouble("shearStrength");
+  mContactPoints = findSFInt("contactPoints");
 
   mIsInitiallyOn[stateId()] = mIsOn->value();
 }
@@ -70,6 +72,7 @@ void WbVacuumGripper::preFinalize() {
   updateIsOn();
   updateTensileStrength();
   updateShearStrength();
+  updateContactPoints();
 }
 
 void WbVacuumGripper::postFinalize() {
@@ -101,6 +104,10 @@ void WbVacuumGripper::updateShearStrength() {
     parsingWarn(tr("'shearStrength' must be positive or -1 (infinite)."));
     mShearStrength->setValue(-1.0);
   }
+}
+
+void WbVacuumGripper::updateContactPoints() {
+  WbFieldChecker::resetIntIfNonPositive(this, mContactPoints, 3);
 }
 
 void WbVacuumGripper::createFixedJoint(WbSolid *other) {

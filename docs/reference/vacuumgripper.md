@@ -7,6 +7,7 @@ VacuumGripper {
   SFBool   isOn              FALSE         # {TRUE, FALSE}
   SFFloat  tensileStrength   -1            # {-1, [0, inf)}
   SFFloat  shearStrength     -1            # {-1, [0, inf)}
+  SFInt32  contactPoints     3             # [1, inf)
 }
 ```
 
@@ -41,6 +42,8 @@ The default value -1 indicates an infinitely strong suction mechanism that does 
 This can be used to simulate the rupture of the suction mechanism.
 The `shearStrength` field specifies the ability of the suction mechanism to withstand a force that would makes them slide against each other in opposite directions (in the *yz*-plane).
 The default value -1 indicates an infinitely strong suction mechanism that does not break no matter how much force is applied.
+
+- `contactPoints`: indicates the minimum number of contact points with the [Solid](solid.md) object required to connect.
 
 
 ### VacuumGripper Functions
