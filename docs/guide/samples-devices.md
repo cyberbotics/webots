@@ -373,7 +373,7 @@ This noisy position is compared to the actual [Emitter](../reference/emitter.md)
 
 ### [sick.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/sick.wbt)
 
-**Keywords**: [Sick LMS 291](lidar-sensors.md#sick-lms-291), [Lidar](../reference/lidar.md), 3-wheeled robot, lidar plot
+**Keywords**: [Sick LMS 291](https://webots.cloud/run?url={{ url.github_tree }}/projects/devices/sick/protos/SickLms291.proto), [Lidar](../reference/lidar.md), 3-wheeled robot, lidar plot
 
 ![sick.png](images/samples/sick.thumbnail.jpg) In this example, a 3-wheeled robot mounted with a `Sick LMS 291` lidar sensor moves through an area with obstacles.
 The robot use the lidar depth output to avoid collisions.
@@ -381,7 +381,7 @@ The lidar depth output is also plot into a [Display](../reference/display.md) de
 
 ### [sick\_point\_cloud.wbt]({{ url.github_tree }}/projects/samples/devices/worlds/sick_point_cloud.wbt)
 
-**Keywords**: [Sick LD MRS](lidar-sensors.md#sick-ld-mrs), [Lidar](../reference/lidar.md), cloud point
+**Keywords**: [Sick LD MRS](https://webots.cloud/run?url={{ url.github_tree }}/projects/devices/sick/protos/SickLdMrs.proto), [Lidar](../reference/lidar.md), cloud point
 
 ![sick_point_cloud.png](images/samples/sick_point_cloud.thumbnail.jpg) Soda cans are transported on a conveyor belt.
 A static robot equipped with a Sick LD-MRS uses the Point Cloud API to count the number of cans in front of it.
