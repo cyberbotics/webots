@@ -23,6 +23,16 @@ It is therefore very easy to simulate smart cameras such as the Mobileye.
 
 Alternatively, camera models corresponding to real-world device can be found on [webots.cloud](https://webots.cloud/proto?keyword=sensor/camera).
 
+### Lidar Sensors
+
+%figure "Lidar simulation"
+
+![lidar_simulation.png](images/sensors/lidar_simulation.thumbnail.jpg)
+
+%end
+
+In addition to the generic [Lidar](../reference/lidar.md) node, a wide range of commercial lidar sensors have been modelled and are available from [webots.cloud](https://webots.cloud/proto?keyword=sensor/lidar).
+
 ### Generic Sensor List
 
 | Icon | Device | Description |
