@@ -17,7 +17,7 @@ Just note that it is, however, not possible to access directly measurements reco
 2. Name the world file `my_supervisor.wbt` instead of the proposed `empty.wbt`.
 3. Click all the tick boxes, including the "Add a rectangle arena" which is not ticked by default.
 4. In order to have more space, enlarge the arena by setting the size to 10x10 meters by changing the `floorSize` field.
-5. Add a [BB-8](bb8.md) robot to the scene, to do this click the `Add` button ![](images/add-button.png =26x26) and navigate to: `PROTO nodes (Webots projects) / robots / sphero / bb8`.
+5. Add a [BB-8](https://webots.cloud/run?url={{ url.github_tree }}/projects/robots/sphero/bb8/protos/BB-8.proto) robot to the scene, to do this click the `Add` button ![](images/add-button.png =26x26) and navigate to: `PROTO nodes (Webots projects) / robots / sphero / bb8`.
 6. For the purpose of this tutorial, remove the default controller of [BB-8](bb8.md) by clicking the `controller` field, then the `Select` button, and pick `<none>` from the list.
 7. Add a simple [Robot](../reference/robot.md) node to the scene, this will become our Supervisor.
 The [Robot](../reference/robot.md) node can be found in the `base nodes` category when clicking the `Add` button.
