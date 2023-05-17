@@ -51,7 +51,7 @@ static int next_argument_index;
 // Environment variables (putenv() requires the string that is set into the environment to exist)
 static char *WEBOTS_CONTROLLER_URL;
 static char *new_path;
-static char *new_ld_path;
+static char *new_windows_path;
 static char *new_python_path;
 static char *webots_project;
 static char *webots_controller_name;
@@ -358,38 +358,48 @@ static bool parse_options(int nb_arguments, char **arguments) {
 }
 
 /*
+This function includes the controller library directory in the relevant OS-specific environment variable:
+- For Windows it adds "WEBOTS_HOME\lib\controller;" to the Path environment variable.
+- For Linux, it adds "WEBOTS_HOME/lib/controller:" to LD_LIBRARY_PATH.
+- For macOS it adds "WEBOTS_HOME/Contents/lib/controller:" to DYLD_LIBRARY_PATH.
+*/
+static void add_lib_controller_to_path() {
+#ifdef _WIN32
+  const char *lib_controller = "\\lib\\controller;";
+  const char *path_env_variable = "Path";
+#elif defined __linux__
+  const char *lib_controller = "/lib/controller:";
+  const char *path_env_variable = "LD_LIBRARY_PATH";
+#elif defined __APPLE__
+  const char *lib_controller = "/Contents/lib/controller:";
+  const char *path_env_variable = "DYLD_LIBRARY_PATH";
+#endif
+  const size_t new_path_size =
+    snprintf(NULL, 0, "%s=%s%s%s", path_env_variable, WEBOTS_HOME, lib_controller, getenv(path_env_variable)) + 1;
+  new_path = malloc(new_path_size);
+  sprintf(new_path, "%s=%s%s%s", path_env_variable, WEBOTS_HOME, lib_controller, getenv(path_env_variable));
+  putenv(new_path);
+}
+
+/*
 This function sets the environment variable for java and executable controllers execution.
 
 On Windows, the function adds a new path to the "Path" environment variable by concatenating the WEBOTS_HOME constant, the
-'lib\controller' directory, and the 'msys64\mingw64\bin' and 'msys64\mingw64\bin\cpp' directories to the current "Path" value.
+'msys64\mingw64\bin' and 'msys64\mingw64\bin\cpp' directories to the current "Path" value.
 
-On Linux and macOS, the function adds the 'WEBOTS_HOME/lib/controller' or 'WEBOTS_HOME/Contents/lib/controller' directory to
-the LD_LIBRARY_PATH or DYLD_LIBRARY_PATH environment variable, respectively.
+The function also adds the controller library directory to the Path on all platforms.
 */
 static void exec_java_config_environment() {
 #ifdef _WIN32
-  const size_t new_path_size =
-    snprintf(NULL, 0, "Path=%s\\lib\\controller;%s\\msys64\\mingw64\\bin;%s\\msys64\\mingw64\\bin\\cpp;%s", WEBOTS_HOME,
-             WEBOTS_HOME, WEBOTS_HOME, getenv("Path")) +
-    1;
-  new_path = malloc(new_path_size);
-  sprintf(new_path, "Path=%s\\lib\\controller;%s\\msys64\\mingw64\\bin;%s\\msys64\\mingw64\\bin\\cpp;%s", WEBOTS_HOME,
-          WEBOTS_HOME, WEBOTS_HOME, getenv("Path"));
-  putenv(new_path);
-#else
-#ifdef __linux__
-  const char *lib_controller = "/lib/controller:";
-  const char *ld_env_variable = "LD_LIBRARY_PATH";
-#else  //__APPLE__
-  const char *lib_controller = "/Contents/lib/controller:";
-  const char *ld_env_variable = "DYLD_LIBRARY_PATH";
+  const size_t new_windows_path_size = snprintf(NULL, 0, "Path=%s\\msys64\\mingw64\\bin;%s\\msys64\\mingw64\\bin\\cpp;%s",
+                                                WEBOTS_HOME, WEBOTS_HOME, getenv("Path")) +
+                                       1;
+  new_windows_path = malloc(new_windows_path_size);
+  sprintf(new_windows_path, "Path=%s\\msys64\\mingw64\\bin;%s\\msys64\\mingw64\\bin\\cpp;%s", WEBOTS_HOME, WEBOTS_HOME,
+          getenv("Path"));
+  putenv(new_windows_path);
 #endif
-  const size_t new_ld_path_size =
-    snprintf(NULL, 0, "%s=%s%s%s", ld_env_variable, WEBOTS_HOME, lib_controller, getenv(ld_env_variable)) + 1;
-  new_ld_path = malloc(new_ld_path_size);
-  sprintf(new_ld_path, "%s=%s%s%s", ld_env_variable, WEBOTS_HOME, lib_controller, getenv(ld_env_variable));
-  putenv(new_ld_path);
-#endif
+  add_lib_controller_to_path();
 }
 
 /*
@@ -424,11 +434,11 @@ static void python_config_environment() {
   sprintf(new_path, "Path=%s\\msys64\\mingw64\\bin\\cpp;%s", WEBOTS_HOME, getenv("Path"));
   putenv(new_path);
 #elif defined __APPLE__
-  const size_t new_ld_path_size =
+  const size_t new_path_size =
     snprintf(NULL, 0, "DYLD_LIBRARY_PATH=%s/Contents/lib/controller:%s", WEBOTS_HOME, getenv("DYLD_LIBRARY_PATH")) + 1;
-  new_ld_path = malloc(new_ld_path_size);
-  sprintf(new_ld_path, "DYLD_LIBRARY_PATH=%s/Contents/lib/controller:%s", WEBOTS_HOME, getenv("DYLD_LIBRARY_PATH"));
-  putenv(new_ld_path);
+  new_path = malloc(new_path_size);
+  sprintf(new_path, "DYLD_LIBRARY_PATH=%s/Contents/lib/controller:%s", WEBOTS_HOME, getenv("DYLD_LIBRARY_PATH"));
+  putenv(new_path);
 #endif
 }
 
@@ -441,10 +451,7 @@ This function sets the environment variable for MATLAB controllers execution.
 - It determines the Webots version from version.txt file contained in the Webots installation, and sets
   WEBOTS_VERSION environment variable to this version.
 
-The function also includes the controller library directory in the relevant OS-specific environment variable:
-- For Windows it adds "WEBOTS_HOME\lib\controller;" to the Path environment variable.
-- For Linux, it adds "WEBOTS_HOME/lib/controller:" to LD_LIBRARY_PATH.
-- For macOS it adds "WEBOTS_HOME/Contents/lib/controller:" to DYLD_LIBRARY_PATH.
+The function also adds the controller library directory to the Path.
 */
 static void matlab_config_environment() {
   // Add project folder to WEBOTS_PROJECT env variable
@@ -498,21 +505,7 @@ static void matlab_config_environment() {
   putenv(webots_version);
 
   // Add libController to Path
-#ifdef _WIN32
-  const char *lib_controller = "\\lib\\controller;";
-  const char *path_env_variable = "Path";
-#elif defined __linux__
-  const char *lib_controller = "/lib/controller:";
-  const char *path_env_variable = "LD_LIBRARY_PATH";
-#elif defined __APPLE__
-  const char *lib_controller = "/Contents/lib/controller:";
-  const char *path_env_variable = "DYLD_LIBRARY_PATH";
-#endif
-  const size_t new_path_size =
-    snprintf(NULL, 0, "%s=%s%s%s", path_env_variable, WEBOTS_HOME, lib_controller, getenv(path_env_variable)) + 1;
-  new_path = malloc(new_path_size);
-  sprintf(new_path, "%s=%s%s%s", path_env_variable, WEBOTS_HOME, lib_controller, getenv(path_env_variable));
-  putenv(new_path);
+  add_lib_controller_to_path();
 }
 
 // Replace all environment variables in the string ('$(ENV)' syntax) by its content
@@ -726,6 +719,23 @@ static char **add_controller_arguments(char **argv, char **controller_argv, size
   return argv;
 }
 
+// Free allocated memory
+static void free_memory() {
+  free(WEBOTS_HOME);
+  free(matlab_path);
+  free(current_path);
+  free(controller);
+
+  free(WEBOTS_CONTROLLER_URL);
+  free(new_path);
+  free(new_windows_path);
+  free(new_python_path);
+  free(webots_project);
+  free(webots_controller_name);
+  free(webots_version);
+  free(webots_controller_args);
+}
+
 int main(int argc, char **argv) {
   // Check WEBOTS_HOME and exit if empty
   if (!get_webots_home())
@@ -739,6 +749,30 @@ int main(int argc, char **argv) {
   // On Windows, convert forward slashes to backward slashes in controller path
   replace_char(controller, '/', '\\');
 #endif
+
+  // ROS 2 controller doesn't refer to a file but on the webots_ros2_driver package
+  if (strcmp(controller, "ros2") == 0) {
+    // Add the controller library to the Path.
+    // Note: PYTHONPATH environment variable doesn't need to be set because it is already configured to point to the Python
+    // installation folder of the lib controller when the ROS 2 package is sourced.
+    add_lib_controller_to_path();
+    size_t current_size = 0;
+    char **new_argv = NULL;
+    new_argv = add_single_argument(new_argv, &current_size, "ros2");
+    new_argv = add_single_argument(new_argv, &current_size, "run");
+    new_argv = add_single_argument(new_argv, &current_size, "webots_ros2_driver");
+    new_argv = add_single_argument(new_argv, &current_size, "driver");
+    new_argv = add_controller_arguments(new_argv, argv, &current_size, false);
+    new_argv = add_single_argument(new_argv, &current_size, NULL);
+#ifdef _WIN32
+    const char *const *windows_argv = (const char **)new_argv;
+    _spawnvpe(_P_WAIT, windows_argv[0], windows_argv, NULL);
+#else
+    execvp(new_argv[0], new_argv);
+#endif
+    free_memory();
+    return 0;
+  }
 
   // Check if controller file exists
   if (access(controller, F_OK) != 0) {
@@ -958,19 +992,6 @@ int main(int argc, char **argv) {
             "'.jar', '.class' and '.m'.\n",
             controller_extension);
 
-  free(WEBOTS_HOME);
-  free(matlab_path);
-  free(current_path);
-  free(controller);
-
-  free(WEBOTS_CONTROLLER_URL);
-  free(new_path);
-  free(new_ld_path);
-  free(new_python_path);
-  free(webots_project);
-  free(webots_controller_name);
-  free(webots_version);
-  free(webots_controller_args);
-
+  free_memory();
   return 0;
 }
