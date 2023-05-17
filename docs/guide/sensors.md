@@ -4,7 +4,8 @@ Webots can simulate a lot of standard robotic sensors.
 Using the nodes described [below](#generic-sensor-list) and their corresponding API is sufficient in most of the cases.
 
 More specific sensors are built on the top of these generic nodes, thanks to the [PROTO system](../reference/proto.md).
-These sensors are listed by category [in the section below](#commercially-available-sensors).
+These sensors are listed on [webots.cloud](https://webots.cloud/proto?keyword=sensor) under the *sensor* keyword.
+They typically correspond to commercially available devices.
 
 ### Generic Sensor List
 
@@ -23,59 +24,3 @@ These sensors are listed by category [in the section below](#commercially-availa
 | ![RangeFinder.png](images/sensors/RangeFinder.png) | [RangeFinder](../reference/rangefinder.md) | *Simulates a depth camera also known as range-finder.* |
 | ![Receiver.png](images/sensors/Receiver.png) | [Receiver](../reference/receiver.md) | *Simulates radio, serial or infra-red receiver receiving data from other robots.* |
 | ![TouchSensor.png](images/sensors/TouchSensor.png) | [TouchSensor](../reference/touchsensor.md) | *Simulates a bumper or a force sensor.* |
-
-### Commercially Available Sensors
-
-Please [contact us](https://cyberbotics.com/#contact) if you would like to see your favorite sensor here.
-
-#### Camera Sensors
-
-| Preview | Name |  Manufacturer |
-| :---: | --- | --- | --- |
-| ![multisense_s21_icon.png](images/sensors/multisense_s21_icon.png) | [S21](camera-sensors.md#multisense-s21) | MultiSense |
-
-#### DistanceSensor Sensors
-
-| Preview | Name |  Manufacturer |
-| :---: | --- | --- | --- |
-| ![sharp_GP2D120_icon.png](images/sensors/sharp_GP2D120_icon.png) | [GP2D120](distancesensor-sensors.md#sharp-gp2d120) | Sharp |
-| ![sharp_GP2Y0A02YK0F_icon.png](images/sensors/sharp_GP2Y0A02YK0F_icon.png) | [GP2Y0A02YK0F](distancesensor-sensors.md#sharp-gp2y0a02yk0f) | Sharp |
-| ![sharp_GP2Y0A41SK0F_icon.png](images/sensors/sharp_GP2Y0A41SK0F_icon.png) | [GP2Y0A41SK0F](distancesensor-sensors.md#sharp-gp2y0a41sk0f) | Sharp |
-| ![sharp_GP2Y0A710K0F_icon.png](images/sensors/sharp_GP2Y0A710K0F_icon.png) | [GP2Y0A710K0F](distancesensor-sensors.md#sharp-gp2y0a710k0f) | Sharp |
-
-#### IMU Sensors
-
-| Preview | Name |  Manufacturer |
-| :---: | --- | --- | --- |
-| ![mpu-9250.png](images/sensors/mpu-9250_icon.png) | [MPU-9250](imu-sensors.md#mpu-9250) | TDK |
-
-#### Lidar Sensors
-
-| Preview | Name |  Manufacturer |
-| :---: | --- | --- | --- |
-| ![ibeo_icon.png](images/sensors/ibeo_icon.png) | [LUX](lidar-sensors.md#ibeo-lux) | Ibeo |
-| ![hokuyo_urg_04lx_icon.png](images/sensors/hokuyo_urg_04lx_icon.png) | [Hokuyo URG-04LX](lidar-sensors.md#hokuyo-urg-04lx) | Hokuyo |
-| ![hokuyo_urg_04lx_ug01_icon.png](images/sensors/hokuyo_urg_04lx_ug01_icon.png) | [Hokuyo URG-04LX-UG01](lidar-sensors.md#hokuyo-urg-04lx-ug01) | Hokuyo |
-| ![hokuyo_utm_30lx_icon.png](images/sensors/hokuyo_utm_30lx_icon.png) | [Hokuyo UTM-30LX](lidar-sensors.md#hokuyo-utm-30lx) | Hokuyo |
-| ![robotis_lds01_icon.png](images/sensors/robotis_lds01_icon.png) | [LDS-01](lidar-sensors.md#robotis-lds-01) | Robotis |
-| ![sick_lms291_icon.png](images/sensors/sick_lms291_icon.png) | [LMS 291](lidar-sensors.md#sick-lms-291) | SICK |
-| ![sick_ld_mrs_icon.png](images/sensors/sick_ld_mrs_icon.png) | [LD-MRS](lidar-sensors.md#sick-ld-mrs) | SICK |
-| ![sick_s300_icon.png](images/sensors/sick_s300_icon.png) | [S300](lidar-sensors.md#sick-s300) | SICK |
-| ![rplidara2_icon.png](images/sensors/rplidara2_icon.png) | [RPLidar A2](lidar-sensors.md#slamtec-rplidar-a2) | Slamtec |
-| ![velodyne_vpl_16_icon.png](images/sensors/velodyne_vpl_16_icon.png) | [VLP Puck](lidar-sensors.md#velodyne-puck) | Velodyne |
-| ![velodyne_hdl_32e_icon.png](images/sensors/velodyne_hdl_32e_icon.png) | [HDL 32E](lidar-sensors.md#velodyne-hdl-32e) | Velodyne |
-| ![velodyne_hdl_64e_icon.png](images/sensors/velodyne_hdl_64e_icon.png) | [HDL 64E](lidar-sensors.md#velodyne-hdl-64e) | Velodyne |
-
-#### Radar Sensors
-
-| Preview | Name |  Manufacturer |
-| :---: | --- | --- | --- |
-| ![delphi_icon.png](images/sensors/delphi_icon.png) | [ESR](radar-sensors.md#delphi-esr) | Delphi |
-| ![smartmicro_icon.png](images/sensors/smartmicro_icon.png) | [UMRR-0a](radar-sensors.md#smartmicro-umrr-0a) | Smartmicro |
-
-#### RangeFinder Sensors
-
-| Preview | Name |  Manufacturer |
-| :---: | --- | --- | --- |
-| ![kinect_icon.png](images/sensors/kinect_icon.png) | [Kinect](range-finder-sensors.md#microsoft-kinect) | Microsoft |
-| ![astra_icon.png](images/sensors/astra_icon.png) | [Astra](range-finder-sensors.md#orbbec-astra) | Orbbec |
