@@ -229,7 +229,7 @@ The resulting angular velocity measured by the gyro is displayed in the `Console
 
 **Keywords**: Backlash, [HingeJoint](../reference/hingejoint.md)
 
-![hinge_joint_with_backlash.png](images/samples/hinge_joint_with_backlash.thumbnail.jpg) This example shows how to use [HingeJointWithBacklash](hinge-joint-with-backlash.md).
+![hinge_joint_with_backlash.png](images/samples/hinge_joint_with_backlash.thumbnail.jpg) This example shows how to use [HingeJointWithBacklash](https://webots.cloud/run?url={{ url.github_tree }}/projects/joints/protos/HingeJointWithBacklash.proto).
 The shape of the rotor and shaft of the motor are described in the `startPoint` field whereas the `endPoint` refers to the blue shaft.
 When the rotor is motorized, the output axis lags behind due to the effect of backlash intrinsic to the gear train, which is represented by the black cylinder.
 
@@ -237,8 +237,8 @@ When the rotor is motorized, the output axis lags behind due to the effect of ba
 
 **Keywords**: Backlash, [Hinge2Joint](../reference/hinge2joint.md)
 
-![hinge_2_joint_with_backlash.png](images/samples/hinge_2_joint_with_backlash.thumbnail.jpg) This example shows how to use [Hinge2JointWithBacklash](hinge-2-joint-with-backlash.md).
-The left side robot uses a classic [Hinge2Joint](../reference/hinge2joint.md) whereas the right side one uses [Hinge2JointWithBacklash](hinge-2-joint-with-backlash.md) with a large backlash.
+![hinge_2_joint_with_backlash.png](images/samples/hinge_2_joint_with_backlash.thumbnail.jpg) This example shows how to use [Hinge2JointWithBacklash](https://webots.cloud/run?url={{ url.github_tree }}/projects/joints/protos/Hinge2JointWithBacklash.proto).
+The left side robot uses a classic [Hinge2Joint](../reference/hinge2joint.md) whereas the right side one uses [Hinge2JointWithBacklash](https://webots.cloud/run?url={{ url.github_tree }}/projects/joints/protos/Hinge2JointWithBacklash.proto) with a large backlash.
 Given the added joint play, in the presence of gravity, at rest the end-point is unstable and therefore slumps down compared to the case without backlash.
 In a real scenario, this is analogous to having a large clearance in between the driving and driven gear.
 

@@ -13,7 +13,7 @@ Here we are going to present some of the main new features, but for a comprehens
 ## New Robot
 
 A new robot model has been added to the Webots library.
-The ROS-based four-wheeled [ROSbot](../guide/rosbot.md) robot from [Husarion](https://husarion.com/) is now included in Webots.
+The ROS-based four-wheeled ROSbot robot from [Husarion](https://husarion.com/) is now included in Webots.
 
 %figure "ROSbot"
 ![Added Robots](images/rosbot.thumbnail.png)
@@ -25,7 +25,7 @@ You can discover this new robot in its demo world under `File > Open Sample Worl
 
 ## New Device Objects
 
-Devices embedded on the [ROSbot](../guide/rosbot.md) have also been added to the Webots library, namely the [Mpu-9250](../guide/imu-sensors.md#mpu-9250) IMU, the [RPLidarA2](../guide/lidar-sensors.md#slamtec-rplidar-a2) lidar and the [Astra](../guide/range-finder-sensors.md#orbbec-astra) RGB-D camera.
+Devices embedded on the ROSbot have also been added to the Webots library, namely the Mpu-9250 IMU, the RPLidarA2 lidar and the Astra RGB-D camera.
 
 %figure "New devices"
 ![Added Devices](images/devices_r2023a.thumbnail.png)
@@ -63,7 +63,7 @@ This assumption is fundamentally wrong.
 An IMU gives the raw values of its sensors ([Accelerometer](../reference/accelerometer.md), [Gyroscope](../reference/gyro.md), [Compass](../reference/compass.md)) and can optionally provide the attitude output computed from the fusion of its sensors.
 The [InertialUnit](../reference/inertialunit.md) just makes life easier for the user who does not want to use a sensor fusion library or algorithm to combine the data from an IMU and compute the attitude.
 
-In addition to the implementation of the [Mpu-9250](../guide/imu-sensors.md#mpu-9250) IMU, Webots R2023a contains a new sample world that demonstrates a simple algorithm for calculating the attitude of a robot from the sensors of an IMU.
+In addition to the implementation of the Mpu-9250 IMU, Webots R2023a contains a new sample world that demonstrates a simple algorithm for calculating the attitude of a robot from the sensors of an IMU.
 The results of the latter are compared to the values given by the [InertialUnit](../reference/inertialunit.md).
 
 You can explore this new sample world in its demo world under `File > Open Sample World > imu.wbt`.

@@ -84,6 +84,7 @@
 - [Actuators](actuators.md)
 - [Sensors](sensors.md)
 - [Humans](humans.md)
+- [Assets](assets.md)
 - [Known Bugs](known-bugs.md)
     - [General Bugs](general-bugs.md)
     - [Linux](linux.md)
