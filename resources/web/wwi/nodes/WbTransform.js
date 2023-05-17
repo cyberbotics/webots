@@ -9,6 +9,7 @@ export default class WbTransform extends WbPose {
   constructor(id, translation, rotation, scale) {
     super(id, translation, rotation);
     this.#scale = scale;
+    this._absoluteScaleNeedUpdate = true;
   }
 
   get nodeType() {
@@ -25,10 +26,17 @@ export default class WbTransform extends WbPose {
     this.#updateScale();
   }
 
+  absoluteScale() {
+    if (this._absoluteScaleNeedUpdate)
+      this._updateAbsoluteScale();
+
+    return this._absoluteScale;
+  }
+
   _updateAbsoluteScale() {
     this._absoluteScale = this.#scale;
     // multiply with upper transform scale if any
-    const up = this.upperPose();
+    const up = this.upperTransform;
     if (typeof up !== 'undefined')
       this._absoluteScale = this._absoluteScale.mulByVector(up.absoluteScale());
 
