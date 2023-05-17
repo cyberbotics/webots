@@ -515,6 +515,33 @@ static void matlab_config_environment() {
   putenv(new_path);
 }
 
+/*
+This function sets the environment variable for ROS 2 controllers execution.
+
+The function adds the 'WEBOTS_HOME/lib/controller' directory to the LD_LIBRARY_PATH or Path environment variable, on Linux and
+Windows respectively. On macOS, 'WEBOTS_HOME/Contents/lib/controller' is added to DYLD_LIBRARY_PATH.
+
+Note: PYTHONPATH environment variable doesn't need to be set because it is already configured to point to the Python
+installation folder of the lib controller when the package is sourced.
+*/
+static void ros2_config_environment() {
+#ifdef _WIN32
+  const char *lib_controller = "\\lib\\controller;";
+  const char *path_env_variable = "Path";
+#elif defined __linux__
+  const char *lib_controller = "/lib/controller:";
+  const char *path_env_variable = "LD_LIBRARY_PATH";
+#elif defined __APPLE__
+  const char *lib_controller = "/Contents/lib/controller:";
+  const char *path_env_variable = "DYLD_LIBRARY_PATH";
+#endif
+  const size_t new_path_size =
+    snprintf(NULL, 0, "%s=%s%s%s", path_env_variable, WEBOTS_HOME, lib_controller, getenv(path_env_variable)) + 1;
+  new_path = malloc(new_path_size);
+  sprintf(new_path, "%s=%s%s%s", path_env_variable, WEBOTS_HOME, lib_controller, getenv(path_env_variable));
+  putenv(new_path);
+}
+
 // Replace all environment variables in the string ('$(ENV)' syntax) by its content
 static void parse_environment_variables(char **string) {
   char *tmp = *string;
@@ -726,6 +753,23 @@ static char **add_controller_arguments(char **argv, char **controller_argv, size
   return argv;
 }
 
+// Free allocated memory
+static void free_memory() {
+  free(WEBOTS_HOME);
+  free(matlab_path);
+  free(current_path);
+  free(controller);
+
+  free(WEBOTS_CONTROLLER_URL);
+  free(new_path);
+  free(new_ld_path);
+  free(new_python_path);
+  free(webots_project);
+  free(webots_controller_name);
+  free(webots_version);
+  free(webots_controller_args);
+}
+
 int main(int argc, char **argv) {
   // Check WEBOTS_HOME and exit if empty
   if (!get_webots_home())
@@ -739,6 +783,27 @@ int main(int argc, char **argv) {
   // On Windows, convert forward slashes to backward slashes in controller path
   replace_char(controller, '/', '\\');
 #endif
+
+  // ROS 2 controller doesn't refer to a file
+  if (strcmp(controller, "ros2") == 0) {
+    ros2_config_environment();
+    size_t current_size = 0;
+    char **new_argv = NULL;
+    new_argv = add_single_argument(new_argv, &current_size, "ros2");
+    new_argv = add_single_argument(new_argv, &current_size, "run");
+    new_argv = add_single_argument(new_argv, &current_size, "webots_ros2_driver");
+    new_argv = add_single_argument(new_argv, &current_size, "driver");
+    new_argv = add_controller_arguments(new_argv, argv, &current_size, false);
+    new_argv = add_single_argument(new_argv, &current_size, NULL);
+#ifdef _WIN32
+    const char *const *windows_argv = (const char **)new_argv;
+    _spawnvpe(_P_WAIT, windows_argv[0], windows_argv, NULL);
+#else
+    execvp(new_argv[0], new_argv);
+#endif
+    free_memory();
+    return 0;
+  }
 
   // Check if controller file exists
   if (access(controller, F_OK) != 0) {
@@ -958,19 +1023,6 @@ int main(int argc, char **argv) {
             "'.jar', '.class' and '.m'.\n",
             controller_extension);
 
-  free(WEBOTS_HOME);
-  free(matlab_path);
-  free(current_path);
-  free(controller);
-
-  free(WEBOTS_CONTROLLER_URL);
-  free(new_path);
-  free(new_ld_path);
-  free(new_python_path);
-  free(webots_project);
-  free(webots_controller_name);
-  free(webots_version);
-  free(webots_controller_args);
-
+  free_memory();
   return 0;
 }

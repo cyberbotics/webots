@@ -1439,7 +1439,7 @@ int wb_robot_init() {  // API initialization
       int port = -1;
       compute_remote_info(&host, &port, &robot_name);
       success = scheduler_init_remote(host, port, robot_name, error_message);
-      is_simulation_loading = strncmp(error_message, "The Webots simulation world is not ready yet", 44) == 0;
+      is_simulation_loading = strncmp(error_message, "The Webots simulation world is not yet ready", 44) == 0;
       if (success) {
         free(host);
         free(robot_name);
@@ -1451,7 +1451,7 @@ int wb_robot_init() {  // API initialization
     } else {  // Intern or IPC extern controller
       socket_filename = compute_socket_filename(error_message);
       success = socket_filename ? scheduler_init_local(socket_filename) : false;
-      is_simulation_loading = strncmp(error_message, "The Webots simulation world is not ready yet", 44) == 0;
+      is_simulation_loading = strncmp(error_message, "The Webots simulation world is not yet ready", 44) == 0;
       if (success) {
         free(socket_filename);
         free(error_message);
