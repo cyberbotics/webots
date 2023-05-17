@@ -166,9 +166,6 @@ DEF GROUND Solid {
   }
   locked TRUE
 }
-DEF FRAME Solid {
-  locked TRUE
-}
 DEF BLUE_GOAL Solid {
   children [
     DEF BLUE_ROOF Pose {
