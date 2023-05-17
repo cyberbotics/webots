@@ -396,7 +396,7 @@ static void exec_java_config_environment() {
                                        1;
   new_windows_path = malloc(new_windows_path_size);
   sprintf(new_windows_path, "Path=%s\\msys64\\mingw64\\bin;%s\\msys64\\mingw64\\bin\\cpp;%s", WEBOTS_HOME, WEBOTS_HOME,
-          WEBOTS_HOME, getenv("Path"));
+          getenv("Path"));
   putenv(new_windows_path);
 #endif
   add_lib_controller_to_path();
