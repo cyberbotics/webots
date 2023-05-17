@@ -7,6 +7,22 @@ More specific sensors are built on the top of these generic nodes, thanks to the
 These sensors are listed on [webots.cloud](https://webots.cloud/proto?keyword=sensor) under the *sensor* keyword.
 They typically correspond to commercially available devices.
 
+### Camera Sensors
+
+Adding a generic [Camera](../reference/camera.md) node is sufficient for most of the applications.
+Generic cameras are customizable (resolution, field of view, noise, etc.) and include a zoom and a focusing mechanism by default.
+Special effects like motion blur, various models of noise, lens distortion and the use of a spherical or cylindrical projection are available.
+If a [Recognition](../reference/recognition.md) node is added to the camera, the camera can return not only the image but also all objects detected in the camera image and their size and position.
+It is therefore very easy to simulate smart cameras such as the Mobileye.
+
+%figure "Smart camera output"
+
+![smart_camera.png](images/sensors/smart_camera.png)
+
+%end
+
+Alternatively, camera models corresponding to real-world device can be found on [webots.cloud](https://webots.cloud/proto?keyword=sensor/camera).
+
 ### Generic Sensor List
 
 | Icon | Device | Description |
@@ -24,3 +40,4 @@ They typically correspond to commercially available devices.
 | ![RangeFinder.png](images/sensors/RangeFinder.png) | [RangeFinder](../reference/rangefinder.md) | *Simulates a depth camera also known as range-finder.* |
 | ![Receiver.png](images/sensors/Receiver.png) | [Receiver](../reference/receiver.md) | *Simulates radio, serial or infra-red receiver receiving data from other robots.* |
 | ![TouchSensor.png](images/sensors/TouchSensor.png) | [TouchSensor](../reference/touchsensor.md) | *Simulates a bumper or a force sensor.* |
+
