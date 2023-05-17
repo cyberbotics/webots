@@ -23,6 +23,13 @@ All the sensor assets are listed on [webots.cloud](https://webots.cloud/proto?ke
 They typically correspond to commercially available devices.
 For generic sensors, see the [Sensors](sensors.md) section.
 
+## Joints
+
+Webots already disposes of several nodes to model the transmission of power across bodies, such as [HingeJoint](../reference/hingejoint.md), [Hinge2Joint](../reference/hinge2joint.md), [BallJoint](../reference/balljoint.md) and [SliderJoint](../reference/sliderjoint.md).
+However, in some instances it is necessary to more accurately describe the real behavior by taking into consideration factors like, for example, the clearance among gears in a drive train, which induces a gear latch.
+There are a couple of joint PROTO nodes allowing a more accurate modeling and available on [webots.cloud](https://webots.cloud/proto?keyword=joint) under the *joint* keyword.
+
+
 ## Appearances
 
 All the [PBR appearance](../reference/pbrappearance.md) assets are listed on [webots.cloud](https://webots.cloud/proto?keyword=appearance).
