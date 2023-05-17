@@ -2,7 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/lego/protos/LegoLargeMotor.proto
-# keywords: robot/extension actuator/motor
+# keywords: robot/extension, actuator/motor
 # LEGO Mindstorm EV3 large motor. Part id: 6009430.
 
 PROTO LegoLargeMotor [
