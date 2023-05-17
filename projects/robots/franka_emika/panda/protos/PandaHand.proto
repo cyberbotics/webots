@@ -2,7 +2,7 @@
 # license: Apache License 2.0
 # license url: https://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/franka_emika/panda/protos/PandaHand.proto
-# keywords: robot/extension
+# keywords: robot/extension actuator/gripper
 # This is a PROTO file for Franka Emika's Panda Hand.
 
 PROTO PandaHand [
