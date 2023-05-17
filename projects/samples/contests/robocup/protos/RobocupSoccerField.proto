@@ -2,7 +2,7 @@
 # license: Apache License 2.0
 # license url: https://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/samples/contests/robocup/protos/RobocupSoccerField.proto
-# keywords: sport/soccer field
+# keywords: exterior/sport
 # Official soccer field for the Robocup Humanoid League 2021.
 # template language: javascript
 

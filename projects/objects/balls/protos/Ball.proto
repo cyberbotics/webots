@@ -2,7 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/balls/protos/Ball.proto
-# keywords: sport/ball
+# keywords: exterior/sport
 # The Ball's size, mass and color correspond to the soccer ball used in the Robocup SPL.
 # You can change the centerOfMass to [0 0 0] to avoid the random rolling effect.
 

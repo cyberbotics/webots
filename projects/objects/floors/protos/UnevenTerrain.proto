@@ -3,7 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/floors/protos/UnevenTerrain.proto
 # tags: nonDeterministic
-# keywords: floor
+# keywords: primitive/ground
 # Randomly generated uneven terrain based on Perlin noise.
 # template language: javascript
 
