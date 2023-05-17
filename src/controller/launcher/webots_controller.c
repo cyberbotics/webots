@@ -387,8 +387,7 @@ This function sets the environment variable for java and executable controllers 
 On Windows, the function adds a new path to the "Path" environment variable by concatenating the WEBOTS_HOME constant, the
 'msys64\mingw64\bin' and 'msys64\mingw64\bin\cpp' directories to the current "Path" value.
 
-On Linux and macOS, the function adds the 'WEBOTS_HOME/lib/controller' or 'WEBOTS_HOME/Contents/lib/controller' directory to
-the LD_LIBRARY_PATH or DYLD_LIBRARY_PATH environment variable, respectively.
+The function also adds the controller library directory to the Path on all platforms.
 */
 static void exec_java_config_environment() {
 #ifdef _WIN32
