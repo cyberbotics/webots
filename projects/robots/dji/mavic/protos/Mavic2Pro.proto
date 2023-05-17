@@ -9,8 +9,8 @@ EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 EXTERNPROTO "webots://projects/appearances/protos/MattePaint.proto"
 
 PROTO Mavic2Pro [
-  field SFVec3f    translation         0 0 0.065                           # Is `Transform.translation`.
-  field SFRotation rotation            0 0 1 0                             # Is `Transform.rotation`.
+  field SFVec3f    translation         0 0 0.065                           # Is `Pose.translation`.
+  field SFRotation rotation            0 0 1 0                             # Is `Pose.rotation`.
   field SFString   name                "Mavic 2 PRO"                       # Is `Solid.name`.
   field SFString   controller          "mavic2pro"                         # Is `Robot.controller`.
   field MFString   controllerArgs      []                                  # Is `Robot.controllerArgs`.
@@ -95,14 +95,14 @@ Robot {
               url "Mavic2Pro/meshes/helix_a_plates.obj"
             }
           }
-          Transform {
+          Pose {
             translation 0 0 0.02
             children [
               Shape {
                 appearance PBRAppearance {
                   baseColor 0.5 0.5 0.5
                   baseColorMap ImageTexture {
-                    url "Mavic2Pro/textures/mavic_fast_helix.png"
+                    url "webots://projects/default/protos/textures/fast_helix.png"
                   }
                   metalness 0
                   roughness 0
@@ -118,7 +118,7 @@ Robot {
         ]
         boundingObject Group {
           children [
-            Transform {
+            Pose {
               translation 0 0 0.015
               children [
                 Cylinder {
@@ -161,7 +161,7 @@ Robot {
         name "rear left propeller"
         boundingObject Group {
           children [
-            Transform {
+            Pose {
               translation 0 0 0.015
               children [
                 Cylinder {
@@ -170,7 +170,7 @@ Robot {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0 0 0.023
               rotation 0 0 1 0.7854
               children [
@@ -215,14 +215,14 @@ Robot {
               url "Mavic2Pro/meshes/helix_b_plates.obj"
             }
           }
-          Transform {
+          Pose {
             translation 0 0 0.02
             children [
               Shape {
                 appearance PBRAppearance {
                   baseColor 0.5 0.5 0.5
                   baseColorMap ImageTexture {
-                    url "Mavic2Pro/textures/mavic_fast_helix.png"
+                    url "webots://projects/default/protos/textures/fast_helix.png"
                   }
                   metalness 0
                   roughness 0
@@ -238,7 +238,7 @@ Robot {
         ]
         boundingObject Group {
           children [
-            Transform {
+            Pose {
               translation 0 0 0.015
               children [
                 Cylinder {
@@ -283,7 +283,7 @@ Robot {
         name "rear right propeller"
         boundingObject Group {
           children [
-            Transform {
+            Pose {
               translation 0 0 0.015
               children [
                 Cylinder {
@@ -292,7 +292,7 @@ Robot {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0 0 0.023
               rotation 0 0 1 -0.7854
               children [
@@ -337,14 +337,14 @@ Robot {
               url "Mavic2Pro/meshes/helix_a_plates.obj"
             }
           }
-          Transform {
+          Pose {
             translation 0 0 0.02
             children [
               Shape {
                 appearance PBRAppearance {
                   baseColor 0.5 0.5 0.5
                   baseColorMap ImageTexture {
-                    url "Mavic2Pro/textures/mavic_fast_helix.png"
+                    url "webots://projects/default/protos/textures/fast_helix.png"
                   }
                   metalness 0
                   roughness 0
@@ -360,7 +360,7 @@ Robot {
         ]
         boundingObject Group {
           children [
-            Transform {
+            Pose {
               translation 0 0 0.015
               children [
                 Cylinder {
@@ -405,7 +405,7 @@ Robot {
         name "front right propeller"
         boundingObject Group {
           children [
-            Transform {
+            Pose {
               translation 0 0 0.015
               children [
                 Cylinder {
@@ -414,7 +414,7 @@ Robot {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0 0 0.023
               rotation 0 0 1 0.7854
               children [
@@ -510,12 +510,12 @@ Robot {
                           url "Mavic2Pro/meshes/camera_lens.obj"
                         }
                       }
-                      DEF CAMERA_SLOT Transform {
+                      DEF CAMERA_SLOT Pose {
                         children IS cameraSlot
                       }
                     ]
                     name "camera roll"
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation -0.00915058 -1.86265e-08 -0.000983764
                       children [
                         Box {
@@ -531,7 +531,7 @@ Robot {
                 }
               ]
               name "camera pitch"
-              boundingObject Transform {
+              boundingObject Pose {
                 translation -0.00248347 0.00776876 0.00183829
                 children [
                   Box {
@@ -547,7 +547,7 @@ Robot {
           }
         ]
         name "camera yaw"
-        boundingObject Transform {
+        boundingObject Pose {
           translation -1.86265e-09 -0.00304481 -0.0140589
           children [
             Box {
@@ -563,7 +563,7 @@ Robot {
     }
     DEF LED_RIGHT LED {
       children [
-        Transform {
+        Pose {
           translation 0.0617 -0.1654 -0.0074
           children [
             Shape {
@@ -580,7 +580,7 @@ Robot {
         }
       ]
       name "front right led"
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0.060348 -0.163659 -0.00760072
         children [
           Box {
@@ -595,7 +595,7 @@ Robot {
     }
     DEF LED_LEFT LED {
       children [
-        Transform {
+        Pose {
           translation 0.0617 0.1654 -0.0074
           rotation 0 0 1 2.1944
           children [
@@ -613,7 +613,7 @@ Robot {
         }
       ]
       name "front left led"
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0.060348 0.163919 -0.00760069
         children [
           Box {
@@ -654,14 +654,14 @@ Robot {
               url "Mavic2Pro/meshes/helix_b_plates.obj"
             }
           }
-          Transform {
+          Pose {
             translation 0 0 0.02
             children [
               Shape {
                 appearance PBRAppearance {
                   baseColor 0.5 0.5 0.5
                   baseColorMap ImageTexture {
-                    url "Mavic2Pro/textures/mavic_fast_helix.png"
+                    url "webots://projects/default/protos/textures/fast_helix.png"
                   }
                   metalness 0
                   roughness 0
@@ -677,7 +677,7 @@ Robot {
         ]
         boundingObject Group {
           children [
-            Transform {
+            Pose {
               translation 0 0 0.015
               children [
                 Cylinder {
@@ -722,7 +722,7 @@ Robot {
         name "front left propeller"
         boundingObject Group {
           children [
-            Transform {
+            Pose {
               translation 0 0 0.015
               children [
                 Cylinder {
@@ -731,7 +731,7 @@ Robot {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0 0 0.023
               rotation 0 0 1 -0.7854
               children [
@@ -753,7 +753,7 @@ Robot {
   model "DJI Mavic 2 PRO"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation -0.03 0 0.002
         children [
           Box {
@@ -761,7 +761,7 @@ Robot {
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.06 0 -0.03
         children [
           Box {
@@ -769,7 +769,7 @@ Robot {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.03 0.09 -0.001
         rotation 0 0 1 -0.3926996938995747
         children [
@@ -778,7 +778,7 @@ Robot {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.03 -0.09 -0.001
         rotation 0 0 1 0.3927
         children [
@@ -787,7 +787,7 @@ Robot {
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.138 0.08 -0.032
         rotation 0 0 1 0.68
         children [
@@ -796,7 +796,7 @@ Robot {
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.138 -0.08 -0.032
         rotation 0 0 1 -0.68
         children [
@@ -805,7 +805,7 @@ Robot {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.06 0.15 -0.039
         rotation 1 0 0 -0.29
         children [
@@ -814,7 +814,7 @@ Robot {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.06 -0.15 -0.039
         rotation 1 0 0 0.29
         children [

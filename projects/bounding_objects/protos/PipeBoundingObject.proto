@@ -7,15 +7,18 @@
 # template language: javascript
 
 PROTO PipeBoundingObject [
-  field SFFloat    height          2       # Defines the height of the pipe.
-  field SFFloat    radius          1       # Defines the radius of the pipe.
-  field SFFloat    thickness       0.1     # Defines the thickness of the pipe.
-  field SFInt32    subdivision     24      # Defines the number of polygons used to represent the pipe and so its resolution.
-  field SFFloat    accuracy        0.0001  # Defines how much boxes position can differ on y axis: a 0 value represents an error-free model but it will slow down the simulation.
+  field SFVec3f    translation     0 0 0    # Defines the position of the pipe.
+  field SFRotation rotation        0 0 1 0  # Defined the orientation of the pipe.
+  field SFFloat    height          2        # Defines the height of the pipe.
+  field SFFloat    radius          1        # Defines the radius of the pipe.
+  field SFFloat    thickness       0.1      # Defines the thickness of the pipe.
+  field SFInt32    subdivision     24       # Defines the number of polygons used to represent the pipe and so its resolution.
+  field SFFloat    accuracy        0.0001   # Defines how much boxes position can differ on y axis: a 0 value represents an error-free model but it will slow down the simulation.
 ]
 {
   %<
     import * as wbrandom from 'wbrandom.js';
+    import * as wbrotation from 'wbrotation.js';
 
     // parameter checking
     let subdivision = fields.subdivision.value;
@@ -66,20 +69,21 @@ PROTO PipeBoundingObject [
   Group { # set of boxes
     children [
       %<
-          let gamma, ax, ay, az, angle, offset;
+          let gamma, ax, ay, az, angle, offset, box_rotation, box_translation;
           for (let i = 0; i <= subdivision - 1; ++i) {
             // position of an internal box
             gamma = beta * i + beta * 0.5 + (subdivision % 2) * Math.PI / subdivision;
             ax = boxRadius * Math.cos(gamma);
             ay = boxRadius * Math.sin(gamma);
-            az = 0;
-            angle = gamma + 0.5 * Math.PI;
             // add small offset to boxes z translation to reduce constraints on the top and bottom face due to co-planarity
-            offset = wbrandom.real(-1.0, 1.0) * fields.accuracy.value;
+            az = wbrandom.real(-1.0, 1.0) * fields.accuracy.value;
+            box_translation = wbrotation.rotateVector3ByRotation(fields.rotation.value, {x: ax, y: ay, z: az});
+            angle = gamma + 0.5 * Math.PI;
+            box_rotation = wbrotation.combine(fields.rotation.value, {x: 0, y: 0, z: 1, a: angle});
         >%
-        Transform {
-          translation %<= ax >% %<= ay >% %<= az + offset >%
-          rotation 0 0 1 %<= angle >%
+        Pose {
+          translation %<= box_translation.x + fields.translation.value.x >% %<= box_translation.y + fields.translation.value.y >% %<= box_translation.z + fields.translation.value.z >%
+          rotation %<= box_rotation.x >% %<= box_rotation.y >% %<= box_rotation.z >% %<= box_rotation.a >%
           children [
             Shape {
               appearance Appearance {

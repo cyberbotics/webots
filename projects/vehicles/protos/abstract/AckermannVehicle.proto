@@ -70,7 +70,7 @@ PROTO AckermannVehicle [
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         translation %<= wheelbase >% %<= frontTrack * 0.5 >% 0
         rotation 0 0 1 3.14159
         children [
@@ -105,7 +105,7 @@ PROTO AckermannVehicle [
           }
         ]
       }
-      Transform {
+      Pose {
         translation %<= wheelbase >% %<= -frontTrack * 0.5 >% 0
         children [
           DEF RIGHT_STEER_HINGE2 Hinge2Joint {
@@ -139,7 +139,7 @@ PROTO AckermannVehicle [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 %<= rearTrack * 0.5 >% 0
         rotation 0 0 1 3.14159
         children [
@@ -159,7 +159,7 @@ PROTO AckermannVehicle [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 %<= -rearTrack * 0.5 >% 0
         children [
           DEF RIGHT_REAR_WHEEL_HINGE HingeJoint {

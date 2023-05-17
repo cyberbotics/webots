@@ -16,7 +16,7 @@ PROTO Pole [
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         translation 0 0 2
         children IS slot
       }
@@ -42,7 +42,7 @@ PROTO Pole [
     model "pole"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.005 0.01 1
           children [
             Cylinder {

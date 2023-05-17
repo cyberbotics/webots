@@ -82,7 +82,7 @@ PROTO JamJar [
     ]
     name IS name
     model "jam jar"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.058
       children [
         Shape {

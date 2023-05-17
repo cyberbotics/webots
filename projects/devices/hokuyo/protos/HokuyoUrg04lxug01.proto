@@ -25,7 +25,7 @@ PROTO HokuyoUrg04lxug01 [
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         rotation -0.5774 0.5773 0.5774 -2.0944
         translation 0 0 -0.052
         children [
@@ -87,7 +87,7 @@ PROTO HokuyoUrg04lxug01 [
     ]
     name IS name
     model "Hokuyo URG-04LX-UG01"
-    boundingObject Transform {
+    boundingObject Pose {
       rotation -0.5774 0.5773 0.5774 -2.0944
       translation 0 0 -0.018
       children [

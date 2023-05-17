@@ -110,7 +110,7 @@ PROTO TiagoLeftHey5 [
                   translation -0.0225 0.003 0
                   rotation -1 0 0 1.1442
                   children [
-                    DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Transform {
+                    DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Pose {
                       translation -0.0065 0 0
                       children [
                         Shape {
@@ -205,7 +205,7 @@ PROTO TiagoLeftHey5 [
                               translation -0.009 0 0
                               rotation 0 0.53 -0.848 0
                               children [
-                                DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Transform {
+                                DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Pose {
                                   translation -0.0065 0 0
                                   children [
                                     Shape {
@@ -255,7 +255,7 @@ PROTO TiagoLeftHey5 [
                                     translation -0.013 0 0
                                     rotation 0.4082 0.4082 -0.8165 0
                                     children [
-                                      Transform {
+                                      Pose {
                                         rotation 0 1 0 3.1416
                                         children [
                                           DEF HAND_LEFT_THUMB_TIP Shape {
@@ -288,7 +288,7 @@ PROTO TiagoLeftHey5 [
                                     name "hand_left_thumb_flex_3"
                                     boundingObject DEF HAND_LEFT_THUMB_TIP_BO Group {
                                       children [
-                                        Transform {
+                                        Pose {
                                           translation -0.0226 -0.0027 0
                                           rotation 0 0 1 -2.4077
                                           children [
@@ -299,7 +299,7 @@ PROTO TiagoLeftHey5 [
                                           translationStep 0.0001
                                           rotationStep 0.001
                                         }
-                                        Transform {
+                                        Pose {
                                           translation -0.024 -0.0001 0
                                           children [
                                             Box {
@@ -308,7 +308,7 @@ PROTO TiagoLeftHey5 [
                                           ]
                                           translationStep 0.0001
                                         }
-                                        Transform {
+                                        Pose {
                                           translation -0.0139 0.0036 0
                                           children [
                                             Cylinder {
@@ -319,7 +319,7 @@ PROTO TiagoLeftHey5 [
                                           translationStep 0.0001
                                           rotationStep 0.001
                                         }
-                                        Transform {
+                                        Pose {
                                           translation 0.0005 0.0062 0
                                           rotation 0 0 -1 0.6443
                                           children [
@@ -330,7 +330,7 @@ PROTO TiagoLeftHey5 [
                                           translationStep 0.0001
                                           rotationStep 0.001
                                         }
-                                        Transform {
+                                        Pose {
                                           translation -0.0095 0.0089 0
                                           rotation 0 0 1 0.000815
                                           children [
@@ -341,7 +341,7 @@ PROTO TiagoLeftHey5 [
                                           translationStep 0.0001
                                           rotationStep 0.001
                                         }
-                                        Transform {
+                                        Pose {
                                           translation -0.0073 0.0004 0
                                           children [
                                             Box {
@@ -351,7 +351,7 @@ PROTO TiagoLeftHey5 [
                                           translationStep 0.0001
                                           rotationStep 0.001
                                         }
-                                        Transform {
+                                        Pose {
                                           translation -0.0046 0.0068 0
                                           children [
                                             Cylinder {
@@ -362,7 +362,7 @@ PROTO TiagoLeftHey5 [
                                           translationStep 0.0001
                                           rotationStep 0.0001
                                         }
-                                        Transform {
+                                        Pose {
                                           translation -0.0159 0.0008 0
                                           children [
                                             Cylinder {
@@ -372,7 +372,7 @@ PROTO TiagoLeftHey5 [
                                           ]
                                           translationStep 0.0001
                                         }
-                                        Transform {
+                                        Pose {
                                           translation 0.0002 0 0
                                           children [
                                             Cylinder {
@@ -393,7 +393,7 @@ PROTO TiagoLeftHey5 [
                                 }
                               ]
                               name "hand_left_thumb_virtual_2_link"
-                              boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Transform {
+                              boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Pose {
                                 translation -0.0065 0 0
                                 children [
                                   Shape {
@@ -429,7 +429,7 @@ PROTO TiagoLeftHey5 [
                         name "hand_left_thumb_flex_1_link"
                         boundingObject DEF HAND_LEFT_FINGER_PHALANX_BO Group {
                           children [
-                            Transform {
+                            Pose {
                               translation 0.0005 0.0062 0
                               rotation 0 0 1 -0.6556
                               children [
@@ -440,7 +440,7 @@ PROTO TiagoLeftHey5 [
                               translationStep 0.0001
                               rotationStep 0.001
                             }
-                            Transform {
+                            Pose {
                               translation -0.0094 0.0060 0
                               rotation 0 0 1 0.652815
                               children [
@@ -451,7 +451,7 @@ PROTO TiagoLeftHey5 [
                               translationStep 0.0001
                               rotationStep 0.001
                             }
-                            Transform {
+                            Pose {
                               translation -0.0073 -0.0045 0
                               children [
                                 Box {
@@ -461,7 +461,7 @@ PROTO TiagoLeftHey5 [
                               translationStep 0.0001
                               rotationStep 0.001
                             }
-                            Transform {
+                            Pose {
                               translation -0.0046 0.0068 0
                               children [
                                 Cylinder {
@@ -472,7 +472,7 @@ PROTO TiagoLeftHey5 [
                               translationStep 0.0001
                               rotationStep 0.0001
                             }
-                            Transform {
+                            Pose {
                               translation -0.0093 0 0
                               children [
                                 Cylinder {
@@ -482,7 +482,7 @@ PROTO TiagoLeftHey5 [
                               ]
                               translationStep 0.0001
                             }
-                            Transform {
+                            Pose {
                               translation 0.0002 0 0
                               children [
                                 Cylinder {
@@ -503,7 +503,7 @@ PROTO TiagoLeftHey5 [
                     }
                   ]
                   name "hand_left_thumb_virtual_1_link"
-                  boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Transform {
+                  boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Pose {
                     translation -0.0065 0 0
                     children [
                       Shape {
@@ -538,7 +538,7 @@ PROTO TiagoLeftHey5 [
             name "hand_left_thumb_abd_link"
             boundingObject Group {
               children [
-                Transform {
+                Pose {
                   translation -0.0025 0.0034 0
                   rotation 0 0 1 -0.53
                   children [
@@ -549,7 +549,7 @@ PROTO TiagoLeftHey5 [
                   translationStep 0.0001
                   rotationStep 0.001
                 }
-                Transform {
+                Pose {
                   translation -0.0022 0 0
                   children [
                     Box {
@@ -559,7 +559,7 @@ PROTO TiagoLeftHey5 [
                   translationStep 0.0001
                   rotationStep 0.001
                 }
-                Transform {
+                Pose {
                   translation -0.0136 0.0058 -0.0055
                   rotation -0.5461 0.818 0.1807 -0.7591
                   children [
@@ -570,7 +570,7 @@ PROTO TiagoLeftHey5 [
                   translationStep 0.0001
                   rotationStep 0.001
                 }
-                Transform {
+                Pose {
                   translation -0.0206 0.0016 0.0037
                   rotation -1 0 0 -0.4308
                   children [
@@ -581,7 +581,7 @@ PROTO TiagoLeftHey5 [
                   translationStep 0.0001
                   rotationStep 0.001
                 }
-                Transform {
+                Pose {
                   translation -0.0232 0.0057 -0.0053
                   rotation -0.3984 0.8941 0.2046 -1.0023
                   children [
@@ -592,7 +592,7 @@ PROTO TiagoLeftHey5 [
                   translationStep 0.0001
                   rotationStep 0.001
                 }
-                Transform {
+                Pose {
                   translation -0.0181 0.0061 -0.0061
                   rotation 1 0 0 1.997796
                   children [
@@ -603,7 +603,7 @@ PROTO TiagoLeftHey5 [
                   ]
                   translationStep 0.0001
                 }
-                Transform {
+                Pose {
                   translation -0.0236 0.0034 -0.0003
                   rotation 1 0 0 1.997796
                   children [
@@ -614,7 +614,7 @@ PROTO TiagoLeftHey5 [
                   ]
                   translationStep 0.0001
                 }
-                Transform {
+                Pose {
                   translation -0.0133 0.0033 0
                   rotation 1 0 0 1.997796
                   children [
@@ -701,7 +701,7 @@ PROTO TiagoLeftHey5 [
                   translation -0.009 0 0
                   rotation 0 -0.7071 -0.7071 3.1416
                   children [
-                    DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Transform {
+                    DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Pose {
                       translation 0.0065 0 0
                       children [
                         Shape {
@@ -773,7 +773,7 @@ PROTO TiagoLeftHey5 [
                               translation -0.009 0 0
                               rotation 0.507 0.4056 -0.7605 0
                               children [
-                                DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Transform {
+                                DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Pose {
                                   translation -0.0065 0 0
                                   children [
                                     Shape {
@@ -845,7 +845,7 @@ PROTO TiagoLeftHey5 [
                                           translation -0.009 0 0
                                           rotation -0.4082 0.4082 -0.8165 0
                                           children [
-                                            DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Transform {
+                                            DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Pose {
                                               translation -0.0065 0 0
                                               children [
                                                 Shape {
@@ -923,7 +923,7 @@ PROTO TiagoLeftHey5 [
                                                 name "hand_left_index_flex_3_link"
                                                 boundingObject DEF HAND_LEFT_FINGER_TIP_BO Group {
                                                   children [
-                                                    Transform {
+                                                    Pose {
                                                       translation 0.0226 -0.0027 0
                                                       rotation 0 0 1 -0.6766
                                                       children [
@@ -934,7 +934,7 @@ PROTO TiagoLeftHey5 [
                                                       translationStep 0.0001
                                                       rotationStep 0.001
                                                     }
-                                                    Transform {
+                                                    Pose {
                                                       translation 0.024 -0.0001 0
                                                       children [
                                                         Box {
@@ -943,7 +943,7 @@ PROTO TiagoLeftHey5 [
                                                       ]
                                                       translationStep 0.0001
                                                     }
-                                                    Transform {
+                                                    Pose {
                                                       translation 0.0139 0.0036 0
                                                       children [
                                                         Cylinder {
@@ -954,7 +954,7 @@ PROTO TiagoLeftHey5 [
                                                       translationStep 0.0001
                                                       rotationStep 0.001
                                                     }
-                                                    Transform {
+                                                    Pose {
                                                       translation -0.0005 0.0062 0
                                                       rotation 0 0 -1 -0.6458
                                                       children [
@@ -965,7 +965,7 @@ PROTO TiagoLeftHey5 [
                                                       translationStep 0.0001
                                                       rotationStep 0.001
                                                     }
-                                                    Transform {
+                                                    Pose {
                                                       translation 0.0095 0.0089 0
                                                       rotation 0 0 1 0.000815
                                                       children [
@@ -976,7 +976,7 @@ PROTO TiagoLeftHey5 [
                                                       translationStep 0.0001
                                                       rotationStep 0.001
                                                     }
-                                                    Transform {
+                                                    Pose {
                                                       translation 0.0073 0.0004 0
                                                       children [
                                                         Box {
@@ -986,7 +986,7 @@ PROTO TiagoLeftHey5 [
                                                       translationStep 0.0001
                                                       rotationStep 0.001
                                                     }
-                                                    Transform {
+                                                    Pose {
                                                       translation 0.0046 0.0068 0
                                                       children [
                                                         Cylinder {
@@ -997,7 +997,7 @@ PROTO TiagoLeftHey5 [
                                                       translationStep 0.0001
                                                       rotationStep 0.0001
                                                     }
-                                                    Transform {
+                                                    Pose {
                                                       translation 0.0159 0.0008 0
                                                       children [
                                                         Cylinder {
@@ -1007,7 +1007,7 @@ PROTO TiagoLeftHey5 [
                                                       ]
                                                       translationStep 0.0001
                                                     }
-                                                    Transform {
+                                                    Pose {
                                                       translation -0.0002 0 0
                                                       children [
                                                         Cylinder {
@@ -1025,7 +1025,7 @@ PROTO TiagoLeftHey5 [
                                             }
                                           ]
                                           name "hand_left_index_virtual_3_link"
-                                          boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Transform {
+                                          boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Pose {
                                             translation -0.0065 0 0
                                             children [
                                               Shape {
@@ -1064,7 +1064,7 @@ PROTO TiagoLeftHey5 [
                                 }
                               ]
                               name "hand_left_index_virtual_2_link"
-                              boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Transform {
+                              boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Pose {
                                 translation -0.0065 0 0
                                 children [
                                   Shape {
@@ -1103,7 +1103,7 @@ PROTO TiagoLeftHey5 [
                     }
                   ]
                   name "hand_left_index_virtual_1_link"
-                  boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Transform {
+                  boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Pose {
                     translation -0.0065 0 0
                     children [
                       Shape {
@@ -1138,7 +1138,7 @@ PROTO TiagoLeftHey5 [
             name "hand_left_index_abd_link"
             boundingObject DEF HAND_LEFT_FINGER_FIRST_PHALANX_BO Group {
               children [
-                Transform {
+                Pose {
                   translation 0.0001 0 0.0065
                   rotation -0.9016 0.3055 0.3063 1.6718
                   children [
@@ -1149,7 +1149,7 @@ PROTO TiagoLeftHey5 [
                   translationStep 0.0001
                   rotationStep 0.001
                 }
-                Transform {
+                Pose {
                   translation -0.0091 0 0.0063
                   rotation 0.9006 0.3079 0.3067 -1.6696
                   children [
@@ -1160,7 +1160,7 @@ PROTO TiagoLeftHey5 [
                   translationStep 0.0001
                   rotationStep 0.001
                 }
-                Transform {
+                Pose {
                   translation -0.0074 -0.0001 -0.0045
                   rotation 1 0 0 -1.57
                   children [
@@ -1171,7 +1171,7 @@ PROTO TiagoLeftHey5 [
                   translationStep 0.0001
                   rotationStep 0.001
                 }
-                Transform {
+                Pose {
                   translation -0.0045 0 0.0068
                   rotation 1 0 0 -1.572
                   children [
@@ -1183,7 +1183,7 @@ PROTO TiagoLeftHey5 [
                   translationStep 0.0001
                   rotationStep 0.0001
                 }
-                Transform {
+                Pose {
                   translation -0.0093 0 0
                   rotation -1 -0.0016 0.0016 -1.572
                   children [
@@ -1195,7 +1195,7 @@ PROTO TiagoLeftHey5 [
                   translationStep 0.0001
                   rotationStep 0.001
                 }
-                Transform {
+                Pose {
                   translation 0.0002 0 0
                   rotation 1 0 0 1.572
                   children [
@@ -1260,7 +1260,7 @@ PROTO TiagoLeftHey5 [
                   translation -0.009 0 0
                   rotation 1 0 0 1.5708
                   children [
-                    DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Transform {
+                    DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Pose {
                       translation -0.0065 0 0
                       children [
                         Shape {
@@ -1407,7 +1407,7 @@ PROTO TiagoLeftHey5 [
                                             }
                                           ]
                                           name "hand_left_middle_virtual_3_link"
-                                          boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Transform {
+                                          boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Pose {
                                             translation -0.0065 0 0
                                             children [
                                               Shape {
@@ -1446,7 +1446,7 @@ PROTO TiagoLeftHey5 [
                                 }
                               ]
                               name "hand_left_middle_virtual_2_link"
-                              boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Transform {
+                              boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Pose {
                                 translation -0.0065 0 0
                                 children [
                                   Shape {
@@ -1485,7 +1485,7 @@ PROTO TiagoLeftHey5 [
                     }
                   ]
                   name "hand_left_middle_virtual_1_link"
-                  boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Transform {
+                  boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Pose {
                     translation -0.0065 0 0
                     children [
                       Shape {
@@ -1566,7 +1566,7 @@ PROTO TiagoLeftHey5 [
                   translation -0.009 0 0
                   rotation 1 0 0 1.5708
                   children [
-                    DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Transform {
+                    DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Pose {
                       translation -0.0065 0 0
                       children [
                         Shape {
@@ -1713,7 +1713,7 @@ PROTO TiagoLeftHey5 [
                                             }
                                           ]
                                           name "hand_left_ring_virtual_3_link"
-                                          boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Transform {
+                                          boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Pose {
                                             translation -0.0065 0 0
                                             children [
                                               Shape {
@@ -1752,7 +1752,7 @@ PROTO TiagoLeftHey5 [
                                 }
                               ]
                               name "hand_left_ring_virtual_2_link"
-                              boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Transform {
+                              boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Pose {
                                 translation -0.0065 0 0
                                 children [
                                   Shape {
@@ -1791,7 +1791,7 @@ PROTO TiagoLeftHey5 [
                     }
                   ]
                   name "hand_left_ring_virtual_1_link"
-                  boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Transform {
+                  boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Pose {
                     translation -0.0065 0 0
                     children [
                       Shape {
@@ -1872,7 +1872,7 @@ PROTO TiagoLeftHey5 [
                   translation -0.009 0 0
                   rotation 1 0 0 1.5708
                   children [
-                    DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Transform {
+                    DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Pose {
                       translation -0.0065 0 0
                       children [
                         Shape {
@@ -2019,7 +2019,7 @@ PROTO TiagoLeftHey5 [
                                             }
                                           ]
                                           name "hand_left_little_virtual_3_link"
-                                          boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Transform {
+                                          boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Pose {
                                             translation -0.0065 0 0
                                             children [
                                               Shape {
@@ -2058,7 +2058,7 @@ PROTO TiagoLeftHey5 [
                                 }
                               ]
                               name "hand_left_little_virtual_2_link"
-                              boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Transform {
+                              boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Pose {
                                 translation -0.0065 0 0
                                 children [
                                   Shape {
@@ -2097,7 +2097,7 @@ PROTO TiagoLeftHey5 [
                     }
                   ]
                   name "hand_left_little_virtual_1_link"
-                  boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Transform {
+                  boundingObject DEF HAND_LEFT_FINGER_CONNECTOR_SHAPE Pose {
                     translation -0.0065 0 0
                     children [
                       Shape {
@@ -2138,7 +2138,7 @@ PROTO TiagoLeftHey5 [
       name IS name
       boundingObject Group {
         children [
-          DEF CYL_1 Transform {
+          DEF CYL_1 Pose {
             translation -0.0211 -0.0249 0
             rotation 0 1 0 1.5708
             children [
@@ -2148,21 +2148,21 @@ PROTO TiagoLeftHey5 [
               }
             ]
           }
-          DEF CYL_2 Transform {
+          DEF CYL_2 Pose {
             translation -0.0211 0.0126 0.025
             rotation 0 1 0 1.5708
             children [
               USE CYLINDER_SHAPE
             ]
           }
-          DEF CYL_3 Transform {
+          DEF CYL_3 Pose {
             translation -0.0211 0.0124 -0.025
             rotation 0 1 0 1.5708
             children [
               USE CYLINDER_SHAPE
             ]
           }
-          DEF RECT_1 Transform {
+          DEF RECT_1 Pose {
             translation -0.0121 -0.007 -0.0147
             rotation 1 0 0 0.976
             children [
@@ -2171,21 +2171,21 @@ PROTO TiagoLeftHey5 [
               }
             ]
           }
-          DEF RECT_2 Transform {
+          DEF RECT_2 Pose {
             translation -0.0121 -0.007 0.0145
             rotation 1 0 0 -0.99
             children [
               USE RECT_SHAPE
             ]
           }
-          DEF RECT_3 Transform {
+          DEF RECT_3 Pose {
             translation -0.012 0.0147 0
             rotation 0 0 1 1.5708
             children [
               USE RECT_SHAPE
             ]
           }
-          Transform {
+          Pose {
             translation -0.135 -0.014 0.0045
             children [
               Box {
@@ -2193,7 +2193,7 @@ PROTO TiagoLeftHey5 [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.063 -0.004 0.043
             children [
               Box {
@@ -2201,7 +2201,7 @@ PROTO TiagoLeftHey5 [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.078 -0.008 -0.0025
             children [
               Box {

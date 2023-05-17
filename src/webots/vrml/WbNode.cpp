@@ -1604,7 +1604,6 @@ WbNode *WbNode::createProtoInstance(WbProtoModel *proto, WbTokenizer *tokenizer,
   parametersDefMap.clear();
 
   return createProtoInstanceFromParameters(proto, parametersList, worldPath);
-  ;
 }
 
 WbNode *WbNode::createProtoInstanceFromParameters(WbProtoModel *proto, const QList<WbField *> &parameters,

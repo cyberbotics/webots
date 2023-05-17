@@ -214,7 +214,7 @@ PROTO SuburbanHouse [
     %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 6.68 -15.61 3.1
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -223,7 +223,7 @@ PROTO SuburbanHouse [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 4.0984 -11.8779 2.0
           rotation -0.227283 0.688601 0.688601 -2.694621
           children [
@@ -232,7 +232,7 @@ PROTO SuburbanHouse [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 1.16 -3.94 3.0
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -241,7 +241,7 @@ PROTO SuburbanHouse [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 1.05 8.03 1.5
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [

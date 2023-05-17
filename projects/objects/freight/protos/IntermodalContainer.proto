@@ -8,8 +8,8 @@
 EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 
 PROTO IntermodalContainer [
-  field SFVec3f    translation  0 0 0        # Is `Transform.translation`.
-  field SFRotation rotation     0 0 1 0      # Is `Transform.rotation`.
+  field SFVec3f    translation  0 0 0        # Is `Pose.translation`.
+  field SFRotation rotation     0 0 1 0      # Is `Pose.rotation`.
   field SFString   name         "container"  # Is `Solid.name`.
   field SFColor    color        0.9 0.1 0.1  # Defines the color.
 ]
@@ -44,7 +44,7 @@ PROTO IntermodalContainer [
         }
       }
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0.05 1.3
       rotation 1 0 0 1.5708
       children [

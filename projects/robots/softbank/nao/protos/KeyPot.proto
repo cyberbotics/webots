@@ -17,7 +17,7 @@ Solid {
   children [
     DEF KEY_POT_GROUP Group {
       children [
-        DEF BOX_UP Transform {
+        DEF BOX_UP Pose {
           translation 0 0 0.005
           children [
             Shape {
@@ -32,7 +32,7 @@ Solid {
             }
           ]
         }
-        DEF BOX_FRONT Transform {
+        DEF BOX_FRONT Pose {
           translation 0 0.07 0.025
           children [
             Shape {
@@ -43,7 +43,7 @@ Solid {
             }
           ]
         }
-        DEF BOX_BACK Transform {
+        DEF BOX_BACK Pose {
           translation 0 -0.07 0.025
           children [
             Shape {
@@ -54,7 +54,7 @@ Solid {
             }
           ]
         }
-        DEF BOX_LEFT Transform {
+        DEF BOX_LEFT Pose {
           translation 0.07 0 0.025
           children [
             Shape {
@@ -65,7 +65,7 @@ Solid {
             }
           ]
         }
-        DEF BOX_RIGHT Transform {
+        DEF BOX_RIGHT Pose {
           translation -0.07 0 0.025
           children [
             Shape {

@@ -57,10 +57,10 @@ PROTO RoadPillars [
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         rotation 0 0 1 1.5708
         children [
-          DEF LOWER_PART Transform {
+          DEF LOWER_PART Pose {
             translation 0 0 0.25
             children [
               Shape {
@@ -71,7 +71,7 @@ PROTO RoadPillars [
               }
             ]
           }
-          DEF UPPER_PART Transform {
+          DEF UPPER_PART Pose {
             translation 0 0 %<= height - 0.25 >%
             rotation 0 1 0 %<= -tilt >%
             children [
@@ -81,7 +81,7 @@ PROTO RoadPillars [
               }
             ]
           }
-          DEF CYLINDER_1 Transform {
+          DEF CYLINDER_1 Pose {
             translation %<= pylonsDistance * 0.5 >% 0 %<= height * 0.5 + Math.sin(tilt) * pylonsDistance * 0.25 >%
             rotation 0 1 0 %<= -pylonsInclination >%
             children [
@@ -94,7 +94,7 @@ PROTO RoadPillars [
               }
             ]
           }
-          DEF CYLINDER_1 Transform {
+          DEF CYLINDER_1 Pose {
             translation %<= -pylonsDistance * 0.5 >% 0 %<= height * 0.5 - Math.sin(tilt) * pylonsDistance * 0.25 >%
             rotation 0 1 0 %<= +pylonsInclination >%
             children [
@@ -113,7 +113,7 @@ PROTO RoadPillars [
     name IS name
     model "road pillar"
     %< if (boundingObject) { >%
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0 %<= height * 0.5 - width * Math.abs(Math.sin(tilt)) * 0.25 >%
         rotation 0 0 1 1.5708
         children [

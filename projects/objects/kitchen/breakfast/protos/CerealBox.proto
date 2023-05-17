@@ -61,7 +61,7 @@ PROTO CerealBox [
     ]
     name IS name
     model "cereal box"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 %<= size.z * 0.5 >%
       children [
         Shape {

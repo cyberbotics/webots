@@ -13,8 +13,8 @@ EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 EXTERNPROTO "SpotLeg.proto"
 
 PROTO Spot [
-  field SFVec3f     translation      0 0 0.624                 # Is `Transform.translation`.
-  field SFRotation  rotation         0 0 1 0                   # Is `Transform.rotation`.
+  field SFVec3f     translation      0 0 0.624                 # Is `Pose.translation`.
+  field SFRotation  rotation         0 0 1 0                   # Is `Pose.rotation`.
   field SFString    name             "Spot"                    # Is `Solid.name`.
   field SFString    model            "Boston Dynamics - Spot"  # Is `Robot.model`.
   field SFString    controller       "spot_moving_demo"        # Is `Robot.controller`.
@@ -201,7 +201,7 @@ PROTO Spot [
           1 0 0
         ]
       }
-      DEF HEAD_SHAPES Transform {
+      DEF HEAD_SHAPES Pose {
         translation -0.459994 -0.000019 -1.650002
         rotation 0.577350 -0.577354 -0.577346 2.094389
         children [
@@ -224,7 +224,7 @@ PROTO Spot [
               url "meshes/head_background_holes.obj"
             }
           }
-          DEF HEAD_BACKGROUND Transform {
+          DEF HEAD_BACKGROUND Pose {
             translation 0 1.657776 -0.905049
             rotation -1 0 0 0.433185
             children [
@@ -330,7 +330,7 @@ PROTO Spot [
           }
         ]
       }
-      DEF BODY_SHAPES Transform {
+      DEF BODY_SHAPES Pose {
         translation -0.459994 -0.000019 -1.650002
         rotation 0.577350 -0.577354 -0.577346 2.094389
         children [
@@ -405,7 +405,7 @@ PROTO Spot [
               }
             ]
           }
-          DEF MIDDLE Transform {
+          DEF MIDDLE Pose {
             translation 0 1.700153 -0.488849
             children [
               Shape {
@@ -477,7 +477,7 @@ PROTO Spot [
               url "meshes/back_cover.obj"
             }
           }
-          DEF BLACK_BOX_1 Transform {
+          DEF BLACK_BOX_1 Pose {
             translation 0 1.76 -0.180001
             rotation 1 0 0 -1.5708003061004252
             children [
@@ -491,7 +491,7 @@ PROTO Spot [
               }
             ]
           }
-          DEF BLACK_BOX_1_SCREW Transform {
+          DEF BLACK_BOX_1_SCREW Pose {
             translation 0 1.76 -0.180001
             rotation 1 0 0 -1.5708003061004252
             children [
@@ -503,7 +503,7 @@ PROTO Spot [
               }
             ]
           }
-          DEF BLACK_BOX_2 Transform {
+          DEF BLACK_BOX_2 Pose {
             translation 0 1.76 -0.480001
             rotation 1 0 0 -1.5708003061004252
             children [
@@ -517,7 +517,7 @@ PROTO Spot [
               }
             ]
           }
-          DEF BLACK_BOX_2_SCREW Transform {
+          DEF BLACK_BOX_2_SCREW Pose {
             translation 0 1.76 -0.480001
             rotation 1 0 0 -1.5708003061004252
             children [
@@ -529,7 +529,7 @@ PROTO Spot [
               }
             ]
           }
-          DEF METAL_STRIP Transform {
+          DEF METAL_STRIP Pose {
             translation 0 1.7616 -0.480001
             rotation 1 0 0 -1.5708003061004252
             children [
@@ -541,7 +541,7 @@ PROTO Spot [
               }
             ]
           }
-          DEF BACK_SCREWS Transform {
+          DEF BACK_SCREWS Pose {
             translation 0 1.7616 -0.480001
             rotation 1 0 0 -1.5708003061004252
             children [
@@ -553,7 +553,7 @@ PROTO Spot [
               }
             ]
           }
-          DEF SQUARE_SCREW_1 Transform {
+          DEF SQUARE_SCREW_1 Pose {
             translation 0 1.7628 -0.15
             rotation 1 0 0 -1.5308
             children [
@@ -565,7 +565,7 @@ PROTO Spot [
               }
             ]
           }
-          DEF SQUARE_SCREW_2 Transform {
+          DEF SQUARE_SCREW_2 Pose {
             translation 0 1.7628 -0.81
             rotation 1 0 0 -1.5708003061004252
             children [
@@ -613,7 +613,7 @@ PROTO Spot [
           }
         ]
       }
-      DEF REAR_SHAPES Transform {
+      DEF REAR_SHAPES Pose {
         translation -0.459994 -0.000019 -1.650002
         rotation 0.577350 -0.577354 -0.577346 2.094389
         children [
@@ -719,17 +719,17 @@ PROTO Spot [
         rotation 0.577350 -0.577354 -0.577346 2.094389
         name "rear right"
       }
-      Transform {
+      Pose {
         translation 0.256 0 0.1118
         rotation 0.577350 -0.577354 -0.577346 2.094389
         children IS frontExtension
       }
-      Transform {
+      Pose {
         translation 0.027 0 0.1118
         rotation 0.577350 -0.577354 -0.577346 2.094389
         children IS middleExtension
       }
-      Transform {
+      Pose {
         translation -0.200000 0 0.111800
         rotation 0.577350 -0.577354 -0.577346 2.094389
         children IS rearExtension
@@ -739,7 +739,7 @@ PROTO Spot [
     model IS model
     boundingObject DEF BODY_BO Group {
       children [
-        Transform {
+        Pose {
           translation 0.462094 0 -0.000232
           rotation -0.471324 0.471330 0.745453 -1.860413
           children [
@@ -748,7 +748,7 @@ PROTO Spot [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.477932 0 0.084013
           rotation -0.496329 0.496335 0.712256 -1.903773
           children [
@@ -757,7 +757,7 @@ PROTO Spot [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.451833 0 0.041304
           children [
             Box {
@@ -765,7 +765,7 @@ PROTO Spot [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.031113 0 0.018833
           children [
             Box {
@@ -773,7 +773,7 @@ PROTO Spot [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.376019 0 0.107135
           children [
             Box {
@@ -781,7 +781,7 @@ PROTO Spot [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.363578 0 -0.079657
           rotation -0.570857 0.570861 0.590119 -2.075336
           children [
@@ -790,7 +790,7 @@ PROTO Spot [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.319453 0 0.107135
           children [
             Box {
@@ -798,7 +798,7 @@ PROTO Spot [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.313025 0 -0.064563
           children [
             Box {
@@ -806,7 +806,7 @@ PROTO Spot [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.120195 0.111629 0.074886
           rotation 0.477074 -0.738109 -0.477070 1.869899
           children [
@@ -815,7 +815,7 @@ PROTO Spot [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.120195 -0.111629 0.074886
           rotation 0.643121 -0.415686 -0.643118 2.353682
           children [
@@ -824,7 +824,7 @@ PROTO Spot [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.427377 0 0.059588
           children [
             Box {
@@ -832,7 +832,7 @@ PROTO Spot [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.404 0 0.096611
           rotation -0.605765 0.605769 0.515841 -2.189100
           children [
@@ -841,7 +841,7 @@ PROTO Spot [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.400585 0 -0.018903
           children [
             Box {
@@ -849,7 +849,7 @@ PROTO Spot [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.431528 0 -0.008337
           rotation 0.647512 -0.647514 -0.401813 2.377442
           children [
@@ -858,7 +858,7 @@ PROTO Spot [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.28 0 0.121
           children [
             Box {
@@ -866,7 +866,7 @@ PROTO Spot [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.02 0 0.121
           children [
             Box {

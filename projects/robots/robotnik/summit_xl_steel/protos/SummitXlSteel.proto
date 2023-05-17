@@ -9,8 +9,8 @@
 EXTERNPROTO "webots://projects/appearances/protos/Plastic.proto"
 
 PROTO SummitXlSteel [
-  field SFVec3f     translation     0 0 0.118           # Is `Transform.translation`.
-  field SFRotation  rotation        0 0 1 0             # Is `Transform.rotation`.
+  field SFVec3f     translation     0 0 0.118           # Is `Pose.translation`.
+  field SFRotation  rotation        0 0 1 0             # Is `Pose.rotation`.
   field SFString    name            "Summit-XL Steel"   # Is `Robot.name`.
   field SFString    controller      "keyboard_control"  # Is `Robot.controller`.
   field MFString    controllerArgs  []                  # Is `Robot.controllerArgs`.
@@ -329,7 +329,7 @@ PROTO SummitXlSteel [
         translation 0.35 0 0.09
         name "base_docking_contact"
       }
-      DEF IMU Transform {
+      DEF IMU Pose {
         translation 0.127 -0.129 0.212
         children [
           Shape {
@@ -381,7 +381,7 @@ PROTO SummitXlSteel [
               }
             ]
             name "front_rgbd_camera_link"
-            boundingObject Transform {
+            boundingObject Pose {
               translation -0.02 0 0.015
               children [
                 Box {
@@ -412,16 +412,16 @@ PROTO SummitXlSteel [
         translation -0.365 -0.167 0.302
         name "gps"
       }
-      Transform{
+      Pose {
         translation 0 0 0.39062
         children IS bodySlot
       }
-      Transform {
+      Pose {
         translation 0.2865 -0.20894 0.193
         rotation 0.9239 -0.3827 0 3.14159
         children IS frontLidarSlot
       }
-      Transform {
+      Pose {
         translation -0.2865 0.20894 0.193
         rotation 0.3827 0.9239 0 3.14159
         children IS backLidarSlot
@@ -430,7 +430,7 @@ PROTO SummitXlSteel [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
          translation 0 0 0.3
           children [
             Box {
@@ -438,7 +438,7 @@ PROTO SummitXlSteel [
             }
           ]
         }
-        Transform {
+        Pose {
          translation 0 0 0.176
           children [
             Box {
@@ -446,7 +446,7 @@ PROTO SummitXlSteel [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.046225
           children [
             Box {

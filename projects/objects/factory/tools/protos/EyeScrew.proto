@@ -60,7 +60,7 @@ PROTO EyeScrew [
           }
         ]
       }
-      DEF CYLINDER Transform {
+      DEF CYLINDER Pose {
         translation %<= screwLength / 2 >% 0 0
         rotation 0 1 0 1.5708
         children [
@@ -93,7 +93,7 @@ PROTO EyeScrew [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           rotation 0 1 0 1.5708
           translation %<= -0.25 * screwRadius >% 0 0
           children [

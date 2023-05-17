@@ -118,7 +118,7 @@ DEF LIGHT_MYBOT Robot {
   translation 0.1 -0.42 0
   rotation 0 0 1 1.5708
   children [
-    DEF LIGHT_BODY Transform {
+    DEF LIGHT_BODY Pose {
       translation 0 0 0.0415
       rotation 0 0 1 1.570796
       children [
@@ -154,7 +154,7 @@ DEF LIGHT_MYBOT Robot {
         translation 0 0.045 0.025
         rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589218
         children [
-          DEF WHEEL Transform {
+          DEF WHEEL Pose {
             rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
@@ -205,13 +205,13 @@ DEF LIGHT_MYBOT Robot {
         physics USE PHYSICS_WHEEL
       }
     }
-    DEF RIGHT_EYE Transform {
+    DEF RIGHT_EYE Pose {
       translation 0.0385 -0.02 0.063
       rotation -0.7268278184260777 -0.4856548786751704 -0.4856548786751704 -1.884582
       children [
         DEF UNUSED_EYE Group {
           children [
-            Transform {
+            Pose {
               translation 0 0 1e-05
               rotation 0 0 1 0.8
               children [
@@ -227,7 +227,7 @@ DEF LIGHT_MYBOT Robot {
                 }
               ]
             }
-            Transform {
+            Pose {
               rotation 0 0 1 -0.8
               children [
                 Shape {
@@ -246,13 +246,13 @@ DEF LIGHT_MYBOT Robot {
         }
       ]
     }
-    DEF LEFT_EYE Transform {
+    DEF LEFT_EYE Pose {
       translation 0.0385 0.02 0.063
       rotation -0.7268313515069925 0.4856522348690052 0.4856522348690052 -1.884578
       children [
         DEF UNUSED_EYE Group {
           children [
-            Transform {
+            Pose {
               translation 0 0 -1e-05
               rotation 0 0 1 0.8
               children [
@@ -268,7 +268,7 @@ DEF LIGHT_MYBOT Robot {
                 }
               ]
             }
-            Transform {
+            Pose {
               rotation 0 0 1 -0.8
               children [
                 Shape {
@@ -287,7 +287,7 @@ DEF LIGHT_MYBOT Robot {
         }
       ]
     }
-    DEF SMILE Transform {
+    DEF SMILE Pose {
       translation 0.036 0 0.025
       rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
@@ -326,7 +326,7 @@ DEF LIGHT_MYBOT Robot {
         children [
           DEF CONNECTOR_SHAPE Group {
             children [
-              Transform {
+              Pose {
                 translation 0 -0.049 0.025
                 children [
                   DEF SIDE_PART Shape {
@@ -341,13 +341,13 @@ DEF LIGHT_MYBOT Robot {
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0.049 0.025
                 children [
                   USE SIDE_PART
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0 0.05
                 children [
                   Shape {
@@ -382,7 +382,7 @@ DEF LIGHT_MYBOT Robot {
     }
   ]
   name "MyBot 1"
-  boundingObject DEF MYBOT_BOUNDING Transform {
+  boundingObject DEF MYBOT_BOUNDING Pose {
     translation 0 0 0.0415
     rotation 0 0 1 1.570796
     children [
@@ -399,7 +399,7 @@ DEF HEAVY_MYBOT Robot {
   translation 0.1 -0.15 0
   rotation 0 0 1 -1.57
   children [
-    DEF MAIN_BODY Transform {
+    DEF MAIN_BODY Pose {
       translation 0 0 0.0415
       rotation 0 0 1 1.570796
       children [
@@ -432,7 +432,7 @@ DEF HEAVY_MYBOT Robot {
         translation 0 0.045 0.025
         rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589218
         children [
-          DEF WHEEL Transform {
+          DEF WHEEL Pose {
             rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
@@ -507,7 +507,7 @@ DEF HEAVY_MYBOT Robot {
         children [
           DEF CONNECTOR_SHAPE Group {
             children [
-              Transform {
+              Pose {
                 translation 0 -0.049 0.025
                 children [
                   DEF SIDE_PART Shape {
@@ -522,13 +522,13 @@ DEF HEAVY_MYBOT Robot {
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0.049 0.025
                 children [
                   USE SIDE_PART
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0 0.05
                 children [
                   Shape {
@@ -594,7 +594,7 @@ DEF HEAVY_MYBOT Robot {
         translation 0 0.045 0.025
         rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589218
         children [
-          DEF WHEEL Transform {
+          DEF WHEEL Pose {
             rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
@@ -669,7 +669,7 @@ DEF HEAVY_MYBOT Robot {
         children [
           DEF CONNECTOR_SHAPE Group {
             children [
-              Transform {
+              Pose {
                 translation 0 -0.049 0.025
                 children [
                   DEF SIDE_PART Shape {
@@ -684,13 +684,13 @@ DEF HEAVY_MYBOT Robot {
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0.049 0.025
                 children [
                   USE SIDE_PART
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0 0.05
                 children [
                   Shape {

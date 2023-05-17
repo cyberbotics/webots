@@ -21,7 +21,7 @@ PROTO PlatformCart [
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         translation 0 0 0.09
         children [
           Shape {
@@ -192,7 +192,7 @@ PROTO PlatformCart [
     ]
     name IS name
     model "platform cart"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.09
       children [
         Box {

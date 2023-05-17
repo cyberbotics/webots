@@ -35,7 +35,7 @@ PROTO SignPole [
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         translation 0 0 1.9
         children IS signBoards
       }

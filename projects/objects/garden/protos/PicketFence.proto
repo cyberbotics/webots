@@ -33,7 +33,7 @@ PROTO PicketFence [
     ]
     children [
       %< for (let i = 0; i <= numberOfSegments - 1; ++i) { >%
-        Transform {
+        Pose {
           translation 0 %<= -1.7 * i >% 0
           children [
             Shape {
@@ -75,7 +75,7 @@ PROTO PicketFence [
       %< } >%
     ]
     %< if (fields.enableBoundingObject.value) { >%
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 %<= -0.85 * numberOfSegments >% 0.55
       children [
         Box {

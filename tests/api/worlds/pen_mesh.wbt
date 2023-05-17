@@ -22,22 +22,26 @@ PointLight {
 DEF BOARD Solid {
   translation -0.06 0.052 -0.13
   rotation 0.5578327925294718 0.8064497000632672 0.19611592706008768 7.19948
-  scale 0.1 0.1 0.1
   children [
-    Shape {
-      appearance PBRAppearance {
-        baseColor 0.7 0.7 0.7
-        baseColorMap ImageTexture {
-          url [
-            "textures/white256.png"
-          ]
+    Transform {
+      scale 0.1 0.1 0.1
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.7 0.7 0.7
+            baseColorMap ImageTexture {
+              url [
+                "textures/white256.png"
+              ]
+            }
+          }
+          geometry Mesh {
+            url [
+              "webots://projects/default/worlds/meshes/suzanne.obj"
+            ]
+          }
         }
-      }
-      geometry Mesh {
-        url [
-          "webots://projects/default/worlds/meshes/suzanne.obj"
-        ]
-      }
+      ]
     }
   ]
   name "board"
@@ -70,7 +74,7 @@ DEF WRITER Robot {
         translation 0.015 0.09 -0.014
         rotation -0.292836 -0.310285 -0.904417 -2.74962
         children [
-          Transform {
+          Pose {
             translation 0 0 0.03
             children [
               Shape {
@@ -83,11 +87,11 @@ DEF WRITER Robot {
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 0 0.031
             rotation 1 0 0 1.5708
             children [
-              DEF BODY Transform {
+              DEF BODY Pose {
                 rotation 1 0 0 -1.57079632679
                 children [
                   Shape {
@@ -117,7 +121,7 @@ DEF WRITER Robot {
           translation 0.0103622 0.270768 -0.0676753
           rotation -0.15143645398649866 0.7228594690484919 0.674196698605776 2.6785969974991106
           children [
-            Transform {
+            Pose {
               rotation 1 0 0 -1.57079632679
               children [
                 Shape {

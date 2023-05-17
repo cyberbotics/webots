@@ -8,8 +8,8 @@
 # More information on: [Ipr](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/neuronics/ipr/protos/IprHd6m90.proto)
 
 PROTO IprHd6ms180 [
-  field SFVec3f    translation      0 0 0        # Is `Transform.translation`.
-  field SFRotation rotation         0 0 1 0      # Is `Transform.rotation`.
+  field SFVec3f    translation      0 0 0        # Is `Pose.translation`.
+  field SFRotation rotation         0 0 1 0      # Is `Pose.rotation`.
   field SFString   name             "IPR"        # Is `Solid.name`.
   field SFString   controller       "<generic>"  # Is `Robot.controller`.
   field MFString   controllerArgs   []           # Is `Robot.controllerArgs`.
@@ -36,7 +36,7 @@ PROTO IprHd6ms180 [
       }
       DEF PEDESTAL Group {
         children [
-          Transform {
+          Pose {
             translation 0 0 0.007
             children [
               Shape {
@@ -50,7 +50,7 @@ PROTO IprHd6ms180 [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 0 0.0405
             children [
               Shape {
@@ -63,7 +63,7 @@ PROTO IprHd6ms180 [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 0 0.072
             children [
               Shape {
@@ -76,7 +76,7 @@ PROTO IprHd6ms180 [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 0 0.109
             children [
               Shape {
@@ -91,7 +91,7 @@ PROTO IprHd6ms180 [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 0 0.1525
             children [
               Shape {
@@ -363,14 +363,14 @@ PROTO IprHd6ms180 [
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0.0275 0 -0.0627
               rotation 0 0 1 3.1415
               children [
                 USE UPPER_BASE
               ]
             }
-            Transform {
+            Pose {
               children [
                 Shape {
                   appearance USE ALUMINIUM
@@ -380,7 +380,7 @@ PROTO IprHd6ms180 [
                 }
               ]
             }
-            Transform {
+            Pose {
               rotation 0 -1 0 1.57
               children [
                 Shape {
@@ -394,7 +394,7 @@ PROTO IprHd6ms180 [
             }
             DEF BASE_PROTECTIONS Group {
               children [
-                Transform {
+                Pose {
                   translation -0.062 0 0
                   rotation 0 -1 0 1.57
                   children [
@@ -411,14 +411,14 @@ PROTO IprHd6ms180 [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation 0.062 0 0
                   rotation 0 -1 0 -1.57
                   children [
                     USE PROTECTION_PAD
                   ]
                 }
-                Transform {
+                Pose {
                   translation -0.03 0 -0.0295
                   rotation 0 -1 0 -1.57
                   children [
@@ -453,7 +453,7 @@ PROTO IprHd6ms180 [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   rotation 0 -1 0 1.57
                   children [
                     Shape {
@@ -486,7 +486,7 @@ PROTO IprHd6ms180 [
               endPoint Solid {
                 rotation -1 0 0 0.597775
                 children [
-                  Transform {
+                  Pose {
                     translation 0 0 0.095
                     children [
                       Shape {
@@ -500,7 +500,7 @@ PROTO IprHd6ms180 [
                       }
                     ]
                   }
-                  DEF BIG_PLATE Transform {
+                  DEF BIG_PLATE Pose {
                     translation 0 0.001 0.07
                     rotation 0 0 1 -1.57
                     children [
@@ -585,7 +585,7 @@ PROTO IprHd6ms180 [
                       children [
                         DEF OVIFORM_METAL Group {
                           children [
-                            Transform {
+                            Pose {
                               rotation 0 -1 0 1.57
                               children [
                                 Shape {
@@ -597,7 +597,7 @@ PROTO IprHd6ms180 [
                                 }
                               ]
                             }
-                            Transform {
+                            Pose {
                               rotation 0 -1 0 -1.57
                               children [
                                 Shape {
@@ -609,7 +609,7 @@ PROTO IprHd6ms180 [
                                 }
                               ]
                             }
-                            Transform {
+                            Pose {
                               translation -0.037 0 0
                               rotation 0 -1 0 -1.57
                               children [
@@ -700,7 +700,7 @@ PROTO IprHd6ms180 [
                                 }
                               ]
                             }
-                            Transform {
+                            Pose {
                               translation 0.027 0 0
                               rotation 0 -1 0 -1.57
                               children [
@@ -710,7 +710,7 @@ PROTO IprHd6ms180 [
                                 }
                               ]
                             }
-                            Transform {
+                            Pose {
                               translation -0.028 0 0
                               rotation 0 -1 0 -1.57
                               children [
@@ -765,7 +765,7 @@ PROTO IprHd6ms180 [
                             }
                           ]
                         }
-                        Transform {
+                        Pose {
                           translation 0 0 0.1
                           children [
                             Shape {
@@ -779,7 +779,7 @@ PROTO IprHd6ms180 [
                             }
                           ]
                         }
-                        DEF SMALL_PLATE Transform {
+                        DEF SMALL_PLATE Pose {
                           translation 0 0.001 0.075
                           rotation 0 0 1 -1.57
                           children [
@@ -840,21 +840,21 @@ PROTO IprHd6ms180 [
                         }
                         DEF OVIFORM_PROTECTIONS Group {
                           children [
-                            Transform {
+                            Pose {
                               translation -0.057 0 0
                               rotation 0 -1 0 1.57
                               children [
                                 USE PROTECTION_PAD
                               ]
                             }
-                            Transform {
+                            Pose {
                               translation 0.057 0 0
                               rotation 0 -1 0 -1.57
                               children [
                                 USE PROTECTION_PAD
                               ]
                             }
-                            Transform {
+                            Pose {
                               translation -0.03 0 0
                               rotation 0 -1 0 -1.57
                               children [
@@ -942,7 +942,7 @@ PROTO IprHd6ms180 [
                                 children IS wristSlot
                               }
                               USE OVIFORM_METAL
-                              Transform {
+                              Pose {
                                 translation 0 0 0.086
                                 children [
                                   Shape {
@@ -956,7 +956,7 @@ PROTO IprHd6ms180 [
                                 ]
                               }
                               USE OVIFORM_PROTECTIONS
-                              DEF WRIST_PROTECTION Transform {
+                              DEF WRIST_PROTECTION Pose {
                                 translation 0 0 0.11
                                 children [
                                   Shape {
@@ -989,7 +989,7 @@ PROTO IprHd6ms180 [
                                   translation 0 0 0.1185
                                   rotation 0 0 1 2.99319
                                   children [
-                                    Transform {
+                                    Pose {
                                       translation 0 0 0.0009
                                       children [
                                         Shape {
@@ -1002,7 +1002,7 @@ PROTO IprHd6ms180 [
                                         }
                                       ]
                                     }
-                                    Transform {
+                                    Pose {
                                       translation 0 0 0.03405
                                       children [
                                         Shape {
@@ -1015,7 +1015,7 @@ PROTO IprHd6ms180 [
                                         }
                                       ]
                                     }
-                                    Transform {
+                                    Pose {
                                       translation 0 0.0135 0.0318
                                       rotation -1 0 0 1.57
                                       children [
@@ -1127,7 +1127,7 @@ PROTO IprHd6ms180 [
                                         }
                                       ]
                                     }
-                                    Transform {
+                                    Pose {
                                       translation 0 0 0.06855
                                       children [
                                         Shape {
@@ -1141,7 +1141,7 @@ PROTO IprHd6ms180 [
                                         }
                                       ]
                                     }
-                                    Transform {
+                                    Pose {
                                       translation 0 0 0.0708
                                       rotation -1 0 0 -1.57
                                       children [
@@ -1287,7 +1287,7 @@ PROTO IprHd6ms180 [
                                         }
                                       ]
                                     }
-                                    DEF SENSOR_BOARD_PROTECTION Transform {
+                                    DEF SENSOR_BOARD_PROTECTION Pose {
                                       translation 0 0.026 0.0318
                                       rotation -1 0 0 1.57
                                       children [
@@ -1401,7 +1401,7 @@ PROTO IprHd6ms180 [
                                           Group {
                                             children IS leftGripperSlot
                                           }
-                                          Transform {
+                                          Pose {
                                             translation 0.01 0 0.008
                                             rotation 0 -1 0 -0.192
                                             children [
@@ -1413,7 +1413,7 @@ PROTO IprHd6ms180 [
                                               }
                                             ]
                                           }
-                                          Transform {
+                                          Pose {
                                             translation 0.0062 0 0.072
                                             children [
                                               Shape {
@@ -1514,7 +1514,7 @@ PROTO IprHd6ms180 [
                                             rotation 0 -1 0 -0.192
                                             name "ts0"
                                             contactMaterial "gripper"
-                                            boundingObject Transform {
+                                            boundingObject Pose {
                                               translation 0.013 0 0.01
                                               children [
                                                 DEF BOUNDING_FINGER_BASE Shape {
@@ -1541,7 +1541,7 @@ PROTO IprHd6ms180 [
                                             translation 0 0 0.0837
                                             name "ts1"
                                             contactMaterial "gripper"
-                                            boundingObject Transform {
+                                            boundingObject Pose {
                                               translation 0.0085 0 0
                                               children [
                                                 DEF BOUNDING_FINGER_END Shape {
@@ -1569,7 +1569,7 @@ PROTO IprHd6ms180 [
                                         contactMaterial "gripper"
                                         boundingObject Group {
                                           children [
-                                            Transform {
+                                            Pose {
                                               translation 0.018 0 0.064
                                               rotation 0 -1 0 0.951
                                               children [
@@ -1626,14 +1626,14 @@ PROTO IprHd6ms180 [
                                           Group {
                                             children IS rightGripperSlot
                                           }
-                                          Transform {
+                                          Pose {
                                             translation -0.01 0 0.008
                                             rotation 0 -1 0 0.192
                                             children [
                                               USE SUPPORT
                                             ]
                                           }
-                                          Transform {
+                                          Pose {
                                             translation -0.03 0 0.072
                                             children [
                                               Shape {
@@ -1733,7 +1733,7 @@ PROTO IprHd6ms180 [
                                             rotation 0 -1 0 3.3335
                                             name "ts2"
                                             contactMaterial "gripper"
-                                            boundingObject Transform {
+                                            boundingObject Pose {
                                               translation 0.011 0 -0.01
                                               children [
                                                 USE BOUNDING_FINGER_BASE
@@ -1757,7 +1757,7 @@ PROTO IprHd6ms180 [
                                             rotation 0 -1 0 3.1415
                                             name "ts3"
                                             contactMaterial "gripper"
-                                            boundingObject Transform {
+                                            boundingObject Pose {
                                               translation 0.0085 0 0
                                               children [
                                                 USE BOUNDING_FINGER_END
@@ -1781,7 +1781,7 @@ PROTO IprHd6ms180 [
                                         contactMaterial "gripper"
                                         boundingObject Group {
                                           children [
-                                            Transform {
+                                            Pose {
                                               translation -0.018 0 0.064
                                               rotation 0 -1 0 -0.951
                                               children [
@@ -1802,7 +1802,7 @@ PROTO IprHd6ms180 [
                                   ]
                                   boundingObject Group {
                                     children [
-                                      Transform {
+                                      Pose {
                                         translation 0 0 0.0009
                                         children [
                                           Shape {
@@ -1814,7 +1814,7 @@ PROTO IprHd6ms180 [
                                           }
                                         ]
                                       }
-                                      Transform {
+                                      Pose {
                                         translation 0 0 0.03405
                                         children [
                                           Shape {
@@ -1826,7 +1826,7 @@ PROTO IprHd6ms180 [
                                           }
                                         ]
                                       }
-                                      Transform {
+                                      Pose {
                                         translation 0 0.0125 0.0318
                                         rotation -1 0 0 1.57
                                         children [
@@ -1840,7 +1840,7 @@ PROTO IprHd6ms180 [
                                           }
                                         ]
                                       }
-                                      Transform {
+                                      Pose {
                                         translation 0 0 0.06855
                                         children [
                                           Shape {
@@ -1853,7 +1853,7 @@ PROTO IprHd6ms180 [
                                           }
                                         ]
                                       }
-                                      Transform {
+                                      Pose {
                                         translation 0 0 0.0918
                                         children [
                                           Shape {
@@ -1864,7 +1864,7 @@ PROTO IprHd6ms180 [
                                           }
                                         ]
                                       }
-                                      DEF BOUNDING_SENSOR_BOARD_PROTECTION Transform {
+                                      DEF BOUNDING_SENSOR_BOARD_PROTECTION Pose {
                                         translation 0 0.032 0.0318
                                         rotation -1 0 0 1.57
                                         children [
@@ -1890,7 +1890,7 @@ PROTO IprHd6ms180 [
                             ]
                             boundingObject Group {
                               children [
-                                DEF BOUNDING_AXE Transform {
+                                DEF BOUNDING_AXE Pose {
                                   rotation 0 -1 0 1.57
                                   children [
                                     Shape {
@@ -1901,7 +1901,7 @@ PROTO IprHd6ms180 [
                                     }
                                   ]
                                 }
-                                DEF BOUNDING_OVIFORM_LOWER Transform {
+                                DEF BOUNDING_OVIFORM_LOWER Pose {
                                   rotation 0 -1 0 1.57
                                   children [
                                     Shape {
@@ -1912,7 +1912,7 @@ PROTO IprHd6ms180 [
                                     }
                                   ]
                                 }
-                                DEF BOUNDING_OVIFORM_CENTER Transform {
+                                DEF BOUNDING_OVIFORM_CENTER Pose {
                                   translation 0 0 0.021
                                   children [
                                     Shape {
@@ -1922,7 +1922,7 @@ PROTO IprHd6ms180 [
                                     }
                                   ]
                                 }
-                                DEF BOUNDING_OVIFORM_UPPER Transform {
+                                DEF BOUNDING_OVIFORM_UPPER Pose {
                                   translation 0 0 0.042
                                   rotation 0 -1 0 1.57
                                   children [
@@ -1934,7 +1934,7 @@ PROTO IprHd6ms180 [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0 0 0.086
                                   children [
                                     Shape {
@@ -1947,7 +1947,7 @@ PROTO IprHd6ms180 [
                                     }
                                   ]
                                 }
-                                DEF BOUNDING_WRIST_PROTECTION Transform {
+                                DEF BOUNDING_WRIST_PROTECTION Pose {
                                   translation 0 0 0.11
                                   children [
                                     Shape {
@@ -1976,7 +1976,7 @@ PROTO IprHd6ms180 [
                           USE BOUNDING_OVIFORM_LOWER
                           USE BOUNDING_OVIFORM_CENTER
                           USE BOUNDING_OVIFORM_UPPER
-                          Transform {
+                          Pose {
                             translation 0 0 0.1
                             children [
                               Shape {
@@ -2003,7 +2003,7 @@ PROTO IprHd6ms180 [
                 ]
                 boundingObject Group {
                   children [
-                    Transform {
+                    Pose {
                       translation 0 0 0.095
                       children [
                         Shape {
@@ -2031,7 +2031,7 @@ PROTO IprHd6ms180 [
           name "base"
           boundingObject Group {
             children [
-              Transform {
+              Pose {
                 translation 0 0 0.001
                 rotation 0 -1 0 1.57
                 children [
@@ -2043,7 +2043,7 @@ PROTO IprHd6ms180 [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0 -0.031
                 children [
                   Shape {
@@ -2053,7 +2053,7 @@ PROTO IprHd6ms180 [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 children [
                   Shape {
                     geometry Box {
@@ -2062,7 +2062,7 @@ PROTO IprHd6ms180 [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 rotation 0 -1 0 1.57
                 children [
                   Shape {
@@ -2090,7 +2090,7 @@ PROTO IprHd6ms180 [
     description "model by Simon Blanchoud"
     boundingObject DEF STRONG_BOUNDING_SUPPORT Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.007
           children [
             Shape {
@@ -2101,7 +2101,7 @@ PROTO IprHd6ms180 [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.0405
           children [
             Shape {
@@ -2113,7 +2113,7 @@ PROTO IprHd6ms180 [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.072
           children [
             Shape {
@@ -2125,7 +2125,7 @@ PROTO IprHd6ms180 [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.109
           children [
             Shape {
@@ -2138,7 +2138,7 @@ PROTO IprHd6ms180 [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.1525
           children [
             Shape {

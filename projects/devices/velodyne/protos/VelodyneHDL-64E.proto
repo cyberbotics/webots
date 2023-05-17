@@ -18,7 +18,7 @@ PROTO VelodyneHDL-64E [
     translation IS translation
     rotation IS rotation
     children [
-      DEF AXIS Transform {
+      DEF AXIS Pose {
         translation 0 0 -0.128
         rotation -0.577352 0.577348 0.577352 -2.094405
         children [
@@ -41,7 +41,7 @@ PROTO VelodyneHDL-64E [
           }
         ]
       }
-      DEF BASE Transform {
+      DEF BASE Pose {
         rotation -0.5774 0.5773 0.5774 -2.0944
         translation -0.102 -0.102 -0.195
         children [
@@ -60,7 +60,7 @@ PROTO VelodyneHDL-64E [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.102 0 -0.162
         rotation 0.577 0.577 0.577 2.09
         children [
@@ -87,7 +87,7 @@ PROTO VelodyneHDL-64E [
     model "Velodyne HDL-64E"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           rotation -0.5774 0.5773 0.5774 -2.0944
           translation 0 0 -0.16
           children [
@@ -96,7 +96,7 @@ PROTO VelodyneHDL-64E [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 -0.08
           children [
             Cylinder {
@@ -175,7 +175,7 @@ PROTO VelodyneHDL-64E [
           }
         }
       ]
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0.08 0
         rotation 1 0 0 -1.57
         children [

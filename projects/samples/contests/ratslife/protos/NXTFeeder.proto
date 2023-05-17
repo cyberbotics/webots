@@ -18,7 +18,7 @@ PROTO NXTFeeder [
       100 100 0.833 # 0 -> 100% in 120[s]
     ]
     children [
-      Transform { # led
+      Pose { # led
         translation 0.005 0 0.031
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
@@ -41,7 +41,7 @@ PROTO NXTFeeder [
           }
         ]
       }
-      Transform { # dummy infrared
+      Pose { # dummy infrared
         translation 0.005 0 0.035
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
@@ -82,7 +82,7 @@ PROTO NXTFeeder [
     ]
     name IS name
     model "LEGO NXT feeder"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.025
       rotation 0.57735 0.57735 0.57735 2.094395
       children [

@@ -106,7 +106,7 @@ PROTO HandSanitizer [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 -0.03 0.165
           children [
             Box {
@@ -114,7 +114,7 @@ PROTO HandSanitizer [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.017
           children [
             Cylinder {
@@ -123,7 +123,7 @@ PROTO HandSanitizer [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.137
           children [
             Cylinder {

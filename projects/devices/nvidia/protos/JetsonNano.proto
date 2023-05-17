@@ -24,10 +24,10 @@ PROTO JetsonNano [
     translation IS translation
     rotation IS rotation
     children [
-      DEF BOARD_DOWN Transform {
+      DEF BOARD_DOWN Pose {
         rotation 0.57735 0.57735 0.57735 2.0944
         children [
-          Transform {
+          Pose {
             rotation 0 1 0 3.14159
             children [
               Shape {
@@ -39,7 +39,7 @@ PROTO JetsonNano [
               }
             ]
           }
-          DEF PINS_A Transform {
+          DEF PINS_A Pose {
             translation -0.0069 0.002 -0.04
             children [
               Shape {
@@ -52,7 +52,7 @@ PROTO JetsonNano [
                   size 0.051 0.0026 0.005
                 }
               }
-              Transform {
+              Pose {
                 translation 0.02407 0.0022 0.00127
                 children [
                   DEF PIN Shape {
@@ -64,235 +64,235 @@ PROTO JetsonNano [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.02407 0.0022 -0.0013
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0215 0.0022 -0.0013
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0215 0.0022 0.00127
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0189 0.0022 -0.0013
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0189 0.0022 0.00127
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0164 0.0022 -0.0013
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0164 0.0022 0.00127
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0139 0.0022 -0.0013
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0139 0.0022 0.00127
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0113 0.0022 -0.0013
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0113 0.0022 0.00127
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0088 0.0022 -0.0013
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0088 0.0022 0.00127
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0062 0.0022 -0.0013
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0062 0.0022 0.00127
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0037 0.0022 -0.0013
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0037 0.0022 0.00127
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0012 0.0022 -0.0013
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0012 0.0022 0.00127
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0014 0.0022 0.00127
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0014 0.0022 -0.0013
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0039 0.0022 -0.0013
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0039 0.0022 0.00127
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0064 0.0022 0.00127
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0064 0.0022 -0.0013
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.009 0.0022 0.00127
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.009 0.0022 -0.0013
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0115 0.0022 0.00127
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0115 0.0022 -0.0013
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0141 0.0022 0.00127
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0141 0.0022 -0.0013
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0166 0.0022 0.00127
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0166 0.0022 -0.0013
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0191 0.0022 0.00127
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0191 0.0022 -0.0013
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0216 0.0022 0.00127
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0216 0.0022 -0.0013
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0242 0.0022 0.00127
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0242 0.0022 -0.0013
                 children [
                   USE PIN
@@ -300,7 +300,7 @@ PROTO JetsonNano [
               }
             ]
           }
-          DEF PINS_B Transform {
+          DEF PINS_B Pose {
             translation -0.0358 0.002 -0.046
             children [
               Shape {
@@ -309,25 +309,25 @@ PROTO JetsonNano [
                   size 0.0054 0.0026 0.005
                 }
               }
-              Transform {
+              Pose {
                 translation 0.0014 0.0022 0.0011
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0011 0.0022 0.0011
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0014 0.0022 -0.0015
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0011 0.0022 -0.0015
                 children [
                   USE PIN
@@ -335,7 +335,7 @@ PROTO JetsonNano [
               }
             ]
           }
-          DEF PINS_C Transform {
+          DEF PINS_C Pose {
             translation 0.0143 0.002 -0.0276
             children [
               Shape {
@@ -344,7 +344,7 @@ PROTO JetsonNano [
                   size 0.006 0.0026 0.0105
                 }
               }
-              Transform {
+              Pose {
                 translation 0.0004 0.0049 0.0036
                 children [
                   DEF PIN Shape {
@@ -356,19 +356,19 @@ PROTO JetsonNano [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0004 0.0049 0.0011
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0004 0.0049 -0.0015
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0004 0.0049 -0.004
                 children [
                   USE PIN
@@ -376,7 +376,7 @@ PROTO JetsonNano [
               }
             ]
           }
-          DEF PINS_D Transform {
+          DEF PINS_D Pose {
             translation -0.0311 0.002 0.0401
             rotation 0 1 0 1.5708
             children [
@@ -386,37 +386,37 @@ PROTO JetsonNano [
                   size 0.0025 0.0026 0.0153
                 }
               }
-              Transform {
+              Pose {
                 translation 0 0.0022 0.0064
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0.0022 0.0038
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0.0022 0.0013
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0.0022 -0.0012
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0.0022 -0.0037
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0.0022 -0.0063
                 children [
                   USE PIN
@@ -424,7 +424,7 @@ PROTO JetsonNano [
               }
             ]
           }
-          DEF PINS_E Transform {
+          DEF PINS_E Pose {
             translation -0.0261 0.002 0.047
             rotation 0 1 0 1.5708
             children [
@@ -434,49 +434,49 @@ PROTO JetsonNano [
                   size 0.005 0.0026 0.01
                 }
               }
-              Transform {
+              Pose {
                 translation 0.0013 0.0022 0.0038
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0013 0.0022 0.0038
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0013 0.0022 0.0013
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0013 0.0022 0.0013
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0013 0.0022 -0.0012
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0013 0.0022 -0.0012
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0013 0.0022 -0.0037
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0013 0.0022 -0.0037
                 children [
                   USE PIN
@@ -484,7 +484,7 @@ PROTO JetsonNano [
               }
             ]
           }
-          DEF PINS_F Transform {
+          DEF PINS_F Pose {
             translation 0.0078 0.002 0.047
             children [
               Shape {
@@ -493,13 +493,13 @@ PROTO JetsonNano [
                   size 0.0023 0.0026 0.005
                 }
               }
-              Transform {
+              Pose {
                 translation 0 0.0022 0.0012
                 children [
                   USE PIN
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0.0022 -0.0012
                 children [
                   USE PIN
@@ -507,7 +507,7 @@ PROTO JetsonNano [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.0069 0.0046 0.0462
             children [
               Shape {
@@ -518,7 +518,7 @@ PROTO JetsonNano [
               }
             ]
           }
-          DEF POWER_PORT Transform {
+          DEF POWER_PORT Pose {
             translation 0.0335 0.0029 0.044
             children [
               Shape {
@@ -527,7 +527,7 @@ PROTO JetsonNano [
                   size 0.0145 0.0041 0.009
                 }
               }
-              Transform {
+              Pose {
                 translation 0.0003 0.004 0
                 rotation -0.57735 -0.57735 0.57735 2.09439
                 children [
@@ -560,7 +560,7 @@ PROTO JetsonNano [
               }
             ]
           }
-          DEF VIDEO_PORT Transform {
+          DEF VIDEO_PORT Pose {
             translation 0.0319 0.0105 0.0262
             rotation -0.57735 -0.57735 0.57735 2.09439
             children [
@@ -605,7 +605,7 @@ PROTO JetsonNano [
               }
             ]
           }
-          DEF USB1_PORT Transform {
+          DEF USB1_PORT Pose {
             translation 0.032 0.009 -0.0095
             rotation -0.57735 -0.57735 0.57735 2.09439
             children [
@@ -651,7 +651,7 @@ PROTO JetsonNano [
               }
             ]
           }
-          DEF USB2_PORT Transform {
+          DEF USB2_PORT Pose {
             translation 0.032 0.009 0.0073
             rotation -0.57735 -0.57735 0.57735 2.09439
             children [
@@ -659,7 +659,7 @@ PROTO JetsonNano [
               USE USB_FRONT_SHAPE
             ]
           }
-          DEF ETHERNET_PORT Transform {
+          DEF ETHERNET_PORT Pose {
             translation 0.03 0.0065 -0.027
             rotation -0.57735 -0.57735 0.57735 2.09439
             children [
@@ -703,7 +703,7 @@ PROTO JetsonNano [
               }
             ]
           }
-          DEF MICRO_PORT Transform {
+          DEF MICRO_PORT Pose {
             translation 0.036 0.002 -0.042
             rotation -0.57735 -0.57735 0.57735 2.09439
             children [
@@ -751,11 +751,11 @@ PROTO JetsonNano [
           }
         ]
       }
-      DEF BOARD_UP Transform {
+      DEF BOARD_UP Pose {
         translation 0.002 -0.0185 0.0093
         rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.09439
         children [
-          DEF SCREW Transform {
+          DEF SCREW Pose {
             translation 0.02 -0.004 0.032
             rotation 1 0 0 -1.57079
             children [
@@ -773,21 +773,21 @@ PROTO JetsonNano [
               }
             ]
           }
-          DEF SCREW Transform {
+          DEF SCREW Pose {
             translation -0.018 -0.004 0.032
             rotation 1 0 0 -1.57079
             children [
               USE SCREW_SHAPE
             ]
           }
-          DEF SCREW Transform {
+          DEF SCREW Pose {
             translation -0.018 -0.004 -0.032
             rotation 1 0 0 -1.57079
             children [
               USE SCREW_SHAPE
             ]
           }
-          DEF SCREW Transform {
+          DEF SCREW Pose {
             translation 0.02 -0.004 -0.032
             rotation 1 0 0 -1.57079
             children [

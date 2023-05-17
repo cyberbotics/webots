@@ -21,7 +21,7 @@ DEF BASE Solid {
       endPoint DEF LEFT_EXTERNAL_ARM Solid {
         rotation 0.57735 -0.57735 -0.57735 2.094395
         children [
-          DEF LEFT_EXTERNAL_ARM_TRANSFORM Transform {
+          DEF LEFT_EXTERNAL_ARM_TRANSFORM Pose {
             translation -0.038 0.0428 -0.0326
             rotation 1 0 0 -1.5708
             children [
@@ -55,7 +55,7 @@ DEF BASE Solid {
         name "left_external_arm"
         boundingObject Group {
           children [
-            Transform {
+            Pose {
               translation -0.0379 0.0132 -0.057
               children [
                 DEF LEFT_HORIZONTAL_BOX Box {
@@ -63,7 +63,7 @@ DEF BASE Solid {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation -0.0379 0.0415 -0.0257
               rotation 1 0 0 -1.02
               children [
@@ -91,7 +91,7 @@ DEF BASE Solid {
       endPoint DEF RIGHT_EXTERNAL_ARM Solid {
         rotation 0.57735 -0.57735 -0.57735 2.094395
         children [
-          DEF RIGHT_EXTERNAL_ARM_TRANSFORM Transform {
+          DEF RIGHT_EXTERNAL_ARM_TRANSFORM Pose {
             translation 0.597 -0.072 -0.243
             rotation 1 0 0 -1.5708
             children [
@@ -117,11 +117,11 @@ DEF BASE Solid {
             }
             endPoint DEF GRIPPER_HEAD Solid {
               children [
-                Transform {
+                Pose {
                   translation 1.197 -0.315 -0.245
                   rotation 1 0 0 -1.5708
                   children [
-                    Transform {
+                    Pose {
                       translation -1.2048 -0.21 0.389
                       children [
                         DEF LONG_AXLE Shape {
@@ -133,25 +133,25 @@ DEF BASE Solid {
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation -1.1892 -0.21 0.389
                       children [
                         USE LONG_AXLE
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation -1.1742 -0.21 0.389
                       children [
                         USE LONG_AXLE
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation -1.2198 -0.21 0.389
                       children [
                         USE LONG_AXLE
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation -0.597 -0.002 0.243
                       children [
                         Shape {
@@ -174,7 +174,7 @@ DEF BASE Solid {
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation -1.164 -0.2535 0.3825
                       rotation -0.577349 -0.577351 0.577351 2.094397
                       children [
@@ -187,7 +187,7 @@ DEF BASE Solid {
                         }
                       ]
                     }
-                    DEF UPPER_LEFT_HORIZONTAL_AXLE Transform {
+                    DEF UPPER_LEFT_HORIZONTAL_AXLE Pose {
                       translation -1.2315 -0.236 0.3832
                       rotation -0.577349 -0.577351 0.577351 2.094397
                       children [
@@ -200,21 +200,21 @@ DEF BASE Solid {
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation -1.1695 -0.2455 0.3955
                       rotation -0.577349 -0.577351 0.577351 2.094397
                       children [
                         USE AXLE
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation -1.2248 -0.2455 0.3955
                       rotation -0.577349 -0.577351 0.577351 2.094397
                       children [
                         USE AXLE
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation -1.197 -0.238 0.4
                       children [
                         Shape {
@@ -234,7 +234,7 @@ DEF BASE Solid {
                   }
                   endPoint DEF LEFT_EXTERNAL_FINGER Solid {
                     children [
-                      Transform {
+                      Pose {
                         translation 0.6 -0.072 -0.243
                         rotation 1 0 0 -1.5708
                         children [
@@ -261,7 +261,7 @@ DEF BASE Solid {
                         }
                         endPoint DEF LEFT_FINGER_TIP Solid {
                           children [
-                            Transform {
+                            Pose {
                               translation 0.6 -0.071 -0.2425
                               rotation 1 0 0 -1.5708
                               children [
@@ -281,7 +281,7 @@ DEF BASE Solid {
                                 }
                               ]
                             }
-                            Transform {
+                            Pose {
                               translation -0.0228 0.0715 -0.0765
                               rotation 1 0 0 -1.5708
                               children [
@@ -293,7 +293,7 @@ DEF BASE Solid {
                                 }
                               ]
                             }
-                            Transform {
+                            Pose {
                               translation -0.033 0.0715 -0.061
                               rotation 1 0 0 -1.570796
                               children [
@@ -306,7 +306,7 @@ DEF BASE Solid {
                                 }
                               ]
                             }
-                            Transform {
+                            Pose {
                               translation -0.048 0.0715 -0.061
                               rotation 1 0 0 -1.570796
                               children [
@@ -317,7 +317,7 @@ DEF BASE Solid {
                           name "left_finger_tip"
                           boundingObject Group {
                             children [
-                              Transform {
+                              Pose {
                                 translation -0.024 0.072 -0.077
                                 children [
                                   DEF BLACK_BOX Box {
@@ -325,7 +325,7 @@ DEF BASE Solid {
                                   }
                                 ]
                               }
-                              Transform {
+                              Pose {
                                 translation -0.04 0.0715 -0.061
                                 children [
                                   DEF UPPER_BAR Box {
@@ -342,7 +342,7 @@ DEF BASE Solid {
                       }
                     ]
                     name "left_external_finger"
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation -0.0347 0.0665 -0.0475
                       rotation 0 1 0 0.77
                       children [
@@ -363,7 +363,7 @@ DEF BASE Solid {
                   }
                   endPoint DEF LEFT_INTERNAL_FINGER Solid {
                     children [
-                      Transform {
+                      Pose {
                         translation 0.615 -0.072 -0.243
                         rotation 1 0 0 -1.5708
                         children [
@@ -397,7 +397,7 @@ DEF BASE Solid {
                       }
                     ]
                     name "left_internal_finger"
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation -0.0197 0.0665 -0.0475
                       rotation 0 1 0 0.77
                       children [
@@ -416,11 +416,11 @@ DEF BASE Solid {
                   }
                   endPoint DEF RIGHT_EXTERNAL_FINGER Solid {
                     children [
-                      Transform {
+                      Pose {
                         translation -0.6 0.205 -0.243
                         rotation 1 0 0 -1.5708
                         children [
-                          Transform {
+                          Pose {
                             rotation 0 1 0 3.14159
                             children [
                               USE FINGER
@@ -435,10 +435,10 @@ DEF BASE Solid {
                         }
                         endPoint DEF RIGHT_FINGER_TIP Solid {
                           children [
-                            Transform {
+                            Pose {
                               rotation 0 1 0 3.14159
                               children [
-                                Transform {
+                                Pose {
                                   translation 0.6 0.2235 0.2425
                                   rotation 1 0 0 1.5708
                                   children [
@@ -447,7 +447,7 @@ DEF BASE Solid {
                                 }
                               ]
                             }
-                            Transform {
+                            Pose {
                               translation 0.0228 0.0715 -0.0765
                               rotation 1 0 0 1.5708
                               children [
@@ -459,7 +459,7 @@ DEF BASE Solid {
                                 }
                               ]
                             }
-                            Transform {
+                            Pose {
                               translation 0.033 0.0715 -0.061
                               rotation 1 0 0 -1.570796
                               children [
@@ -472,7 +472,7 @@ DEF BASE Solid {
                                 }
                               ]
                             }
-                            Transform {
+                            Pose {
                               translation 0.048 0.0715 -0.061
                               rotation 1 0 0 -1.570796
                               children [
@@ -483,7 +483,7 @@ DEF BASE Solid {
                           name "right_finger_tip"
                           boundingObject Group {
                             children [
-                              Transform {
+                              Pose {
                                 translation 0.024 0.072 -0.077
                                 children [
                                   DEF BLACK_BOX Box {
@@ -491,7 +491,7 @@ DEF BASE Solid {
                                   }
                                 ]
                               }
-                              Transform {
+                              Pose {
                                 translation 0.04 0.0715 -0.061
                                 children [
                                   DEF UPPER_BAR Box {
@@ -506,7 +506,7 @@ DEF BASE Solid {
                       }
                     ]
                     name "right_external_finger"
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation 0.0347 0.0665 -0.0475
                       rotation 0 1 0 -0.77
                       children [
@@ -525,11 +525,11 @@ DEF BASE Solid {
                   }
                   endPoint DEF RIGHT_INTERNAL_FINGER Solid {
                     children [
-                      Transform {
+                      Pose {
                         translation -0.615 0.205 -0.243
                         rotation 1 0 0 -1.5708
                         children [
-                          Transform {
+                          Pose {
                             rotation 0 1 0 3.14159
                             children [
                               USE FINGER
@@ -551,7 +551,7 @@ DEF BASE Solid {
                       }
                     ]
                     name "right_internal_finger"
-                    boundingObject Transform {
+                    boundingObject Pose {
                       translation 0.0197 0.0665 -0.0475
                       rotation 0 1 0 -0.77
                       children [
@@ -565,7 +565,7 @@ DEF BASE Solid {
                 }
               ]
               name "gripper_head"
-              boundingObject Transform {
+              boundingObject Pose {
                 translation 0 0.074 -0.018
                 children [
                   Box {
@@ -581,7 +581,7 @@ DEF BASE Solid {
         name "right"
         boundingObject Group {
           children [
-            Transform {
+            Pose {
               translation 0.037 0.0132 -0.043
               children [
                 DEF RIGHT_HORIZONTAL_BOX Box {
@@ -589,7 +589,7 @@ DEF BASE Solid {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0.037 0.0412 -0.008
               rotation 1 0 0 -1.02
               children [
@@ -617,7 +617,7 @@ DEF BASE Solid {
               solidName "gripper_head"
             }
           }
-          DEF LEFT_INTERNAL_ARM Transform {
+          DEF LEFT_INTERNAL_ARM Pose {
             translation 0.597 -0.072 -0.243
             rotation 1 0 0 -1.5708
             children [
@@ -637,7 +637,7 @@ DEF BASE Solid {
               }
             ]
           }
-          DEF RIGHT_INTERNAL_ARM Transform {
+          DEF RIGHT_INTERNAL_ARM Pose {
             translation 0.646 -0.072 -0.243
             rotation 1 0 0 -1.5708
             children [
@@ -647,7 +647,7 @@ DEF BASE Solid {
         ]
         boundingObject Group {
           children [
-            Transform {
+            Pose {
               translation -0.025 0.0265 -0.0465
               children [
                 DEF LEFT_HORIZONTAL_BOX Box {
@@ -655,13 +655,13 @@ DEF BASE Solid {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0.025 0.0265 -0.0465
               children [
                 USE LEFT_HORIZONTAL_BOX
               ]
             }
-            Transform {
+            Pose {
               translation -0.025 0.0551 -0.015
               rotation 1 0 0 -1.02
               children [
@@ -670,7 +670,7 @@ DEF BASE Solid {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0.025 0.0551 -0.015
               rotation 1 0 0 -1.02
               children [
@@ -682,7 +682,7 @@ DEF BASE Solid {
         physics USE EXTERNAL_ARMS_PHYSICS
       }
     }
-    Transform {
+    Pose {
       translation 0.242 -0.6005 -0.072
       rotation 0 0 1 -1.570796
       children [
@@ -702,14 +702,14 @@ DEF BASE Solid {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0.242 -0.66 -0.072
       rotation 0 0 1 -1.570796
       children [
         USE BASE_ARM
       ]
     }
-    DEF BACK_AXLE Transform {
+    DEF BACK_AXLE Pose {
       translation -0.043 0 0.013
       rotation 0.577351 0.577351 0.577349 -2.094397
       children [
@@ -724,7 +724,7 @@ DEF BASE Solid {
         }
       ]
     }
-    DEF FRONT_AXLE Transform {
+    DEF FRONT_AXLE Pose {
       translation 0.05 0 0.013
       rotation 0.577351 0.577351 0.577349 -2.094397
       children [
@@ -739,7 +739,7 @@ DEF BASE Solid {
         }
       ]
     }
-    DEF RIGHT_HINGE_TRANSFORM Transform {
+    DEF RIGHT_HINGE_TRANSFORM Pose {
       translation 0.05 -0.02 0.013
       rotation 0.577351 0.577351 0.577349 -2.094397
       children [
@@ -752,7 +752,7 @@ DEF BASE Solid {
         }
       ]
     }
-    DEF LEFT_HINGE_TRANSFORM Transform {
+    DEF LEFT_HINGE_TRANSFORM Pose {
       translation 0.068 0.034 0.013
       rotation 0.577351 0.577351 0.577349 -2.094397
       children [
@@ -765,14 +765,14 @@ DEF BASE Solid {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0.058 -0.027 0.026
       rotation 0.57735 0.57735 0.57735 -2.094395
       children [
         USE AXLE
       ]
     }
-    Transform {
+    Pose {
       translation 0.058 0.0276 0.026
       rotation 0.57735 0.57735 0.57735 -2.094395
       children [
@@ -784,7 +784,7 @@ DEF BASE Solid {
   model "Khepera III gripper"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation -0.043 0 0.013
         rotation 0.577351 0.577351 0.577349 -2.094397
         children [
@@ -794,7 +794,7 @@ DEF BASE Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.058 0 0.014
         rotation 0.577351 0.577351 0.577349 -2.094397
         children [

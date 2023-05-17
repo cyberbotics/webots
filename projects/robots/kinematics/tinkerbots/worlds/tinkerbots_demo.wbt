@@ -283,7 +283,7 @@ DEF OBJECT Solid {
   ]
   name "object"
   contactMaterial "object"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 0.015
     children [
       Box {

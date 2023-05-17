@@ -20,7 +20,7 @@ PROTO Khepera3_GroundSensor [
     children [
       Group {
         children [
-          Transform {
+          Pose {
             translation 0 -0.002 0
             children [
               Shape {
@@ -35,7 +35,7 @@ PROTO Khepera3_GroundSensor [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 0.002 0
             children [
               Shape {
@@ -48,7 +48,7 @@ PROTO Khepera3_GroundSensor [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.0025 0 0
             children [
               Shape {

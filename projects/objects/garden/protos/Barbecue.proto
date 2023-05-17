@@ -75,7 +75,7 @@ PROTO Barbecue [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.15704929359979442 0.42009834621178344 0.3975131480805214
           rotation 0.9363833607785985 0.3509476897582802 -0.004681955820257871 0.08543722807766647
           children [
@@ -85,28 +85,28 @@ PROTO Barbecue [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.15044882102163912 -0.4261819914376079 0.39660903420354876
           rotation 0.940722487382183 -0.3383875355370806 -0.023131742835751704 6.194773384286609
           children [
             USE CYLINDER
           ]
         }
-        Transform {
+        Pose {
           translation 0.21637970453241478 -0.4238956265030844 0.3966826779963844
           rotation 0.7795749063307122 0.6237253741272131 -0.05682977291287711 6.176732163964339
           children [
             USE CYLINDER
           ]
         }
-        Transform {
+        Pose {
           translation  0.2137356380556113 0.421187205966774 0.396357055701136
           rotation -0.8980768559788166 0.42308393292857743 -0.1202412011454104 6.175386763946524
           children [
             USE CYLINDER
           ]
         }
-        Transform {
+        Pose {
           translation 0.031000000000000007 0 0.8070000000000005
           children [
             Box {
@@ -114,7 +114,7 @@ PROTO Barbecue [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.18301593321018958 0 1.0914464473164456
           rotation 0 1 0 6.06
           children [

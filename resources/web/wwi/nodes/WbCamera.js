@@ -4,8 +4,8 @@ import {WbNodeType} from './wb_node_type.js';
 export default class WbCamera extends WbAbstractCamera {
   #near;
   #far;
-  constructor(id, translation, scale, rotation, name, height, width, fieldOfView, near, far) {
-    super(id, translation, scale, rotation, name, height, width, fieldOfView);
+  constructor(id, translation, rotation, name, height, width, fieldOfView, near, far) {
+    super(id, translation, rotation, name, height, width, fieldOfView);
     this.#near = near;
     this.#far = far;
     this._charType = 'c';

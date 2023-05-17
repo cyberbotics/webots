@@ -42,7 +42,7 @@ DEF ROBOT Robot {
         translation 0 0.2 0
         rotation 0 1 0 3.14159
         children [
-          DEF NODE Transform {
+          DEF NODE Pose {
             translation 0 0 0.3
             rotation -0.000000938185669 0.707106781184505 -0.707106781187968 3.141590777218456
             children [

@@ -28,12 +28,12 @@ PROTO PedestrianCrossing [
   Solid {
     translation IS translation
     rotation IS rotation
-    scale IS scale
     recognitionColors [ 0.96 0.82 0.05 ]
     children [
       DEF ZEBRA_TRANS Transform {
         translation 0 -0.1 0
         rotation -0.577350 0.577352 -0.577350 -2.094399
+        scale IS scale
         children [
           Shape {
             appearance PBRAppearance {
@@ -64,7 +64,7 @@ PROTO PedestrianCrossing [
     %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 -0.1
           children [
             Box {
@@ -72,7 +72,7 @@ PROTO PedestrianCrossing [
             }
           ]
         }
-        DEF RAMP1_TRANS Transform {
+        DEF RAMP1_TRANS Pose {
           translation 0 %<= size.y * 0.5 >% -0.2535
           rotation 1 0 0 2.3562
           children [
@@ -81,7 +81,7 @@ PROTO PedestrianCrossing [
             }
           ]
         }
-        DEF RAMP2_TRANS Transform {
+        DEF RAMP2_TRANS Pose {
           translation 0 %<= -size.y * 0.5 >% -0.2535
           rotation 1 0 0 2.3562
           children [

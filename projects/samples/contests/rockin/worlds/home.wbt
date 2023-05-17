@@ -87,7 +87,7 @@ DEF GROUND Solid {
         ]
       }
     }
-    Transform {
+    Pose {
       translation 9.6 2 0
       rotation 0 0 1 1.5708
       children [
@@ -113,7 +113,7 @@ DEF GROUND Solid {
     }
   ]
   name "solid(1)"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 4.8 4.7 0
     children [
       Plane {
@@ -157,7 +157,7 @@ DEF CEIL Solid {
       }
     }
   ]
-  boundingObject Transform {
+  boundingObject Pose {
     translation 4.8 4.7 0
     children [
       Plane {

@@ -18,7 +18,7 @@ Solid {
   children [
     DEF SHELF_GROUP Group {
       children [
-        Transform {
+        Pose {
           translation 0 0.39 0.53
           children [
             Shape {
@@ -33,7 +33,7 @@ Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.39 0.53
           children [
             Shape {
@@ -42,7 +42,7 @@ Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.1375 0 0.52
           children [
             Shape {
@@ -53,7 +53,7 @@ Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.12 0 0.04
           children [
             Shape {
@@ -64,7 +64,7 @@ Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.09
           children [
             Shape {
@@ -75,7 +75,7 @@ Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.472
           children [
             Shape {
@@ -84,7 +84,7 @@ Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.805
           children [
             Shape {
@@ -93,7 +93,7 @@ Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 1.05
           children [
             Shape {

@@ -14,7 +14,7 @@ Muscle {
 ### Description
 
 A [Muscle](#muscle) node can be used to graphically display the contraction of an artificial muscle implemented using [Joint](joint.md) and [Motor](motor.md) nodes.
-The artificial muscle is represented using a spheroid where the symmetry axis is the vector between the joint's closest upper [Transform](transform.md) node and the `endPoint` [Solid](solid.md) node.
+The artificial muscle is represented using a spheroid where the symmetry axis is the vector between the joint's closest upper [Pose](pose.md) node and the `endPoint` [Solid](solid.md) node.
 The other two axes have the same length computed based on the symmetry axis length so that the volume remains constant during stretching.
 
 Note that the [Muscle](#muscle) node cannot be used in case of a [Motor](motor.md) device included in a [Track](track.md) node.
@@ -24,8 +24,8 @@ Note that the [Muscle](#muscle) node cannot be used in case of a [Motor](motor.m
 - The `volume` field specifies the constant volume of the graphical spheroid.
 This value is used to recompute the shape of the muscle when the joint moves.
 
-- The `startOffset` specifies the position of the bottom point of the muscle spheroid in the coordinate system of the closest upper [Transform](transform.md) node.
-If the `startOffset` is `[0, 0, 0]`, then the spheroid bottom point corresponds to the closest upper [Transform](transform.md) origin.
+- The `startOffset` specifies the position of the bottom point of the muscle spheroid in the coordinate system of the closest upper [Pose](pose.md) node.
+If the `startOffset` is `[0, 0, 0]`, then the spheroid bottom point corresponds to the closest upper [Pose](pose.md) origin.
 
 - The `endOffset` specifies the position of the top point of the muscle spheroid in the coordinate system of the [Joint](joint.md).`endPoint` [Solid](solid.md) node.
 If the `endOffset` is `[0, 0, 0]`, then the spheroid top point corresponds to the `endPoint` [Solid](solid.md) origin.

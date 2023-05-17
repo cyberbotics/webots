@@ -67,7 +67,7 @@ Solid {
   model "beer bottle"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0 0 0.18
         children [
           Shape {
@@ -78,7 +78,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.071
         children [
           Shape {

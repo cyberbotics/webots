@@ -72,7 +72,7 @@ PROTO BigGlassTower [
     model "big glass tower"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 3.0999 0.0197 27.9
           children [
             Cylinder {
@@ -81,7 +81,7 @@ PROTO BigGlassTower [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -3.1001 0.0197 27.9
           children [
             Cylinder {
@@ -90,7 +90,7 @@ PROTO BigGlassTower [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.0197 27.9
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [

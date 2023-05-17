@@ -15,9 +15,9 @@
 #ifndef WB_MATTER_HPP
 #define WB_MATTER_HPP
 
+#include "WbPose.hpp"
 #include "WbSFBool.hpp"
 #include "WbSFString.hpp"
-#include "WbTransform.hpp"
 
 class WbGeometry;
 
@@ -26,7 +26,7 @@ struct WrTransform;
 struct WrMaterial;
 struct WrStaticMesh;
 
-class WbMatter : public WbTransform {
+class WbMatter : public WbPose {
   Q_OBJECT
 
 public:
@@ -38,9 +38,6 @@ public:
   void postFinalize() override;
   void reset(const QString &id) override;
   void save(const QString &id) override;
-
-  int constraintType() const override;
-  void setScaleNeedUpdate() override;
 
   // field accessors
   const QString &name() const { return mName->value(); }
@@ -97,21 +94,10 @@ protected:
   WbMatter(const WbNode &other);
   WbMatter(const QString &modelName, WbTokenizer *tokenizer);
 
-  const QString &vrmlName() const override {
-    static const QString returnedName("Transform");
-    return returnedName;
-  }
-
   // Renders the frame axes and the center of mass
   virtual void applyVisibilityFlagsToWren(bool selected);
   virtual void applyChangesToWren();
   void applyMatterCenterToWren();
-
-  // Scale
-  void createScaleManipulator() override;
-  bool checkScalingPhysicsConstraints(WbVector3 &correctedScale, int constraintType, bool warning) const override;
-  virtual void propagateScale();
-  bool checkScaleAtLoad(bool warning);
 
   WbSFString *mName;
   WbSFNode *mBoundingObject;
@@ -132,7 +118,6 @@ protected:
   void updateSleepFlag();
 
 protected slots:
-  void updateScale(bool warning = false) override = 0;
   virtual void updateLineScale();
   void updateTranslation() override;
   void updateRotation() override;
@@ -161,12 +146,10 @@ private:
 
   dGeomID createOdeGeomFromGroup(dSpaceID space, WbGroup *group);
   dGeomID createOdeGeomFromGeometry(dSpaceID space, WbGeometry *geometry, bool setOdeData = true);
-  dGeomID createOdeGeomFromTransform(dSpaceID space, WbTransform *transform);
+  dGeomID createOdeGeomFromPose(dSpaceID space, WbPose *pose);
   void disconnectFromBoundingObjectUpdates(const WbNode *node) const;
 
   virtual void createOdeGeoms() = 0;
-  virtual void applyToOdeScale() = 0;  // rescale all the ODE dGeoms lying inside the Bounding Object when the WbMatter's scale
-                                       // field has changed
 
   virtual void setGeomMatter(dGeomID g, WbBaseNode *node = NULL) = 0;
 
@@ -181,7 +164,7 @@ private:
 
 private slots:
   virtual void createOdeGeomFromInsertedGroupItem(WbBaseNode *node) = 0;
-  void createOdeGeomFromInsertedTransformItem();
+  void createOdeGeomFromInsertedPoseItem();
   void createOdeGeomFromInsertedShapeItem();
   void insertValidGeometryInBoundingObject();
   void updateManipulatorVisibility();

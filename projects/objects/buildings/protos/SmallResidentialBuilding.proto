@@ -395,7 +395,7 @@ PROTO SmallResidentialBuilding [
       }
     ]
     %< if (fields.enableBoundingObject.value) { >%
-    boundingObject Transform {
+    boundingObject Pose {
       translation -0.23 0.03 4.25
       rotation 0.57735 -0.57735 -0.57735 2.094395
       children [

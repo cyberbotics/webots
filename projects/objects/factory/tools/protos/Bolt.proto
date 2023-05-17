@@ -281,7 +281,7 @@ PROTO Bolt [
     model "bolt"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation %<= -0.0016 * screwLength / 0.027 >% 0 0
           rotation 0 1 0 1.5708
           children [
@@ -291,7 +291,7 @@ PROTO Bolt [
             }
           ]
         }
-        Transform {
+        Pose {
           translation %<= -0.0178 * screwLength / 0.027 >% 0 0
           rotation 0 1 0 1.5708
           children [

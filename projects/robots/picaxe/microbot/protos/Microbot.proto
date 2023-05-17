@@ -7,8 +7,8 @@
 # This small robot is used for education with PICAXE programming tools
 
 PROTO Microbot [
-  field SFVec3f    translation      0 0 0.022   # Is `Transform.translation`.
-  field SFRotation rotation         0 0 1 0     # Is `Transform.rotation`.
+  field SFVec3f    translation      0 0 0.022   # Is `Pose.translation`.
+  field SFRotation rotation         0 0 1 0     # Is `Pose.rotation`.
   field SFString   name            "BOT120"     # Is `Solid.name`.
   field SFString   controller      "<generic>"  # Is `Robot.controller`.
   field MFString   controllerArgs  []           # Is `Robot.controllerArgs`.
@@ -49,7 +49,7 @@ PROTO Microbot [
         }
         boundingObject USE PUSH_BUTTON
       }
-      Transform {
+      Pose {
         translation -0.023 0.025 0.003
         children Shape {
           appearance PBRAppearance {
@@ -105,14 +105,14 @@ PROTO Microbot [
         }
         boundingObject Group {
           children [
-            Transform {
+            Pose {
               translation 0.0451 0.0482 0.001
               rotation 0 0 1 1.35
               children Box {
                 size 0.004 0.013 0.007
               }
             }
-            Transform {
+            Pose {
               translation 0.0525 0.024 0.001
               rotation 0 0 1 0.08
               children Box {
@@ -143,14 +143,14 @@ PROTO Microbot [
         }
         boundingObject Group {
           children [
-            Transform {
+            Pose {
               translation 0.0451 -0.0482 0.001
               rotation 0 0 1 -1.35
               children Box {
                 size 0.004 0.013 0.007
               }
             }
-            Transform {
+            Pose {
               translation 0.0525 -0.024 0.001
               rotation 0 0 1 -0.08
               children Box {
@@ -176,7 +176,7 @@ PROTO Microbot [
         translation 0.045 0 -0.0158
         name "floor sensor"
         type "infra-red"
-        children Transform {
+        children Pose {
           rotation 1 0 0 1.57
           translation -0.045 -0.0158 0
           children [
@@ -228,7 +228,7 @@ PROTO Microbot [
           rotation 0 -1 0 0
           physics DEF WHEEL_PHYSICS Physics {
           }
-          boundingObject DEF WHEEL_BOUNDING_OBJECT Transform {
+          boundingObject DEF WHEEL_BOUNDING_OBJECT Pose {
             rotation 1 0 0 1.57
             children Cylinder {
               radius 0.0125
@@ -236,7 +236,7 @@ PROTO Microbot [
             }
           }
           children [
-            DEF WHEEL Transform {
+            DEF WHEEL Pose {
               rotation 0 1 0 1.57
               children [
                 DEF WHEEL_BODY Shape {
@@ -362,14 +362,14 @@ PROTO Microbot [
     }
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.03 0 -0.009
           children Capsule {
             height 0.018
             radius 0.0036
           }
         }
-        Transform {
+        Pose {
           translation 0 0 0.001
           children [
             Box {
@@ -377,7 +377,7 @@ PROTO Microbot [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.00725 0 0.0018
           children [
             Box {
@@ -385,7 +385,7 @@ PROTO Microbot [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.00725 0 0.015
           children [
             Box {
@@ -393,7 +393,7 @@ PROTO Microbot [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.011
           children [
             Box {

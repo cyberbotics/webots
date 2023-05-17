@@ -93,7 +93,7 @@ Solid {
   ]
   name IS name
   model "hot plate"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0.112 0 0.031
     children [
       Shape {

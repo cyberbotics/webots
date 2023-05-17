@@ -61,7 +61,7 @@ PROTO Panel [
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         translation 0 %<= halfSizeY >% %<= halfSizeZ >%
         children [
           Shape {
@@ -221,7 +221,7 @@ PROTO Panel [
     ]
     name IS name
     model "panel"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 %<= halfSizeY >% %<= halfSizeZ >%
       children [
         Box {

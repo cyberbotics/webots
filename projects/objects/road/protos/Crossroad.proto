@@ -34,7 +34,7 @@ PROTO Crossroad [
     rotation IS rotation
     %< if (nShape > 0) { >%
       children [
-        Transform {
+        Pose {
           rotation 0.707107 -0.707107 0 3.14157
           children [
             Shape {
@@ -92,7 +92,7 @@ PROTO Crossroad [
     recognitionColors [ 0.2 0.2 0.2 ]
     %< if (fields.boundingObject.value && nShape > 0) { >%
       contactMaterial IS contactMaterial
-      boundingObject Transform {
+      boundingObject Pose {
           rotation 0.707107 -0.707107 0 3.14157
           children [
               USE CROSSROAD_GEOMETRY

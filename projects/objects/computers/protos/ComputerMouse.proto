@@ -58,7 +58,7 @@ PROTO ComputerMouse [
     ]
     name IS name
     model "computer mouse"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.015
       rotation 1 0 0 1.5708
       children [

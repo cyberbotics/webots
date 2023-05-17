@@ -1,6 +1,8 @@
-import Parser, {convertStringToVec3, convertStringToQuaternion, convertStringToFloatArray,
-  convertStringToVec2} from './Parser.js';
-import {webots} from './webots.js';
+import Parser, {
+  convertStringToVec3, convertStringToQuaternion, convertStringToFloatArray,
+  convertStringToVec2
+} from './Parser.js';
+import { webots } from './webots.js';
 import WrenRenderer from './WrenRenderer.js';
 
 import WbAbstractCamera from './nodes/WbAbstractCamera.js';
@@ -26,12 +28,12 @@ import WbPen from './nodes/WbPen.js';
 import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbPlane from './nodes/WbPlane.js';
 import WbPointLight from './nodes/WbPointLight.js';
+import WbPose from './nodes/WbPose.js';
 import WbRadar from './nodes/WbRadar.js';
 import WbSphere from './nodes/WbSphere.js';
 import WbTextureCoordinate from './nodes/WbTextureCoordinate.js';
 import WbTextureTransform from './nodes/WbTextureTransform.js';
 import WbTrackWheel from './nodes/WbTrackWheel.js';
-import WbTransform from './nodes/WbTransform.js';
 import WbWorld from './nodes/WbWorld.js';
 
 import WbVector2 from './nodes/utils/WbVector2.js';
@@ -42,7 +44,7 @@ import WbDirectionalLight from './nodes/WbDirectionalLight.js';
 import WbRangeFinder from './nodes/WbRangeFinder.js';
 import WbConnector from './nodes/WbConnector.js';
 import WbPropeller from './nodes/WbPropeller.js';
-import {findUpperShape} from './nodes/utils/node_utilities.js';
+import { findUpperShape } from './nodes/utils/node_utilities.js';
 
 export default class X3dScene {
   #nextRenderingTime;
@@ -159,7 +161,7 @@ export default class X3dScene {
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.open('GET', url, true);
     xmlhttp.overrideMimeType('plain/text');
-    xmlhttp.onreadystatechange = async() => {
+    xmlhttp.onreadystatechange = async () => {
       // Some browsers return HTTP Status 0 when using non-http protocol (for file://)
       if (xmlhttp.readyState === 4 && (xmlhttp.status === 200 || xmlhttp.status === 0)) {
         const parser = new Parser(prefix);
@@ -230,7 +232,7 @@ export default class X3dScene {
         continue;
 
       if (key === 'translation') {
-        if (object instanceof WbTransform)
+        if (object instanceof WbPose)
           object.translation = convertStringToVec3(update[key]);
         else if (object instanceof WbTextureTransform)
           object.translation = convertStringToVec2(update[key]);
@@ -245,7 +247,7 @@ export default class X3dScene {
             object.rotation = quaternion;
         }
       } else if (key === 'scale') {
-        if (object instanceof WbTransform)
+        if (object instanceof WbPose)
           object.scale = convertStringToVec3(update[key]);
         else if (object instanceof WbTextureTransform)
           object.scale = convertStringToVec2(update[key]);
@@ -267,7 +269,7 @@ export default class X3dScene {
           object.radius = parseFloat(update[key]);
       } else if (key === 'subdivision') {
         if (object instanceof WbSphere || object instanceof WbCapsule || object instanceof WbCone ||
-           object instanceof WbCylinder)
+          object instanceof WbCylinder)
           object.subdivision = parseInt(update[key]);
       } else if (key === 'ico') {
         if (object instanceof WbSphere)

@@ -48,7 +48,7 @@ Solid {
   ]
   name IS name
   model "can"
-  boundingObject Transform {
+  boundingObject Pose {
     children [
       Cylinder {
         height 0.1222

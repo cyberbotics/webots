@@ -68,7 +68,7 @@ PROTO CapScrew [
           }
         ]
       }
-      DEF CYLINDER Transform {
+      DEF CYLINDER Pose {
         translation %<= screwLength * 0.5 >% 0 0
         rotation 0 1 0 1.5708
         children [
@@ -91,7 +91,7 @@ PROTO CapScrew [
     boundingObject Group {
       children [
         USE CYLINDER
-        Transform {
+        Pose {
           translation %<= -screwRadius >% 0 0
           rotation 0 1 0 1.5708
           children [

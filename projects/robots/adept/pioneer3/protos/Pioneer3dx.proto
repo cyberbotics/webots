@@ -8,8 +8,8 @@
 EXTERNPROTO "Pioneer3DistanceSensor.proto"
 
 PROTO Pioneer3dx [
-  field SFVec3f    translation     0 0 0.0975                       # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0                          # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0.0975                       # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0                          # Is `Pose.rotation`.
   field SFString   name            "Pioneer 3-DX"                   # Is `Solid.name`.
   field SFString   controller      "pioneer3dx_collision_avoidance" # Is `Robot.controller`.
   field MFString   controllerArgs  []                               # Is `Robot.controllerArgs`.
@@ -24,10 +24,10 @@ PROTO Pioneer3dx [
     translation IS translation
     rotation IS rotation
     children [
-      DEF BODY Transform {
+      DEF BODY Pose {
         rotation 0.57735 -0.57735 -0.57735 2.094395
         children [
-          DEF BAR Transform {
+          DEF BAR Pose {
             translation 0.0001812 0.0403308 0.231994
             rotation 1 0 0 0
             children [
@@ -100,7 +100,7 @@ PROTO Pioneer3dx [
               ]
             }
           }
-          DEF BLACK_BUTTON_1 Transform {
+          DEF BLACK_BUTTON_1 Pose {
             translation -0.136649 0.0705678 0.0538892
             rotation 1 0 0 0
             children [
@@ -124,14 +124,14 @@ PROTO Pioneer3dx [
               }
             ]
           }
-          DEF BLACK_BUTTON_2 Transform {
+          DEF BLACK_BUTTON_2 Pose {
             translation -0.137079 0.0706655 0.0641166
             rotation 1 0 0 0
             children [
               USE BLACK_BUTTON_SHAPE
             ]
           }
-          DEF FRONT_BLACK_PANEL Transform {
+          DEF FRONT_BLACK_PANEL Pose {
             translation 0.0332066 -0.0130239 -0.131036
             rotation 1 0 0 0
             children [
@@ -155,7 +155,7 @@ PROTO Pioneer3dx [
               }
             ]
           }
-          DEF JOINT Transform {
+          DEF JOINT Pose {
             translation 0.0005795 0.0027087 0.191364
             rotation 1 0 0 0
             children [
@@ -178,7 +178,7 @@ PROTO Pioneer3dx [
               }
             ]
           }
-          DEF LEFT_AXLE Transform {
+          DEF LEFT_AXLE Pose {
             translation -0.136 -0 -0
             rotation 1 0 0 0
             children [
@@ -201,7 +201,7 @@ PROTO Pioneer3dx [
               }
             ]
           }
-          DEF ON_BUTTON Transform {
+          DEF ON_BUTTON Pose {
             translation -0.131799 0.0706764 0.155313
             rotation 1 0 0 0
             children [
@@ -225,7 +225,7 @@ PROTO Pioneer3dx [
               }
             ]
           }
-          DEF RED_BUTTON Transform {
+          DEF RED_BUTTON Pose {
             translation -0.136623 0.0706176 0.0821193
             rotation 1 0 0 0
             children [
@@ -249,7 +249,7 @@ PROTO Pioneer3dx [
               }
             ]
           }
-          DEF RIGHT_AXLE Transform {
+          DEF RIGHT_AXLE Pose {
             translation 0.136317 -0.0001156 0
             rotation 1 0 0 0
             children [
@@ -272,7 +272,7 @@ PROTO Pioneer3dx [
               }
             ]
           }
-          DEF SERIAL_PLUG Transform {
+          DEF SERIAL_PLUG Pose {
             translation -0.132219 0.0987955 0.0633308
             rotation 1 0 0 0
             children [
@@ -307,7 +307,7 @@ PROTO Pioneer3dx [
               }
             ]
           }
-          DEF SONAR_RING Transform {
+          DEF SONAR_RING Pose {
             translation -0.0011084 0.114168 0.0468148
             rotation 1 0 0 0
             children [
@@ -330,11 +330,11 @@ PROTO Pioneer3dx [
               }
             ]
           }
-          DEF TOP Transform {
+          DEF TOP Pose {
             translation -0.0014845 0.143314 0.0448051
             rotation 1 0 0 0
             children [
-              DEF upperBlackPanel Transform {
+              DEF upperBlackPanel Pose {
                 translation 0.0008437 0.0036847 -0.0355538
                 rotation 1 0 0 0
                 children [
@@ -396,7 +396,7 @@ PROTO Pioneer3dx [
               }
             ]
           }
-          DEF WHITE_BUTTON Transform {
+          DEF WHITE_BUTTON Pose {
             translation -0.136623 0.0706176 0.0923371
             rotation 1 0 0 0
             children [
@@ -504,7 +504,7 @@ PROTO Pioneer3dx [
                     }
                   }
                 ]
-                boundingObject Transform {
+                boundingObject Pose {
                   rotation -0.577349 -0.577351 0.577351 2.094397
                   children [
                     Cylinder {
@@ -555,7 +555,7 @@ PROTO Pioneer3dx [
             }
           ]
           name "caster wheel"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 -0.032 0.0031
             rotation 1 0 0 1.25
             children [
@@ -710,7 +710,7 @@ PROTO Pioneer3dx [
           name "left wheel"
           boundingObject DEF BOUNDING_WHEEL Group {
             children [
-              Transform {
+              Pose {
                 rotation -0.577349 -0.577351 0.577351 2.094397
                 children [
                   Cylinder {
@@ -720,7 +720,7 @@ PROTO Pioneer3dx [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 rotation -0.577349 -0.577351 0.577351 2.094397
                 children [
                   Cylinder {
@@ -1009,7 +1009,7 @@ PROTO Pioneer3dx [
     model "Adept Pioneer 3-DX"
     boundingObject Group {
       children [
-        DEF TOP_FRONT_CYLINDER Transform {
+        DEF TOP_FRONT_CYLINDER Pose {
           translation -0.021 0 0.142
           rotation 0 0 1 -1.570796
           children [
@@ -1020,7 +1020,7 @@ PROTO Pioneer3dx [
             }
           ]
         }
-        DEF TOP_BACK_CYLINDER Transform {
+        DEF TOP_BACK_CYLINDER Pose {
           translation -0.087 0 0.142
           rotation 0 0 1 -1.570796
           children [
@@ -1031,7 +1031,7 @@ PROTO Pioneer3dx [
             }
           ]
         }
-        DEF FRONT_RING Transform {
+        DEF FRONT_RING Pose {
           translation -0.114 0 0.112
           rotation 0 0 1 -1.570796
           children [
@@ -1042,7 +1042,7 @@ PROTO Pioneer3dx [
             }
           ]
         }
-        DEF BACK_RING Transform {
+        DEF BACK_RING Pose {
           translation 0.023 0 0.112
           rotation 0 0 1 -1.570796
           children [
@@ -1053,7 +1053,7 @@ PROTO Pioneer3dx [
             }
           ]
         }
-        DEF LARGE_BOX Transform {
+        DEF LARGE_BOX Pose {
           translation -0.04 0 0.0285
           children [
             Box {
@@ -1061,7 +1061,7 @@ PROTO Pioneer3dx [
             }
           ]
         }
-        DEF BAR_BOX Transform {
+        DEF BAR_BOX Pose {
           translation -0.234 0 0.0415
           children [
             Box {
@@ -1069,7 +1069,7 @@ PROTO Pioneer3dx [
             }
           ]
         }
-        DEF SIDES Transform {
+        DEF SIDES Pose {
           translation -0.0427 0 0.0285
           children [
             Box {
@@ -1077,7 +1077,7 @@ PROTO Pioneer3dx [
             }
           ]
         }
-        DEF BACK_LEFT_CORNER Transform {
+        DEF BACK_LEFT_CORNER Pose {
           translation -0.1825 0.1029 0.0285
           rotation 0.864288 -0.355672 -0.355672 1.716131
           children [
@@ -1086,7 +1086,7 @@ PROTO Pioneer3dx [
             }
           ]
         }
-        DEF BACK_RIGHT_CORNER Transform {
+        DEF BACK_RIGHT_CORNER Pose {
           translation -0.1825 -0.1029 0.0285
           rotation -0.2794 0.678946 0.678946 -2.596688
           children [
@@ -1095,7 +1095,7 @@ PROTO Pioneer3dx [
             }
           ]
         }
-        DEF FRONT_LEFT_CORNER Transform {
+        DEF FRONT_LEFT_CORNER Pose {
           translation 0.1005 0.1019 0.0285
           rotation -0.312457 0.671703 0.671703 -2.535902
           children [
@@ -1104,7 +1104,7 @@ PROTO Pioneer3dx [
             }
           ]
         }
-        DEF FRONT_RIGHT_CORNER Transform {
+        DEF FRONT_RIGHT_CORNER Pose {
           translation 0.1005 -0.1019 0.0285
           rotation 0.835434 -0.38862 -0.38862 1.749639
           children [

@@ -6,8 +6,8 @@
 # Mindstorms Rover model based on Lego's Mindstorms kit.
 
 PROTO MindstormsRover [
-  field SFVec3f    translation     0 0 0             # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0           # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0             # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0           # Is `Pose.rotation`.
   field SFString   name            "MindstormsRover" # Is `Solid.name`.
   field SFString   controller      "Rover"           # Is `Robot.controller`.
   field MFString   controllerArgs  []                # Is `Robot.controllerArgs`.
@@ -168,7 +168,7 @@ PROTO MindstormsRover [
             }
           ]
           name "left wheel"
-          boundingObject DEF BOUNDING_WHEEL Transform {
+          boundingObject DEF BOUNDING_WHEEL Pose {
             rotation 0 1 0 1.57
             children [
               Cylinder {
@@ -227,7 +227,7 @@ PROTO MindstormsRover [
           physics USE WHEEL_PHYSICS
         }
       }
-      DEF Eyes Transform {
+      DEF Eyes Pose {
         translation 0.021 0 0.0405
         children [
           Shape {
@@ -254,7 +254,7 @@ PROTO MindstormsRover [
           }
         ]
       }
-      DEF Body Transform {
+      DEF Body Pose {
         translation -0.0155 0 0
         children [
           Shape {
@@ -284,7 +284,7 @@ PROTO MindstormsRover [
     model "RCX"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.01 0 0.028
           children [
             Box {
@@ -292,7 +292,7 @@ PROTO MindstormsRover [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.052 0 0.018
           children [
             Box {

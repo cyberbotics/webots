@@ -7,8 +7,8 @@
 # https://www.tinkerbots.com
 
 PROTO TinkerbotsBase [
-  field SFVec3f    translation     0 0 0.02          # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0           # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0.02          # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0           # Is `Pose.rotation`.
   field SFString   name            "Tinkerbots"      # Is `Solid.name`.
   field SFString   controller      "tinkerbots_demo" # Is `Robot.controller`.
   field MFString   controllerArgs  []                # Is `Robot.controllerArgs`.
@@ -59,7 +59,7 @@ PROTO TinkerbotsBase [
       Group {
         children IS extensionSlot
       }
-      Transform {
+      Pose {
         translation 0 0 0.02
         children [
           Slot {
@@ -68,7 +68,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.01 0.01 0.015
         rotation 0 0 1 3.1415
         children [
@@ -78,7 +78,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.01 0.01 0.015
         rotation 0 0 1 1.5708
         children [
@@ -88,7 +88,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.01 -0.01 0.015
         children [
           Slot {
@@ -97,7 +97,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.01 -0.01 0.015
         rotation 0 0 1 -1.5708
         children [
@@ -107,7 +107,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 -0.02
         rotation 1 0 0 -3.1415
         children [
@@ -117,7 +117,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.01 0.01 -0.015
         rotation -1 0 0 3.14159
         children [
@@ -127,7 +127,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.01 0.01 -0.015
         rotation 0.707108 0.707105 0 3.14153
         children [
@@ -137,7 +137,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.01 -0.01 -0.015
         rotation 0 1 0 -3.1415
         children [
@@ -147,7 +147,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.01 -0.01 -0.015
         rotation -0.707108 0.707105 0 3.14153
         children [
@@ -157,7 +157,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 -0.02 0
         rotation 1 0 0 1.57
         children [
@@ -167,7 +167,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.01 -0.015 0.01
         rotation 0.57735 -0.57735 0.57735 2.0944
         children [
@@ -177,7 +177,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.01 -0.015 -0.01
         rotation 1 0 0 1.5708
         children [
@@ -187,7 +187,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.01 -0.015 -0.01
         rotation 0.57735 0.57735 -0.57735 2.0944
         children [
@@ -197,7 +197,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.01 -0.015 0.01
         rotation 0 -0.707105 0.70710 3.14159
         children [
@@ -207,7 +207,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0.02 0
         rotation 1 0 0 -1.57
         children [
@@ -217,7 +217,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.01 0.015 0.01
         rotation 0.57735 0.57735 0.57735 -2.0944
         children [
@@ -227,7 +227,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.01 0.015 -0.01
         rotation 0 0.707105 0.70710 3.14159
         children [
@@ -237,7 +237,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.01 0.015 -0.01
         rotation -0.57735 0.57735 0.57735 2.0944
         children [
@@ -247,7 +247,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.01 0.015 0.01
         rotation 1 0 0 -1.5708
         children [
@@ -257,7 +257,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.02 0 0
         rotation 0 1 0 -1.5708
         children [
@@ -267,7 +267,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.015 -0.01 0.01
         rotation 0 1 0 -1.5708
         children [
@@ -277,7 +277,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.015 -0.01 -0.01
         rotation -0.57735 0.57735 0.57735 -2.0944
         children [
@@ -287,7 +287,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.015 0.01 -0.01
         rotation 0.707105 0 -0.707105 -3.14159
         children [
@@ -297,7 +297,7 @@ PROTO TinkerbotsBase [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.015 0.01 0.01
         rotation 0.57735 0.57735 -0.57735 -2.0944
         children [

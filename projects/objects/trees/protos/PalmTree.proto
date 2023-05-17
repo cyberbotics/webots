@@ -170,7 +170,7 @@ PROTO PalmTree [
       }
     ]
     %< if (fields.enableBoundingObject.value) { >%
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 1.125
       children [
         Cylinder {

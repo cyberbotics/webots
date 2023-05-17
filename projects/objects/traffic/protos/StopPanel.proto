@@ -48,7 +48,7 @@ PROTO StopPanel [
           ]
         }
       }
-      Transform {
+      Pose {
         translation 0.016 -0.024 -0.801
         rotation 0 1 0 1.5708
         children [
@@ -74,7 +74,7 @@ PROTO StopPanel [
     ]
     name IS name
     model "stop panel"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0.039 0 0
       rotation -0.57735 -0.57735 -0.57735 -2.09440
       children [

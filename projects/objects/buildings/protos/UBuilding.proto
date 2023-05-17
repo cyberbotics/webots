@@ -55,7 +55,7 @@ PROTO UBuilding [
     model "U building"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 18.1 -13.2 12.0
           rotation 0.707107 -0.707107 0 3.141592
           children [
@@ -65,7 +65,7 @@ PROTO UBuilding [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 18.1 13.5 12.0
           rotation 0.707107 -0.707107 0 3.141592
           children [
@@ -75,7 +75,7 @@ PROTO UBuilding [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 12.0
           rotation 0.707107 -0.707107 0 3.141592
           children [
@@ -86,7 +86,7 @@ PROTO UBuilding [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 8.05 -13.2 12.0
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -95,7 +95,7 @@ PROTO UBuilding [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 8.05 13.5 12.0
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [

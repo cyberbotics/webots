@@ -42,14 +42,14 @@ PROTO Robotino3HokuyoMountingSupport [
           creaseAngle 1
         }
       }
-      Transform {
+      Pose {
         translation -0.028 0.03 0.16
         children IS extensionSlot
       }
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.027 0.03 0.106
           children [
             Box {
@@ -57,7 +57,7 @@ PROTO Robotino3HokuyoMountingSupport [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.001 0.03 0.053
           children [
             Box {

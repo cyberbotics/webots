@@ -40,7 +40,7 @@ PROTO SimpleVehicle [
       Group {
         children IS sensorsSlot
       }
-      Transform {
+      Pose {
         translation %<= fields.wheelbase.value >% 0 0
         rotation 0.577351 0.577351 0.57735 -2.094393
         children [
@@ -57,7 +57,7 @@ PROTO SimpleVehicle [
           }
         ]
       }
-      Transform {
+      Pose {
         rotation 0.577351 0.577351 0.57735 -2.094393
         children [
           Shape {
@@ -73,7 +73,7 @@ PROTO SimpleVehicle [
           }
         ]
       }
-      Transform {
+      Pose {
         translation %<= fields.wheelbase.value/2 >% 0 0
         rotation 0 1 0 -1.570795
         children [
@@ -90,7 +90,7 @@ PROTO SimpleVehicle [
           }
         ]
       }
-      Transform {
+      Pose {
         translation %<= fields.wheelbase.value >% 0 0
         rotation -0.57735 -0.57735 0.57735 2.094395
         children [

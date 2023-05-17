@@ -121,7 +121,7 @@ PROTO TableWithUmbrella [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.89
           children [
             Cylinder {
@@ -130,7 +130,7 @@ PROTO TableWithUmbrella [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 1.98
           children [
             Cylinder {
@@ -139,7 +139,7 @@ PROTO TableWithUmbrella [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 1.61
           children [
             Cylinder {
@@ -148,7 +148,7 @@ PROTO TableWithUmbrella [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.63 0 0.45
           children [
             DEF CYLINDER Cylinder {
@@ -157,19 +157,19 @@ PROTO TableWithUmbrella [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.63 0 0.45
           children [
             USE CYLINDER
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.63 0.45
           children [
             USE CYLINDER
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.63 0.45
           children [
             USE CYLINDER

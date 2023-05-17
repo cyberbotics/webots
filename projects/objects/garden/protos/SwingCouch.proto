@@ -71,7 +71,7 @@ PROTO SwingCouch [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0.2 0.4
           children [
             Box {
@@ -80,7 +80,7 @@ PROTO SwingCouch [
           ]
           rotationStep 0.01
         }
-        Transform {
+        Pose {
           translation -0.1 0.2 1.2
           children [
             Box {
@@ -89,7 +89,7 @@ PROTO SwingCouch [
           ]
           rotationStep 0.01
         }
-        Transform {
+        Pose {
           translation -0.1337552930221453 0.2 1.861323569636716
           rotation 0 -1 0 0.6263706143591734
           children [

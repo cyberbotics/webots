@@ -18,7 +18,7 @@ PROTO VelodyneHDL-32E [
     translation IS translation
     rotation IS rotation
     children [
-      DEF LINK Transform {
+      DEF LINK Pose {
         translation 0 0 -0.0404
         children [
           Shape {
@@ -35,7 +35,7 @@ PROTO VelodyneHDL-32E [
           }
         ]
       }
-      DEF BASE Transform {
+      DEF BASE Pose {
         translation 0 0 -0.071
         children [
           Shape {
@@ -52,7 +52,7 @@ PROTO VelodyneHDL-32E [
           }
         ]
       }
-      DEF LOGO Transform {
+      DEF LOGO Pose {
         translation 0 0 -0.071
         rotation 0 0 1 1.5707
         children [
@@ -85,7 +85,7 @@ PROTO VelodyneHDL-32E [
     ]
     name IS name
     model "Velodyne HDL-32E"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 -0.071
       children [
         Cylinder {
@@ -154,7 +154,7 @@ PROTO VelodyneHDL-32E [
           }
         }
       ]
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0.101 0
         rotation 1 0 0 1.5707
         children [

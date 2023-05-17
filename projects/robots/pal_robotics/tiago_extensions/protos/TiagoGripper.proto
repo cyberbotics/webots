@@ -32,7 +32,7 @@ PROTO TiagoGripper [
       children [
         DEF GRIPPER_FRAME Group {
           children [
-            DEF INSIDE_1 Transform {
+            DEF INSIDE_1 Pose {
               translation 0.002 0.0097 -0.093
               children [
                 Shape {
@@ -45,7 +45,7 @@ PROTO TiagoGripper [
                 }
               ]
             }
-            DEF INSIDE_2 Transform {
+            DEF INSIDE_2 Pose {
               translation -0.002 -0.0097 -0.093
               children [
                 Shape {
@@ -58,7 +58,7 @@ PROTO TiagoGripper [
                 }
               ]
             }
-            DEF BLACK Transform {
+            DEF BLACK Pose {
               translation -0.005 0.0004 0.001
               children [
                 DEF BLACK Shape {
@@ -87,7 +87,7 @@ PROTO TiagoGripper [
                 }
               ]
             }
-            DEF CONNECTOR Transform {
+            DEF CONNECTOR Pose {
               translation 0 0 0.0087
               children [
                 DEF FACE Shape {
@@ -434,7 +434,7 @@ PROTO TiagoGripper [
             name "gripper_left_finger_link"
             boundingObject DEF GRIPPER_BO Group {
               children [
-                Transform {
+                Pose {
                   translation 0.004 0 -0.1741
                   children [
                     Box {
@@ -443,7 +443,7 @@ PROTO TiagoGripper [
                   ]
                   translationStep 0.0001
                 }
-                Transform {
+                Pose {
                   translation 0.0049 0.0153 -0.1208
                   children [
                     Box {
@@ -452,7 +452,7 @@ PROTO TiagoGripper [
                   ]
                   translationStep 0.0001
                 }
-                Transform {
+                Pose {
                   translation -0.0085 0.0156 -0.1048
                   children [
                     Box {
@@ -488,8 +488,7 @@ PROTO TiagoGripper [
           endPoint DEF RIGHT_GRIPPER Solid {
             rotation 0 0 -1 0
             children [
-              Transform {
-                rotation 0 0 -1 0
+              Pose {
                 children [
                   DEF GRIPPER_SHAPE Group {
                     children [
@@ -549,7 +548,7 @@ PROTO TiagoGripper [
             name "gripper_right_finger_link"
             boundingObject DEF GRIPPER_BO Group {
               children [
-                Transform {
+                Pose {
                   translation 0.004 0 -0.1741
                   children [
                     Box {
@@ -558,7 +557,7 @@ PROTO TiagoGripper [
                   ]
                   translationStep 0.0001
                 }
-                Transform {
+                Pose {
                   translation 0.0049 0.0153 -0.1208
                   children [
                     Box {
@@ -567,7 +566,7 @@ PROTO TiagoGripper [
                   ]
                   translationStep 0.0001
                 }
-                Transform {
+                Pose {
                   translation -0.0085 0.0156 -0.1048
                   children [
                     Box {
@@ -588,7 +587,7 @@ PROTO TiagoGripper [
       name IS name
       boundingObject Group {
         children [
-          Transform {
+          Pose {
             children [
               Cylinder {
                 height 0.028
@@ -598,7 +597,7 @@ PROTO TiagoGripper [
             translationStep 0.0001
             rotationStep 0.001
           }
-          Transform {
+          Pose {
             translation 0.029 -0.01834 -0.046
             rotation 0 0 -1 -0.59
             children [
@@ -609,7 +608,7 @@ PROTO TiagoGripper [
             translationStep 0.0001
             rotationStep 0.001
           }
-          Transform {
+          Pose {
             translation -0.029 0.01834 -0.046
             rotation 0 0 -1 -0.59
             children [
@@ -620,7 +619,7 @@ PROTO TiagoGripper [
             translationStep 0.0001
             rotationStep 0.001
           }
-          Transform {
+          Pose {
             translation 0.0172 0.0109 -0.046
             rotation 0 -1 0 1.5708
             children [
@@ -629,7 +628,7 @@ PROTO TiagoGripper [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.0172 -0.0109 -0.046
             rotation 0 -1 0 1.5708
             children [

@@ -15,7 +15,7 @@ PROTO Thymio2Pen [
 Pen {
   translation 0 0 0.01
   children [
-    Transform {
+    Pose {
       translation 0 0 0.05
       rotation 1 0 0 0
       children [
@@ -32,7 +32,7 @@ Pen {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0 0 -0.0045
       rotation 1 0 0 3.14159
       children [
@@ -50,7 +50,7 @@ Pen {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0 0 -0.008
       rotation 1 0 0 3.14159
       children [

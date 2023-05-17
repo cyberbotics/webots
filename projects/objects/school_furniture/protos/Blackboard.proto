@@ -71,7 +71,7 @@ PROTO Blackboard [
     name IS name
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 -0.018
           children [
             Box {
@@ -79,7 +79,7 @@ PROTO Blackboard [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.125 0 -0.693
           children [
             Box {

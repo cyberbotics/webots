@@ -21,6 +21,7 @@
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbOdeGeomData.hpp"
+#include "WbPose.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSimulationState.hpp"
@@ -90,7 +91,7 @@ void WbBox::createWrenObjects() {
 
 void WbBox::setResizeManipulatorDimensions() {
   WbVector3 scale = size().abs();
-  WbTransform *transform = upperTransform();
+  const WbTransform *const transform = upperTransform();
   if (transform)
     scale *= transform->absoluteScale();
 
@@ -193,7 +194,7 @@ QStringList WbBox::fieldsToSynchronizeWithX3D() const {
 /////////////////
 
 void WbBox::checkFluidBoundingObjectOrientation() {
-  const WbMatrix3 &m = upperTransform()->rotationMatrix();
+  const WbMatrix3 &m = upperPose()->rotationMatrix();
   const WbVector3 &zAxis = m.column(2);
   const WbVector3 &g = WbWorld::instance()->worldInfo()->gravityVector();
   const double alpha = zAxis.angle(-g);
@@ -369,10 +370,10 @@ double WbBox::computeDistance(const WbRay &ray) const {
 
 double WbBox::computeLocalCollisionPoint(WbVector3 &point, int &faceIndex, const WbRay &ray) const {
   WbRay localRay(ray);
-  WbTransform *transform = upperTransform();
-  if (transform) {
-    localRay.setDirection(ray.direction() * transform->matrix());
-    WbVector3 origin = transform->matrix().pseudoInversed(ray.origin());
+  const WbPose *const pose = upperPose();
+  if (pose) {
+    localRay.setDirection(ray.direction() * pose->matrix());
+    WbVector3 origin = pose->matrix().pseudoInversed(ray.origin());
     origin /= absoluteScale();
     localRay.setOrigin(origin);
     localRay.normalize();

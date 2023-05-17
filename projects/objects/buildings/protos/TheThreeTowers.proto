@@ -71,7 +71,7 @@ PROTO TheThreeTowers [
     model "three towers"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 2.8999 0 14.98
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
@@ -80,7 +80,7 @@ PROTO TheThreeTowers [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -5.1001 -23.0321 14.9797
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
@@ -89,7 +89,7 @@ PROTO TheThreeTowers [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 34.95
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
@@ -98,7 +98,7 @@ PROTO TheThreeTowers [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -19.0324 34.9498
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
@@ -107,7 +107,7 @@ PROTO TheThreeTowers [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 2.8999 -19.0322 14.9798
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
@@ -116,7 +116,7 @@ PROTO TheThreeTowers [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 40.8
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
@@ -125,7 +125,7 @@ PROTO TheThreeTowers [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -19.0324 40.7998
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
@@ -134,7 +134,7 @@ PROTO TheThreeTowers [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 2.9 19.0318 14.9802
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
@@ -143,7 +143,7 @@ PROTO TheThreeTowers [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -5.1 23.0319 14.9802
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
@@ -152,7 +152,7 @@ PROTO TheThreeTowers [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 19.0316 34.9502
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
@@ -161,7 +161,7 @@ PROTO TheThreeTowers [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 19.0316 40.8002
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [

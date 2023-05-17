@@ -8,7 +8,7 @@ PROTO Bc21bCameraProto [
   DEF CAMERA_DEVICE Camera {
     rotation 0.57735 0.577351 -0.57735 -2.0944
     children [
-      DEF CYLINDER_TRANSFORM Transform {
+      DEF CYLINDER_POSE Pose {
         translation 0 0 0.05
         rotation 1 0 0 1.5708
         children [

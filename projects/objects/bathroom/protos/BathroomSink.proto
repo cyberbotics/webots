@@ -140,7 +140,7 @@ PROTO BathroomSink [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0.176 0.005 0.0095
           children [
             Box {
@@ -148,7 +148,7 @@ PROTO BathroomSink [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.23 0.005 0.07
           children [
             Cylinder {
@@ -157,7 +157,7 @@ PROTO BathroomSink [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.075 0.204 0.19
           children [
             Cylinder {

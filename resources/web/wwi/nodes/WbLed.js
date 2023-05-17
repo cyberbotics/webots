@@ -14,8 +14,8 @@ export default class WbLed extends WbDevice {
   #materials;
   #pbrAppearances;
   #value;
-  constructor(id, translation, scale, rotation, name, color) {
-    super(id, translation, scale, rotation, name);
+  constructor(id, translation, rotation, name, color) {
+    super(id, translation, rotation, name);
     this.#lights = [];
     this.#materials = [];
     this.#pbrAppearances = [];

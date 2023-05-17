@@ -45,7 +45,7 @@ PROTO PanelWithTubes [
     model "panel with tubes"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0.02 0 0.922
           children [
             Box {
@@ -53,7 +53,7 @@ PROTO PanelWithTubes [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.152 0.003 0.0075
           children [
             Box {
@@ -61,7 +61,7 @@ PROTO PanelWithTubes [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.32 -0.001 0.012
           rotation 1 0 0 1.5708
           children [
@@ -71,7 +71,7 @@ PROTO PanelWithTubes [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.15 -0.234 0.013
           rotation 0 1 0 1.5708
           children [
@@ -81,14 +81,14 @@ PROTO PanelWithTubes [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.15 0.242 0.013
           rotation 0 1 0 1.5708
           children [
             USE CYL
           ]
         }
-        Transform {
+        Pose {
           translation 0.0248 0.359 0.325
           rotation 0 -1 0 1.5708
           children [
@@ -104,7 +104,7 @@ PROTO PanelWithTubes [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.0248 -0.359 0.325
           rotation 0 -1 0 1.5708
           children [

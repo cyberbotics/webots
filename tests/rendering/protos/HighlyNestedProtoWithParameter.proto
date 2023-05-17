@@ -7,7 +7,7 @@ PROTO HighlyNestedProtoWithParameter [
   field SFString name ""
 ]
 {
-  Transform {
+  Pose {
     children[
       NestedExposedTextureWithParameter {
         name IS name

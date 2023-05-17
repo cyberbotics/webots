@@ -48,7 +48,7 @@ PROTO WoodenSpoon [
     model "wooden spoon"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0.045 0 0.0029
           children [
             Shape {
@@ -58,7 +58,7 @@ PROTO WoodenSpoon [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.091 0 0.0033
           rotation 0 1 0 0
           children [

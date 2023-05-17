@@ -38,7 +38,7 @@ PROTO Fork [
     model "fork"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0.053 0.0005 0.011
           rotation 0 1 0 -0.36
           children [
@@ -47,7 +47,7 @@ PROTO Fork [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.0022 0.0005 0.004
         rotation 0 1 0 0.136
           children [
@@ -56,7 +56,7 @@ PROTO Fork [
             }
           ]
         }
-        Transform {
+        Pose {
         translation  -0.07 0.0005 0.0045
         rotation 0 1 0 -0.085
           children [

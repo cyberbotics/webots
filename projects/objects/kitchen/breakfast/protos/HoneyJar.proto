@@ -68,7 +68,7 @@ PROTO HoneyJar [
     ]
     name IS name
     model "honey jar"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.058
       children [
         Shape {

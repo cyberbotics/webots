@@ -110,7 +110,7 @@ private:
   void removeOccludedRecognizedObjects();
   WbVector2 projectOnImage(const WbVector3 &position);
   WbVector2 applyCameraDistortionToImageCoordinate(const WbVector2 &uv);  // uv coordinates expected in range [0, 1]
-  void computeRecognizedObjects(bool finalSetup, bool needCollisionDetection);
+  void computeRecognizedObjects();
   bool setRecognizedObjectProperties(WbRecognizedObject *recognizedObject);
   void updateRaysSetupIfNeeded() override;
   short mRecognitionRefreshRate;

@@ -104,7 +104,7 @@ PROTO LegoLargeMotor [
     model "LEGO large motor"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0.0363 -0.0025 0.0305
           rotation 1 0 0 1.5708
           children [
@@ -113,7 +113,7 @@ PROTO LegoLargeMotor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.0188 -0.0025 0.025
           rotation 1 0 0 1.5708
           children [
@@ -122,7 +122,7 @@ PROTO LegoLargeMotor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.0522 -0.0025 0.0325
           rotation 1 0 0 1.5708
           children [
@@ -131,7 +131,7 @@ PROTO LegoLargeMotor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.022 -0.0025 0.0376
           rotation 0.862856 -0.357407 0.357407 1.717772
           children [
@@ -140,7 +140,7 @@ PROTO LegoLargeMotor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.0025 0.018
           rotation 1 0 0 1.5708
           children [
@@ -149,7 +149,7 @@ PROTO LegoLargeMotor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.0246 -0.0025 0.0108
           rotation 1 0 0 1.5708
           children [
@@ -159,7 +159,7 @@ PROTO LegoLargeMotor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.0025 -0.0025 0.032
           rotation 1 0 0 1.5708
           children [
@@ -168,7 +168,7 @@ PROTO LegoLargeMotor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.031 -0.0025 0.011
           rotation 1 0 0 1.5708
           children [
@@ -177,7 +177,7 @@ PROTO LegoLargeMotor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.0453 -0.0025 0.046
           rotation 1 0 0 1.5708
           children [

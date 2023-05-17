@@ -24,7 +24,7 @@ PointLight {
 }
 DEF FLOOR Solid {
   children [
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {
@@ -43,7 +43,7 @@ DEF FLOOR Solid {
       ]
     }
   ]
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0.5 0 0.5
     children [
       Plane {
@@ -113,7 +113,7 @@ DEF MF_FIELDS FieldTypes {
     "test string"
   ]
   mfNode [
-    Transform {
+    Pose {
     }
     BallJoint {
     }

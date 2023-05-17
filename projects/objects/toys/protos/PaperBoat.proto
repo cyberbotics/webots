@@ -32,19 +32,23 @@ PROTO PaperBoat [
   Solid {
     translation IS translation
     rotation IS rotation
-    scale %<= scale >% %<= scale >% %<= scale >%
     children [
-      DEF GEOM Shape {
-        appearance PBRAppearance {
-          baseColorMap ImageTexture {
-            url IS textureUrl
+      Transform {
+        scale %<= scale >% %<= scale >% %<= scale >%
+        children [
+          DEF GEOM Shape {
+            appearance PBRAppearance {
+              baseColorMap ImageTexture {
+                url IS textureUrl
+              }
+              metalness 0
+              roughness 1
+            }
+            geometry Mesh {
+              url "PaperBoat/meshes/geom.obj"
+            }
           }
-          metalness 0
-          roughness 1
-        }
-        geometry Mesh {
-          url "PaperBoat/meshes/geom.obj"
-        }
+        ]
       }
     ]
     name IS name
@@ -52,68 +56,68 @@ PROTO PaperBoat [
     immersionProperties IS immersionProperties
     boundingObject Group {
       children [
-        Transform {
-          translation 0 0 0.01
+        Pose {
+          translation 0 0 %<= scale * 0.01 >%
           children [
             Box {
-              size 0.3 0.02 0.02
+              size %<= scale * 0.3 >% %<= scale * 0.02 >% %<= scale * 0.02 >%
             }
           ]
         }
-        Transform {
-          translation 0 0 0.034
+        Pose {
+          translation 0 0 %<= scale * 0.034 >%
           rotation 0 1 0 1.5707997
           children [
             Capsule {
-              height 0.342
-              radius 0.014
+              height %<= scale * 0.342 >%
+              radius %<= scale * 0.014 >%
             }
           ]
         }
-        Transform {
-          translation 0 -0.0308 0.038
+        Pose {
+          translation 0 %<= scale * -0.0308 >% %<= scale * 0.038 >%
           rotation -0.659864 0.659862 -0.359392 -2.45157
           children [
             Box {
-              size 0.06 0.24 0.008
+              size %<= scale * 0.06 >% %<= scale * 0.24 >% %<= scale * 0.008 >%
             }
           ]
         }
-        Transform {
-          translation 0 0.032 0.038
+        Pose {
+          translation 0 %<= scale * 0.032 >% %<= scale * 0.038 >%
           rotation 0.454451 -0.45445 0.766126 1.83411
           children [
             Box {
-              size 0.06 0.24 0.008
+              size %<= scale * 0.06 >% %<= scale * 0.24 >% %<= scale * 0.008 >%
             }
           ]
         }
-        Transform {
-          translation 0 0 0.086
+        Pose {
+          translation 0 0 %<= scale * 0.086 >%
           rotation 0 0.5 0 0.78540031
           children [
             Box {
-              size 0.08 0.012 0.08
+              size %<= scale * 0.08 >% %<= scale * 0.012 >% %<= scale * 0.08 >%
             }
           ]
         }
-        Transform {
-          translation -0.184 0 0.052
+        Pose {
+          translation %<= scale * -0.184 >% 0 %<= scale * 0.052 >%
           rotation 0 1 0 5.754342
           children [
             Capsule {
-              height 0.032
-              radius 0.01
+              height %<= scale * 0.032 >%
+              radius %<= scale * 0.01 >%
             }
           ]
         }
-        Transform {
-          translation 0.184 0 0.052
+        Pose {
+          translation %<= scale * 0.184 >% 0 %<= scale * 0.052 >%
           rotation 0 1 0 -5.75434
           children [
             Capsule {
-              height 0.032
-              radius 0.01
+              height %<= scale * 0.032 >%
+              radius %<= scale * 0.01 >%
             }
           ]
         }

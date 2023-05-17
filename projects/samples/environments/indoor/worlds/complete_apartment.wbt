@@ -105,7 +105,7 @@ TexturedBackground {
 }
 DEF ROOF Group {
   children [
-    Transform {
+    Pose {
       translation -4.83 -6.49 2.4
       rotation -1 0 0 -3.1415923071795864
       children [
@@ -116,12 +116,12 @@ DEF ROOF Group {
             }
           }
           geometry Plane {
-            size 13 10
+            size 10 13
           }
         }
       ]
     }
-    Transform {
+    Pose {
       translation -11.13 -1.71 2.4
       rotation -1 0 0 -3.1415923071795864
       children [
@@ -132,7 +132,7 @@ DEF ROOF Group {
             }
           }
           geometry Plane {
-            size 3.4 2.6
+            size 2.6 3.4
           }
         }
       ]
@@ -142,7 +142,7 @@ DEF ROOF Group {
 DEF FLOOR Solid {
   translation -4.96 -6.5 0
   children [
-    DEF LIVING_ROOM_1 Transform {
+    DEF LIVING_ROOM_1 Pose {
       translation -1.91 3.2 0
       children [
         Shape {
@@ -157,7 +157,7 @@ DEF FLOOR Solid {
         }
       ]
     }
-    DEF LIVING_ROOM_2 Transform {
+    DEF LIVING_ROOM_2 Pose {
       translation -6.24 4.84 0
       rotation 0 0 1 1.5708
       children [
@@ -173,7 +173,7 @@ DEF FLOOR Solid {
         }
       ]
     }
-    DEF GARDEN Transform {
+    DEF GARDEN Pose {
       translation -6.29 -1.87 0
       rotation 0 0 1 1.5708
       children [
@@ -190,7 +190,7 @@ DEF FLOOR Solid {
         }
       ]
     }
-    DEF KITCHEN Transform {
+    DEF KITCHEN Pose {
       translation 3.02 3.2 0
       rotation 0 0 1 1.5708
       children [
@@ -207,7 +207,7 @@ DEF FLOOR Solid {
         }
       ]
     }
-    DEF CORRIDOR Transform {
+    DEF CORRIDOR Pose {
       translation 0.15 -1.014 0
       rotation 0 0 1 1.5708
       children [
@@ -223,7 +223,7 @@ DEF FLOOR Solid {
         }
       ]
     }
-    DEF BATHROOM_1 Transform {
+    DEF BATHROOM_1 Pose {
       translation 0.48 -4.391 0
       children [
         Shape {
@@ -238,7 +238,7 @@ DEF FLOOR Solid {
         }
       ]
     }
-    DEF ROOM_1 Transform {
+    DEF ROOM_1 Pose {
       translation -2.74 -4.391 0
       rotation 0 0 1 1.5708
       children [
@@ -254,7 +254,7 @@ DEF FLOOR Solid {
         }
       ]
     }
-    DEF ROOM_2 Transform {
+    DEF ROOM_2 Pose {
       translation 3.3 -4.391 0
       rotation 0 0 1 1.5708
       children [
@@ -277,11 +277,11 @@ DEF FLOOR Solid {
     size 13 10
   }
 }
-DEF KITCHEN_BLOCK Transform {
+DEF KITCHEN_BLOCK Pose {
   translation -2.09 -2.3 0
   rotation 0 0 -1 -1.5707953071795862
   children [
-    DEF KITCHEN_TILES_1 Transform {
+    DEF KITCHEN_TILES_1 Pose {
       translation 2.147 0.4 0.9
       rotation 0 -1 0 1.5708
       children [
@@ -298,7 +298,7 @@ DEF KITCHEN_BLOCK Transform {
         }
       ]
     }
-    DEF KITCHEN_TILES_2 Transform {
+    DEF KITCHEN_TILES_2 Pose {
       translation 1.19 1.648 0.9
       rotation -0.5773502691896258 -0.5773502691896258 0.5773502691896258 -2.094395307179586
       children [
@@ -1490,40 +1490,40 @@ FloorLight {
   name "floor light(1)"
   pointLightRadius 2
 }
-Transform {
+Pose {
   translation -9.51375 -11.8794 0.4
-  scale 0.4 0.4 0.4
   children [
     FloorLight {
-      translation -0.214575 1.45231 0
+      translation -0.08583 0.580924 0
       name "floor light(2)"
       bulbColor 0.937255 0.16078399999999998 0.16078399999999998
+      scale 0.4
       pointLightColor 1 0.5799949999999999 0.5799949999999999
       pointLightIntensity 0.7
       pointLightRadius 3
     }
   ]
 }
-Transform {
+Pose {
   translation -2.73375 -12.6994 0.4
-  scale 0.4 0.4 0.4
   children [
     FloorLight {
-      translation 0 -0.2 0
+      translation 0 -0.08 0
       name "floor light(4)"
+      scale 0.4
       pointLightIntensity 0.7
       pointLightRadius 3
     }
   ]
 }
-Transform {
+Pose {
   translation -9.51375 -9.6494 0.4
-  scale 0.4 0.4 0.4
   children [
     FloorLight {
-      translation 0 1.31 0
+      translation 0 0.524 0
       name "floor light(3)"
       bulbColor 0.937255 0.16078399999999998 0.16078399999999998
+      scale 0.4
       pointLightColor 1 0.5799949999999999 0.5799949999999999
       pointLightIntensity 0.7
       pointLightRadius 3
@@ -2006,58 +2006,66 @@ CeilingSpotLight {
   spotLightIntensity 5
   spotLightRadius 3
 }
-DEF TREES Transform {
-  scale 1 1 0.6
+DEF TREES Group {
   children [
     Cypress {
       translation -12.53 -4.26 0
       rotation 0 0 1 -0.5235983071795864
+      scale 0.6
       enableBoundingObject FALSE
     }
     Cypress {
       translation -12.53 -4.76 0
       name "cypress tree(1)"
+      scale 0.6
       enableBoundingObject FALSE
     }
     Cypress {
       translation -12.53 -5.279999999999999 0
       rotation 0 0 1 0.7853979999999999
       name "cypress tree(2)"
+      scale 0.6
       enableBoundingObject FALSE
     }
     Cypress {
       translation -12.53 -5.85 0
       rotation 0 0 1 -0.26179930717958655
       name "cypress tree(3)"
+      scale 0.6
       enableBoundingObject FALSE
     }
     Cypress {
       translation -12.53 -6.37 0
       rotation 0 0 1 -1.0471973071795864
       name "cypress tree(4)"
+      scale 0.6
       enableBoundingObject FALSE
     }
     Cypress {
       translation -12.53 -6.85 0
       rotation 0 0 1 1.308997
       name "cypress tree(5)"
+      scale 0.6
       enableBoundingObject FALSE
     }
     Cypress {
       translation -12.53 -7.319999999999999 0
       rotation 0 0 1 -0.7853983071795865
       name "cypress tree(6)"
+      scale 0.6
       enableBoundingObject FALSE
     }
     Cypress {
       translation -12.53 -7.9799999999999995 0
       rotation 0 0 1 0.5235989999999999
       name "cypress tree(7)"
+      scale 0.6
       enableBoundingObject FALSE
     }
     Cypress {
       translation -12.53 -8.5 0
       name "cypress tree(8)"
+      scale 0.6
       enableBoundingObject FALSE
     }
   ]

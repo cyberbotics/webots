@@ -19,6 +19,7 @@
 #include "WbField.hpp"
 #include "WbFieldChecker.hpp"
 #include "WbNodeUtilities.hpp"
+#include "WbPose.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbSFBool.hpp"
@@ -86,9 +87,9 @@ void WbCone::createWrenObjects() {
 void WbCone::setResizeManipulatorDimensions() {
   WbVector3 scale(mBottomRadius->value(), mBottomRadius->value(), mHeight->value());
 
-  WbTransform *transform = upperTransform();
-  if (transform)
-    scale *= transform->absoluteScale();
+  const WbTransform *const up = upperTransform();
+  if (up)
+    scale *= up->absoluteScale();
 
   resizeManipulator()->updateHandleScale(scale.ptr());
   updateResizeHandlesSize();
@@ -327,13 +328,14 @@ double WbCone::computeLocalCollisionPoint(WbVector3 &point, const WbRay &ray) co
   WbVector3 direction(ray.direction());
   WbVector3 origin(ray.origin());
 
-  const WbTransform *const transform = upperTransform();
-  if (transform) {
-    direction = ray.direction() * transform->matrix();
+  const WbPose *const up = upperPose();
+  if (up) {
+    direction = ray.direction() * up->matrix();
     direction.normalize();
-    origin = transform->matrix().pseudoInversed(ray.origin());
+    origin = up->matrix().pseudoInversed(ray.origin());
     origin /= absoluteScale();
   }
+
   const double radius = scaledBottomRadius();
   const double radius2 = radius * radius;
   const double h = scaledHeight();

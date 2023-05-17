@@ -7,8 +7,8 @@
 # This small portal model is used for education with PICAXE programming tools
 
 PROTO Portal [
-  field SFVec3f    translation     0 0 0        # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0      # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0        # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0      # Is `Pose.rotation`.
   field SFString   name            "Portal"     # Is `Solid.name`.
   field SFString   controller      "<generic>"  # Is `Robot.controller`.
   field MFString   controllerArgs  []           # Is `Robot.controllerArgs`.
@@ -33,10 +33,10 @@ PROTO Portal [
       Group {
         children IS extensionSlot
       }
-      Transform {
+      Pose {
         rotation 0.5773 0.5773 0.5773 2.0944
         children [
-          Transform {
+          Pose {
             translation 0 0.005 0
             children [
               Shape {
@@ -51,7 +51,7 @@ PROTO Portal [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0.296 0.07 -0.04
             children [
               Shape {
@@ -62,7 +62,7 @@ PROTO Portal [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0.136 0.07 0.04
             children [
               Shape {
@@ -73,7 +73,7 @@ PROTO Portal [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.024 0.07 -0.05
             children [
               Shape {
@@ -96,7 +96,7 @@ PROTO Portal [
             ]
             boundingObject USE RIGHT_WALL
           }
-          Transform {
+          Pose {
             translation -0.256 0.07 0.0675
             children [
               Shape {
@@ -107,7 +107,7 @@ PROTO Portal [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.271 0.07 0.04
             children [
               Shape {
@@ -118,7 +118,7 @@ PROTO Portal [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.269 0.03 -0.019
             children [
               Shape {
@@ -129,7 +129,7 @@ PROTO Portal [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0.233 0.03 -0.019
             children [
               Shape {
@@ -140,7 +140,7 @@ PROTO Portal [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.007 0.135 0.05
             children [
               Shape {
@@ -151,7 +151,7 @@ PROTO Portal [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.256 0.135 0.05
             children [
               Shape {
@@ -162,7 +162,7 @@ PROTO Portal [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 0.0105 0.02
             rotation 0 1 0 1.5708
             children [
@@ -180,7 +180,7 @@ PROTO Portal [
               }
             ]
           }
-          DEF PICO1 Transform {
+          DEF PICO1 Pose {
             translation -0.025 0.125 0.011
             rotation 1 0 0 -1.5708
             children [
@@ -195,21 +195,21 @@ PROTO Portal [
               }
             ]
           }
-          DEF PICO2 Transform {
+          DEF PICO2 Pose {
             translation -0.025 0.125 0.029
             rotation 1 0 0 -1.5708
             children [
               USE PICO_SHAPE
             ]
           }
-          DEF PICO3 Transform {
+          DEF PICO3 Pose {
             translation -0.243 0.125 0.029
             rotation 1 0 0 -1.5708
             children [
               USE PICO_SHAPE
             ]
           }
-          DEF PICO4 Transform {
+          DEF PICO4 Pose {
             translation -0.243 0.125 0.011
             rotation 1 0 0 -1.5708
             children [
@@ -301,12 +301,8 @@ PROTO Portal [
                       }
                     ]
                     name "gate"
-                    boundingObject Transform {
-                      children [
-                        Box {
-                          size 0.02 0.115 0.29
-                        }
-                      ]
+                    boundingObject Box {
+                      size 0.02 0.115 0.29
                     }
                   }
                 }
@@ -354,9 +350,8 @@ PROTO Portal [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation 0 0 -0.0002
-                  scale 1 1 1
                   children [
                     Shape {
                       appearance DEF GRAY_METAL PBRAppearance {
@@ -371,9 +366,8 @@ PROTO Portal [
                     }
                   ]
                 }
-                Transform {
+                Pose {
                   translation 0 0 -0.01
-                  scale 1 1 1
                   children [
                     Shape {
                       appearance USE GRAY_METAL
@@ -391,10 +385,10 @@ PROTO Portal [
               name "gear"
             }
           }
-          DEF MOTOR Transform {
+          DEF MOTOR Pose {
             translation 0 0.011 0
             children [
-              Transform {
+              Pose {
                 translation -0.018 0.0455 -0.035
                 children [
                   Shape {
@@ -405,7 +399,7 @@ PROTO Portal [
                   }
                 ]
               }
-              DEF RED_CYLINDER Transform {
+              DEF RED_CYLINDER Pose {
                 translation -0.006 0.046 -0.011
                 children [
                   Shape {
@@ -421,7 +415,7 @@ PROTO Portal [
                   }
                 ]
               }
-              DEF GRAY_CYLINDER Transform {
+              DEF GRAY_CYLINDER Pose {
                 translation -0.006 0.046 -0.035
                 children [
                   Shape {
@@ -435,7 +429,7 @@ PROTO Portal [
                   }
                 ]
               }
-              DEF YELLOW_CYLINDER Transform {
+              DEF YELLOW_CYLINDER Pose {
                 translation -0.006 0.046 -0.051
                 children [
                   Shape {
@@ -469,7 +463,7 @@ PROTO Portal [
               }
             ]
             name "open"
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0 0 0.015
               children [
                 Box {
@@ -478,12 +472,12 @@ PROTO Portal [
               ]
             }
           }
-          Transform {
+          Pose {
             translation 0.24 0.028 -0.007
             children [
-              DEF PCB Transform {
+              DEF PCB Group {
                 children [
-                  Transform {
+                  Pose {
                     translation 0.0225 -0.0123 -0.004
                     children [
                       DEF SCREW Shape {
@@ -497,7 +491,7 @@ PROTO Portal [
                       }
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation 0.0225 0.0122 -0.004
                     children [
                       DEF SCREW Shape {
@@ -510,7 +504,7 @@ PROTO Portal [
                       }
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation -0.0225 0.0122 -0.004
                     children [
                       DEF SCREW Shape {
@@ -523,7 +517,7 @@ PROTO Portal [
                       }
                     ]
                   }
-                  Transform {
+                  Pose {
                     translation -0.0225 -0.0126 -0.004
                     children [
                       DEF SCREW Shape {
@@ -569,7 +563,7 @@ PROTO Portal [
               }
             ]
             name "closed"
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0 0 0.015
               children [
                 Box {
@@ -578,20 +572,20 @@ PROTO Portal [
               ]
             }
           }
-          Transform {
+          Pose {
             translation -0.27 0.028 -0.007
             children [
               USE PCB
             ]
           }
-          Transform {
+          Pose {
             translation -0.01 0.1 -0.049
             rotation 0 1 0 1.5708
             children [
               USE PCB
             ]
           }
-          Transform {
+          Pose {
             translation 0.012 0.1 0.067
             rotation 0.57735 0.57735 0.57735 2.0944
             children [
@@ -616,7 +610,7 @@ PROTO Portal [
             name "outside button"
             boundingObject USE BUTTON_GEOMETRY
           }
-          Transform {
+          Pose {
             translation -0.231 0.1 0.067
             rotation 0.57735 0.57735 0.57735 2.0944
             children [
@@ -641,7 +635,7 @@ PROTO Portal [
             name "inside button"
             boundingObject USE BUTTON_GEOMETRY
           }
-          Transform {
+          Pose {
             translation -0.0375 0.1 -0.05
             rotation -0.57735 -0.57735 0.57735 2.09348
             children [
@@ -651,7 +645,7 @@ PROTO Portal [
           DistanceSensor {
             translation -0.23 0.04 0.067
             children [
-              Transform {
+              Pose {
                 rotation 0 1 0 -1.5708
                 children [
                   Shape {
@@ -676,19 +670,19 @@ PROTO Portal [
             type "laser"
             aperture 0.002
           }
-          Transform {
+          Pose {
             translation -0.231 0.048 0.067
             rotation 0.57735 0.57735 0.57735 2.0944
             children [
               USE PCB
             ]
           }
-          Transform {
+          Pose {
             translation -0.0375 0.048 0.067
             rotation -0.57735 -0.57735 0.57735 2.09348
             children [
               USE PCB
-              Transform {
+              Pose {
                 translation -0.01 0 0.0015
                 rotation 0 1 0 3.14159
                 children [

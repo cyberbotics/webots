@@ -154,7 +154,7 @@ Door {
   }
   castShadows FALSE
 }
-DEF PIPES Transform {
+DEF PIPES Pose {
   rotation 0 0 1 -1.57
   children [
     LeverValve {
@@ -299,7 +299,7 @@ DEF CONVEYOR_BELT Robot {
       ]
       textureAnimation 0.27 0
     }
-    DEF CYL1 Transform {
+    DEF CYL1 Pose {
       translation 0 1.28 0
       rotation 0 1 0 -1.570796
       children [
@@ -313,35 +313,35 @@ DEF CONVEYOR_BELT Robot {
         }
       ]
     }
-    DEF CYL2 Transform {
+    DEF CYL2 Pose {
       translation 0 1.34 0
       rotation 0 1 0 -1.570796
       children [
         USE CYL
       ]
     }
-    DEF CYL3 Transform {
+    DEF CYL3 Pose {
       translation 0 1.4 0
       rotation 0 1 0 -1.570796
       children [
         USE CYL
       ]
     }
-    DEF CYL4 Transform {
+    DEF CYL4 Pose {
       translation 0 1.46 0
       rotation 0 1 0 -1.570796
       children [
         USE CYL
       ]
     }
-    DEF CYL5 Transform {
+    DEF CYL5 Pose {
       translation 0 1.52 0
       rotation 0 1 0 -1.570796
       children [
         USE CYL
       ]
     }
-    DEF LEFT Transform {
+    DEF LEFT Pose {
       translation -0.26 0.31 0.01
       children [
         Shape {
@@ -353,7 +353,7 @@ DEF CONVEYOR_BELT Robot {
         }
       ]
     }
-    DEF RIGHT Transform {
+    DEF RIGHT Pose {
       translation 0.26 0.31 0.01
       children [
         Shape {
@@ -365,7 +365,7 @@ DEF CONVEYOR_BELT Robot {
         }
       ]
     }
-    DEF BACK Transform {
+    DEF BACK Pose {
       translation 0 1.87 0.01
       rotation 0 0 1 1.57079
       children [
@@ -378,7 +378,7 @@ DEF CONVEYOR_BELT Robot {
         }
       ]
     }
-    DEF BOTTOM Transform {
+    DEF BOTTOM Pose {
       translation 0 1.69 -0.01
       rotation 0 0 1 1.5708
       children [
@@ -391,7 +391,7 @@ DEF CONVEYOR_BELT Robot {
         }
       ]
     }
-    DEF FOOT1 Transform {
+    DEF FOOT1 Pose {
       translation 0.22 1.78 -0.1
       rotation 0 0 1 -1.5708
       children [
@@ -405,7 +405,7 @@ DEF CONVEYOR_BELT Robot {
         }
       ]
     }
-    DEF FOOT2 Transform {
+    DEF FOOT2 Pose {
       translation -0.22 1.78 -0.1
       rotation 0 0 1 -1.5708
       children [
@@ -419,7 +419,7 @@ DEF CONVEYOR_BELT Robot {
         }
       ]
     }
-    DEF FOOT3 Transform {
+    DEF FOOT3 Pose {
       translation -0.220005 0.159999 -0.1
       rotation 0 0 1 -1.5708
       children [
@@ -433,7 +433,7 @@ DEF CONVEYOR_BELT Robot {
         }
       ]
     }
-    DEF FOOT4 Transform {
+    DEF FOOT4 Pose {
       translation 0.220005 0.159999 -0.1
       rotation 0 0 1 -1.5708
       children [
@@ -471,7 +471,7 @@ DEF CONVEYOR_BELT Robot {
 DEF MACHINERY Solid {
   translation 1.3026953 -2.6462761 0.1
   children [
-    DEF BOTTOM Transform {
+    DEF BOTTOM Pose {
       rotation 0 0 -1 -1.5708
       children [
         Shape {
@@ -483,7 +483,7 @@ DEF MACHINERY Solid {
         }
       ]
     }
-    DEF BACK Transform {
+    DEF BACK Pose {
       translation 0 -0.65 0.685
       rotation 0 0 1 3.14159
       children [
@@ -496,7 +496,7 @@ DEF MACHINERY Solid {
         }
       ]
     }
-    DEF RIGHT Transform {
+    DEF RIGHT Pose {
       translation 0.4 0.1 0.685
       rotation 0 0 -1 -1.5707953071795862
       children [
@@ -509,7 +509,7 @@ DEF MACHINERY Solid {
         }
       ]
     }
-    DEF LEFT Transform {
+    DEF LEFT Pose {
       translation -0.616 0.1 0.685
       rotation 0 0 1 1.5708
       children [
@@ -522,7 +522,7 @@ DEF MACHINERY Solid {
         }
       ]
     }
-    DEF LOGO Transform {
+    DEF LOGO Pose {
       translation -0.76 -0.21 0.79
       rotation 0.577349935856137 -0.577349935856137 -0.5773509358560258 2.09439
       children [
@@ -539,7 +539,7 @@ DEF MACHINERY Solid {
         }
       ]
     }
-    DEF TOP Transform {
+    DEF TOP Pose {
       translation 0 0 1.33
       rotation 0 0 1 -3.1415853071795863
       children [
@@ -552,7 +552,7 @@ DEF MACHINERY Solid {
         }
       ]
     }
-    DEF HOLE Transform {
+    DEF HOLE Pose {
       translation -0.21699991 0.10100001 0.97
       rotation 0 0 -1 1.57079
       children [
@@ -568,7 +568,7 @@ DEF MACHINERY Solid {
         }
       ]
     }
-    DEF FOOT1 Transform {
+    DEF FOOT1 Pose {
       translation -0.60000216 0.63999798 -0.07
       rotation 0 1 0 1.5707997
       children [
@@ -582,7 +582,7 @@ DEF MACHINERY Solid {
         }
       ]
     }
-    DEF FOOT2 Transform {
+    DEF FOOT2 Pose {
       translation -0.6 -0.639998 -0.07
       rotation 0 1 0 1.5707997
       children [
@@ -596,7 +596,7 @@ DEF MACHINERY Solid {
         }
       ]
     }
-    DEF FOOT3 Transform {
+    DEF FOOT3 Pose {
       translation -0.639998 -0.07 0.6
       rotation 0 1 0 1.5707997
       children [
@@ -610,7 +610,7 @@ DEF MACHINERY Solid {
         }
       ]
     }
-    DEF FOOT4 Transform {
+    DEF FOOT4 Pose {
       translation 0.600002 0.63999798 -0.07
       rotation 0 1 0 1.5707997
       children [
@@ -628,7 +628,7 @@ DEF MACHINERY Solid {
   name "machinery"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0 0 0.646
         rotation 1 0 0 1.5708
         children [
@@ -654,7 +654,7 @@ PlatformCart {
       children [
         DEF SLOTS Group {
           children [
-            DEF BOTTOM Transform {
+            DEF BOTTOM Pose {
               children [
                 Shape {
                   appearance DEF CUBE_BOX_APPEARANCE PBRAppearance {
@@ -672,7 +672,7 @@ PlatformCart {
                 }
               ]
             }
-            DEF BACK Transform {
+            DEF BACK Pose {
               translation 0 0.035 0.095
               children [
                 DEF ROWS Shape {
@@ -683,13 +683,13 @@ PlatformCart {
                 }
               ]
             }
-            DEF FRONT Transform {
+            DEF FRONT Pose {
               translation 0 0.035 -0.095
               children [
                 USE ROWS
               ]
             }
-            DEF LEFT Transform {
+            DEF LEFT Pose {
               translation 0.1425 0.035 0
               children [
                 DEF COLUMNS Shape {
@@ -700,13 +700,13 @@ PlatformCart {
                 }
               ]
             }
-            DEF RIGHT Transform {
+            DEF RIGHT Pose {
               translation -0.1425 0.035 0
               children [
                 USE COLUMNS
               ]
             }
-            DEF INTERNAL1 Transform {
+            DEF INTERNAL1 Pose {
               translation -0.0475 0.03 0
               children [
                 DEF INTERNAL_COLUMN Shape {
@@ -717,13 +717,13 @@ PlatformCart {
                 }
               ]
             }
-            DEF INTERNAL2 Transform {
+            DEF INTERNAL2 Pose {
               translation 0.0475 0.03 0
               children [
                 USE INTERNAL_COLUMN
               ]
             }
-            Transform {
+            Pose {
               translation 0 0.03 0
               children [
                 Shape {
@@ -734,7 +734,7 @@ PlatformCart {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation -0.095 0.03 0
               children [
                 Shape {
@@ -745,7 +745,7 @@ PlatformCart {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation 0.095 0.03 0
               children [
                 Shape {
@@ -799,7 +799,7 @@ PlatformCart {
           contactMaterial "box"
           physics NULL
         }
-        DEF TARGET Transform {
+        DEF TARGET Pose {
           translation 0.0925 0.03 -0.04
         }
       ]
@@ -812,7 +812,7 @@ PlatformCart {
           USE RIGHT
           USE INTERNAL1
           USE INTERNAL2
-          Transform {
+          Pose {
             translation 0 0.03 0
             children [
               Box {

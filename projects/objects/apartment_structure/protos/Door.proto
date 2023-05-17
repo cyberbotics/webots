@@ -142,7 +142,7 @@ PROTO Door [
           Solid {
             translation 0.001 0 0 # small offset to not generates collisions
             children [
-              Transform { # door
+              Pose { # door
                 translation %<= 0.5 * size.x + frameSize.x + 0.5 * doorThickness >% 0 %<= 0.5 * frameHeight >%
                 children [
                   Shape {
@@ -154,7 +154,7 @@ PROTO Door [
                   }
                 ]
               }
-              Transform { # handle
+              Pose { # handle
                 translation %<= 0.5 * size.x + frameSize.x + 0.5 * doorThickness >% %<= - mirrorFactor * 0.4 * size.y >% %<= 0.5 * frameHeight >%
                 children [
                   Slot {
@@ -163,12 +163,12 @@ PROTO Door [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation %<= 0.5 * size.x + frameSize.x + 0.5 * doorThickness >% 0 %<= 0.5 * frameHeight >%
                 children IS doorSlot
               }
             ]
-            boundingObject Transform {
+            boundingObject Pose {
               translation %<= 0.5 * size.x + frameSize.x + 0.5 * doorThickness >% 0 %<= 0.5 * frameHeight >%
               children [
                 Box {

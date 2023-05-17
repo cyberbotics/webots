@@ -41,7 +41,7 @@ DEF OBSTACLE Solid {
 DEF ROBOT Robot {
   translation 0.1 0.0295 0.1
   children [
-    DEF BODY Transform {
+    DEF BODY Pose {
       rotation 0 1 0 1.57079632679
       children [
         Shape {

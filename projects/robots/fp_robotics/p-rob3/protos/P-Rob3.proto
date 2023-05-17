@@ -12,8 +12,8 @@ EXTERNPROTO "webots://projects/objects/factory/tools/protos/CapScrew.proto"
 EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO P-Rob3 [
-  field SFVec3f    translation     0 0 0            # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0          # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0            # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0          # Is `Pose.rotation`.
   field SFString   name            "P-Rob3"         # Is `Solid.name`.
   field SFString   controller      "<generic>"      # Is `Robot.controller`.
   field MFString   controllerArgs  []               # Is `Robot.controllerArgs`.
@@ -522,7 +522,7 @@ PROTO P-Rob3 [
                                           }
                                         ]
                                         name "link_6_top"
-                                        boundingObject Transform {
+                                        boundingObject Pose {
                                           translation 0 0 0.007
                                           children [
                                             Cylinder {
@@ -548,7 +548,7 @@ PROTO P-Rob3 [
                                   name "link_5_6"
                                   boundingObject Group {
                                     children [
-                                      Transform {
+                                      Pose {
                                         translation 0 -0.05 -0.14
                                         rotation 1 0 0 -1.5707996938995747
                                         children [
@@ -558,7 +558,7 @@ PROTO P-Rob3 [
                                           }
                                         ]
                                       }
-                                      Transform {
+                                      Pose {
                                         translation 0 0 -0.03
                                         children [
                                           Cylinder {
@@ -586,7 +586,7 @@ PROTO P-Rob3 [
                             name "link_4_5"
                             boundingObject Group {
                               children [
-                                Transform {
+                                Pose {
                                   translation 0 0 0.037
                                   children [
                                     Cylinder {
@@ -595,7 +595,7 @@ PROTO P-Rob3 [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0 0.05 0.13
                                   rotation 1 0 0 -1.5707996938995747
                                   children [
@@ -624,7 +624,7 @@ PROTO P-Rob3 [
                       name "link_3_4"
                       boundingObject Group {
                         children [
-                          Transform {
+                          Pose {
                             translation 0 0.055 -0.17
                             rotation 1 0 0 -1.5707996938995747
                             children [
@@ -634,7 +634,7 @@ PROTO P-Rob3 [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation 0 0 -0.047
                             children [
                               Cylinder {
@@ -662,7 +662,7 @@ PROTO P-Rob3 [
                 name "link_2_3"
                 boundingObject Group {
                   children [
-                    Transform {
+                    Pose {
                       translation 0 -0.05 -0.14
                       rotation 1 0 0 -1.5707996938995747
                       children [
@@ -672,7 +672,7 @@ PROTO P-Rob3 [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0 0 -0.03
                       children [
                         Cylinder {
@@ -681,7 +681,7 @@ PROTO P-Rob3 [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0 -0.055 0.14
                       rotation 1 0 0 -1.5707996938995747
                       children [
@@ -691,7 +691,7 @@ PROTO P-Rob3 [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0 0 0.035
                       children [
                         Cylinder {
@@ -719,7 +719,7 @@ PROTO P-Rob3 [
           name "link_1_2"
           boundingObject Group {
             children [
-              Transform {
+              Pose {
                 translation 0 0 0.037
                 children [
                   Cylinder {
@@ -728,7 +728,7 @@ PROTO P-Rob3 [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0.05 0.13
                 rotation 1 0 0 -1.5707996938995747
                 children [
@@ -763,7 +763,7 @@ PROTO P-Rob3 [
     selfCollision IS selfCollision
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.173
           children [
             Cylinder {
@@ -772,7 +772,7 @@ PROTO P-Rob3 [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.051
           children [
             Box {
@@ -780,7 +780,7 @@ PROTO P-Rob3 [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.151
           children [
             Box {

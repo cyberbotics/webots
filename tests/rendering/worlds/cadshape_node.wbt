@@ -14,7 +14,7 @@ Background {
     0.933333 0.933333 0.92549
   ]
 }
-DEF DAE Transform {
+DEF DAE Pose {
   children [
     CadShape {
       url [
@@ -23,7 +23,7 @@ DEF DAE Transform {
     }
   ]
 }
-DEF DAE_BASENODE Transform {
+DEF DAE_BASENODE Pose {
   translation -5 0 0
   children [
     Shape {
@@ -44,7 +44,7 @@ DEF DAE_BASENODE Transform {
     }
   ]
 }
-DEF OBJ Transform {
+DEF OBJ Pose {
   translation 0 5 0
   children [
     CadShape {
@@ -54,7 +54,7 @@ DEF OBJ Transform {
     }
   ]
 }
-DEF OBJ_BASENODE Transform {
+DEF OBJ_BASENODE Pose {
   translation -5 5 0
   children [
     Shape {

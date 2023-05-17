@@ -5,7 +5,7 @@ PROTO TemplateNestedLua [
 ]
 {
   %{ p = fields.nestedParameter.value and "TRUE" or "FALSE" }%
-  Transform {
+  Pose {
     rotation 1 0 0 -1.5708
     children [
       Shape {

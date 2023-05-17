@@ -145,7 +145,7 @@ PROTO MultiSenseS21 [
     }
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           rotation -0.5774 0.5773 0.5774 -2.0944
           translation 0.032 0 0
           children [
@@ -154,7 +154,7 @@ PROTO MultiSenseS21 [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.097 -0.105 0
           rotation -0.5773492694698226 0.5773522686240381 -0.5773492694698233 2.0944011007146077
           children [
@@ -164,7 +164,7 @@ PROTO MultiSenseS21 [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.098 0.105 0
           rotation -0.5773492694698226 0.5773522686240381 -0.5773492694698233 2.0944011007146077
           children [

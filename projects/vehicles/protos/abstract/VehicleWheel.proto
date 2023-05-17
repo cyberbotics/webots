@@ -140,7 +140,7 @@ PROTO VehicleWheel [
         DEF WHEEL_SLOT Group {
           children IS logoSlot
         }
-        Transform{
+        Pose {
           %< if (fields.wheelSide.value) { >%
             rotation 0 0 1 3.141578
           %< } >%
@@ -420,7 +420,7 @@ PROTO VehicleWheel [
       model "vehicle wheel"
       %< if (fields.boundingObject.value) { >%
         contactMaterial IS contactMaterial
-        boundingObject Transform {
+        boundingObject Pose {
           rotation 1 0 0 1.570796
           children [
             Cylinder {

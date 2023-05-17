@@ -70,7 +70,7 @@ PROTO MetallicTrash [
         }
       }
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.45
       children [
         Cylinder {

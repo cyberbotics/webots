@@ -101,7 +101,7 @@ DEF BLUE_CROSS Solid {
         size 0.01 0.15 0.5
       }
     }
-    Transform {
+    Pose {
       translation 0 0.1625 0
       children [
         Shape {
@@ -116,7 +116,7 @@ DEF BLUE_CROSS Solid {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0 -0.1625 0
       children [
         Shape {
@@ -234,7 +234,7 @@ DEF PURPLE_PLUS Solid {
         size 0.01 0.1 0.3
       }
     }
-    Transform {
+    Pose {
       translation 0 0.1 0
       children [
         Shape {
@@ -249,7 +249,7 @@ DEF PURPLE_PLUS Solid {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0 -0.1 0
       children [
         Shape {

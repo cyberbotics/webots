@@ -104,7 +104,7 @@ PROTO ElectricalPlug [
     %< if (fields.enableBoundingObject.value) { >%
       boundingObject Group {
         children [
-          Transform {
+          Pose {
             translation 0 -0.009 0
             rotation 0 1 0 1.5707963220000003
             children [
@@ -114,7 +114,7 @@ PROTO ElectricalPlug [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 0.009 0
             rotation 0 1 0 1.5707963220000003
             children [
@@ -124,7 +124,7 @@ PROTO ElectricalPlug [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.012 0 0
             rotation 0 1 0 4.712388966
             children [
@@ -134,7 +134,7 @@ PROTO ElectricalPlug [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.043 0 0
             rotation 0 1 0 4.712388966
             children [
@@ -144,7 +144,7 @@ PROTO ElectricalPlug [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.031 0 0
             children [
               Box {

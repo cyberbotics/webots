@@ -15,8 +15,8 @@ EXTERNPROTO "ScooterLeftIndicator.proto"
 EXTERNPROTO "ScooterWheel.proto"
 
 PROTO ScooterSimple [
-  field       SFVec3f    translation                0 0 0.23                           # Is `Solid.translation`.
-  field       SFRotation rotation                   0 0 1 0                            # Is `Solid.rotation`.
+  field       SFVec3f    translation                0 0 0.23                           # Is `Pose.translation`.
+  field       SFRotation rotation                   0 0 1 0                            # Is `Pose.rotation`.
   field       SFColor    primaryColor               0.43 0.11 0.1                      # Defines the primary color of the scooter.
   field       SFColor    secondaryColor             0.69 0.43 0.43                     # Defines the secondary color of the scooter.
   field       MFColor    recognitionColors          [ 0.43 0.11 0.1, 0.69 0.43 0.43 ]  # Is `Solid.recognitionColors`.
@@ -32,7 +32,7 @@ PROTO ScooterSimple [
     rotation IS rotation
     recognitionColors IS recognitionColors # somehow duplicate with the color field, but useful to avoid lua PROTO regeneration when colors change.
     children [
-      Transform {
+      Pose {
         children [
           DEF DRIVER Slot {
             type "scooter driver"
@@ -81,7 +81,7 @@ PROTO ScooterSimple [
     name IS name
     model "ScooterSimple"
     radarCrossSection 10
-    boundingObject Transform { # changing the bounding box to fit the driver if present
+    boundingObject Pose { # changing the bounding box to fit the driver if present
       %< if (fields.driver.value) { >%
         translation 0.624 0 0.7
         rotation 0.5773509761 0.5773509761 -0.5773488554 -2.0943972231

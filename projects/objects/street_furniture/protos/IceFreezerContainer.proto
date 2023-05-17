@@ -68,7 +68,7 @@ PROTO IceFreezerContainer [
         }
       }
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.625
       children [
         Box {

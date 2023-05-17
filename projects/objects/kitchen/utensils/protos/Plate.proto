@@ -70,7 +70,7 @@ PROTO Plate [
     model "plate"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 %<= 0.2 * height >%
           children [
             Cylinder {
@@ -79,7 +79,7 @@ PROTO Plate [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 %<= 0.8 * height >%
           children [
             Cylinder {

@@ -1518,7 +1518,7 @@ PROTO Hammer [
     contactMaterial IS contactMaterial
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0.13 0.017 0
           children [
             Box {
@@ -1526,7 +1526,7 @@ PROTO Hammer [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.13 -0.004 0
           children [
             Box {
@@ -1534,7 +1534,7 @@ PROTO Hammer [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.13 -0.026 0
           children [
             Box {
@@ -1542,7 +1542,7 @@ PROTO Hammer [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.13 -0.042 0
           children [
             Box {
@@ -1550,7 +1550,7 @@ PROTO Hammer [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.003 0 0
           rotation 0 1 0 1.5708
           children [

@@ -19,7 +19,7 @@ PROTO Ramp30deg [
     children [
       DEF RAMP Group {
         children [
-          Transform {
+          Pose {
             translation -1.841 0 0.45
             rotation 0 -1 0 0.5236
             children [
@@ -35,7 +35,7 @@ PROTO Ramp30deg [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 0 0.9434
             children [
               Shape {
@@ -46,7 +46,7 @@ PROTO Ramp30deg [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 1.841 0 0.45
             rotation 0 -1 0 -0.5236
             children [

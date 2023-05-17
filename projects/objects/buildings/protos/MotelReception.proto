@@ -150,7 +150,7 @@ PROTO MotelReception [
     %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -2.47 0 2.1
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -159,7 +159,7 @@ PROTO MotelReception [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 2.65 0 2.1
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [

@@ -28,183 +28,187 @@ PROTO Horse [
     rotation IS rotation
     name IS name
     model "horse"
-    scale %<= scale >% %<= scale >% %<= scale >%
     children [
-      Shape {
-        appearance PBRAppearance {
-          metalness 0
-          baseColor IS colorBody
-          baseColorMap ImageTexture {
-            url "webots://projects/objects/animals/protos/horse/textures/horse_basecolor.jpg"
+      Transform {
+        scale %<= scale >% %<= scale >% %<= scale >%
+        children [
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              baseColor IS colorBody
+              baseColorMap ImageTexture {
+                url "webots://projects/objects/animals/protos/horse/textures/horse_basecolor.jpg"
+              }
+              roughnessMap ImageTexture {
+                url "webots://projects/objects/animals/protos/horse/textures/horse_roughness.jpg"
+              }
+              occlusionMap ImageTexture {
+                url "webots://projects/objects/animals/protos/horse/textures/horse_occlusion.jpg"
+              }
+            }
+            geometry Mesh {
+              url "webots://projects/objects/animals/protos/horse/meshes/horse.obj"
+            }
           }
-          roughnessMap ImageTexture {
-            url "webots://projects/objects/animals/protos/horse/textures/horse_roughness.jpg"
+          Shape {
+            appearance PBRAppearance {
+              metalness 0
+              roughness 1
+              baseColor IS colorHair
+              baseColorMap ImageTexture {
+                url "webots://projects/objects/animals/protos/horse/textures/horse_hair_basecolor.png"
+              }
+            }
+            geometry Mesh {
+              url "webots://projects/objects/animals/protos/horse/meshes/horse_hair.obj"
+            }
           }
-          occlusionMap ImageTexture {
-            url "webots://projects/objects/animals/protos/horse/textures/horse_occlusion.jpg"
-          }
-        }
-        geometry Mesh {
-          url "webots://projects/objects/animals/protos/horse/meshes/horse.obj"
-        }
-      }
-      Shape {
-        appearance PBRAppearance {
-          metalness 0
-          roughness 1
-          baseColor IS colorHair
-          baseColorMap ImageTexture {
-            url "webots://projects/objects/animals/protos/horse/textures/horse_hair_basecolor.png"
-          }
-        }
-        geometry Mesh {
-          url "webots://projects/objects/animals/protos/horse/meshes/horse_hair.obj"
-        }
+        ]
       }
     ]
     boundingObject Group {
       children [
-        DEF BODY Transform {
-          translation 0.0194159 0 1.03
+        DEF BODY Pose {
+          translation %<= scale * 0.0194159 >% 0 %<= scale * 1.03 >%
           rotation 0 -1 0 1.5708
           children [
             Capsule {
-              height 0.8
-              radius 0.239
+              height %<= scale * 0.8 >%
+              radius %<= scale * 0.239 >%
               subdivision 16
             }
           ]
         }
-        DEF NECK Transform {
-          translation 0.648661 0 1.43191
+        DEF NECK Pose {
+          translation %<= scale * 0.648661 >% 0 %<= scale * 1.43191 >%
           rotation 0 1 0 0.785405
           children [
             DEF NECK Capsule {
-              height 0.3
-              radius 0.14
+              height %<= scale * 0.3 >%
+              radius %<= scale * 0.14 >%
               subdivision 16
             }
           ]
         }
-        DEF HEAD Transform {
-          translation 1.01717 0 1.48016
+        DEF HEAD Pose {
+          translation %<= scale * 1.01717 >% 0 %<= scale * 1.48016 >%
           rotation 0 -1 0 0.785414
           children [
             DEF HEAD Capsule {
-              height 0.3
-              radius 0.09
+              height %<= scale * 0.3 >%
+              radius %<= scale * 0.09 >%
               subdivision 16
             }
           ]
         }
-        DEF FL_LEG Transform {
-          translation 0.49 0.115 0.46
+        DEF FL_LEG Pose {
+          translation %<= scale * 0.49 >% %<= scale * 0.115 >% %<= scale * 0.46 >%
           children [
             Cylinder {
-              height 0.75
-              radius 0.05
+              height %<= scale * 0.75 >%
+              radius %<= scale * 0.05 >%
             }
           ]
         }
-        DEF FL_HOOF Transform {
-          translation 0.56 0.115 0.05
+        DEF FL_HOOF Pose {
+          translation %<= scale * 0.56 >% %<= scale * 0.115 >% %<= scale * 0.05 >%
           children [
             Cylinder {
-              height 0.069
-              radius 0.05
+              height %<= scale * 0.069 >%
+              radius %<= scale * 0.05 >%
             }
           ]
         }
-        DEF FR_LEG Transform {
-          translation 0.49 -0.115 0.46
+        DEF FR_LEG Pose {
+          translation %<= scale * 0.49 >% %<= scale * -0.115 >% %<= scale * 0.46 >%
           children [
             Cylinder {
-              height 0.75
-              radius 0.05
+              height %<= scale * 0.75 >%
+              radius %<= scale * 0.05 >%
             }
           ]
         }
-        DEF FR_HOOF Transform {
-          translation 0.56 -0.115 0.05
+        DEF FR_HOOF Pose {
+          translation %<= scale * 0.56 >% %<= scale * -0.115 >% %<= scale * 0.05 >%
           children [
             Cylinder {
-              height 0.069
-              radius 0.05
+              height %<= scale * 0.069 >%
+              radius %<= scale * 0.05 >%
             }
           ]
         }
-        DEF BL_HOOF Transform {
-          translation -0.532512 0.130006 0.0370717
+        DEF BL_HOOF Pose {
+          translation %<= scale * -0.532512 >% %<= scale * 0.130006 >% %<= scale * 0.0370717 >%
           children [
             Cylinder {
-              height 0.069
-              radius 0.06
+              height %<= scale * 0.069 >%
+              radius %<= scale * 0.06 >%
             }
           ]
         }
-        DEF BL_ANKLE Transform {
-          translation -0.603599 0.137146 0.267333
+        DEF BL_ANKLE Pose {
+          translation %<= scale * -0.603599 >% %<= scale * 0.137146 >% %<= scale * 0.267333 >%
           rotation 0 -1 0 0.199363
           children [
             Cylinder {
-              height 0.4
-              radius 0.05
+              height %<= scale * 0.4 >%
+              radius %<= scale * 0.05 >%
             }
           ]
         }
-        DEF BL_LEG Transform {
-          translation -0.513983 0.137146 0.650213
+        DEF BL_LEG Pose {
+          translation %<= scale * -0.513983 >% %<= scale * 0.137146 >% %<= scale * 0.650213 >%
           rotation 0 1 0 0.515974
           children [
             Cylinder {
-              height 0.5
-              radius 0.07
+              height %<= scale * 0.5 >%
+              radius %<= scale * 0.07 >%
             }
           ]
         }
-        DEF BR_HOOF Transform {
-          translation -0.532512 -0.130006 0.0370717
+        DEF BR_HOOF Pose {
+          translation %<= scale * -0.532512 >% %<= scale * -0.130006 >% %<= scale * 0.0370717 >%
           children [
             Cylinder {
-              height 0.069
-              radius 0.06
+              height %<= scale * 0.069 >%
+              radius %<= scale * 0.06 >%
             }
           ]
         }
-        DEF BR_ANKLE Transform {
-          translation -0.603599 -0.137146 0.267333
+        DEF BR_ANKLE Pose {
+          translation %<= scale * -0.603599 >% %<= scale * -0.137146 >% %<= scale * 0.267333 >%
           rotation 0 -1 0 0.199363
           children [
             Cylinder {
-              height 0.4
-              radius 0.05
+              height %<= scale * 0.4 >%
+              radius %<= scale * 0.05 >%
             }
           ]
         }
-        DEF BR_LEG Transform {
-          translation -0.513983 -0.137146 0.650213
+        DEF BR_LEG Pose {
+          translation %<= scale * -0.513983 >% %<= scale * -0.137146 >% %<= scale * 0.650213 >%
           rotation 0 1 0 0.515974
           children [
             Cylinder {
-              height 0.5
-              radius 0.07
+              height %<= scale * 0.5 >%
+              radius %<= scale * 0.07 >%
             }
           ]
         }
-        DEF TAIL Transform {
-          translation -0.655612 0 1.27065
+        DEF TAIL Pose {
+          translation %<= scale * -0.655612 >% 0 %<= scale * 1.27065 >%
           rotation 0 -1 0 0.0789151
           children [
             Box {
-              size 0.25 0.1 0.08
+              size %<= scale * 0.25>% %<= scale * 0.1 >% %<= scale * 0.08 >%
             }
           ]
         }
-        DEF TAIL_END Transform {
-          translation -0.775364 0 0.89433
+        DEF TAIL_END Pose {
+          translation %<= scale * -0.775364 >% 0 %<= scale * 0.89433 >%
           children [
             Box {
-              size 0.1 0.1 0.65
+              size %<= scale * 0.1>% %<= scale * 0.1 >% %<= scale * 0.65 >%
             }
           ]
         }

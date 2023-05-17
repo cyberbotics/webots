@@ -10,8 +10,8 @@ EXTERNPROTO "AltinoBodyMesh.proto"
 EXTERNPROTO "AltinoWheel.proto"
 
 PROTO Altino [
-  field SFVec3f    translation     0 0 0.022               # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0                 # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0.022               # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0                 # Is `Pose.rotation`.
   field SFString   name            "vehicle"               # Is `Solid.name`.
   field SFString   controller      "vehicle_driver_altino" # Is `Robot.controller`.
   field MFString   controllerArgs  []                      # Is `Robot.controllerArgs`.
@@ -117,7 +117,7 @@ PROTO Altino [
         children [
           Group {
             children [
-              Transform {
+              Pose {
                 rotation -0.5773 0.5773 0.5773 -2.0944
                 translation 0.071 0 0.024
                 children [
@@ -174,7 +174,7 @@ PROTO Altino [
         children [
           Group {
             children [
-              Transform {
+              Pose {
                 rotation -0.5773 0.5773 0.5773 -2.0944
                 translation 0.071 0 0.024
                 children [
@@ -218,7 +218,7 @@ PROTO Altino [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.071 0 0.024
         rotation -0.57735 0.57735 0.57735 -2.09439
         children [
@@ -235,7 +235,7 @@ PROTO Altino [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0.03 0 0.017
           children [
             Box {
@@ -243,7 +243,7 @@ PROTO Altino [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.052 0 0.015
           children [
             Box {
@@ -251,7 +251,7 @@ PROTO Altino [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.052 0 0.015
           children [
             Box {

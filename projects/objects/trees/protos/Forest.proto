@@ -151,7 +151,7 @@ PROTO Forest [
         types.push(type);
     }
   >%
-  Transform {
+  Pose {
     translation IS translation
     rotation IS rotation
     children [

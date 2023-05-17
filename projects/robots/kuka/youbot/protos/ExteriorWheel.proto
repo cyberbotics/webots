@@ -33,7 +33,7 @@ PROTO ExteriorWheel [
       children [
         WheelMesh {
         }
-        Transform {
+        Pose {
           translation 0 0 0.036
           rotation 0 0 -1 0.785402
           children [
@@ -41,7 +41,7 @@ PROTO ExteriorWheel [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.0311 0 0.018
           rotation -0.318977 0.770074 -0.552484 1.28666
           children [
@@ -49,7 +49,7 @@ PROTO ExteriorWheel [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.0311 0 -0.018
           rotation -0.373673 0.902122 -0.21574 2.18123
           children [
@@ -57,7 +57,7 @@ PROTO ExteriorWheel [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 -0.036
           rotation -0.382685 0.923879 0 3.14159
           children [
@@ -65,7 +65,7 @@ PROTO ExteriorWheel [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.0311 0 -0.018
           rotation -0.373673 0.902122 0.21574 4.10195
           children [
@@ -73,7 +73,7 @@ PROTO ExteriorWheel [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.0311 0 0.018
           rotation -0.318977 0.770074 0.552484 4.99652
           children [
@@ -84,7 +84,7 @@ PROTO ExteriorWheel [
       ]
       name IS name
       contactMaterial "ExteriorWheelMat"
-      boundingObject Transform {
+      boundingObject Pose {
         rotation 1 0 0 -1.5708
         children [
           Cylinder {

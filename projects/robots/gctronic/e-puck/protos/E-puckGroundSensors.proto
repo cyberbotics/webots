@@ -15,11 +15,11 @@ PROTO E-puckGroundSensors [
   field SFRotation rotation    0 0 1 0
 ]
 {
-  Transform {
+  Solid {
     translation IS translation
     rotation IS rotation
     children [
-      DEF EPUCK_GROUND_SENSOR_CIRCUIT Transform {
+      DEF EPUCK_GROUND_SENSOR_CIRCUIT Pose {
         translation 0 0 0.014
         rotation 0.57735 0.57735 0.57735 2.094395
         children [

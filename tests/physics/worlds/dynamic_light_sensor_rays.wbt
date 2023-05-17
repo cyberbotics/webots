@@ -74,7 +74,7 @@ DEF DYNAMIC_ROBOT Robot {
         translation -0.045 -0.03 0
         rotation 1 0 0 4.98467
         children [
-          DEF WHEEL Transform {
+          DEF WHEEL Pose {
             rotation 0.57766 0.57720 -0.57720 -2.09394
             children [
               Shape {
@@ -134,7 +134,7 @@ DEF DYNAMIC_ROBOT Robot {
     }
   ]
   name "dynamic"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 -0.03 0
     children [
       Sphere {

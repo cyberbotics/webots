@@ -50,20 +50,20 @@ PROTO MercedesBenzSprinter [
       Group {
         children IS sensorsSlotCenter
       }
-      Transform {
+      Pose {
         translation 5.31 0 0.47
         children IS sensorsSlotFront
       }
-      Transform {
+      Pose {
         translation -1.62 0 0.19
         rotation 0 0 1 3.1415
         children IS sensorsSlotRear
       }
-      Transform {
+      Pose {
         translation 2.99 0 2.3
         children IS sensorsSlotTop
       }
-      Transform {
+      Pose {
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
           DEF COACHWORK Shape {
@@ -172,7 +172,7 @@ PROTO MercedesBenzSprinter [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 1.69 0 0.52
           children [
             Box {
@@ -180,7 +180,7 @@ PROTO MercedesBenzSprinter [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.67 0 1.64
           children [
             Box {
@@ -188,7 +188,7 @@ PROTO MercedesBenzSprinter [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 3.60031 0 1.09128
           rotation 0 1 0 0.55
           children [

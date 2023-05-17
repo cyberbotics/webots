@@ -16,11 +16,11 @@ TexturedBackground {
 }
 TexturedBackgroundLight {
 }
-DEF REGULAR_OBSTACLE Transform {
+DEF REGULAR_OBSTACLE Pose {
   translation 0.05 0 -0.08
   rotation 0 0 1 1.5708
   children [
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {
@@ -37,11 +37,11 @@ DEF REGULAR_OBSTACLE Transform {
     }
   ]
 }
-DEF ROTATED_OBSTACLE Transform {
+DEF ROTATED_OBSTACLE Pose {
   translation 0.05 0 -0.26
   rotation -0.35740681862788 0.3574058186283875 -0.8628565621288802 -1.7177753071795863
   children [
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {
@@ -54,11 +54,11 @@ DEF ROTATED_OBSTACLE Transform {
     }
   ]
 }
-DEF FLIPPED_OBSTACLE Transform {
+DEF FLIPPED_OBSTACLE Pose {
   translation 0.05 0 -0.39
   rotation 0.70710528118436 0.707108281185553 3.3905113482557537e-09 3.14159
   children [
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {
@@ -79,11 +79,11 @@ Robot {
   children [
     DistanceSensor {
       children [
-        DEF DS_SHAPE Transform {
+        DEF DS_SHAPE Pose {
           translation -0.026 0 0
           rotation 0 0 1 -1.5708
           children [
-            Transform {
+            Pose {
               rotation 1 0 0 -1.57079632679
               children [
                 Shape {

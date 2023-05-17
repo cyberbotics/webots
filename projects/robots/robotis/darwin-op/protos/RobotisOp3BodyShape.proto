@@ -11,7 +11,7 @@ PROTO RobotisOp3BodyShape [
 {
   Group {
     children [
-      Transform {
+      Pose {
         translation 0 0.035 0.002
         rotation -0.57735 -0.57735 0.577352 2.0944
         children [
@@ -19,7 +19,7 @@ PROTO RobotisOp3BodyShape [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 -0.035 0.002
         rotation -0.57735 -0.57735 0.577352 2.0944
         children [

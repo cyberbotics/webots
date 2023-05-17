@@ -15,7 +15,7 @@ PROTO Clock [
     translation IS translation
     rotation IS rotation
     children [
-      DEF MINUTE_HAND Transform {
+      DEF MINUTE_HAND Pose {
         children [
           Shape {
             appearance PBRAppearance {
@@ -36,7 +36,7 @@ PROTO Clock [
           }
         ]
       }
-      DEF CENTRAL_PIN Transform {
+      DEF CENTRAL_PIN Pose {
         children [
           Shape {
             appearance PBRAppearance {
@@ -57,7 +57,7 @@ PROTO Clock [
           }
         ]
       }
-      DEF HOUR_HAND Transform {
+      DEF HOUR_HAND Pose {
         children [
           Shape {
             appearance PBRAppearance {
@@ -96,7 +96,7 @@ PROTO Clock [
           creaseAngle 1
         }
       }
-      DEF FACE Transform {
+      DEF FACE Pose {
         children [
           Shape {
             appearance PBRAppearance {
@@ -135,7 +135,7 @@ PROTO Clock [
       }
     ]
     name IS name
-    boundingObject Transform {
+    boundingObject Pose {
       rotation 0.57734898 0.57735092 -0.57735091 4.1887883
       children [
         Cylinder {

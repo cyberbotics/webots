@@ -51,7 +51,7 @@ PROTO Glass [
     ]
     name IS name
     model "glass"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.029
       children [
         Shape {

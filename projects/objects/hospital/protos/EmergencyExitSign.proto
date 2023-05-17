@@ -19,7 +19,7 @@ PROTO EmergencyExitSign [
     rotation IS rotation
     name IS name
     children [
-      Transform {
+      Pose {
         translation 0 0 -0.04
         children [
           Shape {
@@ -47,7 +47,7 @@ PROTO EmergencyExitSign [
         }
       }
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 -0.04
       children [
         Box {

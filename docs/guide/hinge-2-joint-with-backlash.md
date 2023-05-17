@@ -22,8 +22,8 @@ Hinge2JointWithBacklash [
   MFNode       device2             [ ]         # {RotationalMotor, PositionSensor, Brake}
   MFNode       outputSensor        [ ]         # {PositionSensor}
   MFNode       outputSensor2       [ ]         # {PositionSensor}
-  MFNode       startPoint          NULL        # {Group, Transform, or Shape}
-  MFNode       startPoint2         NULL        # {Group, Transform, or Shape}
+  MFNode       startPoint          NULL        # {Group, Pose, Transform, Shape or CadShape}
+  MFNode       startPoint2         NULL        # {Group, Pose, Transform, Shape or CadShape}
   SFNode       endPoint            NULL        # {Solid, SolidReference, or Slot}
 ]
 ```
@@ -63,11 +63,11 @@ If no motor is specified, the joint is a passive joint.
 > **Note**: what these sensors return is the current position of the output axes in the range [-backlash/2, backlash/2] and [-backlash2/2, backlash2/2] respectively. When either limit is reached, the `endPoint` will begin to move.
 
 - `startPoint`: this field optionally specifies the shape of the object attached to the first [HingeJoint](../reference/hingejoint.md) before the backlash in the `axis` direction takes place.
-It must be either a [Transform](../reference/transform.md), a [Group](../reference/group.md) or a [Shape](../reference/shape.md).
+It must be either a [Group](../reference/group.md), a [Pose](../reference/pose.md), a [Transform](../reference/transform.md), a [Shape](../reference/shape.md) or a [CadShape](../reference/cadshape.md).
 This object doesn't affect the joint in any way but can be useful in order to better visualize the effect of the backlash.
 
 - `startPoint2`: this field optionally specifies the shape of the object attached to the [Hinge2Joint](../reference/hinge2joint.md) before the backlash in the `axis2` direction takes place.
-It must be either a [Transform](../reference/transform.md), a [Group](../reference/group.md) or a [Shape](../reference/shape.md).
+It must be either a [Group](../reference/group.md), a [Pose](../reference/pose.md), a [Transform](../reference/transform.md), a [Shape](../reference/shape.md) or a [CadShape](../reference/cadshape.md).
 This object doesn't affect the joint in any way but can be useful in order to better visualize the effect of the backlash.
 
 - `endPoint`: this field specifies which [Solid](../reference/solid.md) is subject to the joint constraints. It must be either a [Solid](../reference/solid.md) child, or a reference to an existing [Solid](../reference/solid.md), i.e. a [SolidReference](../reference/solidreference.md).

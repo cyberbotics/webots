@@ -67,7 +67,7 @@ PROTO EmergencyPhone [
     ]
     name IS name
     model "emergency phone"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0.06 0 1.05
       children [
         Box {

@@ -18,7 +18,7 @@ Solid {
   translation IS translation
   rotation IS rotation
   children [
-    Transform {
+    Pose {
       translation 0 0 0.654
       rotation 0.57735 -0.57735 -0.57735 2.094395
       children [
@@ -194,7 +194,7 @@ Solid {
         }
       ]
     }
-    Transform {
+    Pose {
       translation -0.1458 0.038 0.7769
       rotation -0.327747 0.516688 0.790959 -2.213174
       children [
@@ -247,28 +247,28 @@ Solid {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0.0228 0.0967 0.779
       rotation -0.022483 -0.542615 -0.839681 -3.112332
       children [
         USE BOS_BULB_SHAPE
       ]
     }
-    Transform {
+    Pose {
       translation 0.146 0 0.855
       rotation 0.567907 -0.407227 0.715295 -1.791433
       children [
         USE BOS_BULB_SHAPE
       ]
     }
-    Transform {
+    Pose {
       translation 0 -0.0561 0.8882
       rotation -0.986157 0.059773 0.154666 -1.121186
       children [
         USE BOS_BULB_SHAPE
       ]
     }
-    Transform {
+    Pose {
       translation -0.0269 -0.1276 0.7943
       rotation -0.960616 0.144789 0.237178 -1.18687
       children [
@@ -2539,7 +2539,7 @@ Solid {
   model "bunch of sunflowers"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0 0 0.324
         children [
           Cylinder {
@@ -2548,7 +2548,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.78
         children [
           Sphere {

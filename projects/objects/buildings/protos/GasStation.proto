@@ -365,7 +365,7 @@ PROTO GasStation [
     %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 5.6828 -1.08 7.3103
           rotation -0.584896 0.584896 0.561956 -2.117641
           children [
@@ -374,7 +374,7 @@ PROTO GasStation [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -5.2185 10.83 6.874
           rotation -0.584896 0.584896 0.561956 -2.117641
           children [
@@ -383,7 +383,7 @@ PROTO GasStation [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -9.0253 -5.73 2.4
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -392,7 +392,7 @@ PROTO GasStation [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 7.3147 -5.73 3.1928
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -401,28 +401,28 @@ PROTO GasStation [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 7.3145 1.33 3.2
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
             USE COLUMN
           ]
         }
-        Transform {
+        Pose {
           translation -8.6655 6.7 3.2
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
             USE COLUMN
           ]
         }
-        Transform {
+        Pose {
           translation -8.6655 16.74 3.2
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
             USE COLUMN
           ]
         }
-        Transform {
+        Pose {
           translation 7.4047 -6.9 1.25
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -431,28 +431,28 @@ PROTO GasStation [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 7.4047 -4.54 1.25
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
             USE MACHINE
           ]
         }
-        Transform {
+        Pose {
           translation 7.4047 0.2 1.25
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
             USE MACHINE
           ]
         }
-        Transform {
+        Pose {
           translation 7.4047 2.56 1.25
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
             USE MACHINE
           ]
         }
-        Transform {
+        Pose {
           translation 7.4647 -3.03 0.07
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -461,7 +461,7 @@ PROTO GasStation [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -3.0953 -4.52 -0.04
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -470,7 +470,7 @@ PROTO GasStation [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -9.0653 1.97 -0.04
           rotation 1 0 0 1.570796
           children [
@@ -479,7 +479,7 @@ PROTO GasStation [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -8.6153 10.87 -0.04
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [

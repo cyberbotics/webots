@@ -30,21 +30,21 @@ Shape {
   geometry Box {
   }
 }
-Transform {
+Pose {
   translation 0 -4 0
   children [
     InternalTexture { # not exposed => url is relative to InternalTexture.proto
     }
   ]
 }
-Transform {
+Pose {
   translation 0 -4 2
   children [
     DEF SIMPLE_DEFAULT ExposedTexture { # exposed but default value => relative to ExposedTexture.proto
     }
   ]
 }
-Transform {
+Pose {
   translation 0 -4 4
   children [
     DEF SIMPLE_OVERWRITTEN ExposedTexture {
@@ -52,42 +52,42 @@ Transform {
     }
   ]
 }
-Transform {
+Pose {
   translation 0 -8 0
   children [
     HighlyNestedInternalTexture {
     }
   ]
 }
-Transform {
+Pose {
   translation 0 -8 2
   children [
     HighlyNestedDefaultExposedTexture {
     }
   ]
 }
-Transform {
+Pose {
   translation 0 -8 4
   children [
     HighlyNestedOverwrittenExposedTexture {
     }
   ]
 }
-Transform {
+Pose {
   translation 0 -8 6
   children [
     HighlyNestedExposedTextureWithDefaultParameter {
     }
   ]
 }
-Transform {
+Pose {
   translation 0 -8 8
   children [
     HighlyNestedExposedTextureWithOverwrittenParameter {
     }
   ]
 }
-Transform {
+Pose {
   translation 0 -8 10
   children [
     DEF COMPLEX_DEFAULT HighlyNestedProtoWithParameter {
@@ -95,7 +95,7 @@ Transform {
     }
   ]
 }
-Transform {
+Pose {
   translation 0 -8 12
   children [
     DEF COMPLEX_OVERWRITTEN HighlyNestedProtoWithParameter {

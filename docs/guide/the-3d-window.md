@@ -59,9 +59,6 @@ These handles can be used to translate and rotate the object along the correspon
 For moving the object you can simply click on the handle and drag it to the desired position.
 A label will show the correct relative translation or rotation during the movement, as shown in [this figure](#labels-displaying-relative-translation-and-rotation-when-moving-objects-with-handles).
 
-If the <kbd>ctrl</kbd> key is pressed, the handles for resizing the solid object will be displayed instead of translation and rotation handles.
-These resize handles can also be enabled from the Field Editor.
-
 %figure "Axis-aligned handles to move solid objects"
 
 ![pose_manipulators.png](images/pose_manipulator.png)
@@ -86,18 +83,7 @@ Hold the <kbd>⇧ shift</kbd> key and the <kbd>⌘ command</kbd> key down and pr
 
 ### Scaling an Object
 
-Any [Transform](../reference/transform.md) node can be scaled.
-Two scaling options are available, uniform and non-uniform.
-By clicking the <kbd>ctrl</kbd> key (<kbd>⌥ option</kbd> on Apple keyboards), the default pose manipulators are replaced with resize manipulators, represented by double-ended arrows, as depicted in the following figure.
-
-%figure "Manipulators allowing to rescale an object."
-
-![resize_manipulator.png](images/resize_manipulator.png)
-
-%end
-
-While holding the <kbd>ctrl</kbd> key, and dragging either of the arrows, the object is scaled up or down along the corresponding dimension, based on the axis picked, resulting in a non-uniform scaling of the geometry.
-In order for the all three dimensions to scale by the same amount, or in other words to have a uniform scaling, the <kbd>shift</kbd> modifier must be pressed in conjunction with the <kbd>ctrl</kbd> key.
+Only [Transform](../reference/transform.md) nodes may be scaled. This can be achieved by editing their `scale` field in the scene tree.
 
 ### Applying a Force to a Solid Object with Physics
 

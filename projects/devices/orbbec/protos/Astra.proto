@@ -50,7 +50,7 @@ PROTO Astra [
     name IS name
     boundingObject Group {
       children [
-        DEF MAIN_BODY_BOX Transform {
+        DEF MAIN_BODY_BOX Pose {
           translation 0.006000 0.000000 0.034000
           children [
             Box {
@@ -58,7 +58,7 @@ PROTO Astra [
             }
           ]
         }
-        DEF SUPPORT_BOX Transform {
+        DEF SUPPORT_BOX Pose {
           translation -0.009000 0.000000 0.007000
           children [
             Box {
