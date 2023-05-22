@@ -31,11 +31,11 @@ export default class ProtoManager {
     const xml = this.getXmlOfMinimalScene();
     const scene = xml.getElementsByTagName('Scene')[0];
     if (this.proto.isRoot && ['PBRAppearance', 'Appearance'].includes(this.proto.getBaseNode().name)) {
-      const wrapper = this.createAppearanceWrapper();
+      const wrapper = this.#createAppearanceWrapper();
       scene.appendChild(wrapper);
     } else if (this.proto.isRoot && ['Box', 'Capsule', 'Cone', 'Cylinder', 'ElevationGrid', 'IndexedFaceSet', 'IndexedLineSet',
       'Mesh', 'Plane', 'PointSet', 'Sphere']) {
-      const wrapper = this.createGeometryWrapper();
+      const wrapper = this.#createGeometryWrapper();
       scene.appendChild(wrapper);
     } else
       scene.appendChild(this.proto.toX3d());
@@ -175,7 +175,7 @@ export default class ProtoManager {
     return xml;
   }
 
-  createAppearanceWrapper() {
+  #createAppearanceWrapper() {
     const xml = document.implementation.createDocument('', '', null);
     const pose = xml.createElement('Pose');
     pose.setAttribute('id', getAnId);
@@ -195,11 +195,11 @@ export default class ProtoManager {
     return pose;
   }
 
-  createGeometryWrapper() {
+  #createGeometryWrapper() {
     const xml = document.implementation.createDocument('', '', null);
     const pose = xml.createElement('Pose');
     pose.setAttribute('id', getAnId);
-    pose.setAttribute('translation', '0 0 0.1');
+    pose.setAttribute('translation', '0 0 0.05');
 
     const shape = xml.createElement('Shape');
     shape.setAttribute('id', getAnId());
