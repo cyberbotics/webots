@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Apache License 2.0
 # license url: https://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https%3A%2F%2Fgithub.com%2Fcyberbotics%2Fwebots%2Fblob%2Freleased%2Fprojects%2Fobjects%2Fgeometries%2Fprotos%2FRectangle.proto
 # keywords: primitive/geometry
 # Single/double sided and adjustable rectangle shape.
 # template language: javascript
