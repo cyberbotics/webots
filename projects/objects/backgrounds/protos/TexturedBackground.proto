@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https%3A%2F%2Fgithub.com%2Fcyberbotics%2Fwebots%2Fblob%2Freleased%2Fprojects%2Fobjects%2Fbackgrounds%2Fprotos%2FTexturedBackground.proto
 # tags: no3dView
 # keywords: primitive/background
 # TexturedBackground provides a set of background textures, and applies them to the background skybox and to the reflections on the 3D objects.
