@@ -34,7 +34,7 @@ export default class ProtoManager {
       const wrapper = this.#createAppearanceWrapper();
       scene.appendChild(wrapper);
     } else if (this.proto.isRoot && ['Box', 'Capsule', 'Cone', 'Cylinder', 'ElevationGrid', 'IndexedFaceSet', 'IndexedLineSet',
-      'Mesh', 'Plane', 'PointSet', 'Sphere']) {
+      'Mesh', 'Plane', 'PointSet', 'Sphere'].includes(this.proto.getBaseNode().name)) {
       const wrapper = this.#createGeometryWrapper();
       scene.appendChild(wrapper);
     } else
