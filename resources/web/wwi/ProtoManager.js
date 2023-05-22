@@ -33,6 +33,10 @@ export default class ProtoManager {
     if (this.proto.isRoot && ['PBRAppearance', 'Appearance'].includes(this.proto.getBaseNode().name)) {
       const wrapper = this.createAppearanceWrapper();
       scene.appendChild(wrapper);
+    } else if (this.proto.isRoot && ['Box', 'Capsule', 'Cone', 'Cylinder', 'ElevationGrid', 'IndexedFaceSet', 'IndexedLineSet',
+      'Mesh', 'Plane', 'PointSet', 'Sphere']) {
+      const wrapper = this.createGeometryWrapper();
+      scene.appendChild(wrapper);
     } else
       scene.appendChild(this.proto.toX3d());
 
@@ -173,9 +177,9 @@ export default class ProtoManager {
 
   createAppearanceWrapper() {
     const xml = document.implementation.createDocument('', '', null);
-    const transform = xml.createElement('Transform');
-    transform.setAttribute('id', getAnId);
-    transform.setAttribute('translation', '0 0 0.1');
+    const pose = xml.createElement('Pose');
+    pose.setAttribute('id', getAnId);
+    pose.setAttribute('translation', '0 0 0.1');
 
     const shape = xml.createElement('Shape');
     shape.setAttribute('id', getAnId());
@@ -187,7 +191,32 @@ export default class ProtoManager {
 
     shape.appendChild(sphere);
     shape.appendChild(this.proto.toX3d());
-    transform.appendChild(shape);
-    return transform;
+    pose.appendChild(shape);
+    return pose;
+  }
+
+  createGeometryWrapper() {
+    const xml = document.implementation.createDocument('', '', null);
+    const pose = xml.createElement('Pose');
+    pose.setAttribute('id', getAnId);
+    pose.setAttribute('translation', '0 0 0.1');
+
+    const shape = xml.createElement('Shape');
+    shape.setAttribute('id', getAnId());
+
+    const appearance = xml.createElement('PBRAppearance');
+    appearance.setAttribute('id', getAnId());
+    appearance.setAttribute('roughness', 0.5);
+    appearance.setAttribute('metalness', 0);
+
+    const imageTexture = xml.createElement('ImageTexture');
+    imageTexture.setAttribute('url', 'https://raw.githubusercontent.com/cyberbotics/webots/released/projects/default/worlds/textures/tagged_wall.jpg');
+    imageTexture.setAttribute('role', 'baseColorMap');
+    appearance.appendChild(imageTexture);
+
+    shape.appendChild(appearance);
+    shape.appendChild(this.proto.toX3d());
+    pose.appendChild(shape);
+    return pose;
   }
 }
