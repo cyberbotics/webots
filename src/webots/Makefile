@@ -305,7 +305,6 @@ QT_SOURCES = WbAboutBox.cpp \
   WbHingeJointParameters.cpp \
   WbHinge2Joint.cpp \
   WbImageTexture.cpp \
-  WbImportWizard.cpp \
   WbImmersionProperties.cpp \
   WbIntEditor.cpp \
   WbIntSpinBox.cpp \
