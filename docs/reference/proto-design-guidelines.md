@@ -64,7 +64,7 @@ robot
   - arm
   - flying
   - tracked
-  - walking
+  - legged
   - wheeled
   - other
   - accessory

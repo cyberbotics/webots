@@ -2,7 +2,7 @@
 # license: Creative Commons 4.0
 # license url: https://creativecommons.org/licenses/by/4.0
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/boston_dynamics/spot/protos/Spot.proto
-# keywords: robot/walking
+# keywords: robot/legged
 # The "Spot" is a dog robot developed by Boston Dynamics.
 # Original model by Greg McKechnie.
 

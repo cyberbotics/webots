@@ -2,7 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/robotis/darwin-op/protos/RobotisOp2.proto
-# keywords: robot/walking
+# keywords: robot/legged
 # ROBOTIS OP2 is an open platform, miniature humanoid robot used for research, education and outreach
 # The model contains principally:
 # - the 20 DOF
