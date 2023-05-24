@@ -13,7 +13,6 @@ PROTO Extrusion [
   field SFBool     beginCap                  TRUE                            # Defines whether the extrusion should have a cap at the begining.
   field SFBool     endCap                    TRUE                            # Defines whether the extrusion should have a cap at the end.
   field SFBool     ccw                       TRUE                            # Is `IndexedFaceSet.ccw`.
-  field SFBool     solid                     TRUE                            # Is `IndexedFaceSet.solid`.
   field SFBool     convex                    TRUE                            # Is `IndexedFaceSet.convex`.
   field SFFloat    creaseAngle               0.0                             # Is `IndexedFaceSet.creaseAngle`.
   field SFInt32    splineSubdivision         4                               # If bigger than 1, defines the B-Spline subdivion of the extrusion along it's path.
@@ -280,7 +279,6 @@ PROTO Extrusion [
         -1
       %< } >%
     ]
-    solid IS solid
     convex IS convex
     ccw IS ccw
     creaseAngle IS creaseAngle

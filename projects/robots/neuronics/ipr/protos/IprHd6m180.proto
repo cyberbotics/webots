@@ -1208,7 +1208,6 @@ PROTO IprHd6m180 [
                                                 -0.007 0.042 0.016
                                               ]
                                             }
-                                            solid FALSE
                                             ccw FALSE
                                             coordIndex [
                                               33, 32, 31, -1, 33, 24, 34, -1, 27, 70
