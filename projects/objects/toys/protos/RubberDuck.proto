@@ -1,8 +1,8 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/develop/projects/objects/toys/protos/RubberDuck.proto
-# keywords: household/electronics
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/toys/protos/RubberDuck.proto
+# keywords: household/toy
 # A rubber yellow duck (7.42 x 10.66 x 10.13 cm).
 # template language: javascript
 
