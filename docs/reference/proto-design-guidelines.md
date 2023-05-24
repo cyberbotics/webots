@@ -76,6 +76,70 @@ sensor
   - lidar
   - radar
   - range-finder
+actuator
+  - gripper
+  - motor
+  - other
+industrial
+  - cart
+  - container
+  - conveyor
+  - ironmongery
+  - light
+  - plumbing
+  - safety
+  - tool
+  - other
+household
+  - electronics
+  - hospital
+  - kitchen
+  - light
+  - living room
+  - potted plant
+  - school
+  - toy
+vehicle
+  - car
+  - farm
+  - public
+  - truck
+  - two wheels
+  - wheel
+  - steering
+  - other
+furniture
+  - bathroom
+  - bedroom
+  - chair
+  - kitchen
+  - laundry
+  - living room
+  - storage
+  - table
+building
+  - business
+  - civil
+  - component
+  - farm
+  - hotel
+  - house
+  - industry
+  - residential
+  - shop
+animal
+  - farm
+  - pet
+  - wild
+exterior
+  - garden
+  - obstacle
+  - sport
+  - street furniture
+  - tree
+traffic
+  - road
+  - sign
 appearance
   - electronics
   - fabric
@@ -87,73 +151,11 @@ appearance
   - plastic
   - rubber
   - wood
-animal
-  - farm
-  - pet
-  - wild
-building
-  - business
-  - civil
-  - component
-  - farm
-  - hotel
-  - house
-  - industry
-  - residential
-  - shop
-exterior
-  - garden
-  - obstacle
-  - street furniture
-  - tree
-floor
-food
-  - drink
-  - grocery
-furniture
-  - bathroom
-  - bedroom
-  - chair
-  - kitchen
-  - laundry
-  - living room
-  - storage
-  - table
-geometry
-household
-  - electronics
-  - hospital
-  - kitchen
-  - light
-  - living room
-  - potted plant
-  - school
-  - toy
-industrial
-  - cart
-  - container
-  - conveyor
-  - ironmongery
-  - light
-  - plumbing
-  - safety
-  - tool
-  - other
-sport
-- ball
-  - soccer field
-traffic
-  - road
-  - sign
-vehicle
-  - car
-  - farm
-  - public
-  - truck
-  - two wheels
-  - wheel
-  - steering
-  - other
+primitive
+  - background
+  - geometry
+  - ground
+  - joint
 ```
 
 You should declare the keywords as follow:
