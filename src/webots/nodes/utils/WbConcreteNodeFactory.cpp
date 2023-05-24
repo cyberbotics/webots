@@ -104,6 +104,7 @@
 #include "WbTransform.hpp"
 #include "WbUrl.hpp"
 #include "WbViewpoint.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWorld.hpp"
 #include "WbWorldInfo.hpp"
 #include "WbZoom.hpp"
@@ -281,8 +282,12 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbTrack(tokenizer);
   if (modelName == "TrackWheel")
     return new WbTrackWheel(tokenizer);
-  if (modelName == "Transform")
+  if (modelName == "Transform") {
+    if (WbWorld::instance() && WbWorld::instance()->isLoading())
+      return WbVrmlNodeUtilities::transformBackwardCompatibility(tokenizer) ? new WbPose(tokenizer) :
+                                                                              new WbTransform(tokenizer);
     return new WbTransform(tokenizer);
+  }
   if (modelName == "Viewpoint")
     return new WbViewpoint(tokenizer);
   if (modelName == "WorldInfo")
