@@ -138,7 +138,7 @@ export default class ProtoManager {
     directionalLight.setAttribute('ambientIntensity', '1');
     directionalLight.setAttribute('castShadows', 'true');
 
-    const floor = xml.createElement('Transform');
+    const floor = xml.createElement('Pose');
     floor.setAttribute('id', getAnId());
     const shape = xml.createElement('Shape');
     shape.setAttribute('id', getAnId());
