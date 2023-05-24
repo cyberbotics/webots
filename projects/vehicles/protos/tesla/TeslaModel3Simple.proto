@@ -2,6 +2,7 @@
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/tesla/TeslaModel3Simple.proto
+# keywords: vehicle/car
 # Simple kinematic model of the Tesla model 3 to be moved with a Supervisor.
 
 EXTERNPROTO "TeslaModel3Wheel.proto"

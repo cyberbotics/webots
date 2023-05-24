@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/guide/puma
+# keywords: robot/arm
 # The PUMA robotic arm (for "Programmable Universal Machine for Assembly") is a six axes arm with three axes making up a spherical wrist.
 
 PROTO Puma560 [

@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://www.cyberbotics.com/doc/automobile/ackermannvehicle
+# keywords: vehicle/other
 # Generic model of an Ackerman vehicle. Positions and joints of the wheels are set automatically
 # using 'trackFont', 'trackRear' and 'wheelbase' fields
 # This model was sponsored by the [CTI project RO2IVSim](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).

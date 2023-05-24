@@ -2,6 +2,7 @@
 # license: Attribution-NonCommercial 4.0 International (original model by 3DHaupt)
 # license url: https://creativecommons.org/licenses/by-nc/4.0
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/factory/fire_extinguisher/protos/FireExtinguisher.proto
+# keywords: industrial/safety
 # A simple fire extinguisher with optional physics.
 # template language: javascript
 

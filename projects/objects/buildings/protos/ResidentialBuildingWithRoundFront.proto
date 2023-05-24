@@ -2,6 +2,7 @@
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/buildings/protos/ResidentialBuildingWithRoundFront.proto
+# keywords: building/residential
 # A residential building with a rounded front face and optional boundingObject.
 # template language: javascript
 

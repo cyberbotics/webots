@@ -1,6 +1,8 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/geometries/protos/TexturedParallelepiped.proto
+# keywords: primitive/geometry
 # Customizable parallelepiped.
 # The `size` and `angles` fields specify the edges and angles of the parallelepiped:
 # - `angles.x`: angle in y direction between front and back faces of the prism

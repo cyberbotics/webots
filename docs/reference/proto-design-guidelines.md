@@ -55,6 +55,113 @@ This is typically the case if randomness is involved in the execution of the PRO
 
 The `documentation url:` comment can be used to link to the PROTO documentation. The link will be displayed in the add node dialog and openned from the node help menu.
 
+#### Keywords
+
+The `keywords:` comment should be added to classify the proto correctly on [webots.cloud](https://webots.cloud/proto).
+The following keywords are available:
+```
+robot
+  - arm
+  - flying
+  - tracked
+  - legged
+  - wheeled
+  - other
+  - accessory
+  - extension
+sensor
+  - camera
+  - distance-sensor
+  - imu
+  - lidar
+  - radar
+  - range-finder
+actuator
+  - gripper
+  - motor
+  - other
+industrial
+  - cart
+  - container
+  - conveyor
+  - ironmongery
+  - light
+  - plumbing
+  - safety
+  - tool
+  - other
+household
+  - electronics
+  - hospital
+  - kitchen
+  - light
+  - living room
+  - potted plant
+  - school
+  - toy
+vehicle
+  - car
+  - farm
+  - public
+  - truck
+  - two wheels
+  - wheel
+  - steering
+  - other
+furniture
+  - bathroom
+  - bedroom
+  - chair
+  - kitchen
+  - laundry
+  - living room
+  - storage
+  - table
+building
+  - business
+  - civil
+  - component
+  - farm
+  - hotel
+  - house
+  - industry
+  - residential
+  - shop
+animal
+  - farm
+  - pet
+  - wild
+exterior
+  - garden
+  - obstacle
+  - sport
+  - street furniture
+  - tree
+traffic
+  - road
+  - sign
+appearance
+  - electronics
+  - fabric
+  - leather
+  - metal
+  - mineral
+  - other
+  - paint
+  - plastic
+  - rubber
+  - wood
+primitive
+  - background
+  - geometry
+  - ground
+  - joint
+```
+
+You should declare the keywords as follow:
+- If the proto fits in a category which has subcategories, you have to choose a subcategory. The syntax is then: `keywords:first level category/second level category`, for example: `keywords: robot/walking`.
+- If the robot fits in several categories, the different categories must be separated by a comma, for example: `keywords: vehicle/car, appearance/metal`.
+
 #### Description
 
 Finally, it is important to provide a short description about what the PROTO is about.
