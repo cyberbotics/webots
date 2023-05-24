@@ -57,8 +57,8 @@ The `documentation url:` comment can be used to link to the PROTO documentation.
 
 #### Keywords
 
-The `keywords:` should be added to classify the proto correctly on https://webots.cloud/proto.
-The available keywords are the following:
+The `keywords:` comment should be added to classify the proto correctly on [webots.cloud](https://webots.cloud/proto).
+The following keywords are available:
 ```
 robot
   - arm
@@ -159,9 +159,8 @@ primitive
 ```
 
 You should declare the keywords as follow:
-- If the proto goes in a category which has subcategories, you have to choose a subcategory. The syntax is then: `keywords:first level category/second level on`, for example: `keywords: robot/walking`.
-- If the proto goes in a category without subcategories, the syntax is : `keywords:first level category`, for example: `keywords: geometry`.
-- If the robot goes in several categories, the different categories are separated by a comma, for example: `keywords: vehicle/car, appearance/metal`.
+- If the proto fits in a category which has subcategories, you have to choose a subcategory. The syntax is then: `keywords:first level category/second level category`, for example: `keywords: robot/walking`.
+- If the robot fits in several categories, the different categories must be separated by a comma, for example: `keywords: vehicle/car, appearance/metal`.
 
 #### Description
 
