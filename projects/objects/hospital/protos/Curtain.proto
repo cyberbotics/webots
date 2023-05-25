@@ -1,7 +1,8 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://webots.cloud/run?version=url=https://github.com/cyberbotics/webots/blob/released/projects/objects/hospital/protos/Curtain.proto
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/hospital/protos/Curtain.proto
+# keywords: household/hospital
 # A curtain.
 
 PROTO Curtain [
@@ -14,18 +15,22 @@ PROTO Curtain [
   Solid {
     translation IS translation
     rotation IS rotation
-    scale 0.000792147 0.000792147 0.000792147
     name IS name
     children [
-      Shape {
-        appearance PBRAppearance {
-          baseColor IS baseColor
-          roughness 1
-          metalness 0
-        }
-        geometry Mesh {
-          url "meshes/curtain.obj"
-        }
+      Transform {
+        scale 0.000792147 0.000792147 0.000792147
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor IS baseColor
+              roughness 1
+              metalness 0
+            }
+            geometry Mesh {
+              url "meshes/curtain.obj"
+            }
+          }
+        ]
       }
     ]
   }

@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/computers/protos/Laptop.proto
+# keywords: household/electronics
 # A simple laptop.
 
 PROTO Laptop [
@@ -104,7 +105,7 @@ PROTO Laptop [
               height 400
             }
           ]
-          boundingObject Transform {
+          boundingObject Pose {
             translation -0.02 -0.023 0.022
             rotation 1 0 0 0.532
             children [
@@ -162,7 +163,7 @@ PROTO Laptop [
     ]
     name IS name
     model "laptop"
-    boundingObject Transform {
+    boundingObject Pose {
       rotation 0.57731 -0.57741 -0.57734 2.09446
       translation 0.058 0 0.01
       children [

@@ -36,7 +36,6 @@
 #include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRenderingDevice.hpp"
-#include "WbResizeManipulator.hpp"
 #include "WbSensor.hpp"
 #include "WbSimulationState.hpp"
 #include "WbSkin.hpp"
@@ -108,6 +107,7 @@ void WbRobot::init() {
 
   mNeedToWriteUrdf = false;
   mControllerStarted = false;
+  mControllerTerminated = false;
   mNeedToRestartController = false;
   mConfigureRequest = true;
   mSimulationModeRequested = false;
@@ -161,18 +161,7 @@ WbRobot::WbRobot(WbTokenizer *tokenizer) : WbSolid("Robot", tokenizer) {
   init();
 }
 
-WbRobot::WbRobot(const WbRobot &other) :
-  WbSolid(other),
-  mControllerDir(),
-  mAbsoluteWindowFilename(),
-  mAbsoluteRemoteControlFilename(),
-  mKeyboardLastValue(),
-  mUserInputEventReferenceTime(),
-  mDevices(),
-  mRenderingDevices(),
-  mActiveCameras(),
-  mNewlyAddedDevices(),
-  mPressedKeys() {
+WbRobot::WbRobot(const WbRobot &other) : WbSolid(other) {
   init();
 }
 
@@ -260,9 +249,6 @@ void WbRobot::postFinalize() {
   connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbRobot::updateSimulationMode);
   connect(mBattery, &WbMFDouble::itemInserted, this, [this]() { this->updateBattery(true); });
   connect(mBattery, &WbMFDouble::itemRemoved, this, [this]() { this->updateBattery(false); });
-
-  if (absoluteScale() != WbVector3(1.0, 1.0, 1.0))
-    parsingWarn(tr("This Robot node is scaled: this is discouraged as it could compromise the correct physical behavior."));
 }
 
 void WbRobot::reset(const QString &id) {
@@ -388,14 +374,25 @@ void WbRobot::clearDevices() {
   mActiveCameras.clear();
 }
 
+void WbRobot::updateControllerStatusInDevices() {
+  if (isBeingDeleted())
+    return;
+  foreach (WbDevice *const d, mDevices)
+    d->setIsControllerRunning(mControllerStarted && !mControllerTerminated);
+}
+
 void WbRobot::updateDevicesAfterDestruction() {
+  if (isBeingDeleted())
+    return;
   clearDevices();
   addDevices(this);
+  updateControllerStatusInDevices();
 }
 
 void WbRobot::updateDevicesAfterInsertion() {
   clearDevices();
   addDevices(this);
+  updateControllerStatusInDevices();
   assignDeviceTags(false);
 }
 
@@ -992,6 +989,9 @@ void WbRobot::handleMessage(QDataStream &stream) {
     }
     case C_ROBOT_CLIENT_EXIT_NOTIFY:
       emit controllerExited();
+      // notify devices that controller has terminated
+      mControllerTerminated = true;
+      updateControllerStatusInDevices();
       return;
     case C_ROBOT_REMOTE_ON:
       emit toggleRemoteMode(true);

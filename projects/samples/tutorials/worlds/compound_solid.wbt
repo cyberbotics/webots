@@ -112,7 +112,7 @@ DEF DUMBBELL Solid {
             radius 0.01
           }
         }
-        Transform {
+        Pose {
           translation 0 0 0.05
           children [
             Shape {
@@ -128,7 +128,7 @@ DEF DUMBBELL Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 -0.05
           children [
             Shape {

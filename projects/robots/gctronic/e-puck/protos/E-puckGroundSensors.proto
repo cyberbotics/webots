@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/gctronic/e-puck/protos/E-puckGroundSensors.proto
+# keywords: robot/extension
 # Ground sensors extension for the e-puck robot.
 #
 # It includes three infra-red proximity sensors
@@ -14,11 +15,11 @@ PROTO E-puckGroundSensors [
   field SFRotation rotation    0 0 1 0
 ]
 {
-  Transform {
+  Solid {
     translation IS translation
     rotation IS rotation
     children [
-      DEF EPUCK_GROUND_SENSOR_CIRCUIT Transform {
+      DEF EPUCK_GROUND_SENSOR_CIRCUIT Pose {
         translation 0 0 0.014
         rotation 0.57735 0.57735 0.57735 2.094395
         children [

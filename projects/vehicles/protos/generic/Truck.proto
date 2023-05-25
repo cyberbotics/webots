@@ -1,7 +1,8 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/automobile/car#heavy-weights
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/generic/Truck.proto
+# keywords: vehicle/truck
 # A simple truck.
 # template language: javascript
 
@@ -63,23 +64,23 @@ PROTO Truck [
     engineFunctionCoefficients -600 5.45 -0.0023  # calibrated for a torque of 2500Nm in the range [1000; 1350] RPM
     gearRatio [-14.77 16 13 11 9 7 6 4.5 3.7 3 2.4 1.9 1.5 1.2 1]
     extensionSlot [
-      Transform {
+      Pose {
         children IS sensorsSlotCenter
       }
-      Transform {
+      Pose {
         translation 6.75 0 1.1
         children IS sensorsSlotFront
       }
-      Transform {
+      Pose {
         translation 4.3 0 4.15
         children IS sensorsSlotTop
       }
-      Transform {
+      Pose {
         translation -7.3 0 2.7
         rotation 0 0 1 3.14157
         children IS sensorsSlotRear
       }
-      Transform {
+      Pose {
         translation %<= 0.998 * (wheelbase - 5.25) >% 0 0
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
@@ -93,7 +94,7 @@ PROTO Truck [
           }
         ]
       }
-      Transform {
+      Pose {
         translation %<= fields.kingPinDistance.value >% 0 0
         children [
           DEF TRAILER_JOINT HingeJoint {
@@ -114,7 +115,7 @@ PROTO Truck [
           }
         ]
       }
-      Transform {
+      Pose {
         rotation 0.57735 0.57735 0.57735 2.094395
         children [
           TruckCab {
@@ -130,7 +131,7 @@ PROTO Truck [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation %<= wheelbase + 0.15 >% 0 2
           children [
             Box {
@@ -138,7 +139,7 @@ PROTO Truck [
             }
           ]
         }
-        Transform {
+        Pose {
           translation %<= 0.5 * wheelbase - 1.075 >% 0 0.35
           children [
             Box {

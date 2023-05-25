@@ -933,23 +933,14 @@
     "fields": "  translation 0 0 0.01 rotation 0.0 0.0 1.0 1.87",
     "nodeString": "  RobotstadiumSoccerField{ translation 0 0 0.01 rotation 0.0 0.0 1.0 1.87 }"
   },
-  "projects/objects/rocks/protos/Rock10cm": {
+  "projects/objects/rocks/protos/Rock": {
     "background": [
       0.0,
       0.0,
       0.0
     ],
     "fields": "  rotation 0.0 0.0 1.0 0.3",
-    "nodeString": "  Rock10cm{ rotation 0.0 0.0 1.0 0.3 }"
-  },
-  "projects/objects/rocks/protos/Rock17cm": {
-    "background": [
-      0.0,
-      0.0,
-      0.0
-    ],
-    "fields": "  rotation 0.0 0.0 1.0 0.3",
-    "nodeString": "  Rock17cm{ rotation 0.0 0.0 1.0 0.3 }"
+    "nodeString": "  Rock{ rotation 0.0 0.0 1.0 0.3 }"
   },
   "projects/objects/school_furniture/protos/Blackboard": {
     "background": [
@@ -1646,24 +1637,20 @@
     "fields": "  rotation -0.13052795126003722 -0.9914446297883028 -1.947439272813855e-06 3.14159",
     "nodeString": "  Robot { translation 0 0 0.027 rotation -0.13052795126003722 -0.9914446297883028 -1.947439272813855e-06 3.14159 children [ Slot { endPoint TinkerbotsWheel { } } ] }"
   },
-  "projects/robots/pal_robotics/tiagopp/protos/Tiagopp.proto": {
+  "projects/robots/pal_robotics/tiagopp/protos/Tiago++.proto": {
     "fields": "  rotation -0.230732 -0.109357 0.966852 -1.27752",
-    "nodeString": "  Tiagopp{ rotation -0.230732 -0.109357 0.966852 -1.27752 controller \"<generic>\" }"
+    "nodeString": "  Tiago++{ rotation -0.230732 -0.109357 0.966852 -1.27752 controller \"<generic>\" }"
   },
   "projects/robots/pal_robotics/tiago_base/protos/TiagoBase.proto": {
     "nodeString": "  TiagoBase{ rotation 0 0 -1 1.57 controller \"<generic>\" }"
   },
-  "projects/robots/pal_robotics/tiago_iron/protos/TiagoIron.proto": {
+  "projects/robots/pal_robotics/tiago_lite/protos/TiagoLite.proto": {
     "fields": "  rotation 0.001775990237163933 -0.01802608248670652 -0.9998359396465302 1.5711223019163478",
-    "nodeString": "  TiagoIron{ rotation 0.001775990237163933 -0.01802608248670652 -0.9998359396465302 1.5711223019163478 controller \"<generic>\" }"
+    "nodeString": "  TiagoLite{ rotation 0.001775990237163933 -0.01802608248670652 -0.9998359396465302 1.5711223019163478 controller \"<generic>\" }"
   },
-  "projects/robots/pal_robotics/tiago_steel/protos/TiagoSteel.proto": {
+  "projects/robots/pal_robotics/tiago/protos/Tiago.proto": {
     "fields": "  rotation -0.18789294537622336 0.005159654343665657 -0.9821759613454716 1.4838269323889604",
-    "nodeString": "  TiagoSteel{ rotation -0.18789294537622336 0.005159654343665657 -0.9821759613454716 1.4838269323889604 controller \"<generic>\"}"
-  },
-  "projects/robots/pal_robotics/tiago_titanium/protos/TiagoTitanium.proto": {
-    "fields": "  rotation -0.16662402446293992 -0.030301078109835983 -0.985554807779433 1.6472289044010433",
-    "nodeString": "  TiagoTitanium{ rotation -0.16662402446293992 -0.030301078109835983 -0.985554807779433 1.6472289044010433 controller \"<generic>\" }"
+    "nodeString": "  Tiago{ rotation -0.18789294537622336 0.005159654343665657 -0.9821759613454716 1.4838269323889604 controller \"<generic>\"}"
   },
   "projects/robots/robotis/turtlebot/protos/TurtleBot3Burger.proto": {
     "fields": "  rotation -9.589789993248847e-09 -2.315170000239143e-08 -0.9999999999999997 0.7853953071795863",

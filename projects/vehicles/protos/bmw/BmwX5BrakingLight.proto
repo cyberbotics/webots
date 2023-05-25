@@ -6,7 +6,7 @@
 PROTO BmwX5BrakingLight [
 ]
 {
-  Transform {
+  Pose {
     translation 0 0 1.4975
     rotation 0 1 0 3.14159
     children [
@@ -54,7 +54,6 @@ PROTO BmwX5BrakingLight [
               0.876262 0.522395 2.19821
             ]
           }
-          solid FALSE
           coordIndex [
             30, 24, 25, -1, 31, 16, 18, -1, 29, 30
             25, -1, 29, 25, 28, -1, 27, 28, 25, -1

@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/smartmicro/protos/SmsUmrr-0a30.proto
+# keywords: sensor/radar
 # Smartmicro UMR-A0 type 30 sensor model based on the Radar node.
 # This model was sponsored by the CTI project RO2IVSim (http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
@@ -41,7 +42,7 @@ PROTO SmsUmrr-0a30 [
       SmsUmrrShape {
       }
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       rotation -0.5774 0.5773 0.5774 -2.0944
       translation -0.015 0 0
       children [

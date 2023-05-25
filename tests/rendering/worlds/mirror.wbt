@@ -53,7 +53,7 @@ Robot {
       translation 0 0.47 -1.61
       rotation -0.577353047596502 0.5773496460042129 0.577348113957118 2.0943983352517446
     }
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57
       children [
         Shape {

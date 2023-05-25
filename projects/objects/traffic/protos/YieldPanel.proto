@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/traffic/protos/YieldPanel.proto
+# keywords: traffic/sign
 # Traffic panel: Yield panel.
 
 EXTERNPROTO "webots://projects/objects/geometries/protos/Extrusion.proto"
@@ -51,7 +52,7 @@ PROTO YieldPanel [
           ]
         }
       }
-      Transform {
+      Pose {
         translation 0.004 0 -1.9
         rotation 0 1 0 1.5708
         children [
@@ -79,7 +80,7 @@ PROTO YieldPanel [
     model "yield panel"
     boundingObject Group {
       children [
-        DEF TOP Transform {
+        DEF TOP Pose {
           translation 0.043 0 0.22
           rotation -0.57735 0.57735 0.57735 -2.09441
           children [
@@ -88,7 +89,7 @@ PROTO YieldPanel [
             }
           ]
         }
-        DEF LEFT Transform {
+        DEF LEFT Pose {
           translation 0.043 -0.18 -0.1
           rotation -0.25056 0.93511 0.25057 -1.63784
           children [
@@ -97,7 +98,7 @@ PROTO YieldPanel [
             }
           ]
         }
-        DEF RIGHT Transform {
+        DEF RIGHT Pose {
           translation 0.043 0.18 -0.1
           rotation 0.69475 -0.18615 -0.69475 2.77350
           children [
@@ -106,7 +107,7 @@ PROTO YieldPanel [
             }
           ]
         }
-        DEF CENTER Transform {
+        DEF CENTER Pose {
           translation 0.043 0 0
           rotation -0.57735 0.57735 0.57735 -2.09441
           children [

@@ -25,7 +25,7 @@
 
 WbWebotsUpdateManager *WbWebotsUpdateManager::cInstance = NULL;
 
-WbWebotsUpdateManager::WbWebotsUpdateManager() : mVersion(), mTargetVersionAvailable(false), mError() {
+WbWebotsUpdateManager::WbWebotsUpdateManager() : mTargetVersionAvailable(false) {
   sendRequest();
 }
 

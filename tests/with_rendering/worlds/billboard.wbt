@@ -19,7 +19,7 @@ TestSuiteSupervisor {
 }
 Billboard {
   children [
-    Transform {
+    Pose {
       translation 2 0 0
       children [
         Group {

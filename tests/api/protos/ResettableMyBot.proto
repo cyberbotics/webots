@@ -10,7 +10,7 @@ PROTO ResettableMyBot [
   Robot {
     translation IS translation
     children [
-      Transform {
+      Pose {
         translation 0 0.0415 0
         rotation 1 0 0 -1.57079632679
         children [
@@ -44,7 +44,7 @@ PROTO ResettableMyBot [
           translation -0.045 0.025 0
           rotation 1 0 0 -2.55421
           children [
-            DEF WHEEL Transform {
+            DEF WHEEL Pose {
               rotation 0 1 0 -1.57
               children [
                 Shape {
@@ -97,7 +97,7 @@ PROTO ResettableMyBot [
         translation -0.02 0.063 -0.042
         rotation 0 1 0 2.2253
         children [
-          DEF SENSOR_TRANSFORM Transform {
+          DEF SENSOR_POSE Pose {
             rotation 0 1 0 -1.57
             children [
               Shape {
@@ -126,7 +126,7 @@ PROTO ResettableMyBot [
         translation 0.02 0.063 -0.042
         rotation 0 1 0 0.9163
         children [
-          USE SENSOR_TRANSFORM
+          USE SENSOR_POSE
         ]
         name "us1"
         lookupTable [
@@ -140,7 +140,7 @@ PROTO ResettableMyBot [
       }
     ]
     name "resettable MyBot"
-    boundingObject DEF MYBOT_BOUNDING Transform {
+    boundingObject DEF MYBOT_BOUNDING Pose {
       translation 0 0.0415 0
       rotation 1 0 0 -1.57079632679
       children [

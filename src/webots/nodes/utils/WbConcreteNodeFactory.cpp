@@ -73,6 +73,7 @@
 #include "WbPlane.hpp"
 #include "WbPointLight.hpp"
 #include "WbPointSet.hpp"
+#include "WbPose.hpp"
 #include "WbPositionSensor.hpp"
 #include "WbPropeller.hpp"
 #include "WbProtoManager.hpp"
@@ -103,6 +104,7 @@
 #include "WbTransform.hpp"
 #include "WbUrl.hpp"
 #include "WbViewpoint.hpp"
+#include "WbVrmlNodeUtilities.hpp"
 #include "WbWorld.hpp"
 #include "WbWorldInfo.hpp"
 #include "WbZoom.hpp"
@@ -234,6 +236,8 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbPointSet(tokenizer);
   if (modelName == "PositionSensor")
     return new WbPositionSensor(tokenizer);
+  if (modelName == "Pose")
+    return new WbPose(tokenizer);
   if (modelName == "Propeller")
     return new WbPropeller(tokenizer);
   if (modelName == "Radar")
@@ -278,8 +282,12 @@ WbNode *WbConcreteNodeFactory::createNode(const QString &modelName, WbTokenizer 
     return new WbTrack(tokenizer);
   if (modelName == "TrackWheel")
     return new WbTrackWheel(tokenizer);
-  if (modelName == "Transform")
+  if (modelName == "Transform") {
+    if (WbWorld::instance() && WbWorld::instance()->isLoading())
+      return WbVrmlNodeUtilities::transformBackwardCompatibility(tokenizer) ? new WbPose(tokenizer) :
+                                                                              new WbTransform(tokenizer);
     return new WbTransform(tokenizer);
+  }
   if (modelName == "Viewpoint")
     return new WbViewpoint(tokenizer);
   if (modelName == "WorldInfo")
@@ -437,6 +445,8 @@ WbNode *WbConcreteNodeFactory::createCopy(const WbNode &original) {
     return new WbPointSet(original);
   if (modelName == "PositionSensor")
     return new WbPositionSensor(original);
+  if (modelName == "Pose")
+    return new WbPose(original);
   if (modelName == "Propeller")
     return new WbPropeller(original);
   if (modelName == "Radar")

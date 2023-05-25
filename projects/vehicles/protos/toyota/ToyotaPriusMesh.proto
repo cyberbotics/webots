@@ -8661,7 +8661,7 @@ PROTO ToyotaPriusMesh [
           creaseAngle 0.4
         }
       }
-      DEF REAR_PLATE Transform {
+      DEF REAR_PLATE Pose {
         translation 0 0.593 -0.651
         rotation 1 0 0 0.25
         children [
@@ -8712,7 +8712,7 @@ PROTO ToyotaPriusMesh [
           }
         ]
       }
-      DEF REAR_LOGO Transform {
+      DEF REAR_LOGO Pose {
         translation 0 0.751 -0.646
         rotation 1 0 0 0.309204
         children [
@@ -8746,7 +8746,7 @@ PROTO ToyotaPriusMesh [
           }
         ]
       }
-      DEF FRONT_LOGO Transform {
+      DEF FRONT_LOGO Pose {
         translation 0 0.475 3.535
         rotation 1 0 0 -0.700796
         children [
@@ -8780,7 +8780,7 @@ PROTO ToyotaPriusMesh [
           }
         ]
       }
-      DEF FRONT_PLATE Transform {
+      DEF FRONT_PLATE Pose {
         translation 0 0.155 3.675
         rotation 1 0 0 -0.1209
         children [

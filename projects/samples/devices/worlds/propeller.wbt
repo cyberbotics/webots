@@ -21,7 +21,7 @@ TexturedBackground {
 }
 TexturedBackgroundLight {
 }
-DEF WATER_PLANE Transform {
+DEF WATER_PLANE Pose {
   translation 0 0 -0.1
   rotation 0 0 1 -1.570795
   children [
@@ -45,11 +45,11 @@ DEF WATER_PLANE Transform {
     }
   ]
 }
-DEF PLATFORM_BOX Transform {
+DEF PLATFORM_BOX Pose {
   translation 0 0 -0.01
   rotation 0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.0944
   children [
-    Transform {
+    Pose {
       translation 0 -0.08 0
       rotation 0 -0.7071067811865476 -0.7071067811865476 3.14159
       children [
@@ -84,7 +84,7 @@ DEF PLATFORM Solid {
       }
     }
   ]
-  boundingObject Transform {
+  boundingObject Pose {
     children [
       Plane {
       }
@@ -101,7 +101,7 @@ DEF RED_HELICOPTER Robot {
     InertialUnit {
       rotation 0 0 1 3.14159
     }
-    DEF BODY Transform {
+    DEF BODY Pose {
       translation 0 0 0.1
       rotation -0.5773509358554485 -0.5773509358554485 -0.5773489358556708 -2.094397
       children [
@@ -119,7 +119,7 @@ DEF RED_HELICOPTER Robot {
         }
       ]
     }
-    DEF COCKPIT_WINDOW Transform {
+    DEF COCKPIT_WINDOW Pose {
       translation 0.065 0 0.105
       children [
         Shape {
@@ -136,7 +136,7 @@ DEF RED_HELICOPTER Robot {
         }
       ]
     }
-    DEF TAIL Transform {
+    DEF TAIL Pose {
       translation -0.13 0 0.1
       rotation 0 1 0 -0.03
       children [
@@ -148,7 +148,7 @@ DEF RED_HELICOPTER Robot {
         }
       ]
     }
-    DEF TAIL_AXLE Transform {
+    DEF TAIL_AXLE Pose {
       translation -0.19 0 0.101
       rotation 1 0 0 1.5708
       children [
@@ -168,7 +168,7 @@ DEF RED_HELICOPTER Robot {
             subdivision 24
           }
         }
-        Transform {
+        Pose {
           translation 0 0 0.01
           rotation 0.7071067811865476 0.7071067811865476 0 3.141591
           children [
@@ -188,7 +188,7 @@ DEF RED_HELICOPTER Robot {
         }
       ]
     }
-    DEF MAIN_AXLE_LARGE Transform {
+    DEF MAIN_AXLE_LARGE Pose {
       translation 0.01 0 0.16
       rotation 0 0 1 1.570796
       children [
@@ -203,7 +203,7 @@ DEF RED_HELICOPTER Robot {
         }
       ]
     }
-    DEF MAIN_AXLE_THIN Transform {
+    DEF MAIN_AXLE_THIN Pose {
       translation 0.01 0 0.16
       children [
         Shape {
@@ -220,7 +220,7 @@ DEF RED_HELICOPTER Robot {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0.01 0 0.168
       rotation 0 0 1 1.570796
       children [
@@ -233,13 +233,13 @@ DEF RED_HELICOPTER Robot {
         }
       ]
     }
-    DEF RIGHT_SKI_ANCHORS Transform {
+    DEF RIGHT_SKI_ANCHORS Pose {
       translation 0 -0.052 0
       rotation -1 0 0 -1.270797
       children [
         DEF SKI_GROUP Group {
           children [
-            Transform {
+            Pose {
               translation 0.03 0.04 0
               rotation -1 0 0 -1.5708
               children [
@@ -258,7 +258,7 @@ DEF RED_HELICOPTER Robot {
                 }
               ]
             }
-            Transform {
+            Pose {
               translation -0.03 0.04 0
               rotation -1 0 0 -1.5708
               children [
@@ -269,7 +269,7 @@ DEF RED_HELICOPTER Robot {
         }
       ]
     }
-    DEF RIGHT_SKI Transform {
+    DEF RIGHT_SKI Pose {
       translation 0 -0.048 0.015
       rotation 0.5773489358533613 0.5773489358533613 0.5773529358529169 2.094391
       children [
@@ -282,14 +282,14 @@ DEF RED_HELICOPTER Robot {
         }
       ]
     }
-    DEF LEFT_SKI_ANCHORS Transform {
+    DEF LEFT_SKI_ANCHORS Pose {
       translation 0 0.052 0
       rotation -1 0 0 -1.870795
       children [
         USE SKI_GROUP
       ]
     }
-    DEF LEFT_SKI Transform {
+    DEF LEFT_SKI Pose {
       translation 0 0.048 0.015
       rotation 0.5773509358554485 0.5773509358554485 -0.5773489358556708 -2.094397
       children [
@@ -340,7 +340,7 @@ DEF RED_HELICOPTER Robot {
         translation 0.01 0 0.2
         rotation -1 0 0 -1.570796
         children [
-          DEF SLOW_MAIN_HELIX_TRANSFORM Transform {
+          DEF SLOW_MAIN_HELIX_TRANSFORM Pose {
             rotation 0 0 1 1.570796
             children [
               DEF SLOW_MAIN_HELIX_GROUP Group {
@@ -359,7 +359,7 @@ DEF RED_HELICOPTER Robot {
                       radius 0.004
                     }
                   }
-                  DEF RIGHT_BLADE Transform {
+                  DEF RIGHT_BLADE Pose {
                     translation 0 0 0.09
                     rotation 0 0 1 0.361801
                     children [
@@ -375,7 +375,7 @@ DEF RED_HELICOPTER Robot {
                       }
                     ]
                   }
-                  DEF RIGHT_BLADE Transform {
+                  DEF RIGHT_BLADE Pose {
                     translation 0 0 -0.09
                     rotation 0 0 1 -0.361799
                     children [
@@ -428,7 +428,7 @@ DEF RED_HELICOPTER Robot {
         translation -0.19 -0.045 0.101
         rotation -1 0 0 3.141591
         children [
-          DEF SLOW_TAIL_HELIX Transform {
+          DEF SLOW_TAIL_HELIX Pose {
             rotation 0 0 1 1.570796
             children [
               DEF SLOW_TAIL_HELIX_GROUP Group {
@@ -447,7 +447,7 @@ DEF RED_HELICOPTER Robot {
                       radius 0.004
                     }
                   }
-                  DEF RIGHT_BLADE Transform {
+                  DEF RIGHT_BLADE Pose {
                     translation 0 0 0.04
                     rotation 0 0 1 1.932596
                     children [
@@ -463,7 +463,7 @@ DEF RED_HELICOPTER Robot {
                       }
                     ]
                   }
-                  DEF RIGHT_BLADE Transform {
+                  DEF RIGHT_BLADE Pose {
                     translation 0 0 -0.04
                     rotation 0 0 1 1.208796
                     children [
@@ -506,7 +506,7 @@ DEF BLUE_HELICOPTER Robot {
     InertialUnit {
       rotation 0 0 1 3.14159
     }
-    DEF BODY Transform {
+    DEF BODY Pose {
       translation 0 0 0.1
       rotation -0.5773509358554485 -0.5773509358554485 -0.5773489358556708 -2.094397
       children [
@@ -525,7 +525,7 @@ DEF BLUE_HELICOPTER Robot {
       ]
     }
     USE COCKPIT_WINDOW
-    DEF MAIN_AXLE_LARGE Transform {
+    DEF MAIN_AXLE_LARGE Pose {
       translation 0.01 0 0.16
       children [
         Shape {
@@ -540,7 +540,7 @@ DEF BLUE_HELICOPTER Robot {
       ]
     }
     USE MAIN_AXLE_THIN
-    Transform {
+    Pose {
       translation 0.01 0 0.168
       children [
         Shape {
@@ -609,7 +609,7 @@ DEF GREEN_HELICOPTER Robot {
     InertialUnit {
       rotation 0 0 1 3.14159
     }
-    DEF BODY Transform {
+    DEF BODY Pose {
       translation 0 0 0.1
       rotation 0.707107781185531 0 0.70710578118615 -3.141589
       children [
@@ -628,7 +628,7 @@ DEF GREEN_HELICOPTER Robot {
       ]
     }
     USE COCKPIT_WINDOW
-    DEF TAIL Transform {
+    DEF TAIL Pose {
       translation -0.13 0 0.101
       rotation 0 0.707108281185553 0.70710528118436 3.14159
       children [
@@ -640,7 +640,7 @@ DEF GREEN_HELICOPTER Robot {
         }
       ]
     }
-    DEF TAIL_AXLE Transform {
+    DEF TAIL_AXLE Pose {
       translation -0.19 0 0.101
       children [
         Shape {
@@ -659,7 +659,7 @@ DEF GREEN_HELICOPTER Robot {
             subdivision 24
           }
         }
-        Transform {
+        Pose {
           translation 0 0 0.01
           children [
             Shape {
@@ -678,7 +678,7 @@ DEF GREEN_HELICOPTER Robot {
         }
       ]
     }
-    DEF MAIN_AXLE_LARGE Transform {
+    DEF MAIN_AXLE_LARGE Pose {
       translation 0.01 0 0.16
       children [
         Shape {
@@ -693,7 +693,7 @@ DEF GREEN_HELICOPTER Robot {
       ]
     }
     USE MAIN_AXLE_THIN
-    Transform {
+    Pose {
       translation 0.01 0 0.168
       children [
         Shape {
@@ -730,7 +730,7 @@ DEF GREEN_HELICOPTER Robot {
         translation 0.01 0 0.2
         rotation 0.5773509358554485 -0.5773509358554485 0.5773489358556708 2.094397
         children [
-          Transform {
+          Pose {
             rotation -1 0 0 3.141589
             children [
               USE SLOW_MAIN_HELIX_GROUP
@@ -760,7 +760,7 @@ DEF GREEN_HELICOPTER Robot {
         translation 0.01 0 0.22
         rotation 0 0 1 2.356197
         children [
-          Transform {
+          Pose {
             rotation 0.8628565621288802 0.3574058186283875 0.35740681862788 1.71777
             children [
               USE SLOW_MAIN_HELIX_GROUP
@@ -791,7 +791,7 @@ DEF GREEN_HELICOPTER Robot {
         translation -0.19 0 0.14
         rotation 1 0 0 0
         children [
-          DEF SLOW_TAIL_HELIX Transform {
+          DEF SLOW_TAIL_HELIX Pose {
             rotation 1 0 0 1.5708
             children [
               USE SLOW_TAIL_HELIX_GROUP

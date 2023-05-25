@@ -8,7 +8,7 @@ PROTO NestedProtoCase2 [
   field SFString   name        ""
 ]
 {
-  Transform {
+  Pose {
     translation IS translation
     rotation IS rotation
     children [

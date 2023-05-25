@@ -32,7 +32,7 @@ SpotLight {
 }
 DEF GROUND Solid {
   children [
-    Transform {
+    Pose {
       translation 115 0.3 0
       children [
         Shape {
@@ -48,7 +48,7 @@ DEF GROUND Solid {
         }
       ]
     }
-    Transform {
+    Pose {
       translation -115 0.3 0
       children [
         Shape {
@@ -64,7 +64,7 @@ DEF GROUND Solid {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0 -130 0
       children [
         Shape {
@@ -80,7 +80,7 @@ DEF GROUND Solid {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0 130 0
       children [
         Shape {

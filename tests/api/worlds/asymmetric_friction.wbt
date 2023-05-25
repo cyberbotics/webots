@@ -64,7 +64,7 @@ DEF PLANE Solid {
   translation 0 -1.16 0
   rotation -0.7931261333066688 0.45791307696489164 0.40158006749657943 1.92612
   children [
-    DEF PLANE Transform {
+    DEF PLANE Pose {
       children [
         Shape {
           geometry Plane {

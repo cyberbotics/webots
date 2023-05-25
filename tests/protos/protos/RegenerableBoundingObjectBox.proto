@@ -8,7 +8,7 @@ PROTO RegenerableBoundingObjectBox [
   %< const size = fields.size.value; >%
   Group {
     children [
-      Transform {
+      Pose {
         children [
           Box {
             size %<= size >% %<= size >% %<= size >%

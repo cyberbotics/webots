@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/buildings/protos/BuildingUnderConstruction.proto
+# keywords: building/business
 # Building under construction with scaffolding.
 
 PROTO BuildingUnderConstruction [
@@ -51,7 +52,7 @@ PROTO BuildingUnderConstruction [
     ]
     name IS name
     model "building under construction"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 19.3
       rotation 0.57735 -0.57735 -0.57735 2.094395
       children [

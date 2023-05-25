@@ -99,7 +99,7 @@ DEF Leg_test Robot {
                                 solidName "Link_1"
                               }
                             }
-                            DEF Pris_head Transform {
+                            DEF Pris_head Pose {
                               rotation 1 0 0 -1.5708
                               children [
                                 Shape {
@@ -131,7 +131,7 @@ DEF Leg_test Robot {
                           }
                         }
                       }
-                      DEF Pris_base Transform {
+                      DEF Pris_base Pose {
                         rotation 1 0 0 -1.5708
                         children [
                           Shape {

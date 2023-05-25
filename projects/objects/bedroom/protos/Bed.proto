@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/bedroom/protos/Bed.proto
+# keywords: furniture/bedroom
 # Customizable bed with feet and one or 2 pillows.
 
 EXTERNPROTO "webots://projects/appearances/protos/PaintedWood.proto"
@@ -62,7 +63,7 @@ PROTO Bed [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.45
           children [
             Box {
@@ -70,7 +71,7 @@ PROTO Bed [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 1.01 0 0.42
           children [
             Box {
@@ -78,7 +79,7 @@ PROTO Bed [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -1.01 0 0.63
           children [
             Box {
@@ -86,7 +87,7 @@ PROTO Bed [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.71 0 0.79
           children [
             Box {

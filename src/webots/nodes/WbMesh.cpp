@@ -15,12 +15,15 @@
 #include "WbMesh.hpp"
 
 #include "WbApplication.hpp"
+#include "WbBoundingSphere.hpp"
 #include "WbDownloadManager.hpp"
 #include "WbDownloader.hpp"
 #include "WbField.hpp"
 #include "WbGroup.hpp"
 #include "WbMFString.hpp"
+#include "WbMatter.hpp"
 #include "WbNetwork.hpp"
+#include "WbNodeUtilities.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbTriangleMesh.hpp"
 #include "WbUrl.hpp"
@@ -44,6 +47,7 @@ void WbMesh::init() {
   mIsCollada = false;
   mResizeConstraint = WbWrenAbstractResizeManipulator::UNIFORM;
   mDownloader = NULL;
+  mBoundingObjectNeedUpdate = false;
   setCcw(mCcw->value());
 }
 
@@ -78,12 +82,9 @@ void WbMesh::downloadAssets() {
 }
 
 void WbMesh::downloadUpdate() {
+  mBoundingObjectNeedUpdate = true;
   updateUrl();
   WbWorld::instance()->viewpoint()->emit refreshRequired();
-  const WbNode *ancestor = WbVrmlNodeUtilities::findTopNode(this);
-  WbGroup *group = dynamic_cast<WbGroup *>(const_cast<WbNode *>(ancestor));
-  if (group)
-    group->recomputeBoundingSphere();
 }
 
 void WbMesh::preFinalize() {
@@ -350,8 +351,18 @@ void WbMesh::updateUrl() {
       emit wrenObjectsCreated();  // throw signal to update pickable state
   }
 
-  if (isAValidBoundingObject())
+  if (isAValidBoundingObject()) {
+    if (mBoundingObjectNeedUpdate) {
+      WbMatter *boundingObjectAncestor = WbNodeUtilities::findBoundingObjectAncestor(this);
+      if (boundingObjectAncestor && boundingObjectAncestor->odeGeom() == NULL)
+        boundingObjectAncestor->updateBoundingObject();
+      mBoundingObjectNeedUpdate = false;
+    }
     applyToOdeData();
+  }
+
+  if (mBoundingSphere && !isInBoundingObject())
+    mBoundingSphere->setOwnerSizeChanged();
 
   if (isPostFinalizedCalled())
     emit changed();

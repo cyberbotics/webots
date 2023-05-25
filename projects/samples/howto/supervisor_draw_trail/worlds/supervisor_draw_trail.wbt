@@ -22,7 +22,7 @@ Robot {
 }
 E-puck {
   turretSlot [
-    DEF TARGET Transform {
+    DEF TARGET Pose {
       translation 0 0 0.005
     }
   ]

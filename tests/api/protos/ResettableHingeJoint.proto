@@ -1,12 +1,12 @@
 #VRML_SIM R2023b utf8
 
-PROTO ResettableHingeJoint 
+PROTO ResettableHingeJoint
 [
   field SFVec3f translation 0 0.055 0
   field SFString name "resettable joint endPoint"
   field SFRotation hingeRotation 1 0 0 0
   field SFColor color 1 0 1
-] 
+]
 {
   Robot {
     translation IS translation
@@ -37,7 +37,7 @@ PROTO ResettableHingeJoint
           translation 0.2 0 0
           rotation IS hingeRotation
           children [
-            DEF WHEEL Transform {
+            DEF WHEEL Pose {
               rotation 0 0 1 1.5708
               children [
                 Shape {

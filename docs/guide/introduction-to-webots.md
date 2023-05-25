@@ -34,6 +34,16 @@ However, even if you don't know these languages, you can still program the e-puc
 - If you don't want to use existing robot models provided within Webots and would like to create your own robot models, or add special objects in the simulated environments, you will need a basic knowledge of 3D computer graphics and VRML97 description language.
 That will allow you to create 3D models in Webots or import them from 3D modeling software.
 
+### How Do I Get User Support?
+
+[Cyberbotics](https://www.cyberbotics.com/#services) provides paid user support through its Premier Service plans and Custom Development services.
+
+Community-based support is also available in various places, however, there is no guarantee you will get an answer to your question:
+- [Robotics StackExchange](https://robotics.stackexchange.com/questions/tagged/webots) with the `webots` tag is probably the best place to ask a technical question about Webots.
+- [GitHub Discussions](https://github.com/cyberbotics/webots/discussions) may be used to ask questions related with the development of Webots and its documentation.
+- [GitHub Issues](https://github.com/cyberbotics/webots/issues) should be used only to report bugs found in Webots.
+- [Discord](https://discordapp.com/invite/nTWbN9m) can be used for quick questions and spontaneous discussions with the Webots community.
+
 ### Webots Simulation
 
 A Webots simulation is composed of following items:

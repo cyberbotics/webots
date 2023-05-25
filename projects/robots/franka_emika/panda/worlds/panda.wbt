@@ -73,7 +73,7 @@ SquareManhole {
   rotation 0 0 -1 -1.5707953071795862
   name "manhole(2)"
 }
-DEF ROOF Transform {
+DEF ROOF Pose {
   translation 0.06 5.545 3.65
   rotation 0 1 0 3.141592644
   children [
@@ -86,20 +86,6 @@ DEF ROOF Transform {
       geometry Plane {
         size 7.2 11.36
       }
-    }
-  ]
-}
-Transform {
-  translation 3.89076 1.4715 0.71
-  scale 1.5 1.5 1.5
-}
-DEF PLATFORM Transform {
-  translation -1.85 1.31 0
-  children [
-    DEF STAIRS Transform {
-    }
-    Transform {
-      translation 0 -4.15 0
     }
   ]
 }
@@ -136,7 +122,7 @@ FireExtinguisher {
   translation 3.3738 6.38451 0
   rotation 0 0 -1 2.8797932953591734
 }
-DEF FIRE_EXTINGUISHER_PANEL Transform {
+DEF FIRE_EXTINGUISHER_PANEL Pose {
   translation 3.572 6.07451 1.98
   children [
     Shape {
@@ -193,7 +179,7 @@ Table {
     colorOverride 0.333 0.341 0.325
   }
 }
-Transform {
+Pose {
   translation 0.650001 2.8 0.715
   children [
     Bolt {
@@ -256,7 +242,7 @@ Transform {
     }
   ]
 }
-Transform {
+Pose {
   translation 0.660001 2.66 0.704
   rotation 0 1 0 -1.5707953071795862
   children [
@@ -308,8 +294,8 @@ Transform {
     }
   ]
 }
-Transform {
-  translation 0 2.75 0.73
+Pose {
+  translation 0 2.75 -0.27
   children [
     SolidBox {
       size 0.03 0.03 0.06
@@ -320,7 +306,7 @@ Transform {
         mass 0.2
       }
     }
-    Transform {
+    Pose {
       translation 0 -0.1 0
       children [
         SolidBox {
@@ -334,9 +320,6 @@ Transform {
           }
         }
       ]
-    }
-    Transform {
-      translation 0 0.1 0
     }
   ]
 }
@@ -454,7 +437,7 @@ Door {
     jointAtLeft FALSE
   }
   doorSlot [
-    Transform {
+    Pose {
       translation 0.027 -0.32 0.024
       children [
         Shape {
@@ -471,7 +454,7 @@ Door {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0.024 0 -0.554
       children [
         Shape {
@@ -499,7 +482,7 @@ Wall {
     }
   }
 }
-DEF WINDOW_DOOR_BLOCK Transform {
+DEF WINDOW_DOOR_BLOCK Pose {
   translation 3.575 5.218 0
   rotation 0 0 1 3.141592644
   children [
@@ -591,7 +574,7 @@ DEF WINDOW_DOOR_BLOCK Transform {
         }
       }
     }
-    Transform {
+    Pose {
       translation 0.1 1.85 3
       children [
         Shape {
@@ -606,7 +589,7 @@ DEF WINDOW_DOOR_BLOCK Transform {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0.1 1.85 2.405
       children [
         Shape {
@@ -617,7 +600,7 @@ DEF WINDOW_DOOR_BLOCK Transform {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0.1 -0.505 1.5
       rotation -1 0 0 1.570796322
       children [
@@ -629,7 +612,7 @@ DEF WINDOW_DOOR_BLOCK Transform {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0.1 0.495 1.5
       rotation -1 0 0 1.570796322
       children [
@@ -641,7 +624,7 @@ DEF WINDOW_DOOR_BLOCK Transform {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0.1 -0.995 1.5
       rotation -1 0 0 1.570796322
       children [
@@ -653,7 +636,7 @@ DEF WINDOW_DOOR_BLOCK Transform {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0.1 1.5 1.5
       rotation -1 0 0 1.570796322
       children [
@@ -665,7 +648,7 @@ DEF WINDOW_DOOR_BLOCK Transform {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0.1 2.5 1.5
       rotation -1 0 0 1.570796322
       children [
@@ -677,7 +660,7 @@ DEF WINDOW_DOOR_BLOCK Transform {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0.1 3.5 1.5
       rotation -1 0 0 1.570796322
       children [
@@ -689,7 +672,7 @@ DEF WINDOW_DOOR_BLOCK Transform {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0.1 4.5 1.5
       rotation -1 0 0 1.570796322
       children [
@@ -701,7 +684,7 @@ DEF WINDOW_DOOR_BLOCK Transform {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0.1 4.695 1.5
       rotation -1 0 0 1.570796322
       children [
@@ -838,7 +821,7 @@ PlasticCrate {
   name "plastic crate(2)"
   size 0.5 0.5 0.2
 }
-Transform {
+Group {
   children [
     Cabinet {
       rotation 0 0 1 1.5708

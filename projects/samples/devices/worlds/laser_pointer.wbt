@@ -157,7 +157,7 @@ DEF GRAY_CYLINDER Solid {
 }
 DEF ROBOT Robot {
   children [
-    Transform {
+    Pose {
       translation 0 0 0.0415
       rotation 0 0 1 -1.570796
       children [
@@ -192,7 +192,7 @@ DEF ROBOT Robot {
         translation 0 0.045 0.025
         rotation 0.1344869543855967 -0.1344869543855967 -0.9817466670176034 1.589217
         children [
-          DEF WHEEL Transform {
+          DEF WHEEL Pose {
             rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
             children [
               Shape {
@@ -245,7 +245,7 @@ DEF ROBOT Robot {
     DistanceSensor {
       translation 0.042 0.02 0.063
       children [
-        DEF LASER_SENSOR Transform {
+        DEF LASER_SENSOR Pose {
           rotation 0.577656895078166 0.5771968951617173 -0.5771968951617173 -2.093935
           children [
             Shape {
@@ -283,7 +283,7 @@ DEF ROBOT Robot {
       type "laser"
       aperture 0.005
     }
-    DEF SMILE Transform {
+    DEF SMILE Pose {
       translation 0.036 0 0.025
       rotation 0.25056300542381216 -0.9351130202419243 -0.25056300542381216 1.637834
       children [
@@ -304,7 +304,7 @@ DEF ROBOT Robot {
     Camera {
       translation 0.05 0 0.0615
       children [
-        Transform {
+        Pose {
           translation -0.015 0 0
           rotation 0 1 0 -1.570795
           children [
@@ -329,7 +329,7 @@ DEF ROBOT Robot {
     }
   ]
   name "MyBot"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 0.0415
     rotation 0 0 1 -1.570796
     children [

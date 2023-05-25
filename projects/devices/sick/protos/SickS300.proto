@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# keywords: sensor/lidar
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/sick/protos/SickS300.proto
 # Model of Sick S300 (lidar device) with the following specifications:
 #  - field of view: 270 [deg]
@@ -26,7 +27,7 @@ field SFBool     enablePhysics  TRUE         # Defines whether the lidar should 
     rotation IS rotation
     name IS name
     children [
-      Transform {
+      Pose {
         rotation 0 0 1 3.14159
         children [
           Shape {
@@ -71,7 +72,7 @@ field SFBool     enablePhysics  TRUE         # Defines whether the lidar should 
     %< if (fields.enablePhysics.value) { >%
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.0315 0 -0.0712
           rotation -0.577352 0.577348 0.577352 -2.094405
           children [
@@ -82,7 +83,7 @@ field SFBool     enablePhysics  TRUE         # Defines whether the lidar should 
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 -0.0671
           children [
             Shape {

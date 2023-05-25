@@ -11,6 +11,11 @@
 #define TIME_STEP 32
 #define VISIBLE_SOLID_NUMBER 6
 
+// This test is mainly testing the functionalities for a planar camera.
+// Some basic tests for spherical and cylindrical cameras are also performed checking mainly
+// the number of visible objects and the position on camera.
+
+// objects visible in planar camera
 static const char *visible_solid_models[VISIBLE_SOLID_NUMBER] = {
   "visible sphere", "visible box", "sub solid", "visible capsule", "composed solid", "visible sphere without BO"};
 
@@ -24,17 +29,33 @@ int main(int argc, char **argv) {
   wb_camera_enable(camera, TIME_STEP);
   wb_camera_recognition_enable(camera, TIME_STEP);
 
+  WbDeviceTag camera_spherical = wb_robot_get_device("spherical");
+  wb_camera_enable(camera_spherical, TIME_STEP);
+  wb_camera_recognition_enable(camera_spherical, TIME_STEP);
+
+  WbDeviceTag camera_cylindrical = wb_robot_get_device("cylindrical");
+  wb_camera_enable(camera_cylindrical, TIME_STEP);
+  wb_camera_recognition_enable(camera_cylindrical, TIME_STEP);
+
   // check number of object recognized
   wb_robot_step(TIME_STEP);
   int object_number = wb_camera_recognition_get_number_of_objects(camera);
   ts_assert_int_equal(object_number, VISIBLE_SOLID_NUMBER + 1,
-                      "The camera should initially see %d objects and not %d (without occlusion).", VISIBLE_SOLID_NUMBER + 1,
+                      "The planar camera should initially see %d objects and not %d (without occlusion).",
+                      VISIBLE_SOLID_NUMBER + 1, object_number);
+
+  object_number = wb_camera_recognition_get_number_of_objects(camera_spherical);
+  ts_assert_int_equal(object_number, 10, "The spherical camera should initially see %d objects and not %d (with occlusion).", 9,
                       object_number);
+
+  object_number = wb_camera_recognition_get_number_of_objects(camera_cylindrical);
+  ts_assert_int_equal(object_number, 8, "The cylindrical camera should initially see %d objects and not %d (with occlusion).",
+                      7, object_number);
 
   // enable occlusion
   WbNodeRef recognition_node = wb_supervisor_node_get_from_def("RECOGNITION");
   WbFieldRef occlusion_field = wb_supervisor_node_get_field(recognition_node, "occlusion");
-  wb_supervisor_field_set_sf_bool(occlusion_field, true);
+  wb_supervisor_field_set_sf_int32(occlusion_field, 2);
 
   ts_assert_boolean_equal(wb_camera_recognition_has_segmentation(camera),
                           "The Recognition.segmentation field should be set to TRUE.");
@@ -67,12 +88,6 @@ int main(int argc, char **argv) {
   ts_assert_color_in_delta(red, green, blue, 0, 0, 0, 2,
                            "Image should not contain any object at (95, 77): found color (%d, %d, %d) expected (%d, %d, %d).",
                            red, green, blue, 0, 0, 0);
-  red = wb_camera_image_get_red(image, width, 85, 200);
-  green = wb_camera_image_get_green(image, width, 85, 200);
-  blue = wb_camera_image_get_blue(image, width, 85, 200);
-  ts_assert_color_in_delta(red, green, blue, 0, 255, 0, 5,
-                           "Image should contain a green box at (85, 200)): found color (%d, %d, %d) expected (%d, %d, %d).",
-                           red, green, blue, 0, 255, 0);
   red = wb_camera_image_get_red(image, width, 52, 124);
   green = wb_camera_image_get_green(image, width, 52, 124);
   blue = wb_camera_image_get_blue(image, width, 52, 124);
@@ -115,10 +130,12 @@ int main(int argc, char **argv) {
   for (i = 0; i < object_number; ++i) {
     // check position on the image of the 'visible sphere without BO' solid
     if (strcmp(objects[i].model, "visible sphere without BO") == 0) {
-      ts_assert_int_equal(objects[i].position_on_image[0], 191,
-                          "Image coordinate of the 'visible sphere without BO' solid is not correct.");
-      ts_assert_int_equal(objects[i].position_on_image[1], 41,
-                          "Image coordinate of the 'visible sphere without BO' solid is not correct.");
+      int expected_position_on_image[2] = {189, 41};
+      ts_assert_integers_in_delta(
+        2, objects[i].position_on_image, expected_position_on_image, 1,
+        "Image coordinate of the 'visible sphere without BO' solid is not correct: found (%d, %d), expected (%d, %d).",
+        objects[i].position_on_image[0], objects[i].position_on_image[1], expected_position_on_image[0],
+        expected_position_on_image[1]);
     }
     // check objct is one of the visible solid
     bool found = false;
@@ -167,6 +184,8 @@ int main(int argc, char **argv) {
   wb_supervisor_field_set_sf_bool(segmentation_field, true);
   wb_robot_step(TIME_STEP);
   wb_camera_recognition_enable_segmentation(camera);
+  wb_camera_recognition_enable_segmentation(camera_spherical);
+  wb_camera_recognition_enable_segmentation(camera_cylindrical);
   wb_robot_step(TIME_STEP);
   image = wb_camera_recognition_get_segmentation_image(camera);
   const int solid_x = 124;
@@ -188,6 +207,147 @@ int main(int argc, char **argv) {
   blue = wb_camera_image_get_blue(image, width, solid_x, solid_y);
   ts_assert_color_in_delta(red, green, blue, 127, 127, 127, 2,
                            "Wrong green box segmentation color after changing the recognition color.");
+
+  // test spherical camera
+  const double invisible_capsule_position[3] = {0.369, 1.650, 0.899};
+  const double invisible_capsule_orientation[4] = {0.577350, -0.577350, -0.577350, 2.094390};
+  const double invisible_capsule_size[2] = {0.1, 0.1};
+  object_number = wb_camera_recognition_get_number_of_objects(camera_spherical);
+  ts_assert_int_equal(object_number, 4,
+                      "The spherical camera should see only 4 objects after removal of the initial objects and not %d.",
+                      object_number);
+  objects = wb_camera_recognition_get_objects(camera_spherical);
+  image = wb_camera_recognition_get_segmentation_image(camera_spherical);
+  for (i = 0; i < object_number; ++i) {
+    if (strcmp(objects[i].model, occcluded_solid_model) == 0) {
+      // position
+      double expected_position[3] = {-0.550, 0.0, 0.429};
+      ts_assert_doubles_in_delta(
+        3, objects[i].position, expected_position, 0.001,
+        "Position of 'occluded box' is not correct for spherical camera: found=(%f, %f, %f), expected=(%f, %f, %f).",
+        objects[i].position[0], objects[i].position[1], objects[i].position[2], expected_position[0], expected_position[1],
+        expected_position[2]);
+      // orientation
+      double expected_orientation[4] = {0.577350, -0.577350, -0.577350, 2.094390};
+      ts_assert_doubles_in_delta(
+        4, objects[i].orientation, expected_orientation, 0.001,
+        "Orientation of 'occluded box' is not correct for spherical camera: found=(%f, %f, %f, %f), expected=(%f, %f, %f, %f).",
+        objects[i].orientation[0], objects[i].orientation[1], objects[i].orientation[2], objects[i].orientation[3],
+        expected_orientation[0], expected_orientation[1], expected_orientation[2], expected_orientation[3]);
+      // size
+      double expected_size[2] = {0.1, 0.9};
+      ts_assert_doubles_in_delta(
+        2, objects[i].size, expected_size, 0.001,
+        "Size of 'occluded box' is not correct for spherical camera: found=(%f, %f), expected=(%f, %f).", objects[i].size[0],
+        objects[i].size[1], expected_size[0], expected_size[1]);
+      // size on image
+      int expected_size_on_image[2] = {146, 42};
+      ts_assert_integers_in_delta(
+        2, objects[i].size_on_image, expected_size_on_image, 1,
+        "Size on image of 'occluded box' is not correct for spherical camera: found=(%d, %d), expected=(%d, %d).",
+        objects[i].size_on_image[0], objects[i].size_on_image[1], expected_size_on_image[0], expected_size_on_image[1]);
+      // position on image
+      int expected_position_on_image[2] = {128, 47};
+      ts_assert_integers_in_delta(
+        2, objects[i].position_on_image, expected_position_on_image, 1,
+        "Position on image of 'occluded box' is not correct for spherical camera: found=(%d, %d), expected=(%d, %d).",
+        objects[i].position_on_image[0], objects[i].position_on_image[1], expected_position_on_image[0],
+        expected_position_on_image[1]);
+
+      // check segmentation image content
+      int u = 69, v = 47;
+      red = wb_camera_image_get_red(image, width, u, v);
+      green = wb_camera_image_get_green(image, width, u, v);
+      blue = wb_camera_image_get_blue(image, width, u, v);
+      ts_assert_color_in_delta(red, green, blue, 127, 127, 127, 2,
+                               "Wrong green box segmentation color in spherical camera image.");
+
+    } else if (strcmp(objects[i].model, "invisible capsule") == 0) {
+      // position
+      ts_assert_doubles_in_delta(
+        3, objects[i].position, invisible_capsule_position, 0.001,
+        "Position of 'invisble capsule' is not correct for spherical camera: found=(%f, %f, %f), expected=(%f, %f, %f).",
+        objects[i].position[0], objects[i].position[1], objects[i].position[2], invisible_capsule_position[0],
+        invisible_capsule_position[1], invisible_capsule_position[2]);
+      // orientation
+      ts_assert_doubles_in_delta(4, objects[i].orientation, invisible_capsule_orientation, 0.001,
+                                 "Orientation of 'invisble capsule' is not correct for spherical camera: found=(%f, %f, %f, "
+                                 "%f), expected=(%f, %f, %f, %f).",
+                                 objects[i].orientation[0], objects[i].orientation[1], objects[i].orientation[2],
+                                 objects[i].orientation[3], invisible_capsule_orientation[0], invisible_capsule_orientation[1],
+                                 invisible_capsule_orientation[2], invisible_capsule_orientation[3]);
+      // size
+      ts_assert_doubles_in_delta(
+        2, objects[i].size, invisible_capsule_size, 0.001,
+        "Size of 'invisble capsule' is not correct for spherical camera: found=(%f, %f), expected=(%f, %f).",
+        objects[i].size[0], objects[i].size[1], invisible_capsule_size[0], invisible_capsule_size[1]);
+      // size on image
+      int expected_size_on_image[2] = {14, 28};
+      ts_assert_integers_in_delta(
+        2, objects[i].size_on_image, expected_size_on_image, 1,
+        "Size on image of 'invisble capsule' is not correct for spherical camera: found=(%d, %d), expected=(%d, %d).",
+        objects[i].size_on_image[0], objects[i].size_on_image[1], expected_size_on_image[0], expected_size_on_image[1]);
+      // position on image
+      int expected_position_on_image[2] = {79, 102};
+      ts_assert_integers_in_delta(
+        2, objects[i].position_on_image, expected_position_on_image, 1,
+        "Position on image of 'invisble capsule' is not correct for spherical camera: found=(%d, %d), expected=(%d, %d).",
+        objects[i].position_on_image[0], objects[i].position_on_image[1], expected_position_on_image[0],
+        expected_position_on_image[1]);
+    }
+  }
+
+  // test cylindrical camera
+  // position, orientation and size of objects should be the same as for spherical camera (same translation and rotation)
+  object_number = wb_camera_recognition_get_number_of_objects(camera_cylindrical);
+  ts_assert_int_equal(object_number, 3,
+                      "The cylidrical camera should see only 3 objects after removal of the initial objects and not %d.",
+                      object_number);
+  objects = wb_camera_recognition_get_objects(camera_cylindrical);
+  image = wb_camera_recognition_get_segmentation_image(camera_cylindrical);
+  for (i = 0; i < object_number; ++i) {
+    if (strcmp(objects[i].model, "invisible capsule") == 0) {
+      // position
+      ts_assert_doubles_in_delta(
+        3, objects[i].position, invisible_capsule_position, 0.001,
+        "Position of 'invisble capsule' is not correct for cylindrical camera: found=(%f, %f, %f), expected=(%f, %f, %f).",
+        objects[i].position[0], objects[i].position[1], objects[i].position[2], invisible_capsule_position[0],
+        invisible_capsule_position[1], invisible_capsule_position[2]);
+      // orientation
+      ts_assert_doubles_in_delta(4, objects[i].orientation, invisible_capsule_orientation, 0.001,
+                                 "Orientation of 'invisble capsule' is not correct for cylindrical camera: found=(%f, %f, %f, "
+                                 "%f), expected=(%f, %f, %f, %f).",
+                                 objects[i].orientation[0], objects[i].orientation[1], objects[i].orientation[2],
+                                 objects[i].orientation[3], invisible_capsule_orientation[0], invisible_capsule_orientation[1],
+                                 invisible_capsule_orientation[2], invisible_capsule_orientation[3]);
+      // size
+      ts_assert_doubles_in_delta(
+        2, objects[i].size, invisible_capsule_size, 0.001,
+        "Size of 'invisble capsule' is not correct for cylindrical camera: found=(%f, %f), expected=(%f, %f).",
+        objects[i].size[0], objects[i].size[1], invisible_capsule_size[0], invisible_capsule_size[1]);
+      // size on image
+      int expected_size_on_image[2] = {6, 45};
+      ts_assert_integers_in_delta(
+        2, objects[i].size_on_image, expected_size_on_image, 1,
+        "Size on image of 'invisble capsule' is not correct for cylindrical camera: found=(%d, %d), expected=(%d, %d).",
+        objects[i].size_on_image[0], objects[i].size_on_image[1], expected_size_on_image[0], expected_size_on_image[1]);
+      // position on image
+      int expected_position_on_image[2] = {12, 88};
+      ts_assert_integers_in_delta(
+        2, objects[i].position_on_image, expected_position_on_image, 1,
+        "Position on image of 'invisble capsule' is not correct for cylindrical camera: found=(%d, %d), expected=(%d, %d).",
+        objects[i].position_on_image[0], objects[i].position_on_image[1], expected_position_on_image[0],
+        expected_position_on_image[1]);
+
+      // check segmentation image content
+      int u = 13, v = 92;
+      red = wb_camera_image_get_red(image, width, u, v);
+      green = wb_camera_image_get_green(image, width, u, v);
+      blue = wb_camera_image_get_blue(image, width, u, v);
+      ts_assert_color_in_delta(red, green, blue, 0, 0, 255, 2,
+                               "Wrong blue capsule segmentation color in cylindrical camera image.");
+    }
+  }
 
   ts_send_success();
   return EXIT_SUCCESS;

@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
+# keywords: exterior/garden
 # A pergola.
 
 PROTO Pergolas [
@@ -69,7 +70,7 @@ PROTO Pergolas [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0.079 3.206
           children [
             Box {
@@ -77,7 +78,7 @@ PROTO Pergolas [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 1.892 -1.894 1.6
           children [
             DEF BOX Box {
@@ -85,19 +86,19 @@ PROTO Pergolas [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 1.892 2.09 1.6
           children [
             USE BOX
           ]
         }
-        Transform {
+        Pose {
           translation -2.05 2.09 1.6
           children [
             USE BOX
           ]
         }
-        Transform {
+        Pose {
           translation -2.05 -1.89 1.6
           children [
             USE BOX

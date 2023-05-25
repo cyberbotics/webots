@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/trees/protos/SimpleTree.proto
 # tags: nonDeterministic
+# keywords: exterior/tree
 # Efficient (with only 8 polygones) and customizable outdoor tree.
 # Tree types are:
 #  - 'oak tree'
@@ -157,7 +158,7 @@ Solid {
     %< } >%
   ]
   %< if (boundingObject) { >%
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 %<= height * 0.5 >%
       children [
         Cylinder {

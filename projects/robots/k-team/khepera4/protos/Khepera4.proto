@@ -1,14 +1,15 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/khepera4
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/k-team/khepera4/protos/Khepera4.proto
+# keywords: robot/wheeled
 # The "Khepera IV" robot is a two-wheeled robot produced by K-Team.
 
 EXTERNPROTO "Khepera4InfraredSensor.proto"
 
 PROTO Khepera4 [
-  field SFVec3f    translation         0 0 0                   # Is `Transform.translation`.
-  field SFRotation rotation            0 0 1 0                 # Is `Transform.rotation`.
+  field SFVec3f    translation         0 0 0                   # Is `Pose.translation`.
+  field SFRotation rotation            0 0 1 0                 # Is `Pose.rotation`.
   field SFString   name                "Khepera IV"            # Is `Solid.name`.
   field SFString   controller          "khepera4"              # Is `Robot.controller`.
   field MFString   controllerArgs      []                      # Is `Robot.controllerArgs`.
@@ -58,7 +59,7 @@ PROTO Khepera4 [
           translation 0 0.0527 0.021
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
-            DEF WHEEL Transform {
+            DEF WHEEL Pose {
               rotation 0.577349 -0.577351 0.577351 -2.094397
               children [
                 Shape {
@@ -113,7 +114,7 @@ PROTO Khepera4 [
           physics USE PHYSICS_WHEELS
         }
       }
-      DEF GREY_CYLINDER_MESHES Transform {
+      DEF GREY_CYLINDER_MESHES Pose {
         translation 0 0 0.0315
         rotation 0.57735 -0.57735 -0.57735 2.094395
         children [
@@ -222,7 +223,7 @@ PROTO Khepera4 [
           }
         ]
       }
-      DEF BLUE_CYLINDER_MESHES Transform {
+      DEF BLUE_CYLINDER_MESHES Pose {
         translation 0 0 0.01
         rotation 0 0 1 -1.570796
         children [
@@ -311,7 +312,7 @@ PROTO Khepera4 [
         contactMaterial IS casterWheelMaterial
         physics USE CASTER_WHEEL_PHYSICS
       }
-      DEF FRONT_LEFT_SCREW Transform {
+      DEF FRONT_LEFT_SCREW Pose {
         translation 0.045 0.029 0.058
         rotation 0 0 1 -1.570796
         children [
@@ -341,19 +342,19 @@ PROTO Khepera4 [
           }
         ]
       }
-      DEF FRONT_RIGHT_SCREW Transform {
+      DEF FRONT_RIGHT_SCREW Pose {
         translation 0.045 -0.029 0.058
         children [
           USE SCREW_SHAPE
         ]
       }
-      DEF REAR_RIGHT_SCREW Transform {
+      DEF REAR_RIGHT_SCREW Pose {
         translation -0.041 -0.034 0.058
         children [
           USE SCREW_SHAPE
         ]
       }
-      DEF REAR_LEFT_SCREW Transform {
+      DEF REAR_LEFT_SCREW Pose {
         translation -0.041 0.034 0.058
         children [
           USE SCREW_SHAPE
@@ -542,7 +543,7 @@ PROTO Khepera4 [
     contactMaterial IS bodyMaterial
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.0315
           rotation 0 0 1 -1.570796
           children [
@@ -555,7 +556,7 @@ PROTO Khepera4 [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.01
           rotation 0 0 1 -1.570796
           children [

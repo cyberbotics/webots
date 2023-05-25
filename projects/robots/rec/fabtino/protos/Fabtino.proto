@@ -2,11 +2,12 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/rec/fabtino/protos/Fabtino.proto
+# keywords: robot/wheeled
 # Designed by Robotics Equipment Corporation (REC) GmbH, Fabtino is a four-wheeled (mecanum) robot.
 
 PROTO Fabtino [
-  field SFVec3f     translation     0 0 0.0613          # Is `Transform.translation`.
-  field SFRotation  rotation        0 0 1 0             # Is `Transform.rotation`.
+  field SFVec3f     translation     0 0 0.0613          # Is `Pose.translation`.
+  field SFRotation  rotation        0 0 1 0             # Is `Pose.rotation`.
   field SFString    name            "Fabtino"           # Is `Robot.name`.
   field SFString    controller      "keyboard_control"  # Is `Robot.controller`.
   field MFString    controllerArgs  []                  # Is `Robot.controllerArgs`.
@@ -107,7 +108,7 @@ PROTO Fabtino [
           ]
           name "wheel_fr"
           contactMaterial "InteriorWheelMat"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 -0.0172 0
             rotation 1 0 0 1.5708
             children [
@@ -162,7 +163,7 @@ PROTO Fabtino [
           ]
           name "wheel_br"
           contactMaterial "ExteriorWheelMat"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 -0.015 0
             rotation 1 0 0 1.5708
             children [
@@ -190,7 +191,7 @@ PROTO Fabtino [
         endPoint Solid {
           translation 0.284897 0.238057 0.03513
           children [
-            DEF WHEEL_FL Transform {
+            DEF WHEEL_FL Pose {
               rotation 0 0 1 3.141592653589793
               children [
                 Shape {
@@ -206,7 +207,7 @@ PROTO Fabtino [
           ]
           name "wheel_fl"
           contactMaterial "ExteriorWheelMat"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 0.015 0
             rotation 1 0 0 1.5708
             children [
@@ -234,7 +235,7 @@ PROTO Fabtino [
         endPoint Solid {
           translation -0.285061 0.235818 0.035257
           children [
-            DEF WHEEL_BL Transform {
+            DEF WHEEL_BL Pose {
               rotation 0 0 1 3.141592653589793
               children [
                 Shape {
@@ -250,7 +251,7 @@ PROTO Fabtino [
           ]
           name "wheel_bl"
           contactMaterial "InteriorWheelMat"
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0 0.0172 0
             rotation 1 0 0 1.5708
             children [
@@ -260,7 +261,7 @@ PROTO Fabtino [
           physics USE PHYSICS_WHEEL
         }
       }
-      DEF IMU Transform {
+      DEF IMU Pose {
         children [
           Accelerometer {
             name "accelerometer"
@@ -285,15 +286,15 @@ PROTO Fabtino [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.145
         children IS bodySlot
       }
-      Transform {
+      Pose {
         translation 0.365 0 0.161
         children IS frontLidarSlot
       }
-      Transform {
+      Pose {
         translation -0.365 0 0.161
         rotation 0 0 1 3.14159
         children IS backLidarSlot
@@ -301,7 +302,7 @@ PROTO Fabtino [
     ]
     boundingObject Group {
       children [
-        DEF FRAME_CENTER Transform {
+        DEF FRAME_CENTER Pose {
           translation 0 0 -0.0115
           children [
             Box {
@@ -309,7 +310,7 @@ PROTO Fabtino [
             }
           ]
         }
-        DEF FRAME_SIDES Transform {
+        DEF FRAME_SIDES Pose {
           translation 0 0 -0.0115
           children [
             Box {
@@ -317,7 +318,7 @@ PROTO Fabtino [
             }
           ]
         }
-        DEF FRAME_CORNER_FL Transform {
+        DEF FRAME_CORNER_FL Pose {
           translation 0.363 0.243 -0.0115
           children [
             DEF FRAME_CORNER_CYLINDER Cylinder {
@@ -326,25 +327,25 @@ PROTO Fabtino [
             }
           ]
         }
-        DEF FRAME_CORNER_FR Transform {
+        DEF FRAME_CORNER_FR Pose {
           translation -0.363 0.243 -0.0115
           children [
             USE FRAME_CORNER_CYLINDER
           ]
         }
-        DEF FRAME_CORNER_BL Transform {
+        DEF FRAME_CORNER_BL Pose {
           translation 0.363 -0.243 -0.0115
           children [
             USE FRAME_CORNER_CYLINDER
           ]
         }
-        DEF FRAME_CORNER_BR Transform {
+        DEF FRAME_CORNER_BR Pose {
           translation -0.363 -0.243 -0.0115
           children [
             USE FRAME_CORNER_CYLINDER
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.062
           children [
             Box {
@@ -352,7 +353,7 @@ PROTO Fabtino [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.062
           children [
             Box {

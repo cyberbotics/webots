@@ -12,18 +12,18 @@ PROTO NaoLeftWristH21 [
 {
 Solid {
   children [
-    DEF HAND_SLOT Transform {
+    DEF HAND_SLOT Pose {
       translation 0.12495 -0.013 -0.005
       children IS handSlot
     }
-    DEF LWristYaw Transform {
+    DEF LWristYaw Pose {
       translation 0.05595 0 0
       children [
-        DEF LPhalanx1 Transform {
+        DEF LPhalanx1 Pose {
           translation 0.069 -0.013 -0.005
           rotation 0 -1 0 -0.96
           children [
-            DEF PHALANX_TRANS Transform {
+            DEF PHALANX_TRANS Pose {
               translation 0.006 0 0
               rotation -0.577350 -0.577352 0.577350 2.094399
               children [
@@ -41,12 +41,12 @@ Solid {
                 }
               ]
             }
-            DEF LPhalanx2 Transform {
+            DEF LPhalanx2 Pose {
               translation 0.014 0 0
               rotation 0 -1 0 -0.96
               children [
                 USE PHALANX_TRANS
-                DEF LPhalanx3 Transform {
+                DEF LPhalanx3 Pose {
                   translation 0.014 0 0
                   rotation 0 -1 0 -0.96
                   children [
@@ -57,17 +57,17 @@ Solid {
             }
           ]
         }
-        DEF LPhalanx4 Transform {
+        DEF LPhalanx4 Pose {
           translation 0.069 0.013 -0.005
           rotation 0 -1 0 -0.96
           children [
             USE PHALANX_TRANS
-            DEF LPhalanx5 Transform {
+            DEF LPhalanx5 Pose {
               translation 0.014 0 0
               rotation 0 -1 0 -0.96
               children [
                 USE PHALANX_TRANS
-                DEF LPhalanx6 Transform {
+                DEF LPhalanx6 Pose {
                   translation 0.014 0 0
                   rotation 0 -1 0 -0.96
                   children [
@@ -78,11 +78,11 @@ Solid {
             }
           ]
         }
-        DEF LPhalanx7 Transform {
+        DEF LPhalanx7 Pose {
           translation 0.049 0 -0.026
           children [
             USE PHALANX_TRANS
-            DEF LPhalanx8 Transform {
+            DEF LPhalanx8 Pose {
               translation 0.014 0 0
               rotation 0 1 0 -0.96
               children [
@@ -591,7 +591,7 @@ Solid {
   contactMaterial IS contactMaterial
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0.05 -0.001 0
         rotation -0.527663 0.600656 -0.600654 2.170531
         children [
@@ -601,7 +601,7 @@ Solid {
           }
         ]
       }
-      DEF HAND_TOP_BO Transform {
+      DEF HAND_TOP_BO Pose {
         translation 0.11295 0 0.014
         rotation 0 1 0 -0.15
         children [
@@ -611,7 +611,7 @@ Solid {
           }
         ]
       }
-      DEF HAND_BOTTOM_BO Transform {
+      DEF HAND_BOTTOM_BO Pose {
         translation 0.095 0 -0.014
         rotation -0.534838 -0.534842 0.654135 1.983045
         children [

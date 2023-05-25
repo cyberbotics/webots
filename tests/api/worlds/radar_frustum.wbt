@@ -7,8 +7,8 @@ WorldInfo {
   coordinateSystem "NUE"
 }
 Viewpoint {
-  orientation -0.7993066149988747 0.4133348009094877 -0.43619178989998736 2.62846
-  position 4.587 1.99424 -5.25583
+  orientation 0.18102963136381053 -0.18652918403649824 -0.9656268099379598 3.5997333367760445
+  position 4.61879433919704 -1.9931695452991776 2.4021271606189214
 }
 Background {
   skyColor [
@@ -98,7 +98,7 @@ DEF VISIBLE_CAPSULE Solid {
   translation -3.49351 0.0982299 -1.05761
   rotation 0.5570847939578011 -0.0497566815970994 0.8289636934012486 2.51922
   children [
-    DEF CAPSULE Transform {
+    DEF CAPSULE Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {
@@ -123,7 +123,7 @@ DEF NOT_VISIBLE_CAPSULE Solid {
   translation -3.49351 0.0982299 -1.05761
   rotation -0.645787920557758 -0.53988793358515 -0.53988793358515 4.91351
   children [
-    DEF CAPSULE Transform {
+    DEF CAPSULE Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {

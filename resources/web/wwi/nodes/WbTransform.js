@@ -1,50 +1,19 @@
-import WbGroup from './WbGroup.js';
+import WbPose from './WbPose.js';
 import WbWorld from './WbWorld.js';
 
-import {getAnId} from './utils/id_provider.js';
-import {findUpperTransform} from './utils/node_utilities.js';
-import WbMatrix4 from './utils/WbMatrix4.js';
-import {WbNodeType} from './wb_node_type.js';
+import { getAnId } from './utils/id_provider.js';
+import { WbNodeType } from './wb_node_type.js';
 
-export default class WbTransform extends WbGroup {
-  #absoluteScale;
-  #absoluteScaleNeedUpdate;
-  #matrix;
-  #matrixNeedUpdate;
-  #previousTranslation;
-  #rotation;
+export default class WbTransform extends WbPose {
   #scale;
-  #translation;
-  #upperTransformFirstTimeSearch;
-  #vrmlMatrix;
-  #vrmlMatrixNeedUpdate;
-  constructor(id, translation, scale, rotation) {
-    super(id);
-    this.#translation = translation;
+  constructor(id, translation, rotation, scale) {
+    super(id, translation, rotation);
     this.#scale = scale;
-    this.#rotation = rotation;
-    this.#rotation.normalizeRotation();
-
-    this.#absoluteScaleNeedUpdate = true;
-    this.#upperTransformFirstTimeSearch = true;
-    this.#vrmlMatrix = new WbMatrix4();
-    this.#vrmlMatrixNeedUpdate = true;
-    this.#matrixNeedUpdate = true;
+    this._absoluteScaleNeedUpdate = true;
   }
 
   get nodeType() {
     return WbNodeType.WB_NODE_TRANSFORM;
-  }
-
-  get translation() {
-    return this.#translation;
-  }
-
-  set translation(newTranslation) {
-    this.#previousTranslation = this.#translation;
-    this.#translation = newTranslation;
-
-    this.#updateTranslation();
   }
 
   get scale() {
@@ -57,36 +26,25 @@ export default class WbTransform extends WbGroup {
     this.#updateScale();
   }
 
-  get rotation() {
-    return this.#rotation;
-  }
-
-  set rotation(newRotation) {
-    this.#rotation = newRotation;
-    this.#rotation.normalizeRotation();
-
-    this.#updateRotation();
-  }
-
   absoluteScale() {
-    if (this.#absoluteScaleNeedUpdate)
-      this.#updateAbsoluteScale();
+    if (this._absoluteScaleNeedUpdate)
+      this._updateAbsoluteScale();
 
-    return this.#absoluteScale;
+    return this._absoluteScale;
   }
 
-  #updateAbsoluteScale() {
-    this.#absoluteScale = this.#scale;
+  _updateAbsoluteScale() {
+    this._absoluteScale = this.#scale;
     // multiply with upper transform scale if any
-    const ut = this.#upperTransform();
-    if (typeof ut !== 'undefined')
-      this.#absoluteScale = this.#absoluteScale.mulByVector(ut.absoluteScale());
+    const up = this.upperTransform;
+    if (typeof up !== 'undefined')
+      this._absoluteScale = this._absoluteScale.mulByVector(up.absoluteScale());
 
-    this.#absoluteScaleNeedUpdate = false;
+    this._absoluteScaleNeedUpdate = false;
   }
 
   clone(customID) {
-    const transform = new WbTransform(customID, this.#translation, this.#scale, this.#rotation);
+    const transform = new WbTransform(customID, this.translation, this.rotation, this.#scale);
 
     const length = this.children.length;
     for (let i = 0; i < length; i++) {
@@ -100,67 +58,18 @@ export default class WbTransform extends WbGroup {
     return transform;
   }
 
-  createWrenObjects() {
-    super.createWrenObjects(true);
-    const transform = _wr_transform_new();
-
-    _wr_transform_attach_child(this.wrenNode, transform);
-    this.wrenNode = transform;
-
-    this.children.forEach(child => {
-      child.createWrenObjects();
-    });
-
-    this.#applyTranslationToWren();
-    this.#applyRotationToWren();
-    this.#applyScaleToWren();
-  }
-
-  delete(isBoundingObject) {
-    if (this.wrenObjectsCreatedCalled)
-      _wr_node_delete(this.wrenNode);
-
-    super.delete(isBoundingObject);
-  }
-
-  matrix() {
-    if (typeof this.#matrix === 'undefined') {
-      this.#matrix = new WbMatrix4();
-      this.#updateMatrix();
-    } else if (this.#matrixNeedUpdate)
-      this.#updateMatrix();
-
-    return this.#matrix;
-  }
-
-  recomputeBoundingSphere() {
-    super.recomputeBoundingSphere();
-    this._boundingSphere.transformOwner = true;
-  }
-
   vrmlMatrix() {
-    if (this.#vrmlMatrixNeedUpdate) {
-      this.#vrmlMatrix.fromVrml(this.#translation, this.#rotation, this.#scale);
-      this.#vrmlMatrixNeedUpdate = false;
+    if (this._vrmlMatrixNeedUpdate) {
+      this._vrmlMatrix.fromVrml(this.translation, this.rotation, this.#scale);
+      this._vrmlMatrixNeedUpdate = false;
     }
 
-    return this.#vrmlMatrix;
+    return this._vrmlMatrix;
   }
 
-  geometry() {
-    if (this.children.length === 0)
-      return;
-
-    const firstChild = this.children[0];
-    if (firstChild.nodeType === WbNodeType.WB_NODE_SHAPE)
-      return firstChild.geometry;
-
-    return firstChild;
-  }
-
-  #applyRotationToWren() {
-    const rotation = _wrjs_array4(this.#rotation.w, this.#rotation.x, this.#rotation.y, this.#rotation.z);
-    _wr_transform_set_orientation(this.wrenNode, rotation);
+  createWrenObjects() {
+    super.createWrenObjects();
+    this.#applyScaleToWren();
   }
 
   #applyScaleToWren() {
@@ -168,53 +77,10 @@ export default class WbTransform extends WbGroup {
     _wr_transform_set_scale(this.wrenNode, scale);
   }
 
-  #applyTranslationToWren() {
-    const translation = _wrjs_array3(this.#translation.x, this.#translation.y, this.#translation.z);
-    _wr_transform_set_position(this.wrenNode, translation);
-  }
-
-  #updateMatrix() {
-    this.#matrix.fromVrml(this.#translation, this.#rotation, this.#scale);
-
-    // multiply with upper matrix if any
-    const transform = this.#upperTransform();
-    if (typeof transform !== 'undefined')
-      this.#matrix = transform.matrix().mul(this.#matrix);
-    this.#matrixNeedUpdate = false;
-  }
-
-  #updateTranslation() {
-    if (typeof WbWorld.instance.viewpoint.followedId !== 'undefined' &&
-      WbWorld.instance.viewpoint.followedId === this.id)
-      WbWorld.instance.viewpoint.setFollowedObjectDeltaPosition(this.#translation, this.#previousTranslation);
-
-    if (this.wrenObjectsCreatedCalled)
-      this.#applyTranslationToWren();
-
-    this.#matrixNeedUpdate = true;
-  }
-
-  #updateRotation() {
-    if (this.wrenObjectsCreatedCalled)
-      this.#applyRotationToWren();
-
-    this.#matrixNeedUpdate = true;
-  }
-
   #updateScale() {
     if (this.wrenObjectsCreatedCalled)
       this.#applyScaleToWren();
 
-    this.#matrixNeedUpdate = true;
-  }
-
-  #upperTransform() {
-    if (this.#upperTransformFirstTimeSearch) {
-      this.upperTransform = findUpperTransform(this);
-      if (this.wrenObjectsCreatedCalled)
-        this.#upperTransformFirstTimeSearch = false;
-    }
-
-    return this.upperTransform;
+    this._matrixNeedUpdate = true;
   }
 }

@@ -9,7 +9,7 @@ PROTO MX430ServoShape [
 {
 Group {
   children [
-    Transform {
+    Pose {
       translation 0 0.0001 0.028
       rotation 1 0 0 -1.5708
       children [

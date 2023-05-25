@@ -2,6 +2,8 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # tags: nonDeterministic
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/buildings/protos/RandomBuilding.proto
+# keywords: building/residential
 # A customizable building, the size and geometry can fully be defined.
 # The texture of the wall is selected randomly.
 # The roof shape can be either 'flat' or 'pyramidal' (in case of pyramidal roof it is possible to define the height).

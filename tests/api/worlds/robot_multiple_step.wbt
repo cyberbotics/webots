@@ -46,7 +46,7 @@ DEF OBSTACLE Solid {
 DEF ROBOT Robot {
   translation 0.1 0.0295 0.1
   children [
-    DEF BODY Transform {
+    DEF BODY Pose {
       children [
         Shape {
           geometry Cone {
@@ -92,7 +92,7 @@ DEF ROBOT Robot {
     TestSuiteEmitter {
     }
   ]
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 -0.004 0
     children [
       Box {

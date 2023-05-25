@@ -6,7 +6,7 @@
 PROTO BmwX5RearLight [
 ]
 {
-  Transform {
+  Pose {
     translation 0 0 1.4975
     rotation 0 1 0 3.14159
     children [
@@ -46,7 +46,6 @@ PROTO BmwX5RearLight [
               0.720841 0.524303 2.38705
             ]
           }
-          solid FALSE
           coordIndex [
             13, 23, 14, -1, 21, 23, 13, -1, 22, 23
             21, -1, 20, 22, 21, -1, 18, 20, 21, -1

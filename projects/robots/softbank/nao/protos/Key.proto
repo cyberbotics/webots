@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/softbank/nao/protos/Key.proto
+# keywords: robot/accessory
 # Nao challenge key
 
 PROTO Key [
@@ -28,7 +29,7 @@ Solid {
             radius 0.00750
           }
         }
-        Transform {
+        Pose {
           translation 0 0 0.0625
           children [
             Shape {

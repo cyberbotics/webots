@@ -27,7 +27,7 @@ Floor {
 Solid {
   translation 0 -0.04 -0.07
   children [
-    DEF RAMP Transform {
+    DEF RAMP Pose {
       rotation 1 0 0 0.1309
       children [
         Shape {

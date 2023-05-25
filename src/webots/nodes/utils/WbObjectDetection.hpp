@@ -23,24 +23,33 @@
 class WbAffinePlane;
 class WbBaseNode;
 class WbSolid;
+class WbOdeGeomData;
 
 class WbObjectDetection {
 public:
   enum FrustumPlane { LEFT = 0, BOTTOM, RIGHT, TOP, PARALLEL, PLANE_NUMBER };
+  // Occlusion:
+  // - NONE = occlusion ignored
+  // - ONE_RAY = only one ray pointing at the center
+  // - MULTIPLE_RAYS = multiple rays pointing at the bounding box or bounding sphere corners
+  //                    (created once object size is determined)
+  enum Occlusion { NONE = 0, ONE_RAY = 1, MULTIPLE_RAYS = 2 };
 
-  WbObjectDetection(WbSolid *device, WbSolid *object, bool needToCheckCollision, double maxRange);
+  WbObjectDetection(WbSolid *device, WbSolid *object, const int occlusion, const double maxRange,
+                    const double horizontalFieldOfView);
   virtual ~WbObjectDetection();
 
   bool hasCollided() const;
   WbSolid *device() const { return mDevice; }
-  dGeomID geom() const { return mGeom; }
+  const QList<dGeomID> &geoms() const { return mRayGeoms; }
+  bool contains(const dGeomID rayGeom) const { return mRayGeoms.contains(rayGeom); }
   WbSolid *object() const { return mObject; }
   const WbVector3 &objectSize() const { return mObjectSize; }
   const WbVector3 &objectRelativePosition() const { return mObjectRelativePosition; }
 
-  void setCollided(double depth);
+  void setCollided(const dGeomID geom, const double depth);
 
-  void deleteRay();
+  void deleteRays();
 
   // Recomputes ray position and direction and returns if the current ray is valid or can be removed.
   bool recomputeRayDirection(const WbAffinePlane *frustumPlanes);
@@ -50,7 +59,11 @@ public:
 
   // Computes the frustum plane for the given device ray.
   static WbAffinePlane *computeFrustumPlanes(const WbSolid *device, const double verticalFieldOfView,
-                                             const double horizontalFieldOfView, const double maxRange);
+                                             const double horizontalFieldOfView, const double maxRange,
+                                             const bool isPlanarProjection);
+
+  // Return corners of the bounding box/sphere of the object
+  QList<WbVector3> computeCorners() const;
 
 private:
   static void mergeBounds(WbVector3 &referenceObjectSize, WbVector3 &referenceObjectRelativePosition,
@@ -69,16 +82,24 @@ private:
   bool isWithinBounds(const WbAffinePlane *frustumPlanes, const WbBaseNode *boundingObject, WbVector3 &objectSize,
                       WbVector3 &objectRelativePosition, const WbBaseNode *rootObject = NULL);
   // Checks whether the object and its solid children are inside the `frustumPlanes` frustum.
-  bool recursivelyCheckIfWithinBounds(WbSolid *solid, bool boundsInitialized, const WbAffinePlane *frustumPlanes);
+  bool recursivelyCheckIfWithinBounds(WbSolid *solid, const bool boundsInitialized, const WbAffinePlane *frustumPlanes);
   virtual double distance() = 0;
 
+  void createRays(const WbVector3 &origin, const QList<WbVector3> &directions, const WbVector3 &offset);
+  void updateRayDirection();
+
   WbSolid *mDevice;
+  WbSolid *mObject;
   WbVector3 mObjectRelativePosition;
   WbVector3 mObjectSize;
-  WbSolid *mObject;
+  bool mUseBoundingSphereOnly;  // used by WbCamera recognition functionality to compute a more tight fitting bounding box
   double mMaxRange;
-  double mCollisionDepth;  // the geom collision depth
-  dGeomID mGeom;           // geom that checks collision of this packet
+  WbOdeGeomData *mOdeGeomData;
+  QList<double> mRaysCollisionDepth;  // rays collision depth
+  QList<dGeomID> mRayGeoms;           // rays that checks collision of this packet
+  double mHorizontalFieldOfView;
+  bool mIsOmniDirectional;  // is sensor omnidirectional (horizontal FOV < PI/2)
+  int mOcclusion;
 };
 
 #endif

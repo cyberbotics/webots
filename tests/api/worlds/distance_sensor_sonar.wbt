@@ -63,7 +63,7 @@ Robot {
     }
     TestSuiteEmitter {
     }
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {

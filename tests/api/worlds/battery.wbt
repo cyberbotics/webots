@@ -43,7 +43,7 @@ Robot {
       ]
       endPoint Solid {
         children [
-          DEF THICK_CYLINDER Transform {
+          DEF THICK_CYLINDER Pose {
             translation 0 0.05 0
             children [
               Shape {
@@ -61,7 +61,7 @@ Robot {
             ]
             rotation 1 0 0 -1.57079632679
           }
-          DEF THIN_CYLINDER Transform {
+          DEF THIN_CYLINDER Pose {
             translation 0 0.05 -0.1
             rotation 1 0 0 0.000003673189128
             children [
@@ -75,7 +75,7 @@ Robot {
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 0.05 -0.25
             rotation -1 0 0 3.14159632679
             children [
@@ -104,7 +104,7 @@ Robot {
     }
     TestSuiteEmitter {
     }
-    DEF BASE_SHAPE Transform {
+    DEF BASE_SHAPE Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {

@@ -7,7 +7,7 @@ PROTO ResidentialTowerFloor [
   field SFVec3f translation 0 -0.013 0
 ]
 {
-  Transform {
+  Pose {
     translation IS translation
     children [
       Shape {

@@ -23,6 +23,7 @@
 #include "WbMatter.hpp"
 #include "WbNodeUtilities.hpp"
 #include "WbOdeGeomData.hpp"
+#include "WbPose.hpp"
 #include "WbRay.hpp"
 #include "WbResizeManipulator.hpp"
 #include "WbRgb.hpp"
@@ -369,9 +370,10 @@ void WbElevationGrid::createResizeManipulator() {
 
 void WbElevationGrid::setResizeManipulatorDimensions() {
   WbVector3 scale(xSpacing(), ySpacing(), 1.0f);
-  WbTransform *transform = upperTransform();
-  if (transform)
-    scale *= transform->absoluteScale();
+
+  const WbTransform *const up = upperTransform();
+  if (up)
+    scale *= up->absoluteScale();
 
   if (isAValidBoundingObject())
     scale *= WbVector3(1.0f, 1.0f, 1.0f + (wr_config_get_line_scale() / LINE_SCALE_FACTOR));
@@ -539,10 +541,10 @@ double WbElevationGrid::computeLocalCollisionPoint(const WbRay &ray, WbVector3 &
   mHeight->copyItemsTo(data, size);
 
   WbRay localRay(ray);
-  WbTransform *transform = upperTransform();
-  if (transform) {
-    localRay.setDirection(ray.direction() * transform->matrix());
-    WbVector3 origin = transform->matrix().pseudoInversed(ray.origin());
+  const WbPose *const up = upperPose();
+  if (up) {
+    localRay.setDirection(ray.direction() * up->matrix());
+    WbVector3 origin = up->matrix().pseudoInversed(ray.origin());
     origin /= absoluteScale();
     localRay.setOrigin(origin);
     localRay.normalize();
@@ -557,7 +559,6 @@ double WbElevationGrid::computeLocalCollisionPoint(const WbRay &ray, WbVector3 &
 
       // first triangle: ABC
       WbAffinePlane plane(vertexA, vertexB, vertexC);
-      plane.normalize();
       std::pair<bool, double> result = localRay.intersects(plane, true);
       if (result.first && result.second > 0 && result.second < minDistance) {
         // check finite plane bounds
@@ -570,7 +571,6 @@ double WbElevationGrid::computeLocalCollisionPoint(const WbRay &ray, WbVector3 &
 
       // second triangle: BCD
       plane = WbAffinePlane(vertexD, vertexC, vertexB);
-      plane.normalize();
       result = localRay.intersects(plane, true);
 
       if (result.first && result.second > 0 && result.second < minDistance) {

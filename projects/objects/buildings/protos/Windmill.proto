@@ -2,6 +2,7 @@
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/buildings/protos/Windmill.proto
+# keywords: building/farm
 # A windmill with optional boundingObject.
 # template language: javascript
 
@@ -72,7 +73,7 @@ PROTO Windmill [
     %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.07 0 6.97
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -82,7 +83,7 @@ PROTO Windmill [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.8402 -0.5829 2.9737
           rotation -0.702741 0.711049 -0.023763 -2.920591
           children [
@@ -92,21 +93,21 @@ PROTO Windmill [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.8297 0.5825 2.8365
           rotation -0.691363 0.715139 0.102928 3.103256
           children [
             USE CLINDER
           ]
         }
-        Transform {
+        Pose {
           translation -0.053 0.6235 2.7526
           rotation -0.687806 0.725611 0.020282 2.94456
           children [
             USE CLINDER
           ]
         }
-        Transform {
+        Pose {
           translation -0.0827 -0.631 2.7674
           rotation -0.677606 0.726595 -0.113619 -3.096891
           children [

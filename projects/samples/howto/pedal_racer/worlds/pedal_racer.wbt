@@ -27,7 +27,7 @@ DEF PEDAL_RACER Solid {
   children [
     DEF RIGHT_PEDAL_GROUP Group {
       children [
-        DEF FRONT_CYLINDER Transform {
+        DEF FRONT_CYLINDER Pose {
           translation -0.09 -0.08 0.038
           children [
             DEF PEDAL_FRONT_HALF_CYLINDER Shape {
@@ -44,7 +44,7 @@ DEF PEDAL_RACER Solid {
             }
           ]
         }
-        DEF MIDDLE_BOX Transform {
+        DEF MIDDLE_BOX Pose {
           translation 0 -0.08 0.038
           children [
             Shape {
@@ -55,7 +55,7 @@ DEF PEDAL_RACER Solid {
             }
           ]
         }
-        DEF BACK_CYLINDER Transform {
+        DEF BACK_CYLINDER Pose {
           translation 0.09 -0.08 0.038
           children [
             DEF PEDAL_FRONT_HALF_CYLINDER Shape {
@@ -76,7 +76,7 @@ DEF PEDAL_RACER Solid {
     }
     DEF PLASTIC_HINGES Group {
       children [
-        DEF BACK_HINGE Transform {
+        DEF BACK_HINGE Pose {
           translation -0.11 -0.144 0.038
           rotation -1 0 0 1.5708
           children [
@@ -90,7 +90,7 @@ DEF PEDAL_RACER Solid {
             }
           ]
         }
-        DEF FRONT_HINGE Transform {
+        DEF FRONT_HINGE Pose {
           translation 0.11 -0.144 0.038
           rotation -1 0 0 1.5708
           children [
@@ -108,6 +108,7 @@ DEF PEDAL_RACER Solid {
     }
     DEF BACK_RIGHT_AXLE_HINGE HingeJoint {
       jointParameters HingeJointParameters {
+        axis 0 1 0
         anchor -0.11 -0.08 0.038
       }
       endPoint DEF BACK_AXLE Solid {
@@ -118,7 +119,7 @@ DEF PEDAL_RACER Solid {
             children [
               Group {
                 children [
-                  DEF BLACK_TIRE Transform {
+                  DEF BLACK_TIRE Pose {
                     translation -0.11 -0.2125 0
                     rotation -1 0 0 1.5708
                     children [
@@ -136,7 +137,7 @@ DEF PEDAL_RACER Solid {
                       }
                     ]
                   }
-                  DEF RED_RIM Transform {
+                  DEF RED_RIM Pose {
                     translation -0.11 -0.2125 0
                     rotation -1 0 0 1.5708
                     children [
@@ -150,7 +151,7 @@ DEF PEDAL_RACER Solid {
                       }
                     ]
                   }
-                  DEF ANCHOR Transform {
+                  DEF ANCHOR Pose {
                     translation -0.11 -0.19 0.038
                     rotation -1 0 0 1.5708
                     children [
@@ -178,7 +179,7 @@ DEF PEDAL_RACER Solid {
             children [
               Group {
                 children [
-                  DEF BLACK_TIRE Transform {
+                  DEF BLACK_TIRE Pose {
                     translation -0.11 0.2125 0
                     rotation -1 0 0 1.5708
                     children [
@@ -196,7 +197,7 @@ DEF PEDAL_RACER Solid {
                       }
                     ]
                   }
-                  DEF RED_RIM Transform {
+                  DEF RED_RIM Pose {
                     translation -0.11 0.2125 0
                     rotation -1 0 0 1.5708
                     children [
@@ -210,7 +211,7 @@ DEF PEDAL_RACER Solid {
                       }
                     ]
                   }
-                  DEF ANCHOR Transform {
+                  DEF ANCHOR Pose {
                     translation -0.11 0.19 -0.038
                     rotation -1 0 0 1.5708
                     children [
@@ -233,6 +234,7 @@ DEF PEDAL_RACER Solid {
           }
           DEF LEFT_PEDAL_HINGE HingeJoint {
             jointParameters HingeJointParameters {
+              axis 0 1 0
               anchor -0.11 0.08 -0.038
             }
             endPoint DEF LEFT_PEDAL Solid {
@@ -240,7 +242,7 @@ DEF PEDAL_RACER Solid {
               children [
                 DEF LEFT_PEDAL_GROUP Group {
                   children [
-                    DEF FRONT_CYLINDER Transform {
+                    DEF FRONT_CYLINDER Pose {
                       translation -0.09 0.08 -0.038
                       children [
                         DEF PEDAL_FRONT_HALF_CYLINDER Shape {
@@ -257,7 +259,7 @@ DEF PEDAL_RACER Solid {
                         }
                       ]
                     }
-                    DEF MIDDLE_BOX Transform {
+                    DEF MIDDLE_BOX Pose {
                       translation 0 0.08 -0.038
                       children [
                         Shape {
@@ -268,7 +270,7 @@ DEF PEDAL_RACER Solid {
                         }
                       ]
                     }
-                    DEF BACK_CYLINDER Transform {
+                    DEF BACK_CYLINDER Pose {
                       translation 0.09 0.08 -0.038
                       children [
                         DEF PEDAL_FRONT_HALF_CYLINDER Shape {
@@ -289,7 +291,7 @@ DEF PEDAL_RACER Solid {
                 }
                 DEF PLASTIC_HINGES Group {
                   children [
-                    DEF BACK_HINGE Transform {
+                    DEF BACK_HINGE Pose {
                       translation -0.11 0.144 -0.038
                       rotation -1 0 0 1.5708
                       children [
@@ -303,7 +305,7 @@ DEF PEDAL_RACER Solid {
                         }
                       ]
                     }
-                    DEF FRONT_HINGE Transform {
+                    DEF FRONT_HINGE Pose {
                       translation 0.11 0.144 -0.038
                       rotation -1 0 0 1.5708
                       children [
@@ -321,6 +323,7 @@ DEF PEDAL_RACER Solid {
                 }
                 DEF FRONT_AXLE_HINGE HingeJoint {
                   jointParameters HingeJointParameters {
+                    axis 0 1 0
                     anchor 0.11 0.08 -0.038
                   }
                   endPoint SolidReference {
@@ -335,7 +338,7 @@ DEF PEDAL_RACER Solid {
           }
           DEF AXLE_GROUP Group {
             children [
-              DEF MIDDLE_SEGMENT Transform {
+              DEF MIDDLE_SEGMENT Pose {
                 translation -0.11 0 0
                 rotation -1 0 0 -0.5
                 children [
@@ -352,7 +355,7 @@ DEF PEDAL_RACER Solid {
                   }
                 ]
               }
-              DEF UPPER_SEGMENT Transform {
+              DEF UPPER_SEGMENT Pose {
                 translation -0.11 -0.105 0.038
                 rotation -1 0 0 1.5708
                 children [
@@ -369,7 +372,7 @@ DEF PEDAL_RACER Solid {
                   }
                 ]
               }
-              DEF LOWER_SEGMENT Transform {
+              DEF LOWER_SEGMENT Pose {
                 translation -0.11 0.105 -0.038
                 rotation -1 0 0 1.5708
                 children [
@@ -388,6 +391,7 @@ DEF PEDAL_RACER Solid {
     }
     DEF FRONT_RIGHT_AXLE_HINGE HingeJoint {
       jointParameters HingeJointParameters {
+        axis 0 1 0
         anchor 0.11 -0.08 0.038
       }
       endPoint DEF FRONT_AXLE Solid {
@@ -398,7 +402,7 @@ DEF PEDAL_RACER Solid {
             children [
               Group {
                 children [
-                  DEF BLACK_TIRE Transform {
+                  DEF BLACK_TIRE Pose {
                     translation 0.11 -0.2125 0
                     rotation -1 0 0 1.5708
                     children [
@@ -416,7 +420,7 @@ DEF PEDAL_RACER Solid {
                       }
                     ]
                   }
-                  DEF RED_RIM Transform {
+                  DEF RED_RIM Pose {
                     translation 0.11 -0.2125 0
                     rotation -1 0 0 1.5708
                     children [
@@ -430,7 +434,7 @@ DEF PEDAL_RACER Solid {
                       }
                     ]
                   }
-                  DEF ANCHOR Transform {
+                  DEF ANCHOR Pose {
                     translation 0.11 -0.19 0.038
                     rotation -1 0 0 1.5708
                     children [
@@ -456,7 +460,7 @@ DEF PEDAL_RACER Solid {
             children [
               Group {
                 children [
-                  DEF BLACK_TIRE Transform {
+                  DEF BLACK_TIRE Pose {
                     translation 0.11 0.2125 0
                     rotation -1 0 0 1.5708
                     children [
@@ -474,7 +478,7 @@ DEF PEDAL_RACER Solid {
                       }
                     ]
                   }
-                  DEF RED_RIM Transform {
+                  DEF RED_RIM Pose {
                     translation 0.11 0.2125 0
                     rotation -1 0 0 1.5708
                     children [
@@ -488,7 +492,7 @@ DEF PEDAL_RACER Solid {
                       }
                     ]
                   }
-                  DEF ANCHOR Transform {
+                  DEF ANCHOR Pose {
                     translation 0.11 0.19 -0.038
                     rotation -1 0 0 1.5708
                     children [
@@ -511,21 +515,21 @@ DEF PEDAL_RACER Solid {
           }
           DEF AXLE_GROUP Group {
             children [
-              DEF MIDDLE_SEGMENT Transform {
+              DEF MIDDLE_SEGMENT Pose {
                 translation 0.11 0 0
                 rotation -1 0 0 -0.5
                 children [
                   USE SMALL_CAPSULE
                 ]
               }
-              DEF UPPER_SEGMENT Transform {
+              DEF UPPER_SEGMENT Pose {
                 translation 0.11 -0.105 0.038
                 rotation -1 0 0 1.5708
                 children [
                   USE LONG_CAPSULE
                 ]
               }
-              DEF LOWER_SEGMENT Transform {
+              DEF LOWER_SEGMENT Pose {
                 translation 0.11 0.105 -0.038
                 rotation -1 0 0 1.5708
                 children [

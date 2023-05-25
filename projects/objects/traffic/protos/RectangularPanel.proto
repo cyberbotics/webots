@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/traffic/protos/RectangularPanel.proto
+# keywords: traffic/sign
 # A simple rectangular traffic pannel.
 # template language: javascript
 
@@ -22,7 +23,7 @@ PROTO RectangularPanel [
     rotation IS rotation
     recognitionColors IS recognitionColors
     children [
-      Transform {
+      Pose {
         translation 0.015 0 0
         rotation 0.577366 0.577358 0.577328 2.094321
         children [

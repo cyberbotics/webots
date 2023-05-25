@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# keywords: traffic/sign
 # A big metallic pole above the road for traffic lights.
 
 PROTO TrafficLightBigPole [
@@ -16,15 +17,15 @@ PROTO TrafficLightBigPole [
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         translation 0.04 0.025 1.8
         children IS slot1
       }
-      Transform {
+      Pose {
         translation 0.04 -3.1 4.4
         children IS slot2
       }
-      Transform {
+      Pose {
         translation 0.04 -8.1 4.4
         children IS slot3
       }
@@ -50,7 +51,7 @@ PROTO TrafficLightBigPole [
     model "traffic light big pole"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0.008 0.019 2
           children [
             Capsule {
@@ -59,7 +60,7 @@ PROTO TrafficLightBigPole [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.009 -4.8 4.62
           rotation -0.577352 0.577350 0.577350 2.094399
           children [
@@ -69,7 +70,7 @@ PROTO TrafficLightBigPole [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.01 -0.29 4.32
           rotation 1 0 0 0.7309
           children [

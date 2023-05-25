@@ -2,9 +2,9 @@ import WbLookupTable from './WbLookupTable.js';
 import WbDevice from './WbDevice.js';
 import WbWrenShaders from '../wren/WbWrenShaders.js';
 import WbWrenRenderingContext from '../wren/WbWrenRenderingContext.js';
-import {arrayXPointerFloat} from './utils/utils.js';
+import { arrayXPointerFloat } from './utils/utils.js';
 import WbVector3 from './utils/WbVector3.js';
-import {WbNodeType} from './wb_node_type.js';
+import { WbNodeType } from './wb_node_type.js';
 
 export default class WbDistanceSensor extends WbDevice {
   #aperture;
@@ -19,8 +19,8 @@ export default class WbDistanceSensor extends WbDevice {
   #rays;
   #renderable;
   #transform;
-  constructor(id, translation, scale, rotation, name, numberOfRays, aperture, lookupTable) {
-    super(id, translation, scale, rotation, name);
+  constructor(id, translation, rotation, name, numberOfRays, aperture, lookupTable) {
+    super(id, translation, rotation, name);
     this.#aperture = aperture;
     this.#lookupTable = lookupTable;
     this.#numberOfRays = numberOfRays;
@@ -135,7 +135,6 @@ export default class WbDistanceSensor extends WbDevice {
     _wr_dynamic_mesh_clear(this.#mesh);
 
     if (this.#rays) {
-      const scale = this.absoluteScale().x;
       const minValue = this.#lut.minMetricsRange();
       const maxValue = this.#lut.maxMetricsRange();
 
@@ -145,13 +144,13 @@ export default class WbDistanceSensor extends WbDevice {
       let vertexIndex = 0;
       for (let i = 0; i < this.#nRays; ++i) {
         const direction = this.#rays[i];
-        let vertex = direction.mul(minValue / scale);
+        let vertex = direction.mul(minValue);
         let vertexPointer = _wrjs_array3(vertex.x, vertex.y, vertex.z);
         _wr_dynamic_mesh_add_vertex(this.#mesh, vertexPointer);
         _wr_dynamic_mesh_add_index(this.#mesh, vertexIndex++);
         _wr_dynamic_mesh_add_color(this.#mesh, colorPointer);
 
-        vertex = direction.mul(maxValue / scale);
+        vertex = direction.mul(maxValue);
         vertexPointer = _wrjs_array3(vertex.x, vertex.y, vertex.z);
         _wr_dynamic_mesh_add_vertex(this.#mesh, vertexPointer);
         _wr_dynamic_mesh_add_index(this.#mesh, vertexIndex++);

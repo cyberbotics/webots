@@ -22,7 +22,7 @@ Solid {
   name "LLleg"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation -0.00345 0.00295 -0.1913
         rotation 0.0 1.0 0.0 0.0
         children [

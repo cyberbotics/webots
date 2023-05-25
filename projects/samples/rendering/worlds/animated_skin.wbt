@@ -10,8 +10,7 @@ EXTERNPROTO "webots://projects/objects/obstacles/protos/OilBarrel.proto"
 EXTERNPROTO "webots://projects/objects/factory/containers/protos/WoodenBox.proto"
 EXTERNPROTO "webots://projects/objects/fruits/protos/Apple.proto"
 EXTERNPROTO "webots://projects/objects/trees/protos/SimpleTree.proto"
-EXTERNPROTO "webots://projects/objects/rocks/protos/Rock17cm.proto"
-EXTERNPROTO "webots://projects/objects/rocks/protos/Rock10cm.proto"
+EXTERNPROTO "webots://projects/objects/rocks/protos/Rock.proto"
 EXTERNPROTO "webots://projects/objects/trees/protos/Forest.proto"
 
 WorldInfo {
@@ -43,6 +42,17 @@ WorldInfo {
       material2 "ping pong ball material"
       bounce 0.9
     }
+    ContactProperties {
+      material1 "body"
+      maxContactJoints 26
+    }
+    ContactProperties {
+      material1 "leg"
+      maxContactJoints 17
+    }
+    ContactProperties {
+      maxContactJoints 17
+    }
   ]
 }
 Viewpoint {
@@ -65,7 +75,7 @@ DEF TERRAIN Group {
       name "invisble walls"
       boundingObject Group {
         children [
-          Transform {
+          Pose {
             translation -10 0 0
             children [
               Box {
@@ -73,7 +83,7 @@ DEF TERRAIN Group {
               }
             ]
           }
-          Transform {
+          Pose {
             translation 10 0 0
             children [
               Box {
@@ -81,7 +91,7 @@ DEF TERRAIN Group {
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 -10 0
             children [
               Box {
@@ -89,7 +99,7 @@ DEF TERRAIN Group {
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 10 0
             children [
               Box {
@@ -104,7 +114,7 @@ DEF TERRAIN Group {
     DEF AQUARIUM_WALLS Solid {
       translation -0.05 -0.05 0.24
       children [
-        Transform {
+        Pose {
           translation 10.21 0 -0.11
           children [
             Shape {
@@ -119,7 +129,7 @@ DEF TERRAIN Group {
             }
           ]
         }
-        Transform {
+        Pose {
           translation -10.21 0 -0.11
           children [
             Shape {
@@ -130,7 +140,7 @@ DEF TERRAIN Group {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 10.2 -0.11
           children [
             Shape {
@@ -141,7 +151,7 @@ DEF TERRAIN Group {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -10.2 -0.11
           children [
             Shape {
@@ -156,7 +166,7 @@ DEF TERRAIN Group {
       name "aquarium walls"
       locked TRUE
     }
-    DEF PLANE Transform {
+    DEF PLANE Pose {
       translation 0 0 -0.4
       children [
         Shape {
@@ -237,7 +247,7 @@ PaperBoat {
   translation -1.9440913 -1.4548909 0.8842463
   rotation 0 0 1 -1.8325957
   scale 2
-  mass 0.15
+  mass 1.2
   immersionProperties [
     ImmersionProperties {
       fluidName "fluid"
@@ -316,23 +326,18 @@ WoodenBox {
     }
   ]
 }
-DEF APPLE Transform {
-  translation 0 0 0.5
-  scale 2 2 2
-  children [
-    Apple {
-      translation 0.41890544 -0.51423568 0.11474117
-      rotation -0.5199881374825417 -0.6776611791705899 -0.5199881374825417 -1.950441
-      mass 0.3
-      immersionProperties [
-        ImmersionProperties {
-          fluidName "fluid"
-          dragForceCoefficients 1 0 1
-          dragTorqueCoefficients 0.01 0 0
-          viscousResistanceForceCoefficient 0.1
-          viscousResistanceTorqueCoefficient 0.5
-        }
-      ]
+Apple {
+  translation 0.41890544 -0.51423568 0.51474117
+  rotation -0.5199881374825417 -0.6776611791705899 -0.5199881374825417 -1.950441
+  scale 2
+  mass 2.4
+  immersionProperties [
+    ImmersionProperties {
+      fluidName "fluid"
+      dragForceCoefficients 1 0 1
+      dragTorqueCoefficients 0.01 0 0
+      viscousResistanceForceCoefficient 0.1
+      viscousResistanceTorqueCoefficient 0.5
     }
   ]
 }
@@ -343,116 +348,120 @@ SimpleTree {
 }
 DEF ROCKS Group {
   children [
-    Rock17cm {
+    Rock {
       translation 1.6603365 -8.8740525 0.57
+      type "flat"
       locked TRUE
     }
-    Rock17cm {
+    Rock {
       translation -8.68 -0.03 0.53
-      name "rock 17 cm(1)"
+      name "rock (1)"
+      type "flat"
       locked TRUE
     }
-    Transform {
+    Pose {
       translation -9.19 -0.23992958 -0.11437822
       rotation -0.5474301436235175 -0.3227500846765619 -0.7721092025702109 -2.946076
-      scale 2 2 2
       children [
-        Rock17cm {
-          name "rock 17 cm(2)"
+        Rock {
+          name "rock (2)"
+          type "flat"
+          scale 2
           locked TRUE
         }
       ]
     }
-    Transform {
+    Pose {
       translation -33 -30 -0.41
-      scale 15 15 15
       children [
-        Rock17cm {
-          name "rock 17 cm(3)"
+        Rock {
+          name "rock (3)"
+          type "flat"
+          scale 15
           locked TRUE
         }
       ]
     }
-    Transform {
+    Pose {
       translation 1.6603365 -2.5040525 0.36
-      scale 3 3 3
       children [
-        Rock17cm {
-          name "rock 17 cm(4)"
+        Rock {
+          name "rock (4)"
+          type "flat"
+          scale 3
           locked TRUE
         }
       ]
     }
-    Rock17cm {
+    Rock {
       translation 6.8 0.96 0.59
-      name "rock 17 cm(5)"
+      name "rock (5)"
+      type "flat"
       locked TRUE
     }
-    Rock17cm {
+    Rock {
       translation 0.58 6.88 0.46
-      name "rock 17 cm(6)"
+      name "rock (6)"
+      type "flat"
       locked TRUE
     }
-    Rock10cm {
+    Rock {
       translation 1.2034295 -8.603064 0.5768629
       rotation 0.35740699927911007 0.35740699927911007 0.8628559982596194 1.717772
+      name "rock (8)"
       locked TRUE
     }
-    Transform {
+    Pose {
       translation -30.299664 -22 1.5
       rotation -0.35740699927911007 0.8628559982596194 -0.35740699927911007 1.717772
-      scale 60 60 60
       children [
-        Rock10cm {
-          translation 0 0 0
-          name "rock 10 cm(1)"
+        Rock {
+          name "rock (9)"
+          scale 60
           locked TRUE
         }
       ]
     }
-    Transform {
+    Pose {
       translation -41.859663 -22 1.03
-      scale 51 51 51
       children [
-        Rock10cm {
-          translation 0 0 0
-          name "rock 10 cm(2)"
+        Rock {
+          name "rock (10)"
+          scale 51
           locked TRUE
         }
       ]
     }
-    Rock10cm {
+    Rock {
       translation 1.7850053 -8.4298435 0.66
       rotation -0.38268289803626016 0 -0.9238797538373538 -3.141593
-      name "rock 10 cm(3)"
+      name "rock (11)"
       locked TRUE
     }
-    Transform {
+    Pose {
       translation 1.56 3.38 0.59
-      scale 4 4 4
       children [
-        Rock10cm {
-          translation 0 0 0
-          name "rock 10 cm(4)"
+        Rock {
+          name "rock (12)"
+          scale 4
           locked TRUE
         }
       ]
     }
-    Transform {
+    Pose {
       translation -5.02 3.2 0.5132309
       rotation -0.44721372362178063 -0.7745965212991105 -0.44721372362178063 -1.823477
-      scale 4 4 4
       children [
-        Rock10cm {
-          translation 0 0 0
-          name "rock 10 cm(5)"
+        Rock {
+          name "rock (13)"
+          scale 4
           locked TRUE
         }
       ]
     }
-    Rock10cm {
+    Rock {
       translation -6.15 0.3 0.52
-      name "rock 10 cm(6)"
+      name "rock (14)"
       locked TRUE
     }
   ]
@@ -550,7 +559,7 @@ DEF SALAMANDER Robot {
               children [
                 DEF GROUP_FEMUR_1 Group {
                   children [
-                    DEF TRANSFORM_HIP_1 Transform {
+                    DEF TRANSFORM_HIP_1 Pose {
                       translation 0 0.004 0
                       rotation 1 0 0 1.5708
                       children [
@@ -567,7 +576,7 @@ DEF SALAMANDER Robot {
                         }
                       ]
                     }
-                    DEF TRANSFORM_FEMUR_1 Transform {
+                    DEF TRANSFORM_FEMUR_1 Pose {
                       translation 0 0.016 0
                       rotation 1 0 0 1.5708
                       children [
@@ -588,7 +597,7 @@ DEF SALAMANDER Robot {
                   children [
                     DEF GROUP_TIBIA_1 Group {
                       children [
-                        DEF TRANSFORM_TIBIA_1 Transform {
+                        DEF TRANSFORM_TIBIA_1 Pose {
                           translation 0 0.0225 0
                           rotation 1 0 0 1.5708
                           children [
@@ -601,7 +610,7 @@ DEF SALAMANDER Robot {
                             }
                           ]
                         }
-                        DEF TRANSFORM_FOOT_1 Transform {
+                        DEF TRANSFORM_FOOT_1 Pose {
                           translation 0.0055 0.045 -0.002
                           rotation 1 0 0 1.0472
                           children [
@@ -677,14 +686,14 @@ DEF SALAMANDER Robot {
               children [
                 DEF GROUP_FEMUR_2 Group {
                   children [
-                    DEF TRANSFORM_HIP_2 Transform {
+                    DEF TRANSFORM_HIP_2 Pose {
                       translation 0 -0.004 0
                       rotation 1 0 0 1.5708
                       children [
                         USE SHAPE_HIP
                       ]
                     }
-                    DEF TRANSFORM_FEMUR_2 Transform {
+                    DEF TRANSFORM_FEMUR_2 Pose {
                       translation 0 -0.016 0
                       rotation 1 0 0 1.5708
                       children [
@@ -705,7 +714,7 @@ DEF SALAMANDER Robot {
                   children [
                     DEF GROUP_TIBIA_2 Group {
                       children [
-                        DEF TRANSFORM_TIBIA_2 Transform {
+                        DEF TRANSFORM_TIBIA_2 Pose {
                           translation 0 -0.0225 0
                           rotation 1 0 0 1.5708
                           children [
@@ -718,7 +727,7 @@ DEF SALAMANDER Robot {
                             }
                           ]
                         }
-                        DEF TRANSFORM_FOOT_2 Transform {
+                        DEF TRANSFORM_FOOT_2 Pose {
                           translation 0.0055 -0.045 -0.002
                           rotation -1 0 0 1.0472
                           children [
@@ -847,14 +856,14 @@ DEF SALAMANDER Robot {
                                       children [
                                         DEF GROUP_FEMUR_3 Group {
                                           children [
-                                            DEF TRANSFORM_HIP_3 Transform {
+                                            DEF TRANSFORM_HIP_3 Pose {
                                               translation 0 0.004 0
                                               rotation 1 0 0 1.5708
                                               children [
                                                 USE SHAPE_HIP
                                               ]
                                             }
-                                            DEF TRANSFORM_FEMUR_3 Transform {
+                                            DEF TRANSFORM_FEMUR_3 Pose {
                                               translation 0 0.016 0
                                               rotation 1 0 0 1.5708
                                               children [
@@ -875,7 +884,7 @@ DEF SALAMANDER Robot {
                                           children [
                                             DEF GROUP_TIBIA_3 Group {
                                               children [
-                                                DEF TRANSFORM_TIBIA_3 Transform {
+                                                DEF TRANSFORM_TIBIA_3 Pose {
                                                   translation 0 0.0225 0
                                                   rotation 1 0 0 1.5708
                                                   children [
@@ -888,7 +897,7 @@ DEF SALAMANDER Robot {
                                                     }
                                                   ]
                                                 }
-                                                DEF TRANSFORM_FOOT_3 Transform {
+                                                DEF TRANSFORM_FOOT_3 Pose {
                                                   translation 0.0055 0.045 -0.002
                                                   rotation 1 0 0 1.0472
                                                   children [
@@ -958,14 +967,14 @@ DEF SALAMANDER Robot {
                                       children [
                                         DEF GROUP_FEMUR_4 Group {
                                           children [
-                                            DEF TRANSFORM_HIP_4 Transform {
+                                            DEF TRANSFORM_HIP_4 Pose {
                                               translation 0 -0.004 0
                                               rotation 1 0 0 1.5708
                                               children [
                                                 USE SHAPE_HIP
                                               ]
                                             }
-                                            DEF TRANSFORM_FEMUR_4 Transform {
+                                            DEF TRANSFORM_FEMUR_4 Pose {
                                               translation 0 -0.016 0
                                               rotation 1 0 0 1.5708
                                               children [
@@ -986,7 +995,7 @@ DEF SALAMANDER Robot {
                                           children [
                                             DEF GROUP_TIBIA_4 Group {
                                               children [
-                                                DEF TRANSFORM_TIBIA_4 Transform {
+                                                DEF TRANSFORM_TIBIA_4 Pose {
                                                   translation 0 -0.0225 0
                                                   rotation 1 0 0 1.5708
                                                   children [
@@ -999,7 +1008,7 @@ DEF SALAMANDER Robot {
                                                     }
                                                   ]
                                                 }
-                                                DEF TRANSFORM_FOOT_4 Transform {
+                                                DEF TRANSFORM_FOOT_4 Pose {
                                                   translation 0.0055 -0.045 -0.002
                                                   rotation -1 0 0 1.0472
                                                   children [
@@ -1111,7 +1120,7 @@ DEF SALAMANDER Robot {
                                                   ]
                                                   boundingObject DEF SMALL_SEGMENT Group {
                                                     children [
-                                                      Transform {
+                                                      Pose {
                                                         children [
                                                           Shape {
                                                             geometry Cylinder {
@@ -1121,7 +1130,7 @@ DEF SALAMANDER Robot {
                                                           }
                                                         ]
                                                       }
-                                                      Transform {
+                                                      Pose {
                                                         translation -0.038 0 0
                                                         children [
                                                           Shape {
@@ -1179,7 +1188,7 @@ DEF SALAMANDER Robot {
                                 ]
                                 boundingObject DEF BIG_SEGMENT Group {
                                   children [
-                                    Transform {
+                                    Pose {
                                       children [
                                         Shape {
                                           geometry Cylinder {
@@ -1189,7 +1198,7 @@ DEF SALAMANDER Robot {
                                         }
                                       ]
                                     }
-                                    Transform {
+                                    Pose {
                                       translation -0.0235 0 0
                                       children [
                                         Shape {

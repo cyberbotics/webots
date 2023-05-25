@@ -102,7 +102,7 @@ WbDisplay::WbDisplay(WbTokenizer *tokenizer) : WbRenderingDevice("Display", toke
   init();
 }
 
-WbDisplay::WbDisplay(const WbDisplay &other) : WbRenderingDevice(other), mImages(), mSaveOrders(), mImageTextures() {
+WbDisplay::WbDisplay(const WbDisplay &other) : WbRenderingDevice(other) {
   init();
 }
 

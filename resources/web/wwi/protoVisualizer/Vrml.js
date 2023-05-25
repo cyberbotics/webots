@@ -395,7 +395,7 @@ export class SFNode extends SingleValue {
     const name = this.value.getBaseNode().name;
     if (this.value.name === 'ImageTexture')
       nodeX3d.setAttribute('role', parameterName);
-    else if (['Shape', 'Group', 'Transform', 'Solid', 'Robot'].includes(name)) {
+    else if (['Shape', 'Group', 'Pose', 'Solid', 'Robot'].includes(name)) {
       if (parameterName === 'boundingObject')
         nodeX3d.setAttribute('role', 'boundingObject');
     } else if (['BallJointParameters', 'JointParameters', 'HingeJointParameters'].includes(name))

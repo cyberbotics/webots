@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/factory/manhole/protos/SquareManhole.proto
+# keywords: industrial/other
 # A simple square manhole.
 # template language: javascript
 
@@ -19,7 +20,7 @@ PROTO SquareManhole [
     name IS name
     model "manhole"
     children [
-      Transform {
+      Pose {
         rotation 0 0 1 1.57
         children [
           Shape {

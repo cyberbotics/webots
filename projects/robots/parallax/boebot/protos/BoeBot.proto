@@ -2,11 +2,12 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/parallax/boebot/protos/BoeBot.proto
+# keywords: robot/wheeled
 # The "Boe-Bot" is a 3 wheeled robot (2 motorized wheels and a passive caster wheel) created by Parallax Inc.
 
 PROTO BoeBot [
-  field SFVec3f    translation     0 0 0.039   # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0.039   # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0     # Is `Pose.rotation`.
   field SFString   name            "BoeBot"    # Is `Solid.name`.
   field SFString   controller      "boebot"    # Is `Robot.controller`.
   field MFString   controllerArgs  []          # Is `Robot.controllerArgs`.
@@ -31,11 +32,11 @@ PROTO BoeBot [
       Group {
         children IS extensionSlot
       }
-      DEF right_ir_led Transform {
+      DEF right_ir_led Pose {
         translation 0.05 -0.034 0.048
         rotation 0 0 1 5.88319
         children [
-          DEF right_leg Transform {
+          DEF right_leg Pose {
             translation -0.004 -0.001 -0.005
             children [
               Shape {
@@ -48,7 +49,7 @@ PROTO BoeBot [
               }
             ]
           }
-          DEF left_leg Transform {
+          DEF left_leg Pose {
             translation -0.004 0.001 -0.005
             children [
               Shape {
@@ -61,7 +62,7 @@ PROTO BoeBot [
               }
             ]
           }
-          Transform {
+          Pose {
             rotation 0 -1 0 1.57
             children [
               Shape {
@@ -79,11 +80,11 @@ PROTO BoeBot [
           }
         ]
       }
-      DEF left_ir_led Transform {
+      DEF left_ir_led Pose {
         translation 0.05 0.034 0.048
         rotation 0 0 1 0.500004
         children [
-          DEF right_leg Transform {
+          DEF right_leg Pose {
             translation -0.004 -0.001 -0.005
             children [
               Shape {
@@ -96,7 +97,7 @@ PROTO BoeBot [
               }
             ]
           }
-          DEF left_leg Transform {
+          DEF left_leg Pose {
             translation -0.004 0.001 -0.005
             children [
               Shape {
@@ -109,7 +110,7 @@ PROTO BoeBot [
               }
             ]
           }
-          Transform {
+          Pose {
             rotation 0 -1 0 1.57
             children [
               Shape {
@@ -131,10 +132,10 @@ PROTO BoeBot [
         translation 0.05 -0.028 0.05
         rotation 0 0 1 5.88319
         children [
-          Transform {
+          Pose {
             rotation 0 0 1 1.57
             children[
-              Transform {
+              Pose {
                 translation 0 0.001 0
                 rotation 1 0 0 1.5707964853
                 children [
@@ -151,7 +152,7 @@ PROTO BoeBot [
                   }
                 ]
               }
-              DEF left_leg Transform {
+              DEF left_leg Pose {
                 translation 0 0.003 -0.005
                 children [
                   Shape {
@@ -164,7 +165,7 @@ PROTO BoeBot [
                   }
                 ]
               }
-              DEF right_leg Transform {
+              DEF right_leg Pose {
                 translation 0 0.001 -0.005
                 children [
                   Shape {
@@ -177,7 +178,7 @@ PROTO BoeBot [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0.002 0
                 children [
                   Shape {
@@ -205,10 +206,10 @@ PROTO BoeBot [
         translation 0.05 0.028 0.05
         rotation 0 0 1 0.500004
         children [
-          Transform {
+          Pose {
             rotation 0 0 1 1.57
             children [
-              Transform {
+              Pose {
                 translation 0 0.001 0
                 rotation 1 0 0 1.5707964853
                 children [
@@ -227,7 +228,7 @@ PROTO BoeBot [
               }
               USE left_leg
               USE right_leg
-              Transform {
+              Pose {
                 translation 0 0.002 0
                 children [
                   Shape {
@@ -254,10 +255,10 @@ PROTO BoeBot [
       DEF rls LightSensor {
         translation 0.052 -0.021 0.052
         children [
-          Transform {
+          Pose {
             rotation 0 0 1 1.57
             children [
-              Transform {
+              Pose {
                 translation -0.0007 0 0
                 children [
                   Shape {
@@ -273,7 +274,7 @@ PROTO BoeBot [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0007 0 0
                 children [
                   Shape {
@@ -289,7 +290,7 @@ PROTO BoeBot [
                   }
                 ]
               }
-              DEF right_ls_leg Transform {
+              DEF right_ls_leg Pose {
                 translation -0.001 0 -0.005
                 children [
                   Shape {
@@ -302,7 +303,7 @@ PROTO BoeBot [
                   }
                 ]
               }
-              DEF left_ls_leg Transform {
+              DEF left_ls_leg Pose {
                 translation 0.001 0 -0.005
                 children [
                   Shape {
@@ -334,10 +335,10 @@ PROTO BoeBot [
       DEF lls LightSensor {
         translation 0.052 0.021 0.052
         children [
-          Transform {
+          Pose {
             rotation 0 0 1 1.57
             children [
-              Transform {
+              Pose {
                 translation 0.0007 0 0
                 children [
                   Shape {
@@ -353,7 +354,7 @@ PROTO BoeBot [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0007 0 0
                 children [
                   Shape {
@@ -380,7 +381,7 @@ PROTO BoeBot [
       DEF right_led LED {
         translation 0.052 -0.014 0.055
         children [
-          Transform {
+          Pose {
             translation 0 0 0.003
             children [
               Shape {
@@ -395,7 +396,7 @@ PROTO BoeBot [
               }
             ]
           }
-          DEF left_leg Transform {
+          DEF left_leg Pose {
             translation 0 0.001 -0.008
             children [
               Shape {
@@ -408,7 +409,7 @@ PROTO BoeBot [
               }
             ]
           }
-          DEF right_leg Transform {
+          DEF right_leg Pose {
             translation 0 -0.001 -0.008
             children [
               Shape {
@@ -438,7 +439,7 @@ PROTO BoeBot [
       DEF left_led LED {
         translation 0.052 0.014 0.055
         children [
-          Transform {
+          Pose {
             translation 0 0 0.003
             children [
               Shape {
@@ -511,7 +512,7 @@ PROTO BoeBot [
           translation 0.025 -0.046 -0.0052
           rotation 0 1 0 1.74327
           children [
-            DEF Cylinder10 Transform {
+            DEF Cylinder10 Pose {
               translation 0 -0.005 0
               rotation 0 0 1 1.57
               children [
@@ -534,7 +535,7 @@ PROTO BoeBot [
                 }
               ]
             }
-            DEF Cylinder11 Transform {
+            DEF Cylinder11 Pose {
               translation 0 -0.003 0
               rotation 0 0 1 1.57
               children [
@@ -557,7 +558,7 @@ PROTO BoeBot [
                 }
               ]
             }
-            DEF Box13 Transform {
+            DEF Box13 Pose {
               rotation 0 0 1 1.57
               children [
                 Shape {
@@ -579,7 +580,7 @@ PROTO BoeBot [
                 }
               ]
             }
-            DEF Box14 Transform {
+            DEF Box14 Pose {
               rotation 0 0 1 1.57
               children [
                 Shape {
@@ -603,7 +604,7 @@ PROTO BoeBot [
             }
           ]
           name "right wheel"
-          boundingObject Transform {
+          boundingObject Pose {
             rotation -1 0 0 1.57
             children [
               DEF wheel_cylinder Cylinder {
@@ -636,7 +637,7 @@ PROTO BoeBot [
           translation 0.025 0.0468861 -0.0052
           rotation 0 1 0 0.4
           children [
-            DEF Cylinder08 Transform {
+            DEF Cylinder08 Pose {
               translation 0 -0.005 0
               rotation 0 0 1 1.57
               children [
@@ -659,7 +660,7 @@ PROTO BoeBot [
                 }
               ]
             }
-            DEF Cylinder09 Transform {
+            DEF Cylinder09 Pose {
               translation 0 -0.003 0
               rotation 0 0 1 1.57
               children [
@@ -682,7 +683,7 @@ PROTO BoeBot [
                 }
               ]
             }
-            DEF Box07 Transform {
+            DEF Box07 Pose {
               rotation 0 0 1 1.57
               children [
                 Shape {
@@ -704,7 +705,7 @@ PROTO BoeBot [
                 }
               ]
             }
-            DEF Box12 Transform {
+            DEF Box12 Pose {
               rotation 0 0 1 1.57
               children [
                 Shape {
@@ -728,7 +729,7 @@ PROTO BoeBot [
             }
           ]
           name "left wheel"
-          boundingObject Transform {
+          boundingObject Pose {
             rotation -1 0 0 1.57
             children [
               USE wheel_cylinder
@@ -740,10 +741,10 @@ PROTO BoeBot [
           }
         }
       }
-      DEF body Transform {
+      DEF body Pose {
         rotation 0 0 1 1.5708
         children [
-          DEF electronic_texture Transform {
+          DEF electronic_texture Pose {
             translation 0.0387 0.045 0.038
             children [
               Shape {
@@ -778,7 +779,7 @@ PROTO BoeBot [
               }
             ]
           }
-          DEF second_condensator Transform {
+          DEF second_condensator Pose {
             translation 0.013 0.04 0.043
             children [
               Shape {
@@ -794,7 +795,7 @@ PROTO BoeBot [
               }
             ]
           }
-          DEF first_condensator Transform {
+          DEF first_condensator Pose {
             translation 0.013 0.026 0.043
             children [
               DEF condensator Shape {
@@ -810,10 +811,10 @@ PROTO BoeBot [
               }
             ]
           }
-          DEF electronic_box Transform {
+          DEF electronic_box Pose {
             translation 0 -0.035 0.04
             children [
-              DEF texture_shape Transform {
+              DEF texture_shape Pose {
                 translation 0.035 0.02 0.003
                 children [
                   Shape {
@@ -860,7 +861,7 @@ PROTO BoeBot [
               }
             ]
           }
-          DEF right_side Transform {
+          DEF right_side Pose {
             translation -0.0398 0.03791 0.01059
             rotation 0 0 1 0.007
             children [
@@ -882,7 +883,7 @@ PROTO BoeBot [
               }
             ]
           }
-          DEF back_wheel Transform {
+          DEF back_wheel Pose {
             translation 0 0.05619 -0.02451
             children [
               Shape {
@@ -898,7 +899,7 @@ PROTO BoeBot [
               }
             ]
           }
-          DEF back_wheel_axis Transform {
+          DEF back_wheel_axis Pose {
             translation 0 0.055 -0.025
             rotation 0 -1 0 1.55
             children [
@@ -915,7 +916,7 @@ PROTO BoeBot [
               }
             ]
           }
-          DEF main_wheel_axis Transform {
+          DEF main_wheel_axis Pose {
             translation 0.04687 -0.02322 -0.008308
             children [
               Shape {
@@ -937,7 +938,7 @@ PROTO BoeBot [
               }
             ]
           }
-          DEF batteries Transform {
+          DEF batteries Pose {
             translation 0.0001386 -0.02595 -0.01374
             children [
               Shape {
@@ -959,7 +960,7 @@ PROTO BoeBot [
               }
             ]
           }
-          DEF very_top_side Transform {
+          DEF very_top_side Pose {
             translation -0.0005004 -0.008089 0.03532
             children [
               Shape {
@@ -981,7 +982,7 @@ PROTO BoeBot [
               }
             ]
           }
-          DEF top_side Transform {
+          DEF top_side Pose {
             translation 0.02235 -0.06379 0.01639
             children [
               Shape {
@@ -1002,7 +1003,7 @@ PROTO BoeBot [
               }
             ]
           }
-          DEF left_back_screw Transform {
+          DEF left_back_screw Pose {
             translation 0.0354 0.03943 0.01925
             children [
               Shape {
@@ -1024,7 +1025,7 @@ PROTO BoeBot [
               }
             ]
           }
-          DEF right_back_screw Transform {
+          DEF right_back_screw Pose {
             translation -0.03507 0.03943 0.01925
             children [
               Shape {
@@ -1046,7 +1047,7 @@ PROTO BoeBot [
               }
             ]
           }
-          DEF right_front_screw Transform {
+          DEF right_front_screw Pose {
             translation -0.03507 -0.0574 0.01925
             children [
               Shape {
@@ -1068,7 +1069,7 @@ PROTO BoeBot [
               }
             ]
           }
-          DEF left_front_screw Transform {
+          DEF left_front_screw Pose {
             translation 0.03503 -0.0574 0.01925
             children [
               Shape {
@@ -1090,7 +1091,7 @@ PROTO BoeBot [
               }
             ]
           }
-          DEF back_side Transform {
+          DEF back_side Pose {
             translation -0.02171 0.053 -0.001431
             children [
               Shape {
@@ -1111,7 +1112,7 @@ PROTO BoeBot [
               }
             ]
           }
-          DEF left_side Transform {
+          DEF left_side Pose {
             translation 0.038 0.00773 -0.006306
             children [
               Shape {
@@ -1132,7 +1133,7 @@ PROTO BoeBot [
               }
             ]
           }
-          DEF front_side Transform {
+          DEF front_side Pose {
             translation -0.009575 -0.06689 0.008742
             children [
               Shape {
@@ -1159,7 +1160,7 @@ PROTO BoeBot [
     model "Boe Bot"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0.007 0 0.012
           children [
             Box {
@@ -1167,7 +1168,7 @@ PROTO BoeBot [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.006 0 0.005
           children [
             Box {
@@ -1175,7 +1176,7 @@ PROTO BoeBot [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.056 0 -0.0245
           children [
             USE back_wheel_sphere

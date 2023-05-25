@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/bmw/BmwX5Wheel.proto
+# keywords: vehicle/wheel
 # Model of the BMW X5 wheels using the generic VehicleWheel PROTO including physic properties and baseColorMaps.
 # This model was sponsored by the [CTI project RO2IVSim](http://transport.epfl.ch/simulator-for-mobile-robots-and-intelligent-vehicles).
 
@@ -36,7 +37,7 @@ PROTO BmwX5Wheel [
     physics IS physics
     boundingObject IS boundingObject
     logoSlot [
-      Transform{
+      Pose {
         translation 0 0.035 0
         rotation 1 0 0 1.570796
         children [

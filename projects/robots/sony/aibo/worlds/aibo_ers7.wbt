@@ -21,7 +21,7 @@ TexturedBackgroundLight {
 }
 DEF GROUND Solid {
   children [
-    DEF GREEN1 Transform {
+    DEF GREEN1 Pose {
       translation -1.75 0.9 0
       children [
         Shape {
@@ -61,7 +61,7 @@ DEF GROUND Solid {
         }
       ]
     }
-    DEF GREEN2 Transform {
+    DEF GREEN2 Pose {
       translation -1.75 0 0
       children [
         Shape {
@@ -93,7 +93,7 @@ DEF GROUND Solid {
         }
       ]
     }
-    DEF GREEN3 Transform {
+    DEF GREEN3 Pose {
       translation 1.75 0 0
       rotation 0 0 1 3.14159
       children [
@@ -126,7 +126,7 @@ DEF GROUND Solid {
         }
       ]
     }
-    DEF GREEN3 Transform {
+    DEF GREEN3 Pose {
       translation 1.75 -0.9 0
       rotation 0 0 1 3.14159
       children [
@@ -166,12 +166,9 @@ DEF GROUND Solid {
   }
   locked TRUE
 }
-DEF FRAME Solid {
-  locked TRUE
-}
 DEF BLUE_GOAL Solid {
   children [
-    DEF BLUE_ROOF Transform {
+    DEF BLUE_ROOF Pose {
       translation 1.625 0 0.305
       children [
         Shape {
@@ -186,7 +183,7 @@ DEF BLUE_GOAL Solid {
         }
       ]
     }
-    DEF BLUE_BACK Transform {
+    DEF BLUE_BACK Pose {
       translation 1.75 0 0.15
       children [
         Shape {
@@ -197,7 +194,7 @@ DEF BLUE_GOAL Solid {
         }
       ]
     }
-    DEF BLUE_LEFT Transform {
+    DEF BLUE_LEFT Pose {
       translation 1.625 -0.3 0.15
       rotation 0 0 1 1.57
       children [
@@ -209,7 +206,7 @@ DEF BLUE_GOAL Solid {
         }
       ]
     }
-    DEF BLUE_RIGHT Transform {
+    DEF BLUE_RIGHT Pose {
       translation 1.625 0.3 0.15
       rotation 0 0 1 1.57
       children [
@@ -233,7 +230,7 @@ DEF BLUE_GOAL Solid {
 }
 DEF YELLOW_GOAL Solid {
   children [
-    DEF YELLOW_ROOF Transform {
+    DEF YELLOW_ROOF Pose {
       translation -1.625 0 0.305
       children [
         Shape {
@@ -246,7 +243,7 @@ DEF YELLOW_GOAL Solid {
         }
       ]
     }
-    DEF YELLOW_BACK Transform {
+    DEF YELLOW_BACK Pose {
       translation -1.75 0 0.15
       children [
         Shape {
@@ -255,7 +252,7 @@ DEF YELLOW_GOAL Solid {
         }
       ]
     }
-    DEF YELLOW_LEFT_SIDE Transform {
+    DEF YELLOW_LEFT_SIDE Pose {
       translation -1.62 0.3 0.15
       rotation 0 0 1 1.57
       children [
@@ -265,7 +262,7 @@ DEF YELLOW_GOAL Solid {
         }
       ]
     }
-    DEF YELLOW_RIGHT_SIDE Transform {
+    DEF YELLOW_RIGHT_SIDE Pose {
       translation -1.62 -0.3 0.15
       rotation 0 0 1 1.57
       children [
@@ -289,7 +286,7 @@ DEF YELLOW_GOAL Solid {
 }
 DEF LANDMARKS Group {
   children [
-    DEF BLUE_LEFT_BOTTOM Transform {
+    DEF BLUE_LEFT_BOTTOM Pose {
       translation 1.5 -1.03 0.4
       children [
         DEF BLUE_CYLINDER Shape {
@@ -301,7 +298,7 @@ DEF LANDMARKS Group {
         }
       ]
     }
-    DEF BLUE_LEFT_TOP Transform {
+    DEF BLUE_LEFT_TOP Pose {
       translation 1.5 -1.03 0.45
       children [
         DEF RED_CYLINDER Shape {
@@ -318,7 +315,7 @@ DEF LANDMARKS Group {
         }
       ]
     }
-    DEF BLUE_LEFT_TRUNC Transform {
+    DEF BLUE_LEFT_TRUNC Pose {
       translation 1.5 -1.03 0.2
       children [
         DEF TRUNC Shape {
@@ -332,19 +329,19 @@ DEF LANDMARKS Group {
         }
       ]
     }
-    DEF BLUE_RIGHT_BOTTOM Transform {
+    DEF BLUE_RIGHT_BOTTOM Pose {
       translation 1.5 1.03 0.4
       children [
         USE RED_CYLINDER
       ]
     }
-    DEF BLUE_RIGHT_TOP Transform {
+    DEF BLUE_RIGHT_TOP Pose {
       translation 1.5 1.03 0.45
       children [
         USE BLUE_CYLINDER
       ]
     }
-    DEF BLUE_RIGHT_TRUNC Transform {
+    DEF BLUE_RIGHT_TRUNC Pose {
       translation 1.5 1.03 0.2
       children [
         DEF TRUNC Shape {
@@ -358,13 +355,13 @@ DEF LANDMARKS Group {
         }
       ]
     }
-    DEF YELLOW_LEFT_BOTTOM Transform {
+    DEF YELLOW_LEFT_BOTTOM Pose {
       translation -1.5 1.03 0.4
       children [
         USE RED_CYLINDER
       ]
     }
-    DEF YELLOW_LEFT_TOP Transform {
+    DEF YELLOW_LEFT_TOP Pose {
       translation -1.5 1.03 0.45
       children [
         DEF YELLOW_CYLINDER Shape {
@@ -376,31 +373,31 @@ DEF LANDMARKS Group {
         }
       ]
     }
-    DEF YELLOW_LEFT_TRUNC Transform {
+    DEF YELLOW_LEFT_TRUNC Pose {
       translation -1.5 1.03 0.2
       children [
         USE TRUNC
       ]
     }
-    DEF YELLOW_RIGHT_BOTTOM Transform {
+    DEF YELLOW_RIGHT_BOTTOM Pose {
       translation -1.5 -1.03 0.4
       children [
         USE YELLOW_CYLINDER
       ]
     }
-    DEF YELLOW_RIGHT_TOP Transform {
+    DEF YELLOW_RIGHT_TOP Pose {
       translation -1.5 -1.03 0.45
       children [
         USE RED_CYLINDER
       ]
     }
-    DEF YELLOW_RIGHT_TRUNC Transform {
+    DEF YELLOW_RIGHT_TRUNC Pose {
       translation -1.5 -1.03 0.2
       children [
         USE TRUNC
       ]
     }
-    DEF MIDDLE_BOTTOM_PLUS Transform {
+    DEF MIDDLE_BOTTOM_PLUS Pose {
       translation 0 -1.03 0.4
       children [
         DEF GREEN_CYLINDER Shape {
@@ -417,31 +414,31 @@ DEF LANDMARKS Group {
         }
       ]
     }
-    DEF MIDDLE_TOP_PLUS Transform {
+    DEF MIDDLE_TOP_PLUS Pose {
       translation 0 -1.03 0.45
       children [
         USE RED_CYLINDER
       ]
     }
-    DEF MIDDLE_TRUNC_PLUS Transform {
+    DEF MIDDLE_TRUNC_PLUS Pose {
       translation 0 -1.03 0.2
       children [
         USE TRUNC
       ]
     }
-    DEF MIDDLE_BOTTOM_MINUS Transform {
+    DEF MIDDLE_BOTTOM_MINUS Pose {
       translation 0 1.03 0.4
       children [
         USE RED_CYLINDER
       ]
     }
-    DEF MIDDLE_TOP_MINUS Transform {
+    DEF MIDDLE_TOP_MINUS Pose {
       translation 0 1.03 0.45
       children [
         USE GREEN_CYLINDER
       ]
     }
-    DEF MIDDLE_TRUNC_MINUS Transform {
+    DEF MIDDLE_TRUNC_MINUS Pose {
       translation 0 1.03 0.2
       children [
         USE TRUNC
@@ -560,7 +557,7 @@ DEF STATION Charger {
   translation -0.55 -0.59 0
   rotation -0.3497721296409653 0.6624422455302892 0.6624422455302892 -2.468649
   children [
-    DEF CONTACT Transform {
+    DEF CONTACT Pose {
       translation 0 0.022 0.02
       children [
         Shape {
@@ -705,7 +702,7 @@ DEF STATION Charger {
         USE BLOCKER_SHAPE
       ]
     }
-    DEF TARGET Transform {
+    DEF TARGET Pose {
       translation 0 0.001 0.3
       rotation 0 1 0 3.14159
       children [
@@ -749,7 +746,7 @@ DEF STATION Charger {
   ]
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0 0.1 -0.255
         rotation 1 0 0 1.570796
         children [
@@ -759,7 +756,7 @@ DEF STATION Charger {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0.02 -0.08
         children [
           Box {
@@ -767,7 +764,7 @@ DEF STATION Charger {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0.015 -0.02
         children [
           Box {
@@ -775,7 +772,7 @@ DEF STATION Charger {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0.02 0.14
         children [
           Box {
@@ -841,7 +838,7 @@ DEF BONE Solid {
         USE BONE_PINK_SHAPE
       ]
     }
-    DEF BONE_AXLE Transform {
+    DEF BONE_AXLE Pose {
       translation 0 0.023 0
       rotation 0 0 1 1.57
       children [
@@ -858,7 +855,7 @@ DEF BONE Solid {
   name "solid(10)"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation -0.01 0.028 0.05
         rotation 0 0 1 2.6
         children [
@@ -867,7 +864,7 @@ DEF BONE Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.01 0.028 0.05
         rotation 0 0 1 -2.6
         children [
@@ -876,7 +873,7 @@ DEF BONE Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0.01 0.05
         rotation 0 0 1 1.57
         children [
@@ -885,7 +882,7 @@ DEF BONE Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.01 0.028 -0.05
         rotation 0 0 1 2.6
         children [
@@ -894,7 +891,7 @@ DEF BONE Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0.01 0.028 -0.05
         rotation 0 0 1 -2.6
         children [
@@ -903,7 +900,7 @@ DEF BONE Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0.01 -0.05
         rotation 0 0 1 1.57
         children [
