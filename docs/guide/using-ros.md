@@ -109,7 +109,8 @@ roslaunch webots_ros webots_ros_python.launch
 
 A [second more complicated example]({{ url.github_tree }}/projects/robots/universal_robots/resources/ros_package/ur_e_webots) shows how to interface a model of a Universal Robots arm in Webots with ROS using [rospy](http://wiki.ros.org/rospy).
 
-The same can be done in C++ by linking against the `libCppController.so` library and including the relevant headers in the `CMakeLists.txt` of your ROS package. The following gives a basis for the `CMakeLists.txt`, which can then be extended to satisfy your project's needs:
+The same can be done in C++ by linking against the `libCppController.so` library and including the relevant headers in the `CMakeLists.txt` of your ROS package. 
+The following gives a basis for the `CMakeLists.txt`, which can then be extended to satisfy your project's needs:
 ```cmake
 cmake_minimum_required(VERSION 3.0.2)
 project(my_ros_package)
