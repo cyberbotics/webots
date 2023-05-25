@@ -132,6 +132,7 @@ link_directories(${WEBOTS_HOME}/lib/controller) # location of libCppController.s
 add_executable(my_webots_controller_node src/my_webots_controller_node.cpp)
 target_link_libraries(my_webots_controller_node ${catkin_LIBRARIES} CppController)
 ```
+
 The resulting executable will then behave as both a standard external Webots controller and a ROS node. 
 
 ### Importing from a ROS Package
