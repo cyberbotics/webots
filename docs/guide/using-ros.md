@@ -99,6 +99,7 @@ It is possible to implement such a ROS node in C++ using the "roscpp" library on
 However, in this case, you need to setup a build configuration to handle both the "catkin\_make" from ROS and the "Makefile" from Webots to have the resulting binary linked both against the Webots "libController" and the "roscpp" library.
 An example is provided [here]({{ url.github_tree }}/projects/vehicles/controllers/ros_automobile) to create a specific controller for controlling a vehicle.
 
+#### Using an extern controller
 An even more generic solution, is to use an [extern controller](running-extern-robot-controllers.md) and run the controller as a regular ROS node on the ROS side.
 A very simple example is provided [here](https://github.com/cyberbotics/webots_ros/blob/master/scripts/ros_python.py), it is written in pure Python and should work on Windows, Linux and macOS, straight out of the box.
 A launch file is available to launch Webots with the correct world file, the extern controller and a simple ROS node moving the robot straight as long as there is no obstacle (detected using the front [DistanceSensor](../reference/distancesensor.md)), it can be launched with:
@@ -107,6 +108,30 @@ roslaunch webots_ros webots_ros_python.launch
 ```
 
 A [second more complicated example]({{ url.github_tree }}/projects/robots/universal_robots/resources/ros_package/ur_e_webots) shows how to interface a model of a Universal Robots arm in Webots with ROS using [rospy](http://wiki.ros.org/rospy).
+
+The same can be done in C++ by linking against the `libCppController.so` library and including the relevant headers in the `CMakeLists.txt` of your ROS package. The following gives a basis for the `CMakeLists.txt`, which can then be extended to satisfy your project's needs:
+```cmake
+cmake_minimum_required(VERSION 3.0.2)
+project(my_ros_package)
+
+if(NOT DEFINED ENV{WEBOTS_HOME})
+    set(WEBOTS_HOME "/usr/local/webots")
+    message(WARNING "WEBOTS_HOME environment variable is not defined. Using default path: ${WEBOTS_HOME}")
+else()
+    set(WEBOTS_HOME $ENV{WEBOTS_HOME})
+endif()
+
+include_directories(
+  ${catkin_INCLUDE_DIRS}
+  ${WEBOTS_HOME}/include/controller/cpp # include the webots C++ API headers 
+)
+
+link_directories(${WEBOTS_HOME}/lib/controller) # location of libCppController.so
+
+add_executable(my_webots_controller_node src/my_webots_controller_node.cpp)
+target_link_libraries(my_webots_controller_node ${catkin_LIBRARIES} CppController)
+```
+The resulting executable will then behave as both a standard external Webots controller and a ROS node. 
 
 ### Importing from a ROS Package
 
