@@ -2,6 +2,7 @@
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/traffic/protos/WorkBarrier.proto
+# keywords: exterior/street furniture
 # A work barrier with optional physics.
 # template language: javascript
 
@@ -72,7 +73,7 @@ PROTO WorkBarrier [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.110335 -0.000006 0.495517
           rotation -0.604125 -0.604122 -0.519682 -2.183068
           children [
@@ -81,7 +82,7 @@ PROTO WorkBarrier [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.110339 -0.000005 0.495516
           rotation 0.546247 0.546242 0.635007 2.010079
           children [

@@ -10,8 +10,8 @@ export default class WbAbstractCamera extends WbDevice {
   #renderable;
   #transform;
   #width;
-  constructor(id, translation, scale, rotation, name, height, width, fieldOfView) {
-    super(id, translation, scale, rotation, name);
+  constructor(id, translation, rotation, name, height, width, fieldOfView) {
+    super(id, translation, rotation, name);
 
     this.#fieldOfView = fieldOfView;
     this.#height = height;

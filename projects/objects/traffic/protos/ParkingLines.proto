@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/traffic/protos/ParkingLines.proto
+# keywords: traffic/sign
 # Parking lines for several consecutive cars.
 # template language: javascript
 
@@ -18,11 +19,11 @@ PROTO ParkingLines [
     const width  = fields.numberOfCarParks.value * fields.carParkWidth.value;
     const length = fields.carParkLength.value;
   >%
-  Transform {
+  Pose {
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         translation %<= 0.5 * width >% %<= 0.5 * length >% 0
         children [
           Shape {

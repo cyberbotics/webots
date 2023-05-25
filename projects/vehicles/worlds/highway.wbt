@@ -769,7 +769,7 @@ DEF SOUTH_UPPER_LOOP Solid {
   name "solid(6)"
   boundingObject Group {
     children [
-      DEF STRAIGHT_LINE_1 Transform {
+      DEF STRAIGHT_LINE_1 Pose {
         translation 0 187 4.5
         children [
           DEF STRAIGHT_BOX Box {
@@ -777,13 +777,13 @@ DEF SOUTH_UPPER_LOOP Solid {
           }
         ]
       }
-      DEF STRAIGHT_LINE_2 Transform {
+      DEF STRAIGHT_LINE_2 Pose {
         translation 0 7 4.5
         children [
           USE STRAIGHT_BOX
         ]
       }
-      DEF OUTPUT Transform {
+      DEF OUTPUT Pose {
         translation 131.5 15.4 4.5
         children [
           DEF OUTPUT_INPUT_BOX Box {
@@ -791,7 +791,7 @@ DEF SOUTH_UPPER_LOOP Solid {
           }
         ]
       }
-      DEF INPUT Transform {
+      DEF INPUT Pose {
         translation -131.5 15.4 4.5
         children [
           USE OUTPUT_INPUT_BOX
@@ -937,25 +937,25 @@ DEF NORTH_UPPER_LOOP Solid {
   name "solid(7)"
   boundingObject Group {
     children [
-      DEF STRAIGHT_LINE_1 Transform {
+      DEF STRAIGHT_LINE_1 Pose {
         translation 0 -187 4.5
         children [
           USE STRAIGHT_BOX
         ]
       }
-      DEF STRAIGHT_LINE_2 Transform {
+      DEF STRAIGHT_LINE_2 Pose {
         translation 0 -7 4.5
         children [
           USE STRAIGHT_BOX
         ]
       }
-      DEF OUTPUT Transform {
+      DEF OUTPUT Pose {
         translation 131.5 -15.4 4.5
         children [
           USE OUTPUT_INPUT_BOX
         ]
       }
-      DEF INPUT Transform {
+      DEF INPUT Pose {
         translation -131.5 -15.4 4.5
         children [
           USE OUTPUT_INPUT_BOX

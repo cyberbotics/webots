@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/buildings/protos/Auditorium.proto
+# keywords: building/civil
 # A classic auditoruim.
 
 PROTO Auditorium [
@@ -70,7 +71,7 @@ PROTO Auditorium [
     model "auditorium"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 9.0
           rotation 0 1 0 -3.141592
           children [
@@ -80,7 +81,7 @@ PROTO Auditorium [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 20.2 0 4.0
           rotation 0 0.707107 0.707107 -3.141593
           children [

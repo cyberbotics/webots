@@ -38,7 +38,7 @@ DEF USE_CASE_1 Solid {
   children [
     DEF G Group {
       children [
-        DEF T1 Transform {
+        DEF P1 Pose {
           children [
             DEF S1 Shape {
               appearance Appearance {
@@ -52,7 +52,7 @@ DEF USE_CASE_1 Solid {
             }
           ]
         }
-        DEF T2 Transform {
+        DEF P2 Pose {
           translation 0.4 0 0
           children [
             USE S1
@@ -68,7 +68,7 @@ DEF USE_CASE_2 Solid {
   children [
     DEF G1 Group {
       children [
-        DEF T3 Transform {
+        DEF P3 Pose {
           children [
             DEF S2 Shape {
               appearance Appearance {
@@ -86,7 +86,7 @@ DEF USE_CASE_2 Solid {
     }
     DEF G2 Group {
       children [
-        DEF T4 Transform {
+        DEF P4 Pose {
           translation 0.4 0.3 0
           children [
             USE S2
@@ -94,33 +94,33 @@ DEF USE_CASE_2 Solid {
         }
       ]
     }
-    DEF T5 Transform {
+    DEF P5 Pose {
       translation 0 0.2 0
       children [
-        USE T4
+        USE P4
       ]
     }
-    Transform {
+    Pose {
       translation 0 -0.5 0
       children [
-        USE T5
+        USE P5
       ]
     }
   ]
   name "solid(2)"
   boundingObject Group {
     children [
-      USE T3
+      USE P3
     ]
   }
 }
-DEF USE_CASE_3 Transform {
+DEF USE_CASE_3 Pose {
   translation 0.4 0 0
   children [
-    USE T2
+    USE P2
   ]
 }
-DEF USE_CASE_4 Transform {
+DEF USE_CASE_4 Pose {
   translation 0.3 0 0
   children [
     USE USE_CASE_3

@@ -11,7 +11,6 @@ PROTO SupervisorInternalFields [
 DEF ROBOT Robot {
   translation IS translation
   rotation IS rotation
-  scale 1 1 1
   children [
     DEF INTERNAL_SOLID Solid {
     }

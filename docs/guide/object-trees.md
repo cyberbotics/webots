@@ -47,6 +47,7 @@ Cypress {
   SFVec3f    translation           0 0 0
   SFRotation rotation              0 0 1 0
   SFString   name                  "cypress tree"
+  SFFloat    scale                 1
   SFBool     enableBoundingObject  TRUE
 }
 ```
@@ -85,7 +86,7 @@ This model was sponsored by the CTI project RO2IVSim ([http://transport.epfl.ch/
 
 %end
 
-Derived from [Transform](../reference/transform.md).
+Derived from [Pose](../reference/pose.md).
 
 ```
 Forest {

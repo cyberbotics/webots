@@ -17,6 +17,7 @@ Apple {
   SFVec3f    translation         0 0 0.05
   SFRotation rotation            0 0 1 0
   SFString   name                "apple"
+  SFFloat    scale               1
   SFFloat    mass                0.15
   MFNode     immersionProperties []
 }

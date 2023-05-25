@@ -68,7 +68,7 @@ PROTO TruckCab [
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 %<= 4.177 * (fields.sizeRatio.value - 1) >%
         children [
           DEF COACHWORK Shape {

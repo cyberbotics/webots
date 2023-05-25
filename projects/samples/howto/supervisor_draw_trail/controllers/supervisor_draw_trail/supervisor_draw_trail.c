@@ -68,7 +68,7 @@ int main(int argc, char **argv) {
   int time_step = (int)wb_robot_get_basic_time_step();  // i.e. `WorldInfo.basicTimeStep`
   time_step *= REFRESH_FACTOR;
 
-  // Get the target object node, i.e. the TARGET Transform in the E-puck turretSlot field.
+  // Get the target object node, i.e. the TARGET Pose in the E-puck turretSlot field.
   WbNodeRef target_node = wb_supervisor_node_get_from_def("TARGET");
 
   // Create the TRAIL Shape which will contain the green line set.

@@ -28,10 +28,10 @@ Simulate the TIAGo robot from [PAL Robotics](http://pal-robotics.com/) in Webots
 
 Several models of the robot have been created for Webots:
   - [TIAGo Base](../guide/tiago-base.md)
-  - [TIAGo Iron](../guide/tiago-iron.md)
-  - [TIAGo Steel](../guide/tiago-steel.md)
-  - [TIAGo Titanium](../guide/tiago-titanium.md)
-  - [TIAGo++](../guide/tiagopp.md)
+  - [TIAGo Iron](https://cyberbotics.com/doc/guide/tiago-iron?version=R2020a)
+  - [TIAGo Steel](https://cyberbotics.com/doc/guide/tiago-steel?version=R2020a)
+  - [TIAGo Titanium](https://cyberbotics.com/doc/guide/tiago-titanium?version=R2020a)
+  - [TIAGo++](https://cyberbotics.com/doc/guide/tiagopp?version=R2020a)
 
 ### TurtleBot3 Burger
 

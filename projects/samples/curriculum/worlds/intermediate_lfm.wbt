@@ -78,7 +78,7 @@ DEF WALL2 Solid {
   name "wall2"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0 -0.59 0.025
         rotation 0.5773502691896257 -0.5773502691896257 -0.5773502691896257 2.0943951024
         children [
@@ -90,21 +90,21 @@ DEF WALL2 Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0.59 0.025
         rotation 0.5773502691896257 -0.5773502691896257 -0.5773502691896257 2.0943951024
         children [
           USE WALL_SHAPE
         ]
       }
-      Transform {
+      Pose {
         translation -0.59 0 0.025
         rotation 1 0 0 1.5707964853
         children [
           USE WALL_SHAPE
         ]
       }
-      Transform {
+      Pose {
         translation 0.59 0 0.025
         rotation 1 0 0 1.5707964853
         children [

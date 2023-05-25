@@ -2,13 +2,14 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/nvidia/jetbot/protos/JetBotRaspberryPiCamera.proto
+# keywords: robot/extension
 # Raspberry Camera v2 used by JetBot robot.
 
 EXTERNPROTO "webots://projects/objects/shapes/protos/TexturedBoxShape.proto"
 
 PROTO JetBotRaspberryPiCamera [
-  field SFVec3f            translation           0 0 0                    # Is `Transform.translation`.
-  field SFRotation         rotation              0 0 1 0                  # Is `Transform.rotation`.
+  field SFVec3f            translation           0 0 0                    # Is `Pose.translation`.
+  field SFRotation         rotation              0 0 1 0                  # Is `Pose.rotation`.
   field SFString           name                  "camera"                 # Is `Camera.name`.
   field SFFloat            fieldOfView           2.79253                  # Is `Camera.fieldOfView`.
   field SFInt32            width                 1280                     # Is `Camera.width`.
@@ -17,11 +18,11 @@ PROTO JetBotRaspberryPiCamera [
   field SFFloat            far                   1.0                      # Is `Camera.far`.
 ]
 {
-  Transform {
+  Solid {
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         rotation 1 0 0 -1.5708
         children [
           DEF BOARD TexturedBoxShape {
@@ -32,7 +33,7 @@ PROTO JetBotRaspberryPiCamera [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.003 0 -0.0015
         children [
           Shape {
@@ -50,11 +51,11 @@ PROTO JetBotRaspberryPiCamera [
       Camera {
         translation 0.0005 0 0.0013
         children [
-          Transform {
+          Pose {
             translation 0.003 0 0
             rotation 0 1 0 1.5708
             children [
-              Transform {
+              Pose {
                 translation 0 0 0.0036
                 children [
                   Shape {

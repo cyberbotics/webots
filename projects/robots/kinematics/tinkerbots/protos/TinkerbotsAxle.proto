@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/kinematics/tinkerbots/protos/TinkerbotsAxle.proto
+# keywords: robot/extension
 # Tinkerbots axle.
 # More information on: [TinkerbotsBase](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/kinematics/tinkerbots/protos/TinkerbotsBase.proto)
 # template language: javascript
@@ -9,8 +10,8 @@
 EXTERNPROTO "TinkerbotsPlasticAppearance.proto"
 
 PROTO TinkerbotsAxle [
-  field SFVec3f                  translation 0 0 0    # Is `Transform.translation`.
-  field SFRotation               rotation    0 0 1 0  # Is `Transform.rotation`.
+  field SFVec3f                  translation 0 0 0    # Is `Pose.translation`.
+  field SFRotation               rotation    0 0 1 0  # Is `Pose.rotation`.
   field SFString                 name        "axle"   # Is `Solid.name`.
   field SFNode                   endSlot     NULL     # Slot at the opposite side of the axle. Type: "lego cross+".
   field SFString{"2.2cm", "7cm"} length      "2.2cm"  # Defines the length of the axle in centimeters.
@@ -31,7 +32,7 @@ PROTO TinkerbotsAxle [
       translation IS translation
       rotation IS rotation
       children [
-        Transform {
+        Pose {
           translation 0 0 %<= l >%
           rotation 1 0 0 -1.5708
           children [
@@ -104,7 +105,7 @@ PROTO TinkerbotsAxle [
       ]
       name IS name
       contactMaterial "tinkerbots axle"
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0 %<= 0.5 * l >%
         children [
           Box {

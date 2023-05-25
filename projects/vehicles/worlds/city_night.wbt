@@ -567,7 +567,7 @@ BmwX5 {
       translation 0.72 0 -0.05
       rotation 0 -1 0 -0.15
       children [
-        Transform {
+        Pose {
           translation -0.05 0 0
           rotation 0 -1 0 1.5708
           children [

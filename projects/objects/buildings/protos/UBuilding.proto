@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/buildings/protos/UBuilding.proto
+# keywords: building/business
 # A building with a "U" form.
 
 PROTO UBuilding [
@@ -54,7 +55,7 @@ PROTO UBuilding [
     model "U building"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 18.1 -13.2 12.0
           rotation 0.707107 -0.707107 0 3.141592
           children [
@@ -64,7 +65,7 @@ PROTO UBuilding [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 18.1 13.5 12.0
           rotation 0.707107 -0.707107 0 3.141592
           children [
@@ -74,7 +75,7 @@ PROTO UBuilding [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 12.0
           rotation 0.707107 -0.707107 0 3.141592
           children [
@@ -85,7 +86,7 @@ PROTO UBuilding [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 8.05 -13.2 12.0
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [
@@ -94,7 +95,7 @@ PROTO UBuilding [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 8.05 13.5 12.0
           rotation 0.57735 -0.57735 -0.57735 2.094395
           children [

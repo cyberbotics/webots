@@ -50581,7 +50581,7 @@ Solid {
   name "solid(48)"
   boundingObject USE SHAPE
 }
-DEF La_Morges Transform {
+DEF La_Morges Pose {
   translation -596.01 -1594.43 0.1
   rotation 0.5773502691896257 -0.5773502691896257 -0.5773502691896257 2.0943951024
   children [
@@ -50619,7 +50619,7 @@ DEF La_Morges Transform {
     }
   ]
 }
-DEF Le_Bief Transform {
+DEF Le_Bief Pose {
   translation -558.63 344.26 0.1
   rotation 0.5773502691896257 -0.5773502691896257 -0.5773502691896257 2.0943951024
   children [
@@ -50645,7 +50645,7 @@ DEF Le_Bief Transform {
     }
   ]
 }
-DEF le_bief Transform {
+DEF le_bief Pose {
   translation -1113.52 1319.58 0.1
   rotation 0.5773502691896257 -0.5773502691896257 -0.5773502691896257 2.0943951024
   children [
@@ -50685,7 +50685,7 @@ DEF le_bief Transform {
     }
   ]
 }
-DEF La_Morges Transform {
+DEF La_Morges Pose {
   translation 484.85 -1091.69 0.1
   rotation 0.5773502691896257 -0.5773502691896257 -0.5773502691896257 2.0943951024
   children [
@@ -50715,7 +50715,7 @@ DEF La_Morges Transform {
     }
   ]
 }
-DEF La_Morges Transform {
+DEF La_Morges Pose {
   translation 284.58 -1161.6 0.1
   rotation 0.5773502691896257 -0.5773502691896257 -0.5773502691896257 2.0943951024
   children [
@@ -50745,7 +50745,7 @@ DEF La_Morges Transform {
     }
   ]
 }
-DEF Lac_Leman Transform {
+DEF Lac_Leman Pose {
   translation -210.05933 1159.4054 0.1
   children [
     Shape {
@@ -50851,7 +50851,7 @@ Forest {
     843 452.99
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation 85.601339 -1127.5269 0
   children [
     Shape {
@@ -50884,7 +50884,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF Park_&_Ride Transform {
+DEF Park_&_Ride Pose {
   translation 50.001083 -1106.4315 0
   children [
     Shape {
@@ -50912,7 +50912,7 @@ DEF Park_&_Ride Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -442.98842 135.19628 0
   children [
     Shape {
@@ -50945,7 +50945,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -741.23683 -661.92283 0
   children [
     Shape {
@@ -50980,7 +50980,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF Parking_du_Temple Transform {
+DEF Parking_du_Temple Pose {
   translation 155.16682 -645.67863 0
   children [
     Shape {
@@ -51019,7 +51019,7 @@ DEF Parking_du_Temple Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -700.87236 -625.70241 0
   children [
     Shape {
@@ -51055,7 +51055,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF La_Blancherie Transform {
+DEF La_Blancherie Pose {
   translation -298.67563 -353.54719 0
   children [
     Shape {
@@ -51120,7 +51120,7 @@ Forest {
     632.62 759.44
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -829.2517 -675.04308 0
   children [
     Shape {
@@ -51156,7 +51156,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation 224.89454 -1000.7427 0
   children [
     Shape {
@@ -51193,7 +51193,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation 346.97383 -1116.0347 0
   children [
     Shape {
@@ -51226,7 +51226,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation 366.9677 -1085.6755 0
   children [
     Shape {
@@ -51262,7 +51262,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation 369.80693 -1135.6891 0
   children [
     Shape {
@@ -51296,7 +51296,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -609.79244 783.86054 0
   children [
     Shape {
@@ -51329,7 +51329,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation 398.1809 -728.80019 0
   children [
     Shape {
@@ -51362,7 +51362,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -502.43317 -219.78473 0
   children [
     Shape {
@@ -51396,7 +51396,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -555.92992 452.22916 0
   children [
     Shape {
@@ -51431,7 +51431,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -657.81152 541.52182 0
   children [
     Shape {
@@ -51466,7 +51466,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -640.72308 634.27008 0
   children [
     Shape {
@@ -51508,7 +51508,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -697.81958 776.93088 0
   children [
     Shape {
@@ -51549,7 +51549,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -783.89484 827.49197 0
   children [
     Shape {
@@ -51582,7 +51582,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -793.20919 852.09987 0
   children [
     Shape {
@@ -51617,7 +51617,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -822.20902 881.33399 0
   children [
     Shape {
@@ -51650,7 +51650,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -805.93848 1004.1561 0
   children [
     Shape {
@@ -51684,7 +51684,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -739.47031 1051.3443 0
   children [
     Shape {
@@ -51716,7 +51716,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -763.77576 811.89576 0
   children [
     Shape {
@@ -51748,7 +51748,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -684.22976 -731.26408 0
   children [
     Shape {
@@ -51782,7 +51782,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation 109.06198 -792.8836 0
   children [
     Shape {
@@ -51815,7 +51815,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -760.3535 -1103.3797 0
   children [
     Shape {
@@ -51848,7 +51848,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -821.8996 -1101.4716 0
   children [
     Shape {
@@ -51881,7 +51881,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -783.58167 -1101.0759 0
   children [
     Shape {
@@ -51913,7 +51913,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -753.93853 -1102.7618 0
   children [
     Shape {
@@ -51945,7 +51945,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -842.0825 -1101.6907 0
   children [
     Shape {
@@ -51977,7 +51977,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -851.48223 -1090.8737 0
   children [
     Shape {
@@ -52010,7 +52010,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -799.69495 -1020.7452 0
   children [
     Shape {
@@ -52042,7 +52042,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -786.32423 -1018.5898 0
   children [
     Shape {
@@ -52074,7 +52074,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -736.61209 -896.03834 0
   children [
     Shape {
@@ -52107,7 +52107,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -775.83101 -899.94632 0
   children [
     Shape {
@@ -52139,7 +52139,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -835.29101 -762.08669 0
   children [
     Shape {
@@ -52171,7 +52171,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -878.71 -782.00855 0
   children [
     Shape {
@@ -52204,7 +52204,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -833.49397 -769.60646 0
   children [
     Shape {
@@ -52237,7 +52237,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -757.38973 -658.51659 0
   children [
     Shape {
@@ -52270,7 +52270,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -668.15219 -874.23119 0
   children [
     Shape {
@@ -52303,7 +52303,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -668.51844 -867.89289 0
   children [
     Shape {
@@ -52335,7 +52335,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -683.63182 -823.98694 0
   children [
     Shape {
@@ -52368,7 +52368,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -581.32662 -1009.7701 0
   children [
     Shape {
@@ -52402,7 +52402,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -533.04046 -1044.6872 0
   children [
     Shape {
@@ -52435,7 +52435,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -539.88598 -1035.0411 0
   children [
     Shape {
@@ -52468,7 +52468,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -500.16231 -1063.9435 0
   children [
     Shape {
@@ -52501,7 +52501,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -527.99351 -1026.8957 0
   children [
     Shape {
@@ -52533,7 +52533,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -512.60854 -1014.8915 0
   children [
     Shape {
@@ -52566,7 +52566,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -506.50963 -1024.583 0
   children [
     Shape {
@@ -52599,7 +52599,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -578.57265 -1019.3707 0
   children [
     Shape {
@@ -52634,7 +52634,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -377.84873 -1032.0138 0
   children [
     Shape {
@@ -52666,7 +52666,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -396.39787 -1021.7581 0
   children [
     Shape {
@@ -52699,7 +52699,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -203.73637 -1027.3497 0
   children [
     Shape {
@@ -52731,7 +52731,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -427.67091 -909.47606 0
   children [
     Shape {
@@ -52763,7 +52763,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -557.6067 -376.20961 0
   children [
     Shape {
@@ -52796,7 +52796,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -545.66088 -359.6649 0
   children [
     Shape {
@@ -52828,7 +52828,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -727.36961 -588.24729 0
   children [
     Shape {
@@ -52860,7 +52860,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -717.69622 -572.18429 0
   children [
     Shape {
@@ -52894,7 +52894,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -723.91384 -553.22263 0
   children [
     Shape {
@@ -52926,7 +52926,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -726.33579 -565.78377 0
   children [
     Shape {
@@ -52962,7 +52962,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -666.31 -556.33622 0
   children [
     Shape {
@@ -52994,7 +52994,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -792.33263 -439.54403 0
   children [
     Shape {
@@ -53028,7 +53028,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -786.75005 -444.84177 0
   children [
     Shape {
@@ -53061,7 +53061,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -670.65643 -225.04095 0
   children [
     Shape {
@@ -53094,7 +53094,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -696.25541 -123.87417 0
   children [
     Shape {
@@ -53130,7 +53130,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -720.76332 -108.91133 0
   children [
     Shape {
@@ -53162,7 +53162,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -736.60869 -94.352724 0
   children [
     Shape {
@@ -53194,7 +53194,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -743.71002 -76.56158 0
   children [
     Shape {
@@ -53226,7 +53226,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -752.05517 -15.38231 0
   children [
     Shape {
@@ -53262,7 +53262,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -785.73193 -30.135291 0
   children [
     Shape {
@@ -53294,7 +53294,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -788.5834 -107.04555 0
   children [
     Shape {
@@ -53326,7 +53326,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -807.67838 -82.687473 0
   children [
     Shape {
@@ -53358,7 +53358,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -799.79488 -53.876173 0
   children [
     Shape {
@@ -53390,7 +53390,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -827.03758 -54.014011 0
   children [
     Shape {
@@ -53422,7 +53422,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -831.5181 -57.481047 0
   children [
     Shape {
@@ -53454,7 +53454,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -818.39722 -48.781928 0
   children [
     Shape {
@@ -53486,7 +53486,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -849.25786 -60.644527 0
   children [
     Shape {
@@ -53519,7 +53519,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -845.13274 -58.218124 0
   children [
     Shape {
@@ -53551,7 +53551,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -846.29686 93.759938 0
   children [
     Shape {
@@ -53583,7 +53583,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -760.82935 -2.6596 0
   children [
     Shape {
@@ -53615,7 +53615,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -468.95742 -31.821339 0
   children [
     Shape {
@@ -53648,7 +53648,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -469.79794 -24.976595 0
   children [
     Shape {
@@ -53681,7 +53681,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -509.23313 -14.978588 0
   children [
     Shape {
@@ -53715,7 +53715,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -635.61947 227.77206 0
   children [
     Shape {
@@ -53748,7 +53748,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -652.79758 227.59963 0
   children [
     Shape {
@@ -53781,7 +53781,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -568.66485 213.98277 0
   children [
     Shape {
@@ -53813,7 +53813,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -709.99586 101.45963 0
   children [
     Shape {
@@ -53845,7 +53845,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -688.7835 108.23022 0
   children [
     Shape {
@@ -53877,7 +53877,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -647.34848 108.38176 0
   children [
     Shape {
@@ -53911,7 +53911,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -630.49247 94.114117 0
   children [
     Shape {
@@ -53943,7 +53943,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -638.28802 162.90097 0
   children [
     Shape {
@@ -53976,7 +53976,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -801.50034 316.19024 0
   children [
     Shape {
@@ -54008,7 +54008,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -818.17842 350.5898 0
   children [
     Shape {
@@ -54040,7 +54040,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -820.44595 356.63448 0
   children [
     Shape {
@@ -54073,7 +54073,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -826.55031 371.86738 0
   children [
     Shape {
@@ -54106,7 +54106,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -537.90982 1.467112 0
   children [
     Shape {
@@ -54138,7 +54138,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -522.98075 -154.81583 0
   children [
     Shape {
@@ -54171,7 +54171,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -546.96817 -140.98226 0
   children [
     Shape {
@@ -54211,7 +54211,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -534.27325 -141.89772 0
   children [
     Shape {
@@ -54243,7 +54243,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -501.83186 -203.57214 0
   children [
     Shape {
@@ -54276,7 +54276,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -456.41443 -312.48682 0
   children [
     Shape {
@@ -54309,7 +54309,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -473.11832 -321.22627 0
   children [
     Shape {
@@ -54342,7 +54342,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -395.09726 -370.86861 0
   children [
     Shape {
@@ -54393,7 +54393,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -412.7992 -413.26872 0
   children [
     Shape {
@@ -54426,7 +54426,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -269.21035 -462.12327 0
   children [
     Shape {
@@ -54458,7 +54458,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -440.15367 -238.24571 0
   children [
     Shape {
@@ -54491,7 +54491,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -434.10256 -251.95064 0
   children [
     Shape {
@@ -54523,7 +54523,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -387.27355 -302.4797 0
   children [
     Shape {
@@ -54556,7 +54556,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -384.9356 -330.90191 0
   children [
     Shape {
@@ -54589,7 +54589,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -370.66126 -320.91074 0
   children [
     Shape {
@@ -54623,7 +54623,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -348.03784 -305.05616 0
   children [
     Shape {
@@ -54656,7 +54656,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -132.16656 -659.73859 0
   children [
     Shape {
@@ -54688,7 +54688,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -108.35808 -681.64743 0
   children [
     Shape {
@@ -54721,7 +54721,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -213.86978 -776.95959 0
   children [
     Shape {
@@ -54757,7 +54757,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -215.33808 -786.08895 0
   children [
     Shape {
@@ -54790,7 +54790,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -236.33943 -838.0982 0
   children [
     Shape {
@@ -54823,7 +54823,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation 37.34276 -847.35779 0
   children [
     Shape {
@@ -54855,7 +54855,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation 28.502566 -855.36307 0
   children [
     Shape {
@@ -54887,7 +54887,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -45.414738 -930.72918 0
   children [
     Shape {
@@ -54919,7 +54919,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -49.218958 -933.19629 0
   children [
     Shape {
@@ -54952,7 +54952,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -61.658998 -923.89436 0
   children [
     Shape {
@@ -54985,7 +54985,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -85.28731 -902.64274 0
   children [
     Shape {
@@ -55018,7 +55018,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -94.962658 -894.54201 0
   children [
     Shape {
@@ -55053,7 +55053,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation 139.14724 -1056.9976 0
   children [
     Shape {
@@ -55085,7 +55085,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation 140.71481 -1135.5119 0
   children [
     Shape {
@@ -55120,7 +55120,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation 206.37132 -1048.2111 0
   children [
     Shape {
@@ -55153,7 +55153,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation 242.43881 -1006.214 0
   children [
     Shape {
@@ -55185,7 +55185,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -699.54168 -1086.3766 0
   children [
     Shape {
@@ -55218,7 +55218,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -692.68533 -1081.6649 0
   children [
     Shape {
@@ -55251,7 +55251,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -646.8777 -1049.5968 0
   children [
     Shape {
@@ -55283,7 +55283,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -606.30027 -1021.4622 0
   children [
     Shape {
@@ -55316,7 +55316,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -594.18268 -1007.2737 0
   children [
     Shape {
@@ -55349,7 +55349,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -409.88371 -1111.9885 0
   children [
     Shape {
@@ -55382,7 +55382,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -405.15225 -1118.5041 0
   children [
     Shape {
@@ -55414,7 +55414,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -401.16117 -1124.1669 0
   children [
     Shape {
@@ -55446,7 +55446,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -695.78419 -755.42902 0
   children [
     Shape {
@@ -55479,7 +55479,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -684.57956 -760.55214 0
   children [
     Shape {
@@ -55512,7 +55512,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -632.89997 -398.22118 0
   children [
     Shape {
@@ -55544,7 +55544,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -853.89597 -604.0263 0
   children [
     Shape {
@@ -55576,7 +55576,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -668.59469 -172.81941 0
   children [
     Shape {
@@ -55609,7 +55609,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -662.59834 -182.62932 0
   children [
     Shape {
@@ -55642,7 +55642,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -680.94062 -170.01078 0
   children [
     Shape {
@@ -55674,7 +55674,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -664.62826 -197.94408 0
   children [
     Shape {
@@ -55706,7 +55706,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -666.73549 -193.1786 0
   children [
     Shape {
@@ -55738,7 +55738,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -565.98197 246.51436 0
   children [
     Shape {
@@ -55771,7 +55771,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -392.1242 1110.9634 0
   children [
     Shape {
@@ -55804,7 +55804,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -809.22276 -839.00015 0
   children [
     Shape {
@@ -55837,7 +55837,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -794.4365 -468.06959 0
   children [
     Shape {
@@ -55869,7 +55869,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -787.47897 -500.55962 0
   children [
     Shape {
@@ -55902,7 +55902,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -733.22351 -372.5745 0
   children [
     Shape {
@@ -55934,7 +55934,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -838.45988 -282.45682 0
   children [
     Shape {
@@ -55967,7 +55967,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -774.17775 -326.21803 0
   children [
     Shape {
@@ -56000,7 +56000,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -767.93934 -708.196 0
   children [
     Shape {
@@ -56032,7 +56032,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -779.2604 -1039.2295 0
   children [
     Shape {
@@ -56065,7 +56065,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -769.91144 -1037.9829 0
   children [
     Shape {
@@ -56097,7 +56097,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -393.23018 -1111.1812 0
   children [
     Shape {
@@ -56130,7 +56130,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -317.16949 -1057.0286 0
   children [
     Shape {
@@ -56163,7 +56163,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -488.45512 -309.59264 0
   children [
     Shape {
@@ -56197,7 +56197,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -521.79856 -270.15547 0
   children [
     Shape {
@@ -56234,7 +56234,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -538.5157 -242.36977 0
   children [
     Shape {
@@ -56269,7 +56269,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -478.44205 -304.21969 0
   children [
     Shape {
@@ -56302,7 +56302,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -518.61858 -237.10952 0
   children [
     Shape {
@@ -56335,7 +56335,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -463.27179 -156.07251 0
   children [
     Shape {
@@ -56367,7 +56367,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -667.90795 55.331173 0
   children [
     Shape {
@@ -56400,7 +56400,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -752.40858 155.28316 0
   children [
     Shape {
@@ -56433,7 +56433,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -747.34975 203.89289 0
   children [
     Shape {
@@ -56465,7 +56465,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -755.32769 250.3493 0
   children [
     Shape {
@@ -56507,7 +56507,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -688.89326 238.05096 0
   children [
     Shape {
@@ -56547,7 +56547,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -658.58348 327.37962 0
   children [
     Shape {
@@ -56579,7 +56579,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -660.8619 331.66658 0
   children [
     Shape {
@@ -56612,7 +56612,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -674.01635 329.64723 0
   children [
     Shape {
@@ -56651,7 +56651,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -693.38291 307.32382 0
   children [
     Shape {
@@ -56683,7 +56683,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -654.48792 311.93317 0
   children [
     Shape {
@@ -56715,7 +56715,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -613.76593 349.10858 0
   children [
     Shape {
@@ -56748,7 +56748,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -606.14038 344.73757 0
   children [
     Shape {
@@ -56781,7 +56781,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -641.54383 348.92429 0
   children [
     Shape {
@@ -56813,7 +56813,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -636.1866 334.68956 0
   children [
     Shape {
@@ -56845,7 +56845,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -631.8945 337.47959 0
   children [
     Shape {
@@ -56878,7 +56878,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -594.45148 370.84285 0
   children [
     Shape {
@@ -56911,7 +56911,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -590.39655 397.17336 0
   children [
     Shape {
@@ -56991,7 +56991,7 @@ Forest {
     842.97 -88.23
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation 42.01521 -928.0039 0
   children [
     Shape {
@@ -57025,7 +57025,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation 77.884398 -1126.4142 0
   children [
     Shape {
@@ -57057,7 +57057,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF Lac_Lman Transform {
+DEF Lac_Lman Pose {
   translation 810.78669 -1158.4041 0
   children [
     Shape {
@@ -57107,7 +57107,7 @@ Forest {
     803.75 379
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -403.85929 -792.69889 0
   children [
     Shape {
@@ -57139,7 +57139,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -520.10784 -587.96126 0
   children [
     Shape {
@@ -57173,7 +57173,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF Port_du_Bief Transform {
+DEF Port_du_Bief Pose {
   translation -324.88625 322.73786 0
   children [
     Shape {
@@ -57213,7 +57213,7 @@ DEF Port_du_Bief Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation 663.00832 -1004.4116 0
   children [
     Shape {
@@ -57248,7 +57248,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF Place_Charles_Dufour Transform {
+DEF Place_Charles_Dufour Pose {
   translation 487.34975 -1080.9564 0
   children [
     Shape {
@@ -57287,7 +57287,7 @@ DEF Place_Charles_Dufour Transform {
     }
   ]
 }
-DEF parking Transform {
+DEF parking Pose {
   translation -892.67965 -709.36454 0
   children [
     Shape {
@@ -57321,7 +57321,7 @@ DEF parking Transform {
     }
   ]
 }
-DEF farmland Transform {
+DEF farmland Pose {
   translation -908.07944 -1210.8533 0
   children [
     Shape {
@@ -57367,7 +57367,7 @@ Forest {
   ]
   shape []
 }
-DEF farmland Transform {
+DEF farmland Pose {
   translation -419.08387 698.52702 0
   children [
     Shape {

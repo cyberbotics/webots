@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/fruits/protos/FruitBowl.proto
+# keywords: household/kitchen
 # A fruit bowl (0.146 x 0.146 x 0.146 m).
 
 PROTO FruitBowl [
@@ -46,7 +47,7 @@ PROTO FruitBowl [
     model "fruit bowl"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.005
           children [
             Box {
@@ -54,7 +55,7 @@ PROTO FruitBowl [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.12 0.075
           rotation 1 0 0 -1.885
           children [
@@ -63,7 +64,7 @@ PROTO FruitBowl [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.12 0.075
           rotation 1 0 0 -1.257
           children [
@@ -72,7 +73,7 @@ PROTO FruitBowl [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.12 0 0.075
           rotation 0 1 0 -1.257
           children [
@@ -81,7 +82,7 @@ PROTO FruitBowl [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.12 0 0.075
           rotation 0 1 0 -1.885
           children [

@@ -23,4 +23,5 @@ void WbAffinePlane::from3Points(const WbVector3 &P, const WbVector3 &Q, const Wb
   mC = u[0] * v[1] - u[1] * v[0];
   // Compute the scalar product of u cross v with OP
   mD = mA * P.x() + mB * P.y() + mC * P.z();
+  normalize();
 }

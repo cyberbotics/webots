@@ -24,7 +24,7 @@ PointLight {
 DEF FLOOR Solid {
   translation -1 0 1.1
   children [
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {
@@ -38,7 +38,7 @@ DEF FLOOR Solid {
       ]
     }
   ]
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0.5 0 0.5
     children [
       Plane {
@@ -88,7 +88,7 @@ DEF TEST Robot {
 Robot {
   translation -0.39 0.005 0
   children [
-    DEF SLIDER_TRANSFORM Transform {
+    DEF SLIDER_POSE Pose {
       translation -0.5 0 -1
       children [
         DEF SLIDER_JOINT SliderJoint {
@@ -112,7 +112,7 @@ Robot {
         }
       ]
     }
-    DEF HINGE_TRANSFORM Transform {
+    DEF HINGE_POSE Pose {
       translation 1 0 -1
       children [
         DEF HINGE_JOINT HingeJoint {
@@ -139,7 +139,7 @@ Robot {
         }
       ]
     }
-    DEF HINGE2_TRANSFORM Transform {
+    DEF HINGE2_POSE Pose {
       translation 1 0 1
       children [
         DEF HINGE2_JOINT Hinge2Joint {
@@ -163,7 +163,7 @@ Robot {
         }
       ]
     }
-    DEF BALL_JOINT_TRANSFORM Transform {
+    DEF BALL_JOINT_POSE Pose {
       translation -0.5 0 1
       children [
         DEF BALL_JOINT BallJoint {

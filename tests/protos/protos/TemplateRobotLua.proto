@@ -19,7 +19,7 @@ PROTO TemplateRobotLua [
       Group {
         children IS slot
       }
-      DEF INTERNAL Transform {
+      DEF INTERNAL Pose {
       }
     ]
   }

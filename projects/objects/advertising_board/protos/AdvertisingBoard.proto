@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/advertising_board/protos/AdvertisingBoard.proto
+# keywords: exterior/street furniture
 # Double sided and adjustable advertising board with the possibility of adding up to four poles.
 # Those poles can either be a `cylinder`, `box`, or an `H-shape`.
 # template language: javascript
@@ -99,7 +100,7 @@ PROTO AdvertisingBoard [
         translation 0 0 %<= displayElevation >%
         name "board"
         children [
-          DEF LEFT_SIDE Transform {
+          DEF LEFT_SIDE Pose {
             translation 0 %<= -0.05 - displayWidth / 2 >% 0
             children [
               DEF SHORT_SIDE Shape {
@@ -114,13 +115,13 @@ PROTO AdvertisingBoard [
               }
             ]
           }
-          DEF RIGHT_SIDE Transform {
+          DEF RIGHT_SIDE Pose {
             translation 0 %<= 0.05 + displayWidth / 2 >% 0
             children [
               USE SHORT_SIDE
             ]
           }
-          DEF TOP_SIDE Transform {
+          DEF TOP_SIDE Pose {
             translation 0 0 %<= 0.05 + displayHeight / 2 >%
             children [
               DEF LONG_SIDE Shape {
@@ -131,7 +132,7 @@ PROTO AdvertisingBoard [
               }
             ]
           }
-          DEF BOTTOM_SIDE Transform {
+          DEF BOTTOM_SIDE Pose {
             translation 0 0 %<= -0.05 - displayHeight / 2 >%
             children [
               USE LONG_SIDE
@@ -144,7 +145,7 @@ PROTO AdvertisingBoard [
               offsetFront = 0;
             }
           >%
-          DEF FRONT_SIDE Transform {
+          DEF FRONT_SIDE Pose {
             translation %<= frameThickness/2 - offsetFront >% 0 0
             rotation 0.577351 0.577351 0.577349 2.0944
             children [
@@ -177,7 +178,7 @@ PROTO AdvertisingBoard [
               offsetBack = 0;
             }
           >%
-          DEF BACK_SIDE Transform {
+          DEF BACK_SIDE Pose {
             translation %<= -frameThickness/2 + offsetBack >% 0 0
             rotation 0.577351 -0.577351 -0.577349 2.0944
             children [
@@ -273,7 +274,7 @@ PROTO AdvertisingBoard [
           }
           # Choose the type/geometry of the poles' bases
           %< if (poleType === 'cylinder' && baseRatio > 1) { >%
-            DEF %<= 'CYLINDER_BASE_' + i  >% Transform {
+            DEF %<= 'CYLINDER_BASE_' + i  >% Pose {
               translation 0 %<= yPosition[poleNumber - 1][i] >% 0.01
               children [
                 Shape {
@@ -291,7 +292,7 @@ PROTO AdvertisingBoard [
               ]
             }
           %< } else if (poleType === 'box' && baseRatio > 1) { >%
-            DEF %<= 'BOX_BASE' + i  >% Transform {
+            DEF %<= 'BOX_BASE' + i  >% Pose {
               translation 0 %<= yPosition[poleNumber - 1 ][i] >% 0.01
               children [
                 Shape {

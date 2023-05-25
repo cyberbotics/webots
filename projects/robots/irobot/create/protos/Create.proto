@@ -1,12 +1,13 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://webots.cloud/run?&url=https://github.com/cyberbotics/webots/blob/released/projects/robots/irobot/create/protos/Create.proto
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/irobot/create/protos/Create.proto
+# keywords: robot/wheeled
 # iRobot Create is a hobbyist robot manufactured by iRobot that is based on the Roomba platform.
 
 PROTO Create [
-  field SFVec3f    translation     0 0 0.044                # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0                  # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0.044                # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0                  # Is `Pose.rotation`.
   field SFString   name            "Create"                 # Is `Solid.name`.
   field SFString   controller      "create_avoid_obstacles" # Is `Robot.controller`.
   field MFString   controllerArgs  []                       # Is `Robot.controllerArgs`.
@@ -82,7 +83,7 @@ Robot {
       endPoint DEF CREATE_RIGHT_WHEEL Solid {
         translation -0.0062 -0.1359 -0.014
         children [
-          Transform {
+          Pose {
             children [
               DEF WHEEL_SHAPE Shape {
                 appearance USE CREATE_APPEARANCE
@@ -383,7 +384,7 @@ Robot {
           }
         ]
         name "right wheel"
-        boundingObject DEF CREATE_WHEEL_BOUNDING_OBJECT Transform {
+        boundingObject DEF CREATE_WHEEL_BOUNDING_OBJECT Pose {
           rotation 1 0 0 1.5708
           children [
             Shape {
@@ -419,7 +420,7 @@ Robot {
       endPoint DEF CREATE_LEFT_WHEEL Solid {
         translation -0.0062 0.1359 -0.014
         children [
-          Transform {
+          Pose {
             children [
               USE WHEEL_SHAPE
             ]
@@ -459,7 +460,7 @@ Robot {
       name "bumper_left"
       boundingObject DEF CREATE_BUMPER_BOUNDING_OBJECT Group {
         children [
-          Transform {
+          Pose {
             translation -0.0780422 0 -0.148208
             rotation 0 1 0 0.523599
             children [
@@ -468,13 +469,13 @@ Robot {
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 0 -0.1675
             children [
               USE CREATE_BUMPER_BOX
             ]
           }
-          Transform {
+          Pose {
             translation 0.0780422 0 -0.148208
             rotation 0 1 0 -0.523599
             children [

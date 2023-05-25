@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/kitchen/utensils/protos/Wineglass.proto
+# keywords: household/kitchen
 # A wine glass.
 # template language: javascript
 
@@ -66,7 +67,7 @@ PROTO Wineglass [
     model "wineglass"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.096
           children [
             Shape {
@@ -76,7 +77,7 @@ PROTO Wineglass [
             }
           ]
         }
-        Transform {
+        Pose {
           rotation 1 0 0 1.5708
           translation 0 0 0.033
           children [
@@ -87,7 +88,7 @@ PROTO Wineglass [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.0024
           children [
             Shape {

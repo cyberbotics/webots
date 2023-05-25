@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/buildings/protos/CyberboticsTower.proto
+# keywords: building/business
 # The Cyberbotics tower.
 
 PROTO CyberboticsTower [
@@ -68,7 +69,7 @@ PROTO CyberboticsTower [
   ]
   name IS name
   model "Cyberbotics tower"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0.13 0 23.48
     rotation 0.57735 -0.57735 -0.57735 2.094395
     children [

@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/factory/tools/protos/PaintBucket.proto
+# keywords: industrial/tool
 # A 4kg bucket of paint, with HingeJoint-based handle.
 
 EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
@@ -17,7 +18,7 @@ PROTO PaintBucket [
     translation IS translation
     rotation IS rotation
     children [
-      DEF LID_BOTTOM Transform {
+      DEF LID_BOTTOM Pose {
         translation 0 0 -0.053
         children [
           Shape {
@@ -969,7 +970,7 @@ PROTO PaintBucket [
           translation 0 0 0.144
           rotation 0 0 1 0
           children [
-            Transform {
+            Pose {
               translation 0 0.002 -0.072
               children [
                 HingeJoint {
@@ -982,7 +983,7 @@ PROTO PaintBucket [
                     translation 0 -0.004 0.201
                     rotation 0 0 1 0
                     children [
-                      Transform {
+                      Pose {
                         translation 0 0.007 -0.201
                         children [
                           DEF GRIP Shape {
@@ -1077,8 +1078,7 @@ PROTO PaintBucket [
                         ]
                       }
                     ]
-                    boundingObject Transform {
-                      translation 0 0 0
+                    boundingObject Pose {
                       rotation 1 0 0 1.57
                       children [
                         Capsule {
@@ -1319,7 +1319,7 @@ PROTO PaintBucket [
           ]
           boundingObject Group {
             children [
-              Transform {
+              Pose {
                 translation 0 -0.001 0.1292
                 rotation 1 0 0 4.712389
                 children [
@@ -1330,7 +1330,7 @@ PROTO PaintBucket [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.00011 0.0685 0.1173
                 rotation 1 0 0 -5.13
                 children [
@@ -1341,7 +1341,7 @@ PROTO PaintBucket [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.00011 -0.0704 0.1173
                 rotation 1 0 0 5.13
                 children [
@@ -1352,7 +1352,7 @@ PROTO PaintBucket [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0.0956 0.0528
                 rotation 1 0 0 6.2831853
                 children [
@@ -1363,7 +1363,7 @@ PROTO PaintBucket [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 -0.0977 0.052800001
                 rotation 0 0 0 6.2831853
                 children [
@@ -1382,7 +1382,7 @@ PROTO PaintBucket [
           }
         }
       }
-      DEF LABEL Transform {
+      DEF LABEL Pose {
         translation 0 0 0.078
         rotation 0 0 1 -1.57
         children [
@@ -1414,7 +1414,7 @@ PROTO PaintBucket [
     contactMaterial IS contactMaterial
     boundingObject Group {
       children [
-        DEF BOTTOM_BOUND Transform {
+        DEF BOTTOM_BOUND Pose {
           translation 0 0 0.0015
           children [
             Cylinder {
@@ -1424,7 +1424,7 @@ PROTO PaintBucket [
             }
           ]
         }
-        DEF LABEL_BOUND Transform {
+        DEF LABEL_BOUND Pose {
           translation 0 0 0.078
           children [
             Cylinder {
@@ -1434,7 +1434,7 @@ PROTO PaintBucket [
             }
           ]
         }
-        DEF LID_BOUND Transform {
+        DEF LID_BOUND Pose {
           translation 0 0 0.1555
           children [
             Cylinder {
@@ -1444,7 +1444,7 @@ PROTO PaintBucket [
             }
           ]
         }
-        DEF CLOSED_LID_BOUND Transform {
+        DEF CLOSED_LID_BOUND Pose {
           translation 0 0 0.1558
           children [
             Cylinder {

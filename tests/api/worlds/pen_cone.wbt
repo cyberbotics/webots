@@ -23,7 +23,7 @@ DEF BOARD Solid {
   translation -0.12 -0.023 -0.15
   rotation 0.6904869011934028 -0.7233448964915227 0 4.31969
   children [
-    Transform {
+    Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {
@@ -65,7 +65,7 @@ DEF WRITER Robot {
         translation -0.026 0.02 -0.035
         rotation -0.41681098746190887 -0.2949789911267371 -0.8597999741363574 -3.041035307179586
         children [
-          Transform {
+          Pose {
             translation 0 0 0.03
             children [
               Shape {
@@ -75,11 +75,11 @@ DEF WRITER Robot {
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 0 0.031
             rotation 1 0 0 1.5708
             children [
-              DEF BODY Transform {
+              DEF BODY Pose {
                 rotation 1 0 0 -1.57079632679
                 children [
                   Shape {

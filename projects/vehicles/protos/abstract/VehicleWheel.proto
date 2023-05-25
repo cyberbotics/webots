@@ -1,7 +1,8 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/automobile/vehiclewheel
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/abstract/VehicleWheel.proto
+# keywords: vehicle/wheel
 # Generic model of a vehicle wheel implemented at the Solid-node level.
 # The dimensions of the wheel can be set with the parmameters 'thickness' and 'tireRadius'.
 # The quality of the cylinder approximation can be set with the parameter 'subdivision'.
@@ -139,7 +140,7 @@ PROTO VehicleWheel [
         DEF WHEEL_SLOT Group {
           children IS logoSlot
         }
-        Transform{
+        Pose {
           %< if (fields.wheelSide.value) { >%
             rotation 0 0 1 3.141578
           %< } >%
@@ -419,7 +420,7 @@ PROTO VehicleWheel [
       model "vehicle wheel"
       %< if (fields.boundingObject.value) { >%
         contactMaterial IS contactMaterial
-        boundingObject Transform {
+        boundingObject Pose {
           rotation 1 0 0 1.570796
           children [
             Cylinder {

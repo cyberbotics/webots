@@ -57,7 +57,7 @@ DEF TESTBOT Robot {
         translation 0.2 0 -6.9388939e-18
         rotation 1 0 0 0
         children [
-          DEF WHEEL Transform {
+          DEF WHEEL Pose {
             rotation 0 0 1 1.5708
             children [
               Shape {
@@ -122,7 +122,7 @@ DEF HINGE2TESTBOT Robot {
       endPoint Solid {
         translation 0.2 0 -6.9388939e-18
         children [
-          DEF WHEEL Transform {
+          DEF WHEEL Pose {
             rotation 0 0 1 1.5708
             children [
               Shape {

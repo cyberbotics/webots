@@ -2,6 +2,7 @@
 # license: Apache License 2.0
 # license url: https://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/sharp/protos/SharpGP2Y0A02YK0F.proto
+# keywords: sensor/distance sensor
 # This is a PROTO file for Webots of the infrared sensor GP2Y0A02YK0F from Sharp.
 # Effective range: 20 to 150 cm, datasheet: https://www.sparkfun.com/datasheets/Sensors/Infrared/gp2y0a02yk_e.pdf
 # Based on the lookupTable, power fitting method after the highest voltage point.
@@ -64,7 +65,7 @@ PROTO SharpGP2Y0A02YK0F [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.0073 -0.0102 0
           children [
             Box {
@@ -72,7 +73,7 @@ PROTO SharpGP2Y0A02YK0F [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.0181 -0.0102 0
           children [
             Box {

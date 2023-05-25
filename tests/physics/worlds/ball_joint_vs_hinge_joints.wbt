@@ -24,7 +24,7 @@ RectangleArena {
 DEF BALL_JOINT_ROBOT Robot {
   translation 0.15 0 0.15
   children [
-    DEF BODY Transform {
+    DEF BODY Pose {
       translation 0 0.05 0
       children [
         Shape {
@@ -99,7 +99,7 @@ DEF BALL_JOINT_ROBOT Robot {
               }
             ]
           }
-          DEF CYLINDER Transform {
+          DEF CYLINDER Pose {
             rotation 1 0 0 -1.5708
             children [
               Shape {
@@ -130,7 +130,7 @@ DEF BALL_JOINT_ROBOT Robot {
 DEF BALL_JOINT_ROBOT_KINEMATIC Robot {
   translation 0.15 0 -0.15
   children [
-    DEF BODY Transform {
+    DEF BODY Pose {
       translation 0 0.05 0
       children [
         Shape {
@@ -208,7 +208,7 @@ DEF BALL_JOINT_ROBOT_KINEMATIC Robot {
               }
             ]
           }
-          DEF CYLINDER Transform {
+          DEF CYLINDER Pose {
             rotation 1 0 0 -1.5708
             children [
               Shape {
@@ -235,7 +235,7 @@ DEF BALL_JOINT_ROBOT_KINEMATIC Robot {
 DEF HINGE_JOINT_ROBOT Robot {
   translation -0.15 0 -0.15
   children [
-    DEF BODY Transform {
+    DEF BODY Pose {
       translation 0 0.05 0
       children [
         Shape {
@@ -319,7 +319,7 @@ DEF HINGE_JOINT_ROBOT Robot {
                           }
                         ]
                       }
-                      DEF CYLINDER Transform {
+                      DEF CYLINDER Pose {
                         rotation 1 0 0 -1.5708
                         children [
                           Shape {
@@ -366,7 +366,7 @@ DEF HINGE_JOINT_ROBOT Robot {
 DEF HINGE_JOINT_ROBOT_KINEMATIC Robot {
   translation -0.15 0 0.15
   children [
-    DEF BODY Transform {
+    DEF BODY Pose {
       translation 0 0.05 0
       children [
         Shape {
@@ -450,7 +450,7 @@ DEF HINGE_JOINT_ROBOT_KINEMATIC Robot {
                           }
                         ]
                       }
-                      DEF CYLINDER Transform {
+                      DEF CYLINDER Pose {
                         rotation 1 0 0 -1.5708
                         children [
                           Shape {

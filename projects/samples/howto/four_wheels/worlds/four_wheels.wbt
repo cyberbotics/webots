@@ -50,7 +50,7 @@ DEF ACKERMAN Robot {
         translation 0.13 -0.15 0
         rotation -1 0 0 0
         children [
-          DEF WHEEL_ROT Transform {
+          DEF WHEEL_ROT Pose {
             rotation 0 -1 0 1.5708
             children [
               Shape {
@@ -68,7 +68,7 @@ DEF ACKERMAN Robot {
           }
         ]
         name "rear right wheel"
-        boundingObject DEF WHEEL_ROT Transform {
+        boundingObject DEF WHEEL_ROT Pose {
           rotation 0 -1 0 1.5708
           children [
             Shape {
@@ -239,7 +239,7 @@ DEF FOUR_WHEELS Robot {
         translation 0.13 -0.15 0
         rotation -1 0 0 0
         children [
-          DEF WHEEL_ROT Transform {
+          DEF WHEEL_ROT Pose {
             rotation 0 -1 0 1.5708
             children [
               Shape {
@@ -362,7 +362,7 @@ DEF OMNI_WHEELS Robot {
         translation 0.15 -0.15 0
         rotation 0.7071067811865476 -0.7071067811865476 0 0
         children [
-          DEF WHEEL_ROT Transform {
+          DEF WHEEL_ROT Pose {
             rotation -0.7071067811865476 -0.7071067811865476 0 1.5708
             children [
               Shape {
@@ -399,7 +399,7 @@ DEF OMNI_WHEELS Robot {
         translation -0.15 -0.15 0
         rotation -0.7071067811865476 -0.7071067811865476 0 0
         children [
-          DEF WHEEL_ROT2 Transform {
+          DEF WHEEL_ROT2 Pose {
             rotation -0.7071067811865476 0.7071067811865476 0 1.5708
             children [
               Shape {

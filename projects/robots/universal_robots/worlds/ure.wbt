@@ -88,7 +88,7 @@ WoodenChair {
   translation 2.921084 1.648051 0
   rotation 0 0 1 2.0944
 }
-Transform {
+Pose {
   translation 2.52024 2.10889 0.796
   rotation 0 0 1 -1.3089953071795861
   children [
@@ -220,7 +220,7 @@ Wall {
     }
   }
 }
-Transform {
+Pose {
   translation 1.77 2.67 1.05
   rotation 1 0 0 1.5707996938995747
   children [

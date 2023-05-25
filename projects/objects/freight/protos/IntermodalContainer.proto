@@ -2,13 +2,14 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/freight/protos/IntermodalContainer.proto
+# keywords: industrial/container
 # An intermodal container is a large standardized shipping container, designed and built for intermodal freight transport, meaning these containers can be used across different modes of transport – from ship to rail to truck – without unloading and reloading their cargo.
 
 EXTERNPROTO "webots://projects/appearances/protos/GlossyPaint.proto"
 
 PROTO IntermodalContainer [
-  field SFVec3f    translation  0 0 0        # Is `Transform.translation`.
-  field SFRotation rotation     0 0 1 0      # Is `Transform.rotation`.
+  field SFVec3f    translation  0 0 0        # Is `Pose.translation`.
+  field SFRotation rotation     0 0 1 0      # Is `Pose.rotation`.
   field SFString   name         "container"  # Is `Solid.name`.
   field SFColor    color        0.9 0.1 0.1  # Defines the color.
 ]
@@ -43,7 +44,7 @@ PROTO IntermodalContainer [
         }
       }
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0.05 1.3
       rotation 1 0 0 1.5708
       children [

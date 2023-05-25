@@ -44,7 +44,7 @@ RectangleArena {
 DEF RED_STICK Solid {
   translation -0.0198 -0.0261 0.03
   children [
-    Transform {
+    Pose {
       rotation 1 0 0 3.14159
       children [
         DEF STICK_SHAPE Shape {
@@ -145,7 +145,7 @@ Khepera1 {
               ]
               name "right grip"
               contactMaterial "gripper"
-              boundingObject Transform {
+              boundingObject Pose {
                 translation 0.015 0 0.003
                 children [
                   Box {
@@ -206,7 +206,7 @@ Khepera1 {
               ]
               name "left grip"
               contactMaterial "gripper"
-              boundingObject Transform {
+              boundingObject Pose {
                 translation -0.015 0 0.003
                 children [
                   Box {
@@ -261,7 +261,7 @@ Khepera1 {
             }
           }
         ]
-        boundingObject Transform {
+        boundingObject Pose {
           translation 0 0 -0.021
           children [
             Box {
@@ -277,7 +277,7 @@ Khepera1 {
         }
       }
     }
-    DEF GRIPPER_BASE Transform {
+    DEF GRIPPER_BASE Pose {
       translation -0.01 0 0.023
       rotation 0.5773502691896258 -0.5773502691896258 -0.5773502691896258 2.094395
       children [

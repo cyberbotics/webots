@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/kitchen/utensils/protos/Plate.proto
+# keywords: household/kitchen
 # A customizable (dimensions, texture, etc. ) plate.
 # template language: javascript
 
@@ -69,7 +70,7 @@ PROTO Plate [
     model "plate"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 %<= 0.2 * height >%
           children [
             Cylinder {
@@ -78,7 +79,7 @@ PROTO Plate [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 %<= 0.8 * height >%
           children [
             Cylinder {

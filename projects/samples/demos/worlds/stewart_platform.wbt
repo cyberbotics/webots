@@ -73,7 +73,7 @@ DEF STEWART_PLATFORM Robot {
               children [
                 DEF TWO_CYLS_GROUP Group {
                   children [
-                    DEF SHORT_CYL_TRANS Transform {
+                    DEF SHORT_CYL_TRANS Pose {
                       rotation 0 -1 0 1.5708
                       children [
                         Shape {
@@ -91,7 +91,7 @@ DEF STEWART_PLATFORM Robot {
                         }
                       ]
                     }
-                    DEF THIN_CYL_TRANS Transform {
+                    DEF THIN_CYL_TRANS Pose {
                       translation -0.7 0 0
                       rotation 0 -1 0 1.5708
                       children [
@@ -107,7 +107,7 @@ DEF STEWART_PLATFORM Robot {
                     }
                   ]
                 }
-                DEF UPPER_BALL_TRANS Transform {
+                DEF UPPER_BALL_TRANS Pose {
                   translation 0.2 0 0
                   children [
                     Shape {
@@ -170,7 +170,7 @@ DEF STEWART_PLATFORM Robot {
               subdivision 24
             }
           }
-          DEF LOWER_BALL Transform {
+          DEF LOWER_BALL Pose {
             translation 0 0 -0.9
             children [
               Shape {

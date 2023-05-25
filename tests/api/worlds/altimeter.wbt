@@ -40,7 +40,7 @@ DEF ROBOT Robot {
       translation 0 -0.05 0
       rotation 1 0 0 3.1415
       children [
-        DEF SENSOR_TRANSFROM Transform {
+        DEF SENSOR_POSE Pose {
           rotation 1 0 0 1.57
           children [
             Shape {

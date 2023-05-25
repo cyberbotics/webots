@@ -22,7 +22,7 @@ Solid {
   name "RUleg"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation -0.0179 -0.02085 -0.13
         children [
           Cylinder {
@@ -31,7 +31,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.03 -0.01 -0.23
         rotation 0.002647 1 0.0004 -0.3
         children [
@@ -41,7 +41,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.005 -0.01 -0.23
         rotation -0.002647 1 0.0004 0.3
         children [
@@ -51,7 +51,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.02 -0.03 -0.23
         rotation 1 0 0 0.2492
         children [

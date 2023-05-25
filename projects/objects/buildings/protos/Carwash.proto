@@ -2,6 +2,7 @@
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/buildings/protos/Carwash.proto
+# keywords: building/shop
 # A carwash with optional boundingObject.
 # template language: javascript
 
@@ -121,7 +122,7 @@ PROTO Carwash [
     %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0.6128 2.2287 1.98
           rotation -0.57735 0.57735 0.57735 -2.094395
           children [
@@ -130,14 +131,14 @@ PROTO Carwash [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.6128 -2.9413 1.98
           rotation -0.57735 0.57735 0.57735 -2.094395
           children [
             USE WALL
           ]
         }
-        Transform {
+        Pose {
           translation 0.6128 -0.3413 3.96
           rotation -0.57735 0.57735 0.57735 -2.094395
           children [
@@ -146,7 +147,7 @@ PROTO Carwash [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 3.6575 1.5219 1.59
           rotation -0.57735 0.57735 0.57735 -2.094395
           children [
@@ -155,7 +156,7 @@ PROTO Carwash [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 3.6575 -2.1781 1.59
           rotation -0.57735 0.57735 0.57735 -2.094395
           children [

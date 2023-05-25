@@ -44,6 +44,7 @@ dxJointHinge::dxJointHinge( dxWorld *w ) :
     susp_axis[0] = 1;
     susp_erp = world->global_erp;
     susp_cfm = world->global_cfm;
+    previous_angle = 0;
 }
 
 void
@@ -69,6 +70,11 @@ dxJointHinge::getInfo1( dxJoint::Info1 *info )
         dReal angle = getHingeAngle( node[0].body,
             node[1].body,
             axis1, qrel );
+        // angle should not be clamped between -PI and +PI for limit calculation
+        dReal delta_angle = angle - previous_angle;
+        if ( delta_angle > M_PI ) angle -= 2 * M_PI;
+        else if ( delta_angle < -M_PI ) angle += 2 * M_PI;
+        previous_angle = angle;
         if ( limot.testRotationalLimit( angle ) )
             info->m = 6;
     }

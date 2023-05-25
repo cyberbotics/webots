@@ -29,7 +29,6 @@
 #include "WbFileUtil.hpp"
 #include "WbGuiApplication.hpp"
 #include "WbGuidedTour.hpp"
-#include "WbImportWizard.hpp"
 #include "WbJoystickInterface.hpp"
 #include "WbMessageBox.hpp"
 #include "WbMultimediaStreamingServer.hpp"
@@ -2466,11 +2465,11 @@ void WbMainWindow::createWorldLoadingProgressDialog() {
   cancelButton->setDefault(false);
   cancelButton->setChecked(false);
 
-  mWorldLoadingProgressDialog = new QProgressDialog();
+  mWorldLoadingProgressDialog = new QProgressDialog(this);
   mWorldLoadingProgressDialog->setModal(true);
   mWorldLoadingProgressDialog->setAutoClose(false);
-  WbGuiApplication::setWindowsDarkMode(mWorldLoadingProgressDialog);
   mWorldLoadingProgressDialog->show();
+  WbGuiApplication::setWindowsDarkMode(mWorldLoadingProgressDialog);
   mWorldLoadingProgressDialog->setValue(0);
   mWorldLoadingProgressDialog->setWindowTitle(tr("Loading world"));
   mWorldLoadingProgressDialog->setLabelText(tr("Opening world file"));

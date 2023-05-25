@@ -2,6 +2,7 @@
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/street_furniture/protos/Mailbox.proto
+# keywords: exterior/street furniture
 # A mailbox.
 
 PROTO Mailbox [
@@ -68,7 +69,7 @@ PROTO Mailbox [
         }
       }
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.6
       children [
         Box {

@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/robotis/darwin-op/protos/RobotisOp2Hinge2.proto
+# keywords: robot/legged
 # ROBOTIS OP2 is an open platform, miniature humanoid robot used for research, education and outreach
 # The model contains principally:
 # - the 20 DOF
@@ -14,8 +15,8 @@
 EXTERNPROTO "Darwin-opHinge2.proto"
 
 PROTO RobotisOp2Hinge2 [
-  field SFVec3f    translation     0 0 0.227              # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0                # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0.227              # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0                # Is `Pose.rotation`.
   field SFString   name            "ROBOTIS OP2 Hinge2"   # Is `Solid.name`.
   field SFString   controller      "motion_player"        # Is `Robot.controller`.
   field MFString   controllerArgs  []                     # Is `Robot.controllerArgs`.

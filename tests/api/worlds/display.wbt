@@ -21,7 +21,7 @@ PointLight {
 }
 Robot {
   children [
-    Transform {
+    Pose {
       translation 0 0 -1.1
       children [
         Shape {
@@ -54,7 +54,7 @@ Robot {
       translation 0 0 -1
       rotation 1 0 0 1.57
       children [
-        Transform {
+        Pose {
           rotation 1 0 0 -1.57079632679
           children [
             Shape {

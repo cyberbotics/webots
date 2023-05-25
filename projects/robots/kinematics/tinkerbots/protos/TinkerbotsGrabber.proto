@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/kinematics/tinkerbots/protos/TinkerbotsGrabber.proto
+# keywords: robot/extension, actuator/gripper
 # Tinkerbots grabber block.
 # More information on: [TinkerbotsBase](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/kinematics/tinkerbots/protos/TinkerbotsBase.proto)
 # template language: javascript
@@ -10,8 +11,8 @@ EXTERNPROTO "TinkerbotsLEDAppearance.proto"
 EXTERNPROTO "TinkerbotsPlasticAppearance.proto"
 
 PROTO TinkerbotsGrabber [
-  field SFVec3f    translation 0 0 0     # Is `Transform.translation`.
-  field SFRotation rotation    0 0 1 0   # Is `Transform.rotation`.
+  field SFVec3f    translation 0 0 0     # Is `Pose.translation`.
+  field SFRotation rotation    0 0 1 0   # Is `Pose.rotation`.
   field SFString   name        "grabber" # Is `Solid.name`.
   field SFNode     fingerASlot NULL      # Type: "lego cross-".
   field SFNode     fingerBSlot NULL      # Type: "lego cross-".
@@ -107,7 +108,7 @@ PROTO TinkerbotsGrabber [
           endPoint Solid {
             name %<= '"' + fields.name.value + ' finger A"' >%
             children [
-              Transform {
+              Pose {
                 translation  0.0156 0 0.0354
                 rotation 0.03273 -0.03273 0.99893 -1.57186
                 children [
@@ -134,7 +135,7 @@ PROTO TinkerbotsGrabber [
                 }
               }
             ]
-            boundingObject Transform {
+            boundingObject Pose {
               translation 0.016 0 0.036
               rotation 0 1 0 0.0655
               children [
@@ -168,7 +169,7 @@ PROTO TinkerbotsGrabber [
           endPoint Solid {
             name %<= '"' + fields.name.value + ' finger B"' >%
             children [
-              Transform {
+              Pose {
                 translation -0.0078 0.01351 0.0354
                 rotation 0.160676 0.043053 -0.986068 -0.53655
                 children [
@@ -195,7 +196,7 @@ PROTO TinkerbotsGrabber [
                 }
               }
             ]
-            boundingObject Transform {
+            boundingObject Pose {
               translation -0.008 0.01385 0.036
               rotation -0.0436056 0.0251757 0.998732 2.09549
               children [
@@ -229,7 +230,7 @@ PROTO TinkerbotsGrabber [
           endPoint Solid {
             name %<= '"' + fields.name.value + ' finger C"' >%
             children [
-              Transform {
+              Pose {
                 translation -0.0078 -0.01351 0.0354
                 rotation -0.011687 -0.0436163 0.998982 2.61851
                 children [
@@ -256,7 +257,7 @@ PROTO TinkerbotsGrabber [
                 }
               }
             ]
-            boundingObject Transform {
+            boundingObject Pose {
               translation -0.008 -0.01385 0.036
               rotation -0.0436056 -0.0251757 0.998732 4.1877
               children [
@@ -274,7 +275,7 @@ PROTO TinkerbotsGrabber [
       ]
       name IS name
       contactMaterial "tinkerbots"
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0 0.02
         children [
           Cylinder {

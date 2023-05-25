@@ -2,6 +2,7 @@
 # license: Apache License 2.0
 # license url: https://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/universal_robots/protos/UR10e.proto
+# keywords: robot/arm
 # An Universal Robots UR10e robotic arm.
 # More information here: [URe](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/universal_robots/protos/UR3e.proto)
 # template language: javascript
@@ -10,8 +11,8 @@ EXTERNPROTO "webots://projects/appearances/protos/OldSteel.proto"
 EXTERNPROTO "webots://projects/appearances/protos/ScrewThread.proto"
 
 PROTO UR10e [
-  field SFVec3f    translation     0 0 0        # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0      # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0        # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0      # Is `Pose.rotation`.
   field SFString   name            "UR10e"      # Is `Solid.name`.
   field SFString   controller      "<generic>"  # Is `Robot.controller`.
   field MFString   controllerArgs  []           # Is `Robot.controllerArgs`.
@@ -27,7 +28,7 @@ PROTO UR10e [
     translation IS translation
     rotation IS rotation
     children [
-      Transform {
+      Pose {
         translation -0.0602 0.0601 0.0252
         rotation 1 0 0 -3.1415923071795864
         children [
@@ -45,7 +46,7 @@ PROTO UR10e [
                   }
                 ]
               }
-              DEF CYLINDER Transform {
+              DEF CYLINDER Pose {
                 translation 0 0 0.02
                 rotation -0.707107 0.707107 0 -3.141593
                 children [
@@ -67,21 +68,21 @@ PROTO UR10e [
           }
         ]
       }
-      Transform {
+      Pose {
         translation -0.0602 -0.0602 0.0252
         rotation 1 0 0 -3.1415923071795864
         children [
           USE SCREW
         ]
       }
-      Transform {
+      Pose {
         translation 0.0602 -0.0602 0.0252
         rotation 1 0 0 -3.1415923071795864
         children [
           USE SCREW
         ]
       }
-      Transform {
+      Pose {
         translation 0.0602 0.0602 0.0252
         rotation 1 0 0 -3.1415923071795864
         children [
@@ -502,7 +503,7 @@ PROTO UR10e [
                                               url "UR10e/meshes/wrist_3_link_0.obj"
                                             }
                                           }
-                                          Transform {
+                                          Pose {
                                             translation 0 0.12 0
                                             children IS toolSlot
                                           }
@@ -510,7 +511,7 @@ PROTO UR10e [
                                         name "wrist_3_link"
                                         boundingObject Group {
                                           children [
-                                            Transform {
+                                            Pose {
                                               translation 0 0.086 0
                                               rotation 1 0 0 -1.570796
                                               children [
@@ -520,7 +521,7 @@ PROTO UR10e [
                                                 }
                                               ]
                                             }
-                                            Transform {
+                                            Pose {
                                               translation 0 0.109 0
                                               rotation 1 0 0 -1.570796
                                               children [
@@ -545,7 +546,7 @@ PROTO UR10e [
                                   name "wrist_2_link"
                                   boundingObject Group {
                                     children [
-                                      Transform {
+                                      Pose {
                                         translation 0 0.007 0.1195
                                         rotation 1 0 0 -1.570796
                                         children [
@@ -555,7 +556,7 @@ PROTO UR10e [
                                           }
                                         ]
                                       }
-                                      Transform {
+                                      Pose {
                                         translation 0 0 0.0805
                                         rotation 1 0 0 3.141593
                                         children [
@@ -580,7 +581,7 @@ PROTO UR10e [
                             name "wrist_1_link"
                             boundingObject Group {
                               children [
-                                Transform {
+                                Pose {
                                   translation 0 0.095 0
                                   rotation 1 0 0 -1.570796
                                   children [
@@ -590,7 +591,7 @@ PROTO UR10e [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0 0.134 0.007
                                   rotation 1 0 0 3.141593
                                   children [
@@ -615,7 +616,7 @@ PROTO UR10e [
                       name "forearm_link"
                       boundingObject Group {
                         children [
-                          Transform {
+                          Pose {
                             translation 0 0 0.307
                             rotation 1 0 0 3.141593
                             children [
@@ -625,7 +626,7 @@ PROTO UR10e [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation 0 0.009 0.57
                             rotation 1 0 0 -1.570796
                             children [
@@ -635,7 +636,7 @@ PROTO UR10e [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation 0 0.06 0
                             rotation 1 0 0 -1.570796
                             children [
@@ -645,7 +646,7 @@ PROTO UR10e [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation 0 0 0.05
                             children [
                               Capsule {
@@ -669,7 +670,7 @@ PROTO UR10e [
                 name "upper_arm_link"
                 boundingObject Group {
                   children [
-                    Transform {
+                    Pose {
                       translation 0 0 0.33
                       rotation 1 0 0 3.141593
                       children [
@@ -679,7 +680,7 @@ PROTO UR10e [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0 0 0.06
                       rotation 1 0 0 3.141593
                       children [
@@ -689,7 +690,7 @@ PROTO UR10e [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       rotation 1 0 0 -1.570796
                       children [
                         Cylinder {
@@ -698,7 +699,7 @@ PROTO UR10e [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0 -0.005 0.612
                       rotation 1 0 0 -1.570796
                       children [
@@ -723,7 +724,7 @@ PROTO UR10e [
           name "shoulder_link"
           boundingObject Group {
             children [
-              Transform {
+              Pose {
                 rotation 1 0 0 3.141593
                 children [
                   Cylinder {
@@ -732,7 +733,7 @@ PROTO UR10e [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0 0.05 0
                 rotation 1 0 0 1.570797
                 children [
@@ -756,7 +757,7 @@ PROTO UR10e [
     ]
     name IS name
     model "UR10e"
-    boundingObject Transform {
+    boundingObject Pose {
       translation 0 0 0.05
       rotation 1 0 0 3.141593
       children [

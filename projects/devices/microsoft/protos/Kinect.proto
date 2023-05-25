@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/microsoft/protos/Kinect.proto
+# keywords: sensor/range-finder, sensor/camera
 # Microsoft Kinect.
 # It contains a RangeFinder device called "`cameraName` + ' range'" and a Camera device called "`cameraName` + ' color'".
 # template language: javascript
@@ -26,7 +27,7 @@ PROTO Kinect [
     rotation IS rotation
     %< if (foot) { >%
     children [
-      Transform {
+      Pose {
         translation 0 0 0.025
         children [
           Shape {
@@ -156,7 +157,7 @@ PROTO Kinect [
     ]
     name IS name
     model "Microsoft Kinect"
-    boundingObject Transform {
+    boundingObject Pose {
       rotation -0.5774 0.5773 0.5774 -2.0944
       translation 0 0 0.013
       children [

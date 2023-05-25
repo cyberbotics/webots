@@ -80,7 +80,7 @@ Sheep {
   name "sheep(2)"
   color 0.596078 0.415686 0.266667
 }
-Transform {
+Pose {
   translation 50.51 -11.2 0.0025
   children [
     Shape {
@@ -100,7 +100,7 @@ Transform {
         radius 3
       }
     }
-    Transform {
+    Pose {
       translation 0 2.51 -0.001
       children [
         Shape {
@@ -212,7 +212,7 @@ DEF BOOMER_T3050 Tractor {
       translation 1.98899 0 0.973449
       rotation 0 1 0 -0.1499953071795863
       children [
-        Transform {
+        Pose {
           translation -0.05 0 0
           rotation 0 -1 0 1.5708
           children [

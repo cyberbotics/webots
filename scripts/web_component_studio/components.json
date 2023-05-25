@@ -542,8 +542,8 @@
       }
     },
     {
-      "name": "tiago-iron",
-      "proto": "TiagoIron",
+      "name": "tiago-lite",
+      "proto": "TiagoLite",
       "translation": "0 0 0.095",
       "rotation": "0 0 1 -2.6179953071795863",
       "viewpoint": {
@@ -552,8 +552,8 @@
       }
     },
     {
-      "name": "tiago-steel",
-      "proto": "TiagoSteel",
+      "name": "tiago",
+      "proto": "Tiago",
       "translation": "0 0 0.095",
       "rotation": "0 0 1 -2.6179953071795863",
       "viewpoint": {
@@ -562,18 +562,8 @@
       }
     },
     {
-      "name": "tiago-titanium",
-      "proto": "TiagoTitanium",
-      "translation": "0 0 0.095",
-      "rotation": "0 0 1 -2.6179953071795863",
-      "viewpoint": {
-        "orientation": "-0.05174112343599112 0.1495564192934976 0.9873984674859938 1.0223519442502973",
-        "position": "-1.6482237342423287 -2.2423395100346055 1.0555291201381378"
-      }
-    },
-    {
       "name": "tiagopp",
-      "proto": "Tiagopp",
+      "proto": "Tiago++",
       "translation": "0 0 0.095",
       "rotation": "0 0 1 -2.6179953071795863",
       "viewpoint": {

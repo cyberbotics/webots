@@ -41,7 +41,7 @@ Robot {
     GPS {
       name "body_gps"
     }
-    Transform {
+    Pose {
       translation 0 0.0415 0
       rotation 1 0 0 -1.57079632679
       children [
@@ -79,7 +79,7 @@ Robot {
           GPS {
             name "left_wheel_gps"
           }
-          DEF WHEEL Transform {
+          DEF WHEEL Pose {
             rotation 0 0 0 -1.57
             children [
               Shape {
@@ -149,7 +149,7 @@ Robot {
       contactMaterial "ice"
     }
   ]
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0.0415 0
     rotation 1 0 0 -1.57079632679
     children [

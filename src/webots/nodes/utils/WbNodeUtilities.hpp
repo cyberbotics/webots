@@ -32,6 +32,7 @@ class WbRay;
 class WbRobot;
 class WbShape;
 class WbSolid;
+class WbPose;
 class WbTransform;
 
 class QString;
@@ -46,6 +47,9 @@ namespace WbNodeUtilities {
 
   // find the closest WbTransform ancestor
   WbTransform *findUpperTransform(const WbNode *node);
+
+  // find the closest WbPose ancestor
+  WbPose *findUpperPose(const WbNode *node);
 
   // find the closest WbSolid ancestor
   WbSolid *findUpperSolid(const WbNode *node);
@@ -65,8 +69,8 @@ namespace WbNodeUtilities {
   // if recursive is set to FALSE children of the descendant node having the specified type are not inspected
   QList<WbNode *> findDescendantNodesOfType(WbNode *node, bool (&typeCondition)(WbBaseNode *), bool recursive);
 
-  // find the uppermost WbTransform ancestor (may be the node itself)
-  WbTransform *findUppermostTransform(const WbNode *node);
+  // find the uppermost WbPose ancestor (may be the node itself)
+  WbPose *findUppermostPose(const WbNode *node);
 
   // find the uppermost WbSolid ancestor (may be the node itself)
   WbSolid *findUppermostSolid(const WbNode *node);

@@ -25,7 +25,7 @@ Floor {
 DEF HINGE Robot {
   translation 0 0 0.04
   children [
-    DEF BOX Transform {
+    DEF BOX Pose {
       translation -0.025 0 -0.01
       children [
         Shape {
@@ -51,7 +51,7 @@ DEF HINGE Robot {
         radius 0.008
       }
     }
-    DEF BONE1 Transform {
+    DEF BONE1 Pose {
       translation 0.05 0 0
       rotation 0 1 0 -1.5707953071795862
       children [
@@ -108,7 +108,7 @@ DEF HINGE Robot {
         rotation 0 0 1 -1.5707996938995747
         children [
           USE JOINT
-          DEF BONE2 Transform {
+          DEF BONE2 Pose {
             translation 0 0.0225 0
             rotation 1 0 0 1.5707996938995747
             children [
@@ -159,7 +159,7 @@ DEF HINGE Robot {
 DEF HINGE2 Robot {
   translation 0.07 0.17 0.035
   children [
-    DEF BOX Transform {
+    DEF BOX Pose {
       translation -0.025 0 -0.01
       children [
         Shape {
@@ -185,7 +185,7 @@ DEF HINGE2 Robot {
         radius 0.008
       }
     }
-    DEF BONE1 Transform {
+    DEF BONE1 Pose {
       translation 0.05 0 0
       rotation 0 1 0 1.5707997
       children [
@@ -263,7 +263,7 @@ DEF HINGE2 Robot {
         rotation 0 -1 0 4.9078177
         children [
           USE JOINT
-          DEF BONE2 Transform {
+          DEF BONE2 Pose {
             translation 0 0 0.0225
             children [
               Shape {

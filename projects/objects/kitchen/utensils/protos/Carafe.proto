@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/kitchen/utensils/protos/Carafe.proto
+# keywords: household/kitchen
 # A carafe.
 # template language: javascript
 
@@ -69,7 +70,7 @@ PROTO Carafe [
     model "carafe"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.035 0 0.148
           rotation 0 -1 0 7.39949
           children [
@@ -82,7 +83,7 @@ PROTO Carafe [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.072 0 0.137
           rotation 0 -1 0 5.82869
           children [
@@ -95,7 +96,7 @@ PROTO Carafe [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.051 0 0.066
         rotation 0 -1 0 0.5927
           children [
@@ -106,7 +107,7 @@ PROTO Carafe [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.0365 0 0.142
           children [
             Shape {
@@ -117,7 +118,7 @@ PROTO Carafe [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.036 0 0.059
           children [
             Shape {

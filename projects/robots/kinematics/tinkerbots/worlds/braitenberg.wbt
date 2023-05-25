@@ -136,7 +136,7 @@ DEF OBJECT Solid {
     }
   ]
   name "object"
-  boundingObject Transform {
+  boundingObject Pose {
     translation 0 0 0.0025
     children [
       Box {

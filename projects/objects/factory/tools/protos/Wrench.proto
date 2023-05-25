@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/factory/tools/protos/Wrench.proto
+# keywords: industrial/tool
 # A 15cm Open-End wrench.
 
 EXTERNPROTO "webots://projects/appearances/protos/OldSteel.proto"
@@ -17,10 +18,10 @@ PROTO Wrench [
   Solid {
     translation IS translation
     rotation IS rotation
-    scale 1.1 1.1 1.1
     children [
       Transform {
         translation 0 0 0.0033
+        scale 1.1 1.1 1.1
         children [
           DEF WRENCH Shape {
             appearance IS appearance
@@ -980,7 +981,7 @@ PROTO Wrench [
     contactMaterial IS contactMaterial
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.002 -0.0009 0.0031
           rotation 0 0 1 0.025
           children [
@@ -989,7 +990,7 @@ PROTO Wrench [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.075 0.0015 0.0033
           rotation 0 0 1 0.025
           children [
@@ -998,7 +999,7 @@ PROTO Wrench [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.077 -0.0022 0.0033
           rotation 0 0 1 0.025
           children [

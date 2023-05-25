@@ -19,7 +19,7 @@ PointLight {
   ambientIntensity 1
   intensity 0
 }
-DEF INCLINED_PLANE Transform {
+DEF INCLINED_PLANE Pose {
   translation 1 0 -2
   rotation -1 0 0 0.57079632679
   children [
@@ -35,7 +35,7 @@ DEF INCLINED_PLANE Transform {
     }
   ]
 }
-DEF CYLINDER Transform {
+DEF CYLINDER Pose {
   translation -1 0 -1
   children [
     Shape {
@@ -53,7 +53,7 @@ DEF CYLINDER Transform {
   ]
   rotation 1 0 0 -1.57079632679
 }
-DEF GROUND Transform {
+DEF GROUND Pose {
   translation 0 -0.1 0
   children [
     Shape {
