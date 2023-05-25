@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/school_furniture/protos/Book.proto
+# keywords: household/school, household/living room
 # A book (0.02 x 0.15 x 0.2 m).
 
 PROTO Book [

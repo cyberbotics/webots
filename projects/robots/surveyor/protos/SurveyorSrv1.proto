@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/surveyor/protos/SurveyorSrv1.proto
+# keywords: robot/tracked
 # The Surveyor's SRV-1 is a robot with two caterpillar tracks designed for research, education, and exploration.
 
 PROTO SurveyorSrv1 [

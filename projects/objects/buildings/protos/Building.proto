@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/buildings/protos/Building.proto
 # A customizable building, the size, appearance and geometry can fully be defined.
+# keywords: building/business
 # template language: javascript
 
 PROTO Building [

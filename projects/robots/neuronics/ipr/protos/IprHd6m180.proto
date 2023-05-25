@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/neuronics/ipr/protos/IprHd6m180.proto
+# keywords: robot/arm
 # The IPR robot is a six degrees of freedom robotic arm equipped with a gripper composed of 2 rotational fingers.
 # It was developed by Neuronics.
 # More information here: [Ipr](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/neuronics/ipr/protos/IprHd6m90.proto)
@@ -1208,7 +1209,6 @@ PROTO IprHd6m180 [
                                                 -0.007 0.042 0.016
                                               ]
                                             }
-                                            solid FALSE
                                             ccw FALSE
                                             coordIndex [
                                               33, 32, 31, -1, 33, 24, 34, -1, 27, 70

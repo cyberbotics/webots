@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/micromagic/scout/protos/Scout.proto
+# keywords: robot/legged
 # A Star Wars inspired scout RX28 walking robot.
 # It was created by Matt Denton.
 

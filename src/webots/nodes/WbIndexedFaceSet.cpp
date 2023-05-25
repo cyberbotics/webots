@@ -283,7 +283,6 @@ void WbIndexedFaceSet::updateCreaseAngle() {
 QStringList WbIndexedFaceSet::fieldsToSynchronizeWithX3D() const {
   QStringList fields;
   fields << "ccw"
-         << "solid"
          << "normalPerVertex"
          << "coordIndex"
          << "normalIndex"
