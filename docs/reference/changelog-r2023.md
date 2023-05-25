@@ -12,6 +12,7 @@ Released on ??
   - Enhancements
     - Improved the message error path by including the [Solid](solid.md) name / DEF name ([#6026](https://github.com/cyberbotics/webots/pull/6026)).
     - Display the [Solid](solid.md) name / DEF name of the joint `endPoint` one level upper, to ease tree usage ([#6026](https://github.com/cyberbotics/webots/pull/6026)).
+    - Removed "(PROTO)" text when copying a PROTO node name in the system clipboard ([#6026](https://github.com/cyberbotics/webots/pull/6026)).
     - Restructured the Webots temporary folder to avoid permission problems with multiple users on Linux and macOS ([#6103](https://github.com/cyberbotics/webots/pull/6103)).
     - Improved the robots' grippers such that they use coupled motors ([#5694](https://github.com/cyberbotics/webots/pull/5694)).
     - Improved the [Charger](charger.md) behavior ([#5771](https://github.com/cyberbotics/webots/pull/5771)).
