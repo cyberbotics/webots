@@ -464,7 +464,7 @@ public:
     snprintf(fname, fname_length, "/dev/joy%d", ident);
 #else
     const size_t fname_length = snprintf(NULL, 0, "/dev/js%d", ident);
-    snprintf(fname, fname_length, "/dev/js%d", ident);    
+    snprintf(fname, fname_length, "/dev/js%d", ident);
 #endif
     open();
 #endif

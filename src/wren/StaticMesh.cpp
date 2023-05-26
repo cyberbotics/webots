@@ -858,8 +858,7 @@ namespace wren {
     if (outline) {
       const size_t uniqueNameLength = snprintf(NULL, 0, "IcosphereOutline%d", subdivision);
       snprintf(uniqueName, uniqueNameLength, "IcosphereOutline%d", subdivision);
-    }
-    else {
+    } else {
       const size_t uniqueNameLength = snprintf(NULL, 0, "Icosphere%d", subdivision);
       snprintf(uniqueName, uniqueNameLength, "Icosphere%d", subdivision);
     }
@@ -915,8 +914,7 @@ namespace wren {
     if (outline) {
       const size_t uniqueNameLength = snprintf(NULL, 0, "UVSphereOutline%d", subdivision);
       snprintf(uniqueName, uniqueNameLength, "UVSphereOutline%d", subdivision);
-    }
-    else {
+    } else {
       const size_t uniqueNameLength = snprintf(NULL, 0, "UVSphere%d", subdivision);
       snprintf(uniqueName, uniqueNameLength, "UVSphere%d", subdivision);
     }
