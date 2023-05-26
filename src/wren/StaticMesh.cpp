@@ -855,13 +855,10 @@ namespace wren {
 
   StaticMesh *StaticMesh::createUnitIcosphere(int subdivision, bool outline) {
     char uniqueName[25];
-    if (outline) {
-      const size_t uniqueNameLength = snprintf(NULL, 0, "IcosphereOutline%d", subdivision);
-      snprintf(uniqueName, uniqueNameLength, "IcosphereOutline%d", subdivision);
-    } else {
-      const size_t uniqueNameLength = snprintf(NULL, 0, "Icosphere%d", subdivision);
-      snprintf(uniqueName, uniqueNameLength, "Icosphere%d", subdivision);
-    }
+    if (outline)
+      snprintf(uniqueName, sizeof(uniqueName), "IcosphereOutline%d", subdivision);
+    else
+      snprintf(uniqueName, sizeof(uniqueName), "Icosphere%d", subdivision);
     const cache::Key key(cache::sipHash13c(uniqueName, strlen(uniqueName)));
 
     StaticMesh *mesh;
@@ -911,13 +908,10 @@ namespace wren {
 
   StaticMesh *StaticMesh::createUnitUVSphere(int subdivision, bool outline) {
     char uniqueName[24];
-    if (outline) {
-      const size_t uniqueNameLength = snprintf(NULL, 0, "UVSphereOutline%d", subdivision);
-      snprintf(uniqueName, uniqueNameLength, "UVSphereOutline%d", subdivision);
-    } else {
-      const size_t uniqueNameLength = snprintf(NULL, 0, "UVSphere%d", subdivision);
-      snprintf(uniqueName, uniqueNameLength, "UVSphere%d", subdivision);
-    }
+    if (outline)
+      snprintf(uniqueName, sizeof(uniqueName), "UVSphereOutline%d", subdivision);
+    else
+      snprintf(uniqueName, sizeof(uniqueName), "UVSphere%d", subdivision);
     const cache::Key key(cache::sipHash13c(uniqueName, strlen(uniqueName)));
 
     StaticMesh *mesh;
