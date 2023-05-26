@@ -8,7 +8,7 @@ if [[ -z "${WEBOTS_HOME}" ]]; then
   exit 1
 fi
 
-QT_VERSION=6.2.3
+QT_VERSION=6.4.3
 
 # prepare Webots
 cd $WEBOTS_HOME
