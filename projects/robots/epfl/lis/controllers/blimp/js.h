@@ -326,7 +326,8 @@ class jsJoystick {
     if (error)
       return;
 
-    sprintf(joyfname, "%s/.joy%drc", ::getenv("HOME"), id);
+    const size_t joyfname_length = snprintf(NULL, 0, "%s/.joy%drc", ::getenv("HOME"), id);
+    snprintf(joyfname, joyfname_length, "%s/.joy%drc", ::getenv("HOME"), id);
 
     joyfile = fopen(joyfname, "r");
     if (joyfile == NULL)
@@ -459,9 +460,11 @@ public:
     fd = -1;
 #if defined(__FreeBSD__) || defined(__NetBSD__)
     id = ident;
-    sprintf(fname, "/dev/joy%d", ident);
+    const size_t fname_length = snprintf(NULL, 0, "/dev/joy%d", ident);
+    snprintf(fname, fname_length, "/dev/joy%d", ident);
 #else
-    sprintf(fname, "/dev/js%d", ident);
+    const size_t fname_length = snprintf(NULL, 0, "/dev/js%d", ident);
+    snprintf(fname, fname_length, "/dev/js%d", ident);    
 #endif
     open();
 #endif
