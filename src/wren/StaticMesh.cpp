@@ -912,7 +912,7 @@ namespace wren {
 
   StaticMesh *StaticMesh::createUnitUVSphere(int subdivision, bool outline) {
     char uniqueName[24];
-    if {
+    if (outline) {
       const size_t uniqueNameLength = snprintf(NULL, 0, "UVSphereOutline%d", subdivision);
       snprintf(uniqueName, uniqueNameLength, "UVSphereOutline%d", subdivision);
     }
