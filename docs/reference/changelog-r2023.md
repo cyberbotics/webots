@@ -66,7 +66,7 @@ Released on ??
     - Fixed errors loading template PROTO if the system user name contains the `'` character ([#6131](https://github.com/cyberbotics/webots/pull/6131)).
   - Dependency Updates
     - Change the Windows version of SUMO to 1.13 to match the one used on Linux and MacOS and avoid a potiental Log4J vulnerability ([#6010](https://github.com/cyberbotics/webots/pull/6010)).
-    - Upgraded to Qt6.4 on Ubuntu ([#6065](https://github.com/cyberbotics/webots/pull/6065)) and MacOS ([#6157](https://github.com/cyberbotics/webots/pull/6157)).
+    - Upgraded to Qt6.4.3 on Ubuntu ([#6065](https://github.com/cyberbotics/webots/pull/6065)) and MacOS ([#6157](https://github.com/cyberbotics/webots/pull/6157)).
 
 ## Webots R2023a
 Released on November 29th, 2022.
