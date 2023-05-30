@@ -430,13 +430,12 @@ QScrollArea#editorPane {
 #NodePane QComboBox:focus,
 #LoginTabs QComboBox:focus {
   border-color: #308cc6;
-  background-color: #333;
 }
 
 #NodePane QComboBox:on,
 #LoginTabs QComboBox:on {
   border-color: #308cc6;
-  background-color: #2b2b2b;
+  background-color: #308cc6;
 }
 
 #NodePane QComboBox::disabled,
@@ -466,7 +465,7 @@ QInputDialog QAbstractItemView::item {
 }
 
 QInputDialog QAbstractItemView::item:hover {
-  background: rgba(184, 178, 255, 20%);
+  background: rgba(48, 140, 198, 20%);
 }
 
 QInputDialog QAbstractItemView::item:selected {
@@ -496,15 +495,15 @@ QPushButton#importableExternProto:pressed {
 /* solid editor */
 
 QLabel#inertiaMatrixDiagonalCoefficientLabel {
-  color: rgb(40,150,180);
+  color: rgb(40,40,220);
 }
 
 QLabel#inertiaMatrixPrimaryCoefficientLabel {
-  color: rgb(40,160,120);
+  color: rgb(40,160,160);
 }
 
 QLabel#inertiaMatrixSecondaryCoefficientLabel {
-  color: darkgray;
+  color: darkGray;
 }
 
 /* text editor */
@@ -603,7 +602,7 @@ QTreeView::item {
 }
 
 QTreeView::item:hover {
-  background: rgba(48, 140, 198, 20%);;
+  background: rgba(48, 140, 198, 20%);
 }
 
 QTreeView::item:selected {
@@ -838,7 +837,7 @@ QFontDialog QListView, QListWidget {
 }
 
 QFontDialog QListView::item:hover {
-  background-color: rgba(184, 178, 255, 20%);
+  background-color: rgba(48, 140, 198, 20%);
   color: black;
 }
 
@@ -848,7 +847,7 @@ QFontDialog QListView::item:selected {
 }
 
 QListWidget::item:hover {
-  background: rgba(184, 178, 255, 20%);
+  background: rgba(48, 140, 198, 20%);
   color: black;
 }
 
