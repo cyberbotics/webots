@@ -18,16 +18,6 @@
 //! Declarations of type-independent methods (most of them implemented in the .cpp)
 #define AABB_COMMON_METHODS																											\
 			AABB&			Add(const AABB& aabb);																					\
-			float			MakeCube(AABB& cube)																			const;	\
-			void			MakeSphere(Sphere& sphere)																		const;	\
-			const sbyte*	ComputeOutline(const Point& local_eye, sdword& num)												const;	\
-			float			ComputeBoxArea(const Point& eye, const Matrix4x4& mat, float width, float height, sdword& num)	const;	\
-			bool			IsInside(const AABB& box)																		const;	\
-			bool			ComputePlanes(Plane* planes)																	const;	\
-			bool			ComputePoints(Point* pts)																		const;	\
-			const Point*	GetVertexNormals()																				const;	\
-			const udword*	GetEdges()																						const;	\
-			const Point*	GetEdgeNormals()																				const;	\
 	inline_	BOOL			ContainsPoint(const Point& p)																	const	\
 							{																										\
 								if(p.x > GetMax(0) || p.x < GetMin(0)) return FALSE;												\

@@ -37,6 +37,7 @@ struct dxJointHinge : public dxJoint
     dxJointLimitMotor limot; // limit and motor information
     dVector3 susp_axis;       // suspension direction
     dReal susp_erp, susp_cfm; // suspension parameters (erp,cfm)
+    dReal previous_angle;   // joint angle at previous step for limit calculation
 
     dxJointHinge( dxWorld *w );
     virtual void getSureMaxInfo( SureMaxInfo* info );

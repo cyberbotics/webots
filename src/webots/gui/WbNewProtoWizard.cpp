@@ -446,7 +446,7 @@ void WbNewProtoWizard::updateNodeTree() {
     WbProtoManager::instance()->generateProtoInfoMap(categories[i]);
     QMapIterator<QString, WbProtoInfo *> it(WbProtoManager::instance()->protoInfoMap(categories[i]));
     while (it.hasNext()) {
-      const QString &protoNameString = it.next().key();
+      const QString protoNameString = it.next().key();
       if (protoNameString.contains(regexp) && !it.value()->tags().contains("hidden") &&
           !it.value()->tags().contains("deprecated"))
         items[i]->addChild(new QTreeWidgetItem(items[i], QStringList(protoNameString)));

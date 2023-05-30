@@ -409,10 +409,6 @@ void WbIndexedFaceSet::exportNodeContents(WbWriter &writer) const {
     }
   }
 
-  const WbField *solidField = findField("solid", true);
-  if (solidField)
-    solidField->write(writer);
-
   const WbField *ccwField = findField("ccw", true);
   if (ccwField)
     ccwField->write(writer);

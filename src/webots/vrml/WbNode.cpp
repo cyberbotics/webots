@@ -1333,7 +1333,7 @@ void WbNode::writeExport(WbWriter &writer) const {
 
 bool WbNode::operator==(const WbNode &other) const {
   if (mModel != other.mModel || isProtoInstance() != other.isProtoInstance() ||
-      (mProto && mProto->name() != other.mProto->name()) || mDefName != other.mDefName)
+      (mProto && mProto->url() != other.mProto->url()) || mDefName != other.mDefName)
     return false;
 
   if (this == &other)
@@ -1342,7 +1342,9 @@ bool WbNode::operator==(const WbNode &other) const {
   const QVector<WbField *> fieldsList = fieldsOrParameters();
   const QVector<WbField *> otherFieldsList = other.fieldsOrParameters();
   const int size = fieldsList.size();
+
   assert(size == otherFieldsList.size());
+
   for (int i = 0; i < size; ++i) {
     const WbField *const f1 = fieldsList[i];
     const WbField *const f2 = otherFieldsList[i];
