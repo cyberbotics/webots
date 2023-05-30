@@ -52,7 +52,7 @@ jobs:
       run: |
         git config --global core.autocrlf false
         git config --global core.eol lf
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       if: steps.os_check.outputs.job_needed == 'true'
     - name: Set up Python ${{ matrix.python }}
       if: steps.os_check.outputs.job_needed == 'true'
