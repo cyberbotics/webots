@@ -432,12 +432,6 @@ QScrollArea#editorPane {
   border-color: #308cc6;
 }
 
-#NodePane QComboBox:on,
-#LoginTabs QComboBox:on {
-  border-color: #308cc6;
-  background-color: #308cc6;
-}
-
 #NodePane QComboBox::disabled,
 #LoginTabs QComboBox::disabled {
   color: #555;
