@@ -22,6 +22,7 @@ VacuumGripper {
   field     SFBool     isOn                FALSE        # current state
   field     SFFloat    tensileStrength    -1            # max pull force that the suction mechanism can withstand before breaking (Newtons)
   field     SFFloat    shearStrength      -1            # max shear force that the suction mechanism can withstand before breaking (Newtons)
+  field     SFInt32    contactPoints      3             # minimum number of contact points with a Solid to create a physical connection
   # hidden fields
   hiddenField SFVec3f linearVelocity  0 0 0   # (m/s) Solid's initial linear velocity
   hiddenField SFVec3f angularVelocity 0 0 0   # (rad/s) Solid's initial angular velocity
