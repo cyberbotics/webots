@@ -360,18 +360,19 @@ QScrollArea#editorPane {
 
 #NodePane QWidget,
 #LoginTabs QWidget {
-  background: #333;
+  background: #fbfbfb;
 }
 
 #NodePane QPushButton,
 #LoginTabs QPushButton {
-  background: #eee;
-  border: 1px solid #eee;
+  background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 white, stop: 1 #efefef);
+  border: 1px solid #ababab;
+  border-radius: 4px;
 }
 
 #NodePane QPushButton:hover,
 #LoginTabs QPushButton:hover {
-  background-color: #555;
+  background-color: white;
 }
 
 #NodePane QPushButton:focus,
@@ -390,7 +391,7 @@ QScrollArea#editorPane {
 #LoginTabs QLineEdit {
   background-color: #fff;
   color: black;
-  border: 1px solid #555;
+  border: 1px solid #ababab;
   border-radius: 3px;
   padding: 2px;
 }
@@ -602,16 +603,16 @@ QTreeView::item {
 }
 
 QTreeView::item:hover {
-  background: #3badf3;
+  background: rgba(48, 140, 198, 20%);;
 }
 
 QTreeView::item:selected {
   background: #308cc6;
-  color: black;
+  color: white;
 }
 
 QTreeView::item:selected:!focus {
-  background: #6b688e;
+  background: #236690;
   color: auto;
 }
 
@@ -624,7 +625,7 @@ QTreeView::branch:open {
 }
 
 QTreeView::branch:open:hover {
-  image: url(enabledIcons:tree_branch_opens_hover.png);
+  image: url(enabledIcons:tree_branch_open_hover.png);
 }
 
 QTreeView::branch:closed:has-children {
