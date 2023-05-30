@@ -662,11 +662,11 @@ QComboBoxListView {
 
 QScrollBar:horizontal {
   height: 9px;
-  background-color: #333;
+  background-color: #e0e0e0;
 }
 
 QScrollBar::handle:horizontal {
-  background-color: #666;
+  background-color: #c0c0c0;
   min-width: 5px;
 }
 
@@ -687,11 +687,11 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
 
 QScrollBar:vertical {
   width: 9px;
-  background-color: #333;
+  background-color: #e0e0e0;
 }
 
 QScrollBar::handle:vertical {
-  background-color: #666;
+  background-color: #c0c0c0;
   min-height: 5px;
 }
 
