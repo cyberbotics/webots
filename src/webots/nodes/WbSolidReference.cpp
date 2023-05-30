@@ -72,3 +72,9 @@ QList<const WbBaseNode *> WbSolidReference::findClosestDescendantNodesWithDedica
     list << mSolid;
   return list;
 }
+
+QString WbSolidReference::endPointName() const {
+  if (mSolid)
+    return "\"" + mName->value() + "\"";
+  return QString();
+}

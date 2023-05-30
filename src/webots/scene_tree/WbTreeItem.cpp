@@ -130,32 +130,8 @@ QString WbTreeItem::data() const {
     return QString();
 
   switch (mType) {
-    case NODE: {
-      QString fullName = mNode->fullName();
-      if (!fullName.startsWith("DEF ") && !fullName.startsWith("USE ")) {
-        const WbSFString *name = mNode->findSFString("name");
-        if (name)
-          fullName += " \"" + name->value() + "\"";
-        else {
-          WbSFNode *endPoint = mNode->findSFNode("endPoint");
-          if (endPoint && endPoint->value()) {
-            const QString endPointFullName = endPoint->value()->fullName();
-            if (!endPointFullName.startsWith("DEF ") && !endPointFullName.startsWith("USE ")) {
-              const WbSFString *endPointName = endPoint->value()->findSFString("name");
-              if (endPointName)
-                fullName += " \"" + endPointName->value() + "\"";
-              else {
-                const WbSFString *solidName = endPoint->value()->findSFString("solidName");
-                if (solidName)
-                  fullName += " \"" + solidName->value() + "\"";
-              }
-            } else
-              fullName += "  " + endPointFullName.mid(4);
-          }
-        }
-      }
-      return fullName;
-    }
+    case NODE:
+      return mNode->usefulName();
     case FIELD: {
       if (mField->isSingle())
         return QString("%1 %2").arg(mField->name(), mField->value()->toString(WbPrecision::GUI_LOW));

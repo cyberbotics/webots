@@ -333,41 +333,26 @@ QString WbNode::fullName() const {
   return modelName();
 }
 
-QString WbNode::usefulName() const {
+QString WbNode::computeName() const {
   if (isUseNode())
-    return "USE " + mUseName;
-
-  QString usefulName = "";
-
+    return mUseName;
   if (!defName().isEmpty())
-    usefulName += QString("DEF ") + defName() + " ";
+    return mDefName;
+  const WbSFString *name = findSFString("name");
+  return name ? "\"" + name->value() + "\"" : QString();
+}
 
-  usefulName += modelName();
+QString WbNode::usefulName() const {
+  QString usefulName = fullName();
 
-  if (isProtoInstance())
-    usefulName += " (PROTO)";
+  if (isUseNode() || !defName().isEmpty())
+    return usefulName;
 
   const WbSFString *name = findSFString("name");
   if (name)
     usefulName += " \"" + name->value() + "\"";
-  else {
-    WbSFNode *endPoint = findSFNode("endPoint");
-    if (endPoint && endPoint->value()) {
-      QString endPointFullName = endPoint->value()->fullName();
-      if (!endPointFullName.startsWith("DEF ") && !endPointFullName.startsWith("USE ")) {
-        const WbSFString *endPointName = endPoint->value()->findSFString("name");
-        if (endPointName)
-          usefulName += " \"" + endPointName->value() + "\"";
-        else {
-          const WbSFString *solidName = endPoint->value()->findSFString("solidName");
-          if (solidName)
-            usefulName += " \"" + solidName->value() + "\"";
-        }
-      } else
-        usefulName += " " + endPointFullName.mid(4);
-    }
-  }
-
+  else
+    usefulName += " " + endPointName();
   return usefulName;
 }
 
