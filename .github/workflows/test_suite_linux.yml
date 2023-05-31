@@ -74,14 +74,14 @@ jobs:
         sudo python -m pip install requests PyGithub
         pip install pyopenssl --upgrade
         scripts/packaging/publish_release.py --key=${{ secrets.GITHUB_TOKEN }} --repo=${{ github.repository }} --branch=${{ github.ref }} --commit=$(git log -1 --format='%H') --tag=${{ github.ref }}
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       if: ${{ contains(github.event.pull_request.labels.*.name, 'test suite') || contains(github.event.pull_request.labels.*.name, 'test ros') || contains(github.event.pull_request.labels.*.name, 'test worlds') }}
       with:
         name: build-${{ matrix.os }}
         path: |
           distribution/*.tar.bz2
           distribution/*.zip
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       if: ${{ !contains(github.event.pull_request.labels.*.name, 'test suite') && !contains(github.event.pull_request.labels.*.name, 'test ros') && !contains(github.event.pull_request.labels.*.name, 'test worlds') }}
       with:
         name: build-${{ matrix.os }}
@@ -100,7 +100,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Download Artifacts
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: build-ubuntu-20.04
         path: artifact
@@ -109,7 +109,7 @@ jobs:
     - name: Install Webots Dependencies
       run: sudo scripts/install/linux_test_dependencies.sh --exclude-ros
     - name: Set up Python 3.9
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: 3.9
     - name: Test Suite
@@ -121,7 +121,7 @@ jobs:
         export TESTS_HOME=$PWD # required by cache group in the test suite
         export BRANCH_HASH=$(git log -1 --format='%H')
         xvfb-run --auto-servernum python tests/test_suite.py
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       if: failure()
       with:
         name: test-results-${{ matrix.os }}
@@ -144,7 +144,7 @@ jobs:
       with:
          submodules: true
     - name: Download Artifacts
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: build-${{ matrix.os }}
         path: artifact
@@ -153,7 +153,7 @@ jobs:
     - name: Install Webots Dependencies
       run: sudo scripts/install/linux_test_dependencies.sh
     - name: Set up Python ${{ matrix.python }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python }}
     - name: Run Test
@@ -171,7 +171,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
     - name: Download Artifacts
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: build-ubuntu-20.04
         path: artifact
@@ -185,7 +185,7 @@ jobs:
         mkdir -p ~/.cache/Cyberbotics/Webots/
         unzip -q artifact/assets-*.zip -d ~/.cache/Cyberbotics/Webots/assets
     - name: Set up Python 3.9
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: 3.9
     - name: Update World, Check Warnings and Validate Cache
