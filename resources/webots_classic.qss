@@ -117,7 +117,7 @@ QMenu::icon {
 /* network tab */
 
 QGroupBox#networkGroupBox {
-  background-color: #555;
+  background-color: #e1e1e1;
   border: 1px solid #666;
   border-radius: 2px;
   margin-top: 22px;
@@ -128,15 +128,26 @@ QGroupBox#networkGroupBox {
 QGroupBox#networkGroupBox::title {
   subcontrol-origin: padding;
   subcontrol-position: left top;
-  background: transparent;e0feff
+  background: transparent;
 }
 
 QGroupBox#networkGroupBox QLabel {
-  background-color: #555;
+  background-color: #e1e1e1;
 }
 
 QGroupBox#networkGroupBox QCheckBox {
-  background-color: #555;
+  background-color: #e1e1e1;
+}
+
+QGroupBox#networkGroupBox QCheckBox:indicator {
+  background-color: white;
+  border: 1px solid black;
+}
+
+QGroupBox#networkGroupBox QPushButton {
+  background: white;
+  border: 1px solid black;
+  border-radius: 14px;
 }
 
 /* 3D view tools */
