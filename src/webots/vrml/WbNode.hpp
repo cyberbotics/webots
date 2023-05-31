@@ -132,6 +132,8 @@ public:
             bool parsingMessage = false) const;  // show standard warning message formatted for this node
   void info(const QString &message, bool parsingMessage = false) const;  // show standard info message formatted for this node
   QString usefulName() const;                                            // user friendy node name for error messages
+  virtual QString endPointName() const { return QString(); };
+  QString computeName() const;  // USE, DEF or "name" field value
 
   // destruction
   bool isBeingDeleted() const { return mIsBeingDeleted; }

@@ -64,6 +64,8 @@ WbTreeItem::WbTreeItem(WbField *field) {
     const WbSFNode *const sfnode = dynamic_cast<WbSFNode *>(value);
     if (sfnode) {
       connect(sfnode, &WbSFNode::changed, this, &WbTreeItem::sfnodeChanged);
+      if (sfnode->value())
+        connect(sfnode->value(), &WbNode::defUseNameChanged, this, &WbTreeItem::propagateDataChange, Qt::UniqueConnection);
     } else {
       // Main signal
       connect(singleValue, &WbSFNode::changed, this, &WbTreeItem::propagateDataChange);
@@ -128,15 +130,8 @@ QString WbTreeItem::data() const {
     return QString();
 
   switch (mType) {
-    case NODE: {
-      QString fullName = mNode->fullName();
-      if (!fullName.startsWith("DEF ") && !fullName.startsWith("USE ")) {
-        const WbSFString *name = mNode->findSFString("name");
-        if (name)
-          fullName += " \"" + name->value() + "\"";
-      }
-      return fullName;
-    }
+    case NODE:
+      return mNode->usefulName();
     case FIELD: {
       if (mField->isSingle())
         return QString("%1 %2").arg(mField->name(), mField->value()->toString(WbPrecision::GUI_LOW));
@@ -449,8 +444,10 @@ void WbTreeItem::sfnodeChanged() {
   if (count)
     emit childrenNeedDeletion(0, count);
 
-  if (nodeObject != NULL)
+  if (nodeObject) {
     emit rowsInserted(0, 1);
+    connect(sfnode->value(), &WbNode::defUseNameChanged, this, &WbTreeItem::propagateDataChange, Qt::UniqueConnection);
+  }
 }
 
 bool WbTreeItem::isSFNode() const {
