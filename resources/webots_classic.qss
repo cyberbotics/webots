@@ -144,6 +144,10 @@ QGroupBox#networkGroupBox QCheckBox:indicator {
   border: 1px solid black;
 }
 
+QGroupBox#networkGroupBox QCheckBox:indicator:checked {
+  image: url(enabledIcons:checkboxCheckmark.png);
+}
+
 QGroupBox#networkGroupBox QPushButton {
   background: white;
   border: 1px solid black;
