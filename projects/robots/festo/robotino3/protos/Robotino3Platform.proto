@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Apache License 2.0
 # license url: https://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/festo/robotino3/protos/Robotino3Platform.proto
+# keywords: robot/extension
 # This is a PROTO file for Webots of a platform for the robot Robotino 3 from Festo.
 # It is a feature for Robotino 3 to fullfil your requirement.
 # Use it with the "bodySlot" field of the Robotino 3 robot.
@@ -26,7 +28,7 @@ PROTO Robotino3Platform [
     name IS name
     model IS model
     children [
-      DEF extensionSlot Transform {
+      DEF extensionSlot Pose {
         translation 0 0.05 %<= (0.594 - 0.530447) + height >%
         children IS extension
       }
@@ -80,7 +82,7 @@ PROTO Robotino3Platform [
           creaseAngle 0.5
         }
       }
-      DEF TABLE Transform {
+      DEF TABLE Pose {
         translation 0 0 %<= (0.537 - 0.530447) + height >%
         children [
           Shape {

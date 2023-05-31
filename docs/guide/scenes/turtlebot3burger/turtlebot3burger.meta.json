@@ -7,7 +7,7 @@
       "minPosition": 0,
       "name": "LDS-01_main_motor",
       "position": 0,
-      "transformID": "n615",
+      "transformID": "n639",
       "type": "RotationalMotor"
     },
     {
@@ -17,7 +17,7 @@
       "minPosition": 0,
       "name": "LDS-01_secondary_motor",
       "position": 0,
-      "transformID": "n628",
+      "transformID": "n653",
       "type": "RotationalMotor"
     },
     {
@@ -27,7 +27,7 @@
       "minPosition": 0,
       "name": "left wheel motor",
       "position": 0,
-      "transformID": "n488",
+      "transformID": "n512",
       "type": "RotationalMotor"
     },
     {
@@ -37,30 +37,30 @@
       "minPosition": 0,
       "name": "right wheel motor",
       "position": 0,
-      "transformID": "n459",
+      "transformID": "n483",
       "type": "RotationalMotor"
     },
     {
       "name": "accelerometer",
-      "transformID": "n223",
+      "transformID": "n245",
       "transformOffset": "-0.032 0 0.078",
       "type": "Accelerometer"
     },
     {
       "name": "compass",
-      "transformID": "n223",
+      "transformID": "n245",
       "transformOffset": "-0.032 0 0.078",
       "type": "Compass"
     },
     {
       "name": "gyro",
-      "transformID": "n223",
+      "transformID": "n245",
       "transformOffset": "-0.032 0 0.078",
       "type": "Gyro"
     },
     {
       "name": "LDS-01",
-      "transformID": "n610",
+      "transformID": "n634",
       "type": "Lidar"
     },
     {
@@ -68,7 +68,7 @@
       "axis": "0 1 0",
       "name": "left wheel sensor",
       "position": 0,
-      "transformID": "n488",
+      "transformID": "n512",
       "type": "PositionSensor"
     },
     {
@@ -76,10 +76,10 @@
       "axis": "0 1 0",
       "name": "right wheel sensor",
       "position": 0,
-      "transformID": "n459",
+      "transformID": "n483",
       "type": "PositionSensor"
     }
   ],
   "name": "turtlebot3burger",
-  "robotID": "n223"
+  "robotID": "n245"
 }

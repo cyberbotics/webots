@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/apartment_structure/protos/Window.proto
+# keywords: building/component
 # A customizable window including walls above and below.
 # template language: javascript
 
@@ -13,6 +15,8 @@ PROTO Window [
   field SFRotation rotation               0 0 1 0
   field SFString   name                   "window"
   field SFVec3f    size                   0.2 0.8 2.4       # Defines the size of the window.
+  field SFColor    glassColor             0.8 0.8 0.8       # Defines the color of the window.
+  field SFFloat    glassTransparency      0.8               # Defines the transparency of the window.
   field SFFloat    windowThickness        0.05              # Defines the thickness of the window.
   field SFFloat    bottomWallHeight       0.7               # Defines the height of the top wall.
   field SFFloat    windowHeight           1.4               # Defines the height of the window.
@@ -125,9 +129,9 @@ PROTO Window [
         name "glass"
         size %<= windowThickness >% %<= size.y - 2 * frameSize.y >% %<= windowHeight - 2 * frameSize.z >%
         appearance PBRAppearance {
-          baseColor 0.8 0.8 0.8
+          baseColor IS glassColor
           metalness 0
-          transparency 0.8
+          transparency IS glassTransparency
         }
         castShadows IS castShadows
       }

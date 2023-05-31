@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Apache License 2.0
 # license url: https://www.apache.org/licenses/LICENSE-2.0
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/samples/contests/robocup/protos/RobocupGoal.proto
+# keywords: exterior/sport
 # Robocup Humanoid League 2021 soccer goal.
 # The color and size of the goal can be modified.
 # template language: javascript
@@ -40,7 +42,7 @@ PROTO RobocupGoal [
     translation IS translation
     rotation IS rotation
     children [
-      DEF HORIZONTAL_POST_TRANS Transform {
+      DEF HORIZONTAL_POST_TRANS Pose {
         translation 0 0 %<= post_height >%
         rotation 1 0 0 -1.570793
         children [
@@ -57,7 +59,7 @@ PROTO RobocupGoal [
           }
         ]
       }
-      DEF RIGHT_POST_TRANS Transform {
+      DEF RIGHT_POST_TRANS Pose {
         translation 0  %<= -post_spacing / 2 >% %<= post_height / 2 >%
         children [
           Shape {
@@ -71,7 +73,7 @@ PROTO RobocupGoal [
           }
         ]
       }
-      DEF LEFT_POST_TRANS Transform {
+      DEF LEFT_POST_TRANS Pose {
         translation 0  %<= post_spacing / 2 >% %<= post_height / 2 >%
         children [
           Shape {
@@ -144,7 +146,7 @@ PROTO RobocupGoal [
           ]
         }
       }
-      Transform {
+      Pose {
         translation %<= -C >% 0 %<= post_height >%
         rotation 1 0 0 -1.5708
         children [
@@ -157,14 +159,14 @@ PROTO RobocupGoal [
           }
         ]
       }
-      Transform {
+      Pose {
         translation %<= -C >% 0 %<= backpost_radius / 2 >%
         rotation 1 0 0 -1.5708
         children [
           USE SMALL_HORIZONTAL_POST_SHAPE
         ]
       }
-      Transform {
+      Pose {
         translation %<= -C >% %<= post_spacing / 2 >% %<= post_height / 2 >%
         children [
           DEF SMALL_POST_SHAPE Shape {
@@ -178,13 +180,13 @@ PROTO RobocupGoal [
           }
         ]
       }
-      Transform {
+      Pose {
         translation %<= -C >%  %<= -post_spacing / 2 >% %<= post_height / 2 >%
         children [
           USE SMALL_POST_SHAPE
         ]
       }
-      Transform {
+      Pose {
         translation %<= -C / 2 >% %<= post_spacing / 2 >% %<= post_height >%
         rotation 0 1 0 -1.5708
         children [
@@ -199,22 +201,22 @@ PROTO RobocupGoal [
           }
         ]
       }
-      Transform {
+      Pose {
         translation %<= -C / 2 >% %<= -post_spacing / 2 >% %<= post_height >%
         rotation 0 1 0 -1.5708
-        
+
         children [
           USE OTHER_SMALL_POST_SHAPE
         ]
       }
-      Transform {
+      Pose {
         translation %<= -C / 2 >% %<= post_spacing / 2 >% %<= backpost_radius / 2 >%
         rotation 0 1 0 -1.5708
         children [
           USE OTHER_SMALL_POST_SHAPE
         ]
       }
-      Transform {
+      Pose {
         translation %<= -C / 2 >% %<= -post_spacing / 2 >% %<= backpost_radius / 2 >%
         rotation 0 1 0 -1.5708
         children [
@@ -229,7 +231,7 @@ PROTO RobocupGoal [
         USE HORIZONTAL_POST_TRANS
         USE RIGHT_POST_TRANS
         USE LEFT_POST_TRANS
-        Transform { # Left
+        Pose { # Left
           translation %<= -post_radius - (C - post_radius) / 2 >% %<= -post_spacing / 2 >% %<= (post_height - backpost_radius) / 2 >%
           rotation 0 0 1 -1.5708
           children [
@@ -238,14 +240,14 @@ PROTO RobocupGoal [
             }
           ]
         }
-        Transform { # Right
+        Pose { # Right
           translation %<= -post_radius - (C - post_radius) / 2 >%  %<= post_spacing / 2 >% %<= (post_height - backpost_radius) / 2 >%
           rotation 0 0 1 -1.5708
           children [
             USE GOAL_SIDE_BOX
           ]
         }
-        Transform { # Back
+        Pose { # Back
           translation %<= -C - bounding_object_thickness_back / 2 >% 0 %<= (post_height+backpost_radius) / 2 >%
           rotation 0 0 1 -1.5708
           children [
@@ -254,7 +256,7 @@ PROTO RobocupGoal [
             }
           ]
         }
-        Transform { # Top
+        Pose { # Top
           translation %<= -post_radius - (C - post_radius) / 2 >% 0 %<= post_height >%
           rotation 0 0 1 -1.5708
           children [

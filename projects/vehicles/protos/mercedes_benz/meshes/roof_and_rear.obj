@@ -1,6 +1,5 @@
 # Blender v2.93.1 OBJ File: ''
 # www.blender.org
-mtllib roof_and_rear.mtl
 o roof_and_rear_roof
 v -0.707307 1.802609 3.649880
 v -0.707436 1.801199 3.649620

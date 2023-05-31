@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/robotstadium/protos/RobotstadiumSoccerField.proto
+# keywords: exterior/sport
 # Robot soccer field inspired from the RoboCup 2014 Standard Platform League.
 # The soccer field is built on a total carpet area of length 10.4 m and width 7.4 m.
 # The field dimensions (within the white lines) are 9 x 6 m.
@@ -183,7 +185,7 @@ Solid {
       Plane {
         size 10.4 7.4
       }
-      Transform {
+      Pose {
         rotation 0.577349 -0.577351 0.577351 2.094397
         translation 5.2 0 0.15
         children [
@@ -192,7 +194,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         rotation -0.577349 -0.577351 0.577351 -2.094397
         translation -5.2 0 0.15
         children [
@@ -201,7 +203,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         rotation 1 0 0 0
         translation 0 -3.7 0.15
         children [
@@ -210,7 +212,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         rotation 1 0 0 -3.141589
         translation 0 3.7 0.15
         children [

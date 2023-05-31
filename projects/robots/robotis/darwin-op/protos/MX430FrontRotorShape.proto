@@ -1,5 +1,5 @@
-#VRML_SIM R2023a utf8
-# tags: hidden,
+#VRML_SIM R2023b utf8
+# tags: hidden
 # template language: javascript
 
 EXTERNPROTO "RobotisOp3BlackPaintedMetalAppearance.proto"

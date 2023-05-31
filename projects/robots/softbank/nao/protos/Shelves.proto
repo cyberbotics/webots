@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/softbank/nao/protos/Shelves.proto
+# keywords: furniture/storage
 
 EXTERNPROTO "webots://projects/appearances/protos/PaintedWood.proto"
 
@@ -16,7 +18,7 @@ Solid {
   children [
     DEF SHELF_GROUP Group {
       children [
-        Transform {
+        Pose {
           translation 0 0.39 0.53
           children [
             Shape {
@@ -31,7 +33,7 @@ Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.39 0.53
           children [
             Shape {
@@ -40,7 +42,7 @@ Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.1375 0 0.52
           children [
             Shape {
@@ -51,7 +53,7 @@ Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.12 0 0.04
           children [
             Shape {
@@ -62,7 +64,7 @@ Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.09
           children [
             Shape {
@@ -73,7 +75,7 @@ Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.472
           children [
             Shape {
@@ -82,7 +84,7 @@ Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.805
           children [
             Shape {
@@ -91,7 +93,7 @@ Solid {
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 1.05
           children [
             Shape {

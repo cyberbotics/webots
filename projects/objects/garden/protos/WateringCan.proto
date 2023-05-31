@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/garden/protos/WateringCan.proto
+# keywords: exterior/garden
 # A watering can with optional physics.
 # template language: javascript
 
@@ -71,7 +73,7 @@ PROTO WateringCan [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0.007 0.27
           children [
             Cylinder {
@@ -80,7 +82,7 @@ PROTO WateringCan [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.41807611859832144 0 0.29121320409674484
           rotation 0 -1 0 2.356194483
           children [
@@ -90,7 +92,7 @@ PROTO WateringCan [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.10336468802980885 0 0.6461170156704173
           rotation 0 1 0 2.356194
           children [
@@ -100,35 +102,35 @@ PROTO WateringCan [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.2451 0 0.6947
           rotation 0.519983 -0.519992 0.677662 -1.950436
           children [
             USE CAPSULE
           ]
         }
-        Transform {
+        Pose {
           translation -0.3662 0 0.5774
           rotation 0.129421 -0.129432 0.983106 -1.587836
           children [
             USE CAPSULE
           ]
         }
-        Transform {
+        Pose {
           translation -0.3783 0 0.3869
           rotation -0.129435 0.129425 0.983105 -1.58784
           children [
             USE CAPSULE
           ]
         }
-        Transform {
+        Pose {
           translation -0.2983 0 0.222
           rotation -0.357411 0.357403 0.862856 -1.71778
           children [
             USE CAPSULE
           ]
         }
-        Transform {
+        Pose {
           translation -0.0703 0 0.7141
           rotation 0.577346 -0.577354 0.57735 -2.094389
           children [

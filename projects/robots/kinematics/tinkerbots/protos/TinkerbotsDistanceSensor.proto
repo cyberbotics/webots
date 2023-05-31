@@ -1,15 +1,17 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/kinematics/tinkerbots/protos/TinkerbotsDistanceSensor.proto
+# keywords: robot/extension
 # Tinkerbots distance sensor block.
-# https://www.tinkerbots.com
+# More information on: [TinkerbotsBase](https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/kinematics/tinkerbots/protos/TinkerbotsBase.proto)
 # template language: javascript
 
 EXTERNPROTO "TinkerbotsLEDAppearance.proto"
 
 PROTO TinkerbotsDistanceSensor [
-  field SFVec3f    translation  0 0 0             # Is `Transform.translation`.
-  field SFRotation rotation     0 0 1 0           # Is `Transform.rotation`.
+  field SFVec3f    translation  0 0 0             # Is `Pose.translation`.
+  field SFRotation rotation     0 0 1 0           # Is `Pose.rotation`.
   field SFString   name         "distance sensor" # Is `Solid.name`.
   field SFInt32    numberOfRays 1                 # Is `DistanceSensor.numberOfRays`.
   field SFFloat    aperture     1.5708            # Is `DistanceSensor.aperture`.
@@ -66,7 +68,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0 0.04
           children [
             Slot {
@@ -75,7 +77,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 0.01 0.035
           rotation 0 0 1 3.1415
           children [
@@ -85,7 +87,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.01 0.01 0.035
           rotation 0 0 1 1.5708
           children [
@@ -95,7 +97,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.01 -0.01 0.035
           children [
             Slot {
@@ -104,7 +106,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 -0.01 0.035
           rotation 0 0 1 -1.5708
           children [
@@ -114,7 +116,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 -0.02 0.02
           rotation 1 0 0 1.57
           children [
@@ -124,7 +126,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.01 -0.015 0.03
           rotation 0.57735 -0.57735 0.577352 2.0944
           children [
@@ -134,7 +136,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.01 -0.015 0.01
           rotation 1 0 0 1.57081
           children [
@@ -144,7 +146,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 -0.015 0.01
           rotation 0.57735 0.57735 -0.577352 2.0944
           children [
@@ -154,7 +156,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 -0.015 0.03
           rotation 0 -0.707105 0.707108 3.14153
           children [
@@ -164,7 +166,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 0.02 0.02
           rotation 1 0 0 -1.57
           children [
@@ -174,7 +176,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 0.015 0.03
           rotation 0.57735 0.57735 0.577352 -2.0944
           children [
@@ -184,7 +186,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.01 0.015 0.01
           rotation 0 0.707105 0.707108 3.14153
           children [
@@ -194,7 +196,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.01 0.015 0.01
           rotation -0.57735 0.57735 0.577352 2.0944
           children [
@@ -204,7 +206,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.01 0.015 0.03
           rotation 1 0 0 -1.5708
           children [
@@ -214,7 +216,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.02 0 0.02
           rotation 0 1 0 -1.57
           children [
@@ -224,7 +226,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.015 -0.01 0.03
           rotation 0 1 0 -1.5708
           children [
@@ -234,7 +236,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.015 -0.01 0.01
           rotation -0.57735 0.57735 0.577352 -2.0944
           children [
@@ -244,7 +246,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.015 0.01 0.01
           rotation -0.707105 0 0.707108 3.14153
           children [
@@ -254,7 +256,7 @@ PROTO TinkerbotsDistanceSensor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.015 0.01 0.03
           rotation 0.57735 0.57735 -0.577352 -2.0944
           children [
@@ -315,7 +317,7 @@ PROTO TinkerbotsDistanceSensor [
       ]
       name IS name
       contactMaterial "tinkerbots"
-      boundingObject Transform {
+      boundingObject Pose {
         translation 0 0 0.02
         children [
           Box {

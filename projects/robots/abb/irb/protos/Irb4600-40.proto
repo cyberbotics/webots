@@ -1,7 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/irb4600-40
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/abb/irb/protos/Irb4600-40.proto
+# keywords: robot/arm
 # The "IRB 4600/40" is a 6 DOF arm developed by ABB: https://new.abb.com/products/robotics/industrial-robots/irb-4600
 # It has a payload of 40kg.
 # template language: javascript
@@ -9,8 +10,8 @@
 EXTERNPROTO "webots://projects/appearances/protos/BrushedAluminium.proto"
 
 PROTO Irb4600-40 [
-  field SFVec3f    translation     0 0 0                 # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0               # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0                 # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0               # Is `Pose.rotation`.
   field SFString   name            "IRB 4600/40"         # Is `Solid.name`.
   field SFString   controller      "inverse_kinematics"  # Is `Robot.controller`.
   field MFString   controllerArgs  []                    # Is `Robot.controllerArgs`.
@@ -180,7 +181,7 @@ PROTO Irb4600-40 [
                                       endPoint Solid {
                                         translation 0.125 0 0
                                         children [
-                                          Transform {
+                                          Pose {
                                             translation 0.06 0 0
                                             rotation 0.5773502691896257 0.5773502691896257 0.5773502691896257 2.094399693899575
                                             children IS handSlot
@@ -193,7 +194,7 @@ PROTO Irb4600-40 [
                                             }
                                           }
                                         ]
-                                        boundingObject Transform {
+                                        boundingObject Pose {
                                           translation -0.025004 0.002215 -0.000958
                                           children [
                                             Box {
@@ -207,7 +208,7 @@ PROTO Irb4600-40 [
                                       }
                                     }
                                   ]
-                                  boundingObject Transform {
+                                  boundingObject Pose {
                                     translation 0 -0.0015 0
                                     children [
                                       Box {
@@ -221,7 +222,7 @@ PROTO Irb4600-40 [
                                 }
                               }
                             ]
-                            boundingObject Transform {
+                            boundingObject Pose {
                               translation 0.511874 0.003021 0
                               children [
                                 Box {
@@ -235,7 +236,7 @@ PROTO Irb4600-40 [
                           }
                         }
                       ]
-                      boundingObject Transform {
+                      boundingObject Pose {
                         translation 0.085806 0.199325 0.094072
                         children [
                           Box {
@@ -249,7 +250,7 @@ PROTO Irb4600-40 [
                     }
                   }
                 ]
-                boundingObject Transform {
+                boundingObject Pose {
                   translation -0.003447 -0.061473 0.529095
                   children [
                     Box {
@@ -263,7 +264,7 @@ PROTO Irb4600-40 [
               }
             }
           ]
-          boundingObject Transform {
+          boundingObject Pose {
             translation 0.046699 0.049037 0.270246
             children [
               Box {
@@ -277,7 +278,7 @@ PROTO Irb4600-40 [
         }
       }
     ]
-    boundingObject Transform {
+    boundingObject Pose {
       translation -0.063119 0 0.106497
       children [
         Box {

@@ -120,7 +120,7 @@ Released on July 29th, 2020.
     - Windows: Fixed JPEG texture errors when typing `webots` from a DOS console (`cmd.exe`) by renaming `webots.exe` to `webots-bin.exe` and creating two launchers named `webotsw.exe` and `webots.exe` ([#1532](https://github.com/cyberbotics/webots/pull/1532)).
     - Fixed the physics behavior of [Connector](connector.md) nodes sometimes remaining idle after being detached from each other (thanks to Giorgio) ([#1415](https://github.com/cyberbotics/webots/pull/1415)).
     - Fixed the [`wb_camera_save_image`](camera.md#wb_camera_save_image) function when used to save jpeg images ([#1285](https://github.com/cyberbotics/webots/pull/1285)).
-    - Fixed default name of the left and right grippers of the [Tiago++](../guide/tiagopp.md) robot ([#1733](https://github.com/cyberbotics/webots/pull/1733)).
+    - Fixed default name of the left and right grippers of the [Tiagopp](../guide/tiagopp.md) robot ([#1733](https://github.com/cyberbotics/webots/pull/1733)).
     - Fixed update of the `supervisor` field of the [Robot](robot.md) node ([#1916](https://github.com/cyberbotics/webots/pull/1916)).
     - Fixed camera image updates after a simulation reset from a [Supervisor](supervisor.md) controller ([#1802](https://github.com/cyberbotics/webots/pull/1802)).
     - Fixed the motor torque and force feedback of the ROS controller ([#1581](https://github.com/cyberbotics/webots/pull/1581)).
@@ -185,7 +185,7 @@ Released on January 14th, 2020.
 Released on December 18th, 2019.
 
   - New Robots
-    - Added several TIAGo robots from PAL Robotics: [TIAGo Base](../guide/tiago-base.md), [TIAGo Iron](../guide/tiago-iron.md), [TIAGo Steel](../guide/tiago-steel.md), [TIAGo Titanium](../guide/tiago-titanium.md) and [TIAGo++](../guide/tiagopp.md).
+    - Added several TIAGo robots from PAL Robotics: [TIAGo Base](../guide/tiago-base.md), [TIAGo Iron](https://cyberbotics.com/doc/guide/tiago-iron?version=R2020a), [TIAGo Steel](https://cyberbotics.com/doc/guide/tiago-steel?version=R2020a), [TIAGo Titanium](https://cyberbotics.com/doc/guide/tiago-titanium?version=R2020a) and [TIAGopp](https://cyberbotics.com/doc/guide/tiagopp?version=R2020a).
     - Added a model of the [Robotino 3](../guide/robotino3.md) from [Festo](https://www.festo-didactic.com/int-en/).
     - Added a model of the [TurtleBot3 Burger](../guide/turtlebot3-burger.md) from [Robotis](http://www.robotis.us/) and its [LDS-01](../guide/lidar-sensors.md#robotis-lds-01) lidar sensor.
   - New Samples
