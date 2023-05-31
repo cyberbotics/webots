@@ -136,6 +136,17 @@ QWidget#preferenceWidget QCheckBox {
   background: #fbfbfb;
 }
 
+QWidget#preferenceWidget QCheckBox:disabled {
+  background: #fbfbfb;
+  color: #c0c0c0;
+}
+
+QWidget#preferenceWidget QCheckBox:indicator:disabled {
+  background-color: #fbfbfb;
+  border: 1px solid #c0c0c0;
+}
+
+
 /* network tab */
 
 QGroupBox#networkGroupBox {
@@ -159,12 +170,6 @@ QGroupBox#networkGroupBox QLabel {
 
 QGroupBox#networkGroupBox QCheckBox {
   background-color: #e1e1e1;
-}
-
-QGroupBox#networkGroupBox QPushButton {
-  background: white;
-  border: 1px solid black;
-  border-radius: 14px;
 }
 
 /* 3D view tools */
