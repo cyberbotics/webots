@@ -49,7 +49,7 @@ jobs:
     - name: OS check
       if: (matrix.os == 'ubuntu-22.04' && matrix.python == '3.9') || github.event_name == 'schedule' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'test sources')
       run: |
-        echo "{job_needed}={'true'}" >> "$GITHUB_OUTPUT"
+        echo "job_needed='true'" >> "$GITHUB_OUTPUT"
       id: os_check
     - name: Set git to use LF
       if: matrix.os == 'windows-2019'
