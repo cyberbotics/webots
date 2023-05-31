@@ -506,3 +506,13 @@ QList<const WbBaseNode *> WbBasicJoint::findClosestDescendantNodesWithDedicatedW
     list << static_cast<WbBaseNode *>(mEndPoint->value())->findClosestDescendantNodesWithDedicatedWrenNode();
   return list;
 }
+
+QString WbBasicJoint::endPointName() const {
+  if (!mEndPoint->value())
+    return QString();
+
+  QString name = mEndPoint->value()->computeName();
+  if (name.isEmpty())
+    name = mEndPoint->value()->endPointName();
+  return name;
+}
