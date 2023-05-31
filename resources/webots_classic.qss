@@ -273,11 +273,15 @@ QToolButton#invisibleButton {
 }
 
 QToolButton#editorButton:hover {
-  background-color: #308cc6;
+  border: 1px solid gray;
+  border-radius: 4px;
+  background-color: rgba(180, 180, 255, 50%);
 }
 
 QToolButton#menuButton:hover {
-  background-color: #308cc6;
+  border: 1px solid gray;
+  border-radius: 4px;
+  background-color: rgba(180, 180, 255, 50%);
 }
 
 QToolButton#playButton:hover {
