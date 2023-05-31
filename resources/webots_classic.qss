@@ -328,8 +328,8 @@ QPushButton:pressed  {
 }
 
 QPushButton:disabled {
-  color: #efefef;
-  border: none;
+  color: #c4c4c4;
+  border: 1px solid #c4c4c4;
 }
 
 QPushButton:pressed {
@@ -366,6 +366,7 @@ QGroupBox#dialogInfoGroupBox {
   border: 1px solid gray;
   border-radius: 1px;
   margin-top: 1ex;
+  background: #efefef;
 }
 
 QGroupBox#dialogInfoGroupBox::title {
@@ -633,6 +634,7 @@ QTreeView {
   color: black;
   min-width: 250px;
   outline: none;
+  border: 1px solid #ababab;
 }
 
 QTreeView::item {
