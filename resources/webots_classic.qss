@@ -568,16 +568,16 @@ QTabWidget::pane {
 /* console */
 
 WbConsole {
-  qproperty-errorColor: #ff614f;
-  qproperty-infoColor: #66d9ef;
+  qproperty-errorColor: red;
+  qproperty-infoColor: blue;
 
-  qproperty-ansiBlack: white;
-  qproperty-ansiRed: #ff614f;
-  qproperty-ansiGreen: #66bb6a;
-  qproperty-ansiYellow: #d4e157;
-  qproperty-ansiBlue: #66d9ef;
-  qproperty-ansiMagenta: #308cc6;
-  qproperty-ansiCyan: #4dd0e1;
+  qproperty-ansiBlack: black;
+  qproperty-ansiRed: red;
+  qproperty-ansiGreen: olive;
+  qproperty-ansiYellow: maroon;
+  qproperty-ansiBlue: blue;
+  qproperty-ansiMagenta: purple;
+  qproperty-ansiCyan: aqua;
   qproperty-ansiWhite: gray;
 }
 
