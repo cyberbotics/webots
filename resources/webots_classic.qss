@@ -74,6 +74,9 @@ QSplitter::handle {
 }
 
 /* menus */
+QMenu {
+  background: white;
+}
 
 QMenuBar::item {
   background: transparent;
@@ -106,8 +109,10 @@ QMenu::item:disabled {
 }
 
 QMenu::separator {
-  background: #555;
+  background: #ababab;
   height: 1px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 QMenu::icon {
@@ -233,7 +238,9 @@ QToolBar {
 }
 
 QToolBar::separator {
-  background: #666;
+  background: #cdcdcd;
+  margin-top: 5px;
+  margin-bottom: 5px;
   width: 1px;
 }
 
@@ -562,7 +569,8 @@ QTabWidget {
 }
 
 QTabWidget::pane {
-  border: 0;
+  border: 1px solid #ababab;
+  top: -1px;
 }
 
 /* console */
@@ -603,7 +611,7 @@ QPlainTextEdit#ProtoDescription:focus {
 
 QToolButton#colorToolButton {
   border-style: outset;
-  border-color: #eee;
+  border-color: gray;
   border-width: 4px;
   border-radius: 5px;
   padding: 6px;
@@ -742,11 +750,6 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
 }
 
 /* tab bars */
-
-QTabWidget#preferenceTabWidget::pane {
-  border: 1px solid #ababab;
-  top: -1px;
-}
 
 QTabBar::tab {
   color: black;
