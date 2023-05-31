@@ -56,6 +56,13 @@ jobs:
       run: |
         git config --global core.autocrlf false
         git config --global core.eol lf
+    - name: Test variable
+      run: |
+        echo "the variable valuer is ${{ steps.os_check.outputs.job_needed }}"
+    - name: Test True
+      if: steps.os_check.outputs.job_needed == 'true'
+      run: |
+        echo "the output is TRUE"
     - uses: actions/checkout@v3
       if: steps.os_check.outputs.job_needed == 'true'
     - name: Set up Python ${{ matrix.python }}
