@@ -114,6 +114,28 @@ QMenu::icon {
   padding-left: 12px;
 }
 
+QCheckBox:indicator {
+  background-color: white;
+  border: 1px solid black;
+}
+
+QCheckBox:indicator:checked {
+  border: 1px solid black;
+  image: url(enabledIcons:checkboxCheckmark.png);
+}
+
+QWidget#preferenceWidget {
+  background: #fbfbfb;
+}
+
+QWidget#preferenceWidget QLabel {
+  background: #fbfbfb;
+}
+
+QWidget#preferenceWidget QCheckBox {
+  background: #fbfbfb;
+}
+
 /* network tab */
 
 QGroupBox#networkGroupBox {
@@ -137,15 +159,6 @@ QGroupBox#networkGroupBox QLabel {
 
 QGroupBox#networkGroupBox QCheckBox {
   background-color: #e1e1e1;
-}
-
-QGroupBox#networkGroupBox QCheckBox:indicator {
-  background-color: white;
-  border: 1px solid black;
-}
-
-QGroupBox#networkGroupBox QCheckBox:indicator:checked {
-  image: url(enabledIcons:checkboxCheckmark.png);
 }
 
 QGroupBox#networkGroupBox QPushButton {
@@ -280,12 +293,13 @@ QToolButton#playButton:pressed {
 
 QPushButton {
   padding: 4px 15px;
-  background: #eee;
-  border: none;
+  background: #fbfbfb;
+  border: 1px solid #ababab;
+  border-radius: 3px;
 }
 
 QPushButton:hover {
-  background-color: #555;
+  background-color: #ababab;
 }
 
 QPushButton:focus {
@@ -663,7 +677,7 @@ QTreeWidget::item {
 
 QComboBoxListView {
   padding: 2px;
-  background: #333;
+  background: white;
 }
 
 /* scrollbar customization */
@@ -720,6 +734,11 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
 
 /* tab bars */
 
+QTabWidget#preferenceTabWidget::pane {
+  border: 1px solid #ababab;
+  top: -1px;
+}
+
 QTabBar::tab {
   color: black;
   background-color: #fbfbfb;
@@ -727,7 +746,15 @@ QTabBar::tab {
   min-width: 50px;
   margin: 0;
   border:1px solid transparent;
+  border-bottom: 1px solid #ababab;
   outline: 0px;
+}
+
+QTabBar::tab:selected {
+  border: 1px solid #ababab;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  margin-bottom: -1px;
 }
 
 QTabBar::tab:!selected {
@@ -772,12 +799,10 @@ QAbstractSpinBox {
 
 QLineEdit:focus {
   border-color: #308cc6;
-  background-color: #333;
 }
 
 QAbstractSpinBox:focus {
   border-color: #308cc6;
-  background-color: #333;
 }
 
 QComboBox {
@@ -791,7 +816,7 @@ QComboBox {
 
 QComboBox:on, QComboBox:focus {
   border-color: #308cc6;
-  background-color: #2b2b2b;
+  background-color: #eee;
 }
 
 QComboBox::disabled {
@@ -838,10 +863,11 @@ QAbstractSpinBox::down-arrow {
 
 QGroupBox {
   padding: 10px;
+  background: #fbfbfb;
 }
 
 QFontDialog QListView, QListWidget {
-  background: #eee;
+  background: white;
   outline: 0;
 }
 
