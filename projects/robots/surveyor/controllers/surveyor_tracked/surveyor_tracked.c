@@ -59,7 +59,6 @@ int main(int argc, char **argv) {
     if (key != -1) {
       switch (key) {
         case 'W':
-          printf(" %i\n", key);
           wb_motor_set_velocity(leftMotor, speed);
           wb_motor_set_velocity(rightMotor, speed);
           break;
