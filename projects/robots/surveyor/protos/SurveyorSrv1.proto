@@ -89,11 +89,16 @@ PROTO SurveyorSrv1 [
                   ]
                 }
                 Box {
-                  size 0.075 0.02 0.026
+                  size 0.075 0.02 0.028
                 }
               ]
             }
             physics Physics {}
+            device [
+              LinearMotor {
+                name "left motor"
+              }
+            ]
             animatedGeometry Shape {
               appearance Rubber {
               }
@@ -120,6 +125,11 @@ PROTO SurveyorSrv1 [
             name "right track"
             boundingObject USE TRACK_BO
             physics Physics {}
+            device [
+              LinearMotor {
+                name "right motor"
+              }
+            ]
             animatedGeometry Shape {
               appearance Rubber {
               }
