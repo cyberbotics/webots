@@ -13,7 +13,7 @@ VacuumGripper {
 
 ### Description
 
-[VacuumGripper](#vacuum-gripper) node is used to simulate physical links created by vacuum suction.
+The [VacuumGripper](#vacuum-gripper) node is used to simulate physical links created by vacuum suction.
 
 [VacuumGripper](#vacuum-gripper) node can only connect to dynamic [Solid](solid.md) nodes.
 The physical connection can be created and destroyed at run time by the robot's controller.
