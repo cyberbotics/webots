@@ -118,6 +118,7 @@ export default class Parser {
       const parser = new DOMParser();
       xml = parser.parseFromString(text, 'text/xml');
     }
+    console.log(xml)
     if (typeof xml === 'undefined')
       console.error('File to parse not found');
     else {
@@ -642,10 +643,12 @@ export default class Parser {
       const geometriesCount = parseInt(getNodeAttribute(node, 'geometriesCount', '10'));
       newNode = new WbTrack(id, translation, rotation, geometriesCount);
     } else if (node.tagName === 'TrackWheel') {
+      const trackWheelRotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '1 0 0 1.5708'));
       const radius = parseFloat(getNodeAttribute(node, 'radius', '0.1'));
       const inner = getNodeAttribute(node, 'inner', '0').toLowerCase() === '1';
+      const position = convertStringToVec2(getNodeAttribute(node, 'position', '0 0'));
 
-      newNode = new WbTrackWheel(id, translation, rotation, radius, inner);
+      newNode = new WbTrackWheel(id, position, trackWheelRotation, radius, inner);
 
       parentNode.wheelsList.push(newNode);
     } else if (node.tagName === 'Robot' || node.tagName === 'Solid') {

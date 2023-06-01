@@ -96,3 +96,12 @@ void WbTrackWheel::write(WbWriter &writer) const {
     return;
   WbPose::write(writer);
 }
+
+QStringList WbTrackWheel::fieldsToSynchronizeWithX3D() const {
+  QStringList fields;
+  fields << "position"
+         << "radius"
+         << "rotation"
+         << "inner";
+  return fields;
+}
