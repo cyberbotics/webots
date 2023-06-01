@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "webots://tests/default/protos/TestSuiteEmitter.proto"
 EXTERNPROTO "webots://tests/default/protos/TestSuiteSupervisor.proto"
@@ -106,7 +106,7 @@ Solid {
   ]
 }
 Solid {
-  translation -1.34837 0.660611 -1.26226
+  translation -1.18677 0.580711 -1.17566
   rotation 0.5570847927878169 -0.04975668224899714 0.8289636941483792 2.51922
   children [
     Shape {
@@ -116,7 +116,7 @@ Solid {
         }
       }
       geometry DEF BOX Box {
-        size 0.9 0.1 0.1
+        size 0.9 0.9 0.1
       }
     }
   ]
@@ -128,7 +128,7 @@ Solid {
   ]
 }
 DEF GREEN_BOX Solid {
-  translation -1.61501 0.792452 -1.40516
+  translation -1.75237 0.860367 -1.47877
   rotation 0.6457879227325559 0.5398879322844559 0.5398879322844559 1.36968
   children [
     Shape {
@@ -193,7 +193,7 @@ Solid {
   translation -3.7763137 0.23806185 -1.2091656
   rotation 0.5570847927878169 -0.04975668224899714 0.8289636941483792 2.51922
   children [
-    DEF CAPSULE Transform {
+    DEF CAPSULE Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {
@@ -231,7 +231,7 @@ Solid {
         size 0.9 0.1 0.1
       }
     }
-    DEF SHAPE2 Transform {
+    DEF SHAPE2 Pose {
       translation -0.4 -0.5 0
       rotation 0 0 1 1.5708003
       children [
@@ -264,7 +264,7 @@ Solid {
   translation -3.49351 0.0982299 -1.05761
   rotation -0.6457879227325559 -0.5398879322844559 -0.5398879322844559 4.91351
   children [
-    DEF CAPSULE Transform {
+    DEF CAPSULE Pose {
       rotation 1 0 0 -1.57079632679
       children [
         Shape {
@@ -298,7 +298,7 @@ Robot {
       height 256
       recognition DEF RECOGNITION Recognition {
         maxRange 5
-        occlusion FALSE
+        occlusion 0
         segmentation TRUE
       }
     }
@@ -312,6 +312,7 @@ Robot {
       projection "spherical"
       recognition Recognition {
         maxRange 5
+        occlusion 2
         segmentation TRUE
       }
     }
@@ -325,6 +326,7 @@ Robot {
       projection "cylindrical"
       recognition Recognition {
         maxRange 5
+        occlusion 2
         segmentation TRUE
       }
     }

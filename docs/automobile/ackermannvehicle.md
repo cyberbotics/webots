@@ -67,7 +67,7 @@ It measures the vehicle's ability to reflect radar signals in the direction of t
 
 The center of the vehicle (position 0 0 0) is at the center of the rear wheels axis.
 Any node added in the `extensionSlot` is added relatively to this position.
-A `Transform` node should be used to move an extension node away from this center.
+A [Pose][../reference/pose.md] node should be used to move an extension node away from this center.
 
 You can easily create your own PROTO that inherits from the `AckermannVehicle` PROTO, see for example the `SimpleVehicle` PROTO which automatically computes the shapes of the wheel axes.
 

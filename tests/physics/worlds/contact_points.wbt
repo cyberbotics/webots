@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
@@ -54,7 +54,7 @@ TexturedBackgroundLight {
 }
 Solid {
   children [
-    Transform {
+    Pose {
       translation -5.92 -4.45461 0.883074
       rotation -1 0 0 0.6109999999999997
       children [
@@ -71,7 +71,7 @@ Solid {
   ]
   name "Box"
   contactMaterial "hdpe"
-  boundingObject Transform {
+  boundingObject Pose {
     translation -5.92 -4.45461 0.883074
     rotation -1 0 0 0.6109999999999997
     children [

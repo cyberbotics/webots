@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # tags: hidden
 
 EXTERNPROTO "MX430ServoShape.proto"
@@ -10,7 +10,7 @@ PROTO RobotisOp3HeadShape [
 {
   Group {
     children [
-      Transform {
+      Pose {
         translation 0 -0.0023 0
         children [
           MX430ServoShape {}

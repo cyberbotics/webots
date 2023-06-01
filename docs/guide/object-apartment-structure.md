@@ -255,7 +255,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Radiator {
-  SFVec3f    translation           0 0 0
+  SFVec3f    translation           0 0 0.3
   SFRotation rotation              0 0 1 0
   SFString   name                  "radiator"
   SFInt32    numberOfFins          10
@@ -325,7 +325,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 WallPlug {
-  SFVec3f    translation            0 0 0
+  SFVec3f    translation            0 0 0.04
   SFRotation rotation               0 0 1 0
   SFString   name                   "wall plug"
   SFColor    mainColor              1 1 1
@@ -365,6 +365,8 @@ Window {
   SFRotation rotation               0 0 1 0
   SFString   name                   "window"
   SFVec3f    size                   0.2 0.8 2.4
+  SFColor    glassColor             0.8 0.8 0.8
+  SFFloat    glassTransparency      0.8
   SFFloat    windowThickness        0.05
   SFFloat    bottomWallHeight       0.7
   SFFloat    windowHeight           1.4
@@ -384,6 +386,10 @@ Window {
 ### Window Field Summary
 
 - `size`: Defines the size of the window.
+
+- `glassColor`: Defines the color of the window.
+
+- `glassTransparency`: Defines the transparency of the window.
 
 - `windowThickness`: Defines the thickness of the window.
 

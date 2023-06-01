@@ -77,6 +77,7 @@ Derived from [Solid](../reference/solid.md).
 BusStop {
   SFVec3f     translation                 0 0 0
   SFRotation  rotation                    0 0 1 0
+  SFFloat     scale                       1
   SFString    name                        "bus stop"
   SFBool      bench                       TRUE
   SFNode      appearance                  PBRAppearance { baseColor 0.3 0.45 0.33  metalness 0 roughness 0.5 }
@@ -291,6 +292,7 @@ Derived from [Solid](../reference/solid.md).
 FireHydrant {
   SFVec3f    translation 0 0 0
   SFRotation rotation    0 0 1 0
+  SFFloat    scale       1
   SFString   name        "fire hydrant"
   SFNode     appearance  PBRAppearance { baseColor 0.643 0 0 metalness 0 roughness 0.4 }
 }
@@ -601,7 +603,7 @@ PublicToilet {
   SFBool      backDisplayLight    FALSE
   MFNode      frontDisplay        [
     AdvertisingBoard {
-      translation 0 0.1 0
+      translation 0 0.1 -0.55
       frontTexture ["https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/default/worlds/textures/webots_billboard.jpg"]
       backTexture []
       displayBackLight FALSE

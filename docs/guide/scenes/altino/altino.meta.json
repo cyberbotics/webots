@@ -1,22 +1,22 @@
 {
   "devices": [
     {
-      "axis": "-1 0 0",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left_front_wheel",
       "position": 0,
-      "transformID": "n542",
+      "transformID": "n550",
       "type": "RotationalMotor"
     },
     {
       "anchor": "0 0 0",
-      "axis": "-1 0 0",
+      "axis": "0 -1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "left_rear_wheel",
       "position": 0,
-      "transformID": "n592",
+      "transformID": "n600",
       "type": "RotationalMotor"
     },
     {
@@ -26,26 +26,26 @@
       "minPosition": -1.34,
       "name": "left_steer",
       "position": 0,
-      "transformID": "n542",
+      "transformID": "n550",
       "type": "RotationalMotor"
     },
     {
-      "axis": "1 0 0",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right_front_wheel",
       "position": 0,
-      "transformID": "n517",
+      "transformID": "n525",
       "type": "RotationalMotor"
     },
     {
       "anchor": "0 0 0",
-      "axis": "1 0 0",
+      "axis": "0 1 0",
       "maxPosition": 0,
       "minPosition": 0,
       "name": "right_rear_wheel",
       "position": 0,
-      "transformID": "n567",
+      "transformID": "n575",
       "type": "RotationalMotor"
     },
     {
@@ -55,7 +55,7 @@
       "minPosition": -1.34,
       "name": "right_steer",
       "position": 0,
-      "transformID": "n517",
+      "transformID": "n525",
       "type": "RotationalMotor"
     },
     {
@@ -65,11 +65,11 @@
       ],
       "ledGradual": false,
       "ledPBRAppearanceIDs": [
-        "n496",
-        "n500"
+        "n504",
+        "n508"
       ],
       "name": "backlights",
-      "transformID": "n492",
+      "transformID": "n500",
       "type": "LED"
     },
     {
@@ -79,10 +79,10 @@
       ],
       "ledGradual": false,
       "ledPBRAppearanceIDs": [
-        "n489"
+        "n497"
       ],
       "name": "headlights",
-      "transformID": "n483",
+      "transformID": "n491",
       "type": "LED"
     },
     {
@@ -126,33 +126,33 @@
       "type": "DistanceSensor"
     },
     {
-      "axis": "-1 0 0",
+      "axis": "0 -1 0",
       "name": "left_front_brake",
       "position": 0,
-      "transformID": "n542",
+      "transformID": "n550",
       "type": "Brake"
     },
     {
-      "axis": "-1 0 0",
+      "axis": "0 -1 0",
       "name": "left_front_sensor",
       "position": 0,
-      "transformID": "n542",
+      "transformID": "n550",
       "type": "PositionSensor"
     },
     {
       "anchor": "0 0 0",
-      "axis": "-1 0 0",
+      "axis": "0 -1 0",
       "name": "left_rear_brake",
       "position": 0,
-      "transformID": "n592",
+      "transformID": "n600",
       "type": "Brake"
     },
     {
       "anchor": "0 0 0",
-      "axis": "-1 0 0",
+      "axis": "0 -1 0",
       "name": "left_rear_sensor",
       "position": 0,
-      "transformID": "n592",
+      "transformID": "n600",
       "type": "PositionSensor"
     },
     {
@@ -160,7 +160,7 @@
       "axis": "0 0 -1",
       "name": "left_steer_sensor",
       "position": 0,
-      "transformID": "n542",
+      "transformID": "n550",
       "type": "PositionSensor"
     },
     {
@@ -175,33 +175,33 @@
       "type": "Receiver"
     },
     {
-      "axis": "1 0 0",
+      "axis": "0 1 0",
       "name": "right_front_brake",
       "position": 0,
-      "transformID": "n517",
+      "transformID": "n525",
       "type": "Brake"
     },
     {
-      "axis": "1 0 0",
+      "axis": "0 1 0",
       "name": "right_front_sensor",
       "position": 0,
-      "transformID": "n517",
+      "transformID": "n525",
       "type": "PositionSensor"
     },
     {
       "anchor": "0 0 0",
-      "axis": "1 0 0",
+      "axis": "0 1 0",
       "name": "right_rear_brake",
       "position": 0,
-      "transformID": "n567",
+      "transformID": "n575",
       "type": "Brake"
     },
     {
       "anchor": "0 0 0",
-      "axis": "1 0 0",
+      "axis": "0 1 0",
       "name": "right_rear_sensor",
       "position": 0,
-      "transformID": "n567",
+      "transformID": "n575",
       "type": "PositionSensor"
     },
     {
@@ -209,7 +209,7 @@
       "axis": "0 0 -1",
       "name": "right_steer_sensor",
       "position": 0,
-      "transformID": "n517",
+      "transformID": "n525",
       "type": "PositionSensor"
     },
     {

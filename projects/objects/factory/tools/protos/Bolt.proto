@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/factory/tools/protos/Bolt.proto
+# keywords: industrial/ironmongery
 # A threaded bolt with variable radius and length.
 # template language: javascript
 
@@ -279,7 +281,7 @@ PROTO Bolt [
     model "bolt"
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation %<= -0.0016 * screwLength / 0.027 >% 0 0
           rotation 0 1 0 1.5708
           children [
@@ -289,7 +291,7 @@ PROTO Bolt [
             }
           ]
         }
-        Transform {
+        Pose {
           translation %<= -0.0178 * screwLength / 0.027 >% 0 0
           rotation 0 1 0 1.5708
           children [

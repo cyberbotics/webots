@@ -1,4 +1,5 @@
 % Description: MATLAB controller example for Webots
+function pioneer3dx_matlab
 
 % uncomment the next two lines if you want to use
 % MATLAB's desktop and interact with the controller

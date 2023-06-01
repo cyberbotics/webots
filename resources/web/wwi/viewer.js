@@ -1,24 +1,26 @@
 /* eslint no-extend-native: ["error", { "exceptions": ["String"] }] */
 /* global setup */
 /* global showdown */
-/* global hljs */
 
 'use strict';
 
-import {getGETQueryValue, getGETQueriesMatchingRegularExpression} from './request_methods.js';
-import {webots} from './webots.js';
+import { getGETQueryValue, getGETQueriesMatchingRegularExpression } from './request_methods.js';
+import { webots } from './webots.js';
+import { setupModalWindow, renderGraphs, highlightCode, updateModalEvents } from './proto_viewer.js';
 
 import WbImageTexture from './nodes/WbImageTexture.js';
 import WbPbrAppearance from './nodes/WbPbrAppearance.js';
 import WbShape from './nodes/WbShape.js';
 import WbSphere from './nodes/WbSphere.js';
-import WbTransform from './nodes/WbTransform.js';
+import WbPose from './nodes/WbPose.js';
 import WbVector3 from './nodes/utils/WbVector3.js';
 import WbVector4 from './nodes/utils/WbVector4.js';
 import WbWorld from './nodes/WbWorld.js';
-import {quaternionToVec4, vec4ToQuaternion, getAnId} from './nodes/utils/utils.js';
+import { quaternionToVec4, vec4ToQuaternion } from './nodes/utils/utils.js';
+import { getAnId } from './nodes/utils/id_provider.js';
 import WebotsView from './WebotsView.js';
-import {loadImageTextureInWren} from './image_loader.js';
+import ImageLoader from './ImageLoader.js';
+import MeshLoader from './MeshLoader.js';
 
 let handle;
 let webotsView;
@@ -27,13 +29,13 @@ let imageTexture;
 let sizeOfMarker;
 
 if (typeof String.prototype.startsWith !== 'function') {
-  String.prototype.startsWith = function(prefix) {
+  String.prototype.startsWith = function (prefix) {
     return this.slice(0, prefix.length) === prefix;
   };
 }
 
 if (typeof String.prototype.endsWith !== 'function') {
-  String.prototype.endsWith = function(suffix) {
+  String.prototype.endsWith = function (suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
   };
 }
@@ -259,7 +261,7 @@ function addDynamicAnchorEvent(el) {
   if (el.classList.contains('dynamicAnchor'))
     return;
   el.addEventListener('click',
-    function(event) {
+    function (event) {
       if (event.ctrlKey)
         return;
       let node = event.target;
@@ -280,7 +282,7 @@ function addDynamicLoadEvent(el) {
   if (el.classList.contains('dynamicLoad'))
     return;
   el.addEventListener('click',
-    function(event) {
+    function (event) {
       if (event.ctrlKey)
         return;
       aClick(event.target);
@@ -308,112 +310,6 @@ function redirectImages(node) {
     const match = /^images\/(.*)$/.exec(src);
     if (match && match.length === 2)
       img.setAttribute('src', targetPath + 'images/' + match[1]);
-  }
-}
-
-function setupModalWindow() {
-  const doc = document.querySelector('#webots-doc');
-
-  // Create the following HTML tags:
-  // <div id="modal-window" class="modal-window">
-  //   <span class="modal-window-close-button">&times;</span>
-  //   <img class="modal-window-image-content" />
-  //   <div class="modal-window-caption"></div>
-  // </div>
-
-  const close = document.createElement('span');
-  close.classList.add('modal-window-close-button');
-  close.innerHTML = '&times;';
-  close.onclick = function() {
-    modal.style.display = 'none';
-  };
-
-  const loadImage = document.createElement('img');
-  loadImage.classList.add('modal-window-load-image');
-  loadImage.setAttribute('src', 'https://raw.githubusercontent.com/cyberbotics/webots/R2023a/resources/web/wwi/images/loading/load_animation.gif');
-
-  const image = document.createElement('img');
-  image.classList.add('modal-window-image-content');
-
-  const caption = document.createElement('div');
-  caption.classList.add('modal-window-caption');
-
-  const modal = document.createElement('div');
-  modal.setAttribute('id', 'modal-window');
-  modal.classList.add('modal-window');
-
-  modal.appendChild(close);
-  modal.appendChild(loadImage);
-  modal.appendChild(image);
-  modal.appendChild(caption);
-  doc.appendChild(modal);
-
-  window.onclick = function(event) {
-    if (event.target === modal) {
-      modal.style.display = 'none';
-      loadImage.style.display = 'block';
-      image.style.display = 'none';
-    }
-  };
-}
-
-function updateModalEvents(view) {
-  const modal = document.querySelector('#modal-window');
-  const image = modal.querySelector('.modal-window-image-content');
-  const loadImage = modal.querySelector('.modal-window-load-image');
-  const caption = modal.querySelector('.modal-window-caption');
-
-  // Add the modal events on each image.
-  const imgs = view.querySelectorAll('img');
-  for (let i = 0; i < imgs.length; i++) {
-    imgs[i].onclick = function(event) {
-      const img = event.target;
-      // The modal window is only enabled on big enough images and on thumbnail.
-      if (img.src.indexOf('thumbnail') === -1 && !(img.naturalWidth > 128 && img.naturalHeight > 128))
-        return;
-
-      // Show the modal window and the caption.
-      modal.style.display = 'block';
-      caption.innerHTML = (typeof this.parentNode.childNodes[1] !== 'undefined') ? this.parentNode.childNodes[1].innerHTML : '';
-
-      if (img.src.indexOf('.thumbnail.') === -1) {
-        // this is not a thumbnail => show the image directly.
-        image.src = img.src;
-        loadImage.style.display = 'none';
-        image.style.display = 'block';
-      } else {
-        // this is a thumbnail => load the actual image.
-        let url = img.src.replace('.thumbnail.', '.');
-        if (image.src === url) {
-          // The image has already been loaded.
-          loadImage.style.display = 'none';
-          image.style.display = 'block';
-          return;
-        } else {
-          // The image has to be loaded: show the loading image.
-          loadImage.style.display = 'block';
-          image.style.display = 'none';
-        }
-        // In case of thumbnail, search for the original png or jpg
-        image.onload = function() {
-          // The original image has been loaded successfully => show it.
-          loadImage.style.display = 'none';
-          image.style.display = 'block';
-        };
-        image.onerror = function() {
-          // The original image has not been loaded successfully => try to change the extension and reload it.
-          image.onerror = function() {
-            // The original image has not been loaded successfully => abort.
-            modal.style.display = 'none';
-            loadImage.style.display = 'block';
-            image.style.display = 'none';
-          };
-          url = img.src.replace('.thumbnail.jpg', '.png');
-          image.src = url;
-        };
-        image.src = url;
-      }
-    };
   }
 }
 
@@ -458,18 +354,18 @@ function addContributionBanner() {
 
   // append contribution sticker to primary doc element
   document.querySelector('#center').innerHTML += '<div style="top:' + displacement + '" class="contribution-banner">' +
-                                                 'Found an error?' +
-                                                 '<a target="_blank" class="contribution-banner-url" href="https://github.com/cyberbotics/webots/tree/released/docs"> ' +
-                                                 'Contribute on GitHub!' +
-                                                 '<span class=github-logo />' +
-                                                 '</a>' +
-                                                 '<p id="contribution-close">X</p>' +
-                                                 '</div>';
+    'Found an error?' +
+    '<a target="_blank" class="contribution-banner-url" href="https://github.com/cyberbotics/webots/tree/released/docs"> ' +
+    'Contribute on GitHub!' +
+    '<span class=github-logo />' +
+    '</a>' +
+    '<p id="contribution-close">X</p>' +
+    '</div>';
   updateContributionBannerUrl();
 
   const contributionBanner = document.querySelector('.contribution-banner');
 
-  document.querySelector('#contribution-close').onclick = function() {
+  document.querySelector('#contribution-close').onclick = function () {
     contributionBanner.parentNode.removeChild(contributionBanner);
   };
 }
@@ -564,7 +460,7 @@ function createIndex(view) {
   ul.setAttribute('id', 'index');
   headings[0].parentNode.insertBefore(ul, headings[1]);
 
-  headings.forEach(function(heading, i) {
+  headings.forEach(function (heading, i) {
     if (i === 0) // Skip the first heading.
       return;
 
@@ -597,7 +493,7 @@ function getWebotsVersion() {
     return localSetup.branch;
   // Get the Webots version from the showdown wbVariables extension
   const version = '{{ webots.version.full }}';
-  const converter = new showdown.Converter({extensions: ['wbVariables']});
+  const converter = new showdown.Converter({ extensions: ['wbVariables'] });
   const html = converter.makeHtml(version);
   const tmp = document.createElement('div');
   tmp.innerHTML = html;
@@ -632,11 +528,13 @@ function populateViewDiv(mdContent) {
   // markdown to html
   window.mermaidGraphCounter = 0;
   window.mermaidGraphs = {};
-  const converter = new showdown.Converter({tables: 'True',
+  const converter = new showdown.Converter({
+    tables: 'True',
     extensions: [
       'wbTabComponent', 'wbRobotComponent', 'wbSpoiler', 'wbChart', 'wbVariables', 'wbAPI', 'wbFigure', 'wbAnchors',
       'wbIllustratedSection', 'youtube'
-    ]});
+    ]
+  });
   const html = converter.makeHtml(mdContent);
 
   // console.log('HTML content: \n\n')
@@ -676,7 +574,7 @@ function updateBrowserUrl() {
   const url = forgeUrl(localSetup.book, localSetup.page, localSetup.tabs, localSetup.anchor);
   if (history.pushState) {
     try {
-      history.pushState({state: 'new'}, null, url);
+      history.pushState({ state: 'new' }, null, url);
     } catch (err) {
     }
   }
@@ -687,25 +585,10 @@ function updateBrowserUrl() {
 }
 
 // Make in order that the back button is working correctly
-window.onpopstate = function(event) {
+window.onpopstate = function (event) {
   setupUrl(document.location.href);
   getMDFile();
 };
-
-function highlightCode(view) {
-  const supportedLanguages = ['c', 'cpp', 'java', 'python', 'matlab', 'sh', 'ini', 'tex', 'makefile', 'lua', 'xml',
-    'javascript'];
-
-  for (let i = 0; i < supportedLanguages.length; i++) {
-    const language = supportedLanguages[i];
-    hljs.configure({languages: [ language ]});
-    const codes = document.querySelectorAll('.' + language);
-    for (let j = 0; j < codes.length; j++) {
-      const code = codes[j];
-      hljs.highlightBlock(code);
-    }
-  }
-}
 
 function resetRobotComponent(robot) {
   unhighlightX3DElement();
@@ -780,7 +663,7 @@ function toggleRobotComponentFullScreen(robot) {
 
     if (element.requestFullscreen) {
       element.requestFullscreen();
-      document.addEventListener('fullscreenchange', function() {
+      document.addEventListener('fullscreenchange', function () {
         updateRobotComponentDimension(robot);
       });
     }
@@ -843,8 +726,6 @@ function sliderMotorCallback(transform, slider) {
     transform.translation = applyQuaternion(transform.translation, quat);
     transform.translation = transform.translation.add(anchor); // re-add the offset
     transform.rotation = quaternionToVec4(q);
-    transform.applyTranslationToWren();
-    transform.applyRotationToWren();
   }
 }
 
@@ -892,7 +773,7 @@ function highlightX3DElement(deviceElement) {
 
   if (typeof imageTexture === 'undefined') {
     imageTexture = new WbImageTexture(getAnId(), computeTargetPath() + '../css/images/marker.png', false, true, true, 4);
-    loadImageTextureInWren('', computeTargetPath() + '../css/images/marker.png', false).then(() => {
+    ImageLoader.loadImageTextureInWren(imageTexture, '', computeTargetPath() + '../css/images/marker.png', false).then(() => {
       imageTexture.updateUrl();
       highlightX3DElement(deviceElement);
     });
@@ -908,7 +789,7 @@ function highlightX3DElement(deviceElement) {
     if (typeof WbWorld.instance !== 'undefined' && typeof pointer === 'undefined') {
       if (typeof sizeOfMarker === 'undefined') {
         // We estimate the size of the robot by the calculating the distance between the robot and the viewpoint
-        let robotPosition = WbWorld.instance.sceneTree[WbWorld.instance.sceneTree.length - 1].translation;
+        let robotPosition = WbWorld.instance.root.children[WbWorld.instance.root.children.length - 1].translation;
         let viewpointPosition = WbWorld.instance.viewpoint.position;
         sizeOfMarker = 0.012 * robotPosition.sub(viewpointPosition).length(); // value determined empirically
       }
@@ -933,7 +814,7 @@ function highlightX3DElement(deviceElement) {
         anchor = new WbVector3();
         insertInParent = false;
       }
-      pointer = new WbTransform(getAnId(), anchor, new WbVector3(1, 1, 1), new WbVector4());
+      pointer = new WbPose(getAnId(), anchor, new WbVector4());
       pointer.children.push(shape);
       WbWorld.instance.nodes.set(pointer.id, pointer);
       shape.parent = pointer.id;
@@ -978,8 +859,10 @@ function getRobotComponentByRobotName(robotName) {
 function initializeWebotsView(robotName) {
   if (webotsView.initializationComplete) {
     webotsView._view = new webots.View(webotsView);
-    webotsView._view.branch = localSetup.branch;
-    webotsView._view.repository = localSetup.repository;
+    ImageLoader.branch = localSetup.branch;
+    MeshLoader.branch = localSetup.branch;
+    ImageLoader.repository = localSetup.repository;
+    MeshLoader.repository = localSetup.repository;
     webotsView.loadScene(computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.x3d');
     webotsView._view.x3dScene.resize();
   } else
@@ -1006,7 +889,7 @@ function createRobotComponent(view) {
     // Load the robot meta JSON file.
     fetch(computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.meta.json')
       .then(response => response.json())
-      .then(function(data) {
+      .then(function (data) {
         // Populate the device component from the JSON file.
         let deviceComponent = view.querySelector('#' + robotName + '-device-component');
         let categories = {};
@@ -1194,19 +1077,6 @@ function applyTabs() {
       if (openTab(tabComponents[k], localSetup.tabs[tabName]))
         break;
     }
-  }
-}
-
-function renderGraphs() {
-  for (let id in window.mermaidGraphs) {
-    window.mermaidAPI.render(id, window.mermaidGraphs[id], function(svgCode, bindFunctions) {
-      document.querySelector('#' + id + 'Div').innerHTML = svgCode;
-      // set min-width to be 2/3 of the max-width otherwise the text might become too small
-      const element = document.querySelector('#' + id);
-      const style = element.getAttribute('style');
-      element.setAttribute('style',
-        style + ' min-width:' + Math.floor(0.66 * parseInt(style.split('max-width:')[1].split('px'))) + 'px;');
-    });
   }
 }
 
@@ -1427,7 +1297,7 @@ function populateMenu(menu) {
   for (let i = 0; i < lis.length; i++) {
     const li = lis[i];
     li.addEventListener('click',
-      function(event) {
+      function (event) {
         const as = event.target.querySelectorAll('a');
         if (as.length > 0)
           aClick(as[0]);
@@ -1640,13 +1510,13 @@ function releaseHandle() {
   handle.container.style.userSelect = 'auto';
 }
 
-window.onscroll = function() {
+window.onscroll = function () {
   if (!isCyberboticsUrl)
     return;
   updateMenuScrollbar();
 };
 
-window.mermaidAPI.initialize({startOnLoad: false});
+window.mermaidAPI.initialize({ startOnLoad: false });
 initializeHandle();
 
 if (!isCyberboticsUrl) {
@@ -1680,7 +1550,7 @@ if (localSetup.book === 'blog') {
 }
 
 addContributionBanner();
-setupModalWindow();
+setupModalWindow('#webots-doc');
 applyToTitleDiv();
 getMDFile();
 getMenuFile();

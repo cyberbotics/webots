@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/factory/forklift/protos/Forklift.proto
+# keywords: industrial/cart
 # A simple forklift with optional physics.
 # template language: javascript
 
@@ -25,7 +27,7 @@ PROTO Forklift [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation -0.07 0 -0.34
           children [
             Box {
@@ -33,7 +35,7 @@ PROTO Forklift [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.1 0 0.54
           children [
             Box {
@@ -41,7 +43,7 @@ PROTO Forklift [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 1.17 0 -0.64
           children [
             Box {

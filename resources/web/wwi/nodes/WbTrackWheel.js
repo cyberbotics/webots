@@ -1,12 +1,17 @@
-import WbTransform from './WbTransform.js';
+import WbPose from './WbPose.js';
 import WbWorld from './WbWorld.js';
+import { WbNodeType } from './wb_node_type.js';
 
-export default class WbTrackWheel extends WbTransform {
-  constructor(id, translation, scale, rotation, radius, inner) {
-    super(id, translation, scale, rotation);
+export default class WbTrackWheel extends WbPose {
+  constructor(id, translation, rotation, radius, inner) {
+    super(id, translation, rotation);
     this.radius = radius;
     this.inner = inner;
     this.angularVelocity = 0;
+  }
+
+  get nodeType() {
+    return WbNodeType.WB_NODE_TRACK_WHEEL;
   }
 
   updateRotation(newRotation) {

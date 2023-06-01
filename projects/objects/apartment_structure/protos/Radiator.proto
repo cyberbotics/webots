@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# keywords: building/component
 # A radiator with a variable number of fins and optional bounding object.
 # template language: javascript
 
@@ -9,7 +10,7 @@ EXTERNPROTO "webots://projects/appearances/protos/HammeredCopper.proto"
 EXTERNPROTO "webots://projects/appearances/protos/RustyMetal.proto"
 
 PROTO Radiator [
-  field SFVec3f    translation           0 0 0
+  field SFVec3f    translation           0 0 0.3
   field SFRotation rotation              0 0 1 0
   field SFString   name                  "radiator"
   field SFInt32    numberOfFins          10
@@ -73,7 +74,7 @@ PROTO Radiator [
           creaseAngle 0.5
         }
       }
-      DEF HANDLE Transform {
+      DEF HANDLE Pose {
         translation 0.062 -0.07 0.25
         rotation 0 1 0 1.5708
         children [
@@ -114,14 +115,14 @@ PROTO Radiator [
         }
       }
       %< for (let i = 1; i <= numberOfFins - 1; ++i) { >%
-        Transform {
+        Pose {
           translation 0 %<= 0.06 * i >% 0
           children [
             USE SLIDE
           ]
         }
       %< } >%
-      DEF UPPER_CONNECTOR Transform {
+      DEF UPPER_CONNECTOR Pose {
         translation 0 -0.0147 0.25
         children [
           DEF CONNECTOR Shape {
@@ -148,20 +149,20 @@ PROTO Radiator [
           }
         ]
       }
-      DEF LOWER_CONNECTOR Transform {
+      DEF LOWER_CONNECTOR Pose {
         translation 0 -0.0147 -0.25
         children [
           USE CONNECTOR
         ]
       }
-      DEF UPPER_END_CONNECTOR Transform {
+      DEF UPPER_END_CONNECTOR Pose {
         translation 0 %<= 0.057 + 0.06 * (numberOfFins - 1) >% 0.25
         rotation 0 0 1 3.141592644
         children [
           USE CONNECTOR
         ]
       }
-      DEF LOWER_END_CONNECTOR Transform {
+      DEF LOWER_END_CONNECTOR Pose {
         translation 0 %<= 0.057 + 0.06 * (numberOfFins - 1) >% -0.25
         rotation 0 0 1 3.141592644
         children [
@@ -172,7 +173,7 @@ PROTO Radiator [
     name IS name
     model "radiator"
     %< if (fields.enableBoundingObject.value) { >%
-    boundingObject Transform {
+    boundingObject Pose {
       translation -0.02 %<= 0.03 * (numberOfFins - 2) >% 0
       children [
         Box {

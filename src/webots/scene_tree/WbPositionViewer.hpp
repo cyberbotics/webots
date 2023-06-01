@@ -24,7 +24,7 @@
 class QVBoxLayout;
 class QComboBox;
 class QLabel;
-class WbTransform;
+class WbPose;
 
 class WbPositionViewer : public QWidget {
   Q_OBJECT
@@ -33,7 +33,7 @@ public:
   explicit WbPositionViewer(QWidget *parent = NULL);
   virtual ~WbPositionViewer();
 
-  void show(WbTransform *transform);
+  void show(WbPose *pose);
 
   void stopUpdating();
   void setSelected(bool selected);
@@ -47,7 +47,7 @@ public slots:
 private:
   void updateRelativeToComboBox();
 
-  WbTransform *mTransform;
+  WbPose *mPose;
   bool mIsSelected;
 
   // relative to boxes

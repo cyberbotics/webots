@@ -50,7 +50,6 @@ WbWheelLiftSolidEvent::~WbWheelLiftSolidEvent() {
 }
 
 void WbWheelLiftSolidEvent::apply(int delta) {
-  mSelectedSolid->setTranslation(SIGN(delta) * mScaleFactor * mUpWorldVector / mSelectedSolid->absoluteScale().y() +
-                                 mSelectedSolid->translation());
+  mSelectedSolid->setTranslation(SIGN(delta) * mScaleFactor * mUpWorldVector + mSelectedSolid->translation());
   mSelectedSolid->resetPhysics();
 }

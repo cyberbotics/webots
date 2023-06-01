@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/appearances/protos/SandyGround.proto"
@@ -32,7 +32,7 @@ SpotLight {
 }
 DEF GROUND Solid {
   children [
-    Transform {
+    Pose {
       translation 115 0.3 0
       children [
         Shape {
@@ -48,7 +48,7 @@ DEF GROUND Solid {
         }
       ]
     }
-    Transform {
+    Pose {
       translation -115 0.3 0
       children [
         Shape {
@@ -64,7 +64,7 @@ DEF GROUND Solid {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0 -130 0
       children [
         Shape {
@@ -80,7 +80,7 @@ DEF GROUND Solid {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0 130 0
       children [
         Shape {

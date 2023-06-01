@@ -1,13 +1,14 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/khr-2hv
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/kondo/khr-2hv/protos/Khr2hv.proto
+# keywords: robot/legged
 # The Kondo's KHR-2HV
 # More info here: http://www.kondo-robot.com/EN/
 
 PROTO Khr2hv [
-  field SFVec3f    translation     0 0 0.215      # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0        # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0.215      # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0        # Is `Pose.rotation`.
   field SFString   name            "KHR-2HV"      # Is `Solid.name`.
   field SFString   controller      "khr-2hv_demo" # Is `Robot.controller`.
   field MFString   controllerArgs  []             # Is `Robot.controllerArgs`.
@@ -26,7 +27,7 @@ PROTO Khr2hv [
       Group {
         children IS bodySlot
       }
-      DEF Body_p_0 Transform {
+      DEF Body_p_0 Pose {
         children [
           Shape {
             appearance DEF OBJ PBRAppearance {
@@ -206,7 +207,7 @@ PROTO Khr2hv [
         endPoint Solid {
           translation 0.008 0 0.0802
           children [
-            DEF Head_p_0 Transform {
+            DEF Head_p_0 Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -260,7 +261,7 @@ PROTO Khr2hv [
           contactMaterial IS contactMaterial
           boundingObject DEF Head_BO Group {
             children [
-              Transform {
+              Pose {
                 translation 0.0104 0.0001 0.0399
                 children [
                   Shape {
@@ -302,7 +303,7 @@ PROTO Khr2hv [
         endPoint Solid {
           translation 0 0.023 0.014
           children [
-            DEF Left_Hip_p_0 Transform {
+            DEF Left_Hip_p_0 Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -404,7 +405,7 @@ PROTO Khr2hv [
               endPoint Solid {
                 translation 0.0064 0 -0.045
                 children [
-                  DEF Left_Leg1_p_0 Transform {
+                  DEF Left_Leg1_p_0 Pose {
                     children [
                       Shape {
                         appearance PBRAppearance {
@@ -512,7 +513,7 @@ PROTO Khr2hv [
                     endPoint Solid {
                       translation 0 0 -0.059
                       children [
-                        DEF Left_Leg3_p_0 Transform {
+                        DEF Left_Leg3_p_0 Pose {
                           children [
                             Shape {
                               appearance PBRAppearance {
@@ -648,7 +649,7 @@ PROTO Khr2hv [
                           endPoint Solid {
                             translation 0 0 -0.0583
                             children [
-                              DEF Left_Ankle_p_0 Transform {
+                              DEF Left_Ankle_p_0 Pose {
                                 children [
                                   Shape {
                                     appearance PBRAppearance {
@@ -750,7 +751,7 @@ PROTO Khr2hv [
                                 endPoint Solid {
                                   translation -0.0064 0 -0.0442
                                   children [
-                                    DEF Left_Foot_p_0 Transform {
+                                    DEF Left_Foot_p_0 Pose {
                                       children [
                                         Shape {
                                           appearance PBRAppearance {
@@ -812,7 +813,7 @@ PROTO Khr2hv [
                                   contactMaterial IS contactMaterial
                                   boundingObject DEF Left_Foot_BO Group {
                                     children [
-                                      Transform {
+                                      Pose {
                                         translation 0.0128 0.01 -0.0125
                                         children [
                                           Shape {
@@ -822,7 +823,7 @@ PROTO Khr2hv [
                                           }
                                         ]
                                       }
-                                      Transform {
+                                      Pose {
                                         translation 0.0116 0.01 0.001006
                                         children [
                                           Shape {
@@ -850,7 +851,7 @@ PROTO Khr2hv [
                             contactMaterial IS contactMaterial
                             boundingObject DEF Left_Ankle_BO Group {
                               children [
-                                Transform {
+                                Pose {
                                   translation 0 -0.0177 -0.0097
                                   children [
                                     Shape {
@@ -860,7 +861,7 @@ PROTO Khr2hv [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0.0046 0 -0.0228
                                   children [
                                     Shape {
@@ -870,7 +871,7 @@ PROTO Khr2hv [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation -0.018 0 -0.0347
                                   children [
                                     Shape {
@@ -880,7 +881,7 @@ PROTO Khr2hv [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0.0276 0 -0.0375
                                   children [
                                     Shape {
@@ -890,7 +891,7 @@ PROTO Khr2hv [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0.0005 0.0286 -0.0074
                                   children [
                                     Shape {
@@ -918,7 +919,7 @@ PROTO Khr2hv [
                       contactMaterial IS contactMaterial
                       boundingObject DEF Left_Leg3_BO Group {
                         children [
-                          Transform {
+                          Pose {
                             translation 0.0094 0.0065 -0.0295
                             children [
                               Shape {
@@ -946,7 +947,7 @@ PROTO Khr2hv [
                 contactMaterial IS contactMaterial
                 boundingObject DEF Left_Leg1_BO Group {
                   children [
-                    Transform {
+                    Pose {
                       translation 0.0005 0.0304 -0.0512
                       children [
                         Shape {
@@ -956,7 +957,7 @@ PROTO Khr2hv [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0 -0.0177 -0.049
                       children [
                         Shape {
@@ -966,7 +967,7 @@ PROTO Khr2hv [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0 0.0061 -0.0367
                       children [
                         Shape {
@@ -976,7 +977,7 @@ PROTO Khr2hv [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0 0.0065 -0.0092
                       children [
                         Shape {
@@ -1005,7 +1006,7 @@ PROTO Khr2hv [
           contactMaterial IS contactMaterial
           boundingObject DEF Left_Hip_BO Group {
             children [
-              Transform {
+              Pose {
                 translation 0.0064 -0.0187 -0.0345
                 children [
                   Shape {
@@ -1015,7 +1016,7 @@ PROTO Khr2hv [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0069 0.0304 -0.0368
                 children [
                   Shape {
@@ -1025,7 +1026,7 @@ PROTO Khr2hv [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0003 0 -0.0207
                 children [
                   Shape {
@@ -1035,7 +1036,7 @@ PROTO Khr2hv [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0073 0.0061 -0.0235
                 children [
                   Shape {
@@ -1045,7 +1046,7 @@ PROTO Khr2hv [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0241 0 -0.0095
                 children [
                   Shape {
@@ -1055,7 +1056,7 @@ PROTO Khr2hv [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.024 -0.0005 -0.0072
                 children [
                   Shape {
@@ -1097,7 +1098,7 @@ PROTO Khr2hv [
         endPoint Solid {
           translation 0 -0.023 0.014
           children [
-            DEF Right_Hip_p_0 Transform {
+            DEF Right_Hip_p_0 Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -1199,7 +1200,7 @@ PROTO Khr2hv [
               endPoint Solid {
                 translation 0.0064 0 -0.045
                 children [
-                  DEF Right_Leg1_p_0 Transform {
+                  DEF Right_Leg1_p_0 Pose {
                     children [
                       Shape {
                         appearance PBRAppearance {
@@ -1307,7 +1308,7 @@ PROTO Khr2hv [
                     endPoint Solid {
                       translation 0 0 -0.059
                       children [
-                        DEF Right_leg3_p_0 Transform {
+                        DEF Right_leg3_p_0 Pose {
                           children [
                             Shape {
                               appearance PBRAppearance {
@@ -1443,7 +1444,7 @@ PROTO Khr2hv [
                           endPoint Solid {
                             translation 0 0 -0.0583
                             children [
-                              DEF Right_Ankle_p_0 Transform {
+                              DEF Right_Ankle_p_0 Pose {
                                 children [
                                   Shape {
                                     appearance PBRAppearance {
@@ -1545,7 +1546,7 @@ PROTO Khr2hv [
                                 endPoint Solid {
                                   translation -0.0064 0 -0.0442
                                   children [
-                                    DEF Right_Foot_p_0 Transform {
+                                    DEF Right_Foot_p_0 Pose {
                                       children [
                                         Shape {
                                           appearance PBRAppearance {
@@ -1607,7 +1608,7 @@ PROTO Khr2hv [
                                   contactMaterial IS contactMaterial
                                   boundingObject DEF Right_Foot_BO Group {
                                     children [
-                                      Transform {
+                                      Pose {
                                         translation 0.0128 -0.01 -0.0125
                                         children [
                                           Shape {
@@ -1617,7 +1618,7 @@ PROTO Khr2hv [
                                           }
                                         ]
                                       }
-                                      Transform {
+                                      Pose {
                                         translation 0.0116 -0.01 0.001
                                         children [
                                           Shape {
@@ -1645,7 +1646,7 @@ PROTO Khr2hv [
                             contactMaterial IS contactMaterial
                             boundingObject DEF Right_Ankle_BO Group {
                               children [
-                                Transform {
+                                Pose {
                                   translation 0 0.0177 -0.0097
                                   children [
                                     Shape {
@@ -1655,7 +1656,7 @@ PROTO Khr2hv [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0.0046 0 -0.0228
                                   children [
                                     Shape {
@@ -1665,7 +1666,7 @@ PROTO Khr2hv [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation -0.018 0 -0.0347
                                   children [
                                     Shape {
@@ -1675,7 +1676,7 @@ PROTO Khr2hv [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0.0276 0 -0.0375
                                   children [
                                     Shape {
@@ -1685,7 +1686,7 @@ PROTO Khr2hv [
                                     }
                                   ]
                                 }
-                                Transform {
+                                Pose {
                                   translation 0.0005 -0.0304 -0.0074
                                   children [
                                     Shape {
@@ -1713,7 +1714,7 @@ PROTO Khr2hv [
                       contactMaterial IS contactMaterial
                       boundingObject DEF Right_leg3_BO Group {
                         children [
-                          Transform {
+                          Pose {
                             translation 0.0094 -0.0065 -0.0295
                             children [
                               Shape {
@@ -1741,7 +1742,7 @@ PROTO Khr2hv [
                 contactMaterial IS contactMaterial
                 boundingObject DEF Right_Leg1_BO Group {
                   children [
-                    Transform {
+                    Pose {
                       translation 0 0.0177 -0.049
                       children [
                         Shape {
@@ -1751,7 +1752,7 @@ PROTO Khr2hv [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0.0005 -0.0304 -0.0512
                       children [
                         Shape {
@@ -1761,7 +1762,7 @@ PROTO Khr2hv [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0 -0.0061 -0.0373
                       children [
                         Shape {
@@ -1771,7 +1772,7 @@ PROTO Khr2hv [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0 -0.0065 -0.0092
                       children [
                         Shape {
@@ -1800,7 +1801,7 @@ PROTO Khr2hv [
           contactMaterial IS contactMaterial
           boundingObject DEF Right_Hip_BO Group {
             children [
-              Transform {
+              Pose {
                 translation 0.0064 0.0187 -0.0345
                 children [
                   Shape {
@@ -1810,7 +1811,7 @@ PROTO Khr2hv [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0069 -0.0304 -0.0368
                 children [
                   Shape {
@@ -1820,7 +1821,7 @@ PROTO Khr2hv [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0003 0 -0.0207
                 children [
                   Shape {
@@ -1830,7 +1831,7 @@ PROTO Khr2hv [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0073 -0.0061 -0.0235
                 children [
                   Shape {
@@ -1840,7 +1841,7 @@ PROTO Khr2hv [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation 0.0241 0 -0.0095
                 children [
                   Shape {
@@ -1850,7 +1851,7 @@ PROTO Khr2hv [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.024 0.0005 -0.0072
                 children [
                   Shape {
@@ -1892,7 +1893,7 @@ PROTO Khr2hv [
         endPoint Solid {
           translation 0 0.0606 0.08
           children [
-            DEF Left_Shoulder_p_0 Transform {
+            DEF Left_Shoulder_p_0 Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -1962,7 +1963,7 @@ PROTO Khr2hv [
               endPoint Solid {
                 translation 0 0.0217 0
                 children [
-                  DEF Left_Arm1_p_0 Transform {
+                  DEF Left_Arm1_p_0 Pose {
                     children [
                       Shape {
                         appearance PBRAppearance {
@@ -2070,7 +2071,7 @@ PROTO Khr2hv [
                     endPoint Solid {
                       translation 0 0 -0.0593
                       children [
-                        DEF Left_Hand_p_0 Transform {
+                        DEF Left_Hand_p_0 Pose {
                           children [
                             Shape {
                               appearance PBRAppearance {
@@ -2164,7 +2165,7 @@ PROTO Khr2hv [
                       contactMaterial IS contactMaterial
                       boundingObject DEF Left_Hand_BO Group {
                         children [
-                          Transform {
+                          Pose {
                             translation -0.0044 0.0079 -0.07
                             rotation -0.362875 0.362875 0.85828 1.72303
                             children [
@@ -2175,7 +2176,7 @@ PROTO Khr2hv [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation 0.0111 0.0015 -0.0448
                             children [
                               Shape {
@@ -2185,7 +2186,7 @@ PROTO Khr2hv [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation -0.0024 0 -0.0369
                             children [
                               Shape {
@@ -2195,7 +2196,7 @@ PROTO Khr2hv [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation -0.0065 0 -0.0107
                             children [
                               Shape {
@@ -2205,7 +2206,7 @@ PROTO Khr2hv [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation -0.0024 0.0111 -0.0492
                             children [
                               Shape {
@@ -2233,7 +2234,7 @@ PROTO Khr2hv [
                 contactMaterial IS contactMaterial
                 boundingObject DEF Left_Arm1_BO Group {
                   children [
-                    Transform {
+                    Pose {
                       translation -0.0304 0.0005 -0.052
                       children [
                         Shape {
@@ -2243,7 +2244,7 @@ PROTO Khr2hv [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0.0187 0 -0.0498
                       children [
                         Shape {
@@ -2253,7 +2254,7 @@ PROTO Khr2hv [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation -0.0061 0 -0.038
                       children [
                         Shape {
@@ -2263,7 +2264,7 @@ PROTO Khr2hv [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation -0.0065 0 -0.01
                       children [
                         Shape {
@@ -2292,7 +2293,7 @@ PROTO Khr2hv [
           contactMaterial IS contactMaterial
           boundingObject DEF Left_Shoulder_BO Group {
             children [
-              Transform {
+              Pose {
                 translation 0.0178 0.0122 0.0002
                 children [
                   Shape {
@@ -2302,7 +2303,7 @@ PROTO Khr2hv [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0304 0.0144 0.0007
                 children [
                   Shape {
@@ -2312,7 +2313,7 @@ PROTO Khr2hv [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0061 0.0009 0.0002
                 children [
                   Shape {
@@ -2354,7 +2355,7 @@ PROTO Khr2hv [
         endPoint Solid {
           translation 0 -0.0606 0.08
           children [
-            DEF Right_Shoulder_p_0 Transform {
+            DEF Right_Shoulder_p_0 Pose {
               children [
                 Shape {
                   appearance PBRAppearance {
@@ -2424,7 +2425,7 @@ PROTO Khr2hv [
               endPoint Solid {
                 translation 0 -0.0217 0
                 children [
-                  DEF Right_Arm1_p_0 Transform {
+                  DEF Right_Arm1_p_0 Pose {
                     children [
                       Shape {
                         appearance PBRAppearance {
@@ -2532,7 +2533,7 @@ PROTO Khr2hv [
                     endPoint Solid {
                       translation 0 0 -0.0593
                       children [
-                        DEF Right_Hand_p_0 Transform {
+                        DEF Right_Hand_p_0 Pose {
                           children [
                             Shape {
                               appearance PBRAppearance {
@@ -2626,7 +2627,7 @@ PROTO Khr2hv [
                       contactMaterial IS contactMaterial
                       boundingObject DEF Right_Hand_BO Group {
                         children [
-                          Transform {
+                          Pose {
                             translation -0.0044 -0.0079 -0.07
                             rotation 0.362875 -0.362875 0.85828 1.72303
                             children [
@@ -2637,7 +2638,7 @@ PROTO Khr2hv [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation 0.0111 -0.0015 -0.0448
                             children [
                               Shape {
@@ -2647,7 +2648,7 @@ PROTO Khr2hv [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation -0.0024 0 -0.0369
                             children [
                               Shape {
@@ -2657,7 +2658,7 @@ PROTO Khr2hv [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation -0.0065 0 -0.0107
                             children [
                               Shape {
@@ -2667,7 +2668,7 @@ PROTO Khr2hv [
                               }
                             ]
                           }
-                          Transform {
+                          Pose {
                             translation -0.0025 -0.0111 -0.0492
                             children [
                               Shape {
@@ -2694,7 +2695,7 @@ PROTO Khr2hv [
                 ]
                 boundingObject DEF Right_Arm1_BO Group {
                   children [
-                    Transform {
+                    Pose {
                       translation -0.0304 -0.0005 -0.052
                       children [
                         Shape {
@@ -2704,7 +2705,7 @@ PROTO Khr2hv [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation 0.0187 0 -0.0498
                       children [
                         Shape {
@@ -2714,7 +2715,7 @@ PROTO Khr2hv [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation -0.0061 0 -0.038
                       children [
                         Shape {
@@ -2724,7 +2725,7 @@ PROTO Khr2hv [
                         }
                       ]
                     }
-                    Transform {
+                    Pose {
                       translation -0.0065 0 -0.01
                       children [
                         Shape {
@@ -2753,7 +2754,7 @@ PROTO Khr2hv [
           contactMaterial IS contactMaterial
           boundingObject DEF Right_Shoulder_BO Group {
             children [
-              Transform {
+              Pose {
                 translation 0.0178 -0.0122 0.0002
                 children [
                   Shape {
@@ -2763,7 +2764,7 @@ PROTO Khr2hv [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0304 -0.0144 0.0007
                 children [
                   Shape {
@@ -2773,7 +2774,7 @@ PROTO Khr2hv [
                   }
                 ]
               }
-              Transform {
+              Pose {
                 translation -0.0061 -0.0009 0.0002
                 children [
                   Shape {
@@ -2810,7 +2811,7 @@ PROTO Khr2hv [
     contactMaterial IS contactMaterial
     boundingObject DEF Body_BO Group {
       children [
-        Transform {
+        Pose {
           translation 0.0062 0 0.0196
           children [
             Shape {
@@ -2820,7 +2821,7 @@ PROTO Khr2hv [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.039 0 0.0687
           children [
             Shape {
@@ -2830,7 +2831,7 @@ PROTO Khr2hv [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.0309 0 0.065
           children [
             Shape {
@@ -2840,7 +2841,7 @@ PROTO Khr2hv [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.0038 -0.0488 0.1001
           children [
             Shape {
@@ -2850,7 +2851,7 @@ PROTO Khr2hv [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.0037 0.0488 0.1005
           children [
             Shape {
@@ -2860,7 +2861,7 @@ PROTO Khr2hv [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.0014 0 0.0688
           children [
             Shape {

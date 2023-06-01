@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/factory/tools/protos/CapScrew.proto
+# keywords: industrial/ironmongery
 # A cap screw with variable radius and length.
 # template language: javascript
 
@@ -66,7 +68,7 @@ PROTO CapScrew [
           }
         ]
       }
-      DEF CYLINDER Transform {
+      DEF CYLINDER Pose {
         translation %<= screwLength * 0.5 >% 0 0
         rotation 0 1 0 1.5708
         children [
@@ -89,7 +91,7 @@ PROTO CapScrew [
     boundingObject Group {
       children [
         USE CYLINDER
-        Transform {
+        Pose {
           translation %<= -screwRadius >% 0 0
           rotation 0 1 0 1.5708
           children [

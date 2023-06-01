@@ -32,7 +32,7 @@
 
 #include "tcp_client.h"
 
-const int ERROR_BUFFER_SIZE = 128;
+const int ERROR_BUFFER_SIZE = 256;
 
 int tcp_client_new(const char *host, int port, char *buffer) {
   const int fd = tcp_client_open(buffer);
