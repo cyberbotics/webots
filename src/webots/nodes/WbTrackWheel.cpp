@@ -24,7 +24,7 @@ void WbTrackWheel::init() {
   mRadius = findSFDouble("radius");
   mInner = findSFBool("inner");
 
-  // define Transform fields
+  // define Pose fields
   mTranslation = new WbSFVector3(WbVector3());
   mRotation = findSFRotation("rotation");
   mTranslationStep = new WbSFDouble(0.1);
@@ -95,35 +95,4 @@ void WbTrackWheel::write(WbWriter &writer) const {
   if (writer.isUrdf())
     return;
   WbPose::write(writer);
-}
-
-void WbTrackWheel::exportNodeFields(WbWriter &writer) const {
-  if (writer.isX3d())
-    writer << " ";
-  writer.writeFieldStart("translation", true);
-  translationFieldValue()->write(writer);
-  writer.writeFieldEnd(true);
-
-  if (writer.isX3d())
-    writer << " ";
-  writer.writeFieldStart("rotation", true);
-  rotationFieldValue()->write(writer);
-  writer.writeFieldEnd(true);
-
-  if (writer.isX3d())
-    writer << " ";
-  writer.writeFieldStart("radius", true);
-  writer << mRadius->value();
-  writer.writeFieldEnd(true);
-
-  if (writer.isX3d())
-    writer << " ";
-  writer.writeFieldStart("inner", true);
-  writer << mInner->value();
-  writer.writeFieldEnd(true);
-
-  if (writer.isX3d())
-    writer << " type='trackWheel'";
-
-  WbPose::exportNodeFields(writer);
 }
