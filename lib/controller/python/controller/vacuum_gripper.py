@@ -47,8 +47,8 @@ class VacuumGripper(Device):
         return wb.wb_vacuum_gripper_is_on(self._tag) != 0
 
     @property
-    def presence(self) -> int:
-        return wb.wb_vacuum_gripper_get_presence(self._tag)
+    def presence(self) -> bool:
+        return wb.wb_vacuum_gripper_get_presence(self._tag) != 0
 
     @property
     def presence_sampling_period(self) -> int:
