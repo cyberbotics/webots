@@ -95,6 +95,7 @@ field  SFString   name         "ROBOTIQ 2F-85 Gripper"
                       }
                       Solid {
                         translation 0 -0.02202 0.03242
+                        rotation 1 0 0 -0.028
                         children [
                           DEF INNER_FINGER_PAD Shape {
                             appearance USE BLACK_MATERIAL
@@ -516,6 +517,7 @@ field  SFString   name         "ROBOTIQ 2F-85 Gripper"
                       USE INNER_FINGER
                       Solid {
                         translation 0 -0.02202 0.03242
+                        rotation 1 0 0 -0.028
                         children [
                           USE INNER_FINGER_PAD
                         ]

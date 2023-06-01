@@ -84,6 +84,7 @@ PROTO Robotiq2f140Gripper [
                       }
                       Solid {
                         translation 0 0.045755 -0.02722
+                        rotation 1 0 0 -0.01
                         children [
                           DEF INNER_FINGER_PAD Shape {
                             appearance USE BLACK_MATERIAL
@@ -328,6 +329,7 @@ PROTO Robotiq2f140Gripper [
                       USE INNER_FINGER
                       Solid {
                         translation 0 0.045755 -0.02722
+                        rotation 1 0 0 -0.01
                         children [
                           USE INNER_FINGER_PAD
                         ]
