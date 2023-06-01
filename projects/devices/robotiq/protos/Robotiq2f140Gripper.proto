@@ -19,9 +19,9 @@ PROTO Robotiq2f140Gripper [
     rotation IS rotation
     children [
       Shape {
-        appearance DEF BLACK_MATERIAL PBRAppearance {
-          baseColor 0.1 0.1 0.1
-          roughness 1
+        appearance DEF BLACK_METAL PBRAppearance {
+          baseColor 0 0 0
+          roughness 0.4
           metalness 0
         }
         geometry Mesh {
@@ -63,7 +63,7 @@ PROTO Robotiq2f140Gripper [
               translation 0 0.01822 0.026002
               children [
                 DEF OUTER_FINGER Shape {
-                  appearance USE BLACK_MATERIAL
+                  appearance USE BLACK_METAL
                   geometry Mesh {
                     url "meshes/robotiq_2f140_outer_finger.stl"
                   }
@@ -77,7 +77,7 @@ PROTO Robotiq2f140Gripper [
                     rotation -1 0 0 0.725
                     children [
                       DEF INNER_FINGER Shape {
-                        appearance USE BLACK_MATERIAL
+                        appearance USE BLACK_METAL
                         geometry Mesh {
                           url "meshes/robotiq_2f140_inner_finger.stl"
                         }
@@ -87,7 +87,7 @@ PROTO Robotiq2f140Gripper [
                         rotation 1 0 0 -0.01
                         children [
                           DEF INNER_FINGER_PAD Shape {
-                            appearance USE BLACK_MATERIAL
+                            appearance USE BLACK_METAL
                             geometry Box {
                               size 0.027 0.065 0.0075
                             }
@@ -221,7 +221,7 @@ PROTO Robotiq2f140Gripper [
           rotation 1 0 0 2.295796
           children [
             DEF INNER_KNUCKLE Shape {
-              appearance USE BLACK_MATERIAL
+              appearance USE BLACK_METAL
               geometry Mesh {
                 url "meshes/robotiq_2f140_inner_knuckle.stl"
               }

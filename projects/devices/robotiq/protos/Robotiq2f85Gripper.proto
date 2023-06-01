@@ -20,8 +20,10 @@ field  SFString   name         "ROBOTIQ 2F-85 Gripper"
     rotation IS rotation
     children [
       Shape {
-        appearance DEF BLACK_MATERIAL MattePaint {
+        appearance DEF BLACK_METAL PBRAppearance {
           baseColor 0 0 0
+          roughness 0.4
+          metalness 0
         }
         geometry DEF robotiq_base_link Mesh {
           url [
@@ -71,7 +73,7 @@ field  SFString   name         "ROBOTIQ 2F-85 Gripper"
               translation 0 0.0315 -0.0041
               children [
                 DEF OUTER_FINGER Shape {
-                  appearance USE BLACK_MATERIAL
+                  appearance USE BLACK_METAL
                   geometry Mesh {
                     url [
                       "meshes/robotiq_2f85_outer_finger.stl"
@@ -86,7 +88,7 @@ field  SFString   name         "ROBOTIQ 2F-85 Gripper"
                     translation 0 0.0061 0.0471
                     children [
                       DEF INNER_FINGER Shape {
-                        appearance USE BLACK_MATERIAL
+                        appearance USE BLACK_METAL
                         geometry Mesh {
                           url [
                             "meshes/robotiq_2f85_inner_finger.stl"
@@ -98,7 +100,7 @@ field  SFString   name         "ROBOTIQ 2F-85 Gripper"
                         rotation 1 0 0 -0.028
                         children [
                           DEF INNER_FINGER_PAD Shape {
-                            appearance USE BLACK_MATERIAL
+                            appearance USE BLACK_METAL
                             geometry Box {
                               size 0.022 0.00635 0.0375
                             }
@@ -360,7 +362,7 @@ field  SFString   name         "ROBOTIQ 2F-85 Gripper"
           rotation 0 0 1 3.141593
           children [
             DEF INNER_KNUCKLE Shape {
-              appearance USE BLACK_MATERIAL
+              appearance USE BLACK_METAL
               geometry Mesh {
                 url [
                   "meshes/robotiq_2f85_inner_knuckle.stl"
