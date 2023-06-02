@@ -153,7 +153,6 @@ QWidget#preferenceWidget QCheckBox:indicator:disabled {
   border: 1px solid #c0c0c0;
 }
 
-
 /* network tab */
 
 QGroupBox#networkGroupBox {
@@ -269,7 +268,7 @@ QToolButton#menuButton::menu-indicator {
 }
 
 QToolButton#playButton {
-  width: 25px;
+  width: 25px;uniformi
   height: 25px;
   padding: 3px;
   border: 1px solid transparent;
