@@ -645,7 +645,7 @@ export default class Parser {
     } else if (node.tagName === 'TrackWheel') {
       const trackWheelRotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '1 0 0 1.5708'));
       const radius = parseFloat(getNodeAttribute(node, 'radius', '0.1'));
-      const inner = getNodeAttribute(node, 'inner', '0').toLowerCase() === '1';
+      const inner = getNodeAttribute(node, 'inner', 'TRUE').toLowerCase() === 'true';
       const position = convertStringToVec2(getNodeAttribute(node, 'position', '0 0'));
 
       newNode = new WbTrackWheel(id, position, trackWheelRotation, radius, inner);
