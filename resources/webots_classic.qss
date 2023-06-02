@@ -120,6 +120,8 @@ QMenu::icon {
 }
 
 QCheckBox:indicator {
+  height: 12px;
+  width: 12px;
   background-color: white;
   border: 1px solid black;
 }
@@ -231,7 +233,7 @@ QLabel#dockWidgetTitleText {
 /* menu buttons */
 
 QToolBar {
-  background-color: transparent;
+  background-color: #efefef;
   border-style: solid; /* required to set the background */
   padding: 4px;
   spacing: 4px;
@@ -256,6 +258,7 @@ QToolButton#menuButton {
   height: 15px;
   padding: 3px 9px;
   border: 1px solid transparent;
+  background: #efefef;
 }
 
 QToolButton#menuButton::menu-indicator {
