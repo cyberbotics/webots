@@ -763,7 +763,7 @@ export default class Parser {
       newNode.parent = parentNode.id;
       if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
         parentNode.geometryField = newNode;
-      else if (isBoundingObject && parentNode instanceof WbSolid)
+      if (isBoundingObject && parentNode instanceof WbSolid)
         parentNode.boundingObject = newNode;
       else if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = newNode;
@@ -798,6 +798,8 @@ export default class Parser {
       newNode.parent = parentNode.id;
       if (parentNode instanceof WbSlot)
         parentNode.endPoint = newNode;
+      else if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
+        parentNode.geometryField = newNode;
       else
         parentNode.children.push(newNode);
     }
@@ -824,6 +826,8 @@ export default class Parser {
         parentNode.boundingObject = group;
       else if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = group;
+      else if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
+        parentNode.geometryField = group;
       else
         parentNode.children.push(group);
     }
@@ -867,6 +871,8 @@ export default class Parser {
       slot.parent = parentNode.id;
       if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = slot;
+      else if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
+        parentNode.geometryField = slot;
       else
         parentNode.children.push(slot);
     }
@@ -1025,6 +1031,8 @@ export default class Parser {
         parentNode.boundingObject = shape;
       else if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = shape;
+      else if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
+        parentNode.geometryField = shape;
       else
         parentNode.children.push(shape);
       shape.parent = parentNode.id;
@@ -1062,6 +1070,8 @@ export default class Parser {
       cadShape.parent = parentNode.id;
       if (parentNode instanceof WbSlot || parentNode instanceof WbJoint)
         parentNode.endPoint = cadShape;
+      else if (getNodeAttribute(node, 'role', '') === 'animatedGeometry')
+        parentNode.geometryField = cadShape;
       else
         parentNode.children.push(cadShape);
     }
