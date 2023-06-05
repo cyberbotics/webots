@@ -73,7 +73,7 @@ done
 # Render the plugins relative to the executable:
 cd $WEBOTS_HOME/lib/webots/qt/plugins
 
-declare -a libs=("imageformats/libqjpeg.dylib" "platforms/libqcocoa.dylib" "styles/libqmacstyle.dylib" "tls/libqsecuretransportbackend.dylib" "tls/libqcertonlybackend.dylib")
+declare -a libs=("imageformats/libqjpeg.dylib" "platforms/libqcocoa.dylib" "styles/libqmacstyle.dylib" "tls/libqsecuretransportbackend.dylib" "tls/libqcertonlybackend.dylib" "tls/libqopensslbackend.dylib")
 
 for lib in "${libs[@]}"
 do
@@ -93,6 +93,8 @@ install_name_tool -change @rpath/QtXml.framework/Versions/A/QtXml @rpath/Content
 install_name_tool -rpath @loader_path/../lib @loader_path/../.. lupdate
 install_name_tool -change @rpath/QtCore.framework/Versions/A/QtCore @rpath/Contents/Frameworks/QtCore.framework/Versions/A/QtCore lupdate
 install_name_tool -change @rpath/QtXml.framework/Versions/A/QtXml @rpath/Contents/Frameworks/QtXml.framework/Versions/A/QtXml lupdate
+install_name_tool -change @rpath/QtQml.framework/Versions/A/QtQml @rpath/Contents/Frameworks/QtQml.framework/Versions/A/QtQml lupdate
+install_name_tool -change @rpath/QtNetwork.framework/Versions/A/QtNetwork @rpath/Contents/Frameworks/QtNetwork.framework/Versions/A/QtNetwork lupdate
 install_name_tool -add_rpath @loader_path/../.. moc
 
 cd $WEBOTS_HOME
