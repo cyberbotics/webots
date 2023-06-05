@@ -113,17 +113,23 @@ void WbVacuumGripper::updateContactPoints() {
 void WbVacuumGripper::createFixedJoint(WbSolid *other) {
   const dBodyID b1 = upperSolid()->bodyMerger();
   const dBodyID b2 = other->bodyMerger();
-  assert(b1 && b2);
+  if (!b1 && !b2) {
+    warn(tr(
+      "VacuumGripper could not be attached because neither the VacuumGripper node nor the solid object have Physics nodes."));
+    return;
+  }
 
   mSolid = other;
   connect(mSolid, &WbSolid::destroyed, this, &WbVacuumGripper::destroyFixedJoint);
 
   // create fixed joint
-  mFixedJoint = dJointCreateFixed(dBodyGetWorld(b1), 0);
-  if (b2)
+  mFixedJoint = b1 ? dJointCreateFixed(dBodyGetWorld(b1), 0) : dJointCreateFixed(dBodyGetWorld(b2), 0);
+  if (b1 && b2)
     dJointAttach(mFixedJoint, b1, b2);
-  else
+  else if (b1)
     dJointAttach(mFixedJoint, NULL, b1);
+  else if (b2)
+    dJointAttach(mFixedJoint, NULL, b2);
   dJointSetFixed(mFixedJoint);
 
   // if necessary add feedback structure to joint
@@ -235,23 +241,12 @@ void WbVacuumGripper::addCollidedSolid(WbSolid *solid, const double depth) {
 }
 
 void WbVacuumGripper::attachToSolid() {
-  const dBodyID b1 = upperSolid()->bodyMerger();
-  if (!b1) {
-    warn(tr("Vacuum gripper is disabled because none of its parent nodes have Physics nodes."));
-    return;
-  }
-
   // search for solid to connect to
-  const WbSolid *solidAncestor = topSolid();
   double maxDepth = 0;
   WbSolid *solid = NULL;
   QListIterator<std::pair<WbSolid *, const double>> it(mCollidedSolidList);
   while (it.hasNext()) {
     std::pair<WbSolid *, const double> item = it.next();
-    if (!item.first->bodyMerger() || solidAncestor == item.first->topSolid())
-      // cannot connect to an object without physics or
-      // that has a common ancestor solid node
-      continue;
     if (item.second > maxDepth) {
       maxDepth = item.second;
       solid = item.first;
