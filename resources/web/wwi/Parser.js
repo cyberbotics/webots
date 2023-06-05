@@ -635,9 +635,7 @@ export default class Parser {
 
     const id = this.#parseId(node);
 
-    const type = getNodeAttribute(node, 'type', '').toLowerCase();
     const translation = convertStringToVec3(getNodeAttribute(node, 'translation', '0 0 0'));
-    const scale = convertStringToVec3(getNodeAttribute(node, 'scale', '1 1 1'));
     const rotation = convertStringToQuaternion(getNodeAttribute(node, 'rotation', '0 0 1 0'));
     let name = getNodeAttribute(node, 'name', '');
 
