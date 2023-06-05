@@ -94,6 +94,10 @@ The server tab on webots.cloud contains information on the [Simulation Servers](
 - [PR2](https://webots.cloud/AcpeTj6)
 - [Nao room](https://webots.cloud/AcTNYs0)
 
+**Proto**
+- [NAO](https://webots.cloud/run?version=R2023b&url=https://github.com/cyberbotics/webots/blob/develop/projects/robots/softbank/nao/protos/Nao.proto)
+- [WoodenPalletStack](https://webots.cloud/run?version=R2023b&url=https://github.com/cyberbotics/webots/blob/develop/projects/objects/factory/pallet/protos/WoodenPalletStack.proto)
+
 **Simulation**:
 
 - [OroBOT Simulation](https://webots.cloud/run?version=R2022b&url=https://github.com/cyberbotics/orobot/blob/main/worlds/OroBOT_uneven.wbt&type=demo)
