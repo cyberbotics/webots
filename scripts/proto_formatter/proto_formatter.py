@@ -63,7 +63,7 @@ def indent_vrml_file(file_path):
             # Check if the line starts a block
             if (comparison_line.endswith('{') or comparison_line.endswith('[')):
                 if in_js:
-                    js_indentation_level +=1
+                    js_indentation_level += 1
                 else:
                     indentation_level += 1
             # case of if/else without {}
@@ -72,7 +72,7 @@ def indent_vrml_file(file_path):
         else:
             indented_lines.append('')
     with open(file_path, 'w') as file:
-        file.write('\n'.join(indented_lines)+ '\n')
+        file.write('\n'.join(indented_lines) + '\n')
 
 
 if __name__ == "__main__":
