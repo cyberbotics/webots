@@ -73,8 +73,7 @@ CONTROLLERS=\
   unimation/puma/controllers.Makefile \
   universal_robots/controllers.Makefile
 
-ROBOT_WINDOWS=gctronic/e-puck/plugins/robot_windows.Makefile \
-	robotis/darwin-op/plugins/robot_windows.Makefile
+ROBOT_WINDOWS=gctronic/e-puck/plugins/robot_windows.Makefile
 
 REMOTE_CONTROLS=gctronic/e-puck/plugins/remote_controls.Makefile \
 	robotis/darwin-op/plugins/remote_controls.Makefile
