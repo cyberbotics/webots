@@ -703,19 +703,19 @@ void WbSimulationCluster::odeNearCallback(void *data, dGeomID o1, dGeomID o2) {
   if (ts2 && !isRayGeom1)
     ts2->setTouching(true);
 
-  WbVacuumGripper *vc = dynamic_cast<WbVacuumGripper *>(s1);
-  WbSolid *vcSolid;
-  if (vc)
-    vcSolid = isRayGeom2 ? NULL : s2;
+  WbVacuumGripper *vg = dynamic_cast<WbVacuumGripper *>(s1);
+  WbSolid *vgSolid;
+  if (vg)
+    vgSolid = isRayGeom2 ? NULL : s2;
   else {
-    vc = dynamic_cast<WbVacuumGripper *>(s2);
-    vcSolid = isRayGeom1 ? NULL : s1;
+    vg = dynamic_cast<WbVacuumGripper *>(s2);
+    vgSolid = isRayGeom1 ? NULL : s1;
   }
-  if (vc && vcSolid && vc->isWaitingForConnection() && n >= vc->contactPoints()) {
+  if (vg && vgSolid && vg->isWaitingForConnection() && n >= vg->contactPoints()) {
     if (!areContactPointsSorted)
       std::nth_element(contact, contact, contact + n,
                        [](const dContact &c1, const dContact &c2) { return (c1.geom.depth > c2.geom.depth); });
-    vc->addCollidedSolid(vcSolid, contact[0].geom.depth);
+    vg->addCollidedSolid(vgSolid, contact[0].geom.depth);
   }
 
   const WbPhysics *const p1 = s1->physics();
