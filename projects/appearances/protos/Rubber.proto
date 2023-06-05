@@ -2,6 +2,7 @@
 # license: Apache License 2.0
 # license url: https://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/appearances/protos/Rubber.proto
+# keywords: appearance/rubber
 # A rubber material.
 # The type of rubber can be set using the `type` field.
 # template language: javascript

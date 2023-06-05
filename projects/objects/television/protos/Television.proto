@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/television/protos/Television.proto
+# keywords: household/electronics
 # A television (1 x 0.6 x 0.1 m).
 
 PROTO Television [

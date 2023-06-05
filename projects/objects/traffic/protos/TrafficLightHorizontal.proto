@@ -1,6 +1,7 @@
 #VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# keywords: traffic/sign
 # Horizontal traffic light without lamp to put on the big pole above the road.
 
 PROTO TrafficLightHorizontal [

@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/vehicles/protos/generic/TruckWheel.proto
+# keywords: vehicle/wheel
 # Model of a truck wheel using the generic VehicleWheel PROTO.
 
 EXTERNPROTO "webots://projects/vehicles/protos/abstract/VehicleWheel.proto"

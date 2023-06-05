@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/devices/nvidia/protos/JetsonNano.proto
+# keywords: robot/extension
 # NVIDIA Jetson Nano embedded module.
 # This is a graphical model that can be extended with solid parts, devices and physics properties.
 

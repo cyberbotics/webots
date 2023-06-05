@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/k-team/hemisson/protos/Hemisson.proto
+# keywords: robot/wheeled
 # The "Hemisson" is a two-wheeled robot designed for education and teaching developped by K-TEAM.
 
 PROTO Hemisson [

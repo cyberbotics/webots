@@ -3,6 +3,7 @@
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/buildings/protos/StripBuilding.proto
 # tags: nonDeterministic
+# keywords: building/residential
 # A strip of buildings of variable length.
 # template language: javascript
 

@@ -2,6 +2,7 @@
 # license: Apache License 2.0
 # license url: https://www.apache.org/licenses/LICENSE-2.0
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/balls/protos/FifaSoccerBall.proto
+# keywords: exterior/sport
 # A black and white FIFA soccer ball with customizable size.
 # This object is physics-enabled so it will roll or bounce when hit.
 # template language: javascript

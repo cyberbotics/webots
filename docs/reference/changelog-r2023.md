@@ -10,6 +10,9 @@ Released on ??
   - Cleanup
     - Deprecated the C and MATLAB API functions `wb_supervisor_node_enable/disable_contact_point_tracking` in favor of `wb_supervisor_node_enable/disable_contact_points_tracking` to be more consistent with other APIs ([#5633](https://github.com/cyberbotics/webots/pull/5633)).
   - Enhancements
+    - Improved the error message path by including the [Solid](solid.md) name / DEF name ([#6026](https://github.com/cyberbotics/webots/pull/6026)).
+    - Display the [Solid](solid.md) name / DEF name of the joint `endPoint` one level upper, to ease tree usage ([#6026](https://github.com/cyberbotics/webots/pull/6026)).
+    - Removed "(PROTO)" text when copying a PROTO node name in the system clipboard ([#6026](https://github.com/cyberbotics/webots/pull/6026)).
     - Restructured the Webots temporary folder to avoid permission problems with multiple users on Linux and macOS ([#6103](https://github.com/cyberbotics/webots/pull/6103)).
     - Improved the robots' grippers such that they use coupled motors ([#5694](https://github.com/cyberbotics/webots/pull/5694)).
     - Improved the [Charger](charger.md) behavior ([#5771](https://github.com/cyberbotics/webots/pull/5771)).

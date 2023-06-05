@@ -29,7 +29,6 @@
 #include "WbFileUtil.hpp"
 #include "WbGuiApplication.hpp"
 #include "WbGuidedTour.hpp"
-#include "WbImportWizard.hpp"
 #include "WbJoystickInterface.hpp"
 #include "WbMessageBox.hpp"
 #include "WbMultimediaStreamingServer.hpp"

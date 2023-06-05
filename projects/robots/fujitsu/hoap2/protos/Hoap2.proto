@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/fujitsu/hoap2/protos/Hoap2.proto
+# keywords: robot/legged
 # Hoap 2 - Advanced humanoid robot manufactured by Fujitsu Automation
 # 50 cm high, 7 kg, 25 degrees of freedom
 

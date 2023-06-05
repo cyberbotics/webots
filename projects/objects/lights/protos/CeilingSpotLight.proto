@@ -2,6 +2,7 @@
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
 # documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/lights/protos/CeilingSpotLight.proto
+# keywords: household/light
 # A ceiling spot light.
 # template language: javascript
 
