@@ -72,7 +72,7 @@ def indent_vrml_file(file_path):
         else:
             indented_lines.append('')
     with open(file_path, 'w') as file:
-        file.write('\n'.join(indented_lines))
+        file.write('\n'.join(indented_lines)+ '\n')
 
 
 if __name__ == "__main__":
