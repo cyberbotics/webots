@@ -65,13 +65,12 @@ For the three other sensor slots, the positions are different for each model (be
 
 | Model                | Front slot translation | Top slot translation | Rear slot translation |
 | -------------------- | ---------------------- | -------------------- | --------------------- |
-| [BmwX5](vehicle-bmw.md#bmwx5)                                         | 3.85 0 0.45   | 1 0 1.45     | -1 0 0.3     |
-| [LincolnMKZ](vehicle-lincoln.md#lincolnmkz)                           | 3.944 0 0.142 | 1.11 0 1.16  | -1.06 0 0.33 |
-| [RangeRoverSportSVR](vehicle-range-rover.md#rangeroversportsvr)       | 3.5 0 0.5     | 1.4 0 1.3    | -1.06 0 0.33 |
-| [CitroenCZero](vehicle-citroen.md#citroenczero)                       | 3.075 0 0.05  | 1.075 0 1.35 | -0.425 0 0.3 |
-| [ToyotaPrius](vehicle-toyota.md#toyotaprius)                          | 3.635 0 0.4   | 1.1 0 1.3    | -0.85 0 0.3  |
-| [TeslaModel3](vehicle-tesla.md#teslamodel3)                           | 3.79 0 0.142  | 1.11 0 1.16  | -1.05 0 0.2  |
-| [MercedesBenzSprinter](vehicle-mercedes-benz.md#mercedesbenzsprinter) | 5.31 0 0.47   | 2.99 0 2.3   | 0 0 1 3.1415 |
-
+| BmwX5                |            3.85 0 0.45 |             1 0 1.45 |              -1 0 0.3 |
+| LincolnMKZ           |          3.944 0 0.142 |          1.11 0 1.16 |          -1.06 0 0.33 |
+| RangeRoverSportSVR   |              3.5 0 0.5 |            1.4 0 1.3 |          -1.06 0 0.33 |
+| CitroenCZero         |           3.075 0 0.05 |         1.075 0 1.35 |          -0.425 0 0.3 |
+| ToyotaPrius          |            3.635 0 0.4 |            1.1 0 1.3 |           -0.85 0 0.3 |
+| TeslaModel3          |           3.79 0 0.142 |          1.11 0 1.16 |           -1.05 0 0.2 |
+| MercedesBenzSprinter |            5.31 0 0.47 |           2.99 0 2.3 |          0 0 1 3.1415 |
 
 %end
