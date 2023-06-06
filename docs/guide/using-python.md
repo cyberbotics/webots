@@ -2,13 +2,13 @@
 
 ### Introduction
 
-The Python API has been generated from the C++ API by using SWIG.
+The Python API has been designed taking inspiration from the C++ API.
 This implies that their class hierarchy, their class names and their function names are almost identical.
 The Python API is currently composed of a set of about 25 classes having about 200 public functions located in the module called *controller*.
 The classes are either representations of a node of the scene tree (such as Robot, LED, etc.) or utility classes (such as Motion, ImageRef, etc.).
 A complete description of these functions can be found in the reference guide while the instructions about the common way to program a Python controller can be found in [this chapter](programming-fundamentals.md).
 
-The Python API of Webots supports Python versions 3.7, 3.8, 3.9, and 3.10.
+The Python API of Webots supports Python versions from 3.7.
 
 Alternatively to the Webots built-in editor, [PyCharm](https://www.jetbrains.com/pycharm) can be used to edit and launch Python controllers, see the [Using PyCharm with Webots](using-your-ide.md#pycharm) chapter for a step-by-step procedure.
 
@@ -37,17 +37,14 @@ To check the versions of Python installed on your system, you can type in a term
 
 #### macOS Installation
 
-You can install Python 3.7, 3.8, 3.9 or 3.10 from the [Python web site](https://www.python.org) or using [Homebrew](https://brew.sh).
+You can install Python from the [Python web site](https://www.python.org) or using [Homebrew](https://brew.sh).
 To check the versions of Python installed on your system, you can type in a terminal: `python --version`, `python3.8 --version`, `python3 --version`, etc.
-
-Python 3.7 and Homebrew Python are not provided for Apple Silicon processors.
-If you need Homebrew Python for Apple Silicon, you will have to recompile the Python wrapper by yourself, as explained below.
 
 > **Note**: To use Python 3.x on macOS, it is recommended to set the absolute path to the python3 executable (e.g. `/Library/Frameworks/Python.framework/Versions/3.x/bin/python3`) in the [`Python command` option of the Preferences](preferences.md#general).
 
 #### Windows Installation
 
-You should install the latest 64-bit version of Python 3.10, 3.9, 3.8 or 3.7 from the official [Python website](https://www.python.org).
+You can install the latest version of Python from the official [Python website](https://www.python.org).
 Then, you have to modify your `PATH` environment variable to add the path to the `python.exe` binary which is located in the main installation folder.
 To check this was done properly, you can open a DOS console (`CMD.EXE`) and type `python --version`.
 If it displays the correct Python version, then, everything is setup properly and you should be able to run the Python example provided with Webots in the `WEBOTS_HOME/projects/languages/python/worlds/example.wbt` world file.
@@ -83,22 +80,3 @@ PYTHON_PATH\Scripts\pip.exe install opencv-python
 ```
 
 Where `PYTHON_PATH` is the path to the Python installation directory, for example `C:\Python36`.
-
-### Use an Alternative Python Version
-
-As explained above, the Python libraries for Webots are precompiled for the standard versions of Python 3.7, 3.8, 3.9, 3.10 and on Ubuntu for the default Python 3 version provided with the system.
-It is possible however to use another Python version, like Anaconda Python, by recompiling the Webots Python libraries.
-Such a task requires some knowledge in software installation, compilation from sources and Makefile.
-
-The general idea is to walk through the following steps:
-
-1. Install a new Python version and add the path to the new python binary in your `PATH` environment variable, so that you can execute `python --version` from a console and get the correct version number.
-2. Get [SWIG](http://www.swig.org/download.html).
-3. Recompile the [Python wrapper](https://github.com/omichel/webots/tree/released/src/controller/python) using its [Makefile](https://github.com/omichel/webots/tree/released/src/controller/python/Makefile) (see details inside to understand how to call it with different options).
-
-On Windows you will need to install [MSYS2 for x86\_64](http://www.msys2.org/) and run it in administrator mode to be able to modify files in `$WEBOTS_HOME`.
-From the MSYS2 console, you will need to install at least `gcc` `make` and `swig` with the `pacman` command:
-```bash
-pacman -S gcc make swig
-```
-From here you can now continue with step 3.
