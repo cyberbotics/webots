@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/garden/protos/PicketFenceWithDoor.proto
+# keywords: exterior/garden
 # A picket fence with a door and optional boundingObject.
 # template language: javascript
 
@@ -71,7 +73,7 @@ PROTO PicketFenceWithDoor [
     %< if (fields.enableBoundingObject.value) { >%
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0.8700000000000002 0.55
           children [
             Box {
@@ -79,7 +81,7 @@ PROTO PicketFenceWithDoor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0 3.689999999999992 0.55
           children [
             Box {
@@ -87,7 +89,7 @@ PROTO PicketFenceWithDoor [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.3975640202570147 2.0529991572942476 0.55
           rotation 0 0 1 0.85
           children [

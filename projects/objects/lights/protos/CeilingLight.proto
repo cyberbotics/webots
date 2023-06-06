@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/lights/protos/CeilingLight.proto
+# keywords: household/light
 # A ceiling light (0.19 x 0.19 x 0.8 m).
 
 PROTO CeilingLight [
@@ -320,7 +322,7 @@ Solid {
       }
       castShadows IS castShadows
     }
-    Transform {
+    Pose {
       translation 0 0 -0.55
       children [
         Shape {

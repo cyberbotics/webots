@@ -15,6 +15,7 @@
 #include "WbRobot.hpp"
 
 #include "WbAbstractCamera.hpp"
+#include "WbApplicationInfo.hpp"
 #include "WbBinaryIncubator.hpp"
 #include "WbControllerPlugin.hpp"
 #include "WbDataStream.hpp"
@@ -35,7 +36,6 @@
 #include "WbProtoManager.hpp"
 #include "WbProtoModel.hpp"
 #include "WbRenderingDevice.hpp"
-#include "WbResizeManipulator.hpp"
 #include "WbSensor.hpp"
 #include "WbSimulationState.hpp"
 #include "WbSkin.hpp"
@@ -53,9 +53,11 @@
 #include "../../../include/controller/c/webots/supervisor.h"
 #include "../../controller/c/messages.h"
 
+#include <QtCore/QCryptographicHash>
 #include <QtCore/QDataStream>
 #include <QtCore/QStringList>
 #include <QtCore/QTimer>
+#include <QtCore/QUrl>
 
 #include <limits>
 
@@ -247,9 +249,6 @@ void WbRobot::postFinalize() {
   connect(WbSimulationState::instance(), &WbSimulationState::modeChanged, this, &WbRobot::updateSimulationMode);
   connect(mBattery, &WbMFDouble::itemInserted, this, [this]() { this->updateBattery(true); });
   connect(mBattery, &WbMFDouble::itemRemoved, this, [this]() { this->updateBattery(false); });
-
-  if (absoluteScale() != WbVector3(1.0, 1.0, 1.0))
-    parsingWarn(tr("This Robot node is scaled: this is discouraged as it could compromise the correct physical behavior."));
 }
 
 void WbRobot::reset(const QString &id) {
@@ -775,14 +774,15 @@ void WbRobot::writeConfigure(WbDataStream &stream) {
   mBatterySensor->connectToRobotSignal(this);
   stream << (short unsigned int)0;
   stream << (unsigned char)C_CONFIGURE;
+  QByteArray n = name().toUtf8();
+  stream.writeRawData(n.constData(), n.size() + 1);
+  n = WbApplicationInfo::version().toString().toUtf8();
+  stream.writeRawData(n.constData(), n.size() + 1);
   stream << (unsigned char)(mSupervisorUtilities ? 1 : 0);
   stream << (unsigned char)(synchronization() ? 1 : 0);
   stream << (short int)(1 + deviceCount());
   stream << (short int)nodeType();
   stream << (double)0.001 * WbSimulationState::instance()->time();
-
-  QByteArray n = name().toUtf8();
-  stream.writeRawData(n.constData(), n.size() + 1);
 
   writeDeviceConfigure(mDevices, stream);
 
@@ -1089,6 +1089,16 @@ void WbRobot::dispatchAnswer(WbDataStream &stream, bool includeDevices) {
       }
     }
   }
+}
+
+QString WbRobot::encodedName() const {
+  const QString encodedName = QUrl::toPercentEncoding(name());
+  // the robot name is used to connect to the libController and in this process there are indirect
+  // limitations such as QLocalServer only accepting strings up to 106 characters for server names,
+  // for these reasons if the robot name is bigger than an arbitrary length, a hashed version is used instead
+  if (encodedName.length() > 70)  // note: this threshold should be the same as in robot.c
+    return QString(QCryptographicHash::hash(encodedName.toUtf8(), QCryptographicHash::Sha1).toHex());
+  return encodedName;
 }
 
 void WbRobot::writeAnswer(WbDataStream &stream) {

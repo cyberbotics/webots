@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/garden/protos/Wheelbarrow.proto
+# keywords: exterior/garden
 # A wheelbarrow with optional physics.
 # template language: javascript
 
@@ -70,7 +72,7 @@ PROTO Wheelbarrow [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 1.01 0 0.17
           rotation 1 0 0 1.570796322
           children [
@@ -80,7 +82,7 @@ PROTO Wheelbarrow [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.53 0 0.24
           children [
             Box {
@@ -88,7 +90,7 @@ PROTO Wheelbarrow [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.74 0.010000000815132375 0.47
           children [
             Box {
@@ -96,7 +98,7 @@ PROTO Wheelbarrow [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.01 -0.235 0.89
           rotation 0 1 0 1.5707963220000003
           children [
@@ -106,14 +108,14 @@ PROTO Wheelbarrow [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.01 0.23 0.89
           rotation 0 1 0 1.5707963220000003
           children [
             USE CYLINDER1
           ]
         }
-        Transform {
+        Pose {
           translation 0.21107694882356515 -0.22999999918486763 0.7520577136370238
           rotation 0 1 0 5.759586552359173
           children [
@@ -123,7 +125,7 @@ PROTO Wheelbarrow [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.21107694882356515 0.23 0.7520577136370238
           rotation 0 1 0 5.759586552359173
           children [

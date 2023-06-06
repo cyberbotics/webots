@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
     for (i = 0; i < N_VALUES; ++i) {
       printf("%g\n", values[i]);
       sprintf(name_buffer, "TEST_%d", i);
-      sprintf(import_buffer, "DEF %s Transform {}", name_buffer);
+      sprintf(import_buffer, "DEF %s Pose {}", name_buffer);
       wb_supervisor_field_import_mf_node_from_string(root_children, -1, import_buffer);
       WbNodeRef test_node = wb_supervisor_node_get_from_def(name_buffer);
       WbFieldRef test_translation = wb_supervisor_node_get_field(test_node, "translation");

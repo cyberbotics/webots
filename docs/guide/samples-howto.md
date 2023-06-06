@@ -205,7 +205,7 @@ To apply a torque on the spinner, use the <kbd>alt</kbd> + mouse right click seq
 **Keywords**: [Supervisor](../reference/supervisor.md), [IndexedLineSet](../reference/indexedlineset.md), draw trail
 
 ![supervisor_draw_trail.png](images/samples/supervisor_draw_trail.thumbnail.jpg) In this example, a [Supervisor](../reference/supervisor.md) controller draws a green path behind a target node.
-The target node is a [Transform](../reference/transform.md) node mounted in the `turretSlot` of a moving e-puck robot.
+The target node is a [Pose](../reference/pose.md) node mounted in the `turretSlot` of a moving e-puck robot.
 At the beginning of the simulation, the [Supervisor](../reference/supervisor.md) controller creates programmatically an `IndexedLineSet` node.
 Then at each simulation step, it uses the target node position to update the `IndexedLineSet` node fields.
 

@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
@@ -110,7 +110,7 @@ DEF CUBE2 Solid {
 DEF CHAIR Solid {
   translation -0.15 0.65 0.01
   children [
-    Transform {
+    Pose {
       translation -0.02 -0.2 0.2
       children [
         DEF FACE Shape {
@@ -123,27 +123,27 @@ DEF CHAIR Solid {
         }
       ]
     }
-    Transform {
+    Pose {
       translation 0.02 0.2 0.2
       children [
         USE FACE
       ]
     }
-    Transform {
+    Pose {
       translation -0.2 0.02 0.2
       rotation 0 0 1 1.57
       children [
         USE FACE
       ]
     }
-    Transform {
+    Pose {
       translation 0.2 -0.02 0.2
       rotation 0 0 1 1.57
       children [
         USE FACE
       ]
     }
-    Transform {
+    Pose {
       translation 0 0 0.1
       children [
         Shape {
@@ -158,7 +158,7 @@ DEF CHAIR Solid {
   name "basket"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0 -0.2 0.2
         children [
           DEF BOUNDING_FACE Shape {
@@ -173,27 +173,27 @@ DEF CHAIR Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0.2 0.2
         children [
           USE BOUNDING_FACE
         ]
       }
-      Transform {
+      Pose {
         translation -0.2 0 0.2
         rotation 0 0 1 1.57
         children [
           USE BOUNDING_FACE
         ]
       }
-      Transform {
+      Pose {
         translation 0.2 0 0.2
         rotation 0 0 1 1.57
         children [
           USE BOUNDING_FACE
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.1
         children [
           Shape {
@@ -230,6 +230,7 @@ IprHd6ms180 {
   ]
 }
 IprHd6ms180 {
+  translation 0 0 0.61
   name "IPR2"
   controller "ipr2_collaboration"
   sensorsSlot [

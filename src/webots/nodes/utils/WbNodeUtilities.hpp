@@ -32,6 +32,7 @@ class WbRay;
 class WbRobot;
 class WbShape;
 class WbSolid;
+class WbPose;
 class WbTransform;
 
 class QString;
@@ -46,6 +47,9 @@ namespace WbNodeUtilities {
 
   // find the closest WbTransform ancestor
   WbTransform *findUpperTransform(const WbNode *node);
+
+  // find the closest WbPose ancestor
+  WbPose *findUpperPose(const WbNode *node);
 
   // find the closest WbSolid ancestor
   WbSolid *findUpperSolid(const WbNode *node);
@@ -65,8 +69,8 @@ namespace WbNodeUtilities {
   // if recursive is set to FALSE children of the descendant node having the specified type are not inspected
   QList<WbNode *> findDescendantNodesOfType(WbNode *node, bool (&typeCondition)(WbBaseNode *), bool recursive);
 
-  // find the uppermost WbTransform ancestor (may be the node itself)
-  WbTransform *findUppermostTransform(const WbNode *node);
+  // find the uppermost WbPose ancestor (may be the node itself)
+  WbPose *findUppermostPose(const WbNode *node);
 
   // find the uppermost WbSolid ancestor (may be the node itself)
   WbSolid *findUppermostSolid(const WbNode *node);
@@ -86,6 +90,9 @@ namespace WbNodeUtilities {
 
   // is this node located directly or indirectly under a Billboard
   bool isDescendantOfBillboard(const WbNode *node);
+
+  // is this node located directly or indirectly under a Propeller
+  bool isDescendantOfPropeller(const WbNode *node);
 
   // is this node located in the boundingObject field of a Solid
   // use checkNodeUse() to inspect USE nodes and PROTO parameter instances
@@ -139,7 +146,6 @@ namespace WbNodeUtilities {
   bool isDeviceTypeName(const QString &modelName);
   bool isSolidDeviceTypeName(const QString &modelName);
   bool isSolidTypeName(const QString &modelName);
-  bool isSolidButRobotTypeName(const QString &modelName);
   bool isMatterTypeName(const QString &modelName);
   QString slotType(const WbNode *node);
 

@@ -14,7 +14,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Gear {
-  SFVec3f     translation            0 0 0
+  SFVec3f     translation            0 0 0.045
   SFRotation  rotation               0 0 1 0
   SFNode      appearance             PBRAppearance{baseColor 0.533333, 0.541176, 0.521569, roughness 0.5}
   SFString    name                   "gear"

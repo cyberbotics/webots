@@ -6,7 +6,7 @@
       "minPosition": 0,
       "name": "m1_motor",
       "position": 0,
-      "transformID": "n25",
+      "transformID": "n30",
       "type": "RotationalMotor"
     },
     {
@@ -15,7 +15,7 @@
       "minPosition": 0,
       "name": "m2_motor",
       "position": 0,
-      "transformID": "n31",
+      "transformID": "n41",
       "type": "RotationalMotor"
     },
     {
@@ -24,7 +24,7 @@
       "minPosition": 0,
       "name": "m3_motor",
       "position": 0,
-      "transformID": "n37",
+      "transformID": "n52",
       "type": "RotationalMotor"
     },
     {
@@ -33,7 +33,7 @@
       "minPosition": 0,
       "name": "m4_motor",
       "position": 0,
-      "transformID": "n43",
+      "transformID": "n63",
       "type": "RotationalMotor"
     },
     {
@@ -53,7 +53,7 @@
       "type": "Gyro"
     },
     {
-      "name": "inertial unit",
+      "name": "inertial_unit",
       "transformID": "n10",
       "type": "InertialUnit"
     },

@@ -159,7 +159,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 HotPlate {
-  SFVec3f    translation 0 0 0.71
+  SFVec3f    translation 0 0 -0.03
   SFRotation rotation    0 0 1 0
   SFString   name        "hot plate"
   MFString   textureUrl  "textures/components.jpg"
@@ -189,7 +189,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Sink {
-  SFVec3f    translation 0 0 0.72
+  SFVec3f    translation 0 0 0.04
   SFRotation rotation    0 0 1 0
   SFString   name        "sink"
   MFString   textureUrl  "textures/components.jpg"
@@ -219,7 +219,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Worktop {
-  SFVec3f    translation  0 0 0.71
+  SFVec3f    translation  0 0 0.03
   SFRotation rotation     0 0 1 0
   SFString   name         "worktop"
   SFVec3f    size         0.7 0.44 0.06
@@ -444,7 +444,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Knife {
-  SFVec3f    translation 0 0 0
+  SFVec3f    translation 0 0 0.007
   SFRotation rotation    0 0 1 0
   SFString   name        "knife"
   SFColor    color       0.75 0.75 0.75

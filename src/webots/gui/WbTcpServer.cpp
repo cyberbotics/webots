@@ -22,6 +22,7 @@
 #include "WbLanguage.hpp"
 #include "WbMainWindow.hpp"
 #include "WbNodeOperations.hpp"
+#include "WbPerspective.hpp"
 #include "WbPreferences.hpp"
 #include "WbProject.hpp"
 #include "WbRobot.hpp"
@@ -236,7 +237,7 @@ void WbTcpServer::addNewTcpController(QTcpSocket *socket) {
   if (robotNameIndex) {  // robot name is given
     const QString robotName = tokens[robotNameIndex];
     foreach (WbRobot *const robot, robots) {
-      if (QUrl::toPercentEncoding(robot->name()) == robotName && robot->isControllerExtern()) {
+      if (robot->encodedName() == robotName && robot->isControllerExtern()) {
         foreach (WbController *const controller, availableControllers) {
           if (controller->robot() == robot) {
             if (controller->setTcpSocket(socket)) {
@@ -565,6 +566,8 @@ void WbTcpServer::resetSimulation() {
   WbApplication::instance()->simulationReset(true);
   QCoreApplication::processEvents();  // this is required to make sure the simulation reset has been performed before sending
                                       // the update
+  printf("reset\n");
+  fflush(stdout);
   mLastUpdateTime = -1.0;
   mPauseTimeout = -1.0;
 }
@@ -645,11 +648,6 @@ void WbTcpServer::sendWorldToClient(QWebSocket *client) {
 
   const QString &currentWorld = QDir(WbProject::current()->dir()).relativeFilePath(WbWorld::instance()->fileName());
   client->sendTextMessage("world:" + currentWorld + ':' + worlds);
-
-  const QList<WbRobot *> &robots = WbWorld::instance()->robots();
-  foreach (const WbRobot *robot, robots)
-    sendRobotWindowInformation(client, robot);
-  client->sendTextMessage("scene load completed");
 }
 
 void WbTcpServer::sendRobotWindowInformation(QWebSocket *client, const WbRobot *robot, bool remove) {
@@ -657,6 +655,9 @@ void WbTcpServer::sendRobotWindowInformation(QWebSocket *client, const WbRobot *
     QJsonObject windowObject;
     windowObject.insert("robot", robot->name());
     windowObject.insert("window", robot->window());
+    // if the robot window should be visible based on wbproj perspective file c.f. WbMainWindow::restorePerspective():
+    if (WbWorld::instance()->perspective()->enabledRobotWindowNodeNames().contains(robot->computeUniqueName()))
+      windowObject.insert("visible", true);
     if (remove)
       windowObject.insert("remove", true);
     if (WbWorld::instance()->worldInfo()->window() == robot->window())

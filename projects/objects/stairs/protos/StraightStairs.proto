@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/stairs/protos/StraightStairs.proto
+# keywords: building/component
 # Generic and customizable stairs model.
 # template language: javascript
 
@@ -227,7 +229,7 @@ PROTO StraightStairs [
         delta = {x: 0.0, z: stepRise * 0.5};
         for (let n = 1; n <= nSteps; ++n) {
       >%
-          Transform {
+          Pose {
             translation %<= delta.x >% 0.0 %<= delta.z + stepRise * 0.5 - stepSize.z * 0.5 >%
             children [
               Box {

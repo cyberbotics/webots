@@ -145,7 +145,7 @@ graph TD
 
   style HingeJoint fill:#ffe4bf;
   class Robot highlightedNode;
-  class Shape1,USEBODY,Transform,USEWHEEL secondaryNode;
+  class Shape1,USEBODY,USEWHEEL secondaryNode;
 %end
 %end
 
@@ -518,6 +518,8 @@ public class FourWheelsCollisionAvoidance {
 
 %tab "MATLAB"
 ```MATLAB
+function four_wheeled_collision_avoidance
+
 TIME_STEP = 64;
 ds = [];
 ds_names = [ "ds_right", "ds_left" ];
@@ -533,6 +535,7 @@ for i = 1:4
   wb_motor_set_velocity(wheels(i), 0.0);
 end
 avoid_obstacle_counter = 0;
+
 while wb_robot_step(TIME_STEP) ~= -1
   left_speed = 1.0;
   right_speed = 1.0;

@@ -1,5 +1,6 @@
 % Description: MATLAB controller example for Webots
 %              This example does not need the Image Processing Toolbox
+function matlab
 
 % uncomment the next two lines if you want to use
 % MATLAB's desktop and interact with the controller

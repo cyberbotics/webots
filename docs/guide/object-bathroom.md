@@ -14,7 +14,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 BathroomSink {
-  SFVec3f    translation       0 0 0
+  SFVec3f    translation       0 0 0.05
   SFRotation rotation          0 0 1 0
   SFString   name              "sink"
   SFNode     upperAppearance   VarnishedPine { }
@@ -102,7 +102,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 WashingMachine {
-  SFVec3f    translation    0 0 0
+  SFVec3f    translation    0 0 0.53
   SFRotation rotation       0 0 1 0
   SFString   name           "whashing machine"
 }

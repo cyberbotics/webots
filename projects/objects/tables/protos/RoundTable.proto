@@ -1,6 +1,8 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/tables/protos/RoundTable.proto
+# keywords: furniture/table
 # A round table (2 x 2 x 0.76 m).
 
 EXTERNPROTO "webots://projects/appearances/protos/VarnishedPine.proto"
@@ -537,7 +539,7 @@ Solid {
   model "round table"
   boundingObject Group {
     children [
-      Transform {
+      Pose {
         translation 0 0 0.75
         children [
           Cylinder {
@@ -546,7 +548,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.045
         children [
           Box {
@@ -554,7 +556,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.4
         children [
           Box {
@@ -562,7 +564,7 @@ Solid {
           }
         ]
       }
-      Transform {
+      Pose {
         translation 0 0 0.015
         children [
           Box {

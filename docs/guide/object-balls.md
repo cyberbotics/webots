@@ -15,7 +15,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 Ball {
-  SFVec3f    translation     0 0 0
+  SFVec3f    translation     0 0 0.1625
   SFRotation rotation        0 0 1 0
   SFString   name            "ball"
   SFColor    color           1.0 0.54 0.08
@@ -62,7 +62,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 FifaSoccerBall {
-  SFVec3f     translation 0 0 0
+  SFVec3f     translation 0 0 0.12
   SFRotation  rotation    0 0 1 0
   SFString    name        "fifa soccer ball"
   SFInt32     size        5
@@ -92,7 +92,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 PingPongBall {
-  SFVec3f    translation         0 0 0
+  SFVec3f    translation         0 0 0.02
   SFRotation rotation            0 0 1 0
   SFString   name                "ping pong ball"
   MFNode     immersionProperties []
@@ -124,7 +124,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 RobocupSoccerBall {
-  SFVec3f    translation  0 0 0
+  SFVec3f    translation  0 0 0.07
   SFRotation rotation     0 0 1 0
   SFString   name         "robocup soccer ball"
   SFInt32                 size 1
@@ -155,7 +155,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 SoccerBall {
-  SFVec3f    translation 0 0 0
+  SFVec3f    translation 0 0 0.11
   SFRotation rotation    0 0 1 0
   SFString   name        "soccer ball"
   SFFloat    radius      0.113

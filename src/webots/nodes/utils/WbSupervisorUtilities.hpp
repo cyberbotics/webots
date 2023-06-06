@@ -33,7 +33,7 @@ class WbBaseNode;
 class WbDataStream;
 class WbNode;
 class WbRobot;
-class WbTransform;
+class WbPose;
 class WbSolid;
 class WbWrenLabelOverlay;
 class WbField;
@@ -92,9 +92,9 @@ private:
   int mNodeFieldCount;
   int mGetNodeRequest;
   QList<int> mUpdatedNodeIds;
-  WbTransform *mNodeGetPosition;
-  WbTransform *mNodeGetOrientation;
-  std::pair<WbTransform *, WbTransform *> mNodeGetPose;
+  WbPose *mNodeGetPosition;
+  WbPose *mNodeGetOrientation;
+  std::pair<WbPose *, WbPose *> mNodeGetPose;
   WbSolid *mNodeGetCenterOfMass;
   WbSolid *mNodeGetContactPoints;
   int mNodeIdGetContactPoints;
@@ -127,7 +127,7 @@ private:
   struct WbFieldGetRequest *mFieldGetRequest;
 
   void pushSingleFieldContentToStream(WbDataStream &stream, WbField *field);
-  void pushRelativePoseToStream(WbDataStream &stream, WbTransform *fromNode, WbTransform *toNode);
+  void pushRelativePoseToStream(WbDataStream &stream, WbPose *fromNode, WbPose *toNode);
   void pushContactPointsToStream(WbDataStream &stream, WbSolid *solid, int solidId, bool includeDescendants);
   void initControllerRequests();
   void deleteControllerRequests();

@@ -36,11 +36,7 @@ The following buttons are available in the field editor section:
 
 %end
 
-- **Show resize handles**: Displays the handles for resizing and scaling the selected node from the 3D Window.
-This option is only displayed for Geometry nodes and nodes derived from [Transform](../reference/transform.md) node.
-In case of procedural PROTO nodes, it is only available if the fields involved in the resizing or scaling are not used in template statements.
-
-    > **Note**:
+> **Note**:
 We recommend to use the Scene Tree to write Webots world files. However, because the nodes and fields are stored in a human readable form, it is also possible to edit world files with a regular text editor.
 Some search and replace operations may actually be easier that way.
 Please refer to Webots [Reference Manual](../reference/webots-world-files.md) for more info on the available nodes and the world file format.

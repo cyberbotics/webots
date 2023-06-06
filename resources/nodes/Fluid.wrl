@@ -1,10 +1,9 @@
 # A Fluid node can be used to represent a collection of fluid volumes where hydrostatic and hydrodynamic forces apply.
 
 Fluid {
-  #fields that inherit from the Transform node:
+  #fields that inherit from the Pose node:
   vrmlField SFVec3f    translation     0 0 0
   vrmlField SFRotation rotation        0 0 1 0
-  vrmlField SFVec3f    scale           1 1 1
   vrmlField MFNode     children        []        # shapes representing the fluid volume
   #fields specific to the Fluid node:
   field     SFString   name           "fluid"    # used in ImmersionProperties
@@ -17,7 +16,7 @@ Fluid {
   field     SFFloat    translationStep 0.01      # step size used by translation manipulator
   field     SFFloat    rotationStep    0.261799387 # step size used by rotation manipulator (PI/12)
   field     SFBool     locked          FALSE     # to avoid moving fluid volume with the mouse
-  #fields that inherit from the Transform node:
+  #fields that inherit from the Pose node:
   field     SFFloat    translationStep 0.01        # step size used by translation manipulator
   field     SFFloat    rotationStep    0.261799387 # step size used by rotation manipulator (PI/12)
 }

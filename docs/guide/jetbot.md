@@ -44,7 +44,7 @@ JetBot {
 
 #### JetBotRaspberryPiCamera PROTO
 
-Derived from [Transform](../reference/transform.md).
+Derived from [Solid](../reference/solid.md).
 It contains a [Camera](../reference/camera.md) device.
 
 %figure

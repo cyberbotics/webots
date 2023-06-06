@@ -1,6 +1,7 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Creative Commons Attribution 4.0 International License.
 # license url: https://creativecommons.org/licenses/by/4.0/legalcode
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/street_furniture/protos/TrashContainer.proto
 # A trash container with optional physics.
 # template language: javascript
 
@@ -168,7 +169,7 @@ PROTO TrashContainer [
     ]
     boundingObject Group {
       children [
-        Transform {
+        Pose {
           translation 0 0 0.97
           children [
             Box {
@@ -176,7 +177,7 @@ PROTO TrashContainer [
             }
           ]
         }
-        Transform {
+        Pose {
           translation 0.4008 -0.6309 0.14
           rotation 0.281085 -0.678598 0.678598 -2.593563
           children [
@@ -186,21 +187,21 @@ PROTO TrashContainer [
             }
           ]
         }
-        Transform {
+        Pose {
           translation -0.393 -0.6507 0.14
           rotation -0.677661 0.519988 -0.519988 1.950441
           children [
             USE CYLINDER
           ]
         }
-        Transform {
+        Pose {
           translation -0.3914 0.6241 0.14
           rotation 0.377964 -0.654654 0.654654 -2.418858
           children [
             USE CYLINDER
           ]
         }
-        Transform {
+        Pose {
           translation 0.3998 0.6265 0.14
           rotation -0.774597 0.447214 -0.447214 1.823476
           children [
