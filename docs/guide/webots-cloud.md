@@ -12,7 +12,7 @@ Once your scene or animation is uploaded, you get a link (web URL) pointing to y
 Anyone with this link can view your 3D scene or animation with a simple mouse click.
 Scenes and animations can also be uploaded on webots.cloud by clicking the "Add a new scene/animation" button, and uploading locally saved `X3D`, `JSON`, thumbnail and texture files.
 
-### Share and use your Proto
+### Share and Use Your Proto
 
 The [protos section](https://webots.cloud/proto) of webots.cloud is the place where you can see the protos available in Webots, read about them and play with their parameters.
 Anyone can add its own proto to the library. To do that, your proto files (`.proto` files, textures, meshes,...) shoud be hosted on a GitHub repository.
