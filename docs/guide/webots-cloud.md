@@ -17,7 +17,7 @@ Scenes and animations can also be uploaded on webots.cloud by clicking the "Add 
 The [protos section](https://webots.cloud/proto) of webots.cloud is the place where you can see the protos available in Webots, read about them and play with their parameters.
 Anyone can add its own proto to the library. To do that, your proto files (`.proto` files, textures, meshes,...) shoud be hosted on a GitHub repository.
 The proto folder must also have a `webots.yaml` file which should contain: `publish: true`.
-To classify the proto correctly, webots.cloud needs to know what are the `keywords` of the proto. Please refer to [this section](../reference/proto-design-guidelines.md#keywords) to learn more about `keywords` and how to set.
+To classify the proto correctly, webots.cloud needs to know what are the `keywords` of the proto. Please refer to [this section](../reference/proto-design-guidelines.md#keywords) to learn more about `keywords` and how to set them.
 You can then add your proto by clicking the `Add a new proto` button at the bottom of the [proto page](https://webots.cloud/proto).
 
 To add a proto from the library to a world, copy the github url of the proto and convert it to `raw.githubusercontent.com`. To to that, change `github.com` into `raw.githubusercontent.com` and remove the `/blob`. Then paste it at the top of the world file like this:
