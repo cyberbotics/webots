@@ -58,7 +58,7 @@ The rest of the positions can be seen in the [following table](#positions-of-the
 - [ToyotaPrius](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/toyota/ToyotaPrius.proto) / [ToyotaPriusSimple](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/toyota/ToyotaPriusSimple.proto)
 
 Like the heavy-weights, the cars provide four `sensorsSlot`.
-The position of the central sensors slot is always at 0 0 0 (which is the center of the rear wheels axis).
+The position of the central sensor slot is always 0 0 0 (which is the center of the rear wheels axis).
 For the three other sensor slots, the positions are different for each model (because the size of the cars differs), see the [following table](#positions-of-the-car-sensor-slots) for the exact positions.
 
 %figure "Positions of the car sensor slots"
