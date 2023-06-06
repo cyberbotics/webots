@@ -69,7 +69,7 @@ Released on July 29th, 2020.
   - Enhancements
     - **Improved `WorldInfo`: `gravity` is now a single float value instead of a 3D vector and the `northDirection` field was replaced by a `coordinateSystem` field which can take either `"NUE"` (legacy Webots coordinate system) or `"ENU"` (ROS coordinate system) to define the gravity and cartesian directions ([#1643](https://github.com/cyberbotics/webots/pull/1643)).**
     - **Improved [Track](track.md) `textureAnimation` field so that it automatically takes the world basic time step into consideration and removed it from `ConveyorBelt` PROTO object ([#1477](https://github.com/cyberbotics/webots/pull/1477)).**
-    - **Replaced the [Car](../automobile/car.md) `maxWheelVelocity` field by a `maxVelocity` field representing the actual maximum velocity of the car itself ([#1552](https://github.com/cyberbotics/webots/pull/1552)).**
+    - **Replaced the `maxWheelVelocity` field of the `Car` proto by a `maxVelocity` field representing the actual maximum velocity of the car itself ([#1552](https://github.com/cyberbotics/webots/pull/1552)).**
     - Added the possibility to edit the `S/MFRotation` fields using quaternions ([#1491](https://github.com/cyberbotics/webots/pull/1491)).
     - Improved edition of `S/MFRotation` fields using the field editor spin-boxes, only the last decimal is now incremented ([#1491](https://github.com/cyberbotics/webots/pull/1491)).
     - Improved the `ros_python` and `universal_robots_ros` ROS simulations to use extern controllers instead of embedding the ROS libraries ([#1876](https://github.com/cyberbotics/webots/pull/1876)).
