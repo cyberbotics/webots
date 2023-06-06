@@ -5,45 +5,20 @@
 'use strict';
 
 import { getGETQueryValue, getGETQueriesMatchingRegularExpression } from './request_methods.js';
-import { webots } from './webots.js';
-import { setupModalWindow, renderGraphs, highlightCode, updateModalEvents } from './proto_viewer.js';
-
-import WbImageTexture from './nodes/WbImageTexture.js';
-import WbPbrAppearance from './nodes/WbPbrAppearance.js';
-import WbShape from './nodes/WbShape.js';
-import WbSphere from './nodes/WbSphere.js';
-import WbPose from './nodes/WbPose.js';
-import WbVector3 from './nodes/utils/WbVector3.js';
-import WbVector4 from './nodes/utils/WbVector4.js';
-import WbWorld from './nodes/WbWorld.js';
-import { quaternionToVec4, vec4ToQuaternion } from './nodes/utils/utils.js';
-import { getAnId } from './nodes/utils/id_provider.js';
-import WebotsView from './WebotsView.js';
-import ImageLoader from './ImageLoader.js';
-import MeshLoader from './MeshLoader.js';
 
 let handle;
-let webotsView;
-let pointer;
-let imageTexture;
-let sizeOfMarker;
 
 if (typeof String.prototype.startsWith !== 'function') {
-  String.prototype.startsWith = function (prefix) {
+  String.prototype.startsWith = function(prefix) {
     return this.slice(0, prefix.length) === prefix;
   };
 }
 
 if (typeof String.prototype.endsWith !== 'function') {
-  String.prototype.endsWith = function (suffix) {
+  String.prototype.endsWith = function(suffix) {
     return this.indexOf(suffix, this.length - suffix.length) !== -1;
   };
 }
-
-function isInternetExplorer() {
-  const userAgent = navigator.userAgent;
-  return userAgent.indexOf('MSIE') !== -1 || userAgent.indexOf('Trident') !== -1;
-};
 
 const localSetup = (typeof setup === 'undefined') ? {} : setup;
 const isCyberboticsUrl = location.href.indexOf('cyberbotics.com/doc') !== -1;
@@ -261,7 +236,7 @@ function addDynamicAnchorEvent(el) {
   if (el.classList.contains('dynamicAnchor'))
     return;
   el.addEventListener('click',
-    function (event) {
+    function(event) {
       if (event.ctrlKey)
         return;
       let node = event.target;
@@ -282,7 +257,7 @@ function addDynamicLoadEvent(el) {
   if (el.classList.contains('dynamicLoad'))
     return;
   el.addEventListener('click',
-    function (event) {
+    function(event) {
       if (event.ctrlKey)
         return;
       aClick(event.target);
@@ -365,7 +340,7 @@ function addContributionBanner() {
 
   const contributionBanner = document.querySelector('.contribution-banner');
 
-  document.querySelector('#contribution-close').onclick = function () {
+  document.querySelector('#contribution-close').onclick = function() {
     contributionBanner.parentNode.removeChild(contributionBanner);
   };
 }
@@ -460,7 +435,7 @@ function createIndex(view) {
   ul.setAttribute('id', 'index');
   headings[0].parentNode.insertBefore(ul, headings[1]);
 
-  headings.forEach(function (heading, i) {
+  headings.forEach(function(heading, i) {
     if (i === 0) // Skip the first heading.
       return;
 
@@ -531,7 +506,7 @@ function populateViewDiv(mdContent) {
   const converter = new showdown.Converter({
     tables: 'True',
     extensions: [
-      'wbTabComponent', 'wbRobotComponent', 'wbSpoiler', 'wbChart', 'wbVariables', 'wbAPI', 'wbFigure', 'wbAnchors',
+      'wbTabComponent', 'wbSpoiler', 'wbChart', 'wbVariables', 'wbAPI', 'wbFigure', 'wbAnchors',
       'wbIllustratedSection', 'youtube'
     ]
   });
@@ -542,7 +517,6 @@ function populateViewDiv(mdContent) {
 
   view.innerHTML = html;
 
-  createRobotComponent(view);
   renderGraphs();
   redirectImages(view);
   updateModalEvents(view);
@@ -585,439 +559,10 @@ function updateBrowserUrl() {
 }
 
 // Make in order that the back button is working correctly
-window.onpopstate = function (event) {
+window.onpopstate = function(event) {
   setupUrl(document.location.href);
   getMDFile();
 };
-
-function resetRobotComponent(robot) {
-  unhighlightX3DElement();
-  const robotComponent = getRobotComponentByRobotName(robot);
-  // Reset the Viewpoint
-  if (typeof WbWorld.instance !== 'undefined' && typeof WbWorld.instance.viewpoint !== 'undefined')
-    WbWorld.instance.viewpoint.resetViewpoint();
-  // Reset the motor sliders.
-  let sliders = robotComponent.querySelectorAll('.motor-slider');
-  for (let s = 0; s < sliders.length; s++) {
-    let slider = sliders[s];
-    slider.value = slider.getAttribute('webots-position');
-    let id = slider.getAttribute('webots-transform-id');
-    sliderMotorCallback(WbWorld.instance.nodes.get(id), slider);
-  }
-  webotsView._view.x3dScene.render();
-}
-
-function updateRobotComponentDimension(robot) {
-  const robotComponent = getRobotComponentByRobotName(robot);
-  if (typeof robotComponent === 'undefined')
-    return;
-  const deviceMenu = robotComponent.querySelector('.device-component');
-  const robotView = robotComponent.querySelector('.robot-view');
-
-  if (typeof robotComponent.showDeviceComponent === 'undefined')
-    robotComponent.showDeviceComponent = true;
-  if (robotComponent.showDeviceComponent === true) {
-    deviceMenu.style.display = '';
-    robotView.style.width = '70%';
-  } else {
-    deviceMenu.style.display = 'none';
-    robotView.style.width = '100%';
-  }
-
-  webotsView._view.x3dScene.resize();
-}
-
-function toggleDeviceComponent(robot) {
-  const robotComponent = getRobotComponentByRobotName(robot);
-  if (typeof robotComponent.showDeviceComponent === 'undefined')
-    robotComponent.showDeviceComponent = true;
-  robotComponent.showDeviceComponent = !robotComponent.showDeviceComponent;
-  updateRobotComponentDimension(robot);
-
-  let arrow = document.getElementById('arrow');
-  if (arrow) {
-    if (arrow.className === 'arrow-right')
-      arrow.className = 'arrow-left';
-    else if (arrow.className === 'arrow-left')
-      arrow.className = 'arrow-right';
-  }
-}
-
-function toggleRobotComponentFullScreen(robot) {
-  let element = getRobotComponentByRobotName(robot);
-  const fullscreenButton = document.getElementById('fullscreen-button');
-  const windowedButton = document.getElementById('windowed-button');
-  if (document.fullscreenElement) {
-    if (fullscreenButton)
-      fullscreenButton.style.display = '';
-    if (windowedButton)
-      windowedButton.style.display = 'none';
-
-    if (document.exitFullscreen)
-      document.exitFullscreen();
-  } else {
-    if (fullscreenButton)
-      fullscreenButton.style.display = 'none';
-    if (windowedButton)
-      windowedButton.style.display = '';
-
-    if (element.requestFullscreen) {
-      element.requestFullscreen();
-      document.addEventListener('fullscreenchange', function () {
-        updateRobotComponentDimension(robot);
-      });
-    }
-  }
-}
-
-function sliderMotorCallback(transform, slider) {
-  if (typeof transform === 'undefined' || typeof slider === 'undefined')
-    return;
-
-  if (typeof transform.firstRotation === 'undefined' && typeof transform.rotation !== 'undefined')
-    transform.firstRotation = transform.rotation.clone();
-
-  if (typeof transform.firstPosition === 'undefined' && typeof transform.translation !== 'undefined')
-    transform.firstPosition = transform.translation.clone();
-
-  let axis = slider.getAttribute('webots-axis').split(/[\s,]+/);
-  axis = glm.vec3(parseFloat(axis[0]), parseFloat(axis[1]), parseFloat(axis[2]));
-
-  let value = parseFloat(slider.value);
-  let position = parseFloat(slider.getAttribute('webots-position'));
-
-  if (slider.getAttribute('webots-type') === 'LinearMotor') {
-    // Compute translation
-    let translation = new WbVector3();
-    if (typeof transform.initialTranslation !== 'undefined')
-      translation = transform.initialTranslation.clone();
-    else {
-      translation = transform.translation;
-      transform.initialTranslation = translation.clone();
-    }
-    translation = translation.add(axis.mul(value - position));
-    // Apply the new position.
-    transform.translation = translation;
-    transform.applyTranslationToWren();
-  } else {
-    // extract anchor
-    let anchor = slider.getAttribute('webots-anchor');
-    if (anchor && anchor !== 'undefined') {
-      anchor = anchor.split(/[\s,]+/);
-      anchor = new WbVector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
-    } else
-      anchor = transform.firstPosition;
-
-    // Compute angle.
-    let angle = value - position;
-
-    // Apply the new axis-angle.
-    let q = glm.angleAxis(angle, axis);
-
-    if (typeof transform.firstRotation !== 'undefined')
-      q = q.mul(vec4ToQuaternion(transform.firstRotation));
-
-    if (typeof transform.firstPosition !== 'undefined')
-      transform.translation = transform.firstPosition.clone();
-
-    transform.translation = transform.translation.sub(anchor); // remove the offset
-
-    let quat = glm.angleAxis(angle, axis); // rotate the POSITION
-    transform.translation = applyQuaternion(transform.translation, quat);
-    transform.translation = transform.translation.add(anchor); // re-add the offset
-    transform.rotation = quaternionToVec4(q);
-  }
-}
-
-function applyQuaternion(vec3, q) {
-  const x = vec3.x;
-  const y = vec3.y;
-  const z = vec3.z;
-  const qx = q.x;
-  const qy = q.y;
-  const qz = q.z;
-  const qw = q.w;
-
-  // calculate quat * vector
-
-  const ix = qw * x + qy * z - qz * y;
-  const iy = qw * y + qz * x - qx * z;
-  const iz = qw * z + qx * y - qy * x;
-  const iw = -qx * x - qy * y - qz * z;
-
-  // calculate result * inverse quat
-
-  vec3.x = ix * qw + iw * -qx + iy * -qz - iz * -qy;
-  vec3.y = iy * qw + iw * -qy + iz * -qx - ix * -qz;
-  vec3.z = iz * qw + iw * -qz + ix * -qy - iy * -qx;
-
-  return vec3;
-}
-
-function removePointer() {
-  if (typeof pointer !== 'undefined') {
-    pointer.delete();
-    pointer = undefined;
-  }
-}
-
-function unhighlightX3DElement() {
-  const scene = webotsView._view.x3dScene;
-  removePointer();
-  scene.render();
-}
-
-function highlightX3DElement(deviceElement) {
-  if (!WbWorld.instance.readyForUpdates)
-    return;
-
-  if (typeof imageTexture === 'undefined') {
-    imageTexture = new WbImageTexture(getAnId(), computeTargetPath() + '../css/images/marker.png', false, true, true, 4);
-    ImageLoader.loadImageTextureInWren(imageTexture, '', computeTargetPath() + '../css/images/marker.png', false).then(() => {
-      imageTexture.updateUrl();
-      highlightX3DElement(deviceElement);
-    });
-  }
-  unhighlightX3DElement();
-  let scene = webotsView._view.x3dScene;
-  let id = deviceElement.getAttribute('webots-transform-id');
-  if (typeof WbWorld.instance === 'undefined')
-    return;
-  let object = WbWorld.instance.nodes.get(id);
-  if (object) {
-    let insertInParent = true;
-    if (typeof WbWorld.instance !== 'undefined' && typeof pointer === 'undefined') {
-      if (typeof sizeOfMarker === 'undefined') {
-        // We estimate the size of the robot by the calculating the distance between the robot and the viewpoint
-        let robotPosition = WbWorld.instance.root.children[WbWorld.instance.root.children.length - 1].translation;
-        let viewpointPosition = WbWorld.instance.viewpoint.position;
-        sizeOfMarker = 0.012 * robotPosition.sub(viewpointPosition).length(); // value determined empirically
-      }
-      let sphere = new WbSphere(getAnId(), sizeOfMarker, true, 5);
-      WbWorld.instance.nodes.set(sphere.id, sphere);
-      let baseColorMap = imageTexture.clone(getAnId());
-      baseColorMap.role = 'baseColorMap';
-      WbWorld.instance.nodes.set(baseColorMap.id, baseColorMap);
-      let pbr = new WbPbrAppearance(getAnId(), new WbVector3(1, 1, 1), baseColorMap, 0, 1, undefined, 0, undefined,
-        20, undefined, 1, undefined, 1, new WbVector3(0, 0, 0), undefined, 1, undefined);
-      baseColorMap.parent = pbr.id;
-      WbWorld.instance.nodes.set(pbr.id, pbr);
-      let shape = new WbShape(getAnId(), false, false, sphere, pbr);
-      WbWorld.instance.nodes.set(shape.id, shape);
-      sphere.parent = shape.id;
-      pbr.parent = shape.id;
-      let anchor = deviceElement.getAttribute('device-anchor');
-      if (anchor) {
-        anchor = anchor.split(/[\s,]+/);
-        anchor = new WbVector3(parseFloat(anchor[0]), parseFloat(anchor[1]), parseFloat(anchor[2]));
-      } else {
-        anchor = new WbVector3();
-        insertInParent = false;
-      }
-      pointer = new WbPose(getAnId(), anchor, new WbVector4());
-      pointer.children.push(shape);
-      WbWorld.instance.nodes.set(pointer.id, pointer);
-      shape.parent = pointer.id;
-    }
-
-    if (deviceElement.hasAttribute('webots-transform-offset')) {
-      let offset = deviceElement.getAttribute('webots-transform-offset').split(/[\s,]+/);
-      pointer.translation = new WbVector3(parseFloat(offset[0]), parseFloat(offset[1]), parseFloat(offset[2]));
-    }
-
-    if (insertInParent) {
-      let objectParent = WbWorld.instance.nodes.get(object.parent);
-      if (objectParent) {
-        objectParent.children.push(pointer);
-        pointer.parent = objectParent.id;
-      }
-    } else {
-      object.children.push(pointer);
-      pointer.parent = object.id;
-    }
-    pointer.children[0].geometry.isMarker = true;
-    pointer.finalize();
-
-    const sliders = document.getElementsByClassName('motor-slider');
-    let slider;
-    for (let i = 0; i < sliders.length; i++) {
-      if (sliders[i] && sliders[i].getAttribute('webots-transform-id') === id) {
-        slider = sliders[i];
-        break;
-      }
-    }
-    if (insertInParent)
-      sliderMotorCallback(pointer, slider);
-    scene.render();
-  }
-}
-
-function getRobotComponentByRobotName(robotName) {
-  return document.querySelector('#' + robotName + '-robot-component');
-}
-
-function initializeWebotsView(robotName) {
-  if (webotsView.initializationComplete) {
-    webotsView._view = new webots.View(webotsView);
-    ImageLoader.branch = localSetup.branch;
-    MeshLoader.branch = localSetup.branch;
-    ImageLoader.repository = localSetup.repository;
-    MeshLoader.repository = localSetup.repository;
-    webotsView.loadScene(computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.x3d');
-    webotsView._view.x3dScene.resize();
-  } else
-    setTimeout(() => initializeWebotsView(robotName), 100);
-}
-function createRobotComponent(view) {
-  const robotComponent = document.querySelector('.robot-component');
-  if (robotComponent) {
-    const webotsViewElement = document.querySelector('.robot-webots-view');
-    const robotName = webotsViewElement.getAttribute('id').replace('-robot-webots-view', '');
-
-    if (typeof webotsView === 'undefined') {
-      webotsView = new WebotsView();
-      webotsView.showInfo = false;
-      webotsViewElement.appendChild(webotsView);
-      initializeWebotsView(robotName);
-    } else {
-      sizeOfMarker = undefined;
-      pointer = undefined;
-      webotsViewElement.appendChild(webotsView);
-      webotsView.loadScene(computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.x3d');
-    }
-
-    // Load the robot meta JSON file.
-    fetch(computeTargetPath() + 'scenes/' + robotName + '/' + robotName + '.meta.json')
-      .then(response => response.json())
-      .then(function (data) {
-        // Populate the device component from the JSON file.
-        let deviceComponent = view.querySelector('#' + robotName + '-device-component');
-        let categories = {};
-        robotComponent.setAttribute('robot-node-id', data['robotID']);
-        if (data['devices'].length === 0)
-          toggleDeviceComponent(robotName);
-        for (let d = 0; d < data['devices'].length; d++) {
-          const device = data['devices'][d];
-          const deviceName = device['name'];
-          const deviceType = device['type'];
-
-          // Create or retrieve the device category container.
-          let category = null;
-          if (deviceType in categories)
-            category = categories[deviceType];
-          else {
-            category = document.createElement('div');
-            category.classList.add('device-category');
-            category.innerHTML = '<div class="device-title">' + deviceType + '</div>';
-            deviceComponent.appendChild(category);
-            categories[deviceType] = category;
-          }
-
-          // Create the new device.
-          let deviceDiv = document.createElement('div');
-          deviceDiv.classList.add('device');
-          deviceDiv.setAttribute('webots-type', deviceType);
-          deviceDiv.setAttribute('webots-transform-id', device['transformID']);
-          // The Device Transform has not been exported. The device is defined relatively to it's Transform parent.
-          if ('transformOffset' in device)
-            deviceDiv.setAttribute('webots-transform-offset', device['transformOffset']);
-          deviceDiv.innerHTML = '<div class="device-name">' + deviceName + '</div>';
-
-          // Create the new motor.
-          if (deviceType.endsWith('Motor') && !device['track']) {
-            deviceDiv.addEventListener('mouseover', () => highlightX3DElement(deviceDiv));
-            const minLabel = document.createElement('div');
-            minLabel.classList.add('motor-label');
-            const maxLabel = document.createElement('div');
-            maxLabel.classList.add('motor-label');
-            const slider = document.createElement('input');
-            slider.classList.add('motor-slider');
-            slider.setAttribute('type', 'range');
-            slider.setAttribute('step', 'any');
-            if (device['minPosition'] === device['maxPosition']) { // infinite range.
-              slider.setAttribute('min', -Math.PI);
-              slider.setAttribute('max', Math.PI);
-              minLabel.innerHTML = -3.14; // 2 decimals.
-              maxLabel.innerHTML = 3.14;
-            } else { // fixed range.
-              const epsilon = 0.000001; // To solve Windows browser bugs on slider when perfectly equals to 0.
-              slider.setAttribute('min', device['minPosition'] - epsilon);
-              slider.setAttribute('max', device['maxPosition'] + epsilon);
-              minLabel.innerHTML = Math.round(device['minPosition'] * 100) / 100; // 2 decimals.
-              maxLabel.innerHTML = Math.round(device['maxPosition'] * 100) / 100;
-            }
-            slider.setAttribute('value', device['position']);
-            slider.setAttribute('webots-position', device['position']);
-            slider.setAttribute('webots-transform-id', device['transformID']);
-            slider.setAttribute('webots-axis', device['axis']);
-            slider.setAttribute('webots-anchor', device['anchor']);
-            slider.setAttribute('webots-type', deviceType);
-            slider.addEventListener(isInternetExplorer() ? 'change' : 'input', _ => {
-              if (typeof WbWorld.instance === 'undefined')
-                return;
-              let id = _.target.getAttribute('webots-transform-id');
-              sliderMotorCallback(WbWorld.instance.nodes.get(id), _.target);
-              if (device['anchor'])
-                sliderMotorCallback(pointer, _.target);
-              webotsView._view.x3dScene.render();
-            });
-
-            const motorDiv = document.createElement('div');
-            motorDiv.classList.add('motor-component');
-            motorDiv.appendChild(minLabel);
-            motorDiv.appendChild(slider);
-            motorDiv.appendChild(maxLabel);
-            deviceDiv.appendChild(motorDiv);
-            if (device['anchor'])
-              deviceDiv.setAttribute('device-anchor', device['anchor']);
-          } else {
-            deviceDiv.addEventListener('mouseover', () => highlightX3DElement(deviceDiv));
-            if (device['anchor'])
-              deviceDiv.setAttribute('device-anchor', device['anchor']);
-          }
-
-          category.appendChild(deviceDiv);
-        }
-      })
-      .catch(error => {
-        console.error('Error: ' + error);
-      });
-    reassignButtons(robotName);
-
-    if (document.getElementsByClassName('menu-button').length !== 0)
-      document.getElementsByClassName('menu-button')[0].onclick = () => toggleDeviceComponent(robotName);
-
-    if (document.getElementsByClassName('robot-component').length !== 0) {
-      document.getElementsByClassName('robot-component')[0].onmouseenter = () => showMenuButton();
-      document.getElementsByClassName('robot-component')[0].onmouseleave = () => hideMenuButton(robotName);
-    }
-  }
-}
-
-function reassignButtons(robotName) {
-  if (webotsView.toolbar) {
-    if (document.getElementById('fullscreen-button'))
-      document.getElementById('fullscreen-button').onclick = () => toggleRobotComponentFullScreen(robotName);
-    if (document.getElementById('windowed-button'))
-      document.getElementById('windowed-button').onclick = () => toggleRobotComponentFullScreen(robotName);
-    if (document.getElementById('reset-viewpoint'))
-      document.getElementById('reset-viewpoint').onclick = () => resetRobotComponent(robotName);
-  } else
-    setTimeout(() => reassignButtons(robotName), 100);
-}
-
-function showMenuButton() {
-  if (document.getElementsByClassName('menu-button').length !== 0)
-    document.getElementsByClassName('menu-button')[0].style.display = '';
-}
-
-function hideMenuButton(robot) {
-  if (document.getElementsByClassName('menu-button').length !== 0)
-    document.getElementsByClassName('menu-button')[0].style.display = 'none';
-
-  removePointer();
-  webotsView._view.x3dScene.render();
-}
 
 // Open a tab component tab
 function openTabFromEvent(evt, option, name) {
@@ -1297,7 +842,7 @@ function populateMenu(menu) {
   for (let i = 0; i < lis.length; i++) {
     const li = lis[i];
     li.addEventListener('click',
-      function (event) {
+      function(event) {
         const as = event.target.querySelectorAll('a');
         if (as.length > 0)
           aClick(as[0]);
@@ -1510,7 +1055,7 @@ function releaseHandle() {
   handle.container.style.userSelect = 'auto';
 }
 
-window.onscroll = function () {
+window.onscroll = function() {
   if (!isCyberboticsUrl)
     return;
   updateMenuScrollbar();
