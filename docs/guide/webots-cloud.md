@@ -2,6 +2,7 @@
 
 [webots.cloud](https://webots.cloud) is an open-source webservice to share simulations online.
 You can share 3D scenes and animations recorded from a simulation, but also fully interactive simulations.
+This is also the place where you can see the complete library of protos available in Webots and add your own.
 
 ### Publish 3D Scenes and Animations
 
@@ -10,6 +11,24 @@ This is useful to show models of robots, sensors, actuators, objects, environmen
 Once your scene or animation is uploaded, you get a link (web URL) pointing to your upload, which you can share.
 Anyone with this link can view your 3D scene or animation with a simple mouse click.
 Scenes and animations can also be uploaded on webots.cloud by clicking the "Add a new scene/animation" button, and uploading locally saved `X3D`, `JSON`, thumbnail and texture files.
+
+### Share and use your Proto
+
+The [protos section](https://webots.cloud/proto) of webots.cloud is the place where you can see the protos available in Webots, read about them and play with their parameters.
+Anyone can add its own proto to the library. To do that, your proto files (`.proto` files, textures, meshes,...) shoud be hosted on a GitHub repository.
+The proto folder must also have a `webots.yaml` file which should contain: `publish: true`.
+To classify the proto correctly, webots.cloud needs to know what are the `keywords` of the proto. Please refer to [this section](../reference/proto-design-guidelines?#keywords) to learn more about `keywords` and how to set.
+You can them add your proto by clicking the `Add a new proto` at the bottom of the [page](https://webots.cloud/proto).
+
+To add a proto from the library to a world, copy the github url of the proto and convert it to `raw.githubusercontent.com`. To to that, change `github.com` into `raw.githubusercontent.com` and remove the `/blob`. Then paste it at the top of the world file like this:
+```
+#VRML_SIM R2023b utf8
+
+IMPORTABLE EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/appearances/protos/RoughOak.proto"
+
+WorldInfo {
+```
+
 
 ### Publish Cloud-Based Simulations
 
