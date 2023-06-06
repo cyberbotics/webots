@@ -798,7 +798,7 @@ QTabBar::close-button:hover {
 /* dialog-level widgets */
 
 QLineEdit {
-  background-color: #fff;
+  background-color: #efefef;
   color: black;
   border: 1px solid #555;
   border-radius: 3px;
@@ -806,7 +806,7 @@ QLineEdit {
 }
 
 QAbstractSpinBox {
-  background-color: #fff;
+  background-color: #efefef;
   color: black;
   border: 1px solid #555;
   border-radius: 3px;
@@ -815,10 +815,12 @@ QAbstractSpinBox {
 
 QLineEdit:focus {
   border-color: #308cc6;
+  background-color: white;
 }
 
 QAbstractSpinBox:focus {
   border-color: #308cc6;
+  background-color: white;
 }
 
 QComboBox {

@@ -815,10 +815,12 @@ QAbstractSpinBox {
 
 QLineEdit:focus {
   border-color: #9b93ff;
+  background-color: #444;
 }
 
 QAbstractSpinBox:focus {
   border-color: #9b93ff;
+  background-color: #444;
 }
 
 QComboBox {
