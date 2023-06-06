@@ -10,7 +10,7 @@ This section presents the set of PROTO nodes developed specifically for automobi
 - [SimpleVehicle](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/abstract/SimpleVehicle.proto) is a simple example of derivating the AckermannVehicle PROTO.
 - [Car](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/abstract/Car.proto) is a generic model of a car derived from the AckermannVehicle PROTO.
 
-### Generic PROTO nodes
+### Generic PROTO Nodes
 
 - [Bus](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/generic/protos/Bus.proto) / [BusSimple](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/generic/protos/BusSimple.proto) / [BusWheel](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/generic/protos/BusWheel.proto)
 - [MotorbikeDriver](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/generic/protos/MotorbikeDriver.proto) / [MotorbikeSimple](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/generic/protos/MotorbikeSimple.proto) / [MotorbikeWheel](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/generic/protos/MotorbikeWheel.proto)
@@ -19,7 +19,7 @@ This section presents the set of PROTO nodes developed specifically for automobi
 - [Truck](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/generic/protos/Truck.proto) / [TruckSimple](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/generic/protos/TruckSimple.proto) / [TruckTank](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/generic/protos/TruckTank.proto) / [TruckTankSimple](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/generic/protos/TruckTankSimple.proto) / [TruckTrailer](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/generic/protos/TruckTrailer.proto) / [TruckTrailerSimple](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/generic/protos/TruckTrailerSimple.proto) / [TruckWheel](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/generic/protos/TruckWheel.proto)
 
 
-### Specific PROTO nodes
+### Specific PROTO Nodes
 
 - [BmwX5](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/bmw/protos/BmwX5.proto) / [BmwX5Simple](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/bmw/protos/BmwX5Simple.proto)
 - [CitroenCZero](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/citroen/CitroenCZero.proto) / [CitroenCZeroSimple](https://webots.cloud/run?url={{ url.github_tree }}/projects/vehicles/protos/citroen/CitroenCZeroSimple.proto)
