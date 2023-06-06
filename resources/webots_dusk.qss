@@ -232,7 +232,7 @@ QLabel#dockWidgetTitleText {
 /* menu buttons */
 
 QToolBar {
-  background-color: transparent;
+  background-color: #40404a;
   border-style: solid; /* required to set the background */
   padding: 4px;
   spacing: 4px;
