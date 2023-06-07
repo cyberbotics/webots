@@ -670,6 +670,21 @@ window.onpopstate = function(event) {
   getMDFile();
 };
 
+function highlightCode(view) {
+  const supportedLanguages = ['c', 'cpp', 'java', 'python', 'matlab', 'sh', 'ini', 'tex', 'makefile', 'lua', 'xml',
+    'javascript'];
+
+  for (let i = 0; i < supportedLanguages.length; i++) {
+    const language = supportedLanguages[i];
+    hljs.configure({ languages: [language] });
+    const codes = document.querySelectorAll('.' + language);
+    for (let j = 0; j < codes.length; j++) {
+      const code = codes[j];
+      hljs.highlightBlock(code);
+    }
+  }
+}
+
 // Open a tab component tab
 function openTabFromEvent(evt, option, name) {
   // update links
