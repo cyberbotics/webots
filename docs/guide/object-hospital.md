@@ -66,7 +66,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 EmergencyExitSign {
-  SFVec3f    translation     0 0 0
+  SFVec3f    translation     0 0 0.08
   SFRotation rotation        0 0 1 0
   SFString   name            "emergency exit sign"
   SFNode     physics         NULL
@@ -92,7 +92,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 HandSanitizer {
-  SFVec3f    translation     0 0 0
+  SFVec3f    translation     0 0 0.08
   SFRotation rotation        0 0 1 0
   SFString   name            "hand sanitizer"
   SFNode     physics         NULL
@@ -118,7 +118,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 HospitalBed {
-  SFVec3f    translation     0 0 0
+  SFVec3f    translation     0 0 0.28
   SFRotation rotation        0 0 1 0
   SFString   name            "hospital bed"
   SFNode     physics         NULL
@@ -144,7 +144,7 @@ Derived from [Solid](../reference/solid.md).
 
 ```
 MedicineBottle {
-  SFVec3f    translation     0 0 0
+  SFVec3f    translation     0 0 0.04
   SFRotation rotation        0 0 1 0
   SFString   name            "medicine bottle"
   SFNode     physics         NULL

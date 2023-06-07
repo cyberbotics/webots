@@ -47,6 +47,8 @@ public:
   double computeAttenuation(double distance) const;
   WbVector3 computeAbsoluteLocation() const;
 
+  QStringList fieldsToSynchronizeWithX3D() const override;
+
 protected slots:
   void updateAmbientIntensity() override;
   void updateIntensity() override;
@@ -80,8 +82,8 @@ private:
   void applyBillboardVisibilityToWren();
   void checkAmbientAndAttenuationExclusivity();
 
-  void attachToUpperTransform();
-  void detachFromUpperTransform();
+  void attachToUpperPose();
+  void detachFromUpperPose();
 
 private slots:
   void updateDirection();

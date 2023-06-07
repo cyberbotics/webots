@@ -1,4 +1,4 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "web://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "web://projects/objects/shapes/protos/TexturedBoxShape.proto"
@@ -41,7 +41,7 @@ DEF TEXTURE_IN_CAMERA Robot {
     }
   ]
 }
-DEF TEXTURE_NESTED Transform {
+DEF TEXTURE_NESTED Pose {
   translation 0 -0.25 0
   children [
     DEF NESTED_PROTO NestedProtoShapeWithTexture {
@@ -51,7 +51,7 @@ DEF TEXTURE_NESTED Transform {
     }
   ]
 }
-DEF TEXTURE_BASE_NODE Transform {
+DEF TEXTURE_BASE_NODE Pose {
   translation 0 -0.5 0
   children [
     DEF SHAPE Shape {

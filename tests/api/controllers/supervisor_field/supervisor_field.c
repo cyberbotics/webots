@@ -463,18 +463,19 @@ int main(int argc, char **argv) {
   ts_assert_pointer_null(fieldInvalid, "It should not be possible to retrieve a field using an out of range index");
 
   const int proto_fields_count = wb_supervisor_node_get_proto_number_of_fields(mfTest);
-  ts_assert_int_equal(proto_fields_count, 18, "Number of PROTO internal fields of MF_FIELDS node is wrong");
+  ts_assert_int_equal(proto_fields_count, 17, "Number of PROTO internal fields of MF_FIELDS node is wrong");
   field0 = wb_supervisor_node_get_proto_field_by_index(mfTest, 0);
   ts_assert_string_equal(wb_supervisor_field_get_name(field0), "translation",
                          "Name of first PROTO internal field of MF_FIELDS node is wrong: \"%s\" should be \"translation\"",
                          field0);
   field2 = wb_supervisor_node_get_proto_field_by_index(mfTest, 2);
-  ts_assert_string_equal(wb_supervisor_field_get_name(field2), "scale",
-                         "Name of first PROTO internal field of MF_FIELDS node is wrong: \"%s\" should be \"scale\"", field2);
+  ts_assert_string_equal(wb_supervisor_field_get_name(field2), "children",
+                         "Name of third PROTO internal field of MF_FIELDS node is wrong: \"%s\" should be \"children\"",
+                         field2);
   field8 = wb_supervisor_node_get_proto_field_by_index(mfTest, fields_count - 1);
-  ts_assert_string_equal(
-    wb_supervisor_field_get_name(field8), "immersionProperties",
-    "Name of first PROTO internal field of MF_FIELDS node is wrong: \"%s\" should be \"immersionProperties\"", field8);
+  ts_assert_string_equal(wb_supervisor_field_get_name(field8), "boundingObject",
+                         "Name of ninth PROTO internal field of MF_FIELDS node is wrong: \"%s\" should be \"boundingObject\"",
+                         field8);
   fieldInvalid = wb_supervisor_node_get_proto_field_by_index(mfTest, -5);
   ts_assert_pointer_null(fieldInvalid, "It should not be possible to retrieve a PROTO internal field using a negative index");
   fieldInvalid = wb_supervisor_node_get_proto_field_by_index(mfTest, proto_fields_count);

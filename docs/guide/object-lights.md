@@ -190,6 +190,7 @@ FloorLight {
   MFString   bulbTextureUrl             "textures/light_bulb.jpg"
   SFColor    supportColor               1 1 1
   MFString   supportTextureUrl          "textures/light_support_base_color.jpg"
+  SFFloat    scale                      1
   SFColor    pointLightColor            1 1 1
   SFFloat    pointLightIntensity        1
   SFFloat    pointLightRadius           100
@@ -212,6 +213,8 @@ FloorLight {
 - `supportColor`: Defines the color of the light support.
 
 - `supportTextureUrl`: Defines the texture used for the light support.
+
+- `scale`: Defines the scale of the object.
 
 - `pointLightColor`: Defines the color of the point light.
 

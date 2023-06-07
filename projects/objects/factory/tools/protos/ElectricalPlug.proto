@@ -1,20 +1,22 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/objects/factory/tools/protos/ElectricalPlug.proto
 # An electrical plug with a cable of variable path.
+# keywords: household/electronics
 # The bounding object and physics are optional.
 # template language: javascript
 
 EXTERNPROTO "webots://projects/objects/geometries/protos/Extrusion.proto"
 
 PROTO ElectricalPlug [
-  field SFVec3f    translation           0 0 0
+  field SFVec3f    translation           0 0 0.02
   field SFRotation rotation              0 0 1 0
   field SFString   name                  "electrical plug"
-  field SFColor    color                 1 1 1                          # Defines the color of the plug.
+  field SFColor    color                 1 1 1                             # Defines the color of the plug.
   field MFVec3f    cablePath             [0 0 0, -0.03 0 0, -0.03 0 -0.1]  # Defines the path followed by the cable.
-  field SFBool     enablePhysics         TRUE                           # Defines whether the plug should have physics.
-  field SFBool     enableBoundingObject  TRUE                           # Defines whether the plug should have a bounding object.
+  field SFBool     enablePhysics         TRUE                              # Defines whether the plug should have physics.
+  field SFBool     enableBoundingObject  TRUE                              # Defines whether the plug should have a bounding object.
 ]
 {
   %<
@@ -102,7 +104,7 @@ PROTO ElectricalPlug [
     %< if (fields.enableBoundingObject.value) { >%
       boundingObject Group {
         children [
-          Transform {
+          Pose {
             translation 0 -0.009 0
             rotation 0 1 0 1.5707963220000003
             children [
@@ -112,7 +114,7 @@ PROTO ElectricalPlug [
               }
             ]
           }
-          Transform {
+          Pose {
             translation 0 0.009 0
             rotation 0 1 0 1.5707963220000003
             children [
@@ -122,7 +124,7 @@ PROTO ElectricalPlug [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.012 0 0
             rotation 0 1 0 4.712388966
             children [
@@ -132,7 +134,7 @@ PROTO ElectricalPlug [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.043 0 0
             rotation 0 1 0 4.712388966
             children [
@@ -142,7 +144,7 @@ PROTO ElectricalPlug [
               }
             ]
           }
-          Transform {
+          Pose {
             translation -0.031 0 0
             children [
               Box {

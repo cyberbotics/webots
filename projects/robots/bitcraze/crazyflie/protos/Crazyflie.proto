@@ -1,12 +1,13 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 # license: Copyright Cyberbotics Ltd. Licensed for use only with Webots.
 # license url: https://cyberbotics.com/webots_assets_license
-# documentation url: https://www.cyberbotics.com/doc/guide/crazyflie
+# documentation url: https://webots.cloud/run?url=https://github.com/cyberbotics/webots/blob/released/projects/robots/bitcraze/crazyflie/protos/Crazyflie.proto
+# keywords: robot/flying
 # The "Crazyflie" is a robot developed by "Bitcraze": https://bitcraze.io
 
 PROTO Crazyflie [
-  field SFVec3f    translation     0 0 0.015   # Is `Transform.translation`.
-  field SFRotation rotation        0 0 1 0     # Is `Transform.rotation`.
+  field SFVec3f    translation     0 0 0.015   # Is `Pose.translation`.
+  field SFRotation rotation        0 0 1 0     # Is `Pose.rotation`.
   field SFString   name            "Crazyflie" # Is `Solid.name`.
   field SFString   controller      "crazyflie" # Is `Robot.controller`.
   field MFString   controllerArgs  []          # Is `Robot.controllerArgs`.
@@ -30,11 +31,11 @@ PROTO Crazyflie [
     model "Bitcraze's Crazyflie"
     translation 0 0 0.015
     children [
-      DEF BODY Transform {
+      DEF BODY Pose {
         translation 0 0 -0.015
         children [
           Group {
-          children IS extensionSlot
+            children IS extensionSlot
           }
           CadShape {
             url [
@@ -43,8 +44,8 @@ PROTO Crazyflie [
           }
         ]
       }
-      DEF MULTIRANGER Transform {
-        translation 0 0 0.02
+      DEF MULTIRANGER Pose {
+        translation 0 0 0.01
         children [
           DistanceSensor {
             rotation 0 0 1 -1.57
@@ -90,16 +91,38 @@ PROTO Crazyflie [
       Gyro {
       }
       InertialUnit {
+        name "inertial_unit"
       }
       DEF M1 Propeller {
         shaftAxis 0 0 1
         centerOfThrust 0.031 -0.031 0.008
         thrustConstants -4e-05 0
         torqueConstants 2.4e-06 0
+        fastHelixThreshold 50
         device RotationalMotor {
           name "m1_motor"
           maxVelocity 600
           maxTorque 30
+        }
+        fastHelix Solid {
+          translation 0.031 -0.031 0.008
+          children [
+            DEF FASTHELIX Shape {
+              appearance PBRAppearance {
+                baseColor 0.1 0.1 0.1
+                baseColorMap ImageTexture {
+                  url [
+                    "webots://projects/default/protos/textures/fast_helix.png"
+                  ]
+                }
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.001
+                radius 0.025
+              }
+            }
+          ]
         }
         slowHelix Solid {
           translation 0.031 -0.031 0.008
@@ -123,10 +146,17 @@ PROTO Crazyflie [
         centerOfThrust -0.031 -0.031 0.008
         thrustConstants 4e-05 0
         torqueConstants 2.4e-06 0
+        fastHelixThreshold 50
         device RotationalMotor {
           name "m2_motor"
           maxVelocity 600
           maxTorque 30
+        }
+        fastHelix Solid {
+          translation -0.031 -0.031 0.008
+          children [
+            USE FASTHELIX
+          ]
         }
         slowHelix Solid {
           translation -0.031 -0.031 0.008
@@ -140,10 +170,17 @@ PROTO Crazyflie [
         centerOfThrust -0.031 0.031 0.008
         thrustConstants -4e-05 0
         torqueConstants 2.4e-06 0
+        fastHelixThreshold 50
         device RotationalMotor {
           name "m3_motor"
           maxVelocity 600
           maxTorque 30
+        }
+        fastHelix Solid {
+          translation -0.031 0.031 0.008
+          children [
+            USE FASTHELIX
+          ]
         }
         slowHelix Solid {
           translation -0.031 0.031 0.008
@@ -157,10 +194,17 @@ PROTO Crazyflie [
         centerOfThrust 0.031 0.031 0.008
         thrustConstants 4e-05 0
         torqueConstants 2.4e-06 0
+        fastHelixThreshold 50
         device RotationalMotor {
           name "m4_motor"
           maxVelocity 600
           maxTorque 30
+        }
+        fastHelix Solid {
+          translation 0.031 0.031 0.008
+          children [
+            USE FASTHELIX
+          ]
         }
         slowHelix DEF PROP Solid {
           translation 0.031 0.031 0.007

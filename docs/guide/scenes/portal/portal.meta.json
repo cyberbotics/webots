@@ -3,18 +3,18 @@
     {
       "anchor": "-0.0058 0.057 0.012",
       "axis": "0 0 1",
-      "maxPosition": 0,
+      "maxPosition": 12,
       "minPosition": 0,
-      "name": "gear",
-      "position": 0,
-      "transformID": "n106",
+      "name": "portal_motor::gear",
+      "position": 1.2,
+      "transformID": "n105",
       "type": "RotationalMotor"
     },
     {
       "axis": "1 0 0",
       "maxPosition": 0.3,
       "minPosition": 0,
-      "name": "gate",
+      "name": "portal_motor::gate",
       "position": 0.03,
       "transformID": "n94",
       "type": "LinearMotor"
@@ -22,7 +22,7 @@
     {
       "axis": "0 1 0",
       "maxPosition": 0,
-      "minPosition": 0,
+      "minPosition": -0.005,
       "name": "rail",
       "position": 0,
       "transformID": "n89",
@@ -43,7 +43,7 @@
     },
     {
       "name": "closed",
-      "transformID": "n165",
+      "transformID": "n164",
       "type": "TouchSensor"
     },
     {
@@ -57,28 +57,28 @@
       "anchor": "-0.0058 0.057 0.012",
       "axis": "0 0 1",
       "name": "gear_sensor",
-      "position": 0,
-      "transformID": "n106",
+      "position": 1.2,
+      "transformID": "n105",
       "type": "PositionSensor"
     },
     {
       "name": "inside button",
-      "transformID": "n264",
+      "transformID": "n263",
       "type": "TouchSensor"
     },
     {
       "name": "open",
-      "transformID": "n137",
+      "transformID": "n136",
       "type": "TouchSensor"
     },
     {
       "name": "optical barrier",
-      "transformID": "n291",
+      "transformID": "n290",
       "type": "DistanceSensor"
     },
     {
       "name": "outside button",
-      "transformID": "n237",
+      "transformID": "n236",
       "type": "TouchSensor"
     }
   ],

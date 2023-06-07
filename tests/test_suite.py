@@ -334,7 +334,7 @@ if args.group:
 else:
     testGroups = ['api', 'cache', 'other_api', 'physics', 'protos', 'parser', 'rendering', 'with_rendering']
 
-if sys.platform == 'win32':
+if sys.platform == 'win32' and 'parser' in testGroups:
     testGroups.remove('parser')  # this one doesn't work on Windows
 
 if not args.nomake:

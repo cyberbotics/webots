@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!-- This file can be used for testing or debugging purposes -->
+<style>
+  html,
+  body {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+  }
+  #webots-container {
+    overflow-x: hidden;
+    overflow-y: hidden;
+  }
+</style>
+
+<head>
+
+</head>
+
+<body>
+  <div style="height:100%; width:100%" id=webots-container></div>
+</body>
+<script type=module>
+  import WebotsView from '../WebotsView.js';
+
+  const webotsView = new WebotsView();
+  document.getElementById('webots-container').appendChild(webotsView);
+  webotsView.loadProto("https://raw.githubusercontent.com/cyberbotics/webots/released/projects/robots/softbank/nao/protos/Nao.proto")
+</script>
