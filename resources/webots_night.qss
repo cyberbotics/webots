@@ -386,6 +386,16 @@ QLabel#nodePixmapLabel {
 
 /* field editor */
 
+QWidget#wrapper {
+  border: 1px solid dimgrey;
+  border-top: 0px;
+}
+
+QLabel#titleLabel {
+  border: 1px solid dimgrey;
+  border-bottom: 0px;
+}
+
 QGroupBox#fieldEditorGroupBox {
   margin-top: 2.5ex;
   margin-left: 0;
@@ -636,7 +646,7 @@ QTreeView {
   color: #fff;
   min-width: 250px;
   outline: none;
-  border: 1px solid #636363
+  border: 1px solid dimgrey;
 }
 
 QTreeView::item {
@@ -881,7 +891,7 @@ QAbstractSpinBox::down-arrow {
 
 QGroupBox {
   padding: 10px;
-  background: #222;
+  background: #444;
 }
 
 QFontDialog QListView, QListWidget {

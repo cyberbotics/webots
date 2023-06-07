@@ -57,7 +57,7 @@ QWidget#DocumentationWebView {
 }
 
 QFrame#consoleTitleBar {
-  background: #efefef;
+  background: #d4d4d4;
 }
 
 QFrame#floatableDockTitleFrame:hover, QFrame#consoleTitleBar:hover {
@@ -385,6 +385,16 @@ QLabel#nodePixmapLabel {
 }
 
 /* field editor */
+
+QWidget#wrapper {
+  border: 1px solid darkgray;
+  border-top: 0px;
+}
+
+QLabel#titleLabel {
+  border: 1px solid darkgray;
+  border-bottom: 0px;
+}
 
 QGroupBox#fieldEditorGroupBox {
   margin-top: 2.5ex;
@@ -881,7 +891,7 @@ QAbstractSpinBox::down-arrow {
 
 QGroupBox {
   padding: 10px;
-  background: #fbfbfb;
+  background: #efefef;
 }
 
 QFontDialog QListView, QListWidget {

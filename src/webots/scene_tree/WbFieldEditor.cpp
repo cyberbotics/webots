@@ -118,13 +118,18 @@ WbFieldEditor::WbFieldEditor(QWidget *parent) :
   connect(WbApplication::instance(), &WbApplication::worldLoadCompleted, this, &WbFieldEditor::refreshExternProtoEditor);
 
   mTitleLabel = new QLabel(this);
+  mTitleLabel->setObjectName("titleLabel");
   mTitleLabel->setAlignment(Qt::AlignCenter);
-
   QVBoxLayout *mainLayout = new QVBoxLayout(this);
-  mainLayout->addWidget(mTitleLabel);
-  mainLayout->addLayout(mStackedLayout);
+  QWidget *wrapper = new QWidget();
+  mainLayout->addWidget(wrapper);
+  wrapper->setObjectName("wrapper");
+  QVBoxLayout* intermediary = new QVBoxLayout();
+  wrapper->setLayout(intermediary);
+  intermediary->addWidget(mTitleLabel);
+  intermediary->addLayout(mStackedLayout);
   mainLayout->setContentsMargins(0, 0, 0, 0);
-
+  intermediary->setContentsMargins(0, 0, 0, 0);
   gMinimumSizeOffset = sizeHint() - mStackedLayout->sizeHint();
 
   setCurrentWidget(0);
