@@ -174,7 +174,6 @@ class TestCppCheck(unittest.TestCase):
             'projects/vehicles/controllers/ros_automobile/include',
             'projects/robots/gctronic/e-puck/plugins/robot_windows/botstudio/build',
             'projects/robots/nex/plugins/robot_windows/fire_bird_6_window/build',
-            'projects/robots/robotis/darwin-op/plugins/robot_windows/robotis-op2_window/build',
             'projects/vehicles/plugins/robot_windows/automobile_window/build'
         ]
         skippedfiles = [
