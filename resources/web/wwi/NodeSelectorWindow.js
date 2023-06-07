@@ -1,7 +1,6 @@
 import {FieldModel} from './protoVisualizer/FieldModel.js';
 import Parameter from './protoVisualizer/Parameter.js';
 import { VRML } from './protoVisualizer/vrml_type.js';
-import { WbNodeType } from './nodes/wb_node_type.js';
 
 class NodeInfo {
   #url;
@@ -493,6 +492,12 @@ export default class NodeSelectorWindow {
   }
 
   show(parameter, element, callback, parent, mfId, resetButton) {
+    // global variable set by webots.cloud
+    if (window.webotsJSPreventAddNode) {
+      alert('New nodes can only be inserted for protos on the released branch');
+      return;
+    }
+
     // cleanup input field
     const filterInput = document.getElementById('filter');
     filterInput.value = '';
