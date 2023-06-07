@@ -76,6 +76,7 @@ int main(int argc, const char *argv[]) {
   WbDeviceTag roll_motor = wb_robot_get_device("roll motor");
   WbDeviceTag pitch_motor = wb_robot_get_device("pitch motor");
   WbDeviceTag yaw_motor = wb_robot_get_device("yaw motor");
+  WbDeviceTag gripper_motor = wb_robot_get_device("gripper motor");
 
   // move arm to pick position
   wb_motor_set_position(roll_motor, 0);
@@ -85,8 +86,20 @@ int main(int argc, const char *argv[]) {
 
   printf("Turn on vacuum gripper\n");
   wb_vacuum_gripper_turn_on(vacuum_gripper);
-
   wb_vacuum_gripper_enable_presence(vacuum_gripper, time_step);
+  
+  double slider_position = 0.0;
+  while (wb_robot_step(time_step) != -1) {
+    if (wb_vacuum_gripper_get_presence(vacuum_gripper))
+      break;
+    
+    slider_position += 0.001;
+    wb_motor_set_position(gripper_motor, slider_position);
+  }
+  
+  wb_robot_step(time_step);
+  wb_motor_set_position(gripper_motor, 0.0);
+  wb_robot_step(10 * time_step);
 
   bool connected = false;
   for (int i = 0; i < TARGETS_COUNT; i++) {
@@ -101,7 +114,7 @@ int main(int argc, const char *argv[]) {
     wb_motor_set_position(yaw_motor, TARGET_ANGLES[i][0]);
     wait_until_target_position(inertial_unit, TARGET_ANGLES[i][2], TARGET_ANGLES[i][1], TARGET_ANGLES[i][0], 100);
 
-    if (i == 6) {
+    if (i == 8) {
       printf("Turn off vacuum gripper\n");
       wb_vacuum_gripper_turn_off(vacuum_gripper);
     }

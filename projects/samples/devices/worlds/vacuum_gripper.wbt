@@ -4,6 +4,7 @@ EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackground.pro
 EXTERNPROTO "webots://projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "webots://projects/objects/floors/protos/RectangleArena.proto"
 EXTERNPROTO "webots://projects/objects/factory/containers/protos/CardboardBox.proto"
+EXTERNPROTO "webots://projects/appearances/protos/CorrodedMetal.proto"
 
 WorldInfo {
   info [
@@ -29,7 +30,7 @@ CardboardBox {
   mass 2
 }
 CardboardBox {
-  translation 0.129588 0 0.353745
+  translation 0.149588 0 0.353745
   name "small box"
   size 0.1 0.2 0.17
   mass 0.5
@@ -80,42 +81,83 @@ DEF ROBOT Robot {
                       controlPID 1.5 0 0
                     }
                   ]
-                  endPoint VacuumGripper {
+                  endPoint Solid {
                     translation 0 -0.3 0
-                    rotation 0.5167457898427649 0.6053820811185048 0.6053811398948641 4.095499540775012
                     children [
-                      InertialUnit {
-                        translation 2.59116e-08 2.59116e-08 -0.03
-                        rotation 0.577349935856137 -0.5773509358560258 -0.577349935856137 -2.094395
-                      }
-                      DEF ROLL_GROUP Group {
-                        children [
-                          Pose {
-                            translation 0 0 -0.02
-                            rotation 0 0 1 1.5708
-                            children [
-                              Shape {
-                                appearance DEF PLASTIC_APPEARANCE PBRAppearance {
-                                  baseColor 1 0.666667 0
-                                  roughness 1
-                                  metalness 0
-                                }
-                                geometry Cylinder {
-                                  height 0.02
-                                  radius 0.04
-                                  subdivision 16
-                                }
-                              }
-                            ]
+                      SliderJoint {
+                        jointParameters JointParameters {
+                          axis 0 -1 0
+                        }
+                        device [
+                          LinearMotor {
+                            name "gripper motor"
+                            acceleration 1
+                            maxVelocity 0.1
                           }
                         ]
+                        endPoint VacuumGripper {
+                          rotation 0.5167457898427649 0.6053820811185048 0.6053811398948641 4.095499540775012
+                          children [
+                            Pose {
+                              translation 0 0 0.01
+                              children [
+                                Shape {
+                                  appearance CorrodedMetal {
+                                  }
+                                  geometry Cylinder {
+                                    height 0.04
+                                    radius 0.015
+                                  }
+                                }
+                              ]
+                            }
+                            InertialUnit {
+                              translation 2.59116e-08 2.59116e-08 -0.03
+                              rotation 0.577349935856137 -0.5773509358560258 -0.577349935856137 -2.094395
+                            }
+                            DEF ROLL_GROUP Group {
+                              children [
+                                Pose {
+                                  translation 0 0 -0.02
+                                  rotation 0 0 1 1.5708
+                                  children [
+                                    Shape {
+                                      appearance DEF PLASTIC_APPEARANCE PBRAppearance {
+                                        baseColor 1 0.666667 0
+                                        roughness 1
+                                        metalness 0
+                                      }
+                                      geometry Cylinder {
+                                        height 0.02
+                                        radius 0.04
+                                        subdivision 16
+                                      }
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                          boundingObject USE ROLL_GROUP
+                          physics Physics {
+                          }
+                          tensileStrength 65
+                          shearStrength 162
+                        }
                       }
                     ]
-                    boundingObject USE ROLL_GROUP
+                    name "slider"
+                    boundingObject Pose {
+                      rotation 1 0 0 1.5708
+                      children [
+                        Cylinder {
+                          height 0.02
+                          radius 0.04
+                        }
+                      ]
+                    }
                     physics Physics {
                     }
-                    tensileStrength 65
-                    shearStrength 162
                   }
                 }
                 DEF PITCH_GROUP Group {
