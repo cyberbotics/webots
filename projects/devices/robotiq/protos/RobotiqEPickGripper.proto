@@ -106,16 +106,53 @@ PROTO RobotiqEPickGripper [
               rotation 0 1 0 3.14
               radius 0.0225
               name "end effector"
-              boundingObject TRUE
-              physics Physics {
-                density -1
-                mass 0.001
-                centerOfMass [
-                  0 0 0
-                ]
-              }
+              boundingObject FALSE
             }
           ]
+          boundingObject Group {
+            children [
+              Pose {
+                translation 0 0 -0.0015
+                children [
+                  Cylinder {
+                    height 0.003
+                    radius 0.0225
+                  }
+                ]
+              }
+              Pose {
+                translation 0 0 -0.0045
+                children [
+                  Cylinder {
+                    height 0.003
+                    radius 0.0169
+                  }
+                ]
+              }
+              Pose {
+                translation 0 0 -0.008
+                children [
+                  Cylinder {
+                    height 0.0037
+                    radius 0.0056
+                  }
+                ]
+              }
+              Pose {
+                translation 0 0 -0.0121
+                children [
+                  Cylinder {
+                    height 0.0045
+                    radius 0.0048
+                  }
+                ]
+              }
+            ]
+          }
+          physics Physics {
+            density -1
+            mass 0.001
+          }
         } 
       }
     ]
