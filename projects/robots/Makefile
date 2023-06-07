@@ -75,8 +75,7 @@ CONTROLLERS=\
 
 ROBOT_WINDOWS=gctronic/e-puck/plugins/robot_windows.Makefile
 
-REMOTE_CONTROLS=gctronic/e-puck/plugins/remote_controls.Makefile \
-	robotis/darwin-op/plugins/remote_controls.Makefile
+REMOTE_CONTROLS=gctronic/e-puck/plugins/remote_controls.Makefile
 
 PHYSICS_PLUGINS=epfl/lis/plugins/physics.Makefile
 
