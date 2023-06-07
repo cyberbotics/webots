@@ -98,7 +98,7 @@ int main(int argc, const char *argv[]) {
   }
   
   wb_robot_step(time_step);
-  wb_motor_set_position(gripper_motor, 0.0);
+  // wb_motor_set_position(gripper_motor, 0.0);
   wb_robot_step(10 * time_step);
 
   bool connected = false;
