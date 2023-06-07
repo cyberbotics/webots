@@ -124,7 +124,7 @@ WbFieldEditor::WbFieldEditor(QWidget *parent) :
   QWidget *wrapper = new QWidget();
   mainLayout->addWidget(wrapper);
   wrapper->setObjectName("wrapper");
-  QVBoxLayout* intermediary = new QVBoxLayout();
+  QVBoxLayout *intermediary = new QVBoxLayout();
   wrapper->setLayout(intermediary);
   intermediary->addWidget(mTitleLabel);
   intermediary->addLayout(mStackedLayout);
