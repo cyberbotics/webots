@@ -24,11 +24,22 @@
 #include <webots/vacuum_gripper.h>
 
 #include <stdio.h>
-#include <stdlib.h>
 
 #define NB_STEPS 20
+#define TARGETS_COUNT 10
 
 static int time_step = 32;
+static double TARGET_ANGLES[TARGETS_COUNT][3] = {{ 2.137462, -0.147864,  1.778765},
+                                                 { 1.875154,  0.576306, -1.900341},
+                                                 {-1.035326,  0.375521, -1.396283},
+                                                 { 0.339103, -0.031644,  0.809720},
+                                                 {-1.035326,  0.375521, -1.396283},
+                                                 { 2.615031,  0.189996,  1.365317},
+                                                 {-2.157149, -0.138678, -2.326095},
+                                                 { 0.339103, -0.031644,  0.809720},
+                                                 { 1.875154,  0.576306, -1.900341},
+                                                 {-1.035326, -0.375521, -1.396283}
+                                                };
 
 static void wait_until_target_position(WbDeviceTag inertial_unit, const double roll_target, const double pitch_target,
                                        const double yaw_target, const int maxSteps) {
@@ -66,7 +77,7 @@ int main(int argc, const char *argv[]) {
   WbDeviceTag pitch_motor = wb_robot_get_device("pitch motor");
   WbDeviceTag yaw_motor = wb_robot_get_device("yaw motor");
 
-  // start moving arm to target
+  // move arm to pick position
   wb_motor_set_position(roll_motor, 0);
   wb_motor_set_position(pitch_motor, 0);
   wb_motor_set_position(yaw_motor, 0);
@@ -78,24 +89,19 @@ int main(int argc, const char *argv[]) {
   wb_vacuum_gripper_enable_presence(vacuum_gripper, time_step);
 
   bool connected = false;
-  for (int i = 0; i < NB_STEPS; i++) {
+  for (int i = 0; i < TARGETS_COUNT; i++) {
     if (wb_vacuum_gripper_get_presence(vacuum_gripper) != connected) {
       connected = wb_vacuum_gripper_get_presence(vacuum_gripper);
-      printf("Object has been %s", connected ? "picked" : "released");
+      printf("Object has been %s\n", connected ? "picked" : "released");
     }
 
-    // choose a random target (based on seed)
-    const double yaw_target = i == 0 ? 0 : rand() / (double)RAND_MAX * 2.0 * M_PI - M_PI;
-    const double pitch_target = i == 0 ? 0 : rand() / (double)RAND_MAX * 1.4 - 0.7;
-    const double roll_target = i == 0 ? 0 : rand() / (double)RAND_MAX * 2.0 * M_PI - M_PI;
+    // move arm to target positions
+    wb_motor_set_position(roll_motor, TARGET_ANGLES[i][2]);
+    wb_motor_set_position(pitch_motor, TARGET_ANGLES[i][1]);
+    wb_motor_set_position(yaw_motor, TARGET_ANGLES[i][0]);
+    wait_until_target_position(inertial_unit, TARGET_ANGLES[i][2], TARGET_ANGLES[i][1], TARGET_ANGLES[i][0], 100);
 
-    // start moving arm to target
-    wb_motor_set_position(roll_motor, roll_target);
-    wb_motor_set_position(pitch_motor, pitch_target);
-    wb_motor_set_position(yaw_motor, yaw_target);
-    wait_until_target_position(inertial_unit, roll_target, pitch_target, yaw_target, 100);
-
-    if (i == 12) {
+    if (i == 6) {
       printf("Turn off vacuum gripper\n");
       wb_vacuum_gripper_turn_off(vacuum_gripper);
     }
@@ -103,7 +109,6 @@ int main(int argc, const char *argv[]) {
 
   wb_vacuum_gripper_disable_presence(vacuum_gripper);
 
-  // cleanup webots resources
   wb_robot_cleanup();
 
   return 0;
