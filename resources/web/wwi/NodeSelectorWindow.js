@@ -494,7 +494,7 @@ export default class NodeSelectorWindow {
   show(parameter, element, callback, parent, mfId, resetButton) {
     // global variable set by webots.cloud
     if (window.webotsJSPreventAddNode) {
-      alert('New nodes can only be inserted for protos on the released branch');
+      alert('New nodes can only be inserted in protos that are on the released branch');
       return;
     }
 
